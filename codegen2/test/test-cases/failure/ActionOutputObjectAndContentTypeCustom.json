@@ -1,0 +1,16 @@
+{
+  "success": false,
+  "commandLine": {
+    "things": [ "invalidAioBinding/ActionOutputObjectAndContentTypeCustom.TM.json" ],
+    "lang": "none"
+  },
+  "errors": [
+    {
+      "condition": "ValuesInconsistent",
+      "filename": "ActionOutputObjectAndContentTypeCustom.TM.json",
+      "line": 11,
+      "cfLine": 20,
+      "crossRef": ""
+    }
+  ]
+}

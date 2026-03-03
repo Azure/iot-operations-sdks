@@ -1,0 +1,16 @@
+{
+  "success": false,
+  "commandLine": {
+    "things": [ "invalidAioBinding/IntegerScaleFactorNotInteger.TM.json" ],
+    "lang": "none"
+  },
+  "errors": [
+    {
+      "condition": "TypeMismatch",
+      "filename": "IntegerScaleFactorNotInteger.TM.json",
+      "line": 14,
+      "cfLine": 13,
+      "crossRef": ""
+    }
+  ]
+}

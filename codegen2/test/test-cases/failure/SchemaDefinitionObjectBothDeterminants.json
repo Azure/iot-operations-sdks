@@ -1,0 +1,16 @@
+{
+  "success": false,
+  "commandLine": {
+    "things": [ "invalidAioBinding/SchemaDefinitionObjectBothDeterminants.TM.json" ],
+    "lang": "none"
+  },
+  "errors": [
+    {
+      "condition": "ValuesInconsistent",
+      "filename": "SchemaDefinitionObjectBothDeterminants.TM.json",
+      "line": 11,
+      "cfLine": 16,
+      "crossRef": ""
+    }
+  ]
+}

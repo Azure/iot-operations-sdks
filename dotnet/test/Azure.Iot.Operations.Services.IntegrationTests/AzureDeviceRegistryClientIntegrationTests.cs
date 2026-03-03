@@ -50,6 +50,18 @@ public class AzureDeviceRegistryClientIntegrationTests
     }
 
     [Fact]
+    public async Task GetDeviceNotFoundAsync()
+    {
+        // Arrange
+        await using MqttSessionClient mqttClient = await ClientFactory.CreateAndConnectClientAsyncFromEnvAsync(ConnectorClientId);
+        ApplicationContext applicationContext = new();
+        await using AzureDeviceRegistryClient client = new(applicationContext, mqttClient, new NoRetryPolicy());
+
+        // Act
+        await Assert.ThrowsAsync<AkriServiceErrorException>(async () => await client.GetDeviceAsync("this_device_does_not_exist", TestEndpointName));
+    }
+
+    [Fact]
     public async Task GetDeviceThrowsAkriServiceErrorExceptionWhenDeviceNotFoundAsync()
     {
         // Arrange

@@ -1,0 +1,32 @@
+<#@ template language="C#" linePragmas="false" #>
+<#@ import namespace="System.Collections.Generic" #>
+<#@ import namespace="System.Linq" #>
+<#@ import namespace="DTDLParser.Models" #>
+<# // Copyright (c) Microsoft Corporation. #>
+<# // Licensed under the MIT License #>
+<# this.PushIndent(new string(' ', this.indent)); #>
+"title": "<#=this.objectTitle#>",
+"type": "object",
+<# if (this.objectFields.Any(f => IsFieldRequired(f))) { #>
+"required": [ <#=string.Join(", ", this.objectFields.Where(f => IsFieldRequired(f)).Select(f => $"\"{f.Name}\""))#> ],
+<# } #>
+<# if (this.objectFields.Any(f => IsFieldMessage(f))) { #>
+"dtv:errorMessage": "<#=this.objectFields.First(f => IsFieldMessage(f)).Name#>",
+<# } #>
+"properties": {
+<# int ix2 = 1; foreach (var dtField in this.objectFields) { #>
+  "<#=dtField.Name#>": {
+<# if (dtField.Description.Any()) { #>
+    "description": "<#=dtField.Description.First().Value#>",
+<# } else if (!dtField.Schema.Id.AbsoluteUri.StartsWith("dtmi:dtdl:instance:Schema:") && dtField.Schema.Description.Any()) { #>
+    "description": "<#=dtField.Schema.Description.First().Value#>",
+<# } #>
+<#=this.thingDescriber.GetTypeAndAddenda(dtField.Schema, 4)#>
+  }<#=ix2 < this.objectFields.Count ? "," : ""#>
+<# ix2++; } #>
+}<# this.PopIndent(); #>
+<#+
+    private bool IsFieldRequired(DTFieldInfo dtField) => dtField.SupplementalTypes.Any(t => DtdlMqttExtensionValues.RequiredAdjunctTypeRegex.IsMatch(t.AbsoluteUri));
+
+    private bool IsFieldMessage(DTFieldInfo dtField) => dtField.SupplementalTypes.Contains(this.errorMessageAdjunctTypeId);
+#>

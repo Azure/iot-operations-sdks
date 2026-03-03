@@ -1,0 +1,16 @@
+{
+  "success": false,
+  "commandLine": {
+    "things": [ "invalidAioBinding/ContextAovWrongUri.TM.json" ],
+    "lang": "none"
+  },
+  "errors": [
+    {
+      "condition": "PropertyInvalid",
+      "filename": "ContextAovWrongUri.TM.json",
+      "line": 5,
+      "cfLine": 0,
+      "crossRef": ""
+    }
+  ]
+}

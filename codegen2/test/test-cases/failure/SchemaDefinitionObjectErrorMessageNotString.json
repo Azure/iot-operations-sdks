@@ -1,0 +1,16 @@
+{
+  "success": false,
+  "commandLine": {
+    "things": [ "invalidAioBinding/SchemaDefinitionObjectErrorMessageNotString.TM.json" ],
+    "lang": "none"
+  },
+  "errors": [
+    {
+      "condition": "JsonInvalid",
+      "filename": "SchemaDefinitionObjectErrorMessageNotString.TM.json",
+      "line": 16,
+      "cfLine": 0,
+      "crossRef": ""
+    }
+  ]
+}

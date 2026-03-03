@@ -1,0 +1,19 @@
+<#@ template language="C#" linePragmas="false" #>
+<#@ import namespace="System.Collections.Generic" #>
+<#@ import namespace="System.Linq" #>
+<#@ import namespace="DTDLParser.Models" #>
+<# // Copyright (c) Microsoft Corporation. #>
+<# // Licensed under the MIT License #>
+<# this.PushIndent(new string(' ', this.indent)); #>
+<# if (CanExpressAsEnum(this.dtEnum)) { #>
+"title": "<#=this.enumTitle#>",
+"type": "string",
+"enum": [
+<# int ix1 = 1; foreach (var enumValue in this.dtEnum.EnumValues.OrderBy(ev => ev.EnumValue)) { #>
+  "<#=enumValue.Name#>"<#=ix1 < this.dtEnum.EnumValues.Count ? "," : ""#>
+<# ix1++; } #>
+]<# } else if (this.valueSchema == "integer") { #>
+"type": "integer",
+"minimum": -2147483648,
+"maximum": 2147483647<# } else { #>
+"type": "string"<# } this.PopIndent(); #>

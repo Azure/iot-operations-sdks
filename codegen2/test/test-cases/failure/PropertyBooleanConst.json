@@ -1,0 +1,16 @@
+{
+  "success": false,
+  "commandLine": {
+    "things": [ "invalidAioBinding/PropertyBooleanConst.TM.json" ],
+    "lang": "none"
+  },
+  "errors": [
+    {
+      "condition": "PropertyUnsupported",
+      "filename": "PropertyBooleanConst.TM.json",
+      "line": 13,
+      "cfLine": 0,
+      "crossRef": ""
+    }
+  ]
+}

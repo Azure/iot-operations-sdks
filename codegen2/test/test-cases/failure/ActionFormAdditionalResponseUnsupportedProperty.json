@@ -1,0 +1,16 @@
+{
+  "success": false,
+  "commandLine": {
+    "things": [ "invalidAioBinding/ActionFormAdditionalResponseUnsupportedProperty.TM.json" ],
+    "lang": "none"
+  },
+  "errors": [
+    {
+      "condition": "PropertyUnsupported",
+      "filename": "ActionFormAdditionalResponseUnsupportedProperty.TM.json",
+      "line": 37,
+      "cfLine": 0,
+      "crossRef": ""
+    }
+  ]
+}

@@ -1,0 +1,16 @@
+{
+  "success": false,
+  "commandLine": {
+    "things": [ "invalidAioBinding/RootFormTopicTokenSenderIdWhenReadAll.TM.json" ],
+    "lang": "none"
+  },
+  "errors": [
+    {
+      "condition": "PropertyInvalid",
+      "filename": "RootFormTopicTokenSenderIdWhenReadAll.TM.json",
+      "line": 10,
+      "cfLine": 0,
+      "crossRef": ""
+    }
+  ]
+}

@@ -1,0 +1,17 @@
+{
+  "success": false,
+  "commandLine": {
+    "things": [ "invalidAioBinding/ActionOutputRefString.TM.json" ],
+    "schemas": [ "../schemas/json-schemas/AStringSchema.json" ],
+    "lang": "csharp"
+  },
+  "errors": [
+    {
+      "condition": "TypeMismatch",
+      "filename": "ActionOutputRefString.TM.json",
+      "line": 11,
+      "cfLine": 0,
+      "crossRef": ""
+    }
+  ]
+}

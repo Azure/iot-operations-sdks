@@ -1,0 +1,87 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <VersionPrefix>1.0.0</VersionPrefix>
+    <TargetFramework>net9.0</TargetFramework>
+    <Nullable>enable</Nullable>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Azure.Iot.Operations.CodeGeneration\Azure.Iot.Operations.CodeGeneration.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="System.CodeDom" Version="10.0.2" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Update="dotnet\t4\DotNetAlias.tt">
+      <Generator>TextTemplatingFilePreprocessor</Generator>
+      <LastGenOutput>DotNetAlias.cs</LastGenOutput>
+      <CustomToolNamespace>Azure.Iot.Operations.TypeGenerator</CustomToolNamespace>
+    </None>
+    <None Update="dotnet\t4\DotNetEnum.tt">
+      <Generator>TextTemplatingFilePreprocessor</Generator>
+      <LastGenOutput>DotNetEnum.cs</LastGenOutput>
+      <CustomToolNamespace>Azure.Iot.Operations.TypeGenerator</CustomToolNamespace>
+    </None>
+    <None Update="dotnet\t4\DotNetObject.tt">
+      <Generator>TextTemplatingFilePreprocessor</Generator>
+      <LastGenOutput>DotNetObject.cs</LastGenOutput>
+      <CustomToolNamespace>Azure.Iot.Operations.TypeGenerator</CustomToolNamespace>
+    </None>
+    <None Update="rust\t4\RustAlias.tt">
+      <Generator>TextTemplatingFilePreprocessor</Generator>
+      <LastGenOutput>RustAlias.cs</LastGenOutput>
+      <CustomToolNamespace>Azure.Iot.Operations.TypeGenerator</CustomToolNamespace>
+    </None>
+    <None Update="rust\t4\RustEnum.tt">
+      <Generator>TextTemplatingFilePreprocessor</Generator>
+      <LastGenOutput>RustEnum.cs</LastGenOutput>
+      <CustomToolNamespace>Azure.Iot.Operations.TypeGenerator</CustomToolNamespace>
+    </None>
+    <None Update="rust\t4\RustObject.tt">
+      <Generator>TextTemplatingFilePreprocessor</Generator>
+      <LastGenOutput>RustObject.cs</LastGenOutput>
+      <CustomToolNamespace>Azure.Iot.Operations.TypeGenerator</CustomToolNamespace>
+    </None>
+  </ItemGroup>
+
+  <ItemGroup>
+    <Service Include="{508349b6-6b84-4df5-91f0-309beebad82d}" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Compile Update="dotnet\t4\DotNetAlias.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>DotNetAlias.tt</DependentUpon>
+    </Compile>
+    <Compile Update="dotnet\t4\DotNetEnum.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>DotNetEnum.tt</DependentUpon>
+    </Compile>
+    <Compile Update="dotnet\t4\DotNetObject.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>DotNetObject.tt</DependentUpon>
+    </Compile>
+    <Compile Update="rust\t4\RustAlias.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>RustAlias.tt</DependentUpon>
+    </Compile>
+    <Compile Update="rust\t4\RustEnum.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>RustEnum.tt</DependentUpon>
+    </Compile>
+    <Compile Update="rust\t4\RustObject.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>RustObject.tt</DependentUpon>
+    </Compile>
+  </ItemGroup>
+
+</Project>

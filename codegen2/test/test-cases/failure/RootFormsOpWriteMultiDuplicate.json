@@ -1,0 +1,16 @@
+{
+  "success": false,
+  "commandLine": {
+    "things": [ "invalidAioBinding/RootFormsOpWriteMultiDuplicate.TM.json" ],
+    "lang": "none"
+  },
+  "errors": [
+    {
+      "condition": "Duplication",
+      "filename": "RootFormsOpWriteMultiDuplicate.TM.json",
+      "line": 12,
+      "cfLine": 17,
+      "crossRef": ""
+    }
+  ]
+}

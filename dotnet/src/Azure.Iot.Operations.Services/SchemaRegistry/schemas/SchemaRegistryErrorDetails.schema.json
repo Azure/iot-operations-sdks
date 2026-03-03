@@ -1,0 +1,21 @@
+{
+  "$schema": "https://json-schema.org/draft-07/schema",
+  "title": "SchemaRegistryErrorDetails",
+  "description": "Additional details about the error, if available.",
+  "type": "object",
+  "additionalProperties": false,
+  "properties": {
+    "code": {
+      "description": "Multi-part error code for classification and root causing of errors (e.g., '400.200').",
+      "type": "string"
+    },
+    "correlationId": {
+      "description": "Correlation ID for tracing the error across systems.",
+      "type": "string"
+    },
+    "message": {
+      "description": "Human-readable helpful error message to provide additional context for the error",
+      "type": "string"
+    }
+  }
+}

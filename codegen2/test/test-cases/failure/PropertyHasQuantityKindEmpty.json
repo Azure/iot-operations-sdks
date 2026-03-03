@@ -1,0 +1,16 @@
+{
+  "success": false,
+  "commandLine": {
+    "things": [ "invalidAioBinding/PropertyHasQuantityKindEmpty.TM.json" ],
+    "lang": "none"
+  },
+  "errors": [
+    {
+      "condition": "PropertyEmpty",
+      "filename": "PropertyHasQuantityKindEmpty.TM.json",
+      "line": 17,
+      "cfLine": 0,
+      "crossRef": ""
+    }
+  ]
+}

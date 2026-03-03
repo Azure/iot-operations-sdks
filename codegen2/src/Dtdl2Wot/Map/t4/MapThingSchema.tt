@@ -1,0 +1,14 @@
+<#@ template language="C#" linePragmas="false" #>
+<#@ import namespace="System.Collections.Generic" #>
+<#@ import namespace="System.Linq" #>
+<#@ import namespace="DTDLParser.Models" #>
+<# // Copyright (c) Microsoft Corporation. #>
+<# // Licensed under the MIT License #>
+<# this.PushIndent(new string(' ', this.indent)); #>
+"type": "object",
+"dtv:additionalProperties": {
+<# if (this.dtMap.Description.Any()) { #>
+  "description": "<#=this.dtMap.Description.First().Value#>",
+<# } #>
+<#=this.thingDescriber.GetTypeAndAddenda(this.dtMap.MapValue.Schema, 2)#>
+}<# this.PopIndent(); #>

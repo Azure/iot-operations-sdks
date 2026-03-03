@@ -1,0 +1,16 @@
+{
+  "success": false,
+  "commandLine": {
+    "things": [ "invalidAioBinding/EventFormServiceGroupEmpty.TM.json" ],
+    "lang": "none"
+  },
+  "errors": [
+    {
+      "condition": "PropertyEmpty",
+      "filename": "EventFormServiceGroupEmpty.TM.json",
+      "line": 22,
+      "cfLine": 0,
+      "crossRef": ""
+    }
+  ]
+}

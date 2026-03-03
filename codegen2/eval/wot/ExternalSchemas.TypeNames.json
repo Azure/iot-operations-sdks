@@ -1,0 +1,9 @@
+{
+  "suppressTitles": false,
+  "nameRules": {
+    "^.*\\.([A-Za-z]+)$": "{1}",
+    "^.*/([A-Za-z]+)/([A-Za-z]+);i=([0-9]+)$": "{1}{2}{3}",
+    "^([A-Za-z][A-Za-z0-9]+)$": "{1}"
+  },
+  "capitalizeCaptures": true
+}

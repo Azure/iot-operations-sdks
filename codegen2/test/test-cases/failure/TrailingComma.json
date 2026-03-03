@@ -1,0 +1,23 @@
+{
+  "success": false,
+  "commandLine": {
+    "things": [ "invalidJson/TrailingComma.TM.json" ],
+    "lang": "none"
+  },
+  "errors": [
+    {
+      "condition": "JsonInvalid",
+      "filename": "TrailingComma.TM.json",
+      "line": 11,
+      "cfLine": 0,
+      "crossRef": ""
+    },
+    {
+      "condition": "JsonInvalid",
+      "filename": "TrailingComma.TM.json",
+      "line": 15,
+      "cfLine": 0,
+      "crossRef": ""
+    }
+  ]
+}

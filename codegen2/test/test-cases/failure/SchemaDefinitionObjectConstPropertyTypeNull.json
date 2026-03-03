@@ -1,0 +1,16 @@
+{
+  "success": false,
+  "commandLine": {
+    "things": [ "invalidAioBinding/SchemaDefinitionObjectConstPropertyTypeNull.TM.json" ],
+    "lang": "none"
+  },
+  "errors": [
+    {
+      "condition": "ValuesInconsistent",
+      "filename": "SchemaDefinitionObjectConstPropertyTypeNull.TM.json",
+      "line": 13,
+      "cfLine": 16,
+      "crossRef": ""
+    }
+  ]
+}

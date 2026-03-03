@@ -1,0 +1,16 @@
+{
+  "success": false,
+  "commandLine": {
+    "things": [ "invalidAioBinding/ActionFormTopicNoContentType.TM.json" ],
+    "lang": "none"
+  },
+  "errors": [
+    {
+      "condition": "ValuesInconsistent",
+      "filename": "ActionFormTopicNoContentType.TM.json",
+      "line": 11,
+      "cfLine": 12,
+      "crossRef": ""
+    }
+  ]
+}

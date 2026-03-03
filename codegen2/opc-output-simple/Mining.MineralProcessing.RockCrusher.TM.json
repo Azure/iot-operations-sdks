@@ -1,0 +1,70 @@
+[
+  {
+    "@context": [
+      "https://www.w3.org/2022/wot/td/v1.1",
+      {
+        "dtv": "http://azure.com/DigitalTwins/dtmi#",
+        "aov": "http://azure.com/IoT/operations/tm#"
+      }
+    ],
+    "@type": "tm:ThingModel",
+    "title": "Mining_MineralProcessing_RockCrusher_RockCrusherControlType",
+    "aov:typeRef": "nsu=http://opcfoundation.org/UA/Mining/MineralProcessing/RockCrusher/;i=1003",
+    "aov:isComposite": true,
+    "links": [
+      {
+        "rel": "tm:extends",
+        "href": "./Mining.General.TM.json#title=Mining_General_MiningEquipmentType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "aov:component",
+        "aov:refName": "MethodSet",
+        "href": "./OpcUaCore.TM.json#title=OpcUaCore_BaseObjectType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "aov:component",
+        "aov:refName": "ParameterSet",
+        "href": "./OpcUaCore.TM.json#title=OpcUaCore_BaseObjectType",
+        "type": "application/tm+json"
+      }
+    ],
+    "schemaDefinitions": {
+    },
+    "actions": {
+    },
+    "properties": {
+    },
+    "events": {
+    }
+  },
+  {
+    "@context": [
+      "https://www.w3.org/2022/wot/td/v1.1",
+      {
+        "dtv": "http://azure.com/DigitalTwins/dtmi#",
+        "aov": "http://azure.com/IoT/operations/tm#"
+      }
+    ],
+    "@type": "tm:ThingModel",
+    "title": "Mining_MineralProcessing_RockCrusher_RockCrusherType",
+    "aov:typeRef": "nsu=http://opcfoundation.org/UA/Mining/MineralProcessing/RockCrusher/;i=1002",
+    "aov:isComposite": true,
+    "links": [
+      {
+        "rel": "tm:extends",
+        "href": "./Mining.General.TM.json#title=Mining_General_MiningEquipmentType",
+        "type": "application/tm+json"
+      }
+    ],
+    "schemaDefinitions": {
+    },
+    "actions": {
+    },
+    "properties": {
+    },
+    "events": {
+    }
+  }
+]

@@ -1,0 +1,16 @@
+{
+  "success": false,
+  "commandLine": {
+    "things": [ "invalidAioBinding/RootFormAdditionalResponseSchema.TM.json" ],
+    "lang": "none"
+  },
+  "errors": [
+    {
+      "condition": "PropertyUnsupported",
+      "filename": "RootFormAdditionalResponseSchema.TM.json",
+      "line": 21,
+      "cfLine": 0,
+      "crossRef": ""
+    }
+  ]
+}

@@ -4,10 +4,7 @@
 namespace Azure.Iot.Operations.Services.SchemaRegistry;
 
 using Azure.Iot.Operations.Protocol;
-using Azure.Iot.Operations.Services.SchemaRegistry.SchemaRegistry;
-using SchemaInfo = SchemaRegistry.Schema;
-using SchemaFormat = SchemaRegistry.Format;
-using SchemaType = SchemaRegistry.SchemaType;
+using Azure.Iot.Operations.Services.SchemaRegistry.Generated;
 using Azure.Iot.Operations.Services.SchemaRegistry.Models;
 
 public class SchemaRegistryClient(ApplicationContext applicationContext, IMqttPubSubClient pubSubClient) : ISchemaRegistryClient
@@ -17,7 +14,7 @@ public class SchemaRegistryClient(ApplicationContext applicationContext, IMqttPu
     private bool _disposed;
 
     /// <inheritdoc/>
-    public async Task<SchemaInfo> GetAsync(
+    public async Task<SchemaRegistry.Schema> GetAsync(
         string schemaId,
         string version = "1",
         TimeSpan? timeout = null,
@@ -28,14 +25,24 @@ public class SchemaRegistryClient(ApplicationContext applicationContext, IMqttPu
             cancellationToken.ThrowIfCancellationRequested();
             ObjectDisposedException.ThrowIf(_disposed, this);
 
-            return (await _clientStub.GetAsync(
+            Schema schema = (await _clientStub.GetAsync(
                 new GetRequestSchema()
                 {
                     Name = schemaId,
                     Version = version,
-                }, null, null, timeout ?? s_DefaultCommandTimeout, cancellationToken)).Schema;
+                },
+                null,
+                null,
+                timeout ?? s_DefaultCommandTimeout,
+                cancellationToken))
+                    .Schema ?? throw new Models.SchemaRegistryErrorException(new Models.SchemaRegistryError()
+                    {
+                        Code = Models.SchemaRegistryErrorCode.NotFound,
+                    });
+
+            return Converter.toModel(schema);
         }
-        catch (Azure.Iot.Operations.Services.SchemaRegistry.SchemaRegistry.SchemaRegistryErrorException srEx)
+        catch (Azure.Iot.Operations.Services.SchemaRegistry.Generated.SchemaRegistryErrorException srEx)
         {
             throw Converter.toModel(srEx);
         }
@@ -64,10 +71,10 @@ public class SchemaRegistryClient(ApplicationContext applicationContext, IMqttPu
     }
 
     /// <inheritdoc/>
-    public async Task<SchemaInfo> PutAsync(
+    public async Task<SchemaRegistry.Schema> PutAsync(
         string schemaContent,
-        SchemaFormat schemaFormat,
-        SchemaType schemaType = SchemaType.MessageSchema,
+        SchemaRegistry.Format schemaFormat,
+        SchemaRegistry.SchemaType schemaType = SchemaRegistry.SchemaType.MessageSchema,
         string version = "1",
         Dictionary<string, string>? tags = null,
         string? displayName = null,
@@ -80,19 +87,19 @@ public class SchemaRegistryClient(ApplicationContext applicationContext, IMqttPu
             cancellationToken.ThrowIfCancellationRequested();
             ObjectDisposedException.ThrowIf(_disposed, this);
 
-            return (await _clientStub.PutAsync(
+            return Converter.toModel((await _clientStub.PutAsync(
                 new PutRequestSchema()
                 {
-                    Format = schemaFormat,
+                    Format = Converter.fromModel(schemaFormat),
                     SchemaContent = schemaContent,
                     Version = version,
                     Tags = tags,
-                    SchemaType = schemaType,
+                    SchemaType = Converter.fromModel(schemaType),
                     Description = description,
                     DisplayName = displayName
-                }, null, null, timeout ?? s_DefaultCommandTimeout, cancellationToken)).Schema;
+                }, null, null, timeout ?? s_DefaultCommandTimeout, cancellationToken)).Schema);
         }
-        catch (Azure.Iot.Operations.Services.SchemaRegistry.SchemaRegistry.SchemaRegistryErrorException srEx)
+        catch (Azure.Iot.Operations.Services.SchemaRegistry.Generated.SchemaRegistryErrorException srEx)
         {
             throw Converter.toModel(srEx);
         }

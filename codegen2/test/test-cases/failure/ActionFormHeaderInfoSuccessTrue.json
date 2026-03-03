@@ -1,0 +1,16 @@
+{
+  "success": false,
+  "commandLine": {
+    "things": [ "invalidAioBinding/ActionFormHeaderInfoSuccessTrue.TM.json" ],
+    "lang": "none"
+  },
+  "errors": [
+    {
+      "condition": "PropertyUnsupportedValue",
+      "filename": "ActionFormHeaderInfoSuccessTrue.TM.json",
+      "line": 34,
+      "cfLine": 0,
+      "crossRef": ""
+    }
+  ]
+}

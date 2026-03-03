@@ -1,0 +1,34 @@
+<#@ template language="C#" linePragmas="false" #>
+<#@ import namespace="System.Collections.Generic" #>
+<#@ import namespace="System.Linq" #>
+<# // Copyright (c) Microsoft Corporation. #>
+<# // Licensed under the MIT License #>
+"<#=this.actionName#>": {
+<# if (this.uaMethod.BrowseNamespace != null) { #>
+  "aov:namespace": "<#=this.uaMethod.BrowseNamespace#>",
+<# } #>
+<# if (this.uaMethod.Description != null) { #>
+  "description": "<#=this.uaMethod.Description#>",
+<# } #>
+<# if (this.inputSchema != null) { #>
+  "input": {
+<# this.PushIndent("    "); #>
+<#=this.inputSchema.TransformText()#>
+<# this.PopIndent(); #>
+  },
+<# } #>
+<# if (this.outputSchema != null) { #>
+  "output": {
+<# this.PushIndent("    "); #>
+<#=this.outputSchema.TransformText()#>
+<# this.PopIndent(); #>
+  },
+<# } #>
+  "forms": [
+    {
+      "contentType": "application/json",
+      "dtv:topic": "opcua/<#=this.specName#>/<#=this.thingModelName#>/action/<#=this.actionName#>",
+      "op": "invokeaction"
+    }
+  ]
+}

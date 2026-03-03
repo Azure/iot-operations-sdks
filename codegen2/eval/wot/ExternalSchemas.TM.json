@@ -1,0 +1,143 @@
+{
+  "@context": [
+    "https://www.w3.org/2022/wot/td/v1.1",
+    { "dtv": "http://azure.com/DigitalTwins/dtmi#" }
+  ],
+  "@type": "tm:ThingModel",
+  "title": "ExternalSchemas",
+  "schemaDefinitions": {
+    "Foo": {
+      "description": "The requested property read/write could not be completed.",
+      "type": "object",
+      "properties": {
+        "explanation": {
+          "description": "The requested property read/write could not be completed.",
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "details": {
+          "type": "string"
+        }
+      }
+    },
+    "Bar": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "Baz": {
+      "type": "string",
+      "const": "Hello"
+    }
+  },
+  "forms": [
+    {
+      "contentType": "application/json",
+      "dtv:topic": "test/PropertyTogether/read",
+          "additionalResponses": [
+            {
+              "success": false
+            }
+          ],
+      "op": [ "readallproperties" ]
+    },
+    {
+      "contentType": "application/json",
+      "dtv:topic": "test/PropertyTogether/write",
+          "additionalResponses": [
+            {
+              "success": false
+            }
+          ],
+      "op": [ "writemultipleproperties" ]
+    }
+  ],
+  "actions": {
+    "DoSomething": {
+      "input": {
+        "dtv:ref": "./ExternalSchemas/DoSomethingInput.json"
+      },
+      "output": {
+        "dtv:ref": "./ExternalSchemas/DoSomethingOutput.json"
+      },
+      "forms": [
+        {
+          "contentType": "application/json",
+          "dtv:topic": "sample/command/doSomething",
+          "op": "invokeaction"
+        }
+      ]
+    }
+  },
+  "properties": {
+    "Aleph": {
+      "dtv:ref": "./ExternalSchemas/AlephProp.json",
+      "readOnly": false,
+      "forms": [
+        {
+          "contentType": "application/json",
+          "dtv:topic": "sample/property/Alpha/{action}",
+          "additionalResponses": [
+            {
+              "success": false,
+              "schema": "Foo"
+            }
+          ],
+          "op": [ "readproperty" ]
+        },
+        {
+          "contentType": "application/json",
+          "dtv:topic": "sample/property/Alpha/{action}",
+          "additionalResponses": [
+            {
+              "success": false,
+              "schema": "Foo"
+            }
+          ],
+          "op": [ "writeproperty" ]
+        }
+      ]
+    }
+  },
+  "events": {
+    "Beth": {
+      "data": {
+        "dtv:ref": "./ExternalSchemas/BethData.json"
+      },
+      "forms": [
+        {
+          "contentType": "application/json",
+          "dtv:topic": "sample/{senderId}/telemetry/Beth",
+          "op": "subscribeevent"
+        }
+      ]
+    },
+    "Gimel": {
+      "data": {
+        "dtv:ref": "./ExternalSchemas/BethData.json#/definitions/Temperature"
+      },
+      "forms": [
+        {
+          "contentType": "application/json",
+          "dtv:topic": "sample/{senderId}/telemetry/Gimel",
+          "op": "subscribeevent"
+        }
+      ]
+    },
+    "Dalet": {
+      "data": {
+        "dtv:ref": "./ExternalSchemas/BethData.json#/definitions/org.opcfoundation.UA.DateTime"
+      },
+      "forms": [
+        {
+          "contentType": "application/json",
+          "dtv:topic": "sample/{senderId}/telemetry/Dalet",
+          "op": "subscribeevent"
+        }
+      ]
+    }
+  }
+}

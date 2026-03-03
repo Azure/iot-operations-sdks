@@ -1,0 +1,16 @@
+{
+  "success": false,
+  "commandLine": {
+    "things": [ "invalidAioBinding/PropertyMemberOf.TM.json" ],
+    "lang": "none"
+  },
+  "errors": [
+    {
+      "condition": "PropertyUnsupported",
+      "filename": "PropertyMemberOf.TM.json",
+      "line": 14,
+      "cfLine": 0,
+      "crossRef": ""
+    }
+  ]
+}

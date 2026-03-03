@@ -1,0 +1,16 @@
+{
+  "success": false,
+  "commandLine": {
+    "things": [ "invalidAioBinding/SchemaDefinitionStringFormatUnsupportedValue.TM.json" ],
+    "lang": "none"
+  },
+  "errors": [
+    {
+      "condition": "PropertyUnsupportedValue",
+      "filename": "SchemaDefinitionStringFormatUnsupportedValue.TM.json",
+      "line": 11,
+      "cfLine": 0,
+      "crossRef": ""
+    }
+  ]
+}

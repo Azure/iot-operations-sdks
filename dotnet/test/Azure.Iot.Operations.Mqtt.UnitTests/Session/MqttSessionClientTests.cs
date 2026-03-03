@@ -1,4 +1,4 @@
-﻿// Copyright (c) Microsoft Corporation.
+// Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
 using System.Security.Cryptography;
@@ -12,6 +12,7 @@ using Azure.Iot.Operations.Protocol.Models;
 using Azure.Iot.Operations.Protocol.Retry;
 using Azure.Iot.Operations.Protocol.UnitTests;
 using MQTTnet.Exceptions;
+using MQTTnet.Packets;
 
 namespace Azure.Iot.Operations.Protocol.Session.UnitTests
 {
@@ -41,11 +42,11 @@ namespace Azure.Iot.Operations.Protocol.Session.UnitTests
                             ReasonCode = unsuccessfulConnectReasonCode,
                         };
 
-                        return Task.FromResult(new MQTTnet.MqttClientConnectResultFactory().Create(packet, MQTTnet.Formatter.MqttProtocolVersion.V500));
+                        return Task.FromResult(MQTTnet.MqttClientConnectResultFactory.Create(packet, MQTTnet.Formatter.MqttProtocolVersion.V500));
                     }
                     else
                     {
-                        return Task.FromResult(new MQTTnet.MqttClientConnectResultFactory().Create(MockMqttClient.SuccessfulInitialConnAck, MQTTnet.Formatter.MqttProtocolVersion.V500));
+                        return Task.FromResult(MQTTnet.MqttClientConnectResultFactory.Create(MockMqttClient.SuccessfulInitialConnAck, MQTTnet.Formatter.MqttProtocolVersion.V500));
                     }
                 };
 
@@ -75,11 +76,11 @@ namespace Azure.Iot.Operations.Protocol.Session.UnitTests
                         ReasonCode = unsuccessfulConnectReasonCode,
                     };
 
-                    return Task.FromResult(new MQTTnet.MqttClientConnectResultFactory().Create(packet, MQTTnet.Formatter.MqttProtocolVersion.V500));
+                    return Task.FromResult(MQTTnet.MqttClientConnectResultFactory.Create(packet, MQTTnet.Formatter.MqttProtocolVersion.V500));
                 }
                 else
                 {
-                    return Task.FromResult(new MQTTnet.MqttClientConnectResultFactory().Create(MockMqttClient.SuccessfulInitialConnAck, MQTTnet.Formatter.MqttProtocolVersion.V500));
+                    return Task.FromResult(MQTTnet.MqttClientConnectResultFactory.Create(MockMqttClient.SuccessfulInitialConnAck, MQTTnet.Formatter.MqttProtocolVersion.V500));
                 }
             };
 
@@ -113,12 +114,12 @@ namespace Azure.Iot.Operations.Protocol.Session.UnitTests
             {
                 if (args.CleanSession)
                 {
-                    return Task.FromResult(new MQTTnet.MqttClientConnectResultFactory().Create(MockMqttClient.SuccessfulInitialConnAck, MQTTnet.Formatter.MqttProtocolVersion.V500));
+                    return Task.FromResult(MQTTnet.MqttClientConnectResultFactory.Create(MockMqttClient.SuccessfulInitialConnAck, MQTTnet.Formatter.MqttProtocolVersion.V500));
                 }
                 else
                 {
                     onReconnected.TrySetResult();
-                    return Task.FromResult(new MQTTnet.MqttClientConnectResultFactory().Create(MockMqttClient.SuccessfulReconnectConnAck, MQTTnet.Formatter.MqttProtocolVersion.V500));
+                    return Task.FromResult(MQTTnet.MqttClientConnectResultFactory.Create(MockMqttClient.SuccessfulReconnectConnAck, MQTTnet.Formatter.MqttProtocolVersion.V500));
                 }
             };
 
@@ -162,12 +163,12 @@ namespace Azure.Iot.Operations.Protocol.Session.UnitTests
             {
                 if (args.CleanSession)
                 {
-                    return Task.FromResult(new MQTTnet.MqttClientConnectResultFactory().Create(MockMqttClient.SuccessfulInitialConnAck, MQTTnet.Formatter.MqttProtocolVersion.V500));
+                    return Task.FromResult(MQTTnet.MqttClientConnectResultFactory.Create(MockMqttClient.SuccessfulInitialConnAck, MQTTnet.Formatter.MqttProtocolVersion.V500));
                 }
                 else
                 {
                     reconnectionAttempted = true;
-                    return Task.FromResult(new MQTTnet.MqttClientConnectResultFactory().Create(MockMqttClient.SuccessfulReconnectConnAck, MQTTnet.Formatter.MqttProtocolVersion.V500));
+                    return Task.FromResult(MQTTnet.MqttClientConnectResultFactory.Create(MockMqttClient.SuccessfulReconnectConnAck, MQTTnet.Formatter.MqttProtocolVersion.V500));
                 }
             };
 
@@ -204,7 +205,7 @@ namespace Azure.Iot.Operations.Protocol.Session.UnitTests
             {
                 if (args.CleanSession)
                 {
-                    return Task.FromResult(new MQTTnet.MqttClientConnectResultFactory().Create(MockMqttClient.SuccessfulInitialConnAck, MQTTnet.Formatter.MqttProtocolVersion.V500));
+                    return Task.FromResult(MQTTnet.MqttClientConnectResultFactory.Create(MockMqttClient.SuccessfulInitialConnAck, MQTTnet.Formatter.MqttProtocolVersion.V500));
                 }
                 else
                 {
@@ -230,7 +231,7 @@ namespace Azure.Iot.Operations.Protocol.Session.UnitTests
                     }
 
                     onReconnected.TrySetResult();
-                    return Task.FromResult(new MQTTnet.MqttClientConnectResultFactory().Create(MockMqttClient.SuccessfulReconnectConnAck, MQTTnet.Formatter.MqttProtocolVersion.V500));
+                    return Task.FromResult(MQTTnet.MqttClientConnectResultFactory.Create(MockMqttClient.SuccessfulReconnectConnAck, MQTTnet.Formatter.MqttProtocolVersion.V500));
                 }
             };
 
@@ -268,7 +269,7 @@ namespace Azure.Iot.Operations.Protocol.Session.UnitTests
                 // Allow the initial connect to succeed but reject any reconnection attempts
                 if (args.CleanSession)
                 {
-                    return Task.FromResult(new MQTTnet.MqttClientConnectResultFactory().Create(MockMqttClient.SuccessfulInitialConnAck, MQTTnet.Formatter.MqttProtocolVersion.V500));
+                    return Task.FromResult(MQTTnet.MqttClientConnectResultFactory.Create(MockMqttClient.SuccessfulInitialConnAck, MQTTnet.Formatter.MqttProtocolVersion.V500));
                 }
                 else
                 {
@@ -472,7 +473,7 @@ namespace Azure.Iot.Operations.Protocol.Session.UnitTests
 
                 MqttClientSubscribeOptions expectedSubscribe =
                     new MqttClientSubscribeOptions(
-                        new MqttTopicFilter("some/enqueued/topic/filter", MqttQualityOfServiceLevel.AtLeastOnce)
+                        new Azure.Iot.Operations.Protocol.Models.MqttTopicFilter("some/enqueued/topic/filter", MqttQualityOfServiceLevel.AtLeastOnce)
                         {
                             RetainAsPublished = true,
                             NoLocal = false,
@@ -1342,7 +1343,7 @@ namespace Azure.Iot.Operations.Protocol.Session.UnitTests
                 mockClient.OnConnectAttempt += (args) =>
                 {
                     // The next connect attempt will succeed, but the session will no longer be present on the broker side
-                    return Task.FromResult(new MQTTnet.MqttClientConnectResultFactory().Create(MockMqttClient.SuccessfulInitialConnAck, MQTTnet.Formatter.MqttProtocolVersion.V500));
+                    return Task.FromResult(MQTTnet.MqttClientConnectResultFactory.Create(MockMqttClient.SuccessfulInitialConnAck, MQTTnet.Formatter.MqttProtocolVersion.V500));
                 };
 
                 await mockClient.SimulateServerInitiatedDisconnectAsync(new MqttCommunicationException("some disconnect"));
@@ -1389,7 +1390,7 @@ namespace Azure.Iot.Operations.Protocol.Session.UnitTests
                 {
                     connectAttemptsMade++;
                     // All reconnect attempts will result in an unsuccessful CONNACK so that the retry policy eventually ends
-                    return Task.FromResult(new MQTTnet.MqttClientConnectResultFactory().Create(MockMqttClient.UnsuccessfulReconnectConnAck, MQTTnet.Formatter.MqttProtocolVersion.V500));
+                    return Task.FromResult(MQTTnet.MqttClientConnectResultFactory.Create(MockMqttClient.UnsuccessfulReconnectConnAck, MQTTnet.Formatter.MqttProtocolVersion.V500));
                 };
 
                 TaskCompletionSource<MqttClientDisconnectedEventArgs> disconnectArgsTcs = new();
@@ -1534,7 +1535,7 @@ namespace Azure.Iot.Operations.Protocol.Session.UnitTests
                         cts.Cancel();
                     }
 
-                    return Task.FromResult(new MQTTnet.MqttClientConnectResultFactory().Create(MockMqttClient.UnsuccessfulReconnectConnAck, MQTTnet.Formatter.MqttProtocolVersion.V500));
+                    return Task.FromResult(MQTTnet.MqttClientConnectResultFactory.Create(MockMqttClient.UnsuccessfulReconnectConnAck, MQTTnet.Formatter.MqttProtocolVersion.V500));
                 };
 
                 await Assert.ThrowsAsync<OperationCanceledException>(
@@ -1591,7 +1592,7 @@ namespace Azure.Iot.Operations.Protocol.Session.UnitTests
                         reconnectOccurred.TrySetResult();
                     }
 
-                    return Task.FromResult(new MQTTnet.MqttClientConnectResultFactory().Create(MockMqttClient.SuccessfulReconnectConnAck, MQTTnet.Formatter.MqttProtocolVersion.V500));
+                    return Task.FromResult(MQTTnet.MqttClientConnectResultFactory.Create(MockMqttClient.SuccessfulReconnectConnAck, MQTTnet.Formatter.MqttProtocolVersion.V500));
                 };
 
                 var certificateProvider = new TestCertificateProvider(mockCertificate1);
@@ -1749,7 +1750,7 @@ namespace Azure.Iot.Operations.Protocol.Session.UnitTests
                     AssignedClientIdentifier = expectedClientId,
                 };
 
-                return Task.FromResult(new MQTTnet.MqttClientConnectResultFactory().Create(packet, MQTTnet.Formatter.MqttProtocolVersion.V500));
+                return Task.FromResult(MQTTnet.MqttClientConnectResultFactory.Create(packet, MQTTnet.Formatter.MqttProtocolVersion.V500));
             };
 
             try
@@ -1804,7 +1805,7 @@ namespace Azure.Iot.Operations.Protocol.Session.UnitTests
                     await requestEnqueued.Task;
 
                     // The next connect attempt will succeed, but the session will no longer be present on the broker side
-                    return new MQTTnet.MqttClientConnectResultFactory().Create(MockMqttClient.SuccessfulInitialConnAck, MQTTnet.Formatter.MqttProtocolVersion.V500);
+                    return MQTTnet.MqttClientConnectResultFactory.Create(MockMqttClient.SuccessfulInitialConnAck, MQTTnet.Formatter.MqttProtocolVersion.V500);
                 };
 
                 await mockClient.SimulateServerInitiatedDisconnectAsync(new MqttCommunicationException("some disconnect"));
@@ -1879,7 +1880,7 @@ namespace Azure.Iot.Operations.Protocol.Session.UnitTests
                     await requestEnqueued.Task;
 
                     // The next connect attempt will succeed, but the session will no longer be present on the broker side
-                    return new MQTTnet.MqttClientConnectResultFactory().Create(MockMqttClient.SuccessfulInitialConnAck, MQTTnet.Formatter.MqttProtocolVersion.V500);
+                    return MQTTnet.MqttClientConnectResultFactory.Create(MockMqttClient.SuccessfulInitialConnAck, MQTTnet.Formatter.MqttProtocolVersion.V500);
                 };
 
                 await mockClient.SimulateServerInitiatedDisconnectAsync(new MqttCommunicationException("some disconnect"));
@@ -1954,7 +1955,7 @@ namespace Azure.Iot.Operations.Protocol.Session.UnitTests
                     await requestEnqueued.Task;
 
                     // The next connect attempt will succeed, but the session will no longer be present on the broker side
-                    return new MQTTnet.MqttClientConnectResultFactory().Create(MockMqttClient.SuccessfulInitialConnAck, MQTTnet.Formatter.MqttProtocolVersion.V500);
+                    return MQTTnet.MqttClientConnectResultFactory.Create(MockMqttClient.SuccessfulInitialConnAck, MQTTnet.Formatter.MqttProtocolVersion.V500);
                 };
 
                 await mockClient.SimulateServerInitiatedDisconnectAsync(new MqttCommunicationException("some disconnect"));
@@ -2310,7 +2311,7 @@ namespace Azure.Iot.Operations.Protocol.Session.UnitTests
             mockMqttClient.OnConnectAttempt += (actualConnect) =>
             {
                 reconnectAttemptNumber++;
-                return Task.FromResult(new MQTTnet.MqttClientConnectResultFactory().Create(MockMqttClient.SuccessfulReconnectConnAck, MQTTnet.Formatter.MqttProtocolVersion.V500));
+                return Task.FromResult(MQTTnet.MqttClientConnectResultFactory.Create(MockMqttClient.SuccessfulReconnectConnAck, MQTTnet.Formatter.MqttProtocolVersion.V500));
             };
 
             Exception someDisconnectException = new();
@@ -2382,7 +2383,7 @@ namespace Azure.Iot.Operations.Protocol.Session.UnitTests
             mockMqttClient.OnConnectAttempt += (actualConnect) =>
             {
                 actualConnectTcs.TrySetResult(actualConnect);
-                return Task.FromResult(new MQTTnet.MqttClientConnectResultFactory().Create(MockMqttClient.SuccessfulInitialConnAck, MQTTnet.Formatter.MqttProtocolVersion.V500));
+                return Task.FromResult(MQTTnet.MqttClientConnectResultFactory.Create(MockMqttClient.SuccessfulInitialConnAck, MQTTnet.Formatter.MqttProtocolVersion.V500));
             };
 
             await sessionClient.ConnectAsync(options);
@@ -2392,7 +2393,7 @@ namespace Azure.Iot.Operations.Protocol.Session.UnitTests
             foreach (var actualUserProperty in actualConnect.UserProperties)
             {
                 if (actualUserProperty.Name.Equals("aio-persistence")
-                    && actualUserProperty.Value.Equals("true"))
+                    && actualUserProperty.ReadValueAsString().Equals("true"))
                 {
                     containsFlag = true;
                     break;
@@ -2410,7 +2411,7 @@ namespace Azure.Iot.Operations.Protocol.Session.UnitTests
 
             mockMqttClient.OnConnectAttempt += (actualConnect) =>
             {
-                return Task.FromResult(new MQTTnet.MqttClientConnectResultFactory().Create(MockMqttClient.SuccessfulInitialConnAck, MQTTnet.Formatter.MqttProtocolVersion.V500));
+                return Task.FromResult(MQTTnet.MqttClientConnectResultFactory.Create(MockMqttClient.SuccessfulInitialConnAck, MQTTnet.Formatter.MqttProtocolVersion.V500));
             };
 
             var connectOptions = new MqttClientOptions(new MqttClientTcpOptions("localhost", 1883))
@@ -2443,7 +2444,7 @@ namespace Azure.Iot.Operations.Protocol.Session.UnitTests
             foreach (var actualUserProperty in actualPublish.UserProperties)
             {
                 if (actualUserProperty.Name.Equals("aio-persistence")
-                    && actualUserProperty.Value.Equals("true"))
+                    && actualUserProperty.ReadValueAsString().Equals("true"))
                 {
                     containsFlag = true;
                     break;

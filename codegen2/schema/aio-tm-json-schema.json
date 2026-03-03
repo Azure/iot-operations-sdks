@@ -1,0 +1,1339 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "Thing Description with AIO Protocol Binding",
+  "version": "0.1",
+  "description": "JSON Schema for validating TD instances that employ the AIO WoT Protocol Binding",
+  "definitions": {
+    "title": {
+      "type": "string",
+      "pattern": "^[A-Z][A-Za-z0-9]*$",
+      "description": "The 'title' value is used as a codegen type name, so it should start with an uppercase letter and contain only alphanumeric characters"
+    },
+    "dataSchema_boolean": {
+      "type": "object",
+      "properties": {
+        "title": {
+          "$ref": "#/definitions/title"
+        },
+        "aov:namespace": {
+          "type": "string"
+        },
+        "type": {
+          "type": "string",
+          "const": "boolean"
+        },
+        "const": {
+          "type": "boolean"
+        }
+      }
+    },
+    "dataSchema_integer": {
+      "type": "object",
+      "properties": {
+        "title": {
+          "$ref": "#/definitions/title"
+        },
+        "aov:namespace": {
+          "type": "string"
+        },
+        "type": {
+          "type": "string",
+          "const": "integer"
+        },
+        "const": {
+          "type": "integer"
+        },
+        "aov:scaleFactor": {
+          "description": "scale factor to apply to instance values",
+          "type": "integer"
+        },
+        "aov:decimalPlaces": {
+          "description": "number of decimal places of significant precision of instance values",
+          "type": "integer"
+        },
+        "minimum": {
+          "type": "integer",
+          "description": "inclusive minimum integer value",
+          "defaultSnippets": [
+            {
+              "description": "minimum unsigned value",
+              "body": 0
+            },
+            {
+              "description": "minimum signed 1-byte value",
+              "body": -128
+            },
+            {
+              "description": "minimum signed 2-byte value",
+              "body": -32768
+            },
+            {
+              "description": "minimum signed 4-byte value",
+              "body": -2147483648
+            },
+            {
+              "description": "minimum signed 8-byte value",
+              "body": -9223372036854775808
+            }
+          ]
+        },
+        "maximum": {
+          "type": "integer",
+          "description": "inclusive maximum integer value",
+          "defaultSnippets": [
+            {
+              "description": "maximum unsigned 1-byte value",
+              "body": 256
+            },
+            {
+              "description": "maximum unsigned 2-byte value",
+              "body": 65535
+            },
+            {
+              "description": "maximum unsigned 4-byte value",
+              "body": 4294967295
+            },
+            {
+              "description": "maximum unsigned 8-byte value",
+              "body": 9223372036854775807
+            },
+            {
+              "description": "maximum signed 1-byte value",
+              "body": 127
+            },
+            {
+              "description": "maximum signed 2-byte value",
+              "body": 32767
+            },
+            {
+              "description": "maximum signed 4-byte value",
+              "body": 2147483647
+            },
+            {
+              "description": "maximum signed 8-byte value",
+              "body": 18446744073709551615
+            }
+          ]
+        }
+      }
+    },
+    "dataSchema_number": {
+      "type": "object",
+      "properties": {
+        "title": {
+          "$ref": "#/definitions/title"
+        },
+        "aov:namespace": {
+          "type": "string"
+        },
+        "type": {
+          "type": "string",
+          "const": "number"
+        },
+        "const": {
+          "type": "number"
+        },
+        "aov:scaleFactor": {
+          "description": "scale factor to apply to instance values",
+          "type": "number"
+        },
+        "aov:decimalPlaces": {
+          "description": "number of decimal places of significant precision of instance values",
+          "type": "integer"
+        },
+        "minimum": {
+          "type": "number",
+          "description": "inclusive minimum numeric value",
+          "defaultSnippets": [
+            {
+              "description": "minimum single-precision floating-point value",
+              "body": -3.40e+38
+            },
+            {
+              "description": "minimum double-precision floating-point value",
+              "body": -1.70e+308
+            }
+          ]
+        },
+        "maximum": {
+          "type": "number",
+          "description": "inclusive maximum numeric value",
+          "defaultSnippets": [
+            {
+              "description": "maximum single-precision floating-point value",
+              "body": 3.40e+38
+            },
+            {
+              "description": "maximum double-precision floating-point value",
+              "body": 1.70e+308
+            }
+          ]
+        }
+      }
+    },
+    "dataSchema_string": {
+      "type": "object",
+      "properties": {
+        "title": {
+          "$ref": "#/definitions/title"
+        },
+        "aov:namespace": {
+          "type": "string"
+        },
+        "type": {
+          "type": "string",
+          "const": "string"
+        },
+        "aov:typeRef": {
+          "description": "opaque reference to another type definition (not necessarily in WoT) that is congruent to this definition",
+          "type": "string"
+        },
+        "enum": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "minItems": 1,
+          "uniqueItems": true
+        },
+        "format": {
+          "type": "string",
+          "enum": [ "date-time", "date", "time", "uuid" ]
+        },
+        "pattern": {
+          "type": "string",
+          "description": "regular expression that expresses either an ISO 8601 duration or a decimal string",
+          "defaultSnippets": [
+            {
+              "description": "ISO 8601 duration pattern",
+              "body": "^P(\\\\\\\\d+Y)?(\\\\\\\\d+M)?(\\\\\\\\d+W)?(\\\\\\\\d+D)?(T(\\\\\\\\d+H)?(\\\\\\\\d+M)?(\\\\\\\\d+S)?)?$"
+            },
+            {
+              "description": "decimal string pattern",
+              "body": "^(?:\\\\\\\\+|-)?(?:[1-9][0-9]*|0)(?:\\\\\\\\.[0-9]*)?$"
+            }
+          ]
+        },
+        "contentEncoding": {
+          "type": "string",
+          "const": "base64"
+        },
+        "const": {
+          "type": "string"
+        }
+      },
+      "dependentRequired": {
+        "aov:typeRef": [ "enum" ]
+      }
+    },
+    "dataSchema_object": {
+      "type": "object",
+      "required": [ "properties" ],
+      "properties": {
+        "title": {
+          "$ref": "#/definitions/title"
+        },
+        "aov:namespace": {
+          "type": "string"
+        },
+        "type": {
+          "type": "string",
+          "const": "object"
+        },
+        "aov:typeRef": {
+          "description": "opaque reference to another type definition (not necessarily in WoT) that is congruent to this structured object definition",
+          "type": "string"
+        },
+        "properties": {
+          "description": "use 'properties' to indicate an object type and define fields for the object",
+          "additionalProperties": {
+            "$ref": "#/definitions/dataSchema"
+          }
+        },
+        "required": {
+          "description": "array of 'properties' keys that indicate properties required to be included in any instance of the object",
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        }
+      },
+      "not": {
+        "anyOf": [
+          {
+            "required": [ "dtv:additionalProperties" ]
+          }
+        ]
+      }
+    },
+    "dataSchema_map": {
+      "type": "object",
+      "required": [ "dtv:additionalProperties" ],
+      "properties": {
+        "title": {
+          "$ref": "#/definitions/title"
+        },
+        "aov:namespace": {
+          "type": "string"
+        },
+        "type": {
+          "type": "string",
+          "const": "object"
+        },
+        "aov:typeRef": {
+          "description": "opaque reference to another type definition (not necessarily in WoT) that is congruent to this map definition",
+          "type": "string"
+        },
+        "dtv:additionalProperties": {
+          "description": "use 'dtv:additionalProperties' to indicate a map type and specify the data schema for the values therein",
+          "$ref": "#/definitions/dataSchema"
+        }
+      },
+      "not": {
+        "anyOf": [
+          {
+            "required": [ "properties" ]
+          },
+          {
+            "required": [ "required" ]
+          }
+        ]
+      }
+    },
+    "dataSchema_array": {
+      "type": "object",
+      "required": [ "items" ],
+      "properties": {
+        "title": {
+          "$ref": "#/definitions/title"
+        },
+        "aov:namespace": {
+          "type": "string"
+        },
+        "type": {
+          "type": "string",
+          "const": "array"
+        },
+        "aov:typeRef": {
+          "description": "opaque reference to another type definition (not necessarily in WoT) that is congruent to this array definition",
+          "type": "string"
+        },
+        "items": {
+          "description": "use 'items' to specify the data schema for the values in the array",
+          "$ref": "#/definitions/dataSchema"
+        }
+      }
+    },
+    "dataSchema_base": {
+      "type": "object",
+      "oneOf": [
+        { "$ref": "#/definitions/dataSchema_boolean" },
+        { "$ref": "#/definitions/dataSchema_integer" },
+        { "$ref": "#/definitions/dataSchema_number" },
+        { "$ref": "#/definitions/dataSchema_string" },
+        { "$ref": "#/definitions/dataSchema_object" },
+        { "$ref": "#/definitions/dataSchema_map" },
+        { "$ref": "#/definitions/dataSchema_array" }
+      ],
+      "defaultSnippets": [
+        {
+          "description": "Boolean type",
+          "body": {
+            "type": "boolean"
+          }
+        },
+        {
+          "description": "signed 1-byte type",
+          "body": {
+            "type": "integer",
+            "minimum": -128,
+            "maximum": 127
+          }
+        },
+        {
+          "description": "unsigned 1-byte type",
+          "body": {
+            "type": "integer",
+            "minimum": 0,
+            "maximum": 255
+          }
+        },
+        {
+          "description": "signed 2-byte type",
+          "body": {
+            "type": "integer",
+            "minimum": -32768,
+            "maximum": 32767
+          }
+        },
+        {
+          "description": "unsigned 2-byte type",
+          "body": {
+            "type": "integer",
+            "minimum": 0,
+            "maximum": 65535
+          }
+        },
+        {
+          "description": "signed 4-byte type",
+          "body": {
+            "type": "integer",
+            "minimum": -2147483648,
+            "maximum": 2147483647
+          }
+        },
+        {
+          "description": "unsigned 4-byte type",
+          "body": {
+            "type": "integer",
+            "minimum": 0,
+            "maximum": 4294967295
+          }
+        },
+        {
+          "description": "signed 8-byte type",
+          "body": {
+            "type": "integer",
+            "minimum": -9223372036854775808,
+            "maximum": 9223372036854775807
+          }
+        },
+        {
+          "description": "unsigned 8-byte type",
+          "body": {
+            "type": "integer",
+            "minimum": 0,
+            "maximum": 18446744073709551615
+          }
+        },
+        {
+          "description": "single-precision floating-point type",
+          "body": {
+            "type": "number",
+            "minimum": -3.40e+38,
+            "maximum": 3.40e+38
+          }
+        },
+        {
+          "description": "double-precision floating-point type",
+          "body": {
+            "type": "number",
+            "minimum": -1.70e+308,
+            "maximum": 1.70e+308
+          }
+        },
+        {
+          "description": "string type",
+          "body": {
+            "type": "string"
+          }
+        },
+        {
+          "description": "enumerated type (with example values)",
+          "body": {
+            "type": "string",
+            "enum": [ "red", "green", "blue" ]
+          }
+        },
+        {
+          "description": "date-time type",
+          "body": {
+            "type": "string",
+            "format": "date-time"
+          }
+        },
+        {
+          "description": "date type",
+          "body": {
+            "type": "string",
+            "format": "date"
+          }
+        },
+        {
+          "description": "time type",
+          "body": {
+            "type": "string",
+            "format": "time"
+          }
+        },
+        {
+          "description": "UUID type",
+          "body": {
+            "type": "string",
+            "format": "uuid"
+          }
+        },
+        {
+          "description": "byte stream type",
+          "body": {
+            "type": "string",
+            "contentEncoding": "base64"
+          }
+        },
+        {
+          "description": "ISO 8601 duration string type",
+          "body": {
+            "type": "string",
+            "pattern": "^P(\\\\\\\\d+Y)?(\\\\\\\\d+M)?(\\\\\\\\d+W)?(\\\\\\\\d+D)?(T(\\\\\\\\d+H)?(\\\\\\\\d+M)?(\\\\\\\\d+S)?)?$"
+          }
+        },
+        {
+          "description": "decimal string type",
+          "body": {
+            "type": "string",
+            "pattern": "^(?:\\\\\\\\+|-)?(?:[1-9][0-9]*|0)(?:\\\\\\\\.[0-9]*)?$"
+          }
+        },
+        {
+          "description": "array type (example with string values)",
+          "body": {
+            "type": "array",
+            "items": { "type": "string" }
+          }
+        },
+        {
+          "description": "object type (3 example float properties, 2 required)",
+          "body": {
+            "type": "object",
+            "required": [ "lat", "lon" ],
+            "properties": {
+              "lat": {
+                "type": "number",
+                "minimum": -3.40e+38,
+                "maximum": 3.40e+38
+              },
+              "lon": {
+                "type": "number",
+                "minimum": -3.40e+38,
+                "maximum": 3.40e+38
+              },
+              "alt": {
+                "type": "number",
+                "minimum": -3.40e+38,
+                "maximum": 3.40e+38
+              }
+            }
+          }
+        },
+        {
+          "description": "map type (example values are signed integers)",
+          "body": {
+            "type": "object",
+            "dtv:additionalProperties": {
+              "type": "integer",
+              "minimum": -2147483648,
+              "maximum": 2147483647
+            }
+          }
+        }
+      ]
+    },
+    "dataSchema": {
+      "allOf": [ { "$ref": "#/definitions/dataSchema_base" } ],
+      "type": "object",
+      "required": [ "type" ],
+      "not": {
+        "anyOf": [
+          {
+            "required": [ "dtv:ref" ]
+          },
+          {
+            "required": [ "dtv:errorMessage" ]
+          }
+        ]
+      }
+    },
+    "dataSchema_affordance": {
+      "type": "object",
+      "oneOf": [
+        {
+          "$ref": "#/definitions/dataSchema_base",
+          "required": [ "type" ],
+          "not": {
+            "anyOf": [
+              {
+                "required": [ "dtv:ref" ]
+              }
+            ]
+          }
+        },
+        {
+          "properties": {
+            "dtv:ref": {
+              "type": "string",
+              "description": "reference to an external schema definition to be used in place of an inline type definition"
+            }
+          },
+          "required": [ "dtv:ref" ],
+          "not": {
+            "anyOf": [
+              {
+                "required": [ "type" ]
+              }
+            ]
+          }
+        }
+      ],
+      "not": {
+        "anyOf": [
+          {
+            "required": [ "dtv:errorMessage" ]
+          }
+        ]
+      },
+      "defaultSnippets": [
+        {
+          "description": "reference to an external schema definition",
+          "body": { "dtv:ref": "./EXAMPLESCHEMA.json" }
+        }
+      ]
+    },
+    "dataSchema_action": {
+      "type": "object",
+      "oneOf": [
+        {
+          "$ref": "#/definitions/dataSchema_object",
+          "required": [ "type" ],
+          "not": {
+            "anyOf": [
+              {
+                "required": [ "dtv:ref" ]
+              }
+            ]
+          }
+        },
+        {
+          "properties": {
+            "dtv:ref": {
+              "type": "string",
+              "description": "reference to an external schema definition to be used in place of an inline type definition"
+            }
+          },
+          "required": [ "dtv:ref" ],
+          "not": {
+            "anyOf": [
+              {
+                "required": [ "type" ]
+              }
+            ]
+          }
+        }
+      ],
+      "not": {
+        "anyOf": [
+          {
+            "required": [ "dtv:errorMessage" ]
+          }
+        ]
+      }
+    },
+    "form_element_base": {
+      "type": "object",
+      "properties": {
+        "contentType": {
+          "type": "string",
+          "description": "content type for communicated values, only 'application/json' supported at present",
+          "enum": [ "application/json" ]
+        },
+        "dtv:topic": {
+          "type": "string",
+          "pattern": "^(?:(?:[!$-*,-.0-z|~]+|(?:{(?:[A-Za-z]+:)?(?:[A-Za-z]+)})))(?:\/(?:[!$-*,-.0-z|~]+|(?:{(?:[A-Za-z]+:)?(?:[A-Za-z]+)})))*$",
+          "description": "MQTT topic pattern -- slash-separated sequence of labels, each of which is a non-empty string of restricted characters or a brace-enclosed token",
+          "defaultSnippets": [
+            {
+              "description": "MQTT topic pattern used for publishes and subscribes",
+              "body": "sample/action/noop/{modelId}"
+            }
+          ]
+        }
+      }
+    },
+    "form_element_property": {
+      "allOf": [ { "$ref": "#/definitions/form_element_base" } ],
+      "type": "object",
+      "properties": {
+        "op": {
+          "oneOf": [
+            {
+              "type": "string",
+              "enum": [ "readproperty", "writeproperty" ]
+            },
+            {
+              "type": "array",
+              "items": {
+                "type": "string",
+                "enum": [ "readproperty", "writeproperty" ]
+              },
+              "minItems": 1
+            }
+          ]
+        }
+      },
+      "not": {
+        "anyOf": [
+          {
+            "required": [ "dtv:serviceGroupId" ]
+          },
+          {
+            "required": [ "dtv:headerCode" ]
+          },
+          {
+            "required": [ "dtv:headerInfo" ]
+          }
+        ],
+        "description": "dtv:serviceGroupId, dtv:headerCode, and dtv:headerInfo are not allowed in property forms"
+      }
+    },
+    "form_element_action": {
+      "allOf": [ { "$ref": "#/definitions/form_element_base" } ],
+      "type": "object",
+      "properties": {
+        "op": {
+          "oneOf": [
+            {
+              "type": "string",
+              "enum": [ "invokeaction" ]
+            },
+            {
+              "type": "array",
+              "items": {
+                "type": "string",
+                "enum": [ "invokeaction" ]
+              },
+              "minItems": 1
+            }
+          ]
+        },
+        "dtv:serviceGroupId": {
+          "description": "string to use for shared subscriptions when receiving server-side action requests",
+          "type": "string"
+        },
+        "dtv:headerCode": {
+          "description": "reference to a key in the 'schemaDefinitions' property object, whose value is an object defining a string enum for a MQTT header value",
+          "type": "string"
+        },
+        "dtv:headerInfo": {
+          "description": "schema for content embedded in a MQTT user header value",
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "contentType": {
+                "description": "content type for data embedded in header info value, only 'application/json' supported at present",
+                "type": "string",
+                "enum": [ "application/json" ]
+              },
+              "schema": {
+                "type": "string",
+                "description": "reference to a key in the 'schemaDefinitions' property object"
+              },
+              "success": {
+                "type": "boolean"
+              }
+            }
+          }
+        }
+      }
+    },
+    "form_element_event": {
+      "allOf": [ { "$ref": "#/definitions/form_element_base" } ],
+      "type": "object",
+      "properties": {
+        "op": {
+          "oneOf": [
+            {
+              "type": "string",
+              "enum": [ "subscribeevent" ]
+            },
+            {
+              "type": "array",
+              "items": {
+                "type": "string",
+                "enum": [ "subscribeevent" ]
+              },
+              "minItems": 1
+            }
+          ]
+        },
+        "dtv:serviceGroupId": {
+          "description": "string to use for shared subscriptions when receiving client-side events",
+          "type": "string"
+        }
+      },
+      "not": {
+        "anyOf": [
+          {
+            "required": [ "additionalResponses" ]
+          },
+          {
+            "required": [ "dtv:headerCode" ]
+          },
+          {
+            "required": [ "dtv:headerInfo" ]
+          }
+        ],
+        "description": "dtv:headerCode and dtv:headerInfo are not allowed in event forms"
+      }
+    },
+    "form_element_root": {
+      "allOf": [ { "$ref": "#/definitions/form_element_base" } ],
+      "type": "object",
+      "properties": {
+        "op": {
+          "oneOf": [
+            {
+              "type": "string",
+              "enum": [
+                "subscribeallevents",
+                "readallproperties",
+                "writemultipleproperties"
+              ]
+            },
+            {
+              "type": "array",
+              "items": {
+                "type": "string",
+                "enum": [
+                  "subscribeallevents"
+                ]
+              },
+              "minItems": 1
+            },
+            {
+              "type": "array",
+              "items": {
+                "type": "string",
+                "enum": [
+                  "readallproperties",
+                  "writemultipleproperties"
+                ]
+              },
+              "minItems": 1
+            }
+          ]
+        },
+        "dtv:serviceGroupId": {
+          "description": "string to use for shared subscriptions when receiving client-side events",
+          "type": "string"
+        }
+      },
+      "required": [ "op" ],
+      "not": {
+        "anyOf": [
+          {
+            "required": [ "dtv:headerCode" ]
+          },
+          {
+            "required": [ "dtv:headerInfo" ]
+          }
+        ],
+        "description": "dtv:headerCode and dtv:headerInfo are not allowed in root forms"
+      }
+    },
+    "aioThingModel": {
+      "allOf": [
+        {
+          "$ref": "./tm-json-schema-validation.json"
+        },
+        {
+          "type": "object",
+          "properties": {
+            "@context": {
+              "type": "array",
+              "items": {
+                "oneOf": [
+                  {
+                    "type": "string"
+                  },
+                  {
+                    "type": "object",
+                    "properties": {
+                      "dtv": {
+                        "type": "string",
+                        "const": "http://azure.com/DigitalTwins/dtmi#"
+                      },
+                      "aov": {
+                        "type": "string",
+                        "const": "http://azure.com/IoT/operations/tm#"
+                      }
+                    },
+                    "additionalProperties": {
+                      "type": "string"
+                    }
+                  }
+                ]
+              },
+              "contains": {
+                "type": "object",
+                "required": [ "dtv" ]
+              },
+              "description": "Must include WoT TD context string \"https://www.w3.org/2022/wot/td/v1.1\" and local context object with key \"dtv\" and value \"http://azure.com/DigitalTwins/dtmi#\""
+            },
+            "title": {
+              "$ref": "#/definitions/title"
+            },
+            "aov:typeRef": {
+              "description": "opaque reference to another definition (not necessarily in WoT) that is congruent to this Thing Model definition",
+              "type": "string"
+            },
+            "aov:isComposite": {
+              "description": "true if the Thing Model represents a composite type",
+              "type": "boolean"
+            },
+            "aov:isEvent": {
+              "description": "true if the Thing Model represents an event type",
+              "type": "boolean"
+            },
+            "schemaDefinitions": {
+              "type": "object",
+              "description": "definitions of schemas that can be referenced via 'additionalResponses', 'dtv:headerCode', and 'dtv:headerInfo' properties in 'forms' elements",
+              "additionalProperties": {
+                "allOf": [ { "$ref": "#/definitions/dataSchema_base" } ],
+                "type": "object",
+                "required": [ "type" ],
+                "properties": {
+                  "dtv:errorMessage": {
+                    "type": "string",
+                    "description": "name of a property whose value will hold an error message when this object is used as an error value"
+                  }
+                },
+                "not": {
+                  "anyOf": [
+                    {
+                      "required": [ "dtv:ref" ]
+                    }
+                  ]
+                }
+              }
+            },
+            "links": {
+              "type": "array",
+              "description": "links to other JSON files that can be either Thing Models or naming rules",
+              "items": {
+                "type": "object",
+                "required": [ "rel", "href", "type" ],
+                "properties": {
+                  "rel": {
+                    "type": "string",
+                    "enum": [
+                      "tm:extends",
+                      "aov:reference",
+                      "aov:typedReference",
+                      "aov:capability",
+                      "aov:component",
+                      "dtv:naming"
+                    ]
+                  },
+                  "aov:refType": {
+                    "type": "string",
+                    "description": "custom reference type name, needed when 'rel' is 'aov:typedReference'"
+                  },
+                  "href": {
+                    "type": "string",
+                    "description": "path to linked JSON file"
+                  },
+                  "type": {
+                    "type": "string"
+                  }
+                },
+                "allOf": [
+                  {
+                    "if": {
+                      "properties": {
+                        "rel": {
+                          "const": "aov:typedReference"
+                        }
+                      }
+                    },
+                    "then": {
+                      "required": [ "aov:refType" ]
+                    },
+                    "else": {
+                      "not": {
+                        "required": [ "aov:refType" ]
+                      }
+                    }
+                  },
+                  {
+                    "if": {
+                      "properties": {
+                        "rel": {
+                          "const": "dtv:naming"
+                        }
+                      }
+                    },
+                    "then": {
+                      "properties": {
+                        "type": {
+                          "description": "naming rules must be written in JSON format",
+                          "const": "application/json"
+                        }
+                      }
+                    },
+                    "else": {
+                      "properties": {
+                        "type": {
+                          "description": "Thing Models must be written in JSON format",
+                          "const": "application/tm+json"
+                        }
+                      }
+                    }
+                  }
+                ]
+              },
+              "defaultSnippets": [
+                {
+                  "description": "example naming 'links' value -- replace './EXAMPLE.SchemaNames.json' with path to your own schema names declaration file",
+                  "body": [
+                    {
+                      "rel": "dtv:naming",
+                      "href": "./EXAMPLE.SchemaNames.json",
+                      "type": "application/json"
+                    }
+                  ]
+                },
+                {
+                  "description": "example extends 'links' value -- replace './EXAMPLE.ParentThingModel.TM.json' with path to a real Thing Model that is to be extended",
+                  "body": [
+                    {
+                      "rel": "tm:extends",
+                      "href": "./EXAMPLE.ParentThingModel.TM.json",
+                      "type": "application/tm+json"
+                    }
+                  ]
+                }
+              ]
+            },
+            "forms": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/form_element_root"
+              },
+              "defaultSnippets": [
+                {
+                  "description": "example root-level 'forms' values for interacting with all properties and events",
+                  "body": [
+                    {
+                      "contentType": "application/json",
+                      "dtv:topic": "example/SomeTopic/write",
+                      "op": "writemultipleproperties"
+                    },
+                    {
+                      "contentType": "application/json",
+                      "dtv:topic": "example/SomeTopic/read",
+                      "op": "readallproperties"
+                    },
+                    {
+                      "contentType": "application/json",
+                      "dtv:topic": "example/SomeTopic/AllEvents",
+                      "op": "subscribeallevents"
+                    }
+                  ]
+                }
+              ]
+            },
+            "properties": {
+              "type": "object",
+              "description": "properties are values stored on a server that can be read or written by clients",
+              "additionalProperties": {
+                "allOf": [ { "$ref": "#/definitions/dataSchema_affordance" } ],
+                "type": "object",
+                "properties": {
+                  "readOnly": {
+                    "type": "boolean",
+                    "description": "true if the property is read-only"
+                  },
+                  "aov:namespace": {
+                    "type": "string"
+                  },
+                  "aov:contains": {
+                    "description": "list of names of other property affordances that this property logically contains",
+                    "type": "array",
+                    "items": {
+                      "type": "string"
+                    }
+                  },
+                  "aov:containedIn": {
+                    "description": "name of another property affordance in which this property is logically contained",
+                    "type": "string"
+                  },
+                  "dtv:placeholder": {
+                    "type": "boolean",
+                    "description": "true if the property is a placeholder for a dynamic collection of properties"
+                  },
+                  "forms": {
+                    "type": "array",
+                    "minItems": 1,
+                    "items": {
+                      "$ref": "#/definitions/form_element_property"
+                    },
+                    "defaultSnippets": [
+                      {
+                        "description": "example 'forms' values for properties",
+                        "body": [
+                          {
+                            "contentType": "application/json",
+                            "dtv:topic": "example/SomeTopic/MyProp1/write",
+                            "op": "writeproperty"
+                          },
+                          {
+                            "contentType": "application/json",
+                            "dtv:topic": "example/SomeTopic/MyProp1/read",
+                            "op": "readproperty"
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                }
+              },
+              "defaultSnippets": [
+                {
+                  "description": "example 'properties' value",
+                  "body": {
+                    "MyProperty": {
+                      "type": "integer",
+                      "minimum": -2147483648,
+                      "maximum": 2147483647,
+                      "readOnly": false,
+                      "forms": [
+                        {
+                          "contentType": "application/json",
+                          "dtv:topic": "example/SomeTopic/MyProp1/write",
+                          "op": "writeproperty"
+                        },
+                        {
+                          "contentType": "application/json",
+                          "dtv:topic": "example/SomeTopic/MyProp1/read",
+                          "op": "readproperty"
+                        }
+                      ]
+                    }
+                  }
+                }
+              ]
+            },
+            "actions": {
+              "type": "object",
+              "description": "actions are round-trip messages initiated by clients to request a server to perform an operation and return the result to the client",
+              "additionalProperties": {
+                "type": "object",
+                "properties": {
+                  "aov:namespace": {
+                    "type": "string"
+                  },
+                  "input": {
+                    "description": "input arguments as properties in object type",
+                    "$ref": "#/definitions/dataSchema_action",
+                    "defaultSnippets": [
+                      {
+                        "body": {
+                          "type": "object",
+                          "properties": {
+                            "arg1": {
+                              "type": "string"
+                            },
+                            "arg2": {
+                              "type": "integer",
+                              "minimum": -2147483648,
+                              "maximum": 2147483647
+                            }
+                          }
+                        }
+                      },
+                      {
+                        "description": "reference to an external schema definition (must be an object)",
+                        "body": { "dtv:ref": "./EXAMPLESCHEMA.json" }
+                      }
+                    ]
+                  },
+                  "output": {
+                    "description": "output values as properties in object type",
+                    "$ref": "#/definitions/dataSchema_action",
+                    "defaultSnippets": [
+                      {
+                        "body": {
+                          "type": "object",
+                          "properties": {
+                            "status": {
+                              "type": "string"
+                            },
+                            "result": {
+                              "type": "integer",
+                              "minimum": -2147483648,
+                              "maximum": 2147483647
+                            }
+                          }
+                        }
+                      },
+                      {
+                        "description": "reference to an external schema definition (must be an object)",
+                        "body": { "dtv:ref": "./EXAMPLESCHEMA.json" }
+                      }
+                    ]
+                  },
+                  "idempotent": {
+                    "type": "boolean",
+                    "description": "true if the action is idempotent"
+                  },
+                  "safe": {
+                    "type": "boolean",
+                    "description": "true if caching the action's output is safe"
+                  },
+                  "aov:memberOf": {
+                    "description": "name of a group of actions to which this action belongs",
+                    "type": "string"
+                  },
+                  "forms": {
+                    "type": "array",
+                    "minItems": 1,
+                    "items": {
+                      "$ref": "#/definitions/form_element_action"
+                    },
+                    "defaultSnippets": [
+                      {
+                        "description": "example 'forms' value for actions",
+                        "body": [
+                          {
+                            "contentType": "application/json",
+                            "dtv:topic": "example/SomeTopic/DoSomething",
+                            "op": "invokeaction"
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                }
+              },
+              "defaultSnippets": [
+                {
+                  "description": "example 'actions' value",
+                  "body": {
+                    "MyAction": {
+                      "input": {
+                        "type": "object",
+                        "properties": {
+                          "arg1": {
+                            "type": "string"
+                          },
+                          "arg2": {
+                            "type": "integer",
+                            "minimum": -2147483648,
+                            "maximum": 2147483647
+                          }
+                        }
+                      },
+                      "output": {
+                        "type": "object",
+                        "properties": {
+                          "status": {
+                            "type": "string"
+                          },
+                          "result": {
+                            "type": "integer",
+                            "minimum": -2147483648,
+                            "maximum": 2147483647
+                          }
+                        }
+                      },
+                      "forms": [
+                        {
+                          "contentType": "application/json",
+                          "dtv:topic": "example/SomeTopic/DoSomething",
+                          "op": "invokeaction"
+                        }
+                      ]
+                    }
+                  }
+                }
+              ]
+            },
+            "events": {
+              "type": "object",
+              "description": "events are one-way messages sent from servers to clients to indicate occurrences and status changes",
+              "additionalProperties": {
+                "type": "object",
+                "required": [ "data" ],
+                "properties": {
+                  "data": {
+                    "$ref": "#/definitions/dataSchema_affordance",
+                    "description": "the data schema of the event"
+                  },
+                  "aov:namespace": {
+                    "type": "string"
+                  },
+                  "aov:contains": {
+                    "description": "list of names of other event affordances that this event logically contains",
+                    "type": "array",
+                    "items": {
+                      "type": "string"
+                    }
+                  },
+                  "aov:containedIn": {
+                    "description": "name of another event affordance in which this event is logically contained",
+                    "type": "string"
+                  },
+                  "dtv:placeholder": {
+                    "type": "boolean",
+                    "description": "true if the event is a placeholder for a dynamic collection of events"
+                  },
+                  "forms": {
+                    "type": "array",
+                    "minItems": 1,
+                    "items": {
+                      "$ref": "#/definitions/form_element_event"
+                    },
+                    "defaultSnippets": [
+                      {
+                        "description": "example 'forms' value for events",
+                        "body": [
+                          {
+                            "contentType": "application/json",
+                            "dtv:topic": "example/SomeTopic/MyEvent",
+                            "op": "subscribeevent"
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                }
+              },
+              "defaultSnippets": [
+                {
+                  "description": "example 'events' value",
+                  "body": {
+                    "MyEvent": {
+                      "data": {
+                        "type": "integer",
+                        "minimum": -2147483648,
+                        "maximum": 2147483647
+                      },
+                      "forms": [
+                        {
+                          "contentType": "application/json",
+                          "dtv:topic": "example/SomeTopic/MyEvent",
+                          "op": "subscribeevent"
+                        }
+                      ]
+                    }
+                  }
+                }
+              ]
+            }
+          }
+        }
+      ]
+    }
+  },
+  "anyOf": [
+    {
+      "$ref": "#/definitions/aioThingModel"
+    },
+    {
+      "type": "array",
+      "items": {
+        "$ref": "#/definitions/aioThingModel"
+      }
+    }
+  ]
+}

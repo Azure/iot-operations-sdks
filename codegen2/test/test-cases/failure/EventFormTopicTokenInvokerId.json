@@ -1,0 +1,16 @@
+{
+  "success": false,
+  "commandLine": {
+    "things": [ "invalidAioBinding/EventFormTopicTokenInvokerId.TM.json" ],
+    "lang": "none"
+  },
+  "errors": [
+    {
+      "condition": "PropertyInvalid",
+      "filename": "EventFormTopicTokenInvokerId.TM.json",
+      "line": 20,
+      "cfLine": 0,
+      "crossRef": ""
+    }
+  ]
+}

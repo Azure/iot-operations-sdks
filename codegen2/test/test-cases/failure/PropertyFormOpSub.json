@@ -1,0 +1,16 @@
+{
+  "success": false,
+  "commandLine": {
+    "things": [ "invalidThing/PropertyFormOpSub.TM.json" ],
+    "lang": "none"
+  },
+  "errors": [
+    {
+      "condition": "PropertyUnsupportedValue",
+      "filename": "PropertyFormOpSub.TM.json",
+      "line": 17,
+      "cfLine": 0,
+      "crossRef": ""
+    }
+  ]
+}

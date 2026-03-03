@@ -1,0 +1,16 @@
+{
+  "success": false,
+  "commandLine": {
+    "things": [ "invalidAioBinding/PropertyFormAdditionalResponseContentTypeText.TM.json" ],
+    "lang": "none"
+  },
+  "errors": [
+    {
+      "condition": "PropertyUnsupportedValue",
+      "filename": "PropertyFormAdditionalResponseContentTypeText.TM.json",
+      "line": 32,
+      "cfLine": 0,
+      "crossRef": ""
+    }
+  ]
+}

@@ -1,0 +1,16 @@
+{
+  "success": false,
+  "commandLine": {
+    "things": [ "invalidAioBinding/ActionOutputObjectAndContentTypeRaw.TM.json" ],
+    "lang": "none"
+  },
+  "errors": [
+    {
+      "condition": "ValuesInconsistent",
+      "filename": "ActionOutputObjectAndContentTypeRaw.TM.json",
+      "line": 11,
+      "cfLine": 20,
+      "crossRef": ""
+    }
+  ]
+}

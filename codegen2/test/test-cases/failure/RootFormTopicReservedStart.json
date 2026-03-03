@@ -1,0 +1,16 @@
+{
+  "success": false,
+  "commandLine": {
+    "things": [ "invalidAioBinding/RootFormTopicReservedStart.TM.json" ],
+    "lang": "none"
+  },
+  "errors": [
+    {
+      "condition": "PropertyInvalid",
+      "filename": "RootFormTopicReservedStart.TM.json",
+      "line": 10,
+      "cfLine": 0,
+      "crossRef": ""
+    }
+  ]
+}

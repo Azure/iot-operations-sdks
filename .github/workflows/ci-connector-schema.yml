@@ -24,8 +24,11 @@ jobs:
     steps:
     - uses: actions/checkout@v4
 
+    - name: Download connector metadata schema
+      run: wget https://raw.githubusercontent.com/SchemaStore/schemastore/refs/heads/master/src/schemas/json/aio-connector-metadata-9.0-preview.json -O ./connector-metadata-schema.json
+
     - name: Validate JSON with Glob
       uses: nhalstead/validate-json-action@0.1.3
       with:
-        schema: ./doc/akri_connector/connector-metadata-schema.json
+        schema: ./connector-metadata-schema.json
         jsons: ./doc/akri_connector/example-connector-metadata.json,./doc/akri_connector/minimal-example-connector-metadata.json

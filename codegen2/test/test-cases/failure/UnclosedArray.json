@@ -1,0 +1,16 @@
+{
+  "success": false,
+  "commandLine": {
+    "things": [ "invalidJson/UnclosedArray.TM.json" ],
+    "lang": "none"
+  },
+  "errors": [
+    {
+      "condition": "JsonInvalid",
+      "filename": "UnclosedArray.TM.json",
+      "line": 16,
+      "cfLine": 0,
+      "crossRef": ""
+    }
+  ]
+}

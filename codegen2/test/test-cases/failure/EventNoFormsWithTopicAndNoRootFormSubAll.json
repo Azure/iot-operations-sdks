@@ -1,0 +1,16 @@
+{
+  "success": false,
+  "commandLine": {
+    "things": [ "invalidAioBinding/EventNoFormsWithTopicAndNoRootFormSubAll.TM.json" ],
+    "lang": "none"
+  },
+  "errors": [
+    {
+      "condition": "Unusable",
+      "filename": "EventNoFormsWithTopicAndNoRootFormSubAll.TM.json",
+      "line": 13,
+      "cfLine": 0,
+      "crossRef": ""
+    }
+  ]
+}

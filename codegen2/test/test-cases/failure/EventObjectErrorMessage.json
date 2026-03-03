@@ -1,0 +1,16 @@
+{
+  "success": false,
+  "commandLine": {
+    "things": [ "invalidAioBinding/EventObjectErrorMessage.TM.json" ],
+    "lang": "none"
+  },
+  "errors": [
+    {
+      "condition": "PropertyUnsupported",
+      "filename": "EventObjectErrorMessage.TM.json",
+      "line": 21,
+      "cfLine": 0,
+      "crossRef": ""
+    }
+  ]
+}

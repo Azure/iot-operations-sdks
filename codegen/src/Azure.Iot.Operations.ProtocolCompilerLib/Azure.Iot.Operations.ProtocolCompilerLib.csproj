@@ -960,7 +960,7 @@
 	</ItemGroup>
 
 	<ItemGroup>
-		<EmbeddedResource Include="..\..\..\dotnet\test\Azure.Iot.Operations.Protocol.UnitTests\Serializers\*\*.cs">
+		<EmbeddedResource Include="..\..\..\dotnet\test\Azure.Iot.Operations.Protocol.UnitTests\Serializers\**\*.cs">
 			<Link>LanguageResources\csharp\%(RecursiveDir)%(Filename)%(Extension)</Link>
 		</EmbeddedResource>
 		<EmbeddedResource Include="..\..\..\dotnet\test\Azure.Iot.Operations.Protocol.UnitTests\Support\*.cs">

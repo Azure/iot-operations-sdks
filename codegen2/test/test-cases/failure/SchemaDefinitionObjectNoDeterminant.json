@@ -1,0 +1,16 @@
+{
+  "success": false,
+  "commandLine": {
+    "things": [ "invalidAioBinding/SchemaDefinitionObjectNoDeterminant.TM.json" ],
+    "lang": "none"
+  },
+  "errors": [
+    {
+      "condition": "PropertyMissing",
+      "filename": "SchemaDefinitionObjectNoDeterminant.TM.json",
+      "line": 9,
+      "cfLine": 0,
+      "crossRef": ""
+    }
+  ]
+}

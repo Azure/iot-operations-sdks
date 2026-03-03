@@ -1,0 +1,493 @@
+[
+  {
+    "@context": [
+      "https://www.w3.org/2022/wot/td/v1.1",
+      {
+        "dtv": "http://azure.com/DigitalTwins/dtmi#",
+        "aov": "http://azure.com/IoT/operations/tm#"
+      }
+    ],
+    "@type": "tm:ThingModel",
+    "title": "PlasticsRubber_Extrusion_Extruder_FeederType",
+    "aov:typeRef": "nsu=http://opcfoundation.org/UA/PlasticsRubber/Extrusion/Extruder/;i=1063",
+    "links": [
+      {
+        "rel": "tm:extends",
+        "href": "./PlasticsRubber.GeneralTypes.TM.json#title=PlasticsRubber_GeneralTypes_DriveType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "aov:reference",
+        "aov:refName": "Hopper",
+        "href": "#title=PlasticsRubber_Extrusion_Extruder_HopperType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "aov:reference",
+        "aov:refName": "Throughput",
+        "href": "./PlasticsRubber.GeneralTypes.TM.json#title=PlasticsRubber_GeneralTypes_MonitoredParameterType",
+        "type": "application/tm+json"
+      }
+    ],
+    "schemaDefinitions": {
+      "FeedingModeEnumeration": {
+        "type": "object",
+        "aov:typeRef": "nsu=http://opcfoundation.org/UA/PlasticsRubber/Extrusion/Extruder/;i=3003",
+        "const": {
+          "ONLY_CONVEYING": 0,
+          "OTHER": 1,
+          "GRAVIMETRIC": 2,
+          "VOLUMETRIC": 3,
+          "LIQUID": 4,
+          "BATCH": 5
+        },
+        "properties": {
+          "ONLY_CONVEYING": {
+            "type": "integer"
+          },
+          "OTHER": {
+            "type": "integer"
+          },
+          "GRAVIMETRIC": {
+            "type": "integer"
+          },
+          "VOLUMETRIC": {
+            "type": "integer"
+          },
+          "LIQUID": {
+            "type": "integer"
+          },
+          "BATCH": {
+            "type": "integer"
+          }
+        }
+      }
+    },
+    "forms": [
+      {
+        "contentType": "application/json",
+        "dtv:topic": "opcua/PlasticsRubber.Extrusion.Extruder/PlasticsRubber_Extrusion_Extruder_FeederType/properties/read",
+        "op": "readallproperties"
+      }
+    ],
+    "actions": {
+    },
+    "properties": {
+      "Id": {
+        "aov:namespace": "http://opcfoundation.org/UA/PlasticsRubber/Extrusion/Extruder/",
+        "type": "string",
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/PlasticsRubber.Extrusion.Extruder/PlasticsRubber_Extrusion_Extruder_FeederType/property/Id/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "IsControlled": {
+        "aov:namespace": "http://opcfoundation.org/UA/PlasticsRubber/Extrusion/Extruder/",
+        "type": "boolean",
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/PlasticsRubber.Extrusion.Extruder/PlasticsRubber_Extrusion_Extruder_FeederType/property/IsControlled/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "IsPresent": {
+        "aov:namespace": "http://opcfoundation.org/UA/PlasticsRubber/Extrusion/Extruder/",
+        "type": "boolean",
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/PlasticsRubber.Extrusion.Extruder/PlasticsRubber_Extrusion_Extruder_FeederType/property/IsPresent/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "Mode": {
+        "aov:namespace": "http://opcfoundation.org/UA/PlasticsRubber/Extrusion/Extruder/",
+        "title": "FeedingModeEnumeration",
+        "aov:typeRef": "nsu=http://opcfoundation.org/UA/PlasticsRubber/Extrusion/Extruder/;i=3003",
+        "type": "integer",
+        "minimum": -2147483648,
+        "maximum": 2147483647,
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/PlasticsRubber.Extrusion.Extruder/PlasticsRubber_Extrusion_Extruder_FeederType/property/Mode/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "Name": {
+        "aov:namespace": "http://opcfoundation.org/UA/PlasticsRubber/Extrusion/Extruder/",
+        "type": "string",
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/PlasticsRubber.Extrusion.Extruder/PlasticsRubber_Extrusion_Extruder_FeederType/property/Name/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "Target": {
+        "aov:namespace": "http://opcfoundation.org/UA/PlasticsRubber/Extrusion/Extruder/",
+        "type": "string",
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/PlasticsRubber.Extrusion.Extruder/PlasticsRubber_Extrusion_Extruder_FeederType/property/Target/read",
+            "op": "readproperty"
+          }
+        ]
+      }
+    },
+    "events": {
+    }
+  },
+  {
+    "@context": [
+      "https://www.w3.org/2022/wot/td/v1.1",
+      {
+        "dtv": "http://azure.com/DigitalTwins/dtmi#",
+        "aov": "http://azure.com/IoT/operations/tm#"
+      }
+    ],
+    "@type": "tm:ThingModel",
+    "title": "PlasticsRubber_Extrusion_Extruder_Extruder_InterfaceType",
+    "aov:typeRef": "nsu=http://opcfoundation.org/UA/PlasticsRubber/Extrusion/Extruder/;i=1015",
+    "aov:isComposite": true,
+    "links": [
+      {
+        "rel": "tm:extends",
+        "href": "./PlasticsRubber.Extrusion.GeneralTypes.TM.json#title=PlasticsRubber_Extrusion_GeneralTypes_ExtrusionDeviceType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "aov:reference",
+        "aov:refName": "AdditionalDrives",
+        "href": "./PlasticsRubber.GeneralTypes.TM.json#title=PlasticsRubber_GeneralTypes_DrivesType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "aov:reference",
+        "aov:refName": "Feeders",
+        "href": "#title=PlasticsRubber_Extrusion_Extruder_FeedersType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "aov:reference",
+        "aov:refName": "MainDrive",
+        "href": "./PlasticsRubber.GeneralTypes.TM.json#title=PlasticsRubber_GeneralTypes_DriveType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "aov:reference",
+        "aov:refName": "MeltPressureZones",
+        "href": "./PlasticsRubber.GeneralTypes.TM.json#title=PlasticsRubber_GeneralTypes_MeasuringDevicesType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "aov:reference",
+        "aov:refName": "MeltTemperatureZones",
+        "href": "./PlasticsRubber.GeneralTypes.TM.json#title=PlasticsRubber_GeneralTypes_MeasuringDevicesType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "aov:reference",
+        "aov:refName": "ScrewTemperatures",
+        "href": "./PlasticsRubber.Extrusion.GeneralTypes.TM.json#title=PlasticsRubber_Extrusion_GeneralTypes_ExtrusionTemperatureZonesType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "aov:capability",
+        "aov:refName": "TemperatureZones",
+        "href": "./PlasticsRubber.Extrusion.GeneralTypes.TM.json#title=PlasticsRubber_Extrusion_GeneralTypes_ExtrusionTemperatureZonesType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "aov:component",
+        "aov:refName": "Throughput",
+        "href": "./PlasticsRubber.GeneralTypes.TM.json#title=PlasticsRubber_GeneralTypes_MonitoredParameterType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "aov:capability",
+        "aov:refName": "Users",
+        "href": "./PlasticsRubber.GeneralTypes.TM.json#title=PlasticsRubber_GeneralTypes_UsersType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "aov:reference",
+        "aov:refName": "VacuumZones",
+        "href": "./PlasticsRubber.GeneralTypes.TM.json#title=PlasticsRubber_GeneralTypes_MeasuringDevicesType",
+        "type": "application/tm+json"
+      }
+    ],
+    "schemaDefinitions": {
+    },
+    "forms": [
+      {
+        "contentType": "application/json",
+        "dtv:topic": "opcua/PlasticsRubber.Extrusion.Extruder/PlasticsRubber_Extrusion_Extruder_Extruder_InterfaceType/events/{senderId}",
+        "op": "subscribeallevents"
+      },
+      {
+        "contentType": "application/json",
+        "dtv:topic": "opcua/PlasticsRubber.Extrusion.Extruder/PlasticsRubber_Extrusion_Extruder_Extruder_InterfaceType/properties/read",
+        "op": "readallproperties"
+      }
+    ],
+    "actions": {
+    },
+    "properties": {
+      "BarrelId": {
+        "aov:namespace": "http://opcfoundation.org/UA/PlasticsRubber/Extrusion/Extruder/",
+        "type": "string",
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/PlasticsRubber.Extrusion.Extruder/PlasticsRubber_Extrusion_Extruder_Extruder_InterfaceType/property/BarrelId/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "ScrewId": {
+        "aov:namespace": "http://opcfoundation.org/UA/PlasticsRubber/Extrusion/Extruder/",
+        "type": "string",
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/PlasticsRubber.Extrusion.Extruder/PlasticsRubber_Extrusion_Extruder_Extruder_InterfaceType/property/ScrewId/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "SpecificOutput": {
+        "aov:namespace": "http://opcfoundation.org/UA/PlasticsRubber/Extrusion/Extruder/",
+        "type": "number",
+        "minimum": -1.80e+308,
+        "maximum": 1.80e+308,
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/PlasticsRubber.Extrusion.Extruder/PlasticsRubber_Extrusion_Extruder_Extruder_InterfaceType/property/SpecificOutput/read",
+            "op": "readproperty"
+          }
+        ]
+      }
+    },
+    "events": {
+      "SpecificOutput": {
+        "aov:namespace": "http://opcfoundation.org/UA/PlasticsRubber/Extrusion/Extruder/",
+        "data": {
+          "type": "number",
+          "minimum": -1.80e+308,
+          "maximum": 1.80e+308
+        },
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/PlasticsRubber.Extrusion.Extruder/PlasticsRubber_Extrusion_Extruder_Extruder_InterfaceType/event/SpecificOutput/{senderId}",
+            "op": "subscribeevent"
+          }
+        ]
+      }
+    }
+  },
+  {
+    "@context": [
+      "https://www.w3.org/2022/wot/td/v1.1",
+      {
+        "dtv": "http://azure.com/DigitalTwins/dtmi#",
+        "aov": "http://azure.com/IoT/operations/tm#"
+      }
+    ],
+    "@type": "tm:ThingModel",
+    "title": "PlasticsRubber_Extrusion_Extruder_FeedersType",
+    "aov:typeRef": "nsu=http://opcfoundation.org/UA/PlasticsRubber/Extrusion/Extruder/;i=1002",
+    "links": [
+      {
+        "rel": "tm:extends",
+        "href": "./OpcUaCore.TM.json#title=OpcUaCore_BaseObjectType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "aov:component",
+        "aov:refName": "Feeder__Nr_",
+        "href": "#title=PlasticsRubber_Extrusion_Extruder_FeederType",
+        "type": "application/tm+json"
+      }
+    ],
+    "schemaDefinitions": {
+    },
+    "forms": [
+      {
+        "contentType": "application/json",
+        "dtv:topic": "opcua/PlasticsRubber.Extrusion.Extruder/PlasticsRubber_Extrusion_Extruder_FeedersType/properties/read",
+        "op": "readallproperties"
+      }
+    ],
+    "actions": {
+    },
+    "properties": {
+      "NodeVersion": {
+        "type": "string",
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/PlasticsRubber.Extrusion.Extruder/PlasticsRubber_Extrusion_Extruder_FeedersType/property/NodeVersion/read",
+            "op": "readproperty"
+          }
+        ]
+      }
+    },
+    "events": {
+    }
+  },
+  {
+    "@context": [
+      "https://www.w3.org/2022/wot/td/v1.1",
+      {
+        "dtv": "http://azure.com/DigitalTwins/dtmi#",
+        "aov": "http://azure.com/IoT/operations/tm#"
+      }
+    ],
+    "@type": "tm:ThingModel",
+    "title": "PlasticsRubber_Extrusion_Extruder_HopperType",
+    "aov:typeRef": "nsu=http://opcfoundation.org/UA/PlasticsRubber/Extrusion/Extruder/;i=1003",
+    "links": [
+      {
+        "rel": "tm:extends",
+        "href": "./OpcUaCore.TM.json#title=OpcUaCore_BaseObjectType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "aov:capability",
+        "aov:refName": "Material",
+        "href": "./PlasticsRubber.GeneralTypes.TM.json#title=PlasticsRubber_GeneralTypes_MaterialType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "aov:reference",
+        "aov:refName": "MaterialTemperature",
+        "href": "./PlasticsRubber.GeneralTypes.TM.json#title=PlasticsRubber_GeneralTypes_MonitoredParameterType",
+        "type": "application/tm+json"
+      }
+    ],
+    "schemaDefinitions": {
+    },
+    "forms": [
+      {
+        "contentType": "application/json",
+        "dtv:topic": "opcua/PlasticsRubber.Extrusion.Extruder/PlasticsRubber_Extrusion_Extruder_HopperType/events/{senderId}",
+        "op": "subscribeallevents"
+      },
+      {
+        "contentType": "application/json",
+        "dtv:topic": "opcua/PlasticsRubber.Extrusion.Extruder/PlasticsRubber_Extrusion_Extruder_HopperType/properties/read",
+        "op": "readallproperties"
+      }
+    ],
+    "actions": {
+    },
+    "properties": {
+      "Id": {
+        "aov:namespace": "http://opcfoundation.org/UA/PlasticsRubber/Extrusion/Extruder/",
+        "type": "string",
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/PlasticsRubber.Extrusion.Extruder/PlasticsRubber_Extrusion_Extruder_HopperType/property/Id/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "MaterialLevel": {
+        "aov:namespace": "http://opcfoundation.org/UA/PlasticsRubber/Extrusion/Extruder/",
+        "type": "number",
+        "minimum": -1.80e+308,
+        "maximum": 1.80e+308,
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/PlasticsRubber.Extrusion.Extruder/PlasticsRubber_Extrusion_Extruder_HopperType/property/MaterialLevel/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "MaterialLot": {
+        "aov:namespace": "http://opcfoundation.org/UA/PlasticsRubber/Extrusion/Extruder/",
+        "type": "string",
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/PlasticsRubber.Extrusion.Extruder/PlasticsRubber_Extrusion_Extruder_HopperType/property/MaterialLot/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "Weight": {
+        "aov:namespace": "http://opcfoundation.org/UA/PlasticsRubber/Extrusion/Extruder/",
+        "type": "number",
+        "minimum": -1.80e+308,
+        "maximum": 1.80e+308,
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/PlasticsRubber.Extrusion.Extruder/PlasticsRubber_Extrusion_Extruder_HopperType/property/Weight/read",
+            "op": "readproperty"
+          }
+        ]
+      }
+    },
+    "events": {
+      "MaterialLevel": {
+        "aov:namespace": "http://opcfoundation.org/UA/PlasticsRubber/Extrusion/Extruder/",
+        "data": {
+          "type": "number",
+          "minimum": -1.80e+308,
+          "maximum": 1.80e+308
+        },
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/PlasticsRubber.Extrusion.Extruder/PlasticsRubber_Extrusion_Extruder_HopperType/event/MaterialLevel/{senderId}",
+            "op": "subscribeevent"
+          }
+        ]
+      },
+      "Weight": {
+        "aov:namespace": "http://opcfoundation.org/UA/PlasticsRubber/Extrusion/Extruder/",
+        "data": {
+          "type": "number",
+          "minimum": -1.80e+308,
+          "maximum": 1.80e+308
+        },
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/PlasticsRubber.Extrusion.Extruder/PlasticsRubber_Extrusion_Extruder_HopperType/event/Weight/{senderId}",
+            "op": "subscribeevent"
+          }
+        ]
+      }
+    }
+  }
+]

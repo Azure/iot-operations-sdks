@@ -1,0 +1,17 @@
+{
+  "$schema": "https://json-schema.org/draft-07/schema",
+  "title": "AssetEventGroupStatusSchemaElementSchema",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [ "name" ],
+  "properties": {
+    "events": {
+      "description": "Array of event statuses that describe the status of each event in the event group.",
+      "type": "array", "items": { "$ref": "AssetDatasetEventStreamStatus.schema.json" }
+    },
+    "name": {
+      "description": "The name of the event group. Must be unique within the status.eventGroups array. This name is used to correlate between the spec and status event group information.",
+      "type": "string"
+    }
+  }
+}

@@ -42,7 +42,9 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
     let azure_device_registry_client = azure_device_registry::Client::new(
         application_context,
         session.create_managed_client(),
-        azure_device_registry::ClientOptions::default(),
+        azure_device_registry::ClientOptionsBuilder::default()
+            .build()
+            .unwrap(),
     )?;
 
     // Run the Session and the Azure Device Registry operations concurrently

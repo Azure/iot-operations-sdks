@@ -1,0 +1,16 @@
+{
+  "success": false,
+  "commandLine": {
+    "things": [ "invalidAioBinding/RootFormOpWiteMultiAndSubAll.TM.json" ],
+    "lang": "none"
+  },
+  "errors": [
+    {
+      "condition": "ValuesInconsistent",
+      "filename": "RootFormOpWiteMultiAndSubAll.TM.json",
+      "line": 12,
+      "cfLine": 0,
+      "crossRef": ""
+    }
+  ]
+}

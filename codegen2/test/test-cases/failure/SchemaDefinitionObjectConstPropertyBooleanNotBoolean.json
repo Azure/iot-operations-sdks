@@ -1,0 +1,16 @@
+{
+  "success": false,
+  "commandLine": {
+    "things": [ "invalidAioBinding/SchemaDefinitionObjectConstPropertyBooleanNotBoolean.TM.json" ],
+    "lang": "none"
+  },
+  "errors": [
+    {
+      "condition": "TypeMismatch",
+      "filename": "SchemaDefinitionObjectConstPropertyBooleanNotBoolean.TM.json",
+      "line": 17,
+      "cfLine": 13,
+      "crossRef": ""
+    }
+  ]
+}

@@ -1,0 +1,52 @@
+{
+  "aggregateEventName": "Telemetry",
+  "aggregateEventSchema": "TelemetryCollection",
+  "aggregatePropName": "Property",
+  "aggregateReadRespValueField": "Properties",
+  "aggregateRespErrorField": "Errors",
+  "eventSchema": {
+    "in": [ "eventName" ],
+    "out": "{eventName}Telemetry",
+    "capitalize": true
+  },
+  "eventValueSchema": {
+    "in": [ "eventName" ],
+    "out": "{eventName}Schema",
+    "capitalize": true
+  },
+  "eventSenderBinder": {
+    "in": [ "eventSchema" ],
+    "out": "{eventSchema}Sender",
+    "capitalize": true
+  },
+  "eventReceiverBinder": {
+    "in": [ "eventSchema" ],
+    "out": "{eventSchema}Receiver",
+    "capitalize": true
+  },
+  "actionInSchema": {
+    "in": [ "actionName" ],
+    "out": "{actionName}RequestPayload",
+    "capitalize": true
+  },
+  "actionOutSchema": {
+    "in": [ "actionName" ],
+    "out": "{actionName}ResponsePayload",
+    "capitalize": true
+  },
+  "actionExecutorBinder": {
+    "in": [ "actionName" ],
+    "out": "{actionName}CommandExecutor",
+    "capitalize": true
+  },
+  "actionInvokerBinder": {
+    "in": [ "actionName" ],
+    "out": "{actionName}CommandInvoker",
+    "capitalize": true
+  },
+  "actionRespErrorField": {
+    "in": [ "actionName", "errorSchemaName" ],
+    "out": "error",
+    "capitalize": false
+  }
+}

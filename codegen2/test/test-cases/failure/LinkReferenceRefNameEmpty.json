@@ -1,0 +1,16 @@
+{
+  "success": false,
+  "commandLine": {
+    "things": [ "invalidAioBinding/LinkReferenceRefNameEmpty.TM.json" ],
+    "lang": "none"
+  },
+  "errors": [
+    {
+      "condition": "PropertyEmpty",
+      "filename": "LinkReferenceRefNameEmpty.TM.json",
+      "line": 12,
+      "cfLine": 0,
+      "crossRef": ""
+    }
+  ]
+}

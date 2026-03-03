@@ -1,0 +1,16 @@
+{
+  "success": false,
+  "commandLine": {
+    "things": [ "invalidAioBinding/LinkNamingNonJsonFile.TM.json" ],
+    "lang": "none"
+  },
+  "errors": [
+    {
+      "condition": "JsonInvalid",
+      "filename": "LinkNamingNonJsonFile.TM.json",
+      "line": 11,
+      "cfLine": 0,
+      "crossRef": ""
+    }
+  ]
+}

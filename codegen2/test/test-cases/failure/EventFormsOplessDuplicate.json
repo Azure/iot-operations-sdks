@@ -1,0 +1,16 @@
+{
+  "success": false,
+  "commandLine": {
+    "things": [ "invalidAioBinding/EventFormsOplessDuplicate.TM.json" ],
+    "lang": "none"
+  },
+  "errors": [
+    {
+      "condition": "ValuesInconsistent",
+      "filename": "EventFormsOplessDuplicate.TM.json",
+      "line": 18,
+      "cfLine": 17,
+      "crossRef": ""
+    }
+  ]
+}

@@ -1,0 +1,16 @@
+{
+  "success": false,
+  "commandLine": {
+    "things": [ "invalidAioBinding/SchemaDefinitionMapAdditionalPropertiesTypeNull.TM.json" ],
+    "lang": "none"
+  },
+  "errors": [
+    {
+      "condition": "PropertyUnsupportedValue",
+      "filename": "SchemaDefinitionMapAdditionalPropertiesTypeNull.TM.json",
+      "line": 12,
+      "cfLine": 0,
+      "crossRef": ""
+    }
+  ]
+}

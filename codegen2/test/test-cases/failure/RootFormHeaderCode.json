@@ -1,0 +1,16 @@
+{
+  "success": false,
+  "commandLine": {
+    "things": [ "invalidAioBinding/RootFormHeaderCode.TM.json" ],
+    "lang": "none"
+  },
+  "errors": [
+    {
+      "condition": "PropertyUnsupported",
+      "filename": "RootFormHeaderCode.TM.json",
+      "line": 21,
+      "cfLine": 0,
+      "crossRef": ""
+    }
+  ]
+}

@@ -1,0 +1,30 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT License.
+
+/* This file will be copied into the folder for generated code. */
+
+using System;
+using System.Xml;
+using Dahomey.Cbor.Serialization;
+using Dahomey.Cbor.Serialization.Converters;
+
+namespace Azure.Iot.Operations.Protocol.UnitTests.Serializers.CBOR
+{
+    /// <summary>
+    /// Class for customized CBOR conversion of <c>TimeSpan</c> values to/from string representations in ISO 8601 Duration format.
+    /// </summary>
+    internal sealed class DurationCborConverter : CborConverterBase<TimeSpan>
+    {
+        /// <inheritdoc/>
+        public override TimeSpan Read(ref CborReader reader)
+        {
+            return XmlConvert.ToTimeSpan(reader.ReadString()!);
+        }
+
+        /// <inheritdoc/>
+        public override void Write(ref CborWriter writer, TimeSpan value)
+        {
+            writer.WriteString(XmlConvert.ToString(value));
+        }
+    }
+}

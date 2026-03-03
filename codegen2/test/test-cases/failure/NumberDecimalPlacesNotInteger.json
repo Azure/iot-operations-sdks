@@ -1,0 +1,16 @@
+{
+  "success": false,
+  "commandLine": {
+    "things": [ "invalidAioBinding/NumberDecimalPlacesNotInteger.TM.json" ],
+    "lang": "none"
+  },
+  "errors": [
+    {
+      "condition": "TypeMismatch",
+      "filename": "NumberDecimalPlacesNotInteger.TM.json",
+      "line": 14,
+      "cfLine": 0,
+      "crossRef": ""
+    }
+  ]
+}

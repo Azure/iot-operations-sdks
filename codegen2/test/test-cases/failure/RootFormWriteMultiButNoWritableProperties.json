@@ -1,0 +1,16 @@
+{
+  "success": false,
+  "commandLine": {
+    "things": [ "invalidAioBinding/RootFormWriteMultiButNoWritableProperties.TM.json" ],
+    "lang": "none"
+  },
+  "errors": [
+    {
+      "condition": "Unusable",
+      "filename": "RootFormWriteMultiButNoWritableProperties.TM.json",
+      "line": 17,
+      "cfLine": 22,
+      "crossRef": ""
+    }
+  ]
+}

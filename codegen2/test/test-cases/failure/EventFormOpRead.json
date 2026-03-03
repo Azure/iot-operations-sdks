@@ -1,0 +1,16 @@
+{
+  "success": false,
+  "commandLine": {
+    "things": [ "invalidThing/EventFormOpRead.TM.json" ],
+    "lang": "none"
+  },
+  "errors": [
+    {
+      "condition": "PropertyUnsupportedValue",
+      "filename": "EventFormOpRead.TM.json",
+      "line": 21,
+      "cfLine": 0,
+      "crossRef": ""
+    }
+  ]
+}

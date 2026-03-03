@@ -1,0 +1,35 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT License
+
+namespace Azure.Iot.Operations.TypeGenerator
+{
+    internal enum SchemaKind
+    {
+        Alias,
+        Array,
+        Boolean,
+        Bytes,
+        Byte,
+        DateTime,
+        Date,
+        Decimal,
+        Double,
+        Duration,
+        Enum,
+        Float,
+        Integer,
+        Long,
+        Map,
+        Object,
+        Reference,
+        Schema,
+        Short,
+        String,
+        Time,
+        UnsignedByte,
+        UnsignedInteger,
+        UnsignedLong,
+        UnsignedShort,
+        Uuid,
+    }
+}

@@ -1,0 +1,1971 @@
+[
+  {
+    "@context": [
+      "https://www.w3.org/2022/wot/td/v1.1",
+      {
+        "dtv": "http://azure.com/DigitalTwins/dtmi#",
+        "aov": "http://azure.com/IoT/operations/tm#"
+      }
+    ],
+    "@type": "tm:ThingModel",
+    "title": "IA_AcousticSignalType",
+    "aov:typeRef": "nsu=http://opcfoundation.org/UA/IA/;i=1009",
+    "links": [
+      {
+        "rel": "tm:extends",
+        "href": "#title=OpcUaCore_BaseObjectType",
+        "type": "application/tm+json"
+      }
+    ],
+    "schemaDefinitions": {
+    },
+    "forms": [
+      {
+        "contentType": "application/json",
+        "dtv:topic": "opcua/IA/IA_AcousticSignalType/events/{senderId}",
+        "op": "subscribeallevents"
+      },
+      {
+        "contentType": "application/json",
+        "dtv:topic": "opcua/IA/IA_AcousticSignalType/properties/write",
+        "op": "writemultipleproperties"
+      },
+      {
+        "contentType": "application/json",
+        "dtv:topic": "opcua/IA/IA_AcousticSignalType/properties/read",
+        "op": "readallproperties"
+      }
+    ],
+    "actions": {
+    },
+    "properties": {
+      "AudioSample": {
+        "aov:namespace": "http://opcfoundation.org/UA/IA/",
+        "description": "Contains the audio data, e.g. for devices capable of audio playback.",
+        "type": "string",
+        "contentEncoding": "base64",
+        "readOnly": false,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/IA/IA_AcousticSignalType/property/AudioSample/write",
+            "op": "writeproperty"
+          },
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/IA/IA_AcousticSignalType/property/AudioSample/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "NumberInList": {
+        "description": "Enumerate the acoustic signals. Instances of StackElementAcousticType index into this number using the OperationMode Property.",
+        "type": "integer",
+        "minimum": 0,
+        "readOnly": false,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/IA/IA_AcousticSignalType/property/NumberInList/write",
+            "op": "writeproperty"
+          },
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/IA/IA_AcousticSignalType/property/NumberInList/read",
+            "op": "readproperty"
+          }
+        ]
+      }
+    },
+    "events": {
+      "AudioSample": {
+        "aov:namespace": "http://opcfoundation.org/UA/IA/",
+        "data": {
+          "description": "Contains the audio data, e.g. for devices capable of audio playback.",
+          "type": "string",
+          "contentEncoding": "base64"
+        },
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/IA/IA_AcousticSignalType/event/AudioSample/{senderId}",
+            "op": "subscribeevent"
+          }
+        ]
+      }
+    }
+  },
+  {
+    "@context": [
+      "https://www.w3.org/2022/wot/td/v1.1",
+      {
+        "dtv": "http://azure.com/DigitalTwins/dtmi#",
+        "aov": "http://azure.com/IoT/operations/tm#"
+      }
+    ],
+    "@type": "tm:ThingModel",
+    "title": "IA_BaseCalibrationTargetCategoryType",
+    "aov:typeRef": "nsu=http://opcfoundation.org/UA/IA/;i=1014",
+    "links": [
+      {
+        "rel": "tm:extends",
+        "href": "#title=OpcUaCore_BaseObjectType",
+        "type": "application/tm+json"
+      }
+    ],
+    "schemaDefinitions": {
+    },
+    "actions": {
+    },
+    "properties": {
+    },
+    "events": {
+    }
+  },
+  {
+    "@context": [
+      "https://www.w3.org/2022/wot/td/v1.1",
+      {
+        "dtv": "http://azure.com/DigitalTwins/dtmi#",
+        "aov": "http://azure.com/IoT/operations/tm#"
+      }
+    ],
+    "@type": "tm:ThingModel",
+    "title": "IA_DynamicCalibrationTargetCategoryType",
+    "aov:typeRef": "nsu=http://opcfoundation.org/UA/IA/;i=1018",
+    "aov:isComposite": true,
+    "links": [
+      {
+        "rel": "tm:extends",
+        "href": "#title=IA_BaseCalibrationTargetCategoryType",
+        "type": "application/tm+json"
+      }
+    ],
+    "schemaDefinitions": {
+    },
+    "actions": {
+    },
+    "properties": {
+    },
+    "events": {
+    }
+  },
+  {
+    "@context": [
+      "https://www.w3.org/2022/wot/td/v1.1",
+      {
+        "dtv": "http://azure.com/DigitalTwins/dtmi#",
+        "aov": "http://azure.com/IoT/operations/tm#"
+      }
+    ],
+    "@type": "tm:ThingModel",
+    "title": "IA_OneTimeCalibrationTargetCategoryType",
+    "aov:typeRef": "nsu=http://opcfoundation.org/UA/IA/;i=1017",
+    "aov:isComposite": true,
+    "links": [
+      {
+        "rel": "tm:extends",
+        "href": "#title=IA_BaseCalibrationTargetCategoryType",
+        "type": "application/tm+json"
+      }
+    ],
+    "schemaDefinitions": {
+    },
+    "actions": {
+    },
+    "properties": {
+    },
+    "events": {
+    }
+  },
+  {
+    "@context": [
+      "https://www.w3.org/2022/wot/td/v1.1",
+      {
+        "dtv": "http://azure.com/DigitalTwins/dtmi#",
+        "aov": "http://azure.com/IoT/operations/tm#"
+      }
+    ],
+    "@type": "tm:ThingModel",
+    "title": "IA_ReusableCalibrationTargetCategoryType",
+    "aov:typeRef": "nsu=http://opcfoundation.org/UA/IA/;i=1015",
+    "aov:isComposite": true,
+    "links": [
+      {
+        "rel": "tm:extends",
+        "href": "#title=IA_BaseCalibrationTargetCategoryType",
+        "type": "application/tm+json"
+      }
+    ],
+    "schemaDefinitions": {
+    },
+    "actions": {
+    },
+    "properties": {
+    },
+    "events": {
+    }
+  },
+  {
+    "@context": [
+      "https://www.w3.org/2022/wot/td/v1.1",
+      {
+        "dtv": "http://azure.com/DigitalTwins/dtmi#",
+        "aov": "http://azure.com/IoT/operations/tm#"
+      }
+    ],
+    "@type": "tm:ThingModel",
+    "title": "IA_ReusableDeviceCalibrationTargetCategoryType",
+    "aov:typeRef": "nsu=http://opcfoundation.org/UA/IA/;i=1016",
+    "aov:isComposite": true,
+    "links": [
+      {
+        "rel": "tm:extends",
+        "href": "#title=IA_ReusableCalibrationTargetCategoryType",
+        "type": "application/tm+json"
+      }
+    ],
+    "schemaDefinitions": {
+    },
+    "actions": {
+    },
+    "properties": {
+    },
+    "events": {
+    }
+  },
+  {
+    "@context": [
+      "https://www.w3.org/2022/wot/td/v1.1",
+      {
+        "dtv": "http://azure.com/DigitalTwins/dtmi#",
+        "aov": "http://azure.com/IoT/operations/tm#"
+      }
+    ],
+    "@type": "tm:ThingModel",
+    "title": "IA_IStatisticsType",
+    "aov:typeRef": "nsu=http://opcfoundation.org/UA/IA/;i=1011",
+    "links": [
+      {
+        "rel": "tm:extends",
+        "href": "#title=OpcUaCore_BaseInterfaceType",
+        "type": "application/tm+json"
+      }
+    ],
+    "schemaDefinitions": {
+    },
+    "forms": [
+      {
+        "contentType": "application/json",
+        "dtv:topic": "opcua/IA/IA_IStatisticsType/properties/write",
+        "op": "writemultipleproperties"
+      },
+      {
+        "contentType": "application/json",
+        "dtv:topic": "opcua/IA/IA_IStatisticsType/properties/read",
+        "op": "readallproperties"
+      }
+    ],
+    "actions": {
+      "ResetStatistics": {
+        "aov:namespace": "http://opcfoundation.org/UA/IA/",
+        "description": "Restarts all statistical data, including a reset of the StartTime to the current time.",
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/IA/IA_IStatisticsType/action/ResetStatistics",
+            "op": "invokeaction"
+          }
+        ]
+      }
+    },
+    "properties": {
+      "StartTime": {
+        "aov:namespace": "http://opcfoundation.org/UA/IA/",
+        "description": "Indicates the point in time at which the collection of the statistical data has been started.",
+        "type": "string",
+        "format": "date-time",
+        "readOnly": false,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/IA/IA_IStatisticsType/property/StartTime/write",
+            "op": "writeproperty"
+          },
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/IA/IA_IStatisticsType/property/StartTime/read",
+            "op": "readproperty"
+          }
+        ]
+      }
+    },
+    "events": {
+    }
+  },
+  {
+    "@context": [
+      "https://www.w3.org/2022/wot/td/v1.1",
+      {
+        "dtv": "http://azure.com/DigitalTwins/dtmi#",
+        "aov": "http://azure.com/IoT/operations/tm#"
+      }
+    ],
+    "@type": "tm:ThingModel",
+    "title": "IA_IAggregateStatisticsType",
+    "aov:typeRef": "nsu=http://opcfoundation.org/UA/IA/;i=1012",
+    "links": [
+      {
+        "rel": "tm:extends",
+        "href": "#title=IA_IStatisticsType",
+        "type": "application/tm+json"
+      }
+    ],
+    "schemaDefinitions": {
+    },
+    "forms": [
+      {
+        "contentType": "application/json",
+        "dtv:topic": "opcua/IA/IA_IAggregateStatisticsType/properties/write",
+        "op": "writemultipleproperties"
+      },
+      {
+        "contentType": "application/json",
+        "dtv:topic": "opcua/IA/IA_IAggregateStatisticsType/properties/read",
+        "op": "readallproperties"
+      }
+    ],
+    "actions": {
+    },
+    "properties": {
+      "ResetCondition": {
+        "aov:namespace": "http://opcfoundation.org/UA/IA/",
+        "description": "The reason and context for the reset of the statistics, which is done without a trigger from an OPC UA Client, like calling the ResetStatistics Method. ResetCondition is a vendor-specific, human readable string. ResetCondition is non-localized and might contain an expression that can be parsed by certain clients. Examples are: “AFTER 4 HOURS”, “AFTER 1000 ITEMS”, “OPERATOR”. “OPERATOR” means, that an operator resets the statistics on a local HMI.",
+        "type": "string",
+        "readOnly": false,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/IA/IA_IAggregateStatisticsType/property/ResetCondition/write",
+            "op": "writeproperty"
+          },
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/IA/IA_IAggregateStatisticsType/property/ResetCondition/read",
+            "op": "readproperty"
+          }
+        ]
+      }
+    },
+    "events": {
+    }
+  },
+  {
+    "@context": [
+      "https://www.w3.org/2022/wot/td/v1.1",
+      {
+        "dtv": "http://azure.com/DigitalTwins/dtmi#",
+        "aov": "http://azure.com/IoT/operations/tm#"
+      }
+    ],
+    "@type": "tm:ThingModel",
+    "title": "IA_IRollingStatisticsType",
+    "aov:typeRef": "nsu=http://opcfoundation.org/UA/IA/;i=1013",
+    "links": [
+      {
+        "rel": "tm:extends",
+        "href": "#title=IA_IStatisticsType",
+        "type": "application/tm+json"
+      }
+    ],
+    "schemaDefinitions": {
+    },
+    "forms": [
+      {
+        "contentType": "application/json",
+        "dtv:topic": "opcua/IA/IA_IRollingStatisticsType/properties/write",
+        "op": "writemultipleproperties"
+      },
+      {
+        "contentType": "application/json",
+        "dtv:topic": "opcua/IA/IA_IRollingStatisticsType/properties/read",
+        "op": "readallproperties"
+      }
+    ],
+    "actions": {
+    },
+    "properties": {
+      "WindowDuration": {
+        "aov:namespace": "http://opcfoundation.org/UA/IA/",
+        "description": "The duration after the statistical data are rolled over. Only the data that were gathered during that duration are considered for the statistical data, even if the time interval between the StartTime and the current time is longer.",
+        "type": "string",
+        "pattern": "^P(?!$)(?:(?:(?:(?:\\d+Y)|(?:\\d+\\.\\d+Y$))?(?:(?:\\d+M)|(?:\\d+\\.\\d+M$))?)|(?:(?:(?:\\d+W)|(?:\\d+\\.\\d+W$))?))(?:(?:\\d+D)|(?:\\d+\\.\\d+D$))?(?:T(?!$)(?:(?:\\d+H)|(?:\\d+\\.\\d+H$))?(?:(?:\\d+M)|(?:\\d+\\.\\d+M$))?(?:\\d+(?:\\.\\d+)?S)?)?$",
+        "readOnly": false,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/IA/IA_IRollingStatisticsType/property/WindowDuration/write",
+            "op": "writeproperty"
+          },
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/IA/IA_IRollingStatisticsType/property/WindowDuration/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "WindowNumberOfValues": {
+        "aov:namespace": "http://opcfoundation.org/UA/IA/",
+        "description": "The number of values before the data gets rolled over. For the statistical data, only the data fitting into the number of values is considered, even if more data were gathered since StartTime.",
+        "type": "integer",
+        "minimum": 0,
+        "maximum": 4294967295,
+        "readOnly": false,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/IA/IA_IRollingStatisticsType/property/WindowNumberOfValues/write",
+            "op": "writeproperty"
+          },
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/IA/IA_IRollingStatisticsType/property/WindowNumberOfValues/read",
+            "op": "readproperty"
+          }
+        ]
+      }
+    },
+    "events": {
+    }
+  },
+  {
+    "@context": [
+      "https://www.w3.org/2022/wot/td/v1.1",
+      {
+        "dtv": "http://azure.com/DigitalTwins/dtmi#",
+        "aov": "http://azure.com/IoT/operations/tm#"
+      }
+    ],
+    "@type": "tm:ThingModel",
+    "title": "IA_CalibrationTargetType",
+    "aov:typeRef": "nsu=http://opcfoundation.org/UA/IA/;i=1019",
+    "aov:isComposite": true,
+    "links": [
+      {
+        "rel": "tm:extends",
+        "href": "#title=OpcUaCore_BaseObjectType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "aov:capability",
+        "aov:refName": "CalibrationTargetCategory",
+        "href": "#title=IA_BaseCalibrationTargetCategoryType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "aov:component",
+        "aov:refName": "CalibrationTargetFeatures",
+        "href": "#title=OpcUaCore_FolderType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "aov:capability",
+        "aov:refName": "Identification",
+        "href": "#title=DI_FunctionalGroupType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "aov:component",
+        "aov:refName": "OperationalConditions",
+        "href": "#title=OpcUaCore_FolderType",
+        "type": "application/tm+json"
+      }
+    ],
+    "schemaDefinitions": {
+    },
+    "forms": [
+      {
+        "contentType": "application/json",
+        "dtv:topic": "opcua/IA/IA_CalibrationTargetType/properties/write",
+        "op": "writemultipleproperties"
+      },
+      {
+        "contentType": "application/json",
+        "dtv:topic": "opcua/IA/IA_CalibrationTargetType/properties/read",
+        "op": "readallproperties"
+      }
+    ],
+    "actions": {
+    },
+    "properties": {
+      "CertificateUri": {
+        "aov:namespace": "http://opcfoundation.org/UA/IA/",
+        "description": "Contains the Uri of a certificate of the calibration target, in case the calibration target is certified and the information available. Otherwise, the Property should be omitted.",
+        "type": "string",
+        "readOnly": false,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/IA/IA_CalibrationTargetType/property/CertificateUri/write",
+            "op": "writeproperty"
+          },
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/IA/IA_CalibrationTargetType/property/CertificateUri/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "LastValidationDate": {
+        "aov:namespace": "http://opcfoundation.org/UA/IA/",
+        "description": "Provides the date, the calibration target was validated the last time. If there is no specific validation date known, the date when the calibration target was bought or created should be used.",
+        "type": "string",
+        "format": "time",
+        "readOnly": false,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/IA/IA_CalibrationTargetType/property/LastValidationDate/write",
+            "op": "writeproperty"
+          },
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/IA/IA_CalibrationTargetType/property/LastValidationDate/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "NextValidationDate": {
+        "aov:namespace": "http://opcfoundation.org/UA/IA/",
+        "description": "Provides the date, when the calibration target should be validated the next time. If this date is not known, the Property should be omitted. Note: Potentially the NextValidationDate is in the past, when the next validation did not take place.",
+        "type": "string",
+        "format": "time",
+        "readOnly": false,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/IA/IA_CalibrationTargetType/property/NextValidationDate/write",
+            "op": "writeproperty"
+          },
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/IA/IA_CalibrationTargetType/property/NextValidationDate/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "Quality": {
+        "aov:namespace": "http://opcfoundation.org/UA/IA/",
+        "description": "Provides the quality of the calibration target in percentage, this is, the value shall be between 0 and 100. 100 means the highest quality, 0 the lowest. The semantic of the quality is application-specific.",
+        "type": "integer",
+        "minimum": 0,
+        "maximum": 255,
+        "readOnly": false,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/IA/IA_CalibrationTargetType/property/Quality/write",
+            "op": "writeproperty"
+          },
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/IA/IA_CalibrationTargetType/property/Quality/read",
+            "op": "readproperty"
+          }
+        ]
+      }
+    },
+    "events": {
+    }
+  },
+  {
+    "@context": [
+      "https://www.w3.org/2022/wot/td/v1.1",
+      {
+        "dtv": "http://azure.com/DigitalTwins/dtmi#",
+        "aov": "http://azure.com/IoT/operations/tm#"
+      }
+    ],
+    "@type": "tm:ThingModel",
+    "title": "IA_ControlChannelType",
+    "aov:typeRef": "nsu=http://opcfoundation.org/UA/IA/;i=1008",
+    "links": [
+      {
+        "rel": "tm:extends",
+        "href": "#title=OpcUaCore_BaseObjectType",
+        "type": "application/tm+json"
+      }
+    ],
+    "schemaDefinitions": {
+      "SignalColor": {
+        "type": "object",
+        "aov:typeRef": "nsu=http://opcfoundation.org/UA/IA/;i=3004",
+        "const": {
+          "Off": 0,
+          "Red": 1,
+          "Green": 2,
+          "Blue": 3,
+          "Yellow": 4,
+          "Purple": 5,
+          "Cyan": 6,
+          "White": 7
+        },
+        "description": "Holds the possible colour values for stacklight lamps.",
+        "properties": {
+          "Off": {
+            "description": "Element is disabled.",
+            "type": "integer"
+          },
+          "Red": {
+            "description": "This value indicates a red lamp colour.",
+            "type": "integer"
+          },
+          "Green": {
+            "description": "This value indicates a green lamp colour.",
+            "type": "integer"
+          },
+          "Blue": {
+            "description": "This value indicates a blue lamp colour.",
+            "type": "integer"
+          },
+          "Yellow": {
+            "description": "This value indicates a yellow lamp colour (R+G).",
+            "type": "integer"
+          },
+          "Purple": {
+            "description": "This value indicates a purple lamp colour (R+B).",
+            "type": "integer"
+          },
+          "Cyan": {
+            "description": "This value indicates a cyan lamp colour (G+B).",
+            "type": "integer"
+          },
+          "White": {
+            "description": "This value indicates a white lamp colour (R+G+B).",
+            "type": "integer"
+          }
+        }
+      },
+      "SignalModeLight": {
+        "type": "object",
+        "aov:typeRef": "nsu=http://opcfoundation.org/UA/IA/;i=3005",
+        "const": {
+          "Continuous": 0,
+          "Blinking": 1,
+          "Flashing": 2,
+          "Other": 3
+        },
+        "description": "Contains the values used to indicate in what way a lamp behaves when switched on.",
+        "properties": {
+          "Continuous": {
+            "description": "This value indicates a continuous light.",
+            "type": "integer"
+          },
+          "Blinking": {
+            "description": "This value indicates a blinking light (blinking in regular intervals with equally long on and off times).",
+            "type": "integer"
+          },
+          "Flashing": {
+            "description": "This value indicates a flashing light (blinking in intervals with longer off times than on times, per interval multiple on times are possible).",
+            "type": "integer"
+          },
+          "Other": {
+            "description": "The light is handled in a way not defined in this version of the specification.",
+            "type": "integer"
+          }
+        }
+      }
+    },
+    "forms": [
+      {
+        "contentType": "application/json",
+        "dtv:topic": "opcua/IA/IA_ControlChannelType/events/{senderId}",
+        "op": "subscribeallevents"
+      },
+      {
+        "contentType": "application/json",
+        "dtv:topic": "opcua/IA/IA_ControlChannelType/properties/write",
+        "op": "writemultipleproperties"
+      },
+      {
+        "contentType": "application/json",
+        "dtv:topic": "opcua/IA/IA_ControlChannelType/properties/read",
+        "op": "readallproperties"
+      }
+    ],
+    "actions": {
+    },
+    "properties": {
+      "ChannelColor": {
+        "aov:namespace": "http://opcfoundation.org/UA/IA/",
+        "title": "SignalColor",
+        "description": "Indicates in what mode (continuously on, blinking, flashing) the channel operates when switched on.",
+        "aov:typeRef": "nsu=http://opcfoundation.org/UA/IA/;i=3004",
+        "type": "integer",
+        "minimum": -2147483648,
+        "maximum": 2147483647,
+        "readOnly": false,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/IA/IA_ControlChannelType/property/ChannelColor/write",
+            "op": "writeproperty"
+          },
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/IA/IA_ControlChannelType/property/ChannelColor/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "Intensity": {
+        "aov:namespace": "http://opcfoundation.org/UA/IA/",
+        "description": "Shows the channel’s intensity, thus its brightness. The mandatory EURange Property of the Variable indicates the lowest and highest value and thereby allows to calculate the percentage represented by the value. The lowest value is interpreted as 0 percent, the highest is interpreted as 100 percent.",
+        "type": "number",
+        "minimum": -3.40e+38,
+        "maximum": 3.40e+38,
+        "readOnly": false,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/IA/IA_ControlChannelType/property/Intensity/write",
+            "op": "writeproperty"
+          },
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/IA/IA_ControlChannelType/property/Intensity/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "SignalMode": {
+        "aov:namespace": "http://opcfoundation.org/UA/IA/",
+        "title": "SignalModeLight",
+        "description": "Contains a list of audio signals used by this acoustic stacklight element.",
+        "aov:typeRef": "nsu=http://opcfoundation.org/UA/IA/;i=3005",
+        "type": "integer",
+        "minimum": -2147483648,
+        "maximum": 2147483647,
+        "readOnly": false,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/IA/IA_ControlChannelType/property/SignalMode/write",
+            "op": "writeproperty"
+          },
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/IA/IA_ControlChannelType/property/SignalMode/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "SignalOn": {
+        "aov:namespace": "http://opcfoundation.org/UA/IA/",
+        "description": "Indicates if the colour is switched on.",
+        "type": "boolean",
+        "readOnly": false,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/IA/IA_ControlChannelType/property/SignalOn/write",
+            "op": "writeproperty"
+          },
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/IA/IA_ControlChannelType/property/SignalOn/read",
+            "op": "readproperty"
+          }
+        ]
+      }
+    },
+    "events": {
+      "ChannelColor": {
+        "aov:namespace": "http://opcfoundation.org/UA/IA/",
+        "data": {
+          "title": "SignalColor",
+          "description": "Indicates in what mode (continuously on, blinking, flashing) the channel operates when switched on.",
+          "aov:typeRef": "nsu=http://opcfoundation.org/UA/IA/;i=3004",
+          "type": "integer",
+          "minimum": -2147483648,
+          "maximum": 2147483647
+        },
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/IA/IA_ControlChannelType/event/ChannelColor/{senderId}",
+            "op": "subscribeevent"
+          }
+        ]
+      },
+      "Intensity": {
+        "aov:namespace": "http://opcfoundation.org/UA/IA/",
+        "data": {
+          "description": "Shows the channel’s intensity, thus its brightness. The mandatory EURange Property of the Variable indicates the lowest and highest value and thereby allows to calculate the percentage represented by the value. The lowest value is interpreted as 0 percent, the highest is interpreted as 100 percent.",
+          "type": "number",
+          "minimum": -3.40e+38,
+          "maximum": 3.40e+38
+        },
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/IA/IA_ControlChannelType/event/Intensity/{senderId}",
+            "op": "subscribeevent"
+          }
+        ]
+      },
+      "SignalMode": {
+        "aov:namespace": "http://opcfoundation.org/UA/IA/",
+        "data": {
+          "title": "SignalModeLight",
+          "description": "Contains a list of audio signals used by this acoustic stacklight element.",
+          "aov:typeRef": "nsu=http://opcfoundation.org/UA/IA/;i=3005",
+          "type": "integer",
+          "minimum": -2147483648,
+          "maximum": 2147483647
+        },
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/IA/IA_ControlChannelType/event/SignalMode/{senderId}",
+            "op": "subscribeevent"
+          }
+        ]
+      }
+    }
+  },
+  {
+    "@context": [
+      "https://www.w3.org/2022/wot/td/v1.1",
+      {
+        "dtv": "http://azure.com/DigitalTwins/dtmi#",
+        "aov": "http://azure.com/IoT/operations/tm#"
+      }
+    ],
+    "@type": "tm:ThingModel",
+    "title": "IA_BasicStacklightType",
+    "aov:typeRef": "nsu=http://opcfoundation.org/UA/IA/;i=1002",
+    "aov:isComposite": true,
+    "links": [
+      {
+        "rel": "tm:extends",
+        "href": "#title=OpcUaCore_OrderedListType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "aov:reference",
+        "aov:refName": "StackLevel",
+        "href": "#title=IA_StackLevelType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "aov:reference",
+        "aov:refName": "StackRunning",
+        "href": "#title=IA_StackRunningType",
+        "type": "application/tm+json"
+      }
+    ],
+    "schemaDefinitions": {
+      "StacklightOperationMode": {
+        "type": "object",
+        "aov:typeRef": "nsu=http://opcfoundation.org/UA/IA/;i=3002",
+        "const": {
+          "Segmented": 0,
+          "Levelmeter": 1,
+          "Running_Light": 2,
+          "Other": 3
+        },
+        "description": "Contains the values used to indicate how a stacklight (as a whole unit) is used.",
+        "properties": {
+          "Segmented": {
+            "description": "Stacklight is used as stack of individual lights",
+            "type": "integer"
+          },
+          "Levelmeter": {
+            "description": "Stacklight is used as level meter",
+            "type": "integer"
+          },
+          "Running_Light": {
+            "description": "The whole stack acts as a running light",
+            "type": "integer"
+          },
+          "Other": {
+            "description": "Stacklight is used in a way not defined in this version of the specification",
+            "type": "integer"
+          }
+        }
+      }
+    },
+    "forms": [
+      {
+        "contentType": "application/json",
+        "dtv:topic": "opcua/IA/IA_BasicStacklightType/properties/write",
+        "op": "writemultipleproperties"
+      },
+      {
+        "contentType": "application/json",
+        "dtv:topic": "opcua/IA/IA_BasicStacklightType/properties/read",
+        "op": "readallproperties"
+      }
+    ],
+    "actions": {
+    },
+    "properties": {
+      "StacklightMode": {
+        "aov:namespace": "http://opcfoundation.org/UA/IA/",
+        "title": "StacklightOperationMode",
+        "description": "Shows in what way (stack of individual lights, level meter, running light) the stacklight unit is used.",
+        "aov:typeRef": "nsu=http://opcfoundation.org/UA/IA/;i=3002",
+        "type": "integer",
+        "minimum": -2147483648,
+        "maximum": 2147483647,
+        "readOnly": false,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/IA/IA_BasicStacklightType/property/StacklightMode/write",
+            "op": "writeproperty"
+          },
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/IA/IA_BasicStacklightType/property/StacklightMode/read",
+            "op": "readproperty"
+          }
+        ]
+      }
+    },
+    "events": {
+    }
+  },
+  {
+    "@context": [
+      "https://www.w3.org/2022/wot/td/v1.1",
+      {
+        "dtv": "http://azure.com/DigitalTwins/dtmi#",
+        "aov": "http://azure.com/IoT/operations/tm#"
+      }
+    ],
+    "@type": "tm:ThingModel",
+    "title": "IA_StackLevelType",
+    "aov:typeRef": "nsu=http://opcfoundation.org/UA/IA/;i=1003",
+    "links": [
+      {
+        "rel": "tm:extends",
+        "href": "#title=OpcUaCore_BaseObjectType",
+        "type": "application/tm+json"
+      }
+    ],
+    "schemaDefinitions": {
+      "LevelDisplayMode": {
+        "type": "object",
+        "aov:typeRef": "nsu=http://opcfoundation.org/UA/IA/;i=3003",
+        "const": {
+          "Dimmed": 0,
+          "Blinking": 1,
+          "Other": 2
+        },
+        "description": "Contains the values used to indicate how a percentual value is displayed if the stacklight unit works in Levelmeter mode.",
+        "properties": {
+          "Dimmed": {
+            "description": "Uses dimming to display fractions.",
+            "type": "integer"
+          },
+          "Blinking": {
+            "description": "Uses blinking to display fractions.",
+            "type": "integer"
+          },
+          "Other": {
+            "description": "Display fractions in a way not defined in this version of the specification.",
+            "type": "integer"
+          }
+        }
+      }
+    },
+    "forms": [
+      {
+        "contentType": "application/json",
+        "dtv:topic": "opcua/IA/IA_StackLevelType/events/{senderId}",
+        "op": "subscribeallevents"
+      },
+      {
+        "contentType": "application/json",
+        "dtv:topic": "opcua/IA/IA_StackLevelType/properties/write",
+        "op": "writemultipleproperties"
+      },
+      {
+        "contentType": "application/json",
+        "dtv:topic": "opcua/IA/IA_StackLevelType/properties/read",
+        "op": "readallproperties"
+      }
+    ],
+    "actions": {
+    },
+    "properties": {
+      "DisplayMode": {
+        "aov:namespace": "http://opcfoundation.org/UA/IA/",
+        "title": "LevelDisplayMode",
+        "description": "Indicates in what way the percentual value is displayed with the stacklight.",
+        "aov:typeRef": "nsu=http://opcfoundation.org/UA/IA/;i=3003",
+        "type": "integer",
+        "minimum": -2147483648,
+        "maximum": 2147483647,
+        "readOnly": false,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/IA/IA_StackLevelType/property/DisplayMode/write",
+            "op": "writeproperty"
+          },
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/IA/IA_StackLevelType/property/DisplayMode/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "LevelPercent": {
+        "aov:namespace": "http://opcfoundation.org/UA/IA/",
+        "description": "Shows the percentual value the stacklight is representing. The mandatory EURange Property of the Variable indicates the lowest and highest value and thereby allows to calculate the percentage represented by the value. The lowest value is interpreted as 0 percent, the highest is interpreted as 100 percent.",
+        "type": "number",
+        "minimum": -3.40e+38,
+        "maximum": 3.40e+38,
+        "readOnly": false,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/IA/IA_StackLevelType/property/LevelPercent/write",
+            "op": "writeproperty"
+          },
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/IA/IA_StackLevelType/property/LevelPercent/read",
+            "op": "readproperty"
+          }
+        ]
+      }
+    },
+    "events": {
+      "DisplayMode": {
+        "aov:namespace": "http://opcfoundation.org/UA/IA/",
+        "data": {
+          "title": "LevelDisplayMode",
+          "description": "Indicates in what way the percentual value is displayed with the stacklight.",
+          "aov:typeRef": "nsu=http://opcfoundation.org/UA/IA/;i=3003",
+          "type": "integer",
+          "minimum": -2147483648,
+          "maximum": 2147483647
+        },
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/IA/IA_StackLevelType/event/DisplayMode/{senderId}",
+            "op": "subscribeevent"
+          }
+        ]
+      },
+      "LevelPercent": {
+        "aov:namespace": "http://opcfoundation.org/UA/IA/",
+        "data": {
+          "description": "Shows the percentual value the stacklight is representing. The mandatory EURange Property of the Variable indicates the lowest and highest value and thereby allows to calculate the percentage represented by the value. The lowest value is interpreted as 0 percent, the highest is interpreted as 100 percent.",
+          "type": "number",
+          "minimum": -3.40e+38,
+          "maximum": 3.40e+38
+        },
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/IA/IA_StackLevelType/event/LevelPercent/{senderId}",
+            "op": "subscribeevent"
+          }
+        ]
+      }
+    }
+  },
+  {
+    "@context": [
+      "https://www.w3.org/2022/wot/td/v1.1",
+      {
+        "dtv": "http://azure.com/DigitalTwins/dtmi#",
+        "aov": "http://azure.com/IoT/operations/tm#"
+      }
+    ],
+    "@type": "tm:ThingModel",
+    "title": "IA_StackRunningType",
+    "aov:typeRef": "nsu=http://opcfoundation.org/UA/IA/;i=1004",
+    "links": [
+      {
+        "rel": "tm:extends",
+        "href": "#title=OpcUaCore_BaseObjectType",
+        "type": "application/tm+json"
+      }
+    ],
+    "schemaDefinitions": {
+    },
+    "actions": {
+    },
+    "properties": {
+    },
+    "events": {
+    }
+  },
+  {
+    "@context": [
+      "https://www.w3.org/2022/wot/td/v1.1",
+      {
+        "dtv": "http://azure.com/DigitalTwins/dtmi#",
+        "aov": "http://azure.com/IoT/operations/tm#"
+      }
+    ],
+    "@type": "tm:ThingModel",
+    "title": "IA_StacklightType",
+    "aov:typeRef": "nsu=http://opcfoundation.org/UA/IA/;i=1010",
+    "aov:isComposite": true,
+    "links": [
+      {
+        "rel": "tm:extends",
+        "href": "#title=IA_BasicStacklightType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "aov:component",
+        "aov:refName": "DeviceHealthAlarms",
+        "href": "#title=OpcUaCore_FolderType",
+        "type": "application/tm+json"
+      }
+    ],
+    "schemaDefinitions": {
+      "DeviceHealthEnumeration": {
+        "type": "object",
+        "aov:typeRef": "nsu=http://opcfoundation.org/UA/DI/;i=6244",
+        "const": {
+          "NORMAL": 0,
+          "FAILURE": 1,
+          "CHECK_FUNCTION": 2,
+          "OFF_SPEC": 3,
+          "MAINTENANCE_REQUIRED": 4
+        },
+        "properties": {
+          "NORMAL": {
+            "description": "This device functions normally.",
+            "type": "integer"
+          },
+          "FAILURE": {
+            "description": "Malfunction of the device or any of its peripherals.",
+            "type": "integer"
+          },
+          "CHECK_FUNCTION": {
+            "description": "Functional checks are currently performed.",
+            "type": "integer"
+          },
+          "OFF_SPEC": {
+            "description": "The device is currently working outside of its specified range or that internal diagnoses indicate deviations from measured or set values.",
+            "type": "integer"
+          },
+          "MAINTENANCE_REQUIRED": {
+            "description": "This element is working, but a maintenance operation is required.",
+            "type": "integer"
+          }
+        }
+      }
+    },
+    "forms": [
+      {
+        "contentType": "application/json",
+        "dtv:topic": "opcua/IA/IA_StacklightType/events/{senderId}",
+        "op": "subscribeallevents"
+      },
+      {
+        "contentType": "application/json",
+        "dtv:topic": "opcua/IA/IA_StacklightType/properties/write",
+        "op": "writemultipleproperties"
+      },
+      {
+        "contentType": "application/json",
+        "dtv:topic": "opcua/IA/IA_StacklightType/properties/read",
+        "op": "readallproperties"
+      }
+    ],
+    "actions": {
+    },
+    "properties": {
+      "DeviceHealth": {
+        "aov:namespace": "http://opcfoundation.org/UA/DI/",
+        "title": "DeviceHealthEnumeration",
+        "description": "Contains the health status information of the stacklight.",
+        "aov:typeRef": "nsu=http://opcfoundation.org/UA/DI/;i=6244",
+        "type": "integer",
+        "minimum": -2147483648,
+        "maximum": 2147483647,
+        "readOnly": false,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/IA/IA_StacklightType/property/DeviceHealth/write",
+            "op": "writeproperty"
+          },
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/IA/IA_StacklightType/property/DeviceHealth/read",
+            "op": "readproperty"
+          }
+        ]
+      }
+    },
+    "events": {
+      "DeviceHealth": {
+        "aov:namespace": "http://opcfoundation.org/UA/DI/",
+        "data": {
+          "title": "DeviceHealthEnumeration",
+          "description": "Contains the health status information of the stacklight.",
+          "aov:typeRef": "nsu=http://opcfoundation.org/UA/DI/;i=6244",
+          "type": "integer",
+          "minimum": -2147483648,
+          "maximum": 2147483647
+        },
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/IA/IA_StacklightType/event/DeviceHealth/{senderId}",
+            "op": "subscribeevent"
+          }
+        ]
+      }
+    }
+  },
+  {
+    "@context": [
+      "https://www.w3.org/2022/wot/td/v1.1",
+      {
+        "dtv": "http://azure.com/DigitalTwins/dtmi#",
+        "aov": "http://azure.com/IoT/operations/tm#"
+      }
+    ],
+    "@type": "tm:ThingModel",
+    "title": "IA_StackElementType",
+    "aov:typeRef": "nsu=http://opcfoundation.org/UA/IA/;i=1005",
+    "links": [
+      {
+        "rel": "tm:extends",
+        "href": "#title=OpcUaCore_BaseObjectType",
+        "type": "application/tm+json"
+      }
+    ],
+    "schemaDefinitions": {
+    },
+    "forms": [
+      {
+        "contentType": "application/json",
+        "dtv:topic": "opcua/IA/IA_StackElementType/properties/write",
+        "op": "writemultipleproperties"
+      },
+      {
+        "contentType": "application/json",
+        "dtv:topic": "opcua/IA/IA_StackElementType/properties/read",
+        "op": "readallproperties"
+      }
+    ],
+    "actions": {
+    },
+    "properties": {
+      "IsPartOfBase": {
+        "aov:namespace": "http://opcfoundation.org/UA/IA/",
+        "description": "Indicates, if the element is contained in the mounting base of the stacklight. All elements contained in the mounting base shall be at the beginning of the list of stack elements.",
+        "type": "boolean",
+        "readOnly": false,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/IA/IA_StackElementType/property/IsPartOfBase/write",
+            "op": "writeproperty"
+          },
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/IA/IA_StackElementType/property/IsPartOfBase/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "NumberInList": {
+        "description": "Enumerate the stacklight elements counting upwards beginning from the base of the stacklight.",
+        "type": "integer",
+        "minimum": 0,
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/IA/IA_StackElementType/property/NumberInList/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "SignalOn": {
+        "aov:namespace": "http://opcfoundation.org/UA/IA/",
+        "description": "Indicates if the signal emitted by the stack element is currently switched on or not.",
+        "type": "boolean",
+        "readOnly": false,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/IA/IA_StackElementType/property/SignalOn/write",
+            "op": "writeproperty"
+          },
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/IA/IA_StackElementType/property/SignalOn/read",
+            "op": "readproperty"
+          }
+        ]
+      }
+    },
+    "events": {
+    }
+  },
+  {
+    "@context": [
+      "https://www.w3.org/2022/wot/td/v1.1",
+      {
+        "dtv": "http://azure.com/DigitalTwins/dtmi#",
+        "aov": "http://azure.com/IoT/operations/tm#"
+      }
+    ],
+    "@type": "tm:ThingModel",
+    "title": "IA_StackElementAcousticType",
+    "aov:typeRef": "nsu=http://opcfoundation.org/UA/IA/;i=1007",
+    "aov:isComposite": true,
+    "links": [
+      {
+        "rel": "tm:extends",
+        "href": "#title=IA_StackElementType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "aov:capability",
+        "aov:refName": "AcousticSignals",
+        "href": "#title=OpcUaCore_OrderedListType",
+        "type": "application/tm+json"
+      }
+    ],
+    "schemaDefinitions": {
+    },
+    "forms": [
+      {
+        "contentType": "application/json",
+        "dtv:topic": "opcua/IA/IA_StackElementAcousticType/events/{senderId}",
+        "op": "subscribeallevents"
+      },
+      {
+        "contentType": "application/json",
+        "dtv:topic": "opcua/IA/IA_StackElementAcousticType/properties/write",
+        "op": "writemultipleproperties"
+      },
+      {
+        "contentType": "application/json",
+        "dtv:topic": "opcua/IA/IA_StackElementAcousticType/properties/read",
+        "op": "readallproperties"
+      }
+    ],
+    "actions": {
+    },
+    "properties": {
+      "Intensity": {
+        "aov:namespace": "http://opcfoundation.org/UA/IA/",
+        "description": "Indicates the sound pressure level of the acoustic signal when switched on. This value shall only have positive values. The mandatory EURange Property of the Variable indicates the lowest and highest value and thereby allows to calculate the percentage represented by the value. The lowest value is interpreted as 0 percent, the highest is interpreted as 100 percent.",
+        "type": "number",
+        "minimum": -3.40e+38,
+        "maximum": 3.40e+38,
+        "readOnly": false,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/IA/IA_StackElementAcousticType/property/Intensity/write",
+            "op": "writeproperty"
+          },
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/IA/IA_StackElementAcousticType/property/Intensity/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "OperationMode": {
+        "aov:namespace": "http://opcfoundation.org/UA/IA/",
+        "description": "Indicates what signal of the list of AcousticSignalType nodes is played when the acoustic element is switched on. It shall contain an index into the NumberInList of the respective AcousticSignalType Object of AcousticSignals.",
+        "type": "integer",
+        "minimum": 0,
+        "readOnly": false,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/IA/IA_StackElementAcousticType/property/OperationMode/write",
+            "op": "writeproperty"
+          },
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/IA/IA_StackElementAcousticType/property/OperationMode/read",
+            "op": "readproperty"
+          }
+        ]
+      }
+    },
+    "events": {
+      "Intensity": {
+        "aov:namespace": "http://opcfoundation.org/UA/IA/",
+        "data": {
+          "description": "Indicates the sound pressure level of the acoustic signal when switched on. This value shall only have positive values. The mandatory EURange Property of the Variable indicates the lowest and highest value and thereby allows to calculate the percentage represented by the value. The lowest value is interpreted as 0 percent, the highest is interpreted as 100 percent.",
+          "type": "number",
+          "minimum": -3.40e+38,
+          "maximum": 3.40e+38
+        },
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/IA/IA_StackElementAcousticType/event/Intensity/{senderId}",
+            "op": "subscribeevent"
+          }
+        ]
+      },
+      "OperationMode": {
+        "aov:namespace": "http://opcfoundation.org/UA/IA/",
+        "data": {
+          "description": "Indicates what signal of the list of AcousticSignalType nodes is played when the acoustic element is switched on. It shall contain an index into the NumberInList of the respective AcousticSignalType Object of AcousticSignals.",
+          "type": "integer",
+          "minimum": 0
+        },
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/IA/IA_StackElementAcousticType/event/OperationMode/{senderId}",
+            "op": "subscribeevent"
+          }
+        ]
+      }
+    }
+  },
+  {
+    "@context": [
+      "https://www.w3.org/2022/wot/td/v1.1",
+      {
+        "dtv": "http://azure.com/DigitalTwins/dtmi#",
+        "aov": "http://azure.com/IoT/operations/tm#"
+      }
+    ],
+    "@type": "tm:ThingModel",
+    "title": "IA_StackElementLightType",
+    "aov:typeRef": "nsu=http://opcfoundation.org/UA/IA/;i=1006",
+    "aov:isComposite": true,
+    "links": [
+      {
+        "rel": "tm:extends",
+        "href": "#title=IA_StackElementType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "aov:component",
+        "aov:refName": "ControlChannel",
+        "href": "#title=IA_ControlChannelType",
+        "type": "application/tm+json"
+      }
+    ],
+    "schemaDefinitions": {
+      "SignalColor": {
+        "type": "object",
+        "aov:typeRef": "nsu=http://opcfoundation.org/UA/IA/;i=3004",
+        "const": {
+          "Off": 0,
+          "Red": 1,
+          "Green": 2,
+          "Blue": 3,
+          "Yellow": 4,
+          "Purple": 5,
+          "Cyan": 6,
+          "White": 7
+        },
+        "description": "Holds the possible colour values for stacklight lamps.",
+        "properties": {
+          "Off": {
+            "description": "Element is disabled.",
+            "type": "integer"
+          },
+          "Red": {
+            "description": "This value indicates a red lamp colour.",
+            "type": "integer"
+          },
+          "Green": {
+            "description": "This value indicates a green lamp colour.",
+            "type": "integer"
+          },
+          "Blue": {
+            "description": "This value indicates a blue lamp colour.",
+            "type": "integer"
+          },
+          "Yellow": {
+            "description": "This value indicates a yellow lamp colour (R+G).",
+            "type": "integer"
+          },
+          "Purple": {
+            "description": "This value indicates a purple lamp colour (R+B).",
+            "type": "integer"
+          },
+          "Cyan": {
+            "description": "This value indicates a cyan lamp colour (G+B).",
+            "type": "integer"
+          },
+          "White": {
+            "description": "This value indicates a white lamp colour (R+G+B).",
+            "type": "integer"
+          }
+        }
+      },
+      "SignalModeLight": {
+        "type": "object",
+        "aov:typeRef": "nsu=http://opcfoundation.org/UA/IA/;i=3005",
+        "const": {
+          "Continuous": 0,
+          "Blinking": 1,
+          "Flashing": 2,
+          "Other": 3
+        },
+        "description": "Contains the values used to indicate in what way a lamp behaves when switched on.",
+        "properties": {
+          "Continuous": {
+            "description": "This value indicates a continuous light.",
+            "type": "integer"
+          },
+          "Blinking": {
+            "description": "This value indicates a blinking light (blinking in regular intervals with equally long on and off times).",
+            "type": "integer"
+          },
+          "Flashing": {
+            "description": "This value indicates a flashing light (blinking in intervals with longer off times than on times, per interval multiple on times are possible).",
+            "type": "integer"
+          },
+          "Other": {
+            "description": "The light is handled in a way not defined in this version of the specification.",
+            "type": "integer"
+          }
+        }
+      }
+    },
+    "forms": [
+      {
+        "contentType": "application/json",
+        "dtv:topic": "opcua/IA/IA_StackElementLightType/events/{senderId}",
+        "op": "subscribeallevents"
+      },
+      {
+        "contentType": "application/json",
+        "dtv:topic": "opcua/IA/IA_StackElementLightType/properties/write",
+        "op": "writemultipleproperties"
+      },
+      {
+        "contentType": "application/json",
+        "dtv:topic": "opcua/IA/IA_StackElementLightType/properties/read",
+        "op": "readallproperties"
+      }
+    ],
+    "actions": {
+    },
+    "properties": {
+      "Intensity": {
+        "aov:namespace": "http://opcfoundation.org/UA/IA/",
+        "description": "Intensity of the lamp, thus its brightness. The mandatory EURange Property of the Variable indicates the lowest and highest value and thereby allows to calculate the percentage represented by the value. The lowest value is interpreted as 0 percent, the highest is interpreted as 100 percent.",
+        "type": "number",
+        "minimum": -3.40e+38,
+        "maximum": 3.40e+38,
+        "readOnly": false,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/IA/IA_StackElementLightType/property/Intensity/write",
+            "op": "writeproperty"
+          },
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/IA/IA_StackElementLightType/property/Intensity/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "SignalColor": {
+        "aov:namespace": "http://opcfoundation.org/UA/IA/",
+        "title": "SignalColor",
+        "description": "Indicates the colour the lamp element has when switched on.",
+        "aov:typeRef": "nsu=http://opcfoundation.org/UA/IA/;i=3004",
+        "type": "integer",
+        "minimum": -2147483648,
+        "maximum": 2147483647,
+        "readOnly": false,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/IA/IA_StackElementLightType/property/SignalColor/write",
+            "op": "writeproperty"
+          },
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/IA/IA_StackElementLightType/property/SignalColor/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "SignalMode": {
+        "aov:namespace": "http://opcfoundation.org/UA/IA/",
+        "title": "SignalModeLight",
+        "description": "Shows in what way the lamp is used (continuous light, flashing, blinking) when switched on.",
+        "aov:typeRef": "nsu=http://opcfoundation.org/UA/IA/;i=3005",
+        "type": "integer",
+        "minimum": -2147483648,
+        "maximum": 2147483647,
+        "readOnly": false,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/IA/IA_StackElementLightType/property/SignalMode/write",
+            "op": "writeproperty"
+          },
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/IA/IA_StackElementLightType/property/SignalMode/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "SignalRGBWValue": {
+        "aov:namespace": "http://opcfoundation.org/UA/IA/",
+        "title": "RGBWDataType",
+        "type": "object",
+        "aov:typeRef": "nsu=http://opcfoundation.org/UA/IA/;i=3007",
+        "required": [ "Red", "Green", "Blue" ],
+        "properties": {
+          "Red": {
+            "description": "Defines the intensity of the colour red",
+            "type": "integer",
+            "minimum": 0,
+            "maximum": 255
+          },
+          "Green": {
+            "description": "Defines the intensity of the colour green",
+            "type": "integer",
+            "minimum": 0,
+            "maximum": 255
+          },
+          "Blue": {
+            "description": "Defines the intensity of the colour blue",
+            "type": "integer",
+            "minimum": 0,
+            "maximum": 255
+          },
+          "White": {
+            "description": "Defines the intensity of an additional white component. Shall be not provided when using RGB.",
+            "type": "integer",
+            "minimum": 0,
+            "maximum": 255
+          }
+        },
+        "readOnly": false,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/IA/IA_StackElementLightType/property/SignalRGBWValue/write",
+            "op": "writeproperty"
+          },
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/IA/IA_StackElementLightType/property/SignalRGBWValue/read",
+            "op": "readproperty"
+          }
+        ]
+      }
+    },
+    "events": {
+      "Intensity": {
+        "aov:namespace": "http://opcfoundation.org/UA/IA/",
+        "data": {
+          "description": "Intensity of the lamp, thus its brightness. The mandatory EURange Property of the Variable indicates the lowest and highest value and thereby allows to calculate the percentage represented by the value. The lowest value is interpreted as 0 percent, the highest is interpreted as 100 percent.",
+          "type": "number",
+          "minimum": -3.40e+38,
+          "maximum": 3.40e+38
+        },
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/IA/IA_StackElementLightType/event/Intensity/{senderId}",
+            "op": "subscribeevent"
+          }
+        ]
+      },
+      "SignalColor": {
+        "aov:namespace": "http://opcfoundation.org/UA/IA/",
+        "data": {
+          "title": "SignalColor",
+          "description": "Indicates the colour the lamp element has when switched on.",
+          "aov:typeRef": "nsu=http://opcfoundation.org/UA/IA/;i=3004",
+          "type": "integer",
+          "minimum": -2147483648,
+          "maximum": 2147483647
+        },
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/IA/IA_StackElementLightType/event/SignalColor/{senderId}",
+            "op": "subscribeevent"
+          }
+        ]
+      },
+      "SignalMode": {
+        "aov:namespace": "http://opcfoundation.org/UA/IA/",
+        "data": {
+          "title": "SignalModeLight",
+          "description": "Shows in what way the lamp is used (continuous light, flashing, blinking) when switched on.",
+          "aov:typeRef": "nsu=http://opcfoundation.org/UA/IA/;i=3005",
+          "type": "integer",
+          "minimum": -2147483648,
+          "maximum": 2147483647
+        },
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/IA/IA_StackElementLightType/event/SignalMode/{senderId}",
+            "op": "subscribeevent"
+          }
+        ]
+      },
+      "SignalRGBWValue": {
+        "aov:namespace": "http://opcfoundation.org/UA/IA/",
+        "data": {
+          "title": "RGBWDataType",
+          "type": "object",
+          "aov:typeRef": "nsu=http://opcfoundation.org/UA/IA/;i=3007",
+          "required": [ "Red", "Green", "Blue" ],
+          "properties": {
+            "Red": {
+              "description": "Defines the intensity of the colour red",
+              "type": "integer",
+              "minimum": 0,
+              "maximum": 255
+            },
+            "Green": {
+              "description": "Defines the intensity of the colour green",
+              "type": "integer",
+              "minimum": 0,
+              "maximum": 255
+            },
+            "Blue": {
+              "description": "Defines the intensity of the colour blue",
+              "type": "integer",
+              "minimum": 0,
+              "maximum": 255
+            },
+            "White": {
+              "description": "Defines the intensity of an additional white component. Shall be not provided when using RGB.",
+              "type": "integer",
+              "minimum": 0,
+              "maximum": 255
+            }
+          }
+        },
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/IA/IA_StackElementLightType/event/SignalRGBWValue/{senderId}",
+            "op": "subscribeevent"
+          }
+        ]
+      }
+    }
+  },
+  {
+    "@context": [
+      "https://www.w3.org/2022/wot/td/v1.1",
+      {
+        "dtv": "http://azure.com/DigitalTwins/dtmi#",
+        "aov": "http://azure.com/IoT/operations/tm#"
+      }
+    ],
+    "@type": "tm:ThingModel",
+    "title": "OpcUaCore_BaseObjectType",
+    "aov:typeRef": "nsu=http://opcfoundation.org/UA/;i=58",
+    "links": [
+    ],
+    "schemaDefinitions": {
+    },
+    "actions": {
+    },
+    "properties": {
+    },
+    "events": {
+    }
+  },
+  {
+    "@context": [
+      "https://www.w3.org/2022/wot/td/v1.1",
+      {
+        "dtv": "http://azure.com/DigitalTwins/dtmi#",
+        "aov": "http://azure.com/IoT/operations/tm#"
+      }
+    ],
+    "@type": "tm:ThingModel",
+    "title": "OpcUaCore_BaseInterfaceType",
+    "aov:typeRef": "nsu=http://opcfoundation.org/UA/;i=17602",
+    "links": [
+      {
+        "rel": "tm:extends",
+        "href": "#title=OpcUaCore_BaseObjectType",
+        "type": "application/tm+json"
+      }
+    ],
+    "schemaDefinitions": {
+    },
+    "actions": {
+    },
+    "properties": {
+    },
+    "events": {
+    }
+  },
+  {
+    "@context": [
+      "https://www.w3.org/2022/wot/td/v1.1",
+      {
+        "dtv": "http://azure.com/DigitalTwins/dtmi#",
+        "aov": "http://azure.com/IoT/operations/tm#"
+      }
+    ],
+    "@type": "tm:ThingModel",
+    "title": "OpcUaCore_FolderType",
+    "aov:typeRef": "nsu=http://opcfoundation.org/UA/;i=61",
+    "links": [
+      {
+        "rel": "tm:extends",
+        "href": "#title=OpcUaCore_BaseObjectType",
+        "type": "application/tm+json"
+      }
+    ],
+    "schemaDefinitions": {
+    },
+    "actions": {
+    },
+    "properties": {
+    },
+    "events": {
+    }
+  },
+  {
+    "@context": [
+      "https://www.w3.org/2022/wot/td/v1.1",
+      {
+        "dtv": "http://azure.com/DigitalTwins/dtmi#",
+        "aov": "http://azure.com/IoT/operations/tm#"
+      }
+    ],
+    "@type": "tm:ThingModel",
+    "title": "OpcUaCore_OrderedListType",
+    "aov:typeRef": "nsu=http://opcfoundation.org/UA/;i=23518",
+    "aov:isComposite": true,
+    "links": [
+      {
+        "rel": "tm:extends",
+        "href": "#title=OpcUaCore_BaseObjectType",
+        "type": "application/tm+json"
+      }
+    ],
+    "schemaDefinitions": {
+    },
+    "forms": [
+      {
+        "contentType": "application/json",
+        "dtv:topic": "opcua/OpcUaCore/OpcUaCore_OrderedListType/properties/read",
+        "op": "readallproperties"
+      }
+    ],
+    "actions": {
+    },
+    "properties": {
+      "NodeVersion": {
+        "type": "string",
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/OpcUaCore/OpcUaCore_OrderedListType/property/NodeVersion/read",
+            "op": "readproperty"
+          }
+        ]
+      }
+    },
+    "events": {
+    }
+  },
+  {
+    "@context": [
+      "https://www.w3.org/2022/wot/td/v1.1",
+      {
+        "dtv": "http://azure.com/DigitalTwins/dtmi#",
+        "aov": "http://azure.com/IoT/operations/tm#"
+      }
+    ],
+    "@type": "tm:ThingModel",
+    "title": "DI_FunctionalGroupType",
+    "aov:typeRef": "nsu=http://opcfoundation.org/UA/DI/;i=1005",
+    "links": [
+      {
+        "rel": "tm:extends",
+        "href": "#title=OpcUaCore_FolderType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "aov:component",
+        "aov:refName": "GroupIdentifier",
+        "href": "#title=DI_FunctionalGroupType",
+        "type": "application/tm+json"
+      }
+    ],
+    "schemaDefinitions": {
+    },
+    "forms": [
+      {
+        "contentType": "application/json",
+        "dtv:topic": "opcua/DI/DI_FunctionalGroupType/events/{senderId}",
+        "op": "subscribeallevents"
+      },
+      {
+        "contentType": "application/json",
+        "dtv:topic": "opcua/DI/DI_FunctionalGroupType/properties/read",
+        "op": "readallproperties"
+      }
+    ],
+    "actions": {
+    },
+    "properties": {
+      "UIElement": {
+        "aov:namespace": "http://opcfoundation.org/UA/DI/",
+        "description": "Stand-in for an unspecified data type.",
+        "type": "string",
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/DI/DI_FunctionalGroupType/property/UIElement/read",
+            "op": "readproperty"
+          }
+        ]
+      }
+    },
+    "events": {
+      "UIElement": {
+        "aov:namespace": "http://opcfoundation.org/UA/DI/",
+        "data": {
+          "description": "Stand-in for an unspecified data type.",
+          "type": "string"
+        },
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/DI/DI_FunctionalGroupType/event/UIElement/{senderId}",
+            "op": "subscribeevent"
+          }
+        ]
+      }
+    }
+  }
+]

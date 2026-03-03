@@ -1,0 +1,16 @@
+{
+  "success": false,
+  "commandLine": {
+    "things": [ "invalidThing/NoContext.TM.json" ],
+    "lang": "none"
+  },
+  "errors": [
+    {
+      "condition": "PropertyMissing",
+      "filename": "NoContext.TM.json",
+      "line": 0,
+      "cfLine": 0,
+      "crossRef": ""
+    }
+  ]
+}

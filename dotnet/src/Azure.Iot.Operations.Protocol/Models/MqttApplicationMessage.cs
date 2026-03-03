@@ -176,6 +176,30 @@ namespace Azure.Iot.Operations.Protocol.Models
             UserProperties.Add(new MqttUserProperty(key, value));
         }
 
+        /// <summary>
+        /// Adds a user property with a pre-encoded UTF-8 byte value.
+        /// This overload is more performant when the value is already available as bytes.
+        /// </summary>
+        /// <param name="key">The property name.</param>
+        /// <param name="value">The property value as ReadOnlyMemory of bytes.</param>
+        public void AddUserProperty(string key, ReadOnlyMemory<byte> value)
+        {
+            UserProperties ??= [];
+            UserProperties.Add(new MqttUserProperty(key, value));
+        }
+
+        /// <summary>
+        /// Adds a user property with a pre-encoded UTF-8 byte value.
+        /// This overload is more performant when the value is already available as bytes.
+        /// </summary>
+        /// <param name="key">The property name.</param>
+        /// <param name="value">The property value as an ArraySegment of bytes.</param>
+        public void AddUserProperty(string key, ArraySegment<byte> value)
+        {
+            UserProperties ??= [];
+            UserProperties.Add(new MqttUserProperty(key, value));
+        }
+
         public string? ConvertPayloadToString()
         {
             return Payload.IsEmpty

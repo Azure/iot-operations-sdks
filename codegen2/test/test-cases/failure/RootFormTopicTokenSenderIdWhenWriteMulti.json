@@ -1,0 +1,16 @@
+{
+  "success": false,
+  "commandLine": {
+    "things": [ "invalidAioBinding/RootFormTopicTokenSenderIdWhenWriteMulti.TM.json" ],
+    "lang": "none"
+  },
+  "errors": [
+    {
+      "condition": "PropertyInvalid",
+      "filename": "RootFormTopicTokenSenderIdWhenWriteMulti.TM.json",
+      "line": 10,
+      "cfLine": 0,
+      "crossRef": ""
+    }
+  ]
+}

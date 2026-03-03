@@ -1,0 +1,16 @@
+{
+  "success": false,
+  "commandLine": {
+    "things": [ "invalidAioBinding/PropertyFormAdditionalResponseContentTypeEmpty.TM.json" ],
+    "lang": "none"
+  },
+  "errors": [
+    {
+      "condition": "PropertyEmpty",
+      "filename": "PropertyFormAdditionalResponseContentTypeEmpty.TM.json",
+      "line": 39,
+      "cfLine": 0,
+      "crossRef": ""
+    }
+  ]
+}

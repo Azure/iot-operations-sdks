@@ -1,0 +1,16 @@
+{
+  "success": false,
+  "commandLine": {
+    "things": [ "invalidAioBinding/SchemaDefinitionIntegerMinNotInteger.TM.json" ],
+    "lang": "none"
+  },
+  "errors": [
+    {
+      "condition": "TypeMismatch",
+      "filename": "SchemaDefinitionIntegerMinNotInteger.TM.json",
+      "line": 11,
+      "cfLine": 10,
+      "crossRef": ""
+    }
+  ]
+}

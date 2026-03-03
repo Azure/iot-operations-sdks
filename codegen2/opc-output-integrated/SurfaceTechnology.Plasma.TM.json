@@ -1,0 +1,1698 @@
+[
+  {
+    "@context": [
+      "https://www.w3.org/2022/wot/td/v1.1",
+      {
+        "dtv": "http://azure.com/DigitalTwins/dtmi#",
+        "aov": "http://azure.com/IoT/operations/tm#"
+      }
+    ],
+    "@type": "tm:ThingModel",
+    "title": "SurfaceTechnology_Plasma_CirculationSystemType",
+    "aov:typeRef": "nsu=http://opcfoundation.org/UA/SurfaceTechnology/Plasma/;i=1017",
+    "links": [
+      {
+        "rel": "tm:extends",
+        "href": "#title=OpcUaCore_BaseObjectType",
+        "type": "application/tm+json"
+      }
+    ],
+    "schemaDefinitions": {
+    },
+    "forms": [
+      {
+        "contentType": "application/json",
+        "dtv:topic": "opcua/SurfaceTechnology.Plasma/SurfaceTechnology_Plasma_CirculationSystemType/events/{senderId}",
+        "op": "subscribeallevents"
+      },
+      {
+        "contentType": "application/json",
+        "dtv:topic": "opcua/SurfaceTechnology.Plasma/SurfaceTechnology_Plasma_CirculationSystemType/properties/read",
+        "op": "readallproperties"
+      }
+    ],
+    "actions": {
+    },
+    "properties": {
+      "CoolingCircuitFlowRate": {
+        "aov:namespace": "http://opcfoundation.org/UA/SurfaceTechnology/Plasma/",
+        "type": "number",
+        "minimum": -1.80e+308,
+        "maximum": 1.80e+308,
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/SurfaceTechnology.Plasma/SurfaceTechnology_Plasma_CirculationSystemType/property/CoolingCircuitFlowRate/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "CoolingCircuitTemperatureOutlet": {
+        "aov:namespace": "http://opcfoundation.org/UA/SurfaceTechnology/Plasma/",
+        "type": "number",
+        "minimum": -1.80e+308,
+        "maximum": 1.80e+308,
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/SurfaceTechnology.Plasma/SurfaceTechnology_Plasma_CirculationSystemType/property/CoolingCircuitTemperatureOutlet/read",
+            "op": "readproperty"
+          }
+        ]
+      }
+    },
+    "events": {
+      "CoolingCircuitFlowRate": {
+        "aov:namespace": "http://opcfoundation.org/UA/SurfaceTechnology/Plasma/",
+        "data": {
+          "type": "number",
+          "minimum": -1.80e+308,
+          "maximum": 1.80e+308
+        },
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/SurfaceTechnology.Plasma/SurfaceTechnology_Plasma_CirculationSystemType/event/CoolingCircuitFlowRate/{senderId}",
+            "op": "subscribeevent"
+          }
+        ]
+      },
+      "CoolingCircuitTemperatureOutlet": {
+        "aov:namespace": "http://opcfoundation.org/UA/SurfaceTechnology/Plasma/",
+        "data": {
+          "type": "number",
+          "minimum": -1.80e+308,
+          "maximum": 1.80e+308
+        },
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/SurfaceTechnology.Plasma/SurfaceTechnology_Plasma_CirculationSystemType/event/CoolingCircuitTemperatureOutlet/{senderId}",
+            "op": "subscribeevent"
+          }
+        ]
+      }
+    }
+  },
+  {
+    "@context": [
+      "https://www.w3.org/2022/wot/td/v1.1",
+      {
+        "dtv": "http://azure.com/DigitalTwins/dtmi#",
+        "aov": "http://azure.com/IoT/operations/tm#"
+      }
+    ],
+    "@type": "tm:ThingModel",
+    "title": "SurfaceTechnology_Plasma_GasSystemType",
+    "aov:typeRef": "nsu=http://opcfoundation.org/UA/SurfaceTechnology/Plasma/;i=1007",
+    "links": [
+      {
+        "rel": "tm:extends",
+        "href": "#title=OpcUaCore_BaseObjectType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "aov:component",
+        "aov:refName": "MachineryBuildingBlocks",
+        "href": "#title=OpcUaCore_FolderType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "aov:capability",
+        "aov:refName": "Monitoring",
+        "href": "#title=Machinery_MonitoringType",
+        "type": "application/tm+json"
+      }
+    ],
+    "schemaDefinitions": {
+    },
+    "actions": {
+    },
+    "properties": {
+    },
+    "events": {
+    }
+  },
+  {
+    "@context": [
+      "https://www.w3.org/2022/wot/td/v1.1",
+      {
+        "dtv": "http://azure.com/DigitalTwins/dtmi#",
+        "aov": "http://azure.com/IoT/operations/tm#"
+      }
+    ],
+    "@type": "tm:ThingModel",
+    "title": "SurfaceTechnology_Plasma_HeatingSystemType",
+    "aov:typeRef": "nsu=http://opcfoundation.org/UA/SurfaceTechnology/Plasma/;i=1023",
+    "links": [
+      {
+        "rel": "tm:extends",
+        "href": "#title=OpcUaCore_BaseObjectType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "aov:component",
+        "aov:refName": "MachineryBuildingBlocks",
+        "href": "#title=OpcUaCore_FolderType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "aov:capability",
+        "aov:refName": "Monitoring",
+        "href": "#title=Machinery_MonitoringType",
+        "type": "application/tm+json"
+      }
+    ],
+    "schemaDefinitions": {
+    },
+    "actions": {
+    },
+    "properties": {
+    },
+    "events": {
+    }
+  },
+  {
+    "@context": [
+      "https://www.w3.org/2022/wot/td/v1.1",
+      {
+        "dtv": "http://azure.com/DigitalTwins/dtmi#",
+        "aov": "http://azure.com/IoT/operations/tm#"
+      }
+    ],
+    "@type": "tm:ThingModel",
+    "title": "SurfaceTechnology_Plasma_PlantCoolingSystemType",
+    "aov:typeRef": "nsu=http://opcfoundation.org/UA/SurfaceTechnology/Plasma/;i=1014",
+    "links": [
+      {
+        "rel": "tm:extends",
+        "href": "#title=OpcUaCore_BaseObjectType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "aov:component",
+        "aov:refName": "MachineryBuildingBlocks",
+        "href": "#title=OpcUaCore_FolderType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "aov:capability",
+        "aov:refName": "Monitoring",
+        "href": "#title=Machinery_MonitoringType",
+        "type": "application/tm+json"
+      }
+    ],
+    "schemaDefinitions": {
+    },
+    "actions": {
+    },
+    "properties": {
+    },
+    "events": {
+    }
+  },
+  {
+    "@context": [
+      "https://www.w3.org/2022/wot/td/v1.1",
+      {
+        "dtv": "http://azure.com/DigitalTwins/dtmi#",
+        "aov": "http://azure.com/IoT/operations/tm#"
+      }
+    ],
+    "@type": "tm:ThingModel",
+    "title": "SurfaceTechnology_Plasma_PlasmaGeneratorType",
+    "aov:typeRef": "nsu=http://opcfoundation.org/UA/SurfaceTechnology/Plasma/;i=1004",
+    "links": [
+      {
+        "rel": "tm:extends",
+        "href": "#title=OpcUaCore_BaseObjectType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "aov:component",
+        "aov:refName": "MachineryBuildingBlocks",
+        "href": "#title=OpcUaCore_FolderType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "aov:capability",
+        "aov:refName": "Monitoring",
+        "href": "#title=Machinery_MonitoringType",
+        "type": "application/tm+json"
+      }
+    ],
+    "schemaDefinitions": {
+    },
+    "actions": {
+    },
+    "properties": {
+    },
+    "events": {
+    }
+  },
+  {
+    "@context": [
+      "https://www.w3.org/2022/wot/td/v1.1",
+      {
+        "dtv": "http://azure.com/DigitalTwins/dtmi#",
+        "aov": "http://azure.com/IoT/operations/tm#"
+      }
+    ],
+    "@type": "tm:ThingModel",
+    "title": "SurfaceTechnology_Plasma_PlasmaJetType",
+    "aov:typeRef": "nsu=http://opcfoundation.org/UA/SurfaceTechnology/Plasma/;i=1029",
+    "links": [
+      {
+        "rel": "tm:extends",
+        "href": "#title=OpcUaCore_BaseObjectType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "aov:component",
+        "aov:refName": "MachineryBuildingBlocks",
+        "href": "#title=OpcUaCore_FolderType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "aov:capability",
+        "aov:refName": "Monitoring",
+        "href": "#title=Machinery_MonitoringType",
+        "type": "application/tm+json"
+      }
+    ],
+    "schemaDefinitions": {
+    },
+    "actions": {
+    },
+    "properties": {
+    },
+    "events": {
+    }
+  },
+  {
+    "@context": [
+      "https://www.w3.org/2022/wot/td/v1.1",
+      {
+        "dtv": "http://azure.com/DigitalTwins/dtmi#",
+        "aov": "http://azure.com/IoT/operations/tm#"
+      }
+    ],
+    "@type": "tm:ThingModel",
+    "title": "SurfaceTechnology_Plasma_PlasmaSurfaceMachineType",
+    "aov:typeRef": "nsu=http://opcfoundation.org/UA/SurfaceTechnology/Plasma/;i=1003",
+    "aov:isComposite": true,
+    "links": [
+      {
+        "rel": "tm:extends",
+        "href": "#title=OpcUaCore_BaseObjectType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "aov:component",
+        "aov:refName": "MachineryBuildingBlocks",
+        "href": "#title=OpcUaCore_FolderType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "aov:capability",
+        "aov:refName": "Monitoring",
+        "href": "#title=Machinery_MonitoringType",
+        "type": "application/tm+json"
+      }
+    ],
+    "schemaDefinitions": {
+    },
+    "actions": {
+    },
+    "properties": {
+    },
+    "events": {
+    }
+  },
+  {
+    "@context": [
+      "https://www.w3.org/2022/wot/td/v1.1",
+      {
+        "dtv": "http://azure.com/DigitalTwins/dtmi#",
+        "aov": "http://azure.com/IoT/operations/tm#"
+      }
+    ],
+    "@type": "tm:ThingModel",
+    "title": "SurfaceTechnology_Plasma_AtmosphericPressurePlasmaSurfaceMachineType",
+    "aov:typeRef": "nsu=http://opcfoundation.org/UA/SurfaceTechnology/Plasma/;i=1009",
+    "aov:isComposite": true,
+    "links": [
+      {
+        "rel": "tm:extends",
+        "href": "#title=SurfaceTechnology_Plasma_PlasmaSurfaceMachineType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "aov:capability",
+        "aov:refName": "Monitoring",
+        "href": "#title=Machinery_MonitoringType",
+        "type": "application/tm+json"
+      }
+    ],
+    "schemaDefinitions": {
+    },
+    "actions": {
+    },
+    "properties": {
+    },
+    "events": {
+    }
+  },
+  {
+    "@context": [
+      "https://www.w3.org/2022/wot/td/v1.1",
+      {
+        "dtv": "http://azure.com/DigitalTwins/dtmi#",
+        "aov": "http://azure.com/IoT/operations/tm#"
+      }
+    ],
+    "@type": "tm:ThingModel",
+    "title": "SurfaceTechnology_Plasma_LowPressurePlasmaSurfaceMachineType",
+    "aov:typeRef": "nsu=http://opcfoundation.org/UA/SurfaceTechnology/Plasma/;i=1006",
+    "aov:isComposite": true,
+    "links": [
+      {
+        "rel": "tm:extends",
+        "href": "#title=SurfaceTechnology_Plasma_PlasmaSurfaceMachineType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "aov:capability",
+        "aov:refName": "Monitoring",
+        "href": "#title=Machinery_MonitoringType",
+        "type": "application/tm+json"
+      }
+    ],
+    "schemaDefinitions": {
+    },
+    "actions": {
+    },
+    "properties": {
+    },
+    "events": {
+    }
+  },
+  {
+    "@context": [
+      "https://www.w3.org/2022/wot/td/v1.1",
+      {
+        "dtv": "http://azure.com/DigitalTwins/dtmi#",
+        "aov": "http://azure.com/IoT/operations/tm#"
+      }
+    ],
+    "@type": "tm:ThingModel",
+    "title": "SurfaceTechnology_Plasma_PrecursorSystemType",
+    "aov:typeRef": "nsu=http://opcfoundation.org/UA/SurfaceTechnology/Plasma/;i=1005",
+    "links": [
+      {
+        "rel": "tm:extends",
+        "href": "#title=OpcUaCore_BaseObjectType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "aov:component",
+        "aov:refName": "MachineryBuildingBlocks",
+        "href": "#title=OpcUaCore_FolderType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "aov:capability",
+        "aov:refName": "Monitoring",
+        "href": "#title=Machinery_MonitoringType",
+        "type": "application/tm+json"
+      }
+    ],
+    "schemaDefinitions": {
+    },
+    "actions": {
+    },
+    "properties": {
+    },
+    "events": {
+    }
+  },
+  {
+    "@context": [
+      "https://www.w3.org/2022/wot/td/v1.1",
+      {
+        "dtv": "http://azure.com/DigitalTwins/dtmi#",
+        "aov": "http://azure.com/IoT/operations/tm#"
+      }
+    ],
+    "@type": "tm:ThingModel",
+    "title": "SurfaceTechnology_Plasma_ProcessingChamberType",
+    "aov:typeRef": "nsu=http://opcfoundation.org/UA/SurfaceTechnology/Plasma/;i=1020",
+    "links": [
+      {
+        "rel": "tm:extends",
+        "href": "#title=OpcUaCore_BaseObjectType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "aov:component",
+        "aov:refName": "MachineryBuildingBlocks",
+        "href": "#title=OpcUaCore_FolderType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "aov:capability",
+        "aov:refName": "Monitoring",
+        "href": "#title=Machinery_MonitoringType",
+        "type": "application/tm+json"
+      }
+    ],
+    "schemaDefinitions": {
+    },
+    "actions": {
+    },
+    "properties": {
+    },
+    "events": {
+    }
+  },
+  {
+    "@context": [
+      "https://www.w3.org/2022/wot/td/v1.1",
+      {
+        "dtv": "http://azure.com/DigitalTwins/dtmi#",
+        "aov": "http://azure.com/IoT/operations/tm#"
+      }
+    ],
+    "@type": "tm:ThingModel",
+    "title": "SurfaceTechnology_Plasma_RegulatorType",
+    "aov:typeRef": "nsu=http://opcfoundation.org/UA/SurfaceTechnology/Plasma/;i=1011",
+    "links": [
+      {
+        "rel": "tm:extends",
+        "href": "#title=OpcUaCore_BaseObjectType",
+        "type": "application/tm+json"
+      }
+    ],
+    "schemaDefinitions": {
+    },
+    "forms": [
+      {
+        "contentType": "application/json",
+        "dtv:topic": "opcua/SurfaceTechnology.Plasma/SurfaceTechnology_Plasma_RegulatorType/events/{senderId}",
+        "op": "subscribeallevents"
+      },
+      {
+        "contentType": "application/json",
+        "dtv:topic": "opcua/SurfaceTechnology.Plasma/SurfaceTechnology_Plasma_RegulatorType/properties/write",
+        "op": "writemultipleproperties"
+      },
+      {
+        "contentType": "application/json",
+        "dtv:topic": "opcua/SurfaceTechnology.Plasma/SurfaceTechnology_Plasma_RegulatorType/properties/read",
+        "op": "readallproperties"
+      }
+    ],
+    "actions": {
+    },
+    "properties": {
+      "CorrectionFactor": {
+        "aov:namespace": "http://opcfoundation.org/UA/SurfaceTechnology/Plasma/",
+        "type": "number",
+        "minimum": -1.80e+308,
+        "maximum": 1.80e+308,
+        "readOnly": false,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/SurfaceTechnology.Plasma/SurfaceTechnology_Plasma_RegulatorType/property/CorrectionFactor/write",
+            "op": "writeproperty"
+          },
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/SurfaceTechnology.Plasma/SurfaceTechnology_Plasma_RegulatorType/property/CorrectionFactor/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "GasConsumption": {
+        "aov:namespace": "http://opcfoundation.org/UA/SurfaceTechnology/Plasma/",
+        "type": "number",
+        "minimum": -1.80e+308,
+        "maximum": 1.80e+308,
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/SurfaceTechnology.Plasma/SurfaceTechnology_Plasma_RegulatorType/property/GasConsumption/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "GasFlow": {
+        "aov:namespace": "http://opcfoundation.org/UA/SurfaceTechnology/Plasma/",
+        "type": "number",
+        "minimum": -1.80e+308,
+        "maximum": 1.80e+308,
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/SurfaceTechnology.Plasma/SurfaceTechnology_Plasma_RegulatorType/property/GasFlow/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "HeaterTemperature": {
+        "aov:namespace": "http://opcfoundation.org/UA/SurfaceTechnology/Plasma/",
+        "type": "number",
+        "minimum": -1.80e+308,
+        "maximum": 1.80e+308,
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/SurfaceTechnology.Plasma/SurfaceTechnology_Plasma_RegulatorType/property/HeaterTemperature/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "JetHeadTemperature": {
+        "aov:namespace": "http://opcfoundation.org/UA/SurfaceTechnology/Plasma/",
+        "type": "number",
+        "minimum": -1.80e+308,
+        "maximum": 1.80e+308,
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/SurfaceTechnology.Plasma/SurfaceTechnology_Plasma_RegulatorType/property/JetHeadTemperature/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "PrecursorMassFlow": {
+        "aov:namespace": "http://opcfoundation.org/UA/SurfaceTechnology/Plasma/",
+        "type": "number",
+        "minimum": -1.80e+308,
+        "maximum": 1.80e+308,
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/SurfaceTechnology.Plasma/SurfaceTechnology_Plasma_RegulatorType/property/PrecursorMassFlow/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "PrecursorVolumeFlow": {
+        "aov:namespace": "http://opcfoundation.org/UA/SurfaceTechnology/Plasma/",
+        "type": "number",
+        "minimum": -1.80e+308,
+        "maximum": 1.80e+308,
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/SurfaceTechnology.Plasma/SurfaceTechnology_Plasma_RegulatorType/property/PrecursorVolumeFlow/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "TFittingTemperature": {
+        "aov:namespace": "http://opcfoundation.org/UA/SurfaceTechnology/Plasma/",
+        "type": "number",
+        "minimum": -1.80e+308,
+        "maximum": 1.80e+308,
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/SurfaceTechnology.Plasma/SurfaceTechnology_Plasma_RegulatorType/property/TFittingTemperature/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "TypeOfGas": {
+        "aov:namespace": "http://opcfoundation.org/UA/SurfaceTechnology/Plasma/",
+        "type": "integer",
+        "minimum": 0,
+        "maximum": 65535,
+        "readOnly": false,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/SurfaceTechnology.Plasma/SurfaceTechnology_Plasma_RegulatorType/property/TypeOfGas/write",
+            "op": "writeproperty"
+          },
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/SurfaceTechnology.Plasma/SurfaceTechnology_Plasma_RegulatorType/property/TypeOfGas/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "TypeOfPrecursorFluid": {
+        "aov:namespace": "http://opcfoundation.org/UA/SurfaceTechnology/Plasma/",
+        "type": "integer",
+        "minimum": 0,
+        "maximum": 65535,
+        "readOnly": false,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/SurfaceTechnology.Plasma/SurfaceTechnology_Plasma_RegulatorType/property/TypeOfPrecursorFluid/write",
+            "op": "writeproperty"
+          },
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/SurfaceTechnology.Plasma/SurfaceTechnology_Plasma_RegulatorType/property/TypeOfPrecursorFluid/read",
+            "op": "readproperty"
+          }
+        ]
+      }
+    },
+    "events": {
+      "GasConsumption": {
+        "aov:namespace": "http://opcfoundation.org/UA/SurfaceTechnology/Plasma/",
+        "data": {
+          "type": "number",
+          "minimum": -1.80e+308,
+          "maximum": 1.80e+308
+        },
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/SurfaceTechnology.Plasma/SurfaceTechnology_Plasma_RegulatorType/event/GasConsumption/{senderId}",
+            "op": "subscribeevent"
+          }
+        ]
+      },
+      "GasFlow": {
+        "aov:namespace": "http://opcfoundation.org/UA/SurfaceTechnology/Plasma/",
+        "data": {
+          "type": "number",
+          "minimum": -1.80e+308,
+          "maximum": 1.80e+308
+        },
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/SurfaceTechnology.Plasma/SurfaceTechnology_Plasma_RegulatorType/event/GasFlow/{senderId}",
+            "op": "subscribeevent"
+          }
+        ]
+      },
+      "HeaterTemperature": {
+        "aov:namespace": "http://opcfoundation.org/UA/SurfaceTechnology/Plasma/",
+        "data": {
+          "type": "number",
+          "minimum": -1.80e+308,
+          "maximum": 1.80e+308
+        },
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/SurfaceTechnology.Plasma/SurfaceTechnology_Plasma_RegulatorType/event/HeaterTemperature/{senderId}",
+            "op": "subscribeevent"
+          }
+        ]
+      },
+      "JetHeadTemperature": {
+        "aov:namespace": "http://opcfoundation.org/UA/SurfaceTechnology/Plasma/",
+        "data": {
+          "type": "number",
+          "minimum": -1.80e+308,
+          "maximum": 1.80e+308
+        },
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/SurfaceTechnology.Plasma/SurfaceTechnology_Plasma_RegulatorType/event/JetHeadTemperature/{senderId}",
+            "op": "subscribeevent"
+          }
+        ]
+      },
+      "PrecursorMassFlow": {
+        "aov:namespace": "http://opcfoundation.org/UA/SurfaceTechnology/Plasma/",
+        "data": {
+          "type": "number",
+          "minimum": -1.80e+308,
+          "maximum": 1.80e+308
+        },
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/SurfaceTechnology.Plasma/SurfaceTechnology_Plasma_RegulatorType/event/PrecursorMassFlow/{senderId}",
+            "op": "subscribeevent"
+          }
+        ]
+      },
+      "PrecursorVolumeFlow": {
+        "aov:namespace": "http://opcfoundation.org/UA/SurfaceTechnology/Plasma/",
+        "data": {
+          "type": "number",
+          "minimum": -1.80e+308,
+          "maximum": 1.80e+308
+        },
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/SurfaceTechnology.Plasma/SurfaceTechnology_Plasma_RegulatorType/event/PrecursorVolumeFlow/{senderId}",
+            "op": "subscribeevent"
+          }
+        ]
+      },
+      "TFittingTemperature": {
+        "aov:namespace": "http://opcfoundation.org/UA/SurfaceTechnology/Plasma/",
+        "data": {
+          "type": "number",
+          "minimum": -1.80e+308,
+          "maximum": 1.80e+308
+        },
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/SurfaceTechnology.Plasma/SurfaceTechnology_Plasma_RegulatorType/event/TFittingTemperature/{senderId}",
+            "op": "subscribeevent"
+          }
+        ]
+      },
+      "TypeOfGas": {
+        "aov:namespace": "http://opcfoundation.org/UA/SurfaceTechnology/Plasma/",
+        "data": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 65535
+        },
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/SurfaceTechnology.Plasma/SurfaceTechnology_Plasma_RegulatorType/event/TypeOfGas/{senderId}",
+            "op": "subscribeevent"
+          }
+        ]
+      },
+      "TypeOfPrecursorFluid": {
+        "aov:namespace": "http://opcfoundation.org/UA/SurfaceTechnology/Plasma/",
+        "data": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 65535
+        },
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/SurfaceTechnology.Plasma/SurfaceTechnology_Plasma_RegulatorType/event/TypeOfPrecursorFluid/{senderId}",
+            "op": "subscribeevent"
+          }
+        ]
+      }
+    }
+  },
+  {
+    "@context": [
+      "https://www.w3.org/2022/wot/td/v1.1",
+      {
+        "dtv": "http://azure.com/DigitalTwins/dtmi#",
+        "aov": "http://azure.com/IoT/operations/tm#"
+      }
+    ],
+    "@type": "tm:ThingModel",
+    "title": "SurfaceTechnology_Plasma_AtmosphericPressurePlasmaNotExecutingSubState_StateMachineType",
+    "aov:typeRef": "nsu=http://opcfoundation.org/UA/SurfaceTechnology/Plasma/;i=1016",
+    "links": [
+      {
+        "rel": "tm:extends",
+        "href": "#title=OpcUaCore_FiniteStateMachineType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "aov:reference",
+        "aov:refName": "FromIdleToStandby",
+        "href": "#title=OpcUaCore_TransitionType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "aov:reference",
+        "aov:refName": "FromStandbyToIdle",
+        "href": "#title=OpcUaCore_TransitionType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "aov:reference",
+        "aov:refName": "Idle",
+        "href": "#title=OpcUaCore_StateType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "aov:reference",
+        "aov:refName": "Standby",
+        "href": "#title=OpcUaCore_StateType",
+        "type": "application/tm+json"
+      }
+    ],
+    "schemaDefinitions": {
+    },
+    "forms": [
+      {
+        "contentType": "application/json",
+        "dtv:topic": "opcua/SurfaceTechnology.Plasma/SurfaceTechnology_Plasma_AtmosphericPressurePlasmaNotExecutingSubState_StateMachineType/properties/write",
+        "op": "writemultipleproperties"
+      },
+      {
+        "contentType": "application/json",
+        "dtv:topic": "opcua/SurfaceTechnology.Plasma/SurfaceTechnology_Plasma_AtmosphericPressurePlasmaNotExecutingSubState_StateMachineType/properties/read",
+        "op": "readallproperties"
+      }
+    ],
+    "actions": {
+    },
+    "properties": {
+      "DefaultInstanceBrowseName": {
+        "description": "The default BrowseName for instances of the type",
+        "type": "string",
+        "readOnly": false,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/SurfaceTechnology.Plasma/SurfaceTechnology_Plasma_AtmosphericPressurePlasmaNotExecutingSubState_StateMachineType/property/DefaultInstanceBrowseName/write",
+            "op": "writeproperty"
+          },
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/SurfaceTechnology.Plasma/SurfaceTechnology_Plasma_AtmosphericPressurePlasmaNotExecutingSubState_StateMachineType/property/DefaultInstanceBrowseName/read",
+            "op": "readproperty"
+          }
+        ]
+      }
+    },
+    "events": {
+    }
+  },
+  {
+    "@context": [
+      "https://www.w3.org/2022/wot/td/v1.1",
+      {
+        "dtv": "http://azure.com/DigitalTwins/dtmi#",
+        "aov": "http://azure.com/IoT/operations/tm#"
+      }
+    ],
+    "@type": "tm:ThingModel",
+    "title": "SurfaceTechnology_Plasma_LowPressurePlasmaNotExecutingSubState_StateMachineType",
+    "aov:typeRef": "nsu=http://opcfoundation.org/UA/SurfaceTechnology/Plasma/;i=1013",
+    "links": [
+      {
+        "rel": "tm:extends",
+        "href": "#title=OpcUaCore_FiniteStateMachineType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "aov:reference",
+        "aov:refName": "FromStandbyToVented",
+        "href": "#title=OpcUaCore_TransitionType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "aov:reference",
+        "aov:refName": "FromVentedToStandby",
+        "href": "#title=OpcUaCore_TransitionType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "aov:reference",
+        "aov:refName": "Standby",
+        "href": "#title=OpcUaCore_StateType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "aov:reference",
+        "aov:refName": "Vented",
+        "href": "#title=OpcUaCore_StateType",
+        "type": "application/tm+json"
+      }
+    ],
+    "schemaDefinitions": {
+    },
+    "forms": [
+      {
+        "contentType": "application/json",
+        "dtv:topic": "opcua/SurfaceTechnology.Plasma/SurfaceTechnology_Plasma_LowPressurePlasmaNotExecutingSubState_StateMachineType/properties/write",
+        "op": "writemultipleproperties"
+      },
+      {
+        "contentType": "application/json",
+        "dtv:topic": "opcua/SurfaceTechnology.Plasma/SurfaceTechnology_Plasma_LowPressurePlasmaNotExecutingSubState_StateMachineType/properties/read",
+        "op": "readallproperties"
+      }
+    ],
+    "actions": {
+    },
+    "properties": {
+      "DefaultInstanceBrowseName": {
+        "description": "The default BrowseName for instances of the type",
+        "type": "string",
+        "readOnly": false,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/SurfaceTechnology.Plasma/SurfaceTechnology_Plasma_LowPressurePlasmaNotExecutingSubState_StateMachineType/property/DefaultInstanceBrowseName/write",
+            "op": "writeproperty"
+          },
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/SurfaceTechnology.Plasma/SurfaceTechnology_Plasma_LowPressurePlasmaNotExecutingSubState_StateMachineType/property/DefaultInstanceBrowseName/read",
+            "op": "readproperty"
+          }
+        ]
+      }
+    },
+    "events": {
+    }
+  },
+  {
+    "@context": [
+      "https://www.w3.org/2022/wot/td/v1.1",
+      {
+        "dtv": "http://azure.com/DigitalTwins/dtmi#",
+        "aov": "http://azure.com/IoT/operations/tm#"
+      }
+    ],
+    "@type": "tm:ThingModel",
+    "title": "SurfaceTechnology_Plasma_AtmosphericPressurePlasmaMachineryItemState_StateMachineType",
+    "aov:typeRef": "nsu=http://opcfoundation.org/UA/SurfaceTechnology/Plasma/;i=1010",
+    "links": [
+      {
+        "rel": "tm:extends",
+        "href": "#title=Machinery_MachineryItemState_StateMachineType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "aov:capability",
+        "aov:refName": "AtmosphericPressurePlasmaNotExecutingSubState",
+        "href": "#title=SurfaceTechnology_Plasma_AtmosphericPressurePlasmaNotExecutingSubState_StateMachineType",
+        "type": "application/tm+json"
+      }
+    ],
+    "schemaDefinitions": {
+    },
+    "actions": {
+    },
+    "properties": {
+    },
+    "events": {
+    }
+  },
+  {
+    "@context": [
+      "https://www.w3.org/2022/wot/td/v1.1",
+      {
+        "dtv": "http://azure.com/DigitalTwins/dtmi#",
+        "aov": "http://azure.com/IoT/operations/tm#"
+      }
+    ],
+    "@type": "tm:ThingModel",
+    "title": "SurfaceTechnology_Plasma_LowPressurePlasmaMachineryItemState_StateMachineType",
+    "aov:typeRef": "nsu=http://opcfoundation.org/UA/SurfaceTechnology/Plasma/;i=1008",
+    "links": [
+      {
+        "rel": "tm:extends",
+        "href": "#title=Machinery_MachineryItemState_StateMachineType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "aov:capability",
+        "aov:refName": "LowPressurePlasmaNotExecutingSubState",
+        "href": "#title=SurfaceTechnology_Plasma_LowPressurePlasmaNotExecutingSubState_StateMachineType",
+        "type": "application/tm+json"
+      }
+    ],
+    "schemaDefinitions": {
+    },
+    "actions": {
+    },
+    "properties": {
+    },
+    "events": {
+    }
+  },
+  {
+    "@context": [
+      "https://www.w3.org/2022/wot/td/v1.1",
+      {
+        "dtv": "http://azure.com/DigitalTwins/dtmi#",
+        "aov": "http://azure.com/IoT/operations/tm#"
+      }
+    ],
+    "@type": "tm:ThingModel",
+    "title": "SurfaceTechnology_Plasma_WorkpieceMotionDeviceType",
+    "aov:typeRef": "nsu=http://opcfoundation.org/UA/SurfaceTechnology/Plasma/;i=1026",
+    "links": [
+      {
+        "rel": "tm:extends",
+        "href": "#title=OpcUaCore_BaseObjectType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "aov:component",
+        "aov:refName": "MachineryBuildingBlocks",
+        "href": "#title=OpcUaCore_FolderType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "aov:capability",
+        "aov:refName": "Monitoring",
+        "href": "#title=Machinery_MonitoringType",
+        "type": "application/tm+json"
+      }
+    ],
+    "schemaDefinitions": {
+    },
+    "actions": {
+    },
+    "properties": {
+    },
+    "events": {
+    }
+  },
+  {
+    "@context": [
+      "https://www.w3.org/2022/wot/td/v1.1",
+      {
+        "dtv": "http://azure.com/DigitalTwins/dtmi#",
+        "aov": "http://azure.com/IoT/operations/tm#"
+      }
+    ],
+    "@type": "tm:ThingModel",
+    "title": "OpcUaCore_BaseObjectType",
+    "aov:typeRef": "nsu=http://opcfoundation.org/UA/;i=58",
+    "links": [
+    ],
+    "schemaDefinitions": {
+    },
+    "actions": {
+    },
+    "properties": {
+    },
+    "events": {
+    }
+  },
+  {
+    "@context": [
+      "https://www.w3.org/2022/wot/td/v1.1",
+      {
+        "dtv": "http://azure.com/DigitalTwins/dtmi#",
+        "aov": "http://azure.com/IoT/operations/tm#"
+      }
+    ],
+    "@type": "tm:ThingModel",
+    "title": "OpcUaCore_FolderType",
+    "aov:typeRef": "nsu=http://opcfoundation.org/UA/;i=61",
+    "links": [
+      {
+        "rel": "tm:extends",
+        "href": "#title=OpcUaCore_BaseObjectType",
+        "type": "application/tm+json"
+      }
+    ],
+    "schemaDefinitions": {
+    },
+    "actions": {
+    },
+    "properties": {
+    },
+    "events": {
+    }
+  },
+  {
+    "@context": [
+      "https://www.w3.org/2022/wot/td/v1.1",
+      {
+        "dtv": "http://azure.com/DigitalTwins/dtmi#",
+        "aov": "http://azure.com/IoT/operations/tm#"
+      }
+    ],
+    "@type": "tm:ThingModel",
+    "title": "OpcUaCore_FiniteStateMachineType",
+    "aov:typeRef": "nsu=http://opcfoundation.org/UA/;i=2771",
+    "links": [
+      {
+        "rel": "tm:extends",
+        "href": "#title=OpcUaCore_StateMachineType",
+        "type": "application/tm+json"
+      }
+    ],
+    "schemaDefinitions": {
+    },
+    "forms": [
+      {
+        "contentType": "application/json",
+        "dtv:topic": "opcua/OpcUaCore/OpcUaCore_FiniteStateMachineType/events/{senderId}",
+        "op": "subscribeallevents"
+      },
+      {
+        "contentType": "application/json",
+        "dtv:topic": "opcua/OpcUaCore/OpcUaCore_FiniteStateMachineType/properties/read",
+        "op": "readallproperties"
+      }
+    ],
+    "actions": {
+    },
+    "properties": {
+      "AvailableStates": {
+        "type": "array",
+        "items": {
+          "type": "string"
+        },
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/OpcUaCore/OpcUaCore_FiniteStateMachineType/property/AvailableStates/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "AvailableTransitions": {
+        "type": "array",
+        "items": {
+          "type": "string"
+        },
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/OpcUaCore/OpcUaCore_FiniteStateMachineType/property/AvailableTransitions/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "CurrentState": {
+        "type": "string",
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/OpcUaCore/OpcUaCore_FiniteStateMachineType/property/CurrentState/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "LastTransition": {
+        "type": "string",
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/OpcUaCore/OpcUaCore_FiniteStateMachineType/property/LastTransition/read",
+            "op": "readproperty"
+          }
+        ]
+      }
+    },
+    "events": {
+      "AvailableStates": {
+        "data": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/OpcUaCore/OpcUaCore_FiniteStateMachineType/event/AvailableStates/{senderId}",
+            "op": "subscribeevent"
+          }
+        ]
+      },
+      "AvailableTransitions": {
+        "data": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/OpcUaCore/OpcUaCore_FiniteStateMachineType/event/AvailableTransitions/{senderId}",
+            "op": "subscribeevent"
+          }
+        ]
+      },
+      "CurrentState": {
+        "data": {
+          "type": "string"
+        },
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/OpcUaCore/OpcUaCore_FiniteStateMachineType/event/CurrentState/{senderId}",
+            "op": "subscribeevent"
+          }
+        ]
+      },
+      "LastTransition": {
+        "data": {
+          "type": "string"
+        },
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/OpcUaCore/OpcUaCore_FiniteStateMachineType/event/LastTransition/{senderId}",
+            "op": "subscribeevent"
+          }
+        ]
+      }
+    }
+  },
+  {
+    "@context": [
+      "https://www.w3.org/2022/wot/td/v1.1",
+      {
+        "dtv": "http://azure.com/DigitalTwins/dtmi#",
+        "aov": "http://azure.com/IoT/operations/tm#"
+      }
+    ],
+    "@type": "tm:ThingModel",
+    "title": "OpcUaCore_StateMachineType",
+    "aov:typeRef": "nsu=http://opcfoundation.org/UA/;i=2299",
+    "aov:isComposite": true,
+    "links": [
+      {
+        "rel": "tm:extends",
+        "href": "#title=OpcUaCore_BaseObjectType",
+        "type": "application/tm+json"
+      }
+    ],
+    "schemaDefinitions": {
+    },
+    "forms": [
+      {
+        "contentType": "application/json",
+        "dtv:topic": "opcua/OpcUaCore/OpcUaCore_StateMachineType/events/{senderId}",
+        "op": "subscribeallevents"
+      },
+      {
+        "contentType": "application/json",
+        "dtv:topic": "opcua/OpcUaCore/OpcUaCore_StateMachineType/properties/read",
+        "op": "readallproperties"
+      }
+    ],
+    "actions": {
+    },
+    "properties": {
+      "CurrentState": {
+        "type": "string",
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/OpcUaCore/OpcUaCore_StateMachineType/property/CurrentState/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "LastTransition": {
+        "type": "string",
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/OpcUaCore/OpcUaCore_StateMachineType/property/LastTransition/read",
+            "op": "readproperty"
+          }
+        ]
+      }
+    },
+    "events": {
+      "CurrentState": {
+        "data": {
+          "type": "string"
+        },
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/OpcUaCore/OpcUaCore_StateMachineType/event/CurrentState/{senderId}",
+            "op": "subscribeevent"
+          }
+        ]
+      },
+      "LastTransition": {
+        "data": {
+          "type": "string"
+        },
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/OpcUaCore/OpcUaCore_StateMachineType/event/LastTransition/{senderId}",
+            "op": "subscribeevent"
+          }
+        ]
+      }
+    }
+  },
+  {
+    "@context": [
+      "https://www.w3.org/2022/wot/td/v1.1",
+      {
+        "dtv": "http://azure.com/DigitalTwins/dtmi#",
+        "aov": "http://azure.com/IoT/operations/tm#"
+      }
+    ],
+    "@type": "tm:ThingModel",
+    "title": "OpcUaCore_TransitionType",
+    "aov:typeRef": "nsu=http://opcfoundation.org/UA/;i=2310",
+    "links": [
+      {
+        "rel": "tm:extends",
+        "href": "#title=OpcUaCore_BaseObjectType",
+        "type": "application/tm+json"
+      }
+    ],
+    "schemaDefinitions": {
+    },
+    "forms": [
+      {
+        "contentType": "application/json",
+        "dtv:topic": "opcua/OpcUaCore/OpcUaCore_TransitionType/properties/read",
+        "op": "readallproperties"
+      }
+    ],
+    "actions": {
+    },
+    "properties": {
+      "TransitionNumber": {
+        "type": "integer",
+        "minimum": 0,
+        "maximum": 4294967295,
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/OpcUaCore/OpcUaCore_TransitionType/property/TransitionNumber/read",
+            "op": "readproperty"
+          }
+        ]
+      }
+    },
+    "events": {
+    }
+  },
+  {
+    "@context": [
+      "https://www.w3.org/2022/wot/td/v1.1",
+      {
+        "dtv": "http://azure.com/DigitalTwins/dtmi#",
+        "aov": "http://azure.com/IoT/operations/tm#"
+      }
+    ],
+    "@type": "tm:ThingModel",
+    "title": "OpcUaCore_StateType",
+    "aov:typeRef": "nsu=http://opcfoundation.org/UA/;i=2307",
+    "links": [
+      {
+        "rel": "tm:extends",
+        "href": "#title=OpcUaCore_BaseObjectType",
+        "type": "application/tm+json"
+      }
+    ],
+    "schemaDefinitions": {
+    },
+    "forms": [
+      {
+        "contentType": "application/json",
+        "dtv:topic": "opcua/OpcUaCore/OpcUaCore_StateType/properties/read",
+        "op": "readallproperties"
+      }
+    ],
+    "actions": {
+    },
+    "properties": {
+      "StateNumber": {
+        "type": "integer",
+        "minimum": 0,
+        "maximum": 4294967295,
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/OpcUaCore/OpcUaCore_StateType/property/StateNumber/read",
+            "op": "readproperty"
+          }
+        ]
+      }
+    },
+    "events": {
+    }
+  },
+  {
+    "@context": [
+      "https://www.w3.org/2022/wot/td/v1.1",
+      {
+        "dtv": "http://azure.com/DigitalTwins/dtmi#",
+        "aov": "http://azure.com/IoT/operations/tm#"
+      }
+    ],
+    "@type": "tm:ThingModel",
+    "title": "Machinery_MonitoringType",
+    "aov:typeRef": "nsu=http://opcfoundation.org/UA/Machinery/;i=1014",
+    "aov:isComposite": true,
+    "links": [
+      {
+        "rel": "tm:extends",
+        "href": "#title=OpcUaCore_FolderType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "aov:component",
+        "aov:refName": "Consumption",
+        "href": "#title=OpcUaCore_FolderType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "aov:component",
+        "aov:refName": "Health",
+        "href": "#title=OpcUaCore_FolderType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "aov:component",
+        "aov:refName": "Process",
+        "href": "#title=OpcUaCore_FolderType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "aov:component",
+        "aov:refName": "Status",
+        "href": "#title=OpcUaCore_FolderType",
+        "type": "application/tm+json"
+      }
+    ],
+    "schemaDefinitions": {
+    },
+    "forms": [
+      {
+        "contentType": "application/json",
+        "dtv:topic": "opcua/Machinery/Machinery_MonitoringType/properties/read",
+        "op": "readallproperties"
+      }
+    ],
+    "actions": {
+    },
+    "properties": {
+      "DefaultInstanceBrowseName": {
+        "description": "The default BrowseName for instances of the type.",
+        "type": "string",
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/Machinery/Machinery_MonitoringType/property/DefaultInstanceBrowseName/read",
+            "op": "readproperty"
+          }
+        ]
+      }
+    },
+    "events": {
+    }
+  },
+  {
+    "@context": [
+      "https://www.w3.org/2022/wot/td/v1.1",
+      {
+        "dtv": "http://azure.com/DigitalTwins/dtmi#",
+        "aov": "http://azure.com/IoT/operations/tm#"
+      }
+    ],
+    "@type": "tm:ThingModel",
+    "title": "Machinery_MachineryItemState_StateMachineType",
+    "aov:typeRef": "nsu=http://opcfoundation.org/UA/Machinery/;i=1002",
+    "links": [
+      {
+        "rel": "tm:extends",
+        "href": "#title=OpcUaCore_FiniteStateMachineType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "aov:reference",
+        "aov:refName": "Executing",
+        "href": "#title=OpcUaCore_StateType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "aov:reference",
+        "aov:refName": "FromExecutingToExecuting",
+        "href": "#title=OpcUaCore_TransitionType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "aov:reference",
+        "aov:refName": "FromExecutingToNotAvailable",
+        "href": "#title=OpcUaCore_TransitionType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "aov:reference",
+        "aov:refName": "FromExecutingToNotExecuting",
+        "href": "#title=OpcUaCore_TransitionType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "aov:reference",
+        "aov:refName": "FromExecutingToOutOfService",
+        "href": "#title=OpcUaCore_TransitionType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "aov:reference",
+        "aov:refName": "FromNotAvailableToExecuting",
+        "href": "#title=OpcUaCore_TransitionType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "aov:reference",
+        "aov:refName": "FromNotAvailableToNotAvailable",
+        "href": "#title=OpcUaCore_TransitionType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "aov:reference",
+        "aov:refName": "FromNotAvailableToNotExecuting",
+        "href": "#title=OpcUaCore_TransitionType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "aov:reference",
+        "aov:refName": "FromNotAvailableToOutOfService",
+        "href": "#title=OpcUaCore_TransitionType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "aov:reference",
+        "aov:refName": "FromNotExecutingToExecuting",
+        "href": "#title=OpcUaCore_TransitionType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "aov:reference",
+        "aov:refName": "FromNotExecutingToNotAvailable",
+        "href": "#title=OpcUaCore_TransitionType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "aov:reference",
+        "aov:refName": "FromNotExecutingToNotExecuting",
+        "href": "#title=OpcUaCore_TransitionType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "aov:reference",
+        "aov:refName": "FromNotExecutingToOutOfService",
+        "href": "#title=OpcUaCore_TransitionType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "aov:reference",
+        "aov:refName": "FromOutOfServiceToExecuting",
+        "href": "#title=OpcUaCore_TransitionType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "aov:reference",
+        "aov:refName": "FromOutOfServiceToNotAvailable",
+        "href": "#title=OpcUaCore_TransitionType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "aov:reference",
+        "aov:refName": "FromOutOfServiceToNotExecuting",
+        "href": "#title=OpcUaCore_TransitionType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "aov:reference",
+        "aov:refName": "FromOutOfServiceToOutOfService",
+        "href": "#title=OpcUaCore_TransitionType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "aov:reference",
+        "aov:refName": "NotAvailable",
+        "href": "#title=OpcUaCore_StateType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "aov:reference",
+        "aov:refName": "NotExecuting",
+        "href": "#title=OpcUaCore_StateType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "aov:reference",
+        "aov:refName": "OutOfService",
+        "href": "#title=OpcUaCore_StateType",
+        "type": "application/tm+json"
+      }
+    ],
+    "schemaDefinitions": {
+    },
+    "forms": [
+      {
+        "contentType": "application/json",
+        "dtv:topic": "opcua/Machinery/Machinery_MachineryItemState_StateMachineType/properties/write",
+        "op": "writemultipleproperties"
+      },
+      {
+        "contentType": "application/json",
+        "dtv:topic": "opcua/Machinery/Machinery_MachineryItemState_StateMachineType/properties/read",
+        "op": "readallproperties"
+      }
+    ],
+    "actions": {
+    },
+    "properties": {
+      "DefaultInstanceBrowseName": {
+        "description": "The default BrowseName for instances of the type",
+        "type": "string",
+        "readOnly": false,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/Machinery/Machinery_MachineryItemState_StateMachineType/property/DefaultInstanceBrowseName/write",
+            "op": "writeproperty"
+          },
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/Machinery/Machinery_MachineryItemState_StateMachineType/property/DefaultInstanceBrowseName/read",
+            "op": "readproperty"
+          }
+        ]
+      }
+    },
+    "events": {
+    }
+  }
+]

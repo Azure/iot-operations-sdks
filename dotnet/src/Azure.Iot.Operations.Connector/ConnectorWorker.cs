@@ -119,7 +119,7 @@ namespace Azure.Iot.Operations.Connector
                 catch (Exception ex)
                 {
                     _logger.LogWarning("Failed to read the file mount for MQTT connection settings. Will try again: {}", ex.Message);
-                    await Task.Delay(TimeSpan.FromMilliseconds(100));
+                    await Task.Delay(TimeSpan.FromMilliseconds(100), cancellationToken);
 
                     if (++currentRetryCount >= maxRetryCount)
                     {
@@ -299,7 +299,7 @@ namespace Azure.Iot.Operations.Connector
             if (!_registeredDatasetMessageSchemas.ContainsKey($"{deviceName}_{inboundEndpointName}_{assetName}_{dataset.Name}"))
             {
                 // This may register a message schema that has already been uploaded, but the schema registry service is idempotent
-                var datasetMessageSchema = await _messageSchemaProviderFactory.GetMessageSchemaAsync(device, asset, dataset.Name!, dataset);
+                var datasetMessageSchema = await _messageSchemaProviderFactory.GetMessageSchemaAsync(device, asset, dataset.Name!, dataset, cancellationToken);
                 if (datasetMessageSchema != null)
                 {
                     try
@@ -311,7 +311,8 @@ namespace Azure.Iot.Operations.Connector
                             datasetMessageSchema.SchemaFormat,
                             datasetMessageSchema.SchemaType,
                             datasetMessageSchema.Version ?? "1",
-                            datasetMessageSchema.Tags);
+                            datasetMessageSchema.Tags,
+                            cancellationToken: cancellationToken);
 
                         _logger.LogInformation($"Registered message schema for dataset with name {dataset.Name} on asset with name {assetName} associated with device with name {deviceName} and inbound endpoint name {inboundEndpointName}.");
 
@@ -409,7 +410,7 @@ namespace Azure.Iot.Operations.Connector
 
                     string stateStoreKey = destination.Configuration.Key ?? throw new AssetConfigurationException("Cannot publish sampled dataset to state store as it has no configured key");
 
-                    IStateStoreSetResponse response = await stateStoreClient.SetAsync(stateStoreKey, new(serializedPayload));
+                    IStateStoreSetResponse response = await stateStoreClient.SetAsync(stateStoreKey, new(serializedPayload), cancellationToken: cancellationToken);
 
                     if (response.Success)
                     {
@@ -446,7 +447,7 @@ namespace Azure.Iot.Operations.Connector
             if (!_registeredEventMessageSchemas.ContainsKey($"{deviceName}_{inboundEndpointName}_{assetName}_{eventGroupName}_{assetEvent.Name}"))
             {
                 // This may register a message schema that has already been uploaded, but the schema registry service is idempotent
-                var eventMessageSchema = await _messageSchemaProviderFactory.GetMessageSchemaAsync(device, asset, assetEvent.Name, assetEvent);
+                var eventMessageSchema = await _messageSchemaProviderFactory.GetMessageSchemaAsync(device, asset, assetEvent.Name, assetEvent, cancellationToken);
                 if (eventMessageSchema != null)
                 {
                     try
@@ -458,7 +459,8 @@ namespace Azure.Iot.Operations.Connector
                             eventMessageSchema.SchemaFormat,
                             eventMessageSchema.SchemaType,
                             eventMessageSchema.Version ?? "1",
-                            eventMessageSchema.Tags);
+                            eventMessageSchema.Tags,
+                            cancellationToken: cancellationToken);
 
                         _logger.LogInformation($"Registered message schema for event with name {assetEvent.Name} on asset with name {assetName} associated with device with name {deviceName} and inbound endpoint name {inboundEndpointName}.");
 

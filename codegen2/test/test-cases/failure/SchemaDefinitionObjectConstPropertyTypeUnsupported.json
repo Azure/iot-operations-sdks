@@ -1,0 +1,16 @@
+{
+  "success": false,
+  "commandLine": {
+    "things": [ "invalidThing/SchemaDefinitionObjectConstPropertyTypeUnsupported.TM.json" ],
+    "lang": "none"
+  },
+  "errors": [
+    {
+      "condition": "ValuesInconsistent",
+      "filename": "SchemaDefinitionObjectConstPropertyTypeUnsupported.TM.json",
+      "line": 13,
+      "cfLine": 16,
+      "crossRef": ""
+    }
+  ]
+}

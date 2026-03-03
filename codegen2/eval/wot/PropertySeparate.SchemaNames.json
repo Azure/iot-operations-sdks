@@ -1,0 +1,22 @@
+{
+  "propMaintainerBinder": {
+    "in": [ "propSchema" ],
+    "out": "{propSchema}PropertyMaintainer",
+    "capitalize": true
+  },
+  "propConsumerBinder": {
+    "in": [ "propSchema" ],
+    "out": "{propSchema}PropertyConsumer",
+    "capitalize": true
+  },
+  "propReadRespErrorField": {
+    "in": [ "propName", "errorSchemaName" ],
+    "out": "propReadError",
+    "capitalize": false
+  },
+  "propWriteRespErrorField": {
+    "in": [ "propName", "errorSchemaName" ],
+    "out": "propWriteError",
+    "capitalize": false
+  }
+}

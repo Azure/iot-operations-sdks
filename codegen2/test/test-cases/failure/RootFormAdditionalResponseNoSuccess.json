@@ -1,0 +1,16 @@
+{
+  "success": false,
+  "commandLine": {
+    "things": [ "invalidAioBinding/RootFormAdditionalResponseNoSuccess.TM.json" ],
+    "lang": "none"
+  },
+  "errors": [
+    {
+      "condition": "PropertyMissing",
+      "filename": "RootFormAdditionalResponseNoSuccess.TM.json",
+      "line": 13,
+      "cfLine": 0,
+      "crossRef": ""
+    }
+  ]
+}

@@ -1,0 +1,16 @@
+{
+  "success": false,
+  "commandLine": {
+    "things": [ "invalidAioBinding/RootFormAdditionalResponsesAndSubAll.TM.json" ],
+    "lang": "none"
+  },
+  "errors": [
+    {
+      "condition": "ValuesInconsistent",
+      "filename": "RootFormAdditionalResponsesAndSubAll.TM.json",
+      "line": 12,
+      "cfLine": 17,
+      "crossRef": ""
+    }
+  ]
+}

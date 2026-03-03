@@ -27,7 +27,7 @@ namespace Azure.Iot.Operations.Mqtt.Converters
             {
                 foreach (var userProperty in generic.UserProperties)
                 {
-                    mqttNetData.UserProperties.Add(new MQTTnet.Packets.MqttUserProperty(userProperty.Name, userProperty.Value));
+                    mqttNetData.UserProperties.Add(new MQTTnet.Packets.MqttUserProperty(userProperty.Name, userProperty.ValueBuffer));
                 }
             }
 
@@ -92,7 +92,7 @@ namespace Azure.Iot.Operations.Mqtt.Converters
             {
                 foreach (var userProperty in applicationMessage.UserProperties)
                 {
-                    mqttNetMessageBuilder.WithUserProperty(userProperty.Name, userProperty.Value);
+                    mqttNetMessageBuilder.WithUserProperty(userProperty.Name, userProperty.ValueBuffer);
                 }
             }
 
@@ -106,7 +106,7 @@ namespace Azure.Iot.Operations.Mqtt.Converters
             {
                 foreach (var mqttNetUserProperty in mqttNetUserProperties)
                 {
-                    genericUserProperties.Add(new MqttUserProperty(mqttNetUserProperty.Name, mqttNetUserProperty.Value));
+                    genericUserProperties.Add(new MqttUserProperty(mqttNetUserProperty.Name, mqttNetUserProperty.ValueBuffer));
                 }
             }
 
@@ -121,9 +121,9 @@ namespace Azure.Iot.Operations.Mqtt.Converters
             }
 
             List<MQTTnet.Packets.MqttUserProperty> mqttNetUserProperties = new List<MQTTnet.Packets.MqttUserProperty>();
-            foreach (var mqttNetUserProperty in genericUserProperties)
+            foreach (var genericUserProperty in genericUserProperties)
             {
-                mqttNetUserProperties.Add(new MQTTnet.Packets.MqttUserProperty(mqttNetUserProperty.Name, mqttNetUserProperty.Value));
+                mqttNetUserProperties.Add(new MQTTnet.Packets.MqttUserProperty(genericUserProperty.Name, genericUserProperty.ValueBuffer));
             }
 
             return mqttNetUserProperties;
@@ -486,7 +486,7 @@ namespace Azure.Iot.Operations.Mqtt.Converters
                 mqttNetOptions.UserProperties = new();
                 foreach (MqttUserProperty userProperty in options.UserProperties)
                 {
-                    mqttNetOptions.UserProperties.Add(new(userProperty.Name, userProperty.Value));
+                    mqttNetOptions.UserProperties.Add(new(userProperty.Name, userProperty.ValueBuffer));
                 }
             }
 
@@ -513,7 +513,7 @@ namespace Azure.Iot.Operations.Mqtt.Converters
                 mqttNetOptions.UserProperties = new();
                 foreach (MqttUserProperty userProperty in options.UserProperties)
                 {
-                    mqttNetOptions.UserProperties.Add(new(userProperty.Name, userProperty.Value));
+                    mqttNetOptions.UserProperties.Add(new(userProperty.Name, userProperty.ValueBuffer));
                 }
             }
 
