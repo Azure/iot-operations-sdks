@@ -6,9 +6,11 @@
 pub mod azure_device_registry;
 pub mod connector;
 mod filemount;
+mod secrets;
 
 pub use connector::DeploymentArtifactError; // TODO: move implementation out here
 pub use filemount::FileMount;
+pub use secrets::{Secret, Secrets};
 
 #[cfg(test)]
 mod test_utils;
