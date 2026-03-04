@@ -16,9 +16,9 @@ spec:
         version: "0.0.1"
         authentication:
           method: UsernamePassword
-          usernamePasswordCredentials:
-            usernameSecretName: rest-server-auth-credentials/username
-            passwordSecretName: rest-server-auth-credentials/password
+          #usernamePasswordCredentials:
+            #usernameSecretName: rest-server-auth-credentials/username
+            #passwordSecretName: rest-server-auth-credentials/password
         endpointType: rest-thermostat-endpoint-type
   uuid: 1234-5678-9012-3456
   version: 2
