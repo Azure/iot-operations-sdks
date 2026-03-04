@@ -1,6 +1,6 @@
 {
   "$schema": "https://json.schemastore.org/aio-connector-metadata-10.0-preview.json",
-  "name": "Example polling REST thermostat connector",
+  "name": "Example event driven TCP connector",
   "version": "1.0.0",
   "maintainer": "Azure IoT Operations, for sample use only",
   "imageConfigurationSettings": {
@@ -26,13 +26,13 @@
   "endpointsEnabledByDefault": true,
   "inboundEndpoints": [
     {
-      "endpointType": "Microsoft.Http",
+      "endpointType": "Microsoft.Tcp",
       "version": "1.0",
       "fields": {
         "address": {
           "input": "required",
-          "exampleValue": "http://rest-server-service.azure-iot-operations.svc.cluster.local:80",
-          "description": "The endpoint address of the HTTP server to connect to in the format: <hostname>:<port>"
+          "exampleValue": "tcp-service.azure-iot-operations.svc.cluster.local:80",
+          "description": "The endpoint address of the TCP server to connect to in the format: <hostname>:<port>"
         }
       },
       "supportedAuthenticationTypes": [ "usernamePassword", "anonymous" ],
