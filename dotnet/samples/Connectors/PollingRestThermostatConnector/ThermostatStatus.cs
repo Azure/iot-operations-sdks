@@ -7,10 +7,10 @@ namespace RestThermostatConnector
 {
     public class ThermostatStatus
     {
-        [JsonPropertyName("desiredTemperature")]
-        public double? DesiredTemperature { get; set; }
+        [JsonPropertyName("temperature")]
+        public double? Temperature { get; set; }
 
-        [JsonPropertyName("currentTemperature")]
-        public double? CurrentTemperature { get; set; }
+        [JsonPropertyName("humidity")]
+        public double? Humidity { get; set; }
     }
 }
