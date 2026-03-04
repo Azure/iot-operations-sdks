@@ -2,7 +2,9 @@
 
 set -e
 
-./TestRestServer/deploy-server.sh
+cd ./TestRestServer
+./deploy-server.sh
+cd ..
 
 # Build connector sample image
 dotnet publish /t:PublishContainer
