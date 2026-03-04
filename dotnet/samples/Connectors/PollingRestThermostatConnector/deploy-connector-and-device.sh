@@ -2,6 +2,8 @@
 
 set -e
 
+./TestRestServer/deploy-server.sh
+
 # Build connector sample image
 dotnet publish /t:PublishContainer
 k3d image import pollingrestthermostatconnector:latest -c k3s-default
