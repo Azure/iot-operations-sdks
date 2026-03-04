@@ -12,13 +12,18 @@ spec:
     inbound:
       my-rest-thermostat-endpoint-name:
         additionalConfiguration: '{}'
-        address: http://rest-test-server.azure-iot-operations.svc.cluster.local:8080
         version: "0.0.1"
+        endpointType: rest-thermostat-endpoint-type
+        
+        #Configure to use username + password access to the HTTP server
+        address: http://rest-test-server.azure-iot-operations.svc.cluster.local:8081
         authentication:
           method: UsernamePassword
-          #usernamePasswordCredentials:
-            #usernameSecretName: rest-server-auth-credentials/username
-            #passwordSecretName: rest-server-auth-credentials/password
-        endpointType: rest-thermostat-endpoint-type
+          usernamePasswordCredentials:
+            usernameSecretName: rest-server-auth-credentials/username
+            passwordSecretName: rest-server-auth-credentials/password
+
+        #Configure to use anonymous access to the HTTP server
+        #address: http://rest-test-server.azure-iot-operations.svc.cluster.local:8080
   uuid: 1234-5678-9012-3456
   version: 2
