@@ -160,8 +160,8 @@ jobs:
 
     - name: Wait for Polling Rest Connector to be ready
       run: |
-        echo "Waiting for rest-server-deployment to be ready..."
-        kubectl rollout status deployment/rest-server-deployment -n azure-iot-operations --timeout=120s
+        echo "Waiting for rest-test-server to be ready..."
+        kubectl rollout status deployment/rest-test-server -n azure-iot-operations --timeout=120s
         echo "Waiting for connector pod to appear and be ready..."
         for i in {1..30}; do
           if kubectl get pods -n azure-iot-operations | grep -q "rest-ctemplate.*Running"; then
