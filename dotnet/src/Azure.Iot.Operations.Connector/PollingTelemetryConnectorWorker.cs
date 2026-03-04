@@ -52,6 +52,7 @@ namespace Azure.Iot.Operations.Connector
             _assetsSamplingTimers[args.AssetName] = datasetsTimers;
             foreach (AssetDataset dataset in args.Asset.Datasets!)
             {
+                Console.WriteLine("FOREACH");
                 EndpointCredentials? credentials = null;
                 if (args.Device.Endpoints != null
                     && args.Device.Endpoints.Inbound != null
