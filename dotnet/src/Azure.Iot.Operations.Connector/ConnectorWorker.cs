@@ -342,7 +342,7 @@ namespace Azure.Iot.Operations.Connector
                     protocolSpecificIdentifier);
             }
 
-            _logger.LogInformation($"Received sampled payload from dataset with name {dataset.Name} in asset with name {assetName}. Now publishing it to MQTT broker: {Encoding.UTF8.GetString(serializedPayload)}");
+            _logger.LogInformation($"Received sampled payload from dataset with name {dataset.Name} in asset with name {assetName} with payload {Encoding.UTF8.GetString(serializedPayload)}");
 
             if (dataset.Destinations == null)
             {
