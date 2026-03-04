@@ -5,7 +5,7 @@ using System.Text.Json.Serialization;
 
 namespace EventDrivenTcpThermostatConnector
 {
-    public class ThermostatStatus
+    public class TcpThermostatStatus
     {
         [JsonPropertyName("desiredTemperature")]
         public double? DesiredTemperature { get; set; }

@@ -64,7 +64,7 @@ namespace RestThermostatConnector
                     currentTemperatureStatusHttpResponse.EnsureSuccessStatusCode();
 
                     var payloadAsBytes = await currentTemperatureStatusHttpResponse.Content.ReadAsByteArrayAsync(cancellationToken);
-                    ThermostatStatus currentStatus = JsonSerializer.Deserialize<ThermostatStatus>(payloadAsBytes, _jsonSerializerOptions)!;
+                    RestThermostatStatus currentStatus = JsonSerializer.Deserialize<RestThermostatStatus>(payloadAsBytes, _jsonSerializerOptions)!;
 
                     // The HTTP response payload matches the expected message schema, so return it as-is
                     return payloadAsBytes;

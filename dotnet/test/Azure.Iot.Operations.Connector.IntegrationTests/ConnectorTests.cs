@@ -23,7 +23,7 @@ namespace Azure.Iot.Operations.Connector.IntegrationTests
             TaskCompletionSource<MqttApplicationMessage> asset1TelemetryReceived = new();
             mqttClient.ApplicationMessageReceivedAsync += (args) =>
             {
-                if (IsValidPayload(args.ApplicationMessage.Payload))
+                if (IsValidPayloadRest(args.ApplicationMessage.Payload))
                 {
                     if (args.ApplicationMessage.Topic.Equals(asset1TelemetryTopic))
                     {
@@ -138,7 +138,7 @@ namespace Azure.Iot.Operations.Connector.IntegrationTests
             TaskCompletionSource<MqttApplicationMessage> assetTelemetryReceived = new();
             mqttClient.ApplicationMessageReceivedAsync += (args) =>
             {
-                if (IsValidPayload(args.ApplicationMessage.Payload))
+                if (IsValidPayloadTcp(args.ApplicationMessage.Payload))
                 {
                     if (args.ApplicationMessage.Topic.Equals(assetTelemetryTopic))
                     {
@@ -279,21 +279,37 @@ namespace Azure.Iot.Operations.Connector.IntegrationTests
             return SafeGetUserProperty(mqttMessage, nameof(CloudEvent.DataSchema));
         }
 
-        private bool IsValidPayload(ReadOnlySequence<byte> payload)
+        private bool IsValidPayloadRest(ReadOnlySequence<byte> payload)
         {
             try
             {
-                ThermostatStatus? status = JsonSerializer.Deserialize<ThermostatStatus>(payload.ToArray());
+                RestThermostatStatus? status = JsonSerializer.Deserialize<RestThermostatStatus>(payload.ToArray());
 
                 if (status == null)
                 {
                     return false;
                 }
 
-                return status.CurrentTemperature >= 67
-                    && status.CurrentTemperature <= 78
-                    && status.DesiredTemperature >= 67
-                    && status.DesiredTemperature <= 78;
+                return true;
+            }
+            catch (Exception)
+            {
+                return false;
+            }
+        }
+
+        private bool IsValidPayloadTcp(ReadOnlySequence<byte> payload)
+        {
+            try
+            {
+                TcpThermostatStatus? status = JsonSerializer.Deserialize<TcpThermostatStatus>(payload.ToArray());
+
+                if (status == null)
+                {
+                    return false;
+                }
+
+                return true;
             }
             catch (Exception)
             {
