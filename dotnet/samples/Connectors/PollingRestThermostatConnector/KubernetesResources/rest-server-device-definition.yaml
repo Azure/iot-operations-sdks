@@ -20,8 +20,8 @@ spec:
         authentication:
           method: UsernamePassword
           usernamePasswordCredentials:
-            usernameSecretName: rest-server-auth-credentials/username
-            passwordSecretName: rest-server-auth-credentials/password
+            usernameSecretName: rest-test-server-secrets/username
+            passwordSecretName: rest-test-server-secrets/password
 
         #Configure to use anonymous access to the HTTP server
         #address: http://rest-test-server.azure-iot-operations.svc.cluster.local:8080
