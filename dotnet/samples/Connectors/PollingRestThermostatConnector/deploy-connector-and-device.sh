@@ -6,9 +6,6 @@ set -e
 dotnet publish /t:PublishContainer
 k3d image import pollingrestthermostatconnector:latest -c k3s-default
 
-# Build REST server docker image
-k3d image import mcr.microsoft.com/azureiotoperations/rest-test-server:0.4.0 -c k3s-default
-
 # Deploy connector config
 kubectl apply -f ./KubernetesResources/connector-template.yaml
 
