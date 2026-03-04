@@ -1,5 +1,0 @@
-[v3_ca]
-basicConstraints = critical,CA:true
-keyUsage = critical, digitalSignature, cRLSign, keyCertSign
-subjectKeyIdentifier = hash
-authorityKeyIdentifier = keyid:always,issuer
