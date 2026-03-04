@@ -36,12 +36,15 @@ namespace RestThermostatConnector
         /// <returns>The serialized payload containing the sampled dataset.</returns>
         public async Task<byte[]> SampleDatasetAsync(AssetDataset dataset, CancellationToken cancellationToken = default)
         {
+            Console.WriteLine("SAMPLKINGASDFASDF");
             int retryCount = 0;
             while (true)
             {
                 try
                 {
                     string httpServerTemperatureRequestPath = dataset.DataSource!;
+
+
 
                     if (_credentials != null && _credentials.Username != null && _credentials.Password != null)
                     {
