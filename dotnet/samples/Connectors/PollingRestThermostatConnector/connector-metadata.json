@@ -32,7 +32,7 @@
         "address": {
           "input": "required",
           "exampleValue": "http://rest-server-service.azure-iot-operations.svc.cluster.local:80",
-          "description": "The endpoint address of the HTTP server to connect to in the format: <hostname>:<port>"
+          "description": "The endpoint address of the HTTP server to connect to, including scheme, hostname, and port (for example: http://hostname:port)"
         }
       },
       "supportedAuthenticationTypes": [ "usernamePassword", "anonymous" ],
