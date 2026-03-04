@@ -60,10 +60,8 @@ namespace Azure.Iot.Operations.Connector
                     credentials = _adrClient!.GetEndpointCredentials(args.DeviceName, args.InboundEndpointName, inboundEndpoint);
                 }
 
-                //TODO catch errors and log them here!
                 IDatasetSampler datasetSampler = _datasetSamplerFactory.CreateDatasetSampler(args.DeviceName, args.Device, args.InboundEndpointName, args.AssetName, args.Asset, dataset, credentials);
 
-                //TODO catch errors and log them here!
                 TimeSpan samplingInterval = await datasetSampler.GetSamplingIntervalAsync(dataset);
 
                 _logger.LogInformation("Dataset with name {0} in asset with name {1} will be sampled once every {2} milliseconds", dataset.Name, args.AssetName, samplingInterval.TotalMilliseconds);
