@@ -3,7 +3,6 @@
 set -e
 
 # Step 1: Generate certificates
-echo "📜 Generating X.509 v3 certificates..."
 ./generate-v3-certs.sh
 
 # Generate base64-encoded values from certificates
@@ -16,50 +15,28 @@ INTERMEDIATE_CERT_B64=$(base64 -w 0 < certs/intermediate-v3.crt)
 USERNAME_B64=$(echo -n "username" | base64)
 PASSWORD_B64=$(echo -n "password" | base64)
 
-# Create temporary secrets file with actual values
-SECRET_NAME="rest-test-server-secrets"
-TEMP_SECRETS="./temp-${SECRET_NAME}.yaml"
+kubectl delete secret generic rest-test-server-secrets --ignore-not-found --namespace=azure-iot-operations
+kubectl create secret generic rest-test-server-secrets \
+  --from-file=server.crt=certs/server-v3.crt \
+  --from-file=server.key=certs/server-v3.key \
+  --from-file=intermediate.crt=certs/intermediate-v3.crt \
+  --from-file=ca.crt=certs/ca-v3.crt \
+  --from-literal=username=username \
+  --from-literal=password=password \
+  --namespace=azure-iot-operations
 
-# Apply the secret
-kubectl apply -f "$TEMP_SECRETS" --validate=false
-rm "$TEMP_SECRETS"
+kubectl delete secret generic rest-connector-trust-list --ignore-not-found --namespace=azure-iot-operations
+kubectl create secret generic rest-connector-trust-list \
+  --from-file=ca.crt=certs/ca-v3.crt \
+  --namespace=azure-iot-operations
 
-# Step 3: Create connector secrets for azure-iot-operations namespace
-echo "🔑 Creating connector secrets for azure-iot-operations namespace..."
+kubectl delete secret generic rest-x509-cert --ignore-not-found --namespace=azure-iot-operations
+kubectl create secret generic rest-x509-cert \
+  --from-file=certificate=certs/client-v3.crt \
+  --from-file=intermediateCert=certs/intermediate-v3.crt \
+  --from-file=key=certs/client-v3.key \
+  --namespace=azure-iot-operations
 
-# Create REST connector secrets
-cat <<EOF | kubectl apply -f - --validate=false
-apiVersion: v1
-kind: Secret
-metadata:
-  name: rest-up
-  namespace: azure-iot-operations
-type: Opaque
-data:
-  passwordKey: $PASSWORD_B64
-  usernameKey: $USERNAME_B64
----
-apiVersion: v1
-kind: Secret
-metadata:
-  name: rest-trust-list
-  namespace: azure-iot-operations
-type: Opaque
-data:
-  ca.crt: $CA_CERT_B64
----
-apiVersion: v1
-kind: Secret
-metadata:
-  name: rest-x509-cert
-  namespace: azure-iot-operations
-type: Opaque
-data:
-  key: $(base64 -w 0 < certs/client-v3.key)
-  intermediateCert: $INTERMEDIATE_CERT_B64
-  certificate: $(base64 -w 0 < certs/client-v3.crt)
-EOF
 
 # Step 4: Deploy the server
-echo "⚡ Deploying server to Kubernetes..."
 kubectl apply -f k8s-deployment.yaml --validate=false

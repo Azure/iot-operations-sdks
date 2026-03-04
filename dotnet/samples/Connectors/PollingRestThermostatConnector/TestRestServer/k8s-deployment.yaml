@@ -4,7 +4,7 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: rest-test-server
-  namespace: default
+  namespace: azure-iot-operations
   labels:
     app: rest-test-server
 spec:
@@ -64,7 +64,7 @@ apiVersion: v1
 kind: Service
 metadata:
   name: rest-test-server
-  namespace: default
+  namespace: azure-iot-operations
   labels:
     app: rest-test-server
 spec:
