@@ -5,6 +5,7 @@ on:
   pull_request:
     paths:
       - 'doc/akri_connector/**'
+      - 'dotnet/samples/Connectors/*/connector-metadata.json'
   push:
     branches:
     - main
