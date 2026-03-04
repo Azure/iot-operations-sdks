@@ -24,7 +24,7 @@ namespace RestThermostatConnector
         /// <returns>The dataset sampler for the provided dataset.</returns>
         public IDatasetSampler CreateDatasetSampler(string deviceName, Device device, string inboundEndpointName, string assetName, Asset asset, AssetDataset dataset, EndpointCredentials? credentials)
         {
-            if (dataset.Name.Equals("thermostat_status"))
+            if (dataset.Name.Equals("weather-sensor-dataset"))
             {
                 if (device.Endpoints != null
                     && device.Endpoints.Inbound != null
