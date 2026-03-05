@@ -18,10 +18,10 @@ namespace PollingRestThermostatConnector
         "$schema": "https://json-schema.org/draft-07/schema#",
         "type": "object",
         "properties": {
-      	  "desired": {
+      	  "temperature": {
         	    "type": "number"
         	},
-        	"current": {
+        	"humidity": {
             	"type": "number"
         	}
         }
@@ -35,7 +35,7 @@ namespace PollingRestThermostatConnector
 
         public Task<ConnectorMessageSchema?> GetMessageSchemaAsync(Device device, Asset asset, string datasetName, AssetDataset dataset, CancellationToken cancellationToken = default)
         {
-            if (datasetName.Equals("thermostat_status", StringComparison.OrdinalIgnoreCase))
+            if (datasetName.Equals("weather-sensor-dataset", StringComparison.OrdinalIgnoreCase))
             {
                 ConnectorMessageSchema? schema = new ConnectorMessageSchema(_datasetJsonSchema, Azure.Iot.Operations.Services.SchemaRegistry.SchemaRegistry.Format.JsonSchemaDraft07, Azure.Iot.Operations.Services.SchemaRegistry.SchemaRegistry.SchemaType.MessageSchema, "1.0", null);
                 return Task.FromResult((ConnectorMessageSchema?) schema);
