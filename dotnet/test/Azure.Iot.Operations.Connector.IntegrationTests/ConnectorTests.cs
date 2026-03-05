@@ -23,7 +23,7 @@ namespace Azure.Iot.Operations.Connector.IntegrationTests
             TaskCompletionSource<MqttApplicationMessage> asset1TelemetryReceived = new();
             mqttClient.ApplicationMessageReceivedAsync += (args) =>
             {
-                if (IsValidPayload(args.ApplicationMessage.Payload))
+                if (IsValidPayloadRest(args.ApplicationMessage.Payload))
                 {
                     if (args.ApplicationMessage.Topic.Equals(asset1TelemetryTopic))
                     {
@@ -48,9 +48,9 @@ namespace Azure.Iot.Operations.Connector.IntegrationTests
 
                 Assert.False(string.IsNullOrEmpty(GetCloudEventTimeFromMqttMessage(applicationMessage)));
                 // CloudEvent source is built from endpoint address with ms-aio: prefix (Priority 2 in BuildSource)
-                Assert.Equal("ms-aio:my-rest-thermostat-device-name/thermostat", GetCloudEventSourceFromMqttMessage(applicationMessage));
+                Assert.Equal("ms-aio:my-rest-thermostat-device-name/api/sensor/env", GetCloudEventSourceFromMqttMessage(applicationMessage));
                 string dataSchema = GetCloudEventDataSchemaFromMqttMessage(applicationMessage);
-                Assert.Equal($"aio-sr://DefaultSRNamespace/A3E45EFE41FF52AC3BE2EA4E9FD7A33BE0D9ECCE487887765A7F2111A04E0BF0:1.0", dataSchema);
+                Assert.Equal("aio-sr://DefaultSRNamespace/4C73ACC9EC82E7C6B1B31034887960EE1CA888E857C87E5D17078A8DD59392D2:1.0", dataSchema);
             }
             catch (TimeoutException)
             {
@@ -105,7 +105,7 @@ namespace Azure.Iot.Operations.Connector.IntegrationTests
                     Assert.NotNull(asset1Status.Config.LastTransitionTime);
                     Assert.NotNull(asset1Status.Datasets);
                     Assert.Single(asset1Status.Datasets);
-                    Assert.Equal("thermostat_status", asset1Status.Datasets.First().Name);
+                    Assert.Equal("weather-sensor-dataset", asset1Status.Datasets.First().Name);
                     Assert.Null(asset1Status.Datasets.First().Error);
 
                     Assert.NotNull(asset2Status.Config);
@@ -113,7 +113,7 @@ namespace Azure.Iot.Operations.Connector.IntegrationTests
                     Assert.NotNull(asset2Status.Config.LastTransitionTime);
                     Assert.NotNull(asset2Status.Datasets);
                     Assert.Single(asset2Status.Datasets);
-                    Assert.Equal("thermostat_status", asset2Status.Datasets.First().Name);
+                    Assert.Equal("weather-sensor-dataset", asset2Status.Datasets.First().Name);
                     Assert.Null(asset2Status.Datasets.First().Error);
                     break;
                 }
@@ -138,7 +138,7 @@ namespace Azure.Iot.Operations.Connector.IntegrationTests
             TaskCompletionSource<MqttApplicationMessage> assetTelemetryReceived = new();
             mqttClient.ApplicationMessageReceivedAsync += (args) =>
             {
-                if (IsValidPayload(args.ApplicationMessage.Payload))
+                if (IsValidPayloadTcp(args.ApplicationMessage.Payload))
                 {
                     if (args.ApplicationMessage.Topic.Equals(assetTelemetryTopic))
                     {
@@ -279,21 +279,37 @@ namespace Azure.Iot.Operations.Connector.IntegrationTests
             return SafeGetUserProperty(mqttMessage, nameof(CloudEvent.DataSchema));
         }
 
-        private bool IsValidPayload(ReadOnlySequence<byte> payload)
+        private bool IsValidPayloadRest(ReadOnlySequence<byte> payload)
         {
             try
             {
-                ThermostatStatus? status = JsonSerializer.Deserialize<ThermostatStatus>(payload.ToArray());
+                RestThermostatStatus? status = JsonSerializer.Deserialize<RestThermostatStatus>(payload.ToArray());
 
                 if (status == null)
                 {
                     return false;
                 }
 
-                return status.CurrentTemperature >= 67
-                    && status.CurrentTemperature <= 78
-                    && status.DesiredTemperature >= 67
-                    && status.DesiredTemperature <= 78;
+                return true;
+            }
+            catch (Exception)
+            {
+                return false;
+            }
+        }
+
+        private bool IsValidPayloadTcp(ReadOnlySequence<byte> payload)
+        {
+            try
+            {
+                TcpThermostatStatus? status = JsonSerializer.Deserialize<TcpThermostatStatus>(payload.ToArray());
+
+                if (status == null)
+                {
+                    return false;
+                }
+
+                return true;
             }
             catch (Exception)
             {
