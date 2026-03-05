@@ -55,8 +55,7 @@ namespace RestThermostatConnector
 
                     var currentTemperatureStatusHttpResponse = await _httpClient.GetAsync(httpServerTemperatureRequestPath, cancellationToken);
 
-                    if (currentTemperatureStatusHttpResponse.StatusCode == System.Net.HttpStatusCode.Unauthorized
-                        || currentTemperatureStatusHttpResponse.StatusCode == System.Net.HttpStatusCode.Unauthorized)
+                    if (currentTemperatureStatusHttpResponse.StatusCode == System.Net.HttpStatusCode.Unauthorized)
                     {
                         throw new Exception("Failed to authorize request to HTTP server. Check credentials configured in rest-server-device-definition.yaml.");
                     }
