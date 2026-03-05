@@ -342,9 +342,9 @@ namespace Azure.Iot.Operations.Connector
                     protocolSpecificIdentifier);
             }
 
-            _logger.LogInformation($"Received sampled payload from dataset with name {dataset.Name} in asset with name {assetName} with payload {Encoding.UTF8.GetString(serializedPayload)}");
+            _logger.LogInformation($"Received sampled payload from dataset with name {dataset.Name} in asset with name {assetName}. Now publishing it to MQTT broker: {Encoding.UTF8.GetString(serializedPayload)}");
 
-            if (dataset.Destinations == null || dataset.Destinations.Count == 0)
+            if (dataset.Destinations == null)
             {
                 _logger.LogError("Cannot forward sampled dataset because it has no configured destinations");
                 return;
@@ -393,8 +393,6 @@ namespace Azure.Iot.Operations.Connector
                         telemetryTimeout = TimeSpan.FromSeconds(ttl.Value);
                     }
 
-                    _logger.LogInformation("Sending to MQTT broker on topic {Topic}", topic);
-
                     var telemetrySender = _telemetrySenderCache.GetOrAdd(topic, t => new ConnectorTelemetrySender(_applicationContext, _mqttClient, t));
                     await telemetrySender.SendTelemetryAsync(
                         serializedPayload,
@@ -412,7 +410,6 @@ namespace Azure.Iot.Operations.Connector
 
                     string stateStoreKey = destination.Configuration.Key ?? throw new AssetConfigurationException("Cannot publish sampled dataset to state store as it has no configured key");
 
-                    _logger.LogInformation("Sending to broker state store on key {Key}", stateStoreKey);
                     IStateStoreSetResponse response = await stateStoreClient.SetAsync(stateStoreKey, new(serializedPayload), cancellationToken: cancellationToken);
 
                     if (response.Success)
