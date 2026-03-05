@@ -105,7 +105,7 @@ namespace Azure.Iot.Operations.Connector.IntegrationTests
                     Assert.NotNull(asset1Status.Config.LastTransitionTime);
                     Assert.NotNull(asset1Status.Datasets);
                     Assert.Single(asset1Status.Datasets);
-                    Assert.Equal("thermostat_status", asset1Status.Datasets.First().Name);
+                    Assert.Equal("weather-sensor-dataset", asset1Status.Datasets.First().Name);
                     Assert.Null(asset1Status.Datasets.First().Error);
 
                     Assert.NotNull(asset2Status.Config);
@@ -113,7 +113,7 @@ namespace Azure.Iot.Operations.Connector.IntegrationTests
                     Assert.NotNull(asset2Status.Config.LastTransitionTime);
                     Assert.NotNull(asset2Status.Datasets);
                     Assert.Single(asset2Status.Datasets);
-                    Assert.Equal("thermostat_status", asset2Status.Datasets.First().Name);
+                    Assert.Equal("weather-sensor-dataset", asset2Status.Datasets.First().Name);
                     Assert.Null(asset2Status.Datasets.First().Error);
                     break;
                 }
