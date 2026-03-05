@@ -36,7 +36,7 @@ runs:
     - name: Checkout deploy action
       uses: actions/checkout@v4
       with:
-        repository: azure/iot-operations-sdks-action
+        repository: maximsemenov80/iot-operations-sdks-action
         path: action-deploy
         token: ${{ inputs.action-token }}
 

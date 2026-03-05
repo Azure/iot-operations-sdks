@@ -51,8 +51,15 @@ jobs:
       with:
         repo-token: ${{ secrets.GITHUB_TOKEN }}
 
-    - name: Install AvroGen
-      run: (pushd /; dotnet tool install --global Apache.Avro.Tools; popd) # need to install from root to avoid using the nuget.config we for build and push
+    - name: Add .dotnet/tools to PATH
+      run: echo "$HOME/.dotnet/tools" >> $GITHUB_PATH
+
+    - name: Install Tools
+      run: |
+        pushd /
+        dotnet tool install --global Apache.Avro.Tools
+        dotnet tool install --global dotnet-t4
+        popd
   
     - name: Build SDK (Debug)
       run: dotnet build -c Debug dotnet/Azure.Iot.Operations.sln
