@@ -3,9 +3,9 @@
 
 using System.Text.Json.Serialization;
 
-namespace EventDrivenTcpThermostatConnector
+namespace Azure.Iot.Operations.Connector.IntegrationTests
 {
-    public class ThermostatStatus
+    public class TcpThermostatStatus
     {
         [JsonPropertyName("desiredTemperature")]
         public double? DesiredTemperature { get; set; }
