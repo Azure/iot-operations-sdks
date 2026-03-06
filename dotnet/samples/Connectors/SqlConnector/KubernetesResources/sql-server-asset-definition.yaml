@@ -20,7 +20,6 @@ spec:
           name: ParticleSize
         - dataSource: CountryMeasurements
           name: Overall
-      dataSource: /thermostat
       destinations:
         - configuration:
             key: SqlServerSampleKey
