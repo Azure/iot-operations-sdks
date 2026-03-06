@@ -15,41 +15,6 @@
         "rel": "tm:extends",
         "href": "#title=OpcUaCore_BaseInterfaceType",
         "type": "application/tm+json"
-      },
-      {
-        "rel": "tm:extends",
-        "href": "#title=OpcUaCore_BaseInterfaceType",
-        "type": "application/tm+json"
-      },
-      {
-        "rel": "tm:extends",
-        "href": "#title=OpcUaCore_BaseInterfaceType",
-        "type": "application/tm+json"
-      },
-      {
-        "rel": "tm:extends",
-        "href": "#title=OpcUaCore_BaseInterfaceType",
-        "type": "application/tm+json"
-      },
-      {
-        "rel": "tm:extends",
-        "href": "#title=OpcUaCore_BaseInterfaceType",
-        "type": "application/tm+json"
-      },
-      {
-        "rel": "tm:extends",
-        "href": "#title=OpcUaCore_BaseInterfaceType",
-        "type": "application/tm+json"
-      },
-      {
-        "rel": "tm:extends",
-        "href": "#title=OpcUaCore_BaseInterfaceType",
-        "type": "application/tm+json"
-      },
-      {
-        "rel": "tm:extends",
-        "href": "#title=OpcUaCore_BaseInterfaceType",
-        "type": "application/tm+json"
       }
     ],
     "schemaDefinitions": {
@@ -293,41 +258,6 @@
         "rel": "tm:extends",
         "href": "#title=OpcUaCore_FolderType",
         "type": "application/tm+json"
-      },
-      {
-        "rel": "tm:extends",
-        "href": "#title=OpcUaCore_FolderType",
-        "type": "application/tm+json"
-      },
-      {
-        "rel": "tm:extends",
-        "href": "#title=OpcUaCore_FolderType",
-        "type": "application/tm+json"
-      },
-      {
-        "rel": "tm:extends",
-        "href": "#title=OpcUaCore_FolderType",
-        "type": "application/tm+json"
-      },
-      {
-        "rel": "tm:extends",
-        "href": "#title=OpcUaCore_FolderType",
-        "type": "application/tm+json"
-      },
-      {
-        "rel": "tm:extends",
-        "href": "#title=OpcUaCore_FolderType",
-        "type": "application/tm+json"
-      },
-      {
-        "rel": "tm:extends",
-        "href": "#title=OpcUaCore_FolderType",
-        "type": "application/tm+json"
-      },
-      {
-        "rel": "tm:extends",
-        "href": "#title=OpcUaCore_FolderType",
-        "type": "application/tm+json"
       }
     ],
     "schemaDefinitions": {
@@ -351,41 +281,6 @@
     "title": "MachineVision_AMCM_VisionMachineIdentificationType",
     "aov:typeRef": "nsu=http://opcfoundation.org/UA/MachineVision/AMCM/;i=1006",
     "links": [
-      {
-        "rel": "tm:extends",
-        "href": "#title=Machinery_MachineIdentificationType",
-        "type": "application/tm+json"
-      },
-      {
-        "rel": "tm:extends",
-        "href": "#title=Machinery_MachineIdentificationType",
-        "type": "application/tm+json"
-      },
-      {
-        "rel": "tm:extends",
-        "href": "#title=Machinery_MachineIdentificationType",
-        "type": "application/tm+json"
-      },
-      {
-        "rel": "tm:extends",
-        "href": "#title=Machinery_MachineIdentificationType",
-        "type": "application/tm+json"
-      },
-      {
-        "rel": "tm:extends",
-        "href": "#title=Machinery_MachineIdentificationType",
-        "type": "application/tm+json"
-      },
-      {
-        "rel": "tm:extends",
-        "href": "#title=Machinery_MachineIdentificationType",
-        "type": "application/tm+json"
-      },
-      {
-        "rel": "tm:extends",
-        "href": "#title=Machinery_MachineIdentificationType",
-        "type": "application/tm+json"
-      },
       {
         "rel": "tm:extends",
         "href": "#title=Machinery_MachineIdentificationType",
@@ -658,41 +553,6 @@
     "title": "MachineVision_AMCM_VisionComponentIdentificationType",
     "aov:typeRef": "nsu=http://opcfoundation.org/UA/MachineVision/AMCM/;i=1007",
     "links": [
-      {
-        "rel": "tm:extends",
-        "href": "#title=Machinery_MachineryComponentIdentificationType",
-        "type": "application/tm+json"
-      },
-      {
-        "rel": "tm:extends",
-        "href": "#title=Machinery_MachineryComponentIdentificationType",
-        "type": "application/tm+json"
-      },
-      {
-        "rel": "tm:extends",
-        "href": "#title=Machinery_MachineryComponentIdentificationType",
-        "type": "application/tm+json"
-      },
-      {
-        "rel": "tm:extends",
-        "href": "#title=Machinery_MachineryComponentIdentificationType",
-        "type": "application/tm+json"
-      },
-      {
-        "rel": "tm:extends",
-        "href": "#title=Machinery_MachineryComponentIdentificationType",
-        "type": "application/tm+json"
-      },
-      {
-        "rel": "tm:extends",
-        "href": "#title=Machinery_MachineryComponentIdentificationType",
-        "type": "application/tm+json"
-      },
-      {
-        "rel": "tm:extends",
-        "href": "#title=Machinery_MachineryComponentIdentificationType",
-        "type": "application/tm+json"
-      },
       {
         "rel": "tm:extends",
         "href": "#title=Machinery_MachineryComponentIdentificationType",
@@ -971,41 +831,6 @@
         "type": "application/tm+json"
       },
       {
-        "rel": "tm:extends",
-        "href": "#title=DI_FunctionalGroupType",
-        "type": "application/tm+json"
-      },
-      {
-        "rel": "tm:extends",
-        "href": "#title=DI_FunctionalGroupType",
-        "type": "application/tm+json"
-      },
-      {
-        "rel": "tm:extends",
-        "href": "#title=DI_FunctionalGroupType",
-        "type": "application/tm+json"
-      },
-      {
-        "rel": "tm:extends",
-        "href": "#title=DI_FunctionalGroupType",
-        "type": "application/tm+json"
-      },
-      {
-        "rel": "tm:extends",
-        "href": "#title=DI_FunctionalGroupType",
-        "type": "application/tm+json"
-      },
-      {
-        "rel": "tm:extends",
-        "href": "#title=DI_FunctionalGroupType",
-        "type": "application/tm+json"
-      },
-      {
-        "rel": "tm:extends",
-        "href": "#title=DI_FunctionalGroupType",
-        "type": "application/tm+json"
-      },
-      {
         "rel": "aov:component",
         "aov:refName": "DeviceHealthAlarms",
         "href": "#title=OpcUaCore_FolderType",
@@ -1257,41 +1082,6 @@
         "rel": "tm:extends",
         "href": "#title=DI_FunctionalGroupType",
         "type": "application/tm+json"
-      },
-      {
-        "rel": "tm:extends",
-        "href": "#title=DI_FunctionalGroupType",
-        "type": "application/tm+json"
-      },
-      {
-        "rel": "tm:extends",
-        "href": "#title=DI_FunctionalGroupType",
-        "type": "application/tm+json"
-      },
-      {
-        "rel": "tm:extends",
-        "href": "#title=DI_FunctionalGroupType",
-        "type": "application/tm+json"
-      },
-      {
-        "rel": "tm:extends",
-        "href": "#title=DI_FunctionalGroupType",
-        "type": "application/tm+json"
-      },
-      {
-        "rel": "tm:extends",
-        "href": "#title=DI_FunctionalGroupType",
-        "type": "application/tm+json"
-      },
-      {
-        "rel": "tm:extends",
-        "href": "#title=DI_FunctionalGroupType",
-        "type": "application/tm+json"
-      },
-      {
-        "rel": "tm:extends",
-        "href": "#title=DI_FunctionalGroupType",
-        "type": "application/tm+json"
       }
     ],
     "schemaDefinitions": {
@@ -1520,41 +1310,6 @@
         "rel": "tm:extends",
         "href": "#title=OpcUaCore_BaseObjectType",
         "type": "application/tm+json"
-      },
-      {
-        "rel": "tm:extends",
-        "href": "#title=OpcUaCore_BaseObjectType",
-        "type": "application/tm+json"
-      },
-      {
-        "rel": "tm:extends",
-        "href": "#title=OpcUaCore_BaseObjectType",
-        "type": "application/tm+json"
-      },
-      {
-        "rel": "tm:extends",
-        "href": "#title=OpcUaCore_BaseObjectType",
-        "type": "application/tm+json"
-      },
-      {
-        "rel": "tm:extends",
-        "href": "#title=OpcUaCore_BaseObjectType",
-        "type": "application/tm+json"
-      },
-      {
-        "rel": "tm:extends",
-        "href": "#title=OpcUaCore_BaseObjectType",
-        "type": "application/tm+json"
-      },
-      {
-        "rel": "tm:extends",
-        "href": "#title=OpcUaCore_BaseObjectType",
-        "type": "application/tm+json"
-      },
-      {
-        "rel": "tm:extends",
-        "href": "#title=OpcUaCore_BaseObjectType",
-        "type": "application/tm+json"
       }
     ],
     "schemaDefinitions": {
@@ -1579,41 +1334,6 @@
     "aov:typeRef": "nsu=http://opcfoundation.org/UA/MachineVision/AMCM/;i=1040",
     "aov:isComposite": true,
     "links": [
-      {
-        "rel": "tm:extends",
-        "href": "#title=OpcUaCore_BaseObjectType",
-        "type": "application/tm+json"
-      },
-      {
-        "rel": "tm:extends",
-        "href": "#title=OpcUaCore_BaseObjectType",
-        "type": "application/tm+json"
-      },
-      {
-        "rel": "tm:extends",
-        "href": "#title=OpcUaCore_BaseObjectType",
-        "type": "application/tm+json"
-      },
-      {
-        "rel": "tm:extends",
-        "href": "#title=OpcUaCore_BaseObjectType",
-        "type": "application/tm+json"
-      },
-      {
-        "rel": "tm:extends",
-        "href": "#title=OpcUaCore_BaseObjectType",
-        "type": "application/tm+json"
-      },
-      {
-        "rel": "tm:extends",
-        "href": "#title=OpcUaCore_BaseObjectType",
-        "type": "application/tm+json"
-      },
-      {
-        "rel": "tm:extends",
-        "href": "#title=OpcUaCore_BaseObjectType",
-        "type": "application/tm+json"
-      },
       {
         "rel": "tm:extends",
         "href": "#title=OpcUaCore_BaseObjectType",
@@ -1646,41 +1366,6 @@
         "rel": "tm:extends",
         "href": "#title=OpcUaCore_BaseObjectType",
         "type": "application/tm+json"
-      },
-      {
-        "rel": "tm:extends",
-        "href": "#title=OpcUaCore_BaseObjectType",
-        "type": "application/tm+json"
-      },
-      {
-        "rel": "tm:extends",
-        "href": "#title=OpcUaCore_BaseObjectType",
-        "type": "application/tm+json"
-      },
-      {
-        "rel": "tm:extends",
-        "href": "#title=OpcUaCore_BaseObjectType",
-        "type": "application/tm+json"
-      },
-      {
-        "rel": "tm:extends",
-        "href": "#title=OpcUaCore_BaseObjectType",
-        "type": "application/tm+json"
-      },
-      {
-        "rel": "tm:extends",
-        "href": "#title=OpcUaCore_BaseObjectType",
-        "type": "application/tm+json"
-      },
-      {
-        "rel": "tm:extends",
-        "href": "#title=OpcUaCore_BaseObjectType",
-        "type": "application/tm+json"
-      },
-      {
-        "rel": "tm:extends",
-        "href": "#title=OpcUaCore_BaseObjectType",
-        "type": "application/tm+json"
       }
     ],
     "schemaDefinitions": {
@@ -1705,41 +1390,6 @@
     "aov:typeRef": "nsu=http://opcfoundation.org/UA/MachineVision/AMCM/;i=1039",
     "aov:isComposite": true,
     "links": [
-      {
-        "rel": "tm:extends",
-        "href": "#title=OpcUaCore_BaseObjectType",
-        "type": "application/tm+json"
-      },
-      {
-        "rel": "tm:extends",
-        "href": "#title=OpcUaCore_BaseObjectType",
-        "type": "application/tm+json"
-      },
-      {
-        "rel": "tm:extends",
-        "href": "#title=OpcUaCore_BaseObjectType",
-        "type": "application/tm+json"
-      },
-      {
-        "rel": "tm:extends",
-        "href": "#title=OpcUaCore_BaseObjectType",
-        "type": "application/tm+json"
-      },
-      {
-        "rel": "tm:extends",
-        "href": "#title=OpcUaCore_BaseObjectType",
-        "type": "application/tm+json"
-      },
-      {
-        "rel": "tm:extends",
-        "href": "#title=OpcUaCore_BaseObjectType",
-        "type": "application/tm+json"
-      },
-      {
-        "rel": "tm:extends",
-        "href": "#title=OpcUaCore_BaseObjectType",
-        "type": "application/tm+json"
-      },
       {
         "rel": "tm:extends",
         "href": "#title=OpcUaCore_BaseObjectType",
@@ -1772,41 +1422,6 @@
         "rel": "tm:extends",
         "href": "#title=OpcUaCore_BaseObjectType",
         "type": "application/tm+json"
-      },
-      {
-        "rel": "tm:extends",
-        "href": "#title=OpcUaCore_BaseObjectType",
-        "type": "application/tm+json"
-      },
-      {
-        "rel": "tm:extends",
-        "href": "#title=OpcUaCore_BaseObjectType",
-        "type": "application/tm+json"
-      },
-      {
-        "rel": "tm:extends",
-        "href": "#title=OpcUaCore_BaseObjectType",
-        "type": "application/tm+json"
-      },
-      {
-        "rel": "tm:extends",
-        "href": "#title=OpcUaCore_BaseObjectType",
-        "type": "application/tm+json"
-      },
-      {
-        "rel": "tm:extends",
-        "href": "#title=OpcUaCore_BaseObjectType",
-        "type": "application/tm+json"
-      },
-      {
-        "rel": "tm:extends",
-        "href": "#title=OpcUaCore_BaseObjectType",
-        "type": "application/tm+json"
-      },
-      {
-        "rel": "tm:extends",
-        "href": "#title=OpcUaCore_BaseObjectType",
-        "type": "application/tm+json"
       }
     ],
     "schemaDefinitions": {
@@ -1831,41 +1446,6 @@
     "aov:typeRef": "nsu=http://opcfoundation.org/UA/MachineVision/AMCM/;i=1035",
     "aov:isComposite": true,
     "links": [
-      {
-        "rel": "tm:extends",
-        "href": "#title=OpcUaCore_BaseObjectType",
-        "type": "application/tm+json"
-      },
-      {
-        "rel": "tm:extends",
-        "href": "#title=OpcUaCore_BaseObjectType",
-        "type": "application/tm+json"
-      },
-      {
-        "rel": "tm:extends",
-        "href": "#title=OpcUaCore_BaseObjectType",
-        "type": "application/tm+json"
-      },
-      {
-        "rel": "tm:extends",
-        "href": "#title=OpcUaCore_BaseObjectType",
-        "type": "application/tm+json"
-      },
-      {
-        "rel": "tm:extends",
-        "href": "#title=OpcUaCore_BaseObjectType",
-        "type": "application/tm+json"
-      },
-      {
-        "rel": "tm:extends",
-        "href": "#title=OpcUaCore_BaseObjectType",
-        "type": "application/tm+json"
-      },
-      {
-        "rel": "tm:extends",
-        "href": "#title=OpcUaCore_BaseObjectType",
-        "type": "application/tm+json"
-      },
       {
         "rel": "tm:extends",
         "href": "#title=OpcUaCore_BaseObjectType",
@@ -1898,41 +1478,6 @@
         "rel": "tm:extends",
         "href": "#title=OpcUaCore_BaseObjectType",
         "type": "application/tm+json"
-      },
-      {
-        "rel": "tm:extends",
-        "href": "#title=OpcUaCore_BaseObjectType",
-        "type": "application/tm+json"
-      },
-      {
-        "rel": "tm:extends",
-        "href": "#title=OpcUaCore_BaseObjectType",
-        "type": "application/tm+json"
-      },
-      {
-        "rel": "tm:extends",
-        "href": "#title=OpcUaCore_BaseObjectType",
-        "type": "application/tm+json"
-      },
-      {
-        "rel": "tm:extends",
-        "href": "#title=OpcUaCore_BaseObjectType",
-        "type": "application/tm+json"
-      },
-      {
-        "rel": "tm:extends",
-        "href": "#title=OpcUaCore_BaseObjectType",
-        "type": "application/tm+json"
-      },
-      {
-        "rel": "tm:extends",
-        "href": "#title=OpcUaCore_BaseObjectType",
-        "type": "application/tm+json"
-      },
-      {
-        "rel": "tm:extends",
-        "href": "#title=OpcUaCore_BaseObjectType",
-        "type": "application/tm+json"
       }
     ],
     "schemaDefinitions": {
@@ -1957,41 +1502,6 @@
     "aov:typeRef": "nsu=http://opcfoundation.org/UA/MachineVision/AMCM/;i=1019",
     "aov:isComposite": true,
     "links": [
-      {
-        "rel": "tm:extends",
-        "href": "#title=OpcUaCore_BaseObjectType",
-        "type": "application/tm+json"
-      },
-      {
-        "rel": "tm:extends",
-        "href": "#title=OpcUaCore_BaseObjectType",
-        "type": "application/tm+json"
-      },
-      {
-        "rel": "tm:extends",
-        "href": "#title=OpcUaCore_BaseObjectType",
-        "type": "application/tm+json"
-      },
-      {
-        "rel": "tm:extends",
-        "href": "#title=OpcUaCore_BaseObjectType",
-        "type": "application/tm+json"
-      },
-      {
-        "rel": "tm:extends",
-        "href": "#title=OpcUaCore_BaseObjectType",
-        "type": "application/tm+json"
-      },
-      {
-        "rel": "tm:extends",
-        "href": "#title=OpcUaCore_BaseObjectType",
-        "type": "application/tm+json"
-      },
-      {
-        "rel": "tm:extends",
-        "href": "#title=OpcUaCore_BaseObjectType",
-        "type": "application/tm+json"
-      },
       {
         "rel": "tm:extends",
         "href": "#title=OpcUaCore_BaseObjectType",
@@ -2024,41 +1534,6 @@
         "rel": "tm:extends",
         "href": "#title=OpcUaCore_BaseObjectType",
         "type": "application/tm+json"
-      },
-      {
-        "rel": "tm:extends",
-        "href": "#title=OpcUaCore_BaseObjectType",
-        "type": "application/tm+json"
-      },
-      {
-        "rel": "tm:extends",
-        "href": "#title=OpcUaCore_BaseObjectType",
-        "type": "application/tm+json"
-      },
-      {
-        "rel": "tm:extends",
-        "href": "#title=OpcUaCore_BaseObjectType",
-        "type": "application/tm+json"
-      },
-      {
-        "rel": "tm:extends",
-        "href": "#title=OpcUaCore_BaseObjectType",
-        "type": "application/tm+json"
-      },
-      {
-        "rel": "tm:extends",
-        "href": "#title=OpcUaCore_BaseObjectType",
-        "type": "application/tm+json"
-      },
-      {
-        "rel": "tm:extends",
-        "href": "#title=OpcUaCore_BaseObjectType",
-        "type": "application/tm+json"
-      },
-      {
-        "rel": "tm:extends",
-        "href": "#title=OpcUaCore_BaseObjectType",
-        "type": "application/tm+json"
       }
     ],
     "schemaDefinitions": {
@@ -2083,41 +1558,6 @@
     "aov:typeRef": "nsu=http://opcfoundation.org/UA/MachineVision/AMCM/;i=1034",
     "aov:isComposite": true,
     "links": [
-      {
-        "rel": "tm:extends",
-        "href": "#title=OpcUaCore_BaseObjectType",
-        "type": "application/tm+json"
-      },
-      {
-        "rel": "tm:extends",
-        "href": "#title=OpcUaCore_BaseObjectType",
-        "type": "application/tm+json"
-      },
-      {
-        "rel": "tm:extends",
-        "href": "#title=OpcUaCore_BaseObjectType",
-        "type": "application/tm+json"
-      },
-      {
-        "rel": "tm:extends",
-        "href": "#title=OpcUaCore_BaseObjectType",
-        "type": "application/tm+json"
-      },
-      {
-        "rel": "tm:extends",
-        "href": "#title=OpcUaCore_BaseObjectType",
-        "type": "application/tm+json"
-      },
-      {
-        "rel": "tm:extends",
-        "href": "#title=OpcUaCore_BaseObjectType",
-        "type": "application/tm+json"
-      },
-      {
-        "rel": "tm:extends",
-        "href": "#title=OpcUaCore_BaseObjectType",
-        "type": "application/tm+json"
-      },
       {
         "rel": "tm:extends",
         "href": "#title=OpcUaCore_BaseObjectType",
@@ -2150,41 +1590,6 @@
         "rel": "tm:extends",
         "href": "#title=OpcUaCore_BaseObjectType",
         "type": "application/tm+json"
-      },
-      {
-        "rel": "tm:extends",
-        "href": "#title=OpcUaCore_BaseObjectType",
-        "type": "application/tm+json"
-      },
-      {
-        "rel": "tm:extends",
-        "href": "#title=OpcUaCore_BaseObjectType",
-        "type": "application/tm+json"
-      },
-      {
-        "rel": "tm:extends",
-        "href": "#title=OpcUaCore_BaseObjectType",
-        "type": "application/tm+json"
-      },
-      {
-        "rel": "tm:extends",
-        "href": "#title=OpcUaCore_BaseObjectType",
-        "type": "application/tm+json"
-      },
-      {
-        "rel": "tm:extends",
-        "href": "#title=OpcUaCore_BaseObjectType",
-        "type": "application/tm+json"
-      },
-      {
-        "rel": "tm:extends",
-        "href": "#title=OpcUaCore_BaseObjectType",
-        "type": "application/tm+json"
-      },
-      {
-        "rel": "tm:extends",
-        "href": "#title=OpcUaCore_BaseObjectType",
-        "type": "application/tm+json"
       }
     ],
     "schemaDefinitions": {
@@ -2209,41 +1614,6 @@
     "aov:typeRef": "nsu=http://opcfoundation.org/UA/MachineVision/AMCM/;i=1028",
     "aov:isComposite": true,
     "links": [
-      {
-        "rel": "tm:extends",
-        "href": "#title=OpcUaCore_BaseObjectType",
-        "type": "application/tm+json"
-      },
-      {
-        "rel": "tm:extends",
-        "href": "#title=OpcUaCore_BaseObjectType",
-        "type": "application/tm+json"
-      },
-      {
-        "rel": "tm:extends",
-        "href": "#title=OpcUaCore_BaseObjectType",
-        "type": "application/tm+json"
-      },
-      {
-        "rel": "tm:extends",
-        "href": "#title=OpcUaCore_BaseObjectType",
-        "type": "application/tm+json"
-      },
-      {
-        "rel": "tm:extends",
-        "href": "#title=OpcUaCore_BaseObjectType",
-        "type": "application/tm+json"
-      },
-      {
-        "rel": "tm:extends",
-        "href": "#title=OpcUaCore_BaseObjectType",
-        "type": "application/tm+json"
-      },
-      {
-        "rel": "tm:extends",
-        "href": "#title=OpcUaCore_BaseObjectType",
-        "type": "application/tm+json"
-      },
       {
         "rel": "tm:extends",
         "href": "#title=OpcUaCore_BaseObjectType",
@@ -2276,41 +1646,6 @@
         "rel": "tm:extends",
         "href": "#title=OpcUaCore_BaseObjectType",
         "type": "application/tm+json"
-      },
-      {
-        "rel": "tm:extends",
-        "href": "#title=OpcUaCore_BaseObjectType",
-        "type": "application/tm+json"
-      },
-      {
-        "rel": "tm:extends",
-        "href": "#title=OpcUaCore_BaseObjectType",
-        "type": "application/tm+json"
-      },
-      {
-        "rel": "tm:extends",
-        "href": "#title=OpcUaCore_BaseObjectType",
-        "type": "application/tm+json"
-      },
-      {
-        "rel": "tm:extends",
-        "href": "#title=OpcUaCore_BaseObjectType",
-        "type": "application/tm+json"
-      },
-      {
-        "rel": "tm:extends",
-        "href": "#title=OpcUaCore_BaseObjectType",
-        "type": "application/tm+json"
-      },
-      {
-        "rel": "tm:extends",
-        "href": "#title=OpcUaCore_BaseObjectType",
-        "type": "application/tm+json"
-      },
-      {
-        "rel": "tm:extends",
-        "href": "#title=OpcUaCore_BaseObjectType",
-        "type": "application/tm+json"
       }
     ],
     "schemaDefinitions": {
@@ -2335,41 +1670,6 @@
     "aov:typeRef": "nsu=http://opcfoundation.org/UA/MachineVision/AMCM/;i=1022",
     "aov:isComposite": true,
     "links": [
-      {
-        "rel": "tm:extends",
-        "href": "#title=OpcUaCore_BaseObjectType",
-        "type": "application/tm+json"
-      },
-      {
-        "rel": "tm:extends",
-        "href": "#title=OpcUaCore_BaseObjectType",
-        "type": "application/tm+json"
-      },
-      {
-        "rel": "tm:extends",
-        "href": "#title=OpcUaCore_BaseObjectType",
-        "type": "application/tm+json"
-      },
-      {
-        "rel": "tm:extends",
-        "href": "#title=OpcUaCore_BaseObjectType",
-        "type": "application/tm+json"
-      },
-      {
-        "rel": "tm:extends",
-        "href": "#title=OpcUaCore_BaseObjectType",
-        "type": "application/tm+json"
-      },
-      {
-        "rel": "tm:extends",
-        "href": "#title=OpcUaCore_BaseObjectType",
-        "type": "application/tm+json"
-      },
-      {
-        "rel": "tm:extends",
-        "href": "#title=OpcUaCore_BaseObjectType",
-        "type": "application/tm+json"
-      },
       {
         "rel": "tm:extends",
         "href": "#title=OpcUaCore_BaseObjectType",
@@ -2402,41 +1702,6 @@
         "rel": "tm:extends",
         "href": "#title=OpcUaCore_BaseObjectType",
         "type": "application/tm+json"
-      },
-      {
-        "rel": "tm:extends",
-        "href": "#title=OpcUaCore_BaseObjectType",
-        "type": "application/tm+json"
-      },
-      {
-        "rel": "tm:extends",
-        "href": "#title=OpcUaCore_BaseObjectType",
-        "type": "application/tm+json"
-      },
-      {
-        "rel": "tm:extends",
-        "href": "#title=OpcUaCore_BaseObjectType",
-        "type": "application/tm+json"
-      },
-      {
-        "rel": "tm:extends",
-        "href": "#title=OpcUaCore_BaseObjectType",
-        "type": "application/tm+json"
-      },
-      {
-        "rel": "tm:extends",
-        "href": "#title=OpcUaCore_BaseObjectType",
-        "type": "application/tm+json"
-      },
-      {
-        "rel": "tm:extends",
-        "href": "#title=OpcUaCore_BaseObjectType",
-        "type": "application/tm+json"
-      },
-      {
-        "rel": "tm:extends",
-        "href": "#title=OpcUaCore_BaseObjectType",
-        "type": "application/tm+json"
       }
     ],
     "schemaDefinitions": {
@@ -2461,41 +1726,6 @@
     "aov:typeRef": "nsu=http://opcfoundation.org/UA/MachineVision/AMCM/;i=1029",
     "aov:isComposite": true,
     "links": [
-      {
-        "rel": "tm:extends",
-        "href": "#title=OpcUaCore_BaseObjectType",
-        "type": "application/tm+json"
-      },
-      {
-        "rel": "tm:extends",
-        "href": "#title=OpcUaCore_BaseObjectType",
-        "type": "application/tm+json"
-      },
-      {
-        "rel": "tm:extends",
-        "href": "#title=OpcUaCore_BaseObjectType",
-        "type": "application/tm+json"
-      },
-      {
-        "rel": "tm:extends",
-        "href": "#title=OpcUaCore_BaseObjectType",
-        "type": "application/tm+json"
-      },
-      {
-        "rel": "tm:extends",
-        "href": "#title=OpcUaCore_BaseObjectType",
-        "type": "application/tm+json"
-      },
-      {
-        "rel": "tm:extends",
-        "href": "#title=OpcUaCore_BaseObjectType",
-        "type": "application/tm+json"
-      },
-      {
-        "rel": "tm:extends",
-        "href": "#title=OpcUaCore_BaseObjectType",
-        "type": "application/tm+json"
-      },
       {
         "rel": "tm:extends",
         "href": "#title=OpcUaCore_BaseObjectType",
@@ -2528,41 +1758,6 @@
         "rel": "tm:extends",
         "href": "#title=OpcUaCore_BaseObjectType",
         "type": "application/tm+json"
-      },
-      {
-        "rel": "tm:extends",
-        "href": "#title=OpcUaCore_BaseObjectType",
-        "type": "application/tm+json"
-      },
-      {
-        "rel": "tm:extends",
-        "href": "#title=OpcUaCore_BaseObjectType",
-        "type": "application/tm+json"
-      },
-      {
-        "rel": "tm:extends",
-        "href": "#title=OpcUaCore_BaseObjectType",
-        "type": "application/tm+json"
-      },
-      {
-        "rel": "tm:extends",
-        "href": "#title=OpcUaCore_BaseObjectType",
-        "type": "application/tm+json"
-      },
-      {
-        "rel": "tm:extends",
-        "href": "#title=OpcUaCore_BaseObjectType",
-        "type": "application/tm+json"
-      },
-      {
-        "rel": "tm:extends",
-        "href": "#title=OpcUaCore_BaseObjectType",
-        "type": "application/tm+json"
-      },
-      {
-        "rel": "tm:extends",
-        "href": "#title=OpcUaCore_BaseObjectType",
-        "type": "application/tm+json"
       }
     ],
     "schemaDefinitions": {
@@ -2587,41 +1782,6 @@
     "aov:typeRef": "nsu=http://opcfoundation.org/UA/MachineVision/AMCM/;i=1024",
     "aov:isComposite": true,
     "links": [
-      {
-        "rel": "tm:extends",
-        "href": "#title=OpcUaCore_BaseObjectType",
-        "type": "application/tm+json"
-      },
-      {
-        "rel": "tm:extends",
-        "href": "#title=OpcUaCore_BaseObjectType",
-        "type": "application/tm+json"
-      },
-      {
-        "rel": "tm:extends",
-        "href": "#title=OpcUaCore_BaseObjectType",
-        "type": "application/tm+json"
-      },
-      {
-        "rel": "tm:extends",
-        "href": "#title=OpcUaCore_BaseObjectType",
-        "type": "application/tm+json"
-      },
-      {
-        "rel": "tm:extends",
-        "href": "#title=OpcUaCore_BaseObjectType",
-        "type": "application/tm+json"
-      },
-      {
-        "rel": "tm:extends",
-        "href": "#title=OpcUaCore_BaseObjectType",
-        "type": "application/tm+json"
-      },
-      {
-        "rel": "tm:extends",
-        "href": "#title=OpcUaCore_BaseObjectType",
-        "type": "application/tm+json"
-      },
       {
         "rel": "tm:extends",
         "href": "#title=OpcUaCore_BaseObjectType",
@@ -2654,41 +1814,6 @@
         "rel": "tm:extends",
         "href": "#title=OpcUaCore_BaseObjectType",
         "type": "application/tm+json"
-      },
-      {
-        "rel": "tm:extends",
-        "href": "#title=OpcUaCore_BaseObjectType",
-        "type": "application/tm+json"
-      },
-      {
-        "rel": "tm:extends",
-        "href": "#title=OpcUaCore_BaseObjectType",
-        "type": "application/tm+json"
-      },
-      {
-        "rel": "tm:extends",
-        "href": "#title=OpcUaCore_BaseObjectType",
-        "type": "application/tm+json"
-      },
-      {
-        "rel": "tm:extends",
-        "href": "#title=OpcUaCore_BaseObjectType",
-        "type": "application/tm+json"
-      },
-      {
-        "rel": "tm:extends",
-        "href": "#title=OpcUaCore_BaseObjectType",
-        "type": "application/tm+json"
-      },
-      {
-        "rel": "tm:extends",
-        "href": "#title=OpcUaCore_BaseObjectType",
-        "type": "application/tm+json"
-      },
-      {
-        "rel": "tm:extends",
-        "href": "#title=OpcUaCore_BaseObjectType",
-        "type": "application/tm+json"
       }
     ],
     "schemaDefinitions": {
@@ -2713,41 +1838,6 @@
     "aov:typeRef": "nsu=http://opcfoundation.org/UA/MachineVision/AMCM/;i=1030",
     "aov:isComposite": true,
     "links": [
-      {
-        "rel": "tm:extends",
-        "href": "#title=OpcUaCore_BaseObjectType",
-        "type": "application/tm+json"
-      },
-      {
-        "rel": "tm:extends",
-        "href": "#title=OpcUaCore_BaseObjectType",
-        "type": "application/tm+json"
-      },
-      {
-        "rel": "tm:extends",
-        "href": "#title=OpcUaCore_BaseObjectType",
-        "type": "application/tm+json"
-      },
-      {
-        "rel": "tm:extends",
-        "href": "#title=OpcUaCore_BaseObjectType",
-        "type": "application/tm+json"
-      },
-      {
-        "rel": "tm:extends",
-        "href": "#title=OpcUaCore_BaseObjectType",
-        "type": "application/tm+json"
-      },
-      {
-        "rel": "tm:extends",
-        "href": "#title=OpcUaCore_BaseObjectType",
-        "type": "application/tm+json"
-      },
-      {
-        "rel": "tm:extends",
-        "href": "#title=OpcUaCore_BaseObjectType",
-        "type": "application/tm+json"
-      },
       {
         "rel": "tm:extends",
         "href": "#title=OpcUaCore_BaseObjectType",
@@ -2780,41 +1870,6 @@
         "rel": "tm:extends",
         "href": "#title=OpcUaCore_BaseObjectType",
         "type": "application/tm+json"
-      },
-      {
-        "rel": "tm:extends",
-        "href": "#title=OpcUaCore_BaseObjectType",
-        "type": "application/tm+json"
-      },
-      {
-        "rel": "tm:extends",
-        "href": "#title=OpcUaCore_BaseObjectType",
-        "type": "application/tm+json"
-      },
-      {
-        "rel": "tm:extends",
-        "href": "#title=OpcUaCore_BaseObjectType",
-        "type": "application/tm+json"
-      },
-      {
-        "rel": "tm:extends",
-        "href": "#title=OpcUaCore_BaseObjectType",
-        "type": "application/tm+json"
-      },
-      {
-        "rel": "tm:extends",
-        "href": "#title=OpcUaCore_BaseObjectType",
-        "type": "application/tm+json"
-      },
-      {
-        "rel": "tm:extends",
-        "href": "#title=OpcUaCore_BaseObjectType",
-        "type": "application/tm+json"
-      },
-      {
-        "rel": "tm:extends",
-        "href": "#title=OpcUaCore_BaseObjectType",
-        "type": "application/tm+json"
       }
     ],
     "schemaDefinitions": {
@@ -2839,41 +1894,6 @@
     "aov:typeRef": "nsu=http://opcfoundation.org/UA/MachineVision/AMCM/;i=1031",
     "aov:isComposite": true,
     "links": [
-      {
-        "rel": "tm:extends",
-        "href": "#title=OpcUaCore_BaseObjectType",
-        "type": "application/tm+json"
-      },
-      {
-        "rel": "tm:extends",
-        "href": "#title=OpcUaCore_BaseObjectType",
-        "type": "application/tm+json"
-      },
-      {
-        "rel": "tm:extends",
-        "href": "#title=OpcUaCore_BaseObjectType",
-        "type": "application/tm+json"
-      },
-      {
-        "rel": "tm:extends",
-        "href": "#title=OpcUaCore_BaseObjectType",
-        "type": "application/tm+json"
-      },
-      {
-        "rel": "tm:extends",
-        "href": "#title=OpcUaCore_BaseObjectType",
-        "type": "application/tm+json"
-      },
-      {
-        "rel": "tm:extends",
-        "href": "#title=OpcUaCore_BaseObjectType",
-        "type": "application/tm+json"
-      },
-      {
-        "rel": "tm:extends",
-        "href": "#title=OpcUaCore_BaseObjectType",
-        "type": "application/tm+json"
-      },
       {
         "rel": "tm:extends",
         "href": "#title=OpcUaCore_BaseObjectType",
@@ -2906,41 +1926,6 @@
         "rel": "tm:extends",
         "href": "#title=OpcUaCore_BaseObjectType",
         "type": "application/tm+json"
-      },
-      {
-        "rel": "tm:extends",
-        "href": "#title=OpcUaCore_BaseObjectType",
-        "type": "application/tm+json"
-      },
-      {
-        "rel": "tm:extends",
-        "href": "#title=OpcUaCore_BaseObjectType",
-        "type": "application/tm+json"
-      },
-      {
-        "rel": "tm:extends",
-        "href": "#title=OpcUaCore_BaseObjectType",
-        "type": "application/tm+json"
-      },
-      {
-        "rel": "tm:extends",
-        "href": "#title=OpcUaCore_BaseObjectType",
-        "type": "application/tm+json"
-      },
-      {
-        "rel": "tm:extends",
-        "href": "#title=OpcUaCore_BaseObjectType",
-        "type": "application/tm+json"
-      },
-      {
-        "rel": "tm:extends",
-        "href": "#title=OpcUaCore_BaseObjectType",
-        "type": "application/tm+json"
-      },
-      {
-        "rel": "tm:extends",
-        "href": "#title=OpcUaCore_BaseObjectType",
-        "type": "application/tm+json"
       }
     ],
     "schemaDefinitions": {
@@ -2965,41 +1950,6 @@
     "aov:typeRef": "nsu=http://opcfoundation.org/UA/MachineVision/AMCM/;i=1008",
     "aov:isComposite": true,
     "links": [
-      {
-        "rel": "tm:extends",
-        "href": "#title=OpcUaCore_BaseObjectType",
-        "type": "application/tm+json"
-      },
-      {
-        "rel": "tm:extends",
-        "href": "#title=OpcUaCore_BaseObjectType",
-        "type": "application/tm+json"
-      },
-      {
-        "rel": "tm:extends",
-        "href": "#title=OpcUaCore_BaseObjectType",
-        "type": "application/tm+json"
-      },
-      {
-        "rel": "tm:extends",
-        "href": "#title=OpcUaCore_BaseObjectType",
-        "type": "application/tm+json"
-      },
-      {
-        "rel": "tm:extends",
-        "href": "#title=OpcUaCore_BaseObjectType",
-        "type": "application/tm+json"
-      },
-      {
-        "rel": "tm:extends",
-        "href": "#title=OpcUaCore_BaseObjectType",
-        "type": "application/tm+json"
-      },
-      {
-        "rel": "tm:extends",
-        "href": "#title=OpcUaCore_BaseObjectType",
-        "type": "application/tm+json"
-      },
       {
         "rel": "tm:extends",
         "href": "#title=OpcUaCore_BaseObjectType",
@@ -3188,41 +2138,6 @@
         "rel": "tm:extends",
         "href": "#title=OpcUaCore_BaseObjectType",
         "type": "application/tm+json"
-      },
-      {
-        "rel": "tm:extends",
-        "href": "#title=OpcUaCore_BaseObjectType",
-        "type": "application/tm+json"
-      },
-      {
-        "rel": "tm:extends",
-        "href": "#title=OpcUaCore_BaseObjectType",
-        "type": "application/tm+json"
-      },
-      {
-        "rel": "tm:extends",
-        "href": "#title=OpcUaCore_BaseObjectType",
-        "type": "application/tm+json"
-      },
-      {
-        "rel": "tm:extends",
-        "href": "#title=OpcUaCore_BaseObjectType",
-        "type": "application/tm+json"
-      },
-      {
-        "rel": "tm:extends",
-        "href": "#title=OpcUaCore_BaseObjectType",
-        "type": "application/tm+json"
-      },
-      {
-        "rel": "tm:extends",
-        "href": "#title=OpcUaCore_BaseObjectType",
-        "type": "application/tm+json"
-      },
-      {
-        "rel": "tm:extends",
-        "href": "#title=OpcUaCore_BaseObjectType",
-        "type": "application/tm+json"
       }
     ],
     "schemaDefinitions": {
@@ -3247,41 +2162,6 @@
     "aov:typeRef": "nsu=http://opcfoundation.org/UA/MachineVision/AMCM/;i=1026",
     "aov:isComposite": true,
     "links": [
-      {
-        "rel": "tm:extends",
-        "href": "#title=OpcUaCore_BaseObjectType",
-        "type": "application/tm+json"
-      },
-      {
-        "rel": "tm:extends",
-        "href": "#title=OpcUaCore_BaseObjectType",
-        "type": "application/tm+json"
-      },
-      {
-        "rel": "tm:extends",
-        "href": "#title=OpcUaCore_BaseObjectType",
-        "type": "application/tm+json"
-      },
-      {
-        "rel": "tm:extends",
-        "href": "#title=OpcUaCore_BaseObjectType",
-        "type": "application/tm+json"
-      },
-      {
-        "rel": "tm:extends",
-        "href": "#title=OpcUaCore_BaseObjectType",
-        "type": "application/tm+json"
-      },
-      {
-        "rel": "tm:extends",
-        "href": "#title=OpcUaCore_BaseObjectType",
-        "type": "application/tm+json"
-      },
-      {
-        "rel": "tm:extends",
-        "href": "#title=OpcUaCore_BaseObjectType",
-        "type": "application/tm+json"
-      },
       {
         "rel": "tm:extends",
         "href": "#title=OpcUaCore_BaseObjectType",

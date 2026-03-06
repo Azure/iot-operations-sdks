@@ -116,7 +116,11 @@ namespace Azure.Iot.Operations.Opc2WotLib
             this.Write(this.ToStringHelper.ToStringWithCulture(this.specName));
             this.Write("/");
             this.Write(this.ToStringHelper.ToStringWithCulture(this.thingName));
-            this.Write("/events/{senderId}\",\r\n      \"op\": \"subscribeallevents\"\r\n    }");
+            this.Write("/events/{senderId}\",\r\n");
+ if (this.inheritVars && this.baseModelRefs.Any()) { 
+            this.Write("      \"dtv:includeInherited\": true,\r\n");
+ } 
+            this.Write("      \"op\": \"subscribeallevents\"\r\n    }");
             this.Write(this.ToStringHelper.ToStringWithCulture(this.properties.Any() ? "," : ""));
             this.Write("\r\n");
  } 
@@ -126,13 +130,21 @@ namespace Azure.Iot.Operations.Opc2WotLib
             this.Write(this.ToStringHelper.ToStringWithCulture(this.specName));
             this.Write("/");
             this.Write(this.ToStringHelper.ToStringWithCulture(this.thingName));
-            this.Write("/properties/write\",\r\n      \"op\": \"writemultipleproperties\"\r\n    },\r\n");
+            this.Write("/properties/write\",\r\n");
+ if (this.inheritVars && this.baseModelRefs.Any()) { 
+            this.Write("      \"dtv:includeInherited\": true,\r\n");
+ } 
+            this.Write("      \"op\": \"writemultipleproperties\"\r\n    },\r\n");
  } 
             this.Write("    {\r\n      \"contentType\": \"application/json\",\r\n      \"dtv:topic\": \"opcua/");
             this.Write(this.ToStringHelper.ToStringWithCulture(this.specName));
             this.Write("/");
             this.Write(this.ToStringHelper.ToStringWithCulture(this.thingName));
-            this.Write("/properties/read\",\r\n      \"op\": \"readallproperties\"\r\n    }\r\n");
+            this.Write("/properties/read\",\r\n");
+ if (this.inheritVars && this.baseModelRefs.Any()) { 
+            this.Write("      \"dtv:includeInherited\": true,\r\n");
+ } 
+            this.Write("      \"op\": \"readallproperties\"\r\n    }\r\n");
  } 
             this.Write("  ],\r\n");
  } 
