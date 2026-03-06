@@ -1,0 +1,17 @@
+{
+  "$schema": "https://json-schema.org/draft-07/schema",
+  "title": "UpdateAssetStatusResponseSchema",
+  "description": "Response containing the updated asset status or error details if the update failed.",
+  "type": "object",
+  "additionalProperties": false,
+  "properties": {
+    "updateAssetStatusError": {
+      "description": "Read error for the 'updateAssetStatus' Action.",
+      "$ref": "AkriServiceError.schema.json"
+    },
+    "updatedAssetStatus": {
+      "description": "The updated asset status.",
+      "$ref": "AssetStatus.schema.json"
+    }
+  }
+}

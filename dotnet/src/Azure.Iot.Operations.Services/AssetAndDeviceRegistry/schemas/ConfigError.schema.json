@@ -1,0 +1,21 @@
+{
+  "$schema": "https://json-schema.org/draft-07/schema",
+  "title": "ConfigError",
+  "description": "The last error that occurred while processing the configuration.",
+  "type": "object",
+  "additionalProperties": false,
+  "properties": {
+    "code": {
+      "description": "Error code for classification of errors (ex: '400', '404', '500', etc.).",
+      "type": "string"
+    },
+    "details": {
+      "description": "Array of error details that describe the status of each error.",
+      "type": "array", "items": { "$ref": "DetailsSchemaElementSchema.schema.json" }
+    },
+    "message": {
+      "description": "Human readable helpful error message to provide additional context for error (ex: “capability Id ''foo'' does not exist”).",
+      "type": "string"
+    }
+  }
+}

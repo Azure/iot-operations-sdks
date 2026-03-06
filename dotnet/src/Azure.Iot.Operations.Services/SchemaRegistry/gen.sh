@@ -1,8 +1,4 @@
-rm -rf ./SchemaRegistry
-mkdir ./SchemaRegistry
-rm -rf ./Common
-mkdir ./Common
-../../../../codegen/src/Azure.Iot.Operations.ProtocolCompiler/bin/Debug/net9.0/Azure.Iot.Operations.ProtocolCompiler --modelFile ../../../../eng/dtdl/SchemaRegistry-1.json --lang csharp --outDir /tmp/Azure.Iot.Operations.Services.SchemaRegistry
-cp -f /tmp/Azure.Iot.Operations.Services.SchemaRegistry/SchemaRegistry/*.cs SchemaRegistry -v
-cp -f /tmp/Azure.Iot.Operations.Services.SchemaRegistry/*.cs Common -v
-rm -rf /tmp/Azure.Iot.Operations.Services.SchemaRegistry -v
+rm -rf ./Generated
+dotnet run --project ../../../../codegen2/src/Azure.Iot.Operations.ProtocolCompiler/ --things ../../../../eng/wot/schemaregistry/SchemaRegistry.TM.json --lang csharp --outDir ./Azure.Iot.Operations.Services.SchemaRegistry --noProj --namespace Generated --common Generated.Common --typeNamer ../../../../eng/wot/schemaregistry/SchemaNames.json
+mv -f ./Azure.Iot.Operations.Services.SchemaRegistry/** .
+rm -rf ./Azure.Iot.Operations.Services.SchemaRegistry

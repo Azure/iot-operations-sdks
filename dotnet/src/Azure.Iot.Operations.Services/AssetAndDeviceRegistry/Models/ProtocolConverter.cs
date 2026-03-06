@@ -1,9 +1,8 @@
 ﻿// Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-using Azure.Iot.Operations.Services.AssetAndDeviceRegistry.AdrBaseService;
-using Azure.Iot.Operations.Services.AssetAndDeviceRegistry.DeviceDiscoveryService;
-using DeviceDiscoveryService = Azure.Iot.Operations.Services.AssetAndDeviceRegistry.DeviceDiscoveryService;
+using Azure.Iot.Operations.Services.AssetAndDeviceRegistry.Generated.AdrBaseService;
+using Azure.Iot.Operations.Services.AssetAndDeviceRegistry.Generated.DeviceDiscoveryService;
 
 namespace Azure.Iot.Operations.Services.AssetAndDeviceRegistry.Models;
 
@@ -17,7 +16,7 @@ internal static class ProtocolConverter
         };
     }
 
-    public static DeviceDiscoveryService.DiscoveredDevice ToProtocol(this Models.DiscoveredDevice source)
+    public static Generated.DeviceDiscoveryService.DiscoveredDevice ToProtocol(this Models.DiscoveredDevice source)
     {
         return new()
         {
@@ -31,7 +30,7 @@ internal static class ProtocolConverter
         };
     }
 
-    public static DeviceDiscoveryService.CreateOrUpdateDiscoveredDeviceRequestSchema ToProtocol(this Models.CreateOrUpdateDiscoveredDeviceRequestSchema source)
+    public static Generated.DeviceDiscoveryService.CreateOrUpdateDiscoveredDeviceRequestSchema ToProtocol(this Models.CreateOrUpdateDiscoveredDeviceRequestSchema source)
     {
         return new()
         {
@@ -64,12 +63,12 @@ internal static class ProtocolConverter
         };
     }
 
-    internal static AdrBaseService.DiscoveredAssetEventGroup ToProtocol(this DiscoveredAssetEventGroup source)
+    internal static Generated.AdrBaseService.DiscoveredAssetEventGroup ToProtocol(this DiscoveredAssetEventGroup source)
     {
-        return new AdrBaseService.DiscoveredAssetEventGroup()
+        return new Generated.AdrBaseService.DiscoveredAssetEventGroup()
         {
             DataSource = source.DataSource,
-            DefaultEventsDestinations = source.DefaultEventsDestinations?.Select(x => x.ToProtocol()).ToList(),
+            DefaultDestinations = source.DefaultDestinations?.Select(x => x.ToProtocol()).ToList(),
             EventGroupConfiguration = source.EventGroupConfiguration,
             Events = source.Events?.Select(x => x.ToProtocol()).ToList(),
             Name = source.Name,
@@ -77,9 +76,9 @@ internal static class ProtocolConverter
         };
     }
 
-    internal static AdrBaseService.DiscoveredAsset ToProtocol(this DiscoveredAsset source)
+    internal static Generated.AdrBaseService.DiscoveredAsset ToProtocol(this DiscoveredAsset source)
     {
-        return new AdrBaseService.DiscoveredAsset
+        return new Generated.AdrBaseService.DiscoveredAsset
         {
             AssetTypeRefs = source.AssetTypeRefs,
             Attributes = source.Attributes,
@@ -109,9 +108,9 @@ internal static class ProtocolConverter
         };
     }
 
-    internal static AdrBaseService.DiscoveredAssetEvent ToProtocol(this DiscoveredAssetEvent source)
+    internal static Generated.AdrBaseService.DiscoveredAssetEvent ToProtocol(this DiscoveredAssetEvent source)
     {
-        return new AdrBaseService.DiscoveredAssetEvent
+        return new Generated.AdrBaseService.DiscoveredAssetEvent
         {
             Destinations = source.Destinations?.Select(x => x.ToProtocol()).ToList(),
             EventConfiguration = source.EventConfiguration,
@@ -122,9 +121,9 @@ internal static class ProtocolConverter
         };
     }
 
-    internal static AdrBaseService.DiscoveredAssetDataset ToProtocol(this DiscoveredAssetDataset source)
+    internal static Generated.AdrBaseService.DiscoveredAssetDataset ToProtocol(this DiscoveredAssetDataset source)
     {
-        return new AdrBaseService.DiscoveredAssetDataset
+        return new Generated.AdrBaseService.DiscoveredAssetDataset
         {
             Name = source.Name,
             DatasetConfiguration = source.DataSetConfiguration,
@@ -136,9 +135,9 @@ internal static class ProtocolConverter
         };
     }
 
-    internal static AdrBaseService.DiscoveredAssetDatasetDataPoint ToProtocol(this DiscoveredAssetDatasetDataPoint source)
+    internal static Generated.AdrBaseService.DiscoveredAssetDatasetDataPoint ToProtocol(this DiscoveredAssetDatasetDataPoint source)
     {
-        return new AdrBaseService.DiscoveredAssetDatasetDataPoint
+        return new Generated.AdrBaseService.DiscoveredAssetDatasetDataPoint
         {
             Name = source.Name,
             DataPointConfiguration = source.DataPointConfiguration,
@@ -148,9 +147,22 @@ internal static class ProtocolConverter
         };
     }
 
-    internal static AdrBaseService.DiscoveredAssetStream ToProtocol(this DiscoveredAssetStream source)
+    internal static Generated.AdrBaseService.NotificationPreference ToProtocol(this NotificationPreference source)
     {
-        return new AdrBaseService.DiscoveredAssetStream
+        switch (source)
+        {
+            case NotificationPreference.On:
+                return Generated.AdrBaseService.NotificationPreference.On;
+            case NotificationPreference.Off:
+                return Generated.AdrBaseService.NotificationPreference.Off;
+            default:
+                throw new ArgumentException("Unknown notification preference type");
+        }
+    }
+
+    internal static Generated.AdrBaseService.DiscoveredAssetStream ToProtocol(this DiscoveredAssetStream source)
+    {
+        return new Generated.AdrBaseService.DiscoveredAssetStream
         {
             Destinations = source.Destinations?.Select(x => x.ToProtocol()).ToList(),
             LastUpdatedOn = source.LastUpdatedOn,
@@ -160,106 +172,142 @@ internal static class ProtocolConverter
         };
     }
 
-    internal static AdrBaseService.DiscoveredAssetManagementGroup ToProtocol(this DiscoveredAssetManagementGroup source)
-{
-    return new AdrBaseService.DiscoveredAssetManagementGroup
+    internal static Generated.AdrBaseService.DiscoveredAssetManagementGroup ToProtocol(this DiscoveredAssetManagementGroup source)
     {
-        Actions = source.Actions?.Select(x => x.ToProtocol()).ToList(),
-        DataSource = source.DataSource,
-        DefaultTimeoutInSeconds = source.DefaultTimeoutInSeconds,
-        DefaultTopic = source.DefaultTopic,
-        LastUpdatedOn = source.LastUpdatedOn,
-        ManagementGroupConfiguration = source.ManagementGroupConfiguration,
-        Name = source.Name,
-        TypeRef = source.TypeRef,
-    };
-}
+        return new Generated.AdrBaseService.DiscoveredAssetManagementGroup
+        {
+            Actions = source.Actions?.Select(x => x.ToProtocol()).ToList(),
+            DataSource = source.DataSource,
+            DefaultTimeoutInSeconds = source.DefaultTimeoutInSeconds,
+            DefaultTopic = source.DefaultTopic,
+            LastUpdatedOn = source.LastUpdatedOn,
+            ManagementGroupConfiguration = source.ManagementGroupConfiguration,
+            Name = source.Name,
+            TypeRef = source.TypeRef,
+        };
+    }
 
-    internal static AdrBaseService.DiscoveredAssetManagementGroupAction ToProtocol(this DiscoveredAssetManagementGroupAction source)
-{
-    return new AdrBaseService.DiscoveredAssetManagementGroupAction
+    internal static Generated.AdrBaseService.DiscoveredAssetManagementGroupAction ToProtocol(this DiscoveredAssetManagementGroupAction source)
     {
-        Name = source.Name,
-        ActionConfiguration = source.ActionConfiguration,
-        ActionType = source.ActionType.ToProtocol(),
-        LastUpdatedOn = source.LastUpdatedOn,
-        TypeRef = source.TypeRef,
-        TargetUri = source.TargetUri,
-        TimeoutInSeconds = source.TimeoutInSeconds,
-        Topic = source.Topic,
-    };
-}
+        return new Generated.AdrBaseService.DiscoveredAssetManagementGroupAction
+        {
+            Name = source.Name,
+            ActionConfiguration = source.ActionConfiguration,
+            ActionType = source.ActionType.ToProtocol(),
+            LastUpdatedOn = source.LastUpdatedOn,
+            TypeRef = source.TypeRef,
+            TargetUri = source.TargetUri,
+            TimeoutInSeconds = source.TimeoutInSeconds,
+            Topic = source.Topic,
+        };
+    }
 
-    internal static AdrBaseService. AssetManagementGroupActionType ToProtocol(this AssetManagementGroupActionType source)
-{
-    return (AdrBaseService.AssetManagementGroupActionType)(int)source;
-}
-
-    internal static AdrBaseService.DatasetDestination ToProtocol(this DatasetDestination source)
-{
-    return new AdrBaseService.DatasetDestination
+    internal static Generated.AdrBaseService.AssetManagementGroupActionType ToProtocol(this AssetManagementGroupActionType source)
     {
-        Target = source.Target.ToProtocol(),
-        Configuration = source.Configuration.ToProtocol()
-    };
-}
+        switch (source)
+        {
+            case AssetManagementGroupActionType.Call:
+                return Generated.AdrBaseService.AssetManagementGroupActionType.Call;
+            case AssetManagementGroupActionType.Write:
+                return Generated.AdrBaseService.AssetManagementGroupActionType.Write;
+            case AssetManagementGroupActionType.Read:
+                return Generated.AdrBaseService.AssetManagementGroupActionType.Read;
+            default:
+                throw new ArgumentException("Unknown management group action type");
+        }
+    }
 
-    internal static AdrBaseService.DatasetTarget ToProtocol(this DatasetTarget source)
-{
-    return (AdrBaseService.DatasetTarget)(int)source;
-}
-
-    internal static AdrBaseService.EventStreamDestination ToProtocol(this EventStreamDestination source)
-{
-    return new AdrBaseService.EventStreamDestination
+    internal static Generated.AdrBaseService.DatasetDestination ToProtocol(this DatasetDestination source)
     {
-        Configuration = source.Configuration.ToProtocol(),
-        Target = source.Target.ToProtocol(),
-    };
-}
+        return new Generated.AdrBaseService.DatasetDestination
+        {
+            Target = source.Target.ToProtocol(),
+            Configuration = source.Configuration.ToProtocol()
+        };
+    }
 
-    internal static AdrBaseService.EventStreamTarget ToProtocol(this EventStreamTarget source)
-{
-    return (AdrBaseService.EventStreamTarget)(int)source;
-}
-
-    internal static AdrBaseService.DestinationConfiguration ToProtocol(this DestinationConfiguration source)
-{
-    return new AdrBaseService.DestinationConfiguration
+    internal static Generated.AdrBaseService.DatasetTarget ToProtocol(this DatasetTarget source)
     {
-        Key = source.Key,
-        Path = source.Path,
-        Topic = source.Topic,
-        Qos = source.Qos?.ToProtocol(),
-        Retain = source.Retain?.ToProtocol(),
-        Ttl = source.Ttl
-    };
-}
+        switch (source)
+        {
+            case DatasetTarget.Mqtt:
+                return Generated.AdrBaseService.DatasetTarget.Mqtt;
+            case DatasetTarget.Storage:
+                return Generated.AdrBaseService.DatasetTarget.Storage;
+            case DatasetTarget.BrokerStateStore:
+                return Generated.AdrBaseService.DatasetTarget.BrokerStateStore;
+            default:
+                throw new ArgumentException("Unknown dataset target");
+        }
+    }
 
-    internal static AdrBaseService.Qos ToProtocol(this QoS source)
-{
-    return (AdrBaseService.Qos)(int)source;
-}
-
-    internal static AdrBaseService.AssetDeviceRef ToProtocol(this AssetDeviceRef source)
+    internal static Generated.AdrBaseService.EventStreamDestination ToProtocol(this EventStreamDestination source)
     {
-        return new AdrBaseService.AssetDeviceRef
+        return new Generated.AdrBaseService.EventStreamDestination
+        {
+            Configuration = source.Configuration.ToProtocol(),
+            Target = source.Target.ToProtocol(),
+        };
+    }
+
+    internal static Generated.AdrBaseService.EventStreamTarget ToProtocol(this EventStreamTarget source)
+    {
+        switch (source)
+        {
+            case EventStreamTarget.Mqtt:
+                return Generated.AdrBaseService.EventStreamTarget.Mqtt;
+            case EventStreamTarget.Storage:
+                return Generated.AdrBaseService.EventStreamTarget.Storage;
+            default:
+                throw new ArgumentException("Unknown event stream target type");
+        }
+    }
+
+    internal static Generated.AdrBaseService.DestinationConfiguration ToProtocol(this DestinationConfiguration source)
+    {
+        return new Generated.AdrBaseService.DestinationConfiguration
+        {
+            Key = source.Key,
+            Path = source.Path,
+            Topic = source.Topic,
+            Qos = source.Qos?.ToProtocol(),
+            Retain = source.Retain?.ToProtocol(),
+            Ttl = source.Ttl
+        };
+    }
+
+    internal static Generated.AdrBaseService.Qos ToProtocol(this QoS source)
+    {
+        switch (source)
+        {
+            case QoS.Qos0:
+                return Generated.AdrBaseService.Qos.Qos0;
+            case QoS.Qos1:
+                return Generated.AdrBaseService.Qos.Qos1;
+            default:
+                throw new ArgumentException("Unknown QoS");
+        }
+    }
+
+    internal static Generated.AdrBaseService.AssetDeviceRef ToProtocol(this AssetDeviceRef source)
+    {
+        return new Generated.AdrBaseService.AssetDeviceRef
         {
             DeviceName = source.DeviceName,
             EndpointName = source.EndpointName
         };
     }
 
-    internal static DeviceDiscoveryService.DiscoveredDeviceEndpoints ToProtocol(this Models.DiscoveredDeviceEndpoints source)
+    internal static Generated.DeviceDiscoveryService.DiscoveredDeviceEndpoints ToProtocol(this Models.DiscoveredDeviceEndpoints source)
     {
-        return new DeviceDiscoveryService.DiscoveredDeviceEndpoints
+        return new Generated.DeviceDiscoveryService.DiscoveredDeviceEndpoints
         {
             Inbound = source.Inbound?.ToDictionary(x => x.Key, x => x.Value.ToProtocol()),
             Outbound = source.Outbound?.ToProtocol(),
         };
     }
 
-    internal static  DiscoveredDeviceOutboundEndpointsSchema ToProtocol(this Models.DiscoveredDeviceOutboundEndpoints source)
+    internal static DiscoveredDeviceOutboundEndpointsSchema ToProtocol(this Models.DiscoveredDeviceOutboundEndpoints source)
     {
         return new DiscoveredDeviceOutboundEndpointsSchema
         {
@@ -267,9 +315,9 @@ internal static class ProtocolConverter
         };
     }
 
-    internal static DeviceDiscoveryService.DeviceOutboundEndpoint ToProtocol(this Models.DeviceOutboundEndpoint source)
+    internal static Generated.DeviceDiscoveryService.DeviceOutboundEndpoint ToProtocol(this Models.DeviceOutboundEndpoint source)
     {
-        return new DeviceDiscoveryService.DeviceOutboundEndpoint
+        return new Generated.DeviceDiscoveryService.DeviceOutboundEndpoint
         {
             Address = source.Address,
             EndpointType = source.EndpointType,
@@ -288,16 +336,16 @@ internal static class ProtocolConverter
         };
     }
 
-    public static AdrBaseService.DeviceStatus ToProtocol(this DeviceStatus source)
+    public static Generated.AdrBaseService.DeviceStatus ToProtocol(this DeviceStatus source)
     {
-        return new AdrBaseService.DeviceStatus
+        return new Generated.AdrBaseService.DeviceStatus
         {
             Config = source.Config?.ToProtocol(),
             Endpoints = source.Endpoints?.ToProtocol(),
         };
     }
 
-    internal static AdrBaseService.ConfigStatus ToProtocol(this ConfigStatus source)
+    internal static Generated.AdrBaseService.ConfigStatus ToProtocol(this ConfigStatus source)
     {
         return new()
         {
@@ -307,9 +355,9 @@ internal static class ProtocolConverter
         };
     }
 
-    internal static AdrBaseService.AssetStatus ToProtocol(this AssetStatus source)
+    internal static Generated.AdrBaseService.AssetStatus ToProtocol(this AssetStatus source)
     {
-        return new AdrBaseService.AssetStatus
+        return new Generated.AdrBaseService.AssetStatus
         {
             Config = source.Config?.ToProtocol(),
             Datasets = source.Datasets?.Select(x => x.ToProtocol()).ToList(),
@@ -319,9 +367,9 @@ internal static class ProtocolConverter
         };
     }
 
-    internal static AdrBaseService.AssetEventGroupStatusSchemaElementSchema ToProtocol(this AssetEventGroupStatus source)
+    internal static Generated.AdrBaseService.AssetEventGroupStatusSchemaElementSchema ToProtocol(this AssetEventGroupStatus source)
     {
-        return new AdrBaseService.AssetEventGroupStatusSchemaElementSchema
+        return new Generated.AdrBaseService.AssetEventGroupStatusSchemaElementSchema
         {
             Events = source.Events?.Select(x => x.ToProtocol()).ToList(),
             Name = source.Name
@@ -348,9 +396,9 @@ internal static class ProtocolConverter
         };
     }
 
-    internal static AdrBaseService.AssetDatasetEventStreamStatus ToProtocol(this AssetDatasetEventStreamStatus source)
+    internal static Generated.AdrBaseService.AssetDatasetEventStreamStatus ToProtocol(this AssetDatasetEventStreamStatus source)
     {
-        return new AdrBaseService.AssetDatasetEventStreamStatus
+        return new Generated.AdrBaseService.AssetDatasetEventStreamStatus
         {
             Error = source.Error?.ToProtocol(),
             Name = source.Name,
@@ -358,9 +406,9 @@ internal static class ProtocolConverter
         };
     }
 
-    internal static AdrBaseService.MessageSchemaReference ToProtocol(this MessageSchemaReference source)
+    internal static Generated.AdrBaseService.MessageSchemaReference ToProtocol(this MessageSchemaReference source)
     {
-        return new AdrBaseService.MessageSchemaReference
+        return new Generated.AdrBaseService.MessageSchemaReference
         {
             SchemaName = source.SchemaName,
             SchemaRegistryNamespace = source.SchemaRegistryNamespace,
@@ -368,9 +416,17 @@ internal static class ProtocolConverter
         };
     }
 
-    internal static AdrBaseService.Retain ToProtocol(this Retain source)
+    internal static Generated.AdrBaseService.Retain ToProtocol(this Retain source)
     {
-        return (AdrBaseService.Retain)(int)source;
+        switch (source)
+        {
+            case Retain.Never:
+                return Generated.AdrBaseService.Retain.Never;
+            case Retain.Keep:
+                return Generated.AdrBaseService.Retain.Keep;
+            default:
+                throw new ArgumentException("Unknown retain value");
+        }
     }
 
     internal static DeviceStatusEndpointSchema ToProtocol(this DeviceStatusEndpoint source)
@@ -391,9 +447,9 @@ internal static class ProtocolConverter
         };
     }
 
-    internal static AdrBaseService.ConfigError ToProtocol(this ConfigError source)
+    internal static Generated.AdrBaseService.ConfigError ToProtocol(this ConfigError source)
     {
-        return new AdrBaseService.ConfigError
+        return new Generated.AdrBaseService.ConfigError
         {
             Code = source.Code,
             Message = source.Message,
@@ -401,9 +457,9 @@ internal static class ProtocolConverter
         };
     }
 
-    internal static AdrBaseService.DetailsSchemaElementSchema ToProtocol(this ConfigErrorDetails source)
+    internal static Generated.AdrBaseService.DetailsSchemaElementSchema ToProtocol(this ConfigErrorDetails source)
     {
-        return new AdrBaseService.DetailsSchemaElementSchema
+        return new Generated.AdrBaseService.DetailsSchemaElementSchema
         {
             Code = source.Code,
             Message = source.Message,

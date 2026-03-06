@@ -1,0 +1,33 @@
+{
+  "$schema": "https://json-schema.org/draft-07/schema",
+  "title": "AssetDatasetSchemaElementSchema",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [ "name" ],
+  "properties": {
+    "dataPoints": {
+      "description": "The 'dataPoints' Field.",
+      "type": "array", "items": { "$ref": "AssetDatasetDataPointSchemaElementSchema.schema.json" }
+    },
+    "datasetConfiguration": {
+      "description": "Stringified JSON that contains connector-specific JSON string that describes configuration for the specific dataset.",
+      "type": "string"
+    },
+    "dataSource": {
+      "description": "Reference to a data source for a given dataset.",
+      "type": "string"
+    },
+    "destinations": {
+      "description": "Destinations for a dataset.",
+      "type": "array", "items": { "$ref": "DatasetDestination.schema.json" }
+    },
+    "name": {
+      "description": "Name of the dataset.",
+      "type": "string"
+    },
+    "typeRef": {
+      "description": "URI or type definition ID.",
+      "type": "string"
+    }
+  }
+}

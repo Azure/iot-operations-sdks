@@ -1,0 +1,14 @@
+{
+  "$schema": "https://json-schema.org/draft-07/schema",
+  "title": "CreateOrUpdateDiscoveredDeviceResponsePayload",
+  "description": "Response containing the discovered device response or error details if the operation failed.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [ "discoveredDeviceResponse" ],
+  "properties": {
+    "discoveredDeviceResponse": {
+      "description": "The discovered device response.",
+      "$ref": "DiscoveredDeviceResponseSchema.schema.json"
+    }
+  }
+}

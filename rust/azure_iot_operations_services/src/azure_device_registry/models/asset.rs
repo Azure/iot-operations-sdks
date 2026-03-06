@@ -8,8 +8,9 @@ use azure_iot_operations_mqtt::control_packet::QoS as MqttQoS;
 use chrono::{DateTime, Utc};
 
 use crate::azure_device_registry::adr_base_gen::adr_base_service::client as base_client_gen;
+use crate::azure_device_registry::adr_base_gen::adr_base_service::service as base_service_gen;
 use crate::azure_device_registry::helper::{ConvertOptionMap, ConvertOptionVec};
-use crate::azure_device_registry::{ConfigError, ConfigStatus};
+use crate::azure_device_registry::{ConfigError, ConfigStatus, RuntimeHealth};
 
 // ~~~~~~~~~~~~~~~~~~~Asset DTDL Equivalent Structs~~~~~~~~~~~~~~
 /// Represents an Asset in the Azure Device Registry service.
@@ -254,7 +255,7 @@ pub struct EventGroup {
     /// The address of the notifier of the event in the asset (e.g. URL) so that a client can access the event on the asset.
     pub data_source: Option<String>,
     /// Default destinations for an event.
-    pub default_events_destinations: Vec<EventStreamDestination>, // if None on generated model, we can represent as empty vec. Can currently only be length of 1
+    pub default_destinations: Vec<EventStreamDestination>, // if None on generated model, we can represent as empty vec. Can currently only be length of 1
     /// Stringified JSON that contains connector-specific configuration for the event. For OPC UA, this could include configuration like, publishingInterval, samplingInterval, and queueSize.
     pub event_group_configuration: Option<String>,
     /// Array of events that are part of the asset. Each event can have per-event configuration.
@@ -271,7 +272,7 @@ pub struct DiscoveredEventGroup {
     /// The address of the notifier of the event in the asset (e.g. URL) so that a client can access the event on the asset.
     pub data_source: Option<String>,
     /// Default destinations for an event.
-    pub default_events_destinations: Vec<EventStreamDestination>, // if None on generated model, we can represent as empty vec. Can currently only be length of 1
+    pub default_destinations: Vec<EventStreamDestination>, // if None on generated model, we can represent as empty vec. Can currently only be length of 1
     /// Stringified JSON that contains connector-specific configuration for the event. For OPC UA, this could include configuration like, publishingInterval, samplingInterval, and queueSize.
     pub event_group_configuration: Option<String>,
     /// Array of events that are part of the asset. Each event can have per-event configuration.
@@ -578,6 +579,88 @@ impl From<MessageSchemaReference> for base_client_gen::MessageSchemaReference {
     }
 }
 
+// ~~~~~~~~~~~~~~~~~~~Asset Runtime Health Event Structs~~~~~~~~~
+
+/// Represents the runtime health event for a dataset.
+#[derive(Debug, Clone)]
+pub struct DatasetRuntimeHealthEvent {
+    /// The name of the dataset for which the runtime health is being reported.
+    pub dataset_name: String,
+    /// The runtime health of the specific dataset.
+    pub runtime_health: RuntimeHealth,
+}
+
+/// Represents the runtime health event for an event.
+#[derive(Debug, Clone)]
+pub struct EventRuntimeHealthEvent {
+    /// The name of the event group containing the event for which the runtime health is being reported.
+    pub event_group_name: String,
+    /// The name of the event for which the runtime health is being reported.
+    pub event_name: String,
+    /// The runtime health of the specific event.
+    pub runtime_health: RuntimeHealth,
+}
+
+/// Represents the runtime health event for a stream.
+#[derive(Debug, Clone)]
+pub struct StreamRuntimeHealthEvent {
+    /// The name of the stream for which the runtime health is being reported.
+    pub stream_name: String,
+    /// The runtime health of the specific stream.
+    pub runtime_health: RuntimeHealth,
+}
+
+/// Represents the runtime health event for a management action.
+#[derive(Debug, Clone)]
+pub struct ManagementActionRuntimeHealthEvent {
+    /// The name of the management group for which the runtime health is being reported.
+    pub management_group_name: String,
+    /// The name of the management action for which the runtime health is being reported.
+    pub management_action_name: String,
+    /// The runtime health of the specific management action.
+    pub runtime_health: RuntimeHealth,
+}
+
+impl From<DatasetRuntimeHealthEvent> for base_service_gen::DatasetsSchemaElementSchema {
+    fn from(value: DatasetRuntimeHealthEvent) -> Self {
+        base_service_gen::DatasetsSchemaElementSchema {
+            dataset_name: value.dataset_name,
+            runtime_health: value.runtime_health.into(),
+        }
+    }
+}
+
+impl From<EventRuntimeHealthEvent> for base_service_gen::EventsSchemaElementSchema {
+    fn from(value: EventRuntimeHealthEvent) -> Self {
+        base_service_gen::EventsSchemaElementSchema {
+            event_group_name: value.event_group_name,
+            event_name: value.event_name,
+            runtime_health: value.runtime_health.into(),
+        }
+    }
+}
+
+impl From<StreamRuntimeHealthEvent> for base_service_gen::StreamsSchemaElementSchema {
+    fn from(value: StreamRuntimeHealthEvent) -> Self {
+        base_service_gen::StreamsSchemaElementSchema {
+            stream_name: value.stream_name,
+            runtime_health: value.runtime_health.into(),
+        }
+    }
+}
+
+impl From<ManagementActionRuntimeHealthEvent>
+    for base_service_gen::ManagementActionsSchemaElementSchema
+{
+    fn from(value: ManagementActionRuntimeHealthEvent) -> Self {
+        base_service_gen::ManagementActionsSchemaElementSchema {
+            management_group_name: value.management_group_name,
+            management_action_name: value.management_action_name,
+            runtime_health: value.runtime_health.into(),
+        }
+    }
+}
+
 // ~~~~~~~~~~~~~~~~~~~DTDL Equivalent Enums~~~~~~~
 // TODO: remove in favor of Rust enum
 /// The target of the event or stream.
@@ -878,8 +961,8 @@ impl From<base_client_gen::AssetEventGroupSchemaElementSchema> for EventGroup {
     fn from(value: base_client_gen::AssetEventGroupSchemaElementSchema) -> Self {
         EventGroup {
             events: value.events.option_vec_into().unwrap_or_default(),
-            default_events_destinations: value
-                .default_events_destinations
+            default_destinations: value
+                .default_destinations
                 .option_vec_into()
                 .unwrap_or_default(),
             event_group_configuration: value.event_group_configuration,
@@ -894,7 +977,7 @@ impl From<DiscoveredEventGroup> for base_client_gen::DiscoveredAssetEventGroup {
     fn from(value: DiscoveredEventGroup) -> Self {
         base_client_gen::DiscoveredAssetEventGroup {
             events: value.events.option_vec_into(),
-            default_events_destinations: value.default_events_destinations.option_vec_into(),
+            default_destinations: value.default_destinations.option_vec_into(),
             event_group_configuration: value.event_group_configuration,
             data_source: value.data_source,
             name: value.name,

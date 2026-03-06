@@ -14,6 +14,8 @@ namespace Azure.Iot.Operations.TDParser.Model
         public const string FormsName = TDCommon.FormsName;
         public const string ContainsName = TDCommon.ContainsName;
         public const string ContainedInName = TDCommon.ContainedInName;
+        public const string WithUnitName = TDCommon.WithUnitName;
+        public const string HasQuantityKindName = TDCommon.HasQuantityKindName;
 
         public ValueTracker<BoolHolder>? ReadOnly { get; set; }
 
@@ -24,6 +26,10 @@ namespace Azure.Iot.Operations.TDParser.Model
         public ArrayTracker<StringHolder>? Contains { get; set; }
 
         public ValueTracker<StringHolder>? ContainedIn { get; set; }
+
+        public ValueTracker<StringHolder>? WithUnit { get; set; }
+
+        public ValueTracker<StringHolder>? HasQuantityKind { get; set; }
 
         public virtual bool Equals(TDProperty? other)
         {
@@ -38,13 +44,15 @@ namespace Azure.Iot.Operations.TDParser.Model
                        Placeholder == other.Placeholder &&
                        Forms == other.Forms &&
                        Contains == other.Contains &&
-                       ContainedIn == other.ContainedIn;
+                       ContainedIn == other.ContainedIn &&
+                       WithUnit == other.WithUnit &&
+                       HasQuantityKind == other.HasQuantityKind;
             }
         }
 
         public override int GetHashCode()
         {
-            return (base.GetHashCode(), ReadOnly, Placeholder, Forms, Contains, ContainedIn).GetHashCode();
+            return (base.GetHashCode(), ReadOnly, Placeholder, Forms, Contains, ContainedIn, WithUnit, HasQuantityKind).GetHashCode();
         }
 
         public static bool operator ==(TDProperty? left, TDProperty? right)
@@ -126,6 +134,20 @@ namespace Azure.Iot.Operations.TDParser.Model
                     yield return item;
                 }
             }
+            if (WithUnit != null)
+            {
+                foreach (ITraversable item in WithUnit.Traverse())
+                {
+                    yield return item;
+                }
+            }
+            if (HasQuantityKind != null)
+            {
+                foreach (ITraversable item in HasQuantityKind.Traverse())
+                {
+                    yield return item;
+                }
+            }
         }
 
         public static new TDProperty Deserialize(ref Utf8JsonReader reader)
@@ -163,6 +185,12 @@ namespace Azure.Iot.Operations.TDParser.Model
                             break;
                         case ContainedInName:
                             prop.ContainedIn = ValueTracker<StringHolder>.Deserialize(ref reader, ContainedInName);
+                            break;
+                        case WithUnitName:
+                            prop.WithUnit = ValueTracker<StringHolder>.Deserialize(ref reader, WithUnitName);
+                            break;
+                        case HasQuantityKindName:
+                            prop.HasQuantityKind = ValueTracker<StringHolder>.Deserialize(ref reader, HasQuantityKindName);
                             break;
                         default:
                             reader.Skip();

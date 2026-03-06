@@ -69,11 +69,23 @@ jobs:
     - name: CodeGen SchemaRegistryEnvoy
       run: (cd dotnet/src/Azure.Iot.Operations.Services/SchemaRegistry; ./gen.sh)
 
+    - name: CodeGen Akri clients
+      run: (cd dotnet/src/Azure.Iot.Operations.Services/AssetAndDeviceRegistry; ./gen.sh)
+
     - name: Build SDK (Debug)
       run: dotnet build -c Debug dotnet/Azure.Iot.Operations.sln
 
     - name: Build SDK (Release)
       run: dotnet build -c Release dotnet/Azure.Iot.Operations.sln
+
+    - name: Verify Generated Code Matches Repo
+      run: |
+        if ! git diff --exit-code --ignore-cr-at-eol
+        then
+            echo "Detected changes after running code gen for one or more projects. Do not manually edit generated files."
+            git diff-files
+            exit 1
+        fi
 
     - name: Install .NET connector templates
       run: |
@@ -148,8 +160,8 @@ jobs:
 
     - name: Wait for Polling Rest Connector to be ready
       run: |
-        echo "Waiting for rest-server-deployment to be ready..."
-        kubectl rollout status deployment/rest-server-deployment -n azure-iot-operations --timeout=120s
+        echo "Waiting for rest-test-server to be ready..."
+        kubectl rollout status deployment/rest-test-server -n azure-iot-operations --timeout=120s
         echo "Waiting for connector pod to appear and be ready..."
         for i in {1..30}; do
           if kubectl get pods -n azure-iot-operations | grep -q "rest-ctemplate.*Running"; then

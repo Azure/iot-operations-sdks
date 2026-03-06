@@ -1,0 +1,2997 @@
+[
+  {
+    "@context": [
+      "https://www.w3.org/2022/wot/td/v1.1",
+      {
+        "dtv": "http://azure.com/DigitalTwins/dtmi#",
+        "aov": "http://azure.com/IoT/operations/tm#"
+      }
+    ],
+    "@type": "tm:ThingModel",
+    "title": "PAEFS_AirConnectionType",
+    "aov:typeRef": "nsu=http://opcfoundation.org/UA/PAEFS/;i=1007",
+    "links": [
+      {
+        "rel": "tm:extends",
+        "href": "./OpcUaCore.TM.json#title=OpcUaCore_BaseObjectType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "aov:reference",
+        "aov:refName": "Airflow",
+        "href": "#title=PAEFS_SensorMonitoringType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "aov:reference",
+        "aov:refName": "GasQuality",
+        "href": "#title=PAEFS_SensorMonitoringType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "aov:reference",
+        "aov:refName": "Humidity",
+        "href": "#title=PAEFS_SensorMonitoringType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "aov:reference",
+        "aov:refName": "Pressure",
+        "href": "#title=PAEFS_SensorMonitoringType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "aov:reference",
+        "aov:refName": "Temperature",
+        "href": "#title=PAEFS_SensorMonitoringType",
+        "type": "application/tm+json"
+      }
+    ],
+    "schemaDefinitions": {
+      "AirConnectionOpenEnum": {
+        "type": "object",
+        "aov:typeRef": "nsu=http://opcfoundation.org/UA/PAEFS/;i=3005",
+        "const": {
+          "Open": 0,
+          "Closed": 1,
+          "Opening": 2,
+          "Closing": 3
+        },
+        "description": "Describes whether the air connection is open, i.e., it is in a state in which air can be passed through",
+        "properties": {
+          "Open": {
+            "type": "integer"
+          },
+          "Closed": {
+            "type": "integer"
+          },
+          "Opening": {
+            "type": "integer"
+          },
+          "Closing": {
+            "type": "integer"
+          }
+        }
+      }
+    },
+    "forms": [
+      {
+        "contentType": "application/json",
+        "dtv:topic": "opcua/PAEFS/PAEFS_AirConnectionType/properties/read",
+        "op": "readallproperties"
+      }
+    ],
+    "actions": {
+      "Close": {
+        "aov:namespace": "http://opcfoundation.org/UA/PAEFS/",
+        "description": "The Method Close closes or switches some of the valves in the ducting system so that no air may pass through the ducting system to the device",
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/PAEFS/PAEFS_AirConnectionType/action/Close",
+            "op": "invokeaction"
+          }
+        ]
+      },
+      "Open": {
+        "aov:namespace": "http://opcfoundation.org/UA/PAEFS/",
+        "description": "The Method Open opens or switches all valves of the ducting system so that the air can pass through to the filter device",
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/PAEFS/PAEFS_AirConnectionType/action/Open",
+            "op": "invokeaction"
+          }
+        ]
+      }
+    },
+    "properties": {
+      "ConnectionOpen": {
+        "aov:namespace": "http://opcfoundation.org/UA/PAEFS/",
+        "title": "AirConnectionOpenEnum",
+        "description": "Indicates the connections status (open, closed, or a state in between)",
+        "aov:typeRef": "nsu=http://opcfoundation.org/UA/PAEFS/;i=3005",
+        "type": "integer",
+        "minimum": -2147483648,
+        "maximum": 2147483647,
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/PAEFS/PAEFS_AirConnectionType/property/ConnectionOpen/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "Malfunction": {
+        "aov:namespace": "http://opcfoundation.org/UA/PAEFS/",
+        "description": "Indicates that the AirConnection is malfunctioning, i.e., an error occurs in a component that provides functionality for this abstract component; e.g., an error in the ducting system or a valve. True in case of error.",
+        "type": "boolean",
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/PAEFS/PAEFS_AirConnectionType/property/Malfunction/read",
+            "op": "readproperty"
+          }
+        ]
+      }
+    },
+    "events": {
+    }
+  },
+  {
+    "@context": [
+      "https://www.w3.org/2022/wot/td/v1.1",
+      {
+        "dtv": "http://azure.com/DigitalTwins/dtmi#",
+        "aov": "http://azure.com/IoT/operations/tm#"
+      }
+    ],
+    "@type": "tm:ThingModel",
+    "title": "PAEFS_CompressedAirSupplyInterruptedAlarmType",
+    "aov:typeRef": "nsu=http://opcfoundation.org/UA/PAEFS/;i=1032",
+    "aov:isEvent": true,
+    "links": [
+      {
+        "rel": "tm:extends",
+        "href": "./OpcUaCore.TM.json#title=OpcUaCore_OffNormalAlarmType",
+        "type": "application/tm+json"
+      }
+    ],
+    "schemaDefinitions": {
+    },
+    "actions": {
+    },
+    "properties": {
+    },
+    "events": {
+    }
+  },
+  {
+    "@context": [
+      "https://www.w3.org/2022/wot/td/v1.1",
+      {
+        "dtv": "http://azure.com/DigitalTwins/dtmi#",
+        "aov": "http://azure.com/IoT/operations/tm#"
+      }
+    ],
+    "@type": "tm:ThingModel",
+    "title": "PAEFS_EndOfFilterRollAlarmType",
+    "aov:typeRef": "nsu=http://opcfoundation.org/UA/PAEFS/;i=1026",
+    "aov:isEvent": true,
+    "links": [
+      {
+        "rel": "tm:extends",
+        "href": "./OpcUaCore.TM.json#title=OpcUaCore_OffNormalAlarmType",
+        "type": "application/tm+json"
+      }
+    ],
+    "schemaDefinitions": {
+    },
+    "actions": {
+    },
+    "properties": {
+    },
+    "events": {
+    }
+  },
+  {
+    "@context": [
+      "https://www.w3.org/2022/wot/td/v1.1",
+      {
+        "dtv": "http://azure.com/DigitalTwins/dtmi#",
+        "aov": "http://azure.com/IoT/operations/tm#"
+      }
+    ],
+    "@type": "tm:ThingModel",
+    "title": "PAEFS_MalfunctionAlarmType",
+    "aov:typeRef": "nsu=http://opcfoundation.org/UA/PAEFS/;i=1025",
+    "aov:isEvent": true,
+    "links": [
+      {
+        "rel": "tm:extends",
+        "href": "./OpcUaCore.TM.json#title=OpcUaCore_OffNormalAlarmType",
+        "type": "application/tm+json"
+      }
+    ],
+    "schemaDefinitions": {
+    },
+    "actions": {
+    },
+    "properties": {
+    },
+    "events": {
+    }
+  },
+  {
+    "@context": [
+      "https://www.w3.org/2022/wot/td/v1.1",
+      {
+        "dtv": "http://azure.com/DigitalTwins/dtmi#",
+        "aov": "http://azure.com/IoT/operations/tm#"
+      }
+    ],
+    "@type": "tm:ThingModel",
+    "title": "PAEFS_SafetySystemTriggeredAlarmType",
+    "aov:typeRef": "nsu=http://opcfoundation.org/UA/PAEFS/;i=1041",
+    "aov:isEvent": true,
+    "links": [
+      {
+        "rel": "tm:extends",
+        "href": "./OpcUaCore.TM.json#title=OpcUaCore_OffNormalAlarmType",
+        "type": "application/tm+json"
+      }
+    ],
+    "schemaDefinitions": {
+    },
+    "actions": {
+    },
+    "properties": {
+    },
+    "events": {
+    }
+  },
+  {
+    "@context": [
+      "https://www.w3.org/2022/wot/td/v1.1",
+      {
+        "dtv": "http://azure.com/DigitalTwins/dtmi#",
+        "aov": "http://azure.com/IoT/operations/tm#"
+      }
+    ],
+    "@type": "tm:ThingModel",
+    "title": "PAEFS_WashingAgentDrainMalfunctionAlarmType",
+    "aov:typeRef": "nsu=http://opcfoundation.org/UA/PAEFS/;i=1030",
+    "aov:isEvent": true,
+    "links": [
+      {
+        "rel": "tm:extends",
+        "href": "./OpcUaCore.TM.json#title=OpcUaCore_OffNormalAlarmType",
+        "type": "application/tm+json"
+      }
+    ],
+    "schemaDefinitions": {
+    },
+    "actions": {
+    },
+    "properties": {
+    },
+    "events": {
+    }
+  },
+  {
+    "@context": [
+      "https://www.w3.org/2022/wot/td/v1.1",
+      {
+        "dtv": "http://azure.com/DigitalTwins/dtmi#",
+        "aov": "http://azure.com/IoT/operations/tm#"
+      }
+    ],
+    "@type": "tm:ThingModel",
+    "title": "PAEFS_WashingAgentInflowMalfunctionAlarmType",
+    "aov:typeRef": "nsu=http://opcfoundation.org/UA/PAEFS/;i=1029",
+    "aov:isEvent": true,
+    "links": [
+      {
+        "rel": "tm:extends",
+        "href": "./OpcUaCore.TM.json#title=OpcUaCore_OffNormalAlarmType",
+        "type": "application/tm+json"
+      }
+    ],
+    "schemaDefinitions": {
+    },
+    "actions": {
+    },
+    "properties": {
+    },
+    "events": {
+    }
+  },
+  {
+    "@context": [
+      "https://www.w3.org/2022/wot/td/v1.1",
+      {
+        "dtv": "http://azure.com/DigitalTwins/dtmi#",
+        "aov": "http://azure.com/IoT/operations/tm#"
+      }
+    ],
+    "@type": "tm:ThingModel",
+    "title": "PAEFS_CleaningRecommendedConditionType",
+    "aov:typeRef": "nsu=http://opcfoundation.org/UA/PAEFS/;i=1037",
+    "aov:isEvent": true,
+    "links": [
+      {
+        "rel": "tm:extends",
+        "href": "./OpcUaCore.TM.json#title=OpcUaCore_AcknowledgeableConditionType",
+        "type": "application/tm+json"
+      }
+    ],
+    "schemaDefinitions": {
+    },
+    "forms": [
+      {
+        "contentType": "application/json",
+        "dtv:topic": "opcua/PAEFS/PAEFS_CleaningRecommendedConditionType/properties/read",
+        "op": "readallproperties"
+      }
+    ],
+    "actions": {
+    },
+    "properties": {
+      "Recommended": {
+        "aov:namespace": "http://opcfoundation.org/UA/PAEFS/",
+        "description": "Reflects the value of the property CleaningRequested of the CleaningUnitType",
+        "type": "boolean",
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/PAEFS/PAEFS_CleaningRecommendedConditionType/property/Recommended/read",
+            "op": "readproperty"
+          }
+        ]
+      }
+    },
+    "events": {
+    }
+  },
+  {
+    "@context": [
+      "https://www.w3.org/2022/wot/td/v1.1",
+      {
+        "dtv": "http://azure.com/DigitalTwins/dtmi#",
+        "aov": "http://azure.com/IoT/operations/tm#"
+      }
+    ],
+    "@type": "tm:ThingModel",
+    "title": "PAEFS_MaintenanceRequestedConditionType",
+    "aov:typeRef": "nsu=http://opcfoundation.org/UA/PAEFS/;i=1023",
+    "aov:isEvent": true,
+    "links": [
+      {
+        "rel": "tm:extends",
+        "href": "./OpcUaCore.TM.json#title=OpcUaCore_AcknowledgeableConditionType",
+        "type": "application/tm+json"
+      }
+    ],
+    "schemaDefinitions": {
+    },
+    "forms": [
+      {
+        "contentType": "application/json",
+        "dtv:topic": "opcua/PAEFS/PAEFS_MaintenanceRequestedConditionType/properties/read",
+        "op": "readallproperties"
+      }
+    ],
+    "actions": {
+    },
+    "properties": {
+      "Requested": {
+        "aov:namespace": "http://opcfoundation.org/UA/PAEFS/",
+        "description": "Reflects the value of the MaintenanceRequested property of the object from which the event originates at the time the event was sent",
+        "type": "boolean",
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/PAEFS/PAEFS_MaintenanceRequestedConditionType/property/Requested/read",
+            "op": "readproperty"
+          }
+        ]
+      }
+    },
+    "events": {
+    }
+  },
+  {
+    "@context": [
+      "https://www.w3.org/2022/wot/td/v1.1",
+      {
+        "dtv": "http://azure.com/DigitalTwins/dtmi#",
+        "aov": "http://azure.com/IoT/operations/tm#"
+      }
+    ],
+    "@type": "tm:ThingModel",
+    "title": "PAEFS_AirConnectionStatusChangedConditionType",
+    "aov:typeRef": "nsu=http://opcfoundation.org/UA/PAEFS/;i=1040",
+    "aov:isEvent": true,
+    "links": [
+      {
+        "rel": "tm:extends",
+        "href": "./OpcUaCore.TM.json#title=OpcUaCore_ConditionType",
+        "type": "application/tm+json"
+      }
+    ],
+    "schemaDefinitions": {
+      "AirConnectionOpenEnum": {
+        "type": "object",
+        "aov:typeRef": "nsu=http://opcfoundation.org/UA/PAEFS/;i=3005",
+        "const": {
+          "Open": 0,
+          "Closed": 1,
+          "Opening": 2,
+          "Closing": 3
+        },
+        "description": "Describes whether the air connection is open, i.e., it is in a state in which air can be passed through",
+        "properties": {
+          "Open": {
+            "type": "integer"
+          },
+          "Closed": {
+            "type": "integer"
+          },
+          "Opening": {
+            "type": "integer"
+          },
+          "Closing": {
+            "type": "integer"
+          }
+        }
+      }
+    },
+    "forms": [
+      {
+        "contentType": "application/json",
+        "dtv:topic": "opcua/PAEFS/PAEFS_AirConnectionStatusChangedConditionType/properties/read",
+        "op": "readallproperties"
+      }
+    ],
+    "actions": {
+    },
+    "properties": {
+      "Status": {
+        "aov:namespace": "http://opcfoundation.org/UA/PAEFS/",
+        "title": "AirConnectionOpenEnum",
+        "description": "Reflects the value of the ConnectionOpen property at the time the event is triggered",
+        "aov:typeRef": "nsu=http://opcfoundation.org/UA/PAEFS/;i=3005",
+        "type": "integer",
+        "minimum": -2147483648,
+        "maximum": 2147483647,
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/PAEFS/PAEFS_AirConnectionStatusChangedConditionType/property/Status/read",
+            "op": "readproperty"
+          }
+        ]
+      }
+    },
+    "events": {
+    }
+  },
+  {
+    "@context": [
+      "https://www.w3.org/2022/wot/td/v1.1",
+      {
+        "dtv": "http://azure.com/DigitalTwins/dtmi#",
+        "aov": "http://azure.com/IoT/operations/tm#"
+      }
+    ],
+    "@type": "tm:ThingModel",
+    "title": "PAEFS_CleaningUnitActiveConditionType",
+    "aov:typeRef": "nsu=http://opcfoundation.org/UA/PAEFS/;i=1036",
+    "aov:isEvent": true,
+    "links": [
+      {
+        "rel": "tm:extends",
+        "href": "./OpcUaCore.TM.json#title=OpcUaCore_ConditionType",
+        "type": "application/tm+json"
+      }
+    ],
+    "schemaDefinitions": {
+    },
+    "forms": [
+      {
+        "contentType": "application/json",
+        "dtv:topic": "opcua/PAEFS/PAEFS_CleaningUnitActiveConditionType/properties/read",
+        "op": "readallproperties"
+      }
+    ],
+    "actions": {
+    },
+    "properties": {
+      "Active": {
+        "aov:namespace": "http://opcfoundation.org/UA/PAEFS/",
+        "description": "Reflects the value of the CleaningActive property of the CleaningUnitType at the time the condition was triggered",
+        "type": "boolean",
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/PAEFS/PAEFS_CleaningUnitActiveConditionType/property/Active/read",
+            "op": "readproperty"
+          }
+        ]
+      }
+    },
+    "events": {
+    }
+  },
+  {
+    "@context": [
+      "https://www.w3.org/2022/wot/td/v1.1",
+      {
+        "dtv": "http://azure.com/DigitalTwins/dtmi#",
+        "aov": "http://azure.com/IoT/operations/tm#"
+      }
+    ],
+    "@type": "tm:ThingModel",
+    "title": "PAEFS_ContainerOpenConditionType",
+    "aov:typeRef": "nsu=http://opcfoundation.org/UA/PAEFS/;i=1024",
+    "aov:isEvent": true,
+    "links": [
+      {
+        "rel": "tm:extends",
+        "href": "./OpcUaCore.TM.json#title=OpcUaCore_ConditionType",
+        "type": "application/tm+json"
+      }
+    ],
+    "schemaDefinitions": {
+    },
+    "forms": [
+      {
+        "contentType": "application/json",
+        "dtv:topic": "opcua/PAEFS/PAEFS_ContainerOpenConditionType/properties/read",
+        "op": "readallproperties"
+      }
+    ],
+    "actions": {
+    },
+    "properties": {
+      "Open": {
+        "aov:namespace": "http://opcfoundation.org/UA/PAEFS/",
+        "description": "Reflects the value of the ContainerOpen property of the FilterAidDeviceType at the time the condition was triggered",
+        "type": "boolean",
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/PAEFS/PAEFS_ContainerOpenConditionType/property/Open/read",
+            "op": "readproperty"
+          }
+        ]
+      }
+    },
+    "events": {
+    }
+  },
+  {
+    "@context": [
+      "https://www.w3.org/2022/wot/td/v1.1",
+      {
+        "dtv": "http://azure.com/DigitalTwins/dtmi#",
+        "aov": "http://azure.com/IoT/operations/tm#"
+      }
+    ],
+    "@type": "tm:ThingModel",
+    "title": "PAEFS_DischargeContainerInstalledConditionType",
+    "aov:typeRef": "nsu=http://opcfoundation.org/UA/PAEFS/;i=1038",
+    "aov:isEvent": true,
+    "links": [
+      {
+        "rel": "tm:extends",
+        "href": "./OpcUaCore.TM.json#title=OpcUaCore_ConditionType",
+        "type": "application/tm+json"
+      }
+    ],
+    "schemaDefinitions": {
+    },
+    "forms": [
+      {
+        "contentType": "application/json",
+        "dtv:topic": "opcua/PAEFS/PAEFS_DischargeContainerInstalledConditionType/properties/read",
+        "op": "readallproperties"
+      }
+    ],
+    "actions": {
+    },
+    "properties": {
+      "Installed": {
+        "aov:namespace": "http://opcfoundation.org/UA/PAEFS/",
+        "description": "Reflects the value of the DischargeContainerInstalled property of the DischargeSystemType at the time the event was sent",
+        "type": "boolean",
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/PAEFS/PAEFS_DischargeContainerInstalledConditionType/property/Installed/read",
+            "op": "readproperty"
+          }
+        ]
+      }
+    },
+    "events": {
+    }
+  },
+  {
+    "@context": [
+      "https://www.w3.org/2022/wot/td/v1.1",
+      {
+        "dtv": "http://azure.com/DigitalTwins/dtmi#",
+        "aov": "http://azure.com/IoT/operations/tm#"
+      }
+    ],
+    "@type": "tm:ThingModel",
+    "title": "PAEFS_FilterAidDeviceStatusChangedConditionType",
+    "aov:typeRef": "nsu=http://opcfoundation.org/UA/PAEFS/;i=1033",
+    "aov:isEvent": true,
+    "links": [
+      {
+        "rel": "tm:extends",
+        "href": "./OpcUaCore.TM.json#title=OpcUaCore_ConditionType",
+        "type": "application/tm+json"
+      }
+    ],
+    "schemaDefinitions": {
+      "FilterAidDeviceStatusEnum": {
+        "type": "object",
+        "aov:typeRef": "nsu=http://opcfoundation.org/UA/PAEFS/;i=3006",
+        "const": {
+          "DeviceActive": 0,
+          "DeviceInactive": 1,
+          "FillingActive": 2,
+          "DischargeActive": 3
+        },
+        "description": "Describes the action performed by the device for filter aid",
+        "properties": {
+          "DeviceActive": {
+            "type": "integer"
+          },
+          "DeviceInactive": {
+            "type": "integer"
+          },
+          "FillingActive": {
+            "type": "integer"
+          },
+          "DischargeActive": {
+            "type": "integer"
+          }
+        }
+      }
+    },
+    "forms": [
+      {
+        "contentType": "application/json",
+        "dtv:topic": "opcua/PAEFS/PAEFS_FilterAidDeviceStatusChangedConditionType/properties/read",
+        "op": "readallproperties"
+      }
+    ],
+    "actions": {
+    },
+    "properties": {
+      "Status": {
+        "aov:namespace": "http://opcfoundation.org/UA/PAEFS/",
+        "title": "FilterAidDeviceStatusEnum",
+        "description": "Reflects the value of the FilterAidDeviceStatus property at the time the condition was triggered",
+        "aov:typeRef": "nsu=http://opcfoundation.org/UA/PAEFS/;i=3006",
+        "type": "integer",
+        "minimum": -2147483648,
+        "maximum": 2147483647,
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/PAEFS/PAEFS_FilterAidDeviceStatusChangedConditionType/property/Status/read",
+            "op": "readproperty"
+          }
+        ]
+      }
+    },
+    "events": {
+    }
+  },
+  {
+    "@context": [
+      "https://www.w3.org/2022/wot/td/v1.1",
+      {
+        "dtv": "http://azure.com/DigitalTwins/dtmi#",
+        "aov": "http://azure.com/IoT/operations/tm#"
+      }
+    ],
+    "@type": "tm:ThingModel",
+    "title": "PAEFS_MaintenanceSwitchConditionType",
+    "aov:typeRef": "nsu=http://opcfoundation.org/UA/PAEFS/;i=1039",
+    "aov:isEvent": true,
+    "links": [
+      {
+        "rel": "tm:extends",
+        "href": "./OpcUaCore.TM.json#title=OpcUaCore_ConditionType",
+        "type": "application/tm+json"
+      }
+    ],
+    "schemaDefinitions": {
+    },
+    "forms": [
+      {
+        "contentType": "application/json",
+        "dtv:topic": "opcua/PAEFS/PAEFS_MaintenanceSwitchConditionType/properties/read",
+        "op": "readallproperties"
+      }
+    ],
+    "actions": {
+    },
+    "properties": {
+      "SwitchOn": {
+        "aov:namespace": "http://opcfoundation.org/UA/PAEFS/",
+        "description": "Reflects the value of the MaintenanceRequested property of the object from which the event originates at the time the event was sent",
+        "type": "boolean",
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/PAEFS/PAEFS_MaintenanceSwitchConditionType/property/SwitchOn/read",
+            "op": "readproperty"
+          }
+        ]
+      }
+    },
+    "events": {
+    }
+  },
+  {
+    "@context": [
+      "https://www.w3.org/2022/wot/td/v1.1",
+      {
+        "dtv": "http://azure.com/DigitalTwins/dtmi#",
+        "aov": "http://azure.com/IoT/operations/tm#"
+      }
+    ],
+    "@type": "tm:ThingModel",
+    "title": "PAEFS_WashingAgentDrainOpenConditionType",
+    "aov:typeRef": "nsu=http://opcfoundation.org/UA/PAEFS/;i=1028",
+    "aov:isEvent": true,
+    "links": [
+      {
+        "rel": "tm:extends",
+        "href": "./OpcUaCore.TM.json#title=OpcUaCore_ConditionType",
+        "type": "application/tm+json"
+      }
+    ],
+    "schemaDefinitions": {
+    },
+    "forms": [
+      {
+        "contentType": "application/json",
+        "dtv:topic": "opcua/PAEFS/PAEFS_WashingAgentDrainOpenConditionType/properties/read",
+        "op": "readallproperties"
+      }
+    ],
+    "actions": {
+    },
+    "properties": {
+      "Open": {
+        "aov:namespace": "http://opcfoundation.org/UA/PAEFS/",
+        "description": "Reflects the value of the WashingAgentDrainOpen property of the WetSeparatorType at the time the event was sent",
+        "type": "boolean",
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/PAEFS/PAEFS_WashingAgentDrainOpenConditionType/property/Open/read",
+            "op": "readproperty"
+          }
+        ]
+      }
+    },
+    "events": {
+    }
+  },
+  {
+    "@context": [
+      "https://www.w3.org/2022/wot/td/v1.1",
+      {
+        "dtv": "http://azure.com/DigitalTwins/dtmi#",
+        "aov": "http://azure.com/IoT/operations/tm#"
+      }
+    ],
+    "@type": "tm:ThingModel",
+    "title": "PAEFS_WashingAgentInflowOpenConditionType",
+    "aov:typeRef": "nsu=http://opcfoundation.org/UA/PAEFS/;i=1027",
+    "aov:isEvent": true,
+    "links": [
+      {
+        "rel": "tm:extends",
+        "href": "./OpcUaCore.TM.json#title=OpcUaCore_ConditionType",
+        "type": "application/tm+json"
+      }
+    ],
+    "schemaDefinitions": {
+    },
+    "forms": [
+      {
+        "contentType": "application/json",
+        "dtv:topic": "opcua/PAEFS/PAEFS_WashingAgentInflowOpenConditionType/properties/read",
+        "op": "readallproperties"
+      }
+    ],
+    "actions": {
+    },
+    "properties": {
+      "Open": {
+        "aov:namespace": "http://opcfoundation.org/UA/PAEFS/",
+        "description": "Reflects the value of the WashingAgentInflowOpen property of the WetSeparatorType at the time the event was sent",
+        "type": "boolean",
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/PAEFS/PAEFS_WashingAgentInflowOpenConditionType/property/Open/read",
+            "op": "readproperty"
+          }
+        ]
+      }
+    },
+    "events": {
+    }
+  },
+  {
+    "@context": [
+      "https://www.w3.org/2022/wot/td/v1.1",
+      {
+        "dtv": "http://azure.com/DigitalTwins/dtmi#",
+        "aov": "http://azure.com/IoT/operations/tm#"
+      }
+    ],
+    "@type": "tm:ThingModel",
+    "title": "PAEFS_HighVoltageUnitSupplyActiveEventType",
+    "aov:typeRef": "nsu=http://opcfoundation.org/UA/PAEFS/;i=1031",
+    "aov:isEvent": true,
+    "links": [
+      {
+        "rel": "tm:extends",
+        "href": "./OpcUaCore.TM.json#title=OpcUaCore_BaseEventType",
+        "type": "application/tm+json"
+      }
+    ],
+    "schemaDefinitions": {
+    },
+    "forms": [
+      {
+        "contentType": "application/json",
+        "dtv:topic": "opcua/PAEFS/PAEFS_HighVoltageUnitSupplyActiveEventType/properties/read",
+        "op": "readallproperties"
+      }
+    ],
+    "actions": {
+    },
+    "properties": {
+      "Active": {
+        "aov:namespace": "http://opcfoundation.org/UA/PAEFS/",
+        "description": "Reflects the value of the SupplyActive property of the HighVoltageUnitType at the time the event was triggered",
+        "type": "boolean",
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/PAEFS/PAEFS_HighVoltageUnitSupplyActiveEventType/property/Active/read",
+            "op": "readproperty"
+          }
+        ]
+      }
+    },
+    "events": {
+    }
+  },
+  {
+    "@context": [
+      "https://www.w3.org/2022/wot/td/v1.1",
+      {
+        "dtv": "http://azure.com/DigitalTwins/dtmi#",
+        "aov": "http://azure.com/IoT/operations/tm#"
+      }
+    ],
+    "@type": "tm:ThingModel",
+    "title": "PAEFS_CleaningUnitType",
+    "aov:typeRef": "nsu=http://opcfoundation.org/UA/PAEFS/;i=1005",
+    "links": [
+      {
+        "rel": "tm:extends",
+        "href": "./OpcUaCore.TM.json#title=OpcUaCore_BaseObjectType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "aov:component",
+        "aov:refName": "Valve",
+        "href": "#title=PAEFS_CleaningUnitValveType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "aov:reference",
+        "aov:refName": "AirConsumption",
+        "href": "#title=PAEFS_ConsumptionType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "aov:reference",
+        "aov:refName": "CleaningInterval",
+        "href": "#title=PAEFS_SensorSetpointWriteType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "aov:reference",
+        "aov:refName": "FilterCleaningEffect",
+        "href": "#title=PAEFS_SensorSetpointWriteType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "aov:component",
+        "aov:refName": "MachineryBuildingBlocks",
+        "href": "./OpcUaCore.TM.json#title=OpcUaCore_FolderType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "aov:reference",
+        "aov:refName": "ReservoirPressure",
+        "href": "#title=PAEFS_SensorSetpointWriteType",
+        "type": "application/tm+json"
+      }
+    ],
+    "schemaDefinitions": {
+    },
+    "forms": [
+      {
+        "contentType": "application/json",
+        "dtv:topic": "opcua/PAEFS/PAEFS_CleaningUnitType/properties/write",
+        "op": "writemultipleproperties"
+      },
+      {
+        "contentType": "application/json",
+        "dtv:topic": "opcua/PAEFS/PAEFS_CleaningUnitType/properties/read",
+        "op": "readallproperties"
+      }
+    ],
+    "actions": {
+      "RequestCleaning": {
+        "aov:namespace": "http://opcfoundation.org/UA/PAEFS/",
+        "description": "The Method RequestCleaning requests cleaning of the unit. The cleaning unit will perform the cleaning as soon as possible.",
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/PAEFS/PAEFS_CleaningUnitType/action/RequestCleaning",
+            "op": "invokeaction"
+          }
+        ]
+      }
+    },
+    "properties": {
+      "AutomaticCleaningEnabled": {
+        "aov:namespace": "http://opcfoundation.org/UA/PAEFS/",
+        "description": "If enabled, the cleaning unit may automatically perform the cleaning according to predefined rules when cleaning is necessary. Otherwise, automatic cleaning is blocked.",
+        "type": "boolean",
+        "readOnly": false,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/PAEFS/PAEFS_CleaningUnitType/property/AutomaticCleaningEnabled/write",
+            "op": "writeproperty"
+          },
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/PAEFS/PAEFS_CleaningUnitType/property/AutomaticCleaningEnabled/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "CleaningActive": {
+        "aov:namespace": "http://opcfoundation.org/UA/PAEFS/",
+        "description": "Describes that the unit is currently in a cleaning cycle.",
+        "type": "boolean",
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/PAEFS/PAEFS_CleaningUnitType/property/CleaningActive/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "CleaningRecommended": {
+        "aov:namespace": "http://opcfoundation.org/UA/PAEFS/",
+        "description": "Indicates that cleaning of the separator is recommended.",
+        "type": "boolean",
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/PAEFS/PAEFS_CleaningUnitType/property/CleaningRecommended/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "Malfunction": {
+        "aov:namespace": "http://opcfoundation.org/UA/PAEFS/",
+        "description": "Indicates that the cleaning unit is malfunctioning. True in case of error. Malfunctions can be, for example, that the filter cleaning effect is not sufficient.",
+        "type": "boolean",
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/PAEFS/PAEFS_CleaningUnitType/property/Malfunction/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "TotalCleaningCycles": {
+        "aov:namespace": "http://opcfoundation.org/UA/PAEFS/",
+        "description": "Count of the number of cleaning cycles carried out by the cleaning system.",
+        "type": "integer",
+        "minimum": 0,
+        "maximum": 4294967295,
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/PAEFS/PAEFS_CleaningUnitType/property/TotalCleaningCycles/read",
+            "op": "readproperty"
+          }
+        ]
+      }
+    },
+    "events": {
+    }
+  },
+  {
+    "@context": [
+      "https://www.w3.org/2022/wot/td/v1.1",
+      {
+        "dtv": "http://azure.com/DigitalTwins/dtmi#",
+        "aov": "http://azure.com/IoT/operations/tm#"
+      }
+    ],
+    "@type": "tm:ThingModel",
+    "title": "PAEFS_CleaningUnitValveType",
+    "aov:typeRef": "nsu=http://opcfoundation.org/UA/PAEFS/;i=1016",
+    "links": [
+      {
+        "rel": "tm:extends",
+        "href": "./OpcUaCore.TM.json#title=OpcUaCore_BaseObjectType",
+        "type": "application/tm+json"
+      }
+    ],
+    "schemaDefinitions": {
+    },
+    "forms": [
+      {
+        "contentType": "application/json",
+        "dtv:topic": "opcua/PAEFS/PAEFS_CleaningUnitValveType/properties/read",
+        "op": "readallproperties"
+      }
+    ],
+    "actions": {
+    },
+    "properties": {
+      "Malfunction": {
+        "aov:namespace": "http://opcfoundation.org/UA/PAEFS/",
+        "description": "Indicates that the cleaning unit valve is malfunctioning. True in case of error. Malfunctions can be, for example, that the valve does not open or close.",
+        "type": "boolean",
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/PAEFS/PAEFS_CleaningUnitValveType/property/Malfunction/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "Open": {
+        "aov:namespace": "http://opcfoundation.org/UA/PAEFS/",
+        "description": "Indicates that the valve is open.",
+        "type": "boolean",
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/PAEFS/PAEFS_CleaningUnitValveType/property/Open/read",
+            "op": "readproperty"
+          }
+        ]
+      }
+    },
+    "events": {
+    }
+  },
+  {
+    "@context": [
+      "https://www.w3.org/2022/wot/td/v1.1",
+      {
+        "dtv": "http://azure.com/DigitalTwins/dtmi#",
+        "aov": "http://azure.com/IoT/operations/tm#"
+      }
+    ],
+    "@type": "tm:ThingModel",
+    "title": "PAEFS_CollectorType",
+    "aov:typeRef": "nsu=http://opcfoundation.org/UA/PAEFS/;i=1020",
+    "links": [
+      {
+        "rel": "tm:extends",
+        "href": "./OpcUaCore.TM.json#title=OpcUaCore_BaseObjectType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "aov:capability",
+        "aov:refName": "CollectorOutput",
+        "href": "#title=PAEFS_SensorMonitoringType",
+        "type": "application/tm+json"
+      }
+    ],
+    "schemaDefinitions": {
+    },
+    "actions": {
+    },
+    "properties": {
+    },
+    "events": {
+    }
+  },
+  {
+    "@context": [
+      "https://www.w3.org/2022/wot/td/v1.1",
+      {
+        "dtv": "http://azure.com/DigitalTwins/dtmi#",
+        "aov": "http://azure.com/IoT/operations/tm#"
+      }
+    ],
+    "@type": "tm:ThingModel",
+    "title": "PAEFS_ConsumptionType",
+    "aov:typeRef": "nsu=http://opcfoundation.org/UA/PAEFS/;i=1011",
+    "links": [
+      {
+        "rel": "tm:extends",
+        "href": "./OpcUaCore.TM.json#title=OpcUaCore_BaseObjectType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "aov:reference",
+        "aov:refName": "CurrentConsumption",
+        "href": "#title=PAEFS_SensorMonitoringType",
+        "type": "application/tm+json"
+      }
+    ],
+    "schemaDefinitions": {
+    },
+    "forms": [
+      {
+        "contentType": "application/json",
+        "dtv:topic": "opcua/PAEFS/PAEFS_ConsumptionType/events/{senderId}",
+        "op": "subscribeallevents"
+      },
+      {
+        "contentType": "application/json",
+        "dtv:topic": "opcua/PAEFS/PAEFS_ConsumptionType/properties/read",
+        "op": "readallproperties"
+      }
+    ],
+    "actions": {
+    },
+    "properties": {
+      "LifetimeConsumption": {
+        "aov:namespace": "http://opcfoundation.org/UA/PAEFS/",
+        "description": "Consumption over total machine lifetime. The AnalogUnitType variables InstrumentRange and EURange must not be used.",
+        "type": "number",
+        "minimum": -1.80e+308,
+        "maximum": 1.80e+308,
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/PAEFS/PAEFS_ConsumptionType/property/LifetimeConsumption/read",
+            "op": "readproperty"
+          }
+        ]
+      }
+    },
+    "events": {
+      "LifetimeConsumption": {
+        "aov:namespace": "http://opcfoundation.org/UA/PAEFS/",
+        "data": {
+          "description": "Consumption over total machine lifetime. The AnalogUnitType variables InstrumentRange and EURange must not be used.",
+          "type": "number",
+          "minimum": -1.80e+308,
+          "maximum": 1.80e+308
+        },
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/PAEFS/PAEFS_ConsumptionType/event/LifetimeConsumption/{senderId}",
+            "op": "subscribeevent"
+          }
+        ]
+      }
+    }
+  },
+  {
+    "@context": [
+      "https://www.w3.org/2022/wot/td/v1.1",
+      {
+        "dtv": "http://azure.com/DigitalTwins/dtmi#",
+        "aov": "http://azure.com/IoT/operations/tm#"
+      }
+    ],
+    "@type": "tm:ThingModel",
+    "title": "PAEFS_DischargeSystemType",
+    "aov:typeRef": "nsu=http://opcfoundation.org/UA/PAEFS/;i=1006",
+    "links": [
+      {
+        "rel": "tm:extends",
+        "href": "./OpcUaCore.TM.json#title=OpcUaCore_BaseObjectType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "aov:reference",
+        "aov:refName": "AirConsumption",
+        "href": "#title=PAEFS_ConsumptionType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "aov:reference",
+        "aov:refName": "FillingLevel",
+        "href": "#title=PAEFS_SensorMonitoringType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "aov:component",
+        "aov:refName": "MachineryBuildingBlocks",
+        "href": "./OpcUaCore.TM.json#title=OpcUaCore_FolderType",
+        "type": "application/tm+json"
+      }
+    ],
+    "schemaDefinitions": {
+    },
+    "forms": [
+      {
+        "contentType": "application/json",
+        "dtv:topic": "opcua/PAEFS/PAEFS_DischargeSystemType/properties/write",
+        "op": "writemultipleproperties"
+      },
+      {
+        "contentType": "application/json",
+        "dtv:topic": "opcua/PAEFS/PAEFS_DischargeSystemType/properties/read",
+        "op": "readallproperties"
+      }
+    ],
+    "actions": {
+    },
+    "properties": {
+      "DischargeContainerInstalled": {
+        "aov:namespace": "http://opcfoundation.org/UA/PAEFS/",
+        "description": "Indicates that the discharge container is in place.",
+        "type": "boolean",
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/PAEFS/PAEFS_DischargeSystemType/property/DischargeContainerInstalled/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "DischargeSystemEnabled": {
+        "aov:namespace": "http://opcfoundation.org/UA/PAEFS/",
+        "description": "If enabled, discharge can be performed. If disabled, discharge cannot take place; for example, because a rotary valve is stopped or a discharge flap is closed.",
+        "type": "boolean",
+        "readOnly": false,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/PAEFS/PAEFS_DischargeSystemType/property/DischargeSystemEnabled/write",
+            "op": "writeproperty"
+          },
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/PAEFS/PAEFS_DischargeSystemType/property/DischargeSystemEnabled/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "MaintenanceSwitchOn": {
+        "aov:namespace": "http://opcfoundation.org/UA/PAEFS/",
+        "description": "Status of a physical maintenance switch on the discharge system. True when the switch is on.",
+        "type": "boolean",
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/PAEFS/PAEFS_DischargeSystemType/property/MaintenanceSwitchOn/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "Malfunction": {
+        "aov:namespace": "http://opcfoundation.org/UA/PAEFS/",
+        "description": "Indicates whether there is an error with the discharge system. True in case of error. Examples: discharge motor defective, discharge container full, discharge system blocked.",
+        "type": "boolean",
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/PAEFS/PAEFS_DischargeSystemType/property/Malfunction/read",
+            "op": "readproperty"
+          }
+        ]
+      }
+    },
+    "events": {
+    }
+  },
+  {
+    "@context": [
+      "https://www.w3.org/2022/wot/td/v1.1",
+      {
+        "dtv": "http://azure.com/DigitalTwins/dtmi#",
+        "aov": "http://azure.com/IoT/operations/tm#"
+      }
+    ],
+    "@type": "tm:ThingModel",
+    "title": "PAEFS_FanType",
+    "aov:typeRef": "nsu=http://opcfoundation.org/UA/PAEFS/;i=1009",
+    "links": [
+      {
+        "rel": "tm:extends",
+        "href": "./OpcUaCore.TM.json#title=OpcUaCore_BaseObjectType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "aov:component",
+        "aov:refName": "MachineryBuildingBlocks",
+        "href": "./OpcUaCore.TM.json#title=OpcUaCore_FolderType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "aov:reference",
+        "aov:refName": "PowerConsumption",
+        "href": "#title=PAEFS_ConsumptionType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "aov:reference",
+        "aov:refName": "RotationalSpeed",
+        "href": "#title=PAEFS_SensorSetpointWriteType",
+        "type": "application/tm+json"
+      }
+    ],
+    "schemaDefinitions": {
+    },
+    "forms": [
+      {
+        "contentType": "application/json",
+        "dtv:topic": "opcua/PAEFS/PAEFS_FanType/properties/read",
+        "op": "readallproperties"
+      }
+    ],
+    "actions": {
+    },
+    "properties": {
+      "MaintenanceSwitchOn": {
+        "aov:namespace": "http://opcfoundation.org/UA/PAEFS/",
+        "description": "Status of a physical maintenance switch on the fan. True when the switch is on.",
+        "type": "boolean",
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/PAEFS/PAEFS_FanType/property/MaintenanceSwitchOn/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "Malfunction": {
+        "aov:namespace": "http://opcfoundation.org/UA/PAEFS/",
+        "description": "Indicates whether there is an error with the fan. True in case of error.",
+        "type": "boolean",
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/PAEFS/PAEFS_FanType/property/Malfunction/read",
+            "op": "readproperty"
+          }
+        ]
+      }
+    },
+    "events": {
+    }
+  },
+  {
+    "@context": [
+      "https://www.w3.org/2022/wot/td/v1.1",
+      {
+        "dtv": "http://azure.com/DigitalTwins/dtmi#",
+        "aov": "http://azure.com/IoT/operations/tm#"
+      }
+    ],
+    "@type": "tm:ThingModel",
+    "title": "PAEFS_FilterAidDeviceType",
+    "aov:typeRef": "nsu=http://opcfoundation.org/UA/PAEFS/;i=1004",
+    "links": [
+      {
+        "rel": "tm:extends",
+        "href": "./OpcUaCore.TM.json#title=OpcUaCore_BaseObjectType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "aov:reference",
+        "aov:refName": "AirConsumption",
+        "href": "#title=PAEFS_ConsumptionType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "aov:reference",
+        "aov:refName": "DosageAmount",
+        "href": "#title=PAEFS_SensorSetpointWriteType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "aov:reference",
+        "aov:refName": "FillingLevel",
+        "href": "#title=PAEFS_SensorMonitoringType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "aov:component",
+        "aov:refName": "MachineryBuildingBlocks",
+        "href": "./OpcUaCore.TM.json#title=OpcUaCore_FolderType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "aov:reference",
+        "aov:refName": "PowerConsumption",
+        "href": "#title=PAEFS_ConsumptionType",
+        "type": "application/tm+json"
+      }
+    ],
+    "schemaDefinitions": {
+      "FilterAidDeviceStatusEnum": {
+        "type": "object",
+        "aov:typeRef": "nsu=http://opcfoundation.org/UA/PAEFS/;i=3006",
+        "const": {
+          "DeviceActive": 0,
+          "DeviceInactive": 1,
+          "FillingActive": 2,
+          "DischargeActive": 3
+        },
+        "description": "Describes the action performed by the device for filter aid",
+        "properties": {
+          "DeviceActive": {
+            "type": "integer"
+          },
+          "DeviceInactive": {
+            "type": "integer"
+          },
+          "FillingActive": {
+            "type": "integer"
+          },
+          "DischargeActive": {
+            "type": "integer"
+          }
+        }
+      }
+    },
+    "forms": [
+      {
+        "contentType": "application/json",
+        "dtv:topic": "opcua/PAEFS/PAEFS_FilterAidDeviceType/properties/write",
+        "op": "writemultipleproperties"
+      },
+      {
+        "contentType": "application/json",
+        "dtv:topic": "opcua/PAEFS/PAEFS_FilterAidDeviceType/properties/read",
+        "op": "readallproperties"
+      }
+    ],
+    "actions": {
+      "ResetFillingLevel": {
+        "aov:namespace": "http://opcfoundation.org/UA/PAEFS/",
+        "description": "The Method ResetFillingLevel resets the filling level of the filter aid reservoir.",
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/PAEFS/PAEFS_FilterAidDeviceType/action/ResetFillingLevel",
+            "op": "invokeaction"
+          }
+        ]
+      },
+      "TriggerDosing": {
+        "aov:namespace": "http://opcfoundation.org/UA/PAEFS/",
+        "description": "The Method TriggerDosing triggers a single additional dosage.",
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/PAEFS/PAEFS_FilterAidDeviceType/action/TriggerDosing",
+            "op": "invokeaction"
+          }
+        ]
+      }
+    },
+    "properties": {
+      "AutomaticDosingEnabled": {
+        "aov:namespace": "http://opcfoundation.org/UA/PAEFS/",
+        "description": "If enabled, the filter aid device is allowed to perform dosing automatically.",
+        "type": "boolean",
+        "readOnly": false,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/PAEFS/PAEFS_FilterAidDeviceType/property/AutomaticDosingEnabled/write",
+            "op": "writeproperty"
+          },
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/PAEFS/PAEFS_FilterAidDeviceType/property/AutomaticDosingEnabled/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "CompressedAirSupplyInterrupted": {
+        "aov:namespace": "http://opcfoundation.org/UA/PAEFS/",
+        "description": "Indicates that the air supply is interrupted.",
+        "type": "boolean",
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/PAEFS/PAEFS_FilterAidDeviceType/property/CompressedAirSupplyInterrupted/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "ContainerOpen": {
+        "aov:namespace": "http://opcfoundation.org/UA/PAEFS/",
+        "description": "Indicates that the filter aid reservoir is not closed.",
+        "type": "boolean",
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/PAEFS/PAEFS_FilterAidDeviceType/property/ContainerOpen/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "DosingRequested": {
+        "aov:namespace": "http://opcfoundation.org/UA/PAEFS/",
+        "description": "Indicates that the filter system requests dosing.",
+        "type": "boolean",
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/PAEFS/PAEFS_FilterAidDeviceType/property/DosingRequested/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "FilterAidDeviceStatus": {
+        "aov:namespace": "http://opcfoundation.org/UA/PAEFS/",
+        "title": "FilterAidDeviceStatusEnum",
+        "description": "Describes the action performed by the dosage unit (see FilterAidDeviceStatusEnum).",
+        "aov:typeRef": "nsu=http://opcfoundation.org/UA/PAEFS/;i=3006",
+        "type": "integer",
+        "minimum": -2147483648,
+        "maximum": 2147483647,
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/PAEFS/PAEFS_FilterAidDeviceType/property/FilterAidDeviceStatus/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "Malfunction": {
+        "aov:namespace": "http://opcfoundation.org/UA/PAEFS/",
+        "description": "Indicates that the filter aid device is malfunctioning. True in case of error. Malfunctions can be, for example, that there is no more filter aid or that there is a malfunction in the subsystems of the filter aid device.",
+        "type": "boolean",
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/PAEFS/PAEFS_FilterAidDeviceType/property/Malfunction/read",
+            "op": "readproperty"
+          }
+        ]
+      }
+    },
+    "events": {
+    }
+  },
+  {
+    "@context": [
+      "https://www.w3.org/2022/wot/td/v1.1",
+      {
+        "dtv": "http://azure.com/DigitalTwins/dtmi#",
+        "aov": "http://azure.com/IoT/operations/tm#"
+      }
+    ],
+    "@type": "tm:ThingModel",
+    "title": "PAEFS_FilterSystemType",
+    "aov:typeRef": "nsu=http://opcfoundation.org/UA/PAEFS/;i=1002",
+    "aov:isComposite": true,
+    "links": [
+      {
+        "rel": "tm:extends",
+        "href": "./OpcUaCore.TM.json#title=OpcUaCore_BaseObjectType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "aov:component",
+        "aov:refName": "Fan",
+        "href": "#title=PAEFS_FanType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "aov:component",
+        "aov:refName": "FilterAidDevice",
+        "href": "#title=PAEFS_FilterAidDeviceType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "aov:component",
+        "aov:refName": "FilterUnit",
+        "href": "#title=PAEFS_FilterUnitType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "aov:component",
+        "aov:refName": "SafetySystem",
+        "href": "#title=PAEFS_SafetySystemType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "aov:component",
+        "aov:refName": "TemperatureRegulator",
+        "href": "#title=PAEFS_TemperatureRegulatorType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "aov:reference",
+        "aov:refName": "AirConsumption",
+        "href": "#title=PAEFS_ConsumptionType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "aov:capability",
+        "aov:refName": "AirIntakeConnection",
+        "href": "#title=PAEFS_AirConnectionType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "aov:capability",
+        "aov:refName": "AirOutletConnection",
+        "href": "#title=PAEFS_AirConnectionType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "aov:component",
+        "aov:refName": "MachineryBuildingBlocks",
+        "href": "./OpcUaCore.TM.json#title=OpcUaCore_FolderType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "aov:reference",
+        "aov:refName": "PowerConsumption",
+        "href": "#title=PAEFS_ConsumptionType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "aov:reference",
+        "aov:refName": "PressureLoss",
+        "href": "#title=PAEFS_SensorMonitoringType",
+        "type": "application/tm+json"
+      }
+    ],
+    "schemaDefinitions": {
+      "ControlModeEnum": {
+        "type": "object",
+        "aov:typeRef": "nsu=http://opcfoundation.org/UA/PAEFS/;i=3003",
+        "const": {
+          "Automatic": 0,
+          "Manual": 1,
+          "Other": 2
+        },
+        "description": "Describes the possibility of controlling the system externally",
+        "properties": {
+          "Automatic": {
+            "type": "integer"
+          },
+          "Manual": {
+            "type": "integer"
+          },
+          "Other": {
+            "type": "integer"
+          }
+        }
+      }
+    },
+    "forms": [
+      {
+        "contentType": "application/json",
+        "dtv:topic": "opcua/PAEFS/PAEFS_FilterSystemType/properties/read",
+        "op": "readallproperties"
+      }
+    ],
+    "actions": {
+      "OperationOff": {
+        "aov:namespace": "http://opcfoundation.org/UA/PAEFS/",
+        "description": "The Method OperationOff turns the filter system machine off. As with the OperationOn method, this method should be present under the FilterSystemType if and only if the filter units are considered components of the system rather than individual machines.",
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/PAEFS/PAEFS_FilterSystemType/action/OperationOff",
+            "op": "invokeaction"
+          }
+        ]
+      },
+      "OperationOn": {
+        "aov:namespace": "http://opcfoundation.org/UA/PAEFS/",
+        "description": "The Method OperationOn turns the filter system machine on. It should only be available on the filter system if the filter units are considered components of the filter system and do not have their own OperationOn and OperationOff methods.",
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/PAEFS/PAEFS_FilterSystemType/action/OperationOn",
+            "op": "invokeaction"
+          }
+        ]
+      }
+    },
+    "properties": {
+      "ControlMode": {
+        "aov:namespace": "http://opcfoundation.org/UA/PAEFS/",
+        "title": "ControlModeEnum",
+        "description": "Operating mode that describes whether the system can be controlled externally. Possible values are manual, auto and other.",
+        "aov:typeRef": "nsu=http://opcfoundation.org/UA/PAEFS/;i=3003",
+        "type": "integer",
+        "minimum": -2147483648,
+        "maximum": 2147483647,
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/PAEFS/PAEFS_FilterSystemType/property/ControlMode/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "MaintenanceRequested": {
+        "aov:namespace": "http://opcfoundation.org/UA/PAEFS/",
+        "description": "The maintenance request allows the manufacturer to inform the operator that the system requires maintenance. True = maintenance requested by system. False = no maintenance requested.",
+        "type": "boolean",
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/PAEFS/PAEFS_FilterSystemType/property/MaintenanceRequested/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "Malfunction": {
+        "aov:namespace": "http://opcfoundation.org/UA/PAEFS/",
+        "description": "Malfunction describes that the filter system has a collective fault message. True in case of error.",
+        "type": "boolean",
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/PAEFS/PAEFS_FilterSystemType/property/Malfunction/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "OperationCycleCounter": {
+        "aov:namespace": "http://opcfoundation.org/UA/PAEFS/",
+        "type": "integer",
+        "minimum": 0,
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/PAEFS/PAEFS_FilterSystemType/property/OperationCycleCounter/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "OperationDuration": {
+        "aov:namespace": "http://opcfoundation.org/UA/PAEFS/",
+        "type": "string",
+        "pattern": "^P(?!$)(?:(?:(?:(?:\\d+Y)|(?:\\d+\\.\\d+Y$))?(?:(?:\\d+M)|(?:\\d+\\.\\d+M$))?)|(?:(?:(?:\\d+W)|(?:\\d+\\.\\d+W$))?))(?:(?:\\d+D)|(?:\\d+\\.\\d+D$))?(?:T(?!$)(?:(?:\\d+H)|(?:\\d+\\.\\d+H$))?(?:(?:\\d+M)|(?:\\d+\\.\\d+M$))?(?:\\d+(?:\\.\\d+)?S)?)?$",
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/PAEFS/PAEFS_FilterSystemType/property/OperationDuration/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "PowerOnDuration": {
+        "aov:namespace": "http://opcfoundation.org/UA/PAEFS/",
+        "type": "string",
+        "pattern": "^P(?!$)(?:(?:(?:(?:\\d+Y)|(?:\\d+\\.\\d+Y$))?(?:(?:\\d+M)|(?:\\d+\\.\\d+M$))?)|(?:(?:(?:\\d+W)|(?:\\d+\\.\\d+W$))?))(?:(?:\\d+D)|(?:\\d+\\.\\d+D$))?(?:T(?!$)(?:(?:\\d+H)|(?:\\d+\\.\\d+H$))?(?:(?:\\d+M)|(?:\\d+\\.\\d+M$))?(?:\\d+(?:\\.\\d+)?S)?)?$",
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/PAEFS/PAEFS_FilterSystemType/property/PowerOnDuration/read",
+            "op": "readproperty"
+          }
+        ]
+      }
+    },
+    "events": {
+    }
+  },
+  {
+    "@context": [
+      "https://www.w3.org/2022/wot/td/v1.1",
+      {
+        "dtv": "http://azure.com/DigitalTwins/dtmi#",
+        "aov": "http://azure.com/IoT/operations/tm#"
+      }
+    ],
+    "@type": "tm:ThingModel",
+    "title": "PAEFS_FilterUnitType",
+    "aov:typeRef": "nsu=http://opcfoundation.org/UA/PAEFS/;i=1012",
+    "links": [
+      {
+        "rel": "tm:extends",
+        "href": "./OpcUaCore.TM.json#title=OpcUaCore_BaseObjectType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "aov:component",
+        "aov:refName": "CleaningUnit",
+        "href": "#title=PAEFS_CleaningUnitType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "aov:component",
+        "aov:refName": "DischargeSystem",
+        "href": "#title=PAEFS_DischargeSystemType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "aov:component",
+        "aov:refName": "Separator",
+        "href": "#title=PAEFS_SeparatorType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "aov:reference",
+        "aov:refName": "AirConsumption",
+        "href": "#title=PAEFS_ConsumptionType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "aov:reference",
+        "aov:refName": "Airflow",
+        "href": "#title=PAEFS_SensorSetpointReadType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "aov:capability",
+        "aov:refName": "AirIntakeConnection",
+        "href": "#title=PAEFS_AirConnectionType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "aov:capability",
+        "aov:refName": "AirOutletConnection",
+        "href": "#title=PAEFS_AirConnectionType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "aov:component",
+        "aov:refName": "MachineryBuildingBlocks",
+        "href": "./OpcUaCore.TM.json#title=OpcUaCore_FolderType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "aov:reference",
+        "aov:refName": "PowerConsumption",
+        "href": "#title=PAEFS_ConsumptionType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "aov:reference",
+        "aov:refName": "Pressure",
+        "href": "#title=PAEFS_SensorSetpointReadType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "aov:reference",
+        "aov:refName": "PressureLoss",
+        "href": "#title=PAEFS_SensorMonitoringType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "aov:reference",
+        "aov:refName": "RotationalSpeed",
+        "href": "#title=PAEFS_SensorSetpointReadType",
+        "type": "application/tm+json"
+      }
+    ],
+    "schemaDefinitions": {
+    },
+    "forms": [
+      {
+        "contentType": "application/json",
+        "dtv:topic": "opcua/PAEFS/PAEFS_FilterUnitType/properties/read",
+        "op": "readallproperties"
+      }
+    ],
+    "actions": {
+      "OperationOff": {
+        "aov:namespace": "http://opcfoundation.org/UA/PAEFS/",
+        "description": "The Method OperationOff turns the machine off. As with the OperationOn Method, this method should be present under the filter unit if and only if the filter unit is considered a machine.",
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/PAEFS/PAEFS_FilterUnitType/action/OperationOff",
+            "op": "invokeaction"
+          }
+        ]
+      },
+      "OperationOn": {
+        "aov:namespace": "http://opcfoundation.org/UA/PAEFS/",
+        "description": "The Method OperationOn turns the machine on. It should only be available on the filter unit if the filter unit is considered a machine, rather than a component of a larger machine. If the filter unit is only a component of a larger machine, the OperationOn Method should be present on the filter system.",
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/PAEFS/PAEFS_FilterUnitType/action/OperationOn",
+            "op": "invokeaction"
+          }
+        ]
+      },
+      "SetAndActivateAirflowSetpoint": {
+        "aov:namespace": "http://opcfoundation.org/UA/PAEFS/",
+        "description": "The Method SetAirflowSetpoint sets a setpoint for the airflow. The value’s unit is the same as the one specified in object Airflow. Since setpoints are mutually exclusive, the method also sets the boolean IsActiveSetpoint of the setpoints for pressure and rotational speed to false.",
+        "input": {
+          "type": "object",
+          "aov:typeRef": "nsu=http://opcfoundation.org/UA/PAEFS/;i=6277",
+          "required": [ "Value" ],
+          "properties": {
+            "Value": {
+              "type": "number",
+              "minimum": -1.80e+308,
+              "maximum": 1.80e+308
+            }
+          }
+        },
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/PAEFS/PAEFS_FilterUnitType/action/SetAndActivateAirflowSetpoint",
+            "op": "invokeaction"
+          }
+        ]
+      },
+      "SetAndActivatePressureSetpoint": {
+        "aov:namespace": "http://opcfoundation.org/UA/PAEFS/",
+        "description": "The Method SetPressureSetpoint sets a setpoint for the pressure. The value’s unit is the same as the one specified in object Pressure. Since setpoints are mutually exclusive, the method also sets the boolean IsActiveSetpoint of the setpoints for airflow and rotational speed to false.",
+        "input": {
+          "type": "object",
+          "aov:typeRef": "nsu=http://opcfoundation.org/UA/PAEFS/;i=6278",
+          "required": [ "Value" ],
+          "properties": {
+            "Value": {
+              "type": "number",
+              "minimum": -1.80e+308,
+              "maximum": 1.80e+308
+            }
+          }
+        },
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/PAEFS/PAEFS_FilterUnitType/action/SetAndActivatePressureSetpoint",
+            "op": "invokeaction"
+          }
+        ]
+      },
+      "SetAndActivateRotationalSpeedSetpoint": {
+        "aov:namespace": "http://opcfoundation.org/UA/PAEFS/",
+        "description": "The Method SetRotationalSpeedSetpoint sets a setpoint for the rotational speed. The value’s unit is the same as the one specified in object RotationalSpeed. Since setpoints are mutually exclusive, the method also sets the boolean IsActiveSetpoint of the setpoints for airflow and pressure to false.",
+        "input": {
+          "type": "object",
+          "aov:typeRef": "nsu=http://opcfoundation.org/UA/PAEFS/;i=6279",
+          "required": [ "Value" ],
+          "properties": {
+            "Value": {
+              "type": "number",
+              "minimum": -1.80e+308,
+              "maximum": 1.80e+308
+            }
+          }
+        },
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/PAEFS/PAEFS_FilterUnitType/action/SetAndActivateRotationalSpeedSetpoint",
+            "op": "invokeaction"
+          }
+        ]
+      }
+    },
+    "properties": {
+      "MaintenanceRequested": {
+        "aov:namespace": "http://opcfoundation.org/UA/PAEFS/",
+        "description": "The maintenance request allows the manufacturer to inform the operator that the system requires maintenance. True = maintenance requested by system. False = no maintenance requested.",
+        "type": "boolean",
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/PAEFS/PAEFS_FilterUnitType/property/MaintenanceRequested/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "Malfunction": {
+        "aov:namespace": "http://opcfoundation.org/UA/PAEFS/",
+        "description": "One or more subsystems of the filter unit have a malfunction. True in case of error.",
+        "type": "boolean",
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/PAEFS/PAEFS_FilterUnitType/property/Malfunction/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "OperationCycleCounter": {
+        "aov:namespace": "http://opcfoundation.org/UA/PAEFS/",
+        "type": "integer",
+        "minimum": 0,
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/PAEFS/PAEFS_FilterUnitType/property/OperationCycleCounter/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "OperationDuration": {
+        "aov:namespace": "http://opcfoundation.org/UA/PAEFS/",
+        "type": "string",
+        "pattern": "^P(?!$)(?:(?:(?:(?:\\d+Y)|(?:\\d+\\.\\d+Y$))?(?:(?:\\d+M)|(?:\\d+\\.\\d+M$))?)|(?:(?:(?:\\d+W)|(?:\\d+\\.\\d+W$))?))(?:(?:\\d+D)|(?:\\d+\\.\\d+D$))?(?:T(?!$)(?:(?:\\d+H)|(?:\\d+\\.\\d+H$))?(?:(?:\\d+M)|(?:\\d+\\.\\d+M$))?(?:\\d+(?:\\.\\d+)?S)?)?$",
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/PAEFS/PAEFS_FilterUnitType/property/OperationDuration/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "PowerOnDuration": {
+        "aov:namespace": "http://opcfoundation.org/UA/PAEFS/",
+        "type": "string",
+        "pattern": "^P(?!$)(?:(?:(?:(?:\\d+Y)|(?:\\d+\\.\\d+Y$))?(?:(?:\\d+M)|(?:\\d+\\.\\d+M$))?)|(?:(?:(?:\\d+W)|(?:\\d+\\.\\d+W$))?))(?:(?:\\d+D)|(?:\\d+\\.\\d+D$))?(?:T(?!$)(?:(?:\\d+H)|(?:\\d+\\.\\d+H$))?(?:(?:\\d+M)|(?:\\d+\\.\\d+M$))?(?:\\d+(?:\\.\\d+)?S)?)?$",
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/PAEFS/PAEFS_FilterUnitType/property/PowerOnDuration/read",
+            "op": "readproperty"
+          }
+        ]
+      }
+    },
+    "events": {
+    }
+  },
+  {
+    "@context": [
+      "https://www.w3.org/2022/wot/td/v1.1",
+      {
+        "dtv": "http://azure.com/DigitalTwins/dtmi#",
+        "aov": "http://azure.com/IoT/operations/tm#"
+      }
+    ],
+    "@type": "tm:ThingModel",
+    "title": "PAEFS_FilterMachineIdentificationType",
+    "aov:typeRef": "nsu=http://opcfoundation.org/UA/PAEFS/;i=1022",
+    "aov:isComposite": true,
+    "links": [
+      {
+        "rel": "tm:extends",
+        "href": "./Machinery.TM.json#title=Machinery_MachineIdentificationType",
+        "type": "application/tm+json"
+      }
+    ],
+    "schemaDefinitions": {
+    },
+    "forms": [
+      {
+        "contentType": "application/json",
+        "dtv:topic": "opcua/PAEFS/PAEFS_FilterMachineIdentificationType/events/{senderId}",
+        "op": "subscribeallevents"
+      },
+      {
+        "contentType": "application/json",
+        "dtv:topic": "opcua/PAEFS/PAEFS_FilterMachineIdentificationType/properties/write",
+        "op": "writemultipleproperties"
+      },
+      {
+        "contentType": "application/json",
+        "dtv:topic": "opcua/PAEFS/PAEFS_FilterMachineIdentificationType/properties/read",
+        "op": "readallproperties"
+      }
+    ],
+    "actions": {
+    },
+    "properties": {
+      "ExIdentification": {
+        "aov:namespace": "http://opcfoundation.org/UA/PAEFS/",
+        "type": "string",
+        "readOnly": false,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/PAEFS/PAEFS_FilterMachineIdentificationType/property/ExIdentification/write",
+            "op": "writeproperty"
+          },
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/PAEFS/PAEFS_FilterMachineIdentificationType/property/ExIdentification/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "NominalAirflow": {
+        "aov:namespace": "http://opcfoundation.org/UA/PAEFS/",
+        "type": "number",
+        "minimum": -1.80e+308,
+        "maximum": 1.80e+308,
+        "readOnly": false,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/PAEFS/PAEFS_FilterMachineIdentificationType/property/NominalAirflow/write",
+            "op": "writeproperty"
+          },
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/PAEFS/PAEFS_FilterMachineIdentificationType/property/NominalAirflow/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "RatedPower": {
+        "aov:namespace": "http://opcfoundation.org/UA/PAEFS/",
+        "type": "number",
+        "minimum": -1.80e+308,
+        "maximum": 1.80e+308,
+        "readOnly": false,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/PAEFS/PAEFS_FilterMachineIdentificationType/property/RatedPower/write",
+            "op": "writeproperty"
+          },
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/PAEFS/PAEFS_FilterMachineIdentificationType/property/RatedPower/read",
+            "op": "readproperty"
+          }
+        ]
+      }
+    },
+    "events": {
+      "NominalAirflow": {
+        "aov:namespace": "http://opcfoundation.org/UA/PAEFS/",
+        "data": {
+          "type": "number",
+          "minimum": -1.80e+308,
+          "maximum": 1.80e+308
+        },
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/PAEFS/PAEFS_FilterMachineIdentificationType/event/NominalAirflow/{senderId}",
+            "op": "subscribeevent"
+          }
+        ]
+      },
+      "RatedPower": {
+        "aov:namespace": "http://opcfoundation.org/UA/PAEFS/",
+        "data": {
+          "type": "number",
+          "minimum": -1.80e+308,
+          "maximum": 1.80e+308
+        },
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/PAEFS/PAEFS_FilterMachineIdentificationType/event/RatedPower/{senderId}",
+            "op": "subscribeevent"
+          }
+        ]
+      }
+    }
+  },
+  {
+    "@context": [
+      "https://www.w3.org/2022/wot/td/v1.1",
+      {
+        "dtv": "http://azure.com/DigitalTwins/dtmi#",
+        "aov": "http://azure.com/IoT/operations/tm#"
+      }
+    ],
+    "@type": "tm:ThingModel",
+    "title": "PAEFS_HighVoltageUnitType",
+    "aov:typeRef": "nsu=http://opcfoundation.org/UA/PAEFS/;i=1015",
+    "links": [
+      {
+        "rel": "tm:extends",
+        "href": "./OpcUaCore.TM.json#title=OpcUaCore_BaseObjectType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "aov:component",
+        "aov:refName": "Collector",
+        "href": "#title=PAEFS_CollectorType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "aov:component",
+        "aov:refName": "Ionizer",
+        "href": "#title=PAEFS_IonizerType",
+        "type": "application/tm+json"
+      }
+    ],
+    "schemaDefinitions": {
+    },
+    "forms": [
+      {
+        "contentType": "application/json",
+        "dtv:topic": "opcua/PAEFS/PAEFS_HighVoltageUnitType/events/{senderId}",
+        "op": "subscribeallevents"
+      },
+      {
+        "contentType": "application/json",
+        "dtv:topic": "opcua/PAEFS/PAEFS_HighVoltageUnitType/properties/read",
+        "op": "readallproperties"
+      }
+    ],
+    "actions": {
+    },
+    "properties": {
+      "CurrentOutput": {
+        "aov:namespace": "http://opcfoundation.org/UA/PAEFS/",
+        "description": "Current output of the high voltage unit.",
+        "type": "number",
+        "minimum": -1.80e+308,
+        "maximum": 1.80e+308,
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/PAEFS/PAEFS_HighVoltageUnitType/property/CurrentOutput/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "MaintenanceRequested": {
+        "aov:namespace": "http://opcfoundation.org/UA/PAEFS/",
+        "description": "Indicates that maintenance is requested for the high voltage generator.",
+        "type": "boolean",
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/PAEFS/PAEFS_HighVoltageUnitType/property/MaintenanceRequested/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "Malfunction": {
+        "aov:namespace": "http://opcfoundation.org/UA/PAEFS/",
+        "description": "Indicates that the high voltage generator is malfunctioning (e.g., excess/insufficient voltage, overheating, etc). True in case of error.",
+        "type": "boolean",
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/PAEFS/PAEFS_HighVoltageUnitType/property/Malfunction/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "OperationCycleCounter": {
+        "aov:namespace": "http://opcfoundation.org/UA/PAEFS/",
+        "type": "integer",
+        "minimum": 0,
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/PAEFS/PAEFS_HighVoltageUnitType/property/OperationCycleCounter/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "OperationDuration": {
+        "aov:namespace": "http://opcfoundation.org/UA/PAEFS/",
+        "type": "string",
+        "pattern": "^P(?!$)(?:(?:(?:(?:\\d+Y)|(?:\\d+\\.\\d+Y$))?(?:(?:\\d+M)|(?:\\d+\\.\\d+M$))?)|(?:(?:(?:\\d+W)|(?:\\d+\\.\\d+W$))?))(?:(?:\\d+D)|(?:\\d+\\.\\d+D$))?(?:T(?!$)(?:(?:\\d+H)|(?:\\d+\\.\\d+H$))?(?:(?:\\d+M)|(?:\\d+\\.\\d+M$))?(?:\\d+(?:\\.\\d+)?S)?)?$",
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/PAEFS/PAEFS_HighVoltageUnitType/property/OperationDuration/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "PowerOnDuration": {
+        "aov:namespace": "http://opcfoundation.org/UA/PAEFS/",
+        "type": "string",
+        "pattern": "^P(?!$)(?:(?:(?:(?:\\d+Y)|(?:\\d+\\.\\d+Y$))?(?:(?:\\d+M)|(?:\\d+\\.\\d+M$))?)|(?:(?:(?:\\d+W)|(?:\\d+\\.\\d+W$))?))(?:(?:\\d+D)|(?:\\d+\\.\\d+D$))?(?:T(?!$)(?:(?:\\d+H)|(?:\\d+\\.\\d+H$))?(?:(?:\\d+M)|(?:\\d+\\.\\d+M$))?(?:\\d+(?:\\.\\d+)?S)?)?$",
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/PAEFS/PAEFS_HighVoltageUnitType/property/PowerOnDuration/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "SupplyActive": {
+        "aov:namespace": "http://opcfoundation.org/UA/PAEFS/",
+        "description": "Indicates that the high-voltage generator is emitting high voltage.",
+        "type": "boolean",
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/PAEFS/PAEFS_HighVoltageUnitType/property/SupplyActive/read",
+            "op": "readproperty"
+          }
+        ]
+      }
+    },
+    "events": {
+      "CurrentOutput": {
+        "aov:namespace": "http://opcfoundation.org/UA/PAEFS/",
+        "data": {
+          "description": "Current output of the high voltage unit.",
+          "type": "number",
+          "minimum": -1.80e+308,
+          "maximum": 1.80e+308
+        },
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/PAEFS/PAEFS_HighVoltageUnitType/event/CurrentOutput/{senderId}",
+            "op": "subscribeevent"
+          }
+        ]
+      }
+    }
+  },
+  {
+    "@context": [
+      "https://www.w3.org/2022/wot/td/v1.1",
+      {
+        "dtv": "http://azure.com/DigitalTwins/dtmi#",
+        "aov": "http://azure.com/IoT/operations/tm#"
+      }
+    ],
+    "@type": "tm:ThingModel",
+    "title": "PAEFS_IonizerType",
+    "aov:typeRef": "nsu=http://opcfoundation.org/UA/PAEFS/;i=1019",
+    "links": [
+      {
+        "rel": "tm:extends",
+        "href": "./OpcUaCore.TM.json#title=OpcUaCore_BaseObjectType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "aov:capability",
+        "aov:refName": "IonizerOutput",
+        "href": "#title=PAEFS_SensorMonitoringType",
+        "type": "application/tm+json"
+      }
+    ],
+    "schemaDefinitions": {
+    },
+    "actions": {
+    },
+    "properties": {
+    },
+    "events": {
+    }
+  },
+  {
+    "@context": [
+      "https://www.w3.org/2022/wot/td/v1.1",
+      {
+        "dtv": "http://azure.com/DigitalTwins/dtmi#",
+        "aov": "http://azure.com/IoT/operations/tm#"
+      }
+    ],
+    "@type": "tm:ThingModel",
+    "title": "PAEFS_SafetySystemType",
+    "aov:typeRef": "nsu=http://opcfoundation.org/UA/PAEFS/;i=1008",
+    "links": [
+      {
+        "rel": "tm:extends",
+        "href": "./OpcUaCore.TM.json#title=OpcUaCore_BaseObjectType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "aov:component",
+        "aov:refName": "MachineryBuildingBlocks",
+        "href": "./OpcUaCore.TM.json#title=OpcUaCore_FolderType",
+        "type": "application/tm+json"
+      }
+    ],
+    "schemaDefinitions": {
+    },
+    "forms": [
+      {
+        "contentType": "application/json",
+        "dtv:topic": "opcua/PAEFS/PAEFS_SafetySystemType/properties/read",
+        "op": "readallproperties"
+      }
+    ],
+    "actions": {
+    },
+    "properties": {
+      "Malfunction": {
+        "aov:namespace": "http://opcfoundation.org/UA/PAEFS/",
+        "description": "Indicates that the safety system is malfunctioning. True in case of error.",
+        "type": "boolean",
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/PAEFS/PAEFS_SafetySystemType/property/Malfunction/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "Triggered": {
+        "aov:namespace": "http://opcfoundation.org/UA/PAEFS/",
+        "description": "Indicates that the safety system has been triggered. If true the safety system has been triggered.",
+        "type": "boolean",
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/PAEFS/PAEFS_SafetySystemType/property/Triggered/read",
+            "op": "readproperty"
+          }
+        ]
+      }
+    },
+    "events": {
+    }
+  },
+  {
+    "@context": [
+      "https://www.w3.org/2022/wot/td/v1.1",
+      {
+        "dtv": "http://azure.com/DigitalTwins/dtmi#",
+        "aov": "http://azure.com/IoT/operations/tm#"
+      }
+    ],
+    "@type": "tm:ThingModel",
+    "title": "PAEFS_SensorMonitoringType",
+    "aov:typeRef": "nsu=http://opcfoundation.org/UA/PAEFS/;i=1010",
+    "links": [
+      {
+        "rel": "tm:extends",
+        "href": "./OpcUaCore.TM.json#title=OpcUaCore_BaseObjectType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "aov:component",
+        "aov:refName": "MachineryBuildingBlocks",
+        "href": "./OpcUaCore.TM.json#title=OpcUaCore_FolderType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "aov:capability",
+        "aov:refName": "Signal",
+        "href": "./Machinery.ProcessValues.TM.json#title=Machinery_ProcessValues_ProcessValueType",
+        "type": "application/tm+json"
+      }
+    ],
+    "schemaDefinitions": {
+      "AnalogDigitalEnum": {
+        "type": "object",
+        "aov:typeRef": "nsu=http://opcfoundation.org/UA/PAEFS/;i=3002",
+        "const": {
+          "Analog": 0,
+          "Digital": 1
+        },
+        "description": "Specifies the type of a sensor",
+        "properties": {
+          "Analog": {
+            "type": "integer"
+          },
+          "Digital": {
+            "type": "integer"
+          }
+        }
+      }
+    },
+    "forms": [
+      {
+        "contentType": "application/json",
+        "dtv:topic": "opcua/PAEFS/PAEFS_SensorMonitoringType/properties/read",
+        "op": "readallproperties"
+      }
+    ],
+    "actions": {
+    },
+    "properties": {
+      "SignalForm": {
+        "aov:namespace": "http://opcfoundation.org/UA/PAEFS/",
+        "title": "AnalogDigitalEnum",
+        "description": "Specifies whether the sensor is an analog or a digital sensor.",
+        "aov:typeRef": "nsu=http://opcfoundation.org/UA/PAEFS/;i=3002",
+        "type": "integer",
+        "minimum": -2147483648,
+        "maximum": 2147483647,
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/PAEFS/PAEFS_SensorMonitoringType/property/SignalForm/read",
+            "op": "readproperty"
+          }
+        ]
+      }
+    },
+    "events": {
+    }
+  },
+  {
+    "@context": [
+      "https://www.w3.org/2022/wot/td/v1.1",
+      {
+        "dtv": "http://azure.com/DigitalTwins/dtmi#",
+        "aov": "http://azure.com/IoT/operations/tm#"
+      }
+    ],
+    "@type": "tm:ThingModel",
+    "title": "PAEFS_SensorSetpointReadType",
+    "aov:typeRef": "nsu=http://opcfoundation.org/UA/PAEFS/;i=1034",
+    "links": [
+      {
+        "rel": "tm:extends",
+        "href": "#title=PAEFS_SensorMonitoringType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "aov:capability",
+        "aov:refName": "Signal",
+        "href": "./Machinery.ProcessValues.TM.json#title=Machinery_ProcessValues_ProcessValueType",
+        "type": "application/tm+json"
+      }
+    ],
+    "schemaDefinitions": {
+    },
+    "forms": [
+      {
+        "contentType": "application/json",
+        "dtv:topic": "opcua/PAEFS/PAEFS_SensorSetpointReadType/properties/read",
+        "op": "readallproperties"
+      }
+    ],
+    "actions": {
+    },
+    "properties": {
+      "IsActiveSetpoint": {
+        "aov:namespace": "http://opcfoundation.org/UA/PAEFS/",
+        "description": "Indicates that the setpoint is currently active.",
+        "type": "boolean",
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/PAEFS/PAEFS_SensorSetpointReadType/property/IsActiveSetpoint/read",
+            "op": "readproperty"
+          }
+        ]
+      }
+    },
+    "events": {
+    }
+  },
+  {
+    "@context": [
+      "https://www.w3.org/2022/wot/td/v1.1",
+      {
+        "dtv": "http://azure.com/DigitalTwins/dtmi#",
+        "aov": "http://azure.com/IoT/operations/tm#"
+      }
+    ],
+    "@type": "tm:ThingModel",
+    "title": "PAEFS_SensorSetpointWriteType",
+    "aov:typeRef": "nsu=http://opcfoundation.org/UA/PAEFS/;i=1035",
+    "links": [
+      {
+        "rel": "tm:extends",
+        "href": "#title=PAEFS_SensorSetpointReadType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "aov:capability",
+        "aov:refName": "Signal",
+        "href": "./Machinery.ProcessValues.TM.json#title=Machinery_ProcessValues_ProcessValueType",
+        "type": "application/tm+json"
+      }
+    ],
+    "schemaDefinitions": {
+    },
+    "actions": {
+    },
+    "properties": {
+    },
+    "events": {
+    }
+  },
+  {
+    "@context": [
+      "https://www.w3.org/2022/wot/td/v1.1",
+      {
+        "dtv": "http://azure.com/DigitalTwins/dtmi#",
+        "aov": "http://azure.com/IoT/operations/tm#"
+      }
+    ],
+    "@type": "tm:ThingModel",
+    "title": "PAEFS_SeparatorType",
+    "aov:typeRef": "nsu=http://opcfoundation.org/UA/PAEFS/;i=1003",
+    "links": [
+      {
+        "rel": "tm:extends",
+        "href": "./OpcUaCore.TM.json#title=OpcUaCore_BaseObjectType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "aov:reference",
+        "aov:refName": "FilterMediumState",
+        "href": "#title=PAEFS_SensorMonitoringType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "aov:reference",
+        "aov:refName": "Humidity",
+        "href": "#title=PAEFS_SensorMonitoringType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "aov:component",
+        "aov:refName": "MachineryBuildingBlocks",
+        "href": "./OpcUaCore.TM.json#title=OpcUaCore_FolderType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "aov:reference",
+        "aov:refName": "Temperature",
+        "href": "#title=PAEFS_SensorMonitoringType",
+        "type": "application/tm+json"
+      }
+    ],
+    "schemaDefinitions": {
+    },
+    "forms": [
+      {
+        "contentType": "application/json",
+        "dtv:topic": "opcua/PAEFS/PAEFS_SeparatorType/properties/read",
+        "op": "readallproperties"
+      }
+    ],
+    "actions": {
+    },
+    "properties": {
+      "FilterMediumOperatingHours": {
+        "aov:namespace": "http://opcfoundation.org/UA/PAEFS/",
+        "description": "The number of hours that the unit has been in operation since the last filter change.",
+        "type": "integer",
+        "minimum": 0,
+        "maximum": 4294967295,
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/PAEFS/PAEFS_SeparatorType/property/FilterMediumOperatingHours/read",
+            "op": "readproperty"
+          }
+        ]
+      }
+    },
+    "events": {
+    }
+  },
+  {
+    "@context": [
+      "https://www.w3.org/2022/wot/td/v1.1",
+      {
+        "dtv": "http://azure.com/DigitalTwins/dtmi#",
+        "aov": "http://azure.com/IoT/operations/tm#"
+      }
+    ],
+    "@type": "tm:ThingModel",
+    "title": "PAEFS_AutomaticRollFilterType",
+    "aov:typeRef": "nsu=http://opcfoundation.org/UA/PAEFS/;i=1021",
+    "aov:isComposite": true,
+    "links": [
+      {
+        "rel": "tm:extends",
+        "href": "#title=PAEFS_SeparatorType",
+        "type": "application/tm+json"
+      }
+    ],
+    "schemaDefinitions": {
+    },
+    "forms": [
+      {
+        "contentType": "application/json",
+        "dtv:topic": "opcua/PAEFS/PAEFS_AutomaticRollFilterType/properties/read",
+        "op": "readallproperties"
+      }
+    ],
+    "actions": {
+    },
+    "properties": {
+      "EndOfFilterRoll": {
+        "aov:namespace": "http://opcfoundation.org/UA/PAEFS/",
+        "description": "EndOfFilterRoll is true if the end of the filter roll is reached.",
+        "type": "boolean",
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/PAEFS/PAEFS_AutomaticRollFilterType/property/EndOfFilterRoll/read",
+            "op": "readproperty"
+          }
+        ]
+      }
+    },
+    "events": {
+    }
+  },
+  {
+    "@context": [
+      "https://www.w3.org/2022/wot/td/v1.1",
+      {
+        "dtv": "http://azure.com/DigitalTwins/dtmi#",
+        "aov": "http://azure.com/IoT/operations/tm#"
+      }
+    ],
+    "@type": "tm:ThingModel",
+    "title": "PAEFS_CartridgeFilterType",
+    "aov:typeRef": "nsu=http://opcfoundation.org/UA/PAEFS/;i=1013",
+    "aov:isComposite": true,
+    "links": [
+      {
+        "rel": "tm:extends",
+        "href": "#title=PAEFS_SeparatorType",
+        "type": "application/tm+json"
+      }
+    ],
+    "schemaDefinitions": {
+    },
+    "actions": {
+    },
+    "properties": {
+    },
+    "events": {
+    }
+  },
+  {
+    "@context": [
+      "https://www.w3.org/2022/wot/td/v1.1",
+      {
+        "dtv": "http://azure.com/DigitalTwins/dtmi#",
+        "aov": "http://azure.com/IoT/operations/tm#"
+      }
+    ],
+    "@type": "tm:ThingModel",
+    "title": "PAEFS_ElectrostaticPrecipitatorType",
+    "aov:typeRef": "nsu=http://opcfoundation.org/UA/PAEFS/;i=1018",
+    "aov:isComposite": true,
+    "links": [
+      {
+        "rel": "tm:extends",
+        "href": "#title=PAEFS_SeparatorType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "aov:component",
+        "aov:refName": "HighVoltageUnit",
+        "href": "#title=PAEFS_HighVoltageUnitType",
+        "type": "application/tm+json"
+      }
+    ],
+    "schemaDefinitions": {
+    },
+    "actions": {
+    },
+    "properties": {
+    },
+    "events": {
+    }
+  },
+  {
+    "@context": [
+      "https://www.w3.org/2022/wot/td/v1.1",
+      {
+        "dtv": "http://azure.com/DigitalTwins/dtmi#",
+        "aov": "http://azure.com/IoT/operations/tm#"
+      }
+    ],
+    "@type": "tm:ThingModel",
+    "title": "PAEFS_WetSeparatorType",
+    "aov:typeRef": "nsu=http://opcfoundation.org/UA/PAEFS/;i=1014",
+    "aov:isComposite": true,
+    "links": [
+      {
+        "rel": "tm:extends",
+        "href": "#title=PAEFS_SeparatorType",
+        "type": "application/tm+json"
+      }
+    ],
+    "schemaDefinitions": {
+    },
+    "forms": [
+      {
+        "contentType": "application/json",
+        "dtv:topic": "opcua/PAEFS/PAEFS_WetSeparatorType/properties/read",
+        "op": "readallproperties"
+      }
+    ],
+    "actions": {
+    },
+    "properties": {
+      "WashingAgentDrainMalfunction": {
+        "aov:namespace": "http://opcfoundation.org/UA/PAEFS/",
+        "description": "Indicates whether there is an error with the washing agent drain. True in case of error. Examples: clogging, burst pipe, defective valve.",
+        "type": "boolean",
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/PAEFS/PAEFS_WetSeparatorType/property/WashingAgentDrainMalfunction/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "WashingAgentDrainOpen": {
+        "aov:namespace": "http://opcfoundation.org/UA/PAEFS/",
+        "description": "Indicates that the washing agent drain valve is open.",
+        "type": "boolean",
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/PAEFS/PAEFS_WetSeparatorType/property/WashingAgentDrainOpen/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "WashingAgentInflowMalfunction": {
+        "aov:namespace": "http://opcfoundation.org/UA/PAEFS/",
+        "description": "Indicates whether there is an error with the washing agent inflow. True in case of error. Examples: clogging, burst pipe, defective valve.",
+        "type": "boolean",
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/PAEFS/PAEFS_WetSeparatorType/property/WashingAgentInflowMalfunction/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "WashingAgentInflowOpen": {
+        "aov:namespace": "http://opcfoundation.org/UA/PAEFS/",
+        "description": "Indicates that the washing agent inflow valve is open.",
+        "type": "boolean",
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/PAEFS/PAEFS_WetSeparatorType/property/WashingAgentInflowOpen/read",
+            "op": "readproperty"
+          }
+        ]
+      }
+    },
+    "events": {
+    }
+  },
+  {
+    "@context": [
+      "https://www.w3.org/2022/wot/td/v1.1",
+      {
+        "dtv": "http://azure.com/DigitalTwins/dtmi#",
+        "aov": "http://azure.com/IoT/operations/tm#"
+      }
+    ],
+    "@type": "tm:ThingModel",
+    "title": "PAEFS_TemperatureRegulatorType",
+    "aov:typeRef": "nsu=http://opcfoundation.org/UA/PAEFS/;i=1017",
+    "links": [
+      {
+        "rel": "tm:extends",
+        "href": "./OpcUaCore.TM.json#title=OpcUaCore_BaseObjectType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "aov:component",
+        "aov:refName": "MachineryBuildingBlocks",
+        "href": "./OpcUaCore.TM.json#title=OpcUaCore_FolderType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "aov:reference",
+        "aov:refName": "PowerConsumption",
+        "href": "#title=PAEFS_ConsumptionType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "aov:reference",
+        "aov:refName": "Temperature",
+        "href": "#title=PAEFS_SensorSetpointWriteType",
+        "type": "application/tm+json"
+      }
+    ],
+    "schemaDefinitions": {
+    },
+    "forms": [
+      {
+        "contentType": "application/json",
+        "dtv:topic": "opcua/PAEFS/PAEFS_TemperatureRegulatorType/properties/read",
+        "op": "readallproperties"
+      }
+    ],
+    "actions": {
+    },
+    "properties": {
+      "Malfunction": {
+        "aov:namespace": "http://opcfoundation.org/UA/PAEFS/",
+        "description": "Indicates whether there is an error with the temperature regulator. True in case of error.",
+        "type": "boolean",
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/PAEFS/PAEFS_TemperatureRegulatorType/property/Malfunction/read",
+            "op": "readproperty"
+          }
+        ]
+      }
+    },
+    "events": {
+    }
+  }
+]

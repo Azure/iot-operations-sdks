@@ -15,7 +15,7 @@ namespace Azure.Iot.Operations.TypeGenerator
 
     internal class JsonSchemaStandardizer : ISchemaStandardizer
     {
-        private static readonly Regex TitleRegex = new(@"^[A-Z][A-Za-z0-9]*$", RegexOptions.Compiled);
+        private static readonly Regex TitleRegex = new(@"^[A-Z][A-Za-z0-9_]*$", RegexOptions.Compiled);
         private static readonly Regex EnumValueRegex = new(@"^[A-Za-z][A-Za-z0-9_]*$", RegexOptions.Compiled);
 
         private readonly TypeNamer typeNamer;
@@ -115,7 +115,7 @@ namespace Azure.Iot.Operations.TypeGenerator
                 }
                 else if (!this.typeNamer.SuppressTitles && !TitleRegex.IsMatch(title))
                 {
-                    errorReporter?.ReportError(ErrorCondition.PropertyInvalid, $"JSON Schema '{JsonSchemaValues.PropertyTitle}' property value \"{title}\" does not conform to codegen type naming rules -- it must start with an uppercase letter and contain only alphanumeric characters", titleTracker.TokenIndex);
+                    errorReporter?.ReportError(ErrorCondition.PropertyInvalid, $"JSON Schema '{JsonSchemaValues.PropertyTitle}' property value \"{title}\" does not conform to codegen type naming rules -- it must start with an uppercase letter and contain only alphanumeric characters and underscores", titleTracker.TokenIndex);
                     hasError = true;
                 }
             }

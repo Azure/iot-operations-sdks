@@ -16,7 +16,7 @@ namespace Azure.Iot.Operations.CodeGeneration
         private const string DecimalExample = "1234567890.0987654321";
         private const string AnArbitraryString = "Pretty12345Tricky67890";
 
-        private static readonly Regex TitleRegex = new(@"^[A-Z][A-Za-z0-9]*$", RegexOptions.Compiled);
+        private static readonly Regex TitleRegex = new(@"^[A-Z][A-Za-z0-9_]*$", RegexOptions.Compiled);
         private static readonly Regex RefCharRegex = new(@"^(?:[!#$&-;=?-\[\]_a-z~]|\%[0-9a-fA-F]{2})+$", RegexOptions.Compiled);
         private static readonly Regex EnumValueRegex = new(@"^[A-Za-z][A-Za-z0-9_]*$", RegexOptions.Compiled);
 
@@ -27,11 +27,11 @@ namespace Azure.Iot.Operations.CodeGeneration
             this.errorReporter = errorReporter;
         }
 
-        public bool TryValidateThng(TDThing thing, HashSet<SerializationFormat> serializationFormats)
+        public bool TryValidateThing(TDThing thing, HashSet<SerializationFormat> serializationFormats)
         {
             bool hasError = false;
 
-            if (!TryValidateContext(thing.Context, out bool platContextPresent))
+            if (!TryValidateContext(thing.Context, out bool platContextPresent, out bool qudtContextPresent))
             {
                 hasError = true;
             }
@@ -77,12 +77,12 @@ namespace Azure.Iot.Operations.CodeGeneration
                 hasError = true;
             }
 
-            if (!TryValidateProperties(thing.Properties, thing.SchemaDefinitions, serializationFormats, platContextPresent, contextTokenIndex))
+            if (!TryValidateProperties(thing.Properties, thing.SchemaDefinitions, serializationFormats, platContextPresent, qudtContextPresent, contextTokenIndex))
             {
                 hasError = true;
             }
 
-            if (!TryValidateEvents(thing.Events, thing.SchemaDefinitions, serializationFormats, platContextPresent, contextTokenIndex))
+            if (!TryValidateEvents(thing.Events, thing.Properties, thing.SchemaDefinitions, serializationFormats, platContextPresent, qudtContextPresent, contextTokenIndex))
             {
                 hasError = true;
             }
@@ -114,12 +114,30 @@ namespace Azure.Iot.Operations.CodeGeneration
 
             CheckSchemaDefinitionsCoverage(thing.SchemaDefinitions, thing.Actions, thing.Properties);
 
-            if ((thing.Actions?.Entries?.Count ?? 0) == 0 && (thing.Properties?.Entries?.Count ?? 0) == 0 && (thing.Events?.Entries?.Count ?? 0) == 0)
-            {
-                errorReporter.ReportWarning("Thing Model has no actions, properties, or events defined.", -1);
-            }
-
             return !hasError;
+        }
+
+        public void ValidateThingCollection(List<TDThing> things)
+        {
+            int actionCount = things.Sum(t => t.Actions?.Entries?.Count ?? 0);
+            int propertyCount = things.Sum(t => t.Properties?.Entries?.Count ?? 0);
+            int eventCount = things.Sum(t => t.Events?.Entries?.Count ?? 0);
+
+            if (actionCount + propertyCount + eventCount == 0)
+            {
+                switch (things.Count)
+                {
+                    case 0:
+                        errorReporter.ReportWarning("Thing collection is empty.", -1);
+                        break;
+                    case 1:
+                        errorReporter.ReportWarning("Thing Model has no actions, properties, or events defined.", -1);
+                        break;
+                    default:
+                        errorReporter.ReportWarning("Collection has no actions, properties, or events defined across all Thing Models therein.", -1);
+                        break;
+                }
+            }
         }
 
         private bool TryValidateThingPropertyNames(Dictionary<string, long> propertyNames)
@@ -424,9 +442,10 @@ namespace Azure.Iot.Operations.CodeGeneration
             return !hasError;
         }
 
-        private bool TryValidateContext(ArrayTracker<TDContextSpecifier>? context, out bool platContextPresent)
+        private bool TryValidateContext(ArrayTracker<TDContextSpecifier>? context, out bool platContextPresent, out bool qudtContextPresent)
         {
             platContextPresent = false;
+            qudtContextPresent = false;
             bool protContextPresent = false;
             bool tdContextPresent = false;
             bool hasError = false;
@@ -470,6 +489,14 @@ namespace Azure.Iot.Operations.CodeGeneration
                                 if (localContext.Value.Value.Value != TDValues.ContextUriAioPlatform)
                                 {
                                     errorReporter.ReportError(ErrorCondition.PropertyInvalid, $"Local {TDThing.ContextName} term \"{localContext.Key}\" has incorrect URI value \"{localContext.Value.Value.Value}\"; value must be \"{TDValues.ContextUriAioPlatform}\".", contextSpecifier.TokenIndex);
+                                    hasError = true;
+                                }
+                                break;
+                            case TDValues.ContextPrefixQudt:
+                                qudtContextPresent = true;
+                                if (localContext.Value.Value.Value != TDValues.ContextUriQudt)
+                                {
+                                    errorReporter.ReportError(ErrorCondition.PropertyInvalid, $"Local {TDThing.ContextName} term \"{localContext.Key}\" has incorrect URI value \"{localContext.Value.Value.Value}\"; value must be \"{TDValues.ContextUriQudt}\".", contextSpecifier.TokenIndex);
                                     hasError = true;
                                 }
                                 break;
@@ -535,7 +562,7 @@ namespace Azure.Iot.Operations.CodeGeneration
 
             if (!TitleRegex.IsMatch(title.Value.Value))
             {
-                errorReporter?.ReportError(ErrorCondition.PropertyInvalid, $"Thing Model '{TDThing.TitleName}' property value \"{title.Value.Value}\" does not conform to codegen type naming rules -- it must start with an uppercase letter and contain only alphanumeric characters", title.TokenIndex);
+                errorReporter?.ReportError(ErrorCondition.PropertyInvalid, $"Thing Model '{TDThing.TitleName}' property value \"{title.Value.Value}\" does not conform to codegen type naming rules -- it must start with an uppercase letter and contain only alphanumeric characters and underscores", title.TokenIndex);
                 return false;
             }
 
@@ -646,6 +673,20 @@ namespace Azure.Iot.Operations.CodeGeneration
                     _ => throw new NotSupportedException($"Unsupported '{TDLink.RelName}' property value '{link.Value.Rel.Value.Value}'"),
                 };
 
+                if (link.Value.RefName != null)
+                {
+                    if (!platContextPresent)
+                    {
+                        errorReporter.ReportError(ErrorCondition.PropertyInvalid, $"Link element {TDLink.RelName}='{link.Value.Rel.Value.Value}' has '{TDLink.RefNameName}' property, which requires the Azure Operations Platform context in the '{TDThing.ContextName}' property.", link.Value.RefName.TokenIndex, contextTokenIndex);
+                        hasError = true;
+                    }
+                    if (string.IsNullOrWhiteSpace(link.Value.RefName.Value.Value))
+                    {
+                        errorReporter.ReportError(ErrorCondition.PropertyEmpty, $"Link element with {TDLink.RelName}='{link.Value.Rel.Value.Value}' has empty '{TDLink.RefNameName}' property value.", link.Value.RefName.TokenIndex);
+                        hasError = true;
+                    }
+                }
+
                 if (link.Value.RefType == null)
                 {
                     if (link.Value.Rel.Value.Value == TDValues.RelationTypedReference)
@@ -697,7 +738,7 @@ namespace Azure.Iot.Operations.CodeGeneration
 
                 foreach (KeyValuePair<string, long> propertyName in link.Value.PropertyNames)
                 {
-                    if (propertyName.Key != TDLink.HrefName && propertyName.Key != TDLink.TypeName && propertyName.Key != TDLink.RelName && propertyName.Key != TDLink.RefTypeName)
+                    if (propertyName.Key != TDLink.HrefName && propertyName.Key != TDLink.TypeName && propertyName.Key != TDLink.RelName && propertyName.Key != TDLink.RefNameName && propertyName.Key != TDLink.RefTypeName)
                     {
                         if (propertyName.Key.Contains(':') && !propertyName.Key.StartsWith($"{TDValues.ContextPrefixAioProtocol}:") && !propertyName.Key.StartsWith($"{TDValues.ContextPrefixAioPlatform}:"))
                         {
@@ -848,7 +889,7 @@ namespace Azure.Iot.Operations.CodeGeneration
             return TryValidateDataSchema(dataSchema, null, platContextPresent, contextTokenIndex, DataSchemaKind.Action, contentType);
         }
 
-        private bool TryValidateProperties(MapTracker<TDProperty>? properties, MapTracker<TDDataSchema>? schemaDefinitions, HashSet<SerializationFormat> serializationFormats, bool platContextPresent, long contextTokenIndex)
+        private bool TryValidateProperties(MapTracker<TDProperty>? properties, MapTracker<TDDataSchema>? schemaDefinitions, HashSet<SerializationFormat> serializationFormats, bool platContextPresent, bool qudtContextPresent, long contextTokenIndex)
         {
             if (properties?.Entries == null)
             {
@@ -859,7 +900,7 @@ namespace Azure.Iot.Operations.CodeGeneration
 
             foreach (KeyValuePair<string, ValueTracker<TDProperty>> property in properties.Entries)
             {
-                if (!TryValidateProperty(property.Key, property.Value, schemaDefinitions, out ValueTracker<StringHolder>? contentType, platContextPresent, contextTokenIndex))
+                if (!TryValidateProperty(property.Key, property.Value, properties, schemaDefinitions, out ValueTracker<StringHolder>? contentType, platContextPresent, qudtContextPresent, contextTokenIndex))
                 {
                     hasError = true;
                 }
@@ -883,7 +924,7 @@ namespace Azure.Iot.Operations.CodeGeneration
             return !hasError;
         }
 
-        private bool TryValidateProperty(string name, ValueTracker<TDProperty> property, MapTracker<TDDataSchema>? schemaDefinitions, out ValueTracker<StringHolder>? contentType, bool platContextPresent, long contextTokenIndex)
+        private bool TryValidateProperty(string name, ValueTracker<TDProperty> property, MapTracker<TDProperty> properties, MapTracker<TDDataSchema>? schemaDefinitions, out ValueTracker<StringHolder>? contentType, bool platContextPresent, bool qudtContextPresent, long contextTokenIndex)
         {
             if (!TryValidatePropertyForms(name, property.Value.Forms, schemaDefinitions, property.Value.ReadOnly, out contentType))
             {
@@ -937,7 +978,48 @@ namespace Azure.Iot.Operations.CodeGeneration
                 }
             }
 
-            if (!TryValidateDataSchema(property, (propName) => propName == TDProperty.ReadOnlyName || propName == TDProperty.PlaceholderName || propName == TDProperty.FormsName || propName == TDProperty.ContainsName || propName == TDProperty.ContainedInName || propName == TDProperty.NamespaceName, platContextPresent, contextTokenIndex, DataSchemaKind.Property, contentType))
+            if (property.Value.WithUnit != null)
+            {
+                if (!platContextPresent)
+                {
+                    errorReporter.ReportError(ErrorCondition.PropertyInvalid, $"Property element '{TDProperty.WithUnitName}' property requires the Azure Operations Platform context in the '{TDThing.ContextName}' property.", property.Value.WithUnit.TokenIndex, contextTokenIndex);
+                    hasError = true;
+                }
+
+                if (!CanDataSchemaSupportUnits(property))
+                {
+                    errorReporter.ReportError(ErrorCondition.ValuesInconsistent, $"Property element '{TDProperty.WithUnitName}' property is usable only when the data schema is numeric ('{TDValues.TypeNumber}' or '{TDValues.TypeInteger}'), an array of numerics, or an object whose properties are all numeric.", property.Value.WithUnit.TokenIndex, property.Value.Type?.TokenIndex ?? -1);
+                    hasError = true;
+                }
+
+                if (!TryValidateWithUnitProperty(property.Value.WithUnit, "Property", properties))
+                {
+                    hasError = true;
+                }
+            }
+
+            if (property.Value.HasQuantityKind != null)
+            {
+                if (!qudtContextPresent)
+                {
+                    errorReporter.ReportError(ErrorCondition.PropertyInvalid, $"Property element '{TDProperty.HasQuantityKindName}' property requires the QUDT context in the '{TDThing.ContextName}' property.", property.Value.HasQuantityKind.TokenIndex, contextTokenIndex);
+                    hasError = true;
+                }
+
+                if (!CanDataSchemaSupportUnits(property))
+                {
+                    errorReporter.ReportError(ErrorCondition.ValuesInconsistent, $"Property element '{TDProperty.HasQuantityKindName}' property is usable only when the data schema is numeric ('{TDValues.TypeNumber}' or '{TDValues.TypeInteger}'), an array of numerics, or an object whose properties are all numeric.", property.Value.HasQuantityKind.TokenIndex, property.Value.Type?.TokenIndex ?? -1);
+                    hasError = true;
+                }
+
+                if (string.IsNullOrWhiteSpace(property.Value.HasQuantityKind.Value.Value))
+                {
+                    errorReporter.ReportError(ErrorCondition.PropertyEmpty, $"Property element '{TDProperty.HasQuantityKindName}' property has empty value.", property.Value.HasQuantityKind.TokenIndex);
+                    hasError = true;
+                }
+            }
+
+            if (!TryValidateDataSchema(property, (propName) => propName == TDProperty.ReadOnlyName || propName == TDProperty.PlaceholderName || propName == TDProperty.FormsName || propName == TDProperty.ContainsName || propName == TDProperty.ContainedInName || propName == TDProperty.NamespaceName || propName == TDProperty.WithUnitName || propName == TDProperty.HasQuantityKindName, platContextPresent, contextTokenIndex, DataSchemaKind.Property, contentType))
             {
                 hasError = true;
             }
@@ -999,7 +1081,7 @@ namespace Azure.Iot.Operations.CodeGeneration
             return !hasError;
         }
 
-        private bool TryValidateEvents(MapTracker<TDEvent>? evts, MapTracker<TDDataSchema>? schemaDefinitions, HashSet<SerializationFormat> serializationFormats, bool platContextPresent, long contextTokenIndex)
+        private bool TryValidateEvents(MapTracker<TDEvent>? evts, MapTracker<TDProperty>? properties, MapTracker<TDDataSchema>? schemaDefinitions, HashSet<SerializationFormat> serializationFormats, bool platContextPresent, bool qudtContextPresent, long contextTokenIndex)
         {
             if (evts?.Entries == null)
             {
@@ -1010,7 +1092,7 @@ namespace Azure.Iot.Operations.CodeGeneration
 
             foreach (KeyValuePair<string, ValueTracker<TDEvent>> evt in evts.Entries)
             {
-                if (!TryValidateEvent(evt.Key, evt.Value, schemaDefinitions, out ValueTracker<StringHolder>? contentType, platContextPresent, contextTokenIndex))
+                if (!TryValidateEvent(evt.Key, evt.Value, properties, schemaDefinitions, out ValueTracker<StringHolder>? contentType, platContextPresent, qudtContextPresent, contextTokenIndex))
                 {
                     hasError = true;
                 }
@@ -1034,7 +1116,7 @@ namespace Azure.Iot.Operations.CodeGeneration
             return !hasError;
         }
 
-        private bool TryValidateEvent(string name, ValueTracker<TDEvent> evt, MapTracker<TDDataSchema>? schemaDefinitions, out ValueTracker<StringHolder>? contentType, bool platContextPresent, long contextTokenIndex)
+        private bool TryValidateEvent(string name, ValueTracker<TDEvent> evt, MapTracker<TDProperty>? properties, MapTracker<TDDataSchema>? schemaDefinitions, out ValueTracker<StringHolder>? contentType, bool platContextPresent, bool qudtContextPresent, long contextTokenIndex)
         {
             if (!TryValidateForms(evt.Value.Forms, FormsKind.Event, schemaDefinitions, out contentType))
             {
@@ -1088,6 +1170,52 @@ namespace Azure.Iot.Operations.CodeGeneration
                 }
             }
 
+            if (evt.Value.WithUnit != null)
+            {
+                if (!platContextPresent)
+                {
+                    errorReporter.ReportError(ErrorCondition.PropertyInvalid, $"Event element '{TDEvent.WithUnitName}' property requires the Azure Operations Platform context in the '{TDThing.ContextName}' property.", evt.Value.WithUnit.TokenIndex, contextTokenIndex);
+                    hasError = true;
+                }
+
+                if (!CanDataSchemaSupportUnits(evt.Value.Data))
+                {
+                    errorReporter.ReportError(ErrorCondition.ValuesInconsistent, $"Event element '{TDProperty.WithUnitName}' property is usable only when the data schema is numeric ('{TDValues.TypeNumber}' or '{TDValues.TypeInteger}'), an array of numerics, or an object whose properties are all numeric.", evt.Value.WithUnit.TokenIndex, evt.Value.Data?.Value.Type?.TokenIndex ?? -1);
+                    hasError = true;
+                }
+
+                if (properties == null)
+                {
+                    errorReporter.ReportError(ErrorCondition.ElementMissing, $"Event element has '{TDCommon.WithUnitName}' property, but model has no 'properties' collection to hold the unit property.", evt.Value.WithUnit.TokenIndex);
+                    hasError = true;
+                }
+                else if (!TryValidateWithUnitProperty(evt.Value.WithUnit, "Event", properties))
+                {
+                    hasError = true;
+                }
+            }
+
+            if (evt.Value.HasQuantityKind != null)
+            {
+                if (!qudtContextPresent)
+                {
+                    errorReporter.ReportError(ErrorCondition.PropertyInvalid, $"Event element '{TDProperty.HasQuantityKindName}' property requires the QUDT context in the '{TDThing.ContextName}' property.", evt.Value.HasQuantityKind.TokenIndex, contextTokenIndex);
+                    hasError = true;
+                }
+
+                if (!CanDataSchemaSupportUnits(evt.Value.Data))
+                {
+                    errorReporter.ReportError(ErrorCondition.ValuesInconsistent, $"Event element '{TDProperty.HasQuantityKindName}' property is usable only when the data schema is numeric ('{TDValues.TypeNumber}' or '{TDValues.TypeInteger}'), an array of numerics, or an object whose properties are all numeric.", evt.Value.HasQuantityKind.TokenIndex, evt.Value.Data?.Value.Type?.TokenIndex ?? -1);
+                    hasError = true;
+                }
+
+                if (string.IsNullOrWhiteSpace(evt.Value.HasQuantityKind.Value.Value))
+                {
+                    errorReporter.ReportError(ErrorCondition.PropertyEmpty, $"Event element '{TDProperty.HasQuantityKindName}' property has empty value.", evt.Value.HasQuantityKind.TokenIndex);
+                    hasError = true;
+                }
+            }
+
             if (evt.Value.Data != null && !TryValidateDataSchema(evt.Value.Data, null, platContextPresent, contextTokenIndex, DataSchemaKind.Event, contentType))
             {
                 hasError = true;
@@ -1095,7 +1223,7 @@ namespace Azure.Iot.Operations.CodeGeneration
 
             foreach (KeyValuePair<string, long> propertyName in evt.Value.PropertyNames)
             {
-                if (propertyName.Key != TDEvent.DescriptionName && propertyName.Key != TDEvent.DataName && propertyName.Key != TDEvent.PlaceholderName && propertyName.Key != TDEvent.FormsName && propertyName.Key != TDEvent.ContainsName && propertyName.Key != TDEvent.ContainedInName && propertyName.Key != TDEvent.NamespaceName)
+                if (propertyName.Key != TDEvent.DescriptionName && propertyName.Key != TDEvent.DataName && propertyName.Key != TDEvent.PlaceholderName && propertyName.Key != TDEvent.FormsName && propertyName.Key != TDEvent.ContainsName && propertyName.Key != TDEvent.ContainedInName && propertyName.Key != TDEvent.NamespaceName && propertyName.Key != TDEvent.WithUnitName && propertyName.Key != TDProperty.HasQuantityKindName)
                 {
                     if (propertyName.Key.Contains(':') && !propertyName.Key.StartsWith($"{TDValues.ContextPrefixAioProtocol}:") && !propertyName.Key.StartsWith($"{TDValues.ContextPrefixAioPlatform}:"))
                     {
@@ -1110,6 +1238,69 @@ namespace Azure.Iot.Operations.CodeGeneration
             }
 
             return !hasError;
+        }
+
+        private bool CanDataSchemaSupportUnits<T>(ValueTracker<T>? dataSchema)
+            where T : TDDataSchema, IDeserializable<T>
+        {
+            if (dataSchema?.Value.Type == null)
+            {
+                return false;
+            }
+
+            switch (dataSchema.Value.Type.Value.Value)
+            {
+                case TDValues.TypeInteger:
+                case TDValues.TypeNumber:
+                    return true;
+                case TDValues.TypeObject:
+                    return
+                        (dataSchema.Value.Properties?.Entries != null && dataSchema.Value.Properties.Entries.All(p => CanDataSchemaSupportUnits(p.Value))) ||
+                        (dataSchema.Value.AdditionalProperties != null && CanDataSchemaSupportUnits(dataSchema.Value.AdditionalProperties));
+                case TDValues.TypeArray:
+                    return CanDataSchemaSupportUnits(dataSchema.Value.Items);
+                case TDValues.TypeString:
+                case TDValues.TypeBoolean:
+                case TDValues.TypeNull:
+                default:
+                    return false;
+            }
+        }
+
+        private bool TryValidateWithUnitProperty(ValueTracker<StringHolder> withUnit, string affordanceType, MapTracker<TDProperty> properties)
+        {
+            if (string.IsNullOrWhiteSpace(withUnit.Value.Value))
+            {
+                errorReporter.ReportError(ErrorCondition.PropertyEmpty, $"{affordanceType} element '{TDCommon.WithUnitName}' property has empty value.", withUnit.TokenIndex);
+                return false;
+            }
+
+            if (!withUnit.Value.Value.StartsWith(TDCommon.WithUnitPrefix))
+            {
+                errorReporter.ReportError(ErrorCondition.PropertyUnsupportedValue, $"{affordanceType} element '{TDCommon.WithUnitName}' property value must start with '{TDCommon.WithUnitPrefix}'.", withUnit.TokenIndex);
+                return false;
+            }
+
+            string unitPropName = withUnit.Value.Value.Substring(TDCommon.WithUnitPrefix.Length);
+            if (string.IsNullOrWhiteSpace(unitPropName))
+            {
+                errorReporter.ReportError(ErrorCondition.PropertyUnsupportedValue, $"{affordanceType} element '{TDCommon.WithUnitName}' property has no referenced property name following '{TDCommon.WithUnitPrefix}'.", withUnit.TokenIndex);
+                return false;
+            }
+
+            if (!properties.Entries!.TryGetValue(unitPropName, out ValueTracker<TDProperty>? unitProperty))
+            {
+                errorReporter.ReportError(ErrorCondition.ItemNotFound, $"{affordanceType} element '{TDCommon.WithUnitName}' property references property '{unitPropName}', which is not present in 'properties' collection.", withUnit.TokenIndex, properties.TokenIndex);
+                return false;
+            }
+
+            if (unitProperty.Value.Type?.Value.Value != TDValues.TypeString)
+            {
+                errorReporter.ReportError(ErrorCondition.TypeMismatch, $"{affordanceType} element '{TDCommon.WithUnitName}' property references property '{unitPropName}', but that property's schema is not of type string.", withUnit.TokenIndex, unitProperty.TokenIndex);
+                return false;
+            }
+
+            return true;
         }
 
         private bool TryValidateForms(ArrayTracker<TDForm>? forms, FormsKind formsKind, MapTracker<TDDataSchema>? schemaDefinitions, out ValueTracker<StringHolder>? contentType, bool isReadOnly = false)
@@ -1854,7 +2045,7 @@ namespace Azure.Iot.Operations.CodeGeneration
         {
             if (dataSchema.Value.Title != null && !TitleRegex.IsMatch(dataSchema.Value.Title.Value.Value))
             {
-                errorReporter.ReportWarning($"Data schema '{TDDataSchema.TitleName}' property value \"{dataSchema.Value.Title.Value.Value}\" does not conform to codegen type naming rules (only alphanumerics, starting with uppercase), which will be problematic unless titles are suppressed via a '{TDValues.RelationSchemaNaming}' linked schema naming file", dataSchema.Value.Title.TokenIndex);
+                errorReporter.ReportWarning($"Data schema '{TDDataSchema.TitleName}' property value \"{dataSchema.Value.Title.Value.Value}\" does not conform to codegen type naming rules (only alphanumerics and underscores, starting with uppercase), which will be problematic unless titles are suppressed via a '{TDValues.RelationSchemaNaming}' linked schema naming file", dataSchema.Value.Title.TokenIndex);
             }
 
             bool hasError = false;
@@ -1888,7 +2079,7 @@ namespace Azure.Iot.Operations.CodeGeneration
 
             if (dataSchema.Value.Title != null && !TitleRegex.IsMatch(dataSchema.Value.Title.Value.Value))
             {
-                errorReporter.ReportWarning($"Data schema '{TDDataSchema.TitleName}' property value \"{dataSchema.Value.Title.Value.Value}\" does not conform to codegen type naming rules (only alphanumerics, starting with uppercase), which will be problematic unless titles are suppressed via a '{TDValues.RelationSchemaNaming}' linked schema naming file", dataSchema.Value.Title.TokenIndex);
+                errorReporter.ReportWarning($"Data schema '{TDDataSchema.TitleName}' property value \"{dataSchema.Value.Title.Value.Value}\" does not conform to codegen type naming rules (only alphanumerics and underscores, starting with uppercase), which will be problematic unless titles are suppressed via a '{TDValues.RelationSchemaNaming}' linked schema naming file", dataSchema.Value.Title.TokenIndex);
             }
 
             if (constValue.Value.Value is double numValue)
@@ -1935,7 +2126,7 @@ namespace Azure.Iot.Operations.CodeGeneration
 
             if (dataSchema.Value.Title != null && !TitleRegex.IsMatch(dataSchema.Value.Title.Value.Value))
             {
-                errorReporter.ReportWarning($"Data schema '{TDDataSchema.TitleName}' property value \"{dataSchema.Value.Title.Value.Value}\" does not conform to codegen type naming rules (only alphanumerics, starting with uppercase), which will be problematic unless titles are suppressed via a '{TDValues.RelationSchemaNaming}' linked schema naming file", dataSchema.Value.Title.TokenIndex);
+                errorReporter.ReportWarning($"Data schema '{TDDataSchema.TitleName}' property value \"{dataSchema.Value.Title.Value.Value}\" does not conform to codegen type naming rules (only alphanumerics and underscores, starting with uppercase), which will be problematic unless titles are suppressed via a '{TDValues.RelationSchemaNaming}' linked schema naming file", dataSchema.Value.Title.TokenIndex);
             }
 
             if (constValue.Value.Value is double numValue && double.IsInteger(numValue))
@@ -1982,7 +2173,7 @@ namespace Azure.Iot.Operations.CodeGeneration
 
             if (dataSchema.Value.Title != null && !TitleRegex.IsMatch(dataSchema.Value.Title.Value.Value))
             {
-                errorReporter.ReportWarning($"Data schema '{TDDataSchema.TitleName}' property value \"{dataSchema.Value.Title.Value.Value}\" does not conform to codegen type naming rules (only alphanumerics, starting with uppercase), which will be problematic unless titles are suppressed via a '{TDValues.RelationSchemaNaming}' linked schema naming file", dataSchema.Value.Title.TokenIndex);
+                errorReporter.ReportWarning($"Data schema '{TDDataSchema.TitleName}' property value \"{dataSchema.Value.Title.Value.Value}\" does not conform to codegen type naming rules (only alphanumerics and underscores, starting with uppercase), which will be problematic unless titles are suppressed via a '{TDValues.RelationSchemaNaming}' linked schema naming file", dataSchema.Value.Title.TokenIndex);
             }
 
             if (constValue.Value.Value is not bool)
@@ -2127,7 +2318,7 @@ namespace Azure.Iot.Operations.CodeGeneration
 
                     if (dataSchema.Value.Title != null && !TitleRegex.IsMatch(dataSchema.Value.Title.Value.Value))
                     {
-                        errorReporter.ReportWarning($"Data schema '{TDDataSchema.TitleName}' property value \"{dataSchema.Value.Title.Value.Value}\" does not conform to codegen type naming rules (only alphanumerics, starting with uppercase), which will be problematic unless titles are suppressed via a '{TDValues.RelationSchemaNaming}' linked schema naming file", dataSchema.Value.Title.TokenIndex);
+                        errorReporter.ReportWarning($"Data schema '{TDDataSchema.TitleName}' property value \"{dataSchema.Value.Title.Value.Value}\" does not conform to codegen type naming rules (only alphanumerics and underscores, starting with uppercase), which will be problematic unless titles are suppressed via a '{TDValues.RelationSchemaNaming}' linked schema naming file", dataSchema.Value.Title.TokenIndex);
                     }
 
                     HashSet<string> supportedProperties = new()
@@ -2218,7 +2409,7 @@ namespace Azure.Iot.Operations.CodeGeneration
 
                 if (dataSchema.Value.Title != null && !TitleRegex.IsMatch(dataSchema.Value.Title.Value.Value))
                 {
-                    errorReporter.ReportWarning($"Data schema '{TDDataSchema.TitleName}' property value \"{dataSchema.Value.Title.Value.Value}\" does not conform to codegen type naming rules (only alphanumerics, starting with uppercase), which will be problematic unless titles are suppressed via a '{TDValues.RelationSchemaNaming}' linked schema naming file", dataSchema.Value.Title.TokenIndex);
+                    errorReporter.ReportWarning($"Data schema '{TDDataSchema.TitleName}' property value \"{dataSchema.Value.Title.Value.Value}\" does not conform to codegen type naming rules (only alphanumerics and underscores, starting with uppercase), which will be problematic unless titles are suppressed via a '{TDValues.RelationSchemaNaming}' linked schema naming file", dataSchema.Value.Title.TokenIndex);
                 }
             }
             else
@@ -2286,7 +2477,7 @@ namespace Azure.Iot.Operations.CodeGeneration
             {
                 if (dataSchema.Value.Title != null && !TitleRegex.IsMatch(dataSchema.Value.Title.Value.Value))
                 {
-                    errorReporter.ReportWarning($"Data schema '{TDDataSchema.TitleName}' property value \"{dataSchema.Value.Title.Value.Value}\" does not conform to codegen type naming rules (only alphanumerics, starting with uppercase), which will be problematic unless titles are suppressed via a '{TDValues.RelationSchemaNaming}' linked schema naming file", dataSchema.Value.Title.TokenIndex);
+                    errorReporter.ReportWarning($"Data schema '{TDDataSchema.TitleName}' property value \"{dataSchema.Value.Title.Value.Value}\" does not conform to codegen type naming rules (only alphanumerics and underscores, starting with uppercase), which will be problematic unless titles are suppressed via a '{TDValues.RelationSchemaNaming}' linked schema naming file", dataSchema.Value.Title.TokenIndex);
                 }
 
                 foreach (ValueTracker<StringHolder> enumValue in dataSchema.Value.Enum.Elements)

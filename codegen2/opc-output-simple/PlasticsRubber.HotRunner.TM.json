@@ -1,0 +1,1755 @@
+[
+  {
+    "@context": [
+      "https://www.w3.org/2022/wot/td/v1.1",
+      {
+        "dtv": "http://azure.com/DigitalTwins/dtmi#",
+        "aov": "http://azure.com/IoT/operations/tm#"
+      }
+    ],
+    "@type": "tm:ThingModel",
+    "title": "PlasticsRubber_HotRunner_ZoneAlarmType",
+    "aov:typeRef": "nsu=http://opcfoundation.org/UA/PlasticsRubber/HotRunner/;i=1002",
+    "aov:isEvent": true,
+    "links": [
+      {
+        "rel": "tm:extends",
+        "href": "./PlasticsRubber.GeneralTypes.TM.json#title=PlasticsRubber_GeneralTypes_HelpOffNormalAlarmType",
+        "type": "application/tm+json"
+      }
+    ],
+    "schemaDefinitions": {
+    },
+    "actions": {
+    },
+    "properties": {
+    },
+    "events": {
+    }
+  },
+  {
+    "@context": [
+      "https://www.w3.org/2022/wot/td/v1.1",
+      {
+        "dtv": "http://azure.com/DigitalTwins/dtmi#",
+        "aov": "http://azure.com/IoT/operations/tm#"
+      }
+    ],
+    "@type": "tm:ThingModel",
+    "title": "PlasticsRubber_HotRunner_ControllerType",
+    "aov:typeRef": "nsu=http://opcfoundation.org/UA/PlasticsRubber/HotRunner/;i=1005",
+    "links": [
+      {
+        "rel": "tm:extends",
+        "href": "./OpcUaCore.TM.json#title=OpcUaCore_BaseObjectType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "aov:reference",
+        "aov:refName": "LoadCurrent",
+        "href": "./PlasticsRubber.GeneralTypes.TM.json#title=PlasticsRubber_GeneralTypes_MonitoredParameterType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "aov:reference",
+        "aov:refName": "LoadPower",
+        "href": "./PlasticsRubber.GeneralTypes.TM.json#title=PlasticsRubber_GeneralTypes_MonitoredParameterType",
+        "type": "application/tm+json"
+      }
+    ],
+    "schemaDefinitions": {
+      "ControllerTypeEnumeration": {
+        "type": "object",
+        "aov:typeRef": "nsu=http://opcfoundation.org/UA/PlasticsRubber/HotRunner/;i=3002",
+        "const": {
+          "CLOSED_LOOP_CONTROL": 0,
+          "MANUAL": 1,
+          "SYNCHRONOUS_ZONE": 2,
+          "CASCADE": 3,
+          "COOL_ZONE": 4,
+          "MEASURING_ZONE": 5,
+          "NOT_USED": 6
+        },
+        "properties": {
+          "CLOSED_LOOP_CONTROL": {
+            "type": "integer"
+          },
+          "MANUAL": {
+            "type": "integer"
+          },
+          "SYNCHRONOUS_ZONE": {
+            "type": "integer"
+          },
+          "CASCADE": {
+            "type": "integer"
+          },
+          "COOL_ZONE": {
+            "type": "integer"
+          },
+          "MEASURING_ZONE": {
+            "type": "integer"
+          },
+          "NOT_USED": {
+            "type": "integer"
+          }
+        }
+      }
+    },
+    "forms": [
+      {
+        "contentType": "application/json",
+        "dtv:topic": "opcua/PlasticsRubber.HotRunner/PlasticsRubber_HotRunner_ControllerType/events/{senderId}",
+        "op": "subscribeallevents"
+      },
+      {
+        "contentType": "application/json",
+        "dtv:topic": "opcua/PlasticsRubber.HotRunner/PlasticsRubber_HotRunner_ControllerType/properties/write",
+        "op": "writemultipleproperties"
+      },
+      {
+        "contentType": "application/json",
+        "dtv:topic": "opcua/PlasticsRubber.HotRunner/PlasticsRubber_HotRunner_ControllerType/properties/read",
+        "op": "readallproperties"
+      }
+    ],
+    "actions": {
+    },
+    "properties": {
+      "ActualOutput": {
+        "aov:namespace": "http://opcfoundation.org/UA/PlasticsRubber/HotRunner/",
+        "description": "Indicates the currently active output in percent",
+        "type": "number",
+        "minimum": -1.80e+308,
+        "maximum": 1.80e+308,
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/PlasticsRubber.HotRunner/PlasticsRubber_HotRunner_ControllerType/property/ActualOutput/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "ActualType": {
+        "aov:namespace": "http://opcfoundation.org/UA/PlasticsRubber/HotRunner/",
+        "title": "ControllerTypeEnumeration",
+        "description": "Actual value for the controller type used by the zone",
+        "aov:typeRef": "nsu=http://opcfoundation.org/UA/PlasticsRubber/HotRunner/;i=3002",
+        "type": "integer",
+        "minimum": -2147483648,
+        "maximum": 2147483647,
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/PlasticsRubber.HotRunner/PlasticsRubber_HotRunner_ControllerType/property/ActualType/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "ActualValueActive": {
+        "aov:namespace": "http://opcfoundation.org/UA/PlasticsRubber/HotRunner/",
+        "description": "Indicates the current status of the controller",
+        "type": "boolean",
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/PlasticsRubber.HotRunner/PlasticsRubber_HotRunner_ControllerType/property/ActualValueActive/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "AutomaticReferenceZoneSelection": {
+        "aov:namespace": "http://opcfoundation.org/UA/PlasticsRubber/HotRunner/",
+        "description": "If true, the HRD selects automatically the reference zone.",
+        "type": "boolean",
+        "readOnly": false,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/PlasticsRubber.HotRunner/PlasticsRubber_HotRunner_ControllerType/property/AutomaticReferenceZoneSelection/write",
+            "op": "writeproperty"
+          },
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/PlasticsRubber.HotRunner/PlasticsRubber_HotRunner_ControllerType/property/AutomaticReferenceZoneSelection/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "AverageControllerOutput": {
+        "aov:namespace": "http://opcfoundation.org/UA/PlasticsRubber/HotRunner/",
+        "description": "Indicates the average output which can be used when a sensor is broken",
+        "type": "number",
+        "minimum": -1.80e+308,
+        "maximum": 1.80e+308,
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/PlasticsRubber.HotRunner/PlasticsRubber_HotRunner_ControllerType/property/AverageControllerOutput/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "LowerOutput": {
+        "aov:namespace": "http://opcfoundation.org/UA/PlasticsRubber/HotRunner/",
+        "description": "Limitation of the minimum output in closed-loop control in %",
+        "type": "number",
+        "minimum": -1.80e+308,
+        "maximum": 1.80e+308,
+        "readOnly": false,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/PlasticsRubber.HotRunner/PlasticsRubber_HotRunner_ControllerType/property/LowerOutput/write",
+            "op": "writeproperty"
+          },
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/PlasticsRubber.HotRunner/PlasticsRubber_HotRunner_ControllerType/property/LowerOutput/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "OutputTime": {
+        "aov:namespace": "http://opcfoundation.org/UA/PlasticsRubber/HotRunner/",
+        "description": "Time basis for operating the actuator",
+        "type": "string",
+        "pattern": "^P(?!$)(?:(?:(?:(?:\\d+Y)|(?:\\d+\\.\\d+Y$))?(?:(?:\\d+M)|(?:\\d+\\.\\d+M$))?)|(?:(?:(?:\\d+W)|(?:\\d+\\.\\d+W$))?))(?:(?:\\d+D)|(?:\\d+\\.\\d+D$))?(?:T(?!$)(?:(?:\\d+H)|(?:\\d+\\.\\d+H$))?(?:(?:\\d+M)|(?:\\d+\\.\\d+M$))?(?:\\d+(?:\\.\\d+)?S)?)?$",
+        "readOnly": false,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/PlasticsRubber.HotRunner/PlasticsRubber_HotRunner_ControllerType/property/OutputTime/write",
+            "op": "writeproperty"
+          },
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/PlasticsRubber.HotRunner/PlasticsRubber_HotRunner_ControllerType/property/OutputTime/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "ReferenceZone": {
+        "aov:namespace": "http://opcfoundation.org/UA/PlasticsRubber/HotRunner/",
+        "description": "If zones are to operate parallel to a control zone, the reference relation can be realised with this parameter.",
+        "type": "integer",
+        "minimum": 0,
+        "maximum": 4294967295,
+        "readOnly": false,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/PlasticsRubber.HotRunner/PlasticsRubber_HotRunner_ControllerType/property/ReferenceZone/write",
+            "op": "writeproperty"
+          },
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/PlasticsRubber.HotRunner/PlasticsRubber_HotRunner_ControllerType/property/ReferenceZone/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "SetValueActive": {
+        "aov:namespace": "http://opcfoundation.org/UA/PlasticsRubber/HotRunner/",
+        "description": "A control zone is switched on and off with this parameter.",
+        "type": "boolean",
+        "readOnly": false,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/PlasticsRubber.HotRunner/PlasticsRubber_HotRunner_ControllerType/property/SetValueActive/write",
+            "op": "writeproperty"
+          },
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/PlasticsRubber.HotRunner/PlasticsRubber_HotRunner_ControllerType/property/SetValueActive/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "SetValueManualOutput": {
+        "aov:namespace": "http://opcfoundation.org/UA/PlasticsRubber/HotRunner/",
+        "description": "Manually given output in percent if SetValueType = MANUAL is selected",
+        "type": "number",
+        "minimum": -1.80e+308,
+        "maximum": 1.80e+308,
+        "readOnly": false,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/PlasticsRubber.HotRunner/PlasticsRubber_HotRunner_ControllerType/property/SetValueManualOutput/write",
+            "op": "writeproperty"
+          },
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/PlasticsRubber.HotRunner/PlasticsRubber_HotRunner_ControllerType/property/SetValueManualOutput/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "SetValueType": {
+        "aov:namespace": "http://opcfoundation.org/UA/PlasticsRubber/HotRunner/",
+        "description": "Set value for the controller type used by the zone",
+        "type": "integer",
+        "minimum": 0,
+        "maximum": 65535,
+        "readOnly": false,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/PlasticsRubber.HotRunner/PlasticsRubber_HotRunner_ControllerType/property/SetValueType/write",
+            "op": "writeproperty"
+          },
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/PlasticsRubber.HotRunner/PlasticsRubber_HotRunner_ControllerType/property/SetValueType/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "UpperOutput": {
+        "aov:namespace": "http://opcfoundation.org/UA/PlasticsRubber/HotRunner/",
+        "description": "Limitation of the maximum output in closed-loop control in %",
+        "type": "number",
+        "minimum": -1.80e+308,
+        "maximum": 1.80e+308,
+        "readOnly": false,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/PlasticsRubber.HotRunner/PlasticsRubber_HotRunner_ControllerType/property/UpperOutput/write",
+            "op": "writeproperty"
+          },
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/PlasticsRubber.HotRunner/PlasticsRubber_HotRunner_ControllerType/property/UpperOutput/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "UpperSetValueCascade": {
+        "aov:namespace": "http://opcfoundation.org/UA/PlasticsRubber/HotRunner/",
+        "description": "If the two controllers are cascaded, the master defines to which nominal temperature value the slave is to control to. With this parameter, the upper limit for the slave is defined.",
+        "type": "number",
+        "minimum": -1.80e+308,
+        "maximum": 1.80e+308,
+        "readOnly": false,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/PlasticsRubber.HotRunner/PlasticsRubber_HotRunner_ControllerType/property/UpperSetValueCascade/write",
+            "op": "writeproperty"
+          },
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/PlasticsRubber.HotRunner/PlasticsRubber_HotRunner_ControllerType/property/UpperSetValueCascade/read",
+            "op": "readproperty"
+          }
+        ]
+      }
+    },
+    "events": {
+      "ActualOutput": {
+        "aov:namespace": "http://opcfoundation.org/UA/PlasticsRubber/HotRunner/",
+        "data": {
+          "description": "Indicates the currently active output in percent",
+          "type": "number",
+          "minimum": -1.80e+308,
+          "maximum": 1.80e+308
+        },
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/PlasticsRubber.HotRunner/PlasticsRubber_HotRunner_ControllerType/event/ActualOutput/{senderId}",
+            "op": "subscribeevent"
+          }
+        ]
+      },
+      "AverageControllerOutput": {
+        "aov:namespace": "http://opcfoundation.org/UA/PlasticsRubber/HotRunner/",
+        "data": {
+          "description": "Indicates the average output which can be used when a sensor is broken",
+          "type": "number",
+          "minimum": -1.80e+308,
+          "maximum": 1.80e+308
+        },
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/PlasticsRubber.HotRunner/PlasticsRubber_HotRunner_ControllerType/event/AverageControllerOutput/{senderId}",
+            "op": "subscribeevent"
+          }
+        ]
+      },
+      "LowerOutput": {
+        "aov:namespace": "http://opcfoundation.org/UA/PlasticsRubber/HotRunner/",
+        "data": {
+          "description": "Limitation of the minimum output in closed-loop control in %",
+          "type": "number",
+          "minimum": -1.80e+308,
+          "maximum": 1.80e+308
+        },
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/PlasticsRubber.HotRunner/PlasticsRubber_HotRunner_ControllerType/event/LowerOutput/{senderId}",
+            "op": "subscribeevent"
+          }
+        ]
+      },
+      "SetValueManualOutput": {
+        "aov:namespace": "http://opcfoundation.org/UA/PlasticsRubber/HotRunner/",
+        "data": {
+          "description": "Manually given output in percent if SetValueType = MANUAL is selected",
+          "type": "number",
+          "minimum": -1.80e+308,
+          "maximum": 1.80e+308
+        },
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/PlasticsRubber.HotRunner/PlasticsRubber_HotRunner_ControllerType/event/SetValueManualOutput/{senderId}",
+            "op": "subscribeevent"
+          }
+        ]
+      },
+      "SetValueType": {
+        "aov:namespace": "http://opcfoundation.org/UA/PlasticsRubber/HotRunner/",
+        "data": {
+          "description": "Set value for the controller type used by the zone",
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 65535
+        },
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/PlasticsRubber.HotRunner/PlasticsRubber_HotRunner_ControllerType/event/SetValueType/{senderId}",
+            "op": "subscribeevent"
+          }
+        ]
+      },
+      "UpperOutput": {
+        "aov:namespace": "http://opcfoundation.org/UA/PlasticsRubber/HotRunner/",
+        "data": {
+          "description": "Limitation of the maximum output in closed-loop control in %",
+          "type": "number",
+          "minimum": -1.80e+308,
+          "maximum": 1.80e+308
+        },
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/PlasticsRubber.HotRunner/PlasticsRubber_HotRunner_ControllerType/event/UpperOutput/{senderId}",
+            "op": "subscribeevent"
+          }
+        ]
+      },
+      "UpperSetValueCascade": {
+        "aov:namespace": "http://opcfoundation.org/UA/PlasticsRubber/HotRunner/",
+        "data": {
+          "description": "If the two controllers are cascaded, the master defines to which nominal temperature value the slave is to control to. With this parameter, the upper limit for the slave is defined.",
+          "type": "number",
+          "minimum": -1.80e+308,
+          "maximum": 1.80e+308
+        },
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/PlasticsRubber.HotRunner/PlasticsRubber_HotRunner_ControllerType/event/UpperSetValueCascade/{senderId}",
+            "op": "subscribeevent"
+          }
+        ]
+      }
+    }
+  },
+  {
+    "@context": [
+      "https://www.w3.org/2022/wot/td/v1.1",
+      {
+        "dtv": "http://azure.com/DigitalTwins/dtmi#",
+        "aov": "http://azure.com/IoT/operations/tm#"
+      }
+    ],
+    "@type": "tm:ThingModel",
+    "title": "PlasticsRubber_HotRunner_HeatUpType",
+    "aov:typeRef": "nsu=http://opcfoundation.org/UA/PlasticsRubber/HotRunner/;i=1004",
+    "links": [
+      {
+        "rel": "tm:extends",
+        "href": "./OpcUaCore.TM.json#title=OpcUaCore_BaseObjectType",
+        "type": "application/tm+json"
+      }
+    ],
+    "schemaDefinitions": {
+    },
+    "forms": [
+      {
+        "contentType": "application/json",
+        "dtv:topic": "opcua/PlasticsRubber.HotRunner/PlasticsRubber_HotRunner_HeatUpType/events/{senderId}",
+        "op": "subscribeallevents"
+      },
+      {
+        "contentType": "application/json",
+        "dtv:topic": "opcua/PlasticsRubber.HotRunner/PlasticsRubber_HotRunner_HeatUpType/properties/write",
+        "op": "writemultipleproperties"
+      },
+      {
+        "contentType": "application/json",
+        "dtv:topic": "opcua/PlasticsRubber.HotRunner/PlasticsRubber_HotRunner_HeatUpType/properties/read",
+        "op": "readallproperties"
+      }
+    ],
+    "actions": {
+    },
+    "properties": {
+      "EvenHeatUpEnabled": {
+        "aov:namespace": "http://opcfoundation.org/UA/PlasticsRubber/HotRunner/",
+        "description": "Enables even heat-up process until nominal SetValue of Temperature of ZoneType is reached",
+        "type": "boolean",
+        "readOnly": false,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/PlasticsRubber.HotRunner/PlasticsRubber_HotRunner_HeatUpType/property/EvenHeatUpEnabled/write",
+            "op": "writeproperty"
+          },
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/PlasticsRubber.HotRunner/PlasticsRubber_HotRunner_HeatUpType/property/EvenHeatUpEnabled/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "ManualOutputLimitActive": {
+        "aov:namespace": "http://opcfoundation.org/UA/PlasticsRubber/HotRunner/",
+        "description": "Activates heat-up process with pre-defined SetValueManualOutputLimit until SetValueTemperature is reached",
+        "type": "boolean",
+        "readOnly": false,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/PlasticsRubber.HotRunner/PlasticsRubber_HotRunner_HeatUpType/property/ManualOutputLimitActive/write",
+            "op": "writeproperty"
+          },
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/PlasticsRubber.HotRunner/PlasticsRubber_HotRunner_HeatUpType/property/ManualOutputLimitActive/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "RelayHeatingGroup": {
+        "aov:namespace": "http://opcfoundation.org/UA/PlasticsRubber/HotRunner/",
+        "description": "Number of the heating group for relay heating",
+        "type": "integer",
+        "minimum": 0,
+        "maximum": 255,
+        "readOnly": false,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/PlasticsRubber.HotRunner/PlasticsRubber_HotRunner_HeatUpType/property/RelayHeatingGroup/write",
+            "op": "writeproperty"
+          },
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/PlasticsRubber.HotRunner/PlasticsRubber_HotRunner_HeatUpType/property/RelayHeatingGroup/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "RelayHeatingTime": {
+        "aov:namespace": "http://opcfoundation.org/UA/PlasticsRubber/HotRunner/",
+        "description": "Time for relay heating of the zone. When RelayHeatingTime of all zones of a heating group have expired, the next group starts heating.",
+        "type": "string",
+        "pattern": "^P(?!$)(?:(?:(?:(?:\\d+Y)|(?:\\d+\\.\\d+Y$))?(?:(?:\\d+M)|(?:\\d+\\.\\d+M$))?)|(?:(?:(?:\\d+W)|(?:\\d+\\.\\d+W$))?))(?:(?:\\d+D)|(?:\\d+\\.\\d+D$))?(?:T(?!$)(?:(?:\\d+H)|(?:\\d+\\.\\d+H$))?(?:(?:\\d+M)|(?:\\d+\\.\\d+M$))?(?:\\d+(?:\\.\\d+)?S)?)?$",
+        "readOnly": false,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/PlasticsRubber.HotRunner/PlasticsRubber_HotRunner_HeatUpType/property/RelayHeatingTime/write",
+            "op": "writeproperty"
+          },
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/PlasticsRubber.HotRunner/PlasticsRubber_HotRunner_HeatUpType/property/RelayHeatingTime/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "SetValueManualOutputLimit": {
+        "aov:namespace": "http://opcfoundation.org/UA/PlasticsRubber/HotRunner/",
+        "description": "This pre-defined maximum output (in percent) is valid until the SetValueTemperature is reached.",
+        "type": "number",
+        "minimum": -1.80e+308,
+        "maximum": 1.80e+308,
+        "readOnly": false,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/PlasticsRubber.HotRunner/PlasticsRubber_HotRunner_HeatUpType/property/SetValueManualOutputLimit/write",
+            "op": "writeproperty"
+          },
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/PlasticsRubber.HotRunner/PlasticsRubber_HotRunner_HeatUpType/property/SetValueManualOutputLimit/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "SetValueTemperature": {
+        "aov:namespace": "http://opcfoundation.org/UA/PlasticsRubber/HotRunner/",
+        "description": "If ManualOutputLimitActive is set, SetValueManualOutputLimit is active until this nominal temperature value is reached.",
+        "type": "number",
+        "minimum": -1.80e+308,
+        "maximum": 1.80e+308,
+        "readOnly": false,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/PlasticsRubber.HotRunner/PlasticsRubber_HotRunner_HeatUpType/property/SetValueTemperature/write",
+            "op": "writeproperty"
+          },
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/PlasticsRubber.HotRunner/PlasticsRubber_HotRunner_HeatUpType/property/SetValueTemperature/read",
+            "op": "readproperty"
+          }
+        ]
+      }
+    },
+    "events": {
+      "SetValueManualOutputLimit": {
+        "aov:namespace": "http://opcfoundation.org/UA/PlasticsRubber/HotRunner/",
+        "data": {
+          "description": "This pre-defined maximum output (in percent) is valid until the SetValueTemperature is reached.",
+          "type": "number",
+          "minimum": -1.80e+308,
+          "maximum": 1.80e+308
+        },
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/PlasticsRubber.HotRunner/PlasticsRubber_HotRunner_HeatUpType/event/SetValueManualOutputLimit/{senderId}",
+            "op": "subscribeevent"
+          }
+        ]
+      },
+      "SetValueTemperature": {
+        "aov:namespace": "http://opcfoundation.org/UA/PlasticsRubber/HotRunner/",
+        "data": {
+          "description": "If ManualOutputLimitActive is set, SetValueManualOutputLimit is active until this nominal temperature value is reached.",
+          "type": "number",
+          "minimum": -1.80e+308,
+          "maximum": 1.80e+308
+        },
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/PlasticsRubber.HotRunner/PlasticsRubber_HotRunner_HeatUpType/event/SetValueTemperature/{senderId}",
+            "op": "subscribeevent"
+          }
+        ]
+      }
+    }
+  },
+  {
+    "@context": [
+      "https://www.w3.org/2022/wot/td/v1.1",
+      {
+        "dtv": "http://azure.com/DigitalTwins/dtmi#",
+        "aov": "http://azure.com/IoT/operations/tm#"
+      }
+    ],
+    "@type": "tm:ThingModel",
+    "title": "PlasticsRubber_HotRunner_HRD_InterfaceType",
+    "aov:typeRef": "nsu=http://opcfoundation.org/UA/PlasticsRubber/HotRunner/;i=1010",
+    "aov:isComposite": true,
+    "links": [
+      {
+        "rel": "tm:extends",
+        "href": "./OpcUaCore.TM.json#title=OpcUaCore_BaseObjectType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "aov:capability",
+        "aov:refName": "Diagnostics",
+        "href": "./PlasticsRubber.GeneralTypes.TM.json#title=PlasticsRubber_GeneralTypes_DiagnosticsType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "aov:capability",
+        "aov:refName": "Identification",
+        "href": "./PlasticsRubber.GeneralTypes.TM.json#title=PlasticsRubber_GeneralTypes_IdentificationType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "aov:capability",
+        "aov:refName": "MachineConfiguration",
+        "href": "./PlasticsRubber.GeneralTypes.TM.json#title=PlasticsRubber_GeneralTypes_MachineConfigurationType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "aov:reference",
+        "aov:refName": "MaintenanceInformation",
+        "href": "#title=PlasticsRubber_HotRunner_MaintenanceInformationType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "aov:capability",
+        "aov:refName": "Operation",
+        "href": "#title=PlasticsRubber_HotRunner_OperationType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "aov:capability",
+        "aov:refName": "Zones",
+        "href": "#title=PlasticsRubber_HotRunner_ZonesType",
+        "type": "application/tm+json"
+      }
+    ],
+    "schemaDefinitions": {
+    },
+    "forms": [
+      {
+        "contentType": "application/json",
+        "dtv:topic": "opcua/PlasticsRubber.HotRunner/PlasticsRubber_HotRunner_HRD_InterfaceType/properties/write",
+        "op": "writemultipleproperties"
+      },
+      {
+        "contentType": "application/json",
+        "dtv:topic": "opcua/PlasticsRubber.HotRunner/PlasticsRubber_HotRunner_HRD_InterfaceType/properties/read",
+        "op": "readallproperties"
+      }
+    ],
+    "actions": {
+    },
+    "properties": {
+      "DisplayLanguage": {
+        "aov:namespace": "http://opcfoundation.org/UA/PlasticsRubber/HotRunner/",
+        "description": "Setting of desired language on the user interface at the HRD",
+        "type": "string",
+        "readOnly": false,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/PlasticsRubber.HotRunner/PlasticsRubber_HotRunner_HRD_InterfaceType/property/DisplayLanguage/write",
+            "op": "writeproperty"
+          },
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/PlasticsRubber.HotRunner/PlasticsRubber_HotRunner_HRD_InterfaceType/property/DisplayLanguage/read",
+            "op": "readproperty"
+          }
+        ]
+      }
+    },
+    "events": {
+    }
+  },
+  {
+    "@context": [
+      "https://www.w3.org/2022/wot/td/v1.1",
+      {
+        "dtv": "http://azure.com/DigitalTwins/dtmi#",
+        "aov": "http://azure.com/IoT/operations/tm#"
+      }
+    ],
+    "@type": "tm:ThingModel",
+    "title": "PlasticsRubber_HotRunner_MaintenanceInformationType",
+    "aov:typeRef": "nsu=http://opcfoundation.org/UA/PlasticsRubber/HotRunner/;i=1007",
+    "links": [
+      {
+        "rel": "tm:extends",
+        "href": "./OpcUaCore.TM.json#title=OpcUaCore_BaseObjectType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "aov:reference",
+        "aov:refName": "CoolingFan",
+        "href": "./PlasticsRubber.GeneralTypes.TM.json#title=PlasticsRubber_GeneralTypes_MaintenanceType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "aov:reference",
+        "aov:refName": "Heating",
+        "href": "./PlasticsRubber.GeneralTypes.TM.json#title=PlasticsRubber_GeneralTypes_MaintenanceType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "aov:reference",
+        "aov:refName": "SafetyTest",
+        "href": "./PlasticsRubber.GeneralTypes.TM.json#title=PlasticsRubber_GeneralTypes_MaintenanceType",
+        "type": "application/tm+json"
+      }
+    ],
+    "schemaDefinitions": {
+    },
+    "actions": {
+    },
+    "properties": {
+    },
+    "events": {
+    }
+  },
+  {
+    "@context": [
+      "https://www.w3.org/2022/wot/td/v1.1",
+      {
+        "dtv": "http://azure.com/DigitalTwins/dtmi#",
+        "aov": "http://azure.com/IoT/operations/tm#"
+      }
+    ],
+    "@type": "tm:ThingModel",
+    "title": "PlasticsRubber_HotRunner_HRDTemperatureType",
+    "aov:typeRef": "nsu=http://opcfoundation.org/UA/PlasticsRubber/HotRunner/;i=1011",
+    "links": [
+      {
+        "rel": "tm:extends",
+        "href": "./PlasticsRubber.GeneralTypes.TM.json#title=PlasticsRubber_GeneralTypes_ControlledParameterType",
+        "type": "application/tm+json"
+      }
+    ],
+    "schemaDefinitions": {
+    },
+    "forms": [
+      {
+        "contentType": "application/json",
+        "dtv:topic": "opcua/PlasticsRubber.HotRunner/PlasticsRubber_HotRunner_HRDTemperatureType/events/{senderId}",
+        "op": "subscribeallevents"
+      },
+      {
+        "contentType": "application/json",
+        "dtv:topic": "opcua/PlasticsRubber.HotRunner/PlasticsRubber_HotRunner_HRDTemperatureType/properties/write",
+        "op": "writemultipleproperties"
+      },
+      {
+        "contentType": "application/json",
+        "dtv:topic": "opcua/PlasticsRubber.HotRunner/PlasticsRubber_HotRunner_HRDTemperatureType/properties/read",
+        "op": "readallproperties"
+      }
+    ],
+    "actions": {
+    },
+    "properties": {
+      "ActiveSetValue": {
+        "aov:namespace": "http://opcfoundation.org/UA/PlasticsRubber/HotRunner/",
+        "description": "Current active set temperature for the temperature zone ",
+        "type": "integer",
+        "minimum": 0,
+        "maximum": 65535,
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/PlasticsRubber.HotRunner/PlasticsRubber_HotRunner_HRDTemperatureType/property/ActiveSetValue/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "BoostSetValue": {
+        "aov:namespace": "http://opcfoundation.org/UA/PlasticsRubber/HotRunner/",
+        "description": "Set value for boost mode",
+        "type": "number",
+        "minimum": -1.80e+308,
+        "maximum": 1.80e+308,
+        "readOnly": false,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/PlasticsRubber.HotRunner/PlasticsRubber_HotRunner_HRDTemperatureType/property/BoostSetValue/write",
+            "op": "writeproperty"
+          },
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/PlasticsRubber.HotRunner/PlasticsRubber_HotRunner_HRDTemperatureType/property/BoostSetValue/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "BoostTime": {
+        "aov:namespace": "http://opcfoundation.org/UA/PlasticsRubber/HotRunner/",
+        "description": "Duration of the boost mode after which the set value which was active before boost is becoming active again",
+        "type": "string",
+        "pattern": "^P(?!$)(?:(?:(?:(?:\\d+Y)|(?:\\d+\\.\\d+Y$))?(?:(?:\\d+M)|(?:\\d+\\.\\d+M$))?)|(?:(?:(?:\\d+W)|(?:\\d+\\.\\d+W$))?))(?:(?:\\d+D)|(?:\\d+\\.\\d+D$))?(?:T(?!$)(?:(?:\\d+H)|(?:\\d+\\.\\d+H$))?(?:(?:\\d+M)|(?:\\d+\\.\\d+M$))?(?:\\d+(?:\\.\\d+)?S)?)?$",
+        "readOnly": false,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/PlasticsRubber.HotRunner/PlasticsRubber_HotRunner_HRDTemperatureType/property/BoostTime/write",
+            "op": "writeproperty"
+          },
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/PlasticsRubber.HotRunner/PlasticsRubber_HotRunner_HRDTemperatureType/property/BoostTime/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "SecondSetValue": {
+        "aov:namespace": "http://opcfoundation.org/UA/PlasticsRubber/HotRunner/",
+        "description": "Second set value for fast switch-over",
+        "type": "number",
+        "minimum": -1.80e+308,
+        "maximum": 1.80e+308,
+        "readOnly": false,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/PlasticsRubber.HotRunner/PlasticsRubber_HotRunner_HRDTemperatureType/property/SecondSetValue/write",
+            "op": "writeproperty"
+          },
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/PlasticsRubber.HotRunner/PlasticsRubber_HotRunner_HRDTemperatureType/property/SecondSetValue/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "StandbySetValue": {
+        "aov:namespace": "http://opcfoundation.org/UA/PlasticsRubber/HotRunner/",
+        "description": "Set value for standby mode",
+        "type": "number",
+        "minimum": -1.80e+308,
+        "maximum": 1.80e+308,
+        "readOnly": false,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/PlasticsRubber.HotRunner/PlasticsRubber_HotRunner_HRDTemperatureType/property/StandbySetValue/write",
+            "op": "writeproperty"
+          },
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/PlasticsRubber.HotRunner/PlasticsRubber_HotRunner_HRDTemperatureType/property/StandbySetValue/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "TimeMethodPIDParameters": {
+        "aov:namespace": "http://opcfoundation.org/UA/PlasticsRubber/HotRunner/",
+        "description": "Setting of PID parameters with time method",
+        "type": "array",
+        "items": {
+          "title": "TimeMethodPIDParametersDataType",
+          "type": "object",
+          "aov:typeRef": "nsu=http://opcfoundation.org/UA/PlasticsRubber/HotRunner/;i=3005",
+          "required": [ "Xp", "Tn", "Tv", "Ts" ],
+          "properties": {
+            "Xp": {
+              "description": "proportional band",
+              "type": "number",
+              "minimum": -1.80e+308,
+              "maximum": 1.80e+308
+            },
+            "Tn": {
+              "description": "reset time",
+              "type": "number",
+              "minimum": -1.80e+308,
+              "maximum": 1.80e+308
+            },
+            "Tv": {
+              "description": "derivative time",
+              "type": "number",
+              "minimum": -1.80e+308,
+              "maximum": 1.80e+308
+            },
+            "Ts": {
+              "description": "sample time",
+              "type": "number",
+              "minimum": -1.80e+308,
+              "maximum": 1.80e+308
+            }
+          }
+        },
+        "readOnly": false,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/PlasticsRubber.HotRunner/PlasticsRubber_HotRunner_HRDTemperatureType/property/TimeMethodPIDParameters/write",
+            "op": "writeproperty"
+          },
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/PlasticsRubber.HotRunner/PlasticsRubber_HotRunner_HRDTemperatureType/property/TimeMethodPIDParameters/read",
+            "op": "readproperty"
+          }
+        ]
+      }
+    },
+    "events": {
+      "ActiveSetValue": {
+        "aov:namespace": "http://opcfoundation.org/UA/PlasticsRubber/HotRunner/",
+        "data": {
+          "description": "Current active set temperature for the temperature zone ",
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 65535
+        },
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/PlasticsRubber.HotRunner/PlasticsRubber_HotRunner_HRDTemperatureType/event/ActiveSetValue/{senderId}",
+            "op": "subscribeevent"
+          }
+        ]
+      },
+      "BoostSetValue": {
+        "aov:namespace": "http://opcfoundation.org/UA/PlasticsRubber/HotRunner/",
+        "data": {
+          "description": "Set value for boost mode",
+          "type": "number",
+          "minimum": -1.80e+308,
+          "maximum": 1.80e+308
+        },
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/PlasticsRubber.HotRunner/PlasticsRubber_HotRunner_HRDTemperatureType/event/BoostSetValue/{senderId}",
+            "op": "subscribeevent"
+          }
+        ]
+      },
+      "SecondSetValue": {
+        "aov:namespace": "http://opcfoundation.org/UA/PlasticsRubber/HotRunner/",
+        "data": {
+          "description": "Second set value for fast switch-over",
+          "type": "number",
+          "minimum": -1.80e+308,
+          "maximum": 1.80e+308
+        },
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/PlasticsRubber.HotRunner/PlasticsRubber_HotRunner_HRDTemperatureType/event/SecondSetValue/{senderId}",
+            "op": "subscribeevent"
+          }
+        ]
+      },
+      "StandbySetValue": {
+        "aov:namespace": "http://opcfoundation.org/UA/PlasticsRubber/HotRunner/",
+        "data": {
+          "description": "Set value for standby mode",
+          "type": "number",
+          "minimum": -1.80e+308,
+          "maximum": 1.80e+308
+        },
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/PlasticsRubber.HotRunner/PlasticsRubber_HotRunner_HRDTemperatureType/event/StandbySetValue/{senderId}",
+            "op": "subscribeevent"
+          }
+        ]
+      }
+    }
+  },
+  {
+    "@context": [
+      "https://www.w3.org/2022/wot/td/v1.1",
+      {
+        "dtv": "http://azure.com/DigitalTwins/dtmi#",
+        "aov": "http://azure.com/IoT/operations/tm#"
+      }
+    ],
+    "@type": "tm:ThingModel",
+    "title": "PlasticsRubber_HotRunner_OperationType",
+    "aov:typeRef": "nsu=http://opcfoundation.org/UA/PlasticsRubber/HotRunner/;i=1009",
+    "links": [
+      {
+        "rel": "tm:extends",
+        "href": "./OpcUaCore.TM.json#title=OpcUaCore_BaseObjectType",
+        "type": "application/tm+json"
+      }
+    ],
+    "schemaDefinitions": {
+    },
+    "forms": [
+      {
+        "contentType": "application/json",
+        "dtv:topic": "opcua/PlasticsRubber.HotRunner/PlasticsRubber_HotRunner_OperationType/events/{senderId}",
+        "op": "subscribeallevents"
+      },
+      {
+        "contentType": "application/json",
+        "dtv:topic": "opcua/PlasticsRubber.HotRunner/PlasticsRubber_HotRunner_OperationType/properties/write",
+        "op": "writemultipleproperties"
+      },
+      {
+        "contentType": "application/json",
+        "dtv:topic": "opcua/PlasticsRubber.HotRunner/PlasticsRubber_HotRunner_OperationType/properties/read",
+        "op": "readallproperties"
+      }
+    ],
+    "actions": {
+      "IdentifyDevice": {
+        "aov:namespace": "http://opcfoundation.org/UA/PlasticsRubber/HotRunner/",
+        "description": "The peripheral device on which this method is called shows itself by e.g. activation of a LED.",
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/PlasticsRubber.HotRunner/PlasticsRubber_HotRunner_OperationType/action/IdentifyDevice",
+            "op": "invokeaction"
+          }
+        ]
+      },
+      "ResetAllErrors": {
+        "aov:namespace": "http://opcfoundation.org/UA/PlasticsRubber/HotRunner/",
+        "description": "Method to reset all errors of the device",
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/PlasticsRubber.HotRunner/PlasticsRubber_HotRunner_OperationType/action/ResetAllErrors",
+            "op": "invokeaction"
+          }
+        ]
+      },
+      "ResetErrorById": {
+        "aov:namespace": "http://opcfoundation.org/UA/PlasticsRubber/HotRunner/",
+        "description": "Method to reset one error of the device",
+        "input": {
+          "type": "object",
+          "aov:typeRef": "nsu=http://opcfoundation.org/UA/PlasticsRubber/HotRunner/;i=6378",
+          "required": [ "Id" ],
+          "properties": {
+            "Id": {
+              "type": "string"
+            }
+          }
+        },
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/PlasticsRubber.HotRunner/PlasticsRubber_HotRunner_OperationType/action/ResetErrorById",
+            "op": "invokeaction"
+          }
+        ]
+      },
+      "SetReactionOnDisconnect": {
+        "aov:namespace": "http://opcfoundation.org/UA/PlasticsRubber/HotRunner/",
+        "description": "Method to set ReactionOnDisconnect and SessionNameForReactionOnDisconnect",
+        "input": {
+          "type": "object",
+          "aov:typeRef": "nsu=http://opcfoundation.org/UA/PlasticsRubber/HotRunner/;i=6651",
+          "required": [ "ReactionOnDisconnect" ],
+          "properties": {
+            "ReactionOnDisconnect": {
+              "type": "integer",
+              "minimum": 0,
+              "maximum": 65535
+            }
+          }
+        },
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/PlasticsRubber.HotRunner/PlasticsRubber_HotRunner_OperationType/action/SetReactionOnDisconnect",
+            "op": "invokeaction"
+          }
+        ]
+      }
+    },
+    "properties": {
+      "ActiveErrors": {
+        "aov:namespace": "http://opcfoundation.org/UA/PlasticsRubber/HotRunner/",
+        "description": "List of the active errors of the device",
+        "type": "array",
+        "items": {
+          "title": "ClassifiedActiveErrorDataType",
+          "description": "Iinformation about an active error in a device including the SoureNodes and a Classification",
+          "type": "object",
+          "aov:typeRef": "nsu=http://opcfoundation.org/UA/PlasticsRubber/GeneralTypes/;i=3003",
+          "required": [ "SourceNodes", "Classification" ],
+          "properties": {
+            "SourceNodes": {
+              "description": "NodeIds of the Nodes which cause the error",
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            },
+            "Classification": {
+              "description": "Classification of the error, if a process parameter expressed as MonitoredParameterType is the cause of the error",
+              "type": "integer",
+              "minimum": 0,
+              "maximum": 65535
+            }
+          }
+        },
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/PlasticsRubber.HotRunner/PlasticsRubber_HotRunner_OperationType/property/ActiveErrors/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "ActiveSetValues": {
+        "aov:namespace": "http://opcfoundation.org/UA/PlasticsRubber/HotRunner/",
+        "description": "Central selection of the used set temperature for the temperature zones ",
+        "type": "integer",
+        "minimum": 0,
+        "maximum": 65535,
+        "readOnly": false,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/PlasticsRubber.HotRunner/PlasticsRubber_HotRunner_OperationType/property/ActiveSetValues/write",
+            "op": "writeproperty"
+          },
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/PlasticsRubber.HotRunner/PlasticsRubber_HotRunner_OperationType/property/ActiveSetValues/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "DeviceMappingNumber": {
+        "aov:namespace": "http://opcfoundation.org/UA/PlasticsRubber/HotRunner/",
+        "description": "Unique identifier/address/number for devices of the same DeviceType within a local network",
+        "type": "integer",
+        "minimum": 0,
+        "maximum": 4294967295,
+        "readOnly": false,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/PlasticsRubber.HotRunner/PlasticsRubber_HotRunner_OperationType/property/DeviceMappingNumber/write",
+            "op": "writeproperty"
+          },
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/PlasticsRubber.HotRunner/PlasticsRubber_HotRunner_OperationType/property/DeviceMappingNumber/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "EnablePower": {
+        "aov:namespace": "http://opcfoundation.org/UA/PlasticsRubber/HotRunner/",
+        "description": "Global power control switch for all zone controllers",
+        "type": "boolean",
+        "readOnly": false,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/PlasticsRubber.HotRunner/PlasticsRubber_HotRunner_OperationType/property/EnablePower/write",
+            "op": "writeproperty"
+          },
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/PlasticsRubber.HotRunner/PlasticsRubber_HotRunner_OperationType/property/EnablePower/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "EvenHeatUpMaxTemperatureDifference": {
+        "aov:namespace": "http://opcfoundation.org/UA/PlasticsRubber/HotRunner/",
+        "description": "Definition of the maximum temperature difference of all zones during even heat-up ",
+        "type": "number",
+        "minimum": -1.80e+308,
+        "maximum": 1.80e+308,
+        "readOnly": false,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/PlasticsRubber.HotRunner/PlasticsRubber_HotRunner_OperationType/property/EvenHeatUpMaxTemperatureDifference/write",
+            "op": "writeproperty"
+          },
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/PlasticsRubber.HotRunner/PlasticsRubber_HotRunner_OperationType/property/EvenHeatUpMaxTemperatureDifference/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "HighestActiveAlarmSeverity": {
+        "aov:namespace": "http://opcfoundation.org/UA/PlasticsRubber/HotRunner/",
+        "description": "Indication of the severity of the highest active alarm",
+        "type": "integer",
+        "minimum": 0,
+        "maximum": 65535,
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/PlasticsRubber.HotRunner/PlasticsRubber_HotRunner_OperationType/property/HighestActiveAlarmSeverity/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "ReactionOnDisconnect": {
+        "aov:namespace": "http://opcfoundation.org/UA/PlasticsRubber/HotRunner/",
+        "description": "Selection of the set temperature for the temperature zones in case of a disconnection from the OPC UA client ",
+        "type": "integer",
+        "minimum": 0,
+        "maximum": 65535,
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/PlasticsRubber.HotRunner/PlasticsRubber_HotRunner_OperationType/property/ReactionOnDisconnect/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "SessionNameForReactionOnDisconnect": {
+        "aov:namespace": "http://opcfoundation.org/UA/PlasticsRubber/HotRunner/",
+        "description": "Contains the sessionName of the connection with the client relevant for ReactionOnDisconnect",
+        "type": "string",
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/PlasticsRubber.HotRunner/PlasticsRubber_HotRunner_OperationType/property/SessionNameForReactionOnDisconnect/read",
+            "op": "readproperty"
+          }
+        ]
+      }
+    },
+    "events": {
+      "ActiveErrors": {
+        "aov:namespace": "http://opcfoundation.org/UA/PlasticsRubber/HotRunner/",
+        "data": {
+          "description": "List of the active errors of the device",
+          "type": "array",
+          "items": {
+            "title": "ClassifiedActiveErrorDataType",
+            "description": "Iinformation about an active error in a device including the SoureNodes and a Classification",
+            "type": "object",
+            "aov:typeRef": "nsu=http://opcfoundation.org/UA/PlasticsRubber/GeneralTypes/;i=3003",
+            "required": [ "SourceNodes", "Classification" ],
+            "properties": {
+              "SourceNodes": {
+                "description": "NodeIds of the Nodes which cause the error",
+                "type": "array",
+                "items": {
+                  "type": "string"
+                }
+              },
+              "Classification": {
+                "description": "Classification of the error, if a process parameter expressed as MonitoredParameterType is the cause of the error",
+                "type": "integer",
+                "minimum": 0,
+                "maximum": 65535
+              }
+            }
+          }
+        },
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/PlasticsRubber.HotRunner/PlasticsRubber_HotRunner_OperationType/event/ActiveErrors/{senderId}",
+            "op": "subscribeevent"
+          }
+        ]
+      },
+      "ActiveSetValues": {
+        "aov:namespace": "http://opcfoundation.org/UA/PlasticsRubber/HotRunner/",
+        "data": {
+          "description": "Central selection of the used set temperature for the temperature zones ",
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 65535
+        },
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/PlasticsRubber.HotRunner/PlasticsRubber_HotRunner_OperationType/event/ActiveSetValues/{senderId}",
+            "op": "subscribeevent"
+          }
+        ]
+      },
+      "EvenHeatUpMaxTemperatureDifference": {
+        "aov:namespace": "http://opcfoundation.org/UA/PlasticsRubber/HotRunner/",
+        "data": {
+          "description": "Definition of the maximum temperature difference of all zones during even heat-up ",
+          "type": "number",
+          "minimum": -1.80e+308,
+          "maximum": 1.80e+308
+        },
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/PlasticsRubber.HotRunner/PlasticsRubber_HotRunner_OperationType/event/EvenHeatUpMaxTemperatureDifference/{senderId}",
+            "op": "subscribeevent"
+          }
+        ]
+      },
+      "ReactionOnDisconnect": {
+        "aov:namespace": "http://opcfoundation.org/UA/PlasticsRubber/HotRunner/",
+        "data": {
+          "description": "Selection of the set temperature for the temperature zones in case of a disconnection from the OPC UA client ",
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 65535
+        },
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/PlasticsRubber.HotRunner/PlasticsRubber_HotRunner_OperationType/event/ReactionOnDisconnect/{senderId}",
+            "op": "subscribeevent"
+          }
+        ]
+      }
+    }
+  },
+  {
+    "@context": [
+      "https://www.w3.org/2022/wot/td/v1.1",
+      {
+        "dtv": "http://azure.com/DigitalTwins/dtmi#",
+        "aov": "http://azure.com/IoT/operations/tm#"
+      }
+    ],
+    "@type": "tm:ThingModel",
+    "title": "PlasticsRubber_HotRunner_TemperatureRiseMonitoringType",
+    "aov:typeRef": "nsu=http://opcfoundation.org/UA/PlasticsRubber/HotRunner/;i=1003",
+    "links": [
+      {
+        "rel": "tm:extends",
+        "href": "./OpcUaCore.TM.json#title=OpcUaCore_BaseObjectType",
+        "type": "application/tm+json"
+      }
+    ],
+    "schemaDefinitions": {
+    },
+    "forms": [
+      {
+        "contentType": "application/json",
+        "dtv:topic": "opcua/PlasticsRubber.HotRunner/PlasticsRubber_HotRunner_TemperatureRiseMonitoringType/events/{senderId}",
+        "op": "subscribeallevents"
+      },
+      {
+        "contentType": "application/json",
+        "dtv:topic": "opcua/PlasticsRubber.HotRunner/PlasticsRubber_HotRunner_TemperatureRiseMonitoringType/properties/write",
+        "op": "writemultipleproperties"
+      },
+      {
+        "contentType": "application/json",
+        "dtv:topic": "opcua/PlasticsRubber.HotRunner/PlasticsRubber_HotRunner_TemperatureRiseMonitoringType/properties/read",
+        "op": "readallproperties"
+      }
+    ],
+    "actions": {
+    },
+    "properties": {
+      "ErrorDetected": {
+        "aov:namespace": "http://opcfoundation.org/UA/PlasticsRubber/HotRunner/",
+        "description": "Result of the TemperatureRiseMonitoring",
+        "type": "boolean",
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/PlasticsRubber.HotRunner/PlasticsRubber_HotRunner_TemperatureRiseMonitoringType/property/ErrorDetected/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "SetValueActive": {
+        "aov:namespace": "http://opcfoundation.org/UA/PlasticsRubber/HotRunner/",
+        "description": "On / Off for the TemperatureRiseMonitoring",
+        "type": "boolean",
+        "readOnly": false,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/PlasticsRubber.HotRunner/PlasticsRubber_HotRunner_TemperatureRiseMonitoringType/property/SetValueActive/write",
+            "op": "writeproperty"
+          },
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/PlasticsRubber.HotRunner/PlasticsRubber_HotRunner_TemperatureRiseMonitoringType/property/SetValueActive/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "SetValueTemperatureChange": {
+        "aov:namespace": "http://opcfoundation.org/UA/PlasticsRubber/HotRunner/",
+        "description": "Specification of the set value change",
+        "type": "number",
+        "minimum": -1.80e+308,
+        "maximum": 1.80e+308,
+        "readOnly": false,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/PlasticsRubber.HotRunner/PlasticsRubber_HotRunner_TemperatureRiseMonitoringType/property/SetValueTemperatureChange/write",
+            "op": "writeproperty"
+          },
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/PlasticsRubber.HotRunner/PlasticsRubber_HotRunner_TemperatureRiseMonitoringType/property/SetValueTemperatureChange/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "SupervisionTime": {
+        "aov:namespace": "http://opcfoundation.org/UA/PlasticsRubber/HotRunner/",
+        "description": "Specification of the time within the temperature must have changed",
+        "type": "string",
+        "pattern": "^P(?!$)(?:(?:(?:(?:\\d+Y)|(?:\\d+\\.\\d+Y$))?(?:(?:\\d+M)|(?:\\d+\\.\\d+M$))?)|(?:(?:(?:\\d+W)|(?:\\d+\\.\\d+W$))?))(?:(?:\\d+D)|(?:\\d+\\.\\d+D$))?(?:T(?!$)(?:(?:\\d+H)|(?:\\d+\\.\\d+H$))?(?:(?:\\d+M)|(?:\\d+\\.\\d+M$))?(?:\\d+(?:\\.\\d+)?S)?)?$",
+        "readOnly": false,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/PlasticsRubber.HotRunner/PlasticsRubber_HotRunner_TemperatureRiseMonitoringType/property/SupervisionTime/write",
+            "op": "writeproperty"
+          },
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/PlasticsRubber.HotRunner/PlasticsRubber_HotRunner_TemperatureRiseMonitoringType/property/SupervisionTime/read",
+            "op": "readproperty"
+          }
+        ]
+      }
+    },
+    "events": {
+      "SetValueTemperatureChange": {
+        "aov:namespace": "http://opcfoundation.org/UA/PlasticsRubber/HotRunner/",
+        "data": {
+          "description": "Specification of the set value change",
+          "type": "number",
+          "minimum": -1.80e+308,
+          "maximum": 1.80e+308
+        },
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/PlasticsRubber.HotRunner/PlasticsRubber_HotRunner_TemperatureRiseMonitoringType/event/SetValueTemperatureChange/{senderId}",
+            "op": "subscribeevent"
+          }
+        ]
+      }
+    }
+  },
+  {
+    "@context": [
+      "https://www.w3.org/2022/wot/td/v1.1",
+      {
+        "dtv": "http://azure.com/DigitalTwins/dtmi#",
+        "aov": "http://azure.com/IoT/operations/tm#"
+      }
+    ],
+    "@type": "tm:ThingModel",
+    "title": "PlasticsRubber_HotRunner_ZonesType",
+    "aov:typeRef": "nsu=http://opcfoundation.org/UA/PlasticsRubber/HotRunner/;i=1008",
+    "links": [
+      {
+        "rel": "tm:extends",
+        "href": "./OpcUaCore.TM.json#title=OpcUaCore_BaseObjectType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "aov:component",
+        "aov:refName": "Zone__Nr_",
+        "href": "#title=PlasticsRubber_HotRunner_ZoneType",
+        "type": "application/tm+json"
+      }
+    ],
+    "schemaDefinitions": {
+    },
+    "forms": [
+      {
+        "contentType": "application/json",
+        "dtv:topic": "opcua/PlasticsRubber.HotRunner/PlasticsRubber_HotRunner_ZonesType/properties/read",
+        "op": "readallproperties"
+      }
+    ],
+    "actions": {
+    },
+    "properties": {
+      "NodeVersion": {
+        "type": "string",
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/PlasticsRubber.HotRunner/PlasticsRubber_HotRunner_ZonesType/property/NodeVersion/read",
+            "op": "readproperty"
+          }
+        ]
+      }
+    },
+    "events": {
+    }
+  },
+  {
+    "@context": [
+      "https://www.w3.org/2022/wot/td/v1.1",
+      {
+        "dtv": "http://azure.com/DigitalTwins/dtmi#",
+        "aov": "http://azure.com/IoT/operations/tm#"
+      }
+    ],
+    "@type": "tm:ThingModel",
+    "title": "PlasticsRubber_HotRunner_ZoneType",
+    "aov:typeRef": "nsu=http://opcfoundation.org/UA/PlasticsRubber/HotRunner/;i=1006",
+    "links": [
+      {
+        "rel": "tm:extends",
+        "href": "./OpcUaCore.TM.json#title=OpcUaCore_BaseObjectType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "aov:capability",
+        "aov:refName": "Controller",
+        "href": "#title=PlasticsRubber_HotRunner_ControllerType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "aov:reference",
+        "aov:refName": "HeatUp",
+        "href": "#title=PlasticsRubber_HotRunner_HeatUpType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "aov:capability",
+        "aov:refName": "Temperature",
+        "href": "#title=PlasticsRubber_HotRunner_HRDTemperatureType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "aov:reference",
+        "aov:refName": "TemperatureRiseMonitoring",
+        "href": "#title=PlasticsRubber_HotRunner_TemperatureRiseMonitoringType",
+        "type": "application/tm+json"
+      }
+    ],
+    "schemaDefinitions": {
+    },
+    "forms": [
+      {
+        "contentType": "application/json",
+        "dtv:topic": "opcua/PlasticsRubber.HotRunner/PlasticsRubber_HotRunner_ZoneType/events/{senderId}",
+        "op": "subscribeallevents"
+      },
+      {
+        "contentType": "application/json",
+        "dtv:topic": "opcua/PlasticsRubber.HotRunner/PlasticsRubber_HotRunner_ZoneType/properties/write",
+        "op": "writemultipleproperties"
+      },
+      {
+        "contentType": "application/json",
+        "dtv:topic": "opcua/PlasticsRubber.HotRunner/PlasticsRubber_HotRunner_ZoneType/properties/read",
+        "op": "readallproperties"
+      }
+    ],
+    "actions": {
+    },
+    "properties": {
+      "CommunicationProtocolType": {
+        "aov:namespace": "http://opcfoundation.org/UA/PlasticsRubber/HotRunner/",
+        "description": "Used communication protocol between the sensor and the control system of the HRD",
+        "type": "integer",
+        "minimum": 0,
+        "maximum": 65535,
+        "readOnly": false,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/PlasticsRubber.HotRunner/PlasticsRubber_HotRunner_ZoneType/property/CommunicationProtocolType/write",
+            "op": "writeproperty"
+          },
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/PlasticsRubber.HotRunner/PlasticsRubber_HotRunner_ZoneType/property/CommunicationProtocolType/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "HighestActiveAlarmSeverity": {
+        "aov:namespace": "http://opcfoundation.org/UA/PlasticsRubber/HotRunner/",
+        "description": "Indicates the severity of the highest active alarm related to the current zone",
+        "type": "integer",
+        "minimum": 0,
+        "maximum": 65535,
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/PlasticsRubber.HotRunner/PlasticsRubber_HotRunner_ZoneType/property/HighestActiveAlarmSeverity/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "Name": {
+        "aov:namespace": "http://opcfoundation.org/UA/PlasticsRubber/HotRunner/",
+        "description": "A user given name of the zone",
+        "type": "string",
+        "readOnly": false,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/PlasticsRubber.HotRunner/PlasticsRubber_HotRunner_ZoneType/property/Name/write",
+            "op": "writeproperty"
+          },
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/PlasticsRubber.HotRunner/PlasticsRubber_HotRunner_ZoneType/property/Name/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "ThermocoupleType": {
+        "aov:namespace": "http://opcfoundation.org/UA/PlasticsRubber/HotRunner/",
+        "description": "Type of connected external temperature sensor ",
+        "type": "integer",
+        "minimum": 0,
+        "maximum": 65535,
+        "readOnly": false,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/PlasticsRubber.HotRunner/PlasticsRubber_HotRunner_ZoneType/property/ThermocoupleType/write",
+            "op": "writeproperty"
+          },
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/PlasticsRubber.HotRunner/PlasticsRubber_HotRunner_ZoneType/property/ThermocoupleType/read",
+            "op": "readproperty"
+          }
+        ]
+      }
+    },
+    "events": {
+      "CommunicationProtocolType": {
+        "aov:namespace": "http://opcfoundation.org/UA/PlasticsRubber/HotRunner/",
+        "data": {
+          "description": "Used communication protocol between the sensor and the control system of the HRD",
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 65535
+        },
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/PlasticsRubber.HotRunner/PlasticsRubber_HotRunner_ZoneType/event/CommunicationProtocolType/{senderId}",
+            "op": "subscribeevent"
+          }
+        ]
+      },
+      "ThermocoupleType": {
+        "aov:namespace": "http://opcfoundation.org/UA/PlasticsRubber/HotRunner/",
+        "data": {
+          "description": "Type of connected external temperature sensor ",
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 65535
+        },
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/PlasticsRubber.HotRunner/PlasticsRubber_HotRunner_ZoneType/event/ThermocoupleType/{senderId}",
+            "op": "subscribeevent"
+          }
+        ]
+      }
+    }
+  }
+]

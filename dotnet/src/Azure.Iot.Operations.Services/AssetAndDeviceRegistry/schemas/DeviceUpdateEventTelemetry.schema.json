@@ -1,0 +1,14 @@
+{
+  "$schema": "https://json-schema.org/draft-07/schema",
+  "title": "DeviceUpdateEventTelemetry",
+  "description": "Telemetry event emitted when a device is updated, containing the relevant inbound endpoint details as specified in the topic.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [ "deviceUpdateEvent" ],
+  "properties": {
+    "deviceUpdateEvent": {
+      "description": "Telemetry event emitted when a device is updated, containing the relevant inbound endpoint details as specified in the topic.",
+      "$ref": "DeviceUpdateEventSchema.schema.json"
+    }
+  }
+}

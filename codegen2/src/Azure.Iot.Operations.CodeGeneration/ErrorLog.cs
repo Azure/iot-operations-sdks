@@ -42,6 +42,16 @@ namespace Azure.Iot.Operations.CodeGeneration
             FatalError = null;
         }
 
+        public void ClearRegistrations()
+        {
+            referencesFromThings.Clear();
+            typedReferencesFromThings.Clear();
+            namesOfThings.Clear();
+            namesInThings.Clear();
+            topicsInThings.Clear();
+            schemaNames.Clear();
+        }
+
         public void CheckForDuplicatesInThings()
         {
             foreach (var (name, nameSites) in namesOfThings)
@@ -61,7 +71,7 @@ namespace Azure.Iot.Operations.CodeGeneration
                 {
                     foreach (var (thingName, (filename, lineNumber)) in nameSites)
                     {
-                        AddError(ErrorLevel.Error, ErrorCondition.Duplication, $"Duplicate use of generated name '{name}' across Thing Descriptions.", filename, lineNumber, crossRef: name);
+                        AddError(ErrorLevel.Error, ErrorCondition.Duplication, $"Duplicate use of generated name '{name}' across Thing Models.", filename, lineNumber, crossRef: name);
                     }
                 }
             }

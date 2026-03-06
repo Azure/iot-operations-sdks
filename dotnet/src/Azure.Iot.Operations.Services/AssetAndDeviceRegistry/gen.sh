@@ -1,15 +1,8 @@
-rm -rf ./AdrBaseService
-mkdir ./AdrBaseService
-rm -rf ./DeviceDiscoveryService
-mkdir ./DeviceDiscoveryService
-rm -rf ./Common
-mkdir ./Common
-../../../../codegen/src/Azure.Iot.Operations.ProtocolCompiler/bin/Debug/net9.0/Azure.Iot.Operations.ProtocolCompiler --modelFile ../../../../eng/dtdl/adr-base-service.json --lang csharp --outDir /tmp/Azure.Iot.Operations.Services.AssetAndDeviceRegistry
-cp -f /tmp/Azure.Iot.Operations.Services.AssetAndDeviceRegistry/AdrBaseService/*.cs AdrBaseService -v
-cp -f /tmp/Azure.Iot.Operations.Services.AssetAndDeviceRegistry/*.cs Common -v
-rm -rf /tmp/Azure.Iot.Operations.Services.AssetAndDeviceRegistry -v
+rm -rf ./Generated
+rm -rf ./schemas
 
-../../../../codegen/src/Azure.Iot.Operations.ProtocolCompiler/bin/Debug/net9.0/Azure.Iot.Operations.ProtocolCompiler --modelFile ../../../../eng/dtdl/device-discovery-service.json --lang csharp --outDir /tmp/Azure.Iot.Operations.Services.AssetAndDeviceRegistry
-cp -f /tmp/Azure.Iot.Operations.Services.AssetAndDeviceRegistry/DeviceDiscoveryService/*.cs DeviceDiscoveryService -v
-cp -f /tmp/Azure.Iot.Operations.Services.AssetAndDeviceRegistry/*.cs Common -v
-rm -rf /tmp/Azure.Iot.Operations.Services.AssetAndDeviceRegistry -v
+dotnet run --project ../../../../codegen2/src/Azure.Iot.Operations.ProtocolCompiler/ --things ../../../../eng/wot/adr-base-service/AdrBaseService.TM.json --lang csharp --outDir ./Azure.Iot.Operations.Services.AssetAndDeviceRegistry --noProj --namespace Generated.AdrBaseService --common Generated.Common --typeNamer ../../../../eng/wot/adr-base-service/SchemaNames.json
+dotnet run --project ../../../../codegen2/src/Azure.Iot.Operations.ProtocolCompiler/ --things ../../../../eng/wot/device-discovery-service/DeviceDiscoveryService.TM.json --lang csharp --outDir ./Azure.Iot.Operations.Services.AssetAndDeviceRegistry --noProj --namespace Generated.DeviceDiscoveryService --common Generated.Common --typeNamer ../../../../eng/wot/device-discovery-service/SchemaNames.json
+
+mv -f ./Azure.Iot.Operations.Services.AssetAndDeviceRegistry/** .
+rm -rf ./Azure.Iot.Operations.Services.AssetAndDeviceRegistry

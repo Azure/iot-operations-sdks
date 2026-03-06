@@ -1,0 +1,7 @@
+{
+  "success": true,
+  "commandLine": {
+    "things": [ "valid/EventWithUnitDataSchemaMapInteger.TM.json" ],
+    "lang": "none"
+  }
+}

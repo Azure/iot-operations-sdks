@@ -3,8 +3,8 @@
 
 using Azure.Iot.Operations.Protocol.RPC;
 using Azure.Iot.Operations.Protocol.Telemetry;
-using Azure.Iot.Operations.Services.AssetAndDeviceRegistry.AdrBaseService;
-using static Azure.Iot.Operations.Services.AssetAndDeviceRegistry.AdrBaseService.AdrBaseService;
+using Azure.Iot.Operations.Services.AssetAndDeviceRegistry.Generated.AdrBaseService;
+using static Azure.Iot.Operations.Services.AssetAndDeviceRegistry.Generated.AdrBaseService.AdrBaseService;
 
 namespace Azure.Iot.Operations.Services.AssetAndDeviceRegistry
 {
