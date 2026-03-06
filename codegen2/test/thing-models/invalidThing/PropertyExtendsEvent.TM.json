@@ -1,0 +1,31 @@
+{
+  "@context": [
+    "https://www.w3.org/2022/wot/td/v1.1",
+    { "dtv": "http://azure.com/DigitalTwins/dtmi#" }
+  ],
+  "@type": "tm:ThingModel",
+  "title": "Paper",
+  "links": [
+    {
+      "rel": "tm:extends",
+      "href": "./EventExtendsAction.TM.json#title=Scissors",
+      "type": "application/tm+json"
+    }
+  ],
+  "actions": {
+  },
+  "properties": {
+    "Paper": {
+      "type": "string",
+      "forms": [
+        {
+          "contentType": "application/json",
+          "dtv:topic": "sample/Paper/{maintainerId}",
+          "op": "readproperty"
+        }
+      ]
+    }
+  },
+  "events": {
+  }
+}

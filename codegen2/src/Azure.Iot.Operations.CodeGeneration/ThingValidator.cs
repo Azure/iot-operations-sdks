@@ -780,6 +780,28 @@ namespace Azure.Iot.Operations.CodeGeneration
                         errorReporter.ReportError(ErrorCondition.ValuesInconsistent, $"Resolved '{TDLink.HrefName}' value '{link.Value.Href.Value.Value}' of server-side TM link element with {TDLink.RelName}='{link.Value.Rel.Value.Value}' to a TM that is not available to server side.", link.Value.Href.TokenIndex);
                         hasError = true;
                     }
+                    else if (link.Value.Rel.Value.Value == TDValues.RelationExtends)
+                    {
+                        IResolvingThing currentThing = referencedThing;
+                        while (true)
+                        {
+                            ValueTracker<TDLink>? extendsLink = currentThing.ParsedThing.Thing.Links?.Elements?.FirstOrDefault(l => l.Value.Rel?.Value.Value == TDValues.RelationExtends);
+
+                            if (extendsLink?.Value.Href == null || !currentThing.TryResolve(extendsLink.Value.Href.Value.Value, out IResolvingThing? extendedThing))
+                            {
+                                break;
+                            }
+
+                            if (extendsLink.Value.Href.Value.Value == link.Value.Href.Value.Value)
+                            {
+                                errorReporter.ReportError(ErrorCondition.Interminable, $"Interminable loop in '{TDValues.RelationExtends}' links starting at element with '{TDLink.HrefName}'='{link.Value.Href.Value.Value}'.", link.Value.Href.TokenIndex);
+                                hasError = true;
+                                break;
+                            }
+
+                            currentThing = extendedThing;
+                        }
+                    }
                 }
 
                 if (link.Value.Type == null)
