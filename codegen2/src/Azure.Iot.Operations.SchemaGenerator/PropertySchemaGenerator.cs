@@ -11,8 +11,15 @@ namespace Azure.Iot.Operations.SchemaGenerator
 
     internal static class PropertySchemaGenerator
     {
-        internal static void GeneratePropertySchemas(ErrorReporter errorReporter, TDThing tdThing, string dirName, SchemaNamer schemaNamer, string projectName, Dictionary<string, List<SchemaSpec>> schemaSpecs, Dictionary<string, HashSet<SerializationFormat>> referencedSchemas)
+        internal static void GeneratePropertySchemas(IResolvingThing resolvingThing, string projectName, Dictionary<string, List<SchemaSpec>> schemaSpecs, Dictionary<string, HashSet<SerializationFormat>> referencedSchemas)
         {
+            ParsedThing parsedThing = resolvingThing.ParsedThing;
+
+            ErrorReporter errorReporter = parsedThing.ErrorReporter;
+            TDThing tdThing = parsedThing.Thing;
+            string dirName = parsedThing.DirectoryName;
+            SchemaNamer schemaNamer = parsedThing.SchemaNamer;
+
             FormInfo? readAllPropsForm = FormInfo.CreateFromForm(errorReporter, tdThing.Forms?.Elements?.FirstOrDefault(f => f.Value.Op?.Elements?.Any(e => e.Value.Value == TDValues.OpReadAllProps) ?? false)?.Value, tdThing.SchemaDefinitions?.Entries);
             FormInfo? writeMultPropsForm = FormInfo.CreateFromForm(errorReporter, tdThing.Forms?.Elements?.FirstOrDefault(f => f.Value.Op?.Elements?.Any(e => e.Value.Value == TDValues.OpWriteMultProps) ?? false)?.Value, tdThing.SchemaDefinitions?.Entries);
 
@@ -25,14 +32,13 @@ namespace Azure.Iot.Operations.SchemaGenerator
 
             foreach (KeyValuePair<string, ValueTracker<TDProperty>> propKvp in tdThing.Properties?.Entries ?? new())
             {
-                ValueTracker<TDProperty> property = propKvp.Value;
-                if (property != null)
+                if (propKvp.Value != null)
                 {
                     ProcessProperty(
                         errorReporter,
                         schemaNamer,
                         propKvp.Key,
-                        property,
+                        propKvp.Value,
                         projectName,
                         dirName,
                         tdThing.SchemaDefinitions?.Entries,
@@ -47,7 +53,7 @@ namespace Azure.Iot.Operations.SchemaGenerator
                         errorReporter,
                         schemaNamer,
                         propKvp.Key,
-                        property,
+                        propKvp.Value,
                         projectName,
                         dirName,
                         tdThing.SchemaDefinitions?.Entries,
@@ -57,6 +63,54 @@ namespace Azure.Iot.Operations.SchemaGenerator
                         referencedSchemas,
                         writeErrorSchemaNames,
                         isRead: false);
+                }
+            }
+
+            if (readAllPropsForm?.IncludeInherited ?? false)
+            {
+                foreach (InheritanceEnumerator inheritanceEnumerator in new InheritanceEnumeration(resolvingThing))
+                {
+                    foreach (KeyValuePair<string, ValueTracker<TDProperty>> propKvp in inheritanceEnumerator.EnumerateProperties())
+                    {
+                        ProcessProperty(
+                            inheritanceEnumerator.ParsedThing.ErrorReporter,
+                            inheritanceEnumerator.ParsedThing.SchemaNamer,
+                            propKvp.Key,
+                            propKvp.Value,
+                            projectName,
+                            inheritanceEnumerator.ParsedThing.DirectoryName,
+                            inheritanceEnumerator.ParsedThing.Thing.SchemaDefinitions?.Entries,
+                            null,
+                            readValueFields,
+                            readErrorFields,
+                            referencedSchemas,
+                            readErrorSchemaNames,
+                            isRead: true);
+                    }
+                }
+            }
+
+            if (writeMultPropsForm?.IncludeInherited ?? false)
+            {
+                foreach (InheritanceEnumerator inheritanceEnumerator in new InheritanceEnumeration(resolvingThing))
+                {
+                    foreach (KeyValuePair<string, ValueTracker<TDProperty>> propKvp in inheritanceEnumerator.EnumerateProperties())
+                    {
+                        ProcessProperty(
+                            inheritanceEnumerator.ParsedThing.ErrorReporter,
+                            inheritanceEnumerator.ParsedThing.SchemaNamer,
+                            propKvp.Key,
+                            propKvp.Value,
+                            projectName,
+                            inheritanceEnumerator.ParsedThing.DirectoryName,
+                            inheritanceEnumerator.ParsedThing.Thing.SchemaDefinitions?.Entries,
+                            null,
+                            writeValueFields,
+                            writeErrorFields,
+                            referencedSchemas,
+                            writeErrorSchemaNames,
+                            isRead: false);
+                    }
                 }
             }
 
@@ -100,7 +154,7 @@ namespace Azure.Iot.Operations.SchemaGenerator
             string projectName,
             string dirName,
             Dictionary<string, ValueTracker<TDDataSchema>>? schemaDefinitions,
-            Dictionary<string, List<SchemaSpec>> schemaSpecs,
+            Dictionary<string, List<SchemaSpec>>? schemaSpecs,
             Dictionary<string, FieldSpec> valueFields,
             Dictionary<string, FieldSpec> errorFields,
             Dictionary<string, HashSet<SerializationFormat>> referencedSchemas,
@@ -122,10 +176,11 @@ namespace Azure.Iot.Operations.SchemaGenerator
                 BackupSchemaName: schemaNamer.GetPropValueSchema(propName),
                 Require: isRead,
                 Base: dirName,
-                Fragment: tdProperty.Value.Placeholder?.Value.Value ?? false);
+                Fragment: tdProperty.Value.Placeholder?.Value.Value ?? false,
+                Inherited: schemaSpecs == null);
             valueFields[propName] = propFieldSpec;
 
-            if (propForm?.TopicPattern != null && (isRead || (tdProperty.Value.Placeholder?.Value.Value ?? false)))
+            if (propForm?.TopicPattern != null && schemaSpecs != null && (isRead || (tdProperty.Value.Placeholder?.Value.Value ?? false)))
             {
                 string propSchemaName = isRead ? schemaNamer.GetPropSchema(propName) : schemaNamer.GetWritablePropSchema(propName);
                 ObjectSpec propObjectSpec = new(
@@ -150,7 +205,8 @@ namespace Azure.Iot.Operations.SchemaGenerator
                     propForm.ErrorRespSchema,
                     BackupSchemaName: propForm.ErrorRespName!,
                     Require: false,
-                    Base: dirName);
+                    Base: dirName,
+                    Inherited: schemaSpecs == null);
                 errorFields[propName] = respFieldSpec;
 
                 errorSchemaNames.Add(propForm.ErrorRespName!);
@@ -176,12 +232,15 @@ namespace Azure.Iot.Operations.SchemaGenerator
                         respSchemaName,
                         TokenIndex: -1);
 
-                    if (!schemaSpecs.TryGetValue(respSchemaName, out List<SchemaSpec>? respSpecs))
+                    if (schemaSpecs != null)
                     {
-                        respSpecs = new List<SchemaSpec>();
-                        schemaSpecs[respSchemaName] = respSpecs;
+                        if (!schemaSpecs.TryGetValue(respSchemaName, out List<SchemaSpec>? respSpecs))
+                        {
+                            respSpecs = new List<SchemaSpec>();
+                            schemaSpecs[respSchemaName] = respSpecs;
+                        }
+                        respSpecs.Add(respObjectSpec);
                     }
-                    respSpecs.Add(respObjectSpec);
 
                     SchemaGenerationSupport.AddSchemaReference(propForm.ErrorRespName!, propForm.ErrorRespFormat, referencedSchemas);
                 }

@@ -15,6 +15,7 @@ namespace Azure.Iot.Operations.TDParser.Model
         public const string HeaderCodeName = "dtv:headerCode";
         public const string ServiceGroupIdName = "dtv:serviceGroupId";
         public const string TopicName = "dtv:topic";
+        public const string IncludeInheritedName = "dtv:includeInherited";
         public const string OpName = "op";
 
         public ValueTracker<StringHolder>? ContentType { get; set; }
@@ -28,6 +29,8 @@ namespace Azure.Iot.Operations.TDParser.Model
         public ValueTracker<StringHolder>? ServiceGroupId { get; set; }
 
         public ValueTracker<StringHolder>? Topic { get; set; }
+
+        public ValueTracker<BoolHolder>? IncludeInherited { get; set; }
 
         public ArrayTracker<StringHolder>? Op { get; set; }
 
@@ -47,13 +50,14 @@ namespace Azure.Iot.Operations.TDParser.Model
                        HeaderCode == other.HeaderCode &&
                        ServiceGroupId == other.ServiceGroupId &&
                        Topic == other.Topic &&
+                       IncludeInherited == other.IncludeInherited &&
                        Op == other.Op;
             }
         }
 
         public override int GetHashCode()
         {
-            return (ContentType, AdditionalResponses, HeaderInfo, HeaderCode, ServiceGroupId, Topic, Op).GetHashCode();
+            return (ContentType, AdditionalResponses, HeaderInfo, HeaderCode, ServiceGroupId, Topic, IncludeInherited, Op).GetHashCode();
         }
 
         public static bool operator ==(TDForm? left, TDForm? right)
@@ -137,6 +141,13 @@ namespace Azure.Iot.Operations.TDParser.Model
                     yield return item;
                 }
             }
+            if (IncludeInherited != null)
+            {
+                foreach (ITraversable item in IncludeInherited.Traverse())
+                {
+                    yield return item;
+                }
+            }
             if (Op != null)
             {
                 foreach (ITraversable item in Op.Traverse())
@@ -182,6 +193,9 @@ namespace Azure.Iot.Operations.TDParser.Model
                         break;
                     case TopicName:
                         form.Topic = ValueTracker<StringHolder>.Deserialize(ref reader, TopicName);
+                        break;
+                    case IncludeInheritedName:
+                        form.IncludeInherited = ValueTracker<BoolHolder>.Deserialize(ref reader, IncludeInheritedName);
                         break;
                     case OpName:
                         form.Op = ArrayTracker<StringHolder>.Deserialize(ref reader, OpName);
