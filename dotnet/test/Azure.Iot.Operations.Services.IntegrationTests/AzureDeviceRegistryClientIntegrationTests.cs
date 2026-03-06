@@ -19,7 +19,7 @@ using Azure.Iot.Operations.Protocol.Retry;
 public class AzureDeviceRegistryClientIntegrationTests
 {
     private readonly ITestOutputHelper _output;
-    private const string ConnectorClientId = "test-connector-client";
+    private const string ConnectorClientId = "mockconnector-ctemplate-00000000-ss-0";
     private const string TestDevice_1_Name = "my-thermostat";
     private const string TestDevice_2_Name = "test-thermostat";
     private const string TestEndpointName = "my-rest-endpoint";
