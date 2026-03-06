@@ -1,0 +1,70 @@
+{
+  "$schema": "https://json.schemastore.org/aio-connector-metadata-10.0-preview.json",
+  "name": "Example polling SQL connector",
+  "version": "1.0.0",
+  "maintainer": "Azure IoT Operations, for sample use only",
+  "imageConfigurationSettings": {
+    "imageName": "azureiotoperations/sample-akri-connectors/sql",
+    "tag": "1.0.0"
+  },
+  "supportedArchitectures": [
+    "linux/amd64"
+  ],
+  "sourceCode": {
+    "language": "dotnet",
+    "languageVersion": "9.0",
+    "sdks": {
+      "mqttPackageVersion": "1.0.0",
+      "protocolPackageVersion": "1.0.0",
+      "servicesPackageVersion": "1.0.0",
+      "connectorPackageVersion": "1.0.0"
+    }
+  },
+  "aioMetadata": {
+    "aioMinVersion": "1.2.37"
+  },
+  "endpointsEnabledByDefault": true,
+  "inboundEndpoints": [
+    {
+      "endpointType": "Microsoft.Sql",
+      "version": "1.0",
+      "fields": {
+        "address": {
+          "input": "required",
+          "exampleValue": "Server=mssql-deployment.azure-iot-operations.svc.cluster.local,1433;Database=MySampleDB;",
+          "description": "The connection string for the SQL server to connect to"
+        }
+      },
+      "supportedAuthenticationTypes": [ "usernamePassword", "anonymous" ],
+      "assetsEnabledByDefault": true,
+      "datasets": {
+        "limits": {
+          "minimum": 0
+        },
+        "destinations": {
+          "supportedDestinations": ["Mqtt", "BrokerStateStore"]
+        },
+        "fields": {
+          "dataSource": {
+            "input": "unsupported"
+          },
+          "typeRef": {
+            "input": "unsupported"
+          }
+        },
+        "dataPoints": {
+          "fields": {
+            "dataSource": {
+              "input": "required",
+              "description": "The name of the table to sample from",
+              "exampleValue": "CountryMeasurements"
+            },
+            "typeRef": {
+              "input": "unsupported"
+            }
+          }
+        }
+      }
+    }
+  ]
+}
