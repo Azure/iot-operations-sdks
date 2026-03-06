@@ -12,6 +12,8 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\..\..\..\src\Azure.Iot.Operations.Mqtt\Azure.Iot.Operations.Mqtt.csproj" />
+    <ProjectReference Include="..\..\TestThing\TestThing.csproj" />
     <ProjectReference Include="..\..\TestEnvoys\TestEnvoys.csproj" />
   </ItemGroup>
 </Project>
