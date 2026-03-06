@@ -1,6 +1,6 @@
 {
   "$schema": "https://json.schemastore.org/aio-connector-metadata-10.0-preview.json",
-  "name": "Example event driven TCP connector",
+  "name": "Example polling REST thermostat connector",
   "version": "1.0.0",
   "maintainer": "Azure IoT Operations, for sample use only",
   "imageConfigurationSettings": {
@@ -26,13 +26,13 @@
   "endpointsEnabledByDefault": true,
   "inboundEndpoints": [
     {
-      "endpointType": "Microsoft.Tcp",
+      "endpointType": "Microsoft.Http",
       "version": "1.0",
       "fields": {
         "address": {
           "input": "required",
-          "exampleValue": "tcp-service.azure-iot-operations.svc.cluster.local:80",
-          "description": "The endpoint address of the TCP server to connect to in the format: <hostname>:<port>"
+          "exampleValue": "http://rest-server-service.azure-iot-operations.svc.cluster.local:80",
+          "description": "The endpoint address of the HTTP server to connect to, including scheme, hostname, and port (for example: http://hostname:port)"
         }
       },
       "supportedAuthenticationTypes": [ "usernamePassword", "anonymous" ],
@@ -44,18 +44,6 @@
         },
         "destinations": {
           "supportedDestinations": ["Mqtt", "BrokerStateStore"]
-        },
-        "datasetConfigurationSchema": {
-          "$schema": "http://json-schema.org/draft-07/schema#",
-          "title": "REST Dataset Config Schema",
-          "description": "The JSON schema for both the default dataset configuration field on an asset and dataset-specific configuration fields",
-          "type": "object",
-          "properties": {
-            "samplingIntervalInMilliseconds": {
-              "description": "How frequently to sample each dataset in milliseconds",
-              "type": "integer"
-            }
-          }
         },
         "fields": {
           "dataSource": {
