@@ -33,7 +33,7 @@ namespace Azure.Iot.Operations.CodeGeneration
             {
                 ValueTracker<TDLink>? extendsLink = currentThing.ParsedThing.Thing.Links?.Elements?.FirstOrDefault(l => l.Value.Rel?.Value.Value == TDValues.RelationExtends);
 
-                if (extendsLink?.Value.Href == null || !resolvingThing.TryResolve(extendsLink.Value.Href.Value.Value, out IResolvingThing? extendedThing))
+                if (extendsLink?.Value.Href == null || !currentThing.TryResolve(extendsLink.Value.Href.Value.Value, out IResolvingThing? extendedThing))
                 {
                     yield break;
                 }

@@ -16,10 +16,6 @@ namespace Azure.Iot.Operations.Opc2Wot
 
         public ParsedThing ParsedThing { get; }
 
-        public bool ForClient { get => true; }
-
-        public bool ForServer { get => true; }
-
         public bool TryResolve(string href, [NotNullWhen(true)] out IResolvingThing? resolvingThing)
         {
             resolvingThing = null;

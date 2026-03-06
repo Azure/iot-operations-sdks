@@ -768,14 +768,17 @@ namespace Azure.Iot.Operations.CodeGeneration
                     if (!resolvingThing.TryResolve(link.Value.Href.Value.Value, out IResolvingThing? referencedThing))
                     {
                         errorReporter.ReportError(ErrorCondition.ItemNotFound, $"Cannot resolve '{TDLink.HrefName}' value '{link.Value.Href.Value.Value}' of link element with {TDLink.RelName}='{link.Value.Rel.Value.Value}'.", link.Value.Href.TokenIndex);
+                        hasError = true;
                     }
                     else if (resolvingThing.ParsedThing.ForClient && !referencedThing.ParsedThing.ForClient)
                     {
                         errorReporter.ReportError(ErrorCondition.ValuesInconsistent, $"Resolved '{TDLink.HrefName}' value '{link.Value.Href.Value.Value}' of client-side TM link element with {TDLink.RelName}='{link.Value.Rel.Value.Value}' to a TM that is not available to client side.", link.Value.Href.TokenIndex);
+                        hasError = true;
                     }
                     else if (resolvingThing.ParsedThing.ForServer && !referencedThing.ParsedThing.ForServer)
                     {
                         errorReporter.ReportError(ErrorCondition.ValuesInconsistent, $"Resolved '{TDLink.HrefName}' value '{link.Value.Href.Value.Value}' of server-side TM link element with {TDLink.RelName}='{link.Value.Rel.Value.Value}' to a TM that is not available to server side.", link.Value.Href.TokenIndex);
+                        hasError = true;
                     }
                 }
 

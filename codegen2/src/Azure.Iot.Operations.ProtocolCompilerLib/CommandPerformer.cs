@@ -68,7 +68,7 @@ namespace Azure.Iot.Operations.ProtocolCompilerLib
                 errorLog.Phase = "Validating";
                 HashSet<SerializationFormat> serializationFormats = new();
                 bool separateClientAndServer = options.ClientThingFiles.Any() || options.ServerThingFiles.Any();
-                ValidateThings(filepathToTitleToParsedThingMap, statusReceiver, serializationFormats, options.PrefixSchemas, separateClientAndServer);
+                ValidateThings(filepathToTitleToParsedThingMap, statusReceiver, serializationFormats, separateClientAndServer);
 
                 if (errorLog.HasErrors)
                 {
@@ -201,7 +201,6 @@ namespace Azure.Iot.Operations.ProtocolCompilerLib
                     string thingText = thingReader.ReadToEnd();
                     byte[] thingBytes = Encoding.UTF8.GetBytes(thingText);
                     ErrorReporter errorReporter = new ErrorReporter(errorLog, thingFile.FullName, thingBytes);
-                    ThingValidator thingValidator = new ThingValidator(errorReporter);
 
                     if (TryGetThings(errorReporter, thingBytes, out List<TDThing>? things))
                     {
@@ -229,7 +228,7 @@ namespace Azure.Iot.Operations.ProtocolCompilerLib
             }
         }
 
-        private static void ValidateThings(Dictionary<string, Dictionary<string, ParsedThing>> filepathToTitleToParsedThingMap, Action<string, bool> statusReceiver, HashSet<SerializationFormat> serializationFormats, bool prefixSchemas, bool separateClientAndServer)
+        private static void ValidateThings(Dictionary<string, Dictionary<string, ParsedThing>> filepathToTitleToParsedThingMap, Action<string, bool> statusReceiver, HashSet<SerializationFormat> serializationFormats, bool separateClientAndServer)
         {
             int thingCount = 0;
             foreach (KeyValuePair<string, Dictionary<string, ParsedThing>> filepathAndTitleToParsedThingMap in filepathToTitleToParsedThingMap)
