@@ -11,31 +11,51 @@ namespace Azure.Iot.Operations.SchemaGenerator
 
     internal static class EventSchemaGenerator
     {
-        internal static void GenerateEventSchemas(ErrorReporter errorReporter, TDThing tdThing, string dirName, SchemaNamer schemaNamer, string projectName, Dictionary<string, List<SchemaSpec>> schemaSpecs, Dictionary<string, HashSet<SerializationFormat>> referencedSchemas)
+        internal static void GenerateEventSchemas(IResolvingThing resolvingThing, string projectName, Dictionary<string, List<SchemaSpec>> schemaSpecs, Dictionary<string, HashSet<SerializationFormat>> referencedSchemas)
         {
-            FormInfo? subAllEventsForm = FormInfo.CreateFromForm(errorReporter, tdThing.Forms?.Elements?.FirstOrDefault(f => f.Value.Op?.Elements?.Any(e => e.Value.Value == TDValues.OpSubAllEvents) ?? false)?.Value, tdThing.SchemaDefinitions?.Entries);
+            FormInfo? subAllEventsForm = FormInfo.CreateFromForm(resolvingThing.ParsedThing.ErrorReporter, resolvingThing.ParsedThing.Thing.Forms?.Elements?.FirstOrDefault(f => f.Value.Op?.Elements?.Any(e => e.Value.Value == TDValues.OpSubAllEvents) ?? false)?.Value, resolvingThing.ParsedThing.Thing.SchemaDefinitions?.Entries);
 
             Dictionary<string, FieldSpec> valueFields = new();
 
-            if (tdThing.Events?.Entries != null)
+            if (resolvingThing.ParsedThing.Thing.Events?.Entries != null)
             {
-                foreach (KeyValuePair<string, ValueTracker<TDEvent>> eventKvp in tdThing.Events.Entries.Where(e => e.Value.Value.Data != null))
+                foreach (KeyValuePair<string, ValueTracker<TDEvent>> eventKvp in resolvingThing.ParsedThing.Thing.Events.Entries.Where(e => e.Value.Value.Data != null))
                 {
                     ProcessEvent(
-                        errorReporter,
-                        schemaNamer,
+                        resolvingThing.ParsedThing.ErrorReporter,
+                        resolvingThing.ParsedThing.SchemaNamer,
                         eventKvp.Key,
                         eventKvp.Value.Value!,
                         projectName,
-                        dirName,
-                        tdThing.SchemaDefinitions?.Entries,
+                        resolvingThing.ParsedThing.DirectoryName,
+                        resolvingThing.ParsedThing.Thing.SchemaDefinitions?.Entries,
                         schemaSpecs,
                         valueFields);
                 }
             }
 
+            if (subAllEventsForm?.IncludeInherited ?? false)
+            {
+                foreach (InheritanceEnumerator inheritanceEnumerator in new InheritanceEnumeration(resolvingThing))
+                {
+                    foreach (KeyValuePair<string, ValueTracker<TDEvent>> eventKvp in inheritanceEnumerator.EnumerateEvents().Where(e => e.Value.Value.Data != null))
+                    {
+                        ProcessEvent(
+                            inheritanceEnumerator.ParsedThing.ErrorReporter,
+                            inheritanceEnumerator.ParsedThing.SchemaNamer,
+                            eventKvp.Key,
+                            eventKvp.Value.Value!,
+                            projectName,
+                            inheritanceEnumerator.ParsedThing.DirectoryName,
+                            inheritanceEnumerator.ParsedThing.Thing.SchemaDefinitions?.Entries,
+                            null,
+                            valueFields);
+                    }
+                }
+            }
+
             GenerateCollectiveEventObject(
-                schemaNamer,
+                resolvingThing.ParsedThing.SchemaNamer,
                 subAllEventsForm,
                 valueFields,
                 schemaSpecs);
@@ -49,7 +69,7 @@ namespace Azure.Iot.Operations.SchemaGenerator
             string projectName,
             string dirName,
             Dictionary<string, ValueTracker<TDDataSchema>>? schemaDefinitions,
-            Dictionary<string, List<SchemaSpec>> schemaSpecs,
+            Dictionary<string, List<SchemaSpec>>? schemaSpecs,
             Dictionary<string, FieldSpec> valueFields)
         {
             FormInfo? subEventForm = FormInfo.CreateFromForm(errorReporter, tdEvent.Forms?.Elements?.FirstOrDefault(f => f.Value.Op?.Elements?.Any(e => e.Value.Value == TDValues.OpSubEvent) ?? false)?.Value, schemaDefinitions);
@@ -61,10 +81,11 @@ namespace Azure.Iot.Operations.SchemaGenerator
                 BackupSchemaName: schemaNamer.GetEventValueSchema(eventName),
                 Require: true,
                 Base: dirName,
-                Fragment: tdEvent.Placeholder?.Value.Value ?? false);
+                Fragment: tdEvent.Placeholder?.Value.Value ?? false,
+                Inherited: schemaSpecs == null);
             valueFields[eventName] = dataFieldSpec with { Require = false };
 
-            if (subEventForm?.TopicPattern != null)
+            if (subEventForm?.TopicPattern != null && schemaSpecs != null)
             {
                 string eventSchemaName = schemaNamer.GetEventSchema(eventName);
                 ObjectSpec eventObjectSpec = new(

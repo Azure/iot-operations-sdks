@@ -22,6 +22,8 @@ namespace Azure.Iot.Operations.CodeGeneration
         public const string RelationComponent = "aov:component";
         public const string RelationSchemaNaming = "dtv:naming";
 
+        public const string HrefTitlePrefix = "title=";
+
         public const string ContentTypeTmJson = "application/tm+json";
         public const string ContentTypeJson = "application/json";
         public const string ContentTypeRaw = "application/octet-stream";

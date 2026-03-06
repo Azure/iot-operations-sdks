@@ -8,7 +8,7 @@
   "links": [
     {
       "rel": "tm:extends",
-      "href": "http://example.com/BasicOnOffTM",
+      "href": "./ThingOneNamedMyThing.TM.json#title=MyThing",
       "type": "application/tm+json"
     }
   ],
