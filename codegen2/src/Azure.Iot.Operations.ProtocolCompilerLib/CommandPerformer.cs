@@ -60,11 +60,15 @@ namespace Azure.Iot.Operations.ProtocolCompilerLib
                 string srcSubdir = options.NoProj ? string.Empty : languageInfo.SrcSubdir;
 
                 errorLog.Phase = "Parsing";
-                List<ParsedThing> parsedThings = new();
+                Dictionary<string, Dictionary<string, ParsedThing>> filepathToTitleToParsedThingMap = new();
+                ParseThings(options.ThingFiles, errorLog, statusReceiver, filepathToTitleToParsedThingMap, options.PrefixSchemas, forClient: true, forServer: true);
+                ParseThings(options.ClientThingFiles, errorLog, statusReceiver, filepathToTitleToParsedThingMap, options.PrefixSchemas, forClient: true, forServer: false);
+                ParseThings(options.ServerThingFiles, errorLog, statusReceiver, filepathToTitleToParsedThingMap, options.PrefixSchemas, forClient: false, forServer: true);
+
+                errorLog.Phase = "Validating";
                 HashSet<SerializationFormat> serializationFormats = new();
-                ParseThings(options.ThingFiles, errorLog, statusReceiver, parsedThings, serializationFormats, options.PrefixSchemas, forClient: true, forServer: true);
-                ParseThings(options.ClientThingFiles, errorLog, statusReceiver, parsedThings, serializationFormats, options.PrefixSchemas, forClient: true, forServer: false);
-                ParseThings(options.ServerThingFiles, errorLog, statusReceiver, parsedThings, serializationFormats, options.PrefixSchemas, forClient: false, forServer: true);
+                bool separateClientAndServer = options.ClientThingFiles.Any() || options.ServerThingFiles.Any();
+                ValidateThings(filepathToTitleToParsedThingMap, statusReceiver, serializationFormats, separateClientAndServer);
 
                 if (errorLog.HasErrors)
                 {
@@ -72,7 +76,9 @@ namespace Azure.Iot.Operations.ProtocolCompilerLib
                 }
 
                 errorLog.Phase = "Schema generation";
-                Dictionary<SerializationFormat, List<GeneratedItem>> generatedSchemas = SchemaGenerator.GenerateSchemas(parsedThings, projectName, options.WorkingDir);
+                IEnumerable<ParsedThing> parsedThings = filepathToTitleToParsedThingMap.SelectMany(m => m.Value.Values);
+                IEnumerable<IResolvingThing> resolvingThings = parsedThings.Select(pt => new ResolvingThing(pt, filepathToTitleToParsedThingMap));
+                Dictionary<SerializationFormat, List<GeneratedItem>> generatedSchemas = SchemaGenerator.GenerateSchemas(resolvingThings, projectName, options.WorkingDir);
 
                 errorLog.CheckForDuplicatesInThings();
                 if (errorLog.HasErrors)
@@ -125,7 +131,7 @@ namespace Azure.Iot.Operations.ProtocolCompilerLib
 
                 errorLog.Phase = "Envoy generation";
                 List<GeneratedItem> generatedEnvoys = EnvoyGenerator.GenerateEnvoys(
-                    parsedThings,
+                    filepathToTitleToParsedThingMap.Values.SelectMany(titleToParsedThingMap => titleToParsedThingMap.Values),
                     serializationFormats.ToList(),
                     languageInfo.TargetLanguage,
                     genNamespace,
@@ -184,7 +190,7 @@ namespace Azure.Iot.Operations.ProtocolCompilerLib
             }
         }
 
-        private static void ParseThings(FileInfo[] thingFiles, ErrorLog errorLog, Action<string, bool> statusReceiver, List<ParsedThing> parsedThings, HashSet<SerializationFormat> serializationFormats, bool prefixSchemas, bool forClient, bool forServer)
+        private static void ParseThings(FileInfo[] thingFiles, ErrorLog errorLog, Action<string, bool> statusReceiver, Dictionary<string, Dictionary<string, ParsedThing>> filepathToTitleToParsedThingMap, bool prefixSchemas, bool forClient, bool forServer)
         {
             foreach (FileInfo thingFile in thingFiles)
             {
@@ -195,36 +201,72 @@ namespace Azure.Iot.Operations.ProtocolCompilerLib
                     string thingText = thingReader.ReadToEnd();
                     byte[] thingBytes = Encoding.UTF8.GetBytes(thingText);
                     ErrorReporter errorReporter = new ErrorReporter(errorLog, thingFile.FullName, thingBytes);
-                    ThingValidator thingValidator = new ThingValidator(errorReporter);
 
                     if (TryGetThings(errorReporter, thingBytes, out List<TDThing>? things))
                     {
+                        Dictionary<string, ParsedThing>  titleToParsedThingMap = new();
+                        filepathToTitleToParsedThingMap[thingFile.FullName.Replace('\\', '/')] = titleToParsedThingMap;
                         int thingCount = 0;
+
                         foreach (TDThing thing in things)
                         {
-                            if (thingValidator.TryValidateThing(thing, serializationFormats))
+                            ValueTracker<StringHolder>? schemaNamesFilename = thing.Links?.Elements?.FirstOrDefault(l => l.Value.Rel?.Value.Value == TDValues.RelationSchemaNaming)?.Value.Href;
+                            if (TryGetSchemaNamer(errorReporter, thingFile.DirectoryName!, schemaNamesFilename, prefixSchemas ? thing.Title?.Value.Value : null, out SchemaNamer? schemaNamer))
                             {
-                                ValueTracker<StringHolder>? schemaNamesFilename = thing.Links?.Elements?.FirstOrDefault(l => l.Value.Rel?.Value.Value == TDValues.RelationSchemaNaming)?.Value.Href;
-                                if (TryGetSchemaNamer(errorReporter, thingFile.DirectoryName!, schemaNamesFilename, prefixSchemas ? thing.Title?.Value.Value : null, out SchemaNamer? schemaNamer))
+                                thingCount++;
+                                titleToParsedThingMap[thing.Title?.Value.Value ?? $"Untitled_{thingCount}"] = new ParsedThing(thing, thingFile.Name, thingFile.DirectoryName!, schemaNamer, errorReporter, forClient, forServer);
+                                if (thing.Title != null)
                                 {
-                                    thingCount++;
-                                    parsedThings.Add(new ParsedThing(thing, thingFile.Name, thingFile.DirectoryName!, schemaNamer, errorReporter, forClient, forServer));
-                                    errorReporter.RegisterNameOfThing(thing.Title!.Value.Value, thing.Title!.TokenIndex);
+                                    errorReporter.RegisterNameOfThing(thing.Title.Value.Value, thing.Title.TokenIndex);
                                 }
                             }
                         }
 
-                        thingValidator.ValidateThingCollection(things);
-
-                        statusReceiver.Invoke($" {thingCount} {(thingCount == 1 ? "TD" : "TDs")} validly parsed", false);
+                        statusReceiver.Invoke($" {thingCount} {(thingCount == 1 ? "TM" : "TMs")} parsed", false);
                     }
                 }
             }
         }
 
+        private static void ValidateThings(Dictionary<string, Dictionary<string, ParsedThing>> filepathToTitleToParsedThingMap, Action<string, bool> statusReceiver, HashSet<SerializationFormat> serializationFormats, bool separateClientAndServer)
+        {
+            int thingCount = 0;
+            foreach (KeyValuePair<string, Dictionary<string, ParsedThing>> filepathAndTitleToParsedThingMap in filepathToTitleToParsedThingMap)
+            {
+                foreach (ParsedThing parsedThing in filepathAndTitleToParsedThingMap.Value.Values)
+                {
+                    ResolvingThing resolvingThing = new ResolvingThing(parsedThing, filepathToTitleToParsedThingMap);
+                    ThingValidator thingValidator = new ThingValidator(parsedThing.ErrorReporter);
+                    if (thingValidator.TryValidateThing(resolvingThing, serializationFormats))
+                    {
+                        thingCount++;
+                    }
+                }
+            }
+
+            if (filepathToTitleToParsedThingMap.Any(m => m.Value.Any()))
+            {
+                ThingValidator thingValidator = new ThingValidator(filepathToTitleToParsedThingMap.First(m => m.Value.Any()).Value.First().Value.ErrorReporter);
+
+                IEnumerable<ParsedThing> parsedThings = filepathToTitleToParsedThingMap.SelectMany(m => m.Value.Values);
+
+                if (separateClientAndServer)
+                {
+                    thingValidator.ValidateThingCollection(parsedThings.Where(pt => pt.ForClient).Select(pt => pt.Thing), "Client");
+                    thingValidator.ValidateThingCollection(parsedThings.Where(pt => pt.ForServer).Select(pt => pt.Thing), "Server");
+                }
+                else
+                {
+                    thingValidator.ValidateThingCollection(parsedThings.Select(pt => pt.Thing), null);
+                }
+            }
+
+            statusReceiver.Invoke($" {thingCount} {(thingCount == 1 ? "TM" : "TMs")} validated", false);
+        }
+
         private static bool TryGetSchemaNamer(ErrorReporter errorReporter, string folderPath, ValueTracker<StringHolder>? namerFilename, string? schemaPrefix, [NotNullWhen(true)] out SchemaNamer? schemaNamer)
         {
-            if (namerFilename == null)
+            if (string.IsNullOrEmpty(namerFilename?.Value.Value))
             {
                 schemaNamer = new SchemaNamer(schemaPrefix);
                 return true;
@@ -275,7 +317,7 @@ namespace Azure.Iot.Operations.ProtocolCompilerLib
                 {
                     if (item is ISourceTracker tracker && tracker.DeserializingFailed)
                     {
-                        errorReporter.ReportError(ErrorCondition.JsonInvalid, $"TD deserialization error: {tracker.DeserializationError ?? string.Empty}.", tracker.TokenIndex);
+                        errorReporter.ReportError(ErrorCondition.JsonInvalid, $"TM deserialization error: {tracker.DeserializationError ?? string.Empty}.", tracker.TokenIndex);
                         hasError = true;
                     }
 

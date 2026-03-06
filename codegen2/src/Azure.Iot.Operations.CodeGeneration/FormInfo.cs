@@ -20,7 +20,8 @@ namespace Azure.Iot.Operations.CodeGeneration
         string? HeaderCodeName,
         ValueTracker<TDDataSchema>? HeaderCodeSchema,
         string? ServiceGroupId,
-        string? TopicPattern)
+        string? TopicPattern,
+        bool IncludeInherited)
     {
         public static FormInfo? CreateFromForm(ErrorReporter errorReporter, TDForm? form, Dictionary<string, ValueTracker<TDDataSchema>>? schemaDefinitions)
         {
@@ -53,7 +54,8 @@ namespace Azure.Iot.Operations.CodeGeneration
                 form.HeaderCode?.Value?.Value,
                 headerCodeSchema,
                 form.ServiceGroupId?.Value?.Value,
-                form.Topic?.Value?.Value);
+                form.Topic?.Value?.Value,
+                form.IncludeInherited?.Value?.Value ?? false);
         }
 
         private static (string?, ValueTracker<TDDataSchema>?, SerializationFormat) GetSchemaAndFormat(ErrorReporter errorReporter, TDSchemaReference? schemaRef, TDForm? form, Dictionary<string, ValueTracker<TDDataSchema>>? schemaDefinitions)

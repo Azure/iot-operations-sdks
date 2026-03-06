@@ -1,7 +1,7 @@
 {
   "success": false,
   "commandLine": {
-    "things": [ "invalidAioBinding/LinkReferenceWithoutAovContext.TM.json" ],
+    "things": [ "invalidAioBinding/LinkReferenceWithoutAovContext.TM.json", "valid/ThingOneNamedMyThing.TM.json" ],
     "lang": "none"
   },
   "errors": [

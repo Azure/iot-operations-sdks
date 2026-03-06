@@ -27,8 +27,9 @@ namespace Azure.Iot.Operations.CodeGeneration
             this.errorReporter = errorReporter;
         }
 
-        public bool TryValidateThing(TDThing thing, HashSet<SerializationFormat> serializationFormats)
+        public bool TryValidateThing(IResolvingThing resolvingThing, HashSet<SerializationFormat> serializationFormats)
         {
+            TDThing thing = resolvingThing.ParsedThing.Thing;
             bool hasError = false;
 
             if (!TryValidateContext(thing.Context, out bool platContextPresent, out bool qudtContextPresent))
@@ -57,7 +58,7 @@ namespace Azure.Iot.Operations.CodeGeneration
                 hasError = true;
             }
 
-            if (!TryValidateLinks(thing.Links, platContextPresent, contextTokenIndex))
+            if (!TryValidateLinks(resolvingThing, platContextPresent, contextTokenIndex))
             {
                 hasError = true;
             }
@@ -97,12 +98,12 @@ namespace Azure.Iot.Operations.CodeGeneration
                 hasError = true;
             }
 
-            if (!TryValidateCrossFormConsistency(thing.Forms, thing.Properties))
+            if (!TryValidateCrossFormConsistency(thing.Forms, thing.Properties, resolvingThing))
             {
                 hasError = true;
             }
 
-            if (!TryValidateCrossFormConsistency(thing.Forms, thing.Events))
+            if (!TryValidateCrossFormConsistency(thing.Forms, thing.Events, resolvingThing))
             {
                 hasError = true;
             }
@@ -117,24 +118,26 @@ namespace Azure.Iot.Operations.CodeGeneration
             return !hasError;
         }
 
-        public void ValidateThingCollection(List<TDThing> things)
+        public void ValidateThingCollection(IEnumerable<TDThing> things, string? side)
         {
             int actionCount = things.Sum(t => t.Actions?.Entries?.Count ?? 0);
             int propertyCount = things.Sum(t => t.Properties?.Entries?.Count ?? 0);
             int eventCount = things.Sum(t => t.Events?.Entries?.Count ?? 0);
 
+            string sidePrefix = side != null ? $"{side} " : string.Empty;
+
             if (actionCount + propertyCount + eventCount == 0)
             {
-                switch (things.Count)
+                switch (things.Count())
                 {
                     case 0:
-                        errorReporter.ReportWarning("Thing collection is empty.", -1);
+                        errorReporter.ReportWarning($"{sidePrefix}Thing collection is empty.", -1);
                         break;
                     case 1:
-                        errorReporter.ReportWarning("Thing Model has no actions, properties, or events defined.", -1);
+                        errorReporter.ReportWarning($"{sidePrefix}Thing Model has no actions, properties, or events defined.", -1);
                         break;
                     default:
-                        errorReporter.ReportWarning("Collection has no actions, properties, or events defined across all Thing Models therein.", -1);
+                        errorReporter.ReportWarning($"Collection has no actions, properties, or events defined across all {sidePrefix}Thing Models therein.", -1);
                         break;
                 }
             }
@@ -281,7 +284,7 @@ namespace Azure.Iot.Operations.CodeGeneration
             return !hasError;
         }
 
-        private bool TryValidateCrossFormConsistency(ArrayTracker<TDForm>? rootForms, MapTracker<TDProperty>? properties)
+        private bool TryValidateCrossFormConsistency(ArrayTracker<TDForm>? rootForms, MapTracker<TDProperty>? properties, IResolvingThing resolvingThing)
         {
             bool hasError = false;
 
@@ -291,16 +294,40 @@ namespace Azure.Iot.Operations.CodeGeneration
             bool aggregateReadHasAdditionalResponses = (readAllForm?.Value.AdditionalResponses?.Elements?.Count ?? 0) > 0;
             bool aggregateWriteHasAdditionalResponses = (writeMultiForm?.Value.AdditionalResponses?.Elements?.Count ?? 0) > 0;
 
+            IEnumerable<KeyValuePair<string, ValueTracker<TDProperty>>>? allProperties = properties?.Entries;
+            if (readAllForm?.Value.IncludeInherited?.Value.Value == true)
+            {
+                InheritedPropertyEnumeration propertyEnumeration = new InheritedPropertyEnumeration(resolvingThing);
+                if (!propertyEnumeration.DoesInherit)
+                {
+                    errorReporter.ReportWarning($"Root-level form has '{TDForm.IncludeInheritedName}' property but no '{TDThing.LinksName}' element with '{TDLink.RelName}' property value '{TDValues.RelationExtends}', so there are no inherited properties to include", readAllForm.Value.IncludeInherited.TokenIndex, resolvingThing.ParsedThing.Thing.Links?.TokenIndex ?? -1);
+                }
+
+                allProperties = propertyEnumeration;
+            }
+
+            IEnumerable<KeyValuePair<string, ValueTracker<TDProperty>>>? writableProperties = properties?.Entries?.Where(p => p.Value.Value.ReadOnly?.Value.Value != true && (p.Value.Value.Forms?.Elements?.Any(f => f.Value.Op?.Elements?.Any(op => op.Value.Value == TDValues.OpWriteProp) ?? true) ?? true));
+            if (writeMultiForm?.Value.IncludeInherited?.Value.Value == true)
+            {
+                InheritedPropertyEnumeration propertyEnumeration = new InheritedPropertyEnumeration(resolvingThing);
+                if (!propertyEnumeration.DoesInherit && writeMultiForm.TokenIndex != readAllForm?.TokenIndex)
+                {
+                    errorReporter.ReportWarning($"Root-level form has '{TDForm.IncludeInheritedName}' property but no '{TDThing.LinksName}' element with '{TDLink.RelName}' property value '{TDValues.RelationExtends}', so there are no inherited properties to include", writeMultiForm.Value.IncludeInherited.TokenIndex, resolvingThing.ParsedThing.Thing.Links?.TokenIndex ?? -1);
+                }
+
+                writableProperties = propertyEnumeration.Where(p => p.Value.Value.ReadOnly?.Value.Value != true && (p.Value.Value.Forms?.Elements?.Any(f => f.Value.Op?.Elements?.Any(op => op.Value.Value == TDValues.OpWriteProp) ?? true) ?? true));
+            }
+
             if (readAllForm != null)
             {
-                if (properties?.Entries == null || properties.Entries.Count == 0)
+                if (allProperties == null || allProperties.Count() == 0)
                 {
                     errorReporter.ReportError(ErrorCondition.Unusable, $"Root-level form has '{TDForm.OpName}' property with value '{TDValues.OpReadAllProps}' to read the aggregation of all properties, but Thing Model has no properties defined.",
                         readAllForm.Value.Op!.Elements!.First(op => op.Value.Value == TDValues.OpReadAllProps).TokenIndex,
                         properties?.TokenIndex ?? -1);
                     hasError = true;
                 }
-                else if (aggregateReadHasAdditionalResponses && !properties.Entries.Any(p => p.Value.Value.Forms?.Elements?.Any(f => (f.Value.Op?.Elements?.Any(op => op.Value.Value == TDValues.OpReadProp) ?? true) && (f.Value.AdditionalResponses?.Elements?.Count ?? 0) > 0) ?? false))
+                else if (aggregateReadHasAdditionalResponses && !allProperties.Any(p => p.Value.Value.Forms?.Elements?.Any(f => (f.Value.Op?.Elements?.Any(op => op.Value.Value == TDValues.OpReadProp) ?? true) && (f.Value.AdditionalResponses?.Elements?.Count ?? 0) > 0) ?? false))
                 {
                     errorReporter.ReportWarning($"Root-level form has '{TDForm.OpName}' value of '{TDValues.OpReadAllProps}' and an '{TDForm.AdditionalResponsesName}' value; however, no readable '{TDThing.PropertiesName}' element has a form with an '{TDForm.AdditionalResponsesName}' value to aggregate.",
                         readAllForm.TokenIndex,
@@ -310,14 +337,14 @@ namespace Azure.Iot.Operations.CodeGeneration
 
             if (writeMultiForm != null)
             {
-                if (properties?.Entries == null || properties.Entries.Count(p => p.Value.Value.ReadOnly?.Value.Value != true && (p.Value.Value.Forms?.Elements?.Any(f => f.Value.Op?.Elements?.Any(op => op.Value.Value == TDValues.OpWriteProp) ?? true) ?? true)) == 0)
+                if (writableProperties == null || writableProperties.Count() == 0)
                 {
                     errorReporter.ReportError(ErrorCondition.Unusable, $"Root-level form has '{TDForm.OpName}' property with value '{TDValues.OpWriteMultProps}' to write a selected aggregation of writable properties, but Thing Model has no writable properties.",
                         writeMultiForm.Value.Op!.Elements!.First(op => op.Value.Value == TDValues.OpWriteMultProps).TokenIndex,
                         properties?.TokenIndex ?? -1);
                     hasError = true;
                 }
-                else if (aggregateWriteHasAdditionalResponses && !properties.Entries.Any(p => p.Value.Value.ReadOnly?.Value.Value != true && (p.Value.Value.Forms?.Elements?.Any(f => (f.Value.Op?.Elements?.Any(op => op.Value.Value == TDValues.OpWriteProp) ?? true) && (f.Value.AdditionalResponses?.Elements?.Count ?? 0) > 0) ?? false)))
+                else if (aggregateWriteHasAdditionalResponses && !writableProperties.Any(p => (p.Value.Value.Forms?.Elements?.Any(f => (f.Value.Op?.Elements?.Any(op => op.Value.Value == TDValues.OpWriteProp) ?? true) && (f.Value.AdditionalResponses?.Elements?.Count ?? 0) > 0) ?? false)))
                 {
                     errorReporter.ReportWarning($"Root-level form has '{TDForm.OpName}' value of '{TDValues.OpWriteMultProps}' and an '{TDForm.AdditionalResponsesName}' value; however, no writable '{TDThing.PropertiesName}' element has a form with an '{TDForm.AdditionalResponsesName}' value to aggregate.",
                         writeMultiForm.TokenIndex,
@@ -409,13 +436,25 @@ namespace Azure.Iot.Operations.CodeGeneration
             return !hasError;
         }
 
-        private bool TryValidateCrossFormConsistency(ArrayTracker<TDForm>? rootForms, MapTracker<TDEvent>? events)
+        private bool TryValidateCrossFormConsistency(ArrayTracker<TDForm>? rootForms, MapTracker<TDEvent>? events, IResolvingThing resolvingThing)
         {
             ValueTracker<TDForm>? subAllForm = rootForms?.Elements?.FirstOrDefault(f => f.Value.Op?.Elements != null && f.Value.Op.Elements.Any(op => op.Value.Value == TDValues.OpSubAllEvents));
 
             bool hasError = false;
 
-            if (events?.Entries == null || events.Entries.Count == 0)
+            IEnumerable<KeyValuePair<string, ValueTracker<TDEvent>>>? allEvents = events?.Entries;
+            if (subAllForm?.Value.IncludeInherited?.Value.Value == true)
+            {
+                InheritedEventEnumeration eventEnumeration = new InheritedEventEnumeration(resolvingThing);
+                if (!eventEnumeration.DoesInherit)
+                {
+                    errorReporter.ReportWarning($"Root-level form has '{TDForm.IncludeInheritedName}' property but no '{TDThing.LinksName}' element with '{TDLink.RelName}' property value '{TDValues.RelationExtends}', so there are no inherited events to include", subAllForm.Value.IncludeInherited.TokenIndex, resolvingThing.ParsedThing.Thing.Links?.TokenIndex ?? -1);
+                }
+
+                allEvents = eventEnumeration;
+            }
+
+            if (allEvents == null || allEvents.Count() == 0)
             {
                 if (subAllForm != null)
                 {
@@ -425,7 +464,7 @@ namespace Azure.Iot.Operations.CodeGeneration
                     hasError = true;
                 }
             }
-            else if (subAllForm == null)
+            else if (subAllForm == null && events?.Entries != null)
             {
                 foreach (KeyValuePair<string, ValueTracker<TDEvent>> evt in events.Entries)
                 {
@@ -622,17 +661,18 @@ namespace Azure.Iot.Operations.CodeGeneration
             return true;
         }
 
-        private bool TryValidateLinks(ArrayTracker<TDLink>? links, bool platContextPresent, long contextTokenIndex)
+        private bool TryValidateLinks(IResolvingThing resolvingThing, bool platContextPresent, long contextTokenIndex)
         {
-            if (links?.Elements == null)
+            if (resolvingThing.ParsedThing.Thing.Links?.Elements == null)
             {
                 return true;
             }
 
             bool hasError = false;
             int relSchemaNamerCount = 0;
+            int relExtendsCount = 0;
 
-            foreach (ValueTracker<TDLink> link in links.Elements)
+            foreach (ValueTracker<TDLink> link in resolvingThing.ParsedThing.Thing.Links.Elements)
             {
                 if (link.Value.Rel == null)
                 {
@@ -660,6 +700,10 @@ namespace Azure.Iot.Operations.CodeGeneration
                 if (link.Value.Rel.Value.Value == TDValues.RelationSchemaNaming)
                 {
                     relSchemaNamerCount++;
+                }
+                else if (link.Value.Rel.Value.Value == TDValues.RelationExtends)
+                {
+                    relExtendsCount++;
                 }
 
                 string requiredContentType = link.Value.Rel.Value.Value switch
@@ -719,6 +763,46 @@ namespace Azure.Iot.Operations.CodeGeneration
                     errorReporter.ReportError(ErrorCondition.PropertyEmpty, $"Link element with {TDLink.RelName}='{link.Value.Rel.Value.Value}' has empty '{TDLink.HrefName}' property value.", link.Value.Href.TokenIndex);
                     hasError = true;
                 }
+                else if (requiredContentType == TDValues.ContentTypeTmJson)
+                {
+                    if (!resolvingThing.TryResolve(link.Value.Href.Value.Value, out IResolvingThing? referencedThing))
+                    {
+                        errorReporter.ReportError(ErrorCondition.ItemNotFound, $"Cannot resolve '{TDLink.HrefName}' value '{link.Value.Href.Value.Value}' of link element with {TDLink.RelName}='{link.Value.Rel.Value.Value}'.", link.Value.Href.TokenIndex);
+                        hasError = true;
+                    }
+                    else if (resolvingThing.ParsedThing.ForClient && !referencedThing.ParsedThing.ForClient)
+                    {
+                        errorReporter.ReportError(ErrorCondition.ValuesInconsistent, $"Resolved '{TDLink.HrefName}' value '{link.Value.Href.Value.Value}' of client-side TM link element with {TDLink.RelName}='{link.Value.Rel.Value.Value}' to a TM that is not available to client side.", link.Value.Href.TokenIndex);
+                        hasError = true;
+                    }
+                    else if (resolvingThing.ParsedThing.ForServer && !referencedThing.ParsedThing.ForServer)
+                    {
+                        errorReporter.ReportError(ErrorCondition.ValuesInconsistent, $"Resolved '{TDLink.HrefName}' value '{link.Value.Href.Value.Value}' of server-side TM link element with {TDLink.RelName}='{link.Value.Rel.Value.Value}' to a TM that is not available to server side.", link.Value.Href.TokenIndex);
+                        hasError = true;
+                    }
+                    else if (link.Value.Rel.Value.Value == TDValues.RelationExtends)
+                    {
+                        IResolvingThing currentThing = referencedThing;
+                        while (true)
+                        {
+                            ValueTracker<TDLink>? extendsLink = currentThing.ParsedThing.Thing.Links?.Elements?.FirstOrDefault(l => l.Value.Rel?.Value.Value == TDValues.RelationExtends);
+
+                            if (extendsLink?.Value.Href == null || !currentThing.TryResolve(extendsLink.Value.Href.Value.Value, out IResolvingThing? extendedThing))
+                            {
+                                break;
+                            }
+
+                            if (extendsLink.Value.Href.Value.Value == link.Value.Href.Value.Value)
+                            {
+                                errorReporter.ReportError(ErrorCondition.Interminable, $"Interminable loop in '{TDValues.RelationExtends}' links starting at element with '{TDLink.HrefName}'='{link.Value.Href.Value.Value}'.", link.Value.Href.TokenIndex);
+                                hasError = true;
+                                break;
+                            }
+
+                            currentThing = extendedThing;
+                        }
+                    }
+                }
 
                 if (link.Value.Type == null)
                 {
@@ -755,7 +839,13 @@ namespace Azure.Iot.Operations.CodeGeneration
 
             if (relSchemaNamerCount > 1)
             {
-                errorReporter.ReportError(ErrorCondition.Duplication, $"Thing Model has multiple links with '{TDLink.RelName}' property value '{TDValues.RelationSchemaNaming}'; only one is allowed.", links.TokenIndex);
+                errorReporter.ReportError(ErrorCondition.Duplication, $"Thing Model has multiple links with '{TDLink.RelName}' property value '{TDValues.RelationSchemaNaming}'; only one is allowed.", resolvingThing.ParsedThing.Thing.Links.TokenIndex);
+                hasError = true;
+            }
+
+            if (relExtendsCount > 1)
+            {
+                errorReporter.ReportError(ErrorCondition.Duplication, $"Thing Model has multiple links with '{TDLink.RelName}' property value '{TDValues.RelationExtends}'; only one is allowed.", resolvingThing.ParsedThing.Thing.Links.TokenIndex);
                 hasError = true;
             }
 
@@ -1424,6 +1514,12 @@ namespace Azure.Iot.Operations.CodeGeneration
                 }
             }
 
+            if (form.Value.IncludeInherited != null && formsKind != FormsKind.Root)
+            {
+                errorReporter.ReportError(ErrorCondition.ValuesInconsistent, $"'{TDForm.IncludeInheritedName}' property is allowed only in root-level '{TDCommon.FormsName}' property.", form.Value.IncludeInherited.TokenIndex);
+                hasError = true;
+            }
+
             if (hasError)
             {
                 contentType = null;
@@ -1541,7 +1637,7 @@ namespace Azure.Iot.Operations.CodeGeneration
                 }
                 else if (schemaDefinitions?.Entries == null)
                 {
-                    errorReporter.ReportError(ErrorCondition.ItemNotFound, $"Form '{TDForm.HeaderCodeName}' property must refer to key in '{TDThing.SchemaDefinitionsName}' property, but TD has no '{TDThing.SchemaDefinitionsName}' property.", form.Value.HeaderCode.TokenIndex);
+                    errorReporter.ReportError(ErrorCondition.ItemNotFound, $"Form '{TDForm.HeaderCodeName}' property must refer to key in '{TDThing.SchemaDefinitionsName}' property, but TM has no '{TDThing.SchemaDefinitionsName}' property.", form.Value.HeaderCode.TokenIndex);
                     hasError = true;
                 }
                 else if (!schemaDefinitions.Entries.TryGetValue(form.Value.HeaderCode.Value.Value, out ValueTracker<TDDataSchema>? dataSchema))
@@ -1589,7 +1685,7 @@ namespace Azure.Iot.Operations.CodeGeneration
 
             foreach (KeyValuePair<string, long> propertyName in form.Value.PropertyNames)
             {
-                if (propertyName.Key != TDForm.ContentTypeName && propertyName.Key != TDForm.AdditionalResponsesName && propertyName.Key != TDForm.HeaderInfoName && propertyName.Key != TDForm.HeaderCodeName && propertyName.Key != TDForm.ServiceGroupIdName && propertyName.Key != TDForm.TopicName && propertyName.Key != TDForm.OpName)
+                if (propertyName.Key != TDForm.ContentTypeName && propertyName.Key != TDForm.AdditionalResponsesName && propertyName.Key != TDForm.HeaderInfoName && propertyName.Key != TDForm.HeaderCodeName && propertyName.Key != TDForm.ServiceGroupIdName && propertyName.Key != TDForm.TopicName && propertyName.Key != TDForm.IncludeInheritedName && propertyName.Key != TDForm.OpName)
                 {
                     if (propertyName.Key.Contains(':') && !propertyName.Key.StartsWith($"{TDValues.ContextPrefixAioProtocol}:") && !propertyName.Key.StartsWith($"{TDValues.ContextPrefixAioPlatform}:"))
                     {
@@ -1874,7 +1970,7 @@ namespace Azure.Iot.Operations.CodeGeneration
             }
             else if (schemaDefinitions?.Entries == null)
             {
-                errorReporter.ReportError(ErrorCondition.ItemNotFound, $"'{parentPropName}' element '{TDSchemaReference.SchemaName}' property must refer to key in '{TDThing.SchemaDefinitionsName}' property, but TD has no '{TDThing.SchemaDefinitionsName}' property.", schemaReference.Value.Schema.TokenIndex);
+                errorReporter.ReportError(ErrorCondition.ItemNotFound, $"'{parentPropName}' element '{TDSchemaReference.SchemaName}' property must refer to key in '{TDThing.SchemaDefinitionsName}' property, but TM has no '{TDThing.SchemaDefinitionsName}' property.", schemaReference.Value.Schema.TokenIndex);
                 hasError = true;
             }
             else if (!schemaDefinitions.Entries.TryGetValue(schemaReference.Value.Schema.Value.Value, out ValueTracker<TDDataSchema>? dataSchema))

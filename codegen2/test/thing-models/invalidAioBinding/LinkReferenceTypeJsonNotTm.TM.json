@@ -9,7 +9,7 @@
   "links": [
     {
       "rel": "aov:reference",
-      "href": "http://example.com/BasicOnOffTM",
+      "href": "../valid/ThingOneNamedMyThing.TM.json#title=MyThing",
       "type": "application/json"
     }
   ],

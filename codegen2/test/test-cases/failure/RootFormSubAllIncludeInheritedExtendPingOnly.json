@@ -1,0 +1,26 @@
+{
+  "success": false,
+  "commandLine": {
+    "things": [
+      "valid/RootFormSubAllIncludeInheritedExtendNested.TM.json",
+      "valid/nested/NoRootFormButExtendAbove.TM.json"
+    ],
+    "lang": "none"
+  },
+  "errors": [
+    {
+      "condition": "ItemNotFound",
+      "filename": "NoRootFormButExtendAbove.TM.json",
+      "line": 11,
+      "cfLine": 0,
+      "crossRef": ""
+    },
+    {
+      "condition": "Unusable",
+      "filename": "RootFormSubAllIncludeInheritedExtendNested.TM.json",
+      "line": 19,
+      "cfLine": 27,
+      "crossRef": ""
+    }
+  ]
+}
