@@ -25,7 +25,9 @@ namespace Azure.Iot.Operations.Opc2WotLib
                 field => field.Key,
                 field => WotDataSchema.Create(field.Value.DataType, field.Value.ValueRank, containingNode, field.Value.Description, ancestors));
 
-            requiredFieldNames = isUnion ? new List<string>() : fields .Where(field => !field.Value.IsOptional).Select(field => field.Key).ToList();
+            requiredFieldNames = isUnion ?
+                new List<string>() :
+                fields.Where(field => !field.Value.IsOptional).Select(field => field.Key).ToList();
         }
     }
 }
