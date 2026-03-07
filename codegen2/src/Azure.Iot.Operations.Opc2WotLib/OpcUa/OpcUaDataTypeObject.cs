@@ -18,6 +18,8 @@ namespace Azure.Iot.Operations.Opc2WotLib
             XmlNode? definitionNode = dataTypeNode.ChildNodes.Cast<XmlNode>().FirstOrDefault(node => node.Name == "Definition");
             ArgumentNullException.ThrowIfNull(definitionNode, nameof(definitionNode));
 
+            IsUnion = definitionNode.Attributes?["IsUnion"]?.Value == "true";
+
             foreach (XmlNode childNode in definitionNode.ChildNodes)
             {
                 if (childNode.Name == "Field" && childNode.Attributes?["ReleaseStatus"]?.Value != "Deprecated")
@@ -40,5 +42,7 @@ namespace Azure.Iot.Operations.Opc2WotLib
         }
 
         public Dictionary<string, OpcUaObjectField> ObjectFields { get; }
+
+        public bool IsUnion { get; }
     }
 }

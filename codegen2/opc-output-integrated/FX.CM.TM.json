@@ -95,7 +95,6 @@
         "title": "PortableNodeIdentifier",
         "type": "object",
         "aov:typeRef": "nsu=http://opcfoundation.org/UA/FX/CM/;i=3012",
-        "required": [ "Node", "Alias", "IdentifierBrowsePath" ],
         "properties": {
           "Node": {
             "title": "PortableNodeId",
@@ -195,7 +194,6 @@
               "title": "PortableNodeIdentifier",
               "type": "object",
               "aov:typeRef": "nsu=http://opcfoundation.org/UA/FX/CM/;i=3012",
-              "required": [ "Node", "Alias", "IdentifierBrowsePath" ],
               "properties": {
                 "Node": {
                   "title": "PortableNodeId",
@@ -331,7 +329,6 @@
               "title": "PortableNodeIdentifier",
               "type": "object",
               "aov:typeRef": "nsu=http://opcfoundation.org/UA/FX/CM/;i=3012",
-              "required": [ "Node", "Alias", "IdentifierBrowsePath" ],
               "properties": {
                 "Node": {
                   "title": "PortableNodeId",
@@ -462,7 +459,6 @@
           "title": "PortableNodeIdentifier",
           "type": "object",
           "aov:typeRef": "nsu=http://opcfoundation.org/UA/FX/CM/;i=3012",
-          "required": [ "Node", "Alias", "IdentifierBrowsePath" ],
           "properties": {
             "Node": {
               "title": "PortableNodeId",
@@ -558,7 +554,6 @@
                 "title": "PortableNodeIdentifier",
                 "type": "object",
                 "aov:typeRef": "nsu=http://opcfoundation.org/UA/FX/CM/;i=3012",
-                "required": [ "Node", "Alias", "IdentifierBrowsePath" ],
                 "properties": {
                   "Node": {
                     "title": "PortableNodeId",
@@ -686,7 +681,6 @@
                 "title": "PortableNodeIdentifier",
                 "type": "object",
                 "aov:typeRef": "nsu=http://opcfoundation.org/UA/FX/CM/;i=3012",
-                "required": [ "Node", "Alias", "IdentifierBrowsePath" ],
                 "properties": {
                   "Node": {
                     "title": "PortableNodeId",
@@ -860,7 +854,6 @@
         "title": "PortableNodeIdentifier",
         "type": "object",
         "aov:typeRef": "nsu=http://opcfoundation.org/UA/FX/CM/;i=3012",
-        "required": [ "Node", "Alias", "IdentifierBrowsePath" ],
         "properties": {
           "Node": {
             "title": "PortableNodeId",
@@ -955,7 +948,6 @@
           "title": "PortableNodeIdentifier",
           "type": "object",
           "aov:typeRef": "nsu=http://opcfoundation.org/UA/FX/CM/;i=3012",
-          "required": [ "Node", "Alias", "IdentifierBrowsePath" ],
           "properties": {
             "Node": {
               "title": "PortableNodeId",
@@ -2835,7 +2827,6 @@
               "title": "PortableNodeIdentifier",
               "type": "object",
               "aov:typeRef": "nsu=http://opcfoundation.org/UA/FX/CM/;i=3012",
-              "required": [ "Node", "Alias", "IdentifierBrowsePath" ],
               "properties": {
                 "Node": {
                   "title": "PortableNodeId",
@@ -3611,7 +3602,6 @@
                 "title": "PortableNodeIdentifier",
                 "type": "object",
                 "aov:typeRef": "nsu=http://opcfoundation.org/UA/FX/CM/;i=3012",
-                "required": [ "Node", "Alias", "IdentifierBrowsePath" ],
                 "properties": {
                   "Node": {
                     "title": "PortableNodeId",
@@ -4939,7 +4929,6 @@
               "title": "PortableNodeIdentifier",
               "type": "object",
               "aov:typeRef": "nsu=http://opcfoundation.org/UA/FX/CM/;i=3012",
-              "required": [ "Node", "Alias", "IdentifierBrowsePath" ],
               "properties": {
                 "Node": {
                   "title": "PortableNodeId",
@@ -5048,7 +5037,6 @@
           "title": "PortableNodeIdentifier",
           "type": "object",
           "aov:typeRef": "nsu=http://opcfoundation.org/UA/FX/CM/;i=3012",
-          "required": [ "Node", "Alias", "IdentifierBrowsePath" ],
           "properties": {
             "Node": {
               "title": "PortableNodeId",
@@ -5149,7 +5137,6 @@
               "title": "PortableNodeIdentifier",
               "type": "object",
               "aov:typeRef": "nsu=http://opcfoundation.org/UA/FX/CM/;i=3012",
-              "required": [ "Node", "Alias", "IdentifierBrowsePath" ],
               "properties": {
                 "Node": {
                   "title": "PortableNodeId",
@@ -5256,7 +5243,6 @@
         "title": "PortableNodeIdentifier",
         "type": "object",
         "aov:typeRef": "nsu=http://opcfoundation.org/UA/FX/CM/;i=3012",
-        "required": [ "Node", "Alias", "IdentifierBrowsePath" ],
         "properties": {
           "Node": {
             "title": "PortableNodeId",
@@ -5359,7 +5345,6 @@
                 "title": "PortableNodeIdentifier",
                 "type": "object",
                 "aov:typeRef": "nsu=http://opcfoundation.org/UA/FX/CM/;i=3012",
-                "required": [ "Node", "Alias", "IdentifierBrowsePath" ],
                 "properties": {
                   "Node": {
                     "title": "PortableNodeId",
@@ -5464,7 +5449,6 @@
             "title": "PortableNodeIdentifier",
             "type": "object",
             "aov:typeRef": "nsu=http://opcfoundation.org/UA/FX/CM/;i=3012",
-            "required": [ "Node", "Alias", "IdentifierBrowsePath" ],
             "properties": {
               "Node": {
                 "title": "PortableNodeId",
@@ -5561,7 +5545,6 @@
                 "title": "PortableNodeIdentifier",
                 "type": "object",
                 "aov:typeRef": "nsu=http://opcfoundation.org/UA/FX/CM/;i=3012",
-                "required": [ "Node", "Alias", "IdentifierBrowsePath" ],
                 "properties": {
                   "Node": {
                     "title": "PortableNodeId",
@@ -5664,7 +5647,6 @@
           "title": "PortableNodeIdentifier",
           "type": "object",
           "aov:typeRef": "nsu=http://opcfoundation.org/UA/FX/CM/;i=3012",
-          "required": [ "Node", "Alias", "IdentifierBrowsePath" ],
           "properties": {
             "Node": {
               "title": "PortableNodeId",
@@ -5858,7 +5840,6 @@
           "title": "PortableNodeIdentifier",
           "type": "object",
           "aov:typeRef": "nsu=http://opcfoundation.org/UA/FX/CM/;i=3012",
-          "required": [ "Node", "Alias", "IdentifierBrowsePath" ],
           "properties": {
             "Node": {
               "title": "PortableNodeId",
@@ -6004,7 +5985,6 @@
           "title": "PortableNodeIdentifier",
           "type": "object",
           "aov:typeRef": "nsu=http://opcfoundation.org/UA/FX/CM/;i=3012",
-          "required": [ "Node", "Alias", "IdentifierBrowsePath" ],
           "properties": {
             "Node": {
               "title": "PortableNodeId",
@@ -6187,7 +6167,6 @@
             "title": "PortableNodeIdentifier",
             "type": "object",
             "aov:typeRef": "nsu=http://opcfoundation.org/UA/FX/CM/;i=3012",
-            "required": [ "Node", "Alias", "IdentifierBrowsePath" ],
             "properties": {
               "Node": {
                 "title": "PortableNodeId",
@@ -6317,7 +6296,6 @@
             "title": "PortableNodeIdentifier",
             "type": "object",
             "aov:typeRef": "nsu=http://opcfoundation.org/UA/FX/CM/;i=3012",
-            "required": [ "Node", "Alias", "IdentifierBrowsePath" ],
             "properties": {
               "Node": {
                 "title": "PortableNodeId",

@@ -2013,7 +2013,6 @@
         "title": "BACnetTimeStamp",
         "type": "object",
         "aov:typeRef": "nsu=http://opcfoundation.org/UA/BACnet_V2/;i=3056",
-        "required": [ "Time", "SequenceNumber", "DateTime" ],
         "properties": {
           "Time": {
             "title": "BACnetTime",
@@ -2943,7 +2942,6 @@
                 "title": "BACnetRecipient",
                 "type": "object",
                 "aov:typeRef": "nsu=http://opcfoundation.org/UA/BACnet_V2/;i=3054",
-                "required": [ "Device", "Address" ],
                 "properties": {
                   "Device": {
                     "type": "integer",
@@ -3007,7 +3005,6 @@
                 "title": "BACnetRecipient",
                 "type": "object",
                 "aov:typeRef": "nsu=http://opcfoundation.org/UA/BACnet_V2/;i=3054",
-                "required": [ "Device", "Address" ],
                 "properties": {
                   "Device": {
                     "type": "integer",
@@ -3088,7 +3085,6 @@
           "title": "BACnetRecipient",
           "type": "object",
           "aov:typeRef": "nsu=http://opcfoundation.org/UA/BACnet_V2/;i=3054",
-          "required": [ "Device", "Address" ],
           "properties": {
             "Device": {
               "type": "integer",
@@ -3135,7 +3131,6 @@
         "title": "BACnetTimeStamp",
         "type": "object",
         "aov:typeRef": "nsu=http://opcfoundation.org/UA/BACnet_V2/;i=3056",
-        "required": [ "Time", "SequenceNumber", "DateTime" ],
         "properties": {
           "Time": {
             "title": "BACnetTime",
@@ -10147,7 +10142,6 @@
           "title": "BACnetTimeStamp",
           "type": "object",
           "aov:typeRef": "nsu=http://opcfoundation.org/UA/BACnet_V2/;i=3056",
-          "required": [ "Time", "SequenceNumber", "DateTime" ],
           "properties": {
             "Time": {
               "title": "BACnetTime",
@@ -13145,7 +13139,6 @@
           "title": "BACnetPriorityValue",
           "type": "object",
           "aov:typeRef": "nsu=http://opcfoundation.org/UA/BACnet_V2/;i=3053",
-          "required": [ "Real", "Enumerated", "Unsigned", "Boolean", "Signed", "Double" ],
           "properties": {
             "Real": {
               "type": "number",
@@ -13254,7 +13247,6 @@
           "title": "BACnetPriorityValue",
           "type": "object",
           "aov:typeRef": "nsu=http://opcfoundation.org/UA/BACnet_V2/;i=3053",
-          "required": [ "Real", "Enumerated", "Unsigned", "Boolean", "Signed", "Double" ],
           "properties": {
             "Real": {
               "type": "number",
@@ -13738,7 +13730,6 @@
           "title": "BACnetPriorityValue",
           "type": "object",
           "aov:typeRef": "nsu=http://opcfoundation.org/UA/BACnet_V2/;i=3053",
-          "required": [ "Real", "Enumerated", "Unsigned", "Boolean", "Signed", "Double" ],
           "properties": {
             "Real": {
               "type": "number",
@@ -13889,7 +13880,6 @@
           "title": "BACnetPriorityValue",
           "type": "object",
           "aov:typeRef": "nsu=http://opcfoundation.org/UA/BACnet_V2/;i=3053",
-          "required": [ "Real", "Enumerated", "Unsigned", "Boolean", "Signed", "Double" ],
           "properties": {
             "Real": {
               "type": "number",
@@ -14297,7 +14287,6 @@
                 "title": "BACnetCalendarEntry",
                 "type": "object",
                 "aov:typeRef": "nsu=http://opcfoundation.org/UA/BACnet_V2/;i=3016",
-                "required": [ "Date", "DateRange", "WeekNDay" ],
                 "properties": {
                   "Date": {
                     "title": "BACnetDate",
@@ -14480,7 +14469,6 @@
                 "title": "BACnetCalendarEntry",
                 "type": "object",
                 "aov:typeRef": "nsu=http://opcfoundation.org/UA/BACnet_V2/;i=3016",
-                "required": [ "Date", "DateRange", "WeekNDay" ],
                 "properties": {
                   "Date": {
                     "title": "BACnetDate",
@@ -14658,7 +14646,6 @@
           "title": "BACnetCalendarEntry",
           "type": "object",
           "aov:typeRef": "nsu=http://opcfoundation.org/UA/BACnet_V2/;i=3016",
-          "required": [ "Date", "DateRange", "WeekNDay" ],
           "properties": {
             "Date": {
               "title": "BACnetDate",
@@ -17270,7 +17257,6 @@
               "title": "BACnetMessageClass",
               "type": "object",
               "aov:typeRef": "nsu=http://opcfoundation.org/UA/BACnet_V2/;i=3052",
-              "required": [ "Unsigned", "String" ],
               "properties": {
                 "Unsigned": {
                   "type": "integer",
@@ -17322,7 +17308,6 @@
                   "title": "BACnetRecipient",
                   "type": "object",
                   "aov:typeRef": "nsu=http://opcfoundation.org/UA/BACnet_V2/;i=3054",
-                  "required": [ "Device", "Address" ],
                   "properties": {
                     "Device": {
                       "type": "integer",
@@ -20354,7 +20339,6 @@
               "title": "BACnetEventParameter",
               "type": "object",
               "aov:typeRef": "nsu=http://opcfoundation.org/UA/BACnet_V2/;i=3050",
-              "required": [ "Change-of-bitstring", "Change-of-state", "Change-of-value", "Command-failure", "Floating-limit", "Out-of-range", "Extended", "Buffer-ready", "Unsigned-range", "Double-out-of-range", "Signed-out-of-range", "Unsigned-out-of-range", "Change-of-characterstring", "Change-of-life-safety" ],
               "properties": {
                 "Change-of-bitstring": {
                   "title": "BACnetEventParameterChangeOfBitstring",
@@ -20719,7 +20703,6 @@
                         "title": "BACnetEventParameterExtendedParameters",
                         "type": "object",
                         "aov:typeRef": "nsu=http://opcfoundation.org/UA/BACnet_V2/;i=3068",
-                        "required": [ "Real", "Unsigned", "Boolean", "Double", "Octed", "CharacterString", "BitString", "Enum", "Date", "Time", "ObjectIdentifier", "Reference", "Integer" ],
                         "properties": {
                           "Real": {
                             "type": "number",
@@ -21074,7 +21057,6 @@
               "title": "BACnetFaultParameter",
               "type": "object",
               "aov:typeRef": "nsu=http://opcfoundation.org/UA/BACnet_V2/;i=3051",
-              "required": [ "Fault-characterstring", "Fault-life-safety", "Fault-state", "Fault-status-flags", "Fault-extended" ],
               "properties": {
                 "Fault-characterstring": {
                   "title": "BACnetFaultParameterFaultCharacterstring",
@@ -21215,7 +21197,6 @@
                         "title": "BACnetEventParameterExtendedParameters",
                         "type": "object",
                         "aov:typeRef": "nsu=http://opcfoundation.org/UA/BACnet_V2/;i=3068",
-                        "required": [ "Real", "Unsigned", "Boolean", "Double", "Octed", "CharacterString", "BitString", "Enum", "Date", "Time", "ObjectIdentifier", "Reference", "Integer" ],
                         "properties": {
                           "Real": {
                             "type": "number",
@@ -25601,7 +25582,6 @@
         "title": "BACnetClientCOV",
         "type": "object",
         "aov:typeRef": "nsu=http://opcfoundation.org/UA/BACnet_V2/;i=3023",
-        "required": [ "Real-increment" ],
         "properties": {
           "Real-increment": {
             "type": "number",
@@ -28227,7 +28207,6 @@
           "title": "BACnetPriorityValue",
           "type": "object",
           "aov:typeRef": "nsu=http://opcfoundation.org/UA/BACnet_V2/;i=3053",
-          "required": [ "Real", "Enumerated", "Unsigned", "Boolean", "Signed", "Double" ],
           "properties": {
             "Real": {
               "type": "number",
@@ -28347,7 +28326,6 @@
           "title": "BACnetPriorityValue",
           "type": "object",
           "aov:typeRef": "nsu=http://opcfoundation.org/UA/BACnet_V2/;i=3053",
-          "required": [ "Real", "Enumerated", "Unsigned", "Boolean", "Signed", "Double" ],
           "properties": {
             "Real": {
               "type": "number",
@@ -28578,7 +28556,6 @@
             "title": "BACnetRecipient",
             "type": "object",
             "aov:typeRef": "nsu=http://opcfoundation.org/UA/BACnet_V2/;i=3054",
-            "required": [ "Device", "Address" ],
             "properties": {
               "Device": {
                 "type": "integer",
@@ -31226,13 +31203,11 @@
               "title": "BACnetSpecialEventPeriod",
               "type": "object",
               "aov:typeRef": "nsu=http://opcfoundation.org/UA/BACnet_V2/;i=3055",
-              "required": [ "CalendarEntry", "CalendarReference" ],
               "properties": {
                 "CalendarEntry": {
                   "title": "BACnetCalendarEntry",
                   "type": "object",
                   "aov:typeRef": "nsu=http://opcfoundation.org/UA/BACnet_V2/;i=3016",
-                  "required": [ "Date", "DateRange", "WeekNDay" ],
                   "properties": {
                     "Date": {
                       "title": "BACnetDate",
@@ -34043,7 +34018,6 @@
                 "title": "BACnetRecipient",
                 "type": "object",
                 "aov:typeRef": "nsu=http://opcfoundation.org/UA/BACnet_V2/;i=3054",
-                "required": [ "Device", "Address" ],
                 "properties": {
                   "Device": {
                     "type": "integer",
@@ -34110,7 +34084,6 @@
                 "title": "BACnetRecipient",
                 "type": "object",
                 "aov:typeRef": "nsu=http://opcfoundation.org/UA/BACnet_V2/;i=3054",
-                "required": [ "Device", "Address" ],
                 "properties": {
                   "Device": {
                     "type": "integer",
@@ -34223,7 +34196,6 @@
           "title": "BACnetRecipient",
           "type": "object",
           "aov:typeRef": "nsu=http://opcfoundation.org/UA/BACnet_V2/;i=3054",
-          "required": [ "Device", "Address" ],
           "properties": {
             "Device": {
               "type": "integer",
@@ -34272,7 +34244,6 @@
           "title": "BACnetRecipient",
           "type": "object",
           "aov:typeRef": "nsu=http://opcfoundation.org/UA/BACnet_V2/;i=3054",
-          "required": [ "Device", "Address" ],
           "properties": {
             "Device": {
               "type": "integer",
