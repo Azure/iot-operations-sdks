@@ -1,0 +1,16 @@
+<#@ template language="C#" linePragmas="false" #>
+<#@ import namespace="System.Collections.Generic" #>
+<#@ import namespace="System.Linq" #>
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT License.
+
+use std::sync::LazyLock;
+
+pub static LABELED_SYSTEMS_OF_UNITS: LazyLock<Vec<(&'static str, &'static str)>> =
+    LazyLock::new(|| {
+        vec![
+<# foreach (var labeledSystem in this.labeledSystemsOfUnits) { #>
+            ("<#=labeledSystem.Item1#>", "<#=labeledSystem.Item2#>"),
+<# } #>
+        ]
+    });

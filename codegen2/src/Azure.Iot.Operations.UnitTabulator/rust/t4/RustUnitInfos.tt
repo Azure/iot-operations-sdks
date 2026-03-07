@@ -1,0 +1,28 @@
+<#@ template language="C#" linePragmas="false" #>
+<#@ import namespace="System.Collections.Generic" #>
+<#@ import namespace="System.Linq" #>
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT License.
+
+use std::collections::HashMap;
+use std::sync::LazyLock;
+
+use super::UnitInfo;
+
+pub(super) static UNIT_INFOS: LazyLock<HashMap<&'static str, UnitInfo>> = LazyLock::new(|| {
+    HashMap::from([
+<# foreach (KeyValuePair<string, UnitInfo> unitInfo in this.unitInfosMap) { #>
+        (
+<# if (unitInfo.Value.Label != null) { #>
+            // <#=unitInfo.Value.Label#>
+<# } #>
+            "<#=unitInfo.Key#>",
+            UnitInfo {
+                kind: "<#=unitInfo.Value.Kind#>",
+                multiplier: <#=ToRustString(unitInfo.Value.Multiplier)#>,
+                offset: <#=ToRustString(unitInfo.Value.Offset)#>,
+            },
+        ),
+<# } #>
+    ])
+});

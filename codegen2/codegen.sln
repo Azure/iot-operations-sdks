@@ -27,6 +27,7 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Azure.Iot.Operations.Opc2Wot", "src\Azure.Iot.Operations.Opc2Wot\Azure.Iot.Operations.Opc2Wot.csproj", "{B8B94E09-1490-4468-BF7D-F5F90E89377A}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Azure.Iot.Operations.Opc2WotLib", "src\Azure.Iot.Operations.Opc2WotLib\Azure.Iot.Operations.Opc2WotLib.csproj", "{74E990F9-34DD-4A53-B23E-F2B7FB42C6E3}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Azure.Iot.Operations.UnitTabulator", "src\Azure.Iot.Operations.UnitTabulator\Azure.Iot.Operations.UnitTabulator.csproj", "{7DBF7CD2-631D-4852-977D-75335F2661CB}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -82,6 +83,10 @@ Global
 		{74E990F9-34DD-4A53-B23E-F2B7FB42C6E3}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{74E990F9-34DD-4A53-B23E-F2B7FB42C6E3}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{74E990F9-34DD-4A53-B23E-F2B7FB42C6E3}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7DBF7CD2-631D-4852-977D-75335F2661CB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7DBF7CD2-631D-4852-977D-75335F2661CB}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7DBF7CD2-631D-4852-977D-75335F2661CB}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7DBF7CD2-631D-4852-977D-75335F2661CB}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

@@ -1,0 +1,15 @@
+# Copyright (c) Microsoft Corporation.
+# Licensed under the MIT License.
+
+[package]
+name = "azure_iot_operations_facilities"
+version = "0.1.0"
+edition = "2024"
+license = "MIT"
+description = "Azure IoT Operations Facilities"
+repository = "https://github.com/Azure/iot-operations-sdks"
+
+[lints]
+workspace = true
+
+[dependencies]

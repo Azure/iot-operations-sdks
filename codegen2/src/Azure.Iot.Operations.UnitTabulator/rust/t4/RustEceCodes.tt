@@ -1,0 +1,15 @@
+<#@ template language="C#" linePragmas="false" #>
+<#@ import namespace="System.Collections.Generic" #>
+<#@ import namespace="System.Linq" #>
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT License.
+
+use std::collections::HashMap;
+use std::sync::LazyLock;
+
+pub(super) static ECE_CODES: LazyLock<HashMap<&'static str, &'static str>> =
+    LazyLock::new(|| HashMap::from([
+<# foreach (KeyValuePair<string, string> eceCode in this.eceCodesMap) { #>
+        ("<#=eceCode.Key#>", "<#=eceCode.Value#>"),
+<# } #>
+    ]));

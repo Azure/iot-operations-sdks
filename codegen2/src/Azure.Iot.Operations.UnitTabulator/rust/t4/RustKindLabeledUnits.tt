@@ -1,0 +1,24 @@
+<#@ template language="C#" linePragmas="false" #>
+<#@ import namespace="System.Collections.Generic" #>
+<#@ import namespace="System.Linq" #>
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT License.
+
+use std::collections::HashMap;
+use std::sync::LazyLock;
+
+pub static KIND_LABELED_UNITS: LazyLock<HashMap<&'static str, Vec<(&'static str, &'static str)>>> =
+    LazyLock::new(|| {
+        HashMap::from([
+<# foreach (KeyValuePair<string, List<(string, string)>> kindLabeledUnits in this.kindLabeledUnitsMap) { #>
+            (
+                "<#=kindLabeledUnits.Key#>",
+                vec![
+<# foreach (var unit in kindLabeledUnits.Value) { #>
+                    ("unit:<#=unit.Item1#>", "<#=unit.Item2#>"),
+<# } #>
+                ],
+            ),
+<# } #>
+        ])
+    });
