@@ -307,7 +307,6 @@
                 "description": "This union that defines various calendar date values",
                 "type": "object",
                 "aov:typeRef": "nsu=http://opcfoundation.org/UA/Scheduler/;i=72",
-                "required": [ "Date", "DateRange" ],
                 "properties": {
                   "Date": {
                     "title": "DateType",
@@ -466,7 +465,6 @@
                 "description": "This union that defines various calendar date values",
                 "type": "object",
                 "aov:typeRef": "nsu=http://opcfoundation.org/UA/Scheduler/;i=72",
-                "required": [ "Date", "DateRange" ],
                 "properties": {
                   "Date": {
                     "title": "DateType",
@@ -621,7 +619,6 @@
           "description": "This union that defines various calendar date values",
           "type": "object",
           "aov:typeRef": "nsu=http://opcfoundation.org/UA/Scheduler/;i=72",
-          "required": [ "Date", "DateRange" ],
           "properties": {
             "Date": {
               "title": "DateType",
@@ -1089,14 +1086,12 @@
                     "description": "This union contains a calendar entry or a reference to a calendar object",
                     "type": "object",
                     "aov:typeRef": "nsu=http://opcfoundation.org/UA/Scheduler/;i=71",
-                    "required": [ "CalendarEntry", "CalendarReference" ],
                     "properties": {
                       "CalendarEntry": {
                         "title": "CalendarEntryType",
                         "description": "This union that defines various calendar date values",
                         "type": "object",
                         "aov:typeRef": "nsu=http://opcfoundation.org/UA/Scheduler/;i=72",
-                        "required": [ "Date", "DateRange" ],
                         "properties": {
                           "Date": {
                             "title": "DateType",
@@ -1325,14 +1320,12 @@
                     "description": "This union contains a calendar entry or a reference to a calendar object",
                     "type": "object",
                     "aov:typeRef": "nsu=http://opcfoundation.org/UA/Scheduler/;i=71",
-                    "required": [ "CalendarEntry", "CalendarReference" ],
                     "properties": {
                       "CalendarEntry": {
                         "title": "CalendarEntryType",
                         "description": "This union that defines various calendar date values",
                         "type": "object",
                         "aov:typeRef": "nsu=http://opcfoundation.org/UA/Scheduler/;i=72",
-                        "required": [ "Date", "DateRange" ],
                         "properties": {
                           "Date": {
                             "title": "DateType",
@@ -1658,14 +1651,12 @@
               "description": "This union contains a calendar entry or a reference to a calendar object",
               "type": "object",
               "aov:typeRef": "nsu=http://opcfoundation.org/UA/Scheduler/;i=71",
-              "required": [ "CalendarEntry", "CalendarReference" ],
               "properties": {
                 "CalendarEntry": {
                   "title": "CalendarEntryType",
                   "description": "This union that defines various calendar date values",
                   "type": "object",
                   "aov:typeRef": "nsu=http://opcfoundation.org/UA/Scheduler/;i=72",
-                  "required": [ "Date", "DateRange" ],
                   "properties": {
                     "Date": {
                       "title": "DateType",

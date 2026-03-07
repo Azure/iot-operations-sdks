@@ -1801,7 +1801,6 @@
         "description": "Time the execution of the job is expected to take.",
         "type": "object",
         "aov:typeRef": "nsu=http://opcfoundation.org/UA/Mining/ExternalStandards/IREDES;i=3004",
-        "required": [ "ExpectedFinishTime", "ExpectedDuration" ],
         "properties": {
           "ExpectedFinishTime": {
             "description": "Time Machine is expected to finish the job.",
@@ -2051,7 +2050,6 @@
           "description": "Time the execution of the job is expected to take.",
           "type": "object",
           "aov:typeRef": "nsu=http://opcfoundation.org/UA/Mining/ExternalStandards/IREDES;i=3004",
-          "required": [ "ExpectedFinishTime", "ExpectedDuration" ],
           "properties": {
             "ExpectedFinishTime": {
               "description": "Time Machine is expected to finish the job.",

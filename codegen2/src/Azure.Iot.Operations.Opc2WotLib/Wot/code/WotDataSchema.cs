@@ -46,7 +46,7 @@ namespace Azure.Iot.Operations.Opc2WotLib
             }
             else if (dataTypeNode is OpcUaDataTypeObject objectNode)
             {
-                return new WotDataSchemaObject(objectNode, objectNode.Description ?? description, WotUtil.LegalizeName(objectNode.EffectiveName), objectNode.ObjectFields, ancestors.Append(dataTypeNodeId));
+                return new WotDataSchemaObject(objectNode, objectNode.Description ?? description, WotUtil.LegalizeName(objectNode.EffectiveName), objectNode.ObjectFields, ancestors.Append(dataTypeNodeId), objectNode.IsUnion);
             }
             else if (dataTypeNode is OpcUaDataTypeSubtype subtypeNode)
             {
