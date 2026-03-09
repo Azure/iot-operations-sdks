@@ -1,0 +1,21 @@
+{
+  "$schema": "https://json-schema.org/draft-07/schema",
+  "title": "ManagementActionsSchemaElementSchema",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [ "managementGroupName", "managementActionName", "runtimeHealth" ],
+  "properties": {
+    "managementActionName": {
+      "description": "The name of the management action for which the runtime health is being reported.",
+      "type": "string"
+    },
+    "managementGroupName": {
+      "description": "The name of the management group for which the runtime health is being reported.",
+      "type": "string"
+    },
+    "runtimeHealth": {
+      "description": "The runtime health of the specific management action.",
+      "$ref": "RuntimeHealth.schema.json"
+    }
+  }
+}
