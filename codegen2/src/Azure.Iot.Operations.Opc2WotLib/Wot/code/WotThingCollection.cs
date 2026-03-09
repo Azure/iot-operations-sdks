@@ -11,16 +11,16 @@ namespace Azure.Iot.Operations.Opc2WotLib
     {
         private List<WotThingModel> thingModels;
 
-        public WotThingCollection(OpcUaModelInfo modelInfo, LinkRelRuleEngine linkRelRuleEngine, bool integrate)
+        public WotThingCollection(OpcUaModelInfo modelInfo, LinkRelRuleEngine linkRelRuleEngine, bool integrate, bool inheritVars)
         {
             if (integrate)
             {
-                this.thingModels = ModelInfoCloser.ComputeClosure(modelInfo).SelectMany(kvp => kvp.Value.Values.Select(ot => new WotThingModel(SpecMapper.GetSpecNameFromUri(kvp.Key), ot, linkRelRuleEngine, isIntegrated: true))).ToList();
+                this.thingModels = ModelInfoCloser.ComputeClosure(modelInfo).SelectMany(kvp => kvp.Value.Values.Select(ot => new WotThingModel(SpecMapper.GetSpecNameFromUri(kvp.Key), ot, linkRelRuleEngine, isIntegrated: true, inheritVars: inheritVars))).ToList();
             }
             else
             {
                 string specName = SpecMapper.GetSpecNameFromUri(modelInfo.ModelUri);
-                this.thingModels = modelInfo.NodeIdToObjectTypeMap.Values.Select(ot => new WotThingModel(specName, ot, linkRelRuleEngine, isIntegrated: false)).ToList();
+                this.thingModels = modelInfo.NodeIdToObjectTypeMap.Values.Select(ot => new WotThingModel(specName, ot, linkRelRuleEngine, isIntegrated: false, inheritVars: inheritVars)).ToList();
             }
         }
     }
