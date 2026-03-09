@@ -160,6 +160,12 @@ namespace Azure.Iot.Operations.Connector
                             currentDeviceStatus.Config ??= new();
                             currentDeviceStatus.Config.LastTransitionTime = DateTime.UtcNow;
                             currentDeviceStatus.Config.Error = null;
+                            currentDeviceStatus.Endpoints ??= new();
+                            currentDeviceStatus.Endpoints.Inbound ??= new();
+                            currentDeviceStatus.Endpoints.Inbound.Add(args.InboundEndpointName, new()
+                            {
+                                Error = null
+                            });
                             return currentDeviceStatus;
                         }, true, null, cancellationToken);
                     }
