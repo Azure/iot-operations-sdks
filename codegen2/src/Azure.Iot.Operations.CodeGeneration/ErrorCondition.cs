@@ -9,6 +9,7 @@ namespace Azure.Iot.Operations.CodeGeneration
         Duplication,
         ElementMissing,
         ElementsPlural,
+        Interminable,
         ItemNotFound,
         JsonInvalid,
         PropertyMissing,

@@ -1,0 +1,7 @@
+{
+  "success": true,
+  "commandLine": {
+    "serverThings": [ "valid/LinkExtends.TM.json", "valid/ThingOneNamedMyThing.TM.json" ],
+    "lang": "none"
+  }
+}

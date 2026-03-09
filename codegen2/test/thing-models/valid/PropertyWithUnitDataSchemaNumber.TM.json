@@ -18,8 +18,8 @@
       "forms": [
         {
           "contentType": "application/json",
-          "dtv:topic": "sample/alpha/{maintainerId}",
-          "op": "readproperty"
+          "dtv:topic": "sample/alpha/{maintainerId}/{action}",
+          "op": [ "readproperty", "writeproperty" ]
         }
       ]
     },

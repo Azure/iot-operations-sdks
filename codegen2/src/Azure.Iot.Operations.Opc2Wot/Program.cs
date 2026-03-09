@@ -30,10 +30,16 @@ namespace Azure.Iot.Operations.Opc2Wot
                 Description = "Integrate all referenced Thing Models into each Thing Model collection, making each output file self-contained",
             };
 
+            var inheritVarsOption = new Option<bool>("--inheritVars")
+            {
+                Description = "Add a 'dtv:includeInherited' property to root-level forms where appropriate, so that inherited variables are included in aggregate events and properties",
+            };
+
             var rootCommand = new RootCommand("Tool for converting OPC UA specs to WoT Thing Models for use in Akri");
             rootCommand.Add(nodeSetsOption);
             rootCommand.Add(outDirOption);
             rootCommand.Add(integrateOption);
+            rootCommand.Add(inheritVarsOption);
 
             rootCommand.SetAction(parseResult =>
             {
@@ -42,6 +48,7 @@ namespace Azure.Iot.Operations.Opc2Wot
                     NodeSetsDir = parseResult.GetValue(nodeSetsOption)!,
                     OutputDir = parseResult.GetValue(outDirOption)!,
                     Integrate = parseResult.GetValue(integrateOption),
+                    InheritVars = parseResult.GetValue(inheritVarsOption),
                 });
             });
 

@@ -97,7 +97,6 @@
               "description": "The AutoID Identifier (e.g. a code or a transponder) which was accessed by a command.",
               "type": "object",
               "aov:typeRef": "nsu=http://opcfoundation.org/UA/AutoID/;i=3020",
-              "required": [ "ByteString", "String", "Epc", "Custom" ],
               "properties": {
                 "ByteString": {
                   "type": "string",
@@ -235,7 +234,6 @@
               "description": "The user data which was written to / was read from the Rfid Transponder by the command.",
               "type": "object",
               "aov:typeRef": "nsu=http://opcfoundation.org/UA/AutoID/;i=3020",
-              "required": [ "ByteString", "String", "Epc", "Custom" ],
               "properties": {
                 "ByteString": {
                   "type": "string",
@@ -459,7 +457,6 @@
               "description": "Holds the information about the detected objects e.g. the detected transponders.",
               "type": "object",
               "aov:typeRef": "nsu=http://opcfoundation.org/UA/AutoID/;i=3020",
-              "required": [ "ByteString", "String", "Epc", "Custom" ],
               "properties": {
                 "ByteString": {
                   "type": "string",
@@ -511,7 +508,6 @@
               "description": "Returns the location of the object detection.",
               "type": "object",
               "aov:typeRef": "nsu=http://opcfoundation.org/UA/AutoID/;i=3008",
-              "required": [ "NMEA", "Local", "WGS84", "Name" ],
               "properties": {
                 "NMEA": {
                   "type": "string"
@@ -1360,7 +1356,6 @@
               "description": "Union of GPS, UTM or Local",
               "type": "object",
               "aov:typeRef": "nsu=http://opcfoundation.org/UA/AutoID/;i=3008",
-              "required": [ "NMEA", "Local", "WGS84", "Name" ],
               "properties": {
                 "NMEA": {
                   "type": "string"
@@ -1526,7 +1521,6 @@
                     "description": "Holds the information about the detected objects e.g. the detected transponders.",
                     "type": "object",
                     "aov:typeRef": "nsu=http://opcfoundation.org/UA/AutoID/;i=3020",
-                    "required": [ "ByteString", "String", "Epc", "Custom" ],
                     "properties": {
                       "ByteString": {
                         "type": "string",
@@ -1578,7 +1572,6 @@
                     "description": "Returns the location of the object detection.",
                     "type": "object",
                     "aov:typeRef": "nsu=http://opcfoundation.org/UA/AutoID/;i=3008",
-                    "required": [ "NMEA", "Local", "WGS84", "Name" ],
                     "properties": {
                       "NMEA": {
                         "type": "string"
@@ -1807,7 +1800,6 @@
         "description": "Union of GPS, UTM, Local.",
         "type": "object",
         "aov:typeRef": "nsu=http://opcfoundation.org/UA/AutoID/;i=3008",
-        "required": [ "NMEA", "Local", "WGS84", "Name" ],
         "properties": {
           "NMEA": {
             "type": "string"
@@ -2034,7 +2026,6 @@
           "description": "Union of GPS, UTM, Local.",
           "type": "object",
           "aov:typeRef": "nsu=http://opcfoundation.org/UA/AutoID/;i=3008",
-          "required": [ "NMEA", "Local", "WGS84", "Name" ],
           "properties": {
             "NMEA": {
               "type": "string"
@@ -3361,7 +3352,6 @@
               "title": "ScanData",
               "type": "object",
               "aov:typeRef": "nsu=http://opcfoundation.org/UA/AutoID/;i=3020",
-              "required": [ "ByteString", "String", "Epc", "Custom" ],
               "properties": {
                 "ByteString": {
                   "type": "string",
@@ -3445,7 +3435,6 @@
               "title": "ScanData",
               "type": "object",
               "aov:typeRef": "nsu=http://opcfoundation.org/UA/AutoID/;i=3020",
-              "required": [ "ByteString", "String", "Epc", "Custom" ],
               "properties": {
                 "ByteString": {
                   "type": "string",
@@ -3553,7 +3542,6 @@
               "title": "ScanData",
               "type": "object",
               "aov:typeRef": "nsu=http://opcfoundation.org/UA/AutoID/;i=3020",
-              "required": [ "ByteString", "String", "Epc", "Custom" ],
               "properties": {
                 "ByteString": {
                   "type": "string",
@@ -3760,7 +3748,6 @@
               "title": "ScanData",
               "type": "object",
               "aov:typeRef": "nsu=http://opcfoundation.org/UA/AutoID/;i=3020",
-              "required": [ "ByteString", "String", "Epc", "Custom" ],
               "properties": {
                 "ByteString": {
                   "type": "string",
@@ -3855,7 +3842,6 @@
               "title": "ScanData",
               "type": "object",
               "aov:typeRef": "nsu=http://opcfoundation.org/UA/AutoID/;i=3020",
-              "required": [ "ByteString", "String", "Epc", "Custom" ],
               "properties": {
                 "ByteString": {
                   "type": "string",
@@ -3953,7 +3939,6 @@
               "title": "ScanData",
               "type": "object",
               "aov:typeRef": "nsu=http://opcfoundation.org/UA/AutoID/;i=3020",
-              "required": [ "ByteString", "String", "Epc", "Custom" ],
               "properties": {
                 "ByteString": {
                   "type": "string",
@@ -4336,7 +4321,6 @@
               "title": "ScanData",
               "type": "object",
               "aov:typeRef": "nsu=http://opcfoundation.org/UA/AutoID/;i=3020",
-              "required": [ "ByteString", "String", "Epc", "Custom" ],
               "properties": {
                 "ByteString": {
                   "type": "string",

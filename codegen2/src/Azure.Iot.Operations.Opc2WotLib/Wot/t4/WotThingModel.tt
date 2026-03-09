@@ -75,6 +75,9 @@
     {
       "contentType": "application/json",
       "dtv:topic": "opcua/<#=this.specName#>/<#=this.thingName#>/events/{senderId}",
+<# if (this.inheritVars && this.baseModelRefs.Any()) { #>
+      "dtv:includeInherited": true,
+<# } #>
       "op": "subscribeallevents"
     }<#=this.properties.Any() ? "," : ""#>
 <# } #>
@@ -83,12 +86,18 @@
     {
       "contentType": "application/json",
       "dtv:topic": "opcua/<#=this.specName#>/<#=this.thingName#>/properties/write",
+<# if (this.inheritVars && this.baseModelRefs.Any()) { #>
+      "dtv:includeInherited": true,
+<# } #>
       "op": "writemultipleproperties"
     },
 <# } #>
     {
       "contentType": "application/json",
       "dtv:topic": "opcua/<#=this.specName#>/<#=this.thingName#>/properties/read",
+<# if (this.inheritVars && this.baseModelRefs.Any()) { #>
+      "dtv:includeInherited": true,
+<# } #>
       "op": "readallproperties"
     }
 <# } #>

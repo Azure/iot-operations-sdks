@@ -1,0 +1,83 @@
+{
+  "$schema": "https://json.schemastore.org/aio-connector-metadata-10.0-preview.json",
+  "name": "Example polling REST thermostat connector",
+  "version": "1.0.0",
+  "maintainer": "Azure IoT Operations, for sample use only",
+  "imageConfigurationSettings": {
+    "imageName": "azureiotoperations/sample-akri-connectors/rest",
+    "tag": "1.0.0"
+  },
+  "supportedArchitectures": [
+    "linux/amd64"
+  ],
+  "sourceCode": {
+    "language": "dotnet",
+    "languageVersion": "9.0",
+    "sdks": {
+      "mqttPackageVersion": "1.0.0",
+      "protocolPackageVersion": "1.0.0",
+      "servicesPackageVersion": "1.0.0",
+      "connectorPackageVersion": "1.0.0"
+    }
+  },
+  "aioMetadata": {
+    "aioMinVersion": "1.2.37"
+  },
+  "endpointsEnabledByDefault": true,
+  "inboundEndpoints": [
+    {
+      "endpointType": "Microsoft.Http",
+      "version": "1.0",
+      "fields": {
+        "address": {
+          "input": "required",
+          "exampleValue": "http://rest-server-service.azure-iot-operations.svc.cluster.local:80",
+          "description": "The endpoint address of the HTTP server to connect to, including scheme, hostname, and port (for example: http://hostname:port)"
+        }
+      },
+      "supportedAuthenticationTypes": [ "usernamePassword", "anonymous" ],
+      "assetsEnabledByDefault": true,
+      "datasets": {
+        "limits": {
+          "minimum": 1,
+          "maximum": 1
+        },
+        "destinations": {
+          "supportedDestinations": ["Mqtt", "BrokerStateStore"]
+        },
+        "fields": {
+          "dataSource": {
+            "input": "unsupported"
+          },
+          "typeRef": {
+            "input": "unsupported"
+          }
+        },
+        "dataPoints": {
+          "fields": {
+            "dataSource": {
+              "input": "required",
+              "description": "The HTTP path to sample the data from",
+              "exampleValue": "/api/thermostat/current"
+            },
+            "typeRef": {
+              "input": "unsupported"
+            }
+          },
+          "dataPointConfigurationSchema": {
+            "$schema": "http://json-schema.org/draft-07/schema#",
+            "title": "REST Dataset Config Schema",
+            "description": "The JSON schema for both the default dataset configuration field on an asset and dataset-specific configuration fields",
+            "type": "object",
+            "properties": {
+              "HttpRequestMethod": {
+                "description": "GET/PUT/POST/",
+                "type": "string"
+              }
+            }
+          }
+        }
+      }
+    }
+  ]
+}

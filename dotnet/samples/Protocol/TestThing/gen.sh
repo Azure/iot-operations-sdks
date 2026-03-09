@@ -1,0 +1,1 @@
+../../../../codegen2/src/Azure.Iot.Operations.ProtocolCompiler/bin/Debug/net9.0/Azure.Iot.Operations.ProtocolCompiler --things ../../../../eng/test/schema-samples/Counter.TM.json --outDir . --sdkPath ../../../src/Azure.Iot.Operations.Protocol --namespace Counter --lang csharp

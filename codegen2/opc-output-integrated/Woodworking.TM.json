@@ -85,7 +85,6 @@
               "description": "The WwArgumentValueDataType definition defines the possible types of an argument value.",
               "type": "object",
               "aov:typeRef": "nsu=http://opcfoundation.org/UA/Woodworking/;i=3002",
-              "required": [ "Array", "Boolean", "Int16", "Int32", "Int64", "SByte", "UInt16", "UInt32", "UInt64", "Byte", "DateTime", "Guid", "LocalizedText", "Double", "Float", "String", "Other" ],
               "properties": {
                 "Array": {
                   "description": "The content of the value as an array of the own type",
@@ -372,7 +371,6 @@
               "description": "The WwArgumentValueDataType definition defines the possible types of an argument value.",
               "type": "object",
               "aov:typeRef": "nsu=http://opcfoundation.org/UA/Woodworking/;i=3002",
-              "required": [ "Array", "Boolean", "Int16", "Int32", "Int64", "SByte", "UInt16", "UInt32", "UInt64", "Byte", "DateTime", "Guid", "LocalizedText", "Double", "Float", "String", "Other" ],
               "properties": {
                 "Array": {
                   "description": "The content of the value as an array of the own type",
@@ -659,7 +657,6 @@
               "description": "The WwArgumentValueDataType definition defines the possible types of an argument value.",
               "type": "object",
               "aov:typeRef": "nsu=http://opcfoundation.org/UA/Woodworking/;i=3002",
-              "required": [ "Array", "Boolean", "Int16", "Int32", "Int64", "SByte", "UInt16", "UInt32", "UInt64", "Byte", "DateTime", "Guid", "LocalizedText", "Double", "Float", "String", "Other" ],
               "properties": {
                 "Array": {
                   "description": "The content of the value as an array of the own type",
@@ -946,7 +943,6 @@
               "description": "The WwArgumentValueDataType definition defines the possible types of an argument value.",
               "type": "object",
               "aov:typeRef": "nsu=http://opcfoundation.org/UA/Woodworking/;i=3002",
-              "required": [ "Array", "Boolean", "Int16", "Int32", "Int64", "SByte", "UInt16", "UInt32", "UInt64", "Byte", "DateTime", "Guid", "LocalizedText", "Double", "Float", "String", "Other" ],
               "properties": {
                 "Array": {
                   "description": "The content of the value as an array of the own type",
@@ -1277,7 +1273,6 @@
               "description": "The WwArgumentValueDataType definition defines the possible types of an argument value.",
               "type": "object",
               "aov:typeRef": "nsu=http://opcfoundation.org/UA/Woodworking/;i=3002",
-              "required": [ "Array", "Boolean", "Int16", "Int32", "Int64", "SByte", "UInt16", "UInt32", "UInt64", "Byte", "DateTime", "Guid", "LocalizedText", "Double", "Float", "String", "Other" ],
               "properties": {
                 "Array": {
                   "description": "The content of the value as an array of the own type",

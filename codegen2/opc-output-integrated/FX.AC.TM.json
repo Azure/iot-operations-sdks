@@ -988,7 +988,6 @@
                     "title": "ConnectionEndpointDefinitionDataType",
                     "type": "object",
                     "aov:typeRef": "nsu=http://opcfoundation.org/UA/FX/Data/;i=3011",
-                    "required": [ "Parameter", "Node" ],
                     "properties": {
                       "Parameter": {
                         "title": "ConnectionEndpointParameterDataType",
@@ -2809,7 +2808,6 @@
               "title": "ApplicationId",
               "type": "object",
               "aov:typeRef": "nsu=http://opcfoundation.org/UA/FX/AC/;i=3013",
-              "required": [ "IdNumeric", "IdString", "IdGuid", "IdByteString" ],
               "properties": {
                 "IdNumeric": {
                   "type": "integer",
@@ -4298,7 +4296,6 @@
               "title": "ApplicationId",
               "type": "object",
               "aov:typeRef": "nsu=http://opcfoundation.org/UA/FX/AC/;i=3013",
-              "required": [ "IdNumeric", "IdString", "IdGuid", "IdByteString" ],
               "properties": {
                 "IdNumeric": {
                   "type": "integer",

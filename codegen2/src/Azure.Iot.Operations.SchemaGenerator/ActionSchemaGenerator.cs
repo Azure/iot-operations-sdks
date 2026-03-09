@@ -13,21 +13,21 @@ namespace Azure.Iot.Operations.SchemaGenerator
     {
         private const string InputOutputType = "object";
 
-        internal static void GenerateActionSchemas(ErrorReporter errorReporter, TDThing tdThing, string dirName, SchemaNamer schemaNamer, string projectName, Dictionary<string, List<SchemaSpec>> schemaSpecs, Dictionary<string, HashSet<SerializationFormat>> referencedSchemas)
+        internal static void GenerateActionSchemas(IResolvingThing resolvingThing, string projectName, Dictionary<string, List<SchemaSpec>> schemaSpecs, Dictionary<string, HashSet<SerializationFormat>> referencedSchemas)
         {
-            foreach (KeyValuePair<string, ValueTracker<TDAction>> actionKvp in tdThing.Actions?.Entries ?? new())
+            foreach (KeyValuePair<string, ValueTracker<TDAction>> actionKvp in resolvingThing.ParsedThing.Thing.Actions?.Entries ?? new())
             {
                 TDAction? action = actionKvp.Value.Value;
                 if (action != null)
                 {
                     ProcessAction(
-                        errorReporter,
-                        schemaNamer,
+                        resolvingThing.ParsedThing.ErrorReporter,
+                        resolvingThing.ParsedThing.SchemaNamer,
                         actionKvp.Key,
                         action,
                         projectName,
-                        dirName,
-                        tdThing.SchemaDefinitions?.Entries,
+                        resolvingThing.ParsedThing.DirectoryName,
+                        resolvingThing.ParsedThing.Thing.SchemaDefinitions?.Entries,
                         schemaSpecs,
                         referencedSchemas);
                 }

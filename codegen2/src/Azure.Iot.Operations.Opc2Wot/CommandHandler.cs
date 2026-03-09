@@ -75,18 +75,26 @@ namespace Azure.Iot.Operations.Opc2Wot
 
             LinkRelRuleEngine linkRelRuleEngine = new LinkRelRuleEngine();
 
+            if (!options.Integrate)
+            {
+                statusReceiver?.Invoke("Skipping validation because '--integrate' option is not set.", false);
+            }
+
             foreach (string modelUri in opcUaGraph.GetModelUris())
             {
                 errorLog.ClearRegistrations();
 
-                WotThingCollection thingCollection = new WotThingCollection(opcUaGraph.GetOpcUaModelInfo(modelUri), linkRelRuleEngine, options.Integrate);
+                WotThingCollection thingCollection = new WotThingCollection(opcUaGraph.GetOpcUaModelInfo(modelUri), linkRelRuleEngine, options.Integrate, options.InheritVars);
 
                 string thingText = thingCollection.TransformText();
 
                 string outFileName = $"{SpecMapper.GetSpecNameFromUri(modelUri)}.TM.json";
                 string outFilePath = Path.Combine(options.OutputDir.FullName, outFileName);
 
-                ValidateThing(thingText, errorLog, outFileName);
+                if (options.Integrate)
+                {
+                    ValidateThing(thingText, errorLog, outFileName);
+                }
 
                 statusReceiver?.Invoke($"Writing Thing Model for '{modelUri}' to '{outFileName}'", false);
                 File.WriteAllText(outFilePath, thingText);
@@ -119,16 +127,18 @@ namespace Azure.Iot.Operations.Opc2Wot
                 return;
             }
 
-            HashSet<SerializationFormat> serializationFormats = new();
+            Dictionary<string, TDThing> titleToThingMap = things.ToDictionary(t => t.Title!.Value.Value, t => t);
+
             foreach (TDThing thing in things)
             {
-                if (thingValidator.TryValidateThing(thing, serializationFormats))
+                HashSet<SerializationFormat> serializationFormats = new();
+                if (thingValidator.TryValidateThing(new IntegralResolvingThing(thing, errorReporter, titleToThingMap), serializationFormats))
                 {
                     errorReporter.RegisterNameOfThing(thing.Title!.Value.Value, thing.Title!.TokenIndex);
                 }
             }
 
-            thingValidator.ValidateThingCollection(things);
+            thingValidator.ValidateThingCollection(things, null);
         }
 
         private static void DisplayErrors(ErrorLog errorLog)
