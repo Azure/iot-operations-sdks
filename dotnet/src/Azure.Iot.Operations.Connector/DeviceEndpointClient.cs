@@ -84,9 +84,9 @@ namespace Azure.Iot.Operations.Connector
             TimeSpan? commandTimeout = null,
             CancellationToken cancellationToken = default)
         {
+            string builder = "";
             if (status.Endpoints != null && status.Endpoints.Inbound != null)
             {
-                string builder = "";
                 foreach (var endpoint in status.Endpoints.Inbound.Keys)
                 {
                     builder += endpoint + ";";
@@ -94,12 +94,20 @@ namespace Azure.Iot.Operations.Connector
 
                 Console.WriteLine("UPDATE!!!!!!!: " + builder);
             }
-            return await _adrClient.UpdateDeviceStatusAsync(
-                _deviceName,
-                _inboundEndpointName,
-                status,
-                commandTimeout,
-                cancellationToken);
+
+            try
+            {
+                return await _adrClient.UpdateDeviceStatusAsync(
+                    _deviceName,
+                    _inboundEndpointName,
+                    status,
+                    commandTimeout,
+                    cancellationToken);
+            }
+            catch (Exception ex)
+            {
+                throw new Exception(builder, ex);
+            }
         }
 
         /// <summary>
