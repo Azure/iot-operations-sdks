@@ -149,32 +149,20 @@ impl Secrets {
                                 // Handle updates to existing secret data.
                                 EventKind::Modify(ModifyKind::Data(_)) => {
                                     log::trace!("Secret data change detected: {:?}", db_event);
-                                    if let Err(_) = secret_tracker_c2
+                                    secret_tracker_c2
                                         .read()
                                         .unwrap()
-                                        .report_secret_update(&db_event.event.paths[0]) {
-                                            // NOTE: This should not happen, secrets are always supposed
-                                            // to be tracked by an alias file. However, there is a small chance
-                                            // of this happening if the secret file is updated after being created
-                                            // but before the alias file is updated to point at it. This seems
-                                            // very unlikely, so we log here at error instead of warn since the most
-                                            // likely cause by far is a violation of expected file mount structure.
-                                            log::error!("Attempted to report update for untracked secret path: {:?}", db_event.event.paths[0]);
-                                        }
+                                        .report_secret_change(&db_event.event.paths[0]);
                                 }
                                 // Secret files can be created, but we don't need to do anything
                                 // with them until an alias points at them, so log only.
                                 EventKind::Create(_) => {
                                     log::trace!("Secret data creation detected: {:?}", db_event);
-                                    // NOTE: We do not care about the result here.
-                                    // If the path is not yet tracked (i.e. data is updated before alias file), then this will fail.
-                                    // If the path is tracked (i.e. the alias file is already pointing at this file), then this will succeed.
-                                    // Either way, the Secret will be notified upon the link being established, whether here or
-                                    // via the alias debouncer.
-                                    let _ = secret_tracker_c2
+                                    // TODO: Add comment here and above.
+                                    secret_tracker_c2
                                         .read()
                                         .unwrap()
-                                        .report_secret_update(&db_event.event.paths[0]);
+                                        .report_secret_change(&db_event.event.paths[0]);
                                 }
                                 // Secret files can be deleted, but there's no need for anything
                                 // to be done in response, since the Secret interface will handle
@@ -295,6 +283,8 @@ impl Secret {
     }
 }
 
+/// Represents a tracked secret with a notification mechanism for it.
+/// This corresponds 1:1 with an alias.
 struct SecretTrackerEntry {
     path: Arc<RwLock<PathBuf>>,
     sender: watch::Sender<()>,
@@ -302,15 +292,17 @@ struct SecretTrackerEntry {
 
 struct SecretTracker {
     by_alias: HashMap<String, Arc<SecretTrackerEntry>>,
-    by_path: HashMap<PathBuf, Arc<SecretTrackerEntry>>,
+    /// Mapping of secret data paths to the SecretTrackerEntry(s) that point at them.
+    /// This is a one to manyh relationship because multiple aliases can point at the same secret data.
+    /// Note that secrets are only tracked in here if an alias points at them, there may be secret data
+    /// files that exist on disk, but are not tracked here.
+    by_path: HashMap<PathBuf, Vec<Arc<SecretTrackerEntry>>>, // TODO: Vec?
 }
 
 impl SecretTracker {
     fn new(metadata_path: PathBuf, data_path: PathBuf) -> Result<Self, InnerError> {
         let mut by_alias = HashMap::new();
         let mut by_path = HashMap::new();
-
-        // TODO: this needs to handle secrets that may be initially orphaned?
 
         // Initialize all secret aliases / paths
         for entry in std::fs::read_dir(&metadata_path)? {
@@ -326,9 +318,12 @@ impl SecretTracker {
                     sender: watch::channel(()).0,
                 });
                 by_alias.insert(secret_alias, entry.clone());
-                by_path.insert(secret_file, entry);
+                by_path.entry(secret_file).or_insert_with(Vec::new).push(entry);
             }
         }
+
+        // NOTE: There may be secret data files currently unused if no alias points at them.
+        // This is not supposed to happen, but it's not an issue if it does.
 
         Ok(Self { by_alias, by_path })
     }
@@ -340,25 +335,34 @@ impl SecretTracker {
 
     /// Update the path of the secret corresponding to the given alias, and notify of the update
     fn update_secret_path(&mut self, alias: &str, new_path: PathBuf) -> Result<(), InnerError> {
+        // If path exists in the tracker, point alias entry at the entry that matches the path
+        // If path does not exist, 
+
         if let Some(entry) = self.by_alias.get(alias) {
-            // Update the path in the SecretTrackerEntry, and the by_path mapping.
+            // Get a write lock on the entry's path to ensure there's no timing issues.
+            let mut entry_path_wg = entry.path.write().unwrap();
+
+            // First, detach the alias from the old path in the by_path mapping (if it exists).
+            // This is how we prevent staleness in the map.
+            if let Some(entries) = self.by_path.get_mut(&*entry_path_wg) {
+                entries.retain(|e| !Arc::ptr_eq(e, entry));
+                // If there are no more entries pointing at this path, remove the path from the mapping
+                if entries.is_empty() {
+                    self.by_path.remove(&*entry_path_wg);
+                }
+            }
+
+            // Next, update the path in the SecretTrackerEntry that corresponds to the alias
             log::debug!("Updating secret path for alias {alias} to {new_path:?}");
-            *entry.path.write().unwrap() = new_path.clone();
-            
-            
-            // if let Some(old_entry) = self.by_path.insert(new_path, entry.clone()) {
-            //     //log::
+            *entry_path_wg = new_path.clone();
 
-            // }
-
+            // Finally, add an entry in the by_path map for the new path.
+            self.by_path.entry(new_path).or_insert_with(Vec::new).push(entry.clone());
 
             // Notify the Secret of the update
             // We do not care about send errors here - they just mean nobody is currently
             // monitoring the secret, which is fine.
             let _ = entry.sender.send(());
-
-            // TODO: PROBLEM: multiple aliases sharing same secret data is not handled!
-
             Ok(())
         } else {
             // Alias was invalid
@@ -366,36 +370,39 @@ impl SecretTracker {
         }
     }
 
-    // /// Add a new secret to be tracked with the given path.
-    // fn add_secret(&mut self, path: PathBuf) {
-    //     self.by_path.insert(path.clone(), Arc::new(SecretTrackerEntry {
-    //         path: Arc::new(RwLock::new(path)),
-    //         sender: watch::channel(()).0,
-    //     }));
-
-    //     // // Notify the Secret of the update
-    //     // // We do not care about send errors here - they just mean nobody is currently
-    //     // // monitoring the secret, which is fine.
-    //     // let _ = entry.sender.send(());
-
-    //     // TODO: Does this need to report update though?
+    // fn report_secret_update(&self, path: &Path) -> Result<(), InnerError> {
+    //     if let Some(entries) = self.by_path.get(path) {
+    //         log::debug!("Reporting secret update for path {path:?}");
+    //         // Notify all corresponding secrets of the update
+    //         // We do not care about send errors here - they just mean nobody is currently
+    //         // monitoring the secret, which is fine.
+    //         for entry in entries {
+    //             let _ = entry.sender.send(());
+    //         }
+    //         Ok(())
+    //     } else {
+    //         log::debug!("Invalid secret update path: {path:?}");
+    //         // Path does not correspond to any known secrets
+    //         Err(InnerError::Invalid)
+    //     }
     // }
 
-    fn report_secret_update(&self, path: &Path) -> Result<(), InnerError> {
-        log::debug!("Attempt to update secret");
-        if let Some(entry) = self.by_path.get(path) {
-            log::debug!("Reporting secret update for path {path:?}");
-            // Notify the Secret of the update
+    fn report_secret_change(&self, path: &Path) {
+        if let Some(entries) = self.by_path.get(path) {
+            log::debug!("Reporting secret change for path {path:?} to {} secrets", entries.len());
+            // Notify all corresponding secrets of the change
             // We do not care about send errors here - they just mean nobody is currently
             // monitoring the secret, which is fine.
-            let _ = entry.sender.send(());
-            Ok(())
+            for entry in entries {
+                let _ = entry.sender.send(());
+            }
         } else {
-            log::debug!("Invalid secret update path");
-            // Path does not correspond to any known secrets
-            Err(InnerError::Invalid)
+            log::debug!("Secret changed with no affiliated aliases for path {path:?}");
         }
     }
+
+    // TODO: probably need separate create secret function still for the case where the alias
+    // is updated to point at a non-existent secret, and then the secret is created later.
 
     // // TODO: need to be able to report mismatch of given path/alias or send failure for logging.
 
@@ -1279,3 +1286,4 @@ mod tests {
 // TODO: Aggregation of updates
 // TODO: Targeted notifications
 // TODO: Change notifcations persistance
+// TODO: update to untracked data (is this even valid?)
