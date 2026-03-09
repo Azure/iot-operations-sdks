@@ -84,6 +84,16 @@ namespace Azure.Iot.Operations.Connector
             TimeSpan? commandTimeout = null,
             CancellationToken cancellationToken = default)
         {
+            if (status.Endpoints != null && status.Endpoints.Inbound != null)
+            {
+                string builder = "";
+                foreach (var endpoint in status.Endpoints.Inbound.Keys)
+                {
+                    builder += endpoint + ";";
+                }
+
+                Console.WriteLine("UPDATE!!!!!!!: " + builder);
+            }
             return await _adrClient.UpdateDeviceStatusAsync(
                 _deviceName,
                 _inboundEndpointName,
