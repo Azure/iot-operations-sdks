@@ -84,9 +84,10 @@ namespace Azure.Iot.Operations.Connector
             TimeSpan? commandTimeout = null,
             CancellationToken cancellationToken = default)
         {
-            string builder = "";
+            string builder = "Empty";
             if (status.Endpoints != null && status.Endpoints.Inbound != null)
             {
+                builder = "";
                 foreach (var endpoint in status.Endpoints.Inbound.Keys)
                 {
                     builder += endpoint + ";";
