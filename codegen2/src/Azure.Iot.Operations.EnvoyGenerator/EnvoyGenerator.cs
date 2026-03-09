@@ -12,7 +12,7 @@ namespace Azure.Iot.Operations.EnvoyGenerator
     public static class EnvoyGenerator
     {
         public static List<GeneratedItem> GenerateEnvoys(
-            List<ParsedThing> parsedThings,
+            IEnumerable<ParsedThing> parsedThings,
             List<SerializationFormat> serializationFormats,
             TargetLanguage targetLanguage,
             string genNamespace,

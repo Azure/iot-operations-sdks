@@ -1,0 +1,7 @@
+{
+  "success": true,
+  "commandLine": {
+    "things": [ "valid/RootFormSubAllIncludeInheritedEvent.TM.json", "valid/EventWithUnitDataSchemaInteger.TM.json" ],
+    "lang": "none"
+  }
+}

@@ -1,0 +1,5227 @@
+[
+  {
+    "@context": [
+      "https://www.w3.org/2022/wot/td/v1.1",
+      {
+        "dtv": "http://azure.com/DigitalTwins/dtmi#",
+        "aov": "http://azure.com/IoT/operations/tm#"
+      }
+    ],
+    "@type": "tm:ThingModel",
+    "title": "WMTP_WMTPMeasurementType",
+    "aov:typeRef": "nsu=http://opcfoundation.org/UA/WMTP/;i=1005",
+    "links": [
+      {
+        "rel": "tm:extends",
+        "href": "#title=Machinery_ProcessValues_ProcessValueType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "aov:capability",
+        "aov:refName": "LimitCounters",
+        "href": "#title=Machinery_MachineryOperationCounterType",
+        "type": "application/tm+json"
+      }
+    ],
+    "schemaDefinitions": {
+    },
+    "forms": [
+      {
+        "contentType": "application/json",
+        "dtv:topic": "opcua/WMTP/WMTP_WMTPMeasurementType/events/{senderId}",
+        "op": "subscribeallevents"
+      },
+      {
+        "contentType": "application/json",
+        "dtv:topic": "opcua/WMTP/WMTP_WMTPMeasurementType/properties/write",
+        "op": "writemultipleproperties"
+      },
+      {
+        "contentType": "application/json",
+        "dtv:topic": "opcua/WMTP/WMTP_WMTPMeasurementType/properties/read",
+        "op": "readallproperties"
+      }
+    ],
+    "actions": {
+      "SetDeltaCondition": {
+        "aov:namespace": "http://opcfoundation.org/UA/WMTP/",
+        "input": {
+          "type": "object",
+          "aov:typeRef": "nsu=http://opcfoundation.org/UA/WMTP/;i=6200",
+          "required": [ "DeltaValue" ],
+          "properties": {
+            "DeltaValue": {
+              "type": "number"
+            }
+          }
+        },
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/WMTP/WMTP_WMTPMeasurementType/action/SetDeltaCondition",
+            "op": "invokeaction"
+          }
+        ]
+      },
+      "SetTriggerSettings": {
+        "aov:namespace": "http://opcfoundation.org/UA/WMTP/",
+        "input": {
+          "type": "object",
+          "aov:typeRef": "nsu=http://opcfoundation.org/UA/WMTP/;i=6182",
+          "required": [ "TriggerDuration" ],
+          "properties": {
+            "TriggerDuration": {
+              "type": "string",
+              "pattern": "^P(?!$)(?:(?:(?:(?:\\d+Y)|(?:\\d+\\.\\d+Y$))?(?:(?:\\d+M)|(?:\\d+\\.\\d+M$))?)|(?:(?:(?:\\d+W)|(?:\\d+\\.\\d+W$))?))(?:(?:\\d+D)|(?:\\d+\\.\\d+D$))?(?:T(?!$)(?:(?:\\d+H)|(?:\\d+\\.\\d+H$))?(?:(?:\\d+M)|(?:\\d+\\.\\d+M$))?(?:\\d+(?:\\.\\d+)?S)?)?$"
+            }
+          }
+        },
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/WMTP/WMTP_WMTPMeasurementType/action/SetTriggerSettings",
+            "op": "invokeaction"
+          }
+        ]
+      }
+    },
+    "properties": {
+      "AbsoluteUncertainty": {
+        "aov:namespace": "http://opcfoundation.org/UA/WMTP/",
+        "type": "number",
+        "minimum": -1.80e+308,
+        "maximum": 1.80e+308,
+        "readOnly": false,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/WMTP/WMTP_WMTPMeasurementType/property/AbsoluteUncertainty/write",
+            "op": "writeproperty"
+          },
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/WMTP/WMTP_WMTPMeasurementType/property/AbsoluteUncertainty/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "DeltaCondition": {
+        "aov:namespace": "http://opcfoundation.org/UA/WMTP/",
+        "type": "number",
+        "minimum": -1.80e+308,
+        "maximum": 1.80e+308,
+        "readOnly": false,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/WMTP/WMTP_WMTPMeasurementType/property/DeltaCondition/write",
+            "op": "writeproperty"
+          },
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/WMTP/WMTP_WMTPMeasurementType/property/DeltaCondition/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "Index": {
+        "aov:namespace": "http://opcfoundation.org/UA/WMTP/",
+        "type": "integer",
+        "minimum": 0,
+        "maximum": 4294967295,
+        "readOnly": false,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/WMTP/WMTP_WMTPMeasurementType/property/Index/write",
+            "op": "writeproperty"
+          },
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/WMTP/WMTP_WMTPMeasurementType/property/Index/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "InternalUpdateInterval": {
+        "aov:namespace": "http://opcfoundation.org/UA/WMTP/",
+        "type": "string",
+        "pattern": "^P(?!$)(?:(?:(?:(?:\\d+Y)|(?:\\d+\\.\\d+Y$))?(?:(?:\\d+M)|(?:\\d+\\.\\d+M$))?)|(?:(?:(?:\\d+W)|(?:\\d+\\.\\d+W$))?))(?:(?:\\d+D)|(?:\\d+\\.\\d+D$))?(?:T(?!$)(?:(?:\\d+H)|(?:\\d+\\.\\d+H$))?(?:(?:\\d+M)|(?:\\d+\\.\\d+M$))?(?:\\d+(?:\\.\\d+)?S)?)?$",
+        "readOnly": false,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/WMTP/WMTP_WMTPMeasurementType/property/InternalUpdateInterval/write",
+            "op": "writeproperty"
+          },
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/WMTP/WMTP_WMTPMeasurementType/property/InternalUpdateInterval/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "MeasurementPeriod": {
+        "aov:namespace": "http://opcfoundation.org/UA/WMTP/",
+        "type": "string",
+        "pattern": "^P(?!$)(?:(?:(?:(?:\\d+Y)|(?:\\d+\\.\\d+Y$))?(?:(?:\\d+M)|(?:\\d+\\.\\d+M$))?)|(?:(?:(?:\\d+W)|(?:\\d+\\.\\d+W$))?))(?:(?:\\d+D)|(?:\\d+\\.\\d+D$))?(?:T(?!$)(?:(?:\\d+H)|(?:\\d+\\.\\d+H$))?(?:(?:\\d+M)|(?:\\d+\\.\\d+M$))?(?:\\d+(?:\\.\\d+)?S)?)?$",
+        "readOnly": false,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/WMTP/WMTP_WMTPMeasurementType/property/MeasurementPeriod/write",
+            "op": "writeproperty"
+          },
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/WMTP/WMTP_WMTPMeasurementType/property/MeasurementPeriod/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "RelativeUncertainty": {
+        "aov:namespace": "http://opcfoundation.org/UA/WMTP/",
+        "type": "number",
+        "minimum": -1.80e+308,
+        "maximum": 1.80e+308,
+        "readOnly": false,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/WMTP/WMTP_WMTPMeasurementType/property/RelativeUncertainty/write",
+            "op": "writeproperty"
+          },
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/WMTP/WMTP_WMTPMeasurementType/property/RelativeUncertainty/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "Status": {
+        "aov:namespace": "http://opcfoundation.org/UA/Machinery/ProcessValues/",
+        "description": "Indicates if a limit has been reached.",
+        "type": "integer",
+        "minimum": 0,
+        "maximum": 65535,
+        "readOnly": false,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/WMTP/WMTP_WMTPMeasurementType/property/Status/write",
+            "op": "writeproperty"
+          },
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/WMTP/WMTP_WMTPMeasurementType/property/Status/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "Timestamp": {
+        "aov:namespace": "http://opcfoundation.org/UA/WMTP/",
+        "type": "string",
+        "format": "date-time",
+        "readOnly": false,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/WMTP/WMTP_WMTPMeasurementType/property/Timestamp/write",
+            "op": "writeproperty"
+          },
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/WMTP/WMTP_WMTPMeasurementType/property/Timestamp/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "TriggerSettings": {
+        "aov:namespace": "http://opcfoundation.org/UA/WMTP/",
+        "type": "integer",
+        "minimum": 0,
+        "maximum": 4294967295,
+        "readOnly": false,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/WMTP/WMTP_WMTPMeasurementType/property/TriggerSettings/write",
+            "op": "writeproperty"
+          },
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/WMTP/WMTP_WMTPMeasurementType/property/TriggerSettings/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "TypeOfMeasurement": {
+        "aov:namespace": "http://opcfoundation.org/UA/WMTP/",
+        "type": "integer",
+        "minimum": 0,
+        "maximum": 4294967295,
+        "readOnly": false,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/WMTP/WMTP_WMTPMeasurementType/property/TypeOfMeasurement/write",
+            "op": "writeproperty"
+          },
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/WMTP/WMTP_WMTPMeasurementType/property/TypeOfMeasurement/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "TypeOfSample": {
+        "aov:namespace": "http://opcfoundation.org/UA/WMTP/",
+        "type": "integer",
+        "minimum": 0,
+        "maximum": 4294967295,
+        "readOnly": false,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/WMTP/WMTP_WMTPMeasurementType/property/TypeOfSample/write",
+            "op": "writeproperty"
+          },
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/WMTP/WMTP_WMTPMeasurementType/property/TypeOfSample/read",
+            "op": "readproperty"
+          }
+        ]
+      }
+    },
+    "events": {
+      "AbsoluteUncertainty": {
+        "aov:namespace": "http://opcfoundation.org/UA/WMTP/",
+        "data": {
+          "type": "number",
+          "minimum": -1.80e+308,
+          "maximum": 1.80e+308
+        },
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/WMTP/WMTP_WMTPMeasurementType/event/AbsoluteUncertainty/{senderId}",
+            "op": "subscribeevent"
+          }
+        ]
+      },
+      "DeltaCondition": {
+        "aov:namespace": "http://opcfoundation.org/UA/WMTP/",
+        "data": {
+          "type": "number",
+          "minimum": -1.80e+308,
+          "maximum": 1.80e+308
+        },
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/WMTP/WMTP_WMTPMeasurementType/event/DeltaCondition/{senderId}",
+            "op": "subscribeevent"
+          }
+        ]
+      },
+      "RelativeUncertainty": {
+        "aov:namespace": "http://opcfoundation.org/UA/WMTP/",
+        "data": {
+          "type": "number",
+          "minimum": -1.80e+308,
+          "maximum": 1.80e+308
+        },
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/WMTP/WMTP_WMTPMeasurementType/event/RelativeUncertainty/{senderId}",
+            "op": "subscribeevent"
+          }
+        ]
+      },
+      "Status": {
+        "aov:namespace": "http://opcfoundation.org/UA/Machinery/ProcessValues/",
+        "data": {
+          "description": "Indicates if a limit has been reached.",
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 65535
+        },
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/WMTP/WMTP_WMTPMeasurementType/event/Status/{senderId}",
+            "op": "subscribeevent"
+          }
+        ]
+      },
+      "TriggerSettings": {
+        "aov:namespace": "http://opcfoundation.org/UA/WMTP/",
+        "data": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 4294967295
+        },
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/WMTP/WMTP_WMTPMeasurementType/event/TriggerSettings/{senderId}",
+            "op": "subscribeevent"
+          }
+        ]
+      },
+      "TypeOfMeasurement": {
+        "aov:namespace": "http://opcfoundation.org/UA/WMTP/",
+        "data": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 4294967295
+        },
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/WMTP/WMTP_WMTPMeasurementType/event/TypeOfMeasurement/{senderId}",
+            "op": "subscribeevent"
+          }
+        ]
+      },
+      "TypeOfSample": {
+        "aov:namespace": "http://opcfoundation.org/UA/WMTP/",
+        "data": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 4294967295
+        },
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/WMTP/WMTP_WMTPMeasurementType/event/TypeOfSample/{senderId}",
+            "op": "subscribeevent"
+          }
+        ]
+      }
+    }
+  },
+  {
+    "@context": [
+      "https://www.w3.org/2022/wot/td/v1.1",
+      {
+        "dtv": "http://azure.com/DigitalTwins/dtmi#",
+        "aov": "http://azure.com/IoT/operations/tm#"
+      }
+    ],
+    "@type": "tm:ThingModel",
+    "title": "WMTP_WirelessMachineToolPeripheralType",
+    "aov:typeRef": "nsu=http://opcfoundation.org/UA/WMTP/;i=1003",
+    "aov:isComposite": true,
+    "links": [
+      {
+        "rel": "tm:extends",
+        "href": "#title=OpcUaCore_BaseObjectType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "aov:component",
+        "aov:refName": "DeviceConfiguration",
+        "href": "#title=OpcUaCore_FolderType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "aov:component",
+        "aov:refName": "DeviceInformation",
+        "href": "#title=OpcUaCore_FolderType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "aov:component",
+        "aov:refName": "MachineryBuildingBlocks",
+        "href": "#title=OpcUaCore_FolderType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "aov:component",
+        "aov:refName": "Measurements",
+        "href": "#title=OpcUaCore_FolderType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "aov:reference",
+        "aov:refName": "WMTPServiceCycleData",
+        "href": "#title=WMTP_WMTPServiceCycleDataType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "aov:reference",
+        "aov:refName": "WMTPWorkCycleData",
+        "href": "#title=WMTP_WMTPWorkCycleDataType",
+        "type": "application/tm+json"
+      }
+    ],
+    "schemaDefinitions": {
+    },
+    "actions": {
+    },
+    "properties": {
+    },
+    "events": {
+    }
+  },
+  {
+    "@context": [
+      "https://www.w3.org/2022/wot/td/v1.1",
+      {
+        "dtv": "http://azure.com/DigitalTwins/dtmi#",
+        "aov": "http://azure.com/IoT/operations/tm#"
+      }
+    ],
+    "@type": "tm:ThingModel",
+    "title": "WMTP_WMTPServiceCycleDataType",
+    "aov:typeRef": "nsu=http://opcfoundation.org/UA/WMTP/;i=1007",
+    "links": [
+      {
+        "rel": "tm:extends",
+        "href": "#title=OpcUaCore_BaseObjectType",
+        "type": "application/tm+json"
+      }
+    ],
+    "schemaDefinitions": {
+    },
+    "actions": {
+      "AbortOperation": {
+        "aov:namespace": "http://opcfoundation.org/UA/WMTP/",
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/WMTP/WMTP_WMTPServiceCycleDataType/action/AbortOperation",
+            "op": "invokeaction"
+          }
+        ]
+      },
+      "CombinedReportAll": {
+        "aov:namespace": "http://opcfoundation.org/UA/WMTP/",
+        "output": {
+          "type": "object",
+          "aov:typeRef": "nsu=http://opcfoundation.org/UA/WMTP/;i=6241",
+          "required": [ "CombinedReport" ],
+          "properties": {
+            "CombinedReport": {
+              "type": "array",
+              "items": {
+                "title": "WMTPOutputDataType",
+                "type": "object",
+                "aov:typeRef": "nsu=http://opcfoundation.org/UA/WMTP/;i=3003",
+                "required": [ "EngineeringUnits", "ActualValue", "TypeOfMeasurement", "TypeOfSample", "InstrumentRange", "EURange", "ValuePrecision", "Definition", "SignalTag", "RelativeUncertainty", "AbsoluteUncertainty", "Timestamp", "Index", "MeasurementPeriod", "InternalUpdateInterval" ],
+                "properties": {
+                  "EngineeringUnits": {
+                    "title": "EUInformation",
+                    "type": "object",
+                    "aov:typeRef": "nsu=http://opcfoundation.org/UA/;i=887",
+                    "required": [ "NamespaceUri", "UnitId", "DisplayName", "Description" ],
+                    "properties": {
+                      "NamespaceUri": {
+                        "type": "string"
+                      },
+                      "UnitId": {
+                        "type": "integer",
+                        "minimum": -2147483648,
+                        "maximum": 2147483647
+                      },
+                      "DisplayName": {
+                        "type": "string"
+                      },
+                      "Description": {
+                        "type": "string"
+                      }
+                    }
+                  },
+                  "ActualValue": {
+                    "type": "number",
+                    "minimum": -1.80e+308,
+                    "maximum": 1.80e+308
+                  },
+                  "TypeOfMeasurement": {
+                    "type": "integer",
+                    "minimum": 0,
+                    "maximum": 4294967295
+                  },
+                  "TypeOfSample": {
+                    "type": "integer",
+                    "minimum": 0,
+                    "maximum": 4294967295
+                  },
+                  "InstrumentRange": {
+                    "title": "Range",
+                    "type": "object",
+                    "aov:typeRef": "nsu=http://opcfoundation.org/UA/;i=884",
+                    "required": [ "Low", "High" ],
+                    "properties": {
+                      "Low": {
+                        "type": "number",
+                        "minimum": -1.80e+308,
+                        "maximum": 1.80e+308
+                      },
+                      "High": {
+                        "type": "number",
+                        "minimum": -1.80e+308,
+                        "maximum": 1.80e+308
+                      }
+                    }
+                  },
+                  "EURange": {
+                    "title": "Range",
+                    "type": "object",
+                    "aov:typeRef": "nsu=http://opcfoundation.org/UA/;i=884",
+                    "required": [ "Low", "High" ],
+                    "properties": {
+                      "Low": {
+                        "type": "number",
+                        "minimum": -1.80e+308,
+                        "maximum": 1.80e+308
+                      },
+                      "High": {
+                        "type": "number",
+                        "minimum": -1.80e+308,
+                        "maximum": 1.80e+308
+                      }
+                    }
+                  },
+                  "ValuePrecision": {
+                    "type": "number",
+                    "minimum": -1.80e+308,
+                    "maximum": 1.80e+308
+                  },
+                  "Definition": {
+                    "type": "string"
+                  },
+                  "SignalTag": {
+                    "type": "string"
+                  },
+                  "RelativeUncertainty": {
+                    "type": "number",
+                    "minimum": -1.80e+308,
+                    "maximum": 1.80e+308
+                  },
+                  "AbsoluteUncertainty": {
+                    "type": "number",
+                    "minimum": -1.80e+308,
+                    "maximum": 1.80e+308
+                  },
+                  "Timestamp": {
+                    "type": "string",
+                    "format": "date-time"
+                  },
+                  "Index": {
+                    "type": "integer",
+                    "minimum": 0,
+                    "maximum": 4294967295
+                  },
+                  "MeasurementPeriod": {
+                    "type": "string",
+                    "pattern": "^P(?!$)(?:(?:(?:(?:\\d+Y)|(?:\\d+\\.\\d+Y$))?(?:(?:\\d+M)|(?:\\d+\\.\\d+M$))?)|(?:(?:(?:\\d+W)|(?:\\d+\\.\\d+W$))?))(?:(?:\\d+D)|(?:\\d+\\.\\d+D$))?(?:T(?!$)(?:(?:\\d+H)|(?:\\d+\\.\\d+H$))?(?:(?:\\d+M)|(?:\\d+\\.\\d+M$))?(?:\\d+(?:\\.\\d+)?S)?)?$"
+                  },
+                  "InternalUpdateInterval": {
+                    "type": "string",
+                    "pattern": "^P(?!$)(?:(?:(?:(?:\\d+Y)|(?:\\d+\\.\\d+Y$))?(?:(?:\\d+M)|(?:\\d+\\.\\d+M$))?)|(?:(?:(?:\\d+W)|(?:\\d+\\.\\d+W$))?))(?:(?:\\d+D)|(?:\\d+\\.\\d+D$))?(?:T(?!$)(?:(?:\\d+H)|(?:\\d+\\.\\d+H$))?(?:(?:\\d+M)|(?:\\d+\\.\\d+M$))?(?:\\d+(?:\\.\\d+)?S)?)?$"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/WMTP/WMTP_WMTPServiceCycleDataType/action/CombinedReportAll",
+            "op": "invokeaction"
+          }
+        ]
+      },
+      "CombinedReportFirstValue": {
+        "aov:namespace": "http://opcfoundation.org/UA/WMTP/",
+        "output": {
+          "type": "object",
+          "aov:typeRef": "nsu=http://opcfoundation.org/UA/WMTP/;i=6246",
+          "required": [ "CombinedReport" ],
+          "properties": {
+            "CombinedReport": {
+              "title": "WMTPOutputDataType",
+              "type": "object",
+              "aov:typeRef": "nsu=http://opcfoundation.org/UA/WMTP/;i=3003",
+              "required": [ "EngineeringUnits", "ActualValue", "TypeOfMeasurement", "TypeOfSample", "InstrumentRange", "EURange", "ValuePrecision", "Definition", "SignalTag", "RelativeUncertainty", "AbsoluteUncertainty", "Timestamp", "Index", "MeasurementPeriod", "InternalUpdateInterval" ],
+              "properties": {
+                "EngineeringUnits": {
+                  "title": "EUInformation",
+                  "type": "object",
+                  "aov:typeRef": "nsu=http://opcfoundation.org/UA/;i=887",
+                  "required": [ "NamespaceUri", "UnitId", "DisplayName", "Description" ],
+                  "properties": {
+                    "NamespaceUri": {
+                      "type": "string"
+                    },
+                    "UnitId": {
+                      "type": "integer",
+                      "minimum": -2147483648,
+                      "maximum": 2147483647
+                    },
+                    "DisplayName": {
+                      "type": "string"
+                    },
+                    "Description": {
+                      "type": "string"
+                    }
+                  }
+                },
+                "ActualValue": {
+                  "type": "number",
+                  "minimum": -1.80e+308,
+                  "maximum": 1.80e+308
+                },
+                "TypeOfMeasurement": {
+                  "type": "integer",
+                  "minimum": 0,
+                  "maximum": 4294967295
+                },
+                "TypeOfSample": {
+                  "type": "integer",
+                  "minimum": 0,
+                  "maximum": 4294967295
+                },
+                "InstrumentRange": {
+                  "title": "Range",
+                  "type": "object",
+                  "aov:typeRef": "nsu=http://opcfoundation.org/UA/;i=884",
+                  "required": [ "Low", "High" ],
+                  "properties": {
+                    "Low": {
+                      "type": "number",
+                      "minimum": -1.80e+308,
+                      "maximum": 1.80e+308
+                    },
+                    "High": {
+                      "type": "number",
+                      "minimum": -1.80e+308,
+                      "maximum": 1.80e+308
+                    }
+                  }
+                },
+                "EURange": {
+                  "title": "Range",
+                  "type": "object",
+                  "aov:typeRef": "nsu=http://opcfoundation.org/UA/;i=884",
+                  "required": [ "Low", "High" ],
+                  "properties": {
+                    "Low": {
+                      "type": "number",
+                      "minimum": -1.80e+308,
+                      "maximum": 1.80e+308
+                    },
+                    "High": {
+                      "type": "number",
+                      "minimum": -1.80e+308,
+                      "maximum": 1.80e+308
+                    }
+                  }
+                },
+                "ValuePrecision": {
+                  "type": "number",
+                  "minimum": -1.80e+308,
+                  "maximum": 1.80e+308
+                },
+                "Definition": {
+                  "type": "string"
+                },
+                "SignalTag": {
+                  "type": "string"
+                },
+                "RelativeUncertainty": {
+                  "type": "number",
+                  "minimum": -1.80e+308,
+                  "maximum": 1.80e+308
+                },
+                "AbsoluteUncertainty": {
+                  "type": "number",
+                  "minimum": -1.80e+308,
+                  "maximum": 1.80e+308
+                },
+                "Timestamp": {
+                  "type": "string",
+                  "format": "date-time"
+                },
+                "Index": {
+                  "type": "integer",
+                  "minimum": 0,
+                  "maximum": 4294967295
+                },
+                "MeasurementPeriod": {
+                  "type": "string",
+                  "pattern": "^P(?!$)(?:(?:(?:(?:\\d+Y)|(?:\\d+\\.\\d+Y$))?(?:(?:\\d+M)|(?:\\d+\\.\\d+M$))?)|(?:(?:(?:\\d+W)|(?:\\d+\\.\\d+W$))?))(?:(?:\\d+D)|(?:\\d+\\.\\d+D$))?(?:T(?!$)(?:(?:\\d+H)|(?:\\d+\\.\\d+H$))?(?:(?:\\d+M)|(?:\\d+\\.\\d+M$))?(?:\\d+(?:\\.\\d+)?S)?)?$"
+                },
+                "InternalUpdateInterval": {
+                  "type": "string",
+                  "pattern": "^P(?!$)(?:(?:(?:(?:\\d+Y)|(?:\\d+\\.\\d+Y$))?(?:(?:\\d+M)|(?:\\d+\\.\\d+M$))?)|(?:(?:(?:\\d+W)|(?:\\d+\\.\\d+W$))?))(?:(?:\\d+D)|(?:\\d+\\.\\d+D$))?(?:T(?!$)(?:(?:\\d+H)|(?:\\d+\\.\\d+H$))?(?:(?:\\d+M)|(?:\\d+\\.\\d+M$))?(?:\\d+(?:\\.\\d+)?S)?)?$"
+                }
+              }
+            }
+          }
+        },
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/WMTP/WMTP_WMTPServiceCycleDataType/action/CombinedReportFirstValue",
+            "op": "invokeaction"
+          }
+        ]
+      },
+      "CombinedReportIndex": {
+        "aov:namespace": "http://opcfoundation.org/UA/WMTP/",
+        "input": {
+          "type": "object",
+          "aov:typeRef": "nsu=http://opcfoundation.org/UA/WMTP/;i=6243",
+          "required": [ "FromIndex", "ToIndex" ],
+          "properties": {
+            "FromIndex": {
+              "type": "integer",
+              "minimum": 0,
+              "maximum": 4294967295
+            },
+            "ToIndex": {
+              "type": "integer",
+              "minimum": 0,
+              "maximum": 4294967295
+            }
+          }
+        },
+        "output": {
+          "type": "object",
+          "aov:typeRef": "nsu=http://opcfoundation.org/UA/WMTP/;i=6244",
+          "required": [ "CombinedReport" ],
+          "properties": {
+            "CombinedReport": {
+              "type": "array",
+              "items": {
+                "title": "WMTPOutputDataType",
+                "type": "object",
+                "aov:typeRef": "nsu=http://opcfoundation.org/UA/WMTP/;i=3003",
+                "required": [ "EngineeringUnits", "ActualValue", "TypeOfMeasurement", "TypeOfSample", "InstrumentRange", "EURange", "ValuePrecision", "Definition", "SignalTag", "RelativeUncertainty", "AbsoluteUncertainty", "Timestamp", "Index", "MeasurementPeriod", "InternalUpdateInterval" ],
+                "properties": {
+                  "EngineeringUnits": {
+                    "title": "EUInformation",
+                    "type": "object",
+                    "aov:typeRef": "nsu=http://opcfoundation.org/UA/;i=887",
+                    "required": [ "NamespaceUri", "UnitId", "DisplayName", "Description" ],
+                    "properties": {
+                      "NamespaceUri": {
+                        "type": "string"
+                      },
+                      "UnitId": {
+                        "type": "integer",
+                        "minimum": -2147483648,
+                        "maximum": 2147483647
+                      },
+                      "DisplayName": {
+                        "type": "string"
+                      },
+                      "Description": {
+                        "type": "string"
+                      }
+                    }
+                  },
+                  "ActualValue": {
+                    "type": "number",
+                    "minimum": -1.80e+308,
+                    "maximum": 1.80e+308
+                  },
+                  "TypeOfMeasurement": {
+                    "type": "integer",
+                    "minimum": 0,
+                    "maximum": 4294967295
+                  },
+                  "TypeOfSample": {
+                    "type": "integer",
+                    "minimum": 0,
+                    "maximum": 4294967295
+                  },
+                  "InstrumentRange": {
+                    "title": "Range",
+                    "type": "object",
+                    "aov:typeRef": "nsu=http://opcfoundation.org/UA/;i=884",
+                    "required": [ "Low", "High" ],
+                    "properties": {
+                      "Low": {
+                        "type": "number",
+                        "minimum": -1.80e+308,
+                        "maximum": 1.80e+308
+                      },
+                      "High": {
+                        "type": "number",
+                        "minimum": -1.80e+308,
+                        "maximum": 1.80e+308
+                      }
+                    }
+                  },
+                  "EURange": {
+                    "title": "Range",
+                    "type": "object",
+                    "aov:typeRef": "nsu=http://opcfoundation.org/UA/;i=884",
+                    "required": [ "Low", "High" ],
+                    "properties": {
+                      "Low": {
+                        "type": "number",
+                        "minimum": -1.80e+308,
+                        "maximum": 1.80e+308
+                      },
+                      "High": {
+                        "type": "number",
+                        "minimum": -1.80e+308,
+                        "maximum": 1.80e+308
+                      }
+                    }
+                  },
+                  "ValuePrecision": {
+                    "type": "number",
+                    "minimum": -1.80e+308,
+                    "maximum": 1.80e+308
+                  },
+                  "Definition": {
+                    "type": "string"
+                  },
+                  "SignalTag": {
+                    "type": "string"
+                  },
+                  "RelativeUncertainty": {
+                    "type": "number",
+                    "minimum": -1.80e+308,
+                    "maximum": 1.80e+308
+                  },
+                  "AbsoluteUncertainty": {
+                    "type": "number",
+                    "minimum": -1.80e+308,
+                    "maximum": 1.80e+308
+                  },
+                  "Timestamp": {
+                    "type": "string",
+                    "format": "date-time"
+                  },
+                  "Index": {
+                    "type": "integer",
+                    "minimum": 0,
+                    "maximum": 4294967295
+                  },
+                  "MeasurementPeriod": {
+                    "type": "string",
+                    "pattern": "^P(?!$)(?:(?:(?:(?:\\d+Y)|(?:\\d+\\.\\d+Y$))?(?:(?:\\d+M)|(?:\\d+\\.\\d+M$))?)|(?:(?:(?:\\d+W)|(?:\\d+\\.\\d+W$))?))(?:(?:\\d+D)|(?:\\d+\\.\\d+D$))?(?:T(?!$)(?:(?:\\d+H)|(?:\\d+\\.\\d+H$))?(?:(?:\\d+M)|(?:\\d+\\.\\d+M$))?(?:\\d+(?:\\.\\d+)?S)?)?$"
+                  },
+                  "InternalUpdateInterval": {
+                    "type": "string",
+                    "pattern": "^P(?!$)(?:(?:(?:(?:\\d+Y)|(?:\\d+\\.\\d+Y$))?(?:(?:\\d+M)|(?:\\d+\\.\\d+M$))?)|(?:(?:(?:\\d+W)|(?:\\d+\\.\\d+W$))?))(?:(?:\\d+D)|(?:\\d+\\.\\d+D$))?(?:T(?!$)(?:(?:\\d+H)|(?:\\d+\\.\\d+H$))?(?:(?:\\d+M)|(?:\\d+\\.\\d+M$))?(?:\\d+(?:\\.\\d+)?S)?)?$"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/WMTP/WMTP_WMTPServiceCycleDataType/action/CombinedReportIndex",
+            "op": "invokeaction"
+          }
+        ]
+      },
+      "CombinedReportLastValue": {
+        "aov:namespace": "http://opcfoundation.org/UA/WMTP/",
+        "output": {
+          "type": "object",
+          "aov:typeRef": "nsu=http://opcfoundation.org/UA/WMTP/;i=6245",
+          "required": [ "CombinedReport" ],
+          "properties": {
+            "CombinedReport": {
+              "title": "WMTPOutputDataType",
+              "type": "object",
+              "aov:typeRef": "nsu=http://opcfoundation.org/UA/WMTP/;i=3003",
+              "required": [ "EngineeringUnits", "ActualValue", "TypeOfMeasurement", "TypeOfSample", "InstrumentRange", "EURange", "ValuePrecision", "Definition", "SignalTag", "RelativeUncertainty", "AbsoluteUncertainty", "Timestamp", "Index", "MeasurementPeriod", "InternalUpdateInterval" ],
+              "properties": {
+                "EngineeringUnits": {
+                  "title": "EUInformation",
+                  "type": "object",
+                  "aov:typeRef": "nsu=http://opcfoundation.org/UA/;i=887",
+                  "required": [ "NamespaceUri", "UnitId", "DisplayName", "Description" ],
+                  "properties": {
+                    "NamespaceUri": {
+                      "type": "string"
+                    },
+                    "UnitId": {
+                      "type": "integer",
+                      "minimum": -2147483648,
+                      "maximum": 2147483647
+                    },
+                    "DisplayName": {
+                      "type": "string"
+                    },
+                    "Description": {
+                      "type": "string"
+                    }
+                  }
+                },
+                "ActualValue": {
+                  "type": "number",
+                  "minimum": -1.80e+308,
+                  "maximum": 1.80e+308
+                },
+                "TypeOfMeasurement": {
+                  "type": "integer",
+                  "minimum": 0,
+                  "maximum": 4294967295
+                },
+                "TypeOfSample": {
+                  "type": "integer",
+                  "minimum": 0,
+                  "maximum": 4294967295
+                },
+                "InstrumentRange": {
+                  "title": "Range",
+                  "type": "object",
+                  "aov:typeRef": "nsu=http://opcfoundation.org/UA/;i=884",
+                  "required": [ "Low", "High" ],
+                  "properties": {
+                    "Low": {
+                      "type": "number",
+                      "minimum": -1.80e+308,
+                      "maximum": 1.80e+308
+                    },
+                    "High": {
+                      "type": "number",
+                      "minimum": -1.80e+308,
+                      "maximum": 1.80e+308
+                    }
+                  }
+                },
+                "EURange": {
+                  "title": "Range",
+                  "type": "object",
+                  "aov:typeRef": "nsu=http://opcfoundation.org/UA/;i=884",
+                  "required": [ "Low", "High" ],
+                  "properties": {
+                    "Low": {
+                      "type": "number",
+                      "minimum": -1.80e+308,
+                      "maximum": 1.80e+308
+                    },
+                    "High": {
+                      "type": "number",
+                      "minimum": -1.80e+308,
+                      "maximum": 1.80e+308
+                    }
+                  }
+                },
+                "ValuePrecision": {
+                  "type": "number",
+                  "minimum": -1.80e+308,
+                  "maximum": 1.80e+308
+                },
+                "Definition": {
+                  "type": "string"
+                },
+                "SignalTag": {
+                  "type": "string"
+                },
+                "RelativeUncertainty": {
+                  "type": "number",
+                  "minimum": -1.80e+308,
+                  "maximum": 1.80e+308
+                },
+                "AbsoluteUncertainty": {
+                  "type": "number",
+                  "minimum": -1.80e+308,
+                  "maximum": 1.80e+308
+                },
+                "Timestamp": {
+                  "type": "string",
+                  "format": "date-time"
+                },
+                "Index": {
+                  "type": "integer",
+                  "minimum": 0,
+                  "maximum": 4294967295
+                },
+                "MeasurementPeriod": {
+                  "type": "string",
+                  "pattern": "^P(?!$)(?:(?:(?:(?:\\d+Y)|(?:\\d+\\.\\d+Y$))?(?:(?:\\d+M)|(?:\\d+\\.\\d+M$))?)|(?:(?:(?:\\d+W)|(?:\\d+\\.\\d+W$))?))(?:(?:\\d+D)|(?:\\d+\\.\\d+D$))?(?:T(?!$)(?:(?:\\d+H)|(?:\\d+\\.\\d+H$))?(?:(?:\\d+M)|(?:\\d+\\.\\d+M$))?(?:\\d+(?:\\.\\d+)?S)?)?$"
+                },
+                "InternalUpdateInterval": {
+                  "type": "string",
+                  "pattern": "^P(?!$)(?:(?:(?:(?:\\d+Y)|(?:\\d+\\.\\d+Y$))?(?:(?:\\d+M)|(?:\\d+\\.\\d+M$))?)|(?:(?:(?:\\d+W)|(?:\\d+\\.\\d+W$))?))(?:(?:\\d+D)|(?:\\d+\\.\\d+D$))?(?:T(?!$)(?:(?:\\d+H)|(?:\\d+\\.\\d+H$))?(?:(?:\\d+M)|(?:\\d+\\.\\d+M$))?(?:\\d+(?:\\.\\d+)?S)?)?$"
+                }
+              }
+            }
+          }
+        },
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/WMTP/WMTP_WMTPServiceCycleDataType/action/CombinedReportLastValue",
+            "op": "invokeaction"
+          }
+        ]
+      },
+      "CombinedReportTime": {
+        "aov:namespace": "http://opcfoundation.org/UA/WMTP/",
+        "input": {
+          "type": "object",
+          "aov:typeRef": "nsu=http://opcfoundation.org/UA/WMTP/;i=6247",
+          "required": [ "FromTimestamp", "ToTimestamp" ],
+          "properties": {
+            "FromTimestamp": {
+              "type": "string",
+              "format": "date-time"
+            },
+            "ToTimestamp": {
+              "type": "string",
+              "format": "date-time"
+            }
+          }
+        },
+        "output": {
+          "type": "object",
+          "aov:typeRef": "nsu=http://opcfoundation.org/UA/WMTP/;i=6248",
+          "required": [ "CombinedReport" ],
+          "properties": {
+            "CombinedReport": {
+              "type": "array",
+              "items": {
+                "title": "WMTPOutputDataType",
+                "type": "object",
+                "aov:typeRef": "nsu=http://opcfoundation.org/UA/WMTP/;i=3003",
+                "required": [ "EngineeringUnits", "ActualValue", "TypeOfMeasurement", "TypeOfSample", "InstrumentRange", "EURange", "ValuePrecision", "Definition", "SignalTag", "RelativeUncertainty", "AbsoluteUncertainty", "Timestamp", "Index", "MeasurementPeriod", "InternalUpdateInterval" ],
+                "properties": {
+                  "EngineeringUnits": {
+                    "title": "EUInformation",
+                    "type": "object",
+                    "aov:typeRef": "nsu=http://opcfoundation.org/UA/;i=887",
+                    "required": [ "NamespaceUri", "UnitId", "DisplayName", "Description" ],
+                    "properties": {
+                      "NamespaceUri": {
+                        "type": "string"
+                      },
+                      "UnitId": {
+                        "type": "integer",
+                        "minimum": -2147483648,
+                        "maximum": 2147483647
+                      },
+                      "DisplayName": {
+                        "type": "string"
+                      },
+                      "Description": {
+                        "type": "string"
+                      }
+                    }
+                  },
+                  "ActualValue": {
+                    "type": "number",
+                    "minimum": -1.80e+308,
+                    "maximum": 1.80e+308
+                  },
+                  "TypeOfMeasurement": {
+                    "type": "integer",
+                    "minimum": 0,
+                    "maximum": 4294967295
+                  },
+                  "TypeOfSample": {
+                    "type": "integer",
+                    "minimum": 0,
+                    "maximum": 4294967295
+                  },
+                  "InstrumentRange": {
+                    "title": "Range",
+                    "type": "object",
+                    "aov:typeRef": "nsu=http://opcfoundation.org/UA/;i=884",
+                    "required": [ "Low", "High" ],
+                    "properties": {
+                      "Low": {
+                        "type": "number",
+                        "minimum": -1.80e+308,
+                        "maximum": 1.80e+308
+                      },
+                      "High": {
+                        "type": "number",
+                        "minimum": -1.80e+308,
+                        "maximum": 1.80e+308
+                      }
+                    }
+                  },
+                  "EURange": {
+                    "title": "Range",
+                    "type": "object",
+                    "aov:typeRef": "nsu=http://opcfoundation.org/UA/;i=884",
+                    "required": [ "Low", "High" ],
+                    "properties": {
+                      "Low": {
+                        "type": "number",
+                        "minimum": -1.80e+308,
+                        "maximum": 1.80e+308
+                      },
+                      "High": {
+                        "type": "number",
+                        "minimum": -1.80e+308,
+                        "maximum": 1.80e+308
+                      }
+                    }
+                  },
+                  "ValuePrecision": {
+                    "type": "number",
+                    "minimum": -1.80e+308,
+                    "maximum": 1.80e+308
+                  },
+                  "Definition": {
+                    "type": "string"
+                  },
+                  "SignalTag": {
+                    "type": "string"
+                  },
+                  "RelativeUncertainty": {
+                    "type": "number",
+                    "minimum": -1.80e+308,
+                    "maximum": 1.80e+308
+                  },
+                  "AbsoluteUncertainty": {
+                    "type": "number",
+                    "minimum": -1.80e+308,
+                    "maximum": 1.80e+308
+                  },
+                  "Timestamp": {
+                    "type": "string",
+                    "format": "date-time"
+                  },
+                  "Index": {
+                    "type": "integer",
+                    "minimum": 0,
+                    "maximum": 4294967295
+                  },
+                  "MeasurementPeriod": {
+                    "type": "string",
+                    "pattern": "^P(?!$)(?:(?:(?:(?:\\d+Y)|(?:\\d+\\.\\d+Y$))?(?:(?:\\d+M)|(?:\\d+\\.\\d+M$))?)|(?:(?:(?:\\d+W)|(?:\\d+\\.\\d+W$))?))(?:(?:\\d+D)|(?:\\d+\\.\\d+D$))?(?:T(?!$)(?:(?:\\d+H)|(?:\\d+\\.\\d+H$))?(?:(?:\\d+M)|(?:\\d+\\.\\d+M$))?(?:\\d+(?:\\.\\d+)?S)?)?$"
+                  },
+                  "InternalUpdateInterval": {
+                    "type": "string",
+                    "pattern": "^P(?!$)(?:(?:(?:(?:\\d+Y)|(?:\\d+\\.\\d+Y$))?(?:(?:\\d+M)|(?:\\d+\\.\\d+M$))?)|(?:(?:(?:\\d+W)|(?:\\d+\\.\\d+W$))?))(?:(?:\\d+D)|(?:\\d+\\.\\d+D$))?(?:T(?!$)(?:(?:\\d+H)|(?:\\d+\\.\\d+H$))?(?:(?:\\d+M)|(?:\\d+\\.\\d+M$))?(?:\\d+(?:\\.\\d+)?S)?)?$"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/WMTP/WMTP_WMTPServiceCycleDataType/action/CombinedReportTime",
+            "op": "invokeaction"
+          }
+        ]
+      },
+      "DeleteAllStoredRecords": {
+        "aov:namespace": "http://opcfoundation.org/UA/WMTP/",
+        "output": {
+          "type": "object",
+          "aov:typeRef": "nsu=http://opcfoundation.org/UA/WMTP/;i=6164",
+          "required": [ "DeleteAllStoredRecordsSuccessfull" ],
+          "properties": {
+            "DeleteAllStoredRecordsSuccessfull": {
+              "type": "boolean"
+            }
+          }
+        },
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/WMTP/WMTP_WMTPServiceCycleDataType/action/DeleteAllStoredRecords",
+            "op": "invokeaction"
+          }
+        ]
+      },
+      "DeleteStoredRecordsIndex": {
+        "aov:namespace": "http://opcfoundation.org/UA/WMTP/",
+        "input": {
+          "type": "object",
+          "aov:typeRef": "nsu=http://opcfoundation.org/UA/WMTP/;i=6170",
+          "required": [ "FromIndex", "ToIndex" ],
+          "properties": {
+            "FromIndex": {
+              "type": "integer",
+              "minimum": 0,
+              "maximum": 4294967295
+            },
+            "ToIndex": {
+              "type": "integer",
+              "minimum": 0,
+              "maximum": 4294967295
+            }
+          }
+        },
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/WMTP/WMTP_WMTPServiceCycleDataType/action/DeleteStoredRecordsIndex",
+            "op": "invokeaction"
+          }
+        ]
+      },
+      "DeleteStoredRecordsTime": {
+        "aov:namespace": "http://opcfoundation.org/UA/WMTP/",
+        "input": {
+          "type": "object",
+          "aov:typeRef": "nsu=http://opcfoundation.org/UA/WMTP/;i=6166",
+          "required": [ "FromTimestamp", "ToTimestamp" ],
+          "properties": {
+            "FromTimestamp": {
+              "type": "string",
+              "format": "date-time"
+            },
+            "ToTimestamp": {
+              "type": "string",
+              "format": "date-time"
+            }
+          }
+        },
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/WMTP/WMTP_WMTPServiceCycleDataType/action/DeleteStoredRecordsTime",
+            "op": "invokeaction"
+          }
+        ]
+      },
+      "ReportNumberOfStoredRecords": {
+        "aov:namespace": "http://opcfoundation.org/UA/WMTP/",
+        "output": {
+          "type": "object",
+          "aov:typeRef": "nsu=http://opcfoundation.org/UA/WMTP/;i=6174",
+          "required": [ "NumberOfStoredRecords" ],
+          "properties": {
+            "NumberOfStoredRecords": {
+              "type": "integer",
+              "minimum": 0,
+              "maximum": 4294967295
+            }
+          }
+        },
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/WMTP/WMTP_WMTPServiceCycleDataType/action/ReportNumberOfStoredRecords",
+            "op": "invokeaction"
+          }
+        ]
+      },
+      "ReportNumberOfStoredRecordsTime": {
+        "aov:namespace": "http://opcfoundation.org/UA/WMTP/",
+        "input": {
+          "type": "object",
+          "aov:typeRef": "nsu=http://opcfoundation.org/UA/WMTP/;i=6178",
+          "required": [ "FromTimestamp", "ToTimestamp" ],
+          "properties": {
+            "FromTimestamp": {
+              "type": "string",
+              "format": "date-time"
+            },
+            "ToTimestamp": {
+              "type": "string",
+              "format": "date-time"
+            }
+          }
+        },
+        "output": {
+          "type": "object",
+          "aov:typeRef": "nsu=http://opcfoundation.org/UA/WMTP/;i=6179",
+          "required": [ "NumberOfStoredRecords" ],
+          "properties": {
+            "NumberOfStoredRecords": {
+              "type": "integer",
+              "minimum": 0,
+              "maximum": 4294967295
+            }
+          }
+        },
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/WMTP/WMTP_WMTPServiceCycleDataType/action/ReportNumberOfStoredRecordsTime",
+            "op": "invokeaction"
+          }
+        ]
+      }
+    },
+    "properties": {
+    },
+    "events": {
+    }
+  },
+  {
+    "@context": [
+      "https://www.w3.org/2022/wot/td/v1.1",
+      {
+        "dtv": "http://azure.com/DigitalTwins/dtmi#",
+        "aov": "http://azure.com/IoT/operations/tm#"
+      }
+    ],
+    "@type": "tm:ThingModel",
+    "title": "WMTP_WMTPWorkCycleDataType",
+    "aov:typeRef": "nsu=http://opcfoundation.org/UA/WMTP/;i=1004",
+    "links": [
+      {
+        "rel": "tm:extends",
+        "href": "#title=OpcUaCore_BaseObjectType",
+        "type": "application/tm+json"
+      }
+    ],
+    "schemaDefinitions": {
+    },
+    "actions": {
+      "AbortOperation": {
+        "aov:namespace": "http://opcfoundation.org/UA/WMTP/",
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/WMTP/WMTP_WMTPWorkCycleDataType/action/AbortOperation",
+            "op": "invokeaction"
+          }
+        ]
+      },
+      "CombinedReportAll": {
+        "aov:namespace": "http://opcfoundation.org/UA/WMTP/",
+        "output": {
+          "type": "object",
+          "aov:typeRef": "nsu=http://opcfoundation.org/UA/WMTP/;i=6233",
+          "required": [ "CombinedReport" ],
+          "properties": {
+            "CombinedReport": {
+              "title": "WMTPOutputDataType",
+              "type": "object",
+              "aov:typeRef": "nsu=http://opcfoundation.org/UA/WMTP/;i=3003",
+              "required": [ "EngineeringUnits", "ActualValue", "TypeOfMeasurement", "TypeOfSample", "InstrumentRange", "EURange", "ValuePrecision", "Definition", "SignalTag", "RelativeUncertainty", "AbsoluteUncertainty", "Timestamp", "Index", "MeasurementPeriod", "InternalUpdateInterval" ],
+              "properties": {
+                "EngineeringUnits": {
+                  "title": "EUInformation",
+                  "type": "object",
+                  "aov:typeRef": "nsu=http://opcfoundation.org/UA/;i=887",
+                  "required": [ "NamespaceUri", "UnitId", "DisplayName", "Description" ],
+                  "properties": {
+                    "NamespaceUri": {
+                      "type": "string"
+                    },
+                    "UnitId": {
+                      "type": "integer",
+                      "minimum": -2147483648,
+                      "maximum": 2147483647
+                    },
+                    "DisplayName": {
+                      "type": "string"
+                    },
+                    "Description": {
+                      "type": "string"
+                    }
+                  }
+                },
+                "ActualValue": {
+                  "type": "number",
+                  "minimum": -1.80e+308,
+                  "maximum": 1.80e+308
+                },
+                "TypeOfMeasurement": {
+                  "type": "integer",
+                  "minimum": 0,
+                  "maximum": 4294967295
+                },
+                "TypeOfSample": {
+                  "type": "integer",
+                  "minimum": 0,
+                  "maximum": 4294967295
+                },
+                "InstrumentRange": {
+                  "title": "Range",
+                  "type": "object",
+                  "aov:typeRef": "nsu=http://opcfoundation.org/UA/;i=884",
+                  "required": [ "Low", "High" ],
+                  "properties": {
+                    "Low": {
+                      "type": "number",
+                      "minimum": -1.80e+308,
+                      "maximum": 1.80e+308
+                    },
+                    "High": {
+                      "type": "number",
+                      "minimum": -1.80e+308,
+                      "maximum": 1.80e+308
+                    }
+                  }
+                },
+                "EURange": {
+                  "title": "Range",
+                  "type": "object",
+                  "aov:typeRef": "nsu=http://opcfoundation.org/UA/;i=884",
+                  "required": [ "Low", "High" ],
+                  "properties": {
+                    "Low": {
+                      "type": "number",
+                      "minimum": -1.80e+308,
+                      "maximum": 1.80e+308
+                    },
+                    "High": {
+                      "type": "number",
+                      "minimum": -1.80e+308,
+                      "maximum": 1.80e+308
+                    }
+                  }
+                },
+                "ValuePrecision": {
+                  "type": "number",
+                  "minimum": -1.80e+308,
+                  "maximum": 1.80e+308
+                },
+                "Definition": {
+                  "type": "string"
+                },
+                "SignalTag": {
+                  "type": "string"
+                },
+                "RelativeUncertainty": {
+                  "type": "number",
+                  "minimum": -1.80e+308,
+                  "maximum": 1.80e+308
+                },
+                "AbsoluteUncertainty": {
+                  "type": "number",
+                  "minimum": -1.80e+308,
+                  "maximum": 1.80e+308
+                },
+                "Timestamp": {
+                  "type": "string",
+                  "format": "date-time"
+                },
+                "Index": {
+                  "type": "integer",
+                  "minimum": 0,
+                  "maximum": 4294967295
+                },
+                "MeasurementPeriod": {
+                  "type": "string",
+                  "pattern": "^P(?!$)(?:(?:(?:(?:\\d+Y)|(?:\\d+\\.\\d+Y$))?(?:(?:\\d+M)|(?:\\d+\\.\\d+M$))?)|(?:(?:(?:\\d+W)|(?:\\d+\\.\\d+W$))?))(?:(?:\\d+D)|(?:\\d+\\.\\d+D$))?(?:T(?!$)(?:(?:\\d+H)|(?:\\d+\\.\\d+H$))?(?:(?:\\d+M)|(?:\\d+\\.\\d+M$))?(?:\\d+(?:\\.\\d+)?S)?)?$"
+                },
+                "InternalUpdateInterval": {
+                  "type": "string",
+                  "pattern": "^P(?!$)(?:(?:(?:(?:\\d+Y)|(?:\\d+\\.\\d+Y$))?(?:(?:\\d+M)|(?:\\d+\\.\\d+M$))?)|(?:(?:(?:\\d+W)|(?:\\d+\\.\\d+W$))?))(?:(?:\\d+D)|(?:\\d+\\.\\d+D$))?(?:T(?!$)(?:(?:\\d+H)|(?:\\d+\\.\\d+H$))?(?:(?:\\d+M)|(?:\\d+\\.\\d+M$))?(?:\\d+(?:\\.\\d+)?S)?)?$"
+                }
+              }
+            }
+          }
+        },
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/WMTP/WMTP_WMTPWorkCycleDataType/action/CombinedReportAll",
+            "op": "invokeaction"
+          }
+        ]
+      },
+      "CombinedReportFirstValue": {
+        "aov:namespace": "http://opcfoundation.org/UA/WMTP/",
+        "output": {
+          "type": "object",
+          "aov:typeRef": "nsu=http://opcfoundation.org/UA/WMTP/;i=6240",
+          "required": [ "CombinedReport" ],
+          "properties": {
+            "CombinedReport": {
+              "title": "WMTPOutputDataType",
+              "type": "object",
+              "aov:typeRef": "nsu=http://opcfoundation.org/UA/WMTP/;i=3003",
+              "required": [ "EngineeringUnits", "ActualValue", "TypeOfMeasurement", "TypeOfSample", "InstrumentRange", "EURange", "ValuePrecision", "Definition", "SignalTag", "RelativeUncertainty", "AbsoluteUncertainty", "Timestamp", "Index", "MeasurementPeriod", "InternalUpdateInterval" ],
+              "properties": {
+                "EngineeringUnits": {
+                  "title": "EUInformation",
+                  "type": "object",
+                  "aov:typeRef": "nsu=http://opcfoundation.org/UA/;i=887",
+                  "required": [ "NamespaceUri", "UnitId", "DisplayName", "Description" ],
+                  "properties": {
+                    "NamespaceUri": {
+                      "type": "string"
+                    },
+                    "UnitId": {
+                      "type": "integer",
+                      "minimum": -2147483648,
+                      "maximum": 2147483647
+                    },
+                    "DisplayName": {
+                      "type": "string"
+                    },
+                    "Description": {
+                      "type": "string"
+                    }
+                  }
+                },
+                "ActualValue": {
+                  "type": "number",
+                  "minimum": -1.80e+308,
+                  "maximum": 1.80e+308
+                },
+                "TypeOfMeasurement": {
+                  "type": "integer",
+                  "minimum": 0,
+                  "maximum": 4294967295
+                },
+                "TypeOfSample": {
+                  "type": "integer",
+                  "minimum": 0,
+                  "maximum": 4294967295
+                },
+                "InstrumentRange": {
+                  "title": "Range",
+                  "type": "object",
+                  "aov:typeRef": "nsu=http://opcfoundation.org/UA/;i=884",
+                  "required": [ "Low", "High" ],
+                  "properties": {
+                    "Low": {
+                      "type": "number",
+                      "minimum": -1.80e+308,
+                      "maximum": 1.80e+308
+                    },
+                    "High": {
+                      "type": "number",
+                      "minimum": -1.80e+308,
+                      "maximum": 1.80e+308
+                    }
+                  }
+                },
+                "EURange": {
+                  "title": "Range",
+                  "type": "object",
+                  "aov:typeRef": "nsu=http://opcfoundation.org/UA/;i=884",
+                  "required": [ "Low", "High" ],
+                  "properties": {
+                    "Low": {
+                      "type": "number",
+                      "minimum": -1.80e+308,
+                      "maximum": 1.80e+308
+                    },
+                    "High": {
+                      "type": "number",
+                      "minimum": -1.80e+308,
+                      "maximum": 1.80e+308
+                    }
+                  }
+                },
+                "ValuePrecision": {
+                  "type": "number",
+                  "minimum": -1.80e+308,
+                  "maximum": 1.80e+308
+                },
+                "Definition": {
+                  "type": "string"
+                },
+                "SignalTag": {
+                  "type": "string"
+                },
+                "RelativeUncertainty": {
+                  "type": "number",
+                  "minimum": -1.80e+308,
+                  "maximum": 1.80e+308
+                },
+                "AbsoluteUncertainty": {
+                  "type": "number",
+                  "minimum": -1.80e+308,
+                  "maximum": 1.80e+308
+                },
+                "Timestamp": {
+                  "type": "string",
+                  "format": "date-time"
+                },
+                "Index": {
+                  "type": "integer",
+                  "minimum": 0,
+                  "maximum": 4294967295
+                },
+                "MeasurementPeriod": {
+                  "type": "string",
+                  "pattern": "^P(?!$)(?:(?:(?:(?:\\d+Y)|(?:\\d+\\.\\d+Y$))?(?:(?:\\d+M)|(?:\\d+\\.\\d+M$))?)|(?:(?:(?:\\d+W)|(?:\\d+\\.\\d+W$))?))(?:(?:\\d+D)|(?:\\d+\\.\\d+D$))?(?:T(?!$)(?:(?:\\d+H)|(?:\\d+\\.\\d+H$))?(?:(?:\\d+M)|(?:\\d+\\.\\d+M$))?(?:\\d+(?:\\.\\d+)?S)?)?$"
+                },
+                "InternalUpdateInterval": {
+                  "type": "string",
+                  "pattern": "^P(?!$)(?:(?:(?:(?:\\d+Y)|(?:\\d+\\.\\d+Y$))?(?:(?:\\d+M)|(?:\\d+\\.\\d+M$))?)|(?:(?:(?:\\d+W)|(?:\\d+\\.\\d+W$))?))(?:(?:\\d+D)|(?:\\d+\\.\\d+D$))?(?:T(?!$)(?:(?:\\d+H)|(?:\\d+\\.\\d+H$))?(?:(?:\\d+M)|(?:\\d+\\.\\d+M$))?(?:\\d+(?:\\.\\d+)?S)?)?$"
+                }
+              }
+            }
+          }
+        },
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/WMTP/WMTP_WMTPWorkCycleDataType/action/CombinedReportFirstValue",
+            "op": "invokeaction"
+          }
+        ]
+      },
+      "CombinedReportIndex": {
+        "aov:namespace": "http://opcfoundation.org/UA/WMTP/",
+        "input": {
+          "type": "object",
+          "aov:typeRef": "nsu=http://opcfoundation.org/UA/WMTP/;i=6235",
+          "required": [ "FromIndex", "ToIndex" ],
+          "properties": {
+            "FromIndex": {
+              "type": "integer",
+              "minimum": 0,
+              "maximum": 4294967295
+            },
+            "ToIndex": {
+              "type": "integer",
+              "minimum": 0,
+              "maximum": 4294967295
+            }
+          }
+        },
+        "output": {
+          "type": "object",
+          "aov:typeRef": "nsu=http://opcfoundation.org/UA/WMTP/;i=6236",
+          "required": [ "CombinedReport" ],
+          "properties": {
+            "CombinedReport": {
+              "title": "WMTPOutputDataType",
+              "type": "object",
+              "aov:typeRef": "nsu=http://opcfoundation.org/UA/WMTP/;i=3003",
+              "required": [ "EngineeringUnits", "ActualValue", "TypeOfMeasurement", "TypeOfSample", "InstrumentRange", "EURange", "ValuePrecision", "Definition", "SignalTag", "RelativeUncertainty", "AbsoluteUncertainty", "Timestamp", "Index", "MeasurementPeriod", "InternalUpdateInterval" ],
+              "properties": {
+                "EngineeringUnits": {
+                  "title": "EUInformation",
+                  "type": "object",
+                  "aov:typeRef": "nsu=http://opcfoundation.org/UA/;i=887",
+                  "required": [ "NamespaceUri", "UnitId", "DisplayName", "Description" ],
+                  "properties": {
+                    "NamespaceUri": {
+                      "type": "string"
+                    },
+                    "UnitId": {
+                      "type": "integer",
+                      "minimum": -2147483648,
+                      "maximum": 2147483647
+                    },
+                    "DisplayName": {
+                      "type": "string"
+                    },
+                    "Description": {
+                      "type": "string"
+                    }
+                  }
+                },
+                "ActualValue": {
+                  "type": "number",
+                  "minimum": -1.80e+308,
+                  "maximum": 1.80e+308
+                },
+                "TypeOfMeasurement": {
+                  "type": "integer",
+                  "minimum": 0,
+                  "maximum": 4294967295
+                },
+                "TypeOfSample": {
+                  "type": "integer",
+                  "minimum": 0,
+                  "maximum": 4294967295
+                },
+                "InstrumentRange": {
+                  "title": "Range",
+                  "type": "object",
+                  "aov:typeRef": "nsu=http://opcfoundation.org/UA/;i=884",
+                  "required": [ "Low", "High" ],
+                  "properties": {
+                    "Low": {
+                      "type": "number",
+                      "minimum": -1.80e+308,
+                      "maximum": 1.80e+308
+                    },
+                    "High": {
+                      "type": "number",
+                      "minimum": -1.80e+308,
+                      "maximum": 1.80e+308
+                    }
+                  }
+                },
+                "EURange": {
+                  "title": "Range",
+                  "type": "object",
+                  "aov:typeRef": "nsu=http://opcfoundation.org/UA/;i=884",
+                  "required": [ "Low", "High" ],
+                  "properties": {
+                    "Low": {
+                      "type": "number",
+                      "minimum": -1.80e+308,
+                      "maximum": 1.80e+308
+                    },
+                    "High": {
+                      "type": "number",
+                      "minimum": -1.80e+308,
+                      "maximum": 1.80e+308
+                    }
+                  }
+                },
+                "ValuePrecision": {
+                  "type": "number",
+                  "minimum": -1.80e+308,
+                  "maximum": 1.80e+308
+                },
+                "Definition": {
+                  "type": "string"
+                },
+                "SignalTag": {
+                  "type": "string"
+                },
+                "RelativeUncertainty": {
+                  "type": "number",
+                  "minimum": -1.80e+308,
+                  "maximum": 1.80e+308
+                },
+                "AbsoluteUncertainty": {
+                  "type": "number",
+                  "minimum": -1.80e+308,
+                  "maximum": 1.80e+308
+                },
+                "Timestamp": {
+                  "type": "string",
+                  "format": "date-time"
+                },
+                "Index": {
+                  "type": "integer",
+                  "minimum": 0,
+                  "maximum": 4294967295
+                },
+                "MeasurementPeriod": {
+                  "type": "string",
+                  "pattern": "^P(?!$)(?:(?:(?:(?:\\d+Y)|(?:\\d+\\.\\d+Y$))?(?:(?:\\d+M)|(?:\\d+\\.\\d+M$))?)|(?:(?:(?:\\d+W)|(?:\\d+\\.\\d+W$))?))(?:(?:\\d+D)|(?:\\d+\\.\\d+D$))?(?:T(?!$)(?:(?:\\d+H)|(?:\\d+\\.\\d+H$))?(?:(?:\\d+M)|(?:\\d+\\.\\d+M$))?(?:\\d+(?:\\.\\d+)?S)?)?$"
+                },
+                "InternalUpdateInterval": {
+                  "type": "string",
+                  "pattern": "^P(?!$)(?:(?:(?:(?:\\d+Y)|(?:\\d+\\.\\d+Y$))?(?:(?:\\d+M)|(?:\\d+\\.\\d+M$))?)|(?:(?:(?:\\d+W)|(?:\\d+\\.\\d+W$))?))(?:(?:\\d+D)|(?:\\d+\\.\\d+D$))?(?:T(?!$)(?:(?:\\d+H)|(?:\\d+\\.\\d+H$))?(?:(?:\\d+M)|(?:\\d+\\.\\d+M$))?(?:\\d+(?:\\.\\d+)?S)?)?$"
+                }
+              }
+            }
+          }
+        },
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/WMTP/WMTP_WMTPWorkCycleDataType/action/CombinedReportIndex",
+            "op": "invokeaction"
+          }
+        ]
+      },
+      "CombinedReportLastValue": {
+        "aov:namespace": "http://opcfoundation.org/UA/WMTP/",
+        "output": {
+          "type": "object",
+          "aov:typeRef": "nsu=http://opcfoundation.org/UA/WMTP/;i=6239",
+          "required": [ "CombinedReport" ],
+          "properties": {
+            "CombinedReport": {
+              "title": "WMTPOutputDataType",
+              "type": "object",
+              "aov:typeRef": "nsu=http://opcfoundation.org/UA/WMTP/;i=3003",
+              "required": [ "EngineeringUnits", "ActualValue", "TypeOfMeasurement", "TypeOfSample", "InstrumentRange", "EURange", "ValuePrecision", "Definition", "SignalTag", "RelativeUncertainty", "AbsoluteUncertainty", "Timestamp", "Index", "MeasurementPeriod", "InternalUpdateInterval" ],
+              "properties": {
+                "EngineeringUnits": {
+                  "title": "EUInformation",
+                  "type": "object",
+                  "aov:typeRef": "nsu=http://opcfoundation.org/UA/;i=887",
+                  "required": [ "NamespaceUri", "UnitId", "DisplayName", "Description" ],
+                  "properties": {
+                    "NamespaceUri": {
+                      "type": "string"
+                    },
+                    "UnitId": {
+                      "type": "integer",
+                      "minimum": -2147483648,
+                      "maximum": 2147483647
+                    },
+                    "DisplayName": {
+                      "type": "string"
+                    },
+                    "Description": {
+                      "type": "string"
+                    }
+                  }
+                },
+                "ActualValue": {
+                  "type": "number",
+                  "minimum": -1.80e+308,
+                  "maximum": 1.80e+308
+                },
+                "TypeOfMeasurement": {
+                  "type": "integer",
+                  "minimum": 0,
+                  "maximum": 4294967295
+                },
+                "TypeOfSample": {
+                  "type": "integer",
+                  "minimum": 0,
+                  "maximum": 4294967295
+                },
+                "InstrumentRange": {
+                  "title": "Range",
+                  "type": "object",
+                  "aov:typeRef": "nsu=http://opcfoundation.org/UA/;i=884",
+                  "required": [ "Low", "High" ],
+                  "properties": {
+                    "Low": {
+                      "type": "number",
+                      "minimum": -1.80e+308,
+                      "maximum": 1.80e+308
+                    },
+                    "High": {
+                      "type": "number",
+                      "minimum": -1.80e+308,
+                      "maximum": 1.80e+308
+                    }
+                  }
+                },
+                "EURange": {
+                  "title": "Range",
+                  "type": "object",
+                  "aov:typeRef": "nsu=http://opcfoundation.org/UA/;i=884",
+                  "required": [ "Low", "High" ],
+                  "properties": {
+                    "Low": {
+                      "type": "number",
+                      "minimum": -1.80e+308,
+                      "maximum": 1.80e+308
+                    },
+                    "High": {
+                      "type": "number",
+                      "minimum": -1.80e+308,
+                      "maximum": 1.80e+308
+                    }
+                  }
+                },
+                "ValuePrecision": {
+                  "type": "number",
+                  "minimum": -1.80e+308,
+                  "maximum": 1.80e+308
+                },
+                "Definition": {
+                  "type": "string"
+                },
+                "SignalTag": {
+                  "type": "string"
+                },
+                "RelativeUncertainty": {
+                  "type": "number",
+                  "minimum": -1.80e+308,
+                  "maximum": 1.80e+308
+                },
+                "AbsoluteUncertainty": {
+                  "type": "number",
+                  "minimum": -1.80e+308,
+                  "maximum": 1.80e+308
+                },
+                "Timestamp": {
+                  "type": "string",
+                  "format": "date-time"
+                },
+                "Index": {
+                  "type": "integer",
+                  "minimum": 0,
+                  "maximum": 4294967295
+                },
+                "MeasurementPeriod": {
+                  "type": "string",
+                  "pattern": "^P(?!$)(?:(?:(?:(?:\\d+Y)|(?:\\d+\\.\\d+Y$))?(?:(?:\\d+M)|(?:\\d+\\.\\d+M$))?)|(?:(?:(?:\\d+W)|(?:\\d+\\.\\d+W$))?))(?:(?:\\d+D)|(?:\\d+\\.\\d+D$))?(?:T(?!$)(?:(?:\\d+H)|(?:\\d+\\.\\d+H$))?(?:(?:\\d+M)|(?:\\d+\\.\\d+M$))?(?:\\d+(?:\\.\\d+)?S)?)?$"
+                },
+                "InternalUpdateInterval": {
+                  "type": "string",
+                  "pattern": "^P(?!$)(?:(?:(?:(?:\\d+Y)|(?:\\d+\\.\\d+Y$))?(?:(?:\\d+M)|(?:\\d+\\.\\d+M$))?)|(?:(?:(?:\\d+W)|(?:\\d+\\.\\d+W$))?))(?:(?:\\d+D)|(?:\\d+\\.\\d+D$))?(?:T(?!$)(?:(?:\\d+H)|(?:\\d+\\.\\d+H$))?(?:(?:\\d+M)|(?:\\d+\\.\\d+M$))?(?:\\d+(?:\\.\\d+)?S)?)?$"
+                }
+              }
+            }
+          }
+        },
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/WMTP/WMTP_WMTPWorkCycleDataType/action/CombinedReportLastValue",
+            "op": "invokeaction"
+          }
+        ]
+      },
+      "CombinedReportTime": {
+        "aov:namespace": "http://opcfoundation.org/UA/WMTP/",
+        "input": {
+          "type": "object",
+          "aov:typeRef": "nsu=http://opcfoundation.org/UA/WMTP/;i=6237",
+          "required": [ "FromTimestamp", "ToTimestamp" ],
+          "properties": {
+            "FromTimestamp": {
+              "type": "string",
+              "format": "date-time"
+            },
+            "ToTimestamp": {
+              "type": "string",
+              "format": "date-time"
+            }
+          }
+        },
+        "output": {
+          "type": "object",
+          "aov:typeRef": "nsu=http://opcfoundation.org/UA/WMTP/;i=6238",
+          "required": [ "CombinedReport" ],
+          "properties": {
+            "CombinedReport": {
+              "title": "WMTPOutputDataType",
+              "type": "object",
+              "aov:typeRef": "nsu=http://opcfoundation.org/UA/WMTP/;i=3003",
+              "required": [ "EngineeringUnits", "ActualValue", "TypeOfMeasurement", "TypeOfSample", "InstrumentRange", "EURange", "ValuePrecision", "Definition", "SignalTag", "RelativeUncertainty", "AbsoluteUncertainty", "Timestamp", "Index", "MeasurementPeriod", "InternalUpdateInterval" ],
+              "properties": {
+                "EngineeringUnits": {
+                  "title": "EUInformation",
+                  "type": "object",
+                  "aov:typeRef": "nsu=http://opcfoundation.org/UA/;i=887",
+                  "required": [ "NamespaceUri", "UnitId", "DisplayName", "Description" ],
+                  "properties": {
+                    "NamespaceUri": {
+                      "type": "string"
+                    },
+                    "UnitId": {
+                      "type": "integer",
+                      "minimum": -2147483648,
+                      "maximum": 2147483647
+                    },
+                    "DisplayName": {
+                      "type": "string"
+                    },
+                    "Description": {
+                      "type": "string"
+                    }
+                  }
+                },
+                "ActualValue": {
+                  "type": "number",
+                  "minimum": -1.80e+308,
+                  "maximum": 1.80e+308
+                },
+                "TypeOfMeasurement": {
+                  "type": "integer",
+                  "minimum": 0,
+                  "maximum": 4294967295
+                },
+                "TypeOfSample": {
+                  "type": "integer",
+                  "minimum": 0,
+                  "maximum": 4294967295
+                },
+                "InstrumentRange": {
+                  "title": "Range",
+                  "type": "object",
+                  "aov:typeRef": "nsu=http://opcfoundation.org/UA/;i=884",
+                  "required": [ "Low", "High" ],
+                  "properties": {
+                    "Low": {
+                      "type": "number",
+                      "minimum": -1.80e+308,
+                      "maximum": 1.80e+308
+                    },
+                    "High": {
+                      "type": "number",
+                      "minimum": -1.80e+308,
+                      "maximum": 1.80e+308
+                    }
+                  }
+                },
+                "EURange": {
+                  "title": "Range",
+                  "type": "object",
+                  "aov:typeRef": "nsu=http://opcfoundation.org/UA/;i=884",
+                  "required": [ "Low", "High" ],
+                  "properties": {
+                    "Low": {
+                      "type": "number",
+                      "minimum": -1.80e+308,
+                      "maximum": 1.80e+308
+                    },
+                    "High": {
+                      "type": "number",
+                      "minimum": -1.80e+308,
+                      "maximum": 1.80e+308
+                    }
+                  }
+                },
+                "ValuePrecision": {
+                  "type": "number",
+                  "minimum": -1.80e+308,
+                  "maximum": 1.80e+308
+                },
+                "Definition": {
+                  "type": "string"
+                },
+                "SignalTag": {
+                  "type": "string"
+                },
+                "RelativeUncertainty": {
+                  "type": "number",
+                  "minimum": -1.80e+308,
+                  "maximum": 1.80e+308
+                },
+                "AbsoluteUncertainty": {
+                  "type": "number",
+                  "minimum": -1.80e+308,
+                  "maximum": 1.80e+308
+                },
+                "Timestamp": {
+                  "type": "string",
+                  "format": "date-time"
+                },
+                "Index": {
+                  "type": "integer",
+                  "minimum": 0,
+                  "maximum": 4294967295
+                },
+                "MeasurementPeriod": {
+                  "type": "string",
+                  "pattern": "^P(?!$)(?:(?:(?:(?:\\d+Y)|(?:\\d+\\.\\d+Y$))?(?:(?:\\d+M)|(?:\\d+\\.\\d+M$))?)|(?:(?:(?:\\d+W)|(?:\\d+\\.\\d+W$))?))(?:(?:\\d+D)|(?:\\d+\\.\\d+D$))?(?:T(?!$)(?:(?:\\d+H)|(?:\\d+\\.\\d+H$))?(?:(?:\\d+M)|(?:\\d+\\.\\d+M$))?(?:\\d+(?:\\.\\d+)?S)?)?$"
+                },
+                "InternalUpdateInterval": {
+                  "type": "string",
+                  "pattern": "^P(?!$)(?:(?:(?:(?:\\d+Y)|(?:\\d+\\.\\d+Y$))?(?:(?:\\d+M)|(?:\\d+\\.\\d+M$))?)|(?:(?:(?:\\d+W)|(?:\\d+\\.\\d+W$))?))(?:(?:\\d+D)|(?:\\d+\\.\\d+D$))?(?:T(?!$)(?:(?:\\d+H)|(?:\\d+\\.\\d+H$))?(?:(?:\\d+M)|(?:\\d+\\.\\d+M$))?(?:\\d+(?:\\.\\d+)?S)?)?$"
+                }
+              }
+            }
+          }
+        },
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/WMTP/WMTP_WMTPWorkCycleDataType/action/CombinedReportTime",
+            "op": "invokeaction"
+          }
+        ]
+      },
+      "DeleteAllStoredRecords": {
+        "aov:namespace": "http://opcfoundation.org/UA/WMTP/",
+        "output": {
+          "type": "object",
+          "aov:typeRef": "nsu=http://opcfoundation.org/UA/WMTP/;i=6165",
+          "required": [ "DeleteAllStoredRecordsSuccessfull" ],
+          "properties": {
+            "DeleteAllStoredRecordsSuccessfull": {
+              "type": "boolean"
+            }
+          }
+        },
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/WMTP/WMTP_WMTPWorkCycleDataType/action/DeleteAllStoredRecords",
+            "op": "invokeaction"
+          }
+        ]
+      },
+      "DeleteStoredRecordsIndex": {
+        "aov:namespace": "http://opcfoundation.org/UA/WMTP/",
+        "input": {
+          "type": "object",
+          "aov:typeRef": "nsu=http://opcfoundation.org/UA/WMTP/;i=6172",
+          "required": [ "FromIndex", "ToIndex" ],
+          "properties": {
+            "FromIndex": {
+              "type": "integer",
+              "minimum": 0,
+              "maximum": 4294967295
+            },
+            "ToIndex": {
+              "type": "integer",
+              "minimum": 0,
+              "maximum": 4294967295
+            }
+          }
+        },
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/WMTP/WMTP_WMTPWorkCycleDataType/action/DeleteStoredRecordsIndex",
+            "op": "invokeaction"
+          }
+        ]
+      },
+      "DeleteStoredRecordsTime": {
+        "aov:namespace": "http://opcfoundation.org/UA/WMTP/",
+        "input": {
+          "type": "object",
+          "aov:typeRef": "nsu=http://opcfoundation.org/UA/WMTP/;i=6168",
+          "required": [ "FromTimestamp", "ToTimestamp" ],
+          "properties": {
+            "FromTimestamp": {
+              "type": "string",
+              "format": "date-time"
+            },
+            "ToTimestamp": {
+              "type": "string",
+              "format": "date-time"
+            }
+          }
+        },
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/WMTP/WMTP_WMTPWorkCycleDataType/action/DeleteStoredRecordsTime",
+            "op": "invokeaction"
+          }
+        ]
+      },
+      "ReportNumberOfStoredRecords": {
+        "aov:namespace": "http://opcfoundation.org/UA/WMTP/",
+        "output": {
+          "type": "object",
+          "aov:typeRef": "nsu=http://opcfoundation.org/UA/WMTP/;i=6176",
+          "required": [ "NumberOfStoredRecords" ],
+          "properties": {
+            "NumberOfStoredRecords": {
+              "type": "integer",
+              "minimum": 0,
+              "maximum": 4294967295
+            }
+          }
+        },
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/WMTP/WMTP_WMTPWorkCycleDataType/action/ReportNumberOfStoredRecords",
+            "op": "invokeaction"
+          }
+        ]
+      },
+      "ReportNumberOfStoredRecordsTime": {
+        "aov:namespace": "http://opcfoundation.org/UA/WMTP/",
+        "input": {
+          "type": "object",
+          "aov:typeRef": "nsu=http://opcfoundation.org/UA/WMTP/;i=6180",
+          "required": [ "FromTimestamp", "ToTimestamp" ],
+          "properties": {
+            "FromTimestamp": {
+              "type": "string",
+              "format": "date-time"
+            },
+            "ToTimestamp": {
+              "type": "string",
+              "format": "date-time"
+            }
+          }
+        },
+        "output": {
+          "type": "object",
+          "aov:typeRef": "nsu=http://opcfoundation.org/UA/WMTP/;i=6181",
+          "required": [ "NumberOfStoredRecords" ],
+          "properties": {
+            "NumberOfStoredRecords": {
+              "type": "integer",
+              "minimum": 0,
+              "maximum": 4294967295
+            }
+          }
+        },
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/WMTP/WMTP_WMTPWorkCycleDataType/action/ReportNumberOfStoredRecordsTime",
+            "op": "invokeaction"
+          }
+        ]
+      }
+    },
+    "properties": {
+    },
+    "events": {
+    }
+  },
+  {
+    "@context": [
+      "https://www.w3.org/2022/wot/td/v1.1",
+      {
+        "qudt": "http://qudt.org/schema/qudt/",
+        "dtv": "http://azure.com/DigitalTwins/dtmi#",
+        "aov": "http://azure.com/IoT/operations/tm#"
+      }
+    ],
+    "@type": "tm:ThingModel",
+    "title": "Machinery_ProcessValues_ProcessValueType",
+    "aov:typeRef": "nsu=http://opcfoundation.org/UA/Machinery/ProcessValues/;i=1003",
+    "aov:isComposite": true,
+    "links": [
+      {
+        "rel": "tm:extends",
+        "href": "#title=PADIM_AnalogSignalType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "aov:reference",
+        "aov:refName": "DeviationAlarm",
+        "href": "#title=OpcUaCore_ExclusiveDeviationAlarmType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "aov:reference",
+        "aov:refName": "LimitAlarm",
+        "href": "#title=OpcUaCore_ExclusiveLimitAlarmType",
+        "type": "application/tm+json"
+      }
+    ],
+    "schemaDefinitions": {
+    },
+    "forms": [
+      {
+        "contentType": "application/json",
+        "dtv:topic": "opcua/Machinery.ProcessValues/Machinery_ProcessValues_ProcessValueType/events/{senderId}",
+        "op": "subscribeallevents"
+      },
+      {
+        "contentType": "application/json",
+        "dtv:topic": "opcua/Machinery.ProcessValues/Machinery_ProcessValues_ProcessValueType/properties/write",
+        "op": "writemultipleproperties"
+      },
+      {
+        "contentType": "application/json",
+        "dtv:topic": "opcua/Machinery.ProcessValues/Machinery_ProcessValues_ProcessValueType/properties/read",
+        "op": "readallproperties"
+      }
+    ],
+    "actions": {
+      "ZeroPointAdjustment": {
+        "aov:namespace": "http://opcfoundation.org/UA/PADIM/",
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/Machinery.ProcessValues/Machinery_ProcessValues_ProcessValueType/action/ZeroPointAdjustment",
+            "op": "invokeaction"
+          }
+        ]
+      }
+    },
+    "properties": {
+      "AlarmSuppression": {
+        "aov:namespace": "http://opcfoundation.org/UA/Machinery/ProcessValues/",
+        "description": "Indicates if alarms based on the Status shall be suppressed.",
+        "type": "integer",
+        "minimum": 0,
+        "maximum": 65535,
+        "readOnly": false,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/Machinery.ProcessValues/Machinery_ProcessValues_ProcessValueType/property/AlarmSuppression/write",
+            "op": "writeproperty"
+          },
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/Machinery.ProcessValues/Machinery_ProcessValues_ProcessValueType/property/AlarmSuppression/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "AnalogSignal": {
+        "aov:namespace": "http://opcfoundation.org/UA/PADIM/",
+        "description": "The process value.",
+        "type": "number",
+        "readOnly": false,
+        "aov:contains": [ "AnalogSignal_HighHighLimit", "AnalogSignal_HighLimit", "AnalogSignal_LowLimit", "AnalogSignal_LowLowLimit", "AnalogSignal_PercentageValue" ],
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/Machinery.ProcessValues/Machinery_ProcessValues_ProcessValueType/property/AnalogSignal/write",
+            "op": "writeproperty"
+          },
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/Machinery.ProcessValues/Machinery_ProcessValues_ProcessValueType/property/AnalogSignal/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "AnalogSignal_HighHighLimit": {
+        "aov:namespace": "http://opcfoundation.org/UA/Machinery/ProcessValues/",
+        "description": "Defines the absolute high high limit",
+        "type": "number",
+        "readOnly": false,
+        "aov:containedIn": "AnalogSignal",
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/Machinery.ProcessValues/Machinery_ProcessValues_ProcessValueType/property/AnalogSignal_HighHighLimit/write",
+            "op": "writeproperty"
+          },
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/Machinery.ProcessValues/Machinery_ProcessValues_ProcessValueType/property/AnalogSignal_HighHighLimit/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "AnalogSignal_HighLimit": {
+        "aov:namespace": "http://opcfoundation.org/UA/Machinery/ProcessValues/",
+        "description": "Defines the absolute high limit",
+        "type": "number",
+        "readOnly": false,
+        "aov:containedIn": "AnalogSignal",
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/Machinery.ProcessValues/Machinery_ProcessValues_ProcessValueType/property/AnalogSignal_HighLimit/write",
+            "op": "writeproperty"
+          },
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/Machinery.ProcessValues/Machinery_ProcessValues_ProcessValueType/property/AnalogSignal_HighLimit/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "AnalogSignal_LowLimit": {
+        "aov:namespace": "http://opcfoundation.org/UA/Machinery/ProcessValues/",
+        "description": "Defines the absolute low limit",
+        "type": "number",
+        "readOnly": false,
+        "aov:containedIn": "AnalogSignal",
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/Machinery.ProcessValues/Machinery_ProcessValues_ProcessValueType/property/AnalogSignal_LowLimit/write",
+            "op": "writeproperty"
+          },
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/Machinery.ProcessValues/Machinery_ProcessValues_ProcessValueType/property/AnalogSignal_LowLimit/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "AnalogSignal_LowLowLimit": {
+        "aov:namespace": "http://opcfoundation.org/UA/Machinery/ProcessValues/",
+        "description": "Defines the absolute low low limit",
+        "type": "number",
+        "readOnly": false,
+        "aov:containedIn": "AnalogSignal",
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/Machinery.ProcessValues/Machinery_ProcessValues_ProcessValueType/property/AnalogSignal_LowLowLimit/write",
+            "op": "writeproperty"
+          },
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/Machinery.ProcessValues/Machinery_ProcessValues_ProcessValueType/property/AnalogSignal_LowLowLimit/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "AnalogSignal_PercentageValue": {
+        "aov:namespace": "http://opcfoundation.org/UA/Machinery/ProcessValues/",
+        "description": "Provides the process value in percentage.",
+        "type": "number",
+        "minimum": -1.80e+308,
+        "maximum": 1.80e+308,
+        "readOnly": false,
+        "aov:containedIn": "AnalogSignal",
+        "qudt:hasQuantityKind": "http://qudt.org/vocab/quantitykind/DimensionlessRatio",
+        "aov:withUnit": "properties/AnalogSignal_PercentageValue_EngineeringUnits",
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/Machinery.ProcessValues/Machinery_ProcessValues_ProcessValueType/property/AnalogSignal_PercentageValue/write",
+            "op": "writeproperty"
+          },
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/Machinery.ProcessValues/Machinery_ProcessValues_ProcessValueType/property/AnalogSignal_PercentageValue/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "ProcessValueSetpoint": {
+        "aov:namespace": "http://opcfoundation.org/UA/Machinery/ProcessValues/",
+        "description": "The desired value, may or may not be controlled by the server.",
+        "type": "number",
+        "readOnly": false,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/Machinery.ProcessValues/Machinery_ProcessValues_ProcessValueType/property/ProcessValueSetpoint/write",
+            "op": "writeproperty"
+          },
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/Machinery.ProcessValues/Machinery_ProcessValues_ProcessValueType/property/ProcessValueSetpoint/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "Status": {
+        "aov:namespace": "http://opcfoundation.org/UA/Machinery/ProcessValues/",
+        "description": "Indicates if a limit has been reached.",
+        "type": "integer",
+        "minimum": 0,
+        "maximum": 65535,
+        "readOnly": false,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/Machinery.ProcessValues/Machinery_ProcessValues_ProcessValueType/property/Status/write",
+            "op": "writeproperty"
+          },
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/Machinery.ProcessValues/Machinery_ProcessValues_ProcessValueType/property/Status/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "AnalogSignal_PercentageValue_EngineeringUnits": {
+        "description": "Unit designator for property and event with name AnalogSignal_PercentageValue, expressed as a URI in the QUDT unit vocabulary",
+        "type": "string",
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/Machinery.ProcessValues/Machinery_ProcessValues_ProcessValueType/property/AnalogSignal_PercentageValue_EngineeringUnits/read",
+            "op": "readproperty"
+          }
+        ]
+      }
+    },
+    "events": {
+      "AlarmSuppression": {
+        "aov:namespace": "http://opcfoundation.org/UA/Machinery/ProcessValues/",
+        "data": {
+          "description": "Indicates if alarms based on the Status shall be suppressed.",
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 65535
+        },
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/Machinery.ProcessValues/Machinery_ProcessValues_ProcessValueType/event/AlarmSuppression/{senderId}",
+            "op": "subscribeevent"
+          }
+        ]
+      },
+      "AnalogSignal": {
+        "aov:namespace": "http://opcfoundation.org/UA/PADIM/",
+        "data": {
+          "description": "The process value.",
+          "type": "number"
+        },
+        "aov:contains": [ "AnalogSignal_HighHighLimit", "AnalogSignal_HighLimit", "AnalogSignal_LowLimit", "AnalogSignal_LowLowLimit", "AnalogSignal_PercentageValue" ],
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/Machinery.ProcessValues/Machinery_ProcessValues_ProcessValueType/event/AnalogSignal/{senderId}",
+            "op": "subscribeevent"
+          }
+        ]
+      },
+      "AnalogSignal_HighHighLimit": {
+        "aov:namespace": "http://opcfoundation.org/UA/Machinery/ProcessValues/",
+        "data": {
+          "description": "Defines the absolute high high limit",
+          "type": "number"
+        },
+        "aov:containedIn": "AnalogSignal",
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/Machinery.ProcessValues/Machinery_ProcessValues_ProcessValueType/event/AnalogSignal_HighHighLimit/{senderId}",
+            "op": "subscribeevent"
+          }
+        ]
+      },
+      "AnalogSignal_HighLimit": {
+        "aov:namespace": "http://opcfoundation.org/UA/Machinery/ProcessValues/",
+        "data": {
+          "description": "Defines the absolute high limit",
+          "type": "number"
+        },
+        "aov:containedIn": "AnalogSignal",
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/Machinery.ProcessValues/Machinery_ProcessValues_ProcessValueType/event/AnalogSignal_HighLimit/{senderId}",
+            "op": "subscribeevent"
+          }
+        ]
+      },
+      "AnalogSignal_LowLimit": {
+        "aov:namespace": "http://opcfoundation.org/UA/Machinery/ProcessValues/",
+        "data": {
+          "description": "Defines the absolute low limit",
+          "type": "number"
+        },
+        "aov:containedIn": "AnalogSignal",
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/Machinery.ProcessValues/Machinery_ProcessValues_ProcessValueType/event/AnalogSignal_LowLimit/{senderId}",
+            "op": "subscribeevent"
+          }
+        ]
+      },
+      "AnalogSignal_LowLowLimit": {
+        "aov:namespace": "http://opcfoundation.org/UA/Machinery/ProcessValues/",
+        "data": {
+          "description": "Defines the absolute low low limit",
+          "type": "number"
+        },
+        "aov:containedIn": "AnalogSignal",
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/Machinery.ProcessValues/Machinery_ProcessValues_ProcessValueType/event/AnalogSignal_LowLowLimit/{senderId}",
+            "op": "subscribeevent"
+          }
+        ]
+      },
+      "AnalogSignal_PercentageValue": {
+        "aov:namespace": "http://opcfoundation.org/UA/Machinery/ProcessValues/",
+        "data": {
+          "description": "Provides the process value in percentage.",
+          "type": "number",
+          "minimum": -1.80e+308,
+          "maximum": 1.80e+308
+        },
+        "aov:containedIn": "AnalogSignal",
+        "qudt:hasQuantityKind": "http://qudt.org/vocab/quantitykind/DimensionlessRatio",
+        "aov:withUnit": "properties/AnalogSignal_PercentageValue_EngineeringUnits",
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/Machinery.ProcessValues/Machinery_ProcessValues_ProcessValueType/event/AnalogSignal_PercentageValue/{senderId}",
+            "op": "subscribeevent"
+          }
+        ]
+      },
+      "ProcessValueSetpoint": {
+        "aov:namespace": "http://opcfoundation.org/UA/Machinery/ProcessValues/",
+        "data": {
+          "description": "The desired value, may or may not be controlled by the server.",
+          "type": "number"
+        },
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/Machinery.ProcessValues/Machinery_ProcessValues_ProcessValueType/event/ProcessValueSetpoint/{senderId}",
+            "op": "subscribeevent"
+          }
+        ]
+      },
+      "Status": {
+        "aov:namespace": "http://opcfoundation.org/UA/Machinery/ProcessValues/",
+        "data": {
+          "description": "Indicates if a limit has been reached.",
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 65535
+        },
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/Machinery.ProcessValues/Machinery_ProcessValues_ProcessValueType/event/Status/{senderId}",
+            "op": "subscribeevent"
+          }
+        ]
+      }
+    }
+  },
+  {
+    "@context": [
+      "https://www.w3.org/2022/wot/td/v1.1",
+      {
+        "dtv": "http://azure.com/DigitalTwins/dtmi#",
+        "aov": "http://azure.com/IoT/operations/tm#"
+      }
+    ],
+    "@type": "tm:ThingModel",
+    "title": "PADIM_AnalogSignalType",
+    "aov:typeRef": "nsu=http://opcfoundation.org/UA/PADIM/;i=1022",
+    "aov:isComposite": true,
+    "links": [
+      {
+        "rel": "tm:extends",
+        "href": "#title=PADIM_SignalType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "aov:component",
+        "aov:refName": "S_SignalCalibrationIdentifier_",
+        "href": "#title=OpcUaCore_BaseObjectType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "aov:component",
+        "aov:refName": "SignalConditionSet",
+        "href": "#title=OpcUaCore_BaseObjectType",
+        "type": "application/tm+json"
+      }
+    ],
+    "schemaDefinitions": {
+    },
+    "forms": [
+      {
+        "contentType": "application/json",
+        "dtv:topic": "opcua/PADIM/PADIM_AnalogSignalType/events/{senderId}",
+        "op": "subscribeallevents"
+      },
+      {
+        "contentType": "application/json",
+        "dtv:topic": "opcua/PADIM/PADIM_AnalogSignalType/properties/write",
+        "op": "writemultipleproperties"
+      },
+      {
+        "contentType": "application/json",
+        "dtv:topic": "opcua/PADIM/PADIM_AnalogSignalType/properties/read",
+        "op": "readallproperties"
+      }
+    ],
+    "actions": {
+      "ZeroPointAdjustment": {
+        "aov:namespace": "http://opcfoundation.org/UA/PADIM/",
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/PADIM/PADIM_AnalogSignalType/action/ZeroPointAdjustment",
+            "op": "invokeaction"
+          }
+        ]
+      }
+    },
+    "properties": {
+      "AnalogSignal": {
+        "aov:namespace": "http://opcfoundation.org/UA/PADIM/",
+        "type": "number",
+        "readOnly": false,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/PADIM/PADIM_AnalogSignalType/property/AnalogSignal/write",
+            "op": "writeproperty"
+          },
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/PADIM/PADIM_AnalogSignalType/property/AnalogSignal/read",
+            "op": "readproperty"
+          }
+        ]
+      }
+    },
+    "events": {
+      "AnalogSignal": {
+        "aov:namespace": "http://opcfoundation.org/UA/PADIM/",
+        "data": {
+          "type": "number"
+        },
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/PADIM/PADIM_AnalogSignalType/event/AnalogSignal/{senderId}",
+            "op": "subscribeevent"
+          }
+        ]
+      }
+    }
+  },
+  {
+    "@context": [
+      "https://www.w3.org/2022/wot/td/v1.1",
+      {
+        "dtv": "http://azure.com/DigitalTwins/dtmi#",
+        "aov": "http://azure.com/IoT/operations/tm#"
+      }
+    ],
+    "@type": "tm:ThingModel",
+    "title": "PADIM_SignalType",
+    "aov:typeRef": "nsu=http://opcfoundation.org/UA/PADIM/;i=1008",
+    "links": [
+      {
+        "rel": "tm:extends",
+        "href": "#title=OpcUaCore_BaseObjectType",
+        "type": "application/tm+json"
+      }
+    ],
+    "schemaDefinitions": {
+    },
+    "forms": [
+      {
+        "contentType": "application/json",
+        "dtv:topic": "opcua/PADIM/PADIM_SignalType/properties/write",
+        "op": "writemultipleproperties"
+      },
+      {
+        "contentType": "application/json",
+        "dtv:topic": "opcua/PADIM/PADIM_SignalType/properties/read",
+        "op": "readallproperties"
+      }
+    ],
+    "actions": {
+    },
+    "properties": {
+      "SignalTag": {
+        "aov:namespace": "http://opcfoundation.org/UA/PADIM/",
+        "type": "string",
+        "readOnly": false,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/PADIM/PADIM_SignalType/property/SignalTag/write",
+            "op": "writeproperty"
+          },
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/PADIM/PADIM_SignalType/property/SignalTag/read",
+            "op": "readproperty"
+          }
+        ]
+      }
+    },
+    "events": {
+    }
+  },
+  {
+    "@context": [
+      "https://www.w3.org/2022/wot/td/v1.1",
+      {
+        "dtv": "http://azure.com/DigitalTwins/dtmi#",
+        "aov": "http://azure.com/IoT/operations/tm#"
+      }
+    ],
+    "@type": "tm:ThingModel",
+    "title": "OpcUaCore_BaseObjectType",
+    "aov:typeRef": "nsu=http://opcfoundation.org/UA/;i=58",
+    "links": [
+    ],
+    "schemaDefinitions": {
+    },
+    "actions": {
+    },
+    "properties": {
+    },
+    "events": {
+    }
+  },
+  {
+    "@context": [
+      "https://www.w3.org/2022/wot/td/v1.1",
+      {
+        "dtv": "http://azure.com/DigitalTwins/dtmi#",
+        "aov": "http://azure.com/IoT/operations/tm#"
+      }
+    ],
+    "@type": "tm:ThingModel",
+    "title": "OpcUaCore_ExclusiveDeviationAlarmType",
+    "aov:typeRef": "nsu=http://opcfoundation.org/UA/;i=9764",
+    "aov:isEvent": true,
+    "links": [
+      {
+        "rel": "tm:extends",
+        "href": "#title=OpcUaCore_ExclusiveLimitAlarmType",
+        "type": "application/tm+json"
+      }
+    ],
+    "schemaDefinitions": {
+    },
+    "forms": [
+      {
+        "contentType": "application/json",
+        "dtv:topic": "opcua/OpcUaCore/OpcUaCore_ExclusiveDeviationAlarmType/properties/read",
+        "op": "readallproperties"
+      }
+    ],
+    "actions": {
+    },
+    "properties": {
+      "BaseSetpointNode": {
+        "type": "string",
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/OpcUaCore/OpcUaCore_ExclusiveDeviationAlarmType/property/BaseSetpointNode/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "SetpointNode": {
+        "type": "string",
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/OpcUaCore/OpcUaCore_ExclusiveDeviationAlarmType/property/SetpointNode/read",
+            "op": "readproperty"
+          }
+        ]
+      }
+    },
+    "events": {
+    }
+  },
+  {
+    "@context": [
+      "https://www.w3.org/2022/wot/td/v1.1",
+      {
+        "dtv": "http://azure.com/DigitalTwins/dtmi#",
+        "aov": "http://azure.com/IoT/operations/tm#"
+      }
+    ],
+    "@type": "tm:ThingModel",
+    "title": "OpcUaCore_ExclusiveLimitAlarmType",
+    "aov:typeRef": "nsu=http://opcfoundation.org/UA/;i=9341",
+    "aov:isEvent": true,
+    "links": [
+      {
+        "rel": "tm:extends",
+        "href": "#title=OpcUaCore_LimitAlarmType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "aov:capability",
+        "aov:refName": "LimitState",
+        "href": "#title=OpcUaCore_ExclusiveLimitStateMachineType",
+        "type": "application/tm+json"
+      }
+    ],
+    "schemaDefinitions": {
+    },
+    "forms": [
+      {
+        "contentType": "application/json",
+        "dtv:topic": "opcua/OpcUaCore/OpcUaCore_ExclusiveLimitAlarmType/events/{senderId}",
+        "op": "subscribeallevents"
+      },
+      {
+        "contentType": "application/json",
+        "dtv:topic": "opcua/OpcUaCore/OpcUaCore_ExclusiveLimitAlarmType/properties/read",
+        "op": "readallproperties"
+      }
+    ],
+    "actions": {
+    },
+    "properties": {
+      "ActiveState": {
+        "type": "string",
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/OpcUaCore/OpcUaCore_ExclusiveLimitAlarmType/property/ActiveState/read",
+            "op": "readproperty"
+          }
+        ]
+      }
+    },
+    "events": {
+      "ActiveState": {
+        "data": {
+          "type": "string"
+        },
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/OpcUaCore/OpcUaCore_ExclusiveLimitAlarmType/event/ActiveState/{senderId}",
+            "op": "subscribeevent"
+          }
+        ]
+      }
+    }
+  },
+  {
+    "@context": [
+      "https://www.w3.org/2022/wot/td/v1.1",
+      {
+        "dtv": "http://azure.com/DigitalTwins/dtmi#",
+        "aov": "http://azure.com/IoT/operations/tm#"
+      }
+    ],
+    "@type": "tm:ThingModel",
+    "title": "OpcUaCore_LimitAlarmType",
+    "aov:typeRef": "nsu=http://opcfoundation.org/UA/;i=2955",
+    "aov:isEvent": true,
+    "links": [
+      {
+        "rel": "tm:extends",
+        "href": "#title=OpcUaCore_AlarmConditionType",
+        "type": "application/tm+json"
+      }
+    ],
+    "schemaDefinitions": {
+    },
+    "forms": [
+      {
+        "contentType": "application/json",
+        "dtv:topic": "opcua/OpcUaCore/OpcUaCore_LimitAlarmType/properties/read",
+        "op": "readallproperties"
+      }
+    ],
+    "actions": {
+    },
+    "properties": {
+      "BaseHighHighLimit": {
+        "type": "number",
+        "minimum": -1.80e+308,
+        "maximum": 1.80e+308,
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/OpcUaCore/OpcUaCore_LimitAlarmType/property/BaseHighHighLimit/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "BaseHighLimit": {
+        "type": "number",
+        "minimum": -1.80e+308,
+        "maximum": 1.80e+308,
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/OpcUaCore/OpcUaCore_LimitAlarmType/property/BaseHighLimit/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "BaseLowLimit": {
+        "type": "number",
+        "minimum": -1.80e+308,
+        "maximum": 1.80e+308,
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/OpcUaCore/OpcUaCore_LimitAlarmType/property/BaseLowLimit/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "BaseLowLowLimit": {
+        "type": "number",
+        "minimum": -1.80e+308,
+        "maximum": 1.80e+308,
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/OpcUaCore/OpcUaCore_LimitAlarmType/property/BaseLowLowLimit/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "HighDeadband": {
+        "type": "number",
+        "minimum": -1.80e+308,
+        "maximum": 1.80e+308,
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/OpcUaCore/OpcUaCore_LimitAlarmType/property/HighDeadband/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "HighHighDeadband": {
+        "type": "number",
+        "minimum": -1.80e+308,
+        "maximum": 1.80e+308,
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/OpcUaCore/OpcUaCore_LimitAlarmType/property/HighHighDeadband/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "HighHighLimit": {
+        "type": "number",
+        "minimum": -1.80e+308,
+        "maximum": 1.80e+308,
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/OpcUaCore/OpcUaCore_LimitAlarmType/property/HighHighLimit/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "HighLimit": {
+        "type": "number",
+        "minimum": -1.80e+308,
+        "maximum": 1.80e+308,
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/OpcUaCore/OpcUaCore_LimitAlarmType/property/HighLimit/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "LowDeadband": {
+        "type": "number",
+        "minimum": -1.80e+308,
+        "maximum": 1.80e+308,
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/OpcUaCore/OpcUaCore_LimitAlarmType/property/LowDeadband/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "LowLimit": {
+        "type": "number",
+        "minimum": -1.80e+308,
+        "maximum": 1.80e+308,
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/OpcUaCore/OpcUaCore_LimitAlarmType/property/LowLimit/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "LowLowDeadband": {
+        "type": "number",
+        "minimum": -1.80e+308,
+        "maximum": 1.80e+308,
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/OpcUaCore/OpcUaCore_LimitAlarmType/property/LowLowDeadband/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "LowLowLimit": {
+        "type": "number",
+        "minimum": -1.80e+308,
+        "maximum": 1.80e+308,
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/OpcUaCore/OpcUaCore_LimitAlarmType/property/LowLowLimit/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "SeverityHigh": {
+        "type": "integer",
+        "minimum": 0,
+        "maximum": 65535,
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/OpcUaCore/OpcUaCore_LimitAlarmType/property/SeverityHigh/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "SeverityHighHigh": {
+        "type": "integer",
+        "minimum": 0,
+        "maximum": 65535,
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/OpcUaCore/OpcUaCore_LimitAlarmType/property/SeverityHighHigh/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "SeverityLow": {
+        "type": "integer",
+        "minimum": 0,
+        "maximum": 65535,
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/OpcUaCore/OpcUaCore_LimitAlarmType/property/SeverityLow/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "SeverityLowLow": {
+        "type": "integer",
+        "minimum": 0,
+        "maximum": 65535,
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/OpcUaCore/OpcUaCore_LimitAlarmType/property/SeverityLowLow/read",
+            "op": "readproperty"
+          }
+        ]
+      }
+    },
+    "events": {
+    }
+  },
+  {
+    "@context": [
+      "https://www.w3.org/2022/wot/td/v1.1",
+      {
+        "dtv": "http://azure.com/DigitalTwins/dtmi#",
+        "aov": "http://azure.com/IoT/operations/tm#"
+      }
+    ],
+    "@type": "tm:ThingModel",
+    "title": "OpcUaCore_AlarmConditionType",
+    "aov:typeRef": "nsu=http://opcfoundation.org/UA/;i=2915",
+    "aov:isEvent": true,
+    "links": [
+      {
+        "rel": "tm:extends",
+        "href": "#title=OpcUaCore_AcknowledgeableConditionType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "aov:capability",
+        "aov:refName": "ShelvingState",
+        "href": "#title=OpcUaCore_ShelvedStateMachineType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "aov:component",
+        "aov:refName": "FirstInGroup",
+        "href": "#title=OpcUaCore_AlarmGroupType",
+        "type": "application/tm+json"
+      }
+    ],
+    "schemaDefinitions": {
+    },
+    "forms": [
+      {
+        "contentType": "application/json",
+        "dtv:topic": "opcua/OpcUaCore/OpcUaCore_AlarmConditionType/events/{senderId}",
+        "op": "subscribeallevents"
+      },
+      {
+        "contentType": "application/json",
+        "dtv:topic": "opcua/OpcUaCore/OpcUaCore_AlarmConditionType/properties/read",
+        "op": "readallproperties"
+      }
+    ],
+    "actions": {
+      "GetGroupMemberships": {
+        "output": {
+          "type": "object",
+          "aov:typeRef": "nsu=http://opcfoundation.org/UA/;i=25154",
+          "required": [ "Groups" ],
+          "properties": {
+            "Groups": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            }
+          }
+        },
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/OpcUaCore/OpcUaCore_AlarmConditionType/action/GetGroupMemberships",
+            "op": "invokeaction"
+          }
+        ]
+      },
+      "PlaceInService": {
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/OpcUaCore/OpcUaCore_AlarmConditionType/action/PlaceInService",
+            "op": "invokeaction"
+          }
+        ]
+      },
+      "PlaceInService2": {
+        "input": {
+          "type": "object",
+          "aov:typeRef": "nsu=http://opcfoundation.org/UA/;i=24323",
+          "required": [ "Comment" ],
+          "properties": {
+            "Comment": {
+              "type": "string"
+            }
+          }
+        },
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/OpcUaCore/OpcUaCore_AlarmConditionType/action/PlaceInService2",
+            "op": "invokeaction"
+          }
+        ]
+      },
+      "RemoveFromService": {
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/OpcUaCore/OpcUaCore_AlarmConditionType/action/RemoveFromService",
+            "op": "invokeaction"
+          }
+        ]
+      },
+      "RemoveFromService2": {
+        "input": {
+          "type": "object",
+          "aov:typeRef": "nsu=http://opcfoundation.org/UA/;i=24321",
+          "required": [ "Comment" ],
+          "properties": {
+            "Comment": {
+              "type": "string"
+            }
+          }
+        },
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/OpcUaCore/OpcUaCore_AlarmConditionType/action/RemoveFromService2",
+            "op": "invokeaction"
+          }
+        ]
+      },
+      "Reset": {
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/OpcUaCore/OpcUaCore_AlarmConditionType/action/Reset",
+            "op": "invokeaction"
+          }
+        ]
+      },
+      "Reset2": {
+        "input": {
+          "type": "object",
+          "aov:typeRef": "nsu=http://opcfoundation.org/UA/;i=24325",
+          "required": [ "Comment" ],
+          "properties": {
+            "Comment": {
+              "type": "string"
+            }
+          }
+        },
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/OpcUaCore/OpcUaCore_AlarmConditionType/action/Reset2",
+            "op": "invokeaction"
+          }
+        ]
+      },
+      "Silence": {
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/OpcUaCore/OpcUaCore_AlarmConditionType/action/Silence",
+            "op": "invokeaction"
+          }
+        ]
+      },
+      "Suppress": {
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/OpcUaCore/OpcUaCore_AlarmConditionType/action/Suppress",
+            "op": "invokeaction"
+          }
+        ]
+      },
+      "Suppress2": {
+        "input": {
+          "type": "object",
+          "aov:typeRef": "nsu=http://opcfoundation.org/UA/;i=24317",
+          "required": [ "Comment" ],
+          "properties": {
+            "Comment": {
+              "type": "string"
+            }
+          }
+        },
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/OpcUaCore/OpcUaCore_AlarmConditionType/action/Suppress2",
+            "op": "invokeaction"
+          }
+        ]
+      },
+      "Unsuppress": {
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/OpcUaCore/OpcUaCore_AlarmConditionType/action/Unsuppress",
+            "op": "invokeaction"
+          }
+        ]
+      },
+      "Unsuppress2": {
+        "input": {
+          "type": "object",
+          "aov:typeRef": "nsu=http://opcfoundation.org/UA/;i=24319",
+          "required": [ "Comment" ],
+          "properties": {
+            "Comment": {
+              "type": "string"
+            }
+          }
+        },
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/OpcUaCore/OpcUaCore_AlarmConditionType/action/Unsuppress2",
+            "op": "invokeaction"
+          }
+        ]
+      }
+    },
+    "properties": {
+      "ActiveState": {
+        "type": "string",
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/OpcUaCore/OpcUaCore_AlarmConditionType/property/ActiveState/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "AudibleEnabled": {
+        "type": "boolean",
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/OpcUaCore/OpcUaCore_AlarmConditionType/property/AudibleEnabled/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "AudibleSound": {
+        "type": "string",
+        "contentEncoding": "base64",
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/OpcUaCore/OpcUaCore_AlarmConditionType/property/AudibleSound/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "EnabledState": {
+        "type": "string",
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/OpcUaCore/OpcUaCore_AlarmConditionType/property/EnabledState/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "FirstInGroupFlag": {
+        "type": "boolean",
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/OpcUaCore/OpcUaCore_AlarmConditionType/property/FirstInGroupFlag/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "InputNode": {
+        "type": "string",
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/OpcUaCore/OpcUaCore_AlarmConditionType/property/InputNode/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "LatchedState": {
+        "type": "string",
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/OpcUaCore/OpcUaCore_AlarmConditionType/property/LatchedState/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "MaxTimeShelved": {
+        "type": "string",
+        "pattern": "^P(?!$)(?:(?:(?:(?:\\d+Y)|(?:\\d+\\.\\d+Y$))?(?:(?:\\d+M)|(?:\\d+\\.\\d+M$))?)|(?:(?:(?:\\d+W)|(?:\\d+\\.\\d+W$))?))(?:(?:\\d+D)|(?:\\d+\\.\\d+D$))?(?:T(?!$)(?:(?:\\d+H)|(?:\\d+\\.\\d+H$))?(?:(?:\\d+M)|(?:\\d+\\.\\d+M$))?(?:\\d+(?:\\.\\d+)?S)?)?$",
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/OpcUaCore/OpcUaCore_AlarmConditionType/property/MaxTimeShelved/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "OffDelay": {
+        "type": "string",
+        "pattern": "^P(?!$)(?:(?:(?:(?:\\d+Y)|(?:\\d+\\.\\d+Y$))?(?:(?:\\d+M)|(?:\\d+\\.\\d+M$))?)|(?:(?:(?:\\d+W)|(?:\\d+\\.\\d+W$))?))(?:(?:\\d+D)|(?:\\d+\\.\\d+D$))?(?:T(?!$)(?:(?:\\d+H)|(?:\\d+\\.\\d+H$))?(?:(?:\\d+M)|(?:\\d+\\.\\d+M$))?(?:\\d+(?:\\.\\d+)?S)?)?$",
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/OpcUaCore/OpcUaCore_AlarmConditionType/property/OffDelay/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "OnDelay": {
+        "type": "string",
+        "pattern": "^P(?!$)(?:(?:(?:(?:\\d+Y)|(?:\\d+\\.\\d+Y$))?(?:(?:\\d+M)|(?:\\d+\\.\\d+M$))?)|(?:(?:(?:\\d+W)|(?:\\d+\\.\\d+W$))?))(?:(?:\\d+D)|(?:\\d+\\.\\d+D$))?(?:T(?!$)(?:(?:\\d+H)|(?:\\d+\\.\\d+H$))?(?:(?:\\d+M)|(?:\\d+\\.\\d+M$))?(?:\\d+(?:\\.\\d+)?S)?)?$",
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/OpcUaCore/OpcUaCore_AlarmConditionType/property/OnDelay/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "OutOfServiceState": {
+        "type": "string",
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/OpcUaCore/OpcUaCore_AlarmConditionType/property/OutOfServiceState/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "ReAlarmRepeatCount": {
+        "type": "integer",
+        "minimum": -32768,
+        "maximum": 32767,
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/OpcUaCore/OpcUaCore_AlarmConditionType/property/ReAlarmRepeatCount/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "ReAlarmTime": {
+        "type": "string",
+        "pattern": "^P(?!$)(?:(?:(?:(?:\\d+Y)|(?:\\d+\\.\\d+Y$))?(?:(?:\\d+M)|(?:\\d+\\.\\d+M$))?)|(?:(?:(?:\\d+W)|(?:\\d+\\.\\d+W$))?))(?:(?:\\d+D)|(?:\\d+\\.\\d+D$))?(?:T(?!$)(?:(?:\\d+H)|(?:\\d+\\.\\d+H$))?(?:(?:\\d+M)|(?:\\d+\\.\\d+M$))?(?:\\d+(?:\\.\\d+)?S)?)?$",
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/OpcUaCore/OpcUaCore_AlarmConditionType/property/ReAlarmTime/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "SilenceState": {
+        "type": "string",
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/OpcUaCore/OpcUaCore_AlarmConditionType/property/SilenceState/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "SuppressedOrShelved": {
+        "type": "boolean",
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/OpcUaCore/OpcUaCore_AlarmConditionType/property/SuppressedOrShelved/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "SuppressedState": {
+        "type": "string",
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/OpcUaCore/OpcUaCore_AlarmConditionType/property/SuppressedState/read",
+            "op": "readproperty"
+          }
+        ]
+      }
+    },
+    "events": {
+      "ActiveState": {
+        "data": {
+          "type": "string"
+        },
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/OpcUaCore/OpcUaCore_AlarmConditionType/event/ActiveState/{senderId}",
+            "op": "subscribeevent"
+          }
+        ]
+      },
+      "AudibleSound": {
+        "data": {
+          "type": "string",
+          "contentEncoding": "base64"
+        },
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/OpcUaCore/OpcUaCore_AlarmConditionType/event/AudibleSound/{senderId}",
+            "op": "subscribeevent"
+          }
+        ]
+      },
+      "EnabledState": {
+        "data": {
+          "type": "string"
+        },
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/OpcUaCore/OpcUaCore_AlarmConditionType/event/EnabledState/{senderId}",
+            "op": "subscribeevent"
+          }
+        ]
+      },
+      "FirstInGroupFlag": {
+        "data": {
+          "type": "boolean"
+        },
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/OpcUaCore/OpcUaCore_AlarmConditionType/event/FirstInGroupFlag/{senderId}",
+            "op": "subscribeevent"
+          }
+        ]
+      },
+      "LatchedState": {
+        "data": {
+          "type": "string"
+        },
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/OpcUaCore/OpcUaCore_AlarmConditionType/event/LatchedState/{senderId}",
+            "op": "subscribeevent"
+          }
+        ]
+      },
+      "OutOfServiceState": {
+        "data": {
+          "type": "string"
+        },
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/OpcUaCore/OpcUaCore_AlarmConditionType/event/OutOfServiceState/{senderId}",
+            "op": "subscribeevent"
+          }
+        ]
+      },
+      "ReAlarmRepeatCount": {
+        "data": {
+          "type": "integer",
+          "minimum": -32768,
+          "maximum": 32767
+        },
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/OpcUaCore/OpcUaCore_AlarmConditionType/event/ReAlarmRepeatCount/{senderId}",
+            "op": "subscribeevent"
+          }
+        ]
+      },
+      "SilenceState": {
+        "data": {
+          "type": "string"
+        },
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/OpcUaCore/OpcUaCore_AlarmConditionType/event/SilenceState/{senderId}",
+            "op": "subscribeevent"
+          }
+        ]
+      },
+      "SuppressedState": {
+        "data": {
+          "type": "string"
+        },
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/OpcUaCore/OpcUaCore_AlarmConditionType/event/SuppressedState/{senderId}",
+            "op": "subscribeevent"
+          }
+        ]
+      }
+    }
+  },
+  {
+    "@context": [
+      "https://www.w3.org/2022/wot/td/v1.1",
+      {
+        "dtv": "http://azure.com/DigitalTwins/dtmi#",
+        "aov": "http://azure.com/IoT/operations/tm#"
+      }
+    ],
+    "@type": "tm:ThingModel",
+    "title": "OpcUaCore_AcknowledgeableConditionType",
+    "aov:typeRef": "nsu=http://opcfoundation.org/UA/;i=2881",
+    "aov:isEvent": true,
+    "links": [
+      {
+        "rel": "tm:extends",
+        "href": "#title=OpcUaCore_ConditionType",
+        "type": "application/tm+json"
+      }
+    ],
+    "schemaDefinitions": {
+    },
+    "forms": [
+      {
+        "contentType": "application/json",
+        "dtv:topic": "opcua/OpcUaCore/OpcUaCore_AcknowledgeableConditionType/events/{senderId}",
+        "op": "subscribeallevents"
+      },
+      {
+        "contentType": "application/json",
+        "dtv:topic": "opcua/OpcUaCore/OpcUaCore_AcknowledgeableConditionType/properties/read",
+        "op": "readallproperties"
+      }
+    ],
+    "actions": {
+      "Acknowledge": {
+        "input": {
+          "type": "object",
+          "aov:typeRef": "nsu=http://opcfoundation.org/UA/;i=9112",
+          "required": [ "EventId", "Comment" ],
+          "properties": {
+            "EventId": {
+              "description": "The identifier for the event to comment.",
+              "type": "string",
+              "contentEncoding": "base64"
+            },
+            "Comment": {
+              "description": "The comment to add to the condition.",
+              "type": "string"
+            }
+          }
+        },
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/OpcUaCore/OpcUaCore_AcknowledgeableConditionType/action/Acknowledge",
+            "op": "invokeaction"
+          }
+        ]
+      },
+      "Confirm": {
+        "input": {
+          "type": "object",
+          "aov:typeRef": "nsu=http://opcfoundation.org/UA/;i=9114",
+          "required": [ "EventId", "Comment" ],
+          "properties": {
+            "EventId": {
+              "description": "The identifier for the event to comment.",
+              "type": "string",
+              "contentEncoding": "base64"
+            },
+            "Comment": {
+              "description": "The comment to add to the condition.",
+              "type": "string"
+            }
+          }
+        },
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/OpcUaCore/OpcUaCore_AcknowledgeableConditionType/action/Confirm",
+            "op": "invokeaction"
+          }
+        ]
+      }
+    },
+    "properties": {
+      "AckedState": {
+        "type": "string",
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/OpcUaCore/OpcUaCore_AcknowledgeableConditionType/property/AckedState/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "ConfirmedState": {
+        "type": "string",
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/OpcUaCore/OpcUaCore_AcknowledgeableConditionType/property/ConfirmedState/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "EnabledState": {
+        "type": "string",
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/OpcUaCore/OpcUaCore_AcknowledgeableConditionType/property/EnabledState/read",
+            "op": "readproperty"
+          }
+        ]
+      }
+    },
+    "events": {
+      "AckedState": {
+        "data": {
+          "type": "string"
+        },
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/OpcUaCore/OpcUaCore_AcknowledgeableConditionType/event/AckedState/{senderId}",
+            "op": "subscribeevent"
+          }
+        ]
+      },
+      "ConfirmedState": {
+        "data": {
+          "type": "string"
+        },
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/OpcUaCore/OpcUaCore_AcknowledgeableConditionType/event/ConfirmedState/{senderId}",
+            "op": "subscribeevent"
+          }
+        ]
+      },
+      "EnabledState": {
+        "data": {
+          "type": "string"
+        },
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/OpcUaCore/OpcUaCore_AcknowledgeableConditionType/event/EnabledState/{senderId}",
+            "op": "subscribeevent"
+          }
+        ]
+      }
+    }
+  },
+  {
+    "@context": [
+      "https://www.w3.org/2022/wot/td/v1.1",
+      {
+        "dtv": "http://azure.com/DigitalTwins/dtmi#",
+        "aov": "http://azure.com/IoT/operations/tm#"
+      }
+    ],
+    "@type": "tm:ThingModel",
+    "title": "OpcUaCore_ConditionType",
+    "aov:typeRef": "nsu=http://opcfoundation.org/UA/;i=2782",
+    "aov:isEvent": true,
+    "links": [
+      {
+        "rel": "tm:extends",
+        "href": "#title=OpcUaCore_BaseEventType",
+        "type": "application/tm+json"
+      }
+    ],
+    "schemaDefinitions": {
+    },
+    "forms": [
+      {
+        "contentType": "application/json",
+        "dtv:topic": "opcua/OpcUaCore/OpcUaCore_ConditionType/events/{senderId}",
+        "op": "subscribeallevents"
+      },
+      {
+        "contentType": "application/json",
+        "dtv:topic": "opcua/OpcUaCore/OpcUaCore_ConditionType/properties/read",
+        "op": "readallproperties"
+      }
+    ],
+    "actions": {
+      "AddComment": {
+        "input": {
+          "type": "object",
+          "aov:typeRef": "nsu=http://opcfoundation.org/UA/;i=9030",
+          "required": [ "EventId", "Comment" ],
+          "properties": {
+            "EventId": {
+              "description": "The identifier for the event to comment.",
+              "type": "string",
+              "contentEncoding": "base64"
+            },
+            "Comment": {
+              "description": "The comment to add to the condition.",
+              "type": "string"
+            }
+          }
+        },
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/OpcUaCore/OpcUaCore_ConditionType/action/AddComment",
+            "op": "invokeaction"
+          }
+        ]
+      },
+      "ConditionRefresh": {
+        "input": {
+          "type": "object",
+          "aov:typeRef": "nsu=http://opcfoundation.org/UA/;i=3876",
+          "required": [ "SubscriptionId" ],
+          "properties": {
+            "SubscriptionId": {
+              "description": "The identifier for the subscription to refresh.",
+              "type": "integer",
+              "minimum": 0,
+              "maximum": 4294967295
+            }
+          }
+        },
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/OpcUaCore/OpcUaCore_ConditionType/action/ConditionRefresh",
+            "op": "invokeaction"
+          }
+        ]
+      },
+      "ConditionRefresh2": {
+        "input": {
+          "type": "object",
+          "aov:typeRef": "nsu=http://opcfoundation.org/UA/;i=12913",
+          "required": [ "SubscriptionId", "MonitoredItemId" ],
+          "properties": {
+            "SubscriptionId": {
+              "description": "The identifier for the subscription to refresh.",
+              "type": "integer",
+              "minimum": 0,
+              "maximum": 4294967295
+            },
+            "MonitoredItemId": {
+              "description": "The identifier for the monitored item to refresh.",
+              "type": "integer",
+              "minimum": 0,
+              "maximum": 4294967295
+            }
+          }
+        },
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/OpcUaCore/OpcUaCore_ConditionType/action/ConditionRefresh2",
+            "op": "invokeaction"
+          }
+        ]
+      },
+      "Disable": {
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/OpcUaCore/OpcUaCore_ConditionType/action/Disable",
+            "op": "invokeaction"
+          }
+        ]
+      },
+      "Enable": {
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/OpcUaCore/OpcUaCore_ConditionType/action/Enable",
+            "op": "invokeaction"
+          }
+        ]
+      }
+    },
+    "properties": {
+      "BranchId": {
+        "type": "string",
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/OpcUaCore/OpcUaCore_ConditionType/property/BranchId/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "ClientUserId": {
+        "type": "string",
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/OpcUaCore/OpcUaCore_ConditionType/property/ClientUserId/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "Comment": {
+        "type": "string",
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/OpcUaCore/OpcUaCore_ConditionType/property/Comment/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "ConditionClassId": {
+        "type": "string",
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/OpcUaCore/OpcUaCore_ConditionType/property/ConditionClassId/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "ConditionClassName": {
+        "type": "string",
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/OpcUaCore/OpcUaCore_ConditionType/property/ConditionClassName/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "ConditionName": {
+        "type": "string",
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/OpcUaCore/OpcUaCore_ConditionType/property/ConditionName/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "ConditionSubClassId": {
+        "type": "array",
+        "items": {
+          "type": "string"
+        },
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/OpcUaCore/OpcUaCore_ConditionType/property/ConditionSubClassId/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "ConditionSubClassName": {
+        "type": "array",
+        "items": {
+          "type": "string"
+        },
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/OpcUaCore/OpcUaCore_ConditionType/property/ConditionSubClassName/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "EnabledState": {
+        "type": "string",
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/OpcUaCore/OpcUaCore_ConditionType/property/EnabledState/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "LastSeverity": {
+        "type": "integer",
+        "minimum": 0,
+        "maximum": 65535,
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/OpcUaCore/OpcUaCore_ConditionType/property/LastSeverity/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "Quality": {
+        "type": "string",
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/OpcUaCore/OpcUaCore_ConditionType/property/Quality/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "Retain": {
+        "type": "boolean",
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/OpcUaCore/OpcUaCore_ConditionType/property/Retain/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "SupportsFilteredRetain": {
+        "type": "boolean",
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/OpcUaCore/OpcUaCore_ConditionType/property/SupportsFilteredRetain/read",
+            "op": "readproperty"
+          }
+        ]
+      }
+    },
+    "events": {
+      "Comment": {
+        "data": {
+          "type": "string"
+        },
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/OpcUaCore/OpcUaCore_ConditionType/event/Comment/{senderId}",
+            "op": "subscribeevent"
+          }
+        ]
+      },
+      "EnabledState": {
+        "data": {
+          "type": "string"
+        },
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/OpcUaCore/OpcUaCore_ConditionType/event/EnabledState/{senderId}",
+            "op": "subscribeevent"
+          }
+        ]
+      },
+      "LastSeverity": {
+        "data": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 65535
+        },
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/OpcUaCore/OpcUaCore_ConditionType/event/LastSeverity/{senderId}",
+            "op": "subscribeevent"
+          }
+        ]
+      },
+      "Quality": {
+        "data": {
+          "type": "string"
+        },
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/OpcUaCore/OpcUaCore_ConditionType/event/Quality/{senderId}",
+            "op": "subscribeevent"
+          }
+        ]
+      }
+    }
+  },
+  {
+    "@context": [
+      "https://www.w3.org/2022/wot/td/v1.1",
+      {
+        "dtv": "http://azure.com/DigitalTwins/dtmi#",
+        "aov": "http://azure.com/IoT/operations/tm#"
+      }
+    ],
+    "@type": "tm:ThingModel",
+    "title": "OpcUaCore_BaseEventType",
+    "aov:typeRef": "nsu=http://opcfoundation.org/UA/;i=2041",
+    "links": [
+      {
+        "rel": "tm:extends",
+        "href": "#title=OpcUaCore_BaseObjectType",
+        "type": "application/tm+json"
+      }
+    ],
+    "schemaDefinitions": {
+    },
+    "forms": [
+      {
+        "contentType": "application/json",
+        "dtv:topic": "opcua/OpcUaCore/OpcUaCore_BaseEventType/properties/read",
+        "op": "readallproperties"
+      }
+    ],
+    "actions": {
+    },
+    "properties": {
+      "ConditionClassId": {
+        "type": "string",
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/OpcUaCore/OpcUaCore_BaseEventType/property/ConditionClassId/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "ConditionClassName": {
+        "type": "string",
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/OpcUaCore/OpcUaCore_BaseEventType/property/ConditionClassName/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "ConditionSubClassId": {
+        "type": "array",
+        "items": {
+          "type": "string"
+        },
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/OpcUaCore/OpcUaCore_BaseEventType/property/ConditionSubClassId/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "ConditionSubClassName": {
+        "type": "array",
+        "items": {
+          "type": "string"
+        },
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/OpcUaCore/OpcUaCore_BaseEventType/property/ConditionSubClassName/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "EventId": {
+        "type": "string",
+        "contentEncoding": "base64",
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/OpcUaCore/OpcUaCore_BaseEventType/property/EventId/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "EventType": {
+        "type": "string",
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/OpcUaCore/OpcUaCore_BaseEventType/property/EventType/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "LocalTime": {
+        "title": "TimeZoneDataType",
+        "type": "object",
+        "aov:typeRef": "nsu=http://opcfoundation.org/UA/;i=8912",
+        "required": [ "Offset", "DaylightSavingInOffset" ],
+        "properties": {
+          "Offset": {
+            "type": "integer",
+            "minimum": -32768,
+            "maximum": 32767
+          },
+          "DaylightSavingInOffset": {
+            "type": "boolean"
+          }
+        },
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/OpcUaCore/OpcUaCore_BaseEventType/property/LocalTime/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "Message": {
+        "type": "string",
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/OpcUaCore/OpcUaCore_BaseEventType/property/Message/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "ReceiveTime": {
+        "type": "string",
+        "format": "time",
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/OpcUaCore/OpcUaCore_BaseEventType/property/ReceiveTime/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "Severity": {
+        "type": "integer",
+        "minimum": 0,
+        "maximum": 65535,
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/OpcUaCore/OpcUaCore_BaseEventType/property/Severity/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "SourceName": {
+        "type": "string",
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/OpcUaCore/OpcUaCore_BaseEventType/property/SourceName/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "SourceNode": {
+        "type": "string",
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/OpcUaCore/OpcUaCore_BaseEventType/property/SourceNode/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "Time": {
+        "type": "string",
+        "format": "time",
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/OpcUaCore/OpcUaCore_BaseEventType/property/Time/read",
+            "op": "readproperty"
+          }
+        ]
+      }
+    },
+    "events": {
+    }
+  },
+  {
+    "@context": [
+      "https://www.w3.org/2022/wot/td/v1.1",
+      {
+        "dtv": "http://azure.com/DigitalTwins/dtmi#",
+        "aov": "http://azure.com/IoT/operations/tm#"
+      }
+    ],
+    "@type": "tm:ThingModel",
+    "title": "OpcUaCore_ShelvedStateMachineType",
+    "aov:typeRef": "nsu=http://opcfoundation.org/UA/;i=2929",
+    "links": [
+      {
+        "rel": "tm:extends",
+        "href": "#title=OpcUaCore_FiniteStateMachineType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "aov:reference",
+        "aov:refName": "Unshelved",
+        "href": "#title=OpcUaCore_StateType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "aov:reference",
+        "aov:refName": "TimedShelved",
+        "href": "#title=OpcUaCore_StateType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "aov:reference",
+        "aov:refName": "OneShotShelved",
+        "href": "#title=OpcUaCore_StateType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "aov:reference",
+        "aov:refName": "UnshelvedToTimedShelved",
+        "href": "#title=OpcUaCore_TransitionType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "aov:reference",
+        "aov:refName": "UnshelvedToOneShotShelved",
+        "href": "#title=OpcUaCore_TransitionType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "aov:reference",
+        "aov:refName": "TimedShelvedToUnshelved",
+        "href": "#title=OpcUaCore_TransitionType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "aov:reference",
+        "aov:refName": "TimedShelvedToOneShotShelved",
+        "href": "#title=OpcUaCore_TransitionType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "aov:reference",
+        "aov:refName": "OneShotShelvedToUnshelved",
+        "href": "#title=OpcUaCore_TransitionType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "aov:reference",
+        "aov:refName": "OneShotShelvedToTimedShelved",
+        "href": "#title=OpcUaCore_TransitionType",
+        "type": "application/tm+json"
+      }
+    ],
+    "schemaDefinitions": {
+    },
+    "forms": [
+      {
+        "contentType": "application/json",
+        "dtv:topic": "opcua/OpcUaCore/OpcUaCore_ShelvedStateMachineType/properties/read",
+        "op": "readallproperties"
+      }
+    ],
+    "actions": {
+      "OneShotShelve": {
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/OpcUaCore/OpcUaCore_ShelvedStateMachineType/action/OneShotShelve",
+            "op": "invokeaction"
+          }
+        ]
+      },
+      "OneShotShelve2": {
+        "input": {
+          "type": "object",
+          "aov:typeRef": "nsu=http://opcfoundation.org/UA/;i=24761",
+          "required": [ "Comment" ],
+          "properties": {
+            "Comment": {
+              "type": "string"
+            }
+          }
+        },
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/OpcUaCore/OpcUaCore_ShelvedStateMachineType/action/OneShotShelve2",
+            "op": "invokeaction"
+          }
+        ]
+      },
+      "TimedShelve": {
+        "input": {
+          "type": "object",
+          "aov:typeRef": "nsu=http://opcfoundation.org/UA/;i=2991",
+          "required": [ "ShelvingTime" ],
+          "properties": {
+            "ShelvingTime": {
+              "type": "string",
+              "pattern": "^P(?!$)(?:(?:(?:(?:\\d+Y)|(?:\\d+\\.\\d+Y$))?(?:(?:\\d+M)|(?:\\d+\\.\\d+M$))?)|(?:(?:(?:\\d+W)|(?:\\d+\\.\\d+W$))?))(?:(?:\\d+D)|(?:\\d+\\.\\d+D$))?(?:T(?!$)(?:(?:\\d+H)|(?:\\d+\\.\\d+H$))?(?:(?:\\d+M)|(?:\\d+\\.\\d+M$))?(?:\\d+(?:\\.\\d+)?S)?)?$"
+            }
+          }
+        },
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/OpcUaCore/OpcUaCore_ShelvedStateMachineType/action/TimedShelve",
+            "op": "invokeaction"
+          }
+        ]
+      },
+      "TimedShelve2": {
+        "input": {
+          "type": "object",
+          "aov:typeRef": "nsu=http://opcfoundation.org/UA/;i=24757",
+          "required": [ "ShelvingTime", "Comment" ],
+          "properties": {
+            "ShelvingTime": {
+              "type": "string",
+              "pattern": "^P(?!$)(?:(?:(?:(?:\\d+Y)|(?:\\d+\\.\\d+Y$))?(?:(?:\\d+M)|(?:\\d+\\.\\d+M$))?)|(?:(?:(?:\\d+W)|(?:\\d+\\.\\d+W$))?))(?:(?:\\d+D)|(?:\\d+\\.\\d+D$))?(?:T(?!$)(?:(?:\\d+H)|(?:\\d+\\.\\d+H$))?(?:(?:\\d+M)|(?:\\d+\\.\\d+M$))?(?:\\d+(?:\\.\\d+)?S)?)?$"
+            },
+            "Comment": {
+              "type": "string"
+            }
+          }
+        },
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/OpcUaCore/OpcUaCore_ShelvedStateMachineType/action/TimedShelve2",
+            "op": "invokeaction"
+          }
+        ]
+      },
+      "Unshelve": {
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/OpcUaCore/OpcUaCore_ShelvedStateMachineType/action/Unshelve",
+            "op": "invokeaction"
+          }
+        ]
+      },
+      "Unshelve2": {
+        "input": {
+          "type": "object",
+          "aov:typeRef": "nsu=http://opcfoundation.org/UA/;i=24759",
+          "required": [ "Comment" ],
+          "properties": {
+            "Comment": {
+              "type": "string"
+            }
+          }
+        },
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/OpcUaCore/OpcUaCore_ShelvedStateMachineType/action/Unshelve2",
+            "op": "invokeaction"
+          }
+        ]
+      }
+    },
+    "properties": {
+      "UnshelveTime": {
+        "type": "string",
+        "pattern": "^P(?!$)(?:(?:(?:(?:\\d+Y)|(?:\\d+\\.\\d+Y$))?(?:(?:\\d+M)|(?:\\d+\\.\\d+M$))?)|(?:(?:(?:\\d+W)|(?:\\d+\\.\\d+W$))?))(?:(?:\\d+D)|(?:\\d+\\.\\d+D$))?(?:T(?!$)(?:(?:\\d+H)|(?:\\d+\\.\\d+H$))?(?:(?:\\d+M)|(?:\\d+\\.\\d+M$))?(?:\\d+(?:\\.\\d+)?S)?)?$",
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/OpcUaCore/OpcUaCore_ShelvedStateMachineType/property/UnshelveTime/read",
+            "op": "readproperty"
+          }
+        ]
+      }
+    },
+    "events": {
+    }
+  },
+  {
+    "@context": [
+      "https://www.w3.org/2022/wot/td/v1.1",
+      {
+        "dtv": "http://azure.com/DigitalTwins/dtmi#",
+        "aov": "http://azure.com/IoT/operations/tm#"
+      }
+    ],
+    "@type": "tm:ThingModel",
+    "title": "OpcUaCore_FiniteStateMachineType",
+    "aov:typeRef": "nsu=http://opcfoundation.org/UA/;i=2771",
+    "links": [
+      {
+        "rel": "tm:extends",
+        "href": "#title=OpcUaCore_StateMachineType",
+        "type": "application/tm+json"
+      }
+    ],
+    "schemaDefinitions": {
+    },
+    "forms": [
+      {
+        "contentType": "application/json",
+        "dtv:topic": "opcua/OpcUaCore/OpcUaCore_FiniteStateMachineType/events/{senderId}",
+        "op": "subscribeallevents"
+      },
+      {
+        "contentType": "application/json",
+        "dtv:topic": "opcua/OpcUaCore/OpcUaCore_FiniteStateMachineType/properties/read",
+        "op": "readallproperties"
+      }
+    ],
+    "actions": {
+    },
+    "properties": {
+      "AvailableStates": {
+        "type": "array",
+        "items": {
+          "type": "string"
+        },
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/OpcUaCore/OpcUaCore_FiniteStateMachineType/property/AvailableStates/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "AvailableTransitions": {
+        "type": "array",
+        "items": {
+          "type": "string"
+        },
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/OpcUaCore/OpcUaCore_FiniteStateMachineType/property/AvailableTransitions/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "CurrentState": {
+        "type": "string",
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/OpcUaCore/OpcUaCore_FiniteStateMachineType/property/CurrentState/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "LastTransition": {
+        "type": "string",
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/OpcUaCore/OpcUaCore_FiniteStateMachineType/property/LastTransition/read",
+            "op": "readproperty"
+          }
+        ]
+      }
+    },
+    "events": {
+      "AvailableStates": {
+        "data": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/OpcUaCore/OpcUaCore_FiniteStateMachineType/event/AvailableStates/{senderId}",
+            "op": "subscribeevent"
+          }
+        ]
+      },
+      "AvailableTransitions": {
+        "data": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/OpcUaCore/OpcUaCore_FiniteStateMachineType/event/AvailableTransitions/{senderId}",
+            "op": "subscribeevent"
+          }
+        ]
+      },
+      "CurrentState": {
+        "data": {
+          "type": "string"
+        },
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/OpcUaCore/OpcUaCore_FiniteStateMachineType/event/CurrentState/{senderId}",
+            "op": "subscribeevent"
+          }
+        ]
+      },
+      "LastTransition": {
+        "data": {
+          "type": "string"
+        },
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/OpcUaCore/OpcUaCore_FiniteStateMachineType/event/LastTransition/{senderId}",
+            "op": "subscribeevent"
+          }
+        ]
+      }
+    }
+  },
+  {
+    "@context": [
+      "https://www.w3.org/2022/wot/td/v1.1",
+      {
+        "dtv": "http://azure.com/DigitalTwins/dtmi#",
+        "aov": "http://azure.com/IoT/operations/tm#"
+      }
+    ],
+    "@type": "tm:ThingModel",
+    "title": "OpcUaCore_StateMachineType",
+    "aov:typeRef": "nsu=http://opcfoundation.org/UA/;i=2299",
+    "aov:isComposite": true,
+    "links": [
+      {
+        "rel": "tm:extends",
+        "href": "#title=OpcUaCore_BaseObjectType",
+        "type": "application/tm+json"
+      }
+    ],
+    "schemaDefinitions": {
+    },
+    "forms": [
+      {
+        "contentType": "application/json",
+        "dtv:topic": "opcua/OpcUaCore/OpcUaCore_StateMachineType/events/{senderId}",
+        "op": "subscribeallevents"
+      },
+      {
+        "contentType": "application/json",
+        "dtv:topic": "opcua/OpcUaCore/OpcUaCore_StateMachineType/properties/read",
+        "op": "readallproperties"
+      }
+    ],
+    "actions": {
+    },
+    "properties": {
+      "CurrentState": {
+        "type": "string",
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/OpcUaCore/OpcUaCore_StateMachineType/property/CurrentState/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "LastTransition": {
+        "type": "string",
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/OpcUaCore/OpcUaCore_StateMachineType/property/LastTransition/read",
+            "op": "readproperty"
+          }
+        ]
+      }
+    },
+    "events": {
+      "CurrentState": {
+        "data": {
+          "type": "string"
+        },
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/OpcUaCore/OpcUaCore_StateMachineType/event/CurrentState/{senderId}",
+            "op": "subscribeevent"
+          }
+        ]
+      },
+      "LastTransition": {
+        "data": {
+          "type": "string"
+        },
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/OpcUaCore/OpcUaCore_StateMachineType/event/LastTransition/{senderId}",
+            "op": "subscribeevent"
+          }
+        ]
+      }
+    }
+  },
+  {
+    "@context": [
+      "https://www.w3.org/2022/wot/td/v1.1",
+      {
+        "dtv": "http://azure.com/DigitalTwins/dtmi#",
+        "aov": "http://azure.com/IoT/operations/tm#"
+      }
+    ],
+    "@type": "tm:ThingModel",
+    "title": "OpcUaCore_StateType",
+    "aov:typeRef": "nsu=http://opcfoundation.org/UA/;i=2307",
+    "links": [
+      {
+        "rel": "tm:extends",
+        "href": "#title=OpcUaCore_BaseObjectType",
+        "type": "application/tm+json"
+      }
+    ],
+    "schemaDefinitions": {
+    },
+    "forms": [
+      {
+        "contentType": "application/json",
+        "dtv:topic": "opcua/OpcUaCore/OpcUaCore_StateType/properties/read",
+        "op": "readallproperties"
+      }
+    ],
+    "actions": {
+    },
+    "properties": {
+      "StateNumber": {
+        "type": "integer",
+        "minimum": 0,
+        "maximum": 4294967295,
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/OpcUaCore/OpcUaCore_StateType/property/StateNumber/read",
+            "op": "readproperty"
+          }
+        ]
+      }
+    },
+    "events": {
+    }
+  },
+  {
+    "@context": [
+      "https://www.w3.org/2022/wot/td/v1.1",
+      {
+        "dtv": "http://azure.com/DigitalTwins/dtmi#",
+        "aov": "http://azure.com/IoT/operations/tm#"
+      }
+    ],
+    "@type": "tm:ThingModel",
+    "title": "OpcUaCore_TransitionType",
+    "aov:typeRef": "nsu=http://opcfoundation.org/UA/;i=2310",
+    "links": [
+      {
+        "rel": "tm:extends",
+        "href": "#title=OpcUaCore_BaseObjectType",
+        "type": "application/tm+json"
+      }
+    ],
+    "schemaDefinitions": {
+    },
+    "forms": [
+      {
+        "contentType": "application/json",
+        "dtv:topic": "opcua/OpcUaCore/OpcUaCore_TransitionType/properties/read",
+        "op": "readallproperties"
+      }
+    ],
+    "actions": {
+    },
+    "properties": {
+      "TransitionNumber": {
+        "type": "integer",
+        "minimum": 0,
+        "maximum": 4294967295,
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/OpcUaCore/OpcUaCore_TransitionType/property/TransitionNumber/read",
+            "op": "readproperty"
+          }
+        ]
+      }
+    },
+    "events": {
+    }
+  },
+  {
+    "@context": [
+      "https://www.w3.org/2022/wot/td/v1.1",
+      {
+        "dtv": "http://azure.com/DigitalTwins/dtmi#",
+        "aov": "http://azure.com/IoT/operations/tm#"
+      }
+    ],
+    "@type": "tm:ThingModel",
+    "title": "OpcUaCore_AlarmGroupType",
+    "aov:typeRef": "nsu=http://opcfoundation.org/UA/;i=16405",
+    "links": [
+      {
+        "rel": "tm:extends",
+        "href": "#title=OpcUaCore_FolderType",
+        "type": "application/tm+json"
+      }
+    ],
+    "schemaDefinitions": {
+    },
+    "actions": {
+    },
+    "properties": {
+    },
+    "events": {
+    }
+  },
+  {
+    "@context": [
+      "https://www.w3.org/2022/wot/td/v1.1",
+      {
+        "dtv": "http://azure.com/DigitalTwins/dtmi#",
+        "aov": "http://azure.com/IoT/operations/tm#"
+      }
+    ],
+    "@type": "tm:ThingModel",
+    "title": "OpcUaCore_FolderType",
+    "aov:typeRef": "nsu=http://opcfoundation.org/UA/;i=61",
+    "links": [
+      {
+        "rel": "tm:extends",
+        "href": "#title=OpcUaCore_BaseObjectType",
+        "type": "application/tm+json"
+      }
+    ],
+    "schemaDefinitions": {
+    },
+    "actions": {
+    },
+    "properties": {
+    },
+    "events": {
+    }
+  },
+  {
+    "@context": [
+      "https://www.w3.org/2022/wot/td/v1.1",
+      {
+        "dtv": "http://azure.com/DigitalTwins/dtmi#",
+        "aov": "http://azure.com/IoT/operations/tm#"
+      }
+    ],
+    "@type": "tm:ThingModel",
+    "title": "OpcUaCore_ExclusiveLimitStateMachineType",
+    "aov:typeRef": "nsu=http://opcfoundation.org/UA/;i=9318",
+    "links": [
+      {
+        "rel": "tm:extends",
+        "href": "#title=OpcUaCore_FiniteStateMachineType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "aov:reference",
+        "aov:refName": "HighHigh",
+        "href": "#title=OpcUaCore_StateType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "aov:reference",
+        "aov:refName": "High",
+        "href": "#title=OpcUaCore_StateType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "aov:reference",
+        "aov:refName": "Low",
+        "href": "#title=OpcUaCore_StateType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "aov:reference",
+        "aov:refName": "LowLow",
+        "href": "#title=OpcUaCore_StateType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "aov:reference",
+        "aov:refName": "LowLowToLow",
+        "href": "#title=OpcUaCore_TransitionType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "aov:reference",
+        "aov:refName": "LowToLowLow",
+        "href": "#title=OpcUaCore_TransitionType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "aov:reference",
+        "aov:refName": "HighHighToHigh",
+        "href": "#title=OpcUaCore_TransitionType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "aov:reference",
+        "aov:refName": "HighToHighHigh",
+        "href": "#title=OpcUaCore_TransitionType",
+        "type": "application/tm+json"
+      }
+    ],
+    "schemaDefinitions": {
+    },
+    "actions": {
+    },
+    "properties": {
+    },
+    "events": {
+    }
+  },
+  {
+    "@context": [
+      "https://www.w3.org/2022/wot/td/v1.1",
+      {
+        "dtv": "http://azure.com/DigitalTwins/dtmi#",
+        "aov": "http://azure.com/IoT/operations/tm#"
+      }
+    ],
+    "@type": "tm:ThingModel",
+    "title": "Machinery_MachineryOperationCounterType",
+    "aov:typeRef": "nsu=http://opcfoundation.org/UA/Machinery/;i=1009",
+    "aov:isComposite": true,
+    "links": [
+      {
+        "rel": "tm:extends",
+        "href": "#title=DI_FunctionalGroupType",
+        "type": "application/tm+json"
+      }
+    ],
+    "schemaDefinitions": {
+    },
+    "forms": [
+      {
+        "contentType": "application/json",
+        "dtv:topic": "opcua/Machinery/Machinery_MachineryOperationCounterType/properties/write",
+        "op": "writemultipleproperties"
+      },
+      {
+        "contentType": "application/json",
+        "dtv:topic": "opcua/Machinery/Machinery_MachineryOperationCounterType/properties/read",
+        "op": "readallproperties"
+      }
+    ],
+    "actions": {
+    },
+    "properties": {
+      "DefaultInstanceBrowseName": {
+        "description": "The default BrowseName for instances of the type",
+        "type": "string",
+        "readOnly": false,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/Machinery/Machinery_MachineryOperationCounterType/property/DefaultInstanceBrowseName/write",
+            "op": "writeproperty"
+          },
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/Machinery/Machinery_MachineryOperationCounterType/property/DefaultInstanceBrowseName/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "OperationCycleCounter": {
+        "aov:namespace": "http://opcfoundation.org/UA/DI/",
+        "description": "OperationCycleCounter is counting the times the component switches from not performing an activity to performing an activity. For example, each time a valve starts moving, is counted. This value shall only increase during the lifetime of the component and shall not be reset when the component is restarted.",
+        "type": "integer",
+        "minimum": 0,
+        "readOnly": false,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/Machinery/Machinery_MachineryOperationCounterType/property/OperationCycleCounter/write",
+            "op": "writeproperty"
+          },
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/Machinery/Machinery_MachineryOperationCounterType/property/OperationCycleCounter/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "OperationDuration": {
+        "aov:namespace": "http://opcfoundation.org/UA/DI/",
+        "description": "OperationDuration is the duration the MachineryItem has been powered and performing an activity. This counter is intended for machines and components where a distinction is made between switched on and in operation. For example, a drive might be powered on but not operating. It is not intended for machines or components always performing an activity like sensors always measuring data. This value shall only increase during the lifetime of the MachineryItem and shall not be reset when it is restarted. The OperationDuration is provided as Duration, i.e., in milliseconds or even fractions of a millisecond. However, the Server is not expected to update the value in such a high frequency, but maybe once a minute or once an hour, depending on the application.",
+        "type": "string",
+        "pattern": "^P(?!$)(?:(?:(?:(?:\\d+Y)|(?:\\d+\\.\\d+Y$))?(?:(?:\\d+M)|(?:\\d+\\.\\d+M$))?)|(?:(?:(?:\\d+W)|(?:\\d+\\.\\d+W$))?))(?:(?:\\d+D)|(?:\\d+\\.\\d+D$))?(?:T(?!$)(?:(?:\\d+H)|(?:\\d+\\.\\d+H$))?(?:(?:\\d+M)|(?:\\d+\\.\\d+M$))?(?:\\d+(?:\\.\\d+)?S)?)?$",
+        "readOnly": false,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/Machinery/Machinery_MachineryOperationCounterType/property/OperationDuration/write",
+            "op": "writeproperty"
+          },
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/Machinery/Machinery_MachineryOperationCounterType/property/OperationDuration/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "PowerOnDuration": {
+        "aov:namespace": "http://opcfoundation.org/UA/DI/",
+        "description": "PowerOnDuration is the duration the MachineryItem has been powered. The main purpose is to determine the time in which degradation of the MachineryItem occurred. The details, when the time is counted, is implementation-specific. Companion specifications might define specific rules. Typically, when the MachineryItem has supply voltage and the main CPU is running, the time is counted. This may include any kind of sleep mode, but may not include pure Wake on LAN. This value shall only increase during the lifetime of the MachineryItem and shall not be reset when it is restarted. The PowerOnDuration is provided as Duration, i.e., in milliseconds or even fractions of a millisecond. However, the Server is not expected to update the value in such a high frequency, but maybe once a minute or once an hour, depending on the application.",
+        "type": "string",
+        "pattern": "^P(?!$)(?:(?:(?:(?:\\d+Y)|(?:\\d+\\.\\d+Y$))?(?:(?:\\d+M)|(?:\\d+\\.\\d+M$))?)|(?:(?:(?:\\d+W)|(?:\\d+\\.\\d+W$))?))(?:(?:\\d+D)|(?:\\d+\\.\\d+D$))?(?:T(?!$)(?:(?:\\d+H)|(?:\\d+\\.\\d+H$))?(?:(?:\\d+M)|(?:\\d+\\.\\d+M$))?(?:\\d+(?:\\.\\d+)?S)?)?$",
+        "readOnly": false,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/Machinery/Machinery_MachineryOperationCounterType/property/PowerOnDuration/write",
+            "op": "writeproperty"
+          },
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/Machinery/Machinery_MachineryOperationCounterType/property/PowerOnDuration/read",
+            "op": "readproperty"
+          }
+        ]
+      }
+    },
+    "events": {
+    }
+  },
+  {
+    "@context": [
+      "https://www.w3.org/2022/wot/td/v1.1",
+      {
+        "dtv": "http://azure.com/DigitalTwins/dtmi#",
+        "aov": "http://azure.com/IoT/operations/tm#"
+      }
+    ],
+    "@type": "tm:ThingModel",
+    "title": "DI_FunctionalGroupType",
+    "aov:typeRef": "nsu=http://opcfoundation.org/UA/DI/;i=1005",
+    "links": [
+      {
+        "rel": "tm:extends",
+        "href": "#title=OpcUaCore_FolderType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "aov:component",
+        "aov:refName": "GroupIdentifier",
+        "href": "#title=DI_FunctionalGroupType",
+        "type": "application/tm+json"
+      }
+    ],
+    "schemaDefinitions": {
+    },
+    "forms": [
+      {
+        "contentType": "application/json",
+        "dtv:topic": "opcua/DI/DI_FunctionalGroupType/events/{senderId}",
+        "op": "subscribeallevents"
+      },
+      {
+        "contentType": "application/json",
+        "dtv:topic": "opcua/DI/DI_FunctionalGroupType/properties/read",
+        "op": "readallproperties"
+      }
+    ],
+    "actions": {
+    },
+    "properties": {
+      "UIElement": {
+        "aov:namespace": "http://opcfoundation.org/UA/DI/",
+        "description": "Stand-in for an unspecified data type.",
+        "type": "string",
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/DI/DI_FunctionalGroupType/property/UIElement/read",
+            "op": "readproperty"
+          }
+        ]
+      }
+    },
+    "events": {
+      "UIElement": {
+        "aov:namespace": "http://opcfoundation.org/UA/DI/",
+        "data": {
+          "description": "Stand-in for an unspecified data type.",
+          "type": "string"
+        },
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/DI/DI_FunctionalGroupType/event/UIElement/{senderId}",
+            "op": "subscribeevent"
+          }
+        ]
+      }
+    }
+  }
+]

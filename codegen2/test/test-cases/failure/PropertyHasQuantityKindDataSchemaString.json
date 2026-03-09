@@ -1,0 +1,16 @@
+{
+  "success": false,
+  "commandLine": {
+    "things": [ "invalidAioBinding/PropertyHasQuantityKindDataSchemaString.TM.json" ],
+    "lang": "none"
+  },
+  "errors": [
+    {
+      "condition": "ValuesInconsistent",
+      "filename": "PropertyHasQuantityKindDataSchemaString.TM.json",
+      "line": 17,
+      "cfLine": 16,
+      "crossRef": ""
+    }
+  ]
+}

@@ -1,0 +1,639 @@
+[
+  {
+    "@context": [
+      "https://www.w3.org/2022/wot/td/v1.1",
+      {
+        "dtv": "http://azure.com/DigitalTwins/dtmi#",
+        "aov": "http://azure.com/IoT/operations/tm#"
+      }
+    ],
+    "@type": "tm:ThingModel",
+    "title": "Glass_Flat_v2_GlassEventType",
+    "aov:typeRef": "nsu=http://opcfoundation.org/UA/Glass/Flat/v2/;i=1030",
+    "aov:isEvent": true,
+    "links": [
+      {
+        "rel": "tm:extends",
+        "href": "./OpcUaCore.TM.json#title=OpcUaCore_BaseEventType",
+        "type": "application/tm+json"
+      }
+    ],
+    "schemaDefinitions": {
+    },
+    "forms": [
+      {
+        "contentType": "application/json",
+        "dtv:topic": "opcua/Glass.Flat.v2/Glass_Flat_v2_GlassEventType/properties/write",
+        "op": "writemultipleproperties"
+      },
+      {
+        "contentType": "application/json",
+        "dtv:topic": "opcua/Glass.Flat.v2/Glass_Flat_v2_GlassEventType/properties/read",
+        "op": "readallproperties"
+      }
+    ],
+    "actions": {
+    },
+    "properties": {
+      "Identifier": {
+        "aov:namespace": "http://opcfoundation.org/UA/Glass/Flat/v2/",
+        "description": "Stand-in for an unspecified data type.",
+        "type": "string",
+        "readOnly": false,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/Glass.Flat.v2/Glass_Flat_v2_GlassEventType/property/Identifier/write",
+            "op": "writeproperty"
+          },
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/Glass.Flat.v2/Glass_Flat_v2_GlassEventType/property/Identifier/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "JobdIdentifier": {
+        "aov:namespace": "http://opcfoundation.org/UA/Glass/Flat/v2/",
+        "description": "Stand-in for an unspecified data type.",
+        "type": "string",
+        "readOnly": false,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/Glass.Flat.v2/Glass_Flat_v2_GlassEventType/property/JobdIdentifier/write",
+            "op": "writeproperty"
+          },
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/Glass.Flat.v2/Glass_Flat_v2_GlassEventType/property/JobdIdentifier/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "Location": {
+        "aov:namespace": "http://opcfoundation.org/UA/Glass/Flat/v2/",
+        "description": "Stand-in for an unspecified data type.",
+        "type": "string",
+        "readOnly": false,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/Glass.Flat.v2/Glass_Flat_v2_GlassEventType/property/Location/write",
+            "op": "writeproperty"
+          },
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/Glass.Flat.v2/Glass_Flat_v2_GlassEventType/property/Location/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "MaterialIdentifier": {
+        "aov:namespace": "http://opcfoundation.org/UA/Glass/Flat/v2/",
+        "description": "Stand-in for an unspecified data type.",
+        "type": "string",
+        "readOnly": false,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/Glass.Flat.v2/Glass_Flat_v2_GlassEventType/property/MaterialIdentifier/write",
+            "op": "writeproperty"
+          },
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/Glass.Flat.v2/Glass_Flat_v2_GlassEventType/property/MaterialIdentifier/read",
+            "op": "readproperty"
+          }
+        ]
+      }
+    },
+    "events": {
+    }
+  },
+  {
+    "@context": [
+      "https://www.w3.org/2022/wot/td/v1.1",
+      {
+        "dtv": "http://azure.com/DigitalTwins/dtmi#",
+        "aov": "http://azure.com/IoT/operations/tm#"
+      }
+    ],
+    "@type": "tm:ThingModel",
+    "title": "Glass_Flat_v2_ConfigurationRulesType",
+    "aov:typeRef": "nsu=http://opcfoundation.org/UA/Glass/Flat/v2/;i=1063",
+    "links": [
+      {
+        "rel": "tm:extends",
+        "href": "./OpcUaCore.TM.json#title=OpcUaCore_BaseObjectType",
+        "type": "application/tm+json"
+      }
+    ],
+    "schemaDefinitions": {
+      "CoordinateSystemEnumeration": {
+        "type": "object",
+        "aov:typeRef": "nsu=http://opcfoundation.org/UA/Glass/Flat/v2/;i=3008",
+        "const": {
+          "Unknown": 0,
+          "System1": 1,
+          "System2": 2,
+          "System3": 3,
+          "System4": 4,
+          "System5": 5,
+          "System6": 6,
+          "System7": 7,
+          "System8": 8
+        },
+        "properties": {
+          "Unknown": {
+            "type": "integer"
+          },
+          "System1": {
+            "type": "integer"
+          },
+          "System2": {
+            "type": "integer"
+          },
+          "System3": {
+            "type": "integer"
+          },
+          "System4": {
+            "type": "integer"
+          },
+          "System5": {
+            "type": "integer"
+          },
+          "System6": {
+            "type": "integer"
+          },
+          "System7": {
+            "type": "integer"
+          },
+          "System8": {
+            "type": "integer"
+          }
+        }
+      }
+    },
+    "forms": [
+      {
+        "contentType": "application/json",
+        "dtv:topic": "opcua/Glass.Flat.v2/Glass_Flat_v2_ConfigurationRulesType/properties/write",
+        "op": "writemultipleproperties"
+      },
+      {
+        "contentType": "application/json",
+        "dtv:topic": "opcua/Glass.Flat.v2/Glass_Flat_v2_ConfigurationRulesType/properties/read",
+        "op": "readallproperties"
+      }
+    ],
+    "actions": {
+    },
+    "properties": {
+      "AllowedEngineeringUnits": {
+        "aov:namespace": "http://opcfoundation.org/UA/Glass/Flat/v2/",
+        "type": "array",
+        "items": {
+          "title": "EUInformation",
+          "type": "object",
+          "aov:typeRef": "nsu=http://opcfoundation.org/UA/;i=887",
+          "required": [ "NamespaceUri", "UnitId", "DisplayName", "Description" ],
+          "properties": {
+            "NamespaceUri": {
+              "type": "string"
+            },
+            "UnitId": {
+              "type": "integer",
+              "minimum": -2147483648,
+              "maximum": 2147483647
+            },
+            "DisplayName": {
+              "type": "string"
+            },
+            "Description": {
+              "type": "string"
+            }
+          }
+        },
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/Glass.Flat.v2/Glass_Flat_v2_ConfigurationRulesType/property/AllowedEngineeringUnits/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "AllowedFileFormats": {
+        "aov:namespace": "http://opcfoundation.org/UA/Glass/Flat/v2/",
+        "type": "array",
+        "items": {
+          "title": "FileFormatDataType",
+          "type": "object",
+          "aov:typeRef": "nsu=http://opcfoundation.org/UA/Glass/Flat/v2/;i=3007",
+          "required": [ "Name", "FileExtension", "Version" ],
+          "properties": {
+            "Name": {
+              "type": "string"
+            },
+            "FileExtension": {
+              "type": "string"
+            },
+            "Version": {
+              "type": "string"
+            }
+          }
+        },
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/Glass.Flat.v2/Glass_Flat_v2_ConfigurationRulesType/property/AllowedFileFormats/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "MachineProcessingCoordinateSystem": {
+        "aov:namespace": "http://opcfoundation.org/UA/Glass/Flat/v2/",
+        "title": "CoordinateSystemEnumeration",
+        "aov:typeRef": "nsu=http://opcfoundation.org/UA/Glass/Flat/v2/;i=3008",
+        "type": "integer",
+        "minimum": -2147483648,
+        "maximum": 2147483647,
+        "readOnly": false,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/Glass.Flat.v2/Glass_Flat_v2_ConfigurationRulesType/property/MachineProcessingCoordinateSystem/write",
+            "op": "writeproperty"
+          },
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/Glass.Flat.v2/Glass_Flat_v2_ConfigurationRulesType/property/MachineProcessingCoordinateSystem/read",
+            "op": "readproperty"
+          }
+        ]
+      }
+    },
+    "events": {
+    }
+  },
+  {
+    "@context": [
+      "https://www.w3.org/2022/wot/td/v1.1",
+      {
+        "dtv": "http://azure.com/DigitalTwins/dtmi#",
+        "aov": "http://azure.com/IoT/operations/tm#"
+      }
+    ],
+    "@type": "tm:ThingModel",
+    "title": "Glass_Flat_v2_GlassMachineIdentificationType",
+    "aov:typeRef": "nsu=http://opcfoundation.org/UA/Glass/Flat/v2/;i=1020",
+    "links": [
+      {
+        "rel": "tm:extends",
+        "href": "./Machinery.TM.json#title=Machinery_MachineIdentificationType",
+        "type": "application/tm+json"
+      }
+    ],
+    "schemaDefinitions": {
+    },
+    "forms": [
+      {
+        "contentType": "application/json",
+        "dtv:topic": "opcua/Glass.Flat.v2/Glass_Flat_v2_GlassMachineIdentificationType/properties/write",
+        "op": "writemultipleproperties"
+      },
+      {
+        "contentType": "application/json",
+        "dtv:topic": "opcua/Glass.Flat.v2/Glass_Flat_v2_GlassMachineIdentificationType/properties/read",
+        "op": "readallproperties"
+      }
+    ],
+    "actions": {
+    },
+    "properties": {
+      "LoggedInProfiles": {
+        "aov:namespace": "http://opcfoundation.org/UA/Glass/Flat/v2/",
+        "type": "array",
+        "items": {
+          "title": "UserProfileDataType",
+          "type": "object",
+          "aov:typeRef": "nsu=http://opcfoundation.org/UA/Glass/Flat/v2/;i=3006",
+          "required": [ "Name", "LoginTime", "Language", "MeasurementFormat", "AccessLevel", "OpcUaUser" ],
+          "properties": {
+            "Name": {
+              "type": "string"
+            },
+            "LoginTime": {
+              "type": "string",
+              "format": "date-time"
+            },
+            "Language": {
+              "type": "string"
+            },
+            "MeasurementFormat": {
+              "type": "string"
+            },
+            "AccessLevel": {
+              "type": "string"
+            },
+            "OpcUaUser": {
+              "type": "boolean"
+            }
+          }
+        },
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/Glass.Flat.v2/Glass_Flat_v2_GlassMachineIdentificationType/property/LoggedInProfiles/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "ProcessingCategories": {
+        "aov:namespace": "http://opcfoundation.org/UA/Glass/Flat/v2/",
+        "type": "array",
+        "items": {
+          "title": "ProcessingCategoryDataType",
+          "type": "object",
+          "aov:typeRef": "nsu=http://opcfoundation.org/UA/Glass/Flat/v2/;i=3014",
+          "required": [ "ID", "Description", "SupportedParameter", "SupportedAssignment", "SupportedVariable", "SupportsTransformation", "SupportsSubProcessing" ],
+          "properties": {
+            "ID": {
+              "type": "string"
+            },
+            "Description": {
+              "type": "string"
+            },
+            "SupportedParameter": {
+              "type": "array",
+              "items": {
+                "title": "ProcessingParameterDataType",
+                "type": "object",
+                "aov:typeRef": "nsu=http://opcfoundation.org/UA/Glass/Flat/v2/;i=3011",
+                "required": [ "Name", "Description", "ValueType", "TypicalValue", "Mandatory", "EClass" ],
+                "properties": {
+                  "Name": {
+                    "type": "string"
+                  },
+                  "Description": {
+                    "type": "string"
+                  },
+                  "ValueType": {
+                    "title": "ValueDataType",
+                    "type": "object",
+                    "aov:typeRef": "nsu=http://opcfoundation.org/UA/Glass/Flat/v2/;i=3020",
+                    "required": [ "Name", "Description", "BaseUnit", "PossibleValue" ],
+                    "properties": {
+                      "Name": {
+                        "type": "string"
+                      },
+                      "Description": {
+                        "type": "string"
+                      },
+                      "BaseUnit": {
+                        "type": "string"
+                      },
+                      "PossibleValue": {
+                        "type": "string"
+                      }
+                    }
+                  },
+                  "TypicalValue": {
+                    "type": "string"
+                  },
+                  "Mandatory": {
+                    "type": "boolean"
+                  },
+                  "EClass": {
+                    "title": "EClassTermDataType",
+                    "type": "object",
+                    "aov:typeRef": "nsu=http://opcfoundation.org/UA/Glass/Flat/v2/;i=3017",
+                    "required": [ "ID", "Description", "EClass" ],
+                    "properties": {
+                      "ID": {
+                        "type": "string"
+                      },
+                      "Description": {
+                        "type": "string"
+                      },
+                      "EClass": {
+                        "type": "string"
+                      }
+                    }
+                  }
+                }
+              }
+            },
+            "SupportedAssignment": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            },
+            "SupportedVariable": {
+              "type": "array",
+              "items": {
+                "title": "ProcessingParameterDataType",
+                "type": "object",
+                "aov:typeRef": "nsu=http://opcfoundation.org/UA/Glass/Flat/v2/;i=3011",
+                "required": [ "Name", "Description", "ValueType", "TypicalValue", "Mandatory", "EClass" ],
+                "properties": {
+                  "Name": {
+                    "type": "string"
+                  },
+                  "Description": {
+                    "type": "string"
+                  },
+                  "ValueType": {
+                    "title": "ValueDataType",
+                    "type": "object",
+                    "aov:typeRef": "nsu=http://opcfoundation.org/UA/Glass/Flat/v2/;i=3020",
+                    "required": [ "Name", "Description", "BaseUnit", "PossibleValue" ],
+                    "properties": {
+                      "Name": {
+                        "type": "string"
+                      },
+                      "Description": {
+                        "type": "string"
+                      },
+                      "BaseUnit": {
+                        "type": "string"
+                      },
+                      "PossibleValue": {
+                        "type": "string"
+                      }
+                    }
+                  },
+                  "TypicalValue": {
+                    "type": "string"
+                  },
+                  "Mandatory": {
+                    "type": "boolean"
+                  },
+                  "EClass": {
+                    "title": "EClassTermDataType",
+                    "type": "object",
+                    "aov:typeRef": "nsu=http://opcfoundation.org/UA/Glass/Flat/v2/;i=3017",
+                    "required": [ "ID", "Description", "EClass" ],
+                    "properties": {
+                      "ID": {
+                        "type": "string"
+                      },
+                      "Description": {
+                        "type": "string"
+                      },
+                      "EClass": {
+                        "type": "string"
+                      }
+                    }
+                  }
+                }
+              }
+            },
+            "SupportsTransformation": {
+              "type": "integer",
+              "minimum": -2147483648,
+              "maximum": 2147483647
+            },
+            "SupportsSubProcessing": {
+              "type": "integer",
+              "minimum": -2147483648,
+              "maximum": 2147483647
+            }
+          }
+        },
+        "readOnly": false,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/Glass.Flat.v2/Glass_Flat_v2_GlassMachineIdentificationType/property/ProcessingCategories/write",
+            "op": "writeproperty"
+          },
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/Glass.Flat.v2/Glass_Flat_v2_GlassMachineIdentificationType/property/ProcessingCategories/read",
+            "op": "readproperty"
+          }
+        ]
+      }
+    },
+    "events": {
+    }
+  },
+  {
+    "@context": [
+      "https://www.w3.org/2022/wot/td/v1.1",
+      {
+        "dtv": "http://azure.com/DigitalTwins/dtmi#",
+        "aov": "http://azure.com/IoT/operations/tm#"
+      }
+    ],
+    "@type": "tm:ThingModel",
+    "title": "Glass_Flat_v2_ManualFolderType",
+    "aov:typeRef": "nsu=http://opcfoundation.org/UA/Glass/Flat/v2/;i=1041",
+    "links": [
+      {
+        "rel": "tm:extends",
+        "href": "./OpcUaCore.TM.json#title=OpcUaCore_FolderType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "aov:component",
+        "aov:refName": "LocalManuals",
+        "href": "./OpcUaCore.TM.json#title=OpcUaCore_FileType",
+        "type": "application/tm+json"
+      }
+    ],
+    "schemaDefinitions": {
+    },
+    "forms": [
+      {
+        "contentType": "application/json",
+        "dtv:topic": "opcua/Glass.Flat.v2/Glass_Flat_v2_ManualFolderType/properties/read",
+        "op": "readallproperties"
+      }
+    ],
+    "actions": {
+    },
+    "properties": {
+      "ExternalManuals": {
+        "aov:namespace": "http://opcfoundation.org/UA/Glass/Flat/v2/",
+        "type": "array",
+        "items": {
+          "type": "string"
+        },
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/Glass.Flat.v2/Glass_Flat_v2_ManualFolderType/property/ExternalManuals/read",
+            "op": "readproperty"
+          }
+        ]
+      }
+    },
+    "events": {
+    }
+  },
+  {
+    "@context": [
+      "https://www.w3.org/2022/wot/td/v1.1",
+      {
+        "dtv": "http://azure.com/DigitalTwins/dtmi#",
+        "aov": "http://azure.com/IoT/operations/tm#"
+      }
+    ],
+    "@type": "tm:ThingModel",
+    "title": "Glass_Flat_v2_GlassMachineType",
+    "aov:typeRef": "nsu=http://opcfoundation.org/UA/Glass/Flat/v2/;i=1015",
+    "aov:isComposite": true,
+    "links": [
+      {
+        "rel": "tm:extends",
+        "href": "./OpcUaCore.TM.json#title=OpcUaCore_BaseObjectType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "aov:capability",
+        "aov:refName": "ConfigurationRules",
+        "href": "#title=Glass_Flat_v2_ConfigurationRulesType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "aov:component",
+        "aov:refName": "FileSystem",
+        "href": "./OpcUaCore.TM.json#title=OpcUaCore_FileDirectoryType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "aov:component",
+        "aov:refName": "MachineryBuildingBlocks",
+        "href": "./OpcUaCore.TM.json#title=OpcUaCore_FolderType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "aov:reference",
+        "aov:refName": "MaintenanceManuals",
+        "href": "#title=Glass_Flat_v2_ManualFolderType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "aov:reference",
+        "aov:refName": "OperationManuals",
+        "href": "#title=Glass_Flat_v2_ManualFolderType",
+        "type": "application/tm+json"
+      }
+    ],
+    "schemaDefinitions": {
+    },
+    "actions": {
+    },
+    "properties": {
+    },
+    "events": {
+    }
+  }
+]

@@ -4,6 +4,17 @@
     <OutputType>Exe</OutputType>
     <TargetFramework>net9.0</TargetFramework>
     <Nullable>enable</Nullable>
+    <PackAsTool>true</PackAsTool>
+    <ToolCommandName>protocolcompiler</ToolCommandName>
+    <PackageId>Azure.Iot.Operations.ProtocolCompiler</PackageId>
+    <PackageOutputPath>./nupkg</PackageOutputPath>
+    <PackageProjectUrl>https://github.com/Azure/iot-operations-sdks/</PackageProjectUrl>
+    <LicenseUrl>https://github.com/Azure/iot-operations-sdks/blob/main/LICENSE</LicenseUrl>
+    <PackageLicenseExpression>MIT</PackageLicenseExpression>
+    <copyright>© Microsoft Corporation. All rights reserved.</copyright>
+    <Authors>Microsoft</Authors>
+    <VersionPrefix>1.0.0</VersionPrefix>
+    <Description>Protocol compiler for Azure IoT Operations that generates client and server code from WoT Thing Models.</Description>
   </PropertyGroup>
 
   <ItemGroup>

@@ -1,0 +1,18 @@
+<#@ template language="C#" inherits="WotDataSchema" linePragmas="false" #>
+<#@ import namespace="System.Collections.Generic" #>
+<#@ import namespace="System.Linq" #>
+<# // Copyright (c) Microsoft Corporation. #>
+<# // Licensed under the MIT License #>
+<# if (this.schemaName != null) { #>
+"title": "<#=this.schemaName#>",
+<# } #>
+<# if (this.description != null) { #>
+"description": "<#=this.description#>",
+<# } #>
+<# if (this.typeRef != null) { #>
+"aov:typeRef": "<#=this.typeRef#>",
+<# } #>
+<# for (int ix = 0; ix < this.kvpList.Length - 1; ix++) { #>
+"<#=this.kvpList[ix].Item1#>": <#=this.kvpList[ix].Item2#>,
+<# } #>
+"<#=this.kvpList[this.kvpList.Length - 1].Item1#>": <#=this.kvpList[this.kvpList.Length - 1].Item2#>

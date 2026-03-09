@@ -1,23 +1,95 @@
 {
-  "aioConnectorMetadataSchemaVersion": "2.0-preview",
-  "name": "TcpConnector",
-  "description": "Connector for listening for events from a TCP server.",
+  "$schema": "https://json.schemastore.org/aio-connector-metadata-10.0-preview.json",
+  "name": "Example event driven TCP connector",
   "version": "1.0.0",
+  "maintainer": "Azure IoT Operations, for sample use only",
   "imageConfigurationSettings": {
-    "imageName": "EventDrivenTcpThermostatConnector",
+    "imageName": "azureiotoperations/sample-akri-connectors/rest",
     "tag": "1.0.0"
   },
-  "supportedArchitectures": [ "linux/amd64" ],
-  "aioMetadata": {
-    "minVersion": "1.2.0"
+  "supportedArchitectures": [
+    "linux/amd64"
+  ],
+  "sourceCode": {
+    "language": "dotnet",
+    "languageVersion": "9.0",
+    "sdks": {
+      "mqttPackageVersion": "1.0.0",
+      "protocolPackageVersion": "1.0.0",
+      "servicesPackageVersion": "1.0.0",
+      "connectorPackageVersion": "1.0.0"
+    }
   },
+  "aioMetadata": {
+    "aioMinVersion": "1.2.37"
+  },
+  "endpointsEnabledByDefault": true,
   "inboundEndpoints": [
     {
       "endpointType": "Microsoft.Tcp",
-      "version": "2",
-      "supportedAssetEventDestinations": [
-        "Mqtt"
-      ]
+      "version": "1.0",
+      "fields": {
+        "address": {
+          "input": "required",
+          "exampleValue": "tcp-service.azure-iot-operations.svc.cluster.local:80",
+          "description": "The endpoint address of the TCP server to connect to in the format: <hostname>:<port>"
+        }
+      },
+      "supportedAuthenticationTypes": [ "usernamePassword", "anonymous" ],
+      "assetsEnabledByDefault": true,
+      "datasets": {
+        "limits": {
+          "minimum": 1,
+          "maximum": 1
+        },
+        "destinations": {
+          "supportedDestinations": ["Mqtt", "BrokerStateStore"]
+        },
+        "datasetConfigurationSchema": {
+          "$schema": "http://json-schema.org/draft-07/schema#",
+          "title": "REST Dataset Config Schema",
+          "description": "The JSON schema for both the default dataset configuration field on an asset and dataset-specific configuration fields",
+          "type": "object",
+          "properties": {
+            "samplingIntervalInMilliseconds": {
+              "description": "How frequently to sample each dataset in milliseconds",
+              "type": "integer"
+            }
+          }
+        },
+        "fields": {
+          "dataSource": {
+            "input": "unsupported"
+          },
+          "typeRef": {
+            "input": "unsupported"
+          }
+        },
+        "dataPoints": {
+          "fields": {
+            "dataSource": {
+              "input": "required",
+              "description": "The HTTP path to sample the data from",
+              "exampleValue": "/api/thermostat/current"
+            },
+            "typeRef": {
+              "input": "unsupported"
+            }
+          },
+          "dataPointConfigurationSchema": {
+            "$schema": "http://json-schema.org/draft-07/schema#",
+            "title": "REST Dataset Config Schema",
+            "description": "The JSON schema for both the default dataset configuration field on an asset and dataset-specific configuration fields",
+            "type": "object",
+            "properties": {
+              "HttpRequestMethod": {
+                "description": "GET/PUT/POST/",
+                "type": "string"
+              }
+            }
+          }
+        }
+      }
     }
   ]
 }

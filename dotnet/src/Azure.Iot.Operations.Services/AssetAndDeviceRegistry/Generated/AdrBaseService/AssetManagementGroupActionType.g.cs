@@ -4,21 +4,17 @@
 
 namespace Azure.Iot.Operations.Services.AssetAndDeviceRegistry.Generated.AdrBaseService
 {
-    using System.Runtime.Serialization;
     using System.Text.Json.Serialization;
 
     /// <summary>
     /// Type of the action.
     /// </summary>
-    [JsonConverter(typeof(JsonStringEnumMemberConverter))]
+    [JsonConverter(typeof(JsonStringEnumConverter))]
     [System.CodeDom.Compiler.GeneratedCode("Azure.Iot.Operations.ProtocolCompilerLib", "1.0.0.0")]
     public enum AssetManagementGroupActionType
     {
-        [EnumMember(Value = @"Call")]
         Call,
-        [EnumMember(Value = @"Read")]
         Read,
-        [EnumMember(Value = @"Write")]
         Write,
     }
 }

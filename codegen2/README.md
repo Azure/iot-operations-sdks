@@ -19,7 +19,7 @@ It can also accept JSON Schema files as input, either independently or in conjun
 
 The compiler provides the following options:
 
-```bash
+```
 --things <FILEPATH ...>        File(s) containing WoT Thing Model(s) to process for full generation
 --clientThings <FILEPATH ...>  File(s) containing WoT Thing Model(s) to process for client-side generation
 --serverThings <FILEPATH ...>  File(s) containing WoT Thing Model(s) to process for server-side generation
@@ -31,8 +31,63 @@ The compiler provides the following options:
 --common <NAMESPACE>           Namespace for common code [csharp default: "", rust default: "common_types"]
 --sdkPath <FILEPATH | URL>     Local path or feed URL for Azure.Iot.Operations.Protocol SDK
 --lang <csharp|rust|none>      Programming language for generated code
+--prefixSchemas                Apply Thing Model prefixes to schema type names (to avoid collisions across Thing Models)
 --noProj                       Do not generate code in a project
 --defaultImpl                  Generate default implementations of user-level callbacks
+```
+
+Notes:
+
+```
+For --lang csharp, the --namespace and --common options must have PascalCase name segments separated by dots
+For --lang rust, the --namespace and --common options must have a single snake_case name segment
+For --lang none, the --namespace and --common options must not be used
+```
+
+The repo contains [a small collection of valid Thing Models](./test/thing-models/valid/) that may be helpful for experimenting with this tool.
+
+## Generation hierarchy
+
+The `--outDir`, `--workingDir`, `--namespace`, and `--common` options work together to control the generated hierarchy of folders and namespaces, as can be seen in the following examples.
+
+### Generated C# hierarchy
+
+CLI options: `--lang csharp --outDir output/ProjName --workingDir Working --namespace FromModel --common Common`
+
+Generated hierarchy:
+
+```
+─ output
+  └─ ProjName
+     ├─ ProjName.csproj
+     ├─ Working
+     │  └─ (generated JSON Schema files)
+     ├─ FromModel
+     │  └─ (C# source files generated from model)
+     └─ Common
+        └─ (C# source files independent of model)
+```
+
+### Generated Rust hierarchy
+
+CLI options: `--lang rust --outDir output/proj_name --workingDir working --namespace from_model --common common`
+
+Generated hierarchy:
+
+```
+─ output
+  └─ proj_name
+     ├─ Cargo.toml
+     ├─ working
+     │  └─ (generated JSON Schema files)
+     └─ src
+        ├─ lib.rs
+        ├─ from_model.rs
+        ├─ from_model
+        │  └─ (Rust source files generated from model)
+        ├─ common.rs
+        └─ common
+           └─ (Rust source files independent of model)
 ```
 
 ## Compilation scenarios
@@ -104,3 +159,24 @@ These validations include the following.
 * All defined `actions` can be invoked; all defined `properties` can be read; and all defined `events` can be subscribed.
 * Properties defined by the AIO Protocol Binding (e.g., `dtv:topic`, `dtv:serviceGroupId`, and `dtv:ref`) are used correctly.
 * If the AIO Platform Binding is used in the model, its local context specifier is included, and all defined properties (e.g., `aov:isComposite` and `aov:namespace`) are used correctly.
+
+## Migrating from the DTDL ProtocolCompiler
+
+The usage of the WoT ProtocolCompiler differs from that of the [DTDL ProtocolCompiler](../codegen/) in a few important ways.
+
+* `--outDir`, `--sdkPath`, `--noProj`, and `--defaultImpl` are unchanged.
+* `--workingDir` and `--namespace` are unchanged except for their default values.
+* `--lang` no longer supports "go" and it now allows "none" for generating only schemas but no code.
+* `--things` is analogous to `--modelFile` but for WoT Thing Models instead of DTDL models.
+* Generating code from multiple models is now supported; consequently:
+  * `--modelId` has been removed; there is no need to identify a single model as a generation source.
+  * `--prefixSchemas` has been added to avoid collisions when the same name is used in different Thing Models.
+* `--dmrRoot` has been removed; retrieval of referenced models is not supported.
+* `--clientOnly` and `--serverOnly` have been replaced by the more flexible `--clientThings` and `--serverThings`:
+  * `--clientThings Foo.json` is equivalent to `--modelFile Foo.json --clientOnly`
+  * `--serverThings Bar.json` is equivalent to `--modelFile Bar.json --serverOnly`
+  * `--clientThings Foo.json --serverThings Bar.json` was not expressible using the old CLI options.
+* JSON Schema definitions are now accepted as first-class input; consequently:
+  * `--schemas` specifies JSON Schema files as input.
+  * `--typeNamer` specifies rules for naming types generated from JSON Schema definitions.
+* `--common` is new; previously, common code was placed in a fixed location with a fixed name.

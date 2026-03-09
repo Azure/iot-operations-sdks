@@ -1,0 +1,2239 @@
+[
+  {
+    "@context": [
+      "https://www.w3.org/2022/wot/td/v1.1",
+      {
+        "dtv": "http://azure.com/DigitalTwins/dtmi#",
+        "aov": "http://azure.com/IoT/operations/tm#"
+      }
+    ],
+    "@type": "tm:ThingModel",
+    "title": "WMTP_WMTPMeasurementType",
+    "aov:typeRef": "nsu=http://opcfoundation.org/UA/WMTP/;i=1005",
+    "links": [
+      {
+        "rel": "tm:extends",
+        "href": "./Machinery.ProcessValues.TM.json#title=Machinery_ProcessValues_ProcessValueType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "aov:capability",
+        "aov:refName": "LimitCounters",
+        "href": "./Machinery.TM.json#title=Machinery_MachineryOperationCounterType",
+        "type": "application/tm+json"
+      }
+    ],
+    "schemaDefinitions": {
+    },
+    "forms": [
+      {
+        "contentType": "application/json",
+        "dtv:topic": "opcua/WMTP/WMTP_WMTPMeasurementType/events/{senderId}",
+        "op": "subscribeallevents"
+      },
+      {
+        "contentType": "application/json",
+        "dtv:topic": "opcua/WMTP/WMTP_WMTPMeasurementType/properties/write",
+        "op": "writemultipleproperties"
+      },
+      {
+        "contentType": "application/json",
+        "dtv:topic": "opcua/WMTP/WMTP_WMTPMeasurementType/properties/read",
+        "op": "readallproperties"
+      }
+    ],
+    "actions": {
+      "SetDeltaCondition": {
+        "aov:namespace": "http://opcfoundation.org/UA/WMTP/",
+        "input": {
+          "type": "object",
+          "aov:typeRef": "nsu=http://opcfoundation.org/UA/WMTP/;i=6200",
+          "required": [ "DeltaValue" ],
+          "properties": {
+            "DeltaValue": {
+              "type": "number"
+            }
+          }
+        },
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/WMTP/WMTP_WMTPMeasurementType/action/SetDeltaCondition",
+            "op": "invokeaction"
+          }
+        ]
+      },
+      "SetTriggerSettings": {
+        "aov:namespace": "http://opcfoundation.org/UA/WMTP/",
+        "input": {
+          "type": "object",
+          "aov:typeRef": "nsu=http://opcfoundation.org/UA/WMTP/;i=6182",
+          "required": [ "TriggerDuration" ],
+          "properties": {
+            "TriggerDuration": {
+              "type": "string",
+              "pattern": "^P(?!$)(?:(?:(?:(?:\\d+Y)|(?:\\d+\\.\\d+Y$))?(?:(?:\\d+M)|(?:\\d+\\.\\d+M$))?)|(?:(?:(?:\\d+W)|(?:\\d+\\.\\d+W$))?))(?:(?:\\d+D)|(?:\\d+\\.\\d+D$))?(?:T(?!$)(?:(?:\\d+H)|(?:\\d+\\.\\d+H$))?(?:(?:\\d+M)|(?:\\d+\\.\\d+M$))?(?:\\d+(?:\\.\\d+)?S)?)?$"
+            }
+          }
+        },
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/WMTP/WMTP_WMTPMeasurementType/action/SetTriggerSettings",
+            "op": "invokeaction"
+          }
+        ]
+      }
+    },
+    "properties": {
+      "AbsoluteUncertainty": {
+        "aov:namespace": "http://opcfoundation.org/UA/WMTP/",
+        "type": "number",
+        "minimum": -1.80e+308,
+        "maximum": 1.80e+308,
+        "readOnly": false,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/WMTP/WMTP_WMTPMeasurementType/property/AbsoluteUncertainty/write",
+            "op": "writeproperty"
+          },
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/WMTP/WMTP_WMTPMeasurementType/property/AbsoluteUncertainty/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "DeltaCondition": {
+        "aov:namespace": "http://opcfoundation.org/UA/WMTP/",
+        "type": "number",
+        "minimum": -1.80e+308,
+        "maximum": 1.80e+308,
+        "readOnly": false,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/WMTP/WMTP_WMTPMeasurementType/property/DeltaCondition/write",
+            "op": "writeproperty"
+          },
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/WMTP/WMTP_WMTPMeasurementType/property/DeltaCondition/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "Index": {
+        "aov:namespace": "http://opcfoundation.org/UA/WMTP/",
+        "type": "integer",
+        "minimum": 0,
+        "maximum": 4294967295,
+        "readOnly": false,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/WMTP/WMTP_WMTPMeasurementType/property/Index/write",
+            "op": "writeproperty"
+          },
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/WMTP/WMTP_WMTPMeasurementType/property/Index/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "InternalUpdateInterval": {
+        "aov:namespace": "http://opcfoundation.org/UA/WMTP/",
+        "type": "string",
+        "pattern": "^P(?!$)(?:(?:(?:(?:\\d+Y)|(?:\\d+\\.\\d+Y$))?(?:(?:\\d+M)|(?:\\d+\\.\\d+M$))?)|(?:(?:(?:\\d+W)|(?:\\d+\\.\\d+W$))?))(?:(?:\\d+D)|(?:\\d+\\.\\d+D$))?(?:T(?!$)(?:(?:\\d+H)|(?:\\d+\\.\\d+H$))?(?:(?:\\d+M)|(?:\\d+\\.\\d+M$))?(?:\\d+(?:\\.\\d+)?S)?)?$",
+        "readOnly": false,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/WMTP/WMTP_WMTPMeasurementType/property/InternalUpdateInterval/write",
+            "op": "writeproperty"
+          },
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/WMTP/WMTP_WMTPMeasurementType/property/InternalUpdateInterval/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "MeasurementPeriod": {
+        "aov:namespace": "http://opcfoundation.org/UA/WMTP/",
+        "type": "string",
+        "pattern": "^P(?!$)(?:(?:(?:(?:\\d+Y)|(?:\\d+\\.\\d+Y$))?(?:(?:\\d+M)|(?:\\d+\\.\\d+M$))?)|(?:(?:(?:\\d+W)|(?:\\d+\\.\\d+W$))?))(?:(?:\\d+D)|(?:\\d+\\.\\d+D$))?(?:T(?!$)(?:(?:\\d+H)|(?:\\d+\\.\\d+H$))?(?:(?:\\d+M)|(?:\\d+\\.\\d+M$))?(?:\\d+(?:\\.\\d+)?S)?)?$",
+        "readOnly": false,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/WMTP/WMTP_WMTPMeasurementType/property/MeasurementPeriod/write",
+            "op": "writeproperty"
+          },
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/WMTP/WMTP_WMTPMeasurementType/property/MeasurementPeriod/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "RelativeUncertainty": {
+        "aov:namespace": "http://opcfoundation.org/UA/WMTP/",
+        "type": "number",
+        "minimum": -1.80e+308,
+        "maximum": 1.80e+308,
+        "readOnly": false,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/WMTP/WMTP_WMTPMeasurementType/property/RelativeUncertainty/write",
+            "op": "writeproperty"
+          },
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/WMTP/WMTP_WMTPMeasurementType/property/RelativeUncertainty/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "Status": {
+        "aov:namespace": "http://opcfoundation.org/UA/Machinery/ProcessValues/",
+        "description": "Indicates if a limit has been reached.",
+        "type": "integer",
+        "minimum": 0,
+        "maximum": 65535,
+        "readOnly": false,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/WMTP/WMTP_WMTPMeasurementType/property/Status/write",
+            "op": "writeproperty"
+          },
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/WMTP/WMTP_WMTPMeasurementType/property/Status/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "Timestamp": {
+        "aov:namespace": "http://opcfoundation.org/UA/WMTP/",
+        "type": "string",
+        "format": "date-time",
+        "readOnly": false,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/WMTP/WMTP_WMTPMeasurementType/property/Timestamp/write",
+            "op": "writeproperty"
+          },
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/WMTP/WMTP_WMTPMeasurementType/property/Timestamp/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "TriggerSettings": {
+        "aov:namespace": "http://opcfoundation.org/UA/WMTP/",
+        "type": "integer",
+        "minimum": 0,
+        "maximum": 4294967295,
+        "readOnly": false,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/WMTP/WMTP_WMTPMeasurementType/property/TriggerSettings/write",
+            "op": "writeproperty"
+          },
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/WMTP/WMTP_WMTPMeasurementType/property/TriggerSettings/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "TypeOfMeasurement": {
+        "aov:namespace": "http://opcfoundation.org/UA/WMTP/",
+        "type": "integer",
+        "minimum": 0,
+        "maximum": 4294967295,
+        "readOnly": false,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/WMTP/WMTP_WMTPMeasurementType/property/TypeOfMeasurement/write",
+            "op": "writeproperty"
+          },
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/WMTP/WMTP_WMTPMeasurementType/property/TypeOfMeasurement/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "TypeOfSample": {
+        "aov:namespace": "http://opcfoundation.org/UA/WMTP/",
+        "type": "integer",
+        "minimum": 0,
+        "maximum": 4294967295,
+        "readOnly": false,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/WMTP/WMTP_WMTPMeasurementType/property/TypeOfSample/write",
+            "op": "writeproperty"
+          },
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/WMTP/WMTP_WMTPMeasurementType/property/TypeOfSample/read",
+            "op": "readproperty"
+          }
+        ]
+      }
+    },
+    "events": {
+      "AbsoluteUncertainty": {
+        "aov:namespace": "http://opcfoundation.org/UA/WMTP/",
+        "data": {
+          "type": "number",
+          "minimum": -1.80e+308,
+          "maximum": 1.80e+308
+        },
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/WMTP/WMTP_WMTPMeasurementType/event/AbsoluteUncertainty/{senderId}",
+            "op": "subscribeevent"
+          }
+        ]
+      },
+      "DeltaCondition": {
+        "aov:namespace": "http://opcfoundation.org/UA/WMTP/",
+        "data": {
+          "type": "number",
+          "minimum": -1.80e+308,
+          "maximum": 1.80e+308
+        },
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/WMTP/WMTP_WMTPMeasurementType/event/DeltaCondition/{senderId}",
+            "op": "subscribeevent"
+          }
+        ]
+      },
+      "RelativeUncertainty": {
+        "aov:namespace": "http://opcfoundation.org/UA/WMTP/",
+        "data": {
+          "type": "number",
+          "minimum": -1.80e+308,
+          "maximum": 1.80e+308
+        },
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/WMTP/WMTP_WMTPMeasurementType/event/RelativeUncertainty/{senderId}",
+            "op": "subscribeevent"
+          }
+        ]
+      },
+      "Status": {
+        "aov:namespace": "http://opcfoundation.org/UA/Machinery/ProcessValues/",
+        "data": {
+          "description": "Indicates if a limit has been reached.",
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 65535
+        },
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/WMTP/WMTP_WMTPMeasurementType/event/Status/{senderId}",
+            "op": "subscribeevent"
+          }
+        ]
+      },
+      "TriggerSettings": {
+        "aov:namespace": "http://opcfoundation.org/UA/WMTP/",
+        "data": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 4294967295
+        },
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/WMTP/WMTP_WMTPMeasurementType/event/TriggerSettings/{senderId}",
+            "op": "subscribeevent"
+          }
+        ]
+      },
+      "TypeOfMeasurement": {
+        "aov:namespace": "http://opcfoundation.org/UA/WMTP/",
+        "data": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 4294967295
+        },
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/WMTP/WMTP_WMTPMeasurementType/event/TypeOfMeasurement/{senderId}",
+            "op": "subscribeevent"
+          }
+        ]
+      },
+      "TypeOfSample": {
+        "aov:namespace": "http://opcfoundation.org/UA/WMTP/",
+        "data": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 4294967295
+        },
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/WMTP/WMTP_WMTPMeasurementType/event/TypeOfSample/{senderId}",
+            "op": "subscribeevent"
+          }
+        ]
+      }
+    }
+  },
+  {
+    "@context": [
+      "https://www.w3.org/2022/wot/td/v1.1",
+      {
+        "dtv": "http://azure.com/DigitalTwins/dtmi#",
+        "aov": "http://azure.com/IoT/operations/tm#"
+      }
+    ],
+    "@type": "tm:ThingModel",
+    "title": "WMTP_WirelessMachineToolPeripheralType",
+    "aov:typeRef": "nsu=http://opcfoundation.org/UA/WMTP/;i=1003",
+    "aov:isComposite": true,
+    "links": [
+      {
+        "rel": "tm:extends",
+        "href": "./OpcUaCore.TM.json#title=OpcUaCore_BaseObjectType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "aov:component",
+        "aov:refName": "DeviceConfiguration",
+        "href": "./OpcUaCore.TM.json#title=OpcUaCore_FolderType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "aov:component",
+        "aov:refName": "DeviceInformation",
+        "href": "./OpcUaCore.TM.json#title=OpcUaCore_FolderType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "aov:component",
+        "aov:refName": "MachineryBuildingBlocks",
+        "href": "./OpcUaCore.TM.json#title=OpcUaCore_FolderType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "aov:component",
+        "aov:refName": "Measurements",
+        "href": "./OpcUaCore.TM.json#title=OpcUaCore_FolderType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "aov:reference",
+        "aov:refName": "WMTPServiceCycleData",
+        "href": "#title=WMTP_WMTPServiceCycleDataType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "aov:reference",
+        "aov:refName": "WMTPWorkCycleData",
+        "href": "#title=WMTP_WMTPWorkCycleDataType",
+        "type": "application/tm+json"
+      }
+    ],
+    "schemaDefinitions": {
+    },
+    "actions": {
+    },
+    "properties": {
+    },
+    "events": {
+    }
+  },
+  {
+    "@context": [
+      "https://www.w3.org/2022/wot/td/v1.1",
+      {
+        "dtv": "http://azure.com/DigitalTwins/dtmi#",
+        "aov": "http://azure.com/IoT/operations/tm#"
+      }
+    ],
+    "@type": "tm:ThingModel",
+    "title": "WMTP_WMTPServiceCycleDataType",
+    "aov:typeRef": "nsu=http://opcfoundation.org/UA/WMTP/;i=1007",
+    "links": [
+      {
+        "rel": "tm:extends",
+        "href": "./OpcUaCore.TM.json#title=OpcUaCore_BaseObjectType",
+        "type": "application/tm+json"
+      }
+    ],
+    "schemaDefinitions": {
+    },
+    "actions": {
+      "AbortOperation": {
+        "aov:namespace": "http://opcfoundation.org/UA/WMTP/",
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/WMTP/WMTP_WMTPServiceCycleDataType/action/AbortOperation",
+            "op": "invokeaction"
+          }
+        ]
+      },
+      "CombinedReportAll": {
+        "aov:namespace": "http://opcfoundation.org/UA/WMTP/",
+        "output": {
+          "type": "object",
+          "aov:typeRef": "nsu=http://opcfoundation.org/UA/WMTP/;i=6241",
+          "required": [ "CombinedReport" ],
+          "properties": {
+            "CombinedReport": {
+              "type": "array",
+              "items": {
+                "title": "WMTPOutputDataType",
+                "type": "object",
+                "aov:typeRef": "nsu=http://opcfoundation.org/UA/WMTP/;i=3003",
+                "required": [ "EngineeringUnits", "ActualValue", "TypeOfMeasurement", "TypeOfSample", "InstrumentRange", "EURange", "ValuePrecision", "Definition", "SignalTag", "RelativeUncertainty", "AbsoluteUncertainty", "Timestamp", "Index", "MeasurementPeriod", "InternalUpdateInterval" ],
+                "properties": {
+                  "EngineeringUnits": {
+                    "title": "EUInformation",
+                    "type": "object",
+                    "aov:typeRef": "nsu=http://opcfoundation.org/UA/;i=887",
+                    "required": [ "NamespaceUri", "UnitId", "DisplayName", "Description" ],
+                    "properties": {
+                      "NamespaceUri": {
+                        "type": "string"
+                      },
+                      "UnitId": {
+                        "type": "integer",
+                        "minimum": -2147483648,
+                        "maximum": 2147483647
+                      },
+                      "DisplayName": {
+                        "type": "string"
+                      },
+                      "Description": {
+                        "type": "string"
+                      }
+                    }
+                  },
+                  "ActualValue": {
+                    "type": "number",
+                    "minimum": -1.80e+308,
+                    "maximum": 1.80e+308
+                  },
+                  "TypeOfMeasurement": {
+                    "type": "integer",
+                    "minimum": 0,
+                    "maximum": 4294967295
+                  },
+                  "TypeOfSample": {
+                    "type": "integer",
+                    "minimum": 0,
+                    "maximum": 4294967295
+                  },
+                  "InstrumentRange": {
+                    "title": "Range",
+                    "type": "object",
+                    "aov:typeRef": "nsu=http://opcfoundation.org/UA/;i=884",
+                    "required": [ "Low", "High" ],
+                    "properties": {
+                      "Low": {
+                        "type": "number",
+                        "minimum": -1.80e+308,
+                        "maximum": 1.80e+308
+                      },
+                      "High": {
+                        "type": "number",
+                        "minimum": -1.80e+308,
+                        "maximum": 1.80e+308
+                      }
+                    }
+                  },
+                  "EURange": {
+                    "title": "Range",
+                    "type": "object",
+                    "aov:typeRef": "nsu=http://opcfoundation.org/UA/;i=884",
+                    "required": [ "Low", "High" ],
+                    "properties": {
+                      "Low": {
+                        "type": "number",
+                        "minimum": -1.80e+308,
+                        "maximum": 1.80e+308
+                      },
+                      "High": {
+                        "type": "number",
+                        "minimum": -1.80e+308,
+                        "maximum": 1.80e+308
+                      }
+                    }
+                  },
+                  "ValuePrecision": {
+                    "type": "number",
+                    "minimum": -1.80e+308,
+                    "maximum": 1.80e+308
+                  },
+                  "Definition": {
+                    "type": "string"
+                  },
+                  "SignalTag": {
+                    "type": "string"
+                  },
+                  "RelativeUncertainty": {
+                    "type": "number",
+                    "minimum": -1.80e+308,
+                    "maximum": 1.80e+308
+                  },
+                  "AbsoluteUncertainty": {
+                    "type": "number",
+                    "minimum": -1.80e+308,
+                    "maximum": 1.80e+308
+                  },
+                  "Timestamp": {
+                    "type": "string",
+                    "format": "date-time"
+                  },
+                  "Index": {
+                    "type": "integer",
+                    "minimum": 0,
+                    "maximum": 4294967295
+                  },
+                  "MeasurementPeriod": {
+                    "type": "string",
+                    "pattern": "^P(?!$)(?:(?:(?:(?:\\d+Y)|(?:\\d+\\.\\d+Y$))?(?:(?:\\d+M)|(?:\\d+\\.\\d+M$))?)|(?:(?:(?:\\d+W)|(?:\\d+\\.\\d+W$))?))(?:(?:\\d+D)|(?:\\d+\\.\\d+D$))?(?:T(?!$)(?:(?:\\d+H)|(?:\\d+\\.\\d+H$))?(?:(?:\\d+M)|(?:\\d+\\.\\d+M$))?(?:\\d+(?:\\.\\d+)?S)?)?$"
+                  },
+                  "InternalUpdateInterval": {
+                    "type": "string",
+                    "pattern": "^P(?!$)(?:(?:(?:(?:\\d+Y)|(?:\\d+\\.\\d+Y$))?(?:(?:\\d+M)|(?:\\d+\\.\\d+M$))?)|(?:(?:(?:\\d+W)|(?:\\d+\\.\\d+W$))?))(?:(?:\\d+D)|(?:\\d+\\.\\d+D$))?(?:T(?!$)(?:(?:\\d+H)|(?:\\d+\\.\\d+H$))?(?:(?:\\d+M)|(?:\\d+\\.\\d+M$))?(?:\\d+(?:\\.\\d+)?S)?)?$"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/WMTP/WMTP_WMTPServiceCycleDataType/action/CombinedReportAll",
+            "op": "invokeaction"
+          }
+        ]
+      },
+      "CombinedReportFirstValue": {
+        "aov:namespace": "http://opcfoundation.org/UA/WMTP/",
+        "output": {
+          "type": "object",
+          "aov:typeRef": "nsu=http://opcfoundation.org/UA/WMTP/;i=6246",
+          "required": [ "CombinedReport" ],
+          "properties": {
+            "CombinedReport": {
+              "title": "WMTPOutputDataType",
+              "type": "object",
+              "aov:typeRef": "nsu=http://opcfoundation.org/UA/WMTP/;i=3003",
+              "required": [ "EngineeringUnits", "ActualValue", "TypeOfMeasurement", "TypeOfSample", "InstrumentRange", "EURange", "ValuePrecision", "Definition", "SignalTag", "RelativeUncertainty", "AbsoluteUncertainty", "Timestamp", "Index", "MeasurementPeriod", "InternalUpdateInterval" ],
+              "properties": {
+                "EngineeringUnits": {
+                  "title": "EUInformation",
+                  "type": "object",
+                  "aov:typeRef": "nsu=http://opcfoundation.org/UA/;i=887",
+                  "required": [ "NamespaceUri", "UnitId", "DisplayName", "Description" ],
+                  "properties": {
+                    "NamespaceUri": {
+                      "type": "string"
+                    },
+                    "UnitId": {
+                      "type": "integer",
+                      "minimum": -2147483648,
+                      "maximum": 2147483647
+                    },
+                    "DisplayName": {
+                      "type": "string"
+                    },
+                    "Description": {
+                      "type": "string"
+                    }
+                  }
+                },
+                "ActualValue": {
+                  "type": "number",
+                  "minimum": -1.80e+308,
+                  "maximum": 1.80e+308
+                },
+                "TypeOfMeasurement": {
+                  "type": "integer",
+                  "minimum": 0,
+                  "maximum": 4294967295
+                },
+                "TypeOfSample": {
+                  "type": "integer",
+                  "minimum": 0,
+                  "maximum": 4294967295
+                },
+                "InstrumentRange": {
+                  "title": "Range",
+                  "type": "object",
+                  "aov:typeRef": "nsu=http://opcfoundation.org/UA/;i=884",
+                  "required": [ "Low", "High" ],
+                  "properties": {
+                    "Low": {
+                      "type": "number",
+                      "minimum": -1.80e+308,
+                      "maximum": 1.80e+308
+                    },
+                    "High": {
+                      "type": "number",
+                      "minimum": -1.80e+308,
+                      "maximum": 1.80e+308
+                    }
+                  }
+                },
+                "EURange": {
+                  "title": "Range",
+                  "type": "object",
+                  "aov:typeRef": "nsu=http://opcfoundation.org/UA/;i=884",
+                  "required": [ "Low", "High" ],
+                  "properties": {
+                    "Low": {
+                      "type": "number",
+                      "minimum": -1.80e+308,
+                      "maximum": 1.80e+308
+                    },
+                    "High": {
+                      "type": "number",
+                      "minimum": -1.80e+308,
+                      "maximum": 1.80e+308
+                    }
+                  }
+                },
+                "ValuePrecision": {
+                  "type": "number",
+                  "minimum": -1.80e+308,
+                  "maximum": 1.80e+308
+                },
+                "Definition": {
+                  "type": "string"
+                },
+                "SignalTag": {
+                  "type": "string"
+                },
+                "RelativeUncertainty": {
+                  "type": "number",
+                  "minimum": -1.80e+308,
+                  "maximum": 1.80e+308
+                },
+                "AbsoluteUncertainty": {
+                  "type": "number",
+                  "minimum": -1.80e+308,
+                  "maximum": 1.80e+308
+                },
+                "Timestamp": {
+                  "type": "string",
+                  "format": "date-time"
+                },
+                "Index": {
+                  "type": "integer",
+                  "minimum": 0,
+                  "maximum": 4294967295
+                },
+                "MeasurementPeriod": {
+                  "type": "string",
+                  "pattern": "^P(?!$)(?:(?:(?:(?:\\d+Y)|(?:\\d+\\.\\d+Y$))?(?:(?:\\d+M)|(?:\\d+\\.\\d+M$))?)|(?:(?:(?:\\d+W)|(?:\\d+\\.\\d+W$))?))(?:(?:\\d+D)|(?:\\d+\\.\\d+D$))?(?:T(?!$)(?:(?:\\d+H)|(?:\\d+\\.\\d+H$))?(?:(?:\\d+M)|(?:\\d+\\.\\d+M$))?(?:\\d+(?:\\.\\d+)?S)?)?$"
+                },
+                "InternalUpdateInterval": {
+                  "type": "string",
+                  "pattern": "^P(?!$)(?:(?:(?:(?:\\d+Y)|(?:\\d+\\.\\d+Y$))?(?:(?:\\d+M)|(?:\\d+\\.\\d+M$))?)|(?:(?:(?:\\d+W)|(?:\\d+\\.\\d+W$))?))(?:(?:\\d+D)|(?:\\d+\\.\\d+D$))?(?:T(?!$)(?:(?:\\d+H)|(?:\\d+\\.\\d+H$))?(?:(?:\\d+M)|(?:\\d+\\.\\d+M$))?(?:\\d+(?:\\.\\d+)?S)?)?$"
+                }
+              }
+            }
+          }
+        },
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/WMTP/WMTP_WMTPServiceCycleDataType/action/CombinedReportFirstValue",
+            "op": "invokeaction"
+          }
+        ]
+      },
+      "CombinedReportIndex": {
+        "aov:namespace": "http://opcfoundation.org/UA/WMTP/",
+        "input": {
+          "type": "object",
+          "aov:typeRef": "nsu=http://opcfoundation.org/UA/WMTP/;i=6243",
+          "required": [ "FromIndex", "ToIndex" ],
+          "properties": {
+            "FromIndex": {
+              "type": "integer",
+              "minimum": 0,
+              "maximum": 4294967295
+            },
+            "ToIndex": {
+              "type": "integer",
+              "minimum": 0,
+              "maximum": 4294967295
+            }
+          }
+        },
+        "output": {
+          "type": "object",
+          "aov:typeRef": "nsu=http://opcfoundation.org/UA/WMTP/;i=6244",
+          "required": [ "CombinedReport" ],
+          "properties": {
+            "CombinedReport": {
+              "type": "array",
+              "items": {
+                "title": "WMTPOutputDataType",
+                "type": "object",
+                "aov:typeRef": "nsu=http://opcfoundation.org/UA/WMTP/;i=3003",
+                "required": [ "EngineeringUnits", "ActualValue", "TypeOfMeasurement", "TypeOfSample", "InstrumentRange", "EURange", "ValuePrecision", "Definition", "SignalTag", "RelativeUncertainty", "AbsoluteUncertainty", "Timestamp", "Index", "MeasurementPeriod", "InternalUpdateInterval" ],
+                "properties": {
+                  "EngineeringUnits": {
+                    "title": "EUInformation",
+                    "type": "object",
+                    "aov:typeRef": "nsu=http://opcfoundation.org/UA/;i=887",
+                    "required": [ "NamespaceUri", "UnitId", "DisplayName", "Description" ],
+                    "properties": {
+                      "NamespaceUri": {
+                        "type": "string"
+                      },
+                      "UnitId": {
+                        "type": "integer",
+                        "minimum": -2147483648,
+                        "maximum": 2147483647
+                      },
+                      "DisplayName": {
+                        "type": "string"
+                      },
+                      "Description": {
+                        "type": "string"
+                      }
+                    }
+                  },
+                  "ActualValue": {
+                    "type": "number",
+                    "minimum": -1.80e+308,
+                    "maximum": 1.80e+308
+                  },
+                  "TypeOfMeasurement": {
+                    "type": "integer",
+                    "minimum": 0,
+                    "maximum": 4294967295
+                  },
+                  "TypeOfSample": {
+                    "type": "integer",
+                    "minimum": 0,
+                    "maximum": 4294967295
+                  },
+                  "InstrumentRange": {
+                    "title": "Range",
+                    "type": "object",
+                    "aov:typeRef": "nsu=http://opcfoundation.org/UA/;i=884",
+                    "required": [ "Low", "High" ],
+                    "properties": {
+                      "Low": {
+                        "type": "number",
+                        "minimum": -1.80e+308,
+                        "maximum": 1.80e+308
+                      },
+                      "High": {
+                        "type": "number",
+                        "minimum": -1.80e+308,
+                        "maximum": 1.80e+308
+                      }
+                    }
+                  },
+                  "EURange": {
+                    "title": "Range",
+                    "type": "object",
+                    "aov:typeRef": "nsu=http://opcfoundation.org/UA/;i=884",
+                    "required": [ "Low", "High" ],
+                    "properties": {
+                      "Low": {
+                        "type": "number",
+                        "minimum": -1.80e+308,
+                        "maximum": 1.80e+308
+                      },
+                      "High": {
+                        "type": "number",
+                        "minimum": -1.80e+308,
+                        "maximum": 1.80e+308
+                      }
+                    }
+                  },
+                  "ValuePrecision": {
+                    "type": "number",
+                    "minimum": -1.80e+308,
+                    "maximum": 1.80e+308
+                  },
+                  "Definition": {
+                    "type": "string"
+                  },
+                  "SignalTag": {
+                    "type": "string"
+                  },
+                  "RelativeUncertainty": {
+                    "type": "number",
+                    "minimum": -1.80e+308,
+                    "maximum": 1.80e+308
+                  },
+                  "AbsoluteUncertainty": {
+                    "type": "number",
+                    "minimum": -1.80e+308,
+                    "maximum": 1.80e+308
+                  },
+                  "Timestamp": {
+                    "type": "string",
+                    "format": "date-time"
+                  },
+                  "Index": {
+                    "type": "integer",
+                    "minimum": 0,
+                    "maximum": 4294967295
+                  },
+                  "MeasurementPeriod": {
+                    "type": "string",
+                    "pattern": "^P(?!$)(?:(?:(?:(?:\\d+Y)|(?:\\d+\\.\\d+Y$))?(?:(?:\\d+M)|(?:\\d+\\.\\d+M$))?)|(?:(?:(?:\\d+W)|(?:\\d+\\.\\d+W$))?))(?:(?:\\d+D)|(?:\\d+\\.\\d+D$))?(?:T(?!$)(?:(?:\\d+H)|(?:\\d+\\.\\d+H$))?(?:(?:\\d+M)|(?:\\d+\\.\\d+M$))?(?:\\d+(?:\\.\\d+)?S)?)?$"
+                  },
+                  "InternalUpdateInterval": {
+                    "type": "string",
+                    "pattern": "^P(?!$)(?:(?:(?:(?:\\d+Y)|(?:\\d+\\.\\d+Y$))?(?:(?:\\d+M)|(?:\\d+\\.\\d+M$))?)|(?:(?:(?:\\d+W)|(?:\\d+\\.\\d+W$))?))(?:(?:\\d+D)|(?:\\d+\\.\\d+D$))?(?:T(?!$)(?:(?:\\d+H)|(?:\\d+\\.\\d+H$))?(?:(?:\\d+M)|(?:\\d+\\.\\d+M$))?(?:\\d+(?:\\.\\d+)?S)?)?$"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/WMTP/WMTP_WMTPServiceCycleDataType/action/CombinedReportIndex",
+            "op": "invokeaction"
+          }
+        ]
+      },
+      "CombinedReportLastValue": {
+        "aov:namespace": "http://opcfoundation.org/UA/WMTP/",
+        "output": {
+          "type": "object",
+          "aov:typeRef": "nsu=http://opcfoundation.org/UA/WMTP/;i=6245",
+          "required": [ "CombinedReport" ],
+          "properties": {
+            "CombinedReport": {
+              "title": "WMTPOutputDataType",
+              "type": "object",
+              "aov:typeRef": "nsu=http://opcfoundation.org/UA/WMTP/;i=3003",
+              "required": [ "EngineeringUnits", "ActualValue", "TypeOfMeasurement", "TypeOfSample", "InstrumentRange", "EURange", "ValuePrecision", "Definition", "SignalTag", "RelativeUncertainty", "AbsoluteUncertainty", "Timestamp", "Index", "MeasurementPeriod", "InternalUpdateInterval" ],
+              "properties": {
+                "EngineeringUnits": {
+                  "title": "EUInformation",
+                  "type": "object",
+                  "aov:typeRef": "nsu=http://opcfoundation.org/UA/;i=887",
+                  "required": [ "NamespaceUri", "UnitId", "DisplayName", "Description" ],
+                  "properties": {
+                    "NamespaceUri": {
+                      "type": "string"
+                    },
+                    "UnitId": {
+                      "type": "integer",
+                      "minimum": -2147483648,
+                      "maximum": 2147483647
+                    },
+                    "DisplayName": {
+                      "type": "string"
+                    },
+                    "Description": {
+                      "type": "string"
+                    }
+                  }
+                },
+                "ActualValue": {
+                  "type": "number",
+                  "minimum": -1.80e+308,
+                  "maximum": 1.80e+308
+                },
+                "TypeOfMeasurement": {
+                  "type": "integer",
+                  "minimum": 0,
+                  "maximum": 4294967295
+                },
+                "TypeOfSample": {
+                  "type": "integer",
+                  "minimum": 0,
+                  "maximum": 4294967295
+                },
+                "InstrumentRange": {
+                  "title": "Range",
+                  "type": "object",
+                  "aov:typeRef": "nsu=http://opcfoundation.org/UA/;i=884",
+                  "required": [ "Low", "High" ],
+                  "properties": {
+                    "Low": {
+                      "type": "number",
+                      "minimum": -1.80e+308,
+                      "maximum": 1.80e+308
+                    },
+                    "High": {
+                      "type": "number",
+                      "minimum": -1.80e+308,
+                      "maximum": 1.80e+308
+                    }
+                  }
+                },
+                "EURange": {
+                  "title": "Range",
+                  "type": "object",
+                  "aov:typeRef": "nsu=http://opcfoundation.org/UA/;i=884",
+                  "required": [ "Low", "High" ],
+                  "properties": {
+                    "Low": {
+                      "type": "number",
+                      "minimum": -1.80e+308,
+                      "maximum": 1.80e+308
+                    },
+                    "High": {
+                      "type": "number",
+                      "minimum": -1.80e+308,
+                      "maximum": 1.80e+308
+                    }
+                  }
+                },
+                "ValuePrecision": {
+                  "type": "number",
+                  "minimum": -1.80e+308,
+                  "maximum": 1.80e+308
+                },
+                "Definition": {
+                  "type": "string"
+                },
+                "SignalTag": {
+                  "type": "string"
+                },
+                "RelativeUncertainty": {
+                  "type": "number",
+                  "minimum": -1.80e+308,
+                  "maximum": 1.80e+308
+                },
+                "AbsoluteUncertainty": {
+                  "type": "number",
+                  "minimum": -1.80e+308,
+                  "maximum": 1.80e+308
+                },
+                "Timestamp": {
+                  "type": "string",
+                  "format": "date-time"
+                },
+                "Index": {
+                  "type": "integer",
+                  "minimum": 0,
+                  "maximum": 4294967295
+                },
+                "MeasurementPeriod": {
+                  "type": "string",
+                  "pattern": "^P(?!$)(?:(?:(?:(?:\\d+Y)|(?:\\d+\\.\\d+Y$))?(?:(?:\\d+M)|(?:\\d+\\.\\d+M$))?)|(?:(?:(?:\\d+W)|(?:\\d+\\.\\d+W$))?))(?:(?:\\d+D)|(?:\\d+\\.\\d+D$))?(?:T(?!$)(?:(?:\\d+H)|(?:\\d+\\.\\d+H$))?(?:(?:\\d+M)|(?:\\d+\\.\\d+M$))?(?:\\d+(?:\\.\\d+)?S)?)?$"
+                },
+                "InternalUpdateInterval": {
+                  "type": "string",
+                  "pattern": "^P(?!$)(?:(?:(?:(?:\\d+Y)|(?:\\d+\\.\\d+Y$))?(?:(?:\\d+M)|(?:\\d+\\.\\d+M$))?)|(?:(?:(?:\\d+W)|(?:\\d+\\.\\d+W$))?))(?:(?:\\d+D)|(?:\\d+\\.\\d+D$))?(?:T(?!$)(?:(?:\\d+H)|(?:\\d+\\.\\d+H$))?(?:(?:\\d+M)|(?:\\d+\\.\\d+M$))?(?:\\d+(?:\\.\\d+)?S)?)?$"
+                }
+              }
+            }
+          }
+        },
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/WMTP/WMTP_WMTPServiceCycleDataType/action/CombinedReportLastValue",
+            "op": "invokeaction"
+          }
+        ]
+      },
+      "CombinedReportTime": {
+        "aov:namespace": "http://opcfoundation.org/UA/WMTP/",
+        "input": {
+          "type": "object",
+          "aov:typeRef": "nsu=http://opcfoundation.org/UA/WMTP/;i=6247",
+          "required": [ "FromTimestamp", "ToTimestamp" ],
+          "properties": {
+            "FromTimestamp": {
+              "type": "string",
+              "format": "date-time"
+            },
+            "ToTimestamp": {
+              "type": "string",
+              "format": "date-time"
+            }
+          }
+        },
+        "output": {
+          "type": "object",
+          "aov:typeRef": "nsu=http://opcfoundation.org/UA/WMTP/;i=6248",
+          "required": [ "CombinedReport" ],
+          "properties": {
+            "CombinedReport": {
+              "type": "array",
+              "items": {
+                "title": "WMTPOutputDataType",
+                "type": "object",
+                "aov:typeRef": "nsu=http://opcfoundation.org/UA/WMTP/;i=3003",
+                "required": [ "EngineeringUnits", "ActualValue", "TypeOfMeasurement", "TypeOfSample", "InstrumentRange", "EURange", "ValuePrecision", "Definition", "SignalTag", "RelativeUncertainty", "AbsoluteUncertainty", "Timestamp", "Index", "MeasurementPeriod", "InternalUpdateInterval" ],
+                "properties": {
+                  "EngineeringUnits": {
+                    "title": "EUInformation",
+                    "type": "object",
+                    "aov:typeRef": "nsu=http://opcfoundation.org/UA/;i=887",
+                    "required": [ "NamespaceUri", "UnitId", "DisplayName", "Description" ],
+                    "properties": {
+                      "NamespaceUri": {
+                        "type": "string"
+                      },
+                      "UnitId": {
+                        "type": "integer",
+                        "minimum": -2147483648,
+                        "maximum": 2147483647
+                      },
+                      "DisplayName": {
+                        "type": "string"
+                      },
+                      "Description": {
+                        "type": "string"
+                      }
+                    }
+                  },
+                  "ActualValue": {
+                    "type": "number",
+                    "minimum": -1.80e+308,
+                    "maximum": 1.80e+308
+                  },
+                  "TypeOfMeasurement": {
+                    "type": "integer",
+                    "minimum": 0,
+                    "maximum": 4294967295
+                  },
+                  "TypeOfSample": {
+                    "type": "integer",
+                    "minimum": 0,
+                    "maximum": 4294967295
+                  },
+                  "InstrumentRange": {
+                    "title": "Range",
+                    "type": "object",
+                    "aov:typeRef": "nsu=http://opcfoundation.org/UA/;i=884",
+                    "required": [ "Low", "High" ],
+                    "properties": {
+                      "Low": {
+                        "type": "number",
+                        "minimum": -1.80e+308,
+                        "maximum": 1.80e+308
+                      },
+                      "High": {
+                        "type": "number",
+                        "minimum": -1.80e+308,
+                        "maximum": 1.80e+308
+                      }
+                    }
+                  },
+                  "EURange": {
+                    "title": "Range",
+                    "type": "object",
+                    "aov:typeRef": "nsu=http://opcfoundation.org/UA/;i=884",
+                    "required": [ "Low", "High" ],
+                    "properties": {
+                      "Low": {
+                        "type": "number",
+                        "minimum": -1.80e+308,
+                        "maximum": 1.80e+308
+                      },
+                      "High": {
+                        "type": "number",
+                        "minimum": -1.80e+308,
+                        "maximum": 1.80e+308
+                      }
+                    }
+                  },
+                  "ValuePrecision": {
+                    "type": "number",
+                    "minimum": -1.80e+308,
+                    "maximum": 1.80e+308
+                  },
+                  "Definition": {
+                    "type": "string"
+                  },
+                  "SignalTag": {
+                    "type": "string"
+                  },
+                  "RelativeUncertainty": {
+                    "type": "number",
+                    "minimum": -1.80e+308,
+                    "maximum": 1.80e+308
+                  },
+                  "AbsoluteUncertainty": {
+                    "type": "number",
+                    "minimum": -1.80e+308,
+                    "maximum": 1.80e+308
+                  },
+                  "Timestamp": {
+                    "type": "string",
+                    "format": "date-time"
+                  },
+                  "Index": {
+                    "type": "integer",
+                    "minimum": 0,
+                    "maximum": 4294967295
+                  },
+                  "MeasurementPeriod": {
+                    "type": "string",
+                    "pattern": "^P(?!$)(?:(?:(?:(?:\\d+Y)|(?:\\d+\\.\\d+Y$))?(?:(?:\\d+M)|(?:\\d+\\.\\d+M$))?)|(?:(?:(?:\\d+W)|(?:\\d+\\.\\d+W$))?))(?:(?:\\d+D)|(?:\\d+\\.\\d+D$))?(?:T(?!$)(?:(?:\\d+H)|(?:\\d+\\.\\d+H$))?(?:(?:\\d+M)|(?:\\d+\\.\\d+M$))?(?:\\d+(?:\\.\\d+)?S)?)?$"
+                  },
+                  "InternalUpdateInterval": {
+                    "type": "string",
+                    "pattern": "^P(?!$)(?:(?:(?:(?:\\d+Y)|(?:\\d+\\.\\d+Y$))?(?:(?:\\d+M)|(?:\\d+\\.\\d+M$))?)|(?:(?:(?:\\d+W)|(?:\\d+\\.\\d+W$))?))(?:(?:\\d+D)|(?:\\d+\\.\\d+D$))?(?:T(?!$)(?:(?:\\d+H)|(?:\\d+\\.\\d+H$))?(?:(?:\\d+M)|(?:\\d+\\.\\d+M$))?(?:\\d+(?:\\.\\d+)?S)?)?$"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/WMTP/WMTP_WMTPServiceCycleDataType/action/CombinedReportTime",
+            "op": "invokeaction"
+          }
+        ]
+      },
+      "DeleteAllStoredRecords": {
+        "aov:namespace": "http://opcfoundation.org/UA/WMTP/",
+        "output": {
+          "type": "object",
+          "aov:typeRef": "nsu=http://opcfoundation.org/UA/WMTP/;i=6164",
+          "required": [ "DeleteAllStoredRecordsSuccessfull" ],
+          "properties": {
+            "DeleteAllStoredRecordsSuccessfull": {
+              "type": "boolean"
+            }
+          }
+        },
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/WMTP/WMTP_WMTPServiceCycleDataType/action/DeleteAllStoredRecords",
+            "op": "invokeaction"
+          }
+        ]
+      },
+      "DeleteStoredRecordsIndex": {
+        "aov:namespace": "http://opcfoundation.org/UA/WMTP/",
+        "input": {
+          "type": "object",
+          "aov:typeRef": "nsu=http://opcfoundation.org/UA/WMTP/;i=6170",
+          "required": [ "FromIndex", "ToIndex" ],
+          "properties": {
+            "FromIndex": {
+              "type": "integer",
+              "minimum": 0,
+              "maximum": 4294967295
+            },
+            "ToIndex": {
+              "type": "integer",
+              "minimum": 0,
+              "maximum": 4294967295
+            }
+          }
+        },
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/WMTP/WMTP_WMTPServiceCycleDataType/action/DeleteStoredRecordsIndex",
+            "op": "invokeaction"
+          }
+        ]
+      },
+      "DeleteStoredRecordsTime": {
+        "aov:namespace": "http://opcfoundation.org/UA/WMTP/",
+        "input": {
+          "type": "object",
+          "aov:typeRef": "nsu=http://opcfoundation.org/UA/WMTP/;i=6166",
+          "required": [ "FromTimestamp", "ToTimestamp" ],
+          "properties": {
+            "FromTimestamp": {
+              "type": "string",
+              "format": "date-time"
+            },
+            "ToTimestamp": {
+              "type": "string",
+              "format": "date-time"
+            }
+          }
+        },
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/WMTP/WMTP_WMTPServiceCycleDataType/action/DeleteStoredRecordsTime",
+            "op": "invokeaction"
+          }
+        ]
+      },
+      "ReportNumberOfStoredRecords": {
+        "aov:namespace": "http://opcfoundation.org/UA/WMTP/",
+        "output": {
+          "type": "object",
+          "aov:typeRef": "nsu=http://opcfoundation.org/UA/WMTP/;i=6174",
+          "required": [ "NumberOfStoredRecords" ],
+          "properties": {
+            "NumberOfStoredRecords": {
+              "type": "integer",
+              "minimum": 0,
+              "maximum": 4294967295
+            }
+          }
+        },
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/WMTP/WMTP_WMTPServiceCycleDataType/action/ReportNumberOfStoredRecords",
+            "op": "invokeaction"
+          }
+        ]
+      },
+      "ReportNumberOfStoredRecordsTime": {
+        "aov:namespace": "http://opcfoundation.org/UA/WMTP/",
+        "input": {
+          "type": "object",
+          "aov:typeRef": "nsu=http://opcfoundation.org/UA/WMTP/;i=6178",
+          "required": [ "FromTimestamp", "ToTimestamp" ],
+          "properties": {
+            "FromTimestamp": {
+              "type": "string",
+              "format": "date-time"
+            },
+            "ToTimestamp": {
+              "type": "string",
+              "format": "date-time"
+            }
+          }
+        },
+        "output": {
+          "type": "object",
+          "aov:typeRef": "nsu=http://opcfoundation.org/UA/WMTP/;i=6179",
+          "required": [ "NumberOfStoredRecords" ],
+          "properties": {
+            "NumberOfStoredRecords": {
+              "type": "integer",
+              "minimum": 0,
+              "maximum": 4294967295
+            }
+          }
+        },
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/WMTP/WMTP_WMTPServiceCycleDataType/action/ReportNumberOfStoredRecordsTime",
+            "op": "invokeaction"
+          }
+        ]
+      }
+    },
+    "properties": {
+    },
+    "events": {
+    }
+  },
+  {
+    "@context": [
+      "https://www.w3.org/2022/wot/td/v1.1",
+      {
+        "dtv": "http://azure.com/DigitalTwins/dtmi#",
+        "aov": "http://azure.com/IoT/operations/tm#"
+      }
+    ],
+    "@type": "tm:ThingModel",
+    "title": "WMTP_WMTPWorkCycleDataType",
+    "aov:typeRef": "nsu=http://opcfoundation.org/UA/WMTP/;i=1004",
+    "links": [
+      {
+        "rel": "tm:extends",
+        "href": "./OpcUaCore.TM.json#title=OpcUaCore_BaseObjectType",
+        "type": "application/tm+json"
+      }
+    ],
+    "schemaDefinitions": {
+    },
+    "actions": {
+      "AbortOperation": {
+        "aov:namespace": "http://opcfoundation.org/UA/WMTP/",
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/WMTP/WMTP_WMTPWorkCycleDataType/action/AbortOperation",
+            "op": "invokeaction"
+          }
+        ]
+      },
+      "CombinedReportAll": {
+        "aov:namespace": "http://opcfoundation.org/UA/WMTP/",
+        "output": {
+          "type": "object",
+          "aov:typeRef": "nsu=http://opcfoundation.org/UA/WMTP/;i=6233",
+          "required": [ "CombinedReport" ],
+          "properties": {
+            "CombinedReport": {
+              "title": "WMTPOutputDataType",
+              "type": "object",
+              "aov:typeRef": "nsu=http://opcfoundation.org/UA/WMTP/;i=3003",
+              "required": [ "EngineeringUnits", "ActualValue", "TypeOfMeasurement", "TypeOfSample", "InstrumentRange", "EURange", "ValuePrecision", "Definition", "SignalTag", "RelativeUncertainty", "AbsoluteUncertainty", "Timestamp", "Index", "MeasurementPeriod", "InternalUpdateInterval" ],
+              "properties": {
+                "EngineeringUnits": {
+                  "title": "EUInformation",
+                  "type": "object",
+                  "aov:typeRef": "nsu=http://opcfoundation.org/UA/;i=887",
+                  "required": [ "NamespaceUri", "UnitId", "DisplayName", "Description" ],
+                  "properties": {
+                    "NamespaceUri": {
+                      "type": "string"
+                    },
+                    "UnitId": {
+                      "type": "integer",
+                      "minimum": -2147483648,
+                      "maximum": 2147483647
+                    },
+                    "DisplayName": {
+                      "type": "string"
+                    },
+                    "Description": {
+                      "type": "string"
+                    }
+                  }
+                },
+                "ActualValue": {
+                  "type": "number",
+                  "minimum": -1.80e+308,
+                  "maximum": 1.80e+308
+                },
+                "TypeOfMeasurement": {
+                  "type": "integer",
+                  "minimum": 0,
+                  "maximum": 4294967295
+                },
+                "TypeOfSample": {
+                  "type": "integer",
+                  "minimum": 0,
+                  "maximum": 4294967295
+                },
+                "InstrumentRange": {
+                  "title": "Range",
+                  "type": "object",
+                  "aov:typeRef": "nsu=http://opcfoundation.org/UA/;i=884",
+                  "required": [ "Low", "High" ],
+                  "properties": {
+                    "Low": {
+                      "type": "number",
+                      "minimum": -1.80e+308,
+                      "maximum": 1.80e+308
+                    },
+                    "High": {
+                      "type": "number",
+                      "minimum": -1.80e+308,
+                      "maximum": 1.80e+308
+                    }
+                  }
+                },
+                "EURange": {
+                  "title": "Range",
+                  "type": "object",
+                  "aov:typeRef": "nsu=http://opcfoundation.org/UA/;i=884",
+                  "required": [ "Low", "High" ],
+                  "properties": {
+                    "Low": {
+                      "type": "number",
+                      "minimum": -1.80e+308,
+                      "maximum": 1.80e+308
+                    },
+                    "High": {
+                      "type": "number",
+                      "minimum": -1.80e+308,
+                      "maximum": 1.80e+308
+                    }
+                  }
+                },
+                "ValuePrecision": {
+                  "type": "number",
+                  "minimum": -1.80e+308,
+                  "maximum": 1.80e+308
+                },
+                "Definition": {
+                  "type": "string"
+                },
+                "SignalTag": {
+                  "type": "string"
+                },
+                "RelativeUncertainty": {
+                  "type": "number",
+                  "minimum": -1.80e+308,
+                  "maximum": 1.80e+308
+                },
+                "AbsoluteUncertainty": {
+                  "type": "number",
+                  "minimum": -1.80e+308,
+                  "maximum": 1.80e+308
+                },
+                "Timestamp": {
+                  "type": "string",
+                  "format": "date-time"
+                },
+                "Index": {
+                  "type": "integer",
+                  "minimum": 0,
+                  "maximum": 4294967295
+                },
+                "MeasurementPeriod": {
+                  "type": "string",
+                  "pattern": "^P(?!$)(?:(?:(?:(?:\\d+Y)|(?:\\d+\\.\\d+Y$))?(?:(?:\\d+M)|(?:\\d+\\.\\d+M$))?)|(?:(?:(?:\\d+W)|(?:\\d+\\.\\d+W$))?))(?:(?:\\d+D)|(?:\\d+\\.\\d+D$))?(?:T(?!$)(?:(?:\\d+H)|(?:\\d+\\.\\d+H$))?(?:(?:\\d+M)|(?:\\d+\\.\\d+M$))?(?:\\d+(?:\\.\\d+)?S)?)?$"
+                },
+                "InternalUpdateInterval": {
+                  "type": "string",
+                  "pattern": "^P(?!$)(?:(?:(?:(?:\\d+Y)|(?:\\d+\\.\\d+Y$))?(?:(?:\\d+M)|(?:\\d+\\.\\d+M$))?)|(?:(?:(?:\\d+W)|(?:\\d+\\.\\d+W$))?))(?:(?:\\d+D)|(?:\\d+\\.\\d+D$))?(?:T(?!$)(?:(?:\\d+H)|(?:\\d+\\.\\d+H$))?(?:(?:\\d+M)|(?:\\d+\\.\\d+M$))?(?:\\d+(?:\\.\\d+)?S)?)?$"
+                }
+              }
+            }
+          }
+        },
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/WMTP/WMTP_WMTPWorkCycleDataType/action/CombinedReportAll",
+            "op": "invokeaction"
+          }
+        ]
+      },
+      "CombinedReportFirstValue": {
+        "aov:namespace": "http://opcfoundation.org/UA/WMTP/",
+        "output": {
+          "type": "object",
+          "aov:typeRef": "nsu=http://opcfoundation.org/UA/WMTP/;i=6240",
+          "required": [ "CombinedReport" ],
+          "properties": {
+            "CombinedReport": {
+              "title": "WMTPOutputDataType",
+              "type": "object",
+              "aov:typeRef": "nsu=http://opcfoundation.org/UA/WMTP/;i=3003",
+              "required": [ "EngineeringUnits", "ActualValue", "TypeOfMeasurement", "TypeOfSample", "InstrumentRange", "EURange", "ValuePrecision", "Definition", "SignalTag", "RelativeUncertainty", "AbsoluteUncertainty", "Timestamp", "Index", "MeasurementPeriod", "InternalUpdateInterval" ],
+              "properties": {
+                "EngineeringUnits": {
+                  "title": "EUInformation",
+                  "type": "object",
+                  "aov:typeRef": "nsu=http://opcfoundation.org/UA/;i=887",
+                  "required": [ "NamespaceUri", "UnitId", "DisplayName", "Description" ],
+                  "properties": {
+                    "NamespaceUri": {
+                      "type": "string"
+                    },
+                    "UnitId": {
+                      "type": "integer",
+                      "minimum": -2147483648,
+                      "maximum": 2147483647
+                    },
+                    "DisplayName": {
+                      "type": "string"
+                    },
+                    "Description": {
+                      "type": "string"
+                    }
+                  }
+                },
+                "ActualValue": {
+                  "type": "number",
+                  "minimum": -1.80e+308,
+                  "maximum": 1.80e+308
+                },
+                "TypeOfMeasurement": {
+                  "type": "integer",
+                  "minimum": 0,
+                  "maximum": 4294967295
+                },
+                "TypeOfSample": {
+                  "type": "integer",
+                  "minimum": 0,
+                  "maximum": 4294967295
+                },
+                "InstrumentRange": {
+                  "title": "Range",
+                  "type": "object",
+                  "aov:typeRef": "nsu=http://opcfoundation.org/UA/;i=884",
+                  "required": [ "Low", "High" ],
+                  "properties": {
+                    "Low": {
+                      "type": "number",
+                      "minimum": -1.80e+308,
+                      "maximum": 1.80e+308
+                    },
+                    "High": {
+                      "type": "number",
+                      "minimum": -1.80e+308,
+                      "maximum": 1.80e+308
+                    }
+                  }
+                },
+                "EURange": {
+                  "title": "Range",
+                  "type": "object",
+                  "aov:typeRef": "nsu=http://opcfoundation.org/UA/;i=884",
+                  "required": [ "Low", "High" ],
+                  "properties": {
+                    "Low": {
+                      "type": "number",
+                      "minimum": -1.80e+308,
+                      "maximum": 1.80e+308
+                    },
+                    "High": {
+                      "type": "number",
+                      "minimum": -1.80e+308,
+                      "maximum": 1.80e+308
+                    }
+                  }
+                },
+                "ValuePrecision": {
+                  "type": "number",
+                  "minimum": -1.80e+308,
+                  "maximum": 1.80e+308
+                },
+                "Definition": {
+                  "type": "string"
+                },
+                "SignalTag": {
+                  "type": "string"
+                },
+                "RelativeUncertainty": {
+                  "type": "number",
+                  "minimum": -1.80e+308,
+                  "maximum": 1.80e+308
+                },
+                "AbsoluteUncertainty": {
+                  "type": "number",
+                  "minimum": -1.80e+308,
+                  "maximum": 1.80e+308
+                },
+                "Timestamp": {
+                  "type": "string",
+                  "format": "date-time"
+                },
+                "Index": {
+                  "type": "integer",
+                  "minimum": 0,
+                  "maximum": 4294967295
+                },
+                "MeasurementPeriod": {
+                  "type": "string",
+                  "pattern": "^P(?!$)(?:(?:(?:(?:\\d+Y)|(?:\\d+\\.\\d+Y$))?(?:(?:\\d+M)|(?:\\d+\\.\\d+M$))?)|(?:(?:(?:\\d+W)|(?:\\d+\\.\\d+W$))?))(?:(?:\\d+D)|(?:\\d+\\.\\d+D$))?(?:T(?!$)(?:(?:\\d+H)|(?:\\d+\\.\\d+H$))?(?:(?:\\d+M)|(?:\\d+\\.\\d+M$))?(?:\\d+(?:\\.\\d+)?S)?)?$"
+                },
+                "InternalUpdateInterval": {
+                  "type": "string",
+                  "pattern": "^P(?!$)(?:(?:(?:(?:\\d+Y)|(?:\\d+\\.\\d+Y$))?(?:(?:\\d+M)|(?:\\d+\\.\\d+M$))?)|(?:(?:(?:\\d+W)|(?:\\d+\\.\\d+W$))?))(?:(?:\\d+D)|(?:\\d+\\.\\d+D$))?(?:T(?!$)(?:(?:\\d+H)|(?:\\d+\\.\\d+H$))?(?:(?:\\d+M)|(?:\\d+\\.\\d+M$))?(?:\\d+(?:\\.\\d+)?S)?)?$"
+                }
+              }
+            }
+          }
+        },
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/WMTP/WMTP_WMTPWorkCycleDataType/action/CombinedReportFirstValue",
+            "op": "invokeaction"
+          }
+        ]
+      },
+      "CombinedReportIndex": {
+        "aov:namespace": "http://opcfoundation.org/UA/WMTP/",
+        "input": {
+          "type": "object",
+          "aov:typeRef": "nsu=http://opcfoundation.org/UA/WMTP/;i=6235",
+          "required": [ "FromIndex", "ToIndex" ],
+          "properties": {
+            "FromIndex": {
+              "type": "integer",
+              "minimum": 0,
+              "maximum": 4294967295
+            },
+            "ToIndex": {
+              "type": "integer",
+              "minimum": 0,
+              "maximum": 4294967295
+            }
+          }
+        },
+        "output": {
+          "type": "object",
+          "aov:typeRef": "nsu=http://opcfoundation.org/UA/WMTP/;i=6236",
+          "required": [ "CombinedReport" ],
+          "properties": {
+            "CombinedReport": {
+              "title": "WMTPOutputDataType",
+              "type": "object",
+              "aov:typeRef": "nsu=http://opcfoundation.org/UA/WMTP/;i=3003",
+              "required": [ "EngineeringUnits", "ActualValue", "TypeOfMeasurement", "TypeOfSample", "InstrumentRange", "EURange", "ValuePrecision", "Definition", "SignalTag", "RelativeUncertainty", "AbsoluteUncertainty", "Timestamp", "Index", "MeasurementPeriod", "InternalUpdateInterval" ],
+              "properties": {
+                "EngineeringUnits": {
+                  "title": "EUInformation",
+                  "type": "object",
+                  "aov:typeRef": "nsu=http://opcfoundation.org/UA/;i=887",
+                  "required": [ "NamespaceUri", "UnitId", "DisplayName", "Description" ],
+                  "properties": {
+                    "NamespaceUri": {
+                      "type": "string"
+                    },
+                    "UnitId": {
+                      "type": "integer",
+                      "minimum": -2147483648,
+                      "maximum": 2147483647
+                    },
+                    "DisplayName": {
+                      "type": "string"
+                    },
+                    "Description": {
+                      "type": "string"
+                    }
+                  }
+                },
+                "ActualValue": {
+                  "type": "number",
+                  "minimum": -1.80e+308,
+                  "maximum": 1.80e+308
+                },
+                "TypeOfMeasurement": {
+                  "type": "integer",
+                  "minimum": 0,
+                  "maximum": 4294967295
+                },
+                "TypeOfSample": {
+                  "type": "integer",
+                  "minimum": 0,
+                  "maximum": 4294967295
+                },
+                "InstrumentRange": {
+                  "title": "Range",
+                  "type": "object",
+                  "aov:typeRef": "nsu=http://opcfoundation.org/UA/;i=884",
+                  "required": [ "Low", "High" ],
+                  "properties": {
+                    "Low": {
+                      "type": "number",
+                      "minimum": -1.80e+308,
+                      "maximum": 1.80e+308
+                    },
+                    "High": {
+                      "type": "number",
+                      "minimum": -1.80e+308,
+                      "maximum": 1.80e+308
+                    }
+                  }
+                },
+                "EURange": {
+                  "title": "Range",
+                  "type": "object",
+                  "aov:typeRef": "nsu=http://opcfoundation.org/UA/;i=884",
+                  "required": [ "Low", "High" ],
+                  "properties": {
+                    "Low": {
+                      "type": "number",
+                      "minimum": -1.80e+308,
+                      "maximum": 1.80e+308
+                    },
+                    "High": {
+                      "type": "number",
+                      "minimum": -1.80e+308,
+                      "maximum": 1.80e+308
+                    }
+                  }
+                },
+                "ValuePrecision": {
+                  "type": "number",
+                  "minimum": -1.80e+308,
+                  "maximum": 1.80e+308
+                },
+                "Definition": {
+                  "type": "string"
+                },
+                "SignalTag": {
+                  "type": "string"
+                },
+                "RelativeUncertainty": {
+                  "type": "number",
+                  "minimum": -1.80e+308,
+                  "maximum": 1.80e+308
+                },
+                "AbsoluteUncertainty": {
+                  "type": "number",
+                  "minimum": -1.80e+308,
+                  "maximum": 1.80e+308
+                },
+                "Timestamp": {
+                  "type": "string",
+                  "format": "date-time"
+                },
+                "Index": {
+                  "type": "integer",
+                  "minimum": 0,
+                  "maximum": 4294967295
+                },
+                "MeasurementPeriod": {
+                  "type": "string",
+                  "pattern": "^P(?!$)(?:(?:(?:(?:\\d+Y)|(?:\\d+\\.\\d+Y$))?(?:(?:\\d+M)|(?:\\d+\\.\\d+M$))?)|(?:(?:(?:\\d+W)|(?:\\d+\\.\\d+W$))?))(?:(?:\\d+D)|(?:\\d+\\.\\d+D$))?(?:T(?!$)(?:(?:\\d+H)|(?:\\d+\\.\\d+H$))?(?:(?:\\d+M)|(?:\\d+\\.\\d+M$))?(?:\\d+(?:\\.\\d+)?S)?)?$"
+                },
+                "InternalUpdateInterval": {
+                  "type": "string",
+                  "pattern": "^P(?!$)(?:(?:(?:(?:\\d+Y)|(?:\\d+\\.\\d+Y$))?(?:(?:\\d+M)|(?:\\d+\\.\\d+M$))?)|(?:(?:(?:\\d+W)|(?:\\d+\\.\\d+W$))?))(?:(?:\\d+D)|(?:\\d+\\.\\d+D$))?(?:T(?!$)(?:(?:\\d+H)|(?:\\d+\\.\\d+H$))?(?:(?:\\d+M)|(?:\\d+\\.\\d+M$))?(?:\\d+(?:\\.\\d+)?S)?)?$"
+                }
+              }
+            }
+          }
+        },
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/WMTP/WMTP_WMTPWorkCycleDataType/action/CombinedReportIndex",
+            "op": "invokeaction"
+          }
+        ]
+      },
+      "CombinedReportLastValue": {
+        "aov:namespace": "http://opcfoundation.org/UA/WMTP/",
+        "output": {
+          "type": "object",
+          "aov:typeRef": "nsu=http://opcfoundation.org/UA/WMTP/;i=6239",
+          "required": [ "CombinedReport" ],
+          "properties": {
+            "CombinedReport": {
+              "title": "WMTPOutputDataType",
+              "type": "object",
+              "aov:typeRef": "nsu=http://opcfoundation.org/UA/WMTP/;i=3003",
+              "required": [ "EngineeringUnits", "ActualValue", "TypeOfMeasurement", "TypeOfSample", "InstrumentRange", "EURange", "ValuePrecision", "Definition", "SignalTag", "RelativeUncertainty", "AbsoluteUncertainty", "Timestamp", "Index", "MeasurementPeriod", "InternalUpdateInterval" ],
+              "properties": {
+                "EngineeringUnits": {
+                  "title": "EUInformation",
+                  "type": "object",
+                  "aov:typeRef": "nsu=http://opcfoundation.org/UA/;i=887",
+                  "required": [ "NamespaceUri", "UnitId", "DisplayName", "Description" ],
+                  "properties": {
+                    "NamespaceUri": {
+                      "type": "string"
+                    },
+                    "UnitId": {
+                      "type": "integer",
+                      "minimum": -2147483648,
+                      "maximum": 2147483647
+                    },
+                    "DisplayName": {
+                      "type": "string"
+                    },
+                    "Description": {
+                      "type": "string"
+                    }
+                  }
+                },
+                "ActualValue": {
+                  "type": "number",
+                  "minimum": -1.80e+308,
+                  "maximum": 1.80e+308
+                },
+                "TypeOfMeasurement": {
+                  "type": "integer",
+                  "minimum": 0,
+                  "maximum": 4294967295
+                },
+                "TypeOfSample": {
+                  "type": "integer",
+                  "minimum": 0,
+                  "maximum": 4294967295
+                },
+                "InstrumentRange": {
+                  "title": "Range",
+                  "type": "object",
+                  "aov:typeRef": "nsu=http://opcfoundation.org/UA/;i=884",
+                  "required": [ "Low", "High" ],
+                  "properties": {
+                    "Low": {
+                      "type": "number",
+                      "minimum": -1.80e+308,
+                      "maximum": 1.80e+308
+                    },
+                    "High": {
+                      "type": "number",
+                      "minimum": -1.80e+308,
+                      "maximum": 1.80e+308
+                    }
+                  }
+                },
+                "EURange": {
+                  "title": "Range",
+                  "type": "object",
+                  "aov:typeRef": "nsu=http://opcfoundation.org/UA/;i=884",
+                  "required": [ "Low", "High" ],
+                  "properties": {
+                    "Low": {
+                      "type": "number",
+                      "minimum": -1.80e+308,
+                      "maximum": 1.80e+308
+                    },
+                    "High": {
+                      "type": "number",
+                      "minimum": -1.80e+308,
+                      "maximum": 1.80e+308
+                    }
+                  }
+                },
+                "ValuePrecision": {
+                  "type": "number",
+                  "minimum": -1.80e+308,
+                  "maximum": 1.80e+308
+                },
+                "Definition": {
+                  "type": "string"
+                },
+                "SignalTag": {
+                  "type": "string"
+                },
+                "RelativeUncertainty": {
+                  "type": "number",
+                  "minimum": -1.80e+308,
+                  "maximum": 1.80e+308
+                },
+                "AbsoluteUncertainty": {
+                  "type": "number",
+                  "minimum": -1.80e+308,
+                  "maximum": 1.80e+308
+                },
+                "Timestamp": {
+                  "type": "string",
+                  "format": "date-time"
+                },
+                "Index": {
+                  "type": "integer",
+                  "minimum": 0,
+                  "maximum": 4294967295
+                },
+                "MeasurementPeriod": {
+                  "type": "string",
+                  "pattern": "^P(?!$)(?:(?:(?:(?:\\d+Y)|(?:\\d+\\.\\d+Y$))?(?:(?:\\d+M)|(?:\\d+\\.\\d+M$))?)|(?:(?:(?:\\d+W)|(?:\\d+\\.\\d+W$))?))(?:(?:\\d+D)|(?:\\d+\\.\\d+D$))?(?:T(?!$)(?:(?:\\d+H)|(?:\\d+\\.\\d+H$))?(?:(?:\\d+M)|(?:\\d+\\.\\d+M$))?(?:\\d+(?:\\.\\d+)?S)?)?$"
+                },
+                "InternalUpdateInterval": {
+                  "type": "string",
+                  "pattern": "^P(?!$)(?:(?:(?:(?:\\d+Y)|(?:\\d+\\.\\d+Y$))?(?:(?:\\d+M)|(?:\\d+\\.\\d+M$))?)|(?:(?:(?:\\d+W)|(?:\\d+\\.\\d+W$))?))(?:(?:\\d+D)|(?:\\d+\\.\\d+D$))?(?:T(?!$)(?:(?:\\d+H)|(?:\\d+\\.\\d+H$))?(?:(?:\\d+M)|(?:\\d+\\.\\d+M$))?(?:\\d+(?:\\.\\d+)?S)?)?$"
+                }
+              }
+            }
+          }
+        },
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/WMTP/WMTP_WMTPWorkCycleDataType/action/CombinedReportLastValue",
+            "op": "invokeaction"
+          }
+        ]
+      },
+      "CombinedReportTime": {
+        "aov:namespace": "http://opcfoundation.org/UA/WMTP/",
+        "input": {
+          "type": "object",
+          "aov:typeRef": "nsu=http://opcfoundation.org/UA/WMTP/;i=6237",
+          "required": [ "FromTimestamp", "ToTimestamp" ],
+          "properties": {
+            "FromTimestamp": {
+              "type": "string",
+              "format": "date-time"
+            },
+            "ToTimestamp": {
+              "type": "string",
+              "format": "date-time"
+            }
+          }
+        },
+        "output": {
+          "type": "object",
+          "aov:typeRef": "nsu=http://opcfoundation.org/UA/WMTP/;i=6238",
+          "required": [ "CombinedReport" ],
+          "properties": {
+            "CombinedReport": {
+              "title": "WMTPOutputDataType",
+              "type": "object",
+              "aov:typeRef": "nsu=http://opcfoundation.org/UA/WMTP/;i=3003",
+              "required": [ "EngineeringUnits", "ActualValue", "TypeOfMeasurement", "TypeOfSample", "InstrumentRange", "EURange", "ValuePrecision", "Definition", "SignalTag", "RelativeUncertainty", "AbsoluteUncertainty", "Timestamp", "Index", "MeasurementPeriod", "InternalUpdateInterval" ],
+              "properties": {
+                "EngineeringUnits": {
+                  "title": "EUInformation",
+                  "type": "object",
+                  "aov:typeRef": "nsu=http://opcfoundation.org/UA/;i=887",
+                  "required": [ "NamespaceUri", "UnitId", "DisplayName", "Description" ],
+                  "properties": {
+                    "NamespaceUri": {
+                      "type": "string"
+                    },
+                    "UnitId": {
+                      "type": "integer",
+                      "minimum": -2147483648,
+                      "maximum": 2147483647
+                    },
+                    "DisplayName": {
+                      "type": "string"
+                    },
+                    "Description": {
+                      "type": "string"
+                    }
+                  }
+                },
+                "ActualValue": {
+                  "type": "number",
+                  "minimum": -1.80e+308,
+                  "maximum": 1.80e+308
+                },
+                "TypeOfMeasurement": {
+                  "type": "integer",
+                  "minimum": 0,
+                  "maximum": 4294967295
+                },
+                "TypeOfSample": {
+                  "type": "integer",
+                  "minimum": 0,
+                  "maximum": 4294967295
+                },
+                "InstrumentRange": {
+                  "title": "Range",
+                  "type": "object",
+                  "aov:typeRef": "nsu=http://opcfoundation.org/UA/;i=884",
+                  "required": [ "Low", "High" ],
+                  "properties": {
+                    "Low": {
+                      "type": "number",
+                      "minimum": -1.80e+308,
+                      "maximum": 1.80e+308
+                    },
+                    "High": {
+                      "type": "number",
+                      "minimum": -1.80e+308,
+                      "maximum": 1.80e+308
+                    }
+                  }
+                },
+                "EURange": {
+                  "title": "Range",
+                  "type": "object",
+                  "aov:typeRef": "nsu=http://opcfoundation.org/UA/;i=884",
+                  "required": [ "Low", "High" ],
+                  "properties": {
+                    "Low": {
+                      "type": "number",
+                      "minimum": -1.80e+308,
+                      "maximum": 1.80e+308
+                    },
+                    "High": {
+                      "type": "number",
+                      "minimum": -1.80e+308,
+                      "maximum": 1.80e+308
+                    }
+                  }
+                },
+                "ValuePrecision": {
+                  "type": "number",
+                  "minimum": -1.80e+308,
+                  "maximum": 1.80e+308
+                },
+                "Definition": {
+                  "type": "string"
+                },
+                "SignalTag": {
+                  "type": "string"
+                },
+                "RelativeUncertainty": {
+                  "type": "number",
+                  "minimum": -1.80e+308,
+                  "maximum": 1.80e+308
+                },
+                "AbsoluteUncertainty": {
+                  "type": "number",
+                  "minimum": -1.80e+308,
+                  "maximum": 1.80e+308
+                },
+                "Timestamp": {
+                  "type": "string",
+                  "format": "date-time"
+                },
+                "Index": {
+                  "type": "integer",
+                  "minimum": 0,
+                  "maximum": 4294967295
+                },
+                "MeasurementPeriod": {
+                  "type": "string",
+                  "pattern": "^P(?!$)(?:(?:(?:(?:\\d+Y)|(?:\\d+\\.\\d+Y$))?(?:(?:\\d+M)|(?:\\d+\\.\\d+M$))?)|(?:(?:(?:\\d+W)|(?:\\d+\\.\\d+W$))?))(?:(?:\\d+D)|(?:\\d+\\.\\d+D$))?(?:T(?!$)(?:(?:\\d+H)|(?:\\d+\\.\\d+H$))?(?:(?:\\d+M)|(?:\\d+\\.\\d+M$))?(?:\\d+(?:\\.\\d+)?S)?)?$"
+                },
+                "InternalUpdateInterval": {
+                  "type": "string",
+                  "pattern": "^P(?!$)(?:(?:(?:(?:\\d+Y)|(?:\\d+\\.\\d+Y$))?(?:(?:\\d+M)|(?:\\d+\\.\\d+M$))?)|(?:(?:(?:\\d+W)|(?:\\d+\\.\\d+W$))?))(?:(?:\\d+D)|(?:\\d+\\.\\d+D$))?(?:T(?!$)(?:(?:\\d+H)|(?:\\d+\\.\\d+H$))?(?:(?:\\d+M)|(?:\\d+\\.\\d+M$))?(?:\\d+(?:\\.\\d+)?S)?)?$"
+                }
+              }
+            }
+          }
+        },
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/WMTP/WMTP_WMTPWorkCycleDataType/action/CombinedReportTime",
+            "op": "invokeaction"
+          }
+        ]
+      },
+      "DeleteAllStoredRecords": {
+        "aov:namespace": "http://opcfoundation.org/UA/WMTP/",
+        "output": {
+          "type": "object",
+          "aov:typeRef": "nsu=http://opcfoundation.org/UA/WMTP/;i=6165",
+          "required": [ "DeleteAllStoredRecordsSuccessfull" ],
+          "properties": {
+            "DeleteAllStoredRecordsSuccessfull": {
+              "type": "boolean"
+            }
+          }
+        },
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/WMTP/WMTP_WMTPWorkCycleDataType/action/DeleteAllStoredRecords",
+            "op": "invokeaction"
+          }
+        ]
+      },
+      "DeleteStoredRecordsIndex": {
+        "aov:namespace": "http://opcfoundation.org/UA/WMTP/",
+        "input": {
+          "type": "object",
+          "aov:typeRef": "nsu=http://opcfoundation.org/UA/WMTP/;i=6172",
+          "required": [ "FromIndex", "ToIndex" ],
+          "properties": {
+            "FromIndex": {
+              "type": "integer",
+              "minimum": 0,
+              "maximum": 4294967295
+            },
+            "ToIndex": {
+              "type": "integer",
+              "minimum": 0,
+              "maximum": 4294967295
+            }
+          }
+        },
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/WMTP/WMTP_WMTPWorkCycleDataType/action/DeleteStoredRecordsIndex",
+            "op": "invokeaction"
+          }
+        ]
+      },
+      "DeleteStoredRecordsTime": {
+        "aov:namespace": "http://opcfoundation.org/UA/WMTP/",
+        "input": {
+          "type": "object",
+          "aov:typeRef": "nsu=http://opcfoundation.org/UA/WMTP/;i=6168",
+          "required": [ "FromTimestamp", "ToTimestamp" ],
+          "properties": {
+            "FromTimestamp": {
+              "type": "string",
+              "format": "date-time"
+            },
+            "ToTimestamp": {
+              "type": "string",
+              "format": "date-time"
+            }
+          }
+        },
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/WMTP/WMTP_WMTPWorkCycleDataType/action/DeleteStoredRecordsTime",
+            "op": "invokeaction"
+          }
+        ]
+      },
+      "ReportNumberOfStoredRecords": {
+        "aov:namespace": "http://opcfoundation.org/UA/WMTP/",
+        "output": {
+          "type": "object",
+          "aov:typeRef": "nsu=http://opcfoundation.org/UA/WMTP/;i=6176",
+          "required": [ "NumberOfStoredRecords" ],
+          "properties": {
+            "NumberOfStoredRecords": {
+              "type": "integer",
+              "minimum": 0,
+              "maximum": 4294967295
+            }
+          }
+        },
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/WMTP/WMTP_WMTPWorkCycleDataType/action/ReportNumberOfStoredRecords",
+            "op": "invokeaction"
+          }
+        ]
+      },
+      "ReportNumberOfStoredRecordsTime": {
+        "aov:namespace": "http://opcfoundation.org/UA/WMTP/",
+        "input": {
+          "type": "object",
+          "aov:typeRef": "nsu=http://opcfoundation.org/UA/WMTP/;i=6180",
+          "required": [ "FromTimestamp", "ToTimestamp" ],
+          "properties": {
+            "FromTimestamp": {
+              "type": "string",
+              "format": "date-time"
+            },
+            "ToTimestamp": {
+              "type": "string",
+              "format": "date-time"
+            }
+          }
+        },
+        "output": {
+          "type": "object",
+          "aov:typeRef": "nsu=http://opcfoundation.org/UA/WMTP/;i=6181",
+          "required": [ "NumberOfStoredRecords" ],
+          "properties": {
+            "NumberOfStoredRecords": {
+              "type": "integer",
+              "minimum": 0,
+              "maximum": 4294967295
+            }
+          }
+        },
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/WMTP/WMTP_WMTPWorkCycleDataType/action/ReportNumberOfStoredRecordsTime",
+            "op": "invokeaction"
+          }
+        ]
+      }
+    },
+    "properties": {
+    },
+    "events": {
+    }
+  }
+]

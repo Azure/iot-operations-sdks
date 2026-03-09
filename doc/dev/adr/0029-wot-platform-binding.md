@@ -88,6 +88,19 @@ The following extension properties are listed along with the cotypes of their do
 
 * maximum and minimum (via Limited) &mdash; specifies maximum and minimum expected values of a numeric type that is thereby limited to the specified range.
 
+#### DTDL Annotation and Overriding extensions
+
+Two additional relevant DTDL extensions are the [Annotation extension](https://github.com/Azure/opendigitaltwins-dtdl/blob/master/DTDL/v4/DTDL.annotation.v2.md) and the [Overriding extension](https://github.com/Azure/opendigitaltwins-dtdl/blob/master/DTDL/v4/DTDL.overriding.v2.md).
+The Annotation extension defines property:
+
+* annotates (via ValueAnnotation) &mdash; indicates that a Property or Telemetry annotates a specific other Property or Telemetry in the Interface.
+
+The Overriding extension defines property:
+
+* overrides (via Override) &mdash; used in conjunction with "annotates" to indicate that a specific property of the annotated Property or Telemetry obtains its value from the annotating Property or Telemetry.
+
+The main use case for overriding is specifying a unit value as a Property or Telemetry value, rather than as a modeled value.
+
 ## Proposal
 
 ### URI and RDF term prefix
@@ -96,7 +109,7 @@ The proposed RDF term prefix is "aov:", derived from the phrase "Azure Operation
 
 ### AIO Platform Binding
 
-The proposed AIO Platform Binding introduces 14 new RDF terms:
+The proposed AIO Platform Binding introduces 17 new RDF terms:
 
 * `aov:isComposite` &mdash; property whose value is `true` when a TM is not a component or capability of any other TM.
 * `aov:isEvent` &mdash; property whose value is `true` when a TM has semantics associated with an event type.
@@ -113,6 +126,8 @@ The proposed AIO Platform Binding introduces 14 new RDF terms:
 * `aov:scaleFactor` &mdash; property whose value is used for scaling instance values.
 * `aov:decimalPlaces` &mdash; property whose value specifies the significant precision of a numeric value.
 * `aov:memberOf` &mdash; property whose value specifies the name of a group of which this action is a member.
+* `aov:withUnit` &mdash; property whose value specifies the name of a WoT property whose value indicates a unit.
+* `qudt:hasQuantityKind` &mdash; property whose value indicates a quantity kind using the [QUDT vocabulary](https://qudt.org/doc/2026/01/DOC_VOCAB-QUANTITY-KINDS-ALL.html).
 
 Use of these is illustrated in the following TM examples.
 
@@ -194,7 +209,6 @@ The action "Noop" is designated to be a member of the action group "MyActionGrou
 }
 ```
 
-
 #### Example 3
 
 The following TM example illustrates 3 terms: `aov:contains`, `aov:containedIn`, and `aov:typeRef`.
@@ -236,13 +250,52 @@ Each of the properties has a type reference to an identifier in the space of OPC
 }
 ```
 
+#### Example 4
+
+The following TM example illustrates 2 terms: `aov:withUnit` and `qudt:hasQuantityKind`.
+
+Event "HeadAtPeakPoint" indicates that its numerical schema value represents a Length quantity.
+The unit for this value is given by the string value of property "HeadAtPeakPoint_Units", as indicated by the value of `aov:withUnit`, which is "properties/HeadAtPeakPoint_Units".
+Note the "properties/" prefix in this value, which explicitly indicates that "HeadAtPeakPoint_Units" is the name of a property (and not, e.g., an event).
+This prefix is required for clarity even though no other prefix values are supported.
+
+```json
+{
+  "@context": [
+    "https://www.w3.org/2022/wot/td/v1.1",
+    { "aov": "http://azure.com/IoT/operations/tm#" },
+    { "dtv": "http://azure.com/DigitalTwins/dtmi#" },
+    { "qudt": "http://qudt.org/schema/qudt/" }
+  ],
+  "@type": "tm:ThingModel",
+  "title": "Pump",
+  "properties": {
+    "HeadAtPeakPoint_Units": {
+      "type": "string",
+      "readOnly": true,
+      "forms": [ { "dtv:topic": "opcua/Pumps/HeadAtPeakPoint_Units/read" } ]
+    }
+  },
+  "events": {
+    "HeadAtPeakPoint": {
+      "data": {
+        "type": "number"
+      },
+      "qudt:hasQuantityKind": "quantitykind:Length",
+      "aov:withUnit": "properties/HeadAtPeakPoint_Units",
+      "forms": [ { "dtv:topic": "opcua/Pumps/HeadAtPeakPoint/" } ]
+    }
+  }
+}
+```
+
 ### Mapping DTDL to WoT
 
 A semantic mapping between core DTDL and native WoT can be found [here](https://github.com/digitaltwinconsortium/ManufacturingOntologies/blob/main/comparison.md).
 
-The following table summarizes the mapping between the DTDL AIO extension and the WoT Platform Binding for AIO.
+The following table summarizes the mapping between DTDL extensions (AIO, Annotation, and Overriding) and the WoT Platform Binding for AIO.
 
-| DTDL Core Type | DTDL AIO Extension Cotype/Property | WoT Native Property | WoT Binding Property |
+| DTDL Core Type | DTDL Extension Cotype/Property | WoT Native Property | WoT Binding Property |
 | --- | --- | --- | --- |
 | Telemetry | | events | |
 | Command | | actions | |
@@ -261,3 +314,5 @@ The following table summarizes the mapping between the DTDL AIO extension and th
 | Command | GroupMember.group | | aov:memberOf |
 | | Limited.maximum | maximum | |
 | | Limited.minimum | minimum | |
+| | (not supported) | | qudt:hasQuantityKind |
+| | ValueAnnotation.annotates / Override.overrides | | aov:withUnit |

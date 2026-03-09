@@ -1,0 +1,19 @@
+{
+  "success": false,
+  "commandLine": {
+    "things": [
+      "invalidAioBinding/RootFormSubAllButNoEventsExceptInherited.TM.json",
+      "valid/EventWithUnitDataSchemaInteger.TM.json"
+    ],
+    "lang": "none"
+  },
+  "errors": [
+    {
+      "condition": "Unusable",
+      "filename": "RootFormSubAllButNoEventsExceptInherited.TM.json",
+      "line": 19,
+      "cfLine": 26,
+      "crossRef": ""
+    }
+  ]
+}

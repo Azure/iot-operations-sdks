@@ -1,0 +1,5431 @@
+[
+  {
+    "@context": [
+      "https://www.w3.org/2022/wot/td/v1.1",
+      {
+        "dtv": "http://azure.com/DigitalTwins/dtmi#",
+        "aov": "http://azure.com/IoT/operations/tm#"
+      }
+    ],
+    "@type": "tm:ThingModel",
+    "title": "MachineTool_OperatorConditionClassType",
+    "aov:typeRef": "nsu=http://opcfoundation.org/UA/MachineTool/;i=47",
+    "links": [
+      {
+        "rel": "tm:extends",
+        "href": "./OpcUaCore.TM.json#title=OpcUaCore_BaseConditionClassType",
+        "type": "application/tm+json"
+      }
+    ],
+    "schemaDefinitions": {
+    },
+    "actions": {
+    },
+    "properties": {
+    },
+    "events": {
+    }
+  },
+  {
+    "@context": [
+      "https://www.w3.org/2022/wot/td/v1.1",
+      {
+        "dtv": "http://azure.com/DigitalTwins/dtmi#",
+        "aov": "http://azure.com/IoT/operations/tm#"
+      }
+    ],
+    "@type": "tm:ThingModel",
+    "title": "MachineTool_ClampingConditionClassType",
+    "aov:typeRef": "nsu=http://opcfoundation.org/UA/MachineTool/;i=48",
+    "links": [
+      {
+        "rel": "tm:extends",
+        "href": "./OpcUaCore.TM.json#title=OpcUaCore_ProcessConditionClassType",
+        "type": "application/tm+json"
+      }
+    ],
+    "schemaDefinitions": {
+    },
+    "actions": {
+    },
+    "properties": {
+    },
+    "events": {
+    }
+  },
+  {
+    "@context": [
+      "https://www.w3.org/2022/wot/td/v1.1",
+      {
+        "dtv": "http://azure.com/DigitalTwins/dtmi#",
+        "aov": "http://azure.com/IoT/operations/tm#"
+      }
+    ],
+    "@type": "tm:ThingModel",
+    "title": "MachineTool_ManualProcessStepConditionClassType",
+    "aov:typeRef": "nsu=http://opcfoundation.org/UA/MachineTool/;i=52",
+    "links": [
+      {
+        "rel": "tm:extends",
+        "href": "./OpcUaCore.TM.json#title=OpcUaCore_ProcessConditionClassType",
+        "type": "application/tm+json"
+      }
+    ],
+    "schemaDefinitions": {
+    },
+    "actions": {
+    },
+    "properties": {
+    },
+    "events": {
+    }
+  },
+  {
+    "@context": [
+      "https://www.w3.org/2022/wot/td/v1.1",
+      {
+        "dtv": "http://azure.com/DigitalTwins/dtmi#",
+        "aov": "http://azure.com/IoT/operations/tm#"
+      }
+    ],
+    "@type": "tm:ThingModel",
+    "title": "MachineTool_MeasurementConditionClassType",
+    "aov:typeRef": "nsu=http://opcfoundation.org/UA/MachineTool/;i=53",
+    "links": [
+      {
+        "rel": "tm:extends",
+        "href": "./OpcUaCore.TM.json#title=OpcUaCore_ProcessConditionClassType",
+        "type": "application/tm+json"
+      }
+    ],
+    "schemaDefinitions": {
+    },
+    "actions": {
+    },
+    "properties": {
+    },
+    "events": {
+    }
+  },
+  {
+    "@context": [
+      "https://www.w3.org/2022/wot/td/v1.1",
+      {
+        "dtv": "http://azure.com/DigitalTwins/dtmi#",
+        "aov": "http://azure.com/IoT/operations/tm#"
+      }
+    ],
+    "@type": "tm:ThingModel",
+    "title": "MachineTool_PartMissingConditionClassType",
+    "aov:typeRef": "nsu=http://opcfoundation.org/UA/MachineTool/;i=54",
+    "links": [
+      {
+        "rel": "tm:extends",
+        "href": "./OpcUaCore.TM.json#title=OpcUaCore_ProcessConditionClassType",
+        "type": "application/tm+json"
+      }
+    ],
+    "schemaDefinitions": {
+    },
+    "actions": {
+    },
+    "properties": {
+    },
+    "events": {
+    }
+  },
+  {
+    "@context": [
+      "https://www.w3.org/2022/wot/td/v1.1",
+      {
+        "dtv": "http://azure.com/DigitalTwins/dtmi#",
+        "aov": "http://azure.com/IoT/operations/tm#"
+      }
+    ],
+    "@type": "tm:ThingModel",
+    "title": "MachineTool_ProcessIrregularityConditionClassType",
+    "aov:typeRef": "nsu=http://opcfoundation.org/UA/MachineTool/;i=55",
+    "links": [
+      {
+        "rel": "tm:extends",
+        "href": "./OpcUaCore.TM.json#title=OpcUaCore_ProcessConditionClassType",
+        "type": "application/tm+json"
+      }
+    ],
+    "schemaDefinitions": {
+    },
+    "actions": {
+    },
+    "properties": {
+    },
+    "events": {
+    }
+  },
+  {
+    "@context": [
+      "https://www.w3.org/2022/wot/td/v1.1",
+      {
+        "dtv": "http://azure.com/DigitalTwins/dtmi#",
+        "aov": "http://azure.com/IoT/operations/tm#"
+      }
+    ],
+    "@type": "tm:ThingModel",
+    "title": "MachineTool_ToolBreakageConditionClassType",
+    "aov:typeRef": "nsu=http://opcfoundation.org/UA/MachineTool/;i=57",
+    "links": [
+      {
+        "rel": "tm:extends",
+        "href": "./OpcUaCore.TM.json#title=OpcUaCore_ProcessConditionClassType",
+        "type": "application/tm+json"
+      }
+    ],
+    "schemaDefinitions": {
+    },
+    "actions": {
+    },
+    "properties": {
+    },
+    "events": {
+    }
+  },
+  {
+    "@context": [
+      "https://www.w3.org/2022/wot/td/v1.1",
+      {
+        "dtv": "http://azure.com/DigitalTwins/dtmi#",
+        "aov": "http://azure.com/IoT/operations/tm#"
+      }
+    ],
+    "@type": "tm:ThingModel",
+    "title": "MachineTool_ToolChangeConditionClassType",
+    "aov:typeRef": "nsu=http://opcfoundation.org/UA/MachineTool/;i=58",
+    "links": [
+      {
+        "rel": "tm:extends",
+        "href": "./OpcUaCore.TM.json#title=OpcUaCore_ProcessConditionClassType",
+        "type": "application/tm+json"
+      }
+    ],
+    "schemaDefinitions": {
+    },
+    "actions": {
+    },
+    "properties": {
+    },
+    "events": {
+    }
+  },
+  {
+    "@context": [
+      "https://www.w3.org/2022/wot/td/v1.1",
+      {
+        "dtv": "http://azure.com/DigitalTwins/dtmi#",
+        "aov": "http://azure.com/IoT/operations/tm#"
+      }
+    ],
+    "@type": "tm:ThingModel",
+    "title": "MachineTool_UtilityConditionClassType",
+    "aov:typeRef": "nsu=http://opcfoundation.org/UA/MachineTool/;i=60",
+    "links": [
+      {
+        "rel": "tm:extends",
+        "href": "./OpcUaCore.TM.json#title=OpcUaCore_BaseConditionClassType",
+        "type": "application/tm+json"
+      }
+    ],
+    "schemaDefinitions": {
+    },
+    "actions": {
+    },
+    "properties": {
+    },
+    "events": {
+    }
+  },
+  {
+    "@context": [
+      "https://www.w3.org/2022/wot/td/v1.1",
+      {
+        "dtv": "http://azure.com/DigitalTwins/dtmi#",
+        "aov": "http://azure.com/IoT/operations/tm#"
+      }
+    ],
+    "@type": "tm:ThingModel",
+    "title": "MachineTool_AlertType",
+    "aov:typeRef": "nsu=http://opcfoundation.org/UA/MachineTool/;i=39",
+    "aov:isEvent": true,
+    "links": [
+      {
+        "rel": "tm:extends",
+        "href": "./OpcUaCore.TM.json#title=OpcUaCore_AlarmConditionType",
+        "type": "application/tm+json"
+      }
+    ],
+    "schemaDefinitions": {
+    },
+    "forms": [
+      {
+        "contentType": "application/json",
+        "dtv:topic": "opcua/MachineTool/MachineTool_AlertType/properties/read",
+        "op": "readallproperties"
+      }
+    ],
+    "actions": {
+    },
+    "properties": {
+      "ErrorCode": {
+        "aov:namespace": "http://opcfoundation.org/UA/MachineTool/",
+        "type": "string",
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/MachineTool/MachineTool_AlertType/property/ErrorCode/read",
+            "op": "readproperty"
+          }
+        ]
+      }
+    },
+    "events": {
+    }
+  },
+  {
+    "@context": [
+      "https://www.w3.org/2022/wot/td/v1.1",
+      {
+        "dtv": "http://azure.com/DigitalTwins/dtmi#",
+        "aov": "http://azure.com/IoT/operations/tm#"
+      }
+    ],
+    "@type": "tm:ThingModel",
+    "title": "MachineTool_InterruptionConditionType",
+    "aov:typeRef": "nsu=http://opcfoundation.org/UA/MachineTool/;i=19",
+    "aov:isEvent": true,
+    "links": [
+      {
+        "rel": "tm:extends",
+        "href": "./OpcUaCore.TM.json#title=OpcUaCore_ConditionType",
+        "type": "application/tm+json"
+      }
+    ],
+    "schemaDefinitions": {
+    },
+    "forms": [
+      {
+        "contentType": "application/json",
+        "dtv:topic": "opcua/MachineTool/MachineTool_InterruptionConditionType/properties/read",
+        "op": "readallproperties"
+      }
+    ],
+    "actions": {
+    },
+    "properties": {
+      "IsAutomated": {
+        "aov:namespace": "http://opcfoundation.org/UA/MachineTool/",
+        "type": "boolean",
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/MachineTool/MachineTool_InterruptionConditionType/property/IsAutomated/read",
+            "op": "readproperty"
+          }
+        ]
+      }
+    },
+    "events": {
+    }
+  },
+  {
+    "@context": [
+      "https://www.w3.org/2022/wot/td/v1.1",
+      {
+        "dtv": "http://azure.com/DigitalTwins/dtmi#",
+        "aov": "http://azure.com/IoT/operations/tm#"
+      }
+    ],
+    "@type": "tm:ThingModel",
+    "title": "MachineTool_NotificationEventType",
+    "aov:typeRef": "nsu=http://opcfoundation.org/UA/MachineTool/;i=35",
+    "aov:isEvent": true,
+    "links": [
+      {
+        "rel": "tm:extends",
+        "href": "./OpcUaCore.TM.json#title=OpcUaCore_BaseEventType",
+        "type": "application/tm+json"
+      }
+    ],
+    "schemaDefinitions": {
+    },
+    "forms": [
+      {
+        "contentType": "application/json",
+        "dtv:topic": "opcua/MachineTool/MachineTool_NotificationEventType/properties/read",
+        "op": "readallproperties"
+      }
+    ],
+    "actions": {
+    },
+    "properties": {
+      "Identifier": {
+        "aov:namespace": "http://opcfoundation.org/UA/MachineTool/",
+        "type": "string",
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/MachineTool/MachineTool_NotificationEventType/property/Identifier/read",
+            "op": "readproperty"
+          }
+        ]
+      }
+    },
+    "events": {
+    }
+  },
+  {
+    "@context": [
+      "https://www.w3.org/2022/wot/td/v1.1",
+      {
+        "dtv": "http://azure.com/DigitalTwins/dtmi#",
+        "aov": "http://azure.com/IoT/operations/tm#"
+      }
+    ],
+    "@type": "tm:ThingModel",
+    "title": "MachineTool_ProductionJobTransitionEventType",
+    "aov:typeRef": "nsu=http://opcfoundation.org/UA/MachineTool/;i=31",
+    "aov:isEvent": true,
+    "links": [
+      {
+        "rel": "tm:extends",
+        "href": "./OpcUaCore.TM.json#title=OpcUaCore_TransitionEventType",
+        "type": "application/tm+json"
+      }
+    ],
+    "schemaDefinitions": {
+    },
+    "forms": [
+      {
+        "contentType": "application/json",
+        "dtv:topic": "opcua/MachineTool/MachineTool_ProductionJobTransitionEventType/events/{senderId}",
+        "op": "subscribeallevents"
+      },
+      {
+        "contentType": "application/json",
+        "dtv:topic": "opcua/MachineTool/MachineTool_ProductionJobTransitionEventType/properties/read",
+        "op": "readallproperties"
+      }
+    ],
+    "actions": {
+    },
+    "properties": {
+      "CustomerOrderIdentifier": {
+        "aov:namespace": "http://opcfoundation.org/UA/MachineTool/",
+        "type": "string",
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/MachineTool/MachineTool_ProductionJobTransitionEventType/property/CustomerOrderIdentifier/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "Identifier": {
+        "aov:namespace": "http://opcfoundation.org/UA/MachineTool/",
+        "type": "string",
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/MachineTool/MachineTool_ProductionJobTransitionEventType/property/Identifier/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "OrderIdentifier": {
+        "aov:namespace": "http://opcfoundation.org/UA/MachineTool/",
+        "type": "string",
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/MachineTool/MachineTool_ProductionJobTransitionEventType/property/OrderIdentifier/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "RunsCompleted": {
+        "aov:namespace": "http://opcfoundation.org/UA/MachineTool/",
+        "type": "integer",
+        "minimum": 0,
+        "maximum": 4294967295,
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/MachineTool/MachineTool_ProductionJobTransitionEventType/property/RunsCompleted/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "RunsPlanned": {
+        "aov:namespace": "http://opcfoundation.org/UA/MachineTool/",
+        "type": "integer",
+        "minimum": 0,
+        "maximum": 4294967295,
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/MachineTool/MachineTool_ProductionJobTransitionEventType/property/RunsPlanned/read",
+            "op": "readproperty"
+          }
+        ]
+      }
+    },
+    "events": {
+      "RunsCompleted": {
+        "aov:namespace": "http://opcfoundation.org/UA/MachineTool/",
+        "data": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 4294967295
+        },
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/MachineTool/MachineTool_ProductionJobTransitionEventType/event/RunsCompleted/{senderId}",
+            "op": "subscribeevent"
+          }
+        ]
+      },
+      "RunsPlanned": {
+        "aov:namespace": "http://opcfoundation.org/UA/MachineTool/",
+        "data": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 4294967295
+        },
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/MachineTool/MachineTool_ProductionJobTransitionEventType/event/RunsPlanned/{senderId}",
+            "op": "subscribeevent"
+          }
+        ]
+      }
+    }
+  },
+  {
+    "@context": [
+      "https://www.w3.org/2022/wot/td/v1.1",
+      {
+        "dtv": "http://azure.com/DigitalTwins/dtmi#",
+        "aov": "http://azure.com/IoT/operations/tm#"
+      }
+    ],
+    "@type": "tm:ThingModel",
+    "title": "MachineTool_ProductionPartTransitionEventType",
+    "aov:typeRef": "nsu=http://opcfoundation.org/UA/MachineTool/;i=27",
+    "aov:isEvent": true,
+    "links": [
+      {
+        "rel": "tm:extends",
+        "href": "./OpcUaCore.TM.json#title=OpcUaCore_TransitionEventType",
+        "type": "application/tm+json"
+      }
+    ],
+    "schemaDefinitions": {
+      "PartQuality": {
+        "type": "object",
+        "aov:typeRef": "nsu=http://opcfoundation.org/UA/MachineTool/;i=63",
+        "const": {
+          "CapabilityUnavailable": 0,
+          "Good": 1,
+          "Bad": 2,
+          "NotYetMeasured": 3,
+          "WillNotBeMeasured": 4
+        },
+        "properties": {
+          "CapabilityUnavailable": {
+            "description": "The machine tool is not able to give a statement about the part quality.",
+            "type": "integer"
+          },
+          "Good": {
+            "description": "The part quality is determined good.",
+            "type": "integer"
+          },
+          "Bad": {
+            "description": "The part quality is determined bad.",
+            "type": "integer"
+          },
+          "NotYetMeasured": {
+            "description": "The PartQuality will still be determined in the machine tool to be either Good or Bad.",
+            "type": "integer"
+          },
+          "WillNotBeMeasured": {
+            "description": "The machine tool will not give a statement about the part quality.",
+            "type": "integer"
+          }
+        }
+      },
+      "ProcessIrregularity": {
+        "type": "object",
+        "aov:typeRef": "nsu=http://opcfoundation.org/UA/MachineTool/;i=62",
+        "const": {
+          "CapabilityUnavailable": 0,
+          "Detected": 1,
+          "NotDetected": 2,
+          "NotYetDetermined": 3
+        },
+        "properties": {
+          "CapabilityUnavailable": {
+            "description": "The machine tool is not able to give a statement about process irregularities.",
+            "type": "integer"
+          },
+          "Detected": {
+            "description": "A process irregularity has been detected.",
+            "type": "integer"
+          },
+          "NotDetected": {
+            "description": "There was no process irregularity detected.",
+            "type": "integer"
+          },
+          "NotYetDetermined": {
+            "description": "A statement about the process irregularity is to be expected.",
+            "type": "integer"
+          }
+        }
+      }
+    },
+    "forms": [
+      {
+        "contentType": "application/json",
+        "dtv:topic": "opcua/MachineTool/MachineTool_ProductionPartTransitionEventType/events/{senderId}",
+        "op": "subscribeallevents"
+      },
+      {
+        "contentType": "application/json",
+        "dtv:topic": "opcua/MachineTool/MachineTool_ProductionPartTransitionEventType/properties/read",
+        "op": "readallproperties"
+      }
+    ],
+    "actions": {
+    },
+    "properties": {
+      "CustomerOrderIdentifier": {
+        "aov:namespace": "http://opcfoundation.org/UA/MachineTool/",
+        "type": "string",
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/MachineTool/MachineTool_ProductionPartTransitionEventType/property/CustomerOrderIdentifier/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "Identifier": {
+        "aov:namespace": "http://opcfoundation.org/UA/MachineTool/",
+        "type": "string",
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/MachineTool/MachineTool_ProductionPartTransitionEventType/property/Identifier/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "JobIdentifier": {
+        "aov:namespace": "http://opcfoundation.org/UA/MachineTool/",
+        "type": "string",
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/MachineTool/MachineTool_ProductionPartTransitionEventType/property/JobIdentifier/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "Name": {
+        "aov:namespace": "http://opcfoundation.org/UA/MachineTool/",
+        "type": "string",
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/MachineTool/MachineTool_ProductionPartTransitionEventType/property/Name/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "PartQuality": {
+        "aov:namespace": "http://opcfoundation.org/UA/MachineTool/",
+        "title": "PartQuality",
+        "aov:typeRef": "nsu=http://opcfoundation.org/UA/MachineTool/;i=63",
+        "type": "integer",
+        "minimum": -2147483648,
+        "maximum": 2147483647,
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/MachineTool/MachineTool_ProductionPartTransitionEventType/property/PartQuality/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "ProcessIrregularity": {
+        "aov:namespace": "http://opcfoundation.org/UA/MachineTool/",
+        "title": "ProcessIrregularity",
+        "aov:typeRef": "nsu=http://opcfoundation.org/UA/MachineTool/;i=62",
+        "type": "integer",
+        "minimum": -2147483648,
+        "maximum": 2147483647,
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/MachineTool/MachineTool_ProductionPartTransitionEventType/property/ProcessIrregularity/read",
+            "op": "readproperty"
+          }
+        ]
+      }
+    },
+    "events": {
+      "PartQuality": {
+        "aov:namespace": "http://opcfoundation.org/UA/MachineTool/",
+        "data": {
+          "title": "PartQuality",
+          "aov:typeRef": "nsu=http://opcfoundation.org/UA/MachineTool/;i=63",
+          "type": "integer",
+          "minimum": -2147483648,
+          "maximum": 2147483647
+        },
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/MachineTool/MachineTool_ProductionPartTransitionEventType/event/PartQuality/{senderId}",
+            "op": "subscribeevent"
+          }
+        ]
+      },
+      "ProcessIrregularity": {
+        "aov:namespace": "http://opcfoundation.org/UA/MachineTool/",
+        "data": {
+          "title": "ProcessIrregularity",
+          "aov:typeRef": "nsu=http://opcfoundation.org/UA/MachineTool/;i=62",
+          "type": "integer",
+          "minimum": -2147483648,
+          "maximum": 2147483647
+        },
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/MachineTool/MachineTool_ProductionPartTransitionEventType/event/ProcessIrregularity/{senderId}",
+            "op": "subscribeevent"
+          }
+        ]
+      }
+    }
+  },
+  {
+    "@context": [
+      "https://www.w3.org/2022/wot/td/v1.1",
+      {
+        "dtv": "http://azure.com/DigitalTwins/dtmi#",
+        "aov": "http://azure.com/IoT/operations/tm#"
+      }
+    ],
+    "@type": "tm:ThingModel",
+    "title": "MachineTool_ProductionProgramTransitionEventType",
+    "aov:typeRef": "nsu=http://opcfoundation.org/UA/MachineTool/;i=17",
+    "aov:isEvent": true,
+    "links": [
+      {
+        "rel": "tm:extends",
+        "href": "./OpcUaCore.TM.json#title=OpcUaCore_TransitionEventType",
+        "type": "application/tm+json"
+      }
+    ],
+    "schemaDefinitions": {
+    },
+    "forms": [
+      {
+        "contentType": "application/json",
+        "dtv:topic": "opcua/MachineTool/MachineTool_ProductionProgramTransitionEventType/properties/read",
+        "op": "readallproperties"
+      }
+    ],
+    "actions": {
+    },
+    "properties": {
+      "JobIdentifier": {
+        "aov:namespace": "http://opcfoundation.org/UA/MachineTool/",
+        "type": "string",
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/MachineTool/MachineTool_ProductionProgramTransitionEventType/property/JobIdentifier/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "Name": {
+        "aov:namespace": "http://opcfoundation.org/UA/MachineTool/",
+        "type": "string",
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/MachineTool/MachineTool_ProductionProgramTransitionEventType/property/Name/read",
+            "op": "readproperty"
+          }
+        ]
+      }
+    },
+    "events": {
+    }
+  },
+  {
+    "@context": [
+      "https://www.w3.org/2022/wot/td/v1.1",
+      {
+        "dtv": "http://azure.com/DigitalTwins/dtmi#",
+        "aov": "http://azure.com/IoT/operations/tm#"
+      }
+    ],
+    "@type": "tm:ThingModel",
+    "title": "MachineTool_BaseToolType",
+    "aov:typeRef": "nsu=http://opcfoundation.org/UA/MachineTool/;i=49",
+    "links": [
+      {
+        "rel": "tm:extends",
+        "href": "./OpcUaCore.TM.json#title=OpcUaCore_BaseObjectType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "aov:component",
+        "aov:refName": "Location",
+        "href": "./OpcUaCore.TM.json#title=OpcUaCore_BaseObjectType",
+        "type": "application/tm+json"
+      }
+    ],
+    "schemaDefinitions": {
+    },
+    "forms": [
+      {
+        "contentType": "application/json",
+        "dtv:topic": "opcua/MachineTool/MachineTool_BaseToolType/properties/read",
+        "op": "readallproperties"
+      }
+    ],
+    "actions": {
+    },
+    "properties": {
+      "Identifier": {
+        "aov:namespace": "http://opcfoundation.org/UA/MachineTool/",
+        "type": "string",
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/MachineTool/MachineTool_BaseToolType/property/Identifier/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "Name": {
+        "aov:namespace": "http://opcfoundation.org/UA/MachineTool/",
+        "type": "string",
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/MachineTool/MachineTool_BaseToolType/property/Name/read",
+            "op": "readproperty"
+          }
+        ]
+      }
+    },
+    "events": {
+    }
+  },
+  {
+    "@context": [
+      "https://www.w3.org/2022/wot/td/v1.1",
+      {
+        "dtv": "http://azure.com/DigitalTwins/dtmi#",
+        "aov": "http://azure.com/IoT/operations/tm#"
+      }
+    ],
+    "@type": "tm:ThingModel",
+    "title": "MachineTool_MultiToolType",
+    "aov:typeRef": "nsu=http://opcfoundation.org/UA/MachineTool/;i=51",
+    "aov:isComposite": true,
+    "links": [
+      {
+        "rel": "tm:extends",
+        "href": "#title=MachineTool_BaseToolType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "aov:component",
+        "aov:refName": "Tool",
+        "href": "#title=MachineTool_ToolType",
+        "type": "application/tm+json"
+      }
+    ],
+    "schemaDefinitions": {
+    },
+    "actions": {
+    },
+    "properties": {
+    },
+    "events": {
+    }
+  },
+  {
+    "@context": [
+      "https://www.w3.org/2022/wot/td/v1.1",
+      {
+        "dtv": "http://azure.com/DigitalTwins/dtmi#",
+        "aov": "http://azure.com/IoT/operations/tm#"
+      }
+    ],
+    "@type": "tm:ThingModel",
+    "title": "MachineTool_ToolType",
+    "aov:typeRef": "nsu=http://opcfoundation.org/UA/MachineTool/;i=50",
+    "links": [
+      {
+        "rel": "tm:extends",
+        "href": "#title=MachineTool_BaseToolType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "aov:component",
+        "aov:refName": "ToolLife",
+        "href": "./OpcUaCore.TM.json#title=OpcUaCore_BaseObjectType",
+        "type": "application/tm+json"
+      }
+    ],
+    "schemaDefinitions": {
+      "ToolManagement": {
+        "type": "object",
+        "aov:typeRef": "nsu=http://opcfoundation.org/UA/MachineTool/;i=69",
+        "const": {
+          "NumberBased": 0,
+          "GroupBased": 1,
+          "Other": 2
+        },
+        "properties": {
+          "NumberBased": {
+            "description": "The tool is addressed using a single identifier.",
+            "type": "integer"
+          },
+          "GroupBased": {
+            "description": "The tool is addressed using an identifier for the group and a second one for the tool within the group.",
+            "type": "integer"
+          },
+          "Other": {
+            "description": "The tool is addressed by a different, custom defined system.",
+            "type": "integer"
+          }
+        }
+      }
+    },
+    "forms": [
+      {
+        "contentType": "application/json",
+        "dtv:topic": "opcua/MachineTool/MachineTool_ToolType/events/{senderId}",
+        "op": "subscribeallevents"
+      },
+      {
+        "contentType": "application/json",
+        "dtv:topic": "opcua/MachineTool/MachineTool_ToolType/properties/read",
+        "op": "readallproperties"
+      }
+    ],
+    "actions": {
+    },
+    "properties": {
+      "ControlIdentifier1": {
+        "aov:namespace": "http://opcfoundation.org/UA/MachineTool/",
+        "type": "integer",
+        "minimum": 0,
+        "maximum": 4294967295,
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/MachineTool/MachineTool_ToolType/property/ControlIdentifier1/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "ControlIdentifier2": {
+        "aov:namespace": "http://opcfoundation.org/UA/MachineTool/",
+        "type": "integer",
+        "minimum": 0,
+        "maximum": 4294967295,
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/MachineTool/MachineTool_ToolType/property/ControlIdentifier2/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "ControlIdentifierInterpretation": {
+        "aov:namespace": "http://opcfoundation.org/UA/MachineTool/",
+        "title": "ToolManagement",
+        "aov:typeRef": "nsu=http://opcfoundation.org/UA/MachineTool/;i=69",
+        "type": "integer",
+        "minimum": -2147483648,
+        "maximum": 2147483647,
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/MachineTool/MachineTool_ToolType/property/ControlIdentifierInterpretation/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "LastUsage": {
+        "aov:namespace": "http://opcfoundation.org/UA/MachineTool/",
+        "type": "string",
+        "format": "time",
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/MachineTool/MachineTool_ToolType/property/LastUsage/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "Locked": {
+        "aov:namespace": "http://opcfoundation.org/UA/MachineTool/",
+        "type": "boolean",
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/MachineTool/MachineTool_ToolType/property/Locked/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "PlannedForOperating": {
+        "aov:namespace": "http://opcfoundation.org/UA/MachineTool/",
+        "type": "boolean",
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/MachineTool/MachineTool_ToolType/property/PlannedForOperating/read",
+            "op": "readproperty"
+          }
+        ]
+      }
+    },
+    "events": {
+      "ControlIdentifier1": {
+        "aov:namespace": "http://opcfoundation.org/UA/MachineTool/",
+        "data": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 4294967295
+        },
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/MachineTool/MachineTool_ToolType/event/ControlIdentifier1/{senderId}",
+            "op": "subscribeevent"
+          }
+        ]
+      },
+      "ControlIdentifier2": {
+        "aov:namespace": "http://opcfoundation.org/UA/MachineTool/",
+        "data": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 4294967295
+        },
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/MachineTool/MachineTool_ToolType/event/ControlIdentifier2/{senderId}",
+            "op": "subscribeevent"
+          }
+        ]
+      },
+      "ControlIdentifierInterpretation": {
+        "aov:namespace": "http://opcfoundation.org/UA/MachineTool/",
+        "data": {
+          "title": "ToolManagement",
+          "aov:typeRef": "nsu=http://opcfoundation.org/UA/MachineTool/;i=69",
+          "type": "integer",
+          "minimum": -2147483648,
+          "maximum": 2147483647
+        },
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/MachineTool/MachineTool_ToolType/event/ControlIdentifierInterpretation/{senderId}",
+            "op": "subscribeevent"
+          }
+        ]
+      },
+      "LastUsage": {
+        "aov:namespace": "http://opcfoundation.org/UA/MachineTool/",
+        "data": {
+          "type": "string",
+          "format": "time"
+        },
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/MachineTool/MachineTool_ToolType/event/LastUsage/{senderId}",
+            "op": "subscribeevent"
+          }
+        ]
+      },
+      "Locked": {
+        "aov:namespace": "http://opcfoundation.org/UA/MachineTool/",
+        "data": {
+          "type": "boolean"
+        },
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/MachineTool/MachineTool_ToolType/event/Locked/{senderId}",
+            "op": "subscribeevent"
+          }
+        ]
+      },
+      "PlannedForOperating": {
+        "aov:namespace": "http://opcfoundation.org/UA/MachineTool/",
+        "data": {
+          "type": "boolean"
+        },
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/MachineTool/MachineTool_ToolType/event/PlannedForOperating/{senderId}",
+            "op": "subscribeevent"
+          }
+        ]
+      }
+    }
+  },
+  {
+    "@context": [
+      "https://www.w3.org/2022/wot/td/v1.1",
+      {
+        "dtv": "http://azure.com/DigitalTwins/dtmi#",
+        "aov": "http://azure.com/IoT/operations/tm#"
+      }
+    ],
+    "@type": "tm:ThingModel",
+    "title": "MachineTool_ChannelModifierType",
+    "aov:typeRef": "nsu=http://opcfoundation.org/UA/MachineTool/;i=33",
+    "links": [
+      {
+        "rel": "tm:extends",
+        "href": "./OpcUaCore.TM.json#title=OpcUaCore_BaseObjectType",
+        "type": "application/tm+json"
+      }
+    ],
+    "schemaDefinitions": {
+    },
+    "forms": [
+      {
+        "contentType": "application/json",
+        "dtv:topic": "opcua/MachineTool/MachineTool_ChannelModifierType/events/{senderId}",
+        "op": "subscribeallevents"
+      },
+      {
+        "contentType": "application/json",
+        "dtv:topic": "opcua/MachineTool/MachineTool_ChannelModifierType/properties/read",
+        "op": "readallproperties"
+      }
+    ],
+    "actions": {
+    },
+    "properties": {
+      "BlockSkip": {
+        "aov:namespace": "http://opcfoundation.org/UA/MachineTool/",
+        "type": "boolean",
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/MachineTool/MachineTool_ChannelModifierType/property/BlockSkip/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "DryRun": {
+        "aov:namespace": "http://opcfoundation.org/UA/MachineTool/",
+        "type": "boolean",
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/MachineTool/MachineTool_ChannelModifierType/property/DryRun/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "OptionalStop": {
+        "aov:namespace": "http://opcfoundation.org/UA/MachineTool/",
+        "type": "boolean",
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/MachineTool/MachineTool_ChannelModifierType/property/OptionalStop/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "SingleStep": {
+        "aov:namespace": "http://opcfoundation.org/UA/MachineTool/",
+        "type": "boolean",
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/MachineTool/MachineTool_ChannelModifierType/property/SingleStep/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "TestMode": {
+        "aov:namespace": "http://opcfoundation.org/UA/MachineTool/",
+        "type": "boolean",
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/MachineTool/MachineTool_ChannelModifierType/property/TestMode/read",
+            "op": "readproperty"
+          }
+        ]
+      }
+    },
+    "events": {
+      "BlockSkip": {
+        "aov:namespace": "http://opcfoundation.org/UA/MachineTool/",
+        "data": {
+          "type": "boolean"
+        },
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/MachineTool/MachineTool_ChannelModifierType/event/BlockSkip/{senderId}",
+            "op": "subscribeevent"
+          }
+        ]
+      },
+      "DryRun": {
+        "aov:namespace": "http://opcfoundation.org/UA/MachineTool/",
+        "data": {
+          "type": "boolean"
+        },
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/MachineTool/MachineTool_ChannelModifierType/event/DryRun/{senderId}",
+            "op": "subscribeevent"
+          }
+        ]
+      },
+      "OptionalStop": {
+        "aov:namespace": "http://opcfoundation.org/UA/MachineTool/",
+        "data": {
+          "type": "boolean"
+        },
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/MachineTool/MachineTool_ChannelModifierType/event/OptionalStop/{senderId}",
+            "op": "subscribeevent"
+          }
+        ]
+      },
+      "SingleStep": {
+        "aov:namespace": "http://opcfoundation.org/UA/MachineTool/",
+        "data": {
+          "type": "boolean"
+        },
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/MachineTool/MachineTool_ChannelModifierType/event/SingleStep/{senderId}",
+            "op": "subscribeevent"
+          }
+        ]
+      },
+      "TestMode": {
+        "aov:namespace": "http://opcfoundation.org/UA/MachineTool/",
+        "data": {
+          "type": "boolean"
+        },
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/MachineTool/MachineTool_ChannelModifierType/event/TestMode/{senderId}",
+            "op": "subscribeevent"
+          }
+        ]
+      }
+    }
+  },
+  {
+    "@context": [
+      "https://www.w3.org/2022/wot/td/v1.1",
+      {
+        "dtv": "http://azure.com/DigitalTwins/dtmi#",
+        "aov": "http://azure.com/IoT/operations/tm#"
+      }
+    ],
+    "@type": "tm:ThingModel",
+    "title": "MachineTool_ElementMonitoringType",
+    "aov:typeRef": "nsu=http://opcfoundation.org/UA/MachineTool/;i=23",
+    "links": [
+      {
+        "rel": "tm:extends",
+        "href": "./OpcUaCore.TM.json#title=OpcUaCore_BaseObjectType",
+        "type": "application/tm+json"
+      }
+    ],
+    "schemaDefinitions": {
+    },
+    "forms": [
+      {
+        "contentType": "application/json",
+        "dtv:topic": "opcua/MachineTool/MachineTool_ElementMonitoringType/properties/read",
+        "op": "readallproperties"
+      }
+    ],
+    "actions": {
+    },
+    "properties": {
+      "Name": {
+        "aov:namespace": "http://opcfoundation.org/UA/MachineTool/",
+        "type": "string",
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/MachineTool/MachineTool_ElementMonitoringType/property/Name/read",
+            "op": "readproperty"
+          }
+        ]
+      }
+    },
+    "events": {
+    }
+  },
+  {
+    "@context": [
+      "https://www.w3.org/2022/wot/td/v1.1",
+      {
+        "dtv": "http://azure.com/DigitalTwins/dtmi#",
+        "aov": "http://azure.com/IoT/operations/tm#"
+      }
+    ],
+    "@type": "tm:ThingModel",
+    "title": "MachineTool_ChannelMonitoringType",
+    "aov:typeRef": "nsu=http://opcfoundation.org/UA/MachineTool/;i=16",
+    "aov:isComposite": true,
+    "links": [
+      {
+        "rel": "tm:extends",
+        "href": "#title=MachineTool_ElementMonitoringType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "aov:reference",
+        "aov:refName": "ChannelModifiers",
+        "href": "#title=MachineTool_ChannelModifierType",
+        "type": "application/tm+json"
+      }
+    ],
+    "schemaDefinitions": {
+      "ChannelMode": {
+        "type": "object",
+        "aov:typeRef": "nsu=http://opcfoundation.org/UA/MachineTool/;i=67",
+        "const": {
+          "Automatic": 0,
+          "MdaMdi": 1,
+          "JogManual": 2,
+          "JogIncrement": 3,
+          "TeachingHandle": 4,
+          "Remote": 5,
+          "Reference": 6,
+          "Other": 7
+        },
+        "properties": {
+          "Automatic": {
+            "description": "NC channel mode Automatic – execute CNC part programs.",
+            "type": "integer"
+          },
+          "MdaMdi": {
+            "description": "NC channel mode Mda/Mdi – manual data input and execution.",
+            "type": "integer"
+          },
+          "JogManual": {
+            "description": "NC channel mode Jog Manual – axis movement triggered by user.",
+            "type": "integer"
+          },
+          "JogIncrement": {
+            "description": "NC channel mode Jog Increment – incremental axis movement triggered by user.",
+            "type": "integer"
+          },
+          "TeachingHandle": {
+            "description": "NC channel mode Teaching Handle – teaching a machine tool by moving axes of the machine tool by hand.",
+            "type": "integer"
+          },
+          "Remote": {
+            "description": "NC channel mode Remote – the machine tool can receive CNC files via a remote access mechanism.",
+            "type": "integer"
+          },
+          "Reference": {
+            "description": "NC channel mode Reference – The machine tool returns to its reference point/ zero position.",
+            "type": "integer"
+          },
+          "Other": {
+            "description": "NC channel mode is different from the values defined in this enumeration.",
+            "type": "integer"
+          }
+        }
+      },
+      "ChannelState": {
+        "type": "object",
+        "aov:typeRef": "nsu=http://opcfoundation.org/UA/MachineTool/;i=64",
+        "const": {
+          "Active": 0,
+          "Interrupted": 1,
+          "Reset": 2
+        },
+        "properties": {
+          "Active": {
+            "description": "There is an active command being executed by the NC channel.",
+            "type": "integer"
+          },
+          "Interrupted": {
+            "description": "The NC execution is interrupted. Execution of a program in the channel can be restarted.",
+            "type": "integer"
+          },
+          "Reset": {
+            "description": "No NC command is active in the NC channel. E.g. channel is idle.",
+            "type": "integer"
+          }
+        }
+      }
+    },
+    "forms": [
+      {
+        "contentType": "application/json",
+        "dtv:topic": "opcua/MachineTool/MachineTool_ChannelMonitoringType/events/{senderId}",
+        "op": "subscribeallevents"
+      },
+      {
+        "contentType": "application/json",
+        "dtv:topic": "opcua/MachineTool/MachineTool_ChannelMonitoringType/properties/read",
+        "op": "readallproperties"
+      }
+    ],
+    "actions": {
+    },
+    "properties": {
+      "ChannelMode": {
+        "aov:namespace": "http://opcfoundation.org/UA/MachineTool/",
+        "title": "ChannelMode",
+        "aov:typeRef": "nsu=http://opcfoundation.org/UA/MachineTool/;i=67",
+        "type": "integer",
+        "minimum": -2147483648,
+        "maximum": 2147483647,
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/MachineTool/MachineTool_ChannelMonitoringType/property/ChannelMode/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "ChannelState": {
+        "aov:namespace": "http://opcfoundation.org/UA/MachineTool/",
+        "title": "ChannelState",
+        "aov:typeRef": "nsu=http://opcfoundation.org/UA/MachineTool/;i=64",
+        "type": "integer",
+        "minimum": -2147483648,
+        "maximum": 2147483647,
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/MachineTool/MachineTool_ChannelMonitoringType/property/ChannelState/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "FeedOverride": {
+        "aov:namespace": "http://opcfoundation.org/UA/MachineTool/",
+        "type": "number",
+        "minimum": -1.80e+308,
+        "maximum": 1.80e+308,
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/MachineTool/MachineTool_ChannelMonitoringType/property/FeedOverride/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "RapidOverride": {
+        "aov:namespace": "http://opcfoundation.org/UA/MachineTool/",
+        "type": "number",
+        "minimum": -1.80e+308,
+        "maximum": 1.80e+308,
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/MachineTool/MachineTool_ChannelMonitoringType/property/RapidOverride/read",
+            "op": "readproperty"
+          }
+        ]
+      }
+    },
+    "events": {
+      "ChannelMode": {
+        "aov:namespace": "http://opcfoundation.org/UA/MachineTool/",
+        "data": {
+          "title": "ChannelMode",
+          "aov:typeRef": "nsu=http://opcfoundation.org/UA/MachineTool/;i=67",
+          "type": "integer",
+          "minimum": -2147483648,
+          "maximum": 2147483647
+        },
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/MachineTool/MachineTool_ChannelMonitoringType/event/ChannelMode/{senderId}",
+            "op": "subscribeevent"
+          }
+        ]
+      },
+      "ChannelState": {
+        "aov:namespace": "http://opcfoundation.org/UA/MachineTool/",
+        "data": {
+          "title": "ChannelState",
+          "aov:typeRef": "nsu=http://opcfoundation.org/UA/MachineTool/;i=64",
+          "type": "integer",
+          "minimum": -2147483648,
+          "maximum": 2147483647
+        },
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/MachineTool/MachineTool_ChannelMonitoringType/event/ChannelState/{senderId}",
+            "op": "subscribeevent"
+          }
+        ]
+      },
+      "FeedOverride": {
+        "aov:namespace": "http://opcfoundation.org/UA/MachineTool/",
+        "data": {
+          "type": "number",
+          "minimum": -1.80e+308,
+          "maximum": 1.80e+308
+        },
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/MachineTool/MachineTool_ChannelMonitoringType/event/FeedOverride/{senderId}",
+            "op": "subscribeevent"
+          }
+        ]
+      },
+      "RapidOverride": {
+        "aov:namespace": "http://opcfoundation.org/UA/MachineTool/",
+        "data": {
+          "type": "number",
+          "minimum": -1.80e+308,
+          "maximum": 1.80e+308
+        },
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/MachineTool/MachineTool_ChannelMonitoringType/event/RapidOverride/{senderId}",
+            "op": "subscribeevent"
+          }
+        ]
+      }
+    }
+  },
+  {
+    "@context": [
+      "https://www.w3.org/2022/wot/td/v1.1",
+      {
+        "dtv": "http://azure.com/DigitalTwins/dtmi#",
+        "aov": "http://azure.com/IoT/operations/tm#"
+      }
+    ],
+    "@type": "tm:ThingModel",
+    "title": "MachineTool_CombinedChannelMonitoringType",
+    "aov:typeRef": "nsu=http://opcfoundation.org/UA/MachineTool/;i=46",
+    "aov:isComposite": true,
+    "links": [
+      {
+        "rel": "tm:extends",
+        "href": "#title=MachineTool_ChannelMonitoringType",
+        "type": "application/tm+json"
+      }
+    ],
+    "schemaDefinitions": {
+    },
+    "actions": {
+    },
+    "properties": {
+    },
+    "events": {
+    }
+  },
+  {
+    "@context": [
+      "https://www.w3.org/2022/wot/td/v1.1",
+      {
+        "dtv": "http://azure.com/DigitalTwins/dtmi#",
+        "aov": "http://azure.com/IoT/operations/tm#"
+      }
+    ],
+    "@type": "tm:ThingModel",
+    "title": "MachineTool_WorkingUnitMonitoringType",
+    "aov:typeRef": "nsu=http://opcfoundation.org/UA/MachineTool/;i=41",
+    "links": [
+      {
+        "rel": "tm:extends",
+        "href": "#title=MachineTool_ElementMonitoringType",
+        "type": "application/tm+json"
+      }
+    ],
+    "schemaDefinitions": {
+    },
+    "actions": {
+    },
+    "properties": {
+    },
+    "events": {
+    }
+  },
+  {
+    "@context": [
+      "https://www.w3.org/2022/wot/td/v1.1",
+      {
+        "dtv": "http://azure.com/DigitalTwins/dtmi#",
+        "aov": "http://azure.com/IoT/operations/tm#"
+      }
+    ],
+    "@type": "tm:ThingModel",
+    "title": "MachineTool_EDMGeneratorMonitoringType",
+    "aov:typeRef": "nsu=http://opcfoundation.org/UA/MachineTool/;i=42",
+    "aov:isComposite": true,
+    "links": [
+      {
+        "rel": "tm:extends",
+        "href": "#title=MachineTool_WorkingUnitMonitoringType",
+        "type": "application/tm+json"
+      }
+    ],
+    "schemaDefinitions": {
+      "EDMGeneratorState": {
+        "type": "object",
+        "aov:typeRef": "nsu=http://opcfoundation.org/UA/MachineTool/;i=71",
+        "const": {
+          "Undefined": 0,
+          "Ready": 1,
+          "Active_Low_Voltage": 2,
+          "Active_High_Voltage": 3,
+          "Error": 4
+        },
+        "properties": {
+          "Undefined": {
+            "description": "The EDM spark generator state cannot be indicated.",
+            "type": "integer"
+          },
+          "Ready": {
+            "description": "Generator is initialized and can receive a set of technology parameters.",
+            "type": "integer"
+          },
+          "Active_Low_Voltage": {
+            "description": "Generator is switched on and is supplying pulses respecting the low voltage (≤ 25 V AC or ≤ 60 V DC) requirements of safety standard (ISO 28881).",
+            "type": "integer"
+          },
+          "Active_High_Voltage": {
+            "description": "Generator is switched on and is supplying pulse at high voltage (> 25 V AC or > 60 V DC).",
+            "type": "integer"
+          },
+          "Error": {
+            "description": "Generator is in an error state.",
+            "type": "integer"
+          }
+        }
+      }
+    },
+    "forms": [
+      {
+        "contentType": "application/json",
+        "dtv:topic": "opcua/MachineTool/MachineTool_EDMGeneratorMonitoringType/events/{senderId}",
+        "op": "subscribeallevents"
+      },
+      {
+        "contentType": "application/json",
+        "dtv:topic": "opcua/MachineTool/MachineTool_EDMGeneratorMonitoringType/properties/read",
+        "op": "readallproperties"
+      }
+    ],
+    "actions": {
+    },
+    "properties": {
+      "EDMGeneratorState": {
+        "aov:namespace": "http://opcfoundation.org/UA/MachineTool/",
+        "title": "EDMGeneratorState",
+        "aov:typeRef": "nsu=http://opcfoundation.org/UA/MachineTool/;i=71",
+        "type": "integer",
+        "minimum": -2147483648,
+        "maximum": 2147483647,
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/MachineTool/MachineTool_EDMGeneratorMonitoringType/property/EDMGeneratorState/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "IsOn": {
+        "aov:namespace": "http://opcfoundation.org/UA/MachineTool/",
+        "type": "boolean",
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/MachineTool/MachineTool_EDMGeneratorMonitoringType/property/IsOn/read",
+            "op": "readproperty"
+          }
+        ]
+      }
+    },
+    "events": {
+      "EDMGeneratorState": {
+        "aov:namespace": "http://opcfoundation.org/UA/MachineTool/",
+        "data": {
+          "title": "EDMGeneratorState",
+          "aov:typeRef": "nsu=http://opcfoundation.org/UA/MachineTool/;i=71",
+          "type": "integer",
+          "minimum": -2147483648,
+          "maximum": 2147483647
+        },
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/MachineTool/MachineTool_EDMGeneratorMonitoringType/event/EDMGeneratorState/{senderId}",
+            "op": "subscribeevent"
+          }
+        ]
+      },
+      "IsOn": {
+        "aov:namespace": "http://opcfoundation.org/UA/MachineTool/",
+        "data": {
+          "type": "boolean"
+        },
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/MachineTool/MachineTool_EDMGeneratorMonitoringType/event/IsOn/{senderId}",
+            "op": "subscribeevent"
+          }
+        ]
+      }
+    }
+  },
+  {
+    "@context": [
+      "https://www.w3.org/2022/wot/td/v1.1",
+      {
+        "dtv": "http://azure.com/DigitalTwins/dtmi#",
+        "aov": "http://azure.com/IoT/operations/tm#"
+      }
+    ],
+    "@type": "tm:ThingModel",
+    "title": "MachineTool_LaserMonitoringType",
+    "aov:typeRef": "nsu=http://opcfoundation.org/UA/MachineTool/;i=36",
+    "aov:isComposite": true,
+    "links": [
+      {
+        "rel": "tm:extends",
+        "href": "#title=MachineTool_WorkingUnitMonitoringType",
+        "type": "application/tm+json"
+      }
+    ],
+    "schemaDefinitions": {
+      "LaserState": {
+        "type": "object",
+        "aov:typeRef": "nsu=http://opcfoundation.org/UA/MachineTool/;i=70",
+        "const": {
+          "Undefined": 0,
+          "Ready": 1,
+          "Active": 2,
+          "Error": 3
+        },
+        "properties": {
+          "Undefined": {
+            "description": "The laser state cannot be indicated, for example because the device does not provide this information or because it is currently unavailable. This can be e.g. during the startup phase.",
+            "type": "integer"
+          },
+          "Ready": {
+            "description": "The laser is ready and laser programs can be started. No error state is active. In this state, laser emission is prohibited.",
+            "type": "integer"
+          },
+          "Active": {
+            "description": "In this state, safety clearances have to be set for processing and emission can be activated. For devices that can run programs themselves it indicates that a program is running on the laser device.",
+            "type": "integer"
+          },
+          "Error": {
+            "description": "An error state is reported from the laser device.",
+            "type": "integer"
+          }
+        }
+      }
+    },
+    "forms": [
+      {
+        "contentType": "application/json",
+        "dtv:topic": "opcua/MachineTool/MachineTool_LaserMonitoringType/events/{senderId}",
+        "op": "subscribeallevents"
+      },
+      {
+        "contentType": "application/json",
+        "dtv:topic": "opcua/MachineTool/MachineTool_LaserMonitoringType/properties/read",
+        "op": "readallproperties"
+      }
+    ],
+    "actions": {
+    },
+    "properties": {
+      "ControllerIsOn": {
+        "aov:namespace": "http://opcfoundation.org/UA/MachineTool/",
+        "type": "boolean",
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/MachineTool/MachineTool_LaserMonitoringType/property/ControllerIsOn/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "LaserState": {
+        "aov:namespace": "http://opcfoundation.org/UA/MachineTool/",
+        "title": "LaserState",
+        "aov:typeRef": "nsu=http://opcfoundation.org/UA/MachineTool/;i=70",
+        "type": "integer",
+        "minimum": -2147483648,
+        "maximum": 2147483647,
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/MachineTool/MachineTool_LaserMonitoringType/property/LaserState/read",
+            "op": "readproperty"
+          }
+        ]
+      }
+    },
+    "events": {
+      "ControllerIsOn": {
+        "aov:namespace": "http://opcfoundation.org/UA/MachineTool/",
+        "data": {
+          "type": "boolean"
+        },
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/MachineTool/MachineTool_LaserMonitoringType/event/ControllerIsOn/{senderId}",
+            "op": "subscribeevent"
+          }
+        ]
+      },
+      "LaserState": {
+        "aov:namespace": "http://opcfoundation.org/UA/MachineTool/",
+        "data": {
+          "title": "LaserState",
+          "aov:typeRef": "nsu=http://opcfoundation.org/UA/MachineTool/;i=70",
+          "type": "integer",
+          "minimum": -2147483648,
+          "maximum": 2147483647
+        },
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/MachineTool/MachineTool_LaserMonitoringType/event/LaserState/{senderId}",
+            "op": "subscribeevent"
+          }
+        ]
+      }
+    }
+  },
+  {
+    "@context": [
+      "https://www.w3.org/2022/wot/td/v1.1",
+      {
+        "dtv": "http://azure.com/DigitalTwins/dtmi#",
+        "aov": "http://azure.com/IoT/operations/tm#"
+      }
+    ],
+    "@type": "tm:ThingModel",
+    "title": "MachineTool_SpindleMonitoringType",
+    "aov:typeRef": "nsu=http://opcfoundation.org/UA/MachineTool/;i=22",
+    "aov:isComposite": true,
+    "links": [
+      {
+        "rel": "tm:extends",
+        "href": "#title=MachineTool_WorkingUnitMonitoringType",
+        "type": "application/tm+json"
+      }
+    ],
+    "schemaDefinitions": {
+    },
+    "forms": [
+      {
+        "contentType": "application/json",
+        "dtv:topic": "opcua/MachineTool/MachineTool_SpindleMonitoringType/events/{senderId}",
+        "op": "subscribeallevents"
+      },
+      {
+        "contentType": "application/json",
+        "dtv:topic": "opcua/MachineTool/MachineTool_SpindleMonitoringType/properties/read",
+        "op": "readallproperties"
+      }
+    ],
+    "actions": {
+    },
+    "properties": {
+      "IsRotating": {
+        "aov:namespace": "http://opcfoundation.org/UA/MachineTool/",
+        "type": "boolean",
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/MachineTool/MachineTool_SpindleMonitoringType/property/IsRotating/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "IsUsedAsAxis": {
+        "aov:namespace": "http://opcfoundation.org/UA/MachineTool/",
+        "type": "boolean",
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/MachineTool/MachineTool_SpindleMonitoringType/property/IsUsedAsAxis/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "Override": {
+        "aov:namespace": "http://opcfoundation.org/UA/MachineTool/",
+        "type": "number",
+        "minimum": -1.80e+308,
+        "maximum": 1.80e+308,
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/MachineTool/MachineTool_SpindleMonitoringType/property/Override/read",
+            "op": "readproperty"
+          }
+        ]
+      }
+    },
+    "events": {
+      "IsRotating": {
+        "aov:namespace": "http://opcfoundation.org/UA/MachineTool/",
+        "data": {
+          "type": "boolean"
+        },
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/MachineTool/MachineTool_SpindleMonitoringType/event/IsRotating/{senderId}",
+            "op": "subscribeevent"
+          }
+        ]
+      },
+      "IsUsedAsAxis": {
+        "aov:namespace": "http://opcfoundation.org/UA/MachineTool/",
+        "data": {
+          "type": "boolean"
+        },
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/MachineTool/MachineTool_SpindleMonitoringType/event/IsUsedAsAxis/{senderId}",
+            "op": "subscribeevent"
+          }
+        ]
+      },
+      "Override": {
+        "aov:namespace": "http://opcfoundation.org/UA/MachineTool/",
+        "data": {
+          "type": "number",
+          "minimum": -1.80e+308,
+          "maximum": 1.80e+308
+        },
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/MachineTool/MachineTool_SpindleMonitoringType/event/Override/{senderId}",
+            "op": "subscribeevent"
+          }
+        ]
+      }
+    }
+  },
+  {
+    "@context": [
+      "https://www.w3.org/2022/wot/td/v1.1",
+      {
+        "dtv": "http://azure.com/DigitalTwins/dtmi#",
+        "aov": "http://azure.com/IoT/operations/tm#"
+      }
+    ],
+    "@type": "tm:ThingModel",
+    "title": "MachineTool_EquipmentType",
+    "aov:typeRef": "nsu=http://opcfoundation.org/UA/MachineTool/;i=12",
+    "links": [
+      {
+        "rel": "tm:extends",
+        "href": "./OpcUaCore.TM.json#title=OpcUaCore_BaseObjectType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "aov:reference",
+        "aov:refName": "Tools",
+        "href": "#title=MachineTool_ToolListType",
+        "type": "application/tm+json"
+      }
+    ],
+    "schemaDefinitions": {
+    },
+    "actions": {
+    },
+    "properties": {
+    },
+    "events": {
+    }
+  },
+  {
+    "@context": [
+      "https://www.w3.org/2022/wot/td/v1.1",
+      {
+        "dtv": "http://azure.com/DigitalTwins/dtmi#",
+        "aov": "http://azure.com/IoT/operations/tm#"
+      }
+    ],
+    "@type": "tm:ThingModel",
+    "title": "MachineTool_MachineToolIdentificationType",
+    "aov:typeRef": "nsu=http://opcfoundation.org/UA/MachineTool/;i=11",
+    "links": [
+      {
+        "rel": "tm:extends",
+        "href": "./Machinery.TM.json#title=Machinery_MachineIdentificationType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "aov:component",
+        "aov:refName": "SoftwareIdentification",
+        "href": "./OpcUaCore.TM.json#title=OpcUaCore_BaseObjectType",
+        "type": "application/tm+json"
+      }
+    ],
+    "schemaDefinitions": {
+    },
+    "actions": {
+    },
+    "properties": {
+    },
+    "events": {
+    }
+  },
+  {
+    "@context": [
+      "https://www.w3.org/2022/wot/td/v1.1",
+      {
+        "dtv": "http://azure.com/DigitalTwins/dtmi#",
+        "aov": "http://azure.com/IoT/operations/tm#"
+      }
+    ],
+    "@type": "tm:ThingModel",
+    "title": "MachineTool_MachineOperationMonitoringType",
+    "aov:typeRef": "nsu=http://opcfoundation.org/UA/MachineTool/;i=26",
+    "links": [
+      {
+        "rel": "tm:extends",
+        "href": "./OpcUaCore.TM.json#title=OpcUaCore_BaseObjectType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "aov:reference",
+        "aov:refName": "Obligation",
+        "href": "#title=MachineTool_ObligationType",
+        "type": "application/tm+json"
+      }
+    ],
+    "schemaDefinitions": {
+      "MachineOperationMode": {
+        "type": "object",
+        "aov:typeRef": "nsu=http://opcfoundation.org/UA/MachineTool/;i=65",
+        "const": {
+          "Manual": 0,
+          "Automatic": 1,
+          "Setup": 2,
+          "AutoWithManualIntervention": 3,
+          "Service": 4,
+          "Other": 5
+        },
+        "properties": {
+          "Manual": {
+            "description": "The machine tool is controlled manually, by the operator. Depending on technology specific norms, the maximum axis movement speeds of the machine tool are limited.",
+            "type": "integer"
+          },
+          "Automatic": {
+            "description": "Operating mode for the automatic, programmed and continuous operation of the machine. Manual loading and unloading workpieces are possible when the automatic program is stopped. Axis movement speeds are fully available to the machine tool’s ability.",
+            "type": "integer"
+          },
+          "Setup": {
+            "description": "Depending on technology specific norms, the maximum axis movement speeds of the machine tool are limited. In this mode, the operator can make settings for the subsequent work processes.",
+            "type": "integer"
+          },
+          "AutoWithManualIntervention": {
+            "description": "Operating mode with the possibility of manual interventions in the machining process as well as limited automatic operation started by the operator. Depending on technology specific norms, the maximum axis movement speeds of the machine tool are limited.",
+            "type": "integer"
+          },
+          "Service": {
+            "description": "Operating mode for service purposes. This mode shall not be used for manufacturing any parts. This mode shall only be used by authorized personnel.",
+            "type": "integer"
+          },
+          "Other": {
+            "description": "The machine operation mode is different from the values defined in this enumeration.",
+            "type": "integer"
+          }
+        }
+      }
+    },
+    "forms": [
+      {
+        "contentType": "application/json",
+        "dtv:topic": "opcua/MachineTool/MachineTool_MachineOperationMonitoringType/events/{senderId}",
+        "op": "subscribeallevents"
+      },
+      {
+        "contentType": "application/json",
+        "dtv:topic": "opcua/MachineTool/MachineTool_MachineOperationMonitoringType/properties/read",
+        "op": "readallproperties"
+      }
+    ],
+    "actions": {
+    },
+    "properties": {
+      "FeedOverride": {
+        "aov:namespace": "http://opcfoundation.org/UA/MachineTool/",
+        "type": "number",
+        "minimum": -1.80e+308,
+        "maximum": 1.80e+308,
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/MachineTool/MachineTool_MachineOperationMonitoringType/property/FeedOverride/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "IsWarmUp": {
+        "aov:namespace": "http://opcfoundation.org/UA/MachineTool/",
+        "type": "boolean",
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/MachineTool/MachineTool_MachineOperationMonitoringType/property/IsWarmUp/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "OperationMode": {
+        "aov:namespace": "http://opcfoundation.org/UA/MachineTool/",
+        "title": "MachineOperationMode",
+        "aov:typeRef": "nsu=http://opcfoundation.org/UA/MachineTool/;i=65",
+        "type": "integer",
+        "minimum": -2147483648,
+        "maximum": 2147483647,
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/MachineTool/MachineTool_MachineOperationMonitoringType/property/OperationMode/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "PowerOnDuration": {
+        "aov:namespace": "http://opcfoundation.org/UA/MachineTool/",
+        "type": "integer",
+        "minimum": 0,
+        "maximum": 4294967295,
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/MachineTool/MachineTool_MachineOperationMonitoringType/property/PowerOnDuration/read",
+            "op": "readproperty"
+          }
+        ]
+      }
+    },
+    "events": {
+      "FeedOverride": {
+        "aov:namespace": "http://opcfoundation.org/UA/MachineTool/",
+        "data": {
+          "type": "number",
+          "minimum": -1.80e+308,
+          "maximum": 1.80e+308
+        },
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/MachineTool/MachineTool_MachineOperationMonitoringType/event/FeedOverride/{senderId}",
+            "op": "subscribeevent"
+          }
+        ]
+      },
+      "IsWarmUp": {
+        "aov:namespace": "http://opcfoundation.org/UA/MachineTool/",
+        "data": {
+          "type": "boolean"
+        },
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/MachineTool/MachineTool_MachineOperationMonitoringType/event/IsWarmUp/{senderId}",
+            "op": "subscribeevent"
+          }
+        ]
+      },
+      "OperationMode": {
+        "aov:namespace": "http://opcfoundation.org/UA/MachineTool/",
+        "data": {
+          "title": "MachineOperationMode",
+          "aov:typeRef": "nsu=http://opcfoundation.org/UA/MachineTool/;i=65",
+          "type": "integer",
+          "minimum": -2147483648,
+          "maximum": 2147483647
+        },
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/MachineTool/MachineTool_MachineOperationMonitoringType/event/OperationMode/{senderId}",
+            "op": "subscribeevent"
+          }
+        ]
+      },
+      "PowerOnDuration": {
+        "aov:namespace": "http://opcfoundation.org/UA/MachineTool/",
+        "data": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 4294967295
+        },
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/MachineTool/MachineTool_MachineOperationMonitoringType/event/PowerOnDuration/{senderId}",
+            "op": "subscribeevent"
+          }
+        ]
+      }
+    }
+  },
+  {
+    "@context": [
+      "https://www.w3.org/2022/wot/td/v1.1",
+      {
+        "dtv": "http://azure.com/DigitalTwins/dtmi#",
+        "aov": "http://azure.com/IoT/operations/tm#"
+      }
+    ],
+    "@type": "tm:ThingModel",
+    "title": "MachineTool_MachineToolType",
+    "aov:typeRef": "nsu=http://opcfoundation.org/UA/MachineTool/;i=13",
+    "aov:isComposite": true,
+    "links": [
+      {
+        "rel": "tm:extends",
+        "href": "./OpcUaCore.TM.json#title=OpcUaCore_BaseObjectType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "aov:capability",
+        "aov:refName": "Equipment",
+        "href": "#title=MachineTool_EquipmentType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "aov:component",
+        "aov:refName": "FileSystem",
+        "href": "./OpcUaCore.TM.json#title=OpcUaCore_FileDirectoryType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "aov:component",
+        "aov:refName": "MachineryBuildingBlocks",
+        "href": "./OpcUaCore.TM.json#title=OpcUaCore_FolderType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "aov:capability",
+        "aov:refName": "Monitoring",
+        "href": "#title=MachineTool_MonitoringType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "aov:capability",
+        "aov:refName": "Notification",
+        "href": "#title=MachineTool_NotificationType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "aov:capability",
+        "aov:refName": "Production",
+        "href": "#title=MachineTool_ProductionType",
+        "type": "application/tm+json"
+      }
+    ],
+    "schemaDefinitions": {
+    },
+    "actions": {
+    },
+    "properties": {
+    },
+    "events": {
+    }
+  },
+  {
+    "@context": [
+      "https://www.w3.org/2022/wot/td/v1.1",
+      {
+        "dtv": "http://azure.com/DigitalTwins/dtmi#",
+        "aov": "http://azure.com/IoT/operations/tm#"
+      }
+    ],
+    "@type": "tm:ThingModel",
+    "title": "MachineTool_MessagesType",
+    "aov:typeRef": "nsu=http://opcfoundation.org/UA/MachineTool/;i=38",
+    "links": [
+      {
+        "rel": "tm:extends",
+        "href": "./OpcUaCore.TM.json#title=OpcUaCore_BaseObjectType",
+        "type": "application/tm+json"
+      }
+    ],
+    "schemaDefinitions": {
+    },
+    "actions": {
+    },
+    "properties": {
+    },
+    "events": {
+    }
+  },
+  {
+    "@context": [
+      "https://www.w3.org/2022/wot/td/v1.1",
+      {
+        "dtv": "http://azure.com/DigitalTwins/dtmi#",
+        "aov": "http://azure.com/IoT/operations/tm#"
+      }
+    ],
+    "@type": "tm:ThingModel",
+    "title": "MachineTool_MonitoringType",
+    "aov:typeRef": "nsu=http://opcfoundation.org/UA/MachineTool/;i=14",
+    "links": [
+      {
+        "rel": "tm:extends",
+        "href": "./OpcUaCore.TM.json#title=OpcUaCore_BaseObjectType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "aov:component",
+        "aov:refName": "MonitoredElement",
+        "href": "#title=MachineTool_ElementMonitoringType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "aov:capability",
+        "aov:refName": "MachineTool",
+        "href": "#title=MachineTool_MachineOperationMonitoringType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "aov:reference",
+        "aov:refName": "Stacklight",
+        "href": "./IA.TM.json#title=IA_BasicStacklightType",
+        "type": "application/tm+json"
+      }
+    ],
+    "schemaDefinitions": {
+    },
+    "actions": {
+    },
+    "properties": {
+    },
+    "events": {
+    }
+  },
+  {
+    "@context": [
+      "https://www.w3.org/2022/wot/td/v1.1",
+      {
+        "dtv": "http://azure.com/DigitalTwins/dtmi#",
+        "aov": "http://azure.com/IoT/operations/tm#"
+      }
+    ],
+    "@type": "tm:ThingModel",
+    "title": "MachineTool_NotificationType",
+    "aov:typeRef": "nsu=http://opcfoundation.org/UA/MachineTool/;i=7",
+    "links": [
+      {
+        "rel": "tm:extends",
+        "href": "./OpcUaCore.TM.json#title=OpcUaCore_BaseObjectType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "aov:reference",
+        "aov:refName": "Messages",
+        "href": "#title=MachineTool_MessagesType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "aov:reference",
+        "aov:refName": "Prognoses",
+        "href": "#title=MachineTool_PrognosisListType",
+        "type": "application/tm+json"
+      }
+    ],
+    "schemaDefinitions": {
+    },
+    "actions": {
+    },
+    "properties": {
+    },
+    "events": {
+    }
+  },
+  {
+    "@context": [
+      "https://www.w3.org/2022/wot/td/v1.1",
+      {
+        "dtv": "http://azure.com/DigitalTwins/dtmi#",
+        "aov": "http://azure.com/IoT/operations/tm#"
+      }
+    ],
+    "@type": "tm:ThingModel",
+    "title": "MachineTool_ObligationType",
+    "aov:typeRef": "nsu=http://opcfoundation.org/UA/MachineTool/;i=1002",
+    "links": [
+      {
+        "rel": "tm:extends",
+        "href": "./OpcUaCore.TM.json#title=OpcUaCore_BaseObjectType",
+        "type": "application/tm+json"
+      }
+    ],
+    "schemaDefinitions": {
+    },
+    "forms": [
+      {
+        "contentType": "application/json",
+        "dtv:topic": "opcua/MachineTool/MachineTool_ObligationType/events/{senderId}",
+        "op": "subscribeallevents"
+      },
+      {
+        "contentType": "application/json",
+        "dtv:topic": "opcua/MachineTool/MachineTool_ObligationType/properties/read",
+        "op": "readallproperties"
+      }
+    ],
+    "actions": {
+    },
+    "properties": {
+      "EndUserObligated": {
+        "aov:namespace": "http://opcfoundation.org/UA/MachineTool/",
+        "type": "boolean",
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/MachineTool/MachineTool_ObligationType/property/EndUserObligated/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "MachineBuilderObligated": {
+        "aov:namespace": "http://opcfoundation.org/UA/MachineTool/",
+        "type": "boolean",
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/MachineTool/MachineTool_ObligationType/property/MachineBuilderObligated/read",
+            "op": "readproperty"
+          }
+        ]
+      }
+    },
+    "events": {
+      "EndUserObligated": {
+        "aov:namespace": "http://opcfoundation.org/UA/MachineTool/",
+        "data": {
+          "type": "boolean"
+        },
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/MachineTool/MachineTool_ObligationType/event/EndUserObligated/{senderId}",
+            "op": "subscribeevent"
+          }
+        ]
+      },
+      "MachineBuilderObligated": {
+        "aov:namespace": "http://opcfoundation.org/UA/MachineTool/",
+        "data": {
+          "type": "boolean"
+        },
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/MachineTool/MachineTool_ObligationType/event/MachineBuilderObligated/{senderId}",
+            "op": "subscribeevent"
+          }
+        ]
+      }
+    }
+  },
+  {
+    "@context": [
+      "https://www.w3.org/2022/wot/td/v1.1",
+      {
+        "dtv": "http://azure.com/DigitalTwins/dtmi#",
+        "aov": "http://azure.com/IoT/operations/tm#"
+      }
+    ],
+    "@type": "tm:ThingModel",
+    "title": "MachineTool_ProductionJobListType",
+    "aov:typeRef": "nsu=http://opcfoundation.org/UA/MachineTool/;i=30",
+    "links": [
+      {
+        "rel": "tm:extends",
+        "href": "./OpcUaCore.TM.json#title=OpcUaCore_OrderedListType",
+        "type": "application/tm+json"
+      }
+    ],
+    "schemaDefinitions": {
+    },
+    "actions": {
+    },
+    "properties": {
+    },
+    "events": {
+    }
+  },
+  {
+    "@context": [
+      "https://www.w3.org/2022/wot/td/v1.1",
+      {
+        "dtv": "http://azure.com/DigitalTwins/dtmi#",
+        "aov": "http://azure.com/IoT/operations/tm#"
+      }
+    ],
+    "@type": "tm:ThingModel",
+    "title": "MachineTool_ProductionJobType",
+    "aov:typeRef": "nsu=http://opcfoundation.org/UA/MachineTool/;i=29",
+    "links": [
+      {
+        "rel": "tm:extends",
+        "href": "./OpcUaCore.TM.json#title=OpcUaCore_BaseObjectType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "aov:component",
+        "aov:refName": "PartSets",
+        "href": "./OpcUaCore.TM.json#title=OpcUaCore_BaseObjectType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "aov:capability",
+        "aov:refName": "ProductionPrograms",
+        "href": "./OpcUaCore.TM.json#title=OpcUaCore_OrderedListType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "aov:capability",
+        "aov:refName": "State",
+        "href": "#title=MachineTool_ProductionJobStateMachineType",
+        "type": "application/tm+json"
+      }
+    ],
+    "schemaDefinitions": {
+    },
+    "forms": [
+      {
+        "contentType": "application/json",
+        "dtv:topic": "opcua/MachineTool/MachineTool_ProductionJobType/events/{senderId}",
+        "op": "subscribeallevents"
+      },
+      {
+        "contentType": "application/json",
+        "dtv:topic": "opcua/MachineTool/MachineTool_ProductionJobType/properties/read",
+        "op": "readallproperties"
+      }
+    ],
+    "actions": {
+    },
+    "properties": {
+      "CustomerOrderIdentifier": {
+        "aov:namespace": "http://opcfoundation.org/UA/MachineTool/",
+        "type": "string",
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/MachineTool/MachineTool_ProductionJobType/property/CustomerOrderIdentifier/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "Identifier": {
+        "aov:namespace": "http://opcfoundation.org/UA/MachineTool/",
+        "type": "string",
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/MachineTool/MachineTool_ProductionJobType/property/Identifier/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "NumberInList": {
+        "type": "integer",
+        "minimum": 0,
+        "maximum": 65535,
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/MachineTool/MachineTool_ProductionJobType/property/NumberInList/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "OrderIdentifier": {
+        "aov:namespace": "http://opcfoundation.org/UA/MachineTool/",
+        "type": "string",
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/MachineTool/MachineTool_ProductionJobType/property/OrderIdentifier/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "PartsCompleted": {
+        "aov:namespace": "http://opcfoundation.org/UA/MachineTool/",
+        "type": "integer",
+        "minimum": 0,
+        "maximum": 4294967295,
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/MachineTool/MachineTool_ProductionJobType/property/PartsCompleted/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "PartsGood": {
+        "aov:namespace": "http://opcfoundation.org/UA/MachineTool/",
+        "type": "integer",
+        "minimum": 0,
+        "maximum": 4294967295,
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/MachineTool/MachineTool_ProductionJobType/property/PartsGood/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "RunsCompleted": {
+        "aov:namespace": "http://opcfoundation.org/UA/MachineTool/",
+        "type": "integer",
+        "minimum": 0,
+        "maximum": 4294967295,
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/MachineTool/MachineTool_ProductionJobType/property/RunsCompleted/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "RunsPlanned": {
+        "aov:namespace": "http://opcfoundation.org/UA/MachineTool/",
+        "type": "integer",
+        "minimum": 0,
+        "maximum": 4294967295,
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/MachineTool/MachineTool_ProductionJobType/property/RunsPlanned/read",
+            "op": "readproperty"
+          }
+        ]
+      }
+    },
+    "events": {
+      "PartsCompleted": {
+        "aov:namespace": "http://opcfoundation.org/UA/MachineTool/",
+        "data": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 4294967295
+        },
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/MachineTool/MachineTool_ProductionJobType/event/PartsCompleted/{senderId}",
+            "op": "subscribeevent"
+          }
+        ]
+      },
+      "PartsGood": {
+        "aov:namespace": "http://opcfoundation.org/UA/MachineTool/",
+        "data": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 4294967295
+        },
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/MachineTool/MachineTool_ProductionJobType/event/PartsGood/{senderId}",
+            "op": "subscribeevent"
+          }
+        ]
+      },
+      "RunsCompleted": {
+        "aov:namespace": "http://opcfoundation.org/UA/MachineTool/",
+        "data": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 4294967295
+        },
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/MachineTool/MachineTool_ProductionJobType/event/RunsCompleted/{senderId}",
+            "op": "subscribeevent"
+          }
+        ]
+      },
+      "RunsPlanned": {
+        "aov:namespace": "http://opcfoundation.org/UA/MachineTool/",
+        "data": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 4294967295
+        },
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/MachineTool/MachineTool_ProductionJobType/event/RunsPlanned/{senderId}",
+            "op": "subscribeevent"
+          }
+        ]
+      }
+    }
+  },
+  {
+    "@context": [
+      "https://www.w3.org/2022/wot/td/v1.1",
+      {
+        "dtv": "http://azure.com/DigitalTwins/dtmi#",
+        "aov": "http://azure.com/IoT/operations/tm#"
+      }
+    ],
+    "@type": "tm:ThingModel",
+    "title": "MachineTool_ProductionPartSetType",
+    "aov:typeRef": "nsu=http://opcfoundation.org/UA/MachineTool/;i=34",
+    "links": [
+      {
+        "rel": "tm:extends",
+        "href": "./OpcUaCore.TM.json#title=OpcUaCore_BaseObjectType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "aov:component",
+        "aov:refName": "PartsPerRun",
+        "href": "./OpcUaCore.TM.json#title=OpcUaCore_BaseObjectType",
+        "type": "application/tm+json"
+      }
+    ],
+    "schemaDefinitions": {
+    },
+    "forms": [
+      {
+        "contentType": "application/json",
+        "dtv:topic": "opcua/MachineTool/MachineTool_ProductionPartSetType/events/{senderId}",
+        "op": "subscribeallevents"
+      },
+      {
+        "contentType": "application/json",
+        "dtv:topic": "opcua/MachineTool/MachineTool_ProductionPartSetType/properties/read",
+        "op": "readallproperties"
+      }
+    ],
+    "actions": {
+    },
+    "properties": {
+      "ContainsMixedParts": {
+        "aov:namespace": "http://opcfoundation.org/UA/MachineTool/",
+        "type": "boolean",
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/MachineTool/MachineTool_ProductionPartSetType/property/ContainsMixedParts/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "Name": {
+        "aov:namespace": "http://opcfoundation.org/UA/MachineTool/",
+        "type": "string",
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/MachineTool/MachineTool_ProductionPartSetType/property/Name/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "PartsCompletedPerRun": {
+        "aov:namespace": "http://opcfoundation.org/UA/MachineTool/",
+        "type": "integer",
+        "minimum": 0,
+        "maximum": 4294967295,
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/MachineTool/MachineTool_ProductionPartSetType/property/PartsCompletedPerRun/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "PartsPlannedPerRun": {
+        "aov:namespace": "http://opcfoundation.org/UA/MachineTool/",
+        "type": "integer",
+        "minimum": 0,
+        "maximum": 4294967295,
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/MachineTool/MachineTool_ProductionPartSetType/property/PartsPlannedPerRun/read",
+            "op": "readproperty"
+          }
+        ]
+      }
+    },
+    "events": {
+      "PartsCompletedPerRun": {
+        "aov:namespace": "http://opcfoundation.org/UA/MachineTool/",
+        "data": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 4294967295
+        },
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/MachineTool/MachineTool_ProductionPartSetType/event/PartsCompletedPerRun/{senderId}",
+            "op": "subscribeevent"
+          }
+        ]
+      },
+      "PartsPlannedPerRun": {
+        "aov:namespace": "http://opcfoundation.org/UA/MachineTool/",
+        "data": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 4294967295
+        },
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/MachineTool/MachineTool_ProductionPartSetType/event/PartsPlannedPerRun/{senderId}",
+            "op": "subscribeevent"
+          }
+        ]
+      }
+    }
+  },
+  {
+    "@context": [
+      "https://www.w3.org/2022/wot/td/v1.1",
+      {
+        "dtv": "http://azure.com/DigitalTwins/dtmi#",
+        "aov": "http://azure.com/IoT/operations/tm#"
+      }
+    ],
+    "@type": "tm:ThingModel",
+    "title": "MachineTool_ProductionPartType",
+    "aov:typeRef": "nsu=http://opcfoundation.org/UA/MachineTool/;i=56",
+    "links": [
+      {
+        "rel": "tm:extends",
+        "href": "./OpcUaCore.TM.json#title=OpcUaCore_BaseObjectType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "aov:capability",
+        "aov:refName": "State",
+        "href": "#title=MachineTool_ProductionPartStateMachineType",
+        "type": "application/tm+json"
+      }
+    ],
+    "schemaDefinitions": {
+      "PartQuality": {
+        "type": "object",
+        "aov:typeRef": "nsu=http://opcfoundation.org/UA/MachineTool/;i=63",
+        "const": {
+          "CapabilityUnavailable": 0,
+          "Good": 1,
+          "Bad": 2,
+          "NotYetMeasured": 3,
+          "WillNotBeMeasured": 4
+        },
+        "properties": {
+          "CapabilityUnavailable": {
+            "description": "The machine tool is not able to give a statement about the part quality.",
+            "type": "integer"
+          },
+          "Good": {
+            "description": "The part quality is determined good.",
+            "type": "integer"
+          },
+          "Bad": {
+            "description": "The part quality is determined bad.",
+            "type": "integer"
+          },
+          "NotYetMeasured": {
+            "description": "The PartQuality will still be determined in the machine tool to be either Good or Bad.",
+            "type": "integer"
+          },
+          "WillNotBeMeasured": {
+            "description": "The machine tool will not give a statement about the part quality.",
+            "type": "integer"
+          }
+        }
+      },
+      "ProcessIrregularity": {
+        "type": "object",
+        "aov:typeRef": "nsu=http://opcfoundation.org/UA/MachineTool/;i=62",
+        "const": {
+          "CapabilityUnavailable": 0,
+          "Detected": 1,
+          "NotDetected": 2,
+          "NotYetDetermined": 3
+        },
+        "properties": {
+          "CapabilityUnavailable": {
+            "description": "The machine tool is not able to give a statement about process irregularities.",
+            "type": "integer"
+          },
+          "Detected": {
+            "description": "A process irregularity has been detected.",
+            "type": "integer"
+          },
+          "NotDetected": {
+            "description": "There was no process irregularity detected.",
+            "type": "integer"
+          },
+          "NotYetDetermined": {
+            "description": "A statement about the process irregularity is to be expected.",
+            "type": "integer"
+          }
+        }
+      }
+    },
+    "forms": [
+      {
+        "contentType": "application/json",
+        "dtv:topic": "opcua/MachineTool/MachineTool_ProductionPartType/events/{senderId}",
+        "op": "subscribeallevents"
+      },
+      {
+        "contentType": "application/json",
+        "dtv:topic": "opcua/MachineTool/MachineTool_ProductionPartType/properties/read",
+        "op": "readallproperties"
+      }
+    ],
+    "actions": {
+    },
+    "properties": {
+      "CustomerOrderIdentifier": {
+        "aov:namespace": "http://opcfoundation.org/UA/MachineTool/",
+        "type": "string",
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/MachineTool/MachineTool_ProductionPartType/property/CustomerOrderIdentifier/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "Identifier": {
+        "aov:namespace": "http://opcfoundation.org/UA/MachineTool/",
+        "type": "string",
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/MachineTool/MachineTool_ProductionPartType/property/Identifier/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "Name": {
+        "aov:namespace": "http://opcfoundation.org/UA/MachineTool/",
+        "type": "string",
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/MachineTool/MachineTool_ProductionPartType/property/Name/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "PartQuality": {
+        "aov:namespace": "http://opcfoundation.org/UA/MachineTool/",
+        "title": "PartQuality",
+        "aov:typeRef": "nsu=http://opcfoundation.org/UA/MachineTool/;i=63",
+        "type": "integer",
+        "minimum": -2147483648,
+        "maximum": 2147483647,
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/MachineTool/MachineTool_ProductionPartType/property/PartQuality/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "ProcessIrregularity": {
+        "aov:namespace": "http://opcfoundation.org/UA/MachineTool/",
+        "title": "ProcessIrregularity",
+        "aov:typeRef": "nsu=http://opcfoundation.org/UA/MachineTool/;i=62",
+        "type": "integer",
+        "minimum": -2147483648,
+        "maximum": 2147483647,
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/MachineTool/MachineTool_ProductionPartType/property/ProcessIrregularity/read",
+            "op": "readproperty"
+          }
+        ]
+      }
+    },
+    "events": {
+      "PartQuality": {
+        "aov:namespace": "http://opcfoundation.org/UA/MachineTool/",
+        "data": {
+          "title": "PartQuality",
+          "aov:typeRef": "nsu=http://opcfoundation.org/UA/MachineTool/;i=63",
+          "type": "integer",
+          "minimum": -2147483648,
+          "maximum": 2147483647
+        },
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/MachineTool/MachineTool_ProductionPartType/event/PartQuality/{senderId}",
+            "op": "subscribeevent"
+          }
+        ]
+      },
+      "ProcessIrregularity": {
+        "aov:namespace": "http://opcfoundation.org/UA/MachineTool/",
+        "data": {
+          "title": "ProcessIrregularity",
+          "aov:typeRef": "nsu=http://opcfoundation.org/UA/MachineTool/;i=62",
+          "type": "integer",
+          "minimum": -2147483648,
+          "maximum": 2147483647
+        },
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/MachineTool/MachineTool_ProductionPartType/event/ProcessIrregularity/{senderId}",
+            "op": "subscribeevent"
+          }
+        ]
+      }
+    }
+  },
+  {
+    "@context": [
+      "https://www.w3.org/2022/wot/td/v1.1",
+      {
+        "dtv": "http://azure.com/DigitalTwins/dtmi#",
+        "aov": "http://azure.com/IoT/operations/tm#"
+      }
+    ],
+    "@type": "tm:ThingModel",
+    "title": "MachineTool_ProductionProgramType",
+    "aov:typeRef": "nsu=http://opcfoundation.org/UA/MachineTool/;i=59",
+    "links": [
+      {
+        "rel": "tm:extends",
+        "href": "./OpcUaCore.TM.json#title=OpcUaCore_BaseObjectType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "aov:capability",
+        "aov:refName": "State",
+        "href": "#title=MachineTool_ProductionProgramStateMachineType",
+        "type": "application/tm+json"
+      }
+    ],
+    "schemaDefinitions": {
+    },
+    "forms": [
+      {
+        "contentType": "application/json",
+        "dtv:topic": "opcua/MachineTool/MachineTool_ProductionProgramType/properties/read",
+        "op": "readallproperties"
+      }
+    ],
+    "actions": {
+    },
+    "properties": {
+      "Name": {
+        "aov:namespace": "http://opcfoundation.org/UA/MachineTool/",
+        "type": "string",
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/MachineTool/MachineTool_ProductionProgramType/property/Name/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "NumberInList": {
+        "type": "integer",
+        "minimum": 0,
+        "maximum": 65535,
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/MachineTool/MachineTool_ProductionProgramType/property/NumberInList/read",
+            "op": "readproperty"
+          }
+        ]
+      }
+    },
+    "events": {
+    }
+  },
+  {
+    "@context": [
+      "https://www.w3.org/2022/wot/td/v1.1",
+      {
+        "dtv": "http://azure.com/DigitalTwins/dtmi#",
+        "aov": "http://azure.com/IoT/operations/tm#"
+      }
+    ],
+    "@type": "tm:ThingModel",
+    "title": "MachineTool_ProductionActiveProgramType",
+    "aov:typeRef": "nsu=http://opcfoundation.org/UA/MachineTool/;i=32",
+    "links": [
+      {
+        "rel": "tm:extends",
+        "href": "#title=MachineTool_ProductionProgramType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "aov:capability",
+        "aov:refName": "State",
+        "href": "#title=MachineTool_ProductionProgramStateMachineType",
+        "type": "application/tm+json"
+      }
+    ],
+    "schemaDefinitions": {
+    },
+    "forms": [
+      {
+        "contentType": "application/json",
+        "dtv:topic": "opcua/MachineTool/MachineTool_ProductionActiveProgramType/events/{senderId}",
+        "op": "subscribeallevents"
+      },
+      {
+        "contentType": "application/json",
+        "dtv:topic": "opcua/MachineTool/MachineTool_ProductionActiveProgramType/properties/read",
+        "op": "readallproperties"
+      }
+    ],
+    "actions": {
+    },
+    "properties": {
+      "JobIdentifier": {
+        "aov:namespace": "http://opcfoundation.org/UA/MachineTool/",
+        "type": "string",
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/MachineTool/MachineTool_ProductionActiveProgramType/property/JobIdentifier/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "JobNodeId": {
+        "aov:namespace": "http://opcfoundation.org/UA/MachineTool/",
+        "type": "string",
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/MachineTool/MachineTool_ProductionActiveProgramType/property/JobNodeId/read",
+            "op": "readproperty"
+          }
+        ]
+      }
+    },
+    "events": {
+      "JobIdentifier": {
+        "aov:namespace": "http://opcfoundation.org/UA/MachineTool/",
+        "data": {
+          "type": "string"
+        },
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/MachineTool/MachineTool_ProductionActiveProgramType/event/JobIdentifier/{senderId}",
+            "op": "subscribeevent"
+          }
+        ]
+      },
+      "JobNodeId": {
+        "aov:namespace": "http://opcfoundation.org/UA/MachineTool/",
+        "data": {
+          "type": "string"
+        },
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/MachineTool/MachineTool_ProductionActiveProgramType/event/JobNodeId/{senderId}",
+            "op": "subscribeevent"
+          }
+        ]
+      }
+    }
+  },
+  {
+    "@context": [
+      "https://www.w3.org/2022/wot/td/v1.1",
+      {
+        "dtv": "http://azure.com/DigitalTwins/dtmi#",
+        "aov": "http://azure.com/IoT/operations/tm#"
+      }
+    ],
+    "@type": "tm:ThingModel",
+    "title": "MachineTool_ProductionStatisticsType",
+    "aov:typeRef": "nsu=http://opcfoundation.org/UA/MachineTool/;i=20",
+    "links": [
+      {
+        "rel": "tm:extends",
+        "href": "./OpcUaCore.TM.json#title=OpcUaCore_BaseObjectType",
+        "type": "application/tm+json"
+      }
+    ],
+    "schemaDefinitions": {
+    },
+    "forms": [
+      {
+        "contentType": "application/json",
+        "dtv:topic": "opcua/MachineTool/MachineTool_ProductionStatisticsType/events/{senderId}",
+        "op": "subscribeallevents"
+      },
+      {
+        "contentType": "application/json",
+        "dtv:topic": "opcua/MachineTool/MachineTool_ProductionStatisticsType/properties/read",
+        "op": "readallproperties"
+      }
+    ],
+    "actions": {
+    },
+    "properties": {
+      "PartsProducedInLifetime": {
+        "aov:namespace": "http://opcfoundation.org/UA/MachineTool/",
+        "type": "integer",
+        "minimum": 0,
+        "maximum": 4294967295,
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/MachineTool/MachineTool_ProductionStatisticsType/property/PartsProducedInLifetime/read",
+            "op": "readproperty"
+          }
+        ]
+      }
+    },
+    "events": {
+      "PartsProducedInLifetime": {
+        "aov:namespace": "http://opcfoundation.org/UA/MachineTool/",
+        "data": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 4294967295
+        },
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/MachineTool/MachineTool_ProductionStatisticsType/event/PartsProducedInLifetime/{senderId}",
+            "op": "subscribeevent"
+          }
+        ]
+      }
+    }
+  },
+  {
+    "@context": [
+      "https://www.w3.org/2022/wot/td/v1.1",
+      {
+        "dtv": "http://azure.com/DigitalTwins/dtmi#",
+        "aov": "http://azure.com/IoT/operations/tm#"
+      }
+    ],
+    "@type": "tm:ThingModel",
+    "title": "MachineTool_ProductionType",
+    "aov:typeRef": "nsu=http://opcfoundation.org/UA/MachineTool/;i=21",
+    "links": [
+      {
+        "rel": "tm:extends",
+        "href": "./OpcUaCore.TM.json#title=OpcUaCore_BaseObjectType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "aov:capability",
+        "aov:refName": "ActiveProgram",
+        "href": "#title=MachineTool_ProductionActiveProgramType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "aov:reference",
+        "aov:refName": "ProductionPlan",
+        "href": "#title=MachineTool_ProductionJobListType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "aov:reference",
+        "aov:refName": "Statistics",
+        "href": "#title=MachineTool_ProductionStatisticsType",
+        "type": "application/tm+json"
+      }
+    ],
+    "schemaDefinitions": {
+    },
+    "actions": {
+    },
+    "properties": {
+    },
+    "events": {
+    }
+  },
+  {
+    "@context": [
+      "https://www.w3.org/2022/wot/td/v1.1",
+      {
+        "dtv": "http://azure.com/DigitalTwins/dtmi#",
+        "aov": "http://azure.com/IoT/operations/tm#"
+      }
+    ],
+    "@type": "tm:ThingModel",
+    "title": "MachineTool_PrognosisListType",
+    "aov:typeRef": "nsu=http://opcfoundation.org/UA/MachineTool/;i=2",
+    "links": [
+      {
+        "rel": "tm:extends",
+        "href": "./OpcUaCore.TM.json#title=OpcUaCore_BaseObjectType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "aov:component",
+        "aov:refName": "Prognosis",
+        "href": "#title=MachineTool_PrognosisType",
+        "type": "application/tm+json"
+      }
+    ],
+    "schemaDefinitions": {
+    },
+    "forms": [
+      {
+        "contentType": "application/json",
+        "dtv:topic": "opcua/MachineTool/MachineTool_PrognosisListType/properties/read",
+        "op": "readallproperties"
+      }
+    ],
+    "actions": {
+    },
+    "properties": {
+      "NodeVersion": {
+        "type": "string",
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/MachineTool/MachineTool_PrognosisListType/property/NodeVersion/read",
+            "op": "readproperty"
+          }
+        ]
+      }
+    },
+    "events": {
+    }
+  },
+  {
+    "@context": [
+      "https://www.w3.org/2022/wot/td/v1.1",
+      {
+        "dtv": "http://azure.com/DigitalTwins/dtmi#",
+        "aov": "http://azure.com/IoT/operations/tm#"
+      }
+    ],
+    "@type": "tm:ThingModel",
+    "title": "MachineTool_PrognosisType",
+    "aov:typeRef": "nsu=http://opcfoundation.org/UA/MachineTool/;i=3",
+    "links": [
+      {
+        "rel": "tm:extends",
+        "href": "./OpcUaCore.TM.json#title=OpcUaCore_BaseObjectType",
+        "type": "application/tm+json"
+      }
+    ],
+    "schemaDefinitions": {
+    },
+    "forms": [
+      {
+        "contentType": "application/json",
+        "dtv:topic": "opcua/MachineTool/MachineTool_PrognosisType/properties/read",
+        "op": "readallproperties"
+      }
+    ],
+    "actions": {
+    },
+    "properties": {
+      "PredictedTime": {
+        "aov:namespace": "http://opcfoundation.org/UA/MachineTool/",
+        "type": "string",
+        "format": "time",
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/MachineTool/MachineTool_PrognosisType/property/PredictedTime/read",
+            "op": "readproperty"
+          }
+        ]
+      }
+    },
+    "events": {
+    }
+  },
+  {
+    "@context": [
+      "https://www.w3.org/2022/wot/td/v1.1",
+      {
+        "dtv": "http://azure.com/DigitalTwins/dtmi#",
+        "aov": "http://azure.com/IoT/operations/tm#"
+      }
+    ],
+    "@type": "tm:ThingModel",
+    "title": "MachineTool_MaintenancePrognosisType",
+    "aov:typeRef": "nsu=http://opcfoundation.org/UA/MachineTool/;i=9",
+    "aov:isComposite": true,
+    "links": [
+      {
+        "rel": "tm:extends",
+        "href": "#title=MachineTool_PrognosisType",
+        "type": "application/tm+json"
+      }
+    ],
+    "schemaDefinitions": {
+    },
+    "forms": [
+      {
+        "contentType": "application/json",
+        "dtv:topic": "opcua/MachineTool/MachineTool_MaintenancePrognosisType/events/{senderId}",
+        "op": "subscribeallevents"
+      },
+      {
+        "contentType": "application/json",
+        "dtv:topic": "opcua/MachineTool/MachineTool_MaintenancePrognosisType/properties/read",
+        "op": "readallproperties"
+      }
+    ],
+    "actions": {
+    },
+    "properties": {
+      "Activity": {
+        "aov:namespace": "http://opcfoundation.org/UA/MachineTool/",
+        "type": "string",
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/MachineTool/MachineTool_MaintenancePrognosisType/property/Activity/read",
+            "op": "readproperty"
+          }
+        ]
+      }
+    },
+    "events": {
+      "Activity": {
+        "aov:namespace": "http://opcfoundation.org/UA/MachineTool/",
+        "data": {
+          "type": "string"
+        },
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/MachineTool/MachineTool_MaintenancePrognosisType/event/Activity/{senderId}",
+            "op": "subscribeevent"
+          }
+        ]
+      }
+    }
+  },
+  {
+    "@context": [
+      "https://www.w3.org/2022/wot/td/v1.1",
+      {
+        "dtv": "http://azure.com/DigitalTwins/dtmi#",
+        "aov": "http://azure.com/IoT/operations/tm#"
+      }
+    ],
+    "@type": "tm:ThingModel",
+    "title": "MachineTool_ManualActivityPrognosisType",
+    "aov:typeRef": "nsu=http://opcfoundation.org/UA/MachineTool/;i=10",
+    "aov:isComposite": true,
+    "links": [
+      {
+        "rel": "tm:extends",
+        "href": "#title=MachineTool_PrognosisType",
+        "type": "application/tm+json"
+      }
+    ],
+    "schemaDefinitions": {
+    },
+    "forms": [
+      {
+        "contentType": "application/json",
+        "dtv:topic": "opcua/MachineTool/MachineTool_ManualActivityPrognosisType/events/{senderId}",
+        "op": "subscribeallevents"
+      },
+      {
+        "contentType": "application/json",
+        "dtv:topic": "opcua/MachineTool/MachineTool_ManualActivityPrognosisType/properties/read",
+        "op": "readallproperties"
+      }
+    ],
+    "actions": {
+    },
+    "properties": {
+      "Activity": {
+        "aov:namespace": "http://opcfoundation.org/UA/MachineTool/",
+        "type": "string",
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/MachineTool/MachineTool_ManualActivityPrognosisType/property/Activity/read",
+            "op": "readproperty"
+          }
+        ]
+      }
+    },
+    "events": {
+      "Activity": {
+        "aov:namespace": "http://opcfoundation.org/UA/MachineTool/",
+        "data": {
+          "type": "string"
+        },
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/MachineTool/MachineTool_ManualActivityPrognosisType/event/Activity/{senderId}",
+            "op": "subscribeevent"
+          }
+        ]
+      }
+    }
+  },
+  {
+    "@context": [
+      "https://www.w3.org/2022/wot/td/v1.1",
+      {
+        "dtv": "http://azure.com/DigitalTwins/dtmi#",
+        "aov": "http://azure.com/IoT/operations/tm#"
+      }
+    ],
+    "@type": "tm:ThingModel",
+    "title": "MachineTool_PartLoadPrognosisType",
+    "aov:typeRef": "nsu=http://opcfoundation.org/UA/MachineTool/;i=1",
+    "aov:isComposite": true,
+    "links": [
+      {
+        "rel": "tm:extends",
+        "href": "#title=MachineTool_PrognosisType",
+        "type": "application/tm+json"
+      }
+    ],
+    "schemaDefinitions": {
+    },
+    "forms": [
+      {
+        "contentType": "application/json",
+        "dtv:topic": "opcua/MachineTool/MachineTool_PartLoadPrognosisType/events/{senderId}",
+        "op": "subscribeallevents"
+      },
+      {
+        "contentType": "application/json",
+        "dtv:topic": "opcua/MachineTool/MachineTool_PartLoadPrognosisType/properties/read",
+        "op": "readallproperties"
+      }
+    ],
+    "actions": {
+    },
+    "properties": {
+      "Location": {
+        "aov:namespace": "http://opcfoundation.org/UA/MachineTool/",
+        "type": "string",
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/MachineTool/MachineTool_PartLoadPrognosisType/property/Location/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "PartIdentifier": {
+        "aov:namespace": "http://opcfoundation.org/UA/MachineTool/",
+        "type": "string",
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/MachineTool/MachineTool_PartLoadPrognosisType/property/PartIdentifier/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "PartName": {
+        "aov:namespace": "http://opcfoundation.org/UA/MachineTool/",
+        "type": "string",
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/MachineTool/MachineTool_PartLoadPrognosisType/property/PartName/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "PartNodeId": {
+        "aov:namespace": "http://opcfoundation.org/UA/MachineTool/",
+        "type": "string",
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/MachineTool/MachineTool_PartLoadPrognosisType/property/PartNodeId/read",
+            "op": "readproperty"
+          }
+        ]
+      }
+    },
+    "events": {
+      "Location": {
+        "aov:namespace": "http://opcfoundation.org/UA/MachineTool/",
+        "data": {
+          "type": "string"
+        },
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/MachineTool/MachineTool_PartLoadPrognosisType/event/Location/{senderId}",
+            "op": "subscribeevent"
+          }
+        ]
+      },
+      "PartIdentifier": {
+        "aov:namespace": "http://opcfoundation.org/UA/MachineTool/",
+        "data": {
+          "type": "string"
+        },
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/MachineTool/MachineTool_PartLoadPrognosisType/event/PartIdentifier/{senderId}",
+            "op": "subscribeevent"
+          }
+        ]
+      },
+      "PartName": {
+        "aov:namespace": "http://opcfoundation.org/UA/MachineTool/",
+        "data": {
+          "type": "string"
+        },
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/MachineTool/MachineTool_PartLoadPrognosisType/event/PartName/{senderId}",
+            "op": "subscribeevent"
+          }
+        ]
+      },
+      "PartNodeId": {
+        "aov:namespace": "http://opcfoundation.org/UA/MachineTool/",
+        "data": {
+          "type": "string"
+        },
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/MachineTool/MachineTool_PartLoadPrognosisType/event/PartNodeId/{senderId}",
+            "op": "subscribeevent"
+          }
+        ]
+      }
+    }
+  },
+  {
+    "@context": [
+      "https://www.w3.org/2022/wot/td/v1.1",
+      {
+        "dtv": "http://azure.com/DigitalTwins/dtmi#",
+        "aov": "http://azure.com/IoT/operations/tm#"
+      }
+    ],
+    "@type": "tm:ThingModel",
+    "title": "MachineTool_PartUnloadPrognosisType",
+    "aov:typeRef": "nsu=http://opcfoundation.org/UA/MachineTool/;i=5",
+    "aov:isComposite": true,
+    "links": [
+      {
+        "rel": "tm:extends",
+        "href": "#title=MachineTool_PrognosisType",
+        "type": "application/tm+json"
+      }
+    ],
+    "schemaDefinitions": {
+    },
+    "forms": [
+      {
+        "contentType": "application/json",
+        "dtv:topic": "opcua/MachineTool/MachineTool_PartUnloadPrognosisType/events/{senderId}",
+        "op": "subscribeallevents"
+      },
+      {
+        "contentType": "application/json",
+        "dtv:topic": "opcua/MachineTool/MachineTool_PartUnloadPrognosisType/properties/read",
+        "op": "readallproperties"
+      }
+    ],
+    "actions": {
+    },
+    "properties": {
+      "Location": {
+        "aov:namespace": "http://opcfoundation.org/UA/MachineTool/",
+        "type": "string",
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/MachineTool/MachineTool_PartUnloadPrognosisType/property/Location/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "PartIdentifier": {
+        "aov:namespace": "http://opcfoundation.org/UA/MachineTool/",
+        "type": "string",
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/MachineTool/MachineTool_PartUnloadPrognosisType/property/PartIdentifier/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "PartName": {
+        "aov:namespace": "http://opcfoundation.org/UA/MachineTool/",
+        "type": "string",
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/MachineTool/MachineTool_PartUnloadPrognosisType/property/PartName/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "PartNodeId": {
+        "aov:namespace": "http://opcfoundation.org/UA/MachineTool/",
+        "type": "string",
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/MachineTool/MachineTool_PartUnloadPrognosisType/property/PartNodeId/read",
+            "op": "readproperty"
+          }
+        ]
+      }
+    },
+    "events": {
+      "Location": {
+        "aov:namespace": "http://opcfoundation.org/UA/MachineTool/",
+        "data": {
+          "type": "string"
+        },
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/MachineTool/MachineTool_PartUnloadPrognosisType/event/Location/{senderId}",
+            "op": "subscribeevent"
+          }
+        ]
+      },
+      "PartIdentifier": {
+        "aov:namespace": "http://opcfoundation.org/UA/MachineTool/",
+        "data": {
+          "type": "string"
+        },
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/MachineTool/MachineTool_PartUnloadPrognosisType/event/PartIdentifier/{senderId}",
+            "op": "subscribeevent"
+          }
+        ]
+      },
+      "PartName": {
+        "aov:namespace": "http://opcfoundation.org/UA/MachineTool/",
+        "data": {
+          "type": "string"
+        },
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/MachineTool/MachineTool_PartUnloadPrognosisType/event/PartName/{senderId}",
+            "op": "subscribeevent"
+          }
+        ]
+      },
+      "PartNodeId": {
+        "aov:namespace": "http://opcfoundation.org/UA/MachineTool/",
+        "data": {
+          "type": "string"
+        },
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/MachineTool/MachineTool_PartUnloadPrognosisType/event/PartNodeId/{senderId}",
+            "op": "subscribeevent"
+          }
+        ]
+      }
+    }
+  },
+  {
+    "@context": [
+      "https://www.w3.org/2022/wot/td/v1.1",
+      {
+        "dtv": "http://azure.com/DigitalTwins/dtmi#",
+        "aov": "http://azure.com/IoT/operations/tm#"
+      }
+    ],
+    "@type": "tm:ThingModel",
+    "title": "MachineTool_ProcessChangeoverPrognosisType",
+    "aov:typeRef": "nsu=http://opcfoundation.org/UA/MachineTool/;i=8",
+    "aov:isComposite": true,
+    "links": [
+      {
+        "rel": "tm:extends",
+        "href": "#title=MachineTool_PrognosisType",
+        "type": "application/tm+json"
+      }
+    ],
+    "schemaDefinitions": {
+    },
+    "forms": [
+      {
+        "contentType": "application/json",
+        "dtv:topic": "opcua/MachineTool/MachineTool_ProcessChangeoverPrognosisType/events/{senderId}",
+        "op": "subscribeallevents"
+      },
+      {
+        "contentType": "application/json",
+        "dtv:topic": "opcua/MachineTool/MachineTool_ProcessChangeoverPrognosisType/properties/read",
+        "op": "readallproperties"
+      }
+    ],
+    "actions": {
+    },
+    "properties": {
+      "Activity": {
+        "aov:namespace": "http://opcfoundation.org/UA/MachineTool/",
+        "type": "string",
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/MachineTool/MachineTool_ProcessChangeoverPrognosisType/property/Activity/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "Location": {
+        "aov:namespace": "http://opcfoundation.org/UA/MachineTool/",
+        "type": "string",
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/MachineTool/MachineTool_ProcessChangeoverPrognosisType/property/Location/read",
+            "op": "readproperty"
+          }
+        ]
+      }
+    },
+    "events": {
+      "Activity": {
+        "aov:namespace": "http://opcfoundation.org/UA/MachineTool/",
+        "data": {
+          "type": "string"
+        },
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/MachineTool/MachineTool_ProcessChangeoverPrognosisType/event/Activity/{senderId}",
+            "op": "subscribeevent"
+          }
+        ]
+      },
+      "Location": {
+        "aov:namespace": "http://opcfoundation.org/UA/MachineTool/",
+        "data": {
+          "type": "string"
+        },
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/MachineTool/MachineTool_ProcessChangeoverPrognosisType/event/Location/{senderId}",
+            "op": "subscribeevent"
+          }
+        ]
+      }
+    }
+  },
+  {
+    "@context": [
+      "https://www.w3.org/2022/wot/td/v1.1",
+      {
+        "dtv": "http://azure.com/DigitalTwins/dtmi#",
+        "aov": "http://azure.com/IoT/operations/tm#"
+      }
+    ],
+    "@type": "tm:ThingModel",
+    "title": "MachineTool_ProductionJobEndPrognosisType",
+    "aov:typeRef": "nsu=http://opcfoundation.org/UA/MachineTool/;i=37",
+    "aov:isComposite": true,
+    "links": [
+      {
+        "rel": "tm:extends",
+        "href": "#title=MachineTool_PrognosisType",
+        "type": "application/tm+json"
+      }
+    ],
+    "schemaDefinitions": {
+    },
+    "forms": [
+      {
+        "contentType": "application/json",
+        "dtv:topic": "opcua/MachineTool/MachineTool_ProductionJobEndPrognosisType/events/{senderId}",
+        "op": "subscribeallevents"
+      },
+      {
+        "contentType": "application/json",
+        "dtv:topic": "opcua/MachineTool/MachineTool_ProductionJobEndPrognosisType/properties/read",
+        "op": "readallproperties"
+      }
+    ],
+    "actions": {
+    },
+    "properties": {
+      "JobNodeId": {
+        "aov:namespace": "http://opcfoundation.org/UA/MachineTool/",
+        "type": "string",
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/MachineTool/MachineTool_ProductionJobEndPrognosisType/property/JobNodeId/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "SourceIdentifier": {
+        "aov:namespace": "http://opcfoundation.org/UA/MachineTool/",
+        "type": "string",
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/MachineTool/MachineTool_ProductionJobEndPrognosisType/property/SourceIdentifier/read",
+            "op": "readproperty"
+          }
+        ]
+      }
+    },
+    "events": {
+      "JobNodeId": {
+        "aov:namespace": "http://opcfoundation.org/UA/MachineTool/",
+        "data": {
+          "type": "string"
+        },
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/MachineTool/MachineTool_ProductionJobEndPrognosisType/event/JobNodeId/{senderId}",
+            "op": "subscribeevent"
+          }
+        ]
+      },
+      "SourceIdentifier": {
+        "aov:namespace": "http://opcfoundation.org/UA/MachineTool/",
+        "data": {
+          "type": "string"
+        },
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/MachineTool/MachineTool_ProductionJobEndPrognosisType/event/SourceIdentifier/{senderId}",
+            "op": "subscribeevent"
+          }
+        ]
+      }
+    }
+  },
+  {
+    "@context": [
+      "https://www.w3.org/2022/wot/td/v1.1",
+      {
+        "dtv": "http://azure.com/DigitalTwins/dtmi#",
+        "aov": "http://azure.com/IoT/operations/tm#"
+      }
+    ],
+    "@type": "tm:ThingModel",
+    "title": "MachineTool_ToolChangePrognosisType",
+    "aov:typeRef": "nsu=http://opcfoundation.org/UA/MachineTool/;i=45",
+    "aov:isComposite": true,
+    "links": [
+      {
+        "rel": "tm:extends",
+        "href": "#title=MachineTool_PrognosisType",
+        "type": "application/tm+json"
+      }
+    ],
+    "schemaDefinitions": {
+    },
+    "forms": [
+      {
+        "contentType": "application/json",
+        "dtv:topic": "opcua/MachineTool/MachineTool_ToolChangePrognosisType/events/{senderId}",
+        "op": "subscribeallevents"
+      },
+      {
+        "contentType": "application/json",
+        "dtv:topic": "opcua/MachineTool/MachineTool_ToolChangePrognosisType/properties/read",
+        "op": "readallproperties"
+      }
+    ],
+    "actions": {
+    },
+    "properties": {
+      "Location": {
+        "aov:namespace": "http://opcfoundation.org/UA/MachineTool/",
+        "type": "string",
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/MachineTool/MachineTool_ToolChangePrognosisType/property/Location/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "ToolIdentifier": {
+        "aov:namespace": "http://opcfoundation.org/UA/MachineTool/",
+        "type": "string",
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/MachineTool/MachineTool_ToolChangePrognosisType/property/ToolIdentifier/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "ToolName": {
+        "aov:namespace": "http://opcfoundation.org/UA/MachineTool/",
+        "type": "string",
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/MachineTool/MachineTool_ToolChangePrognosisType/property/ToolName/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "ToolNodeId": {
+        "aov:namespace": "http://opcfoundation.org/UA/MachineTool/",
+        "type": "string",
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/MachineTool/MachineTool_ToolChangePrognosisType/property/ToolNodeId/read",
+            "op": "readproperty"
+          }
+        ]
+      }
+    },
+    "events": {
+      "Location": {
+        "aov:namespace": "http://opcfoundation.org/UA/MachineTool/",
+        "data": {
+          "type": "string"
+        },
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/MachineTool/MachineTool_ToolChangePrognosisType/event/Location/{senderId}",
+            "op": "subscribeevent"
+          }
+        ]
+      },
+      "ToolIdentifier": {
+        "aov:namespace": "http://opcfoundation.org/UA/MachineTool/",
+        "data": {
+          "type": "string"
+        },
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/MachineTool/MachineTool_ToolChangePrognosisType/event/ToolIdentifier/{senderId}",
+            "op": "subscribeevent"
+          }
+        ]
+      },
+      "ToolName": {
+        "aov:namespace": "http://opcfoundation.org/UA/MachineTool/",
+        "data": {
+          "type": "string"
+        },
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/MachineTool/MachineTool_ToolChangePrognosisType/event/ToolName/{senderId}",
+            "op": "subscribeevent"
+          }
+        ]
+      },
+      "ToolNodeId": {
+        "aov:namespace": "http://opcfoundation.org/UA/MachineTool/",
+        "data": {
+          "type": "string"
+        },
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/MachineTool/MachineTool_ToolChangePrognosisType/event/ToolNodeId/{senderId}",
+            "op": "subscribeevent"
+          }
+        ]
+      }
+    }
+  },
+  {
+    "@context": [
+      "https://www.w3.org/2022/wot/td/v1.1",
+      {
+        "dtv": "http://azure.com/DigitalTwins/dtmi#",
+        "aov": "http://azure.com/IoT/operations/tm#"
+      }
+    ],
+    "@type": "tm:ThingModel",
+    "title": "MachineTool_ToolLoadPrognosisType",
+    "aov:typeRef": "nsu=http://opcfoundation.org/UA/MachineTool/;i=4",
+    "aov:isComposite": true,
+    "links": [
+      {
+        "rel": "tm:extends",
+        "href": "#title=MachineTool_PrognosisType",
+        "type": "application/tm+json"
+      }
+    ],
+    "schemaDefinitions": {
+    },
+    "forms": [
+      {
+        "contentType": "application/json",
+        "dtv:topic": "opcua/MachineTool/MachineTool_ToolLoadPrognosisType/events/{senderId}",
+        "op": "subscribeallevents"
+      },
+      {
+        "contentType": "application/json",
+        "dtv:topic": "opcua/MachineTool/MachineTool_ToolLoadPrognosisType/properties/read",
+        "op": "readallproperties"
+      }
+    ],
+    "actions": {
+    },
+    "properties": {
+      "Location": {
+        "aov:namespace": "http://opcfoundation.org/UA/MachineTool/",
+        "type": "string",
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/MachineTool/MachineTool_ToolLoadPrognosisType/property/Location/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "ToolIdentifier": {
+        "aov:namespace": "http://opcfoundation.org/UA/MachineTool/",
+        "type": "string",
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/MachineTool/MachineTool_ToolLoadPrognosisType/property/ToolIdentifier/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "ToolName": {
+        "aov:namespace": "http://opcfoundation.org/UA/MachineTool/",
+        "type": "string",
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/MachineTool/MachineTool_ToolLoadPrognosisType/property/ToolName/read",
+            "op": "readproperty"
+          }
+        ]
+      }
+    },
+    "events": {
+      "Location": {
+        "aov:namespace": "http://opcfoundation.org/UA/MachineTool/",
+        "data": {
+          "type": "string"
+        },
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/MachineTool/MachineTool_ToolLoadPrognosisType/event/Location/{senderId}",
+            "op": "subscribeevent"
+          }
+        ]
+      },
+      "ToolIdentifier": {
+        "aov:namespace": "http://opcfoundation.org/UA/MachineTool/",
+        "data": {
+          "type": "string"
+        },
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/MachineTool/MachineTool_ToolLoadPrognosisType/event/ToolIdentifier/{senderId}",
+            "op": "subscribeevent"
+          }
+        ]
+      },
+      "ToolName": {
+        "aov:namespace": "http://opcfoundation.org/UA/MachineTool/",
+        "data": {
+          "type": "string"
+        },
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/MachineTool/MachineTool_ToolLoadPrognosisType/event/ToolName/{senderId}",
+            "op": "subscribeevent"
+          }
+        ]
+      }
+    }
+  },
+  {
+    "@context": [
+      "https://www.w3.org/2022/wot/td/v1.1",
+      {
+        "dtv": "http://azure.com/DigitalTwins/dtmi#",
+        "aov": "http://azure.com/IoT/operations/tm#"
+      }
+    ],
+    "@type": "tm:ThingModel",
+    "title": "MachineTool_ToolUnloadPrognosisType",
+    "aov:typeRef": "nsu=http://opcfoundation.org/UA/MachineTool/;i=18",
+    "aov:isComposite": true,
+    "links": [
+      {
+        "rel": "tm:extends",
+        "href": "#title=MachineTool_PrognosisType",
+        "type": "application/tm+json"
+      }
+    ],
+    "schemaDefinitions": {
+    },
+    "forms": [
+      {
+        "contentType": "application/json",
+        "dtv:topic": "opcua/MachineTool/MachineTool_ToolUnloadPrognosisType/events/{senderId}",
+        "op": "subscribeallevents"
+      },
+      {
+        "contentType": "application/json",
+        "dtv:topic": "opcua/MachineTool/MachineTool_ToolUnloadPrognosisType/properties/read",
+        "op": "readallproperties"
+      }
+    ],
+    "actions": {
+    },
+    "properties": {
+      "Location": {
+        "aov:namespace": "http://opcfoundation.org/UA/MachineTool/",
+        "type": "string",
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/MachineTool/MachineTool_ToolUnloadPrognosisType/property/Location/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "ToolIdentifier": {
+        "aov:namespace": "http://opcfoundation.org/UA/MachineTool/",
+        "type": "string",
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/MachineTool/MachineTool_ToolUnloadPrognosisType/property/ToolIdentifier/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "ToolName": {
+        "aov:namespace": "http://opcfoundation.org/UA/MachineTool/",
+        "type": "string",
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/MachineTool/MachineTool_ToolUnloadPrognosisType/property/ToolName/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "ToolNodeId": {
+        "aov:namespace": "http://opcfoundation.org/UA/MachineTool/",
+        "type": "string",
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/MachineTool/MachineTool_ToolUnloadPrognosisType/property/ToolNodeId/read",
+            "op": "readproperty"
+          }
+        ]
+      }
+    },
+    "events": {
+      "Location": {
+        "aov:namespace": "http://opcfoundation.org/UA/MachineTool/",
+        "data": {
+          "type": "string"
+        },
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/MachineTool/MachineTool_ToolUnloadPrognosisType/event/Location/{senderId}",
+            "op": "subscribeevent"
+          }
+        ]
+      },
+      "ToolIdentifier": {
+        "aov:namespace": "http://opcfoundation.org/UA/MachineTool/",
+        "data": {
+          "type": "string"
+        },
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/MachineTool/MachineTool_ToolUnloadPrognosisType/event/ToolIdentifier/{senderId}",
+            "op": "subscribeevent"
+          }
+        ]
+      },
+      "ToolName": {
+        "aov:namespace": "http://opcfoundation.org/UA/MachineTool/",
+        "data": {
+          "type": "string"
+        },
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/MachineTool/MachineTool_ToolUnloadPrognosisType/event/ToolName/{senderId}",
+            "op": "subscribeevent"
+          }
+        ]
+      },
+      "ToolNodeId": {
+        "aov:namespace": "http://opcfoundation.org/UA/MachineTool/",
+        "data": {
+          "type": "string"
+        },
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/MachineTool/MachineTool_ToolUnloadPrognosisType/event/ToolNodeId/{senderId}",
+            "op": "subscribeevent"
+          }
+        ]
+      }
+    }
+  },
+  {
+    "@context": [
+      "https://www.w3.org/2022/wot/td/v1.1",
+      {
+        "dtv": "http://azure.com/DigitalTwins/dtmi#",
+        "aov": "http://azure.com/IoT/operations/tm#"
+      }
+    ],
+    "@type": "tm:ThingModel",
+    "title": "MachineTool_UtilityChangePrognosisType",
+    "aov:typeRef": "nsu=http://opcfoundation.org/UA/MachineTool/;i=6",
+    "aov:isComposite": true,
+    "links": [
+      {
+        "rel": "tm:extends",
+        "href": "#title=MachineTool_PrognosisType",
+        "type": "application/tm+json"
+      }
+    ],
+    "schemaDefinitions": {
+    },
+    "forms": [
+      {
+        "contentType": "application/json",
+        "dtv:topic": "opcua/MachineTool/MachineTool_UtilityChangePrognosisType/events/{senderId}",
+        "op": "subscribeallevents"
+      },
+      {
+        "contentType": "application/json",
+        "dtv:topic": "opcua/MachineTool/MachineTool_UtilityChangePrognosisType/properties/read",
+        "op": "readallproperties"
+      }
+    ],
+    "actions": {
+    },
+    "properties": {
+      "UtilityName": {
+        "aov:namespace": "http://opcfoundation.org/UA/MachineTool/",
+        "type": "string",
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/MachineTool/MachineTool_UtilityChangePrognosisType/property/UtilityName/read",
+            "op": "readproperty"
+          }
+        ]
+      }
+    },
+    "events": {
+      "UtilityName": {
+        "aov:namespace": "http://opcfoundation.org/UA/MachineTool/",
+        "data": {
+          "type": "string"
+        },
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/MachineTool/MachineTool_UtilityChangePrognosisType/event/UtilityName/{senderId}",
+            "op": "subscribeevent"
+          }
+        ]
+      }
+    }
+  },
+  {
+    "@context": [
+      "https://www.w3.org/2022/wot/td/v1.1",
+      {
+        "dtv": "http://azure.com/DigitalTwins/dtmi#",
+        "aov": "http://azure.com/IoT/operations/tm#"
+      }
+    ],
+    "@type": "tm:ThingModel",
+    "title": "MachineTool_SoftwareIdentificationType",
+    "aov:typeRef": "nsu=http://opcfoundation.org/UA/MachineTool/;i=43",
+    "links": [
+      {
+        "rel": "tm:extends",
+        "href": "./OpcUaCore.TM.json#title=OpcUaCore_BaseObjectType",
+        "type": "application/tm+json"
+      }
+    ],
+    "schemaDefinitions": {
+    },
+    "forms": [
+      {
+        "contentType": "application/json",
+        "dtv:topic": "opcua/MachineTool/MachineTool_SoftwareIdentificationType/properties/read",
+        "op": "readallproperties"
+      }
+    ],
+    "actions": {
+    },
+    "properties": {
+      "Identifier": {
+        "aov:namespace": "http://opcfoundation.org/UA/MachineTool/",
+        "type": "string",
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/MachineTool/MachineTool_SoftwareIdentificationType/property/Identifier/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "Manufacturer": {
+        "aov:namespace": "http://opcfoundation.org/UA/DI/",
+        "type": "string",
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/MachineTool/MachineTool_SoftwareIdentificationType/property/Manufacturer/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "SoftwareRevision": {
+        "aov:namespace": "http://opcfoundation.org/UA/DI/",
+        "type": "string",
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/MachineTool/MachineTool_SoftwareIdentificationType/property/SoftwareRevision/read",
+            "op": "readproperty"
+          }
+        ]
+      }
+    },
+    "events": {
+    }
+  },
+  {
+    "@context": [
+      "https://www.w3.org/2022/wot/td/v1.1",
+      {
+        "dtv": "http://azure.com/DigitalTwins/dtmi#",
+        "aov": "http://azure.com/IoT/operations/tm#"
+      }
+    ],
+    "@type": "tm:ThingModel",
+    "title": "MachineTool_MachineOperationModeStateMachineType",
+    "aov:typeRef": "nsu=http://opcfoundation.org/UA/MachineTool/;i=1003",
+    "links": [
+      {
+        "rel": "tm:extends",
+        "href": "./Machinery.TM.json#title=Machinery_MachineryOperationModeStateMachineType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "aov:reference",
+        "aov:refName": "FromMaintenanceToMaintenance",
+        "href": "./OpcUaCore.TM.json#title=OpcUaCore_TransitionType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "aov:reference",
+        "aov:refName": "FromMaintenanceToNone",
+        "href": "./OpcUaCore.TM.json#title=OpcUaCore_TransitionType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "aov:reference",
+        "aov:refName": "FromMaintenanceToProcessing",
+        "href": "./OpcUaCore.TM.json#title=OpcUaCore_TransitionType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "aov:reference",
+        "aov:refName": "FromMaintenanceToSetup",
+        "href": "./OpcUaCore.TM.json#title=OpcUaCore_TransitionType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "aov:reference",
+        "aov:refName": "FromNoneToMaintenance",
+        "href": "./OpcUaCore.TM.json#title=OpcUaCore_TransitionType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "aov:reference",
+        "aov:refName": "FromNoneToNone",
+        "href": "./OpcUaCore.TM.json#title=OpcUaCore_TransitionType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "aov:reference",
+        "aov:refName": "FromNoneToProcessing",
+        "href": "./OpcUaCore.TM.json#title=OpcUaCore_TransitionType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "aov:reference",
+        "aov:refName": "FromNoneToSetup",
+        "href": "./OpcUaCore.TM.json#title=OpcUaCore_TransitionType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "aov:reference",
+        "aov:refName": "FromProcessingToMaintenance",
+        "href": "./OpcUaCore.TM.json#title=OpcUaCore_TransitionType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "aov:reference",
+        "aov:refName": "FromProcessingToNone",
+        "href": "./OpcUaCore.TM.json#title=OpcUaCore_TransitionType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "aov:reference",
+        "aov:refName": "FromProcessingToProcessing",
+        "href": "./OpcUaCore.TM.json#title=OpcUaCore_TransitionType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "aov:reference",
+        "aov:refName": "FromProcessingToSetup",
+        "href": "./OpcUaCore.TM.json#title=OpcUaCore_TransitionType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "aov:reference",
+        "aov:refName": "FromSetupToMaintenance",
+        "href": "./OpcUaCore.TM.json#title=OpcUaCore_TransitionType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "aov:reference",
+        "aov:refName": "FromSetupToNone",
+        "href": "./OpcUaCore.TM.json#title=OpcUaCore_TransitionType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "aov:reference",
+        "aov:refName": "FromSetupToProcessing",
+        "href": "./OpcUaCore.TM.json#title=OpcUaCore_TransitionType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "aov:reference",
+        "aov:refName": "FromSetupToSetup",
+        "href": "./OpcUaCore.TM.json#title=OpcUaCore_TransitionType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "aov:reference",
+        "aov:refName": "Maintenance",
+        "href": "./OpcUaCore.TM.json#title=OpcUaCore_StateType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "aov:capability",
+        "aov:refName": "MaintenanceMode",
+        "href": "#title=MachineTool_MaintenanceModeStateMachineType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "aov:reference",
+        "aov:refName": "None",
+        "href": "./OpcUaCore.TM.json#title=OpcUaCore_StateType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "aov:reference",
+        "aov:refName": "Processing",
+        "href": "./OpcUaCore.TM.json#title=OpcUaCore_StateType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "aov:reference",
+        "aov:refName": "Setup",
+        "href": "./OpcUaCore.TM.json#title=OpcUaCore_StateType",
+        "type": "application/tm+json"
+      }
+    ],
+    "schemaDefinitions": {
+    },
+    "forms": [
+      {
+        "contentType": "application/json",
+        "dtv:topic": "opcua/MachineTool/MachineTool_MachineOperationModeStateMachineType/properties/write",
+        "op": "writemultipleproperties"
+      },
+      {
+        "contentType": "application/json",
+        "dtv:topic": "opcua/MachineTool/MachineTool_MachineOperationModeStateMachineType/properties/read",
+        "op": "readallproperties"
+      }
+    ],
+    "actions": {
+    },
+    "properties": {
+      "DefaultInstanceBrowseName": {
+        "description": "The default BrowseName for instances of the type",
+        "type": "string",
+        "readOnly": false,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/MachineTool/MachineTool_MachineOperationModeStateMachineType/property/DefaultInstanceBrowseName/write",
+            "op": "writeproperty"
+          },
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/MachineTool/MachineTool_MachineOperationModeStateMachineType/property/DefaultInstanceBrowseName/read",
+            "op": "readproperty"
+          }
+        ]
+      }
+    },
+    "events": {
+    }
+  },
+  {
+    "@context": [
+      "https://www.w3.org/2022/wot/td/v1.1",
+      {
+        "dtv": "http://azure.com/DigitalTwins/dtmi#",
+        "aov": "http://azure.com/IoT/operations/tm#"
+      }
+    ],
+    "@type": "tm:ThingModel",
+    "title": "MachineTool_MaintenanceModeStateMachineType",
+    "aov:typeRef": "nsu=http://opcfoundation.org/UA/MachineTool/;i=1004",
+    "links": [
+      {
+        "rel": "tm:extends",
+        "href": "./OpcUaCore.TM.json#title=OpcUaCore_FiniteStateMachineType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "aov:reference",
+        "aov:refName": "Inspection",
+        "href": "./OpcUaCore.TM.json#title=OpcUaCore_StateType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "aov:reference",
+        "aov:refName": "Other",
+        "href": "./OpcUaCore.TM.json#title=OpcUaCore_StateType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "aov:reference",
+        "aov:refName": "Repair",
+        "href": "./OpcUaCore.TM.json#title=OpcUaCore_StateType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "aov:reference",
+        "aov:refName": "Service",
+        "href": "./OpcUaCore.TM.json#title=OpcUaCore_StateType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "aov:reference",
+        "aov:refName": "Upgrade",
+        "href": "./OpcUaCore.TM.json#title=OpcUaCore_StateType",
+        "type": "application/tm+json"
+      }
+    ],
+    "schemaDefinitions": {
+    },
+    "actions": {
+    },
+    "properties": {
+    },
+    "events": {
+    }
+  },
+  {
+    "@context": [
+      "https://www.w3.org/2022/wot/td/v1.1",
+      {
+        "dtv": "http://azure.com/DigitalTwins/dtmi#",
+        "aov": "http://azure.com/IoT/operations/tm#"
+      }
+    ],
+    "@type": "tm:ThingModel",
+    "title": "MachineTool_ProductionStateMachineType",
+    "aov:typeRef": "nsu=http://opcfoundation.org/UA/MachineTool/;i=24",
+    "aov:isComposite": true,
+    "links": [
+      {
+        "rel": "tm:extends",
+        "href": "./OpcUaCore.TM.json#title=OpcUaCore_FiniteStateMachineType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "aov:reference",
+        "aov:refName": "Aborted",
+        "href": "./OpcUaCore.TM.json#title=OpcUaCore_StateType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "aov:reference",
+        "aov:refName": "AbortedToInitializing",
+        "href": "./OpcUaCore.TM.json#title=OpcUaCore_TransitionType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "aov:reference",
+        "aov:refName": "Ended",
+        "href": "./OpcUaCore.TM.json#title=OpcUaCore_StateType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "aov:reference",
+        "aov:refName": "EndedToInitializing",
+        "href": "./OpcUaCore.TM.json#title=OpcUaCore_TransitionType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "aov:reference",
+        "aov:refName": "Initializing",
+        "href": "./OpcUaCore.TM.json#title=OpcUaCore_InitialStateType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "aov:reference",
+        "aov:refName": "InitializingToAborted",
+        "href": "./OpcUaCore.TM.json#title=OpcUaCore_TransitionType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "aov:reference",
+        "aov:refName": "InitializingToRunning",
+        "href": "./OpcUaCore.TM.json#title=OpcUaCore_TransitionType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "aov:reference",
+        "aov:refName": "Interrupted",
+        "href": "./OpcUaCore.TM.json#title=OpcUaCore_StateType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "aov:reference",
+        "aov:refName": "InterruptedToAborted",
+        "href": "./OpcUaCore.TM.json#title=OpcUaCore_TransitionType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "aov:reference",
+        "aov:refName": "InterruptedToRunning",
+        "href": "./OpcUaCore.TM.json#title=OpcUaCore_TransitionType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "aov:reference",
+        "aov:refName": "Running",
+        "href": "./OpcUaCore.TM.json#title=OpcUaCore_StateType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "aov:reference",
+        "aov:refName": "RunningToAborted",
+        "href": "./OpcUaCore.TM.json#title=OpcUaCore_TransitionType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "aov:reference",
+        "aov:refName": "RunningToEnded",
+        "href": "./OpcUaCore.TM.json#title=OpcUaCore_TransitionType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "aov:reference",
+        "aov:refName": "RunningToInterrupted",
+        "href": "./OpcUaCore.TM.json#title=OpcUaCore_TransitionType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "aov:reference",
+        "aov:refName": "RunningToRunning",
+        "href": "./OpcUaCore.TM.json#title=OpcUaCore_TransitionType",
+        "type": "application/tm+json"
+      }
+    ],
+    "schemaDefinitions": {
+    },
+    "forms": [
+      {
+        "contentType": "application/json",
+        "dtv:topic": "opcua/MachineTool/MachineTool_ProductionStateMachineType/events/{senderId}",
+        "op": "subscribeallevents"
+      },
+      {
+        "contentType": "application/json",
+        "dtv:topic": "opcua/MachineTool/MachineTool_ProductionStateMachineType/properties/read",
+        "op": "readallproperties"
+      }
+    ],
+    "actions": {
+    },
+    "properties": {
+      "CurrentState": {
+        "type": "string",
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/MachineTool/MachineTool_ProductionStateMachineType/property/CurrentState/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "LastTransition": {
+        "type": "string",
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/MachineTool/MachineTool_ProductionStateMachineType/property/LastTransition/read",
+            "op": "readproperty"
+          }
+        ]
+      }
+    },
+    "events": {
+      "CurrentState": {
+        "data": {
+          "type": "string"
+        },
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/MachineTool/MachineTool_ProductionStateMachineType/event/CurrentState/{senderId}",
+            "op": "subscribeevent"
+          }
+        ]
+      },
+      "LastTransition": {
+        "data": {
+          "type": "string"
+        },
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/MachineTool/MachineTool_ProductionStateMachineType/event/LastTransition/{senderId}",
+            "op": "subscribeevent"
+          }
+        ]
+      }
+    }
+  },
+  {
+    "@context": [
+      "https://www.w3.org/2022/wot/td/v1.1",
+      {
+        "dtv": "http://azure.com/DigitalTwins/dtmi#",
+        "aov": "http://azure.com/IoT/operations/tm#"
+      }
+    ],
+    "@type": "tm:ThingModel",
+    "title": "MachineTool_ProductionJobStateMachineType",
+    "aov:typeRef": "nsu=http://opcfoundation.org/UA/MachineTool/;i=28",
+    "links": [
+      {
+        "rel": "tm:extends",
+        "href": "#title=MachineTool_ProductionStateMachineType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "aov:reference",
+        "aov:refName": "Aborted",
+        "href": "./OpcUaCore.TM.json#title=OpcUaCore_StateType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "aov:reference",
+        "aov:refName": "AbortedToInitializing",
+        "href": "./OpcUaCore.TM.json#title=OpcUaCore_TransitionType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "aov:reference",
+        "aov:refName": "Ended",
+        "href": "./OpcUaCore.TM.json#title=OpcUaCore_StateType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "aov:reference",
+        "aov:refName": "EndedToInitializing",
+        "href": "./OpcUaCore.TM.json#title=OpcUaCore_TransitionType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "aov:reference",
+        "aov:refName": "Initializing",
+        "href": "./OpcUaCore.TM.json#title=OpcUaCore_InitialStateType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "aov:reference",
+        "aov:refName": "InitializingToAborted",
+        "href": "./OpcUaCore.TM.json#title=OpcUaCore_TransitionType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "aov:reference",
+        "aov:refName": "InitializingToRunning",
+        "href": "./OpcUaCore.TM.json#title=OpcUaCore_TransitionType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "aov:reference",
+        "aov:refName": "Interrupted",
+        "href": "./OpcUaCore.TM.json#title=OpcUaCore_StateType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "aov:reference",
+        "aov:refName": "InterruptedToAborted",
+        "href": "./OpcUaCore.TM.json#title=OpcUaCore_TransitionType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "aov:reference",
+        "aov:refName": "InterruptedToRunning",
+        "href": "./OpcUaCore.TM.json#title=OpcUaCore_TransitionType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "aov:reference",
+        "aov:refName": "Running",
+        "href": "./OpcUaCore.TM.json#title=OpcUaCore_StateType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "aov:reference",
+        "aov:refName": "RunningToAborted",
+        "href": "./OpcUaCore.TM.json#title=OpcUaCore_TransitionType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "aov:reference",
+        "aov:refName": "RunningToEnded",
+        "href": "./OpcUaCore.TM.json#title=OpcUaCore_TransitionType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "aov:reference",
+        "aov:refName": "RunningToInterrupted",
+        "href": "./OpcUaCore.TM.json#title=OpcUaCore_TransitionType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "aov:reference",
+        "aov:refName": "RunningToRunning",
+        "href": "./OpcUaCore.TM.json#title=OpcUaCore_TransitionType",
+        "type": "application/tm+json"
+      }
+    ],
+    "schemaDefinitions": {
+    },
+    "actions": {
+    },
+    "properties": {
+    },
+    "events": {
+    }
+  },
+  {
+    "@context": [
+      "https://www.w3.org/2022/wot/td/v1.1",
+      {
+        "dtv": "http://azure.com/DigitalTwins/dtmi#",
+        "aov": "http://azure.com/IoT/operations/tm#"
+      }
+    ],
+    "@type": "tm:ThingModel",
+    "title": "MachineTool_ProductionPartStateMachineType",
+    "aov:typeRef": "nsu=http://opcfoundation.org/UA/MachineTool/;i=40",
+    "links": [
+      {
+        "rel": "tm:extends",
+        "href": "#title=MachineTool_ProductionStateMachineType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "aov:reference",
+        "aov:refName": "Aborted",
+        "href": "./OpcUaCore.TM.json#title=OpcUaCore_StateType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "aov:reference",
+        "aov:refName": "AbortedToInitializing",
+        "href": "./OpcUaCore.TM.json#title=OpcUaCore_TransitionType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "aov:reference",
+        "aov:refName": "Ended",
+        "href": "./OpcUaCore.TM.json#title=OpcUaCore_StateType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "aov:reference",
+        "aov:refName": "EndedToInitializing",
+        "href": "./OpcUaCore.TM.json#title=OpcUaCore_TransitionType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "aov:reference",
+        "aov:refName": "Initializing",
+        "href": "./OpcUaCore.TM.json#title=OpcUaCore_InitialStateType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "aov:reference",
+        "aov:refName": "InitializingToAborted",
+        "href": "./OpcUaCore.TM.json#title=OpcUaCore_TransitionType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "aov:reference",
+        "aov:refName": "InitializingToRunning",
+        "href": "./OpcUaCore.TM.json#title=OpcUaCore_TransitionType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "aov:reference",
+        "aov:refName": "Interrupted",
+        "href": "./OpcUaCore.TM.json#title=OpcUaCore_StateType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "aov:reference",
+        "aov:refName": "InterruptedToAborted",
+        "href": "./OpcUaCore.TM.json#title=OpcUaCore_TransitionType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "aov:reference",
+        "aov:refName": "InterruptedToRunning",
+        "href": "./OpcUaCore.TM.json#title=OpcUaCore_TransitionType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "aov:reference",
+        "aov:refName": "Running",
+        "href": "./OpcUaCore.TM.json#title=OpcUaCore_StateType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "aov:reference",
+        "aov:refName": "RunningToAborted",
+        "href": "./OpcUaCore.TM.json#title=OpcUaCore_TransitionType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "aov:reference",
+        "aov:refName": "RunningToEnded",
+        "href": "./OpcUaCore.TM.json#title=OpcUaCore_TransitionType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "aov:reference",
+        "aov:refName": "RunningToInterrupted",
+        "href": "./OpcUaCore.TM.json#title=OpcUaCore_TransitionType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "aov:reference",
+        "aov:refName": "RunningToRunning",
+        "href": "./OpcUaCore.TM.json#title=OpcUaCore_TransitionType",
+        "type": "application/tm+json"
+      }
+    ],
+    "schemaDefinitions": {
+    },
+    "actions": {
+    },
+    "properties": {
+    },
+    "events": {
+    }
+  },
+  {
+    "@context": [
+      "https://www.w3.org/2022/wot/td/v1.1",
+      {
+        "dtv": "http://azure.com/DigitalTwins/dtmi#",
+        "aov": "http://azure.com/IoT/operations/tm#"
+      }
+    ],
+    "@type": "tm:ThingModel",
+    "title": "MachineTool_ProductionProgramStateMachineType",
+    "aov:typeRef": "nsu=http://opcfoundation.org/UA/MachineTool/;i=15",
+    "links": [
+      {
+        "rel": "tm:extends",
+        "href": "#title=MachineTool_ProductionStateMachineType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "aov:reference",
+        "aov:refName": "Aborted",
+        "href": "./OpcUaCore.TM.json#title=OpcUaCore_StateType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "aov:reference",
+        "aov:refName": "AbortedToInitializing",
+        "href": "./OpcUaCore.TM.json#title=OpcUaCore_TransitionType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "aov:reference",
+        "aov:refName": "Ended",
+        "href": "./OpcUaCore.TM.json#title=OpcUaCore_StateType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "aov:reference",
+        "aov:refName": "EndedToInitializing",
+        "href": "./OpcUaCore.TM.json#title=OpcUaCore_TransitionType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "aov:reference",
+        "aov:refName": "Initializing",
+        "href": "./OpcUaCore.TM.json#title=OpcUaCore_InitialStateType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "aov:reference",
+        "aov:refName": "InitializingToAborted",
+        "href": "./OpcUaCore.TM.json#title=OpcUaCore_TransitionType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "aov:reference",
+        "aov:refName": "InitializingToRunning",
+        "href": "./OpcUaCore.TM.json#title=OpcUaCore_TransitionType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "aov:reference",
+        "aov:refName": "Interrupted",
+        "href": "./OpcUaCore.TM.json#title=OpcUaCore_StateType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "aov:reference",
+        "aov:refName": "InterruptedToAborted",
+        "href": "./OpcUaCore.TM.json#title=OpcUaCore_TransitionType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "aov:reference",
+        "aov:refName": "InterruptedToRunning",
+        "href": "./OpcUaCore.TM.json#title=OpcUaCore_TransitionType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "aov:reference",
+        "aov:refName": "Running",
+        "href": "./OpcUaCore.TM.json#title=OpcUaCore_StateType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "aov:reference",
+        "aov:refName": "RunningToAborted",
+        "href": "./OpcUaCore.TM.json#title=OpcUaCore_TransitionType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "aov:reference",
+        "aov:refName": "RunningToEnded",
+        "href": "./OpcUaCore.TM.json#title=OpcUaCore_TransitionType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "aov:reference",
+        "aov:refName": "RunningToInterrupted",
+        "href": "./OpcUaCore.TM.json#title=OpcUaCore_TransitionType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "aov:reference",
+        "aov:refName": "RunningToRunning",
+        "href": "./OpcUaCore.TM.json#title=OpcUaCore_TransitionType",
+        "type": "application/tm+json"
+      }
+    ],
+    "schemaDefinitions": {
+    },
+    "actions": {
+    },
+    "properties": {
+    },
+    "events": {
+    }
+  },
+  {
+    "@context": [
+      "https://www.w3.org/2022/wot/td/v1.1",
+      {
+        "dtv": "http://azure.com/DigitalTwins/dtmi#",
+        "aov": "http://azure.com/IoT/operations/tm#"
+      }
+    ],
+    "@type": "tm:ThingModel",
+    "title": "MachineTool_ToolListType",
+    "aov:typeRef": "nsu=http://opcfoundation.org/UA/MachineTool/;i=44",
+    "links": [
+      {
+        "rel": "tm:extends",
+        "href": "./OpcUaCore.TM.json#title=OpcUaCore_BaseObjectType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "aov:component",
+        "aov:refName": "Tool",
+        "href": "#title=MachineTool_BaseToolType",
+        "type": "application/tm+json"
+      }
+    ],
+    "schemaDefinitions": {
+    },
+    "forms": [
+      {
+        "contentType": "application/json",
+        "dtv:topic": "opcua/MachineTool/MachineTool_ToolListType/properties/read",
+        "op": "readallproperties"
+      }
+    ],
+    "actions": {
+    },
+    "properties": {
+      "NodeVersion": {
+        "type": "string",
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/MachineTool/MachineTool_ToolListType/property/NodeVersion/read",
+            "op": "readproperty"
+          }
+        ]
+      }
+    },
+    "events": {
+    }
+  }
+]

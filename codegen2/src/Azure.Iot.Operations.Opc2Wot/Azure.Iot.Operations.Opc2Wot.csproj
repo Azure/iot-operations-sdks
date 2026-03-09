@@ -1,0 +1,19 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <TargetFramework>net9.0</TargetFramework>
+    <Nullable>enable</Nullable>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="System.CommandLine" Version="2.0.2" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Azure.Iot.Operations.CodeGeneration\Azure.Iot.Operations.CodeGeneration.csproj" />
+    <ProjectReference Include="..\Azure.Iot.Operations.Opc2WotLib\Azure.Iot.Operations.Opc2WotLib.csproj" />
+    <ProjectReference Include="..\Azure.Iot.Operations.TDParser\Azure.Iot.Operations.TDParser.csproj" />
+  </ItemGroup>
+
+</Project>

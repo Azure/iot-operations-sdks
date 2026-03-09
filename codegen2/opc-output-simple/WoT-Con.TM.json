@@ -1,0 +1,357 @@
+[
+  {
+    "@context": [
+      "https://www.w3.org/2022/wot/td/v1.1",
+      {
+        "dtv": "http://azure.com/DigitalTwins/dtmi#",
+        "aov": "http://azure.com/IoT/operations/tm#"
+      }
+    ],
+    "@type": "tm:ThingModel",
+    "title": "WoT_Con_WoTAssetConnectionManagementType",
+    "aov:typeRef": "nsu=http://opcfoundation.org/UA/WoT-Con/;i=1",
+    "links": [
+      {
+        "rel": "tm:extends",
+        "href": "./OpcUaCore.TM.json#title=OpcUaCore_BaseObjectType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "aov:reference",
+        "aov:refName": "Configuration",
+        "href": "#title=WoT_Con_WoTAssetConfigurationType",
+        "type": "application/tm+json"
+      }
+    ],
+    "schemaDefinitions": {
+    },
+    "forms": [
+      {
+        "contentType": "application/json",
+        "dtv:topic": "opcua/WoT-Con/WoT_Con_WoTAssetConnectionManagementType/properties/read",
+        "op": "readallproperties"
+      }
+    ],
+    "actions": {
+      "ConnectionTest": {
+        "aov:namespace": "http://opcfoundation.org/UA/WoT-Con/",
+        "input": {
+          "type": "object",
+          "aov:typeRef": "nsu=http://opcfoundation.org/UA/WoT-Con/;i=76",
+          "required": [ "AssetEndpoint" ],
+          "properties": {
+            "AssetEndpoint": {
+              "type": "string"
+            }
+          }
+        },
+        "output": {
+          "type": "object",
+          "aov:typeRef": "nsu=http://opcfoundation.org/UA/WoT-Con/;i=77",
+          "required": [ "Success", "Status" ],
+          "properties": {
+            "Success": {
+              "type": "boolean"
+            },
+            "Status": {
+              "type": "string"
+            }
+          }
+        },
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/WoT-Con/WoT_Con_WoTAssetConnectionManagementType/action/ConnectionTest",
+            "op": "invokeaction"
+          }
+        ]
+      },
+      "CreateAsset": {
+        "aov:namespace": "http://opcfoundation.org/UA/WoT-Con/",
+        "input": {
+          "type": "object",
+          "aov:typeRef": "nsu=http://opcfoundation.org/UA/WoT-Con/;i=27",
+          "required": [ "AssetName" ],
+          "properties": {
+            "AssetName": {
+              "type": "string"
+            }
+          }
+        },
+        "output": {
+          "type": "object",
+          "aov:typeRef": "nsu=http://opcfoundation.org/UA/WoT-Con/;i=28",
+          "required": [ "AssetId" ],
+          "properties": {
+            "AssetId": {
+              "type": "string"
+            }
+          }
+        },
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/WoT-Con/WoT_Con_WoTAssetConnectionManagementType/action/CreateAsset",
+            "op": "invokeaction"
+          }
+        ]
+      },
+      "CreateAssetForEndpoint": {
+        "aov:namespace": "http://opcfoundation.org/UA/WoT-Con/",
+        "input": {
+          "type": "object",
+          "aov:typeRef": "nsu=http://opcfoundation.org/UA/WoT-Con/;i=50",
+          "required": [ "AssetName", "AssetEndpoint" ],
+          "properties": {
+            "AssetName": {
+              "type": "string"
+            },
+            "AssetEndpoint": {
+              "type": "string"
+            }
+          }
+        },
+        "output": {
+          "type": "object",
+          "aov:typeRef": "nsu=http://opcfoundation.org/UA/WoT-Con/;i=170",
+          "required": [ "AssetId" ],
+          "properties": {
+            "AssetId": {
+              "type": "string"
+            }
+          }
+        },
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/WoT-Con/WoT_Con_WoTAssetConnectionManagementType/action/CreateAssetForEndpoint",
+            "op": "invokeaction"
+          }
+        ]
+      },
+      "DeleteAsset": {
+        "aov:namespace": "http://opcfoundation.org/UA/WoT-Con/",
+        "input": {
+          "type": "object",
+          "aov:typeRef": "nsu=http://opcfoundation.org/UA/WoT-Con/;i=30",
+          "required": [ "AssetId" ],
+          "properties": {
+            "AssetId": {
+              "type": "string"
+            }
+          }
+        },
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/WoT-Con/WoT_Con_WoTAssetConnectionManagementType/action/DeleteAsset",
+            "op": "invokeaction"
+          }
+        ]
+      },
+      "DiscoverAssets": {
+        "aov:namespace": "http://opcfoundation.org/UA/WoT-Con/",
+        "output": {
+          "type": "object",
+          "aov:typeRef": "nsu=http://opcfoundation.org/UA/WoT-Con/;i=48",
+          "required": [ "AssetEndpoints" ],
+          "properties": {
+            "AssetEndpoints": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            }
+          }
+        },
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/WoT-Con/WoT_Con_WoTAssetConnectionManagementType/action/DiscoverAssets",
+            "op": "invokeaction"
+          }
+        ]
+      }
+    },
+    "properties": {
+      "SupportedWoTBindings": {
+        "aov:namespace": "http://opcfoundation.org/UA/WoT-Con/",
+        "type": "array",
+        "items": {
+          "type": "string"
+        },
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/WoT-Con/WoT_Con_WoTAssetConnectionManagementType/property/SupportedWoTBindings/read",
+            "op": "readproperty"
+          }
+        ]
+      }
+    },
+    "events": {
+    }
+  },
+  {
+    "@context": [
+      "https://www.w3.org/2022/wot/td/v1.1",
+      {
+        "dtv": "http://azure.com/DigitalTwins/dtmi#",
+        "aov": "http://azure.com/IoT/operations/tm#"
+      }
+    ],
+    "@type": "tm:ThingModel",
+    "title": "WoT_Con_WoTAssetConfigurationType",
+    "aov:typeRef": "nsu=http://opcfoundation.org/UA/WoT-Con/;i=105",
+    "links": [
+      {
+        "rel": "tm:extends",
+        "href": "./OpcUaCore.TM.json#title=OpcUaCore_BaseInterfaceType",
+        "type": "application/tm+json"
+      }
+    ],
+    "schemaDefinitions": {
+    },
+    "forms": [
+      {
+        "contentType": "application/json",
+        "dtv:topic": "opcua/WoT-Con/WoT_Con_WoTAssetConfigurationType/properties/read",
+        "op": "readallproperties"
+      }
+    ],
+    "actions": {
+    },
+    "properties": {
+      "License": {
+        "aov:namespace": "http://opcfoundation.org/UA/WoT-Con/",
+        "type": "string",
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/WoT-Con/WoT_Con_WoTAssetConfigurationType/property/License/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "WoTConfigurationParameterName_Placeholder": {
+        "aov:namespace": "http://opcfoundation.org/UA/WoT-Con/",
+        "description": "Stand-in for an unspecified data type.",
+        "type": "string",
+        "readOnly": true,
+        "dtv:placeholder": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/WoT-Con/WoT_Con_WoTAssetConfigurationType/property/WoTConfigurationParameterName_Placeholder/read",
+            "op": "readproperty"
+          }
+        ]
+      }
+    },
+    "events": {
+    }
+  },
+  {
+    "@context": [
+      "https://www.w3.org/2022/wot/td/v1.1",
+      {
+        "dtv": "http://azure.com/DigitalTwins/dtmi#",
+        "aov": "http://azure.com/IoT/operations/tm#"
+      }
+    ],
+    "@type": "tm:ThingModel",
+    "title": "WoT_Con_IWoTAssetType",
+    "aov:typeRef": "nsu=http://opcfoundation.org/UA/WoT-Con/;i=42",
+    "links": [
+      {
+        "rel": "tm:extends",
+        "href": "./OpcUaCore.TM.json#title=OpcUaCore_BaseInterfaceType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "aov:component",
+        "aov:refName": "WoTFile",
+        "href": "#title=WoT_Con_WoTAssetFileType",
+        "type": "application/tm+json"
+      }
+    ],
+    "schemaDefinitions": {
+    },
+    "forms": [
+      {
+        "contentType": "application/json",
+        "dtv:topic": "opcua/WoT-Con/WoT_Con_IWoTAssetType/properties/read",
+        "op": "readallproperties"
+      }
+    ],
+    "actions": {
+    },
+    "properties": {
+      "AssetEndpoint": {
+        "aov:namespace": "http://opcfoundation.org/UA/WoT-Con/",
+        "type": "string",
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/WoT-Con/WoT_Con_IWoTAssetType/property/AssetEndpoint/read",
+            "op": "readproperty"
+          }
+        ]
+      }
+    },
+    "events": {
+    }
+  },
+  {
+    "@context": [
+      "https://www.w3.org/2022/wot/td/v1.1",
+      {
+        "dtv": "http://azure.com/DigitalTwins/dtmi#",
+        "aov": "http://azure.com/IoT/operations/tm#"
+      }
+    ],
+    "@type": "tm:ThingModel",
+    "title": "WoT_Con_WoTAssetFileType",
+    "aov:typeRef": "nsu=http://opcfoundation.org/UA/WoT-Con/;i=110",
+    "links": [
+      {
+        "rel": "tm:extends",
+        "href": "./OpcUaCore.TM.json#title=OpcUaCore_FileType",
+        "type": "application/tm+json"
+      }
+    ],
+    "schemaDefinitions": {
+    },
+    "actions": {
+      "CloseAndUpdate": {
+        "aov:namespace": "http://opcfoundation.org/UA/WoT-Con/",
+        "input": {
+          "type": "object",
+          "aov:typeRef": "nsu=http://opcfoundation.org/UA/WoT-Con/;i=112",
+          "required": [ "FileHandle" ],
+          "properties": {
+            "FileHandle": {
+              "type": "integer",
+              "minimum": 0,
+              "maximum": 4294967295
+            }
+          }
+        },
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/WoT-Con/WoT_Con_WoTAssetFileType/action/CloseAndUpdate",
+            "op": "invokeaction"
+          }
+        ]
+      }
+    },
+    "properties": {
+    },
+    "events": {
+    }
+  }
+]

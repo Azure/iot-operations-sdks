@@ -1,0 +1,13 @@
+<#@ template language="C#" linePragmas="false" #>
+<#@ import namespace="System.Collections.Generic" #>
+<#@ import namespace="System.Linq" #>
+<#@ import namespace="DTDLParser.Models" #>
+<# // Copyright (c) Microsoft Corporation. #>
+<# // Licensed under the MIT License #>
+[
+<# this.PushIndent("  "); #>
+<# int ix = 1; foreach (var interfaceThingTransform in this.interfaceThingTransforms) { #>
+<#=interfaceThingTransform.TransformText()#><#=ix < this.interfaceThingTransforms.Count ? "," : ""#>
+<# ix++; } #>
+<# this.PopIndent(); #>
+]

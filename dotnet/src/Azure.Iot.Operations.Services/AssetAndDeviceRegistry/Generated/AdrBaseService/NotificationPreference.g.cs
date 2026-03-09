@@ -4,16 +4,13 @@
 
 namespace Azure.Iot.Operations.Services.AssetAndDeviceRegistry.Generated.AdrBaseService
 {
-    using System.Runtime.Serialization;
     using System.Text.Json.Serialization;
 
-    [JsonConverter(typeof(JsonStringEnumMemberConverter))]
+    [JsonConverter(typeof(JsonStringEnumConverter))]
     [System.CodeDom.Compiler.GeneratedCode("Azure.Iot.Operations.ProtocolCompilerLib", "1.0.0.0")]
     public enum NotificationPreference
     {
-        [EnumMember(Value = @"Off")]
         Off,
-        [EnumMember(Value = @"On")]
         On,
     }
 }

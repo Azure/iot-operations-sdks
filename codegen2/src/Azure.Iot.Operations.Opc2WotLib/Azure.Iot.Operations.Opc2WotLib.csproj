@@ -1,0 +1,123 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net9.0</TargetFramework>
+    <Nullable>enable</Nullable>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="System.CodeDom" Version="10.0.2" />
+    <PackageReference Include="dotNetRdf" Version="3.5.1" />
+    <PackageReference Include="VDS.Common" Version="3.0.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Update="Wot\t4\WotAction.tt">
+      <Generator>TextTemplatingFilePreprocessor</Generator>
+      <LastGenOutput>WotAction.cs</LastGenOutput>
+      <CustomToolNamespace>Azure.Iot.Operations.Opc2WotLib</CustomToolNamespace>
+    </None>
+    <None Update="Wot\t4\WotDataSchema.tt">
+      <Generator>TextTemplatingFilePreprocessor</Generator>
+      <LastGenOutput>WotDataSchema.cs</LastGenOutput>
+      <CustomToolNamespace>Azure.Iot.Operations.Opc2WotLib</CustomToolNamespace>
+    </None>
+    <None Update="Wot\t4\WotDataSchemaArray.tt">
+      <Generator>TextTemplatingFilePreprocessor</Generator>
+      <LastGenOutput>WotDataSchemaArray.cs</LastGenOutput>
+      <CustomToolNamespace>Azure.Iot.Operations.Opc2WotLib</CustomToolNamespace>
+    </None>
+    <None Update="Wot\t4\WotDataSchemaObject.tt">
+      <Generator>TextTemplatingFilePreprocessor</Generator>
+      <LastGenOutput>WotDataSchemaObject.cs</LastGenOutput>
+      <CustomToolNamespace>Azure.Iot.Operations.Opc2WotLib</CustomToolNamespace>
+    </None>
+    <None Update="Wot\t4\WotDataSchemaPrimitive.tt">
+      <Generator>TextTemplatingFilePreprocessor</Generator>
+      <LastGenOutput>WotDataSchemaPrimitive.cs</LastGenOutput>
+      <CustomToolNamespace>Azure.Iot.Operations.Opc2WotLib</CustomToolNamespace>
+    </None>
+    <None Update="Wot\t4\WotEvent.tt">
+      <Generator>TextTemplatingFilePreprocessor</Generator>
+      <LastGenOutput>WotEvent.cs</LastGenOutput>
+      <CustomToolNamespace>Azure.Iot.Operations.Opc2WotLib</CustomToolNamespace>
+    </None>
+    <None Update="Wot\t4\WotProperty.tt">
+      <Generator>TextTemplatingFilePreprocessor</Generator>
+      <LastGenOutput>WotProperty.cs</LastGenOutput>
+      <CustomToolNamespace>Azure.Iot.Operations.Opc2WotLib</CustomToolNamespace>
+    </None>
+    <None Update="Wot\t4\WotThingCollection.tt">
+      <Generator>TextTemplatingFilePreprocessor</Generator>
+      <LastGenOutput>WotThingCollection.cs</LastGenOutput>
+      <CustomToolNamespace>Azure.Iot.Operations.Opc2WotLib</CustomToolNamespace>
+    </None>
+    <None Update="Wot\t4\WotThingModel.tt">
+      <Generator>TextTemplatingFilePreprocessor</Generator>
+      <LastGenOutput>WotThingModel.cs</LastGenOutput>
+      <CustomToolNamespace>Azure.Iot.Operations.Opc2WotLib</CustomToolNamespace>
+    </None>
+  </ItemGroup>
+
+  <ItemGroup>
+    <Service Include="{508349b6-6b84-4df5-91f0-309beebad82d}" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Compile Update="Wot\t4\WotAction.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>WotAction.tt</DependentUpon>
+    </Compile>
+    <Compile Update="Wot\t4\WotDataSchema.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>WotDataSchema.tt</DependentUpon>
+    </Compile>
+    <Compile Update="Wot\t4\WotDataSchemaArray.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>WotDataSchemaArray.tt</DependentUpon>
+    </Compile>
+    <Compile Update="Wot\t4\WotDataSchemaObject.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>WotDataSchemaObject.tt</DependentUpon>
+    </Compile>
+    <Compile Update="Wot\t4\WotDataSchemaPrimitive.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>WotDataSchemaPrimitive.tt</DependentUpon>
+    </Compile>
+    <Compile Update="Wot\t4\WotEvent.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>WotEvent.tt</DependentUpon>
+    </Compile>
+    <Compile Update="Wot\t4\WotProperty.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>WotProperty.tt</DependentUpon>
+    </Compile>
+    <Compile Update="Wot\t4\WotThingCollection.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>WotThingCollection.tt</DependentUpon>
+    </Compile>
+    <Compile Update="Wot\t4\WotThingModel.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>WotThingModel.tt</DependentUpon>
+    </Compile>
+  </ItemGroup>
+
+  <ItemGroup>
+    <EmbeddedResource Include="..\..\res\conversion\LinkRelRules.json">
+      <Link>Resources\conversion\%(Filename)%(Extension)</Link>
+    </EmbeddedResource>
+    <EmbeddedResource Include="..\..\res\qudt\*.ttl">
+      <Link>Resources\qudt\%(Filename)%(Extension)</Link>
+    </EmbeddedResource>
+  </ItemGroup>
+
+</Project>

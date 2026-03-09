@@ -492,6 +492,16 @@ impl From<&DataOperationRef> for AssetRef {
     }
 }
 
+impl From<AssetRef> for azure_iot_operations_services::azure_device_registry::AssetRef {
+    fn from(asset_ref: AssetRef) -> Self {
+        azure_iot_operations_services::azure_device_registry::AssetRef {
+            name: asset_ref.name,
+            device_name: asset_ref.device_name,
+            inbound_endpoint_name: asset_ref.inbound_endpoint_name,
+        }
+    }
+}
+
 #[cfg(test)]
 mod tests {
     use super::*;

@@ -9,24 +9,11 @@ spec:
     assetId: my-rest-thermostat-asset1
     assetType: rest-thermostat-asset
   datasets:
-    - name: thermostat_status
-      dataPoints:
-        - dataSource: /api/thermostat/current
-          name: currentTemperature
-          dataPointConfiguration: |-
-           {
-              "HttpRequestMethod": "GET",
-           }
-        - dataSource: /api/thermostat/desired
-          name: desiredTemperature
-          dataPointConfiguration: |-
-           {
-              "HttpRequestMethod": "GET",
-           }
-      dataSource: /thermostat
+    - name: weather-sensor-dataset
+      dataSource: /api/sensor/env # The relative HTTP server path to GET data from
       destinations:
         - configuration:
-            topic: mqtt/machine/asset1/status
+            topic: mqtt/machine/asset1/status # The MQTT topic to forward the sampled data to
           target: Mqtt
   deviceRef:
     deviceName: my-rest-thermostat-device-name
