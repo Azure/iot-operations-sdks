@@ -15,9 +15,10 @@ namespace Azure.Iot.Operations.Opc2WotLib
         private string thingName;
         private string typeRef;
         private bool isIntegrated;
+        private bool inheritVars;
         private bool isEvent;
         private bool isComposite;
-        private List<string> baseModelRefs;
+        private HashSet<string> baseModelRefs;
         private List<LinkInfo> linkInfos;
         private List<OpcUaDataTypeEnum> dataTypeEnums;
         private List<WotAction> actions;
@@ -25,19 +26,21 @@ namespace Azure.Iot.Operations.Opc2WotLib
         private List<WotEvent> events;
         private bool areUnitsInUse;
 
-        public WotThingModel(string specName, OpcUaObjectType uaObjectType, LinkRelRuleEngine linkRelRuleEngine, bool isIntegrated)
+        public WotThingModel(string specName, OpcUaObjectType uaObjectType, LinkRelRuleEngine linkRelRuleEngine, bool isIntegrated, bool inheritVars)
         {
             this.specName = specName;
             this.thingName = WotUtil.LegalizeName(uaObjectType.DiscriminatedEffectiveName, specName);
             this.typeRef = $"nsu={uaObjectType.NodeIdNamespace};i={uaObjectType.NodeId.NodeIndex}";
             this.isIntegrated = isIntegrated;
+            this.inheritVars = inheritVars;
 
             bool isTypeDefinition = uaObjectType.DefiningModel.TypeDefinitionNodeIds.Contains(uaObjectType.NodeId);
             this.isEvent = uaObjectType.AncestorNames.Contains("OpcUaCore_BaseEventType");
             this.isComposite = !isTypeDefinition && !this.isEvent && !uaObjectType.IsAbstract;
 
             this.baseModelRefs = uaObjectType.BaseModels
-                .Select(node => GetModelRef(uaObjectType, node)).ToList();
+                .Select(node => GetModelRef(uaObjectType, node))
+                .ToHashSet();
             this.linkInfos = uaObjectType.TypeAndObjectOfReferences
                 .Where(t => t.Item1.NsIndex != 0 || t.Item1.IsComponentReference)
                 .Select(t => GetLinkInfo(uaObjectType, t.Item1, t.Item2, linkRelRuleEngine))
