@@ -30,6 +30,12 @@ namespace Azure.Iot.Operations.Connector
                     currentDeviceStatus.Config ??= new();
                     currentDeviceStatus.Config.LastTransitionTime = DateTime.UtcNow;
                     currentDeviceStatus.Config.Error = null;
+                    currentDeviceStatus.Endpoints ??= new();
+                    currentDeviceStatus.Endpoints.Inbound ??= new();
+                    currentDeviceStatus.Endpoints.Inbound[args.InboundEndpointName] = new()
+                    {
+                        Error = null,
+                    };
                     return currentDeviceStatus;
                 }, true, null, cancellationToken);
             }
@@ -79,14 +85,19 @@ namespace Azure.Iot.Operations.Connector
 
                         try
                         {
+                            string errorMessage = $"Unable to sample the device. Error message: {e.Message}";
                             await args.DeviceEndpointClient.GetAndUpdateDeviceStatusAsync((currentDeviceStatus) => {
                                 currentDeviceStatus.Config ??= new ConfigStatus();
                                 currentDeviceStatus.Config.Error =
                                     new ConfigError()
                                     {
-                                        Message = $"Unable to sample the device. Error message: {e.Message}",
+                                        Message = errorMessage,
                                     };
                                 currentDeviceStatus.Config.LastTransitionTime = DateTime.UtcNow;
+                                currentDeviceStatus.SetEndpointError(args.InboundEndpointName, new()
+                                {
+                                    Message = errorMessage,
+                                });
                                 return currentDeviceStatus;
                             }, true, null, cancellationToken);
                         }
@@ -134,14 +145,19 @@ namespace Azure.Iot.Operations.Connector
 
                         try
                         {
+                            string errorMessage = $"Unable to sample the device. Error message: {e.Message}";
                             await args.DeviceEndpointClient.GetAndUpdateDeviceStatusAsync((currentDeviceStatus) => {
                                 currentDeviceStatus.Config ??= new ConfigStatus();
                                 currentDeviceStatus.Config.Error =
                                     new ConfigError()
                                     {
-                                        Message = $"Unable to sample the device. Error message: {e.Message}",
+                                        Message = errorMessage
                                     };
                                 currentDeviceStatus.Config.LastTransitionTime = DateTime.UtcNow;
+                                currentDeviceStatus.SetEndpointError(args.InboundEndpointName, new()
+                                {
+                                    Message = errorMessage,
+                                });
                                 return currentDeviceStatus;
                             }, true, null, cancellationToken);
                         }
