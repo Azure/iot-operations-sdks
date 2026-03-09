@@ -8,7 +8,7 @@ Health Statuses will now be reported for the Inbound Endpoint, Dataset, Event, S
 
 ### Service SDK:
 
-public API:
+#### Public API:
 
 - fns to get a HealthReporterSender for each relevant component on the ADR Client. Example: `new_device_endpoint_health_reporter(&adr_client, device_ref, message_expiry, background_report_interval, cancellation_token) -> health_reporter::HealthReporterSender`
     - the `cancellation_token` should be called if the component is deleted or will no longer be used and health reporting should end.
@@ -16,7 +16,7 @@ public API:
 - on the HealthReporterSender, `pause()` - this is used to pause background reporting of the health status until a new status is reported. This must be called when the previous health status may no longer be applicable (for example, after a definition update). This function is critical to allow supporting the component to get aggregated to an "Unknown" state on the service
 - potential API: fn to report a status on all children of a device endpoint. TBD if needed at this time, or if it encourages bad practices
 
-Internal logic:
+#### Internal logic:
 
 - The health reporter maintains state of what the last reported health status from the application was (even if each event isn't reported to the service).
 - It maintains a timer between the last time a status was reported to the service. If this elapses, the last status event from the application (with an updated timestamp to now()) is reported to the service if there is a cached health status.
@@ -28,14 +28,14 @@ Internal logic:
     - if none of the first 3 scenarios caused the message to not be reported, the message is cached and reported and the timer is reset
 - If the application calls to pause background reporting, the cached status is cleared (so any new status reported will always be != and get reported). If there is no cached status, then the timer doesn't have anything to report if it lapses (implementation on this can vary). Once a new status is reported, there is now a cached status again, so background reporting can work again. On new, there's no cached status, so background reporting is off by default until the first status is reported
 
-Connector SDK:
+### Connector SDK:
 
-Fns to report the health status for the relevant components on their status reporter:
+#### Fns to report the health status for the relevant components on their status reporter:
 - `report_health_event(PartialRuntimeHealth)` - this takes the message, reason code and status, but the status reporter internally populates the timestamp and version. The version is cached and can be refreshed by calling the refresh APIs (see below). This ensures that reported health events have the correct version.
 - `pause_health_reporting()` - same as underlying component
-- `refresh_health_version()` -  updates the cached version for use in future health events. Should be called when an update is received to lock in the new version.
+- `refresh_health_version()` - updates the cached version for use in future health events. Should be called when an update is received to lock in the new version.
 - `pause_and_refresh_health_version()` - Combines the functionality of the pause and refresh APIs for convenience.
 
-Logic:
+#### Logic:
 - There is a health reporter created for each component (e.g. each dataset, stream, endpoint, and event).
 - The cancellation token for the health reporter is called if the component is deleted
