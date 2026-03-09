@@ -12,37 +12,6 @@
       "type": "application/json"
     }
   ],
-  "schemaDefinitions": {
-    "AkriServiceError": {
-      "title": "AkriServiceError",
-      "type": "object",
-      "required": [ "code", "message", "timestamp" ],
-      "dtv:errorMessage": "message",
-      "properties": {
-        "code": {
-          "description": "The error code that identifies the error.",
-          "title": "CodeSchema",
-          "type": "string",
-          "enum": [
-            "BadRequest",
-            "InternalError",
-            "KubeError",
-            "SerializationError",
-            "Unauthorized"
-          ]
-        },
-        "message": {
-          "description": "A human-readable description of the error.",
-          "type": "string"
-        },
-        "timestamp": {
-          "description": "The timestamp (in UTC) when the error occurred.",
-          "type": "string",
-          "format": "date-time"
-        }
-      }
-    }
-  },
   "actions": {
   },
   "properties": {
