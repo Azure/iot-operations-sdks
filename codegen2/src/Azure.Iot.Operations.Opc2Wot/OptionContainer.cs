@@ -18,5 +18,8 @@ namespace Azure.Iot.Operations.Opc2Wot
 
         /// <summary>Gets or sets an indication of whether to integrate all referenced Thing Models into each Thing Model collection.</summary>
         public bool Integrate { get; set; }
+
+        /// <summary>Gets or sets an indication of whether to add a 'dtv:includeInherited' property to root-level forms.</summary>
+        public bool InheritVars { get; set; }
     }
 }
