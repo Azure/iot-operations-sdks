@@ -1,0 +1,7 @@
+{
+  "success": true,
+  "commandLine": {
+    "things": [ "valid/RootFormReadAllIncludeInheritedProperty.TM.json", "valid/PropertyWithUnitDataSchemaInteger.TM.json" ],
+    "lang": "none"
+  }
+}

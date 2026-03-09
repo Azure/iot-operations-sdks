@@ -9,7 +9,7 @@
     {
       "rel": "tm:extends",
       "aov:refName": "Parent",
-      "href": "http://example.com/BasicOnOffTM",
+      "href": "../valid/ThingOneNamedMyThing.TM.json#title=MyThing",
       "type": "application/tm+json"
     }
   ],

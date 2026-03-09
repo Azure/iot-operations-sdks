@@ -24,6 +24,9 @@
         "limits": { 
           "minimum": 0
         },
+        "destinations": {
+          "supportedDestinations": ["Mqtt"]
+        },
         "fields": {
           "dataSource": {
             "input": "required",

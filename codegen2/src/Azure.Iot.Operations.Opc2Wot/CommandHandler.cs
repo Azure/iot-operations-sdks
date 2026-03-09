@@ -119,16 +119,16 @@ namespace Azure.Iot.Operations.Opc2Wot
                 return;
             }
 
-            HashSet<SerializationFormat> serializationFormats = new();
             foreach (TDThing thing in things)
             {
-                if (thingValidator.TryValidateThing(thing, serializationFormats))
+                HashSet<SerializationFormat> serializationFormats = new();
+                if (thingValidator.TryValidateThing(new NullResolvingThing(thing, errorReporter), serializationFormats))
                 {
                     errorReporter.RegisterNameOfThing(thing.Title!.Value.Value, thing.Title!.TokenIndex);
                 }
             }
 
-            thingValidator.ValidateThingCollection(things);
+            thingValidator.ValidateThingCollection(things, null);
         }
 
         private static void DisplayErrors(ErrorLog errorLog)

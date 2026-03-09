@@ -5,24 +5,27 @@ namespace Azure.Iot.Operations.SchemaGenerator
 {
     using System.Collections.Generic;
     using System.IO;
+    using System.Linq;
     using Azure.Iot.Operations.CodeGeneration;
     using Azure.Iot.Operations.TDParser;
     using Azure.Iot.Operations.TDParser.Model;
 
     public static class SchemaGenerator
     {
-        public static Dictionary<SerializationFormat, List<GeneratedItem>> GenerateSchemas(List<ParsedThing> parsedThings, string projectName, DirectoryInfo workingDir)
+        public static Dictionary<SerializationFormat, List<GeneratedItem>> GenerateSchemas(IEnumerable<IResolvingThing> resolvingThings, string projectName, DirectoryInfo workingDir)
         {
             Dictionary<string, ISchemaTemplateTransform> transforms = new();
 
-            foreach (ParsedThing parsedThing in parsedThings)
+            foreach (IResolvingThing resolvingThing in resolvingThings)
             {
+                ParsedThing parsedThing = resolvingThing.ParsedThing;
+
                 Dictionary<string, List<SchemaSpec>> schemaSpecs = new();
                 Dictionary<string, HashSet<SerializationFormat>> referencedSchemas = new();
 
-                PropertySchemaGenerator.GeneratePropertySchemas(parsedThing.ErrorReporter, parsedThing.Thing, parsedThing.DirectoryName, parsedThing.SchemaNamer, projectName, schemaSpecs, referencedSchemas);
-                ActionSchemaGenerator.GenerateActionSchemas(parsedThing.ErrorReporter, parsedThing.Thing, parsedThing.DirectoryName, parsedThing.SchemaNamer, projectName, schemaSpecs, referencedSchemas);
-                EventSchemaGenerator.GenerateEventSchemas(parsedThing.ErrorReporter, parsedThing.Thing, parsedThing.DirectoryName, parsedThing.SchemaNamer, projectName, schemaSpecs, referencedSchemas);
+                PropertySchemaGenerator.GeneratePropertySchemas(resolvingThing, projectName, schemaSpecs, referencedSchemas);
+                ActionSchemaGenerator.GenerateActionSchemas(resolvingThing, projectName, schemaSpecs, referencedSchemas);
+                EventSchemaGenerator.GenerateEventSchemas(resolvingThing, projectName, schemaSpecs, referencedSchemas);
 
                 Dictionary<string, SchemaSpec> closedSchemaSpecs = ComputeClosedSchemaSpecs(parsedThing.ErrorReporter, parsedThing.Thing, parsedThing.SchemaNamer, schemaSpecs, referencedSchemas);
 
@@ -91,7 +94,7 @@ namespace Azure.Iot.Operations.SchemaGenerator
 
             if (schemaSpec is ObjectSpec objectSpec)
             {
-                foreach (KeyValuePair<string, FieldSpec> field in objectSpec.Fields)
+                foreach (KeyValuePair<string, FieldSpec> field in objectSpec.Fields.Where(f => !f.Value.Inherited))
                 {
                     ComputeClosureOfDataSchema(errorReporter, schemaNamer, thingName, field.Value.BackupSchemaName, field.Value.Schema, schemaSpec.Format, closedSchemaSpecs);
                 }

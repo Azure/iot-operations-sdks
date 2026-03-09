@@ -10,7 +10,7 @@
     {
       "rel": "aov:typedReference",
       "aov:refType": "",
-      "href": "http://example.com/BasicOnOffTM",
+      "href": "../valid/ThingOneNamedMyThing.TM.json#title=MyThing",
       "type": "application/tm+json"
     }
   ],
