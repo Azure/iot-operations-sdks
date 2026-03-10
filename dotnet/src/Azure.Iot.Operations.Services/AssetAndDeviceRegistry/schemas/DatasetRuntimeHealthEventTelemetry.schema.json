@@ -1,0 +1,14 @@
+{
+  "$schema": "https://json-schema.org/draft-07/schema",
+  "title": "DatasetRuntimeHealthEventTelemetry",
+  "description": "Telemetry event emitted for reporting the runtime health of datasets.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [ "datasetRuntimeHealthEvent" ],
+  "properties": {
+    "datasetRuntimeHealthEvent": {
+      "description": "Telemetry event emitted for reporting the runtime health of datasets.",
+      "$ref": "DatasetRuntimeHealthEventSchema.schema.json"
+    }
+  }
+}

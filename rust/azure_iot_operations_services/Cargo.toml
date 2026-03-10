@@ -3,7 +3,7 @@
 
 [package]
 name = "azure_iot_operations_services"
-version = "1.2.0-rc4"
+version = "1.2.0"
 edition = "2024"
 license = "MIT"
 description = "Azure IoT Operations Services"
@@ -48,7 +48,6 @@ tokio.workspace = true
 tokio-util = { workspace = true, optional = true }
 data-encoding = "2.5"
 serde = { version = "1.0", features = ["derive"], optional = true }
-serde_repr = "0.1"
 serde_json = { version = "1.0.105", optional = true }
 chrono = { version = "0.4.31", features = ["serde", "alloc"], optional = true }
 iso8601-duration = { version = "0.2", features = [
