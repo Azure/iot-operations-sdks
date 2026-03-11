@@ -135,7 +135,7 @@ Each language SDK contains 3-4 parallel packages/modules with consistent functio
 /go/              - Go SDK (go.work workspace)  
 /rust/            - Rust SDK (Cargo workspace)
 /codegen/         - Protocol compiler (DTDL-based)
-/wot-codegen/        - Protocol compiler v2 (WoT Thing Model-based)
+/wot-codegen/     - Protocol compiler v2 (WoT Thing Model-based)
 /doc/             - Documentation (user-facing)
 /doc/dev/         - Developer/contributor documentation
 /eng/test/        - Cross-language testing infrastructure
