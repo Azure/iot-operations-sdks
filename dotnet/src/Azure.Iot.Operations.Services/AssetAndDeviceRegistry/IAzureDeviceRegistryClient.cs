@@ -160,6 +160,89 @@ public interface IAzureDeviceRegistryClient : IAsyncDisposable
         CancellationToken cancellationToken = default);
 
     /// <summary>
+    /// Report the health of a given device endpoint.
+    /// </summary>
+    /// <param name="deviceName">The name of the device.</param>
+    /// <param name="inboundEndpointName">The name of the endpoint.</param>
+    /// <param name="deviceEndpointRuntimeHealth">The health status to report.</param>
+    /// <param name="telemetryTimeout">Optional message expiry time for the telemetry.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    Task ReportDeviceEndpointRuntimeHealthAsync(
+        string deviceName,
+        string inboundEndpointName,
+        RuntimeHealth deviceEndpointRuntimeHealth,
+        TimeSpan? telemetryTimeout = null,
+        CancellationToken cancellationToken = default);
+
+    /// <summary>
+    /// Report the health of a given asset dataset.
+    /// </summary>
+    /// <param name="deviceName">The name of the device.</param>
+    /// <param name="inboundEndpointName">The name of the endpoint.</param>
+    /// <param name="assetName">The name of the asset this dataset belongs to.</param>
+    /// <param name="datasetsRuntimeHealth">The health status to report.</param>
+    /// <param name="telemetryTimeout">Optional message expiry time for the telemetry.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    Task ReportDatasetRuntimeHealthAsync(
+        string deviceName,
+        string inboundEndpointName,
+        string assetName,
+        List<DatasetsRuntimeHealthEvent> datasetsRuntimeHealth,
+        TimeSpan? telemetryTimeout = null,
+        CancellationToken cancellationToken = default);
+
+    /// <summary>
+    /// Report the health of a given asset event.
+    /// </summary>
+    /// <param name="deviceName">The name of the device.</param>
+    /// <param name="inboundEndpointName">The name of the endpoint.</param>
+    /// <param name="assetName">The name of the asset this dataset belongs to.</param>
+    /// <param name="eventsRuntimeHealth">The health status to report.</param>
+    /// <param name="telemetryTimeout">Optional message expiry time for the telemetry.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    Task ReportEventRuntimeHealthAsync(
+        string deviceName,
+        string inboundEndpointName,
+        string assetName,
+        List<EventsRuntimeHealthEvent> eventsRuntimeHealth,
+        TimeSpan? telemetryTimeout = null,
+        CancellationToken cancellationToken = default);
+
+    /// <summary>
+    /// Report the health of a given asset stream.
+    /// </summary>
+    /// <param name="deviceName">The name of the device.</param>
+    /// <param name="inboundEndpointName">The name of the endpoint.</param>
+    /// <param name="assetName">The name of the asset this dataset belongs to.</param>
+    /// <param name="streamsRuntimeHealth">The health status to report.</param>
+    /// <param name="telemetryTimeout">Optional message expiry time for the telemetry.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    Task ReportStreamRuntimeHealthAsync(
+        string deviceName,
+        string inboundEndpointName,
+        string assetName,
+        List<StreamsRuntimeHealthEvent> streamsRuntimeHealth,
+        TimeSpan? telemetryTimeout = null,
+        CancellationToken cancellationToken = default);
+
+    /// <summary>
+    /// Report the health of a given management action.
+    /// </summary>
+    /// <param name="deviceName">The name of the device.</param>
+    /// <param name="inboundEndpointName">The name of the endpoint.</param>
+    /// <param name="assetName">The name of the asset this dataset belongs to.</param>
+    /// <param name="managementActionsRuntimeHealth">The health status to report.</param>
+    /// <param name="telemetryTimeout">Optional message expiry time for the telemetry.</param>
+    /// <param name="cancellationToken">Cancellation token.</param>
+    Task ReportManagementActionRuntimeHealthAsync(
+        string deviceName,
+        string inboundEndpointName,
+        string assetName,
+        List<ManagementActionsRuntimeHealthEvent> managementActionsRuntimeHealth,
+        TimeSpan? telemetryTimeout = null,
+        CancellationToken cancellationToken = default);
+
+    /// <summary>
     /// Event triggered when a device update telemetry event is received.
     /// NOTE: This event starts triggering after the call to <see cref="SetNotificationPreferenceForDeviceUpdatesAsync(string, string, NotificationPreference, TimeSpan?, CancellationToken)"/>.
     /// </summary>

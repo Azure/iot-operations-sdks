@@ -1,10 +1,6 @@
 ﻿// Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-using System.Text.Json;
-using Azure.Iot.Operations.Services.AssetAndDeviceRegistry.Generated.AdrBaseService;
-using Azure.Iot.Operations.Services.AssetAndDeviceRegistry.Generated.DeviceDiscoveryService;
-using Azure.Iot.Operations.Services.StateStore;
 
 namespace Azure.Iot.Operations.Services.AssetAndDeviceRegistry.Models;
 
@@ -254,7 +250,7 @@ internal static class ModelsConverter
         };
     }
 
-    internal static AssetStream ToModel(this AssetStreamSchemaElementSchema source)
+    internal static AssetStream ToModel(this Generated.AdrBaseService.AssetStreamSchemaElementSchema source)
     {
         return new AssetStream
         {
@@ -265,7 +261,7 @@ internal static class ModelsConverter
         };
     }
 
-    internal static AssetManagementGroup ToModel(this AssetManagementGroupSchemaElementSchema source)
+    internal static AssetManagementGroup ToModel(this Generated.AdrBaseService.AssetManagementGroupSchemaElementSchema source)
     {
         return new AssetManagementGroup
         {
@@ -279,7 +275,7 @@ internal static class ModelsConverter
         };
     }
 
-    internal static AssetManagementGroupAction ToModel(this AssetManagementGroupActionSchemaElementSchema source)
+    internal static AssetManagementGroupAction ToModel(this Generated.AdrBaseService.AssetManagementGroupActionSchemaElementSchema source)
     {
         return new AssetManagementGroupAction
         {
@@ -371,7 +367,7 @@ internal static class ModelsConverter
         }
     }
 
-    internal static AssetDataset ToModel(this AssetDatasetSchemaElementSchema source)
+    internal static AssetDataset ToModel(this Generated.AdrBaseService.AssetDatasetSchemaElementSchema source)
     {
         return new AssetDataset
         {
@@ -384,7 +380,7 @@ internal static class ModelsConverter
         };
     }
 
-    internal static AssetDatasetDataPoint ToModel(this AssetDatasetDataPointSchemaElementSchema source)
+    internal static AssetDatasetDataPoint ToModel(this Generated.AdrBaseService.AssetDatasetDataPointSchemaElementSchema source)
     {
         return new AssetDatasetDataPoint
         {
@@ -395,7 +391,7 @@ internal static class ModelsConverter
         };
     }
 
-    internal static AssetEvent ToModel(this AssetEventSchemaElementSchema source)
+    internal static AssetEvent ToModel(this Generated.AdrBaseService.AssetEventSchemaElementSchema source)
     {
         return new AssetEvent
         {
@@ -429,7 +425,7 @@ internal static class ModelsConverter
         }
     }
 
-    internal static Authentication ToModel(this AuthenticationSchema source)
+    internal static Authentication ToModel(this Generated.AdrBaseService.AuthenticationSchema source)
     {
         return new Authentication
         {
@@ -439,7 +435,7 @@ internal static class ModelsConverter
         };
     }
 
-    internal static Method ToModel(this MethodSchema source)
+    internal static Method ToModel(this Generated.AdrBaseService.MethodSchema source)
     {
         switch (source)
         {
@@ -454,7 +450,7 @@ internal static class ModelsConverter
         }
     }
 
-    internal static X509Credentials ToModel(this X509credentialsSchema source)
+    internal static X509Credentials ToModel(this Generated.AdrBaseService.X509credentialsSchema source)
     {
         return new X509Credentials
         {
@@ -464,7 +460,7 @@ internal static class ModelsConverter
         };
     }
 
-    internal static UsernamePasswordCredentials ToModel(this UsernamePasswordCredentialsSchema source)
+    internal static UsernamePasswordCredentials ToModel(this Generated.AdrBaseService.UsernamePasswordCredentialsSchema source)
     {
         return new UsernamePasswordCredentials
         {
@@ -473,7 +469,7 @@ internal static class ModelsConverter
         };
     }
 
-    internal static DeviceEndpoints ToModel(this DeviceEndpointsSchema source)
+    internal static DeviceEndpoints ToModel(this Generated.AdrBaseService.DeviceEndpointsSchema source)
     {
         return new DeviceEndpoints
         {
@@ -484,7 +480,7 @@ internal static class ModelsConverter
         };
     }
 
-    internal static InboundEndpointSchemaMapValue ToModel(this InboundSchemaMapValueSchema source)
+    internal static InboundEndpointSchemaMapValue ToModel(this Generated.AdrBaseService.InboundSchemaMapValueSchema source)
     {
         return new InboundEndpointSchemaMapValue
         {
@@ -497,7 +493,7 @@ internal static class ModelsConverter
         };
     }
 
-    internal static TrustSettings ToModel(this TrustSettingsSchema source)
+    internal static TrustSettings ToModel(this Generated.AdrBaseService.TrustSettingsSchema source)
     {
         return new TrustSettings
         {
@@ -514,7 +510,7 @@ internal static class ModelsConverter
         };
     }
 
-    internal static DeviceStatusEndpoint ToModel(this DeviceStatusEndpointSchema source)
+    internal static DeviceStatusEndpoint ToModel(this Generated.AdrBaseService.DeviceStatusEndpointSchema source)
     {
         return new DeviceStatusEndpoint
         {
@@ -524,7 +520,7 @@ internal static class ModelsConverter
         };
     }
 
-    internal static DeviceStatusInboundEndpointSchemaMapValue ToModel(this DeviceStatusInboundEndpointSchemaMapValueSchema source)
+    internal static DeviceStatusInboundEndpointSchemaMapValue ToModel(this Generated.AdrBaseService.DeviceStatusInboundEndpointSchemaMapValueSchema source)
     {
         return new DeviceStatusInboundEndpointSchemaMapValue
         {
@@ -532,7 +528,7 @@ internal static class ModelsConverter
         };
     }
 
-    internal static ConfigErrorDetails ToModel(this DetailsSchemaElementSchema source)
+    internal static ConfigErrorDetails ToModel(this Generated.AdrBaseService.DetailsSchemaElementSchema source)
     {
         return new ConfigErrorDetails
         {
@@ -553,7 +549,7 @@ internal static class ModelsConverter
         };
     }
 
-    internal static AssetManagementGroupStatus ToModel(this AssetManagementGroupStatusSchemaElementSchema source)
+    internal static AssetManagementGroupStatus ToModel(this Generated.AdrBaseService.AssetManagementGroupStatusSchemaElementSchema source)
     {
         return new AssetManagementGroupStatus
         {
@@ -562,7 +558,7 @@ internal static class ModelsConverter
         };
     }
 
-    internal static AssetManagementGroupActionStatus ToModel(this AssetManagementGroupActionStatusSchemaElementSchema source)
+    internal static AssetManagementGroupActionStatus ToModel(this Generated.AdrBaseService.AssetManagementGroupActionStatusSchemaElementSchema source)
     {
         return new AssetManagementGroupActionStatus
         {
