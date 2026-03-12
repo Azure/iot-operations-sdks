@@ -59,17 +59,24 @@ use azure_iot_operations_connector::{
     base_connector::{
         self, BaseConnector,
         managed_azure_device_registry::{
-            AssetClient, ClientNotification, DataOperationClient, DataOperationNotification,
-            DeviceEndpointClient, DeviceEndpointClientCreationObservation, ModifyResult,
-            RuntimeHealthEvent, SchemaModifyResult,
+            AssetClient, AssetComponentClient, AssetSpecification, ClientNotification,
+            DataOperationClient, DataOperationNotification, DeviceEndpointClient,
+            DeviceEndpointClientCreationObservation, ManagementActionClient,
+            ManagementActionNotification, ModifyResult, RuntimeHealthEvent, SchemaModifyResult,
+            UnsupportedComponentClient, UnsupportedComponentNotification,
         },
     },
     data_processor::derived_json,
     deployment_artifacts::connector::ConnectorArtifacts,
+    management_action_executor::{
+        ManagementActionApplicationError, ManagementActionExecutor, ManagementActionRequest,
+        ManagementActionResponseBuilder,
+    },
 };
 use azure_iot_operations_protocol::{
     application::ApplicationContextBuilder, common::hybrid_logical_clock::HybridLogicalClock,
 };
+use azure_iot_operations_services::azure_device_registry::models::ActionType;
 use tokio::sync::watch;
 
 const DEFAULT_SAMPLING_INTERVAL: Duration = Duration::from_millis(10000); // Default sampling interval in milliseconds
@@ -93,32 +100,6 @@ macro_rules! report_status_one_way {
                 _ => false,
             };
 
-            if should_report {
-                Some($new_status)
-            } else {
-                None
-            }
-        }
-    };
-}
-
-/// Macro that generates closures for reporting status any time it's different than the current status
-///
-/// This means that unless the statuses match exactly, the new status will be reported
-///
-/// Reports Ok in any case where status is not Ok
-/// Reports Err in any case where the status is not the same exact Err
-macro_rules! report_status_if_different {
-    ($new_status:expr) => {
-        |status| {
-            let should_report = match (&status, &$new_status) {
-                // Report Ok(()) in all cases unless it's already Ok
-                (Some(Ok(())), Ok(())) => false,
-                // If the current status is Err, only don't report if they match
-                (Some(Err(curr_err)), Err(new_err)) => *curr_err != new_err,
-                // Report anything else
-                _ => true,
-            };
             if should_report {
                 Some($new_status)
             } else {
@@ -419,18 +400,6 @@ async fn asset_handler(
     // If the asset specification has a default_dataset_configuration, then the asset status
     // may not be able to be reported until the dataset level can validate this field.
 
-    // Here is one thing that should be validated for most connectors, although it won't be a config error if it's not enabled
-    let mut is_asset_ready = if asset_client
-        .specification()
-        .enabled
-        .is_some_and(|enabled| !enabled)
-    {
-        log::warn!("{asset_log_identifier} Asset is disabled, waiting for update");
-        false
-    } else {
-        true
-    };
-
     // For this example, we will assume that the asset specification is OK. Modify this to report any errors
     match asset_status_reporter
         .report_status_if_modified(report_status_one_way!(Ok::<(), AdrConfigError>(())))
@@ -445,10 +414,6 @@ async fn asset_handler(
         }
     }
 
-    // This watcher is used to notify the data operation handlers whether the asset is healthy and sampling should happen or if there are any updates
-    // Initialize it with the initial readiness state
-    let asset_update_watcher_tx = watch::Sender::new(is_asset_ready);
-
     // Receive asset updates and dataset creation notifications
     loop {
         match asset_client.recv_notification().await {
@@ -456,18 +421,6 @@ async fn asset_handler(
                 log::info!("{asset_log_identifier} Asset update notification received");
 
                 // IMPLEMENT: Add custom asset update/validation logic here
-
-                // Update asset ready state for data operations
-                is_asset_ready = if asset_client
-                    .specification()
-                    .enabled
-                    .is_some_and(|enabled| !enabled)
-                {
-                    log::warn!("{asset_log_identifier} Asset is disabled, waiting for update");
-                    false
-                } else {
-                    true
-                };
 
                 // For this example, we will assume that the asset specification is OK. Modify this to report any errors
                 match asset_status_reporter
@@ -482,11 +435,11 @@ async fn asset_handler(
                         log::error!("{asset_log_identifier} Failed to report asset status: {e}");
                     }
                 }
-
-                // Notify any data operations that the asset has been updated and its ready state
-                asset_update_watcher_tx.send_modify(|asset_ready| *asset_ready = is_asset_ready);
             }
-            ClientNotification::Created(data_operation_client) => {
+            ClientNotification::Created(AssetComponentClient::DataOperation((
+                data_operation_client,
+                initial_data_operation_status,
+            ))) => {
                 let data_operation_ref = data_operation_client.data_operation_ref();
                 let data_operation_log_identifier = {
                     format!(
@@ -505,7 +458,7 @@ async fn asset_handler(
                         tokio::task::spawn(handle_dataset(
                             data_operation_log_identifier,
                             data_operation_client,
-                            asset_update_watcher_tx.subscribe(),
+                            initial_data_operation_status,
                             device_endpoint_ready_watcher_rx.clone(),
                         ));
                     }
@@ -514,14 +467,49 @@ async fn asset_handler(
                         // Handle the new stream / event
                         // For this scaffolding, they are not supported. A similar implementation
                         // could be added for handling these types of data operations.
-                        tokio::task::spawn(handle_unsupported_data_operation(
+                        tokio::task::spawn(handle_unsupported_component(
                             data_operation_log_identifier,
+                            format!("{:?}", data_operation_client.kind()),
                             data_operation_client,
-                            asset_update_watcher_tx.subscribe(),
                         ));
                     }
                 }
             }
+            ClientNotification::Created(AssetComponentClient::ManagementAction((
+                management_action_client,
+                initial_executor,
+            ))) => {
+                let management_action_log_identifier = format!(
+                    "{asset_log_identifier}[{}]",
+                    management_action_client.management_action_ref().name()
+                );
+                log::info!("{management_action_log_identifier} Management Action created");
+                // Handle the new management action
+                tokio::task::spawn(handle_management_action(
+                    management_action_log_identifier,
+                    management_action_client,
+                    initial_executor,
+                    device_endpoint_ready_watcher_rx.clone(),
+                ));
+            }
+            // IMPLEMENT: If management actions are not supported, this arm can be uncommented and used instead
+            // ClientNotification::Created(AssetComponentClient::ManagementAction((
+            //     management_action_client,
+            //     _initial_executor,
+            // ))) => {
+            //     let management_action_log_identifier = format!(
+            //         "{asset_log_identifier}[{}]",
+            //         management_action_client.management_action_ref().name()
+            //     );
+            //     log::info!("{management_action_log_identifier} Management Action created");
+            //     // Handle the new management action
+            //     tokio::task::spawn(handle_unsupported_component(
+            //         management_action_log_identifier,
+            //         "Management Action".to_string(),
+            //         management_action_client,
+            //     ));
+            // }
+            ClientNotification::Created(_) => {}
             ClientNotification::Deleted => {
                 log::info!(
                     "{asset_log_identifier} Asset deleted notification received, ending asset handler"
@@ -538,18 +526,22 @@ async fn asset_handler(
 /// # Arguments
 /// * `dataset_log_identifier` - A string identifier for the dataset, used for logging.
 /// * `data_operation_client` - The data operation client we use for operations related to the dataset.
-/// * `asset_update_watcher_rx` - A watcher for asset updates and readiness state.
+/// * `initial_data_operation_status` - Whether the SDK detected an initial error with the dataset.
 /// * `device_endpoint_ready_watcher_rx` - A watcher for the device endpoint readiness state.
 async fn handle_dataset(
     dataset_log_identifier: String,
     mut data_operation_client: DataOperationClient,
-    mut asset_update_watcher_rx: watch::Receiver<bool>,
+    initial_data_operation_status: Result<(), AdrConfigError>,
     mut device_endpoint_ready_watcher_rx: watch::Receiver<bool>,
 ) {
     // Get the status reporter for the data operation
     let mut data_operation_status_reporter = data_operation_client.get_status_reporter();
 
-    let mut is_asset_ready = *asset_update_watcher_rx.borrow_and_update();
+    // Here is one thing that should be validated for most connectors, although it won't be a config error if it's not enabled
+    let mut is_asset_ready = data_operation_client
+        .asset_specification()
+        .enabled
+        .is_none_or(|enabled| enabled);
     let mut is_device_endpoint_ready = *device_endpoint_ready_watcher_rx.borrow_and_update();
     // This boolean tracks if the dataset is ready to be sampled.
     let mut is_dataset_ready;
@@ -560,9 +552,14 @@ async fn handle_dataset(
 
     // Extract the dataset definition from the dataset client
     let mut _local_dataset_definition = data_operation_client.definition().clone();
-    // IMPLEMENT: Verify the dataset definition is OK. For this example, we will assume that the dataset definition is Ok
-    // This variable keeps track of the latest reported dataset status.
-    let mut last_reported_dataset_status = Ok(());
+    // These variables keep track of the latest reported dataset status
+    let mut is_sdk_error_causing_invalid_state = initial_data_operation_status.is_err();
+    let mut last_reported_dataset_status = match initial_data_operation_status {
+        // IMPLEMENT: If the sdk didn't detect an initial error, verify whether the dataset definition is OK.
+        // For this example, we will assume that no additional validation is needed
+        Ok(()) => Ok(()),
+        Err(e) => Err(e),
+    };
     is_dataset_ready = last_reported_dataset_status.is_ok();
 
     // Report the dataset status based on validation.
@@ -607,74 +604,55 @@ async fn handle_dataset(
                 log::debug!("{dataset_log_identifier} Device endpoint ready state changed to {is_device_endpoint_ready}");
             },
             data_operation_notification = data_operation_client.recv_notification() => {
+                // Pause health reporting until we validate the new configuration and successfully
+                // complete a sampling cycle. This prevents reporting stale health status from
+                // the previous configuration. The "refresh" part snapshots the new specification
+                // version so future health events are tagged with the correct version.
+                data_operation_status_reporter.pause_and_refresh_health_version();
+                // on all updates, check whether the asset is now enabled or not
+                is_asset_ready = data_operation_client
+                    .asset_specification()
+                    .enabled
+                    .is_none_or(|enabled| enabled);
                 // Match the data operation notification to handle updates, deletions, or invalid updates
                 match data_operation_notification {
-                    DataOperationNotification::Updated => {
-                        // Pause health reporting until we validate the new configuration and successfully
-                        // complete a sampling cycle. This prevents reporting stale health status from
-                        // the previous configuration. The "refresh" part snapshots the new specification
-                        // version so future health events are tagged with the correct version.
-                        data_operation_status_reporter.pause_and_refresh_health_version();
-                        log::info!("{dataset_log_identifier} Dataset update notification received");
+                    DataOperationNotification::Updated(Ok(())) => {
+                        // If we receive an `Ok(())` update from the SDK, then the SDK is not currently detecting any errors with the dataset definition.
+                        is_sdk_error_causing_invalid_state = false;
+                        log::info!("{dataset_log_identifier} Dataset update notification received. Current Asset ready state is {is_asset_ready}.");
 
                         // Update the local dataset definition
                         _local_dataset_definition = data_operation_client.definition().clone();
 
                         // IMPLEMENT: Verify the dataset specification is OK and send an error report if needed
                         last_reported_dataset_status = Ok(());
-                        is_dataset_ready = last_reported_dataset_status.is_ok();
-
-                        // Report the dataset status based on validation.
-                        match data_operation_status_reporter
-                            .report_status_if_modified(report_status_if_different!(
-                                last_reported_dataset_status.clone()
-                            ))
-                            .await
-                        {
-                            Ok(ModifyResult::Reported) => {
-                                log::info!("{dataset_log_identifier} Dataset status reported");
-                            }
-                            Ok(ModifyResult::NotModified) => {} // No change, do nothing
-                            Err(e) => {
-                                log::error!(
-                                    "{dataset_log_identifier} Failed to report Dataset status: {e}"
-                                );
-                            }
+                    },
+                    DataOperationNotification::AssetUpdated(Ok(())) => {
+                        log::info!("{dataset_log_identifier} Asset update notification received. Current Asset ready state is {is_asset_ready}.");
+                        if is_sdk_error_causing_invalid_state {
+                            // IMPLEMENT: If the data operation wasn't valid because of an error detected from the SDK, re-evaluate the definition to see if it's valid now
+                            last_reported_dataset_status = Ok(());
                         }
+                        // If we receive an `Ok(())` update from the SDK, then the SDK is not currently detecting any errors with the dataset definition.
+                        is_sdk_error_causing_invalid_state = false;
+                    },
+                    DataOperationNotification::Updated(Err(e)) | DataOperationNotification::AssetUpdated(Err(e))=> {
+                        is_sdk_error_causing_invalid_state = true;
+                        log::error!("{dataset_log_identifier} Dataset update notification received with invalid configuration: {e}");
+                        last_reported_dataset_status = Err(e);
                     },
                     DataOperationNotification::Deleted => {
                         // The dataset client has been deleted, we need to end the dataset handler
                         log::info!("{dataset_log_identifier} Dataset deleted notification received, ending dataset handler");
                         break;
-                    },
-                    DataOperationNotification::UpdatedInvalid => {
-                        // The dataset update is invalid, we need to wait for a valid update
-                        log::info!("{dataset_log_identifier} Dataset invalid update notification received, waiting for a valid update");
-                        is_dataset_ready = false;
-                        // Continue to wait for a valid update
-                    },
+                    }
                 }
-            },
-            // Monitor for asset updates and readiness changes
-            res = asset_update_watcher_rx.changed() => {
-                if res.is_err() {
-                    // The asset client has been deleted, we need to end the data operation handler
-                    log::info!("{dataset_log_identifier} Asset deleted notification received, ending dataset handler");
-                    break;
-                }
-                // Pause and refresh health version because we have a new version of the asset
-                // and want to report health for that new version after we validate the new configuration.
-                data_operation_status_reporter.pause_and_refresh_health_version();
+                // Update the dataset readiness state based on the new status
+                is_dataset_ready = last_reported_dataset_status.is_ok();
 
-                // Update our local asset readiness state
-                is_asset_ready = *asset_update_watcher_rx.borrow_and_update();
-                log::debug!("{dataset_log_identifier} Asset update notification received. Current ready state is {is_asset_ready}");
-
-                // Re-report dataset status as status has been cleared
-                match data_operation_status_reporter
-                    .report_status_if_modified(report_status_one_way!(
-                        last_reported_dataset_status.clone()
-                    ))
+                // Report/re-report the dataset status based on validation.
+                match data_operation_status_reporter.report_status_if_modified(report_status_one_way!(
+                        last_reported_dataset_status.clone()))
                     .await
                 {
                     Ok(ModifyResult::Reported) => {
@@ -682,9 +660,7 @@ async fn handle_dataset(
                     }
                     Ok(ModifyResult::NotModified) => {} // No change, do nothing
                     Err(e) => {
-                        log::error!(
-                            "{dataset_log_identifier} Failed to report Dataset status: {e}"
-                        );
+                        log::error!("{dataset_log_identifier} Failed to report Dataset status: {e}");
                     }
                 }
             },
@@ -777,6 +753,440 @@ async fn handle_dataset(
     }
 }
 
+/// Handles executions of management action requests.
+///
+/// # Arguments
+/// * `management_action_log_identifier` - A string identifier for the management action, used for logging.
+/// * `management_action_client` - The management action client.
+/// * `initial_executor` - The initial executor.
+/// * `device_endpoint_ready_watcher_rx` - A watcher for the device endpoint readiness state.
+async fn handle_management_action(
+    management_action_log_identifier: String,
+    mut management_action_client: ManagementActionClient,
+    initial_executor: Result<ManagementActionExecutor, AdrConfigError>,
+    mut device_endpoint_ready_watcher_rx: watch::Receiver<bool>,
+) {
+    // Get the status reporter for the management action
+    let mut management_action_status_reporter = management_action_client.get_status_reporter();
+
+    let (mut current_executor, initial_sdk_management_action_config_status) = match initial_executor
+    {
+        Ok(executor) => (Some(executor), Ok(())),
+        Err(e) => (None, Err(e)),
+    };
+    let mut action_state = ActionState::new(
+        initial_sdk_management_action_config_status,
+        &management_action_client.asset_specification(),
+        *device_endpoint_ready_watcher_rx.borrow_and_update(),
+    );
+
+    if action_state.last_reported_config_status.is_ok() {
+        // IMPLEMENT: If the sdk didn't detect an initial error, verify whether the management action definition is OK.
+        // For this example, we will assume that no additional validation is needed
+        action_state.last_reported_config_status = Ok(());
+    }
+
+    // Report the management action status based on validation.
+    match management_action_status_reporter
+        .report_status_if_modified(report_status_one_way!(
+            action_state.last_reported_config_status.clone()
+        ))
+        .await
+    {
+        Ok(ModifyResult::Reported) => {
+            log::info!("{management_action_log_identifier} Management action status reported");
+        }
+        Ok(ModifyResult::NotModified) => {} // No change, do nothing
+        Err(e) => {
+            log::error!(
+                "{management_action_log_identifier} Failed to report management action status: {e}"
+            );
+        }
+    }
+
+    // IMPLEMENT: If the request and response message schemas are known, this would be a good place
+    // to report them using `report_request_message_schema_if_modified` and `report_response_message_schema_if_modified`
+
+    if action_state.is_ready() {
+        // Report healthy if the asset/device is enabled and if definitions are valid
+        // because we don't know how long it will be until an actual action request is
+        // received, but if the definition is valid, there are no known issues
+        management_action_status_reporter.report_health_event(RuntimeHealthEvent::Available);
+    }
+
+    loop {
+        tokio::select! {
+            // When receiving requests at high frequency, multiple requests may occur before updates are handled.
+            // Using 'biased;' ensures updates are prioritized over requests.
+            biased;
+            // Monitor for device endpoint readiness changes
+            res = device_endpoint_ready_watcher_rx.changed() => {
+                if res.is_err() {
+                    // While this signals that the device endpoint has been deleted, the associated management action will be deleted momentarily as well.
+                    log::info!("{management_action_log_identifier} Device Endpoint deleted notification received, ending management action handler");
+                    // Drain any queued requests from the executor and respond with a clear error
+                    if let Some(old_executor) = current_executor.take() {
+                        tokio::task::spawn(drain_executor(
+                            old_executor,
+                            management_action_log_identifier.clone(),
+                            "DeviceEndpointDeleted",
+                            "Device Endpoint was deleted while this request was queued",
+                        ));
+                    }
+                    break;
+                }
+                // Update our local device endpoint readiness state
+                let previous_device_ready_state = action_state.is_device_endpoint_ready;
+                action_state.is_device_endpoint_ready = *device_endpoint_ready_watcher_rx.borrow_and_update();
+
+                // NOTE: If the management action's health depends on device endpoint configuration (e.g., connection
+                // settings, authentication), you may want to pause management action health reporting here
+                // until the new configuration is validated:
+                // management_action_status_reporter.pause_health_reporting();
+
+                log::debug!("{management_action_log_identifier} Device endpoint ready state changed to {}", action_state.is_device_endpoint_ready);
+                if !action_state.is_ready() {
+                    // If the action state is now not ready, pause health reporting until it is.
+                    // If it already wasn't ready, this will be a no-op
+                    management_action_status_reporter.pause_health_reporting();
+                } else if !previous_device_ready_state {
+                    // If we previously weren't ready because of the device endpoint readiness and
+                    // that has now changed, report healthy if the asset/device is enabled and if
+                    // definitions are valid because we don't know how long it will be until an
+                    // actual action request is received, but if the definition is valid, there
+                    // are no known issues. If the device was previously ready, then whatever health
+                    // was last reported should continue to be reported, so health reporting doesn't
+                    // need to be paused or have Available sent again.
+                    management_action_status_reporter.report_health_event(RuntimeHealthEvent::Available);
+                }
+            },
+            action_notification = management_action_client.recv_notification() => {
+                // Pause health reporting until we evaluate the new definition.
+                // This prevents reporting stale health status from the previous
+                // configuration. The "refresh" part snapshots the new specification
+                // version so future health events are tagged with the correct version.
+                management_action_status_reporter.pause_and_refresh_health_version();
+                // On all updates, check whether the asset is now enabled or not
+                action_state.update_asset_ready(&management_action_client.asset_specification());
+                // Match the management action notification to handle updates, deletions, or invalid updates
+                match action_notification {
+                    ManagementActionNotification::UpdatedWithNewExecutor(new_executor) => {
+                        log::info!("{management_action_log_identifier} Management Action executor update notification received.");
+                        // Set the last reported config status based on the new executor's result
+                        action_state.last_reported_config_status = new_executor.as_ref().map(|_| ()).map_err(Clone::clone);
+                        action_state.is_sdk_error_causing_invalid_state = action_state.last_reported_config_status.is_err();
+                        if action_state.last_reported_config_status.is_ok() {
+                            // IMPLEMENT: If the sdk didn't detect an error, verify whether the management action specification is OK.
+                            action_state.last_reported_config_status = Ok(());
+                        }
+                        // Drain any queued requests from the old executor and respond with an error,
+                        // since they were queued against a definition that is no longer active.
+                        // NOTE: Depending on the connector's needs, it may be desirable to instead attempt
+                        // to execute the queued requests against the old definition, but for this scaffolding
+                        // we will just respond with an error.
+                        if let Some(old_executor) = current_executor.take() {
+                            tokio::task::spawn(drain_executor(
+                                old_executor,
+                                management_action_log_identifier.clone(),
+                                "ManagementActionDefinitionOutdated",
+                                "Management action definition was updated while this request was queued",
+                            ));
+                        }
+                        current_executor = new_executor.ok();
+                    },
+                    ManagementActionNotification::Updated(Ok(())) => {
+                        // If we receive an `Ok(())` update from the SDK, then the SDK is not currently detecting any errors with the management action definition.
+                        action_state.is_sdk_error_causing_invalid_state = false;
+                        log::info!("{management_action_log_identifier} Management Action update notification received");
+
+                        // IMPLEMENT: Verify the management action specification is OK and send an error report if needed
+                        action_state.last_reported_config_status = Ok(());
+                    },
+                    ManagementActionNotification::AssetUpdated(Ok(())) => {
+                        log::info!("{management_action_log_identifier} Asset update notification received.");
+                        // If the previous Err was detected by the SDK, then this Asset(Ok()) indicates the invalid state has been resolved
+                        if action_state.is_sdk_error_causing_invalid_state {
+                            // IMPLEMENT: If the management action wasn't valid because of an error detected from the SDK, re-evaluate the definition to see if it's valid now
+                            action_state.last_reported_config_status = Ok(());
+                        }
+                        // If we receive an `Ok(())` update from the SDK, then the SDK is not currently detecting any errors with the management action definition.
+                        action_state.is_sdk_error_causing_invalid_state = false;
+                    },
+                    ManagementActionNotification::Updated(Err(e)) | ManagementActionNotification::AssetUpdated(Err(e)) => {
+                        // The management action update is invalid, we need to wait for a valid update
+                        log::error!("{management_action_log_identifier} Management Action update notification received with invalid configuration: {e}");
+                        action_state.is_sdk_error_causing_invalid_state = true;
+                        action_state.last_reported_config_status = Err(e);
+
+                        // Continue to wait for a valid update
+                    },
+                    ManagementActionNotification::Deleted => {
+                        // The management action client has been deleted, we need to end the management action handler
+                        log::info!("{management_action_log_identifier} Management action deleted notification received, ending management action handler");
+                        // Drain any queued requests from the executor and respond with a clear error
+                        if let Some(old_executor) = current_executor.take() {
+                            tokio::task::spawn(drain_executor(
+                                old_executor,
+                                management_action_log_identifier.clone(),
+                                "ManagementActionDeleted",
+                                "Management action was deleted while this request was queued",
+                            ));
+                        }
+                        break;
+                    },
+                }
+
+                // Report/re-report the management action status based on validation.
+                match management_action_status_reporter
+                    .report_status_if_modified(report_status_one_way!(action_state.last_reported_config_status.clone()))
+                    .await
+                {
+                    Ok(ModifyResult::Reported) => {
+                        log::info!("{management_action_log_identifier} Management action status reported");
+                    }
+                    Ok(ModifyResult::NotModified) => {} // No change, do nothing
+                    Err(e) => {
+                        log::error!("{management_action_log_identifier} Failed to report management action status: {e}");
+                    }
+                }
+
+                // IMPLEMENT: If the request and response message schemas are known, this would be a good place
+                // to report them using `report_request_message_schema_if_modified` and `report_response_message_schema_if_modified`.
+                // Note that they must be re-reported on any definition update even if they haven't changed
+
+                if action_state.is_ready() {
+                    // Report healthy if the asset is enabled and if definitions are valid because we don't know
+                    // how long it will be until an actual action request is received, but if
+                    // the definition is valid, there are no known issues
+                    management_action_status_reporter.report_health_event(RuntimeHealthEvent::Available);
+                }
+            },
+            request_res = recv_request(&mut current_executor), if current_executor.is_some() => {
+                if let Some(request) = request_res {
+                    log::debug!("{management_action_log_identifier} Management action request received");
+                    // Process, execute, and complete the request in a spawned task so we don't block this
+                    // loop from processing other updates or requests.
+                    tokio::task::spawn({
+                        let management_action_log_identifier = management_action_log_identifier.clone();
+                        let management_action_status_reporter = management_action_status_reporter.clone();
+                        let action_type = management_action_client.definition().action_type.clone();
+                        let action_ready = action_state.is_ready_or_err();
+                        async move {
+                            let response = if let Err(reason) = action_ready {
+                                // If the management action is not ready, we respond with an application error
+                                log::warn!("{management_action_log_identifier} Management action request received but action is not ready: {reason}");
+                                Err(ManagementActionApplicationError {
+                                    application_error_code: "ActionNotReady".to_string(),
+                                    application_error_payload: reason,
+                                })
+                            } else {
+                                // IMPLEMENT: Implement handling different action types based on your connector's capabilities.
+                                // Note that all requests should be responded to, even if they aren't supported. This example shows
+                                // a connector that supports Read and Write requests, but not Call requests
+                                match action_type {
+                                    ActionType::Call => {
+                                        log::warn!("{management_action_log_identifier} Call action type is not supported for this connector scaffolding");
+                                        Err(ManagementActionApplicationError {
+                                            application_error_code: "UnsupportedActionType".to_string(),
+                                            application_error_payload: "Call action type is not supported by this connector scaffolding".to_string(),
+                                        })
+                                    },
+                                    ActionType::Read | ActionType::Write => {
+                                        // IMPLEMENT: This should be replaced with the actual execution logic for the action type.
+                                        match mock_execute_action() {
+                                            Ok(response) => {
+                                                log::debug!("{management_action_log_identifier} Action executed successfully");
+                                                management_action_status_reporter.report_health_event(RuntimeHealthEvent::Available);
+                                                // IMPLEMENT: Depending on the structure of the connector, it may also be necessary to report a health event for the device endpoint here as well
+                                                // device_endpoint_status_reporter_clone.report_health_event(RuntimeHealthEvent::Available);
+                                                Ok(response)
+                                            },
+                                            Err(e) => {
+                                                log::error!("{management_action_log_identifier} Action execution failed: {e:?}");
+                                                // NOTE: reason_codes for unavailable health events should include the Connector Name as a prefix
+                                                management_action_status_reporter.report_health_event(RuntimeHealthEvent::Unavailable {
+                                                    message: Some(e.application_error_payload.clone()),
+                                                    reason_code: Some("ScaffoldingConnectorExecutionFailed".to_string()),
+                                                });
+                                                // IMPLEMENT: If there are errors executing the request, a device endpoint health event may need to be reported as well
+                                                // device_endpoint_status_reporter_clone.report_health_event(RuntimeHealthEvent::Unavailable { ... });
+                                                Err(e)
+                                            }
+                                        }
+                                    },
+                                }
+                            };
+                            complete_management_action_request(request, management_action_log_identifier, response).await;
+                        }
+                    });
+                } else {
+                    // This will occur when the the executor has been shutdown because it's no longer valid
+                    log::info!("{management_action_log_identifier} Management action executor shut down, no more requests will be received");
+                    current_executor = None;
+                }
+            }
+        }
+    }
+}
+
+/// Helper function to receive a management action request from the executor, if the executor exists.
+/// Returns `None` if there will be no more requests from this executor or if there is no executor,
+/// which could be the case if the configuration is invalid.
+async fn recv_request(
+    executor: &mut Option<ManagementActionExecutor>,
+) -> Option<ManagementActionRequest> {
+    if let Some(ex) = executor {
+        ex.recv_request().await
+    } else {
+        None
+    }
+}
+
+/// Drains all pending requests from a superseded or deleted executor
+/// Intended to be spawned so the caller is not blocked.
+async fn drain_executor(
+    mut executor: ManagementActionExecutor,
+    log_identifier: String,
+    error_code: &'static str,
+    error_payload: &'static str,
+) {
+    while let Some(stale_request) = executor.recv_request().await {
+        log::warn!(
+            "{log_identifier} Draining stale request from executor, responding with {error_code} error"
+        );
+        tokio::task::spawn(complete_management_action_request(
+            stale_request,
+            log_identifier.clone(),
+            Err(ManagementActionApplicationError {
+                application_error_code: error_code.to_string(),
+                application_error_payload: error_payload.to_string(),
+            }),
+        ));
+    }
+}
+
+/// Builds and completes a management action request.
+/// Intended to be spawned so the caller is not blocked on the response round-trip.
+///
+/// # Arguments
+/// * `request` - The management action request to complete
+/// * `management_action_log_identifier` - A string identifier for the management action, used for logging
+/// * `result` - `Err(error)` to include an application error with the response; `Ok(payload)` for a success response (may be `vec![]`)
+async fn complete_management_action_request(
+    request: ManagementActionRequest,
+    management_action_log_identifier: String,
+    result: Result<Vec<u8>, ManagementActionApplicationError>,
+) {
+    let mut response_builder = ManagementActionResponseBuilder::default();
+    // IMPLEMENT: Change the content type and cloud event implementations as needed - for
+    // some implementations it may make sense to pass them in as function arguments
+    response_builder
+        .content_type("application/json".to_string())
+        .cloud_event(None);
+    match result {
+        Ok(success_response_payload) => {
+            response_builder.payload(success_response_payload);
+        }
+        Err(e) => {
+            // IMPLEMENT: some connectors may desire to pass an error payload as well - this function
+            // can be modified to support passing that in
+            response_builder.payload(vec![]);
+            response_builder.application_error(e);
+        }
+    }
+
+    match response_builder.build() {
+        Ok(response) => {
+            if let Err(e) = request.complete(response).await {
+                log::error!(
+                    "{management_action_log_identifier} Error completing management action request: {e}"
+                );
+            } else {
+                log::debug!(
+                    "{management_action_log_identifier} Management action request completed"
+                );
+            }
+        }
+        Err(e) => {
+            log::error!(
+                "{management_action_log_identifier} Failed to build management action response: {e}"
+            );
+            // Drop request, which will send an error response to the invoker
+        }
+    }
+}
+
+fn mock_execute_action() -> Result<Vec<u8>, ManagementActionApplicationError> {
+    // IMPLEMENT: This function is a mock for executing an action, it should be replaced with the actual execution logic.
+    // For now, it returns a simple JSON object as a byte vector.
+    serde_json::to_vec(&serde_json::json!({
+        "execution": "success",
+        "newValue": 45.0,
+    }))
+    // IMPLEMENT: Replace this with mapping from actual execution errors to appropriately named error codes and payloads
+    .map_err(|e| ManagementActionApplicationError {
+        application_error_code: "ActionExecutionFailed".to_string(),
+        application_error_payload: format!("Action execution failed: {e}."),
+    })
+}
+
+/// A struct to track the readiness state of a management action based on its asset
+/// specification, device endpoint readiness, and any configuration errors detected
+/// from the SDK or validation. Additional state and validations can be added here.
+struct ActionState {
+    /// Whether the asset is enabled or not
+    is_asset_ready: bool,
+    /// Whether the device endpoint is enabled or not
+    pub is_device_endpoint_ready: bool,
+    /// The last reported configuration status for this management action.
+    /// This is used to determine what status to report to ADR and whether
+    /// the management action is ready for requests.
+    pub last_reported_config_status: Result<(), AdrConfigError>,
+    /// Whether the SDK has reported the error that causes the management action config status to be an error
+    pub is_sdk_error_causing_invalid_state: bool,
+}
+
+impl ActionState {
+    fn new(
+        initial_sdk_management_action_config_status: Result<(), AdrConfigError>,
+        asset_specification: &AssetSpecification,
+        is_device_endpoint_ready: bool,
+    ) -> Self {
+        Self {
+            is_asset_ready: asset_specification.enabled.is_none_or(|enabled| enabled),
+            is_device_endpoint_ready,
+            is_sdk_error_causing_invalid_state: initial_sdk_management_action_config_status
+                .is_err(),
+            last_reported_config_status: initial_sdk_management_action_config_status,
+        }
+    }
+
+    fn update_asset_ready(&mut self, asset_specification: &AssetSpecification) {
+        self.is_asset_ready = asset_specification.enabled.is_none_or(|enabled| enabled);
+    }
+
+    fn is_ready(&self) -> bool {
+        self.is_asset_ready
+            && self.is_device_endpoint_ready
+            && self.last_reported_config_status.is_ok()
+    }
+
+    /// Returns an error payload describing why the action isn't ready
+    fn is_ready_or_err(&self) -> Result<(), String> {
+        if self.is_ready() {
+            Ok(())
+        } else if let Err(e) = &self.last_reported_config_status {
+            Err(format!("Management action configuration error: {e}"))
+        } else if !self.is_asset_ready {
+            Err("Asset is not enabled".to_string())
+        } else if !self.is_device_endpoint_ready {
+            Err("Device endpoint is not enabled".to_string())
+        } else {
+            Err("Unknown reason".to_string())
+        }
+    }
+}
+
 fn mock_sample() -> Result<Vec<u8>, String> {
     // IMPLEMENT: This function is a mock for sampling data, it should be replaced with the actual sampling logic.
     // For now, it returns a simple JSON object as a byte vector.
@@ -801,89 +1211,70 @@ fn send_if_modified_fn(desired_state: bool) -> impl FnOnce(&mut bool) -> bool {
     }
 }
 
-/// Small handler to indicate lack of stream/event support in this scaffolding
+/// Small handler to indicate lack of support for a component in this scaffolding
 ///
-/// Will report errors for this data operation on updates
-async fn handle_unsupported_data_operation(
-    data_operation_log_identifier: String,
-    mut data_operation_client: DataOperationClient,
-    mut asset_update_watcher_rx: watch::Receiver<bool>,
+/// Will report errors for this component on updates
+///
+/// # Arguments
+/// * `log_identifier` - A string identifier for the component, used for logging.
+/// * `component_name` - The name of the kind of component.
+/// * `unsupported_client` - The client for the unsupported component.
+async fn handle_unsupported_component<T: UnsupportedComponentClient>(
+    log_identifier: String,
+    component_name: String,
+    mut unsupported_client: T,
 ) {
-    // Get the status reporter for the unsupported data operation
-    let data_operation_status_reporter = data_operation_client.get_status_reporter();
+    // Get the status reporter for the unsupported component
+    let status_reporter = unsupported_client.get_status_reporter();
 
-    let data_operation_kind = data_operation_client.kind();
-    log::warn!(
-        "{data_operation_log_identifier} Data Operation kind {data_operation_kind:?} not supported for this scaffolding"
-    );
+    log::warn!("{log_identifier} {component_name}s are not supported for this scaffolding");
 
-    let error_status = Err(AdrConfigError {
+    let adr_config_error = Err(AdrConfigError {
         message: Some(format!(
-            "Data Operation kind {data_operation_kind:?} not supported for this scaffolding",
+            "{component_name}s are not supported for this scaffolding"
         )),
         ..Default::default()
     });
 
     // Report invalid definition to adr
-    match data_operation_status_reporter
-        .report_status_if_modified(report_status_one_way!(error_status.clone()))
+    match status_reporter
+        .report_status_if_modified(report_status_one_way!(adr_config_error.clone()))
         .await
     {
         Ok(ModifyResult::Reported) => {
-            log::debug!("{data_operation_log_identifier} Status reported");
+            log::debug!("{log_identifier} {component_name} status reported as error");
         }
         Ok(ModifyResult::NotModified) => {} // No change, do nothing
         Err(e) => {
-            log::error!("{data_operation_log_identifier} Failed to report status: {e}");
+            log::error!("{log_identifier} Failed to report {component_name} status: {e}");
         }
     }
 
     loop {
-        tokio::select! {
-            biased;
-            // Monitor for asset updates to trigger re-reporting the status
-            _ = asset_update_watcher_rx.changed() => {
-                // Re-report the data operation status as status has been cleared
-                match data_operation_status_reporter
-                    .report_status_if_modified(report_status_one_way!(error_status.clone()))
+        match unsupported_client.recv_notification().await {
+            UnsupportedComponentNotification::Updated => {
+                log::warn!(
+                    "{log_identifier} {component_name} update notification received. {component_name}s are not supported for this scaffolding"
+                );
+
+                match status_reporter
+                    .report_status_if_modified(report_status_one_way!(adr_config_error.clone()))
                     .await
                 {
                     Ok(ModifyResult::Reported) => {
-                        log::debug!("{data_operation_log_identifier} Status reported");
+                        log::debug!("{log_identifier} {component_name} status reported as error");
                     }
                     Ok(ModifyResult::NotModified) => {} // No change, do nothing
                     Err(e) => {
-                        log::error!("{data_operation_log_identifier} Failed to report status: {e}");
+                        log::error!(
+                            "{log_identifier} Failed to report {component_name} status: {e}"
+                        );
                     }
                 }
             }
-            data_operation_notification = data_operation_client.recv_notification() => {
-                match data_operation_notification {
-                    DataOperationNotification::Updated => {
-                        log::warn!(
-                            "{data_operation_log_identifier} update notification received. {data_operation_kind:?} is not supported for this scaffolding",
-                        );
-                        match data_operation_status_reporter
-                            .report_status_if_modified(report_status_one_way!(error_status.clone()))
-                            .await
-                        {
-                            Ok(ModifyResult::Reported) => {
-                                log::debug!("{data_operation_log_identifier} Status reported");
-                            }
-                            Ok(ModifyResult::NotModified) => {} // No change, do nothing
-                            Err(e) => {
-                                log::error!("{data_operation_log_identifier} Failed to report status: {e}");
-                            }
-                        }
-                    }
-                    DataOperationNotification::UpdatedInvalid => {
-                        log::info!("{data_operation_log_identifier} Update invalid notification received");
-                    }
-                    DataOperationNotification::Deleted => {
-                        log::info!("{data_operation_log_identifier} Deleted notification received");
-                        break;
-                    }
-                }
+            UnsupportedComponentNotification::Deleted => {
+                log::info!("{log_identifier} {component_name} deleted notification received");
+                break;
             }
         }
     }
