@@ -1067,7 +1067,7 @@
         ]
       },
       "GasFilling_EngineeringUnits": {
-        "description": "Unit designator for property and event with name GasFilling, expressed as a URI in the QUDT unit vocabulary",
+        "description": "Unit designator for property and event with name GasFilling, expressed as a 2- or 3-character UN/ECE code",
         "type": "string",
         "readOnly": true,
         "forms": [
@@ -1079,7 +1079,7 @@
         ]
       },
       "MixingRatio_EngineeringUnits": {
-        "description": "Unit designator for property and event with name MixingRatio, expressed as a URI in the QUDT unit vocabulary",
+        "description": "Unit designator for property and event with name MixingRatio, expressed as a 2- or 3-character UN/ECE code",
         "type": "string",
         "readOnly": true,
         "forms": [
@@ -1792,7 +1792,7 @@
         ]
       },
       "MixingRatio_EngineeringUnits": {
-        "description": "Unit designator for property and event with name MixingRatio, expressed as a URI in the QUDT unit vocabulary",
+        "description": "Unit designator for property and event with name MixingRatio, expressed as a 2- or 3-character UN/ECE code",
         "type": "string",
         "readOnly": true,
         "forms": [
