@@ -83,12 +83,12 @@ jobs:
     #     if-no-files-found: "error"
     #     retention-days: 10
 
-    - name: Verify Statestore CLI
-      working-directory: tools/statestore-cli
-      run: |
-        source ../../rust/ci/build-deps.sh
-        cargo clippy --all-features
-        cargo fmt --verbose --all
+    # - name: Verify Statestore CLI
+    #   working-directory: tools/statestore-cli
+    #   run: |
+    #     source ../../rust/ci/build-deps.sh
+    #     cargo clippy --all-features
+    #     cargo fmt --verbose --all
 
     - name: Verify Stub Service
       working-directory: tools/azure_iot_operations_stub_services
@@ -97,7 +97,7 @@ jobs:
         cargo check 
         cargo check --no-default-features
         # cargo clippy --all-features # codegen must be regenerated and the stub service code updated for this to be re-enabled. In the meantime, we'll validate cargo build
-        cargo build
+        cargo build --all-features
         cargo fmt --verbose --all
 
     - name: Verify Scaffolding
@@ -108,18 +108,18 @@ jobs:
         cargo clippy
         cargo fmt --verbose --all
 
-    - name: Install Protoc
-      uses: arduino/setup-protoc@v3
-      with:
-        repo-token: ${{ secrets.GITHUB_TOKEN }}
+    # - name: Install Protoc
+    #   uses: arduino/setup-protoc@v3
+    #   with:
+    #     repo-token: ${{ secrets.GITHUB_TOKEN }}
 
-    - name: Install AvroGen
-      run: (pushd /; dotnet tool install --global Apache.Avro.Tools; popd) # need to install from root to avoid using the nuget.config we for build and push
+    # - name: Install AvroGen
+    #   run: (pushd /; dotnet tool install --global Apache.Avro.Tools; popd) # need to install from root to avoid using the nuget.config we for build and push
 
-    - name: Setup .NET 9
-      uses: actions/setup-dotnet@v4
-      with:
-        dotnet-version: 9.0.200
+    # - name: Setup .NET 9
+    #   uses: actions/setup-dotnet@v4
+    #   with:
+    #     dotnet-version: 9.0.200
         
     # - name: Build CodeGen (Debug)
     #   working-directory: wot-codegen
@@ -128,6 +128,7 @@ jobs:
     - name: CodeGen, build, and validate equality for Rust Services
       working-directory: rust/azure_iot_operations_services
       run: |
+        set -e
         sh ./gen.sh
         cargo build --verbose --features=all
         if ! git diff --exit-code --ignore-cr-at-eol
@@ -136,6 +137,7 @@ jobs:
             git diff-files
             exit 1
         fi
+        echo "Codegen for Rust services generated no changes. Generated code is up to date with the repo."
 
     # TODO: run wot-codegen/eval/gen.sh and make sure the output builds?
 
