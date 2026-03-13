@@ -51,12 +51,12 @@ jobs:
     steps:
     - uses: actions/checkout@v4
 
-    # - name: Install AIO
-    #   uses: ./.github/actions/configure-aio
-    #   with:
-    #     wait-for-broker: 'true'
-    #     install-rust: 'true'
-    #     action-token: ${{ secrets.AIO_SDKS_ACTION_TOKEN }}
+    - name: Install AIO
+      uses: ./.github/actions/configure-aio
+      with:
+        wait-for-broker: 'true'
+        install-rust: 'true'
+        action-token: ${{ secrets.AIO_SDKS_ACTION_TOKEN }}
     
     # - name: Create ADR resources
     #   run: kubectl apply -f ../eng/test/test-adr-resources
@@ -107,6 +107,19 @@ jobs:
         cargo clippy
         cargo fmt --verbose --all
 
+    # - name: Install Protoc
+    #   uses: arduino/setup-protoc@v3
+    #   with:
+    #     repo-token: ${{ secrets.GITHUB_TOKEN }}
+
+    # - name: Install AvroGen
+    #   run: (pushd /; dotnet tool install --global Apache.Avro.Tools; popd) # need to install from root to avoid using the nuget.config we for build and push
+
+    # - name: Setup .NET 9
+    #   uses: actions/setup-dotnet@v4
+    #   with:
+    #     dotnet-version: 9.0.200
+        
     - name: Build CodeGen (Debug)
       working-directory: wot-codegen
       run: dotnet build
