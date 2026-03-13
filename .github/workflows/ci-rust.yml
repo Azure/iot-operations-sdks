@@ -56,6 +56,7 @@ jobs:
       with:
         wait-for-broker: 'true'
         install-rust: 'true'
+        install-dotnet: 'true'
         action-token: ${{ secrets.AIO_SDKS_ACTION_TOKEN }}
     
     - name: Create ADR resources
