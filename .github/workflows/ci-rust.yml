@@ -51,15 +51,15 @@ jobs:
     steps:
     - uses: actions/checkout@v4
 
-    - name: Install AIO
-      uses: ./.github/actions/configure-aio
-      with:
-        wait-for-broker: 'true'
-        install-rust: 'true'
-        action-token: ${{ secrets.AIO_SDKS_ACTION_TOKEN }}
+    # - name: Install AIO
+    #   uses: ./.github/actions/configure-aio
+    #   with:
+    #     wait-for-broker: 'true'
+    #     install-rust: 'true'
+    #     action-token: ${{ secrets.AIO_SDKS_ACTION_TOKEN }}
     
-    - name: Create ADR resources
-      run: kubectl apply -f ../eng/test/test-adr-resources
+    # - name: Create ADR resources
+    #   run: kubectl apply -f ../eng/test/test-adr-resources
 
     # - name: Run Checks
     #   run: |
@@ -85,14 +85,14 @@ jobs:
 
     - name: Verify Statestore CLI
       working-directory: tools/statestore-cli
-      run:
+      run: |
         source ../../rust/ci/build-deps.sh
         cargo clippy --all-features
         cargo fmt --verbose --all
 
     - name: Verify Stub Service
       working-directory: tools/azure_iot_operations_stub_services
-      run: # Checks both with default features and without since the stub service can be used without an output folder
+      run: | # Checks both with default features and without since the stub service can be used without an output folder
         source ../../rust/ci/build-deps.sh
         cargo check 
         cargo check --no-default-features
@@ -101,7 +101,8 @@ jobs:
 
     - name: Verify Scaffolding
       working-directory: rust/sample_applications/sample_connector_scaffolding
-      run: # Checks that the scaffolding is building correctly.
+      run: | # Checks that the scaffolding is building correctly.
+        set -e
         pwd
         source ../../../rust/ci/build-deps.sh
         pwd
@@ -113,7 +114,8 @@ jobs:
         cargo fmt --verbose --all
 
     - name: Build CodeGen (Debug)
-      run: dotnet build -c Debug wot-codegen/codegen.sln
+      working-directory: wot-codegen
+      run: dotnet build
 
     - name: CodeGen, build, and validate equality for Rust Services
       run: |
