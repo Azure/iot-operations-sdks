@@ -1463,6 +1463,55 @@ mod tests {
         }
     }
 
+    secret_test!(async aggregation_notification, aggregation_notification_logic);
+
+    async fn aggregation_notification_logic(mount_manager: impl SecretMountManager) {
+        // Use a long aggregation window to make sure that all our changes are aggregated together
+        const AGGREGATION_WINDOW: Duration = Duration::from_secs(10);
+
+        // Initializes two secret aliases on disk
+        mount_manager.add_secret_alias(ALIAS_1, REF_1, KEY_1);
+        mount_manager.add_secret_data(REF_1, KEY_1, DATA_1);
+
+        // Create the Secrets struct and obtain Secret handle
+        let secrets = Secrets::new(
+            mount_manager.metadata_path().to_path_buf(),
+            mount_manager.data_path().to_path_buf(),
+            AGGREGATION_WINDOW,
+        )
+        .unwrap();
+        let mut secret = secrets.get_secret(ALIAS_1).unwrap();
+        assert!(secret.is_available());
+        assert_eq!(secret.value().await.unwrap(), DATA_1);
+
+        // Rapidly update the secret data in place
+        mount_manager.update_secret_data(REF_1, KEY_1, DATA_2);
+        mount_manager.update_secret_data(REF_1, KEY_1, DATA_3);
+        mount_manager.update_secret_data(REF_1, KEY_1, DATA_4);
+        mount_manager.update_secret_data(REF_1, KEY_1, DATA_5);
+
+        // Wait for change to be reported
+        secret.changed().await;
+        assert!(secret.is_available());
+        assert_eq!(secret.value().await.unwrap(), DATA_5);
+
+        // Now rapidly update including multiple alias remaps
+        mount_manager.update_secret_data(REF_1, KEY_1, DATA_1);
+        mount_manager.update_secret_data(REF_1, KEY_1, DATA_2);
+        mount_manager.update_secret_alias(ALIAS_1, REF_1, KEY_2);
+        mount_manager.update_secret_data(REF_1, KEY_1, DATA_3);
+        mount_manager.add_secret_data(REF_1, KEY_2, DATA_4);
+        mount_manager.update_secret_alias(ALIAS_1, REF_2, KEY_1);
+        mount_manager.add_secret_data(REF_2, KEY_1, DATA_5);
+        mount_manager.update_secret_data(REF_2, KEY_1, DATA_6);
+
+        // Wait for change to be reported
+        secret.changed().await;
+        assert!(secret.is_available());
+        assert_eq!(secret.value().await.unwrap(), DATA_6);
+    }
+
+
     // This test verifies that a `Secret` continues to receive notifications for both
     // in-place data updates and alias updates after the parent `Secrets` struct is dropped,
     // i.e. that the file watchers (debouncers) persist as long as any `Secret` handle exists.
@@ -1529,11 +1578,6 @@ mod tests {
         assert_eq!(secret2.value().await.unwrap(), DATA_4);
     }
 
-    
 }
 
-// TODO: Aggregation of updates
 
-// TODO: pure deletion timing test. Or does that belong in the data update?
-// Should that result in change notification?
-// what about two tier updates -> alias then file, shouldn't that notify twice?
