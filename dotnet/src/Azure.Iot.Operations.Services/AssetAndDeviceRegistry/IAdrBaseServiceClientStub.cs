@@ -40,6 +40,16 @@ namespace Azure.Iot.Operations.Services.AssetAndDeviceRegistry
 
         Task ReceiveTelemetry(string senderId, AssetUpdateEventTelemetry telemetry, IncomingTelemetryMetadata metadata);
 
+        Task ReceiveTelemetry(string senderId, DeviceEndpointRuntimeHealthEventTelemetry telemetry, IncomingTelemetryMetadata metadata);
+
+        Task ReceiveTelemetry(string senderId, DatasetRuntimeHealthEventTelemetry telemetry, IncomingTelemetryMetadata metadata);
+
+        Task ReceiveTelemetry(string senderId, EventRuntimeHealthEventTelemetry telemetry, IncomingTelemetryMetadata metadata);
+
+        Task ReceiveTelemetry(string senderId, ManagementActionRuntimeHealthEventTelemetry telemetry, IncomingTelemetryMetadata metadata);
+
+        Task ReceiveTelemetry(string senderId, StreamRuntimeHealthEventTelemetry telemetry, IncomingTelemetryMetadata metadata);
+
         RpcCallAsync<GetDeviceResponsePayload> GetDeviceAsync(CommandRequestMetadata? requestMetadata = null, Dictionary<string, string>? additionalTopicTokenMap = null, TimeSpan? commandTimeout = default, CancellationToken cancellationToken = default);
 
         RpcCallAsync<GetDeviceStatusResponsePayload> GetDeviceStatusAsync(CommandRequestMetadata? requestMetadata = null, Dictionary<string, string>? additionalTopicTokenMap = null, TimeSpan? commandTimeout = default, CancellationToken cancellationToken = default);
