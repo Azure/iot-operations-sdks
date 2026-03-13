@@ -120,9 +120,9 @@ jobs:
       with:
         dotnet-version: 9.0.200
         
-    - name: Build CodeGen (Debug)
-      working-directory: wot-codegen
-      run: dotnet build
+    # - name: Build CodeGen (Debug)
+    #   working-directory: wot-codegen
+    #   run: dotnet build
 
     - name: CodeGen, build, and validate equality for Rust Services
       run: |
