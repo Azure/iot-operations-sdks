@@ -5,7 +5,7 @@
 
 use std::{
     collections::HashMap,
-    path::{self, Path, PathBuf},
+    path::{Path, PathBuf},
     sync::{Arc, RwLock},
     time::Duration,
 };
@@ -14,7 +14,6 @@ use notify::{EventKind, RecommendedWatcher, RecursiveMode, event::ModifyKind};
 use notify_debouncer_full::{DebounceEventResult, Debouncer, RecommendedCache, new_debouncer};
 use tokio::sync::watch;
 
-// TODO: revisit this error
 /// Error for secret
 #[derive(Debug, thiserror::Error)]
 #[error(transparent)]
@@ -29,11 +28,18 @@ enum InnerError {
     Invalid,
 }
 
+/// Holds the file watchers (debouncers) that must remain alive as long as any
+/// `Secrets` or `Secret` handle exists.
+struct FileWatchers {
+    _metadata_debouncer: Debouncer<RecommendedWatcher, RecommendedCache>,
+    _data_debouncer: Debouncer<RecommendedWatcher, RecommendedCache>,
+}
+
+/// Manager for Secrets deployed in the connector application
+/// Use this to access individual secrets.
+#[derive(Clone)]
 pub struct Secrets {
-    #[allow(dead_code)]
-    metadata_debouncer: Arc<Debouncer<RecommendedWatcher, RecommendedCache>>, // TODO: probably need to keep this alive in child Secrets
-    #[allow(dead_code)]
-    data_debouncer: Arc<Debouncer<RecommendedWatcher, RecommendedCache>>,
+    file_watchers: Arc<FileWatchers>,
     secret_tracker: Arc<RwLock<SecretTracker>>,
 }
 
@@ -61,7 +67,7 @@ impl Secrets {
         )?));
         let secret_tracker_c1 = secret_tracker.clone();
         let secret_tracker_c2 = secret_tracker.clone();
-        let data_path_c1 = data_path.clone(); // TODO: get rid of this by reversing debouncer defs
+        let data_path_c1 = data_path.clone();
 
         // Set up the Secret Metadata mount debouncer.
         let mut metadata_debouncer = new_debouncer(
@@ -135,50 +141,51 @@ impl Secrets {
         // NOTE: Secret metadata is a flat directory, so we can watch non-recursively.
         metadata_debouncer.watch(&metadata_path, RecursiveMode::NonRecursive)?;
 
-        let mut data_debouncer = new_debouncer(
-            aggregation_window,
-            None,
-            move |res: DebounceEventResult| {
+        let mut data_debouncer =
+            new_debouncer(aggregation_window, None, move |res: DebounceEventResult| {
                 match res {
                     Ok(db_events) => {
-                        db_events.iter()
+                        db_events
+                            .iter()
                             // Only process file changes, directories are irrelevant
                             .filter(|db_event| db_event.event.paths[0].is_file())
                             .for_each(|db_event| {
-                            match db_event.event.kind {
-                                // Handle updates to existing secret data.
-                                EventKind::Modify(ModifyKind::Data(_)) => {
-                                    log::trace!("Secret data change detected: {:?}", db_event);
-                                    secret_tracker_c2
-                                        .read()
-                                        .unwrap()
-                                        .report_secret_change(&db_event.event.paths[0]);
+                                match db_event.event.kind {
+                                    // Handle updates to existing secret data.
+                                    EventKind::Modify(ModifyKind::Data(_)) => {
+                                        log::trace!("Secret data change detected: {:?}", db_event);
+                                        secret_tracker_c2
+                                            .read()
+                                            .unwrap()
+                                            .report_secret_change(&db_event.event.paths[0]);
+                                    }
+                                    // Secret files can be created, but we don't need to do anything
+                                    // with them until an alias points at them, so log only.
+                                    EventKind::Create(_) => {
+                                        log::trace!(
+                                            "Secret data creation detected: {:?}",
+                                            db_event
+                                        );
+                                        secret_tracker_c2
+                                            .read()
+                                            .unwrap()
+                                            .report_secret_change(&db_event.event.paths[0]);
+                                    }
+                                    // Secret files can be deleted, but there's no need for anything
+                                    // to be done in response, since the Secret interface will handle
+                                    // the file no longer existing. Log only.
+                                    EventKind::Remove(_) => {
+                                        log::trace!("Secret data removal detected: {:?}", db_event);
+                                    }
+                                    // Similar to deletion, this will be handled by the Secret interface.
+                                    // Log only.
+                                    EventKind::Modify(ModifyKind::Name(_)) => {
+                                        log::trace!("Secret data rename detected: {:?}", db_event);
+                                    }
+                                    // All other events can be ignored
+                                    _ => {}
                                 }
-                                // Secret files can be created, but we don't need to do anything
-                                // with them until an alias points at them, so log only.
-                                EventKind::Create(_) => {
-                                    log::trace!("Secret data creation detected: {:?}", db_event);
-                                    // TODO: Add comment here and above.
-                                    secret_tracker_c2
-                                        .read()
-                                        .unwrap()
-                                        .report_secret_change(&db_event.event.paths[0]);
-                                }
-                                // Secret files can be deleted, but there's no need for anything
-                                // to be done in response, since the Secret interface will handle
-                                // the file no longer existing. Log only.
-                                EventKind::Remove(_) => {
-                                    log::trace!("Secret data removal detected: {:?}", db_event);
-                                }
-                                // Similar to deletion, this will be handled by the Secret interface.
-                                // Log only.
-                                EventKind::Modify(ModifyKind::Name(_)) => {
-                                    log::trace!("Secret data rename detected: {:?}", db_event);
-                                }
-                                // All other events can be ignored
-                                _ => {}
-                            }
-                        })
+                            })
                     }
                     Err(errs) => {
                         for e in errs {
@@ -186,18 +193,19 @@ impl Secrets {
                         }
                     }
                 }
-            },
-        )?;
+            })?;
         data_debouncer.watch(&data_path, RecursiveMode::Recursive)?;
 
         Ok(Self {
-            metadata_debouncer: Arc::new(metadata_debouncer),
-            data_debouncer: Arc::new(data_debouncer),
+            file_watchers: Arc::new(FileWatchers {
+                _metadata_debouncer: metadata_debouncer,
+                _data_debouncer: data_debouncer,
+            }),
             secret_tracker,
         })
     }
 
-    /// Get a Secret corresponding to the given alias, if it exists.
+    /// Get a Secret corresponding to the given secret alias, if it exists.
     pub fn get_secret(&self, alias: &str) -> Option<Secret> {
         self.secret_tracker
             .read()
@@ -207,18 +215,26 @@ impl Secrets {
                 alias: alias.to_string(),
                 path: entry.path.clone(),
                 update_rx: entry.sender.subscribe(),
+                _file_watchers: self.file_watchers.clone(),
             })
     }
 }
 
-#[derive(Debug, Clone)] // TODO: do we need a custom clone implementation, or should the pending updates carry over?
+/// Provides access to a deployed secret.
+/// Can provide value and be monitored for changes.
+/// Note that the secret value may not always be available in cases where the secret alias is being
+/// remapped to new secret content, but the new secret content has not yet been deployed.
+#[derive(Clone)] // TODO: do we need a custom clone implementation, or should the pending updates carry over?
 pub struct Secret {
     alias: String,
     path: Arc<RwLock<PathBuf>>,
     update_rx: watch::Receiver<()>,
+    _file_watchers: Arc<FileWatchers>,
 }
 
 impl Secret {
+    // CONSIDER: perhaps add path as well?
+
     /// Returns the alias of the secret
     pub fn alias(&self) -> &str {
         &self.alias
@@ -232,7 +248,7 @@ impl Secret {
             self.update_rx
                 .changed()
                 .await
-                .expect("Secret update channel closed unexpectedly");
+                .expect("Secret update channel closed unexpectedly");   // TODO: can this happen?
             // After being notified of an update, make sure the updated secret exists,
             // or keep waiting for additional updates.
             if self.path.read().unwrap().exists() {
@@ -256,7 +272,6 @@ impl Secret {
         let path = self.path.read().unwrap();
         if path.exists() {
             // Mark the secret as unchanged since we are reading its current value
-            // TODO: is this right?
             self.update_rx.mark_unchanged();
             Ok(Some(
                 std::fs::read_to_string(&*path).map_err(InnerError::from)?,
@@ -296,7 +311,7 @@ struct SecretTracker {
     /// This is a one to manyh relationship because multiple aliases can point at the same secret data.
     /// Note that secrets are only tracked in here if an alias points at them, there may be secret data
     /// files that exist on disk, but are not tracked here.
-    by_path: HashMap<PathBuf, Vec<Arc<SecretTrackerEntry>>>, // TODO: Vec?
+    by_path: HashMap<PathBuf, Vec<Arc<SecretTrackerEntry>>>,
 }
 
 impl SecretTracker {
@@ -318,7 +333,10 @@ impl SecretTracker {
                     sender: watch::channel(()).0,
                 });
                 by_alias.insert(secret_alias, entry.clone());
-                by_path.entry(secret_file).or_insert_with(Vec::new).push(entry);
+                by_path
+                    .entry(secret_file)
+                    .or_insert_with(Vec::new)
+                    .push(entry);
             }
         }
 
@@ -336,7 +354,7 @@ impl SecretTracker {
     /// Update the path of the secret corresponding to the given alias, and notify of the update
     fn update_secret_path(&mut self, alias: &str, new_path: PathBuf) -> Result<(), InnerError> {
         // If path exists in the tracker, point alias entry at the entry that matches the path
-        // If path does not exist, 
+        // If path does not exist,
 
         if let Some(entry) = self.by_alias.get(alias) {
             // Get a write lock on the entry's path to ensure there's no timing issues.
@@ -357,7 +375,10 @@ impl SecretTracker {
             *entry_path_wg = new_path.clone();
 
             // Finally, add an entry in the by_path map for the new path.
-            self.by_path.entry(new_path).or_insert_with(Vec::new).push(entry.clone());
+            self.by_path
+                .entry(new_path)
+                .or_insert_with(Vec::new)
+                .push(entry.clone());
 
             // Notify the Secret of the update
             // We do not care about send errors here - they just mean nobody is currently
@@ -370,26 +391,12 @@ impl SecretTracker {
         }
     }
 
-    // fn report_secret_update(&self, path: &Path) -> Result<(), InnerError> {
-    //     if let Some(entries) = self.by_path.get(path) {
-    //         log::debug!("Reporting secret update for path {path:?}");
-    //         // Notify all corresponding secrets of the update
-    //         // We do not care about send errors here - they just mean nobody is currently
-    //         // monitoring the secret, which is fine.
-    //         for entry in entries {
-    //             let _ = entry.sender.send(());
-    //         }
-    //         Ok(())
-    //     } else {
-    //         log::debug!("Invalid secret update path: {path:?}");
-    //         // Path does not correspond to any known secrets
-    //         Err(InnerError::Invalid)
-    //     }
-    // }
-
     fn report_secret_change(&self, path: &Path) {
         if let Some(entries) = self.by_path.get(path) {
-            log::debug!("Reporting secret change for path {path:?} to {} secrets", entries.len());
+            log::debug!(
+                "Reporting secret change for path {path:?} to {} secrets",
+                entries.len()
+            );
             // Notify all corresponding secrets of the change
             // We do not care about send errors here - they just mean nobody is currently
             // monitoring the secret, which is fine.
@@ -401,11 +408,6 @@ impl SecretTracker {
         }
     }
 
-    // TODO: probably need separate create secret function still for the case where the alias
-    // is updated to point at a non-existent secret, and then the secret is created later.
-
-    // // TODO: need to be able to report mismatch of given path/alias or send failure for logging.
-
     // TODO: what about cleanup/deletion?
 
     // TODO: clones, drops, cancel safety.
@@ -413,7 +415,7 @@ impl SecretTracker {
 
 #[cfg(test)]
 mod tests {
-    use super::{Secret, Secrets};
+    use super::Secrets;
     use crate::deployment_artifacts::test_utils::TempMount;
     use std::{path::Path, time::Duration};
     use tokio::time::Instant;
@@ -585,16 +587,47 @@ mod tests {
     const DATA_7: &str = "data7";
     const DATA_8: &str = "data8";
 
-    /// This test outlines basic updating of secrets in place.
-    /// Exact timing of change notifications will be covered in other tests.
-    #[tokio::test]
-    async fn update_secret_data_in_place() {
-        let standard_manager = StandardSecretMountManager::new();
-        update_secret_data_in_place_logic(standard_manager).await;
-
-        let sync_manager = SecretSyncMountManager::new();
-        update_secret_data_in_place_logic(sync_manager).await;
+    macro_rules! secret_test {
+        (async $name:ident, $logic:ident) => {
+            #[tokio::test]
+            async fn $name() {
+                $logic(StandardSecretMountManager::new()).await;
+                $logic(SecretSyncMountManager::new()).await;
+            }
+        };
+        ($name:ident, $logic:ident) => {
+            #[test]
+            fn $name() {
+                $logic(StandardSecretMountManager::new());
+                $logic(SecretSyncMountManager::new());
+            }
+        };
     }
+
+    secret_test!(secret_reports_alias, secret_reports_alias_logic);
+
+    fn secret_reports_alias_logic(mount_manager: impl SecretMountManager) {
+        // Use a short aggregation window to make test run quickly
+        const AGGREGATION_WINDOW: Duration = Duration::from_millis(100);
+
+        // Initialize an alias on disk
+        mount_manager.add_secret_alias(ALIAS_1, REF_1, KEY_1);
+        mount_manager.add_secret_data(REF_1, KEY_1, DATA_1);
+
+        let secrets = Secrets::new(
+            mount_manager.metadata_path().to_path_buf(),
+            mount_manager.data_path().to_path_buf(),
+            AGGREGATION_WINDOW,
+        )
+        .unwrap();
+        let secret = secrets.get_secret(ALIAS_1).unwrap();
+        assert_eq!(secret.alias(), ALIAS_1)
+    }
+
+    // This test outlines basic updating of secret content in place.
+    // Tests using various secret ref / key combinations.
+    // Exact timing of change notifications will be covered in other tests.
+    secret_test!(async update_secret_data_in_place, update_secret_data_in_place_logic);
 
     async fn update_secret_data_in_place_logic(mount_manager: impl SecretMountManager) {
         // Use a short aggregation window to make test run quickly
@@ -732,15 +765,130 @@ mod tests {
         assert_eq!(secret5.value().await.unwrap(), DATA_4);
     }
 
-    /// Here we test the timing of new data availability and notifications when updating secret data in place
-    #[tokio::test]
-    async fn update_secret_data_in_place_notification_timing() {
-        let standard_manager = StandardSecretMountManager::new();
-        update_secret_data_in_place_notification_timing_logic(standard_manager).await;
+    // Demonstrate that notifications are delivered to the right Secret(s) when updating secret data in place
+    secret_test!(async update_secret_data_in_place_notification_routing, update_secret_data_in_place_notification_routing_logic);
 
-        let sync_manager = SecretSyncMountManager::new();
-        update_secret_data_in_place_notification_timing_logic(sync_manager).await;
+    async fn update_secret_data_in_place_notification_routing_logic(mount_manager: impl SecretMountManager) {
+        // Use a short aggregation window to make test run quickly
+        const AGGREGATION_WINDOW: Duration = Duration::from_millis(100);
+
+        // Initialize five secret aliases on disk:
+        // - two of which share the same secret reference (ALIAS_1 and ALIAS_2 both use REF_1)
+        // - two of which share the same secret reference AND same secret key (i.e. same data file) (ALIAS_1 and ALIAS_4 both point at REF_1/KEY_1)
+        // - two of which share the same secret key but NOT the same secret reference (ALIAS_1 and ALIAS_3 both use KEY_1 but different secret refs)
+        // - one of which is completely distinct (ALIAS_5)
+        mount_manager.add_secret_alias(ALIAS_1, REF_1, KEY_1);
+        mount_manager.add_secret_data(REF_1, KEY_1, DATA_1);
+        mount_manager.add_secret_alias(ALIAS_2, REF_1, KEY_2);
+        mount_manager.add_secret_data(REF_1, KEY_2, DATA_2);
+        mount_manager.add_secret_alias(ALIAS_3, REF_2, KEY_1);
+        mount_manager.add_secret_data(REF_2, KEY_1, DATA_3);
+        mount_manager.add_secret_alias(ALIAS_4, REF_1, KEY_1);
+        mount_manager.add_secret_alias(ALIAS_5, REF_3, KEY_3);
+        mount_manager.add_secret_data(REF_3, KEY_3, DATA_4);
+
+        // Create the Secrets struct and get the individual Secret structs.
+        // For each secret, call the get_secret() API twice and do a clone.
+        // This will demonstrate all possible ways to get a secret.
+        let secrets = Secrets::new(
+            mount_manager.metadata_path().to_path_buf(),
+            mount_manager.data_path().to_path_buf(),
+            AGGREGATION_WINDOW,
+        )
+        .unwrap();
+        let mut secret1_c1 = secrets.get_secret(ALIAS_1).unwrap();
+        let mut secret1_c2 = secrets.get_secret(ALIAS_1).unwrap();
+        let mut secret1_c3 = secret1_c2.clone();
+        let mut secret2_c1 = secrets.get_secret(ALIAS_2).unwrap();
+        let mut secret2_c2 = secrets.get_secret(ALIAS_2).unwrap();
+        let mut secret2_c3 = secret2_c2.clone();
+        let mut secret3_c1 = secrets.get_secret(ALIAS_3).unwrap();
+        let mut secret3_c2 = secrets.get_secret(ALIAS_3).unwrap();
+        let mut secret3_c3 = secret3_c2.clone();
+        let mut secret4_c1 = secrets.get_secret(ALIAS_4).unwrap();
+        let mut secret4_c2 = secrets.get_secret(ALIAS_4).unwrap();
+        let mut secret4_c3 = secret4_c2.clone();
+        let mut secret5_c1 = secrets.get_secret(ALIAS_5).unwrap();
+        let mut secret5_c2 = secrets.get_secret(ALIAS_5).unwrap();
+        let mut secret5_c3 = secret5_c2.clone();
+
+        // Create listening tasks for all secrets
+        let s1c1_notified = tokio::task::spawn(async move { secret1_c1.changed().await });
+        let s1c2_notified = tokio::task::spawn(async move { secret1_c2.changed().await });
+        let s1c3_notified = tokio::task::spawn(async move { secret1_c3.changed().await });
+        let s2c1_notified = tokio::task::spawn(async move { secret2_c1.changed().await });
+        let s2c2_notified = tokio::task::spawn(async move { secret2_c2.changed().await });
+        let s2c3_notified = tokio::task::spawn(async move { secret2_c3.changed().await });
+        let s3c1_notified = tokio::task::spawn(async move { secret3_c1.changed().await });
+        let s3c2_notified = tokio::task::spawn(async move { secret3_c2.changed().await });
+        let s3c3_notified = tokio::task::spawn(async move { secret3_c3.changed().await });
+        let s4c1_notified = tokio::task::spawn(async move { secret4_c1.changed().await });
+        let s4c2_notified = tokio::task::spawn(async move { secret4_c2.changed().await });
+        let s4c3_notified = tokio::task::spawn(async move { secret4_c3.changed().await });
+        let s5c1_notified = tokio::task::spawn(async move { secret5_c1.changed().await });
+        let s5c2_notified = tokio::task::spawn(async move { secret5_c2.changed().await });
+        let s5c3_notified = tokio::task::spawn(async move { secret5_c3.changed().await });
+        
+        // Update REF_1/KEY_1 data (affects ALIAS_1 and ALIAS_4)
+        mount_manager.update_secret_data(REF_1, KEY_1, DATA_5);
+        tokio::time::sleep(AGGREGATION_WINDOW.mul_f32(1.5)).await;
+
+        // Only the secret2 and secret4 copies received a notification
+        assert!(s1c1_notified.is_finished());
+        assert!(s1c2_notified.is_finished());
+        assert!(s1c3_notified.is_finished());
+        assert!(s4c1_notified.is_finished());
+        assert!(s4c2_notified.is_finished());
+        assert!(s4c3_notified.is_finished());
+        assert!(!s2c1_notified.is_finished());
+        assert!(!s2c2_notified.is_finished());
+        assert!(!s2c3_notified.is_finished());
+        assert!(!s3c1_notified.is_finished());
+        assert!(!s3c2_notified.is_finished());
+        assert!(!s3c3_notified.is_finished());
+        assert!(!s5c1_notified.is_finished());
+        assert!(!s5c2_notified.is_finished());
+        assert!(!s5c3_notified.is_finished());
+
+        // Update REF_1/KEY_2 data (affects ALIAS_2)
+        mount_manager.update_secret_data(REF_1, KEY_2, DATA_5);
+        tokio::time::sleep(AGGREGATION_WINDOW.mul_f32(1.5)).await;
+
+        // Only the secret2 copies received a notification
+        assert!(s2c1_notified.is_finished());
+        assert!(s2c2_notified.is_finished());
+        assert!(s2c3_notified.is_finished());
+        assert!(!s3c1_notified.is_finished());
+        assert!(!s3c2_notified.is_finished());
+        assert!(!s3c3_notified.is_finished());
+        assert!(!s5c1_notified.is_finished());
+        assert!(!s5c2_notified.is_finished());
+        assert!(!s5c3_notified.is_finished());
+
+        // Update REF_2/KEY_1 data (affects ALIAS_3)
+        mount_manager.update_secret_data(REF_2, KEY_1, DATA_5);
+        tokio::time::sleep(AGGREGATION_WINDOW.mul_f32(1.5)).await;
+
+        // Only the secret3 copies received a notification
+        assert!(s3c1_notified.is_finished());
+        assert!(s3c2_notified.is_finished());
+        assert!(s3c3_notified.is_finished());
+        assert!(!s5c1_notified.is_finished());
+        assert!(!s5c2_notified.is_finished());
+        assert!(!s5c3_notified.is_finished());
+
+        // Update REF_3/KEY_3 data (affects ALIAS_5)
+        mount_manager.update_secret_data(REF_3, KEY_3, DATA_5);
+        tokio::time::sleep(AGGREGATION_WINDOW.mul_f32(1.5)).await;
+
+        // The secret5 copies received a notification
+        assert!(s5c1_notified.is_finished());
+        assert!(s5c2_notified.is_finished());
+        assert!(s5c3_notified.is_finished());
     }
+
+    // Here we test the timing of new data availability and notifications when updating secret data in place
+    secret_test!(async update_secret_data_in_place_notification_timing, update_secret_data_in_place_notification_timing_logic);
 
     async fn update_secret_data_in_place_notification_timing_logic(mount_manager: impl SecretMountManager) {
         // Use a longer aggregation window in this test to make sure that updates are not processed immediately
@@ -803,14 +951,10 @@ mod tests {
         assert!(t2 >= t0 + AGGREGATION_WINDOW);
     }
 
-    #[tokio::test]
-    async fn update_secret_alias() {
-        let standard_manager = StandardSecretMountManager::new();
-        update_secret_alias_logic(standard_manager).await;
-
-        let sync_manager = SecretSyncMountManager::new();
-        update_secret_alias_logic(sync_manager).await;
-    }
+    // This test outlines basic updating of secret aliases
+    // Tests using various secret ref / key combinations.
+    // Exact timing of change notifications will be covered in other tests.
+    secret_test!(async update_secret_alias, update_secret_alias_logic);
 
     async fn update_secret_alias_logic(mount_manager: impl SecretMountManager) {
         // Use a short aggregation window to make test run quickly
@@ -1009,25 +1153,134 @@ mod tests {
         assert_eq!(secret5.value().await.unwrap(), DATA_4);
     }
 
-    /// Here we test the timing of new data availability and notifications when updating secret data in place
-    #[tokio::test]
-    async fn update_secret_alias_notification_timing() {
-        let _ = env_logger::builder()
-            .is_test(true)
-            .filter_module("notify::inotify", log::LevelFilter::Off)
-            .try_init();
+    // Demonstrate that notifications are delivered to the right Secret(s) when updating secret aliases
+    secret_test!(async update_secret_alias_notification_routing, update_secret_alias_notification_routing_logic);
 
-        // let standard_manager = StandardSecretMountManager::new();
-        // update_secret_data_in_place_notification_timing_logic(standard_manager).await;
+    async fn update_secret_alias_notification_routing_logic(mount_manager: impl SecretMountManager) {
+        // Use a short aggregation window to make test run quickly
+        const AGGREGATION_WINDOW: Duration = Duration::from_millis(100);
 
-        let sync_manager = SecretSyncMountManager::new();
-        update_secret_alias_notification_timing_logic(sync_manager).await;
+        // Initialize five secret aliases on disk:
+        // - two of which share the same secret reference (ALIAS_1 and ALIAS_2 both use REF_1)
+        // - two of which share the same secret reference AND same secret key (i.e. same data file) (ALIAS_1 and ALIAS_4 both point at REF_1/KEY_1)
+        // - two of which share the same secret key but NOT the same secret reference (ALIAS_1 and ALIAS_3 both use KEY_1 but different secret refs)
+        // - one of which is completely distinct (ALIAS_5)
+        mount_manager.add_secret_alias(ALIAS_1, REF_1, KEY_1);
+        mount_manager.add_secret_data(REF_1, KEY_1, DATA_1);
+        mount_manager.add_secret_alias(ALIAS_2, REF_1, KEY_2);
+        mount_manager.add_secret_data(REF_1, KEY_2, DATA_2);
+        mount_manager.add_secret_alias(ALIAS_3, REF_2, KEY_1);
+        mount_manager.add_secret_data(REF_2, KEY_1, DATA_3);
+        mount_manager.add_secret_alias(ALIAS_4, REF_1, KEY_1);
+        mount_manager.add_secret_alias(ALIAS_5, REF_3, KEY_3);
+        mount_manager.add_secret_data(REF_3, KEY_3, DATA_4);
+
+        // Create the Secrets struct and get the individual Secret structs.
+        // For each secret, call the get_secret() API twice and do a clone.
+        // This will demonstrate all possible ways to get a secret.
+        let secrets = Secrets::new(
+            mount_manager.metadata_path().to_path_buf(),
+            mount_manager.data_path().to_path_buf(),
+            AGGREGATION_WINDOW,
+        )
+        .unwrap();
+        let mut secret1_c1 = secrets.get_secret(ALIAS_1).unwrap();
+        let mut secret1_c2 = secrets.get_secret(ALIAS_1).unwrap();
+        let mut secret1_c3 = secret1_c2.clone();
+        let mut secret2_c1 = secrets.get_secret(ALIAS_2).unwrap();
+        let mut secret2_c2 = secrets.get_secret(ALIAS_2).unwrap();
+        let mut secret2_c3 = secret2_c2.clone();
+        let mut secret3_c1 = secrets.get_secret(ALIAS_3).unwrap();
+        let mut secret3_c2 = secrets.get_secret(ALIAS_3).unwrap();
+        let mut secret3_c3 = secret3_c2.clone();
+        let mut secret4_c1 = secrets.get_secret(ALIAS_4).unwrap();
+        let mut secret4_c2 = secrets.get_secret(ALIAS_4).unwrap();
+        let mut secret4_c3 = secret4_c2.clone();
+        let mut secret5_c1 = secrets.get_secret(ALIAS_5).unwrap();
+        let mut secret5_c2 = secrets.get_secret(ALIAS_5).unwrap();
+        let mut secret5_c3 = secret5_c2.clone();
+
+        // Create listening tasks for all secrets
+        let s1c1_notified = tokio::task::spawn(async move { secret1_c1.changed().await });
+        let s1c2_notified = tokio::task::spawn(async move { secret1_c2.changed().await });
+        let s1c3_notified = tokio::task::spawn(async move { secret1_c3.changed().await });
+        let s2c1_notified = tokio::task::spawn(async move { secret2_c1.changed().await });
+        let s2c2_notified = tokio::task::spawn(async move { secret2_c2.changed().await });
+        let s2c3_notified = tokio::task::spawn(async move { secret2_c3.changed().await });
+        let s3c1_notified = tokio::task::spawn(async move { secret3_c1.changed().await });
+        let s3c2_notified = tokio::task::spawn(async move { secret3_c2.changed().await });
+        let s3c3_notified = tokio::task::spawn(async move { secret3_c3.changed().await });
+        let s4c1_notified = tokio::task::spawn(async move { secret4_c1.changed().await });
+        let s4c2_notified = tokio::task::spawn(async move { secret4_c2.changed().await });
+        let s4c3_notified = tokio::task::spawn(async move { secret4_c3.changed().await });
+        let s5c1_notified = tokio::task::spawn(async move { secret5_c1.changed().await });
+        let s5c2_notified = tokio::task::spawn(async move { secret5_c2.changed().await });
+        let s5c3_notified = tokio::task::spawn(async move { secret5_c3.changed().await });
+
+        // Update ALIAS_1 to point at REF_2/KEY_1 instead of REF_1/KEY_1 (only affects ALIAS_1)
+        // Notably, ALIAS_4 shares the same initial data path as ALIAS_1 but should NOT be notified,
+        // because only the alias that was updated receives a notification.
+        mount_manager.update_secret_alias(ALIAS_1, REF_2, KEY_1);
+        tokio::time::sleep(AGGREGATION_WINDOW.mul_f32(1.5)).await;
+
+        // Only the secret1 copies received a notification
+        assert!(s1c1_notified.is_finished());
+        assert!(s1c2_notified.is_finished());
+        assert!(s1c3_notified.is_finished());
+        assert!(!s2c1_notified.is_finished());
+        assert!(!s2c2_notified.is_finished());
+        assert!(!s2c3_notified.is_finished());
+        assert!(!s3c1_notified.is_finished());
+        assert!(!s3c2_notified.is_finished());
+        assert!(!s3c3_notified.is_finished());
+        assert!(!s4c1_notified.is_finished());
+        assert!(!s4c2_notified.is_finished());
+        assert!(!s4c3_notified.is_finished());
+        assert!(!s5c1_notified.is_finished());
+        assert!(!s5c2_notified.is_finished());
+        assert!(!s5c3_notified.is_finished());
+
+        // Swap ALIAS_2 and ALIAS_4 secret keys (they share the same secret ref)
+        // (affects ALIAS_2 and ALIAS_4)
+        mount_manager.update_secret_alias(ALIAS_2, REF_1, KEY_1);
+        mount_manager.update_secret_alias(ALIAS_4, REF_1, KEY_2);
+        tokio::time::sleep(AGGREGATION_WINDOW.mul_f32(1.5)).await;
+
+        // Only the secret2 and secret4 copies received a notification
+        assert!(s2c1_notified.is_finished());
+        assert!(s2c2_notified.is_finished());
+        assert!(s2c3_notified.is_finished());
+        assert!(s4c1_notified.is_finished());
+        assert!(s4c2_notified.is_finished());
+        assert!(s4c3_notified.is_finished());
+        assert!(!s3c1_notified.is_finished());
+        assert!(!s3c2_notified.is_finished());
+        assert!(!s3c3_notified.is_finished());
+        assert!(!s5c1_notified.is_finished());
+        assert!(!s5c2_notified.is_finished());
+        assert!(!s5c3_notified.is_finished());
+
+        // Swap ALIAS_3 and ALIAS_5 to point at each other's secret refs and keys
+        // (affects ALIAS_3 and ALIAS_5)
+        mount_manager.update_secret_alias(ALIAS_3, REF_3, KEY_3);
+        mount_manager.update_secret_alias(ALIAS_5, REF_2, KEY_1);
+        tokio::time::sleep(AGGREGATION_WINDOW.mul_f32(1.5)).await;
+
+        // The secret3 and secret5 copies received a notification
+        assert!(s3c1_notified.is_finished());
+        assert!(s3c2_notified.is_finished());
+        assert!(s3c3_notified.is_finished());
+        assert!(s5c1_notified.is_finished());
+        assert!(s5c2_notified.is_finished());
+        assert!(s5c3_notified.is_finished());
     }
+
+    // Here we test the timing of new data availability and notifications when updating secret aliases
+    secret_test!(async update_secret_alias_notification_timing, update_secret_alias_notification_timing_logic);
 
     async fn update_secret_alias_notification_timing_logic(mount_manager: impl SecretMountManager) {
         // Use a longer aggregation window in this test to make sure that updates are not processed immediately
         const AGGREGATION_WINDOW: Duration = Duration::from_millis(500);
-        //const MANUAL_WAIT: Duration = Duration::from_millis(150);
 
         // Initialize a secret alias on disk
         mount_manager.add_secret_alias(ALIAS_1, REF_1, KEY_1);
@@ -1044,7 +1297,7 @@ mod tests {
         let mut secret1_c1 = secrets.get_secret(ALIAS_1).unwrap();
         let mut secret1_c2 = secrets.get_secret(ALIAS_1).unwrap();
 
-        // Add new secret data and THEN redirect ALIAS_1 to use it
+        // Add new secret data and redirect ALIAS_1 to use it
         // Do not delete the existing secret data that becomes unused.
         mount_manager.add_secret_data(REF_1, KEY_2, DATA_2);
         mount_manager.update_secret_alias(ALIAS_1, REF_1, KEY_2);
@@ -1059,7 +1312,10 @@ mod tests {
                 async move {
                     // The value can be retrieved immediately with both `value` and `value_if_available`,
                     // but will be the old value until the aggregation window has passed
-                    assert_eq!(secret1_c1.value_if_available().unwrap(), Some(DATA_1.to_string()));
+                    assert_eq!(
+                        secret1_c1.value_if_available().unwrap(),
+                        Some(DATA_1.to_string())
+                    );
                     assert_eq!(secret1_c1.value().await.unwrap(), DATA_1);
                     let retrieval_time = Instant::now();
                     // Despite the value being retrievable early, the notification will still be received after
@@ -1072,12 +1328,17 @@ mod tests {
                     secret1_c2.changed().await;
                     let notification_time = Instant::now();
                     // But the value will now be the updated one
-                    assert_eq!(secret1_c2.value_if_available().unwrap(), Some(DATA_2.to_string()));
+                    assert_eq!(
+                        secret1_c2.value_if_available().unwrap(),
+                        Some(DATA_2.to_string())
+                    );
                     assert_eq!(secret1_c2.value().await.unwrap(), DATA_2);
                     notification_time
                 }
             )
-        }).await.expect("test timed out");
+        })
+        .await
+        .expect("test timed out");
         // The old value was only available prior to the change notification.
         assert!(t1 < t2);
         assert!(t1 < t0 + AGGREGATION_WINDOW);
@@ -1087,7 +1348,7 @@ mod tests {
         let mut secret1_c3 = secrets.get_secret(ALIAS_1).unwrap();
         let mut secret1_c4 = secrets.get_secret(ALIAS_1).unwrap();
 
-        // // This time, do delete the existing secret data that becomes unused 
+        // // This time, do delete the existing secret data that becomes unused
         mount_manager.add_secret_data(REF_1, KEY_3, DATA_3);
         mount_manager.remove_secret_data(REF_1, KEY_2);
         mount_manager.update_secret_alias(ALIAS_1, REF_1, KEY_3);
@@ -1104,7 +1365,10 @@ mod tests {
                 async move {
                     // The new value will be retrieved as soon as it's available if waited on
                     assert_eq!(secret1_c3.value().await.unwrap(), DATA_3);
-                    assert_eq!(secret1_c3.value_if_available().unwrap(), Some(DATA_3.to_string()));
+                    assert_eq!(
+                        secret1_c3.value_if_available().unwrap(),
+                        Some(DATA_3.to_string())
+                    );
                     Instant::now()
                 },
                 async move {
@@ -1112,12 +1376,17 @@ mod tests {
                     secret1_c4.changed().await;
                     let notification_time = Instant::now();
                     // But the value will now be the updated one
-                    assert_eq!(secret1_c4.value_if_available().unwrap(), Some(DATA_3.to_string()));
+                    assert_eq!(
+                        secret1_c4.value_if_available().unwrap(),
+                        Some(DATA_3.to_string())
+                    );
                     assert_eq!(secret1_c4.value().await.unwrap(), DATA_3);
                     notification_time
                 }
             )
-        }).await.expect("test timed out");
+        })
+        .await
+        .expect("test timed out");
         // Both times returned are roughly equivalent, and both are after the aggregation window,
         // i.e. the new value is not available at all until the aggregation window has passed.
         assert!(t1 > t0 + AGGREGATION_WINDOW);
@@ -1126,8 +1395,6 @@ mod tests {
         // Get two more copies of the secret struct
         let mut secret1_c5 = secrets.get_secret(ALIAS_1).unwrap();
         let mut secret1_c6 = secrets.get_secret(ALIAS_1).unwrap();
-
-        log::warn!("BEFORE");
 
         // There will be no ability to get values at all if the alias is updated to point at non-existent data,
         // until that data is added and the aggregation window has passed.
@@ -1156,7 +1423,10 @@ mod tests {
                     // The new value will be retrieved as soon as it's available if waited on
                     assert_eq!(secret1_c5.value().await.unwrap(), DATA_4);
                     log::warn!("tag 1");
-                    assert_eq!(secret1_c5.value_if_available().unwrap(), Some(DATA_4.to_string()));
+                    assert_eq!(
+                        secret1_c5.value_if_available().unwrap(),
+                        Some(DATA_4.to_string())
+                    );
                     log::warn!("task 2 done");
                     Instant::now()
                 },
@@ -1165,125 +1435,105 @@ mod tests {
                     secret1_c6.changed().await;
                     let notification_time = Instant::now();
                     // But the value will now be the updated one
-                    assert_eq!(secret1_c6.value_if_available().unwrap(), Some(DATA_4.to_string()));
+                    assert_eq!(
+                        secret1_c6.value_if_available().unwrap(),
+                        Some(DATA_4.to_string())
+                    );
                     log::warn!("tag 2");
                     assert_eq!(secret1_c6.value().await.unwrap(), DATA_4);
                     log::warn!("task 3 done");
                     notification_time
                 },
             )
-        }).await.expect("test timed out");
+        })
+        .await
+        .expect("test timed out");
         // Values cannot be retrieved until after the aggregation window after the update.
-        // T2 and T3 are roughly equivalent.
+        // Note that because of latency, t2 and t3 will sometimes be slightly less than t1 + AGGREGATION_WINDOW
+        // if the file is updated slightly within the AGGREGATION_WINDOW, so we multiply by 0.8.
         assert!(t1 >= t0 + AGGREGATION_WINDOW);
-        assert!(t2 >= t1 + AGGREGATION_WINDOW);
-        assert!(t3 >= t1 + AGGREGATION_WINDOW);
-
-        // TODO: why is the above timing out?
-
-        // TODO: pure deletion timing test. Or does that belong in the data update?
-        // Should that result in change notification?
-        // what about two tier updates -> alias then file, shouldn't that notify twice?
+        assert!(t2 >= t1 + AGGREGATION_WINDOW.mul_f32(0.8));
+        assert!(t3 >= t1 + AGGREGATION_WINDOW.mul_f32(0.8));
+        // T3 and T2 should be roughly equivalent. We can't definitively say which one will be first
+        // as it really is up to the scheduler.
+        if t2 > t3 {
+            assert!(t2.duration_since(t3) < Duration::from_millis(50))
+        } else {
+            assert!(t3.duration_since(t2) < Duration::from_millis(50))
+        }
     }
 
+    // This test verifies that a `Secret` continues to receive notifications for both
+    // in-place data updates and alias updates after the parent `Secrets` struct is dropped,
+    // i.e. that the file watchers (debouncers) persist as long as any `Secret` handle exists.
+    secret_test!(async secret_survives_secrets_drop, secret_survives_secrets_drop_logic);
 
+    async fn secret_survives_secrets_drop_logic(mount_manager: impl SecretMountManager) {
+        // Use a short aggregation window to make test run quickly
+        const AGGREGATION_WINDOW: Duration = Duration::from_millis(100);
+        // Use a slightly longer wait time to ensure there's no test race condition
+        const WAIT_FOR_UPDATE: Duration = Duration::from_millis(150);
 
+        // Initialize two secret aliases on disk
+        mount_manager.add_secret_alias(ALIAS_1, REF_1, KEY_1);
+        mount_manager.add_secret_data(REF_1, KEY_1, DATA_1);
+        mount_manager.add_secret_alias(ALIAS_2, REF_2, KEY_2);
+        mount_manager.add_secret_data(REF_2, KEY_2, DATA_2);
 
+        // Create the Secrets struct and obtain Secret handles
+        let secrets = Secrets::new(
+            mount_manager.metadata_path().to_path_buf(),
+            mount_manager.data_path().to_path_buf(),
+            AGGREGATION_WINDOW,
+        )
+        .unwrap();
+        let mut secret1 = secrets.get_secret(ALIAS_1).unwrap();
+        let mut secret2 = secrets.get_secret(ALIAS_2).unwrap();
 
-    // #[tokio::test]
-    // async fn repro() {
-    //     let _ = env_logger::builder().is_test(true).try_init();
-    //     let mount_manager = SecretSyncMountManager::new();
-        
-    //     // Use a longer aggregation window in this test to make sure that updates are not processed immediately
-    //     const AGGREGATION_WINDOW: Duration = Duration::from_millis(500);
+        // Confirm initial values
+        assert_eq!(secret1.value().await.unwrap(), DATA_1);
+        assert_eq!(secret2.value().await.unwrap(), DATA_2);
 
-    //     // Initialize a secret alias on disk
-    //     mount_manager.add_secret_alias(ALIAS_1, REF_1, KEY_1);
-    //     // mount_manager.add_secret_data(REF_1, KEY_1, DATA_1);
+        // Drop the Secrets manager — only the individual Secret handles remain
+        drop(secrets);
 
-    //     // Create the Secrets struct
-    //     let secrets = Secrets::new(
-    //         mount_manager.metadata_path().to_path_buf(),
-    //         mount_manager.data_path().to_path_buf(),
-    //         AGGREGATION_WINDOW,
-    //     )
-    //     .unwrap();
+        // --- In-place data update after Secrets is dropped ---
+        mount_manager.update_secret_data(REF_1, KEY_1, DATA_3);
 
-    //     // // // This time, do delete the existing secret data that becomes unused 
-    //     // mount_manager.add_secret_data(REF_1, KEY_3, DATA_3);
+        // The data debouncer must still be alive to deliver the notification
+        tokio::time::timeout(Duration::from_secs(2), secret1.changed())
+            .await
+            .expect("secret1 did not receive data update notification after Secrets was dropped");
+        assert_eq!(secret1.value().await.unwrap(), DATA_3);
 
-    //     // Get two more copies of the secret struct
-    //     let mut secret1_c5 = secrets.get_secret(ALIAS_1).unwrap();
-    //     let mut secret1_c6 = secrets.get_secret(ALIAS_1).unwrap();
+        // --- Alias update after Secrets is dropped ---
+        // Redirect ALIAS_2 to point at REF_1/KEY_1 (which now contains DATA_3)
+        mount_manager.update_secret_alias(ALIAS_2, REF_1, KEY_1);
+        tokio::time::sleep(WAIT_FOR_UPDATE).await; // Wait for metadata debouncer
 
-    //     // There will be no ability to get values at all if the alias is updated to point at non-existent data,
-    //     // until that data is added and the aggregation window has passed.
-    //     mount_manager.update_secret_alias(ALIAS_1, REF_2, KEY_2);
-    //     //mount_manager.remove_secret_data(REF_1, KEY_3);
-    //     let t0 = Instant::now();
+        // The metadata debouncer must still be alive to process the alias update
+        assert_eq!(secret2.value().await.unwrap(), DATA_3);
 
-    //     // No value is currently retrievable due to the alias pointing at non-existent data
-    //     assert!(!secret1_c5.is_available());
-    //     assert!(!secret1_c6.is_available());
-    //     assert_eq!(secret1_c5.value_if_available().unwrap(), None);
-    //     assert_eq!(secret1_c6.value_if_available().unwrap(), None);
+        // --- Another in-place data update, now affecting both secrets via shared path ---
+        mount_manager.update_secret_data(REF_1, KEY_1, DATA_4);
 
-    //     log::warn!("BEFORE");
+        // Both secrets should receive the update
+        let (r1, r2) = tokio::time::timeout(Duration::from_secs(2), async {
+            tokio::join!(secret1.changed(), secret2.changed())
+        })
+        .await
+        .expect("secrets did not receive data update notification after alias redirect");
+        // changed() returns (), just verify values
+        let _ = (r1, r2);
+        assert_eq!(secret1.value().await.unwrap(), DATA_4);
+        assert_eq!(secret2.value().await.unwrap(), DATA_4);
+    }
 
-    //     // tokio::time::sleep(AGGREGATION_WINDOW).await;
-    //     // mount_manager.add_secret_data(REF_2, KEY_2, DATA_4);
-
-    //     let mm_c = mount_manager.clone();
-
-    //     let (t1, t2, t3) = tokio::time::timeout(Duration::from_secs(3), async {
-    //         tokio::join!(
-    //             async move {
-    //                 // Wait for the aggregation window to pass, then add the new data.
-    //                 tokio::time::sleep(AGGREGATION_WINDOW).await;
-    //                 mm_c.add_secret_data(REF_2, KEY_2, DATA_4);
-    //                 let update_time = Instant::now();
-    //                 log::warn!("task 1 done");
-    //                 update_time
-    //             },
-    //             async move {
-    //                 // The new value will be retrieved as soon as it's available if waited on
-    //                 assert_eq!(secret1_c5.value().await.unwrap(), DATA_4);
-    //                 assert_eq!(secret1_c5.value_if_available().unwrap(), Some(DATA_4.to_string()));
-    //                 log::warn!("task 2 done");
-    //                 Instant::now()
-    //             },
-    //             async move {
-    //                 // The changed notification will not be received until after the aggregation window passes.
-    //                 secret1_c6.changed().await;
-    //                 let notification_time = Instant::now();
-    //                 // But the value will now be the updated one
-    //                 assert_eq!(secret1_c6.value_if_available().unwrap(), Some(DATA_4.to_string()));
-    //                 assert_eq!(secret1_c6.value().await.unwrap(), DATA_4);
-    //                 log::warn!("task 3 done");
-    //                 notification_time
-    //             },
-    //         )
-    //     }).await.map_err(|e| {
-    //         log::warn!("TIMEOUT");
-    //         e
-    //     }).expect("test timed out");
-    //     // Values cannot be retrieved until after the aggregation window after the update.
-    //     // T2 and T3 are roughly equivalent.
-    //     assert!(t1 >= t0 + AGGREGATION_WINDOW);
-    //     assert!(t2 >= t1 + AGGREGATION_WINDOW);
-    //     assert!(t3 >= t1 + AGGREGATION_WINDOW);
-
-    //     // TODO: why is the above timing out?
-
-    //     // TODO: pure deletion timing test. Or does that belong in the data update?
-    //     // Should that result in change notification?
-    //     // what about two tier updates -> alias then file, shouldn't that notify twice?
-    // }
+    
 }
 
-
 // TODO: Aggregation of updates
-// TODO: Targeted notifications
-// TODO: Change notifcations persistance
-// TODO: update to untracked data (is this even valid?)
+
+// TODO: pure deletion timing test. Or does that belong in the data update?
+// Should that result in change notification?
+// what about two tier updates -> alias then file, shouldn't that notify twice?

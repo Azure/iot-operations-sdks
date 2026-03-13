@@ -15,7 +15,7 @@ use serde::Deserialize;
 use serde_json;
 use thiserror::Error;
 
-use crate::deployment_artifacts::FileMount;
+use crate::deployment_artifacts::{FileMount, Secrets};
 
 const AGGREGATION_WINDOW: Duration = Duration::from_secs(10);
 
@@ -48,11 +48,14 @@ enum DeploymentArtifactErrorRepr {
     /// Could not monitor `FileMount` for changes
     #[error("Error initializing FileMount monitor: {0}")]
     MonitorError(#[from] super::filemount::Error),
+    /// Could not set up Secrets
+    #[error("Error initializing Secrets: {0}")]
+    SecretsError(#[from] super::secrets::Error),
 }
 
 // TODO: Integrate ADR into this implementation
 
-#[derive(Clone, Debug, PartialEq)]
+#[derive(Clone)]
 /// Values extracted from the artifacts in an Akri deployment.
 pub struct ConnectorArtifacts {
     /// The Azure extension resource ID
@@ -63,9 +66,8 @@ pub struct ConnectorArtifacts {
     pub connector_namespace: String,
     /// The connector configuration
     pub connector_configuration: ConnectorConfiguration,
-    /// Path to directory containing metadata for connector secrets
-    /// TODO: This is currently a placeholder
-    connector_secrets_metadata_mount: Option<FileMount>,
+    /// The secrets deployed for the connector
+    pub connector_secrets: Option<Secrets>,
     /// Path to directory containing trust list certificates for the connector
     pub connector_trust_settings_mount: Option<FileMount>,
     /// Path to directory containing trust bundle for the broker
@@ -130,11 +132,20 @@ impl ConnectorArtifacts {
                 .as_path(),
         )?;
 
-        // Connector secrets metadata mount path
-        let connector_secrets_metadata_mount =
-            string_from_environment("CONNECTOR_SECRETS_METADATA_MOUNT_PATH")?
-                .map(valid_filemount_from)
-                .transpose()?;
+        // Connector Secrets
+        let connector_secrets = string_from_environment("CONNECTOR_SECRETS_METADATA_MOUNT_PATH")?
+            .map(valid_pathbuf_from)
+            .transpose()?
+            .zip(
+                string_from_environment("CONNECTOR_SECRETS_MOUNT_PATH")?
+                    .map(valid_pathbuf_from)
+                    .transpose()?,
+            )
+            .map(|(metadata_path, secrets_path)| {
+                Secrets::new(metadata_path, secrets_path, AGGREGATION_WINDOW)
+            })
+            .transpose()
+            .map_err(|e| DeploymentArtifactErrorRepr::SecretsError(e))?;
 
         // Connector Trust Settings Mount Path
         let connector_trust_settings_mount =
@@ -192,7 +203,7 @@ impl ConnectorArtifacts {
             connector_id,
             connector_namespace,
             connector_configuration,
-            connector_secrets_metadata_mount,
+            connector_secrets,
             connector_trust_settings_mount,
             broker_trust_bundle_mount,
             broker_sat_mount,
@@ -502,15 +513,23 @@ fn string_from_environment(key: &str) -> Result<Option<String>, DeploymentArtifa
     }
 }
 
-/// Helper function to validate a mount path and return it as a `FileMount`.
-fn valid_filemount_from(mount_path_s: String) -> Result<FileMount, DeploymentArtifactErrorRepr> {
+/// Helper function to validate a mount path and return it as a `PathBuf`
+fn valid_pathbuf_from(mount_path_s: String) -> Result<PathBuf, DeploymentArtifactErrorRepr> {
     let mount_path = PathBuf::from(mount_path_s);
     if !mount_path.exists() {
         return Err(DeploymentArtifactErrorRepr::MountPathMissing(
             mount_path.into(),
         ));
     }
-    Ok(FileMount::new(mount_path, AGGREGATION_WINDOW)?)
+    Ok(mount_path)
+}
+
+/// Helper function to validate a mount path and return it as a `FileMount`.
+fn valid_filemount_from(mount_path_s: String) -> Result<FileMount, DeploymentArtifactErrorRepr> {
+    Ok(FileMount::new(
+        valid_pathbuf_from(mount_path_s)?,
+        AGGREGATION_WINDOW,
+    )?)
 }
 
 #[cfg(test)]
@@ -609,7 +628,7 @@ mod tests {
                 );
                 assert_eq!(artifacts.connector_id, CONNECTOR_ID);
                 assert_eq!(artifacts.connector_namespace, CONNECTOR_NAMESPACE);
-                assert!(artifacts.connector_secrets_metadata_mount.is_none());
+                assert!(artifacts.connector_secrets.is_none());
                 assert!(artifacts.connector_trust_settings_mount.is_none());
                 assert!(artifacts.broker_trust_bundle_mount.is_none());
                 assert!(artifacts.broker_sat_mount.is_none());
@@ -679,6 +698,7 @@ mod tests {
 
         // NOTE: There do not have to be any files in these mounts
         let connector_secrets_metadata_mount = TempMount::new("connector_secrets_metadata");
+        let connector_secrets_mount = TempMount::new("connector_secrets");
         let connector_trust_settings_mount = TempMount::new("connector_trust_settings");
         let device_endpoint_trust_bundle_mount =
             TempMount::new("device_endpoint_tls_trust_bundle_ca_cert");
@@ -703,6 +723,10 @@ mod tests {
                 (
                     "CONNECTOR_SECRETS_METADATA_MOUNT_PATH",
                     Some(connector_secrets_metadata_mount.path().to_str().unwrap()),
+                ),
+                (
+                    "CONNECTOR_SECRETS_MOUNT_PATH",
+                    Some(connector_secrets_mount.path().to_str().unwrap()),
                 ),
                 (
                     "CONNECTOR_TRUST_SETTINGS_MOUNT_PATH",
@@ -749,10 +773,7 @@ mod tests {
                 );
                 assert_eq!(artifacts.connector_id, CONNECTOR_ID);
                 assert_eq!(artifacts.connector_namespace, CONNECTOR_NAMESPACE);
-                assert_eq!(
-                    artifacts.connector_secrets_metadata_mount.unwrap(),
-                    connector_secrets_metadata_mount.path()
-                );
+                assert!(artifacts.connector_secrets.is_some());
                 assert_eq!(
                     artifacts.connector_trust_settings_mount.unwrap(),
                     connector_trust_settings_mount.path()
@@ -1026,7 +1047,7 @@ mod tests {
                 persistent_volumes: vec![],
                 additional_configuration: None,
             },
-            connector_secrets_metadata_mount: None,
+            connector_secrets: None,
             connector_trust_settings_mount: None,
             broker_trust_bundle_mount: None,
             broker_sat_mount: None,
@@ -1090,7 +1111,7 @@ mod tests {
                 persistent_volumes: vec![],
                 additional_configuration: None,
             },
-            connector_secrets_metadata_mount: None,
+            connector_secrets: None,
             connector_trust_settings_mount: None,
             broker_trust_bundle_mount: Some(
                 FileMount::new(
@@ -1176,7 +1197,7 @@ mod tests {
                 persistent_volumes: vec![],
                 additional_configuration: None,
             },
-            connector_secrets_metadata_mount: None,
+            connector_secrets: None,
             connector_trust_settings_mount: None,
             broker_trust_bundle_mount: None,
             broker_sat_mount: None,
@@ -1225,7 +1246,7 @@ mod tests {
                 persistent_volumes: vec![],
                 additional_configuration: None,
             },
-            connector_secrets_metadata_mount: None,
+            connector_secrets: None,
             connector_trust_settings_mount: None,
             broker_trust_bundle_mount: Some(
                 FileMount::new(
