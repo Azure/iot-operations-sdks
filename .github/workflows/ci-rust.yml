@@ -123,5 +123,3 @@ jobs:
             exit 1
         fi
         echo "Codegen for Rust services generated no changes. Generated code is up to date with the repo."
-
-    # TODO: run wot-codegen/eval/gen.sh and make sure the output builds?
