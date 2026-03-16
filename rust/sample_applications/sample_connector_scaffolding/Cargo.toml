@@ -7,7 +7,6 @@ version = "0.3.0"
 edition = "2024"
 
 [dependencies]
-# azure_iot_operations_connector = { version = "1.0.0" }
 azure_iot_operations_connector = { version = "2.0.0-rc3" }
 azure_iot_operations_services = { version = "1.2.0-rc4" }
 azure_iot_operations_protocol = { version = "1.0.0" }
