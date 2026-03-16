@@ -27,7 +27,7 @@ namespace Azure.Iot.Operations.CodeGeneration
             this.errorReporter = errorReporter;
         }
 
-        public bool TryValidateThing(IResolvingThing resolvingThing, HashSet<SerializationFormat> serializationFormats)
+        public bool TryValidateThing(IResolvingThing resolvingThing, HashSet<SerializationFormat> serializationFormats, bool validateReferences)
         {
             TDThing thing = resolvingThing.ParsedThing.Thing;
             bool hasError = false;
@@ -58,7 +58,7 @@ namespace Azure.Iot.Operations.CodeGeneration
                 hasError = true;
             }
 
-            if (!TryValidateLinks(resolvingThing, platContextPresent, contextTokenIndex))
+            if (!TryValidateLinks(resolvingThing, platContextPresent, contextTokenIndex, validateReferences))
             {
                 hasError = true;
             }
@@ -98,12 +98,12 @@ namespace Azure.Iot.Operations.CodeGeneration
                 hasError = true;
             }
 
-            if (!TryValidateCrossFormConsistency(thing.Forms, thing.Properties, resolvingThing))
+            if (!TryValidateCrossFormConsistency(thing.Forms, thing.Properties, resolvingThing, validateReferences))
             {
                 hasError = true;
             }
 
-            if (!TryValidateCrossFormConsistency(thing.Forms, thing.Events, resolvingThing))
+            if (!TryValidateCrossFormConsistency(thing.Forms, thing.Events, resolvingThing, validateReferences))
             {
                 hasError = true;
             }
@@ -284,7 +284,7 @@ namespace Azure.Iot.Operations.CodeGeneration
             return !hasError;
         }
 
-        private bool TryValidateCrossFormConsistency(ArrayTracker<TDForm>? rootForms, MapTracker<TDProperty>? properties, IResolvingThing resolvingThing)
+        private bool TryValidateCrossFormConsistency(ArrayTracker<TDForm>? rootForms, MapTracker<TDProperty>? properties, IResolvingThing resolvingThing, bool validateReferences)
         {
             bool hasError = false;
 
@@ -322,10 +322,13 @@ namespace Azure.Iot.Operations.CodeGeneration
             {
                 if (allProperties == null || allProperties.Count() == 0)
                 {
-                    errorReporter.ReportError(ErrorCondition.Unusable, $"Root-level form has '{TDForm.OpName}' property with value '{TDValues.OpReadAllProps}' to read the aggregation of all properties, but Thing Model has no properties defined.",
-                        readAllForm.Value.Op!.Elements!.First(op => op.Value.Value == TDValues.OpReadAllProps).TokenIndex,
-                        properties?.TokenIndex ?? -1);
-                    hasError = true;
+                    if (readAllForm.Value.IncludeInherited?.Value.Value != true || validateReferences)
+                    {
+                        errorReporter.ReportError(ErrorCondition.Unusable, $"Root-level form has '{TDForm.OpName}' property with value '{TDValues.OpReadAllProps}' to read the aggregation of all properties, but Thing Model has no properties defined.",
+                            readAllForm.Value.Op!.Elements!.First(op => op.Value.Value == TDValues.OpReadAllProps).TokenIndex,
+                            properties?.TokenIndex ?? -1);
+                        hasError = true;
+                    }
                 }
                 else if (aggregateReadHasAdditionalResponses && !allProperties.Any(p => p.Value.Value.Forms?.Elements?.Any(f => (f.Value.Op?.Elements?.Any(op => op.Value.Value == TDValues.OpReadProp) ?? true) && (f.Value.AdditionalResponses?.Elements?.Count ?? 0) > 0) ?? false))
                 {
@@ -339,10 +342,13 @@ namespace Azure.Iot.Operations.CodeGeneration
             {
                 if (writableProperties == null || writableProperties.Count() == 0)
                 {
-                    errorReporter.ReportError(ErrorCondition.Unusable, $"Root-level form has '{TDForm.OpName}' property with value '{TDValues.OpWriteMultProps}' to write a selected aggregation of writable properties, but Thing Model has no writable properties.",
-                        writeMultiForm.Value.Op!.Elements!.First(op => op.Value.Value == TDValues.OpWriteMultProps).TokenIndex,
-                        properties?.TokenIndex ?? -1);
-                    hasError = true;
+                    if (writeMultiForm.Value.IncludeInherited?.Value.Value != true || validateReferences)
+                    {
+                        errorReporter.ReportError(ErrorCondition.Unusable, $"Root-level form has '{TDForm.OpName}' property with value '{TDValues.OpWriteMultProps}' to write a selected aggregation of writable properties, but Thing Model has no writable properties.",
+                            writeMultiForm.Value.Op!.Elements!.First(op => op.Value.Value == TDValues.OpWriteMultProps).TokenIndex,
+                            properties?.TokenIndex ?? -1);
+                        hasError = true;
+                    }
                 }
                 else if (aggregateWriteHasAdditionalResponses && !writableProperties.Any(p => (p.Value.Value.Forms?.Elements?.Any(f => (f.Value.Op?.Elements?.Any(op => op.Value.Value == TDValues.OpWriteProp) ?? true) && (f.Value.AdditionalResponses?.Elements?.Count ?? 0) > 0) ?? false)))
                 {
@@ -436,7 +442,7 @@ namespace Azure.Iot.Operations.CodeGeneration
             return !hasError;
         }
 
-        private bool TryValidateCrossFormConsistency(ArrayTracker<TDForm>? rootForms, MapTracker<TDEvent>? events, IResolvingThing resolvingThing)
+        private bool TryValidateCrossFormConsistency(ArrayTracker<TDForm>? rootForms, MapTracker<TDEvent>? events, IResolvingThing resolvingThing, bool validateReferences)
         {
             ValueTracker<TDForm>? subAllForm = rootForms?.Elements?.FirstOrDefault(f => f.Value.Op?.Elements != null && f.Value.Op.Elements.Any(op => op.Value.Value == TDValues.OpSubAllEvents));
 
@@ -456,7 +462,8 @@ namespace Azure.Iot.Operations.CodeGeneration
 
             if (allEvents == null || allEvents.Count() == 0)
             {
-                if (subAllForm != null)
+                bool ignoreInheritedEvents = subAllForm?.Value.IncludeInherited?.Value.Value == true && !validateReferences;
+                if (subAllForm != null && !ignoreInheritedEvents)
                 {
                     errorReporter.ReportError(ErrorCondition.Unusable, $"Root-level form has '{TDForm.OpName}' property with value '{TDValues.OpSubAllEvents}' to subscribe to the aggregation of all events, but Thing Model has no events defined.",
                         subAllForm.Value.Op!.Elements!.First(op => op.Value.Value == TDValues.OpSubAllEvents).TokenIndex,
@@ -661,7 +668,7 @@ namespace Azure.Iot.Operations.CodeGeneration
             return true;
         }
 
-        private bool TryValidateLinks(IResolvingThing resolvingThing, bool platContextPresent, long contextTokenIndex)
+        private bool TryValidateLinks(IResolvingThing resolvingThing, bool platContextPresent, long contextTokenIndex, bool validateReferences)
         {
             if (resolvingThing.ParsedThing.Thing.Links?.Elements == null)
             {
@@ -763,7 +770,7 @@ namespace Azure.Iot.Operations.CodeGeneration
                     errorReporter.ReportError(ErrorCondition.PropertyEmpty, $"Link element with {TDLink.RelName}='{link.Value.Rel.Value.Value}' has empty '{TDLink.HrefName}' property value.", link.Value.Href.TokenIndex);
                     hasError = true;
                 }
-                else if (requiredContentType == TDValues.ContentTypeTmJson)
+                else if (validateReferences && requiredContentType == TDValues.ContentTypeTmJson)
                 {
                     if (!resolvingThing.TryResolve(link.Value.Href.Value.Value, out IResolvingThing? referencedThing))
                     {
