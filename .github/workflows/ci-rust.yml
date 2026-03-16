@@ -104,7 +104,7 @@ jobs:
     # NOTE: this currently isn't running properly because there isn't a `|` after `run:`. Once the scaffolding is updated to build properly, this should be enabled properly
     - name: Verify Scaffolding
       working-directory: rust/sample_applications/sample_connector_scaffolding
-      run: # Checks that the scaffolding is building correctly.
+      run: | # Checks that the scaffolding is building correctly.
         source ../../../rust/ci/build-deps.sh
         cargo check
         cargo clippy

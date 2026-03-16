@@ -509,7 +509,11 @@ async fn asset_handler(
             //         management_action_client,
             //     ));
             // }
-            ClientNotification::Created(_) => {}
+            ClientNotification::Created(_) => {
+                log::warn!(
+                    "{asset_log_identifier} Unsupported asset component created, this component will not be handled"
+                );
+            }
             ClientNotification::Deleted => {
                 log::info!(
                     "{asset_log_identifier} Asset deleted notification received, ending asset handler"
