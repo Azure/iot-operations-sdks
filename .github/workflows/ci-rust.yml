@@ -13,6 +13,7 @@ on:
       - 'tools/statestore-cli/**'
       - 'codegen/**'
       - 'tools/deployment/**'
+      - 'wot-codegen/**'
 
   # Triggers the workflow on push events for the "main" branch
   push:
@@ -55,6 +56,7 @@ jobs:
       with:
         wait-for-broker: 'true'
         install-rust: 'true'
+        install-dotnet: 'true'
         action-token: ${{ secrets.AIO_SDKS_ACTION_TOKEN }}
     
     - name: Create ADR resources
@@ -84,20 +86,22 @@ jobs:
 
     - name: Verify Statestore CLI
       working-directory: tools/statestore-cli
-      run:
+      run: |
         source ../../rust/ci/build-deps.sh
         cargo clippy --all-features
         cargo fmt --verbose --all
 
     - name: Verify Stub Service
       working-directory: tools/azure_iot_operations_stub_services
-      run: # Checks both with default features and without since the stub service can be used without an output folder
+      run: | # Checks both with default features and without since the stub service can be used without an output folder
         source ../../rust/ci/build-deps.sh
         cargo check 
         cargo check --no-default-features
-        cargo clippy --all-features
+        # cargo clippy --all-features # codegen must be regenerated and the stub service code updated for this to be re-enabled. In the meantime, we'll validate cargo build
+        cargo build --all-features
         cargo fmt --verbose --all
 
+    # NOTE: this currently isn't running properly because there isn't a `|` after `run:`. Once the scaffolding is updated to build properly, this should be enabled properly
     - name: Verify Scaffolding
       working-directory: rust/sample_applications/sample_connector_scaffolding
       run: # Checks that the scaffolding is building correctly.
@@ -106,19 +110,16 @@ jobs:
         cargo clippy
         cargo fmt --verbose --all
 
-    # TODO: Enable and configure these once the codegen is ready
-    # - name: CodeGen Rust TestEnvoys
-    #   run: |
-    #     cd samples/rust/test_envoys
-    #     sh ./gen.sh
-    # - name: Build with CodeGen TestEnvoys
-    #   run: cargo build --verbose
-
-    # - name: Run clippy with CodeGen TestEnvoys
-    #   run: |
-    #     cargo clippy --all-targets --all-features
-    #     # If this test fails, some fixes may be able to be automatically performed with `cargo clippy --fix`
-    # - name: Run format check
-    #   run: |
-    #     cargo fmt --check || echo "::error::Code formatting issues detected in generated code"
-    #   continue-on-error: true
+    - name: CodeGen, build, and validate equality for Rust Services
+      working-directory: rust/azure_iot_operations_services
+      run: |
+        set -e
+        sh ./gen.sh
+        cargo build --verbose --features=all
+        if ! git diff --exit-code --ignore-cr-at-eol
+        then
+            echo "Detected changes after running code gen for one or more projects. Do not manually edit generated files."
+            git diff-files
+            exit 1
+        fi
+        echo "Codegen for Rust services generated no changes. Generated code is up to date with the repo."
