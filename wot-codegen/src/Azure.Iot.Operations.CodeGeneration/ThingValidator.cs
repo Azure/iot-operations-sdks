@@ -288,6 +288,8 @@ namespace Azure.Iot.Operations.CodeGeneration
         {
             bool hasError = false;
 
+            bool doesExtend = resolvingThing.ParsedThing.Thing.Links?.Elements?.Any(l => l.Value.Rel?.Value.Value == TDValues.RelationExtends) ?? false;
+
             ValueTracker<TDForm>? readAllForm = rootForms?.Elements?.FirstOrDefault(f => f.Value.Op?.Elements != null && f.Value.Op.Elements.Any(op => op.Value.Value == TDValues.OpReadAllProps));
             ValueTracker<TDForm>? writeMultiForm = rootForms?.Elements?.FirstOrDefault(f => f.Value.Op?.Elements != null && f.Value.Op.Elements.Any(op => op.Value.Value == TDValues.OpWriteMultProps));
 
@@ -298,7 +300,7 @@ namespace Azure.Iot.Operations.CodeGeneration
             if (readAllForm?.Value.IncludeInherited?.Value.Value == true)
             {
                 InheritedPropertyEnumeration propertyEnumeration = new InheritedPropertyEnumeration(resolvingThing);
-                if (!propertyEnumeration.DoesInherit)
+                if (!doesExtend)
                 {
                     errorReporter.ReportWarning($"Root-level form has '{TDForm.IncludeInheritedName}' property but no '{TDThing.LinksName}' element with '{TDLink.RelName}' property value '{TDValues.RelationExtends}', so there are no inherited properties to include", readAllForm.Value.IncludeInherited.TokenIndex, resolvingThing.ParsedThing.Thing.Links?.TokenIndex ?? -1);
                 }
@@ -310,7 +312,7 @@ namespace Azure.Iot.Operations.CodeGeneration
             if (writeMultiForm?.Value.IncludeInherited?.Value.Value == true)
             {
                 InheritedPropertyEnumeration propertyEnumeration = new InheritedPropertyEnumeration(resolvingThing);
-                if (!propertyEnumeration.DoesInherit && writeMultiForm.TokenIndex != readAllForm?.TokenIndex)
+                if (!doesExtend && writeMultiForm.TokenIndex != readAllForm?.TokenIndex)
                 {
                     errorReporter.ReportWarning($"Root-level form has '{TDForm.IncludeInheritedName}' property but no '{TDThing.LinksName}' element with '{TDLink.RelName}' property value '{TDValues.RelationExtends}', so there are no inherited properties to include", writeMultiForm.Value.IncludeInherited.TokenIndex, resolvingThing.ParsedThing.Thing.Links?.TokenIndex ?? -1);
                 }
@@ -322,7 +324,7 @@ namespace Azure.Iot.Operations.CodeGeneration
             {
                 if (allProperties == null || allProperties.Count() == 0)
                 {
-                    if (readAllForm.Value.IncludeInherited?.Value.Value != true || validateReferences)
+                    if (readAllForm.Value.IncludeInherited?.Value.Value != true || !doesExtend || validateReferences)
                     {
                         errorReporter.ReportError(ErrorCondition.Unusable, $"Root-level form has '{TDForm.OpName}' property with value '{TDValues.OpReadAllProps}' to read the aggregation of all properties, but Thing Model has no properties defined.",
                             readAllForm.Value.Op!.Elements!.First(op => op.Value.Value == TDValues.OpReadAllProps).TokenIndex,
@@ -342,7 +344,7 @@ namespace Azure.Iot.Operations.CodeGeneration
             {
                 if (writableProperties == null || writableProperties.Count() == 0)
                 {
-                    if (writeMultiForm.Value.IncludeInherited?.Value.Value != true || validateReferences)
+                    if (writeMultiForm.Value.IncludeInherited?.Value.Value != true || !doesExtend || validateReferences)
                     {
                         errorReporter.ReportError(ErrorCondition.Unusable, $"Root-level form has '{TDForm.OpName}' property with value '{TDValues.OpWriteMultProps}' to write a selected aggregation of writable properties, but Thing Model has no writable properties.",
                             writeMultiForm.Value.Op!.Elements!.First(op => op.Value.Value == TDValues.OpWriteMultProps).TokenIndex,
@@ -448,11 +450,13 @@ namespace Azure.Iot.Operations.CodeGeneration
 
             bool hasError = false;
 
+            bool doesExtend = resolvingThing.ParsedThing.Thing.Links?.Elements?.Any(l => l.Value.Rel?.Value.Value == TDValues.RelationExtends) ?? false;
+
             IEnumerable<KeyValuePair<string, ValueTracker<TDEvent>>>? allEvents = events?.Entries;
             if (subAllForm?.Value.IncludeInherited?.Value.Value == true)
             {
                 InheritedEventEnumeration eventEnumeration = new InheritedEventEnumeration(resolvingThing);
-                if (!eventEnumeration.DoesInherit)
+                if (!doesExtend)
                 {
                     errorReporter.ReportWarning($"Root-level form has '{TDForm.IncludeInheritedName}' property but no '{TDThing.LinksName}' element with '{TDLink.RelName}' property value '{TDValues.RelationExtends}', so there are no inherited events to include", subAllForm.Value.IncludeInherited.TokenIndex, resolvingThing.ParsedThing.Thing.Links?.TokenIndex ?? -1);
                 }
@@ -462,13 +466,15 @@ namespace Azure.Iot.Operations.CodeGeneration
 
             if (allEvents == null || allEvents.Count() == 0)
             {
-                bool ignoreInheritedEvents = subAllForm?.Value.IncludeInherited?.Value.Value == true && !validateReferences;
-                if (subAllForm != null && !ignoreInheritedEvents)
+                if (subAllForm != null)
                 {
-                    errorReporter.ReportError(ErrorCondition.Unusable, $"Root-level form has '{TDForm.OpName}' property with value '{TDValues.OpSubAllEvents}' to subscribe to the aggregation of all events, but Thing Model has no events defined.",
-                        subAllForm.Value.Op!.Elements!.First(op => op.Value.Value == TDValues.OpSubAllEvents).TokenIndex,
-                        events?.TokenIndex ?? -1);
-                    hasError = true;
+                    if (subAllForm.Value.IncludeInherited?.Value.Value != true || !doesExtend || validateReferences)
+                    {
+                        errorReporter.ReportError(ErrorCondition.Unusable, $"Root-level form has '{TDForm.OpName}' property with value '{TDValues.OpSubAllEvents}' to subscribe to the aggregation of all events, but Thing Model has no events defined.",
+                            subAllForm.Value.Op!.Elements!.First(op => op.Value.Value == TDValues.OpSubAllEvents).TokenIndex,
+                            events?.TokenIndex ?? -1);
+                        hasError = true;
+                    }
                 }
             }
             else if (subAllForm == null && events?.Entries != null)

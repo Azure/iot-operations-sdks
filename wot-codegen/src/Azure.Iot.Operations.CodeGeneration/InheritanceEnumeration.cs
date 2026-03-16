@@ -16,10 +16,7 @@ namespace Azure.Iot.Operations.CodeGeneration
         public InheritanceEnumeration(IResolvingThing resolvingThing)
         {
             this.resolvingThing = resolvingThing;
-            DoesInherit = resolvingThing.ParsedThing.Thing.Links?.Elements?.Any(l => l.Value.Rel?.Value.Value == TDValues.RelationExtends) ?? false;
         }
-
-        public bool DoesInherit { get; }
 
         public IEnumerator<InheritanceEnumerator> GetEnumerator()
         {
