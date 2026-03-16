@@ -59,7 +59,7 @@ unicode-properties = { version = "0.1", default-features = false, features = [
 ] }
 
 [dev-dependencies]
-azure_iot_operations_mqtt = { path = ".", features = ["test-utils"] }
+# azure_iot_operations_mqtt = { path = ".", features = ["test-utils"] }
 env_logger.workspace = true
 temp-env.workspace = true
 test-case.workspace = true
