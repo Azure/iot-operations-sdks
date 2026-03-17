@@ -3,4 +3,5 @@
 **/*.rs
 **/Cargo.toml
 **/*.json
+!SchemaNames.json
 !wot/**/*.json
