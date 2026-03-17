@@ -970,6 +970,12 @@ async fn handle_management_action(
                     log::debug!("{management_action_log_identifier} Management action request received");
                     // Process, execute, and complete the request in a spawned task so we don't block this
                     // loop from processing other updates or requests.
+                    // NOTE: While it's important to not block updates or receiving other requests, you may
+                    // want to solve this in a different way depending on how long your requests can take to
+                    // execute and your needs around concurrency and number of tasks spawned between multiple
+                    // requests. For example, if you don't want to execute too many requests concurrently, but
+                    // you keep receiving more requests, you may want to return with an error response that you
+                    // are overloaded rather than letting those requests wait until they time out.
                     tokio::task::spawn({
                         let management_action_log_identifier = management_action_log_identifier.clone();
                         let management_action_status_reporter = management_action_status_reporter.clone();
