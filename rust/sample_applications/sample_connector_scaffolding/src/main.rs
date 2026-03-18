@@ -559,9 +559,11 @@ async fn handle_dataset(
     // These variables keep track of the latest reported dataset status
     let mut is_sdk_error_causing_invalid_state = initial_data_operation_status.is_err();
     let mut last_reported_dataset_status = match initial_data_operation_status {
-        // IMPLEMENT: If the sdk didn't detect an initial error, verify whether the dataset definition is OK.
-        // For this example, we will assume that no additional validation is needed
-        Ok(()) => Ok(()),
+        Ok(()) => {
+            // IMPLEMENT: If the sdk didn't detect an initial error, verify whether the dataset definition is OK.
+            // For this example, we will assume that no additional validation is needed
+            Ok(())
+        }
         Err(e) => Err(e),
     };
     is_dataset_ready = last_reported_dataset_status.is_ok();
