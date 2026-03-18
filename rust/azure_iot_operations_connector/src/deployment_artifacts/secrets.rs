@@ -47,6 +47,10 @@ pub struct Secrets {
 // which Secret to transmit to.
 
 impl Secrets {
+    /// - metadata_path: path the Secret Metadata mount is located at
+    /// - data_path: path the Secret Data mount is located at
+    /// - aggregation_window: the debounce window to use for aggregating file change events.
+    ///     Note well that aggregation is only applied to events of the same type.
     /// Fails if paths are invalid
     pub(crate) fn new(
         metadata_path: PathBuf,
@@ -1466,8 +1470,8 @@ mod tests {
     secret_test!(async aggregation_notification, aggregation_notification_logic);
 
     async fn aggregation_notification_logic(mount_manager: impl SecretMountManager) {
-        // Use a long aggregation window to make sure that all our changes are aggregated together
-        const AGGREGATION_WINDOW: Duration = Duration::from_secs(10);
+        // Use a long aggregation window to make sure that all our expected changes are aggregated together
+        const AGGREGATION_WINDOW: Duration = Duration::from_secs(1);
 
         // Initializes two secret aliases on disk
         mount_manager.add_secret_alias(ALIAS_1, REF_1, KEY_1);
@@ -1508,7 +1512,9 @@ mod tests {
         // Wait for change to be reported
         secret.changed().await;
         assert!(secret.is_available());
-        assert_eq!(secret.value().await.unwrap(), DATA_6);
+        // Secret should have DATA_3, because all changes to REF_1/KEY_1 should be aggregated together,
+        // yet separately from alias updates.
+        assert_eq!(secret.value().await.unwrap(), DATA_3);
     }
 
 
