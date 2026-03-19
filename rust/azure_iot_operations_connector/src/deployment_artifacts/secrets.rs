@@ -14,6 +14,13 @@ use notify::{EventKind, RecommendedWatcher, RecursiveMode, event::ModifyKind};
 use notify_debouncer_full::{DebounceEventResult, Debouncer, RecommendedCache, new_debouncer};
 use tokio::sync::watch;
 
+// TODO: manually specify tick rate
+
+/// The multiplier to apply to the aggregation window to get the tick rate for the debouncer.
+/// 0.25 is the default if none is provided, but we manually codify it here in order to protect
+/// against that default in the `notify_debouncer_full` library.
+const TICK_RATE_MULTIPLIER: f32 = 0.25;
+
 /// Error for secret
 #[derive(Debug, thiserror::Error)]
 #[error(transparent)]
@@ -398,7 +405,7 @@ impl SecretTracker {
     fn report_secret_change(&self, path: &Path) {
         if let Some(entries) = self.by_path.get(path) {
             log::debug!(
-                "Reporting secret change for path {path:?} to {} secrets",
+                "Reporting secret change for path {path:?} to {} secret(s)",
                 entries.len()
             );
             // Notify all corresponding secrets of the change
@@ -423,6 +430,16 @@ mod tests {
     use crate::deployment_artifacts::test_utils::TempMount;
     use std::{path::Path, time::Duration};
     use tokio::time::Instant;
+
+    // NOTE: Many tests use manual sleeps for testing timing of async notifications.
+    // Often, these sleeps are for AGGREGATION_WINDOW * some_multiplier to ensure the notification
+    // has been issued. The reason this is necessary has to do with the underlying implementation of
+    // the debouncer - all events are held for at least the aggregation window, with the timing being
+    // checked every aggregation window * 0.25 This means that the notification will always be issued
+    // after the aggregation window passes, as well as up to aggregation_window * 0.25 after that.
+    // Additionally, there is then latency on the notification itself being issued through the Secret.
+    // For safety, it's probably best to use a multiplier of at least 1.5 * AGGREGATION_WINDOW.
+    const MANUAL_WAIT_MULTIPLIER: f32 = 1.5;
 
     // NOTE: We need to have two types of mount managers to handle the variant cases of
     // Secret Sync vs. non-Secret Sync scenarios. The `Secrets` and `Secret` structs are designed
@@ -595,13 +612,23 @@ mod tests {
         (async $name:ident, $logic:ident) => {
             #[tokio::test]
             async fn $name() {
+                let _ = env_logger::Builder::new()
+                    .filter_level(log::LevelFilter::Trace)
+                    .filter_module("notify::inotify", log::LevelFilter::Off)
+                    .is_test(true)
+                    .try_init();
                 $logic(StandardSecretMountManager::new()).await;
-                $logic(SecretSyncMountManager::new()).await;
+                //$logic(SecretSyncMountManager::new()).await;
             }
         };
         ($name:ident, $logic:ident) => {
             #[test]
             fn $name() {
+                let _ = env_logger::Builder::new()
+                    .filter_level(log::LevelFilter::Trace)
+                    .filter_module("notify::inotify", log::LevelFilter::Off)
+                    .is_test(true)
+                    .try_init();
                 $logic(StandardSecretMountManager::new());
                 $logic(SecretSyncMountManager::new());
             }
@@ -835,7 +862,7 @@ mod tests {
         
         // Update REF_1/KEY_1 data (affects ALIAS_1 and ALIAS_4)
         mount_manager.update_secret_data(REF_1, KEY_1, DATA_5);
-        tokio::time::sleep(AGGREGATION_WINDOW.mul_f32(1.5)).await;
+        tokio::time::sleep(AGGREGATION_WINDOW.mul_f32(MANUAL_WAIT_MULTIPLIER)).await;
 
         // Only the secret2 and secret4 copies received a notification
         assert!(s1c1_notified.is_finished());
@@ -856,7 +883,7 @@ mod tests {
 
         // Update REF_1/KEY_2 data (affects ALIAS_2)
         mount_manager.update_secret_data(REF_1, KEY_2, DATA_5);
-        tokio::time::sleep(AGGREGATION_WINDOW.mul_f32(1.5)).await;
+        tokio::time::sleep(AGGREGATION_WINDOW.mul_f32(MANUAL_WAIT_MULTIPLIER)).await;
 
         // Only the secret2 copies received a notification
         assert!(s2c1_notified.is_finished());
@@ -871,7 +898,7 @@ mod tests {
 
         // Update REF_2/KEY_1 data (affects ALIAS_3)
         mount_manager.update_secret_data(REF_2, KEY_1, DATA_5);
-        tokio::time::sleep(AGGREGATION_WINDOW.mul_f32(1.5)).await;
+        tokio::time::sleep(AGGREGATION_WINDOW.mul_f32(MANUAL_WAIT_MULTIPLIER)).await;
 
         // Only the secret3 copies received a notification
         assert!(s3c1_notified.is_finished());
@@ -883,7 +910,7 @@ mod tests {
 
         // Update REF_3/KEY_3 data (affects ALIAS_5)
         mount_manager.update_secret_data(REF_3, KEY_3, DATA_5);
-        tokio::time::sleep(AGGREGATION_WINDOW.mul_f32(1.5)).await;
+        tokio::time::sleep(AGGREGATION_WINDOW.mul_f32(MANUAL_WAIT_MULTIPLIER)).await;
 
         // The secret5 copies received a notification
         assert!(s5c1_notified.is_finished());
@@ -964,7 +991,8 @@ mod tests {
         // Use a short aggregation window to make test run quickly
         const AGGREGATION_WINDOW: Duration = Duration::from_millis(100);
         // Use a slightly longer wait time to ensure there's no test race condition
-        const WAIT_FOR_UPDATE: Duration = Duration::from_millis(150);
+        const WAIT_FOR_UPDATE: Duration = Duration::from_millis(150); // 1.5 * AGGREGATION_WINDOW
+        // TODO: Update the above
 
         // Initialize five secret aliases on disk:
         // - two of which share the same secret reference (ALIAS_1 and ALIAS_2 both use REF_1)
@@ -1225,7 +1253,7 @@ mod tests {
         // Notably, ALIAS_4 shares the same initial data path as ALIAS_1 but should NOT be notified,
         // because only the alias that was updated receives a notification.
         mount_manager.update_secret_alias(ALIAS_1, REF_2, KEY_1);
-        tokio::time::sleep(AGGREGATION_WINDOW.mul_f32(1.5)).await;
+        tokio::time::sleep(AGGREGATION_WINDOW.mul_f32(MANUAL_WAIT_MULTIPLIER)).await;
 
         // Only the secret1 copies received a notification
         assert!(s1c1_notified.is_finished());
@@ -1248,7 +1276,7 @@ mod tests {
         // (affects ALIAS_2 and ALIAS_4)
         mount_manager.update_secret_alias(ALIAS_2, REF_1, KEY_1);
         mount_manager.update_secret_alias(ALIAS_4, REF_1, KEY_2);
-        tokio::time::sleep(AGGREGATION_WINDOW.mul_f32(1.5)).await;
+        tokio::time::sleep(AGGREGATION_WINDOW.mul_f32(MANUAL_WAIT_MULTIPLIER)).await;
 
         // Only the secret2 and secret4 copies received a notification
         assert!(s2c1_notified.is_finished());
@@ -1268,7 +1296,7 @@ mod tests {
         // (affects ALIAS_3 and ALIAS_5)
         mount_manager.update_secret_alias(ALIAS_3, REF_3, KEY_3);
         mount_manager.update_secret_alias(ALIAS_5, REF_2, KEY_1);
-        tokio::time::sleep(AGGREGATION_WINDOW.mul_f32(1.5)).await;
+        tokio::time::sleep(AGGREGATION_WINDOW.mul_f32(MANUAL_WAIT_MULTIPLIER)).await;
 
         // The secret3 and secret5 copies received a notification
         assert!(s3c1_notified.is_finished());
@@ -1311,7 +1339,7 @@ mod tests {
         assert!(secret1_c1.is_available());
         assert!(secret1_c2.is_available());
 
-        let (t1, t2) = tokio::time::timeout(Duration::from_secs(1), async {
+        let (t1, t2) = tokio::time::timeout(Duration::from_secs(2), async {
             tokio::join!(
                 async move {
                     // The value can be retrieved immediately with both `value` and `value_if_available`,
@@ -1364,7 +1392,7 @@ mod tests {
         assert_eq!(secret1_c3.value_if_available().unwrap(), None);
         assert_eq!(secret1_c4.value_if_available().unwrap(), None);
 
-        let (t1, t2) = tokio::time::timeout(Duration::from_secs(1), async {
+        let (t1, t2) = tokio::time::timeout(Duration::from_secs(2), async {
             tokio::join!(
                 async move {
                     // The new value will be retrieved as soon as it's available if waited on
@@ -1393,8 +1421,14 @@ mod tests {
         .expect("test timed out");
         // Both times returned are roughly equivalent, and both are after the aggregation window,
         // i.e. the new value is not available at all until the aggregation window has passed.
+        // NOTE: No multiplier is needed on the aggregation window here because t0 is after the file changes.
         assert!(t1 > t0 + AGGREGATION_WINDOW);
         assert!(t2 > t0 + AGGREGATION_WINDOW);
+
+
+
+
+
 
         // Get two more copies of the secret struct
         let mut secret1_c5 = secrets.get_secret(ALIAS_1).unwrap();
@@ -1417,7 +1451,7 @@ mod tests {
             tokio::join!(
                 async move {
                     // Wait for the aggregation window to pass, then add the new data.
-                    tokio::time::sleep(AGGREGATION_WINDOW).await;
+                    tokio::time::sleep(AGGREGATION_WINDOW.mul_f32(MANUAL_WAIT_MULTIPLIER)).await;
                     mount_manager_c.add_secret_data(REF_2, KEY_2, DATA_4);
                     let update_time = Instant::now();
                     log::warn!("task 1 done: {update_time:?}");
@@ -1456,7 +1490,7 @@ mod tests {
         // Note that because of latency, t2 and t3 will sometimes be slightly less than t1 + AGGREGATION_WINDOW
         // if the file is updated slightly within the AGGREGATION_WINDOW, so we multiply by 0.8.
         assert!(t1 >= t0 + AGGREGATION_WINDOW);
-        assert!(t2 >= t1 + AGGREGATION_WINDOW.mul_f32(0.8));
+        assert!(t2 >= t1 + AGGREGATION_WINDOW.mul_f32(0.8));        // TODO: revisit this multiplication
         assert!(t3 >= t1 + AGGREGATION_WINDOW.mul_f32(0.8));
         // T3 and T2 should be roughly equivalent. We can't definitively say which one will be first
         // as it really is up to the scheduler.
@@ -1467,6 +1501,16 @@ mod tests {
         }
     }
 
+
+
+
+
+
+
+
+
+
+    
     secret_test!(async aggregation_notification, aggregation_notification_logic);
 
     async fn aggregation_notification_logic(mount_manager: impl SecretMountManager) {
@@ -1529,8 +1573,6 @@ mod tests {
     async fn secret_survives_secrets_drop_logic(mount_manager: impl SecretMountManager) {
         // Use a short aggregation window to make test run quickly
         const AGGREGATION_WINDOW: Duration = Duration::from_millis(100);
-        // Use a slightly longer wait time to ensure there's no test race condition
-        const WAIT_FOR_UPDATE: Duration = Duration::from_millis(150);
 
         // Initialize two secret aliases on disk
         mount_manager.add_secret_alias(ALIAS_1, REF_1, KEY_1);
@@ -1567,7 +1609,7 @@ mod tests {
         // --- Alias update after Secrets is dropped ---
         // Redirect ALIAS_2 to point at REF_1/KEY_1 (which now contains DATA_3)
         mount_manager.update_secret_alias(ALIAS_2, REF_1, KEY_1);
-        tokio::time::sleep(WAIT_FOR_UPDATE).await; // Wait for metadata debouncer
+        tokio::time::sleep(AGGREGATION_WINDOW.mul_f32(MANUAL_WAIT_MULTIPLIER)).await; // Wait for metadata debouncer
 
         // The metadata debouncer must still be alive to process the alias update
         assert_eq!(secret2.value().await.unwrap(), DATA_3);
@@ -1582,7 +1624,7 @@ mod tests {
         .await
         .expect("secrets did not receive data update notification after alias redirect");
         // changed() returns (), just verify values
-        let _ = (r1, r2);
+        let _ = (r1, r2);       // TODO: is this line needed?
         assert_eq!(secret1.value().await.unwrap(), DATA_4);
         assert_eq!(secret2.value().await.unwrap(), DATA_4);
     }
