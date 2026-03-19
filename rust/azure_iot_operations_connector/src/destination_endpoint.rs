@@ -236,6 +236,10 @@ impl Forwarder {
     ///
     /// [`struct@Error`] of kind [`MqttTelemetryError`](ErrorKind::MqttTelemetryError)
     /// if the destination is `Mqtt` and there are any errors sending the message to the broker
+    ///
+    /// [`struct@Error`] of kind [`ValidationError`](ErrorKind::ValidationError)
+    /// if the destination is `Storage`. Storage destinations require a custom forwarder implementation
+    /// separate from the SDK.
     pub(crate) async fn send_data(
         &self,
         data: Data,
@@ -326,10 +330,14 @@ impl Forwarder {
                     .await
                     .map_err(ErrorKind::from)?)
             }
-            Destination::Storage { path: _ } => {
-                // TODO: implement
-                log::error!("Storage destination not implemented");
-                unimplemented!()
+            Destination::Storage { .. } => {
+                // TODO: Storage destinations are not handled by the default forwarder.
+                // A future approach could allow customers to provide a custom forwarder
+                // implementation (e.g., via a trait or callback) to handle storage forwarding.
+                Err(ErrorKind::ValidationError(
+                    "Storage destination is not handled by the default forwarder".to_string(),
+                )
+                .into())
             }
         }
     }
@@ -581,7 +589,6 @@ impl DataOperationDestinationDefinition {
     }
 }
 
-#[allow(dead_code)]
 #[allow(clippy::large_enum_variant)]
 pub(crate) enum Destination {
     BrokerStateStore {
@@ -738,19 +745,13 @@ impl Destination {
             | DataOperationDestinationDefinitionTarget::Dataset(
                 adr_models::DatasetTarget::Storage,
             ) => {
-                Err(AdrConfigError {
-                    code: None,
-                    details: None,
-                    message: Some(
-                        "Storage destination not supported for this connector".to_string(),
-                    ),
-                })?
-                // Destination::Storage {
-                //     path: definition_destination
-                //         .configuration
-                //         .path
-                //         .expect("Path must be present if Target is Storage"),
-                // }
+                Destination::Storage {
+                    path: data_operation_destination_definition
+                        .configuration()
+                        .path
+                        .clone()
+                        .expect("Path must be present if Target is Storage"),
+                }
             }
         })
     }
