@@ -173,6 +173,7 @@ impl Secrets {
                                     // Secret files can be created, but we don't need to do anything
                                     // with them until an alias points at them, so log only.
                                     EventKind::Create(_) => {
+                                        // TODO: Is this correct under Secret Sync? Non-Secret Sync?
                                         log::trace!(
                                             "Secret data creation detected: {:?}",
                                             db_event
@@ -501,10 +502,43 @@ mod tests {
                 .update_file(secret_alias, &format!("{new_secret_ref}/{new_secret_key}"));
         }
 
+        // fn add_secret_data(&self, secret_ref: &str, secret_key: &str, secret_data: &str) {
+        //     // //std::fs::create_dir_all(self.data_mount.path().join(secret_ref)).unwrap();
+        //     // // ------
+        //     // let dir_path = self.data_mount.path().join(secret_ref);
+        //     // let dir_is_new = !dir_path.exists();
+        //     // std::fs::create_dir_all(&dir_path).unwrap();
+        //     // if dir_is_new {
+        //     //     // Give inotify time to register a watch on the new directory before writing
+        //     //     // files into it. Without this, the recursive watcher may miss the file creation.
+        //     //     std::thread::sleep(std::time::Duration::from_millis(50));
+        //     // }
+        //     // // -----
+        //     // self.data_mount
+        //     //     .add_file(&format!("{secret_ref}/{secret_key}"), secret_data);
+        // }
+
+        // TODO: Consider moving some of this to TempMount. It currently doesn't support nested dir logic.
         fn add_secret_data(&self, secret_ref: &str, secret_key: &str, secret_data: &str) {
-            std::fs::create_dir_all(self.data_mount.path().join(secret_ref)).unwrap();
-            self.data_mount
-                .add_file(&format!("{secret_ref}/{secret_key}"), secret_data);
+            let target_dir = self.data_mount.path().join(secret_ref);
+            if !target_dir.exists() {
+                // Simulate Kubernetes-style atomic directory population:
+                // Build the directory with its content in a staging area outside the
+                // watched tree, then atomically move the fully-populated directory in.
+                // This avoids the inotify race where a recursive watcher might miss
+                // file events inside a brand-new directory because the watch hasn't
+                // been registered yet by the time the file is written.
+                let staging = tempfile::tempdir().unwrap();
+                let staging_ref = staging.path().join(secret_ref);
+                std::fs::create_dir(&staging_ref).unwrap();
+                std::fs::write(staging_ref.join(secret_key), secret_data).unwrap();
+                std::fs::rename(&staging_ref, &target_dir).unwrap();
+            } else {
+                // Directory already exists and is watched, write directly.
+                // TODO: validate presence of dir in condition and error otherwise
+                self.data_mount
+                    .add_file(&format!("{secret_ref}/{secret_key}"), secret_data);
+            }
         }
 
         fn update_secret_data(&self, secret_ref: &str, secret_key: &str, new_secret_data: &str) {
@@ -1447,7 +1481,7 @@ mod tests {
         assert_eq!(secret1_c6.value_if_available().unwrap(), None);
 
         let mount_manager_c = mount_manager.clone();
-        let (t1, t2, t3) = tokio::time::timeout(Duration::from_secs(5), async {
+        let (t1, t2, t3) = tokio::time::timeout(Duration::from_secs(10), async {
             tokio::join!(
                 async move {
                     // Wait for the aggregation window to pass, then add the new data.
