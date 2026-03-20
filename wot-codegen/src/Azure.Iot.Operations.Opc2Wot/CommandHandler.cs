@@ -77,7 +77,7 @@ namespace Azure.Iot.Operations.Opc2Wot
 
             if (!options.Integrate)
             {
-                statusReceiver?.Invoke("Skipping validation because '--integrate' option is not set.", false);
+                statusReceiver?.Invoke("Skipping validation of Thing Model references in links because '--integrate' option is not set.", false);
             }
 
             foreach (string modelUri in opcUaGraph.GetModelUris())
@@ -91,10 +91,7 @@ namespace Azure.Iot.Operations.Opc2Wot
                 string outFileName = $"{SpecMapper.GetSpecNameFromUri(modelUri)}.TM.json";
                 string outFilePath = Path.Combine(options.OutputDir.FullName, outFileName);
 
-                if (options.Integrate)
-                {
-                    ValidateThing(thingText, errorLog, outFileName);
-                }
+                ValidateThing(thingText, errorLog, outFileName, validateReferences: options.Integrate);
 
                 statusReceiver?.Invoke($"Writing Thing Model for '{modelUri}' to '{outFileName}'", false);
                 File.WriteAllText(outFilePath, thingText);
@@ -110,7 +107,7 @@ namespace Azure.Iot.Operations.Opc2Wot
             return errorLog;
         }
 
-        private static void ValidateThing(string thingText, ErrorLog errorLog, string outFileName)
+        private static void ValidateThing(string thingText, ErrorLog errorLog, string outFileName, bool validateReferences)
         {
             byte[] thingBytes = Encoding.UTF8.GetBytes(thingText);
             ErrorReporter errorReporter = new ErrorReporter(errorLog, outFileName, thingBytes);
@@ -132,7 +129,7 @@ namespace Azure.Iot.Operations.Opc2Wot
             foreach (TDThing thing in things)
             {
                 HashSet<SerializationFormat> serializationFormats = new();
-                if (thingValidator.TryValidateThing(new IntegralResolvingThing(thing, errorReporter, titleToThingMap), serializationFormats))
+                if (thingValidator.TryValidateThing(new IntegralResolvingThing(thing, errorReporter, titleToThingMap), serializationFormats, validateReferences))
                 {
                     errorReporter.RegisterNameOfThing(thing.Title!.Value.Value, thing.Title!.TokenIndex);
                 }

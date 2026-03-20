@@ -237,7 +237,7 @@ namespace Azure.Iot.Operations.ProtocolCompilerLib
                 {
                     ResolvingThing resolvingThing = new ResolvingThing(parsedThing, filepathToTitleToParsedThingMap);
                     ThingValidator thingValidator = new ThingValidator(parsedThing.ErrorReporter);
-                    if (thingValidator.TryValidateThing(resolvingThing, serializationFormats))
+                    if (thingValidator.TryValidateThing(resolvingThing, serializationFormats, validateReferences: true))
                     {
                         thingCount++;
                     }

@@ -19,8 +19,6 @@ namespace Azure.Iot.Operations.CodeGeneration
             inheritanceEnumeration = new InheritanceEnumeration(resolvingThing);
         }
 
-        public bool DoesInherit { get => inheritanceEnumeration.DoesInherit; }
-
         public IEnumerator<KeyValuePair<string, ValueTracker<TDEvent>>> GetEnumerator()
         {
             if (resolvingThing.ParsedThing.Thing.Events?.Entries != null)
