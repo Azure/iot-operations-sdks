@@ -744,15 +744,13 @@ impl Destination {
             )
             | DataOperationDestinationDefinitionTarget::Dataset(
                 adr_models::DatasetTarget::Storage,
-            ) => {
-                Destination::Storage {
-                    path: data_operation_destination_definition
-                        .configuration()
-                        .path
-                        .clone()
-                        .expect("Path must be present if Target is Storage"),
-                }
-            }
+            ) => Destination::Storage {
+                path: data_operation_destination_definition
+                    .configuration()
+                    .path
+                    .clone()
+                    .expect("Path must be present if Target is Storage"),
+            },
         })
     }
 }
