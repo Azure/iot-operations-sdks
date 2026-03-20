@@ -57,7 +57,7 @@ namespace Azure.Iot.Operations.Opc2WotLib
             foreach (string unitfulPropertyName in unitfulPropertyNames)
             {
                 string whichAffordances = unitfulEventNames.Contains(unitfulPropertyName) ? "property and event" : "property";
-                string description = $"Unit designator for {whichAffordances} with name {unitfulPropertyName}, expressed as a URI in the QUDT unit vocabulary";
+                string description = $"Unit designator for {whichAffordances} with name {unitfulPropertyName}, expressed as a 2- or 3-character UN/ECE code";
                 this.properties.Add(new WotProperty(specName, this.thingName, $"{unitfulPropertyName}_EngineeringUnits", StringDataTypeNodeId, true, description));
             }
 

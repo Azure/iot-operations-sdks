@@ -641,7 +641,7 @@
         ]
       },
       "PumpKickTimeDifference_EngineeringUnits": {
-        "description": "Unit designator for property and event with name PumpKickTimeDifference, expressed as a URI in the QUDT unit vocabulary",
+        "description": "Unit designator for property and event with name PumpKickTimeDifference, expressed as a 2- or 3-character UN/ECE code",
         "type": "string",
         "readOnly": true,
         "forms": [
@@ -873,7 +873,7 @@
         ]
       },
       "FeedbackVariable_EngineeringUnits": {
-        "description": "Unit designator for property and event with name FeedbackVariable, expressed as a URI in the QUDT unit vocabulary",
+        "description": "Unit designator for property and event with name FeedbackVariable, expressed as a 2- or 3-character UN/ECE code",
         "type": "string",
         "readOnly": true,
         "forms": [
@@ -885,7 +885,7 @@
         ]
       },
       "ReferenceVariable_EngineeringUnits": {
-        "description": "Unit designator for property and event with name ReferenceVariable, expressed as a URI in the QUDT unit vocabulary",
+        "description": "Unit designator for property and event with name ReferenceVariable, expressed as a 2- or 3-character UN/ECE code",
         "type": "string",
         "readOnly": true,
         "forms": [
@@ -1624,7 +1624,7 @@
         ]
       },
       "CorrectiveMaintenanceTime_EngineeringUnits": {
-        "description": "Unit designator for property and event with name CorrectiveMaintenanceTime, expressed as a URI in the QUDT unit vocabulary",
+        "description": "Unit designator for property and event with name CorrectiveMaintenanceTime, expressed as a 2- or 3-character UN/ECE code",
         "type": "string",
         "readOnly": true,
         "forms": [
@@ -1941,7 +1941,7 @@
         ]
       },
       "Availability_EngineeringUnits": {
-        "description": "Unit designator for property and event with name Availability, expressed as a URI in the QUDT unit vocabulary",
+        "description": "Unit designator for property and event with name Availability, expressed as a 2- or 3-character UN/ECE code",
         "type": "string",
         "readOnly": true,
         "forms": [
@@ -1953,7 +1953,7 @@
         ]
       },
       "Durability_EngineeringUnits": {
-        "description": "Unit designator for property and event with name Durability, expressed as a URI in the QUDT unit vocabulary",
+        "description": "Unit designator for property and event with name Durability, expressed as a 2- or 3-character UN/ECE code",
         "type": "string",
         "readOnly": true,
         "forms": [
@@ -1965,7 +1965,7 @@
         ]
       },
       "ExpectedReliability_EngineeringUnits": {
-        "description": "Unit designator for property and event with name ExpectedReliability, expressed as a URI in the QUDT unit vocabulary",
+        "description": "Unit designator for property and event with name ExpectedReliability, expressed as a 2- or 3-character UN/ECE code",
         "type": "string",
         "readOnly": true,
         "forms": [
@@ -1977,7 +1977,7 @@
         ]
       },
       "InstantaneousAvailability_EngineeringUnits": {
-        "description": "Unit designator for property and event with name InstantaneousAvailability, expressed as a URI in the QUDT unit vocabulary",
+        "description": "Unit designator for property and event with name InstantaneousAvailability, expressed as a 2- or 3-character UN/ECE code",
         "type": "string",
         "readOnly": true,
         "forms": [
@@ -1989,7 +1989,7 @@
         ]
       },
       "IntrinsicMaintainability_EngineeringUnits": {
-        "description": "Unit designator for property and event with name IntrinsicMaintainability, expressed as a URI in the QUDT unit vocabulary",
+        "description": "Unit designator for property and event with name IntrinsicMaintainability, expressed as a 2- or 3-character UN/ECE code",
         "type": "string",
         "readOnly": true,
         "forms": [
@@ -2001,7 +2001,7 @@
         ]
       },
       "IntrinsicReliability_EngineeringUnits": {
-        "description": "Unit designator for property and event with name IntrinsicReliability, expressed as a URI in the QUDT unit vocabulary",
+        "description": "Unit designator for property and event with name IntrinsicReliability, expressed as a 2- or 3-character UN/ECE code",
         "type": "string",
         "readOnly": true,
         "forms": [
@@ -2013,7 +2013,7 @@
         ]
       },
       "Maintainability_EngineeringUnits": {
-        "description": "Unit designator for property and event with name Maintainability, expressed as a URI in the QUDT unit vocabulary",
+        "description": "Unit designator for property and event with name Maintainability, expressed as a 2- or 3-character UN/ECE code",
         "type": "string",
         "readOnly": true,
         "forms": [
@@ -2025,7 +2025,7 @@
         ]
       },
       "OperationalReliability_EngineeringUnits": {
-        "description": "Unit designator for property and event with name OperationalReliability, expressed as a URI in the QUDT unit vocabulary",
+        "description": "Unit designator for property and event with name OperationalReliability, expressed as a 2- or 3-character UN/ECE code",
         "type": "string",
         "readOnly": true,
         "forms": [
@@ -2037,7 +2037,7 @@
         ]
       },
       "ProductionBasedAvailability_EngineeringUnits": {
-        "description": "Unit designator for property and event with name ProductionBasedAvailability, expressed as a URI in the QUDT unit vocabulary",
+        "description": "Unit designator for property and event with name ProductionBasedAvailability, expressed as a 2- or 3-character UN/ECE code",
         "type": "string",
         "readOnly": true,
         "forms": [
@@ -2049,7 +2049,7 @@
         ]
       },
       "Reliability_EngineeringUnits": {
-        "description": "Unit designator for property and event with name Reliability, expressed as a URI in the QUDT unit vocabulary",
+        "description": "Unit designator for property and event with name Reliability, expressed as a 2- or 3-character UN/ECE code",
         "type": "string",
         "readOnly": true,
         "forms": [
@@ -2061,7 +2061,7 @@
         ]
       },
       "TimeBasedAvailability_EngineeringUnits": {
-        "description": "Unit designator for property and event with name TimeBasedAvailability, expressed as a URI in the QUDT unit vocabulary",
+        "description": "Unit designator for property and event with name TimeBasedAvailability, expressed as a 2- or 3-character UN/ECE code",
         "type": "string",
         "readOnly": true,
         "forms": [
@@ -2558,7 +2558,7 @@
         ]
       },
       "CriticalBackingPressure_EngineeringUnits": {
-        "description": "Unit designator for property and event with name CriticalBackingPressure, expressed as a URI in the QUDT unit vocabulary",
+        "description": "Unit designator for property and event with name CriticalBackingPressure, expressed as a 2- or 3-character UN/ECE code",
         "type": "string",
         "readOnly": true,
         "forms": [
@@ -2570,7 +2570,7 @@
         ]
       },
       "InletAreaOfThePump_EngineeringUnits": {
-        "description": "Unit designator for property and event with name InletAreaOfThePump, expressed as a URI in the QUDT unit vocabulary",
+        "description": "Unit designator for property and event with name InletAreaOfThePump, expressed as a 2- or 3-character UN/ECE code",
         "type": "string",
         "readOnly": true,
         "forms": [
@@ -2582,7 +2582,7 @@
         ]
       },
       "MaximumAllowableInletPressure_EngineeringUnits": {
-        "description": "Unit designator for property and event with name MaximumAllowableInletPressure, expressed as a URI in the QUDT unit vocabulary",
+        "description": "Unit designator for property and event with name MaximumAllowableInletPressure, expressed as a 2- or 3-character UN/ECE code",
         "type": "string",
         "readOnly": true,
         "forms": [
@@ -2594,7 +2594,7 @@
         ]
       },
       "MaximumTolerableWaterVaporInletPressure_EngineeringUnits": {
-        "description": "Unit designator for property and event with name MaximumTolerableWaterVaporInletPressure, expressed as a URI in the QUDT unit vocabulary",
+        "description": "Unit designator for property and event with name MaximumTolerableWaterVaporInletPressure, expressed as a 2- or 3-character UN/ECE code",
         "type": "string",
         "readOnly": true,
         "forms": [
@@ -2606,7 +2606,7 @@
         ]
       },
       "MaximumWorkingPressure_EngineeringUnits": {
-        "description": "Unit designator for property and event with name MaximumWorkingPressure, expressed as a URI in the QUDT unit vocabulary",
+        "description": "Unit designator for property and event with name MaximumWorkingPressure, expressed as a 2- or 3-character UN/ECE code",
         "type": "string",
         "readOnly": true,
         "forms": [
@@ -2618,7 +2618,7 @@
         ]
       },
       "MinimumAllowableInletPressure_EngineeringUnits": {
-        "description": "Unit designator for property and event with name MinimumAllowableInletPressure, expressed as a URI in the QUDT unit vocabulary",
+        "description": "Unit designator for property and event with name MinimumAllowableInletPressure, expressed as a 2- or 3-character UN/ECE code",
         "type": "string",
         "readOnly": true,
         "forms": [
@@ -2630,7 +2630,7 @@
         ]
       },
       "NetPositiveInletPressureRequired_EngineeringUnits": {
-        "description": "Unit designator for property and event with name NetPositiveInletPressureRequired, expressed as a URI in the QUDT unit vocabulary",
+        "description": "Unit designator for property and event with name NetPositiveInletPressureRequired, expressed as a 2- or 3-character UN/ECE code",
         "type": "string",
         "readOnly": true,
         "forms": [
@@ -2642,7 +2642,7 @@
         ]
       },
       "WaterVaporCapacity_EngineeringUnits": {
-        "description": "Unit designator for property and event with name WaterVaporCapacity, expressed as a URI in the QUDT unit vocabulary",
+        "description": "Unit designator for property and event with name WaterVaporCapacity, expressed as a 2- or 3-character UN/ECE code",
         "type": "string",
         "readOnly": true,
         "forms": [
@@ -2957,7 +2957,7 @@
         ]
       },
       "MaximumAllowableOutletPressure_EngineeringUnits": {
-        "description": "Unit designator for property and event with name MaximumAllowableOutletPressure, expressed as a URI in the QUDT unit vocabulary",
+        "description": "Unit designator for property and event with name MaximumAllowableOutletPressure, expressed as a 2- or 3-character UN/ECE code",
         "type": "string",
         "readOnly": true,
         "forms": [
@@ -2969,7 +2969,7 @@
         ]
       },
       "MinimumAllowableOutetPressure_EngineeringUnits": {
-        "description": "Unit designator for property and event with name MinimumAllowableOutetPressure, expressed as a URI in the QUDT unit vocabulary",
+        "description": "Unit designator for property and event with name MinimumAllowableOutetPressure, expressed as a 2- or 3-character UN/ECE code",
         "type": "string",
         "readOnly": true,
         "forms": [
@@ -2981,7 +2981,7 @@
         ]
       },
       "OutletAreaOfThePump_EngineeringUnits": {
-        "description": "Unit designator for property and event with name OutletAreaOfThePump, expressed as a URI in the QUDT unit vocabulary",
+        "description": "Unit designator for property and event with name OutletAreaOfThePump, expressed as a 2- or 3-character UN/ECE code",
         "type": "string",
         "readOnly": true,
         "forms": [
@@ -2993,7 +2993,7 @@
         ]
       },
       "ReliefValveAccumulationPressure_EngineeringUnits": {
-        "description": "Unit designator for property and event with name ReliefValveAccumulationPressure, expressed as a URI in the QUDT unit vocabulary",
+        "description": "Unit designator for property and event with name ReliefValveAccumulationPressure, expressed as a 2- or 3-character UN/ECE code",
         "type": "string",
         "readOnly": true,
         "forms": [
@@ -3005,7 +3005,7 @@
         ]
       },
       "ReliefValveBackPressure_EngineeringUnits": {
-        "description": "Unit designator for property and event with name ReliefValveBackPressure, expressed as a URI in the QUDT unit vocabulary",
+        "description": "Unit designator for property and event with name ReliefValveBackPressure, expressed as a 2- or 3-character UN/ECE code",
         "type": "string",
         "readOnly": true,
         "forms": [
@@ -3017,7 +3017,7 @@
         ]
       },
       "ReliefValveReseatPressure_EngineeringUnits": {
-        "description": "Unit designator for property and event with name ReliefValveReseatPressure, expressed as a URI in the QUDT unit vocabulary",
+        "description": "Unit designator for property and event with name ReliefValveReseatPressure, expressed as a 2- or 3-character UN/ECE code",
         "type": "string",
         "readOnly": true,
         "forms": [
@@ -3029,7 +3029,7 @@
         ]
       },
       "ReliefValveSetPressure_EngineeringUnits": {
-        "description": "Unit designator for property and event with name ReliefValveSetPressure, expressed as a URI in the QUDT unit vocabulary",
+        "description": "Unit designator for property and event with name ReliefValveSetPressure, expressed as a 2- or 3-character UN/ECE code",
         "type": "string",
         "readOnly": true,
         "forms": [
@@ -3376,7 +3376,7 @@
         ]
       },
       "HeightOfTheInletConnection_EngineeringUnits": {
-        "description": "Unit designator for property and event with name HeightOfTheInletConnection, expressed as a URI in the QUDT unit vocabulary",
+        "description": "Unit designator for property and event with name HeightOfTheInletConnection, expressed as a 2- or 3-character UN/ECE code",
         "type": "string",
         "readOnly": true,
         "forms": [
@@ -3388,7 +3388,7 @@
         ]
       },
       "MeanRatedVelocityAtInlet_EngineeringUnits": {
-        "description": "Unit designator for property and event with name MeanRatedVelocityAtInlet, expressed as a URI in the QUDT unit vocabulary",
+        "description": "Unit designator for property and event with name MeanRatedVelocityAtInlet, expressed as a 2- or 3-character UN/ECE code",
         "type": "string",
         "readOnly": true,
         "forms": [
@@ -3400,7 +3400,7 @@
         ]
       },
       "RatedInletPressure_EngineeringUnits": {
-        "description": "Unit designator for property and event with name RatedInletPressure, expressed as a URI in the QUDT unit vocabulary",
+        "description": "Unit designator for property and event with name RatedInletPressure, expressed as a 2- or 3-character UN/ECE code",
         "type": "string",
         "readOnly": true,
         "forms": [
@@ -3412,7 +3412,7 @@
         ]
       },
       "TotalHeadAtInletAreaOfThePump_EngineeringUnits": {
-        "description": "Unit designator for property and event with name TotalHeadAtInletAreaOfThePump, expressed as a URI in the QUDT unit vocabulary",
+        "description": "Unit designator for property and event with name TotalHeadAtInletAreaOfThePump, expressed as a 2- or 3-character UN/ECE code",
         "type": "string",
         "readOnly": true,
         "forms": [
@@ -3629,7 +3629,7 @@
         ]
       },
       "HeightOfTheOutletConnection_EngineeringUnits": {
-        "description": "Unit designator for property and event with name HeightOfTheOutletConnection, expressed as a URI in the QUDT unit vocabulary",
+        "description": "Unit designator for property and event with name HeightOfTheOutletConnection, expressed as a 2- or 3-character UN/ECE code",
         "type": "string",
         "readOnly": true,
         "forms": [
@@ -3641,7 +3641,7 @@
         ]
       },
       "MeanRatedVelocityAtOutlet_EngineeringUnits": {
-        "description": "Unit designator for property and event with name MeanRatedVelocityAtOutlet, expressed as a URI in the QUDT unit vocabulary",
+        "description": "Unit designator for property and event with name MeanRatedVelocityAtOutlet, expressed as a 2- or 3-character UN/ECE code",
         "type": "string",
         "readOnly": true,
         "forms": [
@@ -3653,7 +3653,7 @@
         ]
       },
       "RatedOutletPressure_EngineeringUnits": {
-        "description": "Unit designator for property and event with name RatedOutletPressure, expressed as a URI in the QUDT unit vocabulary",
+        "description": "Unit designator for property and event with name RatedOutletPressure, expressed as a 2- or 3-character UN/ECE code",
         "type": "string",
         "readOnly": true,
         "forms": [
@@ -3665,7 +3665,7 @@
         ]
       },
       "TotalHeadAtOutletAreaOfThePump_EngineeringUnits": {
-        "description": "Unit designator for property and event with name TotalHeadAtOutletAreaOfThePump, expressed as a URI in the QUDT unit vocabulary",
+        "description": "Unit designator for property and event with name TotalHeadAtOutletAreaOfThePump, expressed as a 2- or 3-character UN/ECE code",
         "type": "string",
         "readOnly": true,
         "forms": [
@@ -4034,7 +4034,7 @@
         ]
       },
       "DeadTime_EngineeringUnits": {
-        "description": "Unit designator for property and event with name DeadTime, expressed as a URI in the QUDT unit vocabulary",
+        "description": "Unit designator for property and event with name DeadTime, expressed as a 2- or 3-character UN/ECE code",
         "type": "string",
         "readOnly": true,
         "forms": [
@@ -6023,7 +6023,7 @@
         ]
       },
       "BalancingRateOfFlow_EngineeringUnits": {
-        "description": "Unit designator for property and event with name BalancingRateOfFlow, expressed as a URI in the QUDT unit vocabulary",
+        "description": "Unit designator for property and event with name BalancingRateOfFlow, expressed as a 2- or 3-character UN/ECE code",
         "type": "string",
         "readOnly": true,
         "forms": [
@@ -6035,7 +6035,7 @@
         ]
       },
       "BasePressure_EngineeringUnits": {
-        "description": "Unit designator for property and event with name BasePressure, expressed as a URI in the QUDT unit vocabulary",
+        "description": "Unit designator for property and event with name BasePressure, expressed as a 2- or 3-character UN/ECE code",
         "type": "string",
         "readOnly": true,
         "forms": [
@@ -6047,7 +6047,7 @@
         ]
       },
       "ClearanceVolume_EngineeringUnits": {
-        "description": "Unit designator for property and event with name ClearanceVolume, expressed as a URI in the QUDT unit vocabulary",
+        "description": "Unit designator for property and event with name ClearanceVolume, expressed as a 2- or 3-character UN/ECE code",
         "type": "string",
         "readOnly": true,
         "forms": [
@@ -6059,7 +6059,7 @@
         ]
       },
       "Cool_DownTimeForAVaporJetPumpOrADiffusionPump_EngineeringUnits": {
-        "description": "Unit designator for property and event with name Cool_DownTimeForAVaporJetPumpOrADiffusionPump, expressed as a URI in the QUDT unit vocabulary",
+        "description": "Unit designator for property and event with name Cool_DownTimeForAVaporJetPumpOrADiffusionPump, expressed as a 2- or 3-character UN/ECE code",
         "type": "string",
         "readOnly": true,
         "forms": [
@@ -6071,7 +6071,7 @@
         ]
       },
       "CriticalSpeed_EngineeringUnits": {
-        "description": "Unit designator for property and event with name CriticalSpeed, expressed as a URI in the QUDT unit vocabulary",
+        "description": "Unit designator for property and event with name CriticalSpeed, expressed as a 2- or 3-character UN/ECE code",
         "type": "string",
         "readOnly": true,
         "forms": [
@@ -6083,7 +6083,7 @@
         ]
       },
       "DesignAxialLoad_EngineeringUnits": {
-        "description": "Unit designator for property and event with name DesignAxialLoad, expressed as a URI in the QUDT unit vocabulary",
+        "description": "Unit designator for property and event with name DesignAxialLoad, expressed as a 2- or 3-character UN/ECE code",
         "type": "string",
         "readOnly": true,
         "forms": [
@@ -6095,7 +6095,7 @@
         ]
       },
       "DesignRadialLoad_EngineeringUnits": {
-        "description": "Unit designator for property and event with name DesignRadialLoad, expressed as a URI in the QUDT unit vocabulary",
+        "description": "Unit designator for property and event with name DesignRadialLoad, expressed as a 2- or 3-character UN/ECE code",
         "type": "string",
         "readOnly": true,
         "forms": [
@@ -6107,7 +6107,7 @@
         ]
       },
       "DryCriticalSpeed_EngineeringUnits": {
-        "description": "Unit designator for property and event with name DryCriticalSpeed, expressed as a URI in the QUDT unit vocabulary",
+        "description": "Unit designator for property and event with name DryCriticalSpeed, expressed as a 2- or 3-character UN/ECE code",
         "type": "string",
         "readOnly": true,
         "forms": [
@@ -6119,7 +6119,7 @@
         ]
       },
       "GeometricalFlow_EngineeringUnits": {
-        "description": "Unit designator for property and event with name GeometricalFlow, expressed as a URI in the QUDT unit vocabulary",
+        "description": "Unit designator for property and event with name GeometricalFlow, expressed as a 2- or 3-character UN/ECE code",
         "type": "string",
         "readOnly": true,
         "forms": [
@@ -6131,7 +6131,7 @@
         ]
       },
       "GeometricDisplacementVolume_EngineeringUnits": {
-        "description": "Unit designator for property and event with name GeometricDisplacementVolume, expressed as a URI in the QUDT unit vocabulary",
+        "description": "Unit designator for property and event with name GeometricDisplacementVolume, expressed as a 2- or 3-character UN/ECE code",
         "type": "string",
         "readOnly": true,
         "forms": [
@@ -6143,7 +6143,7 @@
         ]
       },
       "HeadAtPeakPoint_EngineeringUnits": {
-        "description": "Unit designator for property and event with name HeadAtPeakPoint, expressed as a URI in the QUDT unit vocabulary",
+        "description": "Unit designator for property and event with name HeadAtPeakPoint, expressed as a 2- or 3-character UN/ECE code",
         "type": "string",
         "readOnly": true,
         "forms": [
@@ -6155,7 +6155,7 @@
         ]
       },
       "LeakageRateOfFlow_EngineeringUnits": {
-        "description": "Unit designator for property and event with name LeakageRateOfFlow, expressed as a URI in the QUDT unit vocabulary",
+        "description": "Unit designator for property and event with name LeakageRateOfFlow, expressed as a 2- or 3-character UN/ECE code",
         "type": "string",
         "readOnly": true,
         "forms": [
@@ -6167,7 +6167,7 @@
         ]
       },
       "MaximumAllowableAmbientTemperature_EngineeringUnits": {
-        "description": "Unit designator for property and event with name MaximumAllowableAmbientTemperature, expressed as a URI in the QUDT unit vocabulary",
+        "description": "Unit designator for property and event with name MaximumAllowableAmbientTemperature, expressed as a 2- or 3-character UN/ECE code",
         "type": "string",
         "readOnly": true,
         "forms": [
@@ -6179,7 +6179,7 @@
         ]
       },
       "MaximumAllowableCasingWorkingPressure_EngineeringUnits": {
-        "description": "Unit designator for property and event with name MaximumAllowableCasingWorkingPressure, expressed as a URI in the QUDT unit vocabulary",
+        "description": "Unit designator for property and event with name MaximumAllowableCasingWorkingPressure, expressed as a 2- or 3-character UN/ECE code",
         "type": "string",
         "readOnly": true,
         "forms": [
@@ -6191,7 +6191,7 @@
         ]
       },
       "MaximumAllowableContinuousSpeed_EngineeringUnits": {
-        "description": "Unit designator for property and event with name MaximumAllowableContinuousSpeed, expressed as a URI in the QUDT unit vocabulary",
+        "description": "Unit designator for property and event with name MaximumAllowableContinuousSpeed, expressed as a 2- or 3-character UN/ECE code",
         "type": "string",
         "readOnly": true,
         "forms": [
@@ -6203,7 +6203,7 @@
         ]
       },
       "MaximumAllowableHead_EngineeringUnits": {
-        "description": "Unit designator for property and event with name MaximumAllowableHead, expressed as a URI in the QUDT unit vocabulary",
+        "description": "Unit designator for property and event with name MaximumAllowableHead, expressed as a 2- or 3-character UN/ECE code",
         "type": "string",
         "readOnly": true,
         "forms": [
@@ -6215,7 +6215,7 @@
         ]
       },
       "MaximumAllowableRelativeHumidity_EngineeringUnits": {
-        "description": "Unit designator for property and event with name MaximumAllowableRelativeHumidity, expressed as a URI in the QUDT unit vocabulary",
+        "description": "Unit designator for property and event with name MaximumAllowableRelativeHumidity, expressed as a 2- or 3-character UN/ECE code",
         "type": "string",
         "readOnly": true,
         "forms": [
@@ -6227,7 +6227,7 @@
         ]
       },
       "MaximumAllowableTemperature_EngineeringUnits": {
-        "description": "Unit designator for property and event with name MaximumAllowableTemperature, expressed as a URI in the QUDT unit vocabulary",
+        "description": "Unit designator for property and event with name MaximumAllowableTemperature, expressed as a 2- or 3-character UN/ECE code",
         "type": "string",
         "readOnly": true,
         "forms": [
@@ -6239,7 +6239,7 @@
         ]
       },
       "MaximumAllowableThroughput_EngineeringUnits": {
-        "description": "Unit designator for property and event with name MaximumAllowableThroughput, expressed as a URI in the QUDT unit vocabulary",
+        "description": "Unit designator for property and event with name MaximumAllowableThroughput, expressed as a 2- or 3-character UN/ECE code",
         "type": "string",
         "readOnly": true,
         "forms": [
@@ -6251,7 +6251,7 @@
         ]
       },
       "MaximumAllowableWorkingPressure_EngineeringUnits": {
-        "description": "Unit designator for property and event with name MaximumAllowableWorkingPressure, expressed as a URI in the QUDT unit vocabulary",
+        "description": "Unit designator for property and event with name MaximumAllowableWorkingPressure, expressed as a 2- or 3-character UN/ECE code",
         "type": "string",
         "readOnly": true,
         "forms": [
@@ -6263,7 +6263,7 @@
         ]
       },
       "MaximumAxialLoad_EngineeringUnits": {
-        "description": "Unit designator for property and event with name MaximumAxialLoad, expressed as a URI in the QUDT unit vocabulary",
+        "description": "Unit designator for property and event with name MaximumAxialLoad, expressed as a 2- or 3-character UN/ECE code",
         "type": "string",
         "readOnly": true,
         "forms": [
@@ -6275,7 +6275,7 @@
         ]
       },
       "MaximumPumpPowerInput_EngineeringUnits": {
-        "description": "Unit designator for property and event with name MaximumPumpPowerInput, expressed as a URI in the QUDT unit vocabulary",
+        "description": "Unit designator for property and event with name MaximumPumpPowerInput, expressed as a 2- or 3-character UN/ECE code",
         "type": "string",
         "readOnly": true,
         "forms": [
@@ -6287,7 +6287,7 @@
         ]
       },
       "MaximumRadialLoad_EngineeringUnits": {
-        "description": "Unit designator for property and event with name MaximumRadialLoad, expressed as a URI in the QUDT unit vocabulary",
+        "description": "Unit designator for property and event with name MaximumRadialLoad, expressed as a 2- or 3-character UN/ECE code",
         "type": "string",
         "readOnly": true,
         "forms": [
@@ -6299,7 +6299,7 @@
         ]
       },
       "MaximumStaticSealingPressure_EngineeringUnits": {
-        "description": "Unit designator for property and event with name MaximumStaticSealingPressure, expressed as a URI in the QUDT unit vocabulary",
+        "description": "Unit designator for property and event with name MaximumStaticSealingPressure, expressed as a 2- or 3-character UN/ECE code",
         "type": "string",
         "readOnly": true,
         "forms": [
@@ -6311,7 +6311,7 @@
         ]
       },
       "MeanTimebetweenFailures_EngineeringUnits": {
-        "description": "Unit designator for property and event with name MeanTimebetweenFailures, expressed as a URI in the QUDT unit vocabulary",
+        "description": "Unit designator for property and event with name MeanTimebetweenFailures, expressed as a 2- or 3-character UN/ECE code",
         "type": "string",
         "readOnly": true,
         "forms": [
@@ -6323,7 +6323,7 @@
         ]
       },
       "MinimumAllowableAmbientTemperature_EngineeringUnits": {
-        "description": "Unit designator for property and event with name MinimumAllowableAmbientTemperature, expressed as a URI in the QUDT unit vocabulary",
+        "description": "Unit designator for property and event with name MinimumAllowableAmbientTemperature, expressed as a 2- or 3-character UN/ECE code",
         "type": "string",
         "readOnly": true,
         "forms": [
@@ -6335,7 +6335,7 @@
         ]
       },
       "MinimumAllowableContinuousSpeed_EngineeringUnits": {
-        "description": "Unit designator for property and event with name MinimumAllowableContinuousSpeed, expressed as a URI in the QUDT unit vocabulary",
+        "description": "Unit designator for property and event with name MinimumAllowableContinuousSpeed, expressed as a 2- or 3-character UN/ECE code",
         "type": "string",
         "readOnly": true,
         "forms": [
@@ -6347,7 +6347,7 @@
         ]
       },
       "MinimumAllowableHead_EngineeringUnits": {
-        "description": "Unit designator for property and event with name MinimumAllowableHead, expressed as a URI in the QUDT unit vocabulary",
+        "description": "Unit designator for property and event with name MinimumAllowableHead, expressed as a 2- or 3-character UN/ECE code",
         "type": "string",
         "readOnly": true,
         "forms": [
@@ -6359,7 +6359,7 @@
         ]
       },
       "MinimumAllowableRelativeHumidity_EngineeringUnits": {
-        "description": "Unit designator for property and event with name MinimumAllowableRelativeHumidity, expressed as a URI in the QUDT unit vocabulary",
+        "description": "Unit designator for property and event with name MinimumAllowableRelativeHumidity, expressed as a 2- or 3-character UN/ECE code",
         "type": "string",
         "readOnly": true,
         "forms": [
@@ -6371,7 +6371,7 @@
         ]
       },
       "MinimumAllowableTemperature_EngineeringUnits": {
-        "description": "Unit designator for property and event with name MinimumAllowableTemperature, expressed as a URI in the QUDT unit vocabulary",
+        "description": "Unit designator for property and event with name MinimumAllowableTemperature, expressed as a 2- or 3-character UN/ECE code",
         "type": "string",
         "readOnly": true,
         "forms": [
@@ -6383,7 +6383,7 @@
         ]
       },
       "MinimumAllowableThermalFlow_EngineeringUnits": {
-        "description": "Unit designator for property and event with name MinimumAllowableThermalFlow, expressed as a URI in the QUDT unit vocabulary",
+        "description": "Unit designator for property and event with name MinimumAllowableThermalFlow, expressed as a 2- or 3-character UN/ECE code",
         "type": "string",
         "readOnly": true,
         "forms": [
@@ -6395,7 +6395,7 @@
         ]
       },
       "MinimumContinuousStableFlow_EngineeringUnits": {
-        "description": "Unit designator for property and event with name MinimumContinuousStableFlow, expressed as a URI in the QUDT unit vocabulary",
+        "description": "Unit designator for property and event with name MinimumContinuousStableFlow, expressed as a 2- or 3-character UN/ECE code",
         "type": "string",
         "readOnly": true,
         "forms": [
@@ -6407,7 +6407,7 @@
         ]
       },
       "MinimumContinuousThermalFlow_EngineeringUnits": {
-        "description": "Unit designator for property and event with name MinimumContinuousThermalFlow, expressed as a URI in the QUDT unit vocabulary",
+        "description": "Unit designator for property and event with name MinimumContinuousThermalFlow, expressed as a 2- or 3-character UN/ECE code",
         "type": "string",
         "readOnly": true,
         "forms": [
@@ -6419,7 +6419,7 @@
         ]
       },
       "NetPositiveSuctionHeadRequired_EngineeringUnits": {
-        "description": "Unit designator for property and event with name NetPositiveSuctionHeadRequired, expressed as a URI in the QUDT unit vocabulary",
+        "description": "Unit designator for property and event with name NetPositiveSuctionHeadRequired, expressed as a 2- or 3-character UN/ECE code",
         "type": "string",
         "readOnly": true,
         "forms": [
@@ -6431,7 +6431,7 @@
         ]
       },
       "NetPositiveSuctionHeadRequiredForADropOf3__EngineeringUnits": {
-        "description": "Unit designator for property and event with name NetPositiveSuctionHeadRequiredForADropOf3_, expressed as a URI in the QUDT unit vocabulary",
+        "description": "Unit designator for property and event with name NetPositiveSuctionHeadRequiredForADropOf3_, expressed as a 2- or 3-character UN/ECE code",
         "type": "string",
         "readOnly": true,
         "forms": [
@@ -6443,7 +6443,7 @@
         ]
       },
       "OptimumHead_EngineeringUnits": {
-        "description": "Unit designator for property and event with name OptimumHead, expressed as a URI in the QUDT unit vocabulary",
+        "description": "Unit designator for property and event with name OptimumHead, expressed as a 2- or 3-character UN/ECE code",
         "type": "string",
         "readOnly": true,
         "forms": [
@@ -6455,7 +6455,7 @@
         ]
       },
       "OptimumPumpPowerInput_EngineeringUnits": {
-        "description": "Unit designator for property and event with name OptimumPumpPowerInput, expressed as a URI in the QUDT unit vocabulary",
+        "description": "Unit designator for property and event with name OptimumPumpPowerInput, expressed as a 2- or 3-character UN/ECE code",
         "type": "string",
         "readOnly": true,
         "forms": [
@@ -6467,7 +6467,7 @@
         ]
       },
       "OptimumRateOfFlow_EngineeringUnits": {
-        "description": "Unit designator for property and event with name OptimumRateOfFlow, expressed as a URI in the QUDT unit vocabulary",
+        "description": "Unit designator for property and event with name OptimumRateOfFlow, expressed as a 2- or 3-character UN/ECE code",
         "type": "string",
         "readOnly": true,
         "forms": [
@@ -6479,7 +6479,7 @@
         ]
       },
       "PistonVelocity_EngineeringUnits": {
-        "description": "Unit designator for property and event with name PistonVelocity, expressed as a URI in the QUDT unit vocabulary",
+        "description": "Unit designator for property and event with name PistonVelocity, expressed as a 2- or 3-character UN/ECE code",
         "type": "string",
         "readOnly": true,
         "forms": [
@@ -6491,7 +6491,7 @@
         ]
       },
       "Pre_ChargePressure_EngineeringUnits": {
-        "description": "Unit designator for property and event with name Pre_ChargePressure, expressed as a URI in the QUDT unit vocabulary",
+        "description": "Unit designator for property and event with name Pre_ChargePressure, expressed as a 2- or 3-character UN/ECE code",
         "type": "string",
         "readOnly": true,
         "forms": [
@@ -6503,7 +6503,7 @@
         ]
       },
       "Shut_OffHead_EngineeringUnits": {
-        "description": "Unit designator for property and event with name Shut_OffHead, expressed as a URI in the QUDT unit vocabulary",
+        "description": "Unit designator for property and event with name Shut_OffHead, expressed as a 2- or 3-character UN/ECE code",
         "type": "string",
         "readOnly": true,
         "forms": [
@@ -6515,7 +6515,7 @@
         ]
       },
       "Shut_OffPumpPowerInput_EngineeringUnits": {
-        "description": "Unit designator for property and event with name Shut_OffPumpPowerInput, expressed as a URI in the QUDT unit vocabulary",
+        "description": "Unit designator for property and event with name Shut_OffPumpPowerInput, expressed as a 2- or 3-character UN/ECE code",
         "type": "string",
         "readOnly": true,
         "forms": [
@@ -6527,7 +6527,7 @@
         ]
       },
       "SlipFlow_EngineeringUnits": {
-        "description": "Unit designator for property and event with name SlipFlow, expressed as a URI in the QUDT unit vocabulary",
+        "description": "Unit designator for property and event with name SlipFlow, expressed as a 2- or 3-character UN/ECE code",
         "type": "string",
         "readOnly": true,
         "forms": [
@@ -6539,7 +6539,7 @@
         ]
       },
       "SoundEnergy_EngineeringUnits": {
-        "description": "Unit designator for property and event with name SoundEnergy, expressed as a URI in the QUDT unit vocabulary",
+        "description": "Unit designator for property and event with name SoundEnergy, expressed as a 2- or 3-character UN/ECE code",
         "type": "string",
         "readOnly": true,
         "forms": [
@@ -6551,7 +6551,7 @@
         ]
       },
       "SoundEnergyLevel_EngineeringUnits": {
-        "description": "Unit designator for property and event with name SoundEnergyLevel, expressed as a URI in the QUDT unit vocabulary",
+        "description": "Unit designator for property and event with name SoundEnergyLevel, expressed as a 2- or 3-character UN/ECE code",
         "type": "string",
         "readOnly": true,
         "forms": [
@@ -6563,7 +6563,7 @@
         ]
       },
       "SoundPower_EngineeringUnits": {
-        "description": "Unit designator for property and event with name SoundPower, expressed as a URI in the QUDT unit vocabulary",
+        "description": "Unit designator for property and event with name SoundPower, expressed as a 2- or 3-character UN/ECE code",
         "type": "string",
         "readOnly": true,
         "forms": [
@@ -6575,7 +6575,7 @@
         ]
       },
       "SoundPowerLevel_EngineeringUnits": {
-        "description": "Unit designator for property and event with name SoundPowerLevel, expressed as a URI in the QUDT unit vocabulary",
+        "description": "Unit designator for property and event with name SoundPowerLevel, expressed as a 2- or 3-character UN/ECE code",
         "type": "string",
         "readOnly": true,
         "forms": [
@@ -6587,7 +6587,7 @@
         ]
       },
       "SoundPressure_EngineeringUnits": {
-        "description": "Unit designator for property and event with name SoundPressure, expressed as a URI in the QUDT unit vocabulary",
+        "description": "Unit designator for property and event with name SoundPressure, expressed as a 2- or 3-character UN/ECE code",
         "type": "string",
         "readOnly": true,
         "forms": [
@@ -6599,7 +6599,7 @@
         ]
       },
       "SoundPressureLevel_EngineeringUnits": {
-        "description": "Unit designator for property and event with name SoundPressureLevel, expressed as a URI in the QUDT unit vocabulary",
+        "description": "Unit designator for property and event with name SoundPressureLevel, expressed as a 2- or 3-character UN/ECE code",
         "type": "string",
         "readOnly": true,
         "forms": [
@@ -6611,7 +6611,7 @@
         ]
       },
       "SpecificSpeed_EngineeringUnits": {
-        "description": "Unit designator for property and event with name SpecificSpeed, expressed as a URI in the QUDT unit vocabulary",
+        "description": "Unit designator for property and event with name SpecificSpeed, expressed as a 2- or 3-character UN/ECE code",
         "type": "string",
         "readOnly": true,
         "forms": [
@@ -6623,7 +6623,7 @@
         ]
       },
       "StandardGasFlowrate_EngineeringUnits": {
-        "description": "Unit designator for property and event with name StandardGasFlowrate, expressed as a URI in the QUDT unit vocabulary",
+        "description": "Unit designator for property and event with name StandardGasFlowrate, expressed as a 2- or 3-character UN/ECE code",
         "type": "string",
         "readOnly": true,
         "forms": [
@@ -6635,7 +6635,7 @@
         ]
       },
       "StartingPressure_EngineeringUnits": {
-        "description": "Unit designator for property and event with name StartingPressure, expressed as a URI in the QUDT unit vocabulary",
+        "description": "Unit designator for property and event with name StartingPressure, expressed as a 2- or 3-character UN/ECE code",
         "type": "string",
         "readOnly": true,
         "forms": [
@@ -6647,7 +6647,7 @@
         ]
       },
       "Suction_SpecificSpeed_EngineeringUnits": {
-        "description": "Unit designator for property and event with name Suction_SpecificSpeed, expressed as a URI in the QUDT unit vocabulary",
+        "description": "Unit designator for property and event with name Suction_SpecificSpeed, expressed as a 2- or 3-character UN/ECE code",
         "type": "string",
         "readOnly": true,
         "forms": [
@@ -6659,7 +6659,7 @@
         ]
       },
       "SweptVolume_EngineeringUnits": {
-        "description": "Unit designator for property and event with name SweptVolume, expressed as a URI in the QUDT unit vocabulary",
+        "description": "Unit designator for property and event with name SweptVolume, expressed as a 2- or 3-character UN/ECE code",
         "type": "string",
         "readOnly": true,
         "forms": [
@@ -6671,7 +6671,7 @@
         ]
       },
       "TripSpeed_EngineeringUnits": {
-        "description": "Unit designator for property and event with name TripSpeed, expressed as a URI in the QUDT unit vocabulary",
+        "description": "Unit designator for property and event with name TripSpeed, expressed as a 2- or 3-character UN/ECE code",
         "type": "string",
         "readOnly": true,
         "forms": [
@@ -6683,7 +6683,7 @@
         ]
       },
       "VolumeFlowRate_EngineeringUnits": {
-        "description": "Unit designator for property and event with name VolumeFlowRate, expressed as a URI in the QUDT unit vocabulary",
+        "description": "Unit designator for property and event with name VolumeFlowRate, expressed as a 2- or 3-character UN/ECE code",
         "type": "string",
         "readOnly": true,
         "forms": [
@@ -6695,7 +6695,7 @@
         ]
       },
       "VolumeFlowRateOfBackingPump_EngineeringUnits": {
-        "description": "Unit designator for property and event with name VolumeFlowRateOfBackingPump, expressed as a URI in the QUDT unit vocabulary",
+        "description": "Unit designator for property and event with name VolumeFlowRateOfBackingPump, expressed as a 2- or 3-character UN/ECE code",
         "type": "string",
         "readOnly": true,
         "forms": [
@@ -6707,7 +6707,7 @@
         ]
       },
       "WarmUpTimeForAVaporJetPumpOrADiffusionPump_EngineeringUnits": {
-        "description": "Unit designator for property and event with name WarmUpTimeForAVaporJetPumpOrADiffusionPump, expressed as a URI in the QUDT unit vocabulary",
+        "description": "Unit designator for property and event with name WarmUpTimeForAVaporJetPumpOrADiffusionPump, expressed as a 2- or 3-character UN/ECE code",
         "type": "string",
         "readOnly": true,
         "forms": [
@@ -6719,7 +6719,7 @@
         ]
       },
       "WaterVaporTolerableLoad_EngineeringUnits": {
-        "description": "Unit designator for property and event with name WaterVaporTolerableLoad, expressed as a URI in the QUDT unit vocabulary",
+        "description": "Unit designator for property and event with name WaterVaporTolerableLoad, expressed as a 2- or 3-character UN/ECE code",
         "type": "string",
         "readOnly": true,
         "forms": [
@@ -6731,7 +6731,7 @@
         ]
       },
       "WetCriticalSpeed_EngineeringUnits": {
-        "description": "Unit designator for property and event with name WetCriticalSpeed, expressed as a URI in the QUDT unit vocabulary",
+        "description": "Unit designator for property and event with name WetCriticalSpeed, expressed as a 2- or 3-character UN/ECE code",
         "type": "string",
         "readOnly": true,
         "forms": [
@@ -9034,7 +9034,7 @@
         ]
       },
       "MaxNominalFrequency_EngineeringUnits": {
-        "description": "Unit designator for property and event with name MaxNominalFrequency, expressed as a URI in the QUDT unit vocabulary",
+        "description": "Unit designator for property and event with name MaxNominalFrequency, expressed as a 2- or 3-character UN/ECE code",
         "type": "string",
         "readOnly": true,
         "forms": [
@@ -9046,7 +9046,7 @@
         ]
       },
       "MinNominalFrequency_EngineeringUnits": {
-        "description": "Unit designator for property and event with name MinNominalFrequency, expressed as a URI in the QUDT unit vocabulary",
+        "description": "Unit designator for property and event with name MinNominalFrequency, expressed as a 2- or 3-character UN/ECE code",
         "type": "string",
         "readOnly": true,
         "forms": [
@@ -9058,7 +9058,7 @@
         ]
       },
       "MotorEfficiency_EngineeringUnits": {
-        "description": "Unit designator for property and event with name MotorEfficiency, expressed as a URI in the QUDT unit vocabulary",
+        "description": "Unit designator for property and event with name MotorEfficiency, expressed as a 2- or 3-character UN/ECE code",
         "type": "string",
         "readOnly": true,
         "forms": [
@@ -9070,7 +9070,7 @@
         ]
       },
       "NominalFrequency_EngineeringUnits": {
-        "description": "Unit designator for property and event with name NominalFrequency, expressed as a URI in the QUDT unit vocabulary",
+        "description": "Unit designator for property and event with name NominalFrequency, expressed as a 2- or 3-character UN/ECE code",
         "type": "string",
         "readOnly": true,
         "forms": [
@@ -9082,7 +9082,7 @@
         ]
       },
       "NominalPowerConsumption_EngineeringUnits": {
-        "description": "Unit designator for property and event with name NominalPowerConsumption, expressed as a URI in the QUDT unit vocabulary",
+        "description": "Unit designator for property and event with name NominalPowerConsumption, expressed as a 2- or 3-character UN/ECE code",
         "type": "string",
         "readOnly": true,
         "forms": [
@@ -9094,7 +9094,7 @@
         ]
       },
       "NominalVoltage_EngineeringUnits": {
-        "description": "Unit designator for property and event with name NominalVoltage, expressed as a URI in the QUDT unit vocabulary",
+        "description": "Unit designator for property and event with name NominalVoltage, expressed as a 2- or 3-character UN/ECE code",
         "type": "string",
         "readOnly": true,
         "forms": [
@@ -9106,7 +9106,7 @@
         ]
       },
       "PowerFactor_EngineeringUnits": {
-        "description": "Unit designator for property and event with name PowerFactor, expressed as a URI in the QUDT unit vocabulary",
+        "description": "Unit designator for property and event with name PowerFactor, expressed as a 2- or 3-character UN/ECE code",
         "type": "string",
         "readOnly": true,
         "forms": [
@@ -9118,7 +9118,7 @@
         ]
       },
       "RatedCurrent_EngineeringUnits": {
-        "description": "Unit designator for property and event with name RatedCurrent, expressed as a URI in the QUDT unit vocabulary",
+        "description": "Unit designator for property and event with name RatedCurrent, expressed as a 2- or 3-character UN/ECE code",
         "type": "string",
         "readOnly": true,
         "forms": [
@@ -9130,7 +9130,7 @@
         ]
       },
       "RatedSpeed_EngineeringUnits": {
-        "description": "Unit designator for property and event with name RatedSpeed, expressed as a URI in the QUDT unit vocabulary",
+        "description": "Unit designator for property and event with name RatedSpeed, expressed as a 2- or 3-character UN/ECE code",
         "type": "string",
         "readOnly": true,
         "forms": [
@@ -9142,7 +9142,7 @@
         ]
       },
       "TorqueAtNominalSpeedOfDrive_EngineeringUnits": {
-        "description": "Unit designator for property and event with name TorqueAtNominalSpeedOfDrive, expressed as a URI in the QUDT unit vocabulary",
+        "description": "Unit designator for property and event with name TorqueAtNominalSpeedOfDrive, expressed as a 2- or 3-character UN/ECE code",
         "type": "string",
         "readOnly": true,
         "forms": [
@@ -9621,7 +9621,7 @@
         ]
       },
       "Current_EngineeringUnits": {
-        "description": "Unit designator for property and event with name Current, expressed as a URI in the QUDT unit vocabulary",
+        "description": "Unit designator for property and event with name Current, expressed as a 2- or 3-character UN/ECE code",
         "type": "string",
         "readOnly": true,
         "forms": [
@@ -9633,7 +9633,7 @@
         ]
       },
       "DCLinkCurrent_EngineeringUnits": {
-        "description": "Unit designator for property and event with name DCLinkCurrent, expressed as a URI in the QUDT unit vocabulary",
+        "description": "Unit designator for property and event with name DCLinkCurrent, expressed as a 2- or 3-character UN/ECE code",
         "type": "string",
         "readOnly": true,
         "forms": [
@@ -9645,7 +9645,7 @@
         ]
       },
       "DCLinkVoltage_EngineeringUnits": {
-        "description": "Unit designator for property and event with name DCLinkVoltage, expressed as a URI in the QUDT unit vocabulary",
+        "description": "Unit designator for property and event with name DCLinkVoltage, expressed as a 2- or 3-character UN/ECE code",
         "type": "string",
         "readOnly": true,
         "forms": [
@@ -9657,7 +9657,7 @@
         ]
       },
       "DriverPowerInput_EngineeringUnits": {
-        "description": "Unit designator for property and event with name DriverPowerInput, expressed as a URI in the QUDT unit vocabulary",
+        "description": "Unit designator for property and event with name DriverPowerInput, expressed as a 2- or 3-character UN/ECE code",
         "type": "string",
         "readOnly": true,
         "forms": [
@@ -9669,7 +9669,7 @@
         ]
       },
       "EnergyConsumption_EngineeringUnits": {
-        "description": "Unit designator for property and event with name EnergyConsumption, expressed as a URI in the QUDT unit vocabulary",
+        "description": "Unit designator for property and event with name EnergyConsumption, expressed as a 2- or 3-character UN/ECE code",
         "type": "string",
         "readOnly": true,
         "forms": [
@@ -9681,7 +9681,7 @@
         ]
       },
       "Frequency_EngineeringUnits": {
-        "description": "Unit designator for property and event with name Frequency, expressed as a URI in the QUDT unit vocabulary",
+        "description": "Unit designator for property and event with name Frequency, expressed as a 2- or 3-character UN/ECE code",
         "type": "string",
         "readOnly": true,
         "forms": [
@@ -9693,7 +9693,7 @@
         ]
       },
       "MotorCurrent_EngineeringUnits": {
-        "description": "Unit designator for property and event with name MotorCurrent, expressed as a URI in the QUDT unit vocabulary",
+        "description": "Unit designator for property and event with name MotorCurrent, expressed as a 2- or 3-character UN/ECE code",
         "type": "string",
         "readOnly": true,
         "forms": [
@@ -9705,7 +9705,7 @@
         ]
       },
       "MotorEfficiency_EngineeringUnits": {
-        "description": "Unit designator for property and event with name MotorEfficiency, expressed as a URI in the QUDT unit vocabulary",
+        "description": "Unit designator for property and event with name MotorEfficiency, expressed as a 2- or 3-character UN/ECE code",
         "type": "string",
         "readOnly": true,
         "forms": [
@@ -9717,7 +9717,7 @@
         ]
       },
       "MotorTemperature_EngineeringUnits": {
-        "description": "Unit designator for property and event with name MotorTemperature, expressed as a URI in the QUDT unit vocabulary",
+        "description": "Unit designator for property and event with name MotorTemperature, expressed as a 2- or 3-character UN/ECE code",
         "type": "string",
         "readOnly": true,
         "forms": [
@@ -9729,7 +9729,7 @@
         ]
       },
       "MotorVoltage_EngineeringUnits": {
-        "description": "Unit designator for property and event with name MotorVoltage, expressed as a URI in the QUDT unit vocabulary",
+        "description": "Unit designator for property and event with name MotorVoltage, expressed as a 2- or 3-character UN/ECE code",
         "type": "string",
         "readOnly": true,
         "forms": [
@@ -9741,7 +9741,7 @@
         ]
       },
       "Torque_EngineeringUnits": {
-        "description": "Unit designator for property and event with name Torque, expressed as a URI in the QUDT unit vocabulary",
+        "description": "Unit designator for property and event with name Torque, expressed as a 2- or 3-character UN/ECE code",
         "type": "string",
         "readOnly": true,
         "forms": [
@@ -9753,7 +9753,7 @@
         ]
       },
       "Voltage_EngineeringUnits": {
-        "description": "Unit designator for property and event with name Voltage, expressed as a URI in the QUDT unit vocabulary",
+        "description": "Unit designator for property and event with name Voltage, expressed as a 2- or 3-character UN/ECE code",
         "type": "string",
         "readOnly": true,
         "forms": [
@@ -10441,7 +10441,7 @@
         ]
       },
       "ActiveMaintenanceTime_EngineeringUnits": {
-        "description": "Unit designator for property and event with name ActiveMaintenanceTime, expressed as a URI in the QUDT unit vocabulary",
+        "description": "Unit designator for property and event with name ActiveMaintenanceTime, expressed as a 2- or 3-character UN/ECE code",
         "type": "string",
         "readOnly": true,
         "forms": [
@@ -10453,7 +10453,7 @@
         ]
       },
       "DownTime_EngineeringUnits": {
-        "description": "Unit designator for property and event with name DownTime, expressed as a URI in the QUDT unit vocabulary",
+        "description": "Unit designator for property and event with name DownTime, expressed as a 2- or 3-character UN/ECE code",
         "type": "string",
         "readOnly": true,
         "forms": [
@@ -10465,7 +10465,7 @@
         ]
       },
       "ExternalDisabledTime_EngineeringUnits": {
-        "description": "Unit designator for property and event with name ExternalDisabledTime, expressed as a URI in the QUDT unit vocabulary",
+        "description": "Unit designator for property and event with name ExternalDisabledTime, expressed as a 2- or 3-character UN/ECE code",
         "type": "string",
         "readOnly": true,
         "forms": [
@@ -10477,7 +10477,7 @@
         ]
       },
       "FailureRate_EngineeringUnits": {
-        "description": "Unit designator for property and event with name FailureRate, expressed as a URI in the QUDT unit vocabulary",
+        "description": "Unit designator for property and event with name FailureRate, expressed as a 2- or 3-character UN/ECE code",
         "type": "string",
         "readOnly": true,
         "forms": [
@@ -10489,7 +10489,7 @@
         ]
       },
       "IdleTime_EngineeringUnits": {
-        "description": "Unit designator for property and event with name IdleTime, expressed as a URI in the QUDT unit vocabulary",
+        "description": "Unit designator for property and event with name IdleTime, expressed as a 2- or 3-character UN/ECE code",
         "type": "string",
         "readOnly": true,
         "forms": [
@@ -10501,7 +10501,7 @@
         ]
       },
       "MaintenanceTime_EngineeringUnits": {
-        "description": "Unit designator for property and event with name MaintenanceTime, expressed as a URI in the QUDT unit vocabulary",
+        "description": "Unit designator for property and event with name MaintenanceTime, expressed as a 2- or 3-character UN/ECE code",
         "type": "string",
         "readOnly": true,
         "forms": [
@@ -10513,7 +10513,7 @@
         ]
       },
       "MeanOperatingTimeBetweenFailures_EngineeringUnits": {
-        "description": "Unit designator for property and event with name MeanOperatingTimeBetweenFailures, expressed as a URI in the QUDT unit vocabulary",
+        "description": "Unit designator for property and event with name MeanOperatingTimeBetweenFailures, expressed as a 2- or 3-character UN/ECE code",
         "type": "string",
         "readOnly": true,
         "forms": [
@@ -10525,7 +10525,7 @@
         ]
       },
       "MeanRepairTime_EngineeringUnits": {
-        "description": "Unit designator for property and event with name MeanRepairTime, expressed as a URI in the QUDT unit vocabulary",
+        "description": "Unit designator for property and event with name MeanRepairTime, expressed as a 2- or 3-character UN/ECE code",
         "type": "string",
         "readOnly": true,
         "forms": [
@@ -10537,7 +10537,7 @@
         ]
       },
       "MeanTimeToRestauration_EngineeringUnits": {
-        "description": "Unit designator for property and event with name MeanTimeToRestauration, expressed as a URI in the QUDT unit vocabulary",
+        "description": "Unit designator for property and event with name MeanTimeToRestauration, expressed as a 2- or 3-character UN/ECE code",
         "type": "string",
         "readOnly": true,
         "forms": [
@@ -10549,7 +10549,7 @@
         ]
       },
       "OperatingTime_EngineeringUnits": {
-        "description": "Unit designator for property and event with name OperatingTime, expressed as a URI in the QUDT unit vocabulary",
+        "description": "Unit designator for property and event with name OperatingTime, expressed as a 2- or 3-character UN/ECE code",
         "type": "string",
         "readOnly": true,
         "forms": [
@@ -10561,7 +10561,7 @@
         ]
       },
       "OperatingTimeBetweenFailures_EngineeringUnits": {
-        "description": "Unit designator for property and event with name OperatingTimeBetweenFailures, expressed as a URI in the QUDT unit vocabulary",
+        "description": "Unit designator for property and event with name OperatingTimeBetweenFailures, expressed as a 2- or 3-character UN/ECE code",
         "type": "string",
         "readOnly": true,
         "forms": [
@@ -10573,7 +10573,7 @@
         ]
       },
       "OperatingTimeToFailure_EngineeringUnits": {
-        "description": "Unit designator for property and event with name OperatingTimeToFailure, expressed as a URI in the QUDT unit vocabulary",
+        "description": "Unit designator for property and event with name OperatingTimeToFailure, expressed as a 2- or 3-character UN/ECE code",
         "type": "string",
         "readOnly": true,
         "forms": [
@@ -10585,7 +10585,7 @@
         ]
       },
       "RepairTime_EngineeringUnits": {
-        "description": "Unit designator for property and event with name RepairTime, expressed as a URI in the QUDT unit vocabulary",
+        "description": "Unit designator for property and event with name RepairTime, expressed as a 2- or 3-character UN/ECE code",
         "type": "string",
         "readOnly": true,
         "forms": [
@@ -10597,7 +10597,7 @@
         ]
       },
       "StandbyTime_EngineeringUnits": {
-        "description": "Unit designator for property and event with name StandbyTime, expressed as a URI in the QUDT unit vocabulary",
+        "description": "Unit designator for property and event with name StandbyTime, expressed as a 2- or 3-character UN/ECE code",
         "type": "string",
         "readOnly": true,
         "forms": [
@@ -10609,7 +10609,7 @@
         ]
       },
       "TimeBetweenFailures_EngineeringUnits": {
-        "description": "Unit designator for property and event with name TimeBetweenFailures, expressed as a URI in the QUDT unit vocabulary",
+        "description": "Unit designator for property and event with name TimeBetweenFailures, expressed as a 2- or 3-character UN/ECE code",
         "type": "string",
         "readOnly": true,
         "forms": [
@@ -10621,7 +10621,7 @@
         ]
       },
       "TimeToRestoration_EngineeringUnits": {
-        "description": "Unit designator for property and event with name TimeToRestoration, expressed as a URI in the QUDT unit vocabulary",
+        "description": "Unit designator for property and event with name TimeToRestoration, expressed as a 2- or 3-character UN/ECE code",
         "type": "string",
         "readOnly": true,
         "forms": [
@@ -10633,7 +10633,7 @@
         ]
       },
       "UpTime_EngineeringUnits": {
-        "description": "Unit designator for property and event with name UpTime, expressed as a URI in the QUDT unit vocabulary",
+        "description": "Unit designator for property and event with name UpTime, expressed as a 2- or 3-character UN/ECE code",
         "type": "string",
         "readOnly": true,
         "forms": [
@@ -11772,7 +11772,7 @@
         ]
       },
       "AtmosphericPressure_EngineeringUnits": {
-        "description": "Unit designator for property and event with name AtmosphericPressure, expressed as a URI in the QUDT unit vocabulary",
+        "description": "Unit designator for property and event with name AtmosphericPressure, expressed as a 2- or 3-character UN/ECE code",
         "type": "string",
         "readOnly": true,
         "forms": [
@@ -11784,7 +11784,7 @@
         ]
       },
       "Density_EngineeringUnits": {
-        "description": "Unit designator for property and event with name Density, expressed as a URI in the QUDT unit vocabulary",
+        "description": "Unit designator for property and event with name Density, expressed as a 2- or 3-character UN/ECE code",
         "type": "string",
         "readOnly": true,
         "forms": [
@@ -11796,7 +11796,7 @@
         ]
       },
       "DynamicViscosity_EngineeringUnits": {
-        "description": "Unit designator for property and event with name DynamicViscosity, expressed as a URI in the QUDT unit vocabulary",
+        "description": "Unit designator for property and event with name DynamicViscosity, expressed as a 2- or 3-character UN/ECE code",
         "type": "string",
         "readOnly": true,
         "forms": [
@@ -11808,7 +11808,7 @@
         ]
       },
       "HeightOfTheInletManometer_EngineeringUnits": {
-        "description": "Unit designator for property and event with name HeightOfTheInletManometer, expressed as a URI in the QUDT unit vocabulary",
+        "description": "Unit designator for property and event with name HeightOfTheInletManometer, expressed as a 2- or 3-character UN/ECE code",
         "type": "string",
         "readOnly": true,
         "forms": [
@@ -11820,7 +11820,7 @@
         ]
       },
       "HeightOfTheNpshDatumPlane_EngineeringUnits": {
-        "description": "Unit designator for property and event with name HeightOfTheNpshDatumPlane, expressed as a URI in the QUDT unit vocabulary",
+        "description": "Unit designator for property and event with name HeightOfTheNpshDatumPlane, expressed as a 2- or 3-character UN/ECE code",
         "type": "string",
         "readOnly": true,
         "forms": [
@@ -11832,7 +11832,7 @@
         ]
       },
       "HeightOfTheOutletManometer_EngineeringUnits": {
-        "description": "Unit designator for property and event with name HeightOfTheOutletManometer, expressed as a URI in the QUDT unit vocabulary",
+        "description": "Unit designator for property and event with name HeightOfTheOutletManometer, expressed as a 2- or 3-character UN/ECE code",
         "type": "string",
         "readOnly": true,
         "forms": [
@@ -11844,7 +11844,7 @@
         ]
       },
       "HydraulicEfficiency_EngineeringUnits": {
-        "description": "Unit designator for property and event with name HydraulicEfficiency, expressed as a URI in the QUDT unit vocabulary",
+        "description": "Unit designator for property and event with name HydraulicEfficiency, expressed as a 2- or 3-character UN/ECE code",
         "type": "string",
         "readOnly": true,
         "forms": [
@@ -11856,7 +11856,7 @@
         ]
       },
       "InstallationTotalHead_EngineeringUnits": {
-        "description": "Unit designator for property and event with name InstallationTotalHead, expressed as a URI in the QUDT unit vocabulary",
+        "description": "Unit designator for property and event with name InstallationTotalHead, expressed as a 2- or 3-character UN/ECE code",
         "type": "string",
         "readOnly": true,
         "forms": [
@@ -11868,7 +11868,7 @@
         ]
       },
       "KinematicViscosity_EngineeringUnits": {
-        "description": "Unit designator for property and event with name KinematicViscosity, expressed as a URI in the QUDT unit vocabulary",
+        "description": "Unit designator for property and event with name KinematicViscosity, expressed as a 2- or 3-character UN/ECE code",
         "type": "string",
         "readOnly": true,
         "forms": [
@@ -11880,7 +11880,7 @@
         ]
       },
       "MaximumAllowableFlow_EngineeringUnits": {
-        "description": "Unit designator for property and event with name MaximumAllowableFlow, expressed as a URI in the QUDT unit vocabulary",
+        "description": "Unit designator for property and event with name MaximumAllowableFlow, expressed as a 2- or 3-character UN/ECE code",
         "type": "string",
         "readOnly": true,
         "forms": [
@@ -11892,7 +11892,7 @@
         ]
       },
       "MaximumDynamicSealingPressure_EngineeringUnits": {
-        "description": "Unit designator for property and event with name MaximumDynamicSealingPressure, expressed as a URI in the QUDT unit vocabulary",
+        "description": "Unit designator for property and event with name MaximumDynamicSealingPressure, expressed as a 2- or 3-character UN/ECE code",
         "type": "string",
         "readOnly": true,
         "forms": [
@@ -11904,7 +11904,7 @@
         ]
       },
       "MeanRatedVelocityAtInletAreaOfTheInstallation_EngineeringUnits": {
-        "description": "Unit designator for property and event with name MeanRatedVelocityAtInletAreaOfTheInstallation, expressed as a URI in the QUDT unit vocabulary",
+        "description": "Unit designator for property and event with name MeanRatedVelocityAtInletAreaOfTheInstallation, expressed as a 2- or 3-character UN/ECE code",
         "type": "string",
         "readOnly": true,
         "forms": [
@@ -11916,7 +11916,7 @@
         ]
       },
       "MeanRatedVelocityAtOutletAreaOfTheInstallation_EngineeringUnits": {
-        "description": "Unit designator for property and event with name MeanRatedVelocityAtOutletAreaOfTheInstallation, expressed as a URI in the QUDT unit vocabulary",
+        "description": "Unit designator for property and event with name MeanRatedVelocityAtOutletAreaOfTheInstallation, expressed as a 2- or 3-character UN/ECE code",
         "type": "string",
         "readOnly": true,
         "forms": [
@@ -11928,7 +11928,7 @@
         ]
       },
       "MechanicalEfficiency_EngineeringUnits": {
-        "description": "Unit designator for property and event with name MechanicalEfficiency, expressed as a URI in the QUDT unit vocabulary",
+        "description": "Unit designator for property and event with name MechanicalEfficiency, expressed as a 2- or 3-character UN/ECE code",
         "type": "string",
         "readOnly": true,
         "forms": [
@@ -11940,7 +11940,7 @@
         ]
       },
       "MinimumAllowableFlow_EngineeringUnits": {
-        "description": "Unit designator for property and event with name MinimumAllowableFlow, expressed as a URI in the QUDT unit vocabulary",
+        "description": "Unit designator for property and event with name MinimumAllowableFlow, expressed as a 2- or 3-character UN/ECE code",
         "type": "string",
         "readOnly": true,
         "forms": [
@@ -11952,7 +11952,7 @@
         ]
       },
       "MinimumAllowableStableFlow_EngineeringUnits": {
-        "description": "Unit designator for property and event with name MinimumAllowableStableFlow, expressed as a URI in the QUDT unit vocabulary",
+        "description": "Unit designator for property and event with name MinimumAllowableStableFlow, expressed as a 2- or 3-character UN/ECE code",
         "type": "string",
         "readOnly": true,
         "forms": [
@@ -11964,7 +11964,7 @@
         ]
       },
       "NetPositiveSuctionHeadAvailable_EngineeringUnits": {
-        "description": "Unit designator for property and event with name NetPositiveSuctionHeadAvailable, expressed as a URI in the QUDT unit vocabulary",
+        "description": "Unit designator for property and event with name NetPositiveSuctionHeadAvailable, expressed as a 2- or 3-character UN/ECE code",
         "type": "string",
         "readOnly": true,
         "forms": [
@@ -11976,7 +11976,7 @@
         ]
       },
       "OverallEfficiency_EngineeringUnits": {
-        "description": "Unit designator for property and event with name OverallEfficiency, expressed as a URI in the QUDT unit vocabulary",
+        "description": "Unit designator for property and event with name OverallEfficiency, expressed as a 2- or 3-character UN/ECE code",
         "type": "string",
         "readOnly": true,
         "forms": [
@@ -11988,7 +11988,7 @@
         ]
       },
       "PumpBestEfficiency_EngineeringUnits": {
-        "description": "Unit designator for property and event with name PumpBestEfficiency, expressed as a URI in the QUDT unit vocabulary",
+        "description": "Unit designator for property and event with name PumpBestEfficiency, expressed as a 2- or 3-character UN/ECE code",
         "type": "string",
         "readOnly": true,
         "forms": [
@@ -12000,7 +12000,7 @@
         ]
       },
       "PumpEfficiency_EngineeringUnits": {
-        "description": "Unit designator for property and event with name PumpEfficiency, expressed as a URI in the QUDT unit vocabulary",
+        "description": "Unit designator for property and event with name PumpEfficiency, expressed as a 2- or 3-character UN/ECE code",
         "type": "string",
         "readOnly": true,
         "forms": [
@@ -12012,7 +12012,7 @@
         ]
       },
       "PumpMechanicalPowerLosses_EngineeringUnits": {
-        "description": "Unit designator for property and event with name PumpMechanicalPowerLosses, expressed as a URI in the QUDT unit vocabulary",
+        "description": "Unit designator for property and event with name PumpMechanicalPowerLosses, expressed as a 2- or 3-character UN/ECE code",
         "type": "string",
         "readOnly": true,
         "forms": [
@@ -12024,7 +12024,7 @@
         ]
       },
       "PumpRatedPowerInput_EngineeringUnits": {
-        "description": "Unit designator for property and event with name PumpRatedPowerInput, expressed as a URI in the QUDT unit vocabulary",
+        "description": "Unit designator for property and event with name PumpRatedPowerInput, expressed as a 2- or 3-character UN/ECE code",
         "type": "string",
         "readOnly": true,
         "forms": [
@@ -12036,7 +12036,7 @@
         ]
       },
       "PumpTotalHead_EngineeringUnits": {
-        "description": "Unit designator for property and event with name PumpTotalHead, expressed as a URI in the QUDT unit vocabulary",
+        "description": "Unit designator for property and event with name PumpTotalHead, expressed as a 2- or 3-character UN/ECE code",
         "type": "string",
         "readOnly": true,
         "forms": [
@@ -12048,7 +12048,7 @@
         ]
       },
       "RatedDifferentialPressure_EngineeringUnits": {
-        "description": "Unit designator for property and event with name RatedDifferentialPressure, expressed as a URI in the QUDT unit vocabulary",
+        "description": "Unit designator for property and event with name RatedDifferentialPressure, expressed as a 2- or 3-character UN/ECE code",
         "type": "string",
         "readOnly": true,
         "forms": [
@@ -12060,7 +12060,7 @@
         ]
       },
       "RatedFlow_EngineeringUnits": {
-        "description": "Unit designator for property and event with name RatedFlow, expressed as a URI in the QUDT unit vocabulary",
+        "description": "Unit designator for property and event with name RatedFlow, expressed as a 2- or 3-character UN/ECE code",
         "type": "string",
         "readOnly": true,
         "forms": [
@@ -12072,7 +12072,7 @@
         ]
       },
       "RatedSpeed_EngineeringUnits": {
-        "description": "Unit designator for property and event with name RatedSpeed, expressed as a URI in the QUDT unit vocabulary",
+        "description": "Unit designator for property and event with name RatedSpeed, expressed as a 2- or 3-character UN/ECE code",
         "type": "string",
         "readOnly": true,
         "forms": [
@@ -12084,7 +12084,7 @@
         ]
       },
       "TotalHeadAtInletAreaOfTheInstallation_EngineeringUnits": {
-        "description": "Unit designator for property and event with name TotalHeadAtInletAreaOfTheInstallation, expressed as a URI in the QUDT unit vocabulary",
+        "description": "Unit designator for property and event with name TotalHeadAtInletAreaOfTheInstallation, expressed as a 2- or 3-character UN/ECE code",
         "type": "string",
         "readOnly": true,
         "forms": [
@@ -12096,7 +12096,7 @@
         ]
       },
       "TotalHeadAtOutletAreaOfTheInstallation_EngineeringUnits": {
-        "description": "Unit designator for property and event with name TotalHeadAtOutletAreaOfTheInstallation, expressed as a URI in the QUDT unit vocabulary",
+        "description": "Unit designator for property and event with name TotalHeadAtOutletAreaOfTheInstallation, expressed as a 2- or 3-character UN/ECE code",
         "type": "string",
         "readOnly": true,
         "forms": [
@@ -12108,7 +12108,7 @@
         ]
       },
       "UsefulLife_EngineeringUnits": {
-        "description": "Unit designator for property and event with name UsefulLife, expressed as a URI in the QUDT unit vocabulary",
+        "description": "Unit designator for property and event with name UsefulLife, expressed as a 2- or 3-character UN/ECE code",
         "type": "string",
         "readOnly": true,
         "forms": [
@@ -12120,7 +12120,7 @@
         ]
       },
       "ValveSeatVelocity_EngineeringUnits": {
-        "description": "Unit designator for property and event with name ValveSeatVelocity, expressed as a URI in the QUDT unit vocabulary",
+        "description": "Unit designator for property and event with name ValveSeatVelocity, expressed as a 2- or 3-character UN/ECE code",
         "type": "string",
         "readOnly": true,
         "forms": [
@@ -12132,7 +12132,7 @@
         ]
       },
       "ValveSpillVelocity_EngineeringUnits": {
-        "description": "Unit designator for property and event with name ValveSpillVelocity, expressed as a URI in the QUDT unit vocabulary",
+        "description": "Unit designator for property and event with name ValveSpillVelocity, expressed as a 2- or 3-character UN/ECE code",
         "type": "string",
         "readOnly": true,
         "forms": [
@@ -12144,7 +12144,7 @@
         ]
       },
       "VaporPressureOfThePumpedLiquid_EngineeringUnits": {
-        "description": "Unit designator for property and event with name VaporPressureOfThePumpedLiquid, expressed as a URI in the QUDT unit vocabulary",
+        "description": "Unit designator for property and event with name VaporPressureOfThePumpedLiquid, expressed as a 2- or 3-character UN/ECE code",
         "type": "string",
         "readOnly": true,
         "forms": [
@@ -12156,7 +12156,7 @@
         ]
       },
       "VolumetricEfficiency_EngineeringUnits": {
-        "description": "Unit designator for property and event with name VolumetricEfficiency, expressed as a URI in the QUDT unit vocabulary",
+        "description": "Unit designator for property and event with name VolumetricEfficiency, expressed as a 2- or 3-character UN/ECE code",
         "type": "string",
         "readOnly": true,
         "forms": [
@@ -12836,7 +12836,7 @@
         ]
       },
       "InletTemperatureOfThePump_EngineeringUnits": {
-        "description": "Unit designator for property and event with name InletTemperatureOfThePump, expressed as a URI in the QUDT unit vocabulary",
+        "description": "Unit designator for property and event with name InletTemperatureOfThePump, expressed as a 2- or 3-character UN/ECE code",
         "type": "string",
         "readOnly": true,
         "forms": [
@@ -12848,7 +12848,7 @@
         ]
       },
       "MeanVelocityAtInlet_EngineeringUnits": {
-        "description": "Unit designator for property and event with name MeanVelocityAtInlet, expressed as a URI in the QUDT unit vocabulary",
+        "description": "Unit designator for property and event with name MeanVelocityAtInlet, expressed as a 2- or 3-character UN/ECE code",
         "type": "string",
         "readOnly": true,
         "forms": [
@@ -12963,7 +12963,7 @@
         ]
       },
       "InletPressure_EngineeringUnits": {
-        "description": "Unit designator for property and event with name InletPressure, expressed as a URI in the QUDT unit vocabulary",
+        "description": "Unit designator for property and event with name InletPressure, expressed as a 2- or 3-character UN/ECE code",
         "type": "string",
         "readOnly": true,
         "forms": [
@@ -14149,7 +14149,7 @@
         ]
       },
       "AmbientHumidity_EngineeringUnits": {
-        "description": "Unit designator for property and event with name AmbientHumidity, expressed as a URI in the QUDT unit vocabulary",
+        "description": "Unit designator for property and event with name AmbientHumidity, expressed as a 2- or 3-character UN/ECE code",
         "type": "string",
         "readOnly": true,
         "forms": [
@@ -14161,7 +14161,7 @@
         ]
       },
       "AmbientTemperature_EngineeringUnits": {
-        "description": "Unit designator for property and event with name AmbientTemperature, expressed as a URI in the QUDT unit vocabulary",
+        "description": "Unit designator for property and event with name AmbientTemperature, expressed as a 2- or 3-character UN/ECE code",
         "type": "string",
         "readOnly": true,
         "forms": [
@@ -14173,7 +14173,7 @@
         ]
       },
       "AxialLoadOfPumpRotor_EngineeringUnits": {
-        "description": "Unit designator for property and event with name AxialLoadOfPumpRotor, expressed as a URI in the QUDT unit vocabulary",
+        "description": "Unit designator for property and event with name AxialLoadOfPumpRotor, expressed as a 2- or 3-character UN/ECE code",
         "type": "string",
         "readOnly": true,
         "forms": [
@@ -14185,7 +14185,7 @@
         ]
       },
       "BackPressure_EngineeringUnits": {
-        "description": "Unit designator for property and event with name BackPressure, expressed as a URI in the QUDT unit vocabulary",
+        "description": "Unit designator for property and event with name BackPressure, expressed as a 2- or 3-character UN/ECE code",
         "type": "string",
         "readOnly": true,
         "forms": [
@@ -14197,7 +14197,7 @@
         ]
       },
       "BearingTemperature_EngineeringUnits": {
-        "description": "Unit designator for property and event with name BearingTemperature, expressed as a URI in the QUDT unit vocabulary",
+        "description": "Unit designator for property and event with name BearingTemperature, expressed as a 2- or 3-character UN/ECE code",
         "type": "string",
         "readOnly": true,
         "forms": [
@@ -14209,7 +14209,7 @@
         ]
       },
       "ClearanceFlow_EngineeringUnits": {
-        "description": "Unit designator for property and event with name ClearanceFlow, expressed as a URI in the QUDT unit vocabulary",
+        "description": "Unit designator for property and event with name ClearanceFlow, expressed as a 2- or 3-character UN/ECE code",
         "type": "string",
         "readOnly": true,
         "forms": [
@@ -14221,7 +14221,7 @@
         ]
       },
       "CoolantTemperature_EngineeringUnits": {
-        "description": "Unit designator for property and event with name CoolantTemperature, expressed as a URI in the QUDT unit vocabulary",
+        "description": "Unit designator for property and event with name CoolantTemperature, expressed as a 2- or 3-character UN/ECE code",
         "type": "string",
         "readOnly": true,
         "forms": [
@@ -14233,7 +14233,7 @@
         ]
       },
       "Density_EngineeringUnits": {
-        "description": "Unit designator for property and event with name Density, expressed as a URI in the QUDT unit vocabulary",
+        "description": "Unit designator for property and event with name Density, expressed as a 2- or 3-character UN/ECE code",
         "type": "string",
         "readOnly": true,
         "forms": [
@@ -14245,7 +14245,7 @@
         ]
       },
       "DifferentialPressure_EngineeringUnits": {
-        "description": "Unit designator for property and event with name DifferentialPressure, expressed as a URI in the QUDT unit vocabulary",
+        "description": "Unit designator for property and event with name DifferentialPressure, expressed as a 2- or 3-character UN/ECE code",
         "type": "string",
         "readOnly": true,
         "forms": [
@@ -14257,7 +14257,7 @@
         ]
       },
       "DynamicViscosity_EngineeringUnits": {
-        "description": "Unit designator for property and event with name DynamicViscosity, expressed as a URI in the QUDT unit vocabulary",
+        "description": "Unit designator for property and event with name DynamicViscosity, expressed as a 2- or 3-character UN/ECE code",
         "type": "string",
         "readOnly": true,
         "forms": [
@@ -14269,7 +14269,7 @@
         ]
       },
       "ElectronicTemperature_EngineeringUnits": {
-        "description": "Unit designator for property and event with name ElectronicTemperature, expressed as a URI in the QUDT unit vocabulary",
+        "description": "Unit designator for property and event with name ElectronicTemperature, expressed as a 2- or 3-character UN/ECE code",
         "type": "string",
         "readOnly": true,
         "forms": [
@@ -14281,7 +14281,7 @@
         ]
       },
       "FluidTemperature_EngineeringUnits": {
-        "description": "Unit designator for property and event with name FluidTemperature, expressed as a URI in the QUDT unit vocabulary",
+        "description": "Unit designator for property and event with name FluidTemperature, expressed as a 2- or 3-character UN/ECE code",
         "type": "string",
         "readOnly": true,
         "forms": [
@@ -14293,7 +14293,7 @@
         ]
       },
       "HousingTemperature_EngineeringUnits": {
-        "description": "Unit designator for property and event with name HousingTemperature, expressed as a URI in the QUDT unit vocabulary",
+        "description": "Unit designator for property and event with name HousingTemperature, expressed as a 2- or 3-character UN/ECE code",
         "type": "string",
         "readOnly": true,
         "forms": [
@@ -14305,7 +14305,7 @@
         ]
       },
       "HydraulicEfficiency_EngineeringUnits": {
-        "description": "Unit designator for property and event with name HydraulicEfficiency, expressed as a URI in the QUDT unit vocabulary",
+        "description": "Unit designator for property and event with name HydraulicEfficiency, expressed as a 2- or 3-character UN/ECE code",
         "type": "string",
         "readOnly": true,
         "forms": [
@@ -14317,7 +14317,7 @@
         ]
       },
       "InletPressureOfTheInstallation_EngineeringUnits": {
-        "description": "Unit designator for property and event with name InletPressureOfTheInstallation, expressed as a URI in the QUDT unit vocabulary",
+        "description": "Unit designator for property and event with name InletPressureOfTheInstallation, expressed as a 2- or 3-character UN/ECE code",
         "type": "string",
         "readOnly": true,
         "forms": [
@@ -14329,7 +14329,7 @@
         ]
       },
       "InstallationTotalHead_EngineeringUnits": {
-        "description": "Unit designator for property and event with name InstallationTotalHead, expressed as a URI in the QUDT unit vocabulary",
+        "description": "Unit designator for property and event with name InstallationTotalHead, expressed as a 2- or 3-character UN/ECE code",
         "type": "string",
         "readOnly": true,
         "forms": [
@@ -14341,7 +14341,7 @@
         ]
       },
       "KinematicViscosity_EngineeringUnits": {
-        "description": "Unit designator for property and event with name KinematicViscosity, expressed as a URI in the QUDT unit vocabulary",
+        "description": "Unit designator for property and event with name KinematicViscosity, expressed as a 2- or 3-character UN/ECE code",
         "type": "string",
         "readOnly": true,
         "forms": [
@@ -14353,7 +14353,7 @@
         ]
       },
       "LeakageRateOfFlow_EngineeringUnits": {
-        "description": "Unit designator for property and event with name LeakageRateOfFlow, expressed as a URI in the QUDT unit vocabulary",
+        "description": "Unit designator for property and event with name LeakageRateOfFlow, expressed as a 2- or 3-character UN/ECE code",
         "type": "string",
         "readOnly": true,
         "forms": [
@@ -14365,7 +14365,7 @@
         ]
       },
       "Level_EngineeringUnits": {
-        "description": "Unit designator for property and event with name Level, expressed as a URI in the QUDT unit vocabulary",
+        "description": "Unit designator for property and event with name Level, expressed as a 2- or 3-character UN/ECE code",
         "type": "string",
         "readOnly": true,
         "forms": [
@@ -14377,7 +14377,7 @@
         ]
       },
       "LubricatingOilConsumption_EngineeringUnits": {
-        "description": "Unit designator for property and event with name LubricatingOilConsumption, expressed as a URI in the QUDT unit vocabulary",
+        "description": "Unit designator for property and event with name LubricatingOilConsumption, expressed as a 2- or 3-character UN/ECE code",
         "type": "string",
         "readOnly": true,
         "forms": [
@@ -14389,7 +14389,7 @@
         ]
       },
       "LubricatingOilPressure_EngineeringUnits": {
-        "description": "Unit designator for property and event with name LubricatingOilPressure, expressed as a URI in the QUDT unit vocabulary",
+        "description": "Unit designator for property and event with name LubricatingOilPressure, expressed as a 2- or 3-character UN/ECE code",
         "type": "string",
         "readOnly": true,
         "forms": [
@@ -14401,7 +14401,7 @@
         ]
       },
       "MassFlow_EngineeringUnits": {
-        "description": "Unit designator for property and event with name MassFlow, expressed as a URI in the QUDT unit vocabulary",
+        "description": "Unit designator for property and event with name MassFlow, expressed as a 2- or 3-character UN/ECE code",
         "type": "string",
         "readOnly": true,
         "forms": [
@@ -14413,7 +14413,7 @@
         ]
       },
       "MeanVelocityAtThroat_EngineeringUnits": {
-        "description": "Unit designator for property and event with name MeanVelocityAtThroat, expressed as a URI in the QUDT unit vocabulary",
+        "description": "Unit designator for property and event with name MeanVelocityAtThroat, expressed as a 2- or 3-character UN/ECE code",
         "type": "string",
         "readOnly": true,
         "forms": [
@@ -14425,7 +14425,7 @@
         ]
       },
       "MechanicalEfficiency_EngineeringUnits": {
-        "description": "Unit designator for property and event with name MechanicalEfficiency, expressed as a URI in the QUDT unit vocabulary",
+        "description": "Unit designator for property and event with name MechanicalEfficiency, expressed as a 2- or 3-character UN/ECE code",
         "type": "string",
         "readOnly": true,
         "forms": [
@@ -14437,7 +14437,7 @@
         ]
       },
       "NetPositiveInletPressure_EngineeringUnits": {
-        "description": "Unit designator for property and event with name NetPositiveInletPressure, expressed as a URI in the QUDT unit vocabulary",
+        "description": "Unit designator for property and event with name NetPositiveInletPressure, expressed as a 2- or 3-character UN/ECE code",
         "type": "string",
         "readOnly": true,
         "forms": [
@@ -14449,7 +14449,7 @@
         ]
       },
       "NetPositiveSuctionHead_EngineeringUnits": {
-        "description": "Unit designator for property and event with name NetPositiveSuctionHead, expressed as a URI in the QUDT unit vocabulary",
+        "description": "Unit designator for property and event with name NetPositiveSuctionHead, expressed as a 2- or 3-character UN/ECE code",
         "type": "string",
         "readOnly": true,
         "forms": [
@@ -14461,7 +14461,7 @@
         ]
       },
       "OutletPressureOfTheInstallation_EngineeringUnits": {
-        "description": "Unit designator for property and event with name OutletPressureOfTheInstallation, expressed as a URI in the QUDT unit vocabulary",
+        "description": "Unit designator for property and event with name OutletPressureOfTheInstallation, expressed as a 2- or 3-character UN/ECE code",
         "type": "string",
         "readOnly": true,
         "forms": [
@@ -14473,7 +14473,7 @@
         ]
       },
       "OverallEfficiency_EngineeringUnits": {
-        "description": "Unit designator for property and event with name OverallEfficiency, expressed as a URI in the QUDT unit vocabulary",
+        "description": "Unit designator for property and event with name OverallEfficiency, expressed as a 2- or 3-character UN/ECE code",
         "type": "string",
         "readOnly": true,
         "forms": [
@@ -14485,7 +14485,7 @@
         ]
       },
       "PowerLossDueToInternalLeakage_EngineeringUnits": {
-        "description": "Unit designator for property and event with name PowerLossDueToInternalLeakage, expressed as a URI in the QUDT unit vocabulary",
+        "description": "Unit designator for property and event with name PowerLossDueToInternalLeakage, expressed as a 2- or 3-character UN/ECE code",
         "type": "string",
         "readOnly": true,
         "forms": [
@@ -14497,7 +14497,7 @@
         ]
       },
       "ProcessPressure_EngineeringUnits": {
-        "description": "Unit designator for property and event with name ProcessPressure, expressed as a URI in the QUDT unit vocabulary",
+        "description": "Unit designator for property and event with name ProcessPressure, expressed as a 2- or 3-character UN/ECE code",
         "type": "string",
         "readOnly": true,
         "forms": [
@@ -14509,7 +14509,7 @@
         ]
       },
       "PumpEfficiency_EngineeringUnits": {
-        "description": "Unit designator for property and event with name PumpEfficiency, expressed as a URI in the QUDT unit vocabulary",
+        "description": "Unit designator for property and event with name PumpEfficiency, expressed as a 2- or 3-character UN/ECE code",
         "type": "string",
         "readOnly": true,
         "forms": [
@@ -14521,7 +14521,7 @@
         ]
       },
       "PumpHumidity_EngineeringUnits": {
-        "description": "Unit designator for property and event with name PumpHumidity, expressed as a URI in the QUDT unit vocabulary",
+        "description": "Unit designator for property and event with name PumpHumidity, expressed as a 2- or 3-character UN/ECE code",
         "type": "string",
         "readOnly": true,
         "forms": [
@@ -14533,7 +14533,7 @@
         ]
       },
       "PumpPowerInput_EngineeringUnits": {
-        "description": "Unit designator for property and event with name PumpPowerInput, expressed as a URI in the QUDT unit vocabulary",
+        "description": "Unit designator for property and event with name PumpPowerInput, expressed as a 2- or 3-character UN/ECE code",
         "type": "string",
         "readOnly": true,
         "forms": [
@@ -14545,7 +14545,7 @@
         ]
       },
       "PumpPowerOutput_EngineeringUnits": {
-        "description": "Unit designator for property and event with name PumpPowerOutput, expressed as a URI in the QUDT unit vocabulary",
+        "description": "Unit designator for property and event with name PumpPowerOutput, expressed as a 2- or 3-character UN/ECE code",
         "type": "string",
         "readOnly": true,
         "forms": [
@@ -14557,7 +14557,7 @@
         ]
       },
       "PumpTemperature_EngineeringUnits": {
-        "description": "Unit designator for property and event with name PumpTemperature, expressed as a URI in the QUDT unit vocabulary",
+        "description": "Unit designator for property and event with name PumpTemperature, expressed as a 2- or 3-character UN/ECE code",
         "type": "string",
         "readOnly": true,
         "forms": [
@@ -14569,7 +14569,7 @@
         ]
       },
       "PumpTotalHead_EngineeringUnits": {
-        "description": "Unit designator for property and event with name PumpTotalHead, expressed as a URI in the QUDT unit vocabulary",
+        "description": "Unit designator for property and event with name PumpTotalHead, expressed as a 2- or 3-character UN/ECE code",
         "type": "string",
         "readOnly": true,
         "forms": [
@@ -14581,7 +14581,7 @@
         ]
       },
       "RadialLoadOfPumpRotor_EngineeringUnits": {
-        "description": "Unit designator for property and event with name RadialLoadOfPumpRotor, expressed as a URI in the QUDT unit vocabulary",
+        "description": "Unit designator for property and event with name RadialLoadOfPumpRotor, expressed as a 2- or 3-character UN/ECE code",
         "type": "string",
         "readOnly": true,
         "forms": [
@@ -14593,7 +14593,7 @@
         ]
       },
       "SoundEnergy_EngineeringUnits": {
-        "description": "Unit designator for property and event with name SoundEnergy, expressed as a URI in the QUDT unit vocabulary",
+        "description": "Unit designator for property and event with name SoundEnergy, expressed as a 2- or 3-character UN/ECE code",
         "type": "string",
         "readOnly": true,
         "forms": [
@@ -14605,7 +14605,7 @@
         ]
       },
       "SoundEnergyLevel_EngineeringUnits": {
-        "description": "Unit designator for property and event with name SoundEnergyLevel, expressed as a URI in the QUDT unit vocabulary",
+        "description": "Unit designator for property and event with name SoundEnergyLevel, expressed as a 2- or 3-character UN/ECE code",
         "type": "string",
         "readOnly": true,
         "forms": [
@@ -14617,7 +14617,7 @@
         ]
       },
       "SoundPower_EngineeringUnits": {
-        "description": "Unit designator for property and event with name SoundPower, expressed as a URI in the QUDT unit vocabulary",
+        "description": "Unit designator for property and event with name SoundPower, expressed as a 2- or 3-character UN/ECE code",
         "type": "string",
         "readOnly": true,
         "forms": [
@@ -14629,7 +14629,7 @@
         ]
       },
       "SoundPowerLevel_EngineeringUnits": {
-        "description": "Unit designator for property and event with name SoundPowerLevel, expressed as a URI in the QUDT unit vocabulary",
+        "description": "Unit designator for property and event with name SoundPowerLevel, expressed as a 2- or 3-character UN/ECE code",
         "type": "string",
         "readOnly": true,
         "forms": [
@@ -14641,7 +14641,7 @@
         ]
       },
       "SoundPressure_EngineeringUnits": {
-        "description": "Unit designator for property and event with name SoundPressure, expressed as a URI in the QUDT unit vocabulary",
+        "description": "Unit designator for property and event with name SoundPressure, expressed as a 2- or 3-character UN/ECE code",
         "type": "string",
         "readOnly": true,
         "forms": [
@@ -14653,7 +14653,7 @@
         ]
       },
       "SoundPressureLevel_EngineeringUnits": {
-        "description": "Unit designator for property and event with name SoundPressureLevel, expressed as a URI in the QUDT unit vocabulary",
+        "description": "Unit designator for property and event with name SoundPressureLevel, expressed as a 2- or 3-character UN/ECE code",
         "type": "string",
         "readOnly": true,
         "forms": [
@@ -14665,7 +14665,7 @@
         ]
       },
       "Speed_EngineeringUnits": {
-        "description": "Unit designator for property and event with name Speed, expressed as a URI in the QUDT unit vocabulary",
+        "description": "Unit designator for property and event with name Speed, expressed as a 2- or 3-character UN/ECE code",
         "type": "string",
         "readOnly": true,
         "forms": [
@@ -14677,7 +14677,7 @@
         ]
       },
       "Throughput_EngineeringUnits": {
-        "description": "Unit designator for property and event with name Throughput, expressed as a URI in the QUDT unit vocabulary",
+        "description": "Unit designator for property and event with name Throughput, expressed as a 2- or 3-character UN/ECE code",
         "type": "string",
         "readOnly": true,
         "forms": [
@@ -14689,7 +14689,7 @@
         ]
       },
       "TotalHeadAtInletAreaOfTheInstallation_EngineeringUnits": {
-        "description": "Unit designator for property and event with name TotalHeadAtInletAreaOfTheInstallation, expressed as a URI in the QUDT unit vocabulary",
+        "description": "Unit designator for property and event with name TotalHeadAtInletAreaOfTheInstallation, expressed as a 2- or 3-character UN/ECE code",
         "type": "string",
         "readOnly": true,
         "forms": [
@@ -14701,7 +14701,7 @@
         ]
       },
       "TotalHeadAtOutletAreaOfTheInstallation_EngineeringUnits": {
-        "description": "Unit designator for property and event with name TotalHeadAtOutletAreaOfTheInstallation, expressed as a URI in the QUDT unit vocabulary",
+        "description": "Unit designator for property and event with name TotalHeadAtOutletAreaOfTheInstallation, expressed as a 2- or 3-character UN/ECE code",
         "type": "string",
         "readOnly": true,
         "forms": [
@@ -14713,7 +14713,7 @@
         ]
       },
       "VolumetricEfficiency_EngineeringUnits": {
-        "description": "Unit designator for property and event with name VolumetricEfficiency, expressed as a URI in the QUDT unit vocabulary",
+        "description": "Unit designator for property and event with name VolumetricEfficiency, expressed as a 2- or 3-character UN/ECE code",
         "type": "string",
         "readOnly": true,
         "forms": [
@@ -16004,7 +16004,7 @@
         ]
       },
       "ExchangeTimeDifference_EngineeringUnits": {
-        "description": "Unit designator for property and event with name ExchangeTimeDifference, expressed as a URI in the QUDT unit vocabulary",
+        "description": "Unit designator for property and event with name ExchangeTimeDifference, expressed as a 2- or 3-character UN/ECE code",
         "type": "string",
         "readOnly": true,
         "forms": [
@@ -16347,7 +16347,7 @@
         ]
       },
       "MeanVelocityAtOutlet_EngineeringUnits": {
-        "description": "Unit designator for property and event with name MeanVelocityAtOutlet, expressed as a URI in the QUDT unit vocabulary",
+        "description": "Unit designator for property and event with name MeanVelocityAtOutlet, expressed as a 2- or 3-character UN/ECE code",
         "type": "string",
         "readOnly": true,
         "forms": [
@@ -16359,7 +16359,7 @@
         ]
       },
       "OutletTemperatureOfThePump_EngineeringUnits": {
-        "description": "Unit designator for property and event with name OutletTemperatureOfThePump, expressed as a URI in the QUDT unit vocabulary",
+        "description": "Unit designator for property and event with name OutletTemperatureOfThePump, expressed as a 2- or 3-character UN/ECE code",
         "type": "string",
         "readOnly": true,
         "forms": [
@@ -16474,7 +16474,7 @@
         ]
       },
       "BackingPressure_EngineeringUnits": {
-        "description": "Unit designator for property and event with name BackingPressure, expressed as a URI in the QUDT unit vocabulary",
+        "description": "Unit designator for property and event with name BackingPressure, expressed as a 2- or 3-character UN/ECE code",
         "type": "string",
         "readOnly": true,
         "forms": [
@@ -16733,7 +16733,7 @@
         ]
       },
       "ActivePreventiveMaintenanceTime_EngineeringUnits": {
-        "description": "Unit designator for property and event with name ActivePreventiveMaintenanceTime, expressed as a URI in the QUDT unit vocabulary",
+        "description": "Unit designator for property and event with name ActivePreventiveMaintenanceTime, expressed as a 2- or 3-character UN/ECE code",
         "type": "string",
         "readOnly": true,
         "forms": [
@@ -16745,7 +16745,7 @@
         ]
       },
       "PreventiveMaintenanceTime_EngineeringUnits": {
-        "description": "Unit designator for property and event with name PreventiveMaintenanceTime, expressed as a URI in the QUDT unit vocabulary",
+        "description": "Unit designator for property and event with name PreventiveMaintenanceTime, expressed as a 2- or 3-character UN/ECE code",
         "type": "string",
         "readOnly": true,
         "forms": [
@@ -22410,7 +22410,7 @@
         ]
       },
       "GasContent_EngineeringUnits": {
-        "description": "Unit designator for property and event with name GasContent, expressed as a URI in the QUDT unit vocabulary",
+        "description": "Unit designator for property and event with name GasContent, expressed as a 2- or 3-character UN/ECE code",
         "type": "string",
         "readOnly": true,
         "forms": [
@@ -22422,7 +22422,7 @@
         ]
       },
       "HeightOfTheInletSideOfTheInstallation_EngineeringUnits": {
-        "description": "Unit designator for property and event with name HeightOfTheInletSideOfTheInstallation, expressed as a URI in the QUDT unit vocabulary",
+        "description": "Unit designator for property and event with name HeightOfTheInletSideOfTheInstallation, expressed as a 2- or 3-character UN/ECE code",
         "type": "string",
         "readOnly": true,
         "forms": [
@@ -22434,7 +22434,7 @@
         ]
       },
       "HeightOfTheOutletSideOfTheInstallation_EngineeringUnits": {
-        "description": "Unit designator for property and event with name HeightOfTheOutletSideOfTheInstallation, expressed as a URI in the QUDT unit vocabulary",
+        "description": "Unit designator for property and event with name HeightOfTheOutletSideOfTheInstallation, expressed as a 2- or 3-character UN/ECE code",
         "type": "string",
         "readOnly": true,
         "forms": [
@@ -22446,7 +22446,7 @@
         ]
       },
       "HeightOfThePump_EngineeringUnits": {
-        "description": "Unit designator for property and event with name HeightOfThePump, expressed as a URI in the QUDT unit vocabulary",
+        "description": "Unit designator for property and event with name HeightOfThePump, expressed as a 2- or 3-character UN/ECE code",
         "type": "string",
         "readOnly": true,
         "forms": [
@@ -22458,7 +22458,7 @@
         ]
       },
       "MaximumAmbientTemperature_EngineeringUnits": {
-        "description": "Unit designator for property and event with name MaximumAmbientTemperature, expressed as a URI in the QUDT unit vocabulary",
+        "description": "Unit designator for property and event with name MaximumAmbientTemperature, expressed as a 2- or 3-character UN/ECE code",
         "type": "string",
         "readOnly": true,
         "forms": [
@@ -22470,7 +22470,7 @@
         ]
       },
       "MaximumFlow_EngineeringUnits": {
-        "description": "Unit designator for property and event with name MaximumFlow, expressed as a URI in the QUDT unit vocabulary",
+        "description": "Unit designator for property and event with name MaximumFlow, expressed as a 2- or 3-character UN/ECE code",
         "type": "string",
         "readOnly": true,
         "forms": [
@@ -22482,7 +22482,7 @@
         ]
       },
       "MaximumHead_EngineeringUnits": {
-        "description": "Unit designator for property and event with name MaximumHead, expressed as a URI in the QUDT unit vocabulary",
+        "description": "Unit designator for property and event with name MaximumHead, expressed as a 2- or 3-character UN/ECE code",
         "type": "string",
         "readOnly": true,
         "forms": [
@@ -22494,7 +22494,7 @@
         ]
       },
       "MaximumInletPressure_EngineeringUnits": {
-        "description": "Unit designator for property and event with name MaximumInletPressure, expressed as a URI in the QUDT unit vocabulary",
+        "description": "Unit designator for property and event with name MaximumInletPressure, expressed as a 2- or 3-character UN/ECE code",
         "type": "string",
         "readOnly": true,
         "forms": [
@@ -22506,7 +22506,7 @@
         ]
       },
       "MaximumOutletPressure_EngineeringUnits": {
-        "description": "Unit designator for property and event with name MaximumOutletPressure, expressed as a URI in the QUDT unit vocabulary",
+        "description": "Unit designator for property and event with name MaximumOutletPressure, expressed as a 2- or 3-character UN/ECE code",
         "type": "string",
         "readOnly": true,
         "forms": [
@@ -22518,7 +22518,7 @@
         ]
       },
       "MaximumRelativeHumidity_EngineeringUnits": {
-        "description": "Unit designator for property and event with name MaximumRelativeHumidity, expressed as a URI in the QUDT unit vocabulary",
+        "description": "Unit designator for property and event with name MaximumRelativeHumidity, expressed as a 2- or 3-character UN/ECE code",
         "type": "string",
         "readOnly": true,
         "forms": [
@@ -22530,7 +22530,7 @@
         ]
       },
       "MaximumTemperature_EngineeringUnits": {
-        "description": "Unit designator for property and event with name MaximumTemperature, expressed as a URI in the QUDT unit vocabulary",
+        "description": "Unit designator for property and event with name MaximumTemperature, expressed as a 2- or 3-character UN/ECE code",
         "type": "string",
         "readOnly": true,
         "forms": [
@@ -22542,7 +22542,7 @@
         ]
       },
       "MeanTimeBetweenFailures_EngineeringUnits": {
-        "description": "Unit designator for property and event with name MeanTimeBetweenFailures, expressed as a URI in the QUDT unit vocabulary",
+        "description": "Unit designator for property and event with name MeanTimeBetweenFailures, expressed as a 2- or 3-character UN/ECE code",
         "type": "string",
         "readOnly": true,
         "forms": [
@@ -22554,7 +22554,7 @@
         ]
       },
       "MinimumAmbientTemperature_EngineeringUnits": {
-        "description": "Unit designator for property and event with name MinimumAmbientTemperature, expressed as a URI in the QUDT unit vocabulary",
+        "description": "Unit designator for property and event with name MinimumAmbientTemperature, expressed as a 2- or 3-character UN/ECE code",
         "type": "string",
         "readOnly": true,
         "forms": [
@@ -22566,7 +22566,7 @@
         ]
       },
       "MinimumFlow_EngineeringUnits": {
-        "description": "Unit designator for property and event with name MinimumFlow, expressed as a URI in the QUDT unit vocabulary",
+        "description": "Unit designator for property and event with name MinimumFlow, expressed as a 2- or 3-character UN/ECE code",
         "type": "string",
         "readOnly": true,
         "forms": [
@@ -22578,7 +22578,7 @@
         ]
       },
       "MinimumHead_EngineeringUnits": {
-        "description": "Unit designator for property and event with name MinimumHead, expressed as a URI in the QUDT unit vocabulary",
+        "description": "Unit designator for property and event with name MinimumHead, expressed as a 2- or 3-character UN/ECE code",
         "type": "string",
         "readOnly": true,
         "forms": [
@@ -22590,7 +22590,7 @@
         ]
       },
       "MinimumInletPressure_EngineeringUnits": {
-        "description": "Unit designator for property and event with name MinimumInletPressure, expressed as a URI in the QUDT unit vocabulary",
+        "description": "Unit designator for property and event with name MinimumInletPressure, expressed as a 2- or 3-character UN/ECE code",
         "type": "string",
         "readOnly": true,
         "forms": [
@@ -22602,7 +22602,7 @@
         ]
       },
       "MinimumOutletPressure_EngineeringUnits": {
-        "description": "Unit designator for property and event with name MinimumOutletPressure, expressed as a URI in the QUDT unit vocabulary",
+        "description": "Unit designator for property and event with name MinimumOutletPressure, expressed as a 2- or 3-character UN/ECE code",
         "type": "string",
         "readOnly": true,
         "forms": [
@@ -22614,7 +22614,7 @@
         ]
       },
       "MinimumRelativeHumidity_EngineeringUnits": {
-        "description": "Unit designator for property and event with name MinimumRelativeHumidity, expressed as a URI in the QUDT unit vocabulary",
+        "description": "Unit designator for property and event with name MinimumRelativeHumidity, expressed as a 2- or 3-character UN/ECE code",
         "type": "string",
         "readOnly": true,
         "forms": [
@@ -22626,7 +22626,7 @@
         ]
       },
       "MinimumTemperature_EngineeringUnits": {
-        "description": "Unit designator for property and event with name MinimumTemperature, expressed as a URI in the QUDT unit vocabulary",
+        "description": "Unit designator for property and event with name MinimumTemperature, expressed as a 2- or 3-character UN/ECE code",
         "type": "string",
         "readOnly": true,
         "forms": [
@@ -22638,7 +22638,7 @@
         ]
       },
       "NetPositiveInletPressureAvailable_EngineeringUnits": {
-        "description": "Unit designator for property and event with name NetPositiveInletPressureAvailable, expressed as a URI in the QUDT unit vocabulary",
+        "description": "Unit designator for property and event with name NetPositiveInletPressureAvailable, expressed as a 2- or 3-character UN/ECE code",
         "type": "string",
         "readOnly": true,
         "forms": [
@@ -22650,7 +22650,7 @@
         ]
       },
       "NormalFlow_EngineeringUnits": {
-        "description": "Unit designator for property and event with name NormalFlow, expressed as a URI in the QUDT unit vocabulary",
+        "description": "Unit designator for property and event with name NormalFlow, expressed as a 2- or 3-character UN/ECE code",
         "type": "string",
         "readOnly": true,
         "forms": [
@@ -22662,7 +22662,7 @@
         ]
       },
       "NpshDatumPlane_EngineeringUnits": {
-        "description": "Unit designator for property and event with name NpshDatumPlane, expressed as a URI in the QUDT unit vocabulary",
+        "description": "Unit designator for property and event with name NpshDatumPlane, expressed as a 2- or 3-character UN/ECE code",
         "type": "string",
         "readOnly": true,
         "forms": [
@@ -22674,7 +22674,7 @@
         ]
       },
       "RatedInletPressureOfTheInstallation_EngineeringUnits": {
-        "description": "Unit designator for property and event with name RatedInletPressureOfTheInstallation, expressed as a URI in the QUDT unit vocabulary",
+        "description": "Unit designator for property and event with name RatedInletPressureOfTheInstallation, expressed as a 2- or 3-character UN/ECE code",
         "type": "string",
         "readOnly": true,
         "forms": [
@@ -22686,7 +22686,7 @@
         ]
       },
       "RatedPumpUnitTotalHead_EngineeringUnits": {
-        "description": "Unit designator for property and event with name RatedPumpUnitTotalHead, expressed as a URI in the QUDT unit vocabulary",
+        "description": "Unit designator for property and event with name RatedPumpUnitTotalHead, expressed as a 2- or 3-character UN/ECE code",
         "type": "string",
         "readOnly": true,
         "forms": [
@@ -22698,7 +22698,7 @@
         ]
       },
       "ReferencePlane_EngineeringUnits": {
-        "description": "Unit designator for property and event with name ReferencePlane, expressed as a URI in the QUDT unit vocabulary",
+        "description": "Unit designator for property and event with name ReferencePlane, expressed as a 2- or 3-character UN/ECE code",
         "type": "string",
         "readOnly": true,
         "forms": [
@@ -22710,7 +22710,7 @@
         ]
       },
       "RequiredTime_EngineeringUnits": {
-        "description": "Unit designator for property and event with name RequiredTime, expressed as a URI in the QUDT unit vocabulary",
+        "description": "Unit designator for property and event with name RequiredTime, expressed as a 2- or 3-character UN/ECE code",
         "type": "string",
         "readOnly": true,
         "forms": [
@@ -22722,7 +22722,7 @@
         ]
       },
       "SolidContent_EngineeringUnits": {
-        "description": "Unit designator for property and event with name SolidContent, expressed as a URI in the QUDT unit vocabulary",
+        "description": "Unit designator for property and event with name SolidContent, expressed as a 2- or 3-character UN/ECE code",
         "type": "string",
         "readOnly": true,
         "forms": [
@@ -22734,7 +22734,7 @@
         ]
       },
       "Throughput_EngineeringUnits": {
-        "description": "Unit designator for property and event with name Throughput, expressed as a URI in the QUDT unit vocabulary",
+        "description": "Unit designator for property and event with name Throughput, expressed as a 2- or 3-character UN/ECE code",
         "type": "string",
         "readOnly": true,
         "forms": [
@@ -22746,7 +22746,7 @@
         ]
       },
       "UltimatePressureOfAVacuumPump_EngineeringUnits": {
-        "description": "Unit designator for property and event with name UltimatePressureOfAVacuumPump, expressed as a URI in the QUDT unit vocabulary",
+        "description": "Unit designator for property and event with name UltimatePressureOfAVacuumPump, expressed as a 2- or 3-character UN/ECE code",
         "type": "string",
         "readOnly": true,
         "forms": [
@@ -22758,7 +22758,7 @@
         ]
       },
       "WorkingTemperature_EngineeringUnits": {
-        "description": "Unit designator for property and event with name WorkingTemperature, expressed as a URI in the QUDT unit vocabulary",
+        "description": "Unit designator for property and event with name WorkingTemperature, expressed as a 2- or 3-character UN/ECE code",
         "type": "string",
         "readOnly": true,
         "forms": [
@@ -24058,7 +24058,7 @@
         ]
       },
       "BearingIndex_EngineeringUnits": {
-        "description": "Unit designator for property and event with name BearingIndex, expressed as a URI in the QUDT unit vocabulary",
+        "description": "Unit designator for property and event with name BearingIndex, expressed as a 2- or 3-character UN/ECE code",
         "type": "string",
         "readOnly": true,
         "forms": [
@@ -24070,7 +24070,7 @@
         ]
       },
       "BroadbandCavitationAccelerationRMS_EngineeringUnits": {
-        "description": "Unit designator for property and event with name BroadbandCavitationAccelerationRMS, expressed as a URI in the QUDT unit vocabulary",
+        "description": "Unit designator for property and event with name BroadbandCavitationAccelerationRMS, expressed as a 2- or 3-character UN/ECE code",
         "type": "string",
         "readOnly": true,
         "forms": [
@@ -24082,7 +24082,7 @@
         ]
       },
       "GapVoltage_EngineeringUnits": {
-        "description": "Unit designator for property and event with name GapVoltage, expressed as a URI in the QUDT unit vocabulary",
+        "description": "Unit designator for property and event with name GapVoltage, expressed as a 2- or 3-character UN/ECE code",
         "type": "string",
         "readOnly": true,
         "forms": [
@@ -24094,7 +24094,7 @@
         ]
       },
       "Not1XRelativeShaftVibrationP_P_EngineeringUnits": {
-        "description": "Unit designator for property and event with name Not1XRelativeShaftVibrationP_P, expressed as a URI in the QUDT unit vocabulary",
+        "description": "Unit designator for property and event with name Not1XRelativeShaftVibrationP_P, expressed as a 2- or 3-character UN/ECE code",
         "type": "string",
         "readOnly": true,
         "forms": [
@@ -24106,7 +24106,7 @@
         ]
       },
       "OverallVibrationAcceleration0_P_EngineeringUnits": {
-        "description": "Unit designator for property and event with name OverallVibrationAcceleration0_P, expressed as a URI in the QUDT unit vocabulary",
+        "description": "Unit designator for property and event with name OverallVibrationAcceleration0_P, expressed as a 2- or 3-character UN/ECE code",
         "type": "string",
         "readOnly": true,
         "forms": [
@@ -24118,7 +24118,7 @@
         ]
       },
       "OverallVibrationAccelerationP_P_EngineeringUnits": {
-        "description": "Unit designator for property and event with name OverallVibrationAccelerationP_P, expressed as a URI in the QUDT unit vocabulary",
+        "description": "Unit designator for property and event with name OverallVibrationAccelerationP_P, expressed as a 2- or 3-character UN/ECE code",
         "type": "string",
         "readOnly": true,
         "forms": [
@@ -24130,7 +24130,7 @@
         ]
       },
       "OverallVibrationAccelerationRMS_EngineeringUnits": {
-        "description": "Unit designator for property and event with name OverallVibrationAccelerationRMS, expressed as a URI in the QUDT unit vocabulary",
+        "description": "Unit designator for property and event with name OverallVibrationAccelerationRMS, expressed as a 2- or 3-character UN/ECE code",
         "type": "string",
         "readOnly": true,
         "forms": [
@@ -24142,7 +24142,7 @@
         ]
       },
       "OverallVibrationDisplacementP_P_EngineeringUnits": {
-        "description": "Unit designator for property and event with name OverallVibrationDisplacementP_P, expressed as a URI in the QUDT unit vocabulary",
+        "description": "Unit designator for property and event with name OverallVibrationDisplacementP_P, expressed as a 2- or 3-character UN/ECE code",
         "type": "string",
         "readOnly": true,
         "forms": [
@@ -24154,7 +24154,7 @@
         ]
       },
       "OverallVibrationDisplacementRMS_EngineeringUnits": {
-        "description": "Unit designator for property and event with name OverallVibrationDisplacementRMS, expressed as a URI in the QUDT unit vocabulary",
+        "description": "Unit designator for property and event with name OverallVibrationDisplacementRMS, expressed as a 2- or 3-character UN/ECE code",
         "type": "string",
         "readOnly": true,
         "forms": [
@@ -24166,7 +24166,7 @@
         ]
       },
       "OverallVibrationVelocity0_P_EngineeringUnits": {
-        "description": "Unit designator for property and event with name OverallVibrationVelocity0_P, expressed as a URI in the QUDT unit vocabulary",
+        "description": "Unit designator for property and event with name OverallVibrationVelocity0_P, expressed as a 2- or 3-character UN/ECE code",
         "type": "string",
         "readOnly": true,
         "forms": [
@@ -24178,7 +24178,7 @@
         ]
       },
       "OverallVibrationVelocityP_P_EngineeringUnits": {
-        "description": "Unit designator for property and event with name OverallVibrationVelocityP_P, expressed as a URI in the QUDT unit vocabulary",
+        "description": "Unit designator for property and event with name OverallVibrationVelocityP_P, expressed as a 2- or 3-character UN/ECE code",
         "type": "string",
         "readOnly": true,
         "forms": [
@@ -24190,7 +24190,7 @@
         ]
       },
       "OverallVibrationVelocityRMS_EngineeringUnits": {
-        "description": "Unit designator for property and event with name OverallVibrationVelocityRMS, expressed as a URI in the QUDT unit vocabulary",
+        "description": "Unit designator for property and event with name OverallVibrationVelocityRMS, expressed as a 2- or 3-character UN/ECE code",
         "type": "string",
         "readOnly": true,
         "forms": [
@@ -24202,7 +24202,7 @@
         ]
       },
       "RotationalPhase1X_EngineeringUnits": {
-        "description": "Unit designator for property and event with name RotationalPhase1X, expressed as a URI in the QUDT unit vocabulary",
+        "description": "Unit designator for property and event with name RotationalPhase1X, expressed as a 2- or 3-character UN/ECE code",
         "type": "string",
         "readOnly": true,
         "forms": [
@@ -24214,7 +24214,7 @@
         ]
       },
       "RotationalPhase2X_EngineeringUnits": {
-        "description": "Unit designator for property and event with name RotationalPhase2X, expressed as a URI in the QUDT unit vocabulary",
+        "description": "Unit designator for property and event with name RotationalPhase2X, expressed as a 2- or 3-character UN/ECE code",
         "type": "string",
         "readOnly": true,
         "forms": [
@@ -24226,7 +24226,7 @@
         ]
       },
       "S1XPhase_EngineeringUnits": {
-        "description": "Unit designator for property and event with name S1XPhase, expressed as a URI in the QUDT unit vocabulary",
+        "description": "Unit designator for property and event with name S1XPhase, expressed as a 2- or 3-character UN/ECE code",
         "type": "string",
         "readOnly": true,
         "forms": [
@@ -24238,7 +24238,7 @@
         ]
       },
       "S1XRelativeShaftVibrationP_P_EngineeringUnits": {
-        "description": "Unit designator for property and event with name S1XRelativeShaftVibrationP_P, expressed as a URI in the QUDT unit vocabulary",
+        "description": "Unit designator for property and event with name S1XRelativeShaftVibrationP_P, expressed as a 2- or 3-character UN/ECE code",
         "type": "string",
         "readOnly": true,
         "forms": [
@@ -24250,7 +24250,7 @@
         ]
       },
       "S2XPhase_EngineeringUnits": {
-        "description": "Unit designator for property and event with name S2XPhase, expressed as a URI in the QUDT unit vocabulary",
+        "description": "Unit designator for property and event with name S2XPhase, expressed as a 2- or 3-character UN/ECE code",
         "type": "string",
         "readOnly": true,
         "forms": [
@@ -24262,7 +24262,7 @@
         ]
       },
       "S2XRelativeShaftVibrationP_P_EngineeringUnits": {
-        "description": "Unit designator for property and event with name S2XRelativeShaftVibrationP_P, expressed as a URI in the QUDT unit vocabulary",
+        "description": "Unit designator for property and event with name S2XRelativeShaftVibrationP_P, expressed as a 2- or 3-character UN/ECE code",
         "type": "string",
         "readOnly": true,
         "forms": [
@@ -24274,7 +24274,7 @@
         ]
       },
       "SpeedOfRotation_EngineeringUnits": {
-        "description": "Unit designator for property and event with name SpeedOfRotation, expressed as a URI in the QUDT unit vocabulary",
+        "description": "Unit designator for property and event with name SpeedOfRotation, expressed as a 2- or 3-character UN/ECE code",
         "type": "string",
         "readOnly": true,
         "forms": [
@@ -24286,7 +24286,7 @@
         ]
       },
       "ThrustPosition_EngineeringUnits": {
-        "description": "Unit designator for property and event with name ThrustPosition, expressed as a URI in the QUDT unit vocabulary",
+        "description": "Unit designator for property and event with name ThrustPosition, expressed as a 2- or 3-character UN/ECE code",
         "type": "string",
         "readOnly": true,
         "forms": [
@@ -24298,7 +24298,7 @@
         ]
       },
       "VibrationAmplitudeAtTheBearingDefectFrequencies_EngineeringUnits": {
-        "description": "Unit designator for property and event with name VibrationAmplitudeAtTheBearingDefectFrequencies, expressed as a URI in the QUDT unit vocabulary",
+        "description": "Unit designator for property and event with name VibrationAmplitudeAtTheBearingDefectFrequencies, expressed as a 2- or 3-character UN/ECE code",
         "type": "string",
         "readOnly": true,
         "forms": [
@@ -24310,7 +24310,7 @@
         ]
       },
       "VibrationAmplitudeAtTheBladePassFrequency_EngineeringUnits": {
-        "description": "Unit designator for property and event with name VibrationAmplitudeAtTheBladePassFrequency, expressed as a URI in the QUDT unit vocabulary",
+        "description": "Unit designator for property and event with name VibrationAmplitudeAtTheBladePassFrequency, expressed as a 2- or 3-character UN/ECE code",
         "type": "string",
         "readOnly": true,
         "forms": [
@@ -24322,7 +24322,7 @@
         ]
       },
       "VibrationAmplitudeAtTheFirstHarmonicOfTheRotationFrequency2X_EngineeringUnits": {
-        "description": "Unit designator for property and event with name VibrationAmplitudeAtTheFirstHarmonicOfTheRotationFrequency2X, expressed as a URI in the QUDT unit vocabulary",
+        "description": "Unit designator for property and event with name VibrationAmplitudeAtTheFirstHarmonicOfTheRotationFrequency2X, expressed as a 2- or 3-character UN/ECE code",
         "type": "string",
         "readOnly": true,
         "forms": [
@@ -24334,7 +24334,7 @@
         ]
       },
       "VibrationAmplitudeAtTheGearMeshingFrequency_EngineeringUnits": {
-        "description": "Unit designator for property and event with name VibrationAmplitudeAtTheGearMeshingFrequency, expressed as a URI in the QUDT unit vocabulary",
+        "description": "Unit designator for property and event with name VibrationAmplitudeAtTheGearMeshingFrequency, expressed as a 2- or 3-character UN/ECE code",
         "type": "string",
         "readOnly": true,
         "forms": [
@@ -24346,7 +24346,7 @@
         ]
       },
       "VibrationAmplitudeAtTheHarmonicsOfTheRotationFrequencyNx_EngineeringUnits": {
-        "description": "Unit designator for property and event with name VibrationAmplitudeAtTheHarmonicsOfTheRotationFrequencyNx, expressed as a URI in the QUDT unit vocabulary",
+        "description": "Unit designator for property and event with name VibrationAmplitudeAtTheHarmonicsOfTheRotationFrequencyNx, expressed as a 2- or 3-character UN/ECE code",
         "type": "string",
         "readOnly": true,
         "forms": [
@@ -24358,7 +24358,7 @@
         ]
       },
       "VibrationAmplitudeAtTheRotationFrequency1X_EngineeringUnits": {
-        "description": "Unit designator for property and event with name VibrationAmplitudeAtTheRotationFrequency1X, expressed as a URI in the QUDT unit vocabulary",
+        "description": "Unit designator for property and event with name VibrationAmplitudeAtTheRotationFrequency1X, expressed as a 2- or 3-character UN/ECE code",
         "type": "string",
         "readOnly": true,
         "forms": [
@@ -24370,7 +24370,7 @@
         ]
       },
       "VibrationAmplitudeAtTheSidebandsOfTheGearMeshingFrequency_EngineeringUnits": {
-        "description": "Unit designator for property and event with name VibrationAmplitudeAtTheSidebandsOfTheGearMeshingFrequency, expressed as a URI in the QUDT unit vocabulary",
+        "description": "Unit designator for property and event with name VibrationAmplitudeAtTheSidebandsOfTheGearMeshingFrequency, expressed as a 2- or 3-character UN/ECE code",
         "type": "string",
         "readOnly": true,
         "forms": [

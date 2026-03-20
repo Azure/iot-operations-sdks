@@ -772,7 +772,7 @@
         ]
       },
       "ActualBoilerTemperature_No__EngineeringUnits": {
-        "description": "Unit designator for property and event with name ActualBoilerTemperature_No_, expressed as a URI in the QUDT unit vocabulary",
+        "description": "Unit designator for property and event with name ActualBoilerTemperature_No_, expressed as a 2- or 3-character UN/ECE code",
         "type": "string",
         "readOnly": true,
         "forms": [
@@ -784,7 +784,7 @@
         ]
       },
       "ActualBottomTemperature_No__EngineeringUnits": {
-        "description": "Unit designator for property and event with name ActualBottomTemperature_No_, expressed as a URI in the QUDT unit vocabulary",
+        "description": "Unit designator for property and event with name ActualBottomTemperature_No_, expressed as a 2- or 3-character UN/ECE code",
         "type": "string",
         "readOnly": true,
         "forms": [
@@ -796,7 +796,7 @@
         ]
       },
       "ActualChamberTemperature_No__EngineeringUnits": {
-        "description": "Unit designator for property and event with name ActualChamberTemperature_No_, expressed as a URI in the QUDT unit vocabulary",
+        "description": "Unit designator for property and event with name ActualChamberTemperature_No_, expressed as a 2- or 3-character UN/ECE code",
         "type": "string",
         "readOnly": true,
         "forms": [
@@ -808,7 +808,7 @@
         ]
       },
       "ActualCoreTemperature_No__EngineeringUnits": {
-        "description": "Unit designator for property and event with name ActualCoreTemperature_No_, expressed as a URI in the QUDT unit vocabulary",
+        "description": "Unit designator for property and event with name ActualCoreTemperature_No_, expressed as a 2- or 3-character UN/ECE code",
         "type": "string",
         "readOnly": true,
         "forms": [
@@ -820,7 +820,7 @@
         ]
       },
       "ActualFanSpeed_No__EngineeringUnits": {
-        "description": "Unit designator for property and event with name ActualFanSpeed_No_, expressed as a URI in the QUDT unit vocabulary",
+        "description": "Unit designator for property and event with name ActualFanSpeed_No_, expressed as a 2- or 3-character UN/ECE code",
         "type": "string",
         "readOnly": true,
         "forms": [
@@ -832,7 +832,7 @@
         ]
       },
       "ActualHumidity_No__EngineeringUnits": {
-        "description": "Unit designator for property and event with name ActualHumidity_No_, expressed as a URI in the QUDT unit vocabulary",
+        "description": "Unit designator for property and event with name ActualHumidity_No_, expressed as a 2- or 3-character UN/ECE code",
         "type": "string",
         "readOnly": true,
         "forms": [
@@ -844,7 +844,7 @@
         ]
       },
       "ActualTopTemperature_No__EngineeringUnits": {
-        "description": "Unit designator for property and event with name ActualTopTemperature_No_, expressed as a URI in the QUDT unit vocabulary",
+        "description": "Unit designator for property and event with name ActualTopTemperature_No_, expressed as a 2- or 3-character UN/ECE code",
         "type": "string",
         "readOnly": true,
         "forms": [
@@ -856,7 +856,7 @@
         ]
       },
       "SetBoilerTemperature_EngineeringUnits": {
-        "description": "Unit designator for property and event with name SetBoilerTemperature, expressed as a URI in the QUDT unit vocabulary",
+        "description": "Unit designator for property and event with name SetBoilerTemperature, expressed as a 2- or 3-character UN/ECE code",
         "type": "string",
         "readOnly": true,
         "forms": [
@@ -868,7 +868,7 @@
         ]
       },
       "SetBottomTemperature_EngineeringUnits": {
-        "description": "Unit designator for property and event with name SetBottomTemperature, expressed as a URI in the QUDT unit vocabulary",
+        "description": "Unit designator for property and event with name SetBottomTemperature, expressed as a 2- or 3-character UN/ECE code",
         "type": "string",
         "readOnly": true,
         "forms": [
@@ -880,7 +880,7 @@
         ]
       },
       "SetChamberTemperature_EngineeringUnits": {
-        "description": "Unit designator for property and event with name SetChamberTemperature, expressed as a URI in the QUDT unit vocabulary",
+        "description": "Unit designator for property and event with name SetChamberTemperature, expressed as a 2- or 3-character UN/ECE code",
         "type": "string",
         "readOnly": true,
         "forms": [
@@ -892,7 +892,7 @@
         ]
       },
       "SetCoreTemperature_EngineeringUnits": {
-        "description": "Unit designator for property and event with name SetCoreTemperature, expressed as a URI in the QUDT unit vocabulary",
+        "description": "Unit designator for property and event with name SetCoreTemperature, expressed as a 2- or 3-character UN/ECE code",
         "type": "string",
         "readOnly": true,
         "forms": [
@@ -904,7 +904,7 @@
         ]
       },
       "SetFanSpeed_EngineeringUnits": {
-        "description": "Unit designator for property and event with name SetFanSpeed, expressed as a URI in the QUDT unit vocabulary",
+        "description": "Unit designator for property and event with name SetFanSpeed, expressed as a 2- or 3-character UN/ECE code",
         "type": "string",
         "readOnly": true,
         "forms": [
@@ -916,7 +916,7 @@
         ]
       },
       "SetHumidity_EngineeringUnits": {
-        "description": "Unit designator for property and event with name SetHumidity, expressed as a URI in the QUDT unit vocabulary",
+        "description": "Unit designator for property and event with name SetHumidity, expressed as a 2- or 3-character UN/ECE code",
         "type": "string",
         "readOnly": true,
         "forms": [
@@ -928,7 +928,7 @@
         ]
       },
       "SetProcessTimeProgram_EngineeringUnits": {
-        "description": "Unit designator for property and event with name SetProcessTimeProgram, expressed as a URI in the QUDT unit vocabulary",
+        "description": "Unit designator for property and event with name SetProcessTimeProgram, expressed as a 2- or 3-character UN/ECE code",
         "type": "string",
         "readOnly": true,
         "forms": [
@@ -940,7 +940,7 @@
         ]
       },
       "SetTopTemperature_EngineeringUnits": {
-        "description": "Unit designator for property and event with name SetTopTemperature, expressed as a URI in the QUDT unit vocabulary",
+        "description": "Unit designator for property and event with name SetTopTemperature, expressed as a 2- or 3-character UN/ECE code",
         "type": "string",
         "readOnly": true,
         "forms": [
@@ -952,7 +952,7 @@
         ]
       },
       "TimeRemaining_EngineeringUnits": {
-        "description": "Unit designator for property and event with name TimeRemaining, expressed as a URI in the QUDT unit vocabulary",
+        "description": "Unit designator for property and event with name TimeRemaining, expressed as a 2- or 3-character UN/ECE code",
         "type": "string",
         "readOnly": true,
         "forms": [
@@ -1508,7 +1508,7 @@
         ]
       },
       "BoilerPressureWater_EngineeringUnits": {
-        "description": "Unit designator for property and event with name BoilerPressureWater, expressed as a URI in the QUDT unit vocabulary",
+        "description": "Unit designator for property and event with name BoilerPressureWater, expressed as a 2- or 3-character UN/ECE code",
         "type": "string",
         "readOnly": true,
         "forms": [
@@ -1520,7 +1520,7 @@
         ]
       },
       "BoilerTempWater_EngineeringUnits": {
-        "description": "Unit designator for property and event with name BoilerTempWater, expressed as a URI in the QUDT unit vocabulary",
+        "description": "Unit designator for property and event with name BoilerTempWater, expressed as a 2- or 3-character UN/ECE code",
         "type": "string",
         "readOnly": true,
         "forms": [
@@ -1532,7 +1532,7 @@
         ]
       },
       "GrinderRuntime_No__EngineeringUnits": {
-        "description": "Unit designator for property and event with name GrinderRuntime_No_, expressed as a URI in the QUDT unit vocabulary",
+        "description": "Unit designator for property and event with name GrinderRuntime_No_, expressed as a 2- or 3-character UN/ECE code",
         "type": "string",
         "readOnly": true,
         "forms": [
@@ -1956,7 +1956,7 @@
         ]
       },
       "BeverageSize_EngineeringUnits": {
-        "description": "Unit designator for property and event with name BeverageSize, expressed as a URI in the QUDT unit vocabulary",
+        "description": "Unit designator for property and event with name BeverageSize, expressed as a 2- or 3-character UN/ECE code",
         "type": "string",
         "readOnly": true,
         "forms": [
@@ -1968,7 +1968,7 @@
         ]
       },
       "FoamAmount_EngineeringUnits": {
-        "description": "Unit designator for property and event with name FoamAmount, expressed as a URI in the QUDT unit vocabulary",
+        "description": "Unit designator for property and event with name FoamAmount, expressed as a 2- or 3-character UN/ECE code",
         "type": "string",
         "readOnly": true,
         "forms": [
@@ -1980,7 +1980,7 @@
         ]
       },
       "GroundsAmount_EngineeringUnits": {
-        "description": "Unit designator for property and event with name GroundsAmount, expressed as a URI in the QUDT unit vocabulary",
+        "description": "Unit designator for property and event with name GroundsAmount, expressed as a 2- or 3-character UN/ECE code",
         "type": "string",
         "readOnly": true,
         "forms": [
@@ -1992,7 +1992,7 @@
         ]
       },
       "GroundsWater_EngineeringUnits": {
-        "description": "Unit designator for property and event with name GroundsWater, expressed as a URI in the QUDT unit vocabulary",
+        "description": "Unit designator for property and event with name GroundsWater, expressed as a 2- or 3-character UN/ECE code",
         "type": "string",
         "readOnly": true,
         "forms": [
@@ -2004,7 +2004,7 @@
         ]
       },
       "MilkAmount_EngineeringUnits": {
-        "description": "Unit designator for property and event with name MilkAmount, expressed as a URI in the QUDT unit vocabulary",
+        "description": "Unit designator for property and event with name MilkAmount, expressed as a 2- or 3-character UN/ECE code",
         "type": "string",
         "readOnly": true,
         "forms": [
@@ -2016,7 +2016,7 @@
         ]
       },
       "PowderAmount_EngineeringUnits": {
-        "description": "Unit designator for property and event with name PowderAmount, expressed as a URI in the QUDT unit vocabulary",
+        "description": "Unit designator for property and event with name PowderAmount, expressed as a 2- or 3-character UN/ECE code",
         "type": "string",
         "readOnly": true,
         "forms": [
@@ -2617,7 +2617,7 @@
         ]
       },
       "ActualExternalCoreTemperature_No__EngineeringUnits": {
-        "description": "Unit designator for property and event with name ActualExternalCoreTemperature_No_, expressed as a URI in the QUDT unit vocabulary",
+        "description": "Unit designator for property and event with name ActualExternalCoreTemperature_No_, expressed as a 2- or 3-character UN/ECE code",
         "type": "string",
         "readOnly": true,
         "forms": [
@@ -2629,7 +2629,7 @@
         ]
       },
       "ActualHumidity_EngineeringUnits": {
-        "description": "Unit designator for property and event with name ActualHumidity, expressed as a URI in the QUDT unit vocabulary",
+        "description": "Unit designator for property and event with name ActualHumidity, expressed as a 2- or 3-character UN/ECE code",
         "type": "string",
         "readOnly": true,
         "forms": [
@@ -2641,7 +2641,7 @@
         ]
       },
       "ActualInternalCoreTemperature_No__EngineeringUnits": {
-        "description": "Unit designator for property and event with name ActualInternalCoreTemperature_No_, expressed as a URI in the QUDT unit vocabulary",
+        "description": "Unit designator for property and event with name ActualInternalCoreTemperature_No_, expressed as a 2- or 3-character UN/ECE code",
         "type": "string",
         "readOnly": true,
         "forms": [
@@ -2653,7 +2653,7 @@
         ]
       },
       "ActualTemperatureChamber_No__EngineeringUnits": {
-        "description": "Unit designator for property and event with name ActualTemperatureChamber_No_, expressed as a URI in the QUDT unit vocabulary",
+        "description": "Unit designator for property and event with name ActualTemperatureChamber_No_, expressed as a 2- or 3-character UN/ECE code",
         "type": "string",
         "readOnly": true,
         "forms": [
@@ -2665,7 +2665,7 @@
         ]
       },
       "SetExternalCoreTemperature_EngineeringUnits": {
-        "description": "Unit designator for property and event with name SetExternalCoreTemperature, expressed as a URI in the QUDT unit vocabulary",
+        "description": "Unit designator for property and event with name SetExternalCoreTemperature, expressed as a 2- or 3-character UN/ECE code",
         "type": "string",
         "readOnly": true,
         "forms": [
@@ -2677,7 +2677,7 @@
         ]
       },
       "SetHumidity_EngineeringUnits": {
-        "description": "Unit designator for property and event with name SetHumidity, expressed as a URI in the QUDT unit vocabulary",
+        "description": "Unit designator for property and event with name SetHumidity, expressed as a 2- or 3-character UN/ECE code",
         "type": "string",
         "readOnly": true,
         "forms": [
@@ -2689,7 +2689,7 @@
         ]
       },
       "SetInternalCoreTemperature_EngineeringUnits": {
-        "description": "Unit designator for property and event with name SetInternalCoreTemperature, expressed as a URI in the QUDT unit vocabulary",
+        "description": "Unit designator for property and event with name SetInternalCoreTemperature, expressed as a 2- or 3-character UN/ECE code",
         "type": "string",
         "readOnly": true,
         "forms": [
@@ -2701,7 +2701,7 @@
         ]
       },
       "SetProcessTimeProgram_EngineeringUnits": {
-        "description": "Unit designator for property and event with name SetProcessTimeProgram, expressed as a URI in the QUDT unit vocabulary",
+        "description": "Unit designator for property and event with name SetProcessTimeProgram, expressed as a 2- or 3-character UN/ECE code",
         "type": "string",
         "readOnly": true,
         "forms": [
@@ -2713,7 +2713,7 @@
         ]
       },
       "SetProcessTimeStep_EngineeringUnits": {
-        "description": "Unit designator for property and event with name SetProcessTimeStep, expressed as a URI in the QUDT unit vocabulary",
+        "description": "Unit designator for property and event with name SetProcessTimeStep, expressed as a 2- or 3-character UN/ECE code",
         "type": "string",
         "readOnly": true,
         "forms": [
@@ -2725,7 +2725,7 @@
         ]
       },
       "SetTemperature_EngineeringUnits": {
-        "description": "Unit designator for property and event with name SetTemperature, expressed as a URI in the QUDT unit vocabulary",
+        "description": "Unit designator for property and event with name SetTemperature, expressed as a 2- or 3-character UN/ECE code",
         "type": "string",
         "readOnly": true,
         "forms": [
@@ -2737,7 +2737,7 @@
         ]
       },
       "TimeRemainingProgram_EngineeringUnits": {
-        "description": "Unit designator for property and event with name TimeRemainingProgram, expressed as a URI in the QUDT unit vocabulary",
+        "description": "Unit designator for property and event with name TimeRemainingProgram, expressed as a 2- or 3-character UN/ECE code",
         "type": "string",
         "readOnly": true,
         "forms": [
@@ -2749,7 +2749,7 @@
         ]
       },
       "TimeRemainingStep_EngineeringUnits": {
-        "description": "Unit designator for property and event with name TimeRemainingStep, expressed as a URI in the QUDT unit vocabulary",
+        "description": "Unit designator for property and event with name TimeRemainingStep, expressed as a 2- or 3-character UN/ECE code",
         "type": "string",
         "readOnly": true,
         "forms": [
@@ -3300,7 +3300,7 @@
         ]
       },
       "ActualCoreTemperature_EngineeringUnits": {
-        "description": "Unit designator for property and event with name ActualCoreTemperature, expressed as a URI in the QUDT unit vocabulary",
+        "description": "Unit designator for property and event with name ActualCoreTemperature, expressed as a 2- or 3-character UN/ECE code",
         "type": "string",
         "readOnly": true,
         "forms": [
@@ -3312,7 +3312,7 @@
         ]
       },
       "ActualTemperature_EngineeringUnits": {
-        "description": "Unit designator for property and event with name ActualTemperature, expressed as a URI in the QUDT unit vocabulary",
+        "description": "Unit designator for property and event with name ActualTemperature, expressed as a 2- or 3-character UN/ECE code",
         "type": "string",
         "readOnly": true,
         "forms": [
@@ -3324,7 +3324,7 @@
         ]
       },
       "SetCoreTemperature_EngineeringUnits": {
-        "description": "Unit designator for property and event with name SetCoreTemperature, expressed as a URI in the QUDT unit vocabulary",
+        "description": "Unit designator for property and event with name SetCoreTemperature, expressed as a 2- or 3-character UN/ECE code",
         "type": "string",
         "readOnly": true,
         "forms": [
@@ -3336,7 +3336,7 @@
         ]
       },
       "SetProcessTime_EngineeringUnits": {
-        "description": "Unit designator for property and event with name SetProcessTime, expressed as a URI in the QUDT unit vocabulary",
+        "description": "Unit designator for property and event with name SetProcessTime, expressed as a 2- or 3-character UN/ECE code",
         "type": "string",
         "readOnly": true,
         "forms": [
@@ -3348,7 +3348,7 @@
         ]
       },
       "SetTemperature_EngineeringUnits": {
-        "description": "Unit designator for property and event with name SetTemperature, expressed as a URI in the QUDT unit vocabulary",
+        "description": "Unit designator for property and event with name SetTemperature, expressed as a 2- or 3-character UN/ECE code",
         "type": "string",
         "readOnly": true,
         "forms": [
@@ -3360,7 +3360,7 @@
         ]
       },
       "TimeRemaining_EngineeringUnits": {
-        "description": "Unit designator for property and event with name TimeRemaining, expressed as a URI in the QUDT unit vocabulary",
+        "description": "Unit designator for property and event with name TimeRemaining, expressed as a 2- or 3-character UN/ECE code",
         "type": "string",
         "readOnly": true,
         "forms": [
@@ -3721,7 +3721,7 @@
         ]
       },
       "ActualProcessTime_EngineeringUnits": {
-        "description": "Unit designator for property and event with name ActualProcessTime, expressed as a URI in the QUDT unit vocabulary",
+        "description": "Unit designator for property and event with name ActualProcessTime, expressed as a 2- or 3-character UN/ECE code",
         "type": "string",
         "readOnly": true,
         "forms": [
@@ -3733,7 +3733,7 @@
         ]
       },
       "ActualTemperature_EngineeringUnits": {
-        "description": "Unit designator for property and event with name ActualTemperature, expressed as a URI in the QUDT unit vocabulary",
+        "description": "Unit designator for property and event with name ActualTemperature, expressed as a 2- or 3-character UN/ECE code",
         "type": "string",
         "readOnly": true,
         "forms": [
@@ -3745,7 +3745,7 @@
         ]
       },
       "NominalPower_EngineeringUnits": {
-        "description": "Unit designator for property and event with name NominalPower, expressed as a URI in the QUDT unit vocabulary",
+        "description": "Unit designator for property and event with name NominalPower, expressed as a 2- or 3-character UN/ECE code",
         "type": "string",
         "readOnly": true,
         "forms": [
@@ -3757,7 +3757,7 @@
         ]
       },
       "SetPowerValue_EngineeringUnits": {
-        "description": "Unit designator for property and event with name SetPowerValue, expressed as a URI in the QUDT unit vocabulary",
+        "description": "Unit designator for property and event with name SetPowerValue, expressed as a 2- or 3-character UN/ECE code",
         "type": "string",
         "readOnly": true,
         "forms": [
@@ -3769,7 +3769,7 @@
         ]
       },
       "SetTemperature_EngineeringUnits": {
-        "description": "Unit designator for property and event with name SetTemperature, expressed as a URI in the QUDT unit vocabulary",
+        "description": "Unit designator for property and event with name SetTemperature, expressed as a 2- or 3-character UN/ECE code",
         "type": "string",
         "readOnly": true,
         "forms": [
@@ -4466,7 +4466,7 @@
         ]
       },
       "ActualFinalRinseTemperature_No__EngineeringUnits": {
-        "description": "Unit designator for property and event with name ActualFinalRinseTemperature_No_, expressed as a URI in the QUDT unit vocabulary",
+        "description": "Unit designator for property and event with name ActualFinalRinseTemperature_No_, expressed as a 2- or 3-character UN/ECE code",
         "type": "string",
         "readOnly": true,
         "forms": [
@@ -4478,7 +4478,7 @@
         ]
       },
       "ActualMainTankTemperature_No__EngineeringUnits": {
-        "description": "Unit designator for property and event with name ActualMainTankTemperature_No_, expressed as a URI in the QUDT unit vocabulary",
+        "description": "Unit designator for property and event with name ActualMainTankTemperature_No_, expressed as a 2- or 3-character UN/ECE code",
         "type": "string",
         "readOnly": true,
         "forms": [
@@ -4490,7 +4490,7 @@
         ]
       },
       "ActualPreTankTemperature_No__EngineeringUnits": {
-        "description": "Unit designator for property and event with name ActualPreTankTemperature_No_, expressed as a URI in the QUDT unit vocabulary",
+        "description": "Unit designator for property and event with name ActualPreTankTemperature_No_, expressed as a 2- or 3-character UN/ECE code",
         "type": "string",
         "readOnly": true,
         "forms": [
@@ -4502,7 +4502,7 @@
         ]
       },
       "ActualPumpedFinalRinseTemperature_No__EngineeringUnits": {
-        "description": "Unit designator for property and event with name ActualPumpedFinalRinseTemperature_No_, expressed as a URI in the QUDT unit vocabulary",
+        "description": "Unit designator for property and event with name ActualPumpedFinalRinseTemperature_No_, expressed as a 2- or 3-character UN/ECE code",
         "type": "string",
         "readOnly": true,
         "forms": [
@@ -4514,7 +4514,7 @@
         ]
       },
       "FinalRinseTemperatureSetpoint_No__EngineeringUnits": {
-        "description": "Unit designator for property and event with name FinalRinseTemperatureSetpoint_No_, expressed as a URI in the QUDT unit vocabulary",
+        "description": "Unit designator for property and event with name FinalRinseTemperatureSetpoint_No_, expressed as a 2- or 3-character UN/ECE code",
         "type": "string",
         "readOnly": true,
         "forms": [
@@ -4526,7 +4526,7 @@
         ]
       },
       "MainTankTemperatureSetpoint_No__EngineeringUnits": {
-        "description": "Unit designator for property and event with name MainTankTemperatureSetpoint_No_, expressed as a URI in the QUDT unit vocabulary",
+        "description": "Unit designator for property and event with name MainTankTemperatureSetpoint_No_, expressed as a 2- or 3-character UN/ECE code",
         "type": "string",
         "readOnly": true,
         "forms": [
@@ -4538,7 +4538,7 @@
         ]
       },
       "PreTankTemperatureSetpoint_No__EngineeringUnits": {
-        "description": "Unit designator for property and event with name PreTankTemperatureSetpoint_No_, expressed as a URI in the QUDT unit vocabulary",
+        "description": "Unit designator for property and event with name PreTankTemperatureSetpoint_No_, expressed as a 2- or 3-character UN/ECE code",
         "type": "string",
         "readOnly": true,
         "forms": [
@@ -4550,7 +4550,7 @@
         ]
       },
       "PumpedFinalRinseTemperatureSetpoint_No__EngineeringUnits": {
-        "description": "Unit designator for property and event with name PumpedFinalRinseTemperatureSetpoint_No_, expressed as a URI in the QUDT unit vocabulary",
+        "description": "Unit designator for property and event with name PumpedFinalRinseTemperatureSetpoint_No_, expressed as a 2- or 3-character UN/ECE code",
         "type": "string",
         "readOnly": true,
         "forms": [
@@ -5111,7 +5111,7 @@
         ]
       },
       "ActualTemperature_EngineeringUnits": {
-        "description": "Unit designator for property and event with name ActualTemperature, expressed as a URI in the QUDT unit vocabulary",
+        "description": "Unit designator for property and event with name ActualTemperature, expressed as a 2- or 3-character UN/ECE code",
         "type": "string",
         "readOnly": true,
         "forms": [
@@ -5123,7 +5123,7 @@
         ]
       },
       "SetProcessTime_EngineeringUnits": {
-        "description": "Unit designator for property and event with name SetProcessTime, expressed as a URI in the QUDT unit vocabulary",
+        "description": "Unit designator for property and event with name SetProcessTime, expressed as a 2- or 3-character UN/ECE code",
         "type": "string",
         "readOnly": true,
         "forms": [
@@ -5135,7 +5135,7 @@
         ]
       },
       "SetTemperature_EngineeringUnits": {
-        "description": "Unit designator for property and event with name SetTemperature, expressed as a URI in the QUDT unit vocabulary",
+        "description": "Unit designator for property and event with name SetTemperature, expressed as a 2- or 3-character UN/ECE code",
         "type": "string",
         "readOnly": true,
         "forms": [
@@ -5147,7 +5147,7 @@
         ]
       },
       "TimeRemaining_EngineeringUnits": {
-        "description": "Unit designator for property and event with name TimeRemaining, expressed as a URI in the QUDT unit vocabulary",
+        "description": "Unit designator for property and event with name TimeRemaining, expressed as a 2- or 3-character UN/ECE code",
         "type": "string",
         "readOnly": true,
         "forms": [
@@ -5518,7 +5518,7 @@
         ]
       },
       "ActualGrillTemperature_No__EngineeringUnits": {
-        "description": "Unit designator for property and event with name ActualGrillTemperature_No_, expressed as a URI in the QUDT unit vocabulary",
+        "description": "Unit designator for property and event with name ActualGrillTemperature_No_, expressed as a 2- or 3-character UN/ECE code",
         "type": "string",
         "readOnly": true,
         "forms": [
@@ -5530,7 +5530,7 @@
         ]
       },
       "ActualPlatenTemperature_No__EngineeringUnits": {
-        "description": "Unit designator for property and event with name ActualPlatenTemperature_No_, expressed as a URI in the QUDT unit vocabulary",
+        "description": "Unit designator for property and event with name ActualPlatenTemperature_No_, expressed as a 2- or 3-character UN/ECE code",
         "type": "string",
         "readOnly": true,
         "forms": [
@@ -5542,7 +5542,7 @@
         ]
       },
       "RemainingProcessTime_EngineeringUnits": {
-        "description": "Unit designator for property and event with name RemainingProcessTime, expressed as a URI in the QUDT unit vocabulary",
+        "description": "Unit designator for property and event with name RemainingProcessTime, expressed as a 2- or 3-character UN/ECE code",
         "type": "string",
         "readOnly": true,
         "forms": [
@@ -5554,7 +5554,7 @@
         ]
       },
       "SetGrillTemperature_No__EngineeringUnits": {
-        "description": "Unit designator for property and event with name SetGrillTemperature_No_, expressed as a URI in the QUDT unit vocabulary",
+        "description": "Unit designator for property and event with name SetGrillTemperature_No_, expressed as a 2- or 3-character UN/ECE code",
         "type": "string",
         "readOnly": true,
         "forms": [
@@ -5566,7 +5566,7 @@
         ]
       },
       "SetPlatenTemperature_No__EngineeringUnits": {
-        "description": "Unit designator for property and event with name SetPlatenTemperature_No_, expressed as a URI in the QUDT unit vocabulary",
+        "description": "Unit designator for property and event with name SetPlatenTemperature_No_, expressed as a 2- or 3-character UN/ECE code",
         "type": "string",
         "readOnly": true,
         "forms": [
@@ -5578,7 +5578,7 @@
         ]
       },
       "SetProcessTime_EngineeringUnits": {
-        "description": "Unit designator for property and event with name SetProcessTime, expressed as a URI in the QUDT unit vocabulary",
+        "description": "Unit designator for property and event with name SetProcessTime, expressed as a 2- or 3-character UN/ECE code",
         "type": "string",
         "readOnly": true,
         "forms": [
@@ -6034,7 +6034,7 @@
         ]
       },
       "ActualCoreTemperature_EngineeringUnits": {
-        "description": "Unit designator for property and event with name ActualCoreTemperature, expressed as a URI in the QUDT unit vocabulary",
+        "description": "Unit designator for property and event with name ActualCoreTemperature, expressed as a 2- or 3-character UN/ECE code",
         "type": "string",
         "readOnly": true,
         "forms": [
@@ -6046,7 +6046,7 @@
         ]
       },
       "ActualPressurePan_EngineeringUnits": {
-        "description": "Unit designator for property and event with name ActualPressurePan, expressed as a URI in the QUDT unit vocabulary",
+        "description": "Unit designator for property and event with name ActualPressurePan, expressed as a 2- or 3-character UN/ECE code",
         "type": "string",
         "readOnly": true,
         "forms": [
@@ -6058,7 +6058,7 @@
         ]
       },
       "ActualTemperature_EngineeringUnits": {
-        "description": "Unit designator for property and event with name ActualTemperature, expressed as a URI in the QUDT unit vocabulary",
+        "description": "Unit designator for property and event with name ActualTemperature, expressed as a 2- or 3-character UN/ECE code",
         "type": "string",
         "readOnly": true,
         "forms": [
@@ -6070,7 +6070,7 @@
         ]
       },
       "SetCoreTemperature_EngineeringUnits": {
-        "description": "Unit designator for property and event with name SetCoreTemperature, expressed as a URI in the QUDT unit vocabulary",
+        "description": "Unit designator for property and event with name SetCoreTemperature, expressed as a 2- or 3-character UN/ECE code",
         "type": "string",
         "readOnly": true,
         "forms": [
@@ -6082,7 +6082,7 @@
         ]
       },
       "SetProcessTime_EngineeringUnits": {
-        "description": "Unit designator for property and event with name SetProcessTime, expressed as a URI in the QUDT unit vocabulary",
+        "description": "Unit designator for property and event with name SetProcessTime, expressed as a 2- or 3-character UN/ECE code",
         "type": "string",
         "readOnly": true,
         "forms": [
@@ -6094,7 +6094,7 @@
         ]
       },
       "SetTemperature_EngineeringUnits": {
-        "description": "Unit designator for property and event with name SetTemperature, expressed as a URI in the QUDT unit vocabulary",
+        "description": "Unit designator for property and event with name SetTemperature, expressed as a 2- or 3-character UN/ECE code",
         "type": "string",
         "readOnly": true,
         "forms": [
@@ -6106,7 +6106,7 @@
         ]
       },
       "TimeRemaining_EngineeringUnits": {
-        "description": "Unit designator for property and event with name TimeRemaining, expressed as a URI in the QUDT unit vocabulary",
+        "description": "Unit designator for property and event with name TimeRemaining, expressed as a 2- or 3-character UN/ECE code",
         "type": "string",
         "readOnly": true,
         "forms": [
@@ -6504,7 +6504,7 @@
         ]
       },
       "LastFreezeTime_EngineeringUnits": {
-        "description": "Unit designator for property and event with name LastFreezeTime, expressed as a URI in the QUDT unit vocabulary",
+        "description": "Unit designator for property and event with name LastFreezeTime, expressed as a 2- or 3-character UN/ECE code",
         "type": "string",
         "readOnly": true,
         "forms": [
@@ -6516,7 +6516,7 @@
         ]
       },
       "LastHarvestTime_EngineeringUnits": {
-        "description": "Unit designator for property and event with name LastHarvestTime, expressed as a URI in the QUDT unit vocabulary",
+        "description": "Unit designator for property and event with name LastHarvestTime, expressed as a 2- or 3-character UN/ECE code",
         "type": "string",
         "readOnly": true,
         "forms": [
@@ -6528,7 +6528,7 @@
         ]
       },
       "Temperature_No__EngineeringUnits": {
-        "description": "Unit designator for property and event with name Temperature_No_, expressed as a URI in the QUDT unit vocabulary",
+        "description": "Unit designator for property and event with name Temperature_No_, expressed as a 2- or 3-character UN/ECE code",
         "type": "string",
         "readOnly": true,
         "forms": [
@@ -6540,7 +6540,7 @@
         ]
       },
       "WaterFillTime_EngineeringUnits": {
-        "description": "Unit designator for property and event with name WaterFillTime, expressed as a URI in the QUDT unit vocabulary",
+        "description": "Unit designator for property and event with name WaterFillTime, expressed as a 2- or 3-character UN/ECE code",
         "type": "string",
         "readOnly": true,
         "forms": [
@@ -6886,7 +6886,7 @@
         ]
       },
       "ActualTemperatureChamber_EngineeringUnits": {
-        "description": "Unit designator for property and event with name ActualTemperatureChamber, expressed as a URI in the QUDT unit vocabulary",
+        "description": "Unit designator for property and event with name ActualTemperatureChamber, expressed as a 2- or 3-character UN/ECE code",
         "type": "string",
         "readOnly": true,
         "forms": [
@@ -6898,7 +6898,7 @@
         ]
       },
       "FanSpeed_EngineeringUnits": {
-        "description": "Unit designator for property and event with name FanSpeed, expressed as a URI in the QUDT unit vocabulary",
+        "description": "Unit designator for property and event with name FanSpeed, expressed as a 2- or 3-character UN/ECE code",
         "type": "string",
         "readOnly": true,
         "forms": [
@@ -6910,7 +6910,7 @@
         ]
       },
       "MicrowaveEnergy_EngineeringUnits": {
-        "description": "Unit designator for property and event with name MicrowaveEnergy, expressed as a URI in the QUDT unit vocabulary",
+        "description": "Unit designator for property and event with name MicrowaveEnergy, expressed as a 2- or 3-character UN/ECE code",
         "type": "string",
         "readOnly": true,
         "forms": [
@@ -6922,7 +6922,7 @@
         ]
       },
       "RemainingProcessTime_EngineeringUnits": {
-        "description": "Unit designator for property and event with name RemainingProcessTime, expressed as a URI in the QUDT unit vocabulary",
+        "description": "Unit designator for property and event with name RemainingProcessTime, expressed as a 2- or 3-character UN/ECE code",
         "type": "string",
         "readOnly": true,
         "forms": [
@@ -6934,7 +6934,7 @@
         ]
       },
       "RemainingProcessTimeStep_EngineeringUnits": {
-        "description": "Unit designator for property and event with name RemainingProcessTimeStep, expressed as a URI in the QUDT unit vocabulary",
+        "description": "Unit designator for property and event with name RemainingProcessTimeStep, expressed as a 2- or 3-character UN/ECE code",
         "type": "string",
         "readOnly": true,
         "forms": [
@@ -6946,7 +6946,7 @@
         ]
       },
       "SetProcessTime_EngineeringUnits": {
-        "description": "Unit designator for property and event with name SetProcessTime, expressed as a URI in the QUDT unit vocabulary",
+        "description": "Unit designator for property and event with name SetProcessTime, expressed as a 2- or 3-character UN/ECE code",
         "type": "string",
         "readOnly": true,
         "forms": [
@@ -6958,7 +6958,7 @@
         ]
       },
       "SetTemperature_EngineeringUnits": {
-        "description": "Unit designator for property and event with name SetTemperature, expressed as a URI in the QUDT unit vocabulary",
+        "description": "Unit designator for property and event with name SetTemperature, expressed as a 2- or 3-character UN/ECE code",
         "type": "string",
         "readOnly": true,
         "forms": [
@@ -7580,7 +7580,7 @@
         ]
       },
       "ActualCoreTemperature_EngineeringUnits": {
-        "description": "Unit designator for property and event with name ActualCoreTemperature, expressed as a URI in the QUDT unit vocabulary",
+        "description": "Unit designator for property and event with name ActualCoreTemperature, expressed as a 2- or 3-character UN/ECE code",
         "type": "string",
         "readOnly": true,
         "forms": [
@@ -7592,7 +7592,7 @@
         ]
       },
       "ActualPressureAbsolute_EngineeringUnits": {
-        "description": "Unit designator for property and event with name ActualPressureAbsolute, expressed as a URI in the QUDT unit vocabulary",
+        "description": "Unit designator for property and event with name ActualPressureAbsolute, expressed as a 2- or 3-character UN/ECE code",
         "type": "string",
         "readOnly": true,
         "forms": [
@@ -7604,7 +7604,7 @@
         ]
       },
       "ActualTemperatureBottom_EngineeringUnits": {
-        "description": "Unit designator for property and event with name ActualTemperatureBottom, expressed as a URI in the QUDT unit vocabulary",
+        "description": "Unit designator for property and event with name ActualTemperatureBottom, expressed as a 2- or 3-character UN/ECE code",
         "type": "string",
         "readOnly": true,
         "forms": [
@@ -7616,7 +7616,7 @@
         ]
       },
       "ActualTemperatureCup_EngineeringUnits": {
-        "description": "Unit designator for property and event with name ActualTemperatureCup, expressed as a URI in the QUDT unit vocabulary",
+        "description": "Unit designator for property and event with name ActualTemperatureCup, expressed as a 2- or 3-character UN/ECE code",
         "type": "string",
         "readOnly": true,
         "forms": [
@@ -7628,7 +7628,7 @@
         ]
       },
       "SetCoreTemperature_EngineeringUnits": {
-        "description": "Unit designator for property and event with name SetCoreTemperature, expressed as a URI in the QUDT unit vocabulary",
+        "description": "Unit designator for property and event with name SetCoreTemperature, expressed as a 2- or 3-character UN/ECE code",
         "type": "string",
         "readOnly": true,
         "forms": [
@@ -7640,7 +7640,7 @@
         ]
       },
       "SetProcessTimeProgram_EngineeringUnits": {
-        "description": "Unit designator for property and event with name SetProcessTimeProgram, expressed as a URI in the QUDT unit vocabulary",
+        "description": "Unit designator for property and event with name SetProcessTimeProgram, expressed as a 2- or 3-character UN/ECE code",
         "type": "string",
         "readOnly": true,
         "forms": [
@@ -7652,7 +7652,7 @@
         ]
       },
       "SetProcessTimeStep_EngineeringUnits": {
-        "description": "Unit designator for property and event with name SetProcessTimeStep, expressed as a URI in the QUDT unit vocabulary",
+        "description": "Unit designator for property and event with name SetProcessTimeStep, expressed as a 2- or 3-character UN/ECE code",
         "type": "string",
         "readOnly": true,
         "forms": [
@@ -7664,7 +7664,7 @@
         ]
       },
       "SetTemperature_EngineeringUnits": {
-        "description": "Unit designator for property and event with name SetTemperature, expressed as a URI in the QUDT unit vocabulary",
+        "description": "Unit designator for property and event with name SetTemperature, expressed as a 2- or 3-character UN/ECE code",
         "type": "string",
         "readOnly": true,
         "forms": [
@@ -7676,7 +7676,7 @@
         ]
       },
       "SetZoneTemperature_No__EngineeringUnits": {
-        "description": "Unit designator for property and event with name SetZoneTemperature_No_, expressed as a URI in the QUDT unit vocabulary",
+        "description": "Unit designator for property and event with name SetZoneTemperature_No_, expressed as a 2- or 3-character UN/ECE code",
         "type": "string",
         "readOnly": true,
         "forms": [
@@ -7688,7 +7688,7 @@
         ]
       },
       "TimeRemainingProgram_EngineeringUnits": {
-        "description": "Unit designator for property and event with name TimeRemainingProgram, expressed as a URI in the QUDT unit vocabulary",
+        "description": "Unit designator for property and event with name TimeRemainingProgram, expressed as a 2- or 3-character UN/ECE code",
         "type": "string",
         "readOnly": true,
         "forms": [
@@ -7700,7 +7700,7 @@
         ]
       },
       "TimeRemainingStep_EngineeringUnits": {
-        "description": "Unit designator for property and event with name TimeRemainingStep, expressed as a URI in the QUDT unit vocabulary",
+        "description": "Unit designator for property and event with name TimeRemainingStep, expressed as a 2- or 3-character UN/ECE code",
         "type": "string",
         "readOnly": true,
         "forms": [
@@ -8253,7 +8253,7 @@
         ]
       },
       "ActualTemperature_EngineeringUnits": {
-        "description": "Unit designator for property and event with name ActualTemperature, expressed as a URI in the QUDT unit vocabulary",
+        "description": "Unit designator for property and event with name ActualTemperature, expressed as a 2- or 3-character UN/ECE code",
         "type": "string",
         "readOnly": true,
         "forms": [
@@ -8265,7 +8265,7 @@
         ]
       },
       "SetProcessTime_EngineeringUnits": {
-        "description": "Unit designator for property and event with name SetProcessTime, expressed as a URI in the QUDT unit vocabulary",
+        "description": "Unit designator for property and event with name SetProcessTime, expressed as a 2- or 3-character UN/ECE code",
         "type": "string",
         "readOnly": true,
         "forms": [
@@ -8277,7 +8277,7 @@
         ]
       },
       "SetTemperature_EngineeringUnits": {
-        "description": "Unit designator for property and event with name SetTemperature, expressed as a URI in the QUDT unit vocabulary",
+        "description": "Unit designator for property and event with name SetTemperature, expressed as a 2- or 3-character UN/ECE code",
         "type": "string",
         "readOnly": true,
         "forms": [
@@ -8289,7 +8289,7 @@
         ]
       },
       "TimeRemaining_EngineeringUnits": {
-        "description": "Unit designator for property and event with name TimeRemaining, expressed as a URI in the QUDT unit vocabulary",
+        "description": "Unit designator for property and event with name TimeRemaining, expressed as a 2- or 3-character UN/ECE code",
         "type": "string",
         "readOnly": true,
         "forms": [
@@ -8732,7 +8732,7 @@
         ]
       },
       "ActualCoreTemperature_EngineeringUnits": {
-        "description": "Unit designator for property and event with name ActualCoreTemperature, expressed as a URI in the QUDT unit vocabulary",
+        "description": "Unit designator for property and event with name ActualCoreTemperature, expressed as a 2- or 3-character UN/ECE code",
         "type": "string",
         "readOnly": true,
         "forms": [
@@ -8744,7 +8744,7 @@
         ]
       },
       "ActualPressureAbsolute_EngineeringUnits": {
-        "description": "Unit designator for property and event with name ActualPressureAbsolute, expressed as a URI in the QUDT unit vocabulary",
+        "description": "Unit designator for property and event with name ActualPressureAbsolute, expressed as a 2- or 3-character UN/ECE code",
         "type": "string",
         "readOnly": true,
         "forms": [
@@ -8756,7 +8756,7 @@
         ]
       },
       "ActualPressureKettle_EngineeringUnits": {
-        "description": "Unit designator for property and event with name ActualPressureKettle, expressed as a URI in the QUDT unit vocabulary",
+        "description": "Unit designator for property and event with name ActualPressureKettle, expressed as a 2- or 3-character UN/ECE code",
         "type": "string",
         "readOnly": true,
         "forms": [
@@ -8768,7 +8768,7 @@
         ]
       },
       "ActualTemperature_EngineeringUnits": {
-        "description": "Unit designator for property and event with name ActualTemperature, expressed as a URI in the QUDT unit vocabulary",
+        "description": "Unit designator for property and event with name ActualTemperature, expressed as a 2- or 3-character UN/ECE code",
         "type": "string",
         "readOnly": true,
         "forms": [
@@ -8780,7 +8780,7 @@
         ]
       },
       "SetCoreTemperature_EngineeringUnits": {
-        "description": "Unit designator for property and event with name SetCoreTemperature, expressed as a URI in the QUDT unit vocabulary",
+        "description": "Unit designator for property and event with name SetCoreTemperature, expressed as a 2- or 3-character UN/ECE code",
         "type": "string",
         "readOnly": true,
         "forms": [
@@ -8792,7 +8792,7 @@
         ]
       },
       "SetProcessTime_EngineeringUnits": {
-        "description": "Unit designator for property and event with name SetProcessTime, expressed as a URI in the QUDT unit vocabulary",
+        "description": "Unit designator for property and event with name SetProcessTime, expressed as a 2- or 3-character UN/ECE code",
         "type": "string",
         "readOnly": true,
         "forms": [
@@ -8804,7 +8804,7 @@
         ]
       },
       "SetTemperature_EngineeringUnits": {
-        "description": "Unit designator for property and event with name SetTemperature, expressed as a URI in the QUDT unit vocabulary",
+        "description": "Unit designator for property and event with name SetTemperature, expressed as a 2- or 3-character UN/ECE code",
         "type": "string",
         "readOnly": true,
         "forms": [
@@ -8816,7 +8816,7 @@
         ]
       },
       "TimeRemaining_EngineeringUnits": {
-        "description": "Unit designator for property and event with name TimeRemaining, expressed as a URI in the QUDT unit vocabulary",
+        "description": "Unit designator for property and event with name TimeRemaining, expressed as a 2- or 3-character UN/ECE code",
         "type": "string",
         "readOnly": true,
         "forms": [
@@ -9300,7 +9300,7 @@
         ]
       },
       "ActiveSince_EngineeringUnits": {
-        "description": "Unit designator for property and event with name ActiveSince, expressed as a URI in the QUDT unit vocabulary",
+        "description": "Unit designator for property and event with name ActiveSince, expressed as a 2- or 3-character UN/ECE code",
         "type": "string",
         "readOnly": true,
         "forms": [
@@ -9312,7 +9312,7 @@
         ]
       },
       "ActualTemperature_EngineeringUnits": {
-        "description": "Unit designator for property and event with name ActualTemperature, expressed as a URI in the QUDT unit vocabulary",
+        "description": "Unit designator for property and event with name ActualTemperature, expressed as a 2- or 3-character UN/ECE code",
         "type": "string",
         "readOnly": true,
         "forms": [
@@ -9324,7 +9324,7 @@
         ]
       },
       "OperatingCounter_EngineeringUnits": {
-        "description": "Unit designator for property and event with name OperatingCounter, expressed as a URI in the QUDT unit vocabulary",
+        "description": "Unit designator for property and event with name OperatingCounter, expressed as a 2- or 3-character UN/ECE code",
         "type": "string",
         "readOnly": true,
         "forms": [
@@ -9336,7 +9336,7 @@
         ]
       },
       "SetTemperature_EngineeringUnits": {
-        "description": "Unit designator for property and event with name SetTemperature, expressed as a URI in the QUDT unit vocabulary",
+        "description": "Unit designator for property and event with name SetTemperature, expressed as a 2- or 3-character UN/ECE code",
         "type": "string",
         "readOnly": true,
         "forms": [
@@ -9924,7 +9924,7 @@
         ]
       },
       "NominalVoltage_EngineeringUnits": {
-        "description": "Unit designator for property and event with name NominalVoltage, expressed as a URI in the QUDT unit vocabulary",
+        "description": "Unit designator for property and event with name NominalVoltage, expressed as a 2- or 3-character UN/ECE code",
         "type": "string",
         "readOnly": true,
         "forms": [

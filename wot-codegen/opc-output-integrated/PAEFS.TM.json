@@ -5562,7 +5562,7 @@
         ]
       },
       "AnalogSignal_PercentageValue_EngineeringUnits": {
-        "description": "Unit designator for property and event with name AnalogSignal_PercentageValue, expressed as a URI in the QUDT unit vocabulary",
+        "description": "Unit designator for property and event with name AnalogSignal_PercentageValue, expressed as a 2- or 3-character UN/ECE code",
         "type": "string",
         "readOnly": true,
         "forms": [

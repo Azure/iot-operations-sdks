@@ -401,7 +401,7 @@
         ]
       },
       "ActualProcessPower_EngineeringUnits": {
-        "description": "Unit designator for property and event with name ActualProcessPower, expressed as a URI in the QUDT unit vocabulary",
+        "description": "Unit designator for property and event with name ActualProcessPower, expressed as a 2- or 3-character UN/ECE code",
         "type": "string",
         "readOnly": true,
         "forms": [
@@ -413,7 +413,7 @@
         ]
       },
       "ActualPumpPower_EngineeringUnits": {
-        "description": "Unit designator for property and event with name ActualPumpPower, expressed as a URI in the QUDT unit vocabulary",
+        "description": "Unit designator for property and event with name ActualPumpPower, expressed as a 2- or 3-character UN/ECE code",
         "type": "string",
         "readOnly": true,
         "forms": [
@@ -425,7 +425,7 @@
         ]
       },
       "ActualPumpSpeedRPM_EngineeringUnits": {
-        "description": "Unit designator for property and event with name ActualPumpSpeedRPM, expressed as a URI in the QUDT unit vocabulary",
+        "description": "Unit designator for property and event with name ActualPumpSpeedRPM, expressed as a 2- or 3-character UN/ECE code",
         "type": "string",
         "readOnly": true,
         "forms": [
@@ -437,7 +437,7 @@
         ]
       },
       "ActualRegulationRatio_EngineeringUnits": {
-        "description": "Unit designator for property and event with name ActualRegulationRatio, expressed as a URI in the QUDT unit vocabulary",
+        "description": "Unit designator for property and event with name ActualRegulationRatio, expressed as a 2- or 3-character UN/ECE code",
         "type": "string",
         "readOnly": true,
         "forms": [
@@ -449,7 +449,7 @@
         ]
       },
       "DelayTimeAfterCooling_EngineeringUnits": {
-        "description": "Unit designator for property and event with name DelayTimeAfterCooling, expressed as a URI in the QUDT unit vocabulary",
+        "description": "Unit designator for property and event with name DelayTimeAfterCooling, expressed as a 2- or 3-character UN/ECE code",
         "type": "string",
         "readOnly": true,
         "forms": [
@@ -1472,7 +1472,7 @@
         ]
       },
       "Time_EngineeringUnits": {
-        "description": "Unit designator for property and event with name Time, expressed as a URI in the QUDT unit vocabulary",
+        "description": "Unit designator for property and event with name Time, expressed as a 2- or 3-character UN/ECE code",
         "type": "string",
         "readOnly": true,
         "forms": [
@@ -1846,7 +1846,7 @@
         ]
       },
       "HoursOfOperation_EngineeringUnits": {
-        "description": "Unit designator for property and event with name HoursOfOperation, expressed as a URI in the QUDT unit vocabulary",
+        "description": "Unit designator for property and event with name HoursOfOperation, expressed as a 2- or 3-character UN/ECE code",
         "type": "string",
         "readOnly": true,
         "forms": [
@@ -2134,7 +2134,7 @@
         ]
       },
       "ConnectedLoad_EngineeringUnits": {
-        "description": "Unit designator for property and event with name ConnectedLoad, expressed as a URI in the QUDT unit vocabulary",
+        "description": "Unit designator for property and event with name ConnectedLoad, expressed as a 2- or 3-character UN/ECE code",
         "type": "string",
         "readOnly": true,
         "forms": [
@@ -2146,7 +2146,7 @@
         ]
       },
       "CoolingCapacity_EngineeringUnits": {
-        "description": "Unit designator for property and event with name CoolingCapacity, expressed as a URI in the QUDT unit vocabulary",
+        "description": "Unit designator for property and event with name CoolingCapacity, expressed as a 2- or 3-character UN/ECE code",
         "type": "string",
         "readOnly": true,
         "forms": [
@@ -2158,7 +2158,7 @@
         ]
       },
       "PowerValue_EngineeringUnits": {
-        "description": "Unit designator for property and event with name PowerValue, expressed as a URI in the QUDT unit vocabulary",
+        "description": "Unit designator for property and event with name PowerValue, expressed as a 2- or 3-character UN/ECE code",
         "type": "string",
         "readOnly": true,
         "forms": [
