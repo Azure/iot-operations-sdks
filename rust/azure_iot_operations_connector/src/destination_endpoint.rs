@@ -228,7 +228,7 @@ impl Forwarder {
     /// [`struct@Error`] of kind [`MissingMessageSchema`](ErrorKind::MissingMessageSchema)
     /// if the [`MessageSchema`] has not been reported yet. This is required before forwarding any data
     ///
-    /// [`struct@Error`] of kind [`DataValidationError`](ErrorKind::MqttTelemetryError)
+    /// [`struct@Error`] of kind [`MqttTelemetryError`](ErrorKind::MqttTelemetryError)
     /// if the [`Data`] isn't valid.
     ///
     /// [`struct@Error`] of kind [`BrokerStateStoreError`](ErrorKind::BrokerStateStoreError)
