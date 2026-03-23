@@ -19,7 +19,7 @@ use tokio::sync::watch;
 /// The multiplier to apply to the aggregation window to get the tick rate for the debouncer.
 /// 0.25 is the default if none is provided, but we manually codify it here in order to protect
 /// against that default in the `notify_debouncer_full` library.
-const TICK_RATE_MULTIPLIER: f32 = 0.25;
+const _TICK_RATE_MULTIPLIER: f32 = 0.25;
 
 /// Error for secret
 #[derive(Debug, thiserror::Error)]
@@ -158,44 +158,52 @@ impl Secrets {
                     Ok(db_events) => {
                         db_events
                             .iter()
-                            // Only process file changes, directories are irrelevant
-                            .filter(|db_event| db_event.event.paths[0].is_file())
                             .for_each(|db_event| {
-                                match db_event.event.kind {
-                                    // Handle updates to existing secret data.
-                                    EventKind::Modify(ModifyKind::Data(_)) => {
-                                        log::trace!("Secret data change detected: {:?}", db_event);
-                                        secret_tracker_c2
-                                            .read()
-                                            .unwrap()
-                                            .report_secret_change(&db_event.event.paths[0]);
+                                // Process file changes.
+                                if db_event.event.paths[0].is_file() {
+                                    match db_event.event.kind {
+                                        // Handle updates to existing secret data.
+                                        EventKind::Modify(ModifyKind::Data(_)) => {
+                                            log::trace!("Secret data change detected: {:?}", db_event);
+                                            secret_tracker_c2
+                                                .read()
+                                                .unwrap()
+                                                .report_secret_change(&db_event.event.paths[0]);
+                                        }
+                                        // Secret files can be created, but we don't need to do anything
+                                        // with them until an alias points at them, so log only.
+                                        EventKind::Create(_) => {
+                                            // TODO: Is this correct under Secret Sync? Non-Secret Sync?
+                                            log::trace!(
+                                                "Secret data creation detected: {:?}",
+                                                db_event
+                                            );
+                                            secret_tracker_c2
+                                                .read()
+                                                .unwrap()
+                                                .report_secret_change(&db_event.event.paths[0]);
+                                        }
+                                        // Secret files can be deleted, but there's no need for anything
+                                        // to be done in response, since the Secret interface will handle
+                                        // the file no longer existing. Log only.
+                                        EventKind::Remove(_) => {
+                                            log::trace!("Secret data removal detected: {:?}", db_event);
+                                        }
+                                        // Similar to deletion, this will be handled by the Secret interface.
+                                        // Log only.
+                                        EventKind::Modify(ModifyKind::Name(_)) => {
+                                            log::trace!("Secret data rename detected: {:?}", db_event);
+                                        }
+                                        // All other events can be ignored
+                                        _ => {}
                                     }
-                                    // Secret files can be created, but we don't need to do anything
-                                    // with them until an alias points at them, so log only.
-                                    EventKind::Create(_) => {
-                                        // TODO: Is this correct under Secret Sync? Non-Secret Sync?
-                                        log::trace!(
-                                            "Secret data creation detected: {:?}",
-                                            db_event
-                                        );
-                                        secret_tracker_c2
-                                            .read()
-                                            .unwrap()
-                                            .report_secret_change(&db_event.event.paths[0]);
-                                    }
-                                    // Secret files can be deleted, but there's no need for anything
-                                    // to be done in response, since the Secret interface will handle
-                                    // the file no longer existing. Log only.
-                                    EventKind::Remove(_) => {
-                                        log::trace!("Secret data removal detected: {:?}", db_event);
-                                    }
-                                    // Similar to deletion, this will be handled by the Secret interface.
-                                    // Log only.
-                                    EventKind::Modify(ModifyKind::Name(_)) => {
-                                        log::trace!("Secret data rename detected: {:?}", db_event);
-                                    }
-                                    // All other events can be ignored
-                                    _ => {}
+                                } else {
+                                    // The only time we care about directory changes is a rename/remap happens.
+                                    // This is due to how Kubernetes handles creating directories:
+                                    // - It creates directories in a temporary directory we aren't monitoring
+                                    // - It then does an atomic symlink swap with the mount to bring the new things in
+                                    // - This shows up in the debouncer as a rename.
+                                    log::trace!("Secret data directory change detected: {:?}", db_event);
                                 }
                             })
                     }
