@@ -1,6 +1,6 @@
 module github.com/Azure/iot-operations-sdks/go/samples/protocol/cloudevents/envoy
 
-go 1.24.0
+go 1.25.0
 
 require github.com/Azure/iot-operations-sdks/go/protocol v0.4.2
 
