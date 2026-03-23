@@ -22,12 +22,12 @@ var packageDoc string
 
 var (
 	golines = bintool.Must(bintool.NewGo(
-		"github.com/segmentio/golines",
-		"v0.12.2",
+		"github.com/golangci/golines",
+		"v0.15.0",
 	))
 	linter = bintool.Must(bintool.New(
 		"golangci-lint{{.BinExt}}",
-		"1.64.5",
+		"2.11.4",
 		"https://github.com/golangci/golangci-lint/releases/download/v{{.Version}}/golangci-lint-{{.Version}}-{{.GOOS}}-{{.GOARCH}}{{.ArchiveExt}}",
 	))
 	documenter = bintool.Must(bintool.New(
@@ -176,5 +176,5 @@ func tmpFile(name, contents string) (func(), error) {
 	if err := os.WriteFile(name, []byte(contents), 0o600); err != nil {
 		return nil, err
 	}
-	return func() { os.Remove(name) }, nil
+	return func() { _ = os.Remove(name) }, nil
 }
