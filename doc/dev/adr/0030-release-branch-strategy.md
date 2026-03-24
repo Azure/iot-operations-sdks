@@ -1,0 +1,136 @@
+# ADR 30: Release Branch Strategy
+
+## Context
+
+The `iot-operations-sdks` repository contains SDK packages for multiple languages (Rust and .NET) that release independently but need to align with the Azure IoT Operations (AIO) release schedule.
+
+### Current State
+
+- Each language has multiple packages (mqtt, protocol, services, connector) that can release independently
+- AIO follows a monthly release schedule using YYMM naming (e.g., 2603, 2604)
+- Release types alternate between **Milestone** (major features) and **Patch** (bug/vulnerability fixes)
+
+### Problem
+
+The team needs a clear, consistent strategy for:
+
+- When to create release branches
+- How release branches are scoped per language
+- Where to merge fixes destined for releases
+- How release branches relate to the AIO release schedule
+
+## Decision
+
+Adopt a hybrid **tag + release branch** strategy with per-language release branches.
+
+### Branch Structure
+
+| Branch | Purpose |
+|--------|---------|
+| `main` | Active development; always open for new features |
+| `releases/YYMM/<language>` | Per-language release stabilization branch (e.g., `releases/2603/rust`, `releases/2603/dotnet`) |
+
+Release branches are scoped per language because each language may require different fixes for the same AIO release cycle.
+
+### Tag Format
+
+Tags mark specific package releases and are scoped by language and package:
+
+**Rust:**
+
+```text
+rust/<package>/v<version>
+```
+
+Examples: `rust/protocol/v1.0.0`, `rust/services/v1.0.0`, `rust/connector/v1.0.0`
+
+**C#/.NET:**
+
+```text
+dotnet/<package>/<version>
+```
+
+Examples: `dotnet/protocol/1.0.0`, `dotnet/services/1.0.0`, `dotnet/connector/1.0.0`
+
+The available packages are: `mqtt`, `protocol`, `services`, `connector`.
+
+### Versioning and Release Candidates
+
+During release stabilization, SDK packages may publish **release candidate** (RC) versions from the release branch before the final release. RC versions use a `-rcN` suffix:
+
+- `1.0.0-rc1`, `1.0.0-rc2`, etc.
+
+The final release is the same code as the last RC, with the `-rcN` suffix removed. For example, if the last RC is `1.0.0-rc2`, the official release `1.0.0` is published from the same code — only the version string changes.
+
+Tags are created for both RC and final releases:
+
+- `rust/services/v1.0.0-rc1`
+- `rust/services/v1.0.0-rc2`
+- `rust/services/v1.0.0` (final)
+
+### Branch Creation Rules
+
+| Release Type | Create From | When to Create |
+|--------------|-------------|----------------|
+| **Milestone** (e.g., 2603, 2606) | `main` | When AIO opens the release branch and a release for that language is needed |
+| **Patch** (e.g., 2604, 2605) | Previous release branch for that language | When first fix is needed (e.g., `releases/2604/rust` from `releases/2603/rust`) |
+
+### Workflow
+
+#### For Milestone Releases (Major Features)
+
+1. All development merges to `main`
+2. When AIO opens the milestone release branch (e.g., 2603) and a release for a language is needed:
+   - Create `releases/2603/rust` from `main` (or `releases/2603/dotnet`, etc.)
+3. Cherry-pick any additional fixes from `main` to the release branch
+4. Build and release packages from the release branch
+5. Tag the release (e.g., `rust/protocol/v0.12.0`)
+
+#### For Patch Releases (Bug/Vulnerability Fixes)
+
+1. Fix goes to `main` first
+2. When the fix needs to ship in a patch release (e.g., 2604):
+   - Create `releases/2604/rust` from `releases/2603/rust` (previous release branch for that language)
+   - Cherry-pick the fix from `main`
+3. Build and release packages from the release branch
+4. Tag the release (e.g., `rust/protocol/v0.12.1`)
+
+### Key Principles
+
+1. **Delay branch creation** — Create release branches as late as possible to minimize cherry-pick overhead
+2. **Main stays open** — Never block `main` for release activities
+3. **Patch branches inherit** — Patch releases branch from the previous release for the same language, not from `main`
+4. **Tags mark releases** — Every published release gets a tag on the release branch
+5. **Independent releases** — Languages and packages can release at different times within the same AIO release cycle
+
+### Visual Example
+
+```
+main ────●────●────●────●────●────●────●────●────●────→
+              │                   │
+              │                   ├─── releases/2606/rust (milestone)
+              │                   └─── releases/2606/dotnet (milestone)
+              │
+              ├─── releases/2603/rust (milestone)
+              │         │
+              │         └─── releases/2604/rust (patch)
+              │
+              └─── releases/2603/dotnet (milestone)
+                        │
+                        └─── releases/2604/dotnet (patch)
+```
+
+## Consequences
+
+### Pros
+
+- **Controlled commits**: Know exactly what goes into each release per language
+- **Alignment**: Consistent with the rest of the AIO components release strategy and AIO release schedule
+- **Independent releases**: Languages and packages can release on their own schedule without affecting each other
+- **Clean main**: Development continues unblocked
+- **Traceability**: Tags + branches provide full release history per language
+
+### Cons
+
+- **More branches**: Per-language branches means more branches to track, mitigated by only creating them when a language actually needs to release
+- **Cherry-pick overhead**: Patch releases require cherry-picks, though this is typically minimal (1-2 PRs for vulnerability fixes) and milestone releases reset to `main` to avoid long-lived divergence
