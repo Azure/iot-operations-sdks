@@ -1,6 +1,7 @@
 ﻿// Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
+using Azure.Iot.Operations.Services.AssetAndDeviceRegistry;
 using Azure.Iot.Operations.Services.AssetAndDeviceRegistry.Models;
 
 namespace Azure.Iot.Operations.Connector
@@ -8,21 +9,25 @@ namespace Azure.Iot.Operations.Connector
     /// <summary>
     /// A client for reporting the status of this device and its endpoint
     /// </summary>
-    public class DeviceEndpointClient : IDisposable
+    public class DeviceEndpointClient : IAsyncDisposable
     {
         private readonly IAzureDeviceRegistryClientWrapper _adrClient;
         private readonly string _deviceName;
         private readonly string _inboundEndpointName;
+        private readonly Device _device;
+        private readonly DeviceEndpointHealthStatusReporter _healthStatusReporter;
 
         // Used to make getAndUpdate calls behave atomically so that a user does not accidentally
         // update a device while another thread is in the middle of a getAndUpdate call.
         private readonly SemaphoreSlim _semaphore = new(1, 1);
 
-        internal DeviceEndpointClient(IAzureDeviceRegistryClientWrapper adrClient, string deviceName, string inboundEndpointName)
+        internal DeviceEndpointClient(IAzureDeviceRegistryClientWrapper adrClient, string deviceName, string inboundEndpointName, Device device)
         {
             _adrClient = adrClient;
             _deviceName = deviceName;
             _inboundEndpointName = inboundEndpointName;
+            _device = device;
+            _healthStatusReporter = HealthStatusReporter.CreateDeviceEndpointHealthStatusReporter(adrClient.GetWrapped(), deviceName, inboundEndpointName);
         }
 
         /// <summary>
@@ -116,19 +121,32 @@ namespace Azure.Iot.Operations.Connector
         /// <param name="telemetry">The health status to report.</param>
         /// <param name="telemetryTimeout">Optional message expiry time for the telemetry.</param>
         /// <param name="cancellationToken">Cancellation token.</param>
-        public async Task ReportRuntimeHealthAsync(RuntimeHealth runtimeHealth, TimeSpan? telemetryTimeout = null, CancellationToken cancellationToken = default)
+        public async Task ReportRuntimeHealthAsync(ConnectorRuntimeHealth runtimeHealth, TimeSpan? backgroundReportInterval = default, TimeSpan? telemetryTimeout = default, CancellationToken cancellationToken = default)
         {
-            //TODO need to add some caching at this layer such that not every report is sent (when nothing has changed) prior to
-            //actually releasing this feature.
-            await _adrClient.ReportDeviceEndpointRuntimeHealthAsync(
-                _deviceName,
-                _inboundEndpointName,
-                runtimeHealth,
-                telemetryTimeout,
-                cancellationToken);
+            RuntimeHealth servicesRuntimeHealth = new()
+            {
+                Message = runtimeHealth.Message,
+                ReasonCode = runtimeHealth.ReasonCode,
+                Status = runtimeHealth.Status,
+                Version = _device.Version ?? 0, //TODO version may not be given to us by service, but service expects it to not be null here?
+                LastUpdateTime = DateTime.UtcNow,
+            };
+
+            await _healthStatusReporter.ReportHealthStatusAsync(servicesRuntimeHealth, backgroundReportInterval, telemetryTimeout, cancellationToken);
         }
 
-        public void Dispose()
+        public virtual async ValueTask DisposeAsync()
+        {
+            await DisposeAsyncCore();
+            GC.SuppressFinalize(this);
+        }
+
+        public virtual async ValueTask DisposeAsync(bool disposing)
+        {
+            await DisposeAsyncCore();
+        }
+
+        private async ValueTask DisposeAsyncCore()
         {
             try
             {
@@ -138,6 +156,9 @@ namespace Azure.Iot.Operations.Connector
             {
                 // It's fine if this semaphore is already disposed.
             }
+
+            await _healthStatusReporter.CancelHealthStatusReportingAsync();
+            _healthStatusReporter.Dispose();
         }
     }
 }

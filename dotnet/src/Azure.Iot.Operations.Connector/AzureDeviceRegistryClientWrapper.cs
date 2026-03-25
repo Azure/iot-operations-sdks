@@ -328,5 +328,11 @@ namespace Azure.Iot.Operations.Connector
             deviceName = compositeName.Substring(0, indexOfFirstUnderscore);
             inboundEndpointName = compositeName.Substring(indexOfFirstUnderscore + 1);
         }
+
+        //TODO is adding this a breaking change? implementers of interface would complain. Can't move this wrapper to service package either
+        public IAzureDeviceRegistryClient GetWrapped()
+        {
+            return _client;
+        }
     }
 }
