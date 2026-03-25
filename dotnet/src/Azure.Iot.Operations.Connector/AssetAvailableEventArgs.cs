@@ -69,7 +69,7 @@ namespace Azure.Iot.Operations.Connector
             Asset = asset;
             LeaderElectionClient = leaderElectionClient;
             AssetClient = new(adrClient, deviceName, inboundEndpointName, assetName, connector, device, asset);
-            DeviceEndpointClient = new(adrClient, deviceName, inboundEndpointName);
+            DeviceEndpointClient = new(adrClient, deviceName, inboundEndpointName, device);
         }
 
         public virtual async ValueTask DisposeAsync()
