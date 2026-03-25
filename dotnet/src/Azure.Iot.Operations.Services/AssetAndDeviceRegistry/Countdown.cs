@@ -4,6 +4,10 @@
 
 namespace Azure.Iot.Operations.Services.AssetAndDeviceRegistry
 {
+    /// <summary>
+    /// A countdown timer that performs some async action upon reaching 0 and then restarts itself. This countdown timer can also be
+    /// restarted manually at any time.
+    /// </summary>
     internal class Countdown : IDisposable
     {
         private Task? _task;
@@ -20,6 +24,10 @@ namespace Azure.Iot.Operations.Services.AssetAndDeviceRegistry
             _afterDelay = afterDelay;
         }
 
+        /// <summary>
+        /// Start or restart the countdown timer
+        /// </summary>
+        /// <param name="cancellationToken">Cancellation token for starting the countdown. This token is not checked within the countdown timer.</param>
         public async Task StartAsync(CancellationToken cancellationToken)
         {
             await _semaphore.WaitAsync(cancellationToken);

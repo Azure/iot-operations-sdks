@@ -52,7 +52,7 @@ namespace EventDrivenTcpThermostatConnector
 
             try
             {
-                _logger.LogInformation("Reporting device health as okay to Azure Device Registry service...");
+                _logger.LogInformation("Reporting device endpoint health as 'Available' to Azure Device Registry service...");
                 await args.DeviceEndpointClient.ReportRuntimeHealthAsync(
                     new ConnectorRuntimeHealth()
                     {
@@ -64,7 +64,7 @@ namespace EventDrivenTcpThermostatConnector
             }
             catch (Exception e)
             {
-                _logger.LogError(e, "Failed to report device status to Azure Device Registry service");
+                _logger.LogError(e, "Failed to report device endpoint health as 'Available' to Azure Device Registry service");
             }
         }
 
