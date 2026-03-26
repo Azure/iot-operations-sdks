@@ -10,7 +10,7 @@ use std::{
     time::Duration,
 };
 
-use notify::{EventKind, RecommendedWatcher, RecursiveMode, event::ModifyKind};
+use notify::{EventKind, RecommendedWatcher, RecursiveMode, event::{AccessKind, AccessMode, ModifyKind}};
 use notify_debouncer_full::{DebounceEventResult, Debouncer, RecommendedCache, new_debouncer};
 use tokio::sync::watch;
 
@@ -293,6 +293,7 @@ impl Secret {
         if path.exists() {
             // Mark the secret as unchanged since we are reading its current value
             self.update_rx.mark_unchanged();
+            eprintln!("Reading secret value from path: {:?}", *path); // TODO: remove
             Ok(Some(
                 std::fs::read_to_string(&*path).map_err(InnerError::from)?,
             ))
@@ -320,6 +321,7 @@ impl Secret {
 
 /// Represents a tracked secret with a notification mechanism for it.
 /// This corresponds 1:1 with an alias.
+#[derive(Debug)]
 struct SecretTrackerEntry {
     path: Arc<RwLock<PathBuf>>,
     sender: watch::Sender<()>,
@@ -342,7 +344,15 @@ impl SecretTracker {
         // Initialize all secret aliases / paths
         for entry in std::fs::read_dir(&metadata_path)? {
             let entry = entry?;
-            if entry.file_type()?.is_file() {
+
+            // TOOD: remove
+            eprintln!("SETUP: Processing secret metadata entry: {:?}", entry.path());
+            eprintln!("SETUP: Is file? {:?}, Is dir? {:?}, Is Symlink: {:?}", entry.path().is_file(), entry.path().is_dir(), entry.path().is_symlink());
+
+            // NOTE: Must use entry.path().is_file() instead of entry.file_type()?.is_file()
+            // In Kubernetes projected volumes, all files are also symlinks, and entry.file_type()
+            // only returns a mutually-exclusive single type, which is always symlink.
+            if entry.path().is_file() {
                 let secret_alias = entry
                     .file_name()
                     .into_string()
@@ -358,6 +368,7 @@ impl SecretTracker {
                     .or_insert_with(Vec::new)
                     .push(entry);
             }
+
         }
 
         // NOTE: There may be secret data files currently unused if no alias points at them.
