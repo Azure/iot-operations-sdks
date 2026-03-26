@@ -6,8 +6,9 @@
 use std::{sync::Arc, time::Duration};
 
 use azure_iot_operations_mqtt::session::{
-    SessionError, SessionExitErrorKind, SessionManagedClient, {Session, SessionOptionsBuilder},
-    reconnect_policy::{ReconnectPolicy, ExponentialBackoffWithJitter}
+    SessionError, SessionExitErrorKind, SessionManagedClient,
+    reconnect_policy::{ExponentialBackoffWithJitter, ReconnectPolicy},
+    {Session, SessionOptionsBuilder},
 };
 use azure_iot_operations_protocol::application::ApplicationContext;
 use azure_iot_operations_services::{
