@@ -16,11 +16,27 @@ use azure_iot_operations_services::{
 };
 use derive_builder::Builder;
 use managed_azure_device_registry::DeviceEndpointClientCreationObservation;
+use thiserror::Error;
+use tokio::sync::mpsc;
 
 use crate::deployment_artifacts::connector::ConnectorArtifacts;
 
 pub mod adr_discovery;
 pub mod managed_azure_device_registry;
+
+/// Error describing why a [`BaseConnector`] run ended
+#[derive(Debug, Error)]
+pub enum ConnectorError {
+    /// The MQTT session encountered a fatal error
+    #[error("Session error: {0}")]
+    Session(#[from] SessionError),
+    /// The connector encountered an error that requires a restart.
+    /// This can occur when the runtime environment changes (e.g., credential
+    /// mount paths becoming unavailable during a Kubernetes authentication
+    /// mode transition).
+    #[error("Restart required: {0}")]
+    RestartRequired(String),
+}
 
 /// Context required to run the base connector operations
 pub(crate) struct ConnectorContext {
@@ -95,6 +111,8 @@ pub struct Options {
 pub struct BaseConnector {
     connector_context: Arc<ConnectorContext>,
     session: Session,
+    connector_restart_tx: mpsc::Sender<String>,
+    connector_restart_rx: mpsc::Receiver<String>,
 }
 
 impl BaseConnector {
@@ -118,6 +136,8 @@ impl BaseConnector {
             .build()
             .map_err(|e| e.to_string())?;
         let session = Session::new(session_options).map_err(|e| e.to_string())?;
+
+        let (connector_restart_tx, connector_restart_rx) = mpsc::channel(1);
 
         // Create clients
         // Create Azure Device Registry Client
@@ -162,6 +182,8 @@ impl BaseConnector {
                 state_store_client: Arc::new(state_store_client),
             }),
             session,
+            connector_restart_tx,
+            connector_restart_rx,
         })
     }
 
@@ -169,18 +191,33 @@ impl BaseConnector {
     /// Returns if the session ends. If this happens, the base connector will need to be recreated
     ///
     /// # Errors
-    /// Returns a [`SessionError`] if the session encounters a fatal error and ends.
-    pub async fn run(self) -> Result<(), SessionError> {
-        // Run the Session and Connector Operations
+    /// Returns a [`ConnectorError`] if the session encounters a fatal error and ends, or if
+    /// the connector encounters an error that requires a restart.
+    ///
+    /// # Panics
+    /// Panics if the restart channel is closed, which should never happen since the [`BaseConnector`]
+    /// itself holds the sender side of the channel.
+    pub async fn run(mut self) -> Result<(), ConnectorError> {
         // TODO: make this a part of operation_with_retries to restart the connector if anything fails?
-        self.session.run().await
+        tokio::select! {
+            session_result = self.session.run() => {
+                session_result.map_err(ConnectorError::from)
+            }
+            restart_reason = self.connector_restart_rx.recv() => {
+                Err(ConnectorError::RestartRequired(restart_reason.expect("Base connector holds sender, so this should never fail"),
+                ))
+            }
+        }
     }
 
     /// Creates a new [`DeviceEndpointClientCreationObservation`] to allow for Azure Device Registry operations
     pub fn create_device_endpoint_client_create_observation(
         &self,
     ) -> DeviceEndpointClientCreationObservation {
-        DeviceEndpointClientCreationObservation::new(self.connector_context.clone())
+        DeviceEndpointClientCreationObservation::new(
+            self.connector_context.clone(),
+            self.connector_restart_tx.clone(),
+        )
     }
 
     /// Creates a handle to use the [`BaseConnector`]'s Azure Device Registry client for discovery operations.
