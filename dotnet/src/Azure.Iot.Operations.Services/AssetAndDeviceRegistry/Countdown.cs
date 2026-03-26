@@ -28,7 +28,7 @@ namespace Azure.Iot.Operations.Services.AssetAndDeviceRegistry
         /// Start or restart the countdown timer
         /// </summary>
         /// <param name="cancellationToken">Cancellation token for starting the countdown. This token is not checked within the countdown timer.</param>
-        public async Task StartAsync(CancellationToken cancellationToken)
+        internal async Task StartAsync(CancellationToken cancellationToken)
         {
             await _semaphore.WaitAsync(cancellationToken);
             try
@@ -74,7 +74,7 @@ namespace Azure.Iot.Operations.Services.AssetAndDeviceRegistry
             }
         }
 
-        public async Task StopAsync(CancellationToken cancellationToken = default)
+        internal async Task StopAsync(CancellationToken cancellationToken = default)
         {
             await _semaphore.WaitAsync(cancellationToken);
             try
