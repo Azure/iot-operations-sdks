@@ -218,13 +218,13 @@ impl TempProjectedVolume {
                         !files.contains_key(&path),
                         "staged file create but file already exists: {path:?}"
                     );
-                    if let Some(parent) = path.parent() {
-                        if !parent.as_os_str().is_empty() {
-                            assert!(
-                                dirs.contains(parent),
-                                "staged file create but parent directory does not exist: {parent:?}"
-                            );
-                        }
+                    if let Some(parent) = path.parent()
+                        && !parent.as_os_str().is_empty()
+                    {
+                        assert!(
+                            dirs.contains(parent),
+                            "staged file create but parent directory does not exist: {parent:?}"
+                        );
                     }
                     files.insert(path, contents);
                 }
@@ -367,10 +367,10 @@ mod tests {
 
         /// Helper: stage the parent directory for a file path if needed.
         fn stage_parent_dirs(vol: &TempProjectedVolume, path: &Path) {
-            if let Some(parent) = path.parent() {
-                if !parent.as_os_str().is_empty() {
-                    vol.stage_dir_create(parent);
-                }
+            if let Some(parent) = path.parent()
+                && !parent.as_os_str().is_empty()
+            {
+                vol.stage_dir_create(parent);
             }
         }
 
