@@ -1,13 +1,6 @@
 ﻿// Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-using System;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.Linq;
-using System.Runtime.Intrinsics.X86;
-using System.Text;
-using System.Threading.Tasks;
 using Azure.Iot.Operations.Services.AssetAndDeviceRegistry.Models;
 
 namespace Azure.Iot.Operations.Services.AssetAndDeviceRegistry
@@ -19,8 +12,6 @@ namespace Azure.Iot.Operations.Services.AssetAndDeviceRegistry
         private readonly string _inboundEndpointName;
         private RuntimeHealth? _lastSentHealthStatus = null;
         private Countdown? _periodicSender;
-
-        public bool _isReportingPaused = false;
 
         internal DeviceEndpointHealthStatusReporter(IAzureDeviceRegistryClient azureDeviceRegistryClient, string deviceName, string inboundEndpointName)
         {
@@ -37,7 +28,7 @@ namespace Azure.Iot.Operations.Services.AssetAndDeviceRegistry
         /// </remarks>
         public void PauseReporting()
         {
-            _isReportingPaused = true;
+            _lastSentHealthStatus = null;
         }
 
         // should be called when the device endpoint is deleted
@@ -58,23 +49,28 @@ namespace Azure.Iot.Operations.Services.AssetAndDeviceRegistry
 
             if (_lastSentHealthStatus == null)
             {
-                // This is the first health status event, so report it and start periodically reporting
+                // This is the first health status event (or the first status event since the user paused reporting), so report it and start periodically reporting
                 await SendHealthStatusAndResetCountdownAsync(deviceEndpointHealth, backgroundReportInterval!.Value, telemetryTimeout, cancellationToken);
                 return;
             }
 
             if (RuntimeHealth.Equals(deviceEndpointHealth, _lastSentHealthStatus))
             {
+                // The reported health status is no different than the last reported status, so do nothing. This last reported status
+                // will be sent by the background reporting later if it doesn't change prior to the next period.
                 return;
             }
 
             if (deviceEndpointHealth.Version < _lastSentHealthStatus.Version)
             {
+                // The reported health status belongs to an older version, so it should not be reported or cached
                 return;
             }
 
             if (RuntimeHealth.EqualsExceptTimestamp(deviceEndpointHealth, _lastSentHealthStatus) && deviceEndpointHealth.LastUpdateTime.CompareTo(_lastSentHealthStatus.LastUpdateTime) >= 0)
             {
+                // The new health status is identical to the previously sent status, but with a newer timestamp. Just update the timestamp
+                // of the cached version so that it is sent on the next background report.
                 _lastSentHealthStatus.LastUpdateTime = deviceEndpointHealth.LastUpdateTime;
                 return;
             }
@@ -86,7 +82,7 @@ namespace Azure.Iot.Operations.Services.AssetAndDeviceRegistry
         // Send the cached health status unless reporting has been paused
         private async Task SendReportedHealthStatusIfNeededAsync(CancellationToken cancellationToken)
         {
-            if (!_isReportingPaused && _lastSentHealthStatus != null)
+            if (_lastSentHealthStatus != null)
             {
                 await _azureDeviceRegistryClient.ReportDeviceEndpointRuntimeHealthAsync(_deviceName, _inboundEndpointName, _lastSentHealthStatus, cancellationToken: cancellationToken);
             }
