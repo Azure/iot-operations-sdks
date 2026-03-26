@@ -26,9 +26,13 @@ namespace Azure.Iot.Operations.Services.AssetAndDeviceRegistry
         /// <remarks>
         /// This is used to signal that the last known health status may no longer be applicable.
         /// </remarks>
-        public void PauseReporting()
+        public async Task PauseReportingAsync(CancellationToken cancellationToken)
         {
             _lastSentHealthStatus = null;
+            if (_periodicSender != null)
+            {
+                await _periodicSender.StopAsync(cancellationToken);
+            }
         }
 
         // should be called when the device endpoint is deleted
@@ -36,7 +40,7 @@ namespace Azure.Iot.Operations.Services.AssetAndDeviceRegistry
         {
             if (_periodicSender != null)
             {
-                await _periodicSender.StopAsync(cancellationToken);
+                await _periodicSender.StopAsync(cancellationToken); // TODO is this actually any different from pausing?
             }
         }
 
