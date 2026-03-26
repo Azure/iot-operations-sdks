@@ -80,3 +80,39 @@ impl TempPersistentVolumeManager {
             .collect()
     }
 }
+
+
+pub struct TempProjectedVolume {
+    dir: TempDir,
+}
+
+impl TempProjectedVolume {
+    /// Create a new TempProjectedVolume with the given directory name.
+    pub fn new(dir_name: &str) -> Self {
+        let dir = tempfile::TempDir::with_prefix(dir_name).unwrap();
+        Self { dir }
+    }
+
+    /// Return the path of the projected volume mount
+    pub fn path(&self) -> &Path { self.dir.path() }
+
+    /// Stage a file creation in the projected volume.
+    /// If the relative path includes subdirectories, they must already exist.
+    pub fn stage_file_create(&self, file_path: &Path, contents: &str) { unimplemented!() }
+
+    /// Stage a file modification in the projected volume. The file must already exist.
+    pub fn stage_file_modify(&self, file_path: &Path, contents: &str) { unimplemented!() }
+
+    /// Stage a file removal in the projected volume. The file must already exist.
+    pub fn stage_file_remove(&self, file_path: &Path) { unimplemented!() }
+
+    /// Stage a directory creation in the projected volume. The directory must not already exist.
+    pub fn stage_dir_create(&self, dir_path: &Path) { unimplemented!() }
+
+    /// Stage a directory removal in the projected volume. The directory must already exist and be empty.
+    pub fn stage_dir_remove(&self, dir_path: &Path) { unimplemented!() }
+
+    /// Trigger an update of all staged changes to the projected volume
+    pub fn execute_update(&self) { unimplemented!() }
+
+}
