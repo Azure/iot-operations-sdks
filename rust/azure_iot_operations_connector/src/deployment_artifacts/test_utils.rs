@@ -6,7 +6,7 @@
 use std::cell::{Cell, RefCell};
 use std::collections::{HashMap, HashSet};
 use std::os::unix::fs::symlink;
-use std::path::{Path, PathBuf};
+use std::path::{Component, Path, PathBuf};
 use std::time::SystemTime;
 
 use tempfile::TempDir;
@@ -135,9 +135,27 @@ impl TempProjectedVolume {
         self.dir.path()
     }
 
+    /// Validate that a path is safe to use inside the projected volume.
+    ///
+    /// Panics if the path is absolute or contains any `..`, root, or Windows
+    /// prefix components, which could cause operations to escape the temp dir.
+    fn validate_path(path: &Path) {
+        assert!(
+            path.is_relative(),
+            "projected volume path must be relative: {path:?}"
+        );
+        for component in path.components() {
+            assert!(
+                matches!(component, Component::Normal(_)),
+                "projected volume path must not contain '..' or root components: {path:?}"
+            );
+        }
+    }
+
     /// Stage a file creation in the projected volume.
     /// If the relative path includes subdirectories, they must already exist.
     pub fn stage_file_create(&self, file_path: &Path, contents: &str) {
+        Self::validate_path(file_path);
         self.staged_ops.borrow_mut().push(StagedOp::FileCreate {
             path: file_path.to_path_buf(),
             contents: contents.to_string(),
@@ -146,6 +164,7 @@ impl TempProjectedVolume {
 
     /// Stage a file modification in the projected volume. The file must already exist.
     pub fn stage_file_modify(&self, file_path: &Path, contents: &str) {
+        Self::validate_path(file_path);
         self.staged_ops.borrow_mut().push(StagedOp::FileModify {
             path: file_path.to_path_buf(),
             contents: contents.to_string(),
@@ -154,6 +173,7 @@ impl TempProjectedVolume {
 
     /// Stage a file removal in the projected volume. The file must already exist.
     pub fn stage_file_remove(&self, file_path: &Path) {
+        Self::validate_path(file_path);
         self.staged_ops.borrow_mut().push(StagedOp::FileRemove {
             path: file_path.to_path_buf(),
         });
@@ -161,6 +181,7 @@ impl TempProjectedVolume {
 
     /// Stage a directory creation in the projected volume. The directory must not already exist.
     pub fn stage_dir_create(&self, dir_path: &Path) {
+        Self::validate_path(dir_path);
         self.staged_ops.borrow_mut().push(StagedOp::DirCreate {
             path: dir_path.to_path_buf(),
         });
@@ -168,6 +189,7 @@ impl TempProjectedVolume {
 
     /// Stage a directory removal in the projected volume. The directory must already exist and be empty.
     pub fn stage_dir_remove(&self, dir_path: &Path) {
+        Self::validate_path(dir_path);
         self.staged_ops.borrow_mut().push(StagedOp::DirRemove {
             path: dir_path.to_path_buf(),
         });
@@ -299,7 +321,11 @@ impl TempProjectedVolume {
 
         // Remove stale top-level symlinks
         for name in existing_top_level.difference(&new_top_level) {
-            let _ = std::fs::remove_file(root.join(name));
+            match std::fs::remove_file(root.join(name)) {
+                Ok(()) => {}
+                Err(e) if e.kind() == std::io::ErrorKind::NotFound => {}
+                Err(e) => panic!("failed to remove stale symlink {name:?}: {e}"),
+            }
         }
 
         // Create new top-level symlinks
