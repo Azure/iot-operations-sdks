@@ -82,6 +82,9 @@ impl TempPersistentVolumeManager {
 }
 
 
+/// Simulates a Kubernetes projected volume using temporary directories for testing purposes.
+/// This creates real data on the filesystem in a temporary directory, but when dropped, all data
+/// will be removed from the filesystem.
 pub struct TempProjectedVolume {
     dir: TempDir,
 }
