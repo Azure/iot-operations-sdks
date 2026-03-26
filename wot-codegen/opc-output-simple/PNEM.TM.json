@@ -62,7 +62,7 @@
         ]
       },
       "DcCurrent_EngineeringUnits": {
-        "description": "Unit designator for property and event with name DcCurrent, expressed as a URI in the QUDT unit vocabulary",
+        "description": "Unit designator for property and event with name DcCurrent, expressed as a 2- or 3-character UN/ECE code",
         "type": "string",
         "readOnly": true,
         "forms": [
@@ -175,7 +175,7 @@
         ]
       },
       "AcCurrent_EngineeringUnits": {
-        "description": "Unit designator for property and event with name AcCurrent, expressed as a URI in the QUDT unit vocabulary",
+        "description": "Unit designator for property and event with name AcCurrent, expressed as a 2- or 3-character UN/ECE code",
         "type": "string",
         "readOnly": true,
         "forms": [
@@ -288,7 +288,7 @@
         ]
       },
       "AcActivePowerTotal_EngineeringUnits": {
-        "description": "Unit designator for property and event with name AcActivePowerTotal, expressed as a URI in the QUDT unit vocabulary",
+        "description": "Unit designator for property and event with name AcActivePowerTotal, expressed as a 2- or 3-character UN/ECE code",
         "type": "string",
         "readOnly": true,
         "forms": [
@@ -425,7 +425,7 @@
         ]
       },
       "AcActiveEnergyTotalExportLp_EngineeringUnits": {
-        "description": "Unit designator for property and event with name AcActiveEnergyTotalExportLp, expressed as a URI in the QUDT unit vocabulary",
+        "description": "Unit designator for property and event with name AcActiveEnergyTotalExportLp, expressed as a 2- or 3-character UN/ECE code",
         "type": "string",
         "readOnly": true,
         "forms": [
@@ -437,7 +437,7 @@
         ]
       },
       "AcActiveEnergyTotalImportLp_EngineeringUnits": {
-        "description": "Unit designator for property and event with name AcActiveEnergyTotalImportLp, expressed as a URI in the QUDT unit vocabulary",
+        "description": "Unit designator for property and event with name AcActiveEnergyTotalImportLp, expressed as a 2- or 3-character UN/ECE code",
         "type": "string",
         "readOnly": true,
         "forms": [
@@ -449,7 +449,7 @@
         ]
       },
       "AcActivePowerTotal_EngineeringUnits": {
-        "description": "Unit designator for property and event with name AcActivePowerTotal, expressed as a URI in the QUDT unit vocabulary",
+        "description": "Unit designator for property and event with name AcActivePowerTotal, expressed as a 2- or 3-character UN/ECE code",
         "type": "string",
         "readOnly": true,
         "forms": [
@@ -869,7 +869,7 @@
         ]
       },
       "AcActiveEnergyTotalExportHp_EngineeringUnits": {
-        "description": "Unit designator for property and event with name AcActiveEnergyTotalExportHp, expressed as a URI in the QUDT unit vocabulary",
+        "description": "Unit designator for property and event with name AcActiveEnergyTotalExportHp, expressed as a 2- or 3-character UN/ECE code",
         "type": "string",
         "readOnly": true,
         "forms": [
@@ -881,7 +881,7 @@
         ]
       },
       "AcActiveEnergyTotalImportHp_EngineeringUnits": {
-        "description": "Unit designator for property and event with name AcActiveEnergyTotalImportHp, expressed as a URI in the QUDT unit vocabulary",
+        "description": "Unit designator for property and event with name AcActiveEnergyTotalImportHp, expressed as a 2- or 3-character UN/ECE code",
         "type": "string",
         "readOnly": true,
         "forms": [
@@ -893,7 +893,7 @@
         ]
       },
       "AcActivePower_EngineeringUnits": {
-        "description": "Unit designator for property and event with name AcActivePower, expressed as a URI in the QUDT unit vocabulary",
+        "description": "Unit designator for property and event with name AcActivePower, expressed as a 2- or 3-character UN/ECE code",
         "type": "string",
         "readOnly": true,
         "forms": [
@@ -905,7 +905,7 @@
         ]
       },
       "AcCurrent_EngineeringUnits": {
-        "description": "Unit designator for property and event with name AcCurrent, expressed as a URI in the QUDT unit vocabulary",
+        "description": "Unit designator for property and event with name AcCurrent, expressed as a 2- or 3-character UN/ECE code",
         "type": "string",
         "readOnly": true,
         "forms": [
@@ -917,7 +917,7 @@
         ]
       },
       "AcReactivePower_EngineeringUnits": {
-        "description": "Unit designator for property and event with name AcReactivePower, expressed as a URI in the QUDT unit vocabulary",
+        "description": "Unit designator for property and event with name AcReactivePower, expressed as a 2- or 3-character UN/ECE code",
         "type": "string",
         "readOnly": true,
         "forms": [
@@ -929,7 +929,7 @@
         ]
       },
       "AcVoltagePe_EngineeringUnits": {
-        "description": "Unit designator for property and event with name AcVoltagePe, expressed as a URI in the QUDT unit vocabulary",
+        "description": "Unit designator for property and event with name AcVoltagePe, expressed as a 2- or 3-character UN/ECE code",
         "type": "string",
         "readOnly": true,
         "forms": [
@@ -941,7 +941,7 @@
         ]
       },
       "AcVoltagePp_EngineeringUnits": {
-        "description": "Unit designator for property and event with name AcVoltagePp, expressed as a URI in the QUDT unit vocabulary",
+        "description": "Unit designator for property and event with name AcVoltagePp, expressed as a 2- or 3-character UN/ECE code",
         "type": "string",
         "readOnly": true,
         "forms": [

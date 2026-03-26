@@ -256,7 +256,7 @@ func TestStateStoreFromExecutor(t *testing.T) {
 	require.NoError(t, client.Start())
 	defer func() { _ = client.Stop() }()
 
-	var listeners protocol.Listeners
+	listeners := make(protocol.Listeners, 0, 2)
 	defer listeners.Close()
 
 	enc := protocol.JSON[string]{}

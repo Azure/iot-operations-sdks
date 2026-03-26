@@ -155,7 +155,7 @@
         ]
       },
       "Pressure_EngineeringUnits": {
-        "description": "Unit designator for property and event with name Pressure, expressed as a URI in the QUDT unit vocabulary",
+        "description": "Unit designator for property and event with name Pressure, expressed as a 2- or 3-character UN/ECE code",
         "type": "string",
         "readOnly": true,
         "forms": [
@@ -167,7 +167,7 @@
         ]
       },
       "Temperature_EngineeringUnits": {
-        "description": "Unit designator for property and event with name Temperature, expressed as a URI in the QUDT unit vocabulary",
+        "description": "Unit designator for property and event with name Temperature, expressed as a 2- or 3-character UN/ECE code",
         "type": "string",
         "readOnly": true,
         "forms": [
@@ -438,7 +438,7 @@
         ]
       },
       "Mass_EngineeringUnits": {
-        "description": "Unit designator for property and event with name Mass, expressed as a URI in the QUDT unit vocabulary",
+        "description": "Unit designator for property and event with name Mass, expressed as a 2- or 3-character UN/ECE code",
         "type": "string",
         "readOnly": true,
         "forms": [
@@ -450,7 +450,7 @@
         ]
       },
       "MassFlowRate_EngineeringUnits": {
-        "description": "Unit designator for property and event with name MassFlowRate, expressed as a URI in the QUDT unit vocabulary",
+        "description": "Unit designator for property and event with name MassFlowRate, expressed as a 2- or 3-character UN/ECE code",
         "type": "string",
         "readOnly": true,
         "forms": [
@@ -721,7 +721,7 @@
         ]
       },
       "Volume_EngineeringUnits": {
-        "description": "Unit designator for property and event with name Volume, expressed as a URI in the QUDT unit vocabulary",
+        "description": "Unit designator for property and event with name Volume, expressed as a 2- or 3-character UN/ECE code",
         "type": "string",
         "readOnly": true,
         "forms": [
@@ -733,7 +733,7 @@
         ]
       },
       "VolumeFlowRate_EngineeringUnits": {
-        "description": "Unit designator for property and event with name VolumeFlowRate, expressed as a URI in the QUDT unit vocabulary",
+        "description": "Unit designator for property and event with name VolumeFlowRate, expressed as a 2- or 3-character UN/ECE code",
         "type": "string",
         "readOnly": true,
         "forms": [
