@@ -82,4 +82,5 @@ If Connector Artifacts contain invalid or incorrect values, setup of the BaseCon
 
 ### Fatal
 - Creating a new file mount DeviceEndpointCreateObservation is fatal if there's an error. There's no way to recover from this other than restarting the connector. It causes a panic (TODO: we could propogate to the application?)
+- If a credential mount path is missing when the authentication mode requires it (e.g., during a Kubernetes authentication mode transition), the error is propagated to `BaseConnector::run()` as a `ConnectorError::RestartRequired`. The connector application should handle this by restarting the connector pod.
 - There are other .expect()s/.unwrap()s in our code that technically can trigger a panic, but they should not be possible, so will not be defined here.
