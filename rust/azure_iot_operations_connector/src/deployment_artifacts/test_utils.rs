@@ -86,7 +86,6 @@ impl TempPersistentVolumeManager {
     }
 }
 
-
 /// Staged operation for a projected volume update.
 enum StagedOp {
     FileCreate { path: PathBuf, contents: String },
@@ -392,9 +391,7 @@ mod tests {
             vol.execute_update();
 
             assert!(!vol.path().join(file_path).exists());
-            assert!(
-                !vol.path().join("..data").join(file_path).exists()
-            );
+            assert!(!vol.path().join("..data").join(file_path).exists());
         }
 
         #[test]
@@ -457,8 +454,7 @@ mod tests {
             vol.stage_file_create(file_path, "v1");
             vol.execute_update();
 
-            let first_ts_target =
-                std::fs::read_link(vol.path().join("..data")).unwrap();
+            let first_ts_target = std::fs::read_link(vol.path().join("..data")).unwrap();
 
             vol.stage_file_modify(file_path, "v2");
             vol.execute_update();
@@ -473,21 +469,17 @@ mod tests {
 
         #[test_case(Path::new("f"); "root")]
         #[test_case(Path::new("sub/f"); "subdirectory")]
-        fn multiple_updates_produce_unique_timestamped_dirs(
-            file_path: &Path,
-        ) {
+        fn multiple_updates_produce_unique_timestamped_dirs(file_path: &Path) {
             let vol = TempProjectedVolume::new("test");
             stage_parent_dirs(&vol, file_path);
 
             vol.stage_file_create(file_path, "v1");
             vol.execute_update();
-            let ts1 =
-                std::fs::read_link(vol.path().join("..data")).unwrap();
+            let ts1 = std::fs::read_link(vol.path().join("..data")).unwrap();
 
             vol.stage_file_modify(file_path, "v2");
             vol.execute_update();
-            let ts2 =
-                std::fs::read_link(vol.path().join("..data")).unwrap();
+            let ts2 = std::fs::read_link(vol.path().join("..data")).unwrap();
 
             assert_ne!(
                 ts1, ts2,
@@ -524,15 +516,9 @@ mod tests {
             vol.execute_update();
 
             // "a" symlink should no longer exist on disk at all
-            assert!(
-                !a_link.is_symlink(),
-                "stale symlink 'a' should be removed"
-            );
+            assert!(!a_link.is_symlink(), "stale symlink 'a' should be removed");
             // "b" should still be a valid symlink through ..data
-            assert!(
-                b_link.is_symlink(),
-                "symlink 'b' should still exist"
-            );
+            assert!(b_link.is_symlink(), "symlink 'b' should still exist");
             assert_eq!(
                 std::fs::read_link(&b_link).unwrap(),
                 PathBuf::from("..data/b")
@@ -547,30 +533,18 @@ mod tests {
 
             // Initial mount: dir with two keys
             vol.stage_dir_create(Path::new("fake-ss"));
-            vol.stage_file_create(
-                Path::new("fake-ss/testkey"),
-                "secret1",
-            );
-            vol.stage_file_create(
-                Path::new("fake-ss/anothertestkey"),
-                "secret2",
-            );
+            vol.stage_file_create(Path::new("fake-ss/testkey"), "secret1");
+            vol.stage_file_create(Path::new("fake-ss/anothertestkey"), "secret2");
             vol.execute_update();
 
-            assert_eq!(
-                read_via_top_level(&vol, "fake-ss/testkey"),
-                "secret1"
-            );
+            assert_eq!(read_via_top_level(&vol, "fake-ss/testkey"), "secret1");
             assert_eq!(
                 read_via_top_level(&vol, "fake-ss/anothertestkey"),
                 "secret2"
             );
 
             // Update one secret
-            vol.stage_file_modify(
-                Path::new("fake-ss/testkey"),
-                "updated_secret1",
-            );
+            vol.stage_file_modify(Path::new("fake-ss/testkey"), "updated_secret1");
             vol.execute_update();
 
             assert_eq!(
@@ -650,10 +624,7 @@ mod tests {
         #[should_panic(expected = "parent directory does not exist")]
         fn create_file_without_parent_dir_panics() {
             let vol = TempProjectedVolume::new("test");
-            vol.stage_file_create(
-                Path::new("nonexistent_dir/file"),
-                "val",
-            );
+            vol.stage_file_create(Path::new("nonexistent_dir/file"), "val");
             vol.execute_update();
         }
     }
