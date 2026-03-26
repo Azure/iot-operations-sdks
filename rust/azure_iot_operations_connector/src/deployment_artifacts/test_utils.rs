@@ -117,7 +117,7 @@ pub struct TempProjectedVolume {
 }
 
 impl TempProjectedVolume {
-    /// Create a new TempProjectedVolume with the given directory name.
+    /// Create a new `TempProjectedVolume` with the given directory name.
     pub fn new(dir_name: &str) -> Self {
         let dir = tempfile::TempDir::with_prefix(dir_name).unwrap();
         Self {
