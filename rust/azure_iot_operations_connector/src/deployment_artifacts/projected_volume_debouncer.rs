@@ -10,6 +10,16 @@
 //! `..data`, `..data_tmp`, and timestamped snapshot directories), this debouncer produces
 //! synthetic events with clean relative paths by hashing file contents with SHA-256 and
 //! diffing snapshots before and after each swap.
+//!
+//! # Why there is no user-configurable debounce window
+//!
+//! The kubelet already batches all projected volume changes into a single atomic symlink
+//! swap per sync cycle (default: 60 seconds via `--sync-frequency`). Multiple Secret or
+//! ConfigMap key updates between sync ticks are delivered as one swap. Consecutive swaps
+//! are therefore separated by tens of seconds at minimum, so there is nothing meaningful
+//! for the caller to aggregate. The internal debounce window only needs to be long enough
+//! to coalesce the ~20-30 raw inotify events produced by a single swap (~1-2ms of
+//! filesystem activity) into one callback invocation.
 
 use std::collections::HashMap;
 use std::fs;
@@ -19,8 +29,16 @@ use std::time::{Duration, Instant};
 
 use notify::event::{CreateKind, DataChange, ModifyKind, RemoveKind};
 use notify::{EventKind, RecommendedWatcher};
-use notify_debouncer_full::{DebounceEventResult, DebouncedEvent, Debouncer, RecommendedCache, new_debouncer};
+use notify_debouncer_full::{
+    DebounceEventResult, DebouncedEvent, Debouncer, RecommendedCache, new_debouncer,
+};
 use sha2::{Digest, Sha256};
+
+/// Internal debounce window for coalescing raw inotify events from a single
+/// Kubernetes atomic symlink swap. A single swap produces ~20-30 events over
+/// ~1-2ms; one second is a generous buffer that adds negligible latency given
+/// the kubelet's sync cycle (default 60s).
+const DEBOUNCE_WINDOW: Duration = Duration::from_secs(1);
 
 /// Error from the [`ProjectedVolumeDebouncer`].
 #[derive(Debug, thiserror::Error)]
@@ -68,15 +86,12 @@ pub type ProjectedVolumeEventResult = Result<Vec<ProjectedVolumeEvent>, Projecte
 ///
 /// ```ignore
 /// use std::path::PathBuf;
-/// use std::time::Duration;
-/// use azure_iot_operations_connector::deployment_artifacts::projected_volume::{
+/// use azure_iot_operations_connector::deployment_artifacts::projected_volume_debouncer::{
 ///     ProjectedVolumeDebouncer, ProjectedVolumeEventResult,
 /// };
 ///
 /// let _debouncer = ProjectedVolumeDebouncer::new(
 ///     PathBuf::from("/etc/akri/secrets/connector_secrets"),
-///     Duration::from_secs(2),
-///     None,
 ///     |result: ProjectedVolumeEventResult| {
 ///         match result {
 ///             Ok(events) => {
@@ -97,65 +112,54 @@ impl ProjectedVolumeDebouncer {
     /// Creates a new [`ProjectedVolumeDebouncer`].
     ///
     /// Immediately snapshots all user-visible files under `root` as the baseline.
-    /// The `handler` closure will be called on a background thread whenever a
+    /// The `event_handler` closure will be called on a background thread whenever a
     /// projected volume update is detected.
     ///
     /// # Arguments
     ///
     /// * `root` - Path to the projected volume mount directory.
-    /// * `aggregation_window` - Duration to aggregate filesystem events before processing
-    ///   (passed as the timeout to [`notify_debouncer_full`]).
-    /// * `tick_rate` - Optional tick rate for the debouncer.
-    /// * `handler` - Closure invoked with the result of change detection. Runs on a
-    ///   background OS thread (not a tokio runtime).
+    /// * `event_handler` - Closure invoked with the result of change detection. Runs on a
+    ///   background OS thread.
     ///
     /// # Errors
     ///
     /// Returns an error if the initial directory snapshot fails or the filesystem watcher
     /// cannot be created.
-    pub fn new<F>(
-        root: PathBuf,
-        aggregation_window: Duration,
-        tick_rate: Option<Duration>,
-        mut handler: F,
-    ) -> Result<Self, ProjectedVolumeError>
+    pub fn new<F>(root: PathBuf, mut event_handler: F) -> Result<Self, ProjectedVolumeError>
     where
         F: FnMut(ProjectedVolumeEventResult) + Send + 'static,
     {
-        let initial_snapshot =
-            snapshot_directory(&root).map_err(ProjectedVolumeError::Snapshot)?;
+        let initial_snapshot = snapshot_directory(&root).map_err(ProjectedVolumeError::Snapshot)?;
         let state = Mutex::new(initial_snapshot);
         let root_for_closure = root.clone();
 
         let mut debouncer = new_debouncer(
-            aggregation_window,
-            tick_rate,
+            DEBOUNCE_WINDOW,
+            None,
             move |res: DebounceEventResult| match res {
                 Ok(events) => {
-                    if !has_symlink_swap(&events) {
+                    let Some(swap_time) = symlink_swap_time(&events) else {
                         return;
-                    }
-
-                    let now = Instant::now();
+                    };
                     match snapshot_directory(&root_for_closure) {
                         Ok(new_snapshot) => {
                             let mut prev = state.lock().unwrap_or_else(|e| e.into_inner());
-                            let changes = diff_snapshots(&prev, &new_snapshot, now);
+                            let changes = diff_snapshots(&prev, &new_snapshot, swap_time);
                             *prev = new_snapshot;
                             drop(prev);
 
                             if !changes.is_empty() {
-                                handler(Ok(changes));
+                                event_handler(Ok(changes));
                             }
                         }
                         Err(e) => {
-                            handler(Err(ProjectedVolumeError::Snapshot(e)));
+                            event_handler(Err(ProjectedVolumeError::Snapshot(e)));
                         }
                     }
                 }
                 Err(errors) => {
                     if let Some(e) = errors.into_iter().next() {
-                        handler(Err(ProjectedVolumeError::Notify(e)));
+                        event_handler(Err(ProjectedVolumeError::Notify(e)));
                     }
                 }
             },
@@ -169,17 +173,20 @@ impl ProjectedVolumeDebouncer {
     }
 }
 
-/// Checks whether a batch of debounced events contains a Kubernetes atomic symlink swap.
+/// Returns the timestamp of the symlink swap event, if one is present in the batch.
 ///
 /// The swap is identified by any event whose path ends with `..data` or `..data_tmp`,
 /// which are the symlinks Kubernetes uses during projected volume updates.
-fn has_symlink_swap(events: &[DebouncedEvent]) -> bool {
-    events.iter().any(|e| {
-        e.event.paths.iter().any(|p| {
-            p.file_name()
-                .is_some_and(|name| name == "..data" || name == "..data_tmp")
+fn symlink_swap_time(events: &[DebouncedEvent]) -> Option<Instant> {
+    events
+        .iter()
+        .find(|e| {
+            e.event.paths.iter().any(|p| {
+                p.file_name()
+                    .is_some_and(|name| name == "..data" || name == "..data_tmp")
+            })
         })
-    })
+        .map(|e| e.time)
 }
 
 /// SHA-256 hash type for file content snapshots.
@@ -405,12 +412,13 @@ mod tests {
         assert!(has_remove, "should detect removed file");
     }
 
-    // -- has_symlink_swap tests --
+    // -- symlink_swap_time tests --
 
     #[test]
-    fn has_symlink_swap_detects_data_rename() {
+    fn symlink_swap_time_detects_data_rename() {
         use notify::Event;
 
+        let expected_time = Instant::now();
         let event = DebouncedEvent {
             event: Event {
                 kind: EventKind::Modify(ModifyKind::Name(notify::event::RenameMode::Both)),
@@ -420,13 +428,13 @@ mod tests {
                 ],
                 attrs: Default::default(),
             },
-            time: Instant::now(),
+            time: expected_time,
         };
-        assert!(has_symlink_swap(&[event]));
+        assert_eq!(symlink_swap_time(&[event]), Some(expected_time));
     }
 
     #[test]
-    fn has_symlink_swap_ignores_unrelated_events() {
+    fn symlink_swap_time_returns_none_for_unrelated_events() {
         use notify::Event;
 
         let event = DebouncedEvent {
@@ -437,7 +445,7 @@ mod tests {
             },
             time: Instant::now(),
         };
-        assert!(!has_symlink_swap(&[event]));
+        assert_eq!(symlink_swap_time(&[event]), None);
     }
 
     // -- debouncer integration tests --
@@ -498,13 +506,8 @@ mod tests {
         vol.execute_update();
 
         let collector = EventCollector::new();
-        let _debouncer = ProjectedVolumeDebouncer::new(
-            vol.path().to_path_buf(),
-            Duration::from_millis(500),
-            None,
-            collector.handler(),
-        )
-        .unwrap();
+        let _debouncer =
+            ProjectedVolumeDebouncer::new(vol.path().to_path_buf(), collector.handler()).unwrap();
 
         vol.stage_file_modify(Path::new("secret/key1"), "value2");
         vol.execute_update();
@@ -528,13 +531,8 @@ mod tests {
         vol.execute_update();
 
         let collector = EventCollector::new();
-        let _debouncer = ProjectedVolumeDebouncer::new(
-            vol.path().to_path_buf(),
-            Duration::from_millis(500),
-            None,
-            collector.handler(),
-        )
-        .unwrap();
+        let _debouncer =
+            ProjectedVolumeDebouncer::new(vol.path().to_path_buf(), collector.handler()).unwrap();
 
         vol.stage_file_create(Path::new("secret/key2"), "value2");
         vol.execute_update();
@@ -556,13 +554,8 @@ mod tests {
         vol.execute_update();
 
         let collector = EventCollector::new();
-        let _debouncer = ProjectedVolumeDebouncer::new(
-            vol.path().to_path_buf(),
-            Duration::from_millis(500),
-            None,
-            collector.handler(),
-        )
-        .unwrap();
+        let _debouncer =
+            ProjectedVolumeDebouncer::new(vol.path().to_path_buf(), collector.handler()).unwrap();
 
         vol.stage_file_remove(Path::new("secret/key2"));
         vol.execute_update();
@@ -583,13 +576,8 @@ mod tests {
         vol.execute_update();
 
         let collector = EventCollector::new();
-        let _debouncer = ProjectedVolumeDebouncer::new(
-            vol.path().to_path_buf(),
-            Duration::from_millis(500),
-            None,
-            collector.handler(),
-        )
-        .unwrap();
+        let _debouncer =
+            ProjectedVolumeDebouncer::new(vol.path().to_path_buf(), collector.handler()).unwrap();
 
         // Re-stage identical content (modify with same value)
         vol.stage_file_modify(Path::new("secret/key1"), "value1");
