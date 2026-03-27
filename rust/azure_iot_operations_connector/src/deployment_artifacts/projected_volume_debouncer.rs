@@ -4,7 +4,7 @@
 //! A debouncer for Kubernetes projected volume mounts.
 //!
 //! Wraps [`notify_debouncer_full`] and detects changes via the atomic `..data` symlink
-//! swap that Kubernetes performs when updating projected volumes (dir1s, ConfigMaps, etc.).
+//! swap that Kubernetes performs when updating projected volumes.
 //!
 //! Instead of exposing raw filesystem events (which include internal K8S plumbing like
 //! `..data`, `..data_tmp`, and timestamped snapshot directories), this debouncer produces
@@ -14,12 +14,11 @@
 //! # Why there is no user-configurable debounce window
 //!
 //! The kubelet already batches all projected volume changes into a single atomic symlink
-//! swap per sync cycle (default: 60 seconds via `--sync-frequency`). Multiple dir1 or
-//! ConfigMap key updates between sync ticks are delivered as one swap. Consecutive swaps
-//! are therefore separated by tens of seconds at minimum, so there is nothing meaningful
-//! for the caller to aggregate. The internal debounce window only needs to be long enough
-//! to coalesce the ~20-30 raw inotify events produced by a single swap (~1-2ms of
-//! filesystem activity) into one callback invocation.
+//! swap per sync cycle. Multiple updates between sync ticks are delivered as one swap.
+//! Consecutive swaps are therefore separated by tens of seconds at minimum, so there is
+//! nothing meaningful  for the caller to aggregate. The internal debounce window only
+//! needs to be long enough to coalesce the ~20-30 raw inotify events produced by a single
+//! swap (~1-2ms of filesystem activity) into one callback invocation.
 
 // TODO: Remove after using for Secrets
 #![allow(unused)]
@@ -57,7 +56,7 @@ pub enum ProjectedVolumeError {
 /// A synthetic filesystem event representing a change in a projected volume.
 ///
 /// Unlike raw [`notify`] events, the `path` field contains a clean relative path
-/// within the projected volume (e.g., `my-dir1/my-key`), with all Kubernetes
+/// within the projected volume (e.g., `my-dir/my-key`), with all Kubernetes
 /// internal entries filtered out.
 ///
 /// # Event kinds
@@ -72,7 +71,7 @@ pub enum ProjectedVolumeError {
 /// - [`EventKind::Remove(RemoveKind::Folder)`] — a directory was removed.
 ///
 /// **Renames (`Modify(Name(_))`) are never emitted.** Kubernetes dir1s and
-/// ConfigMaps have no concept of renaming a key — deleting a key and adding a
+/// Config Maps have no concept of renaming a key — deleting a key and adding a
 /// new one are independent operations even if the content is identical.
 /// Accordingly, such changes are reported as a [`Remove`](EventKind::Remove)
 /// followed by a [`Create`](EventKind::Create).
@@ -320,7 +319,7 @@ fn diff_snapshots(
                     SnapshotEntry::Directory => EventKind::Create(CreateKind::Folder),
                 };
                 events.push(ProjectedVolumeEvent {
-                    kind: kind,
+                    kind,
                     path: path.clone(),
                     time,
                 });
@@ -335,7 +334,7 @@ fn diff_snapshots(
                 SnapshotEntry::Directory => EventKind::Remove(RemoveKind::Folder),
             };
             events.push(ProjectedVolumeEvent {
-                kind: kind,
+                kind,
                 path: path.clone(),
                 time,
             });
