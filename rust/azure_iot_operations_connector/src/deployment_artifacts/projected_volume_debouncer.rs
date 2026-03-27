@@ -452,7 +452,10 @@ mod tests {
 
             let events = diff_snapshots(&old, &new, Instant::now());
             assert_eq!(events.len(), 1);
-            assert!(matches!(events[0].kind, EventKind::Create(CreateKind::File)));
+            assert!(matches!(
+                events[0].kind,
+                EventKind::Create(CreateKind::File)
+            ));
             assert_eq!(events[0].path, Path::new("dir1/file1"));
         }
 
@@ -494,7 +497,10 @@ mod tests {
 
             let events = diff_snapshots(&old, &new, Instant::now());
             assert_eq!(events.len(), 1);
-            assert!(matches!(events[0].kind, EventKind::Remove(RemoveKind::File)));
+            assert!(matches!(
+                events[0].kind,
+                EventKind::Remove(RemoveKind::File)
+            ));
         }
 
         #[test]
@@ -624,8 +630,6 @@ mod tests {
             };
             assert_eq!(symlink_swap_time(&[event]), None);
         }
-
-
     }
 
     mod debouncer {
@@ -706,7 +710,8 @@ mod tests {
 
             let collector = EventCollector::new();
             let _debouncer =
-                ProjectedVolumeDebouncer::new(vol.path().to_path_buf(), collector.handler()).unwrap();
+                ProjectedVolumeDebouncer::new(vol.path().to_path_buf(), collector.handler())
+                    .unwrap();
 
             vol.stage_file_modify(Path::new("file1"), "value1-updated");
             vol.stage_file_modify(Path::new("subdir/file2"), "value2-updated");
@@ -735,7 +740,8 @@ mod tests {
 
             let collector = EventCollector::new();
             let _debouncer =
-                ProjectedVolumeDebouncer::new(vol.path().to_path_buf(), collector.handler()).unwrap();
+                ProjectedVolumeDebouncer::new(vol.path().to_path_buf(), collector.handler())
+                    .unwrap();
 
             vol.stage_file_create(Path::new("file2"), "value2");
             vol.stage_file_create(Path::new("subdir/file3"), "value3");
@@ -765,7 +771,8 @@ mod tests {
 
             let collector = EventCollector::new();
             let _debouncer =
-                ProjectedVolumeDebouncer::new(vol.path().to_path_buf(), collector.handler()).unwrap();
+                ProjectedVolumeDebouncer::new(vol.path().to_path_buf(), collector.handler())
+                    .unwrap();
 
             vol.stage_file_remove(Path::new("file1"));
             vol.stage_file_remove(Path::new("subdir/file2"));
@@ -793,7 +800,8 @@ mod tests {
 
             let collector = EventCollector::new();
             let _debouncer =
-                ProjectedVolumeDebouncer::new(vol.path().to_path_buf(), collector.handler()).unwrap();
+                ProjectedVolumeDebouncer::new(vol.path().to_path_buf(), collector.handler())
+                    .unwrap();
 
             vol.stage_dir_create(Path::new("newdir1"));
             vol.stage_file_create(Path::new("newdir1/file1"), "newvalue");
@@ -822,7 +830,8 @@ mod tests {
 
             let collector = EventCollector::new();
             let _debouncer =
-                ProjectedVolumeDebouncer::new(vol.path().to_path_buf(), collector.handler()).unwrap();
+                ProjectedVolumeDebouncer::new(vol.path().to_path_buf(), collector.handler())
+                    .unwrap();
 
             vol.stage_file_remove(Path::new("ephemeral/file1"));
             vol.stage_dir_remove(Path::new("ephemeral"));
@@ -838,7 +847,10 @@ mod tests {
                     && e.path == Path::new("ephemeral/file1")
             });
             assert!(has_dir_remove, "should detect directory removal");
-            assert!(has_file_remove, "should detect file removal from removed dir");
+            assert!(
+                has_file_remove,
+                "should detect file removal from removed dir"
+            );
         }
 
         #[test]
@@ -851,7 +863,8 @@ mod tests {
 
             let collector = EventCollector::new();
             let _debouncer =
-                ProjectedVolumeDebouncer::new(vol.path().to_path_buf(), collector.handler()).unwrap();
+                ProjectedVolumeDebouncer::new(vol.path().to_path_buf(), collector.handler())
+                    .unwrap();
 
             // Re-stage identical content (modify with same values)
             vol.stage_file_modify(Path::new("file1"), "value1");
@@ -953,5 +966,4 @@ mod tests {
             );
         }
     }
-
 }
