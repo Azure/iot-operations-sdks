@@ -70,7 +70,7 @@ pub enum ProjectedVolumeError {
 /// - [`EventKind::Remove(RemoveKind::File)`] — a file was removed.
 /// - [`EventKind::Remove(RemoveKind::Folder)`] — a directory was removed.
 ///
-/// **Renames (`Modify(Name(_))`) are never emitted.** Kubernetes dir1s and
+/// **Renames (`Modify(Name(_))`) are never emitted.** Kubernetes secrets and
 /// Config Maps have no concept of renaming a key — deleting a key and adding a
 /// new one are independent operations even if the content is identical.
 /// Accordingly, such changes are reported as a [`Remove`](EventKind::Remove)
