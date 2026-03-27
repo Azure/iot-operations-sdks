@@ -168,7 +168,9 @@ impl ProjectedVolumeDebouncer {
                     };
                     match snapshot_directory(&root_for_closure) {
                         Ok(new_snapshot) => {
-                            let mut prev = state.lock().unwrap_or_else(std::sync::PoisonError::into_inner);
+                            let mut prev = state
+                                .lock()
+                                .unwrap_or_else(std::sync::PoisonError::into_inner);
                             let changes = diff_snapshots(&prev, &new_snapshot, swap_time);
                             *prev = new_snapshot;
                             drop(prev);
