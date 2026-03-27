@@ -15,7 +15,6 @@ namespace Azure.Iot.Operations.Connector
         private readonly string _deviceName;
         private readonly string _inboundEndpointName;
         private readonly Device _device;
-        private readonly HealthStatusReporter _deviceEndpointHealthStatusReporter;
 
         // Used to make getAndUpdate calls behave atomically so that a user does not accidentally
         // update a device while another thread is in the middle of a getAndUpdate call.
@@ -27,7 +26,6 @@ namespace Azure.Iot.Operations.Connector
             _deviceName = deviceName;
             _inboundEndpointName = inboundEndpointName;
             _device = device;
-            _deviceEndpointHealthStatusReporter = HealthStatusReporter.CreateDeviceEndpointHealthStatusReporter(adrClient.GetWrapped(), deviceName, inboundEndpointName);
         }
 
         /// <summary>
@@ -131,8 +129,6 @@ namespace Azure.Iot.Operations.Connector
                 Version = _device.Version ?? 0, //TODO version may not be given to us by service, but service expects it to not be null here?
                 LastUpdateTime = DateTime.UtcNow,
             };
-
-            await _deviceEndpointHealthStatusReporter.ReportHealthStatusAsync(servicesRuntimeHealth, backgroundReportInterval, telemetryTimeout, cancellationToken);
         }
 
         public virtual async ValueTask DisposeAsync()
@@ -156,9 +152,6 @@ namespace Azure.Iot.Operations.Connector
             {
                 // It's fine if this semaphore is already disposed.
             }
-
-            await _deviceEndpointHealthStatusReporter.CancelHealthStatusReportingAsync();
-            _deviceEndpointHealthStatusReporter.Dispose();
         }
     }
 }

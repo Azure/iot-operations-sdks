@@ -18,10 +18,6 @@ namespace Azure.Iot.Operations.Connector
         private readonly string _assetName;
         private readonly Device _device;
         private readonly Asset _asset;
-        private readonly Dictionary<string, HealthStatusReporter> _datasetHealthStatusReporters = new();
-        private readonly Dictionary<string, Dictionary<string, HealthStatusReporter>> _eventHealthStatusReporters = new();
-        private readonly Dictionary<string, HealthStatusReporter> _streamHealthStatusReporters = new();
-        private readonly Dictionary<string, Dictionary<string, HealthStatusReporter>> _managementGroupActionsHealthStatusReporters = new();
 
         // Used to make getAndUpdate calls behave atomically so that a user does not accidentally update
         // an asset while another thread is in the middle of a getAndUpdate call.
@@ -36,51 +32,6 @@ namespace Azure.Iot.Operations.Connector
             _connector = connector;
             _device = device;
             _asset = asset;
-
-            if (asset.Datasets != null)
-            {
-                foreach (var dataset in asset.Datasets)
-                {
-                    var datasetHealthStatusReporter = HealthStatusReporter.CreateDatasetHealthStatusReporter(adrClient.GetWrapped(), deviceName, inboundEndpointName, assetName, dataset.Name);
-                    _datasetHealthStatusReporters.Add(dataset.Name, datasetHealthStatusReporter);
-                }
-            }
-
-            if (asset.EventGroups != null)
-            {
-                foreach (var eventGroup in asset.EventGroups)
-                {
-                    if (eventGroup.Events != null)
-                    {
-                        _eventHealthStatusReporters.Add(new Dictionary<string, HealthStatusReporter>)
-                        foreach (var assetEvent in eventGroup.Events)
-                        {
-                        }
-                    }
-                }
-            }
-
-            if (asset.Streams != null)
-            {
-                foreach (var stream in asset.Streams)
-                {
-
-                }
-            }
-
-            if (asset.ManagementGroups != null)
-            {
-                foreach (var managementGroup in asset.ManagementGroups)
-                {
-                    if (managementGroup.Actions != null)
-                    {
-                        foreach (var managementGroupAction in managementGroup.Actions)
-                        {
-
-                        }
-                    }
-                }
-            }
         }
 
         /// <summary>
@@ -187,8 +138,6 @@ namespace Azure.Iot.Operations.Connector
         /// <param name="cancellationToken">Cancellation token.</param>
         public async Task ReportDatasetRuntimeHealthAsync(DatasetsRuntimeHealthEvent runtimeHealth, TimeSpan? telemetryTimeout = null, CancellationToken cancellationToken = default)
         {
-            //TODO need to add some caching at this layer such that not every report is sent (when nothing has changed) prior to
-            //actually releasing this feature.
             await ReportDatasetRuntimeHealthAsync(new List<DatasetsRuntimeHealthEvent>() { runtimeHealth }, telemetryTimeout, cancellationToken);
         }
 
@@ -307,9 +256,6 @@ namespace Azure.Iot.Operations.Connector
             {
                 // It's fine if this semaphore is already disposed.
             }
-
-            await _deviceEndpointHealthStatusReporter.CancelHealthStatusReportingAsync();
-            _deviceEndpointHealthStatusReporter.Dispose();
         }
 
         /// <summary>
