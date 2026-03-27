@@ -374,6 +374,16 @@ mod tests {
             }
         }
 
+        // NOTE: Ideally we would run a debouncer, and compare the sequence of events matches what we expect,
+        // for a Projected Volume in K8S, but that's not really viable due to non-determinism surrounding
+        // events in new subdirectories, as there is a race condition in the inotify watcher. Sometimes the
+        // watcher will register before the file operation that occurs inside the directory, and sometimes after.
+        // Depending on which happens, different events may be or not be reported.
+        //
+        // This does mean that the tests are of slightly lesser value than we might like, and thus we should make
+        // sure to update the TempProjectedVolume implementation if we notice any discrepencies between it and
+        // actual K8S behavior in production.
+
         // -- basic operations --
 
         #[test_case(Path::new("key"); "root")]
