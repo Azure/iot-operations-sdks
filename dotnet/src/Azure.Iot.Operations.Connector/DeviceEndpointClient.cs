@@ -15,7 +15,7 @@ namespace Azure.Iot.Operations.Connector
         private readonly string _deviceName;
         private readonly string _inboundEndpointName;
         private readonly Device _device;
-        private readonly DeviceEndpointHealthStatusReporter _healthStatusReporter;
+        private readonly HealthStatusReporter _deviceEndpointHealthStatusReporter;
 
         // Used to make getAndUpdate calls behave atomically so that a user does not accidentally
         // update a device while another thread is in the middle of a getAndUpdate call.
@@ -27,7 +27,7 @@ namespace Azure.Iot.Operations.Connector
             _deviceName = deviceName;
             _inboundEndpointName = inboundEndpointName;
             _device = device;
-            _healthStatusReporter = HealthStatusReporter.CreateDeviceEndpointHealthStatusReporter(adrClient.GetWrapped(), deviceName, inboundEndpointName);
+            _deviceEndpointHealthStatusReporter = HealthStatusReporter.CreateDeviceEndpointHealthStatusReporter(adrClient.GetWrapped(), deviceName, inboundEndpointName);
         }
 
         /// <summary>
@@ -132,7 +132,7 @@ namespace Azure.Iot.Operations.Connector
                 LastUpdateTime = DateTime.UtcNow,
             };
 
-            await _healthStatusReporter.ReportHealthStatusAsync(servicesRuntimeHealth, backgroundReportInterval, telemetryTimeout, cancellationToken);
+            await _deviceEndpointHealthStatusReporter.ReportHealthStatusAsync(servicesRuntimeHealth, backgroundReportInterval, telemetryTimeout, cancellationToken);
         }
 
         public virtual async ValueTask DisposeAsync()
@@ -157,8 +157,8 @@ namespace Azure.Iot.Operations.Connector
                 // It's fine if this semaphore is already disposed.
             }
 
-            await _healthStatusReporter.CancelHealthStatusReportingAsync();
-            _healthStatusReporter.Dispose();
+            await _deviceEndpointHealthStatusReporter.CancelHealthStatusReportingAsync();
+            _deviceEndpointHealthStatusReporter.Dispose();
         }
     }
 }
