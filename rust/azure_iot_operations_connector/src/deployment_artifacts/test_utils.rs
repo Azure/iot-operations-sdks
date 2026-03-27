@@ -353,7 +353,16 @@ mod tests {
 
     mod projected_volume {
         use super::*;
+        use std::sync::atomic::{AtomicU64, Ordering};
         use test_case::test_case;
+
+        static VOLUME_COUNTER: AtomicU64 = AtomicU64::new(0);
+
+        /// Generate a unique volume name based on the given prefix.
+        fn unique_name(prefix: &str) -> String {
+            let id = VOLUME_COUNTER.fetch_add(1, Ordering::Relaxed);
+            format!("{prefix}_{id}")
+        }
 
         /// Helper: read a file via the canonical symlink path (i.e. through `..data`).
         fn read_via_data_link(vol: &TempProjectedVolume, rel: &str) -> String {
@@ -389,7 +398,7 @@ mod tests {
         #[test_case(Path::new("key"); "root")]
         #[test_case(Path::new("sub/key"); "subdirectory")]
         fn create_file(file_path: &Path) {
-            let vol = TempProjectedVolume::new("test");
+            let vol = TempProjectedVolume::new(&unique_name("test"));
             stage_parent_dirs(&vol, file_path);
             vol.stage_file_create(file_path, "value");
             vol.execute_update();
@@ -402,7 +411,7 @@ mod tests {
         #[test_case(Path::new("key"); "root")]
         #[test_case(Path::new("sub/key"); "subdirectory")]
         fn modify_file(file_path: &Path) {
-            let vol = TempProjectedVolume::new("test");
+            let vol = TempProjectedVolume::new(&unique_name("test"));
             stage_parent_dirs(&vol, file_path);
             vol.stage_file_create(file_path, "old");
             vol.execute_update();
@@ -418,7 +427,7 @@ mod tests {
         #[test_case(Path::new("key"); "root")]
         #[test_case(Path::new("sub/key"); "subdirectory")]
         fn remove_file(file_path: &Path) {
-            let vol = TempProjectedVolume::new("test");
+            let vol = TempProjectedVolume::new(&unique_name("test"));
             stage_parent_dirs(&vol, file_path);
             vol.stage_file_create(file_path, "value");
             vol.execute_update();
@@ -432,7 +441,7 @@ mod tests {
 
         #[test]
         fn create_and_remove_directory() {
-            let vol = TempProjectedVolume::new("test");
+            let vol = TempProjectedVolume::new(&unique_name("test"));
             vol.stage_dir_create(Path::new("mydir"));
             vol.execute_update();
 
@@ -451,7 +460,7 @@ mod tests {
         #[test_case(Path::new("f"); "root")]
         #[test_case(Path::new("sub/f"); "subdirectory")]
         fn data_symlink_points_to_timestamped_dir(file_path: &Path) {
-            let vol = TempProjectedVolume::new("test");
+            let vol = TempProjectedVolume::new(&unique_name("test"));
             stage_parent_dirs(&vol, file_path);
             vol.stage_file_create(file_path, "x");
             vol.execute_update();
@@ -469,7 +478,7 @@ mod tests {
 
         #[test]
         fn top_level_symlinks_point_through_data() {
-            let vol = TempProjectedVolume::new("test");
+            let vol = TempProjectedVolume::new(&unique_name("test"));
             vol.stage_dir_create(Path::new("secrets"));
             vol.stage_file_create(Path::new("secrets/key"), "val");
             vol.execute_update();
@@ -485,7 +494,7 @@ mod tests {
         #[test_case(Path::new("f"); "root")]
         #[test_case(Path::new("sub/f"); "subdirectory")]
         fn old_timestamped_dir_removed_after_swap(file_path: &Path) {
-            let vol = TempProjectedVolume::new("test");
+            let vol = TempProjectedVolume::new(&unique_name("test"));
             stage_parent_dirs(&vol, file_path);
             vol.stage_file_create(file_path, "v1");
             vol.execute_update();
@@ -506,7 +515,7 @@ mod tests {
         #[test_case(Path::new("f"); "root")]
         #[test_case(Path::new("sub/f"); "subdirectory")]
         fn multiple_updates_produce_unique_timestamped_dirs(file_path: &Path) {
-            let vol = TempProjectedVolume::new("test");
+            let vol = TempProjectedVolume::new(&unique_name("test"));
             stage_parent_dirs(&vol, file_path);
 
             vol.stage_file_create(file_path, "v1");
@@ -528,7 +537,7 @@ mod tests {
 
         #[test]
         fn stale_top_level_symlinks_removed() {
-            let vol = TempProjectedVolume::new("test");
+            let vol = TempProjectedVolume::new(&unique_name("test"));
             vol.stage_file_create(Path::new("a"), "1");
             vol.stage_file_create(Path::new("b"), "2");
             vol.execute_update();
@@ -565,7 +574,7 @@ mod tests {
 
         #[test]
         fn realistic_secret_mount() {
-            let vol = TempProjectedVolume::new("connector_secrets");
+            let vol = TempProjectedVolume::new(&unique_name("connector_secrets"));
 
             // Initial mount: dir with two keys
             vol.stage_dir_create(Path::new("fake-ss"));
@@ -600,7 +609,7 @@ mod tests {
         #[test_case(Path::new("sub/f"); "subdirectory")]
         #[should_panic(expected = "file already exists")]
         fn create_duplicate_file_panics(file_path: &Path) {
-            let vol = TempProjectedVolume::new("test");
+            let vol = TempProjectedVolume::new(&unique_name("test"));
             stage_parent_dirs(&vol, file_path);
             vol.stage_file_create(file_path, "v1");
             vol.execute_update();
@@ -612,7 +621,7 @@ mod tests {
         #[test]
         #[should_panic(expected = "file does not exist")]
         fn modify_nonexistent_file_panics() {
-            let vol = TempProjectedVolume::new("test");
+            let vol = TempProjectedVolume::new(&unique_name("test"));
             vol.stage_file_modify(Path::new("nope"), "val");
             vol.execute_update();
         }
@@ -620,7 +629,7 @@ mod tests {
         #[test]
         #[should_panic(expected = "file does not exist")]
         fn remove_nonexistent_file_panics() {
-            let vol = TempProjectedVolume::new("test");
+            let vol = TempProjectedVolume::new(&unique_name("test"));
             vol.stage_file_remove(Path::new("nope"));
             vol.execute_update();
         }
@@ -628,7 +637,7 @@ mod tests {
         #[test]
         #[should_panic(expected = "directory already exists")]
         fn create_duplicate_dir_panics() {
-            let vol = TempProjectedVolume::new("test");
+            let vol = TempProjectedVolume::new(&unique_name("test"));
             vol.stage_dir_create(Path::new("d"));
             vol.execute_update();
 
@@ -639,7 +648,7 @@ mod tests {
         #[test]
         #[should_panic(expected = "directory does not exist")]
         fn remove_nonexistent_dir_panics() {
-            let vol = TempProjectedVolume::new("test");
+            let vol = TempProjectedVolume::new(&unique_name("test"));
             vol.stage_dir_remove(Path::new("nope"));
             vol.execute_update();
         }
@@ -647,7 +656,7 @@ mod tests {
         #[test]
         #[should_panic(expected = "directory contains files")]
         fn remove_nonempty_dir_panics() {
-            let vol = TempProjectedVolume::new("test");
+            let vol = TempProjectedVolume::new(&unique_name("test"));
             vol.stage_dir_create(Path::new("d"));
             vol.stage_file_create(Path::new("d/f"), "val");
             vol.execute_update();
@@ -659,7 +668,7 @@ mod tests {
         #[test]
         #[should_panic(expected = "parent directory does not exist")]
         fn create_file_without_parent_dir_panics() {
-            let vol = TempProjectedVolume::new("test");
+            let vol = TempProjectedVolume::new(&unique_name("test"));
             vol.stage_file_create(Path::new("nonexistent_dir/file"), "val");
             vol.execute_update();
         }
