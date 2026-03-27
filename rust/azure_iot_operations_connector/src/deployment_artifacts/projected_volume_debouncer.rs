@@ -168,7 +168,7 @@ impl ProjectedVolumeDebouncer {
                     };
                     match snapshot_directory(&root_for_closure) {
                         Ok(new_snapshot) => {
-                            let mut prev = state.lock().unwrap_or_else(|e| e.into_inner());
+                            let mut prev = state.lock().unwrap_or_else(std::sync::PoisonError::into_inner);
                             let changes = diff_snapshots(&prev, &new_snapshot, swap_time);
                             *prev = new_snapshot;
                             drop(prev);
@@ -594,7 +594,10 @@ mod tests {
     }
 
     mod symlink_swap_time {
+        use std::f32::consts::E;
+
         use super::*;
+        use notify::event::EventAttributes;
 
         #[test]
         fn detects_data_rename() {
@@ -608,7 +611,7 @@ mod tests {
                         PathBuf::from("/mnt/vol/..data_tmp"),
                         PathBuf::from("/mnt/vol/..data"),
                     ],
-                    attrs: Default::default(),
+                    attrs: EventAttributes::default(),
                 },
                 time: expected_time,
             };
@@ -623,7 +626,7 @@ mod tests {
                 event: Event {
                     kind: EventKind::Modify(ModifyKind::Data(DataChange::Any)),
                     paths: vec![PathBuf::from("/mnt/vol/some_file")],
-                    attrs: Default::default(),
+                    attrs: EventAttributes::default(),
                 },
                 time: Instant::now(),
             };
@@ -680,7 +683,7 @@ mod tests {
                     !wait_result.timed_out(),
                     "timed out waiting for debouncer events",
                 );
-                guard.drain(..).last().unwrap()
+                guard.drain(..).next_back().unwrap()
             }
 
             /// Assert that no events arrive within [`EMPTY_TIMEOUT`].
