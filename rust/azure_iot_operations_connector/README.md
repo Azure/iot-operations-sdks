@@ -81,6 +81,6 @@ Any AIO Protocol Error is considered a "network error" and retriable. This may n
 If Connector Artifacts contain invalid or incorrect values, setup of the BaseConnector will return an error indicating the reason.
 
 ### Fatal
-- Creating a new file mount DeviceEndpointCreateObservation is fatal if there's an error. There's no way to recover from this other than restarting the connector. It causes a panic (TODO: we could propogate to the application?)
+- Creating a new file mount DeviceEndpointCreateObservation returns an error if it fails. The error is propagated to `BaseConnector::run()` as a `ConnectorError::RestartRequired`. The connector application should handle this by restarting the connector pod.
 - If a credential mount path is missing when the authentication mode requires it (e.g., during a Kubernetes authentication mode transition), the error is propagated to `BaseConnector::run()` as a `ConnectorError::RestartRequired`. The connector application should handle this by restarting the connector pod.
 - There are other .expect()s/.unwrap()s in our code that technically can trigger a panic, but they should not be possible, so will not be defined here.
