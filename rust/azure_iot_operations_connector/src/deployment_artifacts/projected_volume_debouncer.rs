@@ -99,16 +99,6 @@ pub type ProjectedVolumeEventResult = Result<Vec<ProjectedVolumeEvent>, Projecte
 /// Monitors a projected volume directory and produces clean, synthetic filesystem events
 /// when Kubernetes performs an atomic symlink swap to update the volume contents.
 ///
-/// # How it works
-///
-/// 1. On construction, takes a SHA-256 snapshot of all user-visible files.
-/// 2. Uses [`notify_debouncer_full`] to watch for filesystem events.
-/// 3. When the `..data` symlink swap is detected, re-scans the directory.
-/// 4. Diffs the new snapshot against the previous one.
-/// 5. Calls the user's handler with synthetic `Created`, `Modified`, and `Removed` events.
-///
-/// # Example
-///
 /// ```ignore
 /// use std::path::PathBuf;
 /// use azure_iot_operations_connector::deployment_artifacts::projected_volume_debouncer::{
