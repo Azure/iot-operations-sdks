@@ -60,6 +60,8 @@ pub(crate) struct ConnectorContext {
     azure_device_registry_client: azure_device_registry::Client,
     pub(crate) state_store_client: Arc<state_store::Client>,
     schema_registry_client: schema_registry::Client,
+    /// Channel for signaling that the connector requires a restart
+    pub(crate) connector_restart_tx: mpsc::Sender<String>,
 }
 
 #[allow(clippy::missing_fields_in_debug)]
@@ -111,7 +113,6 @@ pub struct Options {
 pub struct BaseConnector {
     connector_context: Arc<ConnectorContext>,
     session: Session,
-    connector_restart_tx: mpsc::Sender<String>,
     connector_restart_rx: mpsc::Receiver<String>,
 }
 
@@ -180,9 +181,9 @@ impl BaseConnector {
                 azure_device_registry_client,
                 schema_registry_client,
                 state_store_client: Arc::new(state_store_client),
+                connector_restart_tx,
             }),
             session,
-            connector_restart_tx,
             connector_restart_rx,
         })
     }
@@ -198,7 +199,6 @@ impl BaseConnector {
     /// Panics if the restart channel is closed, which should never happen since the [`BaseConnector`]
     /// itself holds the sender side of the channel.
     pub async fn run(mut self) -> Result<(), ConnectorError> {
-        // TODO: make this a part of operation_with_retries to restart the connector if anything fails?
         tokio::select! {
             session_result = self.session.run() => {
                 session_result.map_err(ConnectorError::from)
@@ -211,13 +211,13 @@ impl BaseConnector {
     }
 
     /// Creates a new [`DeviceEndpointClientCreationObservation`] to allow for Azure Device Registry operations
+    ///
+    /// # Errors
+    /// Returns a `String` error if the underlying file mount observation cannot be created.
     pub fn create_device_endpoint_client_create_observation(
         &self,
-    ) -> DeviceEndpointClientCreationObservation {
-        DeviceEndpointClientCreationObservation::new(
-            self.connector_context.clone(),
-            self.connector_restart_tx.clone(),
-        )
+    ) -> Result<DeviceEndpointClientCreationObservation, String> {
+        DeviceEndpointClientCreationObservation::new(self.connector_context.clone())
     }
 
     /// Creates a handle to use the [`BaseConnector`]'s Azure Device Registry client for discovery operations.

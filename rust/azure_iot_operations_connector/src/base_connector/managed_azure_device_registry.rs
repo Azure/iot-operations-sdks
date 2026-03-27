@@ -452,32 +452,37 @@ pub struct DeviceEndpointClientCreationObservation {
     /// This is used to ensure that we only process one device creation at a time
     device_completion_rx: mpsc::Receiver<Option<DeviceEndpointClient>>,
     device_completion_tx: mpsc::Sender<Option<DeviceEndpointClient>>,
-    /// Channel for signaling that the connector requires a restart
-    connector_restart_tx: mpsc::Sender<String>,
 }
 impl DeviceEndpointClientCreationObservation {
     /// Creates a new [`DeviceEndpointClientCreationObservation`] that uses the given [`ConnectorContext`]
-    pub(crate) fn new(
-        connector_context: Arc<ConnectorContext>,
-        connector_restart_tx: mpsc::Sender<String>,
-    ) -> Self {
-        // TODO: handle unwrap in a better way
+    ///
+    /// # Errors
+    /// Returns a `String` error if the underlying file mount observation cannot be created.
+    /// This signals a fatal error — the caller should treat this as requiring a connector restart.
+    pub(crate) fn new(connector_context: Arc<ConnectorContext>) -> Result<Self, String> {
         let device_endpoint_create_observation =
             deployment_artifacts::azure_device_registry::DeviceEndpointCreateObservation::new(
                 connector_context.debounce_duration,
             )
-            .unwrap();
+            .map_err(|e| {
+                let error_message =
+                    format!("Failed to create DeviceEndpointCreateObservation: {e}");
+                log::error!("{error_message}");
+                let _ = connector_context
+                    .connector_restart_tx
+                    .try_send(error_message.clone());
+                error_message
+            })?;
 
         let (device_completion_tx, device_completion_rx) = mpsc::channel(1);
 
-        Self {
+        Ok(Self {
             connector_context,
             device_endpoint_create_observation,
             pending_device_creation: false,
             device_completion_rx,
             device_completion_tx,
-            connector_restart_tx,
-        }
+        })
     }
 
     /// Receives a notification for a newly created device endpoint. This
@@ -506,14 +511,12 @@ impl DeviceEndpointClientCreationObservation {
                     self.pending_device_creation = true;
                     let connector_context = self.connector_context.clone();
                     let device_completion_tx = self.device_completion_tx.clone();
-                    let connector_restart_tx = self.connector_restart_tx.clone();
 
                     tokio::task::spawn(async move {
                         let device_client = Self::create_device_endpoint_client(
                             connector_context,
                             device_endpoint_ref,
                             asset_create_observation,
-                            connector_restart_tx,
                         ).await;
 
                         // Always send the result (Some or None) to unblock the receiver
@@ -529,7 +532,6 @@ impl DeviceEndpointClientCreationObservation {
         connector_context: Arc<ConnectorContext>,
         device_endpoint_ref: DeviceEndpointRef,
         asset_create_observation: deployment_artifacts::azure_device_registry::AssetCreateObservation,
-        connector_restart_tx: mpsc::Sender<String>,
     ) -> Option<DeviceEndpointClient> {
         // Obtain the device update observation
         let device_endpoint_update_observation =  match Retry::spawn(
@@ -624,7 +626,6 @@ impl DeviceEndpointClientCreationObservation {
             device_endpoint_update_observation,
             asset_create_observation,
             connector_context.clone(),
-            connector_restart_tx.clone(),
         ) {
             Ok(managed_device) => Some(managed_device),
             Err(e) => {
@@ -633,8 +634,8 @@ impl DeviceEndpointClientCreationObservation {
                 log::error!(
                     "Dropping device endpoint create notification: {device_endpoint_ref:?}. {e}"
                 );
-                if matches!(e, DeviceSpecificationError::CredentialsMountPathMissing(_)) {
-                    let _ = connector_restart_tx.try_send(e.to_string());
+                if let DeviceSpecificationError::CredentialsMountPathMissing(e_message) = e {
+                    let _ = connector_context.connector_restart_tx.try_send(e_message);
                 }
                 // unobserve as cleanup
                 DeviceEndpointClient::unobserve_device(
@@ -683,9 +684,6 @@ pub struct DeviceEndpointClient {
     asset_completion_tx: mpsc::UnboundedSender<Option<AssetClient>>,
     #[getter(skip)]
     connector_context: Arc<ConnectorContext>,
-    /// Channel for signaling that the connector requires a restart
-    #[getter(skip)]
-    connector_restart_tx: mpsc::Sender<String>,
 }
 impl DeviceEndpointClient {
     pub(crate) fn new(
@@ -695,7 +693,6 @@ impl DeviceEndpointClient {
         device_update_observation: azure_device_registry::DeviceUpdateObservation,
         asset_create_observation: deployment_artifacts::azure_device_registry::AssetCreateObservation,
         connector_context: Arc<ConnectorContext>,
-        connector_restart_tx: mpsc::Sender<String>,
         // TODO: This won't need to return an error once the service properly sends errors if the endpoint doesn't exist
     ) -> Result<Self, DeviceSpecificationError> {
         let (asset_completion_tx, asset_completion_rx) = mpsc::unbounded_channel();
@@ -735,7 +732,6 @@ impl DeviceEndpointClient {
             asset_completion_rx,
             asset_completion_tx,
             connector_context,
-            connector_restart_tx,
         })
     }
 
@@ -801,9 +797,9 @@ impl DeviceEndpointClient {
                             DeviceSpecificationError::InvalidSpecification(_) => {
                                 unreachable!("Device Update Notification should never provide a device that doesn't have the inbound endpoint")
                             },
-                            DeviceSpecificationError::CredentialsMountPathMissing(_) => {
-                                log::error!("Failed to apply device update for {:?}: {e}", self.device_endpoint_ref);
-                                let _ = self.connector_restart_tx.try_send(e.to_string());
+                            DeviceSpecificationError::CredentialsMountPathMissing(e_message) => {
+                                log::error!("Failed to apply device update for {:?}: {e_message}", self.device_endpoint_ref);
+                                let _ = self.connector_context.connector_restart_tx.try_send(e_message);
                             },
                         }
                     }
@@ -5234,6 +5230,8 @@ mod tests {
 
     use super::*;
 
+    const TEST_INBOUND_ENDPOINT_NAME: &str = "test_inbound_endpoint";
+
     #[test_case(None, 1, false, true; "new")]
     #[test_case(Some(azure_device_registry::ConfigStatus {
             version: Some(2),
@@ -5381,5 +5379,184 @@ mod tests {
         } else {
             assert_eq!(new_status_base, DeviceEndpointStatus::default());
         }
+    }
+
+    #[test]
+    fn new_device_specification_success() {
+        let device_specification = adr_models::Device {
+            attributes: HashMap::new(),
+            discovered_device_ref: None,
+            enabled: None,
+            endpoints: Some(adr_models::DeviceEndpoints {
+                inbound: HashMap::from([(
+                    TEST_INBOUND_ENDPOINT_NAME.to_string(),
+                    adr_models::InboundEndpoint {
+                        additional_configuration: None,
+                        address: "mqtt://test".to_string(),
+                        authentication: adr_models::Authentication::Anonymous,
+                        endpoint_type: "mqtt".to_string(),
+                        trust_settings: None,
+                        version: None,
+                    },
+                )]),
+                outbound: None,
+            }),
+            external_device_id: None,
+            last_transition_time: None,
+            manufacturer: None,
+            model: None,
+            operating_system: None,
+            operating_system_version: None,
+            uuid: None,
+            version: None,
+        };
+
+        let result =
+            DeviceSpecification::new(device_specification, None, TEST_INBOUND_ENDPOINT_NAME);
+        assert!(result.is_ok());
+    }
+
+    #[test]
+    fn new_device_specification_missing_endpoints() {
+        let device_specification = adr_models::Device {
+            attributes: HashMap::new(),
+            discovered_device_ref: None,
+            enabled: None,
+            endpoints: None,
+            external_device_id: None,
+            last_transition_time: None,
+            manufacturer: None,
+            model: None,
+            operating_system: None,
+            operating_system_version: None,
+            uuid: None,
+            version: None,
+        };
+
+        let result =
+            DeviceSpecification::new(device_specification, None, TEST_INBOUND_ENDPOINT_NAME)
+                .unwrap_err();
+
+        assert!(matches!(
+            result,
+            DeviceSpecificationError::InvalidSpecification(_)
+        ));
+    }
+
+    #[test]
+    fn new_device_specification_missing_inbound_endpoint() {
+        let device_specification = adr_models::Device {
+            attributes: HashMap::new(),
+            discovered_device_ref: None,
+            enabled: None,
+            endpoints: Some(adr_models::DeviceEndpoints {
+                inbound: HashMap::new(), // empty inbound endpoints
+                outbound: None,
+            }),
+            external_device_id: None,
+            last_transition_time: None,
+            manufacturer: None,
+            model: None,
+            operating_system: None,
+            operating_system_version: None,
+            uuid: None,
+            version: None,
+        };
+
+        let result =
+            DeviceSpecification::new(device_specification, None, TEST_INBOUND_ENDPOINT_NAME)
+                .unwrap_err();
+
+        assert!(matches!(
+            result,
+            DeviceSpecificationError::InvalidSpecification(_)
+        ));
+    }
+
+    #[test]
+    fn new_device_specification_missing_username_password_credentials() {
+        let device_specification = adr_models::Device {
+            attributes: HashMap::new(),
+            discovered_device_ref: None,
+            enabled: None,
+            endpoints: Some(adr_models::DeviceEndpoints {
+                inbound: HashMap::from([(
+                    TEST_INBOUND_ENDPOINT_NAME.to_string(),
+                    adr_models::InboundEndpoint {
+                        additional_configuration: None,
+                        address: "mqtt://test".to_string(),
+                        authentication: adr_models::Authentication::UsernamePassword {
+                            password_secret_name: "password".to_string(),
+                            username_secret_name: "username".to_string(),
+                        },
+                        endpoint_type: "mqtt".to_string(),
+                        trust_settings: None,
+                        version: None,
+                    },
+                )]),
+                outbound: None,
+            }),
+            external_device_id: None,
+            last_transition_time: None,
+            manufacturer: None,
+            model: None,
+            operating_system: None,
+            operating_system_version: None,
+            uuid: None,
+            version: None,
+        };
+
+        let result =
+            DeviceSpecification::new(device_specification, None, TEST_INBOUND_ENDPOINT_NAME)
+                .unwrap_err();
+
+        assert!(matches!(
+            result,
+            DeviceSpecificationError::CredentialsMountPathMissing(_)
+        ));
+    }
+
+    #[test]
+    fn new_device_specification_missing_certificate_credentials() {
+        let device_specification = adr_models::Device {
+            attributes: HashMap::new(),
+            discovered_device_ref: None,
+            enabled: None,
+            endpoints: Some(adr_models::DeviceEndpoints {
+                inbound: HashMap::from([(
+                    TEST_INBOUND_ENDPOINT_NAME.to_string(),
+                    adr_models::InboundEndpoint {
+                        additional_configuration: None,
+                        address: "mqtt://test".to_string(),
+                        authentication: adr_models::Authentication::Certificate {
+                            certificate_secret_name: "cert".to_string(),
+                            intermediate_certificates_secret_name: None,
+                            key_secret_name: None,
+                        },
+                        endpoint_type: "mqtt".to_string(),
+                        trust_settings: None,
+                        version: None,
+                    },
+                )]),
+                outbound: None,
+            }),
+            external_device_id: None,
+            last_transition_time: None,
+            manufacturer: None,
+            model: None,
+            operating_system: None,
+            operating_system_version: None,
+            uuid: None,
+            version: None,
+        };
+
+        let result =
+            DeviceSpecification::new(device_specification, None, TEST_INBOUND_ENDPOINT_NAME)
+                .unwrap_err();
+
+        assert!(matches!(
+            result,
+            DeviceSpecificationError::CredentialsMountPathMissing(_)
+        ));
     }
 }
