@@ -76,7 +76,7 @@ pub enum ProjectedVolumeEventKind {
 /// to the affected entry (e.g., `/etc/akri/secrets/my-dir/my-key`), with all
 /// Kubernetes internal entries filtered out.
 ///
-/// **Renames are never emitted.** Kubernetes secrets and ConfigMaps have no
+/// **Renames are never emitted.** Kubernetes secrets and Config Maps have no
 /// concept of renaming a key — deleting a key and adding a new one are
 /// independent operations even if the content is identical. Such changes are
 /// reported as a [`DirRemoved`](ProjectedVolumeEventKind::DirRemoved) /
@@ -314,9 +314,9 @@ fn diff_snapshots(
                     time,
                 });
             }
-            Some(_) => {
+            Some(old_entry) => {
                 // Type changed (file <-> dir): report remove + create
-                let remove_kind = match old.get(path).unwrap() {
+                let remove_kind = match old_entry {
                     SnapshotEntry::File(_) => ProjectedVolumeEventKind::FileRemoved,
                     SnapshotEntry::Directory => ProjectedVolumeEventKind::DirRemoved,
                 };
