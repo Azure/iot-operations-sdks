@@ -26,16 +26,15 @@ pub mod managed_azure_device_registry;
 
 /// Error describing why a [`BaseConnector`] run ended
 #[derive(Debug, Error)]
-pub enum ConnectorError {
-    /// The MQTT session encountered a fatal error
+#[error(transparent)]
+pub struct ConnectorError(#[from] ConnectorErrorRepr);
+
+#[derive(Debug, Error)]
+pub(crate) enum ConnectorErrorRepr {
     #[error("Session error: {0}")]
     Session(#[from] SessionError),
-    /// The connector encountered an error that requires a restart.
-    /// This can occur when the runtime environment changes (e.g., credential
-    /// mount paths becoming unavailable during a Kubernetes authentication
-    /// mode transition).
-    #[error("Restart required: {0}")]
-    RestartRequired(String),
+    #[error("Unrecoverable error: {0}")]
+    Unrecoverable(String),
 }
 
 /// Context required to run the base connector operations
@@ -201,11 +200,10 @@ impl BaseConnector {
     pub async fn run(mut self) -> Result<(), ConnectorError> {
         tokio::select! {
             session_result = self.session.run() => {
-                session_result.map_err(ConnectorError::from)
+                session_result.map_err(|e| ConnectorError::from(ConnectorErrorRepr::from(e)))
             }
             restart_reason = self.connector_restart_rx.recv() => {
-                Err(ConnectorError::RestartRequired(restart_reason.expect("Base connector holds sender, so this should never fail"),
-                ))
+                Err(ConnectorErrorRepr::Unrecoverable(restart_reason.expect("Base connector holds sender, so this should never fail")).into())
             }
         }
     }
