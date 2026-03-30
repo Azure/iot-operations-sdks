@@ -502,7 +502,10 @@ mod tests {
             let events = diff_snapshots(Path::new(ROOT), &old, &new, Instant::now());
             assert_eq!(events.len(), 1);
             assert_eq!(events[0].kind, ProjectedVolumeEventKind::FileModified);
-            assert_eq!(events[0].path, Path::new(ROOT).join(Path::new("dir1/file1")));
+            assert_eq!(
+                events[0].path,
+                Path::new(ROOT).join(Path::new("dir1/file1"))
+            );
         }
 
         #[test]
@@ -514,7 +517,10 @@ mod tests {
             let events = diff_snapshots(Path::new(ROOT), &old, &new, Instant::now());
             assert_eq!(events.len(), 1);
             assert_eq!(events[0].kind, ProjectedVolumeEventKind::FileRemoved);
-            assert_eq!(events[0].path, Path::new(ROOT).join(Path::new("dir1/file1")));
+            assert_eq!(
+                events[0].path,
+                Path::new(ROOT).join(Path::new("dir1/file1"))
+            );
         }
 
         #[test]
@@ -579,24 +585,19 @@ mod tests {
 
             let root = Path::new(ROOT);
             let has_create_file = events.iter().any(|e| {
-                e.kind == ProjectedVolumeEventKind::FileCreated
-                    && e.path == root.join("file4")
+                e.kind == ProjectedVolumeEventKind::FileCreated && e.path == root.join("file4")
             });
             let has_create_dir = events.iter().any(|e| {
-                e.kind == ProjectedVolumeEventKind::DirCreated
-                    && e.path == root.join("dir3")
+                e.kind == ProjectedVolumeEventKind::DirCreated && e.path == root.join("dir3")
             });
             let has_modify = events.iter().any(|e| {
-                e.kind == ProjectedVolumeEventKind::FileModified
-                    && e.path == root.join("file2")
+                e.kind == ProjectedVolumeEventKind::FileModified && e.path == root.join("file2")
             });
             let has_remove_file = events.iter().any(|e| {
-                e.kind == ProjectedVolumeEventKind::FileRemoved
-                    && e.path == root.join("file3")
+                e.kind == ProjectedVolumeEventKind::FileRemoved && e.path == root.join("file3")
             });
             let has_remove_dir = events.iter().any(|e| {
-                e.kind == ProjectedVolumeEventKind::DirRemoved
-                    && e.path == root.join("dir2")
+                e.kind == ProjectedVolumeEventKind::DirRemoved && e.path == root.join("dir2")
             });
 
             assert!(has_create_file, "should detect created file");
@@ -620,7 +621,9 @@ mod tests {
             let expected_time = Instant::now();
             let event = DebouncedEvent {
                 event: notify::Event {
-                    kind: notify::EventKind::Modify(notify::event::ModifyKind::Name(notify::event::RenameMode::Both)),
+                    kind: notify::EventKind::Modify(notify::event::ModifyKind::Name(
+                        notify::event::RenameMode::Both,
+                    )),
                     paths: vec![
                         PathBuf::from("/mnt/vol/..data_tmp"),
                         PathBuf::from("/mnt/vol/..data"),
@@ -638,7 +641,9 @@ mod tests {
 
             let event = DebouncedEvent {
                 event: Event {
-                    kind: notify::EventKind::Modify(notify::event::ModifyKind::Data(notify::event::DataChange::Any)),
+                    kind: notify::EventKind::Modify(notify::event::ModifyKind::Data(
+                        notify::event::DataChange::Any,
+                    )),
                     paths: vec![PathBuf::from("/mnt/vol/some_file")],
                     attrs: EventAttributes::default(),
                 },
