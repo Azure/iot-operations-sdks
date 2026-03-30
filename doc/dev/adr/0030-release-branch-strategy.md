@@ -27,8 +27,10 @@ Adopt a hybrid **tag + release branch** strategy with per-language release branc
 
 | Branch | Purpose |
 |--------|---------|
-| `main` | Active development; always open for new features |
+| `main` | Active development branch; always open for new features and fixes |
 | `releases/YYMM/<language>` | Per-language release stabilization branch (e.g., `releases/2603/rust`, `releases/2603/dotnet`) |
+
+`main` is a development branch, not a stable branch. It may move ahead of active release branches at any time.
 
 Release branches are scoped per language because each language may require different fixes for the same AIO release cycle.
 
@@ -56,11 +58,9 @@ The available packages are: `mqtt`, `protocol`, `services`, `connector`.
 
 ### Versioning and Release Candidates
 
-During release stabilization, SDK packages may publish **release candidate** (RC) versions from the release branch before the final release. RC versions use a `-rcN` suffix:
+During release stabilization, SDK packages publish **release candidate** (RC) versions from the release branch. RC versions use a `-rcN` suffix (e.g., `1.0.0-rc1`, `1.0.0-rc2`). RCs allow internal consumers (e.g., connectors) to integrate early while dependent services are still in development.
 
-- `1.0.0-rc1`, `1.0.0-rc2`, etc.
-
-The final release is the same code as the last RC, with the `-rcN` suffix removed. For example, if the last RC is `1.0.0-rc2`, the official release `1.0.0` is published from the same code — only the version string changes.
+On release day, the non-RC version is published from the same code as the last RC. Only the version string changes (e.g., `1.0.0-rc2` → `1.0.0`).
 
 Tags are created for both RC and final releases:
 
@@ -95,10 +95,18 @@ Tags are created for both RC and final releases:
 3. Build and release packages from the release branch
 4. Tag the release (e.g., `rust/protocol/v0.12.1`)
 
+#### Backporting Fixes
+
+To backport a fix to a previously released version:
+
+1. Create a new branch off the release tag using the format `release/<language>-<package>-<version>.x` (e.g., `release/rust-services-0.14.x`)
+2. The fix goes to `main` first, then is cherry-picked to the new branch
+3. This only works if the next patch version is still available (e.g., `v1.0.1` has not been released yet)
+
 ### Key Principles
 
 1. **Delay branch creation** — Create release branches as late as possible to minimize cherry-pick overhead
-2. **Main stays open** — Never block `main` for release activities
+2. **Main is for development** — `main` is the development branch; it may diverge from release branches at any time
 3. **Patch branches inherit** — Patch releases branch from the previous release for the same language, not from `main`
 4. **Tags mark releases** — Every published release gets a tag on the release branch
 5. **Independent releases** — Languages and packages can release at different times within the same AIO release cycle
