@@ -102,6 +102,14 @@ pub struct ProjectedVolumeEvent {
 /// Result type passed to the handler closure.
 pub type ProjectedVolumeEventResult = Result<Vec<ProjectedVolumeEvent>, ProjectedVolumeError>;
 
+// NOTE: Each instance watches exactly one projected volume mount. This 1:1 relationship
+// is intentional. Unlike notify_debouncer_full, which is stateless with respect to watched
+// paths, this debouncer holds per-volume state (SHA-256 snapshots, swap detection) that
+// couples it to a single root. Sharing a debouncer across volumes would force lifecycle
+// coupling between independently managed Kubernetes volumes and require an error-isolation
+// policy with no obviously correct answer. For a unified event stream across multiple
+// volumes, fan in separate debouncers via a channel instead.
+
 /// A debouncer for Kubernetes projected volume mounts.
 ///
 /// Monitors a projected volume directory and produces clean, synthetic filesystem events
@@ -128,6 +136,10 @@ pub type ProjectedVolumeEventResult = Result<Vec<ProjectedVolumeEvent>, Projecte
 /// ).expect("failed to create debouncer");
 /// ```
 pub struct ProjectedVolumeDebouncer {
+    // NOTE: Dropping this struct signals the background thread to stop but does not join
+    // it, so the event handler may still fire briefly after drop returns. If a hard
+    // guarantee of "no callbacks after drop" is ever needed, expose a `stop()` method
+    // that delegates to `Debouncer::stop()` to join the thread.
     _debouncer: Debouncer<RecommendedWatcher, RecommendedCache>,
 }
 
