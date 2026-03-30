@@ -9,7 +9,7 @@ namespace Azure.Iot.Operations.Connector
     /// <summary>
     /// A client for reporting the status of this device and its endpoint
     /// </summary>
-    public class DeviceEndpointClient : IAsyncDisposable
+    public class DeviceEndpointClient : IDisposable
     {
         private readonly IAzureDeviceRegistryClientWrapper _adrClient;
         private readonly string _deviceName;
@@ -111,15 +111,7 @@ namespace Azure.Iot.Operations.Connector
                 cancellationToken);
         }
 
-        /// <summary>
-        /// Report the health of this device endpoint.
-        /// </summary>
-        /// <param name="deviceName">The name of the device.</param>
-        /// <param name="inboundEndpointName">The name of the endpoint.</param>
-        /// <param name="telemetry">The health status to report.</param>
-        /// <param name="telemetryTimeout">Optional message expiry time for the telemetry.</param>
-        /// <param name="cancellationToken">Cancellation token.</param>
-        public async Task ReportRuntimeHealthAsync(ConnectorRuntimeHealth runtimeHealth, TimeSpan? backgroundReportInterval = default, TimeSpan? telemetryTimeout = default, CancellationToken cancellationToken = default)
+        public async Task ReportRuntimeHealthAsync(ConnectorRuntimeHealth runtimeHealth)
         {
             RuntimeHealth servicesRuntimeHealth = new()
             {
@@ -131,18 +123,7 @@ namespace Azure.Iot.Operations.Connector
             };
         }
 
-        public virtual async ValueTask DisposeAsync()
-        {
-            await DisposeAsyncCore();
-            GC.SuppressFinalize(this);
-        }
-
-        public virtual async ValueTask DisposeAsync(bool disposing)
-        {
-            await DisposeAsyncCore();
-        }
-
-        private async ValueTask DisposeAsyncCore()
+        public void Dispose()
         {
             try
             {

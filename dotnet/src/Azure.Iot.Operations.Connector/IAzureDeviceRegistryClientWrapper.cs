@@ -279,7 +279,5 @@ namespace Azure.Iot.Operations.Connector
             List<ManagementActionsRuntimeHealthEvent> managementActionsRuntimeHealth,
             TimeSpan? telemetryTimeout = null,
             CancellationToken cancellationToken = default);
-
-        IAzureDeviceRegistryClient GetWrapped();
     }
 }

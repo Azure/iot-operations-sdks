@@ -9,7 +9,7 @@ namespace Azure.Iot.Operations.Connector
     /// <summary>
     /// A client for updating the status of an asset and for forwarding received events and/or sampled datasets.
     /// </summary>
-    public class AssetClient : IAsyncDisposable
+    public class AssetClient : IDisposable
     {
         private readonly IAzureDeviceRegistryClientWrapper _adrClient;
         private readonly ConnectorWorker _connector;
@@ -235,29 +235,6 @@ namespace Azure.Iot.Operations.Connector
             await ReportManagementActionRuntimeHealthAsync(new List<ManagementActionsRuntimeHealthEvent>() { runtimeHealth }, telemetryTimeout, cancellationToken);
         }
 
-        public virtual async ValueTask DisposeAsync()
-        {
-            await DisposeAsyncCore();
-            GC.SuppressFinalize(this);
-        }
-
-        public virtual async ValueTask DisposeAsync(bool disposing)
-        {
-            await DisposeAsyncCore();
-        }
-
-        private async ValueTask DisposeAsyncCore()
-        {
-            try
-            {
-                _semaphore.Dispose();
-            }
-            catch (ObjectDisposedException)
-            {
-                // It's fine if this semaphore is already disposed.
-            }
-        }
-
         /// <summary>
         /// Update the status of this asset in the Azure Device Registry service
         /// </summary>
@@ -302,6 +279,18 @@ namespace Azure.Iot.Operations.Connector
                 _assetName,
                 commandTimeout,
                 cancellationToken);
+        }
+
+        public void Dispose()
+        {
+            try
+            {
+                _semaphore.Dispose();
+            }
+            catch (ObjectDisposedException)
+            {
+                // It's fine if this semaphore is already disposed.
+            }
         }
     }
 }

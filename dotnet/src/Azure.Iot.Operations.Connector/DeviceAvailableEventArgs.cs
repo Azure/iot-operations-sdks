@@ -8,7 +8,7 @@ using Azure.Iot.Operations.Services.LeaderElection;
 
 namespace Azure.Iot.Operations.Connector
 {
-    public class DeviceAvailableEventArgs : EventArgs, IAsyncDisposable
+    public class DeviceAvailableEventArgs : EventArgs, IDisposable
     {
         /// <summary>
         /// The name of this device.
@@ -53,29 +53,16 @@ namespace Azure.Iot.Operations.Connector
             DeviceEndpointClient = new(adrclient, deviceName, inboundEndpointName, device);
         }
 
-        public virtual async ValueTask DisposeAsync()
-        {
-            await DisposeAsyncCore();
-            GC.SuppressFinalize(this);
-        }
-
-        public virtual async ValueTask DisposeAsync(bool disposing)
-        {
-            await DisposeAsyncCore();
-        }
-
-        private async ValueTask DisposeAsyncCore()
+        public void Dispose()
         {
             try
             {
-                await DeviceEndpointClient.DisposeAsync();
+                DeviceEndpointClient.Dispose();
             }
             catch (ObjectDisposedException)
             {
                 // It's fine if this is already disposed.
             }
-
-            // do not dispose the leader election client as it will be re-used elsewhere
         }
     }
 }

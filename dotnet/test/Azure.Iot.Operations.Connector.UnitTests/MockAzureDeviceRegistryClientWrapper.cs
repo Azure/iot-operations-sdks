@@ -129,10 +129,5 @@ namespace Azure.Iot.Operations.Connector.UnitTests
         {
             await mockClientWrapper.Object.ReportManagementActionRuntimeHealthAsync(deviceName, inboundEndpointName, assetName, managementActionsRuntimeHealth, telemetryTimeout, cancellationToken);
         }
-
-        public IAzureDeviceRegistryClient GetWrapped()
-        {
-            return mockClientWrapper.Object.GetWrapped();
-        }
     }
 }
