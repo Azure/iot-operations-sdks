@@ -106,7 +106,7 @@ pub type ProjectedVolumeEventResult = Result<Vec<ProjectedVolumeEvent>, Projecte
 /// };
 ///
 /// let _debouncer = ProjectedVolumeDebouncer::new(
-///     PathBuf::from("/etc/akri/dir1s/connector_dir1s"),
+///     PathBuf::from("/etc/akri/secrets/connector_secrets"),
 ///     |result: ProjectedVolumeEventResult| {
 ///         match result {
 ///             Ok(events) => {
