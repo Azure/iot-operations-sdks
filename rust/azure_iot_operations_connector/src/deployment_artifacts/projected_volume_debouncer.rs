@@ -29,8 +29,7 @@ use std::path::{Path, PathBuf};
 use std::sync::Mutex;
 use std::time::{Duration, Instant};
 
-use notify::event::{CreateKind, DataChange, ModifyKind, RemoveKind};
-use notify::{EventKind, RecommendedWatcher};
+use notify::RecommendedWatcher;
 use notify_debouncer_full::{
     DebounceEventResult, DebouncedEvent, Debouncer, RecommendedCache, new_debouncer,
 };
@@ -53,39 +52,48 @@ pub enum ProjectedVolumeError {
     Snapshot(std::io::Error),
 }
 
+/// The kind of change detected in a projected volume.
+///
+/// This is a purpose-built enum covering only the event kinds that the
+/// [`ProjectedVolumeDebouncer`] can produce.
+#[derive(Debug, Clone, Copy, PartialEq, Eq)]
+pub enum ProjectedVolumeEventKind {
+    /// A file was added to the projected volume.
+    FileCreated,
+    /// A file's content changed (detected via SHA-256 hash comparison).
+    FileModified,
+    /// A file was removed from the projected volume.
+    FileRemoved,
+    /// A directory was added to the projected volume.
+    DirCreated,
+    /// A directory was removed from the projected volume.
+    DirRemoved,
+}
+
 /// A synthetic filesystem event representing a change in a projected volume.
 ///
 /// Unlike raw [`notify`] events, the `path` field contains a clean relative path
 /// within the projected volume (e.g., `my-dir/my-key`), with all Kubernetes
 /// internal entries filtered out.
 ///
-/// # Event kinds
+/// **Renames are never emitted.** Kubernetes secrets and ConfigMaps have no
+/// concept of renaming a key — deleting a key and adding a new one are
+/// independent operations even if the content is identical. Such changes are
+/// reported as a [`DirRemoved`](ProjectedVolumeEventKind::DirRemoved) /
+/// [`FileRemoved`](ProjectedVolumeEventKind::FileRemoved) followed by a
+/// [`DirCreated`](ProjectedVolumeEventKind::DirCreated) /
+/// [`FileCreated`](ProjectedVolumeEventKind::FileCreated).
 ///
-/// Only the following [`EventKind`] variants are emitted:
-/// - [`EventKind::Create(CreateKind::File)`] — a file was added.
-/// - [`EventKind::Create(CreateKind::Folder)`] — a directory was added.
-/// - [`EventKind::Modify(ModifyKind::Data(DataChange::Any))`] — a file's content
-///   changed (detected via SHA-256). This is the **only** `Modify` sub-variant
-///   emitted; in particular, `Modify(Name(_))` (renames) are never produced.
-/// - [`EventKind::Remove(RemoveKind::File)`] — a file was removed.
-/// - [`EventKind::Remove(RemoveKind::Folder)`] — a directory was removed.
-///
-/// **Renames (`Modify(Name(_))`) are never emitted.** Kubernetes secrets and
-/// Config Maps have no concept of renaming a key — deleting a key and adding a
-/// new one are independent operations even if the content is identical.
-/// Accordingly, such changes are reported as a [`Remove`](EventKind::Remove)
-/// followed by a [`Create`](EventKind::Create).
-///
-/// **Metadata changes (`Modify(Metadata(_))`) are never emitted.** Permissions
-/// and ownership in a projected volume are set by the kubelet when it writes
-/// the volume and do not change independently of content. File timestamps
-/// always differ across updates regardless of whether content changed, so
-/// reporting them would be noise rather than a meaningful signal.
+/// **Metadata changes are never emitted.** Permissions and ownership in a
+/// projected volume are set by the kubelet when it writes the volume and do not
+/// change independently of content. File timestamps always differ across
+/// updates regardless of whether content changed, so reporting them would be
+/// noise rather than a meaningful signal.
 #[derive(Debug, Clone)]
 pub struct ProjectedVolumeEvent {
     /// The kind of change detected.
-    pub kind: EventKind,
-    /// The relative path of the affected file within the projected volume.
+    pub kind: ProjectedVolumeEventKind,
+    /// The relative path of the affected entry within the projected volume.
     pub path: PathBuf,
     /// When the change was detected.
     pub time: Instant,
@@ -279,7 +287,7 @@ fn diff_snapshots(
             Some(old_entry) if old_entry == new_entry => {}
             Some(SnapshotEntry::File(_)) if matches!(new_entry, SnapshotEntry::File(_)) => {
                 events.push(ProjectedVolumeEvent {
-                    kind: EventKind::Modify(ModifyKind::Data(DataChange::Any)),
+                    kind: ProjectedVolumeEventKind::FileModified,
                     path: path.clone(),
                     time,
                 });
@@ -287,12 +295,12 @@ fn diff_snapshots(
             Some(_) => {
                 // Type changed (file <-> dir): report remove + create
                 let remove_kind = match old.get(path).unwrap() {
-                    SnapshotEntry::File(_) => EventKind::Remove(RemoveKind::File),
-                    SnapshotEntry::Directory => EventKind::Remove(RemoveKind::Folder),
+                    SnapshotEntry::File(_) => ProjectedVolumeEventKind::FileRemoved,
+                    SnapshotEntry::Directory => ProjectedVolumeEventKind::DirRemoved,
                 };
                 let create_kind = match new_entry {
-                    SnapshotEntry::File(_) => EventKind::Create(CreateKind::File),
-                    SnapshotEntry::Directory => EventKind::Create(CreateKind::Folder),
+                    SnapshotEntry::File(_) => ProjectedVolumeEventKind::FileCreated,
+                    SnapshotEntry::Directory => ProjectedVolumeEventKind::DirCreated,
                 };
                 events.push(ProjectedVolumeEvent {
                     kind: remove_kind,
@@ -307,8 +315,8 @@ fn diff_snapshots(
             }
             None => {
                 let kind = match new_entry {
-                    SnapshotEntry::File(_) => EventKind::Create(CreateKind::File),
-                    SnapshotEntry::Directory => EventKind::Create(CreateKind::Folder),
+                    SnapshotEntry::File(_) => ProjectedVolumeEventKind::FileCreated,
+                    SnapshotEntry::Directory => ProjectedVolumeEventKind::DirCreated,
                 };
                 events.push(ProjectedVolumeEvent {
                     kind,
@@ -322,8 +330,8 @@ fn diff_snapshots(
     for (path, old_entry) in old {
         if !new.contains_key(path) {
             let kind = match old_entry {
-                SnapshotEntry::File(_) => EventKind::Remove(RemoveKind::File),
-                SnapshotEntry::Directory => EventKind::Remove(RemoveKind::Folder),
+                SnapshotEntry::File(_) => ProjectedVolumeEventKind::FileRemoved,
+                SnapshotEntry::Directory => ProjectedVolumeEventKind::DirRemoved,
             };
             events.push(ProjectedVolumeEvent {
                 kind,
@@ -443,10 +451,7 @@ mod tests {
 
             let events = diff_snapshots(&old, &new, Instant::now());
             assert_eq!(events.len(), 1);
-            assert!(matches!(
-                events[0].kind,
-                EventKind::Create(CreateKind::File)
-            ));
+            assert_eq!(events[0].kind, ProjectedVolumeEventKind::FileCreated);
             assert_eq!(events[0].path, Path::new("dir1/file1"));
         }
 
@@ -458,10 +463,7 @@ mod tests {
 
             let events = diff_snapshots(&old, &new, Instant::now());
             assert_eq!(events.len(), 1);
-            assert!(matches!(
-                events[0].kind,
-                EventKind::Create(CreateKind::Folder)
-            ));
+            assert_eq!(events[0].kind, ProjectedVolumeEventKind::DirCreated);
             assert_eq!(events[0].path, Path::new("dir1"));
         }
 
@@ -474,10 +476,7 @@ mod tests {
 
             let events = diff_snapshots(&old, &new, Instant::now());
             assert_eq!(events.len(), 1);
-            assert!(matches!(
-                events[0].kind,
-                EventKind::Modify(ModifyKind::Data(_))
-            ));
+            assert_eq!(events[0].kind, ProjectedVolumeEventKind::FileModified);
         }
 
         #[test]
@@ -488,10 +487,7 @@ mod tests {
 
             let events = diff_snapshots(&old, &new, Instant::now());
             assert_eq!(events.len(), 1);
-            assert!(matches!(
-                events[0].kind,
-                EventKind::Remove(RemoveKind::File)
-            ));
+            assert_eq!(events[0].kind, ProjectedVolumeEventKind::FileRemoved);
         }
 
         #[test]
@@ -502,10 +498,7 @@ mod tests {
 
             let events = diff_snapshots(&old, &new, Instant::now());
             assert_eq!(events.len(), 1);
-            assert!(matches!(
-                events[0].kind,
-                EventKind::Remove(RemoveKind::Folder)
-            ));
+            assert_eq!(events[0].kind, ProjectedVolumeEventKind::DirRemoved);
         }
 
         #[test]
@@ -557,23 +550,23 @@ mod tests {
             assert_eq!(events.len(), 5);
 
             let has_create_file = events.iter().any(|e| {
-                matches!(e.kind, EventKind::Create(CreateKind::File))
+                e.kind == ProjectedVolumeEventKind::FileCreated
                     && e.path == Path::new("file4")
             });
             let has_create_dir = events.iter().any(|e| {
-                matches!(e.kind, EventKind::Create(CreateKind::Folder))
+                e.kind == ProjectedVolumeEventKind::DirCreated
                     && e.path == Path::new("dir3")
             });
             let has_modify = events.iter().any(|e| {
-                matches!(e.kind, EventKind::Modify(ModifyKind::Data(_)))
+                e.kind == ProjectedVolumeEventKind::FileModified
                     && e.path == Path::new("file2")
             });
             let has_remove_file = events.iter().any(|e| {
-                matches!(e.kind, EventKind::Remove(RemoveKind::File))
+                e.kind == ProjectedVolumeEventKind::FileRemoved
                     && e.path == Path::new("file3")
             });
             let has_remove_dir = events.iter().any(|e| {
-                matches!(e.kind, EventKind::Remove(RemoveKind::Folder))
+                e.kind == ProjectedVolumeEventKind::DirRemoved
                     && e.path == Path::new("dir2")
             });
 
@@ -597,8 +590,8 @@ mod tests {
 
             let expected_time = Instant::now();
             let event = DebouncedEvent {
-                event: Event {
-                    kind: EventKind::Modify(ModifyKind::Name(notify::event::RenameMode::Both)),
+                event: notify::Event {
+                    kind: notify::EventKind::Modify(notify::event::ModifyKind::Name(notify::event::RenameMode::Both)),
                     paths: vec![
                         PathBuf::from("/mnt/vol/..data_tmp"),
                         PathBuf::from("/mnt/vol/..data"),
@@ -616,7 +609,7 @@ mod tests {
 
             let event = DebouncedEvent {
                 event: Event {
-                    kind: EventKind::Modify(ModifyKind::Data(DataChange::Any)),
+                    kind: notify::EventKind::Modify(notify::event::ModifyKind::Data(notify::event::DataChange::Any)),
                     paths: vec![PathBuf::from("/mnt/vol/some_file")],
                     attrs: EventAttributes::default(),
                 },
@@ -714,11 +707,11 @@ mod tests {
             let events = collector.events_batch().unwrap();
             assert_eq!(events.len(), 2);
             let has_root = events.iter().any(|e| {
-                matches!(e.kind, EventKind::Modify(ModifyKind::Data(_)))
+                e.kind == ProjectedVolumeEventKind::FileModified
                     && e.path == Path::new("file1")
             });
             let has_nested = events.iter().any(|e| {
-                matches!(e.kind, EventKind::Modify(ModifyKind::Data(_)))
+                e.kind == ProjectedVolumeEventKind::FileModified
                     && e.path == Path::new("subdir/file2")
             });
             assert!(has_root, "should detect root file modification");
@@ -744,11 +737,11 @@ mod tests {
             let events = collector.events_batch().unwrap();
             assert_eq!(events.len(), 2);
             let has_root = events.iter().any(|e| {
-                matches!(e.kind, EventKind::Create(CreateKind::File))
+                e.kind == ProjectedVolumeEventKind::FileCreated
                     && e.path == Path::new("file2")
             });
             let has_nested = events.iter().any(|e| {
-                matches!(e.kind, EventKind::Create(CreateKind::File))
+                e.kind == ProjectedVolumeEventKind::FileCreated
                     && e.path == Path::new("subdir/file3")
             });
             assert!(has_root, "should detect root file addition");
@@ -775,11 +768,11 @@ mod tests {
             let events = collector.events_batch().unwrap();
             assert_eq!(events.len(), 2);
             let has_root = events.iter().any(|e| {
-                matches!(e.kind, EventKind::Remove(RemoveKind::File))
+                e.kind == ProjectedVolumeEventKind::FileRemoved
                     && e.path == Path::new("file1")
             });
             let has_nested = events.iter().any(|e| {
-                matches!(e.kind, EventKind::Remove(RemoveKind::File))
+                e.kind == ProjectedVolumeEventKind::FileRemoved
                     && e.path == Path::new("subdir/file2")
             });
             assert!(has_root, "should detect root file removal");
@@ -803,11 +796,11 @@ mod tests {
 
             let events = collector.events_batch().unwrap();
             let has_dir_create = events.iter().any(|e| {
-                matches!(e.kind, EventKind::Create(CreateKind::Folder))
+                e.kind == ProjectedVolumeEventKind::DirCreated
                     && e.path == Path::new("newdir1")
             });
             let has_file_create = events.iter().any(|e| {
-                matches!(e.kind, EventKind::Create(CreateKind::File))
+                e.kind == ProjectedVolumeEventKind::FileCreated
                     && e.path == Path::new("newdir1/file1")
             });
             assert!(has_dir_create, "should detect directory creation");
@@ -833,11 +826,11 @@ mod tests {
 
             let events = collector.events_batch().unwrap();
             let has_dir_remove = events.iter().any(|e| {
-                matches!(e.kind, EventKind::Remove(RemoveKind::Folder))
+                e.kind == ProjectedVolumeEventKind::DirRemoved
                     && e.path == Path::new("ephemeral")
             });
             let has_file_remove = events.iter().any(|e| {
-                matches!(e.kind, EventKind::Remove(RemoveKind::File))
+                e.kind == ProjectedVolumeEventKind::FileRemoved
                     && e.path == Path::new("ephemeral/file1")
             });
             assert!(has_dir_remove, "should detect directory removal");
@@ -903,59 +896,53 @@ mod tests {
             assert_eq!(events.len(), 10);
 
             // Root-level events
-            let has = |kind: EventKind, path: &str| {
+            let has = |kind: ProjectedVolumeEventKind, path: &str| {
                 events
                     .iter()
                     .any(|e| e.kind == kind && e.path == Path::new(path))
             };
             assert!(
-                has(
-                    EventKind::Modify(ModifyKind::Data(DataChange::Any)),
-                    "modified"
-                ),
+                has(ProjectedVolumeEventKind::FileModified, "modified"),
                 "should detect root file modification"
             );
             assert!(
-                has(EventKind::Remove(RemoveKind::File), "removed"),
+                has(ProjectedVolumeEventKind::FileRemoved, "removed"),
                 "should detect root file removal"
             );
             assert!(
-                has(EventKind::Create(CreateKind::File), "created"),
+                has(ProjectedVolumeEventKind::FileCreated, "created"),
                 "should detect root file creation"
             );
 
             // Subdirectory events
             assert!(
-                has(
-                    EventKind::Modify(ModifyKind::Data(DataChange::Any)),
-                    "subdir/modified"
-                ),
+                has(ProjectedVolumeEventKind::FileModified, "subdir/modified"),
                 "should detect nested file modification"
             );
             assert!(
-                has(EventKind::Remove(RemoveKind::File), "subdir/removed"),
+                has(ProjectedVolumeEventKind::FileRemoved, "subdir/removed"),
                 "should detect nested file removal"
             );
             assert!(
-                has(EventKind::Create(CreateKind::File), "subdir/created"),
+                has(ProjectedVolumeEventKind::FileCreated, "subdir/created"),
                 "should detect nested file creation"
             );
 
             // Directory-level events
             assert!(
-                has(EventKind::Remove(RemoveKind::Folder), "removed_dir"),
+                has(ProjectedVolumeEventKind::DirRemoved, "removed_dir"),
                 "should detect directory removal"
             );
             assert!(
-                has(EventKind::Remove(RemoveKind::File), "removed_dir/file1"),
+                has(ProjectedVolumeEventKind::FileRemoved, "removed_dir/file1"),
                 "should detect file removal from removed dir"
             );
             assert!(
-                has(EventKind::Create(CreateKind::Folder), "created_dir"),
+                has(ProjectedVolumeEventKind::DirCreated, "created_dir"),
                 "should detect directory creation"
             );
             assert!(
-                has(EventKind::Create(CreateKind::File), "created_dir/file1"),
+                has(ProjectedVolumeEventKind::FileCreated, "created_dir/file1"),
                 "should detect file creation in new dir"
             );
         }
