@@ -70,7 +70,7 @@ namespace Azure.Iot.Operations.Services.AssetAndDeviceRegistry.Models
             sendIt = true;
         }
 
-        internal static bool Equals(RuntimeHealth? a, RuntimeHealth? b)
+        public static bool Equals(RuntimeHealth? a, RuntimeHealth? b)
         {
             // if one is null and the other is not, then they are not equal
             if ((a == null) != (b == null))

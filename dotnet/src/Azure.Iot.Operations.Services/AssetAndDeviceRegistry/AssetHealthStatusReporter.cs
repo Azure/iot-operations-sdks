@@ -17,7 +17,7 @@ namespace Azure.Iot.Operations.Services.AssetAndDeviceRegistry
         private readonly Dictionary<string, Dictionary<string, RuntimeHealth?>> _cachedEventGroupsRuntimeHealth = new(); // keys are event group names, values are dictionaries where keys are event names and the values are the cached health of that event group's event
         private readonly Dictionary<string, Dictionary<string, RuntimeHealth?>> _cachedManagementGroupsRuntimeHealth = new(); // keys are management group names, values are dictionaries where keys are management action names and the values are the cached health of that management group's action
 
-        private readonly Countdown? _periodicSender;
+        private readonly Countdown _periodicSender;
 
         private readonly IAzureDeviceRegistryClient _azureDeviceRegistryClient;
         private readonly string _deviceName;
@@ -92,10 +92,7 @@ namespace Azure.Iot.Operations.Services.AssetAndDeviceRegistry
         // should be called when the asset is deleted
         public async Task CancelHealthStatusReportingAsync(CancellationToken cancellationToken = default)
         {
-            if (_periodicSender != null)
-            {
-                await _periodicSender.StopAsync(cancellationToken);
-            }
+            await _periodicSender.StopAsync(cancellationToken);
         }
 
         public async Task ReportDatasetHealthStatusAsync(string datasetName, RuntimeHealth datasetRuntimeHealth, TimeSpan? telemetryTimeout = default, CancellationToken cancellationToken = default)
@@ -117,6 +114,11 @@ namespace Azure.Iot.Operations.Services.AssetAndDeviceRegistry
             if (sendIt)
             { 
                 await _azureDeviceRegistryClient.ReportDatasetRuntimeHealthAsync(_deviceName, _inboundEndpointName, _assetName, new List<DatasetsRuntimeHealthEvent> { datasetHealthEvent }, telemetryTimeout, cancellationToken);
+            }
+
+            if ((updateCache || sendIt) && !_periodicSender.IsRunning())
+            {
+                await _periodicSender.StartAsync(cancellationToken);
             }
         }
 
@@ -223,11 +225,8 @@ namespace Azure.Iot.Operations.Services.AssetAndDeviceRegistry
         {
             try
             {
-                if (_periodicSender != null)
-                {
-                    await _periodicSender.StopAsync();
-                    _periodicSender?.Dispose();
-                }
+                await _periodicSender.StopAsync();
+                _periodicSender?.Dispose();
             }
             catch (ObjectDisposedException)
             {

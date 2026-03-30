@@ -13,6 +13,7 @@ namespace Azure.Iot.Operations.Services.AssetAndDeviceRegistry
         private Task? _task;
         private CancellationTokenSource? _resetCountdownCancellationToken;
         private readonly SemaphoreSlim _semaphore = new(1, 1);
+        private bool _isRunning;
 
         private readonly TimeSpan _delay;
         private readonly Func<CancellationToken, Task> _afterDelay;
@@ -34,8 +35,15 @@ namespace Azure.Iot.Operations.Services.AssetAndDeviceRegistry
             {
                 if (_resetCountdownCancellationToken != null)
                 {
-                    _resetCountdownCancellationToken.Cancel();
-                    _resetCountdownCancellationToken.Dispose();
+                    try
+                    {
+                        _resetCountdownCancellationToken.Cancel();
+                        _resetCountdownCancellationToken.Dispose();
+                    }
+                    catch (ObjectDisposedException)
+                    {
+                        // the cancellation token was already cancelled and disposed, so ignore this error
+                    }
                 }
 
                 _resetCountdownCancellationToken = new CancellationTokenSource();
@@ -64,13 +72,18 @@ namespace Azure.Iot.Operations.Services.AssetAndDeviceRegistry
                         return;
                     }
                 });
-
+                _isRunning = true;
                 _task.Start();
             }
             finally
             {
                 _semaphore.Release();
             }
+        }
+
+        internal bool IsRunning()
+        {
+            return _isRunning;
         }
 
         internal async Task StopAsync(CancellationToken cancellationToken = default)
@@ -83,6 +96,7 @@ namespace Azure.Iot.Operations.Services.AssetAndDeviceRegistry
                     _resetCountdownCancellationToken.Cancel();
                     _resetCountdownCancellationToken.Dispose();
                 }
+                _isRunning = false;
             }
             finally
             {

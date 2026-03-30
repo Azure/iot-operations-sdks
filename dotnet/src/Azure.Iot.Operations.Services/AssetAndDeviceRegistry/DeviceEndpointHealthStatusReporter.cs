@@ -13,7 +13,7 @@ namespace Azure.Iot.Operations.Services.AssetAndDeviceRegistry
     {
         private RuntimeHealth? _cachedDeviceEndpointRuntimeHealth = new();
 
-        private readonly Countdown? _periodicSender;
+        private readonly Countdown _periodicSender;
 
         private readonly IAzureDeviceRegistryClient _azureDeviceRegistryClient;
         private readonly string _deviceName;
@@ -30,13 +30,10 @@ namespace Azure.Iot.Operations.Services.AssetAndDeviceRegistry
         // should be called when the deviceEndpoint is deleted
         public async Task CancelHealthStatusReportingAsync(CancellationToken cancellationToken = default)
         {
-            if (_periodicSender != null)
-            {
-                await _periodicSender.StopAsync(cancellationToken);
-            }
+            await _periodicSender.StopAsync(cancellationToken);
         }
 
-        public async Task ReportDatasetHealthStatusAsync(RuntimeHealth deviceEndpointRuntimeHealth, TimeSpan? telemetryTimeout = default, CancellationToken cancellationToken = default)
+        public async Task ReportDeviceEndpointRuntimeHealthAsync(RuntimeHealth deviceEndpointRuntimeHealth, TimeSpan? telemetryTimeout = default, CancellationToken cancellationToken = default)
         {
             RuntimeHealth.CompareNewHealthWithCachedHealth(deviceEndpointRuntimeHealth, _cachedDeviceEndpointRuntimeHealth, out bool updateCache, out bool sendIt);
 
@@ -48,6 +45,11 @@ namespace Azure.Iot.Operations.Services.AssetAndDeviceRegistry
             if (sendIt)
             { 
                 await _azureDeviceRegistryClient.ReportDeviceEndpointRuntimeHealthAsync(_deviceName, _inboundEndpointName, deviceEndpointRuntimeHealth, telemetryTimeout, cancellationToken);
+            }
+
+            if ((updateCache || sendIt) && !_periodicSender.IsRunning())
+            {
+                await _periodicSender.StartAsync(cancellationToken);
             }
         }
 
