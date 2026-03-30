@@ -183,6 +183,11 @@ impl ProjectedVolumeDebouncer {
                     }
                 }
                 Err(errors) => {
+                    // NOTE: `notify_debouncer_full` batches multiple watcher errors into a Vec
+                    // because the general case involves many watched paths failing
+                    // independently. Here we watch a single directory non-recursively,
+                    // so multiple concurrent errors are not expected. Taking only the
+                    // first is sufficient.
                     if let Some(e) = errors.into_iter().next() {
                         event_handler(Err(ProjectedVolumeError::Notify(e)));
                     }
