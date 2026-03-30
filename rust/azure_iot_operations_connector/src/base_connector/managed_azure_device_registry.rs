@@ -5381,8 +5381,33 @@ mod tests {
         }
     }
 
-    #[test]
-    fn new_device_specification_success() {
+    #[test_case(
+        adr_models::Authentication::Anonymous,
+        None;
+        "anonymous"
+    )]
+    #[test_case(
+        adr_models::Authentication::Certificate {
+            certificate_secret_name: "cert.pem".to_string(),
+            intermediate_certificates_secret_name: None,
+            key_secret_name: None,
+        },
+        Some(PathBuf::from("/mnt/creds"));
+        "certificate"
+    )]
+    #[test_case(
+        adr_models::Authentication::UsernamePassword {
+            password_secret_name: "password".to_string(),
+            username_secret_name: "username".to_string(),
+        },
+        Some(PathBuf::from("/mnt/creds"));
+        "username_password"
+    )]
+    #[allow(clippy::needless_pass_by_value)]
+    fn new_device_specification_minimum(
+        authentication: adr_models::Authentication,
+        mount_path: Option<PathBuf>,
+    ) {
         let device_specification = adr_models::Device {
             attributes: HashMap::new(),
             discovered_device_ref: None,
@@ -5393,7 +5418,7 @@ mod tests {
                     adr_models::InboundEndpoint {
                         additional_configuration: None,
                         address: "mqtt://test".to_string(),
-                        authentication: adr_models::Authentication::Anonymous,
+                        authentication,
                         endpoint_type: "mqtt".to_string(),
                         trust_settings: None,
                         version: None,
@@ -5411,8 +5436,88 @@ mod tests {
             version: None,
         };
 
-        let result =
-            DeviceSpecification::new(device_specification, None, TEST_INBOUND_ENDPOINT_NAME);
+        let result = DeviceSpecification::new(
+            device_specification,
+            mount_path.as_ref(),
+            TEST_INBOUND_ENDPOINT_NAME,
+        );
+        assert!(result.is_ok());
+    }
+
+    #[test_case(
+        adr_models::Authentication::Anonymous,
+        None;
+        "anonymous"
+    )]
+    #[test_case(
+        adr_models::Authentication::Certificate {
+            certificate_secret_name: "cert.pem".to_string(),
+            intermediate_certificates_secret_name: Some("intermediate.pem".to_string()),
+            key_secret_name: Some("key.pem".to_string()),
+        },
+        Some(PathBuf::from("/mnt/creds"));
+        "certificate"
+    )]
+    #[test_case(
+        adr_models::Authentication::UsernamePassword {
+            password_secret_name: "password".to_string(),
+            username_secret_name: "username".to_string(),
+        },
+        Some(PathBuf::from("/mnt/creds"));
+        "username_password"
+    )]
+    #[allow(clippy::needless_pass_by_value)]
+    fn new_device_specification_maximum(
+        authentication: adr_models::Authentication,
+        mount_path: Option<PathBuf>,
+    ) {
+        let device_specification = adr_models::Device {
+            attributes: HashMap::from([
+                ("key1".to_string(), "value1".to_string()),
+                ("key2".to_string(), "value2".to_string()),
+            ]),
+            discovered_device_ref: Some("discovered-device-ref".to_string()),
+            enabled: Some(true),
+            endpoints: Some(adr_models::DeviceEndpoints {
+                inbound: HashMap::from([(
+                    TEST_INBOUND_ENDPOINT_NAME.to_string(),
+                    adr_models::InboundEndpoint {
+                        additional_configuration: Some(r#"{"key":"value"}"#.to_string()),
+                        address: "mqtt://test:1883".to_string(),
+                        authentication,
+                        endpoint_type: "mqtt".to_string(),
+                        trust_settings: Some(adr_models::TrustSettings {
+                            trust_list: Some("trust-list-secret".to_string()),
+                        }),
+                        version: Some("1.0".to_string()),
+                    },
+                )]),
+                outbound: Some(adr_models::OutboundEndpoints {
+                    assigned: HashMap::from([(
+                        "outbound1".to_string(),
+                        adr_models::OutboundEndpoint {
+                            address: "mqtt://test-outbound:1883".to_string(),
+                            endpoint_type: Some("mqtt".to_string()),
+                        },
+                    )]),
+                    unassigned: HashMap::new(),
+                }),
+            }),
+            external_device_id: Some("test-external-device".to_string()),
+            last_transition_time: Some(Utc::now()),
+            manufacturer: Some("test-manufacturer".to_string()),
+            model: Some("test-model".to_string()),
+            operating_system: Some("test-os".to_string()),
+            operating_system_version: Some("1.0".to_string()),
+            uuid: Some("uuid-1234".to_string()),
+            version: Some(1),
+        };
+
+        let result = DeviceSpecification::new(
+            device_specification,
+            mount_path.as_ref(),
+            TEST_INBOUND_ENDPOINT_NAME,
+        );
         assert!(result.is_ok());
     }
 
