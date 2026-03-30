@@ -3,13 +3,17 @@
 
 using Azure.Iot.Operations.Services.AssetAndDeviceRegistry;
 using Azure.Iot.Operations.Services.AssetAndDeviceRegistry.Models;
-using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace Azure.Iot.Operations.Services.UnitTests.AssetAndDeviceRegistry
 {
     public class MockAzureDeviceRegistryClient : IAzureDeviceRegistryClient // This implementation is currently only used to test reporting runtime health status, so most of the implementations are not actually implemented
     {
+        // Records of each time (in order) that the ADR client sent a health status update (whether directly by user, or by periodic updates)
         public List<ReportedDeviceEndpointRuntimeHealth> ReportedDeviceEndpointRuntimeHealths = new();
+        public Dictionary<string, List<ReportedDatasetRuntimeHealth>> ReportedDatasetRuntimeHealths = new();
+        public Dictionary<string, List<ReportedStreamRuntimeHealth>> ReportedStreamRuntimeHealths = new();
+        public Dictionary<string, Dictionary<string, List<ReportedEventRuntimeHealth>>> ReportedEventRuntimeHealths = new();
+        public Dictionary<string, Dictionary<string, List<ReportedManagementActionRuntimeHealth>>> ReportedManagementActionRuntimeHealths = new();
 
         public class ReportedDeviceEndpointRuntimeHealth
         {
@@ -28,8 +32,6 @@ namespace Azure.Iot.Operations.Services.UnitTests.AssetAndDeviceRegistry
                 RuntimeHealth = health;
             }
         }
-
-        public Dictionary<string, List<ReportedDatasetRuntimeHealth>> ReportedDatasetRuntimeHealths = new();
 
         public class ReportedDatasetRuntimeHealth
         {
@@ -55,8 +57,6 @@ namespace Azure.Iot.Operations.Services.UnitTests.AssetAndDeviceRegistry
             }
         }
 
-        public Dictionary<string, List<ReportedStreamRuntimeHealth>> ReportedStreamRuntimeHealths = new();
-
         public class ReportedStreamRuntimeHealth
         {
             public string DeviceName { get; set; }
@@ -80,8 +80,6 @@ namespace Azure.Iot.Operations.Services.UnitTests.AssetAndDeviceRegistry
                 RuntimeHealth = health;
             }
         }
-
-        public Dictionary<string, Dictionary<string, List<ReportedEventRuntimeHealth>>> ReportedEventRuntimeHealths = new();
 
         public class ReportedEventRuntimeHealth
         {
@@ -109,8 +107,6 @@ namespace Azure.Iot.Operations.Services.UnitTests.AssetAndDeviceRegistry
                 RuntimeHealth = health;
             }
         }
-
-        public Dictionary<string, Dictionary<string, List<ReportedManagementActionRuntimeHealth>>> ReportedManagementActionRuntimeHealths = new();
 
         public class ReportedManagementActionRuntimeHealth
         {
