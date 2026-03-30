@@ -135,12 +135,17 @@ namespace Azure.Iot.Operations.Services.AssetAndDeviceRegistry
 
             if (updateCache)
             {
-                _cachedDatasetsRuntimeHealth[streamName] = streamRuntimeHealth;
+                _cachedStreamsRuntimeHealth[streamName] = streamRuntimeHealth;
             }
 
             if (sendIt)
             {
                 await _azureDeviceRegistryClient.ReportStreamRuntimeHealthAsync(_deviceName, _inboundEndpointName, _assetName, new List<StreamsRuntimeHealthEvent> { streamsHealthEvent }, telemetryTimeout, cancellationToken);
+            }
+
+            if ((updateCache || sendIt) && !_periodicSender.IsRunning())
+            {
+                await _periodicSender.StartAsync(cancellationToken);
             }
         }
 
@@ -175,6 +180,11 @@ namespace Azure.Iot.Operations.Services.AssetAndDeviceRegistry
             {
                 await _azureDeviceRegistryClient.ReportEventRuntimeHealthAsync(_deviceName, _inboundEndpointName, _assetName, new List<EventsRuntimeHealthEvent> { eventsHealthEvent }, telemetryTimeout, cancellationToken);
             }
+
+            if ((updateCache || sendIt) && !_periodicSender.IsRunning())
+            {
+                await _periodicSender.StartAsync(cancellationToken);
+            }
         }
 
         public async Task ReportManagementActionHealthStatusAsync(string managementGroupName, string managementActionName, RuntimeHealth managementActionRuntimeHealth, TimeSpan? telemetryTimeout = default, CancellationToken cancellationToken = default)
@@ -207,6 +217,11 @@ namespace Azure.Iot.Operations.Services.AssetAndDeviceRegistry
             if (sendIt)
             {
                 await _azureDeviceRegistryClient.ReportManagementActionRuntimeHealthAsync(_deviceName, _inboundEndpointName, _assetName, new List<ManagementActionsRuntimeHealthEvent> { managementActionsHealthEvent }, telemetryTimeout, cancellationToken);
+            }
+
+            if ((updateCache || sendIt) && !_periodicSender.IsRunning())
+            {
+                await _periodicSender.StartAsync(cancellationToken);
             }
         }
 

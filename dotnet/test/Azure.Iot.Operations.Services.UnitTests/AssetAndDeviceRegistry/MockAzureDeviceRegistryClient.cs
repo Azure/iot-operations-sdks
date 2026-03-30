@@ -29,7 +29,7 @@ namespace Azure.Iot.Operations.Services.UnitTests.AssetAndDeviceRegistry
             }
         }
 
-        public List<ReportedDatasetRuntimeHealth> ReportedDatasetRuntimeHealths = new();
+        public Dictionary<string, List<ReportedDatasetRuntimeHealth>> ReportedDatasetRuntimeHealths = new();
 
         public class ReportedDatasetRuntimeHealth
         {
@@ -55,6 +55,90 @@ namespace Azure.Iot.Operations.Services.UnitTests.AssetAndDeviceRegistry
             }
         }
 
+        public Dictionary<string, List<ReportedStreamRuntimeHealth>> ReportedStreamRuntimeHealths = new();
+
+        public class ReportedStreamRuntimeHealth
+        {
+            public string DeviceName { get; set; }
+
+            public string InboundEndpointName { get; set; }
+
+            public string AssetName { get; set; }
+
+            public string StreamName { get; set; }
+
+            public RuntimeHealth RuntimeHealth { get; set; }
+
+            public DateTime DateTimeReported { get; set; } = DateTime.UtcNow;
+
+            public ReportedStreamRuntimeHealth(string deviceName, string inboundEndpointName, string assetName, string streamName, RuntimeHealth health)
+            {
+                DeviceName = deviceName;
+                InboundEndpointName = inboundEndpointName;
+                AssetName = assetName;
+                StreamName = streamName;
+                RuntimeHealth = health;
+            }
+        }
+
+        public Dictionary<string, Dictionary<string, List<ReportedEventRuntimeHealth>>> ReportedEventRuntimeHealths = new();
+
+        public class ReportedEventRuntimeHealth
+        {
+            public string DeviceName { get; set; }
+
+            public string InboundEndpointName { get; set; }
+
+            public string AssetName { get; set; }
+
+            public string EventGroupName { get; set; }
+
+            public string EventName { get; set; }
+
+            public RuntimeHealth RuntimeHealth { get; set; }
+
+            public DateTime DateTimeReported { get; set; } = DateTime.UtcNow;
+
+            public ReportedEventRuntimeHealth(string deviceName, string inboundEndpointName, string assetName, string eventGroupName, string eventName, RuntimeHealth health)
+            {
+                DeviceName = deviceName;
+                InboundEndpointName = inboundEndpointName;
+                AssetName = assetName;
+                EventGroupName = eventGroupName;
+                EventName = eventName;
+                RuntimeHealth = health;
+            }
+        }
+
+        public Dictionary<string, Dictionary<string, List<ReportedManagementActionRuntimeHealth>>> ReportedManagementActionRuntimeHealths = new();
+
+        public class ReportedManagementActionRuntimeHealth
+        {
+            public string DeviceName { get; set; }
+
+            public string InboundEndpointName { get; set; }
+
+            public string AssetName { get; set; }
+
+            public string ManagementGroupName { get; set; }
+
+            public string ManagementActionName { get; set; }
+
+            public RuntimeHealth RuntimeHealth { get; set; }
+
+            public DateTime DateTimeReported { get; set; } = DateTime.UtcNow;
+
+            public ReportedManagementActionRuntimeHealth(string deviceName, string inboundEndpointName, string assetName, string managementGroupName, string managementActionName, RuntimeHealth health)
+            {
+                DeviceName = deviceName;
+                InboundEndpointName = inboundEndpointName;
+                AssetName = assetName;
+                ManagementGroupName = managementGroupName;
+                ManagementActionName = managementActionName;
+                RuntimeHealth = health;
+            }
+        }
+
         public Task ReportDeviceEndpointRuntimeHealthAsync(string deviceName, string inboundEndpointName, RuntimeHealth deviceEndpointRuntimeHealth, TimeSpan? telemetryTimeout = null, CancellationToken cancellationToken = default)
         {
             ReportedDeviceEndpointRuntimeHealths.Add(new ReportedDeviceEndpointRuntimeHealth(deviceName, inboundEndpointName, deviceEndpointRuntimeHealth));
@@ -65,7 +149,12 @@ namespace Azure.Iot.Operations.Services.UnitTests.AssetAndDeviceRegistry
         {
             foreach (DatasetsRuntimeHealthEvent datasetHealthEvent in datasetsRuntimeHealth)
             {
-                ReportedDatasetRuntimeHealths.Add(new ReportedDatasetRuntimeHealth(deviceName, inboundEndpointName, assetName, datasetHealthEvent.DatasetName, datasetHealthEvent.RuntimeHealth));
+                if (!ReportedDatasetRuntimeHealths.ContainsKey(datasetHealthEvent.DatasetName))
+                {
+                    ReportedDatasetRuntimeHealths.Add(datasetHealthEvent.DatasetName, new List<ReportedDatasetRuntimeHealth>());
+                }
+
+                ReportedDatasetRuntimeHealths[datasetHealthEvent.DatasetName].Add(new ReportedDatasetRuntimeHealth(deviceName, inboundEndpointName, assetName, datasetHealthEvent.DatasetName, datasetHealthEvent.RuntimeHealth));
             }
 
             return Task.CompletedTask;
@@ -73,16 +162,56 @@ namespace Azure.Iot.Operations.Services.UnitTests.AssetAndDeviceRegistry
 
         public Task ReportEventRuntimeHealthAsync(string deviceName, string inboundEndpointName, string assetName, List<EventsRuntimeHealthEvent> eventsRuntimeHealth, TimeSpan? telemetryTimeout = null, CancellationToken cancellationToken = default)
         {
+            foreach (EventsRuntimeHealthEvent eventGroupHealthEvents in eventsRuntimeHealth)
+            {
+                if (!ReportedEventRuntimeHealths.ContainsKey(eventGroupHealthEvents.EventGroupName))
+                {
+                    ReportedEventRuntimeHealths.Add(eventGroupHealthEvents.EventGroupName, new Dictionary<string, List<ReportedEventRuntimeHealth>>());
+                }
+
+                if (!ReportedEventRuntimeHealths[eventGroupHealthEvents.EventGroupName].ContainsKey(eventGroupHealthEvents.EventName))
+                {
+                    ReportedEventRuntimeHealths[eventGroupHealthEvents.EventGroupName][eventGroupHealthEvents.EventName] = new List<ReportedEventRuntimeHealth>();
+                }
+
+                ReportedEventRuntimeHealths[eventGroupHealthEvents.EventGroupName][eventGroupHealthEvents.EventName].Add(new ReportedEventRuntimeHealth(deviceName, inboundEndpointName, assetName, eventGroupHealthEvents.EventGroupName, eventGroupHealthEvents.EventName, eventGroupHealthEvents.RuntimeHealth));
+            }
+
             return Task.CompletedTask;
         }
 
         public Task ReportStreamRuntimeHealthAsync(string deviceName, string inboundEndpointName, string assetName, List<StreamsRuntimeHealthEvent> streamsRuntimeHealth, TimeSpan? telemetryTimeout = null, CancellationToken cancellationToken = default)
         {
+            foreach (StreamsRuntimeHealthEvent streamHealthEvent in streamsRuntimeHealth)
+            {
+                if (!ReportedStreamRuntimeHealths.ContainsKey(streamHealthEvent.StreamName))
+                {
+                    ReportedStreamRuntimeHealths.Add(streamHealthEvent.StreamName, new List<ReportedStreamRuntimeHealth>());
+                }
+
+                ReportedStreamRuntimeHealths[streamHealthEvent.StreamName].Add(new ReportedStreamRuntimeHealth(deviceName, inboundEndpointName, assetName, streamHealthEvent.StreamName, streamHealthEvent.RuntimeHealth));
+            }
+
             return Task.CompletedTask;
         }
 
         public Task ReportManagementActionRuntimeHealthAsync(string deviceName, string inboundEndpointName, string assetName, List<ManagementActionsRuntimeHealthEvent> managementActionsRuntimeHealth, TimeSpan? telemetryTimeout = null, CancellationToken cancellationToken = default)
         {
+            foreach (ManagementActionsRuntimeHealthEvent managementGroupHealthEvents in managementActionsRuntimeHealth)
+            {
+                if (!ReportedManagementActionRuntimeHealths.ContainsKey(managementGroupHealthEvents.ManagementGroupName))
+                {
+                    ReportedManagementActionRuntimeHealths.Add(managementGroupHealthEvents.ManagementGroupName, new Dictionary<string, List<ReportedManagementActionRuntimeHealth>>());
+                }
+
+                if (!ReportedManagementActionRuntimeHealths[managementGroupHealthEvents.ManagementGroupName].ContainsKey(managementGroupHealthEvents.ManagementActionName))
+                {
+                    ReportedManagementActionRuntimeHealths[managementGroupHealthEvents.ManagementGroupName][managementGroupHealthEvents.ManagementActionName] = new List<ReportedManagementActionRuntimeHealth>();
+                }
+
+                ReportedManagementActionRuntimeHealths[managementGroupHealthEvents.ManagementGroupName][managementGroupHealthEvents.ManagementActionName].Add(new ReportedManagementActionRuntimeHealth(deviceName, inboundEndpointName, assetName, managementGroupHealthEvents.ManagementGroupName, managementGroupHealthEvents.ManagementActionName, managementGroupHealthEvents.RuntimeHealth));
+            }
+
             return Task.CompletedTask;
         }
 
