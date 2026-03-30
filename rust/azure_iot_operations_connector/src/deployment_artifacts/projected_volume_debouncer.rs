@@ -72,9 +72,9 @@ pub enum ProjectedVolumeEventKind {
 
 /// A synthetic filesystem event representing a change in a projected volume.
 ///
-/// Unlike raw [`notify`] events, the `path` field contains a clean relative path
-/// within the projected volume (e.g., `my-dir/my-key`), with all Kubernetes
-/// internal entries filtered out.
+/// Unlike raw [`notify`] events, the `path` field contains a clean absolute path
+/// to the affected entry (e.g., `/etc/akri/secrets/my-dir/my-key`), with all
+/// Kubernetes internal entries filtered out.
 ///
 /// **Renames are never emitted.** Kubernetes secrets and ConfigMaps have no
 /// concept of renaming a key — deleting a key and adding a new one are
@@ -93,7 +93,7 @@ pub enum ProjectedVolumeEventKind {
 pub struct ProjectedVolumeEvent {
     /// The kind of change detected.
     pub kind: ProjectedVolumeEventKind,
-    /// The relative path of the affected entry within the projected volume.
+    /// The absolute path of the affected entry.
     pub path: PathBuf,
     /// When the change was detected.
     pub time: Instant,
@@ -181,7 +181,8 @@ impl ProjectedVolumeDebouncer {
                             let mut prev = state
                                 .lock()
                                 .unwrap_or_else(std::sync::PoisonError::into_inner);
-                            let changes = diff_snapshots(&prev, &new_snapshot, swap_time);
+                            let changes =
+                                diff_snapshots(&root_for_closure, &prev, &new_snapshot, swap_time);
                             *prev = new_snapshot;
                             drop(prev);
 
@@ -243,11 +244,14 @@ enum SnapshotEntry {
     Directory,
 }
 
+/// A directory snapshot mapping relative paths to their entries.
+type Snapshot = HashMap<PathBuf, SnapshotEntry>;
+
 /// Walks the projected volume directory and builds a map of relative paths to snapshot entries.
 ///
 /// Filters out all entries starting with `..` (Kubernetes internal plumbing) and follows
 /// symlinks to reach actual file content. Both files and directories are recorded.
-fn snapshot_directory(root: &Path) -> Result<HashMap<PathBuf, SnapshotEntry>, std::io::Error> {
+fn snapshot_directory(root: &Path) -> Result<Snapshot, std::io::Error> {
     let mut map = HashMap::new();
     snapshot_recursive(root, root, &mut map)?;
     Ok(map)
@@ -256,7 +260,7 @@ fn snapshot_directory(root: &Path) -> Result<HashMap<PathBuf, SnapshotEntry>, st
 fn snapshot_recursive(
     root: &Path,
     current: &Path,
-    map: &mut HashMap<PathBuf, SnapshotEntry>,
+    snapshot: &mut Snapshot,
 ) -> Result<(), std::io::Error> {
     for entry in fs::read_dir(current)? {
         let entry = entry?;
@@ -276,8 +280,8 @@ fn snapshot_recursive(
                 .strip_prefix(root)
                 .expect("path is always under root")
                 .to_path_buf();
-            map.insert(relative, SnapshotEntry::Directory);
-            snapshot_recursive(root, &path, map)?;
+            snapshot.insert(relative, SnapshotEntry::Directory);
+            snapshot_recursive(root, &path, snapshot)?;
         } else if metadata.is_file() {
             let contents = fs::read(&path)?;
             let hash: FileHash = Sha256::digest(&contents).into();
@@ -285,7 +289,7 @@ fn snapshot_recursive(
                 .strip_prefix(root)
                 .expect("path is always under root")
                 .to_path_buf();
-            map.insert(relative, SnapshotEntry::File(hash));
+            snapshot.insert(relative, SnapshotEntry::File(hash));
         }
     }
     Ok(())
@@ -293,8 +297,9 @@ fn snapshot_recursive(
 
 /// Compares two snapshots and produces synthetic events for any differences.
 fn diff_snapshots(
-    old: &HashMap<PathBuf, SnapshotEntry>,
-    new: &HashMap<PathBuf, SnapshotEntry>,
+    root: &Path,
+    old: &Snapshot,
+    new: &Snapshot,
     time: Instant,
 ) -> Vec<ProjectedVolumeEvent> {
     let mut events = Vec::new();
@@ -305,7 +310,7 @@ fn diff_snapshots(
             Some(SnapshotEntry::File(_)) if matches!(new_entry, SnapshotEntry::File(_)) => {
                 events.push(ProjectedVolumeEvent {
                     kind: ProjectedVolumeEventKind::FileModified,
-                    path: path.clone(),
+                    path: root.join(path),
                     time,
                 });
             }
@@ -319,14 +324,15 @@ fn diff_snapshots(
                     SnapshotEntry::File(_) => ProjectedVolumeEventKind::FileCreated,
                     SnapshotEntry::Directory => ProjectedVolumeEventKind::DirCreated,
                 };
+                let abs = root.join(path);
                 events.push(ProjectedVolumeEvent {
                     kind: remove_kind,
-                    path: path.clone(),
+                    path: abs.clone(),
                     time,
                 });
                 events.push(ProjectedVolumeEvent {
                     kind: create_kind,
-                    path: path.clone(),
+                    path: abs,
                     time,
                 });
             }
@@ -337,7 +343,7 @@ fn diff_snapshots(
                 };
                 events.push(ProjectedVolumeEvent {
                     kind,
-                    path: path.clone(),
+                    path: root.join(path),
                     time,
                 });
             }
@@ -352,7 +358,7 @@ fn diff_snapshots(
             };
             events.push(ProjectedVolumeEvent {
                 kind,
-                path: path.clone(),
+                path: root.join(path),
                 time,
             });
         }
@@ -460,16 +466,18 @@ mod tests {
     mod diff {
         use super::*;
 
+        const ROOT: &str = "/mnt/projected";
+
         #[test]
         fn detects_file_create() {
             let old = HashMap::new();
             let mut new = HashMap::new();
             new.insert(PathBuf::from("dir1/file1"), SnapshotEntry::File([0u8; 32]));
 
-            let events = diff_snapshots(&old, &new, Instant::now());
+            let events = diff_snapshots(Path::new(ROOT), &old, &new, Instant::now());
             assert_eq!(events.len(), 1);
             assert_eq!(events[0].kind, ProjectedVolumeEventKind::FileCreated);
-            assert_eq!(events[0].path, Path::new("dir1/file1"));
+            assert_eq!(events[0].path, Path::new("/mnt/projected/dir1/file1"));
         }
 
         #[test]
@@ -478,10 +486,10 @@ mod tests {
             let mut new = HashMap::new();
             new.insert(PathBuf::from("dir1"), SnapshotEntry::Directory);
 
-            let events = diff_snapshots(&old, &new, Instant::now());
+            let events = diff_snapshots(Path::new(ROOT), &old, &new, Instant::now());
             assert_eq!(events.len(), 1);
             assert_eq!(events[0].kind, ProjectedVolumeEventKind::DirCreated);
-            assert_eq!(events[0].path, Path::new("dir1"));
+            assert_eq!(events[0].path, Path::new(ROOT).join(Path::new("dir1")));
         }
 
         #[test]
@@ -491,9 +499,10 @@ mod tests {
             let mut new = HashMap::new();
             new.insert(PathBuf::from("dir1/file1"), SnapshotEntry::File([1u8; 32]));
 
-            let events = diff_snapshots(&old, &new, Instant::now());
+            let events = diff_snapshots(Path::new(ROOT), &old, &new, Instant::now());
             assert_eq!(events.len(), 1);
             assert_eq!(events[0].kind, ProjectedVolumeEventKind::FileModified);
+            assert_eq!(events[0].path, Path::new(ROOT).join(Path::new("dir1/file1")));
         }
 
         #[test]
@@ -502,9 +511,10 @@ mod tests {
             old.insert(PathBuf::from("dir1/file1"), SnapshotEntry::File([0u8; 32]));
             let new = HashMap::new();
 
-            let events = diff_snapshots(&old, &new, Instant::now());
+            let events = diff_snapshots(Path::new(ROOT), &old, &new, Instant::now());
             assert_eq!(events.len(), 1);
             assert_eq!(events[0].kind, ProjectedVolumeEventKind::FileRemoved);
+            assert_eq!(events[0].path, Path::new(ROOT).join(Path::new("dir1/file1")));
         }
 
         #[test]
@@ -513,9 +523,10 @@ mod tests {
             old.insert(PathBuf::from("dir1"), SnapshotEntry::Directory);
             let new = HashMap::new();
 
-            let events = diff_snapshots(&old, &new, Instant::now());
+            let events = diff_snapshots(Path::new(ROOT), &old, &new, Instant::now());
             assert_eq!(events.len(), 1);
             assert_eq!(events[0].kind, ProjectedVolumeEventKind::DirRemoved);
+            assert_eq!(events[0].path, Path::new(ROOT).join(Path::new("dir1")));
         }
 
         #[test]
@@ -526,7 +537,7 @@ mod tests {
             let mut new = HashMap::new();
             new.insert(PathBuf::from("dir1/file1"), SnapshotEntry::File(hash));
 
-            let events = diff_snapshots(&old, &new, Instant::now());
+            let events = diff_snapshots(Path::new(ROOT), &old, &new, Instant::now());
             assert!(events.is_empty());
         }
 
@@ -537,7 +548,7 @@ mod tests {
             let mut new = HashMap::new();
             new.insert(PathBuf::from("dir1"), SnapshotEntry::Directory);
 
-            let events = diff_snapshots(&old, &new, Instant::now());
+            let events = diff_snapshots(Path::new(ROOT), &old, &new, Instant::now());
             assert!(events.is_empty());
         }
 
@@ -563,28 +574,29 @@ mod tests {
             new.insert(PathBuf::from("file4"), SnapshotEntry::File(file4_hash));
             new.insert(PathBuf::from("dir3"), SnapshotEntry::Directory);
 
-            let events = diff_snapshots(&old, &new, Instant::now());
+            let events = diff_snapshots(Path::new(ROOT), &old, &new, Instant::now());
             assert_eq!(events.len(), 5);
 
+            let root = Path::new(ROOT);
             let has_create_file = events.iter().any(|e| {
                 e.kind == ProjectedVolumeEventKind::FileCreated
-                    && e.path == Path::new("file4")
+                    && e.path == root.join("file4")
             });
             let has_create_dir = events.iter().any(|e| {
                 e.kind == ProjectedVolumeEventKind::DirCreated
-                    && e.path == Path::new("dir3")
+                    && e.path == root.join("dir3")
             });
             let has_modify = events.iter().any(|e| {
                 e.kind == ProjectedVolumeEventKind::FileModified
-                    && e.path == Path::new("file2")
+                    && e.path == root.join("file2")
             });
             let has_remove_file = events.iter().any(|e| {
                 e.kind == ProjectedVolumeEventKind::FileRemoved
-                    && e.path == Path::new("file3")
+                    && e.path == root.join("file3")
             });
             let has_remove_dir = events.iter().any(|e| {
                 e.kind == ProjectedVolumeEventKind::DirRemoved
-                    && e.path == Path::new("dir2")
+                    && e.path == root.join("dir2")
             });
 
             assert!(has_create_file, "should detect created file");
@@ -725,11 +737,11 @@ mod tests {
             assert_eq!(events.len(), 2);
             let has_root = events.iter().any(|e| {
                 e.kind == ProjectedVolumeEventKind::FileModified
-                    && e.path == Path::new("file1")
+                    && e.path == vol.path().join("file1")
             });
             let has_nested = events.iter().any(|e| {
                 e.kind == ProjectedVolumeEventKind::FileModified
-                    && e.path == Path::new("subdir/file2")
+                    && e.path == vol.path().join("subdir/file2")
             });
             assert!(has_root, "should detect root file modification");
             assert!(has_nested, "should detect nested file modification");
@@ -755,11 +767,11 @@ mod tests {
             assert_eq!(events.len(), 2);
             let has_root = events.iter().any(|e| {
                 e.kind == ProjectedVolumeEventKind::FileCreated
-                    && e.path == Path::new("file2")
+                    && e.path == vol.path().join("file2")
             });
             let has_nested = events.iter().any(|e| {
                 e.kind == ProjectedVolumeEventKind::FileCreated
-                    && e.path == Path::new("subdir/file3")
+                    && e.path == vol.path().join("subdir/file3")
             });
             assert!(has_root, "should detect root file addition");
             assert!(has_nested, "should detect nested file addition");
@@ -786,11 +798,11 @@ mod tests {
             assert_eq!(events.len(), 2);
             let has_root = events.iter().any(|e| {
                 e.kind == ProjectedVolumeEventKind::FileRemoved
-                    && e.path == Path::new("file1")
+                    && e.path == vol.path().join("file1")
             });
             let has_nested = events.iter().any(|e| {
                 e.kind == ProjectedVolumeEventKind::FileRemoved
-                    && e.path == Path::new("subdir/file2")
+                    && e.path == vol.path().join("subdir/file2")
             });
             assert!(has_root, "should detect root file removal");
             assert!(has_nested, "should detect nested file removal");
@@ -814,11 +826,11 @@ mod tests {
             let events = collector.events_batch().unwrap();
             let has_dir_create = events.iter().any(|e| {
                 e.kind == ProjectedVolumeEventKind::DirCreated
-                    && e.path == Path::new("newdir1")
+                    && e.path == vol.path().join("newdir1")
             });
             let has_file_create = events.iter().any(|e| {
                 e.kind == ProjectedVolumeEventKind::FileCreated
-                    && e.path == Path::new("newdir1/file1")
+                    && e.path == vol.path().join("newdir1/file1")
             });
             assert!(has_dir_create, "should detect directory creation");
             assert!(has_file_create, "should detect file creation in new dir");
@@ -844,11 +856,11 @@ mod tests {
             let events = collector.events_batch().unwrap();
             let has_dir_remove = events.iter().any(|e| {
                 e.kind == ProjectedVolumeEventKind::DirRemoved
-                    && e.path == Path::new("ephemeral")
+                    && e.path == vol.path().join("ephemeral")
             });
             let has_file_remove = events.iter().any(|e| {
                 e.kind == ProjectedVolumeEventKind::FileRemoved
-                    && e.path == Path::new("ephemeral/file1")
+                    && e.path == vol.path().join("ephemeral/file1")
             });
             assert!(has_dir_remove, "should detect directory removal");
             assert!(
@@ -916,7 +928,7 @@ mod tests {
             let has = |kind: ProjectedVolumeEventKind, path: &str| {
                 events
                     .iter()
-                    .any(|e| e.kind == kind && e.path == Path::new(path))
+                    .any(|e| e.kind == kind && e.path == vol.path().join(path))
             };
             assert!(
                 has(ProjectedVolumeEventKind::FileModified, "modified"),
