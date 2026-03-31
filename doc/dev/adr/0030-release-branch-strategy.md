@@ -99,7 +99,7 @@ Tags are created for both RC and final releases:
 
 To backport a fix to a previously released version:
 
-1. Create a new branch off the release tag using the format `release/<language>-<package>-<version>.x` (e.g., `release/rust-services-0.14.x`)
+1. Create a new branch off the release tag using the format `release/<language>-<package>-<version>.x` (e.g., `release/rust-services-1.0.x`)
 2. The fix goes to `main` first, then is cherry-picked to the new branch
 3. This only works if the next patch version is still available (e.g., `v1.0.1` has not been released yet)
 
