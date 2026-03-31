@@ -53,6 +53,7 @@ namespace EventDrivenTcpThermostatConnector
             try
             {
                 _logger.LogInformation("Reporting device endpoint health as 'Available' to Azure Device Registry service...");
+                await args.DeviceEndpointClient.SetRuntimeHealthBackgroundReportingIntervalAsync(TimeSpan.FromSeconds(1), cancellationToken);
                 await args.DeviceEndpointClient.ReportRuntimeHealthAsync(
                     new ConnectorRuntimeHealth()
                     {

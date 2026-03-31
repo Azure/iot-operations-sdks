@@ -15,7 +15,7 @@ namespace Azure.Iot.Operations.Connector
         private readonly string _deviceName;
         private readonly string _inboundEndpointName;
         private readonly Device _device;
-        private readonly DeviceEndpointHealthStatusReporter _healthReporter;
+        private readonly DeviceEndpointRuntimeHealthReporter _healthReporter;
 
         // Used to make getAndUpdate calls behave atomically so that a user does not accidentally
         // update a device while another thread is in the middle of a getAndUpdate call.
@@ -27,7 +27,7 @@ namespace Azure.Iot.Operations.Connector
             _deviceName = deviceName;
             _inboundEndpointName = inboundEndpointName;
             _device = device;
-            _healthReporter = new(adrClient.GetWrapped(), deviceName, inboundEndpointName, TimeSpan.FromSeconds(10)); //TODO timespan param somewhere?
+            _healthReporter = new(adrClient.GetWrapped(), deviceName, inboundEndpointName, TimeSpan.FromSeconds(10));
         }
 
         /// <summary>
@@ -113,6 +113,16 @@ namespace Azure.Iot.Operations.Connector
                 cancellationToken);
         }
 
+        /// <summary>
+        /// Report this device endpoint's runtime health.
+        /// </summary>
+        /// <param name="runtimeHealth">The runtime health of this device endpoint.</param>
+        /// <param name="telemetryTimeout">The timeout to use when sending this telemetry if any telemetry is sent.</param>
+        /// <param name="cancellationToken">Cancellation token.</param>
+        /// <remarks>
+        /// This method uses the <see cref="DeviceEndpointRuntimeHealthReporter"/> class, so it will de-duplicate runtime healths and will periodically report the last known
+        /// runtime health for as long as this device endpoint is available. Because of that, connector applications can freely call this method repeatedly even if the runtime health hasn't changed.
+        /// </remarks>
         public async Task ReportRuntimeHealthAsync(ConnectorRuntimeHealth runtimeHealth, TimeSpan? telemetryTimeout = default, CancellationToken cancellationToken = default)
         {
             RuntimeHealth servicesRuntimeHealth = new()
@@ -125,6 +135,20 @@ namespace Azure.Iot.Operations.Connector
             };
 
             await _healthReporter.ReportDeviceEndpointRuntimeHealthAsync(servicesRuntimeHealth, telemetryTimeout, cancellationToken);
+        }
+
+        /// <summary>
+        /// Change the interval at which this client will send background reports of the latest cached asset runtime healths
+        /// </summary>
+        /// <param name="reportingInterval">The new reporting interval</param>
+        /// <param name="cancellationToken">Cancellation token</param>
+        /// <remarks>
+        /// If background reporting is currently in progress, it will be cancelled and restarted with this new interval. If background reporting is not currently in progress,
+        /// calling this method will not start it.
+        /// </remarks>
+        public async Task SetRuntimeHealthBackgroundReportingIntervalAsync(TimeSpan reportingInterval, CancellationToken cancellationToken = default)
+        {
+            await _healthReporter.SetRuntimeHealthBackgroundReportingIntervalAsync(reportingInterval, cancellationToken);
         }
 
         public virtual async ValueTask DisposeAsync()

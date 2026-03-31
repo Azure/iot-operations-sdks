@@ -20,7 +20,7 @@ namespace Azure.Iot.Operations.Services.UnitTests.AssetAndDeviceRegistry
             TimeSpan reportingPeriod = TimeSpan.FromMilliseconds(10);
 
             MockAzureDeviceRegistryClient mockAdrClient = new MockAzureDeviceRegistryClient();
-            DeviceEndpointHealthStatusReporter reporter = new(mockAdrClient, deviceName, inboundEndpointName, reportingPeriod);
+            DeviceEndpointRuntimeHealthReporter reporter = new(mockAdrClient, deviceName, inboundEndpointName, reportingPeriod);
 
             var initialReportedHealth = new RuntimeHealth()
             {

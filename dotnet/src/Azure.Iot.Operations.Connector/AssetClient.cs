@@ -18,7 +18,7 @@ namespace Azure.Iot.Operations.Connector
         private readonly string _assetName;
         private readonly Device _device;
         private readonly Asset _asset;
-        private readonly AssetHealthStatusReporter _healthReporter;
+        private readonly AssetRuntimeHealthReporter _healthReporter;
 
         // Used to make getAndUpdate calls behave atomically so that a user does not accidentally update
         // an asset while another thread is in the middle of a getAndUpdate call.
@@ -33,7 +33,7 @@ namespace Azure.Iot.Operations.Connector
             _connector = connector;
             _device = device;
             _asset = asset;
-            _healthReporter = new(adrClient.GetWrapped(), deviceName, inboundEndpointName, assetName, TimeSpan.FromSeconds(10)); //TODO timespan param somewhere? Maybe a AssetClient.CreateHealthStatusReporter API?
+            _healthReporter = new(adrClient.GetWrapped(), deviceName, inboundEndpointName, assetName, TimeSpan.FromSeconds(10));
         }
 
         /// <summary>
@@ -114,11 +114,15 @@ namespace Azure.Iot.Operations.Connector
         }
 
         /// <summary>
-        /// Report the health of a given asset's datasets.
+        /// Report a batch of datasets' runtime healths.
         /// </summary>
-        /// <param name="runtimeHealth">The health status to report.</param>
-        /// <param name="telemetryTimeout">Optional message expiry time for the telemetry.</param>
+        /// <param name="runtimeHealth">The runtime healths of some datasets.</param>
+        /// <param name="telemetryTimeout">The timeout to use when sending this telemetry if any telemetry is sent.</param>
         /// <param name="cancellationToken">Cancellation token.</param>
+        /// <remarks>
+        /// This method uses the <see cref="AssetRuntimeHealthReporter"/> class, so it will de-duplicate runtime healths and will periodically report the last known
+        /// runtime health for as long as this asset is available. Because of that, connector applications can freely call this method repeatedly even if the runtime health hasn't changed.
+        /// </remarks>
         public async Task ReportDatasetRuntimeHealthAsync(List<ConnectorDatasetsRuntimeHealthEvent> runtimeHealth, TimeSpan? telemetryTimeout = null, CancellationToken cancellationToken = default)
         {
             List<DatasetsRuntimeHealthEvent> servicesRuntimeHealths = new();
@@ -141,6 +145,17 @@ namespace Azure.Iot.Operations.Connector
             await _healthReporter.ReportDatasetHealthStatusAsync(servicesRuntimeHealths, telemetryTimeout, cancellationToken);
         }
 
+        /// <summary>
+        /// Report a dataset's runtime health.
+        /// </summary>
+        /// <param name="datasetName">The name of the dataset</param>
+        /// <param name="runtimeHealth">The runtime health of this dataset.</param>
+        /// <param name="telemetryTimeout">The timeout to use when sending this telemetry if any telemetry is sent.</param>
+        /// <param name="cancellationToken">Cancellation token.</param>
+        /// <remarks>
+        /// This method uses the <see cref="AssetRuntimeHealthReporter"/> class, so it will de-duplicate runtime healths and will periodically report the last known
+        /// runtime health for as long as this asset is available. Because of that, connector applications can freely call this method repeatedly even if the runtime health hasn't changed.
+        /// </remarks>
         public async Task ReportDatasetRuntimeHealthAsync(string datasetName, ConnectorRuntimeHealth runtimeHealth, TimeSpan? telemetryTimeout = null, CancellationToken cancellationToken = default)
         {
             var datasetsRuntimeHealthEvent = new ConnectorDatasetsRuntimeHealthEvent()
@@ -153,11 +168,15 @@ namespace Azure.Iot.Operations.Connector
         }
 
         /// <summary>
-        /// Report the health of a given asset's events.
+        /// Report a batch of events' runtime healths.
         /// </summary>
-        /// <param name="runtimeHealth">The health status to report.</param>
-        /// <param name="telemetryTimeout">Optional message expiry time for the telemetry.</param>
+        /// <param name="runtimeHealth">The runtime healths of some events.</param>
+        /// <param name="telemetryTimeout">The timeout to use when sending this telemetry if any telemetry is sent.</param>
         /// <param name="cancellationToken">Cancellation token.</param>
+        /// <remarks>
+        /// This method uses the <see cref="AssetRuntimeHealthReporter"/> class, so it will de-duplicate runtime healths and will periodically report the last known
+        /// runtime health for as long as this asset is available. Because of that, connector applications can freely call this method repeatedly even if the runtime health hasn't changed.
+        /// </remarks>
         public async Task ReportEventRuntimeHealthAsync(List<ConnectorEventsRuntimeHealthEvent> runtimeHealth, TimeSpan? telemetryTimeout = null, CancellationToken cancellationToken = default)
         {
             List<EventsRuntimeHealthEvent> servicesRuntimeHealths = new();
@@ -181,11 +200,17 @@ namespace Azure.Iot.Operations.Connector
         }
 
         /// <summary>
-        /// Report the health of a given asset's event.
+        /// Report an event's runtime health.
         /// </summary>
-        /// <param name="runtimeHealth">The health status to report.</param>
-        /// <param name="telemetryTimeout">Optional message expiry time for the telemetry.</param>
+        /// <param name="eventGroupName">The name of the event group that this event belongs to</param>
+        /// <param name="eventName">The name of the event</param>
+        /// <param name="runtimeHealth">The runtime health of this event.</param>
+        /// <param name="telemetryTimeout">The timeout to use when sending this telemetry if any telemetry is sent.</param>
         /// <param name="cancellationToken">Cancellation token.</param>
+        /// <remarks>
+        /// This method uses the <see cref="AssetRuntimeHealthReporter"/> class, so it will de-duplicate runtime healths and will periodically report the last known
+        /// runtime health for as long as this asset is available. Because of that, connector applications can freely call this method repeatedly even if the runtime health hasn't changed.
+        /// </remarks>
         public async Task ReportEventRuntimeHealthAsync(string eventGroupName, string eventName, ConnectorRuntimeHealth runtimeHealth, TimeSpan? telemetryTimeout = null, CancellationToken cancellationToken = default)
         {
             ConnectorEventsRuntimeHealthEvent eventsRuntimeHealthEvent = new ConnectorEventsRuntimeHealthEvent()
@@ -201,11 +226,15 @@ namespace Azure.Iot.Operations.Connector
         }
 
         /// <summary>
-        /// Report the health of a given asset's streams.
+        /// Report a batch of streams' runtime healths.
         /// </summary>
-        /// <param name="runtimeHealth">The health status to report.</param>
-        /// <param name="telemetryTimeout">Optional message expiry time for the telemetry.</param>
+        /// <param name="runtimeHealth">The runtime healths of some streams.</param>
+        /// <param name="telemetryTimeout">The timeout to use when sending this telemetry if any telemetry is sent.</param>
         /// <param name="cancellationToken">Cancellation token.</param>
+        /// <remarks>
+        /// This method uses the <see cref="AssetRuntimeHealthReporter"/> class, so it will de-duplicate runtime healths and will periodically report the last known
+        /// runtime health for as long as this asset is available. Because of that, connector applications can freely call this method repeatedly even if the runtime health hasn't changed.
+        /// </remarks>
         public async Task ReportStreamRuntimeHealthAsync(List<ConnectorStreamsRuntimeHealthEvent> runtimeHealth, TimeSpan? telemetryTimeout = null, CancellationToken cancellationToken = default)
         {
             List<StreamsRuntimeHealthEvent> servicesRuntimeHealths = new();
@@ -228,6 +257,17 @@ namespace Azure.Iot.Operations.Connector
             await _healthReporter.ReportStreamHealthStatusAsync(servicesRuntimeHealths, telemetryTimeout, cancellationToken);
         }
 
+        /// <summary>
+        /// Report a stream's runtime health.
+        /// </summary>
+        /// <param name="streamName">The name of the stream</param>
+        /// <param name="runtimeHealth">The runtime health of this stream.</param>
+        /// <param name="telemetryTimeout">The timeout to use when sending this telemetry if any telemetry is sent.</param>
+        /// <param name="cancellationToken">Cancellation token.</param>
+        /// <remarks>
+        /// This method uses the <see cref="AssetRuntimeHealthReporter"/> class, so it will de-duplicate runtime healths and will periodically report the last known
+        /// runtime health for as long as this asset is available. Because of that, connector applications can freely call this method repeatedly even if the runtime health hasn't changed.
+        /// </remarks>
         public async Task ReportStreamRuntimeHealthAsync(string streamName, ConnectorRuntimeHealth runtimeHealth, TimeSpan? telemetryTimeout = null, CancellationToken cancellationToken = default)
         {
             ConnectorStreamsRuntimeHealthEvent streamsRuntimeHealthEvent = new()
@@ -240,11 +280,15 @@ namespace Azure.Iot.Operations.Connector
         }
 
         /// <summary>
-        /// Report the health of some given management actions.
+        /// Report a batch of management actions' runtime healths.
         /// </summary>
-        /// <param name="runtimeHealth">The health status to report.</param>
-        /// <param name="telemetryTimeout">Optional message expiry time for the telemetry.</param>
+        /// <param name="runtimeHealth">The runtime healths of some management actions.</param>
+        /// <param name="telemetryTimeout">The timeout to use when sending this telemetry if any telemetry is sent.</param>
         /// <param name="cancellationToken">Cancellation token.</param>
+        /// <remarks>
+        /// This method uses the <see cref="AssetRuntimeHealthReporter"/> class, so it will de-duplicate runtime healths and will periodically report the last known
+        /// runtime health for as long as this asset is available. Because of that, connector applications can freely call this method repeatedly even if the runtime health hasn't changed.
+        /// </remarks>
         public async Task ReportManagementActionRuntimeHealthAsync(List<ConnectorManagementActionsRuntimeHealthEvent> runtimeHealth, TimeSpan? telemetryTimeout = null, CancellationToken cancellationToken = default)
         {
             List<ManagementActionsRuntimeHealthEvent> servicesRuntimeHealths = new();
@@ -268,6 +312,18 @@ namespace Azure.Iot.Operations.Connector
             await _healthReporter.ReportManagementActionHealthStatusAsync(servicesRuntimeHealths, telemetryTimeout, cancellationToken);
         }
 
+        /// <summary>
+        /// Report a management action's runtime health.
+        /// </summary>
+        /// <param name="managementGroupName">The name of the management group that this action belongs to</param>
+        /// <param name="managementActionName">The name of the management action</param>
+        /// <param name="runtimeHealth">The runtime health of this management action.</param>
+        /// <param name="telemetryTimeout">The timeout to use when sending this telemetry if any telemetry is sent.</param>
+        /// <param name="cancellationToken">Cancellation token.</param>
+        /// <remarks>
+        /// This method uses the <see cref="AssetRuntimeHealthReporter"/> class, so it will de-duplicate runtime healths and will periodically report the last known
+        /// runtime health for as long as this asset is available. Because of that, connector applications can freely call this method repeatedly even if the runtime health hasn't changed.
+        /// </remarks>
         public async Task ReportManagementActionRuntimeHealthAsync(string managementGroupName, string managementActionName, ConnectorRuntimeHealth runtimeHealth, TimeSpan? telemetryTimeout = null, CancellationToken cancellationToken = default)
         {
             ConnectorManagementActionsRuntimeHealthEvent managementActionsRuntimeHealthEvent = new()
@@ -278,6 +334,20 @@ namespace Azure.Iot.Operations.Connector
             };
 
             await ReportManagementActionRuntimeHealthAsync(new List<ConnectorManagementActionsRuntimeHealthEvent>() { managementActionsRuntimeHealthEvent }, telemetryTimeout, cancellationToken);
+        }
+
+        /// <summary>
+        /// Change the interval at which this client will send background reports of the latest cached asset runtime healths
+        /// </summary>
+        /// <param name="reportingInterval">The new reporting interval</param>
+        /// <param name="cancellationToken">Cancellation token</param>
+        /// <remarks>
+        /// If background reporting is currently in progress, it will be cancelled and restarted with this new interval. If background reporting is not currently in progress,
+        /// calling this method will not start it.
+        /// </remarks>
+        public async Task SetRuntimeHealthBackgroundReportingIntervalAsync(TimeSpan reportingInterval, CancellationToken cancellationToken = default)
+        {
+            await _healthReporter.SetRuntimeHealthBackgroundReportingIntervalAsync(reportingInterval, cancellationToken);
         }
 
         /// <summary>

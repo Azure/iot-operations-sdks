@@ -5,11 +5,19 @@ using Azure.Iot.Operations.Services.AssetAndDeviceRegistry.Models;
 
 namespace Azure.Iot.Operations.Services.AssetAndDeviceRegistry
 {
-    // allows user to send individual health events (if they are diff from cached) and also sends a batch of those cached health events periodically regardless.
-    // users can still stop the periodic sending of particular events/streams/datasets/etc without preventing the other events/streams/datasets/etc from their
-    // periodic batch send. The periodic sending starts as soon as the first entity reports a health status and stops if all cached entries have been paused or
-    // if the reporter is disposed.
-    public class AssetHealthStatusReporter : IAsyncDisposable
+    /// <summary>
+    /// A class for smartly sending runtime health events for a specific asset to the Azure Device Registry service
+    /// </summary>
+    /// <remarks>
+    /// This class has two main features that differentiate it from just directly calling the runtime health update APIs like <see cref="IAzureDeviceRegistryClient.ReportDatasetRuntimeHealthAsync(string, string, string, List{DatasetsRuntimeHealthEvent}, TimeSpan?, CancellationToken)"/>:
+    ///  1) De-duplication of dataset/stream/event/management action runtime healths. This allows you to write your connector code such that it repeatedly calls an API like <see cref="ReportDatasetHealthStatusAsync(List{DatasetsRuntimeHealthEvent}, TimeSpan?, CancellationToken)"/>
+    ///  even if the runtime health has not changed as this client will cache the last sent runtime health and check if the new runtime health actually needs to be forwarded to the service.
+    ///  2) Periodic reporting of the last known runtime healths of the datasets/streams/events/management actions with updated timestamps. Connectors are advised to periodically send these updates to ensure that
+    ///  the Azure Device Registry service has an up-to-date picture of the runtime health of each dataset/stream/event/management action and this class handles that for you. Additionally, the periodic updates can
+    ///  be paused for specific datasets/streams/events/management actions when their runtime health becomes unknown. This background reporting will send the runtime health for all non-paused datasets/streams/events/management actions
+    ///  at once and the period that it does this can be changed with <see cref="SetRuntimeHealthBackgroundReportingIntervalAsync(TimeSpan, CancellationToken)"/>.
+    /// </remarks>
+    public class AssetRuntimeHealthReporter : IAsyncDisposable
     {
         // Any null RuntimeHealth as a value in the below dictionaries signals that reporting is paused for this dataset/stream/etc or that no runtime health has been reported by the user yet.
         private readonly Dictionary<string, RuntimeHealth?> _cachedDatasetsRuntimeHealth = new(); // keys are dataset names, values are their corresponding cached healths
@@ -17,14 +25,25 @@ namespace Azure.Iot.Operations.Services.AssetAndDeviceRegistry
         private readonly Dictionary<string, Dictionary<string, RuntimeHealth?>> _cachedEventGroupsRuntimeHealth = new(); // keys are event group names, values are dictionaries where keys are event names and the values are the cached health of that event group's event
         private readonly Dictionary<string, Dictionary<string, RuntimeHealth?>> _cachedManagementGroupsRuntimeHealth = new(); // keys are management group names, values are dictionaries where keys are management action names and the values are the cached health of that management group's action
 
-        private readonly Countdown _periodicSender;
+        private Countdown _periodicSender;
 
         private readonly IAzureDeviceRegistryClient _azureDeviceRegistryClient;
         private readonly string _deviceName;
         private readonly string _inboundEndpointName;
         private readonly string _assetName;
 
-        public AssetHealthStatusReporter(IAzureDeviceRegistryClient azureDeviceRegistryClient, string deviceName, string inboundEndpointName, string assetName, TimeSpan? reportingPeriod = null)
+        /// <summary>
+        /// Create a new runtime health reporter for a given asset
+        /// </summary>
+        /// <param name="azureDeviceRegistryClient">The Azure Device Registry client used to send these runtime health events.</param>
+        /// <param name="deviceName">The name of the device.</param>
+        /// <param name="inboundEndpointName">The name of the inbound endpoint/</param>
+        /// <param name="assetName">The name of the asset.</param>
+        /// <param name="reportingPeriod">The interval at which to send background reports.</param>
+        /// <remarks>
+        /// Background reporting does not start until the first runtime health of a dataset/stream/event/management action is set by calling a method like <see cref="ReportDatasetHealthStatusAsync(string, RuntimeHealth, TimeSpan?, CancellationToken)"/>.
+        /// </remarks>
+        public AssetRuntimeHealthReporter(IAzureDeviceRegistryClient azureDeviceRegistryClient, string deviceName, string inboundEndpointName, string assetName, TimeSpan? reportingPeriod = null)
         {
             _azureDeviceRegistryClient = azureDeviceRegistryClient;
             _deviceName = deviceName;
@@ -38,7 +57,7 @@ namespace Azure.Iot.Operations.Services.AssetAndDeviceRegistry
         /// </summary>
         /// <param name="datasetName">The dataset to pause health status reporting for.</param>
         /// <remarks>
-        /// This is used to signal that the last known health status may no longer be applicable.
+        /// This is used to signal that the last known health status may no longer be applicable. This does not affect background reporting of other datasets/streams/events/management actions that were already active.
         /// </remarks>
         public void PauseReportingDataset(string datasetName)
         {
@@ -50,7 +69,7 @@ namespace Azure.Iot.Operations.Services.AssetAndDeviceRegistry
         /// </summary>
         /// <param name="streamName">The stream to pause health status reporting for.</param>
         /// <remarks>
-        /// This is used to signal that the last known health status may no longer be applicable.
+        /// This is used to signal that the last known health status may no longer be applicable. This does not affect background reporting of other datasets/streams/events/management actions that were already active.
         /// </remarks>
         public void PauseReportingStream(string streamName)
         {
@@ -79,7 +98,7 @@ namespace Azure.Iot.Operations.Services.AssetAndDeviceRegistry
         /// <param name="managementGroupName">The management group whose action should pause reporting.</param>
         /// <param name="managementActionName">The action within the given management group that should pause reporting</param>
         /// <remarks>
-        /// This is used to signal that the last known health status may no longer be applicable.
+        /// This is used to signal that the last known health status may no longer be applicable. This does not affect background reporting of other datasets/streams/events/management actions that were already active.
         /// </remarks>
         public void PauseReportingManagementAction(string managementGroupName, string managementActionName)
         {
@@ -89,12 +108,27 @@ namespace Azure.Iot.Operations.Services.AssetAndDeviceRegistry
             }
         }
 
-        // should be called when the asset is deleted
+        /// <summary>
+        /// Stop all background reporting.
+        /// </summary>
+        /// <param name="cancellationToken">Cancellation token.</param>
+        /// <remarks>Generally, this method should only be called if the asset this client reports for is no longer available.</remarks>
         public async Task CancelHealthStatusReportingAsync(CancellationToken cancellationToken = default)
         {
             await _periodicSender.StopAsync(cancellationToken);
         }
 
+        /// <summary>
+        /// Report the runtime health of a single dataset if it is worth reporting.
+        /// </summary>
+        /// <param name="datasetName">The name of the dataset</param>
+        /// <param name="datasetRuntimeHealth">The runtime health of that dataset</param>
+        /// <param name="telemetryTimeout">The timeout to use when sending this telemetry (if any telemetry is sent).</param>
+        /// <param name="cancellationToken">Cancellation token.</param>
+        /// <remarks>
+        /// If background reporting has not started for this dataset, or it was paused, then background reporting will start/resume. If this runtime health is functionally identical to the previously reported
+        /// runtime health (identical other than timestamp), then no telemetry will be sent to the Azure Device Registry service.
+        /// </remarks>
         public async Task ReportDatasetHealthStatusAsync(string datasetName, RuntimeHealth datasetRuntimeHealth, TimeSpan? telemetryTimeout = default, CancellationToken cancellationToken = default)
         {
             var datasetHealthEvent = new DatasetsRuntimeHealthEvent()
@@ -122,6 +156,16 @@ namespace Azure.Iot.Operations.Services.AssetAndDeviceRegistry
             }
         }
 
+        /// <summary>
+        /// Report a batch of runtime healths of datasets if any of them are worth reporting.
+        /// </summary>
+        /// <param name="datasetRuntimeHealths">The batch of dataset runtime healths.</param>
+        /// <param name="telemetryTimeout">The timeout to use when sending this telemetry (if any telemetry is sent).</param>
+        /// <param name="cancellationToken">Cancellation token.</param>
+        /// <remarks>
+        /// If background reporting has not started for any of these datasets, or it was paused, then background reporting will start/resume. This method will only send the runtime healths in this batch
+        /// that are not functionally identical to their previously reported runtime health (identical other than timestamp). If none of these runtime healths are worth reporting, then no telemetry will be sent.
+        /// </remarks>
         public async Task ReportDatasetHealthStatusAsync(List<DatasetsRuntimeHealthEvent> datasetRuntimeHealths, TimeSpan? telemetryTimeout = default, CancellationToken cancellationToken = default)
         {
             List<DatasetsRuntimeHealthEvent> eventsToReport = new();
@@ -154,6 +198,17 @@ namespace Azure.Iot.Operations.Services.AssetAndDeviceRegistry
             }
         }
 
+        /// <summary>
+        /// Report the runtime health of a single stream if it is worth reporting.
+        /// </summary>
+        /// <param name="streamName">The name of the stream</param>
+        /// <param name="streamRuntimeHealth">The runtime health of that stream</param>
+        /// <param name="telemetryTimeout">The timeout to use when sending this telemetry (if any telemetry is sent).</param>
+        /// <param name="cancellationToken">Cancellation token.</param>
+        /// <remarks>
+        /// If background reporting has not started for this stream, or it was paused, then background reporting will start/resume. If this runtime health is functionally identical to the previously reported
+        /// runtime health (identical other than timestamp), then no telemetry will be sent to the Azure Device Registry service.
+        /// </remarks>
         public async Task ReportStreamHealthStatusAsync(string streamName, RuntimeHealth streamRuntimeHealth, TimeSpan? telemetryTimeout = default, CancellationToken cancellationToken = default)
         {
             var streamsHealthEvent = new StreamsRuntimeHealthEvent()
@@ -165,6 +220,16 @@ namespace Azure.Iot.Operations.Services.AssetAndDeviceRegistry
             await ReportStreamHealthStatusAsync(new List<StreamsRuntimeHealthEvent> { streamsHealthEvent }, telemetryTimeout, cancellationToken);
         }
 
+        /// <summary>
+        /// Report a batch of runtime healths of streams if any of them are worth reporting.
+        /// </summary>
+        /// <param name="streamRuntimeHealths">The batch of stream runtime healths.</param>
+        /// <param name="telemetryTimeout">The timeout to use when sending this telemetry (if any telemetry is sent).</param>
+        /// <param name="cancellationToken">Cancellation token.</param>
+        /// <remarks>
+        /// If background reporting has not started for any of these streams, or it was paused, then background reporting will start/resume. This method will only send the runtime healths in this batch
+        /// that are not functionally identical to their previously reported runtime health (identical other than timestamp). If none of these runtime healths are worth reporting, then no telemetry will be sent.
+        /// </remarks>
         public async Task ReportStreamHealthStatusAsync(List<StreamsRuntimeHealthEvent> streamRuntimeHealths, TimeSpan? telemetryTimeout = default, CancellationToken cancellationToken = default)
         {
             List<StreamsRuntimeHealthEvent> eventsToReport = new();
@@ -199,6 +264,18 @@ namespace Azure.Iot.Operations.Services.AssetAndDeviceRegistry
             }
         }
 
+        /// <summary>
+        /// Report the runtime health of a single event if it is worth reporting.
+        /// </summary>
+        /// <param name="eventGroupName">The name of the event group that the event belongs to</param>
+        /// <param name="eventName">The name of the event</param>
+        /// <param name="eventRuntimeHealth">The runtime health of that event</param>
+        /// <param name="telemetryTimeout">The timeout to use when sending this telemetry (if any telemetry is sent).</param>
+        /// <param name="cancellationToken">Cancellation token.</param>
+        /// <remarks>
+        /// If background reporting has not started for this event, or it was paused, then background reporting will start/resume. If this runtime health is functionally identical to the previously reported
+        /// runtime health (identical other than timestamp), then no telemetry will be sent to the Azure Device Registry service.
+        /// </remarks>
         public async Task ReportEventHealthStatusAsync(string eventGroupName, string eventName, RuntimeHealth eventRuntimeHealth, TimeSpan? telemetryTimeout = default, CancellationToken cancellationToken = default)
         {
             var eventsHealthEvent = new EventsRuntimeHealthEvent()
@@ -237,6 +314,16 @@ namespace Azure.Iot.Operations.Services.AssetAndDeviceRegistry
             }
         }
 
+        /// <summary>
+        /// Report a batch of runtime healths of events if any of them are worth reporting.
+        /// </summary>
+        /// <param name="eventRuntimeHealths">The batch of event runtime healths.</param>
+        /// <param name="telemetryTimeout">The timeout to use when sending this telemetry (if any telemetry is sent).</param>
+        /// <param name="cancellationToken">Cancellation token.</param>
+        /// <remarks>
+        /// If background reporting has not started for any of these events, or it was paused, then background reporting will start/resume. This method will only send the runtime healths in this batch
+        /// that are not functionally identical to their previously reported runtime health (identical other than timestamp). If none of these runtime healths are worth reporting, then no telemetry will be sent.
+        /// </remarks>
         public async Task ReportEventHealthStatusAsync(List<EventsRuntimeHealthEvent> eventRuntimeHealths, TimeSpan? telemetryTimeout = default, CancellationToken cancellationToken = default)
         {
             List<EventsRuntimeHealthEvent> eventsToReport = new();
@@ -281,6 +368,18 @@ namespace Azure.Iot.Operations.Services.AssetAndDeviceRegistry
             }
         }
 
+        /// <summary>
+        /// Report the runtime health of a single management action if it is worth reporting.
+        /// </summary>
+        /// <param name="managementGroupName">The name of the management group that the management action belongs to</param>
+        /// <param name="managementActionName">The name of the event</param>
+        /// <param name="managementActionRuntimeHealth">The runtime health of that management action</param>
+        /// <param name="telemetryTimeout">The timeout to use when sending this telemetry (if any telemetry is sent).</param>
+        /// <param name="cancellationToken">Cancellation token.</param>
+        /// <remarks>
+        /// If background reporting has not started for this management action, or it was paused, then background reporting will start/resume. If this runtime health is functionally identical to the previously reported
+        /// runtime health (identical other than timestamp), then no telemetry will be sent to the Azure Device Registry service.
+        /// </remarks>
         public async Task ReportManagementActionHealthStatusAsync(string managementGroupName, string managementActionName, RuntimeHealth managementActionRuntimeHealth, TimeSpan? telemetryTimeout = default, CancellationToken cancellationToken = default)
         {
             var managementActionsHealthEvent = new ManagementActionsRuntimeHealthEvent()
@@ -293,6 +392,16 @@ namespace Azure.Iot.Operations.Services.AssetAndDeviceRegistry
             await ReportManagementActionHealthStatusAsync(new List<ManagementActionsRuntimeHealthEvent> { managementActionsHealthEvent }, telemetryTimeout, cancellationToken);
         }
 
+        /// <summary>
+        /// Report a batch of runtime healths of management actions if any of them are worth reporting.
+        /// </summary>
+        /// <param name="managementActionRuntimeHealths">The batch of management action runtime healths.</param>
+        /// <param name="telemetryTimeout">The timeout to use when sending this telemetry (if any telemetry is sent).</param>
+        /// <param name="cancellationToken">Cancellation token.</param>
+        /// <remarks>
+        /// If background reporting has not started for any of these management actions, or it was paused, then background reporting will start/resume. This method will only send the runtime healths in this batch
+        /// that are not functionally identical to their previously reported runtime health (identical other than timestamp). If none of these runtime healths are worth reporting, then no telemetry will be sent.
+        /// </remarks>
         public async Task ReportManagementActionHealthStatusAsync(List<ManagementActionsRuntimeHealthEvent> managementActionRuntimeHealths, TimeSpan? telemetryTimeout = default, CancellationToken cancellationToken = default)
         {
             List<ManagementActionsRuntimeHealthEvent> eventsToReport = new();
@@ -337,6 +446,32 @@ namespace Azure.Iot.Operations.Services.AssetAndDeviceRegistry
             }
         }
 
+        /// <summary>
+        /// Change the interval at which this client will send background reports of the latest cached asset runtime healths
+        /// </summary>
+        /// <param name="reportingInterval">The new reporting interval</param>
+        /// <param name="cancellationToken">Cancellation token</param>
+        /// <remarks>
+        /// If background reporting is currently in progress, it will be cancelled and restarted with this new interval. If background reporting is not currently in progress,
+        /// calling this method will not start it.
+        /// </remarks>
+        public async Task SetRuntimeHealthBackgroundReportingIntervalAsync(TimeSpan reportingInterval, CancellationToken cancellationToken = default)
+        {
+            bool isCurrentlyRunning = _periodicSender.IsRunning();
+            if (isCurrentlyRunning)
+            {
+                await _periodicSender.StopAsync(cancellationToken);
+                _periodicSender.Dispose();
+            }
+
+            _periodicSender = new(reportingInterval, SendPeriodicReportAsync);
+
+            if (isCurrentlyRunning)
+            {
+                await _periodicSender.StartAsync(cancellationToken);
+            }
+        }
+
         public virtual async ValueTask DisposeAsync()
         {
             await DisposeAsyncCore();
@@ -353,7 +488,7 @@ namespace Azure.Iot.Operations.Services.AssetAndDeviceRegistry
             try
             {
                 await _periodicSender.StopAsync();
-                _periodicSender?.Dispose();
+                _periodicSender.Dispose();
             }
             catch (ObjectDisposedException)
             {

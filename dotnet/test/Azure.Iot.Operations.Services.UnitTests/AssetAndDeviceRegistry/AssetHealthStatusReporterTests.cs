@@ -27,7 +27,7 @@ namespace Azure.Iot.Operations.Services.UnitTests.AssetAndDeviceRegistry
             TimeSpan reportingPeriod = TimeSpan.FromMilliseconds(10);
 
             MockAzureDeviceRegistryClient mockAdrClient = new MockAzureDeviceRegistryClient();
-            AssetHealthStatusReporter reporter = new(mockAdrClient, deviceName, inboundEndpointName, assetName, reportingPeriod);
+            AssetRuntimeHealthReporter reporter = new(mockAdrClient, deviceName, inboundEndpointName, assetName, reportingPeriod);
 
             var initialReportedHealth = new RuntimeHealth()
             {
@@ -129,7 +129,7 @@ namespace Azure.Iot.Operations.Services.UnitTests.AssetAndDeviceRegistry
             TimeSpan reportingPeriod = TimeSpan.FromMilliseconds(10);
 
             MockAzureDeviceRegistryClient mockAdrClient = new MockAzureDeviceRegistryClient();
-            AssetHealthStatusReporter reporter = new(mockAdrClient, deviceName, inboundEndpointName, assetName, reportingPeriod);
+            AssetRuntimeHealthReporter reporter = new(mockAdrClient, deviceName, inboundEndpointName, assetName, reportingPeriod);
 
             var initialReportedHealth = new RuntimeHealth()
             {
@@ -179,7 +179,7 @@ namespace Azure.Iot.Operations.Services.UnitTests.AssetAndDeviceRegistry
             TimeSpan reportingPeriod = TimeSpan.FromMilliseconds(10);
 
             MockAzureDeviceRegistryClient mockAdrClient = new MockAzureDeviceRegistryClient();
-            AssetHealthStatusReporter reporter = new(mockAdrClient, deviceName, inboundEndpointName, assetName, reportingPeriod);
+            AssetRuntimeHealthReporter reporter = new(mockAdrClient, deviceName, inboundEndpointName, assetName, reportingPeriod);
 
             var initialReportedHealth = new RuntimeHealth()
             {
@@ -212,7 +212,7 @@ namespace Azure.Iot.Operations.Services.UnitTests.AssetAndDeviceRegistry
             TimeSpan reportingPeriod = TimeSpan.FromMilliseconds(10);
 
             MockAzureDeviceRegistryClient mockAdrClient = new MockAzureDeviceRegistryClient();
-            AssetHealthStatusReporter reporter = new(mockAdrClient, deviceName, inboundEndpointName, assetName, reportingPeriod);
+            AssetRuntimeHealthReporter reporter = new(mockAdrClient, deviceName, inboundEndpointName, assetName, reportingPeriod);
 
             var initialReportedHealth = new RuntimeHealth()
             {
@@ -314,7 +314,7 @@ namespace Azure.Iot.Operations.Services.UnitTests.AssetAndDeviceRegistry
             TimeSpan reportingPeriod = TimeSpan.FromMilliseconds(10);
 
             MockAzureDeviceRegistryClient mockAdrClient = new MockAzureDeviceRegistryClient();
-            AssetHealthStatusReporter reporter = new(mockAdrClient, deviceName, inboundEndpointName, assetName, reportingPeriod);
+            AssetRuntimeHealthReporter reporter = new(mockAdrClient, deviceName, inboundEndpointName, assetName, reportingPeriod);
 
             var initialReportedHealth = new RuntimeHealth()
             {
@@ -364,7 +364,7 @@ namespace Azure.Iot.Operations.Services.UnitTests.AssetAndDeviceRegistry
             TimeSpan reportingPeriod = TimeSpan.FromMilliseconds(10);
 
             MockAzureDeviceRegistryClient mockAdrClient = new MockAzureDeviceRegistryClient();
-            AssetHealthStatusReporter reporter = new(mockAdrClient, deviceName, inboundEndpointName, assetName, reportingPeriod);
+            AssetRuntimeHealthReporter reporter = new(mockAdrClient, deviceName, inboundEndpointName, assetName, reportingPeriod);
 
             var initialReportedHealth = new RuntimeHealth()
             {
@@ -398,7 +398,7 @@ namespace Azure.Iot.Operations.Services.UnitTests.AssetAndDeviceRegistry
             TimeSpan reportingPeriod = TimeSpan.FromMilliseconds(10);
 
             MockAzureDeviceRegistryClient mockAdrClient = new MockAzureDeviceRegistryClient();
-            AssetHealthStatusReporter reporter = new(mockAdrClient, deviceName, inboundEndpointName, assetName, reportingPeriod);
+            AssetRuntimeHealthReporter reporter = new(mockAdrClient, deviceName, inboundEndpointName, assetName, reportingPeriod);
 
             var initialReportedHealth = new RuntimeHealth()
             {
@@ -507,7 +507,7 @@ namespace Azure.Iot.Operations.Services.UnitTests.AssetAndDeviceRegistry
             TimeSpan reportingPeriod = TimeSpan.FromMilliseconds(10);
 
             MockAzureDeviceRegistryClient mockAdrClient = new MockAzureDeviceRegistryClient();
-            AssetHealthStatusReporter reporter = new(mockAdrClient, deviceName, inboundEndpointName, assetName, reportingPeriod);
+            AssetRuntimeHealthReporter reporter = new(mockAdrClient, deviceName, inboundEndpointName, assetName, reportingPeriod);
 
             var initialReportedHealth = new RuntimeHealth()
             {
@@ -559,7 +559,7 @@ namespace Azure.Iot.Operations.Services.UnitTests.AssetAndDeviceRegistry
             TimeSpan reportingPeriod = TimeSpan.FromMilliseconds(10);
 
             MockAzureDeviceRegistryClient mockAdrClient = new MockAzureDeviceRegistryClient();
-            AssetHealthStatusReporter reporter = new(mockAdrClient, deviceName, inboundEndpointName, assetName, reportingPeriod);
+            AssetRuntimeHealthReporter reporter = new(mockAdrClient, deviceName, inboundEndpointName, assetName, reportingPeriod);
 
             var initialReportedHealth = new RuntimeHealth()
             {
@@ -612,7 +612,7 @@ namespace Azure.Iot.Operations.Services.UnitTests.AssetAndDeviceRegistry
             TimeSpan reportingPeriod = TimeSpan.FromMilliseconds(10);
 
             MockAzureDeviceRegistryClient mockAdrClient = new MockAzureDeviceRegistryClient();
-            AssetHealthStatusReporter reporter = new(mockAdrClient, deviceName, inboundEndpointName, assetName, reportingPeriod);
+            AssetRuntimeHealthReporter reporter = new(mockAdrClient, deviceName, inboundEndpointName, assetName, reportingPeriod);
 
             var initialReportedHealth = new RuntimeHealth()
             {
@@ -646,7 +646,7 @@ namespace Azure.Iot.Operations.Services.UnitTests.AssetAndDeviceRegistry
             TimeSpan reportingPeriod = TimeSpan.FromMilliseconds(10);
 
             MockAzureDeviceRegistryClient mockAdrClient = new MockAzureDeviceRegistryClient();
-            AssetHealthStatusReporter reporter = new(mockAdrClient, deviceName, inboundEndpointName, assetName, reportingPeriod);
+            AssetRuntimeHealthReporter reporter = new(mockAdrClient, deviceName, inboundEndpointName, assetName, reportingPeriod);
 
             var initialReportedHealth = new RuntimeHealth()
             {
@@ -755,7 +755,7 @@ namespace Azure.Iot.Operations.Services.UnitTests.AssetAndDeviceRegistry
             TimeSpan reportingPeriod = TimeSpan.FromMilliseconds(10);
 
             MockAzureDeviceRegistryClient mockAdrClient = new MockAzureDeviceRegistryClient();
-            AssetHealthStatusReporter reporter = new(mockAdrClient, deviceName, inboundEndpointName, assetName, reportingPeriod);
+            AssetRuntimeHealthReporter reporter = new(mockAdrClient, deviceName, inboundEndpointName, assetName, reportingPeriod);
 
             var initialReportedHealth = new RuntimeHealth()
             {
@@ -807,7 +807,7 @@ namespace Azure.Iot.Operations.Services.UnitTests.AssetAndDeviceRegistry
             TimeSpan reportingPeriod = TimeSpan.FromMilliseconds(10);
 
             MockAzureDeviceRegistryClient mockAdrClient = new MockAzureDeviceRegistryClient();
-            AssetHealthStatusReporter reporter = new(mockAdrClient, deviceName, inboundEndpointName, assetName, reportingPeriod);
+            AssetRuntimeHealthReporter reporter = new(mockAdrClient, deviceName, inboundEndpointName, assetName, reportingPeriod);
 
             var initialReportedHealth = new RuntimeHealth()
             {
@@ -860,7 +860,7 @@ namespace Azure.Iot.Operations.Services.UnitTests.AssetAndDeviceRegistry
             TimeSpan reportingPeriod = TimeSpan.FromMilliseconds(10);
 
             MockAzureDeviceRegistryClient mockAdrClient = new MockAzureDeviceRegistryClient();
-            AssetHealthStatusReporter reporter = new(mockAdrClient, deviceName, inboundEndpointName, assetName, reportingPeriod);
+            AssetRuntimeHealthReporter reporter = new(mockAdrClient, deviceName, inboundEndpointName, assetName, reportingPeriod);
 
             var initialReportedHealth = new RuntimeHealth()
             {
