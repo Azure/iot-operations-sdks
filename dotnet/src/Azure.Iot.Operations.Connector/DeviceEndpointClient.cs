@@ -113,18 +113,18 @@ namespace Azure.Iot.Operations.Connector
                 cancellationToken);
         }
 
-        public async Task ReportRuntimeHealthAsync(ConnectorRuntimeHealth runtimeHealth)
+        public async Task ReportRuntimeHealthAsync(ConnectorRuntimeHealth runtimeHealth, TimeSpan? telemetryTimeout = default, CancellationToken cancellationToken = default)
         {
             RuntimeHealth servicesRuntimeHealth = new()
             {
                 Message = runtimeHealth.Message,
                 ReasonCode = runtimeHealth.ReasonCode,
                 Status = runtimeHealth.Status,
-                Version = _device.Version ?? 0, //TODO version may not be given to us by service, but service expects it to not be null here?
+                Version = _device.Version ?? 0,
                 LastUpdateTime = DateTime.UtcNow,
             };
 
-            await _healthReporter.ReportDeviceEndpointRuntimeHealthAsync(servicesRuntimeHealth);
+            await _healthReporter.ReportDeviceEndpointRuntimeHealthAsync(servicesRuntimeHealth, telemetryTimeout, cancellationToken);
         }
 
         public virtual async ValueTask DisposeAsync()

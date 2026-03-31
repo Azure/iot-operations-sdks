@@ -119,20 +119,37 @@ namespace Azure.Iot.Operations.Connector
         /// <param name="runtimeHealth">The health status to report.</param>
         /// <param name="telemetryTimeout">Optional message expiry time for the telemetry.</param>
         /// <param name="cancellationToken">Cancellation token.</param>
-        public async Task ReportDatasetRuntimeHealthAsync(List<DatasetsRuntimeHealthEvent> runtimeHealth, TimeSpan? telemetryTimeout = null, CancellationToken cancellationToken = default)
+        public async Task ReportDatasetRuntimeHealthAsync(List<ConnectorDatasetsRuntimeHealthEvent> runtimeHealth, TimeSpan? telemetryTimeout = null, CancellationToken cancellationToken = default)
         {
-            await _healthReporter.ReportDatasetHealthStatusAsync(runtimeHealth, telemetryTimeout, cancellationToken);
+            List<DatasetsRuntimeHealthEvent> servicesRuntimeHealths = new();
+            foreach (ConnectorDatasetsRuntimeHealthEvent connectorRuntimeHealth in runtimeHealth)
+            {
+                servicesRuntimeHealths.Add(new DatasetsRuntimeHealthEvent()
+                {
+                    DatasetName = connectorRuntimeHealth.DatasetName,
+                    RuntimeHealth = new()
+                    {
+                        LastUpdateTime = DateTime.UtcNow,
+                        Message = connectorRuntimeHealth.RuntimeHealth.Message,
+                        ReasonCode = connectorRuntimeHealth.RuntimeHealth.ReasonCode,
+                        Status = connectorRuntimeHealth.RuntimeHealth.Status,
+                        Version = _asset.Version ?? 0
+                    }
+                });
+            }
+
+            await _healthReporter.ReportDatasetHealthStatusAsync(servicesRuntimeHealths, telemetryTimeout, cancellationToken);
         }
 
-        public async Task ReportDatasetRuntimeHealthAsync(string datasetName, RuntimeHealth runtimeHealth, TimeSpan? telemetryTimeout = null, CancellationToken cancellationToken = default)
+        public async Task ReportDatasetRuntimeHealthAsync(string datasetName, ConnectorRuntimeHealth runtimeHealth, TimeSpan? telemetryTimeout = null, CancellationToken cancellationToken = default)
         {
-            var datasetsRuntimeHealthEvent = new DatasetsRuntimeHealthEvent()
+            var datasetsRuntimeHealthEvent = new ConnectorDatasetsRuntimeHealthEvent()
             {
                 DatasetName = datasetName,
                 RuntimeHealth = runtimeHealth,
             };
 
-            await ReportDatasetRuntimeHealthAsync(new List<DatasetsRuntimeHealthEvent>() { datasetsRuntimeHealthEvent }, telemetryTimeout, cancellationToken);
+            await ReportDatasetRuntimeHealthAsync(new List<ConnectorDatasetsRuntimeHealthEvent>() { datasetsRuntimeHealthEvent }, telemetryTimeout, cancellationToken);
         }
 
         /// <summary>
@@ -141,9 +158,26 @@ namespace Azure.Iot.Operations.Connector
         /// <param name="runtimeHealth">The health status to report.</param>
         /// <param name="telemetryTimeout">Optional message expiry time for the telemetry.</param>
         /// <param name="cancellationToken">Cancellation token.</param>
-        public async Task ReportEventRuntimeHealthAsync(List<EventsRuntimeHealthEvent> runtimeHealth, TimeSpan? telemetryTimeout = null, CancellationToken cancellationToken = default)
+        public async Task ReportEventRuntimeHealthAsync(List<ConnectorEventsRuntimeHealthEvent> runtimeHealth, TimeSpan? telemetryTimeout = null, CancellationToken cancellationToken = default)
         {
-            await _healthReporter.ReportEventHealthStatusAsync(runtimeHealth, telemetryTimeout, cancellationToken);
+            List<EventsRuntimeHealthEvent> servicesRuntimeHealths = new();
+            foreach (ConnectorEventsRuntimeHealthEvent connectorRuntimeHealth in runtimeHealth)
+            {
+                servicesRuntimeHealths.Add(new EventsRuntimeHealthEvent()
+                {
+                    EventGroupName = connectorRuntimeHealth.EventGroupName,
+                    EventName = connectorRuntimeHealth.EventName,
+                    RuntimeHealth = new()
+                    {
+                        LastUpdateTime = DateTime.UtcNow,
+                        Message = connectorRuntimeHealth.RuntimeHealth.Message,
+                        ReasonCode = connectorRuntimeHealth.RuntimeHealth.ReasonCode,
+                        Status = connectorRuntimeHealth.RuntimeHealth.Status,
+                        Version = _asset.Version ?? 0
+                    }
+                });
+            }
+            await _healthReporter.ReportEventHealthStatusAsync(servicesRuntimeHealths, telemetryTimeout, cancellationToken);
         }
 
         /// <summary>
@@ -152,9 +186,9 @@ namespace Azure.Iot.Operations.Connector
         /// <param name="runtimeHealth">The health status to report.</param>
         /// <param name="telemetryTimeout">Optional message expiry time for the telemetry.</param>
         /// <param name="cancellationToken">Cancellation token.</param>
-        public async Task ReportEventRuntimeHealthAsync(string eventGroupName, string eventName, RuntimeHealth runtimeHealth, TimeSpan? telemetryTimeout = null, CancellationToken cancellationToken = default)
+        public async Task ReportEventRuntimeHealthAsync(string eventGroupName, string eventName, ConnectorRuntimeHealth runtimeHealth, TimeSpan? telemetryTimeout = null, CancellationToken cancellationToken = default)
         {
-            EventsRuntimeHealthEvent eventsRuntimeHealthEvent = new EventsRuntimeHealthEvent()
+            ConnectorEventsRuntimeHealthEvent eventsRuntimeHealthEvent = new ConnectorEventsRuntimeHealthEvent()
             {
                 EventGroupName = eventGroupName,
                 EventName = eventName,
@@ -163,7 +197,7 @@ namespace Azure.Iot.Operations.Connector
 
             //TODO need to add some caching at this layer such that not every report is sent (when nothing has changed) prior to
             //actually releasing this feature.
-            await ReportEventRuntimeHealthAsync(new List<EventsRuntimeHealthEvent>() { eventsRuntimeHealthEvent }, telemetryTimeout, cancellationToken);
+            await ReportEventRuntimeHealthAsync(new List<ConnectorEventsRuntimeHealthEvent>() { eventsRuntimeHealthEvent }, telemetryTimeout, cancellationToken);
         }
 
         /// <summary>
@@ -172,20 +206,37 @@ namespace Azure.Iot.Operations.Connector
         /// <param name="runtimeHealth">The health status to report.</param>
         /// <param name="telemetryTimeout">Optional message expiry time for the telemetry.</param>
         /// <param name="cancellationToken">Cancellation token.</param>
-        public async Task ReportStreamRuntimeHealthAsync(List<StreamsRuntimeHealthEvent> runtimeHealth, TimeSpan? telemetryTimeout = null, CancellationToken cancellationToken = default)
+        public async Task ReportStreamRuntimeHealthAsync(List<ConnectorStreamsRuntimeHealthEvent> runtimeHealth, TimeSpan? telemetryTimeout = null, CancellationToken cancellationToken = default)
         {
-            await _healthReporter.ReportStreamHealthStatusAsync(runtimeHealth, telemetryTimeout, cancellationToken);
+            List<StreamsRuntimeHealthEvent> servicesRuntimeHealths = new();
+            foreach (ConnectorStreamsRuntimeHealthEvent connectorRuntimeHealth in runtimeHealth)
+            {
+                servicesRuntimeHealths.Add(new StreamsRuntimeHealthEvent()
+                {
+                    StreamName = connectorRuntimeHealth.StreamName,
+                    RuntimeHealth = new()
+                    {
+                        LastUpdateTime = DateTime.UtcNow,
+                        Message = connectorRuntimeHealth.RuntimeHealth.Message,
+                        ReasonCode = connectorRuntimeHealth.RuntimeHealth.ReasonCode,
+                        Status = connectorRuntimeHealth.RuntimeHealth.Status,
+                        Version = _asset.Version ?? 0
+                    }
+                });
+            }
+
+            await _healthReporter.ReportStreamHealthStatusAsync(servicesRuntimeHealths, telemetryTimeout, cancellationToken);
         }
 
-        public async Task ReportStreamRuntimeHealthAsync(string streamName, RuntimeHealth runtimeHealth, TimeSpan? telemetryTimeout = null, CancellationToken cancellationToken = default)
+        public async Task ReportStreamRuntimeHealthAsync(string streamName, ConnectorRuntimeHealth runtimeHealth, TimeSpan? telemetryTimeout = null, CancellationToken cancellationToken = default)
         {
-            StreamsRuntimeHealthEvent streamsRuntimeHealthEvent = new()
+            ConnectorStreamsRuntimeHealthEvent streamsRuntimeHealthEvent = new()
             {
                 StreamName = streamName,
                 RuntimeHealth = runtimeHealth,
             };
 
-            await ReportStreamRuntimeHealthAsync(new List<StreamsRuntimeHealthEvent>() { streamsRuntimeHealthEvent }, telemetryTimeout, cancellationToken);
+            await ReportStreamRuntimeHealthAsync(new List<ConnectorStreamsRuntimeHealthEvent>() { streamsRuntimeHealthEvent }, telemetryTimeout, cancellationToken);
         }
 
         /// <summary>
@@ -194,21 +245,39 @@ namespace Azure.Iot.Operations.Connector
         /// <param name="runtimeHealth">The health status to report.</param>
         /// <param name="telemetryTimeout">Optional message expiry time for the telemetry.</param>
         /// <param name="cancellationToken">Cancellation token.</param>
-        public async Task ReportManagementActionRuntimeHealthAsync(List<ManagementActionsRuntimeHealthEvent> runtimeHealth, TimeSpan? telemetryTimeout = null, CancellationToken cancellationToken = default)
+        public async Task ReportManagementActionRuntimeHealthAsync(List<ConnectorManagementActionsRuntimeHealthEvent> runtimeHealth, TimeSpan? telemetryTimeout = null, CancellationToken cancellationToken = default)
         {
-            await _healthReporter.ReportManagementActionHealthStatusAsync(runtimeHealth, telemetryTimeout, cancellationToken);
+            List<ManagementActionsRuntimeHealthEvent> servicesRuntimeHealths = new();
+            foreach (ConnectorManagementActionsRuntimeHealthEvent connectorRuntimeHealth in runtimeHealth)
+            {
+                servicesRuntimeHealths.Add(new ManagementActionsRuntimeHealthEvent()
+                {
+                    ManagementGroupName = connectorRuntimeHealth.ManagementGroupName,
+                    ManagementActionName = connectorRuntimeHealth.ManagementActionName,
+                    RuntimeHealth = new()
+                    {
+                        LastUpdateTime = DateTime.UtcNow,
+                        Message = connectorRuntimeHealth.RuntimeHealth.Message,
+                        ReasonCode = connectorRuntimeHealth.RuntimeHealth.ReasonCode,
+                        Status = connectorRuntimeHealth.RuntimeHealth.Status,
+                        Version = _asset.Version ?? 0
+                    }
+                });
+            }
+
+            await _healthReporter.ReportManagementActionHealthStatusAsync(servicesRuntimeHealths, telemetryTimeout, cancellationToken);
         }
 
-        public async Task ReportManagementActionRuntimeHealthAsync(string managementGroupName, string managementActionName, RuntimeHealth runtimeHealth, TimeSpan? telemetryTimeout = null, CancellationToken cancellationToken = default)
+        public async Task ReportManagementActionRuntimeHealthAsync(string managementGroupName, string managementActionName, ConnectorRuntimeHealth runtimeHealth, TimeSpan? telemetryTimeout = null, CancellationToken cancellationToken = default)
         {
-            ManagementActionsRuntimeHealthEvent managementActionsRuntimeHealthEvent = new()
+            ConnectorManagementActionsRuntimeHealthEvent managementActionsRuntimeHealthEvent = new()
             {
                 ManagementGroupName = managementGroupName,
                 ManagementActionName= managementActionName,
                 RuntimeHealth = runtimeHealth,
             };
 
-            await ReportManagementActionRuntimeHealthAsync(new List<ManagementActionsRuntimeHealthEvent>() { managementActionsRuntimeHealthEvent }, telemetryTimeout, cancellationToken);
+            await ReportManagementActionRuntimeHealthAsync(new List<ConnectorManagementActionsRuntimeHealthEvent>() { managementActionsRuntimeHealthEvent }, telemetryTimeout, cancellationToken);
         }
 
         /// <summary>
