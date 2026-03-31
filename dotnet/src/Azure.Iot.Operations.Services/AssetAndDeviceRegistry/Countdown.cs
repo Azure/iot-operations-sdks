@@ -2,6 +2,8 @@
 // Licensed under the MIT License.
 
 
+using System.Diagnostics;
+
 namespace Azure.Iot.Operations.Services.AssetAndDeviceRegistry
 {
     /// <summary>
@@ -54,28 +56,21 @@ namespace Azure.Iot.Operations.Services.AssetAndDeviceRegistry
                     {
                         while (true)
                         {
+                            await Task.Delay(_delay, _resetCountdownCancellationToken.Token);
+
                             try
                             {
-                                await Task.Delay(_delay, _resetCountdownCancellationToken.Token);
-
-                                try
-                                {
-                                    await _afterDelay.Invoke(_resetCountdownCancellationToken.Token);
-                                }
-                                catch (Exception)
-                                {
-                                    //todo log error
-                                }
+                                await _afterDelay.Invoke(_resetCountdownCancellationToken.Token);
                             }
-                            catch (ObjectDisposedException)
+                            catch (Exception e)
                             {
-                                // The countdown was stopped or disposed, so gracefully end this task
+                                Trace.TraceError("Failed to perform some periodic async task", e);
                             }
                         }
                     }
-                    catch (OperationCanceledException)
+                    catch (Exception e) when (e is ObjectDisposedException || e is OperationCanceledException)
                     {
-                        // countdown was reset
+                        // The countdown was stopped or disposed, so gracefully end this task without trying to finish the periodic async task
                         return;
                     }
                 });
