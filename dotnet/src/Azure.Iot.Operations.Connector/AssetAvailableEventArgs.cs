@@ -9,7 +9,7 @@ namespace Azure.Iot.Operations.Connector
     /// <summary>
     /// The event args for when an asset becomes available to sample.
     /// </summary>
-    public class AssetAvailableEventArgs : EventArgs, IDisposable
+    public class AssetAvailableEventArgs : EventArgs, IAsyncDisposable
     {
         /// <summary>
         /// The name of the device that this asset belongs to.
@@ -72,10 +72,36 @@ namespace Azure.Iot.Operations.Connector
             DeviceEndpointClient = new(adrClient, deviceName, inboundEndpointName, device);
         }
 
-        public void Dispose()
+        public virtual async ValueTask DisposeAsync()
         {
-            AssetClient.Dispose();
-            DeviceEndpointClient.Dispose();
+            await DisposeAsyncCore();
+            GC.SuppressFinalize(this);
+        }
+
+        public virtual async ValueTask DisposeAsync(bool disposing)
+        {
+            await DisposeAsyncCore();
+        }
+
+        private async ValueTask DisposeAsyncCore()
+        {
+            try
+            {
+                await AssetClient.DisposeAsync();
+            }
+            catch (ObjectDisposedException)
+            {
+                // It's fine if this is already disposed
+            }
+
+            try
+            {
+                await DeviceEndpointClient.DisposeAsync();
+            }
+            catch (ObjectDisposedException)
+            {
+                // It's fine if this is already disposed
+            }
         }
     }
 }

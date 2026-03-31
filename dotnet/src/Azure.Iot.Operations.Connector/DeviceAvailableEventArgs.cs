@@ -1,14 +1,12 @@
 ﻿// Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-using System.Threading;
-using Azure.Iot.Operations.Services.AssetAndDeviceRegistry;
 using Azure.Iot.Operations.Services.AssetAndDeviceRegistry.Models;
 using Azure.Iot.Operations.Services.LeaderElection;
 
 namespace Azure.Iot.Operations.Connector
 {
-    public class DeviceAvailableEventArgs : EventArgs, IDisposable
+    public class DeviceAvailableEventArgs : EventArgs, IAsyncDisposable
     {
         /// <summary>
         /// The name of this device.
@@ -53,15 +51,26 @@ namespace Azure.Iot.Operations.Connector
             DeviceEndpointClient = new(adrclient, deviceName, inboundEndpointName, device);
         }
 
-        public void Dispose()
+        public virtual async ValueTask DisposeAsync()
+        {
+            await DisposeAsyncCore();
+            GC.SuppressFinalize(this);
+        }
+
+        public virtual async ValueTask DisposeAsync(bool disposing)
+        {
+            await DisposeAsyncCore();
+        }
+
+        private async ValueTask DisposeAsyncCore()
         {
             try
             {
-                DeviceEndpointClient.Dispose();
+                await DeviceEndpointClient.DisposeAsync();
             }
             catch (ObjectDisposedException)
             {
-                // It's fine if this is already disposed.
+                // It's fine if this is already disposed
             }
         }
     }

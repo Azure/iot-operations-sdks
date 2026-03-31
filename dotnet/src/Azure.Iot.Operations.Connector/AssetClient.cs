@@ -9,7 +9,7 @@ namespace Azure.Iot.Operations.Connector
     /// <summary>
     /// A client for updating the status of an asset and for forwarding received events and/or sampled datasets.
     /// </summary>
-    public class AssetClient : IDisposable
+    public class AssetClient : IAsyncDisposable
     {
         private readonly IAzureDeviceRegistryClientWrapper _adrClient;
         private readonly ConnectorWorker _connector;
@@ -18,6 +18,7 @@ namespace Azure.Iot.Operations.Connector
         private readonly string _assetName;
         private readonly Device _device;
         private readonly Asset _asset;
+        private readonly AssetHealthStatusReporter _healthReporter;
 
         // Used to make getAndUpdate calls behave atomically so that a user does not accidentally update
         // an asset while another thread is in the middle of a getAndUpdate call.
@@ -32,6 +33,7 @@ namespace Azure.Iot.Operations.Connector
             _connector = connector;
             _device = device;
             _asset = asset;
+            _healthReporter = new(adrClient.GetWrapped(), deviceName, inboundEndpointName, assetName, TimeSpan.FromSeconds(10)); //TODO timespan param somewhere? Maybe a AssetClient.CreateHealthStatusReporter API?
         }
 
         /// <summary>
@@ -119,26 +121,18 @@ namespace Azure.Iot.Operations.Connector
         /// <param name="cancellationToken">Cancellation token.</param>
         public async Task ReportDatasetRuntimeHealthAsync(List<DatasetsRuntimeHealthEvent> runtimeHealth, TimeSpan? telemetryTimeout = null, CancellationToken cancellationToken = default)
         {
-            //TODO need to add some caching at this layer such that not every report is sent (when nothing has changed) prior to
-            //actually releasing this feature.
-            await _adrClient.ReportDatasetRuntimeHealthAsync(
-                _deviceName,
-                _inboundEndpointName,
-                _assetName,
-                runtimeHealth,
-                telemetryTimeout,
-                cancellationToken);
+            await _healthReporter.ReportDatasetHealthStatusAsync(runtimeHealth, telemetryTimeout, cancellationToken);
         }
 
-        /// <summary>
-        /// Report the health of a given asset's dataset.
-        /// </summary>
-        /// <param name="runtimeHealth">The health status to report.</param>
-        /// <param name="telemetryTimeout">Optional message expiry time for the telemetry.</param>
-        /// <param name="cancellationToken">Cancellation token.</param>
-        public async Task ReportDatasetRuntimeHealthAsync(DatasetsRuntimeHealthEvent runtimeHealth, TimeSpan? telemetryTimeout = null, CancellationToken cancellationToken = default)
+        public async Task ReportDatasetRuntimeHealthAsync(string datasetName, RuntimeHealth runtimeHealth, TimeSpan? telemetryTimeout = null, CancellationToken cancellationToken = default)
         {
-            await ReportDatasetRuntimeHealthAsync(new List<DatasetsRuntimeHealthEvent>() { runtimeHealth }, telemetryTimeout, cancellationToken);
+            var datasetsRuntimeHealthEvent = new DatasetsRuntimeHealthEvent()
+            {
+                DatasetName = datasetName,
+                RuntimeHealth = runtimeHealth,
+            };
+
+            await ReportDatasetRuntimeHealthAsync(new List<DatasetsRuntimeHealthEvent>() { datasetsRuntimeHealthEvent }, telemetryTimeout, cancellationToken);
         }
 
         /// <summary>
@@ -149,13 +143,7 @@ namespace Azure.Iot.Operations.Connector
         /// <param name="cancellationToken">Cancellation token.</param>
         public async Task ReportEventRuntimeHealthAsync(List<EventsRuntimeHealthEvent> runtimeHealth, TimeSpan? telemetryTimeout = null, CancellationToken cancellationToken = default)
         {
-            await _adrClient.ReportEventRuntimeHealthAsync(
-                _deviceName,
-                _inboundEndpointName,
-                _assetName,
-                runtimeHealth,
-                telemetryTimeout,
-                cancellationToken);
+            await _healthReporter.ReportEventHealthStatusAsync(runtimeHealth, telemetryTimeout, cancellationToken);
         }
 
         /// <summary>
@@ -164,11 +152,18 @@ namespace Azure.Iot.Operations.Connector
         /// <param name="runtimeHealth">The health status to report.</param>
         /// <param name="telemetryTimeout">Optional message expiry time for the telemetry.</param>
         /// <param name="cancellationToken">Cancellation token.</param>
-        public async Task ReportEventRuntimeHealthAsync(EventsRuntimeHealthEvent runtimeHealth, TimeSpan? telemetryTimeout = null, CancellationToken cancellationToken = default)
+        public async Task ReportEventRuntimeHealthAsync(string eventGroupName, string eventName, RuntimeHealth runtimeHealth, TimeSpan? telemetryTimeout = null, CancellationToken cancellationToken = default)
         {
+            EventsRuntimeHealthEvent eventsRuntimeHealthEvent = new EventsRuntimeHealthEvent()
+            {
+                EventGroupName = eventGroupName,
+                EventName = eventName,
+                RuntimeHealth = runtimeHealth,
+            };
+
             //TODO need to add some caching at this layer such that not every report is sent (when nothing has changed) prior to
             //actually releasing this feature.
-            await ReportEventRuntimeHealthAsync(new List<EventsRuntimeHealthEvent>() { runtimeHealth }, telemetryTimeout, cancellationToken);
+            await ReportEventRuntimeHealthAsync(new List<EventsRuntimeHealthEvent>() { eventsRuntimeHealthEvent }, telemetryTimeout, cancellationToken);
         }
 
         /// <summary>
@@ -179,28 +174,18 @@ namespace Azure.Iot.Operations.Connector
         /// <param name="cancellationToken">Cancellation token.</param>
         public async Task ReportStreamRuntimeHealthAsync(List<StreamsRuntimeHealthEvent> runtimeHealth, TimeSpan? telemetryTimeout = null, CancellationToken cancellationToken = default)
         {
-            //TODO need to add some caching at this layer such that not every report is sent (when nothing has changed) prior to
-            //actually releasing this feature.
-            await _adrClient.ReportStreamRuntimeHealthAsync(
-                _deviceName,
-                _inboundEndpointName,
-                _assetName,
-                runtimeHealth,
-                telemetryTimeout,
-                cancellationToken);
+            await _healthReporter.ReportStreamHealthStatusAsync(runtimeHealth, telemetryTimeout, cancellationToken);
         }
 
-        /// <summary>
-        /// Report the health of a given asset's stream.
-        /// </summary>
-        /// <param name="runtimeHealth">The health status to report.</param>
-        /// <param name="telemetryTimeout">Optional message expiry time for the telemetry.</param>
-        /// <param name="cancellationToken">Cancellation token.</param>
-        public async Task ReportStreamRuntimeHealthAsync(StreamsRuntimeHealthEvent runtimeHealth, TimeSpan? telemetryTimeout = null, CancellationToken cancellationToken = default)
+        public async Task ReportStreamRuntimeHealthAsync(string streamName, RuntimeHealth runtimeHealth, TimeSpan? telemetryTimeout = null, CancellationToken cancellationToken = default)
         {
-            //TODO need to add some caching at this layer such that not every report is sent (when nothing has changed) prior to
-            //actually releasing this feature.
-            await ReportStreamRuntimeHealthAsync(new List<StreamsRuntimeHealthEvent>() { runtimeHealth }, telemetryTimeout, cancellationToken);
+            StreamsRuntimeHealthEvent streamsRuntimeHealthEvent = new()
+            {
+                StreamName = streamName,
+                RuntimeHealth = runtimeHealth,
+            };
+
+            await ReportStreamRuntimeHealthAsync(new List<StreamsRuntimeHealthEvent>() { streamsRuntimeHealthEvent }, telemetryTimeout, cancellationToken);
         }
 
         /// <summary>
@@ -211,28 +196,19 @@ namespace Azure.Iot.Operations.Connector
         /// <param name="cancellationToken">Cancellation token.</param>
         public async Task ReportManagementActionRuntimeHealthAsync(List<ManagementActionsRuntimeHealthEvent> runtimeHealth, TimeSpan? telemetryTimeout = null, CancellationToken cancellationToken = default)
         {
-            //TODO need to add some caching at this layer such that not every report is sent (when nothing has changed) prior to
-            //actually releasing this feature.
-            await _adrClient.ReportManagementActionRuntimeHealthAsync(
-                _deviceName,
-                _inboundEndpointName,
-                _assetName,
-                runtimeHealth,
-                telemetryTimeout,
-                cancellationToken);
+            await _healthReporter.ReportManagementActionHealthStatusAsync(runtimeHealth, telemetryTimeout, cancellationToken);
         }
 
-        /// <summary>
-        /// Report the health of a given management action.
-        /// </summary>
-        /// <param name="runtimeHealth">The health status to report.</param>
-        /// <param name="telemetryTimeout">Optional message expiry time for the telemetry.</param>
-        /// <param name="cancellationToken">Cancellation token.</param>
-        public async Task ReportManagementActionRuntimeHealthAsync(ManagementActionsRuntimeHealthEvent runtimeHealth, TimeSpan? telemetryTimeout = null, CancellationToken cancellationToken = default)
+        public async Task ReportManagementActionRuntimeHealthAsync(string managementGroupName, string managementActionName, RuntimeHealth runtimeHealth, TimeSpan? telemetryTimeout = null, CancellationToken cancellationToken = default)
         {
-            //TODO need to add some caching at this layer such that not every report is sent (when nothing has changed) prior to
-            //actually releasing this feature.
-            await ReportManagementActionRuntimeHealthAsync(new List<ManagementActionsRuntimeHealthEvent>() { runtimeHealth }, telemetryTimeout, cancellationToken);
+            ManagementActionsRuntimeHealthEvent managementActionsRuntimeHealthEvent = new()
+            {
+                ManagementGroupName = managementGroupName,
+                ManagementActionName= managementActionName,
+                RuntimeHealth = runtimeHealth,
+            };
+
+            await ReportManagementActionRuntimeHealthAsync(new List<ManagementActionsRuntimeHealthEvent>() { managementActionsRuntimeHealthEvent }, telemetryTimeout, cancellationToken);
         }
 
         /// <summary>
@@ -281,7 +257,18 @@ namespace Azure.Iot.Operations.Connector
                 cancellationToken);
         }
 
-        public void Dispose()
+        public virtual async ValueTask DisposeAsync()
+        {
+            await DisposeAsyncCore();
+            GC.SuppressFinalize(this);
+        }
+
+        public virtual async ValueTask DisposeAsync(bool disposing)
+        {
+            await DisposeAsyncCore();
+        }
+
+        private async ValueTask DisposeAsyncCore()
         {
             try
             {
@@ -290,6 +277,16 @@ namespace Azure.Iot.Operations.Connector
             catch (ObjectDisposedException)
             {
                 // It's fine if this semaphore is already disposed.
+            }
+
+            try
+            {
+                await _healthReporter.CancelHealthStatusReportingAsync();
+                await _healthReporter.DisposeAsync();
+            }
+            catch (ObjectDisposedException)
+            {
+                // It's fine if this is already disposed.
             }
         }
     }

@@ -328,5 +328,10 @@ namespace Azure.Iot.Operations.Connector
             deviceName = compositeName.Substring(0, indexOfFirstUnderscore);
             inboundEndpointName = compositeName.Substring(indexOfFirstUnderscore + 1);
         }
+
+        public IAzureDeviceRegistryClient GetWrapped()
+        {
+            return _client;
+        }
     }
 }

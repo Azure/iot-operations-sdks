@@ -9,12 +9,13 @@ namespace Azure.Iot.Operations.Connector
     /// <summary>
     /// A client for reporting the status of this device and its endpoint
     /// </summary>
-    public class DeviceEndpointClient : IDisposable
+    public class DeviceEndpointClient : IAsyncDisposable
     {
         private readonly IAzureDeviceRegistryClientWrapper _adrClient;
         private readonly string _deviceName;
         private readonly string _inboundEndpointName;
         private readonly Device _device;
+        private readonly DeviceEndpointHealthStatusReporter _healthReporter;
 
         // Used to make getAndUpdate calls behave atomically so that a user does not accidentally
         // update a device while another thread is in the middle of a getAndUpdate call.
@@ -26,6 +27,7 @@ namespace Azure.Iot.Operations.Connector
             _deviceName = deviceName;
             _inboundEndpointName = inboundEndpointName;
             _device = device;
+            _healthReporter = new(adrClient.GetWrapped(), deviceName, inboundEndpointName, TimeSpan.FromSeconds(10)); //TODO timespan param somewhere?
         }
 
         /// <summary>
@@ -121,9 +123,22 @@ namespace Azure.Iot.Operations.Connector
                 Version = _device.Version ?? 0, //TODO version may not be given to us by service, but service expects it to not be null here?
                 LastUpdateTime = DateTime.UtcNow,
             };
+
+            await _healthReporter.ReportDeviceEndpointRuntimeHealthAsync(servicesRuntimeHealth);
         }
 
-        public void Dispose()
+        public virtual async ValueTask DisposeAsync()
+        {
+            await DisposeAsyncCore();
+            GC.SuppressFinalize(this);
+        }
+
+        public virtual async ValueTask DisposeAsync(bool disposing)
+        {
+            await DisposeAsyncCore();
+        }
+
+        private async ValueTask DisposeAsyncCore()
         {
             try
             {
@@ -132,6 +147,16 @@ namespace Azure.Iot.Operations.Connector
             catch (ObjectDisposedException)
             {
                 // It's fine if this semaphore is already disposed.
+            }
+
+            try
+            {
+                await _healthReporter.CancelHealthStatusReportingAsync();
+                await _healthReporter.DisposeAsync();
+            }
+            catch (ObjectDisposedException)
+            {
+                // It's fine if this is already disposed.
             }
         }
     }
