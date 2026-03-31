@@ -11,6 +11,7 @@ namespace Azure.Iot.Operations.Connector.UnitTests
     public class MockAzureDeviceRegistryClientWrapper : IAzureDeviceRegistryClientWrapper
     {
         public Mock<IAzureDeviceRegistryClientWrapper> mockClientWrapper { get; set; } = new Mock<IAzureDeviceRegistryClientWrapper>();
+        private readonly Mock<IAzureDeviceRegistryClient> _mockClient = new Mock<IAzureDeviceRegistryClient>();
 
         public event EventHandler<AssetChangedEventArgs>? AssetChanged;
         public event EventHandler<DeviceChangedEventArgs>? DeviceChanged;
@@ -132,7 +133,7 @@ namespace Azure.Iot.Operations.Connector.UnitTests
 
         public IAzureDeviceRegistryClient GetWrapped()
         {
-            throw new NotImplementedException();
+            return _mockClient.Object;
         }
     }
 }
