@@ -142,7 +142,7 @@ impl ConnectorArtifacts {
                     .transpose()?,
             )
             .map(|(metadata_path, secrets_path)| {
-                Secrets::new(metadata_path, secrets_path, AGGREGATION_WINDOW)
+                Secrets::new(metadata_path, secrets_path)
             })
             .transpose()
             .map_err(|e| DeploymentArtifactErrorRepr::SecretsError(e))?;

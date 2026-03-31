@@ -7,19 +7,14 @@ use std::{
     collections::HashMap,
     path::{Path, PathBuf},
     sync::{Arc, RwLock},
-    time::Duration,
 };
 
-use notify::{EventKind, RecommendedWatcher, RecursiveMode, event::{AccessKind, AccessMode, ModifyKind}};
-use notify_debouncer_full::{DebounceEventResult, Debouncer, RecommendedCache, new_debouncer};
 use tokio::sync::watch;
 
-// TODO: manually specify tick rate
-
-/// The multiplier to apply to the aggregation window to get the tick rate for the debouncer.
-/// 0.25 is the default if none is provided, but we manually codify it here in order to protect
-/// against that default in the `notify_debouncer_full` library.
-const _TICK_RATE_MULTIPLIER: f32 = 0.25;
+use crate::deployment_artifacts::projected_volume_debouncer::{
+    ProjectedVolumeDebouncer, ProjectedVolumeEventKind, ProjectedVolumeEventResult,
+    ProjectedVolumeError,
+};
 
 /// Error for secret
 #[derive(Debug, thiserror::Error)]
@@ -29,8 +24,8 @@ pub struct Error(#[from] InnerError);
 #[derive(Debug, thiserror::Error)]
 #[error(transparent)]
 enum InnerError {
-    NotifyError(#[from] notify::Error),
-    IoError(#[from] std::io::Error),
+    ProjectedVolumeError(#[from] ProjectedVolumeError),
+    IoError(#[from] std::io::Error),        // TODO: still necessary?
     #[error("Invalid")]
     Invalid,
 }
@@ -38,8 +33,8 @@ enum InnerError {
 /// Holds the file watchers (debouncers) that must remain alive as long as any
 /// `Secrets` or `Secret` handle exists.
 struct FileWatchers {
-    _metadata_debouncer: Debouncer<RecommendedWatcher, RecommendedCache>,
-    _data_debouncer: Debouncer<RecommendedWatcher, RecommendedCache>,
+    _metadata_debouncer: ProjectedVolumeDebouncer,
+    _data_debouncer: ProjectedVolumeDebouncer,
 }
 
 /// Manager for Secrets deployed in the connector application
@@ -56,21 +51,17 @@ pub struct Secrets {
 impl Secrets {
     /// - metadata_path: path the Secret Metadata mount is located at
     /// - data_path: path the Secret Data mount is located at
-    /// - aggregation_window: the debounce window to use for aggregating file change events.
-    ///     Note well that aggregation is only applied to events of the same type.
     /// Fails if paths are invalid
     pub(crate) fn new(
         metadata_path: PathBuf,
         data_path: PathBuf,
-        aggregation_window: Duration,
     ) -> Result<Self, Error> {
-        Self::new_inner(metadata_path, data_path, aggregation_window).map_err(Into::into)
+        Self::new_inner(metadata_path, data_path).map_err(Into::into)
     }
 
     fn new_inner(
         metadata_path: PathBuf,
         data_path: PathBuf,
-        aggregation_window: Duration,
     ) -> Result<Self, InnerError> {
         let secret_tracker = Arc::new(RwLock::new(SecretTracker::new(
             metadata_path.clone(),
@@ -81,46 +72,37 @@ impl Secrets {
         let data_path_c1 = data_path.clone();
 
         // Set up the Secret Metadata mount debouncer.
-        let mut metadata_debouncer = new_debouncer(
-            aggregation_window.clone(),
-            None,
-            move |res: DebounceEventResult| {
+        let metadata_debouncer = ProjectedVolumeDebouncer::new(
+            metadata_path,
+            move |res: ProjectedVolumeEventResult| {
                 match res {
-                    Ok(db_events) => {
-                        db_events.iter().for_each(|db_event| {
-                            match db_event.event.kind {
+                    Ok(events) => {
+                        for event in &events {
+                            match event.kind {
                                 // Handle updates to existing aliases
                                 // (i.e. secret alias now points to a different secret)
-                                EventKind::Modify(ModifyKind::Data(_)) => {
-                                    log::trace!("Secret metadata change detected: {:?}", db_event);
-                                    // There is never more than one path in the vector for data modifications,
-                                    // so it is safe to simply access the first element of event paths.
-                                    let alias_pathbuf = &db_event.event.paths[0];
-                                    if !alias_pathbuf.is_file() {
+                                ProjectedVolumeEventKind::FileModified => {
+                                    log::trace!("Secret metadata change detected: {:?}", event);
+                                    // Alias is the filename.
+                                    let Some(file_name) = event.path.file_name() else {
                                         // NOTE: This should not happen, violation of expected file mount structure.
-                                        log::error!("Expected file path for secret alias, got directory: {:?}", alias_pathbuf);
-                                        return;
-                                    }
-                                    // Alias is the filename. 
-                                    let Some(file_name) = alias_pathbuf.file_name() else {
-                                        // NOTE: This should not happen, violation of expected file mount structure.
-                                        log::error!("Failed to get file name from path: {:?}", alias_pathbuf);
-                                        return;
+                                        log::error!("Failed to get file name from path: {:?}", event.path);
+                                        continue;
                                     };
                                     let Some(alias) = file_name.to_str() else {
                                         // NOTE: This should not happen, violation of expected file mount structure.
                                         log::error!("Failed to convert file name to str: {:?}", file_name);
-                                        return;
+                                        continue;
                                     };
 
                                     // Read the alias file to get the new secret path.
                                     // Do this before notifying about updates.
-                                    let secret_pathbuf = match std::fs::read_to_string(alias_pathbuf.as_path()) {
+                                    let secret_pathbuf = match std::fs::read_to_string(event.path.as_path()) {
                                         Ok(file_content) => data_path_c1.join(file_content),
                                         Err(e) => {
                                             // NOTE: This should not happen, as alias files should not be added or removed dynamically.
-                                            log::error!("Failed to read secret alias file {:?}: {e:?}", alias_pathbuf);
-                                            return;
+                                            log::error!("Failed to read secret alias file {:?}: {e:?}", event.path);
+                                            continue;
                                         }
                                     };
 
@@ -128,93 +110,66 @@ impl Secrets {
                                     if let Err(_) = secret_tracker_c1.write().unwrap().update_secret_path(alias, secret_pathbuf) {
                                         // NOTE: This should not happen, violation of expected file mount structure
                                         log::error!("Attempted to update untracked secret alias: {alias}");
-                                        return;
+                                        continue;
                                     }
                                 }
                                 // Alias files are not supposed to be able to be added or removed dynamically,
-                                // nor should they be renamed
-                                EventKind::Create(_) | EventKind::Remove(_) | EventKind::Modify(ModifyKind::Name(_)) => {
-                                    log::error!("Unexpected debounce event for Secret metadata: {db_event:?}");
+                                // nor do we expect any directories here.
+                                _ => {
+                                    log::error!("Unexpected event for Secret metadata: {event:?}");
                                 }
-                                // All other events can be ignored silently
-                                _ => {}
                             }
-                        })
-                    }
-                    Err(errs) => {
-                        for e in errs {
-                            log::error!("Error processing Secret metadata debounce event: {e:?}");
                         }
+                    }
+                    Err(e) => {
+                        log::error!("Error processing Secret metadata event: {e:?}");
                     }
                 }
             },
         )?;
-        // NOTE: Secret metadata is a flat directory, so we can watch non-recursively.
-        metadata_debouncer.watch(&metadata_path, RecursiveMode::NonRecursive)?;
 
-        let mut data_debouncer =
-            new_debouncer(aggregation_window, None, move |res: DebounceEventResult| {
+        // Set up the Secret Data mount debouncer.
+        let data_debouncer = ProjectedVolumeDebouncer::new(
+            data_path,
+            move |res: ProjectedVolumeEventResult| {
                 match res {
-                    Ok(db_events) => {
-                        db_events
-                            .iter()
-                            .for_each(|db_event| {
-                                // Process file changes.
-                                if db_event.event.paths[0].is_file() {
-                                    match db_event.event.kind {
-                                        // Handle updates to existing secret data.
-                                        EventKind::Modify(ModifyKind::Data(_)) => {
-                                            log::trace!("Secret data change detected: {:?}", db_event);
-                                            secret_tracker_c2
-                                                .read()
-                                                .unwrap()
-                                                .report_secret_change(&db_event.event.paths[0]);
-                                        }
-                                        // Secret files can be created, but we don't need to do anything
-                                        // with them until an alias points at them, so log only.
-                                        EventKind::Create(_) => {
-                                            // TODO: Is this correct under Secret Sync? Non-Secret Sync?
-                                            log::trace!(
-                                                "Secret data creation detected: {:?}",
-                                                db_event
-                                            );
-                                            secret_tracker_c2
-                                                .read()
-                                                .unwrap()
-                                                .report_secret_change(&db_event.event.paths[0]);
-                                        }
-                                        // Secret files can be deleted, but there's no need for anything
-                                        // to be done in response, since the Secret interface will handle
-                                        // the file no longer existing. Log only.
-                                        EventKind::Remove(_) => {
-                                            log::trace!("Secret data removal detected: {:?}", db_event);
-                                        }
-                                        // Similar to deletion, this will be handled by the Secret interface.
-                                        // Log only.
-                                        EventKind::Modify(ModifyKind::Name(_)) => {
-                                            log::trace!("Secret data rename detected: {:?}", db_event);
-                                        }
-                                        // All other events can be ignored
-                                        _ => {}
-                                    }
-                                } else {
-                                    // The only time we care about directory changes is a rename/remap happens.
-                                    // This is due to how Kubernetes handles creating directories:
-                                    // - It creates directories in a temporary directory we aren't monitoring
-                                    // - It then does an atomic symlink swap with the mount to bring the new things in
-                                    // - This shows up in the debouncer as a rename.
-                                    log::trace!("Secret data directory change detected: {:?}", db_event);
+                    Ok(events) => {
+                        for event in &events {
+                            match event.kind {
+                                // Handle updates to existing secret data.
+                                ProjectedVolumeEventKind::FileModified => {
+                                    log::trace!("Secret data change detected: {:?}", event);
+                                    secret_tracker_c2
+                                        .read()
+                                        .unwrap()
+                                        .report_secret_change(&event.path);
                                 }
-                            })
-                    }
-                    Err(errs) => {
-                        for e in errs {
-                            log::error!("Error processing Secret data debounce event: {e:?}");
+                                // Secret files can be created, but we don't need to do anything
+                                // with them until an alias points at them, so log and report.
+                                ProjectedVolumeEventKind::FileCreated => {
+                                    log::trace!("Secret data creation detected: {:?}", event);
+                                    secret_tracker_c2
+                                        .read()
+                                        .unwrap()
+                                        .report_secret_change(&event.path);
+                                }
+                                // Secret files can be deleted, but there's no need for anything
+                                // to be done in response, since the Secret interface will handle
+                                // the file no longer existing. Log only.
+                                ProjectedVolumeEventKind::FileRemoved => {
+                                    log::trace!("Secret data removal detected: {:?}", event);
+                                }
+                                // Directory events can be ignored
+                                _ => {}
+                            }
                         }
                     }
+                    Err(e) => {
+                        log::error!("Error processing Secret data event: {e:?}");
+                    }
                 }
-            })?;
-        data_debouncer.watch(&data_path, RecursiveMode::Recursive)?;
+            },
+        )?;
 
         Ok(Self {
             file_watchers: Arc::new(FileWatchers {
@@ -469,27 +424,28 @@ mod tests {
     // test everything against both.
 
     trait SecretMountManager: Clone {
-        fn add_secret_alias(&self, secret_alias: &str, secret_ref: &str, secret_key: &str);
+        fn stage_secret_alias_create(&self, secret_alias: &str, secret_ref: &str, secret_key: &str);
 
-        fn update_secret_alias(
+        fn stage_secret_alias_modify(
             &self,
             secret_alias: &str,
             new_secret_ref: &str,
             new_secret_key: &str,
         );
 
-        fn add_secret_data(&self, secret_ref: &str, secret_key: &str, secret_data: &str);
+        fn stage_secret_data_create(&self, secret_ref: &str, secret_key: &str, secret_data: &str);
 
-        fn update_secret_data(&self, secret_ref: &str, secret_key: &str, new_secret_data: &str);
+        fn stage_secret_data_modify(&self, secret_ref: &str, secret_key: &str, new_secret_data: &str);
 
-        fn remove_secret_data(&self, secret_ref: &str, secret_key: &str);
+        fn stage_secret_data_remove(&self, secret_ref: &str, secret_key: &str);
+
+        fn execute_update(&self);
 
         fn metadata_path(&self) -> &Path;
 
         fn data_path(&self) -> &Path;
     }
 
-    //
     #[derive(Clone)]
     struct StandardSecretMountManager {
         metadata_mount: TempMount,
@@ -506,12 +462,12 @@ mod tests {
     }
 
     impl SecretMountManager for StandardSecretMountManager {
-        fn add_secret_alias(&self, secret_alias: &str, secret_ref: &str, secret_key: &str) {
+        fn stage_secret_alias_create(&self, secret_alias: &str, secret_ref: &str, secret_key: &str) {
             self.metadata_mount
                 .add_file(secret_alias, &format!("{secret_ref}/{secret_key}"));
         }
 
-        fn update_secret_alias(
+        fn stage_secret_alias_modify(
             &self,
             secret_alias: &str,
             new_secret_ref: &str,
@@ -521,24 +477,8 @@ mod tests {
                 .update_file(secret_alias, &format!("{new_secret_ref}/{new_secret_key}"));
         }
 
-        // fn add_secret_data(&self, secret_ref: &str, secret_key: &str, secret_data: &str) {
-        //     // //std::fs::create_dir_all(self.data_mount.path().join(secret_ref)).unwrap();
-        //     // // ------
-        //     // let dir_path = self.data_mount.path().join(secret_ref);
-        //     // let dir_is_new = !dir_path.exists();
-        //     // std::fs::create_dir_all(&dir_path).unwrap();
-        //     // if dir_is_new {
-        //     //     // Give inotify time to register a watch on the new directory before writing
-        //     //     // files into it. Without this, the recursive watcher may miss the file creation.
-        //     //     std::thread::sleep(std::time::Duration::from_millis(50));
-        //     // }
-        //     // // -----
-        //     // self.data_mount
-        //     //     .add_file(&format!("{secret_ref}/{secret_key}"), secret_data);
-        // }
-
         // TODO: Consider moving some of this to TempMount. It currently doesn't support nested dir logic.
-        fn add_secret_data(&self, secret_ref: &str, secret_key: &str, secret_data: &str) {
+        fn stage_secret_data_create(&self, secret_ref: &str, secret_key: &str, secret_data: &str) {
             let target_dir = self.data_mount.path().join(secret_ref);
             if !target_dir.exists() {
                 // Simulate Kubernetes-style atomic directory population:
@@ -560,12 +500,12 @@ mod tests {
             }
         }
 
-        fn update_secret_data(&self, secret_ref: &str, secret_key: &str, new_secret_data: &str) {
+        fn stage_secret_data_modify(&self, secret_ref: &str, secret_key: &str, new_secret_data: &str) {
             self.data_mount
                 .update_file(&format!("{secret_ref}/{secret_key}"), new_secret_data);
         }
 
-        fn remove_secret_data(&self, secret_ref: &str, secret_key: &str) {
+        fn stage_secret_data_remove(&self, secret_ref: &str, secret_key: &str) {
             self.data_mount
                 .remove_file(&format!("{secret_ref}/{secret_key}"));
             if std::fs::read_dir(self.data_mount.path().join(secret_ref))
@@ -575,6 +515,10 @@ mod tests {
             {
                 std::fs::remove_dir(self.data_mount.path().join(secret_ref)).unwrap();
             }
+        }
+
+        fn execute_update(&self) {
+            unimplemented!()
         }
 
         fn metadata_path(&self) -> &Path {
@@ -602,12 +546,12 @@ mod tests {
     }
 
     impl SecretMountManager for SecretSyncMountManager {
-        fn add_secret_alias(&self, secret_alias: &str, secret_ref: &str, secret_key: &str) {
+        fn stage_secret_alias_create(&self, secret_alias: &str, secret_ref: &str, secret_key: &str) {
             self.metadata_mount
                 .add_file(secret_alias, &format!("{secret_ref}_{secret_key}"));
         }
 
-        fn update_secret_alias(
+        fn stage_secret_alias_modify(
             &self,
             secret_alias: &str,
             new_secret_ref: &str,
@@ -617,19 +561,23 @@ mod tests {
                 .update_file(secret_alias, &format!("{new_secret_ref}_{new_secret_key}"));
         }
 
-        fn add_secret_data(&self, secret_ref: &str, secret_key: &str, secret_data: &str) {
+        fn stage_secret_data_create(&self, secret_ref: &str, secret_key: &str, secret_data: &str) {
             self.data_mount
                 .add_file(&format!("{secret_ref}_{secret_key}"), secret_data);
         }
 
-        fn update_secret_data(&self, secret_ref: &str, secret_key: &str, new_secret_data: &str) {
+        fn stage_secret_data_modify(&self, secret_ref: &str, secret_key: &str, new_secret_data: &str) {
             self.data_mount
                 .update_file(&format!("{secret_ref}_{secret_key}"), new_secret_data);
         }
 
-        fn remove_secret_data(&self, secret_ref: &str, secret_key: &str) {
+        fn stage_secret_data_remove(&self, secret_ref: &str, secret_key: &str) {
             self.data_mount
                 .remove_file(&format!("{secret_ref}_{secret_key}"));
+        }
+
+        fn execute_update(&self) {
+            unimplemented!()
         }
 
         fn metadata_path(&self) -> &Path {
@@ -695,13 +643,12 @@ mod tests {
         const AGGREGATION_WINDOW: Duration = Duration::from_millis(100);
 
         // Initialize an alias on disk
-        mount_manager.add_secret_alias(ALIAS_1, REF_1, KEY_1);
-        mount_manager.add_secret_data(REF_1, KEY_1, DATA_1);
+        mount_manager.stage_secret_alias_create(ALIAS_1, REF_1, KEY_1);
+        mount_manager.stage_secret_data_create(REF_1, KEY_1, DATA_1);
 
         let secrets = Secrets::new(
             mount_manager.metadata_path().to_path_buf(),
             mount_manager.data_path().to_path_buf(),
-            AGGREGATION_WINDOW,
         )
         .unwrap();
         let secret = secrets.get_secret(ALIAS_1).unwrap();
@@ -722,21 +669,20 @@ mod tests {
         // - two of which share the same secret reference AND same secret key (i.e. same data file) (ALIAS_1 and ALIAS_4 both point at REF_1/KEY_1)
         // - two of which share the same secret key but NOT the same secret reference (ALIAS_1 and ALIAS_3 both use KEY_1 but different secret refs)
         // - one of which is completely distinct (ALIAS_5)
-        mount_manager.add_secret_alias(ALIAS_1, REF_1, KEY_1);
-        mount_manager.add_secret_data(REF_1, KEY_1, DATA_1);
-        mount_manager.add_secret_alias(ALIAS_2, REF_1, KEY_2);
-        mount_manager.add_secret_data(REF_1, KEY_2, DATA_2);
-        mount_manager.add_secret_alias(ALIAS_3, REF_2, KEY_1);
-        mount_manager.add_secret_data(REF_2, KEY_1, DATA_3);
-        mount_manager.add_secret_alias(ALIAS_4, REF_1, KEY_1);
-        mount_manager.add_secret_alias(ALIAS_5, REF_3, KEY_3);
-        mount_manager.add_secret_data(REF_3, KEY_3, DATA_4);
+        mount_manager.stage_secret_alias_create(ALIAS_1, REF_1, KEY_1);
+        mount_manager.stage_secret_data_create(REF_1, KEY_1, DATA_1);
+        mount_manager.stage_secret_alias_create(ALIAS_2, REF_1, KEY_2);
+        mount_manager.stage_secret_data_create(REF_1, KEY_2, DATA_2);
+        mount_manager.stage_secret_alias_create(ALIAS_3, REF_2, KEY_1);
+        mount_manager.stage_secret_data_create(REF_2, KEY_1, DATA_3);
+        mount_manager.stage_secret_alias_create(ALIAS_4, REF_1, KEY_1);
+        mount_manager.stage_secret_alias_create(ALIAS_5, REF_3, KEY_3);
+        mount_manager.stage_secret_data_create(REF_3, KEY_3, DATA_4);
 
         // Create the Secrets struct and get the individual Secret structs.
         let secrets = Secrets::new(
             mount_manager.metadata_path().to_path_buf(),
             mount_manager.data_path().to_path_buf(),
-            AGGREGATION_WINDOW,
         )
         .unwrap();
         let mut secret1 = secrets.get_secret(ALIAS_1).unwrap();
@@ -760,7 +706,7 @@ mod tests {
         assert_eq!(secret5.value().await.unwrap(), DATA_4);
 
         // Update secret data in place, with only relevant secrets being updated.
-        mount_manager.update_secret_data(REF_1, KEY_1, DATA_5);
+        mount_manager.stage_secret_data_modify(REF_1, KEY_1, DATA_5);
 
         // Secret 1 and Secret 4 should have their values updated, the others should remain the same.
         // These updates should be available immeidately without any kind of wait for aggregation.
@@ -777,7 +723,7 @@ mod tests {
         assert_eq!(secret5.value().await.unwrap(), DATA_4);
 
         // Update more secret data in place (ALIAS_2 / secret 2)
-        mount_manager.update_secret_data(REF_1, KEY_2, DATA_6);
+        mount_manager.stage_secret_data_modify(REF_1, KEY_2, DATA_6);
 
         // Secret 2 should have its value updated, the others should remain the same.
         // These updates should be available immeidately without any kind of wait for aggregation.
@@ -794,7 +740,7 @@ mod tests {
         assert_eq!(secret5.value().await.unwrap(), DATA_4);
 
         // Update more secret data in place (ALIAS_3 / secret 3)
-        mount_manager.update_secret_data(REF_2, KEY_1, DATA_7);
+        mount_manager.stage_secret_data_modify(REF_2, KEY_1, DATA_7);
 
         // Secret 3 should have its value updated, the others should remain the same.
         // These updates should be available immeidately without any kind of wait for aggregation.
@@ -811,7 +757,7 @@ mod tests {
         assert_eq!(secret5.value().await.unwrap(), DATA_4);
 
         // Update more secert data in place (ALIAS_5 / secret 5)
-        mount_manager.update_secret_data(REF_3, KEY_3, DATA_8);
+        mount_manager.stage_secret_data_modify(REF_3, KEY_3, DATA_8);
 
         // Secret 5 should have its value updated, the others should remain the same.
         // These updates should be available immeidately without any kind of wait for aggregation.
@@ -828,10 +774,10 @@ mod tests {
         assert_eq!(secret5.value().await.unwrap(), DATA_8);
 
         // Update all secret data in place
-        mount_manager.update_secret_data(REF_1, KEY_1, DATA_1);
-        mount_manager.update_secret_data(REF_1, KEY_2, DATA_2);
-        mount_manager.update_secret_data(REF_2, KEY_1, DATA_3);
-        mount_manager.update_secret_data(REF_3, KEY_3, DATA_4);
+        mount_manager.stage_secret_data_modify(REF_1, KEY_1, DATA_1);
+        mount_manager.stage_secret_data_modify(REF_1, KEY_2, DATA_2);
+        mount_manager.stage_secret_data_modify(REF_2, KEY_1, DATA_3);
+        mount_manager.stage_secret_data_modify(REF_3, KEY_3, DATA_4);
 
         // All secrets should have their values updated back to the original ones.
         // (Demonstrate that multiple updates can be handled at once)
@@ -861,15 +807,15 @@ mod tests {
         // - two of which share the same secret reference AND same secret key (i.e. same data file) (ALIAS_1 and ALIAS_4 both point at REF_1/KEY_1)
         // - two of which share the same secret key but NOT the same secret reference (ALIAS_1 and ALIAS_3 both use KEY_1 but different secret refs)
         // - one of which is completely distinct (ALIAS_5)
-        mount_manager.add_secret_alias(ALIAS_1, REF_1, KEY_1);
-        mount_manager.add_secret_data(REF_1, KEY_1, DATA_1);
-        mount_manager.add_secret_alias(ALIAS_2, REF_1, KEY_2);
-        mount_manager.add_secret_data(REF_1, KEY_2, DATA_2);
-        mount_manager.add_secret_alias(ALIAS_3, REF_2, KEY_1);
-        mount_manager.add_secret_data(REF_2, KEY_1, DATA_3);
-        mount_manager.add_secret_alias(ALIAS_4, REF_1, KEY_1);
-        mount_manager.add_secret_alias(ALIAS_5, REF_3, KEY_3);
-        mount_manager.add_secret_data(REF_3, KEY_3, DATA_4);
+        mount_manager.stage_secret_alias_create(ALIAS_1, REF_1, KEY_1);
+        mount_manager.stage_secret_data_create(REF_1, KEY_1, DATA_1);
+        mount_manager.stage_secret_alias_create(ALIAS_2, REF_1, KEY_2);
+        mount_manager.stage_secret_data_create(REF_1, KEY_2, DATA_2);
+        mount_manager.stage_secret_alias_create(ALIAS_3, REF_2, KEY_1);
+        mount_manager.stage_secret_data_create(REF_2, KEY_1, DATA_3);
+        mount_manager.stage_secret_alias_create(ALIAS_4, REF_1, KEY_1);
+        mount_manager.stage_secret_alias_create(ALIAS_5, REF_3, KEY_3);
+        mount_manager.stage_secret_data_create(REF_3, KEY_3, DATA_4);
 
         // Create the Secrets struct and get the individual Secret structs.
         // For each secret, call the get_secret() API twice and do a clone.
@@ -877,7 +823,6 @@ mod tests {
         let secrets = Secrets::new(
             mount_manager.metadata_path().to_path_buf(),
             mount_manager.data_path().to_path_buf(),
-            AGGREGATION_WINDOW,
         )
         .unwrap();
         let mut secret1_c1 = secrets.get_secret(ALIAS_1).unwrap();
@@ -914,7 +859,7 @@ mod tests {
         let s5c3_notified = tokio::task::spawn(async move { secret5_c3.changed().await });
         
         // Update REF_1/KEY_1 data (affects ALIAS_1 and ALIAS_4)
-        mount_manager.update_secret_data(REF_1, KEY_1, DATA_5);
+        mount_manager.stage_secret_data_modify(REF_1, KEY_1, DATA_5);
         tokio::time::sleep(AGGREGATION_WINDOW.mul_f32(MANUAL_WAIT_MULTIPLIER)).await;
 
         // Only the secret2 and secret4 copies received a notification
@@ -935,7 +880,7 @@ mod tests {
         assert!(!s5c3_notified.is_finished());
 
         // Update REF_1/KEY_2 data (affects ALIAS_2)
-        mount_manager.update_secret_data(REF_1, KEY_2, DATA_5);
+        mount_manager.stage_secret_data_modify(REF_1, KEY_2, DATA_5);
         tokio::time::sleep(AGGREGATION_WINDOW.mul_f32(MANUAL_WAIT_MULTIPLIER)).await;
 
         // Only the secret2 copies received a notification
@@ -950,7 +895,7 @@ mod tests {
         assert!(!s5c3_notified.is_finished());
 
         // Update REF_2/KEY_1 data (affects ALIAS_3)
-        mount_manager.update_secret_data(REF_2, KEY_1, DATA_5);
+        mount_manager.stage_secret_data_modify(REF_2, KEY_1, DATA_5);
         tokio::time::sleep(AGGREGATION_WINDOW.mul_f32(MANUAL_WAIT_MULTIPLIER)).await;
 
         // Only the secret3 copies received a notification
@@ -962,7 +907,7 @@ mod tests {
         assert!(!s5c3_notified.is_finished());
 
         // Update REF_3/KEY_3 data (affects ALIAS_5)
-        mount_manager.update_secret_data(REF_3, KEY_3, DATA_5);
+        mount_manager.stage_secret_data_modify(REF_3, KEY_3, DATA_5);
         tokio::time::sleep(AGGREGATION_WINDOW.mul_f32(MANUAL_WAIT_MULTIPLIER)).await;
 
         // The secret5 copies received a notification
@@ -979,21 +924,20 @@ mod tests {
         const AGGREGATION_WINDOW: Duration = Duration::from_millis(500);
 
         // Initialize a secret alias on disk
-        mount_manager.add_secret_alias(ALIAS_1, REF_1, KEY_1);
-        mount_manager.add_secret_data(REF_1, KEY_1, DATA_1);
+        mount_manager.stage_secret_alias_create(ALIAS_1, REF_1, KEY_1);
+        mount_manager.stage_secret_data_create(REF_1, KEY_1, DATA_1);
 
         // Create the Secrets struct and get two copies of the Secret struct
         let secrets = Secrets::new(
             mount_manager.metadata_path().to_path_buf(),
             mount_manager.data_path().to_path_buf(),
-            AGGREGATION_WINDOW,
         )
         .unwrap();
         let mut secret1_c1 = secrets.get_secret(ALIAS_1).unwrap();
         let mut secret1_c2 = secrets.get_secret(ALIAS_1).unwrap();
 
         // Update the secret data in place, but do not wait for the aggregation window to pass.
-        mount_manager.update_secret_data(REF_1, KEY_1, DATA_2);
+        mount_manager.stage_secret_data_modify(REF_1, KEY_1, DATA_2);
         let t0 = Instant::now();
 
         let (t1, t2) = tokio::time::timeout(Duration::from_secs(1), async {
@@ -1052,21 +996,20 @@ mod tests {
         // - two of which share the same secret reference AND same secret key (i.e. same data file) (ALIAS_1 and ALIAS_4 both point at REF_1/KEY_1)
         // - two of which share the same secret key but NOT the same secret reference (ALIAS_1 and ALIAS_3 both use KEY_1 but different secret refs)
         // - one of which is completely distinct (ALIAS_5)
-        mount_manager.add_secret_alias(ALIAS_1, REF_1, KEY_1);
-        mount_manager.add_secret_data(REF_1, KEY_1, DATA_1);
-        mount_manager.add_secret_alias(ALIAS_2, REF_1, KEY_2);
-        mount_manager.add_secret_data(REF_1, KEY_2, DATA_2);
-        mount_manager.add_secret_alias(ALIAS_3, REF_2, KEY_1);
-        mount_manager.add_secret_data(REF_2, KEY_1, DATA_3);
-        mount_manager.add_secret_alias(ALIAS_4, REF_1, KEY_1);
-        mount_manager.add_secret_alias(ALIAS_5, REF_3, KEY_3);
-        mount_manager.add_secret_data(REF_3, KEY_3, DATA_4);
+        mount_manager.stage_secret_alias_create(ALIAS_1, REF_1, KEY_1);
+        mount_manager.stage_secret_data_create(REF_1, KEY_1, DATA_1);
+        mount_manager.stage_secret_alias_create(ALIAS_2, REF_1, KEY_2);
+        mount_manager.stage_secret_data_create(REF_1, KEY_2, DATA_2);
+        mount_manager.stage_secret_alias_create(ALIAS_3, REF_2, KEY_1);
+        mount_manager.stage_secret_data_create(REF_2, KEY_1, DATA_3);
+        mount_manager.stage_secret_alias_create(ALIAS_4, REF_1, KEY_1);
+        mount_manager.stage_secret_alias_create(ALIAS_5, REF_3, KEY_3);
+        mount_manager.stage_secret_data_create(REF_3, KEY_3, DATA_4);
 
         // Create the Secrets struct and get the individual Secret structs.
         let secrets = Secrets::new(
             mount_manager.metadata_path().to_path_buf(),
             mount_manager.data_path().to_path_buf(),
-            AGGREGATION_WINDOW,
         )
         .unwrap();
         let mut secret1 = secrets.get_secret(ALIAS_1).unwrap();
@@ -1091,7 +1034,7 @@ mod tests {
 
         // Update ALIAS_1 to point at REF_2/KEY_1 instead of REF_1/KEY_1.
         // This should be reflected immediately after the aggregation window passes.
-        mount_manager.update_secret_alias(ALIAS_1, REF_2, KEY_1);
+        mount_manager.stage_secret_alias_modify(ALIAS_1, REF_2, KEY_1);
         tokio::time::sleep(WAIT_FOR_UPDATE).await; // Wait for update to propagate
 
         // ALIAS_1 / secret 1 should have its value updated to DATA_3, while all other secrets should remain the same.
@@ -1109,8 +1052,8 @@ mod tests {
         assert_eq!(secret5.value().await.unwrap(), DATA_4);
 
         // Swap ALIAS_2 and ALIAS_4 secret keys (they already share the same secret ref)
-        mount_manager.update_secret_alias(ALIAS_2, REF_1, KEY_1);
-        mount_manager.update_secret_alias(ALIAS_4, REF_1, KEY_2);
+        mount_manager.stage_secret_alias_modify(ALIAS_2, REF_1, KEY_1);
+        mount_manager.stage_secret_alias_modify(ALIAS_4, REF_1, KEY_2);
         tokio::time::sleep(WAIT_FOR_UPDATE).await; // Wait for update to propagate
 
         // The data was swapped.
@@ -1128,8 +1071,8 @@ mod tests {
 
         // Swap ALIAS_3 and ALIAS_5 to point at each other's secret refs and keys (they share neither key nor ref)
         // This should be reflected immediately after the aggregation window passes.
-        mount_manager.update_secret_alias(ALIAS_3, REF_3, KEY_3);
-        mount_manager.update_secret_alias(ALIAS_5, REF_2, KEY_1);
+        mount_manager.stage_secret_alias_modify(ALIAS_3, REF_3, KEY_3);
+        mount_manager.stage_secret_alias_modify(ALIAS_5, REF_2, KEY_1);
         tokio::time::sleep(WAIT_FOR_UPDATE).await; // Wait for update to propagate
 
         // The data was swapped.
@@ -1147,8 +1090,8 @@ mod tests {
 
         // Add new secret data and THEN redirect ALIAS_5/secret 5 to it.
         // Do not remove the old data, as ALIAS_1/secret 1 is still using it.
-        mount_manager.add_secret_data(REF_3, KEY_2, DATA_5);
-        mount_manager.update_secret_alias(ALIAS_5, REF_3, KEY_2);
+        mount_manager.stage_secret_data_create(REF_3, KEY_2, DATA_5);
+        mount_manager.stage_secret_alias_modify(ALIAS_5, REF_3, KEY_2);
         tokio::time::sleep(WAIT_FOR_UPDATE).await; // Wait for update to propagate
 
         // Secret 5 should now have the new data.
@@ -1165,7 +1108,7 @@ mod tests {
         assert_eq!(secret5.value().await.unwrap(), DATA_5);
 
         // Update ALIAS_4/secret 4 to point at a currently non-existent new secret
-        mount_manager.update_secret_alias(ALIAS_4, REF_2, KEY_2);
+        mount_manager.stage_secret_alias_modify(ALIAS_4, REF_2, KEY_2);
         tokio::time::sleep(WAIT_FOR_UPDATE).await; // Wait for update to propagate
 
         // Secret 4 is now unavailable, while all other secrets remain the same.
@@ -1181,8 +1124,8 @@ mod tests {
 
         // Add the new secret data, which should make secret 4 available with the new data after aggregation window.
         // Remove the unused old secret data.
-        mount_manager.add_secret_data(REF_2, KEY_2, DATA_6);
-        mount_manager.remove_secret_data(REF_1, KEY_2);
+        mount_manager.stage_secret_data_create(REF_2, KEY_2, DATA_6);
+        mount_manager.stage_secret_data_remove(REF_1, KEY_2);
         tokio::time::sleep(WAIT_FOR_UPDATE).await; // Wait for update to propagate
 
         // Secret 4 should now be available with the new data, while all other secrets remain the same.
@@ -1198,7 +1141,7 @@ mod tests {
         assert_eq!(secret5.value().await.unwrap(), DATA_5);
 
         // Remove a secret data file, and the corresponding secret becomes unavailable
-        mount_manager.remove_secret_data(REF_1, KEY_1);
+        mount_manager.stage_secret_data_remove(REF_1, KEY_1);
         tokio::time::sleep(WAIT_FOR_UPDATE).await; // Wait for update to propagate
 
         // Secret 2 becomes unavailable, while all other secrets remain the same.
@@ -1215,14 +1158,14 @@ mod tests {
         // Reset all secrets back to their original configuration and restore the removed data files,
         // removing the newly added ones.
         // (Demonstrate that multiple updates can be handled at once)
-        mount_manager.add_secret_data(REF_1, KEY_1, DATA_1);
-        mount_manager.add_secret_data(REF_1, KEY_2, DATA_2);
-        mount_manager.remove_secret_data(REF_2, KEY_2);
-        mount_manager.update_secret_alias(ALIAS_1, REF_1, KEY_1);
-        mount_manager.update_secret_alias(ALIAS_2, REF_1, KEY_2);
-        mount_manager.update_secret_alias(ALIAS_3, REF_2, KEY_1);
-        mount_manager.update_secret_alias(ALIAS_4, REF_1, KEY_1);
-        mount_manager.update_secret_alias(ALIAS_5, REF_3, KEY_3);
+        mount_manager.stage_secret_data_create(REF_1, KEY_1, DATA_1);
+        mount_manager.stage_secret_data_create(REF_1, KEY_2, DATA_2);
+        mount_manager.stage_secret_data_remove(REF_2, KEY_2);
+        mount_manager.stage_secret_alias_modify(ALIAS_1, REF_1, KEY_1);
+        mount_manager.stage_secret_alias_modify(ALIAS_2, REF_1, KEY_2);
+        mount_manager.stage_secret_alias_modify(ALIAS_3, REF_2, KEY_1);
+        mount_manager.stage_secret_alias_modify(ALIAS_4, REF_1, KEY_1);
+        mount_manager.stage_secret_alias_modify(ALIAS_5, REF_3, KEY_3);
         tokio::time::sleep(WAIT_FOR_UPDATE).await; // Wait for update to propagate
 
         // All secrets should have their values updated back to the original ones.
@@ -1250,15 +1193,15 @@ mod tests {
         // - two of which share the same secret reference AND same secret key (i.e. same data file) (ALIAS_1 and ALIAS_4 both point at REF_1/KEY_1)
         // - two of which share the same secret key but NOT the same secret reference (ALIAS_1 and ALIAS_3 both use KEY_1 but different secret refs)
         // - one of which is completely distinct (ALIAS_5)
-        mount_manager.add_secret_alias(ALIAS_1, REF_1, KEY_1);
-        mount_manager.add_secret_data(REF_1, KEY_1, DATA_1);
-        mount_manager.add_secret_alias(ALIAS_2, REF_1, KEY_2);
-        mount_manager.add_secret_data(REF_1, KEY_2, DATA_2);
-        mount_manager.add_secret_alias(ALIAS_3, REF_2, KEY_1);
-        mount_manager.add_secret_data(REF_2, KEY_1, DATA_3);
-        mount_manager.add_secret_alias(ALIAS_4, REF_1, KEY_1);
-        mount_manager.add_secret_alias(ALIAS_5, REF_3, KEY_3);
-        mount_manager.add_secret_data(REF_3, KEY_3, DATA_4);
+        mount_manager.stage_secret_alias_create(ALIAS_1, REF_1, KEY_1);
+        mount_manager.stage_secret_data_create(REF_1, KEY_1, DATA_1);
+        mount_manager.stage_secret_alias_create(ALIAS_2, REF_1, KEY_2);
+        mount_manager.stage_secret_data_create(REF_1, KEY_2, DATA_2);
+        mount_manager.stage_secret_alias_create(ALIAS_3, REF_2, KEY_1);
+        mount_manager.stage_secret_data_create(REF_2, KEY_1, DATA_3);
+        mount_manager.stage_secret_alias_create(ALIAS_4, REF_1, KEY_1);
+        mount_manager.stage_secret_alias_create(ALIAS_5, REF_3, KEY_3);
+        mount_manager.stage_secret_data_create(REF_3, KEY_3, DATA_4);
 
         // Create the Secrets struct and get the individual Secret structs.
         // For each secret, call the get_secret() API twice and do a clone.
@@ -1266,7 +1209,6 @@ mod tests {
         let secrets = Secrets::new(
             mount_manager.metadata_path().to_path_buf(),
             mount_manager.data_path().to_path_buf(),
-            AGGREGATION_WINDOW,
         )
         .unwrap();
         let mut secret1_c1 = secrets.get_secret(ALIAS_1).unwrap();
@@ -1305,7 +1247,7 @@ mod tests {
         // Update ALIAS_1 to point at REF_2/KEY_1 instead of REF_1/KEY_1 (only affects ALIAS_1)
         // Notably, ALIAS_4 shares the same initial data path as ALIAS_1 but should NOT be notified,
         // because only the alias that was updated receives a notification.
-        mount_manager.update_secret_alias(ALIAS_1, REF_2, KEY_1);
+        mount_manager.stage_secret_alias_modify(ALIAS_1, REF_2, KEY_1);
         tokio::time::sleep(AGGREGATION_WINDOW.mul_f32(MANUAL_WAIT_MULTIPLIER)).await;
 
         // Only the secret1 copies received a notification
@@ -1327,8 +1269,8 @@ mod tests {
 
         // Swap ALIAS_2 and ALIAS_4 secret keys (they share the same secret ref)
         // (affects ALIAS_2 and ALIAS_4)
-        mount_manager.update_secret_alias(ALIAS_2, REF_1, KEY_1);
-        mount_manager.update_secret_alias(ALIAS_4, REF_1, KEY_2);
+        mount_manager.stage_secret_alias_modify(ALIAS_2, REF_1, KEY_1);
+        mount_manager.stage_secret_alias_modify(ALIAS_4, REF_1, KEY_2);
         tokio::time::sleep(AGGREGATION_WINDOW.mul_f32(MANUAL_WAIT_MULTIPLIER)).await;
 
         // Only the secret2 and secret4 copies received a notification
@@ -1347,8 +1289,8 @@ mod tests {
 
         // Swap ALIAS_3 and ALIAS_5 to point at each other's secret refs and keys
         // (affects ALIAS_3 and ALIAS_5)
-        mount_manager.update_secret_alias(ALIAS_3, REF_3, KEY_3);
-        mount_manager.update_secret_alias(ALIAS_5, REF_2, KEY_1);
+        mount_manager.stage_secret_alias_modify(ALIAS_3, REF_3, KEY_3);
+        mount_manager.stage_secret_alias_modify(ALIAS_5, REF_2, KEY_1);
         tokio::time::sleep(AGGREGATION_WINDOW.mul_f32(MANUAL_WAIT_MULTIPLIER)).await;
 
         // The secret3 and secret5 copies received a notification
@@ -1368,14 +1310,13 @@ mod tests {
         const AGGREGATION_WINDOW: Duration = Duration::from_millis(500);
 
         // Initialize a secret alias on disk
-        mount_manager.add_secret_alias(ALIAS_1, REF_1, KEY_1);
-        mount_manager.add_secret_data(REF_1, KEY_1, DATA_1);
+        mount_manager.stage_secret_alias_create(ALIAS_1, REF_1, KEY_1);
+        mount_manager.stage_secret_data_create(REF_1, KEY_1, DATA_1);
 
         // Create the Secrets struct
         let secrets = Secrets::new(
             mount_manager.metadata_path().to_path_buf(),
             mount_manager.data_path().to_path_buf(),
-            AGGREGATION_WINDOW,
         )
         .unwrap();
         // Get two copies of the Secret struct for ALIAS_1 for testing timing.
@@ -1384,8 +1325,8 @@ mod tests {
 
         // Add new secret data and redirect ALIAS_1 to use it
         // Do not delete the existing secret data that becomes unused.
-        mount_manager.add_secret_data(REF_1, KEY_2, DATA_2);
-        mount_manager.update_secret_alias(ALIAS_1, REF_1, KEY_2);
+        mount_manager.stage_secret_data_create(REF_1, KEY_2, DATA_2);
+        mount_manager.stage_secret_alias_modify(ALIAS_1, REF_1, KEY_2);
         let t0 = Instant::now();
 
         // Data is available because nothing was deleted
@@ -1434,9 +1375,9 @@ mod tests {
         let mut secret1_c4 = secrets.get_secret(ALIAS_1).unwrap();
 
         // // This time, do delete the existing secret data that becomes unused
-        mount_manager.add_secret_data(REF_1, KEY_3, DATA_3);
-        mount_manager.remove_secret_data(REF_1, KEY_2);
-        mount_manager.update_secret_alias(ALIAS_1, REF_1, KEY_3);
+        mount_manager.stage_secret_data_create(REF_1, KEY_3, DATA_3);
+        mount_manager.stage_secret_data_remove(REF_1, KEY_2);
+        mount_manager.stage_secret_alias_modify(ALIAS_1, REF_1, KEY_3);
         let t0 = Instant::now();
 
         // No value is currently retrievable due to the old data being deleted
@@ -1489,8 +1430,8 @@ mod tests {
 
         // There will be no ability to get values at all if the alias is updated to point at non-existent data,
         // until that data is added and the aggregation window has passed.
-        mount_manager.update_secret_alias(ALIAS_1, REF_2, KEY_2);
-        mount_manager.remove_secret_data(REF_1, KEY_3);
+        mount_manager.stage_secret_alias_modify(ALIAS_1, REF_2, KEY_2);
+        mount_manager.stage_secret_data_remove(REF_1, KEY_3);
         let t0 = Instant::now();
 
         // No value is currently retrievable due to the alias pointing at non-existent data
@@ -1505,7 +1446,7 @@ mod tests {
                 async move {
                     // Wait for the aggregation window to pass, then add the new data.
                     tokio::time::sleep(AGGREGATION_WINDOW.mul_f32(MANUAL_WAIT_MULTIPLIER)).await;
-                    mount_manager_c.add_secret_data(REF_2, KEY_2, DATA_4);
+                    mount_manager_c.stage_secret_data_create(REF_2, KEY_2, DATA_4);
                     let update_time = Instant::now();
                     log::warn!("task 1 done: {update_time:?}");
                     update_time
@@ -1571,14 +1512,13 @@ mod tests {
         const AGGREGATION_WINDOW: Duration = Duration::from_secs(1);
 
         // Initializes two secret aliases on disk
-        mount_manager.add_secret_alias(ALIAS_1, REF_1, KEY_1);
-        mount_manager.add_secret_data(REF_1, KEY_1, DATA_1);
+        mount_manager.stage_secret_alias_create(ALIAS_1, REF_1, KEY_1);
+        mount_manager.stage_secret_data_create(REF_1, KEY_1, DATA_1);
 
         // Create the Secrets struct and obtain Secret handle
         let secrets = Secrets::new(
             mount_manager.metadata_path().to_path_buf(),
             mount_manager.data_path().to_path_buf(),
-            AGGREGATION_WINDOW,
         )
         .unwrap();
         let mut secret = secrets.get_secret(ALIAS_1).unwrap();
@@ -1586,10 +1526,10 @@ mod tests {
         assert_eq!(secret.value().await.unwrap(), DATA_1);
 
         // Rapidly update the secret data in place
-        mount_manager.update_secret_data(REF_1, KEY_1, DATA_2);
-        mount_manager.update_secret_data(REF_1, KEY_1, DATA_3);
-        mount_manager.update_secret_data(REF_1, KEY_1, DATA_4);
-        mount_manager.update_secret_data(REF_1, KEY_1, DATA_5);
+        mount_manager.stage_secret_data_modify(REF_1, KEY_1, DATA_2);
+        mount_manager.stage_secret_data_modify(REF_1, KEY_1, DATA_3);
+        mount_manager.stage_secret_data_modify(REF_1, KEY_1, DATA_4);
+        mount_manager.stage_secret_data_modify(REF_1, KEY_1, DATA_5);
 
         // Wait for change to be reported
         secret.changed().await;
@@ -1597,14 +1537,14 @@ mod tests {
         assert_eq!(secret.value().await.unwrap(), DATA_5);
 
         // Now rapidly update including multiple alias remaps
-        mount_manager.update_secret_data(REF_1, KEY_1, DATA_1);
-        mount_manager.update_secret_data(REF_1, KEY_1, DATA_2);
-        mount_manager.update_secret_alias(ALIAS_1, REF_1, KEY_2);
-        mount_manager.update_secret_data(REF_1, KEY_1, DATA_3);
-        mount_manager.add_secret_data(REF_1, KEY_2, DATA_4);
-        mount_manager.update_secret_alias(ALIAS_1, REF_2, KEY_1);
-        mount_manager.add_secret_data(REF_2, KEY_1, DATA_5);
-        mount_manager.update_secret_data(REF_2, KEY_1, DATA_6);
+        mount_manager.stage_secret_data_modify(REF_1, KEY_1, DATA_1);
+        mount_manager.stage_secret_data_modify(REF_1, KEY_1, DATA_2);
+        mount_manager.stage_secret_alias_modify(ALIAS_1, REF_1, KEY_2);
+        mount_manager.stage_secret_data_modify(REF_1, KEY_1, DATA_3);
+        mount_manager.stage_secret_data_create(REF_1, KEY_2, DATA_4);
+        mount_manager.stage_secret_alias_modify(ALIAS_1, REF_2, KEY_1);
+        mount_manager.stage_secret_data_create(REF_2, KEY_1, DATA_5);
+        mount_manager.stage_secret_data_modify(REF_2, KEY_1, DATA_6);
 
         // Wait for change to be reported
         secret.changed().await;
@@ -1628,16 +1568,15 @@ mod tests {
         const AGGREGATION_WINDOW: Duration = Duration::from_millis(100);
 
         // Initialize two secret aliases on disk
-        mount_manager.add_secret_alias(ALIAS_1, REF_1, KEY_1);
-        mount_manager.add_secret_data(REF_1, KEY_1, DATA_1);
-        mount_manager.add_secret_alias(ALIAS_2, REF_2, KEY_2);
-        mount_manager.add_secret_data(REF_2, KEY_2, DATA_2);
+        mount_manager.stage_secret_alias_create(ALIAS_1, REF_1, KEY_1);
+        mount_manager.stage_secret_data_create(REF_1, KEY_1, DATA_1);
+        mount_manager.stage_secret_alias_create(ALIAS_2, REF_2, KEY_2);
+        mount_manager.stage_secret_data_create(REF_2, KEY_2, DATA_2);
 
         // Create the Secrets struct and obtain Secret handles
         let secrets = Secrets::new(
             mount_manager.metadata_path().to_path_buf(),
             mount_manager.data_path().to_path_buf(),
-            AGGREGATION_WINDOW,
         )
         .unwrap();
         let mut secret1 = secrets.get_secret(ALIAS_1).unwrap();
@@ -1651,7 +1590,7 @@ mod tests {
         drop(secrets);
 
         // --- In-place data update after Secrets is dropped ---
-        mount_manager.update_secret_data(REF_1, KEY_1, DATA_3);
+        mount_manager.stage_secret_data_modify(REF_1, KEY_1, DATA_3);
 
         // The data debouncer must still be alive to deliver the notification
         tokio::time::timeout(Duration::from_secs(2), secret1.changed())
@@ -1661,14 +1600,14 @@ mod tests {
 
         // --- Alias update after Secrets is dropped ---
         // Redirect ALIAS_2 to point at REF_1/KEY_1 (which now contains DATA_3)
-        mount_manager.update_secret_alias(ALIAS_2, REF_1, KEY_1);
+        mount_manager.stage_secret_alias_modify(ALIAS_2, REF_1, KEY_1);
         tokio::time::sleep(AGGREGATION_WINDOW.mul_f32(MANUAL_WAIT_MULTIPLIER)).await; // Wait for metadata debouncer
 
         // The metadata debouncer must still be alive to process the alias update
         assert_eq!(secret2.value().await.unwrap(), DATA_3);
 
         // --- Another in-place data update, now affecting both secrets via shared path ---
-        mount_manager.update_secret_data(REF_1, KEY_1, DATA_4);
+        mount_manager.stage_secret_data_modify(REF_1, KEY_1, DATA_4);
 
         // Both secrets should receive the update
         let (r1, r2) = tokio::time::timeout(Duration::from_secs(2), async {
