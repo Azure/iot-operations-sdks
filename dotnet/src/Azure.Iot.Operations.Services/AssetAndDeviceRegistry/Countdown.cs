@@ -54,15 +54,22 @@ namespace Azure.Iot.Operations.Services.AssetAndDeviceRegistry
                     {
                         while (true)
                         {
-                            await Task.Delay(_delay, _resetCountdownCancellationToken.Token);
-
                             try
                             {
-                                await _afterDelay.Invoke(_resetCountdownCancellationToken.Token);
+                                await Task.Delay(_delay, _resetCountdownCancellationToken.Token);
+
+                                try
+                                {
+                                    await _afterDelay.Invoke(_resetCountdownCancellationToken.Token);
+                                }
+                                catch (Exception)
+                                {
+                                    //todo log error
+                                }
                             }
-                            catch (Exception)
+                            catch (ObjectDisposedException)
                             {
-                                //todo log error
+                                // The countdown was stopped or disposed, so gracefully end this task
                             }
                         }
                     }
