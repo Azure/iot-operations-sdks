@@ -141,9 +141,7 @@ impl ConnectorArtifacts {
                     .map(valid_pathbuf_from)
                     .transpose()?,
             )
-            .map(|(metadata_path, secrets_path)| {
-                Secrets::new(metadata_path, secrets_path)
-            })
+            .map(|(metadata_path, secrets_path)| Secrets::new(metadata_path, secrets_path))
             .transpose()
             .map_err(|e| DeploymentArtifactErrorRepr::SecretsError(e))?;
 
