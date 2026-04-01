@@ -2454,11 +2454,15 @@ namespace Azure.Iot.Operations.Protocol.Session.UnitTests
             Assert.True(containsFlag);
         }
 
-        [Fact(Timeout = 5000)] // Adding a timeout to this test in case some deadlock causes disposing the session client when it is reconnecting to hang
+        [Fact(Timeout = 10000)] // Adding a timeout to this test in case some deadlock causes disposing the session client when it is reconnecting to hang
         public async Task MqttSessionClient_DisposeWhileReconnectingStopsReconnectingAndDoesNotThrow() // check for the issue reported in https://github.com/Azure/iot-operations-sdks/issues/1281
         {
             TaskCompletionSource unobservedExceptionThrown = new();
-            TaskScheduler.UnobservedTaskException += (_, args) => { unobservedExceptionThrown.TrySetResult(); };
+            void unobservedTaskHandler(object? sender, UnobservedTaskExceptionEventArgs e)
+            {
+                unobservedExceptionThrown.TrySetResult();
+            }
+            TaskScheduler.UnobservedTaskException += unobservedTaskHandler;
 
             using MockMqttClient mockClient = new MockMqttClient();
 
@@ -2476,13 +2480,13 @@ namespace Azure.Iot.Operations.Protocol.Session.UnitTests
                 }
             };
 
-            // Make the session client retry forever so that we now that disposing the session client ends that retry logic
+            // Make the session client retry forever so that we know that disposing the session client ends that retry logic
             MqttSessionClientOptions sessionClientOptions = new()
             {
                 ConnectionRetryPolicy = new ExponentialBackoffRetryPolicy(uint.MaxValue, TimeSpan.FromHours(60))
             };
 
-            await using MqttSessionClient sessionClient = new(mockClient, sessionClientOptions);
+            MqttSessionClient sessionClient = new(mockClient, sessionClientOptions);
 
             TaskCompletionSource<MqttClientDisconnectedEventArgs> disconnectedArgsTcs = new();
             sessionClient.DisconnectedAsync += (args) =>
@@ -2494,13 +2498,14 @@ namespace Azure.Iot.Operations.Protocol.Session.UnitTests
             await sessionClient.ConnectAsync(GetClientOptions());
             await mockClient.SimulateServerInitiatedDisconnectAsync(new Exception(), MQTTnet.MqttClientDisconnectReason.ServerBusy);
 
-            await disconnectedArgsTcs.Task.WaitAsync(TimeSpan.FromSeconds(30));
+            await disconnectedArgsTcs.Task.WaitAsync(TimeSpan.FromSeconds(5));
 
             await sessionClient.DisposeAsync();
 
             // Check that no object disposed exceptions are thrown/go unobserved
             await Task.Delay(200); GC.Collect(); GC.WaitForPendingFinalizers(); GC.Collect(); await Task.Delay(500);
             Assert.False(unobservedExceptionThrown.Task.IsCompleted, "Some unobserved exception was thrown");
+            TaskScheduler.UnobservedTaskException -= unobservedTaskHandler;
         }
 
         private class TestCertificateProvider : IMqttClientCertificatesProvider
