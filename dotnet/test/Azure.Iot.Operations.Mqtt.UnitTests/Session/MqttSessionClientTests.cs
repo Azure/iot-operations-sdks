@@ -2466,7 +2466,6 @@ namespace Azure.Iot.Operations.Protocol.Session.UnitTests
 
             using MockMqttClient mockClient = new MockMqttClient();
 
-            TaskCompletionSource onReconnected = new();
             mockClient.OnConnectAttempt += (args) =>
             {
                 if (args.CleanSession)
@@ -2475,7 +2474,6 @@ namespace Azure.Iot.Operations.Protocol.Session.UnitTests
                 }
                 else
                 {
-                    onReconnected.TrySetResult();
                     return Task.FromResult(MQTTnet.MqttClientConnectResultFactory.Create(MockMqttClient.UnsuccessfulReconnectConnAck, MQTTnet.Formatter.MqttProtocolVersion.V500));
                 }
             };
