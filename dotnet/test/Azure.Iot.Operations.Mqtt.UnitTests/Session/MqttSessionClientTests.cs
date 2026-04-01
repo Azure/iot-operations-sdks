@@ -2454,6 +2454,55 @@ namespace Azure.Iot.Operations.Protocol.Session.UnitTests
             Assert.True(containsFlag);
         }
 
+        [Fact(Timeout = 5000)] // Adding a timeout to this test in case some deadlock causes disposing the session client when it is reconnecting to hang
+        public async Task MqttSessionClient_DisposeWhileReconnectingStopsReconnectingAndDoesNotThrow() // check for the issue reported in https://github.com/Azure/iot-operations-sdks/issues/1281
+        {
+            TaskCompletionSource unobservedExceptionThrown = new();
+            TaskScheduler.UnobservedTaskException += (_, args) => { unobservedExceptionThrown.TrySetResult(); };
+
+            using MockMqttClient mockClient = new MockMqttClient();
+
+            TaskCompletionSource onReconnected = new();
+            mockClient.OnConnectAttempt += (args) =>
+            {
+                if (args.CleanSession)
+                {
+                    return Task.FromResult(MQTTnet.MqttClientConnectResultFactory.Create(MockMqttClient.SuccessfulInitialConnAck, MQTTnet.Formatter.MqttProtocolVersion.V500));
+                }
+                else
+                {
+                    onReconnected.TrySetResult();
+                    return Task.FromResult(MQTTnet.MqttClientConnectResultFactory.Create(MockMqttClient.UnsuccessfulReconnectConnAck, MQTTnet.Formatter.MqttProtocolVersion.V500));
+                }
+            };
+
+            // Make the session client retry forever so that we now that disposing the session client ends that retry logic
+            MqttSessionClientOptions sessionClientOptions = new()
+            {
+                ConnectionRetryPolicy = new ExponentialBackoffRetryPolicy(uint.MaxValue, TimeSpan.FromHours(60))
+            };
+
+            await using MqttSessionClient sessionClient = new(mockClient, sessionClientOptions);
+
+            TaskCompletionSource<MqttClientDisconnectedEventArgs> disconnectedArgsTcs = new();
+            sessionClient.DisconnectedAsync += (args) =>
+            {
+                disconnectedArgsTcs.TrySetResult(args);
+                return Task.CompletedTask;
+            };
+
+            await sessionClient.ConnectAsync(GetClientOptions());
+            await mockClient.SimulateServerInitiatedDisconnectAsync(new Exception(), MQTTnet.MqttClientDisconnectReason.ServerBusy);
+
+            await disconnectedArgsTcs.Task.WaitAsync(TimeSpan.FromSeconds(30));
+
+            await sessionClient.DisposeAsync();
+
+            // Check that no object disposed exceptions are thrown/go unobserved
+            await Task.Delay(200); GC.Collect(); GC.WaitForPendingFinalizers(); GC.Collect(); await Task.Delay(500);
+            Assert.False(unobservedExceptionThrown.Task.IsCompleted, "Some unobserved exception was thrown");
+        }
+
         private class TestCertificateProvider : IMqttClientCertificatesProvider
         {
             public X509Certificate2 CurrentCertificate { get; set; }
