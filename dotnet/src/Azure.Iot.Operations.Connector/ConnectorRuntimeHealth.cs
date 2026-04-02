@@ -1,16 +1,11 @@
 ﻿// Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Azure.Iot.Operations.Services.AssetAndDeviceRegistry.Models;
 
 namespace Azure.Iot.Operations.Connector
 {
-    public partial class ConnectorRuntimeHealth //TODO rename
+    public partial class ConnectorRuntimeHealth
     {
         /// <summary>
         /// A human-readable message describing the last transition.
