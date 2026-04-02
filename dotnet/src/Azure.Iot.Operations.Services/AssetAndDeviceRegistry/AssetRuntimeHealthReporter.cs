@@ -192,9 +192,11 @@ namespace Azure.Iot.Operations.Services.AssetAndDeviceRegistry
                 {
                     await _periodicSender.StartAsync(cancellationToken);
                 }
+            }
 
+            if (eventsToReport.Count > 0)
+            {
                 await _azureDeviceRegistryClient.ReportDatasetRuntimeHealthAsync(_deviceName, _inboundEndpointName, _assetName, eventsToReport, telemetryTimeout, cancellationToken);
-
             }
         }
 
@@ -285,33 +287,7 @@ namespace Azure.Iot.Operations.Services.AssetAndDeviceRegistry
                 RuntimeHealth = eventRuntimeHealth,
             };
 
-            RuntimeHealth? cachedHealth = null;
-            if (_cachedEventGroupsRuntimeHealth.TryGetValue(eventGroupName, out Dictionary<string, RuntimeHealth?>? events))
-            {
-                events.TryGetValue(eventName, out cachedHealth);
-            }
-
-            RuntimeHealth.CompareNewHealthWithCachedHealth(eventRuntimeHealth, cachedHealth, out bool updateCache, out bool sendIt);
-
-            if (updateCache)
-            {
-                if (!_cachedEventGroupsRuntimeHealth.ContainsKey(eventGroupName))
-                {
-                    _cachedEventGroupsRuntimeHealth[eventGroupName] = new();
-                }
-
-                _cachedEventGroupsRuntimeHealth[eventGroupName][eventName] = eventRuntimeHealth;
-            }
-
-            if (sendIt)
-            {
-                await _azureDeviceRegistryClient.ReportEventRuntimeHealthAsync(_deviceName, _inboundEndpointName, _assetName, new List<EventsRuntimeHealthEvent> { eventsHealthEvent }, telemetryTimeout, cancellationToken);
-            }
-
-            if ((updateCache || sendIt) && !_periodicSender.IsRunning())
-            {
-                await _periodicSender.StartAsync(cancellationToken);
-            }
+            await ReportEventHealthStatusAsync(new List<EventsRuntimeHealthEvent> { eventsHealthEvent }, telemetryTimeout, cancellationToken);
         }
 
         /// <summary>
