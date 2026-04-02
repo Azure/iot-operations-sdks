@@ -2,6 +2,7 @@
 // Licensed under the MIT License.
 
 using Azure.Iot.Operations.Connector.Files;
+using Azure.Iot.Operations.Services.AssetAndDeviceRegistry;
 using Azure.Iot.Operations.Services.AssetAndDeviceRegistry.Models;
 
 namespace Azure.Iot.Operations.Connector
@@ -93,7 +94,6 @@ namespace Azure.Iot.Operations.Connector
         /// </summary>
         /// <returns>The names of all available devices</returns>
         IEnumerable<string> GetDeviceNames();
-
 
         /// <summary>
         /// Retrieves the status of a specific device.
@@ -279,5 +279,11 @@ namespace Azure.Iot.Operations.Connector
             List<ManagementActionsRuntimeHealthEvent> managementActionsRuntimeHealth,
             TimeSpan? telemetryTimeout = null,
             CancellationToken cancellationToken = default);
+
+        /// <summary>
+        /// Return the <see cref="IAzureDeviceRegistryClient"/> instance that this class wraps.
+        /// </summary>
+        /// <returns>The <see cref="IAzureDeviceRegistryClient"/> instance that this class wraps.</returns>
+        IAzureDeviceRegistryClient GetWrapped();
     }
 }

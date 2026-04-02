@@ -2,6 +2,7 @@
 // Licensed under the MIT License.
 
 using Azure.Iot.Operations.Connector.Files;
+using Azure.Iot.Operations.Services.AssetAndDeviceRegistry;
 using Azure.Iot.Operations.Services.AssetAndDeviceRegistry.Models;
 using Moq;
 
@@ -10,6 +11,7 @@ namespace Azure.Iot.Operations.Connector.UnitTests
     public class MockAzureDeviceRegistryClientWrapper : IAzureDeviceRegistryClientWrapper
     {
         public Mock<IAzureDeviceRegistryClientWrapper> mockClientWrapper { get; set; } = new Mock<IAzureDeviceRegistryClientWrapper>();
+        private readonly Mock<IAzureDeviceRegistryClient> _mockClient = new Mock<IAzureDeviceRegistryClient>();
 
         public event EventHandler<AssetChangedEventArgs>? AssetChanged;
         public event EventHandler<DeviceChangedEventArgs>? DeviceChanged;
@@ -104,29 +106,34 @@ namespace Azure.Iot.Operations.Connector.UnitTests
             return ValueTask.CompletedTask;
         }
 
-        public Task ReportDeviceEndpointRuntimeHealthAsync(string deviceName, string inboundEndpointName, RuntimeHealth deviceEndpointRuntimeHealth, TimeSpan? telemetryTimeout = null, CancellationToken cancellationToken = default)
+        public async Task ReportDeviceEndpointRuntimeHealthAsync(string deviceName, string inboundEndpointName, RuntimeHealth deviceEndpointRuntimeHealth, TimeSpan? telemetryTimeout = null, CancellationToken cancellationToken = default)
         {
-            throw new NotImplementedException();
+            await mockClientWrapper.Object.ReportDeviceEndpointRuntimeHealthAsync(deviceName, inboundEndpointName, deviceEndpointRuntimeHealth, telemetryTimeout, cancellationToken);
         }
 
-        public Task ReportDatasetRuntimeHealthAsync(string deviceName, string inboundEndpointName, string assetName, List<DatasetsRuntimeHealthEvent> datasetsRuntimeHealth, TimeSpan? telemetryTimeout = null, CancellationToken cancellationToken = default)
+        public async Task ReportDatasetRuntimeHealthAsync(string deviceName, string inboundEndpointName, string assetName, List<DatasetsRuntimeHealthEvent> datasetsRuntimeHealth, TimeSpan? telemetryTimeout = null, CancellationToken cancellationToken = default)
         {
-            throw new NotImplementedException();
+            await mockClientWrapper.Object.ReportDatasetRuntimeHealthAsync(deviceName, inboundEndpointName, assetName, datasetsRuntimeHealth, telemetryTimeout, cancellationToken);
         }
 
-        public Task ReportEventRuntimeHealthAsync(string deviceName, string inboundEndpointName, string assetName, List<EventsRuntimeHealthEvent> eventsRuntimeHealth, TimeSpan? telemetryTimeout = null, CancellationToken cancellationToken = default)
+        public async Task ReportEventRuntimeHealthAsync(string deviceName, string inboundEndpointName, string assetName, List<EventsRuntimeHealthEvent> eventsRuntimeHealth, TimeSpan? telemetryTimeout = null, CancellationToken cancellationToken = default)
         {
-            throw new NotImplementedException();
+            await mockClientWrapper.Object.ReportEventRuntimeHealthAsync(deviceName, inboundEndpointName, assetName, eventsRuntimeHealth, telemetryTimeout, cancellationToken);
         }
 
-        public Task ReportStreamRuntimeHealthAsync(string deviceName, string inboundEndpointName, string assetName, List<StreamsRuntimeHealthEvent> streamsRuntimeHealth, TimeSpan? telemetryTimeout = null, CancellationToken cancellationToken = default)
+        public async Task ReportStreamRuntimeHealthAsync(string deviceName, string inboundEndpointName, string assetName, List<StreamsRuntimeHealthEvent> streamsRuntimeHealth, TimeSpan? telemetryTimeout = null, CancellationToken cancellationToken = default)
         {
-            throw new NotImplementedException();
+            await mockClientWrapper.Object.ReportStreamRuntimeHealthAsync(deviceName, inboundEndpointName, assetName, streamsRuntimeHealth, telemetryTimeout, cancellationToken);
         }
 
-        public Task ReportManagementActionRuntimeHealthAsync(string deviceName, string inboundEndpointName, string assetName, List<ManagementActionsRuntimeHealthEvent> managementActionsRuntimeHealth, TimeSpan? telemetryTimeout = null, CancellationToken cancellationToken = default)
+        public async Task ReportManagementActionRuntimeHealthAsync(string deviceName, string inboundEndpointName, string assetName, List<ManagementActionsRuntimeHealthEvent> managementActionsRuntimeHealth, TimeSpan? telemetryTimeout = null, CancellationToken cancellationToken = default)
         {
-            throw new NotImplementedException();
+            await mockClientWrapper.Object.ReportManagementActionRuntimeHealthAsync(deviceName, inboundEndpointName, assetName, managementActionsRuntimeHealth, telemetryTimeout, cancellationToken);
+        }
+
+        public IAzureDeviceRegistryClient GetWrapped()
+        {
+            return _mockClient.Object;
         }
     }
 }

@@ -1,6 +1,7 @@
 ﻿// Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
+using Azure.Iot.Operations.Services.AssetAndDeviceRegistry;
 using Azure.Iot.Operations.Services.AssetAndDeviceRegistry.Models;
 
 namespace Azure.Iot.Operations.Connector
@@ -8,21 +9,25 @@ namespace Azure.Iot.Operations.Connector
     /// <summary>
     /// A client for reporting the status of this device and its endpoint
     /// </summary>
-    public class DeviceEndpointClient : IDisposable
+    public class DeviceEndpointClient : IAsyncDisposable
     {
         private readonly IAzureDeviceRegistryClientWrapper _adrClient;
         private readonly string _deviceName;
         private readonly string _inboundEndpointName;
+        private readonly Device _device;
+        private readonly DeviceEndpointRuntimeHealthReporter _healthReporter;
 
         // Used to make getAndUpdate calls behave atomically so that a user does not accidentally
         // update a device while another thread is in the middle of a getAndUpdate call.
         private readonly SemaphoreSlim _semaphore = new(1, 1);
 
-        internal DeviceEndpointClient(IAzureDeviceRegistryClientWrapper adrClient, string deviceName, string inboundEndpointName)
+        internal DeviceEndpointClient(IAzureDeviceRegistryClientWrapper adrClient, string deviceName, string inboundEndpointName, Device device)
         {
             _adrClient = adrClient;
             _deviceName = deviceName;
             _inboundEndpointName = inboundEndpointName;
+            _device = device;
+            _healthReporter = new(adrClient.GetWrapped(), deviceName, inboundEndpointName, TimeSpan.FromSeconds(10));
         }
 
         /// <summary>
@@ -109,26 +114,55 @@ namespace Azure.Iot.Operations.Connector
         }
 
         /// <summary>
-        /// Report the health of this device endpoint.
+        /// Report this device endpoint's runtime health.
         /// </summary>
-        /// <param name="deviceName">The name of the device.</param>
-        /// <param name="inboundEndpointName">The name of the endpoint.</param>
-        /// <param name="telemetry">The health status to report.</param>
-        /// <param name="telemetryTimeout">Optional message expiry time for the telemetry.</param>
+        /// <param name="runtimeHealth">The runtime health of this device endpoint.</param>
+        /// <param name="telemetryTimeout">The timeout to use when sending this telemetry if any telemetry is sent.</param>
         /// <param name="cancellationToken">Cancellation token.</param>
-        public async Task ReportRuntimeHealthAsync(RuntimeHealth runtimeHealth, TimeSpan? telemetryTimeout = null, CancellationToken cancellationToken = default)
+        /// <remarks>
+        /// This method uses the <see cref="DeviceEndpointRuntimeHealthReporter"/> class, so it will de-duplicate runtime healths and will periodically report the last known
+        /// runtime health for as long as this device endpoint is available. Because of that, connector applications can freely call this method repeatedly even if the runtime health hasn't changed.
+        /// </remarks>
+        public async Task ReportRuntimeHealthAsync(ConnectorRuntimeHealth runtimeHealth, TimeSpan? telemetryTimeout = default, CancellationToken cancellationToken = default)
         {
-            //TODO need to add some caching at this layer such that not every report is sent (when nothing has changed) prior to
-            //actually releasing this feature.
-            await _adrClient.ReportDeviceEndpointRuntimeHealthAsync(
-                _deviceName,
-                _inboundEndpointName,
-                runtimeHealth,
-                telemetryTimeout,
-                cancellationToken);
+            RuntimeHealth servicesRuntimeHealth = new()
+            {
+                Message = runtimeHealth.Message,
+                ReasonCode = runtimeHealth.ReasonCode,
+                Status = runtimeHealth.Status,
+                Version = _device.Version ?? 0,
+                LastUpdateTime = DateTime.UtcNow,
+            };
+
+            await _healthReporter.ReportDeviceEndpointRuntimeHealthAsync(servicesRuntimeHealth, telemetryTimeout, cancellationToken);
         }
 
-        public void Dispose()
+        /// <summary>
+        /// Change the interval at which this client will send background reports of the latest cached asset runtime healths
+        /// </summary>
+        /// <param name="reportingInterval">The new reporting interval</param>
+        /// <param name="cancellationToken">Cancellation token</param>
+        /// <remarks>
+        /// If background reporting is currently in progress, it will be cancelled and restarted with this new interval. If background reporting is not currently in progress,
+        /// calling this method will not start it.
+        /// </remarks>
+        public async Task SetRuntimeHealthBackgroundReportingIntervalAsync(TimeSpan reportingInterval, CancellationToken cancellationToken = default)
+        {
+            await _healthReporter.SetRuntimeHealthBackgroundReportingIntervalAsync(reportingInterval, cancellationToken);
+        }
+
+        public virtual async ValueTask DisposeAsync()
+        {
+            await DisposeAsyncCore();
+            GC.SuppressFinalize(this);
+        }
+
+        public virtual async ValueTask DisposeAsync(bool disposing)
+        {
+            await DisposeAsyncCore();
+        }
+
+        private async ValueTask DisposeAsyncCore()
         {
             try
             {
@@ -137,6 +171,16 @@ namespace Azure.Iot.Operations.Connector
             catch (ObjectDisposedException)
             {
                 // It's fine if this semaphore is already disposed.
+            }
+
+            try
+            {
+                await _healthReporter.CancelHealthStatusReportingAsync();
+                await _healthReporter.DisposeAsync();
+            }
+            catch (ObjectDisposedException)
+            {
+                // It's fine if this is already disposed.
             }
         }
     }

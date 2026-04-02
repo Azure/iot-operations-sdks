@@ -167,6 +167,10 @@ public interface IAzureDeviceRegistryClient : IAsyncDisposable
     /// <param name="deviceEndpointRuntimeHealth">The health status to report.</param>
     /// <param name="telemetryTimeout">Optional message expiry time for the telemetry.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
+    /// <remarks>
+    /// This package contains the <see cref="DeviceEndpointRuntimeHealthReporter"/> class which can more smartly report this same information with de-duplication + background reporting. Connectors should generally
+    /// use that class rather than directly call this method.
+    /// </remarks>
     Task ReportDeviceEndpointRuntimeHealthAsync(
         string deviceName,
         string inboundEndpointName,
@@ -183,6 +187,10 @@ public interface IAzureDeviceRegistryClient : IAsyncDisposable
     /// <param name="datasetsRuntimeHealth">The health status to report.</param>
     /// <param name="telemetryTimeout">Optional message expiry time for the telemetry.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
+    /// <remarks>
+    /// This package contains the <see cref="AssetRuntimeHealthReporter"/> class which can more smartly report this same information with de-duplication + background reporting. Connectors should generally
+    /// use that class rather than directly call this method.
+    /// </remarks>
     Task ReportDatasetRuntimeHealthAsync(
         string deviceName,
         string inboundEndpointName,
@@ -200,6 +208,10 @@ public interface IAzureDeviceRegistryClient : IAsyncDisposable
     /// <param name="eventsRuntimeHealth">The health status to report.</param>
     /// <param name="telemetryTimeout">Optional message expiry time for the telemetry.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
+    /// <remarks>
+    /// This package contains the <see cref="AssetRuntimeHealthReporter"/> class which can more smartly report this same information with de-duplication + background reporting. Connectors should generally
+    /// use that class rather than directly call this method.
+    /// </remarks>
     Task ReportEventRuntimeHealthAsync(
         string deviceName,
         string inboundEndpointName,
@@ -217,6 +229,10 @@ public interface IAzureDeviceRegistryClient : IAsyncDisposable
     /// <param name="streamsRuntimeHealth">The health status to report.</param>
     /// <param name="telemetryTimeout">Optional message expiry time for the telemetry.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
+    /// <remarks>
+    /// This package contains the <see cref="AssetRuntimeHealthReporter"/> class which can more smartly report this same information with de-duplication + background reporting. Connectors should generally
+    /// use that class rather than directly call this method.
+    /// </remarks>
     Task ReportStreamRuntimeHealthAsync(
         string deviceName,
         string inboundEndpointName,
@@ -234,6 +250,10 @@ public interface IAzureDeviceRegistryClient : IAsyncDisposable
     /// <param name="managementActionsRuntimeHealth">The health status to report.</param>
     /// <param name="telemetryTimeout">Optional message expiry time for the telemetry.</param>
     /// <param name="cancellationToken">Cancellation token.</param>
+    /// <remarks>
+    /// This package contains the <see cref="AssetRuntimeHealthReporter"/> class which can more smartly report this same information with de-duplication + background reporting. Connectors should generally
+    /// use that class rather than directly call this method.
+    /// </remarks>
     Task ReportManagementActionRuntimeHealthAsync(
         string deviceName,
         string inboundEndpointName,
