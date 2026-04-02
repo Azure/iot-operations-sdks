@@ -10,10 +10,10 @@ type testCaseActionReceiveResponse struct {
 	Topic                *string           `yaml:"topic"`
 	Payload              *string           `yaml:"payload"`
 	ContentType          *string           `yaml:"content-type"`
-	FormatIndicator      *int              `yaml:"format-indicator"`
+	FormatIndicator      *byte             `yaml:"format-indicator"`
 	Metadata             map[string]string `yaml:"metadata"`
 	CorrelationIndex     *int              `yaml:"correlation-index"`
-	Qos                  *int              `yaml:"qos"`
+	Qos                  *byte             `yaml:"qos"`
 	MessageExpiry        *TestCaseDuration `yaml:"message-expiry"`
 	Status               *string           `yaml:"status"`
 	StatusMessage        *string           `yaml:"status-message"`

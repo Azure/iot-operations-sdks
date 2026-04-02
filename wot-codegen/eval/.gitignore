@@ -1,0 +1,7 @@
+**/*.cs
+**/*.csproj
+**/*.rs
+**/Cargo.toml
+**/*.json
+!SchemaNames.json
+!wot/**/*.json

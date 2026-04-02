@@ -126,7 +126,7 @@ Each language SDK contains 3-4 parallel packages/modules with consistent functio
 - Telemetry: sender → receiver
 - Commands: invoker → executor (RPC pattern)
 
-**Codegen**: Protocol compiler generates client/server stubs from DTDL (v1 in `/codegen`) or WoT Thing Models (v2 in `/codegen2`).
+**Codegen**: Protocol compiler generates client/server stubs from DTDL (v1 in `/codegen`) or WoT Thing Models (v2 in `/wot-codegen`).
 
 ### Directory Layout
 
@@ -135,7 +135,7 @@ Each language SDK contains 3-4 parallel packages/modules with consistent functio
 /go/              - Go SDK (go.work workspace)  
 /rust/            - Rust SDK (Cargo workspace)
 /codegen/         - Protocol compiler (DTDL-based)
-/codegen2/        - Protocol compiler v2 (WoT Thing Model-based)
+/wot-codegen/     - Protocol compiler v2 (WoT Thing Model-based)
 /doc/             - Documentation (user-facing)
 /doc/dev/         - Developer/contributor documentation
 /eng/test/        - Cross-language testing infrastructure
@@ -156,7 +156,7 @@ Each language SDK contains 3-4 parallel packages/modules with consistent functio
 
 - Max line length: 80 characters (enforced by golines)
 - Each module has its own `magefile.go` importing from `go/internal/mage`
-- Go 1.24+ required (see `go.work`)
+- Go 1.25+ required (see `go.work`)
 
 ### .NET
 

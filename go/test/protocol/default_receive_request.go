@@ -6,9 +6,9 @@ type DefaultReceiveRequest struct {
 	Topic            *string          `toml:"topic"`
 	Payload          *string          `toml:"payload"`
 	ContentType      *string          `toml:"content-type"`
-	FormatIndicator  *int             `toml:"format-indicator"`
+	FormatIndicator  *byte            `toml:"format-indicator"`
 	CorrelationIndex *int             `toml:"correlation-index"`
-	Qos              *int             `toml:"qos"`
+	Qos              *byte            `toml:"qos"`
 	MessageExpiry    TestCaseDuration `toml:"message-expiry"`
 	ResponseTopic    *string          `toml:"response-topic"`
 	SourceIndex      *int             `toml:"source-index"`
@@ -41,7 +41,7 @@ func (receiveRequest *DefaultReceiveRequest) GetContentType() *string {
 	return &contentType
 }
 
-func (receiveRequest *DefaultReceiveRequest) GetFormatIndicator() *int {
+func (receiveRequest *DefaultReceiveRequest) GetFormatIndicator() *byte {
 	if receiveRequest.FormatIndicator == nil {
 		return nil
 	}
@@ -59,7 +59,7 @@ func (receiveRequest *DefaultReceiveRequest) GetCorrelationIndex() *int {
 	return &correlationIndex
 }
 
-func (receiveRequest *DefaultReceiveRequest) GetQos() *int {
+func (receiveRequest *DefaultReceiveRequest) GetQos() *byte {
 	if receiveRequest.Qos == nil {
 		return nil
 	}

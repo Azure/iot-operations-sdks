@@ -57,7 +57,7 @@ func TestIncrement(t *testing.T) {
 	client, server, done := sessionClients(t)
 	defer done()
 
-	var listeners protocol.Listeners
+	listeners := make(protocol.Listeners, 0, 2)
 	defer listeners.Close()
 
 	counterService, err := counter.NewCounterService(app, server, &Handlers{})
