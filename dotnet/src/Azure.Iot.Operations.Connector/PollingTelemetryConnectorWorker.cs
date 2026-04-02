@@ -174,7 +174,7 @@ namespace Azure.Iot.Operations.Connector
                                 new ConnectorRuntimeHealth()
                                 {
                                     Status = HealthStatus.Unavailable,
-                                    Message = $"Failed to sample the dataset: {e.Message}"
+                                    Message = $"Failed to forward the dataset: {e.Message}"
                                 },
                                 cancellationToken: cancellationToken);
                         }

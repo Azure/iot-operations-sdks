@@ -39,7 +39,7 @@ namespace Azure.Iot.Operations.Services.AssetAndDeviceRegistry
         /// </summary>
         /// <param name="azureDeviceRegistryClient">The Azure Device Registry client used to send these runtime health events.</param>
         /// <param name="deviceName">The name of the device.</param>
-        /// <param name="inboundEndpointName">The name of the inbound endpoint/</param>
+        /// <param name="inboundEndpointName">The name of the inbound endpoint</param>
         /// <param name="assetName">The name of the asset.</param>
         /// <param name="reportingPeriod">The interval at which to send background reports.</param>
         /// <remarks>

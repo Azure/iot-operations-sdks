@@ -18,7 +18,7 @@ namespace Azure.Iot.Operations.Services.AssetAndDeviceRegistry
     /// </remarks>
     public class DeviceEndpointRuntimeHealthReporter : IAsyncDisposable
     {
-        private RuntimeHealth? _cachedDeviceEndpointRuntimeHealth = new();
+        private RuntimeHealth? _cachedDeviceEndpointRuntimeHealth;
 
         private Countdown _periodicSender;
 
@@ -31,7 +31,7 @@ namespace Azure.Iot.Operations.Services.AssetAndDeviceRegistry
         /// </summary>
         /// <param name="azureDeviceRegistryClient">The Azure Device Registry client used to send these runtime health events.</param>
         /// <param name="deviceName">The name of the device.</param>
-        /// <param name="inboundEndpointName">The name of the inbound endpoint/</param>
+        /// <param name="inboundEndpointName">The name of the inbound endpoint</param>
         /// <param name="reportingPeriod">The interval at which to send background reports.</param>
         /// <remarks>
         /// Background reporting does not start until the first call to <see cref="ReportDeviceEndpointRuntimeHealthAsync(RuntimeHealth, TimeSpan?, CancellationToken)"/>.
