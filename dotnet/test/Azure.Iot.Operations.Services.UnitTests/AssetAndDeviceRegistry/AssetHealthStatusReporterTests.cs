@@ -74,7 +74,7 @@ namespace Azure.Iot.Operations.Services.UnitTests.AssetAndDeviceRegistry
             Assert.True(RuntimeHealth.Equals(initialReportedHealth, mockAdrClient.ReportedDatasetRuntimeHealths[datasetName].Last().RuntimeHealth));
 
             // Cancel background reporting and then wait a bit to ensure that background reporting has stopped
-            reporter.PauseReportingDataset(datasetName);
+            reporter.PauseReportingDatasetAsync(datasetName);
             await Task.Delay(reportingPeriod * 5);
 
             // Check that the last periodic report happened at least 2 * reportingPeriod ago (signaling that the background reporting has probably stopped)
@@ -144,7 +144,7 @@ namespace Azure.Iot.Operations.Services.UnitTests.AssetAndDeviceRegistry
             await reporter.ReportDatasetHealthStatusAsync(dataset2Name, initialReportedHealth);
 
             // Cancel background reporting and then wait a bit to ensure that background reporting has stopped
-            reporter.PauseReportingDataset(dataset1Name);
+            reporter.PauseReportingDatasetAsync(dataset1Name);
             await Task.Delay(reportingPeriod * 5);
 
             // Check that the last periodic report happened at least 2 * reportingPeriod ago (signaling that the background reporting has probably stopped)
@@ -259,7 +259,7 @@ namespace Azure.Iot.Operations.Services.UnitTests.AssetAndDeviceRegistry
             Assert.True(RuntimeHealth.Equals(initialReportedHealth, mockAdrClient.ReportedStreamRuntimeHealths[streamName].Last().RuntimeHealth));
 
             // Cancel background reporting and then wait a bit to ensure that background reporting has stopped
-            reporter.PauseReportingStream(streamName);
+            reporter.PauseReportingStreamAsync(streamName);
             await Task.Delay(reportingPeriod * 5);
 
             // Check that the last periodic report happened at least 2 * reportingPeriod ago (signaling that the background reporting has probably stopped)
@@ -329,7 +329,7 @@ namespace Azure.Iot.Operations.Services.UnitTests.AssetAndDeviceRegistry
             await reporter.ReportStreamHealthStatusAsync(stream2Name, initialReportedHealth);
 
             // Cancel background reporting and then wait a bit to ensure that background reporting has stopped
-            reporter.PauseReportingStream(stream1Name);
+            reporter.PauseReportingStreamAsync(stream1Name);
             await Task.Delay(reportingPeriod * 5);
 
             // Check that the last periodic report happened at least 2 * reportingPeriod ago (signaling that the background reporting has probably stopped)
@@ -449,7 +449,7 @@ namespace Azure.Iot.Operations.Services.UnitTests.AssetAndDeviceRegistry
             Assert.True(RuntimeHealth.Equals(initialReportedHealth, mockAdrClient.ReportedEventRuntimeHealths[eventGroupName][eventName].Last().RuntimeHealth));
 
             // Cancel background reporting and then wait a bit to ensure that background reporting has stopped
-            reporter.PauseReportingEvent(eventGroupName, eventName);
+            reporter.PauseReportingEventAsync(eventGroupName, eventName);
             await Task.Delay(reportingPeriod * 5);
 
             // Check that the last periodic report happened at least 2 * reportingPeriod ago (signaling that the background reporting has probably stopped)
@@ -522,7 +522,7 @@ namespace Azure.Iot.Operations.Services.UnitTests.AssetAndDeviceRegistry
             await reporter.ReportEventHealthStatusAsync(eventGroup2Name, event2Name, initialReportedHealth);
 
             // Cancel background reporting and then wait a bit to ensure that background reporting has stopped
-            reporter.PauseReportingEvent(eventGroup1Name, event1Name);
+            reporter.PauseReportingEventAsync(eventGroup1Name, event1Name);
             await Task.Delay(reportingPeriod * 5);
 
             // Check that the last periodic report happened at least 2 * reportingPeriod ago (signaling that the background reporting has probably stopped)
@@ -574,7 +574,7 @@ namespace Azure.Iot.Operations.Services.UnitTests.AssetAndDeviceRegistry
             await reporter.ReportEventHealthStatusAsync(eventGroupName, event2Name, initialReportedHealth);
 
             // Cancel background reporting and then wait a bit to ensure that background reporting has stopped
-            reporter.PauseReportingEvent(eventGroupName, event1Name);
+            reporter.PauseReportingEventAsync(eventGroupName, event1Name);
             await Task.Delay(reportingPeriod * 5);
 
             // Check that the last periodic report happened at least 2 * reportingPeriod ago (signaling that the background reporting has probably stopped)
@@ -697,7 +697,7 @@ namespace Azure.Iot.Operations.Services.UnitTests.AssetAndDeviceRegistry
             Assert.True(RuntimeHealth.Equals(initialReportedHealth, mockAdrClient.ReportedManagementActionRuntimeHealths[managementGroupName][managementActionName].Last().RuntimeHealth));
 
             // Cancel background reporting and then wait a bit to ensure that background reporting has stopped
-            reporter.PauseReportingManagementAction(managementGroupName, managementActionName);
+            reporter.PauseReportingManagementActionAsync(managementGroupName, managementActionName);
             await Task.Delay(reportingPeriod * 5);
 
             // Check that the last periodic report happened at least 2 * reportingPeriod ago (signaling that the background reporting has probably stopped)
@@ -770,7 +770,7 @@ namespace Azure.Iot.Operations.Services.UnitTests.AssetAndDeviceRegistry
             await reporter.ReportManagementActionHealthStatusAsync(managementGroup2Name, managementAction2Name, initialReportedHealth);
 
             // Cancel background reporting and then wait a bit to ensure that background reporting has stopped
-            reporter.PauseReportingManagementAction(managementGroup1Name, managementAction1Name);
+            reporter.PauseReportingManagementActionAsync(managementGroup1Name, managementAction1Name);
             await Task.Delay(reportingPeriod * 5);
 
             // Check that the last periodic report happened at least 2 * reportingPeriod ago (signaling that the background reporting has probably stopped)
@@ -822,7 +822,7 @@ namespace Azure.Iot.Operations.Services.UnitTests.AssetAndDeviceRegistry
             await reporter.ReportManagementActionHealthStatusAsync(managementGroupName, managementAction2Name, initialReportedHealth);
 
             // Cancel background reporting and then wait a bit to ensure that background reporting has stopped
-            reporter.PauseReportingManagementAction(managementGroupName, managementAction1Name);
+            reporter.PauseReportingManagementActionAsync(managementGroupName, managementAction1Name);
             await Task.Delay(reportingPeriod * 5);
 
             // Check that the last periodic report happened at least 2 * reportingPeriod ago (signaling that the background reporting has probably stopped)

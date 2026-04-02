@@ -25,6 +25,8 @@ namespace Azure.Iot.Operations.Services.AssetAndDeviceRegistry
         private readonly Dictionary<string, Dictionary<string, RuntimeHealth?>> _cachedEventGroupsRuntimeHealth = new(); // keys are event group names, values are dictionaries where keys are event names and the values are the cached health of that event group's event
         private readonly Dictionary<string, Dictionary<string, RuntimeHealth?>> _cachedManagementGroupsRuntimeHealth = new(); // keys are management group names, values are dictionaries where keys are management action names and the values are the cached health of that management group's action
 
+        private readonly SemaphoreSlim _concurrentModificationLock = new SemaphoreSlim(0, 1);
+
         private Countdown _periodicSender;
 
         private readonly IAzureDeviceRegistryClient _azureDeviceRegistryClient;
@@ -59,9 +61,17 @@ namespace Azure.Iot.Operations.Services.AssetAndDeviceRegistry
         /// <remarks>
         /// This is used to signal that the last known health status may no longer be applicable. This does not affect background reporting of other datasets/streams/events/management actions that were already active.
         /// </remarks>
-        public void PauseReportingDataset(string datasetName)
+        public async Task PauseReportingDatasetAsync(string datasetName, CancellationToken cancellationToken = default)
         {
-            _cachedDatasetsRuntimeHealth[datasetName] = null;
+            await _concurrentModificationLock.WaitAsync(cancellationToken);
+            try
+            {
+                _cachedDatasetsRuntimeHealth[datasetName] = null;
+            }
+            finally
+            {
+                _concurrentModificationLock.Release();
+            }
         }
 
         /// <summary>
@@ -71,9 +81,17 @@ namespace Azure.Iot.Operations.Services.AssetAndDeviceRegistry
         /// <remarks>
         /// This is used to signal that the last known health status may no longer be applicable. This does not affect background reporting of other datasets/streams/events/management actions that were already active.
         /// </remarks>
-        public void PauseReportingStream(string streamName)
+        public async Task PauseReportingStreamAsync(string streamName, CancellationToken cancellationToken = default)
         {
-            _cachedStreamsRuntimeHealth[streamName] = null;
+            await _concurrentModificationLock.WaitAsync(cancellationToken);
+            try
+            {
+                _cachedStreamsRuntimeHealth[streamName] = null;
+            }
+            finally
+            {
+                _concurrentModificationLock.Release();
+            }
         }
 
         /// <summary>
@@ -84,11 +102,19 @@ namespace Azure.Iot.Operations.Services.AssetAndDeviceRegistry
         /// <remarks>
         /// This is used to signal that the last known health status may no longer be applicable.
         /// </remarks>
-        public void PauseReportingEvent(string eventGroupName, string eventName)
+        public async Task PauseReportingEventAsync(string eventGroupName, string eventName, CancellationToken cancellationToken = default)
         {
-            if (_cachedEventGroupsRuntimeHealth.TryGetValue(eventGroupName, out Dictionary<string, RuntimeHealth?>? eventHealths))
+            await _concurrentModificationLock.WaitAsync(cancellationToken);
+            try
             {
-                eventHealths[eventName] = null;
+                if (_cachedEventGroupsRuntimeHealth.TryGetValue(eventGroupName, out Dictionary<string, RuntimeHealth?>? eventHealths))
+                {
+                    eventHealths[eventName] = null;
+                }
+            }
+            finally
+            {
+                _concurrentModificationLock.Release();
             }
         }
 
@@ -100,11 +126,19 @@ namespace Azure.Iot.Operations.Services.AssetAndDeviceRegistry
         /// <remarks>
         /// This is used to signal that the last known health status may no longer be applicable. This does not affect background reporting of other datasets/streams/events/management actions that were already active.
         /// </remarks>
-        public void PauseReportingManagementAction(string managementGroupName, string managementActionName)
+        public async Task PauseReportingManagementActionAsync(string managementGroupName, string managementActionName, CancellationToken cancellationToken = default)
         {
-            if (_cachedManagementGroupsRuntimeHealth.TryGetValue(managementGroupName, out Dictionary<string, RuntimeHealth?>? actionHealths))
+            await _concurrentModificationLock.WaitAsync(cancellationToken);
+            try
             {
-                actionHealths[managementActionName] = null;
+                if (_cachedManagementGroupsRuntimeHealth.TryGetValue(managementGroupName, out Dictionary<string, RuntimeHealth?>? actionHealths))
+                {
+                    actionHealths[managementActionName] = null;
+                }
+            }
+            finally
+            {
+                _concurrentModificationLock.Release();
             }
         }
 
@@ -137,23 +171,7 @@ namespace Azure.Iot.Operations.Services.AssetAndDeviceRegistry
                 RuntimeHealth = datasetRuntimeHealth,
             };
 
-            _cachedDatasetsRuntimeHealth.TryGetValue(datasetName, out RuntimeHealth? cachedHealth);
-            RuntimeHealth.CompareNewHealthWithCachedHealth(datasetRuntimeHealth, cachedHealth, out bool updateCache, out bool sendIt);
-
-            if (updateCache)
-            {
-                _cachedDatasetsRuntimeHealth[datasetName] = datasetRuntimeHealth;
-            }
-
-            if (sendIt)
-            { 
-                await _azureDeviceRegistryClient.ReportDatasetRuntimeHealthAsync(_deviceName, _inboundEndpointName, _assetName, new List<DatasetsRuntimeHealthEvent> { datasetHealthEvent }, telemetryTimeout, cancellationToken);
-            }
-
-            if ((updateCache || sendIt) && !_periodicSender.IsRunning())
-            {
-                await _periodicSender.StartAsync(cancellationToken);
-            }
+            await ReportDatasetHealthStatusAsync(new List<DatasetsRuntimeHealthEvent> { datasetHealthEvent }, telemetryTimeout, cancellationToken);
         }
 
         /// <summary>
@@ -170,28 +188,36 @@ namespace Azure.Iot.Operations.Services.AssetAndDeviceRegistry
         {
             List<DatasetsRuntimeHealthEvent> eventsToReport = new();
 
-            foreach (DatasetsRuntimeHealthEvent datasetRuntimeHealthEvent in datasetRuntimeHealths)
+            await _concurrentModificationLock.WaitAsync(cancellationToken);
+            try
             {
-                string datasetName = datasetRuntimeHealthEvent.DatasetName;
-                RuntimeHealth datasetRuntimeHealth = datasetRuntimeHealthEvent.RuntimeHealth;
-                _cachedDatasetsRuntimeHealth.TryGetValue(datasetName, out RuntimeHealth? cachedHealth);
-                RuntimeHealth.CompareNewHealthWithCachedHealth(datasetRuntimeHealth, cachedHealth, out bool updateCache, out bool sendIt);
-
-                if (updateCache)
+                foreach (DatasetsRuntimeHealthEvent datasetRuntimeHealthEvent in datasetRuntimeHealths)
                 {
-                    _cachedDatasetsRuntimeHealth[datasetName] = datasetRuntimeHealth;
-                }
+                    string datasetName = datasetRuntimeHealthEvent.DatasetName;
+                    RuntimeHealth datasetRuntimeHealth = datasetRuntimeHealthEvent.RuntimeHealth;
+                    _cachedDatasetsRuntimeHealth.TryGetValue(datasetName, out RuntimeHealth? cachedHealth);
+                    RuntimeHealth.CompareNewHealthWithCachedHealth(datasetRuntimeHealth, cachedHealth, out bool updateCache, out bool sendIt);
 
-                if (sendIt)
-                {
-                    // Send it in bulk with the other reportable events down below
-                    eventsToReport.Add(datasetRuntimeHealthEvent);
-                }
+                    if (updateCache)
+                    {
+                        _cachedDatasetsRuntimeHealth[datasetName] = datasetRuntimeHealth;
+                    }
 
-                if ((updateCache || sendIt) && !_periodicSender.IsRunning())
-                {
-                    await _periodicSender.StartAsync(cancellationToken);
+                    if (sendIt)
+                    {
+                        // Send it in bulk with the other reportable events down below
+                        eventsToReport.Add(datasetRuntimeHealthEvent);
+                    }
+
+                    if ((updateCache || sendIt) && !_periodicSender.IsRunning())
+                    {
+                        await _periodicSender.StartAsync(cancellationToken);
+                    }
                 }
+            }
+            finally
+            {
+                _concurrentModificationLock.Release();
             }
 
             if (eventsToReport.Count > 0)
@@ -236,28 +262,36 @@ namespace Azure.Iot.Operations.Services.AssetAndDeviceRegistry
         {
             List<StreamsRuntimeHealthEvent> eventsToReport = new();
 
-            foreach (StreamsRuntimeHealthEvent streamRuntimeHealthEvent in streamRuntimeHealths)
+            await _concurrentModificationLock.WaitAsync(cancellationToken);
+            try
             {
-                string streamName = streamRuntimeHealthEvent.StreamName;
-                RuntimeHealth streamRuntimeHealth = streamRuntimeHealthEvent.RuntimeHealth;
-                _cachedStreamsRuntimeHealth.TryGetValue(streamName, out RuntimeHealth? cachedHealth);
-                RuntimeHealth.CompareNewHealthWithCachedHealth(streamRuntimeHealth, cachedHealth, out bool updateCache, out bool sendIt);
-
-                if (updateCache)
+                foreach (StreamsRuntimeHealthEvent streamRuntimeHealthEvent in streamRuntimeHealths)
                 {
-                    _cachedStreamsRuntimeHealth[streamName] = streamRuntimeHealth;
-                }
+                    string streamName = streamRuntimeHealthEvent.StreamName;
+                    RuntimeHealth streamRuntimeHealth = streamRuntimeHealthEvent.RuntimeHealth;
+                    _cachedStreamsRuntimeHealth.TryGetValue(streamName, out RuntimeHealth? cachedHealth);
+                    RuntimeHealth.CompareNewHealthWithCachedHealth(streamRuntimeHealth, cachedHealth, out bool updateCache, out bool sendIt);
 
-                if (sendIt)
-                {
-                    // Send it in bulk with the other reportable events down below
-                    eventsToReport.Add(streamRuntimeHealthEvent);
-                }
+                    if (updateCache)
+                    {
+                        _cachedStreamsRuntimeHealth[streamName] = streamRuntimeHealth;
+                    }
 
-                if ((updateCache || sendIt) && !_periodicSender.IsRunning())
-                {
-                    await _periodicSender.StartAsync(cancellationToken);
+                    if (sendIt)
+                    {
+                        // Send it in bulk with the other reportable events down below
+                        eventsToReport.Add(streamRuntimeHealthEvent);
+                    }
+
+                    if ((updateCache || sendIt) && !_periodicSender.IsRunning())
+                    {
+                        await _periodicSender.StartAsync(cancellationToken);
+                    }
                 }
+            }
+            finally
+            {
+                _concurrentModificationLock.Release();
             }
 
             if (eventsToReport.Count > 0)
@@ -303,39 +337,48 @@ namespace Azure.Iot.Operations.Services.AssetAndDeviceRegistry
         public async Task ReportEventHealthStatusAsync(List<EventsRuntimeHealthEvent> eventRuntimeHealths, TimeSpan? telemetryTimeout = default, CancellationToken cancellationToken = default)
         {
             List<EventsRuntimeHealthEvent> eventsToReport = new();
-            foreach (EventsRuntimeHealthEvent eventsRuntimeHealthEvent in eventRuntimeHealths)
+
+            await _concurrentModificationLock.WaitAsync(cancellationToken);
+            try
             {
-                string eventGroupName = eventsRuntimeHealthEvent.EventGroupName;
-                string eventName = eventsRuntimeHealthEvent.EventName;
-                RuntimeHealth runtimeHealth = eventsRuntimeHealthEvent.RuntimeHealth;
-                RuntimeHealth? cachedHealth = null;
-                if (_cachedEventGroupsRuntimeHealth.TryGetValue(eventGroupName, out Dictionary<string, RuntimeHealth?>? events))
+                foreach (EventsRuntimeHealthEvent eventsRuntimeHealthEvent in eventRuntimeHealths)
                 {
-                    events.TryGetValue(eventName, out cachedHealth);
-                }
-
-                RuntimeHealth.CompareNewHealthWithCachedHealth(runtimeHealth, cachedHealth, out bool updateCache, out bool sendIt);
-
-                if (updateCache)
-                {
-                    if (!_cachedEventGroupsRuntimeHealth.ContainsKey(eventGroupName))
+                    string eventGroupName = eventsRuntimeHealthEvent.EventGroupName;
+                    string eventName = eventsRuntimeHealthEvent.EventName;
+                    RuntimeHealth runtimeHealth = eventsRuntimeHealthEvent.RuntimeHealth;
+                    RuntimeHealth? cachedHealth = null;
+                    if (_cachedEventGroupsRuntimeHealth.TryGetValue(eventGroupName, out Dictionary<string, RuntimeHealth?>? events))
                     {
-                        _cachedEventGroupsRuntimeHealth[eventGroupName] = new();
+                        events.TryGetValue(eventName, out cachedHealth);
                     }
 
-                    _cachedEventGroupsRuntimeHealth[eventGroupName][eventName] = runtimeHealth;
-                }
+                    RuntimeHealth.CompareNewHealthWithCachedHealth(runtimeHealth, cachedHealth, out bool updateCache, out bool sendIt);
 
-                if (sendIt)
-                {
-                    // Send it in bulk with the other reportable events down below
-                    eventsToReport.Add(eventsRuntimeHealthEvent);
-                }
+                    if (updateCache)
+                    {
+                        if (!_cachedEventGroupsRuntimeHealth.ContainsKey(eventGroupName))
+                        {
+                            _cachedEventGroupsRuntimeHealth[eventGroupName] = new();
+                        }
 
-                if ((updateCache || sendIt) && !_periodicSender.IsRunning())
-                {
-                    await _periodicSender.StartAsync(cancellationToken);
+                        _cachedEventGroupsRuntimeHealth[eventGroupName][eventName] = runtimeHealth;
+                    }
+
+                    if (sendIt)
+                    {
+                        // Send it in bulk with the other reportable events down below
+                        eventsToReport.Add(eventsRuntimeHealthEvent);
+                    }
+
+                    if ((updateCache || sendIt) && !_periodicSender.IsRunning())
+                    {
+                        await _periodicSender.StartAsync(cancellationToken);
+                    }
                 }
+            }
+            finally
+            {
+                _concurrentModificationLock.Release();
             }
 
             if (eventsToReport.Count > 0)
@@ -381,39 +424,48 @@ namespace Azure.Iot.Operations.Services.AssetAndDeviceRegistry
         public async Task ReportManagementActionHealthStatusAsync(List<ManagementActionsRuntimeHealthEvent> managementActionRuntimeHealths, TimeSpan? telemetryTimeout = default, CancellationToken cancellationToken = default)
         {
             List<ManagementActionsRuntimeHealthEvent> eventsToReport = new();
-            foreach (ManagementActionsRuntimeHealthEvent managementActionsRuntimeHealthEvent in managementActionRuntimeHealths)
+
+            await _concurrentModificationLock.WaitAsync(cancellationToken);
+            try
             {
-                string managementGroupName = managementActionsRuntimeHealthEvent.ManagementGroupName;
-                string managementActionName = managementActionsRuntimeHealthEvent.ManagementActionName;
-                RuntimeHealth runtimeHealth = managementActionsRuntimeHealthEvent.RuntimeHealth;
-                RuntimeHealth? cachedHealth = null;
-                if (_cachedManagementGroupsRuntimeHealth.TryGetValue(managementGroupName, out Dictionary<string, RuntimeHealth?>? actions))
+                foreach (ManagementActionsRuntimeHealthEvent managementActionsRuntimeHealthEvent in managementActionRuntimeHealths)
                 {
-                    actions.TryGetValue(managementActionName, out cachedHealth);
-                }
-
-                RuntimeHealth.CompareNewHealthWithCachedHealth(runtimeHealth, cachedHealth, out bool updateCache, out bool sendIt);
-
-                if (updateCache)
-                {
-                    if (!_cachedManagementGroupsRuntimeHealth.ContainsKey(managementGroupName))
+                    string managementGroupName = managementActionsRuntimeHealthEvent.ManagementGroupName;
+                    string managementActionName = managementActionsRuntimeHealthEvent.ManagementActionName;
+                    RuntimeHealth runtimeHealth = managementActionsRuntimeHealthEvent.RuntimeHealth;
+                    RuntimeHealth? cachedHealth = null;
+                    if (_cachedManagementGroupsRuntimeHealth.TryGetValue(managementGroupName, out Dictionary<string, RuntimeHealth?>? actions))
                     {
-                        _cachedManagementGroupsRuntimeHealth[managementGroupName] = new();
+                        actions.TryGetValue(managementActionName, out cachedHealth);
                     }
 
-                    _cachedManagementGroupsRuntimeHealth[managementGroupName][managementActionName] = runtimeHealth;
-                }
+                    RuntimeHealth.CompareNewHealthWithCachedHealth(runtimeHealth, cachedHealth, out bool updateCache, out bool sendIt);
 
-                if (sendIt)
-                {
-                    // Send it in bulk with the other reportable events down below
-                    eventsToReport.Add(managementActionsRuntimeHealthEvent);
-                }
+                    if (updateCache)
+                    {
+                        if (!_cachedManagementGroupsRuntimeHealth.ContainsKey(managementGroupName))
+                        {
+                            _cachedManagementGroupsRuntimeHealth[managementGroupName] = new();
+                        }
 
-                if ((updateCache || sendIt) && !_periodicSender.IsRunning())
-                {
-                    await _periodicSender.StartAsync(cancellationToken);
+                        _cachedManagementGroupsRuntimeHealth[managementGroupName][managementActionName] = runtimeHealth;
+                    }
+
+                    if (sendIt)
+                    {
+                        // Send it in bulk with the other reportable events down below
+                        eventsToReport.Add(managementActionsRuntimeHealthEvent);
+                    }
+
+                    if ((updateCache || sendIt) && !_periodicSender.IsRunning())
+                    {
+                        await _periodicSender.StartAsync(cancellationToken);
+                    }
                 }
+            }
+            finally
+            {
+                _concurrentModificationLock.Release();
             }
 
             if (eventsToReport.Count > 0)
@@ -461,6 +513,9 @@ namespace Azure.Iot.Operations.Services.AssetAndDeviceRegistry
 
         private async ValueTask DisposeAsyncCore()
         {
+            // wait for any in-progress background reporting to finish
+            await _concurrentModificationLock.WaitAsync();
+
             try
             {
                 await _periodicSender.StopAsync();
@@ -470,98 +525,115 @@ namespace Azure.Iot.Operations.Services.AssetAndDeviceRegistry
             {
                 // It's fine if this is already disposed.
             }
+
+            try
+            {
+                _concurrentModificationLock.Dispose();
+            }
+            catch (ObjectDisposedException)
+            {
+                // It's fine if this is already disposed.
+            }
         }
 
         private async Task SendPeriodicReportAsync(CancellationToken cancellationToken)
         {
-            // Report all the cached (and non-paused) dataset runtime healths in one message
-            List<DatasetsRuntimeHealthEvent> datasetRuntimeHealthsToReport = new();
-            foreach (string datasetName in _cachedDatasetsRuntimeHealth.Keys)
+            await _concurrentModificationLock.WaitAsync(cancellationToken);
+            try
             {
-                if (_cachedDatasetsRuntimeHealth.TryGetValue(datasetName, out RuntimeHealth? cachedDatasetHealth) && cachedDatasetHealth != null)
+                // Report all the cached (and non-paused) dataset runtime healths in one message
+                List<DatasetsRuntimeHealthEvent> datasetRuntimeHealthsToReport = new();
+                foreach (string datasetName in _cachedDatasetsRuntimeHealth.Keys)
                 {
-                    datasetRuntimeHealthsToReport.Add(new DatasetsRuntimeHealthEvent()
+                    if (_cachedDatasetsRuntimeHealth.TryGetValue(datasetName, out RuntimeHealth? cachedDatasetHealth) && cachedDatasetHealth != null)
                     {
-                        DatasetName = datasetName,
-                        RuntimeHealth = cachedDatasetHealth,
-                    });
-                }
-            }
-
-            if (datasetRuntimeHealthsToReport.Count > 0)
-            {
-                await _azureDeviceRegistryClient.ReportDatasetRuntimeHealthAsync(_deviceName, _inboundEndpointName, _assetName, datasetRuntimeHealthsToReport, cancellationToken: cancellationToken);
-            }
-
-            // Report all the cached (and non-paused) stream runtime healths in one message
-            List<StreamsRuntimeHealthEvent> streamRuntimeHealthsToReport = new();
-            foreach (string streamName in _cachedStreamsRuntimeHealth.Keys)
-            {
-                if (_cachedStreamsRuntimeHealth.TryGetValue(streamName, out RuntimeHealth? cachedStreamHealth) && cachedStreamHealth != null)
-                {
-                    streamRuntimeHealthsToReport.Add(new StreamsRuntimeHealthEvent()
-                    {
-                        StreamName = streamName,
-                        RuntimeHealth = cachedStreamHealth,
-                    });
-                }
-            }
-
-            if (streamRuntimeHealthsToReport.Count > 0)
-            {
-                await _azureDeviceRegistryClient.ReportStreamRuntimeHealthAsync(_deviceName, _inboundEndpointName, _assetName, streamRuntimeHealthsToReport, cancellationToken: cancellationToken);
-            }
-
-            // Report all the cached (and non-paused) event runtime healths in one message
-            List<EventsRuntimeHealthEvent> eventRuntimeHealthsToReport = new();
-            foreach (string eventGroupName in _cachedEventGroupsRuntimeHealth.Keys)
-            {
-                if (_cachedEventGroupsRuntimeHealth.TryGetValue(eventGroupName, out Dictionary<string, RuntimeHealth?>? cachedEventHealths))
-                {
-                    foreach (string eventName in cachedEventHealths.Keys)
-                    {
-                        if (cachedEventHealths.TryGetValue(eventName, out RuntimeHealth? cachedEventHealth) && cachedEventHealth != null)
+                        datasetRuntimeHealthsToReport.Add(new DatasetsRuntimeHealthEvent()
                         {
-                            eventRuntimeHealthsToReport.Add(new EventsRuntimeHealthEvent()
+                            DatasetName = datasetName,
+                            RuntimeHealth = cachedDatasetHealth,
+                        });
+                    }
+                }
+
+                if (datasetRuntimeHealthsToReport.Count > 0)
+                {
+                    await _azureDeviceRegistryClient.ReportDatasetRuntimeHealthAsync(_deviceName, _inboundEndpointName, _assetName, datasetRuntimeHealthsToReport, cancellationToken: cancellationToken);
+                }
+
+                // Report all the cached (and non-paused) stream runtime healths in one message
+                List<StreamsRuntimeHealthEvent> streamRuntimeHealthsToReport = new();
+                foreach (string streamName in _cachedStreamsRuntimeHealth.Keys)
+                {
+                    if (_cachedStreamsRuntimeHealth.TryGetValue(streamName, out RuntimeHealth? cachedStreamHealth) && cachedStreamHealth != null)
+                    {
+                        streamRuntimeHealthsToReport.Add(new StreamsRuntimeHealthEvent()
+                        {
+                            StreamName = streamName,
+                            RuntimeHealth = cachedStreamHealth,
+                        });
+                    }
+                }
+
+                if (streamRuntimeHealthsToReport.Count > 0)
+                {
+                    await _azureDeviceRegistryClient.ReportStreamRuntimeHealthAsync(_deviceName, _inboundEndpointName, _assetName, streamRuntimeHealthsToReport, cancellationToken: cancellationToken);
+                }
+
+                // Report all the cached (and non-paused) event runtime healths in one message
+                List<EventsRuntimeHealthEvent> eventRuntimeHealthsToReport = new();
+                foreach (string eventGroupName in _cachedEventGroupsRuntimeHealth.Keys)
+                {
+                    if (_cachedEventGroupsRuntimeHealth.TryGetValue(eventGroupName, out Dictionary<string, RuntimeHealth?>? cachedEventHealths))
+                    {
+                        foreach (string eventName in cachedEventHealths.Keys)
+                        {
+                            if (cachedEventHealths.TryGetValue(eventName, out RuntimeHealth? cachedEventHealth) && cachedEventHealth != null)
                             {
-                                EventGroupName = eventGroupName,
-                                EventName = eventName,
-                                RuntimeHealth = cachedEventHealth,
-                            });
+                                eventRuntimeHealthsToReport.Add(new EventsRuntimeHealthEvent()
+                                {
+                                    EventGroupName = eventGroupName,
+                                    EventName = eventName,
+                                    RuntimeHealth = cachedEventHealth,
+                                });
+                            }
                         }
                     }
                 }
-            }
 
-            if (eventRuntimeHealthsToReport.Count > 0)
-            {
-                await _azureDeviceRegistryClient.ReportEventRuntimeHealthAsync(_deviceName, _inboundEndpointName, _assetName, eventRuntimeHealthsToReport, cancellationToken: cancellationToken);
-            }
-
-            // Report all the cached (and non-paused) management action runtime healths in one message
-            List<ManagementActionsRuntimeHealthEvent> managementActionRuntimeHealthsToReport = new();
-            foreach (string managementGroupName in _cachedManagementGroupsRuntimeHealth.Keys)
-            {
-                if (_cachedManagementGroupsRuntimeHealth.TryGetValue(managementGroupName, out Dictionary<string, RuntimeHealth?>? cachedManagementActionHealths))
+                if (eventRuntimeHealthsToReport.Count > 0)
                 {
-                    foreach (string managementActionName in cachedManagementActionHealths.Keys)
+                    await _azureDeviceRegistryClient.ReportEventRuntimeHealthAsync(_deviceName, _inboundEndpointName, _assetName, eventRuntimeHealthsToReport, cancellationToken: cancellationToken);
+                }
+
+                // Report all the cached (and non-paused) management action runtime healths in one message
+                List<ManagementActionsRuntimeHealthEvent> managementActionRuntimeHealthsToReport = new();
+                foreach (string managementGroupName in _cachedManagementGroupsRuntimeHealth.Keys)
+                {
+                    if (_cachedManagementGroupsRuntimeHealth.TryGetValue(managementGroupName, out Dictionary<string, RuntimeHealth?>? cachedManagementActionHealths))
                     {
-                        if (cachedManagementActionHealths.TryGetValue(managementActionName, out RuntimeHealth? cachedManagementActionHealth) && cachedManagementActionHealth != null)
+                        foreach (string managementActionName in cachedManagementActionHealths.Keys)
                         {
-                            managementActionRuntimeHealthsToReport.Add(new ManagementActionsRuntimeHealthEvent()
+                            if (cachedManagementActionHealths.TryGetValue(managementActionName, out RuntimeHealth? cachedManagementActionHealth) && cachedManagementActionHealth != null)
                             {
-                                ManagementGroupName = managementGroupName,
-                                ManagementActionName = managementActionName,
-                                RuntimeHealth = cachedManagementActionHealth,
-                            });
+                                managementActionRuntimeHealthsToReport.Add(new ManagementActionsRuntimeHealthEvent()
+                                {
+                                    ManagementGroupName = managementGroupName,
+                                    ManagementActionName = managementActionName,
+                                    RuntimeHealth = cachedManagementActionHealth,
+                                });
+                            }
                         }
                     }
                 }
-            }
 
-            if (managementActionRuntimeHealthsToReport.Count > 0)
+                if (managementActionRuntimeHealthsToReport.Count > 0)
+                {
+                    await _azureDeviceRegistryClient.ReportManagementActionRuntimeHealthAsync(_deviceName, _inboundEndpointName, _assetName, managementActionRuntimeHealthsToReport, cancellationToken: cancellationToken);
+                }
+            }
+            finally
             {
-                await _azureDeviceRegistryClient.ReportManagementActionRuntimeHealthAsync(_deviceName, _inboundEndpointName, _assetName, managementActionRuntimeHealthsToReport, cancellationToken: cancellationToken);
+                _concurrentModificationLock.Release();
             }
         }
     }
