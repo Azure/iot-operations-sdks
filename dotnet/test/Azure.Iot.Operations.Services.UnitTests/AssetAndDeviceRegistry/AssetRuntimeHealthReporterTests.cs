@@ -88,7 +88,7 @@ namespace Azure.Iot.Operations.Services.UnitTests.AssetAndDeviceRegistry
 
             checkForBackgroundReports = Task.Run(async () =>
             {
-                while (mockAdrClient.ReportedDatasetRuntimeHealths[datasetName].Count <= lastReportCountAfterPause + 1)
+                while (mockAdrClient.ReportedDatasetRuntimeHealths[datasetName].Count <= lastReportCountAfterPause + 3)
                 {
                     await Task.Delay(reportingPeriod);
                 }
@@ -148,11 +148,20 @@ namespace Azure.Iot.Operations.Services.UnitTests.AssetAndDeviceRegistry
             // Wait a bit to confirm that dataset 2 is still sending periodic health updates
             Task checkForBackgroundReports = Task.Run(async () =>
             {
-                while (mockAdrClient.ReportedDatasetRuntimeHealths[dataset2Name].Count <= lastReportCountAfterPause + 1)
+                while (mockAdrClient.ReportedDatasetRuntimeHealths[dataset2Name].Count <= lastReportCountAfterPause + 3)
                 {
                     await Task.Delay(reportingPeriod);
                 }
             });
+
+            try
+            {
+                await checkForBackgroundReports.WaitAsync(_timeout);
+            }
+            catch (TimeoutException)
+            {
+                Assert.Fail("Timed out waiting for background reporting of the dataset to continue");
+            }
 
             // Assert that the latest health status (which should be sent periodically) matches the first health status
             Assert.Equal(deviceName, mockAdrClient.ReportedDatasetRuntimeHealths[dataset2Name].Last().DeviceName);
@@ -273,7 +282,7 @@ namespace Azure.Iot.Operations.Services.UnitTests.AssetAndDeviceRegistry
 
             checkForBackgroundReports = Task.Run(async () =>
             {
-                while (mockAdrClient.ReportedStreamRuntimeHealths[streamName].Count <= lastReportCountAfterPause + 1)
+                while (mockAdrClient.ReportedStreamRuntimeHealths[streamName].Count <= lastReportCountAfterPause + 3)
                 {
                     await Task.Delay(reportingPeriod);
                 }
@@ -333,11 +342,20 @@ namespace Azure.Iot.Operations.Services.UnitTests.AssetAndDeviceRegistry
             // Wait a bit to confirm that stream 2 is still sending periodic health updates
             Task checkForBackgroundReports = Task.Run(async () =>
             {
-                while (mockAdrClient.ReportedStreamRuntimeHealths[stream2Name].Count <= lastReportCountAfterPause + 1)
+                while (mockAdrClient.ReportedStreamRuntimeHealths[stream2Name].Count <= lastReportCountAfterPause + 3)
                 {
                     await Task.Delay(reportingPeriod);
                 }
             });
+
+            try
+            {
+                await checkForBackgroundReports.WaitAsync(_timeout);
+            }
+            catch (TimeoutException)
+            {
+                Assert.Fail("Timed out waiting for background reporting of the stream to continue");
+            }
 
             // Assert that the latest health status (which should be sent periodically) matches the first health status
             Assert.Equal(deviceName, mockAdrClient.ReportedStreamRuntimeHealths[stream2Name].Last().DeviceName);
@@ -463,7 +481,7 @@ namespace Azure.Iot.Operations.Services.UnitTests.AssetAndDeviceRegistry
 
             checkForBackgroundReports = Task.Run(async () =>
             {
-                while (mockAdrClient.ReportedEventRuntimeHealths[eventGroupName][eventName].Count <= lastReportCountAfterPause + 1)
+                while (mockAdrClient.ReportedEventRuntimeHealths[eventGroupName][eventName].Count <= lastReportCountAfterPause + 3)
                 {
                     await Task.Delay(reportingPeriod);
                 }
@@ -729,7 +747,7 @@ namespace Azure.Iot.Operations.Services.UnitTests.AssetAndDeviceRegistry
 
             checkForBackgroundReports = Task.Run(async () =>
             {
-                while (mockAdrClient.ReportedManagementActionRuntimeHealths[managementGroupName][managementActionName].Count <= lastReportCountAfterPause + 1)
+                while (mockAdrClient.ReportedManagementActionRuntimeHealths[managementGroupName][managementActionName].Count <= lastReportCountAfterPause + 3)
                 {
                     await Task.Delay(reportingPeriod);
                 }
@@ -792,11 +810,20 @@ namespace Azure.Iot.Operations.Services.UnitTests.AssetAndDeviceRegistry
             // Wait a bit to confirm that managementAction 2 is still sending periodic health updates
             Task checkForBackgroundReports = Task.Run(async () =>
             {
-                while (mockAdrClient.ReportedManagementActionRuntimeHealths[managementAction2Name].Count <= lastReportCountAfterPause + 1)
+                while (mockAdrClient.ReportedManagementActionRuntimeHealths[managementGroup2Name][managementAction2Name].Count <= lastReportCountAfterPause + 3)
                 {
                     await Task.Delay(reportingPeriod);
                 }
             });
+
+            try
+            {
+                await checkForBackgroundReports.WaitAsync(_timeout);
+            }
+            catch (TimeoutException)
+            {
+                Assert.Fail("Timed out waiting for background reporting of the management action to continue");
+            }
 
             // Assert that the latest health status (which should be sent periodically) matches the first health status
             Assert.Equal(deviceName, mockAdrClient.ReportedManagementActionRuntimeHealths[managementGroup2Name][managementAction2Name].Last().DeviceName);
@@ -844,11 +871,20 @@ namespace Azure.Iot.Operations.Services.UnitTests.AssetAndDeviceRegistry
             // Wait a bit to confirm that managementAction 2 is still sending periodic health updates
             Task checkForBackgroundReports = Task.Run(async () =>
             {
-                while (mockAdrClient.ReportedManagementActionRuntimeHealths[managementAction2Name].Count <= lastReportCountAfterPause + 1)
+                while (mockAdrClient.ReportedManagementActionRuntimeHealths[managementGroupName][managementAction2Name].Count <= lastReportCountAfterPause + 3)
                 {
                     await Task.Delay(reportingPeriod);
                 }
             });
+
+            try
+            {
+                await checkForBackgroundReports.WaitAsync(_timeout);
+            }
+            catch (TimeoutException)
+            {
+                Assert.Fail("Timed out waiting for background reporting of the management action to continue");
+            }
 
             // Assert that the latest health status (which should be sent periodically) matches the first health status
             Assert.Equal(deviceName, mockAdrClient.ReportedManagementActionRuntimeHealths[managementGroupName][managementAction2Name].Last().DeviceName);
