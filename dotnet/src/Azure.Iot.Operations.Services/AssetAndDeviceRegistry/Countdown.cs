@@ -50,7 +50,7 @@ namespace Azure.Iot.Operations.Services.AssetAndDeviceRegistry
 
                 _resetCountdownCancellationToken = new CancellationTokenSource();
 
-                _task = new Task(async () =>
+                _task = Task.Run(async () =>
                 {
                     try
                     {
@@ -64,7 +64,7 @@ namespace Azure.Iot.Operations.Services.AssetAndDeviceRegistry
                             }
                             catch (Exception e)
                             {
-                                Trace.TraceError("Failed to perform some periodic async task", e);
+                                Trace.TraceError("Failed to perform some periodic async task: {}", e);
                             }
                         }
                     }
