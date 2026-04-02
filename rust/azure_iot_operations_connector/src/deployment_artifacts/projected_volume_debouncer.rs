@@ -114,27 +114,6 @@ pub type ProjectedVolumeEventResult = Result<Vec<ProjectedVolumeEvent>, Projecte
 ///
 /// Monitors a projected volume directory and produces clean, synthetic filesystem events
 /// when Kubernetes performs an atomic symlink swap to update the volume contents.
-///
-/// ```ignore
-/// use std::path::PathBuf;
-/// use azure_iot_operations_connector::deployment_artifacts::projected_volume_debouncer::{
-///     ProjectedVolumeDebouncer, ProjectedVolumeEventResult,
-/// };
-///
-/// let _debouncer = ProjectedVolumeDebouncer::new(
-///     PathBuf::from("/etc/akri/secrets/connector_secrets"),
-///     |result: ProjectedVolumeEventResult| {
-///         match result {
-///             Ok(events) => {
-///                 for event in events {
-///                     println!("{:?}: {:?}", event.kind, event.path);
-///                 }
-///             }
-///             Err(e) => eprintln!("Error: {e}"),
-///         }
-///     },
-/// ).expect("failed to create debouncer");
-/// ```
 pub struct ProjectedVolumeDebouncer {
     // NOTE: Dropping this struct signals the background thread to stop but does not join
     // it, so the event handler may still fire briefly after drop returns. If a hard
