@@ -3,12 +3,11 @@
 
 using Azure.Iot.Operations.Services.AssetAndDeviceRegistry;
 using Azure.Iot.Operations.Services.AssetAndDeviceRegistry.Models;
-using Moq;
 using Xunit;
 
 namespace Azure.Iot.Operations.Services.UnitTests.AssetAndDeviceRegistry
 {
-    public class DeviceEndpointHealthStatusReporterTests
+    public class DeviceEndpointRuntimeHealthReporterTests
     {
         private readonly TimeSpan _timeout = TimeSpan.FromSeconds(5);
 

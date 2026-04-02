@@ -25,7 +25,7 @@ namespace Azure.Iot.Operations.Services.AssetAndDeviceRegistry
         private readonly Dictionary<string, Dictionary<string, RuntimeHealth?>> _cachedEventGroupsRuntimeHealth = new(); // keys are event group names, values are dictionaries where keys are event names and the values are the cached health of that event group's event
         private readonly Dictionary<string, Dictionary<string, RuntimeHealth?>> _cachedManagementGroupsRuntimeHealth = new(); // keys are management group names, values are dictionaries where keys are management action names and the values are the cached health of that management group's action
 
-        private readonly SemaphoreSlim _concurrentModificationLock = new SemaphoreSlim(0, 1);
+        private readonly SemaphoreSlim _concurrentModificationLock = new SemaphoreSlim(1, 1);
 
         private Countdown _periodicSender;
 

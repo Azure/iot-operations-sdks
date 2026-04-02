@@ -75,7 +75,6 @@ namespace Azure.Iot.Operations.Services.AssetAndDeviceRegistry
                     }
                 });
                 _isRunning = true;
-                _task.Start();
             }
             finally
             {
