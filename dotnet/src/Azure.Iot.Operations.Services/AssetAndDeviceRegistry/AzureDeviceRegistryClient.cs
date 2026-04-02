@@ -74,6 +74,8 @@ public class AzureDeviceRegistryClient : IAzureDeviceRegistryClient
 
         await _adrBaseServiceClient.DisposeAsync().ConfigureAwait(false);
         await _deviceDiscoveryServiceClient.DisposeAsync().ConfigureAwait(false);
+        await _adrBaseServiceService.DisposeAsync().ConfigureAwait(false);
+
         GC.SuppressFinalize(this);
         _disposed = true;
     }
