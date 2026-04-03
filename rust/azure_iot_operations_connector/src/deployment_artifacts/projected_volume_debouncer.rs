@@ -37,9 +37,13 @@ use sha2::{Digest, Sha256};
 
 /// Internal debounce window for coalescing raw inotify events from a single
 /// Kubernetes atomic symlink swap. A single swap produces ~20-30 events over
-/// ~1-2ms; one second is a generous buffer that adds negligible latency given
-/// the kubelet's sync cycle (default 60s).
-const DEBOUNCE_WINDOW: Duration = Duration::from_secs(1);
+/// ~1-2ms. 100ms is 50x the event burst duration, providing a safe margin on
+/// even heavily loaded systems while keeping notification latency low.
+pub const DEBOUNCE_WINDOW: Duration = Duration::from_millis(100);
+
+/// How often the underlying debouncer checks for expired events.
+/// Must be less than `DEBOUNCE_WINDOW`.
+pub const TICK_RATE: Duration = Duration::from_millis(25);
 
 /// Error from the [`ProjectedVolumeDebouncer`].
 #[derive(Debug, thiserror::Error)]
@@ -149,7 +153,7 @@ impl ProjectedVolumeDebouncer {
 
         let mut debouncer = new_debouncer(
             DEBOUNCE_WINDOW,
-            None,
+            Some(TICK_RATE),
             move |res: DebounceEventResult| match res {
                 Ok(events) => {
                     let Some(swap_time) = symlink_swap_time(&events) else {
@@ -638,11 +642,11 @@ mod tests {
 
         /// Timeout for waiting for events to arrive. Must be comfortably longer
         /// than `DEBOUNCE_WINDOW` to account for the tick rate and thread scheduling.
-        const EVENT_TIMEOUT: Duration = Duration::from_secs(DEBOUNCE_WINDOW.as_secs() * 2);
+        const EVENT_TIMEOUT: Duration = Duration::from_millis(DEBOUNCE_WINDOW.as_millis() as u64 * 3);
 
         /// Timeout for asserting no events arrived. Longer than [`EVENT_TIMEOUT`]
         /// to reduce the risk of false passes.
-        const EMPTY_TIMEOUT: Duration = Duration::from_secs(DEBOUNCE_WINDOW.as_secs() * 3);
+        const EMPTY_TIMEOUT: Duration = Duration::from_millis(DEBOUNCE_WINDOW.as_millis() as u64 * 5);
 
         /// Collector for debouncer events, using a condvar to allow tests to wait
         /// for results with a timeout.

@@ -21,7 +21,7 @@ use tokio_util::task::AbortOnDropHandle;
 
 use crate::deployment_artifacts::projected_volume_debouncer::{
     ProjectedVolumeDebouncer, ProjectedVolumeError, ProjectedVolumeEventKind,
-    ProjectedVolumeEventResult,
+    ProjectedVolumeEventResult, TICK_RATE as PVDB_TICK_RATE,
 };
 
 /// Error for secret
@@ -41,7 +41,9 @@ enum InnerError {
 /// Window for coalescing notifications from multiple debouncers into a single
 /// notification per secret. This absorbs the case where the metadata and data
 /// debouncers fire at slightly different times for the same logical update.
-const COALESCE_WINDOW: Duration = Duration::from_millis(100);
+/// Set to 2x the debouncer tick rate to guarantee both debouncer callbacks
+/// are absorbed into a single notification.
+const COALESCE_WINDOW: Duration = Duration::from_millis(PVDB_TICK_RATE.as_millis() as u64 * 2);
 
 /// Holds the file watchers (debouncers) that must remain alive as long as any
 /// `Secrets` or `Secret` handle exists.
@@ -472,7 +474,8 @@ impl SecretTrackerState {
 
 #[cfg(test)]
 mod tests {
-    use super::{Secret, Secrets};
+    use crate::deployment_artifacts::projected_volume_debouncer::{DEBOUNCE_WINDOW, TICK_RATE};
+    use super::{COALESCE_WINDOW, Secret, Secrets};
     use crate::deployment_artifacts::test_utils::TempProjectedVolume;
     use futures_util::FutureExt;
     use std::cell::RefCell;
@@ -481,11 +484,14 @@ mod tests {
     use std::{path::Path, time::Duration};
     use test_case::test_case;
 
-    // NOTE: Many tests use manual sleeps for testing timing of async notifications.
-    // The underlying debouncer used for Projected Volumes uses a 1 second debounce window,
-    // so we need to wait at least that long + some buffer for notifications to be issued.
-    // Use 1.5x debounce window to be sure, as that's a very generous buffer.
-    const UPDATE_WINDOW: Duration = Duration::from_millis(1500);
+    // Worst case: DEBOUNCE_WINDOW + TICK_RATE (jitter) + COALESCE_WINDOW + margin.
+    // Expressed as the sum of the components with an extra TICK_RATE for safety.
+    const UPDATE_WINDOW: Duration = Duration::from_millis(
+        DEBOUNCE_WINDOW.as_millis() as u64
+            + TICK_RATE.as_millis() as u64
+            + COALESCE_WINDOW.as_millis() as u64
+            + TICK_RATE.as_millis() as u64,
+    );
 
     // NOTE: We need to have two types of mount managers to handle the variant cases of
     // Secret Sync vs. non-Secret Sync scenarios. The `Secrets` and `Secret` structs are designed
