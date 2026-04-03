@@ -38,5 +38,5 @@ With the above proposal, we would need to do the following things:
 
 ## Other approaches considered
 
-Test the RC SDK bits in the AIO e2e test pipeline
- - This approach is a bit late in identifying issues. We have to do the RC release before we could run the AIO e2e test pipeline with it.
+- Test the RC SDK bits in the AIO e2e test pipeline
+  - This approach is a bit late in identifying issues. We have to do the RC release before we could run the AIO e2e test pipeline with it.
