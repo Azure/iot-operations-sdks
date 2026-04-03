@@ -6,10 +6,14 @@
 use std::{
     collections::HashMap,
     path::{Path, PathBuf},
-    sync::{Arc, RwLock},
+    sync::{
+        atomic::{AtomicBool, Ordering},
+        Arc, RwLock,
+    },
+    time::Duration,
 };
 
-use tokio::sync::watch;
+use tokio::sync::{watch, Notify};
 
 use crate::deployment_artifacts::projected_volume_debouncer::{
     ProjectedVolumeDebouncer, ProjectedVolumeError, ProjectedVolumeEventKind,
@@ -30,11 +34,54 @@ enum InnerError {
     Invalid,
 }
 
+/// Window for coalescing notifications from multiple debouncers into a single
+/// notification per secret. This absorbs the case where the metadata and data
+/// debouncers fire at slightly different times for the same logical update.
+const COALESCE_WINDOW: Duration = Duration::from_millis(100);
+
+/// Wraps a `watch::Sender` with a pending-signal mechanism so that multiple
+/// rapid signal() calls are coalesced into a single send() when flush() is called.
+struct CoalescingNotifier {
+    sender: watch::Sender<()>,
+    pending_signal: AtomicBool,
+}
+
+impl CoalescingNotifier {
+    fn new() -> (Self, watch::Receiver<()>) {
+        let (sender, receiver) = watch::channel(());
+        (
+            Self {
+                sender,
+                pending_signal: AtomicBool::new(false),
+            },
+            receiver,
+        )
+    }
+
+    /// Mark this notifier as having a pending update.
+    /// The actual send() happens when flush() is called.
+    fn signal(&self) {
+        self.pending_signal.store(true, Ordering::Release);
+    }
+
+    /// If there's a pending notification signal, send it and clear the flag.
+    fn flush(&self) {
+        if self.pending_signal.swap(false, Ordering::AcqRel) {
+            let _ = self.sender.send(());
+        }
+    }
+
+    fn subscribe(&self) -> watch::Receiver<()> {
+        self.sender.subscribe()
+    }
+}
+
 /// Holds the file watchers (debouncers) that must remain alive as long as any
 /// `Secrets` or `Secret` handle exists.
 struct Watchers {
     _metadata_debouncer: ProjectedVolumeDebouncer,
     _data_debouncer: ProjectedVolumeDebouncer,
+    _coalesce_task: tokio::task::JoinHandle<()>,
 }
 
 /// Manager for Secrets deployed in the connector application
@@ -57,9 +104,11 @@ impl Secrets {
     }
 
     fn new_inner(metadata_path: PathBuf, data_path: PathBuf) -> Result<Self, InnerError> {
+        let coalesce_notify = Arc::new(Notify::new());
         let secret_tracker = Arc::new(RwLock::new(SecretTracker::new(
             metadata_path.clone(),
             data_path.clone(),
+            coalesce_notify.clone(),
         )?));
         let secret_tracker_c1 = secret_tracker.clone();
         let secret_tracker_c2 = secret_tracker.clone();
@@ -179,10 +228,24 @@ impl Secrets {
                 }
             })?;
 
+        // Spawn the coalescing task that flushes pending notifications.
+        let secret_tracker_c3 = secret_tracker.clone();
+        let coalesce_task = tokio::task::spawn(async move {
+            loop {
+                coalesce_notify.notified().await;
+                tokio::time::sleep(COALESCE_WINDOW).await;
+                let tracker = secret_tracker_c3.read().unwrap();
+                for entry in tracker.by_alias.values() {
+                    entry.notifier.flush();
+                }
+            }
+        });
+
         Ok(Self {
             file_watchers: Arc::new(Watchers {
                 _metadata_debouncer: metadata_debouncer,
                 _data_debouncer: data_debouncer,
+                _coalesce_task: coalesce_task,
             }),
             secret_tracker,
         })
@@ -197,7 +260,7 @@ impl Secrets {
             .map(|entry| Secret {
                 alias: alias.to_string(),
                 path: entry.path.clone(),
-                update_rx: entry.sender.subscribe(),
+                update_rx: entry.notifier.subscribe(),
                 _file_watchers: self.file_watchers.clone(),
             })
     }
@@ -284,41 +347,30 @@ impl Secret {
 
 /// Represents a tracked secret with a notification mechanism for it.
 /// This corresponds 1:1 with an alias.
-#[derive(Debug)]
 struct SecretTrackerEntry {
     path: Arc<RwLock<PathBuf>>,
-    sender: watch::Sender<()>,
+    notifier: CoalescingNotifier,
 }
 
 struct SecretTracker {
     by_alias: HashMap<String, Arc<SecretTrackerEntry>>,
     /// Mapping of secret data paths to the SecretTrackerEntry(s) that point at them.
-    /// This is a one to manyh relationship because multiple aliases can point at the same secret data.
+    /// This is a one to many relationship because multiple aliases can point at the same secret data.
     /// Note that secrets are only tracked in here if an alias points at them, there may be secret data
     /// files that exist on disk, but are not tracked here.
     by_path: HashMap<PathBuf, Vec<Arc<SecretTrackerEntry>>>,
+    /// Shared notify used to wake the coalescing task when any entry is signaled.
+    coalesce_notify: Arc<Notify>,
 }
 
 impl SecretTracker {
-    fn new(metadata_path: PathBuf, data_path: PathBuf) -> Result<Self, InnerError> {
+    fn new(metadata_path: PathBuf, data_path: PathBuf, coalesce_notify: Arc<Notify>) -> Result<Self, InnerError> {
         let mut by_alias = HashMap::new();
         let mut by_path = HashMap::new();
 
         // Initialize all secret aliases / paths
         for entry in std::fs::read_dir(&metadata_path)? {
             let entry = entry?;
-
-            // TOOD: remove
-            eprintln!(
-                "SETUP: Processing secret metadata entry: {:?}",
-                entry.path()
-            );
-            eprintln!(
-                "SETUP: Is file? {:?}, Is dir? {:?}, Is Symlink: {:?}",
-                entry.path().is_file(),
-                entry.path().is_dir(),
-                entry.path().is_symlink()
-            );
 
             // NOTE: Must use entry.path().is_file() instead of entry.file_type()?.is_file()
             // In Kubernetes projected volumes, all files are also symlinks, and entry.file_type()
@@ -329,9 +381,10 @@ impl SecretTracker {
                     .into_string()
                     .map_err(|_| InnerError::Invalid)?;
                 let secret_file = data_path.join(std::fs::read_to_string(entry.path())?);
+                let (notifier, _rx) = CoalescingNotifier::new();
                 let entry = Arc::new(SecretTrackerEntry {
                     path: Arc::new(RwLock::new(secret_file.clone())),
-                    sender: watch::channel(()).0,
+                    notifier,
                 });
                 by_alias.insert(secret_alias, entry.clone());
                 by_path
@@ -344,7 +397,7 @@ impl SecretTracker {
         // NOTE: There may be secret data files currently unused if no alias points at them.
         // This is not supposed to happen, but it's not an issue if it does.
 
-        Ok(Self { by_alias, by_path })
+        Ok(Self { by_alias, by_path, coalesce_notify })
     }
 
     /// Return an Arc reference to the SecretTrackerEntry corresponding to the given alias, if it exists.
@@ -381,10 +434,10 @@ impl SecretTracker {
                 .or_insert_with(Vec::new)
                 .push(entry.clone());
 
-            // Notify the Secret of the update
-            // We do not care about send errors here - they just mean nobody is currently
-            // monitoring the secret, which is fine.
-            let _ = entry.sender.send(());
+            // Signal that the secret has been updated. The coalescing task will
+            // flush this into an actual notification after the coalesce window.
+            entry.notifier.signal();
+            self.coalesce_notify.notify_one();
             Ok(())
         } else {
             // Alias was invalid
@@ -402,8 +455,9 @@ impl SecretTracker {
             // We do not care about send errors here - they just mean nobody is currently
             // monitoring the secret, which is fine.
             for entry in entries {
-                let _ = entry.sender.send(());
+                entry.notifier.signal();
             }
+            self.coalesce_notify.notify_one();
         } else {
             log::debug!("Secret changed with no affiliated aliases for path {path:?}");
         }
