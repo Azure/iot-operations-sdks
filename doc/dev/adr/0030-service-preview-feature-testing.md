@@ -27,7 +27,7 @@ With this, we can setup our github branch protection rules differently for these
  - serviceFeature/* branches will run integration tests against preview versions of the broker + akri 
  - feature/* branches will run integration tests against stable versions of the broker + akri 
 
-With this approach, we can write integration tests for the preview feature while still testing more stable bits in main.
+With this approach, we can write integration tests for the preview feature while still testing more stable bits in main and other feature branches.
 
 ## Consequences
 
