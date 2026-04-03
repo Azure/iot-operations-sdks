@@ -8,7 +8,7 @@ Currently, this repo only deploys old versions of the MQTT broker + Akri service
 
 Lately, we have been discussing how these SDK RC bits end up in shipped connectors, so we need to test these RC bits and their associated service features the same way we test non-preview features in main. This would ensure that any shipped RC versions are compatible with the preview service feature.
 
-## Proposal
+## Decision
 
 From a branch management side, we should start distinguishing feature branches between those that are for upcoming service features vs those that are not such as:
 
