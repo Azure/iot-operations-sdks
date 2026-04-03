@@ -3,6 +3,9 @@
 
 //! Secrets interface for deployment artifacts.
 
+// NOTE: This module requires tokio runtime to instantiate `Secrets` and `Secret`.
+// It could be pivoted to use OS Threads without any breaking changes at the cost of some additional code complexity.
+
 use std::{
     collections::HashMap,
     path::{Path, PathBuf},
@@ -49,6 +52,7 @@ struct Watchers {
 
 /// Manager for Secrets deployed in the connector application
 /// Use this to access individual secrets.
+/// Can only be created in a tokio runtime async context.
 #[derive(Clone)]
 pub struct Secrets {
     file_watchers: Arc<Watchers>,
@@ -700,17 +704,20 @@ mod tests {
     const KEY_1: &str = "key1";
     const KEY_2: &str = "key2";
     const KEY_3: &str = "key3";
+    const KEY_4: &str = "key4";
 
     const DATA_1: &str = "data1";
     const DATA_2: &str = "data2";
     const DATA_3: &str = "data3";
+    const DATA_4: &str = "data4";
+    const DATA_5: &str = "data5";
 
     const NEW_REF: &str = "new_ref";
     const NEW_KEY: &str = "new_key";
     const NEW_DATA: &str = "new_data";
 
     macro_rules! secret_test {
-        // Async with #[test_case] attributes
+        // With #[test_case] attributes
         ($(#[$attr:meta])+ async $name:ident, |$mm:ident $(, $param:ident: $ty:ty)*| $body:block) => {
             $(#[$attr])*
             #[tokio::test]
@@ -730,48 +737,10 @@ mod tests {
                 }
             }
         };
-        // Async without attributes
+        // Without attributes
         (async $name:ident, |$mm:ident| $body:block) => {
             #[tokio::test]
             async fn $name() {
-                // let _ = env_logger::Builder::new()
-                //     .filter_level(log::LevelFilter::Trace)
-                //     .filter_module("notify::inotify", log::LevelFilter::Off)
-                //     .is_test(true)
-                //     .try_init();
-                {
-                    let $mm = StandardSecretMountManager::new();
-                    $body
-                }
-                {
-                    let $mm = SecretSyncMountManager::new();
-                    $body
-                }
-            }
-        };
-        // Sync with #[test_case] attributes
-        ($(#[$attr:meta])+ $name:ident, |$mm:ident $(, $param:ident: $ty:ty)*| $body:block) => {
-            $(#[$attr])*
-            fn $name($($param: $ty),*) {
-                // let _ = env_logger::Builder::new()
-                //     .filter_level(log::LevelFilter::Trace)
-                //     .filter_module("notify::inotify", log::LevelFilter::Off)
-                //     .is_test(true)
-                //     .try_init();
-                {
-                    let $mm = StandardSecretMountManager::new();
-                    $body
-                }
-                {
-                    let $mm = SecretSyncMountManager::new();
-                    $body
-                }
-            }
-        };
-        // Sync without attributes
-        ($name:ident, |$mm:ident| $body:block) => {
-            #[test]
-            fn $name() {
                 // let _ = env_logger::Builder::new()
                 //     .filter_level(log::LevelFilter::Trace)
                 //     .filter_module("notify::inotify", log::LevelFilter::Off)
@@ -891,14 +860,14 @@ mod tests {
             //target_aliases: vec![ALIAS_1, ALIAS_2],
         });
 
-    // /// Test case with just one alias and one data file.
-    // /// Used for tests that don't care about notification routing and validation of
-    // /// affected vs. unaffected secrets, just want a simple scenario to test more complex
-    // /// higher-level behavior against.
-    // static TEST_CASE_SIMPLE: LazyLock<SecretTestCase> = LazyLock::new(|| SecretTestCase {
-    //     initial_data: HashMap::from([((REF_1, KEY_1), DATA_1)]),
-    //     initial_alias_map: HashMap::from([(ALIAS_1, (REF_1, KEY_1))]),
-    // });
+    /// Test case with just one alias and one data file.
+    /// Used for tests that don't care about notification routing and validation of
+    /// affected vs. unaffected secrets, just want a simple scenario to test more complex
+    /// higher-level behavior against.
+    static TEST_CASE_SIMPLE: LazyLock<SecretTestCase> = LazyLock::new(|| SecretTestCase {
+        initial_data: HashMap::from([((REF_1, KEY_1), DATA_1)]),
+        initial_alias_map: HashMap::from([(ALIAS_1, (REF_1, KEY_1))]),
+    });
 
     #[track_caller]
     fn assert_secret_has_initial_data_now(secret: &mut Secret, test_case: &SecretTestCase) {
@@ -979,7 +948,7 @@ mod tests {
         while set.join_next().await.is_some() {}
     }
 
-    secret_test!(secret_reports_alias, |mount_manager| {
+    secret_test!(async secret_reports_alias, |mount_manager| {
         // Initialize an alias on disk
         mount_manager.stage_secret_alias_create(ALIAS_1, REF_1, KEY_1);
         mount_manager.stage_secret_data_create(REF_1, KEY_1, DATA_1);
@@ -1589,232 +1558,393 @@ mod tests {
     // );
 
 
+    // Test that a series of updates to secret data in place only trigger a single notification for a given secret.
     secret_test!(
-        async secret_notification_aggregation, |mount_manager| {
-            let test_case = SecretTestCase {
-                initial_data: HashMap::from([((REF_1, KEY_1), DATA_1), ((REF_1, KEY_2), DATA_2)]),
-                initial_alias_map: HashMap::from([(ALIAS_1, (REF_1, KEY_1)), (ALIAS_2, (REF_1, KEY_2))]),
-            };
-            let target_alias1 = ALIAS_1;
-            let target_alias2 = ALIAS_2;
+        async secret_data_modify_in_place_notification_aggregation, |mount_manager| {
+            let test_case = &*TEST_CASE_SIMPLE;
+            let target_alias = ALIAS_1;
 
             // SETUP --------------------------------------------------------------------
 
             test_case.initialize_mount_manager(&mount_manager);
 
-            // Create the Secrets struct
+            // Create the Secrets struct and get the target Secret
             let secrets = Secrets::new(
                 mount_manager.metadata_path().to_path_buf(),
                 mount_manager.data_path().to_path_buf(),
             )
             .expect("Failed to create Secrets struct");
-            let mut target_secret1 = secrets.get_secret(target_alias1).expect("Failed to get secret");
-            let mut target_secret2 = secrets.get_secret(target_alias2).expect("Failed to get secret");
+            let mut target_secret = secrets.get_secret(target_alias).expect("Failed to get secret");
+            let target_secret_initial_refky = test_case.initial_ref_key_for_alias(target_alias);
 
-            // Secrets are available immediately and have the exepected initial data
-            assert_secret_has_initial_data_now(&mut target_secret1, &test_case);
-            assert_secret_has_initial_data_now(&mut target_secret2, &test_case);
-
-            // TODO: bystanders? We probably don't care tbh...
-
-            let target1_initial_refky = test_case.initial_ref_key_for_alias(target_alias1);
-            let target2_initial_refky = test_case.initial_ref_key_for_alias(target_alias2);
+            // Secret is available immediately and have the exepected initial data
+            assert_secret_has_initial_data_now(&mut target_secret, &test_case);
 
             // END SETUP ----------------------------------------------------------------
 
             // Start listening for change notifications
-            let target1_change_notification = tokio::task::spawn({
-                let mut target_secret = target_secret1.clone();
-                async move { target_secret.changed().await }
-            });
-            let target2_change_notification = tokio::task::spawn({
-                let mut target_secret = target_secret2.clone();
+            let target_change_notification = tokio::task::spawn({
+                let mut target_secret = target_secret.clone();
                 async move { target_secret.changed().await }
             });
 
-            // Do a series of updates and remaps that should all be aggregated together into a single notification
-            // for each target secret.
-            mount_manager.stage_secret_data_modify(target1_initial_refky.0, target1_initial_refky.1, "newdata1");
-            mount_manager.stage_secret_data_modify(target1_initial_refky.0, target1_initial_refky.1, "newdata2");
-            mount_manager.stage_secret_data_create("newref1", "newkey1", "newdata3");
-            mount_manager.stage_secret_data_modify(target2_initial_refky.0, target2_initial_refky.1, "newdata4");
-            mount_manager.stage_secret_alias_modify(target_alias1, "newref1", "newkey1");
-            mount_manager.stage_secret_data_modify(target2_initial_refky.0, target2_initial_refky.1, "newdata5");
-            mount_manager.stage_secret_alias_modify(target_alias2, "newref1", "newkey1");
-            mount_manager.stage_secret_data_modify("newref1", "newkey1", "newdata6");
-            mount_manager.stage_secret_data_remove(target2_initial_refky.0, target2_initial_refky.1);
-            mount_manager.stage_secret_data_modify(target1_initial_refky.0, target1_initial_refky.1, "newdata7");
-            mount_manager.stage_secret_alias_modify(target_alias2, target1_initial_refky.0, target1_initial_refky.1);
-            mount_manager.execute_update_all();
+            // Do a series of in-place modifications that will be aggregated together into a single notification
+            mount_manager.stage_secret_data_modify(target_secret_initial_refky.0, target_secret_initial_refky.1, "newdata1");
+            mount_manager.stage_secret_data_modify(target_secret_initial_refky.0, target_secret_initial_refky.1, "newdata2");
+            mount_manager.stage_secret_data_modify(target_secret_initial_refky.0, target_secret_initial_refky.1, "newdata3");
+            mount_manager.execute_update_data();
 
-            // TODO: add another alias remap for target1
+            // Change notification is not immediately issued
+            assert!(!target_change_notification.is_finished());
 
-            // Change notifications are not immediately issued
-            assert!(!target1_change_notification.is_finished());
-            assert!(!target2_change_notification.is_finished());
+            // However, if you access the secret value, you will find the latest versions of the secret data as the changes
+            // have been made on the filesystem.
+            assert_secret_has_expected_data_now(&mut target_secret, "newdata3");
 
-            // However, if you access the secret values, you will find the latest versions of the initial secret data on
-            // disk that the secret originally pointed at, if available.
-            assert_secret_has_expected_data_now(&mut target_secret1, "newdata7");
-            assert_secret_unavailable_now(&mut target_secret2);
+            // Wait for change to be reported for target secret
+            tokio::time::timeout(UPDATE_WINDOW, target_change_notification)
+                .await
+                .expect("Timed out waiting for target secret change notification")
+                .expect("Target secret change notification task panicked");
 
-            // Wait for changes to be reported for the target secrets
-            tokio::time::timeout(UPDATE_WINDOW, async {
-                target1_change_notification.await.expect("Target secret 1 change notification task panicked");
-                target2_change_notification.await.expect("Target secret 2 change notification task panicked");
-            }).await.expect("Timed out waiting for target secret change notifications");
-
-            // Now you should find the actual latest values of the all the various updates to the mount.
-            assert_secret_has_expected_data_now(&mut target_secret1, "newdata6");
-            assert_secret_has_expected_data_now(&mut target_secret2, "newdata7");
-
+            // We'll now find the same updated value we saw before
+            assert_secret_has_expected_data_now(&mut target_secret, "newdata3");
+             
             // Once again start listening for change notifications
-            let target1_change_notification = tokio::task::spawn({
-                let mut target_secret = target_secret1.clone();
+            let target_change_notification = tokio::task::spawn({
+                let mut target_secret = target_secret.clone();
                 async move { target_secret.changed().await }
             });
-            let target2_change_notification = tokio::task::spawn({
-                let mut target_secret = target_secret2.clone();
-                async move { target_secret.changed().await }
-            });
-
+            
             // Wait for the update window to pass, and there should be no more notifications because all prior
             // changes were aggregated.
             tokio::time::sleep(UPDATE_WINDOW).await;
-            assert!(!target1_change_notification.is_finished());
-            assert!(!target2_change_notification.is_finished());
+            assert!(!target_change_notification.is_finished());
         }
     );
 
-    // TODO: exactly once notification
-    // TODO: What about showing that updates get reported after remap?
-    // TODO: no updates if data updated to contain same value?
-    // TODO: aggregation tests
-    // TODO: survive drop tests
-    // TODO: clones
+    // Test that a series of alias remaps trigger only a single notification for a given secret.
+    secret_test!(
+        async secret_alias_remap_notification_aggregation, |mount_manager| {
+
+            // Use a test case with many pieces of inital data to avoid complicating the test logic
+            // with secret data creation, which should be saved for a the mixed notification aggreagtion test.
+            // Use variant refs and keys to validate overlapping scenarios.
+            // Define the test case locally since the test is so hyper-dependent on this test case, it
+            // should not be extracted for re-use.
+            let test_case = SecretTestCase {
+                initial_data: HashMap::from([
+                    ((REF_1, KEY_1), DATA_1),
+                    ((REF_1, KEY_2), DATA_2),
+                    ((REF_1, KEY_3), DATA_3),
+                    ((REF_2, KEY_1), DATA_4),
+                    ((REF_2, KEY_4), DATA_5),
+                ]),
+                initial_alias_map: HashMap::from([(ALIAS_1, (REF_1, KEY_1))]),
+            };
+            let target_alias = ALIAS_1;
+
+            // SETUP --------------------------------------------------------------------
+
+            test_case.initialize_mount_manager(&mount_manager);
+
+            // Create the Secrets struct and get the target Secret
+            let secrets = Secrets::new(
+                mount_manager.metadata_path().to_path_buf(),
+                mount_manager.data_path().to_path_buf(),
+            )
+            .expect("Failed to create Secrets struct");
+            let mut target_secret = secrets.get_secret(target_alias).expect("Failed to get secret");
+
+            // Secret is available immediately and have the exepected initial data
+            assert_secret_has_initial_data_now(&mut target_secret, &test_case);
+
+            // END SETUP ----------------------------------------------------------------
+
+            // Start listening for change notifications
+            let target_change_notification = tokio::task::spawn({
+                let mut target_secret = target_secret.clone();
+                async move { target_secret.changed().await }
+            });
+
+            // Do a series of alias remaps (including to a non-existent key) that will be aggregated together
+            // into a single notification. Ensure this covers a variety of overlapping refs and key combinations.
+            mount_manager.stage_secret_alias_modify(target_alias, REF_1, KEY_2);
+            mount_manager.stage_secret_alias_modify(target_alias, REF_1, "nonexistentkey");
+            mount_manager.stage_secret_alias_modify(target_alias, REF_2, KEY_1);
+            mount_manager.stage_secret_alias_modify(target_alias, REF_1, KEY_3);
+            mount_manager.stage_secret_alias_modify(target_alias, REF_2, KEY_4);
+            mount_manager.execute_update_alias();
+
+            // Change notification is not immediately issued
+            assert!(!target_change_notification.is_finished());
+
+            // If you access the secret value, you will still find the initial secret data
+            assert_secret_has_initial_data_now(&mut target_secret, &test_case);
+
+            // Wait for change to be reported for target secret
+            tokio::time::timeout(UPDATE_WINDOW, target_change_notification)
+                .await
+                .expect("Timed out waiting for target secret change notification")
+                .expect("Target secret change notification task panicked");
+
+            // We'll now find the updated value from the final remap.
+            assert_secret_has_expected_data_now(&mut target_secret, test_case.initial_data_for_ref_key(REF_2, KEY_4));
+             
+            // Once again start listening for change notifications
+            let target_change_notification = tokio::task::spawn({
+                let mut target_secret = target_secret.clone();
+                async move { target_secret.changed().await }
+            });
+            
+            // Wait for the update window to pass, and there should be no more notifications because all prior
+            // changes were aggregated.
+            tokio::time::sleep(UPDATE_WINDOW).await;
+            assert!(!target_change_notification.is_finished());
+        }
+    );
+
+    // Test that a mixed set of secret filesystem modifications of all types only trigger a single notification
+    // for a given secret.
+    secret_test!(
+        async mixed_secret_notification_aggregation, |mount_manager| {
+
+            // Use variant refs and keys to validate overlapping scenarios
+            // Define the test case locally since the test is so hyper-dependent on this test case, it
+            // should not be extracted for re-use.
+            let test_case = SecretTestCase {
+                initial_data: HashMap::from([
+                    ((REF_1, KEY_1), DATA_1),
+                    ((REF_1, KEY_2), DATA_2),
+                    ((REF_1, KEY_3), DATA_3),
+                    ((REF_2, KEY_1), DATA_4),
+                    ((REF_2, KEY_4), DATA_5),
+                ]),
+                initial_alias_map: HashMap::from([(ALIAS_1, (REF_1, KEY_1))]),
+            };
+            let target_alias = ALIAS_1;
+
+            // SETUP --------------------------------------------------------------------
+
+            test_case.initialize_mount_manager(&mount_manager);
+
+            // Create the Secrets struct and get the target Secret
+            let secrets = Secrets::new(
+                mount_manager.metadata_path().to_path_buf(),
+                mount_manager.data_path().to_path_buf(),
+            )
+            .expect("Failed to create Secrets struct");
+            let mut target_secret = secrets.get_secret(target_alias).expect("Failed to get secret");
+
+            // Secret is available immediately and have the exepected initial data
+            assert_secret_has_initial_data_now(&mut target_secret, &test_case);
+
+            // END SETUP ----------------------------------------------------------------
+
+            // Start listening for change notifications
+            let target_change_notification = tokio::task::spawn({
+                let mut target_secret = target_secret.clone();
+                async move { target_secret.changed().await }
+            });
+
+            // Do a series of alias remaps, data modifies, data removes, and data creates that will be aggregated together
+            // into a single notification. Covers a variety of refs and keys.
+            mount_manager.stage_secret_data_modify(REF_1, KEY_1, "newdata1");
+            mount_manager.stage_secret_alias_modify(target_alias, REF_1, "nonexistentkey");
+            mount_manager.stage_secret_data_remove(REF_1, KEY_1);
+            mount_manager.stage_secret_data_modify(REF_1, KEY_2, "newdata2");
+            mount_manager.stage_secret_alias_modify(target_alias, REF_1, KEY_2);
+            mount_manager.stage_secret_data_remove(REF_1, KEY_2);
+            mount_manager.stage_secret_alias_modify(target_alias, REF_2, KEY_1);
+            mount_manager.stage_secret_data_remove(REF_2, KEY_1);
+            mount_manager.stage_secret_data_create(REF_2, KEY_1, "newdata3");
+            mount_manager.stage_secret_alias_modify(target_alias, REF_2, KEY_4);
+            mount_manager.stage_secret_data_modify(REF_2, KEY_4, "newdata4");
+            mount_manager.stage_secret_data_modify(REF_2, KEY_4, "newdata5");
+            mount_manager.execute_update_all();
+
+            // Change notification is not immediately issued
+            assert!(!target_change_notification.is_finished());
+
+            // If you access the secret value, you will find it unavailable due to the underlying data
+            // having been removed
+            assert_secret_unavailable_now(&mut target_secret);
+
+            // Wait for change to be reported for target secret
+            tokio::time::timeout(UPDATE_WINDOW, target_change_notification)
+                .await
+                .expect("Timed out waiting for target secret change notification")
+                .expect("Target secret change notification task panicked");
+
+            // We'll now find the updated value from the final remap.
+            assert_secret_has_expected_data_now(&mut target_secret, "newdata5");
+             
+            // Once again start listening for change notifications
+            let target_change_notification = tokio::task::spawn({
+                let mut target_secret = target_secret.clone();
+                async move { target_secret.changed().await }
+            });
+            
+            // Wait for the update window to pass, and there should be no more notifications because all prior
+            // changes were aggregated.
+            tokio::time::sleep(UPDATE_WINDOW).await;
+            assert!(!target_change_notification.is_finished());
+        }
+    );
+
+
+
 
     // secret_test!(
-    //     async secret_survives_secrets_drop, |mount_manager| {
+    //     async secret_notification_aggregation, |mount_manager| {
+    //         let test_case = SecretTestCase {
+    //             initial_data: HashMap::from([((REF_1, KEY_1), DATA_1), ((REF_1, KEY_2), DATA_2)]),
+    //             initial_alias_map: HashMap::from([(ALIAS_1, (REF_1, KEY_1)), (ALIAS_2, (REF_1, KEY_2))]),
+    //         };
+    //         let target_alias1 = ALIAS_1;
+    //         let target_alias2 = ALIAS_2;
 
+    //         // SETUP --------------------------------------------------------------------
+
+    //         test_case.initialize_mount_manager(&mount_manager);
+
+    //         // Create the Secrets struct
+    //         let secrets = Secrets::new(
+    //             mount_manager.metadata_path().to_path_buf(),
+    //             mount_manager.data_path().to_path_buf(),
+    //         )
+    //         .expect("Failed to create Secrets struct");
+    //         let mut target_secret1 = secrets.get_secret(target_alias1).expect("Failed to get secret");
+    //         let mut target_secret2 = secrets.get_secret(target_alias2).expect("Failed to get secret");
+
+    //         // Secrets are available immediately and have the exepected initial data
+    //         assert_secret_has_initial_data_now(&mut target_secret1, &test_case);
+    //         assert_secret_has_initial_data_now(&mut target_secret2, &test_case);
+
+    //         // TODO: bystanders? We probably don't care tbh...
+
+    //         let target1_initial_refky = test_case.initial_ref_key_for_alias(target_alias1);
+    //         let target2_initial_refky = test_case.initial_ref_key_for_alias(target_alias2);
+
+    //         // END SETUP ----------------------------------------------------------------
+
+    //         // Start listening for change notifications
+    //         let target1_change_notification = tokio::task::spawn({
+    //             let mut target_secret = target_secret1.clone();
+    //             async move { target_secret.changed().await }
+    //         });
+    //         let target2_change_notification = tokio::task::spawn({
+    //             let mut target_secret = target_secret2.clone();
+    //             async move { target_secret.changed().await }
+    //         });
+
+    //         // Do a series of updates and remaps that should all be aggregated together into a single notification
+    //         // for each target secret.
+    //         mount_manager.stage_secret_data_modify(target1_initial_refky.0, target1_initial_refky.1, "newdata1");
+    //         mount_manager.stage_secret_data_modify(target1_initial_refky.0, target1_initial_refky.1, "newdata2");
+    //         mount_manager.stage_secret_data_create("newref1", "newkey1", "newdata3");
+    //         mount_manager.stage_secret_data_modify(target2_initial_refky.0, target2_initial_refky.1, "newdata4");
+    //         mount_manager.stage_secret_alias_modify(target_alias1, "newref1", "newkey1");
+    //         mount_manager.stage_secret_data_modify(target2_initial_refky.0, target2_initial_refky.1, "newdata5");
+    //         mount_manager.stage_secret_alias_modify(target_alias2, "newref1", "newkey1");
+    //         mount_manager.stage_secret_data_modify("newref1", "newkey1", "newdata6");
+    //         mount_manager.stage_secret_data_remove(target2_initial_refky.0, target2_initial_refky.1);
+    //         mount_manager.stage_secret_data_modify(target1_initial_refky.0, target1_initial_refky.1, "newdata7");
+    //         mount_manager.stage_secret_alias_modify(target_alias2, target1_initial_refky.0, target1_initial_refky.1);
+    //         mount_manager.execute_update_all();
+
+    //         // TODO: add another alias remap for target1
+
+    //         // Change notifications are not immediately issued
+    //         assert!(!target1_change_notification.is_finished());
+    //         assert!(!target2_change_notification.is_finished());
+
+    //         // However, if you access the secret values, you will find the latest versions of the initial secret data on
+    //         // disk that the secret originally pointed at, if available.
+    //         assert_secret_has_expected_data_now(&mut target_secret1, "newdata7");
+    //         assert_secret_unavailable_now(&mut target_secret2);
+
+    //         // Wait for changes to be reported for the target secrets
+    //         tokio::time::timeout(UPDATE_WINDOW, async {
+    //             target1_change_notification.await.expect("Target secret 1 change notification task panicked");
+    //             target2_change_notification.await.expect("Target secret 2 change notification task panicked");
+    //         }).await.expect("Timed out waiting for target secret change notifications");
+
+    //         // Now you should find the actual latest values of the all the various updates to the mount.
+    //         assert_secret_has_expected_data_now(&mut target_secret1, "newdata6");
+    //         assert_secret_has_expected_data_now(&mut target_secret2, "newdata7");
+
+    //         // Once again start listening for change notifications
+    //         let target1_change_notification = tokio::task::spawn({
+    //             let mut target_secret = target_secret1.clone();
+    //             async move { target_secret.changed().await }
+    //         });
+    //         let target2_change_notification = tokio::task::spawn({
+    //             let mut target_secret = target_secret2.clone();
+    //             async move { target_secret.changed().await }
+    //         });
+
+    //         // Wait for the update window to pass, and there should be no more notifications because all prior
+    //         // changes were aggregated.
+    //         tokio::time::sleep(UPDATE_WINDOW).await;
+    //         assert!(!target1_change_notification.is_finished());
+    //         assert!(!target2_change_notification.is_finished());
     //     }
-    // )
+    // );
 
+    // TODO: What about showing that updates get reported after remap?
+    // TODO: clones
 
-    // OLD AFTER THIS POINT ---------------------------------
+    secret_test!(
+        async secret_survives_secrets_drop, |mount_manager| {
+            let test_case = &*TEST_CASE_SIMPLE;
+            let target_alias = ALIAS_1;
 
-        // secret_test!(async aggregation_notification, aggregation_notification_logic);
+            // SETUP --------------------------------------------------------------------
 
-    // async fn aggregation_notification_logic(mount_manager: impl SecretMountManager) {
-    //     // Use a long aggregation window to make sure that all our expected changes are aggregated together
-    //     const AGGREGATION_WINDOW: Duration = Duration::from_secs(1);
+            test_case.initialize_mount_manager(&mount_manager);
 
-    //     // Initializes two secret aliases on disk
-    //     mount_manager.stage_secret_alias_create(ALIAS_1, REF_1, KEY_1);
-    //     mount_manager.stage_secret_data_create(REF_1, KEY_1, DATA_1);
+            // Create the Secrets struct and get the target Secret
+            let secrets = Secrets::new(
+                mount_manager.metadata_path().to_path_buf(),
+                mount_manager.data_path().to_path_buf(),
+            )
+            .expect("Failed to create Secrets struct");
+            let mut target_secret = secrets.get_secret(target_alias).expect("Failed to get secret");
 
-    //     // Create the Secrets struct and obtain Secret handle
-    //     let secrets = Secrets::new(
-    //         mount_manager.metadata_path().to_path_buf(),
-    //         mount_manager.data_path().to_path_buf(),
-    //     )
-    //     .unwrap();
-    //     let mut secret = secrets.get_secret(ALIAS_1).unwrap();
-    //     assert!(secret.is_available());
-    //     assert_eq!(secret.value().await.unwrap(), DATA_1);
+            // Secret is available immediately and have the exepected initial data
+            assert_secret_has_initial_data_now(&mut target_secret, &test_case);
 
-    //     // Rapidly update the secret data in place
-    //     mount_manager.stage_secret_data_modify(REF_1, KEY_1, DATA_2);
-    //     mount_manager.stage_secret_data_modify(REF_1, KEY_1, DATA_3);
-    //     mount_manager.stage_secret_data_modify(REF_1, KEY_1, DATA_4);
-    //     mount_manager.stage_secret_data_modify(REF_1, KEY_1, DATA_5);
+            // END SETUP ----------------------------------------------------------------
 
-    //     // Wait for change to be reported
-    //     secret.changed().await;
-    //     assert!(secret.is_available());
-    //     assert_eq!(secret.value().await.unwrap(), DATA_5);
+            // Drop the Secrets manager — only the individual Secret handles remain
+            drop(secrets);
 
-    //     // Now rapidly update including multiple alias remaps
-    //     mount_manager.stage_secret_data_modify(REF_1, KEY_1, DATA_1);
-    //     mount_manager.stage_secret_data_modify(REF_1, KEY_1, DATA_2);
-    //     mount_manager.stage_secret_alias_modify(ALIAS_1, REF_1, KEY_2);
-    //     mount_manager.stage_secret_data_modify(REF_1, KEY_1, DATA_3);
-    //     mount_manager.stage_secret_data_create(REF_1, KEY_2, DATA_4);
-    //     mount_manager.stage_secret_alias_modify(ALIAS_1, REF_2, KEY_1);
-    //     mount_manager.stage_secret_data_create(REF_2, KEY_1, DATA_5);
-    //     mount_manager.stage_secret_data_modify(REF_2, KEY_1, DATA_6);
+            // In place data update after Secrets is dropped
+            let target_refky = test_case.initial_ref_key_for_alias(target_alias);
+            mount_manager.stage_secret_data_modify(target_refky.0, target_refky.1, "newdata1");
+            mount_manager.execute_update_data();
 
-    //     // Wait for change to be reported
-    //     secret.changed().await;
-    //     assert!(secret.is_available());
-    //     // Secret should have DATA_3, because all changes to REF_1/KEY_1 should be aggregated together,
-    //     // yet separately from alias updates.
-    //     assert_eq!(secret.value().await.unwrap(), DATA_3);
+            // Wait for the change notification to be delivered, and that the new data is available,
+            // which proves that the Secret is still receiving secret data updates after Secrets is dropped
+            tokio::time::timeout(UPDATE_WINDOW, target_secret.changed())
+                .await
+                .expect("Timed out waiting for secret change notification after Secrets was dropped");
+            assert_secret_has_expected_data_now(&mut target_secret, "newdata1");
 
+            // Alias update to new secret data
+            mount_manager.stage_secret_data_create(NEW_REF, NEW_KEY, "newdata2");
+            mount_manager.stage_secret_alias_modify(target_alias, NEW_REF, NEW_KEY);
+            mount_manager.execute_update_all();
 
-    //     // TODO: finish
-    // }
+            // Wait for the change notification to be delivered, and that the new data is available,
+            // which proves that the Secret is still receiving alias update notifications after Secrets is dropped
+            tokio::time::timeout(UPDATE_WINDOW, target_secret.changed())
+                .await
+                .expect("Timed out waiting for secret change notification after Secrets was dropped");
+            assert_secret_has_expected_data_now(&mut target_secret, "newdata2");
 
+        }
+    );
 
-    // // This test verifies that a `Secret` continues to receive notifications for both
-    // // in-place data updates and alias updates after the parent `Secrets` struct is dropped,
-    // // i.e. that the file watchers (debouncers) persist as long as any `Secret` handle exists.
-    // secret_test!(async secret_survives_secrets_drop, secret_survives_secrets_drop_logic);
-
-    // async fn secret_survives_secrets_drop_logic(mount_manager: impl SecretMountManager) {
-    //     // Use a short aggregation window to make test run quickly
-    //     const AGGREGATION_WINDOW: Duration = Duration::from_millis(100);
-
-    //     // Initialize two secret aliases on disk
-    //     mount_manager.stage_secret_alias_create(ALIAS_1, REF_1, KEY_1);
-    //     mount_manager.stage_secret_data_create(REF_1, KEY_1, DATA_1);
-    //     mount_manager.stage_secret_alias_create(ALIAS_2, REF_2, KEY_2);
-    //     mount_manager.stage_secret_data_create(REF_2, KEY_2, DATA_2);
-
-    //     // Create the Secrets struct and obtain Secret handles
-    //     let secrets = Secrets::new(
-    //         mount_manager.metadata_path().to_path_buf(),
-    //         mount_manager.data_path().to_path_buf(),
-    //     )
-    //     .unwrap();
-    //     let mut secret1 = secrets.get_secret(ALIAS_1).unwrap();
-    //     let mut secret2 = secrets.get_secret(ALIAS_2).unwrap();
-
-    //     // Confirm initial values
-    //     assert_eq!(secret1.value().await.unwrap(), DATA_1);
-    //     assert_eq!(secret2.value().await.unwrap(), DATA_2);
-
-    //     // Drop the Secrets manager — only the individual Secret handles remain
-    //     drop(secrets);
-
-    //     // --- In-place data update after Secrets is dropped ---
-    //     mount_manager.stage_secret_data_modify(REF_1, KEY_1, DATA_3);
-
-    //     // The data debouncer must still be alive to deliver the notification
-    //     tokio::time::timeout(Duration::from_secs(2), secret1.changed())
-    //         .await
-    //         .expect("secret1 did not receive data update notification after Secrets was dropped");
-    //     assert_eq!(secret1.value().await.unwrap(), DATA_3);
-
-    //     // --- Alias update after Secrets is dropped ---
-    //     // Redirect ALIAS_2 to point at REF_1/KEY_1 (which now contains DATA_3)
-    //     mount_manager.stage_secret_alias_modify(ALIAS_2, REF_1, KEY_1);
-    //     tokio::time::sleep(AGGREGATION_WINDOW.mul_f32(MANUAL_WAIT_MULTIPLIER)).await; // Wait for metadata debouncer
-
-    //     // The metadata debouncer must still be alive to process the alias update
-    //     assert_eq!(secret2.value().await.unwrap(), DATA_3);
-
-    //     // --- Another in-place data update, now affecting both secrets via shared path ---
-    //     mount_manager.stage_secret_data_modify(REF_1, KEY_1, DATA_4);
-
-    //     // Both secrets should receive the update
-    //     let (r1, r2) = tokio::time::timeout(Duration::from_secs(2), async {
-    //         tokio::join!(secret1.changed(), secret2.changed())
-    //     })
-    //     .await
-    //     .expect("secrets did not receive data update notification after alias redirect");
-    //     // changed() returns (), just verify values
-    //     let _ = (r1, r2);       // TODO: is this line needed?
-    //     assert_eq!(secret1.value().await.unwrap(), DATA_4);
-    //     assert_eq!(secret2.value().await.unwrap(), DATA_4);
-    // }
 }
