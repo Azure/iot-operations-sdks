@@ -14,6 +14,7 @@ use std::{
 };
 
 use tokio::sync::{watch, Notify};
+use tokio_util::task::AbortOnDropHandle;
 
 use crate::deployment_artifacts::projected_volume_debouncer::{
     ProjectedVolumeDebouncer, ProjectedVolumeError, ProjectedVolumeEventKind,
@@ -39,49 +40,11 @@ enum InnerError {
 /// debouncers fire at slightly different times for the same logical update.
 const COALESCE_WINDOW: Duration = Duration::from_millis(100);
 
-/// Wraps a `watch::Sender` with a pending-signal mechanism so that multiple
-/// rapid signal() calls are coalesced into a single send() when flush() is called.
-struct CoalescingNotifier {
-    sender: watch::Sender<()>,
-    pending_signal: AtomicBool,
-}
-
-impl CoalescingNotifier {
-    fn new() -> (Self, watch::Receiver<()>) {
-        let (sender, receiver) = watch::channel(());
-        (
-            Self {
-                sender,
-                pending_signal: AtomicBool::new(false),
-            },
-            receiver,
-        )
-    }
-
-    /// Mark this notifier as having a pending update.
-    /// The actual send() happens when flush() is called.
-    fn signal(&self) {
-        self.pending_signal.store(true, Ordering::Release);
-    }
-
-    /// If there's a pending notification signal, send it and clear the flag.
-    fn flush(&self) {
-        if self.pending_signal.swap(false, Ordering::AcqRel) {
-            let _ = self.sender.send(());
-        }
-    }
-
-    fn subscribe(&self) -> watch::Receiver<()> {
-        self.sender.subscribe()
-    }
-}
-
 /// Holds the file watchers (debouncers) that must remain alive as long as any
 /// `Secrets` or `Secret` handle exists.
 struct Watchers {
     _metadata_debouncer: ProjectedVolumeDebouncer,
     _data_debouncer: ProjectedVolumeDebouncer,
-    _coalesce_task: tokio::task::JoinHandle<()>,
 }
 
 /// Manager for Secrets deployed in the connector application
@@ -104,12 +67,11 @@ impl Secrets {
     }
 
     fn new_inner(metadata_path: PathBuf, data_path: PathBuf) -> Result<Self, InnerError> {
-        let coalesce_notify = Arc::new(Notify::new());
         let secret_tracker = Arc::new(RwLock::new(SecretTracker::new(
             metadata_path.clone(),
             data_path.clone(),
-            coalesce_notify.clone(),
         )?));
+        secret_tracker.write().unwrap().start_coalesce_task(secret_tracker.clone());
         let secret_tracker_c1 = secret_tracker.clone();
         let secret_tracker_c2 = secret_tracker.clone();
         let data_path_c1 = data_path.clone();
@@ -228,24 +190,10 @@ impl Secrets {
                 }
             })?;
 
-        // Spawn the coalescing task that flushes pending notifications.
-        let secret_tracker_c3 = secret_tracker.clone();
-        let coalesce_task = tokio::task::spawn(async move {
-            loop {
-                coalesce_notify.notified().await;
-                tokio::time::sleep(COALESCE_WINDOW).await;
-                let tracker = secret_tracker_c3.read().unwrap();
-                for entry in tracker.by_alias.values() {
-                    entry.notifier.flush();
-                }
-            }
-        });
-
         Ok(Self {
             file_watchers: Arc::new(Watchers {
                 _metadata_debouncer: metadata_debouncer,
                 _data_debouncer: data_debouncer,
-                _coalesce_task: coalesce_task,
             }),
             secret_tracker,
         })
@@ -260,7 +208,7 @@ impl Secrets {
             .map(|entry| Secret {
                 alias: alias.to_string(),
                 path: entry.path.clone(),
-                update_rx: entry.notifier.subscribe(),
+                update_rx: entry.sender.subscribe(),
                 _file_watchers: self.file_watchers.clone(),
             })
     }
@@ -349,7 +297,8 @@ impl Secret {
 /// This corresponds 1:1 with an alias.
 struct SecretTrackerEntry {
     path: Arc<RwLock<PathBuf>>,
-    notifier: CoalescingNotifier,
+    sender: watch::Sender<()>,
+    pending_signal: AtomicBool,
 }
 
 struct SecretTracker {
@@ -361,10 +310,12 @@ struct SecretTracker {
     by_path: HashMap<PathBuf, Vec<Arc<SecretTrackerEntry>>>,
     /// Shared notify used to wake the coalescing task when any entry is signaled.
     coalesce_notify: Arc<Notify>,
+    /// Handle to the coalescing background task. Aborted when the tracker is dropped.
+    _coalesce_task: Option<AbortOnDropHandle<()>>,
 }
 
 impl SecretTracker {
-    fn new(metadata_path: PathBuf, data_path: PathBuf, coalesce_notify: Arc<Notify>) -> Result<Self, InnerError> {
+    fn new(metadata_path: PathBuf, data_path: PathBuf) -> Result<Self, InnerError> {
         let mut by_alias = HashMap::new();
         let mut by_path = HashMap::new();
 
@@ -381,10 +332,11 @@ impl SecretTracker {
                     .into_string()
                     .map_err(|_| InnerError::Invalid)?;
                 let secret_file = data_path.join(std::fs::read_to_string(entry.path())?);
-                let (notifier, _rx) = CoalescingNotifier::new();
+                let (sender, _rx) = watch::channel(());
                 let entry = Arc::new(SecretTrackerEntry {
                     path: Arc::new(RwLock::new(secret_file.clone())),
-                    notifier,
+                    sender,
+                    pending_signal: AtomicBool::new(false),
                 });
                 by_alias.insert(secret_alias, entry.clone());
                 by_path
@@ -397,7 +349,12 @@ impl SecretTracker {
         // NOTE: There may be secret data files currently unused if no alias points at them.
         // This is not supposed to happen, but it's not an issue if it does.
 
-        Ok(Self { by_alias, by_path, coalesce_notify })
+        Ok(Self {
+            by_alias,
+            by_path,
+            coalesce_notify: Arc::new(Notify::new()),
+            _coalesce_task: None,
+        })
     }
 
     /// Return an Arc reference to the SecretTrackerEntry corresponding to the given alias, if it exists.
@@ -436,8 +393,7 @@ impl SecretTracker {
 
             // Signal that the secret has been updated. The coalescing task will
             // flush this into an actual notification after the coalesce window.
-            entry.notifier.signal();
-            self.coalesce_notify.notify_one();
+            self.signal_entry(entry);
             Ok(())
         } else {
             // Alias was invalid
@@ -455,9 +411,8 @@ impl SecretTracker {
             // We do not care about send errors here - they just mean nobody is currently
             // monitoring the secret, which is fine.
             for entry in entries {
-                entry.notifier.signal();
+                self.signal_entry(entry);
             }
-            self.coalesce_notify.notify_one();
         } else {
             log::debug!("Secret changed with no affiliated aliases for path {path:?}");
         }
@@ -466,6 +421,38 @@ impl SecretTracker {
     // TODO: what about cleanup/deletion?
 
     // TODO: clones, drops, cancel safety.
+}
+
+// Internal helpers — used by the coalescing mechanism
+// Do not use outside of the SecretTracker implementation.
+impl SecretTracker {
+    /// Spawn the coalescing background task. Must be called after the tracker
+    /// is wrapped in `Arc<RwLock<>>` since the task needs a reference back.
+    fn start_coalesce_task(&mut self, tracker: Arc<RwLock<Self>>) {
+        let notify = self.coalesce_notify.clone();
+        self._coalesce_task = Some(AbortOnDropHandle::new(tokio::task::spawn(async move {
+            loop {
+                notify.notified().await;
+                tokio::time::sleep(COALESCE_WINDOW).await;
+                tracker.read().unwrap().flush_pending();
+            }
+        })));
+    }
+
+    /// Mark a single entry as having a pending notification and wake the coalescing task.
+    fn signal_entry(&self, entry: &SecretTrackerEntry) {
+        entry.pending_signal.store(true, Ordering::Release);
+        self.coalesce_notify.notify_one();
+    }
+
+    /// Flush all pending signals into actual watch notifications.
+    fn flush_pending(&self) {
+        for entry in self.by_alias.values() {
+            if entry.pending_signal.swap(false, Ordering::AcqRel) {
+                let _ = entry.sender.send(());
+            }
+        }
+    }
 }
 
 #[cfg(test)]
