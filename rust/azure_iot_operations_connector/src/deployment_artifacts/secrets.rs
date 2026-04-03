@@ -52,7 +52,7 @@ struct Watchers {
 #[derive(Clone)]
 pub struct Secrets {
     file_watchers: Arc<Watchers>,
-    secret_tracker: Arc<RwLock<SecretTracker>>,
+    secret_tracker: SecretTracker,
 }
 
 // If we only map alias to sender, then how can we report secret updates? Without storing context, no way to know
@@ -67,11 +67,10 @@ impl Secrets {
     }
 
     fn new_inner(metadata_path: PathBuf, data_path: PathBuf) -> Result<Self, InnerError> {
-        let secret_tracker = Arc::new(RwLock::new(SecretTracker::new(
+        let secret_tracker = SecretTracker::new(
             metadata_path.clone(),
             data_path.clone(),
-        )?));
-        secret_tracker.write().unwrap().start_coalesce_task(secret_tracker.clone());
+        )?;
         let secret_tracker_c1 = secret_tracker.clone();
         let secret_tracker_c2 = secret_tracker.clone();
         let data_path_c1 = data_path.clone();
@@ -123,8 +122,6 @@ impl Secrets {
 
                                     // Update the secret tracker for the new secret path
                                     if let Err(_) = secret_tracker_c1
-                                        .write()
-                                        .unwrap()
                                         .update_secret_path(alias, secret_pathbuf)
                                     {
                                         // NOTE: This should not happen, violation of expected file mount structure
@@ -160,8 +157,6 @@ impl Secrets {
                                 ProjectedVolumeEventKind::FileModified => {
                                     log::trace!("Secret data change detected: {:?}", event);
                                     secret_tracker_c2
-                                        .read()
-                                        .unwrap()
                                         .report_secret_change(&event.path);
                                 }
                                 // Secret files can be created, but we don't need to do anything
@@ -169,8 +164,6 @@ impl Secrets {
                                 ProjectedVolumeEventKind::FileCreated => {
                                     log::trace!("Secret data creation detected: {:?}", event);
                                     secret_tracker_c2
-                                        .read()
-                                        .unwrap()
                                         .report_secret_change(&event.path);
                                 }
                                 // Secret files can be deleted, but there's no need for anything
@@ -202,8 +195,6 @@ impl Secrets {
     /// Get a Secret corresponding to the given secret alias, if it exists.
     pub fn get_secret(&self, alias: &str) -> Option<Secret> {
         self.secret_tracker
-            .read()
-            .unwrap()
             .get_entry_by_alias(alias)
             .map(|entry| Secret {
                 alias: alias.to_string(),
@@ -227,7 +218,6 @@ pub struct Secret {
 }
 
 impl Secret {
-    // CONSIDER: perhaps add path as well?
 
     /// Returns the alias of the secret
     pub fn alias(&self) -> &str {
@@ -301,7 +291,50 @@ struct SecretTrackerEntry {
     pending_signal: AtomicBool,
 }
 
+/// Handle for tracking secrets. Encapsulates locking and the coalescing background task.
+/// Cheap to clone (just Arc clones).
+#[derive(Clone)]
 struct SecretTracker {
+    state: Arc<RwLock<SecretTrackerState>>,
+    _coalesce_task: Arc<AbortOnDropHandle<()>>,
+}
+
+impl SecretTracker {
+    fn new(metadata_path: PathBuf, data_path: PathBuf) -> Result<Self, InnerError> {
+        let state = Arc::new(RwLock::new(SecretTrackerState::new(
+            metadata_path, data_path,
+        )?));
+
+        let notify = state.read().unwrap().coalesce_notify.clone();
+        let state_clone = state.clone();
+        let coalesce_task = Arc::new(AbortOnDropHandle::new(tokio::task::spawn(async move {
+            loop {
+                notify.notified().await;
+                tokio::time::sleep(COALESCE_WINDOW).await;
+                state_clone.read().unwrap().flush_pending();
+            }
+        })));
+
+        Ok(Self {
+            state,
+            _coalesce_task: coalesce_task,
+        })
+    }
+
+    fn get_entry_by_alias(&self, alias: &str) -> Option<Arc<SecretTrackerEntry>> {
+        self.state.read().unwrap().by_alias.get(alias).cloned()
+    }
+
+    fn update_secret_path(&self, alias: &str, new_path: PathBuf) -> Result<(), InnerError> {
+        self.state.write().unwrap().update_secret_path(alias, new_path)
+    }
+
+    fn report_secret_change(&self, path: &Path) {
+        self.state.read().unwrap().report_secret_change(path);
+    }
+}
+
+struct SecretTrackerState {
     by_alias: HashMap<String, Arc<SecretTrackerEntry>>,
     /// Mapping of secret data paths to the SecretTrackerEntry(s) that point at them.
     /// This is a one to many relationship because multiple aliases can point at the same secret data.
@@ -310,11 +343,9 @@ struct SecretTracker {
     by_path: HashMap<PathBuf, Vec<Arc<SecretTrackerEntry>>>,
     /// Shared notify used to wake the coalescing task when any entry is signaled.
     coalesce_notify: Arc<Notify>,
-    /// Handle to the coalescing background task. Aborted when the tracker is dropped.
-    _coalesce_task: Option<AbortOnDropHandle<()>>,
 }
 
-impl SecretTracker {
+impl SecretTrackerState {
     fn new(metadata_path: PathBuf, data_path: PathBuf) -> Result<Self, InnerError> {
         let mut by_alias = HashMap::new();
         let mut by_path = HashMap::new();
@@ -353,13 +384,7 @@ impl SecretTracker {
             by_alias,
             by_path,
             coalesce_notify: Arc::new(Notify::new()),
-            _coalesce_task: None,
         })
-    }
-
-    /// Return an Arc reference to the SecretTrackerEntry corresponding to the given alias, if it exists.
-    fn get_entry_by_alias(&self, alias: &str) -> Option<Arc<SecretTrackerEntry>> {
-        self.by_alias.get(alias).cloned()
     }
 
     /// Update the path of the secret corresponding to the given alias, and notify of the update
@@ -424,21 +449,7 @@ impl SecretTracker {
 }
 
 // Internal helpers — used by the coalescing mechanism
-// Do not use outside of the SecretTracker implementation.
-impl SecretTracker {
-    /// Spawn the coalescing background task. Must be called after the tracker
-    /// is wrapped in `Arc<RwLock<>>` since the task needs a reference back.
-    fn start_coalesce_task(&mut self, tracker: Arc<RwLock<Self>>) {
-        let notify = self.coalesce_notify.clone();
-        self._coalesce_task = Some(AbortOnDropHandle::new(tokio::task::spawn(async move {
-            loop {
-                notify.notified().await;
-                tokio::time::sleep(COALESCE_WINDOW).await;
-                tracker.read().unwrap().flush_pending();
-            }
-        })));
-    }
-
+impl SecretTrackerState {
     /// Mark a single entry as having a pending notification and wake the coalescing task.
     fn signal_entry(&self, entry: &SecretTrackerEntry) {
         entry.pending_signal.store(true, Ordering::Release);
