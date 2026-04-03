@@ -486,6 +486,7 @@ mod tests {
 
     // Worst case: DEBOUNCE_WINDOW + TICK_RATE (jitter) + COALESCE_WINDOW + margin.
     // Expressed as the sum of the components with an extra TICK_RATE for safety.
+    // Use this value for timeouts or manual waits when waiting for updates to Secrets.
     const UPDATE_WINDOW: Duration = Duration::from_millis(
         DEBOUNCE_WINDOW.as_millis() as u64
             + TICK_RATE.as_millis() as u64
@@ -1898,8 +1899,104 @@ mod tests {
     //     }
     // );
 
-    // TODO: What about showing that updates get reported after remap?
-    // TODO: clones
+    // Tests that multiple Secret handles with the same alias all receive notifications and see
+    // updated data
+    secret_test!(
+        async duplicate_secrets_receive_notifications, |mount_manager| {
+            let test_case = &*TEST_CASE_SIMPLE;
+            let target_alias = ALIAS_1;
+
+            // SETUP --------------------------------------------------------------------
+
+            test_case.initialize_mount_manager(&mount_manager);
+
+            // Create the Secrets struct
+            let secrets = Secrets::new(
+                mount_manager.metadata_path().to_path_buf(),
+                mount_manager.data_path().to_path_buf(),
+            )
+            .expect("Failed to create Secrets struct");
+            
+            // Create three secrets with the same alias
+            let mut target_secrets = vec![
+                secrets.get_secret(target_alias).expect("Failed to get secret"),
+                secrets.get_secret(target_alias).expect("Failed to get secret"),
+                secrets.get_secret(target_alias).expect("Failed to get secret"),
+            ];
+            target_secrets.push(target_secrets[0].clone());
+            target_secrets.push(target_secrets[1].clone());
+
+
+            // Secret is available immediately and have the exepected initial data
+            assert_secrets_have_initial_data_now(&mut target_secrets, &test_case);
+
+            // END SETUP ----------------------------------------------------------------
+
+            let target_change_notifications = tokio::task::spawn(all_secrets_get_changed_notification(target_secrets.clone()));
+
+            // Update secret data in place
+            let target_refky = test_case.initial_ref_key_for_alias(target_alias);
+            mount_manager.stage_secret_data_modify(target_refky.0, target_refky.1, NEW_DATA);
+            mount_manager.execute_update_data();
+
+            // All three handles should receive change notifications and see the updated data
+            tokio::time::timeout(UPDATE_WINDOW, target_change_notifications)
+                .await
+                .expect("Timed out waiting for secret change notifications")
+                .expect("Secret change notification task panicked");
+
+            assert_secrets_have_expected_data_now(&mut target_secrets, NEW_DATA);
+        }
+    );
+
+    // Tests that clones of a Secret handle receive the same notifications as the original.
+    secret_test!(
+        async cloned_secrets_receive_notifications, | mount_manager| {
+            let test_case = &*TEST_CASE_SIMPLE;
+            let target_alias = ALIAS_1;
+
+            // SETUP --------------------------------------------------------------------
+
+            test_case.initialize_mount_manager(&mount_manager);
+
+            // Create the Secrets struct
+            let secrets = Secrets::new(
+                mount_manager.metadata_path().to_path_buf(),
+                mount_manager.data_path().to_path_buf(),
+            )
+            .expect("Failed to create Secrets struct");
+            let mut original_secret = secrets.get_secret(target_alias).expect("Failed to get secret");
+            let mut cloned_secret = original_secret.clone();
+
+            // Secret is available immediately and have the exepected initial data
+            assert_secret_has_initial_data_now(&mut original_secret, &test_case);
+            assert_secret_has_initial_data_now(&mut cloned_secret, test_case);
+
+            // END SETUP ----------------------------------------------------------------
+
+            // NOTE: Avoid using any test infra that requires the use of .clone() so as not to create
+            // confounds. This makes this test use a bit of a different pattern than most others.
+
+            // Update secret data in place
+            let target_refky = test_case.initial_ref_key_for_alias(target_alias);
+            mount_manager.stage_secret_data_modify(target_refky.0, target_refky.1, NEW_DATA);
+            mount_manager.execute_update_data();
+
+            // Wait for the change notification to be delivered to the original secret and verify
+            // the new data is available and the expected value.
+            let original_change_f = original_secret.changed();
+            tokio::time::timeout(UPDATE_WINDOW, original_change_f)
+                .await
+                .expect("Timed out waiting for original secret change notification");
+            assert_secret_has_expected_data_now(&mut original_secret, NEW_DATA);
+
+            // At the same time, the clone should also have it's notification immediately available
+            // with the same data.
+            cloned_secret.changed().now_or_never()
+                .expect("Cloned secret change notification not immediately available after original secret received notification");
+            assert_secret_has_expected_data_now(&mut cloned_secret, NEW_DATA);
+        }
+    );
 
     secret_test!(
         async secret_survives_secrets_drop, |mount_manager| {
@@ -1952,5 +2049,8 @@ mod tests {
 
         }
     );
+
+        // TODO: What about showing that updates get reported after remap?
+    // TODO: clones copy state
 
 }
