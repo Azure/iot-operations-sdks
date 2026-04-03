@@ -33,7 +33,7 @@ With this approach, we can write integration tests for the preview feature while
 
 With the above proposal, we would need to do the following things:
 
-1) Edit the https://github.com/Azure/iot-operations-sdks-action repo such that we can pass in arbitrary version numbers for MQ + Akri to deploy. This allows each service feature branch to test a unique set of service bits (which may be necessary if the service is developing multiple features in parallel)
+1) Edit the https://github.com/Azure/iot-operations-sdks-action repo such that we can pass in arbitrary version numbers for MQTT + Akri to deploy. This allows each service feature branch to test a unique set of service bits (which may be necessary if the service is developing multiple features in parallel)
 2) Edit the branch protection rules as discussed above
 
 ## Other approaches considered
