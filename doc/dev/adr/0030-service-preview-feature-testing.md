@@ -22,7 +22,7 @@ vs
 feature/mqttNetRefactor
 ```
 
-With this, we can setup our github branch protection rules differently for these types of feature branches. We will enforce that:
+With this, we can set up our GitHub branch protection rules differently for these types of feature branches. We will enforce that:
 
  - serviceFeature/* branches will run integration tests against preview versions of the broker + akri 
  - feature/* branches will run integration tests against stable versions of the broker + akri 
