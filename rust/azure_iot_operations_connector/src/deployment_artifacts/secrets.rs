@@ -218,7 +218,6 @@ pub struct Secret {
 }
 
 impl Secret {
-
     /// Returns the alias of the secret
     pub fn alias(&self) -> &str {
         &self.alias
@@ -292,7 +291,7 @@ struct SecretTrackerEntry {
 }
 
 /// Handle for tracking secrets. Encapsulates locking and the coalescing background task.
-/// Cheap to clone (just Arc clones).
+/// Clones share a state.
 #[derive(Clone)]
 struct SecretTracker {
     state: Arc<RwLock<SecretTrackerState>>,
@@ -446,15 +445,6 @@ impl SecretTrackerState {
     // TODO: what about cleanup/deletion?
 
     // TODO: clones, drops, cancel safety.
-}
-
-// Internal helpers — used by the coalescing mechanism
-impl SecretTrackerState {
-    /// Mark a single entry as having a pending notification and wake the coalescing task.
-    fn signal_entry(&self, entry: &SecretTrackerEntry) {
-        entry.pending_signal.store(true, Ordering::Release);
-        self.coalesce_notify.notify_one();
-    }
 
     /// Flush all pending signals into actual watch notifications.
     fn flush_pending(&self) {
@@ -463,6 +453,16 @@ impl SecretTrackerState {
                 let _ = entry.sender.send(());
             }
         }
+    }
+}
+
+// Internal helpers — used by the coalescing mechanism
+// Do not invoke these methods from outside of SecretTrackerState
+impl SecretTrackerState {
+    /// Mark a single entry as having a pending notification and wake the coalescing task.
+    fn signal_entry(&self, entry: &SecretTrackerEntry) {
+        entry.pending_signal.store(true, Ordering::Release);
+        self.coalesce_notify.notify_one();
     }
 }
 
