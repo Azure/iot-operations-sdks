@@ -14,7 +14,7 @@ Within a feature branch for a preview service feature, each language's CI pipeli
 
 With this approach, we can write integration tests for the preview feature while still testing more stable bits in main and other feature branches.
 
-The only callout here is that we don't want to merge the feature branch into main while the feature branch targets a preview MQTT broker or Akri version. So a new pre-requisite to merge to main should be to merge a change to the feature branch to make it target a stable version of the MQTT broker and Akri. This has an added benefit of making us stay up to date with MQTT broker + Akri versions which we have not been doing so far.
+The only callout here is that we don't want to merge the feature branch into main while the feature branch targets a preview MQTT broker or Akri version. So a new pre-requisite to merge to main should be to update the feature branch to target a stable version of the MQTT broker and Akri. This has an added benefit of making us stay up to date with MQTT broker + Akri versions which we have not been doing so far.
 
 ## Consequences
 
