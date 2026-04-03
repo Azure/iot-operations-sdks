@@ -10,31 +10,17 @@ Lately, we have been discussing how these SDK RC bits end up in shipped connecto
 
 ## Decision
 
-From a branch management side, we should start distinguishing feature branches between those that are for upcoming service features vs those that are not such as:
-
-```
-serviceFeature/akriHealthStatusReporting
-```
-
-vs
-
-```
-feature/mqttNetRefactor
-```
-
-With this, we can set up our GitHub branch protection rules differently for these types of feature branches. We will enforce that:
-
- - serviceFeature/* branches will run integration tests against preview versions of the broker + Akri
- - feature/* branches will run integration tests against stable versions of the broker + Akri
+Within a feature branch, each language's CI pipeline should target a version of the MQTT broker and Akri that contain this preview service feature. This is done [here](https://github.com/Azure/iot-operations-sdks/blob/ad91f6392e1003f9b183333fd28ec5227a5fe65a/.github/actions/configure-aio/action.yml#L56).
 
 With this approach, we can write integration tests for the preview feature while still testing more stable bits in main and other feature branches.
+
+The only callout here is that we don't want to merge the feature branch into main while the feature branch targets a preview Mqtt broker or Akri version. So a new pre-requisite to merge to main should be to merge a change to the feature branch to make it target a stable version of the Mqtt broker + Akri. This has an added benefit of making us stay up to date with MQTT broker + Akri versions which we have not been doing so far.
 
 ## Consequences
 
 With the above proposal, we would need to do the following things:
 
 1) Edit the https://github.com/Azure/iot-operations-sdks-action repo such that we can pass in arbitrary version numbers for MQTT + Akri to deploy. This allows each service feature branch to test a unique set of service bits (which may be necessary if the service is developing multiple features in parallel)
-2) Edit the branch protection rules as discussed above
 
 ## Other approaches considered
 
