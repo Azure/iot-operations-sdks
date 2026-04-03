@@ -4,7 +4,7 @@
 
 Often when a service feature is first introduced (like health status reporting APIs in the Akri service), we on the SDK team implement the SDK side of that feature in a feature branch and do an RC release from that branch. We do this so that partner teams can try out the service feature using our SDK before the service formally releases the feature.
 
-Currently, this repo only deploys old versions of the MQ broker + Akri service at the gate, so our automated tests cannot include testing preview service features. 
+Currently, this repo only deploys old versions of the MQTT broker + Akri service at the gate, so our automated tests cannot include testing preview service features. 
 
 Lately, we have been discussing how these SDK RC bits end up in shipped connectors, so we need to test these RC bits and their associated service features the same way we test non-preview features in main. This would ensure that any shipped RC versions are compatible with the preview service feature.
 
