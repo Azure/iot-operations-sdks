@@ -642,11 +642,13 @@ mod tests {
 
         /// Timeout for waiting for events to arrive. Must be comfortably longer
         /// than `DEBOUNCE_WINDOW` to account for the tick rate and thread scheduling.
-        const EVENT_TIMEOUT: Duration = Duration::from_millis(DEBOUNCE_WINDOW.as_millis() as u64 * 3);
+        const EVENT_TIMEOUT: Duration =
+            Duration::from_millis(DEBOUNCE_WINDOW.as_millis() as u64 * 3);
 
         /// Timeout for asserting no events arrived. Longer than [`EVENT_TIMEOUT`]
         /// to reduce the risk of false passes.
-        const EMPTY_TIMEOUT: Duration = Duration::from_millis(DEBOUNCE_WINDOW.as_millis() as u64 * 5);
+        const EMPTY_TIMEOUT: Duration =
+            Duration::from_millis(DEBOUNCE_WINDOW.as_millis() as u64 * 5);
 
         /// Collector for debouncer events, using a condvar to allow tests to wait
         /// for results with a timeout.
