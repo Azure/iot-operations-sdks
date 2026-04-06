@@ -143,7 +143,7 @@ impl ConnectorArtifacts {
             )
             .map(|(metadata_path, secrets_path)| Secrets::new(metadata_path, secrets_path))
             .transpose()
-            .map_err(|e| DeploymentArtifactErrorRepr::SecretsError(e))?;
+            .map_err(DeploymentArtifactErrorRepr::SecretsError)?;
 
         // Connector Trust Settings Mount Path
         let connector_trust_settings_mount =

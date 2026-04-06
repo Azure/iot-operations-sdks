@@ -589,14 +589,14 @@ mod tests {
     }
 
     mod symlink_swap_time {
-        use std::f32::consts::E;
+        
 
         use super::*;
         use notify::event::EventAttributes;
 
         #[test]
         fn detects_data_rename() {
-            use notify::Event;
+            
 
             let expected_time = Instant::now();
             let event = DebouncedEvent {

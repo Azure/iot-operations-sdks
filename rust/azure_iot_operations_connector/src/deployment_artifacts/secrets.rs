@@ -65,8 +65,8 @@ pub struct Secrets {
 // which Secret to transmit to.
 
 impl Secrets {
-    /// - metadata_path: path the Secret Metadata mount is located at
-    /// - data_path: path the Secret Data mount is located at
+    /// - `metadata_path`: path the Secret Metadata mount is located at
+    /// - `data_path`: path the Secret Data mount is located at
     /// Fails if paths are invalid
     pub(crate) fn new(metadata_path: PathBuf, data_path: PathBuf) -> Result<Self, Error> {
         Self::new_inner(metadata_path, data_path).map_err(Into::into)
@@ -89,7 +89,7 @@ impl Secrets {
                                 // Handle updates to existing aliases
                                 // (i.e. secret alias now points to a different secret)
                                 ProjectedVolumeEventKind::FileModified => {
-                                    log::trace!("Secret metadata change detected: {:?}", event);
+                                    log::trace!("Secret metadata change detected: {event:?}");
                                     // Alias is the filename.
                                     let Some(file_name) = event.path.file_name() else {
                                         // NOTE: This should not happen, violation of expected file mount structure.
@@ -102,8 +102,7 @@ impl Secrets {
                                     let Some(alias) = file_name.to_str() else {
                                         // NOTE: This should not happen, violation of expected file mount structure.
                                         log::error!(
-                                            "Failed to convert file name to str: {:?}",
-                                            file_name
+                                            "Failed to convert file name to str: {file_name:?}"
                                         );
                                         continue;
                                     };
@@ -124,8 +123,7 @@ impl Secrets {
                                         };
 
                                     // Update the secret tracker for the new secret path
-                                    if let Err(_) =
-                                        secret_tracker_c1.update_secret_path(alias, secret_pathbuf)
+                                    if secret_tracker_c1.update_secret_path(alias, secret_pathbuf).is_err()
                                     {
                                         // NOTE: This should not happen, violation of expected file mount structure
                                         log::error!(
@@ -158,20 +156,20 @@ impl Secrets {
                             match event.kind {
                                 // Handle updates to existing secret data.
                                 ProjectedVolumeEventKind::FileModified => {
-                                    log::trace!("Secret data change detected: {:?}", event);
+                                    log::trace!("Secret data change detected: {event:?}");
                                     secret_tracker_c2.report_secret_change(&event.path);
                                 }
                                 // Secret files can be created, but we don't need to do anything
                                 // with them until an alias points at them, so log and report.
                                 ProjectedVolumeEventKind::FileCreated => {
-                                    log::trace!("Secret data creation detected: {:?}", event);
+                                    log::trace!("Secret data creation detected: {event:?}");
                                     secret_tracker_c2.report_secret_change(&event.path);
                                 }
                                 // Secret files can be deleted, but there's no need for anything
                                 // to be done in response, since the Secret interface will handle
                                 // the file no longer existing. Log only.
                                 ProjectedVolumeEventKind::FileRemoved => {
-                                    log::trace!("Secret data removal detected: {:?}", event);
+                                    log::trace!("Secret data removal detected: {event:?}");
                                 }
                                 // Directory events can be ignored
                                 _ => {}
@@ -194,6 +192,7 @@ impl Secrets {
     }
 
     /// Get a Secret corresponding to the given secret alias, if it exists.
+    #[must_use] 
     pub fn get_secret(&self, alias: &str) -> Option<Secret> {
         self.secret_tracker
             .get_entry_by_alias(alias)
@@ -213,7 +212,7 @@ impl Secrets {
 ///
 /// Note that cloning a Secret creates a new handle to the same underlying secret, and retains any
 /// pending 'changed' notifications. To get a handle without any pending notifications,
-/// use Secrets::get_secret again to get a new handle.
+/// use `Secrets::get_secret` again to get a new handle.
 #[derive(Clone)]
 pub struct Secret {
     alias: String,
@@ -224,6 +223,7 @@ pub struct Secret {
 
 impl Secret {
     /// Returns the alias of the secret
+    #[must_use] 
     pub fn alias(&self) -> &str {
         &self.alias
     }
@@ -241,13 +241,13 @@ impl Secret {
             // or keep waiting for additional updates.
             if self.path.read().unwrap().exists() {
                 break;
-            } else {
-                continue;
-            };
+            }
+            continue;;
         }
     }
 
     /// Indicates if the secret is currently available for retrieval.
+    #[must_use] 
     pub fn is_available(&self) -> bool {
         self.path.read().unwrap().exists()
     }
@@ -420,7 +420,7 @@ impl SecretTrackerState {
             // Finally, add an entry in the by_path map for the new path.
             self.by_path
                 .entry(new_path)
-                .or_insert_with(Vec::new)
+                .or_default()
                 .push(entry.clone());
 
             // Signal that the secret has been updated. The coalescing task will
@@ -538,7 +538,7 @@ mod tests {
     struct StandardSecretMountManager {
         metadata_mount: Arc<TempProjectedVolume>,
         data_mount: Arc<TempProjectedVolume>,
-        /// Tracks which secret_ref directories have been created in the data mount.
+        /// Tracks which `secret_ref` directories have been created in the data mount.
         data_dirs: Arc<RefCell<HashSet<String>>>,
     }
 
@@ -786,7 +786,7 @@ mod tests {
         }
 
         fn initial_aliases(&self) -> Vec<&'static str> {
-            self.initial_alias_map.keys().cloned().collect()
+            self.initial_alias_map.keys().copied().collect()
         }
 
         fn initial_data_for_alias(&self, alias: &str) -> &'static str {
@@ -822,7 +822,7 @@ mod tests {
             ]),
         });
 
-    /// Test case where two aliases (ALIAS_1 and ALIAS_2) share the same secret ref but have
+    /// Test case where two aliases (`ALIAS_1` and `ALIAS_2`) share the same secret ref but have
     /// different secret keys (and therefore, different data).
     static TEST_CASE_SHARED_REF: LazyLock<SecretTestCase> = LazyLock::new(|| SecretTestCase {
         initial_data: HashMap::from([
@@ -837,7 +837,7 @@ mod tests {
         ]),
     });
 
-    /// Test case where two aliases (ALIAS_1 and ALIAS_2) share the same secret key but have
+    /// Test case where two aliases (`ALIAS_1` and `ALIAS_2`) share the same secret key but have
     /// different secret refs (and therefore, different data).
     static TEST_CASE_SHARED_KEY: LazyLock<SecretTestCase> = LazyLock::new(|| SecretTestCase {
         initial_data: HashMap::from([
@@ -852,7 +852,7 @@ mod tests {
         ]),
     });
 
-    /// Test case where two aliases (ALIAS_1 and ALIAS_2) share the same secret key and secret ref
+    /// Test case where two aliases (`ALIAS_1` and `ALIAS_2`) share the same secret key and secret ref
     /// and therefore share the same secret data.
     static TEST_CASE_SHARED_REF_AND_KEY: LazyLock<SecretTestCase> =
         LazyLock::new(|| SecretTestCase {
@@ -970,7 +970,7 @@ mod tests {
         )
         .unwrap();
         let secret = secrets.get_secret(ALIAS_1).unwrap();
-        assert_eq!(secret.alias(), ALIAS_1)
+        assert_eq!(secret.alias(), ALIAS_1);
     });
 
     // Tests that a secret can have its value modified in place when the underlying secret data file is modified,
@@ -1647,7 +1647,7 @@ mod tests {
             let target_secret_initial_refky = test_case.initial_ref_key_for_alias(target_alias);
 
             // Secret is available immediately and have the exepected initial data
-            assert_secret_has_initial_data_now(&mut target_secret, &test_case);
+            assert_secret_has_initial_data_now(&mut target_secret, test_case);
 
             // END SETUP ----------------------------------------------------------------
 
@@ -1890,7 +1890,7 @@ mod tests {
 
 
             // Secret is available immediately and have the exepected initial data
-            assert_secrets_have_initial_data_now(&mut target_secrets, &test_case);
+            assert_secrets_have_initial_data_now(&mut target_secrets, test_case);
 
             // END SETUP ----------------------------------------------------------------
 
@@ -1931,7 +1931,7 @@ mod tests {
             let mut cloned_secret = original_secret.clone();
 
             // Secret is available immediately and have the exepected initial data
-            assert_secret_has_initial_data_now(&mut original_secret, &test_case);
+            assert_secret_has_initial_data_now(&mut original_secret, test_case);
             assert_secret_has_initial_data_now(&mut cloned_secret, test_case);
 
             // END SETUP ----------------------------------------------------------------
@@ -2054,7 +2054,7 @@ mod tests {
             let mut target_secret = secrets.get_secret(target_alias).expect("Failed to get secret");
 
             // Secret is available immediately and have the exepected initial data
-            assert_secret_has_initial_data_now(&mut target_secret, &test_case);
+            assert_secret_has_initial_data_now(&mut target_secret, test_case);
 
             // END SETUP ----------------------------------------------------------------
 
