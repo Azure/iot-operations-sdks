@@ -43,6 +43,7 @@ enum InnerError {
 /// debouncers fire at slightly different times for the same logical update.
 /// Set to 2x the debouncer tick rate to guarantee both debouncer callbacks
 /// are absorbed into a single notification.
+#[allow(clippy::cast_possible_truncation)] // PVDB_TICK_RATE should be always small enough for u64
 const COALESCE_WINDOW: Duration = Duration::from_millis(PVDB_TICK_RATE.as_millis() as u64 * 2);
 
 /// Holds the file watchers (debouncers) that must remain alive as long as any
@@ -65,15 +66,17 @@ pub struct Secrets {
 // which Secret to transmit to.
 
 impl Secrets {
+    /// # Arguments
     /// - `metadata_path`: path the Secret Metadata mount is located at
     /// - `data_path`: path the Secret Data mount is located at
+    /// 
     /// Fails if paths are invalid
     pub(crate) fn new(metadata_path: PathBuf, data_path: PathBuf) -> Result<Self, Error> {
         Self::new_inner(metadata_path, data_path).map_err(Into::into)
     }
 
     fn new_inner(metadata_path: PathBuf, data_path: PathBuf) -> Result<Self, InnerError> {
-        let secret_tracker = SecretTracker::new(metadata_path.clone(), data_path.clone())?;
+        let secret_tracker = SecretTracker::new(&metadata_path, &data_path)?;
         let secret_tracker_c1 = secret_tracker.clone();
         let secret_tracker_c2 = secret_tracker.clone();
         let data_path_c1 = data_path.clone();
@@ -94,15 +97,16 @@ impl Secrets {
                                     let Some(file_name) = event.path.file_name() else {
                                         // NOTE: This should not happen, violation of expected file mount structure.
                                         log::error!(
-                                            "Failed to get file name from path: {:?}",
-                                            event.path
+                                            "Failed to get file name from path: {}",
+                                            event.path.display()
                                         );
                                         continue;
                                     };
                                     let Some(alias) = file_name.to_str() else {
                                         // NOTE: This should not happen, violation of expected file mount structure.
                                         log::error!(
-                                            "Failed to convert file name to str: {file_name:?}"
+                                            "Failed to convert file name to str: {}",
+                                            file_name.display()
                                         );
                                         continue;
                                     };
@@ -115,8 +119,8 @@ impl Secrets {
                                             Err(e) => {
                                                 // NOTE: This should not happen, as alias files should not be added or removed dynamically.
                                                 log::error!(
-                                                    "Failed to read secret alias file {:?}: {e:?}",
-                                                    event.path
+                                                    "Failed to read secret alias file {}: {e:?}",
+                                                    event.path.display()
                                                 );
                                                 continue;
                                             }
@@ -129,7 +133,6 @@ impl Secrets {
                                         log::error!(
                                             "Attempted to update untracked secret alias: {alias}"
                                         );
-                                        continue;
                                     }
                                 }
                                 // Alias files are not supposed to be able to be added or removed dynamically,
@@ -233,31 +236,31 @@ impl Secret {
     pub async fn changed(&mut self) {
         loop {
             // Wait for an update
-            self.update_rx
-                .changed()
-                .await
-                .expect("Secret update channel closed unexpectedly"); // Impossible - channel is maintained in the debouncers in _file_watchers
+            let Ok(()) = self.update_rx.changed().await else {
+                unreachable!("Secret update channel closed unexpectedly — channel is maintained by _file_watchers");
+            };
             // After being notified of an update, make sure the updated secret exists,
             // or keep waiting for additional updates.
-            if self.path.read().unwrap().exists() {
+            if self.path.read().unwrap_or_else(|e| unreachable!("RwLock poisoned: {e}")).exists() {
                 break;
             }
-            continue;;
         }
     }
 
     /// Indicates if the secret is currently available for retrieval.
     #[must_use] 
     pub fn is_available(&self) -> bool {
-        self.path.read().unwrap().exists()
+        self.path.read().unwrap_or_else(|e| unreachable!("RwLock poisoned: {e}")).exists()
     }
 
     /// Attempt to read the value of the secret if it is currently available.
     /// Returns Ok(Some(value)) if the secret is available
     /// Returns Ok(None) if the secret is not currently available
+    ///
+    /// # Errors
     /// Returns Err if an error occurs while trying to read the secret.
     pub fn value_if_available(&mut self) -> Result<Option<String>, Error> {
-        let path = self.path.read().unwrap();
+        let path = self.path.read().unwrap_or_else(|e| unreachable!("RwLock poisoned: {e}"));
         if path.exists() {
             // Mark the secret as unchanged since we are reading its current value
             self.update_rx.mark_unchanged();
@@ -271,6 +274,8 @@ impl Secret {
 
     /// Return the value of the secret now if it is avaialble, or waits for it if it is not yet
     /// available.
+    /// 
+    /// # Errors
     /// Returns Err if an error occurs while trying to read the secret.
     pub async fn value(&mut self) -> Result<String, Error> {
         loop {
@@ -303,7 +308,7 @@ struct SecretTracker {
 }
 
 impl SecretTracker {
-    fn new(metadata_path: PathBuf, data_path: PathBuf) -> Result<Self, InnerError> {
+    fn new(metadata_path: &Path, data_path: &Path) -> Result<Self, InnerError> {
         let state = Arc::new(RwLock::new(SecretTrackerState::new(
             metadata_path,
             data_path,
@@ -353,12 +358,12 @@ struct SecretTrackerState {
 }
 
 impl SecretTrackerState {
-    fn new(metadata_path: PathBuf, data_path: PathBuf) -> Result<Self, InnerError> {
+    fn new(metadata_path: &Path, data_path: &Path) -> Result<Self, InnerError> {
         let mut by_alias = HashMap::new();
         let mut by_path = HashMap::new();
 
         // Initialize all secret aliases / paths
-        for entry in std::fs::read_dir(&metadata_path)? {
+        for entry in std::fs::read_dir(metadata_path)? {
             let entry = entry?;
 
             // NOTE: Must use entry.path().is_file() instead of entry.file_type()?.is_file()
@@ -414,8 +419,8 @@ impl SecretTrackerState {
             }
 
             // Next, update the path in the SecretTrackerEntry that corresponds to the alias
-            log::debug!("Updating secret path for alias {alias} to {new_path:?}");
-            *entry_path_wg = new_path.clone();
+            log::debug!("Updating secret path for alias {alias} to {}", new_path.display());
+            (*entry_path_wg).clone_from(&new_path);
 
             // Finally, add an entry in the by_path map for the new path.
             self.by_path
@@ -436,7 +441,8 @@ impl SecretTrackerState {
     fn report_secret_change(&self, path: &Path) {
         if let Some(entries) = self.by_path.get(path) {
             log::debug!(
-                "Reporting secret change for path {path:?} to {} secret(s)",
+                "Reporting secret change for path {} to {} secret(s)",
+                path.display(),
                 entries.len()
             );
             // Notify all corresponding secrets of the change
@@ -446,7 +452,7 @@ impl SecretTrackerState {
                 self.signal_entry(entry);
             }
         } else {
-            log::debug!("Secret changed with no affiliated aliases for path {path:?}");
+            log::debug!("Secret changed with no affiliated aliases for path {}", path.display());
         }
     }
 
@@ -485,6 +491,7 @@ mod tests {
     // Worst case: DEBOUNCE_WINDOW + TICK_RATE (jitter) + COALESCE_WINDOW + margin.
     // Expressed as the sum of the components with an extra TICK_RATE for safety.
     // Use this value for timeouts or manual waits when waiting for updates to Secrets.
+    #[allow(clippy::cast_possible_truncation)] // All values here should be small enough for u64
     const UPDATE_WINDOW: Duration = Duration::from_millis(
         DEBOUNCE_WINDOW.as_millis() as u64
             + TICK_RATE.as_millis() as u64
@@ -543,6 +550,7 @@ mod tests {
     }
 
     impl StandardSecretMountManager {
+        #[allow(clippy::arc_with_non_send_sync)]
         fn new() -> Self {
             Self {
                 metadata_mount: Arc::new(TempProjectedVolume::new("metadata")),
@@ -624,6 +632,7 @@ mod tests {
     }
 
     impl SecretSyncMountManager {
+        #[allow(clippy::arc_with_non_send_sync)]
         fn new() -> Self {
             Self {
                 metadata_mount: Arc::new(TempProjectedVolume::new("metadata")),

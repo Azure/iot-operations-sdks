@@ -97,6 +97,7 @@ pub struct ProjectedVolumeEvent {
     /// The absolute path of the affected entry.
     pub path: PathBuf,
     /// When the change was detected.
+    #[allow(dead_code)] // included for potential future use in event ordering or latency measurement
     pub time: Instant,
 }
 
@@ -639,11 +640,13 @@ mod tests {
 
         /// Timeout for waiting for events to arrive. Must be comfortably longer
         /// than `DEBOUNCE_WINDOW` to account for the tick rate and thread scheduling.
+        #[allow(clippy::cast_possible_truncation)] // Value should be small enough for u64
         const EVENT_TIMEOUT: Duration =
             Duration::from_millis(DEBOUNCE_WINDOW.as_millis() as u64 * 3);
 
         /// Timeout for asserting no events arrived. Longer than [`EVENT_TIMEOUT`]
         /// to reduce the risk of false passes.
+        #[allow(clippy::cast_possible_truncation)] // Value should be small enough for u64
         const EMPTY_TIMEOUT: Duration =
             Duration::from_millis(DEBOUNCE_WINDOW.as_millis() as u64 * 5);
 
