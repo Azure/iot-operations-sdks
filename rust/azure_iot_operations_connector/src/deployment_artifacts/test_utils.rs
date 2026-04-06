@@ -15,8 +15,7 @@ use tempfile::TempDir;
 /// Simulates a file mount directory using a temporary directory.
 #[derive(Clone)]
 pub struct TempMount {
-    dir: Arc<TempDir>, // TODO: This should not be arc! it makes drop behavior ambiguous?
-                       // TODO: or not, idk
+    dir: Arc<TempDir>, // TODO: This should not be arc! it makes drop behavior ambiguous. Fix!
 }
 
 impl TempMount {

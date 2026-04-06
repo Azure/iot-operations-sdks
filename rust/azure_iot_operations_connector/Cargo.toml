@@ -29,7 +29,7 @@ thiserror.workspace = true
 # tokio.workspace = true
 tokio = { version = "1.41", features = ["full"] } # TODO: If I use the workspace version of tokio I run into errors with tokio in the tests, will investigate later
 tokio-retry2 = { version = "0.5.7", features = ["jitter"] }
-tokio-util = { workspace = true, features = ["rt"] }
+tokio-util = { workspace = true }
 
 [dev-dependencies]
 env_logger.workspace = true
