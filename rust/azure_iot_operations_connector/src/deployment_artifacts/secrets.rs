@@ -450,8 +450,6 @@ impl SecretTrackerState {
         }
     }
 
-    // TODO: what about cleanup/deletion?
-
     /// Flush all pending signals into actual watch notifications.
     fn flush_pending(&self) {
         for entry in self.by_alias.values() {

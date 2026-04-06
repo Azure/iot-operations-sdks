@@ -20,9 +20,6 @@
 //! needs to be long enough to coalesce the ~20-30 raw inotify events produced by a single
 //! swap (~1-2ms of filesystem activity) into one callback invocation.
 
-// TODO: Remove after using for Secrets
-#![allow(unused)]
-
 use std::collections::HashMap;
 use std::fs;
 use std::path::{Path, PathBuf};
