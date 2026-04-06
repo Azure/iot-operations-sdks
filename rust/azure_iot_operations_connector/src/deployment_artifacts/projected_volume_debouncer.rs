@@ -97,7 +97,8 @@ pub struct ProjectedVolumeEvent {
     /// The absolute path of the affected entry.
     pub path: PathBuf,
     /// When the change was detected.
-    #[allow(dead_code)] // included for potential future use in event ordering or latency measurement
+    #[allow(dead_code)]
+    // included for potential future use in event ordering or latency measurement
     pub time: Instant,
 }
 
@@ -590,15 +591,12 @@ mod tests {
     }
 
     mod symlink_swap_time {
-        
 
         use super::*;
         use notify::event::EventAttributes;
 
         #[test]
         fn detects_data_rename() {
-            
-
             let expected_time = Instant::now();
             let event = DebouncedEvent {
                 event: notify::Event {

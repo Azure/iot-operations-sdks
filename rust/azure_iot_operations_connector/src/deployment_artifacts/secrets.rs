@@ -69,7 +69,7 @@ impl Secrets {
     /// # Arguments
     /// - `metadata_path`: path the Secret Metadata mount is located at
     /// - `data_path`: path the Secret Data mount is located at
-    /// 
+    ///
     /// Fails if paths are invalid
     pub(crate) fn new(metadata_path: PathBuf, data_path: PathBuf) -> Result<Self, Error> {
         Self::new_inner(metadata_path, data_path).map_err(Into::into)
@@ -127,7 +127,9 @@ impl Secrets {
                                         };
 
                                     // Update the secret tracker for the new secret path
-                                    if secret_tracker_c1.update_secret_path(alias, secret_pathbuf).is_err()
+                                    if secret_tracker_c1
+                                        .update_secret_path(alias, secret_pathbuf)
+                                        .is_err()
                                     {
                                         // NOTE: This should not happen, violation of expected file mount structure
                                         log::error!(
@@ -195,7 +197,7 @@ impl Secrets {
     }
 
     /// Get a Secret corresponding to the given secret alias, if it exists.
-    #[must_use] 
+    #[must_use]
     pub fn get_secret(&self, alias: &str) -> Option<Secret> {
         self.secret_tracker
             .get_entry_by_alias(alias)
@@ -226,7 +228,7 @@ pub struct Secret {
 
 impl Secret {
     /// Returns the alias of the secret
-    #[must_use] 
+    #[must_use]
     pub fn alias(&self) -> &str {
         &self.alias
     }
@@ -237,20 +239,30 @@ impl Secret {
         loop {
             // Wait for an update
             let Ok(()) = self.update_rx.changed().await else {
-                unreachable!("Secret update channel closed unexpectedly — channel is maintained by _file_watchers");
+                unreachable!(
+                    "Secret update channel closed unexpectedly — channel is maintained by _file_watchers"
+                );
             };
             // After being notified of an update, make sure the updated secret exists,
             // or keep waiting for additional updates.
-            if self.path.read().unwrap_or_else(|e| unreachable!("RwLock poisoned: {e}")).exists() {
+            if self
+                .path
+                .read()
+                .unwrap_or_else(|e| unreachable!("RwLock poisoned: {e}"))
+                .exists()
+            {
                 break;
             }
         }
     }
 
     /// Indicates if the secret is currently available for retrieval.
-    #[must_use] 
+    #[must_use]
     pub fn is_available(&self) -> bool {
-        self.path.read().unwrap_or_else(|e| unreachable!("RwLock poisoned: {e}")).exists()
+        self.path
+            .read()
+            .unwrap_or_else(|e| unreachable!("RwLock poisoned: {e}"))
+            .exists()
     }
 
     /// Attempt to read the value of the secret if it is currently available.
@@ -260,7 +272,10 @@ impl Secret {
     /// # Errors
     /// Returns Err if an error occurs while trying to read the secret.
     pub fn value_if_available(&mut self) -> Result<Option<String>, Error> {
-        let path = self.path.read().unwrap_or_else(|e| unreachable!("RwLock poisoned: {e}"));
+        let path = self
+            .path
+            .read()
+            .unwrap_or_else(|e| unreachable!("RwLock poisoned: {e}"));
         if path.exists() {
             // Mark the secret as unchanged since we are reading its current value
             self.update_rx.mark_unchanged();
@@ -274,7 +289,7 @@ impl Secret {
 
     /// Return the value of the secret now if it is avaialble, or waits for it if it is not yet
     /// available.
-    /// 
+    ///
     /// # Errors
     /// Returns Err if an error occurs while trying to read the secret.
     pub async fn value(&mut self) -> Result<String, Error> {
@@ -419,7 +434,10 @@ impl SecretTrackerState {
             }
 
             // Next, update the path in the SecretTrackerEntry that corresponds to the alias
-            log::debug!("Updating secret path for alias {alias} to {}", new_path.display());
+            log::debug!(
+                "Updating secret path for alias {alias} to {}",
+                new_path.display()
+            );
             (*entry_path_wg).clone_from(&new_path);
 
             // Finally, add an entry in the by_path map for the new path.
@@ -452,7 +470,10 @@ impl SecretTrackerState {
                 self.signal_entry(entry);
             }
         } else {
-            log::debug!("Secret changed with no affiliated aliases for path {}", path.display());
+            log::debug!(
+                "Secret changed with no affiliated aliases for path {}",
+                path.display()
+            );
         }
     }
 
