@@ -58,14 +58,18 @@ The available packages are: `mqtt`, `protocol`, `services`, `connector`.
 
 ### Versioning and Release Candidates
 
-During release stabilization, SDK packages publish **release candidate** (RC) versions from the release branch. RC versions use a `-rcN` suffix (e.g., `1.0.0-rc1`, `1.0.0-rc2`). RCs allow internal consumers (e.g., connectors) to integrate early while dependent services are still in development.
+During release stabilization, SDK packages go through the following versioning stages:
 
-On release day, the non-RC version is published from the same code as the last RC. Only the version string changes (e.g., `1.0.0-rc2` → `1.0.0`).
+1. **Test versions** (e.g., `1.0.0-test1`, `1.0.0-test2`) — published at least 2 weeks before code freeze for early integration and validation by consumers
+2. **Release candidate** (e.g., `1.0.0-rc1`) — published a few days before code freeze, representing the version that will become the official release
+3. **Official release** (e.g., `1.0.0`) — same code as the RC, published on release day
 
-Tags are created for both RC and final releases:
+If bugs are found after code freeze, an updated RC is released (e.g., `1.0.0-rc2`). Updates to the RC after code freeze should be strictly bug fixes.
 
+Tags are created for test, RC, and final releases:
+
+- `rust/services/v1.0.0-test1`
 - `rust/services/v1.0.0-rc1`
-- `rust/services/v1.0.0-rc2`
 - `rust/services/v1.0.0` (final)
 
 ### Branch Creation Rules
