@@ -3,21 +3,18 @@
 
 //! Secrets interface for deployment artifacts.
 
-// NOTE: This module requires tokio runtime to instantiate `Secrets` and `Secret`.
-// It could be pivoted to use OS Threads without any breaking changes at the cost of some additional code complexity.
-
 use std::{
     collections::HashMap,
     path::{Path, PathBuf},
     sync::{
-        Arc, RwLock,
+        Arc, Condvar, Mutex, RwLock,
         atomic::{AtomicBool, Ordering},
     },
+    thread::JoinHandle,
     time::Duration,
 };
 
-use tokio::sync::{Notify, watch};
-use tokio_util::task::AbortOnDropHandle;
+use tokio::sync::watch;
 
 use crate::deployment_artifacts::projected_volume_debouncer::{
     ProjectedVolumeDebouncer, ProjectedVolumeError, ProjectedVolumeEventKind,
@@ -55,7 +52,6 @@ struct Watchers {
 
 /// Manager for Secrets deployed in the connector application
 /// Use this to access individual secrets.
-/// Can only be created in a tokio runtime async context.
 #[derive(Clone)]
 pub struct Secrets {
     file_watchers: Arc<Watchers>,
@@ -319,7 +315,7 @@ struct SecretTrackerEntry {
 #[derive(Clone)]
 struct SecretTracker {
     state: Arc<RwLock<SecretTrackerState>>,
-    _coalesce_task: Arc<AbortOnDropHandle<()>>,
+    _coalesce_thread: Arc<CoalesceThread>,
 }
 
 impl SecretTracker {
@@ -329,19 +325,12 @@ impl SecretTracker {
             data_path,
         )?));
 
-        let notify = state.read().unwrap().coalesce_notify.clone();
-        let state_clone = state.clone();
-        let coalesce_task = Arc::new(AbortOnDropHandle::new(tokio::task::spawn(async move {
-            loop {
-                notify.notified().await;
-                tokio::time::sleep(COALESCE_WINDOW).await;
-                state_clone.read().unwrap().flush_pending();
-            }
-        })));
+        let coalesce_signal = state.read().unwrap().coalesce_signal.clone();
+        let coalesce_thread = Arc::new(CoalesceThread::spawn(coalesce_signal, state.clone()));
 
         Ok(Self {
             state,
-            _coalesce_task: coalesce_task,
+            _coalesce_thread: coalesce_thread,
         })
     }
 
@@ -368,8 +357,8 @@ struct SecretTrackerState {
     /// Note that secrets are only tracked in here if an alias points at them, there may be secret data
     /// files that exist on disk, but are not tracked here.
     by_path: HashMap<PathBuf, Vec<Arc<SecretTrackerEntry>>>,
-    /// Shared notify used to wake the coalescing task when any entry is signaled.
-    coalesce_notify: Arc<Notify>,
+    /// Shared signal used to wake the coalescing thread when any entry is signaled.
+    coalesce_signal: Arc<CoalesceSignal>,
 }
 
 impl SecretTrackerState {
@@ -410,7 +399,7 @@ impl SecretTrackerState {
         Ok(Self {
             by_alias,
             by_path,
-            coalesce_notify: Arc::new(Notify::new()),
+            coalesce_signal: Arc::new(CoalesceSignal::new()),
         })
     }
 
@@ -490,10 +479,83 @@ impl SecretTrackerState {
 // Internal helpers — used by the coalescing mechanism
 // Do not invoke these methods from outside of SecretTrackerState
 impl SecretTrackerState {
-    /// Mark a single entry as having a pending notification and wake the coalescing task.
+    /// Mark a single entry as having a pending notification and wake the coalescing thread.
     fn signal_entry(&self, entry: &SecretTrackerEntry) {
         entry.pending_signal.store(true, Ordering::Release);
-        self.coalesce_notify.notify_one();
+        self.coalesce_signal.wake();
+    }
+}
+
+/// Condvar-based signal for waking the coalescing thread.
+struct CoalesceSignal {
+    mutex: Mutex<bool>,
+    condvar: Condvar,
+}
+
+impl CoalesceSignal {
+    fn new() -> Self {
+        Self {
+            mutex: Mutex::new(false),
+            condvar: Condvar::new(),
+        }
+    }
+
+    /// Wake the coalescing thread.
+    fn wake(&self) {
+        *self.mutex.lock().unwrap() = true;
+        self.condvar.notify_one();
+    }
+
+    /// Wait until signaled. Resets the signal state.
+    fn wait(&self) {
+        let mut signaled = self.mutex.lock().unwrap();
+        while !*signaled {
+            signaled = self.condvar.wait(signaled).unwrap();
+        }
+        *signaled = false;
+    }
+}
+
+/// Background OS thread that coalesces pending secret notifications.
+/// Automatically shuts down when dropped.
+struct CoalesceThread {
+    shutdown: Arc<AtomicBool>,
+    signal: Arc<CoalesceSignal>,
+    handle: Option<JoinHandle<()>>,
+}
+
+impl CoalesceThread {
+    fn spawn(signal: Arc<CoalesceSignal>, state: Arc<RwLock<SecretTrackerState>>) -> Self {
+        let shutdown = Arc::new(AtomicBool::new(false));
+        let shutdown_clone = shutdown.clone();
+        let signal_clone = signal.clone();
+
+        let handle = std::thread::spawn(move || {
+            while !shutdown_clone.load(Ordering::Relaxed) {
+                signal_clone.wait();
+                if shutdown_clone.load(Ordering::Relaxed) {
+                    break;
+                }
+                std::thread::sleep(COALESCE_WINDOW);
+                state.read().unwrap().flush_pending();
+            }
+        });
+
+        Self {
+            shutdown,
+            signal,
+            handle: Some(handle),
+        }
+    }
+}
+
+impl Drop for CoalesceThread {
+    fn drop(&mut self) {
+        self.shutdown.store(true, Ordering::Relaxed);
+        self.signal.wake();
+        if let Some(handle) = self.handle.take() {
+            let _ = handle.join();
+        }
     }
 }
 
