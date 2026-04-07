@@ -231,7 +231,8 @@ impl Secret {
     }
 
     /// Wait for a notification that the secret has been updated, or return immediately if there is
-    /// already a pending update that has not been seen.
+    /// already a pending update that has not been delivered via this method, or from accessing
+    /// the value with one of the other methods.
     pub async fn changed(&mut self) {
         loop {
             // Wait for an update
