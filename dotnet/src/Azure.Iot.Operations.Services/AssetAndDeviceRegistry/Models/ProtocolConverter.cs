@@ -1,16 +1,13 @@
 ﻿// Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-using Azure.Iot.Operations.Services.AssetAndDeviceRegistry.Generated.AdrBaseService;
-using Azure.Iot.Operations.Services.AssetAndDeviceRegistry.Generated.DeviceDiscoveryService;
-
 namespace Azure.Iot.Operations.Services.AssetAndDeviceRegistry.Models;
 
 internal static class ProtocolConverter
 {
-    public static GetAssetRequestPayload ToProtocol(this GetAssetRequest source)
+    public static Generated.AdrBaseService.GetAssetRequestPayload ToProtocol(this GetAssetRequest source)
     {
-        return new GetAssetRequestPayload
+        return new Generated.AdrBaseService.GetAssetRequestPayload
         {
             AssetName = source.AssetName
         };
@@ -39,11 +36,11 @@ internal static class ProtocolConverter
         };
     }
 
-    public static UpdateAssetStatusRequestPayload ToProtocol(this UpdateAssetStatusRequest source)
+    public static Generated.AdrBaseService.UpdateAssetStatusRequestPayload ToProtocol(this UpdateAssetStatusRequest source)
     {
-        return new UpdateAssetStatusRequestPayload
+        return new Generated.AdrBaseService.UpdateAssetStatusRequestPayload
         {
-            AssetStatusUpdate = new UpdateAssetStatusRequestSchema
+            AssetStatusUpdate = new Generated.AdrBaseService.UpdateAssetStatusRequestSchema
             {
                 AssetName = source.AssetName,
                 AssetStatus = source.AssetStatus.ToProtocol()
@@ -51,11 +48,11 @@ internal static class ProtocolConverter
         };
     }
 
-    public static CreateOrUpdateDiscoveredAssetRequestPayload ToProtocol(this CreateOrUpdateDiscoveredAssetRequest source)
+    public static Generated.AdrBaseService.CreateOrUpdateDiscoveredAssetRequestPayload ToProtocol(this CreateOrUpdateDiscoveredAssetRequest source)
     {
-        return new CreateOrUpdateDiscoveredAssetRequestPayload
+        return new Generated.AdrBaseService.CreateOrUpdateDiscoveredAssetRequestPayload
         {
-            DiscoveredAssetRequest = new CreateOrUpdateDiscoveredAssetRequestSchema
+            DiscoveredAssetRequest = new Generated.AdrBaseService.CreateOrUpdateDiscoveredAssetRequestSchema
             {
                 DiscoveredAsset = source.DiscoveredAsset.ToProtocol(),
                 DiscoveredAssetName = source.DiscoveredAssetName
@@ -307,9 +304,9 @@ internal static class ProtocolConverter
         };
     }
 
-    internal static DiscoveredDeviceOutboundEndpointsSchema ToProtocol(this Models.DiscoveredDeviceOutboundEndpoints source)
+    internal static Generated.DeviceDiscoveryService.DiscoveredDeviceOutboundEndpointsSchema ToProtocol(this Models.DiscoveredDeviceOutboundEndpoints source)
     {
-        return new DiscoveredDeviceOutboundEndpointsSchema
+        return new Generated.DeviceDiscoveryService.DiscoveredDeviceOutboundEndpointsSchema
         {
             Assigned = source.Assigned.ToDictionary(x => x.Key, x => x.Value.ToProtocol())
         };
@@ -324,9 +321,9 @@ internal static class ProtocolConverter
         };
     }
 
-    internal static DiscoveredDeviceInboundEndpointSchema ToProtocol(this DiscoveredDeviceInboundEndpoint source)
+    internal static Generated.DeviceDiscoveryService.DiscoveredDeviceInboundEndpointSchema ToProtocol(this DiscoveredDeviceInboundEndpoint source)
     {
-        return new DiscoveredDeviceInboundEndpointSchema
+        return new Generated.DeviceDiscoveryService.DiscoveredDeviceInboundEndpointSchema
         {
             AdditionalConfiguration = source.AdditionalConfiguration,
             Address = source.Address,
@@ -376,18 +373,18 @@ internal static class ProtocolConverter
         };
     }
 
-    internal static AssetManagementGroupStatusSchemaElementSchema ToProtocol(this AssetManagementGroupStatus source)
+    internal static Generated.AdrBaseService.AssetManagementGroupStatusSchemaElementSchema ToProtocol(this AssetManagementGroupStatus source)
     {
-        return new AssetManagementGroupStatusSchemaElementSchema
+        return new Generated.AdrBaseService.AssetManagementGroupStatusSchemaElementSchema
         {
             Name = source.Name,
             Actions = source.Actions?.Select(x => x.ToProtocol()).ToList()
         };
     }
 
-    internal static AssetManagementGroupActionStatusSchemaElementSchema ToProtocol(this AssetManagementGroupActionStatus source)
+    internal static Generated.AdrBaseService.AssetManagementGroupActionStatusSchemaElementSchema ToProtocol(this AssetManagementGroupActionStatus source)
     {
-        return new AssetManagementGroupActionStatusSchemaElementSchema
+        return new Generated.AdrBaseService.AssetManagementGroupActionStatusSchemaElementSchema
         {
             Error = source.Error?.ToProtocol(),
             Name = source.Name,
@@ -429,19 +426,19 @@ internal static class ProtocolConverter
         }
     }
 
-    internal static DeviceStatusEndpointSchema ToProtocol(this DeviceStatusEndpoint source)
+    internal static Generated.AdrBaseService.DeviceStatusEndpointSchema ToProtocol(this DeviceStatusEndpoint source)
     {
-        return new DeviceStatusEndpointSchema
+        return new Generated.AdrBaseService.DeviceStatusEndpointSchema
         {
-            Inbound = new Dictionary<string, DeviceStatusInboundEndpointSchemaMapValueSchema>(
-                source.Inbound?.Select(x => new KeyValuePair<string, DeviceStatusInboundEndpointSchemaMapValueSchema>(x.Key, x.Value.ToProtocol())) ??
-                new Dictionary<string, DeviceStatusInboundEndpointSchemaMapValueSchema>())
+            Inbound = new Dictionary<string, Generated.AdrBaseService.DeviceStatusInboundEndpointSchemaMapValueSchema>(
+                source.Inbound?.Select(x => new KeyValuePair<string, Generated.AdrBaseService.DeviceStatusInboundEndpointSchemaMapValueSchema>(x.Key, x.Value.ToProtocol())) ??
+                new Dictionary<string, Generated.AdrBaseService.DeviceStatusInboundEndpointSchemaMapValueSchema>())
         };
     }
 
-    internal static DeviceStatusInboundEndpointSchemaMapValueSchema ToProtocol(this DeviceStatusInboundEndpointSchemaMapValue source)
+    internal static Generated.AdrBaseService.DeviceStatusInboundEndpointSchemaMapValueSchema ToProtocol(this DeviceStatusInboundEndpointSchemaMapValue source)
     {
-        return new DeviceStatusInboundEndpointSchemaMapValueSchema
+        return new Generated.AdrBaseService.DeviceStatusInboundEndpointSchemaMapValueSchema
         {
             Error = source.Error?.ToProtocol()
         };
@@ -465,6 +462,56 @@ internal static class ProtocolConverter
             Message = source.Message,
             CorrelationId = source.CorrelationId,
             Info = source.Info
+        };
+    }
+
+    internal static Generated.AdrBaseService.DatasetsSchemaElementSchema ToProtocol(this DatasetsRuntimeHealthEvent source)
+    {
+        return new Generated.AdrBaseService.DatasetsSchemaElementSchema
+        {
+            DatasetName = source.DatasetName,
+            RuntimeHealth = source.RuntimeHealth.ToProtocol(),
+        };
+    }
+
+    internal static Generated.AdrBaseService.EventsSchemaElementSchema ToProtocol(this EventsRuntimeHealthEvent source)
+    {
+        return new Generated.AdrBaseService.EventsSchemaElementSchema
+        {
+            EventGroupName = source.EventGroupName,
+            EventName = source.EventName,
+            RuntimeHealth = source.RuntimeHealth.ToProtocol(),
+        };
+    }
+
+    internal static Generated.AdrBaseService.ManagementActionsSchemaElementSchema ToProtocol(this ManagementActionsRuntimeHealthEvent source)
+    {
+        return new Generated.AdrBaseService.ManagementActionsSchemaElementSchema
+        {
+            ManagementActionName = source.ManagementActionName,
+            ManagementGroupName = source.ManagementGroupName,
+            RuntimeHealth = source.RuntimeHealth.ToProtocol(),
+        };
+    }
+
+    internal static Generated.AdrBaseService.StreamsSchemaElementSchema ToProtocol(this StreamsRuntimeHealthEvent source)
+    {
+        return new Generated.AdrBaseService.StreamsSchemaElementSchema
+        {
+            StreamName = source.StreamName,
+            RuntimeHealth = source.RuntimeHealth.ToProtocol(),
+        };
+    }
+
+    internal static Generated.AdrBaseService.RuntimeHealth ToProtocol(this RuntimeHealth source)
+    {
+        return new Generated.AdrBaseService.RuntimeHealth
+        {
+            LastUpdateTime = source.LastUpdateTime,
+            Message = source.Message,
+            ReasonCode = source.ReasonCode,
+            Status = (Generated.AdrBaseService.StatusSchema) ((int) source.Status),
+            Version = source.Version,
         };
     }
 }

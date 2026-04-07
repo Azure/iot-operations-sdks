@@ -49,6 +49,22 @@ namespace EventDrivenTcpThermostatConnector
             {
                 _logger.LogError(e, "Failed to report device status to Azure Device Registry service");
             }
+
+            try
+            {
+                _logger.LogInformation("Reporting device endpoint health as 'Available' to Azure Device Registry service...");
+                await args.DeviceEndpointClient.SetRuntimeHealthBackgroundReportingIntervalAsync(TimeSpan.FromSeconds(1), cancellationToken);
+                await args.DeviceEndpointClient.ReportRuntimeHealthAsync(
+                    new ConnectorRuntimeHealth()
+                    {
+                        Status = HealthStatus.Available,
+                    },
+                    cancellationToken: cancellationToken);
+            }
+            catch (Exception e)
+            {
+                _logger.LogError(e, "Failed to report device endpoint health as 'Available' to Azure Device Registry service");
+            }
         }
 
         private async Task WhileAssetAvailableAsync(AssetAvailableEventArgs args, CancellationToken cancellationToken)
@@ -234,6 +250,23 @@ namespace EventDrivenTcpThermostatConnector
                             {
                                 _logger.LogError(e, "Failed to report device status to Azure Device Registry service");
                             }
+
+                            try
+                            {
+                                _logger.LogInformation("Reporting asset's event runtime health as 'Available' to Azure Device Registry service...");
+                                await args.AssetClient.ReportEventRuntimeHealthAsync(
+                                    eventGroupName,
+                                    assetEvent.Name,
+                                    new ConnectorRuntimeHealth()
+                                    {
+                                        Status = HealthStatus.Available,
+                                    },
+                                    cancellationToken: cancellationToken);
+                            }
+                            catch (Exception e)
+                            {
+                                _logger.LogError(e, "Failed to report asset's event runtime health 'Available' to Azure Device Registry service");
+                            }
                         }
                     }
                     catch (Exception e)
@@ -265,6 +298,40 @@ namespace EventDrivenTcpThermostatConnector
                 catch (Exception e)
                 {
                     _logger.LogError(e, "Failed to report device status to Azure Device Registry service");
+                }
+
+                try
+                {
+                    _logger.LogInformation("Reporting device endpoint health as 'Unavailable' to Azure Device Registry service...");
+                    await args.DeviceEndpointClient.ReportRuntimeHealthAsync(
+                        new ConnectorRuntimeHealth()
+                        {
+                            Status = HealthStatus.Unavailable,
+                            Message = "Lost connection to the TCP server. Reconnecting."
+                        },
+                        cancellationToken: cancellationToken);
+                }
+                catch (Exception e)
+                {
+                    _logger.LogError(e, "Failed to report device endpoint health as 'Unavailable' to Azure Device Registry service");
+                }
+
+                try
+                {
+                    _logger.LogInformation("Reporting asset's event runtime health as 'Unavailable' to Azure Device Registry service...");
+                    await args.AssetClient.ReportEventRuntimeHealthAsync(
+                        eventGroupName,
+                        assetEvent.Name,
+                        new ConnectorRuntimeHealth()
+                        {
+                            Status = HealthStatus.Unavailable,
+                            Message = "Lost connection to the TCP server. Reconnecting."
+                        },
+                        cancellationToken: cancellationToken);
+                }
+                catch (Exception e)
+                {
+                    _logger.LogError(e, "Failed to report asset's event runtime health 'Unavailable' to Azure Device Registry service");
                 }
             }
         }

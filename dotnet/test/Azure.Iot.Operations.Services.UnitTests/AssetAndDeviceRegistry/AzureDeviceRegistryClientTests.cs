@@ -60,8 +60,9 @@ public class AzureDeviceRegistryClientTests
         string connectorClientId = Guid.NewGuid().ToString();
         Mock<IDeviceDiscoveryServiceClientStub> mockDeviceDiscoveryService = new Mock<IDeviceDiscoveryServiceClientStub>();
         Mock<IAdrBaseServiceClientStub> mockBaseServiceClient = new Mock<IAdrBaseServiceClientStub>();
+        Mock<IAdrBaseServiceServiceStub> mockBaseServiceService = new Mock<IAdrBaseServiceServiceStub>();
 
-        await using AzureDeviceRegistryClient client = new(applicationContext, connectorClientId, mockBaseServiceClient.Object, mockDeviceDiscoveryService.Object);
+        await using AzureDeviceRegistryClient client = new(applicationContext, connectorClientId, mockBaseServiceClient.Object, mockBaseServiceService.Object, mockDeviceDiscoveryService.Object);
 
         // Setup the underlying mock client to throw on the first attempt, but return successfully on the second attempt
         int attemptCount = 0;
@@ -115,8 +116,9 @@ public class AzureDeviceRegistryClientTests
         string connectorClientId = Guid.NewGuid().ToString();
         Mock<IDeviceDiscoveryServiceClientStub> mockDeviceDiscoveryService = new Mock<IDeviceDiscoveryServiceClientStub>();
         Mock<IAdrBaseServiceClientStub> mockBaseServiceClient = new Mock<IAdrBaseServiceClientStub>();
+        Mock<IAdrBaseServiceServiceStub> mockBaseServiceService = new Mock<IAdrBaseServiceServiceStub>();
 
-        await using AzureDeviceRegistryClient client = new(applicationContext, connectorClientId, mockBaseServiceClient.Object, mockDeviceDiscoveryService.Object);
+        await using AzureDeviceRegistryClient client = new(applicationContext, connectorClientId, mockBaseServiceClient.Object, mockBaseServiceService.Object, mockDeviceDiscoveryService.Object);
 
         // Setup the underlying mock client to always throw
         mockBaseServiceClient.Setup(mock =>
