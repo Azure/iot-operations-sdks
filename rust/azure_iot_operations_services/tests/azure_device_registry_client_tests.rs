@@ -92,7 +92,7 @@ async fn get_device() {
         return;
     }
     let (session, azure_device_registry_client, exit_handle) =
-        initialize_client(&format!("{log_identifier}-client"));
+        initialize_client(&format!("{log_identifier}-client-00000000-ss-0"));
 
     let test_task = tokio::task::spawn({
         async move {
@@ -128,7 +128,7 @@ async fn update_device_plus_endpoint_status() {
         return;
     }
     let (session, azure_device_registry_client, exit_handle) =
-        initialize_client(&format!("{log_identifier}-client"));
+        initialize_client(&format!("{log_identifier}-client-00000000-ss-0"));
 
     let message = format!(
         "Random test error for device plus endpoint update {}",
@@ -195,7 +195,7 @@ async fn get_asset() {
         return;
     }
     let (session, azure_device_registry_client, exit_handle) =
-        initialize_client(&format!("{log_identifier}-client"));
+        initialize_client(&format!("{log_identifier}-client-00000000-ss-0"));
 
     let test_task = tokio::task::spawn({
         async move {
@@ -236,7 +236,7 @@ async fn update_asset_status() {
         return;
     }
     let (session, azure_device_registry_client, exit_handle) =
-        initialize_client(&format!("{log_identifier}-client"));
+        initialize_client(&format!("{log_identifier}-client-00000000-ss-0"));
 
     let message = format!("Random test error for asset update {}", Uuid::new_v4());
     let updated_status = AssetStatus {
@@ -304,7 +304,7 @@ async fn observe_asset_update_notifications() {
         return;
     }
     let (session, azure_device_registry_client, exit_handle) =
-        initialize_client(&format!("{log_identifier}-client"));
+        initialize_client(&format!("{log_identifier}-client-00000000-ss-0"));
 
     let test_task = tokio::task::spawn({
         async move {
@@ -447,7 +447,7 @@ async fn observe_device_update_notifications() {
         return;
     }
     let (session, azure_device_registry_client, exit_handle) =
-        initialize_client(&format!("{log_identifier}-client"));
+        initialize_client(&format!("{log_identifier}-client-00000000-ss-0"));
 
     let test_task = tokio::task::spawn({
         async move {
