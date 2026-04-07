@@ -319,13 +319,16 @@ namespace Azure.Iot.Operations.Mqtt.Session
                 {
                     try
                     {
-                        await DisconnectAsync();
+                        await DisconnectAsync(); // This also signals to stop any reconnection though it does not wait for that reconnection to finish
                     }
                     catch (Exception e)
                     {
                         Trace.TraceWarning("Encountered an error while disconnecting during disposal {0}", e);
                     }
                 }
+
+                // Wait until any reconnection logic has wrapped up before disposing any semaphores that the reconnection logic may still try to release
+                await _disconnectedEventLock.WaitAsync();
 
                 _workerThreadsTaskCancellationTokenSource?.Dispose();
                 _reconnectionCancellationToken?.Dispose();

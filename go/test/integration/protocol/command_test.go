@@ -18,7 +18,7 @@ func TestCommand(t *testing.T) {
 	client, server, done := sessionClients(t)
 	defer done()
 
-	var listeners protocol.Listeners
+	listeners := make(protocol.Listeners, 0, 2)
 	defer listeners.Close()
 
 	enc := protocol.JSON[string]{}
@@ -75,7 +75,7 @@ func TestCommandError(t *testing.T) {
 	client, server, done := sessionClients(t)
 	defer done()
 
-	var listeners protocol.Listeners
+	listeners := make(protocol.Listeners, 0, 2)
 	defer listeners.Close()
 
 	req := protocol.Empty{}
@@ -114,7 +114,7 @@ func TestCommandManualError(t *testing.T) {
 	client, server, done := sessionClients(t)
 	defer done()
 
-	var listeners protocol.Listeners
+	listeners := make(protocol.Listeners, 0, 2)
 	defer listeners.Close()
 
 	req := protocol.Empty{}

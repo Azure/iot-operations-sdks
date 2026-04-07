@@ -204,11 +204,19 @@ func getTelemetrySender(
 		)
 	} else {
 		if err == nil {
-			err = sender.base.Send(context.Background(), *TestCaseDefaultInfo.Actions.SendTelemetry.GetTelemetryValue())
+			err = sender.base.Send(
+				context.Background(),
+				*TestCaseDefaultInfo.Actions.SendTelemetry.GetTelemetryValue(),
+			)
 			stubBroker.AwaitPublish()
 		}
 
-		require.Errorf(t, err, "Expected %s error, but no error returned when initializing TelemetrySender", catch.ErrorKind)
+		require.Errorf(
+			t,
+			err,
+			"Expected %s error, but no error returned when initializing TelemetrySender",
+			catch.ErrorKind,
+		)
 		CheckError(t, *catch, err)
 	}
 
@@ -231,7 +239,7 @@ func sendTelemetry(
 	)
 
 	if actionSendTelemetry.Qos != nil && *actionSendTelemetry.Qos != 1 {
-		t.Skipf(
+		t.Skip(
 			"Skipping test because TelemetrySender does not support settable QoS",
 		)
 	}
@@ -324,7 +332,12 @@ func awaitSend(
 			"Unexpected error returned when awaiting TelemetrySender.Send()",
 		)
 	} else {
-		require.Errorf(t, err, "Expected %s error, but no error returned when awaiting TelemetrySender.Send()", actionAwaitSend.Catch.ErrorKind)
+		require.Errorf(
+			t,
+			err,
+			"Expected %s error, but no error returned when awaiting TelemetrySender.Send()",
+			actionAwaitSend.Catch.ErrorKind,
+		)
 		CheckError(t, *actionAwaitSend.Catch, err)
 	}
 }

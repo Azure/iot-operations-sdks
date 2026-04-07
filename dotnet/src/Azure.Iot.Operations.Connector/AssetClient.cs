@@ -1,6 +1,7 @@
 ﻿// Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
+using Azure.Iot.Operations.Services.AssetAndDeviceRegistry;
 using Azure.Iot.Operations.Services.AssetAndDeviceRegistry.Models;
 
 namespace Azure.Iot.Operations.Connector
@@ -8,7 +9,7 @@ namespace Azure.Iot.Operations.Connector
     /// <summary>
     /// A client for updating the status of an asset and for forwarding received events and/or sampled datasets.
     /// </summary>
-    public class AssetClient : IDisposable
+    public class AssetClient : IAsyncDisposable
     {
         private readonly IAzureDeviceRegistryClientWrapper _adrClient;
         private readonly ConnectorWorker _connector;
@@ -17,6 +18,7 @@ namespace Azure.Iot.Operations.Connector
         private readonly string _assetName;
         private readonly Device _device;
         private readonly Asset _asset;
+        private readonly AssetRuntimeHealthReporter _healthReporter;
 
         // Used to make getAndUpdate calls behave atomically so that a user does not accidentally update
         // an asset while another thread is in the middle of a getAndUpdate call.
@@ -31,6 +33,7 @@ namespace Azure.Iot.Operations.Connector
             _connector = connector;
             _device = device;
             _asset = asset;
+            _healthReporter = new(adrClient.GetWrapped(), deviceName, inboundEndpointName, assetName, TimeSpan.FromSeconds(10));
         }
 
         /// <summary>
@@ -110,16 +113,241 @@ namespace Azure.Iot.Operations.Connector
             return _connector.GetRegisteredEventMessageSchema(_deviceName, _inboundEndpointName, _assetName, eventGroupName, eventName);
         }
 
-        public void Dispose()
+        /// <summary>
+        /// Report a batch of datasets' runtime healths.
+        /// </summary>
+        /// <param name="runtimeHealth">The runtime healths of some datasets.</param>
+        /// <param name="telemetryTimeout">The timeout to use when sending this telemetry if any telemetry is sent.</param>
+        /// <param name="cancellationToken">Cancellation token.</param>
+        /// <remarks>
+        /// This method uses the <see cref="AssetRuntimeHealthReporter"/> class, so it will de-duplicate runtime healths and will periodically report the last known
+        /// runtime health for as long as this asset is available. Because of that, connector applications can freely call this method repeatedly even if the runtime health hasn't changed.
+        /// </remarks>
+        public async Task ReportDatasetRuntimeHealthAsync(List<ConnectorDatasetsRuntimeHealthEvent> runtimeHealth, TimeSpan? telemetryTimeout = null, CancellationToken cancellationToken = default)
         {
-            try
+            List<DatasetsRuntimeHealthEvent> servicesRuntimeHealths = new();
+            foreach (ConnectorDatasetsRuntimeHealthEvent connectorRuntimeHealth in runtimeHealth)
             {
-                _semaphore.Dispose();
+                servicesRuntimeHealths.Add(new DatasetsRuntimeHealthEvent()
+                {
+                    DatasetName = connectorRuntimeHealth.DatasetName,
+                    RuntimeHealth = new()
+                    {
+                        LastUpdateTime = DateTime.UtcNow,
+                        Message = connectorRuntimeHealth.RuntimeHealth.Message,
+                        ReasonCode = connectorRuntimeHealth.RuntimeHealth.ReasonCode,
+                        Status = connectorRuntimeHealth.RuntimeHealth.Status,
+                        Version = _asset.Version ?? 0
+                    }
+                });
             }
-            catch (ObjectDisposedException)
+
+            await _healthReporter.ReportDatasetHealthStatusAsync(servicesRuntimeHealths, telemetryTimeout, cancellationToken);
+        }
+
+        /// <summary>
+        /// Report a dataset's runtime health.
+        /// </summary>
+        /// <param name="datasetName">The name of the dataset</param>
+        /// <param name="runtimeHealth">The runtime health of this dataset.</param>
+        /// <param name="telemetryTimeout">The timeout to use when sending this telemetry if any telemetry is sent.</param>
+        /// <param name="cancellationToken">Cancellation token.</param>
+        /// <remarks>
+        /// This method uses the <see cref="AssetRuntimeHealthReporter"/> class, so it will de-duplicate runtime healths and will periodically report the last known
+        /// runtime health for as long as this asset is available. Because of that, connector applications can freely call this method repeatedly even if the runtime health hasn't changed.
+        /// </remarks>
+        public async Task ReportDatasetRuntimeHealthAsync(string datasetName, ConnectorRuntimeHealth runtimeHealth, TimeSpan? telemetryTimeout = null, CancellationToken cancellationToken = default)
+        {
+            var datasetsRuntimeHealthEvent = new ConnectorDatasetsRuntimeHealthEvent()
             {
-                // It's fine if this semaphore is already disposed.
+                DatasetName = datasetName,
+                RuntimeHealth = runtimeHealth,
+            };
+
+            await ReportDatasetRuntimeHealthAsync(new List<ConnectorDatasetsRuntimeHealthEvent>() { datasetsRuntimeHealthEvent }, telemetryTimeout, cancellationToken);
+        }
+
+        /// <summary>
+        /// Report a batch of events' runtime healths.
+        /// </summary>
+        /// <param name="runtimeHealth">The runtime healths of some events.</param>
+        /// <param name="telemetryTimeout">The timeout to use when sending this telemetry if any telemetry is sent.</param>
+        /// <param name="cancellationToken">Cancellation token.</param>
+        /// <remarks>
+        /// This method uses the <see cref="AssetRuntimeHealthReporter"/> class, so it will de-duplicate runtime healths and will periodically report the last known
+        /// runtime health for as long as this asset is available. Because of that, connector applications can freely call this method repeatedly even if the runtime health hasn't changed.
+        /// </remarks>
+        public async Task ReportEventRuntimeHealthAsync(List<ConnectorEventsRuntimeHealthEvent> runtimeHealth, TimeSpan? telemetryTimeout = null, CancellationToken cancellationToken = default)
+        {
+            List<EventsRuntimeHealthEvent> servicesRuntimeHealths = new();
+            foreach (ConnectorEventsRuntimeHealthEvent connectorRuntimeHealth in runtimeHealth)
+            {
+                servicesRuntimeHealths.Add(new EventsRuntimeHealthEvent()
+                {
+                    EventGroupName = connectorRuntimeHealth.EventGroupName,
+                    EventName = connectorRuntimeHealth.EventName,
+                    RuntimeHealth = new()
+                    {
+                        LastUpdateTime = DateTime.UtcNow,
+                        Message = connectorRuntimeHealth.RuntimeHealth.Message,
+                        ReasonCode = connectorRuntimeHealth.RuntimeHealth.ReasonCode,
+                        Status = connectorRuntimeHealth.RuntimeHealth.Status,
+                        Version = _asset.Version ?? 0
+                    }
+                });
             }
+            await _healthReporter.ReportEventHealthStatusAsync(servicesRuntimeHealths, telemetryTimeout, cancellationToken);
+        }
+
+        /// <summary>
+        /// Report an event's runtime health.
+        /// </summary>
+        /// <param name="eventGroupName">The name of the event group that this event belongs to</param>
+        /// <param name="eventName">The name of the event</param>
+        /// <param name="runtimeHealth">The runtime health of this event.</param>
+        /// <param name="telemetryTimeout">The timeout to use when sending this telemetry if any telemetry is sent.</param>
+        /// <param name="cancellationToken">Cancellation token.</param>
+        /// <remarks>
+        /// This method uses the <see cref="AssetRuntimeHealthReporter"/> class, so it will de-duplicate runtime healths and will periodically report the last known
+        /// runtime health for as long as this asset is available. Because of that, connector applications can freely call this method repeatedly even if the runtime health hasn't changed.
+        /// </remarks>
+        public async Task ReportEventRuntimeHealthAsync(string eventGroupName, string eventName, ConnectorRuntimeHealth runtimeHealth, TimeSpan? telemetryTimeout = null, CancellationToken cancellationToken = default)
+        {
+            ConnectorEventsRuntimeHealthEvent eventsRuntimeHealthEvent = new ConnectorEventsRuntimeHealthEvent()
+            {
+                EventGroupName = eventGroupName,
+                EventName = eventName,
+                RuntimeHealth = runtimeHealth,
+            };
+
+            //TODO need to add some caching at this layer such that not every report is sent (when nothing has changed) prior to
+            //actually releasing this feature.
+            await ReportEventRuntimeHealthAsync(new List<ConnectorEventsRuntimeHealthEvent>() { eventsRuntimeHealthEvent }, telemetryTimeout, cancellationToken);
+        }
+
+        /// <summary>
+        /// Report a batch of streams' runtime healths.
+        /// </summary>
+        /// <param name="runtimeHealth">The runtime healths of some streams.</param>
+        /// <param name="telemetryTimeout">The timeout to use when sending this telemetry if any telemetry is sent.</param>
+        /// <param name="cancellationToken">Cancellation token.</param>
+        /// <remarks>
+        /// This method uses the <see cref="AssetRuntimeHealthReporter"/> class, so it will de-duplicate runtime healths and will periodically report the last known
+        /// runtime health for as long as this asset is available. Because of that, connector applications can freely call this method repeatedly even if the runtime health hasn't changed.
+        /// </remarks>
+        public async Task ReportStreamRuntimeHealthAsync(List<ConnectorStreamsRuntimeHealthEvent> runtimeHealth, TimeSpan? telemetryTimeout = null, CancellationToken cancellationToken = default)
+        {
+            List<StreamsRuntimeHealthEvent> servicesRuntimeHealths = new();
+            foreach (ConnectorStreamsRuntimeHealthEvent connectorRuntimeHealth in runtimeHealth)
+            {
+                servicesRuntimeHealths.Add(new StreamsRuntimeHealthEvent()
+                {
+                    StreamName = connectorRuntimeHealth.StreamName,
+                    RuntimeHealth = new()
+                    {
+                        LastUpdateTime = DateTime.UtcNow,
+                        Message = connectorRuntimeHealth.RuntimeHealth.Message,
+                        ReasonCode = connectorRuntimeHealth.RuntimeHealth.ReasonCode,
+                        Status = connectorRuntimeHealth.RuntimeHealth.Status,
+                        Version = _asset.Version ?? 0
+                    }
+                });
+            }
+
+            await _healthReporter.ReportStreamHealthStatusAsync(servicesRuntimeHealths, telemetryTimeout, cancellationToken);
+        }
+
+        /// <summary>
+        /// Report a stream's runtime health.
+        /// </summary>
+        /// <param name="streamName">The name of the stream</param>
+        /// <param name="runtimeHealth">The runtime health of this stream.</param>
+        /// <param name="telemetryTimeout">The timeout to use when sending this telemetry if any telemetry is sent.</param>
+        /// <param name="cancellationToken">Cancellation token.</param>
+        /// <remarks>
+        /// This method uses the <see cref="AssetRuntimeHealthReporter"/> class, so it will de-duplicate runtime healths and will periodically report the last known
+        /// runtime health for as long as this asset is available. Because of that, connector applications can freely call this method repeatedly even if the runtime health hasn't changed.
+        /// </remarks>
+        public async Task ReportStreamRuntimeHealthAsync(string streamName, ConnectorRuntimeHealth runtimeHealth, TimeSpan? telemetryTimeout = null, CancellationToken cancellationToken = default)
+        {
+            ConnectorStreamsRuntimeHealthEvent streamsRuntimeHealthEvent = new()
+            {
+                StreamName = streamName,
+                RuntimeHealth = runtimeHealth,
+            };
+
+            await ReportStreamRuntimeHealthAsync(new List<ConnectorStreamsRuntimeHealthEvent>() { streamsRuntimeHealthEvent }, telemetryTimeout, cancellationToken);
+        }
+
+        /// <summary>
+        /// Report a batch of management actions' runtime healths.
+        /// </summary>
+        /// <param name="runtimeHealth">The runtime healths of some management actions.</param>
+        /// <param name="telemetryTimeout">The timeout to use when sending this telemetry if any telemetry is sent.</param>
+        /// <param name="cancellationToken">Cancellation token.</param>
+        /// <remarks>
+        /// This method uses the <see cref="AssetRuntimeHealthReporter"/> class, so it will de-duplicate runtime healths and will periodically report the last known
+        /// runtime health for as long as this asset is available. Because of that, connector applications can freely call this method repeatedly even if the runtime health hasn't changed.
+        /// </remarks>
+        public async Task ReportManagementActionRuntimeHealthAsync(List<ConnectorManagementActionsRuntimeHealthEvent> runtimeHealth, TimeSpan? telemetryTimeout = null, CancellationToken cancellationToken = default)
+        {
+            List<ManagementActionsRuntimeHealthEvent> servicesRuntimeHealths = new();
+            foreach (ConnectorManagementActionsRuntimeHealthEvent connectorRuntimeHealth in runtimeHealth)
+            {
+                servicesRuntimeHealths.Add(new ManagementActionsRuntimeHealthEvent()
+                {
+                    ManagementGroupName = connectorRuntimeHealth.ManagementGroupName,
+                    ManagementActionName = connectorRuntimeHealth.ManagementActionName,
+                    RuntimeHealth = new()
+                    {
+                        LastUpdateTime = DateTime.UtcNow,
+                        Message = connectorRuntimeHealth.RuntimeHealth.Message,
+                        ReasonCode = connectorRuntimeHealth.RuntimeHealth.ReasonCode,
+                        Status = connectorRuntimeHealth.RuntimeHealth.Status,
+                        Version = _asset.Version ?? 0
+                    }
+                });
+            }
+
+            await _healthReporter.ReportManagementActionHealthStatusAsync(servicesRuntimeHealths, telemetryTimeout, cancellationToken);
+        }
+
+        /// <summary>
+        /// Report a management action's runtime health.
+        /// </summary>
+        /// <param name="managementGroupName">The name of the management group that this action belongs to</param>
+        /// <param name="managementActionName">The name of the management action</param>
+        /// <param name="runtimeHealth">The runtime health of this management action.</param>
+        /// <param name="telemetryTimeout">The timeout to use when sending this telemetry if any telemetry is sent.</param>
+        /// <param name="cancellationToken">Cancellation token.</param>
+        /// <remarks>
+        /// This method uses the <see cref="AssetRuntimeHealthReporter"/> class, so it will de-duplicate runtime healths and will periodically report the last known
+        /// runtime health for as long as this asset is available. Because of that, connector applications can freely call this method repeatedly even if the runtime health hasn't changed.
+        /// </remarks>
+        public async Task ReportManagementActionRuntimeHealthAsync(string managementGroupName, string managementActionName, ConnectorRuntimeHealth runtimeHealth, TimeSpan? telemetryTimeout = null, CancellationToken cancellationToken = default)
+        {
+            ConnectorManagementActionsRuntimeHealthEvent managementActionsRuntimeHealthEvent = new()
+            {
+                ManagementGroupName = managementGroupName,
+                ManagementActionName= managementActionName,
+                RuntimeHealth = runtimeHealth,
+            };
+
+            await ReportManagementActionRuntimeHealthAsync(new List<ConnectorManagementActionsRuntimeHealthEvent>() { managementActionsRuntimeHealthEvent }, telemetryTimeout, cancellationToken);
+        }
+
+        /// <summary>
+        /// Change the interval at which this client will send background reports of the latest cached asset runtime healths
+        /// </summary>
+        /// <param name="reportingInterval">The new reporting interval</param>
+        /// <param name="cancellationToken">Cancellation token</param>
+        /// <remarks>
+        /// If background reporting is currently in progress, it will be cancelled and restarted with this new interval. If background reporting is not currently in progress,
+        /// calling this method will not start it.
+        /// </remarks>
+        public async Task SetRuntimeHealthBackgroundReportingIntervalAsync(TimeSpan reportingInterval, CancellationToken cancellationToken = default)
+        {
+            await _healthReporter.SetRuntimeHealthBackgroundReportingIntervalAsync(reportingInterval, cancellationToken);
         }
 
         /// <summary>
@@ -166,6 +394,39 @@ namespace Azure.Iot.Operations.Connector
                 _assetName,
                 commandTimeout,
                 cancellationToken);
+        }
+
+        public virtual async ValueTask DisposeAsync()
+        {
+            await DisposeAsyncCore();
+            GC.SuppressFinalize(this);
+        }
+
+        public virtual async ValueTask DisposeAsync(bool disposing)
+        {
+            await DisposeAsyncCore();
+        }
+
+        private async ValueTask DisposeAsyncCore()
+        {
+            try
+            {
+                _semaphore.Dispose();
+            }
+            catch (ObjectDisposedException)
+            {
+                // It's fine if this semaphore is already disposed.
+            }
+
+            try
+            {
+                await _healthReporter.CancelHealthStatusReportingAsync();
+                await _healthReporter.DisposeAsync();
+            }
+            catch (ObjectDisposedException)
+            {
+                // It's fine if this is already disposed.
+            }
         }
     }
 }

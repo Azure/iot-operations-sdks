@@ -105,6 +105,23 @@ namespace Azure.Iot.Operations.Connector
                         {
                             _logger.LogError(e2, "Failed to report device status to Azure Device Registry service");
                         }
+
+                        try
+                        {
+                            _logger.LogInformation("Reporting device endpoint health as 'Unavailable' to Azure Device Registry service...");
+                            await args.DeviceEndpointClient.ReportRuntimeHealthAsync(
+                                new ConnectorRuntimeHealth()
+                                {
+                                    Status = HealthStatus.Unavailable,
+                                    Message = $"Failed to sample the dataset: {e.Message}"
+                                },
+                                cancellationToken: cancellationToken);
+                        }
+                        catch (Exception e3)
+                        {
+                            _logger.LogError(e3, "Failed to report device endpoint health as 'Unavailable' to Azure Device Registry service");
+                        }
+
                         return;
                     }
 
@@ -145,12 +162,13 @@ namespace Azure.Iot.Operations.Connector
 
                         try
                         {
-                            string errorMessage = $"Unable to sample the device. Error message: {e.Message}";
+                            string errorMessage = $"Unable to forward the sampled dataset. Error message: {e.Message}";
                             await args.DeviceEndpointClient.GetAndUpdateDeviceStatusAsync((currentDeviceStatus) => {
                                 currentDeviceStatus.Config ??= new ConfigStatus();
                                 currentDeviceStatus.Config.Error =
                                     new ConfigError()
                                     {
+
                                         Message = errorMessage
                                     };
                                 currentDeviceStatus.Config.LastTransitionTime = DateTime.UtcNow;
@@ -165,6 +183,24 @@ namespace Azure.Iot.Operations.Connector
                         {
                             _logger.LogError(e2, "Failed to report device status to Azure Device Registry service");
                         }
+
+                        try
+                        {
+                            _logger.LogInformation("Reporting device endpoint health as 'Unavailable' to Azure Device Registry service...");
+                            await args.DeviceEndpointClient.ReportRuntimeHealthAsync(
+                                new ConnectorRuntimeHealth()
+                                {
+                                    Status = HealthStatus.Unavailable,
+                                    Message = $"Failed to forward the dataset: {e.Message}"
+                                },
+                                cancellationToken: cancellationToken);
+                        }
+                        catch (Exception e3)
+                        {
+                            _logger.LogError(e3, "Failed to report device endpoint health as 'Unavailable' to Azure Device Registry service");
+                        }
+
+                        return;
                     }
 
                     try
@@ -188,6 +224,37 @@ namespace Azure.Iot.Operations.Connector
                     catch (Exception e)
                     {
                         _logger.LogError(e, "Failed to report device status to Azure Device Registry service");
+                    }
+
+                    try
+                    {
+                        _logger.LogInformation("Reporting device endpoint health as 'Available' to Azure Device Registry service...");
+                        await args.DeviceEndpointClient.ReportRuntimeHealthAsync(
+                            new ConnectorRuntimeHealth()
+                            {
+                                Status = HealthStatus.Available,
+                            },
+                            cancellationToken: cancellationToken);
+                    }
+                    catch (Exception e3)
+                    {
+                        _logger.LogError(e3, "Failed to report device endpoint health as 'Available' to Azure Device Registry service");
+                    }
+
+                    try
+                    {
+                        _logger.LogInformation("Reporting dataset health as 'Available' to Azure Device Registry service...");
+                        await args.AssetClient.ReportDatasetRuntimeHealthAsync(
+                            dataset.Name,
+                            new ConnectorRuntimeHealth()
+                            {
+                                Status = HealthStatus.Available,
+                            },
+                            cancellationToken: cancellationToken);
+                    }
+                    catch (Exception e3)
+                    {
+                        _logger.LogError(e3, "Failed to report dataset health as 'Available' to Azure Device Registry service");
                     }
                 }, null, TimeSpan.FromSeconds(0), samplingInterval);
 
