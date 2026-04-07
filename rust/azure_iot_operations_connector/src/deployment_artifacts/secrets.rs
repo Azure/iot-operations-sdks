@@ -31,7 +31,7 @@ pub struct Error(#[from] InnerError);
 enum InnerError {
     ProjectedVolumeError(#[from] ProjectedVolumeError),
     IoError(#[from] std::io::Error),
-    #[error("Invalid")]
+    #[error("Invalid secret configuration")]
     Invalid,
 }
 
@@ -40,7 +40,7 @@ enum InnerError {
 /// debouncers fire at slightly different times for the same logical update.
 /// Set to 2x the debouncer tick rate to guarantee both debouncer callbacks
 /// are absorbed into a single notification.
-#[allow(clippy::cast_possible_truncation)] // PVDB_TICK_RATE should be always small enough for u64
+#[allow(clippy::cast_possible_truncation)] // PVDB_TICK_RATE is always small enough for u64
 const COALESCE_WINDOW: Duration = Duration::from_millis(PVDB_TICK_RATE.as_millis() as u64 * 2);
 
 /// Holds the file watchers (debouncers) that must remain alive as long as any
@@ -57,9 +57,6 @@ pub struct Secrets {
     file_watchers: Arc<Watchers>,
     secret_tracker: SecretTracker,
 }
-
-// If we only map alias to sender, then how can we report secret updates? Without storing context, no way to know
-// which Secret to transmit to.
 
 impl Secrets {
     /// # Arguments
@@ -213,7 +210,7 @@ impl Secrets {
 ///
 /// Note that cloning a Secret creates a new handle to the same underlying secret, and retains any
 /// pending 'changed' notifications. To get a handle without any pending notifications,
-/// use `Secrets::get_secret` again to get a new handle.
+/// use `[Secrets::get_secret]` again to get a new handle.
 #[derive(Clone)]
 pub struct Secret {
     alias: String,
@@ -283,7 +280,7 @@ impl Secret {
         }
     }
 
-    /// Return the value of the secret now if it is avaialble, or waits for it if it is not yet
+    /// Return the value of the secret now if it is available, or waits for it if it is not yet
     /// available.
     ///
     /// # Errors
@@ -405,9 +402,6 @@ impl SecretTrackerState {
 
     /// Update the path of the secret corresponding to the given alias, and notify of the update
     fn update_secret_path(&mut self, alias: &str, new_path: PathBuf) -> Result<(), InnerError> {
-        // If path exists in the tracker, point alias entry at the entry that matches the path
-        // If path does not exist,
-
         if let Some(entry) = self.by_alias.get(alias) {
             // Get a write lock on the entry's path to ensure there's no timing issues.
             let mut entry_path_wg = entry.path.write().unwrap();
@@ -574,7 +568,7 @@ mod tests {
     // Worst case: DEBOUNCE_WINDOW + TICK_RATE (jitter) + COALESCE_WINDOW + margin.
     // Expressed as the sum of the components with an extra TICK_RATE for safety.
     // Use this value for timeouts or manual waits when waiting for updates to Secrets.
-    #[allow(clippy::cast_possible_truncation)] // All values here should be small enough for u64
+    #[allow(clippy::cast_possible_truncation)] // All values here are small enough for u64
     const UPDATE_WINDOW: Duration = Duration::from_millis(
         DEBOUNCE_WINDOW.as_millis() as u64
             + TICK_RATE.as_millis() as u64
@@ -1097,7 +1091,7 @@ mod tests {
                 .map(|alias| secrets.get_secret(alias).expect("Failed to get secret"))
                 .collect::<Vec<_>>();
 
-            // All secrets are available immediately and have the exepected initial data
+            // All secrets are available immediately and have the expected initial data
             assert_secrets_have_initial_data_now(&mut affected_secrets, test_case);
             assert_secrets_have_initial_data_now(&mut bystander_secrets, test_case);
 
@@ -1163,7 +1157,7 @@ mod tests {
                 .map(|alias| secrets.get_secret(alias).expect("Failed to get secret"))
                 .collect::<Vec<_>>();
 
-            // All secrets are available immediately and have the exepected initial data
+            // All secrets are available immediately and have the expected initial data
             assert_secrets_have_initial_data_now(&mut affected_secrets, test_case);
             assert_secrets_have_initial_data_now(&mut bystander_secrets, test_case);
 
@@ -1221,7 +1215,7 @@ mod tests {
                 .map(|alias| secrets.get_secret(alias).expect("Failed to get secret"))
                 .collect::<Vec<_>>();
 
-            // All secrets are available immediately and have the exepected initial data
+            // All secrets are available immediately and have the expected initial data
             assert_secrets_have_initial_data_now(&mut affected_secrets, test_case);
             assert_secrets_have_initial_data_now(&mut bystander_secrets, test_case);
 
@@ -1310,7 +1304,7 @@ mod tests {
                 .map(|alias| secrets.get_secret(alias).expect("Failed to get secret"))
                 .collect::<Vec<_>>();
 
-            // All secrets are available immediately and have the exepected initial data
+            // All secrets are available immediately and have the expected initial data
             assert_secrets_have_initial_data_now(&mut affected_secrets, test_case);
             assert_secrets_have_initial_data_now(&mut bystander_secrets, test_case);
 
@@ -1392,7 +1386,7 @@ mod tests {
                 .map(|alias| secrets.get_secret(alias).expect("Failed to get secret"))
                 .collect::<Vec<_>>();
 
-            // All secrets are available immediately and have the exepected initial data
+            // All secrets are available immediately and have the expected initial data
             assert_secret_has_initial_data_now(&mut target_secret, test_case);
             assert_secrets_have_initial_data_now(&mut bystander_secrets, test_case);
 
@@ -1463,7 +1457,7 @@ mod tests {
                 .map(|alias| secrets.get_secret(alias).expect("Failed to get secret"))
                 .collect::<Vec<_>>();
 
-            // All secrets are available immediately and have the exepected initial data
+            // All secrets are available immediately and have the expected initial data
             assert_secret_has_initial_data_now(&mut target_secret, test_case);
             assert_secrets_have_initial_data_now(&mut bystander_secrets, test_case);
 
@@ -1515,7 +1509,7 @@ mod tests {
         }
     );
 
-    // Tests that a secret can have its alias remaped to point at a new secret data file that contains
+    // Tests that a secret can have its alias remapped to point at a new secret data file that contains
     // the same data as the old secret data file, with the change only being reported and propagated to
     // the target secret.
     // NOTE: This may not actually be desirable, since it's not providing anything useful to the user,
@@ -1550,7 +1544,7 @@ mod tests {
                 .map(|alias| secrets.get_secret(alias).expect("Failed to get secret"))
                 .collect::<Vec<_>>();
 
-            // All secrets are available immediately and have the exepected initial data
+            // All secrets are available immediately and have the expected initial data
             assert_secret_has_initial_data_now(&mut target_secret, test_case);
             assert_secrets_have_initial_data_now(&mut bystander_secrets, test_case);
 
@@ -1615,7 +1609,7 @@ mod tests {
                 .map(|alias| secrets.get_secret(alias).expect("Failed to get secret"))
                 .collect::<Vec<_>>();
 
-            // All secrets are available immediately and have the exepected initial data
+            // All secrets are available immediately and have the expected initial data
             assert_secret_has_initial_data_now(&mut target_secret, test_case);
             assert_secrets_have_initial_data_now(&mut bystander_secrets, test_case);
 
@@ -1676,7 +1670,7 @@ mod tests {
             // Get the secrets
             let mut target_secret = secrets.get_secret(target_alias).expect("Failed to get secret");
 
-            // All secrets are available immediately and have the exepected initial data
+            // All secrets are available immediately and have the expected initial data
             assert_secret_has_initial_data_now(&mut target_secret, test_case);
 
             // END SETUP ----------------------------------------------------------------
@@ -1738,7 +1732,7 @@ mod tests {
             let mut target_secret = secrets.get_secret(target_alias).expect("Failed to get secret");
             let target_secret_initial_refky = test_case.initial_ref_key_for_alias(target_alias);
 
-            // Secret is available immediately and have the exepected initial data
+            // Secret is available immediately and have the expected initial data
             assert_secret_has_initial_data_now(&mut target_secret, test_case);
 
             // END SETUP ----------------------------------------------------------------
@@ -1788,8 +1782,8 @@ mod tests {
     secret_test!(
         async secret_alias_remap_notification_aggregation, |mount_manager| {
 
-            // Use a test case with many pieces of inital data to avoid complicating the test logic
-            // with secret data creation, which should be saved for a the mixed notification aggreagtion test.
+            // Use a test case with many pieces of initial data to avoid complicating the test logic
+            // with secret data creation, which should be saved for the mixed notification aggregation test.
             // Use variant refs and keys to validate overlapping scenarios.
             // Define the test case locally since the test is so hyper-dependent on this test case, it
             // should not be extracted for re-use.
@@ -1817,7 +1811,7 @@ mod tests {
             .expect("Failed to create Secrets struct");
             let mut target_secret = secrets.get_secret(target_alias).expect("Failed to get secret");
 
-            // Secret is available immediately and have the exepected initial data
+            // Secret is available immediately and have the expected initial data
             assert_secret_has_initial_data_now(&mut target_secret, &test_case);
 
             // END SETUP ----------------------------------------------------------------
@@ -1897,7 +1891,7 @@ mod tests {
             .expect("Failed to create Secrets struct");
             let mut target_secret = secrets.get_secret(target_alias).expect("Failed to get secret");
 
-            // Secret is available immediately and have the exepected initial data
+            // Secret is available immediately and have the expected initial data
             assert_secret_has_initial_data_now(&mut target_secret, &test_case);
 
             // END SETUP ----------------------------------------------------------------
@@ -1981,7 +1975,7 @@ mod tests {
             target_secrets.push(target_secrets[1].clone());
 
 
-            // Secret is available immediately and have the exepected initial data
+            // Secret is available immediately and have the expected initial data
             assert_secrets_have_initial_data_now(&mut target_secrets, test_case);
 
             // END SETUP ----------------------------------------------------------------
@@ -2022,7 +2016,7 @@ mod tests {
             let mut original_secret = secrets.get_secret(target_alias).expect("Failed to get secret");
             let mut cloned_secret = original_secret.clone();
 
-            // Secret is available immediately and have the exepected initial data
+            // Secret is available immediately and have the expected initial data
             assert_secret_has_initial_data_now(&mut original_secret, test_case);
             assert_secret_has_initial_data_now(&mut cloned_secret, test_case);
 
@@ -2079,7 +2073,7 @@ mod tests {
             .expect("Failed to create Secrets struct");
             let mut original_secret = secrets.get_secret(target_alias).expect("Failed to get secret");
 
-            // Secret is available immediately and have the exepected initial data
+            // Secret is available immediately and have the expected initial data
             assert_secret_has_initial_data_now(&mut original_secret, &test_case);
 
             // END SETUP ----------------------------------------------------------------
@@ -2145,7 +2139,7 @@ mod tests {
             .expect("Failed to create Secrets struct");
             let mut target_secret = secrets.get_secret(target_alias).expect("Failed to get secret");
 
-            // Secret is available immediately and have the exepected initial data
+            // Secret is available immediately and have the expected initial data
             assert_secret_has_initial_data_now(&mut target_secret, test_case);
 
             // END SETUP ----------------------------------------------------------------
