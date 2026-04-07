@@ -7,18 +7,20 @@ use std::cell::{Cell, RefCell};
 use std::collections::{HashMap, HashSet};
 use std::os::unix::fs::symlink;
 use std::path::{Component, Path, PathBuf};
+use std::sync::Arc;
 use std::time::SystemTime;
 
 use tempfile::TempDir;
 
 /// Simulates a file mount directory using a temporary directory.
+#[derive(Clone)]
 pub struct TempMount {
-    dir: TempDir,
+    dir: Arc<TempDir>, // TODO: This should not be arc! it makes drop behavior ambiguous. Fix!
 }
 
 impl TempMount {
     pub fn new(dir_name: &str) -> Self {
-        let dir = tempfile::TempDir::with_prefix(dir_name).unwrap();
+        let dir = Arc::new(tempfile::TempDir::with_prefix(dir_name).unwrap());
         Self { dir }
         // TODO: Add symlink simulation. Currently this doesn't work, because
         // trying to add a ".." file is interpreted as trying to go up a level
@@ -28,6 +30,8 @@ impl TempMount {
         //ret.add_file("..", "");
         //ret
     }
+
+    // TODO: do we need to consider directories/subdirectories here?
 
     pub fn add_file(&self, file_name: &str, contents: &str) {
         let file_path = self.dir.path().join(file_name);

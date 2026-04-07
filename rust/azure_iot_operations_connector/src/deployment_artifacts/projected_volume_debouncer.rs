@@ -20,9 +20,6 @@
 //! needs to be long enough to coalesce the ~20-30 raw inotify events produced by a single
 //! swap (~1-2ms of filesystem activity) into one callback invocation.
 
-// TODO: Remove after using for Secrets
-#![allow(unused)]
-
 use std::collections::HashMap;
 use std::fs;
 use std::path::{Path, PathBuf};
@@ -37,9 +34,18 @@ use sha2::{Digest, Sha256};
 
 /// Internal debounce window for coalescing raw inotify events from a single
 /// Kubernetes atomic symlink swap. A single swap produces ~20-30 events over
-/// ~1-2ms; one second is a generous buffer that adds negligible latency given
-/// the kubelet's sync cycle (default 60s).
-const DEBOUNCE_WINDOW: Duration = Duration::from_secs(1);
+/// ~1-2ms. 100ms is 50x the event burst duration, providing a safe margin on
+/// even heavily loaded systems while keeping notification latency low.
+pub const DEBOUNCE_WINDOW: Duration = Duration::from_millis(100);
+
+/// How often the underlying debouncer checks for expired events.
+/// Must be less than `DEBOUNCE_WINDOW`.
+pub const TICK_RATE: Duration = Duration::from_millis(25);
+
+const _: () = assert!(
+    DEBOUNCE_WINDOW.as_millis() > TICK_RATE.as_millis(),
+    "DEBOUNCE_WINDOW must be greater than TICK_RATE"
+);
 
 /// Error from the [`ProjectedVolumeDebouncer`].
 #[derive(Debug, thiserror::Error)]
@@ -96,6 +102,8 @@ pub struct ProjectedVolumeEvent {
     /// The absolute path of the affected entry.
     pub path: PathBuf,
     /// When the change was detected.
+    #[allow(dead_code)]
+    // included for potential future use in event ordering or latency measurement
     pub time: Instant,
 }
 
@@ -114,27 +122,6 @@ pub type ProjectedVolumeEventResult = Result<Vec<ProjectedVolumeEvent>, Projecte
 ///
 /// Monitors a projected volume directory and produces clean, synthetic filesystem events
 /// when Kubernetes performs an atomic symlink swap to update the volume contents.
-///
-/// ```ignore
-/// use std::path::PathBuf;
-/// use azure_iot_operations_connector::deployment_artifacts::projected_volume_debouncer::{
-///     ProjectedVolumeDebouncer, ProjectedVolumeEventResult,
-/// };
-///
-/// let _debouncer = ProjectedVolumeDebouncer::new(
-///     PathBuf::from("/etc/akri/secrets/connector_secrets"),
-///     |result: ProjectedVolumeEventResult| {
-///         match result {
-///             Ok(events) => {
-///                 for event in events {
-///                     println!("{:?}: {:?}", event.kind, event.path);
-///                 }
-///             }
-///             Err(e) => eprintln!("Error: {e}"),
-///         }
-///     },
-/// ).expect("failed to create debouncer");
-/// ```
 pub struct ProjectedVolumeDebouncer {
     // NOTE: Dropping this struct signals the background thread to stop but does not join
     // it, so the event handler may still fire briefly after drop returns. If a hard
@@ -170,7 +157,7 @@ impl ProjectedVolumeDebouncer {
 
         let mut debouncer = new_debouncer(
             DEBOUNCE_WINDOW,
-            None,
+            Some(TICK_RATE),
             move |res: DebounceEventResult| match res {
                 Ok(events) => {
                     let Some(swap_time) = symlink_swap_time(&events) else {
@@ -609,15 +596,12 @@ mod tests {
     }
 
     mod symlink_swap_time {
-        use std::f32::consts::E;
 
         use super::*;
         use notify::event::EventAttributes;
 
         #[test]
         fn detects_data_rename() {
-            use notify::Event;
-
             let expected_time = Instant::now();
             let event = DebouncedEvent {
                 event: notify::Event {
@@ -659,11 +643,15 @@ mod tests {
 
         /// Timeout for waiting for events to arrive. Must be comfortably longer
         /// than `DEBOUNCE_WINDOW` to account for the tick rate and thread scheduling.
-        const EVENT_TIMEOUT: Duration = Duration::from_secs(DEBOUNCE_WINDOW.as_secs() * 2);
+        #[allow(clippy::cast_possible_truncation)] // Value should be small enough for u64
+        const EVENT_TIMEOUT: Duration =
+            Duration::from_millis(DEBOUNCE_WINDOW.as_millis() as u64 * 3);
 
         /// Timeout for asserting no events arrived. Longer than [`EVENT_TIMEOUT`]
         /// to reduce the risk of false passes.
-        const EMPTY_TIMEOUT: Duration = Duration::from_secs(DEBOUNCE_WINDOW.as_secs() * 3);
+        #[allow(clippy::cast_possible_truncation)] // Value should be small enough for u64
+        const EMPTY_TIMEOUT: Duration =
+            Duration::from_millis(DEBOUNCE_WINDOW.as_millis() as u64 * 5);
 
         /// Collector for debouncer events, using a condvar to allow tests to wait
         /// for results with a timeout.
