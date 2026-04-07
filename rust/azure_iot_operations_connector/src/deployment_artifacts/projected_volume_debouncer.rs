@@ -42,6 +42,11 @@ pub const DEBOUNCE_WINDOW: Duration = Duration::from_millis(100);
 /// Must be less than `DEBOUNCE_WINDOW`.
 pub const TICK_RATE: Duration = Duration::from_millis(25);
 
+const _: () = assert!(
+    DEBOUNCE_WINDOW.as_millis() > TICK_RATE.as_millis(),
+    "DEBOUNCE_WINDOW must be greater than TICK_RATE"
+);
+
 /// Error from the [`ProjectedVolumeDebouncer`].
 #[derive(Debug, thiserror::Error)]
 pub enum ProjectedVolumeError {
