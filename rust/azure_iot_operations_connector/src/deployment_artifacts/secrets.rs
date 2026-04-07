@@ -40,7 +40,11 @@ enum InnerError {
 /// debouncers fire at slightly different times for the same logical update.
 /// Set to 2x the debouncer tick rate to guarantee both debouncer callbacks
 /// are absorbed into a single notification.
-#[allow(clippy::cast_possible_truncation)] // PVDB_TICK_RATE is always small enough for u64
+const _: () = assert!(
+    PVDB_TICK_RATE.as_millis() * 2 <= u64::MAX as u128,
+    "COALESCE_WINDOW computation would truncate",
+);
+#[allow(clippy::cast_possible_truncation)] // Safety: const assertion above proves no truncation
 const COALESCE_WINDOW: Duration = Duration::from_millis(PVDB_TICK_RATE.as_millis() as u64 * 2);
 
 /// Holds the file watchers (debouncers) that must remain alive as long as any
@@ -568,7 +572,15 @@ mod tests {
     // Worst case: DEBOUNCE_WINDOW + TICK_RATE (jitter) + COALESCE_WINDOW + margin.
     // Expressed as the sum of the components with an extra TICK_RATE for safety.
     // Use this value for timeouts or manual waits when waiting for updates to Secrets.
-    #[allow(clippy::cast_possible_truncation)] // All values here are small enough for u64
+    const _: () = assert!(
+        DEBOUNCE_WINDOW.as_millis()
+            + TICK_RATE.as_millis()
+            + COALESCE_WINDOW.as_millis()
+            + TICK_RATE.as_millis()
+            <= u64::MAX as u128,
+        "UPDATE_WINDOW computation would truncate",
+    );
+    #[allow(clippy::cast_possible_truncation)] // Safety: const assertion above proves no truncation
     const UPDATE_WINDOW: Duration = Duration::from_millis(
         DEBOUNCE_WINDOW.as_millis() as u64
             + TICK_RATE.as_millis() as u64
