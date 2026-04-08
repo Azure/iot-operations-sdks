@@ -60,15 +60,15 @@ The available packages are: `mqtt`, `protocol`, `services`, `connector`.
 
 During release stabilization, SDK packages go through the following versioning stages:
 
-1. **Test versions** (e.g., `1.0.0-test1`, `1.0.0-test2`) — published at least 2 weeks before code freeze for early integration and validation by consumers
+1. **Beta versions** (e.g., `1.0.0-beta1`, `1.0.0-beta2`) — published at least 2 weeks before code freeze for early integration and validation by consumers
 2. **Release candidate** (e.g., `1.0.0-rc1`) — published a few days before code freeze, representing the version that will become the official release
 3. **Official release** (e.g., `1.0.0`) — same code as the RC, published on release day
 
 If bugs are found after code freeze, an updated RC is released (e.g., `1.0.0-rc2`). Updates to the RC after code freeze should be strictly bug fixes.
 
-Tags are created for test, RC, and final releases:
+Tags are created for beta, RC, and final releases:
 
-- `rust/services/v1.0.0-test1`
+- `rust/services/v1.0.0-beta1`
 - `rust/services/v1.0.0-rc1`
 - `rust/services/v1.0.0` (final)
 
