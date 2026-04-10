@@ -16,9 +16,9 @@ use std::{
 
 use tokio::sync::watch;
 
-use crate::deployment_artifacts::projected_volume_debouncer::{
-    ProjectedVolumeDebouncer, ProjectedVolumeError, ProjectedVolumeEventKind,
-    ProjectedVolumeEventResult, TICK_RATE as PVDB_TICK_RATE,
+use crate::deployment_artifacts::atomic_writer_volume_debouncer::{
+    AtomicWriterVolumeDebouncer, AtomicWriterVolumeError, AtomicWriterVolumeEventKind,
+    AtomicWriterVolumeEventResult, TICK_RATE as AWVDB_TICK_RATE,
 };
 
 /// Error for secret
@@ -29,7 +29,7 @@ pub struct Error(#[from] InnerError);
 #[derive(Debug, thiserror::Error)]
 #[error(transparent)]
 enum InnerError {
-    ProjectedVolumeError(#[from] ProjectedVolumeError),
+    AtomicWriterVolumeError(#[from] AtomicWriterVolumeError),
     IoError(#[from] std::io::Error),
     #[error("Invalid secret configuration")]
     Invalid,
@@ -41,17 +41,17 @@ enum InnerError {
 /// Set to 2x the debouncer tick rate to guarantee both debouncer callbacks
 /// are absorbed into a single notification.
 const _: () = assert!(
-    PVDB_TICK_RATE.as_millis() * 2 <= u64::MAX as u128,
+    AWVDB_TICK_RATE.as_millis() * 2 <= u64::MAX as u128,
     "COALESCE_WINDOW computation would truncate",
 );
 #[allow(clippy::cast_possible_truncation)] // Safety: const assertion above proves no truncation
-const COALESCE_WINDOW: Duration = Duration::from_millis(PVDB_TICK_RATE.as_millis() as u64 * 2);
+const COALESCE_WINDOW: Duration = Duration::from_millis(AWVDB_TICK_RATE.as_millis() as u64 * 2);
 
 /// Holds the file watchers (debouncers) that must remain alive as long as any
 /// `Secrets` or `Secret` handle exists.
 struct Watchers {
-    _metadata_debouncer: ProjectedVolumeDebouncer,
-    _data_debouncer: ProjectedVolumeDebouncer,
+    _metadata_debouncer: AtomicWriterVolumeDebouncer,
+    _data_debouncer: AtomicWriterVolumeDebouncer,
 }
 
 /// Manager for Secrets deployed in the connector application
@@ -64,8 +64,8 @@ pub struct Secrets {
 
 impl Secrets {
     /// # Arguments
-    /// - `metadata_path`: path the Secret Metadata mount is located at
-    /// - `data_path`: path the Secret Data mount is located at
+    /// - `metadata_path`: path the Secret Metadata configMap mount is located at
+    /// - `data_path`: path the Secret Data projected volume mount is located at
     ///
     /// Fails if paths are invalid
     pub(crate) fn new(metadata_path: PathBuf, data_path: PathBuf) -> Result<Self, Error> {
@@ -78,17 +78,20 @@ impl Secrets {
         let secret_tracker_c2 = secret_tracker.clone();
         let data_path_c1 = data_path.clone();
 
+        // NOTE: Both configMap volumes and projected volumes can use the AtomicWriterVolumeDebouncer
+        // as they have the same atomic symlink swap behavior.
+
         // Set up the Secret Metadata mount debouncer.
-        let metadata_debouncer = ProjectedVolumeDebouncer::new(
+        let metadata_debouncer = AtomicWriterVolumeDebouncer::new(
             metadata_path,
-            move |res: ProjectedVolumeEventResult| {
+            move |res: AtomicWriterVolumeEventResult| {
                 match res {
                     Ok(events) => {
                         for event in &events {
                             match event.kind {
                                 // Handle updates to existing aliases
                                 // (i.e. secret alias now points to a different secret)
-                                ProjectedVolumeEventKind::FileModified => {
+                                AtomicWriterVolumeEventKind::FileModified => {
                                     log::trace!("Secret metadata change detected: {event:?}");
                                     // Alias is the filename.
                                     let Some(file_name) = event.path.file_name() else {
@@ -150,27 +153,28 @@ impl Secrets {
         )?;
 
         // Set up the Secret Data mount debouncer.
-        let data_debouncer =
-            ProjectedVolumeDebouncer::new(data_path, move |res: ProjectedVolumeEventResult| {
+        let data_debouncer = AtomicWriterVolumeDebouncer::new(
+            data_path,
+            move |res: AtomicWriterVolumeEventResult| {
                 match res {
                     Ok(events) => {
                         for event in &events {
                             match event.kind {
                                 // Handle updates to existing secret data.
-                                ProjectedVolumeEventKind::FileModified => {
+                                AtomicWriterVolumeEventKind::FileModified => {
                                     log::trace!("Secret data change detected: {event:?}");
                                     secret_tracker_c2.report_secret_change(&event.path);
                                 }
                                 // Secret files can be created, but we don't need to do anything
                                 // with them until an alias points at them, so log and report.
-                                ProjectedVolumeEventKind::FileCreated => {
+                                AtomicWriterVolumeEventKind::FileCreated => {
                                     log::trace!("Secret data creation detected: {event:?}");
                                     secret_tracker_c2.report_secret_change(&event.path);
                                 }
                                 // Secret files can be deleted, but there's no need for anything
                                 // to be done in response, since the Secret interface will handle
                                 // the file no longer existing. Log only.
-                                ProjectedVolumeEventKind::FileRemoved => {
+                                AtomicWriterVolumeEventKind::FileRemoved => {
                                     log::trace!("Secret data removal detected: {event:?}");
                                 }
                                 // Directory events can be ignored
@@ -182,7 +186,8 @@ impl Secrets {
                         log::error!("Error processing Secret data event: {e:?}");
                     }
                 }
-            })?;
+            },
+        )?;
 
         Ok(Self {
             file_watchers: Arc::new(Watchers {
@@ -373,7 +378,7 @@ impl SecretTrackerState {
             let entry = entry?;
 
             // NOTE: Must use entry.path().is_file() instead of entry.file_type()?.is_file()
-            // In Kubernetes projected volumes, all files are also symlinks, and entry.file_type()
+            // In Kubernetes atomic-writer volumes, all files are also symlinks, and entry.file_type()
             // only returns a mutually-exclusive single type, which is always symlink.
             if entry.path().is_file() {
                 let secret_alias = entry
@@ -561,8 +566,8 @@ impl Drop for CoalesceThread {
 #[cfg(test)]
 mod tests {
     use super::{COALESCE_WINDOW, Secret, Secrets};
-    use crate::deployment_artifacts::projected_volume_debouncer::{DEBOUNCE_WINDOW, TICK_RATE};
-    use crate::deployment_artifacts::test_utils::TempProjectedVolume;
+    use crate::deployment_artifacts::atomic_writer_volume_debouncer::{DEBOUNCE_WINDOW, TICK_RATE};
+    use crate::deployment_artifacts::test_utils::TempAtomicWriterVolume;
     use futures_util::FutureExt;
     use std::cell::RefCell;
     use std::collections::{HashMap, HashSet};
@@ -633,8 +638,8 @@ mod tests {
 
     #[derive(Clone)]
     struct StandardSecretMountManager {
-        metadata_mount: Arc<TempProjectedVolume>,
-        data_mount: Arc<TempProjectedVolume>,
+        metadata_mount: Arc<TempAtomicWriterVolume>,
+        data_mount: Arc<TempAtomicWriterVolume>,
         /// Tracks which `secret_ref` directories have been created in the data mount.
         data_dirs: Arc<RefCell<HashSet<String>>>,
     }
@@ -643,8 +648,8 @@ mod tests {
         #[allow(clippy::arc_with_non_send_sync)]
         fn new() -> Self {
             Self {
-                metadata_mount: Arc::new(TempProjectedVolume::new("metadata")),
-                data_mount: Arc::new(TempProjectedVolume::new("data")),
+                metadata_mount: Arc::new(TempAtomicWriterVolume::new("metadata")),
+                data_mount: Arc::new(TempAtomicWriterVolume::new("data")),
                 data_dirs: Arc::new(RefCell::new(HashSet::new())),
             }
         }
@@ -717,16 +722,16 @@ mod tests {
 
     #[derive(Clone)]
     struct SecretSyncMountManager {
-        metadata_mount: Arc<TempProjectedVolume>,
-        data_mount: Arc<TempProjectedVolume>,
+        metadata_mount: Arc<TempAtomicWriterVolume>,
+        data_mount: Arc<TempAtomicWriterVolume>,
     }
 
     impl SecretSyncMountManager {
         #[allow(clippy::arc_with_non_send_sync)]
         fn new() -> Self {
             Self {
-                metadata_mount: Arc::new(TempProjectedVolume::new("metadata")),
-                data_mount: Arc::new(TempProjectedVolume::new("data")),
+                metadata_mount: Arc::new(TempAtomicWriterVolume::new("metadata")),
+                data_mount: Arc::new(TempAtomicWriterVolume::new("data")),
             }
         }
     }
