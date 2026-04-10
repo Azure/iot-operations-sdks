@@ -5,17 +5,19 @@
 
 use std::env::VarError;
 use std::ffi::OsString;
-use std::fs::File;
-use std::io::{BufRead, BufReader};
-use std::path::{Path, PathBuf};
+use std::path::PathBuf;
 use std::time::Duration;
 
 use azure_iot_operations_mqtt as aio_mqtt;
-use serde::Deserialize;
 use serde_json;
 use thiserror::Error;
 
 use crate::deployment_artifacts::{FileMount, Secrets};
+
+pub use super::connector_configuration::{
+    ConnectorConfiguration, Diagnostics, Logs, MqttConnectionConfiguration, Protocol, Tls,
+    TlsMode,
+};
 
 const AGGREGATION_WINDOW: Duration = Duration::from_secs(10);
 
@@ -26,7 +28,7 @@ pub struct DeploymentArtifactError(#[from] DeploymentArtifactErrorRepr);
 
 /// Represents the type of error encountered while parsing artifacts in an Akri deployment
 #[derive(Error, Debug)]
-enum DeploymentArtifactErrorRepr {
+pub(crate) enum DeploymentArtifactErrorRepr {
     /// A required environment variable was not found
     #[error("Required environment variable missing: {0}")]
     EnvVarMissing(String),
@@ -69,15 +71,15 @@ pub struct ConnectorArtifacts {
     /// The secrets deployed for the connector
     pub connector_secrets: Option<Secrets>,
     /// Path to directory containing trust list certificates for the connector
-    pub connector_trust_settings_mount: Option<FileMount>,
+    pub connector_trust_settings_mount: Option<FileMount>,                          // TODO: dir (projected)
     /// Path to directory containing trust bundle for the broker
-    pub broker_trust_bundle_mount: Option<FileMount>,
+    pub broker_trust_bundle_mount: Option<FileMount>,                               // TODO: dir (projected)
     /// Path to file containing service account token for authentication with the broker
-    pub broker_sat_mount: Option<FileMount>,
+    pub broker_sat_mount: Option<FileMount>,                                        // TODO: dir (projected)
     /// Path to directory containing trust bundle for device inbound endpoints
-    pub device_endpoint_trust_bundle_mount: Option<FileMount>,
+    pub device_endpoint_trust_bundle_mount: Option<FileMount>,                      // TODO: dir (unknown)
     /// Path to directory containing credentials for device inbound endpoints
-    pub device_endpoint_credentials_mount: Option<FileMount>,
+    pub device_endpoint_credentials_mount: Option<FileMount>,                       // TODO: dir (unknown)
 
     // TODO: The following are stopgap variables - these will change in the future
     /// OTEL grpc/grpcs metric endpoint.
@@ -87,9 +89,9 @@ pub struct ConnectorArtifacts {
     /// OTEL grpc/grpcs trace endpoint.
     pub grpc_trace_endpoint: Option<String>,
     /// Path to the directory containing trust bundle for 1P grpc metric collector.
-    pub grpc_metric_collector_1p_ca_mount: Option<FileMount>,
+    pub grpc_metric_collector_1p_ca_mount: Option<FileMount>,                          // TODO: file
     /// Path to the directory containing trust bundle for 1P grpc log collector.
-    pub grpc_log_collector_1p_ca_mount: Option<FileMount>,
+    pub grpc_log_collector_1p_ca_mount: Option<FileMount>,                              // TODO: file
     /// OTEL http/https metric endpoint.
     pub http_metric_endpoint: Option<String>,
     /// OTEL http/https log endpoint.
@@ -122,6 +124,7 @@ impl ConnectorArtifacts {
         )?;
 
         // Connector Configuration
+        // TODO: bring env var extraction logic back into this module
         let connector_configuration = ConnectorConfiguration::new_from_mount_path(
             string_from_environment("CONNECTOR_CONFIGURATION_MOUNT_PATH")?
                 .map(valid_filemount_from)
@@ -323,181 +326,6 @@ impl ConnectorArtifacts {
             .map_err(|e| format!("{e}"))?;
         Ok(c)
     }
-}
-
-/// The Connector Configuration extracted from the Akri deployment
-#[derive(Debug, Clone, PartialEq)]
-pub struct ConnectorConfiguration {
-    /// MQTT connection details
-    pub mqtt_connection_configuration: MqttConnectionConfiguration,
-    /// Diagnostics
-    pub diagnostics: Option<Diagnostics>,
-    /// Persistent Volume Mount Path
-    pub persistent_volumes: Vec<PathBuf>,
-    /// Additional connector configuration as a JSON string
-    pub additional_configuration: Option<String>,
-}
-
-impl ConnectorConfiguration {
-    /// Create a `ConnectorConfiguration` from the files in the specified mount path
-    fn new_from_mount_path(mount_path: &Path) -> Result<Self, DeploymentArtifactError> {
-        // NOTE: Handling errors here does end up requiring unnecessary allocations in the
-        // FilePathMissing errors returned on optional files, but this is not (yet) code that will
-        // be run often, and it keeps things simpler and easier to pivot as the spec evolves.
-        // When finalized, consider optimizing so the individual helpers have logic to handle
-        // optional files.
-
-        let mqtt_connection_configuration =
-            Self::extract_mqtt_connection_configuration(mount_path)?;
-        let diagnostics = match Self::extract_diagnostics(mount_path) {
-            Ok(d) => Some(d),
-            Err(DeploymentArtifactErrorRepr::FilePathMissing(_)) => None,
-            Err(e) => Err(e)?,
-        };
-        let persistent_volumes = match Self::extract_persistent_volumes(mount_path) {
-            Err(DeploymentArtifactErrorRepr::FilePathMissing(_)) => vec![],
-            res => res?,
-        };
-        let additional_configuration = match Self::extract_additional_configuration(mount_path) {
-            Ok(ac) => Some(ac),
-            Err(DeploymentArtifactErrorRepr::FilePathMissing(_)) => None,
-            Err(e) => Err(e)?,
-        };
-
-        Ok(Self {
-            mqtt_connection_configuration,
-            diagnostics,
-            persistent_volumes,
-            additional_configuration,
-        })
-    }
-
-    /// Extract an `MqttConnectionConfiguration` from the specified mount path
-    fn extract_mqtt_connection_configuration(
-        mount_path: &Path,
-    ) -> Result<MqttConnectionConfiguration, DeploymentArtifactErrorRepr> {
-        let mqtt_conn_config_pathbuf = mount_path.join("MQTT_CONNECTION_CONFIGURATION");
-        if !mqtt_conn_config_pathbuf.exists() {
-            return Err(DeploymentArtifactErrorRepr::FilePathMissing(
-                mqtt_conn_config_pathbuf.into(),
-            ))?;
-        }
-        // NOTE: Manual file read to memory is more efficient than using serde_json::from_reader()
-        let m: MqttConnectionConfiguration =
-            serde_json::from_str(&std::fs::read_to_string(&mqtt_conn_config_pathbuf)?)?;
-        Ok(m)
-    }
-
-    /// Extract a `Diagnostics` struct from the specified mount path
-    fn extract_diagnostics(mount_path: &Path) -> Result<Diagnostics, DeploymentArtifactErrorRepr> {
-        let diagnostics_pathbuf = mount_path.join("DIAGNOSTICS");
-        if !diagnostics_pathbuf.exists() {
-            return Err(DeploymentArtifactErrorRepr::FilePathMissing(
-                diagnostics_pathbuf.into(),
-            ))?;
-        }
-        // NOTE: Manual file read to memory is more efficient than using serde_json::from_reader()
-        let d: Diagnostics = serde_json::from_str(&std::fs::read_to_string(&diagnostics_pathbuf)?)?;
-        Ok(d)
-    }
-
-    /// Extract a list of persistent volumes paths from the specified mount path
-    fn extract_persistent_volumes(
-        mount_path: &Path,
-    ) -> Result<Vec<PathBuf>, DeploymentArtifactErrorRepr> {
-        let persistent_volumes_pathbuf = mount_path.join("PERSISTENT_VOLUME_MOUNT_PATH");
-        if !persistent_volumes_pathbuf.exists() {
-            return Err(DeploymentArtifactErrorRepr::FilePathMissing(
-                persistent_volumes_pathbuf.into(),
-            ))?;
-        }
-        // NOTE: Use a BufReader to reduce allocations
-        let persistent_volumes = BufReader::new(File::open(&persistent_volumes_pathbuf)?)
-            .lines()
-            .map_while(Result::ok)
-            .map(PathBuf::from)
-            .try_fold(vec![], |mut acc, pv_pathbuf| {
-                if !pv_pathbuf.exists() {
-                    return Err(DeploymentArtifactErrorRepr::MountPathMissing(
-                        pv_pathbuf.into_os_string(),
-                    ));
-                }
-                acc.push(pv_pathbuf);
-                Ok(acc)
-            })?;
-        Ok(persistent_volumes)
-    }
-
-    /// Extract additional configuration JSON string from the specified mount path
-    fn extract_additional_configuration(
-        mount_path: &Path,
-    ) -> Result<String, DeploymentArtifactErrorRepr> {
-        let additional_config_pathbuf = mount_path.join("ADDITIONAL_CONNECTOR_CONFIGURATION");
-        if !additional_config_pathbuf.exists() {
-            return Err(DeploymentArtifactErrorRepr::FilePathMissing(
-                additional_config_pathbuf.into_os_string(),
-            ))?;
-        }
-        let additional_config = std::fs::read_to_string(&additional_config_pathbuf)?;
-        Ok(additional_config)
-    }
-}
-
-/// Configuration details related to an MQTT connection
-#[derive(Debug, Deserialize, Clone, PartialEq)]
-#[serde(rename_all = "camelCase")]
-pub struct MqttConnectionConfiguration {
-    /// Broker host in the format `<hostname>:<port>`
-    pub host: String,
-    /// Number of seconds to keep a connection to the broker alive for
-    pub keep_alive_seconds: u16,
-    /// Maximum number of messages that can be assigned a packet ID
-    pub max_inflight_messages: u16,
-    /// The type of MQTT connection being used
-    pub protocol: Protocol,
-    /// Number of seconds to keep a session with the broker alive for
-    pub session_expiry_seconds: u32,
-    /// TLS configuration
-    pub tls: Tls,
-}
-
-/// Enum representing the type of MQTT connection
-#[derive(Debug, Deserialize, Clone, PartialEq)]
-pub enum Protocol {
-    /// Regular MQTT
-    #[serde(alias = "mqtt")]
-    Mqtt,
-}
-
-/// TLS configuration information
-#[derive(Debug, Deserialize, Clone, PartialEq)]
-#[serde(rename_all = "camelCase")]
-pub struct Tls {
-    /// Indicates if TLS is enabled or not
-    pub mode: TlsMode,
-}
-
-/// Enum representing whether TLS is enabled or disabled
-#[derive(Debug, Deserialize, Clone, PartialEq)]
-pub enum TlsMode {
-    /// TLS is enabled
-    Enabled,
-    /// TLS is disabled
-    Disabled,
-}
-
-/// Diagnostic information
-#[derive(Debug, Deserialize, Clone, PartialEq)]
-pub struct Diagnostics {
-    /// Log information
-    pub logs: Logs,
-}
-
-/// Logging information
-#[derive(Debug, Deserialize, Clone, PartialEq)]
-pub struct Logs {
-    /// The log level. Examples - 'debug', 'info', 'warn', 'error', 'trace'.
-    pub level: String,
 }
 
 /// Helper function to get an environment variable as a string.

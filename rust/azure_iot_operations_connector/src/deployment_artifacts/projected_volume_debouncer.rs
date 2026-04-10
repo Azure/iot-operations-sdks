@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-//! A debouncer for Kubernetes projected volume mounts.
+//! A debouncer for Kubernetes projected volume and config map mounts.
 //!
 //! Wraps [`notify_debouncer_full`] and detects changes via the atomic `..data` symlink
 //! swap that Kubernetes performs when updating projected volumes.
