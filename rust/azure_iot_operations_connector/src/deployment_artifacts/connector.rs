@@ -380,6 +380,9 @@ mod tests {
     use std::path::Path;
     use test_case::{test_case, test_matrix};
 
+    // NOTE: These tests do NOT cover any kind of updates that happen to the fields of the `ConnectorArtifacts`.
+    // Such tests are added instead for relevant structs in the modules where they are defined.
+
     // Environment variable constants
     const AZURE_EXTENSION_RESOURCE_ID: &str = "/subscriptions/extension/resource/id";
     const CONNECTOR_ID: &str = "connector_id";
