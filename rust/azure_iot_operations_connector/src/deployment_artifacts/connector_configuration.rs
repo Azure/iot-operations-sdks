@@ -7,28 +7,48 @@
 use std::fs::File;
 use std::io::{BufRead, BufReader};
 use std::path::{Path, PathBuf};
+use std::sync::Arc;
 
 use serde::Deserialize;
 
+use super::atomic_writer_volume_debouncer::{
+    AtomicWriterVolumeDebouncer, AtomicWriterVolumeEventKind, AtomicWriterVolumeEventResult,
+};
 use super::connector::DeploymentArtifactErrorRepr;
+use super::watched::{Watched, watched_pair};
+
+
+const MQTT_CONNECTION_CONFIGURATION_FILE: &str = "MQTT_CONNECTION_CONFIGURATION";
+
+// TODO: Validat that this is okay to not support Debug and PartialEq
+// TODO: Debouner logic, make sure it stays alive as long as there's a reference to a Watched that uses it
 
 /// The Connector Configuration extracted from the Akri deployment
-#[derive(Debug, Clone, PartialEq)]
+#[derive(Clone)]
 pub struct ConnectorConfiguration {
     /// MQTT connection details
-    pub mqtt_connection_configuration: MqttConnectionConfiguration,
+    pub mqtt_connection_configuration: Watched<MqttConnectionConfiguration>,
+    // TODO: Expand to Watched<Option<Diagnostics>> once requirements are clarified
     /// Diagnostics
     pub diagnostics: Option<Diagnostics>,
+    // TODO: Expand to Watched<Vec<PathBuf>> once requirements are clarified
     /// Persistent Volume Mount Path
     pub persistent_volumes: Vec<PathBuf>,
+    // TODO: Expand to Watched<Option<String>> once requirements are clarified
     /// Additional connector configuration as a JSON string
     pub additional_configuration: Option<String>,
+    /// Debouncer that monitors the `ConfigMap` mount for changes.
+    /// Must be kept alive for the lifetime of this struct.
+    _debouncer: Arc<AtomicWriterVolumeDebouncer>,
 }
 
 impl ConnectorConfiguration {
-    /// Create a `ConnectorConfiguration` from the files in the specified mount path
+    /// Create a `ConnectorConfiguration` from the files in the specified mount path.
+    ///
+    /// Sets up an [`AtomicWriterVolumeDebouncer`] to monitor the mount path for changes
+    /// and push updates to the [`Watched`] fields.
     pub(crate) fn new_from_mount_path(
-        mount_path: &Path,
+        mount_path: PathBuf,
     ) -> Result<Self, DeploymentArtifactErrorRepr> {
         // NOTE: Handling errors here does end up requiring unnecessary allocations in the
         // FilePathMissing errors returned on optional files, but this is not (yet) code that will
@@ -36,28 +56,86 @@ impl ConnectorConfiguration {
         // When finalized, consider optimizing so the individual helpers have logic to handle
         // optional files.
 
-        let mqtt_connection_configuration =
-            Self::extract_mqtt_connection_configuration(mount_path)?;
-        let diagnostics = match Self::extract_diagnostics(mount_path) {
+        let initial_mqtt_config =
+            Self::extract_mqtt_connection_configuration(&mount_path)?;
+        let diagnostics = match Self::extract_diagnostics(&mount_path) {
             Ok(d) => Some(d),
             Err(DeploymentArtifactErrorRepr::FilePathMissing(_)) => None,
             Err(e) => Err(e)?,
         };
-        let persistent_volumes = match Self::extract_persistent_volumes(mount_path) {
+        let persistent_volumes = match Self::extract_persistent_volumes(&mount_path) {
             Err(DeploymentArtifactErrorRepr::FilePathMissing(_)) => vec![],
             res => res?,
         };
-        let additional_configuration = match Self::extract_additional_configuration(mount_path) {
+        let additional_configuration = match Self::extract_additional_configuration(&mount_path) {
             Ok(ac) => Some(ac),
             Err(DeploymentArtifactErrorRepr::FilePathMissing(_)) => None,
             Err(e) => Err(e)?,
         };
 
+        let (mqtt_tx, mqtt_rx) = watched_pair(initial_mqtt_config);
+        let mount_path_for_debouncer = mount_path.clone();
+
+        let debouncer = AtomicWriterVolumeDebouncer::new(
+            mount_path,
+            move |res: AtomicWriterVolumeEventResult| {
+                match res {
+                    Ok(events) => {
+                        for event in &events {
+                            let Some(file_name) = event.path.file_name() else {
+                                continue;
+                            };
+                            if file_name != MQTT_CONNECTION_CONFIGURATION_FILE {
+                                // TODO: Handle other configuration files when they use Watched<T>
+                                continue;
+                            }
+
+                            match event.kind {
+                                AtomicWriterVolumeEventKind::FileModified
+                                | AtomicWriterVolumeEventKind::FileCreated => {
+                                    let config_path = mount_path_for_debouncer
+                                        .join(MQTT_CONNECTION_CONFIGURATION_FILE);
+                                    match std::fs::read_to_string(&config_path)
+                                        .map_err(|e| e.to_string())
+                                        .and_then(|contents| {
+                                            serde_json::from_str::<MqttConnectionConfiguration>(
+                                                &contents,
+                                            )
+                                            .map_err(|e| e.to_string())
+                                        }) {
+                                        Ok(new_config) => {
+                                            mqtt_tx.send(new_config);
+                                        }
+                                        Err(e) => {
+                                            log::error!(
+                                                "Failed to parse updated {MQTT_CONNECTION_CONFIGURATION_FILE}: {e}"
+                                            );
+                                        }
+                                    }
+                                }
+                                AtomicWriterVolumeEventKind::FileRemoved => {
+                                    log::warn!(
+                                        "Required file {MQTT_CONNECTION_CONFIGURATION_FILE} was removed — ignoring"
+                                    );
+                                }
+                                // Directory events are not expected for this file
+                                _ => {}
+                            }
+                        }
+                    }
+                    Err(e) => {
+                        log::error!("Error monitoring connector configuration mount: {e:?}");
+                    }
+                }
+            },
+        )?;
+
         Ok(Self {
-            mqtt_connection_configuration,
+            mqtt_connection_configuration: mqtt_rx,
             diagnostics,
             persistent_volumes,
             additional_configuration,
+            _debouncer: Arc::new(debouncer),
         })
     }
 

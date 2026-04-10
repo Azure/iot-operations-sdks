@@ -54,6 +54,9 @@ pub(crate) enum DeploymentArtifactErrorRepr {
     /// Could not set up Secrets
     #[error("Error initializing Secrets: {0}")]
     SecretsError(#[from] super::secrets::Error),
+    /// Could not set up volume debouncer
+    #[error("Error initializing configuration volume debouncer: {0}")]  // TODO: should this be wrapped?
+    DebouncerError(#[from] super::atomic_writer_volume_debouncer::AtomicWriterVolumeError),
 }
 
 // TODO: Integrate ADR into this implementation
@@ -125,15 +128,13 @@ impl ConnectorArtifacts {
         )?;
 
         // Connector Configuration
-        // TODO: bring env var extraction logic back into this module
         let connector_configuration = ConnectorConfiguration::new_from_mount_path(
             string_from_environment("CONNECTOR_CONFIGURATION_MOUNT_PATH")?
-                .map(valid_filemount_from)
+                .map(valid_pathbuf_from)
                 .transpose()?
                 .ok_or(DeploymentArtifactErrorRepr::EnvVarMissing(
                     "CONNECTOR_CONFIGURATION_MOUNT_PATH".to_string(),
-                ))?
-                .as_path(),
+                ))?,
         )?;
 
         // Connector Secrets
@@ -232,40 +233,25 @@ impl ConnectorArtifacts {
         client_id_suffix: &str,
     ) -> Result<aio_mqtt::aio::connection_settings::MqttConnectionSettings, String> {
         let client_id = self.connector_id.clone() + client_id_suffix;
-        let host_c = self
-            .connector_configuration
-            .mqtt_connection_configuration
-            .host
-            .clone();
+        let (host_c, keep_alive, receive_max, session_expiry, use_tls) = {
+            let mc = self
+                .connector_configuration
+                .mqtt_connection_configuration
+                .borrow();
+            (
+                mc.host.clone(),
+                Duration::from_secs(mc.keep_alive_seconds.into()),
+                mc.max_inflight_messages,
+                Duration::from_secs(mc.session_expiry_seconds.into()),
+                matches!(mc.tls.mode, TlsMode::Enabled),
+            )
+        };
         let (hostname, tcp_port) = host_c.split_once(':').ok_or(format!(
             "'host' malformed. Expected format <hostname>:<port>. Found: {host_c}"
         ))?;
         let tcp_port = tcp_port
             .parse::<u16>()
             .map_err(|_| format!("Cannot parse 'tcp_port' into u16. Value: {tcp_port}"))?;
-        let keep_alive = Duration::from_secs(
-            self.connector_configuration
-                .mqtt_connection_configuration
-                .keep_alive_seconds
-                .into(),
-        );
-        let receive_max = self
-            .connector_configuration
-            .mqtt_connection_configuration
-            .max_inflight_messages;
-        let session_expiry = Duration::from_secs(
-            self.connector_configuration
-                .mqtt_connection_configuration
-                .session_expiry_seconds
-                .into(),
-        );
-        let use_tls = matches!(
-            self.connector_configuration
-                .mqtt_connection_configuration
-                .tls
-                .mode,
-            TlsMode::Enabled
-        );
         let sat_file = self
             .broker_sat_mount
             .as_ref()
@@ -464,9 +450,10 @@ mod tests {
 
                 // -- Validate the ConnectorConfiguration from the ConnectorArtifacts --
                 assert_eq!(
-                    artifacts
+                    *artifacts
                         .connector_configuration
-                        .mqtt_connection_configuration,
+                        .mqtt_connection_configuration
+                        .borrow(),
                     serde_json::from_str::<MqttConnectionConfiguration>(
                         MQTT_CONNECTION_CONFIGURATION_JSON
                     )
@@ -624,9 +611,10 @@ mod tests {
 
                 // -- Validate the ConnectorConfiguration from the ConnectorArtifacts --
                 assert_eq!(
-                    artifacts
+                    *artifacts
                         .connector_configuration
-                        .mqtt_connection_configuration,
+                        .mqtt_connection_configuration
+                        .borrow(),
                     serde_json::from_str::<MqttConnectionConfiguration>(
                         MQTT_CONNECTION_CONFIGURATION_JSON
                     )
@@ -855,149 +843,129 @@ mod tests {
 
     #[test]
     fn convert_to_mqtt_connection_settings_minimum() {
-        let connector_artifacts = ConnectorArtifacts {
-            azure_extension_resource_id: AZURE_EXTENSION_RESOURCE_ID.to_string(),
-            connector_id: "connector_id".to_string(),
-            connector_namespace: CONNECTOR_NAMESPACE.to_string(),
-            connector_configuration: ConnectorConfiguration {
-                mqtt_connection_configuration: MqttConnectionConfiguration {
-                    host: "someHostName:1234".to_string(),
-                    keep_alive_seconds: 60,
-                    max_inflight_messages: 100,
-                    protocol: Protocol::Mqtt,
-                    session_expiry_seconds: 3600,
-                    tls: Tls {
-                        mode: TlsMode::Disabled,
-                    },
-                },
-                diagnostics: None,
-                persistent_volumes: vec![],
-                additional_configuration: None,
-            },
-            connector_secrets: None,
-            connector_trust_settings_mount: None,
-            broker_trust_bundle_mount: None,
-            broker_sat_mount: None,
-            device_endpoint_trust_bundle_mount: None,
-            device_endpoint_credentials_mount: None,
-            // stopgaps
-            grpc_metric_endpoint: None,
-            grpc_log_endpoint: None,
-            grpc_trace_endpoint: None,
-            grpc_metric_collector_1p_ca_mount: None,
-            grpc_log_collector_1p_ca_mount: None,
-            http_metric_endpoint: None,
-            http_log_endpoint: None,
-            http_trace_endpoint: None,
-        };
+        let mqtt_json = r#"{
+            "host": "someHostName:1234",
+            "keepAliveSeconds": 60,
+            "maxInflightMessages": 100,
+            "protocol": "mqtt",
+            "sessionExpirySeconds": 3600,
+            "tls": { "mode": "Disabled" }
+        }"#;
 
-        // Convert to MQTT ConnectionSettings
-        let mqtt_connection_settings = connector_artifacts
-            .to_mqtt_connection_settings("0")
-            .unwrap();
-        assert_eq!(mqtt_connection_settings.client_id(), "connector_id0");
-        assert_eq!(mqtt_connection_settings.hostname(), "someHostName");
-        assert_eq!(mqtt_connection_settings.tcp_port(), 1234);
-        assert_eq!(
-            *mqtt_connection_settings.keep_alive(),
-            Duration::from_secs(60)
+        let connector_configuration_mount = TempMount::new("connector_configuration");
+        connector_configuration_mount.add_file("MQTT_CONNECTION_CONFIGURATION", mqtt_json);
+
+        temp_env::with_vars(
+            [
+                (
+                    "AZURE_EXTENSION_RESOURCEID",
+                    Some(AZURE_EXTENSION_RESOURCE_ID),
+                ),
+                ("CONNECTOR_ID", Some(CONNECTOR_ID)),
+                ("CONNECTOR_NAMESPACE", Some(CONNECTOR_NAMESPACE)),
+                (
+                    "CONNECTOR_CONFIGURATION_MOUNT_PATH",
+                    Some(connector_configuration_mount.path().to_str().unwrap()),
+                ),
+            ],
+            || {
+                let artifacts = ConnectorArtifacts::new_from_deployment().unwrap();
+                let mqtt_connection_settings = artifacts
+                    .to_mqtt_connection_settings("0")
+                    .unwrap();
+                assert_eq!(mqtt_connection_settings.client_id(), "connector_id0");
+                assert_eq!(mqtt_connection_settings.hostname(), "someHostName");
+                assert_eq!(mqtt_connection_settings.tcp_port(), 1234);
+                assert_eq!(
+                    *mqtt_connection_settings.keep_alive(),
+                    Duration::from_secs(60)
+                );
+                assert_eq!(mqtt_connection_settings.receive_max(), 100);
+                assert_eq!(
+                    *mqtt_connection_settings.session_expiry(),
+                    Duration::from_secs(3600)
+                );
+                assert!(!mqtt_connection_settings.use_tls());
+                assert_eq!(*mqtt_connection_settings.ca_file(), None);
+                assert_eq!(*mqtt_connection_settings.sat_file(), None);
+            },
         );
-        assert_eq!(mqtt_connection_settings.receive_max(), 100);
-        assert_eq!(
-            *mqtt_connection_settings.session_expiry(),
-            Duration::from_secs(3600)
-        );
-        assert!(!mqtt_connection_settings.use_tls());
-        assert_eq!(*mqtt_connection_settings.ca_file(), None);
-        assert_eq!(*mqtt_connection_settings.sat_file(), None);
     }
 
     #[test]
     fn convert_to_mqtt_connection_settings_maximum() {
+        let mqtt_json = r#"{
+            "host": "someHostName:1234",
+            "keepAliveSeconds": 60,
+            "maxInflightMessages": 100,
+            "protocol": "mqtt",
+            "sessionExpirySeconds": 3600,
+            "tls": { "mode": "Enabled" }
+        }"#;
+
+        let connector_configuration_mount = TempMount::new("connector_configuration");
+        connector_configuration_mount.add_file("MQTT_CONNECTION_CONFIGURATION", mqtt_json);
+
         let broker_sat_file_mount = NamedTempFile::with_prefix("broker-sat").unwrap();
 
         let broker_trust_bundle_mount = TempMount::new("broker_tls_trust_bundle_ca_cert");
         broker_trust_bundle_mount.add_file("ca.txt", "");
 
-        let connector_artifacts = ConnectorArtifacts {
-            azure_extension_resource_id: AZURE_EXTENSION_RESOURCE_ID.to_string(),
-            connector_id: "connector_id".to_string(),
-            connector_namespace: CONNECTOR_NAMESPACE.to_string(),
-            connector_configuration: ConnectorConfiguration {
-                mqtt_connection_configuration: MqttConnectionConfiguration {
-                    host: "someHostName:1234".to_string(),
-                    keep_alive_seconds: 60,
-                    max_inflight_messages: 100,
-                    protocol: Protocol::Mqtt,
-                    session_expiry_seconds: 3600,
-                    tls: Tls {
-                        mode: TlsMode::Enabled,
-                    },
-                },
-                diagnostics: None,
-                persistent_volumes: vec![],
-                additional_configuration: None,
+        temp_env::with_vars(
+            [
+                (
+                    "AZURE_EXTENSION_RESOURCEID",
+                    Some(AZURE_EXTENSION_RESOURCE_ID),
+                ),
+                ("CONNECTOR_ID", Some(CONNECTOR_ID)),
+                ("CONNECTOR_NAMESPACE", Some(CONNECTOR_NAMESPACE)),
+                (
+                    "CONNECTOR_CONFIGURATION_MOUNT_PATH",
+                    Some(connector_configuration_mount.path().to_str().unwrap()),
+                ),
+                (
+                    "BROKER_TLS_TRUST_BUNDLE_CACERT_MOUNT_PATH",
+                    Some(broker_trust_bundle_mount.path().to_str().unwrap()),
+                ),
+                (
+                    "BROKER_SAT_MOUNT_PATH",
+                    Some(broker_sat_file_mount.path().to_str().unwrap()),
+                ),
+            ],
+            || {
+                let artifacts = ConnectorArtifacts::new_from_deployment().unwrap();
+                let mqtt_connection_settings = artifacts
+                    .to_mqtt_connection_settings("0")
+                    .unwrap();
+                assert_eq!(mqtt_connection_settings.client_id(), "connector_id0");
+                assert_eq!(mqtt_connection_settings.hostname(), "someHostName");
+                assert_eq!(mqtt_connection_settings.tcp_port(), 1234);
+                assert_eq!(
+                    *mqtt_connection_settings.keep_alive(),
+                    Duration::from_secs(60)
+                );
+                assert_eq!(mqtt_connection_settings.receive_max(), 100);
+                assert_eq!(
+                    *mqtt_connection_settings.session_expiry(),
+                    Duration::from_secs(3600)
+                );
+                assert!(mqtt_connection_settings.use_tls());
+                assert_eq!(
+                    *mqtt_connection_settings.ca_file(),
+                    Some(
+                        broker_trust_bundle_mount
+                            .path()
+                            .join("ca.txt")
+                            .into_os_string()
+                            .into_string()
+                            .unwrap()
+                    )
+                );
+                assert_eq!(
+                    *mqtt_connection_settings.sat_file(),
+                    Some(broker_sat_file_mount.path().to_str().unwrap().to_string())
+                );
             },
-            connector_secrets: None,
-            connector_trust_settings_mount: None,
-            broker_trust_bundle_mount: Some(
-                FileMount::new(
-                    broker_trust_bundle_mount.path().to_path_buf(),
-                    AGGREGATION_WINDOW,
-                )
-                .unwrap(),
-            ),
-            broker_sat_mount: Some(
-                FileMount::new(
-                    broker_sat_file_mount.path().to_path_buf(),
-                    AGGREGATION_WINDOW,
-                )
-                .unwrap(),
-            ),
-            device_endpoint_trust_bundle_mount: None,
-            device_endpoint_credentials_mount: None,
-            // stopgaps
-            grpc_metric_endpoint: None,
-            grpc_log_endpoint: None,
-            grpc_trace_endpoint: None,
-            grpc_metric_collector_1p_ca_mount: None,
-            grpc_log_collector_1p_ca_mount: None,
-            http_metric_endpoint: None,
-            http_log_endpoint: None,
-            http_trace_endpoint: None,
-        };
-
-        // Convert to MQTT ConnectionSettings
-        let mqtt_connection_settings = connector_artifacts
-            .to_mqtt_connection_settings("0")
-            .unwrap();
-        assert_eq!(mqtt_connection_settings.client_id(), "connector_id0");
-        assert_eq!(mqtt_connection_settings.hostname(), "someHostName");
-        assert_eq!(mqtt_connection_settings.tcp_port(), 1234);
-        assert_eq!(
-            *mqtt_connection_settings.keep_alive(),
-            Duration::from_secs(60)
-        );
-        assert_eq!(mqtt_connection_settings.receive_max(), 100);
-        assert_eq!(
-            *mqtt_connection_settings.session_expiry(),
-            Duration::from_secs(3600)
-        );
-        assert!(mqtt_connection_settings.use_tls());
-        assert_eq!(
-            *mqtt_connection_settings.ca_file(),
-            Some(
-                broker_trust_bundle_mount
-                    .path()
-                    .join("ca.txt")
-                    .into_os_string()
-                    .into_string()
-                    .unwrap()
-            )
-        );
-        assert_eq!(
-            *mqtt_connection_settings.sat_file(),
-            Some(broker_sat_file_mount.path().to_str().unwrap().to_string())
         );
     }
 
@@ -1005,102 +973,80 @@ mod tests {
     #[test_case("someHostName:1234:extra_colon"; "Extra colon in host")]
     #[test_case("not_a_host"; "No port in host")]
     fn convert_to_mqtt_connection_settings_malformed_host(host: &str) {
-        let connector_artifacts = ConnectorArtifacts {
-            azure_extension_resource_id: AZURE_EXTENSION_RESOURCE_ID.to_string(),
-            connector_id: "connector_id".to_string(),
-            connector_namespace: CONNECTOR_NAMESPACE.to_string(),
-            connector_configuration: ConnectorConfiguration {
-                mqtt_connection_configuration: MqttConnectionConfiguration {
-                    host: host.to_string(),
-                    keep_alive_seconds: 60,
-                    max_inflight_messages: 100,
-                    protocol: Protocol::Mqtt,
-                    session_expiry_seconds: 3600,
-                    tls: Tls {
-                        mode: TlsMode::Disabled,
-                    },
-                },
-                diagnostics: None,
-                persistent_volumes: vec![],
-                additional_configuration: None,
-            },
-            connector_secrets: None,
-            connector_trust_settings_mount: None,
-            broker_trust_bundle_mount: None,
-            broker_sat_mount: None,
-            device_endpoint_trust_bundle_mount: None,
-            device_endpoint_credentials_mount: None,
-            // stopgaps
-            grpc_metric_endpoint: None,
-            grpc_log_endpoint: None,
-            grpc_trace_endpoint: None,
-            grpc_metric_collector_1p_ca_mount: None,
-            grpc_log_collector_1p_ca_mount: None,
-            http_metric_endpoint: None,
-            http_log_endpoint: None,
-            http_trace_endpoint: None,
-        };
+        let mqtt_json = format!(
+            r#"{{
+                "host": "{host}",
+                "keepAliveSeconds": 60,
+                "maxInflightMessages": 100,
+                "protocol": "mqtt",
+                "sessionExpirySeconds": 3600,
+                "tls": {{ "mode": "Disabled" }}
+            }}"#
+        );
 
-        // Convert to MQTT ConnectionSettings
-        assert!(
-            connector_artifacts
-                .to_mqtt_connection_settings("0")
-                .is_err()
+        let connector_configuration_mount = TempMount::new("connector_configuration");
+        connector_configuration_mount.add_file("MQTT_CONNECTION_CONFIGURATION", &mqtt_json);
+
+        temp_env::with_vars(
+            [
+                (
+                    "AZURE_EXTENSION_RESOURCEID",
+                    Some(AZURE_EXTENSION_RESOURCE_ID),
+                ),
+                ("CONNECTOR_ID", Some(CONNECTOR_ID)),
+                ("CONNECTOR_NAMESPACE", Some(CONNECTOR_NAMESPACE)),
+                (
+                    "CONNECTOR_CONFIGURATION_MOUNT_PATH",
+                    Some(connector_configuration_mount.path().to_str().unwrap()),
+                ),
+            ],
+            || {
+                let artifacts = ConnectorArtifacts::new_from_deployment().unwrap();
+                assert!(
+                    artifacts
+                        .to_mqtt_connection_settings("0")
+                        .is_err()
+                );
+            },
         );
     }
 
     #[test]
     fn convert_to_mqtt_connection_settings_no_ca_cert() {
+        let connector_configuration_mount = TempMount::new("connector_configuration");
+        connector_configuration_mount.add_file(
+            "MQTT_CONNECTION_CONFIGURATION",
+            MQTT_CONNECTION_CONFIGURATION_JSON,
+        );
+
         // NOTE: no CA cert is added to this mount
         let broker_trust_bundle_mount = TempMount::new("broker_tls_trust_bundle_ca_cert");
 
-        let connector_artifacts = ConnectorArtifacts {
-            azure_extension_resource_id: AZURE_EXTENSION_RESOURCE_ID.to_string(),
-            connector_id: "connector_id".to_string(),
-            connector_namespace: CONNECTOR_NAMESPACE.to_string(),
-            connector_configuration: ConnectorConfiguration {
-                mqtt_connection_configuration: MqttConnectionConfiguration {
-                    host: "someHostName:1234".to_string(),
-                    keep_alive_seconds: 60,
-                    max_inflight_messages: 100,
-                    protocol: Protocol::Mqtt,
-                    session_expiry_seconds: 3600,
-                    tls: Tls {
-                        mode: TlsMode::Disabled,
-                    },
-                },
-                diagnostics: None,
-                persistent_volumes: vec![],
-                additional_configuration: None,
+        temp_env::with_vars(
+            [
+                (
+                    "AZURE_EXTENSION_RESOURCEID",
+                    Some(AZURE_EXTENSION_RESOURCE_ID),
+                ),
+                ("CONNECTOR_ID", Some(CONNECTOR_ID)),
+                ("CONNECTOR_NAMESPACE", Some(CONNECTOR_NAMESPACE)),
+                (
+                    "CONNECTOR_CONFIGURATION_MOUNT_PATH",
+                    Some(connector_configuration_mount.path().to_str().unwrap()),
+                ),
+                (
+                    "BROKER_TLS_TRUST_BUNDLE_CACERT_MOUNT_PATH",
+                    Some(broker_trust_bundle_mount.path().to_str().unwrap()),
+                ),
+            ],
+            || {
+                let artifacts = ConnectorArtifacts::new_from_deployment().unwrap();
+                assert!(
+                    artifacts
+                        .to_mqtt_connection_settings("0")
+                        .is_err()
+                );
             },
-            connector_secrets: None,
-            connector_trust_settings_mount: None,
-            broker_trust_bundle_mount: Some(
-                FileMount::new(
-                    broker_trust_bundle_mount.path().to_path_buf(),
-                    AGGREGATION_WINDOW,
-                )
-                .unwrap(),
-            ),
-            broker_sat_mount: None,
-            device_endpoint_trust_bundle_mount: None,
-            device_endpoint_credentials_mount: None,
-            // stopgaps
-            grpc_metric_endpoint: None,
-            grpc_log_endpoint: None,
-            grpc_trace_endpoint: None,
-            grpc_metric_collector_1p_ca_mount: None,
-            grpc_log_collector_1p_ca_mount: None,
-            http_metric_endpoint: None,
-            http_log_endpoint: None,
-            http_trace_endpoint: None,
-        };
-
-        // Convert to MQTT ConnectionSettings
-        assert!(
-            connector_artifacts
-                .to_mqtt_connection_settings("0")
-                .is_err()
         );
     }
 

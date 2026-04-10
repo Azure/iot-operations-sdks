@@ -9,10 +9,12 @@ pub mod connector;
 mod connector_configuration;
 mod filemount;
 mod secrets;
+mod watched;
 
 pub use connector::DeploymentArtifactError; // TODO: move implementation out here
 pub use filemount::FileMount;
 pub use secrets::{Secret, Secrets};
+pub use watched::Watched;
 
 #[cfg(test)]
 mod test_utils;
