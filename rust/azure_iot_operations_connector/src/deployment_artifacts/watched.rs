@@ -31,6 +31,7 @@ impl<T> Watched<T> {
     ///
     /// The returned [`WatchedRef`] dereferences to `T` and holds a read lock on the
     /// inner value. Drop it promptly to avoid blocking updates.
+    #[must_use]
     pub fn borrow(&self) -> WatchedRef<'_, T> {
         WatchedRef(self.rx.borrow())
     }
