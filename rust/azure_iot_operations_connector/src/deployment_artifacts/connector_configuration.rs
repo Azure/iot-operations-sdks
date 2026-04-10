@@ -17,7 +17,6 @@ use super::atomic_writer_volume_debouncer::{
 use super::connector::DeploymentArtifactErrorRepr;
 use super::watched::{Watched, watched_pair};
 
-
 const MQTT_CONNECTION_CONFIGURATION_FILE: &str = "MQTT_CONNECTION_CONFIGURATION";
 
 // TODO: Validat that this is okay to not support Debug and PartialEq
@@ -56,8 +55,7 @@ impl ConnectorConfiguration {
         // When finalized, consider optimizing so the individual helpers have logic to handle
         // optional files.
 
-        let initial_mqtt_config =
-            Self::extract_mqtt_connection_configuration(&mount_path)?;
+        let initial_mqtt_config = Self::extract_mqtt_connection_configuration(&mount_path)?;
         let diagnostics = match Self::extract_diagnostics(&mount_path) {
             Ok(d) => Some(d),
             Err(DeploymentArtifactErrorRepr::FilePathMissing(_)) => None,

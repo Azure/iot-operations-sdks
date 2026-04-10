@@ -30,15 +30,19 @@ const ENV_CONNECTOR_CONFIGURATION_MOUNT_PATH: &str = "CONNECTOR_CONFIGURATION_MO
 const ENV_CONNECTOR_SECRETS_METADATA_MOUNT_PATH: &str = "CONNECTOR_SECRETS_METADATA_MOUNT_PATH";
 const ENV_CONNECTOR_SECRETS_MOUNT_PATH: &str = "CONNECTOR_SECRETS_MOUNT_PATH";
 const ENV_CONNECTOR_TRUST_SETTINGS_MOUNT_PATH: &str = "CONNECTOR_TRUST_SETTINGS_MOUNT_PATH";
-const ENV_BROKER_TLS_TRUST_BUNDLE_CACERT_MOUNT_PATH: &str = "BROKER_TLS_TRUST_BUNDLE_CACERT_MOUNT_PATH";
-const ENV_BROKER_SAT_PATH: &str = "BROKER_SAT_MOUNT_PATH";  // NOTE: Despite the value string, this is NOT a mount path
-const ENV_DEVICE_ENDPOINT_TLS_TRUST_BUNDLE_CA_CERT_MOUNT_PATH: &str = "DEVICE_ENDPOINT_TLS_TRUST_BUNDLE_CA_CERT_MOUNT_PATH";
+const ENV_BROKER_TLS_TRUST_BUNDLE_CACERT_MOUNT_PATH: &str =
+    "BROKER_TLS_TRUST_BUNDLE_CACERT_MOUNT_PATH";
+const ENV_BROKER_SAT_PATH: &str = "BROKER_SAT_MOUNT_PATH"; // NOTE: Despite the value string, this is NOT a mount path
+const ENV_DEVICE_ENDPOINT_TLS_TRUST_BUNDLE_CA_CERT_MOUNT_PATH: &str =
+    "DEVICE_ENDPOINT_TLS_TRUST_BUNDLE_CA_CERT_MOUNT_PATH";
 const ENV_DEVICE_ENDPOINT_CREDENTIALS_MOUNT_PATH: &str = "DEVICE_ENDPOINT_CREDENTIALS_MOUNT_PATH";
 const ENV_OTLP_GRPC_METRIC_ENDPOINT: &str = "OTLP_GRPC_METRIC_ENDPOINT";
 const ENV_OTLP_GRPC_LOG_ENDPOINT: &str = "OTLP_GRPC_LOG_ENDPOINT";
 const ENV_OTLP_GRPC_TRACE_ENDPOINT: &str = "OTLP_GRPC_TRACE_ENDPOINT";
-const ENV_FIRST_PARTY_OTLP_GRPC_METRICS_COLLECTOR_CA_PATH: &str = "FIRST_PARTY_OTLP_GRPC_METRICS_COLLECTOR_CA_PATH";
-const ENV_FIRST_PARTY_OTLP_GRPC_LOG_COLLECTOR_CA_PATH: &str = "FIRST_PARTY_OTLP_GRPC_LOG_COLLECTOR_CA_PATH";
+const ENV_FIRST_PARTY_OTLP_GRPC_METRICS_COLLECTOR_CA_PATH: &str =
+    "FIRST_PARTY_OTLP_GRPC_METRICS_COLLECTOR_CA_PATH";
+const ENV_FIRST_PARTY_OTLP_GRPC_LOG_COLLECTOR_CA_PATH: &str =
+    "FIRST_PARTY_OTLP_GRPC_LOG_COLLECTOR_CA_PATH";
 const ENV_OTLP_HTTP_METRIC_ENDPOINT: &str = "OTLP_HTTP_METRIC_ENDPOINT";
 const ENV_OTLP_HTTP_LOG_ENDPOINT: &str = "OTLP_HTTP_LOG_ENDPOINT";
 const ENV_OTLP_HTTP_TRACE_ENDPOINT: &str = "OTLP_HTTP_TRACE_ENDPOINT";
@@ -76,7 +80,8 @@ pub(crate) enum DeploymentArtifactErrorRepr {
     #[error("Error initializing Secrets: {0}")]
     SecretsError(#[from] super::secrets::Error),
     /// Could not set up volume debouncer
-    #[error("Error initializing configuration volume debouncer: {0}")]  // TODO: should this be wrapped?
+    #[error("Error initializing configuration volume debouncer: {0}")]
+    // TODO: should this be wrapped?
     DebouncerError(#[from] super::atomic_writer_volume_debouncer::AtomicWriterVolumeError),
 }
 
@@ -101,11 +106,11 @@ pub struct ConnectorArtifacts {
     pub broker_trust_bundle_mount: Option<FileMount>,
     /// Path to file containing service account token for authentication with the broker
     /// // TODO: Make this a file watcher instead once that is implemented
-    pub broker_sat_path: Option<PathBuf>,   // NOTE: This file is on a projected volume
+    pub broker_sat_path: Option<PathBuf>, // NOTE: This file is on a projected volume
     /// Path to projected volume mount containing trust bundle for device inbound endpoints
     pub device_endpoint_trust_bundle_mount: Option<FileMount>,
     /// Path to directory containing credentials for device inbound endpoints
-    pub device_endpoint_credentials_mount: Option<FileMount>,       // TODO: verify what type of mount this is (if it even is a mount)
+    pub device_endpoint_credentials_mount: Option<FileMount>, // TODO: verify what type of mount this is (if it even is a mount)
 
     // TODO: The following are stopgap variables - these will change in the future
     /// OTEL grpc/grpcs metric endpoint.
@@ -116,10 +121,10 @@ pub struct ConnectorArtifacts {
     pub grpc_trace_endpoint: Option<String>,
     /// Path to the file containing trust bundle for 1P grpc metric collector.
     /// // TODO: make this a file watcher instead once that is implemented
-    pub grpc_metric_collector_1p_ca_path: Option<PathBuf>,  // NOTE: This file is on a configMap volume
+    pub grpc_metric_collector_1p_ca_path: Option<PathBuf>, // NOTE: This file is on a configMap volume
     /// Path to the file containing trust bundle for 1P grpc log collector.
     /// // TODO: make this a file watcher instead once that is implemented
-    pub grpc_log_collector_1p_ca_path: Option<PathBuf>,     // NOTE: This file is on a configMap volume
+    pub grpc_log_collector_1p_ca_path: Option<PathBuf>, // NOTE: This file is on a configMap volume
     /// OTEL http/https metric endpoint.
     pub http_metric_endpoint: Option<String>,
     /// OTEL http/https log endpoint.
@@ -422,8 +427,10 @@ mod tests {
     #[test]
     fn minimum_artifacts() {
         let connector_configuration_mount = TempAtomicWriterVolume::new("connector_configuration");
-        connector_configuration_mount
-            .stage_file_create(Path::new("MQTT_CONNECTION_CONFIGURATION"), MQTT_CONNECTION_CONFIGURATION_JSON);
+        connector_configuration_mount.stage_file_create(
+            Path::new("MQTT_CONNECTION_CONFIGURATION"),
+            MQTT_CONNECTION_CONFIGURATION_JSON,
+        );
         connector_configuration_mount.execute_update();
 
         temp_env::with_vars(
@@ -442,7 +449,10 @@ mod tests {
                 (ENV_CONNECTOR_TRUST_SETTINGS_MOUNT_PATH, None),
                 (ENV_BROKER_TLS_TRUST_BUNDLE_CACERT_MOUNT_PATH, None),
                 (ENV_BROKER_SAT_PATH, None),
-                (ENV_DEVICE_ENDPOINT_TLS_TRUST_BUNDLE_CA_CERT_MOUNT_PATH, None),
+                (
+                    ENV_DEVICE_ENDPOINT_TLS_TRUST_BUNDLE_CA_CERT_MOUNT_PATH,
+                    None,
+                ),
                 (ENV_DEVICE_ENDPOINT_CREDENTIALS_MOUNT_PATH, None),
                 // Stopgap variables beyond this point
                 (ENV_OTLP_GRPC_METRIC_ENDPOINT, None),
@@ -533,25 +543,30 @@ mod tests {
         broker_sat_mount.execute_update();
         let broker_sat_file_path = broker_sat_mount.path().join("broker-sat");
 
-        let broker_trust_bundle_mount = TempAtomicWriterVolume::new("broker_tls_trust_bundle_ca_cert");
+        let broker_trust_bundle_mount =
+            TempAtomicWriterVolume::new("broker_tls_trust_bundle_ca_cert");
         broker_trust_bundle_mount.stage_file_create(Path::new("ca.txt"), "");
         broker_trust_bundle_mount.execute_update();
 
         // NOTE: There do not have to be any files in these mounts
-        let connector_secrets_metadata_mount = TempAtomicWriterVolume::new("connector_secrets_metadata");
+        let connector_secrets_metadata_mount =
+            TempAtomicWriterVolume::new("connector_secrets_metadata");
         let connector_secrets_mount = TempAtomicWriterVolume::new("connector_secrets");
-        let connector_trust_settings_mount = TempAtomicWriterVolume::new("connector_trust_settings");
+        let connector_trust_settings_mount =
+            TempAtomicWriterVolume::new("connector_trust_settings");
         let device_endpoint_trust_bundle_mount =
             TempAtomicWriterVolume::new("device_endpoint_tls_trust_bundle_ca_cert");
         // TODO: Verify what type of mount this is
-        let device_endpoint_credentials_mount = TempAtomicWriterVolume::new("device_endpoint_credentials");
+        let device_endpoint_credentials_mount =
+            TempAtomicWriterVolume::new("device_endpoint_credentials");
 
         // 1P OTEL collector CA certs live as files inside a single volume
         let otel_collector_1p_ca_mount = TempAtomicWriterVolume::new("1p-otel-collector");
         otel_collector_1p_ca_mount.stage_file_create(Path::new("1p_metrics_ca"), "");
         otel_collector_1p_ca_mount.stage_file_create(Path::new("1p_logs_ca"), "");
         otel_collector_1p_ca_mount.execute_update();
-        let grpc_metric_collector_1p_ca_path = otel_collector_1p_ca_mount.path().join("1p_metrics_ca");
+        let grpc_metric_collector_1p_ca_path =
+            otel_collector_1p_ca_mount.path().join("1p_metrics_ca");
         let grpc_log_collector_1p_ca_path = otel_collector_1p_ca_mount.path().join("1p_logs_ca");
 
         temp_env::with_vars(
@@ -628,10 +643,7 @@ mod tests {
                     artifacts.broker_trust_bundle_mount.unwrap(),
                     broker_trust_bundle_mount.path()
                 );
-                assert_eq!(
-                    artifacts.broker_sat_path.unwrap(),
-                    broker_sat_file_path
-                );
+                assert_eq!(artifacts.broker_sat_path.unwrap(), broker_sat_file_path);
                 assert_eq!(
                     artifacts.device_endpoint_trust_bundle_mount.unwrap(),
                     device_endpoint_trust_bundle_mount.path()
@@ -817,8 +829,7 @@ mod tests {
             Path::new("MQTT_CONNECTION_CONFIGURATION"),
             MQTT_CONNECTION_CONFIGURATION_JSON,
         );
-        connector_configuration_mount
-            .stage_file_create(Path::new("DIAGNOSTICS"), DIAGNOSTICS_JSON);
+        connector_configuration_mount.stage_file_create(Path::new("DIAGNOSTICS"), DIAGNOSTICS_JSON);
 
         // Replace one of the above with the invalid content
         connector_configuration_mount.stage_file_remove(Path::new(file));
@@ -891,7 +902,8 @@ mod tests {
         }"#;
 
         let connector_configuration_mount = TempAtomicWriterVolume::new("connector_configuration");
-        connector_configuration_mount.stage_file_create(Path::new("MQTT_CONNECTION_CONFIGURATION"), mqtt_json);
+        connector_configuration_mount
+            .stage_file_create(Path::new("MQTT_CONNECTION_CONFIGURATION"), mqtt_json);
         connector_configuration_mount.execute_update();
 
         temp_env::with_vars(
@@ -909,9 +921,7 @@ mod tests {
             ],
             || {
                 let artifacts = ConnectorArtifacts::new_from_deployment().unwrap();
-                let mqtt_connection_settings = artifacts
-                    .to_mqtt_connection_settings("0")
-                    .unwrap();
+                let mqtt_connection_settings = artifacts.to_mqtt_connection_settings("0").unwrap();
                 assert_eq!(mqtt_connection_settings.client_id(), "connector_id0");
                 assert_eq!(mqtt_connection_settings.hostname(), "someHostName");
                 assert_eq!(mqtt_connection_settings.tcp_port(), 1234);
@@ -943,7 +953,8 @@ mod tests {
         }"#;
 
         let connector_configuration_mount = TempAtomicWriterVolume::new("connector_configuration");
-        connector_configuration_mount.stage_file_create(Path::new("MQTT_CONNECTION_CONFIGURATION"), mqtt_json);
+        connector_configuration_mount
+            .stage_file_create(Path::new("MQTT_CONNECTION_CONFIGURATION"), mqtt_json);
         connector_configuration_mount.execute_update();
 
         let broker_sat_mount = TempAtomicWriterVolume::new("broker-sat-secret");
@@ -951,7 +962,8 @@ mod tests {
         broker_sat_mount.execute_update();
         let broker_sat_file_path = broker_sat_mount.path().join("broker-sat");
 
-        let broker_trust_bundle_mount = TempAtomicWriterVolume::new("broker_tls_trust_bundle_ca_cert");
+        let broker_trust_bundle_mount =
+            TempAtomicWriterVolume::new("broker_tls_trust_bundle_ca_cert");
         broker_trust_bundle_mount.stage_file_create(Path::new("ca.txt"), "");
         broker_trust_bundle_mount.execute_update();
 
@@ -978,9 +990,7 @@ mod tests {
             ],
             || {
                 let artifacts = ConnectorArtifacts::new_from_deployment().unwrap();
-                let mqtt_connection_settings = artifacts
-                    .to_mqtt_connection_settings("0")
-                    .unwrap();
+                let mqtt_connection_settings = artifacts.to_mqtt_connection_settings("0").unwrap();
                 assert_eq!(mqtt_connection_settings.client_id(), "connector_id0");
                 assert_eq!(mqtt_connection_settings.hostname(), "someHostName");
                 assert_eq!(mqtt_connection_settings.tcp_port(), 1234);
@@ -1029,7 +1039,8 @@ mod tests {
         );
 
         let connector_configuration_mount = TempAtomicWriterVolume::new("connector_configuration");
-        connector_configuration_mount.stage_file_create(Path::new("MQTT_CONNECTION_CONFIGURATION"), &mqtt_json);
+        connector_configuration_mount
+            .stage_file_create(Path::new("MQTT_CONNECTION_CONFIGURATION"), &mqtt_json);
         connector_configuration_mount.execute_update();
 
         temp_env::with_vars(
@@ -1047,11 +1058,7 @@ mod tests {
             ],
             || {
                 let artifacts = ConnectorArtifacts::new_from_deployment().unwrap();
-                assert!(
-                    artifacts
-                        .to_mqtt_connection_settings("0")
-                        .is_err()
-                );
+                assert!(artifacts.to_mqtt_connection_settings("0").is_err());
             },
         );
     }
@@ -1066,7 +1073,8 @@ mod tests {
         connector_configuration_mount.execute_update();
 
         // NOTE: no CA cert is added to this mount
-        let broker_trust_bundle_mount = TempAtomicWriterVolume::new("broker_tls_trust_bundle_ca_cert");
+        let broker_trust_bundle_mount =
+            TempAtomicWriterVolume::new("broker_tls_trust_bundle_ca_cert");
 
         temp_env::with_vars(
             [
@@ -1087,11 +1095,7 @@ mod tests {
             ],
             || {
                 let artifacts = ConnectorArtifacts::new_from_deployment().unwrap();
-                assert!(
-                    artifacts
-                        .to_mqtt_connection_settings("0")
-                        .is_err()
-                );
+                assert!(artifacts.to_mqtt_connection_settings("0").is_err());
             },
         );
     }
