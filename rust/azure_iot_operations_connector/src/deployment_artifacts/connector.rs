@@ -347,8 +347,9 @@ fn valid_filemount_from(mount_path_s: String) -> Result<FileMount, DeploymentArt
 
 #[cfg(test)]
 mod tests {
-    use super::super::test_utils::{TempMount, TempPersistentVolumeManager};
+    use super::super::test_utils::{TempAtomicWriterVolume, TempMount, TempPersistentVolumeManager};
     use super::*;
+    use std::path::Path;
     use tempfile::NamedTempFile;
     use test_case::{test_case, test_matrix};
 
@@ -398,11 +399,10 @@ mod tests {
 
     #[test]
     fn minimum_artifacts() {
-        let connector_configuration_mount = TempMount::new("connector_configuration");
-        connector_configuration_mount.add_file(
-            "MQTT_CONNECTION_CONFIGURATION",
-            MQTT_CONNECTION_CONFIGURATION_JSON,
-        );
+        let connector_configuration_mount = TempAtomicWriterVolume::new("connector_configuration");
+        connector_configuration_mount
+            .stage_file_create(Path::new("MQTT_CONNECTION_CONFIGURATION"), MQTT_CONNECTION_CONFIGURATION_JSON);
+        connector_configuration_mount.execute_update();
 
         temp_env::with_vars(
             [
@@ -490,20 +490,21 @@ mod tests {
         persistent_volume_manager.add_mount("persistent_volume_1");
         persistent_volume_manager.add_mount("persistent_volume_2");
 
-        let connector_configuration_mount = TempMount::new("connector_configuration");
-        connector_configuration_mount.add_file(
-            "MQTT_CONNECTION_CONFIGURATION",
+        let connector_configuration_mount = TempAtomicWriterVolume::new("connector_configuration");
+        connector_configuration_mount.stage_file_create(
+            Path::new("MQTT_CONNECTION_CONFIGURATION"),
             MQTT_CONNECTION_CONFIGURATION_JSON,
         );
-        connector_configuration_mount.add_file("DIAGNOSTICS", DIAGNOSTICS_JSON);
-        connector_configuration_mount.add_file(
-            "PERSISTENT_VOLUME_MOUNT_PATH",
+        connector_configuration_mount.stage_file_create(Path::new("DIAGNOSTICS"), DIAGNOSTICS_JSON);
+        connector_configuration_mount.stage_file_create(
+            Path::new("PERSISTENT_VOLUME_MOUNT_PATH"),
             &persistent_volume_manager.index_file_contents(),
         );
-        connector_configuration_mount.add_file(
-            "ADDITIONAL_CONNECTOR_CONFIGURATION",
+        connector_configuration_mount.stage_file_create(
+            Path::new("ADDITIONAL_CONNECTOR_CONFIGURATION"),
             ADDITIONAL_CONNECTOR_CONFIGURATION_JSON,
         );
+        connector_configuration_mount.execute_update();
 
         let broker_sat_file_mount = NamedTempFile::with_prefix("broker-sat").unwrap();
 
@@ -675,11 +676,12 @@ mod tests {
     #[test_case("CONNECTOR_NAMESPACE")]
     #[test_case("CONNECTOR_CONFIGURATION_MOUNT_PATH")]
     fn missing_required_env_var(missing_env_var: &str) {
-        let connector_configuration_mount = TempMount::new("connector_configuration");
-        connector_configuration_mount.add_file(
-            "MQTT_CONNECTION_CONFIGURATION",
+        let connector_configuration_mount = TempAtomicWriterVolume::new("connector_configuration");
+        connector_configuration_mount.stage_file_create(
+            Path::new("MQTT_CONNECTION_CONFIGURATION"),
             MQTT_CONNECTION_CONFIGURATION_JSON,
         );
+        connector_configuration_mount.execute_update();
 
         temp_env::with_vars(
             [
@@ -715,11 +717,12 @@ mod tests {
         let invalid_mount = PathBuf::from("nonexistent/mount/path");
         assert!(!invalid_mount.exists());
 
-        let connector_configuration_mount = TempMount::new("connector_configuration");
-        connector_configuration_mount.add_file(
-            "MQTT_CONNECTION_CONFIGURATION",
+        let connector_configuration_mount = TempAtomicWriterVolume::new("connector_configuration");
+        connector_configuration_mount.stage_file_create(
+            Path::new("MQTT_CONNECTION_CONFIGURATION"),
             MQTT_CONNECTION_CONFIGURATION_JSON,
         );
+        connector_configuration_mount.execute_update();
 
         temp_env::with_vars(
             [
@@ -744,14 +747,15 @@ mod tests {
 
     #[test_case("MQTT_CONNECTION_CONFIGURATION")]
     fn missing_required_file_in_mount(required_file: &str) {
-        let connector_configuration_mount = TempMount::new("connector_configuration");
-        connector_configuration_mount.add_file(
-            "MQTT_CONNECTION_CONFIGURATION",
+        let connector_configuration_mount = TempAtomicWriterVolume::new("connector_configuration");
+        connector_configuration_mount.stage_file_create(
+            Path::new("MQTT_CONNECTION_CONFIGURATION"),
             MQTT_CONNECTION_CONFIGURATION_JSON,
         );
 
-        // NOTE: This will override one of the above
-        connector_configuration_mount.remove_file(required_file);
+        // NOTE: This will override one of the above files that was created
+        connector_configuration_mount.stage_file_remove(Path::new(required_file));
+        connector_configuration_mount.execute_update();
 
         temp_env::with_vars(
             [
@@ -777,16 +781,18 @@ mod tests {
         [NOT_JSON, ARBITRARY_JSON, ]
     )]
     fn invalid_contents_in_json_file(file: &str, file_contents: &str) {
-        let connector_configuration_mount = TempMount::new("connector_configuration");
-        connector_configuration_mount.add_file(
-            "MQTT_CONNECTION_CONFIGURATION",
+        let connector_configuration_mount = TempAtomicWriterVolume::new("connector_configuration");
+        connector_configuration_mount.stage_file_create(
+            Path::new("MQTT_CONNECTION_CONFIGURATION"),
             MQTT_CONNECTION_CONFIGURATION_JSON,
         );
-        connector_configuration_mount.add_file("DIAGNOSTICS", DIAGNOSTICS_JSON);
+        connector_configuration_mount
+            .stage_file_create(Path::new("DIAGNOSTICS"), DIAGNOSTICS_JSON);
 
         // Replace one of the above with the invalid content
-        connector_configuration_mount.remove_file(file);
-        connector_configuration_mount.add_file(file, file_contents);
+        connector_configuration_mount.stage_file_remove(Path::new(file));
+        connector_configuration_mount.stage_file_create(Path::new(file), file_contents);
+        connector_configuration_mount.execute_update();
 
         temp_env::with_vars(
             [
@@ -812,15 +818,16 @@ mod tests {
         let fake_mount_path = PathBuf::from("nonexistent/mount/path");
         assert!(!fake_mount_path.exists());
 
-        let connector_configuration_mount = TempMount::new("connector_configuration");
-        connector_configuration_mount.add_file(
-            "MQTT_CONNECTION_CONFIGURATION",
+        let connector_configuration_mount = TempAtomicWriterVolume::new("connector_configuration");
+        connector_configuration_mount.stage_file_create(
+            Path::new("MQTT_CONNECTION_CONFIGURATION"),
             MQTT_CONNECTION_CONFIGURATION_JSON,
         );
-        connector_configuration_mount.add_file(
-            "PERSISTENT_VOLUME_MOUNT_PATH",
+        connector_configuration_mount.stage_file_create(
+            Path::new("PERSISTENT_VOLUME_MOUNT_PATH"),
             fake_mount_path.to_str().unwrap(),
         );
+        connector_configuration_mount.execute_update();
 
         temp_env::with_vars(
             [
@@ -852,8 +859,9 @@ mod tests {
             "tls": { "mode": "Disabled" }
         }"#;
 
-        let connector_configuration_mount = TempMount::new("connector_configuration");
-        connector_configuration_mount.add_file("MQTT_CONNECTION_CONFIGURATION", mqtt_json);
+        let connector_configuration_mount = TempAtomicWriterVolume::new("connector_configuration");
+        connector_configuration_mount.stage_file_create(Path::new("MQTT_CONNECTION_CONFIGURATION"), mqtt_json);
+        connector_configuration_mount.execute_update();
 
         temp_env::with_vars(
             [
@@ -903,8 +911,9 @@ mod tests {
             "tls": { "mode": "Enabled" }
         }"#;
 
-        let connector_configuration_mount = TempMount::new("connector_configuration");
-        connector_configuration_mount.add_file("MQTT_CONNECTION_CONFIGURATION", mqtt_json);
+        let connector_configuration_mount = TempAtomicWriterVolume::new("connector_configuration");
+        connector_configuration_mount.stage_file_create(Path::new("MQTT_CONNECTION_CONFIGURATION"), mqtt_json);
+        connector_configuration_mount.execute_update();
 
         let broker_sat_file_mount = NamedTempFile::with_prefix("broker-sat").unwrap();
 
@@ -984,8 +993,9 @@ mod tests {
             }}"#
         );
 
-        let connector_configuration_mount = TempMount::new("connector_configuration");
-        connector_configuration_mount.add_file("MQTT_CONNECTION_CONFIGURATION", &mqtt_json);
+        let connector_configuration_mount = TempAtomicWriterVolume::new("connector_configuration");
+        connector_configuration_mount.stage_file_create(Path::new("MQTT_CONNECTION_CONFIGURATION"), &mqtt_json);
+        connector_configuration_mount.execute_update();
 
         temp_env::with_vars(
             [
@@ -1013,11 +1023,12 @@ mod tests {
 
     #[test]
     fn convert_to_mqtt_connection_settings_no_ca_cert() {
-        let connector_configuration_mount = TempMount::new("connector_configuration");
-        connector_configuration_mount.add_file(
-            "MQTT_CONNECTION_CONFIGURATION",
+        let connector_configuration_mount = TempAtomicWriterVolume::new("connector_configuration");
+        connector_configuration_mount.stage_file_create(
+            Path::new("MQTT_CONNECTION_CONFIGURATION"),
             MQTT_CONNECTION_CONFIGURATION_JSON,
         );
+        connector_configuration_mount.execute_update();
 
         // NOTE: no CA cert is added to this mount
         let broker_trust_bundle_mount = TempMount::new("broker_tls_trust_bundle_ca_cert");
