@@ -14,7 +14,7 @@ use thiserror::Error;
 
 use crate::deployment_artifacts::{FileMount, Secrets};
 // TODO: not sure if all this needs exposing here, revisit.
-// These should probably be exporeted in the root of `deployment_artifacts` instead,
+// These should probably be exported in the root of `deployment_artifacts` instead,
 // but that should be done at the end of the `deployment_artifacts` feature changes.
 pub use super::connector_configuration::{
     ConnectorConfiguration, Diagnostics, Logs, MqttConnectionConfiguration, Protocol, Tls, TlsMode,
