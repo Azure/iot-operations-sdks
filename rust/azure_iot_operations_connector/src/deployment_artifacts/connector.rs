@@ -13,10 +13,11 @@ use serde_json;
 use thiserror::Error;
 
 use crate::deployment_artifacts::{FileMount, Secrets};
-
+// TODO: not sure if all this needs exposing here, revisit.
+// These should probably be exporeted in the root of `deployment_artifacts` instead,
+// but that should be done at the end of the `deployment_artifacts` feature changes.
 pub use super::connector_configuration::{
-    ConnectorConfiguration, Diagnostics, Logs, MqttConnectionConfiguration, Protocol, Tls,
-    TlsMode,
+    ConnectorConfiguration, Diagnostics, Logs, MqttConnectionConfiguration, Protocol, Tls, TlsMode,
 };
 
 const AGGREGATION_WINDOW: Duration = Duration::from_secs(10);
@@ -71,15 +72,15 @@ pub struct ConnectorArtifacts {
     /// The secrets deployed for the connector
     pub connector_secrets: Option<Secrets>,
     /// Path to directory containing trust list certificates for the connector
-    pub connector_trust_settings_mount: Option<FileMount>,                          // TODO: dir (projected)
+    pub connector_trust_settings_mount: Option<FileMount>, // TODO: dir (projected)
     /// Path to directory containing trust bundle for the broker
-    pub broker_trust_bundle_mount: Option<FileMount>,                               // TODO: dir (projected)
+    pub broker_trust_bundle_mount: Option<FileMount>, // TODO: dir (projected)
     /// Path to file containing service account token for authentication with the broker
-    pub broker_sat_mount: Option<FileMount>,                                        // TODO: dir (projected)
+    pub broker_sat_mount: Option<FileMount>, // TODO: dir (projected)
     /// Path to directory containing trust bundle for device inbound endpoints
-    pub device_endpoint_trust_bundle_mount: Option<FileMount>,                      // TODO: dir (unknown)
+    pub device_endpoint_trust_bundle_mount: Option<FileMount>, // TODO: dir (unknown)
     /// Path to directory containing credentials for device inbound endpoints
-    pub device_endpoint_credentials_mount: Option<FileMount>,                       // TODO: dir (unknown)
+    pub device_endpoint_credentials_mount: Option<FileMount>, // TODO: dir (unknown)
 
     // TODO: The following are stopgap variables - these will change in the future
     /// OTEL grpc/grpcs metric endpoint.
@@ -89,9 +90,9 @@ pub struct ConnectorArtifacts {
     /// OTEL grpc/grpcs trace endpoint.
     pub grpc_trace_endpoint: Option<String>,
     /// Path to the directory containing trust bundle for 1P grpc metric collector.
-    pub grpc_metric_collector_1p_ca_mount: Option<FileMount>,                          // TODO: file
+    pub grpc_metric_collector_1p_ca_mount: Option<FileMount>, // TODO: file
     /// Path to the directory containing trust bundle for 1P grpc log collector.
-    pub grpc_log_collector_1p_ca_mount: Option<FileMount>,                              // TODO: file
+    pub grpc_log_collector_1p_ca_mount: Option<FileMount>, // TODO: file
     /// OTEL http/https metric endpoint.
     pub http_metric_endpoint: Option<String>,
     /// OTEL http/https log endpoint.

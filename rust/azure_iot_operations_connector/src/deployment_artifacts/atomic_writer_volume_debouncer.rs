@@ -1,10 +1,11 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-//! A debouncer for Kubernetes projected volume and config map mounts.
+//! A debouncer for Kubernetes atomic-writer volume mounts
+//! (i.e. Projected volumes, ConfigMap volumes, Secret volumes).
 //!
 //! Wraps [`notify_debouncer_full`] and detects changes via the atomic `..data` symlink
-//! swap that Kubernetes performs when updating projected volumes.
+//! swap that Kubernetes performs when updating atomic-writer volumes.
 //!
 //! Instead of exposing raw filesystem events (which include internal K8S plumbing like
 //! `..data`, `..data_tmp`, and timestamped snapshot directories), this debouncer produces
@@ -13,7 +14,7 @@
 //!
 //! # Why there is no user-configurable debounce window
 //!
-//! The kubelet already batches all projected volume changes into a single atomic symlink
+//! The kubelet already batches all atomic-writer volume changes into a single atomic symlink
 //! swap per sync cycle. Multiple updates between sync ticks are delivered as one swap.
 //! Consecutive swaps are therefore separated by tens of seconds at minimum, so there is
 //! nothing meaningful  for the caller to aggregate. The internal debounce window only
@@ -47,36 +48,36 @@ const _: () = assert!(
     "DEBOUNCE_WINDOW must be greater than TICK_RATE"
 );
 
-/// Error from the [`ProjectedVolumeDebouncer`].
+/// Error from the [`AtomicWriterVolumeDebouncer`].
 #[derive(Debug, thiserror::Error)]
-pub enum ProjectedVolumeError {
+pub enum AtomicWriterVolumeError {
     /// An error from the underlying filesystem watcher.
     #[error(transparent)]
     Notify(#[from] notify::Error),
-    /// An I/O error occurred while scanning the projected volume directory.
-    #[error("failed to snapshot projected volume: {0}")]
+    /// An I/O error occurred while scanning the atomic-writer volume directory.
+    #[error("failed to snapshot atomic-writer volume: {0}")]
     Snapshot(std::io::Error),
 }
 
-/// The kind of change detected in a projected volume.
+/// The kind of change detected in a atomic-writer volume.
 ///
 /// This is a purpose-built enum covering only the event kinds that the
-/// [`ProjectedVolumeDebouncer`] can produce.
+/// [`AtomicWriterVolumeDebouncer`] can produce.
 #[derive(Debug, Clone, Copy, PartialEq, Eq)]
-pub enum ProjectedVolumeEventKind {
-    /// A file was added to the projected volume.
+pub enum AtomicWriterVolumeEventKind {
+    /// A file was added to the atomic-writer volume.
     FileCreated,
     /// A file's content changed (detected via SHA-256 hash comparison).
     FileModified,
-    /// A file was removed from the projected volume.
+    /// A file was removed from the atomic-writer volume.
     FileRemoved,
-    /// A directory was added to the projected volume.
+    /// A directory was added to the atomic-writer volume.
     DirCreated,
-    /// A directory was removed from the projected volume.
+    /// A directory was removed from the atomic-writer volume.
     DirRemoved,
 }
 
-/// A synthetic filesystem event representing a change in a projected volume.
+/// A synthetic filesystem event representing a change in a atomic-writer volume.
 ///
 /// Unlike raw [`notify`] events, the `path` field contains a clean absolute path
 /// to the affected entry (e.g., `/etc/akri/secrets/my-dir/my-key`), with all
@@ -85,20 +86,20 @@ pub enum ProjectedVolumeEventKind {
 /// **Renames are never emitted.** Kubernetes secrets and Config Maps have no
 /// concept of renaming a key — deleting a key and adding a new one are
 /// independent operations even if the content is identical. Such changes are
-/// reported as a [`DirRemoved`](ProjectedVolumeEventKind::DirRemoved) /
-/// [`FileRemoved`](ProjectedVolumeEventKind::FileRemoved) followed by a
-/// [`DirCreated`](ProjectedVolumeEventKind::DirCreated) /
-/// [`FileCreated`](ProjectedVolumeEventKind::FileCreated).
+/// reported as a [`DirRemoved`](AtomicWriterVolumeEventKind::DirRemoved) /
+/// [`FileRemoved`](AtomicWriterVolumeEventKind::FileRemoved) followed by a
+/// [`DirCreated`](AtomicWriterVolumeEventKind::DirCreated) /
+/// [`FileCreated`](AtomicWriterVolumeEventKind::FileCreated).
 ///
 /// **Metadata changes are never emitted.** Permissions and ownership in a
-/// projected volume are set by the kubelet when it writes the volume and do not
+/// atomic-writer volume are set by the kubelet when it writes the volume and do not
 /// change independently of content. File timestamps always differ across
 /// updates regardless of whether content changed, so reporting them would be
 /// noise rather than a meaningful signal.
 #[derive(Debug, Clone)]
-pub struct ProjectedVolumeEvent {
+pub struct AtomicWriterVolumeEvent {
     /// The kind of change detected.
-    pub kind: ProjectedVolumeEventKind,
+    pub kind: AtomicWriterVolumeEventKind,
     /// The absolute path of the affected entry.
     pub path: PathBuf,
     /// When the change was detected.
@@ -108,9 +109,10 @@ pub struct ProjectedVolumeEvent {
 }
 
 /// Result type passed to the handler closure.
-pub type ProjectedVolumeEventResult = Result<Vec<ProjectedVolumeEvent>, ProjectedVolumeError>;
+pub type AtomicWriterVolumeEventResult =
+    Result<Vec<AtomicWriterVolumeEvent>, AtomicWriterVolumeError>;
 
-// NOTE: Each instance watches exactly one projected volume mount. This 1:1 relationship
+// NOTE: Each instance watches exactly one atomic-writer volume mount. This 1:1 relationship
 // is intentional. Unlike notify_debouncer_full, which is stateless with respect to watched
 // paths, this debouncer holds per-volume state (SHA-256 snapshots, swap detection) that
 // couples it to a single root. Sharing a debouncer across volumes would force lifecycle
@@ -118,11 +120,11 @@ pub type ProjectedVolumeEventResult = Result<Vec<ProjectedVolumeEvent>, Projecte
 // policy with no obviously correct answer. For a unified event stream across multiple
 // volumes, fan in separate debouncers via a channel instead.
 
-/// A debouncer for Kubernetes projected volume mounts.
+/// A debouncer for Kubernetes atomic-writer volume mounts.
 ///
-/// Monitors a projected volume directory and produces clean, synthetic filesystem events
+/// Monitors a atomic-writer volume directory and produces clean, synthetic filesystem events
 /// when Kubernetes performs an atomic symlink swap to update the volume contents.
-pub struct ProjectedVolumeDebouncer {
+pub struct AtomicWriterVolumeDebouncer {
     // NOTE: Dropping this struct signals the background thread to stop but does not join
     // it, so the event handler may still fire briefly after drop returns. If a hard
     // guarantee of "no callbacks after drop" is ever needed, expose a `stop()` method
@@ -130,16 +132,16 @@ pub struct ProjectedVolumeDebouncer {
     _debouncer: Debouncer<RecommendedWatcher, RecommendedCache>,
 }
 
-impl ProjectedVolumeDebouncer {
-    /// Creates a new [`ProjectedVolumeDebouncer`].
+impl AtomicWriterVolumeDebouncer {
+    /// Creates a new [`AtomicWriterVolumeDebouncer`].
     ///
     /// Immediately snapshots all user-visible files under `root` as the baseline.
     /// The `event_handler` closure will be called on a background thread whenever a
-    /// projected volume update is detected.
+    /// atomic-writer volume update is detected.
     ///
     /// # Arguments
     ///
-    /// * `root` - Path to the projected volume mount directory.
+    /// * `root` - Path to the atomic-writer volume mount directory.
     /// * `event_handler` - Closure invoked with the result of change detection. Runs on a
     ///   background OS thread.
     ///
@@ -147,11 +149,12 @@ impl ProjectedVolumeDebouncer {
     ///
     /// Returns an error if the initial directory snapshot fails or the filesystem watcher
     /// cannot be created.
-    pub fn new<F>(root: PathBuf, mut event_handler: F) -> Result<Self, ProjectedVolumeError>
+    pub fn new<F>(root: PathBuf, mut event_handler: F) -> Result<Self, AtomicWriterVolumeError>
     where
-        F: FnMut(ProjectedVolumeEventResult) + Send + 'static,
+        F: FnMut(AtomicWriterVolumeEventResult) + Send + 'static,
     {
-        let initial_snapshot = snapshot_directory(&root).map_err(ProjectedVolumeError::Snapshot)?;
+        let initial_snapshot =
+            snapshot_directory(&root).map_err(AtomicWriterVolumeError::Snapshot)?;
         let state = Mutex::new(initial_snapshot);
         let root_for_closure = root.clone();
 
@@ -178,7 +181,7 @@ impl ProjectedVolumeDebouncer {
                             }
                         }
                         Err(e) => {
-                            event_handler(Err(ProjectedVolumeError::Snapshot(e)));
+                            event_handler(Err(AtomicWriterVolumeError::Snapshot(e)));
                         }
                     }
                 }
@@ -189,7 +192,7 @@ impl ProjectedVolumeDebouncer {
                     // so multiple concurrent errors are not expected. Taking only the
                     // first is sufficient.
                     if let Some(e) = errors.into_iter().next() {
-                        event_handler(Err(ProjectedVolumeError::Notify(e)));
+                        event_handler(Err(AtomicWriterVolumeError::Notify(e)));
                     }
                 }
             },
@@ -206,7 +209,7 @@ impl ProjectedVolumeDebouncer {
 /// Returns the timestamp of the symlink swap event, if one is present in the batch.
 ///
 /// The swap is identified by any event whose path ends with `..data` or `..data_tmp`,
-/// which are the symlinks Kubernetes uses during projected volume updates.
+/// which are the symlinks Kubernetes uses during atomic-writer volume updates.
 fn symlink_swap_time(events: &[DebouncedEvent]) -> Option<Instant> {
     events
         .iter()
@@ -222,7 +225,7 @@ fn symlink_swap_time(events: &[DebouncedEvent]) -> Option<Instant> {
 /// SHA-256 hash type for file content snapshots.
 type FileHash = [u8; 32];
 
-/// An entry in a projected volume snapshot.
+/// An entry in a atomic-writer volume snapshot.
 #[derive(Debug, Clone, PartialEq, Eq)]
 enum SnapshotEntry {
     /// A regular file, identified by the SHA-256 hash of its contents.
@@ -234,7 +237,7 @@ enum SnapshotEntry {
 /// A directory snapshot mapping relative paths to their entries.
 type Snapshot = HashMap<PathBuf, SnapshotEntry>;
 
-/// Walks the projected volume directory and builds a map of relative paths to snapshot entries.
+/// Walks the atomic-writer volume directory and builds a map of relative paths to snapshot entries.
 ///
 /// Filters out all entries starting with `..` (Kubernetes internal plumbing) and follows
 /// symlinks to reach actual file content. Both files and directories are recorded.
@@ -288,15 +291,15 @@ fn diff_snapshots(
     old: &Snapshot,
     new: &Snapshot,
     time: Instant,
-) -> Vec<ProjectedVolumeEvent> {
+) -> Vec<AtomicWriterVolumeEvent> {
     let mut events = Vec::new();
 
     for (path, new_entry) in new {
         match old.get(path) {
             Some(old_entry) if old_entry == new_entry => {}
             Some(SnapshotEntry::File(_)) if matches!(new_entry, SnapshotEntry::File(_)) => {
-                events.push(ProjectedVolumeEvent {
-                    kind: ProjectedVolumeEventKind::FileModified,
+                events.push(AtomicWriterVolumeEvent {
+                    kind: AtomicWriterVolumeEventKind::FileModified,
                     path: root.join(path),
                     time,
                 });
@@ -304,20 +307,20 @@ fn diff_snapshots(
             Some(old_entry) => {
                 // Type changed (file <-> dir): report remove + create
                 let remove_kind = match old_entry {
-                    SnapshotEntry::File(_) => ProjectedVolumeEventKind::FileRemoved,
-                    SnapshotEntry::Directory => ProjectedVolumeEventKind::DirRemoved,
+                    SnapshotEntry::File(_) => AtomicWriterVolumeEventKind::FileRemoved,
+                    SnapshotEntry::Directory => AtomicWriterVolumeEventKind::DirRemoved,
                 };
                 let create_kind = match new_entry {
-                    SnapshotEntry::File(_) => ProjectedVolumeEventKind::FileCreated,
-                    SnapshotEntry::Directory => ProjectedVolumeEventKind::DirCreated,
+                    SnapshotEntry::File(_) => AtomicWriterVolumeEventKind::FileCreated,
+                    SnapshotEntry::Directory => AtomicWriterVolumeEventKind::DirCreated,
                 };
                 let abs = root.join(path);
-                events.push(ProjectedVolumeEvent {
+                events.push(AtomicWriterVolumeEvent {
                     kind: remove_kind,
                     path: abs.clone(),
                     time,
                 });
-                events.push(ProjectedVolumeEvent {
+                events.push(AtomicWriterVolumeEvent {
                     kind: create_kind,
                     path: abs,
                     time,
@@ -325,10 +328,10 @@ fn diff_snapshots(
             }
             None => {
                 let kind = match new_entry {
-                    SnapshotEntry::File(_) => ProjectedVolumeEventKind::FileCreated,
-                    SnapshotEntry::Directory => ProjectedVolumeEventKind::DirCreated,
+                    SnapshotEntry::File(_) => AtomicWriterVolumeEventKind::FileCreated,
+                    SnapshotEntry::Directory => AtomicWriterVolumeEventKind::DirCreated,
                 };
-                events.push(ProjectedVolumeEvent {
+                events.push(AtomicWriterVolumeEvent {
                     kind,
                     path: root.join(path),
                     time,
@@ -340,10 +343,10 @@ fn diff_snapshots(
     for (path, old_entry) in old {
         if !new.contains_key(path) {
             let kind = match old_entry {
-                SnapshotEntry::File(_) => ProjectedVolumeEventKind::FileRemoved,
-                SnapshotEntry::Directory => ProjectedVolumeEventKind::DirRemoved,
+                SnapshotEntry::File(_) => AtomicWriterVolumeEventKind::FileRemoved,
+                SnapshotEntry::Directory => AtomicWriterVolumeEventKind::DirRemoved,
             };
-            events.push(ProjectedVolumeEvent {
+            events.push(AtomicWriterVolumeEvent {
                 kind,
                 path: root.join(path),
                 time,
@@ -357,14 +360,14 @@ fn diff_snapshots(
 #[cfg(test)]
 mod tests {
     use super::*;
-    use crate::deployment_artifacts::test_utils::TempProjectedVolume;
+    use crate::deployment_artifacts::test_utils::TempAtomicWriterVolume;
 
     mod snapshot {
         use super::*;
 
         #[test]
         fn captures_files_and_dirs() {
-            let vol = TempProjectedVolume::new("snapshot_captures");
+            let vol = TempAtomicWriterVolume::new("snapshot_captures");
             vol.stage_dir_create(Path::new("dir1"));
             vol.stage_file_create(Path::new("dir1/file1"), "value1");
             vol.stage_file_create(Path::new("dir1/file2"), "value2");
@@ -423,7 +426,7 @@ mod tests {
 
         #[test]
         fn skips_dotdot_entries() {
-            let vol = TempProjectedVolume::new("snapshot_dotdot");
+            let vol = TempAtomicWriterVolume::new("snapshot_dotdot");
             vol.stage_dir_create(Path::new("dir"));
             vol.stage_file_create(Path::new("dir/file1"), "value1");
             vol.execute_update();
@@ -439,7 +442,7 @@ mod tests {
 
         #[test]
         fn hashes_are_deterministic() {
-            let vol = TempProjectedVolume::new("snapshot_deterministic");
+            let vol = TempAtomicWriterVolume::new("snapshot_deterministic");
             vol.stage_dir_create(Path::new("dir"));
             vol.stage_file_create(Path::new("dir/file1"), "value1");
             vol.execute_update();
@@ -463,7 +466,7 @@ mod tests {
 
             let events = diff_snapshots(Path::new(ROOT), &old, &new, Instant::now());
             assert_eq!(events.len(), 1);
-            assert_eq!(events[0].kind, ProjectedVolumeEventKind::FileCreated);
+            assert_eq!(events[0].kind, AtomicWriterVolumeEventKind::FileCreated);
             assert_eq!(events[0].path, Path::new("/mnt/projected/dir1/file1"));
         }
 
@@ -475,7 +478,7 @@ mod tests {
 
             let events = diff_snapshots(Path::new(ROOT), &old, &new, Instant::now());
             assert_eq!(events.len(), 1);
-            assert_eq!(events[0].kind, ProjectedVolumeEventKind::DirCreated);
+            assert_eq!(events[0].kind, AtomicWriterVolumeEventKind::DirCreated);
             assert_eq!(events[0].path, Path::new(ROOT).join(Path::new("dir1")));
         }
 
@@ -488,7 +491,7 @@ mod tests {
 
             let events = diff_snapshots(Path::new(ROOT), &old, &new, Instant::now());
             assert_eq!(events.len(), 1);
-            assert_eq!(events[0].kind, ProjectedVolumeEventKind::FileModified);
+            assert_eq!(events[0].kind, AtomicWriterVolumeEventKind::FileModified);
             assert_eq!(
                 events[0].path,
                 Path::new(ROOT).join(Path::new("dir1/file1"))
@@ -503,7 +506,7 @@ mod tests {
 
             let events = diff_snapshots(Path::new(ROOT), &old, &new, Instant::now());
             assert_eq!(events.len(), 1);
-            assert_eq!(events[0].kind, ProjectedVolumeEventKind::FileRemoved);
+            assert_eq!(events[0].kind, AtomicWriterVolumeEventKind::FileRemoved);
             assert_eq!(
                 events[0].path,
                 Path::new(ROOT).join(Path::new("dir1/file1"))
@@ -518,7 +521,7 @@ mod tests {
 
             let events = diff_snapshots(Path::new(ROOT), &old, &new, Instant::now());
             assert_eq!(events.len(), 1);
-            assert_eq!(events[0].kind, ProjectedVolumeEventKind::DirRemoved);
+            assert_eq!(events[0].kind, AtomicWriterVolumeEventKind::DirRemoved);
             assert_eq!(events[0].path, Path::new(ROOT).join(Path::new("dir1")));
         }
 
@@ -572,19 +575,19 @@ mod tests {
 
             let root = Path::new(ROOT);
             let has_create_file = events.iter().any(|e| {
-                e.kind == ProjectedVolumeEventKind::FileCreated && e.path == root.join("file4")
+                e.kind == AtomicWriterVolumeEventKind::FileCreated && e.path == root.join("file4")
             });
             let has_create_dir = events.iter().any(|e| {
-                e.kind == ProjectedVolumeEventKind::DirCreated && e.path == root.join("dir3")
+                e.kind == AtomicWriterVolumeEventKind::DirCreated && e.path == root.join("dir3")
             });
             let has_modify = events.iter().any(|e| {
-                e.kind == ProjectedVolumeEventKind::FileModified && e.path == root.join("file2")
+                e.kind == AtomicWriterVolumeEventKind::FileModified && e.path == root.join("file2")
             });
             let has_remove_file = events.iter().any(|e| {
-                e.kind == ProjectedVolumeEventKind::FileRemoved && e.path == root.join("file3")
+                e.kind == AtomicWriterVolumeEventKind::FileRemoved && e.path == root.join("file3")
             });
             let has_remove_dir = events.iter().any(|e| {
-                e.kind == ProjectedVolumeEventKind::DirRemoved && e.path == root.join("dir2")
+                e.kind == AtomicWriterVolumeEventKind::DirRemoved && e.path == root.join("dir2")
             });
 
             assert!(has_create_file, "should detect created file");
@@ -656,7 +659,7 @@ mod tests {
         /// Collector for debouncer events, using a condvar to allow tests to wait
         /// for results with a timeout.
         struct EventCollector {
-            inner: Arc<(Mutex<Vec<ProjectedVolumeEventResult>>, Condvar)>,
+            inner: Arc<(Mutex<Vec<AtomicWriterVolumeEventResult>>, Condvar)>,
         }
 
         impl EventCollector {
@@ -666,8 +669,8 @@ mod tests {
                 }
             }
 
-            /// Returns a closure suitable for passing to [`ProjectedVolumeDebouncer::new`].
-            fn handler(&self) -> impl FnMut(ProjectedVolumeEventResult) + Send + 'static {
+            /// Returns a closure suitable for passing to [`AtomicWriterVolumeDebouncer::new`].
+            fn handler(&self) -> impl FnMut(AtomicWriterVolumeEventResult) + Send + 'static {
                 let inner = Arc::clone(&self.inner);
                 move |result| {
                     let (lock, cvar) = &*inner;
@@ -676,10 +679,10 @@ mod tests {
                 }
             }
 
-            /// Wait for the latest [`ProjectedVolumeEventResult`] to arrive.
+            /// Wait for the latest [`AtomicWriterVolumeEventResult`] to arrive.
             ///
             /// Panics if no event arrives within [`EVENT_TIMEOUT`].
-            fn events_batch(&self) -> ProjectedVolumeEventResult {
+            fn events_batch(&self) -> AtomicWriterVolumeEventResult {
                 let (lock, cvar) = &*self.inner;
                 let (mut guard, wait_result) = cvar
                     .wait_timeout_while(lock.lock().unwrap(), EVENT_TIMEOUT, |events| {
@@ -711,7 +714,7 @@ mod tests {
 
         #[test]
         fn detects_file_modification() {
-            let vol = TempProjectedVolume::new("debouncer_modify");
+            let vol = TempAtomicWriterVolume::new("debouncer_modify");
             vol.stage_file_create(Path::new("file1"), "value1");
             vol.stage_dir_create(Path::new("subdir"));
             vol.stage_file_create(Path::new("subdir/file2"), "value2");
@@ -719,7 +722,7 @@ mod tests {
 
             let collector = EventCollector::new();
             let _debouncer =
-                ProjectedVolumeDebouncer::new(vol.path().to_path_buf(), collector.handler())
+                AtomicWriterVolumeDebouncer::new(vol.path().to_path_buf(), collector.handler())
                     .unwrap();
 
             vol.stage_file_modify(Path::new("file1"), "value1-updated");
@@ -729,11 +732,11 @@ mod tests {
             let events = collector.events_batch().unwrap();
             assert_eq!(events.len(), 2);
             let has_root = events.iter().any(|e| {
-                e.kind == ProjectedVolumeEventKind::FileModified
+                e.kind == AtomicWriterVolumeEventKind::FileModified
                     && e.path == vol.path().join("file1")
             });
             let has_nested = events.iter().any(|e| {
-                e.kind == ProjectedVolumeEventKind::FileModified
+                e.kind == AtomicWriterVolumeEventKind::FileModified
                     && e.path == vol.path().join("subdir/file2")
             });
             assert!(has_root, "should detect root file modification");
@@ -742,14 +745,14 @@ mod tests {
 
         #[test]
         fn detects_file_addition() {
-            let vol = TempProjectedVolume::new("debouncer_add");
+            let vol = TempAtomicWriterVolume::new("debouncer_add");
             vol.stage_file_create(Path::new("file1"), "value1");
             vol.stage_dir_create(Path::new("subdir"));
             vol.execute_update();
 
             let collector = EventCollector::new();
             let _debouncer =
-                ProjectedVolumeDebouncer::new(vol.path().to_path_buf(), collector.handler())
+                AtomicWriterVolumeDebouncer::new(vol.path().to_path_buf(), collector.handler())
                     .unwrap();
 
             vol.stage_file_create(Path::new("file2"), "value2");
@@ -759,11 +762,11 @@ mod tests {
             let events = collector.events_batch().unwrap();
             assert_eq!(events.len(), 2);
             let has_root = events.iter().any(|e| {
-                e.kind == ProjectedVolumeEventKind::FileCreated
+                e.kind == AtomicWriterVolumeEventKind::FileCreated
                     && e.path == vol.path().join("file2")
             });
             let has_nested = events.iter().any(|e| {
-                e.kind == ProjectedVolumeEventKind::FileCreated
+                e.kind == AtomicWriterVolumeEventKind::FileCreated
                     && e.path == vol.path().join("subdir/file3")
             });
             assert!(has_root, "should detect root file addition");
@@ -772,7 +775,7 @@ mod tests {
 
         #[test]
         fn detects_file_removal() {
-            let vol = TempProjectedVolume::new("debouncer_remove");
+            let vol = TempAtomicWriterVolume::new("debouncer_remove");
             vol.stage_file_create(Path::new("file1"), "value1");
             vol.stage_dir_create(Path::new("subdir"));
             vol.stage_file_create(Path::new("subdir/file2"), "value2");
@@ -780,7 +783,7 @@ mod tests {
 
             let collector = EventCollector::new();
             let _debouncer =
-                ProjectedVolumeDebouncer::new(vol.path().to_path_buf(), collector.handler())
+                AtomicWriterVolumeDebouncer::new(vol.path().to_path_buf(), collector.handler())
                     .unwrap();
 
             vol.stage_file_remove(Path::new("file1"));
@@ -790,11 +793,11 @@ mod tests {
             let events = collector.events_batch().unwrap();
             assert_eq!(events.len(), 2);
             let has_root = events.iter().any(|e| {
-                e.kind == ProjectedVolumeEventKind::FileRemoved
+                e.kind == AtomicWriterVolumeEventKind::FileRemoved
                     && e.path == vol.path().join("file1")
             });
             let has_nested = events.iter().any(|e| {
-                e.kind == ProjectedVolumeEventKind::FileRemoved
+                e.kind == AtomicWriterVolumeEventKind::FileRemoved
                     && e.path == vol.path().join("subdir/file2")
             });
             assert!(has_root, "should detect root file removal");
@@ -803,13 +806,13 @@ mod tests {
 
         #[test]
         fn detects_dir_creation() {
-            let vol = TempProjectedVolume::new("debouncer_dir_create");
+            let vol = TempAtomicWriterVolume::new("debouncer_dir_create");
             vol.stage_file_create(Path::new("file1"), "value1");
             vol.execute_update();
 
             let collector = EventCollector::new();
             let _debouncer =
-                ProjectedVolumeDebouncer::new(vol.path().to_path_buf(), collector.handler())
+                AtomicWriterVolumeDebouncer::new(vol.path().to_path_buf(), collector.handler())
                     .unwrap();
 
             vol.stage_dir_create(Path::new("newdir1"));
@@ -818,11 +821,11 @@ mod tests {
 
             let events = collector.events_batch().unwrap();
             let has_dir_create = events.iter().any(|e| {
-                e.kind == ProjectedVolumeEventKind::DirCreated
+                e.kind == AtomicWriterVolumeEventKind::DirCreated
                     && e.path == vol.path().join("newdir1")
             });
             let has_file_create = events.iter().any(|e| {
-                e.kind == ProjectedVolumeEventKind::FileCreated
+                e.kind == AtomicWriterVolumeEventKind::FileCreated
                     && e.path == vol.path().join("newdir1/file1")
             });
             assert!(has_dir_create, "should detect directory creation");
@@ -831,7 +834,7 @@ mod tests {
 
         #[test]
         fn detects_dir_removal() {
-            let vol = TempProjectedVolume::new("debouncer_dir_remove");
+            let vol = TempAtomicWriterVolume::new("debouncer_dir_remove");
             vol.stage_file_create(Path::new("file1"), "value1");
             vol.stage_dir_create(Path::new("ephemeral"));
             vol.stage_file_create(Path::new("ephemeral/file1"), "temp");
@@ -839,7 +842,7 @@ mod tests {
 
             let collector = EventCollector::new();
             let _debouncer =
-                ProjectedVolumeDebouncer::new(vol.path().to_path_buf(), collector.handler())
+                AtomicWriterVolumeDebouncer::new(vol.path().to_path_buf(), collector.handler())
                     .unwrap();
 
             vol.stage_file_remove(Path::new("ephemeral/file1"));
@@ -848,11 +851,11 @@ mod tests {
 
             let events = collector.events_batch().unwrap();
             let has_dir_remove = events.iter().any(|e| {
-                e.kind == ProjectedVolumeEventKind::DirRemoved
+                e.kind == AtomicWriterVolumeEventKind::DirRemoved
                     && e.path == vol.path().join("ephemeral")
             });
             let has_file_remove = events.iter().any(|e| {
-                e.kind == ProjectedVolumeEventKind::FileRemoved
+                e.kind == AtomicWriterVolumeEventKind::FileRemoved
                     && e.path == vol.path().join("ephemeral/file1")
             });
             assert!(has_dir_remove, "should detect directory removal");
@@ -864,7 +867,7 @@ mod tests {
 
         #[test]
         fn detects_no_change() {
-            let vol = TempProjectedVolume::new("debouncer_nochange");
+            let vol = TempAtomicWriterVolume::new("debouncer_nochange");
             vol.stage_file_create(Path::new("file1"), "value1");
             vol.stage_dir_create(Path::new("subdir"));
             vol.stage_file_create(Path::new("subdir/file2"), "value2");
@@ -872,7 +875,7 @@ mod tests {
 
             let collector = EventCollector::new();
             let _debouncer =
-                ProjectedVolumeDebouncer::new(vol.path().to_path_buf(), collector.handler())
+                AtomicWriterVolumeDebouncer::new(vol.path().to_path_buf(), collector.handler())
                     .unwrap();
 
             // Re-stage identical content (modify with same values)
@@ -885,7 +888,7 @@ mod tests {
 
         #[test]
         fn detects_mixed_changes() {
-            let vol = TempProjectedVolume::new("debouncer_mixed");
+            let vol = TempAtomicWriterVolume::new("debouncer_mixed");
             vol.stage_file_create(Path::new("unchanged"), "keep");
             vol.stage_file_create(Path::new("modified"), "old");
             vol.stage_file_create(Path::new("removed"), "gone");
@@ -899,7 +902,7 @@ mod tests {
 
             let collector = EventCollector::new();
             let _debouncer =
-                ProjectedVolumeDebouncer::new(vol.path().to_path_buf(), collector.handler())
+                AtomicWriterVolumeDebouncer::new(vol.path().to_path_buf(), collector.handler())
                     .unwrap();
 
             vol.stage_file_modify(Path::new("modified"), "new");
@@ -918,53 +921,59 @@ mod tests {
             assert_eq!(events.len(), 10);
 
             // Root-level events
-            let has = |kind: ProjectedVolumeEventKind, path: &str| {
+            let has = |kind: AtomicWriterVolumeEventKind, path: &str| {
                 events
                     .iter()
                     .any(|e| e.kind == kind && e.path == vol.path().join(path))
             };
             assert!(
-                has(ProjectedVolumeEventKind::FileModified, "modified"),
+                has(AtomicWriterVolumeEventKind::FileModified, "modified"),
                 "should detect root file modification"
             );
             assert!(
-                has(ProjectedVolumeEventKind::FileRemoved, "removed"),
+                has(AtomicWriterVolumeEventKind::FileRemoved, "removed"),
                 "should detect root file removal"
             );
             assert!(
-                has(ProjectedVolumeEventKind::FileCreated, "created"),
+                has(AtomicWriterVolumeEventKind::FileCreated, "created"),
                 "should detect root file creation"
             );
 
             // Subdirectory events
             assert!(
-                has(ProjectedVolumeEventKind::FileModified, "subdir/modified"),
+                has(AtomicWriterVolumeEventKind::FileModified, "subdir/modified"),
                 "should detect nested file modification"
             );
             assert!(
-                has(ProjectedVolumeEventKind::FileRemoved, "subdir/removed"),
+                has(AtomicWriterVolumeEventKind::FileRemoved, "subdir/removed"),
                 "should detect nested file removal"
             );
             assert!(
-                has(ProjectedVolumeEventKind::FileCreated, "subdir/created"),
+                has(AtomicWriterVolumeEventKind::FileCreated, "subdir/created"),
                 "should detect nested file creation"
             );
 
             // Directory-level events
             assert!(
-                has(ProjectedVolumeEventKind::DirRemoved, "removed_dir"),
+                has(AtomicWriterVolumeEventKind::DirRemoved, "removed_dir"),
                 "should detect directory removal"
             );
             assert!(
-                has(ProjectedVolumeEventKind::FileRemoved, "removed_dir/file1"),
+                has(
+                    AtomicWriterVolumeEventKind::FileRemoved,
+                    "removed_dir/file1"
+                ),
                 "should detect file removal from removed dir"
             );
             assert!(
-                has(ProjectedVolumeEventKind::DirCreated, "created_dir"),
+                has(AtomicWriterVolumeEventKind::DirCreated, "created_dir"),
                 "should detect directory creation"
             );
             assert!(
-                has(ProjectedVolumeEventKind::FileCreated, "created_dir/file1"),
+                has(
+                    AtomicWriterVolumeEventKind::FileCreated,
+                    "created_dir/file1"
+                ),
                 "should detect file creation in new dir"
             );
         }
