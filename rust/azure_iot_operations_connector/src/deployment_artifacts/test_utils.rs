@@ -122,16 +122,22 @@ pub struct TempAtomicWriterVolume {
 
 impl TempAtomicWriterVolume {
     /// Create a new `TempAtomicWriterVolume` with the given directory name.
+    ///
+    /// Immediately performs an initial `execute_update` to create the atomic-writer
+    /// volume plumbing (`..data` symlink and timestamped snapshot directory), matching
+    /// the kubelet's behavior of always creating this structure even for empty volumes.
     pub fn new(dir_name: &str) -> Self {
         let dir = tempfile::TempDir::with_prefix(dir_name).unwrap();
-        Self {
+        let vol = Self {
             dir,
             files: RefCell::new(HashMap::new()),
             dirs: RefCell::new(HashSet::new()),
             staged_ops: RefCell::new(Vec::new()),
             current_timestamp_dir: RefCell::new(None),
             counter: Cell::new(0),
-        }
+        };
+        vol.execute_update();
+        vol
     }
 
     /// Return the path of the atomic-writer volume mount.
@@ -398,6 +404,23 @@ mod tests {
         // actual K8S behavior in production.
 
         // -- basic operations --
+
+        #[test]
+        fn empty_volume_has_plumbing() {
+            let vol = TempAtomicWriterVolume::new(&unique_name("test"));
+
+            let data_link = vol.path().join("..data");
+            assert!(data_link.is_symlink(), "..data symlink should exist");
+            let target = std::fs::read_link(&data_link).unwrap();
+            assert!(
+                target.to_string_lossy().starts_with(".."),
+                "..data should point to a ..-prefixed timestamped dir, got: {target:?}"
+            );
+            assert!(
+                vol.path().join(&target).is_dir(),
+                "timestamped snapshot directory should exist"
+            );
+        }
 
         #[test_case(Path::new("key"); "root")]
         #[test_case(Path::new("sub/key"); "subdirectory")]

@@ -177,6 +177,8 @@ mod tests {
     use super::*;
     use crate::deployment_artifacts::test_utils::TempMount;
 
+    // TODO: Stop using TempMount once we clarify requirements more
+
     #[test]
     fn ref_deref() {
         let fs_mount = TempMount::new("some_path");

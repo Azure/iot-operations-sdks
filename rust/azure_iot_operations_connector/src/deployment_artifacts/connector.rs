@@ -22,6 +22,27 @@ pub use super::connector_configuration::{
 
 const AGGREGATION_WINDOW: Duration = Duration::from_secs(10);
 
+// Environment variable names used in Akri deployments
+const ENV_AZURE_EXTENSION_RESOURCEID: &str = "AZURE_EXTENSION_RESOURCEID";
+const ENV_CONNECTOR_ID: &str = "CONNECTOR_ID";
+const ENV_CONNECTOR_NAMESPACE: &str = "CONNECTOR_NAMESPACE";
+const ENV_CONNECTOR_CONFIGURATION_MOUNT_PATH: &str = "CONNECTOR_CONFIGURATION_MOUNT_PATH";
+const ENV_CONNECTOR_SECRETS_METADATA_MOUNT_PATH: &str = "CONNECTOR_SECRETS_METADATA_MOUNT_PATH";
+const ENV_CONNECTOR_SECRETS_MOUNT_PATH: &str = "CONNECTOR_SECRETS_MOUNT_PATH";
+const ENV_CONNECTOR_TRUST_SETTINGS_MOUNT_PATH: &str = "CONNECTOR_TRUST_SETTINGS_MOUNT_PATH";
+const ENV_BROKER_TLS_TRUST_BUNDLE_CACERT_MOUNT_PATH: &str = "BROKER_TLS_TRUST_BUNDLE_CACERT_MOUNT_PATH";
+const ENV_BROKER_SAT_PATH: &str = "BROKER_SAT_MOUNT_PATH";  // NOTE: Despite the value string, this is NOT a mount path
+const ENV_DEVICE_ENDPOINT_TLS_TRUST_BUNDLE_CA_CERT_MOUNT_PATH: &str = "DEVICE_ENDPOINT_TLS_TRUST_BUNDLE_CA_CERT_MOUNT_PATH";
+const ENV_DEVICE_ENDPOINT_CREDENTIALS_MOUNT_PATH: &str = "DEVICE_ENDPOINT_CREDENTIALS_MOUNT_PATH";
+const ENV_OTLP_GRPC_METRIC_ENDPOINT: &str = "OTLP_GRPC_METRIC_ENDPOINT";
+const ENV_OTLP_GRPC_LOG_ENDPOINT: &str = "OTLP_GRPC_LOG_ENDPOINT";
+const ENV_OTLP_GRPC_TRACE_ENDPOINT: &str = "OTLP_GRPC_TRACE_ENDPOINT";
+const ENV_FIRST_PARTY_OTLP_GRPC_METRICS_COLLECTOR_CA_PATH: &str = "FIRST_PARTY_OTLP_GRPC_METRICS_COLLECTOR_CA_PATH";
+const ENV_FIRST_PARTY_OTLP_GRPC_LOG_COLLECTOR_CA_PATH: &str = "FIRST_PARTY_OTLP_GRPC_LOG_COLLECTOR_CA_PATH";
+const ENV_OTLP_HTTP_METRIC_ENDPOINT: &str = "OTLP_HTTP_METRIC_ENDPOINT";
+const ENV_OTLP_HTTP_LOG_ENDPOINT: &str = "OTLP_HTTP_LOG_ENDPOINT";
+const ENV_OTLP_HTTP_TRACE_ENDPOINT: &str = "OTLP_HTTP_TRACE_ENDPOINT";
+
 /// Indicates an error occurred while parsing the artifacts in an Akri deployment
 #[derive(Error, Debug)]
 #[error(transparent)]
@@ -74,16 +95,17 @@ pub struct ConnectorArtifacts {
     pub connector_configuration: ConnectorConfiguration,
     /// The secrets deployed for the connector
     pub connector_secrets: Option<Secrets>,
-    /// Path to directory containing trust list certificates for the connector
-    pub connector_trust_settings_mount: Option<FileMount>, // TODO: dir (projected)
-    /// Path to directory containing trust bundle for the broker
-    pub broker_trust_bundle_mount: Option<FileMount>, // TODO: dir (projected)
+    /// Path to projected volume mount containing trust list certificates for the connector
+    pub connector_trust_settings_mount: Option<FileMount>,
+    /// Path to projected volume mount containing trust bundle for the broker
+    pub broker_trust_bundle_mount: Option<FileMount>,
     /// Path to file containing service account token for authentication with the broker
-    pub broker_sat_mount: Option<FileMount>, // TODO: dir (projected)
-    /// Path to directory containing trust bundle for device inbound endpoints
-    pub device_endpoint_trust_bundle_mount: Option<FileMount>, // TODO: dir (unknown)
+    /// // TODO: Make this a file watcher instead once that is implemented
+    pub broker_sat_path: Option<PathBuf>,   // NOTE: This file is on a projected volume
+    /// Path to projected volume mount containing trust bundle for device inbound endpoints
+    pub device_endpoint_trust_bundle_mount: Option<FileMount>,
     /// Path to directory containing credentials for device inbound endpoints
-    pub device_endpoint_credentials_mount: Option<FileMount>, // TODO: dir (unknown)
+    pub device_endpoint_credentials_mount: Option<FileMount>,       // TODO: verify what type of mount this is (if it even is a mount)
 
     // TODO: The following are stopgap variables - these will change in the future
     /// OTEL grpc/grpcs metric endpoint.
@@ -92,10 +114,12 @@ pub struct ConnectorArtifacts {
     pub grpc_log_endpoint: Option<String>,
     /// OTEL grpc/grpcs trace endpoint.
     pub grpc_trace_endpoint: Option<String>,
-    /// Path to the directory containing trust bundle for 1P grpc metric collector.
-    pub grpc_metric_collector_1p_ca_mount: Option<FileMount>, // TODO: file
-    /// Path to the directory containing trust bundle for 1P grpc log collector.
-    pub grpc_log_collector_1p_ca_mount: Option<FileMount>, // TODO: file
+    /// Path to the file containing trust bundle for 1P grpc metric collector.
+    /// // TODO: make this a file watcher instead once that is implemented
+    pub grpc_metric_collector_1p_ca_path: Option<PathBuf>,  // NOTE: This file is on a configMap volume
+    /// Path to the file containing trust bundle for 1P grpc log collector.
+    /// // TODO: make this a file watcher instead once that is implemented
+    pub grpc_log_collector_1p_ca_path: Option<PathBuf>,     // NOTE: This file is on a configMap volume
     /// OTEL http/https metric endpoint.
     pub http_metric_endpoint: Option<String>,
     /// OTEL http/https log endpoint.
@@ -113,36 +137,36 @@ impl ConnectorArtifacts {
     ///   Akri deployment.
     pub fn new_from_deployment() -> Result<Self, DeploymentArtifactError> {
         // Azure Extension Resource ID
-        let azure_extension_resource_id = string_from_environment("AZURE_EXTENSION_RESOURCEID")?
+        let azure_extension_resource_id = string_from_environment(ENV_AZURE_EXTENSION_RESOURCEID)?
             .ok_or(DeploymentArtifactErrorRepr::EnvVarMissing(
-                "AZURE_EXTENSION_RESOURCEID".to_string(),
+                ENV_AZURE_EXTENSION_RESOURCEID.to_string(),
             ))?;
         // Connector ID
-        let connector_id = string_from_environment("CONNECTOR_ID")?.ok_or(
-            DeploymentArtifactErrorRepr::EnvVarMissing("CONNECTOR_ID".to_string()),
+        let connector_id = string_from_environment(ENV_CONNECTOR_ID)?.ok_or(
+            DeploymentArtifactErrorRepr::EnvVarMissing(ENV_CONNECTOR_ID.to_string()),
         )?;
 
         // Connector Namespace
-        let connector_namespace = string_from_environment("CONNECTOR_NAMESPACE")?.ok_or(
-            DeploymentArtifactErrorRepr::EnvVarMissing("CONNECTOR_NAMESPACE".to_string()),
+        let connector_namespace = string_from_environment(ENV_CONNECTOR_NAMESPACE)?.ok_or(
+            DeploymentArtifactErrorRepr::EnvVarMissing(ENV_CONNECTOR_NAMESPACE.to_string()),
         )?;
 
         // Connector Configuration
         let connector_configuration = ConnectorConfiguration::new_from_mount_path(
-            string_from_environment("CONNECTOR_CONFIGURATION_MOUNT_PATH")?
+            string_from_environment(ENV_CONNECTOR_CONFIGURATION_MOUNT_PATH)?
                 .map(valid_pathbuf_from)
                 .transpose()?
                 .ok_or(DeploymentArtifactErrorRepr::EnvVarMissing(
-                    "CONNECTOR_CONFIGURATION_MOUNT_PATH".to_string(),
+                    ENV_CONNECTOR_CONFIGURATION_MOUNT_PATH.to_string(),
                 ))?,
         )?;
 
         // Connector Secrets
-        let connector_secrets = string_from_environment("CONNECTOR_SECRETS_METADATA_MOUNT_PATH")?
+        let connector_secrets = string_from_environment(ENV_CONNECTOR_SECRETS_METADATA_MOUNT_PATH)?
             .map(valid_pathbuf_from)
             .transpose()?
             .zip(
-                string_from_environment("CONNECTOR_SECRETS_MOUNT_PATH")?
+                string_from_environment(ENV_CONNECTOR_SECRETS_MOUNT_PATH)?
                     .map(valid_pathbuf_from)
                     .transpose()?,
             )
@@ -152,30 +176,30 @@ impl ConnectorArtifacts {
 
         // Connector Trust Settings Mount Path
         let connector_trust_settings_mount =
-            string_from_environment("CONNECTOR_TRUST_SETTINGS_MOUNT_PATH")?
+            string_from_environment(ENV_CONNECTOR_TRUST_SETTINGS_MOUNT_PATH)?
                 .map(valid_filemount_from)
                 .transpose()?;
 
         // Broker TLS trust bundle CA cert mount path
         let broker_trust_bundle_mount =
-            string_from_environment("BROKER_TLS_TRUST_BUNDLE_CACERT_MOUNT_PATH")?
+            string_from_environment(ENV_BROKER_TLS_TRUST_BUNDLE_CACERT_MOUNT_PATH)?
                 .map(valid_filemount_from)
                 .transpose()?;
 
-        // Broker SAT token mount path
-        let broker_sat_mount = string_from_environment("BROKER_SAT_MOUNT_PATH")?
-            .map(valid_filemount_from)
+        // Broker SAT token path
+        let broker_sat_path = string_from_environment(ENV_BROKER_SAT_PATH)?
+            .map(valid_pathbuf_from)
             .transpose()?;
 
         // Device Endpoint TLS Trust Bundle CA cert mount path
         let device_endpoint_trust_bundle_mount =
-            string_from_environment("DEVICE_ENDPOINT_TLS_TRUST_BUNDLE_CA_CERT_MOUNT_PATH")?
+            string_from_environment(ENV_DEVICE_ENDPOINT_TLS_TRUST_BUNDLE_CA_CERT_MOUNT_PATH)?
                 .map(valid_filemount_from)
                 .transpose()?;
 
         // Device Endpoint Credentials mount path
         let device_endpoint_credentials_mount =
-            string_from_environment("DEVICE_ENDPOINT_CREDENTIALS_MOUNT_PATH")?
+            string_from_environment(ENV_DEVICE_ENDPOINT_CREDENTIALS_MOUNT_PATH)?
                 .map(valid_filemount_from)
                 .transpose()?;
 
@@ -184,22 +208,22 @@ impl ConnectorArtifacts {
 
         // Stopgap variables beyond this point
 
-        let grpc_metric_endpoint = string_from_environment("OTLP_GRPC_METRIC_ENDPOINT")?;
-        let grpc_log_endpoint = string_from_environment("OTLP_GRPC_LOG_ENDPOINT")?;
-        let grpc_trace_endpoint = string_from_environment("OTLP_GRPC_TRACE_ENDPOINT")?;
+        let grpc_metric_endpoint = string_from_environment(ENV_OTLP_GRPC_METRIC_ENDPOINT)?;
+        let grpc_log_endpoint = string_from_environment(ENV_OTLP_GRPC_LOG_ENDPOINT)?;
+        let grpc_trace_endpoint = string_from_environment(ENV_OTLP_GRPC_TRACE_ENDPOINT)?;
 
-        let grpc_metric_collector_1p_ca_mount =
-            string_from_environment("FIRST_PARTY_OTLP_GRPC_METRICS_COLLECTOR_CA_PATH")?
-                .map(valid_filemount_from)
+        let grpc_metric_collector_1p_ca_path =
+            string_from_environment(ENV_FIRST_PARTY_OTLP_GRPC_METRICS_COLLECTOR_CA_PATH)?
+                .map(valid_pathbuf_from)
                 .transpose()?;
-        let grpc_log_collector_1p_ca_mount =
-            string_from_environment("FIRST_PARTY_OTLP_GRPC_LOG_COLLECTOR_CA_PATH")?
-                .map(valid_filemount_from)
+        let grpc_log_collector_1p_ca_path =
+            string_from_environment(ENV_FIRST_PARTY_OTLP_GRPC_LOG_COLLECTOR_CA_PATH)?
+                .map(valid_pathbuf_from)
                 .transpose()?;
 
-        let http_metric_endpoint = string_from_environment("OTLP_HTTP_METRIC_ENDPOINT")?;
-        let http_log_endpoint = string_from_environment("OTLP_HTTP_LOG_ENDPOINT")?;
-        let http_trace_endpoint = string_from_environment("OTLP_HTTP_TRACE_ENDPOINT")?;
+        let http_metric_endpoint = string_from_environment(ENV_OTLP_HTTP_METRIC_ENDPOINT)?;
+        let http_log_endpoint = string_from_environment(ENV_OTLP_HTTP_LOG_ENDPOINT)?;
+        let http_trace_endpoint = string_from_environment(ENV_OTLP_HTTP_TRACE_ENDPOINT)?;
 
         Ok(ConnectorArtifacts {
             azure_extension_resource_id,
@@ -209,14 +233,14 @@ impl ConnectorArtifacts {
             connector_secrets,
             connector_trust_settings_mount,
             broker_trust_bundle_mount,
-            broker_sat_mount,
+            broker_sat_path,
             device_endpoint_trust_bundle_mount,
             device_endpoint_credentials_mount,
             grpc_metric_endpoint,
             grpc_log_endpoint,
             grpc_trace_endpoint,
-            grpc_metric_collector_1p_ca_mount,
-            grpc_log_collector_1p_ca_mount,
+            grpc_metric_collector_1p_ca_path,
+            grpc_log_collector_1p_ca_path,
             http_metric_endpoint,
             http_log_endpoint,
             http_trace_endpoint,
@@ -253,11 +277,10 @@ impl ConnectorArtifacts {
             .parse::<u16>()
             .map_err(|_| format!("Cannot parse 'tcp_port' into u16. Value: {tcp_port}"))?;
         let sat_file = self
-            .broker_sat_mount
+            .broker_sat_path
             .as_ref()
             .map(|p| {
-                p.as_path()
-                    .to_str()
+                p.to_str()
                     .ok_or_else(|| "Cannot convert SAT file path to String".to_string())
                     .map(std::borrow::ToOwned::to_owned)
             })
@@ -276,7 +299,7 @@ impl ConnectorArtifacts {
                         .next()
                         .ok_or("No CA cert found in trustbundle directory".to_string())?
                         .map_err(|e| format!("Could not read trustbundle directory: {e}"))?;
-                    // TODO:  Workaround to skip files that start with .. that aren't ca files.
+                    // Skip files that start with .. that aren't ca files.
                     if entry
                         .file_name()
                         .to_string_lossy()
@@ -347,10 +370,9 @@ fn valid_filemount_from(mount_path_s: String) -> Result<FileMount, DeploymentArt
 
 #[cfg(test)]
 mod tests {
-    use super::super::test_utils::{TempAtomicWriterVolume, TempMount, TempPersistentVolumeManager};
+    use super::super::test_utils::{TempAtomicWriterVolume, TempPersistentVolumeManager};
     use super::*;
     use std::path::Path;
-    use tempfile::NamedTempFile;
     use test_case::{test_case, test_matrix};
 
     // Environment variable constants
@@ -407,30 +429,30 @@ mod tests {
         temp_env::with_vars(
             [
                 (
-                    "AZURE_EXTENSION_RESOURCEID",
+                    ENV_AZURE_EXTENSION_RESOURCEID,
                     Some(AZURE_EXTENSION_RESOURCE_ID),
                 ),
-                ("CONNECTOR_ID", Some(CONNECTOR_ID)),
-                ("CONNECTOR_NAMESPACE", Some(CONNECTOR_NAMESPACE)),
+                (ENV_CONNECTOR_ID, Some(CONNECTOR_ID)),
+                (ENV_CONNECTOR_NAMESPACE, Some(CONNECTOR_NAMESPACE)),
                 (
-                    "CONNECTOR_CONFIGURATION_MOUNT_PATH",
+                    ENV_CONNECTOR_CONFIGURATION_MOUNT_PATH,
                     Some(connector_configuration_mount.path().to_str().unwrap()),
                 ),
-                ("CONNECTOR_SECRETS_METADATA_MOUNT_PATH", None),
-                ("CONNECTOR_TRUST_SETTINGS_MOUNT_PATH", None),
-                ("BROKER_TLS_TRUST_BUNDLE_CACERT_MOUNT_PATH", None),
-                ("BROKER_SAT_MOUNT_PATH", None),
-                ("DEVICE_ENDPOINT_TLS_TRUST_BUNDLE_CA_CERT_MOUNT_PATH", None),
-                ("DEVICE_ENDPOINT_CREDENTIALS_MOUNT_PATH", None),
+                (ENV_CONNECTOR_SECRETS_METADATA_MOUNT_PATH, None),
+                (ENV_CONNECTOR_TRUST_SETTINGS_MOUNT_PATH, None),
+                (ENV_BROKER_TLS_TRUST_BUNDLE_CACERT_MOUNT_PATH, None),
+                (ENV_BROKER_SAT_PATH, None),
+                (ENV_DEVICE_ENDPOINT_TLS_TRUST_BUNDLE_CA_CERT_MOUNT_PATH, None),
+                (ENV_DEVICE_ENDPOINT_CREDENTIALS_MOUNT_PATH, None),
                 // Stopgap variables beyond this point
-                ("OTLP_GRPC_METRIC_ENDPOINT", None),
-                ("OTLP_GRPC_LOG_ENDPOINT", None),
-                ("OTLP_GRPC_TRACE_ENDPOINT", None),
-                ("FIRST_PARTY_OTLP_GRPC_METRICS_COLLECTOR_CA_PATH", None),
-                ("FIRST_PARTY_OTLP_GRPC_LOG_COLLECTOR_CA_PATH", None),
-                ("OTLP_HTTP_METRIC_ENDPOINT", None),
-                ("OTLP_HTTP_LOG_ENDPOINT", None),
-                ("OTLP_HTTP_TRACE_ENDPOINT", None),
+                (ENV_OTLP_GRPC_METRIC_ENDPOINT, None),
+                (ENV_OTLP_GRPC_LOG_ENDPOINT, None),
+                (ENV_OTLP_GRPC_TRACE_ENDPOINT, None),
+                (ENV_FIRST_PARTY_OTLP_GRPC_METRICS_COLLECTOR_CA_PATH, None),
+                (ENV_FIRST_PARTY_OTLP_GRPC_LOG_COLLECTOR_CA_PATH, None),
+                (ENV_OTLP_HTTP_METRIC_ENDPOINT, None),
+                (ENV_OTLP_HTTP_LOG_ENDPOINT, None),
+                (ENV_OTLP_HTTP_TRACE_ENDPOINT, None),
             ],
             || {
                 let artifacts = ConnectorArtifacts::new_from_deployment().unwrap();
@@ -444,7 +466,7 @@ mod tests {
                 assert!(artifacts.connector_secrets.is_none());
                 assert!(artifacts.connector_trust_settings_mount.is_none());
                 assert!(artifacts.broker_trust_bundle_mount.is_none());
-                assert!(artifacts.broker_sat_mount.is_none());
+                assert!(artifacts.broker_sat_path.is_none());
                 assert!(artifacts.device_endpoint_trust_bundle_mount.is_none());
                 assert!(artifacts.device_endpoint_credentials_mount.is_none());
 
@@ -475,8 +497,8 @@ mod tests {
                 assert!(artifacts.grpc_metric_endpoint.is_none());
                 assert!(artifacts.grpc_log_endpoint.is_none());
                 assert!(artifacts.grpc_trace_endpoint.is_none());
-                assert!(artifacts.grpc_metric_collector_1p_ca_mount.is_none());
-                assert!(artifacts.grpc_log_collector_1p_ca_mount.is_none());
+                assert!(artifacts.grpc_metric_collector_1p_ca_path.is_none());
+                assert!(artifacts.grpc_log_collector_1p_ca_path.is_none());
                 assert!(artifacts.http_metric_endpoint.is_none());
                 assert!(artifacts.http_log_endpoint.is_none());
                 assert!(artifacts.http_trace_endpoint.is_none());
@@ -506,78 +528,87 @@ mod tests {
         );
         connector_configuration_mount.execute_update();
 
-        let broker_sat_file_mount = NamedTempFile::with_prefix("broker-sat").unwrap();
+        let broker_sat_mount = TempAtomicWriterVolume::new("broker-sat-secret");
+        broker_sat_mount.stage_file_create(Path::new("broker-sat"), "");
+        broker_sat_mount.execute_update();
+        let broker_sat_file_path = broker_sat_mount.path().join("broker-sat");
 
-        let broker_trust_bundle_mount = TempMount::new("broker_tls_trust_bundle_ca_cert");
-        broker_trust_bundle_mount.add_file("ca.txt", "");
+        let broker_trust_bundle_mount = TempAtomicWriterVolume::new("broker_tls_trust_bundle_ca_cert");
+        broker_trust_bundle_mount.stage_file_create(Path::new("ca.txt"), "");
+        broker_trust_bundle_mount.execute_update();
 
         // NOTE: There do not have to be any files in these mounts
-        let connector_secrets_metadata_mount = TempMount::new("connector_secrets_metadata");
-        let connector_secrets_mount = TempMount::new("connector_secrets");
-        let connector_trust_settings_mount = TempMount::new("connector_trust_settings");
+        let connector_secrets_metadata_mount = TempAtomicWriterVolume::new("connector_secrets_metadata");
+        let connector_secrets_mount = TempAtomicWriterVolume::new("connector_secrets");
+        let connector_trust_settings_mount = TempAtomicWriterVolume::new("connector_trust_settings");
         let device_endpoint_trust_bundle_mount =
-            TempMount::new("device_endpoint_tls_trust_bundle_ca_cert");
-        let device_endpoint_credentials_mount = TempMount::new("device_endpoint_credentials");
+            TempAtomicWriterVolume::new("device_endpoint_tls_trust_bundle_ca_cert");
+        // TODO: Verify what type of mount this is
+        let device_endpoint_credentials_mount = TempAtomicWriterVolume::new("device_endpoint_credentials");
 
-        // NOTE: there do not need to be files in these stopgap mounts... I think
-        let grpc_metric_collector_1p_ca_mount = TempMount::new("1p_metrics_ca");
-        let grpc_log_collector_1p_ca_mount = TempMount::new("1p_logs_ca");
+        // 1P OTEL collector CA certs live as files inside a single volume
+        let otel_collector_1p_ca_mount = TempAtomicWriterVolume::new("1p-otel-collector");
+        otel_collector_1p_ca_mount.stage_file_create(Path::new("1p_metrics_ca"), "");
+        otel_collector_1p_ca_mount.stage_file_create(Path::new("1p_logs_ca"), "");
+        otel_collector_1p_ca_mount.execute_update();
+        let grpc_metric_collector_1p_ca_path = otel_collector_1p_ca_mount.path().join("1p_metrics_ca");
+        let grpc_log_collector_1p_ca_path = otel_collector_1p_ca_mount.path().join("1p_logs_ca");
 
         temp_env::with_vars(
             [
                 (
-                    "AZURE_EXTENSION_RESOURCEID",
+                    ENV_AZURE_EXTENSION_RESOURCEID,
                     Some(AZURE_EXTENSION_RESOURCE_ID),
                 ),
-                ("CONNECTOR_ID", Some(CONNECTOR_ID)),
-                ("CONNECTOR_NAMESPACE", Some(CONNECTOR_NAMESPACE)),
+                (ENV_CONNECTOR_ID, Some(CONNECTOR_ID)),
+                (ENV_CONNECTOR_NAMESPACE, Some(CONNECTOR_NAMESPACE)),
                 (
-                    "CONNECTOR_CONFIGURATION_MOUNT_PATH",
+                    ENV_CONNECTOR_CONFIGURATION_MOUNT_PATH,
                     Some(connector_configuration_mount.path().to_str().unwrap()),
                 ),
                 (
-                    "CONNECTOR_SECRETS_METADATA_MOUNT_PATH",
+                    ENV_CONNECTOR_SECRETS_METADATA_MOUNT_PATH,
                     Some(connector_secrets_metadata_mount.path().to_str().unwrap()),
                 ),
                 (
-                    "CONNECTOR_SECRETS_MOUNT_PATH",
+                    ENV_CONNECTOR_SECRETS_MOUNT_PATH,
                     Some(connector_secrets_mount.path().to_str().unwrap()),
                 ),
                 (
-                    "CONNECTOR_TRUST_SETTINGS_MOUNT_PATH",
+                    ENV_CONNECTOR_TRUST_SETTINGS_MOUNT_PATH,
                     Some(connector_trust_settings_mount.path().to_str().unwrap()),
                 ),
                 (
-                    "BROKER_TLS_TRUST_BUNDLE_CACERT_MOUNT_PATH",
+                    ENV_BROKER_TLS_TRUST_BUNDLE_CACERT_MOUNT_PATH,
                     Some(broker_trust_bundle_mount.path().to_str().unwrap()),
                 ),
                 (
-                    "BROKER_SAT_MOUNT_PATH",
-                    Some(broker_sat_file_mount.path().to_str().unwrap()),
+                    ENV_BROKER_SAT_PATH,
+                    Some(broker_sat_file_path.to_str().unwrap()),
                 ),
                 (
-                    "DEVICE_ENDPOINT_TLS_TRUST_BUNDLE_CA_CERT_MOUNT_PATH",
+                    ENV_DEVICE_ENDPOINT_TLS_TRUST_BUNDLE_CA_CERT_MOUNT_PATH,
                     Some(device_endpoint_trust_bundle_mount.path().to_str().unwrap()),
                 ),
                 (
-                    "DEVICE_ENDPOINT_CREDENTIALS_MOUNT_PATH",
+                    ENV_DEVICE_ENDPOINT_CREDENTIALS_MOUNT_PATH,
                     Some(device_endpoint_credentials_mount.path().to_str().unwrap()),
                 ),
                 // Stopgap values beyond this point
-                ("OTLP_GRPC_METRIC_ENDPOINT", Some(GRPC_METRIC_ENDPOINT)),
-                ("OTLP_GRPC_LOG_ENDPOINT", Some(GRPC_LOG_ENDPOINT)),
-                ("OTLP_GRPC_TRACE_ENDPOINT", Some(GRPC_TRACE_ENDPOINT)),
+                (ENV_OTLP_GRPC_METRIC_ENDPOINT, Some(GRPC_METRIC_ENDPOINT)),
+                (ENV_OTLP_GRPC_LOG_ENDPOINT, Some(GRPC_LOG_ENDPOINT)),
+                (ENV_OTLP_GRPC_TRACE_ENDPOINT, Some(GRPC_TRACE_ENDPOINT)),
                 (
-                    "FIRST_PARTY_OTLP_GRPC_METRICS_COLLECTOR_CA_PATH",
-                    Some(grpc_metric_collector_1p_ca_mount.path().to_str().unwrap()),
+                    ENV_FIRST_PARTY_OTLP_GRPC_METRICS_COLLECTOR_CA_PATH,
+                    Some(grpc_metric_collector_1p_ca_path.to_str().unwrap()),
                 ),
                 (
-                    "FIRST_PARTY_OTLP_GRPC_LOG_COLLECTOR_CA_PATH",
-                    Some(grpc_log_collector_1p_ca_mount.path().to_str().unwrap()),
+                    ENV_FIRST_PARTY_OTLP_GRPC_LOG_COLLECTOR_CA_PATH,
+                    Some(grpc_log_collector_1p_ca_path.to_str().unwrap()),
                 ),
-                ("OTLP_HTTP_METRIC_ENDPOINT", Some(HTTP_METRIC_ENDPOINT)),
-                ("OTLP_HTTP_LOG_ENDPOINT", Some(HTTP_LOG_ENDPOINT)),
-                ("OTLP_HTTP_TRACE_ENDPOINT", Some(HTTP_TRACE_ENDPOINT)),
+                (ENV_OTLP_HTTP_METRIC_ENDPOINT, Some(HTTP_METRIC_ENDPOINT)),
+                (ENV_OTLP_HTTP_LOG_ENDPOINT, Some(HTTP_LOG_ENDPOINT)),
+                (ENV_OTLP_HTTP_TRACE_ENDPOINT, Some(HTTP_TRACE_ENDPOINT)),
             ],
             || {
                 let artifacts = ConnectorArtifacts::new_from_deployment().unwrap();
@@ -598,8 +629,8 @@ mod tests {
                     broker_trust_bundle_mount.path()
                 );
                 assert_eq!(
-                    artifacts.broker_sat_mount.unwrap(),
-                    broker_sat_file_mount.path()
+                    artifacts.broker_sat_path.unwrap(),
+                    broker_sat_file_path
                 );
                 assert_eq!(
                     artifacts.device_endpoint_trust_bundle_mount.unwrap(),
@@ -648,12 +679,12 @@ mod tests {
                     Some(GRPC_TRACE_ENDPOINT.to_string())
                 );
                 assert_eq!(
-                    artifacts.grpc_metric_collector_1p_ca_mount.unwrap(),
-                    grpc_metric_collector_1p_ca_mount.path()
+                    artifacts.grpc_metric_collector_1p_ca_path.unwrap(),
+                    grpc_metric_collector_1p_ca_path
                 );
                 assert_eq!(
-                    artifacts.grpc_log_collector_1p_ca_mount.unwrap(),
-                    grpc_log_collector_1p_ca_mount.path()
+                    artifacts.grpc_log_collector_1p_ca_path.unwrap(),
+                    grpc_log_collector_1p_ca_path
                 );
                 assert_eq!(
                     artifacts.http_metric_endpoint,
@@ -671,10 +702,10 @@ mod tests {
         );
     }
 
-    #[test_case("AZURE_EXTENSION_RESOURCEID")]
-    #[test_case("CONNECTOR_ID")]
-    #[test_case("CONNECTOR_NAMESPACE")]
-    #[test_case("CONNECTOR_CONFIGURATION_MOUNT_PATH")]
+    #[test_case(ENV_AZURE_EXTENSION_RESOURCEID)]
+    #[test_case(ENV_CONNECTOR_ID)]
+    #[test_case(ENV_CONNECTOR_NAMESPACE)]
+    #[test_case(ENV_CONNECTOR_CONFIGURATION_MOUNT_PATH)]
     fn missing_required_env_var(missing_env_var: &str) {
         let connector_configuration_mount = TempAtomicWriterVolume::new("connector_configuration");
         connector_configuration_mount.stage_file_create(
@@ -686,13 +717,13 @@ mod tests {
         temp_env::with_vars(
             [
                 (
-                    "AZURE_EXTENSION_RESOURCEID",
+                    ENV_AZURE_EXTENSION_RESOURCEID,
                     Some(AZURE_EXTENSION_RESOURCE_ID),
                 ),
-                ("CONNECTOR_ID", Some(CONNECTOR_ID)),
-                ("CONNECTOR_NAMESPACE", Some(CONNECTOR_NAMESPACE)),
+                (ENV_CONNECTOR_ID, Some(CONNECTOR_ID)),
+                (ENV_CONNECTOR_NAMESPACE, Some(CONNECTOR_NAMESPACE)),
                 (
-                    "CONNECTOR_CONFIGURATION_MOUNT_PATH",
+                    ENV_CONNECTOR_CONFIGURATION_MOUNT_PATH,
                     Some(connector_configuration_mount.path().to_str().unwrap()),
                 ),
                 // NOTE: This will override one of the above
@@ -704,15 +735,15 @@ mod tests {
         );
     }
 
-    #[test_case("CONNECTOR_CONFIGURATION_MOUNT_PATH")]
-    #[test_case("CONNECTOR_SECRETS_METADATA_MOUNT_PATH")]
-    #[test_case("CONNECTOR_TRUST_SETTINGS_MOUNT_PATH")]
-    #[test_case("BROKER_TLS_TRUST_BUNDLE_CACERT_MOUNT_PATH")]
-    #[test_case("BROKER_SAT_MOUNT_PATH")]
-    #[test_case("DEVICE_ENDPOINT_TLS_TRUST_BUNDLE_CA_CERT_MOUNT_PATH")]
-    #[test_case("DEVICE_ENDPOINT_CREDENTIALS_MOUNT_PATH")]
-    #[test_case("FIRST_PARTY_OTLP_GRPC_METRICS_COLLECTOR_CA_PATH")]
-    #[test_case("FIRST_PARTY_OTLP_GRPC_LOG_COLLECTOR_CA_PATH")]
+    #[test_case(ENV_CONNECTOR_CONFIGURATION_MOUNT_PATH)]
+    #[test_case(ENV_CONNECTOR_SECRETS_METADATA_MOUNT_PATH)]
+    #[test_case(ENV_CONNECTOR_TRUST_SETTINGS_MOUNT_PATH)]
+    #[test_case(ENV_BROKER_TLS_TRUST_BUNDLE_CACERT_MOUNT_PATH)]
+    #[test_case(ENV_BROKER_SAT_PATH)]
+    #[test_case(ENV_DEVICE_ENDPOINT_TLS_TRUST_BUNDLE_CA_CERT_MOUNT_PATH)]
+    #[test_case(ENV_DEVICE_ENDPOINT_CREDENTIALS_MOUNT_PATH)]
+    #[test_case(ENV_FIRST_PARTY_OTLP_GRPC_METRICS_COLLECTOR_CA_PATH)]
+    #[test_case(ENV_FIRST_PARTY_OTLP_GRPC_LOG_COLLECTOR_CA_PATH)]
     fn nonexistent_mount_path(invalid_mount_env_var: &str) {
         let invalid_mount = PathBuf::from("nonexistent/mount/path");
         assert!(!invalid_mount.exists());
@@ -727,13 +758,13 @@ mod tests {
         temp_env::with_vars(
             [
                 (
-                    "AZURE_EXTENSION_RESOURCEID",
+                    ENV_AZURE_EXTENSION_RESOURCEID,
                     Some(AZURE_EXTENSION_RESOURCE_ID),
                 ),
-                ("CONNECTOR_ID", Some(CONNECTOR_ID)),
-                ("CONNECTOR_NAMESPACE", Some(CONNECTOR_NAMESPACE)),
+                (ENV_CONNECTOR_ID, Some(CONNECTOR_ID)),
+                (ENV_CONNECTOR_NAMESPACE, Some(CONNECTOR_NAMESPACE)),
                 (
-                    "CONNECTOR_CONFIGURATION_MOUNT_PATH",
+                    ENV_CONNECTOR_CONFIGURATION_MOUNT_PATH,
                     Some(connector_configuration_mount.path().to_str().unwrap()),
                 ),
                 // NOTE: This may override CONNECTOR_CONFIGURATION_MOUNT_PATH
@@ -760,13 +791,13 @@ mod tests {
         temp_env::with_vars(
             [
                 (
-                    "AZURE_EXTENSION_RESOURCEID",
+                    ENV_AZURE_EXTENSION_RESOURCEID,
                     Some(AZURE_EXTENSION_RESOURCE_ID),
                 ),
-                ("CONNECTOR_ID", Some(CONNECTOR_ID)),
-                ("CONNECTOR_NAMESPACE", Some(CONNECTOR_NAMESPACE)),
+                (ENV_CONNECTOR_ID, Some(CONNECTOR_ID)),
+                (ENV_CONNECTOR_NAMESPACE, Some(CONNECTOR_NAMESPACE)),
                 (
-                    "CONNECTOR_CONFIGURATION_MOUNT_PATH",
+                    ENV_CONNECTOR_CONFIGURATION_MOUNT_PATH,
                     Some(connector_configuration_mount.path().to_str().unwrap()),
                 ),
             ],
@@ -797,13 +828,13 @@ mod tests {
         temp_env::with_vars(
             [
                 (
-                    "AZURE_EXTENSION_RESOURCEID",
+                    ENV_AZURE_EXTENSION_RESOURCEID,
                     Some(AZURE_EXTENSION_RESOURCE_ID),
                 ),
-                ("CONNECTOR_ID", Some(CONNECTOR_ID)),
-                ("CONNECTOR_NAMESPACE", Some(CONNECTOR_NAMESPACE)),
+                (ENV_CONNECTOR_ID, Some(CONNECTOR_ID)),
+                (ENV_CONNECTOR_NAMESPACE, Some(CONNECTOR_NAMESPACE)),
                 (
-                    "CONNECTOR_CONFIGURATION_MOUNT_PATH",
+                    ENV_CONNECTOR_CONFIGURATION_MOUNT_PATH,
                     Some(connector_configuration_mount.path().to_str().unwrap()),
                 ),
             ],
@@ -832,13 +863,13 @@ mod tests {
         temp_env::with_vars(
             [
                 (
-                    "AZURE_EXTENSION_RESOURCEID",
+                    ENV_AZURE_EXTENSION_RESOURCEID,
                     Some(AZURE_EXTENSION_RESOURCE_ID),
                 ),
-                ("CONNECTOR_ID", Some(CONNECTOR_ID)),
-                ("CONNECTOR_NAMESPACE", Some(CONNECTOR_NAMESPACE)),
+                (ENV_CONNECTOR_ID, Some(CONNECTOR_ID)),
+                (ENV_CONNECTOR_NAMESPACE, Some(CONNECTOR_NAMESPACE)),
                 (
-                    "CONNECTOR_CONFIGURATION_MOUNT_PATH",
+                    ENV_CONNECTOR_CONFIGURATION_MOUNT_PATH,
                     Some(connector_configuration_mount.path().to_str().unwrap()),
                 ),
             ],
@@ -866,13 +897,13 @@ mod tests {
         temp_env::with_vars(
             [
                 (
-                    "AZURE_EXTENSION_RESOURCEID",
+                    ENV_AZURE_EXTENSION_RESOURCEID,
                     Some(AZURE_EXTENSION_RESOURCE_ID),
                 ),
-                ("CONNECTOR_ID", Some(CONNECTOR_ID)),
-                ("CONNECTOR_NAMESPACE", Some(CONNECTOR_NAMESPACE)),
+                (ENV_CONNECTOR_ID, Some(CONNECTOR_ID)),
+                (ENV_CONNECTOR_NAMESPACE, Some(CONNECTOR_NAMESPACE)),
                 (
-                    "CONNECTOR_CONFIGURATION_MOUNT_PATH",
+                    ENV_CONNECTOR_CONFIGURATION_MOUNT_PATH,
                     Some(connector_configuration_mount.path().to_str().unwrap()),
                 ),
             ],
@@ -915,30 +946,34 @@ mod tests {
         connector_configuration_mount.stage_file_create(Path::new("MQTT_CONNECTION_CONFIGURATION"), mqtt_json);
         connector_configuration_mount.execute_update();
 
-        let broker_sat_file_mount = NamedTempFile::with_prefix("broker-sat").unwrap();
+        let broker_sat_mount = TempAtomicWriterVolume::new("broker-sat-secret");
+        broker_sat_mount.stage_file_create(Path::new("broker-sat"), "");
+        broker_sat_mount.execute_update();
+        let broker_sat_file_path = broker_sat_mount.path().join("broker-sat");
 
-        let broker_trust_bundle_mount = TempMount::new("broker_tls_trust_bundle_ca_cert");
-        broker_trust_bundle_mount.add_file("ca.txt", "");
+        let broker_trust_bundle_mount = TempAtomicWriterVolume::new("broker_tls_trust_bundle_ca_cert");
+        broker_trust_bundle_mount.stage_file_create(Path::new("ca.txt"), "");
+        broker_trust_bundle_mount.execute_update();
 
         temp_env::with_vars(
             [
                 (
-                    "AZURE_EXTENSION_RESOURCEID",
+                    ENV_AZURE_EXTENSION_RESOURCEID,
                     Some(AZURE_EXTENSION_RESOURCE_ID),
                 ),
-                ("CONNECTOR_ID", Some(CONNECTOR_ID)),
-                ("CONNECTOR_NAMESPACE", Some(CONNECTOR_NAMESPACE)),
+                (ENV_CONNECTOR_ID, Some(CONNECTOR_ID)),
+                (ENV_CONNECTOR_NAMESPACE, Some(CONNECTOR_NAMESPACE)),
                 (
-                    "CONNECTOR_CONFIGURATION_MOUNT_PATH",
+                    ENV_CONNECTOR_CONFIGURATION_MOUNT_PATH,
                     Some(connector_configuration_mount.path().to_str().unwrap()),
                 ),
                 (
-                    "BROKER_TLS_TRUST_BUNDLE_CACERT_MOUNT_PATH",
+                    ENV_BROKER_TLS_TRUST_BUNDLE_CACERT_MOUNT_PATH,
                     Some(broker_trust_bundle_mount.path().to_str().unwrap()),
                 ),
                 (
-                    "BROKER_SAT_MOUNT_PATH",
-                    Some(broker_sat_file_mount.path().to_str().unwrap()),
+                    ENV_BROKER_SAT_PATH,
+                    Some(broker_sat_file_path.to_str().unwrap()),
                 ),
             ],
             || {
@@ -972,7 +1007,7 @@ mod tests {
                 );
                 assert_eq!(
                     *mqtt_connection_settings.sat_file(),
-                    Some(broker_sat_file_mount.path().to_str().unwrap().to_string())
+                    Some(broker_sat_file_path.to_str().unwrap().to_string())
                 );
             },
         );
@@ -1000,13 +1035,13 @@ mod tests {
         temp_env::with_vars(
             [
                 (
-                    "AZURE_EXTENSION_RESOURCEID",
+                    ENV_AZURE_EXTENSION_RESOURCEID,
                     Some(AZURE_EXTENSION_RESOURCE_ID),
                 ),
-                ("CONNECTOR_ID", Some(CONNECTOR_ID)),
-                ("CONNECTOR_NAMESPACE", Some(CONNECTOR_NAMESPACE)),
+                (ENV_CONNECTOR_ID, Some(CONNECTOR_ID)),
+                (ENV_CONNECTOR_NAMESPACE, Some(CONNECTOR_NAMESPACE)),
                 (
-                    "CONNECTOR_CONFIGURATION_MOUNT_PATH",
+                    ENV_CONNECTOR_CONFIGURATION_MOUNT_PATH,
                     Some(connector_configuration_mount.path().to_str().unwrap()),
                 ),
             ],
@@ -1031,22 +1066,22 @@ mod tests {
         connector_configuration_mount.execute_update();
 
         // NOTE: no CA cert is added to this mount
-        let broker_trust_bundle_mount = TempMount::new("broker_tls_trust_bundle_ca_cert");
+        let broker_trust_bundle_mount = TempAtomicWriterVolume::new("broker_tls_trust_bundle_ca_cert");
 
         temp_env::with_vars(
             [
                 (
-                    "AZURE_EXTENSION_RESOURCEID",
+                    ENV_AZURE_EXTENSION_RESOURCEID,
                     Some(AZURE_EXTENSION_RESOURCE_ID),
                 ),
-                ("CONNECTOR_ID", Some(CONNECTOR_ID)),
-                ("CONNECTOR_NAMESPACE", Some(CONNECTOR_NAMESPACE)),
+                (ENV_CONNECTOR_ID, Some(CONNECTOR_ID)),
+                (ENV_CONNECTOR_NAMESPACE, Some(CONNECTOR_NAMESPACE)),
                 (
-                    "CONNECTOR_CONFIGURATION_MOUNT_PATH",
+                    ENV_CONNECTOR_CONFIGURATION_MOUNT_PATH,
                     Some(connector_configuration_mount.path().to_str().unwrap()),
                 ),
                 (
-                    "BROKER_TLS_TRUST_BUNDLE_CACERT_MOUNT_PATH",
+                    ENV_BROKER_TLS_TRUST_BUNDLE_CACERT_MOUNT_PATH,
                     Some(broker_trust_bundle_mount.path().to_str().unwrap()),
                 ),
             ],
