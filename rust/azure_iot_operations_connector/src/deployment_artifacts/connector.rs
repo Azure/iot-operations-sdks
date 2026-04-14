@@ -494,7 +494,7 @@ mod tests {
                     )
                     .unwrap()
                 );
-                assert!(artifacts.connector_configuration.diagnostics.is_none());
+                assert!(artifacts.connector_configuration.diagnostics.borrow().is_none());
                 assert_eq!(
                     artifacts.connector_configuration.persistent_volumes,
                     Vec::<PathBuf>::new()
@@ -503,6 +503,7 @@ mod tests {
                     artifacts
                         .connector_configuration
                         .additional_configuration
+                        .borrow()
                         .is_none()
                 );
 
@@ -668,7 +669,7 @@ mod tests {
                     .unwrap()
                 );
                 assert_eq!(
-                    artifacts.connector_configuration.diagnostics,
+                    *artifacts.connector_configuration.diagnostics.borrow(),
                     Some(serde_json::from_str::<Diagnostics>(DIAGNOSTICS_JSON).unwrap())
                 );
                 assert_eq!(
@@ -676,7 +677,7 @@ mod tests {
                     persistent_volume_manager.volume_path_bufs()
                 );
                 assert_eq!(
-                    artifacts.connector_configuration.additional_configuration,
+                    *artifacts.connector_configuration.additional_configuration.borrow(),
                     Some(ADDITIONAL_CONNECTOR_CONFIGURATION_JSON.to_string())
                 );
 

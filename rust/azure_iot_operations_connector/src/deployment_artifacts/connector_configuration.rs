@@ -22,22 +22,17 @@ const DIAGNOSTICS_FILENAME: &str = "DIAGNOSTICS";
 const ADDITIONAL_CONNECTOR_CONFIGURATION_FILENAME: &str = "ADDITIONAL_CONNECTOR_CONFIGURATION";
 const PERSISTENT_VOLUME_MOUNT_PATHS_FILENAME: &str = "PERSISTENT_VOLUME_MOUNT_PATH";
 
-// TODO: Validate that this is okay to not support Debug and PartialEq
-
 /// The Connector Configuration extracted from the Akri deployment
 #[derive(Clone)]
 pub struct ConnectorConfiguration {
     /// MQTT connection details
     pub mqtt_connection_configuration: Watched<MqttConnectionConfiguration>,
-    // TODO: Expand to Watched<Option<Diagnostics>> once requirements are clarified
     /// Diagnostics
-    pub diagnostics: Option<Diagnostics>,           // TODO: WILL CHANGE
-    // TODO: Expand to Watched<Vec<PathBuf>> once requirements are clarified
+    pub diagnostics: Watched<Option<Diagnostics>>,
     /// Persistent Volume Mount Path
-    pub persistent_volumes: Vec<PathBuf>, // WILL NOT CHANGE!
-    // TODO: Expand to Watched<Option<String>> once requirements are clarified
+    pub persistent_volumes: Vec<PathBuf>, // CONSIDER: This isn't supposed to change, but it might just be cleaner to make it `Watched`` also
     /// Additional connector configuration as a JSON string
-    pub additional_configuration: Option<String>, // CAN CHANGE
+    pub additional_configuration: Watched<Option<String>>,
 }
 
 impl ConnectorConfiguration {
@@ -49,7 +44,6 @@ impl ConnectorConfiguration {
         mount_path: PathBuf,
     ) -> Result<Self, DeploymentArtifactErrorRepr> {
 
-        // TODO: Validate this commment.
         // NOTE: Handling errors here does end up requiring unnecessary allocations in the
         // FilePathMissing errors returned on optional files, but this is not (yet) code that will
         // be run often, and it keeps things simpler and easier to pivot as the spec evolves.
@@ -81,6 +75,8 @@ impl ConnectorConfiguration {
         };
 
         let (mqtt_tx, mqtt_rx) = tokio::sync::watch::channel(initial_mqtt_config);
+        let (diag_tx, diag_rx) = tokio::sync::watch::channel(diagnostics);
+        let (addl_tx, addl_rx) = tokio::sync::watch::channel(additional_configuration);
 
         let debouncer = AtomicWriterVolumeDebouncer::new(
             mount_path,
@@ -111,25 +107,62 @@ impl ConnectorConfiguration {
                                             }
                                         }
                                         DIAGNOSTICS_FILENAME => {
-                                            unimplemented!("stuff");
+                                            match extract_diagnostics(&event.path) {
+                                                Ok(new_diag) => {
+                                                    let _ = diag_tx.send(Some(new_diag));
+                                                }
+                                                Err(e) => {
+                                                    log::error!(
+                                                        "Failed to parse updated {DIAGNOSTICS_FILENAME}: {e}"
+                                                    );
+                                                }
+                                            }
                                         }
-                                        ADDITIONAL_CONNECTOR_CONFIGURATION_FILENAME | PERSISTENT_VOLUME_MOUNT_PATHS_FILENAME => {
-                                            // log::info!(
-                                            //     "Change detected in {file_name.to_string_lossy()} - currently not supported to update at runtime, ignoring"
-                                            // );
+                                        ADDITIONAL_CONNECTOR_CONFIGURATION_FILENAME => {
+                                            match extract_additional_configuration(&event.path) {
+                                                Ok(new_config) => {
+                                                    let _ = addl_tx.send(Some(new_config));
+                                                }
+                                                Err(e) => {
+                                                    log::error!(
+                                                        "Failed to read updated {ADDITIONAL_CONNECTOR_CONFIGURATION_FILENAME}: {e}"
+                                                    );
+                                                }
+                                            }
+                                        }
+                                        PERSISTENT_VOLUME_MOUNT_PATHS_FILENAME => {
+                                            log::warn!(
+                                                "Changes to {PERSISTENT_VOLUME_MOUNT_PATHS_FILENAME} are not currently supported and will be ignored"
+                                            );
                                         }
                                         _ => {
-                                            // log::warn!(
-                                            //     "Unexpected file {file_name.to_string_lossy()} was modified or created in connector configuration mount - ignoring"
-                                            // );
+                                            log::warn!(
+                                                "Unexpected file {file_name} was modified or created in connector configuration mount - ignoring"
+                                            );
                                         }
                                     }
 
                                 }
                                 AtomicWriterVolumeEventKind::FileRemoved => {
-                                    log::warn!(
-                                        "Required file {MQTT_CONNECTION_CONFIGURATION_FILENAME} was removed — ignoring"
-                                    );
+                                    match file_name {
+                                        MQTT_CONNECTION_CONFIGURATION_FILENAME => {
+                                            log::warn!(
+                                                "Required file {MQTT_CONNECTION_CONFIGURATION_FILENAME} was removed — ignoring"
+                                            );
+                                        }
+                                        DIAGNOSTICS_FILENAME => {
+                                            let _ = diag_tx.send(None);
+                                        }
+                                        ADDITIONAL_CONNECTOR_CONFIGURATION_FILENAME => {
+                                            let _ = addl_tx.send(None);
+                                        }
+                                        PERSISTENT_VOLUME_MOUNT_PATHS_FILENAME => {
+                                            log::warn!(
+                                                "Changes to {PERSISTENT_VOLUME_MOUNT_PATHS_FILENAME} are not currently supported and will be ignored"
+                                            );
+                                        }
+                                        _ => log::warn!("Unexpected file {file_name} was removed from connector configuration mount - ignoring")
+                                    }
                                 }
                                 // Directory events are not expected for this file
                                 _ => {}
@@ -143,11 +176,13 @@ impl ConnectorConfiguration {
             },
         )?;
 
+        let debouncer = Arc::new(debouncer);
+
         Ok(Self {
-            mqtt_connection_configuration: Watched::new(mqtt_rx, Some(Arc::new(debouncer))),
-            diagnostics,
+            mqtt_connection_configuration: Watched::new(mqtt_rx, Some(debouncer.clone())),
+            diagnostics: Watched::new(diag_rx, Some(debouncer.clone())),
             persistent_volumes,
-            additional_configuration,
+            additional_configuration: Watched::new(addl_rx, Some(debouncer)),
         })
     }
 }
@@ -157,7 +192,7 @@ fn extract_mqtt_connection_configuration(
     file_path: &Path,
 ) -> Result<MqttConnectionConfiguration, DeploymentArtifactErrorRepr> {
     if !file_path.exists() {
-        return Err(DeploymentArtifactErrorRepr::FilePathMissing(
+        Err(DeploymentArtifactErrorRepr::FilePathMissing(
             file_path.into(),
         ))?;
     }
@@ -171,7 +206,7 @@ fn extract_diagnostics(
     file_path: &Path,
 ) -> Result<Diagnostics, DeploymentArtifactErrorRepr> {
     if !file_path.exists() {
-        return Err(DeploymentArtifactErrorRepr::FilePathMissing(
+        Err(DeploymentArtifactErrorRepr::FilePathMissing(
             file_path.into(),
         ))?;
     }
@@ -184,7 +219,7 @@ fn extract_persistent_volumes(
     file_path: &Path,
 ) -> Result<Vec<PathBuf>, DeploymentArtifactErrorRepr> {
     if !file_path.exists() {
-        return Err(DeploymentArtifactErrorRepr::FilePathMissing(
+        Err(DeploymentArtifactErrorRepr::FilePathMissing(
             file_path.into(),
         ))?;
     }
@@ -209,7 +244,7 @@ fn extract_additional_configuration(
     file_path: &Path,
 ) -> Result<String, DeploymentArtifactErrorRepr> {
     if !file_path.exists() {
-        return Err(DeploymentArtifactErrorRepr::FilePathMissing(
+        Err(DeploymentArtifactErrorRepr::FilePathMissing(
             file_path.into(),
         ))?;
     }
@@ -361,7 +396,7 @@ mod tests {
                 .expect("Failed to parse MQTT_CONNECTION_CONFIGURATION_JSON")
         );
         assert_eq!(
-            config.diagnostics,
+            *config.diagnostics.borrow(),
             Some(
                 serde_json::from_str::<Diagnostics>(DIAGNOSTICS_JSON)
                     .expect("Failed to parse DIAGNOSTICS_JSON")
@@ -372,7 +407,7 @@ mod tests {
             persistent_volume_manager.volume_path_bufs()
         );
         assert_eq!(
-            config.additional_configuration,
+            *config.additional_configuration.borrow(),
             Some(ADDITIONAL_CONNECTOR_CONFIGURATION_JSON.to_string())
         );
     }
@@ -391,9 +426,9 @@ mod tests {
             serde_json::from_str::<MqttConnectionConfiguration>(MQTT_CONNECTION_CONFIGURATION_JSON)
                 .expect("Failed to parse MQTT_CONNECTION_CONFIGURATION_JSON")
         );
-        assert_eq!(config.diagnostics, None);
+        assert_eq!(*config.diagnostics.borrow(), None);
         assert_eq!(config.persistent_volumes, Vec::<PathBuf>::new());
-        assert_eq!(config.additional_configuration, None);
+        assert_eq!(*config.additional_configuration.borrow(), None);
     }
 
     #[test_case("MQTT_CONNECTION_CONFIGURATION")]
@@ -468,8 +503,7 @@ mod tests {
         }"#;
         assert!(new_mqtt_config_json != MQTT_CONNECTION_CONFIGURATION_JSON);
 
-        config_mount.stage_file_remove(Path::new(MQTT_CONNECTION_CONFIGURATION_FILENAME));
-        config_mount.stage_file_create(Path::new(MQTT_CONNECTION_CONFIGURATION_FILENAME), new_mqtt_config_json);
+        config_mount.stage_file_modify(Path::new(MQTT_CONNECTION_CONFIGURATION_FILENAME), new_mqtt_config_json);
         config_mount.execute_update();
 
         tokio::time::timeout(
@@ -502,8 +536,7 @@ mod tests {
                 .expect("Failed to parse MQTT_CONNECTION_CONFIGURATION_JSON")
         );
 
-        config_mount.stage_file_remove(Path::new(MQTT_CONNECTION_CONFIGURATION_FILENAME));
-        config_mount.stage_file_create(Path::new(MQTT_CONNECTION_CONFIGURATION_FILENAME), NOT_JSON);
+        config_mount.stage_file_modify(Path::new(MQTT_CONNECTION_CONFIGURATION_FILENAME), NOT_JSON);
         config_mount.execute_update();
 
         // Expect that the invalid JSON update is ignored and the old value remains
@@ -552,6 +585,141 @@ mod tests {
             serde_json::from_str::<MqttConnectionConfiguration>(MQTT_CONNECTION_CONFIGURATION_JSON)
                 .expect("Failed to parse MQTT_CONNECTION_CONFIGURATION_JSON")
         );
+    }
+
+    #[tokio::test]
+    async fn diagnostics_modify() {
+        let config_mount = TempAtomicWriterVolume::new("connector_config");
+        config_mount.stage_file_create(Path::new(MQTT_CONNECTION_CONFIGURATION_FILENAME), MQTT_CONNECTION_CONFIGURATION_JSON);
+        config_mount.stage_file_create(Path::new(DIAGNOSTICS_FILENAME), DIAGNOSTICS_JSON);
+        config_mount.execute_update();
+
+        let mut config = ConnectorConfiguration::new_from_mount_path(config_mount.path().to_path_buf())
+            .expect("Failed to create ConnectorConfiguration from mount path");
+        assert_eq!(
+            *config.diagnostics.borrow(),
+            Some(serde_json::from_str::<Diagnostics>(DIAGNOSTICS_JSON).expect("Failed to parse DIAGNOSTICS_JSON"))
+        );
+
+        let new_diagnostics_json = r#"{ "logs": { "level": "debug" } }"#;
+        assert!(new_diagnostics_json != DIAGNOSTICS_JSON);
+
+        config_mount.stage_file_modify(Path::new(DIAGNOSTICS_FILENAME), new_diagnostics_json);
+        config_mount.execute_update();
+
+        tokio::time::timeout(UPDATE_WINDOW, config.diagnostics.changed())
+            .await
+            .expect("Timed out waiting for diagnostics change")
+            .expect("Failed to receive diagnostics change notification");
+
+        assert_eq!(
+            *config.diagnostics.borrow(),
+            Some(serde_json::from_str::<Diagnostics>(new_diagnostics_json).expect("Failed to parse new diagnostics JSON"))
+        );
+    }
+
+    // This is an invalid scenario - it should never happen, but we test the expected behavior if it were to.
+    #[tokio::test]
+    async fn diagnostics_modify_invalid_json() {
+        let config_mount = TempAtomicWriterVolume::new("connector_config");
+        config_mount.stage_file_create(Path::new(MQTT_CONNECTION_CONFIGURATION_FILENAME), MQTT_CONNECTION_CONFIGURATION_JSON);
+        config_mount.stage_file_create(Path::new(DIAGNOSTICS_FILENAME), DIAGNOSTICS_JSON);
+        config_mount.execute_update();
+
+        let mut config = ConnectorConfiguration::new_from_mount_path(config_mount.path().to_path_buf())
+            .expect("Failed to create ConnectorConfiguration from mount path");
+        assert_eq!(
+            *config.diagnostics.borrow(),
+            Some(serde_json::from_str::<Diagnostics>(DIAGNOSTICS_JSON).expect("Failed to parse DIAGNOSTICS_JSON"))
+        );
+
+        config_mount.stage_file_modify(Path::new(DIAGNOSTICS_FILENAME), NOT_JSON);
+        config_mount.execute_update();
+
+        // Expect that the invalid JSON update is ignored and the old value remains
+        tokio::time::timeout(UPDATE_WINDOW, config.diagnostics.changed())
+            .await
+            .expect_err("Unexpectedly received change notification for invalid diagnostics update");
+
+        assert_eq!(
+            *config.diagnostics.borrow(),
+            Some(serde_json::from_str::<Diagnostics>(DIAGNOSTICS_JSON).expect("Failed to parse DIAGNOSTICS_JSON"))
+        );
+    }
+
+    #[tokio::test]
+    async fn diagnostics_remove() {
+        let config_mount = TempAtomicWriterVolume::new("connector_config");
+        config_mount.stage_file_create(Path::new(MQTT_CONNECTION_CONFIGURATION_FILENAME), MQTT_CONNECTION_CONFIGURATION_JSON);
+        config_mount.stage_file_create(Path::new(DIAGNOSTICS_FILENAME), DIAGNOSTICS_JSON);
+        config_mount.execute_update();
+
+        let mut config = ConnectorConfiguration::new_from_mount_path(config_mount.path().to_path_buf())
+            .expect("Failed to create ConnectorConfiguration from mount path");
+        assert!(config.diagnostics.borrow().is_some());
+
+        config_mount.stage_file_remove(Path::new(DIAGNOSTICS_FILENAME));
+        config_mount.execute_update();
+
+        tokio::time::timeout(UPDATE_WINDOW, config.diagnostics.changed())
+            .await
+            .expect("Timed out waiting for diagnostics removal")
+            .expect("Failed to receive diagnostics change notification");
+
+        assert_eq!(*config.diagnostics.borrow(), None);
+    }
+
+    #[tokio::test]
+    async fn additional_configuration_modify() {
+        let config_mount = TempAtomicWriterVolume::new("connector_config");
+        config_mount.stage_file_create(Path::new(MQTT_CONNECTION_CONFIGURATION_FILENAME), MQTT_CONNECTION_CONFIGURATION_JSON);
+        config_mount.stage_file_create(Path::new(ADDITIONAL_CONNECTOR_CONFIGURATION_FILENAME), ADDITIONAL_CONNECTOR_CONFIGURATION_JSON);
+        config_mount.execute_update();
+
+        let mut config = ConnectorConfiguration::new_from_mount_path(config_mount.path().to_path_buf())
+            .expect("Failed to create ConnectorConfiguration from mount path");
+        assert_eq!(
+            *config.additional_configuration.borrow(),
+            Some(ADDITIONAL_CONNECTOR_CONFIGURATION_JSON.to_string())
+        );
+
+        let new_additional_config = r#"{ "newKey": "newValue" }"#;
+        assert!(new_additional_config != ADDITIONAL_CONNECTOR_CONFIGURATION_JSON);
+
+        config_mount.stage_file_modify(Path::new(ADDITIONAL_CONNECTOR_CONFIGURATION_FILENAME), new_additional_config);
+        config_mount.execute_update();
+
+        tokio::time::timeout(UPDATE_WINDOW, config.additional_configuration.changed())
+            .await
+            .expect("Timed out waiting for additional configuration change")
+            .expect("Failed to receive additional configuration change notification");
+
+        assert_eq!(
+            *config.additional_configuration.borrow(),
+            Some(new_additional_config.to_string())
+        );
+    }
+
+    #[tokio::test]
+    async fn additional_configuration_remove() {
+        let config_mount = TempAtomicWriterVolume::new("connector_config");
+        config_mount.stage_file_create(Path::new(MQTT_CONNECTION_CONFIGURATION_FILENAME), MQTT_CONNECTION_CONFIGURATION_JSON);
+        config_mount.stage_file_create(Path::new(ADDITIONAL_CONNECTOR_CONFIGURATION_FILENAME), ADDITIONAL_CONNECTOR_CONFIGURATION_JSON);
+        config_mount.execute_update();
+
+        let mut config = ConnectorConfiguration::new_from_mount_path(config_mount.path().to_path_buf())
+            .expect("Failed to create ConnectorConfiguration from mount path");
+        assert!(config.additional_configuration.borrow().is_some());
+
+        config_mount.stage_file_remove(Path::new(ADDITIONAL_CONNECTOR_CONFIGURATION_FILENAME));
+        config_mount.execute_update();
+
+        tokio::time::timeout(UPDATE_WINDOW, config.additional_configuration.changed())
+            .await
+            .expect("Timed out waiting for additional configuration removal")
+            .expect("Failed to receive additional configuration change notification");
+
+        assert_eq!(*config.additional_configuration.borrow(), None);
     }
 
 }
