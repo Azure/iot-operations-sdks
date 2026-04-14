@@ -624,7 +624,7 @@ namespace Azure.Iot.Operations.Connector
                         {
                             try
                             {
-                                using var deviceAvailableEventArgs = new DeviceAvailableEventArgs(args.DeviceName, args.Device, args.InboundEndpointName, _leaderElectionClient, _adrClient!);
+                                await using var deviceAvailableEventArgs = new DeviceAvailableEventArgs(args.DeviceName, args.Device, args.InboundEndpointName, _leaderElectionClient, _adrClient!);
                                 await WhileDeviceIsAvailable.Invoke(deviceAvailableEventArgs, deviceTaskCancellationTokenSource.Token);
                             }
                             catch (OperationCanceledException)
@@ -737,7 +737,7 @@ namespace Azure.Iot.Operations.Connector
                 {
                     try
                     {
-                        using AssetAvailableEventArgs args = new(deviceName, device, inboundEndpointName, assetName, asset, _leaderElectionClient, _adrClient!, this);
+                        await using AssetAvailableEventArgs args = new(deviceName, device, inboundEndpointName, assetName, asset, _leaderElectionClient, _adrClient!, this);
                         await WhileAssetIsAvailable.Invoke(args, assetTaskCancellationTokenSource.Token);
                     }
                     catch (OperationCanceledException)

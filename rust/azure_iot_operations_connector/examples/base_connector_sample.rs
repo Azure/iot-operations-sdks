@@ -90,7 +90,7 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
 
     // Create a device endpoint client creation observation
     let device_creation_observation =
-        base_connector.create_device_endpoint_client_create_observation();
+        base_connector.create_device_endpoint_client_create_observation()?;
 
     // Create a discovery client
     let adr_discovery_client = base_connector.discovery_client();
