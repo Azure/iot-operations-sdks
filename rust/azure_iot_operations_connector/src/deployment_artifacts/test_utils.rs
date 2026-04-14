@@ -12,6 +12,8 @@ use std::time::SystemTime;
 
 use tempfile::TempDir;
 
+// TODO: Rename TempMount to TempProjectedVolume
+
 /// Simulates a file mount directory using a temporary directory.
 #[derive(Clone)]
 pub struct TempMount {

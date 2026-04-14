@@ -3,6 +3,8 @@
 
 //! A generic wrapper for values that can be monitored for live updates.
 
+use std::sync::Arc;
+
 use tokio::sync::watch;
 
 /// Error returned by [`Watched::changed()`] when the sender has been dropped.
@@ -24,9 +26,27 @@ pub struct WatchedClosedError;
 #[derive(Clone)]
 pub struct Watched<T> {
     rx: watch::Receiver<T>,
+    /// Optional handle to a resource that must remain alive for this `Watched` to
+    /// continue receiving updates. The held value is never accessed — only its
+    /// lifetime matters.
+    _resource_keepalive: Option<Arc<dyn Send + Sync>>,
 }
 
 impl<T> Watched<T> {
+    /// Creates a new `Watched<T>` from a [`watch::Receiver`] and an optional keepalive handle.
+    ///
+    /// If a `resource_keepalive` is provided, it will be held alive for as long as any
+    /// clone of this `Watched<T>` exists.
+    pub(crate) fn new(
+        rx: watch::Receiver<T>,
+        resource_keepalive: Option<Arc<dyn Send + Sync>>,
+    ) -> Self {
+        Self {
+            rx,
+            _resource_keepalive: resource_keepalive,
+        }
+    }
+
     /// Returns a reference guard to the current value.
     ///
     /// The returned [`WatchedRef`] dereferences to `T` and holds a read lock on the
@@ -59,26 +79,4 @@ impl<T> std::ops::Deref for WatchedRef<'_, T> {
     fn deref(&self) -> &T {
         &self.0
     }
-}
-
-/// The sender half used internally to push updates into a [`Watched<T>`].
-pub struct WatchedSender<T> {
-    tx: watch::Sender<T>,
-}
-
-impl<T> WatchedSender<T> {
-    /// Send a new value to all [`Watched<T>`] handles.
-    ///
-    /// This blocks until all outstanding [`WatchedRef`] guards are dropped.
-    pub fn send(&self, value: T) {
-        // Ignoring the result: the only error case is "no receivers", which is
-        // harmless — it just means nobody is listening anymore.
-        let _ = self.tx.send(value);
-    }
-}
-
-/// Creates a paired [`WatchedSender<T>`] and [`Watched<T>`] with the given initial value.
-pub fn watched_pair<T>(initial: T) -> (WatchedSender<T>, Watched<T>) {
-    let (tx, rx) = watch::channel(initial);
-    (WatchedSender { tx }, Watched { rx })
 }
