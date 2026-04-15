@@ -12,9 +12,9 @@ use std::time::SystemTime;
 
 use tempfile::TempDir;
 
-// TODO: Rename TempMount to TempProjectedVolume
-
-/// Simulates a file mount directory using a temporary directory.
+// TODO: Rename TempMount to TempPersistentVolume once removed from use in `filemount.rs`,
+// where it is used (incorrectly) to simulate a *projected volume*.
+/// Simulates a persistent volume directory using a temporary directory.
 #[derive(Clone)]
 pub struct TempMount {
     dir: Arc<TempDir>, // TODO: This should not be arc! it makes drop behavior ambiguous. Fix!
@@ -24,13 +24,6 @@ impl TempMount {
     pub fn new(dir_name: &str) -> Self {
         let dir = Arc::new(tempfile::TempDir::with_prefix(dir_name).unwrap());
         Self { dir }
-        // TODO: Add symlink simulation. Currently this doesn't work, because
-        // trying to add a ".." file is interpreted as trying to go up a level
-        // in the directory structure.
-        //let ret = Self { dir };
-        // Create a ".." file to simulate a symlink in a mounted directory
-        //ret.add_file("..", "");
-        //ret
     }
 
     // TODO: do we need to consider directories/subdirectories here?
@@ -361,7 +354,7 @@ impl TempAtomicWriterVolume {
 mod tests {
     use super::*;
 
-    // TODO: Write tests for other mounts.
+    // TODO: Write tests for persistent volumes
 
     mod atomic_writer_volume {
         use super::*;
