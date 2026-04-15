@@ -30,8 +30,8 @@ pub struct ConnectorConfiguration {
     pub mqtt_connection_configuration: Watched<MqttConnectionConfiguration>,
     /// Diagnostics
     pub diagnostics: Watched<Option<Diagnostics>>,
-    /// Persistent Volume Mount Path
-    pub persistent_volumes: Vec<PathBuf>, // CONSIDER: This isn't supposed to change, but it might just be cleaner to make it `Watched`` also
+    /// Persistent Volume Mount Paths
+    pub persistent_volumes: Vec<PathBuf>,
     /// Additional connector configuration as a JSON string
     pub additional_configuration: Watched<Option<String>>,
 }

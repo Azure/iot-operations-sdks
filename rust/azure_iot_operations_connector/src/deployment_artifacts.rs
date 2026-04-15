@@ -14,7 +14,7 @@ mod watched;
 pub use connector::DeploymentArtifactError; // TODO: move implementation out here
 pub use filemount::FileMount;
 pub use secrets::{Secret, Secrets};
-pub use watched::Watched;
+pub use watched::{Watched, WatchedRef};
 
 #[cfg(test)]
 mod test_utils;
