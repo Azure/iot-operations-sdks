@@ -31,7 +31,7 @@ pub struct ConnectorConfiguration {
     /// Diagnostics
     pub diagnostics: Watched<Option<Diagnostics>>,
     /// Persistent Volume Mount Paths
-    pub persistent_volumes: Vec<PathBuf>,
+    pub persistent_volumes: Vec<PathBuf>, // NOTE: Not `Watched`, because will not change
     /// Additional connector configuration as a JSON string
     pub additional_configuration: Watched<Option<String>>,
 }
