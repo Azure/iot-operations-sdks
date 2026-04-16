@@ -72,7 +72,7 @@ impl ConnectorConfiguration {
             Err(e) => Err(e)?,
         };
 
-        let (mqtt_tx, mqtt_rx) = tokio::sync::watch::channel(initial_mqtt_config);
+        let (mqtt_conf_tx, mqtt_conf_rx) = tokio::sync::watch::channel(initial_mqtt_config);
         let (diag_tx, diag_rx) = tokio::sync::watch::channel(diagnostics);
         let (addl_tx, addl_rx) = tokio::sync::watch::channel(additional_configuration);
 
@@ -94,9 +94,11 @@ impl ConnectorConfiguration {
                                     MQTT_CONNECTION_CONFIGURATION_FILENAME => {
                                         match extract_mqtt_connection_configuration(&event.path) {
                                             Ok(new_config) => {
-                                                let _ = mqtt_tx.send(new_config);
+                                                let _ = mqtt_conf_tx.send(new_config);
                                             }
                                             Err(e) => {
+                                                // NOTE: Not all variants of the error are possible. Really just file read
+                                                // and JSON parsing.
                                                 log::error!(
                                                     "Failed to parse updated {MQTT_CONNECTION_CONFIGURATION_FILENAME}: {e}"
                                                 );
@@ -109,6 +111,8 @@ impl ConnectorConfiguration {
                                                 let _ = diag_tx.send(Some(new_diag));
                                             }
                                             Err(e) => {
+                                                // NOTE: Not all variants of the error are possible. Really just file read
+                                                // and JSON parsing.
                                                 log::error!(
                                                     "Failed to parse updated {DIAGNOSTICS_FILENAME}: {e}"
                                                 );
@@ -121,6 +125,8 @@ impl ConnectorConfiguration {
                                                 let _ = addl_tx.send(Some(new_config));
                                             }
                                             Err(e) => {
+                                                // NOTE: Not all variants of the error are possible. Really just file read
+                                                // and JSON parsing.
                                                 log::error!(
                                                     "Failed to read updated {ADDITIONAL_CONNECTOR_CONFIGURATION_FILENAME}: {e}"
                                                 );
@@ -174,7 +180,7 @@ impl ConnectorConfiguration {
         let debouncer = Arc::new(debouncer);
 
         Ok(Self {
-            mqtt_connection_configuration: Watched::new(mqtt_rx, Some(debouncer.clone())),
+            mqtt_connection_configuration: Watched::new(mqtt_conf_rx, Some(debouncer.clone())),
             diagnostics: Watched::new(diag_rx, Some(debouncer.clone())),
             persistent_volumes,
             additional_configuration: Watched::new(addl_rx, Some(debouncer)),

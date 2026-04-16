@@ -537,10 +537,6 @@ mod tests {
         connector_configuration_mount
             .stage_file_create(Path::new(DIAGNOSTICS_FILENAME), DIAGNOSTICS_JSON);
         connector_configuration_mount.stage_file_create(
-            Path::new("PERSISTENT_VOLUME_MOUNT_PATH"),
-            &persistent_volume_manager.index_file_contents(),
-        );
-        connector_configuration_mount.stage_file_create(
             Path::new(PERSISTENT_VOLUME_MOUNT_PATHS_FILENAME),
             &persistent_volume_manager.index_file_contents(),
         );

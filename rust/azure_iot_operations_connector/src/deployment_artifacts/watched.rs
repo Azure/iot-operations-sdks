@@ -66,6 +66,11 @@ impl<T> Watched<T> {
     pub async fn changed(&mut self) -> Result<(), WatchedClosedError> {
         self.rx.changed().await.map_err(|_| WatchedClosedError)
     }
+
+    // NOTE: Consider exposing additional methods from the underlying watch::Receiver as
+    // necessary, e.g. borrow_and_update, has_changed, etc.
+    // Under the current use case which is purely backed by K8S volumes, they don't provide value
+    // since the filesystem cannot update very quickly, but if usage expands there maay be value.
 }
 
 /// A reference guard to the current value inside a [`Watched<T>`].
