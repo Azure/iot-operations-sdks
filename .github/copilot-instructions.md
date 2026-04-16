@@ -156,7 +156,7 @@ Each language SDK contains 3-4 parallel packages/modules with consistent functio
 
 - Max line length: 80 characters (enforced by golines)
 - Each module has its own `magefile.go` importing from `go/internal/mage`
-- Go 1.24+ required (see `go.work`)
+- Go 1.25+ required (see `go.work`)
 
 ### .NET
 

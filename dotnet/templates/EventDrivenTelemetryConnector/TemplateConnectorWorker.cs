@@ -26,7 +26,7 @@ namespace EventDrivenTelemetryConnector
             ILogger<ConnectorWorker> connectorLogger,
             IMqttClient mqttClient,
             IMessageSchemaProvider messageSchemaProviderFactory,
-            IAdrClientWrapperProvider adrClientWrapperFactory,
+            IAzureDeviceRegistryClientWrapperProvider adrClientWrapperFactory,
             IConnectorLeaderElectionConfigurationProvider? leaderElectionConfigurationProvider = null)
         {
             _logger = logger;

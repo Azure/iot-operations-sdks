@@ -10,9 +10,9 @@ type testCaseActionReceiveTelemetry struct {
 	Topic           *string           `yaml:"topic"`
 	Payload         *string           `yaml:"payload"`
 	ContentType     *string           `yaml:"content-type"`
-	FormatIndicator *int              `yaml:"format-indicator"`
+	FormatIndicator *byte             `yaml:"format-indicator"`
 	Metadata        map[string]string `yaml:"metadata"`
-	Qos             *int              `yaml:"qos"`
+	Qos             *byte             `yaml:"qos"`
 	MessageExpiry   *TestCaseDuration `yaml:"message-expiry"`
 	SourceIndex     *int              `yaml:"source-index"`
 	PacketIndex     *int              `yaml:"packet-index"`

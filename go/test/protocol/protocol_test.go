@@ -8,21 +8,21 @@ import (
 )
 
 func TestCommandInvoker(t *testing.T) {
-	fmt.Printf("Running TestCommandInvoker\n")
+	fmt.Println("Running TestCommandInvoker")
 	RunCommandInvokerTests(t)
 }
 
 func TestCommandExecutor(t *testing.T) {
-	fmt.Printf("Running TestCommandExecutor\n")
+	fmt.Println("Running TestCommandExecutor")
 	RunCommandExecutorTests(t)
 }
 
 func TestTelemetrySender(t *testing.T) {
-	fmt.Printf("Running TestTelemetrySender\n")
+	fmt.Println("Running TestTelemetrySender")
 	RunTelemetrySenderTests(t)
 }
 
 func TestTelemetryReceiver(t *testing.T) {
-	fmt.Printf("Running TestTelemetryReceiver\n")
+	fmt.Println("Running TestTelemetryReceiver")
 	RunTelemetryReceiverTests(t)
 }
