@@ -174,9 +174,9 @@ namespace Azure.Iot.Operations.Services.StateStore.Generated
                 await this.invokeCommandInvoker.DisposeAsync().ConfigureAwait(false);
             }
 
-            public async ValueTask DisposeAsync(bool disposing)
+            public async ValueTask DisposeAsync(bool disposing, CancellationToken cancellationToken)
             {
-                await this.invokeCommandInvoker.DisposeAsync(disposing).ConfigureAwait(false);
+                await this.invokeCommandInvoker.DisposeAsync(disposing, cancellationToken).ConfigureAwait(false);
             }
         }
     }

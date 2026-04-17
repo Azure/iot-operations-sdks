@@ -1292,24 +1292,24 @@ namespace Azure.Iot.Operations.Services.AssetAndDeviceRegistry.Generated.AdrBase
                 await this.assetUpdateEventTelemetryReceiver.DisposeAsync().ConfigureAwait(false);
             }
 
-            public async ValueTask DisposeAsync(bool disposing)
+            public async ValueTask DisposeAsync(bool disposing, CancellationToken cancellationToken)
             {
-                await this.getDeviceCommandInvoker.DisposeAsync(disposing).ConfigureAwait(false);
-                await this.getDeviceStatusCommandInvoker.DisposeAsync(disposing).ConfigureAwait(false);
-                await this.getAssetCommandInvoker.DisposeAsync(disposing).ConfigureAwait(false);
-                await this.getAssetStatusCommandInvoker.DisposeAsync(disposing).ConfigureAwait(false);
-                await this.updateDeviceStatusCommandInvoker.DisposeAsync(disposing).ConfigureAwait(false);
-                await this.updateAssetStatusCommandInvoker.DisposeAsync(disposing).ConfigureAwait(false);
-                await this.setNotificationPreferenceForDeviceUpdatesCommandInvoker.DisposeAsync(disposing).ConfigureAwait(false);
-                await this.setNotificationPreferenceForAssetUpdatesCommandInvoker.DisposeAsync(disposing).ConfigureAwait(false);
-                await this.createOrUpdateDiscoveredAssetCommandInvoker.DisposeAsync(disposing).ConfigureAwait(false);
-                await this.deviceEndpointRuntimeHealthEventTelemetryReceiver.DisposeAsync(disposing).ConfigureAwait(false);
-                await this.datasetRuntimeHealthEventTelemetryReceiver.DisposeAsync(disposing).ConfigureAwait(false);
-                await this.eventRuntimeHealthEventTelemetryReceiver.DisposeAsync(disposing).ConfigureAwait(false);
-                await this.managementActionRuntimeHealthEventTelemetryReceiver.DisposeAsync(disposing).ConfigureAwait(false);
-                await this.streamRuntimeHealthEventTelemetryReceiver.DisposeAsync(disposing).ConfigureAwait(false);
-                await this.deviceUpdateEventTelemetryReceiver.DisposeAsync(disposing).ConfigureAwait(false);
-                await this.assetUpdateEventTelemetryReceiver.DisposeAsync(disposing).ConfigureAwait(false);
+                await this.getDeviceCommandInvoker.DisposeAsync(disposing, cancellationToken).ConfigureAwait(false);
+                await this.getDeviceStatusCommandInvoker.DisposeAsync(disposing, cancellationToken).ConfigureAwait(false);
+                await this.getAssetCommandInvoker.DisposeAsync(disposing, cancellationToken).ConfigureAwait(false);
+                await this.getAssetStatusCommandInvoker.DisposeAsync(disposing, cancellationToken).ConfigureAwait(false);
+                await this.updateDeviceStatusCommandInvoker.DisposeAsync(disposing, cancellationToken).ConfigureAwait(false);
+                await this.updateAssetStatusCommandInvoker.DisposeAsync(disposing, cancellationToken).ConfigureAwait(false);
+                await this.setNotificationPreferenceForDeviceUpdatesCommandInvoker.DisposeAsync(disposing, cancellationToken).ConfigureAwait(false);
+                await this.setNotificationPreferenceForAssetUpdatesCommandInvoker.DisposeAsync(disposing, cancellationToken).ConfigureAwait(false);
+                await this.createOrUpdateDiscoveredAssetCommandInvoker.DisposeAsync(disposing, cancellationToken).ConfigureAwait(false);
+                await this.deviceEndpointRuntimeHealthEventTelemetryReceiver.DisposeAsync(disposing, cancellationToken).ConfigureAwait(false);
+                await this.datasetRuntimeHealthEventTelemetryReceiver.DisposeAsync(disposing, cancellationToken).ConfigureAwait(false);
+                await this.eventRuntimeHealthEventTelemetryReceiver.DisposeAsync(disposing, cancellationToken).ConfigureAwait(false);
+                await this.managementActionRuntimeHealthEventTelemetryReceiver.DisposeAsync(disposing, cancellationToken).ConfigureAwait(false);
+                await this.streamRuntimeHealthEventTelemetryReceiver.DisposeAsync(disposing, cancellationToken).ConfigureAwait(false);
+                await this.deviceUpdateEventTelemetryReceiver.DisposeAsync(disposing, cancellationToken).ConfigureAwait(false);
+                await this.assetUpdateEventTelemetryReceiver.DisposeAsync(disposing, cancellationToken).ConfigureAwait(false);
             }
         }
     }

@@ -353,12 +353,12 @@ namespace TestThing.Counter
                 await this.eventCollectionReceiver.DisposeAsync().ConfigureAwait(false);
             }
 
-            public async ValueTask DisposeAsync(bool disposing)
+            public async ValueTask DisposeAsync(bool disposing, CancellationToken cancellationToken)
             {
-                await this.readCounterActionInvoker.DisposeAsync(disposing).ConfigureAwait(false);
-                await this.incrementActionInvoker.DisposeAsync(disposing).ConfigureAwait(false);
-                await this.resetActionInvoker.DisposeAsync(disposing).ConfigureAwait(false);
-                await this.eventCollectionReceiver.DisposeAsync(disposing).ConfigureAwait(false);
+                await this.readCounterActionInvoker.DisposeAsync(disposing, cancellationToken).ConfigureAwait(false);
+                await this.incrementActionInvoker.DisposeAsync(disposing, cancellationToken).ConfigureAwait(false);
+                await this.resetActionInvoker.DisposeAsync(disposing, cancellationToken).ConfigureAwait(false);
+                await this.eventCollectionReceiver.DisposeAsync(disposing, cancellationToken).ConfigureAwait(false);
             }
         }
     }

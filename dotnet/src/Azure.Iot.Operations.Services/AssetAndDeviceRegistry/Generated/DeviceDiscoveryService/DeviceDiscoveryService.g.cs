@@ -213,9 +213,9 @@ namespace Azure.Iot.Operations.Services.AssetAndDeviceRegistry.Generated.DeviceD
                 await this.createOrUpdateDiscoveredDeviceCommandInvoker.DisposeAsync().ConfigureAwait(false);
             }
 
-            public async ValueTask DisposeAsync(bool disposing)
+            public async ValueTask DisposeAsync(bool disposing, CancellationToken cancellationToken)
             {
-                await this.createOrUpdateDiscoveredDeviceCommandInvoker.DisposeAsync(disposing).ConfigureAwait(false);
+                await this.createOrUpdateDiscoveredDeviceCommandInvoker.DisposeAsync(disposing, cancellationToken).ConfigureAwait(false);
             }
         }
     }
