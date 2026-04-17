@@ -147,10 +147,10 @@ namespace Azure.Iot.Operations.Services.SchemaRegistry.Generated
                 await this.getCommandExecutor.DisposeAsync().ConfigureAwait(false);
             }
 
-            public async ValueTask DisposeAsync(bool disposing)
+            public async ValueTask DisposeAsync(bool disposing, CancellationToken cancellationToken)
             {
-                await this.putCommandExecutor.DisposeAsync(disposing).ConfigureAwait(false);
-                await this.getCommandExecutor.DisposeAsync(disposing).ConfigureAwait(false);
+                await this.putCommandExecutor.DisposeAsync(disposing, cancellationToken).ConfigureAwait(false);
+                await this.getCommandExecutor.DisposeAsync(disposing, cancellationToken).ConfigureAwait(false);
             }
         }
 
