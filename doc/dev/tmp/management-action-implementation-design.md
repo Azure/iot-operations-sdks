@@ -23,7 +23,6 @@ classDiagram
     %% Existing: ConnectorWorker creates event args
     ConnectorWorker ..> DeviceAvailableEventArgs : creates
     ConnectorWorker ..> AssetAvailableEventArgs : creates
-    ConnectorWorker ..> ManagementActionAvailableEventArgs : creates
 
     %% Existing: ConnectorWorker dependencies
     ConnectorWorker --> IAzureDeviceRegistryClientWrapper : uses
@@ -33,20 +32,16 @@ classDiagram
     AssetAvailableEventArgs --> AssetClient : contains
     AssetAvailableEventArgs --> DeviceEndpointClient : contains
 
-    %% New event args composition
-    ManagementActionAvailableEventArgs --> ManagementActionClient : contains
-    ManagementActionAvailableEventArgs --> ManagementActionExecutor : contains
-
     %% Existing client dependencies
     AssetClient --> IAzureDeviceRegistryClientWrapper : uses
     AssetClient --> AssetRuntimeHealthReporter : uses
     AssetClient --> ConnectorWorker : delegates to
     DeviceEndpointClient --> IAzureDeviceRegistryClientWrapper : uses
 
-    %% New client dependencies
-    ManagementActionClient --> IAzureDeviceRegistryClientWrapper : uses
-    ManagementActionClient --> SchemaRegistryClient : uses
-    ManagementActionClient ..> ManagementActionNotification : produces
+    %% New: AssetClient management action methods
+    AssetClient --> SchemaRegistryClient : uses (new)
+    AssetClient ..> ManagementActionExecutor : creates per action
+    AssetClient ..> ManagementActionNotification : produces
 
     %% Executor chain
     ManagementActionExecutor --> CommandExecutor~TReq, TResp~ : wraps
@@ -64,8 +59,6 @@ classDiagram
     ManagementActionUpdatedWithNewExecutor --> ManagementActionExecutor : carries
 
     %% Style: new types
-    style ManagementActionAvailableEventArgs fill:#d4edda,stroke:#28a745
-    style ManagementActionClient fill:#d4edda,stroke:#28a745
     style ManagementActionExecutor fill:#d4edda,stroke:#28a745
     style ManagementActionRequest fill:#d4edda,stroke:#28a745
     style ManagementActionResponse fill:#d4edda,stroke:#28a745
@@ -108,19 +101,6 @@ classDiagram
         +DisposeAsync() ValueTask
     }
 
-    class ExtendedRequest~TReq~ {
-        <<struct>>
-        +Request : TReq
-        +RequestMetadata : CommandRequestMetadata
-    }
-
-    class ExtendedResponse~TResp~ {
-        <<struct>>
-        +Response : TResp
-        +ResponseMetadata : CommandResponseMetadata?
-        +WithApplicationError(code, payload) ExtendedResponse
-    }
-
     %% ============================================================
     %% LAYER: Azure.Iot.Operations.Services
     %% ============================================================
@@ -157,17 +137,13 @@ classDiagram
     class ConnectorWorker {
         +WhileDeviceIsAvailable : Func~DeviceAvailableEventArgs, CancellationToken, Task~?
         +WhileAssetIsAvailable : Func~AssetAvailableEventArgs, CancellationToken, Task~?
-        +WhileManagementActionIsAvailable* : Func
         -_adrClient : IAzureDeviceRegistryClientWrapper
         -_mqttClient : IMqttClient
         -_applicationContext : ApplicationContext
         -_deviceTasks : ConcurrentDictionary
         -_assetTasks : ConcurrentDictionary
-        -_managementActionTasks* : ConcurrentDictionary
         #ExecuteAsync(CancellationToken) Task
         -OnAssetChanged(sender, AssetChangedEventArgs)
-        -ManagementActionAvailable()*
-        -ManagementActionUnavailableAsync()*
     }
     ConnectorBackgroundService <|-- ConnectorWorker
 
@@ -196,13 +172,19 @@ classDiagram
     }
 
     class AssetClient {
+        <<modified>>
         -_adrClient : IAzureDeviceRegistryClientWrapper
         -_connector : ConnectorWorker
         -_healthReporter : AssetRuntimeHealthReporter
+        -_managementActionChannels* : Dictionary
         +GetAndUpdateAssetStatusAsync() Task~AssetStatus~
         +ForwardSampledDatasetAsync() Task
         +ForwardReceivedEventAsync() Task
         +ReportManagementActionRuntimeHealthAsync() Task
+        +GetManagementActionExecutorAsync(group, action)* Task~ManagementActionExecutor~
+        +RecvManagementActionNotificationAsync(group, action)* Task~ManagementActionNotification~
+        +ReportManagementActionRequestMessageSchemaAsync(group, action, schema)* Task
+        +ReportManagementActionResponseMessageSchemaAsync(group, action, schema)* Task
         +DisposeAsync() ValueTask
     }
 
@@ -217,43 +199,6 @@ classDiagram
     %% ============================================================
     %% LAYER: Azure.Iot.Operations.Connector (NEW)
     %% ============================================================
-    class ManagementActionAvailableEventArgs {
-        <<new>>
-        +DeviceName : string
-        +InboundEndpointName : string
-        +AssetName : string
-        +ManagementGroupName : string
-        +ManagementActionName : string
-        +Asset : Asset
-        +Device : Device
-        +ActionDefinition : AssetManagementGroupAction
-        +GroupDefinition : AssetManagementGroup
-        +ManagementActionClient : ManagementActionClient
-        +InitialExecutor : ManagementActionExecutor?
-        +LeaderElectionClient : ILeaderElectionClient?
-        +DisposeAsync() ValueTask
-    }
-
-    class ManagementActionClient {
-        <<new>>
-        -_adrClient : IAzureDeviceRegistryClientWrapper
-        -_schemaRegistryClient : SchemaRegistryClient
-        -_notificationChannel : Channel~ManagementActionNotification~
-        +ManagementActionName : string
-        +ManagementGroupName : string
-        +AssetName : string
-        +DeviceName : string
-        +InboundEndpointName : string
-        +Definition : AssetManagementGroupAction
-        +GroupDefinition : AssetManagementGroup
-        +RecvNotificationAsync(CancellationToken) Task~ManagementActionNotification~
-        +ReportRequestMessageSchemaAsync(schema, ct) Task
-        +ReportResponseMessageSchemaAsync(schema, ct) Task
-        +ReportRequestMessageSchemaReferenceAsync(ref, ct) Task
-        +ReportResponseMessageSchemaReferenceAsync(ref, ct) Task
-        +DisposeAsync() ValueTask
-    }
-
     class ManagementActionExecutor {
         <<new>>
         -_commandExecutor : CommandExecutor
@@ -335,12 +280,9 @@ classDiagram
     %% ============================================================
     %% RELATIONSHIPS: New
     %% ============================================================
-    ConnectorWorker ..> ManagementActionAvailableEventArgs : creates
-    ManagementActionAvailableEventArgs --> ManagementActionClient : contains
-    ManagementActionAvailableEventArgs --> ManagementActionExecutor : contains (initial)
-    ManagementActionClient --> IAzureDeviceRegistryClientWrapper : _adrClient
-    ManagementActionClient --> SchemaRegistryClient : _schemaRegistryClient
-    ManagementActionClient ..> ManagementActionNotification : produces
+    AssetClient --> SchemaRegistryClient : _schemaRegistryClient (new)
+    AssetClient ..> ManagementActionExecutor : creates per action
+    AssetClient ..> ManagementActionNotification : produces
     ManagementActionExecutor --> CommandExecutor~TReq, TResp~ : wraps
     ManagementActionExecutor ..> ManagementActionRequest : produces
     ManagementActionRequest ..> ManagementActionResponse : consumed by CompleteAsync
@@ -348,10 +290,9 @@ classDiagram
     ManagementActionUpdatedWithNewExecutor --> ManagementActionExecutor : carries new executor
 
     %% ============================================================
-    %% STYLE: Highlight new types
+    %% STYLE: Highlight new/modified types
     %% ============================================================
-    style ManagementActionAvailableEventArgs fill:#d4edda,stroke:#28a745
-    style ManagementActionClient fill:#d4edda,stroke:#28a745
+    style AssetClient fill:#fff3cd,stroke:#ffc107
     style ManagementActionExecutor fill:#d4edda,stroke:#28a745
     style ManagementActionRequest fill:#d4edda,stroke:#28a745
     style ManagementActionResponse fill:#d4edda,stroke:#28a745
@@ -363,21 +304,21 @@ classDiagram
     style ManagementActionDeleted fill:#d4edda,stroke:#28a745
 ```
 
-**Legend:** Green-highlighted types are new. Existing types shown in default style. Members marked with `*` are new additions to existing classes.
+**Legend:** Green = new types. Yellow = modified existing types. Members marked with `*` are new additions.
 
 ---
 
 ## Architecture Overview
 
-The management action execution pipeline spans three existing .NET layers, plus a new callback surface on `ConnectorWorker`:
+The management action execution pipeline spans three existing .NET layers. New management action methods are added directly to the existing `AssetClient` (which already handles health reporting). No new callback surface on `ConnectorWorker` is needed — management action executors and notifications are accessed through `AssetClient` within the existing `WhileAssetIsAvailable` callback.
 
 ```
 ┌─────────────────────────────────────────────────────────────┐
 │  User Code (connector implementation)                       │
-│  WhileManagementActionIsAvailable callback                  │
-│    - receives ManagementActionAvailableEventArgs             │
-│    - processes requests via ManagementActionExecutor          │
-│    - reports schemas via ManagementActionClient               │
+│  WhileAssetIsAvailable callback (existing)                  │
+│    - receives AssetAvailableEventArgs (contains AssetClient) │
+│    - processes mgmt action requests via AssetClient           │
+│    - reports schemas via AssetClient                          │
 │    - runs until CancellationToken fires (deleted/shutdown)   │
 └────────────────────────┬────────────────────────────────────┘
                          │ uses
@@ -386,19 +327,9 @@ The management action execution pipeline spans three existing .NET layers, plus 
 │                                                             │
 │  New types:                                                 │
 │  ┌─────────────────────────────────────────────────────┐    │
-│  │ ManagementActionClient                               │    │
-│  │  - ReportRequestMessageSchemaAsync()                 │    │
-│  │  - ReportResponseMessageSchemaAsync()                │    │
-│  │  - ReportRequestMessageSchemaReferenceAsync()        │    │
-│  │  - ReportResponseMessageSchemaReferenceAsync()       │    │
-│  │  - RecvNotificationAsync()                           │    │
-│  │  - GetStatusReporter() ?                             │    │
-│  │  - Definition, AssetName, GroupName, ActionName       │    │
-│  └─────────────────────────────────────────────────────┘    │
-│  ┌─────────────────────────────────────────────────────┐    │
 │  │ ManagementActionExecutor                             │    │
-│  │  - RecvRequestAsync() → ManagementActionRequest?     │    │
-│  │  - wraps CommandExecutor<BypassPayload, BypassPayload│    │
+│  │  - RecvRequestAsync() -> ManagementActionRequest?    │    │
+│  │  - wraps CommandExecutor<byte[], byte[]>              │    │
 │  └─────────────────────────────────────────────────────┘    │
 │  ┌─────────────────────────────────────────────────────┐    │
 │  │ ManagementActionRequest                              │    │
@@ -409,7 +340,7 @@ The management action execution pipeline spans three existing .NET layers, plus 
 │  │ ManagementActionResponse (record)                    │    │
 │  │  - required Payload, ContentType, CloudEvent         │    │
 │  │  - optional CustomUserData, FormatIndicator          │    │
-│  │  - .WithApplicationError() convenience               │    │
+│  │  - optional ApplicationError                         │    │
 │  └─────────────────────────────────────────────────────┘    │
 │  ┌─────────────────────────────────────────────────────┐    │
 │  │ ManagementActionApplicationError (record)            │    │
@@ -420,18 +351,21 @@ The management action execution pipeline spans three existing .NET layers, plus 
 │  │  - Updated, UpdatedWithNewExecutor,                  │    │
 │  │    AssetUpdated, Deleted                             │    │
 │  └─────────────────────────────────────────────────────┘    │
-│  ┌─────────────────────────────────────────────────────┐    │
-│  │ ManagementActionAvailableEventArgs                   │    │
-│  │  - ManagementActionClient, initial Executor          │    │
-│  │  - asset/device/group/action identity                │    │
-│  └─────────────────────────────────────────────────────┘    │
 │                                                             │
 │  Modified types:                                            │
 │  ┌─────────────────────────────────────────────────────┐    │
-│  │ ConnectorWorker                                      │    │
-│  │  + WhileManagementActionIsAvailable callback          │    │
-│  │  + management action discovery from Asset.Mgmt Groups │    │
-│  │  + per-action task tracking (_managementActionTasks)  │    │
+│  │ AssetClient (extended)                               │    │
+│  │  + GetManagementActionExecutorAsync()                │    │
+│  │  + RecvManagementActionNotificationAsync()           │    │
+│  │  + ReportManagementActionRequestMessageSchemaAsync() │    │
+│  │  + ReportManagementActionResponseMessageSchemaAsync()│    │
+│  │  + _managementActionChannels (internal state)        │    │
+│  │  + _schemaRegistryClient (new dependency)            │    │
+│  └─────────────────────────────────────────────────────┘    │
+│  ┌─────────────────────────────────────────────────────┐    │
+│  │ ConnectorWorker (minor changes)                      │    │
+│  │  ~ Injects SchemaRegistryClient into AssetClient     │    │
+│  │  ~ Pushes mgmt action notifications to AssetClient   │    │
 │  └─────────────────────────────────────────────────────┘    │
 └────────────────────────┬────────────────────────────────────┘
                          │ depends on
@@ -552,93 +486,89 @@ public record ManagementActionAssetUpdated(ConfigError? Error) : ManagementActio
 public record ManagementActionDeleted : ManagementActionNotification;
 ```
 
-### 6. ManagementActionClient
+### 6. New Methods on AssetClient (Modifications)
 
-The lifecycle manager. Created internally by `ConnectorWorker` when a management action is discovered.
+`AssetClient` gains management action methods. Internally, it maintains per-action state (notification channels, cached executors) keyed by `"{managementGroupName}::{managementActionName}"`.
 
 ```
-Constructor dependencies (all internal):
-  - IAzureDeviceRegistryClientWrapper (for status get/update)
+New dependencies (injected internally by ConnectorWorker):
   - SchemaRegistryClient (for schema registration)
-  - ApplicationContext
-  - IMqttPubSubClient
-  - Asset model data (device name, endpoint, asset name, group, action)
 
-Properties (read-only, public):
-  - string ManagementActionName
-  - string ManagementGroupName
-  - string AssetName
-  - string DeviceName
-  - string InboundEndpointName
-  - AssetManagementGroupAction Definition
-  - AssetManagementGroup GroupDefinition
+New internal state:
+  - _managementActionChannels : ConcurrentDictionary<string, Channel<ManagementActionNotification>>
+  - _schemaRegistryClient : SchemaRegistryClient
 
-Methods (public):
-  - Task<ManagementActionNotification> RecvNotificationAsync(CancellationToken ct)
-  - Task ReportRequestMessageSchemaAsync(ConnectorMessageSchema schema, CancellationToken ct)
-  - Task ReportResponseMessageSchemaAsync(ConnectorMessageSchema schema, CancellationToken ct)
-  - Task ReportRequestMessageSchemaReferenceAsync(MessageSchemaReference ref, CancellationToken ct)
-  - Task ReportResponseMessageSchemaReferenceAsync(MessageSchemaReference ref, CancellationToken ct)
+New methods (public):
+  - Task<ManagementActionExecutor> GetManagementActionExecutorAsync(
+        string managementGroupName, string managementActionName, CancellationToken ct)
+  - Task<ManagementActionNotification> RecvManagementActionNotificationAsync(
+        string managementGroupName, string managementActionName, CancellationToken ct)
+  - Task ReportManagementActionRequestMessageSchemaAsync(
+        string managementGroupName, string managementActionName,
+        ConnectorMessageSchema schema, CancellationToken ct)
+  - Task ReportManagementActionResponseMessageSchemaAsync(
+        string managementGroupName, string managementActionName,
+        ConnectorMessageSchema schema, CancellationToken ct)
+  - Task ReportManagementActionRequestMessageSchemaReferenceAsync(
+        string managementGroupName, string managementActionName,
+        MessageSchemaReference schemaRef, CancellationToken ct)
+  - Task ReportManagementActionResponseMessageSchemaReferenceAsync(
+        string managementGroupName, string managementActionName,
+        MessageSchemaReference schemaRef, CancellationToken ct)
 ```
 
-**Notification delivery mechanism:** Internally, `ManagementActionClient` needs to receive updates from `ConnectorWorker` when ADR raises `AssetChanged` events that affect this action's definition. This could use an internal `Channel<ManagementActionNotification>` or `TaskCompletionSource` pattern, even though `Channel<T>` has no current codebase precedent — it would be internal-only, not user-facing.
+**Notification delivery:** Internally, `AssetClient` uses `Channel<ManagementActionNotification>` per action. `ConnectorWorker` pushes notifications when ADR raises `AssetChanged` events. The user reads via `RecvManagementActionNotificationAsync()`. `Writer.Complete()` signals deletion.
 
-### 7. ManagementActionAvailableEventArgs
-
-Delivered to the user's `WhileManagementActionIsAvailable` callback.
-
-```csharp
-public class ManagementActionAvailableEventArgs : IAsyncDisposable
-{
-    // Identity
-    public string DeviceName { get; }
-    public string InboundEndpointName { get; }
-    public string AssetName { get; }
-    public string ManagementGroupName { get; }
-    public string ManagementActionName { get; }
-
-    // Model data
-    public Asset Asset { get; }
-    public Device Device { get; }
-    public AssetManagementGroupAction ActionDefinition { get; }
-    public AssetManagementGroup GroupDefinition { get; }
-
-    // Clients
-    public ManagementActionClient ManagementActionClient { get; }
-    public ManagementActionExecutor? InitialExecutor { get; }
-
-    // Optional
-    public ILeaderElectionClient? LeaderElectionClient { get; }
-}
-```
+**Why on AssetClient:** Senior review feedback — keeping all asset concerns in one place avoids a nested `ManagementActionClient` within `AssetClient`. The user already has `AssetClient` from `AssetAvailableEventArgs` in the `WhileAssetIsAvailable` callback; management action methods are a natural extension of it. The `managementGroupName` + `managementActionName` parameters serve as the action identifier (replacing the per-action client's implicit identity).
 
 ---
 
 ## Modifications to Existing Types
 
+### AssetClient
+
+See section 6 above for full details. Summary of additions:
+
+```
+New dependency:
+  + SchemaRegistryClient _schemaRegistryClient
+
+New internal state:
+  + ConcurrentDictionary<string, Channel<ManagementActionNotification>> _managementActionChannels
+
+New public methods:
+  + GetManagementActionExecutorAsync(groupName, actionName) -> ManagementActionExecutor
+  + RecvManagementActionNotificationAsync(groupName, actionName) -> ManagementActionNotification
+  + ReportManagementActionRequestMessageSchemaAsync(groupName, actionName, schema)
+  + ReportManagementActionResponseMessageSchemaAsync(groupName, actionName, schema)
+  + ReportManagementActionRequestMessageSchemaReferenceAsync(groupName, actionName, ref)
+  + ReportManagementActionResponseMessageSchemaReferenceAsync(groupName, actionName, ref)
+
+New internal methods (called by ConnectorWorker):
+  + PushManagementActionNotification(groupName, actionName, notification)
+  + InitManagementActionChannel(groupName, actionName)
+```
+
 ### ConnectorWorker
 
 ```
-New fields:
-  + WhileManagementActionIsAvailable : Func<ManagementActionAvailableEventArgs, CancellationToken, Task>?
-  + _managementActionTasks : ConcurrentDictionary<string, UserTaskContext>
-    Key: "{deviceName}_{inboundEndpointName}_{assetName}_{groupName}_{actionName}"
-
 Modified methods:
+  ~ AssetClient construction:
+    Now also injects SchemaRegistryClient into AssetClient.
+
   ~ OnAssetChanged / AssetAvailable:
     When an asset becomes available (Created/Updated), iterate
-    Asset.ManagementGroups[].Actions[] and spawn a task per action
-    if WhileManagementActionIsAvailable is set.
+    Asset.ManagementGroups[].Actions[] and initialize notification
+    channels on the AssetClient. On definition changes, push
+    appropriate notifications (Updated, UpdatedWithNewExecutor,
+    Deleted) to AssetClient's internal channels.
 
   ~ AssetUnavailableAsync:
-    Cancel all management action tasks belonging to the removed asset.
-
-New internal methods:
-  + ManagementActionAvailable(deviceName, endpoint, assetName, group, action, ...)
-  + ManagementActionUnavailableAsync(...)
+    Complete all management action notification channels on the
+    AssetClient being removed (signals deletion to user code).
 ```
 
-**Key design choice:** Management action tasks are children of asset availability. When an asset is deleted/updated, all its management action tasks are cancelled. When a management action definition changes within an asset update, only that action's task is cancelled and reinvoked (or a notification is sent via the client's internal channel).
+**Key design choice:** Management action lifecycle is scoped to asset lifetime. When an asset is deleted, all its management action notification channels are completed, causing `RecvManagementActionNotificationAsync` to return `ManagementActionDeleted`. When a management action definition changes within an asset update, `ConnectorWorker` pushes the appropriate notification type (Updated or UpdatedWithNewExecutor) to the corresponding channel on `AssetClient`.
 
 ---
 
@@ -665,7 +595,7 @@ No new NuGet packages required. All dependencies are already present:
 sequenceDiagram
     participant ADR as ADR Service
     participant CW as ConnectorWorker
-    participant MAC as ManagementActionClient
+    participant AC as AssetClient
     participant MAE as ManagementActionExecutor
     participant CE as CommandExecutor
     participant MQTT as MQTT Broker
@@ -674,16 +604,20 @@ sequenceDiagram
     ADR->>CW: AssetChanged (Created)
     activate CW
     CW->>CW: Parse Asset.ManagementGroups and Actions
+    CW->>AC: new AssetClient(..., schemaRegistryClient)
     loop For each management action
-        CW->>MAC: new ManagementActionClient(...)
+        CW->>AC: InitManagementActionChannel(groupName, actionName)
         CW->>CE: new CommandExecutor(topic, commandName)
         CE->>MQTT: Subscribe to action request topic
         CW->>MAE: new ManagementActionExecutor(commandExecutor)
-        CW->>User: WhileManagementActionIsAvailable(eventArgs, ct)
-        activate User
-        Note over User: eventArgs contains Client + initial Executor
-        User->>User: Enter select-style loop
+        CW->>AC: Store initial executor for action
     end
+    CW->>User: WhileAssetIsAvailable(assetEventArgs, ct)
+    activate User
+    Note over User: assetEventArgs.AssetClient has mgmt action methods
+    User->>AC: GetManagementActionExecutorAsync(group, action)
+    AC->>User: Returns ManagementActionExecutor
+    User->>User: Enter select-style loop per action
     deactivate CW
 ```
 
@@ -729,30 +663,30 @@ sequenceDiagram
 ```mermaid
 sequenceDiagram
     participant User as User Callback
-    participant MAC as ManagementActionClient
+    participant AC as AssetClient
     participant SR as SchemaRegistryClient
     participant MQTT as MQTT Broker
     participant SRS as Schema Registry Service
     participant ADR as ADR Service
 
-    User->>MAC: ReportRequestMessageSchemaAsync(schema)
-    activate MAC
+    User->>AC: ReportManagementActionRequestMessageSchemaAsync(group, action, schema)
+    activate AC
 
-    MAC->>SR: PutAsync(content, format, type, version)
+    AC->>SR: PutAsync(content, format, type, version)
     SR->>MQTT: Publish schema registration RPC
     MQTT->>SRS: Deliver to Schema Registry
     SRS->>MQTT: Return Schema (with ID)
     MQTT->>SR: Deliver response
-    SR->>MAC: Return Schema object
+    SR->>AC: Return Schema object
 
-    MAC->>MAC: Build MessageSchemaReference
+    AC->>AC: Build MessageSchemaReference
 
-    MAC->>ADR: UpdateAssetStatusAsync(assetStatus)
-    Note over MAC,ADR: Sets RequestMessageSchemaReference on action status
+    AC->>ADR: UpdateAssetStatusAsync(assetStatus)
+    Note over AC,ADR: Sets RequestMessageSchemaReference on action status
 
-    ADR-->>MAC: Updated AssetStatus
-    MAC->>User: Return
-    deactivate MAC
+    ADR-->>AC: Updated AssetStatus
+    AC->>User: Return
+    deactivate AC
 
     Note over User: Same flow for Response schema
 ```
@@ -763,7 +697,7 @@ sequenceDiagram
 sequenceDiagram
     participant ADR as ADR Service
     participant CW as ConnectorWorker
-    participant MAC as ManagementActionClient
+    participant AC as AssetClient
     participant User as User Callback
 
     ADR->>CW: AssetChanged (Updated)
@@ -771,9 +705,9 @@ sequenceDiagram
     CW->>CW: Diff old vs new management actions
     CW->>CW: Action exists, topic unchanged
 
-    CW->>MAC: Push Updated notification (internal channel)
+    CW->>AC: PushManagementActionNotification(Updated)
     deactivate CW
-    MAC->>User: RecvNotificationAsync() returns ManagementActionUpdated
+    AC->>User: RecvManagementActionNotificationAsync() returns ManagementActionUpdated
 
     User->>User: Re-validate definition
     User->>User: Update internal state
@@ -781,13 +715,13 @@ sequenceDiagram
     User->>User: Continue processing with same executor
 ```
 
-### 5. Lifecycle: Definition Update (New Topic → New Executor)
+### 5. Lifecycle: Definition Update (New Topic - New Executor)
 
 ```mermaid
 sequenceDiagram
     participant ADR as ADR Service
     participant CW as ConnectorWorker
-    participant MAC as ManagementActionClient
+    participant AC as AssetClient
     participant MAE_old as Old Executor
     participant MAE_new as New Executor
     participant CE as CommandExecutor
@@ -802,9 +736,9 @@ sequenceDiagram
     CE->>MQTT: Subscribe to new request topic
     CW->>MAE_new: new ManagementActionExecutor(commandExecutor)
 
-    CW->>MAC: Push UpdatedWithNewExecutor notification
+    CW->>AC: PushManagementActionNotification(UpdatedWithNewExecutor)
     deactivate CW
-    MAC->>User: RecvNotificationAsync returns UpdatedWithNewExecutor
+    AC->>User: RecvManagementActionNotificationAsync() returns UpdatedWithNewExecutor
 
     User->>User: Drain old executor
     loop Until old executor returns null
@@ -825,7 +759,7 @@ sequenceDiagram
 sequenceDiagram
     participant ADR as ADR Service
     participant CW as ConnectorWorker
-    participant MAC as ManagementActionClient
+    participant AC as AssetClient
     participant MAE as ManagementActionExecutor
     participant CE as CommandExecutor
     participant MQTT as MQTT Broker
@@ -834,10 +768,11 @@ sequenceDiagram
     ADR->>CW: AssetChanged (Updated, action removed)
     activate CW
     CW->>CW: Diff: action no longer in definition
-    CW->>MAC: Push Deleted notification
+    CW->>AC: PushManagementActionNotification(Deleted)
+    CW->>AC: Complete notification channel for this action
     deactivate CW
 
-    MAC->>User: RecvNotificationAsync() returns ManagementActionDeleted
+    AC->>User: RecvManagementActionNotificationAsync() returns ManagementActionDeleted
 
     User->>User: Drain remaining requests
     loop Until executor returns null
@@ -851,8 +786,7 @@ sequenceDiagram
     MAE->>CE: StopAsync()
     CE->>MQTT: Unsubscribe from topic
 
-    User->>User: Break out of callback loop
-    Note over User: CancellationToken fires, callback exits
+    User->>User: Stop processing this action
 ```
 
 ### 7. Lifecycle: Asset Deleted (Cascading Cleanup)
@@ -861,31 +795,22 @@ sequenceDiagram
 sequenceDiagram
     participant ADR as ADR Service
     participant CW as ConnectorWorker
-    participant MAC1 as ManagementActionClient 1
-    participant MAC2 as ManagementActionClient 2
-    participant User1 as User Callback 1
-    participant User2 as User Callback 2
+    participant AC as AssetClient
+    participant User as User Callback
 
     ADR->>CW: AssetChanged (Deleted)
     activate CW
 
-    par Cancel all management action tasks for this asset
-        CW->>CW: Cancel CancellationTokenSource for action 1
-        CW->>CW: Cancel CancellationTokenSource for action 2
-    end
+    CW->>AC: Complete all management action notification channels
 
-    par Callbacks receive cancellation
-        User1->>User1: OperationCanceledException
-        User1->>User1: Dispose ManagementActionClient 1
-        User1->>User1: Dispose ManagementActionExecutor 1
-    and
-        User2->>User2: OperationCanceledException
-        User2->>User2: Dispose ManagementActionClient 2
-        User2->>User2: Dispose ManagementActionExecutor 2
-    end
+    CW->>CW: Cancel CancellationToken for WhileAssetIsAvailable
 
-    CW->>CW: Await all management action tasks
-    CW->>CW: Remove from _managementActionTasks
+    User->>User: OperationCanceledException / channels complete
+    User->>User: Dispose all ManagementActionExecutors
+    User->>User: Clean up action processing state
+
+    CW->>CW: Await WhileAssetIsAvailable task
+    CW->>AC: Dispose AssetClient
     deactivate CW
 ```
 
@@ -923,17 +848,16 @@ sequenceDiagram
 2. **Topic extraction:** How to derive the MQTT request topic from `AssetManagementGroupAction.Topic` / `AssetManagementGroup.DefaultTopic`? The Rust side has `try_executor_topic_from_management_topics()`. Need to understand the topic format and how it maps to `CommandExecutor`'s `RequestTopicPattern`.
    - **RESOLVED: Dynamic topic configuration at runtime.** The topic comes from the asset definition: `AssetManagementGroupAction.Topic` with fallback to `AssetManagementGroup.DefaultTopic` (fallback not yet implemented in Rust, but should be in .NET). The `CommandExecutor` supports setting `RequestTopicPattern` at construction time without the `[CommandTopic]` attribute — so `ManagementActionExecutor` creates a `CommandExecutor<byte[], byte[]>` and configures topic properties dynamically. `TopicTokenMap` is populated with known values (device name, endpoint, etc.), and unresolved tokens become `+` (MQTT wildcard). The executor subscribes to `$share/{ServiceGroupId}/{resolved topic}`.
 
-3. **Notification channel internals:** `ManagementActionClient.RecvNotificationAsync()` needs an internal delivery mechanism. `Channel<T>` is the natural choice but has no codebase precedent. Alternative: `SemaphoreSlim` + queue, or `TaskCompletionSource` chain.
+3. **Notification channel internals:** `AssetClient.RecvManagementActionNotificationAsync()` needs an internal delivery mechanism. `Channel<T>` is the natural choice but has no codebase precedent. Alternative: `SemaphoreSlim` + queue, or `TaskCompletionSource` chain.
    - **Decision: `Channel<ManagementActionNotification>` (Option A).**
-   - `ConnectorWorker` pushes notifications via `_channel.Writer.TryWrite()`, user consumes via `_channel.Reader.ReadAsync()` inside `RecvNotificationAsync()`. `Writer.Complete()` signals end-of-life (deletion). Internal-only — the user never sees the channel, only the `RecvNotificationAsync()` method.
+   - `ConnectorWorker` pushes notifications via `_channel.Writer.TryWrite()`, user consumes via `_channel.Reader.ReadAsync()` inside `RecvManagementActionNotificationAsync()`. `Writer.Complete()` signals end-of-life (deletion). Internal-only — the user never sees the channel, only the `RecvManagementActionNotificationAsync()` method. Each management action gets its own channel, keyed by `"{groupName}::{actionName}"` in `AssetClient._managementActionChannels`.
    - Alternatives considered:
      - `TaskCompletionSource` chain: simpler but fragile — doesn't handle queuing if multiple notifications arrive before user reads; needs manual synchronization; easy to get wrong.
      - `SemaphoreSlim` + `ConcurrentQueue<T>`: uses patterns already in the codebase (`SemaphoreSlim` is in `AssetClient`), but reinvents `Channel<T>` with more code and more edge cases (disposal, completion signaling).
    - Rationale: `Channel<T>` is a standard BCL type (`System.Threading.Channels`) purpose-built for async producer-consumer. It handles queuing, cancellation, completion, and thread safety out of the box. No new NuGet dependency. The lack of codebase precedent is a weak objection — it's internal-only plumbing.
 
-4. **Health reporting ownership:** Health reporting currently lives on `AssetClient`. Should `ManagementActionClient` also expose health reporting methods, or should users continue using `AssetClient.ReportManagementActionRuntimeHealthAsync()` alongside the new client?
-   - **Decision: Expose `AssetClient` on `ManagementActionAvailableEventArgs` (Option B).** The user calls the existing `AssetClient.ReportManagementActionRuntimeHealthAsync(groupName, actionName, health)` method. `ManagementActionAvailableEventArgs` will include an `AssetClient` property so the user has access within the callback.
-   - Alternative considered: Add `ReportRuntimeHealthAsync(health)` directly to `ManagementActionClient` — cleaner UX since the client already knows its group/action names, simplifying the call to a single argument. Internally delegates to the same `AssetRuntimeHealthReporter`. Rejected to avoid duplicating health reporting surface across two types and to stay consistent with how datasets/events/streams report health (all via `AssetClient`).
+4. **Health reporting ownership:** Health reporting currently lives on `AssetClient`. With management action functionality now also on `AssetClient`, the user naturally has access to `ReportManagementActionRuntimeHealthAsync()` alongside the new management action methods.
+   - **RESOLVED: No change needed.** The user already has `AssetClient` from `AssetAvailableEventArgs` in the `WhileAssetIsAvailable` callback. Since management action execution methods are now on `AssetClient` too, the user has unified access to both health reporting and action execution from the same object. No separate event args or client needed.
 
 5. **Concurrency model for updates:** When `AssetChanged` fires with updated management actions, `ConnectorWorker` needs to diff old vs. new action definitions to determine which actions were added/removed/updated. This diffing logic needs to be defined.
    - **DEFERRED.** Requires decisions on: where to cache old asset definitions, what fields to compare (topic only vs full definition), and how to handle non-topic changes. Will resolve during implementation.

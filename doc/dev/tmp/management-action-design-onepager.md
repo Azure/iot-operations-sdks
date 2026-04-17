@@ -1,8 +1,8 @@
 # Management Action Support in .NET SDK — Design Onepager
 
 **Author:** Maxim Semenov  
-**Date:** 2026-04-16  
-**Status:** Proposed  
+**Date:** 2026-04-17  
+**Status:** Proposed (revised per review feedback)  
 **Full design:** [management-action-implementation-design.md](management-action-implementation-design.md)  
 **Gap analysis:** [management-action-gap-analysis.md](management-action-gap-analysis.md)
 
@@ -27,19 +27,18 @@ Add management action execution support to `Azure.Iot.Operations.Connector`. No 
 
 | Type | Purpose |
 |------|---------|
-| **ManagementActionClient** | Lifecycle manager — receives notifications (Updated, Deleted, etc.), reports request/response schemas to ADR via Schema Registry |
 | **ManagementActionExecutor** | Wraps `CommandExecutor<byte[], byte[]>` with `PassthroughSerializer` — receives RPC requests over MQTT |
 | **ManagementActionRequest** | Incoming invocation — exposes payload, metadata; completed via `CompleteAsync(response)` |
 | **ManagementActionResponse** | `record` with `required` Payload, ContentType, CloudEvent; optional ApplicationError |
 | **ManagementActionApplicationError** | `record` with ErrorCode + ErrorPayload |
 | **ManagementActionNotification** | Abstract `record` base with 4 derived types: Updated, UpdatedWithNewExecutor, AssetUpdated, Deleted |
-| **ManagementActionAvailableEventArgs** | Delivered to user callback — contains Client, Executor, AssetClient, identity, definitions |
 
 ### Modified Types
 
 | Type | Change |
 |------|--------|
-| **ConnectorWorker** | New `WhileManagementActionIsAvailable` callback field, per-action task tracking, management action discovery from asset definitions |
+| **AssetClient** | New methods: `GetManagementActionExecutorAsync`, `RecvManagementActionNotificationAsync`, `ReportManagementAction{Request/Response}MessageSchemaAsync`. New internal state: per-action notification channels. New dependency: `SchemaRegistryClient` |
+| **ConnectorWorker** | Injects `SchemaRegistryClient` into `AssetClient`; pushes management action notifications to `AssetClient` when asset definitions change |
 
 ### Class Relationships
 
@@ -47,14 +46,10 @@ Add management action execution support to `Azure.Iot.Operations.Connector`. No 
 classDiagram
     direction TB
     ConnectorWorker ..> AssetAvailableEventArgs : creates
-    ConnectorWorker ..> ManagementActionAvailableEventArgs : creates
     AssetAvailableEventArgs --> AssetClient : contains
-    ManagementActionAvailableEventArgs --> ManagementActionClient : contains
-    ManagementActionAvailableEventArgs --> ManagementActionExecutor : contains
-    ManagementActionAvailableEventArgs --> AssetClient : contains
-    ManagementActionClient --> IAzureDeviceRegistryClientWrapper : uses
-    ManagementActionClient --> SchemaRegistryClient : uses
-    ManagementActionClient ..> ManagementActionNotification : produces
+    AssetClient --> SchemaRegistryClient : uses (new)
+    AssetClient ..> ManagementActionExecutor : creates/manages
+    AssetClient ..> ManagementActionNotification : produces
     ManagementActionExecutor --> CommandExecutor~TReq, TResp~ : wraps
     ManagementActionExecutor ..> ManagementActionRequest : produces
     ManagementActionRequest ..> ManagementActionResponse : consumed by CompleteAsync
@@ -62,8 +57,7 @@ classDiagram
     ManagementActionNotification <|-- ManagementActionUpdatedWithNewExecutor
     ManagementActionNotification <|-- ManagementActionAssetUpdated
     ManagementActionNotification <|-- ManagementActionDeleted
-    style ManagementActionAvailableEventArgs fill:#d4edda,stroke:#28a745
-    style ManagementActionClient fill:#d4edda,stroke:#28a745
+    style AssetClient fill:#fff3cd,stroke:#ffc107
     style ManagementActionExecutor fill:#d4edda,stroke:#28a745
     style ManagementActionRequest fill:#d4edda,stroke:#28a745
     style ManagementActionResponse fill:#d4edda,stroke:#28a745
@@ -74,51 +68,78 @@ classDiagram
     style ManagementActionDeleted fill:#d4edda,stroke:#28a745
 ```
 
+**Legend:** Green = new types. Yellow = modified existing types.
+
 ---
 
 ## Key Design Decisions
 
-### 1. Dedicated ManagementActionClient (not on AssetClient)
+### 1. Management action methods on AssetClient (not a dedicated ManagementActionClient)
 
-Management action execution is **inbound** (receive RPC requests), fundamentally different from AssetClient's **outbound** concerns (forward data, report health). Each action has its own lifecycle (create/update/delete, executor replacement) that doesn't map to "one client per asset." A dedicated type keeps both types focused.
+Per review feedback, all management action functionality lives on the existing `AssetClient`. The user already receives `AssetClient` through the `WhileAssetIsAvailable` callback — adding management action methods there keeps the API surface unified. No new callback pattern on `ConnectorWorker` is needed. The `managementGroupName` + `managementActionName` parameters on each method serve as the action identifier.
 
-### 2. Hybrid notification model
+### 2. Notification model via RecvManagementActionNotificationAsync
 
-**Outer lifecycle:** `WhileManagementActionIsAvailable` callback on `ConnectorWorker` — matches existing `WhileAssetIsAvailable` / `WhileDeviceIsAvailable` pattern. CancellationToken fires only on true termination (delete, shutdown).
-
-**Inner notifications:** `ManagementActionClient.RecvNotificationAsync()` delivers fine-grained updates (Updated, UpdatedWithNewExecutor, AssetUpdated) without tearing down the callback. User coordinates requests and notifications inside the callback via `Task.WhenAny` or similar.
+`AssetClient.RecvManagementActionNotificationAsync(groupName, actionName)` returns fine-grained lifecycle notifications (Updated, UpdatedWithNewExecutor, AssetUpdated, Deleted). Internally backed by `Channel<ManagementActionNotification>` per action. The user coordinates requests and notifications inside the existing `WhileAssetIsAvailable` callback via `Task.WhenAny` or similar select-style pattern.
 
 ### 3. Records for request/response (not fluent builder)
 
 `ManagementActionResponse` is a `public record` with `required` properties — matching the dominant codebase pattern (45+ ADR model records). Compile-time enforcement of required fields via `required` keyword. No public fluent builders exist in the SDK.
 
-### 4. Schema reporting on ManagementActionClient
+### 4. Schema reporting on AssetClient
 
-Management actions have **two** schemas (request + response), per-action not per-asset. No data-forwarding trigger exists to piggyback on (unlike datasets where `ForwardSampledDatasetAsync` implicitly registers schemas). Explicit `ReportRequestMessageSchemaAsync` / `ReportResponseMessageSchemaAsync` methods on the client.
+Management actions have **two** schemas (request + response), per-action not per-asset. Explicit `ReportManagementActionRequestMessageSchemaAsync` / `ReportManagementActionResponseMessageSchemaAsync` methods on `AssetClient`. Unlike dataset/event schemas (implicit via `ConnectorWorker` forwarding), management action schemas are reported explicitly — reflecting the real difference in data flow (inbound RPC vs outbound telemetry).
 
-### 5. Health reporting stays on AssetClient
+### 5. Health reporting unchanged
 
-`AssetClient` is exposed on `ManagementActionAvailableEventArgs`. User calls the existing `AssetClient.ReportManagementActionRuntimeHealthAsync()` — consistent with how datasets/events/streams report health.
+Existing `AssetClient.ReportManagementActionRuntimeHealthAsync()` remains as-is — consistent with how datasets/events/streams report health.
 
 ---
 
 ## User-Facing API (Sketch)
 
 ```csharp
-// In connector setup:
-connectorWorker.WhileManagementActionIsAvailable = async (args, ct) =>
+// In connector setup (within WhileAssetIsAvailable callback):
+connectorWorker.WhileAssetIsAvailable = async (args, ct) =>
+{
+    var assetClient = args.AssetClient;
+    var asset = args.Asset;
+
+    // Spawn a task per management action
+    var actionTasks = new List<Task>();
+    foreach (var group in asset.ManagementGroups ?? [])
+    {
+        foreach (var action in group.Actions ?? [])
+        {
+            actionTasks.Add(HandleManagementAction(
+                assetClient, group.Name, action.Name, ct));
+        }
+    }
+
+    // Also handle datasets, events, etc. alongside...
+    await Task.WhenAll(actionTasks);
+};
+
+async Task HandleManagementAction(
+    AssetClient assetClient, string groupName, string actionName,
+    CancellationToken ct)
 {
     // Register schemas
-    await args.ManagementActionClient.ReportRequestMessageSchemaAsync(requestSchema, ct);
-    await args.ManagementActionClient.ReportResponseMessageSchemaAsync(responseSchema, ct);
+    await assetClient.ReportManagementActionRequestMessageSchemaAsync(
+        groupName, actionName, requestSchema, ct);
+    await assetClient.ReportManagementActionResponseMessageSchemaAsync(
+        groupName, actionName, responseSchema, ct);
 
-    var executor = args.InitialExecutor;
+    // Get initial executor
+    var executor = await assetClient.GetManagementActionExecutorAsync(
+        groupName, actionName, ct);
 
     while (!ct.IsCancellationRequested)
     {
         // Wait for either a request or a lifecycle notification
-        var recvTask = executor?.RecvRequestAsync(ct) ?? Task.Delay(Timeout.Infinite, ct);
-        var notifyTask = args.ManagementActionClient.RecvNotificationAsync(ct);
+        var recvTask = executor.RecvRequestAsync(ct);
+        var notifyTask = assetClient.RecvManagementActionNotificationAsync(
+            groupName, actionName, ct);
 
         await Task.WhenAny(recvTask, notifyTask);
 
@@ -127,7 +148,6 @@ connectorWorker.WhileManagementActionIsAvailable = async (args, ct) =>
             var request = await recvTask;
             if (request != null)
             {
-                // Process and respond
                 var response = new ManagementActionResponse
                 {
                     Payload = resultBytes,
@@ -135,11 +155,6 @@ connectorWorker.WhileManagementActionIsAvailable = async (args, ct) =>
                     CloudEvent = null,
                 };
                 await request.CompleteAsync(response, ct);
-
-                // Report health
-                await args.AssetClient.ReportManagementActionRuntimeHealthAsync(
-                    args.ManagementGroupName, args.ManagementActionName,
-                    ConnectorRuntimeHealth.Available, ct: ct);
             }
         }
 
@@ -148,15 +163,14 @@ connectorWorker.WhileManagementActionIsAvailable = async (args, ct) =>
             switch (await notifyTask)
             {
                 case ManagementActionUpdatedWithNewExecutor n:
-                    // Drain old executor, switch to new
                     executor = n.NewExecutor;
                     break;
                 case ManagementActionDeleted:
-                    return; // Exit callback
+                    return;
             }
         }
     }
-};
+}
 ```
 
 ---
@@ -190,6 +204,7 @@ sequenceDiagram
 - **Services layer** — `IAzureDeviceRegistryClient`, `SchemaRegistryClient`, `AssetRuntimeHealthReporter` used as-is
 - **Health reporting** — existing `AssetClient.ReportManagementActionRuntimeHealthAsync()` unchanged
 - **No new NuGet packages** — all dependencies already present
+- **No new callback on ConnectorWorker** — reuses existing `WhileAssetIsAvailable`
 
 ---
 
