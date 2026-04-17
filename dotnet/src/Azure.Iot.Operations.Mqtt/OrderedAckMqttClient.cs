@@ -352,18 +352,32 @@ public class OrderedAckMqttClient : IMqttPubSubClient, IMqttClient
         _acknowledgementSenderTask = null;
     }
 
+    /// <inheritdoc/>
     public virtual async ValueTask DisposeAsync()
     {
-        await DisposeAsyncCore();
+        await DisposeAsync(CancellationToken.None);
+    }
+
+    /// <inheritdoc/>
+    public virtual async ValueTask DisposeAsync(CancellationToken cancellationToken)
+    {
+        await DisposeAsyncCore(cancellationToken);
         GC.SuppressFinalize(this);
     }
 
+    /// <inheritdoc/>
     public virtual async ValueTask DisposeAsync(bool disposing)
     {
-        await DisposeAsyncCore();
+        await DisposeAsync(disposing, CancellationToken.None);
     }
 
-    private async ValueTask DisposeAsyncCore()
+    /// <inheritdoc/>
+    public virtual async ValueTask DisposeAsync(bool disposing, CancellationToken cancellationToken)
+    {
+        await DisposeAsyncCore(cancellationToken);
+    }
+
+    private async ValueTask DisposeAsyncCore(CancellationToken cancellationToken)
     {
         if (!_disposed)
         {
@@ -374,7 +388,11 @@ public class OrderedAckMqttClient : IMqttPubSubClient, IMqttClient
             {
                 try
                 {
-                    await DisconnectAsync();
+                    await DisconnectAsync(cancellationToken: cancellationToken);
+                }
+                catch (OperationCanceledException)
+                {
+                    Trace.TraceWarning("The mqtt client's disposal was cancelled before it could disconnect gracefully");
                 }
                 catch (Exception e)
                 {

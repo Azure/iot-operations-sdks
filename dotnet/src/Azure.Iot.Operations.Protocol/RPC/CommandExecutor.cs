@@ -684,18 +684,26 @@ namespace Azure.Iot.Operations.Protocol.RPC
             GC.SuppressFinalize(this);
         }
 
-        public virtual async ValueTask DisposeAsync(bool disposing)
+        public virtual async ValueTask DisposeAsync(CancellationToken cancellationToken = default)
         {
-            await DisposeAsyncCore(disposing);
+            await DisposeAsyncCore(false, cancellationToken);
+#pragma warning disable CA1816 // Dispose methods should call SuppressFinalize. Reason: this is a dispose method
+            GC.SuppressFinalize(this);
+#pragma warning restore CA1816 // Dispose methods should call SuppressFinalize
         }
 
-        protected virtual async ValueTask DisposeAsyncCore(bool disposing)
+        public virtual async ValueTask DisposeAsync(bool disposing, CancellationToken cancellationToken = default)
+        {
+            await DisposeAsyncCore(disposing, cancellationToken);
+        }
+
+        protected virtual async ValueTask DisposeAsyncCore(bool disposing, CancellationToken cancellationToken = default)
         {
             if (!_isDisposed)
             {
                 try
                 {
-                    await StopAsync();
+                    await StopAsync(cancellationToken);
                 }
                 catch (Exception ex)
                 {
@@ -706,7 +714,7 @@ namespace Azure.Iot.Operations.Protocol.RPC
 
                 if (disposing)
                 {
-                    await _mqttClient.DisposeAsync(disposing);
+                    await _mqttClient.DisposeAsync(disposing, cancellationToken);
                 }
 
                 _isDisposed = true;

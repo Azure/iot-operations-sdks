@@ -245,15 +245,29 @@ namespace Azure.Iot.Operations.Protocol.Telemetry
             _hasBeenValidated = true;
         }
 
+#pragma warning disable CA1816 // Dispose methods should call SuppressFinalize. Reason: SuppressFinalize is called in the overload that this method calls
         public virtual async ValueTask DisposeAsync()
+#pragma warning restore CA1816 // Dispose methods should call SuppressFinalize
         {
-            await DisposeAsyncCore(false);
+            await DisposeAsync(CancellationToken.None);
+        }
+
+        public virtual async ValueTask DisposeAsync(CancellationToken cancellationToken)
+        {
+            await DisposeAsyncCore(false, cancellationToken);
+#pragma warning disable CA1816 // Dispose methods should call SuppressFinalize. Reason: This is a dispose method
             GC.SuppressFinalize(this);
+#pragma warning restore CA1816 // Dispose methods should call SuppressFinalize
         }
 
         public virtual async ValueTask DisposeAsync(bool disposing)
         {
-            await DisposeAsyncCore(disposing);
+            await DisposeAsync(disposing, CancellationToken.None);
+        }
+
+        public virtual async ValueTask DisposeAsync(bool disposing, CancellationToken cancellationToken)
+        {
+            await DisposeAsyncCore(disposing, cancellationToken);
         }
 
         private static Dictionary<string, string> CombineTopicTokenMaps(Dictionary<string, string> baseMap, Dictionary<string, string>? additionalMap)
@@ -269,13 +283,13 @@ namespace Azure.Iot.Operations.Protocol.Telemetry
             return combinedTopicTokenMap;
         }
 
-        protected virtual async ValueTask DisposeAsyncCore(bool disposing)
+        protected virtual async ValueTask DisposeAsyncCore(bool disposing, CancellationToken cancellationToken)
         {
             if (!_isDisposed)
             {
                 if (disposing)
                 {
-                    await _mqttClient.DisposeAsync(disposing);
+                    await _mqttClient.DisposeAsync(disposing, cancellationToken);
                 }
 
                 _isDisposed = true;

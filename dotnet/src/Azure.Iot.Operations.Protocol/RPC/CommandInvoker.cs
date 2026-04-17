@@ -701,10 +701,22 @@ namespace Azure.Iot.Operations.Protocol.RPC
         /// Dispose this object and the underlying mqtt client.
         /// </summary>
         /// <remarks>To avoid disposing the underlying mqtt client, use <see cref="DisposeAsync(bool)"/>.</remarks>
+#pragma warning disable CA1816 // Dispose methods should call SuppressFinalize. Reason: this method calls an overload that calls SuppressFinalize
         public async ValueTask DisposeAsync()
+#pragma warning restore CA1816 // Dispose methods should call SuppressFinalize
         {
-            await DisposeAsyncCore(false).ConfigureAwait(false);
+            await DisposeAsync(CancellationToken.None);
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        public async ValueTask DisposeAsync(CancellationToken cancellationToken)
+        {
+            await DisposeAsyncCore(false, cancellationToken).ConfigureAwait(false);
+#pragma warning disable CA1816 // Dispose methods should call SuppressFinalize. Reason: this is a dispose method
             GC.SuppressFinalize(this);
+#pragma warning restore CA1816 // Dispose methods should call SuppressFinalize
         }
 
         /// <summary>
@@ -714,15 +726,15 @@ namespace Azure.Iot.Operations.Protocol.RPC
         /// If true, this call will dispose the underlying mqtt client. If false, this call will
         /// not dispose the underlying mqtt client.
         /// </param>
-        public async ValueTask DisposeAsync(bool disposing)
+        public async ValueTask DisposeAsync(bool disposing, CancellationToken cancellationToken = default)
         {
-            await DisposeAsyncCore(disposing).ConfigureAwait(false);
+            await DisposeAsyncCore(disposing, cancellationToken).ConfigureAwait(false);
 #pragma warning disable CA1816 // Call GC.SuppressFinalize correctly
             GC.SuppressFinalize(this);
 #pragma warning restore CA1816 // Call GC.SuppressFinalize correctly
         }
 
-        protected virtual async ValueTask DisposeAsyncCore(bool disposing)
+        protected virtual async ValueTask DisposeAsyncCore(bool disposing, CancellationToken cancellationToken)
         {
             if (_isDisposed)
             {
@@ -756,7 +768,7 @@ namespace Azure.Iot.Operations.Protocol.RPC
                         }
                     }
 
-                    MqttClientUnsubscribeResult unsubAck = await _mqttClient.UnsubscribeAsync(unsubscribeOptions, CancellationToken.None).ConfigureAwait(false);
+                    MqttClientUnsubscribeResult unsubAck = await _mqttClient.UnsubscribeAsync(unsubscribeOptions, cancellationToken).ConfigureAwait(false);
                     if (!unsubAck.IsUnsubAckSuccessful())
                     {
                         Trace.TraceError($"Failed to unsubscribe from the topic(s) for the command invoker of '{_commandName}'.");
@@ -776,7 +788,7 @@ namespace Azure.Iot.Operations.Protocol.RPC
             if (disposing)
             {
                 // This will disconnect and dispose the client if necessary
-                await _mqttClient.DisposeAsync();
+                await _mqttClient.DisposeAsync(disposing, cancellationToken);
             }
 
             _isDisposed = true;

@@ -197,6 +197,11 @@ namespace Azure.Iot.Operations.Mqtt.Session
             ObjectDisposedException.ThrowIf(_disposed, this);
             cancellationToken.ThrowIfCancellationRequested();
 
+            if (_sessionClientOptions.ThrowIfUsedWhenSessionInactive && !IsConnected && !_isDesiredConnected)
+            {
+                throw new SessionClosedException("Cannot publish until the session has been re-opened. The session is closed either because it could not be recovered or because this client was manually closed.");
+            }
+
             TaskCompletionSource<MqttClientPublishResult> tcs = new TaskCompletionSource<MqttClientPublishResult>();
 
             var queuedRequest = new QueuedPublishRequest(applicationMessage, tcs, cancellationToken: cancellationToken);
@@ -241,6 +246,11 @@ namespace Azure.Iot.Operations.Mqtt.Session
             ObjectDisposedException.ThrowIf(_disposed, this);
             cancellationToken.ThrowIfCancellationRequested();
 
+            if (_sessionClientOptions.ThrowIfUsedWhenSessionInactive && !IsConnected && !_isDesiredConnected)
+            {
+                throw new SessionClosedException("Cannot subscribe until the session has been re-opened. The session is closed either because it could not be recovered or because this client was manually closed.");
+            }
+
             TaskCompletionSource<MqttClientSubscribeResult> tcs = new TaskCompletionSource<MqttClientSubscribeResult>();
 
             var queuedRequest = new QueuedSubscribeRequest(options, tcs, cancellationToken: cancellationToken);
@@ -284,6 +294,11 @@ namespace Azure.Iot.Operations.Mqtt.Session
             ObjectDisposedException.ThrowIf(_disposed, this);
             cancellationToken.ThrowIfCancellationRequested();
 
+            if (_sessionClientOptions.ThrowIfUsedWhenSessionInactive && !IsConnected && !_isDesiredConnected)
+            {
+                throw new SessionClosedException("Cannot unsubscribe until the session has been re-opened. The session is closed either because it could not be recovered or because this client was manually closed.");
+            }
+
             TaskCompletionSource<MqttClientUnsubscribeResult> tcs = new TaskCompletionSource<MqttClientUnsubscribeResult>();
 
             var queuedRequest = new QueuedUnsubscribeRequest(options, tcs, cancellationToken: cancellationToken);
@@ -309,7 +324,14 @@ namespace Azure.Iot.Operations.Mqtt.Session
             return result;
         }
 
+        /// <inheritdoc/>
         public override async ValueTask DisposeAsync()
+        {
+            await DisposeAsync(CancellationToken.None);
+        }
+
+        /// <inheritdoc/>
+        public override async ValueTask DisposeAsync(CancellationToken cancellationToken = default)
         {
             if (!_disposed)
             {
@@ -319,7 +341,7 @@ namespace Azure.Iot.Operations.Mqtt.Session
                 {
                     try
                     {
-                        await DisconnectAsync(); // This also signals to stop any reconnection though it does not wait for that reconnection to finish
+                        await DisconnectAsync(cancellationToken: cancellationToken); // This also signals to stop any reconnection though it does not wait for that reconnection to finish
                     }
                     catch (Exception e)
                     {
@@ -328,7 +350,14 @@ namespace Azure.Iot.Operations.Mqtt.Session
                 }
 
                 // Wait until any reconnection logic has wrapped up before disposing any semaphores that the reconnection logic may still try to release
-                await _disconnectedEventLock.WaitAsync();
+                try
+                {
+                    await _disconnectedEventLock.WaitAsync(cancellationToken);
+                }
+                catch (OperationCanceledException)
+                {
+                    Trace.TraceWarning("Mqtt session client disposal was cancelled while waiting on reconnection logic to finish. Some unobserved exceptions may be thrown by the reconnection task");
+                }
 
                 _workerThreadsTaskCancellationTokenSource?.Dispose();
                 _reconnectionCancellationToken?.Dispose();

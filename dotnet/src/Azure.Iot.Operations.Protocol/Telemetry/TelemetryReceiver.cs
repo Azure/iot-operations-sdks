@@ -242,24 +242,35 @@ namespace Azure.Iot.Operations.Protocol.Telemetry
             return telemTopic.ToString();
         }
 
+#pragma warning disable CA1816 // Dispose methods should call SuppressFinalize. Reason: SuppressFinalize is called in the overload that this method calls
         public virtual async ValueTask DisposeAsync()
+#pragma warning restore CA1816 // Dispose methods should call SuppressFinalize
         {
-            await DisposeAsyncCore(false);
-            GC.SuppressFinalize(this);
+            await DisposeAsync(CancellationToken.None);
+        }
+
+        public virtual async ValueTask DisposeAsync(CancellationToken cancellationToken)
+        {
+            await DisposeAsyncCore(false, cancellationToken);
         }
 
         public virtual async ValueTask DisposeAsync(bool disposing)
         {
-            await DisposeAsyncCore(disposing);
+            await DisposeAsync(disposing, CancellationToken.None);
         }
 
-        protected virtual async ValueTask DisposeAsyncCore(bool disposing)
+        public virtual async ValueTask DisposeAsync(bool disposing, CancellationToken cancellationToken)
+        {
+            await DisposeAsyncCore(disposing, cancellationToken);
+        }
+
+        protected virtual async ValueTask DisposeAsyncCore(bool disposing, CancellationToken cancellationToken)
         {
             if (!_isDisposed)
             {
                 try
                 {
-                    await StopAsync();
+                    await StopAsync(cancellationToken);
                 }
                 catch (Exception ex)
                 {
@@ -270,7 +281,7 @@ namespace Azure.Iot.Operations.Protocol.Telemetry
 
                 if (disposing)
                 {
-                    await _mqttClient.DisposeAsync(disposing);
+                    await _mqttClient.DisposeAsync(disposing, cancellationToken);
                 }
 
                 _isDisposed = true;

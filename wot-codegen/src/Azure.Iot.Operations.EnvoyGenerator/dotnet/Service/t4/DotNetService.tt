@@ -336,6 +336,22 @@ namespace <#=this.projectName#>.<#=this.genNamespace.GetNamespaceName(TargetLang
                 await this.<#=telemEnvoyInfo.Sender.GetVariableName(TargetLanguage.CSharp)#>.DisposeAsync(disposing).ConfigureAwait(false);
 <# } #>
             }
+
+            public async ValueTask DisposeAsync(bool disposing, CancellationToken cancellationToken)
+            {
+<# foreach (var actionSpec in this.actionSpecs) { #>
+                await this.<#=actionSpec.Executor.GetVariableName(TargetLanguage.CSharp)#>.DisposeAsync(disposing, cancellationToken).ConfigureAwait(false);
+<# } #>
+<# foreach (var propSpec in this.propSpecs) { #>
+                await this.<#=propSpec.Name.GetVariableName(TargetLanguage.CSharp, "read", "responder")#>.DisposeAsync(disposing, cancellationToken).ConfigureAwait(false);
+<# if (propSpec.WriteReqSchema != null) { #>
+                await this.<#=propSpec.Name.GetVariableName(TargetLanguage.CSharp, "write", "responder")#>.DisposeAsync(disposing, cancellationToken).ConfigureAwait(false); 
+<# } #>
+<# } #>
+<# foreach (var telemEnvoyInfo in this.eventSpec) { #>
+                await this.<#=telemEnvoyInfo.Sender.GetVariableName(TargetLanguage.CSharp)#>.DisposeAsync(disposing).ConfigureAwait(false);
+<# } #>
+            }
         }
 <# } #>
 <# if (this.generateServer && this.generateClient) { #>

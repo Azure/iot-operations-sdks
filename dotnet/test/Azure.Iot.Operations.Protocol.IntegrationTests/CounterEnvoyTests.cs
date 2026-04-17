@@ -233,4 +233,30 @@ public class CounterEnvoyTests
         Assert.Null(receivedResponseCloudEvent2.Subject);
         Assert.Null(receivedResponseCloudEvent2.Time);
     }
+
+    [Fact]
+    public async Task CanDisposeRpcClientsEvenIfMqttClientIsDisconnected()
+    {
+        ApplicationContext applicationContext = new ApplicationContext();
+        string executorId = "counter-server-" + Guid.NewGuid();
+
+        MqttSessionClientOptions clientOptions = new MqttSessionClientOptions()
+        {
+            ThrowIfUsedWhenSessionInactive = true
+        };
+
+        MqttSessionClient mqttExecutor = await ClientFactory.CreateSessionClientFromEnvAsync(executorId, clientOptions);
+        CounterService counterService = new CounterService(applicationContext, mqttExecutor);
+        MqttSessionClient mqttInvoker = await ClientFactory.CreateSessionClientFromEnvAsync("", clientOptions);
+        CounterClient counterClient = new CounterClient(applicationContext, mqttInvoker);
+
+        await counterService.StartAsync(null, cancellationToken: CancellationToken.None);
+
+        await mqttExecutor.DisconnectAsync();
+        await mqttInvoker.DisconnectAsync();
+
+        await counterService.DisposeAsync();
+        await counterClient.DisposeAsync();
+
+    }
 }
