@@ -546,27 +546,27 @@ namespace Azure.Iot.Operations.EnvoyGenerator
             this.Write(this.ToStringHelper.ToStringWithCulture(telemEnvoyInfo.Sender.GetVariableName(TargetLanguage.CSharp)));
             this.Write(".DisposeAsync().ConfigureAwait(false);\r\n");
  } 
-            this.Write("            }\r\n\r\n            public async ValueTask DisposeAsync(bool disposing)\r" +
+            this.Write("            }\r\n\r\n            public async ValueTask DisposeAsync(bool disposing, CancellationToken cancellationToken)\r" +
                     "\n            {\r\n");
  foreach (var actionSpec in this.actionSpecs) { 
             this.Write("                await this.");
             this.Write(this.ToStringHelper.ToStringWithCulture(actionSpec.Executor.GetVariableName(TargetLanguage.CSharp)));
-            this.Write(".DisposeAsync(disposing).ConfigureAwait(false);\r\n");
+            this.Write(".DisposeAsync(disposing, cancellationToken).ConfigureAwait(false);\r\n");
  } 
  foreach (var propSpec in this.propSpecs) { 
             this.Write("                await this.");
             this.Write(this.ToStringHelper.ToStringWithCulture(propSpec.Name.GetVariableName(TargetLanguage.CSharp, "read", "responder")));
-            this.Write(".DisposeAsync(disposing).ConfigureAwait(false);\r\n");
+            this.Write(".DisposeAsync(disposing, cancellationToken).ConfigureAwait(false);\r\n");
  if (propSpec.WriteReqSchema != null) { 
             this.Write("                await this.");
             this.Write(this.ToStringHelper.ToStringWithCulture(propSpec.Name.GetVariableName(TargetLanguage.CSharp, "write", "responder")));
-            this.Write(".DisposeAsync(disposing).ConfigureAwait(false); \r\n");
+            this.Write(".DisposeAsync(disposing, cancellationToken).ConfigureAwait(false); \r\n");
  } 
  } 
  foreach (var telemEnvoyInfo in this.eventSpec) { 
             this.Write("                await this.");
             this.Write(this.ToStringHelper.ToStringWithCulture(telemEnvoyInfo.Sender.GetVariableName(TargetLanguage.CSharp)));
-            this.Write(".DisposeAsync(disposing).ConfigureAwait(false);\r\n");
+            this.Write(".DisposeAsync(disposing, cancellationToken).ConfigureAwait(false);\r\n");
  } 
             this.Write("            }\r\n        }\r\n");
  } 
