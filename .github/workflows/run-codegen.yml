@@ -41,8 +41,6 @@ jobs:
 
       - name: Build and run WoT codegen
         run: | 
-          dotnet nuget add source "https://pkgs.dev.azure.com/azure-iot-sdks/iot-operations/_packaging/preview/nuget/v3/index.json"
-
           dotnet build -c Debug wot-codegen/codegen.sln
           echo "codegen=$(echo $(realpath wot-codegen/src/Azure.Iot.Operations.ProtocolCompiler/bin/Debug/net9.0/Azure.Iot.Operations.ProtocolCompiler))" >> $GITHUB_ENV
           ./wot-codegen/gen_all.sh
