@@ -131,11 +131,11 @@ namespace TestEnvoys.Math
                 await this.getRandomCommandExecutor.DisposeAsync().ConfigureAwait(false);
             }
 
-            public async ValueTask DisposeAsync(bool disposing)
+            public async ValueTask DisposeAsync(bool disposing, CancellationToken cancellationToken)
             {
-                await this.isPrimeCommandExecutor.DisposeAsync(disposing).ConfigureAwait(false);
-                await this.fibCommandExecutor.DisposeAsync(disposing).ConfigureAwait(false);
-                await this.getRandomCommandExecutor.DisposeAsync(disposing).ConfigureAwait(false);
+                await this.isPrimeCommandExecutor.DisposeAsync(disposing, cancellationToken).ConfigureAwait(false);
+                await this.fibCommandExecutor.DisposeAsync(disposing, cancellationToken).ConfigureAwait(false);
+                await this.getRandomCommandExecutor.DisposeAsync(disposing, cancellationToken).ConfigureAwait(false);
             }
         }
 
@@ -296,11 +296,11 @@ namespace TestEnvoys.Math
                 await this.getRandomCommandInvoker.DisposeAsync().ConfigureAwait(false);
             }
 
-            public async ValueTask DisposeAsync(bool disposing)
+            public async ValueTask DisposeAsync(bool disposing, CancellationToken cancellationToken)
             {
-                await this.isPrimeCommandInvoker.DisposeAsync(disposing).ConfigureAwait(false);
-                await this.fibCommandInvoker.DisposeAsync(disposing).ConfigureAwait(false);
-                await this.getRandomCommandInvoker.DisposeAsync(disposing).ConfigureAwait(false);
+                await this.isPrimeCommandInvoker.DisposeAsync(disposing, cancellationToken).ConfigureAwait(false);
+                await this.fibCommandInvoker.DisposeAsync(disposing, cancellationToken).ConfigureAwait(false);
+                await this.getRandomCommandInvoker.DisposeAsync(disposing, cancellationToken).ConfigureAwait(false);
             }
         }
     }

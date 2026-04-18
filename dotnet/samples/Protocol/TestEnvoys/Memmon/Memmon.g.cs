@@ -222,14 +222,14 @@ namespace TestEnvoys.Memmon
                 await this.memoryStatsTelemetrySender.DisposeAsync().ConfigureAwait(false);
             }
 
-            public async ValueTask DisposeAsync(bool disposing)
+            public async ValueTask DisposeAsync(bool disposing, CancellationToken cancellationToken)
             {
-                await this.startTelemetryCommandExecutor.DisposeAsync(disposing).ConfigureAwait(false);
-                await this.stopTelemetryCommandExecutor.DisposeAsync(disposing).ConfigureAwait(false);
-                await this.getRuntimeStatsCommandExecutor.DisposeAsync(disposing).ConfigureAwait(false);
-                await this.workingSetTelemetrySender.DisposeAsync(disposing).ConfigureAwait(false);
-                await this.managedMemoryTelemetrySender.DisposeAsync(disposing).ConfigureAwait(false);
-                await this.memoryStatsTelemetrySender.DisposeAsync(disposing).ConfigureAwait(false);
+                await this.startTelemetryCommandExecutor.DisposeAsync(disposing, cancellationToken).ConfigureAwait(false);
+                await this.stopTelemetryCommandExecutor.DisposeAsync(disposing, cancellationToken).ConfigureAwait(false);
+                await this.getRuntimeStatsCommandExecutor.DisposeAsync(disposing, cancellationToken).ConfigureAwait(false);
+                await this.workingSetTelemetrySender.DisposeAsync(disposing, cancellationToken).ConfigureAwait(false);
+                await this.managedMemoryTelemetrySender.DisposeAsync(disposing, cancellationToken).ConfigureAwait(false);
+                await this.memoryStatsTelemetrySender.DisposeAsync(disposing, cancellationToken).ConfigureAwait(false);
             }
         }
 
@@ -438,14 +438,14 @@ namespace TestEnvoys.Memmon
                 await this.memoryStatsTelemetryReceiver.DisposeAsync().ConfigureAwait(false);
             }
 
-            public async ValueTask DisposeAsync(bool disposing)
+            public async ValueTask DisposeAsync(bool disposing, CancellationToken cancellationToken)
             {
-                await this.startTelemetryCommandInvoker.DisposeAsync(disposing).ConfigureAwait(false);
-                await this.stopTelemetryCommandInvoker.DisposeAsync(disposing).ConfigureAwait(false);
-                await this.getRuntimeStatsCommandInvoker.DisposeAsync(disposing).ConfigureAwait(false);
-                await this.workingSetTelemetryReceiver.DisposeAsync(disposing).ConfigureAwait(false);
-                await this.managedMemoryTelemetryReceiver.DisposeAsync(disposing).ConfigureAwait(false);
-                await this.memoryStatsTelemetryReceiver.DisposeAsync(disposing).ConfigureAwait(false);
+                await this.startTelemetryCommandInvoker.DisposeAsync(disposing, cancellationToken).ConfigureAwait(false);
+                await this.stopTelemetryCommandInvoker.DisposeAsync(disposing, cancellationToken).ConfigureAwait(false);
+                await this.getRuntimeStatsCommandInvoker.DisposeAsync(disposing, cancellationToken).ConfigureAwait(false);
+                await this.workingSetTelemetryReceiver.DisposeAsync(disposing, cancellationToken).ConfigureAwait(false);
+                await this.managedMemoryTelemetryReceiver.DisposeAsync(disposing, cancellationToken).ConfigureAwait(false);
+                await this.memoryStatsTelemetryReceiver.DisposeAsync(disposing, cancellationToken).ConfigureAwait(false);
             }
         }
     }
