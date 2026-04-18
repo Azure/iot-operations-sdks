@@ -6,8 +6,6 @@ using Azure.Iot.Operations.Protocol.Models;
 using Azure.Iot.Operations.Mqtt.Session;
 using Azure.Iot.Operations.Protocol.RPC;
 using TestEnvoys.Counter;
-using System.Diagnostics;
-using System.Text.Json.Nodes;
 using System.Text.Json;
 
 namespace Azure.Iot.Operations.Protocol.IntegrationTests;
@@ -257,6 +255,35 @@ public class CounterEnvoyTests
 
         await counterService.DisposeAsync();
         await counterClient.DisposeAsync();
+    }
 
+    [Fact]
+    public async Task CanDisposeRpcClientsWithCancellationToken()
+    {
+        ApplicationContext applicationContext = new ApplicationContext();
+        string executorId = "counter-server-" + Guid.NewGuid();
+
+        MqttSessionClientOptions clientOptions = new MqttSessionClientOptions()
+        {
+            ThrowIfUsedWhenSessionInactive = false // Intentionally allow the pub/sub/unsub to hang after session client is closed
+        };
+
+        MqttSessionClient mqttExecutor = await ClientFactory.CreateSessionClientFromEnvAsync(executorId, clientOptions);
+        CounterService counterService = new CounterService(applicationContext, mqttExecutor);
+        MqttSessionClient mqttInvoker = await ClientFactory.CreateSessionClientFromEnvAsync("", clientOptions);
+        CounterClient counterClient = new CounterClient(applicationContext, mqttInvoker);
+
+        await counterService.StartAsync(null, cancellationToken: CancellationToken.None);
+
+        await mqttExecutor.DisconnectAsync();
+        await mqttInvoker.DisconnectAsync();
+
+        // These disposals would run indefinitely if they didn't check the cancellation token
+        // Additionally, they should not throw operation cancelled exception just because the mqtt client
+        // cannot process the unsubscribe that the executor + invoker will attempt to send
+        using CancellationTokenSource cts1 = new CancellationTokenSource(10);
+        await counterService.DisposeAsync(true, cts1.Token);
+        using CancellationTokenSource cts2 = new CancellationTokenSource(10);
+        await counterClient.DisposeAsync(true, cts2.Token);
     }
 }
