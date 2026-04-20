@@ -7,7 +7,7 @@ on:
       - '.github/workflows/ci-rust.yml'
       - '.github/actions/configure-aio/**'
       - 'rust/**'
-      - '!rust/sample_applications/sample_connector_scaffolding/**'
+      - '!rust/sample_applications/sample_connector_scaffolding/**' # Has own CI
       - 'eng/test/**'
       - 'eng/wot/**'
       - 'tools/deployment/**'
@@ -44,7 +44,7 @@ jobs:
   check:
     name: Check (pinned toolchain)
     runs-on: ubuntu-latest
-    timeout-minutes: 15
+    timeout-minutes: 10
 
     steps:
       - uses: actions/checkout@v4
@@ -68,9 +68,7 @@ jobs:
       - name: Cache cargo build artifacts
         uses: Swatinem/rust-cache@v2
         with:
-          workspaces: |
-            rust
-            rust/sample_applications/sample_connector_scaffolding
+          workspaces: rust
           shared-key: check
 
       # Install cargo subcommands AFTER the cache restore. `Swatinem/rust-cache`
@@ -104,7 +102,7 @@ jobs:
   tests:
     name: Tests (rust ${{ matrix.rust }})
     runs-on: ubuntu-latest
-    timeout-minutes: 45
+    timeout-minutes: 20
 
     strategy:
       fail-fast: false
@@ -159,7 +157,7 @@ jobs:
   coverage:
     name: Coverage (pinned toolchain)
     runs-on: ubuntu-latest
-    timeout-minutes: 45
+    timeout-minutes: 20
 
     steps:
       - uses: actions/checkout@v4
