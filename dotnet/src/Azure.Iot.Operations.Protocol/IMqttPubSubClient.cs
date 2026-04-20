@@ -78,7 +78,7 @@ namespace Azure.Iot.Operations.Protocol
         /// <summary>
         /// Dispose this client and optionally dispose the resources this client manages
         /// </summary>
-        /// <param name="disposing">True to release both managed and unmanaged resources; False to releases only unmanaged resources.</param>
+        /// <param name="disposing">True to release both managed and unmanaged resources; False to release only unmanaged resources.</param>
         ValueTask DisposeAsync(bool disposing);
 
         /// <summary>
@@ -90,7 +90,7 @@ namespace Azure.Iot.Operations.Protocol
         /// <summary>
         /// Dispose this client and optionally dispose the resources this client manages
         /// </summary>
-        /// <param name="disposing">True to release both managed and unmanaged resources; False to releases only unmanaged resources.</param>
+        /// <param name="disposing">True to release both managed and unmanaged resources; False to release only unmanaged resources.</param>
         /// <param name="cancellationToken">The cancellation token.</param>
         ValueTask DisposeAsync(bool disposing, CancellationToken cancellationToken);
     }
