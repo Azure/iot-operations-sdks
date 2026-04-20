@@ -374,7 +374,6 @@ namespace Azure.Iot.Operations.Mqtt.Session
             await base.DisposeAsync(true);
 
             GC.SuppressFinalize(this);
-            await base.DisposeAsync();
         }
 
         private async Task InternalDisconnectedAsync(MqttClientDisconnectedEventArgs args)
