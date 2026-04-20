@@ -26,4 +26,7 @@ jobs:
     with:
       name: connector-scaffolding
       path: rust/sample_applications/sample_connector_scaffolding
+      # No pin file in the scaffolding directory — by design, this
+      # sample tracks the SDK's toolchain.
+      toolchain-src-dir: rust
       aio-sdks-registry: false
