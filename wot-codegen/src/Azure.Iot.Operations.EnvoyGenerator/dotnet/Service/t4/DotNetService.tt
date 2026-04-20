@@ -349,7 +349,7 @@ namespace <#=this.projectName#>.<#=this.genNamespace.GetNamespaceName(TargetLang
 <# } #>
 <# } #>
 <# foreach (var telemEnvoyInfo in this.eventSpec) { #>
-                await this.<#=telemEnvoyInfo.Sender.GetVariableName(TargetLanguage.CSharp)#>.DisposeAsync(disposing).ConfigureAwait(false);
+                await this.<#=telemEnvoyInfo.Sender.GetVariableName(TargetLanguage.CSharp)#>.DisposeAsync(disposing, cancellationToken).ConfigureAwait(false);
 <# } #>
             }
         }
