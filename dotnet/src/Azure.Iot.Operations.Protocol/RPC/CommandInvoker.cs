@@ -709,7 +709,7 @@ namespace Azure.Iot.Operations.Protocol.RPC
         }
 
         /// <summary>
-        /// 
+        /// Asynchronously dispose this client with cancellation support
         /// </summary>
         public async ValueTask DisposeAsync(CancellationToken cancellationToken)
         {
