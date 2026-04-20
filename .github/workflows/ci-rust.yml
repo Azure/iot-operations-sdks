@@ -1,27 +1,23 @@
 name: CI-Rust
 
-# Controls when the workflow will run
 on:
-  # Allows you to run this workflow manually from the Actions tab
   workflow_dispatch:
-  # Triggers the workflow on PR events
   pull_request:
     paths:
-      - '.github/**'
+      - '.github/workflows/ci-rust.yml'
+      - '.github/actions/configure-aio/**'
       - 'rust/**'
+      - '!rust/sample_applications/sample_connector_scaffolding/**'
       - 'eng/test/**'
-      - 'tools/statestore-cli/**'
-      - 'codegen/**'
+      - 'eng/wot/**'
       - 'tools/deployment/**'
+      - 'codegen/**'
       - 'wot-codegen/**'
-
-  # Triggers the workflow on push events for the "main" branch
   push:
     branches:
       - "main"
-  # Triggers the workflow on a schedule
   schedule:
-    - cron: '0 11 * * *'  # Nightly at 4am PST
+    - cron: '0 11 * * *'  # Nightly (04:00 PT)
 
 # only allow one run / branch at a time
 concurrency:
@@ -43,82 +39,169 @@ env:
 
 jobs:
 
-  build:
-    name: CI-rust
+  # Static analysis on the pinned toolchain. No broker required.
+  # Also verifies codegen output is up-to-date (requires dotnet, not AIO).
+  check:
+    name: Check (pinned toolchain)
     runs-on: ubuntu-latest
-    timeout-minutes: 30
+    timeout-minutes: 15
 
     steps:
-    - uses: actions/checkout@v4
+      - uses: actions/checkout@v4
 
-    - name: Install AIO
-      uses: ./.github/actions/configure-aio
-      with:
-        wait-for-broker: 'true'
-        install-rust: 'true'
-        install-dotnet: 'true'
-        action-token: ${{ secrets.AIO_SDKS_ACTION_TOKEN }}
-    
-    - name: Create ADR resources
-      run: kubectl apply -f ../eng/test/test-adr-resources
+      - name: Setup Rust (pinned via rust-toolchain.toml)
+        uses: actions-rust-lang/setup-rust-toolchain@v1
+        with:
+          # Disable this action's built-in cache; `Swatinem/rust-cache`
+          # (below) handles caching for us and also caches `target/`,
+          # which this action does not.
+          cache: false
 
-    - name: Run Checks
-      run: |
-        set -e
-        make check
+      - name: Setup .NET (for codegen drift check)
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: 9.x
 
-    - name: Run Tests
-      run: |
-        set -e
-        ENABLE_NETWORK_TESTS=true FEATURES="all" make test
+      - name: Install system dependencies
+        run: bash ./scripts/system-deps.sh
 
-    - name: Run Coverage Report
-      run: |
-        set -e
-        make coverage
+      - name: Cache cargo build artifacts
+        uses: Swatinem/rust-cache@v2
+        with:
+          workspaces: |
+            rust
+            rust/sample_applications/sample_connector_scaffolding
+          shared-key: check
 
-    - uses: "actions/upload-artifact@v4"
-      with:
-        name: "report-azure-iot-operations"
-        path: "${{ runner.temp }}/report"
-        if-no-files-found: "error"
-        retention-days: 10
+      # Install cargo subcommands AFTER the cache restore. `Swatinem/rust-cache`
+      # caches `~/.cargo/bin` (where these binaries land), so a warm cache
+      # makes this step a no-op. Running it before the cache restore would
+      # risk the restore clobbering the just-installed binary.
+      - name: Install cargo tooling
+        uses: taiki-e/install-action@v2
+        with:
+          tool: cargo-machete
 
-    - name: Verify Statestore CLI
-      working-directory: tools/statestore-cli
-      run: |
-        source ../../rust/ci/build-deps.sh
-        cargo clippy --all-features
-        cargo fmt --verbose --all
+      - name: Run checks (fmt, clippy, copyright, machete, external crates)
+        run: make check
 
-    - name: Verify Stub Service
-      working-directory: tools/azure_iot_operations_stub_services
-      run: | # Checks both with default features and without since the stub service can be used without an output folder
-        source ../../rust/ci/build-deps.sh
-        cargo check 
-        cargo check --no-default-features
-        # cargo clippy --all-features # codegen must be regenerated and the stub service code updated for this to be re-enabled. In the meantime, we'll validate cargo build
-        cargo build --all-features
-        cargo fmt --verbose --all
-
-    - name: Verify Scaffolding
-      working-directory: rust/sample_applications/sample_connector_scaffolding
-      run: | # Checks that the scaffolding is building correctly.
-        source ../../../rust/ci/build-deps.sh
-        cargo check
-        cargo clippy
-        cargo fmt --verbose --all
-
-    - name: CodeGen, build, and validate equality for Rust Services
-      working-directory: rust/azure_iot_operations_services
-      run: |
-        set -e
-        sh ./gen.sh
-        cargo build --verbose --features=all
-        if ! git diff --exit-code --ignore-cr-at-eol
-        then
+      - name: Regenerate codegen output and verify no drift
+        working-directory: rust/azure_iot_operations_services
+        run: |
+          sh ./gen.sh
+          cargo build --verbose --all-features
+          if ! git diff --exit-code --ignore-cr-at-eol; then
             echo "Detected changes after running code gen for one or more projects. Do not manually edit generated files."
             git diff-files
             exit 1
-        fi
-        echo "Codegen for Rust services generated no changes. Generated code is up to date with the repo."
+          fi
+          echo "Codegen for Rust services generated no changes. Generated code is up to date with the repo."
+
+  # Tests across the supported Rust toolchains. Each matrix leg gets
+  # its own AIO bring-up and runs the full test suite, including
+  # network tests, so we validate every claimed-supported toolchain
+  # end-to-end. Coverage is measured separately (see `coverage` job).
+  tests:
+    name: Tests (rust ${{ matrix.rust }})
+    runs-on: ubuntu-latest
+    timeout-minutes: 45
+
+    strategy:
+      fail-fast: false
+      matrix:
+        # `1.88` is the MSRV declared in rust/Cargo.toml's `rust-version`.
+        # Keep in sync with that field when bumping MSRV.
+        rust: ["1.88", "stable"]
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Install AIO
+        uses: ./.github/actions/configure-aio
+        with:
+          wait-for-broker: 'true'
+          # configure-aio installs the pinned toolchain; we add the
+          # matrix toolchain below and select it via RUSTUP_TOOLCHAIN.
+          install-rust: 'true'
+          install-dotnet: 'false'
+          action-token: ${{ secrets.AIO_SDKS_ACTION_TOKEN }}
+
+      - name: Install Rust ${{ matrix.rust }}
+        run: rustup toolchain install ${{ matrix.rust }} --profile minimal
+
+      - name: Install system dependencies
+        run: bash ./scripts/system-deps.sh
+
+      - name: Cache cargo build artifacts
+        uses: Swatinem/rust-cache@v2
+        with:
+          workspaces: rust
+          shared-key: tests-${{ matrix.rust }}
+
+      - name: Create ADR resources
+        run: kubectl apply -f ../eng/test/test-adr-resources
+
+      # `RUSTUP_TOOLCHAIN` overrides `rust-toolchain.toml` for the
+      # duration of the step, so we don't have to delete the pin file.
+      - name: Run tests
+        env:
+          RUSTUP_TOOLCHAIN: ${{ matrix.rust }}
+          ENABLE_NETWORK_TESTS: "true"
+          VERBOSE: "1"
+        run: make test
+
+  # Coverage report on the pinned toolchain. Separate from `tests`
+  # because LLVM instrumentation forces a different `target/` (cache
+  # incompatibility) and slows tests 2-3x; bundling it would penalize
+  # every matrix leg. By convention in the Rust ecosystem, coverage is
+  # measured on a single canonical toolchain (the pin) so the trend
+  # number is consistent across PRs.
+  coverage:
+    name: Coverage (pinned toolchain)
+    runs-on: ubuntu-latest
+    timeout-minutes: 45
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Install AIO
+        uses: ./.github/actions/configure-aio
+        with:
+          wait-for-broker: 'true'
+          install-rust: 'true'
+          install-dotnet: 'false'
+          action-token: ${{ secrets.AIO_SDKS_ACTION_TOKEN }}
+
+      - name: Install system dependencies
+        run: bash ./scripts/system-deps.sh
+
+      - name: Cache cargo build artifacts
+        uses: Swatinem/rust-cache@v2
+        with:
+          workspaces: rust
+          # Distinct from the `tests` keys: instrumented builds produce
+          # different artifacts and must not share `target/` with them.
+          shared-key: coverage
+
+      # See `check` job above for why this step lives after the cache.
+      - name: Install cargo tooling
+        uses: taiki-e/install-action@v2
+        with:
+          tool: cargo-llvm-cov
+
+      - name: Create ADR resources
+        run: kubectl apply -f ../eng/test/test-adr-resources
+
+      - name: Run coverage
+        env:
+          ENABLE_NETWORK_TESTS: "true"
+          OUTPUT_DIR: ${{ runner.temp }}/report
+          VERBOSE: "1"
+        run: make coverage
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: report-azure-iot-operations
+          path: ${{ runner.temp }}/report
+          if-no-files-found: error
+          retention-days: 10

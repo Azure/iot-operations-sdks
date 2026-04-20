@@ -1,0 +1,82 @@
+name: Reusable Rust tool check
+
+# Reusable workflow that fmt/clippy/builds a single Rust crate under
+# `tools/` or `rust/sample_applications/`. These crates are downstream
+# consumers of released SDK versions — NOT part of the SDK workspace —
+# and are CI'd independently of `ci-rust.yml`.
+#
+# Callers pass:
+# - `path`: repo-relative directory of the crate's Cargo.toml
+# - `name`: shared-key / display fragment
+# - `aio-sdks-registry`: set to `true` if the crate depends on the
+#   `aio-sdks` Azure DevOps Cargo registry (requires the
+#   `CARGO_REGISTRIES_AIO_SDKS_TOKEN` secret to be forwarded by the
+#   caller).
+#
+# The crate's toolchain is selected by its own `rust-toolchain.toml` if
+# present; otherwise `setup-rust-toolchain` picks `stable`.
+
+on:
+  workflow_call:
+    inputs:
+      name:
+        description: 'Short name for the tool (used in cache keys)'
+        required: true
+        type: string
+      path:
+        description: 'Repo-relative path to the crate directory'
+        required: true
+        type: string
+      aio-sdks-registry:
+        description: 'Whether the crate depends on the aio-sdks registry'
+        required: false
+        type: boolean
+        default: false
+    secrets:
+      aio-sdks-token:
+        description: 'Token for the aio-sdks Azure DevOps Cargo registry'
+        required: false
+
+permissions:
+  contents: read
+
+jobs:
+  check:
+    name: Check
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    defaults:
+      run:
+        shell: bash
+        working-directory: ${{ inputs.path }}
+    env:
+      # Forwarded to cargo only when `aio-sdks-registry: true`; harmless
+      # to set unconditionally (unused by crates.io-only builds).
+      CARGO_REGISTRIES_AIO_SDKS_TOKEN: ${{ secrets.aio-sdks-token }}
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup Rust (from crate's rust-toolchain.toml, or stable)
+        uses: actions-rust-lang/setup-rust-toolchain@v1
+        with:
+          # Swatinem/rust-cache handles caching (including target/).
+          cache: false
+
+      - name: Install system dependencies
+        working-directory: ${{ github.workspace }}
+        run: bash ./rust/scripts/system-deps.sh
+
+      - name: Cache cargo build artifacts
+        uses: Swatinem/rust-cache@v2
+        with:
+          workspaces: ${{ inputs.path }}
+          shared-key: tool-${{ inputs.name }}
+
+      - name: Format check
+        run: cargo fmt --verbose --all --check
+
+      - name: Clippy
+        run: cargo clippy --all-targets -- --deny=warnings
+
+      - name: Build
+        run: cargo build --verbose
