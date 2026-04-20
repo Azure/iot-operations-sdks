@@ -332,9 +332,9 @@ namespace <#=this.projectName#>.<#=this.genNamespace.GetTypeName(TargetLanguage.
                 await this.<#=cmdEnvoyInfo.Name.GetVariableName(TargetLanguage.CSharp, "command", "executor")#>.DisposeAsync(disposing, cancellationToken).ConfigureAwait(false);
 <# } #>
 <# foreach (var propEnvoyInfo in this.propEnvoyInfos) { #>
-                await this.<#=(propEnvoyInfo.Name ?? SchemaNames.AggregatePropName).GetVariableName(TargetLanguage.CSharp, "read", "responder")#>.DisposeAsync(disposing).ConfigureAwait(false);
+                await this.<#=(propEnvoyInfo.Name ?? SchemaNames.AggregatePropName).GetVariableName(TargetLanguage.CSharp, "read", "responder")#>.DisposeAsync(disposing, cancellationToken).ConfigureAwait(false);
 <# if (propEnvoyInfo.WriteReqSchema != null) { #>
-                await this.<#=(propEnvoyInfo.Name ?? SchemaNames.AggregatePropName).GetVariableName(TargetLanguage.CSharp, "write", "responder")#>.DisposeAsync(disposing).ConfigureAwait(false); 
+                await this.<#=(propEnvoyInfo.Name ?? SchemaNames.AggregatePropName).GetVariableName(TargetLanguage.CSharp, "write", "responder")#>.DisposeAsync(disposing, cancellationToken).ConfigureAwait(false); 
 <# } #>
 <# } #>
 <# foreach (var telemEnvoyInfo in this.telemEnvoyInfos) { #>
