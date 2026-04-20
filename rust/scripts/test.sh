@@ -41,7 +41,6 @@ if [ -n "${INSTRUMENTED:+_}" ]; then
     # is available for them.
     cargo llvm-cov --manifest-path="${MANIFEST}" \
         --no-report \
-        --verbose \
         "${COMMON_TARGETS[@]}" \
         "${COMMON_OPTIONS[@]}" \
         test
