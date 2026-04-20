@@ -20,6 +20,9 @@ exclude = [
 
 resolver = "2"
 
+[workspace.package]
+rust-version = "1.88"
+
 [workspace.lints.rust]
 rust_2018_idioms = { level = "deny", priority = -1 }
 
