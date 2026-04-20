@@ -28,13 +28,19 @@ help:
 check:
 	exec $(REPOSITORY_ROOT)/rust/scripts/check.sh
 
+# Only export variables that have a value. An unconditional `export FOO`
+# in Make exports `FOO=` (empty string) when the variable is unset, which
+# is observably different from "not set" for tools that gate on presence
+# (e.g. `std::env::var(...).is_err()` in Rust returns `Err` only when the
+# variable is absent, not when it is empty).
+# TODO: If our process for gating network tests change, this can be simplified.
 test:
-	$(eval export INSTRUMENTED MANIFEST ENABLE_NETWORK_TESTS VERBOSE)
+	$(foreach v,INSTRUMENTED MANIFEST ENABLE_NETWORK_TESTS VERBOSE,$(if $(value $v),$(eval export $v)))
 	exec $(REPOSITORY_ROOT)/rust/scripts/test.sh "$${MANIFEST}"
 
 # `coverage` runs the test suite with instrumentation, then builds the report.
 # Set SKIP_TEST to reuse the last test run.
 coverage: INSTRUMENTED := 1
 coverage: $(if $(value SKIP_TEST),,test)
-	$(eval export BAD GOOD MANIFEST OUTPUT_DIR SUMMARY_ONLY VERBOSE)
+	$(foreach v,BAD GOOD MANIFEST OUTPUT_DIR SUMMARY_ONLY VERBOSE,$(if $(value $v),$(eval export $v)))
 	exec $(REPOSITORY_ROOT)/rust/scripts/coverage.sh "$${MANIFEST}"
