@@ -347,6 +347,9 @@ namespace TestEnvoys.Counter
                     this.readCounterCommandInvoker.StopAsync(cancellationToken),
                     this.incrementCommandInvoker.StopAsync(cancellationToken),
                     this.resetCommandInvoker.StopAsync(cancellationToken)).ConfigureAwait(false);
+
+                await Task.WhenAll(
+
                     this.telemetryReceiver.StopAsync(cancellationToken)).ConfigureAwait(false);
             }
 

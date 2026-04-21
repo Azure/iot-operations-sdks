@@ -426,6 +426,9 @@ namespace TestEnvoys.Memmon
                     this.startTelemetryCommandInvoker.StopAsync(cancellationToken),
                     this.stopTelemetryCommandInvoker.StopAsync(cancellationToken),
                     this.getRuntimeStatsCommandInvoker.StopAsync(cancellationToken)).ConfigureAwait(false);
+
+                await Task.WhenAll(
+
                     this.workingSetTelemetryReceiver.StopAsync(cancellationToken),
                     this.managedMemoryTelemetryReceiver.StopAsync(cancellationToken),
                     this.memoryStatsTelemetryReceiver.StopAsync(cancellationToken)).ConfigureAwait(false);
