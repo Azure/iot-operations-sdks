@@ -197,6 +197,14 @@ namespace Azure.Iot.Operations.Protocol.Telemetry
             }
         }
 
+        /// <summary>
+        /// Unsubscribe from any MQTT topics that this client subscribed to
+        /// </summary>
+        /// <param name="cancellationToken">Cancellation token</param>
+        /// <remarks>
+        /// This operation does require the underlying MQTT client to be connected to complete, so users are advised to pass in a cancellation token
+        /// to protect against the case where the underlying MQTT client gets disconnected and takes an unexpectedly long time to reconnect.
+        /// </remarks>
         public async Task StopAsync(CancellationToken cancellationToken = default)
         {
             cancellationToken.ThrowIfCancellationRequested();
@@ -242,6 +250,14 @@ namespace Azure.Iot.Operations.Protocol.Telemetry
             return telemTopic.ToString();
         }
 
+        /// <summary>
+        /// Asynchronously dispose this object, but not the underlying mqtt client.
+        /// </summary>
+        /// <remarks>
+        /// Users are advised to call <see cref="StopAsync(CancellationToken)"/> prior to this in order to cleanup any MQTT subscriptions that this client has.
+        ///
+        /// To also dispose the underlying mqtt client, use <see cref="DisposeAsync(bool)"/>.
+        /// </remarks>
 #pragma warning disable CA1816 // Dispose methods should call SuppressFinalize. Reason: SuppressFinalize is called in the overload that this method calls
         public virtual async ValueTask DisposeAsync()
 #pragma warning restore CA1816 // Dispose methods should call SuppressFinalize
@@ -249,16 +265,45 @@ namespace Azure.Iot.Operations.Protocol.Telemetry
             await DisposeAsync(CancellationToken.None);
         }
 
+        /// <summary>
+        /// Asynchronously dispose this object, but not the underlying mqtt client.
+        /// </summary>
+        /// <remarks>
+        /// Users are advised to call <see cref="StopAsync(CancellationToken)"/> prior to this in order to cleanup any MQTT subscriptions that this client has.
+        /// 
+        /// To also dispose the underlying mqtt client, use <see cref="DisposeAsync(bool, CancellationToken)"/>.
+        /// </remarks>
         public virtual async ValueTask DisposeAsync(CancellationToken cancellationToken)
         {
             await DisposeAsyncCore(false, cancellationToken);
         }
 
+        /// <summary>
+        /// Asynchronously dispose this object and optionally dispose the underlying mqtt client as well.
+        /// </summary>
+        /// <param name="disposing">
+        /// If true, this call will dispose the underlying mqtt client. If false, this call will
+        /// not dispose the underlying mqtt client.
+        /// </param>
+        /// <remarks>
+        /// Users are advised to call <see cref="StopAsync(CancellationToken)"/> prior to this in order to cleanup any MQTT subscriptions that this client has.
+        /// </remarks>
         public virtual async ValueTask DisposeAsync(bool disposing)
         {
             await DisposeAsync(disposing, CancellationToken.None);
         }
 
+        /// <summary>
+        /// Asynchronously dispose this object and optionally dispose the underlying mqtt client as well.
+        /// </summary>
+        /// <param name="disposing">
+        /// If true, this call will dispose the underlying mqtt client. If false, this call will
+        /// not dispose the underlying mqtt client.
+        /// </param>
+        /// <param name="cancellationToken">The cancellation token.</param>
+        /// <remarks>
+        /// Users are advised to call <see cref="StopAsync(CancellationToken)"/> prior to this in order to cleanup any MQTT subscriptions that this client has.
+        /// </remarks>
         public virtual async ValueTask DisposeAsync(bool disposing, CancellationToken cancellationToken)
         {
             await DisposeAsyncCore(disposing, cancellationToken);
@@ -268,15 +313,6 @@ namespace Azure.Iot.Operations.Protocol.Telemetry
         {
             if (!_isDisposed)
             {
-                try
-                {
-                    await StopAsync(cancellationToken);
-                }
-                catch (Exception ex)
-                {
-                    Trace.TraceWarning("Failed to stop the telemetry receiver while disposing it: {0}", ex);
-                }
-
                 _mqttClient.ApplicationMessageReceivedAsync -= MessageReceivedCallbackAsync;
 
                 if (disposing)
