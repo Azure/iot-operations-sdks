@@ -23,6 +23,8 @@ exclude = [
 resolver = "2"
 
 [workspace.package]
+# This is the MSRV. If this value is changed, it also must be changed in the CI for the SDK
+# to ensure that tests are correctly run against it.
 rust-version = "1.88"
 
 [workspace.lints.rust]

@@ -78,7 +78,7 @@ jobs:
       - name: Install cargo tooling
         uses: taiki-e/install-action@v2
         with:
-          tool: cargo-machete
+          tool: cargo-machete,cargo-hack
 
       - name: Run checks (fmt, clippy, copyright, machete, external crates)
         run: make check

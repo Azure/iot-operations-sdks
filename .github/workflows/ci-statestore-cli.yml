@@ -7,6 +7,7 @@ on:
       - '.github/workflows/ci-statestore-cli.yml'
       - '.github/workflows/_rust-tool-check.yml'
       - 'tools/statestore-cli/**'
+      - 'rust/scripts/**'
   push:
     branches:
       - main

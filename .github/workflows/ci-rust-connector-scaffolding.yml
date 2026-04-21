@@ -7,6 +7,7 @@ on:
       - '.github/workflows/ci-rust-connector-scaffolding.yml'
       - '.github/workflows/_rust-tool-check.yml'
       - 'rust/sample_applications/sample_connector_scaffolding/**'
+      - 'rust/scripts/**'
   push:
     branches:
       - main

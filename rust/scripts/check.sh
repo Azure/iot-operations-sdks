@@ -65,8 +65,17 @@ done
 # Require `rustfmt` pass.
 cargo fmt --verbose --all --check
 
-# Require clippy pass.
+# Require clippy pass over the full feature surface, including tests and
+# examples. Validates developer-facing correctness.
 cargo clippy --all --all-features --tests --examples -- --deny=warnings
+
+# Require clippy pass for each individual feature configuration of every
+# workspace crate (no-default-features, each feature on its own, and
+# all-features). `--no-dev-deps` strips `[dev-dependencies]` for the duration
+# of the run so the dependency graph matches what a downstream library
+# consumer would resolve; `--lib` scopes to library targets for the same
+# reason (tests/examples are already covered by the invocation above).
+cargo hack clippy --workspace --each-feature --no-dev-deps --lib -- --deny=warnings
 
 # Check for unused dependencies.
 cargo machete

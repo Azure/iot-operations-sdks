@@ -1,9 +1,9 @@
 #!/usr/bin/env bash
 
 # DESCRIPTION: Installs third-party cargo subcommands used by `make
-# check` and `make coverage` (cargo-machete, cargo-llvm-cov). These are
-# community tools published to crates.io, not rustup components, so
-# they must be installed separately from the Rust toolchain.
+# check` and `make coverage` (cargo-machete, cargo-hack, cargo-llvm-cov).
+# These are community tools published to crates.io, not rustup components,
+# so they must be installed separately from the Rust toolchain.
 #
 # Intended for local development. CI does NOT use this script: the CI
 # workflow installs these tools via `taiki-e/install-action`, which
@@ -29,4 +29,8 @@ fi
 
 if ! command -v cargo-machete >/dev/null 2>&1; then
     cargo install --version '^0.7' --locked cargo-machete
+fi
+
+if ! command -v cargo-hack >/dev/null 2>&1; then
+    cargo install --version '^0.6' --locked cargo-hack
 fi

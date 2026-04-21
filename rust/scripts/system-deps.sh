@@ -10,7 +10,7 @@
 # - Either runs as root, or `sudo` is on PATH
 #
 # See also: `cargo-tools.sh` for third-party cargo subcommands
-# (cargo-machete, cargo-llvm-cov). Those are not installed here because
+# (cargo-machete, cargo-hack, cargo-llvm-cov). Those are not installed here because
 # CI installs them via `taiki-e/install-action` (prebuilt binaries) and
 # local/devcontainer flows install them via `cargo install`.
 
