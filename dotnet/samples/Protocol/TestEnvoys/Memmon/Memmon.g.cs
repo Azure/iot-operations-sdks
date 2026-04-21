@@ -413,7 +413,7 @@ namespace TestEnvoys.Memmon
                 await Task.WhenAll(
                     this.workingSetTelemetryReceiver.StartAsync(cancellationToken),
                     this.managedMemoryTelemetryReceiver.StartAsync(cancellationToken),
-                    this.memoryStatsTelemetryReceiver.StartAsync(cancellationToken),
+                    this.memoryStatsTelemetryReceiver.StartAsync(cancellationToken)).ConfigureAwait(false);
             }
 
             /// <summary>
@@ -425,7 +425,7 @@ namespace TestEnvoys.Memmon
                 await Task.WhenAll(
                     this.startTelemetryCommandInvoker.StopAsync(cancellationToken),
                     this.stopTelemetryCommandInvoker.StopAsync(cancellationToken),
-                    this.getRuntimeStatsCommandInvoker.StopAsync(cancellationToken),
+                    this.getRuntimeStatsCommandInvoker.StopAsync(cancellationToken)).ConfigureAwait(false);
                     this.workingSetTelemetryReceiver.StopAsync(cancellationToken),
                     this.managedMemoryTelemetryReceiver.StopAsync(cancellationToken),
                     this.memoryStatsTelemetryReceiver.StopAsync(cancellationToken)).ConfigureAwait(false);

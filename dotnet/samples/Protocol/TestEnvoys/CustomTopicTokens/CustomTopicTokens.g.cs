@@ -217,7 +217,7 @@ namespace TestEnvoys.CustomTopicTokens
             public async Task StartAsync(CancellationToken cancellationToken = default)
             {
                 await Task.WhenAll(
-                    this.telemetryReceiver.StartAsync(cancellationToken),
+                    this.telemetryReceiver.StartAsync(cancellationToken)).ConfigureAwait(false);
             }
 
             /// <summary>
@@ -227,7 +227,7 @@ namespace TestEnvoys.CustomTopicTokens
             public async Task StopAsync(CancellationToken cancellationToken = default)
             {
                 await Task.WhenAll(
-                    this.readCustomTopicTokenCommandInvoker.StopAsync(cancellationToken),
+                    this.readCustomTopicTokenCommandInvoker.StopAsync(cancellationToken)).ConfigureAwait(false);
                     this.telemetryReceiver.StopAsync(cancellationToken)).ConfigureAwait(false);
             }
 

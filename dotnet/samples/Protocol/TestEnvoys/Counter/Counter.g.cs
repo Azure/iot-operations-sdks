@@ -334,7 +334,7 @@ namespace TestEnvoys.Counter
             public async Task StartAsync(CancellationToken cancellationToken = default)
             {
                 await Task.WhenAll(
-                    this.telemetryReceiver.StartAsync(cancellationToken),
+                    this.telemetryReceiver.StartAsync(cancellationToken)).ConfigureAwait(false);
             }
 
             /// <summary>
@@ -346,7 +346,7 @@ namespace TestEnvoys.Counter
                 await Task.WhenAll(
                     this.readCounterCommandInvoker.StopAsync(cancellationToken),
                     this.incrementCommandInvoker.StopAsync(cancellationToken),
-                    this.resetCommandInvoker.StopAsync(cancellationToken),
+                    this.resetCommandInvoker.StopAsync(cancellationToken)).ConfigureAwait(false);
                     this.telemetryReceiver.StopAsync(cancellationToken)).ConfigureAwait(false);
             }
 
