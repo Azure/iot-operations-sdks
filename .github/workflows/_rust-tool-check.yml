@@ -131,5 +131,5 @@ jobs:
       # artifact -- so verifying every config link-cleanly is the right
       # contract here. Crates with no `[features]` section run a single
       # iteration equivalent to plain `cargo build`.
-      - name: Build (matrix)
+      - name: Build
         run: cargo hack build --each-feature --verbose
