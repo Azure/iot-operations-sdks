@@ -67,7 +67,7 @@ if [ -z "${SUMMARY_ONLY:+_}" ]; then
 fi
 
 cargo llvm-cov --manifest-path="${MANIFEST}" "${VERBOSE_FLAGS[@]}" --summary-only --json report \
-| jq -crf "${REPOSITORY_ROOT}/rust/scripts/coverage.jq" \
+| jq -crf "${REPOSITORY_ROOT}/rust/scripts/coverage-report-format.jq" \
         --arg root "${REPOSITORY_ROOT}" \
         --arg manifest "${MANIFEST}" \
         --arg short_name "$(basename "$(dirname "${MANIFEST}")")" \
