@@ -568,8 +568,10 @@ namespace <#=this.projectName#>.<#=this.genNamespace.GetNamespaceName(TargetLang
             {
                 await Task.WhenAll(
 <# foreach (var actionSpec in this.actionSpecs) { #>
-                    this.<#=actionSpec.Invoker.GetVariableName(TargetLanguage.CSharp)#>.StopAsync(cancellationToken),
+                    this.<#=actionSpec.Invoker.GetVariableName(TargetLanguage.CSharp)#>.StopAsync(cancellationToken)<#=this.IsLast(actionSpec) ? ").ConfigureAwait(false);" : ","#>
 <# } #>
+                
+                await Task.WhenAll(
 <# foreach (var telemEnvoyInfo in this.eventSpec) { #>
                     this.<#=telemEnvoyInfo.Receiver.GetVariableName(TargetLanguage.CSharp)#>.StopAsync(cancellationToken)<#=this.IsLast(telemEnvoyInfo) ? ").ConfigureAwait(false);" : ","#>
 <# } #>

@@ -562,6 +562,9 @@ namespace <#=this.projectName#>.<#=this.genNamespace.GetTypeName(TargetLanguage.
 <# foreach (var cmdEnvoyInfo in this.cmdEnvoyInfos) { #>
                     this.<#=cmdEnvoyInfo.Name.GetVariableName(TargetLanguage.CSharp, "command", "invoker")#>.StopAsync(cancellationToken)<#=this.IsLast(cmdEnvoyInfo) ? ").ConfigureAwait(false);" : ","#>
 <# } #>
+
+                await Task.WhenAll(
+
 <# foreach (var telemEnvoyInfo in this.telemEnvoyInfos) { #>
                     this.<#=telemEnvoyInfo.Name.GetVariableName(TargetLanguage.CSharp, "telemetry", "receiver")#>.StopAsync(cancellationToken)<#=this.IsLast(telemEnvoyInfo) ? ").ConfigureAwait(false);" : ","#>
 <# } #>
