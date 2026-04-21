@@ -15,12 +15,17 @@ members = [
 ]
 
 exclude = [
+  # Consider moving this outside the Rust SDK since it is built on released SDK versions,
+  # not the dev version in this directory.
+  # Or, at the very least, outside of sample_applications.
   "sample_applications/sample_connector_scaffolding"
 ]
 
 resolver = "2"
 
 [workspace.package]
+# This is the MSRV. If this value is changed, it also must be changed in the CI for the SDK
+# to ensure that tests are correctly run against it.
 rust-version = "1.88"
 
 [workspace.lints.rust]

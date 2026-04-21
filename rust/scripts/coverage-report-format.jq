@@ -13,10 +13,10 @@
 #   - $short_name: Base name of the directory containing the crate
 #     manifest.
 
-# NOTE(rustup): `.data` is an array, but only contains one element LLVM
-# 15 (used by Rust 1.65).  This assumption should be verified as the
-# Rust version is upgraded.
-# Ref: https://github.com/llvm/llvm-project/blob/llvmorg-15.0.0/llvm/tools/llvm-cov/CoverageExporterJson.cpp#L298-L308
+# NOTE: `.data` is a JSON array, but LLVM's coverage exporter currently
+# only ever emits a single element. The `.data[]` iteration below
+# relies on that assumption; revisit if a toolchain upgrade changes it.
+# Ref: https://github.com/llvm/llvm-project/blob/main/llvm/tools/llvm-cov/CoverageExporterJson.cpp
 
 def symbol:
   if . < $bad then "\u274c"
