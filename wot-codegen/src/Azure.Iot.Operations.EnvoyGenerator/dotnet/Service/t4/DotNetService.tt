@@ -558,7 +558,7 @@ namespace <#=this.projectName#>.<#=this.genNamespace.GetNamespaceName(TargetLang
 <# } #>
             }
 <# } #>
-<# if (this.eventSpec.Any()) { #>
+<# if (this.eventSpec.Any() || this.actionSpec.Any()) { #>
 
             /// <summary>
             /// Stop accepting telemetry for all telemetry receivers.
