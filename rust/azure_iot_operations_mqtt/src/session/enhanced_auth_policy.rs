@@ -32,6 +32,15 @@ pub trait EnhancedAuthPolicy: Send + Sync {
     async fn reauth_notified(&self) -> Option<Bytes>;
 }
 
+// NOTE: The K8S SAT file monitoring implementation probably shouldn't be in this crate as it is specific to
+// the use of K8S in a connector environment. However, because we support SAT directly in the API of the
+// MqttConnectionSettings, we're forced to have it in this crate. This is unfortunate, because it means
+// we can't benefit from the Atomic Writer infrastructure from the `azure_iot_operations_connector` crate,
+// and so this implementation and testing is nowhere near as robust (or accurate) as it should be.
+// However, for the narrow scope of what it needs to do, this implementation does work.
+// If we ever revise the relationship between crates, this ideally would be excised from this crate,
+// and reimplemented elsewhere.
+
 // TODO: Wrap error from this module.
 #[derive(Debug, Error)]
 /// Error configuring [`K8sSatFileMonitor`] file monitoring authentication policy.
@@ -220,6 +229,14 @@ mod tests {
             K8sSatFileMonitor::new(mock_sat_file.path().to_path_buf(), aggregation_window).unwrap();
 
         let contents_t1 = fs::read(mock_sat_file.path()).unwrap();
+
+        // Drain any file events queued during setup (e.g. `Access(Open)` events from the reads
+        // above) by waiting for the aggregation window to elapse. The debouncer emits its first
+        // batch when the *oldest* queued event's deadline expires, so without this sleep the
+        // notification below would fire relative to the setup events rather than the upcoming
+        // `update_contents()` call, causing flaky timing assertions. These setup events do not
+        // trigger a reauth notification because no waiter is registered yet.
+        tokio::time::sleep(aggregation_window + Duration::from_millis(500)).await;
 
         // Create future to await reauth notification
         let mut reauth_notified_f = tokio_test::task::spawn(file_monitor.reauth_notified());
