@@ -32,7 +32,6 @@ pub trait EnhancedAuthPolicy: Send + Sync {
     async fn reauth_notified(&self) -> Option<Bytes>;
 }
 
-
 // NOTE: The K8S SAT file monitoring implementation probably shouldn't be in this crate as it is specific to
 // the use of K8S in a connector environment. However, because we support SAT directly in the API of the
 // MqttConnectionSettings, we're forced to have it in this crate. This is unfortunate, because it means
