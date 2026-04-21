@@ -361,7 +361,7 @@ public class OrderedAckMqttClient : IMqttPubSubClient, IMqttClient
     /// <inheritdoc/>
     public virtual async ValueTask DisposeAsync(CancellationToken cancellationToken)
     {
-        await DisposeAsyncCore(cancellationToken);
+        await DisposeAsyncCore(false, cancellationToken);
         GC.SuppressFinalize(this);
     }
 
@@ -374,10 +374,10 @@ public class OrderedAckMqttClient : IMqttPubSubClient, IMqttClient
     /// <inheritdoc/>
     public virtual async ValueTask DisposeAsync(bool disposing, CancellationToken cancellationToken)
     {
-        await DisposeAsyncCore(cancellationToken);
+        await DisposeAsyncCore(disposing, cancellationToken);
     }
 
-    private async ValueTask DisposeAsyncCore(CancellationToken cancellationToken)
+    private async ValueTask DisposeAsyncCore(bool disposing, CancellationToken cancellationToken)
     {
         if (!_disposed)
         {
@@ -402,8 +402,13 @@ public class OrderedAckMqttClient : IMqttPubSubClient, IMqttClient
 
             _tokenRefresh?.Dispose();
 
-            UnderlyingMqttClient.Dispose();
             _acknowledgementSenderTaskCancellationTokenSource.Dispose();
+
+            if (disposing)
+            {
+                UnderlyingMqttClient.Dispose();
+            }
+
             _disposed = true;
         }
     }
