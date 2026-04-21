@@ -564,7 +564,6 @@ namespace <#=this.projectName#>.<#=this.genNamespace.GetTypeName(TargetLanguage.
 <# } #>
 
                 await Task.WhenAll(
-
 <# foreach (var telemEnvoyInfo in this.telemEnvoyInfos) { #>
                     this.<#=telemEnvoyInfo.Name.GetVariableName(TargetLanguage.CSharp, "telemetry", "receiver")#>.StopAsync(cancellationToken)<#=this.IsLast(telemEnvoyInfo) ? ").ConfigureAwait(false);" : ","#>
 <# } #>
