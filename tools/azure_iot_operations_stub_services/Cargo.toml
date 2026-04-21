@@ -5,6 +5,7 @@
 name = "azure_iot_operations_stub_services"
 edition = "2024"
 # No version => cannot be released to crates.io. For source use only.
+publish = false
 
 [dependencies]
 azure_iot_operations_protocol = { version = "0.10.0", registry = "aio-sdks"  }

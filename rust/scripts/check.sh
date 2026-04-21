@@ -69,13 +69,27 @@ cargo fmt --verbose --all --check
 # examples. Validates developer-facing correctness.
 cargo clippy --all --all-features --tests --examples -- --deny=warnings
 
-# Require clippy pass for each individual feature configuration of every
-# workspace crate (no-default-features, each feature on its own, and
-# all-features). `--no-dev-deps` strips `[dev-dependencies]` for the duration
-# of the run so the dependency graph matches what a downstream library
-# consumer would resolve; `--lib` scopes to library targets for the same
-# reason (tests/examples are already covered by the invocation above).
-cargo hack clippy --workspace --each-feature --no-dev-deps --lib -- --deny=warnings
+# Require clippy pass for each individual feature configuration of the
+# published library crates (no-default-features, each feature on its own,
+# and all-features). This validates the publication contract: a downstream
+# consumer picking any feature subset must still get a crate that compiles.
+#
+# `--ignore-private` skips workspace members marked `publish = false`
+# (the sample apps), so the matrix only iterates the libraries we ship
+# to crates.io. Sample apps are excluded for two reasons: they have no
+# meaningful feature surface of their own, and their `path` dependencies
+# pin specific feature sets on the library crates that would re-enable
+# features through cargo's graph-wide feature unification, defeating the
+# point of `--each-feature`.
+#
+# `--no-dev-deps` strips `[dev-dependencies]` for the duration of the run
+# so the dependency graph matches what a downstream library consumer would
+# resolve; `--lib` scopes to library targets for the same reason (tests
+# and examples are already covered by the invocation above).
+cargo hack clippy \
+    --workspace --ignore-private \
+    --each-feature --no-dev-deps --lib \
+    -- --deny=warnings
 
 # Check for unused dependencies.
 cargo machete

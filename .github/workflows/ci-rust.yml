@@ -86,6 +86,7 @@ jobs:
       - name: Regenerate codegen output and verify no drift
         working-directory: rust/azure_iot_operations_services
         run: |
+          set -euo pipefail
           sh ./gen.sh
           cargo build --verbose --all-features
           if ! git diff --exit-code --ignore-cr-at-eol; then
