@@ -80,7 +80,7 @@ jobs:
         with:
           tool: cargo-machete,cargo-hack
 
-      - name: Run checks (fmt, clippy, copyright, machete, external crates)
+      - name: Static analysis
         run: make check
 
       - name: Regenerate codegen output and verify no drift

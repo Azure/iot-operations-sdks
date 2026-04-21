@@ -104,11 +104,32 @@ jobs:
           workspaces: ${{ inputs.path }}
           shared-key: tool-${{ inputs.name }}
 
-      - name: Format check
-        run: cargo fmt --verbose --all --check
+      # Install cargo subcommands AFTER the cache restore. `Swatinem/rust-cache`
+      # caches `~/.cargo/bin`, so a warm cache makes this a no-op.
+      - name: Install cargo tooling
+        uses: taiki-e/install-action@v2
+        with:
+          tool: cargo-hack,cargo-machete
 
-      - name: Clippy
-        run: cargo clippy --all-targets -- --deny=warnings
+      # Iterate every feature configuration (no-default, each feature alone,
+      # all-features). Tool crates aren't libraries-for-publication, but some
+      # do have meaningful feature gates -- particularly negative gates
+      # (`#[cfg(not(feature = "x"))]`) that the default build never exercises
+      # -- and the matrix is the only way to make sure those branches still
+      # compile. Crates with no `[features]` section just get a single
+      # trivial iteration, so this is safe to apply uniformly.
+      - name: Static analysis
+        run: |
+          set -euo pipefail
+          cargo fmt --verbose --all --check
+          cargo hack clippy --each-feature --all-targets -- --deny=warnings
+          cargo machete
 
-      - name: Build
-        run: cargo build --verbose
+      # Build every feature configuration end-to-end (codegen + link), not
+      # just compile-check. There's no single canonical build for a crate
+      # with features -- each combination produces a different shippable
+      # artifact -- so verifying every config link-cleanly is the right
+      # contract here. Crates with no `[features]` section run a single
+      # iteration equivalent to plain `cargo build`.
+      - name: Build (matrix)
+        run: cargo hack build --each-feature --verbose
