@@ -560,7 +560,7 @@ namespace <#=this.projectName#>.<#=this.genNamespace.GetTypeName(TargetLanguage.
             {
                 await Task.WhenAll(
 <# foreach (var cmdEnvoyInfo in this.cmdEnvoyInfos) { #>
-                await this.<#=cmdEnvoyInfo.Name.GetVariableName(TargetLanguage.CSharp, "command", "invoker")#>.StopAsync(cancellationToken),
+                    this.<#=cmdEnvoyInfo.Name.GetVariableName(TargetLanguage.CSharp, "command", "invoker")#>.StopAsync(cancellationToken),
 <# } #>
 <# foreach (var telemEnvoyInfo in this.telemEnvoyInfos) { #>
                     this.<#=telemEnvoyInfo.Name.GetVariableName(TargetLanguage.CSharp, "telemetry", "receiver")#>.StopAsync(cancellationToken)<#=this.IsLast(telemEnvoyInfo) ? ").ConfigureAwait(false);" : ","#>
