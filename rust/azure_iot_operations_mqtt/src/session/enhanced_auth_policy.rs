@@ -32,6 +32,15 @@ pub trait EnhancedAuthPolicy: Send + Sync {
     async fn reauth_notified(&self) -> Option<Bytes>;
 }
 
+// NOTE: The K8S SAT file monitoring implementation probably shouldn't be in this crate as it is specific to
+// the use of K8S in a connector environment. However, because we support SAT directly in the API of the
+// MqttConnectionSettings, we're forced to have it in this crate. This is unfortunate, because it means
+// we can't benefit from the Atomic Writer infrastructure from teh `azure_iot_operations_connector` crate,
+// and so this implementation and testing is nowhere near as robust (or accurate) as it should be.
+// However, for the narrow scope of what it needs to do, this implementation does work.
+// If we ever revise the relationship between crates, this ideally would be excised from this crate,
+// and reimplemented elsewhere.
+
 // TODO: Wrap error from this module.
 #[derive(Debug, Error)]
 /// Error configuring [`K8sSatFileMonitor`] file monitoring authentication policy.

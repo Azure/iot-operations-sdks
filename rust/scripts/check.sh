@@ -69,23 +69,12 @@ cargo fmt --verbose --all --check
 # examples. Validates developer-facing correctness.
 cargo clippy --all --all-features --tests --examples -- --deny=warnings
 
-# Require clippy pass for each individual feature configuration of the
-# published library crates (no-default-features, each feature on its own,
-# and all-features). This validates the publication contract: a downstream
-# consumer picking any feature subset must still get a crate that compiles.
-#
-# `--ignore-private` skips workspace members marked `publish = false`
-# (the sample apps), so the matrix only iterates the libraries we ship
-# to crates.io. Sample apps are excluded for two reasons: they have no
-# meaningful feature surface of their own, and their `path` dependencies
-# pin specific feature sets on the library crates that would re-enable
-# features through cargo's graph-wide feature unification, defeating the
-# point of `--each-feature`.
-#
-# `--no-dev-deps` strips `[dev-dependencies]` for the duration of the run
-# so the dependency graph matches what a downstream library consumer would
-# resolve; `--lib` scopes to library targets for the same reason (tests
-# and examples are already covered by the invocation above).
+# Require clippy pass for each feature configuration of the published
+# library crates (no-default-features, each feature alone, all-features).
+# Models what a downstream consumer sees when they depend on us with their
+# own feature selection: `--ignore-private` filters to the libraries we
+# ship; `--no-dev-deps` and `--lib` ensure the dependency graph matches
+# a downstream resolve rather than our own dev/test setup.
 cargo hack clippy \
     --workspace --ignore-private \
     --each-feature --no-dev-deps --lib \
