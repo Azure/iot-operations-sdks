@@ -227,10 +227,8 @@ namespace TestEnvoys.CustomTopicTokens
             public async Task StopAsync(CancellationToken cancellationToken = default)
             {
                 await Task.WhenAll(
+                    this.telemetryReceiver.StopAsync(cancellationToken),
                     this.readCustomTopicTokenCommandInvoker.StopAsync(cancellationToken)).ConfigureAwait(false);
-
-                await Task.WhenAll(
-                    this.telemetryReceiver.StopAsync(cancellationToken)).ConfigureAwait(false);
             }
 
             public async ValueTask DisposeAsync()

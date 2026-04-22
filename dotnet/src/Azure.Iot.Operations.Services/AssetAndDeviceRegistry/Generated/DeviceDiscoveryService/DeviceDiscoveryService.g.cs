@@ -186,6 +186,16 @@ namespace Azure.Iot.Operations.Services.AssetAndDeviceRegistry.Generated.DeviceD
                 return new RpcCallAsync<CreateOrUpdateDiscoveredDeviceResponsePayload>(this.CreateOrUpdateDiscoveredDeviceInt(request, metadata, prefixedAdditionalTopicTokenMap, commandTimeout, cancellationToken), metadata.CorrelationId);
             }
 
+            /// <summary>
+            /// Stop accepting telemetry for all telemetry receivers.
+            /// </summary>
+            /// <param name="cancellationToken">Cancellation token.</param>
+            public async Task StopAsync(CancellationToken cancellationToken = default)
+            {
+                await Task.WhenAll(
+                    this.createOrUpdateDiscoveredDeviceCommandInvoker.StopAsync(cancellationToken)).ConfigureAwait(false);
+            }
+
             private async Task<ExtendedResponse<CreateOrUpdateDiscoveredDeviceResponsePayload>> CreateOrUpdateDiscoveredDeviceInt(CreateOrUpdateDiscoveredDeviceRequestPayload request, CommandRequestMetadata? requestMetadata, Dictionary<string, string>? prefixedAdditionalTopicTokenMap, TimeSpan? commandTimeout, CancellationToken cancellationToken)
             {
                 ExtendedResponse<CreateOrUpdateDiscoveredDeviceResponseSchema> extended = await this.createOrUpdateDiscoveredDeviceCommandInvoker.InvokeCommandAsync(request, requestMetadata, prefixedAdditionalTopicTokenMap, commandTimeout, cancellationToken);

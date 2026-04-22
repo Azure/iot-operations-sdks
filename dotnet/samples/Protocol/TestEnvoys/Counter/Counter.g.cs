@@ -344,12 +344,10 @@ namespace TestEnvoys.Counter
             public async Task StopAsync(CancellationToken cancellationToken = default)
             {
                 await Task.WhenAll(
+                    this.telemetryReceiver.StopAsync(cancellationToken),
                     this.readCounterCommandInvoker.StopAsync(cancellationToken),
                     this.incrementCommandInvoker.StopAsync(cancellationToken),
                     this.resetCommandInvoker.StopAsync(cancellationToken)).ConfigureAwait(false);
-
-                await Task.WhenAll(
-                    this.telemetryReceiver.StopAsync(cancellationToken)).ConfigureAwait(false);
             }
 
             public async ValueTask DisposeAsync()

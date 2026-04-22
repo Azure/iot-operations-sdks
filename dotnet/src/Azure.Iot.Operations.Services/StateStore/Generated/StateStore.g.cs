@@ -169,6 +169,16 @@ namespace Azure.Iot.Operations.Services.StateStore.Generated
                 return new RpcCallAsync<byte[]>(this.invokeCommandInvoker.InvokeCommandAsync(request, metadata, prefixedAdditionalTopicTokenMap, commandTimeout, cancellationToken), metadata.CorrelationId);
             }
 
+            /// <summary>
+            /// Stop accepting telemetry for all telemetry receivers.
+            /// </summary>
+            /// <param name="cancellationToken">Cancellation token.</param>
+            public async Task StopAsync(CancellationToken cancellationToken = default)
+            {
+                await Task.WhenAll(
+                    this.invokeCommandInvoker.StopAsync(cancellationToken)).ConfigureAwait(false);
+            }
+
             public async ValueTask DisposeAsync()
             {
                 await this.invokeCommandInvoker.DisposeAsync().ConfigureAwait(false);

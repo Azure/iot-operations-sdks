@@ -260,6 +260,17 @@ namespace Azure.Iot.Operations.Services.SchemaRegistry.Generated
                 return new RpcCallAsync<GetResponsePayload>(this.GetInt(request, metadata, prefixedAdditionalTopicTokenMap, commandTimeout, cancellationToken), metadata.CorrelationId);
             }
 
+            /// <summary>
+            /// Stop accepting telemetry for all telemetry receivers.
+            /// </summary>
+            /// <param name="cancellationToken">Cancellation token.</param>
+            public async Task StopAsync(CancellationToken cancellationToken = default)
+            {
+                await Task.WhenAll(
+                    this.putCommandInvoker.StopAsync(cancellationToken),
+                    this.getCommandInvoker.StopAsync(cancellationToken)).ConfigureAwait(false);
+            }
+
             private async Task<ExtendedResponse<PutResponsePayload>> PutInt(PutRequestSchema request, CommandRequestMetadata? requestMetadata, Dictionary<string, string>? prefixedAdditionalTopicTokenMap, TimeSpan? commandTimeout, CancellationToken cancellationToken)
             {
                 ExtendedResponse<PutResponseSchema> extended = await this.putCommandInvoker.InvokeCommandAsync(request, requestMetadata, prefixedAdditionalTopicTokenMap, commandTimeout, cancellationToken);

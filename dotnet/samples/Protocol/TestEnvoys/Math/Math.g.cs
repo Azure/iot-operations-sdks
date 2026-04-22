@@ -289,6 +289,18 @@ namespace TestEnvoys.Math
                 return new RpcCallAsync<GetRandomResponsePayload>(this.getRandomCommandInvoker.InvokeCommandAsync(new Google.Protobuf.WellKnownTypes.Empty(), metadata, prefixedAdditionalTopicTokenMap, commandTimeout, cancellationToken), metadata.CorrelationId);
             }
 
+            /// <summary>
+            /// Stop accepting telemetry for all telemetry receivers.
+            /// </summary>
+            /// <param name="cancellationToken">Cancellation token.</param>
+            public async Task StopAsync(CancellationToken cancellationToken = default)
+            {
+                await Task.WhenAll(
+                    this.isPrimeCommandInvoker.StopAsync(cancellationToken),
+                    this.fibCommandInvoker.StopAsync(cancellationToken),
+                    this.getRandomCommandInvoker.StopAsync(cancellationToken)).ConfigureAwait(false);
+            }
+
             public async ValueTask DisposeAsync()
             {
                 await this.isPrimeCommandInvoker.DisposeAsync().ConfigureAwait(false);

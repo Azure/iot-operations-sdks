@@ -1071,7 +1071,16 @@ namespace Azure.Iot.Operations.Services.AssetAndDeviceRegistry.Generated.AdrBase
                     this.managementActionRuntimeHealthEventTelemetryReceiver.StopAsync(cancellationToken),
                     this.streamRuntimeHealthEventTelemetryReceiver.StopAsync(cancellationToken),
                     this.deviceUpdateEventTelemetryReceiver.StopAsync(cancellationToken),
-                    this.assetUpdateEventTelemetryReceiver.StopAsync(cancellationToken)).ConfigureAwait(false);
+                    this.assetUpdateEventTelemetryReceiver.StopAsync(cancellationToken),
+                    this.getDeviceCommandInvoker.StopAsync(cancellationToken),
+                    this.getDeviceStatusCommandInvoker.StopAsync(cancellationToken),
+                    this.getAssetCommandInvoker.StopAsync(cancellationToken),
+                    this.getAssetStatusCommandInvoker.StopAsync(cancellationToken),
+                    this.updateDeviceStatusCommandInvoker.StopAsync(cancellationToken),
+                    this.updateAssetStatusCommandInvoker.StopAsync(cancellationToken),
+                    this.setNotificationPreferenceForDeviceUpdatesCommandInvoker.StopAsync(cancellationToken),
+                    this.setNotificationPreferenceForAssetUpdatesCommandInvoker.StopAsync(cancellationToken),
+                    this.createOrUpdateDiscoveredAssetCommandInvoker.StopAsync(cancellationToken)).ConfigureAwait(false);
             }
 
             private async Task<ExtendedResponse<GetDeviceResponsePayload>> GetDeviceInt(EmptyJson request, CommandRequestMetadata? requestMetadata, Dictionary<string, string>? prefixedAdditionalTopicTokenMap, TimeSpan? commandTimeout, CancellationToken cancellationToken)

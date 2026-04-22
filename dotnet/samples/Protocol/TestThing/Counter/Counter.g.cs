@@ -342,7 +342,10 @@ namespace TestThing.Counter
             public async Task StopAsync(CancellationToken cancellationToken = default)
             {
                 await Task.WhenAll(
-                    this.eventCollectionReceiver.StopAsync(cancellationToken)).ConfigureAwait(false);
+                    this.eventCollectionReceiver.StopAsync(cancellationToken),
+                    this.readCounterActionInvoker.StopAsync(cancellationToken),
+                    this.incrementActionInvoker.StopAsync(cancellationToken),
+                    this.resetActionInvoker.StopAsync(cancellationToken)).ConfigureAwait(false);
             }
 
             public async ValueTask DisposeAsync()

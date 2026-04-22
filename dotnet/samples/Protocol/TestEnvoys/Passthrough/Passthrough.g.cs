@@ -172,6 +172,16 @@ namespace TestEnvoys.Passthrough
                 return new RpcCallAsync<byte[]>(this.passCommandInvoker.InvokeCommandAsync(request, metadata, prefixedAdditionalTopicTokenMap, commandTimeout, cancellationToken), metadata.CorrelationId);
             }
 
+            /// <summary>
+            /// Stop accepting telemetry for all telemetry receivers.
+            /// </summary>
+            /// <param name="cancellationToken">Cancellation token.</param>
+            public async Task StopAsync(CancellationToken cancellationToken = default)
+            {
+                await Task.WhenAll(
+                    this.passCommandInvoker.StopAsync(cancellationToken)).ConfigureAwait(false);
+            }
+
             public async ValueTask DisposeAsync()
             {
                 await this.passCommandInvoker.DisposeAsync().ConfigureAwait(false);
