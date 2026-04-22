@@ -2,7 +2,7 @@
 
 use std::collections::HashMap;
 
-use azure_iot_operations_mqtt::session::SessionManagedClient;
+use azure_iot_operations_mqtt::interface::ManagedClient;
 use azure_iot_operations_protocol::application::ApplicationContext;
 use azure_iot_operations_protocol::common::aio_protocol_error::AIOProtocolError;
 use azure_iot_operations_protocol::common::payload_serialize::PayloadSerialize;
@@ -32,15 +32,6 @@ impl GetResponseBuilder {
     /// Custom user data to set on the response
     pub fn custom_user_data(&mut self, custom_user_data: Vec<(String, String)>) -> &mut Self {
         self.inner_builder.custom_user_data(custom_user_data);
-        self
-    }
-
-    /// Cloud event for the response
-    pub fn cloud_event(
-        &mut self,
-        cloud_event: Option<rpc_command::executor::ResponseCloudEvent>,
-    ) -> &mut Self {
-        self.inner_builder.cloud_event(cloud_event);
         self
     }
 
@@ -75,16 +66,23 @@ impl GetResponseBuilder {
 }
 
 /// Command Executor for `get`
-pub struct GetCommandExecutor(rpc_command::Executor<GetRequestSchema, GetResponseSchema>);
+pub struct GetCommandExecutor<C>(rpc_command::Executor<GetRequestSchema, GetResponseSchema, C>)
+where
+    C: ManagedClient + Clone + Send + Sync + 'static,
+    C::PubReceiver: Send + Sync + 'static;
 
-impl GetCommandExecutor {
+impl<C> GetCommandExecutor<C>
+where
+    C: ManagedClient + Clone + Send + Sync + 'static,
+    C::PubReceiver: Send + Sync + 'static,
+{
     /// Creates a new [`GetCommandExecutor`]
     ///
     /// # Panics
     /// If the DTDL that generated this code was invalid
     pub fn new(
         application_context: ApplicationContext,
-        client: SessionManagedClient,
+        client: C,
         options: &CommandExecutorOptions,
     ) -> Self {
         let mut executor_options_builder = rpc_command::executor::OptionsBuilder::default();
