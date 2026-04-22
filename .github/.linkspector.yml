@@ -9,7 +9,7 @@ ignorePatterns:
   - pattern: "^http://link_to_"
 httpHeaders:
   # w3.org returns 403 to default linkspector/got user agent, which causes
-  # fragment validation on /TR/ specs to falsely fail. Send a browser-like UA.
+  # fragment validation on various specs to falsely fail. Send a browser-like UA.
   - url:
       - https://www.w3.org/
     headers:
