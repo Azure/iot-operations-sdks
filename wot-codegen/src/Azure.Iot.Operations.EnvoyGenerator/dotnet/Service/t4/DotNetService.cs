@@ -891,7 +891,7 @@ namespace Azure.Iot.Operations.EnvoyGenerator
  } 
             this.Write("            }\r\n");
  } 
- if (this.eventSpec.Any()) { 
+ if (this.eventSpec.Any() || this.actionSpecs.Any()) { 
             this.Write(@"
             /// <summary>
             /// Stop accepting telemetry for all telemetry receivers.
@@ -905,7 +905,14 @@ namespace Azure.Iot.Operations.EnvoyGenerator
             this.Write("                    this.");
             this.Write(this.ToStringHelper.ToStringWithCulture(telemEnvoyInfo.Receiver.GetVariableName(TargetLanguage.CSharp)));
             this.Write(".StopAsync(cancellationToken)");
-            this.Write(this.ToStringHelper.ToStringWithCulture(this.IsLast(telemEnvoyInfo) ? ").ConfigureAwait(false);" : ","));
+            this.Write(this.ToStringHelper.ToStringWithCulture(this.IsLast(telemEnvoyInfo) && !this.actionSpecs.Any() ? ").ConfigureAwait(false);" : ","));
+            this.Write("\r\n");
+ } 
+ foreach (var actionSpec in this.actionSpecs) { 
+            this.Write("                    this.");
+            this.Write(this.ToStringHelper.ToStringWithCulture(actionSpec.Invoker.GetVariableName(TargetLanguage.CSharp)));
+            this.Write(".StopAsync(cancellationToken)");
+            this.Write(this.ToStringHelper.ToStringWithCulture(this.IsLast(actionSpec) ? ").ConfigureAwait(false);" : ","));
             this.Write("\r\n");
  } 
             this.Write("            }\r\n");
