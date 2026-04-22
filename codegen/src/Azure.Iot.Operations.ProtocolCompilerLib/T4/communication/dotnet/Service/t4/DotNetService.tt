@@ -550,7 +550,7 @@ namespace <#=this.projectName#>.<#=this.genNamespace.GetTypeName(TargetLanguage.
 <# } #>
             }
 <# } #>
-<# if (this.telemEnvoyInfos.Any()) { #>
+<# if (this.telemEnvoyInfos.Any() || this.cmdEnvoyInfos.Any()) { #>
 
             /// <summary>
             /// Stop accepting telemetry for all telemetry receivers.
@@ -559,13 +559,11 @@ namespace <#=this.projectName#>.<#=this.genNamespace.GetTypeName(TargetLanguage.
             public async Task StopAsync(CancellationToken cancellationToken = default)
             {
                 await Task.WhenAll(
+<# foreach (var telemEnvoyInfo in this.telemEnvoyInfos) { #>
+                    this.<#=telemEnvoyInfo.Name.GetVariableName(TargetLanguage.CSharp, "telemetry", "receiver")#>.StopAsync(cancellationToken)<#=this.IsLast(telemEnvoyInfo) && !this.cmdEnvoyInfos.Any() ? ").ConfigureAwait(false);" : ","#>
+<# } #>
 <# foreach (var cmdEnvoyInfo in this.cmdEnvoyInfos) { #>
                     this.<#=cmdEnvoyInfo.Name.GetVariableName(TargetLanguage.CSharp, "command", "invoker")#>.StopAsync(cancellationToken)<#=this.IsLast(cmdEnvoyInfo) ? ").ConfigureAwait(false);" : ","#>
-<# } #>
-
-                await Task.WhenAll(
-<# foreach (var telemEnvoyInfo in this.telemEnvoyInfos) { #>
-                    this.<#=telemEnvoyInfo.Name.GetVariableName(TargetLanguage.CSharp, "telemetry", "receiver")#>.StopAsync(cancellationToken)<#=this.IsLast(telemEnvoyInfo) ? ").ConfigureAwait(false);" : ","#>
 <# } #>
             }
 <# } #>
