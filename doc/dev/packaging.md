@@ -47,7 +47,9 @@ To refresh the dependencies, execute the following:
 
 To issue a release for the Rust SDK:
 
-1. Bump the version appropriate, and create the tag for the commit hash according to the pattern:
+1. Bump the version as appropriate and merge the changes into main
+
+1. Create the tag for the commit hash according to the pattern:
 ```rust/{mqtt|protocol|services|connector}/v{major}.{minor}.{patch}```
 
 1. Use the [Rust SDK release pipeline](https://dev.azure.com/msazure/One/_build?definitionId=442088) using the parameters:
