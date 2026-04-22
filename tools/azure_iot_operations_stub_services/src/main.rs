@@ -158,10 +158,7 @@ fn process_arguments() -> CommandLineArguments {
     info!("Broker Port {:?}", &broker_port);
 
     let broker_port = broker_port.parse::<u16>().unwrap_or_else(|_| {
-        panic!(
-            "Invalid broker port: {}. Must be a valid u16 integer.",
-            broker_port
-        )
+        panic!("Invalid broker port: {broker_port}. Must be a valid u16 integer.")
     });
 
     CommandLineArguments {

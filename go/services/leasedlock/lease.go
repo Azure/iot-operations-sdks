@@ -128,6 +128,7 @@ func (l *Lease[K, V]) Acquire(
 	// If specified, renew until an attempt fails or the lease is released.
 	if opts.Renew > 0 {
 		var ctx context.Context
+		// #nosec G118 -- false positive; cancel is saved and called elsewhere.
 		ctx, l.done = context.WithCancel(context.Background())
 		go func() {
 			for {

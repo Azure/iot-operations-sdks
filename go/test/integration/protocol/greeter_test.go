@@ -21,7 +21,7 @@ func TestSayHello(t *testing.T) {
 	client, server, done := sessionClients(t)
 	defer done()
 
-	var listeners protocol.Listeners
+	listeners := make(protocol.Listeners, 0, 2)
 	defer listeners.Close()
 
 	encReq := protocol.JSON[envoy.HelloRequest]{}
@@ -84,7 +84,7 @@ func TestSayHelloWithDelay(t *testing.T) {
 	ctx := context.Background()
 	client, server, done := sessionClients(t)
 	defer done()
-	var listeners protocol.Listeners
+	listeners := make(protocol.Listeners, 0, 2)
 	defer listeners.Close()
 	encReq := protocol.JSON[envoy.HelloWithDelayRequest]{}
 	encRes := protocol.JSON[envoy.HelloResponse]{}
@@ -103,7 +103,7 @@ func TestSayHelloWithDelay(t *testing.T) {
 			response := envoy.HelloResponse{
 				Message: fmt.Sprintf(
 					"Hello %s after %s",
-					cr.Payload.HelloRequest.Name,
+					cr.Payload.Name,
 					cr.Payload.Delay,
 				),
 			}
@@ -146,7 +146,7 @@ func TestSayHelloWithDelay(t *testing.T) {
 
 	expected := fmt.Sprintf(
 		"Hello %s after %s",
-		req.HelloRequest.Name,
+		req.Name,
 		req.Delay,
 	)
 	require.Equal(t, expected, res.Payload.Message)
@@ -158,7 +158,7 @@ func TestSayHelloWithDelayZeroThrows(t *testing.T) {
 	client, server, done := sessionClients(t)
 	defer done()
 
-	var listeners protocol.Listeners
+	listeners := make(protocol.Listeners, 0, 2)
 	defer listeners.Close()
 
 	encReq := protocol.JSON[envoy.HelloWithDelayRequest]{}
@@ -183,7 +183,7 @@ func TestSayHelloWithDelayZeroThrows(t *testing.T) {
 			response := envoy.HelloResponse{
 				Message: fmt.Sprintf(
 					"Hello %s after %s",
-					cr.Payload.HelloRequest.Name,
+					cr.Payload.Name,
 					cr.Payload.Delay,
 				),
 			}

@@ -17,11 +17,26 @@ use azure_iot_operations_services::{
 };
 use derive_builder::Builder;
 use managed_azure_device_registry::DeviceEndpointClientCreationObservation;
+use thiserror::Error;
+use tokio::sync::mpsc;
 
 use crate::deployment_artifacts::connector::ConnectorArtifacts;
 
 pub mod adr_discovery;
 pub mod managed_azure_device_registry;
+
+/// Error describing why a [`BaseConnector`] run ended
+#[derive(Debug, Error)]
+#[error(transparent)]
+pub struct ConnectorError(#[from] ConnectorErrorRepr);
+
+#[derive(Debug, Error)]
+pub(crate) enum ConnectorErrorRepr {
+    #[error("Session error: {0}")]
+    Session(#[from] SessionError),
+    #[error("Unrecoverable error: {0}")]
+    Unrecoverable(String),
+}
 
 /// Context required to run the base connector operations
 pub(crate) struct ConnectorContext {
@@ -45,6 +60,8 @@ pub(crate) struct ConnectorContext {
     azure_device_registry_client: azure_device_registry::Client,
     pub(crate) state_store_client: Arc<state_store::Client>,
     schema_registry_client: schema_registry::Client,
+    /// Channel for signaling that the connector requires a restart
+    pub(crate) connector_restart_tx: mpsc::Sender<String>,
 }
 
 #[allow(clippy::missing_fields_in_debug)]
@@ -96,6 +113,7 @@ pub struct Options {
 pub struct BaseConnector {
     connector_context: Arc<ConnectorContext>,
     session: Session,
+    connector_restart_rx: mpsc::Receiver<String>,
 }
 
 impl BaseConnector {
@@ -119,6 +137,8 @@ impl BaseConnector {
             .build()
             .map_err(|e| e.to_string())?;
         let session = Session::new(session_options).map_err(|e| e.to_string())?;
+
+        let (connector_restart_tx, connector_restart_rx) = mpsc::channel(1);
 
         // Create clients
         // Create Azure Device Registry Client
@@ -161,8 +181,10 @@ impl BaseConnector {
                 azure_device_registry_client,
                 schema_registry_client,
                 state_store_client: Arc::new(state_store_client),
+                connector_restart_tx,
             }),
             session,
+            connector_restart_rx,
         })
     }
 
@@ -171,8 +193,13 @@ impl BaseConnector {
     /// If this happens, the base connector will need to be recreated.
     ///
     /// # Errors
-    /// Returns a [`SessionError`] if the session encounters a fatal error and ends.
-    pub async fn run(self) -> Result<(), SessionError> {
+    /// Returns a [`ConnectorError`] if the session encounters a fatal error and ends, or if
+    /// the connector encounters an error that requires a restart.
+    ///
+    /// # Panics
+    /// Panics if the restart channel is closed, which should never happen since the [`BaseConnector`]
+    /// itself holds the sender side of the channel.
+    pub async fn run(mut self) -> Result<(), ConnectorError> {
         // If using a broker trust bundle, monitor for changes to the filemount, triggering a
         // session exit if a change is detected so that the base connector can be restarted and
         // pick up the updated trust bundle.
@@ -212,7 +239,14 @@ impl BaseConnector {
 
         // Run the Session and Connector Operations
         // TODO: make this a part of operation_with_retries to restart the connector if anything fails?
-        let result = self.session.run().await;
+        let result = tokio::select! {
+            session_result = self.session.run() => {
+                session_result.map_err(|e| ConnectorError::from(ConnectorErrorRepr::from(e)))
+            }
+            restart_reason = self.connector_restart_rx.recv() => {
+                Err(ConnectorErrorRepr::Unrecoverable(restart_reason.expect("Base connector holds sender, so this should never fail")).into())
+            }
+        };
 
         // If the session exited for a reason other than a trust bundle change,
         // abort the watcher task so it doesn't linger.
@@ -224,9 +258,12 @@ impl BaseConnector {
     }
 
     /// Creates a new [`DeviceEndpointClientCreationObservation`] to allow for Azure Device Registry operations
+    ///
+    /// # Errors
+    /// Returns a `String` error if the underlying file mount observation cannot be created.
     pub fn create_device_endpoint_client_create_observation(
         &self,
-    ) -> DeviceEndpointClientCreationObservation {
+    ) -> Result<DeviceEndpointClientCreationObservation, String> {
         DeviceEndpointClientCreationObservation::new(self.connector_context.clone())
     }
 

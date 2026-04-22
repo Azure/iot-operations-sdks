@@ -157,6 +157,7 @@ impl ConnectorArtifacts {
         )?;
 
         // Connector Configuration
+        // TODO: bring env var extraction logic back into this module
         let connector_configuration = ConnectorConfiguration::new_from_mount_path(
             string_from_environment(ENV_CONNECTOR_CONFIGURATION_MOUNT_PATH)?
                 .map(valid_pathbuf_from)
