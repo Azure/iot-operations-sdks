@@ -1,34 +1,48 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-//! Types for extracting Connector Configuration from a ConfigMap volume mount in an Akri
-//! deployment.
+//! Types and subtypes for the Connector Configuration ConfigMap, which can be extracted from a
+//! volume mount in an Akri deployment.
 
 use std::fs::File;
 use std::io::{BufRead, BufReader};
 use std::path::{Path, PathBuf};
+use std::sync::Arc;
 
 use serde::Deserialize;
 
+use super::atomic_writer_volume_debouncer::{
+    AtomicWriterVolumeDebouncer, AtomicWriterVolumeEventKind, AtomicWriterVolumeEventResult,
+};
 use super::connector::DeploymentArtifactErrorRepr;
+use super::watched::Watched;
+
+pub(crate) const MQTT_CONNECTION_CONFIGURATION_FILENAME: &str = "MQTT_CONNECTION_CONFIGURATION";
+pub(crate) const DIAGNOSTICS_FILENAME: &str = "DIAGNOSTICS";
+pub(crate) const ADDITIONAL_CONNECTOR_CONFIGURATION_FILENAME: &str =
+    "ADDITIONAL_CONNECTOR_CONFIGURATION";
+pub(crate) const PERSISTENT_VOLUME_MOUNT_PATHS_FILENAME: &str = "PERSISTENT_VOLUME_MOUNT_PATH";
 
 /// The Connector Configuration extracted from the Akri deployment
-#[derive(Debug, Clone, PartialEq)]
+#[derive(Clone)]
 pub struct ConnectorConfiguration {
     /// MQTT connection details
-    pub mqtt_connection_configuration: MqttConnectionConfiguration,
+    pub mqtt_connection_configuration: Watched<MqttConnectionConfiguration>,
     /// Diagnostics
-    pub diagnostics: Option<Diagnostics>,
-    /// Persistent Volume Mount Path
-    pub persistent_volumes: Vec<PathBuf>,
+    pub diagnostics: Watched<Option<Diagnostics>>,
+    /// Persistent Volume Mount Paths
+    pub persistent_volumes: Vec<PathBuf>, // NOTE: Not `Watched`, because will not change
     /// Additional connector configuration as a JSON string
-    pub additional_configuration: Option<String>,
+    pub additional_configuration: Watched<Option<String>>,
 }
 
 impl ConnectorConfiguration {
-    /// Create a `ConnectorConfiguration` from the files in the specified mount path
+    /// Create a `ConnectorConfiguration` from the files in the specified mount path.
+    ///
+    /// Sets up an [`AtomicWriterVolumeDebouncer`] to monitor the mount path for changes
+    /// and push updates to the [`Watched`] fields.
     pub(crate) fn new_from_mount_path(
-        mount_path: &Path,
+        mount_path: PathBuf,
     ) -> Result<Self, DeploymentArtifactErrorRepr> {
         // NOTE: Handling errors here does end up requiring unnecessary allocations in the
         // FilePathMissing errors returned on optional files, but this is not (yet) code that will
@@ -36,100 +50,205 @@ impl ConnectorConfiguration {
         // When finalized, consider optimizing so the individual helpers have logic to handle
         // optional files.
 
-        let mqtt_connection_configuration =
-            Self::extract_mqtt_connection_configuration(mount_path)?;
-        let diagnostics = match Self::extract_diagnostics(mount_path) {
+        let initial_mqtt_config = extract_mqtt_connection_configuration(
+            &mount_path.join(MQTT_CONNECTION_CONFIGURATION_FILENAME),
+        )?;
+        let diagnostics = match extract_diagnostics(&mount_path.join(DIAGNOSTICS_FILENAME)) {
             Ok(d) => Some(d),
             Err(DeploymentArtifactErrorRepr::FilePathMissing(_)) => None,
             Err(e) => Err(e)?,
         };
-        let persistent_volumes = match Self::extract_persistent_volumes(mount_path) {
+        let persistent_volumes = match extract_persistent_volumes(
+            &mount_path.join(PERSISTENT_VOLUME_MOUNT_PATHS_FILENAME),
+        ) {
             Err(DeploymentArtifactErrorRepr::FilePathMissing(_)) => vec![],
             res => res?,
         };
-        let additional_configuration = match Self::extract_additional_configuration(mount_path) {
+        let additional_configuration = match extract_additional_configuration(
+            &mount_path.join(ADDITIONAL_CONNECTOR_CONFIGURATION_FILENAME),
+        ) {
             Ok(ac) => Some(ac),
             Err(DeploymentArtifactErrorRepr::FilePathMissing(_)) => None,
             Err(e) => Err(e)?,
         };
 
+        let (mqtt_conf_tx, mqtt_conf_rx) = tokio::sync::watch::channel(initial_mqtt_config);
+        let (diag_tx, diag_rx) = tokio::sync::watch::channel(diagnostics);
+        let (addl_tx, addl_rx) = tokio::sync::watch::channel(additional_configuration);
+
+        let debouncer = AtomicWriterVolumeDebouncer::new(
+            mount_path,
+            move |res: AtomicWriterVolumeEventResult| {
+                match res {
+                    Ok(events) => {
+                        for event in &events {
+                            // NOTE: ConfigMap filenames must be UTF-8, thus can safely convert to &str
+                            let Some(file_name) = event.path.file_name().and_then(|f| f.to_str())
+                            else {
+                                continue;
+                            };
+
+                            match event.kind {
+                                AtomicWriterVolumeEventKind::FileModified
+                                | AtomicWriterVolumeEventKind::FileCreated => match file_name {
+                                    MQTT_CONNECTION_CONFIGURATION_FILENAME => {
+                                        match extract_mqtt_connection_configuration(&event.path) {
+                                            Ok(new_config) => {
+                                                let _ = mqtt_conf_tx.send(new_config);
+                                            }
+                                            Err(e) => {
+                                                // NOTE: Not all variants of the error are possible. Really just file read
+                                                // and JSON parsing.
+                                                log::error!(
+                                                    "Failed to parse updated {MQTT_CONNECTION_CONFIGURATION_FILENAME}: {e}"
+                                                );
+                                            }
+                                        }
+                                    }
+                                    DIAGNOSTICS_FILENAME => {
+                                        match extract_diagnostics(&event.path) {
+                                            Ok(new_diag) => {
+                                                let _ = diag_tx.send(Some(new_diag));
+                                            }
+                                            Err(e) => {
+                                                // NOTE: Not all variants of the error are possible. Really just file read
+                                                // and JSON parsing.
+                                                log::error!(
+                                                    "Failed to parse updated {DIAGNOSTICS_FILENAME}: {e}"
+                                                );
+                                            }
+                                        }
+                                    }
+                                    ADDITIONAL_CONNECTOR_CONFIGURATION_FILENAME => {
+                                        match extract_additional_configuration(&event.path) {
+                                            Ok(new_config) => {
+                                                let _ = addl_tx.send(Some(new_config));
+                                            }
+                                            Err(e) => {
+                                                // NOTE: Not all variants of the error are possible. Really just file read
+                                                // and JSON parsing.
+                                                log::error!(
+                                                    "Failed to read updated {ADDITIONAL_CONNECTOR_CONFIGURATION_FILENAME}: {e}"
+                                                );
+                                            }
+                                        }
+                                    }
+                                    PERSISTENT_VOLUME_MOUNT_PATHS_FILENAME => {
+                                        log::warn!(
+                                            "Changes to {PERSISTENT_VOLUME_MOUNT_PATHS_FILENAME} are not currently supported and will be ignored"
+                                        );
+                                    }
+                                    _ => {
+                                        log::warn!(
+                                            "Unexpected file {file_name} was modified or created in connector configuration mount - ignoring"
+                                        );
+                                    }
+                                },
+                                AtomicWriterVolumeEventKind::FileRemoved => match file_name {
+                                    MQTT_CONNECTION_CONFIGURATION_FILENAME => {
+                                        log::warn!(
+                                            "Required file {MQTT_CONNECTION_CONFIGURATION_FILENAME} was removed — ignoring"
+                                        );
+                                    }
+                                    DIAGNOSTICS_FILENAME => {
+                                        let _ = diag_tx.send(None);
+                                    }
+                                    ADDITIONAL_CONNECTOR_CONFIGURATION_FILENAME => {
+                                        let _ = addl_tx.send(None);
+                                    }
+                                    PERSISTENT_VOLUME_MOUNT_PATHS_FILENAME => {
+                                        log::warn!(
+                                            "Changes to {PERSISTENT_VOLUME_MOUNT_PATHS_FILENAME} are not currently supported and will be ignored"
+                                        );
+                                    }
+                                    _ => log::warn!(
+                                        "Unexpected file {file_name} was removed from connector configuration mount - ignoring"
+                                    ),
+                                },
+                                // Directory events are not expected for this file
+                                _ => {}
+                            }
+                        }
+                    }
+                    Err(e) => {
+                        log::error!("Error monitoring connector configuration mount: {e:?}");
+                    }
+                }
+            },
+        )?;
+
+        let debouncer = Arc::new(debouncer);
+
         Ok(Self {
-            mqtt_connection_configuration,
-            diagnostics,
+            mqtt_connection_configuration: Watched::new(mqtt_conf_rx, Some(debouncer.clone())),
+            diagnostics: Watched::new(diag_rx, Some(debouncer.clone())),
             persistent_volumes,
-            additional_configuration,
+            additional_configuration: Watched::new(addl_rx, Some(debouncer)),
         })
     }
+}
 
-    /// Extract an `MqttConnectionConfiguration` from the specified mount path
-    fn extract_mqtt_connection_configuration(
-        mount_path: &Path,
-    ) -> Result<MqttConnectionConfiguration, DeploymentArtifactErrorRepr> {
-        let mqtt_conn_config_pathbuf = mount_path.join("MQTT_CONNECTION_CONFIGURATION");
-        if !mqtt_conn_config_pathbuf.exists() {
-            return Err(DeploymentArtifactErrorRepr::FilePathMissing(
-                mqtt_conn_config_pathbuf.into(),
-            ))?;
-        }
-        // NOTE: Manual file read to memory is more efficient than using serde_json::from_reader()
-        let m: MqttConnectionConfiguration =
-            serde_json::from_str(&std::fs::read_to_string(&mqtt_conn_config_pathbuf)?)?;
-        Ok(m)
+/// Extract an `MqttConnectionConfiguration` from the specified file path.
+fn extract_mqtt_connection_configuration(
+    file_path: &Path,
+) -> Result<MqttConnectionConfiguration, DeploymentArtifactErrorRepr> {
+    if !file_path.exists() {
+        Err(DeploymentArtifactErrorRepr::FilePathMissing(
+            file_path.into(),
+        ))?;
     }
+    let m: MqttConnectionConfiguration =
+        serde_json::from_str(&std::fs::read_to_string(file_path)?)?;
+    Ok(m)
+}
 
-    /// Extract a `Diagnostics` struct from the specified mount path
-    fn extract_diagnostics(mount_path: &Path) -> Result<Diagnostics, DeploymentArtifactErrorRepr> {
-        let diagnostics_pathbuf = mount_path.join("DIAGNOSTICS");
-        if !diagnostics_pathbuf.exists() {
-            return Err(DeploymentArtifactErrorRepr::FilePathMissing(
-                diagnostics_pathbuf.into(),
-            ))?;
-        }
-        // NOTE: Manual file read to memory is more efficient than using serde_json::from_reader()
-        let d: Diagnostics = serde_json::from_str(&std::fs::read_to_string(&diagnostics_pathbuf)?)?;
-        Ok(d)
+/// Extract a `Diagnostics` struct from the specified file path.
+fn extract_diagnostics(file_path: &Path) -> Result<Diagnostics, DeploymentArtifactErrorRepr> {
+    if !file_path.exists() {
+        Err(DeploymentArtifactErrorRepr::FilePathMissing(
+            file_path.into(),
+        ))?;
     }
+    let d: Diagnostics = serde_json::from_str(&std::fs::read_to_string(file_path)?)?;
+    Ok(d)
+}
 
-    /// Extract a list of persistent volumes paths from the specified mount path
-    fn extract_persistent_volumes(
-        mount_path: &Path,
-    ) -> Result<Vec<PathBuf>, DeploymentArtifactErrorRepr> {
-        let persistent_volumes_pathbuf = mount_path.join("PERSISTENT_VOLUME_MOUNT_PATH");
-        if !persistent_volumes_pathbuf.exists() {
-            return Err(DeploymentArtifactErrorRepr::FilePathMissing(
-                persistent_volumes_pathbuf.into(),
-            ))?;
-        }
-        // NOTE: Use a BufReader to reduce allocations
-        let persistent_volumes = BufReader::new(File::open(&persistent_volumes_pathbuf)?)
-            .lines()
-            .map_while(Result::ok)
-            .map(PathBuf::from)
-            .try_fold(vec![], |mut acc, pv_pathbuf| {
-                if !pv_pathbuf.exists() {
-                    return Err(DeploymentArtifactErrorRepr::MountPathMissing(
-                        pv_pathbuf.into_os_string(),
-                    ));
-                }
-                acc.push(pv_pathbuf);
-                Ok(acc)
-            })?;
-        Ok(persistent_volumes)
+/// Extract a list of persistent volume paths from the specified file path.
+fn extract_persistent_volumes(
+    file_path: &Path,
+) -> Result<Vec<PathBuf>, DeploymentArtifactErrorRepr> {
+    if !file_path.exists() {
+        Err(DeploymentArtifactErrorRepr::FilePathMissing(
+            file_path.into(),
+        ))?;
     }
+    let persistent_volumes = BufReader::new(File::open(file_path)?)
+        .lines()
+        .map_while(Result::ok)
+        .map(PathBuf::from)
+        .try_fold(vec![], |mut acc, pv_pathbuf| {
+            if !pv_pathbuf.exists() {
+                return Err(DeploymentArtifactErrorRepr::MountPathMissing(
+                    pv_pathbuf.into_os_string(),
+                ));
+            }
+            acc.push(pv_pathbuf);
+            Ok(acc)
+        })?;
+    Ok(persistent_volumes)
+}
 
-    /// Extract additional configuration JSON string from the specified mount path
-    fn extract_additional_configuration(
-        mount_path: &Path,
-    ) -> Result<String, DeploymentArtifactErrorRepr> {
-        let additional_config_pathbuf = mount_path.join("ADDITIONAL_CONNECTOR_CONFIGURATION");
-        if !additional_config_pathbuf.exists() {
-            return Err(DeploymentArtifactErrorRepr::FilePathMissing(
-                additional_config_pathbuf.into_os_string(),
-            ))?;
-        }
-        let additional_config = std::fs::read_to_string(&additional_config_pathbuf)?;
-        Ok(additional_config)
+/// Extract additional configuration JSON string from the specified file path.
+fn extract_additional_configuration(
+    file_path: &Path,
+) -> Result<String, DeploymentArtifactErrorRepr> {
+    if !file_path.exists() {
+        Err(DeploymentArtifactErrorRepr::FilePathMissing(
+            file_path.into(),
+        ))?;
     }
+    let additional_config = std::fs::read_to_string(file_path)?;
+    Ok(additional_config)
 }
 
 /// Configuration details related to an MQTT connection
@@ -187,4 +306,490 @@ pub struct Diagnostics {
 pub struct Logs {
     /// The log level. Examples - 'debug', 'info', 'warn', 'error', 'trace'.
     pub level: String,
+}
+
+#[cfg(test)]
+mod tests {
+    use super::super::atomic_writer_volume_debouncer::{DEBOUNCE_WINDOW, TICK_RATE};
+    use super::super::test_utils::{TempAtomicWriterVolume, TempPersistentVolumeManager};
+    use super::*;
+    use std::time::Duration;
+    use test_case::{test_case, test_matrix};
+
+    // Worst case: DEBOUNCE_WINDOW + TICK_RATE (jitter) + margin
+    const _: () = assert!(
+        DEBOUNCE_WINDOW.as_millis()
+            + TICK_RATE.as_millis()
+            + 100 // Margin
+        <= u64::MAX as u128,
+        "UPDATE_WINDOW computation would truncate"
+    );
+    #[allow(clippy::cast_possible_truncation)] // Safety: const assertion above proves no truncation
+    const UPDATE_WINDOW: Duration = Duration::from_millis(
+        DEBOUNCE_WINDOW.as_millis() as u64 + TICK_RATE.as_millis() as u64 + 100, // Margin
+    );
+
+    const MQTT_CONNECTION_CONFIGURATION_JSON: &str = r#"
+    {
+        "host": "someHostName:1234",
+        "keepAliveSeconds": 60,
+        "maxInflightMessages": 100,
+        "protocol": "mqtt",
+        "sessionExpirySeconds": 3600,
+        "tls": {
+            "mode": "Enabled"
+        }
+    }"#;
+
+    const DIAGNOSTICS_JSON: &str = r#"
+    {
+        "logs": {
+            "level": "info"
+        }
+    }"#;
+
+    const ADDITIONAL_CONNECTOR_CONFIGURATION_JSON: &str = r#"
+    {
+        "arbitraryConnectorDeveloperConfiguration": "value"
+    }"#;
+
+    const ARBITRARY_JSON: &str = r#"
+    {
+        "arbitraryKey": "arbitraryValue"
+    }"#;
+
+    const NOT_JSON: &str = "this is not json";
+
+    #[test]
+    fn instantiation_all_values() {
+        let mut persistent_volume_manager = TempPersistentVolumeManager::new();
+        persistent_volume_manager.add_mount("persistent_volume_1");
+        persistent_volume_manager.add_mount("persistent_volume_2");
+
+        let config_mount = TempAtomicWriterVolume::new("connector_config");
+        config_mount.stage_file_create(
+            Path::new(MQTT_CONNECTION_CONFIGURATION_FILENAME),
+            MQTT_CONNECTION_CONFIGURATION_JSON,
+        );
+        config_mount.stage_file_create(Path::new(DIAGNOSTICS_FILENAME), DIAGNOSTICS_JSON);
+        config_mount.stage_file_create(
+            Path::new(PERSISTENT_VOLUME_MOUNT_PATHS_FILENAME),
+            &persistent_volume_manager.index_file_contents(),
+        );
+        config_mount.stage_file_create(
+            Path::new(ADDITIONAL_CONNECTOR_CONFIGURATION_FILENAME),
+            ADDITIONAL_CONNECTOR_CONFIGURATION_JSON,
+        );
+        config_mount.execute_update();
+
+        let config = ConnectorConfiguration::new_from_mount_path(config_mount.path().to_path_buf())
+            .expect("Failed to create ConnectorConfiguration from mount path");
+
+        assert_eq!(
+            *config.mqtt_connection_configuration.borrow(),
+            serde_json::from_str::<MqttConnectionConfiguration>(MQTT_CONNECTION_CONFIGURATION_JSON)
+                .expect("Failed to parse MQTT_CONNECTION_CONFIGURATION_JSON")
+        );
+        assert_eq!(
+            *config.diagnostics.borrow(),
+            Some(
+                serde_json::from_str::<Diagnostics>(DIAGNOSTICS_JSON)
+                    .expect("Failed to parse DIAGNOSTICS_JSON")
+            )
+        );
+        assert_eq!(
+            config.persistent_volumes,
+            persistent_volume_manager.volume_path_bufs()
+        );
+        assert_eq!(
+            *config.additional_configuration.borrow(),
+            Some(ADDITIONAL_CONNECTOR_CONFIGURATION_JSON.to_string())
+        );
+    }
+
+    #[test]
+    fn instantiation_required_values_only() {
+        let config_mount = TempAtomicWriterVolume::new("connector_config");
+        config_mount.stage_file_create(
+            Path::new(MQTT_CONNECTION_CONFIGURATION_FILENAME),
+            MQTT_CONNECTION_CONFIGURATION_JSON,
+        );
+        config_mount.execute_update();
+
+        let config = ConnectorConfiguration::new_from_mount_path(config_mount.path().to_path_buf())
+            .expect("Failed to create ConnectorConfiguration from mount path");
+
+        assert_eq!(
+            *config.mqtt_connection_configuration.borrow(),
+            serde_json::from_str::<MqttConnectionConfiguration>(MQTT_CONNECTION_CONFIGURATION_JSON)
+                .expect("Failed to parse MQTT_CONNECTION_CONFIGURATION_JSON")
+        );
+        assert_eq!(*config.diagnostics.borrow(), None);
+        assert_eq!(config.persistent_volumes, Vec::<PathBuf>::new());
+        assert_eq!(*config.additional_configuration.borrow(), None);
+    }
+
+    #[test_case("MQTT_CONNECTION_CONFIGURATION")]
+    fn instantiation_error_missing_required_file(required_file: &str) {
+        let config_mount = TempAtomicWriterVolume::new("connector_config");
+        config_mount.stage_file_create(
+            Path::new(MQTT_CONNECTION_CONFIGURATION_FILENAME),
+            MQTT_CONNECTION_CONFIGURATION_JSON,
+        );
+
+        // Stage the removal of the required file
+        config_mount.stage_file_remove(Path::new(required_file));
+
+        config_mount.execute_update();
+
+        assert!(
+            ConnectorConfiguration::new_from_mount_path(config_mount.path().to_path_buf()).is_err()
+        );
+    }
+
+    #[test]
+    fn instantiation_error_nonexistent_persistent_volume_path() {
+        let nonexistent_mount_path = PathBuf::from("nonexistent/persisent/volume/mount");
+        assert!(!nonexistent_mount_path.exists());
+
+        let config_mount = TempAtomicWriterVolume::new("connector_config");
+        config_mount.stage_file_create(
+            Path::new(MQTT_CONNECTION_CONFIGURATION_FILENAME),
+            MQTT_CONNECTION_CONFIGURATION_JSON,
+        );
+        config_mount.stage_file_create(
+            Path::new(PERSISTENT_VOLUME_MOUNT_PATHS_FILENAME),
+            nonexistent_mount_path.to_str().unwrap(),
+        );
+        config_mount.execute_update();
+
+        assert!(
+            ConnectorConfiguration::new_from_mount_path(config_mount.path().to_path_buf()).is_err()
+        );
+    }
+
+    #[test_matrix(
+        [MQTT_CONNECTION_CONFIGURATION_FILENAME, DIAGNOSTICS_FILENAME],
+        [NOT_JSON, ARBITRARY_JSON]
+    )]
+    fn instantiation_error_invalid_json_content(target_file: &str, invalid_content: &str) {
+        let config_mount = TempAtomicWriterVolume::new("connector_config");
+        config_mount.stage_file_create(
+            Path::new(MQTT_CONNECTION_CONFIGURATION_FILENAME),
+            MQTT_CONNECTION_CONFIGURATION_JSON,
+        );
+        config_mount.stage_file_create(Path::new(DIAGNOSTICS_FILENAME), DIAGNOSTICS_JSON);
+
+        // Override one of the above files with the invalid content
+        config_mount.stage_file_remove(Path::new(target_file));
+        config_mount.stage_file_create(Path::new(target_file), invalid_content);
+
+        config_mount.execute_update();
+
+        assert!(
+            ConnectorConfiguration::new_from_mount_path(config_mount.path().to_path_buf()).is_err()
+        );
+    }
+
+    #[tokio::test]
+    async fn mqtt_configuration_modify() {
+        let config_mount = TempAtomicWriterVolume::new("connector_config");
+        config_mount.stage_file_create(
+            Path::new(MQTT_CONNECTION_CONFIGURATION_FILENAME),
+            MQTT_CONNECTION_CONFIGURATION_JSON,
+        );
+        config_mount.execute_update();
+
+        let mut config =
+            ConnectorConfiguration::new_from_mount_path(config_mount.path().to_path_buf())
+                .expect("Failed to create ConnectorConfiguration from mount path");
+        assert_eq!(
+            *config.mqtt_connection_configuration.borrow(),
+            serde_json::from_str::<MqttConnectionConfiguration>(MQTT_CONNECTION_CONFIGURATION_JSON)
+                .expect("Failed to parse MQTT_CONNECTION_CONFIGURATION_JSON")
+        );
+
+        let new_mqtt_config_json = r#"
+        {
+            "host": "someOtherHostName:5678",
+            "keepAliveSeconds": 120,
+            "maxInflightMessages": 50,
+            "protocol": "mqtt",
+            "sessionExpirySeconds": 7200,
+            "tls": {
+                "mode": "Disabled"
+            }
+        }"#;
+        assert!(new_mqtt_config_json != MQTT_CONNECTION_CONFIGURATION_JSON);
+
+        config_mount.stage_file_modify(
+            Path::new(MQTT_CONNECTION_CONFIGURATION_FILENAME),
+            new_mqtt_config_json,
+        );
+        config_mount.execute_update();
+
+        tokio::time::timeout(
+            UPDATE_WINDOW,
+            config.mqtt_connection_configuration.changed(),
+        )
+        .await
+        .expect("Timed out waiting for MQTT config change")
+        .expect("Failed to receive change notification");
+
+        assert_eq!(
+            *config.mqtt_connection_configuration.borrow(),
+            serde_json::from_str::<MqttConnectionConfiguration>(new_mqtt_config_json)
+                .expect("Failed to parse new MQTT connection configuration JSON")
+        );
+    }
+
+    // This is an invalid scenario - it should never happen, but we test the expected behavior if it were to.
+    #[tokio::test]
+    async fn mqtt_configuration_modify_invalid_json() {
+        let config_mount = TempAtomicWriterVolume::new("connector_config");
+        config_mount.stage_file_create(
+            Path::new(MQTT_CONNECTION_CONFIGURATION_FILENAME),
+            MQTT_CONNECTION_CONFIGURATION_JSON,
+        );
+        config_mount.execute_update();
+
+        let mut config =
+            ConnectorConfiguration::new_from_mount_path(config_mount.path().to_path_buf())
+                .expect("Failed to create ConnectorConfiguration from mount path");
+        assert_eq!(
+            *config.mqtt_connection_configuration.borrow(),
+            serde_json::from_str::<MqttConnectionConfiguration>(MQTT_CONNECTION_CONFIGURATION_JSON)
+                .expect("Failed to parse MQTT_CONNECTION_CONFIGURATION_JSON")
+        );
+
+        config_mount.stage_file_modify(Path::new(MQTT_CONNECTION_CONFIGURATION_FILENAME), NOT_JSON);
+        config_mount.execute_update();
+
+        // Expect that the invalid JSON update is ignored and the old value remains
+        tokio::time::timeout(
+            UPDATE_WINDOW,
+            config.mqtt_connection_configuration.changed(),
+        )
+        .await
+        .expect_err("Unexpectedly received change notification for invalid MQTT config update");
+
+        assert_eq!(
+            *config.mqtt_connection_configuration.borrow(),
+            serde_json::from_str::<MqttConnectionConfiguration>(MQTT_CONNECTION_CONFIGURATION_JSON)
+                .expect("Failed to parse MQTT_CONNECTION_CONFIGURATION_JSON")
+        );
+    }
+
+    // This is an invalid scenario - it should never happen, but we test the expected behavior if it were to.
+    #[tokio::test]
+    async fn mqtt_configuration_remove() {
+        let config_mount = TempAtomicWriterVolume::new("connector_config");
+        config_mount.stage_file_create(
+            Path::new(MQTT_CONNECTION_CONFIGURATION_FILENAME),
+            MQTT_CONNECTION_CONFIGURATION_JSON,
+        );
+        config_mount.execute_update();
+
+        let mut config =
+            ConnectorConfiguration::new_from_mount_path(config_mount.path().to_path_buf())
+                .expect("Failed to create ConnectorConfiguration from mount path");
+        assert_eq!(
+            *config.mqtt_connection_configuration.borrow(),
+            serde_json::from_str::<MqttConnectionConfiguration>(MQTT_CONNECTION_CONFIGURATION_JSON)
+                .expect("Failed to parse MQTT_CONNECTION_CONFIGURATION_JSON")
+        );
+
+        config_mount.stage_file_remove(Path::new(MQTT_CONNECTION_CONFIGURATION_FILENAME));
+        config_mount.execute_update();
+
+        // Expect that the removal of the required file is ignored and the old value remains
+        tokio::time::timeout(
+            UPDATE_WINDOW,
+            config.mqtt_connection_configuration.changed(),
+        )
+        .await
+        .expect_err("Unexpectedly received change notification for MQTT config file removal");
+
+        assert_eq!(
+            *config.mqtt_connection_configuration.borrow(),
+            serde_json::from_str::<MqttConnectionConfiguration>(MQTT_CONNECTION_CONFIGURATION_JSON)
+                .expect("Failed to parse MQTT_CONNECTION_CONFIGURATION_JSON")
+        );
+    }
+
+    #[tokio::test]
+    async fn diagnostics_modify() {
+        let config_mount = TempAtomicWriterVolume::new("connector_config");
+        config_mount.stage_file_create(
+            Path::new(MQTT_CONNECTION_CONFIGURATION_FILENAME),
+            MQTT_CONNECTION_CONFIGURATION_JSON,
+        );
+        config_mount.stage_file_create(Path::new(DIAGNOSTICS_FILENAME), DIAGNOSTICS_JSON);
+        config_mount.execute_update();
+
+        let mut config =
+            ConnectorConfiguration::new_from_mount_path(config_mount.path().to_path_buf())
+                .expect("Failed to create ConnectorConfiguration from mount path");
+        assert_eq!(
+            *config.diagnostics.borrow(),
+            Some(
+                serde_json::from_str::<Diagnostics>(DIAGNOSTICS_JSON)
+                    .expect("Failed to parse DIAGNOSTICS_JSON")
+            )
+        );
+
+        let new_diagnostics_json = r#"{ "logs": { "level": "debug" } }"#;
+        assert!(new_diagnostics_json != DIAGNOSTICS_JSON);
+
+        config_mount.stage_file_modify(Path::new(DIAGNOSTICS_FILENAME), new_diagnostics_json);
+        config_mount.execute_update();
+
+        tokio::time::timeout(UPDATE_WINDOW, config.diagnostics.changed())
+            .await
+            .expect("Timed out waiting for diagnostics change")
+            .expect("Failed to receive diagnostics change notification");
+
+        assert_eq!(
+            *config.diagnostics.borrow(),
+            Some(
+                serde_json::from_str::<Diagnostics>(new_diagnostics_json)
+                    .expect("Failed to parse new diagnostics JSON")
+            )
+        );
+    }
+
+    // This is an invalid scenario - it should never happen, but we test the expected behavior if it were to.
+    #[tokio::test]
+    async fn diagnostics_modify_invalid_json() {
+        let config_mount = TempAtomicWriterVolume::new("connector_config");
+        config_mount.stage_file_create(
+            Path::new(MQTT_CONNECTION_CONFIGURATION_FILENAME),
+            MQTT_CONNECTION_CONFIGURATION_JSON,
+        );
+        config_mount.stage_file_create(Path::new(DIAGNOSTICS_FILENAME), DIAGNOSTICS_JSON);
+        config_mount.execute_update();
+
+        let mut config =
+            ConnectorConfiguration::new_from_mount_path(config_mount.path().to_path_buf())
+                .expect("Failed to create ConnectorConfiguration from mount path");
+        assert_eq!(
+            *config.diagnostics.borrow(),
+            Some(
+                serde_json::from_str::<Diagnostics>(DIAGNOSTICS_JSON)
+                    .expect("Failed to parse DIAGNOSTICS_JSON")
+            )
+        );
+
+        config_mount.stage_file_modify(Path::new(DIAGNOSTICS_FILENAME), NOT_JSON);
+        config_mount.execute_update();
+
+        // Expect that the invalid JSON update is ignored and the old value remains
+        tokio::time::timeout(UPDATE_WINDOW, config.diagnostics.changed())
+            .await
+            .expect_err("Unexpectedly received change notification for invalid diagnostics update");
+
+        assert_eq!(
+            *config.diagnostics.borrow(),
+            Some(
+                serde_json::from_str::<Diagnostics>(DIAGNOSTICS_JSON)
+                    .expect("Failed to parse DIAGNOSTICS_JSON")
+            )
+        );
+    }
+
+    #[tokio::test]
+    async fn diagnostics_remove() {
+        let config_mount = TempAtomicWriterVolume::new("connector_config");
+        config_mount.stage_file_create(
+            Path::new(MQTT_CONNECTION_CONFIGURATION_FILENAME),
+            MQTT_CONNECTION_CONFIGURATION_JSON,
+        );
+        config_mount.stage_file_create(Path::new(DIAGNOSTICS_FILENAME), DIAGNOSTICS_JSON);
+        config_mount.execute_update();
+
+        let mut config =
+            ConnectorConfiguration::new_from_mount_path(config_mount.path().to_path_buf())
+                .expect("Failed to create ConnectorConfiguration from mount path");
+        assert!(config.diagnostics.borrow().is_some());
+
+        config_mount.stage_file_remove(Path::new(DIAGNOSTICS_FILENAME));
+        config_mount.execute_update();
+
+        tokio::time::timeout(UPDATE_WINDOW, config.diagnostics.changed())
+            .await
+            .expect("Timed out waiting for diagnostics removal")
+            .expect("Failed to receive diagnostics change notification");
+
+        assert_eq!(*config.diagnostics.borrow(), None);
+    }
+
+    #[tokio::test]
+    async fn additional_configuration_modify() {
+        let config_mount = TempAtomicWriterVolume::new("connector_config");
+        config_mount.stage_file_create(
+            Path::new(MQTT_CONNECTION_CONFIGURATION_FILENAME),
+            MQTT_CONNECTION_CONFIGURATION_JSON,
+        );
+        config_mount.stage_file_create(
+            Path::new(ADDITIONAL_CONNECTOR_CONFIGURATION_FILENAME),
+            ADDITIONAL_CONNECTOR_CONFIGURATION_JSON,
+        );
+        config_mount.execute_update();
+
+        let mut config =
+            ConnectorConfiguration::new_from_mount_path(config_mount.path().to_path_buf())
+                .expect("Failed to create ConnectorConfiguration from mount path");
+        assert_eq!(
+            *config.additional_configuration.borrow(),
+            Some(ADDITIONAL_CONNECTOR_CONFIGURATION_JSON.to_string())
+        );
+
+        let new_additional_config = r#"{ "newKey": "newValue" }"#;
+        assert!(new_additional_config != ADDITIONAL_CONNECTOR_CONFIGURATION_JSON);
+
+        config_mount.stage_file_modify(
+            Path::new(ADDITIONAL_CONNECTOR_CONFIGURATION_FILENAME),
+            new_additional_config,
+        );
+        config_mount.execute_update();
+
+        tokio::time::timeout(UPDATE_WINDOW, config.additional_configuration.changed())
+            .await
+            .expect("Timed out waiting for additional configuration change")
+            .expect("Failed to receive additional configuration change notification");
+
+        assert_eq!(
+            *config.additional_configuration.borrow(),
+            Some(new_additional_config.to_string())
+        );
+    }
+
+    #[tokio::test]
+    async fn additional_configuration_remove() {
+        let config_mount = TempAtomicWriterVolume::new("connector_config");
+        config_mount.stage_file_create(
+            Path::new(MQTT_CONNECTION_CONFIGURATION_FILENAME),
+            MQTT_CONNECTION_CONFIGURATION_JSON,
+        );
+        config_mount.stage_file_create(
+            Path::new(ADDITIONAL_CONNECTOR_CONFIGURATION_FILENAME),
+            ADDITIONAL_CONNECTOR_CONFIGURATION_JSON,
+        );
+        config_mount.execute_update();
+
+        let mut config =
+            ConnectorConfiguration::new_from_mount_path(config_mount.path().to_path_buf())
+                .expect("Failed to create ConnectorConfiguration from mount path");
+        assert!(config.additional_configuration.borrow().is_some());
+
+        config_mount.stage_file_remove(Path::new(ADDITIONAL_CONNECTOR_CONFIGURATION_FILENAME));
+        config_mount.execute_update();
+
+        tokio::time::timeout(UPDATE_WINDOW, config.additional_configuration.changed())
+            .await
+            .expect("Timed out waiting for additional configuration removal")
+            .expect("Failed to receive additional configuration change notification");
+
+        assert_eq!(*config.additional_configuration.borrow(), None);
+    }
 }

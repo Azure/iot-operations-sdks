@@ -12,7 +12,9 @@ use std::time::SystemTime;
 
 use tempfile::TempDir;
 
-/// Simulates a file mount directory using a temporary directory.
+// TODO: Rename TempMount to TempPersistentVolume once removed from use in `filemount.rs`,
+// where it is used (incorrectly) to simulate a *projected volume*.
+/// Simulates a persistent volume directory using a temporary directory.
 #[derive(Clone)]
 pub struct TempMount {
     dir: Arc<TempDir>, // TODO: This should not be arc! it makes drop behavior ambiguous. Fix!
@@ -22,13 +24,6 @@ impl TempMount {
     pub fn new(dir_name: &str) -> Self {
         let dir = Arc::new(tempfile::TempDir::with_prefix(dir_name).unwrap());
         Self { dir }
-        // TODO: Add symlink simulation. Currently this doesn't work, because
-        // trying to add a ".." file is interpreted as trying to go up a level
-        // in the directory structure.
-        //let ret = Self { dir };
-        // Create a ".." file to simulate a symlink in a mounted directory
-        //ret.add_file("..", "");
-        //ret
     }
 
     // TODO: do we need to consider directories/subdirectories here?
@@ -122,16 +117,22 @@ pub struct TempAtomicWriterVolume {
 
 impl TempAtomicWriterVolume {
     /// Create a new `TempAtomicWriterVolume` with the given directory name.
+    ///
+    /// Immediately performs an initial `execute_update` to create the atomic-writer
+    /// volume plumbing (`..data` symlink and timestamped snapshot directory), matching
+    /// the kubelet's behavior of always creating this structure even for empty volumes.
     pub fn new(dir_name: &str) -> Self {
         let dir = tempfile::TempDir::with_prefix(dir_name).unwrap();
-        Self {
+        let vol = Self {
             dir,
             files: RefCell::new(HashMap::new()),
             dirs: RefCell::new(HashSet::new()),
             staged_ops: RefCell::new(Vec::new()),
             current_timestamp_dir: RefCell::new(None),
             counter: Cell::new(0),
-        }
+        };
+        vol.execute_update();
+        vol
     }
 
     /// Return the path of the atomic-writer volume mount.
@@ -353,7 +354,7 @@ impl TempAtomicWriterVolume {
 mod tests {
     use super::*;
 
-    // TODO: Write tests for other mounts.
+    // TODO: Write tests for persistent volumes
 
     mod atomic_writer_volume {
         use super::*;
@@ -398,6 +399,23 @@ mod tests {
         // actual K8S behavior in production.
 
         // -- basic operations --
+
+        #[test]
+        fn empty_volume_has_plumbing() {
+            let vol = TempAtomicWriterVolume::new(&unique_name("test"));
+
+            let data_link = vol.path().join("..data");
+            assert!(data_link.is_symlink(), "..data symlink should exist");
+            let target = std::fs::read_link(&data_link).unwrap();
+            assert!(
+                target.to_string_lossy().starts_with(".."),
+                "..data should point to a ..-prefixed timestamped dir, got: {target:?}"
+            );
+            assert!(
+                vol.path().join(&target).is_dir(),
+                "timestamped snapshot directory should exist"
+            );
+        }
 
         #[test_case(Path::new("key"); "root")]
         #[test_case(Path::new("sub/key"); "subdirectory")]
