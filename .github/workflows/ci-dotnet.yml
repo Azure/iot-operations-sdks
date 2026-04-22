@@ -313,7 +313,7 @@ jobs:
         indicators: true
         output: both
 
-    - uses: dorny/test-reporter@v1
+    - uses: dorny/test-reporter@v3
       id: test-reporter
       if: always()
       with:
