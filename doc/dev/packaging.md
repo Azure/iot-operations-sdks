@@ -43,69 +43,16 @@ To refresh the dependencies, execute the following:
     dotnet restore --no-cache
     ```
 
-## Rust
+## Rust SDK
 
-To pull the required dependencies from upstream crates.io into Azure IoT Operations SDKs feed, execute the following:
+To issue a release for the Rust SDK:
 
-1. Create a [personal access token](https://dev.azure.com/azure-iot-sdks/_usersSettings/tokens) with with `Packaging | Read & write` permissions.
+1. Bump the version appropriate, and create the tag for the commit hash according to the pattern:
+```rust/{mqtt|protocol|services|connector}/v{major}.{minor}.{patch}```
 
-1. Authenticate using the PAT:
+1. Use the [Rust SDK release pipeline](https://dev.azure.com/msazure/One/_build?definitionId=442088) using the parameters:
+    - default `main` pipeline branch for the pipeline version
+    - the tag you created in the previous step for the "tag to release from" parameter
+    - do not check "Dry run" (unless you want to test it without releasing)
 
-    ```bash
-    cd rust
-    export PAT=<PAT_TOKEN>
-    echo -n Basic $(echo -n PAT:$PAT | base64) | cargo login --registry aio-sdks
-    ```
-
-1. Publish the crates:
-
-    ```bash
-    cargo publish --manifest-path azure_iot_operations_mqtt/Cargo.toml --registry aio-sdks
-    cargo publish --manifest-path azure_iot_operations_protocol/Cargo.toml --registry aio-sdks
-    cargo publish --manifest-path azure_iot_operations_services/Cargo.toml --registry aio-sdks
-    cargo publish --manifest-path azure_iot_operations_connector/Cargo.toml --registry aio-sdks
-    ```
-
-1. **[Optional]** Publish rumqttc:
-
-    Rumqttc is published from [this fork](https://github.com/ryanwinterms/rumqtt/tree/all_test) which contains a number of changes that have been proposed upstream.
-
-    ```bash
-    cargo publish --manifest-path rumqttc/Cargo.toml --registry aio-sdks --features use-native-tls --no-default-features
-    ```
-
-### Rust dependencies
-
-The Rust dependencies aren't automatically populated into the feed. To do this, you need to use a special URL to force authentication.
-
-1. Update the `rust/.cargo/config.toml` with the following:
-
-    ```yaml
-    [registry]
-    global-credential-providers = ["cargo:token"]
-
-    [registries]
-    aio-sdks-auth = { index = "sparse+https://pkgs.dev.azure.com/azure-iot-sdks/iot-operations/_packaging/preview~force-auth/Cargo/index/" }
-
-    [source.crates-io]
-    replace-with = "aio-sdks-auth"
-    ```
-
-1. Create a [personal access token](https://dev.azure.com/azure-iot-sdks/_usersSettings/tokens) with with `Packaging | Read & write` permissions.
-
-1. Authenticate using the PAT:
-
-    ```bash
-    cd rust
-    export PAT=<PAT_TOKEN>
-    echo -n Basic $(echo -n PAT:$PAT | base64) | cargo login --registry aio-sdks-auth
-    ```
-
-1. Build the crates:
-
-    ```bash
-    cargo build --manifest-path azure_iot_operations_mqtt/Cargo.toml
-    cargo build --manifest-path azure_iot_operations_protocol/Cargo.toml
-    cargo build --manifest-path azure_iot_operations_services/Cargo.toml
-    cargo build --manifest-path azure_iot_operations_connector/Cargo.toml
-    ```
+1. During the run of the pipeline you will require someone other than yourself with a SAW to approve the release using the link provided from the `ApprovalService` in the final stage of the pipeline.
