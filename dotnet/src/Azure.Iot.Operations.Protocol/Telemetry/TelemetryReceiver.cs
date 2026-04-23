@@ -258,11 +258,10 @@ namespace Azure.Iot.Operations.Protocol.Telemetry
         ///
         /// To also dispose the underlying mqtt client, use <see cref="DisposeAsync(bool)"/>.
         /// </remarks>
-#pragma warning disable CA1816 // Dispose methods should call SuppressFinalize. Reason: SuppressFinalize is called in the overload that this method calls
         public virtual async ValueTask DisposeAsync()
-#pragma warning restore CA1816 // Dispose methods should call SuppressFinalize
         {
-            await DisposeAsync(CancellationToken.None);
+            await DisposeAsyncCore(false, CancellationToken.None);
+            GC.SuppressFinalize(this);
         }
 
         /// <summary>
@@ -276,6 +275,9 @@ namespace Azure.Iot.Operations.Protocol.Telemetry
         public virtual async ValueTask DisposeAsync(CancellationToken cancellationToken)
         {
             await DisposeAsyncCore(false, cancellationToken);
+#pragma warning disable CA1816 // Dispose methods should call SuppressFinalize. Reason: this is a dispose method
+            GC.SuppressFinalize(this);
+#pragma warning restore CA1816 // Dispose methods should call SuppressFinalize
         }
 
         /// <summary>
@@ -290,7 +292,10 @@ namespace Azure.Iot.Operations.Protocol.Telemetry
         /// </remarks>
         public virtual async ValueTask DisposeAsync(bool disposing)
         {
-            await DisposeAsync(disposing, CancellationToken.None);
+            await DisposeAsyncCore(disposing, CancellationToken.None);
+#pragma warning disable CA1816 // Dispose methods should call SuppressFinalize. Reason: this is a dispose method
+            GC.SuppressFinalize(this);
+#pragma warning restore CA1816 // Dispose methods should call SuppressFinalize
         }
 
         /// <summary>
@@ -307,6 +312,9 @@ namespace Azure.Iot.Operations.Protocol.Telemetry
         public virtual async ValueTask DisposeAsync(bool disposing, CancellationToken cancellationToken)
         {
             await DisposeAsyncCore(disposing, cancellationToken);
+#pragma warning disable CA1816 // Dispose methods should call SuppressFinalize. Reason: this is a dispose method
+            GC.SuppressFinalize(this);
+#pragma warning restore CA1816 // Dispose methods should call SuppressFinalize
         }
 
         protected virtual async ValueTask DisposeAsyncCore(bool disposing, CancellationToken cancellationToken)

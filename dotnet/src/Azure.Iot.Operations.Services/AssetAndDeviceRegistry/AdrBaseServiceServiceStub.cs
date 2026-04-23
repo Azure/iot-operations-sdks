@@ -72,4 +72,14 @@ internal class AdrBaseServiceServiceStub(ApplicationContext applicationContext, 
         // never be implemented (or called) since the ADR service handles these requests.
         throw new NotImplementedException();
     }
+
+    public ValueTask DisposeAsync(bool disposing)
+    {
+        return base.DisposeAsync(disposing, CancellationToken.None);
+    }
+
+    public ValueTask DisposeAsync(CancellationToken cancellationToken)
+    {
+        return base.DisposeAsync(false, CancellationToken.None);
+    }
 }

@@ -64,17 +64,67 @@ public class AzureDeviceRegistryClient : IAzureDeviceRegistryClient
         _deviceDiscoveryServiceClient = deviceDiscoveryServiceClientStub;
     }
 
-    /// <inheritdoc />
+    /// <summary>
+    /// Make this client unsubscribe from any topics that it subscribed to.
+    /// </summary>
+    public async Task StopAsync(CancellationToken cancellationToken = default)
+    {
+        await _adrBaseServiceClient.StopAsync(cancellationToken).ConfigureAwait(false);
+        await _deviceDiscoveryServiceClient.StopAsync(cancellationToken).ConfigureAwait(false);
+        await _adrBaseServiceService.StopAsync(cancellationToken).ConfigureAwait(false);
+    }
+
+    /// <summary>
+    /// Asynchronously dispose this object, but not the underlying clients.
+    /// </summary>
+    /// <param name="cancellationToken">Cancellation token</param>
     public async ValueTask DisposeAsync()
+    {
+        await DisposeAsyncCore(false, CancellationToken.None).ConfigureAwait(false);
+        GC.SuppressFinalize(this);
+    }
+
+    /// <summary>
+    /// Asynchronously dispose this object, but not the underlying clients.
+    /// </summary>
+    /// <param name="cancellationToken">Cancellation token</param>
+    public async ValueTask DisposeAsync(CancellationToken cancellationToken)
+    {
+        await DisposeAsyncCore(false, cancellationToken).ConfigureAwait(false);
+        GC.SuppressFinalize(this);
+    }
+
+    /// <summary>
+    /// Asynchronously dispose of this client and optionally dispose the underlying clients
+    /// </summary>
+    /// <param name="disposing">If true, this client will also dispose the underlying clients.</param>
+    public async ValueTask DisposeAsync(bool disposing)
+    {
+        await DisposeAsyncCore(disposing, CancellationToken.None).ConfigureAwait(false);
+        GC.SuppressFinalize(this);
+    }
+
+    /// <summary>
+    /// Asynchronously dispose of this client and optionally dispose the underlying clients
+    /// </summary>
+    /// <param name="disposing">If true, this client will also dispose the underlying clients.</param>
+    /// <param name="cancellationToken">Cancellation token</param>
+    public async ValueTask DisposeAsync(bool disposing, CancellationToken cancellationToken)
+    {
+        await DisposeAsyncCore(disposing, cancellationToken).ConfigureAwait(false);
+        GC.SuppressFinalize(this);
+    }
+
+    protected virtual async ValueTask DisposeAsyncCore(bool disposing, CancellationToken cancellationToken)
     {
         if (_disposed)
         {
             return;
         }
 
-        await _adrBaseServiceClient.DisposeAsync().ConfigureAwait(false);
-        await _deviceDiscoveryServiceClient.DisposeAsync().ConfigureAwait(false);
-        await _adrBaseServiceService.DisposeAsync().ConfigureAwait(false);
+        await _adrBaseServiceClient.DisposeAsync(disposing, cancellationToken).ConfigureAwait(false);
+        await _deviceDiscoveryServiceClient.DisposeAsync(disposing, cancellationToken).ConfigureAwait(false);
+        await _adrBaseServiceService.DisposeAsync(disposing, cancellationToken).ConfigureAwait(false);
 
         GC.SuppressFinalize(this);
         _disposed = true;

@@ -245,11 +245,10 @@ namespace Azure.Iot.Operations.Protocol.Telemetry
             _hasBeenValidated = true;
         }
 
-#pragma warning disable CA1816 // Dispose methods should call SuppressFinalize. Reason: SuppressFinalize is called in the overload that this method calls
         public virtual async ValueTask DisposeAsync()
-#pragma warning restore CA1816 // Dispose methods should call SuppressFinalize
         {
-            await DisposeAsync(CancellationToken.None);
+            await DisposeAsyncCore(false, CancellationToken.None);
+            GC.SuppressFinalize(this);
         }
 
         public virtual async ValueTask DisposeAsync(CancellationToken cancellationToken)
@@ -262,12 +261,18 @@ namespace Azure.Iot.Operations.Protocol.Telemetry
 
         public virtual async ValueTask DisposeAsync(bool disposing)
         {
-            await DisposeAsync(disposing, CancellationToken.None);
+            await DisposeAsyncCore(disposing, CancellationToken.None);
+#pragma warning disable CA1816 // Dispose methods should call SuppressFinalize. Reason: This is a dispose method
+            GC.SuppressFinalize(this);
+#pragma warning restore CA1816 // Dispose methods should call SuppressFinalize
         }
 
         public virtual async ValueTask DisposeAsync(bool disposing, CancellationToken cancellationToken)
         {
             await DisposeAsyncCore(disposing, cancellationToken);
+#pragma warning disable CA1816 // Dispose methods should call SuppressFinalize. Reason: This is a dispose method
+            GC.SuppressFinalize(this);
+#pragma warning restore CA1816 // Dispose methods should call SuppressFinalize
         }
 
         private static Dictionary<string, string> CombineTopicTokenMaps(Dictionary<string, string> baseMap, Dictionary<string, string>? additionalMap)

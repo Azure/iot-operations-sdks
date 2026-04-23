@@ -734,11 +734,10 @@ namespace Azure.Iot.Operations.Protocol.RPC
         ///
         /// To also dispose the underlying mqtt client, use <see cref="DisposeAsync(bool)"/>.
         /// </remarks>
-#pragma warning disable CA1816 // Dispose methods should call SuppressFinalize. Reason: this method calls an overload that calls SuppressFinalize
         public async ValueTask DisposeAsync()
-#pragma warning restore CA1816 // Dispose methods should call SuppressFinalize
         {
-            await DisposeAsync(CancellationToken.None);
+            await DisposeAsyncCore(false, CancellationToken.None);
+            GC.SuppressFinalize(this);
         }
 
         /// <summary>

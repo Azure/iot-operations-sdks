@@ -420,6 +420,8 @@ namespace Azure.Iot.Operations.Connector
                     {
                         _logger.LogError($"Message was not accepted by the state store");
                     }
+
+                    await stateStoreClient.StopAsync();
                 }
                 else if (destination.Target == DatasetTarget.Storage)
                 {
