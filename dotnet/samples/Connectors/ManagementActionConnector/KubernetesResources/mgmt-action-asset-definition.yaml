@@ -1,0 +1,41 @@
+﻿apiVersion: namespaces.deviceregistry.microsoft.com/v1
+kind: Asset
+metadata:
+  name: my-mgmt-action-asset
+  namespace: azure-iot-operations
+spec:
+  uuid: 3456-7890-1234-5678
+  attributes:
+    assetId: my-mgmt-action-asset
+    assetType: mgmt-action-sample
+  # -----------------------------------------------------------------
+  # Single management group with a single action, intended for
+  # exercising the upcoming .NET Management Action API. The connector
+  # will expose this as:
+  #   group  = "device-control"
+  #   action = "reboot"
+  # keyed internally as "device-control::reboot".
+  # -----------------------------------------------------------------
+  managementGroups:
+    - name: device-control
+      # Fallback topic used by any action in this group that does not
+      # declare its own `topic`. Tokens in braces are resolved at
+      # runtime against the device / endpoint / asset context.
+      defaultTopic: mgmt/{deviceName}/{assetName}/{managementGroupName}/{managementActionName}
+      defaultTimeoutInSeconds: 30
+      managementGroupConfiguration: '{}'
+      actions:
+        - name: reboot
+          # ActionType values: Call | Read | Write (see AssetManagementGroupActionType)
+          actionType: Call
+          targetUri: device://reboot
+          # Optional explicit topic. Omit to inherit `defaultTopic`.
+          topic: mgmt/{deviceName}/{assetName}/device-control/reboot
+          timeoutInSeconds: 15
+          actionConfiguration: '{}'
+  defaultDatasetsConfiguration: '{}'
+  deviceRef:
+    deviceName: my-mgmt-action-device
+    endpointName: my_mgmt_endpoint
+  version: 1
+

@@ -117,9 +117,20 @@ These use the Schema Registry Service to register full schemas or report pre-exi
 
 Configuration status reporting exists via `AssetRuntimeHealthReporter` and the generated telemetry senders.
 
-### 5. Forwarding Management Action Messages to Broker/BSS — NOT SUPPORTED
-
-This is the executor pipeline — receive from MQTT, process, respond. The entire request-handling pipeline that Rust implements is absent in .NET.
+> **Note on "forwarding":** Earlier revisions of this doc listed a fifth bucket
+> — *"Forwarding Management Action Messages to Broker/BSS"* — as a missing
+> feature. Verified against the Rust source
+> (`rust/azure_iot_operations_connector/src/base_connector/managed_azure_device_registry.rs`,
+> 2.0.0-rc3): **no such feature exists in Rust.** `ManagementActionClient`
+> exposes only schema reporting, `recv_notification`, status/health
+> reporting, and read-only accessors. The `forward_data` / `forward_data_provide_protocol_specific_identifier`
+> methods are on `DataOperationClient` (datasets/events/streams), **not** on
+> `ManagementActionClient`, and `destination_endpoint.rs` has zero
+> references to management actions. Management actions are inbound RPC:
+> the response goes back to the invoker over the same RPC reply topic via
+> the underlying `rpc_command::Executor` / `CommandExecutor` — there is
+> no outbound forwarding path to the broker or broker state store to
+> build. The real work is fully covered by bucket #1.
 
 ---
 

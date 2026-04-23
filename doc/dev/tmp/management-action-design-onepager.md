@@ -162,9 +162,35 @@ async Task HandleManagementAction(
         {
             switch (await notifyTask)
             {
-                case ManagementActionUpdatedWithNewExecutor n:
-                    executor = n.NewExecutor;
+                case ManagementActionUpdated:
+                    // Same topic, same executor — pause health, re-validate,
+                    // re-report schemas, then resume with new health status.
+                    await assetClient.PauseReportingManagementActionAsync(
+                        groupName, actionName, ct);
+                    await assetClient.ReportManagementActionRequestMessageSchemaAsync(
+                        groupName, actionName, requestSchema, ct);
+                    await assetClient.ReportManagementActionResponseMessageSchemaAsync(
+                        groupName, actionName, responseSchema, ct);
+                    await assetClient.ReportManagementActionRuntimeHealthAsync(
+                        groupName, actionName, ConnectorRuntimeHealth.Available, ct);
                     break;
+
+                case ManagementActionUpdatedWithNewExecutor n:
+                    // Topic changed — pause health, drain old executor, swap,
+                    // re-report schemas, resume.
+                    await assetClient.PauseReportingManagementActionAsync(
+                        groupName, actionName, ct);
+                    await DrainAsync(executor, ct);
+                    await executor.DisposeAsync();
+                    executor = n.NewExecutor!;
+                    await assetClient.ReportManagementActionRequestMessageSchemaAsync(
+                        groupName, actionName, requestSchema, ct);
+                    await assetClient.ReportManagementActionResponseMessageSchemaAsync(
+                        groupName, actionName, responseSchema, ct);
+                    await assetClient.ReportManagementActionRuntimeHealthAsync(
+                        groupName, actionName, ConnectorRuntimeHealth.Available, ct);
+                    break;
+
                 case ManagementActionDeleted:
                     return;
             }

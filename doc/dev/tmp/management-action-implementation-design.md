@@ -421,7 +421,15 @@ Dependencies:
 - Receive incoming RPC requests as `ManagementActionRequest`
 - Handle graceful shutdown (drain remaining requests)
 
-**Key question:** The Protocol layer's `CommandExecutor` uses generic `TReq`/`TResp` with serialization. Rust uses `BypassPayload` (raw bytes passthrough). .NET needs an equivalent — either use raw `byte[]` with a no-op serializer, or add a `BypassPayload` type. Need to check if `CommandExecutor` supports a passthrough mode.
+**Serialization:** Use `CommandExecutor<byte[], byte[]>` with the existing
+`PassthroughSerializer` (found in `Services/StateStore/Generated/Common/`
+and `samples/Protocol/TestEnvoys/`). Bytes pass through unchanged in both
+directions. `ContentType` and `FormatIndicator` flow via
+`CommandRequestMetadata` / `CommandResponseMetadata`, not via the
+serializer, so the serializer's hardcoded `application/octet-stream`
+default is harmless — it is overridden by the metadata objects. No new
+`BypassPayload` type is required on the .NET side. See Open Question #1
+for full resolution.
 
 ### 2. ManagementActionRequest
 
@@ -709,9 +717,12 @@ sequenceDiagram
     deactivate CW
     AC->>User: RecvManagementActionNotificationAsync() returns ManagementActionUpdated
 
+    User->>AC: PauseReportingManagementActionAsync(group, action)
+    Note over User,AC: Pause health reporting until re-validation completes<br/>(matches Rust pause_and_refresh_health_version)
     User->>User: Re-validate definition
     User->>User: Update internal state
     User->>User: Re-report schemas (required on any update)
+    User->>AC: ReportManagementActionRuntimeHealthAsync(new status)
     User->>User: Continue processing with same executor
 ```
 
@@ -740,6 +751,9 @@ sequenceDiagram
     deactivate CW
     AC->>User: RecvManagementActionNotificationAsync() returns UpdatedWithNewExecutor
 
+    User->>AC: PauseReportingManagementActionAsync(group, action)
+    Note over User,AC: Pause health reporting until new executor is ready<br/>(matches Rust pause_and_refresh_health_version)
+
     User->>User: Drain old executor
     loop Until old executor returns null
         User->>MAE_old: RecvRequestAsync()
@@ -749,7 +763,9 @@ sequenceDiagram
     end
     User->>MAE_old: Dispose
 
+    User->>User: Re-report schemas (required on any update)
     User->>User: Switch to new executor
+    User->>AC: ReportManagementActionRuntimeHealthAsync(new status)
     User->>MAE_new: RecvRequestAsync() (continue loop)
 ```
 

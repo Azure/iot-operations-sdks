@@ -1,0 +1,39 @@
+﻿// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT License.
+
+using Azure.Iot.Operations.Protocol;
+using Azure.Iot.Operations.Protocol.Models;
+using Azure.Iot.Operations.Protocol.Telemetry;
+
+namespace Azure.Iot.Operations.Connector
+{
+    /// <summary>
+    /// Response to a <see cref="ManagementActionRequest"/>. Pass to
+    /// <see cref="ManagementActionRequest.CompleteAsync(ManagementActionResponse, System.Threading.CancellationToken)"/>.
+    /// </summary>
+    public record ManagementActionResponse
+    {
+        /// <summary>Serialized response payload.</summary>
+        public required byte[] Payload { get; set; }
+
+        /// <summary>MIME type of <see cref="Payload"/> (e.g. <c>application/json</c>).</summary>
+        public required string ContentType { get; set; }
+
+        /// <summary>Optional CloudEvent metadata to attach to the response.</summary>
+        public required CloudEvent? CloudEvent { get; set; }
+
+        /// <summary>MQTT 5 payload format indicator. Defaults to raw bytes.</summary>
+        public MqttPayloadFormatIndicator FormatIndicator { get; set; } = MqttPayloadFormatIndicator.Unspecified;
+
+        /// <summary>Additional MQTT 5 user properties to attach to the response.</summary>
+        public Dictionary<string, string>? CustomUserData { get; set; }
+
+        /// <summary>
+        /// If set, the response represents an application-level failure. The connector
+        /// reports this via the RPC application-error mechanism rather than a successful
+        /// response; <see cref="Payload"/> may be empty in that case.
+        /// </summary>
+        public ManagementActionApplicationError? ApplicationError { get; set; }
+    }
+}
+

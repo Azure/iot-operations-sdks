@@ -396,6 +396,52 @@ namespace Azure.Iot.Operations.Connector
                 cancellationToken);
         }
 
+        // ============================================================
+        // Management Action API
+        // ============================================================
+
+        /// <summary>
+        /// Get the <see cref="ManagementActionExecutor"/> for <paramref name="managementGroupName"/> /
+        /// <paramref name="managementActionName"/>. Returns the currently-valid executor bound to
+        /// the action's request topic. When the action definition changes in a way that requires a
+        /// new topic, the existing executor is surfaced as "outdated" via
+        /// <see cref="RecvManagementActionNotificationAsync"/> (as
+        /// <see cref="ManagementActionUpdatedWithNewExecutor"/>); the caller should swap to the new
+        /// one it carries.
+        /// </summary>
+        public Task<ManagementActionExecutor> GetManagementActionExecutorAsync(
+            string managementGroupName,
+            string managementActionName,
+            CancellationToken cancellationToken = default)
+            => throw new NotImplementedException();
+
+        /// <summary>
+        /// Await the next lifecycle notification for <paramref name="managementGroupName"/> /
+        /// <paramref name="managementActionName"/>. Exits (returns
+        /// <see cref="ManagementActionDeleted"/>) when the action is removed from the asset
+        /// definition or the asset itself is deleted.
+        /// </summary>
+        public Task<ManagementActionNotification> RecvManagementActionNotificationAsync(
+            string managementGroupName,
+            string managementActionName,
+            CancellationToken cancellationToken = default)
+            => throw new NotImplementedException();
+
+        /// <summary>
+        /// Pause periodic runtime-health reporting for a specific management action. Used on
+        /// definition changes so the next health event reflects the re-validated definition rather
+        /// than the previous one. Matches Rust's <c>pause_and_refresh_health_version</c> pattern.
+        /// </summary>
+        public Task PauseManagementActionRuntimeHealthReportingAsync(
+            string managementGroupName,
+            string managementActionName,
+            CancellationToken cancellationToken = default)
+            => throw new NotImplementedException();
+
+        // ============================================================
+        // End of Management Action API
+        // ============================================================
+
         public virtual async ValueTask DisposeAsync()
         {
             await DisposeAsyncCore();
