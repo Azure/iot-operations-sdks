@@ -267,9 +267,6 @@ public class CounterEnvoyTests
         await mqttExecutor.DisconnectAsync();
         await mqttInvoker.DisconnectAsync();
 
-        await counterService.StopAsync();
-        await counterClient.StopAsync();
-
         await counterService.DisposeAsync();
         await counterClient.DisposeAsync();
     }
@@ -296,9 +293,9 @@ public class CounterEnvoyTests
         await mqttInvoker.DisconnectAsync();
 
         using CancellationTokenSource cts1 = new CancellationTokenSource(10);
-        await Assert.ThrowsAsync<OperationCanceledException>(async () => await counterService.StopAsync(cts1.Token));
+        await Assert.ThrowsAsync<TaskCanceledException>(async () => await counterService.StopAsync(cts1.Token));
         using CancellationTokenSource cts2 = new CancellationTokenSource(10);
-        await Assert.ThrowsAsync<OperationCanceledException>(async () => await counterClient.StopAsync(cts2.Token));
+        await Assert.ThrowsAsync<TaskCanceledException>(async () => await counterClient.StopAsync(cts2.Token));
 
         await counterService.DisposeAsync(true, CancellationToken.None);
         await counterClient.DisposeAsync(true, CancellationToken.None);
