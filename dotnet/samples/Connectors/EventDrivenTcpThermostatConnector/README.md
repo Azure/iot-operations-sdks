@@ -16,10 +16,10 @@ For instructions on how to install the project template, see [the installation i
 
 ## Run the sample
 
-1. Run the following [script](./deploy-connector-and-asset.sh) to deploy the connector and the simulated thermostat client to the cluster:
+1. Run the following [script](./deploy-connector-and-device.sh) to deploy the connector and the simulated thermostat client to the cluster:
 
     ```bash
-    ./deploy-connector-and-asset.sh
+    ./deploy-connector-and-device.sh
     ```
 
 1. Subscribe to the following MQTT topic to observe the connector output:

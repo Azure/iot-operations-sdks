@@ -7,14 +7,9 @@ excludedFiles:
 ignorePatterns:
   # There are some dummy links, ignore these
   - pattern: "^http://link_to_"
-httpHeaders:
-  # w3.org returns 403 to default linkspector/got user agent, which causes
-  # fragment validation on various specs to falsely fail. Send a browser-like UA.
-  - url:
-      - https://www.w3.org/
-    headers:
-      User-Agent: "Mozilla/5.0 (compatible; linkspector; +https://github.com/Azure/iot-operations-sdks)"
-      Accept: "text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8"
+  # w3.org returns 403, presumably due to some kind of blocking crawlers.
+  # TODO: Investigate and find a solution that can re-enable these links
+  - pattern: "^https?://(www\\.)?w3\\.org/"
 aliveStatusCodes:
   - 200
   - 201
