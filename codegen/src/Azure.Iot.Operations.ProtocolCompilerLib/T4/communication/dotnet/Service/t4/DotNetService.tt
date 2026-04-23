@@ -326,7 +326,7 @@ namespace <#=this.projectName#>.<#=this.genNamespace.GetTypeName(TargetLanguage.
 <# } #>
             }
 
-            public async ValueTask DisposeAsync(bool disposing, CancellationToken cancellationToken)
+            public async ValueTask DisposeAsync(bool disposing, CancellationToken cancellationToken = default)
             {
 <# foreach (var cmdEnvoyInfo in this.cmdEnvoyInfos) { #>
                 await this.<#=cmdEnvoyInfo.Name.GetVariableName(TargetLanguage.CSharp, "command", "executor")#>.DisposeAsync(disposing, cancellationToken).ConfigureAwait(false);
@@ -683,7 +683,7 @@ namespace <#=this.projectName#>.<#=this.genNamespace.GetTypeName(TargetLanguage.
 <# } #>
             }
 
-            public async ValueTask DisposeAsync(bool disposing, CancellationToken cancellationToken)
+            public async ValueTask DisposeAsync(bool disposing, CancellationToken cancellationToken = default)
             {
 <# foreach (var cmdEnvoyInfo in this.cmdEnvoyInfos) { #>
                 await this.<#=cmdEnvoyInfo.Name.GetVariableName(TargetLanguage.CSharp, "command", "invoker")#>.DisposeAsync(disposing, cancellationToken).ConfigureAwait(false);
