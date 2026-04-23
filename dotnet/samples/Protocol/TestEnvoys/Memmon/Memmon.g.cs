@@ -222,7 +222,7 @@ namespace TestEnvoys.Memmon
                 await this.memoryStatsTelemetrySender.DisposeAsync().ConfigureAwait(false);
             }
 
-            public async ValueTask DisposeAsync(bool disposing, CancellationToken cancellationToken)
+            public async ValueTask DisposeAsync(bool disposing, CancellationToken cancellationToken = default)
             {
                 await this.startTelemetryCommandExecutor.DisposeAsync(disposing, cancellationToken).ConfigureAwait(false);
                 await this.stopTelemetryCommandExecutor.DisposeAsync(disposing, cancellationToken).ConfigureAwait(false);
@@ -441,7 +441,7 @@ namespace TestEnvoys.Memmon
                 await this.memoryStatsTelemetryReceiver.DisposeAsync().ConfigureAwait(false);
             }
 
-            public async ValueTask DisposeAsync(bool disposing, CancellationToken cancellationToken)
+            public async ValueTask DisposeAsync(bool disposing, CancellationToken cancellationToken = default)
             {
                 await this.startTelemetryCommandInvoker.DisposeAsync(disposing, cancellationToken).ConfigureAwait(false);
                 await this.stopTelemetryCommandInvoker.DisposeAsync(disposing, cancellationToken).ConfigureAwait(false);

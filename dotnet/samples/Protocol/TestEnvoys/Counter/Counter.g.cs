@@ -162,7 +162,7 @@ namespace TestEnvoys.Counter
                 await this.telemetrySender.DisposeAsync().ConfigureAwait(false);
             }
 
-            public async ValueTask DisposeAsync(bool disposing, CancellationToken cancellationToken)
+            public async ValueTask DisposeAsync(bool disposing, CancellationToken cancellationToken = default)
             {
                 await this.readCounterCommandExecutor.DisposeAsync(disposing, cancellationToken).ConfigureAwait(false);
                 await this.incrementCommandExecutor.DisposeAsync(disposing, cancellationToken).ConfigureAwait(false);
@@ -358,7 +358,7 @@ namespace TestEnvoys.Counter
                 await this.telemetryReceiver.DisposeAsync().ConfigureAwait(false);
             }
 
-            public async ValueTask DisposeAsync(bool disposing, CancellationToken cancellationToken)
+            public async ValueTask DisposeAsync(bool disposing, CancellationToken cancellationToken = default)
             {
                 await this.readCounterCommandInvoker.DisposeAsync(disposing, cancellationToken).ConfigureAwait(false);
                 await this.incrementCommandInvoker.DisposeAsync(disposing, cancellationToken).ConfigureAwait(false);

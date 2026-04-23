@@ -97,7 +97,7 @@ namespace TestEnvoys.Passthrough
                 await this.passCommandExecutor.DisposeAsync().ConfigureAwait(false);
             }
 
-            public async ValueTask DisposeAsync(bool disposing, CancellationToken cancellationToken)
+            public async ValueTask DisposeAsync(bool disposing, CancellationToken cancellationToken = default)
             {
                 await this.passCommandExecutor.DisposeAsync(disposing, cancellationToken).ConfigureAwait(false);
             }
@@ -187,7 +187,7 @@ namespace TestEnvoys.Passthrough
                 await this.passCommandInvoker.DisposeAsync().ConfigureAwait(false);
             }
 
-            public async ValueTask DisposeAsync(bool disposing, CancellationToken cancellationToken)
+            public async ValueTask DisposeAsync(bool disposing, CancellationToken cancellationToken = default)
             {
                 await this.passCommandInvoker.DisposeAsync(disposing, cancellationToken).ConfigureAwait(false);
             }

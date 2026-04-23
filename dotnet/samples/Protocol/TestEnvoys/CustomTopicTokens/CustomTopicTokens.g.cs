@@ -128,7 +128,7 @@ namespace TestEnvoys.CustomTopicTokens
                 await this.telemetrySender.DisposeAsync().ConfigureAwait(false);
             }
 
-            public async ValueTask DisposeAsync(bool disposing, CancellationToken cancellationToken)
+            public async ValueTask DisposeAsync(bool disposing, CancellationToken cancellationToken = default)
             {
                 await this.readCustomTopicTokenCommandExecutor.DisposeAsync(disposing, cancellationToken).ConfigureAwait(false);
                 await this.telemetrySender.DisposeAsync(disposing, cancellationToken).ConfigureAwait(false);
@@ -237,7 +237,7 @@ namespace TestEnvoys.CustomTopicTokens
                 await this.telemetryReceiver.DisposeAsync().ConfigureAwait(false);
             }
 
-            public async ValueTask DisposeAsync(bool disposing, CancellationToken cancellationToken)
+            public async ValueTask DisposeAsync(bool disposing, CancellationToken cancellationToken = default)
             {
                 await this.readCustomTopicTokenCommandInvoker.DisposeAsync(disposing, cancellationToken).ConfigureAwait(false);
                 await this.telemetryReceiver.DisposeAsync(disposing, cancellationToken).ConfigureAwait(false);

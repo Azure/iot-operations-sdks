@@ -131,7 +131,7 @@ namespace TestEnvoys.Math
                 await this.getRandomCommandExecutor.DisposeAsync().ConfigureAwait(false);
             }
 
-            public async ValueTask DisposeAsync(bool disposing, CancellationToken cancellationToken)
+            public async ValueTask DisposeAsync(bool disposing, CancellationToken cancellationToken = default)
             {
                 await this.isPrimeCommandExecutor.DisposeAsync(disposing, cancellationToken).ConfigureAwait(false);
                 await this.fibCommandExecutor.DisposeAsync(disposing, cancellationToken).ConfigureAwait(false);
@@ -308,7 +308,7 @@ namespace TestEnvoys.Math
                 await this.getRandomCommandInvoker.DisposeAsync().ConfigureAwait(false);
             }
 
-            public async ValueTask DisposeAsync(bool disposing, CancellationToken cancellationToken)
+            public async ValueTask DisposeAsync(bool disposing, CancellationToken cancellationToken = default)
             {
                 await this.isPrimeCommandInvoker.DisposeAsync(disposing, cancellationToken).ConfigureAwait(false);
                 await this.fibCommandInvoker.DisposeAsync(disposing, cancellationToken).ConfigureAwait(false);
