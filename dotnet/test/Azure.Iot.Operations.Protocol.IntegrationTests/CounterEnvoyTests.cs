@@ -289,6 +289,9 @@ public class CounterEnvoyTests
 
         await counterService.StartAsync(null, cancellationToken: CancellationToken.None);
 
+        await counterClient.StartAsync();
+        var unused = await counterClient.ReadCounterAsync(executorId);
+
         await mqttExecutor.DisconnectAsync();
         await mqttInvoker.DisconnectAsync();
 
