@@ -160,12 +160,12 @@ namespace TestThing.Counter
                 await this.eventCollectionSender.DisposeAsync().ConfigureAwait(false);
             }
 
-            public async ValueTask DisposeAsync(bool disposing)
+            public async ValueTask DisposeAsync(bool disposing, CancellationToken cancellationToken)
             {
-                await this.readCounterActionExecutor.DisposeAsync(disposing).ConfigureAwait(false);
-                await this.incrementActionExecutor.DisposeAsync(disposing).ConfigureAwait(false);
-                await this.resetActionExecutor.DisposeAsync(disposing).ConfigureAwait(false);
-                await this.eventCollectionSender.DisposeAsync(disposing).ConfigureAwait(false);
+                await this.readCounterActionExecutor.DisposeAsync(disposing, cancellationToken).ConfigureAwait(false);
+                await this.incrementActionExecutor.DisposeAsync(disposing, cancellationToken).ConfigureAwait(false);
+                await this.resetActionExecutor.DisposeAsync(disposing, cancellationToken).ConfigureAwait(false);
+                await this.eventCollectionSender.DisposeAsync(disposing, cancellationToken).ConfigureAwait(false);
             }
         }
 
@@ -342,7 +342,10 @@ namespace TestThing.Counter
             public async Task StopAsync(CancellationToken cancellationToken = default)
             {
                 await Task.WhenAll(
-                    this.eventCollectionReceiver.StopAsync(cancellationToken)).ConfigureAwait(false);
+                    this.eventCollectionReceiver.StopAsync(cancellationToken),
+                    this.readCounterActionInvoker.StopAsync(cancellationToken),
+                    this.incrementActionInvoker.StopAsync(cancellationToken),
+                    this.resetActionInvoker.StopAsync(cancellationToken)).ConfigureAwait(false);
             }
 
             public async ValueTask DisposeAsync()
@@ -353,12 +356,12 @@ namespace TestThing.Counter
                 await this.eventCollectionReceiver.DisposeAsync().ConfigureAwait(false);
             }
 
-            public async ValueTask DisposeAsync(bool disposing)
+            public async ValueTask DisposeAsync(bool disposing, CancellationToken cancellationToken)
             {
-                await this.readCounterActionInvoker.DisposeAsync(disposing).ConfigureAwait(false);
-                await this.incrementActionInvoker.DisposeAsync(disposing).ConfigureAwait(false);
-                await this.resetActionInvoker.DisposeAsync(disposing).ConfigureAwait(false);
-                await this.eventCollectionReceiver.DisposeAsync(disposing).ConfigureAwait(false);
+                await this.readCounterActionInvoker.DisposeAsync(disposing, cancellationToken).ConfigureAwait(false);
+                await this.incrementActionInvoker.DisposeAsync(disposing, cancellationToken).ConfigureAwait(false);
+                await this.resetActionInvoker.DisposeAsync(disposing, cancellationToken).ConfigureAwait(false);
+                await this.eventCollectionReceiver.DisposeAsync(disposing, cancellationToken).ConfigureAwait(false);
             }
         }
     }

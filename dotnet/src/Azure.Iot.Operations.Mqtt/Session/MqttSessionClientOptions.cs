@@ -62,6 +62,12 @@ namespace Azure.Iot.Operations.Mqtt.Session
         /// </remarks>
         public TimeSpan ConnectionAttemptTimeout { get; set; } = TimeSpan.FromSeconds(2);
 
+        /// <summary>
+        /// If true, any attempt to publish, subscribe, or unsubscribe while the session client is not either connected or reconnecting will immediately throw
+        /// a <see cref="SessionClosedException"/>. If false, the publish/subscribe/unsubscribe will remain enqueued and can be sent when the session starts again.
+        /// </summary>
+        public bool ThrowIfUsedWhenSessionInactive { get; set; } = false;
+
         internal void Validate()
         {
             if (MaxPendingMessages < 1)

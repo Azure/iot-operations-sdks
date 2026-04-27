@@ -31,15 +31,19 @@ jobs:
         with:
           dotnet-version: 9.0.200
       
-      - name: Build codegen
-        run: |
-          dotnet build -c Debug codegen/codegen.sln # TODO remove this once all languages use the WoT protocol compiler
-          dotnet build -c Debug codegen2/codegen.sln
-          echo "codegen=$(echo $(realpath codegen2/src/Azure.Iot.Operations.ProtocolCompiler/bin/Debug/net9.0/Azure.Iot.Operations.ProtocolCompiler))" >> $GITHUB_ENV
+      - name: Build and run old codegen
+        run: | 
+          dotnet nuget add source "https://pkgs.dev.azure.com/azure-iot-sdks/iot-operations/_packaging/preview/nuget/v3/index.json"
 
-      - name: Run all codegen scripts
-        run: |
-          ./codegen2/gen_all.sh
+          dotnet build -c Debug codegen/codegen.sln # TODO remove this once all languages use the WoT protocol compiler
+          echo "codegen=$(echo $(realpath codegen/src/Azure.Iot.Operations.ProtocolCompiler/bin/Debug/net9.0/Azure.Iot.Operations.ProtocolCompiler))" >> $GITHUB_ENV
+          ./codegen/gen_all.sh
+
+      - name: Build and run WoT codegen
+        run: | 
+          dotnet build -c Debug wot-codegen/codegen.sln
+          echo "codegen=$(echo $(realpath wot-codegen/src/Azure.Iot.Operations.ProtocolCompiler/bin/Debug/net9.0/Azure.Iot.Operations.ProtocolCompiler))" >> $GITHUB_ENV
+          ./wot-codegen/gen_all.sh
 
       - name: Verify Generated Code Matches Repo
         run: |

@@ -12,6 +12,8 @@ namespace Azure.Iot.Operations.Protocol.UnitTests
 {
     public class MockMqttClient : MQTTnet.IMqttClient
     {
+        public bool IsDisposed { get; set; }
+
         private string _clientId;
         private readonly MqttProtocolVersion _protocolVersion;
         public static MqttConnAckPacket SuccessfulInitialConnAck = new()
@@ -243,7 +245,7 @@ namespace Azure.Iot.Operations.Protocol.UnitTests
 
         public void Dispose()
         {
-            // nothing to dispose
+            IsDisposed = true;
         }
 
 

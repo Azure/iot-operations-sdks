@@ -147,10 +147,10 @@ namespace Azure.Iot.Operations.Services.SchemaRegistry.Generated
                 await this.getCommandExecutor.DisposeAsync().ConfigureAwait(false);
             }
 
-            public async ValueTask DisposeAsync(bool disposing)
+            public async ValueTask DisposeAsync(bool disposing, CancellationToken cancellationToken)
             {
-                await this.putCommandExecutor.DisposeAsync(disposing).ConfigureAwait(false);
-                await this.getCommandExecutor.DisposeAsync(disposing).ConfigureAwait(false);
+                await this.putCommandExecutor.DisposeAsync(disposing, cancellationToken).ConfigureAwait(false);
+                await this.getCommandExecutor.DisposeAsync(disposing, cancellationToken).ConfigureAwait(false);
             }
         }
 
@@ -260,6 +260,17 @@ namespace Azure.Iot.Operations.Services.SchemaRegistry.Generated
                 return new RpcCallAsync<GetResponsePayload>(this.GetInt(request, metadata, prefixedAdditionalTopicTokenMap, commandTimeout, cancellationToken), metadata.CorrelationId);
             }
 
+            /// <summary>
+            /// Stop accepting telemetry for all telemetry receivers.
+            /// </summary>
+            /// <param name="cancellationToken">Cancellation token.</param>
+            public async Task StopAsync(CancellationToken cancellationToken = default)
+            {
+                await Task.WhenAll(
+                    this.putCommandInvoker.StopAsync(cancellationToken),
+                    this.getCommandInvoker.StopAsync(cancellationToken)).ConfigureAwait(false);
+            }
+
             private async Task<ExtendedResponse<PutResponsePayload>> PutInt(PutRequestSchema request, CommandRequestMetadata? requestMetadata, Dictionary<string, string>? prefixedAdditionalTopicTokenMap, TimeSpan? commandTimeout, CancellationToken cancellationToken)
             {
                 ExtendedResponse<PutResponseSchema> extended = await this.putCommandInvoker.InvokeCommandAsync(request, requestMetadata, prefixedAdditionalTopicTokenMap, commandTimeout, cancellationToken);
@@ -310,10 +321,10 @@ namespace Azure.Iot.Operations.Services.SchemaRegistry.Generated
                 await this.getCommandInvoker.DisposeAsync().ConfigureAwait(false);
             }
 
-            public async ValueTask DisposeAsync(bool disposing)
+            public async ValueTask DisposeAsync(bool disposing, CancellationToken cancellationToken)
             {
-                await this.putCommandInvoker.DisposeAsync(disposing).ConfigureAwait(false);
-                await this.getCommandInvoker.DisposeAsync(disposing).ConfigureAwait(false);
+                await this.putCommandInvoker.DisposeAsync(disposing, cancellationToken).ConfigureAwait(false);
+                await this.getCommandInvoker.DisposeAsync(disposing, cancellationToken).ConfigureAwait(false);
             }
         }
     }

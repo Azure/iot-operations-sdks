@@ -13,5 +13,13 @@ namespace Azure.Iot.Operations.Services.AssetAndDeviceRegistry
         CreateOrUpdateDiscoveredDeviceCommandInvoker CreateOrUpdateDiscoveredDeviceCommandInvoker { get; }
 
         RpcCallAsync<CreateOrUpdateDiscoveredDeviceResponsePayload> CreateOrUpdateDiscoveredDeviceAsync(CreateOrUpdateDiscoveredDeviceRequestPayload request, CommandRequestMetadata? requestMetadata = null, Dictionary<string, string>? additionalTopicTokenMap = null, TimeSpan? commandTimeout = default, CancellationToken cancellationToken = default);
+
+        Task StopAsync(CancellationToken cancellationToken = default);
+
+        ValueTask DisposeAsync(bool disposing, CancellationToken cancellationToken);
+
+        ValueTask DisposeAsync(bool disposing);
+
+        ValueTask DisposeAsync(CancellationToken cancellationToken);
     }
 }
