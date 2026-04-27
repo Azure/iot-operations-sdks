@@ -41,7 +41,7 @@ jobs:
       - name: Detect linkspector config changes
         if: github.event_name == 'pull_request'
         id: changes
-        uses: dorny/paths-filter@v3
+        uses: dorny/paths-filter@v4
         with:
           filters: |
             config:
