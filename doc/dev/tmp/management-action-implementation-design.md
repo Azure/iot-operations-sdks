@@ -398,6 +398,78 @@ The management action execution pipeline spans three existing .NET layers. New m
 └─────────────────────────────────────────────────────────────┘
 ```
 
+### System Context: Connector and External Dependencies
+
+Black-box view of a Connector application built on `Azure.Iot.Operations.Connector` and the external systems it communicates with. Captures the object network at deployment scope, without internal class structure. The two AIO services have no special wire protocol of their own — they are reached via in-process proxy clients (`IAzureDeviceRegistryClient`, `SchemaRegistryClient`) that issue RPC over MQTT, so those proxies are shown explicitly to make the object network match reality.
+
+```mermaid
+flowchart LR
+    subgraph Edge["Edge / k8s pod"]
+        subgraph App["Connector application (Azure.Iot.Operations.Connector)"]
+            Core["Connector core<br/>(ConnectorWorker, AssetClient,<br/>ManagementActionExecutor, etc.)"]
+            ADRProxy["IAzureDeviceRegistryClient<br/>(in-process proxy)"]
+            SRProxy["SchemaRegistryClient<br/>(in-process proxy)"]
+            MqttClient["IMqttClient / IMqttPubSubClient"]
+        end
+        MQTT["MQTT Broker<br/>(AIO broker)"]
+    end
+
+    subgraph Services["AIO services (remote, reached via MQTT RPC)"]
+        ADR["ADR Service<br/>(Asset & Device Registry)"]
+        SRS["Schema Registry Service"]
+    end
+
+    subgraph CloudSide["Cloud / control plane"]
+        Invoker["Management-action Invoker<br/>(portal, automation, operator)"]
+    end
+
+    Device["Southbound device or system<br/>(opaque to the SDK)"]
+
+    %% In-process: connector core uses the two proxies + the MQTT client.
+    Core -- "AssetChanged events,<br/>Get/UpdateAssetStatusAsync,<br/>Report*RuntimeHealthAsync" --> ADRProxy
+    Core -- "PutAsync / GetAsync" --> SRProxy
+    Core -- "ManagementAction RPC<br/>(via CommandExecutor)" --> MqttClient
+
+    %% All three in-process clients funnel through the same MQTT client / broker.
+    ADRProxy -- "RPC + telemetry over MQTT" --> MqttClient
+    SRProxy -- "RPC over MQTT" --> MqttClient
+    MqttClient -- "publish/subscribe" --> MQTT
+
+    %% Northbound: services consume the MQTT messages the proxies publish.
+    MQTT <-- "AssetChanged / DeviceChanged,<br/>Get/UpdateAssetStatus,<br/>Report*RuntimeHealth" --> ADR
+    MQTT <-- "Schema Put / Get" --> SRS
+
+    %% Cloud-side caller publishes management-action RPC to the same broker.
+    Invoker <-- "ManagementAction RPC<br/>(request/response)" --> MQTT
+
+    %% Southbound: device interaction is connector-specific (HTTP, Modbus, OPC UA, custom TCP, etc.).
+    Core <-- "device-protocol-specific<br/>(sample datasets, receive events,<br/>execute management actions)" --> Device
+
+    style Core fill:#fff3cd,stroke:#ffc107
+    style ADRProxy fill:#fff3cd,stroke:#ffc107
+    style SRProxy fill:#fff3cd,stroke:#ffc107
+    style MqttClient fill:#fff3cd,stroke:#ffc107
+    style MQTT fill:#e2e3e5,stroke:#6c757d
+    style ADR fill:#e2e3e5,stroke:#6c757d
+    style SRS fill:#e2e3e5,stroke:#6c757d
+    style Invoker fill:#e2e3e5,stroke:#6c757d
+    style Device fill:#e2e3e5,stroke:#6c757d
+```
+
+**What flows where:**
+
+| Edge | Direction | Purpose |
+|---|---|---|
+| Connector core ↔ `IAzureDeviceRegistryClient` | in-process | Proxy for ADR. Subscribes to `AssetChanged` / `DeviceChanged`, exposes `GetAssetStatusAsync` / `UpdateAssetStatusAsync`, and forwards `Report*RuntimeHealth` telemetry. Owned by `ConnectorWorker`; injected into `AssetClient` and `DeviceEndpointClient`. |
+| Connector core ↔ `SchemaRegistryClient` | in-process | Proxy for Schema Registry. Exposes `PutAsync` / `GetAsync`. Used by `AssetClient` during `ReportManagementAction{Request,Response}MessageSchemaAsync`. |
+| Both proxies ↔ `IMqttClient` | in-process | Both proxies (and the management-action `CommandExecutor`) share the single MQTT client owned by `ConnectorWorker`. |
+| MQTT Broker ↔ ADR Service | over MQTT | Materializes the proxy calls as RPC and telemetry on AIO topic conventions. |
+| MQTT Broker ↔ Schema Registry Service | over MQTT | Materializes `PutAsync` / `GetAsync` as RPC on AIO topic conventions. |
+| Invoker ↔ MQTT | bidirectional | Cloud-side caller publishes management-action RPC requests and receives responses. The connector responds via the same broker. |
+| Connector core ↔ Device | bidirectional | Out of scope of the SDK. Each connector implements its own southbound protocol (HTTP polling, Modbus, OPC UA, custom TCP, etc.) and translates it into dataset samples, received events, and management-action invocations. |
+
+**Object-network correspondence:** the in-process proxy boxes are exactly the dependencies declared in the `External Dependencies` table — `IAzureDeviceRegistryClient` and `SchemaRegistryClient` (Azure.Iot.Operations.Services), both running on top of `IMqttPubSubClient` (Azure.Iot.Operations.Protocol). The proxies are co-located with the connector in the same process; ADR and Schema Registry are out-of-process AIO services reached only via MQTT. The southbound `Device` edge has no SDK type — it is whatever the connector author plugs in.
+
 ---
 
 ## New Types to Introduce
