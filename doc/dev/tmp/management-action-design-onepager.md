@@ -164,9 +164,23 @@ async Task HandleManagementAction(
             {
                 case ManagementActionUpdated:
                     // Same topic, same executor — pause health, re-validate,
+                    // persist validation outcome as durable config status,
                     // re-report schemas, then resume with new health status.
                     await assetClient.PauseReportingManagementActionAsync(
                         groupName, actionName, ct);
+                    // Two-channel update on any definition change:
+                    //   (a) durable config status — was the new definition accepted?
+                    //   (b) volatile runtime health — current liveness.
+                    await assetClient.GetAndUpdateAssetStatusAsync(s =>
+                    {
+                        s.UpdateManagementGroupStatus(groupName,
+                            new AssetManagementGroupActionStatus
+                            {
+                                Name = actionName,
+                                Error = null, // populate ConfigError on rejection
+                            });
+                        return s;
+                    }, onlyIfChanged: true, cancellationToken: ct);
                     await assetClient.ReportManagementActionRequestMessageSchemaAsync(
                         groupName, actionName, requestSchema, ct);
                     await assetClient.ReportManagementActionResponseMessageSchemaAsync(
@@ -177,12 +191,23 @@ async Task HandleManagementAction(
 
                 case ManagementActionUpdatedWithNewExecutor n:
                     // Topic changed — pause health, drain old executor, swap,
-                    // re-report schemas, resume.
+                    // persist validation outcome, re-report schemas, resume.
                     await assetClient.PauseReportingManagementActionAsync(
                         groupName, actionName, ct);
                     await DrainAsync(executor, ct);
                     await executor.DisposeAsync();
                     executor = n.NewExecutor!;
+                    // Same two-channel update as the same-topic case above.
+                    await assetClient.GetAndUpdateAssetStatusAsync(s =>
+                    {
+                        s.UpdateManagementGroupStatus(groupName,
+                            new AssetManagementGroupActionStatus
+                            {
+                                Name = actionName,
+                                Error = null,
+                            });
+                        return s;
+                    }, onlyIfChanged: true, cancellationToken: ct);
                     await assetClient.ReportManagementActionRequestMessageSchemaAsync(
                         groupName, actionName, requestSchema, ct);
                     await assetClient.ReportManagementActionResponseMessageSchemaAsync(

@@ -188,10 +188,19 @@ match management_action_client.recv_notification().await {
     UpdatedWithNewExecutor(Ok(new_executor)) => {
         drain_executor(old_executor).await;  // respond to stale requests with errors
         current_executor = Some(new_executor);
+        // Persist acceptance of the new definition into config status
+        // (AssetManagementGroupActionStatus.Error = None) via UpdateAssetStatusAsync.
     }
-    Updated(Ok(())) => { /* re-validate definition, update state */ }
+    Updated(Ok(())) => {
+        // Re-validate definition, update internal state, AND
+        // write outcome to AssetManagementGroupActionStatus.Error
+        // via UpdateAssetStatusAsync (None on success).
+    }
     AssetUpdated(Ok(())) => { /* parent asset changed */ }
-    Updated(Err(e)) | AssetUpdated(Err(e)) => { /* config error, mark invalid */ }
+    Updated(Err(e)) | AssetUpdated(Err(e)) => {
+        // Mark invalid by writing the ConfigError into
+        // AssetManagementGroupActionStatus.Error via UpdateAssetStatusAsync.
+    }
     Deleted => {
         drain_executor(current_executor).await;
         break; // exit handler

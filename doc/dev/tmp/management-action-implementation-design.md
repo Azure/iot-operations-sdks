@@ -527,7 +527,7 @@ New methods (public):
 
 **Notification delivery:** Internally, `AssetClient` uses `Channel<ManagementActionNotification>` per action. `ConnectorWorker` pushes notifications when ADR raises `AssetChanged` events. The user reads via `RecvManagementActionNotificationAsync()`. `Writer.Complete()` signals deletion.
 
-**Why on AssetClient:** Senior review feedback — keeping all asset concerns in one place avoids a nested `ManagementActionClient` within `AssetClient`. The user already has `AssetClient` from `AssetAvailableEventArgs` in the `WhileAssetIsAvailable` callback; management action methods are a natural extension of it. The `managementGroupName` + `managementActionName` parameters serve as the action identifier (replacing the per-action client's implicit identity).
+**Why on AssetClient:** Review feedback — keeping all asset concerns in one place avoids a nested `ManagementActionClient` within `AssetClient`. The user already has `AssetClient` from `AssetAvailableEventArgs` in the `WhileAssetIsAvailable` callback; management action methods are a natural extension of it. The `managementGroupName` + `managementActionName` parameters serve as the action identifier (replacing the per-action client's implicit identity).
 
 ---
 
@@ -721,8 +721,11 @@ sequenceDiagram
     Note over User,AC: Pause health reporting until re-validation completes<br/>(matches Rust pause_and_refresh_health_version)
     User->>User: Re-validate definition
     User->>User: Update internal state
+    User->>AC: GetAndUpdateAssetStatusAsync(s => s.UpdateManagementGroupStatus(group, { Name=action, Error=validationError }))
+    Note over User,AC: Persist validation outcome as durable config status<br/>(AssetManagementGroupActionStatus.Error — null on success, populated ConfigError on rejection)
     User->>User: Re-report schemas (required on any update)
     User->>AC: ReportManagementActionRuntimeHealthAsync(new status)
+    Note over User,AC: Two distinct channels are updated on every definition change:<br/>1) durable config status (above) — surfaced to cloud via AssetStatus<br/>2) volatile runtime health (this call) — telemetry; also ends the pause
     User->>User: Continue processing with same executor
 ```
 
@@ -765,6 +768,8 @@ sequenceDiagram
 
     User->>User: Re-report schemas (required on any update)
     User->>User: Switch to new executor
+    User->>AC: GetAndUpdateAssetStatusAsync(s => s.UpdateManagementGroupStatus(group, { Name=action, Error=validationError }))
+    Note over User,AC: Persist validation outcome as durable config status<br/>(same two-channel pattern as §4)
     User->>AC: ReportManagementActionRuntimeHealthAsync(new status)
     User->>MAE_new: RecvRequestAsync() (continue loop)
 ```
