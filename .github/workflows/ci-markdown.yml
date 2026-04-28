@@ -16,7 +16,7 @@ jobs:
     name: CI-spelling
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v6
 
       - name: Spell check
         uses: streetsidesoftware/cspell-action@v6
@@ -32,7 +32,7 @@ jobs:
     name: CI-links
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v6
 
       # On PRs, detect whether the link-check config or workflow itself was
       # modified. If so, we want a full-repo scan (nofilter) instead of the
