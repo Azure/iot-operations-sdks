@@ -721,8 +721,16 @@ sequenceDiagram
     Note over User,AC: Pause health reporting until re-validation completes (matches Rust pause_and_refresh_health_version)
     User->>User: Re-validate definition
     User->>User: Update internal state
-    User->>AC: GetAndUpdateAssetStatusAsync — write AssetManagementGroupActionStatus.Error
-    Note over User,AC: Persist validation outcome as durable config status (null on success, populated ConfigError on rejection)
+    User->>AC: GetAndUpdateAssetStatusAsync(handler)
+    activate AC
+    AC->>ADR: GetAssetStatusAsync()
+    ADR-->>AC: current AssetStatus
+    AC->>AC: handler(current) writes AssetManagementGroupActionStatus.Error
+    AC->>ADR: UpdateAssetStatusAsync(desired)
+    ADR-->>AC: persisted AssetStatus
+    AC-->>User: persisted AssetStatus
+    deactivate AC
+    Note over User,ADR: Persistence happens in ADR. AssetClient is stateless — it brokers a get-modify-update against the ADR service.
     User->>User: Re-report schemas (required on any update)
     User->>AC: ReportManagementActionRuntimeHealthAsync(new status)
     Note over User,AC: Two channels are updated on every definition change. Durable config status (above) is surfaced to cloud via AssetStatus. Volatile runtime health (this call) is telemetry and also ends the pause.
@@ -768,8 +776,16 @@ sequenceDiagram
 
     User->>User: Re-report schemas (required on any update)
     User->>User: Switch to new executor
-    User->>AC: GetAndUpdateAssetStatusAsync — write AssetManagementGroupActionStatus.Error
-    Note over User,AC: Persist validation outcome as durable config status (same two-channel pattern as section 4)
+    User->>AC: GetAndUpdateAssetStatusAsync(handler)
+    activate AC
+    AC->>ADR: GetAssetStatusAsync()
+    ADR-->>AC: current AssetStatus
+    AC->>AC: handler(current) writes AssetManagementGroupActionStatus.Error
+    AC->>ADR: UpdateAssetStatusAsync(desired)
+    ADR-->>AC: persisted AssetStatus
+    AC-->>User: persisted AssetStatus
+    deactivate AC
+    Note over User,ADR: Persistence happens in ADR (same get-modify-update pattern as section 4).
     User->>AC: ReportManagementActionRuntimeHealthAsync(new status)
     User->>MAE_new: RecvRequestAsync() (continue loop)
 ```
