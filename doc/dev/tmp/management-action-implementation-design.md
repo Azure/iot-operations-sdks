@@ -718,14 +718,14 @@ sequenceDiagram
     AC->>User: RecvManagementActionNotificationAsync() returns ManagementActionUpdated
 
     User->>AC: PauseReportingManagementActionAsync(group, action)
-    Note over User,AC: Pause health reporting until re-validation completes<br/>(matches Rust pause_and_refresh_health_version)
+    Note over User,AC: Pause health reporting until re-validation completes (matches Rust pause_and_refresh_health_version)
     User->>User: Re-validate definition
     User->>User: Update internal state
-    User->>AC: GetAndUpdateAssetStatusAsync(s => s.UpdateManagementGroupStatus(group, { Name=action, Error=validationError }))
-    Note over User,AC: Persist validation outcome as durable config status<br/>(AssetManagementGroupActionStatus.Error — null on success, populated ConfigError on rejection)
+    User->>AC: GetAndUpdateAssetStatusAsync — write AssetManagementGroupActionStatus.Error
+    Note over User,AC: Persist validation outcome as durable config status (null on success, populated ConfigError on rejection)
     User->>User: Re-report schemas (required on any update)
     User->>AC: ReportManagementActionRuntimeHealthAsync(new status)
-    Note over User,AC: Two distinct channels are updated on every definition change:<br/>1) durable config status (above) — surfaced to cloud via AssetStatus<br/>2) volatile runtime health (this call) — telemetry; also ends the pause
+    Note over User,AC: Two channels are updated on every definition change. Durable config status (above) is surfaced to cloud via AssetStatus. Volatile runtime health (this call) is telemetry and also ends the pause.
     User->>User: Continue processing with same executor
 ```
 
@@ -768,8 +768,8 @@ sequenceDiagram
 
     User->>User: Re-report schemas (required on any update)
     User->>User: Switch to new executor
-    User->>AC: GetAndUpdateAssetStatusAsync(s => s.UpdateManagementGroupStatus(group, { Name=action, Error=validationError }))
-    Note over User,AC: Persist validation outcome as durable config status<br/>(same two-channel pattern as §4)
+    User->>AC: GetAndUpdateAssetStatusAsync — write AssetManagementGroupActionStatus.Error
+    Note over User,AC: Persist validation outcome as durable config status (same two-channel pattern as section 4)
     User->>AC: ReportManagementActionRuntimeHealthAsync(new status)
     User->>MAE_new: RecvRequestAsync() (continue loop)
 ```
