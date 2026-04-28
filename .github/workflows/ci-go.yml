@@ -90,35 +90,35 @@ jobs:
       run: RUNNER_TRACKING_ID="" && dotnet run --project eng/test/faultablemqttbroker/src/Azure.Iot.Operations.FaultableMqttBroker/Azure.Iot.Operations.FaultableMqttBroker.csproj &
 
     - name: Verify Go protocol module
-      uses: magefile/mage-action@v3
+      uses: magefile/mage-action@v4
       with:
         version: latest
         args: civerify
         workdir: ./go/protocol
 
     - name: Verify Go mqtt module
-      uses: magefile/mage-action@v3
+      uses: magefile/mage-action@v4
       with:
         version: latest
         args: civerify
         workdir: ./go/mqtt
 
     - name: Verify Go services module
-      uses: magefile/mage-action@v3
+      uses: magefile/mage-action@v4
       with:
         version: latest
         args: civerify
         workdir: ./go/services
 
     - name: Verify Go protocol tests
-      uses: magefile/mage-action@v3
+      uses: magefile/mage-action@v4
       with:
         version: latest
         args: civerify
         workdir: ./go/test/protocol
 
     - name: Verify Go integration tests
-      uses: magefile/mage-action@v3
+      uses: magefile/mage-action@v4
       with:
         version: latest
         args: civerify
