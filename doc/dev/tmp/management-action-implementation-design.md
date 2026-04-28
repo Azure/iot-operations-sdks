@@ -735,21 +735,9 @@ sequenceDiagram
     Note over User,ADR: Persistence happens in ADR. AssetClient is stateless — it brokers a get-modify-update against the ADR service.
     User->>User: Re-report schemas (required on any update)
     User->>AC: ReportManagementActionRuntimeHealthAsync(new status)
-    activate AC
     AC->>HR: ReportManagementActionHealthStatusAsync(events)
-    activate HR
-    HR->>HR: CompareNewHealthWithCachedHealth (dedup)
-    HR->>HR: Update cache, start periodic sender if needed
-    alt Health changed (or was paused)
-        HR->>ADR: ReportManagementActionRuntimeHealthAsync(events) (telemetry)
-    else Health unchanged
-        HR->>HR: Skip send (deduplicated)
-    end
-    HR-->>AC: done
-    deactivate HR
-    AC-->>User: done
-    deactivate AC
-    Note over User,ADR: Two channels are updated on every definition change. Durable config status (above) is persisted via UpdateAssetStatusAsync. Volatile runtime health (this call) is telemetry through AssetRuntimeHealthReporter and also ends the pause.
+    HR->>ADR: ReportManagementActionRuntimeHealthAsync(events)
+    Note over User,ADR: Two channels are updated on every definition change. Durable config status (above) is persisted via UpdateAssetStatusAsync. Volatile runtime health (this call) is telemetry through AssetRuntimeHealthReporter and also ends the pause. See section 8 for the reporter's dedup and periodic re-send behavior.
     User->>User: Continue processing with same executor
 ```
 
@@ -805,15 +793,8 @@ sequenceDiagram
     deactivate AC
     Note over User,ADR: Persistence happens in ADR (same get-modify-update pattern as section 4).
     User->>AC: ReportManagementActionRuntimeHealthAsync(new status)
-    activate AC
     AC->>HR: ReportManagementActionHealthStatusAsync(events)
-    activate HR
-    HR->>HR: CompareNewHealthWithCachedHealth (dedup), update cache, start periodic sender if needed
-    HR->>ADR: ReportManagementActionRuntimeHealthAsync(events) (telemetry)
-    HR-->>AC: done
-    deactivate HR
-    AC-->>User: done
-    deactivate AC
+    HR->>ADR: ReportManagementActionRuntimeHealthAsync(events)
     User->>MAE_new: RecvRequestAsync() (continue loop)
 ```
 
