@@ -187,9 +187,13 @@ namespace ManagementActionConnector
                         groupName, actionName, updated.Error);
                     await assetClient.PauseManagementActionRuntimeHealthReportingAsync(groupName, actionName, cancellationToken);
                     // Real connectors would re-validate the new definition here. For this sample
-                    // we assume it's fine and re-report Available, which also resumes periodic
-                    // reporting (see AssetRuntimeHealthReporter: pause sets the cached entry to
-                    // null; a subsequent Report* overwrites it with a non-null value).
+                    // we assume it's fine and report Available + clear config error.
+                    // - Config status records whether this connector accepted the new definition
+                    //   (durable; surfaced to cloud via AssetStatus).
+                    // - Runtime health records current liveness (telemetry; also ends the pause —
+                    //   see AssetRuntimeHealthReporter: pause sets the cached entry to null and a
+                    //   subsequent Report* overwrites it with a non-null value).
+                    await ReportActionConfigStatusAsync(assetClient, groupName, actionName, validationError: null, cancellationToken);
                     await ReportActionAvailableAsync(assetClient, groupName, actionName, cancellationToken);
                     return false;
 
@@ -213,7 +217,8 @@ namespace ManagementActionConnector
                     {
                         updateExecutor(updatedWithNew.NewExecutor);
                     }
-                    // Re-report health on the new topic; this also ends the pause.
+                    // Same two-channel update as the same-topic case above.
+                    await ReportActionConfigStatusAsync(assetClient, groupName, actionName, validationError: null, cancellationToken);
                     await ReportActionAvailableAsync(assetClient, groupName, actionName, cancellationToken);
                     return false;
 
@@ -225,6 +230,11 @@ namespace ManagementActionConnector
 
                 case ManagementActionDeleted:
                     _logger.LogInformation("{Group}::{Action} deleted.", groupName, actionName);
+                    await DrainAndDisposeExecutorAsync(
+                        currentExecutor, groupName, actionName,
+                        errorCode: "ManagementActionDeleted",
+                        errorMessage: "Management action definition deleted; this request was received the definition was deleted.",
+                        cancellationToken);
                     return true;
 
                 default:
@@ -250,6 +260,42 @@ namespace ManagementActionConnector
                 actionName,
                 new ConnectorRuntimeHealth { Status = HealthStatus.Available },
                 cancellationToken: cancellationToken);
+
+        /// <summary>
+        /// Update the durable per-action <see cref="AssetManagementGroupActionStatus.Error"/>
+        /// (config status) on the asset. Pass <paramref name="validationError"/> = <c>null</c>
+        /// to clear a previous error, or a populated <see cref="ConfigError"/> to record that
+        /// the connector rejected the latest definition revision.
+        /// </summary>
+        /// <remarks>
+        /// This is distinct from runtime health: config status is the durable record of
+        /// "did this connector accept the action's definition?", surfaced back to the cloud
+        /// via the asset's status. Runtime health is volatile telemetry about current liveness.
+        /// On a definition change, both should be updated.
+        /// </remarks>
+        private static Task ReportActionConfigStatusAsync(
+            AssetClient assetClient,
+            string groupName,
+            string actionName,
+            ConfigError? validationError,
+            CancellationToken cancellationToken)
+            => assetClient.GetAndUpdateAssetStatusAsync(
+                current =>
+                {
+                    current.Config ??= new ConfigStatus();
+                    current.Config.LastTransitionTime = DateTime.UtcNow;
+                    current.UpdateManagementGroupStatus(
+                        groupName,
+                        new AssetManagementGroupActionStatus
+                        {
+                            Name = actionName,
+                            Error = validationError,
+                        });
+                    return current;
+                },
+                onlyIfChanged: true,
+                commandTimeout: null,
+                cancellationToken);
 
         /// <summary>
         /// Budget for draining an outdated executor's backlog before we give up and dispose.
