@@ -208,7 +208,7 @@ classDiagram
 
     class ManagementActionRequest {
         <<new>>
-        +Payload : byte[]
+        +Payload : ReadOnlySequence~byte~
         +ContentType : string
         +FormatIndicator : FormatIndicator
         +CustomUserData : Dictionary~string, string~
@@ -223,7 +223,7 @@ classDiagram
     class ManagementActionResponse {
         <<new>>
         <<record>>
-        +Payload : byte[]
+        +Payload : ReadOnlySequence~byte~
         +ContentType : string
         +CloudEvent : CloudEvent?
         +FormatIndicator : FormatIndicator
@@ -509,7 +509,7 @@ Represents an incoming management action invocation. Created internally by `Mana
 
 ```
 Properties (read-only):
-  - byte[] Payload
+  - ReadOnlySequence<byte> Payload  // non-contiguous-friendly; .ToArray() if a byte[] is needed
   - string ContentType
   - FormatIndicator FormatIndicator
   - Dictionary<string, string> CustomUserData
@@ -529,7 +529,7 @@ Methods:
 ```csharp
 public record ManagementActionResponse
 {
-    public required byte[] Payload { get; set; }
+    public required ReadOnlySequence<byte> Payload { get; set; }
     public required string ContentType { get; set; }
     public required CloudEvent? CloudEvent { get; set; }
     public FormatIndicator FormatIndicator { get; set; } = FormatIndicator.UnspecifiedBytes;

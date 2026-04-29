@@ -1,6 +1,7 @@
 ﻿// Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
+using System.Buffers;
 using Azure.Iot.Operations.Protocol;
 using Azure.Iot.Operations.Protocol.Models;
 
@@ -21,7 +22,7 @@ namespace Azure.Iot.Operations.Connector
         }
 
         /// <summary>Raw request payload bytes as delivered by the invoker.</summary>
-        public byte[] Payload { get; internal set; } = Array.Empty<byte>();
+        public ReadOnlySequence<byte> Payload { get; internal set; } = ReadOnlySequence<byte>.Empty;
 
         /// <summary>MIME type of <see cref="Payload"/>.</summary>
         public string ContentType { get; internal set; } = string.Empty;

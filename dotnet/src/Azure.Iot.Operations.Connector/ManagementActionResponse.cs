@@ -1,6 +1,7 @@
 ﻿// Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
+using System.Buffers;
 using Azure.Iot.Operations.Protocol;
 using Azure.Iot.Operations.Protocol.Models;
 using Azure.Iot.Operations.Protocol.Telemetry;
@@ -14,7 +15,7 @@ namespace Azure.Iot.Operations.Connector
     public record ManagementActionResponse
     {
         /// <summary>Serialized response payload.</summary>
-        public required byte[] Payload { get; set; }
+        public required ReadOnlySequence<byte> Payload { get; set; }
 
         /// <summary>MIME type of <see cref="Payload"/> (e.g. <c>application/json</c>).</summary>
         public required string ContentType { get; set; }

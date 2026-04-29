@@ -160,7 +160,7 @@ async Task HandleManagementAction(
             {
                 var response = new ManagementActionResponse
                 {
-                    Payload = resultBytes,
+                    Payload = new ReadOnlySequence<byte>(resultBytes),
                     ContentType = "application/json",
                     CloudEvent = null,
                 };

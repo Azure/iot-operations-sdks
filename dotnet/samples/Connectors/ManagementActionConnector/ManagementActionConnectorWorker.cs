@@ -1,6 +1,7 @@
 ﻿// Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
+using System.Buffers;
 using Azure.Iot.Operations.Connector;
 using Azure.Iot.Operations.Protocol;
 using Azure.Iot.Operations.Services.AssetAndDeviceRegistry.Models;
@@ -177,7 +178,7 @@ namespace ManagementActionConnector
             // typed response.
             var response = new ManagementActionResponse
             {
-                Payload = Array.Empty<byte>(),
+                Payload = ReadOnlySequence<byte>.Empty,
                 ContentType = "application/json",
                 CloudEvent = null,
             };
@@ -379,7 +380,7 @@ namespace ManagementActionConnector
 
                     var errorResponse = new ManagementActionResponse
                     {
-                        Payload = Array.Empty<byte>(),
+                        Payload = ReadOnlySequence<byte>.Empty,
                         ContentType = "application/json",
                         CloudEvent = null,
                         ApplicationError = new ManagementActionApplicationError
