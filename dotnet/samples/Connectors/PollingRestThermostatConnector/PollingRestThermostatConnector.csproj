@@ -11,11 +11,11 @@
     <PackageReference Include="Microsoft.Extensions.Hosting" Version="8.0.1" />
   </ItemGroup>
 
-  <!--Use packages from Nuget.org if built from outside the source repo-->
+  <!--Use latest packages from Nuget.org if built from outside the source repo-->
   <ItemGroup Condition="!Exists('..\..\..\src\Azure.Iot.Operations.Connector\Azure.Iot.Operations.Connector.csproj')">
-    <PackageReference Include="Azure.Iot.Operations.Connector" Version="1.*.*" />
-    <PackageReference Include="Azure.Iot.Operations.Mqtt" Version="1.*.*" />
-    <PackageReference Include="Azure.Iot.Operations.Services" Version="1.*.*" />
+    <PackageReference Include="Azure.Iot.Operations.Connector" Version="1.*" />
+    <PackageReference Include="Azure.Iot.Operations.Mqtt" Version="1.*" />
+    <PackageReference Include="Azure.Iot.Operations.Services" Version="1.*" />
   </ItemGroup>
 
   <!--Use local sources if built from inside the source repo-->
