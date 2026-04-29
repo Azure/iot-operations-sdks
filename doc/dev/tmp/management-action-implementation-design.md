@@ -181,7 +181,7 @@ classDiagram
         +ForwardSampledDatasetAsync() Task
         +ForwardReceivedEventAsync() Task
         +ReportManagementActionRuntimeHealthAsync() Task
-        +GetManagementActionExecutorAsync(group, action)* Task~ManagementActionExecutor~
+        +GetManagementActionExecutorAsync(group, action)* Task~ManagementActionExecutor?~
         +RecvManagementActionNotificationAsync(group, action)* Task~ManagementActionNotification~
         +ReportManagementActionRequestMessageSchemaAsync(group, action, schema)* Task
         +ReportManagementActionResponseMessageSchemaAsync(group, action, schema)* Task
@@ -579,8 +579,11 @@ New internal state:
   - _schemaRegistryClient : SchemaRegistryClient
 
 New methods (public):
-  - Task<ManagementActionExecutor> GetManagementActionExecutorAsync(
+  - Task<ManagementActionExecutor?> GetManagementActionExecutorAsync(
         string managementGroupName, string managementActionName, CancellationToken ct)
+        // Returns null if no valid executor exists right now (e.g. the current definition
+        // was rejected with a ConfigError). Callers should await
+        // RecvManagementActionNotificationAsync for the next definition and retry.
   - Task<ManagementActionNotification> RecvManagementActionNotificationAsync(
         string managementGroupName, string managementActionName, CancellationToken ct)
   - Task ReportManagementActionRequestMessageSchemaAsync(
@@ -617,7 +620,7 @@ New internal state:
   + ConcurrentDictionary<string, Channel<ManagementActionNotification>> _managementActionChannels
 
 New public methods:
-  + GetManagementActionExecutorAsync(groupName, actionName) -> ManagementActionExecutor
+  + GetManagementActionExecutorAsync(groupName, actionName) -> ManagementActionExecutor?
   + RecvManagementActionNotificationAsync(groupName, actionName) -> ManagementActionNotification
   + ReportManagementActionRequestMessageSchemaAsync(groupName, actionName, schema)
   + ReportManagementActionResponseMessageSchemaAsync(groupName, actionName, schema)
@@ -790,7 +793,7 @@ sequenceDiagram
     deactivate CW
     AC->>User: RecvManagementActionNotificationAsync() returns ManagementActionUpdated
 
-    User->>AC: PauseReportingManagementActionAsync(group, action)
+    User->>AC: PauseManagementActionRuntimeHealthReportingAsync(group, action)
     AC->>HR: PauseReportingManagementActionAsync(group, action)
     Note over AC,HR: Sets cached entry to null. The periodic sender skips null entries, and a later report call overwrites it. There is no separate resume API.
     User->>User: Re-validate definition
@@ -839,7 +842,7 @@ sequenceDiagram
     deactivate CW
     AC->>User: RecvManagementActionNotificationAsync() returns UpdatedWithNewExecutor
 
-    User->>AC: PauseReportingManagementActionAsync(group, action)
+    User->>AC: PauseManagementActionRuntimeHealthReportingAsync(group, action)
     AC->>HR: PauseReportingManagementActionAsync(group, action)
     Note over AC,HR: Same pause-via-null-cache mechanism as section 4.
 

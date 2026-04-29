@@ -92,17 +92,40 @@ namespace ManagementActionConnector
         {
             _logger.LogInformation("Starting handler for management action {Group}::{Action}", groupName, actionName);
 
-            ManagementActionExecutor executor =
+            // Executor may be null at any point in the action's lifetime — for example, the
+            // current definition was rejected with a ConfigError, or the SDK hasn't bound a
+            // CommandExecutor yet. A null executor is not an error: we just skip the request
+            // half of the select-style loop and wait for the next lifecycle notification to
+            // bring us a fresh one.
+            ManagementActionExecutor? executor =
                 await assetClient.GetManagementActionExecutorAsync(groupName, actionName, cancellationToken);
 
             // TODO: register request/response schemas
 
             while (!cancellationToken.IsCancellationRequested)
             {
-                Task<ManagementActionRequest?> recvRequestTask =
-                    executor.RecvRequestAsync(cancellationToken);
                 Task<ManagementActionNotification> recvNotificationTask =
                     assetClient.RecvManagementActionNotificationAsync(groupName, actionName, cancellationToken);
+
+                if (executor is null)
+                {
+                    // No valid executor right now — only the notification path is live. Wait for
+                    // the next definition (which may carry a fresh executor) and react to it.
+                    ManagementActionNotification notification = await recvNotificationTask;
+                    bool shouldExit = await HandleNotificationAsync(
+                        assetClient, groupName, actionName, notification,
+                        currentExecutor: null,
+                        updateExecutor: next => executor = next,
+                        cancellationToken);
+                    if (shouldExit)
+                    {
+                        break;
+                    }
+                    continue;
+                }
+
+                Task<ManagementActionRequest?> recvRequestTask =
+                    executor.RecvRequestAsync(cancellationToken);
 
                 Task completed = await Task.WhenAny(recvRequestTask, recvNotificationTask);
 
@@ -132,7 +155,10 @@ namespace ManagementActionConnector
                 }
             }
 
-            await executor.DisposeAsync();
+            if (executor is not null)
+            {
+                await executor.DisposeAsync();
+            }
             _logger.LogInformation("Handler for {Group}::{Action} exited.", groupName, actionName);
         }
 
@@ -175,8 +201,8 @@ namespace ManagementActionConnector
             string groupName,
             string actionName,
             ManagementActionNotification notification,
-            ManagementActionExecutor currentExecutor,
-            Action<ManagementActionExecutor> updateExecutor,
+            ManagementActionExecutor? currentExecutor,
+            Action<ManagementActionExecutor?> updateExecutor,
             CancellationToken cancellationToken)
         {
             switch (notification)
@@ -206,17 +232,21 @@ namespace ManagementActionConnector
                     // Drain + dispose the OLD executor BEFORE swapping so callers whose
                     // requests were already queued on the old topic get an explicit
                     // "ManagementActionDefinitionOutdated" response instead of timing out.
-                    // See design doc §5.
-                    await DrainAndDisposeExecutorAsync(
-                        currentExecutor, groupName, actionName,
-                        errorCode: "ManagementActionDefinitionOutdated",
-                        errorMessage: "Management action definition changed; this request was received on the previous topic.",
-                        cancellationToken);
-
-                    if (updatedWithNew.NewExecutor is not null)
+                    // See design doc §5. Skipped if there was no prior executor (e.g. the
+                    // previous definition had been rejected with a ConfigError).
+                    if (currentExecutor is not null)
                     {
-                        updateExecutor(updatedWithNew.NewExecutor);
+                        await DrainAndDisposeExecutorAsync(
+                            currentExecutor, groupName, actionName,
+                            errorCode: "ManagementActionDefinitionOutdated",
+                            errorMessage: "Management action definition changed; this request was received on the previous topic.",
+                            cancellationToken);
                     }
+
+                    // NewExecutor may itself be null if the new definition was rejected — record
+                    // that and keep waiting for a future valid definition.
+                    updateExecutor(updatedWithNew.NewExecutor);
+
                     // Same two-channel update as the same-topic case above.
                     await ReportActionConfigStatusAsync(assetClient, groupName, actionName, validationError: null, cancellationToken);
                     await ReportActionAvailableAsync(assetClient, groupName, actionName, cancellationToken);
@@ -230,11 +260,14 @@ namespace ManagementActionConnector
 
                 case ManagementActionDeleted:
                     _logger.LogInformation("{Group}::{Action} deleted.", groupName, actionName);
-                    await DrainAndDisposeExecutorAsync(
-                        currentExecutor, groupName, actionName,
-                        errorCode: "ManagementActionDeleted",
-                        errorMessage: "Management action definition deleted; this request was received the definition was deleted.",
-                        cancellationToken);
+                    if (currentExecutor is not null)
+                    {
+                        await DrainAndDisposeExecutorAsync(
+                            currentExecutor, groupName, actionName,
+                            errorCode: "ManagementActionDeleted",
+                            errorMessage: "Management action definition deleted; this request was received the definition was deleted.",
+                            cancellationToken);
+                    }
                     return true;
 
                 default:

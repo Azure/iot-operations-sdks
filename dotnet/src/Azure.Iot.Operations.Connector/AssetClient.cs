@@ -403,13 +403,19 @@ namespace Azure.Iot.Operations.Connector
         /// <summary>
         /// Get the <see cref="ManagementActionExecutor"/> for <paramref name="managementGroupName"/> /
         /// <paramref name="managementActionName"/>. Returns the currently-valid executor bound to
-        /// the action's request topic. When the action definition changes in a way that requires a
-        /// new topic, the existing executor is surfaced as "outdated" via
+        /// the action's request topic, or <c>null</c> if no valid executor exists right now —
+        /// for example, the action's current definition was rejected (its
+        /// <see cref="ManagementActionUpdated"/> / <see cref="ManagementActionUpdatedWithNewExecutor"/>
+        /// notification carried a non-null <c>ConfigError</c>) or the action is still being
+        /// initialized. A null result is not an error; callers should await
+        /// <see cref="RecvManagementActionNotificationAsync"/> for the next definition and call
+        /// this method again. When the action definition changes in a way that requires a new
+        /// topic, the existing executor is surfaced as outdated via
         /// <see cref="RecvManagementActionNotificationAsync"/> (as
-        /// <see cref="ManagementActionUpdatedWithNewExecutor"/>); the caller should swap to the new
-        /// one it carries.
+        /// <see cref="ManagementActionUpdatedWithNewExecutor"/>); the caller should swap to the
+        /// new one it carries (which may itself be null for the same reason).
         /// </summary>
-        public Task<ManagementActionExecutor> GetManagementActionExecutorAsync(
+        public Task<ManagementActionExecutor?> GetManagementActionExecutorAsync(
             string managementGroupName,
             string managementActionName,
             CancellationToken cancellationToken = default)

@@ -130,20 +130,30 @@ async Task HandleManagementAction(
     await assetClient.ReportManagementActionResponseMessageSchemaAsync(
         groupName, actionName, responseSchema, ct);
 
-    // Get initial executor
-    var executor = await assetClient.GetManagementActionExecutorAsync(
+    // Get initial executor. May be null if the action's current definition was rejected
+    // (ConfigError) — in that case skip the request half of the loop and wait for the
+    // next lifecycle notification to bring a fresh one.
+    ManagementActionExecutor? executor = await assetClient.GetManagementActionExecutorAsync(
         groupName, actionName, ct);
 
     while (!ct.IsCancellationRequested)
     {
-        // Wait for either a request or a lifecycle notification
-        var recvTask = executor.RecvRequestAsync(ct);
+        // Wait for either a request or a lifecycle notification.
+        // Notification path is always live; request path only when we have an executor.
         var notifyTask = assetClient.RecvManagementActionNotificationAsync(
             groupName, actionName, ct);
+        var recvTask = executor?.RecvRequestAsync(ct);
 
-        await Task.WhenAny(recvTask, notifyTask);
+        if (recvTask is null)
+        {
+            await notifyTask;
+        }
+        else
+        {
+            await Task.WhenAny(recvTask, notifyTask);
+        }
 
-        if (recvTask.IsCompleted)
+        if (recvTask is not null && recvTask.IsCompleted)
         {
             var request = await recvTask;
             if (request != null)
@@ -166,7 +176,7 @@ async Task HandleManagementAction(
                     // Same topic, same executor — pause health, re-validate,
                     // persist validation outcome as durable config status,
                     // re-report schemas, then resume with new health status.
-                    await assetClient.PauseReportingManagementActionAsync(
+                    await assetClient.PauseManagementActionRuntimeHealthReportingAsync(
                         groupName, actionName, ct);
                     // Two-channel update on any definition change:
                     //   (a) durable config status — was the new definition accepted?
@@ -190,13 +200,16 @@ async Task HandleManagementAction(
                     break;
 
                 case ManagementActionUpdatedWithNewExecutor n:
-                    // Topic changed — pause health, drain old executor, swap,
+                    // Topic changed — pause health, drain old executor (if any), swap,
                     // persist validation outcome, re-report schemas, resume.
-                    await assetClient.PauseReportingManagementActionAsync(
+                    await assetClient.PauseManagementActionRuntimeHealthReportingAsync(
                         groupName, actionName, ct);
-                    await DrainAsync(executor, ct);
-                    await executor.DisposeAsync();
-                    executor = n.NewExecutor!;
+                    if (executor is not null)
+                    {
+                        await DrainAsync(executor, ct);
+                        await executor.DisposeAsync();
+                    }
+                    executor = n.NewExecutor; // may itself be null if new definition was rejected
                     // Same two-channel update as the same-topic case above.
                     await assetClient.GetAndUpdateAssetStatusAsync(s =>
                     {
