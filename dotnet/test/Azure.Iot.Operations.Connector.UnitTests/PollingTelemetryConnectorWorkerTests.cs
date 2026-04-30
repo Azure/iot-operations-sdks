@@ -1360,7 +1360,7 @@ namespace Azure.Iot.Operations.Connector.UnitTests
         }
 
         [Fact]
-        public async Task ConnectorCancelsPreviousCallbacksWhenAssetIsUpdated() //TODO
+        public async Task ConnectorCancelsPreviousCallbacksWhenAssetIsUpdated()
         {
             MockMqttClient mockMqttClient = new MockMqttClient();
             MockAzureDeviceRegistryClientWrapper mockAdrClientWrapper = new MockAzureDeviceRegistryClientWrapper();
@@ -1411,8 +1411,6 @@ namespace Azure.Iot.Operations.Connector.UnitTests
                     cancellationTokenTriggeredInAssetCallback.TrySetResult();
                 }
 
-                // simulate the asset task running longer than expected after cancellation
-                await Task.Delay(TimeSpan.FromSeconds(1));
                 assetCallbackEndedGracefully.TrySetResult();
             };
 
@@ -1502,12 +1500,13 @@ namespace Azure.Iot.Operations.Connector.UnitTests
                 Assert.Fail("Timed out waiting for the \"WhileAssetIsAvailable\" callback to start");
             }
 
-            await worker.StopAsync(CancellationToken.None);
+            // Simulate the asset getting updated to check if the previous asset-related callbacks are cancelled and started anew
+            asset.Datasets[0].Name = "some new dataset name";
+            mockAdrClientWrapper.SimulateAssetChanged(new(deviceName, inboundEndpointName, assetName, ChangeType.Updated, asset));
 
             // The user callbacks should each trigger the provided cancellation token and should end gracefully
             try
             {
-                await cancellationTokenTriggeredInDeviceCallback.Task.WaitAsync(TimeSpan.FromSeconds(5));
                 await cancellationTokenTriggeredInAssetCallback.Task.WaitAsync(TimeSpan.FromSeconds(5));
             }
             catch (TimeoutException)
@@ -1517,13 +1516,14 @@ namespace Azure.Iot.Operations.Connector.UnitTests
 
             try
             {
-                await deviceCallbackEndedGracefully.Task.WaitAsync(TimeSpan.FromSeconds(5));
                 await assetCallbackEndedGracefully.Task.WaitAsync(TimeSpan.FromSeconds(5));
             }
             catch (TimeoutException)
             {
                 Assert.Fail("User-supplied callbacks were cancelled as expected but weren't awaited");
             }
+
+            await worker.StopAsync(CancellationToken.None);
 
             worker.Dispose();
         }
