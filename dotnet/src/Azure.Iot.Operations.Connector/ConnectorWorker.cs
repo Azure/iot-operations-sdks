@@ -779,6 +779,10 @@ namespace Azure.Iot.Operations.Connector
                         _logger.LogError(e, "Encountered an exception while cancelling user-defined task for device name {deviceName}, inbound endpoint name {inboundEndpointName}, asset name {assetName}", deviceName, inboundEndpointName, assetName);
                     }
                 }
+                else
+                {
+                    _logger.LogError("Failed to find  a WhileAssetAvailable callback to cancel once the asset became unavailable");
+                }
             }
         }
 
