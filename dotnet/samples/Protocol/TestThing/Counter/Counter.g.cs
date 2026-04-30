@@ -160,7 +160,7 @@ namespace TestThing.Counter
                 await this.eventCollectionSender.DisposeAsync().ConfigureAwait(false);
             }
 
-            public async ValueTask DisposeAsync(bool disposing, CancellationToken cancellationToken)
+            public async ValueTask DisposeAsync(bool disposing, CancellationToken cancellationToken = default)
             {
                 await this.readCounterActionExecutor.DisposeAsync(disposing, cancellationToken).ConfigureAwait(false);
                 await this.incrementActionExecutor.DisposeAsync(disposing, cancellationToken).ConfigureAwait(false);
@@ -336,7 +336,7 @@ namespace TestThing.Counter
             }
 
             /// <summary>
-            /// Stop accepting telemetry for all telemetry receivers.
+            /// Stop accepting telemetry for all telemetry receivers and make all command invokers unsubscribe from command topics.
             /// </summary>
             /// <param name="cancellationToken">Cancellation token.</param>
             public async Task StopAsync(CancellationToken cancellationToken = default)
@@ -356,7 +356,7 @@ namespace TestThing.Counter
                 await this.eventCollectionReceiver.DisposeAsync().ConfigureAwait(false);
             }
 
-            public async ValueTask DisposeAsync(bool disposing, CancellationToken cancellationToken)
+            public async ValueTask DisposeAsync(bool disposing, CancellationToken cancellationToken = default)
             {
                 await this.readCounterActionInvoker.DisposeAsync(disposing, cancellationToken).ConfigureAwait(false);
                 await this.incrementActionInvoker.DisposeAsync(disposing, cancellationToken).ConfigureAwait(false);
