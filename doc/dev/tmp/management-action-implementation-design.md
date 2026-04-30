@@ -325,93 +325,81 @@ classDiagram
 
 ## Architecture Overview
 
-The management action execution pipeline spans three existing .NET layers. New management action methods are added directly to the existing `AssetClient` (which already handles health reporting). No new callback surface on `ConnectorWorker` is needed — management action executors and notifications are accessed through `AssetClient` within the existing `WhileAssetIsAvailable` callback.
+The management action execution pipeline spans four existing .NET layers. User code lives at the top: an `IManagementActionHandler` per action plus an `IManagementActionHandlerFactory` that produces them. Everything below — per-action executor lifecycle, notification fan-out, drain/dispose, health/config reporting — is owned by the new `ManagementActionConnectorWorker` base class. New management action methods on `AssetClient` are the low-level surface the worker calls into; advanced connectors can use them directly.
 
+```mermaid
+flowchart TB
+    subgraph User["User code (your connector binary)"]
+        BG["BackgroundService shell<br/>(awaits ManagementActionConnectorWorker.RunConnectorAsync)"]
+        Factory["IManagementActionHandlerFactory<br/>(your impl)"]
+        Handler["IManagementActionHandler<br/>(your impl: HandleCallAsync / HandleReadAsync / HandleWriteAsync)"]
+    end
+
+    subgraph Connector["Azure.Iot.Operations.Connector"]
+        direction TB
+        MACW["<b>ManagementActionConnectorWorker</b> (new)<br/>per-action loop, notification dispatch,<br/>drain &amp; dispose, health + config reporting"]
+        MAE["<b>ManagementActionExecutor</b> (new)<br/>wraps CommandExecutor&lt;byte[], byte[]&gt;"]
+        MAR["<b>ManagementActionRequest</b> (new)<br/>Payload (ROSeq&lt;byte&gt;), ContentType,<br/>CompleteAsync(response)"]
+        MAResp["<b>ManagementActionResponse</b> (new, record)<br/>required Payload, ContentType, CloudEvent;<br/>optional ApplicationError, CustomUserData"]
+        MANot["<b>ManagementActionNotification</b> (new, abstract record)<br/>Updated · UpdatedWithNewExecutor ·<br/>AssetUpdated · Deleted"]
+        AC["<b>AssetClient</b> (modified)<br/>+ GetManagementActionExecutorAsync<br/>+ RecvManagementActionNotificationAsync<br/>+ PauseManagementActionRuntimeHealthReportingAsync<br/>+ ReportManagementAction&#123;Request,Response&#125;MessageSchemaAsync (Part 2)<br/>internal: per-action notification channels;<br/>new dep: SchemaRegistryClient"]
+        CW["<b>ConnectorWorker</b> (modified)<br/>~ injects SchemaRegistryClient into AssetClient<br/>~ pushes mgmt action notifications to AssetClient"]
+    end
+
+    subgraph Services["Azure.Iot.Operations.Services (unchanged)"]
+        ADR["IAzureDeviceRegistryClient<br/>+ AzureDeviceRegistryClient"]
+        SR["SchemaRegistryClient<br/>(PutAsync for schema registration)"]
+        HR["AssetRuntimeHealthReporter<br/>(mgmt action health)"]
+        Models["AssetStatus · AssetManagementGroup&#123;,Action&#125;Status<br/>MessageSchemaReference<br/>ManagementActionRuntimeHealthEventTelemetrySender"]
+    end
+
+    subgraph Protocol["Azure.Iot.Operations.Protocol (unchanged)"]
+        CE["CommandExecutor&lt;TReq, TResp&gt;<br/>ExtendedRequest&lt;T&gt; · ExtendedResponse&lt;T&gt;<br/>CommandResponseMetadata · ApplicationContext"]
+        Pass["PassthroughSerializer<br/>(byte[] in/out)"]
+    end
+
+    subgraph Mqtt["Azure.Iot.Operations.Mqtt (unchanged)"]
+        MqttClient["IMqttClient / IMqttPubSubClient"]
+    end
+
+    BG --> MACW
+    MACW -->|CreateHandler per action| Factory
+    Factory ==> Handler
+    MACW -->|HandleCallAsync / HandleReadAsync / HandleWriteAsync| Handler
+
+    MACW --> AC
+    MACW -. consumes .-> MAR
+    MACW -. consumes .-> MANot
+    MACW -. uses for executor lifecycle .-> MAE
+    Handler -. returns .-> MAResp
+
+    AC ==> MAE
+    AC ==> MANot
+    MAE --> CE
+    MAE --> Pass
+    MAR -. completed by Worker via CompleteAsync .-> CE
+
+    CW --> AC
+    CW --> ADR
+    AC --> ADR
+    AC --> HR
+    AC --> SR
+    HR --> Models
+    ADR --> Models
+
+    CE --> MqttClient
+    SR --> MqttClient
+    ADR --> MqttClient
+
+    classDef new fill:#d4edda,stroke:#28a745,color:#000
+    classDef mod fill:#fff3cd,stroke:#ffc107,color:#000
+    classDef user fill:#cce5ff,stroke:#004085,color:#000
+    class MACW,MAE,MAR,MAResp,MANot new
+    class AC,CW mod
+    class BG,Factory,Handler user
 ```
-┌─────────────────────────────────────────────────────────────┐
-│  User Code (connector implementation)                       │
-│  WhileAssetIsAvailable callback (existing)                  │
-│    - receives AssetAvailableEventArgs (contains AssetClient) │
-│    - processes mgmt action requests via AssetClient           │
-│    - reports schemas via AssetClient                          │
-│    - runs until CancellationToken fires (deleted/shutdown)   │
-└────────────────────────┬────────────────────────────────────┘
-                         │ uses
-┌────────────────────────▼────────────────────────────────────┐
-│  Azure.Iot.Operations.Connector                             │
-│                                                             │
-│  New types:                                                 │
-│  ┌─────────────────────────────────────────────────────┐    │
-│  │ ManagementActionExecutor                             │    │
-│  │  - RecvRequestAsync() -> ManagementActionRequest?    │    │
-│  │  - wraps CommandExecutor<byte[], byte[]>              │    │
-│  └─────────────────────────────────────────────────────┘    │
-│  ┌─────────────────────────────────────────────────────┐    │
-│  │ ManagementActionRequest                              │    │
-│  │  - CompleteAsync(ManagementActionResponse)            │    │
-│  │  - IsCancelled, Payload, ContentType, etc.           │    │
-│  └─────────────────────────────────────────────────────┘    │
-│  ┌─────────────────────────────────────────────────────┐    │
-│  │ ManagementActionResponse (record)                    │    │
-│  │  - required Payload, ContentType, CloudEvent         │    │
-│  │  - optional CustomUserData, FormatIndicator          │    │
-│  │  - optional ApplicationError                         │    │
-│  └─────────────────────────────────────────────────────┘    │
-│  ┌─────────────────────────────────────────────────────┐    │
-│  │ ManagementActionApplicationError (record)            │    │
-│  │  - ErrorCode, ErrorPayload                           │    │
-│  └─────────────────────────────────────────────────────┘    │
-│  ┌─────────────────────────────────────────────────────┐    │
-│  │ ManagementActionNotification (enum/union)            │    │
-│  │  - Updated, UpdatedWithNewExecutor,                  │    │
-│  │    AssetUpdated, Deleted                             │    │
-│  └─────────────────────────────────────────────────────┘    │
-│                                                             │
-│  Modified types:                                            │
-│  ┌─────────────────────────────────────────────────────┐    │
-│  │ AssetClient (extended)                               │    │
-│  │  + GetManagementActionExecutorAsync()                │    │
-│  │  + RecvManagementActionNotificationAsync()           │    │
-│  │  + ReportManagementActionRequestMessageSchemaAsync() │    │
-│  │  + ReportManagementActionResponseMessageSchemaAsync()│    │
-│  │  + _managementActionChannels (internal state)        │    │
-│  │  + _schemaRegistryClient (new dependency)            │    │
-│  └─────────────────────────────────────────────────────┘    │
-│  ┌─────────────────────────────────────────────────────┐    │
-│  │ ConnectorWorker (minor changes)                      │    │
-│  │  ~ Injects SchemaRegistryClient into AssetClient     │    │
-│  │  ~ Pushes mgmt action notifications to AssetClient   │    │
-│  └─────────────────────────────────────────────────────┘    │
-└────────────────────────┬────────────────────────────────────┘
-                         │ depends on
-┌────────────────────────▼────────────────────────────────────┐
-│  Azure.Iot.Operations.Services                              │
-│                                                             │
-│  Existing types used (no changes expected):                 │
-│  - IAzureDeviceRegistryClient / AzureDeviceRegistryClient   │
-│  - SchemaRegistryClient (PutAsync for schema registration)  │
-│  - AssetRuntimeHealthReporter (management action health)    │
-│  - AssetStatus, AssetManagementGroupStatus,                 │
-│    AssetManagementGroupActionStatus                         │
-│  - MessageSchemaReference                                   │
-│  - ManagementActionRuntimeHealthEventTelemetrySender        │
-└────────────────────────┬────────────────────────────────────┘
-                         │ depends on
-┌────────────────────────▼────────────────────────────────────┐
-│  Azure.Iot.Operations.Protocol                              │
-│                                                             │
-│  Existing types used (no changes expected):                 │
-│  - CommandExecutor<TReq, TResp> (RPC executor base)         │
-│  - ExtendedRequest<T>, ExtendedResponse<T>                  │
-│  - CommandResponseMetadata                                  │
-│  - ApplicationContext, IMqttPubSubClient                    │
-└────────────────────────┬────────────────────────────────────┘
-                         │ depends on
-┌────────────────────────▼────────────────────────────────────┐
-│  Azure.Iot.Operations.Mqtt                                  │
-│  - IMqttClient (MQTT connection)                            │
-└─────────────────────────────────────────────────────────────┘
-```
+
+**Legend:** Blue = user-implemented. Green = new types in `Azure.Iot.Operations.Connector`. Yellow = modified existing types. Heavy arrows (`==>`) indicate "produces / creates"; thin arrows are "uses".
 
 ### System Context: Connector and External Dependencies
 
