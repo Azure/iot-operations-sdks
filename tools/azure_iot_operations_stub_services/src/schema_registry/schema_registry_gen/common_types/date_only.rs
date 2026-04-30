@@ -3,7 +3,7 @@
 use std::ops::{Deref, DerefMut};
 
 use chrono::{TimeZone, Utc};
-use serde::{de, ser, Deserialize, Deserializer, Serialize, Serializer};
+use serde::{Deserialize, Deserializer, Serialize, Serializer, de, ser};
 use time::{self, format_description::well_known::Rfc3339};
 
 #[derive(Clone, Debug)]
@@ -44,7 +44,14 @@ impl<'de> Deserialize<'de> for Date {
 
 fn date_to_rfc3339(date: &Date) -> Result<String, &'static str> {
     let date_time = Utc
-        .with_ymd_and_hms(date.year(), date.month() as u32, u32::from(date.day()), 0, 0, 0)
+        .with_ymd_and_hms(
+            date.year(),
+            date.month() as u32,
+            u32::from(date.day()),
+            0,
+            0,
+            0,
+        )
         .unwrap();
     let date_time_string = date_time.to_rfc3339();
     let t_ix = date_time_string
