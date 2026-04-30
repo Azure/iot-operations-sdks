@@ -58,6 +58,8 @@ namespace Azure.Iot.Operations.Connector
                 args.AssetName,
                 args.DeviceName);
 
+            var adrClient = _adrClient ?? throw new InvalidOperationException("ADR client not initialized.");
+
             var actionTasks = new List<Task>();
             foreach (var group in args.Asset.ManagementGroups ?? Enumerable.Empty<AssetManagementGroup>())
             {
@@ -67,7 +69,7 @@ namespace Azure.Iot.Operations.Connector
                     if (args.Device.Endpoints?.Inbound != null
                         && args.Device.Endpoints.Inbound.TryGetValue(args.InboundEndpointName, out var inboundEndpoint))
                     {
-                        credentials = _adrClient!.GetEndpointCredentials(args.DeviceName, args.InboundEndpointName, inboundEndpoint);
+                        credentials = adrClient.GetEndpointCredentials(args.DeviceName, args.InboundEndpointName, inboundEndpoint);
                     }
 
                     IManagementActionHandler handler = _handlerFactory.CreateHandler(

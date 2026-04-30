@@ -1,7 +1,22 @@
 # Management Action .NET Implementation — Design
 
-**Date:** 2026-04-14  
+**Date:** 2026-04-14 (status updated 2026-04-30)
 **Prerequisite:** [Gap Analysis](management-action-gap-analysis.md)
+**Onepager:** [management-action-design-onepager.md](management-action-design-onepager.md)
+**Part 2 stash:** [management-action-part2-stash.md](management-action-part2-stash.md)
+
+---
+
+## Implementation status (branch `maxim/management-action`, 2026-04-30)
+
+This document captures the **full** target design. The branch implements **Part 1** only:
+
+- All new public types in `Azure.Iot.Operations.Connector` exist with the signatures and XML docs shown below; method bodies are `NotImplementedException` stubs except where noted.
+- The `ManagementActionConnectorWorker` orchestration logic (per-action loop, notification dispatch, drain-and-dispose, health + config-status reporting, exception-to-error-response translation) is fully written. It calls into the `AssetClient` stubs, so it will throw at runtime until those are wired.
+- The new methods on `AssetClient` (`GetManagementActionExecutorAsync`, `RecvManagementActionNotificationAsync`, `PauseManagementActionRuntimeHealthReportingAsync`) are public stubs.
+- `ConnectorWorker` has **not** been modified yet. Notification fan-out into `AssetClient`'s per-action channels and `SchemaRegistryClient` injection are deferred together with the corresponding `AssetClient` bodies.
+- Schema reporting (section §6 below: `ReportManagementAction{Request,Response}MessageSchemaAsync`, `SchemaRegistryClient` dependency on `AssetClient`, §3 *Schema Registration* sequence) is **Part 2**. It is deliberately not on this branch — see [management-action-part2-stash.md](management-action-part2-stash.md) for the full snippet to paste back when Part 2 lands.
+- One new method appears in the implementation that the onepager doesn't list: `AssetClient.PauseManagementActionRuntimeHealthReportingAsync` (per-action analog of the existing `AssetRuntimeHealthReporter.PauseReportingManagementActionAsync`). It is invoked by `ManagementActionConnectorWorker` on every definition update so the next health event reflects the re-validated definition.
 
 ---
 
@@ -502,6 +517,35 @@ serializer, so the serializer's hardcoded `application/octet-stream`
 default is harmless — it is overridden by the metadata objects. No new
 `BypassPayload` type is required on the .NET side. See Open Question #1
 for full resolution.
+
+**Public surface — `StopAsync` vs `DisposeAsync` (open):** The branch
+currently exposes both `StopAsync(CancellationToken)` (unsubscribe + stop
+delivering) and `DisposeAsync()` (release local resources, requires
+`StopAsync` already done). The XML doc on `StopAsync` says *"User code
+generally should not call this; call `DisposeAsync` after draining
+instead"* — i.e. the only legitimate caller is the SDK itself, in
+`ManagementActionConnectorWorker.DrainAndDisposeExecutorAsync`.
+That is a strong signal that `StopAsync` should be **`internal`**, not
+`public`: making it public lets user code corrupt the worker's per-action
+bookkeeping (the doc explicitly calls this out as "out of sync"). Two
+options when the bodies are wired:
+
+- **Make `StopAsync` `internal`** and have `DisposeAsync` call it
+  itself if it hasn't already run. User code drains via the existing
+  `RecvRequestAsync` returning `null` pattern, then calls `DisposeAsync`.
+  Matches the *Stop is an SDK-internal lifecycle step* mental model and
+  prevents misuse. **Recommended.**
+- **Keep `StopAsync` public** and document a precise contract: callers
+  must own the executor exclusively (i.e. they obtained it directly from
+  `AssetClient.GetManagementActionExecutorAsync` rather than via the
+  `IManagementActionHandler` path). This preserves a hatch for
+  advanced/custom-lifecycle connectors at the cost of a sharper edge.
+
+The same reasoning applies to `ManagementActionRequest`: `CompleteAsync`
+is intended for both the worker and (in advanced mode) user code, so it
+stays `public`. `DisposeAsync` stays `public` because it is the natural
+`await using` partner. No `StopAsync` exists on `ManagementActionRequest`
+and none should be added.
 
 ### 2. ManagementActionRequest
 
