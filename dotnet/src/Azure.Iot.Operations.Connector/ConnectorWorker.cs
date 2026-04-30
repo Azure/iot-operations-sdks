@@ -586,7 +586,6 @@ namespace Azure.Iot.Operations.Connector
                 _isDisposed = true;
             }
         }
-
         private async void OnAssetChanged(object? _, AssetChangedEventArgs args)
         {
             string compoundDeviceName = $"{args.DeviceName}_{args.InboundEndpointName}";
@@ -607,7 +606,6 @@ namespace Azure.Iot.Operations.Connector
             }
             else if (args.ChangeType == ChangeType.Updated)
             {
-                // this doesn't cancel previous callbacks?
                 _logger.LogInformation("Asset with name {0} updated on endpoint with name {1} on device with name {2}", args.AssetName, args.InboundEndpointName, args.DeviceName);
                 await AssetUnavailableAsync(args.DeviceName, args.InboundEndpointName, args.AssetName);
                 AssetAvailable(args.DeviceName, args.InboundEndpointName, args.Asset, args.AssetName);
@@ -728,7 +726,7 @@ namespace Azure.Iot.Operations.Connector
 
             if (asset.Datasets == null)
             {
-                _logger.LogInformation($"Asset with name {assetName} has no datasets to sample"); // called twice on startup
+                _logger.LogInformation($"Asset with name {assetName} has no datasets to sample");
             }
 
             if (asset.EventGroups == null)
