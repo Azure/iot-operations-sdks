@@ -599,7 +599,7 @@ namespace Azure.Iot.Operations.Connector
             else if (args.ChangeType == ChangeType.Deleted)
             {
                 _logger.LogInformation("Asset with name {0} deleted from endpoint with name {1} on device with name {2}", args.AssetName, args.InboundEndpointName, args.DeviceName);
-                await AssetUnavailableAsync(args.DeviceName, args.InboundEndpointName, args.AssetName, false);
+                await AssetUnavailableAsync(args.DeviceName, args.InboundEndpointName, args.AssetName);
 
                 // Note that the connector does not unsubscribe from notifications about this now-deleted asset. In the near future,
                 // the ADR service itself will do this for the connector. Trying to unsubscribe would yield a 404 from the ADR service
@@ -609,7 +609,7 @@ namespace Azure.Iot.Operations.Connector
             {
                 // this doesn't cancel previous callbacks?
                 _logger.LogInformation("Asset with name {0} updated on endpoint with name {1} on device with name {2}", args.AssetName, args.InboundEndpointName, args.DeviceName);
-                await AssetUnavailableAsync(args.DeviceName, args.InboundEndpointName, args.AssetName, true);
+                await AssetUnavailableAsync(args.DeviceName, args.InboundEndpointName, args.AssetName);
                 AssetAvailable(args.DeviceName, args.InboundEndpointName, args.Asset, args.AssetName);
             }
         }
@@ -648,7 +648,7 @@ namespace Azure.Iot.Operations.Connector
             else if (args.ChangeType == ChangeType.Deleted)
             {
                 _logger.LogInformation("Device with name {0} and/or its endpoint with name {} was deleted", args.DeviceName, args.InboundEndpointName);
-                await DeviceUnavailableAsync(args, compoundDeviceName, false);
+                await DeviceUnavailableAsync(args, compoundDeviceName);
                 if (_deviceTasks.TryRemove(compoundDeviceName, out UserTaskContext? userTaskContext))
                 {
                     userTaskContext.CancellationTokenSource.Cancel();
@@ -667,7 +667,7 @@ namespace Azure.Iot.Operations.Connector
             else if (args.ChangeType == ChangeType.Updated)
             {
                 _logger.LogInformation("Device with name {0} and/or its endpoint with name {} was updated", args.DeviceName, args.InboundEndpointName);
-                await DeviceUnavailableAsync(args, compoundDeviceName, true);
+                await DeviceUnavailableAsync(args, compoundDeviceName);
                 DeviceAvailable(args, compoundDeviceName);
             }
         }
@@ -686,7 +686,7 @@ namespace Azure.Iot.Operations.Connector
             }
         }
 
-        private async Task DeviceUnavailableAsync(DeviceChangedEventArgs args, string compoundDeviceName, bool isUpdating)
+        private async Task DeviceUnavailableAsync(DeviceChangedEventArgs args, string compoundDeviceName)
         {
             await _adrClient!.UnobserveAssetsAsync(args.DeviceName, args.InboundEndpointName);
 
@@ -694,7 +694,7 @@ namespace Azure.Iot.Operations.Connector
             {
                 foreach (string assetName in deviceContext.Assets.Keys)
                 {
-                    await AssetUnavailableAsync(args.DeviceName, args.InboundEndpointName, assetName, isUpdating);
+                    await AssetUnavailableAsync(args.DeviceName, args.InboundEndpointName, assetName);
                 }
             }
         }
@@ -758,31 +758,28 @@ namespace Azure.Iot.Operations.Connector
             }
         }
 
-        private async Task AssetUnavailableAsync(string deviceName, string inboundEndpointName, string assetName, bool isUpdating)
+        private async Task AssetUnavailableAsync(string deviceName, string inboundEndpointName, string assetName)
         {
             string compoundDeviceName = $"{deviceName}_{inboundEndpointName}";
 
             // This method may be called either when an asset was updated or when it was deleted. If it was updated, then it will still be sampleable.
-            if (!isUpdating)
+            if (_assetTasks.TryRemove(GetCompoundAssetName(compoundDeviceName, assetName), out UserTaskContext? userTaskContext))
             {
-                if (_assetTasks.TryRemove(GetCompoundAssetName(compoundDeviceName, assetName), out UserTaskContext? userTaskContext))
-                {
-                    userTaskContext.CancellationTokenSource.Cancel();
-                    userTaskContext.CancellationTokenSource.Dispose();
+                userTaskContext.CancellationTokenSource.Cancel();
+                userTaskContext.CancellationTokenSource.Dispose();
 
-                    try
-                    {
-                        await userTaskContext.UserTask;
-                    }
-                    catch (Exception e)
-                    {
-                        _logger.LogError(e, "Encountered an exception while cancelling user-defined task for device name {deviceName}, inbound endpoint name {inboundEndpointName}, asset name {assetName}", deviceName, inboundEndpointName, assetName);
-                    }
-                }
-                else
+                try
                 {
-                    _logger.LogError("Failed to find  a WhileAssetAvailable callback to cancel once the asset became unavailable");
+                    await userTaskContext.UserTask;
                 }
+                catch (Exception e)
+                {
+                    _logger.LogError(e, "Encountered an exception while cancelling user-defined task for device name {deviceName}, inbound endpoint name {inboundEndpointName}, asset name {assetName}", deviceName, inboundEndpointName, assetName);
+                }
+            }
+            else
+            {
+                _logger.LogError("Failed to correlate a 'WhileAssetAvailable' callback to cancel once the asset became unavailable");
             }
         }
 
