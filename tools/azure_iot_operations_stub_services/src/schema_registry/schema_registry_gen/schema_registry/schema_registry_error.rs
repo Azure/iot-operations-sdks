@@ -9,10 +9,10 @@ use iso8601_duration::Duration;
 use serde::{Deserialize, Serialize};
 use uuid::Uuid;
 
-use super::super::common_types::{b64::Bytes, date_only::Date, decimal::Decimal, time_only::Time};
 use super::schema_registry_error_code::SchemaRegistryErrorCode;
 use super::schema_registry_error_details::SchemaRegistryErrorDetails;
 use super::schema_registry_error_target::SchemaRegistryErrorTarget;
+use super::super::common_types::{b64::Bytes, date_only::Date, decimal::Decimal, time_only::Time};
 
 /// Error object for schema operations
 #[derive(Serialize, Deserialize, Debug, Clone, Builder)]

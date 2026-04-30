@@ -2,23 +2,24 @@
 
 use std::collections::HashMap;
 
-use azure_iot_operations_mqtt::interface::ManagedClient;
-use azure_iot_operations_protocol::application::ApplicationContext;
+use azure_iot_operations_mqtt::session::SessionManagedClient;
 use azure_iot_operations_protocol::common::aio_protocol_error::AIOProtocolError;
 use azure_iot_operations_protocol::common::payload_serialize::PayloadSerialize;
 use azure_iot_operations_protocol::rpc_command;
+use azure_iot_operations_protocol::application::ApplicationContext;
 use iso8601_duration;
 
-use super::super::common_types::options::CommandExecutorOptions;
+use super::get_request_schema::GetRequestSchema;
+use super::get_response_schema::GetResponseSchema;
+use super::get_response_payload::GetResponsePayload;
+use super::schema_registry_error::SchemaRegistryError;
 use super::COMMAND_SERVICE_GROUP_ID;
 use super::MODEL_ID;
 use super::REQUEST_TOPIC_PATTERN;
-use super::get_request_schema::GetRequestSchema;
-use super::get_response_payload::GetResponsePayload;
-use super::get_response_schema::GetResponseSchema;
-use super::schema_registry_error::SchemaRegistryError;
+use super::super::common_types::options::CommandExecutorOptions;
 
-pub type GetRequest = rpc_command::executor::Request<GetRequestSchema, GetResponseSchema>;
+pub type GetRequest =
+    rpc_command::executor::Request<GetRequestSchema, GetResponseSchema>;
 pub type GetResponse = rpc_command::executor::Response<GetResponseSchema>;
 pub type GetResponseBuilderError = rpc_command::executor::ResponseBuilderError;
 
@@ -35,11 +36,20 @@ impl GetResponseBuilder {
         self
     }
 
+    /// Cloud event for the response
+    pub fn cloud_event(&mut self, cloud_event: Option<rpc_command::executor::ResponseCloudEvent>) -> &mut Self {
+        self.inner_builder.cloud_event(cloud_event);
+        self
+    }
+
     /// Payload of the response
     ///
     /// # Errors
     /// If the payload cannot be serialized
-    pub fn payload(&mut self, payload: GetResponsePayload) -> Result<&mut Self, AIOProtocolError> {
+    pub fn payload(
+        &mut self,
+        payload: GetResponsePayload,
+    ) -> Result<&mut Self, AIOProtocolError> {
         self.inner_builder.payload(GetResponseSchema {
             schema: Some(payload.schema),
             error: None,
@@ -59,32 +69,24 @@ impl GetResponseBuilder {
     ///
     /// # Errors
     /// If a required field has not been initialized
-    #[allow(clippy::missing_panics_doc)] // The panic is not possible
+    #[allow(clippy::missing_panics_doc)]    // The panic is not possible
     pub fn build(&mut self) -> Result<GetResponse, GetResponseBuilderError> {
         self.inner_builder.build()
     }
 }
 
 /// Command Executor for `get`
-pub struct GetCommandExecutor<C>(rpc_command::Executor<GetRequestSchema, GetResponseSchema, C>)
-where
-    C: ManagedClient + Clone + Send + Sync + 'static,
-    C::PubReceiver: Send + Sync + 'static;
+pub struct GetCommandExecutor(
+    rpc_command::Executor<GetRequestSchema, GetResponseSchema>,
+);
 
-impl<C> GetCommandExecutor<C>
-where
-    C: ManagedClient + Clone + Send + Sync + 'static,
-    C::PubReceiver: Send + Sync + 'static,
+impl GetCommandExecutor
 {
     /// Creates a new [`GetCommandExecutor`]
     ///
     /// # Panics
     /// If the DTDL that generated this code was invalid
-    pub fn new(
-        application_context: ApplicationContext,
-        client: C,
-        options: &CommandExecutorOptions,
-    ) -> Self {
+    pub fn new(application_context: ApplicationContext, client: SessionManagedClient, options: &CommandExecutorOptions) -> Self {
         let mut executor_options_builder = rpc_command::executor::OptionsBuilder::default();
         if let Some(topic_namespace) = &options.topic_namespace {
             executor_options_builder.topic_namespace(topic_namespace.clone());

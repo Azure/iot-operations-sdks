@@ -2,22 +2,23 @@
 
 use std::collections::HashMap;
 
-use azure_iot_operations_mqtt::interface::ManagedClient;
-use azure_iot_operations_protocol::application::ApplicationContext;
+use azure_iot_operations_mqtt::session::SessionManagedClient;
 use azure_iot_operations_protocol::common::aio_protocol_error::AIOProtocolError;
 use azure_iot_operations_protocol::common::payload_serialize::PayloadSerialize;
 use azure_iot_operations_protocol::rpc_command;
+use azure_iot_operations_protocol::application::ApplicationContext;
 
-use super::super::common_types::options::CommandExecutorOptions;
+use super::put_request_schema::PutRequestSchema;
+use super::put_response_schema::PutResponseSchema;
+use super::put_response_payload::PutResponsePayload;
+use super::schema_registry_error::SchemaRegistryError;
 use super::COMMAND_SERVICE_GROUP_ID;
 use super::MODEL_ID;
 use super::REQUEST_TOPIC_PATTERN;
-use super::put_request_schema::PutRequestSchema;
-use super::put_response_payload::PutResponsePayload;
-use super::put_response_schema::PutResponseSchema;
-use super::schema_registry_error::SchemaRegistryError;
+use super::super::common_types::options::CommandExecutorOptions;
 
-pub type PutRequest = rpc_command::executor::Request<PutRequestSchema, PutResponseSchema>;
+pub type PutRequest =
+    rpc_command::executor::Request<PutRequestSchema, PutResponseSchema>;
 pub type PutResponse = rpc_command::executor::Response<PutResponseSchema>;
 pub type PutResponseBuilderError = rpc_command::executor::ResponseBuilderError;
 
@@ -34,11 +35,20 @@ impl PutResponseBuilder {
         self
     }
 
+    /// Cloud event for the response
+    pub fn cloud_event(&mut self, cloud_event: Option<rpc_command::executor::ResponseCloudEvent>) -> &mut Self {
+        self.inner_builder.cloud_event(cloud_event);
+        self
+    }
+
     /// Payload of the response
     ///
     /// # Errors
     /// If the payload cannot be serialized
-    pub fn payload(&mut self, payload: PutResponsePayload) -> Result<&mut Self, AIOProtocolError> {
+    pub fn payload(
+        &mut self,
+        payload: PutResponsePayload,
+    ) -> Result<&mut Self, AIOProtocolError> {
         self.inner_builder.payload(PutResponseSchema {
             schema: Some(payload.schema),
             error: None,
@@ -58,32 +68,24 @@ impl PutResponseBuilder {
     ///
     /// # Errors
     /// If a required field has not been initialized
-    #[allow(clippy::missing_panics_doc)] // The panic is not possible
+    #[allow(clippy::missing_panics_doc)]    // The panic is not possible
     pub fn build(&mut self) -> Result<PutResponse, PutResponseBuilderError> {
         self.inner_builder.build()
     }
 }
 
 /// Command Executor for `put`
-pub struct PutCommandExecutor<C>(rpc_command::Executor<PutRequestSchema, PutResponseSchema, C>)
-where
-    C: ManagedClient + Clone + Send + Sync + 'static,
-    C::PubReceiver: Send + Sync + 'static;
+pub struct PutCommandExecutor(
+    rpc_command::Executor<PutRequestSchema, PutResponseSchema>,
+);
 
-impl<C> PutCommandExecutor<C>
-where
-    C: ManagedClient + Clone + Send + Sync + 'static,
-    C::PubReceiver: Send + Sync + 'static,
+impl PutCommandExecutor
 {
     /// Creates a new [`PutCommandExecutor`]
     ///
     /// # Panics
     /// If the DTDL that generated this code was invalid
-    pub fn new(
-        application_context: ApplicationContext,
-        client: C,
-        options: &CommandExecutorOptions,
-    ) -> Self {
+    pub fn new(application_context: ApplicationContext, client: SessionManagedClient, options: &CommandExecutorOptions) -> Self {
         let mut executor_options_builder = rpc_command::executor::OptionsBuilder::default();
         if let Some(topic_namespace) = &options.topic_namespace {
             executor_options_builder.topic_namespace(topic_namespace.clone());

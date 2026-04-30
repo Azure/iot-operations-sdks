@@ -24,8 +24,10 @@ impl PutRequestSchema {
 impl PayloadSerialize for PutRequestSchema {
     type Error = serde_json::Error;
 
+
     fn serialize(self) -> Result<SerializedPayload, Self::Error> {
-        let payload = serde_json::to_vec(&self);
+let payload =         serde_json::to_vec(&self)
+;
         Ok(SerializedPayload {
             payload: payload?,
             content_type: "application/json".to_string(),
@@ -33,18 +35,18 @@ impl PayloadSerialize for PutRequestSchema {
         })
     }
 
-    fn deserialize(
-        payload: &[u8],
+    fn deserialize(payload: &[u8],
         content_type: Option<&String>,
         _format_indicator: &FormatIndicator,
     ) -> Result<Self, DeserializationError<Self::Error>> {
-        if let Some(content_type) = content_type {
-            if !PutRequestSchema::is_content_type(content_type) {
-                return Err(DeserializationError::UnsupportedContentType(format!(
-                    "Invalid content type: '{content_type}'. Must be 'application/json'"
-                )));
-            }
+        if let Some(content_type) = content_type
+            && !PutRequestSchema::is_content_type(content_type)
+        {
+            return Err(DeserializationError::UnsupportedContentType(format!(
+                "Invalid content type: '{content_type}'. Must be 'application/json'"
+            )));
         }
-        serde_json::from_slice(payload).map_err(DeserializationError::InvalidPayload)
+        serde_json::from_slice(payload)
+.map_err(DeserializationError::InvalidPayload)
     }
 }
