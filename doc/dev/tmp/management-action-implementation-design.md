@@ -1393,7 +1393,7 @@ sequenceDiagram
     participant MqttNet as MQTTnet client<br/>(read loop)
     participant CE as CommandExecutor<br/>(event handler)
     participant MAE as ManagementActionExecutor<br/>(internal queue)
-    participant Loop as RunActionLoopAsync<br/>(SDK)
+    participant ActionLoop as RunActionLoopAsync<br/>(SDK)
     participant Handler as IManagementActionHandler<br/>(your code)
     participant Pool as ThreadPool
 
@@ -1403,12 +1403,12 @@ sequenceDiagram
     CE->>Pool: Task.Run(OnCommandReceived(...))
     Pool->>MAE: OnCommandReceived invoked
     MAE->>MAE: wrap as ManagementActionRequest<br/>push to internal channel
-    MAE-->>Loop: RecvRequestAsync completes
-    Loop->>Loop: build ManagementActionInvokedEventArgs
-    Loop->>Handler: HandleCallAsync / HandleReadAsync / HandleWriteAsync
+    MAE-->>ActionLoop: RecvRequestAsync completes
+    ActionLoop->>ActionLoop: build ManagementActionInvokedEventArgs
+    ActionLoop->>Handler: HandleCallAsync / HandleReadAsync / HandleWriteAsync
     Handler->>Handler: do the work
-    Handler-->>Loop: ManagementActionResponse
-    Loop->>MAE: request.CompleteAsync(response)
+    Handler-->>ActionLoop: ManagementActionResponse
+    ActionLoop->>MAE: request.CompleteAsync(response)
     MAE-->>CE: return ExtendedResponse
     CE->>MqttNet: PUBLISH response
     MqttNet-->>Broker: RPC response
