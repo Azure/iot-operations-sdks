@@ -47,12 +47,6 @@ namespace Azure.Iot.Operations.Connector
         public IReadOnlyDictionary<string, string> TopicTokens { get; internal set; }
             = new Dictionary<string, string>();
 
-        /// <summary>
-        /// True if the executor has been cancelled (action deleted, connector shutting
-        /// down, etc.) after this request was received. A completion call will still be
-        /// attempted but may not reach the invoker.
-        /// </summary>
-        public bool IsCancelled => throw new NotImplementedException();
 
         /// <summary>
         /// Complete the request with <paramref name="response"/>. Must be called at most

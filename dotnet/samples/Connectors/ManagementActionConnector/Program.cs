@@ -12,7 +12,8 @@ IHost host = Host.CreateDefaultBuilder(args)
         services.AddSingleton(MqttSessionClientProvider.Factory);
         services.AddSingleton<IMessageSchemaProvider, NoMessageSchemaProvider>();
         services.AddSingleton(AzureDeviceRegistryClientWrapperProvider.Factory);
-        services.AddHostedService<ManagementActionConnectorWorker>();
+        services.AddSingleton<IManagementActionHandlerFactory, SampleManagementActionHandlerFactory>();
+        services.AddHostedService<ManagementActionConnectorWorkerSimplified>();
     })
     .Build();
 

@@ -604,6 +604,111 @@ New methods (public):
 
 **Why on AssetClient:** Review feedback — keeping all asset concerns in one place avoids a nested `ManagementActionClient` within `AssetClient`. The user already has `AssetClient` from `AssetAvailableEventArgs` in the `WhileAssetIsAvailable` callback; management action methods are a natural extension of it. The `managementGroupName` + `managementActionName` parameters serve as the action identifier (replacing the per-action client's implicit identity).
 
+
+---
+
+## User-Facing Layer: IManagementActionHandler Pattern (Added per Review)
+
+Per review feedback, the low-level types above (ManagementActionExecutor, ManagementActionRequest, ManagementActionNotification) are **internal implementation details** consumed by a new base connector worker class. Users interact with a simplified interface-based pattern instead.
+
+### 7. IManagementActionHandler (interface)
+
+User-implemented interface with three methods - one per `AssetManagementGroupActionType`:
+
+```csharp
+public interface IManagementActionHandler : IAsyncDisposable
+{
+    Task<ManagementActionResponse> HandleCallAsync(ManagementActionInvokedEventArgs args, CancellationToken ct);
+    Task<ManagementActionResponse> HandleReadAsync(ManagementActionInvokedEventArgs args, CancellationToken ct);
+    Task<ManagementActionResponse> HandleWriteAsync(ManagementActionInvokedEventArgs args, CancellationToken ct);
+}
+```
+
+**Rationale:** The SDK uses interfaces for multi-method user logic (`IDatasetSampler` has `SampleDatasetAsync` + `GetSamplingIntervalAsync`) and `Func<>` delegates for single-method hooks (`WhileAssetIsAvailable`). Three related methods -> interface.
+
+**IAsyncDisposable:** The base connector disposes the handler when the action is deleted or the asset becomes unavailable. Handlers can release device connections or other resources.
+
+### 8. IManagementActionHandlerFactory (interface)
+
+Factory creating per-action handler instances. Mirrors `IDatasetSamplerFactory`.
+
+```csharp
+public interface IManagementActionHandlerFactory
+{
+    IManagementActionHandler CreateHandler(
+        string deviceName,
+        Device device,
+        string inboundEndpointName,
+        string assetName,
+        Asset asset,
+        string groupName,
+        AssetManagementGroupAction action,
+        EndpointCredentials? endpointCredentials);
+}
+```
+
+**Why a factory:** Each management action may target a different device endpoint (`TargetUri`), have different configuration (`ActionConfiguration`), or require different timeout (`TimeoutInSeconds`). The factory receives the full context at creation time so handlers can capture whatever they need in their constructor.
+
+**DI Registration:** `services.AddSingleton<IManagementActionHandlerFactory, MyFactory>()`
+
+### 9. ManagementActionInvokedEventArgs (class)
+
+Event args passed to handler methods containing the full invocation context:
+
+```csharp
+public class ManagementActionInvokedEventArgs : EventArgs
+{
+    public required string GroupName { get; init; }
+    public required string ActionName { get; init; }
+    public required AssetManagementGroupActionType ActionType { get; init; }
+    public required ReadOnlySequence<byte> Payload { get; init; }
+    public required string ContentType { get; init; }
+    public MqttPayloadFormatIndicator FormatIndicator { get; init; }
+    public IReadOnlyDictionary<string, string> CustomUserData { get; init; }
+    public HybridLogicalClock? Timestamp { get; init; }
+    public string? InvokerId { get; init; }
+    public IReadOnlyDictionary<string, string> TopicTokens { get; init; }
+    public required string AssetName { get; init; }
+    public required string DeviceName { get; init; }
+}
+```
+
+**Fields mirror `ManagementActionRequest`** properties plus asset/device context so the handler has everything needed to dispatch to the correct device operation.
+
+### 10. ManagementActionConnectorWorker (class)
+
+Base class extending `ConnectorWorker` (mirrors `PollingTelemetryConnectorWorker`). Internalizes the full per-action lifecycle so users never touch executors, notifications, or drain logic.
+
+```csharp
+public class ManagementActionConnectorWorker : ConnectorWorker
+{
+    public ManagementActionConnectorWorker(
+        ApplicationContext applicationContext,
+        ILogger<ConnectorWorker> logger,
+        IMqttClient mqttClient,
+        IManagementActionHandlerFactory handlerFactory,
+        IMessageSchemaProvider messageSchemaProvider,
+        IAzureDeviceRegistryClientWrapperProvider adrClientFactory,
+        IConnectorLeaderElectionConfigurationProvider? leaderElectionConfigurationProvider = null);
+}
+```
+
+**Internalized responsibilities:**
+- Sets `WhileAssetIsAvailable` to iterate `asset.ManagementGroups` and spawn per-action tasks
+- Creates `IManagementActionHandler` via factory for each action, passing full context
+- Acquires executor via `AssetClient.GetManagementActionExecutorAsync()`
+- Runs per-action `WhenAny` loop (request vs notification)
+- Dispatches to `HandleCallAsync` / `HandleReadAsync` / `HandleWriteAsync` based on `action.ActionType`
+- On handler exception: catches, logs, sends `ManagementActionApplicationError` with code `InternalError` back to invoker
+- On `ManagementActionUpdated`: pauses health, reports config status (using `Error` field), reports Available/Unavailable
+- On `ManagementActionUpdatedWithNewExecutor`: drains old executor, swaps to new, reports status
+- On `ManagementActionDeleted`: drains executor, disposes handler, exits loop
+- On asset unavailable (cancellation): disposes executor + handler
+- Drain budget: 5 seconds, then force-dispose (stale requests get generic error response)
+
+**Error field handling:** If `notification.Error` is non-null, the base connector reports the config error via `GetAndUpdateAssetStatusAsync` and reports health as `Unavailable` (not `Available`).
+
+**CancellationToken propagation:** The token passed to handler methods is the per-asset cancellation token from `WhileAssetIsAvailable`. It signals when the asset is no longer available or the connector is shutting down -- replacing the `IsCancelled` property that was removed from `ManagementActionRequest`.
 ---
 
 ## Modifications to Existing Types
