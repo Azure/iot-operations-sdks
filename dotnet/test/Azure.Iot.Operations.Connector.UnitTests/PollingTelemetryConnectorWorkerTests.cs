@@ -1358,5 +1358,175 @@ namespace Azure.Iot.Operations.Connector.UnitTests
 
             worker.Dispose();
         }
+
+        [Fact]
+        public async Task ConnectorCancelsPreviousCallbacksWhenAssetIsUpdated() //TODO
+        {
+            MockMqttClient mockMqttClient = new MockMqttClient();
+            MockAzureDeviceRegistryClientWrapper mockAdrClientWrapper = new MockAzureDeviceRegistryClientWrapper();
+            IDatasetSamplerFactory mockDatasetSamplerFactory = new MockDatasetSamplerFactory();
+            IMessageSchemaProvider messageSchemaProviderFactory = new MockMessageSchemaProvider();
+            Mock<ILogger<ConnectorWorker>> mockLogger = new Mock<ILogger<ConnectorWorker>>();
+
+            // This test deliberately uses the base class ConnectorWorker so that it can check when the device/asset callbacks execute which can't be done with the PollingTelemetryConnectorWorker
+            ConnectorWorker worker = new ConnectorWorker(new Protocol.ApplicationContext(), mockLogger.Object, mockMqttClient, messageSchemaProviderFactory, new MockAdrClientFactory(mockAdrClientWrapper));
+
+            TaskCompletionSource deviceCallbackStarted = new();
+            TaskCompletionSource assetCallbackStarted = new();
+            TaskCompletionSource cancellationTokenTriggeredInDeviceCallback = new();
+            TaskCompletionSource cancellationTokenTriggeredInAssetCallback = new();
+            TaskCompletionSource deviceCallbackEndedGracefully = new();
+            TaskCompletionSource assetCallbackEndedGracefully = new();
+
+            worker.WhileDeviceIsAvailable += async (args, cancellationToken) =>
+            {
+                deviceCallbackStarted.TrySetResult();
+                try
+                {
+                    // cancellation token should trigger almost immediately
+                    await Task.Delay(TimeSpan.FromHours(24), cancellationToken);
+                }
+                catch (OperationCanceledException)
+                {
+                    // expected exception
+                    cancellationTokenTriggeredInDeviceCallback.TrySetResult();
+                }
+
+                // simulate the device task running longer than expected after cancellation
+                await Task.Delay(TimeSpan.FromSeconds(1));
+                deviceCallbackEndedGracefully.TrySetResult();
+            };
+
+            worker.WhileAssetIsAvailable += async (args, cancellationToken) =>
+            {
+                assetCallbackStarted.TrySetResult();
+                try
+                {
+                    // cancellation token should trigger almost immediately
+                    await Task.Delay(TimeSpan.FromHours(24), cancellationToken);
+                }
+                catch (OperationCanceledException)
+                {
+                    // expected exception
+                    cancellationTokenTriggeredInAssetCallback.TrySetResult();
+                }
+
+                // simulate the asset task running longer than expected after cancellation
+                await Task.Delay(TimeSpan.FromSeconds(1));
+                assetCallbackEndedGracefully.TrySetResult();
+            };
+
+            Task workerTask = worker.StartAsync(CancellationToken.None);
+
+            string deviceName = Guid.NewGuid().ToString();
+            string inboundEndpointName = Guid.NewGuid().ToString();
+            string assetName = Guid.NewGuid().ToString();
+            string datasetName = Guid.NewGuid().ToString();
+
+            var device = new Device()
+            {
+                Endpoints = new()
+                {
+                    Inbound = new()
+                        {
+                            {
+                                inboundEndpointName,
+                                new()
+                                {
+                                    Address = "someEndpointAddress",
+                                }
+                            }
+                        }
+                }
+            };
+
+            mockAdrClientWrapper.SimulateDeviceChanged(new(deviceName, inboundEndpointName, ChangeType.Created, device));
+
+            string expectedMqttTopic = "some/asset/telemetry/topic";
+            var asset = new Asset()
+            {
+                DeviceRef = new()
+                {
+                    DeviceName = deviceName,
+                    EndpointName = inboundEndpointName,
+                },
+                Datasets = new()
+                    {
+                        {
+                            new AssetDataset()
+                            {
+                                Name = datasetName,
+                                DataPoints = new()
+                                {
+                                    new AssetDatasetDataPoint()
+                                    {
+                                        Name = "someDataPointName",
+                                        DataSource = "someDataPointDataSource"
+                                    }
+                                },
+                                Destinations = new()
+                                {
+                                    new DatasetDestination()
+                                    {
+                                        Target = DatasetTarget.Mqtt,
+                                        Configuration = new()
+                                        {
+                                            Topic = expectedMqttTopic,
+                                            Qos = QoS.Qos1
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+            };
+
+            mockAdrClientWrapper.SimulateAssetChanged(new(deviceName, inboundEndpointName, assetName, ChangeType.Created, asset));
+
+            // Wait until both the device and asset callbacks have started
+            try
+            {
+                await deviceCallbackStarted.Task.WaitAsync(TimeSpan.FromSeconds(5));
+            }
+            catch (TimeoutException)
+            {
+                Assert.Fail("Timed out waiting for the \"WhileDeviceIsAvailable\" callback to start");
+            }
+
+            try
+            {
+                await assetCallbackStarted.Task.WaitAsync(TimeSpan.FromSeconds(5));
+            }
+            catch (TimeoutException)
+            {
+                Assert.Fail("Timed out waiting for the \"WhileAssetIsAvailable\" callback to start");
+            }
+
+            await worker.StopAsync(CancellationToken.None);
+
+            // The user callbacks should each trigger the provided cancellation token and should end gracefully
+            try
+            {
+                await cancellationTokenTriggeredInDeviceCallback.Task.WaitAsync(TimeSpan.FromSeconds(5));
+                await cancellationTokenTriggeredInAssetCallback.Task.WaitAsync(TimeSpan.FromSeconds(5));
+            }
+            catch (TimeoutException)
+            {
+                Assert.Fail("User-supplied callbacks did not get canceled as expected");
+            }
+
+            try
+            {
+                await deviceCallbackEndedGracefully.Task.WaitAsync(TimeSpan.FromSeconds(5));
+                await assetCallbackEndedGracefully.Task.WaitAsync(TimeSpan.FromSeconds(5));
+            }
+            catch (TimeoutException)
+            {
+                Assert.Fail("User-supplied callbacks were cancelled as expected but weren't awaited");
+            }
+
+            worker.Dispose();
+        }
+
     }
 }
