@@ -67,15 +67,110 @@ namespace EventDrivenTcpThermostatConnector
             }
         }
 
-        
         private async Task WhileAssetAvailableAsync(AssetAvailableEventArgs args, CancellationToken cancellationToken)
         {
-            string id = Guid.NewGuid().ToString();
-            while (!cancellationToken.IsCancellationRequested)
+            _logger.LogInformation("Asset with name {0} is now sampleable", args.AssetName);
+            cancellationToken.ThrowIfCancellationRequested();
+
+            // Skip sampling if the device is explicitly disabled (Enabled is false). Undefined (null) value is treated as enabled.
+            if (args.Device.Enabled != true && args.Device.Enabled != null)
             {
-                _logger.LogInformation("WhileAssetAvailableAsync id: " + id);
-                await Task.Delay(TimeSpan.FromSeconds(1));
+                _logger.LogWarning("Device {0} is disabled. Skipping asset {1} processing until device is enabled.", args.DeviceName, args.AssetName);
+                // Note: When the device is updated, ConnectorWorker will automatically cancel this handler
+                // and reinvoke it with the updated device information if it becomes enabled.
+                return;
             }
+
+            // Skip sampling if the device is explicitly disabled (Enabled is false). Undefined (null) value is treated as enabled.
+            if (args.Device.Enabled != true && args.Device.Enabled != null)
+            {
+                _logger.LogWarning("Asset {0} is disabled. Skipping processing until asset is enabled.", args.AssetName);
+                // Note: When the asset is updated, ConnectorWorker will automatically cancel this handler
+                // and reinvoke it with the updated asset information if it becomes enabled.
+                return;
+            }
+
+            _logger.LogInformation("Device {0} and Asset {1} are both enabled. Proceeding with event processing.", args.DeviceName, args.AssetName);
+
+            if (args.Asset.EventGroups == null || args.Asset.EventGroups.Count != 1)
+            {
+                _logger.LogWarning("Asset with name {0} does not have the expected event group. No events will be received.", args.AssetName);
+
+                try
+                {
+                    await args.AssetClient.GetAndUpdateAssetStatusAsync((currentAssetStatus) => {
+                        currentAssetStatus.Config ??= new();
+                        currentAssetStatus.Config.LastTransitionTime = DateTime.UtcNow;
+                        currentAssetStatus.Config.Error = null;
+                        currentAssetStatus.EventGroups ??= new();
+                        currentAssetStatus.EventGroups.Clear();
+                        return currentAssetStatus;
+                    }, true, null, cancellationToken);
+                }
+                catch (Exception e)
+                {
+                    _logger.LogError(e, "Failed to report asset status to Azure Device Registry service");
+                }
+                return;
+            }
+
+            var eventGroup = args.Asset.EventGroups.First();
+            if (eventGroup.Events == null || eventGroup.Events.Count != 1)
+            {
+                _logger.LogWarning("Asset with name {0} does not have the expected event within its event group. No events will be received.", args.AssetName);
+
+                try
+                {
+                    await args.AssetClient.GetAndUpdateAssetStatusAsync((currentAssetStatus) => {
+                        currentAssetStatus.Config ??= new();
+                        currentAssetStatus.Config.LastTransitionTime = DateTime.UtcNow;
+                        currentAssetStatus.Config.Error = null;
+                        currentAssetStatus.EventGroups ??= new();
+                        currentAssetStatus.ClearEventGroupStatus(eventGroup.Name);
+                        return currentAssetStatus;
+                    }, true, null, cancellationToken);
+                }
+                catch (Exception e)
+                {
+                    _logger.LogError(e, "Failed to report asset status to Azure Device Registry service");
+                }
+                return;
+            }
+
+            // This sample only has one asset with one event
+            var assetEvent = eventGroup.Events[0];
+
+            if (assetEvent.DataSource == null || !int.TryParse(assetEvent.DataSource, out int port))
+            {
+                // If the asset's has no event doesn't specify a port, then do nothing
+                _logger.LogError("Asset with name {0} has an event, but the event didn't configure a port, so the connector won't handle these events", args.AssetName);
+
+                try
+                {
+                    _logger.LogWarning("Reporting asset status error to Azure Device Registry service...");
+                    await args.AssetClient.GetAndUpdateAssetStatusAsync((currentAssetStatus) => {
+                        currentAssetStatus.Config ??= new();
+                        currentAssetStatus.Config.LastTransitionTime = DateTime.UtcNow;
+                        currentAssetStatus.Config.Error = null;
+                        currentAssetStatus.UpdateEventStatus(eventGroup.Name, new()
+                        {
+                            Name = assetEvent.Name,
+                            Error = new ConfigError()
+                            {
+                                Message = "The configured event was either missing the expected port or had a non-integer value for the port",
+                            }
+                        });
+                        return currentAssetStatus;
+                    }, true, null, cancellationToken);
+                }
+                catch (Exception e)
+                {
+                    _logger.LogError(e, "Failed to report device status to Azure Device Registry service");
+                }
+                return;
+            }
+
+            await OpenTcpConnectionAsync(args, args.Asset.EventGroups.First().Name, assetEvent, port, cancellationToken);
         }
 
         private async Task OpenTcpConnectionAsync(AssetAvailableEventArgs args, string eventGroupName, AssetEvent assetEvent, int port, CancellationToken cancellationToken)
