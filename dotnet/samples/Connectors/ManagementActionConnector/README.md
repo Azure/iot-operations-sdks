@@ -68,4 +68,3 @@ drift away from the actual API:
 - [`management-action-design-onepager.md`](../../../../doc/dev/tmp/management-action-design-onepager.md) — short overview + implementation status
 - [`management-action-implementation-design.md`](../../../../doc/dev/tmp/management-action-implementation-design.md) — full design (see *Background & FAQ* section for the lifted Q&A)
 - [`management-action-gap-analysis.md`](../../../../doc/dev/tmp/management-action-gap-analysis.md) — Rust ↔ .NET parity
-- [`management-action-part2-stash.md`](../../../../doc/dev/tmp/management-action-part2-stash.md) — schema-reporting snippets (Part 2)
