@@ -5,6 +5,7 @@ namespace Azure.Iot.Operations.EnvoyGenerator
 {
     using System;
     using System.Collections.Generic;
+    using System.Diagnostics.CodeAnalysis;
     using System.IO;
     using System.Linq;
     using System.Reflection;
@@ -35,6 +36,47 @@ namespace Azure.Iot.Operations.EnvoyGenerator
             this.projectName = projectName;
             this.srcSubdir = srcSubdir;
             this.defaultImpl = defaultImpl;
+        }
+
+        internal bool TryGetAlias(CodeName schemaName, List<GeneratedItem> generatedTypes, [NotNullWhen(true)] out string? aliasName)
+        {
+            GeneratedItem? relevantItem;
+            switch (targetLanguage)
+            {
+                case TargetLanguage.CSharp:
+                    string csName = $"{schemaName.GetFileName(TargetLanguage.CSharp)}.g.cs";
+                    relevantItem = generatedTypes.FirstOrDefault(gt => gt.FileName == csName);
+                    if (relevantItem != null)
+                    {
+                        Regex rx = new($"global using {schemaName.GetTypeName(TargetLanguage.CSharp)} = \\w+.\\w+.(\\w+);");
+                        Match match = rx.Match(relevantItem.Content);
+                        if (match.Success)
+                        {
+                            aliasName = match.Groups[1].Captures[0].Value;
+                            return true;
+                        }
+                    }
+                    break;
+                case TargetLanguage.Rust:
+                    string rustName = $"{schemaName.GetFileName(TargetLanguage.Rust)}.rs";
+                    relevantItem = generatedTypes.FirstOrDefault(gt => gt.FileName == rustName);
+                    if (relevantItem != null)
+                    {
+                        Regex rx = new($"pub type {schemaName.GetTypeName(TargetLanguage.Rust)} = (\\w+);");
+                        Match match = rx.Match(relevantItem.Content);
+                        if (match.Success)
+                        {
+                            aliasName = match.Groups[1].Captures[0].Value;
+                            return true;
+                        }
+                    }
+                    break;
+                default:
+                    throw new NotSupportedException($"Target language {targetLanguage} is not supported.");
+            }
+
+            aliasName = null;
+            return false;
         }
 
         internal IEnumerable<IEnvoyTemplateTransform> GetConstantTransforms(CodeName schemaName, ConstantsSpec constantSpec)
@@ -551,7 +593,7 @@ namespace Azure.Iot.Operations.EnvoyGenerator
                     foreach (string resourceName in Assembly.GetExecutingAssembly().GetManifestResourceNames())
                     {
                         Regex rx = new($"^{Assembly.GetExecutingAssembly().GetName().Name}\\.{ResourceTransform.LanguageResourcesFolder}\\.{folder}\\.({subNamespace})(?:\\.(\\w+(?:\\.\\w+)*))?\\.(\\w+)\\.{ext}$", RegexOptions.IgnoreCase);
-                        Match? match = rx.Match(resourceName);
+                        Match match = rx.Match(resourceName);
                         if (match.Success)
                         {
                             string subFolder = match.Groups[1].Captures[0].Value;

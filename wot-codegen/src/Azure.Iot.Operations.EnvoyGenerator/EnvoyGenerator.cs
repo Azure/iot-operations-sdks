@@ -4,6 +4,7 @@
 namespace Azure.Iot.Operations.EnvoyGenerator
 {
     using System.Collections.Generic;
+    using System.IO;
     using System.Linq;
     using Azure.Iot.Operations.CodeGeneration;
     using Azure.Iot.Operations.TDParser;
@@ -19,7 +20,7 @@ namespace Azure.Iot.Operations.EnvoyGenerator
             string commonNs,
             string projectName,
             string? sdkPath,
-            List<string> typeFileNames,
+            List<GeneratedItem> generatedTypes,
             string srcSubdir,
             bool generateProject,
             bool defaultImpl)
@@ -41,7 +42,7 @@ namespace Azure.Iot.Operations.EnvoyGenerator
 
                 CodeName serviceName = new CodeName(parsedThing.Thing.Title.Value.Value);
 
-                List<ActionSpec> actionSpecs = ActionEnvoyGenerator.GenerateActionEnvoys(parsedThing.ErrorReporter, parsedThing.Thing, parsedThing.SchemaNamer, serviceName, envoyFactory, transforms, errorSpecs, formattedTypesToSerialize, parsedThing.ForClient, parsedThing.ForServer);
+                List<ActionSpec> actionSpecs = ActionEnvoyGenerator.GenerateActionEnvoys(parsedThing.ErrorReporter, parsedThing.Thing, parsedThing.SchemaNamer, serviceName, envoyFactory, generatedTypes, transforms, errorSpecs, formattedTypesToSerialize, parsedThing.ForClient, parsedThing.ForServer);
                 List<EventSpec> eventSpecs = EventEnvoyGenerator.GenerateEventEnvoys(parsedThing.ErrorReporter, parsedThing.Thing, parsedThing.SchemaNamer, serviceName, envoyFactory, transforms, formattedTypesToSerialize, parsedThing.ForClient, parsedThing.ForServer);
                 List<PropertySpec> propSpecs = PropertyEnvoyGenerator.GeneratePropertyEnvoys(parsedThing.ErrorReporter, parsedThing.Thing, parsedThing.SchemaNamer, serviceName, envoyFactory, transforms, errorSpecs, aggErrorSpecs, formattedTypesToSerialize, parsedThing.ForClient, parsedThing.ForServer);
                 GenerateServiceEnvoys(parsedThing.SchemaNamer, serviceName, actionSpecs, propSpecs, eventSpecs, envoyFactory, transforms, parsedThing.ForClient, parsedThing.ForServer);
@@ -59,6 +60,8 @@ namespace Azure.Iot.Operations.EnvoyGenerator
             {
                 generatedEnvoys.Add(new GeneratedItem(transform.Value.TransformText(), transform.Key, transform.Value.FolderPath));
             }
+
+            List<string> typeFileNames = generatedTypes.Select(gt => Path.GetFileNameWithoutExtension(gt.FileName)).ToList();
 
             List<string> clientFilenames = transforms.Where(t => t.Value.EndpointTarget == EndpointTarget.Client).Select(t => t.Key).ToList();
             List<string> serverFilenames = transforms.Where(t => t.Value.EndpointTarget == EndpointTarget.Server).Select(t => t.Key).ToList();
