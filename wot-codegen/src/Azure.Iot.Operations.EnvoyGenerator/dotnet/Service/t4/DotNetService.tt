@@ -545,7 +545,7 @@ namespace <#=this.projectName#>.<#=this.genNamespace.GetNamespaceName(TargetLang
 <# } #>
             }
 <# } #>
-<# if (this.eventSpec.Any() || this.actionSpecs.Any()) { #>
+<# if (this.eventSpec.Any() || this.actionSpecs.Any() || this.propSpecs.Any()) { #>
 
             /// <summary>
             /// Stop accepting telemetry for all telemetry receivers and make all command invokers unsubscribe from command topics.
@@ -555,7 +555,7 @@ namespace <#=this.projectName#>.<#=this.genNamespace.GetNamespaceName(TargetLang
             {
                 await Task.WhenAll(
 <# foreach (var telemEnvoyInfo in this.eventSpec) { #>
-                    this.<#=telemEnvoyInfo.Receiver.GetVariableName(TargetLanguage.CSharp)#>.StopAsync(cancellationToken)<#=this.IsLast(telemEnvoyInfo) && !this.actionSpecs.Any() ? ").ConfigureAwait(false);" : ","#>
+                    this.<#=telemEnvoyInfo.Receiver.GetVariableName(TargetLanguage.CSharp)#>.StopAsync(cancellationToken)<#=this.IsLast(telemEnvoyInfo) && !this.actionSpecs.Any() && !this.propSpecs.Any() ? ").ConfigureAwait(false);" : ","#>
 <# } #>
 <# foreach (var actionSpec in this.actionSpecs) { #>
                     this.<#=actionSpec.Invoker.GetVariableName(TargetLanguage.CSharp)#>.StopAsync(cancellationToken)<#=this.IsLast(actionSpec) ? ").ConfigureAwait(false);" : ","#>

@@ -266,23 +266,18 @@ namespace Azure.Iot.Operations.EnvoyGenerator
                         timestamp: response.timestamp,
                         executor_id: response.executor_id,
                     }))
-");
- if (this.normalResultName != null) { 
-            this.Write("                } else if let Some(");
-            this.Write(this.ToStringHelper.ToStringWithCulture(this.normalResultName.GetVariableName(TargetLanguage.Rust)));
-            this.Write(") = response.payload.");
-            this.Write(this.ToStringHelper.ToStringWithCulture(this.normalResultName.GetFieldName(TargetLanguage.Rust)));
-            this.Write(" {\r\n");
- } else { 
-            this.Write("                } else {\r\n");
- } 
-            this.Write("                    Ok(Ok(");
+                } else {
+                    Ok(Ok(");
             this.Write(this.ToStringHelper.ToStringWithCulture(this.commandName.GetTypeName(TargetLanguage.Rust, "response")));
             this.Write(" {\r\n");
  if (this.normalResultName != null) { 
-            this.Write("                        payload: ");
-            this.Write(this.ToStringHelper.ToStringWithCulture(this.normalResultName.GetVariableName(TargetLanguage.Rust)));
-            this.Write(",\r\n");
+            this.Write("                        payload: response.payload.");
+            this.Write(this.ToStringHelper.ToStringWithCulture(this.normalResultName.GetFieldName(TargetLanguage.Rust)));
+            this.Write(".ok_or(");
+            this.Write(this.ToStringHelper.ToStringWithCulture(this.componentName.GetTypeName(TargetLanguage.Rust)));
+            this.Write("::get_err(\"");
+            this.Write(this.ToStringHelper.ToStringWithCulture(this.normalResultName.AsGiven));
+            this.Write("\"))?,\r\n");
  } else { 
             this.Write("                        payload: ");
             this.Write(this.ToStringHelper.ToStringWithCulture(this.normalResultSchema.GetTypeName(TargetLanguage.Rust)));

@@ -198,14 +198,10 @@ impl <#=this.componentName.GetTypeName(TargetLanguage.Rust)#>
                         timestamp: response.timestamp,
                         executor_id: response.executor_id,
                     }))
-<# if (this.normalResultName != null) { #>
-                } else if let Some(<#=this.normalResultName.GetVariableName(TargetLanguage.Rust)#>) = response.payload.<#=this.normalResultName.GetFieldName(TargetLanguage.Rust)#> {
-<# } else { #>
                 } else {
-<# } #>
                     Ok(Ok(<#=this.commandName.GetTypeName(TargetLanguage.Rust, "response")#> {
 <# if (this.normalResultName != null) { #>
-                        payload: <#=this.normalResultName.GetVariableName(TargetLanguage.Rust)#>,
+                        payload: response.payload.<#=this.normalResultName.GetFieldName(TargetLanguage.Rust)#>.ok_or(<#=this.componentName.GetTypeName(TargetLanguage.Rust)#>::get_err("<#=this.normalResultName.AsGiven#>"))?,
 <# } else { #>
                         payload: <#=this.normalResultSchema.GetTypeName(TargetLanguage.Rust)#> {
 <# foreach (CodeName normalResultField in this.normalResultFields) { #>
