@@ -330,7 +330,7 @@ namespace Azure.Iot.Operations.EnvoyGenerator
         self.0.shutdown().await
     }
 ");
- if (this.errorResultName != null && this.normalRequiredFields.Any()) { 
+ if (this.errorResultName != null && (this.normalRequiredFields.Any() || this.normalResultName != null)) { 
             this.Write(@"
     fn get_err(field_name: &str) -> AIOProtocolError {
         AIOProtocolError {

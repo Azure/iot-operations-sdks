@@ -237,7 +237,7 @@ impl <#=this.componentName.GetTypeName(TargetLanguage.Rust)#>
     pub async fn shutdown(&self) -> Result<(), AIOProtocolError> {
         self.0.shutdown().await
     }
-<# if (this.errorResultName != null && this.normalRequiredFields.Any()) { #>
+<# if (this.errorResultName != null && (this.normalRequiredFields.Any() || this.normalResultName != null)) { #>
 
     fn get_err(field_name: &str) -> AIOProtocolError {
         AIOProtocolError {
