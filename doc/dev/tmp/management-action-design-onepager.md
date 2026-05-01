@@ -4,7 +4,6 @@
 **Status:** Proposed (revised per review feedback) — Part 1 scaffolding landed on `maxim/management-action`  
 **Full design:** [management-action-implementation-design.md](management-action-implementation-design.md)  
 **Gap analysis:** [management-action-gap-analysis.md](management-action-gap-analysis.md)  
-**Part 2 stash (schema reporting):** [management-action-part2-stash.md](management-action-part2-stash.md)
 
 ---
 
@@ -20,13 +19,13 @@ The branch lands **Part 1: invocation pipeline scaffolding**. All public types i
 | `ManagementActionNotification` + 4 derived records | Implemented |
 | `ManagementActionConnectorWorker` (per-action loop, dispatch, drain, status reporting) | **Implemented** — calls into `AssetClient` stubs, so will throw at runtime until those are wired |
 | `AssetClient.GetManagementActionExecutorAsync` / `RecvManagementActionNotificationAsync` / `PauseManagementActionRuntimeHealthReportingAsync` | Public stubs (`NotImplementedException`) |
-| `AssetClient.ReportManagementAction{Request,Response}MessageSchemaAsync` (Part 2) | **Deliberately stashed** in [management-action-part2-stash.md](management-action-part2-stash.md); not on this branch |
+| `AssetClient.ReportManagementAction{Request,Response}MessageSchemaAsync` (Part 2) | **Deliberately deferred** to a follow-up; not on this branch |
 | `ConnectorWorker` modifications (inject `SchemaRegistryClient`, push notifications) | **Not yet done** — deferred along with the corresponding `AssetClient` bodies |
 | Sample connector (`dotnet/samples/Connectors/ManagementActionConnector`) | Compiles and starts; will fault on the first asset/action because `AssetClient` stubs throw |
 
 > Deviations from the original onepager table:
 > - `PauseManagementActionRuntimeHealthReportingAsync` was added to `AssetClient` (it isn't called out in the table below); it is the per-action analog of the existing `AssetRuntimeHealthReporter.PauseReportingManagementActionAsync` and is invoked by `ManagementActionConnectorWorker` on every definition update.
-> - Schema reporting (`ReportManagementAction{Request,Response}MessageSchemaAsync`, `SchemaRegistryClient` injection on `AssetClient`) is split out as Part 2 and lives only in [management-action-part2-stash.md](management-action-part2-stash.md).
+> - Schema reporting (`ReportManagementAction{Request,Response}MessageSchemaAsync`, `SchemaRegistryClient` injection on `AssetClient`) is split out as Part 2 and deferred to a follow-up.
 
 ---
 ## Context

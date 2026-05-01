@@ -3,7 +3,6 @@
 **Date:** 2026-04-14 (status updated 2026-04-30)
 **Prerequisite:** [Gap Analysis](management-action-gap-analysis.md)
 **Onepager:** [management-action-design-onepager.md](management-action-design-onepager.md)
-**Part 2 stash:** [management-action-part2-stash.md](management-action-part2-stash.md)
 
 ---
 
@@ -15,7 +14,7 @@ This document captures the **full** target design. The branch implements **Part 
 - The `ManagementActionConnectorWorker` orchestration logic (per-action loop, notification dispatch, drain-and-dispose, health + config-status reporting, exception-to-error-response translation) is fully written. It calls into the `AssetClient` stubs, so it will throw at runtime until those are wired.
 - The new methods on `AssetClient` (`GetManagementActionExecutorAsync`, `RecvManagementActionNotificationAsync`, `PauseManagementActionRuntimeHealthReportingAsync`) are public stubs.
 - `ConnectorWorker` has **not** been modified yet. Notification fan-out into `AssetClient`'s per-action channels and `SchemaRegistryClient` injection are deferred together with the corresponding `AssetClient` bodies.
-- Schema reporting (section §6 below: `ReportManagementAction{Request,Response}MessageSchemaAsync`, `SchemaRegistryClient` dependency on `AssetClient`, §3 *Schema Registration* sequence) is **Part 2**. It is deliberately not on this branch — see [management-action-part2-stash.md](management-action-part2-stash.md) for the full snippet to paste back when Part 2 lands.
+- Schema reporting (section §6 below: `ReportManagementAction{Request,Response}MessageSchemaAsync`, `SchemaRegistryClient` dependency on `AssetClient`, §3 *Schema Registration* sequence) is **Part 2** and is deliberately not on this branch — it will land in a follow-up.
 - One new method appears in the implementation that the onepager doesn't list: `AssetClient.PauseManagementActionRuntimeHealthReportingAsync` (per-action analog of the existing `AssetRuntimeHealthReporter.PauseReportingManagementActionAsync`). It is invoked by `ManagementActionConnectorWorker` on every definition update so the next health event reflects the re-validated definition.
 
 ---
@@ -1463,7 +1462,7 @@ From `AssetManagementGroupAction` (see B2 for the full field list), the paramete
 
 The **shape of the request/response payload** is *not* a field on `AssetManagementGroupAction`. Instead, two related mechanisms:
 
-- `ReportManagementActionRequestMessageSchemaAsync(group, action, schema)` and `ReportManagementActionResponseMessageSchemaAsync(...)` on `AssetClient` — the connector publishes the JSON schema (or other supported format) to the Schema Registry and records a `MessageSchemaReference` on the asset status. That reference tells the *invoker* what to send, and tells any downstream tooling how to validate. (Schema reporting is **Part 2**, currently stashed in [management-action-part2-stash.md](management-action-part2-stash.md).)
+- `ReportManagementActionRequestMessageSchemaAsync(group, action, schema)` and `ReportManagementActionResponseMessageSchemaAsync(...)` on `AssetClient` — the connector publishes the JSON schema (or other supported format) to the Schema Registry and records a `MessageSchemaReference` on the asset status. That reference tells the *invoker* what to send, and tells any downstream tooling how to validate. (Schema reporting is **Part 2**, deferred to a follow-up.)
 - The status side: `AssetManagementGroupActionStatus.RequestMessageSchemaReference` / `...ResponseMessageSchemaReference` (see `Services/AssetAndDeviceRegistry/Models/AssetManagementGroupActionStatus.cs`).
 
 So:
