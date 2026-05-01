@@ -48,7 +48,7 @@ namespace Azure.Iot.Operations.EnvoyGenerator
                     relevantItem = generatedTypes.FirstOrDefault(gt => gt.FileName == csName);
                     if (relevantItem != null)
                     {
-                        Regex rx = new($"global using {schemaName.GetTypeName(TargetLanguage.CSharp)} = \\w+.\\w+.(\\w+);");
+                        Regex rx = new($"global using {schemaName.GetTypeName(TargetLanguage.CSharp)} = (?:\\w+.)*(\\w+);");
                         Match match = rx.Match(relevantItem.Content);
                         if (match.Success)
                         {
