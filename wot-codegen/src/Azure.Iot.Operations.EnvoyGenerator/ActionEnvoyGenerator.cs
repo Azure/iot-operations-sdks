@@ -112,7 +112,7 @@ namespace Azure.Iot.Operations.EnvoyGenerator
                     {
                         if (outArgsType != null)
                         {
-                            typesToSerialize.Add(outArgsType);
+                            typesToSerialize.Add(GetSerializableTypeName(outArgsType, envoyFactory, generatedTypes));
                         }
 
                         typesToSerialize.Add(errSchemaName!);
