@@ -6,7 +6,7 @@
   "additionalProperties": false,
   "properties": {
     "createOrUpdateDiscoveredDeviceError": {
-      "description": "Read error for the 'createOrUpdateDiscoveredDevice' Action.",
+      "description": "Error for the 'createOrUpdateDiscoveredDevice' Action.",
       "$ref": "AkriServiceError.schema.json"
     },
     "discoveredDeviceResponse": {

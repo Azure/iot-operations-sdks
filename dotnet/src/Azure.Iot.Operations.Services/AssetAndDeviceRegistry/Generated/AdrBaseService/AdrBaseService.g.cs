@@ -376,7 +376,6 @@ namespace Azure.Iot.Operations.Services.AssetAndDeviceRegistry.Generated.AdrBase
 
                     return new ExtendedResponse<GetDeviceResponseSchema>
                     {
-
                         Response = new GetDeviceResponseSchema
                         {
                             Device = extended.Response.Device,
@@ -399,7 +398,6 @@ namespace Azure.Iot.Operations.Services.AssetAndDeviceRegistry.Generated.AdrBase
 
                     return new ExtendedResponse<GetDeviceStatusResponseSchema>
                     {
-
                         Response = new GetDeviceStatusResponseSchema
                         {
                             DeviceStatus = extended.Response.DeviceStatus,
@@ -422,7 +420,6 @@ namespace Azure.Iot.Operations.Services.AssetAndDeviceRegistry.Generated.AdrBase
 
                     return new ExtendedResponse<GetAssetResponseSchema>
                     {
-
                         Response = new GetAssetResponseSchema
                         {
                             Asset = extended.Response.Asset,
@@ -445,7 +442,6 @@ namespace Azure.Iot.Operations.Services.AssetAndDeviceRegistry.Generated.AdrBase
 
                     return new ExtendedResponse<GetAssetStatusResponseSchema>
                     {
-
                         Response = new GetAssetStatusResponseSchema
                         {
                             AssetStatus = extended.Response.AssetStatus,
@@ -468,7 +464,6 @@ namespace Azure.Iot.Operations.Services.AssetAndDeviceRegistry.Generated.AdrBase
 
                     return new ExtendedResponse<UpdateDeviceStatusResponseSchema>
                     {
-
                         Response = new UpdateDeviceStatusResponseSchema
                         {
                             UpdatedDeviceStatus = extended.Response.UpdatedDeviceStatus,
@@ -491,7 +486,6 @@ namespace Azure.Iot.Operations.Services.AssetAndDeviceRegistry.Generated.AdrBase
 
                     return new ExtendedResponse<UpdateAssetStatusResponseSchema>
                     {
-
                         Response = new UpdateAssetStatusResponseSchema
                         {
                             UpdatedAssetStatus = extended.Response.UpdatedAssetStatus,
@@ -514,7 +508,6 @@ namespace Azure.Iot.Operations.Services.AssetAndDeviceRegistry.Generated.AdrBase
 
                     return new ExtendedResponse<SetNotificationPreferenceForDeviceUpdatesResponseSchema>
                     {
-
                         Response = new SetNotificationPreferenceForDeviceUpdatesResponseSchema
                         {
                             ResponsePayload = extended.Response.ResponsePayload,
@@ -537,7 +530,6 @@ namespace Azure.Iot.Operations.Services.AssetAndDeviceRegistry.Generated.AdrBase
 
                     return new ExtendedResponse<SetNotificationPreferenceForAssetUpdatesResponseSchema>
                     {
-
                         Response = new SetNotificationPreferenceForAssetUpdatesResponseSchema
                         {
                             ResponsePayload = extended.Response.ResponsePayload,
@@ -560,7 +552,6 @@ namespace Azure.Iot.Operations.Services.AssetAndDeviceRegistry.Generated.AdrBase
 
                     return new ExtendedResponse<CreateOrUpdateDiscoveredAssetResponseSchema>
                     {
-
                         Response = new CreateOrUpdateDiscoveredAssetResponseSchema
                         {
                             DiscoveredAssetResponse = extended.Response.DiscoveredAssetResponse,
