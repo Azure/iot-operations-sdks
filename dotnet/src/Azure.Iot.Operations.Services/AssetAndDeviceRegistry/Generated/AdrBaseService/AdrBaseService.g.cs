@@ -595,7 +595,7 @@ namespace Azure.Iot.Operations.Services.AssetAndDeviceRegistry.Generated.AdrBase
                 await this.assetUpdateEventTelemetrySender.DisposeAsync().ConfigureAwait(false);
             }
 
-            public async ValueTask DisposeAsync(bool disposing, CancellationToken cancellationToken)
+            public async ValueTask DisposeAsync(bool disposing, CancellationToken cancellationToken = default)
             {
                 await this.getDeviceCommandExecutor.DisposeAsync(disposing, cancellationToken).ConfigureAwait(false);
                 await this.getDeviceStatusCommandExecutor.DisposeAsync(disposing, cancellationToken).ConfigureAwait(false);
@@ -1059,7 +1059,7 @@ namespace Azure.Iot.Operations.Services.AssetAndDeviceRegistry.Generated.AdrBase
             }
 
             /// <summary>
-            /// Stop accepting telemetry for all telemetry receivers.
+            /// Stop accepting telemetry for all telemetry receivers and make all command invokers unsubscribe from command topics.
             /// </summary>
             /// <param name="cancellationToken">Cancellation token.</param>
             public async Task StopAsync(CancellationToken cancellationToken = default)
@@ -1301,7 +1301,7 @@ namespace Azure.Iot.Operations.Services.AssetAndDeviceRegistry.Generated.AdrBase
                 await this.assetUpdateEventTelemetryReceiver.DisposeAsync().ConfigureAwait(false);
             }
 
-            public async ValueTask DisposeAsync(bool disposing, CancellationToken cancellationToken)
+            public async ValueTask DisposeAsync(bool disposing, CancellationToken cancellationToken = default)
             {
                 await this.getDeviceCommandInvoker.DisposeAsync(disposing, cancellationToken).ConfigureAwait(false);
                 await this.getDeviceStatusCommandInvoker.DisposeAsync(disposing, cancellationToken).ConfigureAwait(false);

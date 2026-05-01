@@ -546,8 +546,8 @@ namespace Azure.Iot.Operations.EnvoyGenerator
             this.Write(this.ToStringHelper.ToStringWithCulture(telemEnvoyInfo.Sender.GetVariableName(TargetLanguage.CSharp)));
             this.Write(".DisposeAsync().ConfigureAwait(false);\r\n");
  } 
-            this.Write("            }\r\n\r\n            public async ValueTask DisposeAsync(bool disposing, CancellationToken cancellationToken)\r" +
-                    "\n            {\r\n");
+            this.Write("            }\r\n\r\n            public async ValueTask DisposeAsync(bool disposing, " +
+                    "CancellationToken cancellationToken = default)\r\n            {\r\n");
  foreach (var actionSpec in this.actionSpecs) { 
             this.Write("                await this.");
             this.Write(this.ToStringHelper.ToStringWithCulture(actionSpec.Executor.GetVariableName(TargetLanguage.CSharp)));
@@ -894,7 +894,7 @@ namespace Azure.Iot.Operations.EnvoyGenerator
  if (this.eventSpec.Any() || this.actionSpecs.Any()) { 
             this.Write(@"
             /// <summary>
-            /// Stop accepting telemetry for all telemetry receivers.
+            /// Stop accepting telemetry for all telemetry receivers and make all command invokers unsubscribe from command topics.
             /// </summary>
             /// <param name=""cancellationToken"">Cancellation token.</param>
             public async Task StopAsync(CancellationToken cancellationToken = default)
@@ -1099,8 +1099,8 @@ namespace Azure.Iot.Operations.EnvoyGenerator
             this.Write(this.ToStringHelper.ToStringWithCulture(telemEnvoyInfo.Receiver.GetVariableName(TargetLanguage.CSharp)));
             this.Write(".DisposeAsync().ConfigureAwait(false);\r\n");
  } 
-            this.Write("            }\r\n\r\n            public async ValueTask DisposeAsync(bool disposing, CancellationToken cancellationToken)\r" +
-                    "\n            {\r\n");
+            this.Write("            }\r\n\r\n            public async ValueTask DisposeAsync(bool disposing, " +
+                    "CancellationToken cancellationToken = default)\r\n            {\r\n");
  foreach (var actionSpec in this.actionSpecs) { 
             this.Write("                await this.");
             this.Write(this.ToStringHelper.ToStringWithCulture(actionSpec.Invoker.GetVariableName(TargetLanguage.CSharp)));
