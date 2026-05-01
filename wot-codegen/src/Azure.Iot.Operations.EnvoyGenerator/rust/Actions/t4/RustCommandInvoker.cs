@@ -266,10 +266,25 @@ namespace Azure.Iot.Operations.EnvoyGenerator
                         timestamp: response.timestamp,
                         executor_id: response.executor_id,
                     }))
-                } else {
-                    Ok(Ok(");
+");
+ if (this.normalResultName != null) { 
+            this.Write("                } else if let Some(");
+            this.Write(this.ToStringHelper.ToStringWithCulture(this.normalResultName.GetVariableName(TargetLanguage.Rust)));
+            this.Write(") = response.payload.");
+            this.Write(this.ToStringHelper.ToStringWithCulture(this.normalResultName.GetFieldName(TargetLanguage.Rust)));
+            this.Write(" {\r\n");
+ } else { 
+            this.Write("                } else {\r\n");
+ } 
+            this.Write("                    Ok(Ok(");
             this.Write(this.ToStringHelper.ToStringWithCulture(this.commandName.GetTypeName(TargetLanguage.Rust, "response")));
-            this.Write(" {\r\n                        payload: ");
+            this.Write(" {\r\n");
+ if (this.normalResultName != null) { 
+            this.Write("                        payload: ");
+            this.Write(this.ToStringHelper.ToStringWithCulture(this.normalResultName.GetVariableName(TargetLanguage.Rust)));
+            this.Write(",\r\n");
+ } else { 
+            this.Write("                        payload: ");
             this.Write(this.ToStringHelper.ToStringWithCulture(this.normalResultSchema.GetTypeName(TargetLanguage.Rust)));
             this.Write(" {\r\n");
  foreach (CodeName normalResultField in this.normalResultFields) { 
@@ -291,8 +306,9 @@ namespace Azure.Iot.Operations.EnvoyGenerator
             this.Write(",\r\n");
  } 
  } 
-            this.Write(@"                        },
-                        content_type: response.content_type,
+            this.Write("                        },\r\n");
+ } 
+            this.Write(@"                        content_type: response.content_type,
                         format_indicator: response.format_indicator,
                         custom_user_data: response.custom_user_data,
                         timestamp: response.timestamp,

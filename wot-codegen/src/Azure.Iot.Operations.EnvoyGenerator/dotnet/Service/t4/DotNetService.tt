@@ -217,11 +217,14 @@ namespace <#=this.projectName#>.<#=this.genNamespace.GetNamespaceName(TargetLang
 
                     return new ExtendedResponse<<#=this.SchemaType(actionSpec.ResponseSchema, actionSpec.SerializerEmptyType)#>>
                     {
-
                         Response = new <#=this.SchemaType(actionSpec.ResponseSchema, actionSpec.SerializerEmptyType)#>
                         {
+<# if (actionSpec.NormalResultName != null) { #>
+                            <#=actionSpec.NormalResultName.GetFieldName(TargetLanguage.CSharp)#> = extended.Response,
+<# } else { #>
 <# foreach (CodeName normalResultName in actionSpec.NormalResultNames) { #>
                             <#=normalResultName.GetFieldName(TargetLanguage.CSharp)#> = extended.Response.<#=normalResultName.GetFieldName(TargetLanguage.CSharp)#>,
+<# } #>
 <# } #>
                         },
                         ResponseMetadata = extended.ResponseMetadata,
@@ -557,6 +560,12 @@ namespace <#=this.projectName#>.<#=this.genNamespace.GetNamespaceName(TargetLang
 <# foreach (var actionSpec in this.actionSpecs) { #>
                     this.<#=actionSpec.Invoker.GetVariableName(TargetLanguage.CSharp)#>.StopAsync(cancellationToken)<#=this.IsLast(actionSpec) ? ").ConfigureAwait(false);" : ","#>
 <# } #>
+<# foreach (var propSpec in this.propSpecs) { #>
+                    this.<#=propSpec.Name.GetVariableName(TargetLanguage.CSharp, "read", "requester")#>.StopAsync(cancellationToken)<#=this.IsLast(propSpec) && propSpec.WriteReqSchema == null ? ").ConfigureAwait(false);" : ","#>
+<# if (propSpec.WriteReqSchema != null) { #>
+                    this.<#=propSpec.Name.GetVariableName(TargetLanguage.CSharp, "write", "requester")#>.StopAsync(cancellationToken)<#=this.IsLast(propSpec) ? ").ConfigureAwait(false);" : ","#>
+<# } #>
+<# } #>
             }
 <# } #>
 <# foreach (var actionSpec in this.actionSpecs) { #>
@@ -583,12 +592,16 @@ namespace <#=this.projectName#>.<#=this.genNamespace.GetNamespaceName(TargetLang
                 {
                     return new ExtendedResponse<<#=this.SchemaType(actionSpec.NormalResultSchema ?? actionSpec.ResponseSchema, actionSpec.SerializerEmptyType)#>>
                     {
+<# if (actionSpec.NormalResultName != null) { #>
+                        Response = extended.Response.<#=actionSpec.NormalResultName.GetFieldName(TargetLanguage.CSharp)#>!,
+<# } else { #>
                         Response = new <#=this.SchemaType(actionSpec.NormalResultSchema ?? actionSpec.ResponseSchema, actionSpec.SerializerEmptyType)#>
                         {
 <# foreach (CodeName normalResultName in actionSpec.NormalResultNames) { #>
                             <#=normalResultName.GetFieldName(TargetLanguage.CSharp)#> = extended.Response.<#=normalResultName.GetFieldName(TargetLanguage.CSharp)#><#=actionSpec.NormalRequiredNames.Contains(normalResultName) ? ".Value()" : ""#>,
 <# } #>
                         },
+<# } #>
                         ResponseMetadata = extended.ResponseMetadata,
                     };
                 }

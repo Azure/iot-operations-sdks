@@ -198,8 +198,15 @@ impl <#=this.componentName.GetTypeName(TargetLanguage.Rust)#>
                         timestamp: response.timestamp,
                         executor_id: response.executor_id,
                     }))
+<# if (this.normalResultName != null) { #>
+                } else if let Some(<#=this.normalResultName.GetVariableName(TargetLanguage.Rust)#>) = response.payload.<#=this.normalResultName.GetFieldName(TargetLanguage.Rust)#> {
+<# } else { #>
                 } else {
+<# } #>
                     Ok(Ok(<#=this.commandName.GetTypeName(TargetLanguage.Rust, "response")#> {
+<# if (this.normalResultName != null) { #>
+                        payload: <#=this.normalResultName.GetVariableName(TargetLanguage.Rust)#>,
+<# } else { #>
                         payload: <#=this.normalResultSchema.GetTypeName(TargetLanguage.Rust)#> {
 <# foreach (CodeName normalResultField in this.normalResultFields) { #>
 <# if (this.normalRequiredFields.Contains(normalResultField)) { #>
@@ -209,6 +216,7 @@ impl <#=this.componentName.GetTypeName(TargetLanguage.Rust)#>
 <# } #>
 <# } #>
                         },
+<# } #>
                         content_type: response.content_type,
                         format_indicator: response.format_indicator,
                         custom_user_data: response.custom_user_data,
