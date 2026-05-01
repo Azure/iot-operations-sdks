@@ -52,7 +52,7 @@ Add management action execution support to `Azure.Iot.Operations.Connector`. No 
 ### Modified Types
 | Type | Change |
 |------|--------|
-| **AssetClient** | New methods: `GetManagementActionExecutorAsync`, `RecvManagementActionNotificationAsync`, `ReportManagementAction{Request/Response}MessageSchemaAsync`. New internal state: per-action notification channels. New dependency: `SchemaRegistryClient` |
+| **AssetClient** | New methods: `GetManagementActionExecutorAsync`, `RecvManagementActionNotificationAsync`, `PauseManagementActionRuntimeHealthReportingAsync`, and (Part 2) `ReportManagementAction{Request/Response}MessageSchemaAsync`. New internal state: per-action notification channels. Schema registration in Part 2 uses `SchemaRegistryClient` the same way `ConnectorWorker.ForwardSampledDataset/EventAsync` already does today — register once per (asset, action, schema), then attach a lightweight `MessageSchemaReference` thereafter. |
 | **ConnectorWorker** | Injects `SchemaRegistryClient` into `AssetClient`; pushes management action notifications to `AssetClient` when asset definitions change |
 ### Class Relationships
 ```mermaid

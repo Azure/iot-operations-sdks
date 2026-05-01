@@ -879,6 +879,8 @@ sequenceDiagram
 
 ### 3. Schema Registration
 
+> **Existing schema-reporting behavior (for context).** `ConnectorWorker.ForwardSampledDatasetAsync` / `ForwardReceivedEventAsync` already register a dataset/event schema with the Schema Registry the *first* time a given (device, endpoint, asset, dataset|event) tuple is forwarded — they call `IMessageSchemaProvider.GetMessageSchemaAsync(...)`, upload via `SchemaRegistryClient.PutAsync(...)`, and cache the returned `Schema` keyed by that tuple. On every subsequent forward only a lightweight `MessageSchemaReference` (name + namespace + version) is attached to the CloudEvent header — the schema content itself is **never re-uploaded**. `SchemaRegistryClient` is therefore not a new dependency of the Connector layer; what's new is exposing schema registration as explicit `AssetClient.ReportManagementAction{Request,Response}MessageSchemaAsync` methods, because management actions have **two** schemas per action (request + response) rather than the implicit one-per-dataset path. The same register-once / reference-thereafter cache lives next to the existing dataset/event caches on `ConnectorWorker`.
+
 ```mermaid
 sequenceDiagram
     participant User as User Callback
