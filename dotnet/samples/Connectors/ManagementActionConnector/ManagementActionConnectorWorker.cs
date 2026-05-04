@@ -16,14 +16,14 @@ namespace ManagementActionConnector
     /// notification processing, health reporting, and drain logic internally — this
     /// worker only implements the business logic for each action type.
     /// </summary>
-    public sealed class ManagementActionConnectorWorkerSimplified : BackgroundService
+    public sealed class ManagementActionConnectorWorkerSample : BackgroundService
     {
-        private readonly ILogger<ManagementActionConnectorWorkerSimplified> _logger;
+        private readonly ILogger<ManagementActionConnectorWorkerSample> _logger;
         private readonly Azure.Iot.Operations.Connector.ManagementActionConnectorWorker _connector;
 
-        public ManagementActionConnectorWorkerSimplified(
+        public ManagementActionConnectorWorkerSample(
             ApplicationContext applicationContext,
-            ILogger<ManagementActionConnectorWorkerSimplified> logger,
+            ILogger<ManagementActionConnectorWorkerSample> logger,
             ILogger<ConnectorWorker> connectorLogger,
             IMqttClient mqttClient,
             IManagementActionHandlerFactory handlerFactory,

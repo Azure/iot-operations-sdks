@@ -13,7 +13,7 @@ IHost host = Host.CreateDefaultBuilder(args)
         services.AddSingleton<IMessageSchemaProvider, NoMessageSchemaProvider>();
         services.AddSingleton(AzureDeviceRegistryClientWrapperProvider.Factory);
         services.AddSingleton<IManagementActionHandlerFactory, SampleManagementActionHandlerFactory>();
-        services.AddHostedService<ManagementActionConnectorWorkerSimplified>();
+        services.AddHostedService<ManagementActionConnectorWorkerSample>();
     })
     .Build();
 
