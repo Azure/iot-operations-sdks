@@ -57,6 +57,9 @@ public class LeaderElectionClientIntegrationTests
         // Since this client was the leader and just resigned, and no other process is aware of this lock,
         // there should be no current leader.
         Assert.Null(getCurrentLeaderResponse.CurrentLeader);
+
+        await stateStoreClient.StopAsync();
+        await leaderElectionClient.StopAsync();
     }
 
     [Fact]
@@ -90,6 +93,9 @@ public class LeaderElectionClientIntegrationTests
 
         Assert.NotNull(getResponse.Value);
         Assert.Equal(updatedValue, getResponse.Value);
+
+        await stateStoreClient.StopAsync();
+        await leaderElectionClient.StopAsync();
     }
 
     [Fact]
@@ -127,6 +133,9 @@ public class LeaderElectionClientIntegrationTests
         };
 
         Assert.True((await leaderElectionClient.ResignAsync(resignationRequestOptions)).Success);
+
+        await stateStoreClient.StopAsync();
+        await leaderElectionClient.StopAsync();
     }
 
     [Fact]
@@ -168,6 +177,9 @@ public class LeaderElectionClientIntegrationTests
             });
 
         Assert.True(setResponse.Success);
+
+        await stateStoreClient.StopAsync();
+        await leaderElectionClient.StopAsync();
     }
 
     [Fact]
@@ -245,6 +257,9 @@ public class LeaderElectionClientIntegrationTests
 
         // The most recent fencing token should be equal to the final fencing token saved before disabling auto-renewal
         Assert.Equal(0, automaticallyRenewedFencingToken.CompareTo(leaderElectionClient.LastKnownCampaignResult.FencingToken));
+
+        await stateStoreClient.StopAsync();
+        await leaderElectionClient.StopAsync();
     }
 
     [Fact]
@@ -322,6 +337,8 @@ public class LeaderElectionClientIntegrationTests
 
         // The callback should no longer execute since this client unobserved the leadership position
         Assert.False(onCallbackExecuted.Task.IsCompleted);
+
+        await leaderElectionClient.StopAsync();
     }
 
     [Fact]
@@ -384,6 +401,8 @@ public class LeaderElectionClientIntegrationTests
         {
             // Expected result since the callback should not execute after unobserving the leadership position.
         }
+
+        await leaderElectionClient.StopAsync();
     }
 
     [Fact]
@@ -408,6 +427,9 @@ public class LeaderElectionClientIntegrationTests
             await leaderElectionClient2.CampaignAsync(TimeSpan.FromSeconds(1), cancellationToken: new CancellationTokenSource(TimeSpan.FromMinutes(1)).Token);
 
         Assert.True(response2.IsLeader);
+
+        await leaderElectionClient1.StopAsync();
+        await leaderElectionClient2.StopAsync();
     }
 
     [Fact]
@@ -444,6 +466,10 @@ public class LeaderElectionClientIntegrationTests
 
         Assert.NotNull(getResponse.Value);
         Assert.Equal(updatedValue, getResponse.Value);
+
+        await stateStoreClient.StopAsync();
+        await leaderElectionClient1.StopAsync();
+        await leaderElectionClient2.StopAsync();
     }
 
     [Fact]
@@ -490,6 +516,10 @@ public class LeaderElectionClientIntegrationTests
         // of the shared resource should still be equal to the initial value.
         Assert.NotNull(getResponse.Value);
         Assert.Equal(sharedResourceInitialValue, getResponse.Value);
+
+        await stateStoreClient.StopAsync();
+        await leaderElectionClient1.StopAsync();
+        await leaderElectionClient2.StopAsync();
     }
 
     [Fact]
@@ -547,6 +577,9 @@ public class LeaderElectionClientIntegrationTests
         {
             await Task.Delay(TimeSpan.FromSeconds(1));
         }
+
+        await leaderElectionClient1.StopAsync();
+        await leaderElectionClient2.StopAsync();
     }
 }
 

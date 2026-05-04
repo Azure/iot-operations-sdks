@@ -326,19 +326,19 @@ namespace <#=this.projectName#>.<#=this.genNamespace.GetTypeName(TargetLanguage.
 <# } #>
             }
 
-            public async ValueTask DisposeAsync(bool disposing)
+            public async ValueTask DisposeAsync(bool disposing, CancellationToken cancellationToken = default)
             {
 <# foreach (var cmdEnvoyInfo in this.cmdEnvoyInfos) { #>
-                await this.<#=cmdEnvoyInfo.Name.GetVariableName(TargetLanguage.CSharp, "command", "executor")#>.DisposeAsync(disposing).ConfigureAwait(false);
+                await this.<#=cmdEnvoyInfo.Name.GetVariableName(TargetLanguage.CSharp, "command", "executor")#>.DisposeAsync(disposing, cancellationToken).ConfigureAwait(false);
 <# } #>
 <# foreach (var propEnvoyInfo in this.propEnvoyInfos) { #>
-                await this.<#=(propEnvoyInfo.Name ?? SchemaNames.AggregatePropName).GetVariableName(TargetLanguage.CSharp, "read", "responder")#>.DisposeAsync(disposing).ConfigureAwait(false);
+                await this.<#=(propEnvoyInfo.Name ?? SchemaNames.AggregatePropName).GetVariableName(TargetLanguage.CSharp, "read", "responder")#>.DisposeAsync(disposing, cancellationToken).ConfigureAwait(false);
 <# if (propEnvoyInfo.WriteReqSchema != null) { #>
-                await this.<#=(propEnvoyInfo.Name ?? SchemaNames.AggregatePropName).GetVariableName(TargetLanguage.CSharp, "write", "responder")#>.DisposeAsync(disposing).ConfigureAwait(false); 
+                await this.<#=(propEnvoyInfo.Name ?? SchemaNames.AggregatePropName).GetVariableName(TargetLanguage.CSharp, "write", "responder")#>.DisposeAsync(disposing, cancellationToken).ConfigureAwait(false); 
 <# } #>
 <# } #>
 <# foreach (var telemEnvoyInfo in this.telemEnvoyInfos) { #>
-                await this.<#=telemEnvoyInfo.Name.GetVariableName(TargetLanguage.CSharp, "telemetry", "sender")#>.DisposeAsync(disposing).ConfigureAwait(false);
+                await this.<#=telemEnvoyInfo.Name.GetVariableName(TargetLanguage.CSharp, "telemetry", "sender")#>.DisposeAsync(disposing, cancellationToken).ConfigureAwait(false);
 <# } #>
             }
         }
@@ -550,17 +550,20 @@ namespace <#=this.projectName#>.<#=this.genNamespace.GetTypeName(TargetLanguage.
 <# } #>
             }
 <# } #>
-<# if (this.telemEnvoyInfos.Any()) { #>
+<# if (this.telemEnvoyInfos.Any() || this.cmdEnvoyInfos.Any()) { #>
 
             /// <summary>
-            /// Stop accepting telemetry for all telemetry receivers.
+            /// Stop accepting telemetry for all telemetry receivers and make all command invokers unsubscribe from command response topics.
             /// </summary>
             /// <param name="cancellationToken">Cancellation token.</param>
             public async Task StopAsync(CancellationToken cancellationToken = default)
             {
                 await Task.WhenAll(
 <# foreach (var telemEnvoyInfo in this.telemEnvoyInfos) { #>
-                    this.<#=telemEnvoyInfo.Name.GetVariableName(TargetLanguage.CSharp, "telemetry", "receiver")#>.StopAsync(cancellationToken)<#=this.IsLast(telemEnvoyInfo) ? ").ConfigureAwait(false);" : ","#>
+                    this.<#=telemEnvoyInfo.Name.GetVariableName(TargetLanguage.CSharp, "telemetry", "receiver")#>.StopAsync(cancellationToken)<#=this.IsLast(telemEnvoyInfo) && !this.cmdEnvoyInfos.Any() ? ").ConfigureAwait(false);" : ","#>
+<# } #>
+<# foreach (var cmdEnvoyInfo in this.cmdEnvoyInfos) { #>
+                    this.<#=cmdEnvoyInfo.Name.GetVariableName(TargetLanguage.CSharp, "command", "invoker")#>.StopAsync(cancellationToken)<#=this.IsLast(cmdEnvoyInfo) ? ").ConfigureAwait(false);" : ","#>
 <# } #>
             }
 <# } #>
@@ -680,19 +683,19 @@ namespace <#=this.projectName#>.<#=this.genNamespace.GetTypeName(TargetLanguage.
 <# } #>
             }
 
-            public async ValueTask DisposeAsync(bool disposing)
+            public async ValueTask DisposeAsync(bool disposing, CancellationToken cancellationToken = default)
             {
 <# foreach (var cmdEnvoyInfo in this.cmdEnvoyInfos) { #>
-                await this.<#=cmdEnvoyInfo.Name.GetVariableName(TargetLanguage.CSharp, "command", "invoker")#>.DisposeAsync(disposing).ConfigureAwait(false);
+                await this.<#=cmdEnvoyInfo.Name.GetVariableName(TargetLanguage.CSharp, "command", "invoker")#>.DisposeAsync(disposing, cancellationToken).ConfigureAwait(false);
 <# } #>
 <# foreach (var propEnvoyInfo in this.propEnvoyInfos) { #>
-                await this.<#=(propEnvoyInfo.Name ?? SchemaNames.AggregatePropName).GetVariableName(TargetLanguage.CSharp, "read", "requester")#>.DisposeAsync(disposing).ConfigureAwait(false);
+                await this.<#=(propEnvoyInfo.Name ?? SchemaNames.AggregatePropName).GetVariableName(TargetLanguage.CSharp, "read", "requester")#>.DisposeAsync(disposing, cancellationToken).ConfigureAwait(false);
 <# if (propEnvoyInfo.WriteReqSchema != null) { #>
-                await this.<#=(propEnvoyInfo.Name ?? SchemaNames.AggregatePropName).GetVariableName(TargetLanguage.CSharp, "write", "requester")#>.DisposeAsync(disposing).ConfigureAwait(false); 
+                await this.<#=(propEnvoyInfo.Name ?? SchemaNames.AggregatePropName).GetVariableName(TargetLanguage.CSharp, "write", "requester")#>.DisposeAsync(disposing, cancellationToken).ConfigureAwait(false); 
 <# } #>
 <# } #>
 <# foreach (var telemEnvoyInfo in this.telemEnvoyInfos) { #>
-                await this.<#=telemEnvoyInfo.Name.GetVariableName(TargetLanguage.CSharp, "telemetry", "receiver")#>.DisposeAsync(disposing).ConfigureAwait(false);
+                await this.<#=telemEnvoyInfo.Name.GetVariableName(TargetLanguage.CSharp, "telemetry", "receiver")#>.DisposeAsync(disposing, cancellationToken).ConfigureAwait(false);
 <# } #>
             }
         }

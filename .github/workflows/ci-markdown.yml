@@ -16,10 +16,10 @@ jobs:
     name: CI-spelling
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v6
 
       - name: Spell check
-        uses: streetsidesoftware/cspell-action@v6
+        uses: streetsidesoftware/cspell-action@v8
         continue-on-error: true
         with:
           files: "**/*"
@@ -32,11 +32,30 @@ jobs:
     name: CI-links
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v6
+
+      # On PRs, detect whether the link-check config or workflow itself was
+      # modified. If so, we want a full-repo scan (nofilter) instead of the
+      # default per-PR-diff scan (added), since the change affects how every
+      # link in the repo is validated.
+      - name: Detect linkspector config changes
+        if: github.event_name == 'pull_request'
+        id: changes
+        uses: dorny/paths-filter@v4
+        with:
+          filters: |
+            config:
+              - '.github/.linkspector.yml'
+              - '.github/workflows/ci-markdown.yml'
 
       - name: Run linkspector
         uses: umbrelladocs/action-linkspector@v1
         with:
           config_file: .github/.linkspector.yml
           fail_on_error: true
-          filter_mode: ${{ github.event_name == 'schedule' && 'nofilter' || 'added' }}
+          # nofilter (whole-repo scan) when:
+          #   - nightly schedule, or
+          #   - manual workflow_dispatch, or
+          #   - a PR that modifies the link-check config / this workflow.
+          # Otherwise (regular PRs), only check links on lines the PR added.
+          filter_mode: ${{ (github.event_name == 'schedule' || github.event_name == 'workflow_dispatch' || steps.changes.outputs.config == 'true') && 'nofilter' || 'added' }}

@@ -15,7 +15,8 @@ public class MathEnvoyTests
     public MathEnvoyTests(ITestOutputHelper output)
     {
         _output = output;
-    } 
+    }
+
     [Fact]
     public async Task IsPrime_OneInvoker_SecondCallFromCache()
     {
@@ -39,6 +40,9 @@ public class MathEnvoyTests
         Assert.True(resp.Response.IsPrimeResponse.IsPrime);
 
         Assert.True(firstCall > secondCalCall);
+
+        await mathService.StopAsync();
+        await mathClient.StopAsync();
     }
 
     [Fact]
@@ -58,6 +62,9 @@ public class MathEnvoyTests
             new RPC.CommandRequestMetadata(), null, TimeSpan.FromSeconds(30)).WithMetadata());
 
         Assert.True(ex.IsRemote);
+
+        await mathService.StopAsync();
+        await mathClient.StopAsync();
     }
 
     [Fact]
@@ -74,6 +81,9 @@ public class MathEnvoyTests
 
         var resp = await mathClient.FibAsync(executorId, new FibRequestPayload { FibRequest = new FibRequestSchema { Number = 13 } }, commandTimeout: TimeSpan.FromSeconds(30)).WithMetadata();
         Assert.Equal(233, resp.Response.FibResponse.FibResult);
+
+        await mathService.StopAsync();
+        await mathClient.StopAsync();
     }
 
     [Fact()]
@@ -91,6 +101,9 @@ public class MathEnvoyTests
         var resp = await mathClient.GetRandomAsync(executorId, commandTimeout: TimeSpan.FromSeconds(30)).WithMetadata();
         Assert.True(resp.Response.GetRandomResponse > -1);
         Assert.True(resp.Response.GetRandomResponse < 51);
+
+        await mathService.StopAsync();
+        await mathClient.StopAsync();
     }
 
     [Fact]
@@ -118,5 +131,8 @@ public class MathEnvoyTests
 
         _output.WriteLine($"Received response, IsPrime: {result.IsPrimeResponse.IsPrime}");
         Assert.True(result.IsPrimeResponse.IsPrime);
+
+        await mathService.StopAsync();
+        await mathClient.StopAsync();
     }
 }

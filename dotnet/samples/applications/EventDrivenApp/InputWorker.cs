@@ -101,6 +101,8 @@ public class InputWorker(ApplicationContext applicationContext, SessionClientFac
                 {
                     logger.LogError(ex, ex.Message);
                 }
+
+                await stateStoreClient.StopAsync(cancellationToken);
             }
         }
     }

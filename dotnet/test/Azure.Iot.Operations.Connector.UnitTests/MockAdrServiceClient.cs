@@ -103,6 +103,31 @@ namespace Azure.Iot.Operations.Connector.UnitTests
         {
             return Task.FromResult(new DeviceStatus());
         }
+
+        public Task ReportDeviceEndpointRuntimeHealthAsync(string deviceName, string inboundEndpointName, RuntimeHealth deviceEndpointRuntimeHealth, TimeSpan? telemetryTimeout = null, CancellationToken cancellationToken = default)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task ReportDatasetRuntimeHealthAsync(string deviceName, string inboundEndpointName, string assetName, List<DatasetsRuntimeHealthEvent> datasetsRuntimeHealth, TimeSpan? telemetryTimeout = null, CancellationToken cancellationToken = default)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task ReportEventRuntimeHealthAsync(string deviceName, string inboundEndpointName, string assetName, List<EventsRuntimeHealthEvent> eventsRuntimeHealth, TimeSpan? telemetryTimeout = null, CancellationToken cancellationToken = default)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task ReportStreamRuntimeHealthAsync(string deviceName, string inboundEndpointName, string assetName, List<StreamsRuntimeHealthEvent> streamsRuntimeHealth, TimeSpan? telemetryTimeout = null, CancellationToken cancellationToken = default)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task ReportManagementActionRuntimeHealthAsync(string deviceName, string inboundEndpointName, string assetName, List<ManagementActionsRuntimeHealthEvent> managementActionsRuntimeHealth, TimeSpan? telemetryTimeout = null, CancellationToken cancellationToken = default)
+        {
+            throw new NotImplementedException();
+        }
     }
 
     public class SetNotificationPreferenceRecord
