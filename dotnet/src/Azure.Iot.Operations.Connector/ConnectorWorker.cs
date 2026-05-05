@@ -50,7 +50,7 @@ namespace Azure.Iot.Operations.Connector
         private readonly ConcurrentDictionary<string, Schema> _registeredEventMessageSchemas = new();
 
         /// <summary>
-        /// Event handler for when an device becomes available.
+        /// Event handler for when a device becomes available.
         /// </summary>
         /// <remarks>
         /// <para>

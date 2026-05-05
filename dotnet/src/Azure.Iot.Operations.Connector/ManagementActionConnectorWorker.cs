@@ -38,17 +38,7 @@ namespace Azure.Iot.Operations.Connector
             : base(applicationContext, logger, mqttClient, messageSchemaProvider, adrClientFactory, leaderElectionConfigurationProvider)
         {
             _handlerFactory = handlerFactory;
-            base.WhileDeviceIsAvailable = WhileDeviceAvailableAsync;
             base.WhileAssetIsAvailable = WhileAssetAvailableAsync;
-        }
-
-        private Task WhileDeviceAvailableAsync(DeviceAvailableEventArgs args, CancellationToken cancellationToken)
-        {
-            _logger.LogInformation(
-                "Device {DeviceName} (endpoint {EndpointName}) is available.",
-                args.DeviceName,
-                args.InboundEndpointName);
-            return Task.CompletedTask;
         }
 
         private async Task WhileAssetAvailableAsync(AssetAvailableEventArgs args, CancellationToken cancellationToken)
