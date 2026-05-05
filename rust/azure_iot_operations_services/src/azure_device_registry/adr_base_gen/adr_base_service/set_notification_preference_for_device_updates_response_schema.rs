@@ -21,7 +21,7 @@ pub struct SetNotificationPreferenceForDeviceUpdatesResponseSchema {
     #[builder(default = "None")]
     pub response_payload: Option<String>,
 
-    /// Read error for the 'setNotificationPreferenceForDeviceUpdates' Action.
+    /// Error for the 'setNotificationPreferenceForDeviceUpdates' Action.
     #[serde(rename = "setNotificationPreferenceForDeviceUpdatesError")]
     #[serde(skip_serializing_if = "Option::is_none")]
     #[builder(default = "None")]

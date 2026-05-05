@@ -103,7 +103,6 @@ namespace Azure.Iot.Operations.Services.SchemaRegistry.Generated
 
                     return new ExtendedResponse<PutResponseSchema>
                     {
-
                         Response = new PutResponseSchema
                         {
                             Schema = extended.Response.Schema,
@@ -126,7 +125,6 @@ namespace Azure.Iot.Operations.Services.SchemaRegistry.Generated
 
                     return new ExtendedResponse<GetResponseSchema>
                     {
-
                         Response = new GetResponseSchema
                         {
                             Schema = extended.Response.Schema,
