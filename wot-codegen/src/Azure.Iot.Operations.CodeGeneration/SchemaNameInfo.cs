@@ -123,5 +123,8 @@ namespace Azure.Iot.Operations.CodeGeneration
 
         [JsonPropertyName("actionRespErrorField")]
         public FuncInfo? ActionRespErrorField { get; set; }
+
+        [JsonPropertyName("actionRespOutputField")]
+        public FuncInfo? ActionRespOutputField { get; set; }
     }
 }

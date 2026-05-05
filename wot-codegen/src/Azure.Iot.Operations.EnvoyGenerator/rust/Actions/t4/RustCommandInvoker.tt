@@ -200,6 +200,9 @@ impl <#=this.componentName.GetTypeName(TargetLanguage.Rust)#>
                     }))
                 } else {
                     Ok(Ok(<#=this.commandName.GetTypeName(TargetLanguage.Rust, "response")#> {
+<# if (this.normalResultName != null) { #>
+                        payload: response.payload.<#=this.normalResultName.GetFieldName(TargetLanguage.Rust)#>.ok_or(<#=this.componentName.GetTypeName(TargetLanguage.Rust)#>::get_err("<#=this.normalResultName.AsGiven#>"))?,
+<# } else { #>
                         payload: <#=this.normalResultSchema.GetTypeName(TargetLanguage.Rust)#> {
 <# foreach (CodeName normalResultField in this.normalResultFields) { #>
 <# if (this.normalRequiredFields.Contains(normalResultField)) { #>
@@ -209,6 +212,7 @@ impl <#=this.componentName.GetTypeName(TargetLanguage.Rust)#>
 <# } #>
 <# } #>
                         },
+<# } #>
                         content_type: response.content_type,
                         format_indicator: response.format_indicator,
                         custom_user_data: response.custom_user_data,
@@ -233,7 +237,7 @@ impl <#=this.componentName.GetTypeName(TargetLanguage.Rust)#>
     pub async fn shutdown(&self) -> Result<(), AIOProtocolError> {
         self.0.shutdown().await
     }
-<# if (this.errorResultName != null && this.normalRequiredFields.Any()) { #>
+<# if (this.errorResultName != null && (this.normalRequiredFields.Any() || this.normalResultName != null)) { #>
 
     fn get_err(field_name: &str) -> AIOProtocolError {
         AIOProtocolError {

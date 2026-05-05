@@ -376,7 +376,6 @@ namespace Azure.Iot.Operations.Services.AssetAndDeviceRegistry.Generated.AdrBase
 
                     return new ExtendedResponse<GetDeviceResponseSchema>
                     {
-
                         Response = new GetDeviceResponseSchema
                         {
                             Device = extended.Response.Device,
@@ -399,7 +398,6 @@ namespace Azure.Iot.Operations.Services.AssetAndDeviceRegistry.Generated.AdrBase
 
                     return new ExtendedResponse<GetDeviceStatusResponseSchema>
                     {
-
                         Response = new GetDeviceStatusResponseSchema
                         {
                             DeviceStatus = extended.Response.DeviceStatus,
@@ -422,7 +420,6 @@ namespace Azure.Iot.Operations.Services.AssetAndDeviceRegistry.Generated.AdrBase
 
                     return new ExtendedResponse<GetAssetResponseSchema>
                     {
-
                         Response = new GetAssetResponseSchema
                         {
                             Asset = extended.Response.Asset,
@@ -445,7 +442,6 @@ namespace Azure.Iot.Operations.Services.AssetAndDeviceRegistry.Generated.AdrBase
 
                     return new ExtendedResponse<GetAssetStatusResponseSchema>
                     {
-
                         Response = new GetAssetStatusResponseSchema
                         {
                             AssetStatus = extended.Response.AssetStatus,
@@ -468,7 +464,6 @@ namespace Azure.Iot.Operations.Services.AssetAndDeviceRegistry.Generated.AdrBase
 
                     return new ExtendedResponse<UpdateDeviceStatusResponseSchema>
                     {
-
                         Response = new UpdateDeviceStatusResponseSchema
                         {
                             UpdatedDeviceStatus = extended.Response.UpdatedDeviceStatus,
@@ -491,7 +486,6 @@ namespace Azure.Iot.Operations.Services.AssetAndDeviceRegistry.Generated.AdrBase
 
                     return new ExtendedResponse<UpdateAssetStatusResponseSchema>
                     {
-
                         Response = new UpdateAssetStatusResponseSchema
                         {
                             UpdatedAssetStatus = extended.Response.UpdatedAssetStatus,
@@ -514,7 +508,6 @@ namespace Azure.Iot.Operations.Services.AssetAndDeviceRegistry.Generated.AdrBase
 
                     return new ExtendedResponse<SetNotificationPreferenceForDeviceUpdatesResponseSchema>
                     {
-
                         Response = new SetNotificationPreferenceForDeviceUpdatesResponseSchema
                         {
                             ResponsePayload = extended.Response.ResponsePayload,
@@ -537,7 +530,6 @@ namespace Azure.Iot.Operations.Services.AssetAndDeviceRegistry.Generated.AdrBase
 
                     return new ExtendedResponse<SetNotificationPreferenceForAssetUpdatesResponseSchema>
                     {
-
                         Response = new SetNotificationPreferenceForAssetUpdatesResponseSchema
                         {
                             ResponsePayload = extended.Response.ResponsePayload,
@@ -560,7 +552,6 @@ namespace Azure.Iot.Operations.Services.AssetAndDeviceRegistry.Generated.AdrBase
 
                     return new ExtendedResponse<CreateOrUpdateDiscoveredAssetResponseSchema>
                     {
-
                         Response = new CreateOrUpdateDiscoveredAssetResponseSchema
                         {
                             DiscoveredAssetResponse = extended.Response.DiscoveredAssetResponse,
@@ -595,7 +586,7 @@ namespace Azure.Iot.Operations.Services.AssetAndDeviceRegistry.Generated.AdrBase
                 await this.assetUpdateEventTelemetrySender.DisposeAsync().ConfigureAwait(false);
             }
 
-            public async ValueTask DisposeAsync(bool disposing, CancellationToken cancellationToken)
+            public async ValueTask DisposeAsync(bool disposing, CancellationToken cancellationToken = default)
             {
                 await this.getDeviceCommandExecutor.DisposeAsync(disposing, cancellationToken).ConfigureAwait(false);
                 await this.getDeviceStatusCommandExecutor.DisposeAsync(disposing, cancellationToken).ConfigureAwait(false);
@@ -1059,7 +1050,7 @@ namespace Azure.Iot.Operations.Services.AssetAndDeviceRegistry.Generated.AdrBase
             }
 
             /// <summary>
-            /// Stop accepting telemetry for all telemetry receivers.
+            /// Stop accepting telemetry for all telemetry receivers and make all command invokers unsubscribe from command topics.
             /// </summary>
             /// <param name="cancellationToken">Cancellation token.</param>
             public async Task StopAsync(CancellationToken cancellationToken = default)
@@ -1301,7 +1292,7 @@ namespace Azure.Iot.Operations.Services.AssetAndDeviceRegistry.Generated.AdrBase
                 await this.assetUpdateEventTelemetryReceiver.DisposeAsync().ConfigureAwait(false);
             }
 
-            public async ValueTask DisposeAsync(bool disposing, CancellationToken cancellationToken)
+            public async ValueTask DisposeAsync(bool disposing, CancellationToken cancellationToken = default)
             {
                 await this.getDeviceCommandInvoker.DisposeAsync(disposing, cancellationToken).ConfigureAwait(false);
                 await this.getDeviceStatusCommandInvoker.DisposeAsync(disposing, cancellationToken).ConfigureAwait(false);

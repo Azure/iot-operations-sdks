@@ -103,7 +103,6 @@ namespace Azure.Iot.Operations.Services.SchemaRegistry.Generated
 
                     return new ExtendedResponse<PutResponseSchema>
                     {
-
                         Response = new PutResponseSchema
                         {
                             Schema = extended.Response.Schema,
@@ -126,7 +125,6 @@ namespace Azure.Iot.Operations.Services.SchemaRegistry.Generated
 
                     return new ExtendedResponse<GetResponseSchema>
                     {
-
                         Response = new GetResponseSchema
                         {
                             Schema = extended.Response.Schema,
@@ -147,7 +145,7 @@ namespace Azure.Iot.Operations.Services.SchemaRegistry.Generated
                 await this.getCommandExecutor.DisposeAsync().ConfigureAwait(false);
             }
 
-            public async ValueTask DisposeAsync(bool disposing, CancellationToken cancellationToken)
+            public async ValueTask DisposeAsync(bool disposing, CancellationToken cancellationToken = default)
             {
                 await this.putCommandExecutor.DisposeAsync(disposing, cancellationToken).ConfigureAwait(false);
                 await this.getCommandExecutor.DisposeAsync(disposing, cancellationToken).ConfigureAwait(false);
@@ -261,7 +259,7 @@ namespace Azure.Iot.Operations.Services.SchemaRegistry.Generated
             }
 
             /// <summary>
-            /// Stop accepting telemetry for all telemetry receivers.
+            /// Stop accepting telemetry for all telemetry receivers and make all command invokers unsubscribe from command topics.
             /// </summary>
             /// <param name="cancellationToken">Cancellation token.</param>
             public async Task StopAsync(CancellationToken cancellationToken = default)
@@ -321,7 +319,7 @@ namespace Azure.Iot.Operations.Services.SchemaRegistry.Generated
                 await this.getCommandInvoker.DisposeAsync().ConfigureAwait(false);
             }
 
-            public async ValueTask DisposeAsync(bool disposing, CancellationToken cancellationToken)
+            public async ValueTask DisposeAsync(bool disposing, CancellationToken cancellationToken = default)
             {
                 await this.putCommandInvoker.DisposeAsync(disposing, cancellationToken).ConfigureAwait(false);
                 await this.getCommandInvoker.DisposeAsync(disposing, cancellationToken).ConfigureAwait(false);

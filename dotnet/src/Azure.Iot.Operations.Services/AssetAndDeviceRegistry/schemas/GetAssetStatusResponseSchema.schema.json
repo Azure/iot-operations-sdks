@@ -10,7 +10,7 @@
       "$ref": "AssetStatus.schema.json"
     },
     "getAssetStatusError": {
-      "description": "Read error for the 'getAssetStatus' Action.",
+      "description": "Error for the 'getAssetStatus' Action.",
       "$ref": "AkriServiceError.schema.json"
     }
   }

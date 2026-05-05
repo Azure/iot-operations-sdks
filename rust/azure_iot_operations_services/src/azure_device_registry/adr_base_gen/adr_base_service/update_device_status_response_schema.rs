@@ -22,7 +22,7 @@ pub struct UpdateDeviceStatusResponseSchema {
     #[builder(default = "None")]
     pub updated_device_status: Option<DeviceStatus>,
 
-    /// Read error for the 'updateDeviceStatus' Action.
+    /// Error for the 'updateDeviceStatus' Action.
     #[serde(rename = "updateDeviceStatusError")]
     #[serde(skip_serializing_if = "Option::is_none")]
     #[builder(default = "None")]

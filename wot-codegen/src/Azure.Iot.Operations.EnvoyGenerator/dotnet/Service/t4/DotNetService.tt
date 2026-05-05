@@ -217,11 +217,14 @@ namespace <#=this.projectName#>.<#=this.genNamespace.GetNamespaceName(TargetLang
 
                     return new ExtendedResponse<<#=this.SchemaType(actionSpec.ResponseSchema, actionSpec.SerializerEmptyType)#>>
                     {
-
                         Response = new <#=this.SchemaType(actionSpec.ResponseSchema, actionSpec.SerializerEmptyType)#>
                         {
+<# if (actionSpec.NormalResultName != null) { #>
+                            <#=actionSpec.NormalResultName.GetFieldName(TargetLanguage.CSharp)#> = extended.Response,
+<# } else { #>
 <# foreach (CodeName normalResultName in actionSpec.NormalResultNames) { #>
                             <#=normalResultName.GetFieldName(TargetLanguage.CSharp)#> = extended.Response.<#=normalResultName.GetFieldName(TargetLanguage.CSharp)#>,
+<# } #>
 <# } #>
                         },
                         ResponseMetadata = extended.ResponseMetadata,
@@ -318,22 +321,6 @@ namespace <#=this.projectName#>.<#=this.genNamespace.GetNamespaceName(TargetLang
 <# } #>
 <# foreach (var telemEnvoyInfo in this.eventSpec) { #>
                 await this.<#=telemEnvoyInfo.Sender.GetVariableName(TargetLanguage.CSharp)#>.DisposeAsync().ConfigureAwait(false);
-<# } #>
-            }
-
-            public async ValueTask DisposeAsync(bool disposing)
-            {
-<# foreach (var actionSpec in this.actionSpecs) { #>
-                await this.<#=actionSpec.Executor.GetVariableName(TargetLanguage.CSharp)#>.DisposeAsync(disposing).ConfigureAwait(false);
-<# } #>
-<# foreach (var propSpec in this.propSpecs) { #>
-                await this.<#=propSpec.Name.GetVariableName(TargetLanguage.CSharp, "read", "responder")#>.DisposeAsync(disposing).ConfigureAwait(false);
-<# if (propSpec.WriteReqSchema != null) { #>
-                await this.<#=propSpec.Name.GetVariableName(TargetLanguage.CSharp, "write", "responder")#>.DisposeAsync(disposing).ConfigureAwait(false); 
-<# } #>
-<# } #>
-<# foreach (var telemEnvoyInfo in this.eventSpec) { #>
-                await this.<#=telemEnvoyInfo.Sender.GetVariableName(TargetLanguage.CSharp)#>.DisposeAsync(disposing).ConfigureAwait(false);
 <# } #>
             }
 
@@ -558,7 +545,7 @@ namespace <#=this.projectName#>.<#=this.genNamespace.GetNamespaceName(TargetLang
 <# } #>
             }
 <# } #>
-<# if (this.eventSpec.Any() || this.actionSpec.Any()) { #>
+<# if (this.eventSpec.Any() || this.actionSpecs.Any() || this.propSpecs.Any()) { #>
 
             /// <summary>
             /// Stop accepting telemetry for all telemetry receivers and make all command invokers unsubscribe from command topics.
@@ -568,10 +555,16 @@ namespace <#=this.projectName#>.<#=this.genNamespace.GetNamespaceName(TargetLang
             {
                 await Task.WhenAll(
 <# foreach (var telemEnvoyInfo in this.eventSpec) { #>
-                    this.<#=telemEnvoyInfo.Receiver.GetVariableName(TargetLanguage.CSharp)#>.StopAsync(cancellationToken)<#=this.IsLast(telemEnvoyInfo) && !this.actionSpec.Any() ? ").ConfigureAwait(false);" : ","#>
+                    this.<#=telemEnvoyInfo.Receiver.GetVariableName(TargetLanguage.CSharp)#>.StopAsync(cancellationToken)<#=this.IsLast(telemEnvoyInfo) && !this.actionSpecs.Any() && !this.propSpecs.Any() ? ").ConfigureAwait(false);" : ","#>
 <# } #>
 <# foreach (var actionSpec in this.actionSpecs) { #>
                     this.<#=actionSpec.Invoker.GetVariableName(TargetLanguage.CSharp)#>.StopAsync(cancellationToken)<#=this.IsLast(actionSpec) ? ").ConfigureAwait(false);" : ","#>
+<# } #>
+<# foreach (var propSpec in this.propSpecs) { #>
+                    this.<#=propSpec.Name.GetVariableName(TargetLanguage.CSharp, "read", "requester")#>.StopAsync(cancellationToken)<#=this.IsLast(propSpec) && propSpec.WriteReqSchema == null ? ").ConfigureAwait(false);" : ","#>
+<# if (propSpec.WriteReqSchema != null) { #>
+                    this.<#=propSpec.Name.GetVariableName(TargetLanguage.CSharp, "write", "requester")#>.StopAsync(cancellationToken)<#=this.IsLast(propSpec) ? ").ConfigureAwait(false);" : ","#>
+<# } #>
 <# } #>
             }
 <# } #>
@@ -599,12 +592,16 @@ namespace <#=this.projectName#>.<#=this.genNamespace.GetNamespaceName(TargetLang
                 {
                     return new ExtendedResponse<<#=this.SchemaType(actionSpec.NormalResultSchema ?? actionSpec.ResponseSchema, actionSpec.SerializerEmptyType)#>>
                     {
+<# if (actionSpec.NormalResultName != null) { #>
+                        Response = extended.Response.<#=actionSpec.NormalResultName.GetFieldName(TargetLanguage.CSharp)#>!,
+<# } else { #>
                         Response = new <#=this.SchemaType(actionSpec.NormalResultSchema ?? actionSpec.ResponseSchema, actionSpec.SerializerEmptyType)#>
                         {
 <# foreach (CodeName normalResultName in actionSpec.NormalResultNames) { #>
                             <#=normalResultName.GetFieldName(TargetLanguage.CSharp)#> = extended.Response.<#=normalResultName.GetFieldName(TargetLanguage.CSharp)#><#=actionSpec.NormalRequiredNames.Contains(normalResultName) ? ".Value()" : ""#>,
 <# } #>
                         },
+<# } #>
                         ResponseMetadata = extended.ResponseMetadata,
                     };
                 }
