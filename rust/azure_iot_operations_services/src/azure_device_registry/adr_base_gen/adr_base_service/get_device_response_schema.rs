@@ -21,7 +21,7 @@ pub struct GetDeviceResponseSchema {
     #[builder(default = "None")]
     pub device: Option<Device>,
 
-    /// Read error for the 'getDevice' Action.
+    /// Error for the 'getDevice' Action.
     #[serde(rename = "getDeviceError")]
     #[serde(skip_serializing_if = "Option::is_none")]
     #[builder(default = "None")]

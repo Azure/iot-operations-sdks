@@ -67,7 +67,7 @@ namespace Azure.Iot.Operations.Protocol.IntegrationTests
             return sessionClient;
         }
 
-        public static async Task<MqttSessionClient> CreateSessionClientFromEnvAsync(string clientId = "")
+        public static async Task<MqttSessionClient> CreateSessionClientFromEnvAsync(string clientId = "", MqttSessionClientOptions? options = null)
         {
             Debug.Assert(Environment.GetEnvironmentVariable("MQTT_TEST_BROKER_CS") != null);
             string cs = Environment.GetEnvironmentVariable("MQTT_TEST_BROKER_CS")!;
@@ -82,13 +82,13 @@ namespace Azure.Iot.Operations.Protocol.IntegrationTests
                 mcs.ClientId = clientId;
             }
 
-            MqttSessionClientOptions sessionClientOptions = new MqttSessionClientOptions()
+            options ??= new MqttSessionClientOptions()
             {
-            // This retry policy prevents the client from retrying forever
+                // This retry policy prevents the client from retrying forever
                 ConnectionRetryPolicy = new ExponentialBackoffRetryPolicy(10, TimeSpan.FromSeconds(5))
             };
 
-            var sessionClient = new MqttSessionClient(sessionClientOptions);
+            var sessionClient = new MqttSessionClient(options);
             await sessionClient.ConnectAsync(new MqttClientOptions(mcs));
             return sessionClient;
         }

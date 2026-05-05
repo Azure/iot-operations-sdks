@@ -37,7 +37,7 @@ jobs:
       COUNTER_SERVER_ID: ${{ matrix.server }}
 
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v6
 
       #=======================================================================
       # Install prerequisites

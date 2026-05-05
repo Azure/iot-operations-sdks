@@ -7,6 +7,9 @@ excludedFiles:
 ignorePatterns:
   # There are some dummy links, ignore these
   - pattern: "^http://link_to_"
+  # w3.org returns 403, presumably due to some kind of blocking crawlers.
+  # TODO: Investigate and find a solution that can re-enable these links
+  - pattern: "^https?://(www\\.)?w3\\.org/"
 aliveStatusCodes:
   - 200
   - 201

@@ -47,6 +47,8 @@ public class AzureDeviceRegistryClientIntegrationTests
         Assert.NotNull(device.Endpoints);
         Assert.NotNull(device.Endpoints.Inbound);
         Assert.Single(device.Endpoints.Inbound.Keys);
+
+        await client.StopAsync();
     }
 
     [Fact]
@@ -59,6 +61,8 @@ public class AzureDeviceRegistryClientIntegrationTests
 
         // Act
         await Assert.ThrowsAsync<AkriServiceErrorException>(async () => await client.GetDeviceAsync("this_device_does_not_exist", TestEndpointName));
+
+        await client.StopAsync();
     }
 
     [Fact]
@@ -76,6 +80,8 @@ public class AzureDeviceRegistryClientIntegrationTests
         _output.WriteLine($"Expected exception: {exception.Message}");
         Assert.NotNull(exception.AkriServiceError);
         Assert.Equal(Code.KubeError, exception.AkriServiceError.Code);
+
+        await client.StopAsync();
     }
 
     [Fact]
@@ -111,6 +117,8 @@ public class AzureDeviceRegistryClientIntegrationTests
         Assert.NotNull(updatedDevice);
         Assert.NotNull(updatedDevice.Config);
         Assert.Equal(expectedTime, updatedDevice.Config.LastTransitionTime);
+
+        await client.StopAsync();
     }
 
     [Fact]
@@ -145,6 +153,8 @@ public class AzureDeviceRegistryClientIntegrationTests
         {
             Assert.Fail("Did not receive device update event within timeout");
         }
+
+        await client.StopAsync();
     }
 
     [Fact]
@@ -212,6 +222,8 @@ public class AzureDeviceRegistryClientIntegrationTests
 
         // Assert
         Assert.False(receivedUnexpectedNotification, "Should not receive device update event after unobserving");
+
+        await client.StopAsync();
     }
 
     [Fact]
@@ -230,6 +242,8 @@ public class AzureDeviceRegistryClientIntegrationTests
         Assert.NotNull(asset);
         Assert.NotNull(asset.Datasets);
         Assert.Single(asset.Datasets);
+
+        await client.StopAsync();
     }
 
     [Fact]
@@ -251,6 +265,8 @@ public class AzureDeviceRegistryClientIntegrationTests
         Assert.NotNull(updatedAsset);
         Assert.NotNull(updatedAsset.Config);
         Assert.Equal(expectedTime, updatedAsset.Config.LastTransitionTime);
+
+        await client.StopAsync();
     }
 
     [Fact]
@@ -285,6 +301,8 @@ public class AzureDeviceRegistryClientIntegrationTests
         {
             Assert.Fail("Did not receive asset update event within timeout");
         }
+
+        await client.StopAsync();
     }
 
     [Fact]
@@ -353,6 +371,8 @@ public class AzureDeviceRegistryClientIntegrationTests
 
         // Assert
         Assert.False(receivedUnexpectedNotification, "Should not receive asset update event after unobserving");
+
+        await client.StopAsync();
     }
 
     [Fact]
@@ -372,6 +392,8 @@ public class AzureDeviceRegistryClientIntegrationTests
         Assert.NotNull(result);
         Assert.NotEmpty(result.DiscoveredAssetResponse.DiscoveryId);
         _output.WriteLine($"Detected asset created with DiscoveryId: {result.DiscoveredAssetResponse.DiscoveryId}");
+
+        await client.StopAsync();
     }
 
     [Fact]
@@ -393,6 +415,8 @@ public class AzureDeviceRegistryClientIntegrationTests
         Assert.NotEmpty(response.DiscoveredDeviceResponse.DiscoveryId);
         Assert.Equal("test-discovered-device", response.DiscoveredDeviceResponse.DiscoveryId);
         _output.WriteLine($"Discovered device created with name: {response.DiscoveredDeviceResponse.DiscoveryId}");
+
+        await client.StopAsync();
     }
 
     [Fact]
@@ -442,6 +466,8 @@ public class AzureDeviceRegistryClientIntegrationTests
         Assert.NotEmpty(receivedEvents);
         Assert.True(receivedEvents.ContainsKey(TestDevice_1_Name), $"Expected device event for {TestDevice_1_Name} not received");
         Assert.False(receivedEvents.ContainsKey(TestDevice_2_Name), $"Unexpected device event for test-thermostat received");
+
+        await client.StopAsync();
     }
 
 
@@ -498,6 +524,8 @@ public class AzureDeviceRegistryClientIntegrationTests
         updatedDevice = await client.UpdateDeviceStatusAsync(TestDevice_1_Name, TestEndpointName, status);
         Assert.NotNull(updatedDevice.Config);
         Assert.Null(updatedDevice.Config.Error);
+
+        await client.StopAsync();
     }
     private CreateOrUpdateDiscoveredAssetRequest CreateCreateDetectedAssetRequest()
     {

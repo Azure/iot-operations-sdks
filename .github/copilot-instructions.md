@@ -60,9 +60,6 @@ make check
 # Run tests
 make test
 
-# Run tests with specific features
-FEATURES="all" make test
-
 # Run tests with network tests enabled
 ENABLE_NETWORK_TESTS=true make test
 

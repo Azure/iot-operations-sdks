@@ -32,6 +32,8 @@ public class GreeterEnvoyTests
         }, timeout: TimeSpan.FromSeconds(30)).WithMetadata();
 
         Assert.Equal("Hello Rido", resp.Response.Message);
+
+        await greeterService.StopAsync(CancellationToken.None);
     }
 
     [Fact]
@@ -57,6 +59,8 @@ public class GreeterEnvoyTests
 
         AkriMqttException ex = await Assert.ThrowsAsync<AkriMqttException>(async () => await greeterResponseCall);
         Assert.Equal(AkriMqttErrorKind.Timeout, ex.Kind);
+
+        await greeterService.StopAsync(CancellationToken.None);
     }
 
     [Fact]
@@ -84,6 +88,8 @@ public class GreeterEnvoyTests
         Assert.Equal(AkriMqttErrorKind.ExecutionException, ex.Kind);
         Assert.True(ex.IsRemote);
         Assert.Equal("Delay cannot be Zero", ex.Message);
+
+        await greeterService.StopAsync(CancellationToken.None);
     }
 
     [Fact(Skip = "This test requires the session client which hasn't been finished yet")]
@@ -142,6 +148,8 @@ public class GreeterEnvoyTests
         Assert.Equal("Hello User3", hello2Result.Message);
 
         await Task.Delay(TimeSpan.FromSeconds(5));  // Delay to allow for manual delayed acks to complete
+
+        await greeterService.StopAsync(CancellationToken.None);
     }
 
     [Fact]
@@ -210,6 +218,9 @@ public class GreeterEnvoyTests
 
         // verify only one executor handled the command
         Assert.Equal(1, count1 + count2);
+
+        await greeterService1.StopAsync(CancellationToken.None);
+        await greeterService2.StopAsync(CancellationToken.None);
     }
 
     [Fact(Skip = "Waiting for $partition to be ready")]
@@ -288,5 +299,8 @@ public class GreeterEnvoyTests
         // verify that both invocations were handled by the same executor
         Assert.Equal(2, count1 + count2);
         Assert.True(count1 == 0 || count2 == 0);
+
+        await greeterService1.StopAsync(CancellationToken.None);
+        await greeterService2.StopAsync(CancellationToken.None);
     }
 }

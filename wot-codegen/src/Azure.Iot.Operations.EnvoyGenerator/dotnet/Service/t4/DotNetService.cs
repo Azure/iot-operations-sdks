@@ -377,15 +377,21 @@ namespace Azure.Iot.Operations.EnvoyGenerator
             this.Write(this.ToStringHelper.ToStringWithCulture(this.ReqArgs(actionSpec, "req")));
             this.Write(", cancellationToken);\r\n\r\n                    return new ExtendedResponse<");
             this.Write(this.ToStringHelper.ToStringWithCulture(this.SchemaType(actionSpec.ResponseSchema, actionSpec.SerializerEmptyType)));
-            this.Write(">\r\n                    {\r\n\r\n                        Response = new ");
+            this.Write(">\r\n                    {\r\n                        Response = new ");
             this.Write(this.ToStringHelper.ToStringWithCulture(this.SchemaType(actionSpec.ResponseSchema, actionSpec.SerializerEmptyType)));
             this.Write("\r\n                        {\r\n");
+ if (actionSpec.NormalResultName != null) { 
+            this.Write("                            ");
+            this.Write(this.ToStringHelper.ToStringWithCulture(actionSpec.NormalResultName.GetFieldName(TargetLanguage.CSharp)));
+            this.Write(" = extended.Response,\r\n");
+ } else { 
  foreach (CodeName normalResultName in actionSpec.NormalResultNames) { 
             this.Write("                            ");
             this.Write(this.ToStringHelper.ToStringWithCulture(normalResultName.GetFieldName(TargetLanguage.CSharp)));
             this.Write(" = extended.Response.");
             this.Write(this.ToStringHelper.ToStringWithCulture(normalResultName.GetFieldName(TargetLanguage.CSharp)));
             this.Write(",\r\n");
+ } 
  } 
             this.Write("                        },\r\n                        ResponseMetadata = extended.R" +
                     "esponseMetadata,\r\n                    };\r\n                }\r\n                cat" +
@@ -546,27 +552,27 @@ namespace Azure.Iot.Operations.EnvoyGenerator
             this.Write(this.ToStringHelper.ToStringWithCulture(telemEnvoyInfo.Sender.GetVariableName(TargetLanguage.CSharp)));
             this.Write(".DisposeAsync().ConfigureAwait(false);\r\n");
  } 
-            this.Write("            }\r\n\r\n            public async ValueTask DisposeAsync(bool disposing)\r" +
-                    "\n            {\r\n");
+            this.Write("            }\r\n\r\n            public async ValueTask DisposeAsync(bool disposing, " +
+                    "CancellationToken cancellationToken = default)\r\n            {\r\n");
  foreach (var actionSpec in this.actionSpecs) { 
             this.Write("                await this.");
             this.Write(this.ToStringHelper.ToStringWithCulture(actionSpec.Executor.GetVariableName(TargetLanguage.CSharp)));
-            this.Write(".DisposeAsync(disposing).ConfigureAwait(false);\r\n");
+            this.Write(".DisposeAsync(disposing, cancellationToken).ConfigureAwait(false);\r\n");
  } 
  foreach (var propSpec in this.propSpecs) { 
             this.Write("                await this.");
             this.Write(this.ToStringHelper.ToStringWithCulture(propSpec.Name.GetVariableName(TargetLanguage.CSharp, "read", "responder")));
-            this.Write(".DisposeAsync(disposing).ConfigureAwait(false);\r\n");
+            this.Write(".DisposeAsync(disposing, cancellationToken).ConfigureAwait(false);\r\n");
  if (propSpec.WriteReqSchema != null) { 
             this.Write("                await this.");
             this.Write(this.ToStringHelper.ToStringWithCulture(propSpec.Name.GetVariableName(TargetLanguage.CSharp, "write", "responder")));
-            this.Write(".DisposeAsync(disposing).ConfigureAwait(false); \r\n");
+            this.Write(".DisposeAsync(disposing, cancellationToken).ConfigureAwait(false); \r\n");
  } 
  } 
  foreach (var telemEnvoyInfo in this.eventSpec) { 
             this.Write("                await this.");
             this.Write(this.ToStringHelper.ToStringWithCulture(telemEnvoyInfo.Sender.GetVariableName(TargetLanguage.CSharp)));
-            this.Write(".DisposeAsync(disposing).ConfigureAwait(false);\r\n");
+            this.Write(".DisposeAsync(disposing, cancellationToken).ConfigureAwait(false);\r\n");
  } 
             this.Write("            }\r\n        }\r\n");
  } 
@@ -891,10 +897,10 @@ namespace Azure.Iot.Operations.EnvoyGenerator
  } 
             this.Write("            }\r\n");
  } 
- if (this.eventSpec.Any()) { 
+ if (this.eventSpec.Any() || this.actionSpecs.Any() || this.propSpecs.Any()) { 
             this.Write(@"
             /// <summary>
-            /// Stop accepting telemetry for all telemetry receivers.
+            /// Stop accepting telemetry for all telemetry receivers and make all command invokers unsubscribe from command topics.
             /// </summary>
             /// <param name=""cancellationToken"">Cancellation token.</param>
             public async Task StopAsync(CancellationToken cancellationToken = default)
@@ -905,8 +911,29 @@ namespace Azure.Iot.Operations.EnvoyGenerator
             this.Write("                    this.");
             this.Write(this.ToStringHelper.ToStringWithCulture(telemEnvoyInfo.Receiver.GetVariableName(TargetLanguage.CSharp)));
             this.Write(".StopAsync(cancellationToken)");
-            this.Write(this.ToStringHelper.ToStringWithCulture(this.IsLast(telemEnvoyInfo) ? ").ConfigureAwait(false);" : ","));
+            this.Write(this.ToStringHelper.ToStringWithCulture(this.IsLast(telemEnvoyInfo) && !this.actionSpecs.Any() && !this.propSpecs.Any() ? ").ConfigureAwait(false);" : ","));
             this.Write("\r\n");
+ } 
+ foreach (var actionSpec in this.actionSpecs) { 
+            this.Write("                    this.");
+            this.Write(this.ToStringHelper.ToStringWithCulture(actionSpec.Invoker.GetVariableName(TargetLanguage.CSharp)));
+            this.Write(".StopAsync(cancellationToken)");
+            this.Write(this.ToStringHelper.ToStringWithCulture(this.IsLast(actionSpec) ? ").ConfigureAwait(false);" : ","));
+            this.Write("\r\n");
+ } 
+ foreach (var propSpec in this.propSpecs) { 
+            this.Write("                    this.");
+            this.Write(this.ToStringHelper.ToStringWithCulture(propSpec.Name.GetVariableName(TargetLanguage.CSharp, "read", "requester")));
+            this.Write(".StopAsync(cancellationToken)");
+            this.Write(this.ToStringHelper.ToStringWithCulture(this.IsLast(propSpec) && propSpec.WriteReqSchema == null ? ").ConfigureAwait(false);" : ","));
+            this.Write("\r\n");
+ if (propSpec.WriteReqSchema != null) { 
+            this.Write("                    this.");
+            this.Write(this.ToStringHelper.ToStringWithCulture(propSpec.Name.GetVariableName(TargetLanguage.CSharp, "write", "requester")));
+            this.Write(".StopAsync(cancellationToken)");
+            this.Write(this.ToStringHelper.ToStringWithCulture(this.IsLast(propSpec) ? ").ConfigureAwait(false);" : ","));
+            this.Write("\r\n");
+ } 
  } 
             this.Write("            }\r\n");
  } 
@@ -962,7 +989,13 @@ namespace Azure.Iot.Operations.EnvoyGenerator
             this.Write(";\r\n                }\r\n                else\r\n                {\r\n                  " +
                     "  return new ExtendedResponse<");
             this.Write(this.ToStringHelper.ToStringWithCulture(this.SchemaType(actionSpec.NormalResultSchema ?? actionSpec.ResponseSchema, actionSpec.SerializerEmptyType)));
-            this.Write(">\r\n                    {\r\n                        Response = new ");
+            this.Write(">\r\n                    {\r\n");
+ if (actionSpec.NormalResultName != null) { 
+            this.Write("                        Response = extended.Response.");
+            this.Write(this.ToStringHelper.ToStringWithCulture(actionSpec.NormalResultName.GetFieldName(TargetLanguage.CSharp)));
+            this.Write("!,\r\n");
+ } else { 
+            this.Write("                        Response = new ");
             this.Write(this.ToStringHelper.ToStringWithCulture(this.SchemaType(actionSpec.NormalResultSchema ?? actionSpec.ResponseSchema, actionSpec.SerializerEmptyType)));
             this.Write("\r\n                        {\r\n");
  foreach (CodeName normalResultName in actionSpec.NormalResultNames) { 
@@ -973,8 +1006,10 @@ namespace Azure.Iot.Operations.EnvoyGenerator
             this.Write(this.ToStringHelper.ToStringWithCulture(actionSpec.NormalRequiredNames.Contains(normalResultName) ? ".Value()" : ""));
             this.Write(",\r\n");
  } 
-            this.Write("                        },\r\n                        ResponseMetadata = extended.R" +
-                    "esponseMetadata,\r\n                    };\r\n                }\r\n            }\r\n");
+            this.Write("                        },\r\n");
+ } 
+            this.Write("                        ResponseMetadata = extended.ResponseMetadata,\r\n          " +
+                    "          };\r\n                }\r\n            }\r\n");
  } 
  } 
  foreach (var propSpec in this.propSpecs) { 
@@ -1092,27 +1127,27 @@ namespace Azure.Iot.Operations.EnvoyGenerator
             this.Write(this.ToStringHelper.ToStringWithCulture(telemEnvoyInfo.Receiver.GetVariableName(TargetLanguage.CSharp)));
             this.Write(".DisposeAsync().ConfigureAwait(false);\r\n");
  } 
-            this.Write("            }\r\n\r\n            public async ValueTask DisposeAsync(bool disposing)\r" +
-                    "\n            {\r\n");
+            this.Write("            }\r\n\r\n            public async ValueTask DisposeAsync(bool disposing, " +
+                    "CancellationToken cancellationToken = default)\r\n            {\r\n");
  foreach (var actionSpec in this.actionSpecs) { 
             this.Write("                await this.");
             this.Write(this.ToStringHelper.ToStringWithCulture(actionSpec.Invoker.GetVariableName(TargetLanguage.CSharp)));
-            this.Write(".DisposeAsync(disposing).ConfigureAwait(false);\r\n");
+            this.Write(".DisposeAsync(disposing, cancellationToken).ConfigureAwait(false);\r\n");
  } 
  foreach (var propSpec in this.propSpecs) { 
             this.Write("                await this.");
             this.Write(this.ToStringHelper.ToStringWithCulture(propSpec.Name.GetVariableName(TargetLanguage.CSharp, "read", "requester")));
-            this.Write(".DisposeAsync(disposing).ConfigureAwait(false);\r\n");
+            this.Write(".DisposeAsync(disposing, cancellationToken).ConfigureAwait(false);\r\n");
  if (propSpec.WriteReqSchema != null) { 
             this.Write("                await this.");
             this.Write(this.ToStringHelper.ToStringWithCulture(propSpec.Name.GetVariableName(TargetLanguage.CSharp, "write", "requester")));
-            this.Write(".DisposeAsync(disposing).ConfigureAwait(false); \r\n");
+            this.Write(".DisposeAsync(disposing, cancellationToken).ConfigureAwait(false); \r\n");
  } 
  } 
  foreach (var telemEnvoyInfo in this.eventSpec) { 
             this.Write("                await this.");
             this.Write(this.ToStringHelper.ToStringWithCulture(telemEnvoyInfo.Receiver.GetVariableName(TargetLanguage.CSharp)));
-            this.Write(".DisposeAsync(disposing).ConfigureAwait(false);\r\n");
+            this.Write(".DisposeAsync(disposing, cancellationToken).ConfigureAwait(false);\r\n");
  } 
             this.Write("            }\r\n        }\r\n");
  } 

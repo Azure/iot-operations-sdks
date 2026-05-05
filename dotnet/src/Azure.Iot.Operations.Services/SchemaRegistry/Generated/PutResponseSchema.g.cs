@@ -16,7 +16,7 @@ namespace Azure.Iot.Operations.Services.SchemaRegistry.Generated
     public partial class PutResponseSchema
     {
         /// <summary>
-        /// Read error for the 'put' Action.
+        /// Error for the 'put' Action.
         /// </summary>
         [JsonPropertyName("error")]
         [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]

@@ -33,8 +33,11 @@ namespace Azure.Iot.Operations.Services.PassiveReplicationSample
 
         public async ValueTask DisposeAsync()
         {
+            await _stateStoreClient.StopAsync();
             await _stateStoreClient.DisposeAsync();
+            await _leaderElectionClient.StopAsync();
             await _leaderElectionClient.DisposeAsync();
+
             GC.SuppressFinalize(this);
         }
 

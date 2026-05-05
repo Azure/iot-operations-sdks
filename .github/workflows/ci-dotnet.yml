@@ -34,7 +34,7 @@ jobs:
     timeout-minutes: 30
 
     steps:
-    - uses: actions/checkout@v4
+    - uses: actions/checkout@v6
 
     - name: Install AIO
       uses: ./.github/actions/configure-aio
@@ -313,7 +313,7 @@ jobs:
         indicators: true
         output: both
 
-    - uses: dorny/test-reporter@v1
+    - uses: dorny/test-reporter@v3
       id: test-reporter
       if: always()
       with:

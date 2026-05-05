@@ -56,7 +56,10 @@ namespace Azure.Iot.Operations.Protocol.IntegrationTests
             // // Wait until the fault injection happens or until a timeout
             await faultWasInjectedTcs.Task.WaitAsync(TimeSpan.FromSeconds(30));
             var resp2 = await counterClient.IncrementAsync(executorId, payload, commandTimeout: TimeSpan.FromSeconds(30)).WithMetadata();
-            Assert.Equal(1, resp2.Response.CounterResponse);   
+            Assert.Equal(1, resp2.Response.CounterResponse);
+
+            await counterService.StopAsync();
+            await counterClient.StopAsync();
         }
         
         [Fact]
@@ -123,7 +126,10 @@ namespace Azure.Iot.Operations.Protocol.IntegrationTests
             };
 
             var resp2 = await counterClient.IncrementAsync(executorId, payload, commandTimeout: TimeSpan.FromSeconds(30)).WithMetadata();
-            Assert.Equal(1, resp2.Response.CounterResponse);   
+            Assert.Equal(1, resp2.Response.CounterResponse);
+
+            await counterService.StopAsync();
+            await counterClient.StopAsync();
         }
     }
 }

@@ -16,7 +16,7 @@ use super::asset_status::AssetStatus;
 /// Response containing the updated asset status or error details if the update failed.
 #[derive(Serialize, Deserialize, Debug, Clone, Builder)]
 pub struct UpdateAssetStatusResponseSchema {
-    /// Read error for the 'updateAssetStatus' Action.
+    /// Error for the 'updateAssetStatus' Action.
     #[serde(rename = "updateAssetStatusError")]
     #[serde(skip_serializing_if = "Option::is_none")]
     #[builder(default = "None")]
