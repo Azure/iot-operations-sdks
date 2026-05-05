@@ -1,6 +1,7 @@
 ﻿// Copyright(c) Microsoft Corporation.
 // Licensed under the MIT License.
 
+using System.Data;
 using Azure.Iot.Operations.Connector.Files;
 using Azure.Iot.Operations.Protocol;
 using Azure.Iot.Operations.Services.AssetAndDeviceRegistry.Models;
@@ -10,7 +11,7 @@ namespace Azure.Iot.Operations.Connector
 {
     public class PollingTelemetryConnectorWorker : ConnectorWorker
     {
-        private readonly Dictionary<string, Dictionary<string, Timer>> _assetsSamplingTimers = new();
+        private readonly Dictionary<string, Dictionary<string, Task>> _assetsSamplingTimers = new();
         private readonly IDatasetSamplerFactory _datasetSamplerFactory;
 
         public PollingTelemetryConnectorWorker(ApplicationContext applicationContext, ILogger<ConnectorWorker> logger, IMqttClient mqttClient, IDatasetSamplerFactory datasetSamplerFactory, IMessageSchemaProvider messageSchemaFactory, IAzureDeviceRegistryClientWrapperProvider adrClientFactory, IConnectorLeaderElectionConfigurationProvider? leaderElectionConfigurationProvider = null) : base(applicationContext, logger, mqttClient, messageSchemaFactory, adrClientFactory, leaderElectionConfigurationProvider)
@@ -48,7 +49,7 @@ namespace Azure.Iot.Operations.Connector
                 return;
             }
 
-            Dictionary<string, Timer> datasetsTimers = new();
+            Dictionary<string, Task> datasetsTimers = new();
             _assetsSamplingTimers[args.AssetName] = datasetsTimers;
             foreach (AssetDataset dataset in args.Asset.Datasets!)
             {
@@ -66,7 +67,29 @@ namespace Azure.Iot.Operations.Connector
 
                 _logger.LogInformation("Dataset with name {0} in asset with name {1} will be sampled once every {2} milliseconds", dataset.Name, args.AssetName, samplingInterval.TotalMilliseconds);
 
-                var datasetSamplingTimer = new Timer(async (state) =>
+                var datasetSamplingTimer = new PeriodicTimer(samplingInterval);
+
+                Task datasetSamplingTimerTask = RunTimerAsync(datasetSamplingTimer, datasetSampler, dataset, args, cancellationToken);
+
+                if (!datasetsTimers.TryAdd(dataset.Name, datasetSamplingTimerTask))
+                {
+                    _logger.LogError("Failed to save dataset sampling timer for asset with name {} for dataset with name {}", args.AssetName, dataset.Name);
+                }
+            }
+
+            // Waits until the asset is no longer available
+            cancellationToken.WaitHandle.WaitOne();
+
+            // Stop sampling all datasets in this asset now that the asset is unavailable
+            await Task.WhenAll(_assetsSamplingTimers[args.AssetName].Values);
+            _logger.LogInformation("Datasets in asset with name {1} will no longer be periodically sampled now that the asset is unavailable", args.AssetName);
+        }
+
+        private async Task RunTimerAsync(PeriodicTimer timer, IDatasetSampler datasetSampler, AssetDataset dataset, AssetAvailableEventArgs args,  CancellationToken cancellationToken)
+        {
+            try
+            {
+                while (await timer.WaitForNextTickAsync(cancellationToken))
                 {
                     byte[] sampledData;
                     try
@@ -233,23 +256,17 @@ namespace Azure.Iot.Operations.Connector
                     {
                         _logger.LogError(e3, "Failed to report dataset health as 'Available' to Azure Device Registry service");
                     }
-                }, null, TimeSpan.FromSeconds(0), samplingInterval);
-
-                if (!datasetsTimers.TryAdd(dataset.Name, datasetSamplingTimer))
-                {
-                    _logger.LogError("Failed to save dataset sampling timer for asset with name {} for dataset with name {}", args.AssetName, dataset.Name);
                 }
             }
-
-            // Waits until the asset is no longer available
-            cancellationToken.WaitHandle.WaitOne();
-
-            // Stop sampling all datasets in this asset now that the asset is unavailable
-            foreach (AssetDataset dataset in args.Asset.Datasets!)
+            catch (OperationCanceledException)
             {
-                _logger.LogInformation("Dataset with name {0} in asset with name {1} will no longer be periodically sampled", dataset.Name, args.AssetName);
-                _assetsSamplingTimers[args.AssetName][dataset.Name].Dispose();
+                // Expected when cancellation is requested. Complete the task gracefully
+            }
+            finally
+            {
+                timer.Dispose();
             }
         }
+
     }
 }
