@@ -106,6 +106,35 @@ namespace Azure.Iot.Operations.Connector
             IManagementActionHandler handler,
             CancellationToken cancellationToken)
         {
+            try
+            {
+                await RunActionLoopCoreAsync(
+                    assetClient, deviceName, assetName, groupName, action, handler, cancellationToken);
+            }
+            catch (OperationCanceledException) when (cancellationToken.IsCancellationRequested)
+            {
+                // expected on shutdown / asset-unavailable
+            }
+            catch (Exception ex)
+            {
+                // Without this catch the task faults silently inside Task.WhenAll(actionTasks) and is then
+                // absorbed by the connector framework's user-callback wrapper.
+                _logger.LogError(ex,
+                    "Management action loop for {Group}::{Action} on asset {AssetName} (device {DeviceName}) faulted",
+                    groupName, action.Name, assetName, deviceName);
+                throw;
+            }
+        }
+
+        private async Task RunActionLoopCoreAsync(
+            AssetClient assetClient,
+            string deviceName,
+            string assetName,
+            string groupName,
+            AssetManagementGroupAction action,
+            IManagementActionHandler handler,
+            CancellationToken cancellationToken)
+        {
             string actionName = action.Name;
             _logger.LogInformation("Starting handler for management action {Group}::{Action}", groupName, actionName);
 

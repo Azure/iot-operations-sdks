@@ -637,6 +637,10 @@ namespace Azure.Iot.Operations.Connector
                             {
                                 // This is the expected way for the callback to exit since this layer signals the cancellation token
                             }
+                            catch (Exception ex)
+                            {
+                                _logger.LogError(ex, "User-supplied WhileDeviceIsAvailable callback for device {DeviceName} (endpoint {InboundEndpointName}) faulted", args.DeviceName, args.InboundEndpointName);
+                            }
                         });
 
                         _deviceTasks.TryAdd(compoundDeviceName, new(userTask, deviceTaskCancellationTokenSource));
@@ -749,6 +753,11 @@ namespace Azure.Iot.Operations.Connector
                     catch (OperationCanceledException)
                     {
                         // This is the expected way for the callback to exit since this layer signals the cancellation token
+                    }
+                    catch (Exception ex)
+                    {
+                        // Surface failures from the user-supplied 'while asset is available' callback. Without this the task faults silently.
+                        _logger.LogError(ex, "User-supplied WhileAssetIsAvailable callback for asset {AssetName} on device {DeviceName} (endpoint {InboundEndpointName}) faulted", assetName, deviceName, inboundEndpointName);
                     }
                 });
 
