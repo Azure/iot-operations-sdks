@@ -205,6 +205,10 @@ impl BaseConnector {
     /// itself holds the sender side of the channel.
     pub async fn run(mut self) -> Result<(), ConnectorError> {
         if let Some(readiness_probe) = self.readiness_probe {
+            // Ensure a clean baseline so a stale ready marker from a prior run cannot make Kubernetes
+            // consider this pod ready before the broker session has actually connected.
+            readiness_probe.set_not_ready();
+
             let session_monitor = self.session.create_session_monitor();
 
             tokio::task::spawn(async move {

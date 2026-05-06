@@ -3,6 +3,7 @@
 
 //! Readiness probe support for connectors running in Kubernetes.
 
+use std::fmt::Debug;
 use std::path::PathBuf;
 use std::{fs, process};
 
@@ -13,7 +14,7 @@ pub const DEFAULT_READINESS_FILE: &str = "/tmp/connector-ready";
 pub const DEFAULT_READINESS_ARG: &str = "readiness-probe";
 
 /// Abstraction for signaling connector readiness to Kubernetes.
-pub trait ReadinessProbe: Send + Sync {
+pub trait ReadinessProbe: Send + Sync + Debug {
     /// Signal that the connector is ready.
     fn set_ready(&self);
     /// Signal that the connector is not ready.
@@ -24,6 +25,7 @@ pub trait ReadinessProbe: Send + Sync {
 ///
 /// Creates or removes a marker file to signal readiness. The connector binary
 /// itself handles the probe check via [`ExecReadinessProbe::handle_probe_if_requested`].
+#[derive(Debug)]
 pub struct ExecReadinessProbe {
     readiness_file: PathBuf,
     readiness_arg: String,
