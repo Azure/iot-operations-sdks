@@ -17,6 +17,7 @@ namespace Azure.Iot.Operations.EnvoyGenerator
             SchemaNamer schemaNamer,
             CodeName serviceName,
             EnvoyTransformFactory envoyFactory,
+            List<GeneratedItem> generatedTypes,
             Dictionary<string, IEnvoyTemplateTransform> transforms,
             Dictionary<string, ErrorSpec> errorSpecs,
             Dictionary<SerializationFormat, HashSet<string>> formattedTypesToSerialize,
@@ -42,6 +43,7 @@ namespace Azure.Iot.Operations.EnvoyGenerator
 
                     string? inputSchemaType = action.Input != null ? schemaNamer.GetActionInSchema(action.Input?.Value, actionKvp.Key) : null;
                     string? outArgsType = action.Output != null ? schemaNamer.GetActionOutSchema(action.Output?.Value, actionKvp.Key) : null;
+                    string? outputRespName = action.Output?.Value?.Ref != null ? schemaNamer.GetActionRespOutputField(actionKvp.Key, schemaNamer.GetActionOutSchema(null, actionKvp.Key)) : null;
                     string? outputSchemaType = actionForm.ErrorRespSchema != null ? schemaNamer.GetActionRespSchema(actionKvp.Key) : outArgsType;
                     string? errRespName = actionForm.ErrorRespName != null ? schemaNamer.GetActionRespErrorField(actionKvp.Key, actionForm.ErrorRespName) : null;
                     string? errSchemaName = schemaNamer.ChooseTitleOrName(actionForm.ErrorRespSchema?.Value.Title?.Value?.Value, actionForm.ErrorRespName);
@@ -61,6 +63,7 @@ namespace Azure.Iot.Operations.EnvoyGenerator
                         actionForm.Format,
                         normalResultNames,
                         normalRequiredNames,
+                        outputRespName,
                         outArgsType,
                         errRespName,
                         errSchemaName,
@@ -82,6 +85,7 @@ namespace Azure.Iot.Operations.EnvoyGenerator
                         action.Idempotent?.Value.Value ?? false,
                         normalResultNames,
                         normalRequiredNames,
+                        outputRespName,
                         outArgsType,
                         errRespName,
                         errSchemaName,
@@ -99,19 +103,19 @@ namespace Azure.Iot.Operations.EnvoyGenerator
 
                     if (inputSchemaType != null)
                     {
-                        typesToSerialize.Add(inputSchemaType);
+                        typesToSerialize.Add(GetSerializableTypeName(inputSchemaType, envoyFactory, generatedTypes));
                     }
 
                     if (outputSchemaType != null)
                     {
-                        typesToSerialize.Add(outputSchemaType);
+                        typesToSerialize.Add(GetSerializableTypeName(outputSchemaType, envoyFactory, generatedTypes));
                     }
 
                     if (actionForm.ErrorRespSchema != null)
                     {
                         if (outArgsType != null)
                         {
-                            typesToSerialize.Add(outArgsType);
+                            typesToSerialize.Add(GetSerializableTypeName(outArgsType, envoyFactory, generatedTypes));
                         }
 
                         typesToSerialize.Add(errSchemaName!);
@@ -132,6 +136,11 @@ namespace Azure.Iot.Operations.EnvoyGenerator
             }
 
             return actionSpecs;
+        }
+
+        private static string GetSerializableTypeName(string schemaType, EnvoyTransformFactory envoyFactory, List<GeneratedItem> generatedTypes)
+        {
+            return envoyFactory.TryGetAlias(new CodeName(schemaType), generatedTypes, out string? aliasName) ? aliasName : schemaType;
         }
 
         private static bool DoesTopicReferToExecutor(string? topic)

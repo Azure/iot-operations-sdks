@@ -1,0 +1,33 @@
+name: CI-rust-connector-scaffolding
+
+on:
+  workflow_dispatch:
+  pull_request:
+    paths:
+      - '.github/workflows/ci-rust-connector-scaffolding.yml'
+      - '.github/workflows/_rust-tool-check.yml'
+      - 'rust/sample_applications/sample_connector_scaffolding/**'
+      - 'rust/scripts/**'
+  push:
+    branches:
+      - main
+  schedule:
+    - cron: '0 11 * * *'  # Nightly (04:00 PT)
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.head_ref || github.ref }}
+  cancel-in-progress: true
+
+permissions:
+  contents: read
+
+jobs:
+  check:
+    uses: ./.github/workflows/_rust-tool-check.yml
+    with:
+      name: connector-scaffolding
+      path: rust/sample_applications/sample_connector_scaffolding
+      # No pin file in the scaffolding directory — by design, this
+      # sample tracks the SDK's toolchain.
+      toolchain-src-dir: rust
+      aio-sdks-registry: false

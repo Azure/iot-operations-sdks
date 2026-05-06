@@ -10,7 +10,7 @@
       "type": "string"
     },
     "setNotificationPreferenceForAssetUpdatesError": {
-      "description": "Read error for the 'setNotificationPreferenceForAssetUpdates' Action.",
+      "description": "Error for the 'setNotificationPreferenceForAssetUpdates' Action.",
       "$ref": "AkriServiceError.schema.json"
     }
   }

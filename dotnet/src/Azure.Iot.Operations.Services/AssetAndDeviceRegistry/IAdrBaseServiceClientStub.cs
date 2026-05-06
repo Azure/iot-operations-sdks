@@ -71,5 +71,11 @@ namespace Azure.Iot.Operations.Services.AssetAndDeviceRegistry
         Task StartAsync(CancellationToken cancellationToken = default);
 
         Task StopAsync(CancellationToken cancellationToken = default);
+
+        ValueTask DisposeAsync(bool disposing, CancellationToken cancellationToken);
+
+        ValueTask DisposeAsync(bool disposing);
+
+        ValueTask DisposeAsync(CancellationToken cancellationToken);
     }
 }

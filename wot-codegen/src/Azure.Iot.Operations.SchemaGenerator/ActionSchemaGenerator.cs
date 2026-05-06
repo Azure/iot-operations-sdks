@@ -86,6 +86,7 @@ namespace Azure.Iot.Operations.SchemaGenerator
                     }
                     outputSpecs.Add(new AliasSpec(null, InputOutputType, outputRef.Value.Value, actionForm.Format, outputSchemaName, dirName, TokenIndex: -1));
                     errorReporter.RegisterTypedReferenceFromThing(outputRef.TokenIndex, InputOutputType, outputRef.Value.Value);
+                    responseFields[schemaNamer.GetActionRespOutputField(actionName, outputSchemaName)] = FieldSpec.CreateFixed(outputSchemaName, $"Output for the '{actionName}' Action.", outputSchemaName);
                 }
                 else if (tdAction.Output?.Value != null && tdAction.Output.Value.Type?.Value.Value != TDValues.TypeNull)
                 {
@@ -103,7 +104,7 @@ namespace Azure.Iot.Operations.SchemaGenerator
                 if (actionForm?.ErrorRespSchema != null)
                 {
                     responseFields[schemaNamer.GetActionRespErrorField(actionName, actionForm.ErrorRespName!)] = new FieldSpec(
-                        $"Read error for the '{actionName}' Action.",
+                        $"Error for the '{actionName}' Action.",
                         actionForm.ErrorRespSchema,
                         Require: false,
                         BackupSchemaName: actionForm.ErrorRespName!,

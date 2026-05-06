@@ -95,6 +95,8 @@ namespace Azure.Iot.Operations.CodeGeneration
 
         public string GetActionRespErrorField(string actionName, string errorSchemaName) => Expand(null, null, this.schemaNameInfo?.ActionRespErrorField, "_error", actionName, errorSchemaName);
 
+        public string GetActionRespOutputField(string actionName, string outputSchemaName) => Expand(null, null, this.schemaNameInfo?.ActionRespOutputField, "_output", actionName, outputSchemaName);
+
         public string GetBackupSchemaName(string parentSchemaName, string childName) => Expand(null, null, this.schemaNameInfo?.BackupSchemaName, $"{Cap(parentSchemaName)}{Cap(childName)}", parentSchemaName, childName);
 
         public string ApplyBackupSchemaName(string? title, string backupName) => ChooseTitleOrName(title, backupName);

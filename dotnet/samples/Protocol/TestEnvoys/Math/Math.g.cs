@@ -131,11 +131,11 @@ namespace TestEnvoys.Math
                 await this.getRandomCommandExecutor.DisposeAsync().ConfigureAwait(false);
             }
 
-            public async ValueTask DisposeAsync(bool disposing)
+            public async ValueTask DisposeAsync(bool disposing, CancellationToken cancellationToken = default)
             {
-                await this.isPrimeCommandExecutor.DisposeAsync(disposing).ConfigureAwait(false);
-                await this.fibCommandExecutor.DisposeAsync(disposing).ConfigureAwait(false);
-                await this.getRandomCommandExecutor.DisposeAsync(disposing).ConfigureAwait(false);
+                await this.isPrimeCommandExecutor.DisposeAsync(disposing, cancellationToken).ConfigureAwait(false);
+                await this.fibCommandExecutor.DisposeAsync(disposing, cancellationToken).ConfigureAwait(false);
+                await this.getRandomCommandExecutor.DisposeAsync(disposing, cancellationToken).ConfigureAwait(false);
             }
         }
 
@@ -289,6 +289,18 @@ namespace TestEnvoys.Math
                 return new RpcCallAsync<GetRandomResponsePayload>(this.getRandomCommandInvoker.InvokeCommandAsync(new Google.Protobuf.WellKnownTypes.Empty(), metadata, prefixedAdditionalTopicTokenMap, commandTimeout, cancellationToken), metadata.CorrelationId);
             }
 
+            /// <summary>
+            /// Stop accepting telemetry for all telemetry receivers and make all command invokers unsubscribe from command response topics.
+            /// </summary>
+            /// <param name="cancellationToken">Cancellation token.</param>
+            public async Task StopAsync(CancellationToken cancellationToken = default)
+            {
+                await Task.WhenAll(
+                    this.isPrimeCommandInvoker.StopAsync(cancellationToken),
+                    this.fibCommandInvoker.StopAsync(cancellationToken),
+                    this.getRandomCommandInvoker.StopAsync(cancellationToken)).ConfigureAwait(false);
+            }
+
             public async ValueTask DisposeAsync()
             {
                 await this.isPrimeCommandInvoker.DisposeAsync().ConfigureAwait(false);
@@ -296,11 +308,11 @@ namespace TestEnvoys.Math
                 await this.getRandomCommandInvoker.DisposeAsync().ConfigureAwait(false);
             }
 
-            public async ValueTask DisposeAsync(bool disposing)
+            public async ValueTask DisposeAsync(bool disposing, CancellationToken cancellationToken = default)
             {
-                await this.isPrimeCommandInvoker.DisposeAsync(disposing).ConfigureAwait(false);
-                await this.fibCommandInvoker.DisposeAsync(disposing).ConfigureAwait(false);
-                await this.getRandomCommandInvoker.DisposeAsync(disposing).ConfigureAwait(false);
+                await this.isPrimeCommandInvoker.DisposeAsync(disposing, cancellationToken).ConfigureAwait(false);
+                await this.fibCommandInvoker.DisposeAsync(disposing, cancellationToken).ConfigureAwait(false);
+                await this.getRandomCommandInvoker.DisposeAsync(disposing, cancellationToken).ConfigureAwait(false);
             }
         }
     }

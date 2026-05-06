@@ -21,7 +21,7 @@ pub struct SetNotificationPreferenceForAssetUpdatesResponseSchema {
     #[builder(default = "None")]
     pub response_payload: Option<String>,
 
-    /// Read error for the 'setNotificationPreferenceForAssetUpdates' Action.
+    /// Error for the 'setNotificationPreferenceForAssetUpdates' Action.
     #[serde(rename = "setNotificationPreferenceForAssetUpdatesError")]
     #[serde(skip_serializing_if = "Option::is_none")]
     #[builder(default = "None")]

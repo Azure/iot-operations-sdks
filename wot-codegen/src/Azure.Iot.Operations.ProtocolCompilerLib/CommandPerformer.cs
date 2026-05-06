@@ -123,8 +123,6 @@ namespace Azure.Iot.Operations.ProtocolCompilerLib
 
                 WriteItems(generatedTypes, options.OutputDir, statusReceiver);
 
-                List<string> typeNames = generatedTypes.Select(gt => Path.GetFileNameWithoutExtension(gt.FileName)).ToList();
-
                 string? sdkPath = options.SdkPath != null ? Path.GetRelativePath(options.OutputDir.FullName, options.SdkPath) : null;
 
                 serializationFormats.UnionWith(generatedSchemas.Keys);
@@ -138,7 +136,7 @@ namespace Azure.Iot.Operations.ProtocolCompilerLib
                     commonNs,
                     projectName,
                     sdkPath,
-                    typeNames,
+                    generatedTypes,
                     srcSubdir,
                     generateProject: !options.NoProj,
                     defaultImpl: options.DefaultImpl);

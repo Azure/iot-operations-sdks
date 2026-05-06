@@ -317,6 +317,8 @@ namespace Azure.Iot.Operations.Connector
                         _logger.LogInformation($"Registered message schema for dataset with name {dataset.Name} on asset with name {assetName} associated with device with name {deviceName} and inbound endpoint name {inboundEndpointName}.");
 
                         _registeredDatasetMessageSchemas.TryAdd($"{deviceName}_{inboundEndpointName}_{assetName}_{dataset.Name}", registeredDatasetMessageSchema);
+
+                        await schemaRegistryClient.StopAsync(cancellationToken);
                     }
                     catch (Exception ex)
                     {
@@ -420,6 +422,8 @@ namespace Azure.Iot.Operations.Connector
                     {
                         _logger.LogError($"Message was not accepted by the state store");
                     }
+
+                    await stateStoreClient.StopAsync(cancellationToken);
                 }
                 else if (destination.Target == DatasetTarget.Storage)
                 {
@@ -465,6 +469,8 @@ namespace Azure.Iot.Operations.Connector
                         _logger.LogInformation($"Registered message schema for event with name {assetEvent.Name} on asset with name {assetName} associated with device with name {deviceName} and inbound endpoint name {inboundEndpointName}.");
 
                         _registeredEventMessageSchemas.TryAdd($"{deviceName}_{inboundEndpointName}_{assetName}_{eventGroupName}_{assetEvent.Name}", registeredEventMessageSchema);
+
+                        await schemaRegistryClient.StopAsync(cancellationToken);
                     }
                     catch (Exception ex)
                     {

@@ -89,6 +89,9 @@ public class MemMonEnvoyTests
         Assert.Single(memmonClient.ReceivedManagedMemoryTelemetry);
         Assert.Single(memmonClient.ReceivedMemoryStatsTelemetry);
         Assert.Single(memmonClient.ReceivedWorkingSetTelemetry);
+
+        await memmonClient.StopAsync();
+        await memMonService.StopAsync();
     }
 
 
@@ -215,6 +218,9 @@ public class MemMonEnvoyTests
         Assert.NotNull(memmonClient.ReceivedManagedMemoryTelemetryMetadata[0].Timestamp);
         Assert.NotNull(ManagedMemoryTelemetryMetadata.Timestamp);
         Assert.Equal(0, ManagedMemoryTelemetryMetadata.Timestamp.CompareTo(memmonClient.ReceivedManagedMemoryTelemetryMetadata[0].Timestamp!));
+
+        await memmonClient.StopAsync();
+        await memMonService.StopAsync();
     }
 
     [Fact]
@@ -244,6 +250,9 @@ public class MemMonEnvoyTests
         await memmonClient.StopTelemetryAsync(executorId);
         resp = await memmonClient.GetRuntimeStatsAsync(executorId, new GetRuntimeStatsRequestPayload() { DiagnosticsMode = GetRuntimeStatsRequestSchema.full }, commandTimeout: TimeSpan.FromSeconds(30));
         Assert.Equal("False", resp.DiagnosticResults["enabled"]);
+
+        await memmonClient.StopAsync();
+        await memMonService.StopAsync();
     }
 
     private void AssertUserProperty(Dictionary<string, string> props, string name, string value)

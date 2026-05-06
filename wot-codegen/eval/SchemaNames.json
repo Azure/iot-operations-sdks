@@ -121,6 +121,11 @@
     "out": "_error",
     "capitalize": false
   },
+  "actionRespOutputField": {
+    "in": [ "actionName", "outputSchemaName" ],
+    "out": "_output",
+    "capitalize": false
+  },
   "backupSchemaName": {
     "in": [ "parentSchemaName", "childName" ],
     "out": "{parentSchemaName}{childName}",

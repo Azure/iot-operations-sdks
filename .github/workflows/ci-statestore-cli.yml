@@ -1,0 +1,33 @@
+name: CI-statestore-cli
+
+on:
+  workflow_dispatch:
+  pull_request:
+    paths:
+      - '.github/workflows/ci-statestore-cli.yml'
+      - '.github/workflows/_rust-tool-check.yml'
+      - 'tools/statestore-cli/**'
+      - 'rust/scripts/**'
+  push:
+    branches:
+      - main
+  schedule:
+    - cron: '0 11 * * *'  # Nightly (04:00 PT)
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.head_ref || github.ref }}
+  cancel-in-progress: true
+
+permissions:
+  contents: read
+  packages: read
+
+jobs:
+  check:
+    uses: ./.github/workflows/_rust-tool-check.yml
+    with:
+      name: statestore-cli
+      path: tools/statestore-cli
+      aio-sdks-registry: true
+    secrets:
+      aio-sdks-token: ${{ secrets.CARGO_REGISTRIES_AIO_SDKS_TOKEN }}

@@ -93,7 +93,6 @@ namespace Azure.Iot.Operations.Services.AssetAndDeviceRegistry.Generated.DeviceD
 
                     return new ExtendedResponse<CreateOrUpdateDiscoveredDeviceResponseSchema>
                     {
-
                         Response = new CreateOrUpdateDiscoveredDeviceResponseSchema
                         {
                             DiscoveredDeviceResponse = extended.Response.DiscoveredDeviceResponse,
@@ -113,9 +112,9 @@ namespace Azure.Iot.Operations.Services.AssetAndDeviceRegistry.Generated.DeviceD
                 await this.createOrUpdateDiscoveredDeviceCommandExecutor.DisposeAsync().ConfigureAwait(false);
             }
 
-            public async ValueTask DisposeAsync(bool disposing)
+            public async ValueTask DisposeAsync(bool disposing, CancellationToken cancellationToken = default)
             {
-                await this.createOrUpdateDiscoveredDeviceCommandExecutor.DisposeAsync(disposing).ConfigureAwait(false);
+                await this.createOrUpdateDiscoveredDeviceCommandExecutor.DisposeAsync(disposing, cancellationToken).ConfigureAwait(false);
             }
         }
 
@@ -186,6 +185,16 @@ namespace Azure.Iot.Operations.Services.AssetAndDeviceRegistry.Generated.DeviceD
                 return new RpcCallAsync<CreateOrUpdateDiscoveredDeviceResponsePayload>(this.CreateOrUpdateDiscoveredDeviceInt(request, metadata, prefixedAdditionalTopicTokenMap, commandTimeout, cancellationToken), metadata.CorrelationId);
             }
 
+            /// <summary>
+            /// Stop accepting telemetry for all telemetry receivers and make all command invokers unsubscribe from command topics.
+            /// </summary>
+            /// <param name="cancellationToken">Cancellation token.</param>
+            public async Task StopAsync(CancellationToken cancellationToken = default)
+            {
+                await Task.WhenAll(
+                    this.createOrUpdateDiscoveredDeviceCommandInvoker.StopAsync(cancellationToken)).ConfigureAwait(false);
+            }
+
             private async Task<ExtendedResponse<CreateOrUpdateDiscoveredDeviceResponsePayload>> CreateOrUpdateDiscoveredDeviceInt(CreateOrUpdateDiscoveredDeviceRequestPayload request, CommandRequestMetadata? requestMetadata, Dictionary<string, string>? prefixedAdditionalTopicTokenMap, TimeSpan? commandTimeout, CancellationToken cancellationToken)
             {
                 ExtendedResponse<CreateOrUpdateDiscoveredDeviceResponseSchema> extended = await this.createOrUpdateDiscoveredDeviceCommandInvoker.InvokeCommandAsync(request, requestMetadata, prefixedAdditionalTopicTokenMap, commandTimeout, cancellationToken);
@@ -213,9 +222,9 @@ namespace Azure.Iot.Operations.Services.AssetAndDeviceRegistry.Generated.DeviceD
                 await this.createOrUpdateDiscoveredDeviceCommandInvoker.DisposeAsync().ConfigureAwait(false);
             }
 
-            public async ValueTask DisposeAsync(bool disposing)
+            public async ValueTask DisposeAsync(bool disposing, CancellationToken cancellationToken = default)
             {
-                await this.createOrUpdateDiscoveredDeviceCommandInvoker.DisposeAsync(disposing).ConfigureAwait(false);
+                await this.createOrUpdateDiscoveredDeviceCommandInvoker.DisposeAsync(disposing, cancellationToken).ConfigureAwait(false);
             }
         }
     }

@@ -304,4 +304,11 @@
     </EmbeddedResource>
   </ItemGroup>
 
+  <!-- Add strong name signing properties for release pipeline compatibility -->
+  <PropertyGroup>
+    <AssemblyOriginatorKeyFile>$(MSBuildProjectDirectory)\..\..\..\dotnet\MSSharedLibKey.snk</AssemblyOriginatorKeyFile>
+    <SignAssembly>true</SignAssembly>
+    <PublicSign>true</PublicSign>
+    <DelaySign>false</DelaySign>
+  </PropertyGroup>
 </Project>

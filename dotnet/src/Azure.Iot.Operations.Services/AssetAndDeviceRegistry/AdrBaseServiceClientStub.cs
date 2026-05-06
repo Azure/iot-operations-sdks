@@ -75,4 +75,14 @@ internal class AdrBaseServiceClientStub(ApplicationContext applicationContext, I
     {
         throw new NotImplementedException();
     }
+
+    public ValueTask DisposeAsync(bool disposing)
+    {
+        return base.DisposeAsync(disposing, CancellationToken.None);
+    }
+
+    public ValueTask DisposeAsync(CancellationToken cancellationToken)
+    {
+        return base.DisposeAsync(false, cancellationToken);
+    }
 }

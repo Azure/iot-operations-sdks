@@ -17,5 +17,13 @@ namespace Azure.Iot.Operations.Services.AssetAndDeviceRegistry
         ManagementActionRuntimeHealthEventTelemetrySender ManagementActionRuntimeHealthEventTelemetrySender { get; }
 
         StreamRuntimeHealthEventTelemetrySender StreamRuntimeHealthEventTelemetrySender { get; }
+
+        Task StopAsync(CancellationToken cancellationToken = default);
+
+        ValueTask DisposeAsync(bool disposing, CancellationToken cancellationToken);
+
+        ValueTask DisposeAsync(bool disposing);
+
+        ValueTask DisposeAsync(CancellationToken cancellationToken);
     }
 }
