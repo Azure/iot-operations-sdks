@@ -18,10 +18,10 @@ namespace PollingRestThermostatConnector
         "$schema": "https://json-schema.org/draft-07/schema#",
         "type": "object",
         "properties": {
-      	  "temperature": {
+      	  "currentTemperature": {
         	    "type": "number"
         	},
-        	"humidity": {
+        	"desiredTemperature": {
             	"type": "number"
         	}
         }
