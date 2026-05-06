@@ -1,6 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
+using System.Buffers;
 using System.Text.Json;
 using Azure.Iot.Operations.Connector;
 using ManagementActionConnector.Contracts;
