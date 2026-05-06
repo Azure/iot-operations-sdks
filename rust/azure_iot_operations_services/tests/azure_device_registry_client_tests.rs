@@ -3,6 +3,7 @@
 
 #![cfg(feature = "azure_device_registry")]
 
+use std::collections::HashMap;
 use std::process::Command;
 use std::sync::Arc;
 use std::{env, time::Duration};
@@ -142,11 +143,7 @@ async fn update_device_plus_endpoint_status() {
             }),
             ..Default::default()
         }),
-        endpoints: hash_map! {
-            ENDPOINT2.to_string() => ConfigStatus {
-                ..Default::default()
-            },
-        }
+        endpoints: HashMap::from([(ENDPOINT2.to_string(), None)]),
     };
     let test_task = tokio::task::spawn({
         async move {
