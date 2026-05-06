@@ -18,10 +18,6 @@ spec:
   # -----------------------------------------------------------------
   managementGroups:
     - name: device-control
-      # Fallback topic used by any action in this group that does not
-      # declare its own `topic`. Tokens in braces are resolved at
-      # runtime against the device / endpoint / asset context.
-      defaultTopic: mgmt/{deviceName}/{assetName}/{managementGroupName}/{managementActionName}
       defaultTimeoutInSeconds: 30
       managementGroupConfiguration: '{}'
       actions:
@@ -29,8 +25,19 @@ spec:
           # ActionType values: Call | Read | Write (see AssetManagementGroupActionType)
           actionType: Call
           targetUri: device://reboot
-          # Optional explicit topic. Omit to inherit `defaultTopic`.
-          topic: mgmt/{deviceName}/{assetName}/device-control/reboot
+          topic: mgmt/device-1/asset-1/device-control/reboot
+          timeoutInSeconds: 15
+          actionConfiguration: '{}'
+        - name: readTemperature
+          actionType: Read
+          targetUri: device://read-temperature
+          topic: mgmt/device-1/asset-1/device-control/read-temperature
+          timeoutInSeconds: 15
+          actionConfiguration: '{}'
+        - name: writeConfiguration
+          actionType: Write
+          targetUri: device://write-configuration
+          topic: mgmt/device-1/asset-1/device-control/write-configuration
           timeoutInSeconds: 15
           actionConfiguration: '{}'
   defaultDatasetsConfiguration: '{}'

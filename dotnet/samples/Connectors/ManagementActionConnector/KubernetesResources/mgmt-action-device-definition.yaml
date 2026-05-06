@@ -16,8 +16,8 @@ spec:
         # Point at a placeholder address; the sample connector does not open
         # a network connection to it.
         address: mgmt-action-placeholder.azure-iot-operations.svc.cluster.local:80
-        endpointType: Microsoft.Generic
-        version: "1"
+        endpointType: mgmt-action-endpoint-type
+        version: "0.0.1"
   uuid: 2345-6789-0123-4567
   version: 1
 
