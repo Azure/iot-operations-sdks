@@ -142,7 +142,11 @@ async fn update_device_plus_endpoint_status() {
             }),
             ..Default::default()
         }),
-        ..Default::default()
+        endpoints: hash_map! {
+            ENDPOINT2.to_string() => ConfigStatus {
+                ..Default::default()
+            },
+        }
     };
     let test_task = tokio::task::spawn({
         async move {
