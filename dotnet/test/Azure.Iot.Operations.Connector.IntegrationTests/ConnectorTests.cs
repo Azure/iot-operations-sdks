@@ -50,7 +50,8 @@ namespace Azure.Iot.Operations.Connector.IntegrationTests
                 // CloudEvent source is built from endpoint address with ms-aio: prefix (Priority 2 in BuildSource)
                 Assert.Equal("ms-aio:my-rest-thermostat-device-name/api/sensor/env", GetCloudEventSourceFromMqttMessage(applicationMessage));
                 string dataSchema = GetCloudEventDataSchemaFromMqttMessage(applicationMessage);
-                Assert.Equal("aio-sr://DefaultSRNamespace/4C73ACC9EC82E7C6B1B31034887960EE1CA888E857C87E5D17078A8DD59392D2:1.0", dataSchema);
+                Assert.Fail(dataSchema); //TODO revert
+                Assert.Equal("aio-sr://DefaultSRNamespace/4C73ACC9EC82E7C6B1B31034887960EE1CA888E857C87E5D17078A8DD59392D2:1.0", );
             }
             catch (TimeoutException)
             {
