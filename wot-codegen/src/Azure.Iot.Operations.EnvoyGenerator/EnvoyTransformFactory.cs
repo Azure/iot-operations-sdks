@@ -106,6 +106,7 @@ namespace Azure.Iot.Operations.EnvoyGenerator
             bool idempotent,
             List<string> normalResultFields,
             List<ValueTracker<StringHolder>> normalRequiredFields,
+            string? normalResultName,
             string? normalResultSchema,
             string? errorResultName,
             string? errorResultSchema,
@@ -126,6 +127,7 @@ namespace Azure.Iot.Operations.EnvoyGenerator
 
             List<CodeName> normalFields = normalResultFields.Select(f => new CodeName(f)).ToList();
             List<CodeName> requiredFields = normalRequiredFields.Select(f => new CodeName(f.Value.Value)).ToList();
+            CodeName? normalName = normalResultName != null ? new CodeName(normalResultName) : null;
             ITypeName? normalSchema = EnvoyGeneratorSupport.GetTypeName(normalResultSchema, format);
             CodeName? errorName = errorResultName != null ? new CodeName(errorResultName) : null;
             CodeName? errorSchema = errorResultSchema != null ? new CodeName(errorResultSchema) : null;
@@ -202,6 +204,7 @@ namespace Azure.Iot.Operations.EnvoyGenerator
                             outputSchema,
                             normalFields,
                             requiredFields,
+                            normalName,
                             normalSchema,
                             errorName,
                             errorSchema,
@@ -227,6 +230,7 @@ namespace Azure.Iot.Operations.EnvoyGenerator
                             outputSchema,
                             normalFields,
                             requiredFields,
+                            normalName,
                             normalSchema,
                             errorName,
                             errorSchema,

@@ -16,7 +16,7 @@ use super::discovered_asset_response_schema::DiscoveredAssetResponseSchema;
 /// Response containing the discovered asset response or error details if the operation failed.
 #[derive(Serialize, Deserialize, Debug, Clone, Builder)]
 pub struct CreateOrUpdateDiscoveredAssetResponseSchema {
-    /// Read error for the 'createOrUpdateDiscoveredAsset' Action.
+    /// Error for the 'createOrUpdateDiscoveredAsset' Action.
     #[serde(rename = "createOrUpdateDiscoveredAssetError")]
     #[serde(skip_serializing_if = "Option::is_none")]
     #[builder(default = "None")]

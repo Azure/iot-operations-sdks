@@ -67,8 +67,12 @@ impl <#=this.commandName.GetTypeName(TargetLanguage.Rust, "response", "builder")
     ) -> Result<&mut Self, AIOProtocolError> {
 <# if (this.errorResultName != null) { #>
         self.inner_builder.payload(<#=this.respSchema.GetTypeName(TargetLanguage.Rust)#> {
+<# if (this.normalResultName != null) { #>
+            <#=this.normalResultName.GetFieldName(TargetLanguage.Rust)#>: Some(payload),
+<# } else { #>
 <# foreach (CodeName normalResultField in this.normalResultFields) { #>
             <#=normalResultField.GetFieldName(TargetLanguage.Rust)#>: <#=this.CondSome($"payload.{normalResultField.GetFieldName(TargetLanguage.Rust)}", this.normalRequiredFields.Contains(normalResultField))#>,
+<# } #>
 <# } #>
             <#=this.errorResultName.GetFieldName(TargetLanguage.Rust)#>: None,
         })?;
@@ -81,8 +85,12 @@ impl <#=this.commandName.GetTypeName(TargetLanguage.Rust, "response", "builder")
 <# if (this.errorResultName != null) { #>
     pub fn error(&mut self, error: <#=this.errorResultSchema.GetTypeName(TargetLanguage.Rust)#>) -> Result<&mut Self, AIOProtocolError> {
         self.inner_builder.payload(<#=this.respSchema.GetTypeName(TargetLanguage.Rust)#> {
+<# if (this.normalResultName != null) { #>
+            <#=this.normalResultName.GetFieldName(TargetLanguage.Rust)#>: None,
+<# } else { #>
 <# foreach (CodeName normalResultField in this.normalResultFields) { #>
             <#=normalResultField.GetFieldName(TargetLanguage.Rust)#>: None,
+<# } #>
 <# } #>
             <#=this.errorResultName.GetFieldName(TargetLanguage.Rust)#>: Some(error),
         })?;

@@ -21,7 +21,7 @@ pub struct GetAssetResponseSchema {
     #[builder(default = "None")]
     pub asset: Option<Asset>,
 
-    /// Read error for the 'getAsset' Action.
+    /// Error for the 'getAsset' Action.
     #[serde(rename = "getAssetError")]
     #[serde(skip_serializing_if = "Option::is_none")]
     #[builder(default = "None")]

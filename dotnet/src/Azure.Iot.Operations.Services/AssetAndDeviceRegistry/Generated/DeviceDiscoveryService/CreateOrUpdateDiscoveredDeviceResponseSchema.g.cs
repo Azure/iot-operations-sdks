@@ -16,7 +16,7 @@ namespace Azure.Iot.Operations.Services.AssetAndDeviceRegistry.Generated.DeviceD
     public partial class CreateOrUpdateDiscoveredDeviceResponseSchema
     {
         /// <summary>
-        /// Read error for the 'createOrUpdateDiscoveredDevice' Action.
+        /// Error for the 'createOrUpdateDiscoveredDevice' Action.
         /// </summary>
         [JsonPropertyName("createOrUpdateDiscoveredDeviceError")]
         [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
