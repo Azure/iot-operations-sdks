@@ -108,7 +108,7 @@ pub struct Options {
     reconnect_policy: Box<dyn ReconnectPolicy>,
 
     /// Optional readiness probe implementation to use for the connector.
-    #[builder(default = "None")]
+    #[builder(default = "None", setter(strip_option))]
     readiness_probe: Option<Box<dyn ReadinessProbe>>,
 }
 

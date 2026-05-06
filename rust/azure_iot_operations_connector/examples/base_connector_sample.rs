@@ -30,6 +30,7 @@ use azure_iot_operations_connector::{
         ManagementActionApplicationError, ManagementActionExecutor, ManagementActionRequest,
         ManagementActionResponseBuilder,
     },
+    readiness_probe::ExecReadinessProbe,
 };
 use azure_iot_operations_protocol::application::ApplicationContextBuilder;
 use azure_iot_operations_services::azure_device_registry;
@@ -72,6 +73,12 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
         .filter_module("base_connector_sample", log::LevelFilter::Info)
         .init();
 
+    // Create an exec readiness probe to indicate when the connector is healthy (connected to the broker)
+    let exec_readiness_probe = ExecReadinessProbe::default();
+
+    // Handle readiness probe requests
+    exec_readiness_probe.handle_probe_if_requested();
+
     // Create the connector artifacts from the deployment
     let connector_artifacts = ConnectorArtifacts::new_from_deployment()?;
 
@@ -79,7 +86,9 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
     let application_context = ApplicationContextBuilder::default().build()?;
 
     // Create options for the base connector
-    let base_connector_options = base_connector::OptionsBuilder::default().build()?;
+    let base_connector_options = base_connector::OptionsBuilder::default()
+        .readiness_probe(Box::new(exec_readiness_probe))
+        .build()?;
 
     // Create the BaseConnector
     let base_connector = BaseConnector::new(
