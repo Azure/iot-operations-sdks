@@ -12,6 +12,8 @@ Lately, we have been discussing how these SDK bits end up in shipped connectors,
 
 Within a branch (main, preview, or otherwise) that contains SDK code for a preview service feature, each language's CI pipeline should target a version of the MQTT broker and Akri that contain this preview service feature. This is done [here](https://github.com/Azure/iot-operations-sdks/blob/ad91f6392e1003f9b183333fd28ec5227a5fe65a/.github/actions/configure-aio/action.yml#L56).
 
+We will allow for each language within each branch to target different broker versions as well. This accomodates for the case where one language may be ready to consume the preview service versions, but another language is not.
+
 ## Consequences
 
 With the above proposal, we would need to do the following things:
