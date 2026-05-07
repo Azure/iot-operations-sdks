@@ -34,11 +34,10 @@ namespace Azure.Iot.Operations.Connector
                     currentDeviceStatus.Endpoints.Inbound ??= new();
                     if (!currentDeviceStatus.Endpoints.Inbound.TryGetValue(args.InboundEndpointName, out var inboundEndpointStatus))
                     {
-                        inboundEndpointStatus = new();
-                        currentDeviceStatus.Endpoints.Inbound[args.InboundEndpointName] = inboundEndpointStatus;
+                        currentDeviceStatus.Endpoints.Inbound[args.InboundEndpointName] = new();
                     }
 
-                    inboundEndpointStatus.Error = null;
+                    currentDeviceStatus.Endpoints.Inbound[args.InboundEndpointName].Error = null;
                     return currentDeviceStatus;
                 }, true, null, cancellationToken);
             }
