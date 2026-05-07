@@ -54,8 +54,17 @@ namespace Azure.Iot.Operations.EnvoyGenerator
             this.Write("(ApplicationContext applicationContext, IMqttPubSubClient mqttClient)\r\n          " +
                     "      : base(applicationContext, mqttClient, new ");
             this.Write(this.ToStringHelper.ToStringWithCulture(this.serializerClassName));
-            this.Write("())\r\n            {\r\n                if (mqttClient.ClientId != null)\r\n           " +
-                    "     {\r\n                    TopicTokenMap[\"");
+            this.Write("())\r\n            {");
+            this.Write("\r\n                Dictionary<string, string> TopicTokenMapWithExPrefix = new();");
+            this.Write("\r\n                foreach (string key in TopicTokenMap.Keys)");
+            this.Write("\r\n                {");
+            this.Write("\r\n                    string keyWithPrefix = $\"ex:{{key}}\";");
+            this.Write("\r\n                    TopicTokenMapWithExPrefix[keyWithPrefix] = TopicTokenMap[key];");
+            this.Write("\r\n                }");
+            this.Write("\r\n                ");
+            this.Write("\r\n                TopicTokenMap = TopicTokenMapWithExPrefix;");
+            this.Write("\r\n");            
+            this.Write("\r\n                if (mqttClient.ClientId != null)\r\n                {\r\n                    TopicTokenMap[\"");
             this.Write(this.ToStringHelper.ToStringWithCulture(MqttTopicTokens.EventSenderId));
             this.Write("\"] = mqttClient.ClientId;\r\n                }\r\n            }\r\n        }\r\n    }\r\n}\r" +
                     "\n");

@@ -24,6 +24,15 @@ namespace Azure.Iot.Operations.Services.AssetAndDeviceRegistry.Generated.AdrBase
             public DatasetRuntimeHealthEventTelemetrySender(ApplicationContext applicationContext, IMqttPubSubClient mqttClient)
                 : base(applicationContext, mqttClient, new Utf8JsonSerializer())
             {
+                Dictionary<string, string> TopicTokenMapWithExPrefix = new();
+                foreach (string key in TopicTokenMap.Keys)
+                {
+                    string keyWithPrefix = $"ex:{{key}}";
+                    TopicTokenMapWithExPrefix[keyWithPrefix] = TopicTokenMap[key];
+                }
+                
+                TopicTokenMap = TopicTokenMapWithExPrefix;
+
                 if (mqttClient.ClientId != null)
                 {
                     TopicTokenMap["senderId"] = mqttClient.ClientId;
