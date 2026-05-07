@@ -89,7 +89,7 @@ namespace Azure.Iot.Operations.Connector
 
             // Stop sampling all datasets in this asset now that the asset is unavailable
             await Task.WhenAll(_assetsSamplingTimers[args.AssetName].Values);
-            _logger.LogInformation("Datasets in asset with name {1} will no longer be periodically sampled now that the asset is unavailable", args.AssetName);
+            _logger.LogInformation("Datasets in asset with name {AssetName} will no longer be periodically sampled now that the asset is unavailable", args.AssetName);
         }
 
         private async Task RunTimerAsync(PeriodicTimer timer, IDatasetSampler datasetSampler, AssetDataset dataset, AssetAvailableEventArgs args,  CancellationToken cancellationToken)
