@@ -10,7 +10,6 @@ namespace Azure.Iot.Operations.Connector
 {
     public class PollingTelemetryConnectorWorker : ConnectorWorker
     {
-        private readonly Dictionary<string, Dictionary<string, Task>> _assetsSamplingTimers = new();
         private readonly IDatasetSamplerFactory _datasetSamplerFactory;
 
         public PollingTelemetryConnectorWorker(ApplicationContext applicationContext, ILogger<ConnectorWorker> logger, IMqttClient mqttClient, IDatasetSamplerFactory datasetSamplerFactory, IMessageSchemaProvider messageSchemaFactory, IAzureDeviceRegistryClientWrapperProvider adrClientFactory, IConnectorLeaderElectionConfigurationProvider? leaderElectionConfigurationProvider = null) : base(applicationContext, logger, mqttClient, messageSchemaFactory, adrClientFactory, leaderElectionConfigurationProvider)
@@ -57,7 +56,6 @@ namespace Azure.Iot.Operations.Connector
             }
 
             Dictionary<string, Task> datasetsTimers = new();
-            _assetsSamplingTimers[args.AssetName] = datasetsTimers;
             foreach (AssetDataset dataset in args.Asset.Datasets!)
             {
                 EndpointCredentials? credentials = null;
@@ -88,8 +86,7 @@ namespace Azure.Iot.Operations.Connector
             cancellationToken.WaitHandle.WaitOne();
 
             // Stop sampling all datasets in this asset now that the asset is unavailable
-            await Task.WhenAll(_assetsSamplingTimers[args.AssetName].Values);
-            _assetsSamplingTimers.Remove(args.AssetName);
+            await Task.WhenAll(datasetsTimers.Values);
 
             _logger.LogInformation("Datasets in asset with name {AssetName} will no longer be periodically sampled now that the asset is unavailable", args.AssetName);
         }
