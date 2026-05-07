@@ -234,10 +234,34 @@ namespace Azure.Iot.Operations.Connector
                 DeviceName = deviceName,
             };
 
-            ManagementActionResponse response;
+            ManagementActionResponse response = await InvokeHandlerAsync(handler, eventArgs, _logger, cancellationToken);
+
             try
             {
-                response = action.ActionType switch
+                await request.CompleteAsync(response, cancellationToken);
+            }
+            finally
+            {
+                await request.DisposeAsync();
+            }
+        }
+
+        /// <summary>
+        /// Routes <paramref name="eventArgs"/> to the appropriate <see cref="IManagementActionHandler"/>
+        /// method based on <see cref="ManagementActionInvokedEventArgs.ActionType"/> and translates
+        /// unsupported types and unhandled exceptions into <see cref="ManagementActionApplicationError"/>
+        /// responses. Pure function over its inputs &mdash; does not touch the request, the executor,
+        /// or any worker state &mdash; so it can be unit-tested without the surrounding loop.
+        /// </summary>
+        internal static async Task<ManagementActionResponse> InvokeHandlerAsync(
+            IManagementActionHandler handler,
+            ManagementActionInvokedEventArgs eventArgs,
+            ILogger? logger,
+            CancellationToken cancellationToken)
+        {
+            try
+            {
+                return eventArgs.ActionType switch
                 {
                     AssetManagementGroupActionType.Call => await handler.HandleCallAsync(eventArgs, cancellationToken),
                     AssetManagementGroupActionType.Read => await handler.HandleReadAsync(eventArgs, cancellationToken),
@@ -250,15 +274,15 @@ namespace Azure.Iot.Operations.Connector
                         ApplicationError = new ManagementActionApplicationError
                         {
                             ErrorCode = "UnsupportedActionType",
-                            ErrorPayload = $"Action type '{action.ActionType}' is not supported.",
+                            ErrorPayload = $"Action type '{eventArgs.ActionType}' is not supported.",
                         },
                     },
                 };
             }
             catch (Exception ex) when (ex is not OperationCanceledException)
             {
-                _logger.LogError(ex, "Handler threw for {Group}::{Action}", groupName, action.Name);
-                response = new ManagementActionResponse
+                logger?.LogError(ex, "Handler threw for {Group}::{Action}", eventArgs.GroupName, eventArgs.ActionName);
+                return new ManagementActionResponse
                 {
                     Payload = ReadOnlySequence<byte>.Empty,
                     ContentType = "application/json",
@@ -269,15 +293,6 @@ namespace Azure.Iot.Operations.Connector
                         ErrorPayload = $"Handler failed: {ex.Message}",
                     },
                 };
-            }
-
-            try
-            {
-                await request.CompleteAsync(response, cancellationToken);
-            }
-            finally
-            {
-                await request.DisposeAsync();
             }
         }
 
