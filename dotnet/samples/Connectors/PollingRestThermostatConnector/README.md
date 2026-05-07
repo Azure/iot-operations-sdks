@@ -30,5 +30,5 @@ For instructions on how to install the project template, see [the installation i
 
     output:
     ```bash
-    {"humidity":31.371145248413086,"temperature":74.15005493164062}
+    {"currentTemperature":31.371145248413086,"desiredTemperature":74.15005493164062}
     ```
