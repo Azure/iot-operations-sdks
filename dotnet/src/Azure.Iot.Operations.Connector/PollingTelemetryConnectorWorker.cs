@@ -1,7 +1,6 @@
 ﻿// Copyright(c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-using System.Data;
 using Azure.Iot.Operations.Connector.Files;
 using Azure.Iot.Operations.Protocol;
 using Azure.Iot.Operations.Services.AssetAndDeviceRegistry.Models;
