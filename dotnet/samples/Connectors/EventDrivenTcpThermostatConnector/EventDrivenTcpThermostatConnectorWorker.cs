@@ -239,7 +239,10 @@ namespace EventDrivenTcpThermostatConnector
                                     currentDeviceStatus.Config.LastTransitionTime = DateTime.UtcNow;
                                     currentDeviceStatus.Endpoints ??= new();
                                     currentDeviceStatus.Endpoints.Inbound ??= new();
-                                    currentDeviceStatus.Endpoints.Inbound[args.InboundEndpointName] = new();
+                                    if (!currentDeviceStatus.Endpoints.Inbound.ContainsKey(args.InboundEndpointName))
+                                    {
+                                        currentDeviceStatus.Endpoints.Inbound[args.InboundEndpointName] = new();
+                                    }
                                     return currentDeviceStatus;
                                 }, true, null, cancellationToken);
                             }
