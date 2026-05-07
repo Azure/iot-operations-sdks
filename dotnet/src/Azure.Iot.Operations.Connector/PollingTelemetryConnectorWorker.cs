@@ -134,7 +134,7 @@ namespace Azure.Iot.Operations.Connector
                             _logger.LogError(e3, "Failed to report device endpoint health as 'Unavailable' to Azure Device Registry service");
                         }
 
-                        return;
+                        continue;
                     }
 
                     try
