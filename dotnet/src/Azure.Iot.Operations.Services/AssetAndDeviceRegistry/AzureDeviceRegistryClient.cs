@@ -631,14 +631,15 @@ public class AzureDeviceRegistryClient : IAzureDeviceRegistryClient
 
             try
             {
-                await _adrBaseServiceService.DeviceEndpointRuntimeHealthEventTelemetrySender.SendTelemetryAsync(
-                    new()
+                await _adrBaseServiceService.SendTelemetryAsync(
+                    new DeviceEndpointRuntimeHealthEventTelemetry()
                     {
                         DeviceEndpointRuntimeHealthEvent = new()
                         {
                             RuntimeHealth = deviceEndpointRuntimeHealth.ToProtocol(),
                         },
                     },
+                    new(),
                     additionalTopicTokenMap,
                     MqttQualityOfServiceLevel.AtLeastOnce,
                     telemetryTimeout ?? _defaultTimeout,
@@ -686,8 +687,8 @@ public class AzureDeviceRegistryClient : IAzureDeviceRegistryClient
             {
                 var protocolDatasetsRuntimeHealth = datasetsRuntimeHealth?.Select(x => x.ToProtocol());
 
-                await _adrBaseServiceService.DatasetRuntimeHealthEventTelemetrySender.SendTelemetryAsync(
-                    new()
+                await _adrBaseServiceService.SendTelemetryAsync(
+                    new DatasetRuntimeHealthEventTelemetry()
                     {
                         DatasetRuntimeHealthEvent = new()
                         {
@@ -695,6 +696,7 @@ public class AzureDeviceRegistryClient : IAzureDeviceRegistryClient
                             Datasets = protocolDatasetsRuntimeHealth != null ? protocolDatasetsRuntimeHealth.ToList() : new(),
                         }
                     },
+                    new(),
                     additionalTopicTokenMap,
                     MqttQualityOfServiceLevel.AtLeastOnce,
                     telemetryTimeout ?? _defaultTimeout,
@@ -742,8 +744,8 @@ public class AzureDeviceRegistryClient : IAzureDeviceRegistryClient
             {
                 var protocolEventsRuntimeHealth = eventsRuntimeHealth?.Select(x => x.ToProtocol());
 
-                await _adrBaseServiceService.EventRuntimeHealthEventTelemetrySender.SendTelemetryAsync(
-                    new()
+                await _adrBaseServiceService.SendTelemetryAsync(
+                    new EventRuntimeHealthEventTelemetry()
                     {
                         EventRuntimeHealthEvent = new()
                         {
@@ -751,6 +753,7 @@ public class AzureDeviceRegistryClient : IAzureDeviceRegistryClient
                             Events = protocolEventsRuntimeHealth != null ? protocolEventsRuntimeHealth.ToList() : new(),
                         }
                     },
+                    new(),
                     additionalTopicTokenMap,
                     MqttQualityOfServiceLevel.AtLeastOnce,
                     telemetryTimeout ?? _defaultTimeout,
@@ -798,7 +801,7 @@ public class AzureDeviceRegistryClient : IAzureDeviceRegistryClient
             {
                 var protocolStreamsRuntimeHealth = streamsRuntimeHealth?.Select(x => x.ToProtocol());
 
-                await _adrBaseServiceService.StreamRuntimeHealthEventTelemetrySender.SendTelemetryAsync(
+                await _adrBaseServiceService.SendTelemetryAsync(
                     new StreamRuntimeHealthEventTelemetry()
                     {
                         StreamRuntimeHealthEvent = new()
@@ -807,6 +810,7 @@ public class AzureDeviceRegistryClient : IAzureDeviceRegistryClient
                             Streams = protocolStreamsRuntimeHealth != null ? protocolStreamsRuntimeHealth.ToList() : new(),
                         }
                     },
+                    new(),
                     additionalTopicTokenMap,
                     MqttQualityOfServiceLevel.AtLeastOnce,
                     telemetryTimeout ?? _defaultTimeout,
@@ -854,7 +858,7 @@ public class AzureDeviceRegistryClient : IAzureDeviceRegistryClient
             {
                 var protocolManagementActionsRuntimeHealth = managementActionsRuntimeHealth?.Select(x => x.ToProtocol());
 
-                await _adrBaseServiceService.ManagementActionRuntimeHealthEventTelemetrySender.SendTelemetryAsync(
+                await _adrBaseServiceService.SendTelemetryAsync(
                     new ManagementActionRuntimeHealthEventTelemetry()
                     {
                         ManagementActionRuntimeHealthEvent = new ManagementActionRuntimeHealthEventSchema()
@@ -863,6 +867,7 @@ public class AzureDeviceRegistryClient : IAzureDeviceRegistryClient
                             ManagementActions = protocolManagementActionsRuntimeHealth != null ? protocolManagementActionsRuntimeHealth.ToList() : new(),
                         }
                     },
+                    new(),
                     additionalTopicTokenMap,
                     MqttQualityOfServiceLevel.AtLeastOnce,
                     telemetryTimeout ?? _defaultTimeout,
