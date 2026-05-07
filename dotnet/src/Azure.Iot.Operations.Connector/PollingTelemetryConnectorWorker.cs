@@ -32,10 +32,13 @@ namespace Azure.Iot.Operations.Connector
                     currentDeviceStatus.Config.Error = null;
                     currentDeviceStatus.Endpoints ??= new();
                     currentDeviceStatus.Endpoints.Inbound ??= new();
-                    currentDeviceStatus.Endpoints.Inbound[args.InboundEndpointName] = new()
+                    if (!currentDeviceStatus.Endpoints.Inbound.TryGetValue(args.InboundEndpointName, out var inboundEndpointStatus))
                     {
-                        Error = null,
-                    };
+                        inboundEndpointStatus = new();
+                        currentDeviceStatus.Endpoints.Inbound[args.InboundEndpointName] = inboundEndpointStatus;
+                    }
+
+                    inboundEndpointStatus.Error = null;
                     return currentDeviceStatus;
                 }, true, null, cancellationToken);
             }
