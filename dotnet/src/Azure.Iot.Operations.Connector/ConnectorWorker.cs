@@ -775,10 +775,6 @@ namespace Azure.Iot.Operations.Connector
                     _logger.LogError(e, "Encountered an exception while cancelling user-defined task for device name {deviceName}, inbound endpoint name {inboundEndpointName}, asset name {assetName}", deviceName, inboundEndpointName, assetName);
                 }
             }
-            else
-            {
-                _logger.LogError("Failed to correlate a 'WhileAssetAvailable' callback to cancel once the asset became unavailable");
-            }
         }
 
         private string GetCompoundAssetName(string compoundDeviceName, string assetName)
