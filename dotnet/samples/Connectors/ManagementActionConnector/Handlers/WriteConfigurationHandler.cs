@@ -11,14 +11,14 @@ using Microsoft.Extensions.Logging;
 namespace ManagementActionConnector.Handlers
 {
     /// <summary>
-    /// Handles the <c>device-control::writeConfiguration</c> Write action. Validates
+    /// Handles the <c>device-control::write-configuration</c> Write action. Validates
     /// a <see cref="ConfigurationUpdate"/>, applies it to the shared <see cref="FakeDevice"/>,
     /// and returns a <see cref="ConfigurationAck"/>.
     /// </summary>
     /// <remarks>
     /// Demonstrates: payload-in / minimal-out semantics, validation that produces
     /// a <see cref="ManagementActionApplicationError"/>, and an observable side
-    /// effect (subsequent <c>readTemperature</c> reflects the new unit).
+    /// effect (subsequent <c>read-temperature</c> reflects the new unit).
     /// </remarks>
     public sealed class WriteConfigurationHandler : IManagementActionHandler
     {

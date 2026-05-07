@@ -160,8 +160,8 @@ namespace Azure.Iot.Operations.Connector.IntegrationTests
 
                     var actionNames = new HashSet<string>(group.Actions.Select(a => a.Name));
                     Assert.Contains("reboot", actionNames);
-                    Assert.Contains("readTemperature", actionNames);
-                    Assert.Contains("writeConfiguration", actionNames);
+                    Assert.Contains("read-temperature", actionNames);
+                    Assert.Contains("write-configuration", actionNames);
                     foreach (var action in group.Actions)
                     {
                         Assert.Null(action.Error);

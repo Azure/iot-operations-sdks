@@ -5,7 +5,7 @@ namespace ManagementActionConnector.Devices
 {
     /// <summary>
     /// In-process simulator that stands in for a real southbound device. All three
-    /// management action handlers (reboot / readTemperature / writeConfiguration)
+    /// management action handlers (reboot / read-temperature / write-configuration)
     /// share a single instance so writes from one action are observable by reads
     /// on another — the same way they would be on a real device.
     /// </summary>

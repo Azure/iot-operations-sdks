@@ -28,13 +28,13 @@ spec:
           topic: mgmt/device-1/asset-1/device-control/reboot
           timeoutInSeconds: 15
           actionConfiguration: '{}'
-        - name: readTemperature
+        - name: read-temperature
           actionType: Read
           targetUri: device://read-temperature
           topic: mgmt/device-1/asset-1/device-control/read-temperature
           timeoutInSeconds: 15
           actionConfiguration: '{}'
-        - name: writeConfiguration
+        - name: write-configuration
           actionType: Write
           targetUri: device://write-configuration
           topic: mgmt/device-1/asset-1/device-control/write-configuration

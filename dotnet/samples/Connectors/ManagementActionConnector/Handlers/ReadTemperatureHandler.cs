@@ -9,12 +9,12 @@ using Microsoft.Extensions.Logging;
 namespace ManagementActionConnector.Handlers
 {
     /// <summary>
-    /// Handles the <c>device-control::readTemperature</c> Read action. Returns
+    /// Handles the <c>device-control::read-temperature</c> Read action. Returns
     /// a <see cref="TemperatureReading"/> sampled from the shared <see cref="FakeDevice"/>.
     /// </summary>
     /// <remarks>
     /// Demonstrates: empty request payload, structured response, cross-action state
-    /// (the <c>unit</c> reflects the most recent <c>writeConfiguration</c>), and
+    /// (the <c>unit</c> reflects the most recent <c>write-configuration</c>), and
     /// <see cref="ManagementActionApplicationError"/> for the "device unavailable"
     /// case (mapped from <see cref="DeviceUnavailableException"/>).
     /// </remarks>

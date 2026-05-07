@@ -26,7 +26,7 @@ namespace ManagementActionConnector.Contracts
         public long RebootCount { get; init; }
     }
 
-    /// <summary>Response body for the "readTemperature" Read action.</summary>
+    /// <summary>Response body for the "read-temperature" Read action.</summary>
     public sealed record TemperatureReading
     {
         [JsonPropertyName("value")]
@@ -39,7 +39,7 @@ namespace ManagementActionConnector.Contracts
         public DateTime SampledAtUtc { get; init; }
     }
 
-    /// <summary>Request body for the "writeConfiguration" Write action.</summary>
+    /// <summary>Request body for the "write-configuration" Write action.</summary>
     public sealed record ConfigurationUpdate
     {
         [JsonPropertyName("sampleIntervalMs")]
@@ -49,7 +49,7 @@ namespace ManagementActionConnector.Contracts
         public required string Unit { get; init; }
     }
 
-    /// <summary>Response body for the "writeConfiguration" Write action.</summary>
+    /// <summary>Response body for the "write-configuration" Write action.</summary>
     public sealed record ConfigurationAck
     {
         [JsonPropertyName("appliedAtUtc")]

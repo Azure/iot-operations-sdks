@@ -42,8 +42,8 @@ namespace ManagementActionConnector.Handlers
             return action.Name switch
             {
                 "reboot" => new RebootHandler(logger, _device, deviceName, assetName),
-                "readTemperature" => new ReadTemperatureHandler(logger, _device, deviceName, assetName),
-                "writeConfiguration" => new WriteConfigurationHandler(logger, _device, deviceName, assetName),
+                "read-temperature" => new ReadTemperatureHandler(logger, _device, deviceName, assetName),
+                "write-configuration" => new WriteConfigurationHandler(logger, _device, deviceName, assetName),
                 _ => new UnknownActionHandler(logger, groupName, action.Name),
             };
         }
