@@ -32,7 +32,7 @@ namespace Azure.Iot.Operations.Connector
                     currentDeviceStatus.Config.Error = null;
                     currentDeviceStatus.Endpoints ??= new();
                     currentDeviceStatus.Endpoints.Inbound ??= new();
-                    if (!currentDeviceStatus.Endpoints.Inbound.TryGetValue(args.InboundEndpointName, out var inboundEndpointStatus))
+                    if (!currentDeviceStatus.Endpoints.Inbound.ContainsKey(args.InboundEndpointName))
                     {
                         currentDeviceStatus.Endpoints.Inbound[args.InboundEndpointName] = new();
                     }
@@ -216,10 +216,13 @@ namespace Azure.Iot.Operations.Connector
                             currentDeviceStatus.Config.Error = null;
                             currentDeviceStatus.Endpoints ??= new();
                             currentDeviceStatus.Endpoints.Inbound ??= new();
-                            currentDeviceStatus.Endpoints.Inbound[args.InboundEndpointName] = new()
+                            if (!currentDeviceStatus.Endpoints.Inbound.ContainsKey(args.InboundEndpointName))
                             {
-                                Error = null
-                            };
+                                currentDeviceStatus.Endpoints.Inbound[args.InboundEndpointName] = new();
+                            }
+
+                            currentDeviceStatus.Endpoints.Inbound[args.InboundEndpointName].Error = null;
+
                             return currentDeviceStatus;
                         }, true, null, cancellationToken);
                     }
