@@ -1,0 +1,16 @@
+{
+  "success": false,
+  "commandLine": {
+    "things": [ "invalidAioBinding/SchemaDefinitionObjectConstPropertyNoType.TM.json" ],
+    "lang": "none"
+  },
+  "errors": [
+    {
+      "condition": "PropertyMissing",
+      "filename": "SchemaDefinitionObjectConstPropertyNoType.TM.json",
+      "line": 12,
+      "cfLine": 15,
+      "crossRef": ""
+    }
+  ]
+}

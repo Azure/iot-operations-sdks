@@ -1,0 +1,16 @@
+{
+  "success": false,
+  "commandLine": {
+    "things": [ "invalidAioBinding/SchemaDefinitionObjectConstValueNoSchema.TM.json" ],
+    "lang": "none"
+  },
+  "errors": [
+    {
+      "condition": "ItemNotFound",
+      "filename": "SchemaDefinitionObjectConstValueNoSchema.TM.json",
+      "line": 14,
+      "cfLine": 11,
+      "crossRef": ""
+    }
+  ]
+}

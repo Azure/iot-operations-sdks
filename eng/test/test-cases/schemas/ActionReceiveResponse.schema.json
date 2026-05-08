@@ -64,11 +64,6 @@
             "type": [ "string", "null" ],
             "kind": "drive"
         },
-        "is-application-error": {
-            "description": "Nominally boolean value indicating whether a non-200 status is an application-level error.",
-            "type": [ "string", "null" ],
-            "kind": "drive"
-        },
         "invalid-property-name": {
             "description": "The name of an MQTT property in a request header that is missing or has an invalid value.",
             "type": [ "string", "null" ],

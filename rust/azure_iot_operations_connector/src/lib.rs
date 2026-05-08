@@ -17,7 +17,7 @@ pub mod base_connector;
 pub mod data_processor;
 pub mod deployment_artifacts;
 pub mod destination_endpoint;
-pub mod source_endpoint;
+pub mod management_action_executor;
 
 #[macro_use]
 extern crate derive_getters;
@@ -35,7 +35,6 @@ pub type MessageSchemaBuilderError = PutSchemaRequestBuilderError;
 
 /// Struct format for data sent to the destination
 #[derive(Debug, Clone, PartialEq)]
-/// Struct format for data sent to the [`DataTransformer`] and the destination
 pub struct Data {
     /// The payload in raw bytes
     pub payload: Vec<u8>,
@@ -59,7 +58,7 @@ pub enum DataOperationKind {
     Stream,
 }
 
-/// Represents the kind of a `DataOperation`
+/// Represents the name of a `DataOperation`
 #[derive(Debug, Clone, PartialEq, Eq, Hash)]
 pub enum DataOperationName {
     /// Dataset
@@ -105,4 +104,38 @@ pub struct DataOperationRef {
     pub device_name: String,
     /// The name of the endpoint
     pub inbound_endpoint_name: String,
+}
+
+/// Represents a `ManagementAction` associated with a specific device, endpoint, asset, and management group.
+#[derive(Debug, Clone, PartialEq, Eq, Hash)]
+pub struct ManagementActionRef {
+    /// The name of the management action
+    pub management_action_name: String,
+    /// The name of the management group
+    pub management_group_name: String,
+    /// The name of the asset
+    pub asset_name: String,
+    /// The name of the device
+    pub device_name: String,
+    /// The name of the endpoint
+    pub inbound_endpoint_name: String,
+}
+
+impl ManagementActionRef {
+    /// Gets the command name for this management action
+    pub(crate) fn command_name(&self) -> String {
+        format!(
+            "{}::{}",
+            self.management_group_name, self.management_action_name
+        )
+    }
+
+    /// Printable name for management action
+    #[must_use]
+    pub fn name(&self) -> String {
+        format!(
+            "Management Action: {}::{}",
+            self.management_group_name, self.management_action_name
+        )
+    }
 }

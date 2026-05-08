@@ -1,0 +1,1233 @@
+[
+  {
+    "@context": [
+      "https://www.w3.org/2022/wot/td/v1.1",
+      {
+        "dtv": "http://azure.com/DigitalTwins/dtmi#",
+        "aov": "http://azure.com/IoT/operations/tm#"
+      }
+    ],
+    "@type": "tm:ThingModel",
+    "title": "Machinery_Result_ResultReadyEventType",
+    "aov:typeRef": "nsu=http://opcfoundation.org/UA/Machinery/Result/;i=1002",
+    "aov:isEvent": true,
+    "links": [
+      {
+        "rel": "tm:extends",
+        "href": "./OpcUaCore.TM.json#title=OpcUaCore_BaseEventType",
+        "type": "application/tm+json"
+      }
+    ],
+    "schemaDefinitions": {
+      "ResultEvaluationEnum": {
+        "type": "object",
+        "aov:typeRef": "nsu=http://opcfoundation.org/UA/Machinery/Result/;i=3002",
+        "const": {
+          "Undefined": 0,
+          "OK": 1,
+          "NotOK": 2,
+          "NotDecidable": 3
+        },
+        "description": "Indicates whether a result was in tolerance",
+        "properties": {
+          "Undefined": {
+            "description": "The evaluation of the result is unknown, for example because it failed",
+            "type": "integer"
+          },
+          "OK": {
+            "description": "The result is in tolerance",
+            "type": "integer"
+          },
+          "NotOK": {
+            "description": "The result is out of tolerance",
+            "type": "integer"
+          },
+          "NotDecidable": {
+            "description": "The decision is not possible due to measurement uncertainty.",
+            "type": "integer"
+          }
+        }
+      }
+    },
+    "forms": [
+      {
+        "contentType": "application/json",
+        "dtv:topic": "opcua/Machinery.Result/Machinery_Result_ResultReadyEventType/events/{senderId}",
+        "op": "subscribeallevents"
+      },
+      {
+        "contentType": "application/json",
+        "dtv:topic": "opcua/Machinery.Result/Machinery_Result_ResultReadyEventType/properties/write",
+        "op": "writemultipleproperties"
+      },
+      {
+        "contentType": "application/json",
+        "dtv:topic": "opcua/Machinery.Result/Machinery_Result_ResultReadyEventType/properties/read",
+        "op": "readallproperties"
+      }
+    ],
+    "actions": {
+    },
+    "properties": {
+      "Result": {
+        "aov:namespace": "http://opcfoundation.org/UA/Machinery/Result/",
+        "title": "ResultDataType",
+        "description": "Contains fields that were created during the execution of a recipe.",
+        "type": "object",
+        "aov:typeRef": "nsu=http://opcfoundation.org/UA/Machinery/Result/;i=3008",
+        "required": [ "ResultMetaData", "ResultContent" ],
+        "properties": {
+          "ResultMetaData": {
+            "title": "ResultMetaDataType",
+            "description": "Meta data of a result, describing the result.",
+            "type": "object",
+            "aov:typeRef": "nsu=http://opcfoundation.org/UA/Machinery/Result/;i=3007",
+            "required": [ "ResultId" ],
+            "properties": {
+              "ResultId": {
+                "description": "System-wide unique identifier, which is assigned by the system. This ID can be used for fetching exactly this result using the method GetResultById and it is identical to the ResultId of the ResultReadyEventType.  If the system does not manage resultIds, it should always be set to “NA”.  ",
+                "type": "string"
+              },
+              "HasTransferableDataOnFile": {
+                "description": "Indicates that additional data for this result can be retrieved by temporary file transfer.  If not provided, it is assumed that no file is available.  ",
+                "type": "boolean"
+              },
+              "IsPartial": {
+                "description": "Indicates whether the result is the partial result of a total result. When not all samples are finished yet the result is 'partial'.  If not provided, it is assumed to be a total result.  ",
+                "type": "boolean"
+              },
+              "IsSimulated": {
+                "description": "Indicates whether the result was created in simulation mode.  Simulation mode implies that the result is only generated for testing purposes and not based on real production data.  If not provided, it is assumed to not be simulated.  ",
+                "type": "boolean"
+              },
+              "ResultState": {
+                "description": "ResultState provides information about the current state of the process or measurement creating a result.  Applications may use negative values for application-specific states. All other values shall only be used as defined in the following:  0 – Undefined initial value  1 – Completed: Processing was carried out completely  2 – Processing: Processing has not been finished yet  3 – Aborted: Processing was stopped at some point before completion  4 – Failed: Processing failed in some way  ",
+                "type": "integer",
+                "minimum": -2147483648,
+                "maximum": 2147483647
+              },
+              "StepId": {
+                "description": "Identifies the step which produced the result.  Although the system-wide unique JobId would be sufficient to identify the job which the result belongs to, this makes for easier filtering without keeping track of JobIds.  This specification does not define how the stepId is transmitted to the system. Typically, it is provided by the client when starting an execution.",
+                "type": "string"
+              },
+              "PartId": {
+                "description": "Identifies the part used to produce the result.  Although the system-wide unique JobId would be sufficient to identify the job which the result belongs to, this makes for easier filtering without keeping track of JobIds.  This specification does not define how the partId is transmitted to the system. Typically, it is provided by the client when starting the job.",
+                "type": "string"
+              },
+              "ExternalRecipeId": {
+                "description": "External ID of the recipe in use which produced the result. The External ID is managed by the environment.  This specification does not define how the externalRecipeId is transmitted to the system. Typically, it is provided by the client.",
+                "type": "string"
+              },
+              "InternalRecipeId": {
+                "description": "Internal ID of the recipe in use which produced the result. This ID is system-wide unique and it is assigned by the system.",
+                "type": "string"
+              },
+              "ProductId": {
+                "description": "Identifies the product used to produce the result.  This specification does not define how the externalRecipeId is transmitted to the system. Typically, it is provided by the client.",
+                "type": "string"
+              },
+              "ExternalConfigurationId": {
+                "description": "External ID of the Configuration in use while the result was produced.  It is managed by the Environment.  This specification does not define how the externalConfigurationId is transmitted to the system. Typically, it is provided by the client.",
+                "type": "string"
+              },
+              "InternalConfigurationId": {
+                "description": "Internal ID of the Configuration in use while the result was produced. This ID is system-wide unique and it is assigned by the system.",
+                "type": "string"
+              },
+              "JobId": {
+                "description": "Identifies the job which produced the result.  This ID is system-wide unique and it is assigned by the system.  ",
+                "type": "string"
+              },
+              "CreationTime": {
+                "description": "CreationTime indicates the time when the result was created. Creation time on the measurement system (not the receive time of the server).  It is recommended to always provide the creationTime.  ",
+                "type": "string",
+                "format": "time"
+              },
+              "ProcessingTimes": {
+                "title": "ProcessingTimesDataType",
+                "description": "Contains measured times that were generated during the execution of a recipe.",
+                "type": "object",
+                "aov:typeRef": "nsu=http://opcfoundation.org/UA/Machinery/Result/;i=3006",
+                "required": [ "StartTime", "EndTime" ],
+                "properties": {
+                  "StartTime": {
+                    "description": "Contains the time when the system started execution of the recipe.",
+                    "type": "string",
+                    "format": "time"
+                  },
+                  "EndTime": {
+                    "description": "Contains the time when the system finished (or stopped/aborted) execution of the recipe.",
+                    "type": "string",
+                    "format": "time"
+                  },
+                  "AcquisitionDuration": {
+                    "description": "Time spent by the system acquiring data.",
+                    "type": "string",
+                    "pattern": "^P(?!$)(?:(?:(?:(?:\\d+Y)|(?:\\d+\\.\\d+Y$))?(?:(?:\\d+M)|(?:\\d+\\.\\d+M$))?)|(?:(?:(?:\\d+W)|(?:\\d+\\.\\d+W$))?))(?:(?:\\d+D)|(?:\\d+\\.\\d+D$))?(?:T(?!$)(?:(?:\\d+H)|(?:\\d+\\.\\d+H$))?(?:(?:\\d+M)|(?:\\d+\\.\\d+M$))?(?:\\d+(?:\\.\\d+)?S)?)?$"
+                  },
+                  "ProcessingDuration": {
+                    "description": "Time spent by the system processing data.",
+                    "type": "string",
+                    "pattern": "^P(?!$)(?:(?:(?:(?:\\d+Y)|(?:\\d+\\.\\d+Y$))?(?:(?:\\d+M)|(?:\\d+\\.\\d+M$))?)|(?:(?:(?:\\d+W)|(?:\\d+\\.\\d+W$))?))(?:(?:\\d+D)|(?:\\d+\\.\\d+D$))?(?:T(?!$)(?:(?:\\d+H)|(?:\\d+\\.\\d+H$))?(?:(?:\\d+M)|(?:\\d+\\.\\d+M$))?(?:\\d+(?:\\.\\d+)?S)?)?$"
+                  }
+                }
+              },
+              "ResultUri": {
+                "description": "Path to the actual measured result, managed external to the server.",
+                "type": "array",
+                "items": {
+                  "type": "string"
+                }
+              },
+              "ResultEvaluation": {
+                "title": "ResultEvaluationEnum",
+                "description": "The ResultEvaluation indicates whether the result was in tolerance.",
+                "aov:typeRef": "nsu=http://opcfoundation.org/UA/Machinery/Result/;i=3002",
+                "type": "integer",
+                "minimum": -2147483648,
+                "maximum": 2147483647
+              },
+              "ResultEvaluationCode": {
+                "description": "Vendor-specific code describing more details on resultEvaluation.",
+                "type": "integer",
+                "minimum": -9223372036854775808,
+                "maximum": 9223372036854775807
+              },
+              "ResultEvaluationDetails": {
+                "description": "The optional EvaluationDetails provides high level status information in a user-friendly text. This can be left empty for successful operations.",
+                "type": "string"
+              },
+              "FileFormat": {
+                "description": "The format in which the measurement results are available (e.g. QDAS, CSV, …) using the ResultTransfer Object. If multiple file formats are provided, the GenerateFileForRead of ResultTransfer should contain corresponding transferOptions, to select the file format. This specification does not define those transferOptions.",
+                "type": "array",
+                "items": {
+                  "type": "string"
+                }
+              }
+            }
+          },
+          "ResultContent": {
+            "description": "Abstract data type to be subtyped from to hold result data created by the selected recipe.",
+            "type": "array",
+            "items": {
+              "description": "Stand-in for an unspecified data type.",
+              "type": "string"
+            }
+          }
+        },
+        "readOnly": false,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/Machinery.Result/Machinery_Result_ResultReadyEventType/property/Result/write",
+            "op": "writeproperty"
+          },
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/Machinery.Result/Machinery_Result_ResultReadyEventType/property/Result/read",
+            "op": "readproperty"
+          }
+        ]
+      }
+    },
+    "events": {
+      "Result": {
+        "aov:namespace": "http://opcfoundation.org/UA/Machinery/Result/",
+        "data": {
+          "title": "ResultDataType",
+          "description": "Contains fields that were created during the execution of a recipe.",
+          "type": "object",
+          "aov:typeRef": "nsu=http://opcfoundation.org/UA/Machinery/Result/;i=3008",
+          "required": [ "ResultMetaData", "ResultContent" ],
+          "properties": {
+            "ResultMetaData": {
+              "title": "ResultMetaDataType",
+              "description": "Meta data of a result, describing the result.",
+              "type": "object",
+              "aov:typeRef": "nsu=http://opcfoundation.org/UA/Machinery/Result/;i=3007",
+              "required": [ "ResultId" ],
+              "properties": {
+                "ResultId": {
+                  "description": "System-wide unique identifier, which is assigned by the system. This ID can be used for fetching exactly this result using the method GetResultById and it is identical to the ResultId of the ResultReadyEventType.  If the system does not manage resultIds, it should always be set to “NA”.  ",
+                  "type": "string"
+                },
+                "HasTransferableDataOnFile": {
+                  "description": "Indicates that additional data for this result can be retrieved by temporary file transfer.  If not provided, it is assumed that no file is available.  ",
+                  "type": "boolean"
+                },
+                "IsPartial": {
+                  "description": "Indicates whether the result is the partial result of a total result. When not all samples are finished yet the result is 'partial'.  If not provided, it is assumed to be a total result.  ",
+                  "type": "boolean"
+                },
+                "IsSimulated": {
+                  "description": "Indicates whether the result was created in simulation mode.  Simulation mode implies that the result is only generated for testing purposes and not based on real production data.  If not provided, it is assumed to not be simulated.  ",
+                  "type": "boolean"
+                },
+                "ResultState": {
+                  "description": "ResultState provides information about the current state of the process or measurement creating a result.  Applications may use negative values for application-specific states. All other values shall only be used as defined in the following:  0 – Undefined initial value  1 – Completed: Processing was carried out completely  2 – Processing: Processing has not been finished yet  3 – Aborted: Processing was stopped at some point before completion  4 – Failed: Processing failed in some way  ",
+                  "type": "integer",
+                  "minimum": -2147483648,
+                  "maximum": 2147483647
+                },
+                "StepId": {
+                  "description": "Identifies the step which produced the result.  Although the system-wide unique JobId would be sufficient to identify the job which the result belongs to, this makes for easier filtering without keeping track of JobIds.  This specification does not define how the stepId is transmitted to the system. Typically, it is provided by the client when starting an execution.",
+                  "type": "string"
+                },
+                "PartId": {
+                  "description": "Identifies the part used to produce the result.  Although the system-wide unique JobId would be sufficient to identify the job which the result belongs to, this makes for easier filtering without keeping track of JobIds.  This specification does not define how the partId is transmitted to the system. Typically, it is provided by the client when starting the job.",
+                  "type": "string"
+                },
+                "ExternalRecipeId": {
+                  "description": "External ID of the recipe in use which produced the result. The External ID is managed by the environment.  This specification does not define how the externalRecipeId is transmitted to the system. Typically, it is provided by the client.",
+                  "type": "string"
+                },
+                "InternalRecipeId": {
+                  "description": "Internal ID of the recipe in use which produced the result. This ID is system-wide unique and it is assigned by the system.",
+                  "type": "string"
+                },
+                "ProductId": {
+                  "description": "Identifies the product used to produce the result.  This specification does not define how the externalRecipeId is transmitted to the system. Typically, it is provided by the client.",
+                  "type": "string"
+                },
+                "ExternalConfigurationId": {
+                  "description": "External ID of the Configuration in use while the result was produced.  It is managed by the Environment.  This specification does not define how the externalConfigurationId is transmitted to the system. Typically, it is provided by the client.",
+                  "type": "string"
+                },
+                "InternalConfigurationId": {
+                  "description": "Internal ID of the Configuration in use while the result was produced. This ID is system-wide unique and it is assigned by the system.",
+                  "type": "string"
+                },
+                "JobId": {
+                  "description": "Identifies the job which produced the result.  This ID is system-wide unique and it is assigned by the system.  ",
+                  "type": "string"
+                },
+                "CreationTime": {
+                  "description": "CreationTime indicates the time when the result was created. Creation time on the measurement system (not the receive time of the server).  It is recommended to always provide the creationTime.  ",
+                  "type": "string",
+                  "format": "time"
+                },
+                "ProcessingTimes": {
+                  "title": "ProcessingTimesDataType",
+                  "description": "Contains measured times that were generated during the execution of a recipe.",
+                  "type": "object",
+                  "aov:typeRef": "nsu=http://opcfoundation.org/UA/Machinery/Result/;i=3006",
+                  "required": [ "StartTime", "EndTime" ],
+                  "properties": {
+                    "StartTime": {
+                      "description": "Contains the time when the system started execution of the recipe.",
+                      "type": "string",
+                      "format": "time"
+                    },
+                    "EndTime": {
+                      "description": "Contains the time when the system finished (or stopped/aborted) execution of the recipe.",
+                      "type": "string",
+                      "format": "time"
+                    },
+                    "AcquisitionDuration": {
+                      "description": "Time spent by the system acquiring data.",
+                      "type": "string",
+                      "pattern": "^P(?!$)(?:(?:(?:(?:\\d+Y)|(?:\\d+\\.\\d+Y$))?(?:(?:\\d+M)|(?:\\d+\\.\\d+M$))?)|(?:(?:(?:\\d+W)|(?:\\d+\\.\\d+W$))?))(?:(?:\\d+D)|(?:\\d+\\.\\d+D$))?(?:T(?!$)(?:(?:\\d+H)|(?:\\d+\\.\\d+H$))?(?:(?:\\d+M)|(?:\\d+\\.\\d+M$))?(?:\\d+(?:\\.\\d+)?S)?)?$"
+                    },
+                    "ProcessingDuration": {
+                      "description": "Time spent by the system processing data.",
+                      "type": "string",
+                      "pattern": "^P(?!$)(?:(?:(?:(?:\\d+Y)|(?:\\d+\\.\\d+Y$))?(?:(?:\\d+M)|(?:\\d+\\.\\d+M$))?)|(?:(?:(?:\\d+W)|(?:\\d+\\.\\d+W$))?))(?:(?:\\d+D)|(?:\\d+\\.\\d+D$))?(?:T(?!$)(?:(?:\\d+H)|(?:\\d+\\.\\d+H$))?(?:(?:\\d+M)|(?:\\d+\\.\\d+M$))?(?:\\d+(?:\\.\\d+)?S)?)?$"
+                    }
+                  }
+                },
+                "ResultUri": {
+                  "description": "Path to the actual measured result, managed external to the server.",
+                  "type": "array",
+                  "items": {
+                    "type": "string"
+                  }
+                },
+                "ResultEvaluation": {
+                  "title": "ResultEvaluationEnum",
+                  "description": "The ResultEvaluation indicates whether the result was in tolerance.",
+                  "aov:typeRef": "nsu=http://opcfoundation.org/UA/Machinery/Result/;i=3002",
+                  "type": "integer",
+                  "minimum": -2147483648,
+                  "maximum": 2147483647
+                },
+                "ResultEvaluationCode": {
+                  "description": "Vendor-specific code describing more details on resultEvaluation.",
+                  "type": "integer",
+                  "minimum": -9223372036854775808,
+                  "maximum": 9223372036854775807
+                },
+                "ResultEvaluationDetails": {
+                  "description": "The optional EvaluationDetails provides high level status information in a user-friendly text. This can be left empty for successful operations.",
+                  "type": "string"
+                },
+                "FileFormat": {
+                  "description": "The format in which the measurement results are available (e.g. QDAS, CSV, …) using the ResultTransfer Object. If multiple file formats are provided, the GenerateFileForRead of ResultTransfer should contain corresponding transferOptions, to select the file format. This specification does not define those transferOptions.",
+                  "type": "array",
+                  "items": {
+                    "type": "string"
+                  }
+                }
+              }
+            },
+            "ResultContent": {
+              "description": "Abstract data type to be subtyped from to hold result data created by the selected recipe.",
+              "type": "array",
+              "items": {
+                "description": "Stand-in for an unspecified data type.",
+                "type": "string"
+              }
+            }
+          }
+        },
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/Machinery.Result/Machinery_Result_ResultReadyEventType/event/Result/{senderId}",
+            "op": "subscribeevent"
+          }
+        ]
+      }
+    }
+  },
+  {
+    "@context": [
+      "https://www.w3.org/2022/wot/td/v1.1",
+      {
+        "dtv": "http://azure.com/DigitalTwins/dtmi#",
+        "aov": "http://azure.com/IoT/operations/tm#"
+      }
+    ],
+    "@type": "tm:ThingModel",
+    "title": "Machinery_Result_ResultManagementType",
+    "aov:typeRef": "nsu=http://opcfoundation.org/UA/Machinery/Result/;i=1004",
+    "aov:isComposite": true,
+    "links": [
+      {
+        "rel": "tm:extends",
+        "href": "./OpcUaCore.TM.json#title=OpcUaCore_BaseObjectType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "aov:component",
+        "aov:refName": "Results",
+        "href": "./OpcUaCore.TM.json#title=OpcUaCore_FolderType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "aov:capability",
+        "aov:refName": "ResultTransfer",
+        "href": "#title=Machinery_Result_ResultTransferType",
+        "type": "application/tm+json"
+      }
+    ],
+    "schemaDefinitions": {
+      "ResultEvaluationEnum": {
+        "type": "object",
+        "aov:typeRef": "nsu=http://opcfoundation.org/UA/Machinery/Result/;i=3002",
+        "const": {
+          "Undefined": 0,
+          "OK": 1,
+          "NotOK": 2,
+          "NotDecidable": 3
+        },
+        "description": "Indicates whether a result was in tolerance",
+        "properties": {
+          "Undefined": {
+            "description": "The evaluation of the result is unknown, for example because it failed",
+            "type": "integer"
+          },
+          "OK": {
+            "description": "The result is in tolerance",
+            "type": "integer"
+          },
+          "NotOK": {
+            "description": "The result is out of tolerance",
+            "type": "integer"
+          },
+          "NotDecidable": {
+            "description": "The decision is not possible due to measurement uncertainty.",
+            "type": "integer"
+          }
+        }
+      },
+      "FilterOperator": {
+        "type": "object",
+        "aov:typeRef": "nsu=http://opcfoundation.org/UA/;i=576",
+        "const": {
+          "Equals": 0,
+          "IsNull": 1,
+          "GreaterThan": 2,
+          "LessThan": 3,
+          "GreaterThanOrEqual": 4,
+          "LessThanOrEqual": 5,
+          "Like": 6,
+          "Not": 7,
+          "Between": 8,
+          "InList": 9,
+          "And": 10,
+          "Or": 11,
+          "Cast": 12,
+          "InView": 13,
+          "OfType": 14,
+          "RelatedTo": 15,
+          "BitwiseAnd": 16,
+          "BitwiseOr": 17
+        },
+        "properties": {
+          "Equals": {
+            "type": "integer"
+          },
+          "IsNull": {
+            "type": "integer"
+          },
+          "GreaterThan": {
+            "type": "integer"
+          },
+          "LessThan": {
+            "type": "integer"
+          },
+          "GreaterThanOrEqual": {
+            "type": "integer"
+          },
+          "LessThanOrEqual": {
+            "type": "integer"
+          },
+          "Like": {
+            "type": "integer"
+          },
+          "Not": {
+            "type": "integer"
+          },
+          "Between": {
+            "type": "integer"
+          },
+          "InList": {
+            "type": "integer"
+          },
+          "And": {
+            "type": "integer"
+          },
+          "Or": {
+            "type": "integer"
+          },
+          "Cast": {
+            "type": "integer"
+          },
+          "InView": {
+            "type": "integer"
+          },
+          "OfType": {
+            "type": "integer"
+          },
+          "RelatedTo": {
+            "type": "integer"
+          },
+          "BitwiseAnd": {
+            "type": "integer"
+          },
+          "BitwiseOr": {
+            "type": "integer"
+          }
+        }
+      }
+    },
+    "forms": [
+      {
+        "contentType": "application/json",
+        "dtv:topic": "opcua/Machinery.Result/Machinery_Result_ResultManagementType/properties/write",
+        "op": "writemultipleproperties"
+      },
+      {
+        "contentType": "application/json",
+        "dtv:topic": "opcua/Machinery.Result/Machinery_Result_ResultManagementType/properties/read",
+        "op": "readallproperties"
+      }
+    ],
+    "actions": {
+      "AcknowledgeResults": {
+        "aov:namespace": "http://opcfoundation.org/UA/Machinery/Result/",
+        "input": {
+          "type": "object",
+          "aov:typeRef": "nsu=http://opcfoundation.org/UA/Machinery/Result/;i=6089",
+          "required": [ "ResultIds" ],
+          "properties": {
+            "ResultIds": {
+              "description": "List of result identifiers to be acknowledged.",
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            }
+          }
+        },
+        "output": {
+          "type": "object",
+          "aov:typeRef": "nsu=http://opcfoundation.org/UA/Machinery/Result/;i=6090",
+          "required": [ "ErrorPerResultId", "Error" ],
+          "properties": {
+            "ErrorPerResultId": {
+              "description": "Shall be null or empty if error equals 0. Shall have the same length as resultIds if error is not equal 0. Indicates for each resultId in resultIds, if the acknowledge was successful.  Per entry:  0 – OK  Values > 0 are reserved for errors defined by this and future standards.  Values < 0 shall be used for application-specific errors.  ",
+              "type": "array",
+              "items": {
+                "type": "integer",
+                "minimum": -2147483648,
+                "maximum": 2147483647
+              }
+            },
+            "Error": {
+              "description": "0 – OK  Values > 0 are reserved for errors defined by this and future standards.  Values < 0 shall be used for application-specific errors.  Shall be not equal 0 if any resultId of resultIds was not successfully acknowledged. Shall be 0 if all resultIds where acknowledged successful.",
+              "type": "integer",
+              "minimum": -2147483648,
+              "maximum": 2147483647
+            }
+          }
+        },
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/Machinery.Result/Machinery_Result_ResultManagementType/action/AcknowledgeResults",
+            "op": "invokeaction"
+          }
+        ]
+      },
+      "GetLatestResult": {
+        "aov:namespace": "http://opcfoundation.org/UA/Machinery/Result/",
+        "input": {
+          "type": "object",
+          "aov:typeRef": "nsu=http://opcfoundation.org/UA/Machinery/Result/;i=6054",
+          "required": [ "Timeout" ],
+          "properties": {
+            "Timeout": {
+              "description": "With this argument the client can give a hint to the server how long it will need access to the result data.  A value > 0 indicates an estimated maximum time for processing the data in milliseconds.   A value = 0 indicates that the client will not need anything besides the data returned by the method call.  A value < 0 indicates that the client cannot give an estimate.  The client cannot rely on the data being available during the indicated time period. The argument is merely a hint allowing the server to optimize its resource management.",
+              "type": "integer",
+              "minimum": -2147483648,
+              "maximum": 2147483647
+            }
+          }
+        },
+        "output": {
+          "type": "object",
+          "aov:typeRef": "nsu=http://opcfoundation.org/UA/Machinery/Result/;i=6055",
+          "required": [ "ResultHandle", "Result", "Error" ],
+          "properties": {
+            "ResultHandle": {
+              "description": "The server shall return to each client requesting result data a system-wide unique handle identifying the result set / client combination. This handle should be used by the client to indicate to the server that the result data is no longer needed, allowing the server to optimize its resource handling.  If the instance of ResultManagementType does not support the ReleaseResultHandle Method, the resultHandle should always be set to 0.  If the error is set to a value other than 0, the resultHandle may be set to 0.  ",
+              "type": "integer",
+              "minimum": 0,
+              "maximum": 4294967295
+            },
+            "Result": {
+              "title": "ResultDataType",
+              "description": "Contains fields that were created during the execution of a recipe.",
+              "type": "object",
+              "aov:typeRef": "nsu=http://opcfoundation.org/UA/Machinery/Result/;i=3008",
+              "required": [ "ResultMetaData", "ResultContent" ],
+              "properties": {
+                "ResultMetaData": {
+                  "title": "ResultMetaDataType",
+                  "description": "Meta data of a result, describing the result.",
+                  "type": "object",
+                  "aov:typeRef": "nsu=http://opcfoundation.org/UA/Machinery/Result/;i=3007",
+                  "required": [ "ResultId" ],
+                  "properties": {
+                    "ResultId": {
+                      "description": "System-wide unique identifier, which is assigned by the system. This ID can be used for fetching exactly this result using the method GetResultById and it is identical to the ResultId of the ResultReadyEventType.  If the system does not manage resultIds, it should always be set to “NA”.  ",
+                      "type": "string"
+                    },
+                    "HasTransferableDataOnFile": {
+                      "description": "Indicates that additional data for this result can be retrieved by temporary file transfer.  If not provided, it is assumed that no file is available.  ",
+                      "type": "boolean"
+                    },
+                    "IsPartial": {
+                      "description": "Indicates whether the result is the partial result of a total result. When not all samples are finished yet the result is 'partial'.  If not provided, it is assumed to be a total result.  ",
+                      "type": "boolean"
+                    },
+                    "IsSimulated": {
+                      "description": "Indicates whether the result was created in simulation mode.  Simulation mode implies that the result is only generated for testing purposes and not based on real production data.  If not provided, it is assumed to not be simulated.  ",
+                      "type": "boolean"
+                    },
+                    "ResultState": {
+                      "description": "ResultState provides information about the current state of the process or measurement creating a result.  Applications may use negative values for application-specific states. All other values shall only be used as defined in the following:  0 – Undefined initial value  1 – Completed: Processing was carried out completely  2 – Processing: Processing has not been finished yet  3 – Aborted: Processing was stopped at some point before completion  4 – Failed: Processing failed in some way  ",
+                      "type": "integer",
+                      "minimum": -2147483648,
+                      "maximum": 2147483647
+                    },
+                    "StepId": {
+                      "description": "Identifies the step which produced the result.  Although the system-wide unique JobId would be sufficient to identify the job which the result belongs to, this makes for easier filtering without keeping track of JobIds.  This specification does not define how the stepId is transmitted to the system. Typically, it is provided by the client when starting an execution.",
+                      "type": "string"
+                    },
+                    "PartId": {
+                      "description": "Identifies the part used to produce the result.  Although the system-wide unique JobId would be sufficient to identify the job which the result belongs to, this makes for easier filtering without keeping track of JobIds.  This specification does not define how the partId is transmitted to the system. Typically, it is provided by the client when starting the job.",
+                      "type": "string"
+                    },
+                    "ExternalRecipeId": {
+                      "description": "External ID of the recipe in use which produced the result. The External ID is managed by the environment.  This specification does not define how the externalRecipeId is transmitted to the system. Typically, it is provided by the client.",
+                      "type": "string"
+                    },
+                    "InternalRecipeId": {
+                      "description": "Internal ID of the recipe in use which produced the result. This ID is system-wide unique and it is assigned by the system.",
+                      "type": "string"
+                    },
+                    "ProductId": {
+                      "description": "Identifies the product used to produce the result.  This specification does not define how the externalRecipeId is transmitted to the system. Typically, it is provided by the client.",
+                      "type": "string"
+                    },
+                    "ExternalConfigurationId": {
+                      "description": "External ID of the Configuration in use while the result was produced.  It is managed by the Environment.  This specification does not define how the externalConfigurationId is transmitted to the system. Typically, it is provided by the client.",
+                      "type": "string"
+                    },
+                    "InternalConfigurationId": {
+                      "description": "Internal ID of the Configuration in use while the result was produced. This ID is system-wide unique and it is assigned by the system.",
+                      "type": "string"
+                    },
+                    "JobId": {
+                      "description": "Identifies the job which produced the result.  This ID is system-wide unique and it is assigned by the system.  ",
+                      "type": "string"
+                    },
+                    "CreationTime": {
+                      "description": "CreationTime indicates the time when the result was created. Creation time on the measurement system (not the receive time of the server).  It is recommended to always provide the creationTime.  ",
+                      "type": "string",
+                      "format": "time"
+                    },
+                    "ProcessingTimes": {
+                      "title": "ProcessingTimesDataType",
+                      "description": "Contains measured times that were generated during the execution of a recipe.",
+                      "type": "object",
+                      "aov:typeRef": "nsu=http://opcfoundation.org/UA/Machinery/Result/;i=3006",
+                      "required": [ "StartTime", "EndTime" ],
+                      "properties": {
+                        "StartTime": {
+                          "description": "Contains the time when the system started execution of the recipe.",
+                          "type": "string",
+                          "format": "time"
+                        },
+                        "EndTime": {
+                          "description": "Contains the time when the system finished (or stopped/aborted) execution of the recipe.",
+                          "type": "string",
+                          "format": "time"
+                        },
+                        "AcquisitionDuration": {
+                          "description": "Time spent by the system acquiring data.",
+                          "type": "string",
+                          "pattern": "^P(?!$)(?:(?:(?:(?:\\d+Y)|(?:\\d+\\.\\d+Y$))?(?:(?:\\d+M)|(?:\\d+\\.\\d+M$))?)|(?:(?:(?:\\d+W)|(?:\\d+\\.\\d+W$))?))(?:(?:\\d+D)|(?:\\d+\\.\\d+D$))?(?:T(?!$)(?:(?:\\d+H)|(?:\\d+\\.\\d+H$))?(?:(?:\\d+M)|(?:\\d+\\.\\d+M$))?(?:\\d+(?:\\.\\d+)?S)?)?$"
+                        },
+                        "ProcessingDuration": {
+                          "description": "Time spent by the system processing data.",
+                          "type": "string",
+                          "pattern": "^P(?!$)(?:(?:(?:(?:\\d+Y)|(?:\\d+\\.\\d+Y$))?(?:(?:\\d+M)|(?:\\d+\\.\\d+M$))?)|(?:(?:(?:\\d+W)|(?:\\d+\\.\\d+W$))?))(?:(?:\\d+D)|(?:\\d+\\.\\d+D$))?(?:T(?!$)(?:(?:\\d+H)|(?:\\d+\\.\\d+H$))?(?:(?:\\d+M)|(?:\\d+\\.\\d+M$))?(?:\\d+(?:\\.\\d+)?S)?)?$"
+                        }
+                      }
+                    },
+                    "ResultUri": {
+                      "description": "Path to the actual measured result, managed external to the server.",
+                      "type": "array",
+                      "items": {
+                        "type": "string"
+                      }
+                    },
+                    "ResultEvaluation": {
+                      "title": "ResultEvaluationEnum",
+                      "description": "The ResultEvaluation indicates whether the result was in tolerance.",
+                      "aov:typeRef": "nsu=http://opcfoundation.org/UA/Machinery/Result/;i=3002",
+                      "type": "integer",
+                      "minimum": -2147483648,
+                      "maximum": 2147483647
+                    },
+                    "ResultEvaluationCode": {
+                      "description": "Vendor-specific code describing more details on resultEvaluation.",
+                      "type": "integer",
+                      "minimum": -9223372036854775808,
+                      "maximum": 9223372036854775807
+                    },
+                    "ResultEvaluationDetails": {
+                      "description": "The optional EvaluationDetails provides high level status information in a user-friendly text. This can be left empty for successful operations.",
+                      "type": "string"
+                    },
+                    "FileFormat": {
+                      "description": "The format in which the measurement results are available (e.g. QDAS, CSV, …) using the ResultTransfer Object. If multiple file formats are provided, the GenerateFileForRead of ResultTransfer should contain corresponding transferOptions, to select the file format. This specification does not define those transferOptions.",
+                      "type": "array",
+                      "items": {
+                        "type": "string"
+                      }
+                    }
+                  }
+                },
+                "ResultContent": {
+                  "description": "Abstract data type to be subtyped from to hold result data created by the selected recipe.",
+                  "type": "array",
+                  "items": {
+                    "description": "Stand-in for an unspecified data type.",
+                    "type": "string"
+                  }
+                }
+              }
+            },
+            "Error": {
+              "description": "0 – OK  Values > 0 are reserved for errors defined by this and future standards.  Values < 0 shall be used for application-specific errors.  ",
+              "type": "integer",
+              "minimum": -2147483648,
+              "maximum": 2147483647
+            }
+          }
+        },
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/Machinery.Result/Machinery_Result_ResultManagementType/action/GetLatestResult",
+            "op": "invokeaction"
+          }
+        ]
+      },
+      "GetResultById": {
+        "aov:namespace": "http://opcfoundation.org/UA/Machinery/Result/",
+        "description": "The server shall return to each client requesting result data a system-wide unique handle identifying the result set / client combination. This handle should be used by the client to indicate to the server that the result data is no longer needed, allowing the server to optimize its resource handling.  If the instance of ResultManagementType does not support the ReleaseResultHandle Method, the resultHandle should always be set to 0.  If the error is set to a value other than 0, the resultHandle may be set to 0.  ",
+        "input": {
+          "type": "object",
+          "aov:typeRef": "nsu=http://opcfoundation.org/UA/Machinery/Result/;i=6048",
+          "required": [ "ResultId", "Timeout" ],
+          "properties": {
+            "ResultId": {
+              "description": "System-wide unique identifier for the result.",
+              "type": "string"
+            },
+            "Timeout": {
+              "description": "With this argument the client can give a hint to the server how long it will need access to the result data.  A value > 0 indicates an estimated maximum time for processing the data in milliseconds.   A value = 0 indicates that the client will not need anything besides the data returned by the method call.  A value < 0 indicates that the client cannot give an estimate.  The client cannot rely on the data being available during the indicated time period. The argument is merely a hint allowing the server to optimize its resource management.",
+              "type": "integer",
+              "minimum": -2147483648,
+              "maximum": 2147483647
+            }
+          }
+        },
+        "output": {
+          "type": "object",
+          "aov:typeRef": "nsu=http://opcfoundation.org/UA/Machinery/Result/;i=6049",
+          "required": [ "ResultHandle", "Result", "Error" ],
+          "properties": {
+            "ResultHandle": {
+              "description": "The server shall return to each client requesting result data a system-wide unique handle identifying the result set / client combination. This handle should be used by the client to indicate to the server that the result data is no longer needed, allowing the server to optimize its resource handling.  If the instance of ResultManagementType does not support the ReleaseResultHandle Method, the resultHandle should always be set to 0.  If the error is set to a value other than 0, the resultHandle may be set to 0.",
+              "type": "integer",
+              "minimum": 0,
+              "maximum": 4294967295
+            },
+            "Result": {
+              "title": "ResultDataType",
+              "description": "Contains fields that were created during the execution of a recipe.",
+              "type": "object",
+              "aov:typeRef": "nsu=http://opcfoundation.org/UA/Machinery/Result/;i=3008",
+              "required": [ "ResultMetaData", "ResultContent" ],
+              "properties": {
+                "ResultMetaData": {
+                  "title": "ResultMetaDataType",
+                  "description": "Meta data of a result, describing the result.",
+                  "type": "object",
+                  "aov:typeRef": "nsu=http://opcfoundation.org/UA/Machinery/Result/;i=3007",
+                  "required": [ "ResultId" ],
+                  "properties": {
+                    "ResultId": {
+                      "description": "System-wide unique identifier, which is assigned by the system. This ID can be used for fetching exactly this result using the method GetResultById and it is identical to the ResultId of the ResultReadyEventType.  If the system does not manage resultIds, it should always be set to “NA”.  ",
+                      "type": "string"
+                    },
+                    "HasTransferableDataOnFile": {
+                      "description": "Indicates that additional data for this result can be retrieved by temporary file transfer.  If not provided, it is assumed that no file is available.  ",
+                      "type": "boolean"
+                    },
+                    "IsPartial": {
+                      "description": "Indicates whether the result is the partial result of a total result. When not all samples are finished yet the result is 'partial'.  If not provided, it is assumed to be a total result.  ",
+                      "type": "boolean"
+                    },
+                    "IsSimulated": {
+                      "description": "Indicates whether the result was created in simulation mode.  Simulation mode implies that the result is only generated for testing purposes and not based on real production data.  If not provided, it is assumed to not be simulated.  ",
+                      "type": "boolean"
+                    },
+                    "ResultState": {
+                      "description": "ResultState provides information about the current state of the process or measurement creating a result.  Applications may use negative values for application-specific states. All other values shall only be used as defined in the following:  0 – Undefined initial value  1 – Completed: Processing was carried out completely  2 – Processing: Processing has not been finished yet  3 – Aborted: Processing was stopped at some point before completion  4 – Failed: Processing failed in some way  ",
+                      "type": "integer",
+                      "minimum": -2147483648,
+                      "maximum": 2147483647
+                    },
+                    "StepId": {
+                      "description": "Identifies the step which produced the result.  Although the system-wide unique JobId would be sufficient to identify the job which the result belongs to, this makes for easier filtering without keeping track of JobIds.  This specification does not define how the stepId is transmitted to the system. Typically, it is provided by the client when starting an execution.",
+                      "type": "string"
+                    },
+                    "PartId": {
+                      "description": "Identifies the part used to produce the result.  Although the system-wide unique JobId would be sufficient to identify the job which the result belongs to, this makes for easier filtering without keeping track of JobIds.  This specification does not define how the partId is transmitted to the system. Typically, it is provided by the client when starting the job.",
+                      "type": "string"
+                    },
+                    "ExternalRecipeId": {
+                      "description": "External ID of the recipe in use which produced the result. The External ID is managed by the environment.  This specification does not define how the externalRecipeId is transmitted to the system. Typically, it is provided by the client.",
+                      "type": "string"
+                    },
+                    "InternalRecipeId": {
+                      "description": "Internal ID of the recipe in use which produced the result. This ID is system-wide unique and it is assigned by the system.",
+                      "type": "string"
+                    },
+                    "ProductId": {
+                      "description": "Identifies the product used to produce the result.  This specification does not define how the externalRecipeId is transmitted to the system. Typically, it is provided by the client.",
+                      "type": "string"
+                    },
+                    "ExternalConfigurationId": {
+                      "description": "External ID of the Configuration in use while the result was produced.  It is managed by the Environment.  This specification does not define how the externalConfigurationId is transmitted to the system. Typically, it is provided by the client.",
+                      "type": "string"
+                    },
+                    "InternalConfigurationId": {
+                      "description": "Internal ID of the Configuration in use while the result was produced. This ID is system-wide unique and it is assigned by the system.",
+                      "type": "string"
+                    },
+                    "JobId": {
+                      "description": "Identifies the job which produced the result.  This ID is system-wide unique and it is assigned by the system.  ",
+                      "type": "string"
+                    },
+                    "CreationTime": {
+                      "description": "CreationTime indicates the time when the result was created. Creation time on the measurement system (not the receive time of the server).  It is recommended to always provide the creationTime.  ",
+                      "type": "string",
+                      "format": "time"
+                    },
+                    "ProcessingTimes": {
+                      "title": "ProcessingTimesDataType",
+                      "description": "Contains measured times that were generated during the execution of a recipe.",
+                      "type": "object",
+                      "aov:typeRef": "nsu=http://opcfoundation.org/UA/Machinery/Result/;i=3006",
+                      "required": [ "StartTime", "EndTime" ],
+                      "properties": {
+                        "StartTime": {
+                          "description": "Contains the time when the system started execution of the recipe.",
+                          "type": "string",
+                          "format": "time"
+                        },
+                        "EndTime": {
+                          "description": "Contains the time when the system finished (or stopped/aborted) execution of the recipe.",
+                          "type": "string",
+                          "format": "time"
+                        },
+                        "AcquisitionDuration": {
+                          "description": "Time spent by the system acquiring data.",
+                          "type": "string",
+                          "pattern": "^P(?!$)(?:(?:(?:(?:\\d+Y)|(?:\\d+\\.\\d+Y$))?(?:(?:\\d+M)|(?:\\d+\\.\\d+M$))?)|(?:(?:(?:\\d+W)|(?:\\d+\\.\\d+W$))?))(?:(?:\\d+D)|(?:\\d+\\.\\d+D$))?(?:T(?!$)(?:(?:\\d+H)|(?:\\d+\\.\\d+H$))?(?:(?:\\d+M)|(?:\\d+\\.\\d+M$))?(?:\\d+(?:\\.\\d+)?S)?)?$"
+                        },
+                        "ProcessingDuration": {
+                          "description": "Time spent by the system processing data.",
+                          "type": "string",
+                          "pattern": "^P(?!$)(?:(?:(?:(?:\\d+Y)|(?:\\d+\\.\\d+Y$))?(?:(?:\\d+M)|(?:\\d+\\.\\d+M$))?)|(?:(?:(?:\\d+W)|(?:\\d+\\.\\d+W$))?))(?:(?:\\d+D)|(?:\\d+\\.\\d+D$))?(?:T(?!$)(?:(?:\\d+H)|(?:\\d+\\.\\d+H$))?(?:(?:\\d+M)|(?:\\d+\\.\\d+M$))?(?:\\d+(?:\\.\\d+)?S)?)?$"
+                        }
+                      }
+                    },
+                    "ResultUri": {
+                      "description": "Path to the actual measured result, managed external to the server.",
+                      "type": "array",
+                      "items": {
+                        "type": "string"
+                      }
+                    },
+                    "ResultEvaluation": {
+                      "title": "ResultEvaluationEnum",
+                      "description": "The ResultEvaluation indicates whether the result was in tolerance.",
+                      "aov:typeRef": "nsu=http://opcfoundation.org/UA/Machinery/Result/;i=3002",
+                      "type": "integer",
+                      "minimum": -2147483648,
+                      "maximum": 2147483647
+                    },
+                    "ResultEvaluationCode": {
+                      "description": "Vendor-specific code describing more details on resultEvaluation.",
+                      "type": "integer",
+                      "minimum": -9223372036854775808,
+                      "maximum": 9223372036854775807
+                    },
+                    "ResultEvaluationDetails": {
+                      "description": "The optional EvaluationDetails provides high level status information in a user-friendly text. This can be left empty for successful operations.",
+                      "type": "string"
+                    },
+                    "FileFormat": {
+                      "description": "The format in which the measurement results are available (e.g. QDAS, CSV, …) using the ResultTransfer Object. If multiple file formats are provided, the GenerateFileForRead of ResultTransfer should contain corresponding transferOptions, to select the file format. This specification does not define those transferOptions.",
+                      "type": "array",
+                      "items": {
+                        "type": "string"
+                      }
+                    }
+                  }
+                },
+                "ResultContent": {
+                  "description": "Abstract data type to be subtyped from to hold result data created by the selected recipe.",
+                  "type": "array",
+                  "items": {
+                    "description": "Stand-in for an unspecified data type.",
+                    "type": "string"
+                  }
+                }
+              }
+            },
+            "Error": {
+              "description": "0 – OK  Values > 0 are reserved for errors defined by this and future standards.  Values < 0 shall be used for application-specific errors.",
+              "type": "integer",
+              "minimum": -2147483648,
+              "maximum": 2147483647
+            }
+          }
+        },
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/Machinery.Result/Machinery_Result_ResultManagementType/action/GetResultById",
+            "op": "invokeaction"
+          }
+        ]
+      },
+      "GetResultIdListFiltered": {
+        "aov:namespace": "http://opcfoundation.org/UA/Machinery/Result/",
+        "input": {
+          "type": "object",
+          "aov:typeRef": "nsu=http://opcfoundation.org/UA/Machinery/Result/;i=6050",
+          "required": [ "Filter", "OrderedBy", "MaxResults", "Timeout" ],
+          "properties": {
+            "Filter": {
+              "title": "ContentFilter",
+              "description": "Filter used to filter for specific results based on the meta data of the results. Valid BrowsePaths used in the filter can be built from the fields of the ResultReadyEventType, the ResultType VariableType or the ResultDataType or corresponding subtypes.",
+              "type": "object",
+              "aov:typeRef": "nsu=http://opcfoundation.org/UA/;i=586",
+              "required": [ "Elements" ],
+              "properties": {
+                "Elements": {
+                  "type": "array",
+                  "items": {
+                    "title": "ContentFilterElement",
+                    "type": "object",
+                    "aov:typeRef": "nsu=http://opcfoundation.org/UA/;i=583",
+                    "required": [ "FilterOperator", "FilterOperands" ],
+                    "properties": {
+                      "FilterOperator": {
+                        "title": "FilterOperator",
+                        "aov:typeRef": "nsu=http://opcfoundation.org/UA/;i=576",
+                        "type": "integer",
+                        "minimum": -2147483648,
+                        "maximum": 2147483647
+                      },
+                      "FilterOperands": {
+                        "type": "array",
+                        "items": {
+                          "type": "string"
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            },
+            "OrderedBy": {
+              "description": "An array of BrowsePaths (as array of QualifiedName) identifying the ordering criteria for the results. If the array is null or empty, no ordering is executed.  If several BrowsePaths are provided, the first entry in the array is used as first ordering criteria, etc.  ",
+              "type": "array",
+              "items": {
+                "title": "RelativePath",
+                "type": "object",
+                "aov:typeRef": "nsu=http://opcfoundation.org/UA/;i=540",
+                "required": [ "Elements" ],
+                "properties": {
+                  "Elements": {
+                    "type": "array",
+                    "items": {
+                      "title": "RelativePathElement",
+                      "type": "object",
+                      "aov:typeRef": "nsu=http://opcfoundation.org/UA/;i=537",
+                      "required": [ "ReferenceTypeId", "IsInverse", "IncludeSubtypes", "TargetName" ],
+                      "properties": {
+                        "ReferenceTypeId": {
+                          "type": "string"
+                        },
+                        "IsInverse": {
+                          "type": "boolean"
+                        },
+                        "IncludeSubtypes": {
+                          "type": "boolean"
+                        },
+                        "TargetName": {
+                          "type": "string"
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            },
+            "MaxResults": {
+              "description": "Defines how many resultIds the Client wants to receive at most. If no maximum should be provided, it is set to 0.",
+              "type": "integer",
+              "minimum": 0,
+              "maximum": 4294967295
+            },
+            "Timeout": {
+              "description": "With this argument the client can give a hint to the server how long it will need access to the result data.  A value > 0 indicates an estimated maximum time for processing the data in milliseconds.   A value = 0 indicates that the client will not need anything besides the data returned by the method call.  A value < 0 indicates that the client cannot give an estimate.  The client cannot rely on the data being available during the indicated time period. The argument is merely a hint allowing the server to optimize its resource management.",
+              "type": "integer",
+              "minimum": -2147483648,
+              "maximum": 2147483647
+            }
+          }
+        },
+        "output": {
+          "type": "object",
+          "aov:typeRef": "nsu=http://opcfoundation.org/UA/Machinery/Result/;i=6051",
+          "required": [ "ResultHandle", "ResultIdList", "Error" ],
+          "properties": {
+            "ResultHandle": {
+              "description": "The server shall return to each client requesting result data a system-wide unique handle identifying the result set / client combination. This handle has to be used by the client to release the result set.  If the instance of ResultManagementType does not support the ReleaseResultHandle Method, the resultHandle should always be set to 0.  If the error is set to a value other than 0, the resultHandle may be set to 0.  ",
+              "type": "integer",
+              "minimum": 0,
+              "maximum": 4294967295
+            },
+            "ResultIdList": {
+              "description": "List of resultIds of results matching the Filter.",
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            },
+            "Error": {
+              "description": "0 – OK  Values > 0 are reserved for errors defined by this and future standards.  Values < 0 shall be used for application-specific errors.",
+              "type": "integer",
+              "minimum": -2147483648,
+              "maximum": 2147483647
+            }
+          }
+        },
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/Machinery.Result/Machinery_Result_ResultManagementType/action/GetResultIdListFiltered",
+            "op": "invokeaction"
+          }
+        ]
+      },
+      "ReleaseResultHandle": {
+        "aov:namespace": "http://opcfoundation.org/UA/Machinery/Result/",
+        "input": {
+          "type": "object",
+          "aov:typeRef": "nsu=http://opcfoundation.org/UA/Machinery/Result/;i=6052",
+          "required": [ "ResultHandle" ],
+          "properties": {
+            "ResultHandle": {
+              "description": "Handle returned by GetResultById or GetResultIdListFiltered, identifying the result set/client combination.",
+              "type": "integer",
+              "minimum": 0,
+              "maximum": 4294967295
+            }
+          }
+        },
+        "output": {
+          "type": "object",
+          "aov:typeRef": "nsu=http://opcfoundation.org/UA/Machinery/Result/;i=6053",
+          "required": [ "Error" ],
+          "properties": {
+            "Error": {
+              "description": "0 – OK  Values > 0 are reserved for errors defined by this and future standards.  Values < 0 shall be used for application-specific errors.",
+              "type": "integer",
+              "minimum": -2147483648,
+              "maximum": 2147483647
+            }
+          }
+        },
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/Machinery.Result/Machinery_Result_ResultManagementType/action/ReleaseResultHandle",
+            "op": "invokeaction"
+          }
+        ]
+      }
+    },
+    "properties": {
+      "DefaultInstanceBrowseName": {
+        "description": "The default BrowseName for instances of the type.",
+        "type": "string",
+        "readOnly": false,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/Machinery.Result/Machinery_Result_ResultManagementType/property/DefaultInstanceBrowseName/write",
+            "op": "writeproperty"
+          },
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/Machinery.Result/Machinery_Result_ResultManagementType/property/DefaultInstanceBrowseName/read",
+            "op": "readproperty"
+          }
+        ]
+      }
+    },
+    "events": {
+    }
+  },
+  {
+    "@context": [
+      "https://www.w3.org/2022/wot/td/v1.1",
+      {
+        "dtv": "http://azure.com/DigitalTwins/dtmi#",
+        "aov": "http://azure.com/IoT/operations/tm#"
+      }
+    ],
+    "@type": "tm:ThingModel",
+    "title": "Machinery_Result_ResultTransferType",
+    "aov:typeRef": "nsu=http://opcfoundation.org/UA/Machinery/Result/;i=1003",
+    "links": [
+      {
+        "rel": "tm:extends",
+        "href": "./OpcUaCore.TM.json#title=OpcUaCore_TemporaryFileTransferType",
+        "type": "application/tm+json"
+      }
+    ],
+    "schemaDefinitions": {
+    },
+    "actions": {
+      "GenerateFileForRead": {
+        "input": {
+          "type": "object",
+          "aov:typeRef": "nsu=http://opcfoundation.org/UA/Machinery/Result/;i=6035",
+          "required": [ "GenerateOptions" ],
+          "properties": {
+            "GenerateOptions": {
+              "title": "BaseResultTransferOptionsDataType",
+              "description": "Abstract type containing information which file should be provided.",
+              "type": "object",
+              "aov:typeRef": "nsu=http://opcfoundation.org/UA/Machinery/Result/;i=3005",
+              "required": [ "ResultId" ],
+              "properties": {
+                "ResultId": {
+                  "description": "The Id of the result to be transferred to the Clients",
+                  "type": "string"
+                }
+              }
+            }
+          }
+        },
+        "output": {
+          "type": "object",
+          "aov:typeRef": "nsu=http://opcfoundation.org/UA/Machinery/Result/;i=6036",
+          "required": [ "FileNodeId", "FileHandle", "CompletionStateMachine" ],
+          "properties": {
+            "FileNodeId": {
+              "description": "NodeId of the temporary file.",
+              "type": "string"
+            },
+            "FileHandle": {
+              "description": "The FileHandle of the opened TransferFile.  The FileHandle can be used to access the TransferFile methods Read and Close.  ",
+              "type": "integer",
+              "minimum": 0,
+              "maximum": 4294967295
+            },
+            "CompletionStateMachine": {
+              "description": "If the creation of the file is completed asynchronously, the parameter returns the NodeId of the corresponding FileTransferStateMachineType Object.  If the creation of the file is already completed, the parameter is null.  If a FileTransferStateMachineType object NodeId is returned, the Read Method of the file fails until the TransferState changed to ReadTransfer.  ",
+              "type": "string"
+            }
+          }
+        },
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/Machinery.Result/Machinery_Result_ResultTransferType/action/GenerateFileForRead",
+            "op": "invokeaction"
+          }
+        ]
+      }
+    },
+    "properties": {
+    },
+    "events": {
+    }
+  }
+]

@@ -1,0 +1,16 @@
+{
+  "success": false,
+  "commandLine": {
+    "things": [ "invalidAioBinding/PropertyWithUnitDataSchemaObjectNonNumeric.TM.json" ],
+    "lang": "none"
+  },
+  "errors": [
+    {
+      "condition": "ValuesInconsistent",
+      "filename": "PropertyWithUnitDataSchemaObjectNonNumeric.TM.json",
+      "line": 25,
+      "cfLine": 16,
+      "crossRef": ""
+    }
+  ]
+}

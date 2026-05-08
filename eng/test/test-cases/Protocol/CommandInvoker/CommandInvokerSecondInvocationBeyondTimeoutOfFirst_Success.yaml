@@ -1,5 +1,5 @@
 ---
-test-name: CommandInvokerSecondInvocationWithinTimeoutOfFirst_Success
+test-name: CommandInvokerSecondInvocationBeyondTimeoutOfFirst_Success
 description:
   condition: >-
     CommandInvoker invokes and completes Command, then invokes the same Command after the timeout period of the first Command instance.

@@ -1,0 +1,11 @@
+{
+  "$schema": "https://json-schema.org/draft-07/schema",
+  "title": "AnObjectSchema",
+  "type": "object",
+  "additionalProperties": false,
+  "properties": {
+    "gamma": {
+      "type": "string"
+    }
+  }
+}

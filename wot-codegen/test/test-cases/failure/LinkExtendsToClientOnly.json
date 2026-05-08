@@ -1,0 +1,17 @@
+{
+  "success": false,
+  "commandLine": {
+    "things": [ "valid/LinkExtends.TM.json" ],
+    "clientThings": [ "valid/ThingOneNamedMyThing.TM.json" ],
+    "lang": "none"
+  },
+  "errors": [
+    {
+      "condition": "ValuesInconsistent",
+      "filename": "LinkExtends.TM.json",
+      "line": 11,
+      "cfLine": 0,
+      "crossRef": ""
+    }
+  ]
+}

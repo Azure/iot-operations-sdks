@@ -4,7 +4,7 @@
 use core::panic;
 use std::{env, time::Duration};
 
-use azure_iot_operations_mqtt::MqttConnectionSettingsBuilder;
+use azure_iot_operations_mqtt::aio::connection_settings::MqttConnectionSettingsBuilder;
 use azure_iot_operations_mqtt::session::{
     Session, SessionExitHandle, SessionManagedClient, SessionOptionsBuilder,
 };
@@ -22,7 +22,6 @@ async fn main() {
     env_logger::Builder::new()
         .filter_level(log::LevelFilter::max())
         .format_timestamp(None)
-        .filter_module("rumqttc", log::LevelFilter::Warn)
         .init();
 
     // Create a session
@@ -112,7 +111,7 @@ async fn counter_telemetry_check(
     counter_value_receiver.shutdown().await.unwrap();
 
     // Exit the session now that we're done
-    exit_handle.try_exit().await.unwrap();
+    exit_handle.try_exit().unwrap();
 }
 
 /// Send a read request, 15 increment requests, and another read request and wait for their responses.

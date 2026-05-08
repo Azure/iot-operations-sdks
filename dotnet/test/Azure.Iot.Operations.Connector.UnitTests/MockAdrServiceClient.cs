@@ -12,11 +12,13 @@ using Azure.Iot.Operations.Services.AssetAndDeviceRegistry.Models;
 namespace Azure.Iot.Operations.Connector.UnitTests
 {
     // Note that this is mostly unimplemented. It was only added for mocking around setting notification preference.
-    public class MockAdrServiceClient : IAdrServiceClient
+    public class MockAdrServiceClient : IAzureDeviceRegistryClient
     {
         public event Func<string, string, Device, Task>? OnReceiveDeviceUpdateEventTelemetry;
         public event Func<string, Asset, Task>? OnReceiveAssetUpdateEventTelemetry;
 
+        public int NotificationPreferencesSetForAsset { get; private set; } = 0;
+        public int NotificationPreferencesSetForDevice { get; private set; } = 0;
 
         public List<SetNotificationPreferenceRecord> DeviceNotificationChangesSent = new();
 
@@ -75,6 +77,7 @@ namespace Azure.Iot.Operations.Connector.UnitTests
 
         public Task<SetNotificationPreferenceForAssetUpdatesResponsePayload> SetNotificationPreferenceForAssetUpdatesAsync(string deviceName, string inboundEndpointName, string assetName, NotificationPreference notificationPreference, TimeSpan? commandTimeout = null, CancellationToken cancellationToken = default)
         {
+            NotificationPreferencesSetForAsset++;
             return Task.FromResult(new SetNotificationPreferenceForAssetUpdatesResponsePayload()
             {
                 ResponsePayload = "Accepted"
@@ -83,6 +86,7 @@ namespace Azure.Iot.Operations.Connector.UnitTests
 
         public Task<SetNotificationPreferenceForDeviceUpdatesResponsePayload> SetNotificationPreferenceForDeviceUpdatesAsync(string deviceName, string inboundEndpointName, NotificationPreference notificationPreference, TimeSpan? commandTimeout = null, CancellationToken cancellationToken = default)
         {
+            NotificationPreferencesSetForDevice++;
             DeviceNotificationChangesSent.Add(new(deviceName, inboundEndpointName, notificationPreference == NotificationPreference.On));
             return Task.FromResult(new SetNotificationPreferenceForDeviceUpdatesResponsePayload()
             {
@@ -98,6 +102,31 @@ namespace Azure.Iot.Operations.Connector.UnitTests
         public Task<DeviceStatus> UpdateDeviceStatusAsync(string deviceName, string inboundEndpointName, DeviceStatus status, TimeSpan? commandTimeout = null, CancellationToken cancellationToken = default)
         {
             return Task.FromResult(new DeviceStatus());
+        }
+
+        public Task ReportDeviceEndpointRuntimeHealthAsync(string deviceName, string inboundEndpointName, RuntimeHealth deviceEndpointRuntimeHealth, TimeSpan? telemetryTimeout = null, CancellationToken cancellationToken = default)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task ReportDatasetRuntimeHealthAsync(string deviceName, string inboundEndpointName, string assetName, List<DatasetsRuntimeHealthEvent> datasetsRuntimeHealth, TimeSpan? telemetryTimeout = null, CancellationToken cancellationToken = default)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task ReportEventRuntimeHealthAsync(string deviceName, string inboundEndpointName, string assetName, List<EventsRuntimeHealthEvent> eventsRuntimeHealth, TimeSpan? telemetryTimeout = null, CancellationToken cancellationToken = default)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task ReportStreamRuntimeHealthAsync(string deviceName, string inboundEndpointName, string assetName, List<StreamsRuntimeHealthEvent> streamsRuntimeHealth, TimeSpan? telemetryTimeout = null, CancellationToken cancellationToken = default)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task ReportManagementActionRuntimeHealthAsync(string deviceName, string inboundEndpointName, string assetName, List<ManagementActionsRuntimeHealthEvent> managementActionsRuntimeHealth, TimeSpan? telemetryTimeout = null, CancellationToken cancellationToken = default)
+        {
+            throw new NotImplementedException();
         }
     }
 

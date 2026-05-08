@@ -1,0 +1,16 @@
+{
+  "success": false,
+  "commandLine": {
+    "things": [ "invalidAioBinding/ActionNoForms.TM.json" ],
+    "lang": "none"
+  },
+  "errors": [
+    {
+      "condition": "Unusable",
+      "filename": "ActionNoForms.TM.json",
+      "line": 9,
+      "cfLine": 0,
+      "crossRef": ""
+    }
+  ]
+}

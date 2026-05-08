@@ -103,7 +103,7 @@ namespace Azure.Iot.Operations.Protocol.MetlTests
         public async Task<MqttClientConnectResult> ConnectAsync(MqttClientOptions options, CancellationToken cancellationToken = default)
         {
             IsConnected = true;
-            var connectResult = new MqttClientConnectResultFactory().Create(SuccessfulReconnectConnAck, MqttProtocolVersion.V500);
+            var connectResult = MqttClientConnectResultFactory.Create(SuccessfulReconnectConnAck, MqttProtocolVersion.V500);
             Options = options;
             await ConnectedAsync.Invoke(new MqttClientConnectedEventArgs(connectResult)).WaitAsync(TestTimeout);
             return connectResult;

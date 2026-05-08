@@ -1,0 +1,17 @@
+{
+  "success": false,
+  "commandLine": {
+    "things": [],
+    "schemas": [],
+    "lang": "none"
+  },
+  "errors": [
+    {
+      "condition": "ElementMissing",
+      "filename": "",
+      "line": 0,
+      "cfLine": 0,
+      "crossRef": ""
+    }
+  ]
+}

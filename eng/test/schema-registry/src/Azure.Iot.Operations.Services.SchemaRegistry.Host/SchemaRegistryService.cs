@@ -2,17 +2,17 @@
 namespace Azure.Iot.Operations.Services.SchemaRegistry.Host;
 
 using Azure.Iot.Operations.Mqtt.Session;
-using Azure.Iot.Operations.Protocol;
-using Azure.Iot.Operations.Protocol.RPC;
-using Azure.Iot.Operations.Services.SchemaRegistry.SchemaRegistry;
+using Azure.Iot.Operations.Services.AssetAndDeviceRegistry.Generated.Common;
+using Azure.Iot.Operations.Services.AssetAndDeviceRegistry.Generated;
 using Azure.Iot.Operations.Services.StateStore;
 using System.Buffers;
 using System.Security.Cryptography;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
-using SchemaInfo = SchemaRegistry.Schema;
-
+using Azure.Iot.Operations.Services.SchemaRegistry.Generated;
+using Azure.Iot.Operations.Protocol.RPC;
+using Azure.Iot.Operations.Protocol;
 
 internal class SchemaRegistryService(ApplicationContext applicationContext, MqttSessionClient mqttClient, ILogger<SchemaRegistryService> logger, SchemaValidator schemaValidator)
     : SchemaRegistry.Service(applicationContext, mqttClient)
@@ -25,10 +25,10 @@ internal class SchemaRegistryService(ApplicationContext applicationContext, Mqtt
         logger.LogInformation("Get request {req}", request.Name);
         IStateStoreGetResponse resp = await _stateStoreClient.GetAsync(request.Name!, cancellationToken: cancellationToken);
         logger.LogInformation("Schema found {found}", resp.Value != null);
-        SchemaInfo sdoc = null!;
+        Schema sdoc = null!;
         if (resp.Value != null)
         {
-            sdoc = _jsonSerializer.FromBytes<SchemaInfo>(new(resp.Value?.Bytes), Utf8JsonSerializer.ContentType, Utf8JsonSerializer.PayloadFormatIndicator);
+            sdoc = _jsonSerializer.FromBytes<Schema>(new(resp.Value?.Bytes), Utf8JsonSerializer.ContentType, Utf8JsonSerializer.PayloadFormatIndicator);
         }
         return new ExtendedResponse<GetResponsePayload>
         {
@@ -54,7 +54,7 @@ internal class SchemaRegistryService(ApplicationContext applicationContext, Mqtt
         string id = Convert.ToHexString(inputHash);
 
         logger.LogInformation("Trying to register schema {id}", id);
-        SchemaInfo schemaInfo;
+        Schema schemaInfo;
 
         IStateStoreGetResponse find = await _stateStoreClient.GetAsync(id, cancellationToken: cancellationToken);
         if (find.Value == null)
@@ -76,7 +76,7 @@ internal class SchemaRegistryService(ApplicationContext applicationContext, Mqtt
         else
         {
             logger.LogInformation("Schema already exists {id}", id);
-            schemaInfo = _jsonSerializer.FromBytes<SchemaInfo>(new(find.Value.Bytes), Utf8JsonSerializer.ContentType, Utf8JsonSerializer.PayloadFormatIndicator)!;
+            schemaInfo = _jsonSerializer.FromBytes<Schema>(new(find.Value.Bytes), Utf8JsonSerializer.ContentType, Utf8JsonSerializer.PayloadFormatIndicator)!;
         }
 
         return new ExtendedResponse<PutResponsePayload>

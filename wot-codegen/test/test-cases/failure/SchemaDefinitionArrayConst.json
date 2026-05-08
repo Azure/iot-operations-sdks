@@ -1,0 +1,16 @@
+{
+  "success": false,
+  "commandLine": {
+    "things": [ "invalidAioBinding/SchemaDefinitionArrayConst.TM.json" ],
+    "lang": "none"
+  },
+  "errors": [
+    {
+      "condition": "JsonInvalid",
+      "filename": "SchemaDefinitionArrayConst.TM.json",
+      "line": 14,
+      "cfLine": 0,
+      "crossRef": ""
+    }
+  ]
+}

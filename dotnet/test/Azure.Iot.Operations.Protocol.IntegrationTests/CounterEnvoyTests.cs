@@ -6,8 +6,6 @@ using Azure.Iot.Operations.Protocol.Models;
 using Azure.Iot.Operations.Mqtt.Session;
 using Azure.Iot.Operations.Protocol.RPC;
 using TestEnvoys.Counter;
-using System.Diagnostics;
-using System.Text.Json.Nodes;
 using System.Text.Json;
 
 namespace Azure.Iot.Operations.Protocol.IntegrationTests;
@@ -52,6 +50,9 @@ public class CounterEnvoyTests
 
         var resp5 = await counterClient.ReadCounterAsync(executorId, commandTimeout: TimeSpan.FromSeconds(30)).WithMetadata();
         Assert.Equal(0, resp5.Response.CounterResponse);
+
+        await counterService.StopAsync();
+        await counterClient.StopAsync();
     }
  
     [Fact]
@@ -84,6 +85,9 @@ public class CounterEnvoyTests
         }
         var exception = await Assert.ThrowsAsync<AkriMqttException>(() => Task.WhenAll(tasks));
         Assert.Equal("Command 'increment' invocation failed due to duplicate request with same correlationId" ,exception.Message);
+
+        await counterService.StopAsync();
+        await counterClient.StopAsync();
     } 
 
     [Fact]
@@ -121,6 +125,8 @@ public class CounterEnvoyTests
         Assert.Equal("400", userProps.Where( p => p.Name == "__stat").First().Value);
         Assert.Equal("Correlation data bytes do not conform to a GUID.", userProps.FirstOrDefault(p => p.Name == "__stMsg")!.Value);
         Assert.Equal("Correlation Data", userProps.Where(p => p.Name == "__propName").First().Value);
+
+        await counterService.StopAsync();
     }
 
     [Fact]
@@ -152,5 +158,174 @@ public class CounterEnvoyTests
         CounterServiceApplicationError? deserializedErrorPayload = JsonSerializer.Deserialize<CounterServiceApplicationError>(errorPayload);
         Assert.NotNull(deserializedErrorPayload);
         Assert.Equal(expectedNegativeValue, deserializedErrorPayload.InvalidRequestArgumentValue);
+
+        await counterService.StopAsync();
+        await counterClient.StopAsync();
+    }
+
+    [Fact]
+    public async Task TestRpcWithCloudEvents()
+    {
+        ApplicationContext applicationContext = new ApplicationContext();
+        string executorId = "counter-server-" + Guid.NewGuid();
+        await using MqttSessionClient mqttExecutor = await ClientFactory.CreateSessionClientFromEnvAsync(executorId);
+
+        await using CounterService counterService = new CounterService(applicationContext, mqttExecutor);
+        await using MqttSessionClient mqttInvoker = await ClientFactory.CreateSessionClientFromEnvAsync();
+        await using CounterClient counterClient = new CounterClient(applicationContext, mqttInvoker);
+
+        await counterService.StartAsync(null, cancellationToken: CancellationToken.None);
+
+        IncrementRequestPayload payload = new IncrementRequestPayload
+        {
+            IncrementValue = 1
+        };
+
+        CloudEvent sentInvokeCloudEvent = new(new Uri("https://www.microsoft.com"), "someRpc.type")
+        {
+            DataSchema = "https://www.microsoft.com",
+            Id = Guid.NewGuid().ToString(),
+            Subject = "someSubject",
+            Time = DateTime.UtcNow,
+        };
+
+        CommandRequestMetadata requestMetadata = new()
+        {
+            CloudEvent = sentInvokeCloudEvent,
+        };
+
+        var resp = await counterClient.ReadCounterAsync(executorId, requestMetadata, commandTimeout: TimeSpan.FromSeconds(30)).WithMetadata();
+
+        ExtendedCloudEvent? receivedResponseCloudEvent = resp.ResponseMetadata!.ExtendedCloudEvent;
+
+        Assert.NotNull(counterService.ReceivedCloudEvent);
+        Assert.NotNull(counterService.PublishedResponseCloudEvent);
+        Assert.NotNull(receivedResponseCloudEvent);
+
+        // Check that the cloud event sent by the invoker is read by the executor correctly
+        Assert.Equal(sentInvokeCloudEvent.Id, counterService.ReceivedCloudEvent.Id);
+        Assert.Equal(sentInvokeCloudEvent.Subject, counterService.ReceivedCloudEvent.Subject);
+        Assert.Equal(sentInvokeCloudEvent.DataSchema, counterService.ReceivedCloudEvent.DataSchema);
+        Assert.Equal(sentInvokeCloudEvent.Source, counterService.ReceivedCloudEvent.Source);
+        Assert.Equal(sentInvokeCloudEvent.SpecVersion, counterService.ReceivedCloudEvent.SpecVersion);
+        Assert.Equal(sentInvokeCloudEvent.Type, counterService.ReceivedCloudEvent.Type);
+        Assert.Null(counterService.ReceivedCloudEvent.DataContentType);
+
+        // Check that the cloud event sent by the executor in the response is read by the invoker correctly
+        Assert.Equal(counterService.PublishedResponseCloudEvent.Id, receivedResponseCloudEvent.Id);
+        Assert.Equal(counterService.PublishedResponseCloudEvent.Subject, receivedResponseCloudEvent.Subject);
+        Assert.Equal(counterService.PublishedResponseCloudEvent.DataSchema, receivedResponseCloudEvent.DataSchema);
+        Assert.Equal(counterService.PublishedResponseCloudEvent.Source, receivedResponseCloudEvent.Source);
+        Assert.Equal(counterService.PublishedResponseCloudEvent.SpecVersion, receivedResponseCloudEvent.SpecVersion);
+        Assert.Equal(counterService.PublishedResponseCloudEvent.Type, receivedResponseCloudEvent.Type);
+        Assert.Equal("application/json", receivedResponseCloudEvent.DataContentType);
+        
+        sentInvokeCloudEvent.Subject = null;
+        sentInvokeCloudEvent.Time = null;
+
+        CommandRequestMetadata secondRequestMetadata = new()
+        {
+            CloudEvent = sentInvokeCloudEvent,
+        };
+
+        var resp2 = await counterClient.ReadCounterAsync(executorId, secondRequestMetadata, commandTimeout: TimeSpan.FromSeconds(30)).WithMetadata();
+
+        ExtendedCloudEvent? receivedResponseCloudEvent2 = resp2.ResponseMetadata!.ExtendedCloudEvent;
+
+        // Check that the cloud event sent by the invoker is read by the executor correctly
+        Assert.NotNull(counterService.ReceivedCloudEvent);
+        Assert.Null(counterService.ReceivedCloudEvent.Subject);
+        Assert.Null(counterService.ReceivedCloudEvent.Time);
+
+        // Check that the cloud event sent by the executor in the response is read by the invoker correctly
+        Assert.NotNull(receivedResponseCloudEvent2);
+        Assert.Null(receivedResponseCloudEvent2.Subject);
+        Assert.Null(receivedResponseCloudEvent2.Time);
+
+        await counterService.StopAsync();
+        await counterClient.StopAsync();
+    }
+
+    [Fact]
+    public async Task CanDisposeRpcClientsEvenIfMqttClientIsDisconnected()
+    {
+        ApplicationContext applicationContext = new ApplicationContext();
+        string executorId = "counter-server-" + Guid.NewGuid();
+
+        MqttSessionClientOptions clientOptions = new MqttSessionClientOptions()
+        {
+            ThrowIfUsedWhenSessionInactive = true
+        };
+
+        MqttSessionClient mqttExecutor = await ClientFactory.CreateSessionClientFromEnvAsync(executorId, clientOptions);
+        CounterService counterService = new CounterService(applicationContext, mqttExecutor);
+        MqttSessionClient mqttInvoker = await ClientFactory.CreateSessionClientFromEnvAsync("", clientOptions);
+        CounterClient counterClient = new CounterClient(applicationContext, mqttInvoker);
+
+        await counterService.StartAsync(null, cancellationToken: CancellationToken.None);
+
+        await mqttExecutor.DisconnectAsync();
+        await mqttInvoker.DisconnectAsync();
+
+        await counterService.DisposeAsync();
+        await counterClient.DisposeAsync();
+    }
+
+    [Fact]
+    public async Task StopRpcClientsWithCancellationTokenThrows()
+    {
+        ApplicationContext applicationContext = new ApplicationContext();
+        string executorId = "counter-server-" + Guid.NewGuid();
+
+        MqttSessionClientOptions clientOptions = new MqttSessionClientOptions()
+        {
+            ThrowIfUsedWhenSessionInactive = false // Intentionally allow the pub/sub/unsub to hang after session client is closed
+        };
+
+        MqttSessionClient mqttExecutor = await ClientFactory.CreateSessionClientFromEnvAsync(executorId, clientOptions);
+        CounterService counterService = new CounterService(applicationContext, mqttExecutor);
+        MqttSessionClient mqttInvoker = await ClientFactory.CreateSessionClientFromEnvAsync("", clientOptions);
+        CounterClient counterClient = new CounterClient(applicationContext, mqttInvoker);
+
+        await counterService.StartAsync(null, cancellationToken: CancellationToken.None);
+
+        await counterClient.StartAsync();
+        var unused = await counterClient.ReadCounterAsync(executorId);
+
+        await mqttExecutor.DisconnectAsync();
+        await mqttInvoker.DisconnectAsync();
+
+        using CancellationTokenSource cts1 = new CancellationTokenSource(10);
+        await Assert.ThrowsAsync<TaskCanceledException>(async () => await counterService.StopAsync(cts1.Token));
+        using CancellationTokenSource cts2 = new CancellationTokenSource(10);
+        await Assert.ThrowsAsync<TaskCanceledException>(async () => await counterClient.StopAsync(cts2.Token));
+
+        await counterService.DisposeAsync(true, CancellationToken.None);
+        await counterClient.DisposeAsync(true, CancellationToken.None);
+    }
+
+    [Fact]
+    public async Task CanDisposeRpcClientsWithCancellationToken()
+    {
+        ApplicationContext applicationContext = new ApplicationContext();
+        string executorId = "counter-server-" + Guid.NewGuid();
+
+        MqttSessionClientOptions clientOptions = new MqttSessionClientOptions()
+        {
+            ThrowIfUsedWhenSessionInactive = false // Intentionally allow the pub/sub/unsub to hang after session client is closed
+        };
+
+        MqttSessionClient mqttExecutor = await ClientFactory.CreateSessionClientFromEnvAsync(executorId, clientOptions);
+        CounterService counterService = new CounterService(applicationContext, mqttExecutor);
+        MqttSessionClient mqttInvoker = await ClientFactory.CreateSessionClientFromEnvAsync("", clientOptions);
+        CounterClient counterClient = new CounterClient(applicationContext, mqttInvoker);
+
+        await counterService.StartAsync(null, cancellationToken: CancellationToken.None);
+
+        await mqttExecutor.DisconnectAsync();
+        await mqttInvoker.DisconnectAsync();
+
+        await counterService.DisposeAsync(true, CancellationToken.None); //TODO optional param in codegen layer
+        await counterClient.DisposeAsync(true, CancellationToken.None);
     }
 }

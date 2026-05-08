@@ -1,0 +1,33 @@
+{
+  "@context": [
+    "https://www.w3.org/2022/wot/td/v1.1",
+    { "dtv": "http://azure.com/DigitalTwins/dtmi#" }
+  ],
+  "@type": "tm:ThingModel",
+  "title": "Scissors",
+  "links": [
+    {
+      "rel": "tm:extends",
+      "href": "./ActionExtendsProperty.TM.json#title=Rock",
+      "type": "application/tm+json"
+    }
+  ],
+  "actions": {
+  },
+  "properties": {
+  },
+  "events": {
+    "alert": {
+      "data": {
+        "type": "string"
+      },
+      "forms": [
+        {
+          "contentType": "application/json",
+          "dtv:topic": "sample/alert/TestThing",
+          "op": "subscribeevent"
+        }
+      ]
+    }
+  }
+}

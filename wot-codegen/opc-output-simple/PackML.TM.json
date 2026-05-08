@@ -1,0 +1,2995 @@
+[
+  {
+    "@context": [
+      "https://www.w3.org/2022/wot/td/v1.1",
+      {
+        "dtv": "http://azure.com/DigitalTwins/dtmi#",
+        "aov": "http://azure.com/IoT/operations/tm#"
+      }
+    ],
+    "@type": "tm:ThingModel",
+    "title": "PackML_PackMLAdminObjectType",
+    "aov:typeRef": "nsu=http://opcfoundation.org/UA/PackML/;i=5",
+    "links": [
+      {
+        "rel": "tm:extends",
+        "href": "./OpcUaCore.TM.json#title=OpcUaCore_BaseObjectType",
+        "type": "application/tm+json"
+      }
+    ],
+    "schemaDefinitions": {
+    },
+    "forms": [
+      {
+        "contentType": "application/json",
+        "dtv:topic": "opcua/PackML/PackML_PackMLAdminObjectType/events/{senderId}",
+        "op": "subscribeallevents"
+      },
+      {
+        "contentType": "application/json",
+        "dtv:topic": "opcua/PackML/PackML_PackMLAdminObjectType/properties/read",
+        "op": "readallproperties"
+      }
+    ],
+    "actions": {
+    },
+    "properties": {
+      "AccTimeSinceReset": {
+        "aov:namespace": "http://opcfoundation.org/UA/PackML/",
+        "type": "integer",
+        "minimum": -2147483648,
+        "maximum": 2147483647,
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/PackML/PackML_PackMLAdminObjectType/property/AccTimeSinceReset/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "AlarmExtent": {
+        "aov:namespace": "http://opcfoundation.org/UA/PackML/",
+        "type": "integer",
+        "minimum": -2147483648,
+        "maximum": 2147483647,
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/PackML/PackML_PackMLAdminObjectType/property/AlarmExtent/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "AlarmHistoryExtent": {
+        "aov:namespace": "http://opcfoundation.org/UA/PackML/",
+        "type": "integer",
+        "minimum": -2147483648,
+        "maximum": 2147483647,
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/PackML/PackML_PackMLAdminObjectType/property/AlarmHistoryExtent/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "MachDesignSpeed": {
+        "aov:namespace": "http://opcfoundation.org/UA/PackML/",
+        "type": "number",
+        "minimum": -3.40e+38,
+        "maximum": 3.40e+38,
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/PackML/PackML_PackMLAdminObjectType/property/MachDesignSpeed/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "ModeCumulativeTime": {
+        "aov:namespace": "http://opcfoundation.org/UA/PackML/",
+        "type": "array",
+        "items": {
+          "type": "integer",
+          "minimum": -2147483648,
+          "maximum": 2147483647
+        },
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/PackML/PackML_PackMLAdminObjectType/property/ModeCumulativeTime/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "ModeCurrentTime": {
+        "aov:namespace": "http://opcfoundation.org/UA/PackML/",
+        "type": "array",
+        "items": {
+          "type": "integer",
+          "minimum": -2147483648,
+          "maximum": 2147483647
+        },
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/PackML/PackML_PackMLAdminObjectType/property/ModeCurrentTime/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "Parameter": {
+        "aov:namespace": "http://opcfoundation.org/UA/PackML/",
+        "type": "array",
+        "items": {
+          "title": "PackMLDescriptorDataType",
+          "type": "object",
+          "aov:typeRef": "nsu=http://opcfoundation.org/UA/PackML/;i=16",
+          "required": [ "ID", "Name", "Unit", "Value" ],
+          "properties": {
+            "ID": {
+              "description": "A unique number assigned to the parameter",
+              "type": "integer",
+              "minimum": -2147483648,
+              "maximum": 2147483647
+            },
+            "Name": {
+              "description": "The name of the parameter",
+              "type": "string"
+            },
+            "Unit": {
+              "title": "EUInformation",
+              "description": "OPC UA engineering unit information",
+              "type": "object",
+              "aov:typeRef": "nsu=http://opcfoundation.org/UA/;i=887",
+              "required": [ "NamespaceUri", "UnitId", "DisplayName", "Description" ],
+              "properties": {
+                "NamespaceUri": {
+                  "type": "string"
+                },
+                "UnitId": {
+                  "type": "integer",
+                  "minimum": -2147483648,
+                  "maximum": 2147483647
+                },
+                "DisplayName": {
+                  "type": "string"
+                },
+                "Description": {
+                  "type": "string"
+                }
+              }
+            },
+            "Value": {
+              "description": "This is the numeric value of the parameter",
+              "type": "number",
+              "minimum": -3.40e+38,
+              "maximum": 3.40e+38
+            }
+          }
+        },
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/PackML/PackML_PackMLAdminObjectType/property/Parameter/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "ProdConsumedCount": {
+        "aov:namespace": "http://opcfoundation.org/UA/PackML/",
+        "type": "array",
+        "items": {
+          "title": "PackMLCountDataType",
+          "type": "object",
+          "aov:typeRef": "nsu=http://opcfoundation.org/UA/PackML/;i=14",
+          "required": [ "ID", "Name", "Unit", "Count", "AccCount" ],
+          "properties": {
+            "ID": {
+              "description": "A user defined value that represents the consumed (processed or defective) material. Typically this is an SKU number or a user material master number.",
+              "type": "integer",
+              "minimum": -2147483648,
+              "maximum": 2147483647
+            },
+            "Name": {
+              "description": "A string description of the material.",
+              "type": "string"
+            },
+            "Unit": {
+              "title": "EUInformation",
+              "description": "OPC UA engineering unit information for the count.",
+              "type": "object",
+              "aov:typeRef": "nsu=http://opcfoundation.org/UA/;i=887",
+              "required": [ "NamespaceUri", "UnitId", "DisplayName", "Description" ],
+              "properties": {
+                "NamespaceUri": {
+                  "type": "string"
+                },
+                "UnitId": {
+                  "type": "integer",
+                  "minimum": -2147483648,
+                  "maximum": 2147483647
+                },
+                "DisplayName": {
+                  "type": "string"
+                },
+                "Description": {
+                  "type": "string"
+                }
+              }
+            },
+            "Count": {
+              "description": "The amount of consumed (processed or defective) material on the current production job.",
+              "type": "integer",
+              "minimum": -2147483648,
+              "maximum": 2147483647
+            },
+            "AccCount": {
+              "description": "The cumulative count value of the material produced (or consumed). This counter gives the user a non-resetting counter that may be used for OEE calculations",
+              "type": "integer",
+              "minimum": -2147483648,
+              "maximum": 2147483647
+            }
+          }
+        },
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/PackML/PackML_PackMLAdminObjectType/property/ProdConsumedCount/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "ProdDefectiveCount": {
+        "aov:namespace": "http://opcfoundation.org/UA/PackML/",
+        "type": "array",
+        "items": {
+          "title": "PackMLCountDataType",
+          "type": "object",
+          "aov:typeRef": "nsu=http://opcfoundation.org/UA/PackML/;i=14",
+          "required": [ "ID", "Name", "Unit", "Count", "AccCount" ],
+          "properties": {
+            "ID": {
+              "description": "A user defined value that represents the consumed (processed or defective) material. Typically this is an SKU number or a user material master number.",
+              "type": "integer",
+              "minimum": -2147483648,
+              "maximum": 2147483647
+            },
+            "Name": {
+              "description": "A string description of the material.",
+              "type": "string"
+            },
+            "Unit": {
+              "title": "EUInformation",
+              "description": "OPC UA engineering unit information for the count.",
+              "type": "object",
+              "aov:typeRef": "nsu=http://opcfoundation.org/UA/;i=887",
+              "required": [ "NamespaceUri", "UnitId", "DisplayName", "Description" ],
+              "properties": {
+                "NamespaceUri": {
+                  "type": "string"
+                },
+                "UnitId": {
+                  "type": "integer",
+                  "minimum": -2147483648,
+                  "maximum": 2147483647
+                },
+                "DisplayName": {
+                  "type": "string"
+                },
+                "Description": {
+                  "type": "string"
+                }
+              }
+            },
+            "Count": {
+              "description": "The amount of consumed (processed or defective) material on the current production job.",
+              "type": "integer",
+              "minimum": -2147483648,
+              "maximum": 2147483647
+            },
+            "AccCount": {
+              "description": "The cumulative count value of the material produced (or consumed). This counter gives the user a non-resetting counter that may be used for OEE calculations",
+              "type": "integer",
+              "minimum": -2147483648,
+              "maximum": 2147483647
+            }
+          }
+        },
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/PackML/PackML_PackMLAdminObjectType/property/ProdDefectiveCount/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "ProdProcessedCount": {
+        "aov:namespace": "http://opcfoundation.org/UA/PackML/",
+        "type": "array",
+        "items": {
+          "title": "PackMLCountDataType",
+          "type": "object",
+          "aov:typeRef": "nsu=http://opcfoundation.org/UA/PackML/;i=14",
+          "required": [ "ID", "Name", "Unit", "Count", "AccCount" ],
+          "properties": {
+            "ID": {
+              "description": "A user defined value that represents the consumed (processed or defective) material. Typically this is an SKU number or a user material master number.",
+              "type": "integer",
+              "minimum": -2147483648,
+              "maximum": 2147483647
+            },
+            "Name": {
+              "description": "A string description of the material.",
+              "type": "string"
+            },
+            "Unit": {
+              "title": "EUInformation",
+              "description": "OPC UA engineering unit information for the count.",
+              "type": "object",
+              "aov:typeRef": "nsu=http://opcfoundation.org/UA/;i=887",
+              "required": [ "NamespaceUri", "UnitId", "DisplayName", "Description" ],
+              "properties": {
+                "NamespaceUri": {
+                  "type": "string"
+                },
+                "UnitId": {
+                  "type": "integer",
+                  "minimum": -2147483648,
+                  "maximum": 2147483647
+                },
+                "DisplayName": {
+                  "type": "string"
+                },
+                "Description": {
+                  "type": "string"
+                }
+              }
+            },
+            "Count": {
+              "description": "The amount of consumed (processed or defective) material on the current production job.",
+              "type": "integer",
+              "minimum": -2147483648,
+              "maximum": 2147483647
+            },
+            "AccCount": {
+              "description": "The cumulative count value of the material produced (or consumed). This counter gives the user a non-resetting counter that may be used for OEE calculations",
+              "type": "integer",
+              "minimum": -2147483648,
+              "maximum": 2147483647
+            }
+          }
+        },
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/PackML/PackML_PackMLAdminObjectType/property/ProdProcessedCount/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "StateCumulativeTime": {
+        "aov:namespace": "http://opcfoundation.org/UA/PackML/",
+        "type": "array",
+        "items": {
+          "type": "array",
+          "items": {
+            "type": "integer",
+            "minimum": -2147483648,
+            "maximum": 2147483647
+          }
+        },
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/PackML/PackML_PackMLAdminObjectType/property/StateCumulativeTime/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "StateCurrentTime": {
+        "aov:namespace": "http://opcfoundation.org/UA/PackML/",
+        "type": "array",
+        "items": {
+          "type": "array",
+          "items": {
+            "type": "integer",
+            "minimum": -2147483648,
+            "maximum": 2147483647
+          }
+        },
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/PackML/PackML_PackMLAdminObjectType/property/StateCurrentTime/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "StopReasonExtent": {
+        "aov:namespace": "http://opcfoundation.org/UA/PackML/",
+        "type": "integer",
+        "minimum": -2147483648,
+        "maximum": 2147483647,
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/PackML/PackML_PackMLAdminObjectType/property/StopReasonExtent/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "WarningExtent": {
+        "aov:namespace": "http://opcfoundation.org/UA/PackML/",
+        "type": "integer",
+        "minimum": -2147483648,
+        "maximum": 2147483647,
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/PackML/PackML_PackMLAdminObjectType/property/WarningExtent/read",
+            "op": "readproperty"
+          }
+        ]
+      }
+    },
+    "events": {
+      "AccTimeSinceReset": {
+        "aov:namespace": "http://opcfoundation.org/UA/PackML/",
+        "data": {
+          "type": "integer",
+          "minimum": -2147483648,
+          "maximum": 2147483647
+        },
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/PackML/PackML_PackMLAdminObjectType/event/AccTimeSinceReset/{senderId}",
+            "op": "subscribeevent"
+          }
+        ]
+      },
+      "AlarmExtent": {
+        "aov:namespace": "http://opcfoundation.org/UA/PackML/",
+        "data": {
+          "type": "integer",
+          "minimum": -2147483648,
+          "maximum": 2147483647
+        },
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/PackML/PackML_PackMLAdminObjectType/event/AlarmExtent/{senderId}",
+            "op": "subscribeevent"
+          }
+        ]
+      },
+      "AlarmHistoryExtent": {
+        "aov:namespace": "http://opcfoundation.org/UA/PackML/",
+        "data": {
+          "type": "integer",
+          "minimum": -2147483648,
+          "maximum": 2147483647
+        },
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/PackML/PackML_PackMLAdminObjectType/event/AlarmHistoryExtent/{senderId}",
+            "op": "subscribeevent"
+          }
+        ]
+      },
+      "MachDesignSpeed": {
+        "aov:namespace": "http://opcfoundation.org/UA/PackML/",
+        "data": {
+          "type": "number",
+          "minimum": -3.40e+38,
+          "maximum": 3.40e+38
+        },
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/PackML/PackML_PackMLAdminObjectType/event/MachDesignSpeed/{senderId}",
+            "op": "subscribeevent"
+          }
+        ]
+      },
+      "ModeCumulativeTime": {
+        "aov:namespace": "http://opcfoundation.org/UA/PackML/",
+        "data": {
+          "type": "array",
+          "items": {
+            "type": "integer",
+            "minimum": -2147483648,
+            "maximum": 2147483647
+          }
+        },
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/PackML/PackML_PackMLAdminObjectType/event/ModeCumulativeTime/{senderId}",
+            "op": "subscribeevent"
+          }
+        ]
+      },
+      "ModeCurrentTime": {
+        "aov:namespace": "http://opcfoundation.org/UA/PackML/",
+        "data": {
+          "type": "array",
+          "items": {
+            "type": "integer",
+            "minimum": -2147483648,
+            "maximum": 2147483647
+          }
+        },
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/PackML/PackML_PackMLAdminObjectType/event/ModeCurrentTime/{senderId}",
+            "op": "subscribeevent"
+          }
+        ]
+      },
+      "Parameter": {
+        "aov:namespace": "http://opcfoundation.org/UA/PackML/",
+        "data": {
+          "type": "array",
+          "items": {
+            "title": "PackMLDescriptorDataType",
+            "type": "object",
+            "aov:typeRef": "nsu=http://opcfoundation.org/UA/PackML/;i=16",
+            "required": [ "ID", "Name", "Unit", "Value" ],
+            "properties": {
+              "ID": {
+                "description": "A unique number assigned to the parameter",
+                "type": "integer",
+                "minimum": -2147483648,
+                "maximum": 2147483647
+              },
+              "Name": {
+                "description": "The name of the parameter",
+                "type": "string"
+              },
+              "Unit": {
+                "title": "EUInformation",
+                "description": "OPC UA engineering unit information",
+                "type": "object",
+                "aov:typeRef": "nsu=http://opcfoundation.org/UA/;i=887",
+                "required": [ "NamespaceUri", "UnitId", "DisplayName", "Description" ],
+                "properties": {
+                  "NamespaceUri": {
+                    "type": "string"
+                  },
+                  "UnitId": {
+                    "type": "integer",
+                    "minimum": -2147483648,
+                    "maximum": 2147483647
+                  },
+                  "DisplayName": {
+                    "type": "string"
+                  },
+                  "Description": {
+                    "type": "string"
+                  }
+                }
+              },
+              "Value": {
+                "description": "This is the numeric value of the parameter",
+                "type": "number",
+                "minimum": -3.40e+38,
+                "maximum": 3.40e+38
+              }
+            }
+          }
+        },
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/PackML/PackML_PackMLAdminObjectType/event/Parameter/{senderId}",
+            "op": "subscribeevent"
+          }
+        ]
+      },
+      "ProdConsumedCount": {
+        "aov:namespace": "http://opcfoundation.org/UA/PackML/",
+        "data": {
+          "type": "array",
+          "items": {
+            "title": "PackMLCountDataType",
+            "type": "object",
+            "aov:typeRef": "nsu=http://opcfoundation.org/UA/PackML/;i=14",
+            "required": [ "ID", "Name", "Unit", "Count", "AccCount" ],
+            "properties": {
+              "ID": {
+                "description": "A user defined value that represents the consumed (processed or defective) material. Typically this is an SKU number or a user material master number.",
+                "type": "integer",
+                "minimum": -2147483648,
+                "maximum": 2147483647
+              },
+              "Name": {
+                "description": "A string description of the material.",
+                "type": "string"
+              },
+              "Unit": {
+                "title": "EUInformation",
+                "description": "OPC UA engineering unit information for the count.",
+                "type": "object",
+                "aov:typeRef": "nsu=http://opcfoundation.org/UA/;i=887",
+                "required": [ "NamespaceUri", "UnitId", "DisplayName", "Description" ],
+                "properties": {
+                  "NamespaceUri": {
+                    "type": "string"
+                  },
+                  "UnitId": {
+                    "type": "integer",
+                    "minimum": -2147483648,
+                    "maximum": 2147483647
+                  },
+                  "DisplayName": {
+                    "type": "string"
+                  },
+                  "Description": {
+                    "type": "string"
+                  }
+                }
+              },
+              "Count": {
+                "description": "The amount of consumed (processed or defective) material on the current production job.",
+                "type": "integer",
+                "minimum": -2147483648,
+                "maximum": 2147483647
+              },
+              "AccCount": {
+                "description": "The cumulative count value of the material produced (or consumed). This counter gives the user a non-resetting counter that may be used for OEE calculations",
+                "type": "integer",
+                "minimum": -2147483648,
+                "maximum": 2147483647
+              }
+            }
+          }
+        },
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/PackML/PackML_PackMLAdminObjectType/event/ProdConsumedCount/{senderId}",
+            "op": "subscribeevent"
+          }
+        ]
+      },
+      "ProdDefectiveCount": {
+        "aov:namespace": "http://opcfoundation.org/UA/PackML/",
+        "data": {
+          "type": "array",
+          "items": {
+            "title": "PackMLCountDataType",
+            "type": "object",
+            "aov:typeRef": "nsu=http://opcfoundation.org/UA/PackML/;i=14",
+            "required": [ "ID", "Name", "Unit", "Count", "AccCount" ],
+            "properties": {
+              "ID": {
+                "description": "A user defined value that represents the consumed (processed or defective) material. Typically this is an SKU number or a user material master number.",
+                "type": "integer",
+                "minimum": -2147483648,
+                "maximum": 2147483647
+              },
+              "Name": {
+                "description": "A string description of the material.",
+                "type": "string"
+              },
+              "Unit": {
+                "title": "EUInformation",
+                "description": "OPC UA engineering unit information for the count.",
+                "type": "object",
+                "aov:typeRef": "nsu=http://opcfoundation.org/UA/;i=887",
+                "required": [ "NamespaceUri", "UnitId", "DisplayName", "Description" ],
+                "properties": {
+                  "NamespaceUri": {
+                    "type": "string"
+                  },
+                  "UnitId": {
+                    "type": "integer",
+                    "minimum": -2147483648,
+                    "maximum": 2147483647
+                  },
+                  "DisplayName": {
+                    "type": "string"
+                  },
+                  "Description": {
+                    "type": "string"
+                  }
+                }
+              },
+              "Count": {
+                "description": "The amount of consumed (processed or defective) material on the current production job.",
+                "type": "integer",
+                "minimum": -2147483648,
+                "maximum": 2147483647
+              },
+              "AccCount": {
+                "description": "The cumulative count value of the material produced (or consumed). This counter gives the user a non-resetting counter that may be used for OEE calculations",
+                "type": "integer",
+                "minimum": -2147483648,
+                "maximum": 2147483647
+              }
+            }
+          }
+        },
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/PackML/PackML_PackMLAdminObjectType/event/ProdDefectiveCount/{senderId}",
+            "op": "subscribeevent"
+          }
+        ]
+      },
+      "ProdProcessedCount": {
+        "aov:namespace": "http://opcfoundation.org/UA/PackML/",
+        "data": {
+          "type": "array",
+          "items": {
+            "title": "PackMLCountDataType",
+            "type": "object",
+            "aov:typeRef": "nsu=http://opcfoundation.org/UA/PackML/;i=14",
+            "required": [ "ID", "Name", "Unit", "Count", "AccCount" ],
+            "properties": {
+              "ID": {
+                "description": "A user defined value that represents the consumed (processed or defective) material. Typically this is an SKU number or a user material master number.",
+                "type": "integer",
+                "minimum": -2147483648,
+                "maximum": 2147483647
+              },
+              "Name": {
+                "description": "A string description of the material.",
+                "type": "string"
+              },
+              "Unit": {
+                "title": "EUInformation",
+                "description": "OPC UA engineering unit information for the count.",
+                "type": "object",
+                "aov:typeRef": "nsu=http://opcfoundation.org/UA/;i=887",
+                "required": [ "NamespaceUri", "UnitId", "DisplayName", "Description" ],
+                "properties": {
+                  "NamespaceUri": {
+                    "type": "string"
+                  },
+                  "UnitId": {
+                    "type": "integer",
+                    "minimum": -2147483648,
+                    "maximum": 2147483647
+                  },
+                  "DisplayName": {
+                    "type": "string"
+                  },
+                  "Description": {
+                    "type": "string"
+                  }
+                }
+              },
+              "Count": {
+                "description": "The amount of consumed (processed or defective) material on the current production job.",
+                "type": "integer",
+                "minimum": -2147483648,
+                "maximum": 2147483647
+              },
+              "AccCount": {
+                "description": "The cumulative count value of the material produced (or consumed). This counter gives the user a non-resetting counter that may be used for OEE calculations",
+                "type": "integer",
+                "minimum": -2147483648,
+                "maximum": 2147483647
+              }
+            }
+          }
+        },
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/PackML/PackML_PackMLAdminObjectType/event/ProdProcessedCount/{senderId}",
+            "op": "subscribeevent"
+          }
+        ]
+      },
+      "StateCumulativeTime": {
+        "aov:namespace": "http://opcfoundation.org/UA/PackML/",
+        "data": {
+          "type": "array",
+          "items": {
+            "type": "array",
+            "items": {
+              "type": "integer",
+              "minimum": -2147483648,
+              "maximum": 2147483647
+            }
+          }
+        },
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/PackML/PackML_PackMLAdminObjectType/event/StateCumulativeTime/{senderId}",
+            "op": "subscribeevent"
+          }
+        ]
+      },
+      "StateCurrentTime": {
+        "aov:namespace": "http://opcfoundation.org/UA/PackML/",
+        "data": {
+          "type": "array",
+          "items": {
+            "type": "array",
+            "items": {
+              "type": "integer",
+              "minimum": -2147483648,
+              "maximum": 2147483647
+            }
+          }
+        },
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/PackML/PackML_PackMLAdminObjectType/event/StateCurrentTime/{senderId}",
+            "op": "subscribeevent"
+          }
+        ]
+      },
+      "StopReasonExtent": {
+        "aov:namespace": "http://opcfoundation.org/UA/PackML/",
+        "data": {
+          "type": "integer",
+          "minimum": -2147483648,
+          "maximum": 2147483647
+        },
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/PackML/PackML_PackMLAdminObjectType/event/StopReasonExtent/{senderId}",
+            "op": "subscribeevent"
+          }
+        ]
+      },
+      "WarningExtent": {
+        "aov:namespace": "http://opcfoundation.org/UA/PackML/",
+        "data": {
+          "type": "integer",
+          "minimum": -2147483648,
+          "maximum": 2147483647
+        },
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/PackML/PackML_PackMLAdminObjectType/event/WarningExtent/{senderId}",
+            "op": "subscribeevent"
+          }
+        ]
+      }
+    }
+  },
+  {
+    "@context": [
+      "https://www.w3.org/2022/wot/td/v1.1",
+      {
+        "dtv": "http://azure.com/DigitalTwins/dtmi#",
+        "aov": "http://azure.com/IoT/operations/tm#"
+      }
+    ],
+    "@type": "tm:ThingModel",
+    "title": "PackML_PackMLBaseObjectType",
+    "aov:typeRef": "nsu=http://opcfoundation.org/UA/PackML/;i=6",
+    "aov:isComposite": true,
+    "links": [
+      {
+        "rel": "tm:extends",
+        "href": "./OpcUaCore.TM.json#title=OpcUaCore_BaseObjectType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "aov:capability",
+        "aov:refName": "Admin",
+        "href": "#title=PackML_PackMLAdminObjectType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "aov:capability",
+        "aov:refName": "BaseStateMachine",
+        "href": "#title=PackML_PackMLBaseStateMachineType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "aov:capability",
+        "aov:refName": "Status",
+        "href": "#title=PackML_PackMLStatusObjectType",
+        "type": "application/tm+json"
+      }
+    ],
+    "schemaDefinitions": {
+    },
+    "forms": [
+      {
+        "contentType": "application/json",
+        "dtv:topic": "opcua/PackML/PackML_PackMLBaseObjectType/properties/read",
+        "op": "readallproperties"
+      }
+    ],
+    "actions": {
+      "RemoteCommand": {
+        "aov:namespace": "http://opcfoundation.org/UA/PackML/",
+        "input": {
+          "type": "object",
+          "aov:typeRef": "nsu=http://opcfoundation.org/UA/PackML/;i=350",
+          "required": [ "RemoteInterface" ],
+          "properties": {
+            "RemoteInterface": {
+              "description": "This structure is an array of remote interface information which include Number, ControlCmdNumber, CmdValue and Parameter.",
+              "type": "array",
+              "items": {
+                "title": "PackMLRemoteInterfaceDataType",
+                "type": "object",
+                "aov:typeRef": "nsu=http://opcfoundation.org/UA/PackML/;i=19",
+                "required": [ "Number", "ControlCmdNumber", "CmdValue", "Parameter" ],
+                "properties": {
+                  "Number": {
+                    "description": "This is the unique number for the downstream/upstream unit machine using a common tag structure as the unit machine.",
+                    "type": "integer",
+                    "minimum": -2147483648,
+                    "maximum": 2147483647
+                  },
+                  "ControlCmdNumber": {
+                    "description": "A user defined command number associated with coded value from a remote unit. This number is a coded value sent from one node on the network to another.",
+                    "type": "integer",
+                    "minimum": -2147483648,
+                    "maximum": 2147483647
+                  },
+                  "CmdValue": {
+                    "description": "This is the command value associated with the ControlCmdNumber above.",
+                    "type": "integer",
+                    "minimum": -2147483648,
+                    "maximum": 2147483647
+                  },
+                  "Parameter": {
+                    "description": "The parameter tags associated to commanded remote interface are typically used for command parameters that are given to the unit machine from remote machines.",
+                    "type": "array",
+                    "items": {
+                      "title": "PackMLDescriptorDataType",
+                      "type": "object",
+                      "aov:typeRef": "nsu=http://opcfoundation.org/UA/PackML/;i=16",
+                      "required": [ "ID", "Name", "Unit", "Value" ],
+                      "properties": {
+                        "ID": {
+                          "description": "A unique number assigned to the parameter",
+                          "type": "integer",
+                          "minimum": -2147483648,
+                          "maximum": 2147483647
+                        },
+                        "Name": {
+                          "description": "The name of the parameter",
+                          "type": "string"
+                        },
+                        "Unit": {
+                          "title": "EUInformation",
+                          "description": "OPC UA engineering unit information",
+                          "type": "object",
+                          "aov:typeRef": "nsu=http://opcfoundation.org/UA/;i=887",
+                          "required": [ "NamespaceUri", "UnitId", "DisplayName", "Description" ],
+                          "properties": {
+                            "NamespaceUri": {
+                              "type": "string"
+                            },
+                            "UnitId": {
+                              "type": "integer",
+                              "minimum": -2147483648,
+                              "maximum": 2147483647
+                            },
+                            "DisplayName": {
+                              "type": "string"
+                            },
+                            "Description": {
+                              "type": "string"
+                            }
+                          }
+                        },
+                        "Value": {
+                          "description": "This is the numeric value of the parameter",
+                          "type": "number",
+                          "minimum": -3.40e+38,
+                          "maximum": 3.40e+38
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/PackML/PackML_PackMLBaseObjectType/action/RemoteCommand",
+            "op": "invokeaction"
+          }
+        ]
+      },
+      "SetInterlock": {
+        "aov:namespace": "http://opcfoundation.org/UA/PackML/",
+        "input": {
+          "type": "object",
+          "aov:typeRef": "nsu=http://opcfoundation.org/UA/PackML/;i=351",
+          "required": [ "InterlockId", "State" ],
+          "properties": {
+            "InterlockId": {
+              "description": "The NodeId of the interlock to set or reset.",
+              "type": "integer",
+              "minimum": -2147483648,
+              "maximum": 2147483647
+            },
+            "State": {
+              "description": "The state that the targeted interlock should be set to.  True is set to interlocked, false is not interlocked.",
+              "type": "boolean"
+            }
+          }
+        },
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/PackML/PackML_PackMLBaseObjectType/action/SetInterlock",
+            "op": "invokeaction"
+          }
+        ]
+      },
+      "SetMachSpeed": {
+        "aov:namespace": "http://opcfoundation.org/UA/PackML/",
+        "input": {
+          "type": "object",
+          "aov:typeRef": "nsu=http://opcfoundation.org/UA/PackML/;i=348",
+          "required": [ "RequestedMachineSpeed" ],
+          "properties": {
+            "RequestedMachineSpeed": {
+              "description": "The target machine speed",
+              "type": "number",
+              "minimum": -3.40e+38,
+              "maximum": 3.40e+38
+            }
+          }
+        },
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/PackML/PackML_PackMLBaseObjectType/action/SetMachSpeed",
+            "op": "invokeaction"
+          }
+        ]
+      },
+      "SetParameter": {
+        "aov:namespace": "http://opcfoundation.org/UA/PackML/",
+        "input": {
+          "type": "object",
+          "aov:typeRef": "nsu=http://opcfoundation.org/UA/PackML/;i=352",
+          "required": [ "Parameter" ],
+          "properties": {
+            "Parameter": {
+              "description": "The array of parameter that can be used by the method",
+              "type": "array",
+              "items": {
+                "title": "PackMLDescriptorDataType",
+                "type": "object",
+                "aov:typeRef": "nsu=http://opcfoundation.org/UA/PackML/;i=16",
+                "required": [ "ID", "Name", "Unit", "Value" ],
+                "properties": {
+                  "ID": {
+                    "description": "A unique number assigned to the parameter",
+                    "type": "integer",
+                    "minimum": -2147483648,
+                    "maximum": 2147483647
+                  },
+                  "Name": {
+                    "description": "The name of the parameter",
+                    "type": "string"
+                  },
+                  "Unit": {
+                    "title": "EUInformation",
+                    "description": "OPC UA engineering unit information",
+                    "type": "object",
+                    "aov:typeRef": "nsu=http://opcfoundation.org/UA/;i=887",
+                    "required": [ "NamespaceUri", "UnitId", "DisplayName", "Description" ],
+                    "properties": {
+                      "NamespaceUri": {
+                        "type": "string"
+                      },
+                      "UnitId": {
+                        "type": "integer",
+                        "minimum": -2147483648,
+                        "maximum": 2147483647
+                      },
+                      "DisplayName": {
+                        "type": "string"
+                      },
+                      "Description": {
+                        "type": "string"
+                      }
+                    }
+                  },
+                  "Value": {
+                    "description": "This is the numeric value of the parameter",
+                    "type": "number",
+                    "minimum": -3.40e+38,
+                    "maximum": 3.40e+38
+                  }
+                }
+              }
+            }
+          }
+        },
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/PackML/PackML_PackMLBaseObjectType/action/SetParameter",
+            "op": "invokeaction"
+          }
+        ]
+      },
+      "SetProduct": {
+        "aov:namespace": "http://opcfoundation.org/UA/PackML/",
+        "input": {
+          "type": "object",
+          "aov:typeRef": "nsu=http://opcfoundation.org/UA/PackML/;i=349",
+          "required": [ "Product" ],
+          "properties": {
+            "Product": {
+              "description": "This structure is an array of product definition, which includes the ProductId, ProcessVariables array and Ingredient array.",
+              "type": "array",
+              "items": {
+                "title": "PackMLProductDataType",
+                "type": "object",
+                "aov:typeRef": "nsu=http://opcfoundation.org/UA/PackML/;i=18",
+                "required": [ "ProductID", "ProcessVariables", "Ingredients" ],
+                "properties": {
+                  "ProductID": {
+                    "description": "A unique number assigned to the product.",
+                    "type": "integer",
+                    "minimum": -2147483648,
+                    "maximum": 2147483647
+                  },
+                  "ProcessVariables": {
+                    "description": "The array of Process variables associated with this product",
+                    "type": "array",
+                    "items": {
+                      "title": "PackMLDescriptorDataType",
+                      "type": "object",
+                      "aov:typeRef": "nsu=http://opcfoundation.org/UA/PackML/;i=16",
+                      "required": [ "ID", "Name", "Unit", "Value" ],
+                      "properties": {
+                        "ID": {
+                          "description": "A unique number assigned to the parameter",
+                          "type": "integer",
+                          "minimum": -2147483648,
+                          "maximum": 2147483647
+                        },
+                        "Name": {
+                          "description": "The name of the parameter",
+                          "type": "string"
+                        },
+                        "Unit": {
+                          "title": "EUInformation",
+                          "description": "OPC UA engineering unit information",
+                          "type": "object",
+                          "aov:typeRef": "nsu=http://opcfoundation.org/UA/;i=887",
+                          "required": [ "NamespaceUri", "UnitId", "DisplayName", "Description" ],
+                          "properties": {
+                            "NamespaceUri": {
+                              "type": "string"
+                            },
+                            "UnitId": {
+                              "type": "integer",
+                              "minimum": -2147483648,
+                              "maximum": 2147483647
+                            },
+                            "DisplayName": {
+                              "type": "string"
+                            },
+                            "Description": {
+                              "type": "string"
+                            }
+                          }
+                        },
+                        "Value": {
+                          "description": "This is the numeric value of the parameter",
+                          "type": "number",
+                          "minimum": -3.40e+38,
+                          "maximum": 3.40e+38
+                        }
+                      }
+                    }
+                  },
+                  "Ingredients": {
+                    "description": "The array of ingredients associated with this product.",
+                    "type": "array",
+                    "items": {
+                      "title": "PackMLIngredientsDataType",
+                      "type": "object",
+                      "aov:typeRef": "nsu=http://opcfoundation.org/UA/PackML/;i=17",
+                      "required": [ "IngredientID", "Parameter" ],
+                      "properties": {
+                        "IngredientID": {
+                          "description": "A unique number assigned to the ingredient.",
+                          "type": "integer",
+                          "minimum": -2147483648,
+                          "maximum": 2147483647
+                        },
+                        "Parameter": {
+                          "description": "The array of Parameters that correspond to the ingredient",
+                          "type": "array",
+                          "items": {
+                            "title": "PackMLDescriptorDataType",
+                            "type": "object",
+                            "aov:typeRef": "nsu=http://opcfoundation.org/UA/PackML/;i=16",
+                            "required": [ "ID", "Name", "Unit", "Value" ],
+                            "properties": {
+                              "ID": {
+                                "description": "A unique number assigned to the parameter",
+                                "type": "integer",
+                                "minimum": -2147483648,
+                                "maximum": 2147483647
+                              },
+                              "Name": {
+                                "description": "The name of the parameter",
+                                "type": "string"
+                              },
+                              "Unit": {
+                                "title": "EUInformation",
+                                "description": "OPC UA engineering unit information",
+                                "type": "object",
+                                "aov:typeRef": "nsu=http://opcfoundation.org/UA/;i=887",
+                                "required": [ "NamespaceUri", "UnitId", "DisplayName", "Description" ],
+                                "properties": {
+                                  "NamespaceUri": {
+                                    "type": "string"
+                                  },
+                                  "UnitId": {
+                                    "type": "integer",
+                                    "minimum": -2147483648,
+                                    "maximum": 2147483647
+                                  },
+                                  "DisplayName": {
+                                    "type": "string"
+                                  },
+                                  "Description": {
+                                    "type": "string"
+                                  }
+                                }
+                              },
+                              "Value": {
+                                "description": "This is the numeric value of the parameter",
+                                "type": "number",
+                                "minimum": -3.40e+38,
+                                "maximum": 3.40e+38
+                              }
+                            }
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/PackML/PackML_PackMLBaseObjectType/action/SetProduct",
+            "op": "invokeaction"
+          }
+        ]
+      },
+      "SetUnitMode": {
+        "aov:namespace": "http://opcfoundation.org/UA/PackML/",
+        "input": {
+          "type": "object",
+          "aov:typeRef": "nsu=http://opcfoundation.org/UA/PackML/;i=118",
+          "required": [ "RequestedMode" ],
+          "properties": {
+            "RequestedMode": {
+              "description": "The requested mode from the list of available modes in the enumeration from ModeSelection ",
+              "type": "integer",
+              "minimum": -2147483648,
+              "maximum": 2147483647
+            }
+          }
+        },
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/PackML/PackML_PackMLBaseObjectType/action/SetUnitMode",
+            "op": "invokeaction"
+          }
+        ]
+      }
+    },
+    "properties": {
+      "PackMLVersion": {
+        "aov:namespace": "http://opcfoundation.org/UA/PackML/",
+        "type": "string",
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/PackML/PackML_PackMLBaseObjectType/property/PackMLVersion/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "TagID": {
+        "aov:namespace": "http://opcfoundation.org/UA/PackML/",
+        "type": "string",
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/PackML/PackML_PackMLBaseObjectType/property/TagID/read",
+            "op": "readproperty"
+          }
+        ]
+      }
+    },
+    "events": {
+    }
+  },
+  {
+    "@context": [
+      "https://www.w3.org/2022/wot/td/v1.1",
+      {
+        "dtv": "http://azure.com/DigitalTwins/dtmi#",
+        "aov": "http://azure.com/IoT/operations/tm#"
+      }
+    ],
+    "@type": "tm:ThingModel",
+    "title": "PackML_PackMLStatusObjectType",
+    "aov:typeRef": "nsu=http://opcfoundation.org/UA/PackML/;i=4",
+    "links": [
+      {
+        "rel": "tm:extends",
+        "href": "./OpcUaCore.TM.json#title=OpcUaCore_BaseObjectType",
+        "type": "application/tm+json"
+      }
+    ],
+    "schemaDefinitions": {
+    },
+    "forms": [
+      {
+        "contentType": "application/json",
+        "dtv:topic": "opcua/PackML/PackML_PackMLStatusObjectType/events/{senderId}",
+        "op": "subscribeallevents"
+      },
+      {
+        "contentType": "application/json",
+        "dtv:topic": "opcua/PackML/PackML_PackMLStatusObjectType/properties/read",
+        "op": "readallproperties"
+      }
+    ],
+    "actions": {
+    },
+    "properties": {
+      "CurMachSpeed": {
+        "aov:namespace": "http://opcfoundation.org/UA/PackML/",
+        "type": "number",
+        "minimum": -3.40e+38,
+        "maximum": 3.40e+38,
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/PackML/PackML_PackMLStatusObjectType/property/CurMachSpeed/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "EquipmentBlocked": {
+        "aov:namespace": "http://opcfoundation.org/UA/PackML/",
+        "type": "boolean",
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/PackML/PackML_PackMLStatusObjectType/property/EquipmentBlocked/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "EquipmentStarved": {
+        "aov:namespace": "http://opcfoundation.org/UA/PackML/",
+        "type": "boolean",
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/PackML/PackML_PackMLStatusObjectType/property/EquipmentStarved/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "MachSpeed": {
+        "aov:namespace": "http://opcfoundation.org/UA/PackML/",
+        "type": "number",
+        "minimum": -3.40e+38,
+        "maximum": 3.40e+38,
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/PackML/PackML_PackMLStatusObjectType/property/MachSpeed/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "MaterialInterlocked": {
+        "aov:namespace": "http://opcfoundation.org/UA/PackML/",
+        "type": "boolean",
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/PackML/PackML_PackMLStatusObjectType/property/MaterialInterlocked/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "Parameter": {
+        "aov:namespace": "http://opcfoundation.org/UA/PackML/",
+        "type": "array",
+        "items": {
+          "title": "PackMLDescriptorDataType",
+          "type": "object",
+          "aov:typeRef": "nsu=http://opcfoundation.org/UA/PackML/;i=16",
+          "required": [ "ID", "Name", "Unit", "Value" ],
+          "properties": {
+            "ID": {
+              "description": "A unique number assigned to the parameter",
+              "type": "integer",
+              "minimum": -2147483648,
+              "maximum": 2147483647
+            },
+            "Name": {
+              "description": "The name of the parameter",
+              "type": "string"
+            },
+            "Unit": {
+              "title": "EUInformation",
+              "description": "OPC UA engineering unit information",
+              "type": "object",
+              "aov:typeRef": "nsu=http://opcfoundation.org/UA/;i=887",
+              "required": [ "NamespaceUri", "UnitId", "DisplayName", "Description" ],
+              "properties": {
+                "NamespaceUri": {
+                  "type": "string"
+                },
+                "UnitId": {
+                  "type": "integer",
+                  "minimum": -2147483648,
+                  "maximum": 2147483647
+                },
+                "DisplayName": {
+                  "type": "string"
+                },
+                "Description": {
+                  "type": "string"
+                }
+              }
+            },
+            "Value": {
+              "description": "This is the numeric value of the parameter",
+              "type": "number",
+              "minimum": -3.40e+38,
+              "maximum": 3.40e+38
+            }
+          }
+        },
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/PackML/PackML_PackMLStatusObjectType/property/Parameter/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "Product": {
+        "aov:namespace": "http://opcfoundation.org/UA/PackML/",
+        "type": "array",
+        "items": {
+          "title": "PackMLProductDataType",
+          "type": "object",
+          "aov:typeRef": "nsu=http://opcfoundation.org/UA/PackML/;i=18",
+          "required": [ "ProductID", "ProcessVariables", "Ingredients" ],
+          "properties": {
+            "ProductID": {
+              "description": "A unique number assigned to the product.",
+              "type": "integer",
+              "minimum": -2147483648,
+              "maximum": 2147483647
+            },
+            "ProcessVariables": {
+              "description": "The array of Process variables associated with this product",
+              "type": "array",
+              "items": {
+                "title": "PackMLDescriptorDataType",
+                "type": "object",
+                "aov:typeRef": "nsu=http://opcfoundation.org/UA/PackML/;i=16",
+                "required": [ "ID", "Name", "Unit", "Value" ],
+                "properties": {
+                  "ID": {
+                    "description": "A unique number assigned to the parameter",
+                    "type": "integer",
+                    "minimum": -2147483648,
+                    "maximum": 2147483647
+                  },
+                  "Name": {
+                    "description": "The name of the parameter",
+                    "type": "string"
+                  },
+                  "Unit": {
+                    "title": "EUInformation",
+                    "description": "OPC UA engineering unit information",
+                    "type": "object",
+                    "aov:typeRef": "nsu=http://opcfoundation.org/UA/;i=887",
+                    "required": [ "NamespaceUri", "UnitId", "DisplayName", "Description" ],
+                    "properties": {
+                      "NamespaceUri": {
+                        "type": "string"
+                      },
+                      "UnitId": {
+                        "type": "integer",
+                        "minimum": -2147483648,
+                        "maximum": 2147483647
+                      },
+                      "DisplayName": {
+                        "type": "string"
+                      },
+                      "Description": {
+                        "type": "string"
+                      }
+                    }
+                  },
+                  "Value": {
+                    "description": "This is the numeric value of the parameter",
+                    "type": "number",
+                    "minimum": -3.40e+38,
+                    "maximum": 3.40e+38
+                  }
+                }
+              }
+            },
+            "Ingredients": {
+              "description": "The array of ingredients associated with this product.",
+              "type": "array",
+              "items": {
+                "title": "PackMLIngredientsDataType",
+                "type": "object",
+                "aov:typeRef": "nsu=http://opcfoundation.org/UA/PackML/;i=17",
+                "required": [ "IngredientID", "Parameter" ],
+                "properties": {
+                  "IngredientID": {
+                    "description": "A unique number assigned to the ingredient.",
+                    "type": "integer",
+                    "minimum": -2147483648,
+                    "maximum": 2147483647
+                  },
+                  "Parameter": {
+                    "description": "The array of Parameters that correspond to the ingredient",
+                    "type": "array",
+                    "items": {
+                      "title": "PackMLDescriptorDataType",
+                      "type": "object",
+                      "aov:typeRef": "nsu=http://opcfoundation.org/UA/PackML/;i=16",
+                      "required": [ "ID", "Name", "Unit", "Value" ],
+                      "properties": {
+                        "ID": {
+                          "description": "A unique number assigned to the parameter",
+                          "type": "integer",
+                          "minimum": -2147483648,
+                          "maximum": 2147483647
+                        },
+                        "Name": {
+                          "description": "The name of the parameter",
+                          "type": "string"
+                        },
+                        "Unit": {
+                          "title": "EUInformation",
+                          "description": "OPC UA engineering unit information",
+                          "type": "object",
+                          "aov:typeRef": "nsu=http://opcfoundation.org/UA/;i=887",
+                          "required": [ "NamespaceUri", "UnitId", "DisplayName", "Description" ],
+                          "properties": {
+                            "NamespaceUri": {
+                              "type": "string"
+                            },
+                            "UnitId": {
+                              "type": "integer",
+                              "minimum": -2147483648,
+                              "maximum": 2147483647
+                            },
+                            "DisplayName": {
+                              "type": "string"
+                            },
+                            "Description": {
+                              "type": "string"
+                            }
+                          }
+                        },
+                        "Value": {
+                          "description": "This is the numeric value of the parameter",
+                          "type": "number",
+                          "minimum": -3.40e+38,
+                          "maximum": 3.40e+38
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/PackML/PackML_PackMLStatusObjectType/property/Product/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "RemoteParameter": {
+        "aov:namespace": "http://opcfoundation.org/UA/PackML/",
+        "type": "array",
+        "items": {
+          "title": "PackMLRemoteInterfaceDataType",
+          "type": "object",
+          "aov:typeRef": "nsu=http://opcfoundation.org/UA/PackML/;i=19",
+          "required": [ "Number", "ControlCmdNumber", "CmdValue", "Parameter" ],
+          "properties": {
+            "Number": {
+              "description": "This is the unique number for the downstream/upstream unit machine using a common tag structure as the unit machine.",
+              "type": "integer",
+              "minimum": -2147483648,
+              "maximum": 2147483647
+            },
+            "ControlCmdNumber": {
+              "description": "A user defined command number associated with coded value from a remote unit. This number is a coded value sent from one node on the network to another.",
+              "type": "integer",
+              "minimum": -2147483648,
+              "maximum": 2147483647
+            },
+            "CmdValue": {
+              "description": "This is the command value associated with the ControlCmdNumber above.",
+              "type": "integer",
+              "minimum": -2147483648,
+              "maximum": 2147483647
+            },
+            "Parameter": {
+              "description": "The parameter tags associated to commanded remote interface are typically used for command parameters that are given to the unit machine from remote machines.",
+              "type": "array",
+              "items": {
+                "title": "PackMLDescriptorDataType",
+                "type": "object",
+                "aov:typeRef": "nsu=http://opcfoundation.org/UA/PackML/;i=16",
+                "required": [ "ID", "Name", "Unit", "Value" ],
+                "properties": {
+                  "ID": {
+                    "description": "A unique number assigned to the parameter",
+                    "type": "integer",
+                    "minimum": -2147483648,
+                    "maximum": 2147483647
+                  },
+                  "Name": {
+                    "description": "The name of the parameter",
+                    "type": "string"
+                  },
+                  "Unit": {
+                    "title": "EUInformation",
+                    "description": "OPC UA engineering unit information",
+                    "type": "object",
+                    "aov:typeRef": "nsu=http://opcfoundation.org/UA/;i=887",
+                    "required": [ "NamespaceUri", "UnitId", "DisplayName", "Description" ],
+                    "properties": {
+                      "NamespaceUri": {
+                        "type": "string"
+                      },
+                      "UnitId": {
+                        "type": "integer",
+                        "minimum": -2147483648,
+                        "maximum": 2147483647
+                      },
+                      "DisplayName": {
+                        "type": "string"
+                      },
+                      "Description": {
+                        "type": "string"
+                      }
+                    }
+                  },
+                  "Value": {
+                    "description": "This is the numeric value of the parameter",
+                    "type": "number",
+                    "minimum": -3.40e+38,
+                    "maximum": 3.40e+38
+                  }
+                }
+              }
+            }
+          }
+        },
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/PackML/PackML_PackMLStatusObjectType/property/RemoteParameter/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "StateChangeInProcess": {
+        "aov:namespace": "http://opcfoundation.org/UA/PackML/",
+        "type": "boolean",
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/PackML/PackML_PackMLStatusObjectType/property/StateChangeInProcess/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "StateRequested": {
+        "aov:namespace": "http://opcfoundation.org/UA/PackML/",
+        "type": "integer",
+        "minimum": -2147483648,
+        "maximum": 2147483647,
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/PackML/PackML_PackMLStatusObjectType/property/StateRequested/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "UnitModeChangeInProcess": {
+        "aov:namespace": "http://opcfoundation.org/UA/PackML/",
+        "type": "boolean",
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/PackML/PackML_PackMLStatusObjectType/property/UnitModeChangeInProcess/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "UnitModeCurrent": {
+        "aov:namespace": "http://opcfoundation.org/UA/PackML/",
+        "type": "string",
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/PackML/PackML_PackMLStatusObjectType/property/UnitModeCurrent/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "UnitModeRequested": {
+        "aov:namespace": "http://opcfoundation.org/UA/PackML/",
+        "type": "boolean",
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/PackML/PackML_PackMLStatusObjectType/property/UnitModeRequested/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "UnitSupportedModes": {
+        "aov:namespace": "http://opcfoundation.org/UA/PackML/",
+        "type": "string",
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/PackML/PackML_PackMLStatusObjectType/property/UnitSupportedModes/read",
+            "op": "readproperty"
+          }
+        ]
+      }
+    },
+    "events": {
+      "CurMachSpeed": {
+        "aov:namespace": "http://opcfoundation.org/UA/PackML/",
+        "data": {
+          "type": "number",
+          "minimum": -3.40e+38,
+          "maximum": 3.40e+38
+        },
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/PackML/PackML_PackMLStatusObjectType/event/CurMachSpeed/{senderId}",
+            "op": "subscribeevent"
+          }
+        ]
+      },
+      "EquipmentBlocked": {
+        "aov:namespace": "http://opcfoundation.org/UA/PackML/",
+        "data": {
+          "type": "boolean"
+        },
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/PackML/PackML_PackMLStatusObjectType/event/EquipmentBlocked/{senderId}",
+            "op": "subscribeevent"
+          }
+        ]
+      },
+      "EquipmentStarved": {
+        "aov:namespace": "http://opcfoundation.org/UA/PackML/",
+        "data": {
+          "type": "boolean"
+        },
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/PackML/PackML_PackMLStatusObjectType/event/EquipmentStarved/{senderId}",
+            "op": "subscribeevent"
+          }
+        ]
+      },
+      "MachSpeed": {
+        "aov:namespace": "http://opcfoundation.org/UA/PackML/",
+        "data": {
+          "type": "number",
+          "minimum": -3.40e+38,
+          "maximum": 3.40e+38
+        },
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/PackML/PackML_PackMLStatusObjectType/event/MachSpeed/{senderId}",
+            "op": "subscribeevent"
+          }
+        ]
+      },
+      "MaterialInterlocked": {
+        "aov:namespace": "http://opcfoundation.org/UA/PackML/",
+        "data": {
+          "type": "boolean"
+        },
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/PackML/PackML_PackMLStatusObjectType/event/MaterialInterlocked/{senderId}",
+            "op": "subscribeevent"
+          }
+        ]
+      },
+      "Parameter": {
+        "aov:namespace": "http://opcfoundation.org/UA/PackML/",
+        "data": {
+          "type": "array",
+          "items": {
+            "title": "PackMLDescriptorDataType",
+            "type": "object",
+            "aov:typeRef": "nsu=http://opcfoundation.org/UA/PackML/;i=16",
+            "required": [ "ID", "Name", "Unit", "Value" ],
+            "properties": {
+              "ID": {
+                "description": "A unique number assigned to the parameter",
+                "type": "integer",
+                "minimum": -2147483648,
+                "maximum": 2147483647
+              },
+              "Name": {
+                "description": "The name of the parameter",
+                "type": "string"
+              },
+              "Unit": {
+                "title": "EUInformation",
+                "description": "OPC UA engineering unit information",
+                "type": "object",
+                "aov:typeRef": "nsu=http://opcfoundation.org/UA/;i=887",
+                "required": [ "NamespaceUri", "UnitId", "DisplayName", "Description" ],
+                "properties": {
+                  "NamespaceUri": {
+                    "type": "string"
+                  },
+                  "UnitId": {
+                    "type": "integer",
+                    "minimum": -2147483648,
+                    "maximum": 2147483647
+                  },
+                  "DisplayName": {
+                    "type": "string"
+                  },
+                  "Description": {
+                    "type": "string"
+                  }
+                }
+              },
+              "Value": {
+                "description": "This is the numeric value of the parameter",
+                "type": "number",
+                "minimum": -3.40e+38,
+                "maximum": 3.40e+38
+              }
+            }
+          }
+        },
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/PackML/PackML_PackMLStatusObjectType/event/Parameter/{senderId}",
+            "op": "subscribeevent"
+          }
+        ]
+      },
+      "Product": {
+        "aov:namespace": "http://opcfoundation.org/UA/PackML/",
+        "data": {
+          "type": "array",
+          "items": {
+            "title": "PackMLProductDataType",
+            "type": "object",
+            "aov:typeRef": "nsu=http://opcfoundation.org/UA/PackML/;i=18",
+            "required": [ "ProductID", "ProcessVariables", "Ingredients" ],
+            "properties": {
+              "ProductID": {
+                "description": "A unique number assigned to the product.",
+                "type": "integer",
+                "minimum": -2147483648,
+                "maximum": 2147483647
+              },
+              "ProcessVariables": {
+                "description": "The array of Process variables associated with this product",
+                "type": "array",
+                "items": {
+                  "title": "PackMLDescriptorDataType",
+                  "type": "object",
+                  "aov:typeRef": "nsu=http://opcfoundation.org/UA/PackML/;i=16",
+                  "required": [ "ID", "Name", "Unit", "Value" ],
+                  "properties": {
+                    "ID": {
+                      "description": "A unique number assigned to the parameter",
+                      "type": "integer",
+                      "minimum": -2147483648,
+                      "maximum": 2147483647
+                    },
+                    "Name": {
+                      "description": "The name of the parameter",
+                      "type": "string"
+                    },
+                    "Unit": {
+                      "title": "EUInformation",
+                      "description": "OPC UA engineering unit information",
+                      "type": "object",
+                      "aov:typeRef": "nsu=http://opcfoundation.org/UA/;i=887",
+                      "required": [ "NamespaceUri", "UnitId", "DisplayName", "Description" ],
+                      "properties": {
+                        "NamespaceUri": {
+                          "type": "string"
+                        },
+                        "UnitId": {
+                          "type": "integer",
+                          "minimum": -2147483648,
+                          "maximum": 2147483647
+                        },
+                        "DisplayName": {
+                          "type": "string"
+                        },
+                        "Description": {
+                          "type": "string"
+                        }
+                      }
+                    },
+                    "Value": {
+                      "description": "This is the numeric value of the parameter",
+                      "type": "number",
+                      "minimum": -3.40e+38,
+                      "maximum": 3.40e+38
+                    }
+                  }
+                }
+              },
+              "Ingredients": {
+                "description": "The array of ingredients associated with this product.",
+                "type": "array",
+                "items": {
+                  "title": "PackMLIngredientsDataType",
+                  "type": "object",
+                  "aov:typeRef": "nsu=http://opcfoundation.org/UA/PackML/;i=17",
+                  "required": [ "IngredientID", "Parameter" ],
+                  "properties": {
+                    "IngredientID": {
+                      "description": "A unique number assigned to the ingredient.",
+                      "type": "integer",
+                      "minimum": -2147483648,
+                      "maximum": 2147483647
+                    },
+                    "Parameter": {
+                      "description": "The array of Parameters that correspond to the ingredient",
+                      "type": "array",
+                      "items": {
+                        "title": "PackMLDescriptorDataType",
+                        "type": "object",
+                        "aov:typeRef": "nsu=http://opcfoundation.org/UA/PackML/;i=16",
+                        "required": [ "ID", "Name", "Unit", "Value" ],
+                        "properties": {
+                          "ID": {
+                            "description": "A unique number assigned to the parameter",
+                            "type": "integer",
+                            "minimum": -2147483648,
+                            "maximum": 2147483647
+                          },
+                          "Name": {
+                            "description": "The name of the parameter",
+                            "type": "string"
+                          },
+                          "Unit": {
+                            "title": "EUInformation",
+                            "description": "OPC UA engineering unit information",
+                            "type": "object",
+                            "aov:typeRef": "nsu=http://opcfoundation.org/UA/;i=887",
+                            "required": [ "NamespaceUri", "UnitId", "DisplayName", "Description" ],
+                            "properties": {
+                              "NamespaceUri": {
+                                "type": "string"
+                              },
+                              "UnitId": {
+                                "type": "integer",
+                                "minimum": -2147483648,
+                                "maximum": 2147483647
+                              },
+                              "DisplayName": {
+                                "type": "string"
+                              },
+                              "Description": {
+                                "type": "string"
+                              }
+                            }
+                          },
+                          "Value": {
+                            "description": "This is the numeric value of the parameter",
+                            "type": "number",
+                            "minimum": -3.40e+38,
+                            "maximum": 3.40e+38
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/PackML/PackML_PackMLStatusObjectType/event/Product/{senderId}",
+            "op": "subscribeevent"
+          }
+        ]
+      },
+      "RemoteParameter": {
+        "aov:namespace": "http://opcfoundation.org/UA/PackML/",
+        "data": {
+          "type": "array",
+          "items": {
+            "title": "PackMLRemoteInterfaceDataType",
+            "type": "object",
+            "aov:typeRef": "nsu=http://opcfoundation.org/UA/PackML/;i=19",
+            "required": [ "Number", "ControlCmdNumber", "CmdValue", "Parameter" ],
+            "properties": {
+              "Number": {
+                "description": "This is the unique number for the downstream/upstream unit machine using a common tag structure as the unit machine.",
+                "type": "integer",
+                "minimum": -2147483648,
+                "maximum": 2147483647
+              },
+              "ControlCmdNumber": {
+                "description": "A user defined command number associated with coded value from a remote unit. This number is a coded value sent from one node on the network to another.",
+                "type": "integer",
+                "minimum": -2147483648,
+                "maximum": 2147483647
+              },
+              "CmdValue": {
+                "description": "This is the command value associated with the ControlCmdNumber above.",
+                "type": "integer",
+                "minimum": -2147483648,
+                "maximum": 2147483647
+              },
+              "Parameter": {
+                "description": "The parameter tags associated to commanded remote interface are typically used for command parameters that are given to the unit machine from remote machines.",
+                "type": "array",
+                "items": {
+                  "title": "PackMLDescriptorDataType",
+                  "type": "object",
+                  "aov:typeRef": "nsu=http://opcfoundation.org/UA/PackML/;i=16",
+                  "required": [ "ID", "Name", "Unit", "Value" ],
+                  "properties": {
+                    "ID": {
+                      "description": "A unique number assigned to the parameter",
+                      "type": "integer",
+                      "minimum": -2147483648,
+                      "maximum": 2147483647
+                    },
+                    "Name": {
+                      "description": "The name of the parameter",
+                      "type": "string"
+                    },
+                    "Unit": {
+                      "title": "EUInformation",
+                      "description": "OPC UA engineering unit information",
+                      "type": "object",
+                      "aov:typeRef": "nsu=http://opcfoundation.org/UA/;i=887",
+                      "required": [ "NamespaceUri", "UnitId", "DisplayName", "Description" ],
+                      "properties": {
+                        "NamespaceUri": {
+                          "type": "string"
+                        },
+                        "UnitId": {
+                          "type": "integer",
+                          "minimum": -2147483648,
+                          "maximum": 2147483647
+                        },
+                        "DisplayName": {
+                          "type": "string"
+                        },
+                        "Description": {
+                          "type": "string"
+                        }
+                      }
+                    },
+                    "Value": {
+                      "description": "This is the numeric value of the parameter",
+                      "type": "number",
+                      "minimum": -3.40e+38,
+                      "maximum": 3.40e+38
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/PackML/PackML_PackMLStatusObjectType/event/RemoteParameter/{senderId}",
+            "op": "subscribeevent"
+          }
+        ]
+      },
+      "StateChangeInProcess": {
+        "aov:namespace": "http://opcfoundation.org/UA/PackML/",
+        "data": {
+          "type": "boolean"
+        },
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/PackML/PackML_PackMLStatusObjectType/event/StateChangeInProcess/{senderId}",
+            "op": "subscribeevent"
+          }
+        ]
+      },
+      "StateRequested": {
+        "aov:namespace": "http://opcfoundation.org/UA/PackML/",
+        "data": {
+          "type": "integer",
+          "minimum": -2147483648,
+          "maximum": 2147483647
+        },
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/PackML/PackML_PackMLStatusObjectType/event/StateRequested/{senderId}",
+            "op": "subscribeevent"
+          }
+        ]
+      },
+      "UnitModeChangeInProcess": {
+        "aov:namespace": "http://opcfoundation.org/UA/PackML/",
+        "data": {
+          "type": "boolean"
+        },
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/PackML/PackML_PackMLStatusObjectType/event/UnitModeChangeInProcess/{senderId}",
+            "op": "subscribeevent"
+          }
+        ]
+      },
+      "UnitModeCurrent": {
+        "aov:namespace": "http://opcfoundation.org/UA/PackML/",
+        "data": {
+          "type": "string"
+        },
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/PackML/PackML_PackMLStatusObjectType/event/UnitModeCurrent/{senderId}",
+            "op": "subscribeevent"
+          }
+        ]
+      },
+      "UnitModeRequested": {
+        "aov:namespace": "http://opcfoundation.org/UA/PackML/",
+        "data": {
+          "type": "boolean"
+        },
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/PackML/PackML_PackMLStatusObjectType/event/UnitModeRequested/{senderId}",
+            "op": "subscribeevent"
+          }
+        ]
+      }
+    }
+  },
+  {
+    "@context": [
+      "https://www.w3.org/2022/wot/td/v1.1",
+      {
+        "dtv": "http://azure.com/DigitalTwins/dtmi#",
+        "aov": "http://azure.com/IoT/operations/tm#"
+      }
+    ],
+    "@type": "tm:ThingModel",
+    "title": "PackML_PackMLBaseStateMachineType",
+    "aov:typeRef": "nsu=http://opcfoundation.org/UA/PackML/;i=3",
+    "links": [
+      {
+        "rel": "tm:extends",
+        "href": "./OpcUaCore.TM.json#title=OpcUaCore_FiniteStateMachineType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "aov:reference",
+        "aov:refName": "Aborted",
+        "href": "./OpcUaCore.TM.json#title=OpcUaCore_StateType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "aov:reference",
+        "aov:refName": "AbortedToCleared",
+        "href": "./OpcUaCore.TM.json#title=OpcUaCore_TransitionType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "aov:reference",
+        "aov:refName": "Aborting",
+        "href": "./OpcUaCore.TM.json#title=OpcUaCore_StateType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "aov:reference",
+        "aov:refName": "AbortingToAborted",
+        "href": "./OpcUaCore.TM.json#title=OpcUaCore_TransitionType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "aov:reference",
+        "aov:refName": "Cleared",
+        "href": "./OpcUaCore.TM.json#title=OpcUaCore_StateType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "aov:reference",
+        "aov:refName": "ClearedToAborting",
+        "href": "./OpcUaCore.TM.json#title=OpcUaCore_TransitionType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "aov:capability",
+        "aov:refName": "MachineState",
+        "href": "#title=PackML_PackMLMachineStateMachineType",
+        "type": "application/tm+json"
+      }
+    ],
+    "schemaDefinitions": {
+    },
+    "forms": [
+      {
+        "contentType": "application/json",
+        "dtv:topic": "opcua/PackML/PackML_PackMLBaseStateMachineType/events/{senderId}",
+        "op": "subscribeallevents"
+      },
+      {
+        "contentType": "application/json",
+        "dtv:topic": "opcua/PackML/PackML_PackMLBaseStateMachineType/properties/read",
+        "op": "readallproperties"
+      }
+    ],
+    "actions": {
+      "Abort": {
+        "aov:namespace": "http://opcfoundation.org/UA/PackML/",
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/PackML/PackML_PackMLBaseStateMachineType/action/Abort",
+            "op": "invokeaction"
+          }
+        ]
+      },
+      "Clear": {
+        "aov:namespace": "http://opcfoundation.org/UA/PackML/",
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/PackML/PackML_PackMLBaseStateMachineType/action/Clear",
+            "op": "invokeaction"
+          }
+        ]
+      }
+    },
+    "properties": {
+      "AvailableStates": {
+        "type": "array",
+        "items": {
+          "type": "string"
+        },
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/PackML/PackML_PackMLBaseStateMachineType/property/AvailableStates/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "AvailableTransitions": {
+        "type": "array",
+        "items": {
+          "type": "string"
+        },
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/PackML/PackML_PackMLBaseStateMachineType/property/AvailableTransitions/read",
+            "op": "readproperty"
+          }
+        ]
+      }
+    },
+    "events": {
+      "AvailableStates": {
+        "data": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/PackML/PackML_PackMLBaseStateMachineType/event/AvailableStates/{senderId}",
+            "op": "subscribeevent"
+          }
+        ]
+      },
+      "AvailableTransitions": {
+        "data": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/PackML/PackML_PackMLBaseStateMachineType/event/AvailableTransitions/{senderId}",
+            "op": "subscribeevent"
+          }
+        ]
+      }
+    }
+  },
+  {
+    "@context": [
+      "https://www.w3.org/2022/wot/td/v1.1",
+      {
+        "dtv": "http://azure.com/DigitalTwins/dtmi#",
+        "aov": "http://azure.com/IoT/operations/tm#"
+      }
+    ],
+    "@type": "tm:ThingModel",
+    "title": "PackML_PackMLExecuteStateMachineType",
+    "aov:typeRef": "nsu=http://opcfoundation.org/UA/PackML/;i=1",
+    "links": [
+      {
+        "rel": "tm:extends",
+        "href": "./OpcUaCore.TM.json#title=OpcUaCore_FiniteStateMachineType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "aov:reference",
+        "aov:refName": "Complete",
+        "href": "./OpcUaCore.TM.json#title=OpcUaCore_StateType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "aov:reference",
+        "aov:refName": "CompleteToResetting",
+        "href": "./OpcUaCore.TM.json#title=OpcUaCore_TransitionType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "aov:reference",
+        "aov:refName": "Completing",
+        "href": "./OpcUaCore.TM.json#title=OpcUaCore_StateType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "aov:reference",
+        "aov:refName": "CompletingToComplete",
+        "href": "./OpcUaCore.TM.json#title=OpcUaCore_TransitionType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "aov:reference",
+        "aov:refName": "Execute",
+        "href": "./OpcUaCore.TM.json#title=OpcUaCore_StateType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "aov:reference",
+        "aov:refName": "ExecuteToCompleting",
+        "href": "./OpcUaCore.TM.json#title=OpcUaCore_TransitionType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "aov:reference",
+        "aov:refName": "ExecuteToHolding",
+        "href": "./OpcUaCore.TM.json#title=OpcUaCore_TransitionType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "aov:reference",
+        "aov:refName": "ExecuteToSuspending",
+        "href": "./OpcUaCore.TM.json#title=OpcUaCore_TransitionType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "aov:reference",
+        "aov:refName": "Held",
+        "href": "./OpcUaCore.TM.json#title=OpcUaCore_StateType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "aov:reference",
+        "aov:refName": "HeldToUnholding",
+        "href": "./OpcUaCore.TM.json#title=OpcUaCore_TransitionType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "aov:reference",
+        "aov:refName": "Holding",
+        "href": "./OpcUaCore.TM.json#title=OpcUaCore_StateType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "aov:reference",
+        "aov:refName": "HoldingToHeld",
+        "href": "./OpcUaCore.TM.json#title=OpcUaCore_TransitionType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "aov:reference",
+        "aov:refName": "Idle",
+        "href": "./OpcUaCore.TM.json#title=OpcUaCore_StateType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "aov:reference",
+        "aov:refName": "IdleToStarting",
+        "href": "./OpcUaCore.TM.json#title=OpcUaCore_TransitionType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "aov:reference",
+        "aov:refName": "Resetting",
+        "href": "./OpcUaCore.TM.json#title=OpcUaCore_StateType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "aov:reference",
+        "aov:refName": "ResettingToIdle",
+        "href": "./OpcUaCore.TM.json#title=OpcUaCore_TransitionType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "aov:reference",
+        "aov:refName": "Starting",
+        "href": "./OpcUaCore.TM.json#title=OpcUaCore_StateType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "aov:reference",
+        "aov:refName": "StartingToExecute",
+        "href": "./OpcUaCore.TM.json#title=OpcUaCore_TransitionType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "aov:reference",
+        "aov:refName": "StartingToHolding",
+        "href": "./OpcUaCore.TM.json#title=OpcUaCore_TransitionType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "aov:reference",
+        "aov:refName": "Suspended",
+        "href": "./OpcUaCore.TM.json#title=OpcUaCore_StateType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "aov:reference",
+        "aov:refName": "SuspendedToHolding",
+        "href": "./OpcUaCore.TM.json#title=OpcUaCore_TransitionType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "aov:reference",
+        "aov:refName": "SuspendedToUnsuspending",
+        "href": "./OpcUaCore.TM.json#title=OpcUaCore_TransitionType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "aov:reference",
+        "aov:refName": "Suspending",
+        "href": "./OpcUaCore.TM.json#title=OpcUaCore_StateType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "aov:reference",
+        "aov:refName": "SuspendingToHolding",
+        "href": "./OpcUaCore.TM.json#title=OpcUaCore_TransitionType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "aov:reference",
+        "aov:refName": "SuspendingToSuspended",
+        "href": "./OpcUaCore.TM.json#title=OpcUaCore_TransitionType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "aov:reference",
+        "aov:refName": "Unholding",
+        "href": "./OpcUaCore.TM.json#title=OpcUaCore_StateType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "aov:reference",
+        "aov:refName": "UnholdingToExecute",
+        "href": "./OpcUaCore.TM.json#title=OpcUaCore_TransitionType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "aov:reference",
+        "aov:refName": "UnholdingToHolding",
+        "href": "./OpcUaCore.TM.json#title=OpcUaCore_TransitionType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "aov:reference",
+        "aov:refName": "Unsuspending",
+        "href": "./OpcUaCore.TM.json#title=OpcUaCore_StateType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "aov:reference",
+        "aov:refName": "UnsuspendingToExecute",
+        "href": "./OpcUaCore.TM.json#title=OpcUaCore_TransitionType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "aov:reference",
+        "aov:refName": "UnsuspendingToHolding",
+        "href": "./OpcUaCore.TM.json#title=OpcUaCore_TransitionType",
+        "type": "application/tm+json"
+      }
+    ],
+    "schemaDefinitions": {
+    },
+    "forms": [
+      {
+        "contentType": "application/json",
+        "dtv:topic": "opcua/PackML/PackML_PackMLExecuteStateMachineType/events/{senderId}",
+        "op": "subscribeallevents"
+      },
+      {
+        "contentType": "application/json",
+        "dtv:topic": "opcua/PackML/PackML_PackMLExecuteStateMachineType/properties/read",
+        "op": "readallproperties"
+      }
+    ],
+    "actions": {
+      "Hold": {
+        "aov:namespace": "http://opcfoundation.org/UA/PackML/",
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/PackML/PackML_PackMLExecuteStateMachineType/action/Hold",
+            "op": "invokeaction"
+          }
+        ]
+      },
+      "Reset": {
+        "aov:namespace": "http://opcfoundation.org/UA/PackML/",
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/PackML/PackML_PackMLExecuteStateMachineType/action/Reset",
+            "op": "invokeaction"
+          }
+        ]
+      },
+      "Start": {
+        "aov:namespace": "http://opcfoundation.org/UA/PackML/",
+        "input": {
+          "type": "object",
+          "aov:typeRef": "nsu=http://opcfoundation.org/UA/PackML/;i=342",
+          "required": [ "Parameter" ],
+          "properties": {
+            "Parameter": {
+              "description": "The array of parameter that can be used by the method",
+              "type": "array",
+              "items": {
+                "title": "PackMLDescriptorDataType",
+                "type": "object",
+                "aov:typeRef": "nsu=http://opcfoundation.org/UA/PackML/;i=16",
+                "required": [ "ID", "Name", "Unit", "Value" ],
+                "properties": {
+                  "ID": {
+                    "description": "A unique number assigned to the parameter",
+                    "type": "integer",
+                    "minimum": -2147483648,
+                    "maximum": 2147483647
+                  },
+                  "Name": {
+                    "description": "The name of the parameter",
+                    "type": "string"
+                  },
+                  "Unit": {
+                    "title": "EUInformation",
+                    "description": "OPC UA engineering unit information",
+                    "type": "object",
+                    "aov:typeRef": "nsu=http://opcfoundation.org/UA/;i=887",
+                    "required": [ "NamespaceUri", "UnitId", "DisplayName", "Description" ],
+                    "properties": {
+                      "NamespaceUri": {
+                        "type": "string"
+                      },
+                      "UnitId": {
+                        "type": "integer",
+                        "minimum": -2147483648,
+                        "maximum": 2147483647
+                      },
+                      "DisplayName": {
+                        "type": "string"
+                      },
+                      "Description": {
+                        "type": "string"
+                      }
+                    }
+                  },
+                  "Value": {
+                    "description": "This is the numeric value of the parameter",
+                    "type": "number",
+                    "minimum": -3.40e+38,
+                    "maximum": 3.40e+38
+                  }
+                }
+              }
+            }
+          }
+        },
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/PackML/PackML_PackMLExecuteStateMachineType/action/Start",
+            "op": "invokeaction"
+          }
+        ]
+      },
+      "Suspend": {
+        "aov:namespace": "http://opcfoundation.org/UA/PackML/",
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/PackML/PackML_PackMLExecuteStateMachineType/action/Suspend",
+            "op": "invokeaction"
+          }
+        ]
+      },
+      "ToComplete": {
+        "aov:namespace": "http://opcfoundation.org/UA/PackML/",
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/PackML/PackML_PackMLExecuteStateMachineType/action/ToComplete",
+            "op": "invokeaction"
+          }
+        ]
+      },
+      "Unhold": {
+        "aov:namespace": "http://opcfoundation.org/UA/PackML/",
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/PackML/PackML_PackMLExecuteStateMachineType/action/Unhold",
+            "op": "invokeaction"
+          }
+        ]
+      },
+      "Unsuspend": {
+        "aov:namespace": "http://opcfoundation.org/UA/PackML/",
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/PackML/PackML_PackMLExecuteStateMachineType/action/Unsuspend",
+            "op": "invokeaction"
+          }
+        ]
+      }
+    },
+    "properties": {
+      "AvailableStates": {
+        "type": "array",
+        "items": {
+          "type": "string"
+        },
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/PackML/PackML_PackMLExecuteStateMachineType/property/AvailableStates/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "AvailableTransitions": {
+        "type": "array",
+        "items": {
+          "type": "string"
+        },
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/PackML/PackML_PackMLExecuteStateMachineType/property/AvailableTransitions/read",
+            "op": "readproperty"
+          }
+        ]
+      }
+    },
+    "events": {
+      "AvailableStates": {
+        "data": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/PackML/PackML_PackMLExecuteStateMachineType/event/AvailableStates/{senderId}",
+            "op": "subscribeevent"
+          }
+        ]
+      },
+      "AvailableTransitions": {
+        "data": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/PackML/PackML_PackMLExecuteStateMachineType/event/AvailableTransitions/{senderId}",
+            "op": "subscribeevent"
+          }
+        ]
+      }
+    }
+  },
+  {
+    "@context": [
+      "https://www.w3.org/2022/wot/td/v1.1",
+      {
+        "dtv": "http://azure.com/DigitalTwins/dtmi#",
+        "aov": "http://azure.com/IoT/operations/tm#"
+      }
+    ],
+    "@type": "tm:ThingModel",
+    "title": "PackML_PackMLMachineStateMachineType",
+    "aov:typeRef": "nsu=http://opcfoundation.org/UA/PackML/;i=2",
+    "links": [
+      {
+        "rel": "tm:extends",
+        "href": "./OpcUaCore.TM.json#title=OpcUaCore_FiniteStateMachineType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "aov:reference",
+        "aov:refName": "Clearing",
+        "href": "./OpcUaCore.TM.json#title=OpcUaCore_StateType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "aov:reference",
+        "aov:refName": "ClearingToStopped",
+        "href": "./OpcUaCore.TM.json#title=OpcUaCore_TransitionType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "aov:capability",
+        "aov:refName": "ExecuteState",
+        "href": "#title=PackML_PackMLExecuteStateMachineType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "aov:reference",
+        "aov:refName": "Running",
+        "href": "./OpcUaCore.TM.json#title=OpcUaCore_StateType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "aov:reference",
+        "aov:refName": "RunningToStopping",
+        "href": "./OpcUaCore.TM.json#title=OpcUaCore_TransitionType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "aov:reference",
+        "aov:refName": "Stopped",
+        "href": "./OpcUaCore.TM.json#title=OpcUaCore_StateType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "aov:reference",
+        "aov:refName": "StoppedToRunning",
+        "href": "./OpcUaCore.TM.json#title=OpcUaCore_TransitionType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "aov:reference",
+        "aov:refName": "Stopping",
+        "href": "./OpcUaCore.TM.json#title=OpcUaCore_StateType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "aov:reference",
+        "aov:refName": "StoppingToStopped",
+        "href": "./OpcUaCore.TM.json#title=OpcUaCore_TransitionType",
+        "type": "application/tm+json"
+      }
+    ],
+    "schemaDefinitions": {
+    },
+    "forms": [
+      {
+        "contentType": "application/json",
+        "dtv:topic": "opcua/PackML/PackML_PackMLMachineStateMachineType/events/{senderId}",
+        "op": "subscribeallevents"
+      },
+      {
+        "contentType": "application/json",
+        "dtv:topic": "opcua/PackML/PackML_PackMLMachineStateMachineType/properties/read",
+        "op": "readallproperties"
+      }
+    ],
+    "actions": {
+      "Reset": {
+        "aov:namespace": "http://opcfoundation.org/UA/PackML/",
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/PackML/PackML_PackMLMachineStateMachineType/action/Reset",
+            "op": "invokeaction"
+          }
+        ]
+      },
+      "Stop": {
+        "aov:namespace": "http://opcfoundation.org/UA/PackML/",
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/PackML/PackML_PackMLMachineStateMachineType/action/Stop",
+            "op": "invokeaction"
+          }
+        ]
+      }
+    },
+    "properties": {
+      "AvailableStates": {
+        "type": "array",
+        "items": {
+          "type": "string"
+        },
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/PackML/PackML_PackMLMachineStateMachineType/property/AvailableStates/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "AvailableTransitions": {
+        "type": "array",
+        "items": {
+          "type": "string"
+        },
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/PackML/PackML_PackMLMachineStateMachineType/property/AvailableTransitions/read",
+            "op": "readproperty"
+          }
+        ]
+      }
+    },
+    "events": {
+      "AvailableStates": {
+        "data": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/PackML/PackML_PackMLMachineStateMachineType/event/AvailableStates/{senderId}",
+            "op": "subscribeevent"
+          }
+        ]
+      },
+      "AvailableTransitions": {
+        "data": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/PackML/PackML_PackMLMachineStateMachineType/event/AvailableTransitions/{senderId}",
+            "op": "subscribeevent"
+          }
+        ]
+      }
+    }
+  }
+]

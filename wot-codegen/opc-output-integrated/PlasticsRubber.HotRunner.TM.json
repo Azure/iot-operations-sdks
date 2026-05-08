@@ -1,0 +1,5636 @@
+[
+  {
+    "@context": [
+      "https://www.w3.org/2022/wot/td/v1.1",
+      {
+        "dtv": "http://azure.com/DigitalTwins/dtmi#",
+        "aov": "http://azure.com/IoT/operations/tm#"
+      }
+    ],
+    "@type": "tm:ThingModel",
+    "title": "PlasticsRubber_HotRunner_ZoneAlarmType",
+    "aov:typeRef": "nsu=http://opcfoundation.org/UA/PlasticsRubber/HotRunner/;i=1002",
+    "aov:isEvent": true,
+    "links": [
+      {
+        "rel": "tm:extends",
+        "href": "#title=PlasticsRubber_GeneralTypes_HelpOffNormalAlarmType",
+        "type": "application/tm+json"
+      }
+    ],
+    "schemaDefinitions": {
+    },
+    "actions": {
+    },
+    "properties": {
+    },
+    "events": {
+    }
+  },
+  {
+    "@context": [
+      "https://www.w3.org/2022/wot/td/v1.1",
+      {
+        "dtv": "http://azure.com/DigitalTwins/dtmi#",
+        "aov": "http://azure.com/IoT/operations/tm#"
+      }
+    ],
+    "@type": "tm:ThingModel",
+    "title": "PlasticsRubber_HotRunner_ControllerType",
+    "aov:typeRef": "nsu=http://opcfoundation.org/UA/PlasticsRubber/HotRunner/;i=1005",
+    "links": [
+      {
+        "rel": "tm:extends",
+        "href": "#title=OpcUaCore_BaseObjectType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "aov:reference",
+        "aov:refName": "LoadCurrent",
+        "href": "#title=PlasticsRubber_GeneralTypes_MonitoredParameterType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "aov:reference",
+        "aov:refName": "LoadPower",
+        "href": "#title=PlasticsRubber_GeneralTypes_MonitoredParameterType",
+        "type": "application/tm+json"
+      }
+    ],
+    "schemaDefinitions": {
+      "ControllerTypeEnumeration": {
+        "type": "object",
+        "aov:typeRef": "nsu=http://opcfoundation.org/UA/PlasticsRubber/HotRunner/;i=3002",
+        "const": {
+          "CLOSED_LOOP_CONTROL": 0,
+          "MANUAL": 1,
+          "SYNCHRONOUS_ZONE": 2,
+          "CASCADE": 3,
+          "COOL_ZONE": 4,
+          "MEASURING_ZONE": 5,
+          "NOT_USED": 6
+        },
+        "properties": {
+          "CLOSED_LOOP_CONTROL": {
+            "type": "integer"
+          },
+          "MANUAL": {
+            "type": "integer"
+          },
+          "SYNCHRONOUS_ZONE": {
+            "type": "integer"
+          },
+          "CASCADE": {
+            "type": "integer"
+          },
+          "COOL_ZONE": {
+            "type": "integer"
+          },
+          "MEASURING_ZONE": {
+            "type": "integer"
+          },
+          "NOT_USED": {
+            "type": "integer"
+          }
+        }
+      }
+    },
+    "forms": [
+      {
+        "contentType": "application/json",
+        "dtv:topic": "opcua/PlasticsRubber.HotRunner/PlasticsRubber_HotRunner_ControllerType/events/{senderId}",
+        "op": "subscribeallevents"
+      },
+      {
+        "contentType": "application/json",
+        "dtv:topic": "opcua/PlasticsRubber.HotRunner/PlasticsRubber_HotRunner_ControllerType/properties/write",
+        "op": "writemultipleproperties"
+      },
+      {
+        "contentType": "application/json",
+        "dtv:topic": "opcua/PlasticsRubber.HotRunner/PlasticsRubber_HotRunner_ControllerType/properties/read",
+        "op": "readallproperties"
+      }
+    ],
+    "actions": {
+    },
+    "properties": {
+      "ActualOutput": {
+        "aov:namespace": "http://opcfoundation.org/UA/PlasticsRubber/HotRunner/",
+        "description": "Indicates the currently active output in percent",
+        "type": "number",
+        "minimum": -1.80e+308,
+        "maximum": 1.80e+308,
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/PlasticsRubber.HotRunner/PlasticsRubber_HotRunner_ControllerType/property/ActualOutput/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "ActualType": {
+        "aov:namespace": "http://opcfoundation.org/UA/PlasticsRubber/HotRunner/",
+        "title": "ControllerTypeEnumeration",
+        "description": "Actual value for the controller type used by the zone",
+        "aov:typeRef": "nsu=http://opcfoundation.org/UA/PlasticsRubber/HotRunner/;i=3002",
+        "type": "integer",
+        "minimum": -2147483648,
+        "maximum": 2147483647,
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/PlasticsRubber.HotRunner/PlasticsRubber_HotRunner_ControllerType/property/ActualType/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "ActualValueActive": {
+        "aov:namespace": "http://opcfoundation.org/UA/PlasticsRubber/HotRunner/",
+        "description": "Indicates the current status of the controller",
+        "type": "boolean",
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/PlasticsRubber.HotRunner/PlasticsRubber_HotRunner_ControllerType/property/ActualValueActive/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "AutomaticReferenceZoneSelection": {
+        "aov:namespace": "http://opcfoundation.org/UA/PlasticsRubber/HotRunner/",
+        "description": "If true, the HRD selects automatically the reference zone.",
+        "type": "boolean",
+        "readOnly": false,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/PlasticsRubber.HotRunner/PlasticsRubber_HotRunner_ControllerType/property/AutomaticReferenceZoneSelection/write",
+            "op": "writeproperty"
+          },
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/PlasticsRubber.HotRunner/PlasticsRubber_HotRunner_ControllerType/property/AutomaticReferenceZoneSelection/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "AverageControllerOutput": {
+        "aov:namespace": "http://opcfoundation.org/UA/PlasticsRubber/HotRunner/",
+        "description": "Indicates the average output which can be used when a sensor is broken",
+        "type": "number",
+        "minimum": -1.80e+308,
+        "maximum": 1.80e+308,
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/PlasticsRubber.HotRunner/PlasticsRubber_HotRunner_ControllerType/property/AverageControllerOutput/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "LowerOutput": {
+        "aov:namespace": "http://opcfoundation.org/UA/PlasticsRubber/HotRunner/",
+        "description": "Limitation of the minimum output in closed-loop control in %",
+        "type": "number",
+        "minimum": -1.80e+308,
+        "maximum": 1.80e+308,
+        "readOnly": false,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/PlasticsRubber.HotRunner/PlasticsRubber_HotRunner_ControllerType/property/LowerOutput/write",
+            "op": "writeproperty"
+          },
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/PlasticsRubber.HotRunner/PlasticsRubber_HotRunner_ControllerType/property/LowerOutput/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "OutputTime": {
+        "aov:namespace": "http://opcfoundation.org/UA/PlasticsRubber/HotRunner/",
+        "description": "Time basis for operating the actuator",
+        "type": "string",
+        "pattern": "^P(?!$)(?:(?:(?:(?:\\d+Y)|(?:\\d+\\.\\d+Y$))?(?:(?:\\d+M)|(?:\\d+\\.\\d+M$))?)|(?:(?:(?:\\d+W)|(?:\\d+\\.\\d+W$))?))(?:(?:\\d+D)|(?:\\d+\\.\\d+D$))?(?:T(?!$)(?:(?:\\d+H)|(?:\\d+\\.\\d+H$))?(?:(?:\\d+M)|(?:\\d+\\.\\d+M$))?(?:\\d+(?:\\.\\d+)?S)?)?$",
+        "readOnly": false,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/PlasticsRubber.HotRunner/PlasticsRubber_HotRunner_ControllerType/property/OutputTime/write",
+            "op": "writeproperty"
+          },
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/PlasticsRubber.HotRunner/PlasticsRubber_HotRunner_ControllerType/property/OutputTime/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "ReferenceZone": {
+        "aov:namespace": "http://opcfoundation.org/UA/PlasticsRubber/HotRunner/",
+        "description": "If zones are to operate parallel to a control zone, the reference relation can be realised with this parameter.",
+        "type": "integer",
+        "minimum": 0,
+        "maximum": 4294967295,
+        "readOnly": false,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/PlasticsRubber.HotRunner/PlasticsRubber_HotRunner_ControllerType/property/ReferenceZone/write",
+            "op": "writeproperty"
+          },
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/PlasticsRubber.HotRunner/PlasticsRubber_HotRunner_ControllerType/property/ReferenceZone/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "SetValueActive": {
+        "aov:namespace": "http://opcfoundation.org/UA/PlasticsRubber/HotRunner/",
+        "description": "A control zone is switched on and off with this parameter.",
+        "type": "boolean",
+        "readOnly": false,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/PlasticsRubber.HotRunner/PlasticsRubber_HotRunner_ControllerType/property/SetValueActive/write",
+            "op": "writeproperty"
+          },
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/PlasticsRubber.HotRunner/PlasticsRubber_HotRunner_ControllerType/property/SetValueActive/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "SetValueManualOutput": {
+        "aov:namespace": "http://opcfoundation.org/UA/PlasticsRubber/HotRunner/",
+        "description": "Manually given output in percent if SetValueType = MANUAL is selected",
+        "type": "number",
+        "minimum": -1.80e+308,
+        "maximum": 1.80e+308,
+        "readOnly": false,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/PlasticsRubber.HotRunner/PlasticsRubber_HotRunner_ControllerType/property/SetValueManualOutput/write",
+            "op": "writeproperty"
+          },
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/PlasticsRubber.HotRunner/PlasticsRubber_HotRunner_ControllerType/property/SetValueManualOutput/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "SetValueType": {
+        "aov:namespace": "http://opcfoundation.org/UA/PlasticsRubber/HotRunner/",
+        "description": "Set value for the controller type used by the zone",
+        "type": "integer",
+        "minimum": 0,
+        "maximum": 65535,
+        "readOnly": false,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/PlasticsRubber.HotRunner/PlasticsRubber_HotRunner_ControllerType/property/SetValueType/write",
+            "op": "writeproperty"
+          },
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/PlasticsRubber.HotRunner/PlasticsRubber_HotRunner_ControllerType/property/SetValueType/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "UpperOutput": {
+        "aov:namespace": "http://opcfoundation.org/UA/PlasticsRubber/HotRunner/",
+        "description": "Limitation of the maximum output in closed-loop control in %",
+        "type": "number",
+        "minimum": -1.80e+308,
+        "maximum": 1.80e+308,
+        "readOnly": false,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/PlasticsRubber.HotRunner/PlasticsRubber_HotRunner_ControllerType/property/UpperOutput/write",
+            "op": "writeproperty"
+          },
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/PlasticsRubber.HotRunner/PlasticsRubber_HotRunner_ControllerType/property/UpperOutput/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "UpperSetValueCascade": {
+        "aov:namespace": "http://opcfoundation.org/UA/PlasticsRubber/HotRunner/",
+        "description": "If the two controllers are cascaded, the master defines to which nominal temperature value the slave is to control to. With this parameter, the upper limit for the slave is defined.",
+        "type": "number",
+        "minimum": -1.80e+308,
+        "maximum": 1.80e+308,
+        "readOnly": false,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/PlasticsRubber.HotRunner/PlasticsRubber_HotRunner_ControllerType/property/UpperSetValueCascade/write",
+            "op": "writeproperty"
+          },
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/PlasticsRubber.HotRunner/PlasticsRubber_HotRunner_ControllerType/property/UpperSetValueCascade/read",
+            "op": "readproperty"
+          }
+        ]
+      }
+    },
+    "events": {
+      "ActualOutput": {
+        "aov:namespace": "http://opcfoundation.org/UA/PlasticsRubber/HotRunner/",
+        "data": {
+          "description": "Indicates the currently active output in percent",
+          "type": "number",
+          "minimum": -1.80e+308,
+          "maximum": 1.80e+308
+        },
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/PlasticsRubber.HotRunner/PlasticsRubber_HotRunner_ControllerType/event/ActualOutput/{senderId}",
+            "op": "subscribeevent"
+          }
+        ]
+      },
+      "AverageControllerOutput": {
+        "aov:namespace": "http://opcfoundation.org/UA/PlasticsRubber/HotRunner/",
+        "data": {
+          "description": "Indicates the average output which can be used when a sensor is broken",
+          "type": "number",
+          "minimum": -1.80e+308,
+          "maximum": 1.80e+308
+        },
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/PlasticsRubber.HotRunner/PlasticsRubber_HotRunner_ControllerType/event/AverageControllerOutput/{senderId}",
+            "op": "subscribeevent"
+          }
+        ]
+      },
+      "LowerOutput": {
+        "aov:namespace": "http://opcfoundation.org/UA/PlasticsRubber/HotRunner/",
+        "data": {
+          "description": "Limitation of the minimum output in closed-loop control in %",
+          "type": "number",
+          "minimum": -1.80e+308,
+          "maximum": 1.80e+308
+        },
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/PlasticsRubber.HotRunner/PlasticsRubber_HotRunner_ControllerType/event/LowerOutput/{senderId}",
+            "op": "subscribeevent"
+          }
+        ]
+      },
+      "SetValueManualOutput": {
+        "aov:namespace": "http://opcfoundation.org/UA/PlasticsRubber/HotRunner/",
+        "data": {
+          "description": "Manually given output in percent if SetValueType = MANUAL is selected",
+          "type": "number",
+          "minimum": -1.80e+308,
+          "maximum": 1.80e+308
+        },
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/PlasticsRubber.HotRunner/PlasticsRubber_HotRunner_ControllerType/event/SetValueManualOutput/{senderId}",
+            "op": "subscribeevent"
+          }
+        ]
+      },
+      "SetValueType": {
+        "aov:namespace": "http://opcfoundation.org/UA/PlasticsRubber/HotRunner/",
+        "data": {
+          "description": "Set value for the controller type used by the zone",
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 65535
+        },
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/PlasticsRubber.HotRunner/PlasticsRubber_HotRunner_ControllerType/event/SetValueType/{senderId}",
+            "op": "subscribeevent"
+          }
+        ]
+      },
+      "UpperOutput": {
+        "aov:namespace": "http://opcfoundation.org/UA/PlasticsRubber/HotRunner/",
+        "data": {
+          "description": "Limitation of the maximum output in closed-loop control in %",
+          "type": "number",
+          "minimum": -1.80e+308,
+          "maximum": 1.80e+308
+        },
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/PlasticsRubber.HotRunner/PlasticsRubber_HotRunner_ControllerType/event/UpperOutput/{senderId}",
+            "op": "subscribeevent"
+          }
+        ]
+      },
+      "UpperSetValueCascade": {
+        "aov:namespace": "http://opcfoundation.org/UA/PlasticsRubber/HotRunner/",
+        "data": {
+          "description": "If the two controllers are cascaded, the master defines to which nominal temperature value the slave is to control to. With this parameter, the upper limit for the slave is defined.",
+          "type": "number",
+          "minimum": -1.80e+308,
+          "maximum": 1.80e+308
+        },
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/PlasticsRubber.HotRunner/PlasticsRubber_HotRunner_ControllerType/event/UpperSetValueCascade/{senderId}",
+            "op": "subscribeevent"
+          }
+        ]
+      }
+    }
+  },
+  {
+    "@context": [
+      "https://www.w3.org/2022/wot/td/v1.1",
+      {
+        "dtv": "http://azure.com/DigitalTwins/dtmi#",
+        "aov": "http://azure.com/IoT/operations/tm#"
+      }
+    ],
+    "@type": "tm:ThingModel",
+    "title": "PlasticsRubber_HotRunner_HeatUpType",
+    "aov:typeRef": "nsu=http://opcfoundation.org/UA/PlasticsRubber/HotRunner/;i=1004",
+    "links": [
+      {
+        "rel": "tm:extends",
+        "href": "#title=OpcUaCore_BaseObjectType",
+        "type": "application/tm+json"
+      }
+    ],
+    "schemaDefinitions": {
+    },
+    "forms": [
+      {
+        "contentType": "application/json",
+        "dtv:topic": "opcua/PlasticsRubber.HotRunner/PlasticsRubber_HotRunner_HeatUpType/events/{senderId}",
+        "op": "subscribeallevents"
+      },
+      {
+        "contentType": "application/json",
+        "dtv:topic": "opcua/PlasticsRubber.HotRunner/PlasticsRubber_HotRunner_HeatUpType/properties/write",
+        "op": "writemultipleproperties"
+      },
+      {
+        "contentType": "application/json",
+        "dtv:topic": "opcua/PlasticsRubber.HotRunner/PlasticsRubber_HotRunner_HeatUpType/properties/read",
+        "op": "readallproperties"
+      }
+    ],
+    "actions": {
+    },
+    "properties": {
+      "EvenHeatUpEnabled": {
+        "aov:namespace": "http://opcfoundation.org/UA/PlasticsRubber/HotRunner/",
+        "description": "Enables even heat-up process until nominal SetValue of Temperature of ZoneType is reached",
+        "type": "boolean",
+        "readOnly": false,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/PlasticsRubber.HotRunner/PlasticsRubber_HotRunner_HeatUpType/property/EvenHeatUpEnabled/write",
+            "op": "writeproperty"
+          },
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/PlasticsRubber.HotRunner/PlasticsRubber_HotRunner_HeatUpType/property/EvenHeatUpEnabled/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "ManualOutputLimitActive": {
+        "aov:namespace": "http://opcfoundation.org/UA/PlasticsRubber/HotRunner/",
+        "description": "Activates heat-up process with pre-defined SetValueManualOutputLimit until SetValueTemperature is reached",
+        "type": "boolean",
+        "readOnly": false,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/PlasticsRubber.HotRunner/PlasticsRubber_HotRunner_HeatUpType/property/ManualOutputLimitActive/write",
+            "op": "writeproperty"
+          },
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/PlasticsRubber.HotRunner/PlasticsRubber_HotRunner_HeatUpType/property/ManualOutputLimitActive/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "RelayHeatingGroup": {
+        "aov:namespace": "http://opcfoundation.org/UA/PlasticsRubber/HotRunner/",
+        "description": "Number of the heating group for relay heating",
+        "type": "integer",
+        "minimum": 0,
+        "maximum": 255,
+        "readOnly": false,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/PlasticsRubber.HotRunner/PlasticsRubber_HotRunner_HeatUpType/property/RelayHeatingGroup/write",
+            "op": "writeproperty"
+          },
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/PlasticsRubber.HotRunner/PlasticsRubber_HotRunner_HeatUpType/property/RelayHeatingGroup/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "RelayHeatingTime": {
+        "aov:namespace": "http://opcfoundation.org/UA/PlasticsRubber/HotRunner/",
+        "description": "Time for relay heating of the zone. When RelayHeatingTime of all zones of a heating group have expired, the next group starts heating.",
+        "type": "string",
+        "pattern": "^P(?!$)(?:(?:(?:(?:\\d+Y)|(?:\\d+\\.\\d+Y$))?(?:(?:\\d+M)|(?:\\d+\\.\\d+M$))?)|(?:(?:(?:\\d+W)|(?:\\d+\\.\\d+W$))?))(?:(?:\\d+D)|(?:\\d+\\.\\d+D$))?(?:T(?!$)(?:(?:\\d+H)|(?:\\d+\\.\\d+H$))?(?:(?:\\d+M)|(?:\\d+\\.\\d+M$))?(?:\\d+(?:\\.\\d+)?S)?)?$",
+        "readOnly": false,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/PlasticsRubber.HotRunner/PlasticsRubber_HotRunner_HeatUpType/property/RelayHeatingTime/write",
+            "op": "writeproperty"
+          },
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/PlasticsRubber.HotRunner/PlasticsRubber_HotRunner_HeatUpType/property/RelayHeatingTime/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "SetValueManualOutputLimit": {
+        "aov:namespace": "http://opcfoundation.org/UA/PlasticsRubber/HotRunner/",
+        "description": "This pre-defined maximum output (in percent) is valid until the SetValueTemperature is reached.",
+        "type": "number",
+        "minimum": -1.80e+308,
+        "maximum": 1.80e+308,
+        "readOnly": false,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/PlasticsRubber.HotRunner/PlasticsRubber_HotRunner_HeatUpType/property/SetValueManualOutputLimit/write",
+            "op": "writeproperty"
+          },
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/PlasticsRubber.HotRunner/PlasticsRubber_HotRunner_HeatUpType/property/SetValueManualOutputLimit/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "SetValueTemperature": {
+        "aov:namespace": "http://opcfoundation.org/UA/PlasticsRubber/HotRunner/",
+        "description": "If ManualOutputLimitActive is set, SetValueManualOutputLimit is active until this nominal temperature value is reached.",
+        "type": "number",
+        "minimum": -1.80e+308,
+        "maximum": 1.80e+308,
+        "readOnly": false,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/PlasticsRubber.HotRunner/PlasticsRubber_HotRunner_HeatUpType/property/SetValueTemperature/write",
+            "op": "writeproperty"
+          },
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/PlasticsRubber.HotRunner/PlasticsRubber_HotRunner_HeatUpType/property/SetValueTemperature/read",
+            "op": "readproperty"
+          }
+        ]
+      }
+    },
+    "events": {
+      "SetValueManualOutputLimit": {
+        "aov:namespace": "http://opcfoundation.org/UA/PlasticsRubber/HotRunner/",
+        "data": {
+          "description": "This pre-defined maximum output (in percent) is valid until the SetValueTemperature is reached.",
+          "type": "number",
+          "minimum": -1.80e+308,
+          "maximum": 1.80e+308
+        },
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/PlasticsRubber.HotRunner/PlasticsRubber_HotRunner_HeatUpType/event/SetValueManualOutputLimit/{senderId}",
+            "op": "subscribeevent"
+          }
+        ]
+      },
+      "SetValueTemperature": {
+        "aov:namespace": "http://opcfoundation.org/UA/PlasticsRubber/HotRunner/",
+        "data": {
+          "description": "If ManualOutputLimitActive is set, SetValueManualOutputLimit is active until this nominal temperature value is reached.",
+          "type": "number",
+          "minimum": -1.80e+308,
+          "maximum": 1.80e+308
+        },
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/PlasticsRubber.HotRunner/PlasticsRubber_HotRunner_HeatUpType/event/SetValueTemperature/{senderId}",
+            "op": "subscribeevent"
+          }
+        ]
+      }
+    }
+  },
+  {
+    "@context": [
+      "https://www.w3.org/2022/wot/td/v1.1",
+      {
+        "dtv": "http://azure.com/DigitalTwins/dtmi#",
+        "aov": "http://azure.com/IoT/operations/tm#"
+      }
+    ],
+    "@type": "tm:ThingModel",
+    "title": "PlasticsRubber_HotRunner_HRD_InterfaceType",
+    "aov:typeRef": "nsu=http://opcfoundation.org/UA/PlasticsRubber/HotRunner/;i=1010",
+    "aov:isComposite": true,
+    "links": [
+      {
+        "rel": "tm:extends",
+        "href": "#title=OpcUaCore_BaseObjectType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "aov:capability",
+        "aov:refName": "Diagnostics",
+        "href": "#title=PlasticsRubber_GeneralTypes_DiagnosticsType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "aov:capability",
+        "aov:refName": "Identification",
+        "href": "#title=PlasticsRubber_GeneralTypes_IdentificationType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "aov:capability",
+        "aov:refName": "MachineConfiguration",
+        "href": "#title=PlasticsRubber_GeneralTypes_MachineConfigurationType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "aov:reference",
+        "aov:refName": "MaintenanceInformation",
+        "href": "#title=PlasticsRubber_HotRunner_MaintenanceInformationType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "aov:capability",
+        "aov:refName": "Operation",
+        "href": "#title=PlasticsRubber_HotRunner_OperationType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "aov:capability",
+        "aov:refName": "Zones",
+        "href": "#title=PlasticsRubber_HotRunner_ZonesType",
+        "type": "application/tm+json"
+      }
+    ],
+    "schemaDefinitions": {
+    },
+    "forms": [
+      {
+        "contentType": "application/json",
+        "dtv:topic": "opcua/PlasticsRubber.HotRunner/PlasticsRubber_HotRunner_HRD_InterfaceType/properties/write",
+        "op": "writemultipleproperties"
+      },
+      {
+        "contentType": "application/json",
+        "dtv:topic": "opcua/PlasticsRubber.HotRunner/PlasticsRubber_HotRunner_HRD_InterfaceType/properties/read",
+        "op": "readallproperties"
+      }
+    ],
+    "actions": {
+    },
+    "properties": {
+      "DisplayLanguage": {
+        "aov:namespace": "http://opcfoundation.org/UA/PlasticsRubber/HotRunner/",
+        "description": "Setting of desired language on the user interface at the HRD",
+        "type": "string",
+        "readOnly": false,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/PlasticsRubber.HotRunner/PlasticsRubber_HotRunner_HRD_InterfaceType/property/DisplayLanguage/write",
+            "op": "writeproperty"
+          },
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/PlasticsRubber.HotRunner/PlasticsRubber_HotRunner_HRD_InterfaceType/property/DisplayLanguage/read",
+            "op": "readproperty"
+          }
+        ]
+      }
+    },
+    "events": {
+    }
+  },
+  {
+    "@context": [
+      "https://www.w3.org/2022/wot/td/v1.1",
+      {
+        "dtv": "http://azure.com/DigitalTwins/dtmi#",
+        "aov": "http://azure.com/IoT/operations/tm#"
+      }
+    ],
+    "@type": "tm:ThingModel",
+    "title": "PlasticsRubber_HotRunner_MaintenanceInformationType",
+    "aov:typeRef": "nsu=http://opcfoundation.org/UA/PlasticsRubber/HotRunner/;i=1007",
+    "links": [
+      {
+        "rel": "tm:extends",
+        "href": "#title=OpcUaCore_BaseObjectType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "aov:reference",
+        "aov:refName": "CoolingFan",
+        "href": "#title=PlasticsRubber_GeneralTypes_MaintenanceType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "aov:reference",
+        "aov:refName": "Heating",
+        "href": "#title=PlasticsRubber_GeneralTypes_MaintenanceType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "aov:reference",
+        "aov:refName": "SafetyTest",
+        "href": "#title=PlasticsRubber_GeneralTypes_MaintenanceType",
+        "type": "application/tm+json"
+      }
+    ],
+    "schemaDefinitions": {
+    },
+    "actions": {
+    },
+    "properties": {
+    },
+    "events": {
+    }
+  },
+  {
+    "@context": [
+      "https://www.w3.org/2022/wot/td/v1.1",
+      {
+        "dtv": "http://azure.com/DigitalTwins/dtmi#",
+        "aov": "http://azure.com/IoT/operations/tm#"
+      }
+    ],
+    "@type": "tm:ThingModel",
+    "title": "PlasticsRubber_HotRunner_OperationType",
+    "aov:typeRef": "nsu=http://opcfoundation.org/UA/PlasticsRubber/HotRunner/;i=1009",
+    "links": [
+      {
+        "rel": "tm:extends",
+        "href": "#title=OpcUaCore_BaseObjectType",
+        "type": "application/tm+json"
+      }
+    ],
+    "schemaDefinitions": {
+    },
+    "forms": [
+      {
+        "contentType": "application/json",
+        "dtv:topic": "opcua/PlasticsRubber.HotRunner/PlasticsRubber_HotRunner_OperationType/events/{senderId}",
+        "op": "subscribeallevents"
+      },
+      {
+        "contentType": "application/json",
+        "dtv:topic": "opcua/PlasticsRubber.HotRunner/PlasticsRubber_HotRunner_OperationType/properties/write",
+        "op": "writemultipleproperties"
+      },
+      {
+        "contentType": "application/json",
+        "dtv:topic": "opcua/PlasticsRubber.HotRunner/PlasticsRubber_HotRunner_OperationType/properties/read",
+        "op": "readallproperties"
+      }
+    ],
+    "actions": {
+      "IdentifyDevice": {
+        "aov:namespace": "http://opcfoundation.org/UA/PlasticsRubber/HotRunner/",
+        "description": "The peripheral device on which this method is called shows itself by e.g. activation of a LED.",
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/PlasticsRubber.HotRunner/PlasticsRubber_HotRunner_OperationType/action/IdentifyDevice",
+            "op": "invokeaction"
+          }
+        ]
+      },
+      "ResetAllErrors": {
+        "aov:namespace": "http://opcfoundation.org/UA/PlasticsRubber/HotRunner/",
+        "description": "Method to reset all errors of the device",
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/PlasticsRubber.HotRunner/PlasticsRubber_HotRunner_OperationType/action/ResetAllErrors",
+            "op": "invokeaction"
+          }
+        ]
+      },
+      "ResetErrorById": {
+        "aov:namespace": "http://opcfoundation.org/UA/PlasticsRubber/HotRunner/",
+        "description": "Method to reset one error of the device",
+        "input": {
+          "type": "object",
+          "aov:typeRef": "nsu=http://opcfoundation.org/UA/PlasticsRubber/HotRunner/;i=6378",
+          "required": [ "Id" ],
+          "properties": {
+            "Id": {
+              "type": "string"
+            }
+          }
+        },
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/PlasticsRubber.HotRunner/PlasticsRubber_HotRunner_OperationType/action/ResetErrorById",
+            "op": "invokeaction"
+          }
+        ]
+      },
+      "SetReactionOnDisconnect": {
+        "aov:namespace": "http://opcfoundation.org/UA/PlasticsRubber/HotRunner/",
+        "description": "Method to set ReactionOnDisconnect and SessionNameForReactionOnDisconnect",
+        "input": {
+          "type": "object",
+          "aov:typeRef": "nsu=http://opcfoundation.org/UA/PlasticsRubber/HotRunner/;i=6651",
+          "required": [ "ReactionOnDisconnect" ],
+          "properties": {
+            "ReactionOnDisconnect": {
+              "type": "integer",
+              "minimum": 0,
+              "maximum": 65535
+            }
+          }
+        },
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/PlasticsRubber.HotRunner/PlasticsRubber_HotRunner_OperationType/action/SetReactionOnDisconnect",
+            "op": "invokeaction"
+          }
+        ]
+      }
+    },
+    "properties": {
+      "ActiveErrors": {
+        "aov:namespace": "http://opcfoundation.org/UA/PlasticsRubber/HotRunner/",
+        "description": "List of the active errors of the device",
+        "type": "array",
+        "items": {
+          "title": "ClassifiedActiveErrorDataType",
+          "description": "Iinformation about an active error in a device including the SoureNodes and a Classification",
+          "type": "object",
+          "aov:typeRef": "nsu=http://opcfoundation.org/UA/PlasticsRubber/GeneralTypes/;i=3003",
+          "required": [ "SourceNodes", "Classification" ],
+          "properties": {
+            "SourceNodes": {
+              "description": "NodeIds of the Nodes which cause the error",
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            },
+            "Classification": {
+              "description": "Classification of the error, if a process parameter expressed as MonitoredParameterType is the cause of the error",
+              "type": "integer",
+              "minimum": 0,
+              "maximum": 65535
+            }
+          }
+        },
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/PlasticsRubber.HotRunner/PlasticsRubber_HotRunner_OperationType/property/ActiveErrors/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "ActiveSetValues": {
+        "aov:namespace": "http://opcfoundation.org/UA/PlasticsRubber/HotRunner/",
+        "description": "Central selection of the used set temperature for the temperature zones ",
+        "type": "integer",
+        "minimum": 0,
+        "maximum": 65535,
+        "readOnly": false,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/PlasticsRubber.HotRunner/PlasticsRubber_HotRunner_OperationType/property/ActiveSetValues/write",
+            "op": "writeproperty"
+          },
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/PlasticsRubber.HotRunner/PlasticsRubber_HotRunner_OperationType/property/ActiveSetValues/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "DeviceMappingNumber": {
+        "aov:namespace": "http://opcfoundation.org/UA/PlasticsRubber/HotRunner/",
+        "description": "Unique identifier/address/number for devices of the same DeviceType within a local network",
+        "type": "integer",
+        "minimum": 0,
+        "maximum": 4294967295,
+        "readOnly": false,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/PlasticsRubber.HotRunner/PlasticsRubber_HotRunner_OperationType/property/DeviceMappingNumber/write",
+            "op": "writeproperty"
+          },
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/PlasticsRubber.HotRunner/PlasticsRubber_HotRunner_OperationType/property/DeviceMappingNumber/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "EnablePower": {
+        "aov:namespace": "http://opcfoundation.org/UA/PlasticsRubber/HotRunner/",
+        "description": "Global power control switch for all zone controllers",
+        "type": "boolean",
+        "readOnly": false,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/PlasticsRubber.HotRunner/PlasticsRubber_HotRunner_OperationType/property/EnablePower/write",
+            "op": "writeproperty"
+          },
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/PlasticsRubber.HotRunner/PlasticsRubber_HotRunner_OperationType/property/EnablePower/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "EvenHeatUpMaxTemperatureDifference": {
+        "aov:namespace": "http://opcfoundation.org/UA/PlasticsRubber/HotRunner/",
+        "description": "Definition of the maximum temperature difference of all zones during even heat-up ",
+        "type": "number",
+        "minimum": -1.80e+308,
+        "maximum": 1.80e+308,
+        "readOnly": false,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/PlasticsRubber.HotRunner/PlasticsRubber_HotRunner_OperationType/property/EvenHeatUpMaxTemperatureDifference/write",
+            "op": "writeproperty"
+          },
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/PlasticsRubber.HotRunner/PlasticsRubber_HotRunner_OperationType/property/EvenHeatUpMaxTemperatureDifference/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "HighestActiveAlarmSeverity": {
+        "aov:namespace": "http://opcfoundation.org/UA/PlasticsRubber/HotRunner/",
+        "description": "Indication of the severity of the highest active alarm",
+        "type": "integer",
+        "minimum": 0,
+        "maximum": 65535,
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/PlasticsRubber.HotRunner/PlasticsRubber_HotRunner_OperationType/property/HighestActiveAlarmSeverity/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "ReactionOnDisconnect": {
+        "aov:namespace": "http://opcfoundation.org/UA/PlasticsRubber/HotRunner/",
+        "description": "Selection of the set temperature for the temperature zones in case of a disconnection from the OPC UA client ",
+        "type": "integer",
+        "minimum": 0,
+        "maximum": 65535,
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/PlasticsRubber.HotRunner/PlasticsRubber_HotRunner_OperationType/property/ReactionOnDisconnect/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "SessionNameForReactionOnDisconnect": {
+        "aov:namespace": "http://opcfoundation.org/UA/PlasticsRubber/HotRunner/",
+        "description": "Contains the sessionName of the connection with the client relevant for ReactionOnDisconnect",
+        "type": "string",
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/PlasticsRubber.HotRunner/PlasticsRubber_HotRunner_OperationType/property/SessionNameForReactionOnDisconnect/read",
+            "op": "readproperty"
+          }
+        ]
+      }
+    },
+    "events": {
+      "ActiveErrors": {
+        "aov:namespace": "http://opcfoundation.org/UA/PlasticsRubber/HotRunner/",
+        "data": {
+          "description": "List of the active errors of the device",
+          "type": "array",
+          "items": {
+            "title": "ClassifiedActiveErrorDataType",
+            "description": "Iinformation about an active error in a device including the SoureNodes and a Classification",
+            "type": "object",
+            "aov:typeRef": "nsu=http://opcfoundation.org/UA/PlasticsRubber/GeneralTypes/;i=3003",
+            "required": [ "SourceNodes", "Classification" ],
+            "properties": {
+              "SourceNodes": {
+                "description": "NodeIds of the Nodes which cause the error",
+                "type": "array",
+                "items": {
+                  "type": "string"
+                }
+              },
+              "Classification": {
+                "description": "Classification of the error, if a process parameter expressed as MonitoredParameterType is the cause of the error",
+                "type": "integer",
+                "minimum": 0,
+                "maximum": 65535
+              }
+            }
+          }
+        },
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/PlasticsRubber.HotRunner/PlasticsRubber_HotRunner_OperationType/event/ActiveErrors/{senderId}",
+            "op": "subscribeevent"
+          }
+        ]
+      },
+      "ActiveSetValues": {
+        "aov:namespace": "http://opcfoundation.org/UA/PlasticsRubber/HotRunner/",
+        "data": {
+          "description": "Central selection of the used set temperature for the temperature zones ",
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 65535
+        },
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/PlasticsRubber.HotRunner/PlasticsRubber_HotRunner_OperationType/event/ActiveSetValues/{senderId}",
+            "op": "subscribeevent"
+          }
+        ]
+      },
+      "EvenHeatUpMaxTemperatureDifference": {
+        "aov:namespace": "http://opcfoundation.org/UA/PlasticsRubber/HotRunner/",
+        "data": {
+          "description": "Definition of the maximum temperature difference of all zones during even heat-up ",
+          "type": "number",
+          "minimum": -1.80e+308,
+          "maximum": 1.80e+308
+        },
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/PlasticsRubber.HotRunner/PlasticsRubber_HotRunner_OperationType/event/EvenHeatUpMaxTemperatureDifference/{senderId}",
+            "op": "subscribeevent"
+          }
+        ]
+      },
+      "ReactionOnDisconnect": {
+        "aov:namespace": "http://opcfoundation.org/UA/PlasticsRubber/HotRunner/",
+        "data": {
+          "description": "Selection of the set temperature for the temperature zones in case of a disconnection from the OPC UA client ",
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 65535
+        },
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/PlasticsRubber.HotRunner/PlasticsRubber_HotRunner_OperationType/event/ReactionOnDisconnect/{senderId}",
+            "op": "subscribeevent"
+          }
+        ]
+      }
+    }
+  },
+  {
+    "@context": [
+      "https://www.w3.org/2022/wot/td/v1.1",
+      {
+        "dtv": "http://azure.com/DigitalTwins/dtmi#",
+        "aov": "http://azure.com/IoT/operations/tm#"
+      }
+    ],
+    "@type": "tm:ThingModel",
+    "title": "PlasticsRubber_HotRunner_ZonesType",
+    "aov:typeRef": "nsu=http://opcfoundation.org/UA/PlasticsRubber/HotRunner/;i=1008",
+    "links": [
+      {
+        "rel": "tm:extends",
+        "href": "#title=OpcUaCore_BaseObjectType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "aov:component",
+        "aov:refName": "Zone__Nr_",
+        "href": "#title=PlasticsRubber_HotRunner_ZoneType",
+        "type": "application/tm+json"
+      }
+    ],
+    "schemaDefinitions": {
+    },
+    "forms": [
+      {
+        "contentType": "application/json",
+        "dtv:topic": "opcua/PlasticsRubber.HotRunner/PlasticsRubber_HotRunner_ZonesType/properties/read",
+        "op": "readallproperties"
+      }
+    ],
+    "actions": {
+    },
+    "properties": {
+      "NodeVersion": {
+        "type": "string",
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/PlasticsRubber.HotRunner/PlasticsRubber_HotRunner_ZonesType/property/NodeVersion/read",
+            "op": "readproperty"
+          }
+        ]
+      }
+    },
+    "events": {
+    }
+  },
+  {
+    "@context": [
+      "https://www.w3.org/2022/wot/td/v1.1",
+      {
+        "dtv": "http://azure.com/DigitalTwins/dtmi#",
+        "aov": "http://azure.com/IoT/operations/tm#"
+      }
+    ],
+    "@type": "tm:ThingModel",
+    "title": "PlasticsRubber_HotRunner_ZoneType",
+    "aov:typeRef": "nsu=http://opcfoundation.org/UA/PlasticsRubber/HotRunner/;i=1006",
+    "links": [
+      {
+        "rel": "tm:extends",
+        "href": "#title=OpcUaCore_BaseObjectType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "aov:capability",
+        "aov:refName": "Controller",
+        "href": "#title=PlasticsRubber_HotRunner_ControllerType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "aov:reference",
+        "aov:refName": "HeatUp",
+        "href": "#title=PlasticsRubber_HotRunner_HeatUpType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "aov:capability",
+        "aov:refName": "Temperature",
+        "href": "#title=PlasticsRubber_HotRunner_HRDTemperatureType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "aov:reference",
+        "aov:refName": "TemperatureRiseMonitoring",
+        "href": "#title=PlasticsRubber_HotRunner_TemperatureRiseMonitoringType",
+        "type": "application/tm+json"
+      }
+    ],
+    "schemaDefinitions": {
+    },
+    "forms": [
+      {
+        "contentType": "application/json",
+        "dtv:topic": "opcua/PlasticsRubber.HotRunner/PlasticsRubber_HotRunner_ZoneType/events/{senderId}",
+        "op": "subscribeallevents"
+      },
+      {
+        "contentType": "application/json",
+        "dtv:topic": "opcua/PlasticsRubber.HotRunner/PlasticsRubber_HotRunner_ZoneType/properties/write",
+        "op": "writemultipleproperties"
+      },
+      {
+        "contentType": "application/json",
+        "dtv:topic": "opcua/PlasticsRubber.HotRunner/PlasticsRubber_HotRunner_ZoneType/properties/read",
+        "op": "readallproperties"
+      }
+    ],
+    "actions": {
+    },
+    "properties": {
+      "CommunicationProtocolType": {
+        "aov:namespace": "http://opcfoundation.org/UA/PlasticsRubber/HotRunner/",
+        "description": "Used communication protocol between the sensor and the control system of the HRD",
+        "type": "integer",
+        "minimum": 0,
+        "maximum": 65535,
+        "readOnly": false,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/PlasticsRubber.HotRunner/PlasticsRubber_HotRunner_ZoneType/property/CommunicationProtocolType/write",
+            "op": "writeproperty"
+          },
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/PlasticsRubber.HotRunner/PlasticsRubber_HotRunner_ZoneType/property/CommunicationProtocolType/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "HighestActiveAlarmSeverity": {
+        "aov:namespace": "http://opcfoundation.org/UA/PlasticsRubber/HotRunner/",
+        "description": "Indicates the severity of the highest active alarm related to the current zone",
+        "type": "integer",
+        "minimum": 0,
+        "maximum": 65535,
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/PlasticsRubber.HotRunner/PlasticsRubber_HotRunner_ZoneType/property/HighestActiveAlarmSeverity/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "Name": {
+        "aov:namespace": "http://opcfoundation.org/UA/PlasticsRubber/HotRunner/",
+        "description": "A user given name of the zone",
+        "type": "string",
+        "readOnly": false,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/PlasticsRubber.HotRunner/PlasticsRubber_HotRunner_ZoneType/property/Name/write",
+            "op": "writeproperty"
+          },
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/PlasticsRubber.HotRunner/PlasticsRubber_HotRunner_ZoneType/property/Name/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "ThermocoupleType": {
+        "aov:namespace": "http://opcfoundation.org/UA/PlasticsRubber/HotRunner/",
+        "description": "Type of connected external temperature sensor ",
+        "type": "integer",
+        "minimum": 0,
+        "maximum": 65535,
+        "readOnly": false,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/PlasticsRubber.HotRunner/PlasticsRubber_HotRunner_ZoneType/property/ThermocoupleType/write",
+            "op": "writeproperty"
+          },
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/PlasticsRubber.HotRunner/PlasticsRubber_HotRunner_ZoneType/property/ThermocoupleType/read",
+            "op": "readproperty"
+          }
+        ]
+      }
+    },
+    "events": {
+      "CommunicationProtocolType": {
+        "aov:namespace": "http://opcfoundation.org/UA/PlasticsRubber/HotRunner/",
+        "data": {
+          "description": "Used communication protocol between the sensor and the control system of the HRD",
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 65535
+        },
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/PlasticsRubber.HotRunner/PlasticsRubber_HotRunner_ZoneType/event/CommunicationProtocolType/{senderId}",
+            "op": "subscribeevent"
+          }
+        ]
+      },
+      "ThermocoupleType": {
+        "aov:namespace": "http://opcfoundation.org/UA/PlasticsRubber/HotRunner/",
+        "data": {
+          "description": "Type of connected external temperature sensor ",
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 65535
+        },
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/PlasticsRubber.HotRunner/PlasticsRubber_HotRunner_ZoneType/event/ThermocoupleType/{senderId}",
+            "op": "subscribeevent"
+          }
+        ]
+      }
+    }
+  },
+  {
+    "@context": [
+      "https://www.w3.org/2022/wot/td/v1.1",
+      {
+        "dtv": "http://azure.com/DigitalTwins/dtmi#",
+        "aov": "http://azure.com/IoT/operations/tm#"
+      }
+    ],
+    "@type": "tm:ThingModel",
+    "title": "PlasticsRubber_HotRunner_HRDTemperatureType",
+    "aov:typeRef": "nsu=http://opcfoundation.org/UA/PlasticsRubber/HotRunner/;i=1011",
+    "links": [
+      {
+        "rel": "tm:extends",
+        "href": "#title=PlasticsRubber_GeneralTypes_ControlledParameterType",
+        "type": "application/tm+json"
+      }
+    ],
+    "schemaDefinitions": {
+    },
+    "forms": [
+      {
+        "contentType": "application/json",
+        "dtv:topic": "opcua/PlasticsRubber.HotRunner/PlasticsRubber_HotRunner_HRDTemperatureType/events/{senderId}",
+        "op": "subscribeallevents"
+      },
+      {
+        "contentType": "application/json",
+        "dtv:topic": "opcua/PlasticsRubber.HotRunner/PlasticsRubber_HotRunner_HRDTemperatureType/properties/write",
+        "op": "writemultipleproperties"
+      },
+      {
+        "contentType": "application/json",
+        "dtv:topic": "opcua/PlasticsRubber.HotRunner/PlasticsRubber_HotRunner_HRDTemperatureType/properties/read",
+        "op": "readallproperties"
+      }
+    ],
+    "actions": {
+    },
+    "properties": {
+      "ActiveSetValue": {
+        "aov:namespace": "http://opcfoundation.org/UA/PlasticsRubber/HotRunner/",
+        "description": "Current active set temperature for the temperature zone ",
+        "type": "integer",
+        "minimum": 0,
+        "maximum": 65535,
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/PlasticsRubber.HotRunner/PlasticsRubber_HotRunner_HRDTemperatureType/property/ActiveSetValue/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "BoostSetValue": {
+        "aov:namespace": "http://opcfoundation.org/UA/PlasticsRubber/HotRunner/",
+        "description": "Set value for boost mode",
+        "type": "number",
+        "minimum": -1.80e+308,
+        "maximum": 1.80e+308,
+        "readOnly": false,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/PlasticsRubber.HotRunner/PlasticsRubber_HotRunner_HRDTemperatureType/property/BoostSetValue/write",
+            "op": "writeproperty"
+          },
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/PlasticsRubber.HotRunner/PlasticsRubber_HotRunner_HRDTemperatureType/property/BoostSetValue/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "BoostTime": {
+        "aov:namespace": "http://opcfoundation.org/UA/PlasticsRubber/HotRunner/",
+        "description": "Duration of the boost mode after which the set value which was active before boost is becoming active again",
+        "type": "string",
+        "pattern": "^P(?!$)(?:(?:(?:(?:\\d+Y)|(?:\\d+\\.\\d+Y$))?(?:(?:\\d+M)|(?:\\d+\\.\\d+M$))?)|(?:(?:(?:\\d+W)|(?:\\d+\\.\\d+W$))?))(?:(?:\\d+D)|(?:\\d+\\.\\d+D$))?(?:T(?!$)(?:(?:\\d+H)|(?:\\d+\\.\\d+H$))?(?:(?:\\d+M)|(?:\\d+\\.\\d+M$))?(?:\\d+(?:\\.\\d+)?S)?)?$",
+        "readOnly": false,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/PlasticsRubber.HotRunner/PlasticsRubber_HotRunner_HRDTemperatureType/property/BoostTime/write",
+            "op": "writeproperty"
+          },
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/PlasticsRubber.HotRunner/PlasticsRubber_HotRunner_HRDTemperatureType/property/BoostTime/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "SecondSetValue": {
+        "aov:namespace": "http://opcfoundation.org/UA/PlasticsRubber/HotRunner/",
+        "description": "Second set value for fast switch-over",
+        "type": "number",
+        "minimum": -1.80e+308,
+        "maximum": 1.80e+308,
+        "readOnly": false,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/PlasticsRubber.HotRunner/PlasticsRubber_HotRunner_HRDTemperatureType/property/SecondSetValue/write",
+            "op": "writeproperty"
+          },
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/PlasticsRubber.HotRunner/PlasticsRubber_HotRunner_HRDTemperatureType/property/SecondSetValue/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "StandbySetValue": {
+        "aov:namespace": "http://opcfoundation.org/UA/PlasticsRubber/HotRunner/",
+        "description": "Set value for standby mode",
+        "type": "number",
+        "minimum": -1.80e+308,
+        "maximum": 1.80e+308,
+        "readOnly": false,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/PlasticsRubber.HotRunner/PlasticsRubber_HotRunner_HRDTemperatureType/property/StandbySetValue/write",
+            "op": "writeproperty"
+          },
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/PlasticsRubber.HotRunner/PlasticsRubber_HotRunner_HRDTemperatureType/property/StandbySetValue/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "TimeMethodPIDParameters": {
+        "aov:namespace": "http://opcfoundation.org/UA/PlasticsRubber/HotRunner/",
+        "description": "Setting of PID parameters with time method",
+        "type": "array",
+        "items": {
+          "title": "TimeMethodPIDParametersDataType",
+          "type": "object",
+          "aov:typeRef": "nsu=http://opcfoundation.org/UA/PlasticsRubber/HotRunner/;i=3005",
+          "required": [ "Xp", "Tn", "Tv", "Ts" ],
+          "properties": {
+            "Xp": {
+              "description": "proportional band",
+              "type": "number",
+              "minimum": -1.80e+308,
+              "maximum": 1.80e+308
+            },
+            "Tn": {
+              "description": "reset time",
+              "type": "number",
+              "minimum": -1.80e+308,
+              "maximum": 1.80e+308
+            },
+            "Tv": {
+              "description": "derivative time",
+              "type": "number",
+              "minimum": -1.80e+308,
+              "maximum": 1.80e+308
+            },
+            "Ts": {
+              "description": "sample time",
+              "type": "number",
+              "minimum": -1.80e+308,
+              "maximum": 1.80e+308
+            }
+          }
+        },
+        "readOnly": false,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/PlasticsRubber.HotRunner/PlasticsRubber_HotRunner_HRDTemperatureType/property/TimeMethodPIDParameters/write",
+            "op": "writeproperty"
+          },
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/PlasticsRubber.HotRunner/PlasticsRubber_HotRunner_HRDTemperatureType/property/TimeMethodPIDParameters/read",
+            "op": "readproperty"
+          }
+        ]
+      }
+    },
+    "events": {
+      "ActiveSetValue": {
+        "aov:namespace": "http://opcfoundation.org/UA/PlasticsRubber/HotRunner/",
+        "data": {
+          "description": "Current active set temperature for the temperature zone ",
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 65535
+        },
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/PlasticsRubber.HotRunner/PlasticsRubber_HotRunner_HRDTemperatureType/event/ActiveSetValue/{senderId}",
+            "op": "subscribeevent"
+          }
+        ]
+      },
+      "BoostSetValue": {
+        "aov:namespace": "http://opcfoundation.org/UA/PlasticsRubber/HotRunner/",
+        "data": {
+          "description": "Set value for boost mode",
+          "type": "number",
+          "minimum": -1.80e+308,
+          "maximum": 1.80e+308
+        },
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/PlasticsRubber.HotRunner/PlasticsRubber_HotRunner_HRDTemperatureType/event/BoostSetValue/{senderId}",
+            "op": "subscribeevent"
+          }
+        ]
+      },
+      "SecondSetValue": {
+        "aov:namespace": "http://opcfoundation.org/UA/PlasticsRubber/HotRunner/",
+        "data": {
+          "description": "Second set value for fast switch-over",
+          "type": "number",
+          "minimum": -1.80e+308,
+          "maximum": 1.80e+308
+        },
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/PlasticsRubber.HotRunner/PlasticsRubber_HotRunner_HRDTemperatureType/event/SecondSetValue/{senderId}",
+            "op": "subscribeevent"
+          }
+        ]
+      },
+      "StandbySetValue": {
+        "aov:namespace": "http://opcfoundation.org/UA/PlasticsRubber/HotRunner/",
+        "data": {
+          "description": "Set value for standby mode",
+          "type": "number",
+          "minimum": -1.80e+308,
+          "maximum": 1.80e+308
+        },
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/PlasticsRubber.HotRunner/PlasticsRubber_HotRunner_HRDTemperatureType/event/StandbySetValue/{senderId}",
+            "op": "subscribeevent"
+          }
+        ]
+      }
+    }
+  },
+  {
+    "@context": [
+      "https://www.w3.org/2022/wot/td/v1.1",
+      {
+        "dtv": "http://azure.com/DigitalTwins/dtmi#",
+        "aov": "http://azure.com/IoT/operations/tm#"
+      }
+    ],
+    "@type": "tm:ThingModel",
+    "title": "PlasticsRubber_HotRunner_TemperatureRiseMonitoringType",
+    "aov:typeRef": "nsu=http://opcfoundation.org/UA/PlasticsRubber/HotRunner/;i=1003",
+    "links": [
+      {
+        "rel": "tm:extends",
+        "href": "#title=OpcUaCore_BaseObjectType",
+        "type": "application/tm+json"
+      }
+    ],
+    "schemaDefinitions": {
+    },
+    "forms": [
+      {
+        "contentType": "application/json",
+        "dtv:topic": "opcua/PlasticsRubber.HotRunner/PlasticsRubber_HotRunner_TemperatureRiseMonitoringType/events/{senderId}",
+        "op": "subscribeallevents"
+      },
+      {
+        "contentType": "application/json",
+        "dtv:topic": "opcua/PlasticsRubber.HotRunner/PlasticsRubber_HotRunner_TemperatureRiseMonitoringType/properties/write",
+        "op": "writemultipleproperties"
+      },
+      {
+        "contentType": "application/json",
+        "dtv:topic": "opcua/PlasticsRubber.HotRunner/PlasticsRubber_HotRunner_TemperatureRiseMonitoringType/properties/read",
+        "op": "readallproperties"
+      }
+    ],
+    "actions": {
+    },
+    "properties": {
+      "ErrorDetected": {
+        "aov:namespace": "http://opcfoundation.org/UA/PlasticsRubber/HotRunner/",
+        "description": "Result of the TemperatureRiseMonitoring",
+        "type": "boolean",
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/PlasticsRubber.HotRunner/PlasticsRubber_HotRunner_TemperatureRiseMonitoringType/property/ErrorDetected/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "SetValueActive": {
+        "aov:namespace": "http://opcfoundation.org/UA/PlasticsRubber/HotRunner/",
+        "description": "On / Off for the TemperatureRiseMonitoring",
+        "type": "boolean",
+        "readOnly": false,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/PlasticsRubber.HotRunner/PlasticsRubber_HotRunner_TemperatureRiseMonitoringType/property/SetValueActive/write",
+            "op": "writeproperty"
+          },
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/PlasticsRubber.HotRunner/PlasticsRubber_HotRunner_TemperatureRiseMonitoringType/property/SetValueActive/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "SetValueTemperatureChange": {
+        "aov:namespace": "http://opcfoundation.org/UA/PlasticsRubber/HotRunner/",
+        "description": "Specification of the set value change",
+        "type": "number",
+        "minimum": -1.80e+308,
+        "maximum": 1.80e+308,
+        "readOnly": false,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/PlasticsRubber.HotRunner/PlasticsRubber_HotRunner_TemperatureRiseMonitoringType/property/SetValueTemperatureChange/write",
+            "op": "writeproperty"
+          },
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/PlasticsRubber.HotRunner/PlasticsRubber_HotRunner_TemperatureRiseMonitoringType/property/SetValueTemperatureChange/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "SupervisionTime": {
+        "aov:namespace": "http://opcfoundation.org/UA/PlasticsRubber/HotRunner/",
+        "description": "Specification of the time within the temperature must have changed",
+        "type": "string",
+        "pattern": "^P(?!$)(?:(?:(?:(?:\\d+Y)|(?:\\d+\\.\\d+Y$))?(?:(?:\\d+M)|(?:\\d+\\.\\d+M$))?)|(?:(?:(?:\\d+W)|(?:\\d+\\.\\d+W$))?))(?:(?:\\d+D)|(?:\\d+\\.\\d+D$))?(?:T(?!$)(?:(?:\\d+H)|(?:\\d+\\.\\d+H$))?(?:(?:\\d+M)|(?:\\d+\\.\\d+M$))?(?:\\d+(?:\\.\\d+)?S)?)?$",
+        "readOnly": false,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/PlasticsRubber.HotRunner/PlasticsRubber_HotRunner_TemperatureRiseMonitoringType/property/SupervisionTime/write",
+            "op": "writeproperty"
+          },
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/PlasticsRubber.HotRunner/PlasticsRubber_HotRunner_TemperatureRiseMonitoringType/property/SupervisionTime/read",
+            "op": "readproperty"
+          }
+        ]
+      }
+    },
+    "events": {
+      "SetValueTemperatureChange": {
+        "aov:namespace": "http://opcfoundation.org/UA/PlasticsRubber/HotRunner/",
+        "data": {
+          "description": "Specification of the set value change",
+          "type": "number",
+          "minimum": -1.80e+308,
+          "maximum": 1.80e+308
+        },
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/PlasticsRubber.HotRunner/PlasticsRubber_HotRunner_TemperatureRiseMonitoringType/event/SetValueTemperatureChange/{senderId}",
+            "op": "subscribeevent"
+          }
+        ]
+      }
+    }
+  },
+  {
+    "@context": [
+      "https://www.w3.org/2022/wot/td/v1.1",
+      {
+        "dtv": "http://azure.com/DigitalTwins/dtmi#",
+        "aov": "http://azure.com/IoT/operations/tm#"
+      }
+    ],
+    "@type": "tm:ThingModel",
+    "title": "PlasticsRubber_GeneralTypes_HelpOffNormalAlarmType",
+    "aov:typeRef": "nsu=http://opcfoundation.org/UA/PlasticsRubber/GeneralTypes/;i=1052",
+    "aov:isEvent": true,
+    "links": [
+      {
+        "rel": "tm:extends",
+        "href": "#title=OpcUaCore_OffNormalAlarmType",
+        "type": "application/tm+json"
+      }
+    ],
+    "schemaDefinitions": {
+    },
+    "forms": [
+      {
+        "contentType": "application/json",
+        "dtv:topic": "opcua/PlasticsRubber.GeneralTypes/PlasticsRubber_GeneralTypes_HelpOffNormalAlarmType/properties/read",
+        "op": "readallproperties"
+      }
+    ],
+    "actions": {
+    },
+    "properties": {
+      "HelpText": {
+        "aov:namespace": "http://opcfoundation.org/UA/PlasticsRubber/GeneralTypes/",
+        "description": "Text with additional information for the operator",
+        "type": "string",
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/PlasticsRubber.GeneralTypes/PlasticsRubber_GeneralTypes_HelpOffNormalAlarmType/property/HelpText/read",
+            "op": "readproperty"
+          }
+        ]
+      }
+    },
+    "events": {
+    }
+  },
+  {
+    "@context": [
+      "https://www.w3.org/2022/wot/td/v1.1",
+      {
+        "dtv": "http://azure.com/DigitalTwins/dtmi#",
+        "aov": "http://azure.com/IoT/operations/tm#"
+      }
+    ],
+    "@type": "tm:ThingModel",
+    "title": "PlasticsRubber_GeneralTypes_MonitoredParameterType",
+    "aov:typeRef": "nsu=http://opcfoundation.org/UA/PlasticsRubber/GeneralTypes/;i=1056",
+    "links": [
+      {
+        "rel": "tm:extends",
+        "href": "#title=OpcUaCore_BaseObjectType",
+        "type": "application/tm+json"
+      }
+    ],
+    "schemaDefinitions": {
+    },
+    "forms": [
+      {
+        "contentType": "application/json",
+        "dtv:topic": "opcua/PlasticsRubber.GeneralTypes/PlasticsRubber_GeneralTypes_MonitoredParameterType/events/{senderId}",
+        "op": "subscribeallevents"
+      },
+      {
+        "contentType": "application/json",
+        "dtv:topic": "opcua/PlasticsRubber.GeneralTypes/PlasticsRubber_GeneralTypes_MonitoredParameterType/properties/write",
+        "op": "writemultipleproperties"
+      },
+      {
+        "contentType": "application/json",
+        "dtv:topic": "opcua/PlasticsRubber.GeneralTypes/PlasticsRubber_GeneralTypes_MonitoredParameterType/properties/read",
+        "op": "readallproperties"
+      }
+    ],
+    "actions": {
+      "ResetMonitoring": {
+        "aov:namespace": "http://opcfoundation.org/UA/PlasticsRubber/GeneralTypes/",
+        "description": "With this method the tolerance values are set according to the actual value and the set monitoring sensitivity",
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/PlasticsRubber.GeneralTypes/PlasticsRubber_GeneralTypes_MonitoredParameterType/action/ResetMonitoring",
+            "op": "invokeaction"
+          }
+        ]
+      }
+    },
+    "properties": {
+      "ActualValue": {
+        "aov:namespace": "http://opcfoundation.org/UA/PlasticsRubber/GeneralTypes/",
+        "description": "Actual value of the monitored parameter",
+        "type": "number",
+        "minimum": -1.80e+308,
+        "maximum": 1.80e+308,
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/PlasticsRubber.GeneralTypes/PlasticsRubber_GeneralTypes_MonitoredParameterType/property/ActualValue/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "AlarmSuppression": {
+        "aov:namespace": "http://opcfoundation.org/UA/PlasticsRubber/GeneralTypes/",
+        "description": "The start-up alarm suppression deactivates alarms of a monitored parameter during start up or a setpoint jump",
+        "type": "integer",
+        "minimum": 0,
+        "maximum": 65535,
+        "readOnly": false,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/PlasticsRubber.GeneralTypes/PlasticsRubber_GeneralTypes_MonitoredParameterType/property/AlarmSuppression/write",
+            "op": "writeproperty"
+          },
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/PlasticsRubber.GeneralTypes/PlasticsRubber_GeneralTypes_MonitoredParameterType/property/AlarmSuppression/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "AutomaticMonitoring": {
+        "aov:namespace": "http://opcfoundation.org/UA/PlasticsRubber/GeneralTypes/",
+        "description": "Determination if monitoring tolerance parameters are determined by auto-tuning itself (TRUE) or can be manually adjusted (FALSE)",
+        "type": "boolean",
+        "readOnly": false,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/PlasticsRubber.GeneralTypes/PlasticsRubber_GeneralTypes_MonitoredParameterType/property/AutomaticMonitoring/write",
+            "op": "writeproperty"
+          },
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/PlasticsRubber.GeneralTypes/PlasticsRubber_GeneralTypes_MonitoredParameterType/property/AutomaticMonitoring/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "LowerTolerance": {
+        "aov:namespace": "http://opcfoundation.org/UA/PlasticsRubber/GeneralTypes/",
+        "description": "Lower relative tolerance value of the process parameter",
+        "type": "number",
+        "minimum": -1.80e+308,
+        "maximum": 1.80e+308,
+        "readOnly": false,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/PlasticsRubber.GeneralTypes/PlasticsRubber_GeneralTypes_MonitoredParameterType/property/LowerTolerance/write",
+            "op": "writeproperty"
+          },
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/PlasticsRubber.GeneralTypes/PlasticsRubber_GeneralTypes_MonitoredParameterType/property/LowerTolerance/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "LowerTolerance2": {
+        "aov:namespace": "http://opcfoundation.org/UA/PlasticsRubber/GeneralTypes/",
+        "description": "Second lower relative tolerance value of the process parameter",
+        "type": "number",
+        "minimum": -1.80e+308,
+        "maximum": 1.80e+308,
+        "readOnly": false,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/PlasticsRubber.GeneralTypes/PlasticsRubber_GeneralTypes_MonitoredParameterType/property/LowerTolerance2/write",
+            "op": "writeproperty"
+          },
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/PlasticsRubber.GeneralTypes/PlasticsRubber_GeneralTypes_MonitoredParameterType/property/LowerTolerance2/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "MaxValue": {
+        "aov:namespace": "http://opcfoundation.org/UA/PlasticsRubber/GeneralTypes/",
+        "description": "Maximum absolute value of the process parameter",
+        "type": "number",
+        "minimum": -1.80e+308,
+        "maximum": 1.80e+308,
+        "readOnly": false,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/PlasticsRubber.GeneralTypes/PlasticsRubber_GeneralTypes_MonitoredParameterType/property/MaxValue/write",
+            "op": "writeproperty"
+          },
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/PlasticsRubber.GeneralTypes/PlasticsRubber_GeneralTypes_MonitoredParameterType/property/MaxValue/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "MinValue": {
+        "aov:namespace": "http://opcfoundation.org/UA/PlasticsRubber/GeneralTypes/",
+        "description": "Minimum absolute value of the process parameter",
+        "type": "number",
+        "minimum": -1.80e+308,
+        "maximum": 1.80e+308,
+        "readOnly": false,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/PlasticsRubber.GeneralTypes/PlasticsRubber_GeneralTypes_MonitoredParameterType/property/MinValue/write",
+            "op": "writeproperty"
+          },
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/PlasticsRubber.GeneralTypes/PlasticsRubber_GeneralTypes_MonitoredParameterType/property/MinValue/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "MonitoringSensitivity": {
+        "aov:namespace": "http://opcfoundation.org/UA/PlasticsRubber/GeneralTypes/",
+        "description": "Defines how closely the tolerances are set during the automatic limit setting",
+        "type": "integer",
+        "minimum": 0,
+        "maximum": 65535,
+        "readOnly": false,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/PlasticsRubber.GeneralTypes/PlasticsRubber_GeneralTypes_MonitoredParameterType/property/MonitoringSensitivity/write",
+            "op": "writeproperty"
+          },
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/PlasticsRubber.GeneralTypes/PlasticsRubber_GeneralTypes_MonitoredParameterType/property/MonitoringSensitivity/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "SetRampDown": {
+        "aov:namespace": "http://opcfoundation.org/UA/PlasticsRubber/GeneralTypes/",
+        "description": "Indication if SetValue that is lower than the actual value shall be reached as fast as possible (SetRampDown = 0) or within a given value change per time",
+        "type": "number",
+        "minimum": -1.80e+308,
+        "maximum": 1.80e+308,
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/PlasticsRubber.GeneralTypes/PlasticsRubber_GeneralTypes_MonitoredParameterType/property/SetRampDown/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "SetRampUp": {
+        "aov:namespace": "http://opcfoundation.org/UA/PlasticsRubber/GeneralTypes/",
+        "description": "Indication if a SetValue that is higher than the actual value shall be reached as fast as possible (SetRampUp = 0) or within a given value change per time",
+        "type": "number",
+        "minimum": -1.80e+308,
+        "maximum": 1.80e+308,
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/PlasticsRubber.GeneralTypes/PlasticsRubber_GeneralTypes_MonitoredParameterType/property/SetRampUp/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "SetValue": {
+        "aov:namespace": "http://opcfoundation.org/UA/PlasticsRubber/GeneralTypes/",
+        "description": "Set/nominal/target value of the monitored parameter",
+        "type": "number",
+        "minimum": -1.80e+308,
+        "maximum": 1.80e+308,
+        "readOnly": false,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/PlasticsRubber.GeneralTypes/PlasticsRubber_GeneralTypes_MonitoredParameterType/property/SetValue/write",
+            "op": "writeproperty"
+          },
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/PlasticsRubber.GeneralTypes/PlasticsRubber_GeneralTypes_MonitoredParameterType/property/SetValue/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "Status": {
+        "aov:namespace": "http://opcfoundation.org/UA/PlasticsRubber/GeneralTypes/",
+        "description": "Information if the ActualValue is within the tolerances or has passed a tolerance or min/max value",
+        "type": "integer",
+        "minimum": 0,
+        "maximum": 65535,
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/PlasticsRubber.GeneralTypes/PlasticsRubber_GeneralTypes_MonitoredParameterType/property/Status/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "UpperTolerance": {
+        "aov:namespace": "http://opcfoundation.org/UA/PlasticsRubber/GeneralTypes/",
+        "description": "Upper relative tolerance value of the process parameter",
+        "type": "number",
+        "minimum": -1.80e+308,
+        "maximum": 1.80e+308,
+        "readOnly": false,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/PlasticsRubber.GeneralTypes/PlasticsRubber_GeneralTypes_MonitoredParameterType/property/UpperTolerance/write",
+            "op": "writeproperty"
+          },
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/PlasticsRubber.GeneralTypes/PlasticsRubber_GeneralTypes_MonitoredParameterType/property/UpperTolerance/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "UpperTolerance2": {
+        "aov:namespace": "http://opcfoundation.org/UA/PlasticsRubber/GeneralTypes/",
+        "description": "Second upper relative tolerance value of the process parameter",
+        "type": "number",
+        "minimum": -1.80e+308,
+        "maximum": 1.80e+308,
+        "readOnly": false,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/PlasticsRubber.GeneralTypes/PlasticsRubber_GeneralTypes_MonitoredParameterType/property/UpperTolerance2/write",
+            "op": "writeproperty"
+          },
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/PlasticsRubber.GeneralTypes/PlasticsRubber_GeneralTypes_MonitoredParameterType/property/UpperTolerance2/read",
+            "op": "readproperty"
+          }
+        ]
+      }
+    },
+    "events": {
+      "ActualValue": {
+        "aov:namespace": "http://opcfoundation.org/UA/PlasticsRubber/GeneralTypes/",
+        "data": {
+          "description": "Actual value of the monitored parameter",
+          "type": "number",
+          "minimum": -1.80e+308,
+          "maximum": 1.80e+308
+        },
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/PlasticsRubber.GeneralTypes/PlasticsRubber_GeneralTypes_MonitoredParameterType/event/ActualValue/{senderId}",
+            "op": "subscribeevent"
+          }
+        ]
+      },
+      "AlarmSuppression": {
+        "aov:namespace": "http://opcfoundation.org/UA/PlasticsRubber/GeneralTypes/",
+        "data": {
+          "description": "The start-up alarm suppression deactivates alarms of a monitored parameter during start up or a setpoint jump",
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 65535
+        },
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/PlasticsRubber.GeneralTypes/PlasticsRubber_GeneralTypes_MonitoredParameterType/event/AlarmSuppression/{senderId}",
+            "op": "subscribeevent"
+          }
+        ]
+      },
+      "LowerTolerance": {
+        "aov:namespace": "http://opcfoundation.org/UA/PlasticsRubber/GeneralTypes/",
+        "data": {
+          "description": "Lower relative tolerance value of the process parameter",
+          "type": "number",
+          "minimum": -1.80e+308,
+          "maximum": 1.80e+308
+        },
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/PlasticsRubber.GeneralTypes/PlasticsRubber_GeneralTypes_MonitoredParameterType/event/LowerTolerance/{senderId}",
+            "op": "subscribeevent"
+          }
+        ]
+      },
+      "LowerTolerance2": {
+        "aov:namespace": "http://opcfoundation.org/UA/PlasticsRubber/GeneralTypes/",
+        "data": {
+          "description": "Second lower relative tolerance value of the process parameter",
+          "type": "number",
+          "minimum": -1.80e+308,
+          "maximum": 1.80e+308
+        },
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/PlasticsRubber.GeneralTypes/PlasticsRubber_GeneralTypes_MonitoredParameterType/event/LowerTolerance2/{senderId}",
+            "op": "subscribeevent"
+          }
+        ]
+      },
+      "MaxValue": {
+        "aov:namespace": "http://opcfoundation.org/UA/PlasticsRubber/GeneralTypes/",
+        "data": {
+          "description": "Maximum absolute value of the process parameter",
+          "type": "number",
+          "minimum": -1.80e+308,
+          "maximum": 1.80e+308
+        },
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/PlasticsRubber.GeneralTypes/PlasticsRubber_GeneralTypes_MonitoredParameterType/event/MaxValue/{senderId}",
+            "op": "subscribeevent"
+          }
+        ]
+      },
+      "MinValue": {
+        "aov:namespace": "http://opcfoundation.org/UA/PlasticsRubber/GeneralTypes/",
+        "data": {
+          "description": "Minimum absolute value of the process parameter",
+          "type": "number",
+          "minimum": -1.80e+308,
+          "maximum": 1.80e+308
+        },
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/PlasticsRubber.GeneralTypes/PlasticsRubber_GeneralTypes_MonitoredParameterType/event/MinValue/{senderId}",
+            "op": "subscribeevent"
+          }
+        ]
+      },
+      "MonitoringSensitivity": {
+        "aov:namespace": "http://opcfoundation.org/UA/PlasticsRubber/GeneralTypes/",
+        "data": {
+          "description": "Defines how closely the tolerances are set during the automatic limit setting",
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 65535
+        },
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/PlasticsRubber.GeneralTypes/PlasticsRubber_GeneralTypes_MonitoredParameterType/event/MonitoringSensitivity/{senderId}",
+            "op": "subscribeevent"
+          }
+        ]
+      },
+      "SetRampDown": {
+        "aov:namespace": "http://opcfoundation.org/UA/PlasticsRubber/GeneralTypes/",
+        "data": {
+          "description": "Indication if SetValue that is lower than the actual value shall be reached as fast as possible (SetRampDown = 0) or within a given value change per time",
+          "type": "number",
+          "minimum": -1.80e+308,
+          "maximum": 1.80e+308
+        },
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/PlasticsRubber.GeneralTypes/PlasticsRubber_GeneralTypes_MonitoredParameterType/event/SetRampDown/{senderId}",
+            "op": "subscribeevent"
+          }
+        ]
+      },
+      "SetRampUp": {
+        "aov:namespace": "http://opcfoundation.org/UA/PlasticsRubber/GeneralTypes/",
+        "data": {
+          "description": "Indication if a SetValue that is higher than the actual value shall be reached as fast as possible (SetRampUp = 0) or within a given value change per time",
+          "type": "number",
+          "minimum": -1.80e+308,
+          "maximum": 1.80e+308
+        },
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/PlasticsRubber.GeneralTypes/PlasticsRubber_GeneralTypes_MonitoredParameterType/event/SetRampUp/{senderId}",
+            "op": "subscribeevent"
+          }
+        ]
+      },
+      "SetValue": {
+        "aov:namespace": "http://opcfoundation.org/UA/PlasticsRubber/GeneralTypes/",
+        "data": {
+          "description": "Set/nominal/target value of the monitored parameter",
+          "type": "number",
+          "minimum": -1.80e+308,
+          "maximum": 1.80e+308
+        },
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/PlasticsRubber.GeneralTypes/PlasticsRubber_GeneralTypes_MonitoredParameterType/event/SetValue/{senderId}",
+            "op": "subscribeevent"
+          }
+        ]
+      },
+      "Status": {
+        "aov:namespace": "http://opcfoundation.org/UA/PlasticsRubber/GeneralTypes/",
+        "data": {
+          "description": "Information if the ActualValue is within the tolerances or has passed a tolerance or min/max value",
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 65535
+        },
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/PlasticsRubber.GeneralTypes/PlasticsRubber_GeneralTypes_MonitoredParameterType/event/Status/{senderId}",
+            "op": "subscribeevent"
+          }
+        ]
+      },
+      "UpperTolerance": {
+        "aov:namespace": "http://opcfoundation.org/UA/PlasticsRubber/GeneralTypes/",
+        "data": {
+          "description": "Upper relative tolerance value of the process parameter",
+          "type": "number",
+          "minimum": -1.80e+308,
+          "maximum": 1.80e+308
+        },
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/PlasticsRubber.GeneralTypes/PlasticsRubber_GeneralTypes_MonitoredParameterType/event/UpperTolerance/{senderId}",
+            "op": "subscribeevent"
+          }
+        ]
+      },
+      "UpperTolerance2": {
+        "aov:namespace": "http://opcfoundation.org/UA/PlasticsRubber/GeneralTypes/",
+        "data": {
+          "description": "Second upper relative tolerance value of the process parameter",
+          "type": "number",
+          "minimum": -1.80e+308,
+          "maximum": 1.80e+308
+        },
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/PlasticsRubber.GeneralTypes/PlasticsRubber_GeneralTypes_MonitoredParameterType/event/UpperTolerance2/{senderId}",
+            "op": "subscribeevent"
+          }
+        ]
+      }
+    }
+  },
+  {
+    "@context": [
+      "https://www.w3.org/2022/wot/td/v1.1",
+      {
+        "dtv": "http://azure.com/DigitalTwins/dtmi#",
+        "aov": "http://azure.com/IoT/operations/tm#"
+      }
+    ],
+    "@type": "tm:ThingModel",
+    "title": "PlasticsRubber_GeneralTypes_DiagnosticsType",
+    "aov:typeRef": "nsu=http://opcfoundation.org/UA/PlasticsRubber/GeneralTypes/;i=1066",
+    "aov:isComposite": true,
+    "links": [
+      {
+        "rel": "tm:extends",
+        "href": "#title=OpcUaCore_BaseObjectType",
+        "type": "application/tm+json"
+      }
+    ],
+    "schemaDefinitions": {
+      "DiagnosticsStatusEnumeration": {
+        "type": "object",
+        "aov:typeRef": "nsu=http://opcfoundation.org/UA/PlasticsRubber/GeneralTypes/;i=3027",
+        "const": {
+          "OFF": 0,
+          "ACTIVE_OK": 1,
+          "ACTIVE_ERROR_DETECTED": 2,
+          "COMPLETE": 3,
+          "COMPLETE_ERROR_DETECTED": 4
+        },
+        "properties": {
+          "OFF": {
+            "description": "Diagnostics inactive ",
+            "type": "integer"
+          },
+          "ACTIVE_OK": {
+            "description": "Diagnostics active ",
+            "type": "integer"
+          },
+          "ACTIVE_ERROR_DETECTED": {
+            "description": "Diagnostics active, at least one error detected",
+            "type": "integer"
+          },
+          "COMPLETE": {
+            "description": "Diagnostics completed successfully, result in variable “Result” available",
+            "type": "integer"
+          },
+          "COMPLETE_ERROR_DETECTED": {
+            "description": "Diagnostics completed detected some error",
+            "type": "integer"
+          }
+        }
+      }
+    },
+    "forms": [
+      {
+        "contentType": "application/json",
+        "dtv:topic": "opcua/PlasticsRubber.GeneralTypes/PlasticsRubber_GeneralTypes_DiagnosticsType/properties/read",
+        "op": "readallproperties"
+      }
+    ],
+    "actions": {
+      "RunDiagnostics": {
+        "aov:namespace": "http://opcfoundation.org/UA/PlasticsRubber/GeneralTypes/",
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/PlasticsRubber.GeneralTypes/PlasticsRubber_GeneralTypes_DiagnosticsType/action/RunDiagnostics",
+            "op": "invokeaction"
+          }
+        ]
+      },
+      "StopDiagnostics": {
+        "aov:namespace": "http://opcfoundation.org/UA/PlasticsRubber/GeneralTypes/",
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/PlasticsRubber.GeneralTypes/PlasticsRubber_GeneralTypes_DiagnosticsType/action/StopDiagnostics",
+            "op": "invokeaction"
+          }
+        ]
+      }
+    },
+    "properties": {
+      "Status": {
+        "aov:namespace": "http://opcfoundation.org/UA/PlasticsRubber/GeneralTypes/",
+        "title": "DiagnosticsStatusEnumeration",
+        "aov:typeRef": "nsu=http://opcfoundation.org/UA/PlasticsRubber/GeneralTypes/;i=3027",
+        "type": "integer",
+        "minimum": -2147483648,
+        "maximum": 2147483647,
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/PlasticsRubber.GeneralTypes/PlasticsRubber_GeneralTypes_DiagnosticsType/property/Status/read",
+            "op": "readproperty"
+          }
+        ]
+      }
+    },
+    "events": {
+    }
+  },
+  {
+    "@context": [
+      "https://www.w3.org/2022/wot/td/v1.1",
+      {
+        "dtv": "http://azure.com/DigitalTwins/dtmi#",
+        "aov": "http://azure.com/IoT/operations/tm#"
+      }
+    ],
+    "@type": "tm:ThingModel",
+    "title": "PlasticsRubber_GeneralTypes_IdentificationType",
+    "aov:typeRef": "nsu=http://opcfoundation.org/UA/PlasticsRubber/GeneralTypes/;i=1058",
+    "aov:isComposite": true,
+    "links": [
+      {
+        "rel": "tm:extends",
+        "href": "#title=DI_ComponentType",
+        "type": "application/tm+json"
+      }
+    ],
+    "schemaDefinitions": {
+    },
+    "forms": [
+      {
+        "contentType": "application/json",
+        "dtv:topic": "opcua/PlasticsRubber.GeneralTypes/PlasticsRubber_GeneralTypes_IdentificationType/properties/read",
+        "op": "readallproperties"
+      }
+    ],
+    "actions": {
+    },
+    "properties": {
+      "DeviceClass": {
+        "aov:namespace": "http://opcfoundation.org/UA/DI/",
+        "description": "Indicates in which domain or for what purpose a certain device is used",
+        "type": "string",
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/PlasticsRubber.GeneralTypes/PlasticsRubber_GeneralTypes_IdentificationType/property/DeviceClass/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "Manufacturer": {
+        "aov:namespace": "http://opcfoundation.org/UA/DI/",
+        "description": "Provides the name of the manufacturer of the machine",
+        "type": "string",
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/PlasticsRubber.GeneralTypes/PlasticsRubber_GeneralTypes_IdentificationType/property/Manufacturer/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "Model": {
+        "aov:namespace": "http://opcfoundation.org/UA/DI/",
+        "description": "Represents the name of the machine type",
+        "type": "string",
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/PlasticsRubber.GeneralTypes/PlasticsRubber_GeneralTypes_IdentificationType/property/Model/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "SerialNumber": {
+        "aov:namespace": "http://opcfoundation.org/UA/DI/",
+        "description": "Represents the serial number of the machine (unique ID given by the manufacturer)",
+        "type": "string",
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/PlasticsRubber.GeneralTypes/PlasticsRubber_GeneralTypes_IdentificationType/property/SerialNumber/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "YearOfConstruction": {
+        "aov:namespace": "http://opcfoundation.org/UA/PlasticsRubber/GeneralTypes/",
+        "description": "Represents the year of construction of the machine",
+        "type": "integer",
+        "minimum": 0,
+        "maximum": 65535,
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/PlasticsRubber.GeneralTypes/PlasticsRubber_GeneralTypes_IdentificationType/property/YearOfConstruction/read",
+            "op": "readproperty"
+          }
+        ]
+      }
+    },
+    "events": {
+    }
+  },
+  {
+    "@context": [
+      "https://www.w3.org/2022/wot/td/v1.1",
+      {
+        "dtv": "http://azure.com/DigitalTwins/dtmi#",
+        "aov": "http://azure.com/IoT/operations/tm#"
+      }
+    ],
+    "@type": "tm:ThingModel",
+    "title": "PlasticsRubber_GeneralTypes_MachineConfigurationType",
+    "aov:typeRef": "nsu=http://opcfoundation.org/UA/PlasticsRubber/GeneralTypes/;i=1016",
+    "aov:isComposite": true,
+    "links": [
+      {
+        "rel": "tm:extends",
+        "href": "#title=OpcUaCore_BaseObjectType",
+        "type": "application/tm+json"
+      }
+    ],
+    "schemaDefinitions": {
+    },
+    "forms": [
+      {
+        "contentType": "application/json",
+        "dtv:topic": "opcua/PlasticsRubber.GeneralTypes/PlasticsRubber_GeneralTypes_MachineConfigurationType/properties/write",
+        "op": "writemultipleproperties"
+      },
+      {
+        "contentType": "application/json",
+        "dtv:topic": "opcua/PlasticsRubber.GeneralTypes/PlasticsRubber_GeneralTypes_MachineConfigurationType/properties/read",
+        "op": "readallproperties"
+      }
+    ],
+    "actions": {
+      "GetCurrentPage": {
+        "aov:namespace": "http://opcfoundation.org/UA/PlasticsRubber/GeneralTypes/",
+        "description": "Method for retrieving a screenshot of the control system with the currently shown contents",
+        "input": {
+          "type": "object",
+          "aov:typeRef": "nsu=http://opcfoundation.org/UA/PlasticsRubber/GeneralTypes/;i=6191",
+          "required": [ "VisualisationUnit" ],
+          "properties": {
+            "VisualisationUnit": {
+              "type": "integer",
+              "minimum": 0,
+              "maximum": 4294967295
+            }
+          }
+        },
+        "output": {
+          "type": "object",
+          "aov:typeRef": "nsu=http://opcfoundation.org/UA/PlasticsRubber/GeneralTypes/;i=6192",
+          "required": [ "Page" ],
+          "properties": {
+            "Page": {
+              "type": "string",
+              "contentEncoding": "base64"
+            }
+          }
+        },
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/PlasticsRubber.GeneralTypes/PlasticsRubber_GeneralTypes_MachineConfigurationType/action/GetCurrentPage",
+            "op": "invokeaction"
+          }
+        ]
+      },
+      "GetPage": {
+        "aov:namespace": "http://opcfoundation.org/UA/PlasticsRubber/GeneralTypes/",
+        "description": "Method for retrieving the image of a page of the control system",
+        "input": {
+          "type": "object",
+          "aov:typeRef": "nsu=http://opcfoundation.org/UA/PlasticsRubber/GeneralTypes/;i=6193",
+          "required": [ "Id" ],
+          "properties": {
+            "Id": {
+              "type": "string"
+            }
+          }
+        },
+        "output": {
+          "type": "object",
+          "aov:typeRef": "nsu=http://opcfoundation.org/UA/PlasticsRubber/GeneralTypes/;i=6194",
+          "required": [ "Page" ],
+          "properties": {
+            "Page": {
+              "type": "string",
+              "contentEncoding": "base64"
+            }
+          }
+        },
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/PlasticsRubber.GeneralTypes/PlasticsRubber_GeneralTypes_MachineConfigurationType/action/GetPage",
+            "op": "invokeaction"
+          }
+        ]
+      },
+      "SetMachineTime": {
+        "aov:namespace": "http://opcfoundation.org/UA/PlasticsRubber/GeneralTypes/",
+        "description": "Method for setting the server time together with TimeZoneOffset",
+        "input": {
+          "type": "object",
+          "aov:typeRef": "nsu=http://opcfoundation.org/UA/PlasticsRubber/GeneralTypes/;i=6198",
+          "required": [ "DateTime", "TimeZoneOffset" ],
+          "properties": {
+            "DateTime": {
+              "type": "string",
+              "format": "date-time"
+            },
+            "TimeZoneOffset": {
+              "title": "TimeZoneDataType",
+              "type": "object",
+              "aov:typeRef": "nsu=http://opcfoundation.org/UA/;i=8912",
+              "required": [ "Offset", "DaylightSavingInOffset" ],
+              "properties": {
+                "Offset": {
+                  "type": "integer",
+                  "minimum": -32768,
+                  "maximum": 32767
+                },
+                "DaylightSavingInOffset": {
+                  "type": "boolean"
+                }
+              }
+            }
+          }
+        },
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/PlasticsRubber.GeneralTypes/PlasticsRubber_GeneralTypes_MachineConfigurationType/action/SetMachineTime",
+            "op": "invokeaction"
+          }
+        ]
+      }
+    },
+    "properties": {
+      "LocationName": {
+        "aov:namespace": "http://opcfoundation.org/UA/PlasticsRubber/GeneralTypes/",
+        "description": "Description of the location of the machine given by the machine operator or OPC client",
+        "type": "string",
+        "readOnly": false,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/PlasticsRubber.GeneralTypes/PlasticsRubber_GeneralTypes_MachineConfigurationType/property/LocationName/write",
+            "op": "writeproperty"
+          },
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/PlasticsRubber.GeneralTypes/PlasticsRubber_GeneralTypes_MachineConfigurationType/property/LocationName/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "PageDirectory": {
+        "aov:namespace": "http://opcfoundation.org/UA/PlasticsRubber/GeneralTypes/",
+        "description": "List of the pages that are implemented in the machine control system and are shown on the screen of the machine",
+        "type": "array",
+        "items": {
+          "title": "PageEntryDataType",
+          "description": "Information on a page that is implemented in the machine control system and shown on the screen of the machine",
+          "type": "object",
+          "aov:typeRef": "nsu=http://opcfoundation.org/UA/PlasticsRubber/GeneralTypes/;i=3014",
+          "required": [ "Id", "Title" ],
+          "properties": {
+            "Id": {
+              "description": "Unique identifier defined by manufacturer",
+              "type": "string"
+            },
+            "Title": {
+              "description": "Page name",
+              "type": "string"
+            }
+          }
+        },
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/PlasticsRubber.GeneralTypes/PlasticsRubber_GeneralTypes_MachineConfigurationType/property/PageDirectory/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "TimeZoneOffset": {
+        "aov:namespace": "http://opcfoundation.org/UA/PlasticsRubber/GeneralTypes/",
+        "title": "TimeZoneDataType",
+        "description": "Difference of the local time to Coordinated Universal Time (UTC) given by the machine operator or OPC client",
+        "type": "object",
+        "aov:typeRef": "nsu=http://opcfoundation.org/UA/;i=8912",
+        "required": [ "Offset", "DaylightSavingInOffset" ],
+        "properties": {
+          "Offset": {
+            "type": "integer",
+            "minimum": -32768,
+            "maximum": 32767
+          },
+          "DaylightSavingInOffset": {
+            "type": "boolean"
+          }
+        },
+        "readOnly": false,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/PlasticsRubber.GeneralTypes/PlasticsRubber_GeneralTypes_MachineConfigurationType/property/TimeZoneOffset/write",
+            "op": "writeproperty"
+          },
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/PlasticsRubber.GeneralTypes/PlasticsRubber_GeneralTypes_MachineConfigurationType/property/TimeZoneOffset/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "UserMachineName": {
+        "aov:namespace": "http://opcfoundation.org/UA/PlasticsRubber/GeneralTypes/",
+        "description": "Description of the machine given by the machine operator or OPC client",
+        "type": "string",
+        "readOnly": false,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/PlasticsRubber.GeneralTypes/PlasticsRubber_GeneralTypes_MachineConfigurationType/property/UserMachineName/write",
+            "op": "writeproperty"
+          },
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/PlasticsRubber.GeneralTypes/PlasticsRubber_GeneralTypes_MachineConfigurationType/property/UserMachineName/read",
+            "op": "readproperty"
+          }
+        ]
+      }
+    },
+    "events": {
+    }
+  },
+  {
+    "@context": [
+      "https://www.w3.org/2022/wot/td/v1.1",
+      {
+        "dtv": "http://azure.com/DigitalTwins/dtmi#",
+        "aov": "http://azure.com/IoT/operations/tm#"
+      }
+    ],
+    "@type": "tm:ThingModel",
+    "title": "PlasticsRubber_GeneralTypes_MaintenanceType",
+    "aov:typeRef": "nsu=http://opcfoundation.org/UA/PlasticsRubber/GeneralTypes/;i=1053",
+    "links": [
+      {
+        "rel": "tm:extends",
+        "href": "#title=OpcUaCore_BaseObjectType",
+        "type": "application/tm+json"
+      }
+    ],
+    "schemaDefinitions": {
+      "MaintenanceStatusEnumeration": {
+        "type": "object",
+        "aov:typeRef": "nsu=http://opcfoundation.org/UA/PlasticsRubber/GeneralTypes/;i=3013",
+        "const": {
+          "NOT_DUE": 0,
+          "WARNING": 1,
+          "DUE": 2
+        },
+        "description": "Maintenance status of a machine/device/component",
+        "properties": {
+          "NOT_DUE": {
+            "description": "Maintenance of the device/component is not due",
+            "type": "integer"
+          },
+          "WARNING": {
+            "description": "Maintenance of the device/component is due in the near future",
+            "type": "integer"
+          },
+          "DUE": {
+            "description": "Maintenance of the device/component is due",
+            "type": "integer"
+          }
+        }
+      }
+    },
+    "forms": [
+      {
+        "contentType": "application/json",
+        "dtv:topic": "opcua/PlasticsRubber.GeneralTypes/PlasticsRubber_GeneralTypes_MaintenanceType/events/{senderId}",
+        "op": "subscribeallevents"
+      },
+      {
+        "contentType": "application/json",
+        "dtv:topic": "opcua/PlasticsRubber.GeneralTypes/PlasticsRubber_GeneralTypes_MaintenanceType/properties/read",
+        "op": "readallproperties"
+      }
+    ],
+    "actions": {
+      "Reset": {
+        "aov:namespace": "http://opcfoundation.org/UA/PlasticsRubber/GeneralTypes/",
+        "description": "This Method sets the RemainingInterval to Interval and Status to NOT_DUE_0",
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/PlasticsRubber.GeneralTypes/PlasticsRubber_GeneralTypes_MaintenanceType/action/Reset",
+            "op": "invokeaction"
+          }
+        ]
+      }
+    },
+    "properties": {
+      "AdditionalInformation": {
+        "aov:namespace": "http://opcfoundation.org/UA/PlasticsRubber/GeneralTypes/",
+        "description": "Additional information on the necessary maintenance. Can be also a link to another document.",
+        "type": "string",
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/PlasticsRubber.GeneralTypes/PlasticsRubber_GeneralTypes_MaintenanceType/property/AdditionalInformation/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "Interval": {
+        "aov:namespace": "http://opcfoundation.org/UA/PlasticsRubber/GeneralTypes/",
+        "description": "Regular interval between two maintenances",
+        "type": "number",
+        "minimum": -1.80e+308,
+        "maximum": 1.80e+308,
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/PlasticsRubber.GeneralTypes/PlasticsRubber_GeneralTypes_MaintenanceType/property/Interval/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "RemainingInterval": {
+        "aov:namespace": "http://opcfoundation.org/UA/PlasticsRubber/GeneralTypes/",
+        "description": "Interval before next maintenance is due",
+        "type": "number",
+        "minimum": -1.80e+308,
+        "maximum": 1.80e+308,
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/PlasticsRubber.GeneralTypes/PlasticsRubber_GeneralTypes_MaintenanceType/property/RemainingInterval/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "Status": {
+        "aov:namespace": "http://opcfoundation.org/UA/PlasticsRubber/GeneralTypes/",
+        "title": "MaintenanceStatusEnumeration",
+        "description": "Maintenance status of the machine/device/component (represented by the parent element)",
+        "aov:typeRef": "nsu=http://opcfoundation.org/UA/PlasticsRubber/GeneralTypes/;i=3013",
+        "type": "integer",
+        "minimum": -2147483648,
+        "maximum": 2147483647,
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/PlasticsRubber.GeneralTypes/PlasticsRubber_GeneralTypes_MaintenanceType/property/Status/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "TotalOperation": {
+        "aov:namespace": "http://opcfoundation.org/UA/PlasticsRubber/GeneralTypes/",
+        "description": "How long is the component running in total",
+        "type": "number",
+        "minimum": -1.80e+308,
+        "maximum": 1.80e+308,
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/PlasticsRubber.GeneralTypes/PlasticsRubber_GeneralTypes_MaintenanceType/property/TotalOperation/read",
+            "op": "readproperty"
+          }
+        ]
+      }
+    },
+    "events": {
+      "Interval": {
+        "aov:namespace": "http://opcfoundation.org/UA/PlasticsRubber/GeneralTypes/",
+        "data": {
+          "description": "Regular interval between two maintenances",
+          "type": "number",
+          "minimum": -1.80e+308,
+          "maximum": 1.80e+308
+        },
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/PlasticsRubber.GeneralTypes/PlasticsRubber_GeneralTypes_MaintenanceType/event/Interval/{senderId}",
+            "op": "subscribeevent"
+          }
+        ]
+      },
+      "RemainingInterval": {
+        "aov:namespace": "http://opcfoundation.org/UA/PlasticsRubber/GeneralTypes/",
+        "data": {
+          "description": "Interval before next maintenance is due",
+          "type": "number",
+          "minimum": -1.80e+308,
+          "maximum": 1.80e+308
+        },
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/PlasticsRubber.GeneralTypes/PlasticsRubber_GeneralTypes_MaintenanceType/event/RemainingInterval/{senderId}",
+            "op": "subscribeevent"
+          }
+        ]
+      },
+      "TotalOperation": {
+        "aov:namespace": "http://opcfoundation.org/UA/PlasticsRubber/GeneralTypes/",
+        "data": {
+          "description": "How long is the component running in total",
+          "type": "number",
+          "minimum": -1.80e+308,
+          "maximum": 1.80e+308
+        },
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/PlasticsRubber.GeneralTypes/PlasticsRubber_GeneralTypes_MaintenanceType/event/TotalOperation/{senderId}",
+            "op": "subscribeevent"
+          }
+        ]
+      }
+    }
+  },
+  {
+    "@context": [
+      "https://www.w3.org/2022/wot/td/v1.1",
+      {
+        "dtv": "http://azure.com/DigitalTwins/dtmi#",
+        "aov": "http://azure.com/IoT/operations/tm#"
+      }
+    ],
+    "@type": "tm:ThingModel",
+    "title": "PlasticsRubber_GeneralTypes_ControlledParameterType",
+    "aov:typeRef": "nsu=http://opcfoundation.org/UA/PlasticsRubber/GeneralTypes/;i=1057",
+    "aov:isComposite": true,
+    "links": [
+      {
+        "rel": "tm:extends",
+        "href": "#title=PlasticsRubber_GeneralTypes_MonitoredParameterType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "aov:reference",
+        "aov:refName": "ClosedLoopControl",
+        "href": "#title=PlasticsRubber_GeneralTypes_ClosedLoopControlType",
+        "type": "application/tm+json"
+      }
+    ],
+    "schemaDefinitions": {
+    },
+    "forms": [
+      {
+        "contentType": "application/json",
+        "dtv:topic": "opcua/PlasticsRubber.GeneralTypes/PlasticsRubber_GeneralTypes_ControlledParameterType/events/{senderId}",
+        "op": "subscribeallevents"
+      },
+      {
+        "contentType": "application/json",
+        "dtv:topic": "opcua/PlasticsRubber.GeneralTypes/PlasticsRubber_GeneralTypes_ControlledParameterType/properties/write",
+        "op": "writemultipleproperties"
+      },
+      {
+        "contentType": "application/json",
+        "dtv:topic": "opcua/PlasticsRubber.GeneralTypes/PlasticsRubber_GeneralTypes_ControlledParameterType/properties/read",
+        "op": "readallproperties"
+      }
+    ],
+    "actions": {
+    },
+    "properties": {
+      "SetRampDown": {
+        "aov:namespace": "http://opcfoundation.org/UA/PlasticsRubber/GeneralTypes/",
+        "description": "Indication if SetValue that is lower than the actual value shall be reached as fast as possible (SetRampDown = 0) or within a given value change per time",
+        "type": "number",
+        "minimum": -1.80e+308,
+        "maximum": 1.80e+308,
+        "readOnly": false,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/PlasticsRubber.GeneralTypes/PlasticsRubber_GeneralTypes_ControlledParameterType/property/SetRampDown/write",
+            "op": "writeproperty"
+          },
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/PlasticsRubber.GeneralTypes/PlasticsRubber_GeneralTypes_ControlledParameterType/property/SetRampDown/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "SetRampUp": {
+        "aov:namespace": "http://opcfoundation.org/UA/PlasticsRubber/GeneralTypes/",
+        "description": "Indication if a SetValue that is higher than the actual value shall be reached as fast as possible (SetRampUp = 0) or within a given value change per time",
+        "type": "number",
+        "minimum": -1.80e+308,
+        "maximum": 1.80e+308,
+        "readOnly": false,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/PlasticsRubber.GeneralTypes/PlasticsRubber_GeneralTypes_ControlledParameterType/property/SetRampUp/write",
+            "op": "writeproperty"
+          },
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/PlasticsRubber.GeneralTypes/PlasticsRubber_GeneralTypes_ControlledParameterType/property/SetRampUp/read",
+            "op": "readproperty"
+          }
+        ]
+      }
+    },
+    "events": {
+      "SetRampDown": {
+        "aov:namespace": "http://opcfoundation.org/UA/PlasticsRubber/GeneralTypes/",
+        "data": {
+          "description": "Indication if SetValue that is lower than the actual value shall be reached as fast as possible (SetRampDown = 0) or within a given value change per time",
+          "type": "number",
+          "minimum": -1.80e+308,
+          "maximum": 1.80e+308
+        },
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/PlasticsRubber.GeneralTypes/PlasticsRubber_GeneralTypes_ControlledParameterType/event/SetRampDown/{senderId}",
+            "op": "subscribeevent"
+          }
+        ]
+      },
+      "SetRampUp": {
+        "aov:namespace": "http://opcfoundation.org/UA/PlasticsRubber/GeneralTypes/",
+        "data": {
+          "description": "Indication if a SetValue that is higher than the actual value shall be reached as fast as possible (SetRampUp = 0) or within a given value change per time",
+          "type": "number",
+          "minimum": -1.80e+308,
+          "maximum": 1.80e+308
+        },
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/PlasticsRubber.GeneralTypes/PlasticsRubber_GeneralTypes_ControlledParameterType/event/SetRampUp/{senderId}",
+            "op": "subscribeevent"
+          }
+        ]
+      }
+    }
+  },
+  {
+    "@context": [
+      "https://www.w3.org/2022/wot/td/v1.1",
+      {
+        "dtv": "http://azure.com/DigitalTwins/dtmi#",
+        "aov": "http://azure.com/IoT/operations/tm#"
+      }
+    ],
+    "@type": "tm:ThingModel",
+    "title": "PlasticsRubber_GeneralTypes_ClosedLoopControlType",
+    "aov:typeRef": "nsu=http://opcfoundation.org/UA/PlasticsRubber/GeneralTypes/;i=1054",
+    "links": [
+      {
+        "rel": "tm:extends",
+        "href": "#title=OpcUaCore_BaseObjectType",
+        "type": "application/tm+json"
+      }
+    ],
+    "schemaDefinitions": {
+    },
+    "forms": [
+      {
+        "contentType": "application/json",
+        "dtv:topic": "opcua/PlasticsRubber.GeneralTypes/PlasticsRubber_GeneralTypes_ClosedLoopControlType/properties/write",
+        "op": "writemultipleproperties"
+      },
+      {
+        "contentType": "application/json",
+        "dtv:topic": "opcua/PlasticsRubber.GeneralTypes/PlasticsRubber_GeneralTypes_ClosedLoopControlType/properties/read",
+        "op": "readallproperties"
+      }
+    ],
+    "actions": {
+      "AutoTuningOff": {
+        "aov:namespace": "http://opcfoundation.org/UA/PlasticsRubber/GeneralTypes/",
+        "description": "Stops an already active self-optimisation process (no control parameters are changed)",
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/PlasticsRubber.GeneralTypes/PlasticsRubber_GeneralTypes_ClosedLoopControlType/action/AutoTuningOff",
+            "op": "invokeaction"
+          }
+        ]
+      },
+      "AutoTuningOn": {
+        "aov:namespace": "http://opcfoundation.org/UA/PlasticsRubber/GeneralTypes/",
+        "description": "Starts the self-optimisation of the controller",
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/PlasticsRubber.GeneralTypes/PlasticsRubber_GeneralTypes_ClosedLoopControlType/action/AutoTuningOn",
+            "op": "invokeaction"
+          }
+        ]
+      }
+    },
+    "properties": {
+      "AutomaticControllerMode": {
+        "aov:namespace": "http://opcfoundation.org/UA/PlasticsRubber/GeneralTypes/",
+        "description": "Determination if PID Parameters are determined by auto-tuning itself (TRUE) or can be manually adjusted (FALSE)",
+        "type": "boolean",
+        "readOnly": false,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/PlasticsRubber.GeneralTypes/PlasticsRubber_GeneralTypes_ClosedLoopControlType/property/AutomaticControllerMode/write",
+            "op": "writeproperty"
+          },
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/PlasticsRubber.GeneralTypes/PlasticsRubber_GeneralTypes_ClosedLoopControlType/property/AutomaticControllerMode/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "AutoTuningActive": {
+        "aov:namespace": "http://opcfoundation.org/UA/PlasticsRubber/GeneralTypes/",
+        "description": "Informs if the automatic tuning is currently active",
+        "type": "boolean",
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/PlasticsRubber.GeneralTypes/PlasticsRubber_GeneralTypes_ClosedLoopControlType/property/AutoTuningActive/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "PIDParameters": {
+        "aov:namespace": "http://opcfoundation.org/UA/PlasticsRubber/GeneralTypes/",
+        "description": "PID Parameters as array if several input signals (sensors) are used for the control",
+        "type": "array",
+        "items": {
+          "title": "PIDParametersDataType",
+          "description": "Structure for storing the parameters of a PID controller",
+          "type": "object",
+          "aov:typeRef": "nsu=http://opcfoundation.org/UA/PlasticsRubber/GeneralTypes/;i=3023",
+          "required": [ "P", "I", "D" ],
+          "properties": {
+            "P": {
+              "description": "Propotional gain",
+              "type": "number",
+              "minimum": -1.80e+308,
+              "maximum": 1.80e+308
+            },
+            "I": {
+              "description": "Integral gain",
+              "type": "number",
+              "minimum": -1.80e+308,
+              "maximum": 1.80e+308
+            },
+            "D": {
+              "description": "Derivative gain",
+              "type": "number",
+              "minimum": -1.80e+308,
+              "maximum": 1.80e+308
+            }
+          }
+        },
+        "readOnly": false,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/PlasticsRubber.GeneralTypes/PlasticsRubber_GeneralTypes_ClosedLoopControlType/property/PIDParameters/write",
+            "op": "writeproperty"
+          },
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/PlasticsRubber.GeneralTypes/PlasticsRubber_GeneralTypes_ClosedLoopControlType/property/PIDParameters/read",
+            "op": "readproperty"
+          }
+        ]
+      }
+    },
+    "events": {
+    }
+  },
+  {
+    "@context": [
+      "https://www.w3.org/2022/wot/td/v1.1",
+      {
+        "dtv": "http://azure.com/DigitalTwins/dtmi#",
+        "aov": "http://azure.com/IoT/operations/tm#"
+      }
+    ],
+    "@type": "tm:ThingModel",
+    "title": "OpcUaCore_OffNormalAlarmType",
+    "aov:typeRef": "nsu=http://opcfoundation.org/UA/;i=10637",
+    "aov:isEvent": true,
+    "links": [
+      {
+        "rel": "tm:extends",
+        "href": "#title=OpcUaCore_DiscreteAlarmType",
+        "type": "application/tm+json"
+      }
+    ],
+    "schemaDefinitions": {
+    },
+    "forms": [
+      {
+        "contentType": "application/json",
+        "dtv:topic": "opcua/OpcUaCore/OpcUaCore_OffNormalAlarmType/properties/read",
+        "op": "readallproperties"
+      }
+    ],
+    "actions": {
+    },
+    "properties": {
+      "NormalState": {
+        "type": "string",
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/OpcUaCore/OpcUaCore_OffNormalAlarmType/property/NormalState/read",
+            "op": "readproperty"
+          }
+        ]
+      }
+    },
+    "events": {
+    }
+  },
+  {
+    "@context": [
+      "https://www.w3.org/2022/wot/td/v1.1",
+      {
+        "dtv": "http://azure.com/DigitalTwins/dtmi#",
+        "aov": "http://azure.com/IoT/operations/tm#"
+      }
+    ],
+    "@type": "tm:ThingModel",
+    "title": "OpcUaCore_DiscreteAlarmType",
+    "aov:typeRef": "nsu=http://opcfoundation.org/UA/;i=10523",
+    "aov:isEvent": true,
+    "links": [
+      {
+        "rel": "tm:extends",
+        "href": "#title=OpcUaCore_AlarmConditionType",
+        "type": "application/tm+json"
+      }
+    ],
+    "schemaDefinitions": {
+    },
+    "actions": {
+    },
+    "properties": {
+    },
+    "events": {
+    }
+  },
+  {
+    "@context": [
+      "https://www.w3.org/2022/wot/td/v1.1",
+      {
+        "dtv": "http://azure.com/DigitalTwins/dtmi#",
+        "aov": "http://azure.com/IoT/operations/tm#"
+      }
+    ],
+    "@type": "tm:ThingModel",
+    "title": "OpcUaCore_AlarmConditionType",
+    "aov:typeRef": "nsu=http://opcfoundation.org/UA/;i=2915",
+    "aov:isEvent": true,
+    "links": [
+      {
+        "rel": "tm:extends",
+        "href": "#title=OpcUaCore_AcknowledgeableConditionType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "aov:capability",
+        "aov:refName": "ShelvingState",
+        "href": "#title=OpcUaCore_ShelvedStateMachineType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "aov:component",
+        "aov:refName": "FirstInGroup",
+        "href": "#title=OpcUaCore_AlarmGroupType",
+        "type": "application/tm+json"
+      }
+    ],
+    "schemaDefinitions": {
+    },
+    "forms": [
+      {
+        "contentType": "application/json",
+        "dtv:topic": "opcua/OpcUaCore/OpcUaCore_AlarmConditionType/events/{senderId}",
+        "op": "subscribeallevents"
+      },
+      {
+        "contentType": "application/json",
+        "dtv:topic": "opcua/OpcUaCore/OpcUaCore_AlarmConditionType/properties/read",
+        "op": "readallproperties"
+      }
+    ],
+    "actions": {
+      "GetGroupMemberships": {
+        "output": {
+          "type": "object",
+          "aov:typeRef": "nsu=http://opcfoundation.org/UA/;i=25154",
+          "required": [ "Groups" ],
+          "properties": {
+            "Groups": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            }
+          }
+        },
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/OpcUaCore/OpcUaCore_AlarmConditionType/action/GetGroupMemberships",
+            "op": "invokeaction"
+          }
+        ]
+      },
+      "PlaceInService": {
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/OpcUaCore/OpcUaCore_AlarmConditionType/action/PlaceInService",
+            "op": "invokeaction"
+          }
+        ]
+      },
+      "PlaceInService2": {
+        "input": {
+          "type": "object",
+          "aov:typeRef": "nsu=http://opcfoundation.org/UA/;i=24323",
+          "required": [ "Comment" ],
+          "properties": {
+            "Comment": {
+              "type": "string"
+            }
+          }
+        },
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/OpcUaCore/OpcUaCore_AlarmConditionType/action/PlaceInService2",
+            "op": "invokeaction"
+          }
+        ]
+      },
+      "RemoveFromService": {
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/OpcUaCore/OpcUaCore_AlarmConditionType/action/RemoveFromService",
+            "op": "invokeaction"
+          }
+        ]
+      },
+      "RemoveFromService2": {
+        "input": {
+          "type": "object",
+          "aov:typeRef": "nsu=http://opcfoundation.org/UA/;i=24321",
+          "required": [ "Comment" ],
+          "properties": {
+            "Comment": {
+              "type": "string"
+            }
+          }
+        },
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/OpcUaCore/OpcUaCore_AlarmConditionType/action/RemoveFromService2",
+            "op": "invokeaction"
+          }
+        ]
+      },
+      "Reset": {
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/OpcUaCore/OpcUaCore_AlarmConditionType/action/Reset",
+            "op": "invokeaction"
+          }
+        ]
+      },
+      "Reset2": {
+        "input": {
+          "type": "object",
+          "aov:typeRef": "nsu=http://opcfoundation.org/UA/;i=24325",
+          "required": [ "Comment" ],
+          "properties": {
+            "Comment": {
+              "type": "string"
+            }
+          }
+        },
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/OpcUaCore/OpcUaCore_AlarmConditionType/action/Reset2",
+            "op": "invokeaction"
+          }
+        ]
+      },
+      "Silence": {
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/OpcUaCore/OpcUaCore_AlarmConditionType/action/Silence",
+            "op": "invokeaction"
+          }
+        ]
+      },
+      "Suppress": {
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/OpcUaCore/OpcUaCore_AlarmConditionType/action/Suppress",
+            "op": "invokeaction"
+          }
+        ]
+      },
+      "Suppress2": {
+        "input": {
+          "type": "object",
+          "aov:typeRef": "nsu=http://opcfoundation.org/UA/;i=24317",
+          "required": [ "Comment" ],
+          "properties": {
+            "Comment": {
+              "type": "string"
+            }
+          }
+        },
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/OpcUaCore/OpcUaCore_AlarmConditionType/action/Suppress2",
+            "op": "invokeaction"
+          }
+        ]
+      },
+      "Unsuppress": {
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/OpcUaCore/OpcUaCore_AlarmConditionType/action/Unsuppress",
+            "op": "invokeaction"
+          }
+        ]
+      },
+      "Unsuppress2": {
+        "input": {
+          "type": "object",
+          "aov:typeRef": "nsu=http://opcfoundation.org/UA/;i=24319",
+          "required": [ "Comment" ],
+          "properties": {
+            "Comment": {
+              "type": "string"
+            }
+          }
+        },
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/OpcUaCore/OpcUaCore_AlarmConditionType/action/Unsuppress2",
+            "op": "invokeaction"
+          }
+        ]
+      }
+    },
+    "properties": {
+      "ActiveState": {
+        "type": "string",
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/OpcUaCore/OpcUaCore_AlarmConditionType/property/ActiveState/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "AudibleEnabled": {
+        "type": "boolean",
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/OpcUaCore/OpcUaCore_AlarmConditionType/property/AudibleEnabled/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "AudibleSound": {
+        "type": "string",
+        "contentEncoding": "base64",
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/OpcUaCore/OpcUaCore_AlarmConditionType/property/AudibleSound/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "EnabledState": {
+        "type": "string",
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/OpcUaCore/OpcUaCore_AlarmConditionType/property/EnabledState/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "FirstInGroupFlag": {
+        "type": "boolean",
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/OpcUaCore/OpcUaCore_AlarmConditionType/property/FirstInGroupFlag/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "InputNode": {
+        "type": "string",
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/OpcUaCore/OpcUaCore_AlarmConditionType/property/InputNode/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "LatchedState": {
+        "type": "string",
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/OpcUaCore/OpcUaCore_AlarmConditionType/property/LatchedState/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "MaxTimeShelved": {
+        "type": "string",
+        "pattern": "^P(?!$)(?:(?:(?:(?:\\d+Y)|(?:\\d+\\.\\d+Y$))?(?:(?:\\d+M)|(?:\\d+\\.\\d+M$))?)|(?:(?:(?:\\d+W)|(?:\\d+\\.\\d+W$))?))(?:(?:\\d+D)|(?:\\d+\\.\\d+D$))?(?:T(?!$)(?:(?:\\d+H)|(?:\\d+\\.\\d+H$))?(?:(?:\\d+M)|(?:\\d+\\.\\d+M$))?(?:\\d+(?:\\.\\d+)?S)?)?$",
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/OpcUaCore/OpcUaCore_AlarmConditionType/property/MaxTimeShelved/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "OffDelay": {
+        "type": "string",
+        "pattern": "^P(?!$)(?:(?:(?:(?:\\d+Y)|(?:\\d+\\.\\d+Y$))?(?:(?:\\d+M)|(?:\\d+\\.\\d+M$))?)|(?:(?:(?:\\d+W)|(?:\\d+\\.\\d+W$))?))(?:(?:\\d+D)|(?:\\d+\\.\\d+D$))?(?:T(?!$)(?:(?:\\d+H)|(?:\\d+\\.\\d+H$))?(?:(?:\\d+M)|(?:\\d+\\.\\d+M$))?(?:\\d+(?:\\.\\d+)?S)?)?$",
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/OpcUaCore/OpcUaCore_AlarmConditionType/property/OffDelay/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "OnDelay": {
+        "type": "string",
+        "pattern": "^P(?!$)(?:(?:(?:(?:\\d+Y)|(?:\\d+\\.\\d+Y$))?(?:(?:\\d+M)|(?:\\d+\\.\\d+M$))?)|(?:(?:(?:\\d+W)|(?:\\d+\\.\\d+W$))?))(?:(?:\\d+D)|(?:\\d+\\.\\d+D$))?(?:T(?!$)(?:(?:\\d+H)|(?:\\d+\\.\\d+H$))?(?:(?:\\d+M)|(?:\\d+\\.\\d+M$))?(?:\\d+(?:\\.\\d+)?S)?)?$",
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/OpcUaCore/OpcUaCore_AlarmConditionType/property/OnDelay/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "OutOfServiceState": {
+        "type": "string",
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/OpcUaCore/OpcUaCore_AlarmConditionType/property/OutOfServiceState/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "ReAlarmRepeatCount": {
+        "type": "integer",
+        "minimum": -32768,
+        "maximum": 32767,
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/OpcUaCore/OpcUaCore_AlarmConditionType/property/ReAlarmRepeatCount/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "ReAlarmTime": {
+        "type": "string",
+        "pattern": "^P(?!$)(?:(?:(?:(?:\\d+Y)|(?:\\d+\\.\\d+Y$))?(?:(?:\\d+M)|(?:\\d+\\.\\d+M$))?)|(?:(?:(?:\\d+W)|(?:\\d+\\.\\d+W$))?))(?:(?:\\d+D)|(?:\\d+\\.\\d+D$))?(?:T(?!$)(?:(?:\\d+H)|(?:\\d+\\.\\d+H$))?(?:(?:\\d+M)|(?:\\d+\\.\\d+M$))?(?:\\d+(?:\\.\\d+)?S)?)?$",
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/OpcUaCore/OpcUaCore_AlarmConditionType/property/ReAlarmTime/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "SilenceState": {
+        "type": "string",
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/OpcUaCore/OpcUaCore_AlarmConditionType/property/SilenceState/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "SuppressedOrShelved": {
+        "type": "boolean",
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/OpcUaCore/OpcUaCore_AlarmConditionType/property/SuppressedOrShelved/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "SuppressedState": {
+        "type": "string",
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/OpcUaCore/OpcUaCore_AlarmConditionType/property/SuppressedState/read",
+            "op": "readproperty"
+          }
+        ]
+      }
+    },
+    "events": {
+      "ActiveState": {
+        "data": {
+          "type": "string"
+        },
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/OpcUaCore/OpcUaCore_AlarmConditionType/event/ActiveState/{senderId}",
+            "op": "subscribeevent"
+          }
+        ]
+      },
+      "AudibleSound": {
+        "data": {
+          "type": "string",
+          "contentEncoding": "base64"
+        },
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/OpcUaCore/OpcUaCore_AlarmConditionType/event/AudibleSound/{senderId}",
+            "op": "subscribeevent"
+          }
+        ]
+      },
+      "EnabledState": {
+        "data": {
+          "type": "string"
+        },
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/OpcUaCore/OpcUaCore_AlarmConditionType/event/EnabledState/{senderId}",
+            "op": "subscribeevent"
+          }
+        ]
+      },
+      "FirstInGroupFlag": {
+        "data": {
+          "type": "boolean"
+        },
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/OpcUaCore/OpcUaCore_AlarmConditionType/event/FirstInGroupFlag/{senderId}",
+            "op": "subscribeevent"
+          }
+        ]
+      },
+      "LatchedState": {
+        "data": {
+          "type": "string"
+        },
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/OpcUaCore/OpcUaCore_AlarmConditionType/event/LatchedState/{senderId}",
+            "op": "subscribeevent"
+          }
+        ]
+      },
+      "OutOfServiceState": {
+        "data": {
+          "type": "string"
+        },
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/OpcUaCore/OpcUaCore_AlarmConditionType/event/OutOfServiceState/{senderId}",
+            "op": "subscribeevent"
+          }
+        ]
+      },
+      "ReAlarmRepeatCount": {
+        "data": {
+          "type": "integer",
+          "minimum": -32768,
+          "maximum": 32767
+        },
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/OpcUaCore/OpcUaCore_AlarmConditionType/event/ReAlarmRepeatCount/{senderId}",
+            "op": "subscribeevent"
+          }
+        ]
+      },
+      "SilenceState": {
+        "data": {
+          "type": "string"
+        },
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/OpcUaCore/OpcUaCore_AlarmConditionType/event/SilenceState/{senderId}",
+            "op": "subscribeevent"
+          }
+        ]
+      },
+      "SuppressedState": {
+        "data": {
+          "type": "string"
+        },
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/OpcUaCore/OpcUaCore_AlarmConditionType/event/SuppressedState/{senderId}",
+            "op": "subscribeevent"
+          }
+        ]
+      }
+    }
+  },
+  {
+    "@context": [
+      "https://www.w3.org/2022/wot/td/v1.1",
+      {
+        "dtv": "http://azure.com/DigitalTwins/dtmi#",
+        "aov": "http://azure.com/IoT/operations/tm#"
+      }
+    ],
+    "@type": "tm:ThingModel",
+    "title": "OpcUaCore_AcknowledgeableConditionType",
+    "aov:typeRef": "nsu=http://opcfoundation.org/UA/;i=2881",
+    "aov:isEvent": true,
+    "links": [
+      {
+        "rel": "tm:extends",
+        "href": "#title=OpcUaCore_ConditionType",
+        "type": "application/tm+json"
+      }
+    ],
+    "schemaDefinitions": {
+    },
+    "forms": [
+      {
+        "contentType": "application/json",
+        "dtv:topic": "opcua/OpcUaCore/OpcUaCore_AcknowledgeableConditionType/events/{senderId}",
+        "op": "subscribeallevents"
+      },
+      {
+        "contentType": "application/json",
+        "dtv:topic": "opcua/OpcUaCore/OpcUaCore_AcknowledgeableConditionType/properties/read",
+        "op": "readallproperties"
+      }
+    ],
+    "actions": {
+      "Acknowledge": {
+        "input": {
+          "type": "object",
+          "aov:typeRef": "nsu=http://opcfoundation.org/UA/;i=9112",
+          "required": [ "EventId", "Comment" ],
+          "properties": {
+            "EventId": {
+              "description": "The identifier for the event to comment.",
+              "type": "string",
+              "contentEncoding": "base64"
+            },
+            "Comment": {
+              "description": "The comment to add to the condition.",
+              "type": "string"
+            }
+          }
+        },
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/OpcUaCore/OpcUaCore_AcknowledgeableConditionType/action/Acknowledge",
+            "op": "invokeaction"
+          }
+        ]
+      },
+      "Confirm": {
+        "input": {
+          "type": "object",
+          "aov:typeRef": "nsu=http://opcfoundation.org/UA/;i=9114",
+          "required": [ "EventId", "Comment" ],
+          "properties": {
+            "EventId": {
+              "description": "The identifier for the event to comment.",
+              "type": "string",
+              "contentEncoding": "base64"
+            },
+            "Comment": {
+              "description": "The comment to add to the condition.",
+              "type": "string"
+            }
+          }
+        },
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/OpcUaCore/OpcUaCore_AcknowledgeableConditionType/action/Confirm",
+            "op": "invokeaction"
+          }
+        ]
+      }
+    },
+    "properties": {
+      "AckedState": {
+        "type": "string",
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/OpcUaCore/OpcUaCore_AcknowledgeableConditionType/property/AckedState/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "ConfirmedState": {
+        "type": "string",
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/OpcUaCore/OpcUaCore_AcknowledgeableConditionType/property/ConfirmedState/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "EnabledState": {
+        "type": "string",
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/OpcUaCore/OpcUaCore_AcknowledgeableConditionType/property/EnabledState/read",
+            "op": "readproperty"
+          }
+        ]
+      }
+    },
+    "events": {
+      "AckedState": {
+        "data": {
+          "type": "string"
+        },
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/OpcUaCore/OpcUaCore_AcknowledgeableConditionType/event/AckedState/{senderId}",
+            "op": "subscribeevent"
+          }
+        ]
+      },
+      "ConfirmedState": {
+        "data": {
+          "type": "string"
+        },
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/OpcUaCore/OpcUaCore_AcknowledgeableConditionType/event/ConfirmedState/{senderId}",
+            "op": "subscribeevent"
+          }
+        ]
+      },
+      "EnabledState": {
+        "data": {
+          "type": "string"
+        },
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/OpcUaCore/OpcUaCore_AcknowledgeableConditionType/event/EnabledState/{senderId}",
+            "op": "subscribeevent"
+          }
+        ]
+      }
+    }
+  },
+  {
+    "@context": [
+      "https://www.w3.org/2022/wot/td/v1.1",
+      {
+        "dtv": "http://azure.com/DigitalTwins/dtmi#",
+        "aov": "http://azure.com/IoT/operations/tm#"
+      }
+    ],
+    "@type": "tm:ThingModel",
+    "title": "OpcUaCore_ConditionType",
+    "aov:typeRef": "nsu=http://opcfoundation.org/UA/;i=2782",
+    "aov:isEvent": true,
+    "links": [
+      {
+        "rel": "tm:extends",
+        "href": "#title=OpcUaCore_BaseEventType",
+        "type": "application/tm+json"
+      }
+    ],
+    "schemaDefinitions": {
+    },
+    "forms": [
+      {
+        "contentType": "application/json",
+        "dtv:topic": "opcua/OpcUaCore/OpcUaCore_ConditionType/events/{senderId}",
+        "op": "subscribeallevents"
+      },
+      {
+        "contentType": "application/json",
+        "dtv:topic": "opcua/OpcUaCore/OpcUaCore_ConditionType/properties/read",
+        "op": "readallproperties"
+      }
+    ],
+    "actions": {
+      "AddComment": {
+        "input": {
+          "type": "object",
+          "aov:typeRef": "nsu=http://opcfoundation.org/UA/;i=9030",
+          "required": [ "EventId", "Comment" ],
+          "properties": {
+            "EventId": {
+              "description": "The identifier for the event to comment.",
+              "type": "string",
+              "contentEncoding": "base64"
+            },
+            "Comment": {
+              "description": "The comment to add to the condition.",
+              "type": "string"
+            }
+          }
+        },
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/OpcUaCore/OpcUaCore_ConditionType/action/AddComment",
+            "op": "invokeaction"
+          }
+        ]
+      },
+      "ConditionRefresh": {
+        "input": {
+          "type": "object",
+          "aov:typeRef": "nsu=http://opcfoundation.org/UA/;i=3876",
+          "required": [ "SubscriptionId" ],
+          "properties": {
+            "SubscriptionId": {
+              "description": "The identifier for the subscription to refresh.",
+              "type": "integer",
+              "minimum": 0,
+              "maximum": 4294967295
+            }
+          }
+        },
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/OpcUaCore/OpcUaCore_ConditionType/action/ConditionRefresh",
+            "op": "invokeaction"
+          }
+        ]
+      },
+      "ConditionRefresh2": {
+        "input": {
+          "type": "object",
+          "aov:typeRef": "nsu=http://opcfoundation.org/UA/;i=12913",
+          "required": [ "SubscriptionId", "MonitoredItemId" ],
+          "properties": {
+            "SubscriptionId": {
+              "description": "The identifier for the subscription to refresh.",
+              "type": "integer",
+              "minimum": 0,
+              "maximum": 4294967295
+            },
+            "MonitoredItemId": {
+              "description": "The identifier for the monitored item to refresh.",
+              "type": "integer",
+              "minimum": 0,
+              "maximum": 4294967295
+            }
+          }
+        },
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/OpcUaCore/OpcUaCore_ConditionType/action/ConditionRefresh2",
+            "op": "invokeaction"
+          }
+        ]
+      },
+      "Disable": {
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/OpcUaCore/OpcUaCore_ConditionType/action/Disable",
+            "op": "invokeaction"
+          }
+        ]
+      },
+      "Enable": {
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/OpcUaCore/OpcUaCore_ConditionType/action/Enable",
+            "op": "invokeaction"
+          }
+        ]
+      }
+    },
+    "properties": {
+      "BranchId": {
+        "type": "string",
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/OpcUaCore/OpcUaCore_ConditionType/property/BranchId/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "ClientUserId": {
+        "type": "string",
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/OpcUaCore/OpcUaCore_ConditionType/property/ClientUserId/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "Comment": {
+        "type": "string",
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/OpcUaCore/OpcUaCore_ConditionType/property/Comment/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "ConditionClassId": {
+        "type": "string",
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/OpcUaCore/OpcUaCore_ConditionType/property/ConditionClassId/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "ConditionClassName": {
+        "type": "string",
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/OpcUaCore/OpcUaCore_ConditionType/property/ConditionClassName/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "ConditionName": {
+        "type": "string",
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/OpcUaCore/OpcUaCore_ConditionType/property/ConditionName/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "ConditionSubClassId": {
+        "type": "array",
+        "items": {
+          "type": "string"
+        },
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/OpcUaCore/OpcUaCore_ConditionType/property/ConditionSubClassId/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "ConditionSubClassName": {
+        "type": "array",
+        "items": {
+          "type": "string"
+        },
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/OpcUaCore/OpcUaCore_ConditionType/property/ConditionSubClassName/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "EnabledState": {
+        "type": "string",
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/OpcUaCore/OpcUaCore_ConditionType/property/EnabledState/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "LastSeverity": {
+        "type": "integer",
+        "minimum": 0,
+        "maximum": 65535,
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/OpcUaCore/OpcUaCore_ConditionType/property/LastSeverity/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "Quality": {
+        "type": "string",
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/OpcUaCore/OpcUaCore_ConditionType/property/Quality/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "Retain": {
+        "type": "boolean",
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/OpcUaCore/OpcUaCore_ConditionType/property/Retain/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "SupportsFilteredRetain": {
+        "type": "boolean",
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/OpcUaCore/OpcUaCore_ConditionType/property/SupportsFilteredRetain/read",
+            "op": "readproperty"
+          }
+        ]
+      }
+    },
+    "events": {
+      "Comment": {
+        "data": {
+          "type": "string"
+        },
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/OpcUaCore/OpcUaCore_ConditionType/event/Comment/{senderId}",
+            "op": "subscribeevent"
+          }
+        ]
+      },
+      "EnabledState": {
+        "data": {
+          "type": "string"
+        },
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/OpcUaCore/OpcUaCore_ConditionType/event/EnabledState/{senderId}",
+            "op": "subscribeevent"
+          }
+        ]
+      },
+      "LastSeverity": {
+        "data": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 65535
+        },
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/OpcUaCore/OpcUaCore_ConditionType/event/LastSeverity/{senderId}",
+            "op": "subscribeevent"
+          }
+        ]
+      },
+      "Quality": {
+        "data": {
+          "type": "string"
+        },
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/OpcUaCore/OpcUaCore_ConditionType/event/Quality/{senderId}",
+            "op": "subscribeevent"
+          }
+        ]
+      }
+    }
+  },
+  {
+    "@context": [
+      "https://www.w3.org/2022/wot/td/v1.1",
+      {
+        "dtv": "http://azure.com/DigitalTwins/dtmi#",
+        "aov": "http://azure.com/IoT/operations/tm#"
+      }
+    ],
+    "@type": "tm:ThingModel",
+    "title": "OpcUaCore_BaseEventType",
+    "aov:typeRef": "nsu=http://opcfoundation.org/UA/;i=2041",
+    "links": [
+      {
+        "rel": "tm:extends",
+        "href": "#title=OpcUaCore_BaseObjectType",
+        "type": "application/tm+json"
+      }
+    ],
+    "schemaDefinitions": {
+    },
+    "forms": [
+      {
+        "contentType": "application/json",
+        "dtv:topic": "opcua/OpcUaCore/OpcUaCore_BaseEventType/properties/read",
+        "op": "readallproperties"
+      }
+    ],
+    "actions": {
+    },
+    "properties": {
+      "ConditionClassId": {
+        "type": "string",
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/OpcUaCore/OpcUaCore_BaseEventType/property/ConditionClassId/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "ConditionClassName": {
+        "type": "string",
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/OpcUaCore/OpcUaCore_BaseEventType/property/ConditionClassName/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "ConditionSubClassId": {
+        "type": "array",
+        "items": {
+          "type": "string"
+        },
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/OpcUaCore/OpcUaCore_BaseEventType/property/ConditionSubClassId/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "ConditionSubClassName": {
+        "type": "array",
+        "items": {
+          "type": "string"
+        },
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/OpcUaCore/OpcUaCore_BaseEventType/property/ConditionSubClassName/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "EventId": {
+        "type": "string",
+        "contentEncoding": "base64",
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/OpcUaCore/OpcUaCore_BaseEventType/property/EventId/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "EventType": {
+        "type": "string",
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/OpcUaCore/OpcUaCore_BaseEventType/property/EventType/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "LocalTime": {
+        "title": "TimeZoneDataType",
+        "type": "object",
+        "aov:typeRef": "nsu=http://opcfoundation.org/UA/;i=8912",
+        "required": [ "Offset", "DaylightSavingInOffset" ],
+        "properties": {
+          "Offset": {
+            "type": "integer",
+            "minimum": -32768,
+            "maximum": 32767
+          },
+          "DaylightSavingInOffset": {
+            "type": "boolean"
+          }
+        },
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/OpcUaCore/OpcUaCore_BaseEventType/property/LocalTime/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "Message": {
+        "type": "string",
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/OpcUaCore/OpcUaCore_BaseEventType/property/Message/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "ReceiveTime": {
+        "type": "string",
+        "format": "time",
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/OpcUaCore/OpcUaCore_BaseEventType/property/ReceiveTime/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "Severity": {
+        "type": "integer",
+        "minimum": 0,
+        "maximum": 65535,
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/OpcUaCore/OpcUaCore_BaseEventType/property/Severity/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "SourceName": {
+        "type": "string",
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/OpcUaCore/OpcUaCore_BaseEventType/property/SourceName/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "SourceNode": {
+        "type": "string",
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/OpcUaCore/OpcUaCore_BaseEventType/property/SourceNode/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "Time": {
+        "type": "string",
+        "format": "time",
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/OpcUaCore/OpcUaCore_BaseEventType/property/Time/read",
+            "op": "readproperty"
+          }
+        ]
+      }
+    },
+    "events": {
+    }
+  },
+  {
+    "@context": [
+      "https://www.w3.org/2022/wot/td/v1.1",
+      {
+        "dtv": "http://azure.com/DigitalTwins/dtmi#",
+        "aov": "http://azure.com/IoT/operations/tm#"
+      }
+    ],
+    "@type": "tm:ThingModel",
+    "title": "OpcUaCore_BaseObjectType",
+    "aov:typeRef": "nsu=http://opcfoundation.org/UA/;i=58",
+    "links": [
+    ],
+    "schemaDefinitions": {
+    },
+    "actions": {
+    },
+    "properties": {
+    },
+    "events": {
+    }
+  },
+  {
+    "@context": [
+      "https://www.w3.org/2022/wot/td/v1.1",
+      {
+        "dtv": "http://azure.com/DigitalTwins/dtmi#",
+        "aov": "http://azure.com/IoT/operations/tm#"
+      }
+    ],
+    "@type": "tm:ThingModel",
+    "title": "OpcUaCore_ShelvedStateMachineType",
+    "aov:typeRef": "nsu=http://opcfoundation.org/UA/;i=2929",
+    "links": [
+      {
+        "rel": "tm:extends",
+        "href": "#title=OpcUaCore_FiniteStateMachineType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "aov:reference",
+        "aov:refName": "Unshelved",
+        "href": "#title=OpcUaCore_StateType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "aov:reference",
+        "aov:refName": "TimedShelved",
+        "href": "#title=OpcUaCore_StateType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "aov:reference",
+        "aov:refName": "OneShotShelved",
+        "href": "#title=OpcUaCore_StateType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "aov:reference",
+        "aov:refName": "UnshelvedToTimedShelved",
+        "href": "#title=OpcUaCore_TransitionType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "aov:reference",
+        "aov:refName": "UnshelvedToOneShotShelved",
+        "href": "#title=OpcUaCore_TransitionType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "aov:reference",
+        "aov:refName": "TimedShelvedToUnshelved",
+        "href": "#title=OpcUaCore_TransitionType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "aov:reference",
+        "aov:refName": "TimedShelvedToOneShotShelved",
+        "href": "#title=OpcUaCore_TransitionType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "aov:reference",
+        "aov:refName": "OneShotShelvedToUnshelved",
+        "href": "#title=OpcUaCore_TransitionType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "aov:reference",
+        "aov:refName": "OneShotShelvedToTimedShelved",
+        "href": "#title=OpcUaCore_TransitionType",
+        "type": "application/tm+json"
+      }
+    ],
+    "schemaDefinitions": {
+    },
+    "forms": [
+      {
+        "contentType": "application/json",
+        "dtv:topic": "opcua/OpcUaCore/OpcUaCore_ShelvedStateMachineType/properties/read",
+        "op": "readallproperties"
+      }
+    ],
+    "actions": {
+      "OneShotShelve": {
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/OpcUaCore/OpcUaCore_ShelvedStateMachineType/action/OneShotShelve",
+            "op": "invokeaction"
+          }
+        ]
+      },
+      "OneShotShelve2": {
+        "input": {
+          "type": "object",
+          "aov:typeRef": "nsu=http://opcfoundation.org/UA/;i=24761",
+          "required": [ "Comment" ],
+          "properties": {
+            "Comment": {
+              "type": "string"
+            }
+          }
+        },
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/OpcUaCore/OpcUaCore_ShelvedStateMachineType/action/OneShotShelve2",
+            "op": "invokeaction"
+          }
+        ]
+      },
+      "TimedShelve": {
+        "input": {
+          "type": "object",
+          "aov:typeRef": "nsu=http://opcfoundation.org/UA/;i=2991",
+          "required": [ "ShelvingTime" ],
+          "properties": {
+            "ShelvingTime": {
+              "type": "string",
+              "pattern": "^P(?!$)(?:(?:(?:(?:\\d+Y)|(?:\\d+\\.\\d+Y$))?(?:(?:\\d+M)|(?:\\d+\\.\\d+M$))?)|(?:(?:(?:\\d+W)|(?:\\d+\\.\\d+W$))?))(?:(?:\\d+D)|(?:\\d+\\.\\d+D$))?(?:T(?!$)(?:(?:\\d+H)|(?:\\d+\\.\\d+H$))?(?:(?:\\d+M)|(?:\\d+\\.\\d+M$))?(?:\\d+(?:\\.\\d+)?S)?)?$"
+            }
+          }
+        },
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/OpcUaCore/OpcUaCore_ShelvedStateMachineType/action/TimedShelve",
+            "op": "invokeaction"
+          }
+        ]
+      },
+      "TimedShelve2": {
+        "input": {
+          "type": "object",
+          "aov:typeRef": "nsu=http://opcfoundation.org/UA/;i=24757",
+          "required": [ "ShelvingTime", "Comment" ],
+          "properties": {
+            "ShelvingTime": {
+              "type": "string",
+              "pattern": "^P(?!$)(?:(?:(?:(?:\\d+Y)|(?:\\d+\\.\\d+Y$))?(?:(?:\\d+M)|(?:\\d+\\.\\d+M$))?)|(?:(?:(?:\\d+W)|(?:\\d+\\.\\d+W$))?))(?:(?:\\d+D)|(?:\\d+\\.\\d+D$))?(?:T(?!$)(?:(?:\\d+H)|(?:\\d+\\.\\d+H$))?(?:(?:\\d+M)|(?:\\d+\\.\\d+M$))?(?:\\d+(?:\\.\\d+)?S)?)?$"
+            },
+            "Comment": {
+              "type": "string"
+            }
+          }
+        },
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/OpcUaCore/OpcUaCore_ShelvedStateMachineType/action/TimedShelve2",
+            "op": "invokeaction"
+          }
+        ]
+      },
+      "Unshelve": {
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/OpcUaCore/OpcUaCore_ShelvedStateMachineType/action/Unshelve",
+            "op": "invokeaction"
+          }
+        ]
+      },
+      "Unshelve2": {
+        "input": {
+          "type": "object",
+          "aov:typeRef": "nsu=http://opcfoundation.org/UA/;i=24759",
+          "required": [ "Comment" ],
+          "properties": {
+            "Comment": {
+              "type": "string"
+            }
+          }
+        },
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/OpcUaCore/OpcUaCore_ShelvedStateMachineType/action/Unshelve2",
+            "op": "invokeaction"
+          }
+        ]
+      }
+    },
+    "properties": {
+      "UnshelveTime": {
+        "type": "string",
+        "pattern": "^P(?!$)(?:(?:(?:(?:\\d+Y)|(?:\\d+\\.\\d+Y$))?(?:(?:\\d+M)|(?:\\d+\\.\\d+M$))?)|(?:(?:(?:\\d+W)|(?:\\d+\\.\\d+W$))?))(?:(?:\\d+D)|(?:\\d+\\.\\d+D$))?(?:T(?!$)(?:(?:\\d+H)|(?:\\d+\\.\\d+H$))?(?:(?:\\d+M)|(?:\\d+\\.\\d+M$))?(?:\\d+(?:\\.\\d+)?S)?)?$",
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/OpcUaCore/OpcUaCore_ShelvedStateMachineType/property/UnshelveTime/read",
+            "op": "readproperty"
+          }
+        ]
+      }
+    },
+    "events": {
+    }
+  },
+  {
+    "@context": [
+      "https://www.w3.org/2022/wot/td/v1.1",
+      {
+        "dtv": "http://azure.com/DigitalTwins/dtmi#",
+        "aov": "http://azure.com/IoT/operations/tm#"
+      }
+    ],
+    "@type": "tm:ThingModel",
+    "title": "OpcUaCore_FiniteStateMachineType",
+    "aov:typeRef": "nsu=http://opcfoundation.org/UA/;i=2771",
+    "links": [
+      {
+        "rel": "tm:extends",
+        "href": "#title=OpcUaCore_StateMachineType",
+        "type": "application/tm+json"
+      }
+    ],
+    "schemaDefinitions": {
+    },
+    "forms": [
+      {
+        "contentType": "application/json",
+        "dtv:topic": "opcua/OpcUaCore/OpcUaCore_FiniteStateMachineType/events/{senderId}",
+        "op": "subscribeallevents"
+      },
+      {
+        "contentType": "application/json",
+        "dtv:topic": "opcua/OpcUaCore/OpcUaCore_FiniteStateMachineType/properties/read",
+        "op": "readallproperties"
+      }
+    ],
+    "actions": {
+    },
+    "properties": {
+      "AvailableStates": {
+        "type": "array",
+        "items": {
+          "type": "string"
+        },
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/OpcUaCore/OpcUaCore_FiniteStateMachineType/property/AvailableStates/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "AvailableTransitions": {
+        "type": "array",
+        "items": {
+          "type": "string"
+        },
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/OpcUaCore/OpcUaCore_FiniteStateMachineType/property/AvailableTransitions/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "CurrentState": {
+        "type": "string",
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/OpcUaCore/OpcUaCore_FiniteStateMachineType/property/CurrentState/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "LastTransition": {
+        "type": "string",
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/OpcUaCore/OpcUaCore_FiniteStateMachineType/property/LastTransition/read",
+            "op": "readproperty"
+          }
+        ]
+      }
+    },
+    "events": {
+      "AvailableStates": {
+        "data": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/OpcUaCore/OpcUaCore_FiniteStateMachineType/event/AvailableStates/{senderId}",
+            "op": "subscribeevent"
+          }
+        ]
+      },
+      "AvailableTransitions": {
+        "data": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/OpcUaCore/OpcUaCore_FiniteStateMachineType/event/AvailableTransitions/{senderId}",
+            "op": "subscribeevent"
+          }
+        ]
+      },
+      "CurrentState": {
+        "data": {
+          "type": "string"
+        },
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/OpcUaCore/OpcUaCore_FiniteStateMachineType/event/CurrentState/{senderId}",
+            "op": "subscribeevent"
+          }
+        ]
+      },
+      "LastTransition": {
+        "data": {
+          "type": "string"
+        },
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/OpcUaCore/OpcUaCore_FiniteStateMachineType/event/LastTransition/{senderId}",
+            "op": "subscribeevent"
+          }
+        ]
+      }
+    }
+  },
+  {
+    "@context": [
+      "https://www.w3.org/2022/wot/td/v1.1",
+      {
+        "dtv": "http://azure.com/DigitalTwins/dtmi#",
+        "aov": "http://azure.com/IoT/operations/tm#"
+      }
+    ],
+    "@type": "tm:ThingModel",
+    "title": "OpcUaCore_StateMachineType",
+    "aov:typeRef": "nsu=http://opcfoundation.org/UA/;i=2299",
+    "aov:isComposite": true,
+    "links": [
+      {
+        "rel": "tm:extends",
+        "href": "#title=OpcUaCore_BaseObjectType",
+        "type": "application/tm+json"
+      }
+    ],
+    "schemaDefinitions": {
+    },
+    "forms": [
+      {
+        "contentType": "application/json",
+        "dtv:topic": "opcua/OpcUaCore/OpcUaCore_StateMachineType/events/{senderId}",
+        "op": "subscribeallevents"
+      },
+      {
+        "contentType": "application/json",
+        "dtv:topic": "opcua/OpcUaCore/OpcUaCore_StateMachineType/properties/read",
+        "op": "readallproperties"
+      }
+    ],
+    "actions": {
+    },
+    "properties": {
+      "CurrentState": {
+        "type": "string",
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/OpcUaCore/OpcUaCore_StateMachineType/property/CurrentState/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "LastTransition": {
+        "type": "string",
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/OpcUaCore/OpcUaCore_StateMachineType/property/LastTransition/read",
+            "op": "readproperty"
+          }
+        ]
+      }
+    },
+    "events": {
+      "CurrentState": {
+        "data": {
+          "type": "string"
+        },
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/OpcUaCore/OpcUaCore_StateMachineType/event/CurrentState/{senderId}",
+            "op": "subscribeevent"
+          }
+        ]
+      },
+      "LastTransition": {
+        "data": {
+          "type": "string"
+        },
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/OpcUaCore/OpcUaCore_StateMachineType/event/LastTransition/{senderId}",
+            "op": "subscribeevent"
+          }
+        ]
+      }
+    }
+  },
+  {
+    "@context": [
+      "https://www.w3.org/2022/wot/td/v1.1",
+      {
+        "dtv": "http://azure.com/DigitalTwins/dtmi#",
+        "aov": "http://azure.com/IoT/operations/tm#"
+      }
+    ],
+    "@type": "tm:ThingModel",
+    "title": "OpcUaCore_StateType",
+    "aov:typeRef": "nsu=http://opcfoundation.org/UA/;i=2307",
+    "links": [
+      {
+        "rel": "tm:extends",
+        "href": "#title=OpcUaCore_BaseObjectType",
+        "type": "application/tm+json"
+      }
+    ],
+    "schemaDefinitions": {
+    },
+    "forms": [
+      {
+        "contentType": "application/json",
+        "dtv:topic": "opcua/OpcUaCore/OpcUaCore_StateType/properties/read",
+        "op": "readallproperties"
+      }
+    ],
+    "actions": {
+    },
+    "properties": {
+      "StateNumber": {
+        "type": "integer",
+        "minimum": 0,
+        "maximum": 4294967295,
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/OpcUaCore/OpcUaCore_StateType/property/StateNumber/read",
+            "op": "readproperty"
+          }
+        ]
+      }
+    },
+    "events": {
+    }
+  },
+  {
+    "@context": [
+      "https://www.w3.org/2022/wot/td/v1.1",
+      {
+        "dtv": "http://azure.com/DigitalTwins/dtmi#",
+        "aov": "http://azure.com/IoT/operations/tm#"
+      }
+    ],
+    "@type": "tm:ThingModel",
+    "title": "OpcUaCore_TransitionType",
+    "aov:typeRef": "nsu=http://opcfoundation.org/UA/;i=2310",
+    "links": [
+      {
+        "rel": "tm:extends",
+        "href": "#title=OpcUaCore_BaseObjectType",
+        "type": "application/tm+json"
+      }
+    ],
+    "schemaDefinitions": {
+    },
+    "forms": [
+      {
+        "contentType": "application/json",
+        "dtv:topic": "opcua/OpcUaCore/OpcUaCore_TransitionType/properties/read",
+        "op": "readallproperties"
+      }
+    ],
+    "actions": {
+    },
+    "properties": {
+      "TransitionNumber": {
+        "type": "integer",
+        "minimum": 0,
+        "maximum": 4294967295,
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/OpcUaCore/OpcUaCore_TransitionType/property/TransitionNumber/read",
+            "op": "readproperty"
+          }
+        ]
+      }
+    },
+    "events": {
+    }
+  },
+  {
+    "@context": [
+      "https://www.w3.org/2022/wot/td/v1.1",
+      {
+        "dtv": "http://azure.com/DigitalTwins/dtmi#",
+        "aov": "http://azure.com/IoT/operations/tm#"
+      }
+    ],
+    "@type": "tm:ThingModel",
+    "title": "OpcUaCore_AlarmGroupType",
+    "aov:typeRef": "nsu=http://opcfoundation.org/UA/;i=16405",
+    "links": [
+      {
+        "rel": "tm:extends",
+        "href": "#title=OpcUaCore_FolderType",
+        "type": "application/tm+json"
+      }
+    ],
+    "schemaDefinitions": {
+    },
+    "actions": {
+    },
+    "properties": {
+    },
+    "events": {
+    }
+  },
+  {
+    "@context": [
+      "https://www.w3.org/2022/wot/td/v1.1",
+      {
+        "dtv": "http://azure.com/DigitalTwins/dtmi#",
+        "aov": "http://azure.com/IoT/operations/tm#"
+      }
+    ],
+    "@type": "tm:ThingModel",
+    "title": "OpcUaCore_FolderType",
+    "aov:typeRef": "nsu=http://opcfoundation.org/UA/;i=61",
+    "links": [
+      {
+        "rel": "tm:extends",
+        "href": "#title=OpcUaCore_BaseObjectType",
+        "type": "application/tm+json"
+      }
+    ],
+    "schemaDefinitions": {
+    },
+    "actions": {
+    },
+    "properties": {
+    },
+    "events": {
+    }
+  },
+  {
+    "@context": [
+      "https://www.w3.org/2022/wot/td/v1.1",
+      {
+        "dtv": "http://azure.com/DigitalTwins/dtmi#",
+        "aov": "http://azure.com/IoT/operations/tm#"
+      }
+    ],
+    "@type": "tm:ThingModel",
+    "title": "DI_ComponentType",
+    "aov:typeRef": "nsu=http://opcfoundation.org/UA/DI/;i=15063",
+    "links": [
+      {
+        "rel": "tm:extends",
+        "href": "#title=DI_TopologyElementType",
+        "type": "application/tm+json"
+      }
+    ],
+    "schemaDefinitions": {
+    },
+    "forms": [
+      {
+        "contentType": "application/json",
+        "dtv:topic": "opcua/DI/DI_ComponentType/properties/read",
+        "op": "readallproperties"
+      }
+    ],
+    "actions": {
+    },
+    "properties": {
+      "AssetId": {
+        "aov:namespace": "http://opcfoundation.org/UA/DI/",
+        "type": "string",
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/DI/DI_ComponentType/property/AssetId/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "ComponentName": {
+        "aov:namespace": "http://opcfoundation.org/UA/DI/",
+        "type": "string",
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/DI/DI_ComponentType/property/ComponentName/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "DeviceClass": {
+        "aov:namespace": "http://opcfoundation.org/UA/DI/",
+        "type": "string",
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/DI/DI_ComponentType/property/DeviceClass/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "DeviceManual": {
+        "aov:namespace": "http://opcfoundation.org/UA/DI/",
+        "type": "string",
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/DI/DI_ComponentType/property/DeviceManual/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "DeviceRevision": {
+        "aov:namespace": "http://opcfoundation.org/UA/DI/",
+        "type": "string",
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/DI/DI_ComponentType/property/DeviceRevision/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "HardwareRevision": {
+        "aov:namespace": "http://opcfoundation.org/UA/DI/",
+        "type": "string",
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/DI/DI_ComponentType/property/HardwareRevision/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "Manufacturer": {
+        "aov:namespace": "http://opcfoundation.org/UA/DI/",
+        "type": "string",
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/DI/DI_ComponentType/property/Manufacturer/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "ManufacturerUri": {
+        "aov:namespace": "http://opcfoundation.org/UA/DI/",
+        "type": "string",
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/DI/DI_ComponentType/property/ManufacturerUri/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "Model": {
+        "aov:namespace": "http://opcfoundation.org/UA/DI/",
+        "type": "string",
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/DI/DI_ComponentType/property/Model/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "ProductCode": {
+        "aov:namespace": "http://opcfoundation.org/UA/DI/",
+        "type": "string",
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/DI/DI_ComponentType/property/ProductCode/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "ProductInstanceUri": {
+        "aov:namespace": "http://opcfoundation.org/UA/DI/",
+        "type": "string",
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/DI/DI_ComponentType/property/ProductInstanceUri/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "RevisionCounter": {
+        "aov:namespace": "http://opcfoundation.org/UA/DI/",
+        "type": "integer",
+        "minimum": -2147483648,
+        "maximum": 2147483647,
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/DI/DI_ComponentType/property/RevisionCounter/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "SerialNumber": {
+        "aov:namespace": "http://opcfoundation.org/UA/DI/",
+        "type": "string",
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/DI/DI_ComponentType/property/SerialNumber/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "SoftwareRevision": {
+        "aov:namespace": "http://opcfoundation.org/UA/DI/",
+        "type": "string",
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/DI/DI_ComponentType/property/SoftwareRevision/read",
+            "op": "readproperty"
+          }
+        ]
+      }
+    },
+    "events": {
+    }
+  },
+  {
+    "@context": [
+      "https://www.w3.org/2022/wot/td/v1.1",
+      {
+        "dtv": "http://azure.com/DigitalTwins/dtmi#",
+        "aov": "http://azure.com/IoT/operations/tm#"
+      }
+    ],
+    "@type": "tm:ThingModel",
+    "title": "DI_TopologyElementType",
+    "aov:typeRef": "nsu=http://opcfoundation.org/UA/DI/;i=1001",
+    "links": [
+      {
+        "rel": "tm:extends",
+        "href": "#title=OpcUaCore_BaseObjectType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "aov:component",
+        "aov:refName": "ParameterSet",
+        "href": "#title=OpcUaCore_BaseObjectType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "aov:component",
+        "aov:refName": "MethodSet",
+        "href": "#title=OpcUaCore_BaseObjectType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "aov:component",
+        "aov:refName": "GroupIdentifier",
+        "href": "#title=DI_FunctionalGroupType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "aov:capability",
+        "aov:refName": "Identification",
+        "href": "#title=DI_FunctionalGroupType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "aov:capability",
+        "aov:refName": "Lock",
+        "href": "#title=DI_LockingServicesType",
+        "type": "application/tm+json"
+      }
+    ],
+    "schemaDefinitions": {
+    },
+    "actions": {
+    },
+    "properties": {
+    },
+    "events": {
+    }
+  },
+  {
+    "@context": [
+      "https://www.w3.org/2022/wot/td/v1.1",
+      {
+        "dtv": "http://azure.com/DigitalTwins/dtmi#",
+        "aov": "http://azure.com/IoT/operations/tm#"
+      }
+    ],
+    "@type": "tm:ThingModel",
+    "title": "DI_FunctionalGroupType",
+    "aov:typeRef": "nsu=http://opcfoundation.org/UA/DI/;i=1005",
+    "links": [
+      {
+        "rel": "tm:extends",
+        "href": "#title=OpcUaCore_FolderType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "aov:component",
+        "aov:refName": "GroupIdentifier",
+        "href": "#title=DI_FunctionalGroupType",
+        "type": "application/tm+json"
+      }
+    ],
+    "schemaDefinitions": {
+    },
+    "forms": [
+      {
+        "contentType": "application/json",
+        "dtv:topic": "opcua/DI/DI_FunctionalGroupType/events/{senderId}",
+        "op": "subscribeallevents"
+      },
+      {
+        "contentType": "application/json",
+        "dtv:topic": "opcua/DI/DI_FunctionalGroupType/properties/read",
+        "op": "readallproperties"
+      }
+    ],
+    "actions": {
+    },
+    "properties": {
+      "UIElement": {
+        "aov:namespace": "http://opcfoundation.org/UA/DI/",
+        "description": "Stand-in for an unspecified data type.",
+        "type": "string",
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/DI/DI_FunctionalGroupType/property/UIElement/read",
+            "op": "readproperty"
+          }
+        ]
+      }
+    },
+    "events": {
+      "UIElement": {
+        "aov:namespace": "http://opcfoundation.org/UA/DI/",
+        "data": {
+          "description": "Stand-in for an unspecified data type.",
+          "type": "string"
+        },
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/DI/DI_FunctionalGroupType/event/UIElement/{senderId}",
+            "op": "subscribeevent"
+          }
+        ]
+      }
+    }
+  },
+  {
+    "@context": [
+      "https://www.w3.org/2022/wot/td/v1.1",
+      {
+        "dtv": "http://azure.com/DigitalTwins/dtmi#",
+        "aov": "http://azure.com/IoT/operations/tm#"
+      }
+    ],
+    "@type": "tm:ThingModel",
+    "title": "DI_LockingServicesType",
+    "aov:typeRef": "nsu=http://opcfoundation.org/UA/DI/;i=6388",
+    "links": [
+      {
+        "rel": "tm:extends",
+        "href": "#title=OpcUaCore_BaseObjectType",
+        "type": "application/tm+json"
+      }
+    ],
+    "schemaDefinitions": {
+    },
+    "forms": [
+      {
+        "contentType": "application/json",
+        "dtv:topic": "opcua/DI/DI_LockingServicesType/properties/read",
+        "op": "readallproperties"
+      }
+    ],
+    "actions": {
+      "BreakLock": {
+        "aov:namespace": "http://opcfoundation.org/UA/DI/",
+        "output": {
+          "type": "object",
+          "aov:typeRef": "nsu=http://opcfoundation.org/UA/DI/;i=6401",
+          "required": [ "BreakLockStatus" ],
+          "properties": {
+            "BreakLockStatus": {
+              "type": "integer",
+              "minimum": -2147483648,
+              "maximum": 2147483647
+            }
+          }
+        },
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/DI/DI_LockingServicesType/action/BreakLock",
+            "op": "invokeaction"
+          }
+        ]
+      },
+      "ExitLock": {
+        "aov:namespace": "http://opcfoundation.org/UA/DI/",
+        "output": {
+          "type": "object",
+          "aov:typeRef": "nsu=http://opcfoundation.org/UA/DI/;i=6399",
+          "required": [ "ExitLockStatus" ],
+          "properties": {
+            "ExitLockStatus": {
+              "type": "integer",
+              "minimum": -2147483648,
+              "maximum": 2147483647
+            }
+          }
+        },
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/DI/DI_LockingServicesType/action/ExitLock",
+            "op": "invokeaction"
+          }
+        ]
+      },
+      "InitLock": {
+        "aov:namespace": "http://opcfoundation.org/UA/DI/",
+        "input": {
+          "type": "object",
+          "aov:typeRef": "nsu=http://opcfoundation.org/UA/DI/;i=6394",
+          "required": [ "Context" ],
+          "properties": {
+            "Context": {
+              "type": "string"
+            }
+          }
+        },
+        "output": {
+          "type": "object",
+          "aov:typeRef": "nsu=http://opcfoundation.org/UA/DI/;i=6395",
+          "required": [ "InitLockStatus" ],
+          "properties": {
+            "InitLockStatus": {
+              "type": "integer",
+              "minimum": -2147483648,
+              "maximum": 2147483647
+            }
+          }
+        },
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/DI/DI_LockingServicesType/action/InitLock",
+            "op": "invokeaction"
+          }
+        ]
+      },
+      "RenewLock": {
+        "aov:namespace": "http://opcfoundation.org/UA/DI/",
+        "output": {
+          "type": "object",
+          "aov:typeRef": "nsu=http://opcfoundation.org/UA/DI/;i=6397",
+          "required": [ "RenewLockStatus" ],
+          "properties": {
+            "RenewLockStatus": {
+              "type": "integer",
+              "minimum": -2147483648,
+              "maximum": 2147483647
+            }
+          }
+        },
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/DI/DI_LockingServicesType/action/RenewLock",
+            "op": "invokeaction"
+          }
+        ]
+      }
+    },
+    "properties": {
+      "DefaultInstanceBrowseName": {
+        "type": "string",
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/DI/DI_LockingServicesType/property/DefaultInstanceBrowseName/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "Locked": {
+        "aov:namespace": "http://opcfoundation.org/UA/DI/",
+        "type": "boolean",
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/DI/DI_LockingServicesType/property/Locked/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "LockingClient": {
+        "aov:namespace": "http://opcfoundation.org/UA/DI/",
+        "type": "string",
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/DI/DI_LockingServicesType/property/LockingClient/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "LockingUser": {
+        "aov:namespace": "http://opcfoundation.org/UA/DI/",
+        "type": "string",
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/DI/DI_LockingServicesType/property/LockingUser/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "RemainingLockTime": {
+        "aov:namespace": "http://opcfoundation.org/UA/DI/",
+        "type": "string",
+        "pattern": "^P(?!$)(?:(?:(?:(?:\\d+Y)|(?:\\d+\\.\\d+Y$))?(?:(?:\\d+M)|(?:\\d+\\.\\d+M$))?)|(?:(?:(?:\\d+W)|(?:\\d+\\.\\d+W$))?))(?:(?:\\d+D)|(?:\\d+\\.\\d+D$))?(?:T(?!$)(?:(?:\\d+H)|(?:\\d+\\.\\d+H$))?(?:(?:\\d+M)|(?:\\d+\\.\\d+M$))?(?:\\d+(?:\\.\\d+)?S)?)?$",
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/DI/DI_LockingServicesType/property/RemainingLockTime/read",
+            "op": "readproperty"
+          }
+        ]
+      }
+    },
+    "events": {
+    }
+  }
+]

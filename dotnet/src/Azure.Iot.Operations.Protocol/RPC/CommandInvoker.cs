@@ -57,7 +57,7 @@ namespace Azure.Iot.Operations.Protocol.RPC
         /// <remarks>
         /// If no prefix or suffix is specified, and no value is provided in <see cref="ResponseTopicPattern"/>, then this
         /// value will default to "clients/{invokerClientId}" for security purposes.
-        /// 
+        ///
         /// If a prefix and/or suffix are provided, then the response topic will use the format:
         /// {prefix}/{command request topic}/{suffix}.
         /// </remarks>
@@ -68,7 +68,7 @@ namespace Azure.Iot.Operations.Protocol.RPC
         /// </summary>
         /// <remarks>
         /// If no suffix is specified, then the command response topic won't include a suffix.
-        /// 
+        ///
         /// If a prefix and/or suffix are provided, then the response topic will use the format:
         /// {prefix}/{command request topic}/{suffix}.
         /// </remarks>
@@ -472,7 +472,11 @@ namespace Azure.Iot.Operations.Protocol.RPC
         /// <param name="commandTimeout">How long to wait for a command response. Note that each command executor also has a configurable timeout value that may be shorter than this value. <see cref="CommandExecutor{TReq, TResp}.ExecutionTimeout"/></param>
         /// <param name="cancellationToken">Cancellation token.</param>
         /// <returns>The command response including the command response metadata</returns>
-        public async Task<ExtendedResponse<TResp>> InvokeCommandAsync(TReq request, CommandRequestMetadata? metadata = null, Dictionary<string, string>? additionalTopicTokenMap = null, TimeSpan? commandTimeout = default, CancellationToken cancellationToken = default)
+        public async Task<ExtendedResponse<TResp>> InvokeCommandAsync(TReq request,
+            CommandRequestMetadata? metadata = null,
+            Dictionary<string, string>? additionalTopicTokenMap = null,
+            TimeSpan? commandTimeout = default,
+            CancellationToken cancellationToken = default)
         {
             cancellationToken.ThrowIfCancellationRequested();
             ObjectDisposedException.ThrowIf(_isDisposed, this);
@@ -560,8 +564,7 @@ namespace Azure.Iot.Operations.Protocol.RPC
                 // TODO remove this once akri service is code gen'd to expect srcId instead of invId
                 requestMessage.AddUserProperty(AkriSystemProperties.CommandInvokerId, clientId);
 
-                string timestamp = await _applicationContext.ApplicationHlc.UpdateNowAsync(cancellationToken: cancellationToken);
-                requestMessage.AddUserProperty(AkriSystemProperties.Timestamp, timestamp);
+                _ = await _applicationContext.ApplicationHlc.UpdateNowAsync(cancellationToken: cancellationToken);
                 await using var hlcClone = new HybridLogicalClock(_applicationContext.ApplicationHlc);
                 if (metadata != null)
                 {
@@ -573,6 +576,14 @@ namespace Azure.Iot.Operations.Protocol.RPC
                     requestMessage.Payload = payloadContext.SerializedPayload;
                     requestMessage.PayloadFormatIndicator = (MqttPayloadFormatIndicator)payloadContext.PayloadFormatIndicator;
                     requestMessage.ContentType = payloadContext.ContentType;
+                }
+
+                // If the cloud event subject has not been set by the user, provide the default value
+                if (metadata != null
+                    && metadata.CloudEvent is not null
+                    && metadata.CloudEvent.IsSubjectDefault)
+                {
+                    metadata.CloudEvent.Subject = requestTopic;
                 }
 
                 try
@@ -687,31 +698,83 @@ namespace Azure.Iot.Operations.Protocol.RPC
         }
 
         /// <summary>
-        /// Dispose this object and the underlying mqtt client.
+        /// Unsubscribe from any MQTT topics that this client subscribed to
         /// </summary>
-        /// <remarks>To avoid disposing the underlying mqtt client, use <see cref="DisposeAsync(bool)"/>.</remarks>
+        /// <param name="cancellationToken">Cancellation token</param>
+        /// <remarks>
+        /// This operation does require the underlying MQTT client to be connected to complete, so users are advised to pass in a cancellation token
+        /// to protect against the case where the underlying MQTT client gets disconnected and takes an unexpectedly long time to reconnect.
+        /// </remarks>
+        public async Task StopAsync(CancellationToken cancellationToken = default)
+        {
+            if (_subscribedTopics.Count > 0)
+            {
+                MqttClientUnsubscribeOptions unsubscribeOptions = new();
+                lock (_subscribedTopicsSetLock)
+                {
+                    foreach (string subscribedTopic in _subscribedTopics)
+                    {
+                        unsubscribeOptions.TopicFilters.Add(subscribedTopic);
+                    }
+                }
+
+                MqttClientUnsubscribeResult unsubAck = await _mqttClient.UnsubscribeAsync(unsubscribeOptions, cancellationToken).ConfigureAwait(false);
+                if (!unsubAck.IsUnsubAckSuccessful())
+                {
+                    Trace.TraceError($"Failed to unsubscribe from the topic(s) for the command invoker of '{_commandName}'.");
+                }
+            }
+        }
+
+        /// <summary>
+        /// Asynchronously dispose this object, but not the underlying mqtt client.
+        /// </summary>
+        /// <remarks>
+        /// Users are advised to call <see cref="StopAsync(CancellationToken)"/> prior to this in order to cleanup any MQTT subscriptions that this client has.
+        ///
+        /// To also dispose the underlying mqtt client, use <see cref="DisposeAsync(bool)"/>.
+        /// </remarks>
         public async ValueTask DisposeAsync()
         {
-            await DisposeAsyncCore(false).ConfigureAwait(false);
+            await DisposeAsyncCore(false, CancellationToken.None);
             GC.SuppressFinalize(this);
         }
 
         /// <summary>
-        /// Dispose this object and choose whether to dispose the underlying mqtt client as well.
+        /// Asynchronously dispose this object, but not the underlying mqtt client.
+        /// </summary>
+        /// <remarks>
+        /// Users are advised to call <see cref="StopAsync(CancellationToken)"/> prior to this in order to cleanup any MQTT subscriptions that this client has.
+        ///
+        /// To also dispose the underlying mqtt client, use <see cref="DisposeAsync(bool, CancellationToken)"/>.
+        /// </remarks>
+        public async ValueTask DisposeAsync(CancellationToken cancellationToken)
+        {
+            await DisposeAsyncCore(false, cancellationToken).ConfigureAwait(false);
+#pragma warning disable CA1816 // Dispose methods should call SuppressFinalize. Reason: this is a dispose method
+            GC.SuppressFinalize(this);
+#pragma warning restore CA1816 // Dispose methods should call SuppressFinalize
+        }
+
+        /// <summary>
+        /// Asynchronously dispose this object and optionally dispose the underlying mqtt client as well.
         /// </summary>
         /// <param name="disposing">
-        /// If true, this call will dispose the underlying mqtt client. If false, this call will 
+        /// If true, this call will dispose the underlying mqtt client. If false, this call will
         /// not dispose the underlying mqtt client.
         /// </param>
-        public async ValueTask DisposeAsync(bool disposing)
+        /// <remarks>
+        /// Users are advised to call <see cref="StopAsync(CancellationToken)"/> prior to this in order to cleanup any MQTT subscriptions that this client has.
+        /// </remarks>
+        public async ValueTask DisposeAsync(bool disposing, CancellationToken cancellationToken = default)
         {
-            await DisposeAsyncCore(disposing).ConfigureAwait(false);
+            await DisposeAsyncCore(disposing, cancellationToken).ConfigureAwait(false);
 #pragma warning disable CA1816 // Call GC.SuppressFinalize correctly
             GC.SuppressFinalize(this);
 #pragma warning restore CA1816 // Call GC.SuppressFinalize correctly
         }
 
-        protected virtual async ValueTask DisposeAsyncCore(bool disposing)
+        protected virtual async ValueTask DisposeAsyncCore(bool disposing, CancellationToken cancellationToken)
         {
             if (_isDisposed)
             {
@@ -732,31 +795,6 @@ namespace Azure.Iot.Operations.Protocol.RPC
                 _requestIdMap.Clear();
             }
 
-            try
-            {
-                if (_subscribedTopics.Count > 0)
-                {
-                    MqttClientUnsubscribeOptions unsubscribeOptions = new();
-                    lock (_subscribedTopicsSetLock)
-                    {
-                        foreach (string subscribedTopic in _subscribedTopics)
-                        {
-                            unsubscribeOptions.TopicFilters.Add(subscribedTopic);
-                        }
-                    }
-
-                    MqttClientUnsubscribeResult unsubAck = await _mqttClient.UnsubscribeAsync(unsubscribeOptions, CancellationToken.None).ConfigureAwait(false);
-                    if (!unsubAck.IsUnsubAckSuccessful())
-                    {
-                        Trace.TraceError($"Failed to unsubscribe from the topic(s) for the command invoker of '{_commandName}'.");
-                    }
-                }
-            }
-            catch (Exception e)
-            {
-                Trace.TraceWarning("Encountered an error while unsubscribing during disposal {0}", e);
-            }
-
             lock (_subscribedTopicsSetLock)
             {
                 _subscribedTopics.Clear();
@@ -765,7 +803,7 @@ namespace Azure.Iot.Operations.Protocol.RPC
             if (disposing)
             {
                 // This will disconnect and dispose the client if necessary
-                await _mqttClient.DisposeAsync();
+                await _mqttClient.DisposeAsync(disposing, cancellationToken);
             }
 
             _isDisposed = true;

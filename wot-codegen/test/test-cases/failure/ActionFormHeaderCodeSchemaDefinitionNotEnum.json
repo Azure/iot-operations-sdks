@@ -1,0 +1,16 @@
+{
+  "success": false,
+  "commandLine": {
+    "things": [ "invalidAioBinding/ActionFormHeaderCodeSchemaDefinitionNotEnum.TM.json" ],
+    "lang": "none"
+  },
+  "errors": [
+    {
+      "condition": "TypeMismatch",
+      "filename": "ActionFormHeaderCodeSchemaDefinitionNotEnum.TM.json",
+      "line": 20,
+      "cfLine": 9,
+      "crossRef": ""
+    }
+  ]
+}

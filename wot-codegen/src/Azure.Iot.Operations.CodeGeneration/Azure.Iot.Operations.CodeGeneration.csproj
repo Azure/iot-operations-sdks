@@ -1,0 +1,19 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net9.0</TargetFramework>
+    <Nullable>enable</Nullable>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Azure.Iot.Operations.TDParser\Azure.Iot.Operations.TDParser.csproj" />
+  </ItemGroup>
+
+  <!-- Add strong name signing properties for release pipeline compatibility -->
+  <PropertyGroup>
+    <AssemblyOriginatorKeyFile>$(MSBuildProjectDirectory)\..\..\..\dotnet\MSSharedLibKey.snk</AssemblyOriginatorKeyFile>
+    <SignAssembly>true</SignAssembly>
+    <PublicSign>true</PublicSign>
+    <DelaySign>false</DelaySign>
+  </PropertyGroup>
+</Project>

@@ -1,0 +1,16 @@
+{
+  "success": false,
+  "commandLine": {
+    "things": [ "invalidThing/ContextMissingWot.TM.json" ],
+    "lang": "none"
+  },
+  "errors": [
+    {
+      "condition": "PropertyMissing",
+      "filename": "ContextMissingWot.TM.json",
+      "line": 2,
+      "cfLine": 0,
+      "crossRef": ""
+    }
+  ]
+}

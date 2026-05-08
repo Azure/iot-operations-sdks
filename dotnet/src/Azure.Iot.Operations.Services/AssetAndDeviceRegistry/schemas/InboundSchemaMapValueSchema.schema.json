@@ -1,0 +1,33 @@
+{
+  "$schema": "https://json-schema.org/draft-07/schema",
+  "title": "InboundSchemaMapValueSchema",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [ "address", "endpointType" ],
+  "properties": {
+    "additionalConfiguration": {
+      "description": "Stringified JSON that contains connectivity type specific further configuration (e.g. OPC UA, ONVIF).",
+      "type": "string"
+    },
+    "address": {
+      "description": "The endpoint address & port. This can be either an IP address (e.g., 192.168.1.1) or a fully qualified domain name (FQDN, e.g., server.example.com).",
+      "type": "string"
+    },
+    "authentication": {
+      "description": "Defines the client authentication mechanism to the server.",
+      "$ref": "AuthenticationSchema.schema.json"
+    },
+    "endpointType": {
+      "description": "Type of connection endpoint.",
+      "type": "string"
+    },
+    "trustSettings": {
+      "description": "Defines server trust settings for the endpoint.",
+      "$ref": "TrustSettingsSchema.schema.json"
+    },
+    "version": {
+      "description": "Version associated with device endpoint.",
+      "type": "string"
+    }
+  }
+}

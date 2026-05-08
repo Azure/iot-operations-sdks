@@ -1,0 +1,16 @@
+{
+  "success": false,
+  "commandLine": {
+    "things": [ "invalidAioBinding/PropertyObjectErrorMessage.TM.json" ],
+    "lang": "none"
+  },
+  "errors": [
+    {
+      "condition": "PropertyUnsupported",
+      "filename": "PropertyObjectErrorMessage.TM.json",
+      "line": 18,
+      "cfLine": 0,
+      "crossRef": ""
+    }
+  ]
+}

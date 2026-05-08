@@ -23,7 +23,7 @@ namespace Azure.Iot.Operations.Connector.UnitTests
                 DeviceFileChanged?.Invoke(this, new(deviceName, inboundEndpointName, FileChangeType.Created));
             }
 
-            _devicesAndAssetNames.Add(ToComposite(deviceName, inboundEndpointName), new());
+            _devicesAndAssetNames.TryAdd(ToComposite(deviceName, inboundEndpointName), new());
         }
 
         public void SimulateNewDeviceDeleted(string deviceName, string inboundEndpointName)
@@ -43,7 +43,10 @@ namespace Azure.Iot.Operations.Connector.UnitTests
                 AssetFileChanged?.Invoke(this, new(deviceName, inboundEndpointName, assetName, FileChangeType.Created));
             }
 
-            _devicesAndAssetNames[ToComposite(deviceName, inboundEndpointName)].Add(assetName);
+            if (!_devicesAndAssetNames[ToComposite(deviceName, inboundEndpointName)].Contains(assetName))
+            {
+                _devicesAndAssetNames[ToComposite(deviceName, inboundEndpointName)].Add(assetName);
+            }
         }
 
         public void SimulateNewAssetDeleted(string deviceName, string inboundEndpointName, string assetName)

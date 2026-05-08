@@ -1,0 +1,14 @@
+{
+  "$schema": "https://json-schema.org/draft-07/schema",
+  "title": "StreamRuntimeHealthEventTelemetry",
+  "description": "Telemetry event emitted for reporting the runtime health of streams.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [ "streamRuntimeHealthEvent" ],
+  "properties": {
+    "streamRuntimeHealthEvent": {
+      "description": "Telemetry event emitted for reporting the runtime health of streams.",
+      "$ref": "StreamRuntimeHealthEventSchema.schema.json"
+    }
+  }
+}

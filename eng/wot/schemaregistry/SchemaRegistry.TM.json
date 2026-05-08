@@ -1,0 +1,408 @@
+{
+  "@context": [
+    "https://www.w3.org/2022/wot/td/v1.1",
+    { "dtv": "http://azure.com/DigitalTwins/dtmi#" }
+  ],
+  "@type": "tm:ThingModel",
+  "title": "SchemaRegistry",
+  "links": [
+    {
+      "rel": "dtv:naming",
+      "href": "SchemaNames.json",
+      "type": "application/json"
+    }
+  ],
+  "schemaDefinitions": {
+    "SchemaRegistryError": {
+      "description": "Error object for schema operations",
+      "title": "SchemaRegistryError",
+      "type": "object",
+      "required": [ "code", "message" ],
+      "dtv:errorMessage": "message",
+      "properties": {
+        "code": {
+          "description": "Error code for classification of errors (ex: '400', '404', '500', etc.).",
+          "type": "integer",
+          "minimum": -2147483648,
+          "maximum": 2147483647
+        },
+        "message": {
+          "description": "Human-readable error message.",
+          "type": "string"
+        },
+        "target": {
+          "description": "Target of the error, if applicable (e.g., 'schemaType').",
+          "type": "string"
+        },
+        "details": {
+          "description": "Additional details about the error, if available.",
+          "title": "SchemaRegistryErrorDetails",
+          "type": "object",
+          "properties": {
+            "code": {
+              "description": "Multi-part error code for classification and root causing of errors (e.g., '400.200').",
+              "type": "string"
+            },
+            "message": {
+              "description": "Human-readable helpful error message to provide additional context for the error",
+              "type": "string"
+            },
+            "correlationId": {
+              "description": "Correlation ID for tracing the error across systems.",
+              "type": "string"
+            }
+          }
+        },
+        "innerError": {
+          "description": "Inner error object for nested errors, if applicable.",
+          "title": "SchemaRegistryErrorDetails",
+          "type": "object",
+          "properties": {
+            "code": {
+              "description": "Multi-part error code for classification and root causing of errors (e.g., '400.200').",
+              "type": "string"
+            },
+            "message": {
+              "description": "Human-readable helpful error message to provide additional context for the error",
+              "type": "string"
+            },
+            "correlationId": {
+              "description": "Correlation ID for tracing the error across systems.",
+              "type": "string"
+            }
+          }
+        }
+      }
+    },
+    "Format": {
+      "type": "object",
+      "const": {
+        "JsonSchemaDraft07": "JsonSchema/draft-07",
+        "Delta1": "Delta/1.0"
+      },
+      "description": "Supported schema formats",
+      "properties": {
+        "JsonSchemaDraft07": {
+          "description": "JSON Schema Draft-07 format",
+          "type": "string"
+        },
+        "Delta1": {
+          "description": "Delta-Parquet format",
+          "type": "string"
+        }
+      }
+    },
+    "SchemaRegistryErrorCode": {
+      "type": "object",
+      "const": {
+        "BadRequest": 400,
+        "NotFound": 404,
+        "InternalError": 500
+      },
+      "properties": {
+        "BadRequest": {
+          "description": "The request is invalid or malformed.",
+          "type": "integer"
+        },
+        "NotFound": {
+          "description": "The target resource was not found.",
+          "type": "integer"
+        },
+        "InternalError": {
+          "description": "An internal server error occurred.",
+          "type": "integer"
+        }
+      }
+    },
+    "SchemaRegistryErrorTarget": {
+      "type": "object",
+      "const": {
+        "schemaTypeProperty": "SchemaType",
+        "formatProperty": "Format",
+        "versionProperty": "Version",
+        "nameProperty": "Name",
+        "tagsProperty": "Tags",
+        "descriptionProperty": "Description",
+        "displayNameProperty": "DisplayName",
+        "schemaContentProperty": "SchemaContent",
+        "schemaArmResource": "SchemaArmResource",
+        "schemaVersionArmResource": "SchemaVersionArmResource",
+        "SchemaRegistryArmResource": "SchemaRegistryResource"
+      },
+      "properties": {
+        "schemaTypeProperty": {
+          "description": "Indicates the error is related to the schema type.",
+          "type": "string"
+        },
+        "formatProperty": {
+          "description": "Indicates the error is related to the schema format.",
+          "type": "string"
+        },
+        "versionProperty": {
+          "description": "Indicates the error is related to the schema version.",
+          "type": "string"
+        },
+        "nameProperty": {
+          "description": "Indicates the error is related to the schema name.",
+          "type": "string"
+        },
+        "tagsProperty": {
+          "description": "Indicates the error is related to schema tags.",
+          "type": "string"
+        },
+        "descriptionProperty": {
+          "description": "Indicates the error is related to the schema description.",
+          "type": "string"
+        },
+        "displayNameProperty": {
+          "description": "Indicates the error is related to the schema display name.",
+          "type": "string"
+        },
+        "schemaContentProperty": {
+          "description": "Indicates the error is related to the schema content.",
+          "type": "string"
+        },
+        "schemaArmResource": {
+          "description": "Indicates the error is related to the schema ARM resource.",
+          "type": "string"
+        },
+        "schemaVersionArmResource": {
+          "description": "Indicates the error is related to the schema version ARM resource.",
+          "type": "string"
+        },
+        "SchemaRegistryArmResource": {
+          "description": "Indicates the error is related to the schema registry ARM resource.",
+          "type": "string"
+        }
+      }
+    }
+  },
+  "actions": {
+    "put": {
+      "description": "PUT Schema Command",
+      "input": {
+        "description": "PUT Schema request object",
+        "title": "PutRequestSchema",
+        "type": "object",
+        "required": [ "format", "schemaType", "schemaContent", "version" ],
+        "properties": {
+          "format": {
+            "description": "Format of the schema.",
+            "type": "string"
+          },
+          "schemaType": {
+            "description": "Type of the schema.",
+            "title": "SchemaType",
+            "type": "string",
+            "enum": [
+              "MessageSchema"
+            ]
+          },
+          "schemaContent": {
+            "description": "Content stored in the schema.",
+            "type": "string"
+          },
+          "version": {
+            "description": "Version of the schema. Allowed between 0-9.",
+            "type": "string"
+          },
+          "description": {
+            "description": "Human-readable description of the schema.",
+            "type": "string"
+          },
+          "displayName": {
+            "description": "Human-readable display name.",
+            "type": "string"
+          },
+          "tags": {
+            "description": "Schema tags.",
+            "type": "object",
+            "dtv:additionalProperties": {
+              "description": "User-defined schema tags",
+              "type": "string"
+            }
+          }
+        }
+      },
+      "output": {
+        "description": "PUT Schema response object",
+        "type": "object",
+        "required": [ "schema" ],
+        "properties": {
+          "schema": {
+            "description": "Schema object that was created.",
+            "title": "Schema",
+            "type": "object",
+            "required": [ "name", "format", "schemaType", "version", "schemaContent", "namespace" ],
+            "properties": {
+              "name": {
+                "description": "Schema name.",
+                "type": "string"
+              },
+              "format": {
+                "description": "Format of the schema.",
+                "type": "string"
+              },
+              "schemaType": {
+                "description": "Type of the schema.",
+                "title": "SchemaType",
+                "type": "string",
+                "enum": [
+                  "MessageSchema"
+                ]
+              },
+              "version": {
+                "description": "Version of the schema. Allowed between 0-9.",
+                "type": "string"
+              },
+              "schemaContent": {
+                "description": "Content stored in the schema.",
+                "type": "string"
+              },
+              "description": {
+                "description": "Human-readable description of the schema.",
+                "type": "string"
+              },
+              "displayName": {
+                "description": "Human-readable display name.",
+                "type": "string"
+              },
+              "tags": {
+                "description": "Schema tags.",
+                "type": "object",
+                "dtv:additionalProperties": {
+                  "description": "User-defined schema tags",
+                  "type": "string"
+                }
+              },
+              "hash": {
+                "description": "Hash of the schema content.",
+                "type": "string"
+              },
+              "namespace": {
+                "description": "Schema registry namespace. Uniquely identifies a schema registry within a tenant.",
+                "type": "string"
+              }
+            }
+          }
+        }
+      },
+      "forms": [
+        {
+          "contentType": "application/json",
+          "additionalResponses": [
+            {
+              "success": false,
+              "schema": "SchemaRegistryError"
+            }
+          ],
+          "dtv:serviceGroupId": "schema-registry-edge",
+          "dtv:topic": "adr/dtmi:ms:adr:SchemaRegistry;2/put",
+          "op": "invokeaction"
+        }
+      ]
+    },
+    "get": {
+      "description": "GET Schema Command",
+      "input": {
+        "description": "GET Schema request object",
+        "title": "GetRequestSchema",
+        "type": "object",
+        "required": [ "name", "version" ],
+        "properties": {
+          "name": {
+            "description": "Schema name.",
+            "type": "string"
+          },
+          "version": {
+            "description": "Version of the schema. Allowed between 0-9.",
+            "type": "string"
+          }
+        }
+      },
+      "output": {
+        "description": "GET Schema response object",
+        "type": "object",
+        "required": [ "schema" ],
+        "properties": {
+          "schema": {
+            "description": "The requested schema object.",
+            "title": "Schema",
+            "type": "object",
+            "required": [ "name", "format", "schemaType", "version", "schemaContent", "namespace" ],
+            "properties": {
+              "name": {
+                "description": "Schema name.",
+                "type": "string"
+              },
+              "format": {
+                "description": "Format of the schema.",
+                "type": "string"
+              },
+              "schemaType": {
+                "description": "Type of the schema.",
+                "title": "SchemaType",
+                "type": "string",
+                "enum": [
+                  "MessageSchema"
+                ]
+              },
+              "version": {
+                "description": "Version of the schema. Allowed between 0-9.",
+                "type": "string"
+              },
+              "schemaContent": {
+                "description": "Content stored in the schema.",
+                "type": "string"
+              },
+              "description": {
+                "description": "Human-readable description of the schema.",
+                "type": "string"
+              },
+              "displayName": {
+                "description": "Human-readable display name.",
+                "type": "string"
+              },
+              "tags": {
+                "description": "Schema tags.",
+                "type": "object",
+                "dtv:additionalProperties": {
+                  "description": "User-defined schema tags",
+                  "type": "string"
+                }
+              },
+              "hash": {
+                "description": "Hash of the schema content.",
+                "type": "string"
+              },
+              "namespace": {
+                "description": "Schema registry namespace. Uniquely identifies a schema registry within a tenant.",
+                "type": "string"
+              }
+            }
+          }
+        }
+      },
+      "idempotent": true,
+      "safe": true,
+      "forms": [
+        {
+          "contentType": "application/json",
+          "additionalResponses": [
+            {
+              "success": false,
+              "schema": "SchemaRegistryError"
+            }
+          ],
+          "dtv:serviceGroupId": "schema-registry-edge",
+          "dtv:topic": "adr/dtmi:ms:adr:SchemaRegistry;2/get",
+          "op": "invokeaction"
+        }
+      ]
+    }
+  },
+  "properties": {
+  },
+  "events": {
+  }
+}

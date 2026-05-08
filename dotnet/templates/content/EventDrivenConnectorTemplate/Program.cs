@@ -11,7 +11,7 @@ IHost host = Host.CreateDefaultBuilder(args)
         services.AddSingleton<ApplicationContext>();
         services.AddSingleton(MqttSessionClientProvider.Factory);
         services.AddSingleton(MessageSchemaProvider.Factory);
-        services.AddSingleton<IAdrClientWrapperProvider>(AdrClientWrapperProvider.Factory);
+        services.AddSingleton<IAzureDeviceRegistryClientWrapperProvider>(AzureDeviceRegistryClientWrapperProvider.Factory);
         services.AddSingleton(LeaderElectionConfigurationProvider.Factory); // If no leader election is needed, delete this line
         services.AddHostedService<TemplateConnectorWorker>();
     })

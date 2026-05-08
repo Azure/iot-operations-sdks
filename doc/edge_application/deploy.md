@@ -23,7 +23,7 @@ Some languages have built in container support, however all binaries can be cont
 > 
 > Refer to [Containerize a .NET app](https://learn.microsoft.com/dotnet/core/docker/build-container) for details on building and creating a container directly from a .NET project.
 
-This definition uses the [Official .NET SDK image](https://github.com/dotnet/dotnet-docker/blob/main/README.sdk.md) to build the application, and then copies the resulting package into the [.NET runtime image](https://hub.docker.com/_/alpine).
+This definition uses the [Official .NET SDK image](https://github.com/dotnet/dotnet-docker/blob/main/README.sdk.md) to build the application, and then copies the resulting package into the [.NET runtime image](https://mcr.microsoft.com/artifact/mar/dotnet/runtime).
 
 ```dockerfile
 # Build application
@@ -41,36 +41,36 @@ ENTRYPOINT ["./MyApplication"]
 
 ## Rust Dockerfile
 
-This definition uses the [Official Rust image](https://hub.docker.com/_/rust) to build the release application, and then copies the resulting binary (called "rust-application" in the example below) into the [Alpine image](https://hub.docker.com/_/alpine).
+This definition uses the [Azure Linux Rust image](https://mcr.microsoft.com/artifact/mar/azurelinux/base/rust) to build the release application, and then copies the resulting binary (called "rust-application" in the example below) into the [Azure Linux Core base image](https://mcr.microsoft.com/artifact/mar/azurelinux/base/core).
 
 ```dockerfile
 # Build application
-FROM rust:1 AS build
+FROM mcr.microsoft.com/azurelinux/base/rust:1 AS build
 WORKDIR /build
 COPY . .
 RUN cargo build
 
 # Build runtime image
-FROM debian:bookworm-slim
+FROM mcr.microsoft.com/azurelinux/base/core:3.0
 WORKDIR /
-RUN apt update; apt install -y libssl3
+RUN tdnf update -y && tdnf install -y openssl
 COPY --from=build work/rust-application .
 ENTRYPOINT ["./rust-application"]
 ```
 
 ## Go Dockerfile
 
-This definition uses the [Official Golang image](https://hub.docker.com/_/golang) to build the application, and then copies the resulting binary (called "go-application" in the example below) into the [Alpine image](https://hub.docker.com/_/alpine).
+This definition uses the [Azure Go Development image](https://mcr.microsoft.com/artifact/mar/devcontainers/go) to build the application, and then copies the resulting binary (called "go-application" in the example below) into the [Azure Linux Distroless base image](https://mcr.microsoft.com/artifact/mar/azurelinux/distroless/base).
 
 ```dockerfile
 # Build application
-FROM golang:1 AS build
+FROM mcr.microsoft.com/devcontainers/go:1 AS build
 WORKDIR /build
 COPY . .
 RUN CGO_ENABLED=0 GOOS=linux GOARCH=amd64 go build -o .
 
 # Build runtime image
-FROM debian:bookworm-slim
+FROM mcr.microsoft.com/azurelinux/distroless/base:3.0
 WORKDIR /
 COPY --from=build /build/go-application .
 ENTRYPOINT ["./go-application"]

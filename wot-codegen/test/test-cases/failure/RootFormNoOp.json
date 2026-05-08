@@ -1,0 +1,16 @@
+{
+  "success": false,
+  "commandLine": {
+    "things": [ "invalidThing/RootFormNoOp.TM.json" ],
+    "lang": "none"
+  },
+  "errors": [
+    {
+      "condition": "PropertyMissing",
+      "filename": "RootFormNoOp.TM.json",
+      "line": 9,
+      "cfLine": 0,
+      "crossRef": ""
+    }
+  ]
+}

@@ -2,5 +2,5 @@
 # Licensed under the MIT License.
 
 [toolchain]
-channel = "1.85"
+channel = "1.88"    # This is the version that we will use for local dev to ensure we are on the same clippy and rustfmt.
 components = ["clippy", "llvm-tools-preview", "rustfmt"]

@@ -1,0 +1,16 @@
+{
+  "success": false,
+  "commandLine": {
+    "things": [ "invalidAioBinding/PropertyWithUnitPropertyNotString.TM.json" ],
+    "lang": "none"
+  },
+  "errors": [
+    {
+      "condition": "TypeMismatch",
+      "filename": "PropertyWithUnitPropertyNotString.TM.json",
+      "line": 17,
+      "cfLine": 26,
+      "crossRef": ""
+    }
+  ]
+}

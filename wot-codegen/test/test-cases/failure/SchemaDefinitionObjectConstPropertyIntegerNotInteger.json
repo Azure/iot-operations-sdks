@@ -1,0 +1,16 @@
+{
+  "success": false,
+  "commandLine": {
+    "things": [ "invalidAioBinding/SchemaDefinitionObjectConstPropertyIntegerNotInteger.TM.json" ],
+    "lang": "none"
+  },
+  "errors": [
+    {
+      "condition": "TypeMismatch",
+      "filename": "SchemaDefinitionObjectConstPropertyIntegerNotInteger.TM.json",
+      "line": 17,
+      "cfLine": 13,
+      "crossRef": ""
+    }
+  ]
+}

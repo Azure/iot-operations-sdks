@@ -75,6 +75,23 @@ namespace Azure.Iot.Operations.Protocol
         /// </summary>
         MqttProtocolVersion ProtocolVersion { get; }
 
+        /// <summary>
+        /// Dispose this client and optionally dispose the resources this client manages
+        /// </summary>
+        /// <param name="disposing">True to release both managed and unmanaged resources; False to release only unmanaged resources.</param>
         ValueTask DisposeAsync(bool disposing);
+
+        /// <summary>
+        /// Dispose this client
+        /// </summary>
+        /// <param name="cancellationToken">The cancellation token.</param>
+        ValueTask DisposeAsync(CancellationToken cancellationToken);
+
+        /// <summary>
+        /// Dispose this client and optionally dispose the resources this client manages
+        /// </summary>
+        /// <param name="disposing">True to release both managed and unmanaged resources; False to release only unmanaged resources.</param>
+        /// <param name="cancellationToken">The cancellation token.</param>
+        ValueTask DisposeAsync(bool disposing, CancellationToken cancellationToken);
     }
 }

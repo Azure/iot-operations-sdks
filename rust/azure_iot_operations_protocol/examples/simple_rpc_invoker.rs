@@ -6,8 +6,8 @@ use std::{num::ParseIntError, str::Utf8Error};
 use env_logger::Builder;
 use thiserror::Error;
 
-use azure_iot_operations_mqtt::MqttConnectionSettingsBuilder;
-use azure_iot_operations_mqtt::session::{Session, SessionManagedClient, SessionOptionsBuilder};
+use azure_iot_operations_mqtt::aio::connection_settings::MqttConnectionSettingsBuilder;
+use azure_iot_operations_mqtt::session::{Session, SessionOptionsBuilder};
 use azure_iot_operations_protocol::application::ApplicationContextBuilder;
 use azure_iot_operations_protocol::common::payload_serialize::{
     DeserializationError, FormatIndicator, PayloadSerialize, SerializedPayload,
@@ -25,7 +25,7 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
     Builder::new()
         .filter_level(log::LevelFilter::Info)
         .format_timestamp(None)
-        .filter_module("rumqttc", log::LevelFilter::Warn)
+        .filter_module("azure_mqtt", log::LevelFilter::Warn)
         .init();
 
     // Create a Session
@@ -51,7 +51,7 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
         .command_name("increment")
         .build()
         .unwrap();
-    let incr_invoker: rpc_command::Invoker<IncrRequestPayload, IncrResponsePayload, _> =
+    let incr_invoker: rpc_command::Invoker<IncrRequestPayload, IncrResponsePayload> =
         rpc_command::Invoker::new(
             application_context,
             session.create_managed_client(),
@@ -68,19 +68,34 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
 
 /// Indefinitely send 'increment' command requests
 async fn increment_invoke_loop(
-    invoker: rpc_command::Invoker<IncrRequestPayload, IncrResponsePayload, SessionManagedClient>,
+    invoker: rpc_command::Invoker<IncrRequestPayload, IncrResponsePayload>,
 ) {
     loop {
+        let cloud_event = rpc_command::invoker::RequestCloudEventBuilder::default()
+            .source("aio://increment/invoker/sample")
+            .build()
+            .unwrap();
         let payload = rpc_command::invoker::RequestBuilder::default()
             .payload(IncrRequestPayload::default())
             .unwrap()
             .timeout(Duration::from_secs(2))
+            .cloud_event(cloud_event)
             .build()
             .unwrap();
         log::info!("Sending 'increment' command request...");
         match invoker.invoke(payload).await {
             Ok(response) => {
                 log::info!("Response: {response:?}");
+                // Parse cloud event if present
+                match rpc_command::invoker::cloud_event_from_response(&response) {
+                    Ok(cloud_event) => {
+                        log::info!("{cloud_event}");
+                    }
+                    Err(e) => {
+                        // If a cloud event is not present, this error is expected
+                        log::warn!("Error parsing cloud event: {e}");
+                    }
+                }
             }
             Err(e) => {
                 log::error!("Error invoking 'increment' command: {e}");
@@ -139,12 +154,12 @@ impl PayloadSerialize for IncrResponsePayload {
         content_type: Option<&String>,
         _format_indicator: &FormatIndicator,
     ) -> Result<IncrResponsePayload, DeserializationError<IncrSerializerError>> {
-        if let Some(content_type) = content_type {
-            if content_type != "application/json" {
-                return Err(DeserializationError::UnsupportedContentType(format!(
-                    "Invalid content type: '{content_type:?}'. Must be 'application/json'"
-                )));
-            }
+        if let Some(content_type) = content_type
+            && content_type != "application/json"
+        {
+            return Err(DeserializationError::UnsupportedContentType(format!(
+                "Invalid content type: '{content_type:?}'. Must be 'application/json'"
+            )));
         }
         let payload = match std::str::from_utf8(payload) {
             Ok(p) => p,

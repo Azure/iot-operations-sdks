@@ -1,0 +1,16 @@
+{
+  "success": false,
+  "commandLine": {
+    "things": [ "invalidAioBinding/ActionFormHeaderInfoNoMatchingSchemaDefinition.TM.json" ],
+    "lang": "none"
+  },
+  "errors": [
+    {
+      "condition": "ItemNotFound",
+      "filename": "ActionFormHeaderInfoNoMatchingSchemaDefinition.TM.json",
+      "line": 28,
+      "cfLine": 8,
+      "crossRef": ""
+    }
+  ]
+}

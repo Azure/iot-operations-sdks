@@ -1,0 +1,218 @@
+{
+  "@context": [
+    "https://www.w3.org/2022/wot/td/v1.1",
+    { "dtv": "http://azure.com/DigitalTwins/dtmi#" }
+  ],
+  "@type": "tm:ThingModel",
+  "title": "DeviceDiscoveryService",
+  "links": [
+    {
+      "rel": "dtv:naming",
+      "href": "SchemaNames.json",
+      "type": "application/json"
+    }
+  ],
+  "schemaDefinitions": {
+    "AkriServiceError": {
+      "title": "AkriServiceError",
+      "type": "object",
+      "required": [ "code", "message", "timestamp" ],
+      "dtv:errorMessage": "message",
+      "properties": {
+        "code": {
+          "description": "The error code that identifies the error.",
+          "title": "CodeSchema",
+          "type": "string",
+          "enum": [
+            "BadRequest",
+            "InternalError",
+            "KubeError",
+            "SerializationError",
+            "Unauthorized"
+          ]
+        },
+        "message": {
+          "description": "A human-readable description of the error.",
+          "type": "string"
+        },
+        "timestamp": {
+          "description": "The timestamp (in UTC) when the error occurred.",
+          "type": "string",
+          "format": "date-time"
+        }
+      }
+    }
+  },
+  "actions": {
+    "createOrUpdateDiscoveredDevice": {
+      "description": "Create or update a discovered device resource.",
+      "input": {
+        "description": "The request to create or update a discovered device.",
+        "type": "object",
+        "required": [ "discoveredDeviceRequest" ],
+        "properties": {
+          "discoveredDeviceRequest": {
+            "title": "CreateOrUpdateDiscoveredDeviceRequestSchema",
+            "type": "object",
+            "required": [ "discoveredDeviceName", "discoveredDevice" ],
+            "properties": {
+              "discoveredDeviceName": {
+                "description": "The name of the discovered device to create or update. This field is used to perform deduplication of discovered devices.",
+                "type": "string"
+              },
+              "discoveredDevice": {
+                "description": "The discovered device resource to create or update. Fields omitted in the request will be removed. The specified inbound endpoint will be added or updated in the inbound endpoints map.",
+                "title": "DiscoveredDevice",
+                "type": "object",
+                "properties": {
+                  "attributes": {
+                    "description": "A set of key-value pairs that contain custom attributes set by the customer.",
+                    "type": "object",
+                    "dtv:additionalProperties": {
+                      "type": "string"
+                    }
+                  },
+                  "endpoints": {
+                    "description": "Connection endpoint URL a device can use to connect to a service.",
+                    "title": "DiscoveredDeviceEndpoints",
+                    "type": "object",
+                    "properties": {
+                      "inbound": {
+                        "description": "Set of endpoints to connect to the device.",
+                        "type": "object",
+                        "dtv:additionalProperties": {
+                          "title": "DiscoveredDeviceInboundEndpointSchema",
+                          "type": "object",
+                          "required": [ "address", "endpointType" ],
+                          "properties": {
+                            "additionalConfiguration": {
+                              "description": "Stringified JSON that contains connectivity type specific further configuration (e.g. OPC UA, Modbus, ONVIF).",
+                              "type": "string"
+                            },
+                            "address": {
+                              "description": "The endpoint address & port. This can be either an IP address (e.g., 192.168.1.1) or a fully qualified domain name (FQDN, e.g., server.example.com).",
+                              "type": "string"
+                            },
+                            "endpointType": {
+                              "description": "Type of connection endpoint.",
+                              "type": "string"
+                            },
+                            "lastUpdatedOn": {
+                              "description": "The timestamp (in UTC) when the endpoint was discovered.",
+                              "type": "string",
+                              "format": "date-time"
+                            },
+                            "supportedAuthenticationMethods": {
+                              "description": "List of supported authentication methods supported by device for Inbound connections.",
+                              "type": "array",
+                              "items": {
+                                "type": "string"
+                              }
+                            },
+                            "version": {
+                              "description": "Version associated with the device endpoint.",
+                              "type": "string"
+                            }
+                          }
+                        }
+                      },
+                      "outbound": {
+                        "description": "Property bag contains the device's outbound endpoints",
+                        "title": "DiscoveredDeviceOutboundEndpointsSchema",
+                        "type": "object",
+                        "required": [ "assigned" ],
+                        "properties": {
+                          "assigned": {
+                            "description": "Endpoints the device can connect to.",
+                            "type": "object",
+                            "dtv:additionalProperties": {
+                              "title": "DeviceOutboundEndpoint",
+                              "type": "object",
+                              "required": [ "address" ],
+                              "properties": {
+                                "address": {
+                                  "description": "The endpoint address to connect to.",
+                                  "type": "string"
+                                },
+                                "endpointType": {
+                                  "description": "Type of connection used for the messaging endpoint.",
+                                  "type": "string"
+                                }
+                              }
+                            }
+                          }
+                        }
+                      }
+                    }
+                  },
+                  "externalDeviceId": {
+                    "description": "The unique identifier of the device.",
+                    "type": "string"
+                  },
+                  "manufacturer": {
+                    "description": "Device manufacturer.",
+                    "type": "string"
+                  },
+                  "model": {
+                    "description": "Device model.",
+                    "type": "string"
+                  },
+                  "operatingSystem": {
+                    "description": "Device operating system name.",
+                    "type": "string"
+                  },
+                  "operatingSystemVersion": {
+                    "description": "Device operating system version.",
+                    "type": "string"
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "output": {
+        "description": "Response containing the discovered device response or error details if the operation failed.",
+        "type": "object",
+        "required": [ "discoveredDeviceResponse" ],
+        "properties": {
+          "discoveredDeviceResponse": {
+            "description": "The discovered device response.",
+            "title": "DiscoveredDeviceResponseSchema",
+            "type": "object",
+            "required": [ "discoveryId", "version" ],
+            "properties": {
+              "discoveryId": {
+                "description": "The unique identifier for the discovered device.",
+                "type": "string"
+              },
+              "version": {
+                "description": "The version of the discovered device resource.",
+                "type": "integer",
+                "minimum": 0,
+                "maximum": 18446744073709551615
+              }
+            }
+          }
+        }
+      },
+      "forms": [
+        {
+          "contentType": "application/json",
+          "additionalResponses": [
+            {
+              "success": false,
+              "schema": "AkriServiceError"
+            }
+          ],
+          "dtv:topic": "akri/discovery/resources/{ex:discoveryClientId}/{ex:inboundEndpointType}/createOrUpdateDiscoveredDevice",
+          "op": "invokeaction"
+        }
+      ]
+    }
+  },
+  "properties": {
+  },
+  "events": {
+  }
+}

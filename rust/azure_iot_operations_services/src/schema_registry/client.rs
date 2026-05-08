@@ -8,7 +8,7 @@
 use std::sync::Arc;
 use std::time::Duration;
 
-use azure_iot_operations_mqtt::interface::ManagedClient;
+use azure_iot_operations_mqtt::session::SessionManagedClient;
 use azure_iot_operations_protocol::application::ApplicationContext;
 use azure_iot_operations_protocol::rpc_command;
 
@@ -20,26 +20,19 @@ use crate::schema_registry::{
 
 /// Schema registry client implementation.
 #[derive(Clone)]
-pub struct Client<C>
-where
-    C: ManagedClient + Clone + Send + Sync + 'static,
-    C::PubReceiver: Send + Sync,
-{
-    get_command_invoker: Arc<sr_client_gen::GetCommandInvoker<C>>,
-    put_command_invoker: Arc<sr_client_gen::PutCommandInvoker<C>>,
+pub struct Client {
+    get_command_invoker: Arc<sr_client_gen::GetCommandInvoker>,
+    put_command_invoker: Arc<sr_client_gen::PutCommandInvoker>,
 }
 
-impl<C> Client<C>
-where
-    C: ManagedClient + Clone + Send + Sync + 'static,
-    C::PubReceiver: Send + Sync,
-{
+impl Client {
     /// Create a new Schema Registry Client.
     ///
     /// # Panics
     /// Panics if the options for the underlying command invokers cannot be built. Not possible since
     /// the options are statically generated.
-    pub fn new(application_context: ApplicationContext, client: &C) -> Self {
+    #[must_use]
+    pub fn new(application_context: ApplicationContext, client: &SessionManagedClient) -> Self {
         let options = CommandInvokerOptionsBuilder::default()
             .build()
             .expect("Statically generated options should not fail.");
@@ -64,7 +57,7 @@ where
     /// * `get_request` - The request to get a schema from the schema registry.
     /// * `timeout` - The duration until the Schema Registry Client stops waiting for a response to the request, it is rounded up to the nearest second.
     ///
-    /// Returns a [`Schema`] if the schema was found, otherwise returns an error of type [`Error`].
+    /// Returns a [`Schema`] if the schema was found, otherwise returns an error of type [`struct@Error`].
     ///
     /// # Errors
     /// [`struct@Error`] of kind [`InvalidRequestArgument`](ErrorKind::InvalidRequestArgument)
@@ -97,9 +90,14 @@ where
             .invoke(command_request)
             .await
             .map_err(ErrorKind::from)?
-            .map_err(|e| Error(ErrorKind::from(ServiceError::from(e.payload))))?;
+            .map_err(|e| {
+                ServiceError::try_from((e.payload, "get"))
+                    .map_or_else(ErrorKind::from, ErrorKind::from)
+            })?;
 
-        Ok(response.payload.schema.into())
+        Ok((response.payload.schema, "get")
+            .try_into()
+            .map_err(ErrorKind::from)?)
     }
 
     /// Adds or updates a schema in the schema registry service.
@@ -150,9 +148,14 @@ where
             .invoke(command_request)
             .await
             .map_err(ErrorKind::from)?
-            .map_err(|e| ErrorKind::from(ServiceError::from(e.payload)))?;
+            .map_err(|e| {
+                ServiceError::try_from((e.payload, "put"))
+                    .map_or_else(ErrorKind::from, ErrorKind::from)
+            })?;
 
-        Ok(response.payload.schema.into())
+        Ok((response.payload.schema, "put")
+            .try_into()
+            .map_err(ErrorKind::from)?)
     }
 
     /// Shutdown the [`Client`]. Shuts down the underlying command invokers for get and put operations.
@@ -184,7 +187,7 @@ mod tests {
     use std::collections::HashMap;
 
     use azure_iot_operations_mqtt::{
-        MqttConnectionSettingsBuilder,
+        aio::connection_settings::MqttConnectionSettingsBuilder,
         session::{Session, SessionOptionsBuilder},
     };
     use azure_iot_operations_protocol::application::ApplicationContextBuilder;

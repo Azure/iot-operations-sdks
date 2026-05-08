@@ -1,0 +1,17 @@
+{
+  "success": false,
+  "commandLine": {
+    "things": [ "valid/Noop.TM.json" ],
+    "lang": "rust",
+    "common": "FooBar"
+  },
+  "errors": [
+    {
+      "condition": "ValuesInconsistent",
+      "filename": "",
+      "line": 0,
+      "cfLine": 0,
+      "crossRef": ""
+    }
+  ]
+}

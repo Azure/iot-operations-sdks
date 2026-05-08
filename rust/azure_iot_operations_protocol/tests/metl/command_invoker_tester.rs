@@ -3,13 +3,11 @@
 
 use std::collections::HashMap;
 use std::convert::TryFrom;
-use std::marker::PhantomData;
-use std::str::from_utf8;
 use std::sync::Arc;
 
 use async_std::future;
-use azure_iot_operations_mqtt::control_packet::{Publish, PublishProperties};
-use azure_iot_operations_mqtt::interface::ManagedClient;
+use azure_iot_operations_mqtt::azure_mqtt;
+use azure_iot_operations_mqtt::session::{SessionManagedClient, SessionMonitor};
 use azure_iot_operations_protocol::application::ApplicationContextBuilder;
 use azure_iot_operations_protocol::common::aio_protocol_error::{
     AIOProtocolError, AIOProtocolErrorKind,
@@ -22,8 +20,8 @@ use tokio::time;
 
 use crate::metl::aio_protocol_error_checker;
 use crate::metl::defaults::{InvokerDefaults, get_invoker_defaults};
-use crate::metl::mqtt_hub::MqttHub;
-use crate::metl::qos;
+use crate::metl::mqtt_hub::{MqttHub, to_is_utf8};
+use crate::metl::qos::{self, new_packet_identifier_dup_qos};
 use crate::metl::test_case::TestCase;
 use crate::metl::test_case_action::TestCaseAction;
 use crate::metl::test_case_catch::TestCaseCatch;
@@ -37,22 +35,14 @@ const TEST_TIMEOUT: time::Duration = time::Duration::from_secs(10);
 type InvokeResultReceiver =
     oneshot::Receiver<Result<rpc_command::invoker::Response<TestPayload>, AIOProtocolError>>;
 
-pub struct CommandInvokerTester<C>
-where
-    C: ManagedClient + Clone + Send + Sync + 'static,
-    C::PubReceiver: Send + Sync + 'static,
-{
-    managed_client: PhantomData<C>,
-}
+// TODO: this struct could probably be removed
+pub struct CommandInvokerTester {}
 
-impl<C> CommandInvokerTester<C>
-where
-    C: ManagedClient + Clone + Send + Sync + 'static,
-    C::PubReceiver: Send + Sync + 'static,
-{
+impl CommandInvokerTester {
     pub async fn test_command_invoker(
         test_case: TestCase<InvokerDefaults>,
-        managed_client: C,
+        managed_client: SessionManagedClient,
+        session_monitor: SessionMonitor,
         mut mqtt_hub: MqttHub,
     ) {
         if let Some(push_acks) = test_case.prologue.push_acks.as_ref() {
@@ -69,7 +59,11 @@ where
             }
         }
 
-        let mut invokers: HashMap<String, Arc<rpc_command::Invoker<TestPayload, TestPayload, C>>> =
+        // force connack to happen before other events are injected
+        mqtt_hub.await_operation().await;
+        session_monitor.connected().await;
+
+        let mut invokers: HashMap<String, Arc<rpc_command::Invoker<TestPayload, TestPayload>>> =
             HashMap::new();
 
         let invoker_count = test_case.prologue.invokers.len();
@@ -100,7 +94,8 @@ where
         let test_case_serializer = &test_case.prologue.invokers[0].serializer;
 
         let mut invocation_chans: HashMap<i32, Option<InvokeResultReceiver>> = HashMap::new();
-        let mut correlation_ids: HashMap<i32, Option<Bytes>> = HashMap::new();
+        let mut correlation_ids: HashMap<i32, Option<azure_mqtt::mqtt_proto::BinaryData<Bytes>>> =
+            HashMap::new();
         let mut packet_ids: HashMap<i32, u16> = HashMap::new();
 
         for test_case_action in &test_case.actions {
@@ -181,11 +176,11 @@ where
     }
 
     async fn get_command_invoker(
-        managed_client: C,
+        managed_client: SessionManagedClient,
         tci: &TestCaseInvoker<InvokerDefaults>,
         catch: Option<&TestCaseCatch>,
         mqtt_hub: &mut MqttHub,
-    ) -> Option<rpc_command::Invoker<TestPayload, TestPayload, C>> {
+    ) -> Option<rpc_command::Invoker<TestPayload, TestPayload>> {
         let mut invoker_options_builder = rpc_command::invoker::OptionsBuilder::default();
 
         if let Some(request_topic) = tci.request_topic.as_ref() {
@@ -282,7 +277,7 @@ where
                                 catch.error_kind
                             );
                         }
-                    };
+                    }
 
                     None
                 } else {
@@ -302,7 +297,7 @@ where
 
     fn invoke_command(
         action: &TestCaseAction<InvokerDefaults>,
-        invokers: &HashMap<String, Arc<rpc_command::Invoker<TestPayload, TestPayload, C>>>,
+        invokers: &HashMap<String, Arc<rpc_command::Invoker<TestPayload, TestPayload>>>,
         invocation_chans: &mut HashMap<i32, Option<InvokeResultReceiver>>,
         tcs: &TestCaseSerializer<InvokerDefaults>,
     ) {
@@ -428,7 +423,7 @@ where
     fn receive_response(
         action: &TestCaseAction<InvokerDefaults>,
         mqtt_hub: &mut MqttHub,
-        correlation_ids: &mut HashMap<i32, Option<Bytes>>,
+        correlation_ids: &mut HashMap<i32, Option<azure_mqtt::mqtt_proto::BinaryData<Bytes>>>,
         packet_ids: &mut HashMap<i32, u16>,
         tcs: &TestCaseSerializer<InvokerDefaults>,
     ) {
@@ -450,16 +445,20 @@ where
             packet_index,
         } = action
         {
-            let mut user_properties: Vec<(String, String)> = metadata
+            let mut user_properties: Vec<(
+                azure_mqtt::packet::ByteStr<Bytes>,
+                azure_mqtt::packet::ByteStr<Bytes>,
+            )> = metadata
                 .iter()
-                .map(|(k, v)| (k.clone(), v.clone()))
+                .map(|(k, v)| (k.as_str().into(), v.as_str().into()))
                 .collect();
 
             let correlation_data = if let Some(correlation_index) = correlation_index {
                 correlation_ids.get(correlation_index).unwrap().clone()
             } else {
                 None
-            };
+            }
+            .map(|cd| cd.as_ref().into());
 
             let message_expiry_interval = message_expiry.as_ref().map(|message_expiry| {
                 u32::try_from(message_expiry.to_duration().as_secs()).unwrap()
@@ -480,29 +479,29 @@ where
             }
 
             if let Some(status) = status {
-                user_properties.push(("__stat".to_string(), status.clone()));
+                user_properties.push(("__stat".into(), status.as_str().into()));
             }
 
             if let Some(status_message) = status_message {
-                user_properties.push(("__stMsg".to_string(), status_message.clone()));
+                user_properties.push(("__stMsg".into(), status_message.as_str().into()));
             }
 
             if let Some(is_application_error) = is_application_error {
-                user_properties.push(("__apErr".to_string(), is_application_error.clone()));
+                user_properties.push(("__apErr".into(), is_application_error.as_str().into()));
             }
 
             if let Some(invalid_property_name) = invalid_property_name {
-                user_properties.push(("__propName".to_string(), invalid_property_name.clone()));
+                user_properties.push(("__propName".into(), invalid_property_name.as_str().into()));
             }
 
             if let Some(invalid_property_value) = invalid_property_value {
-                user_properties.push(("__propVal".to_string(), invalid_property_value.clone()));
+                user_properties.push(("__propVal".into(), invalid_property_value.as_str().into()));
             }
 
             let topic = if let Some(topic) = topic {
-                Bytes::copy_from_slice(topic.as_bytes())
+                topic.clone()
             } else {
-                Bytes::new()
+                String::new()
             };
 
             let payload = serde_json::to_vec(&TestPayload {
@@ -515,22 +514,25 @@ where
             })
             .unwrap();
 
-            let properties = PublishProperties {
-                payload_format_indicator: *format_indicator,
+            let properties = azure_mqtt::mqtt_proto::PublishOtherProperties {
+                payload_is_utf8: to_is_utf8(format_indicator.as_ref()),
                 message_expiry_interval,
                 correlation_data,
                 user_properties,
-                content_type: content_type.clone(),
+                content_type: content_type.as_ref().map(|ct| ct.as_str().into()),
                 ..Default::default()
             };
 
-            let publish = Publish {
-                qos: qos::to_enum(*qos),
-                topic,
-                pkid: packet_id,
+            let publish = azure_mqtt::mqtt_proto::Publish {
+                packet_identifier_dup_qos: new_packet_identifier_dup_qos(
+                    qos::to_enum(*qos),
+                    false,
+                    packet_id,
+                ),
+                topic_name: azure_mqtt::mqtt_proto::Topic::new(topic).unwrap().into(),
                 payload: payload.into(),
-                properties: Some(properties),
-                ..Default::default()
+                other_properties: properties,
+                retain: false,
             };
 
             mqtt_hub.receive_message(publish);
@@ -569,7 +571,7 @@ where
     async fn await_publish(
         action: &TestCaseAction<InvokerDefaults>,
         mqtt_hub: &mut MqttHub,
-        correlation_ids: &mut HashMap<i32, Option<Bytes>>,
+        correlation_ids: &mut HashMap<i32, Option<azure_mqtt::mqtt_proto::BinaryData<Bytes>>>,
     ) {
         if let TestCaseAction::AwaitPublish {
             defaults_type: _,
@@ -610,9 +612,9 @@ where
     fn check_published_message(
         expected_message: &TestCasePublishedMessage,
         mqtt_hub: &MqttHub,
-        correlation_ids: &HashMap<i32, Option<Bytes>>,
+        correlation_ids: &HashMap<i32, Option<azure_mqtt::mqtt_proto::BinaryData<Bytes>>>,
     ) {
-        let published_message =
+        let published_message: &azure_mqtt::mqtt_proto::Publish<Bytes> =
             if let Some(correlation_index) = expected_message.correlation_index {
                 if let Some(correlation_id) = correlation_ids.get(&correlation_index) {
                     let publish = mqtt_hub.get_published_message(correlation_id);
@@ -634,138 +636,95 @@ where
             }.unwrap();
 
         if let Some(topic) = expected_message.topic.as_ref() {
-            assert_eq!(
-                topic,
-                from_utf8(published_message.topic.to_vec().as_slice())
-                    .expect("could not process published message topic as UTF8"),
-                "topic"
-            );
+            assert_eq!(topic, published_message.topic_name.as_str(), "topic");
         }
 
         if let Some(payload) = expected_message.payload.as_ref() {
             if let Some(payload) = payload {
-                assert_eq!(
-                    payload,
-                    from_utf8(published_message.payload.to_vec().as_slice())
-                        .expect("could not process published payload topic as UTF8"),
-                    "payload"
-                );
+                assert_eq!(published_message.payload, *payload.as_bytes(), "payload");
             } else {
                 assert!(published_message.payload.is_empty());
             }
         }
 
         if expected_message.content_type.is_some() {
-            match published_message.properties.as_ref() {
-                Some(properties) => {
-                    assert_eq!(expected_message.content_type, properties.content_type);
-                }
-                _ => {
-                    panic!("expected content type but found no properties in published message");
-                }
-            }
+            assert_eq!(
+                published_message
+                    .other_properties
+                    .content_type
+                    .as_ref()
+                    .map(std::convert::AsRef::as_ref),
+                expected_message.content_type.as_deref()
+            );
         }
 
         if expected_message.format_indicator.is_some() {
-            match published_message.properties.as_ref() {
-                Some(properties) => {
-                    assert_eq!(
-                        expected_message.format_indicator,
-                        properties.payload_format_indicator
-                    );
-                }
-                _ => {
-                    panic!(
-                        "expected format indicator but found no properties in published message"
-                    );
-                }
-            }
+            assert_eq!(
+                to_is_utf8(expected_message.format_indicator.as_ref()),
+                published_message.other_properties.payload_is_utf8
+            );
         }
 
         if !expected_message.metadata.is_empty() {
-            match published_message.properties.as_ref() {
-                Some(properties) => {
-                    for (key, value) in &expected_message.metadata {
-                        let found = properties.user_properties.iter().find(|&k| &k.0 == key);
-                        if let Some(value) = value {
-                            assert_eq!(
-                                value,
-                                &found.unwrap().1,
-                                "metadata key {key} expected {value}"
-                            );
-                        } else {
-                            assert_eq!(None, found, "metadata key {key} not expected");
-                        }
-                    }
-                }
-                _ => {
-                    panic!("expected metadata but found no properties in published message");
+            for (key, value) in &expected_message.metadata {
+                let found = published_message
+                    .other_properties
+                    .user_properties
+                    .iter()
+                    .find(|&k| k.0 == **key);
+                if let Some(value) = value {
+                    assert_eq!(
+                        found.unwrap().1,
+                        **value,
+                        "metadata key {key} expected {value}"
+                    );
+                } else {
+                    assert_eq!(None, found, "metadata key {key} not expected");
                 }
             }
         }
 
         if let Some(command_status) = expected_message.command_status {
-            match published_message.properties.as_ref() {
-                Some(properties) => {
-                    let found = properties
-                        .user_properties
-                        .iter()
-                        .find(|&k| &k.0 == "__stat");
-                    if let Some(command_status) = command_status {
-                        assert_eq!(
-                            command_status.to_string(),
-                            found.unwrap().1,
-                            "status property expected {command_status}"
-                        );
-                    } else {
-                        assert_eq!(None, found, "status property not expected");
-                    }
-                }
-                _ => {
-                    panic!("expected status property but found no properties in published message");
-                }
+            let found = published_message
+                .other_properties
+                .user_properties
+                .iter()
+                .find(|&k| k.0 == "__stat");
+            if let Some(command_status) = command_status {
+                assert_eq!(
+                    found.unwrap().1,
+                    *command_status.to_string(),
+                    "status property expected {command_status}"
+                );
+            } else {
+                assert_eq!(None, found, "status property not expected");
             }
         }
 
         if let Some(is_application_error) = expected_message.is_application_error {
-            match published_message.properties.as_ref() {
-                Some(properties) => {
-                    let found = properties
-                        .user_properties
-                        .iter()
-                        .find(|&k| &k.0 == "__apErr");
-                    if is_application_error {
-                        assert!(
-                            found.unwrap().1.to_lowercase() == "true",
-                            "is application error"
-                        );
-                    } else {
-                        assert!(
-                            found.is_none() || found.unwrap().1.to_lowercase() == "false",
-                            "is application error"
-                        );
-                    }
-                }
-                _ => {
-                    assert!(
-                        !is_application_error,
-                        "expected is application error property but found no properties in published message"
-                    );
-                }
+            let found: Option<_> = published_message
+                .other_properties
+                .user_properties
+                .iter()
+                .find(|&k| &k.0 == "__apErr");
+            if is_application_error {
+                assert!(
+                    found.unwrap().1.as_ref().to_lowercase() == "true",
+                    "is application error"
+                );
+            } else {
+                assert!(
+                    found.is_none() || found.unwrap().1.as_ref().to_lowercase() == "false",
+                    "is application error"
+                );
             }
         }
 
         if expected_message.expiry.is_some() {
-            match published_message.properties.as_ref() {
-                Some(properties) => {
-                    assert_eq!(expected_message.expiry, properties.message_expiry_interval);
-                }
-                _ => {
-                    panic!(
-                        "expected message expiry interval but found no properties in published message"
-                    );
-                }
-            }
+            assert_eq!(
+                expected_message.expiry,
+                published_message.other_properties.message_expiry_interval
+            );
         }
     }
 

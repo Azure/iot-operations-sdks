@@ -135,10 +135,10 @@ impl HybridLogicalClock {
         if self.counter == u64::MAX {
             return Err(HLCErrorKind::OverflowWarning)?;
         }
-        if let Ok(diff) = self.timestamp.duration_since(now) {
-            if diff > max_clock_drift {
-                return Err(HLCErrorKind::ClockDrift)?;
-            }
+        if let Ok(diff) = self.timestamp.duration_since(now)
+            && diff > max_clock_drift
+        {
+            return Err(HLCErrorKind::ClockDrift)?;
         } // else negative time difference is ok, we only care if the HLC is too far in the future
 
         Ok(())

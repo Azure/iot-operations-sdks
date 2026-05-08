@@ -1,0 +1,14 @@
+<#@ template language="C#" inherits="WotDataSchema" linePragmas="false" #>
+<#@ import namespace="System.Collections.Generic" #>
+<#@ import namespace="System.Linq" #>
+<# // Copyright (c) Microsoft Corporation. #>
+<# // Licensed under the MIT License #>
+<# if (this.description != null) { #>
+"description": "<#=this.description#>",
+<# } #>
+"type": "array",
+"items": {
+<# this.PushIndent("  "); #>
+<#=this.itemDataSchema.TransformText()#>
+<# this.PopIndent(); #>
+}

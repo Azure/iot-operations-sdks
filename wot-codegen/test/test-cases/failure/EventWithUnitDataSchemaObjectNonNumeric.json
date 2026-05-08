@@ -1,0 +1,16 @@
+{
+  "success": false,
+  "commandLine": {
+    "things": [ "invalidAioBinding/EventWithUnitDataSchemaObjectNonNumeric.TM.json" ],
+    "lang": "none"
+  },
+  "errors": [
+    {
+      "condition": "ValuesInconsistent",
+      "filename": "EventWithUnitDataSchemaObjectNonNumeric.TM.json",
+      "line": 39,
+      "cfLine": 29,
+      "crossRef": ""
+    }
+  ]
+}

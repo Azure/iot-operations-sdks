@@ -1,0 +1,17 @@
+{
+  "$schema": "https://json-schema.org/draft-07/schema",
+  "title": "DeviceOutboundEndpoint",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [ "address" ],
+  "properties": {
+    "address": {
+      "description": "The endpoint address to connect to.",
+      "type": "string"
+    },
+    "endpointType": {
+      "description": "Type of connection used for the messaging endpoint.",
+      "type": "string"
+    }
+  }
+}

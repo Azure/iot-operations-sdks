@@ -272,7 +272,12 @@ func getCommandExecutor(
 			err,
 		)
 	} else {
-		require.Errorf(t, err, "Expected %s error, but no error returned when initializing CommandExecutor", catch.ErrorKind)
+		require.Errorf(
+			t,
+			err,
+			"Expected %s error, but no error returned when initializing CommandExecutor",
+			catch.ErrorKind,
+		)
 		CheckError(t, *catch, err)
 	}
 
@@ -333,7 +338,7 @@ func receiveRequest(
 	}
 
 	if actionReceiveRequest.FormatIndicator != nil {
-		payloadFormat := byte(*actionReceiveRequest.FormatIndicator)
+		payloadFormat := *actionReceiveRequest.FormatIndicator
 		props.PayloadFormat = &payloadFormat
 	}
 
@@ -368,7 +373,7 @@ func receiveRequest(
 	}
 
 	if actionReceiveRequest.Qos != nil {
-		request.QoS = byte(*actionReceiveRequest.Qos)
+		request.QoS = *actionReceiveRequest.Qos
 	}
 
 	stubBroker.ReceiveMessage(&request)

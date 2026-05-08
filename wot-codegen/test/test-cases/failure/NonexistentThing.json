@@ -1,0 +1,17 @@
+{
+  "success": false,
+  "commandLine": {
+    "things": [ "nothing/Nonexistent.TM.json" ],
+    "schemas": [],
+    "lang": "none"
+  },
+  "errors": [
+    {
+      "condition": "ItemNotFound",
+      "filename": "",
+      "line": 0,
+      "cfLine": 0,
+      "crossRef": ""
+    }
+  ]
+}

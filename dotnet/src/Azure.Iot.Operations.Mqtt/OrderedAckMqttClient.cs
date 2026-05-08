@@ -87,7 +87,7 @@ public class OrderedAckMqttClient : IMqttPubSubClient, IMqttClient
 
         if (_clientOptions.EnableAIOBrokerFeatures)
         {
-            mqttNetOptions.UserProperties.Add(new("metriccategory", "aiosdk-dotnet"));
+            mqttNetOptions.UserProperties.Add(new("metriccategory", System.Text.Encoding.UTF8.GetBytes("aiosdk-dotnet")));
         }
 
         MqttClientConnectResult? result =  MqttNetConverter.ToGeneric(await UnderlyingMqttClient.ConnectAsync(mqttNetOptions, cancellationToken).ConfigureAwait(false));
@@ -352,18 +352,32 @@ public class OrderedAckMqttClient : IMqttPubSubClient, IMqttClient
         _acknowledgementSenderTask = null;
     }
 
+    /// <inheritdoc/>
     public virtual async ValueTask DisposeAsync()
     {
-        await DisposeAsyncCore();
+        await DisposeAsync(CancellationToken.None);
+    }
+
+    /// <inheritdoc/>
+    public virtual async ValueTask DisposeAsync(CancellationToken cancellationToken)
+    {
+        await DisposeAsyncCore(false, cancellationToken);
         GC.SuppressFinalize(this);
     }
 
+    /// <inheritdoc/>
     public virtual async ValueTask DisposeAsync(bool disposing)
     {
-        await DisposeAsyncCore();
+        await DisposeAsync(disposing, CancellationToken.None);
     }
 
-    private async ValueTask DisposeAsyncCore()
+    /// <inheritdoc/>
+    public virtual async ValueTask DisposeAsync(bool disposing, CancellationToken cancellationToken)
+    {
+        await DisposeAsyncCore(disposing, cancellationToken);
+    }
+
+    private async ValueTask DisposeAsyncCore(bool disposing, CancellationToken cancellationToken)
     {
         if (!_disposed)
         {
@@ -374,7 +388,11 @@ public class OrderedAckMqttClient : IMqttPubSubClient, IMqttClient
             {
                 try
                 {
-                    await DisconnectAsync();
+                    await DisconnectAsync(cancellationToken: cancellationToken);
+                }
+                catch (OperationCanceledException)
+                {
+                    Trace.TraceWarning("The mqtt client's disposal was cancelled before it could disconnect gracefully");
                 }
                 catch (Exception e)
                 {
@@ -384,8 +402,13 @@ public class OrderedAckMqttClient : IMqttPubSubClient, IMqttClient
 
             _tokenRefresh?.Dispose();
 
-            UnderlyingMqttClient.Dispose();
             _acknowledgementSenderTaskCancellationTokenSource.Dispose();
+
+            if (disposing)
+            {
+                UnderlyingMqttClient.Dispose();
+            }
+
             _disposed = true;
         }
     }

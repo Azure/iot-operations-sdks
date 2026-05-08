@@ -1,0 +1,41 @@
+{
+  "@context": [
+    "https://www.w3.org/2022/wot/td/v1.1",
+    { "dtv": "http://azure.com/DigitalTwins/dtmi#" },
+    { "aov": "http://azure.com/IoT/operations/tm#" }
+  ],
+  "@type": "tm:ThingModel",
+  "title": "Echo",
+  "actions": {
+    "echo": {
+      "input": {
+        "type": "object",
+        "properties": {
+          "value": {
+            "aov:namespace": "",
+            "type": "string"
+          }
+        }
+      },
+      "output": {
+        "type": "object",
+        "properties": {
+          "value": {
+            "type": "integer"
+          }
+        }
+      },
+      "forms": [
+        {
+          "contentType": "application/json",
+          "dtv:topic": "sample/poke/{executorId}",
+          "op": "invokeaction"
+        }
+      ]
+    }
+  },
+  "properties": {
+  },
+  "events": {
+  }
+}

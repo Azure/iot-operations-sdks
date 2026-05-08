@@ -1,0 +1,61 @@
+{
+  "@context": [
+    "https://www.w3.org/2022/wot/td/v1.1",
+    { "dtv": "http://azure.com/DigitalTwins/dtmi#" }
+  ],
+  "@type": "tm:ThingModel",
+  "title": "Noop",
+  "schemaDefinitions": {
+    "myHeader": {
+      "type": "string",
+      "enum": [
+        "Hello",
+        "Goodbye"
+      ]
+    }
+  },
+  "forms": [
+    {
+      "dtv:topic": "sample/TestThing/events",
+      "contentType": "application/json",
+      "dtv:headerInfo": [
+        {
+          "contentType": "application/json",
+          "schema": "myHeader"
+        }
+      ],
+      "op": [ "subscribeallevents" ]
+    }
+  ],
+  "actions": {
+    "noop": {
+      "forms": [
+        {
+          "contentType": "application/json",
+          "dtv:topic": "sample/TestThing/command/noop",
+          "op": "invokeaction"
+        }
+      ]
+    }
+  },
+  "properties": {
+    "alpha": {
+      "type": "string",
+      "forms": [
+        {
+        }
+      ]
+    }
+  },
+  "events": {
+    "alert": {
+      "data": {
+        "type": "string"
+      },
+      "forms": [
+        {
+        }
+      ]
+    }
+  }
+}

@@ -1,0 +1,16 @@
+{
+  "success": false,
+  "commandLine": {
+    "things": [ "invalidAioBinding/RootFormSubAllButNoEvents.TM.json" ],
+    "lang": "none"
+  },
+  "errors": [
+    {
+      "condition": "Unusable",
+      "filename": "RootFormSubAllButNoEvents.TM.json",
+      "line": 12,
+      "cfLine": 19,
+      "crossRef": ""
+    }
+  ]
+}

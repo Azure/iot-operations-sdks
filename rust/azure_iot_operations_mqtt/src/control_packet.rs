@@ -1,26 +1,28 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-//! Structures representing MQTT control packets.
+//! Structures representing MQTT control packets and the values contained within them.
 
-// TODO: Re-implement these instead of just aliasing / add to rumqttc adapter
+// Re-export topic types
+pub use crate::azure_mqtt::topic::{TopicFilter, TopicName};
 
-/// Quality of Service
-pub type QoS = rumqttc::v5::mqttbytes::QoS;
+// Re-export control packet types
+pub use crate::azure_mqtt::packet::{Auth, ConnAck, Disconnect, PubAck, Publish, SubAck, UnsubAck};
 
-/// PUBLISH packet
-pub type Publish = rumqttc::v5::mqttbytes::v5::Publish;
+// Re-export control packet property types
+pub use crate::azure_mqtt::packet::{
+    AuthProperties, ConnAckProperties, ConnectProperties, DisconnectProperties, PubAckProperties,
+    PublishProperties, SubAckProperties, SubscribeProperties, UnsubAckProperties,
+    UnsubscribeProperties,
+};
 
-/// Properties for a CONNECT packet
-pub type ConnectProperties = rumqttc::v5::mqttbytes::v5::ConnectProperties;
-/// Properties for a PUBLISH packet
-pub type PublishProperties = rumqttc::v5::mqttbytes::v5::PublishProperties;
-/// Properties for a SUBSCRIBE packet
-pub type SubscribeProperties = rumqttc::v5::mqttbytes::v5::SubscribeProperties;
-/// Properties for a UNSUBSCRIBE packet
-pub type UnsubscribeProperties = rumqttc::v5::mqttbytes::v5::UnsubscribeProperties;
-/// Properties for an AUTH packet
-pub type AuthProperties = rumqttc::v5::mqttbytes::v5::AuthProperties;
+// Re-export reason code types
+pub use crate::azure_mqtt::packet::{
+    AuthReason, ConnAckReason, DisconnectReason, PubAckReason, SubAckReason, UnsubAckReason,
+};
 
-/// Connect Return Code
-pub type ConnectReturnCode = rumqttc::v5::mqttbytes::v5::ConnectReturnCode;
+// Re-export misc. packet-related types
+pub use crate::azure_mqtt::packet::{
+    AuthenticationInfo, DeliveryInfo, DeliveryQoS, KeepAlive, PacketIdentifier,
+    PayloadFormatIndicator, QoS, RetainHandling, RetainOptions, SessionExpiryInterval,
+};

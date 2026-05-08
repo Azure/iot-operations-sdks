@@ -1,0 +1,135 @@
+name: Reusable Rust tool check
+
+# Reusable workflow that fmt/clippy/builds a single Rust crate under
+# `tools/` or `rust/sample_applications/`. These crates are downstream
+# consumers of released SDK versions — NOT part of the SDK workspace —
+# and are CI'd independently of `ci-rust.yml`.
+#
+# Callers pass:
+# - `path`: repo-relative directory of the crate's Cargo.toml
+# - `name`: shared-key / display fragment
+# - `toolchain-src-dir`: optional override of where to look for
+#   `rust-toolchain.toml`. Defaults to `path`. Use this when a crate
+#   intentionally has no pin file of its own and should track another
+#   crate's pin (e.g. the SDK's `rust/rust-toolchain.toml`).
+# - `aio-sdks-registry`: set to `true` if the crate depends on the
+#   `aio-sdks` Azure DevOps Cargo registry (requires the
+#   `CARGO_REGISTRIES_AIO_SDKS_TOKEN` secret to be forwarded by the
+#   caller).
+#
+# Toolchain resolution: the action reads `rust-toolchain.toml` from
+# `toolchain-src-dir` (or `path` if unset). A missing pin file is a
+# hard error — implicit `stable` fallback is rejected so a forgotten
+# pin doesn't silently float.
+
+on:
+  workflow_call:
+    inputs:
+      name:
+        description: 'Short name for the tool (used in cache keys)'
+        required: true
+        type: string
+      path:
+        description: 'Repo-relative path to the crate directory'
+        required: true
+        type: string
+      toolchain-src-dir:
+        description: 'Directory containing rust-toolchain.toml (defaults to `path`)'
+        required: false
+        type: string
+        default: ''
+      aio-sdks-registry:
+        description: 'Whether the crate depends on the aio-sdks registry'
+        required: false
+        type: boolean
+        default: false
+    secrets:
+      aio-sdks-token:
+        description: 'Token for the aio-sdks Azure DevOps Cargo registry'
+        required: false
+
+permissions:
+  contents: read
+
+jobs:
+  check:
+    name: Check
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    defaults:
+      run:
+        shell: bash
+        working-directory: ${{ inputs.path }}
+    env:
+      # Forwarded to cargo only when `aio-sdks-registry: true`; harmless
+      # to set unconditionally (unused by crates.io-only builds).
+      CARGO_REGISTRIES_AIO_SDKS_TOKEN: ${{ secrets.aio-sdks-token }}
+    steps:
+      - uses: actions/checkout@v6
+
+      # Refuse to fall back to `stable` silently. Every caller must
+      # either pin via a `rust-toolchain.toml` in `path`, or point
+      # `toolchain-src-dir` at a directory that has one.
+      - name: Verify toolchain pin exists
+        working-directory: ${{ github.workspace }}
+        env:
+          PIN_DIR: ${{ inputs.toolchain-src-dir != '' && inputs.toolchain-src-dir || inputs.path }}
+        run: |
+          if [ ! -f "${PIN_DIR}/rust-toolchain.toml" ] \
+              && [ ! -f "${PIN_DIR}/rust-toolchain" ]; then
+            echo "ERROR: no rust-toolchain[.toml] found in '${PIN_DIR}'." >&2
+            echo "Either commit a pin file there, or set 'toolchain-src-dir' to a directory that has one." >&2
+            exit 1
+          fi
+
+      - name: Setup Rust (from rust-toolchain.toml)
+        uses: actions-rust-lang/setup-rust-toolchain@v1
+        with:
+          # Tell the action where to look for `rust-toolchain.toml`.
+          # Without this it would only check the repo root, find no
+          # file, and silently fall back to `stable` while rustup
+          # would later auto-install the crate-pinned toolchain on the
+          # first `cargo` call — wasting one install.
+          rust-src-dir: ${{ inputs.toolchain-src-dir != '' && inputs.toolchain-src-dir || inputs.path }}
+          # Swatinem/rust-cache handles caching (including target/).
+          cache: false
+
+      - name: Install system dependencies
+        working-directory: ${{ github.workspace }}
+        run: bash ./rust/scripts/system-deps.sh
+
+      - name: Cache cargo build artifacts
+        uses: Swatinem/rust-cache@v2
+        with:
+          workspaces: ${{ inputs.path }}
+          shared-key: tool-${{ inputs.name }}
+
+      # Install cargo subcommands AFTER the cache restore. `Swatinem/rust-cache`
+      # caches `~/.cargo/bin`, so a warm cache makes this a no-op.
+      - name: Install cargo tooling
+        uses: taiki-e/install-action@v2
+        with:
+          tool: cargo-hack,cargo-machete
+
+      # Iterate every feature configuration (no-default, each feature alone,
+      # all-features). Tool crates aren't libraries-for-publication, but some
+      # do have meaningful feature gates -- particularly negative gates
+      # (`#[cfg(not(feature = "x"))]`) that the default build never exercises
+      # -- and the matrix is the only way to make sure those branches still
+      # compile. Crates with no `[features]` section just get a single
+      # trivial iteration, so this is safe to apply uniformly.
+      - name: Static analysis
+        run: |
+          set -euo pipefail
+          cargo fmt --verbose --all --check
+          cargo hack clippy --each-feature --all-targets -- --deny=warnings
+          cargo machete
+
+      # Build every feature configuration end-to-end (codegen + link), not
+      # just compile-check. There's no single canonical build for a crate
+      # with features -- each combination produces a different shippable
+      # artifact -- so verifying every config link-cleanly is the right
+      # contract here. Crates with no `[features]` section run a single
+      # iteration equivalent to plain `cargo build`.
+      - name: Build
+        run: cargo hack build --each-feature --verbose

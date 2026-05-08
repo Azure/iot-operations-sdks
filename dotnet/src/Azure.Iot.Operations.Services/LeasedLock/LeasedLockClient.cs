@@ -564,19 +564,56 @@ namespace Azure.Iot.Operations.Services.LeasedLock
             _isObservingLock = false;
         }
 
+        /// <summary>
+        /// Make this client unsubscribe from any topics that it subscribed to.
+        /// </summary>
+        public async Task StopAsync(CancellationToken cancellationToken = default)
+        {
+            await _stateStoreClient.StopAsync(cancellationToken).ConfigureAwait(false);
+        }
+
+        /// <summary>
+        /// Asynchronously dispose this object, but not the underlying clients.
+        /// </summary>
+        /// <param name="cancellationToken">Cancellation token</param>
         public async ValueTask DisposeAsync()
         {
-            await DisposeAsyncCore(false).ConfigureAwait(false);
+            await DisposeAsyncCore(false, CancellationToken.None).ConfigureAwait(false);
             GC.SuppressFinalize(this);
         }
 
+        /// <summary>
+        /// Asynchronously dispose this object, but not the underlying clients.
+        /// </summary>
+        /// <param name="cancellationToken">Cancellation token</param>
+        public async ValueTask DisposeAsync(CancellationToken cancellationToken)
+        {
+            await DisposeAsyncCore(false, cancellationToken).ConfigureAwait(false);
+            GC.SuppressFinalize(this);
+        }
+
+        /// <summary>
+        /// Asynchronously dispose of this client and optionally dispose the underlying clients
+        /// </summary>
+        /// <param name="disposing">If true, this client will also dispose the underlying clients.</param>
         public async ValueTask DisposeAsync(bool disposing)
         {
-            await DisposeAsyncCore(disposing).ConfigureAwait(false);
+            await DisposeAsyncCore(disposing, CancellationToken.None).ConfigureAwait(false);
             GC.SuppressFinalize(this);
         }
 
-        protected virtual async ValueTask DisposeAsyncCore(bool disposing)
+        /// <summary>
+        /// Asynchronously dispose of this client and optionally dispose the underlying clients
+        /// </summary>
+        /// <param name="disposing">If true, this client will also dispose the underlying clients.</param>
+        /// <param name="cancellationToken">Cancellation token</param>
+        public async ValueTask DisposeAsync(bool disposing, CancellationToken cancellationToken)
+        {
+            await DisposeAsyncCore(disposing, cancellationToken).ConfigureAwait(false);
+            GC.SuppressFinalize(this);
+        }
+
+        protected virtual async ValueTask DisposeAsyncCore(bool disposing, CancellationToken cancellationToken)
         {
             if (_disposed)
             {
@@ -589,7 +626,7 @@ namespace Azure.Iot.Operations.Services.LeasedLock
 
             if (disposing)
             {
-                await _stateStoreClient.DisposeAsync(disposing).ConfigureAwait(false);
+                await _stateStoreClient.DisposeAsync(disposing, cancellationToken).ConfigureAwait(false);
             }
 
             _disposed = true;

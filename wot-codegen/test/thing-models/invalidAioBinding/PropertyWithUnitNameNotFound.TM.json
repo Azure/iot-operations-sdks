@@ -1,0 +1,39 @@
+{
+  "@context": [
+    "https://www.w3.org/2022/wot/td/v1.1",
+    {
+      "qudt": "http://qudt.org/schema/qudt/",
+      "dtv": "http://azure.com/DigitalTwins/dtmi#",
+      "aov": "http://azure.com/IoT/operations/tm#"
+    }
+  ],
+  "@type": "tm:ThingModel",
+  "title": "Noop",
+  "actions": {
+  },
+  "properties": {
+    "alpha": {
+      "type": "integer",
+      "aov:withUnit": "properties/gamma",
+      "forms": [
+        {
+          "contentType": "application/json",
+          "dtv:topic": "sample/alpha/{maintainerId}",
+          "op": "readproperty"
+        }
+      ]
+    },
+    "beta": {
+      "type": "string",
+      "forms": [
+        {
+          "contentType": "application/json",
+          "dtv:topic": "sample/beta/{maintainerId}",
+          "op": "readproperty"
+        }
+      ]
+    }
+  },
+  "events": {
+  }
+}

@@ -1,0 +1,153 @@
+[
+  {
+    "@context": [
+      "https://www.w3.org/2022/wot/td/v1.1",
+      {
+        "dtv": "http://azure.com/DigitalTwins/dtmi#",
+        "aov": "http://azure.com/IoT/operations/tm#"
+      }
+    ],
+    "@type": "tm:ThingModel",
+    "title": "CuttingTool_CuttingToolFileType",
+    "aov:typeRef": "nsu=http://opcfoundation.org/UA/CuttingTool/;i=1003",
+    "aov:isComposite": true,
+    "links": [
+      {
+        "rel": "tm:extends",
+        "href": "./OpcUaCore.TM.json#title=OpcUaCore_FileType",
+        "type": "application/tm+json"
+      }
+    ],
+    "schemaDefinitions": {
+    },
+    "forms": [
+      {
+        "contentType": "application/json",
+        "dtv:topic": "opcua/CuttingTool/CuttingTool_CuttingToolFileType/properties/write",
+        "op": "writemultipleproperties"
+      },
+      {
+        "contentType": "application/json",
+        "dtv:topic": "opcua/CuttingTool/CuttingTool_CuttingToolFileType/properties/read",
+        "op": "readallproperties"
+      }
+    ],
+    "actions": {
+    },
+    "properties": {
+      "FileFormat": {
+        "aov:namespace": "http://opcfoundation.org/UA/CuttingTool/",
+        "title": "FileFormatDataType",
+        "type": "object",
+        "aov:typeRef": "nsu=http://opcfoundation.org/UA/CuttingTool/;i=3003",
+        "required": [ "Name", "FileExtension", "Version" ],
+        "properties": {
+          "Name": {
+            "type": "string"
+          },
+          "FileExtension": {
+            "type": "string"
+          },
+          "Version": {
+            "type": "string"
+          }
+        },
+        "readOnly": false,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/CuttingTool/CuttingTool_CuttingToolFileType/property/FileFormat/write",
+            "op": "writeproperty"
+          },
+          {
+            "contentType": "application/json",
+            "dtv:topic": "opcua/CuttingTool/CuttingTool_CuttingToolFileType/property/FileFormat/read",
+            "op": "readproperty"
+          }
+        ]
+      }
+    },
+    "events": {
+    }
+  },
+  {
+    "@context": [
+      "https://www.w3.org/2022/wot/td/v1.1",
+      {
+        "dtv": "http://azure.com/DigitalTwins/dtmi#",
+        "aov": "http://azure.com/IoT/operations/tm#"
+      }
+    ],
+    "@type": "tm:ThingModel",
+    "title": "CuttingTool_ToolMeasuringMachineType",
+    "aov:typeRef": "nsu=http://opcfoundation.org/UA/CuttingTool/;i=1021",
+    "aov:isComposite": true,
+    "links": [
+      {
+        "rel": "tm:extends",
+        "href": "./GMS.TM.json#title=GMS_GMSType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "aov:component",
+        "aov:refName": "FileSystem",
+        "href": "./OpcUaCore.TM.json#title=OpcUaCore_FileDirectoryType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "aov:component",
+        "aov:refName": "MachineryBuildingBlocks",
+        "href": "./OpcUaCore.TM.json#title=OpcUaCore_FolderType",
+        "type": "application/tm+json"
+      }
+    ],
+    "schemaDefinitions": {
+    },
+    "actions": {
+    },
+    "properties": {
+    },
+    "events": {
+    }
+  },
+  {
+    "@context": [
+      "https://www.w3.org/2022/wot/td/v1.1",
+      {
+        "dtv": "http://azure.com/DigitalTwins/dtmi#",
+        "aov": "http://azure.com/IoT/operations/tm#"
+      }
+    ],
+    "@type": "tm:ThingModel",
+    "title": "CuttingTool_ToolManufacturingMachineType",
+    "aov:typeRef": "nsu=http://opcfoundation.org/UA/CuttingTool/;i=1025",
+    "aov:isComposite": true,
+    "links": [
+      {
+        "rel": "tm:extends",
+        "href": "./MachineTool.TM.json#title=MachineTool_MachineToolType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "aov:component",
+        "aov:refName": "FileSystem",
+        "href": "./OpcUaCore.TM.json#title=OpcUaCore_FileDirectoryType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "aov:component",
+        "aov:refName": "MachineryBuildingBlocks",
+        "href": "./OpcUaCore.TM.json#title=OpcUaCore_FolderType",
+        "type": "application/tm+json"
+      }
+    ],
+    "schemaDefinitions": {
+    },
+    "actions": {
+    },
+    "properties": {
+    },
+    "events": {
+    }
+  }
+]

@@ -1,0 +1,16 @@
+{
+  "success": false,
+  "commandLine": {
+    "things": [ "invalidAioBinding/IsCompositeAndIsEvent.TM.json" ],
+    "lang": "none"
+  },
+  "errors": [
+    {
+      "condition": "ValuesInconsistent",
+      "filename": "IsCompositeAndIsEvent.TM.json",
+      "line": 9,
+      "cfLine": 10,
+      "crossRef": ""
+    }
+  ]
+}

@@ -1,15 +1,15 @@
 [package]
 name = "counter_server"
-version = "0.1.0"
 edition = "2024"
+publish = false
 
 [dependencies]
 envoy = { path = "../envoy"}
 tokio.workspace = true
 env_logger.workspace = true
 log.workspace = true
-azure_iot_operations_mqtt = { path = "../../../azure_iot_operations_mqtt", registry = "aio-sdks" }
-azure_iot_operations_protocol = { path = "../../../azure_iot_operations_protocol", registry = "aio-sdks" }
+azure_iot_operations_mqtt = { path = "../../../azure_iot_operations_mqtt" }
+azure_iot_operations_protocol = { path = "../../../azure_iot_operations_protocol" }
 
 
 [lints]

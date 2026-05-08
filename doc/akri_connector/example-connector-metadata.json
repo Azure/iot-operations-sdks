@@ -1,5 +1,5 @@
 {
-  "$schema": "./connector-metadata-schema.json",
+  "$schema": "https://json.schemastore.org/aio-connector-metadata-9.0-preview.json",
   "name": "RestConnector",
   "description": "Connector for polling a REST server for information",
   "version": "1.0.0",

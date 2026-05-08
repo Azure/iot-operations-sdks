@@ -1,0 +1,33 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT License
+
+namespace Azure.Iot.Operations.EnvoyGenerator
+{
+    using System.Collections.Generic;
+    using System.IO;
+    using Azure.Iot.Operations.CodeGeneration;
+
+    public partial class RustAggregateError : IEnvoyTemplateTransform
+    {
+        private readonly CodeName schemaName;
+        private readonly MultiCodeName genNamespace;
+        private readonly MultiCodeName commonNs;
+        private readonly List<(CodeName, CodeName)> innerNameSchemas;
+        private readonly string srcSubdir;
+
+        public RustAggregateError(CodeName schemaName, MultiCodeName genNamespace, MultiCodeName commonNs, List<(CodeName, CodeName)> innerNameSchemas, string srcSubdir)
+        {
+            this.schemaName = schemaName;
+            this.genNamespace = genNamespace;
+            this.commonNs = commonNs;
+            this.innerNameSchemas = innerNameSchemas;
+            this.srcSubdir = srcSubdir;
+        }
+
+        public string FileName { get => $"{this.schemaName.GetFileName(TargetLanguage.Rust, "error")}.rs"; }
+
+        public string FolderPath { get => Path.Combine(this.srcSubdir, this.genNamespace.GetFolderName(TargetLanguage.Rust)); }
+
+        public EndpointTarget EndpointTarget { get => EndpointTarget.Shared; }
+    }
+}

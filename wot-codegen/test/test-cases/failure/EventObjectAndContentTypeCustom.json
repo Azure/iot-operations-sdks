@@ -1,0 +1,16 @@
+{
+  "success": false,
+  "commandLine": {
+    "things": [ "invalidAioBinding/EventObjectAndContentTypeCustom.TM.json" ],
+    "lang": "none"
+  },
+  "errors": [
+    {
+      "condition": "ValuesInconsistent",
+      "filename": "EventObjectAndContentTypeCustom.TM.json",
+      "line": 15,
+      "cfLine": 24,
+      "crossRef": ""
+    }
+  ]
+}

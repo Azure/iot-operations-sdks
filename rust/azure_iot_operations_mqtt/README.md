@@ -1,7 +1,6 @@
 # Azure IoT Operations - MQTT
 MQTT version 5.0 client library providing flexibility for decoupled asynchronous applications
 
-[API documentation](https://azure.github.io/iot-operations-sdks/rust/azure_iot_operations_mqtt) |
 [Examples](examples) |
 [Release Notes](https://github.com/Azure/iot-operations-sdks/releases?q=rust%2Fmqtt&expanded=true)
 
@@ -16,12 +15,9 @@ The Azure IoT Operations MQTT crate is intended for use with the Azure IoT Opera
 ```rust, no_run
 use std::str;
 use std::time::Duration;
-use azure_iot_operations_mqtt::control_packet::QoS;
-use azure_iot_operations_mqtt::interface::{ManagedClient, PubReceiver, MqttPubSub};
-use azure_iot_operations_mqtt::session::{
-    Session, SessionManagedClient, SessionExitHandle, SessionOptionsBuilder,
-};
-use azure_iot_operations_mqtt::MqttConnectionSettingsBuilder;
+use azure_iot_operations_mqtt::aio::connection_settings::MqttConnectionSettingsBuilder;
+use azure_iot_operations_mqtt::control_packet::{PublishProperties, QoS, RetainOptions, SubscribeProperties, TopicFilter, TopicName};
+use azure_iot_operations_mqtt::session::{Session, SessionManagedClient, SessionOptionsBuilder, SessionExitHandle};
 
 const CLIENT_ID: &str = "aio_example_client";
 const HOSTNAME: &str = "localhost";
@@ -58,9 +54,19 @@ async fn main() {
 /// Indefinitely receive
 async fn receive_messages(client: SessionManagedClient) {
     // Create a receiver from the SessionManagedClient and subscribe to the topic
-    let mut receiver = client.create_filtered_pub_receiver(TOPIC).unwrap();
+    let topic_filter = TopicFilter::new(TOPIC).unwrap();
+    let mut receiver = client.create_filtered_pub_receiver(topic_filter.clone());
     println!("Subscribing to {TOPIC}");
-    client.subscribe(TOPIC, QoS::AtLeastOnce).await.unwrap();
+    client
+        .subscribe(
+            topic_filter,
+            QoS::AtLeastOnce,
+            false,
+            RetainOptions::default(),
+            SubscribeProperties::default(),
+        )
+        .await
+        .unwrap();
 
     // Receive indefinitely
     while let Some(msg) = receiver.recv().await {
@@ -74,13 +80,18 @@ async fn send_messages(client: SessionManagedClient, exit_handler: SessionExitHa
         let payload = format!("Hello #{i}");
         println!("Sending: {payload}");
         let comp_token = client
-            .publish(TOPIC, QoS::AtLeastOnce, false, payload)
+            .publish_qos1(
+                TopicName::new(TOPIC).unwrap(),
+                false,
+                payload,
+                PublishProperties::default()
+            )
             .await
             .unwrap();
         comp_token.await.unwrap();
         tokio::time::sleep(Duration::from_secs(1)).await;
     }
 
-    exit_handler.try_exit().await.unwrap();
+    exit_handler.try_exit().unwrap();
 }
 ```

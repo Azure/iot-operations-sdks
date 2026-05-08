@@ -3,9 +3,13 @@
 
 use std::{collections::HashMap, marker::PhantomData, str::FromStr, sync::Arc, time::Duration};
 
-use azure_iot_operations_mqtt::control_packet::{Publish, PublishProperties, QoS};
-use azure_iot_operations_mqtt::interface::{ManagedClient, PubReceiver};
+use azure_iot_operations_mqtt::{
+    aio::cloud_event as aio_cloud_event,
+    control_packet::{Publish, PublishProperties, QoS, TopicFilter},
+    session::{SessionManagedClient, SessionPubReceiver},
+};
 use bytes::Bytes;
+use chrono::{DateTime, Utc};
 use iso8601_duration;
 use tokio::{
     sync::{
@@ -18,7 +22,10 @@ use tokio::{
 use tokio_util::sync::CancellationToken;
 use uuid::Uuid;
 
-use crate::common::user_properties::{PARTITION_KEY, validate_invoker_user_properties};
+use crate::common::{
+    cloud_event as protocol_cloud_event,
+    user_properties::{PARTITION_KEY, validate_invoker_user_properties},
+};
 use crate::{
     ProtocolVersion,
     application::{ApplicationContext, ApplicationHybridLogicalClock},
@@ -34,8 +41,8 @@ use crate::{
     },
     parse_supported_protocol_major_versions,
     rpc_command::{
-        DEFAULT_RPC_COMMAND_PROTOCOL_VERSION, RPC_COMMAND_PROTOCOL_VERSION, StatusCode,
-        StatusCodeParseError,
+        DEFAULT_RPC_COMMAND_PROTOCOL_VERSION, DEFAULT_RPC_REQUEST_CLOUD_EVENT_EVENT_TYPE,
+        RPC_COMMAND_PROTOCOL_VERSION, StatusCode, StatusCodeParseError,
     },
 };
 
@@ -54,7 +61,7 @@ where
     serialized_payload: SerializedPayload,
     /// Strongly link `Request` with type `TReq`
     #[builder(private)]
-    request_payload_type: PhantomData<TReq>,
+    payload_type: PhantomData<TReq>,
     /// User data that will be set as custom MQTT User Properties on the Request message.
     /// Can be used to pass additional metadata to the executor.
     /// Default is an empty vector.
@@ -67,7 +74,132 @@ where
     /// to give the executor information on when the invoke request might expire.
     #[builder(setter(custom))]
     timeout: Duration,
+    /// Cloud event of the request.
+    #[builder(default = "None")]
+    cloud_event: Option<RequestCloudEvent>,
 }
+
+/// Cloud Event struct used for the Command Request.
+///
+/// Implements the Cloud Events spec 1.0 for the command invoker.
+/// See [CloudEvents Spec](https://github.com/cloudevents/spec/blob/main/cloudevents/spec.md).
+#[derive(Clone, Debug)]
+pub struct RequestCloudEvent(protocol_cloud_event::CloudEvent);
+
+/// Builder for [`RequestCloudEvent`].
+#[derive(Clone)]
+pub struct RequestCloudEventBuilder(protocol_cloud_event::CloudEventBuilder);
+
+/// Error type for [`RequestCloudEventBuilder`]
+#[derive(Debug)]
+#[non_exhaustive]
+pub enum RequestCloudEventBuilderError {
+    /// Uninitialized field
+    UninitializedField(&'static str),
+    /// Custom validation error
+    ValidationError(String),
+}
+
+impl std::error::Error for RequestCloudEventBuilderError {}
+impl std::fmt::Display for RequestCloudEventBuilderError {
+    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
+        match self {
+            RequestCloudEventBuilderError::UninitializedField(field_name) => {
+                write!(f, "Uninitialized field: {field_name}")
+            }
+            RequestCloudEventBuilderError::ValidationError(err_msg) => {
+                write!(f, "Validation error: {err_msg}")
+            }
+        }
+    }
+}
+
+impl From<protocol_cloud_event::CloudEventBuilderError> for RequestCloudEventBuilderError {
+    fn from(value: protocol_cloud_event::CloudEventBuilderError) -> Self {
+        match value {
+            protocol_cloud_event::CloudEventBuilderError::UninitializedField(field_name) => {
+                RequestCloudEventBuilderError::UninitializedField(field_name)
+            }
+            protocol_cloud_event::CloudEventBuilderError::ValidationError(err_msg) => {
+                RequestCloudEventBuilderError::ValidationError(err_msg)
+            }
+        }
+    }
+}
+impl Default for RequestCloudEventBuilder {
+    fn default() -> Self {
+        Self(protocol_cloud_event::CloudEventBuilder::new(
+            DEFAULT_RPC_REQUEST_CLOUD_EVENT_EVENT_TYPE.to_string(),
+        ))
+    }
+}
+
+impl RequestCloudEventBuilder {
+    /// Builds a new [`RequestCloudEvent`].
+    /// # Errors
+    /// If a required field has not been initialized.
+    pub fn build(&self) -> Result<RequestCloudEvent, RequestCloudEventBuilderError> {
+        Ok(RequestCloudEvent(
+            protocol_cloud_event::CloudEventBuilder::build(&self.0)?,
+        ))
+    }
+    /// Identifies the context in which an event happened. Often this will include information such
+    /// as the type of the event source, the organization publishing the event or the process that
+    /// produced the event. The exact syntax and semantics behind the data encoded in the URI is
+    /// defined by the event producer.
+    pub fn source<VALUE: Into<String>>(&mut self, value: VALUE) -> &mut Self {
+        self.0.source(value);
+        self
+    }
+    /// The version of the cloud events specification which the event uses. This enables the
+    /// interpretation of the context. Compliant event producers MUST use a value of 1.0 when
+    /// referring to this version of the specification.
+    pub fn spec_version<VALUE: Into<String>>(&mut self, value: VALUE) -> &mut Self {
+        self.0.spec_version(value);
+        self
+    }
+    /// Contains a value describing the type of event related to the originating occurrence. Often
+    /// this attribute is used for routing, observability, policy enforcement, etc. The format of
+    /// this is producer defined and might include information such as the version of the type.
+    pub fn event_type<VALUE: Into<String>>(&mut self, value: VALUE) -> &mut Self {
+        self.0.event_type(value);
+        self
+    }
+    /// Identifies the schema that data adheres to. Incompatible changes to the schema SHOULD be
+    /// reflected by a different URI.
+    pub fn data_schema<VALUE: Into<Option<String>>>(&mut self, value: VALUE) -> &mut Self {
+        self.0.data_schema(value);
+        self
+    }
+    /// Identifies the event. Producers MUST ensure that source + id is unique for each distinct
+    /// event. If a duplicate event is re-sent (e.g. due to a network error) it MAY have the same
+    /// id. Consumers MAY assume that Events with identical source and id are duplicates.
+    pub fn id<VALUE: Into<String>>(&mut self, value: VALUE) -> &mut Self {
+        self.0.id(value);
+        self
+    }
+    /// Timestamp of when the occurrence happened. If the time of the occurrence cannot be
+    /// determined then this attribute MAY be set to some other time (such as the current time) by
+    /// the cloud event producer, however all producers for the same source MUST be consistent in
+    /// this respect. In other words, either they all use the actual time of the occurrence or they
+    /// all use the same algorithm to determine the value used.
+    pub fn time<VALUE: Into<Option<DateTime<Utc>>>>(&mut self, value: VALUE) -> &mut Self {
+        self.0.time(value);
+        self
+    }
+    /// Identifies the subject of the event in the context of the event producer (identified by
+    /// source). In publish-subscribe scenarios, a subscriber will typically subscribe to events
+    /// emitted by a source, but the source identifier alone might not be sufficient as a qualifier
+    /// for any specific event if the source context has internal sub-structure.
+    pub fn subject<VALUE: Into<protocol_cloud_event::CloudEventSubject>>(
+        &mut self,
+        value: VALUE,
+    ) -> &mut Self {
+        self.0.subject(value);
+        self
+    }
+}
+
 impl<TReq: PayloadSerialize> RequestBuilder<TReq> {
     /// Add a payload to the command request. Validates successful serialization of the payload.
     ///
@@ -90,7 +222,7 @@ impl<TReq: PayloadSerialize> RequestBuilder<TReq> {
                     return Err(AIOProtocolError::new_configuration_invalid_error(
                         None,
                         "content_type",
-                        Value::String(serialized_payload.content_type.to_string()),
+                        Value::String(serialized_payload.content_type.clone()),
                         Some(format!(
                             "Content type '{}' of command request is not valid UTF-8",
                             serialized_payload.content_type
@@ -99,7 +231,7 @@ impl<TReq: PayloadSerialize> RequestBuilder<TReq> {
                     ));
                 }
                 self.serialized_payload = Some(serialized_payload);
-                self.request_payload_type = Some(PhantomData);
+                self.payload_type = Some(PhantomData);
                 Ok(self)
             }
         }
@@ -126,6 +258,13 @@ impl<TReq: PayloadSerialize> RequestBuilder<TReq> {
     ///     - timeout is zero or > `u32::max`
     fn validate(&self) -> Result<(), String> {
         if let Some(custom_user_data) = &self.custom_user_data {
+            for (key, _) in custom_user_data {
+                if aio_cloud_event::CloudEventFields::from_str(key).is_ok() {
+                    return Err(format!(
+                        "Invalid user data property '{key}' is a reserved Cloud Event key"
+                    ));
+                }
+            }
             validate_invoker_user_properties(custom_user_data)?;
         }
         if let Some(timeout) = &self.timeout {
@@ -138,6 +277,15 @@ impl<TReq: PayloadSerialize> RequestBuilder<TReq> {
                     return Err("Timeout in seconds must be less than or equal to u32::max to be used as message_expiry_interval".to_string());
                 }
             }
+        }
+        // If there's a cloud event, make sure the content type is valid for the cloud event spec version
+        if let Some(Some(cloud_event)) = &self.cloud_event
+            && let Some(serialized_payload) = &self.serialized_payload
+        {
+            aio_cloud_event::CloudEventFields::DataContentType.validate(
+                &serialized_payload.content_type,
+                &cloud_event.0.spec_version,
+            )?;
         }
         Ok(())
     }
@@ -162,6 +310,24 @@ where
     pub timestamp: Option<HybridLogicalClock>,
     /// If present, contains the client ID of the executor of the command.
     pub executor_id: Option<String>,
+}
+
+/// Cloud Event struct derived from the Command Response.
+pub type ResponseCloudEvent = aio_cloud_event::CloudEvent;
+/// Error when parsing a Cloud Event from a Response
+pub type ResponseCloudEventParseError = aio_cloud_event::CloudEventParseError;
+
+/// Parse a [`ResponseCloudEvent`] from a [`Response`].
+/// Note that this will return an error if the [`Response`] does not contain the required fields for a [`ResponseCloudEvent`].
+///
+/// # Errors
+/// [`ResponseCloudEventParseError`] if
+/// - the [`Response`] does not contain the required fields for a [`ResponseCloudEvent`].
+/// - any of the field values are not valid for a [`ResponseCloudEvent`].
+pub fn cloud_event_from_response<TResp: PayloadSerialize>(
+    response: &Response<TResp>,
+) -> Result<ResponseCloudEvent, ResponseCloudEventParseError> {
+    ResponseCloudEvent::try_from((&response.custom_user_data, response.content_type.as_deref()))
 }
 
 /// Helper function to return the application error code and payload, if present in `custom_user_data`.
@@ -195,7 +361,7 @@ pub fn application_error_headers(
 /// Represents an error reported by a remote executor
 #[derive(thiserror::Error, Debug, Clone)]
 #[error("Remote Error status code: {status_code:?}")]
-pub struct RemoteError {
+struct RemoteError {
     /// Status code received from a remote service that detected the error
     status_code: StatusCode,
     /// Protocol version of data received from a remote service
@@ -334,15 +500,7 @@ where
         //  we won't want to keep entire copies of all Publishes, so we will just copy the
         //  properties once.
 
-        let publish_properties =
-            value
-                .properties
-                .ok_or(AIOProtocolError::new_header_missing_error(
-                    "Properties",
-                    false,
-                    Some("Properties missing from MQTT message".to_string()),
-                    None,
-                ))?;
+        let publish_properties = value.properties;
 
         // Parse user properties
         let expected_aio_properties = [
@@ -390,7 +548,7 @@ where
                             Some(format!(
                                 "Received a response with an unparsable protocol version number: {protocol_version}"
                             )),
-                            protocol_version.to_string(),
+                            protocol_version.clone(),
                             SUPPORTED_PROTOCOL_VERSIONS.to_vec(),
                             None,
                             false,
@@ -474,10 +632,7 @@ where
             // Response with payload
             StatusCode::Ok | StatusCode::NoContent => {
                 let content_type = publish_properties.content_type;
-                let format_indicator = publish_properties.payload_format_indicator.try_into().unwrap_or_else(|e| {
-                    log::error!("Received invalid payload format indicator: {e}. This should not be possible to receive from the broker. Using default.");
-                    FormatIndicator::default()
-                });
+                let format_indicator = publish_properties.payload_format_indicator.into();
 
                 if matches!(status_code, StatusCode::NoContent) && !value.payload.is_empty() {
                     return Err(AIOProtocolError::new_payload_invalid_error(
@@ -583,7 +738,7 @@ pub struct Options {
 /// ```
 /// # use std::{collections::HashMap, time::Duration};
 /// # use tokio_test::block_on;
-/// # use azure_iot_operations_mqtt::MqttConnectionSettingsBuilder;
+/// # use azure_iot_operations_mqtt::aio::connection_settings::MqttConnectionSettingsBuilder;
 /// # use azure_iot_operations_mqtt::session::{Session, SessionOptionsBuilder};
 /// # use azure_iot_operations_protocol::rpc_command;
 /// # use azure_iot_operations_protocol::application::ApplicationContextBuilder;
@@ -606,7 +761,7 @@ pub struct Options {
 ///   .response_topic_prefix("custom/{invokerClientId}".to_string())
 ///   .build().unwrap();
 /// # tokio_test::block_on(async {
-/// let invoker: rpc_command::Invoker<Vec<u8>, Vec<u8>, _> = rpc_command::Invoker::new(application_context, mqtt_session.create_managed_client(), invoker_options).unwrap();
+/// let invoker: rpc_command::Invoker<Vec<u8>, Vec<u8>> = rpc_command::Invoker::new(application_context, mqtt_session.create_managed_client(), invoker_options).unwrap();
 /// let request = rpc_command::invoker::RequestBuilder::default()
 ///   .payload(Vec::new()).unwrap()
 ///   .timeout(Duration::from_secs(2))
@@ -616,23 +771,22 @@ pub struct Options {
 /// //let response: Response<Vec<u8>> = result.await.unwrap();
 /// # })
 /// ```
-pub struct Invoker<TReq, TResp, C>
+pub struct Invoker<TReq, TResp>
 where
     TReq: PayloadSerialize + 'static,
     TResp: PayloadSerialize + 'static,
-    C: ManagedClient + Clone + Send + Sync + 'static,
-    C::PubReceiver: Send + Sync + 'static,
 {
     // static properties of the invoker
     application_hlc: Arc<ApplicationHybridLogicalClock>,
-    mqtt_client: C,
+    mqtt_client: SessionManagedClient,
     command_name: String,
     request_topic_pattern: TopicPattern,
     response_topic_pattern: TopicPattern,
+    response_topic_filter: TopicFilter,
     request_payload_type: PhantomData<TReq>,
     response_payload_type: PhantomData<TResp>,
     // Describes state
-    invoker_state_mutex: Arc<Mutex<State>>,
+    state_mutex: Arc<Mutex<State>>,
     // Used to send information to manage state
     shutdown_notifier: Arc<Notify>,
     response_tx: Sender<Option<Publish>>,
@@ -647,12 +801,10 @@ enum State {
 }
 
 /// Implementation of Command Invoker.
-impl<TReq, TResp, C> Invoker<TReq, TResp, C>
+impl<TReq, TResp> Invoker<TReq, TResp>
 where
     TReq: PayloadSerialize + 'static,
     TResp: PayloadSerialize + 'static,
-    C: ManagedClient + Clone + Send + Sync + 'static,
-    C::PubReceiver: Send + Sync + 'static,
 {
     /// Creates a new [`Invoker`].
     ///
@@ -668,18 +820,18 @@ where
     /// - [`request_topic_pattern`](OptionsBuilder::request_topic_pattern) is empty or whitespace
     /// - [`response_topic_pattern`](OptionsBuilder::response_topic_pattern) is Some and empty or whitespace
     ///     - [`response_topic_pattern`](OptionsBuilder::response_topic_pattern) is None and
-    ///         [`response_topic_prefix`](OptionsBuilder::response_topic_prefix) or
-    ///         [`response_topic_suffix`](OptionsBuilder::response_topic_suffix) are Some and empty or whitespace
+    ///       [`response_topic_prefix`](OptionsBuilder::response_topic_prefix) or
+    ///       [`response_topic_suffix`](OptionsBuilder::response_topic_suffix) are Some and empty or whitespace
     /// - [`request_topic_pattern`](OptionsBuilder::request_topic_pattern),
-    ///     [`response_topic_pattern`](OptionsBuilder::response_topic_pattern),
-    ///     [`topic_namespace`](OptionsBuilder::topic_namespace),
-    ///     [`response_topic_prefix`](OptionsBuilder::response_topic_prefix),
-    ///     [`response_topic_suffix`](OptionsBuilder::response_topic_suffix),
-    ///     are Some and invalid or contain a token with no valid replacement
+    ///   [`response_topic_pattern`](OptionsBuilder::response_topic_pattern),
+    ///   [`topic_namespace`](OptionsBuilder::topic_namespace),
+    ///   [`response_topic_prefix`](OptionsBuilder::response_topic_prefix),
+    ///   [`response_topic_suffix`](OptionsBuilder::response_topic_suffix),
+    ///   are Some and invalid or contain a token with no valid replacement
     /// - [`topic_token_map`](OptionsBuilder::topic_token_map) isn't empty and contains invalid key(s)/token(s)
     pub fn new(
         application_context: ApplicationContext,
-        client: C,
+        client: SessionManagedClient,
         invoker_options: Options,
     ) -> Result<Self, AIOProtocolError> {
         // Validate function parameters. request_topic_pattern will be validated by topic parser
@@ -752,21 +904,12 @@ where
         // Create mutex to track invoker state
         let invoker_state_mutex = Arc::new(Mutex::new(State::New));
 
+        let response_topic_filter = response_topic_pattern.as_subscribe_topic().map_err(|e| {
+            AIOProtocolError::config_invalid_from_topic_pattern_error(e, "response_topic_pattern")
+        })?;
+
         // Create a filtered receiver from the Managed Client
-        let mqtt_receiver = match client
-            .create_filtered_pub_receiver(&response_topic_pattern.as_subscribe_topic())
-        {
-            Ok(receiver) => receiver,
-            Err(e) => {
-                return Err(AIOProtocolError::new_configuration_invalid_error(
-                    Some(Box::new(e)),
-                    "response_topic_pattern",
-                    Value::String(response_topic_pattern.as_subscribe_topic()),
-                    Some("Could not parse response topic pattern".to_string()),
-                    Some(invoker_options.command_name),
-                ));
-            }
-        };
+        let mqtt_receiver = client.create_filtered_pub_receiver(response_topic_filter.clone());
 
         // Create the channel to send responses on
         let response_tx = Sender::new(5);
@@ -796,9 +939,10 @@ where
             command_name: invoker_options.command_name,
             request_topic_pattern,
             response_topic_pattern,
+            response_topic_filter,
             request_payload_type: PhantomData,
             response_payload_type: PhantomData,
-            invoker_state_mutex,
+            state_mutex: invoker_state_mutex,
             shutdown_notifier,
             response_tx,
         })
@@ -894,21 +1038,38 @@ where
     /// # Errors
     /// [`AIOProtocolError`] of kind [`ClientError`](AIOProtocolErrorKind::ClientError) if the subscribe fails or if the suback reason code doesn't indicate success.
     async fn subscribe_to_response_filter(&self) -> Result<(), AIOProtocolError> {
-        let response_subscribe_topic = self.response_topic_pattern.as_subscribe_topic();
         // Send subscribe
         let subscribe_result = self
             .mqtt_client
-            .subscribe(response_subscribe_topic, QoS::AtLeastOnce)
+            .subscribe(
+                self.response_topic_filter.clone(),
+                QoS::AtLeastOnce,
+                false,
+                azure_iot_operations_mqtt::control_packet::RetainOptions::default(),
+                azure_iot_operations_mqtt::control_packet::SubscribeProperties::default(),
+            )
             .await;
         match subscribe_result {
-            Ok(suback) => {
+            Ok(sub_ct) => {
                 // Wait for suback
-                match suback.await {
-                    Ok(()) => { /* Success */ }
+                match sub_ct.await {
+                    Ok(suback) => {
+                        suback.as_result().map_err(|e| {
+                            log::error!("[{}] Invoker suback error: {suback:?}", self.command_name);
+                            AIOProtocolError::new_mqtt_error(
+                                Some("MQTT Error on command invoker suback".to_string()),
+                                Box::new(e),
+                                Some(self.command_name.clone()),
+                            )
+                        })?;
+                    }
                     Err(e) => {
-                        log::error!("[ERROR] suback error: {e}");
+                        log::error!(
+                            "[{}] Invoker subscribe completion error: {e}",
+                            self.command_name
+                        );
                         return Err(AIOProtocolError::new_mqtt_error(
-                            Some("MQTT Error on command invoker suback".to_string()),
+                            Some("MQTT Error on command invoker subscribe".to_string()),
                             Box::new(e),
                             Some(self.command_name.clone()),
                         ));
@@ -916,7 +1077,10 @@ where
                 }
             }
             Err(e) => {
-                log::error!("[ERROR] client error while subscribing: {e}");
+                log::error!(
+                    "[{}] Client error while subscribing in Invoker: {e}",
+                    self.command_name
+                );
                 return Err(AIOProtocolError::new_mqtt_error(
                     Some("Client error on command invoker subscribe".to_string()),
                     Box::new(e),
@@ -989,12 +1153,20 @@ where
             self.mqtt_client.client_id().to_string(),
         ));
 
+        // Cloud Events headers
+        if let Some(cloud_event) = request.cloud_event {
+            let cloud_event_headers = cloud_event.0.into_headers(request_topic.as_str());
+            for (key, value) in cloud_event_headers {
+                request.custom_user_data.push((key, value));
+            }
+        }
+
         // Create MQTT Properties
         let publish_properties = PublishProperties {
             correlation_data: Some(correlation_data.clone()),
             response_topic: Some(response_topic),
-            payload_format_indicator: Some(request.serialized_payload.format_indicator as u8),
-            content_type: Some(request.serialized_payload.content_type.to_string()),
+            payload_format_indicator: request.serialized_payload.format_indicator.into(),
+            content_type: Some(request.serialized_payload.content_type.clone()),
             message_expiry_interval: Some(message_expiry_interval),
             user_properties: request.custom_user_data,
             topic_alias: None,
@@ -1003,7 +1175,7 @@ where
 
         // Subscribe to the response topic if we're not already subscribed and the invoker hasn't been shutdown
         {
-            let mut invoker_state = self.invoker_state_mutex.lock().await;
+            let mut invoker_state = self.state_mutex.lock().await;
             match *invoker_state {
                 State::New => {
                     self.subscribe_to_response_filter().await?;
@@ -1031,9 +1203,8 @@ where
         // Send publish
         let publish_result = self
             .mqtt_client
-            .publish_with_properties(
+            .publish_qos1(
                 request_topic,
-                QoS::AtLeastOnce,
                 false,
                 request.serialized_payload.payload,
                 publish_properties,
@@ -1063,14 +1234,22 @@ where
                                     Some(command_name.clone()),
                                 ))
                             },
-                            puback = publish_completion_token => {
-                                match puback {
-                                    // if puback is Ok, continue and wait for the response
-                                    Ok(()) => Ok(()),
+                            publish_completion_token_result = publish_completion_token => {
+                                match publish_completion_token_result {
+                                    Ok(puback) => {
+                                        // if puback is Ok, continue and wait for the response
+                                        puback.as_result().map_err(|e| {
+                                            AIOProtocolError::new_mqtt_error(
+                                                Some("MQTT Puback indicated failure".to_string()),
+                                                Box::new(e),
+                                                Some(command_name),
+                                            )
+                                        })
+                                    },
                                     Err(e) => {
-                                        log::error!("[ERROR] puback error: {e}");
+                                        log::error!("[{command_name}] Command Request publish completion error: {e}");
                                         Err(AIOProtocolError::new_mqtt_error(
-                                            Some("MQTT Error on command invoke puback".to_string()),
+                                            Some("MQTT Error on command invoke publish".to_string()),
                                             Box::new(e),
                                             Some(command_name),
                                         ))
@@ -1080,7 +1259,9 @@ where
                         }
                     }
                     Err(e) => {
-                        log::error!("[ERROR] client error while publishing: {e}");
+                        log::error!(
+                            "[{command_name}] Client error while publishing Invoker Command Request: {e}"
+                        );
                         Err(AIOProtocolError::new_mqtt_error(
                             Some("Client error on command invoker request publish".to_string()),
                             Box::new(e),
@@ -1115,20 +1296,16 @@ where
                                 Ok(rsp_pub) => {
                                     if let Some(rsp_pub) = rsp_pub {
                                         // check correlation id for match, otherwise loop again
-                                        if let Some(ref rsp_properties) = rsp_pub.properties {
-                                            if let Some(ref response_correlation_data) =
-                                                rsp_properties.correlation_data
-                                            {
-                                                if *response_correlation_data == correlation_data {
-                                                    // This is implicit validation of the correlation data - if it's malformed it won't match the request
-                                                    // This is the response for this request, stop listening for more responses and validate and parse it and send it back to the application
-                                                    return Ok(rsp_pub);
-                                                }
+                                        if let Some(ref response_correlation_data) =
+                                            rsp_pub.properties.correlation_data
+                                            && *response_correlation_data == correlation_data {
+                                                // This is implicit validation of the correlation data - if it's malformed it won't match the request
+                                                // This is the response for this request, stop listening for more responses and validate and parse it and send it back to the application
+                                                return Ok(rsp_pub);
                                             }
-                                        }
                                     } else {
                                         log::error!(
-                                            "Command Invoker has been shutdown and will no longer receive a response"
+                                            "[{command_name}] Command Invoker has been shutdown and will no longer receive a response"
                                         );
                                         return Err(AIOProtocolError::new_cancellation_error(
                                             false,
@@ -1143,15 +1320,14 @@ where
                                     // If the publish doesn't have properties, correlation_data, or the correlation data doesn't match, keep waiting for the next one
                                 }
                                 Err(RecvError::Lagged(e)) => {
-                                    log::error!(
-                                        "[ERROR] Invoker response receiver lagged. Response may not be received. Number of skipped messages: {e}"
+                                    log::warn!(
+                                        "[{command_name}] Invoker response receiver lagged. Response may not be received. Number of skipped messages: {e}"
                                     );
                                     // Keep waiting for response even though it may have gotten overwritten.
-                                    continue;
                                 }
                                 Err(RecvError::Closed) => {
                                     log::error!(
-                                        "[ERROR] MQTT Receiver has been cleaned up and will no longer send a response"
+                                        "[{command_name}] Invoker MQTT Receiver has been cleaned up and will no longer send a response"
                                     );
                                     return Err(AIOProtocolError::new_cancellation_error(
                                         false,
@@ -1217,7 +1393,7 @@ where
     }
 
     async fn receive_response_loop(
-        mut mqtt_receiver: C::PubReceiver,
+        mut mqtt_receiver: SessionPubReceiver,
         response_tx: Sender<Option<Publish>>,
         shutdown_notifier: Arc<Notify>,
         command_name: String,
@@ -1228,7 +1404,7 @@ where
                   // The loop will continue to receive any more publishes that are already in the queue
                   () = shutdown_notifier.notified() => {
                     mqtt_receiver.close();
-                    log::info!("[{command_name}] MQTT Receiver closed");
+                    log::info!("[{command_name}] Invoker MQTT Receiver closed");
                   },
                   recv_result = mqtt_receiver.recv_manual_ack() => {
                     if let Some((m, ack_token)) = recv_result {
@@ -1236,7 +1412,7 @@ where
                         match response_tx.send(Some(m)) {
                             Ok(_) => { },
                             Err(e) => {
-                                log::debug!("[{command_name}] Message ignored, no pending commands: {e}");
+                                log::debug!("[{command_name}] Command Response ignored, no pending commands: {e}");
                             }
                         }
                         // Manually ack
@@ -1246,9 +1422,14 @@ where
                                 let command_name_clone = command_name.clone();
                                 async move {
                                     match ack_token.ack().await {
-                                        Ok(_) => { },
+                                        Ok(ack_ct) => {
+                                            match ack_ct.await {
+                                                Ok(()) => { },
+                                                Err(e) => log::warn!("[{command_name_clone}] Error acking command response: {e}"),
+                                            }
+                                        },
                                         Err(e) => {
-                                            log::error!("[{command_name_clone}] Error acking message: {e}");
+                                            log::warn!("[{command_name_clone}] Error acking command response: {e}");
                                         }
                                     }
                                 }
@@ -1278,7 +1459,7 @@ where
         // Notify the receiver loop to close the MQTT Receiver
         self.shutdown_notifier.notify_one();
 
-        let mut invoker_state_mutex_guard = self.invoker_state_mutex.lock().await;
+        let mut invoker_state_mutex_guard = self.state_mutex.lock().await;
         match *invoker_state_mutex_guard {
             State::New | State::ShutdownSuccessful => {
                 /* If we didn't call subscribe or shutdown has already been called successfully, skip unsubscribing */
@@ -1288,26 +1469,42 @@ where
                 *invoker_state_mutex_guard = State::ShutdownInitiated;
                 let unsubscribe_result = self
                     .mqtt_client
-                    .unsubscribe(self.response_topic_pattern.as_subscribe_topic())
+                    .unsubscribe(
+                        self.response_topic_filter.clone(),
+                        azure_iot_operations_mqtt::control_packet::UnsubscribeProperties::default(),
+                    )
                     .await;
 
                 match unsubscribe_result {
-                    Ok(unsub_completion_token) => {
-                        match unsub_completion_token.await {
-                            Ok(()) => { /* Success */ }
-                            Err(e) => {
-                                log::error!("[{}] Unsuback error: {e}", self.command_name);
-                                return Err(AIOProtocolError::new_mqtt_error(
+                    Ok(unsub_completion_token) => match unsub_completion_token.await {
+                        Ok(unsuback) => {
+                            unsuback.as_result().map_err(|e| {
+                                log::error!(
+                                    "[{}] Invoker Unsuback error: {unsuback:?}",
+                                    self.command_name
+                                );
+                                AIOProtocolError::new_mqtt_error(
                                     Some("MQTT error on command invoker unsuback".to_string()),
                                     Box::new(e),
                                     Some(self.command_name.clone()),
-                                ));
-                            }
+                                )
+                            })?;
                         }
-                    }
+                        Err(e) => {
+                            log::error!(
+                                "[{}] Invoker Unsubscribe completion error: {e}",
+                                self.command_name
+                            );
+                            return Err(AIOProtocolError::new_mqtt_error(
+                                Some("MQTT error on command invoker unsubscribe".to_string()),
+                                Box::new(e),
+                                Some(self.command_name.clone()),
+                            ));
+                        }
+                    },
                     Err(e) => {
                         log::error!(
-                            "[{}] Client error while unsubscribing: {e}",
+                            "[{}] Client error while unsubscribing in Invoker: {e}",
                             self.command_name
                         );
                         return Err(AIOProtocolError::new_mqtt_error(
@@ -1320,39 +1517,37 @@ where
             }
         }
 
-        log::info!("[{}] Shutdown", self.command_name);
+        log::info!("[{}] Command Invoker Shutdown", self.command_name);
         // If we successfully unsubscribed or did not need to, we can consider the invoker successfully shutdown
         *invoker_state_mutex_guard = State::ShutdownSuccessful;
         Ok(())
     }
 }
 
-impl<TReq, TResp, C> Drop for Invoker<TReq, TResp, C>
+impl<TReq, TResp> Drop for Invoker<TReq, TResp>
 where
     TReq: PayloadSerialize + 'static,
     TResp: PayloadSerialize + 'static,
-    C: ManagedClient + Clone + Send + Sync + 'static,
-    C::PubReceiver: Send + Sync + 'static,
 {
     fn drop(&mut self) {
         // drop can't be async, but we can spawn a task to unsubscribe
         tokio::spawn({
-            let invoker_state_mutex = self.invoker_state_mutex.clone();
-            let unsubscribe_filter = self.response_topic_pattern.as_subscribe_topic();
+            let invoker_state_mutex = self.state_mutex.clone();
+            let unsubscribe_filter = self.response_topic_filter.clone();
             let mqtt_client = self.mqtt_client.clone();
             async move { drop_unsubscribe(mqtt_client, invoker_state_mutex, unsubscribe_filter).await }
         });
 
         // Notify the receiver loop to close the MQTT receiver
         self.shutdown_notifier.notify_one();
-        log::info!("[{}] Invoker has been dropped", self.command_name);
+        log::info!("[{}] Command Invoker has been dropped", self.command_name);
     }
 }
 
-async fn drop_unsubscribe<C: ManagedClient + Clone + Send + Sync + 'static>(
-    mqtt_client: C,
+async fn drop_unsubscribe(
+    mqtt_client: SessionManagedClient,
     invoker_state_mutex: Arc<Mutex<State>>,
-    unsubscribe_filter: String,
+    unsubscribe_filter: TopicFilter,
 ) {
     let mut invoker_state_mutex_guard = invoker_state_mutex.lock().await;
     match *invoker_state_mutex_guard {
@@ -1362,14 +1557,20 @@ async fn drop_unsubscribe<C: ManagedClient + Clone + Send + Sync + 'static>(
         State::ShutdownInitiated | State::Subscribed => {
             // if anything causes this to fail, we should still consider the invoker shutdown, but unsuccessfully, so that no more invocations can be made
             *invoker_state_mutex_guard = State::ShutdownInitiated;
-            match mqtt_client.unsubscribe(unsubscribe_filter.clone()).await {
+            match mqtt_client
+                .unsubscribe(
+                    unsubscribe_filter.clone(),
+                    azure_iot_operations_mqtt::control_packet::UnsubscribeProperties::default(),
+                )
+                .await
+            {
                 Ok(_) => {
                     log::debug!(
-                        "Unsubscribe sent on topic {unsubscribe_filter}. Unsuback may still be pending."
+                        "Invoker Unsubscribe sent on topic {unsubscribe_filter}. Unsuback may still be pending."
                     );
                 }
                 Err(e) => {
-                    log::error!("Unsubscribe error on topic {unsubscribe_filter}: {e}");
+                    log::warn!("Invoker Unsubscribe error on topic {unsubscribe_filter}: {e}");
                 }
             }
         }
@@ -1388,8 +1589,7 @@ async fn flatten<T>(
         Ok(Err(e)) => Err(e),
         Err(e) => {
             // tasks can't panic
-            log::error!("Join Error: {e}");
-            unreachable!()
+            unreachable!("Invoker Join Error: {e}. Tasks should not be able to panic")
         }
     }
 }
@@ -1398,7 +1598,7 @@ async fn flatten<T>(
 mod tests {
     use test_case::test_case;
     // TODO: This dependency on MqttConnectionSettingsBuilder should be removed in lieu of using a true mock
-    use azure_iot_operations_mqtt::MqttConnectionSettingsBuilder;
+    use azure_iot_operations_mqtt::aio::connection_settings::MqttConnectionSettingsBuilder;
     use azure_iot_operations_mqtt::session::{Session, SessionOptionsBuilder};
 
     use super::*;
@@ -1442,14 +1642,18 @@ mod tests {
             .build()
             .unwrap();
 
-        let invoker: Invoker<MockPayload, MockPayload, _> = Invoker::new(
+        let invoker: Invoker<MockPayload, MockPayload> = Invoker::new(
             ApplicationContextBuilder::default().build().unwrap(),
             managed_client,
             invoker_options,
         )
         .unwrap();
         assert_eq!(
-            invoker.response_topic_pattern.as_subscribe_topic(),
+            invoker
+                .response_topic_pattern
+                .as_subscribe_topic()
+                .unwrap()
+                .as_str(),
             "clients/test_client/test/test_command_name/+/request"
         );
     }
@@ -1469,7 +1673,7 @@ mod tests {
             .build()
             .unwrap();
 
-        let invoker: Invoker<MockPayload, MockPayload, _> = Invoker::new(
+        let invoker: Invoker<MockPayload, MockPayload> = Invoker::new(
             ApplicationContextBuilder::default().build().unwrap(),
             managed_client,
             invoker_options,
@@ -1477,7 +1681,11 @@ mod tests {
         .unwrap();
         // prefix and suffix should be ignored if response_topic_pattern is provided
         assert_eq!(
-            invoker.response_topic_pattern.as_subscribe_topic(),
+            invoker
+                .response_topic_pattern
+                .as_subscribe_topic()
+                .unwrap()
+                .as_str(),
             "test_namespace/test/test_command_name/+/response"
         );
     }
@@ -1542,7 +1750,7 @@ mod tests {
             .build()
             .unwrap();
 
-        let invoker: Result<Invoker<MockPayload, MockPayload, _>, AIOProtocolError> = Invoker::new(
+        let invoker: Result<Invoker<MockPayload, MockPayload>, AIOProtocolError> = Invoker::new(
             ApplicationContextBuilder::default().build().unwrap(),
             managed_client,
             invoker_options,
@@ -1554,7 +1762,7 @@ mod tests {
                 assert!(e.is_shallow);
                 assert!(!e.is_remote);
                 assert_eq!(e.property_name, Some(error_property_name.to_string()));
-                assert!(e.property_value == Some(Value::String(error_property_value.to_string())));
+                assert!(e.property_value == Some(Value::String(error_property_value.clone())));
             }
         }
     }
@@ -1585,14 +1793,19 @@ mod tests {
             .build()
             .unwrap();
 
-        let invoker: Result<Invoker<MockPayload, MockPayload, _>, AIOProtocolError> = Invoker::new(
+        let invoker: Result<Invoker<MockPayload, MockPayload>, AIOProtocolError> = Invoker::new(
             ApplicationContextBuilder::default().build().unwrap(),
             managed_client,
             invoker_options,
         );
         assert!(invoker.is_ok());
         assert_eq!(
-            invoker.unwrap().response_topic_pattern.as_subscribe_topic(),
+            invoker
+                .unwrap()
+                .response_topic_pattern
+                .as_subscribe_topic()
+                .unwrap()
+                .as_str(),
             expected_response_topic_subscribe_pattern
         );
     }
@@ -1611,14 +1824,19 @@ mod tests {
             .topic_token_map(create_topic_tokens())
             .build()
             .unwrap();
-        let invoker: Result<Invoker<MockPayload, MockPayload, _>, AIOProtocolError> = Invoker::new(
+        let invoker: Result<Invoker<MockPayload, MockPayload>, AIOProtocolError> = Invoker::new(
             ApplicationContextBuilder::default().build().unwrap(),
             managed_client,
             invoker_options,
         );
         assert!(invoker.is_ok());
         assert_eq!(
-            invoker.unwrap().response_topic_pattern.as_subscribe_topic(),
+            invoker
+                .unwrap()
+                .response_topic_pattern
+                .as_subscribe_topic()
+                .unwrap()
+                .as_str(),
             "clients/test_client/test/req/topic"
         );
     }
@@ -1639,21 +1857,26 @@ mod tests {
             .response_topic_suffix(response_topic_suffix.to_string())
             .build()
             .unwrap();
-        let invoker: Result<Invoker<MockPayload, MockPayload, _>, AIOProtocolError> = Invoker::new(
+        let invoker: Result<Invoker<MockPayload, MockPayload>, AIOProtocolError> = Invoker::new(
             ApplicationContextBuilder::default().build().unwrap(),
             managed_client,
             invoker_options,
         );
         assert!(invoker.is_ok());
         assert_eq!(
-            invoker.unwrap().response_topic_pattern.as_subscribe_topic(),
+            invoker
+                .unwrap()
+                .response_topic_pattern
+                .as_subscribe_topic()
+                .unwrap()
+                .as_str(),
             "test/req/topic/custom/suffix"
         );
     }
 
     /// Tests success: Timeout specified on invoke and there is no error
     #[tokio::test]
-    #[ignore] // test ignored because waiting for the suback hangs forever. Leaving the test for now until we have a full testing framework
+    #[ignore = "test ignored because waiting for the suback hangs forever. Leaving the test for now until we have a full testing framework"]
     async fn test_invoke_timeout_parameter() {
         // Get mutexes for checking static PayloadSerialize calls
         let _deserialize_mutex = DESERIALIZE_MTX.lock();
@@ -1666,7 +1889,7 @@ mod tests {
             .build()
             .unwrap();
 
-        let invoker: Invoker<MockPayload, MockPayload, _> = Invoker::new(
+        let invoker: Invoker<MockPayload, MockPayload> = Invoker::new(
             ApplicationContextBuilder::default().build().unwrap(),
             managed_client,
             invoker_options,
@@ -1707,7 +1930,7 @@ mod tests {
             .once();
 
         // Mock invoker being subscribed already so we don't wait for suback
-        let mut invoker_state = invoker.invoker_state_mutex.lock().await;
+        let mut invoker_state = invoker.state_mutex.lock().await;
         *invoker_state = State::Subscribed;
         drop(invoker_state);
 
@@ -1736,7 +1959,7 @@ mod tests {
             .build()
             .unwrap();
 
-        let invoker: Invoker<MockPayload, MockPayload, _> = Invoker::new(
+        let invoker: Invoker<MockPayload, MockPayload> = Invoker::new(
             ApplicationContextBuilder::default().build().unwrap(),
             managed_client,
             invoker_options,
@@ -1795,7 +2018,7 @@ mod tests {
             .build()
             .unwrap();
 
-        let invoker: Invoker<MockPayload, MockPayload, _> = Invoker::new(
+        let invoker: Invoker<MockPayload, MockPayload> = Invoker::new(
             ApplicationContextBuilder::default().build().unwrap(),
             managed_client,
             invoker_options,
@@ -1842,7 +2065,7 @@ mod tests {
     }
 
     #[tokio::test]
-    #[ignore] // test ignored because waiting for the suback hangs forever. Leaving the test for now until we have a full testing framework
+    #[ignore = "test ignored because waiting for the suback hangs forever. Leaving the test for now until we have a full testing framework"]
     async fn test_invoke_deserialize_error() {
         // Get mutexes for checking static PayloadSerialize calls
         let _deserialize_mutex = DESERIALIZE_MTX.lock();
@@ -1856,7 +2079,7 @@ mod tests {
             .build()
             .unwrap();
 
-        let invoker: Invoker<MockPayload, MockPayload, _> = Invoker::new(
+        let invoker: Invoker<MockPayload, MockPayload> = Invoker::new(
             ApplicationContextBuilder::default().build().unwrap(),
             managed_client,
             invoker_options,
@@ -1893,7 +2116,7 @@ mod tests {
             .once();
 
         // Mock invoker being subscribed already so we don't wait for suback
-        let mut invoker_state = invoker.invoker_state_mutex.lock().await;
+        let mut invoker_state = invoker.state_mutex.lock().await;
         *invoker_state = State::Subscribed;
         drop(invoker_state);
 
@@ -1929,7 +2152,7 @@ mod tests {
             .build()
             .unwrap();
 
-        let invoker: Invoker<MockPayload, MockPayload, _> = Invoker::new(
+        let invoker: Invoker<MockPayload, MockPayload> = Invoker::new(
             ApplicationContextBuilder::default().build().unwrap(),
             managed_client,
             invoker_options,
@@ -1984,7 +2207,7 @@ mod tests {
             .build()
             .unwrap();
 
-        let invoker: Invoker<MockPayload, MockPayload, _> = Invoker::new(
+        let invoker: Invoker<MockPayload, MockPayload> = Invoker::new(
             ApplicationContextBuilder::default().build().unwrap(),
             managed_client,
             invoker_options,
@@ -2080,7 +2303,7 @@ mod tests {
 
     /// Tests failure: Timeout specified as 0 (invalid value) on invoke and an `ArgumentInvalid` error is returned
     #[test_case(Duration::from_secs(0); "invoke_timeout_0")]
-    /// Tests failure: Timeout specified as > u32::max (invalid value) on invoke and an `ArgumentInvalid` error is returned
+    /// Tests failure: Timeout specified as > `u32::max` (invalid value) on invoke and an `ArgumentInvalid` error is returned
     #[test_case(Duration::from_secs(u64::from(u32::MAX) + 1); "invoke_timeout_u32_max")]
     fn test_request_timeout_invalid_value(timeout: Duration) {
         let mut mock_request_payload = MockPayload::new();
@@ -2104,7 +2327,60 @@ mod tests {
         assert!(request_builder_result.is_err());
     }
 
-    /// Tests success: application_error_headers() returns no Application Error Code and Payload since custom_user_data has none.
+    #[test]
+    fn test_request_invalid_custom_user_data_cloud_event_header() {
+        let mut mock_request_payload = MockPayload::new();
+        mock_request_payload
+            .expect_serialize()
+            .returning(|| {
+                Ok(SerializedPayload {
+                    payload: Vec::new(),
+                    content_type: "application/json".to_string(),
+                    format_indicator: FormatIndicator::Utf8EncodedCharacterData,
+                })
+            })
+            .times(1);
+
+        let request_builder_result = RequestBuilder::default()
+            .payload(mock_request_payload)
+            .unwrap()
+            .timeout(Duration::from_secs(2))
+            .custom_user_data(vec![("source".to_string(), "test".to_string())])
+            .build();
+
+        assert!(request_builder_result.is_err());
+    }
+
+    #[test]
+    fn test_request_defaults() {
+        let mut mock_request_payload = MockPayload::new();
+        mock_request_payload
+            .expect_serialize()
+            .returning(|| {
+                Ok(SerializedPayload {
+                    payload: Vec::new(),
+                    content_type: "application/json".to_string(),
+                    format_indicator: FormatIndicator::Utf8EncodedCharacterData,
+                })
+            })
+            .times(1);
+
+        let request_builder_result = RequestBuilder::default()
+            .payload(mock_request_payload)
+            .unwrap()
+            .timeout(Duration::from_secs(2))
+            .build();
+
+        let r = request_builder_result.unwrap();
+
+        assert_eq!(r.timeout, Duration::from_secs(2));
+        assert!(r.custom_user_data.is_empty());
+        assert!(r.topic_tokens.is_empty());
+        assert!(r.cloud_event.is_none());
+        assert!(r.serialized_payload.payload.is_empty());
+    }
+
+    /// Tests success: `application_error_headers()` returns no Application Error Code and Payload since `custom_user_data` has none.
     #[tokio::test]
     async fn test_no_app_error_code_and_payload() {
         let user_data: Vec<(String, String)> = Vec::new();
@@ -2115,7 +2391,7 @@ mod tests {
         assert!(application_error_payload.is_none());
     }
 
-    /// Tests success: custom_user_data contains both Application Error Code and Payload.
+    /// Tests success: `custom_user_data` contains both Application Error Code and Payload.
     #[tokio::test]
     async fn test_response_with_app_error_code_and_payload() {
         let error_code_content = "5888";
@@ -2137,7 +2413,7 @@ mod tests {
         );
     }
 
-    /// Tests success: custom_user_data contains Application Error Code, but no Payload.
+    /// Tests success: `custom_user_data` contains Application Error Code, but no Payload.
     #[tokio::test]
     async fn test_response_with_app_error_code_but_no_payload() {
         let error_code_content = "5888";

@@ -1,0 +1,57 @@
+{
+  "$schema": "https://json-schema.org/draft-07/schema",
+  "title": "Device",
+  "description": "The device resource, containing the specific inbound endpoint details as specified by the request.",
+  "type": "object",
+  "additionalProperties": false,
+  "properties": {
+    "attributes": {
+      "description": "A set of key-value pairs that contain custom attributes set by the customer.",
+      "type": "object", "additionalProperties": { "type": "string" }
+    },
+    "discoveredDeviceRef": {
+      "description": "Reference to a device. Populated only if the device had been created from discovery flow. Discovered device name must be provided.",
+      "type": "string"
+    },
+    "enabled": {
+      "description": "Indicates if the resource and identity are enabled or not. A disabled device cannot authenticate with Microsoft Entra ID.",
+      "type": "boolean"
+    },
+    "endpoints": {
+      "description": "Connection endpoint url a device can use to connect to a service.",
+      "$ref": "DeviceEndpointsSchema.schema.json"
+    },
+    "externalDeviceId": {
+      "description": "The Device ID provided by the customer.",
+      "type": "string"
+    },
+    "lastTransitionTime": {
+      "description": "A timestamp (in UTC) that is updated each time the resource is modified.",
+      "type": "string", "format": "date-time"
+    },
+    "manufacturer": {
+      "description": "Device manufacturer.",
+      "type": "string"
+    },
+    "model": {
+      "description": "Device model.",
+      "type": "string"
+    },
+    "operatingSystem": {
+      "description": "Device operating system.",
+      "type": "string"
+    },
+    "operatingSystemVersion": {
+      "description": "Device operating system version.",
+      "type": "string"
+    },
+    "uuid": {
+      "description": "Gets a unique identifier for this resource.",
+      "type": "string"
+    },
+    "version": {
+      "description": "An integer that is incremented each time the resource is modified.",
+      "type": "integer", "minimum": 0, "maximum": 9223372036854775807
+    }
+  }
+}

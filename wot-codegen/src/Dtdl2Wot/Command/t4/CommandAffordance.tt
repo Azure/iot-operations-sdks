@@ -1,0 +1,123 @@
+<#@ template language="C#" linePragmas="false" #>
+<#@ import namespace="System.Collections.Generic" #>
+<#@ import namespace="System.Linq" #>
+<#@ import namespace="DTDLParser" #>
+<#@ import namespace="DTDLParser.Models" #>
+<# // Copyright (c) Microsoft Corporation. #>
+<# // Licensed under the MIT License #>
+    "<#=this.dtCommand.Name#>": {
+<# if (this.dtCommand.Description.Any()) { #>
+      "description": "<#=this.dtCommand.Description.First().Value#>",
+<# } #>
+<# if (this.dtCommand.Request != null) { #>
+<# if (this.usesTypes) { #>
+      "input": {
+<# if (this.isRequestTransparent) { #>
+<# if (this.dtCommand.Request.Description.Any()) { #>
+        "description": "<#=this.dtCommand.Request.Description.First().Value#>",
+<# } else if (this.dtCommand.Request.Schema.Description.Any()) { #>
+        "description": "<#=this.dtCommand.Request.Schema.Description.First().Value#>",
+<# } #>
+<#=this.thingDescriber.GetTypeAndAddenda(this.dtCommand.Request.Schema, 8)#>
+<# } else { #>
+<# if (this.dtCommand.Request.Description.Any()) { #>
+        "description": "<#=this.dtCommand.Request.Description.First().Value#>",
+<# } #>
+        "type": "object",
+<# if (!this.dtCommand.Request.Nullable) { #>
+        "required": [ "<#=this.dtCommand.Request.Name#>" ],
+<# } #>
+        "properties": {
+          "<#=this.dtCommand.Request.Name#>": {
+<# if (!this.dtCommand.Request.Schema.Id.AbsoluteUri.StartsWith("dtmi:dtdl:instance:Schema:") && this.dtCommand.Request.Schema.Description.Any()) { #>
+            "description": "<#=this.dtCommand.Request.Schema.Description.First().Value#>",
+<# } #>
+<#=this.thingDescriber.GetTypeAndAddenda(this.dtCommand.Request.Schema, 12)#>
+          }
+        }
+<# } #>
+      },
+<# } else { #>
+      "input": {
+        "type": "null"
+      },
+<# } #>
+<# } #>
+<# if (this.dtCommand.Response != null) { #>
+<# if (this.usesTypes) { #>
+      "output": {
+<# if (this.isResponseTransparent) { #>
+<# if (this.dtCommand.Response.Description.Any()) { #>
+        "description": "<#=this.dtCommand.Response.Description.First().Value#>",
+<# } else if (this.dtCommand.Response.Schema.Description.Any()) { #>
+        "description": "<#=this.dtCommand.Response.Schema.Description.First().Value#>",
+<# } #>
+<#=this.thingDescriber.GetTypeAndAddenda(this.dtCommand.Response.Schema, 8)#>
+<# } else { #>
+<# if (this.dtCommand.Response.Description.Any()) { #>
+        "description": "<#=this.dtCommand.Response.Description.First().Value#>",
+<# } #>
+        "type": "object",
+<# if (!this.dtCommand.Response.Nullable) { #>
+        "required": [ "<#=this.responseName#>" ],
+<# } #>
+        "properties": {
+          "<#=this.responseName#>": {
+<# if (this.responseDescription?.Any() ?? false) { #>
+            "description": "<#=this.responseDescription.First().Value#>",
+<# } else if (!this.responseSchema.Id.AbsoluteUri.StartsWith("dtmi:dtdl:instance:Schema:") && this.responseSchema.Description.Any()) { #>
+            "description": "<#=this.responseSchema.Description.First().Value#>",
+<# } #>
+<#=this.thingDescriber.GetTypeAndAddenda(this.responseSchema, 12)#>
+          }
+        }
+<# } #>
+      },
+<# } else { #>
+      "output": {
+        "type": "null"
+      },
+<# } #>
+<# } #>
+<# if (this.isCommandIdempotent) { #>
+      "idempotent": true,
+<# } #>
+<# if (this.isCommandCacheable) { #>
+      "safe": true,
+<# } #>
+      "forms": [
+        {
+          "contentType": "<#=this.contentType#>",
+<# if (this.isResponseSchemaResult) { #>
+<# if (this.errorSchemaName != null) { #>
+          "additionalResponses": [
+            {
+              "success": false,
+              "schema": "<#=this.errorSchemaName#>"
+            }
+          ],
+<# } #>
+<# if (this.infoSchemaName != null) { #>
+          "dtv:headerInfo": [
+            {
+              "contentType": "application/json",
+              "schema": "<#=this.infoSchemaName#>"
+            }
+          ],
+<# } #>
+<# if (this.codeEnumeration.Count > 0) { #>
+          "dtv:headerCode": [
+<# int ix = 1; foreach (KeyValuePair<string, string> kvp in this.codeEnumeration) { #>
+            "<#=kvp.Key#>"<#=ix < this.codeEnumeration.Count ? "," : ""#>
+<# ix++; } #>
+          ],
+<# } #>
+<# } #>
+<# if (this.serviceGroupId != null) { #>
+          "dtv:serviceGroupId": "<#=this.serviceGroupId#>",
+<# } #>
+          "dtv:topic": "<#=this.commandTopic ?? ""#>",
+          "op": "invokeaction"
+        }
+      ]
+    }

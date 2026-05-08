@@ -1,0 +1,7 @@
+{
+  "success": true,
+  "commandLine": {
+    "things": [ "valid/EventContainedInEventNoContains.TM.json" ],
+    "lang": "none"
+  }
+}

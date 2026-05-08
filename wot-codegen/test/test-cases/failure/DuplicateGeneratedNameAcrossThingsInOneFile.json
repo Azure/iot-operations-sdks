@@ -1,0 +1,23 @@
+{
+  "success": false,
+  "commandLine": {
+    "things": [ "invalidAioBinding/DuplicateGeneratedNameAcrossThingsInOneFile.TM.json" ],
+    "lang": "csharp"
+  },
+  "errors": [
+    {
+      "condition": "Duplication",
+      "filename": "DuplicateGeneratedNameAcrossThingsInOneFile.TM.json",
+      "line": 11,
+      "cfLine": 0,
+      "crossRef": "MyPropSchema"
+    },
+    {
+      "condition": "Duplication",
+      "filename": "DuplicateGeneratedNameAcrossThingsInOneFile.TM.json",
+      "line": 39,
+      "cfLine": 0,
+      "crossRef": "MyPropSchema"
+    }
+  ]
+}

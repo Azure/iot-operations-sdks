@@ -2,7 +2,7 @@
 
 use std::collections::HashMap;
 
-use azure_iot_operations_mqtt::interface::ManagedClient;
+use azure_iot_operations_mqtt::session::SessionManagedClient;
 use azure_iot_operations_protocol::application::ApplicationContext;
 use azure_iot_operations_protocol::common::aio_protocol_error::AIOProtocolError;
 use azure_iot_operations_protocol::rpc_command;
@@ -29,6 +29,15 @@ impl ResetResponseBuilder {
         self
     }
 
+    /// Cloud event for the response
+    pub fn cloud_event(
+        &mut self,
+        cloud_event: Option<rpc_command::executor::ResponseCloudEvent>,
+    ) -> &mut Self {
+        self.inner_builder.cloud_event(cloud_event);
+        self
+    }
+
     /// Builds a new `ResetResponse`
     ///
     /// # Errors
@@ -42,23 +51,16 @@ impl ResetResponseBuilder {
 }
 
 /// Command Executor for `reset`
-pub struct ResetCommandExecutor<C>(rpc_command::Executor<EmptyJson, EmptyJson, C>)
-where
-    C: ManagedClient + Clone + Send + Sync + 'static,
-    C::PubReceiver: Send + Sync + 'static;
+pub struct ResetCommandExecutor(rpc_command::Executor<EmptyJson, EmptyJson>);
 
-impl<C> ResetCommandExecutor<C>
-where
-    C: ManagedClient + Clone + Send + Sync + 'static,
-    C::PubReceiver: Send + Sync + 'static,
-{
+impl ResetCommandExecutor {
     /// Creates a new [`ResetCommandExecutor`]
     ///
     /// # Panics
     /// If the DTDL that generated this code was invalid
     pub fn new(
         application_context: ApplicationContext,
-        client: C,
+        client: SessionManagedClient,
         options: &CommandExecutorOptions,
     ) -> Self {
         let mut executor_options_builder = rpc_command::executor::OptionsBuilder::default();

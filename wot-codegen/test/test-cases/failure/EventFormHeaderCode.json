@@ -1,0 +1,16 @@
+{
+  "success": false,
+  "commandLine": {
+    "things": [ "invalidAioBinding/EventFormHeaderCode.TM.json" ],
+    "lang": "none"
+  },
+  "errors": [
+    {
+      "condition": "PropertyUnsupported",
+      "filename": "EventFormHeaderCode.TM.json",
+      "line": 31,
+      "cfLine": 0,
+      "crossRef": ""
+    }
+  ]
+}

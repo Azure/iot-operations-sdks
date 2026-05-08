@@ -1,0 +1,173 @@
+[
+  {
+    "@context": [
+      "https://www.w3.org/2022/wot/td/v1.1",
+      {
+        "dtv": "http://azure.com/DigitalTwins/dtmi#",
+        "aov": "http://azure.com/IoT/operations/tm#"
+      }
+    ],
+    "@type": "tm:ThingModel",
+    "title": "CranesHoists_BrakeType",
+    "aov:typeRef": "nsu=http://opcfoundation.org/UA/CranesHoists/;i=1556",
+    "links": [
+      {
+        "rel": "tm:extends",
+        "href": "./DI.TM.json#title=DI_ComponentType",
+        "type": "application/tm+json"
+      }
+    ],
+    "schemaDefinitions": {
+    },
+    "actions": {
+    },
+    "properties": {
+    },
+    "events": {
+    }
+  },
+  {
+    "@context": [
+      "https://www.w3.org/2022/wot/td/v1.1",
+      {
+        "dtv": "http://azure.com/DigitalTwins/dtmi#",
+        "aov": "http://azure.com/IoT/operations/tm#"
+      }
+    ],
+    "@type": "tm:ThingModel",
+    "title": "CranesHoists_CraneAxisType",
+    "aov:typeRef": "nsu=http://opcfoundation.org/UA/CranesHoists/;i=1369",
+    "aov:isComposite": true,
+    "links": [
+      {
+        "rel": "tm:extends",
+        "href": "./Robotics.TM.json#title=Robotics_AxisType",
+        "type": "application/tm+json"
+      }
+    ],
+    "schemaDefinitions": {
+    },
+    "actions": {
+    },
+    "properties": {
+    },
+    "events": {
+    }
+  },
+  {
+    "@context": [
+      "https://www.w3.org/2022/wot/td/v1.1",
+      {
+        "dtv": "http://azure.com/DigitalTwins/dtmi#",
+        "aov": "http://azure.com/IoT/operations/tm#"
+      }
+    ],
+    "@type": "tm:ThingModel",
+    "title": "CranesHoists_CraneMotionDeviceType",
+    "aov:typeRef": "nsu=http://opcfoundation.org/UA/CranesHoists/;i=1392",
+    "links": [
+      {
+        "rel": "tm:extends",
+        "href": "./Robotics.TM.json#title=Robotics_MotionDeviceType",
+        "type": "application/tm+json"
+      }
+    ],
+    "schemaDefinitions": {
+    },
+    "actions": {
+    },
+    "properties": {
+    },
+    "events": {
+    }
+  },
+  {
+    "@context": [
+      "https://www.w3.org/2022/wot/td/v1.1",
+      {
+        "dtv": "http://azure.com/DigitalTwins/dtmi#",
+        "aov": "http://azure.com/IoT/operations/tm#"
+      }
+    ],
+    "@type": "tm:ThingModel",
+    "title": "CranesHoists_CraneMotionDeviceSystemType",
+    "aov:typeRef": "nsu=http://opcfoundation.org/UA/CranesHoists/;i=2112",
+    "aov:isComposite": true,
+    "links": [
+      {
+        "rel": "tm:extends",
+        "href": "./Robotics.TM.json#title=Robotics_MotionDeviceSystemType",
+        "type": "application/tm+json"
+      }
+    ],
+    "schemaDefinitions": {
+    },
+    "actions": {
+    },
+    "properties": {
+    },
+    "events": {
+    }
+  },
+  {
+    "@context": [
+      "https://www.w3.org/2022/wot/td/v1.1",
+      {
+        "dtv": "http://azure.com/DigitalTwins/dtmi#",
+        "aov": "http://azure.com/IoT/operations/tm#"
+      }
+    ],
+    "@type": "tm:ThingModel",
+    "title": "CranesHoists_CraneMotorType",
+    "aov:typeRef": "nsu=http://opcfoundation.org/UA/CranesHoists/;i=1262",
+    "links": [
+      {
+        "rel": "tm:extends",
+        "href": "./Robotics.TM.json#title=Robotics_MotorType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "aov:typedReference",
+        "aov:refName": "GearIdentifier",
+        "aov:refType": "IsConnectedTo",
+        "href": "./Robotics.TM.json#title=Robotics_GearType",
+        "type": "application/tm+json"
+      }
+    ],
+    "schemaDefinitions": {
+    },
+    "actions": {
+    },
+    "properties": {
+    },
+    "events": {
+    }
+  },
+  {
+    "@context": [
+      "https://www.w3.org/2022/wot/td/v1.1",
+      {
+        "dtv": "http://azure.com/DigitalTwins/dtmi#",
+        "aov": "http://azure.com/IoT/operations/tm#"
+      }
+    ],
+    "@type": "tm:ThingModel",
+    "title": "CranesHoists_ProtectiveFunctionType",
+    "aov:typeRef": "nsu=http://opcfoundation.org/UA/CranesHoists/;i=1462",
+    "links": [
+      {
+        "rel": "tm:extends",
+        "href": "./OpcUaCore.TM.json#title=OpcUaCore_BaseObjectType",
+        "type": "application/tm+json"
+      }
+    ],
+    "schemaDefinitions": {
+    },
+    "actions": {
+    },
+    "properties": {
+    },
+    "events": {
+    }
+  }
+]

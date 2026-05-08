@@ -1,0 +1,44 @@
+{
+  "success": false,
+  "commandLine": {
+    "things": [ "invalidAioBinding/PropertiesReadTopicDuplication.TM.json" ],
+    "lang": "none"
+  },
+  "errors": [
+    {
+      "condition": "Duplication",
+      "filename": "PropertiesReadTopicDuplication.TM.json",
+      "line": 16,
+      "cfLine": 0,
+      "crossRef": "sample/dup/{maintainerId}/read"
+    },
+    {
+      "condition": "Duplication",
+      "filename": "PropertiesReadTopicDuplication.TM.json",
+      "line": 26,
+      "cfLine": 0,
+      "crossRef": "sample/dup/{maintainerId}/read"
+    },
+    {
+      "condition": "Duplication",
+      "filename": "PropertiesReadTopicDuplication.TM.json",
+      "line": 37,
+      "cfLine": 0,
+      "crossRef": "sample/dup/{maintainerId}/read"
+    },
+    {
+      "condition": "Duplication",
+      "filename": "PropertiesReadTopicDuplication.TM.json",
+      "line": 46,
+      "cfLine": 0,
+      "crossRef": "sample/dup/{maintainerId}/read"
+    },
+    {
+      "condition": "Duplication",
+      "filename": "PropertiesReadTopicDuplication.TM.json",
+      "line": 61,
+      "cfLine": 0,
+      "crossRef": "sample/dup/{maintainerId}/read"
+    }
+  ]
+}

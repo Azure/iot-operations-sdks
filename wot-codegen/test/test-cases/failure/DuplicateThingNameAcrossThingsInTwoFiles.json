@@ -1,0 +1,23 @@
+{
+  "success": false,
+  "commandLine": {
+    "things": [ "valid/ThingOneNamedMyThing.TM.json", "valid/ThingTwoNamedMyThing.TM.json" ],
+    "lang": "csharp"
+  },
+  "errors": [
+    {
+      "condition": "Duplication",
+      "filename": "ThingOneNamedMyThing.TM.json",
+      "line": 7,
+      "cfLine": 0,
+      "crossRef": "MyThing"
+    },
+    {
+      "condition": "Duplication",
+      "filename": "ThingTwoNamedMyThing.TM.json",
+      "line": 7,
+      "cfLine": 0,
+      "crossRef": "MyThing"
+    }
+  ]
+}

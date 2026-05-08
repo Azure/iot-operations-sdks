@@ -1,0 +1,16 @@
+{
+  "success": false,
+  "commandLine": {
+    "things": [ "invalidThing/RootFormsEmpty.TM.json" ],
+    "lang": "none"
+  },
+  "errors": [
+    {
+      "condition": "ElementMissing",
+      "filename": "RootFormsEmpty.TM.json",
+      "line": 8,
+      "cfLine": 0,
+      "crossRef": ""
+    }
+  ]
+}

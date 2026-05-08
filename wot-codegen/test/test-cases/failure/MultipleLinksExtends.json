@@ -1,0 +1,20 @@
+{
+  "success": false,
+  "commandLine": {
+    "things": [
+      "invalidThing/MultipleLinksExtends.TM.json",
+      "valid/ThingOneNamedMyThing.TM.json",
+      "valid/ThingTwoWithGeneratedNameMyPropSchema.TM.json"
+    ],
+    "lang": "none"
+  },
+  "errors": [
+    {
+      "condition": "Duplication",
+      "filename": "MultipleLinksExtends.TM.json",
+      "line": 8,
+      "cfLine": 0,
+      "crossRef": ""
+    }
+  ]
+}

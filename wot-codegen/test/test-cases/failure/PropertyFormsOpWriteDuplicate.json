@@ -1,0 +1,16 @@
+{
+  "success": false,
+  "commandLine": {
+    "things": [ "invalidAioBinding/PropertyFormsOpWriteDuplicate.TM.json" ],
+    "lang": "none"
+  },
+  "errors": [
+    {
+      "condition": "Duplication",
+      "filename": "PropertyFormsOpWriteDuplicate.TM.json",
+      "line": 17,
+      "cfLine": 22,
+      "crossRef": ""
+    }
+  ]
+}

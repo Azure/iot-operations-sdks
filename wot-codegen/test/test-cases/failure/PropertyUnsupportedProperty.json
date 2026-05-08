@@ -1,0 +1,16 @@
+{
+  "success": false,
+  "commandLine": {
+    "things": [ "invalidAioBinding/PropertyUnsupportedProperty.TM.json" ],
+    "lang": "none"
+  },
+  "errors": [
+    {
+      "condition": "PropertyUnsupported",
+      "filename": "PropertyUnsupportedProperty.TM.json",
+      "line": 20,
+      "cfLine": 0,
+      "crossRef": ""
+    }
+  ]
+}

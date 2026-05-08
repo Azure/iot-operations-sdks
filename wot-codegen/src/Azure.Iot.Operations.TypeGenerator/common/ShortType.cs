@@ -1,0 +1,15 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT License
+
+namespace Azure.Iot.Operations.TypeGenerator
+{
+    internal class ShortType : SchemaType
+    {
+        internal override SchemaKind Kind { get => SchemaKind.Short; }
+
+        internal ShortType(bool orNull)
+            : base(orNull)
+        {
+        }
+    }
+}

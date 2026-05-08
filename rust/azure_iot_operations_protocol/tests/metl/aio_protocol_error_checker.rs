@@ -116,7 +116,7 @@ pub fn check_error(
                     Value::Boolean(bool_value) => {
                         assert_eq!(expected_value_string, &bool_value.to_string());
                     }
-                };
+                }
             } else {
                 panic!("no property_value value in AIOProtocolError");
             }

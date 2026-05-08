@@ -1,0 +1,35 @@
+{
+  "@context": [
+    "https://www.w3.org/2022/wot/td/v1.1",
+    { "dtv": "http://azure.com/DigitalTwins/dtmi#" }
+  ],
+  "@type": "tm:ThingModel",
+  "title": "Noop",
+  "actions": {
+  },
+  "properties": {
+    "alpha": {
+      "type": "number",
+      "qudt:hasQuantityKind": "http://qudt.org/vocab/quantitykind/Temperature",
+      "forms": [
+        {
+          "contentType": "application/json",
+          "dtv:topic": "sample/alpha/{maintainerId}",
+          "op": "readproperty"
+        }
+      ]
+    },
+    "beta": {
+      "type": "string",
+      "forms": [
+        {
+          "contentType": "application/json",
+          "dtv:topic": "sample/beta/{maintainerId}",
+          "op": "readproperty"
+        }
+      ]
+    }
+  },
+  "events": {
+  }
+}
