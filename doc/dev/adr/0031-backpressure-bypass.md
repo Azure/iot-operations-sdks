@@ -172,7 +172,7 @@ flowchart TB
 
 | Option | Pros | Cons |
 |---|---|---|
-| M &mdash; silent mirror | Response priority always matches request priority; no API surface; matches the intent of the MQ ADR's rejected topic-filter option | No way for service code to opt out of mirroring (e.g., to deliberately downgrade a response) |
+| M &mdash; silent mirror | Response priority always matches request priority; no API surface; matches the intent of the MQ ADR's | No way for service code to opt out of mirroring (e.g., to deliberately downgrade a response) |
 | A &mdash; class-level override | Service author controls response posture | Decouples response priority from request priority; needs coordination with every caller; defeats mirroring intent |
 | C &mdash; mirror + per-response override | Mirrors by default, allows opt-out where justified | Larger surface; mostly speculative use case |
 
