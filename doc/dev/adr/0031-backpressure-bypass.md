@@ -70,11 +70,7 @@ fall back to normal-priority backpressure with no SDK changes.
 - **Executor mirrors, no option.** The executor copies the bypass user
   property from the incoming request onto the response. There is no
   corresponding executor option. This matches the intent of the MQ
-  ADR's chosen design: the rejected topic-filter option would have
-  mirrored automatically inside the broker, so SDK mirroring is the
-  equivalent on the publisher side. The decision of "is this call
-  control plane?" stays with the requester. An override knob can be
-  added later as an enum if a real use case appears.
+  ADR's chosen design.
 - **SDK-shipped service clients opt themselves in.** State Store,
   Lease Lock, Schema Registry, ADR, health reporter, and the connector
   framework set the option on their internal invokers and re-expose the
