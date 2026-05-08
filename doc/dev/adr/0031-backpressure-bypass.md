@@ -1,7 +1,8 @@
 # ADR 31: MQ Backpressure Bypass for SDK Traffic
 
-> **Status:** Draft / for discussion. Aligns .NET and Rust on a single
-> implementable behavior before any code lands.
+> **Status:** Draft / for discussion. Aligns SDK implementations on a single
+> behavior before any code lands. Naming and surface details are left to each
+> language to render idiomatically.
 
 ## Context
 
@@ -12,20 +13,19 @@ data-plane traffic fills the broker's buffer pool. The mark is an MQTT 5
 `$high_priority`); the broker also gets a CRD kill switch and an authz
 policy gating who may set the flag.
 
-The *publisher* of the response must set the flag. The MQ ADR notes *"we expect the mRPC
-code generator to set the property in requests and responses"* &mdash; we
-read this as "the SDK is the layer that owns the capability," not "every
-generated client sets it unconditionally."
+The flag is set by the *publisher* of each PUBLISH &mdash; the broker
+does not infer it. The MQ ADR notes *"we expect the mRPC code generator
+to set the property in requests and responses"* &mdash; we read this as
+"the SDK is the layer that owns the capability," not "every generated
+client sets it unconditionally."
 
-This ADR specifies how the .NET and Rust SDKs expose and set the flag.
-It does not change broker semantics.
+This ADR specifies how the SDKs expose and set the flag. It does not
+change broker semantics.
 
 ### How `$high_priority` travels through an mRPC call
 
 The diagram below shows the property's lifecycle across one request /
-response. The broker is shown as a single box for clarity; in reality
-each PUBLISH passes through the publisher's session chain and the topic
-chain, and backpressure is evaluated on the topic chain.
+response.
 
 ```mermaid
 sequenceDiagram
@@ -34,7 +34,7 @@ sequenceDiagram
     participant Brk as MQ Broker
     participant Exe as Command Executor<br/>(SDK)
 
-    Note over Inv: BypassBrokerBackpressure = true
+    Note over Inv: bypass option = true
     Inv->>Brk: PUBLISH request<br/>user-property: $high_priority
     Note over Brk: authz check on $high_priority<br/>+ higher BP threshold applied
     Brk->>Exe: deliver request<br/>(property preserved)
@@ -54,12 +54,9 @@ fall back to normal-priority backpressure with no SDK changes.
 
 ### Wire
 
-- One MQTT 5 user property on the PUBLISH; name and value owned by
-  [the MQ ADR][mq-adr], referenced from a single shared constant per
-  language.
-- The example name `$high_priority` is broker-owned, so it sits outside
+- The example name `$high_priority` is broker-owned and sits outside
   the SDK-reserved `__` prefix from
-  [ADR 4](./0004-reserved-user-properties.md). The SDK must not validate
+  [ADR 4](./0004-reserved-user-properties.md). SDKs must not validate
   against or reject `$`-prefixed user properties.
 - No other MQTT semantics change: QoS, expiry, topic, correlation, and
   cache behavior are all unaffected.
@@ -67,15 +64,15 @@ fall back to normal-priority backpressure with no SDK changes.
 ### mRPC
 
 - **Invoker option (default OFF).** A single boolean on the invoker
-  options surface, set once at construction; no per-invocation toggle.
-  - .NET: `CommandInvokerOptions.BypassBrokerBackpressure`
-  - Rust: `CommandInvokerOptionsBuilder::bypass_broker_backpressure(bool)`
+  options surface, set once at construction. No per-invocation toggle.
+  Each language picks an idiomatic name (suggested: "bypass broker
+  backpressure").
 - **Executor mirrors, no option.** The executor copies the bypass user
-  property from the incoming request onto the response. No
-  `CommandExecutorOptions.BypassBrokerBackpressure`. This matches the
-  intent of the MQ ADR's chosen design: the rejected topic-filter option
-  would have mirrored automatically inside the broker, so SDK mirroring
-  is the equivalent on the publisher side. The decision of "is this call
+  property from the incoming request onto the response. There is no
+  corresponding executor option. This matches the intent of the MQ
+  ADR's chosen design: the rejected topic-filter option would have
+  mirrored automatically inside the broker, so SDK mirroring is the
+  equivalent on the publisher side. The decision of "is this call
   control plane?" stays with the requester. An override knob can be
   added later as an enum if a real use case appears.
 - **SDK-shipped service clients opt themselves in.** State Store,
@@ -85,7 +82,8 @@ fall back to normal-priority backpressure with no SDK changes.
 
 ### Telemetry
 
-- One boolean on the sender options, default OFF (same name).
+- One boolean on the sender options, default OFF, same conceptual name
+  as on the invoker.
 - The health-status reporter ([ADR 28](./0028-health-status-reporting.md))
   opts in; other senders do not.
 
@@ -124,9 +122,8 @@ you want to revise.
 9. **Security.** Broker is authoritative (authz + CRD kill switch). SDK
    docs must say enabling the option does not guarantee the broker will
    honor it.
-10. **Names.** .NET `BypassBrokerBackpressure`, Rust
-    `bypass_broker_backpressure`, user-property name from
-    [the MQ ADR][mq-adr].
+10. **Names.** Each language picks an idiomatic name; the user-property
+    name on the wire is taken from [the MQ ADR][mq-adr].
 11. **Testing.** METL cases under `eng/test/test-cases/Protocol/` that
     assert presence/absence of the user property on requests and on
     mirrored responses, given the invoker option's value.
