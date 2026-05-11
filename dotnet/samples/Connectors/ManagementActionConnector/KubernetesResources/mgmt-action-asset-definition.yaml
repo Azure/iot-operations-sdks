@@ -9,12 +9,17 @@ spec:
     assetId: my-mgmt-action-asset
     assetType: mgmt-action-sample
   # -----------------------------------------------------------------
-  # Single management group with a single action, intended for
-  # exercising the upcoming .NET Management Action API. The connector
-  # will expose this as:
-  #   group  = "device-control"
-  #   action = "reboot"
-  # keyed internally as "device-control::reboot".
+  # Single management group with three actions (one of each ActionType:
+  # Call, Read, Write), intended for exercising the upcoming .NET
+  # Management Action API. The connector will expose these as:
+  #   group   = "device-control"
+  #   actions = "reboot" (Call),
+  #             "read-temperature" (Read),
+  #             "write-configuration" (Write)
+  # keyed internally as:
+  #   "device-control::reboot"
+  #   "device-control::read-temperature"
+  #   "device-control::write-configuration"
   # -----------------------------------------------------------------
   managementGroups:
     - name: device-control
