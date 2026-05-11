@@ -4,7 +4,6 @@
 using System.Buffers;
 using Azure.Iot.Operations.Protocol;
 using Azure.Iot.Operations.Protocol.Models;
-using Azure.Iot.Operations.Services.AssetAndDeviceRegistry.Models;
 
 namespace Azure.Iot.Operations.Connector
 {
@@ -13,6 +12,13 @@ namespace Azure.Iot.Operations.Connector
     /// management action is invoked. Contains the full request context so the handler can
     /// execute the appropriate device operation.
     /// </summary>
+    /// <remarks>
+    /// The action's type (Call / Read / Write) is not surfaced here because it is already
+    /// implicit in which handler method the SDK invokes
+    /// (<see cref="IManagementActionHandler.HandleCallAsync"/>,
+    /// <see cref="IManagementActionHandler.HandleReadAsync"/>, or
+    /// <see cref="IManagementActionHandler.HandleWriteAsync"/>).
+    /// </remarks>
     public class ManagementActionInvokedEventArgs : EventArgs
     {
         /// <summary>The management group name this action belongs to.</summary>
@@ -21,8 +27,6 @@ namespace Azure.Iot.Operations.Connector
         /// <summary>The management action name.</summary>
         public required string ActionName { get; init; }
 
-        /// <summary>The type of the management action (Call, Read, or Write).</summary>
-        public required AssetManagementGroupActionType ActionType { get; init; }
 
         /// <summary>Raw request payload bytes as delivered by the invoker.</summary>
         public required ReadOnlySequence<byte> Payload { get; init; }

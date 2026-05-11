@@ -45,7 +45,8 @@ public class ManagementActionDispatchTests
 
         ManagementActionResponse response = await ManagementActionConnectorWorker.InvokeHandlerAsync(
             handler.Object,
-            BuildArgs(actionType),
+            actionType,
+            BuildArgs(),
             logger: null,
             CancellationToken.None);
 
@@ -65,7 +66,8 @@ public class ManagementActionDispatchTests
 
         ManagementActionResponse response = await ManagementActionConnectorWorker.InvokeHandlerAsync(
             handler.Object,
-            BuildArgs(bogusType),
+            bogusType,
+            BuildArgs(),
             logger: null,
             CancellationToken.None);
 
@@ -86,7 +88,8 @@ public class ManagementActionDispatchTests
 
         ManagementActionResponse response = await ManagementActionConnectorWorker.InvokeHandlerAsync(
             handler.Object,
-            BuildArgs(AssetManagementGroupActionType.Call),
+            AssetManagementGroupActionType.Call,
+            BuildArgs(),
             logger: null,
             CancellationToken.None);
 
@@ -111,16 +114,16 @@ public class ManagementActionDispatchTests
         await Assert.ThrowsAsync<OperationCanceledException>(() =>
             ManagementActionConnectorWorker.InvokeHandlerAsync(
                 handler.Object,
-                BuildArgs(AssetManagementGroupActionType.Read),
+                AssetManagementGroupActionType.Read,
+                BuildArgs(),
                 logger: null,
                 cts.Token));
     }
 
-    private static ManagementActionInvokedEventArgs BuildArgs(AssetManagementGroupActionType actionType) => new()
+    private static ManagementActionInvokedEventArgs BuildArgs() => new()
     {
         GroupName = "device-control",
         ActionName = "test-action",
-        ActionType = actionType,
         Payload = ReadOnlySequence<byte>.Empty,
         ContentType = "application/json",
         AssetName = "asset-1",
