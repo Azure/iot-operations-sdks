@@ -63,12 +63,9 @@ namespace Azure.Iot.Operations.Connector
                     }
 
                     IManagementActionHandler handler = _handlerFactory.CreateHandler(
-                        args.DeviceName,
                         args.Device,
                         args.InboundEndpointName,
-                        args.AssetName,
                         args.Asset,
-                        group.Name,
                         action,
                         credentials);
 

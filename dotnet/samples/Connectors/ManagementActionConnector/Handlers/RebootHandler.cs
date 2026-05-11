@@ -27,15 +27,11 @@ namespace ManagementActionConnector.Handlers
 
         private readonly ILogger _logger;
         private readonly FakeDevice _device;
-        private readonly string _deviceName;
-        private readonly string _assetName;
 
-        public RebootHandler(ILogger logger, FakeDevice device, string deviceName, string assetName)
+        public RebootHandler(ILogger logger, FakeDevice device)
         {
             _logger = logger;
             _device = device;
-            _deviceName = deviceName;
-            _assetName = assetName;
         }
 
         public async Task<ManagementActionResponse> HandleCallAsync(
@@ -43,7 +39,7 @@ namespace ManagementActionConnector.Handlers
         {
             _logger.LogInformation(
                 "Reboot invoked on {Device}/{Asset} ({Bytes} bytes, content-type={ContentType})",
-                _deviceName, _assetName, args.Payload.Length, args.ContentType);
+                args.DeviceName, args.AssetName, args.Payload.Length, args.ContentType);
 
             RebootRequest request;
             try
@@ -82,7 +78,7 @@ namespace ManagementActionConnector.Handlers
 
         public ValueTask DisposeAsync()
         {
-            _logger.LogInformation("Disposing RebootHandler for {Device}/{Asset}", _deviceName, _assetName);
+            _logger.LogInformation("Disposing RebootHandler");
             return ValueTask.CompletedTask;
         }
     }

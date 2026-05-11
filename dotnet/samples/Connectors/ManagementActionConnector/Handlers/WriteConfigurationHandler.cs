@@ -27,15 +27,11 @@ namespace ManagementActionConnector.Handlers
 
         private readonly ILogger _logger;
         private readonly FakeDevice _device;
-        private readonly string _deviceName;
-        private readonly string _assetName;
 
-        public WriteConfigurationHandler(ILogger logger, FakeDevice device, string deviceName, string assetName)
+        public WriteConfigurationHandler(ILogger logger, FakeDevice device)
         {
             _logger = logger;
             _device = device;
-            _deviceName = deviceName;
-            _assetName = assetName;
         }
 
         public Task<ManagementActionResponse> HandleCallAsync(ManagementActionInvokedEventArgs args, CancellationToken cancellationToken)
@@ -49,7 +45,7 @@ namespace ManagementActionConnector.Handlers
         {
             _logger.LogInformation(
                 "WriteConfiguration invoked on {Device}/{Asset} ({Bytes} bytes)",
-                _deviceName, _assetName, args.Payload.Length);
+                args.DeviceName, args.AssetName, args.Payload.Length);
 
             ConfigurationUpdate? update;
             try
@@ -99,7 +95,7 @@ namespace ManagementActionConnector.Handlers
 
         public ValueTask DisposeAsync()
         {
-            _logger.LogInformation("Disposing WriteConfigurationHandler for {Device}/{Asset}", _deviceName, _assetName);
+            _logger.LogInformation("Disposing WriteConfigurationHandler");
             return ValueTask.CompletedTask;
         }
     }

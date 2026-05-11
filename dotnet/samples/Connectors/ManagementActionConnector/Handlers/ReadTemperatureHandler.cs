@@ -22,15 +22,11 @@ namespace ManagementActionConnector.Handlers
     {
         private readonly ILogger _logger;
         private readonly FakeDevice _device;
-        private readonly string _deviceName;
-        private readonly string _assetName;
 
-        public ReadTemperatureHandler(ILogger logger, FakeDevice device, string deviceName, string assetName)
+        public ReadTemperatureHandler(ILogger logger, FakeDevice device)
         {
             _logger = logger;
             _device = device;
-            _deviceName = deviceName;
-            _assetName = assetName;
         }
 
         public Task<ManagementActionResponse> HandleCallAsync(ManagementActionInvokedEventArgs args, CancellationToken cancellationToken)
@@ -39,7 +35,7 @@ namespace ManagementActionConnector.Handlers
         public async Task<ManagementActionResponse> HandleReadAsync(
             ManagementActionInvokedEventArgs args, CancellationToken cancellationToken)
         {
-            _logger.LogInformation("ReadTemperature invoked on {Device}/{Asset}", _deviceName, _assetName);
+            _logger.LogInformation("ReadTemperature invoked on {Device}/{Asset}", args.DeviceName, args.AssetName);
 
             try
             {
@@ -63,7 +59,7 @@ namespace ManagementActionConnector.Handlers
 
         public ValueTask DisposeAsync()
         {
-            _logger.LogInformation("Disposing ReadTemperatureHandler for {Device}/{Asset}", _deviceName, _assetName);
+            _logger.LogInformation("Disposing ReadTemperatureHandler");
             return ValueTask.CompletedTask;
         }
     }
