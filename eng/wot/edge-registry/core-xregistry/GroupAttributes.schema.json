@@ -1,0 +1,33 @@
+{
+  "$schema": "https://json-schema.org/draft-07/schema",
+  "title": "GroupAttributes",
+  "description": "Request payload for creating or updating a Group.",
+  "type": "object",
+  "additionalProperties": false,
+  "properties": {
+      "groupType": {
+          "type": "string"
+      },
+      "groupId": {
+          "type": "string"
+      },
+      "name": {
+          "type": "string"
+      },
+      "description": {
+          "type": "string"
+      },
+      "documentation": {
+          "type": "string"
+      },
+      "labels": {
+          "type": "object", "additionalProperties": { "type": "string" }
+      },
+      "extensions": {
+        "description": "Extension-specific attributes (e.g., `envelope`, `protocol` for message groups).",
+        "type": "object", "additionalProperties": { "type": "string", 
+        "contentEncoding": "base64" }
+      }
+    },
+    "required": ["groupType", "groupId", "labels", "extensions"]
+}
