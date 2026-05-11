@@ -14,9 +14,19 @@ publish = true
 
 [features]
 default = []
-all = ["state_store", "schema_registry", "leased_lock", "azure_device_registry"]
+all = ["state_store", "schema_registry", "leased_lock", "azure_device_registry", "edge_registry",]
 state_store = []
 schema_registry = [
+  "serde",
+  "serde_json",
+  "chrono",
+  "iso8601-duration",
+  "base64",
+  "bigdecimal",
+  "time",
+  "uuid",
+]
+edge_registry = [
   "serde",
   "serde_json",
   "chrono",
@@ -86,6 +96,10 @@ required-features = ["state_store"]
 [[example]]
 name = "schema_registry_client"
 required-features = ["schema_registry"]
+
+[[example]]
+name = "edge_registry_client"
+required-features = ["edge_registry"]
 
 [[example]]
 name = "lock_client"

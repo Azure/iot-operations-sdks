@@ -32,7 +32,6 @@
             "forms": [
                 {
                     "dtv:topic": "adr/dtmi:ms:adr:EdgeRegistry;1/get/schema",
-                    "dtv:serviceGroupId": "x-registry-edge",
                     "contentType": "application/json",
                     "op": "invokeaction",
                     "additionalResponses": [
@@ -55,7 +54,6 @@
             "forms": [
                 {
                     "dtv:topic": "adr/dtmi:ms:adr:EdgeRegistry;1/create/schema",
-                    "dtv:serviceGroupId": "x-registry-edge",
                     "contentType": "application/json",
                     "op": "invokeaction",
                     "additionalResponses": [
@@ -90,7 +88,6 @@
             "forms": [
                 {
                     "dtv:topic": "adr/dtmi:ms:adr:EdgeRegistry;1/get/schema/version",
-                    "dtv:serviceGroupId": "x-registry-edge",
                     "contentType": "application/json",
                     "op": "invokeaction",
                     "additionalResponses": [
@@ -113,7 +110,6 @@
             "forms": [
                 {
                     "dtv:topic": "adr/dtmi:ms:adr:EdgeRegistry;1/create/schema/version",
-                    "dtv:serviceGroupId": "x-registry-edge",
                     "contentType": "application/json",
                     "op": "invokeaction",
                     "additionalResponses": [
@@ -154,7 +150,6 @@
             "forms": [
                 {
                     "dtv:topic": "adr/dtmi:ms:adr:EdgeRegistry;1/list/schema/versions",
-                    "dtv:serviceGroupId": "x-registry-edge",
                     "contentType": "application/json",
                     "op": "invokeaction",
                     "additionalResponses": [

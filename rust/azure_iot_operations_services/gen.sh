@@ -15,4 +15,9 @@ dotnet run --project ../../wot-codegen/src/Azure.Iot.Operations.ProtocolCompiler
  --clientThings ../../eng/wot/device-discovery-service/DeviceDiscoveryService.TM.json --outDir src/azure_device_registry/device_discovery_gen --lang rust \
  --namespace device_discovery_service --workingDir target/akri/DeviceDiscoveryService --sdkPath ../ --noProj
 
+rm -rf ./src/edge_registry/edge_registry_gen
+dotnet run --project ../../wot-codegen/src/Azure.Iot.Operations.ProtocolCompiler/ \
+ --clientThings ../../eng/wot/edge-registry/EdgeRegistry.TM.json ../../eng/wot/edge-registry/SchemaExtensions.TM.json ../../eng/wot/edge-registry/ThingDescriptionExtensions.TM.json --schemas ../../eng/wot/edge-registry/core-xregistry/*.schema.json ../../eng/wot/edge-registry/schema-extension/*.schema.json ../../eng/wot/edge-registry/thing-description-extension/*.schema.json --outDir ./src/edge_registry/edge_registry_gen --lang rust \
+ --namespace edge_registry_client --workingDir target/akri/EdgeRegistry --noProj
+ 
 cargo fmt

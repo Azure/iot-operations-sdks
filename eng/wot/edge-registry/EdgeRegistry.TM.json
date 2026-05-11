@@ -18,7 +18,6 @@
             "forms": [
                 {
                     "dtv:topic": "adr/dtmi:ms:adr:EdgeRegistry;1/create/group",
-                    "dtv:serviceGroupId": "x-registry-edge",
                     "contentType": "application/json",
                     "op": "invokeaction",
                     "additionalResponses": [
@@ -51,7 +50,6 @@
             "forms": [
                 {
                     "dtv:topic": "adr/dtmi:ms:adr:EdgeRegistry;1/get/group",
-                    "dtv:serviceGroupId": "x-registry-edge",
                     "contentType": "application/json",
                     "op": "invokeaction",
                     "additionalResponses": [
@@ -72,7 +70,6 @@
             "forms": [
                 {
                     "dtv:topic": "adr/dtmi:ms:adr:EdgeRegistry;1/get/{ex:groupType}/{ex:groupId}/{ex:resourceType}/{ex:resourceId}",
-                    "dtv:serviceGroupId": "x-registry-edge",
                     "contentType": "application/json",
                     "op": "invokeaction",
                     "additionalResponses": [
@@ -92,7 +89,6 @@
             "forms": [
                 {
                     "dtv:topic": "adr/dtmi:ms:adr:EdgeRegistry;1/get/{ex:groupType}/{ex:groupId}/{ex:resourceType}/{ex:resourceId}/versions/{ex:versionId}",
-                    "dtv:serviceGroupId": "x-registry-edge",
                     "contentType": "application/json",
                     "op": "invokeaction",
                     "additionalResponses": [
@@ -131,7 +127,6 @@
             "forms": [
                 {
                     "dtv:topic": "adr/dtmi:ms:adr:EdgeRegistry;1/list",
-                    "dtv:serviceGroupId": "x-registry-edge",
                     "contentType": "application/json",
                     "op": "invokeaction",
                     "additionalResponses": [

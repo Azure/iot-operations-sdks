@@ -10,6 +10,7 @@
 //!
 //! - `all`: Enables all features.
 //! - `schema_registry`: Enables the Schema Registry Client.
+//! - `edge_registry`: Enables the Edge Registry Client.
 //! - `state_store`: Enables the State Store Client.
 //! - `leased_lock`: Enables the Lease and Lock Clients.
 //! - `azure_device_registry`: Enables the Azure Device Registry client.
@@ -25,6 +26,8 @@
 
 #[cfg(feature = "azure_device_registry")]
 pub mod azure_device_registry;
+#[cfg(feature = "edge_registry")]
+pub mod edge_registry;
 #[cfg(feature = "leased_lock")]
 pub mod leased_lock;
 #[cfg(feature = "schema_registry")]
