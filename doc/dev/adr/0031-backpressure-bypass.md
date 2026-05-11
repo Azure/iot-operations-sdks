@@ -105,27 +105,32 @@ these.
 The broker mechanism is per-PUBLISH, but an SDK can expose it at three
 granularities:
 
-- **Class-level only** &mdash; one boolean on the invoker / executor /
-  sender, set once at construction. Existing precedents:
-  `IsIdempotent`, `ExecutionTimeout`, `ResponseTopicPattern`.
-- **Per-PUBLISH only** &mdash; one boolean on the per-call metadata
-  object. Existing precedents: `Retain`, `PersistTelemetry`,
-  `MessageExpiryInterval`.
-- **Both** &mdash; class-level default with a nullable per-PUBLISH
-  override. Existing precedent: topic-token map + additional
-  topic-token map (per-call wins when set).
+- **Configured once on the invoker / executor / sender** &mdash; one
+  flag set when the object is constructed; the same value applies to
+  every PUBLISH it produces. Existing precedents in the SDKs: the
+  idempotence flag and execution-timeout knob on the invoker, the
+  response-topic pattern on the executor.
+- **Per-PUBLISH only** &mdash; one flag on the per-call metadata
+  object passed alongside each request / send. Existing precedents on
+  telemetry today: the retain flag, the persist-telemetry flag, and
+  the message-expiry knob.
+- **Both** &mdash; a default flag set at construction plus an
+  optional per-PUBLISH override. Existing precedent: the topic-token
+  map (set at construction) plus the additional topic-token map
+  (per-call wins when set).
 
 The sub-sections below show the seams for each component and weigh the
-three placements. Diagrams use language-neutral names; each language
-renders these as idiomatic options/builder/struct fields.
+three placements. Diagrams use conceptual, language-neutral names;
+each language renders these as idiomatic options / builder / struct
+fields.
 
 ### Invoker (request leg)
 
 ```mermaid
 flowchart TB
-    subgraph A["Option A &mdash; class-level only (current proposal)"]
+    subgraph A["Option A &mdash; configured once (current proposal)"]
         direction LR
-        A1["Invoker class<br/>bypass: bool"] -->|read once| A2["request build"] --> A3[/"request PUBLISH<br/>$high_priority?"/]
+        A1["Invoker (constructed)<br/>bypass: bool"] -->|read once| A2["request build"] --> A3[/"request PUBLISH<br/>$high_priority?"/]
     end
     subgraph B["Option B &mdash; per-call metadata only"]
         direction LR
@@ -133,8 +138,8 @@ flowchart TB
     end
     subgraph C["Option C &mdash; both (per-call overrides default)"]
         direction LR
-        C1["Invoker class<br/>bypass: bool (default)"]
-        C2["Request metadata<br/>bypass: bool? (override)"]
+        C1["Invoker (constructed)<br/>bypass: bool (default)"]
+        C2["Request metadata<br/>bypass: optional bool (override)"]
         C3["request build"]
         C1 --> C3
         C2 -.overrides.-> C3
@@ -144,8 +149,8 @@ flowchart TB
 
 | Option | Pros | Cons |
 |---|---|---|
-| A &mdash; class-level only | Smallest surface; matches "this client is/isn't control plane"; trivially mirrored by the executor | Cannot vary per call (e.g. mixed cold-path/hot-path requests on one invoker) |
-| B &mdash; per-call only | Closest match to the broker's per-PUBLISH model; mirrors the shape of `Retain` / `PersistTelemetry` on telemetry today | Easy to misuse ("set it whenever I want priority"); every call site has to set it; bloats codegen wrappers |
+| A &mdash; configured once | Smallest surface; matches "this client is / isn't control plane"; trivially mirrored by the executor | Cannot vary per call (e.g. mixed cold-path / hot-path requests on one invoker) |
+| B &mdash; per-call only | Closest match to the broker's per-PUBLISH model; mirrors the shape of telemetry's existing per-PUBLISH flags (retain, persist-telemetry) | Easy to misuse ("set it whenever I want priority"); every call site has to set it; bloats codegen wrappers |
 | C &mdash; both | Sensible default once, override per call when needed; precedent in topic-token maps | Largest surface; two places to look; resolution rule must be documented |
 
 ### Executor (response leg)
@@ -158,69 +163,38 @@ flowchart TB
         direction LR
         M1[/"incoming request PUBLISH<br/>$high_priority?"/] -->|capture| M2["response build"] --> M3[/"response PUBLISH<br/>$high_priority?"/]
     end
-    subgraph A2["Option A &mdash; class-level override"]
+    subgraph A2["Option A &mdash; configured-once override"]
         direction LR
-        A21["Executor class<br/>bypass: bool"] --> A22["response build"] --> A23[/"response PUBLISH<br/>$high_priority?"/]
+        A21["Executor (constructed)<br/>bypass: bool"] --> A22["response build"] --> A23[/"response PUBLISH<br/>$high_priority?"/]
     end
     subgraph C2["Option C &mdash; mirror + per-response override"]
         direction LR
         C21[/"incoming request<br/>$high_priority?"/] -->|default: mirror| C23["response build"]
-        C22["Response metadata<br/>bypass: bool? (override)"] -.overrides.-> C23
+        C22["Response metadata<br/>bypass: optional bool (override)"] -.overrides.-> C23
         C23 --> C24[/"response PUBLISH<br/>$high_priority?"/]
     end
 ```
 
 | Option | Pros | Cons |
 |---|---|---|
-| M &mdash; silent mirror | Response priority always matches request priority; no API surface; matches the intent of the MQ ADR's | No way for service code to opt out of mirroring (e.g., to deliberately downgrade a response) |
-| A &mdash; class-level override | Service author controls response posture | Decouples response priority from request priority; needs coordination with every caller; defeats mirroring intent |
+| M &mdash; silent mirror | Response priority always matches request priority; no API surface; matches the intent of the MQ ADR's chosen design | No way for service code to opt out of mirroring (e.g., to deliberately downgrade a response) |
+| A &mdash; configured-once override | Service author controls response posture | Decouples response priority from request priority; needs coordination with every caller; defeats mirroring intent |
 | C &mdash; mirror + per-response override | Mirrors by default, allows opt-out where justified | Larger surface; mostly speculative use case |
 
 ### Telemetry sender
 
-Telemetry's existing precedents lean per-PUBLISH (`Retain`,
-`PersistTelemetry`), so option B has stronger pull here than on the
-invoker.
-
-```mermaid
-flowchart TB
-    subgraph TA["Option A &mdash; class-level only (current proposal)"]
-        direction LR
-        TA1["Sender class<br/>bypass: bool"] -->|read once| TA2["send build"] --> TA3[/"telemetry PUBLISH<br/>$high_priority?"/]
-    end
-    subgraph TB2["Option B &mdash; per-PUBLISH metadata only"]
-        direction LR
-        TB1["Outgoing metadata<br/>bypass: bool<br/>(next to Retain, PersistTelemetry)"] -->|read per call| TB2x["send build"] --> TB3[/"telemetry PUBLISH<br/>$high_priority?"/]
-    end
-    subgraph TC["Option C &mdash; both (per-call overrides default)"]
-        direction LR
-        TC1["Sender class<br/>bypass: bool (default)"]
-        TC2["Outgoing metadata<br/>bypass: bool? (override)"]
-        TC3["send build"]
-        TC1 --> TC3
-        TC2 -.overrides.-> TC3
-        TC3 --> TC4[/"telemetry PUBLISH<br/>$high_priority?"/]
-    end
-```
-
-| Option | Pros | Cons |
-|---|---|---|
-| A &mdash; class-level only | Symmetric with the invoker proposal | Inconsistent with `Retain` / `PersistTelemetry`, which live on metadata only |
-| B &mdash; per-PUBLISH only | Consistent with existing per-PUBLISH telemetry knobs; matches broker's per-PUBLISH model | Asymmetric with the invoker if the invoker stays class-level only |
-| C &mdash; both | Consistent with both the invoker (class-level default) and telemetry precedent (per-PUBLISH knob) | Largest surface |
+The sender follows whatever placement the invoker lands on, for
+consistency.
 
 ### Cross-cutting points for the team
 
-- Whichever placement is chosen for the invoker should drive the
-  telemetry choice for symmetry, unless reviewers want telemetry to
-  follow its own (`Retain`/`PersistTelemetry`-style) precedent.
 - The executor's choice is largely independent: the question there is
   whether mirroring is enough or whether service authors need an
   override.
 - Per-PUBLISH knobs (Options B / C) require codegen wrappers to forward
-  the metadata field to underlying generated method calls; the codegen
-  templates for both languages would need a small change. Class-level
-  knobs (Option A) require no codegen template change.
+  the metadata field to the underlying generated method calls; the
+  codegen templates would need a small change in every language.
+  Configured-once knobs (Option A) require no codegen template change.
 
 ## Questions to resolve
 
