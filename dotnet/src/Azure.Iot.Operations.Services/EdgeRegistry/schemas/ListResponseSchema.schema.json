@@ -1,0 +1,17 @@
+{
+  "$schema": "https://json-schema.org/draft-07/schema",
+  "title": "ListResponseSchema",
+  "description": "Response to a 'list' Action.",
+  "type": "object",
+  "additionalProperties": false,
+  "properties": {
+    "_error": {
+      "description": "Error for the 'list' Action.",
+      "$ref": "EdgeRegistryError.schema.json"
+    },
+    "ids": {
+      "description": "The 'ids' Field.",
+      "type": "array", "items": { "type": "string" }
+    }
+  }
+}

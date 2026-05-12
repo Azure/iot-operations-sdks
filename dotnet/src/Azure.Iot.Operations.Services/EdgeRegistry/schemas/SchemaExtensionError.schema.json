@@ -1,0 +1,33 @@
+{
+  "$schema": "https://json-schema.org/draft-07/schema",
+  "title": "SchemaExtensionError",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [ "type", "code", "status", "title", "instance" ],
+  "properties": {
+    "code": {
+      "description": "HTTP-style response code.",
+      "type": "integer"
+    },
+    "detail": {
+      "description": "Detailed error description.",
+      "type": "string"
+    },
+    "instance": {
+      "description": "The XID of the entity that caused the error.",
+      "type": "string"
+    },
+    "status": {
+      "description": "HTTP-style response status text.",
+      "type": "string"
+    },
+    "title": {
+      "description": "Short human-readable error title.",
+      "type": "string"
+    },
+    "type": {
+      "description": "URI identifying the error type.",
+      "type": "string"
+    }
+  }
+}

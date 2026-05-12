@@ -1,0 +1,17 @@
+{
+  "$schema": "https://json-schema.org/draft-07/schema",
+  "title": "CreateSchemaResponseSchema",
+  "description": "Response to a 'createSchema' Action.",
+  "type": "object",
+  "additionalProperties": false,
+  "properties": {
+    "_error": {
+      "description": "Error for the 'createSchema' Action.",
+      "$ref": "SchemaExtensionError.schema.json"
+    },
+    "_output": {
+      "description": "Output for the 'createSchema' Action.",
+      "$ref": "CreateSchemaOutputArguments.schema.json"
+    }
+  }
+}

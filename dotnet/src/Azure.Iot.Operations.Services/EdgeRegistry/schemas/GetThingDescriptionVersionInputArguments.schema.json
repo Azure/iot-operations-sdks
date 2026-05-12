@@ -1,0 +1,22 @@
+{
+  "$schema": "https://json-schema.org/draft-07/schema",
+  "title": "GetThingDescriptionVersionInputArguments",
+  "description": "Input arguments for action 'getThingDescriptionVersion'",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [ "groupId", "thingDescriptionId", "versionId" ],
+  "properties": {
+    "groupId": {
+      "description": "The 'groupId' Field.",
+      "type": "string"
+    },
+    "thingDescriptionId": {
+      "description": "The 'thingDescriptionId' Field.",
+      "type": "string"
+    },
+    "versionId": {
+      "description": "The 'versionId' Field.",
+      "type": "string"
+    }
+  }
+}

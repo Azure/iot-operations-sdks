@@ -1,0 +1,22 @@
+{
+  "$schema": "https://json-schema.org/draft-07/schema",
+  "title": "GetSchemaVersionInputArguments",
+  "description": "Input arguments for action 'getSchemaVersion'",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [ "groupId", "schemaId", "versionId" ],
+  "properties": {
+    "groupId": {
+      "description": "The 'groupId' Field.",
+      "type": "string"
+    },
+    "schemaId": {
+      "description": "The 'schemaId' Field.",
+      "type": "string"
+    },
+    "versionId": {
+      "description": "The 'versionId' Field.",
+      "type": "integer"
+    }
+  }
+}

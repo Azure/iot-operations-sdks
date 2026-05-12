@@ -1,0 +1,18 @@
+{
+  "$schema": "https://json-schema.org/draft-07/schema",
+  "title": "GetThingDescriptionInputArguments",
+  "description": "Input arguments for action 'getThingDescription'",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [ "groupId", "thingDescriptionId" ],
+  "properties": {
+    "groupId": {
+      "description": "The 'groupId' Field.",
+      "type": "string"
+    },
+    "thingDescriptionId": {
+      "description": "The 'thingDescriptionId' Field.",
+      "type": "string"
+    }
+  }
+}

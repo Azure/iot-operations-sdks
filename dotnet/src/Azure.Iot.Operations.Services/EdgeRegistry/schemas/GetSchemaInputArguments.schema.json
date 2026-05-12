@@ -1,0 +1,18 @@
+{
+  "$schema": "https://json-schema.org/draft-07/schema",
+  "title": "GetSchemaInputArguments",
+  "description": "Input arguments for action 'getSchema'",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [ "groupId", "schemaId" ],
+  "properties": {
+    "groupId": {
+      "description": "The 'groupId' Field.",
+      "type": "string"
+    },
+    "schemaId": {
+      "description": "The 'schemaId' Field.",
+      "type": "string"
+    }
+  }
+}

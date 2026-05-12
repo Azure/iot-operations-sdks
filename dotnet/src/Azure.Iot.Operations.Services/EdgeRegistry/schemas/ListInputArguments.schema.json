@@ -1,0 +1,14 @@
+{
+  "$schema": "https://json-schema.org/draft-07/schema",
+  "title": "ListInputArguments",
+  "description": "Input arguments for action 'list'",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [ "xid" ],
+  "properties": {
+    "xid": {
+      "description": "XID path of the collection to list. Must end at a collection level (e.g. /schemagroups, /schemagroups/g1/schemas).",
+      "type": "string"
+    }
+  }
+}

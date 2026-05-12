@@ -101,6 +101,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Applications", "Application
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TestThing", "samples\Protocol\TestThing\TestThing.csproj", "{7D4104A3-14E0-04AC-9CAE-647CE4CCF3F2}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EdgeRegistryClientSample", "samples\Services\EdgeRegistryClient\EdgeRegistryClientSample.csproj", "{8A1483EC-8A42-4C66-9EAD-61EC1F7175EE}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -259,6 +261,10 @@ Global
 		{7D4104A3-14E0-04AC-9CAE-647CE4CCF3F2}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{7D4104A3-14E0-04AC-9CAE-647CE4CCF3F2}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{7D4104A3-14E0-04AC-9CAE-647CE4CCF3F2}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8A1483EC-8A42-4C66-9EAD-61EC1F7175EE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8A1483EC-8A42-4C66-9EAD-61EC1F7175EE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8A1483EC-8A42-4C66-9EAD-61EC1F7175EE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8A1483EC-8A42-4C66-9EAD-61EC1F7175EE}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -309,6 +315,7 @@ Global
 		{E51EA2DC-FD06-C2D3-20AF-A0BE93F241BE} = {F6ACBAA7-4101-4A8B-8982-055ABBF14670}
 		{8E4DAAF8-44E6-49C1-989E-6B00FBC3E1A6} = {9126F576-80AE-48DC-8A84-EFC8B487D809}
 		{7D4104A3-14E0-04AC-9CAE-647CE4CCF3F2} = {E741F971-DD95-4C56-9A3D-589189C126FB}
+		{8A1483EC-8A42-4C66-9EAD-61EC1F7175EE} = {EBDEB51A-D874-45C3-BFF4-91FC71EE1DF3}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {F2687BCD-45E3-4094-9656-BF183C816BA0}

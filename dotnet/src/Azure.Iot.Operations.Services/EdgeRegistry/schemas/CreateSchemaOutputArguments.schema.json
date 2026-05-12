@@ -1,0 +1,6 @@
+{
+  "$schema": "https://json-schema.org/draft-07/schema",
+  "title": "CreateSchemaOutputArguments",
+  "type": "object",
+  "$ref": "../../../../../../eng/wot/edge-registry/schema-extension/Schema.schema.json"
+}

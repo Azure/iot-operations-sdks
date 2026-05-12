@@ -30,86 +30,51 @@ const JSON_SCHEMA: &str = r#"
 }
 "#;
 
-// const THING_DESCRIPTION: &str = r#"
-// {
-//   "@context": [
-//     "https://www.w3.org/2022/wot/td/v1.1",
-//     {
-//       "dov": "http://azure.com/IoT/operations/tm#",
-//       "ov": "http://azure.com/IoT/operations/ontology#",
-//       "adr": "http://azure.com/IoT/operations/deviceregistry#"
-//     }
-//   ],
+const THING_DESCRIPTION: &str = r#"
+{
+  "@context": [
+    "https://www.w3.org/2022/wot/td/v1.1",
+    {
+      "dov": "http://azure.com/IoT/operations/tm#",
+      "ov": "http://azure.com/IoT/operations/ontology#",
+      "adr": "http://azure.com/IoT/operations/deviceregistry#"
+    }
+  ],
 
-//   "id": "urn:uuid:d0d2ce1a-15d0-4d0b-8d0b-06a69002e802",
-//   "title": "sse-events",
+  "id": "urn:uuid:00000000-1111-2222-3333-444444444444",
+  "title": "sampleThingDescription",
 
-//   "securityDefinitions": {
-//     "nosec_sc": {
-//       "scheme": "nosec"
-//     }
-//   },
-//   "security": ["nosec_sc"],
+  "securityDefinitions": {
+    "nosec_sc": {
+      "scheme": "nosec"
+    }
+  },
+  "security": ["nosec_sc"],
 
-//   "links": [
-//     {
-//       "rel": "adr:asset",
-//       "href": "urn:uuid:d0d2ce1a-15d0-4d0b-8d0b-06a69002e802"
-//     },
-//     {
-//       "rel": "dov:dataset",
-//       "href": "#ALERT",
-//       "title": "ALERT"
-//     },
-//     {
-//       "rel": "dov:eventGroup",
-//       "href": "#sse-event-group-basicauth",
-//       "title": "sse-event-group-basicauth"
-//     }
-//   ],
+  "links": [
+    {
+      "rel": "adr:asset",
+      "href": "urn:uuid:00000000-1111-2222-3333-444444444444"
+    },
+    {
+      "rel": "dov:dataset",
+      "href": "\#ALERT",
+      "title": "ALERT"
+    }
+  ],
 
-//   "properties": {
-//     "ALERT/ALERT": {
-//       "dov:memberOf": "ALERT",
-//       "@type": ["ov:measurement"],
-//       "dov:dataSource": "ALERT",
-//       "dov:propertyIRI": "#ALERT/ALERT",
-//       "title": "ALERT",
-//       "forms": []
-//     }
-//   },
-
-//   "events": {
-//     "sse-event-group-basicauth/HEARTBEAT": {
-//       "dov:memberOf": "sse-event-group-basicauth",
-//       "@type": ["ov:event"],
-//       "dov:dataSource": "HEARTBEAT",
-//       "dov:propertyIRI": "#sse-event-group-basicauth/HEARTBEAT",
-//       "title": "HEARTBEAT",
-//       "data": {},
-//       "forms": []
-//     },
-//     "sse-event-group-basicauth/TEMPERATURE": {
-//       "dov:memberOf": "sse-event-group-basicauth",
-//       "@type": ["ov:event"],
-//       "dov:dataSource": "TEMPERATURE",
-//       "dov:propertyIRI": "#sse-event-group-basicauth/TEMPERATURE",
-//       "title": "TEMPERATURE",
-//       "data": {},
-//       "forms": []
-//     },
-//     "sse-event-group-basicauth/ENERGY": {
-//       "dov:memberOf": "sse-event-group-basicauth",
-//       "@type": ["ov:event"],
-//       "dov:dataSource": "ENERGY",
-//       "dov:propertyIRI": "#sse-event-group-basicauth/ENERGY",
-//       "title": "ENERGY",
-//       "data": {},
-//       "forms": []
-//     }
-//   }
-// }
-// "#;
+  "properties": {
+    "ALERT/ALERT": {
+      "dov:memberOf": "ALERT",
+      "@type": ["ov:measurement"],
+      "dov:dataSource": "ALERT",
+      "dov:propertyIRI": "\#ALERT/ALERT",
+      "title": "ALERT",
+      "forms": []
+    }
+  }
+}
+"#;
 
 #[tokio::main(flavor = "current_thread")]
 async fn main() -> Result<(), Box<dyn std::error::Error>> {
@@ -325,7 +290,7 @@ async fn edge_registry_operations(client: Client) {
 
     let create_initial_version_attributes =
         CreateThingDescriptionVersionAttributesBuilder::default()
-            .thing_description_document(JSON_SCHEMA.as_bytes().to_vec())
+            .thing_description_document(THING_DESCRIPTION.as_bytes().to_vec())
             .version_id(thing_description_version_id_1.to_string())
             .content_type("application/json")
             .name("Example Thing Description Version 1")
@@ -368,7 +333,7 @@ async fn edge_registry_operations(client: Client) {
     }
 
     let create_version_attributes = CreateThingDescriptionVersionAttributesBuilder::default()
-        .thing_description_document(JSON_SCHEMA.as_bytes().to_vec())
+        .thing_description_document(THING_DESCRIPTION.as_bytes().to_vec())
         .content_type("application/json")
         .name("Example Thing Description Version 2")
         .description("An example thing description version")

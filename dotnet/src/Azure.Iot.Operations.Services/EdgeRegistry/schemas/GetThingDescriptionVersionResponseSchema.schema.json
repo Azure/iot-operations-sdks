@@ -1,0 +1,17 @@
+{
+  "$schema": "https://json-schema.org/draft-07/schema",
+  "title": "GetThingDescriptionVersionResponseSchema",
+  "description": "Response to a 'getThingDescriptionVersion' Action.",
+  "type": "object",
+  "additionalProperties": false,
+  "properties": {
+    "_error": {
+      "description": "Error for the 'getThingDescriptionVersion' Action.",
+      "$ref": "ThingDescriptionExtensionError.schema.json"
+    },
+    "_output": {
+      "description": "Output for the 'getThingDescriptionVersion' Action.",
+      "$ref": "GetThingDescriptionVersionOutputArguments.schema.json"
+    }
+  }
+}
