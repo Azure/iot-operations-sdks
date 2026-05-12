@@ -36,9 +36,9 @@ namespace Azure.Iot.Operations.Connector
 
     /// <summary>
     /// The management action definition was updated in a way that requires a new
-    /// executor (e.g. the request topic changed). The old executor must be drained
-    /// and disposed; subsequent <c>RecvRequestAsync</c> calls should use
-    /// <see cref="NewExecutor"/>.
+    /// executor (e.g. the request topic changed). The old executor must be stopped
+    /// and disposed; <see cref="ManagementActionExecutor.OnRequestReceived"/> must
+    /// be wired on <see cref="NewExecutor"/> before requests can resume.
     /// </summary>
     /// <param name="NewExecutor">
     /// Replacement executor. May be <c>null</c> if <paramref name="Error"/> indicates
@@ -61,7 +61,7 @@ namespace Azure.Iot.Operations.Connector
     /// <summary>
     /// The management action was removed from the asset definition, or the asset
     /// itself was deleted. No further requests will be delivered; the connector
-    /// should drain and dispose the executor and exit its per-action loop.
+    /// should stop and dispose the executor and exit its per-action loop.
     /// </summary>
     public sealed record ManagementActionDeleted : ManagementActionNotification;
 }

@@ -24,8 +24,6 @@ namespace Azure.Iot.Operations.Connector
     {
         private readonly IManagementActionHandlerFactory _handlerFactory;
 
-        /// <summary>Budget for draining an outdated executor's backlog before forcing dispose.</summary>
-        private static readonly TimeSpan DrainTimeout = TimeSpan.FromSeconds(5);
 
         public ManagementActionConnectorWorker(
             ApplicationContext applicationContext,
@@ -106,7 +104,7 @@ namespace Azure.Iot.Operations.Connector
             try
             {
                 await RunActionLoopCoreAsync(
-                    assetClient, deviceName, assetName, groupName, action, handler, cancellationToken);
+                    assetClient, groupName, action, handler, cancellationToken);
             }
             catch (OperationCanceledException) when (cancellationToken.IsCancellationRequested)
             {
@@ -125,8 +123,6 @@ namespace Azure.Iot.Operations.Connector
 
         private async Task RunActionLoopCoreAsync(
             AssetClient assetClient,
-            string deviceName,
-            string assetName,
             string groupName,
             AssetManagementGroupAction action,
             IManagementActionHandler handler,
@@ -137,53 +133,26 @@ namespace Azure.Iot.Operations.Connector
 
             ManagementActionExecutor? executor =
                 await assetClient.GetManagementActionExecutorAsync(groupName, actionName, cancellationToken);
+            WireCallback(executor, handler, action);
 
             try
             {
                 while (!cancellationToken.IsCancellationRequested)
                 {
-                    Task<ManagementActionNotification> recvNotificationTask =
-                        assetClient.RecvManagementActionNotificationAsync(groupName, actionName, cancellationToken);
+                    ManagementActionNotification notification =
+                        await assetClient.RecvManagementActionNotificationAsync(groupName, actionName, cancellationToken);
 
-                    if (executor is null)
-                    {
-                        ManagementActionNotification notification = await recvNotificationTask;
-                        bool shouldExit = await HandleNotificationAsync(
-                            assetClient, groupName, actionName, notification,
-                            currentExecutor: null,
-                            updateExecutor: next => executor = next,
-                            cancellationToken);
-                        if (shouldExit) break;
-                        continue;
-                    }
-
-                    Task<ManagementActionRequest?> recvRequestTask =
-                        executor.RecvRequestAsync(cancellationToken);
-
-                    Task completed = await Task.WhenAny(recvRequestTask, recvNotificationTask);
-
-                    if (completed == recvRequestTask)
-                    {
-                        ManagementActionRequest? request = await recvRequestTask;
-                        if (request is null)
+                    bool shouldExit = await HandleNotificationAsync(
+                        assetClient, groupName, actionName, notification,
+                        currentExecutor: executor,
+                        updateExecutor: next =>
                         {
-                            _logger.LogInformation("Executor for {Group}::{Action} shut down.", groupName, actionName);
-                            break;
-                        }
+                            executor = next;
+                            WireCallback(executor, handler, action);
+                        },
+                        cancellationToken);
 
-                        await DispatchRequestAsync(
-                            handler, request, deviceName, assetName, groupName, action, cancellationToken);
-                    }
-                    else
-                    {
-                        ManagementActionNotification notification = await recvNotificationTask;
-                        bool shouldExit = await HandleNotificationAsync(
-                            assetClient, groupName, actionName, notification,
-                            currentExecutor: executor,
-                            updateExecutor: next => executor = next,
-                            cancellationToken);
-                        if (shouldExit) break;
-                    }
+                    if (shouldExit) break;
                 }
             }
             finally
@@ -199,47 +168,26 @@ namespace Azure.Iot.Operations.Connector
         }
 
         /// <summary>
-        /// Dispatches a request to the appropriate handler method based on the action type,
-        /// and sends the response (or error) back to the invoker.
+        /// Wire the executor's <see cref="ManagementActionExecutor.OnRequestReceived"/>
+        /// callback so incoming requests are dispatched to <paramref name="handler"/> via
+        /// <see cref="InvokeHandlerAsync"/>. No-op if <paramref name="executor"/> is null
+        /// (the action's current definition is invalid; the worker is waiting for the next
+        /// notification to swap it in).
         /// </summary>
-        private async Task DispatchRequestAsync(
+        private void WireCallback(
+            ManagementActionExecutor? executor,
             IManagementActionHandler handler,
-            ManagementActionRequest request,
-            string deviceName,
-            string assetName,
-            string groupName,
-            AssetManagementGroupAction action,
-            CancellationToken cancellationToken)
+            AssetManagementGroupAction action)
         {
-            _logger.LogInformation(
-                "Received invocation for {Group}::{Action} (type={ActionType}, {Bytes} bytes, content-type={ContentType})",
-                groupName, action.Name, action.ActionType, request.Payload.Length, request.ContentType);
+            if (executor is null) return;
 
-            var eventArgs = new ManagementActionInvokedEventArgs
+            executor.OnRequestReceived = (args, ct) =>
             {
-                GroupName = groupName,
-                ActionName = action.Name,
-                Payload = request.Payload,
-                ContentType = request.ContentType,
-                FormatIndicator = request.FormatIndicator,
-                CustomUserData = request.CustomUserData,
-                Timestamp = request.Timestamp,
-                InvokerId = request.InvokerId,
-                TopicTokens = request.TopicTokens,
-                AssetName = assetName,
-                DeviceName = deviceName,
+                _logger.LogInformation(
+                    "Received invocation for {Group}::{Action} (type={ActionType}, {Bytes} bytes, content-type={ContentType})",
+                    args.GroupName, args.ActionName, action.ActionType, args.Payload.Length, args.ContentType);
+                return InvokeHandlerAsync(handler, action.ActionType, args, _logger, ct);
             };
-
-            ManagementActionResponse response = await InvokeHandlerAsync(handler, action.ActionType, eventArgs, _logger, cancellationToken);
-
-            try
-            {
-                await request.CompleteAsync(response, cancellationToken);
-            }
-            finally
-            {
-                await request.DisposeAsync();
-            }
         }
 
         /// <summary>
@@ -249,8 +197,8 @@ namespace Azure.Iot.Operations.Connector
         /// A <see cref="ManagementActionNotSupportedException"/> thrown by the handler is
         /// translated into an <c>UnsupportedActionType</c> error so handlers that only implement
         /// a subset of <see cref="IManagementActionHandler"/>'s methods can decline cleanly.
-        /// Pure function over its inputs &mdash; does not touch the request, the executor,
-        /// or any worker state &mdash; so it can be unit-tested without the surrounding loop.
+        /// Pure function over its inputs &mdash; does not touch the executor or any worker
+        /// state &mdash; so it can be unit-tested without the surrounding loop.
         /// </summary>
         internal static async Task<ManagementActionResponse> InvokeHandlerAsync(
             IManagementActionHandler handler,
@@ -351,11 +299,11 @@ namespace Azure.Iot.Operations.Connector
 
                     if (currentExecutor is not null)
                     {
-                        await DrainAndDisposeExecutorAsync(
-                            currentExecutor, groupName, actionName,
-                            errorCode: "ManagementActionDefinitionOutdated",
-                            errorMessage: "Management action definition changed; this request was received on the previous topic.",
-                            cancellationToken);
+                        // Unsubscribe so the broker stops delivering new requests, then wait for
+                        // in-flight invocations to wind down. In-flight callbacks complete naturally
+                        // or are bounded by the underlying CommandExecutor's ExecutionTimeout.
+                        await currentExecutor.StopAsync(cancellationToken);
+                        await currentExecutor.DisposeAsync();
                     }
 
                     updateExecutor(updatedWithNew.NewExecutor);
@@ -380,11 +328,8 @@ namespace Azure.Iot.Operations.Connector
                     _logger.LogInformation("{Group}::{Action} deleted.", groupName, actionName);
                     if (currentExecutor is not null)
                     {
-                        await DrainAndDisposeExecutorAsync(
-                            currentExecutor, groupName, actionName,
-                            errorCode: "ManagementActionDeleted",
-                            errorMessage: "Management action definition deleted.",
-                            cancellationToken);
+                        await currentExecutor.StopAsync(cancellationToken);
+                        await currentExecutor.DisposeAsync();
                     }
                     return true;
 
@@ -435,70 +380,6 @@ namespace Azure.Iot.Operations.Connector
                 onlyIfChanged: true,
                 commandTimeout: null,
                 cancellationToken);
-
-        private async Task DrainAndDisposeExecutorAsync(
-            ManagementActionExecutor executor,
-            string groupName,
-            string actionName,
-            string errorCode,
-            string errorMessage,
-            CancellationToken cancellationToken)
-        {
-            using var drainCts = CancellationTokenSource.CreateLinkedTokenSource(cancellationToken);
-            drainCts.CancelAfter(DrainTimeout);
-
-            int drained = 0;
-            try
-            {
-                while (true)
-                {
-                    ManagementActionRequest? stale;
-                    try
-                    {
-                        stale = await executor.RecvRequestAsync(drainCts.Token);
-                    }
-                    catch (OperationCanceledException) when (drainCts.IsCancellationRequested && !cancellationToken.IsCancellationRequested)
-                    {
-                        _logger.LogWarning(
-                            "{Group}::{Action}: drain timed out after {Timeout} ({Drained} drained); forcing dispose.",
-                            groupName, actionName, DrainTimeout, drained);
-                        break;
-                    }
-
-                    if (stale is null) break;
-
-                    var errorResponse = new ManagementActionResponse
-                    {
-                        Payload = ReadOnlySequence<byte>.Empty,
-                        ContentType = "application/json",
-                        CloudEvent = null,
-                        ApplicationError = new ManagementActionApplicationError
-                        {
-                            ErrorCode = errorCode,
-                            ErrorPayload = errorMessage,
-                        },
-                    };
-
-                    try
-                    {
-                        await stale.CompleteAsync(errorResponse, drainCts.Token);
-                        drained++;
-                    }
-                    finally
-                    {
-                        await stale.DisposeAsync();
-                    }
-                }
-            }
-            finally
-            {
-                await executor.DisposeAsync();
-            }
-
-            _logger.LogInformation(
-                "{Group}::{Action}: drained {Drained} stale request(s) from old executor.",
-                groupName, actionName, drained);
-        }
     }
 }
 

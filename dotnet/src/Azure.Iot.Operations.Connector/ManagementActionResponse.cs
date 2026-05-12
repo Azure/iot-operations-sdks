@@ -9,8 +9,11 @@ using Azure.Iot.Operations.Protocol.Telemetry;
 namespace Azure.Iot.Operations.Connector
 {
     /// <summary>
-    /// Response to a <see cref="ManagementActionRequest"/>. Pass to
-    /// <see cref="ManagementActionRequest.CompleteAsync(ManagementActionResponse, System.Threading.CancellationToken)"/>.
+    /// Response to a management action invocation. Returned from the
+    /// <see cref="ManagementActionExecutor.OnRequestReceived"/> callback (or, in
+    /// connector-worker scenarios, from one of the
+    /// <see cref="IManagementActionHandler"/> handler methods); the SDK ships it to
+    /// the invoker.
     /// </summary>
     public record ManagementActionResponse
     {
