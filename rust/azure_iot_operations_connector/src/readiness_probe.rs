@@ -61,6 +61,10 @@ impl Default for ExecReadinessProbe {
 }
 
 impl ReadinessProbe for ExecReadinessProbe {
+    // ASK: Does this need to return an error? Pro: may be useful for 3p. Con: may be overkill.
+    // this is more about reporting observability, doesn't affect functionality really.
+    // ASK: Does this need to be async? Pro: useful for other types of probes. Con: overkill for file-based probe.
+    // can handle this using channels and other probes can be managed as a toggle with a mutex, they're not sending th enetwork operation.
     fn set_ready(&self) {
         if let Err(e) = fs::write(&self.readiness_file, "") {
             log::error!("Failed to create readiness file: {e}");

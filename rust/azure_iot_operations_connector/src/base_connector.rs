@@ -18,6 +18,7 @@ use derive_builder::Builder;
 use managed_azure_device_registry::DeviceEndpointClientCreationObservation;
 use thiserror::Error;
 use tokio::sync::mpsc;
+use tokio_util::sync::{CancellationToken, DropGuard};
 
 use crate::{deployment_artifacts::connector::ConnectorArtifacts, readiness_probe::ReadinessProbe};
 
@@ -204,22 +205,38 @@ impl BaseConnector {
     /// Panics if the restart channel is closed, which should never happen since the [`BaseConnector`]
     /// itself holds the sender side of the channel.
     pub async fn run(mut self) -> Result<(), ConnectorError> {
-        if let Some(readiness_probe) = self.readiness_probe {
-            // Ensure a clean baseline so a stale ready marker from a prior run cannot make Kubernetes
-            // consider this pod ready before the broker session has actually connected.
-            readiness_probe.set_not_ready();
+        // When `run()` returns by any path, this guard fires and wakes the readiness monitor task
+        // so it can mark the probe not-ready and exit cleanly.
+        let _probe_shutdown_guard: Option<DropGuard> =
+            if let Some(readiness_probe) = self.readiness_probe {
+                // Clear any stale ready marker before this run reports state, so Kubernetes can't 
+                // see us as ready until the broker session has actually connected.
+                readiness_probe.set_not_ready();
 
-            let session_monitor = self.session.create_session_monitor();
+                let session_monitor = self.session.create_session_monitor();
+                let shutdown = CancellationToken::new();
+                let shutdown_child = shutdown.clone();
 
-            tokio::task::spawn(async move {
-                loop {
-                    session_monitor.connected().await;
-                    readiness_probe.set_ready();
-                    session_monitor.disconnected().await;
+                tokio::task::spawn(async move {
+                    loop {
+                        tokio::select! {
+                            () = shutdown_child.cancelled() => break,
+                            () = session_monitor.connected() => readiness_probe.set_ready(),
+                        }
+                        tokio::select! {
+                            () = shutdown_child.cancelled() => break,
+                            () = session_monitor.disconnected() => readiness_probe.set_not_ready(),
+                        }
+                    }
+                    // Ensure the probe reports not-ready when the task exits, regardless
+                    // of which branch broke the loop.
                     readiness_probe.set_not_ready();
-                }
-            });
-        }
+                });
+
+                Some(shutdown.drop_guard())
+            } else {
+                None
+            };
 
         tokio::select! {
             session_result = self.session.run() => {
