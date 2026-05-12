@@ -246,6 +246,9 @@ namespace Azure.Iot.Operations.Connector
         /// Routes <paramref name="eventArgs"/> to the appropriate <see cref="IManagementActionHandler"/>
         /// method based on <paramref name="actionType"/> and translates unsupported types and
         /// unhandled exceptions into <see cref="ManagementActionApplicationError"/> responses.
+        /// A <see cref="ManagementActionNotSupportedException"/> thrown by the handler is
+        /// translated into an <c>UnsupportedActionType</c> error so handlers that only implement
+        /// a subset of <see cref="IManagementActionHandler"/>'s methods can decline cleanly.
         /// Pure function over its inputs &mdash; does not touch the request, the executor,
         /// or any worker state &mdash; so it can be unit-tested without the surrounding loop.
         /// </summary>
@@ -273,6 +276,23 @@ namespace Azure.Iot.Operations.Connector
                             ErrorCode = "UnsupportedActionType",
                             ErrorPayload = $"Action type '{actionType}' is not supported.",
                         },
+                    },
+                };
+            }
+            catch (ManagementActionNotSupportedException ex)
+            {
+                logger?.LogWarning(ex,
+                    "Handler reported unsupported action type for {Group}::{Action} (type={ActionType})",
+                    ex.GroupName, ex.ActionName, actionType);
+                return new ManagementActionResponse
+                {
+                    Payload = ReadOnlySequence<byte>.Empty,
+                    ContentType = "application/json",
+                    CloudEvent = null,
+                    ApplicationError = new ManagementActionApplicationError
+                    {
+                        ErrorCode = "UnsupportedActionType",
+                        ErrorPayload = ex.Message,
                     },
                 };
             }

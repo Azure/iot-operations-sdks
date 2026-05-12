@@ -30,7 +30,7 @@ namespace ManagementActionConnector.Handlers
         }
 
         public Task<ManagementActionResponse> HandleCallAsync(ManagementActionInvokedEventArgs args, CancellationToken cancellationToken)
-            => throw new InvalidOperationException("ReadTemperatureHandler is wired to a Read action; HandleCallAsync should never be called.");
+            => throw new ManagementActionNotSupportedException(args.GroupName, args.ActionName);
 
         public async Task<ManagementActionResponse> HandleReadAsync(
             ManagementActionInvokedEventArgs args, CancellationToken cancellationToken)
@@ -55,7 +55,7 @@ namespace ManagementActionConnector.Handlers
         }
 
         public Task<ManagementActionResponse> HandleWriteAsync(ManagementActionInvokedEventArgs args, CancellationToken cancellationToken)
-            => throw new InvalidOperationException("ReadTemperatureHandler is wired to a Read action; HandleWriteAsync should never be called.");
+            => throw new ManagementActionNotSupportedException(args.GroupName, args.ActionName);
 
         public ValueTask DisposeAsync()
         {

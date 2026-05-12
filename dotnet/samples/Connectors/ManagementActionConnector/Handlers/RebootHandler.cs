@@ -71,10 +71,10 @@ namespace ManagementActionConnector.Handlers
         }
 
         public Task<ManagementActionResponse> HandleReadAsync(ManagementActionInvokedEventArgs args, CancellationToken cancellationToken)
-            => throw new InvalidOperationException("RebootHandler is wired to a Call action; HandleReadAsync should never be called.");
+            => throw new ManagementActionNotSupportedException(args.GroupName, args.ActionName);
 
         public Task<ManagementActionResponse> HandleWriteAsync(ManagementActionInvokedEventArgs args, CancellationToken cancellationToken)
-            => throw new InvalidOperationException("RebootHandler is wired to a Call action; HandleWriteAsync should never be called.");
+            => throw new ManagementActionNotSupportedException(args.GroupName, args.ActionName);
 
         public ValueTask DisposeAsync()
         {

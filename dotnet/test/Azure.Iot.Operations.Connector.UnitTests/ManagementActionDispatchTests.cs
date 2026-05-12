@@ -120,6 +120,42 @@ public class ManagementActionDispatchTests
                 cts.Token));
     }
 
+    [Fact]
+    public async Task InvokeHandler_HandlerThrowsNotSupported_ReturnsUnsupportedActionTypeError()
+    {
+        // A handler signaling "I'm not wired for this method" via the typed exception must
+        // surface to the invoker as an UnsupportedActionType application error -- NOT as a
+        // generic InternalError, which is what a bare InvalidOperationException would produce.
+        var handler = new Mock<IManagementActionHandler>(MockBehavior.Strict);
+        handler.Setup(h => h.HandleCallAsync(It.IsAny<ManagementActionInvokedEventArgs>(), It.IsAny<CancellationToken>()))
+            .ThrowsAsync(new ManagementActionNotSupportedException("device-control", "test-action"));
+
+        ManagementActionResponse response = await ManagementActionConnectorWorker.InvokeHandlerAsync(
+            handler.Object,
+            AssetManagementGroupActionType.Call,
+            BuildArgs(),
+            logger: null,
+            CancellationToken.None);
+
+        Assert.NotNull(response.ApplicationError);
+        Assert.Equal("UnsupportedActionType", response.ApplicationError!.ErrorCode);
+        Assert.Contains("device-control", response.ApplicationError.ErrorPayload);
+        Assert.Contains("test-action", response.ApplicationError.ErrorPayload);
+        Assert.Equal("application/json", response.ContentType);
+        Assert.Equal(0, response.Payload.Length);
+    }
+
+    [Fact]
+    public void ManagementActionNotSupportedException_CarriesGroupAndActionNames()
+    {
+        var ex = new ManagementActionNotSupportedException("g", "a");
+
+        Assert.Equal("g", ex.GroupName);
+        Assert.Equal("a", ex.ActionName);
+        Assert.Contains("g", ex.Message);
+        Assert.Contains("a", ex.Message);
+    }
+
     private static ManagementActionInvokedEventArgs BuildArgs() => new()
     {
         GroupName = "device-control",

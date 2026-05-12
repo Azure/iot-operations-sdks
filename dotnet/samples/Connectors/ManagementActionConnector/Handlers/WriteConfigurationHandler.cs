@@ -35,10 +35,10 @@ namespace ManagementActionConnector.Handlers
         }
 
         public Task<ManagementActionResponse> HandleCallAsync(ManagementActionInvokedEventArgs args, CancellationToken cancellationToken)
-            => throw new InvalidOperationException("WriteConfigurationHandler is wired to a Write action; HandleCallAsync should never be called.");
+            => throw new ManagementActionNotSupportedException(args.GroupName, args.ActionName);
 
         public Task<ManagementActionResponse> HandleReadAsync(ManagementActionInvokedEventArgs args, CancellationToken cancellationToken)
-            => throw new InvalidOperationException("WriteConfigurationHandler is wired to a Write action; HandleReadAsync should never be called.");
+            => throw new ManagementActionNotSupportedException(args.GroupName, args.ActionName);
 
         public async Task<ManagementActionResponse> HandleWriteAsync(
             ManagementActionInvokedEventArgs args, CancellationToken cancellationToken)
