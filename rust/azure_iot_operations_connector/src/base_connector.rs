@@ -209,7 +209,7 @@ impl BaseConnector {
         // so it can mark the probe not-ready and exit cleanly.
         let _probe_shutdown_guard: Option<DropGuard> =
             if let Some(readiness_probe) = self.readiness_probe {
-                // Clear any stale ready marker before this run reports state, so Kubernetes can't 
+                // Clear any stale ready marker before this run reports state, so Kubernetes can't
                 // see us as ready until the broker session has actually connected.
                 readiness_probe.set_not_ready();
 
