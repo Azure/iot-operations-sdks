@@ -4,8 +4,8 @@
 
 ## Context
 
-The MQ broker [is adding][mq-adr] a high-priority backpressure-bypass
-mechanism so control-plane traffic (mRPC, State Store) is not starved when
+The MQ broker is adding a high-priority backpressure-bypass
+mechanism so control-plane traffic (ex.: State Store) is not starved when
 data-plane traffic fills the broker's buffer pool. The mark is an MQTT 5
 **user property on each PUBLISH** (broker owns the exact name, e.g.
 `$high_priority`); the broker also gets a CRD kill switch and an authz
@@ -96,5 +96,3 @@ SDK changes.
   with the MQ ADR. The broker's authz policy and CRD kill switch are
   the operator-side controls if a deployment needs to claw the
   capability back.
-
-[mq-adr]: https://msazure.visualstudio.com/One/_git/Azure-MQ?path=/docs-dev/adr/dmqtt/0093-backpressure-bypass.md&_a=preview
