@@ -75,7 +75,7 @@ lack the flag.
   even when the request didn't have the flag set (e.g., when the invoker
   lacked permission but the executor has it).
 - **SDK-shipped service clients inherit the default.** State Store,
-  Lease Lock, Schema Registry, and Azure Device Registry (ADR) use the
+  Lease Lock, Schema Registry, and Azure Device Registry use the
   same default-ON invoker. These service clients do not expose the
   toggle on their public options; all service operations are treated as
   high-priority control-plane traffic.
