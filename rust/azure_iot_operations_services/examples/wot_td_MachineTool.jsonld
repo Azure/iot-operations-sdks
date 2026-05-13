@@ -1,0 +1,128 @@
+{
+  "@context": [
+    "https://www.w3.org/2022/wot/td/v1.1",
+    {
+      "dov": "http://azure.com/IoT/operations/tm#",
+      "ov": "http://azure.com/IoT/operations/ontology#",
+      "adr": "http://azure.com/IoT/operations/deviceregistry#"
+    }
+  ],
+  "id": "urn:uuid:f8f88cbb-7b5b-4ab4-92ef-16b9fc837a87",
+  "title": "fullmachinetool",
+  "securityDefinitions": {
+    "nosec_sc": {
+      "scheme": "nosec"
+    }
+  },
+  "security": ["nosec_sc"],
+  "links": [
+    { "rel": "adr:asset", "href": "urn:uuid:f8f88cbb-7b5b-4ab4-92ef-16b9fc837a87" },
+    { "rel": "type", "href": "https://iotoperation.com/tm/wot_tm_MachineTool.tm.json" },
+    { "rel": "dov:asset_type", "href": "https://iotoperation.com/tm/MachineTool.tm.json#MachineToolType" },
+    { "rel": "dov:dataset", "href": "#Machines.FullMachineTool", "dov:typeRef": "https://iotoperation.com/tm/wot_tm_MachineTool.tm.json#Machines.FullMachineTool", "title": "Machines.FullMachineTool" },
+    { "rel": "dov:managementGroup", "href": "#Monitoring.Stacklight", "dov:typeRef": "https://iotoperation.com/tm/wot_tm_MachineTool.tm.json", "title": "Monitoring.Stacklight" }
+  ],
+  "properties": {
+    "Machines.FullMachineTool/Production.ActiveProgram.State.CurrentState": {
+      "dov:memberOf": "Machines.FullMachineTool",
+      "@type": ["ov:measurement"],
+      "dov:typeRef": "https://iotoperation.com/tm/OpcUaCore.tm.json#FiniteStateVariableType",
+      "dov:dataSource": "/5:Production/5:ActiveProgram/5:State/0:CurrentState",
+      "dov:propertyIRI": "#Machines.FullMachineTool/Production.ActiveProgram.State.CurrentState",
+      "title": "Production.ActiveProgram.State.CurrentState",
+      "forms": [{ "href": "mqtt://azure-iot-operations/data/FullMachineTool/Machines.FullMachineTool", "op": "observeproperty" }]
+    },
+    "Machines.FullMachineTool/Monitoring.MachineTool.OperationMode": {
+      "dov:memberOf": "Machines.FullMachineTool",
+      "@type": ["ov:measurement"],
+      "dov:typeRef": "https://iotoperation.com/tm/OpcUaCore.tm.json#BaseDataVariableType",
+      "dov:dataSource": "/5:Monitoring/5:MachineTool/5:OperationMode",
+      "dov:propertyIRI": "#Machines.FullMachineTool/Monitoring.MachineTool.OperationMode",
+      "title": "Monitoring.MachineTool.OperationMode",
+      "forms": [{ "href": "mqtt://azure-iot-operations/data/FullMachineTool/Machines.FullMachineTool", "op": "observeproperty" }]
+    },
+    "Machines.FullMachineTool/Monitoring.MachineTool.PowerOnDuration": {
+      "dov:memberOf": "Machines.FullMachineTool",
+      "@type": ["ov:measurement"],
+      "dov:typeRef": "https://iotoperation.com/tm/OpcUaCore.tm.json#BaseDataVariableType",
+      "dov:dataSource": "/5:Monitoring/5:MachineTool/5:PowerOnDuration",
+      "dov:propertyIRI": "#Machines.FullMachineTool/Monitoring.MachineTool.PowerOnDuration",
+      "title": "Monitoring.MachineTool.PowerOnDuration",
+      "forms": [{ "href": "mqtt://azure-iot-operations/data/FullMachineTool/Machines.FullMachineTool", "op": "observeproperty" }]
+    },
+    "Machines.FullMachineTool/Monitoring.Channel 1.FeedOverride": {
+      "dov:memberOf": "Machines.FullMachineTool",
+      "@type": ["ov:measurement"],
+      "dov:typeRef": "https://iotoperation.com/tm/OpcUaCore.tm.json#AnalogUnitRangeType",
+      "dov:dataSource": "/5:Monitoring/13:Channel 1/5:FeedOverride",
+      "dov:propertyIRI": "#Machines.FullMachineTool/Monitoring.Channel 1.FeedOverride",
+      "title": "Monitoring.Channel 1.FeedOverride",
+      "forms": [{ "href": "mqtt://azure-iot-operations/data/FullMachineTool/Machines.FullMachineTool", "op": "observeproperty" }]
+    },
+    "Machines.FullMachineTool/Monitoring.Channel 2.FeedOverride": {
+      "dov:memberOf": "Machines.FullMachineTool",
+      "@type": ["ov:measurement"],
+      "dov:typeRef": "https://iotoperation.com/tm/OpcUaCore.tm.json#AnalogUnitRangeType",
+      "dov:dataSource": "/5:Monitoring/13:Channel 2/5:FeedOverride",
+      "dov:propertyIRI": "#Machines.FullMachineTool/Monitoring.Channel 2.FeedOverride",
+      "title": "Monitoring.Channel 2.FeedOverride",
+      "forms": [{ "href": "mqtt://azure-iot-operations/data/FullMachineTool/Machines.FullMachineTool", "op": "observeproperty" }]
+    },
+    "Machines.FullMachineTool/Monitoring.Channel 3.FeedOverride": {
+      "dov:memberOf": "Machines.FullMachineTool",
+      "@type": ["ov:measurement"],
+      "dov:typeRef": "https://iotoperation.com/tm/OpcUaCore.tm.json#AnalogUnitRangeType",
+      "dov:dataSource": "/5:Monitoring/13:Channel 3/5:FeedOverride",
+      "dov:propertyIRI": "#Machines.FullMachineTool/Monitoring.Channel 3.FeedOverride",
+      "title": "Monitoring.Channel 3.FeedOverride",
+      "forms": [{ "href": "mqtt://azure-iot-operations/data/FullMachineTool/Machines.FullMachineTool", "op": "observeproperty" }]
+    },
+    "Machines.FullMachineTool/Monitoring.Channel 4.FeedOverride": {
+      "dov:memberOf": "Machines.FullMachineTool",
+      "@type": ["ov:measurement"],
+      "dov:typeRef": "https://iotoperation.com/tm/OpcUaCore.tm.json#AnalogUnitRangeType",
+      "dov:dataSource": "/5:Monitoring/13:Channel 4/5:FeedOverride",
+      "dov:propertyIRI": "#Machines.FullMachineTool/Monitoring.Channel 4.FeedOverride",
+      "title": "Monitoring.Channel 4.FeedOverride",
+      "forms": [{ "href": "mqtt://azure-iot-operations/data/FullMachineTool/Machines.FullMachineTool", "op": "observeproperty" }]
+    },
+    "Machines.FullMachineTool/Production.ActiveProgram.JobNodeId": {
+      "dov:memberOf": "Machines.FullMachineTool",
+      "@type": ["ov:measurement"],
+      "dov:typeRef": "https://iotoperation.com/tm/OpcUaCore.tm.json#BaseDataVariableType",
+      "dov:dataSource": "/5:Production/5:ActiveProgram/5:JobNodeId",
+      "dov:propertyIRI": "#Machines.FullMachineTool/Production.ActiveProgram.JobNodeId",
+      "title": "Production.ActiveProgram.JobNodeId",
+      "forms": [{ "href": "mqtt://azure-iot-operations/data/FullMachineTool/Machines.FullMachineTool", "op": "observeproperty" }]
+    },
+    "Machines.FullMachineTool/Production.ActiveProgram.JobIdentifier": {
+      "dov:memberOf": "Machines.FullMachineTool",
+      "@type": ["ov:measurement"],
+      "dov:typeRef": "https://iotoperation.com/tm/OpcUaCore.tm.json#BaseDataVariableType",
+      "dov:dataSource": "/5:Production/5:ActiveProgram/5:JobIdentifier",
+      "dov:propertyIRI": "#Machines.FullMachineTool/Production.ActiveProgram.JobIdentifier",
+      "title": "Production.ActiveProgram.JobIdentifier",
+      "forms": [{ "href": "mqtt://azure-iot-operations/data/FullMachineTool/Machines.FullMachineTool", "op": "observeproperty" }]
+    },
+    "Machines.FullMachineTool/MyJob 1.State.CurrentState": {
+      "dov:memberOf": "Machines.FullMachineTool",
+      "@type": ["ov:measurement"],
+      "dov:typeRef": "https://iotoperation.com/tm/OpcUaCore.tm.json#FiniteStateVariableType",
+      "dov:dataSource": "/13:MyJob 1/5:State/0:CurrentState",
+      "dov:propertyIRI": "#Machines.FullMachineTool/MyJob 1.State.CurrentState",
+      "title": "MyJob 1.State.CurrentState",
+      "forms": [{ "href": "mqtt://azure-iot-operations/data/FullMachineTool/Machines.FullMachineTool", "op": "observeproperty" }]
+    }
+  },
+  "actions": {
+    "Monitoring.Stacklight/Stacklight.StacklightMode": {
+      "dov:memberOf": "Monitoring.Stacklight",
+      "@type": ["ov:command"],
+      "dov:typeRef": "https://iotoperation.com/tm/OpcUaCore.tm.json#Int32",
+      "dov:targetUri": "/4:StacklightMode",
+      "dov:actionType": "Write",
+      "title": "Stacklight.StacklightMode",
+      "forms": [{ "href": "mqtt://azure-iot-operations/asset-operations/machines-fullmachinetool/Monitoring.Stacklight/Stacklight.StacklightMode", "op": "invokeaction" }]
+    }
+  }
+}

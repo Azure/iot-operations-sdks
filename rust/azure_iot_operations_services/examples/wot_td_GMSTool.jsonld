@@ -1,0 +1,326 @@
+{
+  "@context": [
+    "https://www.w3.org/2022/wot/td/v1.1",
+    {
+      "dov": "http://azure.com/IoT/operations/tm#",
+      "ov": "http://azure.com/IoT/operations/ontology#",
+      "adr": "http://azure.com/IoT/operations/deviceregistry#"
+    }
+  ],
+  "id": "urn:uuid:d7c48b94-836d-4aa8-ac1c-ffccc9aa50bc",
+  "title": "wenzellh87",
+  "securityDefinitions": {
+    "nosec_sc": {
+      "scheme": "nosec"
+    }
+  },
+  "security": ["nosec_sc"],
+  "links": [
+    { "rel": "adr:asset", "href": "urn:uuid:d7c48b94-836d-4aa8-ac1c-ffccc9aa50bc" },
+    { "rel": "type", "href": "https://iotoperation.com/tm/wot_tm_GMSTool.tm.json" },
+    { "rel": "dov:asset_type", "href": "https://iotoperation.com/tm/GMS.tm.json#GMSType" },
+    { "rel": "dov:dataset", "href": "#Machines.WenzelLH87", "dov:typeRef": "https://iotoperation.com/tm/wot_tm_GMSTool.tm.json#Machines.WenzelLH87", "title": "Machines.Wenzel LH 87" },
+    { "rel": "dov:managementGroup", "href": "#CorrectionsFolder.Corr1", "dov:typeRef": "https://iotoperation.com/tm/wot_tm_GMSTool.tm.json", "title": "CorrectionsFolder.Corr1" },
+    { "rel": "dov:managementGroup", "href": "#CorrectionsFolder.Corr2", "dov:typeRef": "https://iotoperation.com/tm/wot_tm_GMSTool.tm.json", "title": "CorrectionsFolder.Corr2" },
+    { "rel": "dov:managementGroup", "href": "#CorrectionsFolder.Corr3", "dov:typeRef": "https://iotoperation.com/tm/wot_tm_GMSTool.tm.json", "title": "CorrectionsFolder.Corr3" },
+    { "rel": "dov:managementGroup", "href": "#Prognoses.Calibration", "dov:typeRef": "https://iotoperation.com/tm/wot_tm_GMSTool.tm.json", "title": "Prognoses.Calibration" }
+  ],
+  "properties": {
+    "Machines.WenzelLH87/Monitoring.MachineTool.OperationMode": {
+      "dov:memberOf": "Machines.Wenzel LH 87",
+      "@type": ["ov:measurement"],
+      "dov:typeRef": "https://iotoperation.com/tm/OpcUaCore.tm.json#BaseDataVariableType",
+      "dov:dataSource": "/5:Monitoring/5:MachineTool/5:OperationMode",
+      "dov:propertyIRI": "#Machines.WenzelLH87/Monitoring.MachineTool.OperationMode",
+      "title": "Monitoring.MachineTool.OperationMode",
+      "forms": [
+        {
+          "href": "mqtt://azure-iot-operations/data/Wenzel%20LH%2087/Machines.Wenzel%20LH%2087",
+          "op": "observeproperty"
+        }
+      ]
+    },
+    "Machines.WenzelLH87/Production.ActiveProgram.State.CurrentState": {
+      "dov:memberOf": "Machines.Wenzel LH 87",
+      "@type": ["ov:measurement"],
+      "dov:typeRef": "https://iotoperation.com/tm/OpcUaCore.tm.json#FiniteStateVariableType",
+      "dov:dataSource": "/5:Production/5:ActiveProgram/5:State/0:CurrentState",
+      "dov:propertyIRI": "#Machines.WenzelLH87/Production.ActiveProgram.State.CurrentState",
+      "title": "Production.ActiveProgram.State.CurrentState",
+      "forms": [
+        {
+          "href": "mqtt://azure-iot-operations/data/Wenzel%20LH%2087/Machines.Wenzel%20LH%2087",
+          "op": "observeproperty"
+        }
+      ]
+    },
+    "Machines.WenzelLH87/Monitoring.MachineTool.PowerOnDuration": {
+      "dov:memberOf": "Machines.Wenzel LH 87",
+      "@type": ["ov:measurement"],
+      "dov:typeRef": "https://iotoperation.com/tm/OpcUaCore.tm.json#BaseDataVariableType",
+      "dov:dataSource": "/5:Monitoring/5:MachineTool/5:PowerOnDuration",
+      "dov:propertyIRI": "#Machines.WenzelLH87/Monitoring.MachineTool.PowerOnDuration",
+      "title": "Monitoring.MachineTool.PowerOnDuration",
+      "forms": [
+        {
+          "href": "mqtt://azure-iot-operations/data/Wenzel%20LH%2087/Machines.Wenzel%20LH%2087",
+          "op": "observeproperty"
+        }
+      ]
+    },
+    "Machines.WenzelLH87/Monitoring.MachineTool.FeedOverride": {
+      "dov:memberOf": "Machines.Wenzel LH 87",
+      "@type": ["ov:measurement"],
+      "dov:typeRef": "https://iotoperation.com/tm/OpcUaCore.tm.json#AnalogUnitRangeType",
+      "dov:dataSource": "/5:Monitoring/5:MachineTool/5:FeedOverride",
+      "dov:propertyIRI": "#Machines.WenzelLH87/Monitoring.MachineTool.FeedOverride",
+      "title": "Monitoring.MachineTool.FeedOverride",
+      "forms": [
+        {
+          "href": "mqtt://azure-iot-operations/data/Wenzel%20LH%2087/Machines.Wenzel%20LH%2087",
+          "op": "observeproperty"
+        }
+      ]
+    },
+    "Machines.WenzelLH87/ResultManagement.CorrectionsFolder.Corr1.CorrectionValueAbsolute": {
+      "dov:memberOf": "Machines.Wenzel LH 87",
+      "@type": ["ov:measurement"],
+      "dov:typeRef": "https://iotoperation.com/tm/OpcUaCore.tm.json#AnalogUnitType",
+      "dov:dataSource": "/8:ResultManagement/8:CorrectionsFolder/24:Corr1/8:CorrectionValueAbsolute",
+      "dov:propertyIRI": "#Machines.WenzelLH87/ResultManagement.CorrectionsFolder.Corr1.CorrectionValueAbsolute",
+      "title": "ResultManagement.CorrectionsFolder.Corr1.CorrectionValueAbsolute",
+      "forms": [
+        {
+          "href": "mqtt://azure-iot-operations/data/Wenzel%20LH%2087/Machines.Wenzel%20LH%2087",
+          "op": "observeproperty"
+        }
+      ]
+    },
+    "Machines.WenzelLH87/ResultManagement.CorrectionsFolder.Corr1.LowerControlLimit": {
+      "dov:memberOf": "Machines.Wenzel LH 87",
+      "@type": ["ov:measurement"],
+      "dov:typeRef": "https://iotoperation.com/tm/OpcUaCore.tm.json#AnalogUnitType",
+      "dov:dataSource": "/8:ResultManagement/8:CorrectionsFolder/24:Corr1/8:LowerControlLimit",
+      "dov:propertyIRI": "#Machines.WenzelLH87/ResultManagement.CorrectionsFolder.Corr1.LowerControlLimit",
+      "title": "ResultManagement.CorrectionsFolder.Corr1.LowerControlLimit",
+      "forms": [
+        {
+          "href": "mqtt://azure-iot-operations/data/Wenzel%20LH%2087/Machines.Wenzel%20LH%2087",
+          "op": "observeproperty"
+        }
+      ]
+    },
+    "Machines.WenzelLH87/ResultManagement.CorrectionsFolder.Corr1.UpperControlLimit": {
+      "dov:memberOf": "Machines.Wenzel LH 87",
+      "@type": ["ov:measurement"],
+      "dov:typeRef": "https://iotoperation.com/tm/OpcUaCore.tm.json#AnalogUnitType",
+      "dov:dataSource": "/8:ResultManagement/8:CorrectionsFolder/24:Corr1/8:UpperControlLimit",
+      "dov:propertyIRI": "#Machines.WenzelLH87/ResultManagement.CorrectionsFolder.Corr1.UpperControlLimit",
+      "title": "ResultManagement.CorrectionsFolder.Corr1.UpperControlLimit",
+      "forms": [
+        {
+          "href": "mqtt://azure-iot-operations/data/Wenzel%20LH%2087/Machines.Wenzel%20LH%2087",
+          "op": "observeproperty"
+        }
+      ]
+    },
+    "Machines.WenzelLH87/ResultManagement.CorrectionsFolder.Corr2.CorrectionValueAbsolute": {
+      "dov:memberOf": "Machines.Wenzel LH 87",
+      "@type": ["ov:measurement"],
+      "dov:typeRef": "https://iotoperation.com/tm/OpcUaCore.tm.json#AnalogUnitType",
+      "dov:dataSource": "/8:ResultManagement/8:CorrectionsFolder/24:Corr2/8:CorrectionValueAbsolute",
+      "dov:propertyIRI": "#Machines.WenzelLH87/ResultManagement.CorrectionsFolder.Corr2.CorrectionValueAbsolute",
+      "title": "ResultManagement.CorrectionsFolder.Corr2.CorrectionValueAbsolute",
+      "forms": [
+        {
+          "href": "mqtt://azure-iot-operations/data/Wenzel%20LH%2087/Machines.Wenzel%20LH%2087",
+          "op": "observeproperty"
+        }
+      ]
+    },
+    "Machines.WenzelLH87/ResultManagement.CorrectionsFolder.Corr2.LowerControlLimit": {
+      "dov:memberOf": "Machines.Wenzel LH 87",
+      "@type": ["ov:measurement"],
+      "dov:typeRef": "https://iotoperation.com/tm/OpcUaCore.tm.json#AnalogUnitType",
+      "dov:dataSource": "/8:ResultManagement/8:CorrectionsFolder/24:Corr2/8:LowerControlLimit",
+      "dov:propertyIRI": "#Machines.WenzelLH87/ResultManagement.CorrectionsFolder.Corr2.LowerControlLimit",
+      "title": "ResultManagement.CorrectionsFolder.Corr2.LowerControlLimit",
+      "forms": [
+        {
+          "href": "mqtt://azure-iot-operations/data/Wenzel%20LH%2087/Machines.Wenzel%20LH%2087",
+          "op": "observeproperty"
+        }
+      ]
+    },
+    "Machines.WenzelLH87/ResultManagement.CorrectionsFolder.Corr2.UpperControlLimit": {
+      "dov:memberOf": "Machines.Wenzel LH 87",
+      "@type": ["ov:measurement"],
+      "dov:typeRef": "https://iotoperation.com/tm/OpcUaCore.tm.json#AnalogUnitType",
+      "dov:dataSource": "/8:ResultManagement/8:CorrectionsFolder/24:Corr2/8:UpperControlLimit",
+      "dov:propertyIRI": "#Machines.WenzelLH87/ResultManagement.CorrectionsFolder.Corr2.UpperControlLimit",
+      "title": "ResultManagement.CorrectionsFolder.Corr2.UpperControlLimit",
+      "forms": [
+        {
+          "href": "mqtt://azure-iot-operations/data/Wenzel%20LH%2087/Machines.Wenzel%20LH%2087",
+          "op": "observeproperty"
+        }
+      ]
+    },
+    "Machines.WenzelLH87/ResultManagement.CorrectionsFolder.Corr3.CorrectionValueAbsolute": {
+      "dov:memberOf": "Machines.Wenzel LH 87",
+      "@type": ["ov:measurement"],
+      "dov:typeRef": "https://iotoperation.com/tm/OpcUaCore.tm.json#AnalogUnitType",
+      "dov:dataSource": "/8:ResultManagement/8:CorrectionsFolder/24:Corr3/8:CorrectionValueAbsolute",
+      "dov:propertyIRI": "#Machines.WenzelLH87/ResultManagement.CorrectionsFolder.Corr3.CorrectionValueAbsolute",
+      "title": "ResultManagement.CorrectionsFolder.Corr3.CorrectionValueAbsolute",
+      "forms": [
+        {
+          "href": "mqtt://azure-iot-operations/data/Wenzel%20LH%2087/Machines.Wenzel%20LH%2087",
+          "op": "observeproperty"
+        }
+      ]
+    },
+    "Machines.WenzelLH87/ResultManagement.CorrectionsFolder.Corr3.LowerControlLimit": {
+      "dov:memberOf": "Machines.Wenzel LH 87",
+      "@type": ["ov:measurement"],
+      "dov:typeRef": "https://iotoperation.com/tm/OpcUaCore.tm.json#AnalogUnitType",
+      "dov:dataSource": "/8:ResultManagement/8:CorrectionsFolder/24:Corr3/8:LowerControlLimit",
+      "dov:propertyIRI": "#Machines.WenzelLH87/ResultManagement.CorrectionsFolder.Corr3.LowerControlLimit",
+      "title": "ResultManagement.CorrectionsFolder.Corr3.LowerControlLimit",
+      "forms": [
+        {
+          "href": "mqtt://azure-iot-operations/data/Wenzel%20LH%2087/Machines.Wenzel%20LH%2087",
+          "op": "observeproperty"
+        }
+      ]
+    },
+    "Machines.WenzelLH87/ResultManagement.CorrectionsFolder.Corr3.UpperControlLimit": {
+      "dov:memberOf": "Machines.Wenzel LH 87",
+      "@type": ["ov:measurement"],
+      "dov:typeRef": "https://iotoperation.com/tm/OpcUaCore.tm.json#AnalogUnitType",
+      "dov:dataSource": "/8:ResultManagement/8:CorrectionsFolder/24:Corr3/8:UpperControlLimit",
+      "dov:propertyIRI": "#Machines.WenzelLH87/ResultManagement.CorrectionsFolder.Corr3.UpperControlLimit",
+      "title": "ResultManagement.CorrectionsFolder.Corr3.UpperControlLimit",
+      "forms": [
+        {
+          "href": "mqtt://azure-iot-operations/data/Wenzel%20LH%2087/Machines.Wenzel%20LH%2087",
+          "op": "observeproperty"
+        }
+      ]
+    }
+  },
+  "actions": {
+    "CorrectionsFolder.Corr1/Corr1.CharacteristicIdentifier": {
+      "dov:memberOf": "CorrectionsFolder.Corr1",
+      "@type": ["ov:command"],
+      "dov:typeRef": "https://iotoperation.com/tm/OpcUaCore.tm.json#Int32",
+      "dov:targetUri": "/8:CharacteristicIdentifier",
+      "dov:actionType": "Write",
+      "title": "Corr1.CharacteristicIdentifier",
+      "forms": [
+        {
+          "href": "mqtt://azure-iot-operations/asset-operations/machines-wenzel-lh-87/CorrectionsFolder.Corr1/Corr1.CharacteristicIdentifier",
+          "op": "invokeaction"
+        }
+      ]
+    },
+    "CorrectionsFolder.Corr1/Corr1.Identifier": {
+      "dov:memberOf": "CorrectionsFolder.Corr1",
+      "@type": ["ov:command"],
+      "dov:typeRef": "https://iotoperation.com/tm/OpcUaCore.tm.json#Int32",
+      "dov:targetUri": "/8:Identifier",
+      "dov:actionType": "Write",
+      "title": "Corr1.Identifier",
+      "forms": [
+        {
+          "href": "mqtt://azure-iot-operations/asset-operations/machines-wenzel-lh-87/CorrectionsFolder.Corr1/Corr1.Identifier",
+          "op": "invokeaction"
+        }
+      ]
+    },
+    "CorrectionsFolder.Corr2/Corr2.CharacteristicIdentifier": {
+      "dov:memberOf": "CorrectionsFolder.Corr2",
+      "@type": ["ov:command"],
+      "dov:typeRef": "https://iotoperation.com/tm/OpcUaCore.tm.json#Int32",
+      "dov:targetUri": "/8:CharacteristicIdentifier",
+      "dov:actionType": "Write",
+      "title": "Corr2.CharacteristicIdentifier",
+      "forms": [
+        {
+          "href": "mqtt://azure-iot-operations/asset-operations/machines-wenzel-lh-87/CorrectionsFolder.Corr2/Corr2.CharacteristicIdentifier",
+          "op": "invokeaction"
+        }
+      ]
+    },
+    "CorrectionsFolder.Corr2/Corr2.Identifier": {
+      "dov:memberOf": "CorrectionsFolder.Corr2",
+      "@type": ["ov:command"],
+      "dov:typeRef": "https://iotoperation.com/tm/OpcUaCore.tm.json#Int32",
+      "dov:targetUri": "/8:Identifier",
+      "dov:actionType": "Write",
+      "title": "Corr2.Identifier",
+      "forms": [
+        {
+          "href": "mqtt://azure-iot-operations/asset-operations/machines-wenzel-lh-87/CorrectionsFolder.Corr2/Corr2.Identifier",
+          "op": "invokeaction"
+        }
+      ]
+    },
+    "CorrectionsFolder.Corr3/Corr3.CharacteristicIdentifier": {
+      "dov:memberOf": "CorrectionsFolder.Corr3",
+      "@type": ["ov:command"],
+      "dov:typeRef": "https://iotoperation.com/tm/OpcUaCore.tm.json#Int32",
+      "dov:targetUri": "/8:CharacteristicIdentifier",
+      "dov:actionType": "Write",
+      "title": "Corr3.CharacteristicIdentifier",
+      "forms": [
+        {
+          "href": "mqtt://azure-iot-operations/asset-operations/machines-wenzel-lh-87/CorrectionsFolder.Corr3/Corr3.CharacteristicIdentifier",
+          "op": "invokeaction"
+        }
+      ]
+    },
+    "CorrectionsFolder.Corr3/Corr3.Identifier": {
+      "dov:memberOf": "CorrectionsFolder.Corr3",
+      "@type": ["ov:command"],
+      "dov:typeRef": "https://iotoperation.com/tm/OpcUaCore.tm.json#Int32",
+      "dov:targetUri": "/8:Identifier",
+      "dov:actionType": "Write",
+      "title": "Corr3.Identifier",
+      "forms": [
+        {
+          "href": "mqtt://azure-iot-operations/asset-operations/machines-wenzel-lh-87/CorrectionsFolder.Corr3/Corr3.Identifier",
+          "op": "invokeaction"
+        }
+      ]
+    },
+    "Prognoses.Calibration/Calibration.DateOfCalibration": {
+      "dov:memberOf": "Prognoses.Calibration",
+      "@type": ["ov:command"],
+      "dov:typeRef": "https://iotoperation.com/tm/OpcUaCore.tm.json#Int32",
+      "dov:targetUri": "/8:DateOfCalibration",
+      "dov:actionType": "Write",
+      "title": "Calibration.DateOfCalibration",
+      "forms": [
+        {
+          "href": "mqtt://azure-iot-operations/asset-operations/machines-wenzel-lh-87/Prognoses.Calibration/Calibration.DateOfCalibration",
+          "op": "invokeaction"
+        }
+      ]
+    },
+    "Prognoses.Calibration/Calibration.Calibrated": {
+      "dov:memberOf": "Prognoses.Calibration",
+      "@type": ["ov:command"],
+      "dov:typeRef": "https://iotoperation.com/tm/OpcUaCore.tm.json#Int32",
+      "dov:targetUri": "/8:Calibrated",
+      "dov:actionType": "Write",
+      "title": "Calibration.Calibrated",
+      "forms": [
+        {
+          "href": "mqtt://azure-iot-operations/asset-operations/machines-wenzel-lh-87/Prognoses.Calibration/Calibration.Calibrated",
+          "op": "invokeaction"
+        }
+      ]
+    }
+  }
+}
