@@ -1,90 +1,36 @@
 # ADR 31: MQ Backpressure Bypass for SDK Traffic
 
-> **Status:** Proposed.
-
 ## Context
 
-The MQ broker is adding a high-priority backpressure-bypass
-mechanism so control-plane traffic (ex.: State Store) is not starved when
-data-plane traffic fills the broker's buffer pool. The mark is an MQTT 5
-**user property on each PUBLISH** (broker owns the exact name, e.g.
-`$high_priority`); the broker also gets a CRD kill switch and an authz
+The MQ broker is adding a high-priority backpressure-bypass mechanism so
+control-plane traffic (e.g., State Store) is not starved when data-plane
+traffic fills the broker's buffer pool. The mark is an MQTT 5 **user
+property on each PUBLISH** named `$high_priority` (name owned by the
+broker). The property has no value &mdash; its presence alone signals
+high priority. The broker also gets a CRD kill switch and an authz
 policy gating who may set the flag.
-
-The flag is set by the *publisher* of each PUBLISH &mdash; the broker
-does not infer it. The MQ ADR notes *"we expect the mRPC code generator
-to set the property in requests and responses"*. We follow that
-guidance: every mRPC PUBLISH the SDK produces carries the flag by
-default, and the SDK exposes an option to turn it off. The motivation
-is that mRPC is the SDK's control-plane RPC layer (and is used heavily
-by first-party services, including AI scenarios); having a single
-customer-tunable escape hatch is preferred over an opt-in-everywhere
-design that risks leaving important callers behind under load.
-
-### How `$high_priority` travels through an mRPC call
-
-The diagram below shows the property's lifecycle across one request /
-response.
-
-```mermaid
-sequenceDiagram
-    autonumber
-    participant Inv as Command Invoker<br/>(SDK)
-    participant Brk as MQ Broker
-    participant Exe as Command Executor<br/>(SDK)
-
-    Note over Inv: bypass option = true (default)
-    Inv->>Brk: PUBLISH request<br/>user-property: $high_priority
-    Note over Brk: authz check on $high_priority<br/>+ higher BP threshold applied
-    Brk->>Exe: deliver request<br/>(property preserved)
-
-    Note over Exe: mirror: copy $high_priority<br/>from request onto response
-    Exe->>Brk: PUBLISH response<br/>user-property: $high_priority
-    Note over Brk: same authz + threshold<br/>applied to response
-    Brk->>Inv: deliver response
-```
-
-If the customer turns the invoker's option off (or the broker's authz
-rejects the property, or the CRD kill switch is on), the request
-travels without the property and the executor has nothing to mirror
-&mdash; both legs fall back to normal-priority backpressure with no
-SDK changes.
 
 ## Decision
 
 ### Wire
 
-- The example name `$high_priority` is broker-owned and sits outside
-  the SDK-reserved `__` prefix from
-  [ADR 4](./0004-reserved-user-properties.md). SDKs must not validate
-  against or reject `$`-prefixed user properties.
+- The user-property name is `$high_priority`, fixed by the broker. The
+  property is presence-only and carries no value.
 - No other MQTT semantics change: QoS, expiry, topic, correlation, and
   cache behavior are all unaffected.
 
 ### mRPC
 
-- **Invoker: default ON, customer-tunable OFF.** A single boolean on
-  the invoker options surface, set once at construction, defaulting to
-  `true`. Customers turn it off when they need their mRPC traffic to
-  follow normal-priority backpressure (e.g., for fairness testing or
-  when the broker's authz policy denies them the flag and they want to
-  avoid the rejected-PUBLISH path). No per-invocation toggle.
-- **Executor mirrors, no option.** The executor copies the bypass user
-  property from the incoming request onto the response. There is no
-  corresponding executor option. This matches the intent of the MQ
-  ADR's chosen design and keeps response priority bound to request
-  priority.
-- **SDK-shipped service clients inherit the default.** State Store,
-  Lease Lock, Schema Registry, Azure Device Registry, and the
-  connector framework use the same default-ON invoker; they
-  re-expose the toggle on their public options so customers can turn
-  it off there too.
+- **Invoker and Executor set the flag independently.**
+  Each side decides per its own logic whether to attach `$high_priority`
+  to the PUBLISH it produces. Request and response priorities are decoupled.
+- **Granularity is per-PUBLISH.**
+  Default behavior is to mark all PUBLISH with the flag, but this can be overridden per PUBLISH.
 
 ### Codegen
 
 - No DTDL annotation. Bypass is a property of the caller, not the
-  contract. Generated wrappers must surface the underlying options
-  object so callers can flip the flag without forking generated code.
+  contract.
 
 ### Compatibility
 
@@ -96,3 +42,12 @@ SDK changes.
   with the MQ ADR. The broker's authz policy and CRD kill switch are
   the operator-side controls if a deployment needs to claw the
   capability back.
+
+## Consequences
+
+- mRPC traffic gets backpressure-bypass treatment by default, matching
+  the MQ ADR's expectation and protecting first-party control-plane
+  callers without requiring per-call opt-in.
+- Symmetric invoker/executor options let operators tune each leg
+  independently (e.g., mark requests, but not responses, or vice versa),
+  so request and response priorities can diverge by design.
