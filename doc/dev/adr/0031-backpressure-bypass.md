@@ -78,9 +78,10 @@ SDK changes.
   ADR's chosen design and keeps response priority bound to request
   priority.
 - **SDK-shipped service clients inherit the default.** State Store,
-  Lease Lock, Schema Registry, ADR, and the connector framework use
-  the same default-ON invoker; they re-expose the toggle on their
-  public options so customers can turn it off there too.
+  Lease Lock, Schema Registry, Azure Device Registry, and the
+  connector framework use the same default-ON invoker; they
+  re-expose the toggle on their public options so customers can turn
+  it off there too.
 
 ### Codegen
 
