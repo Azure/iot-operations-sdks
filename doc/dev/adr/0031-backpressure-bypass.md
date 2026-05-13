@@ -21,9 +21,6 @@ by first-party services, including AI scenarios); having a single
 customer-tunable escape hatch is preferred over an opt-in-everywhere
 design that risks leaving important callers behind under load.
 
-This ADR specifies how the SDKs expose and set the flag. It does not
-change broker semantics.
-
 ### How `$high_priority` travels through an mRPC call
 
 The diagram below shows the property's lifecycle across one request /
