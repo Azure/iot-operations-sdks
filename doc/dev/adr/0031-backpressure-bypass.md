@@ -39,9 +39,7 @@ policy gating who may set the flag.
   to normal-priority backpressure.
 - Existing SDK consumers will see their mRPC traffic marked
   `$high_priority` after upgrading. This is intentional and aligned
-  with the MQ ADR. The broker's authz policy and CRD kill switch are
-  the operator-side controls if a deployment needs to claw the
-  capability back.
+  with the MQ ADR.
 
 ## Consequences
 
