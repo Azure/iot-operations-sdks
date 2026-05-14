@@ -54,7 +54,7 @@ namespace Azure.Iot.Operations.Connector
     /// <summary>
     /// The parent asset was updated but this specific management action's definition
     /// is unchanged. The connector may need to re-evaluate surrounding state
-    /// (device context, other actions on the asset).
+    /// (asset context, asset defaults).
     /// </summary>
     public sealed record ManagementActionAssetUpdated(ConfigError? Error) : ManagementActionNotification;
 
