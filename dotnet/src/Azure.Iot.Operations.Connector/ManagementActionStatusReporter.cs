@@ -41,6 +41,10 @@ namespace Azure.Iot.Operations.Connector
                 },
                 cancellationToken: cancellationToken);
 
+        public Task PauseHealthReportingAsync(CancellationToken cancellationToken = default)
+            => _assetClient.PauseManagementActionRuntimeHealthReportingAsync(
+                _groupName, _actionName, cancellationToken);
+
         public Task ReportConfigErrorAsync(ConfigError? validationError, CancellationToken cancellationToken = default)
             => _assetClient.GetAndUpdateAssetStatusAsync(
                 current =>

@@ -24,7 +24,6 @@ namespace Azure.Iot.Operations.Connector
     {
         private readonly IManagementActionHandlerFactory _handlerFactory;
 
-
         public ManagementActionConnectorWorker(
             ApplicationContext applicationContext,
             ILogger<ConnectorWorker> logger,
@@ -127,7 +126,10 @@ namespace Azure.Iot.Operations.Connector
             if (initialUserValidationError is not null)
             {
                 await ctx.StatusReporter.ReportConfigErrorAsync(initialUserValidationError, cancellationToken);
-                await ctx.StatusReporter.ReportUnavailableAsync(initialUserValidationError.Message, cancellationToken);
+                // Don't claim Unavailable: the device wasn't probed, the configuration is just
+                // invalid. Pause runtime-health reporting so ADR sees Unknown until the next
+                // notification produces a valid config.
+                await ctx.StatusReporter.PauseHealthReportingAsync(cancellationToken);
             }
 
             try
@@ -333,8 +335,11 @@ namespace Azure.Iot.Operations.Connector
 
         /// <summary>
         /// Re-runs connector-supplied <see cref="IManagementActionHandlerFactory.ValidateConfigurationAsync"/>,
-        /// merges its result with <paramref name="sdkError"/>, and reports both the config error
-        /// and the resulting Available / Unavailable health to ADR.
+        /// merges its result with <paramref name="sdkError"/>, and reports the resulting config
+        /// state to ADR. On success the action is reported <c>Available</c>; on a config error the
+        /// action's config error is reported and runtime-health reporting is paused so the
+        /// runtime-health status lapses to <c>Unknown</c> (we cannot probe the device, so we make
+        /// no claim about it — only the config error itself is surfaced).
         /// </summary>
         private async Task RevalidateAndReportAsync(ActionContext ctx, ConfigError? sdkError, CancellationToken cancellationToken)
         {
@@ -349,7 +354,10 @@ namespace Azure.Iot.Operations.Connector
             }
             else
             {
-                await ctx.StatusReporter.ReportUnavailableAsync(combined.Message, cancellationToken);
+                // Config is invalid → we cannot determine runtime health, so stay silent.
+                // ADR will let the runtime-health status lapse to Unknown rather than us
+                // falsely asserting Unavailable for a device we never probed.
+                await ctx.StatusReporter.PauseHealthReportingAsync(cancellationToken);
             }
         }
 
