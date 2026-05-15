@@ -66,18 +66,18 @@ macro_rules! report_status_if_changed {
 
 #[tokio::main(flavor = "current_thread")]
 async fn main() -> Result<(), Box<dyn std::error::Error>> {
+    // Create an exec readiness probe to indicate when the connector is healthy (connected to the broker)
+    let exec_readiness_probe = ExecReadinessProbe::default();
+
+    // Handle readiness probe requests
+    exec_readiness_probe.handle_probe_if_requested();
+
     env_logger::Builder::new()
         .filter_level(log::LevelFilter::Warn)
         .format_timestamp(None)
         .filter_module("azure_iot_operations_connector", log::LevelFilter::Info)
         .filter_module("base_connector_sample", log::LevelFilter::Info)
         .init();
-
-    // Create an exec readiness probe to indicate when the connector is healthy (connected to the broker)
-    let exec_readiness_probe = ExecReadinessProbe::default();
-
-    // Handle readiness probe requests
-    exec_readiness_probe.handle_probe_if_requested();
 
     // Create the connector artifacts from the deployment
     let connector_artifacts = ConnectorArtifacts::new_from_deployment()?;

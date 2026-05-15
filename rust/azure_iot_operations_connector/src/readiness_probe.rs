@@ -52,9 +52,32 @@ impl ExecReadinessProbe {
         }
     }
 
-    /// Call early in `main()` before normal initialization. If the process was
-    /// invoked with the readiness-probe subcommand, checks file existence and
-    /// exits with code 0 (ready) or 1 (not ready).
+    /// Checks for the readiness-probe subcommand and exits the process if found.
+    ///
+    /// When the connector binary is invoked by the kubelet's exec probe, this method inspects the
+    /// file marker and terminates the process with exit code `0` (file exists -> ready) or `1`
+    /// (file missing -> not ready).
+    ///
+    /// Call this as the very first step in `main()`, before any initialization (logging, MQTT
+    /// session setup, config parsing, etc.). Each probe invocation spawns a new process, so probe
+    /// checks must short-circuit before any expensive startup work runs; otherwise probe
+    /// checks become slow and may time out. If the readiness-probe argument is not present, this
+    /// method returns without side effects and `main()` proceeds normally.
+    ///
+    /// # Example
+    /// ```no_run
+    /// use azure_iot_operations_connector::readiness_probe::ExecReadinessProbe;
+    ///
+    /// #[tokio::main]
+    /// async fn main() {
+    ///     // First thing in main: handle probe invocations and exit early.
+    ///     let probe = ExecReadinessProbe::default();
+    ///     probe.handle_probe_if_requested();
+    ///
+    ///     // Normal startup continues only when not invoked as a probe.
+    ///     // ... initialize logging, build BaseConnector, etc.
+    /// }
+    /// ```
     pub fn handle_probe_if_requested(&self) {
         if std::env::args().any(|arg| arg == self.readiness_arg) {
             if self.readiness_file.exists() {
