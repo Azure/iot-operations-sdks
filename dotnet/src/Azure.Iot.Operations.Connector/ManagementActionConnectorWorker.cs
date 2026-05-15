@@ -310,6 +310,8 @@ namespace Azure.Iot.Operations.Connector
                     _logger.LogInformation(
                         "{Group}::{Action}: parent asset updated. error={Error}",
                         ctx.GroupName, ctx.ActionName, assetUpdated.Error);
+                    await ctx.AssetClient.PauseManagementActionRuntimeHealthReportingAsync(ctx.GroupName, ctx.ActionName, cancellationToken);
+                    await RevalidateAndReportAsync(ctx, assetUpdated.Error, cancellationToken);
                     return false;
 
                 case ManagementActionDeleted:
