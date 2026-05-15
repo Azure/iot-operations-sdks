@@ -79,7 +79,9 @@ pub(crate) async fn connect_inner(
     /// Use `tokio_openssl::SslStream`.
     const TLS_METHOD_USERSPACE: u8 = 2;
 
-    static TLS_METHOD: AtomicU8 = AtomicU8::new(TLS_METHOD_UNKNOWN);
+    // The current implementation does not correctly handle servers that send TLS session tickets.
+    // Disable kTLS until we have a fix.
+    static TLS_METHOD: AtomicU8 = AtomicU8::new(TLS_METHOD_USERSPACE);
 
     let ConnectionTransportTlsConfig(mut connector) = config;
 
