@@ -60,21 +60,39 @@ namespace Azure.Iot.Operations.Connector
                         credentials = adrClient.GetEndpointCredentials(args.DeviceName, args.InboundEndpointName, inboundEndpoint);
                     }
 
+                    var statusReporter = new ManagementActionStatusReporter(args.AssetClient, group.Name, action.Name);
+
+                    // Connector-specific validation. Failure is reported but does NOT block handler
+                    // creation — transient validation issues shouldn't permanently kill the action.
+                    // The notification loop re-runs validation on every Updated* notification.
+                    ConfigError? initialUserValidationError = await _handlerFactory.ValidateConfigurationAsync(
+                        args.Device,
+                        args.InboundEndpointName,
+                        args.Asset,
+                        action,
+                        cancellationToken);
+
                     IManagementActionHandler handler = _handlerFactory.CreateHandler(
                         args.Device,
                         args.InboundEndpointName,
                         args.Asset,
                         action,
-                        credentials);
+                        credentials,
+                        statusReporter);
 
-                    actionTasks.Add(RunActionLoopAsync(
-                        args.AssetClient,
-                        args.DeviceName,
-                        args.AssetName,
-                        group.Name,
-                        action,
-                        handler,
-                        cancellationToken));
+                    var ctx = new ActionContext(
+                        AssetClient: args.AssetClient,
+                        Device: args.Device,
+                        InboundEndpointName: args.InboundEndpointName,
+                        Asset: args.Asset,
+                        DeviceName: args.DeviceName,
+                        AssetName: args.AssetName,
+                        GroupName: group.Name,
+                        Action: action,
+                        Handler: handler,
+                        StatusReporter: statusReporter);
+
+                    actionTasks.Add(RunActionLoopAsync(ctx, initialUserValidationError, cancellationToken));
                 }
             }
 
@@ -90,21 +108,48 @@ namespace Azure.Iot.Operations.Connector
         /// <summary>
         /// Per-action loop: manages executor lifecycle and dispatches incoming requests to the
         /// user's <see cref="IManagementActionHandler"/>. Runs for the lifetime of the action
-        /// (until deleted or the asset becomes unavailable).
+        /// (until deleted or the asset becomes unavailable). Translates any unhandled exception
+        /// into a logged-and-rethrown event so the task doesn't fault silently inside
+        /// <c>Task.WhenAll</c>.
         /// </summary>
         private async Task RunActionLoopAsync(
-            AssetClient assetClient,
-            string deviceName,
-            string assetName,
-            string groupName,
-            AssetManagementGroupAction action,
-            IManagementActionHandler handler,
+            ActionContext ctx,
+            ConfigError? initialUserValidationError,
             CancellationToken cancellationToken)
         {
+            _logger.LogInformation("Starting handler for management action {Group}::{Action}", ctx.GroupName, ctx.ActionName);
+
+            ManagementActionExecutor? executor =
+                await ctx.AssetClient.GetManagementActionExecutorAsync(ctx.GroupName, ctx.ActionName, cancellationToken);
+            WireCallback(executor, ctx);
+
+            // Reflect the connector-supplied validation result from startup, if any.
+            if (initialUserValidationError is not null)
+            {
+                await ctx.StatusReporter.ReportConfigErrorAsync(initialUserValidationError, cancellationToken);
+                await ctx.StatusReporter.ReportUnavailableAsync(initialUserValidationError.Message, cancellationToken);
+            }
+
             try
             {
-                await RunActionLoopCoreAsync(
-                    assetClient, groupName, action, handler, cancellationToken);
+                while (!cancellationToken.IsCancellationRequested)
+                {
+                    ManagementActionNotification notification =
+                        await ctx.AssetClient.RecvManagementActionNotificationAsync(ctx.GroupName, ctx.ActionName, cancellationToken);
+
+                    bool shouldExit = await HandleNotificationAsync(
+                        ctx,
+                        notification,
+                        currentExecutor: executor,
+                        updateExecutor: next =>
+                        {
+                            executor = next;
+                            WireCallback(executor, ctx);
+                        },
+                        cancellationToken);
+
+                    if (shouldExit) break;
+                }
             }
             catch (OperationCanceledException) when (cancellationToken.IsCancellationRequested)
             {
@@ -116,44 +161,8 @@ namespace Azure.Iot.Operations.Connector
                 // absorbed by the connector framework's user-callback wrapper.
                 _logger.LogError(ex,
                     "Management action loop for {Group}::{Action} on asset {AssetName} (device {DeviceName}) faulted",
-                    groupName, action.Name, assetName, deviceName);
+                    ctx.GroupName, ctx.ActionName, ctx.AssetName, ctx.DeviceName);
                 throw;
-            }
-        }
-
-        private async Task RunActionLoopCoreAsync(
-            AssetClient assetClient,
-            string groupName,
-            AssetManagementGroupAction action,
-            IManagementActionHandler handler,
-            CancellationToken cancellationToken)
-        {
-            string actionName = action.Name;
-            _logger.LogInformation("Starting handler for management action {Group}::{Action}", groupName, actionName);
-
-            ManagementActionExecutor? executor =
-                await assetClient.GetManagementActionExecutorAsync(groupName, actionName, cancellationToken);
-            WireCallback(executor, handler, action);
-
-            try
-            {
-                while (!cancellationToken.IsCancellationRequested)
-                {
-                    ManagementActionNotification notification =
-                        await assetClient.RecvManagementActionNotificationAsync(groupName, actionName, cancellationToken);
-
-                    bool shouldExit = await HandleNotificationAsync(
-                        assetClient, groupName, actionName, notification,
-                        currentExecutor: executor,
-                        updateExecutor: next =>
-                        {
-                            executor = next;
-                            WireCallback(executor, handler, action);
-                        },
-                        cancellationToken);
-
-                    if (shouldExit) break;
-                }
             }
             finally
             {
@@ -162,22 +171,19 @@ namespace Azure.Iot.Operations.Connector
                     await executor.DisposeAsync();
                 }
 
-                await handler.DisposeAsync();
-                _logger.LogInformation("Handler for {Group}::{Action} exited.", groupName, actionName);
+                await ctx.Handler.DisposeAsync();
+                _logger.LogInformation("Handler for {Group}::{Action} exited.", ctx.GroupName, ctx.ActionName);
             }
         }
 
         /// <summary>
         /// Wire the executor's <see cref="ManagementActionExecutor.OnRequestReceived"/>
-        /// callback so incoming requests are dispatched to <paramref name="handler"/> via
-        /// <see cref="InvokeHandlerAsync"/>. No-op if <paramref name="executor"/> is null
+        /// callback so incoming requests are dispatched to the handler in <paramref name="ctx"/>
+        /// via <see cref="InvokeHandlerAsync"/>. No-op if <paramref name="executor"/> is null
         /// (the action's current definition is invalid; the worker is waiting for the next
         /// notification to swap it in).
         /// </summary>
-        private void WireCallback(
-            ManagementActionExecutor? executor,
-            IManagementActionHandler handler,
-            AssetManagementGroupAction action)
+        private void WireCallback(ManagementActionExecutor? executor, ActionContext ctx)
         {
             if (executor is null) return;
 
@@ -185,8 +191,8 @@ namespace Azure.Iot.Operations.Connector
             {
                 _logger.LogInformation(
                     "Received invocation for {Group}::{Action} (type={ActionType}, {Bytes} bytes, content-type={ContentType})",
-                    args.GroupName, args.ActionName, action.ActionType, args.Payload.Length, args.ContentType);
-                return InvokeHandlerAsync(handler, action.ActionType, args, _logger, ct);
+                    args.GroupName, args.ActionName, ctx.Action.ActionType, args.Payload.Length, args.ContentType);
+                return InvokeHandlerAsync(ctx.Handler, ctx.Action.ActionType, args, _logger, ct);
             };
         }
 
@@ -197,8 +203,8 @@ namespace Azure.Iot.Operations.Connector
         /// A <see cref="ManagementActionNotSupportedException"/> thrown by the handler is
         /// translated into an <c>UnsupportedActionType</c> error so handlers that only implement
         /// a subset of <see cref="IManagementActionHandler"/>'s methods can decline cleanly.
-        /// Pure function over its inputs &mdash; does not touch the executor or any worker
-        /// state &mdash; so it can be unit-tested without the surrounding loop.
+        /// Pure function over its inputs — does not touch the executor or any worker
+        /// state — so it can be unit-tested without the surrounding loop.
         /// </summary>
         internal static async Task<ManagementActionResponse> InvokeHandlerAsync(
             IManagementActionHandler handler,
@@ -265,9 +271,7 @@ namespace Azure.Iot.Operations.Connector
         /// Handle a lifecycle notification. Returns <c>true</c> if the per-action loop should exit.
         /// </summary>
         private async Task<bool> HandleNotificationAsync(
-            AssetClient assetClient,
-            string groupName,
-            string actionName,
+            ActionContext ctx,
             ManagementActionNotification notification,
             ManagementActionExecutor? currentExecutor,
             Action<ManagementActionExecutor?> updateExecutor,
@@ -277,25 +281,17 @@ namespace Azure.Iot.Operations.Connector
             {
                 case ManagementActionUpdated updated:
                     _logger.LogInformation(
-                        "{Group}::{Action} definition updated (same topic). error={Error}",
-                        groupName, actionName, updated.Error);
-                    await assetClient.PauseManagementActionRuntimeHealthReportingAsync(groupName, actionName, cancellationToken);
-                    await ReportActionConfigStatusAsync(assetClient, groupName, actionName, validationError: updated.Error, cancellationToken);
-                    if (updated.Error is null)
-                    {
-                        await ReportActionAvailableAsync(assetClient, groupName, actionName, cancellationToken);
-                    }
-                    else
-                    {
-                        await ReportActionUnavailableAsync(assetClient, groupName, actionName, updated.Error.Message, cancellationToken);
-                    }
+                        "{Group}::{Action} definition updated (same topic). sdkError={Error}",
+                        ctx.GroupName, ctx.ActionName, updated.Error);
+                    await ctx.AssetClient.PauseManagementActionRuntimeHealthReportingAsync(ctx.GroupName, ctx.ActionName, cancellationToken);
+                    await RevalidateAndReportAsync(ctx, updated.Error, cancellationToken);
                     return false;
 
                 case ManagementActionUpdatedWithNewExecutor updatedWithNew:
                     _logger.LogInformation(
-                        "{Group}::{Action} definition updated — swapping to new executor. error={Error}",
-                        groupName, actionName, updatedWithNew.Error);
-                    await assetClient.PauseManagementActionRuntimeHealthReportingAsync(groupName, actionName, cancellationToken);
+                        "{Group}::{Action} definition updated — swapping to new executor. sdkError={Error}",
+                        ctx.GroupName, ctx.ActionName, updatedWithNew.Error);
+                    await ctx.AssetClient.PauseManagementActionRuntimeHealthReportingAsync(ctx.GroupName, ctx.ActionName, cancellationToken);
 
                     if (currentExecutor is not null)
                     {
@@ -307,25 +303,17 @@ namespace Azure.Iot.Operations.Connector
                     }
 
                     updateExecutor(updatedWithNew.NewExecutor);
-                    await ReportActionConfigStatusAsync(assetClient, groupName, actionName, validationError: updatedWithNew.Error, cancellationToken);
-                    if (updatedWithNew.Error is null)
-                    {
-                        await ReportActionAvailableAsync(assetClient, groupName, actionName, cancellationToken);
-                    }
-                    else
-                    {
-                        await ReportActionUnavailableAsync(assetClient, groupName, actionName, updatedWithNew.Error.Message, cancellationToken);
-                    }
+                    await RevalidateAndReportAsync(ctx, updatedWithNew.Error, cancellationToken);
                     return false;
 
                 case ManagementActionAssetUpdated assetUpdated:
                     _logger.LogInformation(
                         "{Group}::{Action}: parent asset updated. error={Error}",
-                        groupName, actionName, assetUpdated.Error);
+                        ctx.GroupName, ctx.ActionName, assetUpdated.Error);
                     return false;
 
                 case ManagementActionDeleted:
-                    _logger.LogInformation("{Group}::{Action} deleted.", groupName, actionName);
+                    _logger.LogInformation("{Group}::{Action} deleted.", ctx.GroupName, ctx.ActionName);
                     if (currentExecutor is not null)
                     {
                         await currentExecutor.StopAsync(cancellationToken);
@@ -336,50 +324,76 @@ namespace Azure.Iot.Operations.Connector
                 default:
                     _logger.LogWarning(
                         "{Group}::{Action} received unknown notification type {Type}",
-                        groupName, actionName, notification.GetType().Name);
+                        ctx.GroupName, ctx.ActionName, notification.GetType().Name);
                     return false;
             }
         }
 
-        private static Task ReportActionAvailableAsync(
-            AssetClient assetClient, string groupName, string actionName, CancellationToken cancellationToken)
-            => assetClient.ReportManagementActionRuntimeHealthAsync(
-                groupName, actionName,
-                new ConnectorRuntimeHealth { Status = HealthStatus.Available },
-                cancellationToken: cancellationToken);
+        /// <summary>
+        /// Re-runs connector-supplied <see cref="IManagementActionHandlerFactory.ValidateConfigurationAsync"/>,
+        /// merges its result with <paramref name="sdkError"/>, and reports both the config error
+        /// and the resulting Available / Unavailable health to ADR.
+        /// </summary>
+        private async Task RevalidateAndReportAsync(ActionContext ctx, ConfigError? sdkError, CancellationToken cancellationToken)
+        {
+            ConfigError? userError = await _handlerFactory.ValidateConfigurationAsync(
+                ctx.Device, ctx.InboundEndpointName, ctx.Asset, ctx.Action, cancellationToken);
+            ConfigError? combined = MergeConfigErrors(sdkError, userError);
 
-        private static Task ReportActionUnavailableAsync(
-            AssetClient assetClient, string groupName, string actionName, string? message, CancellationToken cancellationToken)
-            => assetClient.ReportManagementActionRuntimeHealthAsync(
-                groupName, actionName,
-                new ConnectorRuntimeHealth
-                {
-                    Status = HealthStatus.Unavailable,
-                    ReasonCode = "ConfigError",
-                    Message = message,
-                },
-                cancellationToken: cancellationToken);
+            await ctx.StatusReporter.ReportConfigErrorAsync(combined, cancellationToken);
+            if (combined is null)
+            {
+                await ctx.StatusReporter.ReportAvailableAsync(cancellationToken);
+            }
+            else
+            {
+                await ctx.StatusReporter.ReportUnavailableAsync(combined.Message, cancellationToken);
+            }
+        }
 
-        private static Task ReportActionConfigStatusAsync(
-            AssetClient assetClient, string groupName, string actionName,
-            ConfigError? validationError, CancellationToken cancellationToken)
-            => assetClient.GetAndUpdateAssetStatusAsync(
-                current =>
-                {
-                    current.Config ??= new ConfigStatus();
-                    current.Config.LastTransitionTime = DateTime.UtcNow;
-                    current.UpdateManagementGroupStatus(
-                        groupName,
-                        new AssetManagementGroupActionStatus
-                        {
-                            Name = actionName,
-                            Error = validationError,
-                        });
-                    return current;
-                },
-                onlyIfChanged: true,
-                commandTimeout: null,
-                cancellationToken);
+        /// <summary>
+        /// Combines an SDK-supplied <see cref="ConfigError"/> with a connector-supplied one. Returns
+        /// <c>null</c> if both are null; one of them if the other is null; otherwise a new
+        /// <see cref="ConfigError"/> that concatenates messages and unions <see cref="ConfigError.Details"/>,
+        /// preferring the SDK's <see cref="ConfigError.Code"/> if present.
+        /// </summary>
+        internal static ConfigError? MergeConfigErrors(ConfigError? sdkError, ConfigError? userError)
+        {
+            if (sdkError is null) return userError;
+            if (userError is null) return sdkError;
+
+            var details = new List<ConfigErrorDetails>();
+            if (sdkError.Details is not null) details.AddRange(sdkError.Details);
+            if (userError.Details is not null) details.AddRange(userError.Details);
+
+            return new ConfigError
+            {
+                Code = sdkError.Code ?? userError.Code,
+                Message = $"[sdk] {sdkError.Message}\n[connector] {userError.Message}",
+                Details = details.Count > 0 ? details : null,
+            };
+        }
+
+        /// <summary>
+        /// Internal per-action bundle. Captures everything that's fixed for the lifetime of one
+        /// management action's loop so we don't have to thread 8+ parameters through every
+        /// internal helper. Built once in <see cref="WhileAssetAvailableAsync"/>.
+        /// </summary>
+        private sealed record ActionContext(
+            AssetClient AssetClient,
+            Device Device,
+            string InboundEndpointName,
+            Asset Asset,
+            string DeviceName,
+            string AssetName,
+            string GroupName,
+            AssetManagementGroupAction Action,
+            IManagementActionHandler Handler,
+            IManagementActionStatusReporter StatusReporter)
+        {
+            /// <summary>Shorthand for <c>Action.Name</c>; the action's own name is the action name.</summary>
+            public string ActionName => Action.Name;
+        }
     }
 }
 

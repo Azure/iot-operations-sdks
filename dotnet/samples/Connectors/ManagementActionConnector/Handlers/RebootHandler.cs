@@ -27,11 +27,13 @@ namespace ManagementActionConnector.Handlers
 
         private readonly ILogger _logger;
         private readonly FakeDevice _device;
+        private readonly IManagementActionStatusReporter _statusReporter;
 
-        public RebootHandler(ILogger logger, FakeDevice device)
+        public RebootHandler(ILogger logger, FakeDevice device, IManagementActionStatusReporter statusReporter)
         {
             _logger = logger;
             _device = device;
+            _statusReporter = statusReporter;
         }
 
         public async Task<ManagementActionResponse> HandleCallAsync(
@@ -62,11 +64,20 @@ namespace ManagementActionConnector.Handlers
                     ScheduledAtUtc = DateTime.UtcNow,
                     RebootCount = _device.RebootCount,
                 };
+                // Device responded successfully — make sure any prior Unavailable state is cleared.
+                await _statusReporter.ReportAvailableAsync(cancellationToken);
                 return ResponseHelpers.Json(response);
             }
             catch (DeviceBusyException ex)
             {
                 return ResponseHelpers.ApplicationError("AlreadyRebooting", ex.Message);
+            }
+            catch (DeviceUnavailableException ex)
+            {
+                // Runtime drift: device was reachable at config time, isn't now.
+                // Flip the action's runtime health so operators see why invocations are failing.
+                await _statusReporter.ReportUnavailableAsync(ex.Message, cancellationToken);
+                return ResponseHelpers.ApplicationError("DeviceUnavailable", ex.Message);
             }
         }
 

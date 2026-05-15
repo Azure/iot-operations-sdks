@@ -29,7 +29,8 @@ namespace ManagementActionConnector.Handlers
             string inboundEndpointName,
             Asset asset,
             AssetManagementGroupAction action,
-            EndpointCredentials? endpointCredentials)
+            EndpointCredentials? endpointCredentials,
+            IManagementActionStatusReporter statusReporter)
         {
             ILogger logger = _loggerFactory.CreateLogger(action.Name);
             logger.LogInformation(
@@ -38,11 +39,40 @@ namespace ManagementActionConnector.Handlers
 
             return action.Name switch
             {
-                "reboot" => new RebootHandler(logger, _device),
+                "reboot" => new RebootHandler(logger, _device, statusReporter),
                 "read-temperature" => new ReadTemperatureHandler(logger, _device),
                 "write-configuration" => new WriteConfigurationHandler(logger, _device),
                 _ => new UnknownActionHandler(logger, action.Name),
             };
+        }
+
+        /// <summary>
+        /// Connector-specific validation. Called at startup and on every definition change.
+        /// Return <c>null</c> if the definition is valid; return a <see cref="ConfigError"/>
+        /// to surface a config-time issue back to ADR (the action will be reported Unavailable).
+        /// </summary>
+        /// <remarks>
+        /// This sample only checks the target URI scheme — enough to show where validation goes.
+        /// Real connectors might also validate timeout ranges, parse <c>ActionConfiguration</c>
+        /// as JSON, or confirm the device endpoint is reachable.
+        /// </remarks>
+        public ValueTask<ConfigError?> ValidateConfigurationAsync(
+            Device device,
+            string inboundEndpointName,
+            Asset asset,
+            AssetManagementGroupAction action,
+            CancellationToken cancellationToken)
+        {
+            if (!action.TargetUri.StartsWith("device://", StringComparison.OrdinalIgnoreCase))
+            {
+                return ValueTask.FromResult<ConfigError?>(new ConfigError
+                {
+                    Code = "UnsupportedTargetUriScheme",
+                    Message = $"This connector only handles 'device://' targets; got '{action.TargetUri}'.",
+                });
+            }
+
+            return ValueTask.FromResult<ConfigError?>(null);
         }
 
         /// <summary>Fallback handler for an action name the sample doesn't recognize.</summary>
