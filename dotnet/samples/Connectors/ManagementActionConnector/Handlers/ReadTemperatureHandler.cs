@@ -29,10 +29,7 @@ namespace ManagementActionConnector.Handlers
             _device = device;
         }
 
-        public Task<ManagementActionResponse> HandleCallAsync(ManagementActionInvokedEventArgs args, CancellationToken cancellationToken)
-            => throw new ManagementActionNotSupportedException(args.GroupName, args.ActionName);
-
-        public async Task<ManagementActionResponse> HandleReadAsync(
+        public async Task<ManagementActionResponse> HandleAsync(
             ManagementActionInvokedEventArgs args, CancellationToken cancellationToken)
         {
             _logger.LogInformation("ReadTemperature invoked on {Device}/{Asset}", args.DeviceName, args.AssetName);
@@ -54,8 +51,6 @@ namespace ManagementActionConnector.Handlers
             }
         }
 
-        public Task<ManagementActionResponse> HandleWriteAsync(ManagementActionInvokedEventArgs args, CancellationToken cancellationToken)
-            => throw new ManagementActionNotSupportedException(args.GroupName, args.ActionName);
 
         public ValueTask DisposeAsync()
         {

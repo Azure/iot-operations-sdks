@@ -36,7 +36,7 @@ namespace ManagementActionConnector.Handlers
             _statusReporter = statusReporter;
         }
 
-        public async Task<ManagementActionResponse> HandleCallAsync(
+        public async Task<ManagementActionResponse> HandleAsync(
             ManagementActionInvokedEventArgs args, CancellationToken cancellationToken)
         {
             _logger.LogInformation(
@@ -81,11 +81,6 @@ namespace ManagementActionConnector.Handlers
             }
         }
 
-        public Task<ManagementActionResponse> HandleReadAsync(ManagementActionInvokedEventArgs args, CancellationToken cancellationToken)
-            => throw new ManagementActionNotSupportedException(args.GroupName, args.ActionName);
-
-        public Task<ManagementActionResponse> HandleWriteAsync(ManagementActionInvokedEventArgs args, CancellationToken cancellationToken)
-            => throw new ManagementActionNotSupportedException(args.GroupName, args.ActionName);
 
         public ValueTask DisposeAsync()
         {

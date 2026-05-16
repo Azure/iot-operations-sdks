@@ -34,13 +34,7 @@ namespace ManagementActionConnector.Handlers
             _device = device;
         }
 
-        public Task<ManagementActionResponse> HandleCallAsync(ManagementActionInvokedEventArgs args, CancellationToken cancellationToken)
-            => throw new ManagementActionNotSupportedException(args.GroupName, args.ActionName);
-
-        public Task<ManagementActionResponse> HandleReadAsync(ManagementActionInvokedEventArgs args, CancellationToken cancellationToken)
-            => throw new ManagementActionNotSupportedException(args.GroupName, args.ActionName);
-
-        public async Task<ManagementActionResponse> HandleWriteAsync(
+        public async Task<ManagementActionResponse> HandleAsync(
             ManagementActionInvokedEventArgs args, CancellationToken cancellationToken)
         {
             _logger.LogInformation(

@@ -193,64 +193,28 @@ namespace Azure.Iot.Operations.Connector
             {
                 _logger.LogInformation(
                     "Received invocation for {Group}::{Action} (type={ActionType}, {Bytes} bytes, content-type={ContentType})",
-                    args.GroupName, args.ActionName, ctx.Action.ActionType, args.Payload.Length, args.ContentType);
-                return InvokeHandlerAsync(ctx.Handler, ctx.Action.ActionType, args, _logger, ct);
+                    args.GroupName, args.ActionName, args.ActionType, args.Payload.Length, args.ContentType);
+                return InvokeHandlerAsync(ctx.Handler, args, _logger, ct);
             };
         }
 
         /// <summary>
-        /// Routes <paramref name="eventArgs"/> to the appropriate <see cref="IManagementActionHandler"/>
-        /// method based on <paramref name="actionType"/> and translates unsupported types and
-        /// unhandled exceptions into <see cref="ManagementActionApplicationError"/> responses.
-        /// A <see cref="ManagementActionNotSupportedException"/> thrown by the handler is
-        /// translated into an <c>UnsupportedActionType</c> error so handlers that only implement
-        /// a subset of <see cref="IManagementActionHandler"/>'s methods can decline cleanly.
+        /// Invokes the handler and translates unhandled exceptions into a
+        /// <see cref="ManagementActionApplicationError"/> response so the invoker sees a
+        /// deterministic failure rather than a fault. <see cref="OperationCanceledException"/>
+        /// is propagated unchanged so the surrounding loop can observe shutdown.
         /// Pure function over its inputs — does not touch the executor or any worker
         /// state — so it can be unit-tested without the surrounding loop.
         /// </summary>
         internal static async Task<ManagementActionResponse> InvokeHandlerAsync(
             IManagementActionHandler handler,
-            AssetManagementGroupActionType actionType,
             ManagementActionInvokedEventArgs eventArgs,
             ILogger? logger,
             CancellationToken cancellationToken)
         {
             try
             {
-                return actionType switch
-                {
-                    AssetManagementGroupActionType.Call => await handler.HandleCallAsync(eventArgs, cancellationToken),
-                    AssetManagementGroupActionType.Read => await handler.HandleReadAsync(eventArgs, cancellationToken),
-                    AssetManagementGroupActionType.Write => await handler.HandleWriteAsync(eventArgs, cancellationToken),
-                    _ => new ManagementActionResponse
-                    {
-                        Payload = ReadOnlySequence<byte>.Empty,
-                        ContentType = "application/json",
-                        CloudEvent = null,
-                        ApplicationError = new ManagementActionApplicationError
-                        {
-                            ErrorCode = "UnsupportedActionType",
-                            ErrorPayload = $"Action type '{actionType}' is not supported.",
-                        },
-                    },
-                };
-            }
-            catch (ManagementActionNotSupportedException ex)
-            {
-                logger?.LogWarning(ex,
-                    "Handler reported unsupported action type for {Group}::{Action} (type={ActionType})",
-                    ex.GroupName, ex.ActionName, actionType);
-                return new ManagementActionResponse
-                {
-                    Payload = ReadOnlySequence<byte>.Empty,
-                    ContentType = "application/json",
-                    CloudEvent = null,
-                    ApplicationError = new ManagementActionApplicationError
-                    {
-                        ErrorCode = "UnsupportedActionType",
-                        ErrorPayload = ex.Message,
-                    },
-                };
+                return await handler.HandleAsync(eventArgs, cancellationToken);
             }
             catch (Exception ex) when (ex is not OperationCanceledException)
             {

@@ -4,20 +4,19 @@
 using System.Buffers;
 using Azure.Iot.Operations.Protocol;
 using Azure.Iot.Operations.Protocol.Models;
+using Azure.Iot.Operations.Services.AssetAndDeviceRegistry.Models;
 
 namespace Azure.Iot.Operations.Connector
 {
     /// <summary>
-    /// Event arguments passed to <see cref="IManagementActionHandler"/> methods when a
+    /// Event arguments passed to <see cref="IManagementActionHandler.HandleAsync"/> when a
     /// management action is invoked. Contains the full request context so the handler can
     /// execute the appropriate device operation.
     /// </summary>
     /// <remarks>
-    /// The action's type (Call / Read / Write) is not surfaced here because it is already
-    /// implicit in which handler method the SDK invokes
-    /// (<see cref="IManagementActionHandler.HandleCallAsync"/>,
-    /// <see cref="IManagementActionHandler.HandleReadAsync"/>, or
-    /// <see cref="IManagementActionHandler.HandleWriteAsync"/>).
+    /// The action's <see cref="ActionType"/> is surfaced here (rather than via separate
+    /// handler methods) because the SDK treats Call / Read / Write invocations symmetrically.
+    /// Handlers that need to behave differently per type can branch on <see cref="ActionType"/>.
     /// </remarks>
     public class ManagementActionInvokedEventArgs : EventArgs
     {
@@ -27,6 +26,12 @@ namespace Azure.Iot.Operations.Connector
         /// <summary>The management action name.</summary>
         public required string ActionName { get; init; }
 
+        /// <summary>
+        /// The action type (<c>Call</c>, <c>Read</c>, or <c>Write</c>) as declared on the
+        /// management action definition. Fixed for the lifetime of the action — does not vary
+        /// per request.
+        /// </summary>
+        public required AssetManagementGroupActionType ActionType { get; init; }
 
         /// <summary>Raw request payload bytes as delivered by the invoker.</summary>
         public required ReadOnlySequence<byte> Payload { get; init; }

@@ -87,11 +87,7 @@ namespace ManagementActionConnector.Handlers
                 _actionName = actionName;
             }
 
-            public Task<ManagementActionResponse> HandleCallAsync(ManagementActionInvokedEventArgs args, CancellationToken ct) => Reject(args);
-            public Task<ManagementActionResponse> HandleReadAsync(ManagementActionInvokedEventArgs args, CancellationToken ct) => Reject(args);
-            public Task<ManagementActionResponse> HandleWriteAsync(ManagementActionInvokedEventArgs args, CancellationToken ct) => Reject(args);
-
-            private Task<ManagementActionResponse> Reject(ManagementActionInvokedEventArgs args)
+            public Task<ManagementActionResponse> HandleAsync(ManagementActionInvokedEventArgs args, CancellationToken ct)
             {
                 _logger.LogWarning("Received invocation for unknown action {Group}::{Action}", args.GroupName, args.ActionName);
                 return Task.FromResult(ResponseHelpers.ApplicationError(
