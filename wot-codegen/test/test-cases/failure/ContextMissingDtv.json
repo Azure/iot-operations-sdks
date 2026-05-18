@@ -11,6 +11,13 @@
       "line": 2,
       "cfLine": 0,
       "crossRef": ""
+    },
+    {
+      "condition": "PropertyInvalid",
+      "filename": "ContextMissingDtv.TM.json",
+      "line": 10,
+      "cfLine": 2,
+      "crossRef": ""
     }
   ]
 }

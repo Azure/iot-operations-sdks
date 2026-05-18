@@ -26,7 +26,7 @@
           ],
 <# } #>
 <# if (this.separate) { #>
-          "dtv:topic": "<#=this.propertyTopic.Replace(DtdlMqttTopicTokens.PropertyAction, "write")#>",
+          "dov:topic": "<#=this.propertyTopic.Replace(DtdlMqttTopicTokens.PropertyAction, "write")#>",
 <# } #>
           "op": "writeproperty"
         },
@@ -42,7 +42,7 @@
           ],
 <# } #>
 <# if (this.separate) { #>
-          "dtv:topic": "<#=this.propertyTopic.Replace(DtdlMqttTopicTokens.PropertyAction, "read")#>",
+          "dov:topic": "<#=this.propertyTopic.Replace(DtdlMqttTopicTokens.PropertyAction, "read")#>",
 <# } #>
           "op": "readproperty"
         }

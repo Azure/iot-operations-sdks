@@ -47,12 +47,12 @@ namespace Dtdl2Wot
             this.Write(this.ToStringHelper.ToStringWithCulture(this.contentType));
             this.Write("\",\r\n");
  if (this.serviceGroupId != null) { 
-            this.Write("          \"dtv:serviceGroupId\": \"");
+            this.Write("          \"dov:serviceGroupId\": \"");
             this.Write(this.ToStringHelper.ToStringWithCulture(this.serviceGroupId));
             this.Write("\",\r\n");
  } 
  if (this.separate) { 
-            this.Write("          \"dtv:topic\": \"");
+            this.Write("          \"dov:topic\": \"");
             this.Write(this.ToStringHelper.ToStringWithCulture(this.telemetryTopic));
             this.Write("\",\r\n");
  } 
