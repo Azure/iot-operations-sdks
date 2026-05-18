@@ -3,13 +3,12 @@
     "@context": [
       "https://www.w3.org/2022/wot/td/v1.1",
       {
-        "dtv": "http://azure.com/DigitalTwins/dtmi#",
-        "aov": "http://azure.com/IoT/operations/tm#"
+        "dov": "http://azure.com/DigitalOperations/vocab#"
       }
     ],
     "@type": "tm:ThingModel",
     "title": "WoT_Con_WoTAssetConnectionManagementType",
-    "aov:typeRef": "nsu=http://opcfoundation.org/UA/WoT-Con/;i=1",
+    "dov:typeRef": "nsu=http://opcfoundation.org/UA/WoT-Con/;i=1",
     "links": [
       {
         "rel": "tm:extends",
@@ -17,8 +16,8 @@
         "type": "application/tm+json"
       },
       {
-        "rel": "aov:reference",
-        "aov:refName": "Configuration",
+        "rel": "dov:reference",
+        "dov:refName": "Configuration",
         "href": "#title=WoT_Con_WoTAssetConfigurationType",
         "type": "application/tm+json"
       }
@@ -28,16 +27,16 @@
     "forms": [
       {
         "contentType": "application/json",
-        "dtv:topic": "opcua/WoT-Con/WoT_Con_WoTAssetConnectionManagementType/properties/read",
+        "dov:topic": "opcua/WoT-Con/WoT_Con_WoTAssetConnectionManagementType/properties/read",
         "op": "readallproperties"
       }
     ],
     "actions": {
       "ConnectionTest": {
-        "aov:namespace": "http://opcfoundation.org/UA/WoT-Con/",
+        "dov:namespace": "http://opcfoundation.org/UA/WoT-Con/",
         "input": {
           "type": "object",
-          "aov:typeRef": "nsu=http://opcfoundation.org/UA/WoT-Con/;i=76",
+          "dov:typeRef": "nsu=http://opcfoundation.org/UA/WoT-Con/;i=76",
           "required": [ "AssetEndpoint" ],
           "properties": {
             "AssetEndpoint": {
@@ -47,7 +46,7 @@
         },
         "output": {
           "type": "object",
-          "aov:typeRef": "nsu=http://opcfoundation.org/UA/WoT-Con/;i=77",
+          "dov:typeRef": "nsu=http://opcfoundation.org/UA/WoT-Con/;i=77",
           "required": [ "Success", "Status" ],
           "properties": {
             "Success": {
@@ -61,16 +60,16 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/WoT-Con/WoT_Con_WoTAssetConnectionManagementType/action/ConnectionTest",
+            "dov:topic": "opcua/WoT-Con/WoT_Con_WoTAssetConnectionManagementType/action/ConnectionTest",
             "op": "invokeaction"
           }
         ]
       },
       "CreateAsset": {
-        "aov:namespace": "http://opcfoundation.org/UA/WoT-Con/",
+        "dov:namespace": "http://opcfoundation.org/UA/WoT-Con/",
         "input": {
           "type": "object",
-          "aov:typeRef": "nsu=http://opcfoundation.org/UA/WoT-Con/;i=27",
+          "dov:typeRef": "nsu=http://opcfoundation.org/UA/WoT-Con/;i=27",
           "required": [ "AssetName" ],
           "properties": {
             "AssetName": {
@@ -80,7 +79,7 @@
         },
         "output": {
           "type": "object",
-          "aov:typeRef": "nsu=http://opcfoundation.org/UA/WoT-Con/;i=28",
+          "dov:typeRef": "nsu=http://opcfoundation.org/UA/WoT-Con/;i=28",
           "required": [ "AssetId" ],
           "properties": {
             "AssetId": {
@@ -91,16 +90,16 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/WoT-Con/WoT_Con_WoTAssetConnectionManagementType/action/CreateAsset",
+            "dov:topic": "opcua/WoT-Con/WoT_Con_WoTAssetConnectionManagementType/action/CreateAsset",
             "op": "invokeaction"
           }
         ]
       },
       "CreateAssetForEndpoint": {
-        "aov:namespace": "http://opcfoundation.org/UA/WoT-Con/",
+        "dov:namespace": "http://opcfoundation.org/UA/WoT-Con/",
         "input": {
           "type": "object",
-          "aov:typeRef": "nsu=http://opcfoundation.org/UA/WoT-Con/;i=50",
+          "dov:typeRef": "nsu=http://opcfoundation.org/UA/WoT-Con/;i=50",
           "required": [ "AssetName", "AssetEndpoint" ],
           "properties": {
             "AssetName": {
@@ -113,7 +112,7 @@
         },
         "output": {
           "type": "object",
-          "aov:typeRef": "nsu=http://opcfoundation.org/UA/WoT-Con/;i=170",
+          "dov:typeRef": "nsu=http://opcfoundation.org/UA/WoT-Con/;i=170",
           "required": [ "AssetId" ],
           "properties": {
             "AssetId": {
@@ -124,16 +123,16 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/WoT-Con/WoT_Con_WoTAssetConnectionManagementType/action/CreateAssetForEndpoint",
+            "dov:topic": "opcua/WoT-Con/WoT_Con_WoTAssetConnectionManagementType/action/CreateAssetForEndpoint",
             "op": "invokeaction"
           }
         ]
       },
       "DeleteAsset": {
-        "aov:namespace": "http://opcfoundation.org/UA/WoT-Con/",
+        "dov:namespace": "http://opcfoundation.org/UA/WoT-Con/",
         "input": {
           "type": "object",
-          "aov:typeRef": "nsu=http://opcfoundation.org/UA/WoT-Con/;i=30",
+          "dov:typeRef": "nsu=http://opcfoundation.org/UA/WoT-Con/;i=30",
           "required": [ "AssetId" ],
           "properties": {
             "AssetId": {
@@ -144,16 +143,16 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/WoT-Con/WoT_Con_WoTAssetConnectionManagementType/action/DeleteAsset",
+            "dov:topic": "opcua/WoT-Con/WoT_Con_WoTAssetConnectionManagementType/action/DeleteAsset",
             "op": "invokeaction"
           }
         ]
       },
       "DiscoverAssets": {
-        "aov:namespace": "http://opcfoundation.org/UA/WoT-Con/",
+        "dov:namespace": "http://opcfoundation.org/UA/WoT-Con/",
         "output": {
           "type": "object",
-          "aov:typeRef": "nsu=http://opcfoundation.org/UA/WoT-Con/;i=48",
+          "dov:typeRef": "nsu=http://opcfoundation.org/UA/WoT-Con/;i=48",
           "required": [ "AssetEndpoints" ],
           "properties": {
             "AssetEndpoints": {
@@ -167,7 +166,7 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/WoT-Con/WoT_Con_WoTAssetConnectionManagementType/action/DiscoverAssets",
+            "dov:topic": "opcua/WoT-Con/WoT_Con_WoTAssetConnectionManagementType/action/DiscoverAssets",
             "op": "invokeaction"
           }
         ]
@@ -175,7 +174,7 @@
     },
     "properties": {
       "SupportedWoTBindings": {
-        "aov:namespace": "http://opcfoundation.org/UA/WoT-Con/",
+        "dov:namespace": "http://opcfoundation.org/UA/WoT-Con/",
         "type": "array",
         "items": {
           "type": "string"
@@ -184,7 +183,7 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/WoT-Con/WoT_Con_WoTAssetConnectionManagementType/property/SupportedWoTBindings/read",
+            "dov:topic": "opcua/WoT-Con/WoT_Con_WoTAssetConnectionManagementType/property/SupportedWoTBindings/read",
             "op": "readproperty"
           }
         ]
@@ -197,13 +196,12 @@
     "@context": [
       "https://www.w3.org/2022/wot/td/v1.1",
       {
-        "dtv": "http://azure.com/DigitalTwins/dtmi#",
-        "aov": "http://azure.com/IoT/operations/tm#"
+        "dov": "http://azure.com/DigitalOperations/vocab#"
       }
     ],
     "@type": "tm:ThingModel",
     "title": "WoT_Con_WoTAssetConfigurationType",
-    "aov:typeRef": "nsu=http://opcfoundation.org/UA/WoT-Con/;i=105",
+    "dov:typeRef": "nsu=http://opcfoundation.org/UA/WoT-Con/;i=105",
     "links": [
       {
         "rel": "tm:extends",
@@ -216,7 +214,7 @@
     "forms": [
       {
         "contentType": "application/json",
-        "dtv:topic": "opcua/WoT-Con/WoT_Con_WoTAssetConfigurationType/properties/read",
+        "dov:topic": "opcua/WoT-Con/WoT_Con_WoTAssetConfigurationType/properties/read",
         "op": "readallproperties"
       }
     ],
@@ -224,27 +222,27 @@
     },
     "properties": {
       "License": {
-        "aov:namespace": "http://opcfoundation.org/UA/WoT-Con/",
+        "dov:namespace": "http://opcfoundation.org/UA/WoT-Con/",
         "type": "string",
         "readOnly": true,
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/WoT-Con/WoT_Con_WoTAssetConfigurationType/property/License/read",
+            "dov:topic": "opcua/WoT-Con/WoT_Con_WoTAssetConfigurationType/property/License/read",
             "op": "readproperty"
           }
         ]
       },
       "WoTConfigurationParameterName_Placeholder": {
-        "aov:namespace": "http://opcfoundation.org/UA/WoT-Con/",
+        "dov:namespace": "http://opcfoundation.org/UA/WoT-Con/",
         "description": "Stand-in for an unspecified data type.",
         "type": "string",
         "readOnly": true,
-        "dtv:placeholder": true,
+        "dov:placeholder": true,
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/WoT-Con/WoT_Con_WoTAssetConfigurationType/property/WoTConfigurationParameterName_Placeholder/read",
+            "dov:topic": "opcua/WoT-Con/WoT_Con_WoTAssetConfigurationType/property/WoTConfigurationParameterName_Placeholder/read",
             "op": "readproperty"
           }
         ]
@@ -257,13 +255,12 @@
     "@context": [
       "https://www.w3.org/2022/wot/td/v1.1",
       {
-        "dtv": "http://azure.com/DigitalTwins/dtmi#",
-        "aov": "http://azure.com/IoT/operations/tm#"
+        "dov": "http://azure.com/DigitalOperations/vocab#"
       }
     ],
     "@type": "tm:ThingModel",
     "title": "WoT_Con_IWoTAssetType",
-    "aov:typeRef": "nsu=http://opcfoundation.org/UA/WoT-Con/;i=42",
+    "dov:typeRef": "nsu=http://opcfoundation.org/UA/WoT-Con/;i=42",
     "links": [
       {
         "rel": "tm:extends",
@@ -271,8 +268,8 @@
         "type": "application/tm+json"
       },
       {
-        "rel": "aov:component",
-        "aov:refName": "WoTFile",
+        "rel": "dov:component",
+        "dov:refName": "WoTFile",
         "href": "#title=WoT_Con_WoTAssetFileType",
         "type": "application/tm+json"
       }
@@ -282,7 +279,7 @@
     "forms": [
       {
         "contentType": "application/json",
-        "dtv:topic": "opcua/WoT-Con/WoT_Con_IWoTAssetType/properties/read",
+        "dov:topic": "opcua/WoT-Con/WoT_Con_IWoTAssetType/properties/read",
         "op": "readallproperties"
       }
     ],
@@ -290,13 +287,13 @@
     },
     "properties": {
       "AssetEndpoint": {
-        "aov:namespace": "http://opcfoundation.org/UA/WoT-Con/",
+        "dov:namespace": "http://opcfoundation.org/UA/WoT-Con/",
         "type": "string",
         "readOnly": true,
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/WoT-Con/WoT_Con_IWoTAssetType/property/AssetEndpoint/read",
+            "dov:topic": "opcua/WoT-Con/WoT_Con_IWoTAssetType/property/AssetEndpoint/read",
             "op": "readproperty"
           }
         ]
@@ -309,13 +306,12 @@
     "@context": [
       "https://www.w3.org/2022/wot/td/v1.1",
       {
-        "dtv": "http://azure.com/DigitalTwins/dtmi#",
-        "aov": "http://azure.com/IoT/operations/tm#"
+        "dov": "http://azure.com/DigitalOperations/vocab#"
       }
     ],
     "@type": "tm:ThingModel",
     "title": "WoT_Con_WoTAssetFileType",
-    "aov:typeRef": "nsu=http://opcfoundation.org/UA/WoT-Con/;i=110",
+    "dov:typeRef": "nsu=http://opcfoundation.org/UA/WoT-Con/;i=110",
     "links": [
       {
         "rel": "tm:extends",
@@ -327,10 +323,10 @@
     },
     "actions": {
       "CloseAndUpdate": {
-        "aov:namespace": "http://opcfoundation.org/UA/WoT-Con/",
+        "dov:namespace": "http://opcfoundation.org/UA/WoT-Con/",
         "input": {
           "type": "object",
-          "aov:typeRef": "nsu=http://opcfoundation.org/UA/WoT-Con/;i=112",
+          "dov:typeRef": "nsu=http://opcfoundation.org/UA/WoT-Con/;i=112",
           "required": [ "FileHandle" ],
           "properties": {
             "FileHandle": {
@@ -343,7 +339,7 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/WoT-Con/WoT_Con_WoTAssetFileType/action/CloseAndUpdate",
+            "dov:topic": "opcua/WoT-Con/WoT_Con_WoTAssetFileType/action/CloseAndUpdate",
             "op": "invokeaction"
           }
         ]
@@ -358,13 +354,12 @@
     "@context": [
       "https://www.w3.org/2022/wot/td/v1.1",
       {
-        "dtv": "http://azure.com/DigitalTwins/dtmi#",
-        "aov": "http://azure.com/IoT/operations/tm#"
+        "dov": "http://azure.com/DigitalOperations/vocab#"
       }
     ],
     "@type": "tm:ThingModel",
     "title": "OpcUaCore_BaseObjectType",
-    "aov:typeRef": "nsu=http://opcfoundation.org/UA/;i=58",
+    "dov:typeRef": "nsu=http://opcfoundation.org/UA/;i=58",
     "links": [
     ],
     "schemaDefinitions": {
@@ -380,13 +375,12 @@
     "@context": [
       "https://www.w3.org/2022/wot/td/v1.1",
       {
-        "dtv": "http://azure.com/DigitalTwins/dtmi#",
-        "aov": "http://azure.com/IoT/operations/tm#"
+        "dov": "http://azure.com/DigitalOperations/vocab#"
       }
     ],
     "@type": "tm:ThingModel",
     "title": "OpcUaCore_BaseInterfaceType",
-    "aov:typeRef": "nsu=http://opcfoundation.org/UA/;i=17602",
+    "dov:typeRef": "nsu=http://opcfoundation.org/UA/;i=17602",
     "links": [
       {
         "rel": "tm:extends",
@@ -407,13 +401,12 @@
     "@context": [
       "https://www.w3.org/2022/wot/td/v1.1",
       {
-        "dtv": "http://azure.com/DigitalTwins/dtmi#",
-        "aov": "http://azure.com/IoT/operations/tm#"
+        "dov": "http://azure.com/DigitalOperations/vocab#"
       }
     ],
     "@type": "tm:ThingModel",
     "title": "OpcUaCore_FileType",
-    "aov:typeRef": "nsu=http://opcfoundation.org/UA/;i=11575",
+    "dov:typeRef": "nsu=http://opcfoundation.org/UA/;i=11575",
     "links": [
       {
         "rel": "tm:extends",
@@ -426,7 +419,7 @@
     "forms": [
       {
         "contentType": "application/json",
-        "dtv:topic": "opcua/OpcUaCore/OpcUaCore_FileType/properties/read",
+        "dov:topic": "opcua/OpcUaCore/OpcUaCore_FileType/properties/read",
         "op": "readallproperties"
       }
     ],
@@ -434,7 +427,7 @@
       "Close": {
         "input": {
           "type": "object",
-          "aov:typeRef": "nsu=http://opcfoundation.org/UA/;i=11584",
+          "dov:typeRef": "nsu=http://opcfoundation.org/UA/;i=11584",
           "required": [ "FileHandle" ],
           "properties": {
             "FileHandle": {
@@ -447,7 +440,7 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/OpcUaCore/OpcUaCore_FileType/action/Close",
+            "dov:topic": "opcua/OpcUaCore/OpcUaCore_FileType/action/Close",
             "op": "invokeaction"
           }
         ]
@@ -455,7 +448,7 @@
       "GetPosition": {
         "input": {
           "type": "object",
-          "aov:typeRef": "nsu=http://opcfoundation.org/UA/;i=11591",
+          "dov:typeRef": "nsu=http://opcfoundation.org/UA/;i=11591",
           "required": [ "FileHandle" ],
           "properties": {
             "FileHandle": {
@@ -467,7 +460,7 @@
         },
         "output": {
           "type": "object",
-          "aov:typeRef": "nsu=http://opcfoundation.org/UA/;i=11592",
+          "dov:typeRef": "nsu=http://opcfoundation.org/UA/;i=11592",
           "required": [ "Position" ],
           "properties": {
             "Position": {
@@ -480,7 +473,7 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/OpcUaCore/OpcUaCore_FileType/action/GetPosition",
+            "dov:topic": "opcua/OpcUaCore/OpcUaCore_FileType/action/GetPosition",
             "op": "invokeaction"
           }
         ]
@@ -488,7 +481,7 @@
       "Open": {
         "input": {
           "type": "object",
-          "aov:typeRef": "nsu=http://opcfoundation.org/UA/;i=11581",
+          "dov:typeRef": "nsu=http://opcfoundation.org/UA/;i=11581",
           "required": [ "Mode" ],
           "properties": {
             "Mode": {
@@ -500,7 +493,7 @@
         },
         "output": {
           "type": "object",
-          "aov:typeRef": "nsu=http://opcfoundation.org/UA/;i=11582",
+          "dov:typeRef": "nsu=http://opcfoundation.org/UA/;i=11582",
           "required": [ "FileHandle" ],
           "properties": {
             "FileHandle": {
@@ -513,7 +506,7 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/OpcUaCore/OpcUaCore_FileType/action/Open",
+            "dov:topic": "opcua/OpcUaCore/OpcUaCore_FileType/action/Open",
             "op": "invokeaction"
           }
         ]
@@ -521,7 +514,7 @@
       "Read": {
         "input": {
           "type": "object",
-          "aov:typeRef": "nsu=http://opcfoundation.org/UA/;i=11586",
+          "dov:typeRef": "nsu=http://opcfoundation.org/UA/;i=11586",
           "required": [ "FileHandle", "Length" ],
           "properties": {
             "FileHandle": {
@@ -538,7 +531,7 @@
         },
         "output": {
           "type": "object",
-          "aov:typeRef": "nsu=http://opcfoundation.org/UA/;i=11587",
+          "dov:typeRef": "nsu=http://opcfoundation.org/UA/;i=11587",
           "required": [ "Data" ],
           "properties": {
             "Data": {
@@ -550,7 +543,7 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/OpcUaCore/OpcUaCore_FileType/action/Read",
+            "dov:topic": "opcua/OpcUaCore/OpcUaCore_FileType/action/Read",
             "op": "invokeaction"
           }
         ]
@@ -558,7 +551,7 @@
       "SetPosition": {
         "input": {
           "type": "object",
-          "aov:typeRef": "nsu=http://opcfoundation.org/UA/;i=11594",
+          "dov:typeRef": "nsu=http://opcfoundation.org/UA/;i=11594",
           "required": [ "FileHandle", "Position" ],
           "properties": {
             "FileHandle": {
@@ -576,7 +569,7 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/OpcUaCore/OpcUaCore_FileType/action/SetPosition",
+            "dov:topic": "opcua/OpcUaCore/OpcUaCore_FileType/action/SetPosition",
             "op": "invokeaction"
           }
         ]
@@ -584,7 +577,7 @@
       "Write": {
         "input": {
           "type": "object",
-          "aov:typeRef": "nsu=http://opcfoundation.org/UA/;i=11589",
+          "dov:typeRef": "nsu=http://opcfoundation.org/UA/;i=11589",
           "required": [ "FileHandle", "Data" ],
           "properties": {
             "FileHandle": {
@@ -601,7 +594,7 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/OpcUaCore/OpcUaCore_FileType/action/Write",
+            "dov:topic": "opcua/OpcUaCore/OpcUaCore_FileType/action/Write",
             "op": "invokeaction"
           }
         ]
@@ -615,7 +608,7 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/OpcUaCore/OpcUaCore_FileType/property/LastModifiedTime/read",
+            "dov:topic": "opcua/OpcUaCore/OpcUaCore_FileType/property/LastModifiedTime/read",
             "op": "readproperty"
           }
         ]
@@ -628,7 +621,7 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/OpcUaCore/OpcUaCore_FileType/property/MaxByteStringLength/read",
+            "dov:topic": "opcua/OpcUaCore/OpcUaCore_FileType/property/MaxByteStringLength/read",
             "op": "readproperty"
           }
         ]
@@ -639,7 +632,7 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/OpcUaCore/OpcUaCore_FileType/property/MimeType/read",
+            "dov:topic": "opcua/OpcUaCore/OpcUaCore_FileType/property/MimeType/read",
             "op": "readproperty"
           }
         ]
@@ -652,7 +645,7 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/OpcUaCore/OpcUaCore_FileType/property/OpenCount/read",
+            "dov:topic": "opcua/OpcUaCore/OpcUaCore_FileType/property/OpenCount/read",
             "op": "readproperty"
           }
         ]
@@ -665,7 +658,7 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/OpcUaCore/OpcUaCore_FileType/property/Size/read",
+            "dov:topic": "opcua/OpcUaCore/OpcUaCore_FileType/property/Size/read",
             "op": "readproperty"
           }
         ]
@@ -676,7 +669,7 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/OpcUaCore/OpcUaCore_FileType/property/UserWritable/read",
+            "dov:topic": "opcua/OpcUaCore/OpcUaCore_FileType/property/UserWritable/read",
             "op": "readproperty"
           }
         ]
@@ -687,7 +680,7 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/OpcUaCore/OpcUaCore_FileType/property/Writable/read",
+            "dov:topic": "opcua/OpcUaCore/OpcUaCore_FileType/property/Writable/read",
             "op": "readproperty"
           }
         ]

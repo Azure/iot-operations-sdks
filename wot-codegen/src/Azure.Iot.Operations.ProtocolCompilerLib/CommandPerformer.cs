@@ -208,7 +208,7 @@ namespace Azure.Iot.Operations.ProtocolCompilerLib
 
                         foreach (TDThing thing in things)
                         {
-                            ValueTracker<StringHolder>? schemaNamesFilename = thing.Links?.Elements?.FirstOrDefault(l => l.Value.Rel?.Value.Value == TDValues.RelationSchemaNaming)?.Value.Href;
+                            ValueTracker<StringHolder>? schemaNamesFilename = thing.Links?.Elements?.FirstOrDefault(l => l.Value.Rel?.Value.Value == TDValues.RelationSchemaNaming || l.Value.Rel?.Value.Value == TDValues.RelationSchemaNamingLegacy)?.Value.Href;
                             if (TryGetSchemaNamer(errorReporter, thingFile.DirectoryName!, schemaNamesFilename, prefixSchemas ? thing.Title?.Value.Value : null, out SchemaNamer? schemaNamer))
                             {
                                 thingCount++;

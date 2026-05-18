@@ -3,14 +3,13 @@
     "@context": [
       "https://www.w3.org/2022/wot/td/v1.1",
       {
-        "dtv": "http://azure.com/DigitalTwins/dtmi#",
-        "aov": "http://azure.com/IoT/operations/tm#"
+        "dov": "http://azure.com/DigitalOperations/vocab#"
       }
     ],
     "@type": "tm:ThingModel",
     "title": "AMLLibs_AutomationMLBaseInterface",
-    "aov:typeRef": "nsu=http://opcfoundation.org/UA/AMLLibs/;i=22",
-    "aov:isComposite": true,
+    "dov:typeRef": "nsu=http://opcfoundation.org/UA/AMLLibs/;i=22",
+    "dov:isComposite": true,
     "links": [
       {
         "rel": "tm:extends",
@@ -23,7 +22,7 @@
     "forms": [
       {
         "contentType": "application/json",
-        "dtv:topic": "opcua/AMLLibs/AMLLibs_AutomationMLBaseInterface/properties/read",
+        "dov:topic": "opcua/AMLLibs/AMLLibs_AutomationMLBaseInterface/properties/read",
         "op": "readallproperties"
       }
     ],
@@ -37,7 +36,7 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/AMLLibs/AMLLibs_AutomationMLBaseInterface/property/ID/read",
+            "dov:topic": "opcua/AMLLibs/AMLLibs_AutomationMLBaseInterface/property/ID/read",
             "op": "readproperty"
           }
         ]
@@ -49,7 +48,7 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/AMLLibs/AMLLibs_AutomationMLBaseInterface/property/Version/read",
+            "dov:topic": "opcua/AMLLibs/AMLLibs_AutomationMLBaseInterface/property/Version/read",
             "op": "readproperty"
           }
         ]
@@ -62,14 +61,13 @@
     "@context": [
       "https://www.w3.org/2022/wot/td/v1.1",
       {
-        "dtv": "http://azure.com/DigitalTwins/dtmi#",
-        "aov": "http://azure.com/IoT/operations/tm#"
+        "dov": "http://azure.com/DigitalOperations/vocab#"
       }
     ],
     "@type": "tm:ThingModel",
     "title": "AMLLibs_Order",
-    "aov:typeRef": "nsu=http://opcfoundation.org/UA/AMLLibs/;i=25",
-    "aov:isComposite": true,
+    "dov:typeRef": "nsu=http://opcfoundation.org/UA/AMLLibs/;i=25",
+    "dov:isComposite": true,
     "links": [
       {
         "rel": "tm:extends",
@@ -82,12 +80,12 @@
     "forms": [
       {
         "contentType": "application/json",
-        "dtv:topic": "opcua/AMLLibs/AMLLibs_Order/events/{senderId}",
+        "dov:topic": "opcua/AMLLibs/AMLLibs_Order/events/{senderId}",
         "op": "subscribeallevents"
       },
       {
         "contentType": "application/json",
-        "dtv:topic": "opcua/AMLLibs/AMLLibs_Order/properties/read",
+        "dov:topic": "opcua/AMLLibs/AMLLibs_Order/properties/read",
         "op": "readallproperties"
       }
     ],
@@ -101,7 +99,7 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/AMLLibs/AMLLibs_Order/property/Direction/read",
+            "dov:topic": "opcua/AMLLibs/AMLLibs_Order/property/Direction/read",
             "op": "readproperty"
           }
         ]
@@ -113,7 +111,7 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/AMLLibs/AMLLibs_Order/property/ID/read",
+            "dov:topic": "opcua/AMLLibs/AMLLibs_Order/property/ID/read",
             "op": "readproperty"
           }
         ]
@@ -125,7 +123,7 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/AMLLibs/AMLLibs_Order/property/Version/read",
+            "dov:topic": "opcua/AMLLibs/AMLLibs_Order/property/Version/read",
             "op": "readproperty"
           }
         ]
@@ -140,7 +138,7 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/AMLLibs/AMLLibs_Order/event/Direction/{senderId}",
+            "dov:topic": "opcua/AMLLibs/AMLLibs_Order/event/Direction/{senderId}",
             "op": "subscribeevent"
           }
         ]
@@ -151,13 +149,12 @@
     "@context": [
       "https://www.w3.org/2022/wot/td/v1.1",
       {
-        "dtv": "http://azure.com/DigitalTwins/dtmi#",
-        "aov": "http://azure.com/IoT/operations/tm#"
+        "dov": "http://azure.com/DigitalOperations/vocab#"
       }
     ],
     "@type": "tm:ThingModel",
     "title": "AMLLibs_PortConnector",
-    "aov:typeRef": "nsu=http://opcfoundation.org/UA/AMLLibs/;i=28",
+    "dov:typeRef": "nsu=http://opcfoundation.org/UA/AMLLibs/;i=28",
     "links": [
       {
         "rel": "tm:extends",
@@ -170,7 +167,7 @@
     "forms": [
       {
         "contentType": "application/json",
-        "dtv:topic": "opcua/AMLLibs/AMLLibs_PortConnector/properties/read",
+        "dov:topic": "opcua/AMLLibs/AMLLibs_PortConnector/properties/read",
         "op": "readallproperties"
       }
     ],
@@ -184,7 +181,7 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/AMLLibs/AMLLibs_PortConnector/property/ID/read",
+            "dov:topic": "opcua/AMLLibs/AMLLibs_PortConnector/property/ID/read",
             "op": "readproperty"
           }
         ]
@@ -196,7 +193,7 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/AMLLibs/AMLLibs_PortConnector/property/Version/read",
+            "dov:topic": "opcua/AMLLibs/AMLLibs_PortConnector/property/Version/read",
             "op": "readproperty"
           }
         ]
@@ -209,14 +206,13 @@
     "@context": [
       "https://www.w3.org/2022/wot/td/v1.1",
       {
-        "dtv": "http://azure.com/DigitalTwins/dtmi#",
-        "aov": "http://azure.com/IoT/operations/tm#"
+        "dov": "http://azure.com/DigitalOperations/vocab#"
       }
     ],
     "@type": "tm:ThingModel",
     "title": "AMLLibs_InterlockingConnector",
-    "aov:typeRef": "nsu=http://opcfoundation.org/UA/AMLLibs/;i=31",
-    "aov:isComposite": true,
+    "dov:typeRef": "nsu=http://opcfoundation.org/UA/AMLLibs/;i=31",
+    "dov:isComposite": true,
     "links": [
       {
         "rel": "tm:extends",
@@ -229,7 +225,7 @@
     "forms": [
       {
         "contentType": "application/json",
-        "dtv:topic": "opcua/AMLLibs/AMLLibs_InterlockingConnector/properties/read",
+        "dov:topic": "opcua/AMLLibs/AMLLibs_InterlockingConnector/properties/read",
         "op": "readallproperties"
       }
     ],
@@ -243,7 +239,7 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/AMLLibs/AMLLibs_InterlockingConnector/property/ID/read",
+            "dov:topic": "opcua/AMLLibs/AMLLibs_InterlockingConnector/property/ID/read",
             "op": "readproperty"
           }
         ]
@@ -255,7 +251,7 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/AMLLibs/AMLLibs_InterlockingConnector/property/Version/read",
+            "dov:topic": "opcua/AMLLibs/AMLLibs_InterlockingConnector/property/Version/read",
             "op": "readproperty"
           }
         ]
@@ -268,14 +264,13 @@
     "@context": [
       "https://www.w3.org/2022/wot/td/v1.1",
       {
-        "dtv": "http://azure.com/DigitalTwins/dtmi#",
-        "aov": "http://azure.com/IoT/operations/tm#"
+        "dov": "http://azure.com/DigitalOperations/vocab#"
       }
     ],
     "@type": "tm:ThingModel",
     "title": "AMLLibs_PPRConnector",
-    "aov:typeRef": "nsu=http://opcfoundation.org/UA/AMLLibs/;i=34",
-    "aov:isComposite": true,
+    "dov:typeRef": "nsu=http://opcfoundation.org/UA/AMLLibs/;i=34",
+    "dov:isComposite": true,
     "links": [
       {
         "rel": "tm:extends",
@@ -288,7 +283,7 @@
     "forms": [
       {
         "contentType": "application/json",
-        "dtv:topic": "opcua/AMLLibs/AMLLibs_PPRConnector/properties/read",
+        "dov:topic": "opcua/AMLLibs/AMLLibs_PPRConnector/properties/read",
         "op": "readallproperties"
       }
     ],
@@ -302,7 +297,7 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/AMLLibs/AMLLibs_PPRConnector/property/ID/read",
+            "dov:topic": "opcua/AMLLibs/AMLLibs_PPRConnector/property/ID/read",
             "op": "readproperty"
           }
         ]
@@ -314,7 +309,7 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/AMLLibs/AMLLibs_PPRConnector/property/Version/read",
+            "dov:topic": "opcua/AMLLibs/AMLLibs_PPRConnector/property/Version/read",
             "op": "readproperty"
           }
         ]
@@ -327,14 +322,13 @@
     "@context": [
       "https://www.w3.org/2022/wot/td/v1.1",
       {
-        "dtv": "http://azure.com/DigitalTwins/dtmi#",
-        "aov": "http://azure.com/IoT/operations/tm#"
+        "dov": "http://azure.com/DigitalOperations/vocab#"
       }
     ],
     "@type": "tm:ThingModel",
     "title": "AMLLibs_ExternalDataConnector",
-    "aov:typeRef": "nsu=http://opcfoundation.org/UA/AMLLibs/;i=37",
-    "aov:isComposite": true,
+    "dov:typeRef": "nsu=http://opcfoundation.org/UA/AMLLibs/;i=37",
+    "dov:isComposite": true,
     "links": [
       {
         "rel": "tm:extends",
@@ -347,12 +341,12 @@
     "forms": [
       {
         "contentType": "application/json",
-        "dtv:topic": "opcua/AMLLibs/AMLLibs_ExternalDataConnector/events/{senderId}",
+        "dov:topic": "opcua/AMLLibs/AMLLibs_ExternalDataConnector/events/{senderId}",
         "op": "subscribeallevents"
       },
       {
         "contentType": "application/json",
-        "dtv:topic": "opcua/AMLLibs/AMLLibs_ExternalDataConnector/properties/read",
+        "dov:topic": "opcua/AMLLibs/AMLLibs_ExternalDataConnector/properties/read",
         "op": "readallproperties"
       }
     ],
@@ -366,7 +360,7 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/AMLLibs/AMLLibs_ExternalDataConnector/property/ID/read",
+            "dov:topic": "opcua/AMLLibs/AMLLibs_ExternalDataConnector/property/ID/read",
             "op": "readproperty"
           }
         ]
@@ -378,7 +372,7 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/AMLLibs/AMLLibs_ExternalDataConnector/property/RefURI/read",
+            "dov:topic": "opcua/AMLLibs/AMLLibs_ExternalDataConnector/property/RefURI/read",
             "op": "readproperty"
           }
         ]
@@ -390,7 +384,7 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/AMLLibs/AMLLibs_ExternalDataConnector/property/Version/read",
+            "dov:topic": "opcua/AMLLibs/AMLLibs_ExternalDataConnector/property/Version/read",
             "op": "readproperty"
           }
         ]
@@ -405,7 +399,7 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/AMLLibs/AMLLibs_ExternalDataConnector/event/RefURI/{senderId}",
+            "dov:topic": "opcua/AMLLibs/AMLLibs_ExternalDataConnector/event/RefURI/{senderId}",
             "op": "subscribeevent"
           }
         ]
@@ -416,14 +410,13 @@
     "@context": [
       "https://www.w3.org/2022/wot/td/v1.1",
       {
-        "dtv": "http://azure.com/DigitalTwins/dtmi#",
-        "aov": "http://azure.com/IoT/operations/tm#"
+        "dov": "http://azure.com/DigitalOperations/vocab#"
       }
     ],
     "@type": "tm:ThingModel",
     "title": "AMLLibs_Communication_1",
-    "aov:typeRef": "nsu=http://opcfoundation.org/UA/AMLLibs/;i=40",
-    "aov:isComposite": true,
+    "dov:typeRef": "nsu=http://opcfoundation.org/UA/AMLLibs/;i=40",
+    "dov:isComposite": true,
     "links": [
       {
         "rel": "tm:extends",
@@ -436,7 +429,7 @@
     "forms": [
       {
         "contentType": "application/json",
-        "dtv:topic": "opcua/AMLLibs/AMLLibs_Communication_1/properties/read",
+        "dov:topic": "opcua/AMLLibs/AMLLibs_Communication_1/properties/read",
         "op": "readallproperties"
       }
     ],
@@ -450,7 +443,7 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/AMLLibs/AMLLibs_Communication_1/property/ID/read",
+            "dov:topic": "opcua/AMLLibs/AMLLibs_Communication_1/property/ID/read",
             "op": "readproperty"
           }
         ]
@@ -462,7 +455,7 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/AMLLibs/AMLLibs_Communication_1/property/Version/read",
+            "dov:topic": "opcua/AMLLibs/AMLLibs_Communication_1/property/Version/read",
             "op": "readproperty"
           }
         ]
@@ -475,14 +468,13 @@
     "@context": [
       "https://www.w3.org/2022/wot/td/v1.1",
       {
-        "dtv": "http://azure.com/DigitalTwins/dtmi#",
-        "aov": "http://azure.com/IoT/operations/tm#"
+        "dov": "http://azure.com/DigitalOperations/vocab#"
       }
     ],
     "@type": "tm:ThingModel",
     "title": "AMLLibs_AttachmentInterface",
-    "aov:typeRef": "nsu=http://opcfoundation.org/UA/AMLLibs/;i=43",
-    "aov:isComposite": true,
+    "dov:typeRef": "nsu=http://opcfoundation.org/UA/AMLLibs/;i=43",
+    "dov:isComposite": true,
     "links": [
       {
         "rel": "tm:extends",
@@ -495,7 +487,7 @@
     "forms": [
       {
         "contentType": "application/json",
-        "dtv:topic": "opcua/AMLLibs/AMLLibs_AttachmentInterface/properties/read",
+        "dov:topic": "opcua/AMLLibs/AMLLibs_AttachmentInterface/properties/read",
         "op": "readallproperties"
       }
     ],
@@ -509,7 +501,7 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/AMLLibs/AMLLibs_AttachmentInterface/property/ID/read",
+            "dov:topic": "opcua/AMLLibs/AMLLibs_AttachmentInterface/property/ID/read",
             "op": "readproperty"
           }
         ]
@@ -521,7 +513,7 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/AMLLibs/AMLLibs_AttachmentInterface/property/Version/read",
+            "dov:topic": "opcua/AMLLibs/AMLLibs_AttachmentInterface/property/Version/read",
             "op": "readproperty"
           }
         ]
@@ -534,14 +526,13 @@
     "@context": [
       "https://www.w3.org/2022/wot/td/v1.1",
       {
-        "dtv": "http://azure.com/DigitalTwins/dtmi#",
-        "aov": "http://azure.com/IoT/operations/tm#"
+        "dov": "http://azure.com/DigitalOperations/vocab#"
       }
     ],
     "@type": "tm:ThingModel",
     "title": "AMLLibs_COLLADAInterface",
-    "aov:typeRef": "nsu=http://opcfoundation.org/UA/AMLLibs/;i=52",
-    "aov:isComposite": true,
+    "dov:typeRef": "nsu=http://opcfoundation.org/UA/AMLLibs/;i=52",
+    "dov:isComposite": true,
     "links": [
       {
         "rel": "tm:extends",
@@ -554,7 +545,7 @@
     "forms": [
       {
         "contentType": "application/json",
-        "dtv:topic": "opcua/AMLLibs/AMLLibs_COLLADAInterface/properties/read",
+        "dov:topic": "opcua/AMLLibs/AMLLibs_COLLADAInterface/properties/read",
         "op": "readallproperties"
       }
     ],
@@ -568,7 +559,7 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/AMLLibs/AMLLibs_COLLADAInterface/property/ID/read",
+            "dov:topic": "opcua/AMLLibs/AMLLibs_COLLADAInterface/property/ID/read",
             "op": "readproperty"
           }
         ]
@@ -580,7 +571,7 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/AMLLibs/AMLLibs_COLLADAInterface/property/Version/read",
+            "dov:topic": "opcua/AMLLibs/AMLLibs_COLLADAInterface/property/Version/read",
             "op": "readproperty"
           }
         ]
@@ -593,14 +584,13 @@
     "@context": [
       "https://www.w3.org/2022/wot/td/v1.1",
       {
-        "dtv": "http://azure.com/DigitalTwins/dtmi#",
-        "aov": "http://azure.com/IoT/operations/tm#"
+        "dov": "http://azure.com/DigitalOperations/vocab#"
       }
     ],
     "@type": "tm:ThingModel",
     "title": "AMLLibs_PLCopenXMLInterface",
-    "aov:typeRef": "nsu=http://opcfoundation.org/UA/AMLLibs/;i=55",
-    "aov:isComposite": true,
+    "dov:typeRef": "nsu=http://opcfoundation.org/UA/AMLLibs/;i=55",
+    "dov:isComposite": true,
     "links": [
       {
         "rel": "tm:extends",
@@ -613,7 +603,7 @@
     "forms": [
       {
         "contentType": "application/json",
-        "dtv:topic": "opcua/AMLLibs/AMLLibs_PLCopenXMLInterface/properties/read",
+        "dov:topic": "opcua/AMLLibs/AMLLibs_PLCopenXMLInterface/properties/read",
         "op": "readallproperties"
       }
     ],
@@ -627,7 +617,7 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/AMLLibs/AMLLibs_PLCopenXMLInterface/property/ID/read",
+            "dov:topic": "opcua/AMLLibs/AMLLibs_PLCopenXMLInterface/property/ID/read",
             "op": "readproperty"
           }
         ]
@@ -639,7 +629,7 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/AMLLibs/AMLLibs_PLCopenXMLInterface/property/Version/read",
+            "dov:topic": "opcua/AMLLibs/AMLLibs_PLCopenXMLInterface/property/Version/read",
             "op": "readproperty"
           }
         ]
@@ -652,14 +642,13 @@
     "@context": [
       "https://www.w3.org/2022/wot/td/v1.1",
       {
-        "dtv": "http://azure.com/DigitalTwins/dtmi#",
-        "aov": "http://azure.com/IoT/operations/tm#"
+        "dov": "http://azure.com/DigitalOperations/vocab#"
       }
     ],
     "@type": "tm:ThingModel",
     "title": "AMLLibs_LogicInterface",
-    "aov:typeRef": "nsu=http://opcfoundation.org/UA/AMLLibs/;i=58",
-    "aov:isComposite": true,
+    "dov:typeRef": "nsu=http://opcfoundation.org/UA/AMLLibs/;i=58",
+    "dov:isComposite": true,
     "links": [
       {
         "rel": "tm:extends",
@@ -672,7 +661,7 @@
     "forms": [
       {
         "contentType": "application/json",
-        "dtv:topic": "opcua/AMLLibs/AMLLibs_LogicInterface/properties/read",
+        "dov:topic": "opcua/AMLLibs/AMLLibs_LogicInterface/properties/read",
         "op": "readallproperties"
       }
     ],
@@ -686,7 +675,7 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/AMLLibs/AMLLibs_LogicInterface/property/ID/read",
+            "dov:topic": "opcua/AMLLibs/AMLLibs_LogicInterface/property/ID/read",
             "op": "readproperty"
           }
         ]
@@ -698,7 +687,7 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/AMLLibs/AMLLibs_LogicInterface/property/Version/read",
+            "dov:topic": "opcua/AMLLibs/AMLLibs_LogicInterface/property/Version/read",
             "op": "readproperty"
           }
         ]
@@ -711,14 +700,13 @@
     "@context": [
       "https://www.w3.org/2022/wot/td/v1.1",
       {
-        "dtv": "http://azure.com/DigitalTwins/dtmi#",
-        "aov": "http://azure.com/IoT/operations/tm#"
+        "dov": "http://azure.com/DigitalOperations/vocab#"
       }
     ],
     "@type": "tm:ThingModel",
     "title": "AMLLibs_VariableInterface",
-    "aov:typeRef": "nsu=http://opcfoundation.org/UA/AMLLibs/;i=61",
-    "aov:isComposite": true,
+    "dov:typeRef": "nsu=http://opcfoundation.org/UA/AMLLibs/;i=61",
+    "dov:isComposite": true,
     "links": [
       {
         "rel": "tm:extends",
@@ -731,7 +719,7 @@
     "forms": [
       {
         "contentType": "application/json",
-        "dtv:topic": "opcua/AMLLibs/AMLLibs_VariableInterface/properties/read",
+        "dov:topic": "opcua/AMLLibs/AMLLibs_VariableInterface/properties/read",
         "op": "readallproperties"
       }
     ],
@@ -745,7 +733,7 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/AMLLibs/AMLLibs_VariableInterface/property/ID/read",
+            "dov:topic": "opcua/AMLLibs/AMLLibs_VariableInterface/property/ID/read",
             "op": "readproperty"
           }
         ]
@@ -757,7 +745,7 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/AMLLibs/AMLLibs_VariableInterface/property/Version/read",
+            "dov:topic": "opcua/AMLLibs/AMLLibs_VariableInterface/property/Version/read",
             "op": "readproperty"
           }
         ]
@@ -770,14 +758,13 @@
     "@context": [
       "https://www.w3.org/2022/wot/td/v1.1",
       {
-        "dtv": "http://azure.com/DigitalTwins/dtmi#",
-        "aov": "http://azure.com/IoT/operations/tm#"
+        "dov": "http://azure.com/DigitalOperations/vocab#"
       }
     ],
     "@type": "tm:ThingModel",
     "title": "AMLLibs_InterlockingVariableInterface",
-    "aov:typeRef": "nsu=http://opcfoundation.org/UA/AMLLibs/;i=64",
-    "aov:isComposite": true,
+    "dov:typeRef": "nsu=http://opcfoundation.org/UA/AMLLibs/;i=64",
+    "dov:isComposite": true,
     "links": [
       {
         "rel": "tm:extends",
@@ -790,12 +777,12 @@
     "forms": [
       {
         "contentType": "application/json",
-        "dtv:topic": "opcua/AMLLibs/AMLLibs_InterlockingVariableInterface/events/{senderId}",
+        "dov:topic": "opcua/AMLLibs/AMLLibs_InterlockingVariableInterface/events/{senderId}",
         "op": "subscribeallevents"
       },
       {
         "contentType": "application/json",
-        "dtv:topic": "opcua/AMLLibs/AMLLibs_InterlockingVariableInterface/properties/read",
+        "dov:topic": "opcua/AMLLibs/AMLLibs_InterlockingVariableInterface/properties/read",
         "op": "readallproperties"
       }
     ],
@@ -809,7 +796,7 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/AMLLibs/AMLLibs_InterlockingVariableInterface/property/ID/read",
+            "dov:topic": "opcua/AMLLibs/AMLLibs_InterlockingVariableInterface/property/ID/read",
             "op": "readproperty"
           }
         ]
@@ -821,7 +808,7 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/AMLLibs/AMLLibs_InterlockingVariableInterface/property/SafeConditionEquals/read",
+            "dov:topic": "opcua/AMLLibs/AMLLibs_InterlockingVariableInterface/property/SafeConditionEquals/read",
             "op": "readproperty"
           }
         ]
@@ -833,7 +820,7 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/AMLLibs/AMLLibs_InterlockingVariableInterface/property/Version/read",
+            "dov:topic": "opcua/AMLLibs/AMLLibs_InterlockingVariableInterface/property/Version/read",
             "op": "readproperty"
           }
         ]
@@ -848,7 +835,7 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/AMLLibs/AMLLibs_InterlockingVariableInterface/event/SafeConditionEquals/{senderId}",
+            "dov:topic": "opcua/AMLLibs/AMLLibs_InterlockingVariableInterface/event/SafeConditionEquals/{senderId}",
             "op": "subscribeevent"
           }
         ]
@@ -859,14 +846,13 @@
     "@context": [
       "https://www.w3.org/2022/wot/td/v1.1",
       {
-        "dtv": "http://azure.com/DigitalTwins/dtmi#",
-        "aov": "http://azure.com/IoT/operations/tm#"
+        "dov": "http://azure.com/DigitalOperations/vocab#"
       }
     ],
     "@type": "tm:ThingModel",
     "title": "AMLLibs_SignalInterface",
-    "aov:typeRef": "nsu=http://opcfoundation.org/UA/AMLLibs/;i=71",
-    "aov:isComposite": true,
+    "dov:typeRef": "nsu=http://opcfoundation.org/UA/AMLLibs/;i=71",
+    "dov:isComposite": true,
     "links": [
       {
         "rel": "tm:extends",
@@ -879,7 +865,7 @@
     "forms": [
       {
         "contentType": "application/json",
-        "dtv:topic": "opcua/AMLLibs/AMLLibs_SignalInterface/properties/read",
+        "dov:topic": "opcua/AMLLibs/AMLLibs_SignalInterface/properties/read",
         "op": "readallproperties"
       }
     ],
@@ -893,7 +879,7 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/AMLLibs/AMLLibs_SignalInterface/property/ID/read",
+            "dov:topic": "opcua/AMLLibs/AMLLibs_SignalInterface/property/ID/read",
             "op": "readproperty"
           }
         ]
@@ -905,7 +891,7 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/AMLLibs/AMLLibs_SignalInterface/property/Version/read",
+            "dov:topic": "opcua/AMLLibs/AMLLibs_SignalInterface/property/Version/read",
             "op": "readproperty"
           }
         ]
@@ -918,14 +904,13 @@
     "@context": [
       "https://www.w3.org/2022/wot/td/v1.1",
       {
-        "dtv": "http://azure.com/DigitalTwins/dtmi#",
-        "aov": "http://azure.com/IoT/operations/tm#"
+        "dov": "http://azure.com/DigitalOperations/vocab#"
       }
     ],
     "@type": "tm:ThingModel",
     "title": "AMLLibs_AutomationMLBaseRole",
-    "aov:typeRef": "nsu=http://opcfoundation.org/UA/AMLLibs/;i=74",
-    "aov:isComposite": true,
+    "dov:typeRef": "nsu=http://opcfoundation.org/UA/AMLLibs/;i=74",
+    "dov:isComposite": true,
     "links": [
       {
         "rel": "tm:extends",
@@ -938,7 +923,7 @@
     "forms": [
       {
         "contentType": "application/json",
-        "dtv:topic": "opcua/AMLLibs/AMLLibs_AutomationMLBaseRole/properties/read",
+        "dov:topic": "opcua/AMLLibs/AMLLibs_AutomationMLBaseRole/properties/read",
         "op": "readallproperties"
       }
     ],
@@ -952,7 +937,7 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/AMLLibs/AMLLibs_AutomationMLBaseRole/property/ID/read",
+            "dov:topic": "opcua/AMLLibs/AMLLibs_AutomationMLBaseRole/property/ID/read",
             "op": "readproperty"
           }
         ]
@@ -964,7 +949,7 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/AMLLibs/AMLLibs_AutomationMLBaseRole/property/Version/read",
+            "dov:topic": "opcua/AMLLibs/AMLLibs_AutomationMLBaseRole/property/Version/read",
             "op": "readproperty"
           }
         ]
@@ -977,14 +962,13 @@
     "@context": [
       "https://www.w3.org/2022/wot/td/v1.1",
       {
-        "dtv": "http://azure.com/DigitalTwins/dtmi#",
-        "aov": "http://azure.com/IoT/operations/tm#"
+        "dov": "http://azure.com/DigitalOperations/vocab#"
       }
     ],
     "@type": "tm:ThingModel",
     "title": "AMLLibs_Group",
-    "aov:typeRef": "nsu=http://opcfoundation.org/UA/AMLLibs/;i=77",
-    "aov:isComposite": true,
+    "dov:typeRef": "nsu=http://opcfoundation.org/UA/AMLLibs/;i=77",
+    "dov:isComposite": true,
     "links": [
       {
         "rel": "tm:extends",
@@ -997,12 +981,12 @@
     "forms": [
       {
         "contentType": "application/json",
-        "dtv:topic": "opcua/AMLLibs/AMLLibs_Group/events/{senderId}",
+        "dov:topic": "opcua/AMLLibs/AMLLibs_Group/events/{senderId}",
         "op": "subscribeallevents"
       },
       {
         "contentType": "application/json",
-        "dtv:topic": "opcua/AMLLibs/AMLLibs_Group/properties/read",
+        "dov:topic": "opcua/AMLLibs/AMLLibs_Group/properties/read",
         "op": "readallproperties"
       }
     ],
@@ -1016,7 +1000,7 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/AMLLibs/AMLLibs_Group/property/AssociatedFacet/read",
+            "dov:topic": "opcua/AMLLibs/AMLLibs_Group/property/AssociatedFacet/read",
             "op": "readproperty"
           }
         ]
@@ -1028,7 +1012,7 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/AMLLibs/AMLLibs_Group/property/ID/read",
+            "dov:topic": "opcua/AMLLibs/AMLLibs_Group/property/ID/read",
             "op": "readproperty"
           }
         ]
@@ -1040,7 +1024,7 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/AMLLibs/AMLLibs_Group/property/Version/read",
+            "dov:topic": "opcua/AMLLibs/AMLLibs_Group/property/Version/read",
             "op": "readproperty"
           }
         ]
@@ -1055,7 +1039,7 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/AMLLibs/AMLLibs_Group/event/AssociatedFacet/{senderId}",
+            "dov:topic": "opcua/AMLLibs/AMLLibs_Group/event/AssociatedFacet/{senderId}",
             "op": "subscribeevent"
           }
         ]
@@ -1066,14 +1050,13 @@
     "@context": [
       "https://www.w3.org/2022/wot/td/v1.1",
       {
-        "dtv": "http://azure.com/DigitalTwins/dtmi#",
-        "aov": "http://azure.com/IoT/operations/tm#"
+        "dov": "http://azure.com/DigitalOperations/vocab#"
       }
     ],
     "@type": "tm:ThingModel",
     "title": "AMLLibs_Facet",
-    "aov:typeRef": "nsu=http://opcfoundation.org/UA/AMLLibs/;i=80",
-    "aov:isComposite": true,
+    "dov:typeRef": "nsu=http://opcfoundation.org/UA/AMLLibs/;i=80",
+    "dov:isComposite": true,
     "links": [
       {
         "rel": "tm:extends",
@@ -1086,7 +1069,7 @@
     "forms": [
       {
         "contentType": "application/json",
-        "dtv:topic": "opcua/AMLLibs/AMLLibs_Facet/properties/read",
+        "dov:topic": "opcua/AMLLibs/AMLLibs_Facet/properties/read",
         "op": "readallproperties"
       }
     ],
@@ -1100,7 +1083,7 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/AMLLibs/AMLLibs_Facet/property/ID/read",
+            "dov:topic": "opcua/AMLLibs/AMLLibs_Facet/property/ID/read",
             "op": "readproperty"
           }
         ]
@@ -1112,7 +1095,7 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/AMLLibs/AMLLibs_Facet/property/Version/read",
+            "dov:topic": "opcua/AMLLibs/AMLLibs_Facet/property/Version/read",
             "op": "readproperty"
           }
         ]
@@ -1125,14 +1108,13 @@
     "@context": [
       "https://www.w3.org/2022/wot/td/v1.1",
       {
-        "dtv": "http://azure.com/DigitalTwins/dtmi#",
-        "aov": "http://azure.com/IoT/operations/tm#"
+        "dov": "http://azure.com/DigitalOperations/vocab#"
       }
     ],
     "@type": "tm:ThingModel",
     "title": "AMLLibs_Port",
-    "aov:typeRef": "nsu=http://opcfoundation.org/UA/AMLLibs/;i=83",
-    "aov:isComposite": true,
+    "dov:typeRef": "nsu=http://opcfoundation.org/UA/AMLLibs/;i=83",
+    "dov:isComposite": true,
     "links": [
       {
         "rel": "tm:extends",
@@ -1140,8 +1122,8 @@
         "type": "application/tm+json"
       },
       {
-        "rel": "aov:reference",
-        "aov:refName": "ConnectionPoint",
+        "rel": "dov:reference",
+        "dov:refName": "ConnectionPoint",
         "href": "#title=AMLLibs_PortConnector",
         "type": "application/tm+json"
       }
@@ -1151,12 +1133,12 @@
     "forms": [
       {
         "contentType": "application/json",
-        "dtv:topic": "opcua/AMLLibs/AMLLibs_Port/events/{senderId}",
+        "dov:topic": "opcua/AMLLibs/AMLLibs_Port/events/{senderId}",
         "op": "subscribeallevents"
       },
       {
         "contentType": "application/json",
-        "dtv:topic": "opcua/AMLLibs/AMLLibs_Port/properties/read",
+        "dov:topic": "opcua/AMLLibs/AMLLibs_Port/properties/read",
         "op": "readallproperties"
       }
     ],
@@ -1167,11 +1149,11 @@
         "description": "",
         "type": "string",
         "readOnly": true,
-        "aov:contains": [ "Cardinality_MinOccur", "Cardinality_MaxOccur" ],
+        "dov:contains": [ "Cardinality_MinOccur", "Cardinality_MaxOccur" ],
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/AMLLibs/AMLLibs_Port/property/Cardinality/read",
+            "dov:topic": "opcua/AMLLibs/AMLLibs_Port/property/Cardinality/read",
             "op": "readproperty"
           }
         ]
@@ -1182,11 +1164,11 @@
         "minimum": 0,
         "maximum": 4294967295,
         "readOnly": true,
-        "aov:containedIn": "Cardinality",
+        "dov:containedIn": "Cardinality",
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/AMLLibs/AMLLibs_Port/property/Cardinality_MaxOccur/read",
+            "dov:topic": "opcua/AMLLibs/AMLLibs_Port/property/Cardinality_MaxOccur/read",
             "op": "readproperty"
           }
         ]
@@ -1197,11 +1179,11 @@
         "minimum": 0,
         "maximum": 4294967295,
         "readOnly": true,
-        "aov:containedIn": "Cardinality",
+        "dov:containedIn": "Cardinality",
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/AMLLibs/AMLLibs_Port/property/Cardinality_MinOccur/read",
+            "dov:topic": "opcua/AMLLibs/AMLLibs_Port/property/Cardinality_MinOccur/read",
             "op": "readproperty"
           }
         ]
@@ -1213,7 +1195,7 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/AMLLibs/AMLLibs_Port/property/Category/read",
+            "dov:topic": "opcua/AMLLibs/AMLLibs_Port/property/Category/read",
             "op": "readproperty"
           }
         ]
@@ -1225,7 +1207,7 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/AMLLibs/AMLLibs_Port/property/Direction/read",
+            "dov:topic": "opcua/AMLLibs/AMLLibs_Port/property/Direction/read",
             "op": "readproperty"
           }
         ]
@@ -1237,7 +1219,7 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/AMLLibs/AMLLibs_Port/property/ID/read",
+            "dov:topic": "opcua/AMLLibs/AMLLibs_Port/property/ID/read",
             "op": "readproperty"
           }
         ]
@@ -1249,7 +1231,7 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/AMLLibs/AMLLibs_Port/property/Version/read",
+            "dov:topic": "opcua/AMLLibs/AMLLibs_Port/property/Version/read",
             "op": "readproperty"
           }
         ]
@@ -1261,11 +1243,11 @@
           "description": "",
           "type": "string"
         },
-        "aov:contains": [ "Cardinality_MinOccur", "Cardinality_MaxOccur" ],
+        "dov:contains": [ "Cardinality_MinOccur", "Cardinality_MaxOccur" ],
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/AMLLibs/AMLLibs_Port/event/Cardinality/{senderId}",
+            "dov:topic": "opcua/AMLLibs/AMLLibs_Port/event/Cardinality/{senderId}",
             "op": "subscribeevent"
           }
         ]
@@ -1277,11 +1259,11 @@
           "minimum": 0,
           "maximum": 4294967295
         },
-        "aov:containedIn": "Cardinality",
+        "dov:containedIn": "Cardinality",
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/AMLLibs/AMLLibs_Port/event/Cardinality_MaxOccur/{senderId}",
+            "dov:topic": "opcua/AMLLibs/AMLLibs_Port/event/Cardinality_MaxOccur/{senderId}",
             "op": "subscribeevent"
           }
         ]
@@ -1293,11 +1275,11 @@
           "minimum": 0,
           "maximum": 4294967295
         },
-        "aov:containedIn": "Cardinality",
+        "dov:containedIn": "Cardinality",
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/AMLLibs/AMLLibs_Port/event/Cardinality_MinOccur/{senderId}",
+            "dov:topic": "opcua/AMLLibs/AMLLibs_Port/event/Cardinality_MinOccur/{senderId}",
             "op": "subscribeevent"
           }
         ]
@@ -1310,7 +1292,7 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/AMLLibs/AMLLibs_Port/event/Category/{senderId}",
+            "dov:topic": "opcua/AMLLibs/AMLLibs_Port/event/Category/{senderId}",
             "op": "subscribeevent"
           }
         ]
@@ -1323,7 +1305,7 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/AMLLibs/AMLLibs_Port/event/Direction/{senderId}",
+            "dov:topic": "opcua/AMLLibs/AMLLibs_Port/event/Direction/{senderId}",
             "op": "subscribeevent"
           }
         ]
@@ -1334,14 +1316,13 @@
     "@context": [
       "https://www.w3.org/2022/wot/td/v1.1",
       {
-        "dtv": "http://azure.com/DigitalTwins/dtmi#",
-        "aov": "http://azure.com/IoT/operations/tm#"
+        "dov": "http://azure.com/DigitalOperations/vocab#"
       }
     ],
     "@type": "tm:ThingModel",
     "title": "AMLLibs_Resource",
-    "aov:typeRef": "nsu=http://opcfoundation.org/UA/AMLLibs/;i=86",
-    "aov:isComposite": true,
+    "dov:typeRef": "nsu=http://opcfoundation.org/UA/AMLLibs/;i=86",
+    "dov:isComposite": true,
     "links": [
       {
         "rel": "tm:extends",
@@ -1354,7 +1335,7 @@
     "forms": [
       {
         "contentType": "application/json",
-        "dtv:topic": "opcua/AMLLibs/AMLLibs_Resource/properties/read",
+        "dov:topic": "opcua/AMLLibs/AMLLibs_Resource/properties/read",
         "op": "readallproperties"
       }
     ],
@@ -1368,7 +1349,7 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/AMLLibs/AMLLibs_Resource/property/ID/read",
+            "dov:topic": "opcua/AMLLibs/AMLLibs_Resource/property/ID/read",
             "op": "readproperty"
           }
         ]
@@ -1380,7 +1361,7 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/AMLLibs/AMLLibs_Resource/property/Version/read",
+            "dov:topic": "opcua/AMLLibs/AMLLibs_Resource/property/Version/read",
             "op": "readproperty"
           }
         ]
@@ -1393,14 +1374,13 @@
     "@context": [
       "https://www.w3.org/2022/wot/td/v1.1",
       {
-        "dtv": "http://azure.com/DigitalTwins/dtmi#",
-        "aov": "http://azure.com/IoT/operations/tm#"
+        "dov": "http://azure.com/DigitalOperations/vocab#"
       }
     ],
     "@type": "tm:ThingModel",
     "title": "AMLLibs_Product",
-    "aov:typeRef": "nsu=http://opcfoundation.org/UA/AMLLibs/;i=89",
-    "aov:isComposite": true,
+    "dov:typeRef": "nsu=http://opcfoundation.org/UA/AMLLibs/;i=89",
+    "dov:isComposite": true,
     "links": [
       {
         "rel": "tm:extends",
@@ -1413,7 +1393,7 @@
     "forms": [
       {
         "contentType": "application/json",
-        "dtv:topic": "opcua/AMLLibs/AMLLibs_Product/properties/read",
+        "dov:topic": "opcua/AMLLibs/AMLLibs_Product/properties/read",
         "op": "readallproperties"
       }
     ],
@@ -1427,7 +1407,7 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/AMLLibs/AMLLibs_Product/property/ID/read",
+            "dov:topic": "opcua/AMLLibs/AMLLibs_Product/property/ID/read",
             "op": "readproperty"
           }
         ]
@@ -1439,7 +1419,7 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/AMLLibs/AMLLibs_Product/property/Version/read",
+            "dov:topic": "opcua/AMLLibs/AMLLibs_Product/property/Version/read",
             "op": "readproperty"
           }
         ]
@@ -1452,14 +1432,13 @@
     "@context": [
       "https://www.w3.org/2022/wot/td/v1.1",
       {
-        "dtv": "http://azure.com/DigitalTwins/dtmi#",
-        "aov": "http://azure.com/IoT/operations/tm#"
+        "dov": "http://azure.com/DigitalOperations/vocab#"
       }
     ],
     "@type": "tm:ThingModel",
     "title": "AMLLibs_Process",
-    "aov:typeRef": "nsu=http://opcfoundation.org/UA/AMLLibs/;i=92",
-    "aov:isComposite": true,
+    "dov:typeRef": "nsu=http://opcfoundation.org/UA/AMLLibs/;i=92",
+    "dov:isComposite": true,
     "links": [
       {
         "rel": "tm:extends",
@@ -1472,7 +1451,7 @@
     "forms": [
       {
         "contentType": "application/json",
-        "dtv:topic": "opcua/AMLLibs/AMLLibs_Process/properties/read",
+        "dov:topic": "opcua/AMLLibs/AMLLibs_Process/properties/read",
         "op": "readallproperties"
       }
     ],
@@ -1486,7 +1465,7 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/AMLLibs/AMLLibs_Process/property/ID/read",
+            "dov:topic": "opcua/AMLLibs/AMLLibs_Process/property/ID/read",
             "op": "readproperty"
           }
         ]
@@ -1498,7 +1477,7 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/AMLLibs/AMLLibs_Process/property/Version/read",
+            "dov:topic": "opcua/AMLLibs/AMLLibs_Process/property/Version/read",
             "op": "readproperty"
           }
         ]
@@ -1511,14 +1490,13 @@
     "@context": [
       "https://www.w3.org/2022/wot/td/v1.1",
       {
-        "dtv": "http://azure.com/DigitalTwins/dtmi#",
-        "aov": "http://azure.com/IoT/operations/tm#"
+        "dov": "http://azure.com/DigitalOperations/vocab#"
       }
     ],
     "@type": "tm:ThingModel",
     "title": "AMLLibs_Structure",
-    "aov:typeRef": "nsu=http://opcfoundation.org/UA/AMLLibs/;i=95",
-    "aov:isComposite": true,
+    "dov:typeRef": "nsu=http://opcfoundation.org/UA/AMLLibs/;i=95",
+    "dov:isComposite": true,
     "links": [
       {
         "rel": "tm:extends",
@@ -1531,7 +1509,7 @@
     "forms": [
       {
         "contentType": "application/json",
-        "dtv:topic": "opcua/AMLLibs/AMLLibs_Structure/properties/read",
+        "dov:topic": "opcua/AMLLibs/AMLLibs_Structure/properties/read",
         "op": "readallproperties"
       }
     ],
@@ -1545,7 +1523,7 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/AMLLibs/AMLLibs_Structure/property/ID/read",
+            "dov:topic": "opcua/AMLLibs/AMLLibs_Structure/property/ID/read",
             "op": "readproperty"
           }
         ]
@@ -1557,7 +1535,7 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/AMLLibs/AMLLibs_Structure/property/Version/read",
+            "dov:topic": "opcua/AMLLibs/AMLLibs_Structure/property/Version/read",
             "op": "readproperty"
           }
         ]
@@ -1570,14 +1548,13 @@
     "@context": [
       "https://www.w3.org/2022/wot/td/v1.1",
       {
-        "dtv": "http://azure.com/DigitalTwins/dtmi#",
-        "aov": "http://azure.com/IoT/operations/tm#"
+        "dov": "http://azure.com/DigitalOperations/vocab#"
       }
     ],
     "@type": "tm:ThingModel",
     "title": "AMLLibs_PropertySet",
-    "aov:typeRef": "nsu=http://opcfoundation.org/UA/AMLLibs/;i=98",
-    "aov:isComposite": true,
+    "dov:typeRef": "nsu=http://opcfoundation.org/UA/AMLLibs/;i=98",
+    "dov:isComposite": true,
     "links": [
       {
         "rel": "tm:extends",
@@ -1590,7 +1567,7 @@
     "forms": [
       {
         "contentType": "application/json",
-        "dtv:topic": "opcua/AMLLibs/AMLLibs_PropertySet/properties/read",
+        "dov:topic": "opcua/AMLLibs/AMLLibs_PropertySet/properties/read",
         "op": "readallproperties"
       }
     ],
@@ -1604,7 +1581,7 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/AMLLibs/AMLLibs_PropertySet/property/ID/read",
+            "dov:topic": "opcua/AMLLibs/AMLLibs_PropertySet/property/ID/read",
             "op": "readproperty"
           }
         ]
@@ -1616,7 +1593,7 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/AMLLibs/AMLLibs_PropertySet/property/Version/read",
+            "dov:topic": "opcua/AMLLibs/AMLLibs_PropertySet/property/Version/read",
             "op": "readproperty"
           }
         ]
@@ -1629,14 +1606,13 @@
     "@context": [
       "https://www.w3.org/2022/wot/td/v1.1",
       {
-        "dtv": "http://azure.com/DigitalTwins/dtmi#",
-        "aov": "http://azure.com/IoT/operations/tm#"
+        "dov": "http://azure.com/DigitalOperations/vocab#"
       }
     ],
     "@type": "tm:ThingModel",
     "title": "AMLLibs_Frame",
-    "aov:typeRef": "nsu=http://opcfoundation.org/UA/AMLLibs/;i=101",
-    "aov:isComposite": true,
+    "dov:typeRef": "nsu=http://opcfoundation.org/UA/AMLLibs/;i=101",
+    "dov:isComposite": true,
     "links": [
       {
         "rel": "tm:extends",
@@ -1649,7 +1625,7 @@
     "forms": [
       {
         "contentType": "application/json",
-        "dtv:topic": "opcua/AMLLibs/AMLLibs_Frame/properties/read",
+        "dov:topic": "opcua/AMLLibs/AMLLibs_Frame/properties/read",
         "op": "readallproperties"
       }
     ],
@@ -1663,7 +1639,7 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/AMLLibs/AMLLibs_Frame/property/ID/read",
+            "dov:topic": "opcua/AMLLibs/AMLLibs_Frame/property/ID/read",
             "op": "readproperty"
           }
         ]
@@ -1675,7 +1651,7 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/AMLLibs/AMLLibs_Frame/property/Version/read",
+            "dov:topic": "opcua/AMLLibs/AMLLibs_Frame/property/Version/read",
             "op": "readproperty"
           }
         ]
@@ -1688,14 +1664,13 @@
     "@context": [
       "https://www.w3.org/2022/wot/td/v1.1",
       {
-        "dtv": "http://azure.com/DigitalTwins/dtmi#",
-        "aov": "http://azure.com/IoT/operations/tm#"
+        "dov": "http://azure.com/DigitalOperations/vocab#"
       }
     ],
     "@type": "tm:ThingModel",
     "title": "AMLLibs_SignalGroup",
-    "aov:typeRef": "nsu=http://opcfoundation.org/UA/AMLLibs/;i=107",
-    "aov:isComposite": true,
+    "dov:typeRef": "nsu=http://opcfoundation.org/UA/AMLLibs/;i=107",
+    "dov:isComposite": true,
     "links": [
       {
         "rel": "tm:extends",
@@ -1708,7 +1683,7 @@
     "forms": [
       {
         "contentType": "application/json",
-        "dtv:topic": "opcua/AMLLibs/AMLLibs_SignalGroup/properties/read",
+        "dov:topic": "opcua/AMLLibs/AMLLibs_SignalGroup/properties/read",
         "op": "readallproperties"
       }
     ],
@@ -1722,7 +1697,7 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/AMLLibs/AMLLibs_SignalGroup/property/ID/read",
+            "dov:topic": "opcua/AMLLibs/AMLLibs_SignalGroup/property/ID/read",
             "op": "readproperty"
           }
         ]
@@ -1734,7 +1709,7 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/AMLLibs/AMLLibs_SignalGroup/property/Version/read",
+            "dov:topic": "opcua/AMLLibs/AMLLibs_SignalGroup/property/Version/read",
             "op": "readproperty"
           }
         ]
@@ -1747,14 +1722,13 @@
     "@context": [
       "https://www.w3.org/2022/wot/td/v1.1",
       {
-        "dtv": "http://azure.com/DigitalTwins/dtmi#",
-        "aov": "http://azure.com/IoT/operations/tm#"
+        "dov": "http://azure.com/DigitalOperations/vocab#"
       }
     ],
     "@type": "tm:ThingModel",
     "title": "AMLLibs_ComponentGroup",
-    "aov:typeRef": "nsu=http://opcfoundation.org/UA/AMLLibs/;i=110",
-    "aov:isComposite": true,
+    "dov:typeRef": "nsu=http://opcfoundation.org/UA/AMLLibs/;i=110",
+    "dov:isComposite": true,
     "links": [
       {
         "rel": "tm:extends",
@@ -1767,7 +1741,7 @@
     "forms": [
       {
         "contentType": "application/json",
-        "dtv:topic": "opcua/AMLLibs/AMLLibs_ComponentGroup/properties/read",
+        "dov:topic": "opcua/AMLLibs/AMLLibs_ComponentGroup/properties/read",
         "op": "readallproperties"
       }
     ],
@@ -1781,7 +1755,7 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/AMLLibs/AMLLibs_ComponentGroup/property/ID/read",
+            "dov:topic": "opcua/AMLLibs/AMLLibs_ComponentGroup/property/ID/read",
             "op": "readproperty"
           }
         ]
@@ -1793,7 +1767,7 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/AMLLibs/AMLLibs_ComponentGroup/property/Version/read",
+            "dov:topic": "opcua/AMLLibs/AMLLibs_ComponentGroup/property/Version/read",
             "op": "readproperty"
           }
         ]
@@ -1806,14 +1780,13 @@
     "@context": [
       "https://www.w3.org/2022/wot/td/v1.1",
       {
-        "dtv": "http://azure.com/DigitalTwins/dtmi#",
-        "aov": "http://azure.com/IoT/operations/tm#"
+        "dov": "http://azure.com/DigitalOperations/vocab#"
       }
     ],
     "@type": "tm:ThingModel",
     "title": "AMLLibs_ProductStructure",
-    "aov:typeRef": "nsu=http://opcfoundation.org/UA/AMLLibs/;i=131",
-    "aov:isComposite": true,
+    "dov:typeRef": "nsu=http://opcfoundation.org/UA/AMLLibs/;i=131",
+    "dov:isComposite": true,
     "links": [
       {
         "rel": "tm:extends",
@@ -1826,7 +1799,7 @@
     "forms": [
       {
         "contentType": "application/json",
-        "dtv:topic": "opcua/AMLLibs/AMLLibs_ProductStructure/properties/read",
+        "dov:topic": "opcua/AMLLibs/AMLLibs_ProductStructure/properties/read",
         "op": "readallproperties"
       }
     ],
@@ -1840,7 +1813,7 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/AMLLibs/AMLLibs_ProductStructure/property/ID/read",
+            "dov:topic": "opcua/AMLLibs/AMLLibs_ProductStructure/property/ID/read",
             "op": "readproperty"
           }
         ]
@@ -1852,7 +1825,7 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/AMLLibs/AMLLibs_ProductStructure/property/Version/read",
+            "dov:topic": "opcua/AMLLibs/AMLLibs_ProductStructure/property/Version/read",
             "op": "readproperty"
           }
         ]
@@ -1865,14 +1838,13 @@
     "@context": [
       "https://www.w3.org/2022/wot/td/v1.1",
       {
-        "dtv": "http://azure.com/DigitalTwins/dtmi#",
-        "aov": "http://azure.com/IoT/operations/tm#"
+        "dov": "http://azure.com/DigitalOperations/vocab#"
       }
     ],
     "@type": "tm:ThingModel",
     "title": "AMLLibs_ProcessStructure",
-    "aov:typeRef": "nsu=http://opcfoundation.org/UA/AMLLibs/;i=134",
-    "aov:isComposite": true,
+    "dov:typeRef": "nsu=http://opcfoundation.org/UA/AMLLibs/;i=134",
+    "dov:isComposite": true,
     "links": [
       {
         "rel": "tm:extends",
@@ -1885,7 +1857,7 @@
     "forms": [
       {
         "contentType": "application/json",
-        "dtv:topic": "opcua/AMLLibs/AMLLibs_ProcessStructure/properties/read",
+        "dov:topic": "opcua/AMLLibs/AMLLibs_ProcessStructure/properties/read",
         "op": "readallproperties"
       }
     ],
@@ -1899,7 +1871,7 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/AMLLibs/AMLLibs_ProcessStructure/property/ID/read",
+            "dov:topic": "opcua/AMLLibs/AMLLibs_ProcessStructure/property/ID/read",
             "op": "readproperty"
           }
         ]
@@ -1911,7 +1883,7 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/AMLLibs/AMLLibs_ProcessStructure/property/Version/read",
+            "dov:topic": "opcua/AMLLibs/AMLLibs_ProcessStructure/property/Version/read",
             "op": "readproperty"
           }
         ]
@@ -1924,14 +1896,13 @@
     "@context": [
       "https://www.w3.org/2022/wot/td/v1.1",
       {
-        "dtv": "http://azure.com/DigitalTwins/dtmi#",
-        "aov": "http://azure.com/IoT/operations/tm#"
+        "dov": "http://azure.com/DigitalOperations/vocab#"
       }
     ],
     "@type": "tm:ThingModel",
     "title": "AMLLibs_ResourceStructure",
-    "aov:typeRef": "nsu=http://opcfoundation.org/UA/AMLLibs/;i=137",
-    "aov:isComposite": true,
+    "dov:typeRef": "nsu=http://opcfoundation.org/UA/AMLLibs/;i=137",
+    "dov:isComposite": true,
     "links": [
       {
         "rel": "tm:extends",
@@ -1944,7 +1915,7 @@
     "forms": [
       {
         "contentType": "application/json",
-        "dtv:topic": "opcua/AMLLibs/AMLLibs_ResourceStructure/properties/read",
+        "dov:topic": "opcua/AMLLibs/AMLLibs_ResourceStructure/properties/read",
         "op": "readallproperties"
       }
     ],
@@ -1958,7 +1929,7 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/AMLLibs/AMLLibs_ResourceStructure/property/ID/read",
+            "dov:topic": "opcua/AMLLibs/AMLLibs_ResourceStructure/property/ID/read",
             "op": "readproperty"
           }
         ]
@@ -1970,7 +1941,7 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/AMLLibs/AMLLibs_ResourceStructure/property/Version/read",
+            "dov:topic": "opcua/AMLLibs/AMLLibs_ResourceStructure/property/Version/read",
             "op": "readproperty"
           }
         ]
@@ -1983,14 +1954,13 @@
     "@context": [
       "https://www.w3.org/2022/wot/td/v1.1",
       {
-        "dtv": "http://azure.com/DigitalTwins/dtmi#",
-        "aov": "http://azure.com/IoT/operations/tm#"
+        "dov": "http://azure.com/DigitalOperations/vocab#"
       }
     ],
     "@type": "tm:ThingModel",
     "title": "AMLLibs_BatchManufacturingEquipment",
-    "aov:typeRef": "nsu=http://opcfoundation.org/UA/AMLLibs/;i=140",
-    "aov:isComposite": true,
+    "dov:typeRef": "nsu=http://opcfoundation.org/UA/AMLLibs/;i=140",
+    "dov:isComposite": true,
     "links": [
       {
         "rel": "tm:extends",
@@ -2003,7 +1973,7 @@
     "forms": [
       {
         "contentType": "application/json",
-        "dtv:topic": "opcua/AMLLibs/AMLLibs_BatchManufacturingEquipment/properties/read",
+        "dov:topic": "opcua/AMLLibs/AMLLibs_BatchManufacturingEquipment/properties/read",
         "op": "readallproperties"
       }
     ],
@@ -2017,7 +1987,7 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/AMLLibs/AMLLibs_BatchManufacturingEquipment/property/ID/read",
+            "dov:topic": "opcua/AMLLibs/AMLLibs_BatchManufacturingEquipment/property/ID/read",
             "op": "readproperty"
           }
         ]
@@ -2029,7 +1999,7 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/AMLLibs/AMLLibs_BatchManufacturingEquipment/property/Version/read",
+            "dov:topic": "opcua/AMLLibs/AMLLibs_BatchManufacturingEquipment/property/Version/read",
             "op": "readproperty"
           }
         ]
@@ -2042,14 +2012,13 @@
     "@context": [
       "https://www.w3.org/2022/wot/td/v1.1",
       {
-        "dtv": "http://azure.com/DigitalTwins/dtmi#",
-        "aov": "http://azure.com/IoT/operations/tm#"
+        "dov": "http://azure.com/DigitalOperations/vocab#"
       }
     ],
     "@type": "tm:ThingModel",
     "title": "AMLLibs_ContManufacturingEquipment",
-    "aov:typeRef": "nsu=http://opcfoundation.org/UA/AMLLibs/;i=143",
-    "aov:isComposite": true,
+    "dov:typeRef": "nsu=http://opcfoundation.org/UA/AMLLibs/;i=143",
+    "dov:isComposite": true,
     "links": [
       {
         "rel": "tm:extends",
@@ -2062,7 +2031,7 @@
     "forms": [
       {
         "contentType": "application/json",
-        "dtv:topic": "opcua/AMLLibs/AMLLibs_ContManufacturingEquipment/properties/read",
+        "dov:topic": "opcua/AMLLibs/AMLLibs_ContManufacturingEquipment/properties/read",
         "op": "readallproperties"
       }
     ],
@@ -2076,7 +2045,7 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/AMLLibs/AMLLibs_ContManufacturingEquipment/property/ID/read",
+            "dov:topic": "opcua/AMLLibs/AMLLibs_ContManufacturingEquipment/property/ID/read",
             "op": "readproperty"
           }
         ]
@@ -2088,7 +2057,7 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/AMLLibs/AMLLibs_ContManufacturingEquipment/property/Version/read",
+            "dov:topic": "opcua/AMLLibs/AMLLibs_ContManufacturingEquipment/property/Version/read",
             "op": "readproperty"
           }
         ]
@@ -2101,14 +2070,13 @@
     "@context": [
       "https://www.w3.org/2022/wot/td/v1.1",
       {
-        "dtv": "http://azure.com/DigitalTwins/dtmi#",
-        "aov": "http://azure.com/IoT/operations/tm#"
+        "dov": "http://azure.com/DigitalOperations/vocab#"
       }
     ],
     "@type": "tm:ThingModel",
     "title": "AMLLibs_DiscManufacturingEquipment",
-    "aov:typeRef": "nsu=http://opcfoundation.org/UA/AMLLibs/;i=146",
-    "aov:isComposite": true,
+    "dov:typeRef": "nsu=http://opcfoundation.org/UA/AMLLibs/;i=146",
+    "dov:isComposite": true,
     "links": [
       {
         "rel": "tm:extends",
@@ -2121,7 +2089,7 @@
     "forms": [
       {
         "contentType": "application/json",
-        "dtv:topic": "opcua/AMLLibs/AMLLibs_DiscManufacturingEquipment/properties/read",
+        "dov:topic": "opcua/AMLLibs/AMLLibs_DiscManufacturingEquipment/properties/read",
         "op": "readallproperties"
       }
     ],
@@ -2135,7 +2103,7 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/AMLLibs/AMLLibs_DiscManufacturingEquipment/property/ID/read",
+            "dov:topic": "opcua/AMLLibs/AMLLibs_DiscManufacturingEquipment/property/ID/read",
             "op": "readproperty"
           }
         ]
@@ -2147,7 +2115,7 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/AMLLibs/AMLLibs_DiscManufacturingEquipment/property/Version/read",
+            "dov:topic": "opcua/AMLLibs/AMLLibs_DiscManufacturingEquipment/property/Version/read",
             "op": "readproperty"
           }
         ]
@@ -2160,14 +2128,13 @@
     "@context": [
       "https://www.w3.org/2022/wot/td/v1.1",
       {
-        "dtv": "http://azure.com/DigitalTwins/dtmi#",
-        "aov": "http://azure.com/IoT/operations/tm#"
+        "dov": "http://azure.com/DigitalOperations/vocab#"
       }
     ],
     "@type": "tm:ThingModel",
     "title": "AMLLibs_Transport",
-    "aov:typeRef": "nsu=http://opcfoundation.org/UA/AMLLibs/;i=149",
-    "aov:isComposite": true,
+    "dov:typeRef": "nsu=http://opcfoundation.org/UA/AMLLibs/;i=149",
+    "dov:isComposite": true,
     "links": [
       {
         "rel": "tm:extends",
@@ -2180,7 +2147,7 @@
     "forms": [
       {
         "contentType": "application/json",
-        "dtv:topic": "opcua/AMLLibs/AMLLibs_Transport/properties/read",
+        "dov:topic": "opcua/AMLLibs/AMLLibs_Transport/properties/read",
         "op": "readallproperties"
       }
     ],
@@ -2194,7 +2161,7 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/AMLLibs/AMLLibs_Transport/property/ID/read",
+            "dov:topic": "opcua/AMLLibs/AMLLibs_Transport/property/ID/read",
             "op": "readproperty"
           }
         ]
@@ -2206,7 +2173,7 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/AMLLibs/AMLLibs_Transport/property/Version/read",
+            "dov:topic": "opcua/AMLLibs/AMLLibs_Transport/property/Version/read",
             "op": "readproperty"
           }
         ]
@@ -2219,14 +2186,13 @@
     "@context": [
       "https://www.w3.org/2022/wot/td/v1.1",
       {
-        "dtv": "http://azure.com/DigitalTwins/dtmi#",
-        "aov": "http://azure.com/IoT/operations/tm#"
+        "dov": "http://azure.com/DigitalOperations/vocab#"
       }
     ],
     "@type": "tm:ThingModel",
     "title": "AMLLibs_Storage",
-    "aov:typeRef": "nsu=http://opcfoundation.org/UA/AMLLibs/;i=152",
-    "aov:isComposite": true,
+    "dov:typeRef": "nsu=http://opcfoundation.org/UA/AMLLibs/;i=152",
+    "dov:isComposite": true,
     "links": [
       {
         "rel": "tm:extends",
@@ -2239,7 +2205,7 @@
     "forms": [
       {
         "contentType": "application/json",
-        "dtv:topic": "opcua/AMLLibs/AMLLibs_Storage/properties/read",
+        "dov:topic": "opcua/AMLLibs/AMLLibs_Storage/properties/read",
         "op": "readallproperties"
       }
     ],
@@ -2253,7 +2219,7 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/AMLLibs/AMLLibs_Storage/property/ID/read",
+            "dov:topic": "opcua/AMLLibs/AMLLibs_Storage/property/ID/read",
             "op": "readproperty"
           }
         ]
@@ -2265,7 +2231,7 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/AMLLibs/AMLLibs_Storage/property/Version/read",
+            "dov:topic": "opcua/AMLLibs/AMLLibs_Storage/property/Version/read",
             "op": "readproperty"
           }
         ]
@@ -2278,14 +2244,13 @@
     "@context": [
       "https://www.w3.org/2022/wot/td/v1.1",
       {
-        "dtv": "http://azure.com/DigitalTwins/dtmi#",
-        "aov": "http://azure.com/IoT/operations/tm#"
+        "dov": "http://azure.com/DigitalOperations/vocab#"
       }
     ],
     "@type": "tm:ThingModel",
     "title": "AMLLibs_Fixture",
-    "aov:typeRef": "nsu=http://opcfoundation.org/UA/AMLLibs/;i=155",
-    "aov:isComposite": true,
+    "dov:typeRef": "nsu=http://opcfoundation.org/UA/AMLLibs/;i=155",
+    "dov:isComposite": true,
     "links": [
       {
         "rel": "tm:extends",
@@ -2298,7 +2263,7 @@
     "forms": [
       {
         "contentType": "application/json",
-        "dtv:topic": "opcua/AMLLibs/AMLLibs_Fixture/properties/read",
+        "dov:topic": "opcua/AMLLibs/AMLLibs_Fixture/properties/read",
         "op": "readallproperties"
       }
     ],
@@ -2312,7 +2277,7 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/AMLLibs/AMLLibs_Fixture/property/ID/read",
+            "dov:topic": "opcua/AMLLibs/AMLLibs_Fixture/property/ID/read",
             "op": "readproperty"
           }
         ]
@@ -2324,7 +2289,7 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/AMLLibs/AMLLibs_Fixture/property/Version/read",
+            "dov:topic": "opcua/AMLLibs/AMLLibs_Fixture/property/Version/read",
             "op": "readproperty"
           }
         ]
@@ -2337,14 +2302,13 @@
     "@context": [
       "https://www.w3.org/2022/wot/td/v1.1",
       {
-        "dtv": "http://azure.com/DigitalTwins/dtmi#",
-        "aov": "http://azure.com/IoT/operations/tm#"
+        "dov": "http://azure.com/DigitalOperations/vocab#"
       }
     ],
     "@type": "tm:ThingModel",
     "title": "AMLLibs_Gate",
-    "aov:typeRef": "nsu=http://opcfoundation.org/UA/AMLLibs/;i=158",
-    "aov:isComposite": true,
+    "dov:typeRef": "nsu=http://opcfoundation.org/UA/AMLLibs/;i=158",
+    "dov:isComposite": true,
     "links": [
       {
         "rel": "tm:extends",
@@ -2357,7 +2321,7 @@
     "forms": [
       {
         "contentType": "application/json",
-        "dtv:topic": "opcua/AMLLibs/AMLLibs_Gate/properties/read",
+        "dov:topic": "opcua/AMLLibs/AMLLibs_Gate/properties/read",
         "op": "readallproperties"
       }
     ],
@@ -2371,7 +2335,7 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/AMLLibs/AMLLibs_Gate/property/ID/read",
+            "dov:topic": "opcua/AMLLibs/AMLLibs_Gate/property/ID/read",
             "op": "readproperty"
           }
         ]
@@ -2383,7 +2347,7 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/AMLLibs/AMLLibs_Gate/property/Version/read",
+            "dov:topic": "opcua/AMLLibs/AMLLibs_Gate/property/Version/read",
             "op": "readproperty"
           }
         ]
@@ -2396,14 +2360,13 @@
     "@context": [
       "https://www.w3.org/2022/wot/td/v1.1",
       {
-        "dtv": "http://azure.com/DigitalTwins/dtmi#",
-        "aov": "http://azure.com/IoT/operations/tm#"
+        "dov": "http://azure.com/DigitalOperations/vocab#"
       }
     ],
     "@type": "tm:ThingModel",
     "title": "AMLLibs_Robot",
-    "aov:typeRef": "nsu=http://opcfoundation.org/UA/AMLLibs/;i=161",
-    "aov:isComposite": true,
+    "dov:typeRef": "nsu=http://opcfoundation.org/UA/AMLLibs/;i=161",
+    "dov:isComposite": true,
     "links": [
       {
         "rel": "tm:extends",
@@ -2416,7 +2379,7 @@
     "forms": [
       {
         "contentType": "application/json",
-        "dtv:topic": "opcua/AMLLibs/AMLLibs_Robot/properties/read",
+        "dov:topic": "opcua/AMLLibs/AMLLibs_Robot/properties/read",
         "op": "readallproperties"
       }
     ],
@@ -2430,7 +2393,7 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/AMLLibs/AMLLibs_Robot/property/ID/read",
+            "dov:topic": "opcua/AMLLibs/AMLLibs_Robot/property/ID/read",
             "op": "readproperty"
           }
         ]
@@ -2442,7 +2405,7 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/AMLLibs/AMLLibs_Robot/property/Version/read",
+            "dov:topic": "opcua/AMLLibs/AMLLibs_Robot/property/Version/read",
             "op": "readproperty"
           }
         ]
@@ -2455,14 +2418,13 @@
     "@context": [
       "https://www.w3.org/2022/wot/td/v1.1",
       {
-        "dtv": "http://azure.com/DigitalTwins/dtmi#",
-        "aov": "http://azure.com/IoT/operations/tm#"
+        "dov": "http://azure.com/DigitalOperations/vocab#"
       }
     ],
     "@type": "tm:ThingModel",
     "title": "AMLLibs_Tool",
-    "aov:typeRef": "nsu=http://opcfoundation.org/UA/AMLLibs/;i=164",
-    "aov:isComposite": true,
+    "dov:typeRef": "nsu=http://opcfoundation.org/UA/AMLLibs/;i=164",
+    "dov:isComposite": true,
     "links": [
       {
         "rel": "tm:extends",
@@ -2475,7 +2437,7 @@
     "forms": [
       {
         "contentType": "application/json",
-        "dtv:topic": "opcua/AMLLibs/AMLLibs_Tool/properties/read",
+        "dov:topic": "opcua/AMLLibs/AMLLibs_Tool/properties/read",
         "op": "readallproperties"
       }
     ],
@@ -2489,7 +2451,7 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/AMLLibs/AMLLibs_Tool/property/ID/read",
+            "dov:topic": "opcua/AMLLibs/AMLLibs_Tool/property/ID/read",
             "op": "readproperty"
           }
         ]
@@ -2501,7 +2463,7 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/AMLLibs/AMLLibs_Tool/property/Version/read",
+            "dov:topic": "opcua/AMLLibs/AMLLibs_Tool/property/Version/read",
             "op": "readproperty"
           }
         ]
@@ -2514,14 +2476,13 @@
     "@context": [
       "https://www.w3.org/2022/wot/td/v1.1",
       {
-        "dtv": "http://azure.com/DigitalTwins/dtmi#",
-        "aov": "http://azure.com/IoT/operations/tm#"
+        "dov": "http://azure.com/DigitalOperations/vocab#"
       }
     ],
     "@type": "tm:ThingModel",
     "title": "AMLLibs_Carrier",
-    "aov:typeRef": "nsu=http://opcfoundation.org/UA/AMLLibs/;i=167",
-    "aov:isComposite": true,
+    "dov:typeRef": "nsu=http://opcfoundation.org/UA/AMLLibs/;i=167",
+    "dov:isComposite": true,
     "links": [
       {
         "rel": "tm:extends",
@@ -2534,7 +2495,7 @@
     "forms": [
       {
         "contentType": "application/json",
-        "dtv:topic": "opcua/AMLLibs/AMLLibs_Carrier/properties/read",
+        "dov:topic": "opcua/AMLLibs/AMLLibs_Carrier/properties/read",
         "op": "readallproperties"
       }
     ],
@@ -2548,7 +2509,7 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/AMLLibs/AMLLibs_Carrier/property/ID/read",
+            "dov:topic": "opcua/AMLLibs/AMLLibs_Carrier/property/ID/read",
             "op": "readproperty"
           }
         ]
@@ -2560,7 +2521,7 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/AMLLibs/AMLLibs_Carrier/property/Version/read",
+            "dov:topic": "opcua/AMLLibs/AMLLibs_Carrier/property/Version/read",
             "op": "readproperty"
           }
         ]
@@ -2573,14 +2534,13 @@
     "@context": [
       "https://www.w3.org/2022/wot/td/v1.1",
       {
-        "dtv": "http://azure.com/DigitalTwins/dtmi#",
-        "aov": "http://azure.com/IoT/operations/tm#"
+        "dov": "http://azure.com/DigitalOperations/vocab#"
       }
     ],
     "@type": "tm:ThingModel",
     "title": "AMLLibs_Machine",
-    "aov:typeRef": "nsu=http://opcfoundation.org/UA/AMLLibs/;i=170",
-    "aov:isComposite": true,
+    "dov:typeRef": "nsu=http://opcfoundation.org/UA/AMLLibs/;i=170",
+    "dov:isComposite": true,
     "links": [
       {
         "rel": "tm:extends",
@@ -2593,7 +2553,7 @@
     "forms": [
       {
         "contentType": "application/json",
-        "dtv:topic": "opcua/AMLLibs/AMLLibs_Machine/properties/read",
+        "dov:topic": "opcua/AMLLibs/AMLLibs_Machine/properties/read",
         "op": "readallproperties"
       }
     ],
@@ -2607,7 +2567,7 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/AMLLibs/AMLLibs_Machine/property/ID/read",
+            "dov:topic": "opcua/AMLLibs/AMLLibs_Machine/property/ID/read",
             "op": "readproperty"
           }
         ]
@@ -2619,7 +2579,7 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/AMLLibs/AMLLibs_Machine/property/Version/read",
+            "dov:topic": "opcua/AMLLibs/AMLLibs_Machine/property/Version/read",
             "op": "readproperty"
           }
         ]
@@ -2632,14 +2592,13 @@
     "@context": [
       "https://www.w3.org/2022/wot/td/v1.1",
       {
-        "dtv": "http://azure.com/DigitalTwins/dtmi#",
-        "aov": "http://azure.com/IoT/operations/tm#"
+        "dov": "http://azure.com/DigitalOperations/vocab#"
       }
     ],
     "@type": "tm:ThingModel",
     "title": "AMLLibs_StaticObject",
-    "aov:typeRef": "nsu=http://opcfoundation.org/UA/AMLLibs/;i=173",
-    "aov:isComposite": true,
+    "dov:typeRef": "nsu=http://opcfoundation.org/UA/AMLLibs/;i=173",
+    "dov:isComposite": true,
     "links": [
       {
         "rel": "tm:extends",
@@ -2652,7 +2611,7 @@
     "forms": [
       {
         "contentType": "application/json",
-        "dtv:topic": "opcua/AMLLibs/AMLLibs_StaticObject/properties/read",
+        "dov:topic": "opcua/AMLLibs/AMLLibs_StaticObject/properties/read",
         "op": "readallproperties"
       }
     ],
@@ -2666,7 +2625,7 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/AMLLibs/AMLLibs_StaticObject/property/ID/read",
+            "dov:topic": "opcua/AMLLibs/AMLLibs_StaticObject/property/ID/read",
             "op": "readproperty"
           }
         ]
@@ -2678,7 +2637,7 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/AMLLibs/AMLLibs_StaticObject/property/Version/read",
+            "dov:topic": "opcua/AMLLibs/AMLLibs_StaticObject/property/Version/read",
             "op": "readproperty"
           }
         ]
@@ -2691,14 +2650,13 @@
     "@context": [
       "https://www.w3.org/2022/wot/td/v1.1",
       {
-        "dtv": "http://azure.com/DigitalTwins/dtmi#",
-        "aov": "http://azure.com/IoT/operations/tm#"
+        "dov": "http://azure.com/DigitalOperations/vocab#"
       }
     ],
     "@type": "tm:ThingModel",
     "title": "AMLLibs_ControlEquipment",
-    "aov:typeRef": "nsu=http://opcfoundation.org/UA/AMLLibs/;i=176",
-    "aov:isComposite": true,
+    "dov:typeRef": "nsu=http://opcfoundation.org/UA/AMLLibs/;i=176",
+    "dov:isComposite": true,
     "links": [
       {
         "rel": "tm:extends",
@@ -2711,7 +2669,7 @@
     "forms": [
       {
         "contentType": "application/json",
-        "dtv:topic": "opcua/AMLLibs/AMLLibs_ControlEquipment/properties/read",
+        "dov:topic": "opcua/AMLLibs/AMLLibs_ControlEquipment/properties/read",
         "op": "readallproperties"
       }
     ],
@@ -2725,7 +2683,7 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/AMLLibs/AMLLibs_ControlEquipment/property/ID/read",
+            "dov:topic": "opcua/AMLLibs/AMLLibs_ControlEquipment/property/ID/read",
             "op": "readproperty"
           }
         ]
@@ -2737,7 +2695,7 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/AMLLibs/AMLLibs_ControlEquipment/property/Version/read",
+            "dov:topic": "opcua/AMLLibs/AMLLibs_ControlEquipment/property/Version/read",
             "op": "readproperty"
           }
         ]
@@ -2750,14 +2708,13 @@
     "@context": [
       "https://www.w3.org/2022/wot/td/v1.1",
       {
-        "dtv": "http://azure.com/DigitalTwins/dtmi#",
-        "aov": "http://azure.com/IoT/operations/tm#"
+        "dov": "http://azure.com/DigitalOperations/vocab#"
       }
     ],
     "@type": "tm:ThingModel",
     "title": "AMLLibs_Communication_2",
-    "aov:typeRef": "nsu=http://opcfoundation.org/UA/AMLLibs/;i=179",
-    "aov:isComposite": true,
+    "dov:typeRef": "nsu=http://opcfoundation.org/UA/AMLLibs/;i=179",
+    "dov:isComposite": true,
     "links": [
       {
         "rel": "tm:extends",
@@ -2770,7 +2727,7 @@
     "forms": [
       {
         "contentType": "application/json",
-        "dtv:topic": "opcua/AMLLibs/AMLLibs_Communication_2/properties/read",
+        "dov:topic": "opcua/AMLLibs/AMLLibs_Communication_2/properties/read",
         "op": "readallproperties"
       }
     ],
@@ -2784,7 +2741,7 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/AMLLibs/AMLLibs_Communication_2/property/ID/read",
+            "dov:topic": "opcua/AMLLibs/AMLLibs_Communication_2/property/ID/read",
             "op": "readproperty"
           }
         ]
@@ -2796,7 +2753,7 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/AMLLibs/AMLLibs_Communication_2/property/Version/read",
+            "dov:topic": "opcua/AMLLibs/AMLLibs_Communication_2/property/Version/read",
             "op": "readproperty"
           }
         ]
@@ -2809,14 +2766,13 @@
     "@context": [
       "https://www.w3.org/2022/wot/td/v1.1",
       {
-        "dtv": "http://azure.com/DigitalTwins/dtmi#",
-        "aov": "http://azure.com/IoT/operations/tm#"
+        "dov": "http://azure.com/DigitalOperations/vocab#"
       }
     ],
     "@type": "tm:ThingModel",
     "title": "AMLLibs_ControlHardware",
-    "aov:typeRef": "nsu=http://opcfoundation.org/UA/AMLLibs/;i=182",
-    "aov:isComposite": true,
+    "dov:typeRef": "nsu=http://opcfoundation.org/UA/AMLLibs/;i=182",
+    "dov:isComposite": true,
     "links": [
       {
         "rel": "tm:extends",
@@ -2829,7 +2785,7 @@
     "forms": [
       {
         "contentType": "application/json",
-        "dtv:topic": "opcua/AMLLibs/AMLLibs_ControlHardware/properties/read",
+        "dov:topic": "opcua/AMLLibs/AMLLibs_ControlHardware/properties/read",
         "op": "readallproperties"
       }
     ],
@@ -2843,7 +2799,7 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/AMLLibs/AMLLibs_ControlHardware/property/ID/read",
+            "dov:topic": "opcua/AMLLibs/AMLLibs_ControlHardware/property/ID/read",
             "op": "readproperty"
           }
         ]
@@ -2855,7 +2811,7 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/AMLLibs/AMLLibs_ControlHardware/property/Version/read",
+            "dov:topic": "opcua/AMLLibs/AMLLibs_ControlHardware/property/Version/read",
             "op": "readproperty"
           }
         ]
@@ -2868,14 +2824,13 @@
     "@context": [
       "https://www.w3.org/2022/wot/td/v1.1",
       {
-        "dtv": "http://azure.com/DigitalTwins/dtmi#",
-        "aov": "http://azure.com/IoT/operations/tm#"
+        "dov": "http://azure.com/DigitalOperations/vocab#"
       }
     ],
     "@type": "tm:ThingModel",
     "title": "AMLLibs_Sensor",
-    "aov:typeRef": "nsu=http://opcfoundation.org/UA/AMLLibs/;i=185",
-    "aov:isComposite": true,
+    "dov:typeRef": "nsu=http://opcfoundation.org/UA/AMLLibs/;i=185",
+    "dov:isComposite": true,
     "links": [
       {
         "rel": "tm:extends",
@@ -2888,7 +2843,7 @@
     "forms": [
       {
         "contentType": "application/json",
-        "dtv:topic": "opcua/AMLLibs/AMLLibs_Sensor/properties/read",
+        "dov:topic": "opcua/AMLLibs/AMLLibs_Sensor/properties/read",
         "op": "readallproperties"
       }
     ],
@@ -2902,7 +2857,7 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/AMLLibs/AMLLibs_Sensor/property/ID/read",
+            "dov:topic": "opcua/AMLLibs/AMLLibs_Sensor/property/ID/read",
             "op": "readproperty"
           }
         ]
@@ -2914,7 +2869,7 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/AMLLibs/AMLLibs_Sensor/property/Version/read",
+            "dov:topic": "opcua/AMLLibs/AMLLibs_Sensor/property/Version/read",
             "op": "readproperty"
           }
         ]
@@ -2927,14 +2882,13 @@
     "@context": [
       "https://www.w3.org/2022/wot/td/v1.1",
       {
-        "dtv": "http://azure.com/DigitalTwins/dtmi#",
-        "aov": "http://azure.com/IoT/operations/tm#"
+        "dov": "http://azure.com/DigitalOperations/vocab#"
       }
     ],
     "@type": "tm:ThingModel",
     "title": "AMLLibs_Actuator",
-    "aov:typeRef": "nsu=http://opcfoundation.org/UA/AMLLibs/;i=188",
-    "aov:isComposite": true,
+    "dov:typeRef": "nsu=http://opcfoundation.org/UA/AMLLibs/;i=188",
+    "dov:isComposite": true,
     "links": [
       {
         "rel": "tm:extends",
@@ -2947,7 +2901,7 @@
     "forms": [
       {
         "contentType": "application/json",
-        "dtv:topic": "opcua/AMLLibs/AMLLibs_Actuator/properties/read",
+        "dov:topic": "opcua/AMLLibs/AMLLibs_Actuator/properties/read",
         "op": "readallproperties"
       }
     ],
@@ -2961,7 +2915,7 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/AMLLibs/AMLLibs_Actuator/property/ID/read",
+            "dov:topic": "opcua/AMLLibs/AMLLibs_Actuator/property/ID/read",
             "op": "readproperty"
           }
         ]
@@ -2973,7 +2927,7 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/AMLLibs/AMLLibs_Actuator/property/Version/read",
+            "dov:topic": "opcua/AMLLibs/AMLLibs_Actuator/property/Version/read",
             "op": "readproperty"
           }
         ]
@@ -2986,14 +2940,13 @@
     "@context": [
       "https://www.w3.org/2022/wot/td/v1.1",
       {
-        "dtv": "http://azure.com/DigitalTwins/dtmi#",
-        "aov": "http://azure.com/IoT/operations/tm#"
+        "dov": "http://azure.com/DigitalOperations/vocab#"
       }
     ],
     "@type": "tm:ThingModel",
     "title": "AMLLibs_Controller",
-    "aov:typeRef": "nsu=http://opcfoundation.org/UA/AMLLibs/;i=191",
-    "aov:isComposite": true,
+    "dov:typeRef": "nsu=http://opcfoundation.org/UA/AMLLibs/;i=191",
+    "dov:isComposite": true,
     "links": [
       {
         "rel": "tm:extends",
@@ -3006,7 +2959,7 @@
     "forms": [
       {
         "contentType": "application/json",
-        "dtv:topic": "opcua/AMLLibs/AMLLibs_Controller/properties/read",
+        "dov:topic": "opcua/AMLLibs/AMLLibs_Controller/properties/read",
         "op": "readallproperties"
       }
     ],
@@ -3020,7 +2973,7 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/AMLLibs/AMLLibs_Controller/property/ID/read",
+            "dov:topic": "opcua/AMLLibs/AMLLibs_Controller/property/ID/read",
             "op": "readproperty"
           }
         ]
@@ -3032,7 +2985,7 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/AMLLibs/AMLLibs_Controller/property/Version/read",
+            "dov:topic": "opcua/AMLLibs/AMLLibs_Controller/property/Version/read",
             "op": "readproperty"
           }
         ]
@@ -3045,14 +2998,13 @@
     "@context": [
       "https://www.w3.org/2022/wot/td/v1.1",
       {
-        "dtv": "http://azure.com/DigitalTwins/dtmi#",
-        "aov": "http://azure.com/IoT/operations/tm#"
+        "dov": "http://azure.com/DigitalOperations/vocab#"
       }
     ],
     "@type": "tm:ThingModel",
     "title": "AMLLibs_PC",
-    "aov:typeRef": "nsu=http://opcfoundation.org/UA/AMLLibs/;i=194",
-    "aov:isComposite": true,
+    "dov:typeRef": "nsu=http://opcfoundation.org/UA/AMLLibs/;i=194",
+    "dov:isComposite": true,
     "links": [
       {
         "rel": "tm:extends",
@@ -3065,7 +3017,7 @@
     "forms": [
       {
         "contentType": "application/json",
-        "dtv:topic": "opcua/AMLLibs/AMLLibs_PC/properties/read",
+        "dov:topic": "opcua/AMLLibs/AMLLibs_PC/properties/read",
         "op": "readallproperties"
       }
     ],
@@ -3079,7 +3031,7 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/AMLLibs/AMLLibs_PC/property/ID/read",
+            "dov:topic": "opcua/AMLLibs/AMLLibs_PC/property/ID/read",
             "op": "readproperty"
           }
         ]
@@ -3091,7 +3043,7 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/AMLLibs/AMLLibs_PC/property/Version/read",
+            "dov:topic": "opcua/AMLLibs/AMLLibs_PC/property/Version/read",
             "op": "readproperty"
           }
         ]
@@ -3104,14 +3056,13 @@
     "@context": [
       "https://www.w3.org/2022/wot/td/v1.1",
       {
-        "dtv": "http://azure.com/DigitalTwins/dtmi#",
-        "aov": "http://azure.com/IoT/operations/tm#"
+        "dov": "http://azure.com/DigitalOperations/vocab#"
       }
     ],
     "@type": "tm:ThingModel",
     "title": "AMLLibs_IPC",
-    "aov:typeRef": "nsu=http://opcfoundation.org/UA/AMLLibs/;i=197",
-    "aov:isComposite": true,
+    "dov:typeRef": "nsu=http://opcfoundation.org/UA/AMLLibs/;i=197",
+    "dov:isComposite": true,
     "links": [
       {
         "rel": "tm:extends",
@@ -3124,7 +3075,7 @@
     "forms": [
       {
         "contentType": "application/json",
-        "dtv:topic": "opcua/AMLLibs/AMLLibs_IPC/properties/read",
+        "dov:topic": "opcua/AMLLibs/AMLLibs_IPC/properties/read",
         "op": "readallproperties"
       }
     ],
@@ -3138,7 +3089,7 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/AMLLibs/AMLLibs_IPC/property/ID/read",
+            "dov:topic": "opcua/AMLLibs/AMLLibs_IPC/property/ID/read",
             "op": "readproperty"
           }
         ]
@@ -3150,7 +3101,7 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/AMLLibs/AMLLibs_IPC/property/Version/read",
+            "dov:topic": "opcua/AMLLibs/AMLLibs_IPC/property/Version/read",
             "op": "readproperty"
           }
         ]
@@ -3163,14 +3114,13 @@
     "@context": [
       "https://www.w3.org/2022/wot/td/v1.1",
       {
-        "dtv": "http://azure.com/DigitalTwins/dtmi#",
-        "aov": "http://azure.com/IoT/operations/tm#"
+        "dov": "http://azure.com/DigitalOperations/vocab#"
       }
     ],
     "@type": "tm:ThingModel",
     "title": "AMLLibs_EmbeddedDevice",
-    "aov:typeRef": "nsu=http://opcfoundation.org/UA/AMLLibs/;i=200",
-    "aov:isComposite": true,
+    "dov:typeRef": "nsu=http://opcfoundation.org/UA/AMLLibs/;i=200",
+    "dov:isComposite": true,
     "links": [
       {
         "rel": "tm:extends",
@@ -3183,7 +3133,7 @@
     "forms": [
       {
         "contentType": "application/json",
-        "dtv:topic": "opcua/AMLLibs/AMLLibs_EmbeddedDevice/properties/read",
+        "dov:topic": "opcua/AMLLibs/AMLLibs_EmbeddedDevice/properties/read",
         "op": "readallproperties"
       }
     ],
@@ -3197,7 +3147,7 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/AMLLibs/AMLLibs_EmbeddedDevice/property/ID/read",
+            "dov:topic": "opcua/AMLLibs/AMLLibs_EmbeddedDevice/property/ID/read",
             "op": "readproperty"
           }
         ]
@@ -3209,7 +3159,7 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/AMLLibs/AMLLibs_EmbeddedDevice/property/Version/read",
+            "dov:topic": "opcua/AMLLibs/AMLLibs_EmbeddedDevice/property/Version/read",
             "op": "readproperty"
           }
         ]
@@ -3222,14 +3172,13 @@
     "@context": [
       "https://www.w3.org/2022/wot/td/v1.1",
       {
-        "dtv": "http://azure.com/DigitalTwins/dtmi#",
-        "aov": "http://azure.com/IoT/operations/tm#"
+        "dov": "http://azure.com/DigitalOperations/vocab#"
       }
     ],
     "@type": "tm:ThingModel",
     "title": "AMLLibs_Handheld",
-    "aov:typeRef": "nsu=http://opcfoundation.org/UA/AMLLibs/;i=203",
-    "aov:isComposite": true,
+    "dov:typeRef": "nsu=http://opcfoundation.org/UA/AMLLibs/;i=203",
+    "dov:isComposite": true,
     "links": [
       {
         "rel": "tm:extends",
@@ -3242,7 +3191,7 @@
     "forms": [
       {
         "contentType": "application/json",
-        "dtv:topic": "opcua/AMLLibs/AMLLibs_Handheld/properties/read",
+        "dov:topic": "opcua/AMLLibs/AMLLibs_Handheld/properties/read",
         "op": "readallproperties"
       }
     ],
@@ -3256,7 +3205,7 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/AMLLibs/AMLLibs_Handheld/property/ID/read",
+            "dov:topic": "opcua/AMLLibs/AMLLibs_Handheld/property/ID/read",
             "op": "readproperty"
           }
         ]
@@ -3268,7 +3217,7 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/AMLLibs/AMLLibs_Handheld/property/Version/read",
+            "dov:topic": "opcua/AMLLibs/AMLLibs_Handheld/property/Version/read",
             "op": "readproperty"
           }
         ]
@@ -3281,14 +3230,13 @@
     "@context": [
       "https://www.w3.org/2022/wot/td/v1.1",
       {
-        "dtv": "http://azure.com/DigitalTwins/dtmi#",
-        "aov": "http://azure.com/IoT/operations/tm#"
+        "dov": "http://azure.com/DigitalOperations/vocab#"
       }
     ],
     "@type": "tm:ThingModel",
     "title": "AMLLibs_PLC",
-    "aov:typeRef": "nsu=http://opcfoundation.org/UA/AMLLibs/;i=206",
-    "aov:isComposite": true,
+    "dov:typeRef": "nsu=http://opcfoundation.org/UA/AMLLibs/;i=206",
+    "dov:isComposite": true,
     "links": [
       {
         "rel": "tm:extends",
@@ -3301,7 +3249,7 @@
     "forms": [
       {
         "contentType": "application/json",
-        "dtv:topic": "opcua/AMLLibs/AMLLibs_PLC/properties/read",
+        "dov:topic": "opcua/AMLLibs/AMLLibs_PLC/properties/read",
         "op": "readallproperties"
       }
     ],
@@ -3315,7 +3263,7 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/AMLLibs/AMLLibs_PLC/property/ID/read",
+            "dov:topic": "opcua/AMLLibs/AMLLibs_PLC/property/ID/read",
             "op": "readproperty"
           }
         ]
@@ -3327,7 +3275,7 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/AMLLibs/AMLLibs_PLC/property/Version/read",
+            "dov:topic": "opcua/AMLLibs/AMLLibs_PLC/property/Version/read",
             "op": "readproperty"
           }
         ]
@@ -3340,14 +3288,13 @@
     "@context": [
       "https://www.w3.org/2022/wot/td/v1.1",
       {
-        "dtv": "http://azure.com/DigitalTwins/dtmi#",
-        "aov": "http://azure.com/IoT/operations/tm#"
+        "dov": "http://azure.com/DigitalOperations/vocab#"
       }
     ],
     "@type": "tm:ThingModel",
     "title": "AMLLibs_NC",
-    "aov:typeRef": "nsu=http://opcfoundation.org/UA/AMLLibs/;i=209",
-    "aov:isComposite": true,
+    "dov:typeRef": "nsu=http://opcfoundation.org/UA/AMLLibs/;i=209",
+    "dov:isComposite": true,
     "links": [
       {
         "rel": "tm:extends",
@@ -3360,7 +3307,7 @@
     "forms": [
       {
         "contentType": "application/json",
-        "dtv:topic": "opcua/AMLLibs/AMLLibs_NC/properties/read",
+        "dov:topic": "opcua/AMLLibs/AMLLibs_NC/properties/read",
         "op": "readallproperties"
       }
     ],
@@ -3374,7 +3321,7 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/AMLLibs/AMLLibs_NC/property/ID/read",
+            "dov:topic": "opcua/AMLLibs/AMLLibs_NC/property/ID/read",
             "op": "readproperty"
           }
         ]
@@ -3386,7 +3333,7 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/AMLLibs/AMLLibs_NC/property/Version/read",
+            "dov:topic": "opcua/AMLLibs/AMLLibs_NC/property/Version/read",
             "op": "readproperty"
           }
         ]
@@ -3399,14 +3346,13 @@
     "@context": [
       "https://www.w3.org/2022/wot/td/v1.1",
       {
-        "dtv": "http://azure.com/DigitalTwins/dtmi#",
-        "aov": "http://azure.com/IoT/operations/tm#"
+        "dov": "http://azure.com/DigitalOperations/vocab#"
       }
     ],
     "@type": "tm:ThingModel",
     "title": "AMLLibs_RC",
-    "aov:typeRef": "nsu=http://opcfoundation.org/UA/AMLLibs/;i=212",
-    "aov:isComposite": true,
+    "dov:typeRef": "nsu=http://opcfoundation.org/UA/AMLLibs/;i=212",
+    "dov:isComposite": true,
     "links": [
       {
         "rel": "tm:extends",
@@ -3419,7 +3365,7 @@
     "forms": [
       {
         "contentType": "application/json",
-        "dtv:topic": "opcua/AMLLibs/AMLLibs_RC/properties/read",
+        "dov:topic": "opcua/AMLLibs/AMLLibs_RC/properties/read",
         "op": "readallproperties"
       }
     ],
@@ -3433,7 +3379,7 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/AMLLibs/AMLLibs_RC/property/ID/read",
+            "dov:topic": "opcua/AMLLibs/AMLLibs_RC/property/ID/read",
             "op": "readproperty"
           }
         ]
@@ -3445,7 +3391,7 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/AMLLibs/AMLLibs_RC/property/Version/read",
+            "dov:topic": "opcua/AMLLibs/AMLLibs_RC/property/Version/read",
             "op": "readproperty"
           }
         ]
@@ -3458,14 +3404,13 @@
     "@context": [
       "https://www.w3.org/2022/wot/td/v1.1",
       {
-        "dtv": "http://azure.com/DigitalTwins/dtmi#",
-        "aov": "http://azure.com/IoT/operations/tm#"
+        "dov": "http://azure.com/DigitalOperations/vocab#"
       }
     ],
     "@type": "tm:ThingModel",
     "title": "AMLLibs_PAC",
-    "aov:typeRef": "nsu=http://opcfoundation.org/UA/AMLLibs/;i=215",
-    "aov:isComposite": true,
+    "dov:typeRef": "nsu=http://opcfoundation.org/UA/AMLLibs/;i=215",
+    "dov:isComposite": true,
     "links": [
       {
         "rel": "tm:extends",
@@ -3478,7 +3423,7 @@
     "forms": [
       {
         "contentType": "application/json",
-        "dtv:topic": "opcua/AMLLibs/AMLLibs_PAC/properties/read",
+        "dov:topic": "opcua/AMLLibs/AMLLibs_PAC/properties/read",
         "op": "readallproperties"
       }
     ],
@@ -3492,7 +3437,7 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/AMLLibs/AMLLibs_PAC/property/ID/read",
+            "dov:topic": "opcua/AMLLibs/AMLLibs_PAC/property/ID/read",
             "op": "readproperty"
           }
         ]
@@ -3504,7 +3449,7 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/AMLLibs/AMLLibs_PAC/property/Version/read",
+            "dov:topic": "opcua/AMLLibs/AMLLibs_PAC/property/Version/read",
             "op": "readproperty"
           }
         ]
@@ -3517,14 +3462,13 @@
     "@context": [
       "https://www.w3.org/2022/wot/td/v1.1",
       {
-        "dtv": "http://azure.com/DigitalTwins/dtmi#",
-        "aov": "http://azure.com/IoT/operations/tm#"
+        "dov": "http://azure.com/DigitalOperations/vocab#"
       }
     ],
     "@type": "tm:ThingModel",
     "title": "AMLLibs_PLCFacet",
-    "aov:typeRef": "nsu=http://opcfoundation.org/UA/AMLLibs/;i=218",
-    "aov:isComposite": true,
+    "dov:typeRef": "nsu=http://opcfoundation.org/UA/AMLLibs/;i=218",
+    "dov:isComposite": true,
     "links": [
       {
         "rel": "tm:extends",
@@ -3537,7 +3481,7 @@
     "forms": [
       {
         "contentType": "application/json",
-        "dtv:topic": "opcua/AMLLibs/AMLLibs_PLCFacet/properties/read",
+        "dov:topic": "opcua/AMLLibs/AMLLibs_PLCFacet/properties/read",
         "op": "readallproperties"
       }
     ],
@@ -3551,7 +3495,7 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/AMLLibs/AMLLibs_PLCFacet/property/ID/read",
+            "dov:topic": "opcua/AMLLibs/AMLLibs_PLCFacet/property/ID/read",
             "op": "readproperty"
           }
         ]
@@ -3563,7 +3507,7 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/AMLLibs/AMLLibs_PLCFacet/property/Version/read",
+            "dov:topic": "opcua/AMLLibs/AMLLibs_PLCFacet/property/Version/read",
             "op": "readproperty"
           }
         ]
@@ -3576,14 +3520,13 @@
     "@context": [
       "https://www.w3.org/2022/wot/td/v1.1",
       {
-        "dtv": "http://azure.com/DigitalTwins/dtmi#",
-        "aov": "http://azure.com/IoT/operations/tm#"
+        "dov": "http://azure.com/DigitalOperations/vocab#"
       }
     ],
     "@type": "tm:ThingModel",
     "title": "AMLLibs_HMIFacet",
-    "aov:typeRef": "nsu=http://opcfoundation.org/UA/AMLLibs/;i=221",
-    "aov:isComposite": true,
+    "dov:typeRef": "nsu=http://opcfoundation.org/UA/AMLLibs/;i=221",
+    "dov:isComposite": true,
     "links": [
       {
         "rel": "tm:extends",
@@ -3596,7 +3539,7 @@
     "forms": [
       {
         "contentType": "application/json",
-        "dtv:topic": "opcua/AMLLibs/AMLLibs_HMIFacet/properties/read",
+        "dov:topic": "opcua/AMLLibs/AMLLibs_HMIFacet/properties/read",
         "op": "readallproperties"
       }
     ],
@@ -3610,7 +3553,7 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/AMLLibs/AMLLibs_HMIFacet/property/ID/read",
+            "dov:topic": "opcua/AMLLibs/AMLLibs_HMIFacet/property/ID/read",
             "op": "readproperty"
           }
         ]
@@ -3622,7 +3565,7 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/AMLLibs/AMLLibs_HMIFacet/property/Version/read",
+            "dov:topic": "opcua/AMLLibs/AMLLibs_HMIFacet/property/Version/read",
             "op": "readproperty"
           }
         ]
@@ -3635,14 +3578,13 @@
     "@context": [
       "https://www.w3.org/2022/wot/td/v1.1",
       {
-        "dtv": "http://azure.com/DigitalTwins/dtmi#",
-        "aov": "http://azure.com/IoT/operations/tm#"
+        "dov": "http://azure.com/DigitalOperations/vocab#"
       }
     ],
     "@type": "tm:ThingModel",
     "title": "AMLLibs_Enterprise",
-    "aov:typeRef": "nsu=http://opcfoundation.org/UA/AMLLibs/;i=224",
-    "aov:isComposite": true,
+    "dov:typeRef": "nsu=http://opcfoundation.org/UA/AMLLibs/;i=224",
+    "dov:isComposite": true,
     "links": [
       {
         "rel": "tm:extends",
@@ -3655,7 +3597,7 @@
     "forms": [
       {
         "contentType": "application/json",
-        "dtv:topic": "opcua/AMLLibs/AMLLibs_Enterprise/properties/read",
+        "dov:topic": "opcua/AMLLibs/AMLLibs_Enterprise/properties/read",
         "op": "readallproperties"
       }
     ],
@@ -3669,7 +3611,7 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/AMLLibs/AMLLibs_Enterprise/property/ID/read",
+            "dov:topic": "opcua/AMLLibs/AMLLibs_Enterprise/property/ID/read",
             "op": "readproperty"
           }
         ]
@@ -3681,7 +3623,7 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/AMLLibs/AMLLibs_Enterprise/property/Version/read",
+            "dov:topic": "opcua/AMLLibs/AMLLibs_Enterprise/property/Version/read",
             "op": "readproperty"
           }
         ]
@@ -3694,14 +3636,13 @@
     "@context": [
       "https://www.w3.org/2022/wot/td/v1.1",
       {
-        "dtv": "http://azure.com/DigitalTwins/dtmi#",
-        "aov": "http://azure.com/IoT/operations/tm#"
+        "dov": "http://azure.com/DigitalOperations/vocab#"
       }
     ],
     "@type": "tm:ThingModel",
     "title": "AMLLibs_Site",
-    "aov:typeRef": "nsu=http://opcfoundation.org/UA/AMLLibs/;i=227",
-    "aov:isComposite": true,
+    "dov:typeRef": "nsu=http://opcfoundation.org/UA/AMLLibs/;i=227",
+    "dov:isComposite": true,
     "links": [
       {
         "rel": "tm:extends",
@@ -3714,7 +3655,7 @@
     "forms": [
       {
         "contentType": "application/json",
-        "dtv:topic": "opcua/AMLLibs/AMLLibs_Site/properties/read",
+        "dov:topic": "opcua/AMLLibs/AMLLibs_Site/properties/read",
         "op": "readallproperties"
       }
     ],
@@ -3728,7 +3669,7 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/AMLLibs/AMLLibs_Site/property/ID/read",
+            "dov:topic": "opcua/AMLLibs/AMLLibs_Site/property/ID/read",
             "op": "readproperty"
           }
         ]
@@ -3740,7 +3681,7 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/AMLLibs/AMLLibs_Site/property/Version/read",
+            "dov:topic": "opcua/AMLLibs/AMLLibs_Site/property/Version/read",
             "op": "readproperty"
           }
         ]
@@ -3753,14 +3694,13 @@
     "@context": [
       "https://www.w3.org/2022/wot/td/v1.1",
       {
-        "dtv": "http://azure.com/DigitalTwins/dtmi#",
-        "aov": "http://azure.com/IoT/operations/tm#"
+        "dov": "http://azure.com/DigitalOperations/vocab#"
       }
     ],
     "@type": "tm:ThingModel",
     "title": "AMLLibs_Area",
-    "aov:typeRef": "nsu=http://opcfoundation.org/UA/AMLLibs/;i=230",
-    "aov:isComposite": true,
+    "dov:typeRef": "nsu=http://opcfoundation.org/UA/AMLLibs/;i=230",
+    "dov:isComposite": true,
     "links": [
       {
         "rel": "tm:extends",
@@ -3773,7 +3713,7 @@
     "forms": [
       {
         "contentType": "application/json",
-        "dtv:topic": "opcua/AMLLibs/AMLLibs_Area/properties/read",
+        "dov:topic": "opcua/AMLLibs/AMLLibs_Area/properties/read",
         "op": "readallproperties"
       }
     ],
@@ -3787,7 +3727,7 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/AMLLibs/AMLLibs_Area/property/ID/read",
+            "dov:topic": "opcua/AMLLibs/AMLLibs_Area/property/ID/read",
             "op": "readproperty"
           }
         ]
@@ -3799,7 +3739,7 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/AMLLibs/AMLLibs_Area/property/Version/read",
+            "dov:topic": "opcua/AMLLibs/AMLLibs_Area/property/Version/read",
             "op": "readproperty"
           }
         ]
@@ -3812,14 +3752,13 @@
     "@context": [
       "https://www.w3.org/2022/wot/td/v1.1",
       {
-        "dtv": "http://azure.com/DigitalTwins/dtmi#",
-        "aov": "http://azure.com/IoT/operations/tm#"
+        "dov": "http://azure.com/DigitalOperations/vocab#"
       }
     ],
     "@type": "tm:ThingModel",
     "title": "AMLLibs_ProductionLine",
-    "aov:typeRef": "nsu=http://opcfoundation.org/UA/AMLLibs/;i=233",
-    "aov:isComposite": true,
+    "dov:typeRef": "nsu=http://opcfoundation.org/UA/AMLLibs/;i=233",
+    "dov:isComposite": true,
     "links": [
       {
         "rel": "tm:extends",
@@ -3832,7 +3771,7 @@
     "forms": [
       {
         "contentType": "application/json",
-        "dtv:topic": "opcua/AMLLibs/AMLLibs_ProductionLine/properties/read",
+        "dov:topic": "opcua/AMLLibs/AMLLibs_ProductionLine/properties/read",
         "op": "readallproperties"
       }
     ],
@@ -3846,7 +3785,7 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/AMLLibs/AMLLibs_ProductionLine/property/ID/read",
+            "dov:topic": "opcua/AMLLibs/AMLLibs_ProductionLine/property/ID/read",
             "op": "readproperty"
           }
         ]
@@ -3858,7 +3797,7 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/AMLLibs/AMLLibs_ProductionLine/property/Version/read",
+            "dov:topic": "opcua/AMLLibs/AMLLibs_ProductionLine/property/Version/read",
             "op": "readproperty"
           }
         ]
@@ -3871,14 +3810,13 @@
     "@context": [
       "https://www.w3.org/2022/wot/td/v1.1",
       {
-        "dtv": "http://azure.com/DigitalTwins/dtmi#",
-        "aov": "http://azure.com/IoT/operations/tm#"
+        "dov": "http://azure.com/DigitalOperations/vocab#"
       }
     ],
     "@type": "tm:ThingModel",
     "title": "AMLLibs_WorkCell",
-    "aov:typeRef": "nsu=http://opcfoundation.org/UA/AMLLibs/;i=236",
-    "aov:isComposite": true,
+    "dov:typeRef": "nsu=http://opcfoundation.org/UA/AMLLibs/;i=236",
+    "dov:isComposite": true,
     "links": [
       {
         "rel": "tm:extends",
@@ -3891,7 +3829,7 @@
     "forms": [
       {
         "contentType": "application/json",
-        "dtv:topic": "opcua/AMLLibs/AMLLibs_WorkCell/properties/read",
+        "dov:topic": "opcua/AMLLibs/AMLLibs_WorkCell/properties/read",
         "op": "readallproperties"
       }
     ],
@@ -3905,7 +3843,7 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/AMLLibs/AMLLibs_WorkCell/property/ID/read",
+            "dov:topic": "opcua/AMLLibs/AMLLibs_WorkCell/property/ID/read",
             "op": "readproperty"
           }
         ]
@@ -3917,7 +3855,7 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/AMLLibs/AMLLibs_WorkCell/property/Version/read",
+            "dov:topic": "opcua/AMLLibs/AMLLibs_WorkCell/property/Version/read",
             "op": "readproperty"
           }
         ]
@@ -3930,14 +3868,13 @@
     "@context": [
       "https://www.w3.org/2022/wot/td/v1.1",
       {
-        "dtv": "http://azure.com/DigitalTwins/dtmi#",
-        "aov": "http://azure.com/IoT/operations/tm#"
+        "dov": "http://azure.com/DigitalOperations/vocab#"
       }
     ],
     "@type": "tm:ThingModel",
     "title": "AMLLibs_ProcessCell",
-    "aov:typeRef": "nsu=http://opcfoundation.org/UA/AMLLibs/;i=239",
-    "aov:isComposite": true,
+    "dov:typeRef": "nsu=http://opcfoundation.org/UA/AMLLibs/;i=239",
+    "dov:isComposite": true,
     "links": [
       {
         "rel": "tm:extends",
@@ -3950,7 +3887,7 @@
     "forms": [
       {
         "contentType": "application/json",
-        "dtv:topic": "opcua/AMLLibs/AMLLibs_ProcessCell/properties/read",
+        "dov:topic": "opcua/AMLLibs/AMLLibs_ProcessCell/properties/read",
         "op": "readallproperties"
       }
     ],
@@ -3964,7 +3901,7 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/AMLLibs/AMLLibs_ProcessCell/property/ID/read",
+            "dov:topic": "opcua/AMLLibs/AMLLibs_ProcessCell/property/ID/read",
             "op": "readproperty"
           }
         ]
@@ -3976,7 +3913,7 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/AMLLibs/AMLLibs_ProcessCell/property/Version/read",
+            "dov:topic": "opcua/AMLLibs/AMLLibs_ProcessCell/property/Version/read",
             "op": "readproperty"
           }
         ]
@@ -3989,14 +3926,13 @@
     "@context": [
       "https://www.w3.org/2022/wot/td/v1.1",
       {
-        "dtv": "http://azure.com/DigitalTwins/dtmi#",
-        "aov": "http://azure.com/IoT/operations/tm#"
+        "dov": "http://azure.com/DigitalOperations/vocab#"
       }
     ],
     "@type": "tm:ThingModel",
     "title": "AMLLibs_Unit",
-    "aov:typeRef": "nsu=http://opcfoundation.org/UA/AMLLibs/;i=242",
-    "aov:isComposite": true,
+    "dov:typeRef": "nsu=http://opcfoundation.org/UA/AMLLibs/;i=242",
+    "dov:isComposite": true,
     "links": [
       {
         "rel": "tm:extends",
@@ -4009,7 +3945,7 @@
     "forms": [
       {
         "contentType": "application/json",
-        "dtv:topic": "opcua/AMLLibs/AMLLibs_Unit/properties/read",
+        "dov:topic": "opcua/AMLLibs/AMLLibs_Unit/properties/read",
         "op": "readallproperties"
       }
     ],
@@ -4023,7 +3959,7 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/AMLLibs/AMLLibs_Unit/property/ID/read",
+            "dov:topic": "opcua/AMLLibs/AMLLibs_Unit/property/ID/read",
             "op": "readproperty"
           }
         ]
@@ -4035,7 +3971,7 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/AMLLibs/AMLLibs_Unit/property/Version/read",
+            "dov:topic": "opcua/AMLLibs/AMLLibs_Unit/property/Version/read",
             "op": "readproperty"
           }
         ]
@@ -4048,14 +3984,13 @@
     "@context": [
       "https://www.w3.org/2022/wot/td/v1.1",
       {
-        "dtv": "http://azure.com/DigitalTwins/dtmi#",
-        "aov": "http://azure.com/IoT/operations/tm#"
+        "dov": "http://azure.com/DigitalOperations/vocab#"
       }
     ],
     "@type": "tm:ThingModel",
     "title": "AMLLibs_ProductionUnit",
-    "aov:typeRef": "nsu=http://opcfoundation.org/UA/AMLLibs/;i=245",
-    "aov:isComposite": true,
+    "dov:typeRef": "nsu=http://opcfoundation.org/UA/AMLLibs/;i=245",
+    "dov:isComposite": true,
     "links": [
       {
         "rel": "tm:extends",
@@ -4068,7 +4003,7 @@
     "forms": [
       {
         "contentType": "application/json",
-        "dtv:topic": "opcua/AMLLibs/AMLLibs_ProductionUnit/properties/read",
+        "dov:topic": "opcua/AMLLibs/AMLLibs_ProductionUnit/properties/read",
         "op": "readallproperties"
       }
     ],
@@ -4082,7 +4017,7 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/AMLLibs/AMLLibs_ProductionUnit/property/ID/read",
+            "dov:topic": "opcua/AMLLibs/AMLLibs_ProductionUnit/property/ID/read",
             "op": "readproperty"
           }
         ]
@@ -4094,7 +4029,7 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/AMLLibs/AMLLibs_ProductionUnit/property/Version/read",
+            "dov:topic": "opcua/AMLLibs/AMLLibs_ProductionUnit/property/Version/read",
             "op": "readproperty"
           }
         ]
@@ -4107,14 +4042,13 @@
     "@context": [
       "https://www.w3.org/2022/wot/td/v1.1",
       {
-        "dtv": "http://azure.com/DigitalTwins/dtmi#",
-        "aov": "http://azure.com/IoT/operations/tm#"
+        "dov": "http://azure.com/DigitalOperations/vocab#"
       }
     ],
     "@type": "tm:ThingModel",
     "title": "AMLLibs_StorageZone",
-    "aov:typeRef": "nsu=http://opcfoundation.org/UA/AMLLibs/;i=248",
-    "aov:isComposite": true,
+    "dov:typeRef": "nsu=http://opcfoundation.org/UA/AMLLibs/;i=248",
+    "dov:isComposite": true,
     "links": [
       {
         "rel": "tm:extends",
@@ -4127,7 +4061,7 @@
     "forms": [
       {
         "contentType": "application/json",
-        "dtv:topic": "opcua/AMLLibs/AMLLibs_StorageZone/properties/read",
+        "dov:topic": "opcua/AMLLibs/AMLLibs_StorageZone/properties/read",
         "op": "readallproperties"
       }
     ],
@@ -4141,7 +4075,7 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/AMLLibs/AMLLibs_StorageZone/property/ID/read",
+            "dov:topic": "opcua/AMLLibs/AMLLibs_StorageZone/property/ID/read",
             "op": "readproperty"
           }
         ]
@@ -4153,7 +4087,7 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/AMLLibs/AMLLibs_StorageZone/property/Version/read",
+            "dov:topic": "opcua/AMLLibs/AMLLibs_StorageZone/property/Version/read",
             "op": "readproperty"
           }
         ]
@@ -4166,14 +4100,13 @@
     "@context": [
       "https://www.w3.org/2022/wot/td/v1.1",
       {
-        "dtv": "http://azure.com/DigitalTwins/dtmi#",
-        "aov": "http://azure.com/IoT/operations/tm#"
+        "dov": "http://azure.com/DigitalOperations/vocab#"
       }
     ],
     "@type": "tm:ThingModel",
     "title": "AMLLibs_StorageUnit",
-    "aov:typeRef": "nsu=http://opcfoundation.org/UA/AMLLibs/;i=251",
-    "aov:isComposite": true,
+    "dov:typeRef": "nsu=http://opcfoundation.org/UA/AMLLibs/;i=251",
+    "dov:isComposite": true,
     "links": [
       {
         "rel": "tm:extends",
@@ -4186,7 +4119,7 @@
     "forms": [
       {
         "contentType": "application/json",
-        "dtv:topic": "opcua/AMLLibs/AMLLibs_StorageUnit/properties/read",
+        "dov:topic": "opcua/AMLLibs/AMLLibs_StorageUnit/properties/read",
         "op": "readallproperties"
       }
     ],
@@ -4200,7 +4133,7 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/AMLLibs/AMLLibs_StorageUnit/property/ID/read",
+            "dov:topic": "opcua/AMLLibs/AMLLibs_StorageUnit/property/ID/read",
             "op": "readproperty"
           }
         ]
@@ -4212,7 +4145,7 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/AMLLibs/AMLLibs_StorageUnit/property/Version/read",
+            "dov:topic": "opcua/AMLLibs/AMLLibs_StorageUnit/property/Version/read",
             "op": "readproperty"
           }
         ]
@@ -4225,14 +4158,13 @@
     "@context": [
       "https://www.w3.org/2022/wot/td/v1.1",
       {
-        "dtv": "http://azure.com/DigitalTwins/dtmi#",
-        "aov": "http://azure.com/IoT/operations/tm#"
+        "dov": "http://azure.com/DigitalOperations/vocab#"
       }
     ],
     "@type": "tm:ThingModel",
     "title": "AMLLibs_Turntable",
-    "aov:typeRef": "nsu=http://opcfoundation.org/UA/AMLLibs/;i=254",
-    "aov:isComposite": true,
+    "dov:typeRef": "nsu=http://opcfoundation.org/UA/AMLLibs/;i=254",
+    "dov:isComposite": true,
     "links": [
       {
         "rel": "tm:extends",
@@ -4245,7 +4177,7 @@
     "forms": [
       {
         "contentType": "application/json",
-        "dtv:topic": "opcua/AMLLibs/AMLLibs_Turntable/properties/read",
+        "dov:topic": "opcua/AMLLibs/AMLLibs_Turntable/properties/read",
         "op": "readallproperties"
       }
     ],
@@ -4259,7 +4191,7 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/AMLLibs/AMLLibs_Turntable/property/ID/read",
+            "dov:topic": "opcua/AMLLibs/AMLLibs_Turntable/property/ID/read",
             "op": "readproperty"
           }
         ]
@@ -4271,7 +4203,7 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/AMLLibs/AMLLibs_Turntable/property/Version/read",
+            "dov:topic": "opcua/AMLLibs/AMLLibs_Turntable/property/Version/read",
             "op": "readproperty"
           }
         ]
@@ -4284,14 +4216,13 @@
     "@context": [
       "https://www.w3.org/2022/wot/td/v1.1",
       {
-        "dtv": "http://azure.com/DigitalTwins/dtmi#",
-        "aov": "http://azure.com/IoT/operations/tm#"
+        "dov": "http://azure.com/DigitalOperations/vocab#"
       }
     ],
     "@type": "tm:ThingModel",
     "title": "AMLLibs_Conveyor",
-    "aov:typeRef": "nsu=http://opcfoundation.org/UA/AMLLibs/;i=257",
-    "aov:isComposite": true,
+    "dov:typeRef": "nsu=http://opcfoundation.org/UA/AMLLibs/;i=257",
+    "dov:isComposite": true,
     "links": [
       {
         "rel": "tm:extends",
@@ -4304,7 +4235,7 @@
     "forms": [
       {
         "contentType": "application/json",
-        "dtv:topic": "opcua/AMLLibs/AMLLibs_Conveyor/properties/read",
+        "dov:topic": "opcua/AMLLibs/AMLLibs_Conveyor/properties/read",
         "op": "readallproperties"
       }
     ],
@@ -4318,7 +4249,7 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/AMLLibs/AMLLibs_Conveyor/property/ID/read",
+            "dov:topic": "opcua/AMLLibs/AMLLibs_Conveyor/property/ID/read",
             "op": "readproperty"
           }
         ]
@@ -4330,7 +4261,7 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/AMLLibs/AMLLibs_Conveyor/property/Version/read",
+            "dov:topic": "opcua/AMLLibs/AMLLibs_Conveyor/property/Version/read",
             "op": "readproperty"
           }
         ]
@@ -4343,14 +4274,13 @@
     "@context": [
       "https://www.w3.org/2022/wot/td/v1.1",
       {
-        "dtv": "http://azure.com/DigitalTwins/dtmi#",
-        "aov": "http://azure.com/IoT/operations/tm#"
+        "dov": "http://azure.com/DigitalOperations/vocab#"
       }
     ],
     "@type": "tm:ThingModel",
     "title": "AMLLibs_LiftingTable",
-    "aov:typeRef": "nsu=http://opcfoundation.org/UA/AMLLibs/;i=260",
-    "aov:isComposite": true,
+    "dov:typeRef": "nsu=http://opcfoundation.org/UA/AMLLibs/;i=260",
+    "dov:isComposite": true,
     "links": [
       {
         "rel": "tm:extends",
@@ -4363,7 +4293,7 @@
     "forms": [
       {
         "contentType": "application/json",
-        "dtv:topic": "opcua/AMLLibs/AMLLibs_LiftingTable/properties/read",
+        "dov:topic": "opcua/AMLLibs/AMLLibs_LiftingTable/properties/read",
         "op": "readallproperties"
       }
     ],
@@ -4377,7 +4307,7 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/AMLLibs/AMLLibs_LiftingTable/property/ID/read",
+            "dov:topic": "opcua/AMLLibs/AMLLibs_LiftingTable/property/ID/read",
             "op": "readproperty"
           }
         ]
@@ -4389,7 +4319,7 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/AMLLibs/AMLLibs_LiftingTable/property/Version/read",
+            "dov:topic": "opcua/AMLLibs/AMLLibs_LiftingTable/property/Version/read",
             "op": "readproperty"
           }
         ]
@@ -4402,14 +4332,13 @@
     "@context": [
       "https://www.w3.org/2022/wot/td/v1.1",
       {
-        "dtv": "http://azure.com/DigitalTwins/dtmi#",
-        "aov": "http://azure.com/IoT/operations/tm#"
+        "dov": "http://azure.com/DigitalOperations/vocab#"
       }
     ],
     "@type": "tm:ThingModel",
     "title": "AMLLibs_AGV",
-    "aov:typeRef": "nsu=http://opcfoundation.org/UA/AMLLibs/;i=263",
-    "aov:isComposite": true,
+    "dov:typeRef": "nsu=http://opcfoundation.org/UA/AMLLibs/;i=263",
+    "dov:isComposite": true,
     "links": [
       {
         "rel": "tm:extends",
@@ -4422,7 +4351,7 @@
     "forms": [
       {
         "contentType": "application/json",
-        "dtv:topic": "opcua/AMLLibs/AMLLibs_AGV/properties/read",
+        "dov:topic": "opcua/AMLLibs/AMLLibs_AGV/properties/read",
         "op": "readallproperties"
       }
     ],
@@ -4436,7 +4365,7 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/AMLLibs/AMLLibs_AGV/property/ID/read",
+            "dov:topic": "opcua/AMLLibs/AMLLibs_AGV/property/ID/read",
             "op": "readproperty"
           }
         ]
@@ -4448,7 +4377,7 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/AMLLibs/AMLLibs_AGV/property/Version/read",
+            "dov:topic": "opcua/AMLLibs/AMLLibs_AGV/property/Version/read",
             "op": "readproperty"
           }
         ]
@@ -4461,14 +4390,13 @@
     "@context": [
       "https://www.w3.org/2022/wot/td/v1.1",
       {
-        "dtv": "http://azure.com/DigitalTwins/dtmi#",
-        "aov": "http://azure.com/IoT/operations/tm#"
+        "dov": "http://azure.com/DigitalOperations/vocab#"
       }
     ],
     "@type": "tm:ThingModel",
     "title": "AMLLibs_Transposer",
-    "aov:typeRef": "nsu=http://opcfoundation.org/UA/AMLLibs/;i=266",
-    "aov:isComposite": true,
+    "dov:typeRef": "nsu=http://opcfoundation.org/UA/AMLLibs/;i=266",
+    "dov:isComposite": true,
     "links": [
       {
         "rel": "tm:extends",
@@ -4481,7 +4409,7 @@
     "forms": [
       {
         "contentType": "application/json",
-        "dtv:topic": "opcua/AMLLibs/AMLLibs_Transposer/properties/read",
+        "dov:topic": "opcua/AMLLibs/AMLLibs_Transposer/properties/read",
         "op": "readallproperties"
       }
     ],
@@ -4495,7 +4423,7 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/AMLLibs/AMLLibs_Transposer/property/ID/read",
+            "dov:topic": "opcua/AMLLibs/AMLLibs_Transposer/property/ID/read",
             "op": "readproperty"
           }
         ]
@@ -4507,7 +4435,7 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/AMLLibs/AMLLibs_Transposer/property/Version/read",
+            "dov:topic": "opcua/AMLLibs/AMLLibs_Transposer/property/Version/read",
             "op": "readproperty"
           }
         ]
@@ -4520,14 +4448,13 @@
     "@context": [
       "https://www.w3.org/2022/wot/td/v1.1",
       {
-        "dtv": "http://azure.com/DigitalTwins/dtmi#",
-        "aov": "http://azure.com/IoT/operations/tm#"
+        "dov": "http://azure.com/DigitalOperations/vocab#"
       }
     ],
     "@type": "tm:ThingModel",
     "title": "AMLLibs_CarrierHandlingSystem",
-    "aov:typeRef": "nsu=http://opcfoundation.org/UA/AMLLibs/;i=269",
-    "aov:isComposite": true,
+    "dov:typeRef": "nsu=http://opcfoundation.org/UA/AMLLibs/;i=269",
+    "dov:isComposite": true,
     "links": [
       {
         "rel": "tm:extends",
@@ -4540,7 +4467,7 @@
     "forms": [
       {
         "contentType": "application/json",
-        "dtv:topic": "opcua/AMLLibs/AMLLibs_CarrierHandlingSystem/properties/read",
+        "dov:topic": "opcua/AMLLibs/AMLLibs_CarrierHandlingSystem/properties/read",
         "op": "readallproperties"
       }
     ],
@@ -4554,7 +4481,7 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/AMLLibs/AMLLibs_CarrierHandlingSystem/property/ID/read",
+            "dov:topic": "opcua/AMLLibs/AMLLibs_CarrierHandlingSystem/property/ID/read",
             "op": "readproperty"
           }
         ]
@@ -4566,7 +4493,7 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/AMLLibs/AMLLibs_CarrierHandlingSystem/property/Version/read",
+            "dov:topic": "opcua/AMLLibs/AMLLibs_CarrierHandlingSystem/property/Version/read",
             "op": "readproperty"
           }
         ]
@@ -4579,14 +4506,13 @@
     "@context": [
       "https://www.w3.org/2022/wot/td/v1.1",
       {
-        "dtv": "http://azure.com/DigitalTwins/dtmi#",
-        "aov": "http://azure.com/IoT/operations/tm#"
+        "dov": "http://azure.com/DigitalOperations/vocab#"
       }
     ],
     "@type": "tm:ThingModel",
     "title": "AMLLibs_BodyStore",
-    "aov:typeRef": "nsu=http://opcfoundation.org/UA/AMLLibs/;i=272",
-    "aov:isComposite": true,
+    "dov:typeRef": "nsu=http://opcfoundation.org/UA/AMLLibs/;i=272",
+    "dov:isComposite": true,
     "links": [
       {
         "rel": "tm:extends",
@@ -4599,7 +4525,7 @@
     "forms": [
       {
         "contentType": "application/json",
-        "dtv:topic": "opcua/AMLLibs/AMLLibs_BodyStore/properties/read",
+        "dov:topic": "opcua/AMLLibs/AMLLibs_BodyStore/properties/read",
         "op": "readallproperties"
       }
     ],
@@ -4613,7 +4539,7 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/AMLLibs/AMLLibs_BodyStore/property/ID/read",
+            "dov:topic": "opcua/AMLLibs/AMLLibs_BodyStore/property/ID/read",
             "op": "readproperty"
           }
         ]
@@ -4625,7 +4551,7 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/AMLLibs/AMLLibs_BodyStore/property/Version/read",
+            "dov:topic": "opcua/AMLLibs/AMLLibs_BodyStore/property/Version/read",
             "op": "readproperty"
           }
         ]
@@ -4638,14 +4564,13 @@
     "@context": [
       "https://www.w3.org/2022/wot/td/v1.1",
       {
-        "dtv": "http://azure.com/DigitalTwins/dtmi#",
-        "aov": "http://azure.com/IoT/operations/tm#"
+        "dov": "http://azure.com/DigitalOperations/vocab#"
       }
     ],
     "@type": "tm:ThingModel",
     "title": "AMLLibs_Lift",
-    "aov:typeRef": "nsu=http://opcfoundation.org/UA/AMLLibs/;i=275",
-    "aov:isComposite": true,
+    "dov:typeRef": "nsu=http://opcfoundation.org/UA/AMLLibs/;i=275",
+    "dov:isComposite": true,
     "links": [
       {
         "rel": "tm:extends",
@@ -4658,7 +4583,7 @@
     "forms": [
       {
         "contentType": "application/json",
-        "dtv:topic": "opcua/AMLLibs/AMLLibs_Lift/properties/read",
+        "dov:topic": "opcua/AMLLibs/AMLLibs_Lift/properties/read",
         "op": "readallproperties"
       }
     ],
@@ -4672,7 +4597,7 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/AMLLibs/AMLLibs_Lift/property/ID/read",
+            "dov:topic": "opcua/AMLLibs/AMLLibs_Lift/property/ID/read",
             "op": "readproperty"
           }
         ]
@@ -4684,7 +4609,7 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/AMLLibs/AMLLibs_Lift/property/Version/read",
+            "dov:topic": "opcua/AMLLibs/AMLLibs_Lift/property/Version/read",
             "op": "readproperty"
           }
         ]
@@ -4697,14 +4622,13 @@
     "@context": [
       "https://www.w3.org/2022/wot/td/v1.1",
       {
-        "dtv": "http://azure.com/DigitalTwins/dtmi#",
-        "aov": "http://azure.com/IoT/operations/tm#"
+        "dov": "http://azure.com/DigitalOperations/vocab#"
       }
     ],
     "@type": "tm:ThingModel",
     "title": "AMLLibs_Rollerbed",
-    "aov:typeRef": "nsu=http://opcfoundation.org/UA/AMLLibs/;i=278",
-    "aov:isComposite": true,
+    "dov:typeRef": "nsu=http://opcfoundation.org/UA/AMLLibs/;i=278",
+    "dov:isComposite": true,
     "links": [
       {
         "rel": "tm:extends",
@@ -4717,7 +4641,7 @@
     "forms": [
       {
         "contentType": "application/json",
-        "dtv:topic": "opcua/AMLLibs/AMLLibs_Rollerbed/properties/read",
+        "dov:topic": "opcua/AMLLibs/AMLLibs_Rollerbed/properties/read",
         "op": "readallproperties"
       }
     ],
@@ -4731,7 +4655,7 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/AMLLibs/AMLLibs_Rollerbed/property/ID/read",
+            "dov:topic": "opcua/AMLLibs/AMLLibs_Rollerbed/property/ID/read",
             "op": "readproperty"
           }
         ]
@@ -4743,7 +4667,7 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/AMLLibs/AMLLibs_Rollerbed/property/Version/read",
+            "dov:topic": "opcua/AMLLibs/AMLLibs_Rollerbed/property/Version/read",
             "op": "readproperty"
           }
         ]
@@ -4756,14 +4680,13 @@
     "@context": [
       "https://www.w3.org/2022/wot/td/v1.1",
       {
-        "dtv": "http://azure.com/DigitalTwins/dtmi#",
-        "aov": "http://azure.com/IoT/operations/tm#"
+        "dov": "http://azure.com/DigitalOperations/vocab#"
       }
     ],
     "@type": "tm:ThingModel",
     "title": "AMLLibs_StationaryTool",
-    "aov:typeRef": "nsu=http://opcfoundation.org/UA/AMLLibs/;i=281",
-    "aov:isComposite": true,
+    "dov:typeRef": "nsu=http://opcfoundation.org/UA/AMLLibs/;i=281",
+    "dov:isComposite": true,
     "links": [
       {
         "rel": "tm:extends",
@@ -4776,7 +4699,7 @@
     "forms": [
       {
         "contentType": "application/json",
-        "dtv:topic": "opcua/AMLLibs/AMLLibs_StationaryTool/properties/read",
+        "dov:topic": "opcua/AMLLibs/AMLLibs_StationaryTool/properties/read",
         "op": "readallproperties"
       }
     ],
@@ -4790,7 +4713,7 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/AMLLibs/AMLLibs_StationaryTool/property/ID/read",
+            "dov:topic": "opcua/AMLLibs/AMLLibs_StationaryTool/property/ID/read",
             "op": "readproperty"
           }
         ]
@@ -4802,7 +4725,7 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/AMLLibs/AMLLibs_StationaryTool/property/Version/read",
+            "dov:topic": "opcua/AMLLibs/AMLLibs_StationaryTool/property/Version/read",
             "op": "readproperty"
           }
         ]
@@ -4815,14 +4738,13 @@
     "@context": [
       "https://www.w3.org/2022/wot/td/v1.1",
       {
-        "dtv": "http://azure.com/DigitalTwins/dtmi#",
-        "aov": "http://azure.com/IoT/operations/tm#"
+        "dov": "http://azure.com/DigitalOperations/vocab#"
       }
     ],
     "@type": "tm:ThingModel",
     "title": "AMLLibs_MovableTool",
-    "aov:typeRef": "nsu=http://opcfoundation.org/UA/AMLLibs/;i=284",
-    "aov:isComposite": true,
+    "dov:typeRef": "nsu=http://opcfoundation.org/UA/AMLLibs/;i=284",
+    "dov:isComposite": true,
     "links": [
       {
         "rel": "tm:extends",
@@ -4835,7 +4757,7 @@
     "forms": [
       {
         "contentType": "application/json",
-        "dtv:topic": "opcua/AMLLibs/AMLLibs_MovableTool/properties/read",
+        "dov:topic": "opcua/AMLLibs/AMLLibs_MovableTool/properties/read",
         "op": "readallproperties"
       }
     ],
@@ -4849,7 +4771,7 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/AMLLibs/AMLLibs_MovableTool/property/ID/read",
+            "dov:topic": "opcua/AMLLibs/AMLLibs_MovableTool/property/ID/read",
             "op": "readproperty"
           }
         ]
@@ -4861,7 +4783,7 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/AMLLibs/AMLLibs_MovableTool/property/Version/read",
+            "dov:topic": "opcua/AMLLibs/AMLLibs_MovableTool/property/Version/read",
             "op": "readproperty"
           }
         ]
@@ -4874,14 +4796,13 @@
     "@context": [
       "https://www.w3.org/2022/wot/td/v1.1",
       {
-        "dtv": "http://azure.com/DigitalTwins/dtmi#",
-        "aov": "http://azure.com/IoT/operations/tm#"
+        "dov": "http://azure.com/DigitalOperations/vocab#"
       }
     ],
     "@type": "tm:ThingModel",
     "title": "AMLLibs_ControlCabinet",
-    "aov:typeRef": "nsu=http://opcfoundation.org/UA/AMLLibs/;i=287",
-    "aov:isComposite": true,
+    "dov:typeRef": "nsu=http://opcfoundation.org/UA/AMLLibs/;i=287",
+    "dov:isComposite": true,
     "links": [
       {
         "rel": "tm:extends",
@@ -4894,7 +4815,7 @@
     "forms": [
       {
         "contentType": "application/json",
-        "dtv:topic": "opcua/AMLLibs/AMLLibs_ControlCabinet/properties/read",
+        "dov:topic": "opcua/AMLLibs/AMLLibs_ControlCabinet/properties/read",
         "op": "readallproperties"
       }
     ],
@@ -4908,7 +4829,7 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/AMLLibs/AMLLibs_ControlCabinet/property/ID/read",
+            "dov:topic": "opcua/AMLLibs/AMLLibs_ControlCabinet/property/ID/read",
             "op": "readproperty"
           }
         ]
@@ -4920,7 +4841,7 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/AMLLibs/AMLLibs_ControlCabinet/property/Version/read",
+            "dov:topic": "opcua/AMLLibs/AMLLibs_ControlCabinet/property/Version/read",
             "op": "readproperty"
           }
         ]
@@ -4933,14 +4854,13 @@
     "@context": [
       "https://www.w3.org/2022/wot/td/v1.1",
       {
-        "dtv": "http://azure.com/DigitalTwins/dtmi#",
-        "aov": "http://azure.com/IoT/operations/tm#"
+        "dov": "http://azure.com/DigitalOperations/vocab#"
       }
     ],
     "@type": "tm:ThingModel",
     "title": "AMLLibs_IODevice",
-    "aov:typeRef": "nsu=http://opcfoundation.org/UA/AMLLibs/;i=290",
-    "aov:isComposite": true,
+    "dov:typeRef": "nsu=http://opcfoundation.org/UA/AMLLibs/;i=290",
+    "dov:isComposite": true,
     "links": [
       {
         "rel": "tm:extends",
@@ -4953,7 +4873,7 @@
     "forms": [
       {
         "contentType": "application/json",
-        "dtv:topic": "opcua/AMLLibs/AMLLibs_IODevice/properties/read",
+        "dov:topic": "opcua/AMLLibs/AMLLibs_IODevice/properties/read",
         "op": "readallproperties"
       }
     ],
@@ -4967,7 +4887,7 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/AMLLibs/AMLLibs_IODevice/property/ID/read",
+            "dov:topic": "opcua/AMLLibs/AMLLibs_IODevice/property/ID/read",
             "op": "readproperty"
           }
         ]
@@ -4979,7 +4899,7 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/AMLLibs/AMLLibs_IODevice/property/Version/read",
+            "dov:topic": "opcua/AMLLibs/AMLLibs_IODevice/property/Version/read",
             "op": "readproperty"
           }
         ]
@@ -4992,14 +4912,13 @@
     "@context": [
       "https://www.w3.org/2022/wot/td/v1.1",
       {
-        "dtv": "http://azure.com/DigitalTwins/dtmi#",
-        "aov": "http://azure.com/IoT/operations/tm#"
+        "dov": "http://azure.com/DigitalOperations/vocab#"
       }
     ],
     "@type": "tm:ThingModel",
     "title": "AMLLibs_HMI",
-    "aov:typeRef": "nsu=http://opcfoundation.org/UA/AMLLibs/;i=293",
-    "aov:isComposite": true,
+    "dov:typeRef": "nsu=http://opcfoundation.org/UA/AMLLibs/;i=293",
+    "dov:isComposite": true,
     "links": [
       {
         "rel": "tm:extends",
@@ -5012,7 +4931,7 @@
     "forms": [
       {
         "contentType": "application/json",
-        "dtv:topic": "opcua/AMLLibs/AMLLibs_HMI/properties/read",
+        "dov:topic": "opcua/AMLLibs/AMLLibs_HMI/properties/read",
         "op": "readallproperties"
       }
     ],
@@ -5026,7 +4945,7 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/AMLLibs/AMLLibs_HMI/property/ID/read",
+            "dov:topic": "opcua/AMLLibs/AMLLibs_HMI/property/ID/read",
             "op": "readproperty"
           }
         ]
@@ -5038,7 +4957,7 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/AMLLibs/AMLLibs_HMI/property/Version/read",
+            "dov:topic": "opcua/AMLLibs/AMLLibs_HMI/property/Version/read",
             "op": "readproperty"
           }
         ]
@@ -5051,14 +4970,13 @@
     "@context": [
       "https://www.w3.org/2022/wot/td/v1.1",
       {
-        "dtv": "http://azure.com/DigitalTwins/dtmi#",
-        "aov": "http://azure.com/IoT/operations/tm#"
+        "dov": "http://azure.com/DigitalOperations/vocab#"
       }
     ],
     "@type": "tm:ThingModel",
     "title": "AMLLibs_ActuatingDrive",
-    "aov:typeRef": "nsu=http://opcfoundation.org/UA/AMLLibs/;i=296",
-    "aov:isComposite": true,
+    "dov:typeRef": "nsu=http://opcfoundation.org/UA/AMLLibs/;i=296",
+    "dov:isComposite": true,
     "links": [
       {
         "rel": "tm:extends",
@@ -5071,7 +4989,7 @@
     "forms": [
       {
         "contentType": "application/json",
-        "dtv:topic": "opcua/AMLLibs/AMLLibs_ActuatingDrive/properties/read",
+        "dov:topic": "opcua/AMLLibs/AMLLibs_ActuatingDrive/properties/read",
         "op": "readallproperties"
       }
     ],
@@ -5085,7 +5003,7 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/AMLLibs/AMLLibs_ActuatingDrive/property/ID/read",
+            "dov:topic": "opcua/AMLLibs/AMLLibs_ActuatingDrive/property/ID/read",
             "op": "readproperty"
           }
         ]
@@ -5097,7 +5015,7 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/AMLLibs/AMLLibs_ActuatingDrive/property/Version/read",
+            "dov:topic": "opcua/AMLLibs/AMLLibs_ActuatingDrive/property/Version/read",
             "op": "readproperty"
           }
         ]
@@ -5110,14 +5028,13 @@
     "@context": [
       "https://www.w3.org/2022/wot/td/v1.1",
       {
-        "dtv": "http://azure.com/DigitalTwins/dtmi#",
-        "aov": "http://azure.com/IoT/operations/tm#"
+        "dov": "http://azure.com/DigitalOperations/vocab#"
       }
     ],
     "@type": "tm:ThingModel",
     "title": "AMLLibs_MotionController",
-    "aov:typeRef": "nsu=http://opcfoundation.org/UA/AMLLibs/;i=299",
-    "aov:isComposite": true,
+    "dov:typeRef": "nsu=http://opcfoundation.org/UA/AMLLibs/;i=299",
+    "dov:isComposite": true,
     "links": [
       {
         "rel": "tm:extends",
@@ -5130,7 +5047,7 @@
     "forms": [
       {
         "contentType": "application/json",
-        "dtv:topic": "opcua/AMLLibs/AMLLibs_MotionController/properties/read",
+        "dov:topic": "opcua/AMLLibs/AMLLibs_MotionController/properties/read",
         "op": "readallproperties"
       }
     ],
@@ -5144,7 +5061,7 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/AMLLibs/AMLLibs_MotionController/property/ID/read",
+            "dov:topic": "opcua/AMLLibs/AMLLibs_MotionController/property/ID/read",
             "op": "readproperty"
           }
         ]
@@ -5156,7 +5073,7 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/AMLLibs/AMLLibs_MotionController/property/Version/read",
+            "dov:topic": "opcua/AMLLibs/AMLLibs_MotionController/property/Version/read",
             "op": "readproperty"
           }
         ]
@@ -5169,14 +5086,13 @@
     "@context": [
       "https://www.w3.org/2022/wot/td/v1.1",
       {
-        "dtv": "http://azure.com/DigitalTwins/dtmi#",
-        "aov": "http://azure.com/IoT/operations/tm#"
+        "dov": "http://azure.com/DigitalOperations/vocab#"
       }
     ],
     "@type": "tm:ThingModel",
     "title": "AMLLibs_Panel",
-    "aov:typeRef": "nsu=http://opcfoundation.org/UA/AMLLibs/;i=302",
-    "aov:isComposite": true,
+    "dov:typeRef": "nsu=http://opcfoundation.org/UA/AMLLibs/;i=302",
+    "dov:isComposite": true,
     "links": [
       {
         "rel": "tm:extends",
@@ -5189,7 +5105,7 @@
     "forms": [
       {
         "contentType": "application/json",
-        "dtv:topic": "opcua/AMLLibs/AMLLibs_Panel/properties/read",
+        "dov:topic": "opcua/AMLLibs/AMLLibs_Panel/properties/read",
         "op": "readallproperties"
       }
     ],
@@ -5203,7 +5119,7 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/AMLLibs/AMLLibs_Panel/property/ID/read",
+            "dov:topic": "opcua/AMLLibs/AMLLibs_Panel/property/ID/read",
             "op": "readproperty"
           }
         ]
@@ -5215,7 +5131,7 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/AMLLibs/AMLLibs_Panel/property/Version/read",
+            "dov:topic": "opcua/AMLLibs/AMLLibs_Panel/property/Version/read",
             "op": "readproperty"
           }
         ]
@@ -5228,14 +5144,13 @@
     "@context": [
       "https://www.w3.org/2022/wot/td/v1.1",
       {
-        "dtv": "http://azure.com/DigitalTwins/dtmi#",
-        "aov": "http://azure.com/IoT/operations/tm#"
+        "dov": "http://azure.com/DigitalOperations/vocab#"
       }
     ],
     "@type": "tm:ThingModel",
     "title": "AMLLibs_MeasuringEquipment",
-    "aov:typeRef": "nsu=http://opcfoundation.org/UA/AMLLibs/;i=305",
-    "aov:isComposite": true,
+    "dov:typeRef": "nsu=http://opcfoundation.org/UA/AMLLibs/;i=305",
+    "dov:isComposite": true,
     "links": [
       {
         "rel": "tm:extends",
@@ -5248,7 +5163,7 @@
     "forms": [
       {
         "contentType": "application/json",
-        "dtv:topic": "opcua/AMLLibs/AMLLibs_MeasuringEquipment/properties/read",
+        "dov:topic": "opcua/AMLLibs/AMLLibs_MeasuringEquipment/properties/read",
         "op": "readallproperties"
       }
     ],
@@ -5262,7 +5177,7 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/AMLLibs/AMLLibs_MeasuringEquipment/property/ID/read",
+            "dov:topic": "opcua/AMLLibs/AMLLibs_MeasuringEquipment/property/ID/read",
             "op": "readproperty"
           }
         ]
@@ -5274,7 +5189,7 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/AMLLibs/AMLLibs_MeasuringEquipment/property/Version/read",
+            "dov:topic": "opcua/AMLLibs/AMLLibs_MeasuringEquipment/property/Version/read",
             "op": "readproperty"
           }
         ]
@@ -5287,14 +5202,13 @@
     "@context": [
       "https://www.w3.org/2022/wot/td/v1.1",
       {
-        "dtv": "http://azure.com/DigitalTwins/dtmi#",
-        "aov": "http://azure.com/IoT/operations/tm#"
+        "dov": "http://azure.com/DigitalOperations/vocab#"
       }
     ],
     "@type": "tm:ThingModel",
     "title": "AMLLibs_Clamp",
-    "aov:typeRef": "nsu=http://opcfoundation.org/UA/AMLLibs/;i=308",
-    "aov:isComposite": true,
+    "dov:typeRef": "nsu=http://opcfoundation.org/UA/AMLLibs/;i=308",
+    "dov:isComposite": true,
     "links": [
       {
         "rel": "tm:extends",
@@ -5307,7 +5221,7 @@
     "forms": [
       {
         "contentType": "application/json",
-        "dtv:topic": "opcua/AMLLibs/AMLLibs_Clamp/properties/read",
+        "dov:topic": "opcua/AMLLibs/AMLLibs_Clamp/properties/read",
         "op": "readallproperties"
       }
     ],
@@ -5321,7 +5235,7 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/AMLLibs/AMLLibs_Clamp/property/ID/read",
+            "dov:topic": "opcua/AMLLibs/AMLLibs_Clamp/property/ID/read",
             "op": "readproperty"
           }
         ]
@@ -5333,7 +5247,7 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/AMLLibs/AMLLibs_Clamp/property/Version/read",
+            "dov:topic": "opcua/AMLLibs/AMLLibs_Clamp/property/Version/read",
             "op": "readproperty"
           }
         ]
@@ -5346,14 +5260,13 @@
     "@context": [
       "https://www.w3.org/2022/wot/td/v1.1",
       {
-        "dtv": "http://azure.com/DigitalTwins/dtmi#",
-        "aov": "http://azure.com/IoT/operations/tm#"
+        "dov": "http://azure.com/DigitalOperations/vocab#"
       }
     ],
     "@type": "tm:ThingModel",
     "title": "AMLLibs_ProcessController",
-    "aov:typeRef": "nsu=http://opcfoundation.org/UA/AMLLibs/;i=311",
-    "aov:isComposite": true,
+    "dov:typeRef": "nsu=http://opcfoundation.org/UA/AMLLibs/;i=311",
+    "dov:isComposite": true,
     "links": [
       {
         "rel": "tm:extends",
@@ -5366,7 +5279,7 @@
     "forms": [
       {
         "contentType": "application/json",
-        "dtv:topic": "opcua/AMLLibs/AMLLibs_ProcessController/properties/read",
+        "dov:topic": "opcua/AMLLibs/AMLLibs_ProcessController/properties/read",
         "op": "readallproperties"
       }
     ],
@@ -5380,7 +5293,7 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/AMLLibs/AMLLibs_ProcessController/property/ID/read",
+            "dov:topic": "opcua/AMLLibs/AMLLibs_ProcessController/property/ID/read",
             "op": "readproperty"
           }
         ]
@@ -5392,7 +5305,7 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/AMLLibs/AMLLibs_ProcessController/property/Version/read",
+            "dov:topic": "opcua/AMLLibs/AMLLibs_ProcessController/property/Version/read",
             "op": "readproperty"
           }
         ]
@@ -5405,14 +5318,13 @@
     "@context": [
       "https://www.w3.org/2022/wot/td/v1.1",
       {
-        "dtv": "http://azure.com/DigitalTwins/dtmi#",
-        "aov": "http://azure.com/IoT/operations/tm#"
+        "dov": "http://azure.com/DigitalOperations/vocab#"
       }
     ],
     "@type": "tm:ThingModel",
     "title": "AMLLibs_Loader",
-    "aov:typeRef": "nsu=http://opcfoundation.org/UA/AMLLibs/;i=314",
-    "aov:isComposite": true,
+    "dov:typeRef": "nsu=http://opcfoundation.org/UA/AMLLibs/;i=314",
+    "dov:isComposite": true,
     "links": [
       {
         "rel": "tm:extends",
@@ -5425,7 +5337,7 @@
     "forms": [
       {
         "contentType": "application/json",
-        "dtv:topic": "opcua/AMLLibs/AMLLibs_Loader/properties/read",
+        "dov:topic": "opcua/AMLLibs/AMLLibs_Loader/properties/read",
         "op": "readallproperties"
       }
     ],
@@ -5439,7 +5351,7 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/AMLLibs/AMLLibs_Loader/property/ID/read",
+            "dov:topic": "opcua/AMLLibs/AMLLibs_Loader/property/ID/read",
             "op": "readproperty"
           }
         ]
@@ -5451,7 +5363,7 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/AMLLibs/AMLLibs_Loader/property/Version/read",
+            "dov:topic": "opcua/AMLLibs/AMLLibs_Loader/property/Version/read",
             "op": "readproperty"
           }
         ]
@@ -5464,14 +5376,13 @@
     "@context": [
       "https://www.w3.org/2022/wot/td/v1.1",
       {
-        "dtv": "http://azure.com/DigitalTwins/dtmi#",
-        "aov": "http://azure.com/IoT/operations/tm#"
+        "dov": "http://azure.com/DigitalOperations/vocab#"
       }
     ],
     "@type": "tm:ThingModel",
     "title": "AMLLibs_Unloader",
-    "aov:typeRef": "nsu=http://opcfoundation.org/UA/AMLLibs/;i=317",
-    "aov:isComposite": true,
+    "dov:typeRef": "nsu=http://opcfoundation.org/UA/AMLLibs/;i=317",
+    "dov:isComposite": true,
     "links": [
       {
         "rel": "tm:extends",
@@ -5484,7 +5395,7 @@
     "forms": [
       {
         "contentType": "application/json",
-        "dtv:topic": "opcua/AMLLibs/AMLLibs_Unloader/properties/read",
+        "dov:topic": "opcua/AMLLibs/AMLLibs_Unloader/properties/read",
         "op": "readallproperties"
       }
     ],
@@ -5498,7 +5409,7 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/AMLLibs/AMLLibs_Unloader/property/ID/read",
+            "dov:topic": "opcua/AMLLibs/AMLLibs_Unloader/property/ID/read",
             "op": "readproperty"
           }
         ]
@@ -5510,7 +5421,7 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/AMLLibs/AMLLibs_Unloader/property/Version/read",
+            "dov:topic": "opcua/AMLLibs/AMLLibs_Unloader/property/Version/read",
             "op": "readproperty"
           }
         ]
@@ -5523,14 +5434,13 @@
     "@context": [
       "https://www.w3.org/2022/wot/td/v1.1",
       {
-        "dtv": "http://azure.com/DigitalTwins/dtmi#",
-        "aov": "http://azure.com/IoT/operations/tm#"
+        "dov": "http://azure.com/DigitalOperations/vocab#"
       }
     ],
     "@type": "tm:ThingModel",
     "title": "AMLLibs_BeltConveyor",
-    "aov:typeRef": "nsu=http://opcfoundation.org/UA/AMLLibs/;i=320",
-    "aov:isComposite": true,
+    "dov:typeRef": "nsu=http://opcfoundation.org/UA/AMLLibs/;i=320",
+    "dov:isComposite": true,
     "links": [
       {
         "rel": "tm:extends",
@@ -5543,7 +5453,7 @@
     "forms": [
       {
         "contentType": "application/json",
-        "dtv:topic": "opcua/AMLLibs/AMLLibs_BeltConveyor/properties/read",
+        "dov:topic": "opcua/AMLLibs/AMLLibs_BeltConveyor/properties/read",
         "op": "readallproperties"
       }
     ],
@@ -5557,7 +5467,7 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/AMLLibs/AMLLibs_BeltConveyor/property/ID/read",
+            "dov:topic": "opcua/AMLLibs/AMLLibs_BeltConveyor/property/ID/read",
             "op": "readproperty"
           }
         ]
@@ -5569,7 +5479,7 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/AMLLibs/AMLLibs_BeltConveyor/property/Version/read",
+            "dov:topic": "opcua/AMLLibs/AMLLibs_BeltConveyor/property/Version/read",
             "op": "readproperty"
           }
         ]
@@ -5582,14 +5492,13 @@
     "@context": [
       "https://www.w3.org/2022/wot/td/v1.1",
       {
-        "dtv": "http://azure.com/DigitalTwins/dtmi#",
-        "aov": "http://azure.com/IoT/operations/tm#"
+        "dov": "http://azure.com/DigitalOperations/vocab#"
       }
     ],
     "@type": "tm:ThingModel",
     "title": "AMLLibs_RollConveyor",
-    "aov:typeRef": "nsu=http://opcfoundation.org/UA/AMLLibs/;i=323",
-    "aov:isComposite": true,
+    "dov:typeRef": "nsu=http://opcfoundation.org/UA/AMLLibs/;i=323",
+    "dov:isComposite": true,
     "links": [
       {
         "rel": "tm:extends",
@@ -5602,7 +5511,7 @@
     "forms": [
       {
         "contentType": "application/json",
-        "dtv:topic": "opcua/AMLLibs/AMLLibs_RollConveyor/properties/read",
+        "dov:topic": "opcua/AMLLibs/AMLLibs_RollConveyor/properties/read",
         "op": "readallproperties"
       }
     ],
@@ -5616,7 +5525,7 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/AMLLibs/AMLLibs_RollConveyor/property/ID/read",
+            "dov:topic": "opcua/AMLLibs/AMLLibs_RollConveyor/property/ID/read",
             "op": "readproperty"
           }
         ]
@@ -5628,7 +5537,7 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/AMLLibs/AMLLibs_RollConveyor/property/Version/read",
+            "dov:topic": "opcua/AMLLibs/AMLLibs_RollConveyor/property/Version/read",
             "op": "readproperty"
           }
         ]
@@ -5641,14 +5550,13 @@
     "@context": [
       "https://www.w3.org/2022/wot/td/v1.1",
       {
-        "dtv": "http://azure.com/DigitalTwins/dtmi#",
-        "aov": "http://azure.com/IoT/operations/tm#"
+        "dov": "http://azure.com/DigitalOperations/vocab#"
       }
     ],
     "@type": "tm:ThingModel",
     "title": "AMLLibs_ChainConveyor",
-    "aov:typeRef": "nsu=http://opcfoundation.org/UA/AMLLibs/;i=326",
-    "aov:isComposite": true,
+    "dov:typeRef": "nsu=http://opcfoundation.org/UA/AMLLibs/;i=326",
+    "dov:isComposite": true,
     "links": [
       {
         "rel": "tm:extends",
@@ -5661,7 +5569,7 @@
     "forms": [
       {
         "contentType": "application/json",
-        "dtv:topic": "opcua/AMLLibs/AMLLibs_ChainConveyor/properties/read",
+        "dov:topic": "opcua/AMLLibs/AMLLibs_ChainConveyor/properties/read",
         "op": "readallproperties"
       }
     ],
@@ -5675,7 +5583,7 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/AMLLibs/AMLLibs_ChainConveyor/property/ID/read",
+            "dov:topic": "opcua/AMLLibs/AMLLibs_ChainConveyor/property/ID/read",
             "op": "readproperty"
           }
         ]
@@ -5687,7 +5595,7 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/AMLLibs/AMLLibs_ChainConveyor/property/Version/read",
+            "dov:topic": "opcua/AMLLibs/AMLLibs_ChainConveyor/property/Version/read",
             "op": "readproperty"
           }
         ]
@@ -5700,14 +5608,13 @@
     "@context": [
       "https://www.w3.org/2022/wot/td/v1.1",
       {
-        "dtv": "http://azure.com/DigitalTwins/dtmi#",
-        "aov": "http://azure.com/IoT/operations/tm#"
+        "dov": "http://azure.com/DigitalOperations/vocab#"
       }
     ],
     "@type": "tm:ThingModel",
     "title": "AMLLibs_PalletConveyor",
-    "aov:typeRef": "nsu=http://opcfoundation.org/UA/AMLLibs/;i=329",
-    "aov:isComposite": true,
+    "dov:typeRef": "nsu=http://opcfoundation.org/UA/AMLLibs/;i=329",
+    "dov:isComposite": true,
     "links": [
       {
         "rel": "tm:extends",
@@ -5720,7 +5627,7 @@
     "forms": [
       {
         "contentType": "application/json",
-        "dtv:topic": "opcua/AMLLibs/AMLLibs_PalletConveyor/properties/read",
+        "dov:topic": "opcua/AMLLibs/AMLLibs_PalletConveyor/properties/read",
         "op": "readallproperties"
       }
     ],
@@ -5734,7 +5641,7 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/AMLLibs/AMLLibs_PalletConveyor/property/ID/read",
+            "dov:topic": "opcua/AMLLibs/AMLLibs_PalletConveyor/property/ID/read",
             "op": "readproperty"
           }
         ]
@@ -5746,7 +5653,7 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/AMLLibs/AMLLibs_PalletConveyor/property/Version/read",
+            "dov:topic": "opcua/AMLLibs/AMLLibs_PalletConveyor/property/Version/read",
             "op": "readproperty"
           }
         ]
@@ -5759,14 +5666,13 @@
     "@context": [
       "https://www.w3.org/2022/wot/td/v1.1",
       {
-        "dtv": "http://azure.com/DigitalTwins/dtmi#",
-        "aov": "http://azure.com/IoT/operations/tm#"
+        "dov": "http://azure.com/DigitalOperations/vocab#"
       }
     ],
     "@type": "tm:ThingModel",
     "title": "AMLLibs_OverheadConveyor",
-    "aov:typeRef": "nsu=http://opcfoundation.org/UA/AMLLibs/;i=332",
-    "aov:isComposite": true,
+    "dov:typeRef": "nsu=http://opcfoundation.org/UA/AMLLibs/;i=332",
+    "dov:isComposite": true,
     "links": [
       {
         "rel": "tm:extends",
@@ -5779,7 +5685,7 @@
     "forms": [
       {
         "contentType": "application/json",
-        "dtv:topic": "opcua/AMLLibs/AMLLibs_OverheadConveyor/properties/read",
+        "dov:topic": "opcua/AMLLibs/AMLLibs_OverheadConveyor/properties/read",
         "op": "readallproperties"
       }
     ],
@@ -5793,7 +5699,7 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/AMLLibs/AMLLibs_OverheadConveyor/property/ID/read",
+            "dov:topic": "opcua/AMLLibs/AMLLibs_OverheadConveyor/property/ID/read",
             "op": "readproperty"
           }
         ]
@@ -5805,7 +5711,7 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/AMLLibs/AMLLibs_OverheadConveyor/property/Version/read",
+            "dov:topic": "opcua/AMLLibs/AMLLibs_OverheadConveyor/property/Version/read",
             "op": "readproperty"
           }
         ]
@@ -5818,14 +5724,13 @@
     "@context": [
       "https://www.w3.org/2022/wot/td/v1.1",
       {
-        "dtv": "http://azure.com/DigitalTwins/dtmi#",
-        "aov": "http://azure.com/IoT/operations/tm#"
+        "dov": "http://azure.com/DigitalOperations/vocab#"
       }
     ],
     "@type": "tm:ThingModel",
     "title": "AMLLibs_WarningEquipment",
-    "aov:typeRef": "nsu=http://opcfoundation.org/UA/AMLLibs/;i=335",
-    "aov:isComposite": true,
+    "dov:typeRef": "nsu=http://opcfoundation.org/UA/AMLLibs/;i=335",
+    "dov:isComposite": true,
     "links": [
       {
         "rel": "tm:extends",
@@ -5838,7 +5743,7 @@
     "forms": [
       {
         "contentType": "application/json",
-        "dtv:topic": "opcua/AMLLibs/AMLLibs_WarningEquipment/properties/read",
+        "dov:topic": "opcua/AMLLibs/AMLLibs_WarningEquipment/properties/read",
         "op": "readallproperties"
       }
     ],
@@ -5852,7 +5757,7 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/AMLLibs/AMLLibs_WarningEquipment/property/ID/read",
+            "dov:topic": "opcua/AMLLibs/AMLLibs_WarningEquipment/property/ID/read",
             "op": "readproperty"
           }
         ]
@@ -5864,7 +5769,7 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/AMLLibs/AMLLibs_WarningEquipment/property/Version/read",
+            "dov:topic": "opcua/AMLLibs/AMLLibs_WarningEquipment/property/Version/read",
             "op": "readproperty"
           }
         ]

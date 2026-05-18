@@ -3,7 +3,7 @@
     "https://www.w3.org/2022/wot/td/v1.1",
     {
       "qudt": "http://qudt.org/schema/qudt/",
-      "dtv": "http://azure.com/DigitalTwins/dtmi#",
+      "dov": "http://azure.com/DigitalOperations/vocab#",
       "aov": "http://azure.com/IoT/operations/tm#"
     }
   ],
@@ -14,11 +14,11 @@
   "properties": {
     "alpha": {
       "type": "integer",
-      "aov:withUnit": "properties/gamma",
+      "dov:withUnit": "properties/gamma",
       "forms": [
         {
           "contentType": "application/json",
-          "dtv:topic": "sample/alpha/{maintainerId}",
+          "dov:topic": "sample/alpha/{maintainerId}",
           "op": "readproperty"
         }
       ]
@@ -28,7 +28,7 @@
       "forms": [
         {
           "contentType": "application/json",
-          "dtv:topic": "sample/beta/{maintainerId}",
+          "dov:topic": "sample/beta/{maintainerId}",
           "op": "readproperty"
         }
       ]

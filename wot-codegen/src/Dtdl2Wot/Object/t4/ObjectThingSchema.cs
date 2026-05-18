@@ -37,7 +37,7 @@ namespace Dtdl2Wot
             this.Write(" ],\r\n");
  } 
  if (this.objectFields.Any(f => IsFieldMessage(f))) { 
-            this.Write("\"dtv:errorMessage\": \"");
+            this.Write("\"dov:errorMessage\": \"");
             this.Write(this.ToStringHelper.ToStringWithCulture(this.objectFields.First(f => IsFieldMessage(f)).Name));
             this.Write("\",\r\n");
  } 

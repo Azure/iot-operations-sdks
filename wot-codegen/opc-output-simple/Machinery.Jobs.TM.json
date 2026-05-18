@@ -3,14 +3,13 @@
     "@context": [
       "https://www.w3.org/2022/wot/td/v1.1",
       {
-        "dtv": "http://azure.com/DigitalTwins/dtmi#",
-        "aov": "http://azure.com/IoT/operations/tm#"
+        "dov": "http://azure.com/DigitalOperations/vocab#"
       }
     ],
     "@type": "tm:ThingModel",
     "title": "Machinery_Jobs_JobManagementType",
-    "aov:typeRef": "nsu=http://opcfoundation.org/UA/Machinery/Jobs/;i=1003",
-    "aov:isComposite": true,
+    "dov:typeRef": "nsu=http://opcfoundation.org/UA/Machinery/Jobs/;i=1003",
+    "dov:isComposite": true,
     "links": [
       {
         "rel": "tm:extends",
@@ -18,14 +17,14 @@
         "type": "application/tm+json"
       },
       {
-        "rel": "aov:capability",
-        "aov:refName": "JobOrderControl",
+        "rel": "dov:capability",
+        "dov:refName": "JobOrderControl",
         "href": "./isa95-jobcontrol.TM.json#title=Isa95_jobcontrol_ISA95JobOrderReceiverObjectType",
         "type": "application/tm+json"
       },
       {
-        "rel": "aov:capability",
-        "aov:refName": "JobOrderResults",
+        "rel": "dov:capability",
+        "dov:refName": "JobOrderResults",
         "href": "./isa95-jobcontrol.TM.json#title=Isa95_jobcontrol_ISA95JobResponseProviderObjectType",
         "type": "application/tm+json"
       }
@@ -35,12 +34,12 @@
     "forms": [
       {
         "contentType": "application/json",
-        "dtv:topic": "opcua/Machinery.Jobs/Machinery_Jobs_JobManagementType/properties/write",
+        "dov:topic": "opcua/Machinery.Jobs/Machinery_Jobs_JobManagementType/properties/write",
         "op": "writemultipleproperties"
       },
       {
         "contentType": "application/json",
-        "dtv:topic": "opcua/Machinery.Jobs/Machinery_Jobs_JobManagementType/properties/read",
+        "dov:topic": "opcua/Machinery.Jobs/Machinery_Jobs_JobManagementType/properties/read",
         "op": "readallproperties"
       }
     ],
@@ -54,12 +53,12 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/Machinery.Jobs/Machinery_Jobs_JobManagementType/property/DefaultInstanceBrowseName/write",
+            "dov:topic": "opcua/Machinery.Jobs/Machinery_Jobs_JobManagementType/property/DefaultInstanceBrowseName/write",
             "op": "writeproperty"
           },
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/Machinery.Jobs/Machinery_Jobs_JobManagementType/property/DefaultInstanceBrowseName/read",
+            "dov:topic": "opcua/Machinery.Jobs/Machinery_Jobs_JobManagementType/property/DefaultInstanceBrowseName/read",
             "op": "readproperty"
           }
         ]

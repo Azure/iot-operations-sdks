@@ -3,14 +3,13 @@
     "@context": [
       "https://www.w3.org/2022/wot/td/v1.1",
       {
-        "dtv": "http://azure.com/DigitalTwins/dtmi#",
-        "aov": "http://azure.com/IoT/operations/tm#"
+        "dov": "http://azure.com/DigitalOperations/vocab#"
       }
     ],
     "@type": "tm:ThingModel",
     "title": "GMS_SensorWarningAlarmType",
-    "aov:typeRef": "nsu=http://opcfoundation.org/UA/GMS/;i=1010",
-    "aov:isEvent": true,
+    "dov:typeRef": "nsu=http://opcfoundation.org/UA/GMS/;i=1010",
+    "dov:isEvent": true,
     "links": [
       {
         "rel": "tm:extends",
@@ -23,12 +22,12 @@
     "forms": [
       {
         "contentType": "application/json",
-        "dtv:topic": "opcua/GMS/GMS_SensorWarningAlarmType/properties/write",
+        "dov:topic": "opcua/GMS/GMS_SensorWarningAlarmType/properties/write",
         "op": "writemultipleproperties"
       },
       {
         "contentType": "application/json",
-        "dtv:topic": "opcua/GMS/GMS_SensorWarningAlarmType/properties/read",
+        "dov:topic": "opcua/GMS/GMS_SensorWarningAlarmType/properties/read",
         "op": "readallproperties"
       }
     ],
@@ -36,18 +35,18 @@
     },
     "properties": {
       "ErrorCode": {
-        "aov:namespace": "http://opcfoundation.org/UA/GMS/",
+        "dov:namespace": "http://opcfoundation.org/UA/GMS/",
         "type": "string",
         "readOnly": false,
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/GMS/GMS_SensorWarningAlarmType/property/ErrorCode/write",
+            "dov:topic": "opcua/GMS/GMS_SensorWarningAlarmType/property/ErrorCode/write",
             "op": "writeproperty"
           },
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/GMS/GMS_SensorWarningAlarmType/property/ErrorCode/read",
+            "dov:topic": "opcua/GMS/GMS_SensorWarningAlarmType/property/ErrorCode/read",
             "op": "readproperty"
           }
         ]
@@ -60,14 +59,13 @@
     "@context": [
       "https://www.w3.org/2022/wot/td/v1.1",
       {
-        "dtv": "http://azure.com/DigitalTwins/dtmi#",
-        "aov": "http://azure.com/IoT/operations/tm#"
+        "dov": "http://azure.com/DigitalOperations/vocab#"
       }
     ],
     "@type": "tm:ThingModel",
     "title": "GMS_IntermediateResultEventType",
-    "aov:typeRef": "nsu=http://opcfoundation.org/UA/GMS/;i=1001",
-    "aov:isEvent": true,
+    "dov:typeRef": "nsu=http://opcfoundation.org/UA/GMS/;i=1001",
+    "dov:isEvent": true,
     "links": [
       {
         "rel": "tm:extends",
@@ -75,8 +73,8 @@
         "type": "application/tm+json"
       },
       {
-        "rel": "aov:component",
-        "aov:refName": "Characteristics",
+        "rel": "dov:component",
+        "dov:refName": "Characteristics",
         "href": "#title=GMS_CharacteristicType",
         "type": "application/tm+json"
       }
@@ -86,12 +84,12 @@
     "forms": [
       {
         "contentType": "application/json",
-        "dtv:topic": "opcua/GMS/GMS_IntermediateResultEventType/properties/write",
+        "dov:topic": "opcua/GMS/GMS_IntermediateResultEventType/properties/write",
         "op": "writemultipleproperties"
       },
       {
         "contentType": "application/json",
-        "dtv:topic": "opcua/GMS/GMS_IntermediateResultEventType/properties/read",
+        "dov:topic": "opcua/GMS/GMS_IntermediateResultEventType/properties/read",
         "op": "readallproperties"
       }
     ],
@@ -99,18 +97,18 @@
     },
     "properties": {
       "ProgramName": {
-        "aov:namespace": "http://opcfoundation.org/UA/GMS/",
+        "dov:namespace": "http://opcfoundation.org/UA/GMS/",
         "type": "string",
         "readOnly": false,
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/GMS/GMS_IntermediateResultEventType/property/ProgramName/write",
+            "dov:topic": "opcua/GMS/GMS_IntermediateResultEventType/property/ProgramName/write",
             "op": "writeproperty"
           },
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/GMS/GMS_IntermediateResultEventType/property/ProgramName/read",
+            "dov:topic": "opcua/GMS/GMS_IntermediateResultEventType/property/ProgramName/read",
             "op": "readproperty"
           }
         ]
@@ -123,14 +121,13 @@
     "@context": [
       "https://www.w3.org/2022/wot/td/v1.1",
       {
-        "dtv": "http://azure.com/DigitalTwins/dtmi#",
-        "aov": "http://azure.com/IoT/operations/tm#"
+        "dov": "http://azure.com/DigitalOperations/vocab#"
       }
     ],
     "@type": "tm:ThingModel",
     "title": "GMS_MultiSensorType",
-    "aov:typeRef": "nsu=http://opcfoundation.org/UA/GMS/;i=1012",
-    "aov:isComposite": true,
+    "dov:typeRef": "nsu=http://opcfoundation.org/UA/GMS/;i=1012",
+    "dov:isComposite": true,
     "links": [
       {
         "rel": "tm:extends",
@@ -138,8 +135,8 @@
         "type": "application/tm+json"
       },
       {
-        "rel": "aov:component",
-        "aov:refName": "Tool",
+        "rel": "dov:component",
+        "dov:refName": "Tool",
         "href": "#title=GMS_SensorType",
         "type": "application/tm+json"
       }
@@ -147,7 +144,7 @@
     "schemaDefinitions": {
       "ToolAlignmentState": {
         "type": "object",
-        "aov:typeRef": "nsu=http://opcfoundation.org/UA/GMS/;i=3004",
+        "dov:typeRef": "nsu=http://opcfoundation.org/UA/GMS/;i=3004",
         "const": {
           "Fixed": 0,
           "Indexed": 1,
@@ -169,12 +166,12 @@
     "forms": [
       {
         "contentType": "application/json",
-        "dtv:topic": "opcua/GMS/GMS_MultiSensorType/properties/write",
+        "dov:topic": "opcua/GMS/GMS_MultiSensorType/properties/write",
         "op": "writemultipleproperties"
       },
       {
         "contentType": "application/json",
-        "dtv:topic": "opcua/GMS/GMS_MultiSensorType/properties/read",
+        "dov:topic": "opcua/GMS/GMS_MultiSensorType/properties/read",
         "op": "readallproperties"
       }
     ],
@@ -182,9 +179,9 @@
     },
     "properties": {
       "Alignment": {
-        "aov:namespace": "http://opcfoundation.org/UA/GMS/",
+        "dov:namespace": "http://opcfoundation.org/UA/GMS/",
         "title": "ToolAlignmentState",
-        "aov:typeRef": "nsu=http://opcfoundation.org/UA/GMS/;i=3004",
+        "dov:typeRef": "nsu=http://opcfoundation.org/UA/GMS/;i=3004",
         "type": "integer",
         "minimum": -2147483648,
         "maximum": 2147483647,
@@ -192,18 +189,18 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/GMS/GMS_MultiSensorType/property/Alignment/write",
+            "dov:topic": "opcua/GMS/GMS_MultiSensorType/property/Alignment/write",
             "op": "writeproperty"
           },
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/GMS/GMS_MultiSensorType/property/Alignment/read",
+            "dov:topic": "opcua/GMS/GMS_MultiSensorType/property/Alignment/read",
             "op": "readproperty"
           }
         ]
       },
       "Axes": {
-        "aov:namespace": "http://opcfoundation.org/UA/GMS/",
+        "dov:namespace": "http://opcfoundation.org/UA/GMS/",
         "type": "array",
         "items": {
           "type": "string"
@@ -212,12 +209,12 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/GMS/GMS_MultiSensorType/property/Axes/write",
+            "dov:topic": "opcua/GMS/GMS_MultiSensorType/property/Axes/write",
             "op": "writeproperty"
           },
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/GMS/GMS_MultiSensorType/property/Axes/read",
+            "dov:topic": "opcua/GMS/GMS_MultiSensorType/property/Axes/read",
             "op": "readproperty"
           }
         ]
@@ -230,13 +227,12 @@
     "@context": [
       "https://www.w3.org/2022/wot/td/v1.1",
       {
-        "dtv": "http://azure.com/DigitalTwins/dtmi#",
-        "aov": "http://azure.com/IoT/operations/tm#"
+        "dov": "http://azure.com/DigitalOperations/vocab#"
       }
     ],
     "@type": "tm:ThingModel",
     "title": "GMS_SensorType",
-    "aov:typeRef": "nsu=http://opcfoundation.org/UA/GMS/;i=1007",
+    "dov:typeRef": "nsu=http://opcfoundation.org/UA/GMS/;i=1007",
     "links": [
       {
         "rel": "tm:extends",
@@ -244,8 +240,8 @@
         "type": "application/tm+json"
       },
       {
-        "rel": "aov:component",
-        "aov:refName": "ToolLife",
+        "rel": "dov:component",
+        "dov:refName": "ToolLife",
         "href": "./OpcUaCore.TM.json#title=OpcUaCore_BaseObjectType",
         "type": "application/tm+json"
       }
@@ -253,7 +249,7 @@
     "schemaDefinitions": {
       "ToolAlignmentState": {
         "type": "object",
-        "aov:typeRef": "nsu=http://opcfoundation.org/UA/GMS/;i=3004",
+        "dov:typeRef": "nsu=http://opcfoundation.org/UA/GMS/;i=3004",
         "const": {
           "Fixed": 0,
           "Indexed": 1,
@@ -273,7 +269,7 @@
       },
       "ToolIsQualifiedStatus": {
         "type": "object",
-        "aov:typeRef": "nsu=http://opcfoundation.org/UA/GMS/;i=3002",
+        "dov:typeRef": "nsu=http://opcfoundation.org/UA/GMS/;i=3002",
         "const": {
           "Qualified": 0,
           "Imprecise": 1,
@@ -295,17 +291,17 @@
     "forms": [
       {
         "contentType": "application/json",
-        "dtv:topic": "opcua/GMS/GMS_SensorType/events/{senderId}",
+        "dov:topic": "opcua/GMS/GMS_SensorType/events/{senderId}",
         "op": "subscribeallevents"
       },
       {
         "contentType": "application/json",
-        "dtv:topic": "opcua/GMS/GMS_SensorType/properties/write",
+        "dov:topic": "opcua/GMS/GMS_SensorType/properties/write",
         "op": "writemultipleproperties"
       },
       {
         "contentType": "application/json",
-        "dtv:topic": "opcua/GMS/GMS_SensorType/properties/read",
+        "dov:topic": "opcua/GMS/GMS_SensorType/properties/read",
         "op": "readallproperties"
       }
     ],
@@ -313,26 +309,26 @@
     },
     "properties": {
       "AbsoluteProbe": {
-        "aov:namespace": "http://opcfoundation.org/UA/GMS/",
+        "dov:namespace": "http://opcfoundation.org/UA/GMS/",
         "type": "boolean",
         "readOnly": false,
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/GMS/GMS_SensorType/property/AbsoluteProbe/write",
+            "dov:topic": "opcua/GMS/GMS_SensorType/property/AbsoluteProbe/write",
             "op": "writeproperty"
           },
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/GMS/GMS_SensorType/property/AbsoluteProbe/read",
+            "dov:topic": "opcua/GMS/GMS_SensorType/property/AbsoluteProbe/read",
             "op": "readproperty"
           }
         ]
       },
       "Alignment": {
-        "aov:namespace": "http://opcfoundation.org/UA/GMS/",
+        "dov:namespace": "http://opcfoundation.org/UA/GMS/",
         "title": "ToolAlignmentState",
-        "aov:typeRef": "nsu=http://opcfoundation.org/UA/GMS/;i=3004",
+        "dov:typeRef": "nsu=http://opcfoundation.org/UA/GMS/;i=3004",
         "type": "integer",
         "minimum": -2147483648,
         "maximum": 2147483647,
@@ -340,18 +336,18 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/GMS/GMS_SensorType/property/Alignment/write",
+            "dov:topic": "opcua/GMS/GMS_SensorType/property/Alignment/write",
             "op": "writeproperty"
           },
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/GMS/GMS_SensorType/property/Alignment/read",
+            "dov:topic": "opcua/GMS/GMS_SensorType/property/Alignment/read",
             "op": "readproperty"
           }
         ]
       },
       "Axes": {
-        "aov:namespace": "http://opcfoundation.org/UA/GMS/",
+        "dov:namespace": "http://opcfoundation.org/UA/GMS/",
         "type": "array",
         "items": {
           "type": "string"
@@ -360,18 +356,18 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/GMS/GMS_SensorType/property/Axes/write",
+            "dov:topic": "opcua/GMS/GMS_SensorType/property/Axes/write",
             "op": "writeproperty"
           },
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/GMS/GMS_SensorType/property/Axes/read",
+            "dov:topic": "opcua/GMS/GMS_SensorType/property/Axes/read",
             "op": "readproperty"
           }
         ]
       },
       "Capabilities": {
-        "aov:namespace": "http://opcfoundation.org/UA/GMS/",
+        "dov:namespace": "http://opcfoundation.org/UA/GMS/",
         "type": "array",
         "items": {
           "type": "integer",
@@ -381,39 +377,39 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/GMS/GMS_SensorType/property/Capabilities/write",
+            "dov:topic": "opcua/GMS/GMS_SensorType/property/Capabilities/write",
             "op": "writeproperty"
           },
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/GMS/GMS_SensorType/property/Capabilities/read",
+            "dov:topic": "opcua/GMS/GMS_SensorType/property/Capabilities/read",
             "op": "readproperty"
           }
         ]
       },
       "Class": {
-        "aov:namespace": "http://opcfoundation.org/UA/GMS/",
+        "dov:namespace": "http://opcfoundation.org/UA/GMS/",
         "type": "integer",
         "minimum": 0,
         "readOnly": false,
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/GMS/GMS_SensorType/property/Class/write",
+            "dov:topic": "opcua/GMS/GMS_SensorType/property/Class/write",
             "op": "writeproperty"
           },
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/GMS/GMS_SensorType/property/Class/read",
+            "dov:topic": "opcua/GMS/GMS_SensorType/property/Class/read",
             "op": "readproperty"
           }
         ]
       },
       "EngineeringUnit": {
-        "aov:namespace": "http://opcfoundation.org/UA/GMS/",
+        "dov:namespace": "http://opcfoundation.org/UA/GMS/",
         "title": "EUInformation",
         "type": "object",
-        "aov:typeRef": "nsu=http://opcfoundation.org/UA/;i=887",
+        "dov:typeRef": "nsu=http://opcfoundation.org/UA/;i=887",
         "required": [ "NamespaceUri", "UnitId", "DisplayName", "Description" ],
         "properties": {
           "NamespaceUri": {
@@ -435,20 +431,20 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/GMS/GMS_SensorType/property/EngineeringUnit/write",
+            "dov:topic": "opcua/GMS/GMS_SensorType/property/EngineeringUnit/write",
             "op": "writeproperty"
           },
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/GMS/GMS_SensorType/property/EngineeringUnit/read",
+            "dov:topic": "opcua/GMS/GMS_SensorType/property/EngineeringUnit/read",
             "op": "readproperty"
           }
         ]
       },
       "IsQualifiedStatus": {
-        "aov:namespace": "http://opcfoundation.org/UA/GMS/",
+        "dov:namespace": "http://opcfoundation.org/UA/GMS/",
         "title": "ToolIsQualifiedStatus",
-        "aov:typeRef": "nsu=http://opcfoundation.org/UA/GMS/;i=3002",
+        "dov:typeRef": "nsu=http://opcfoundation.org/UA/GMS/;i=3002",
         "type": "integer",
         "minimum": -2147483648,
         "maximum": 2147483647,
@@ -456,18 +452,18 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/GMS/GMS_SensorType/property/IsQualifiedStatus/write",
+            "dov:topic": "opcua/GMS/GMS_SensorType/property/IsQualifiedStatus/write",
             "op": "writeproperty"
           },
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/GMS/GMS_SensorType/property/IsQualifiedStatus/read",
+            "dov:topic": "opcua/GMS/GMS_SensorType/property/IsQualifiedStatus/read",
             "op": "readproperty"
           }
         ]
       },
       "MeasuringRange": {
-        "aov:namespace": "http://opcfoundation.org/UA/GMS/",
+        "dov:namespace": "http://opcfoundation.org/UA/GMS/",
         "type": "number",
         "minimum": -1.80e+308,
         "maximum": 1.80e+308,
@@ -475,18 +471,18 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/GMS/GMS_SensorType/property/MeasuringRange/write",
+            "dov:topic": "opcua/GMS/GMS_SensorType/property/MeasuringRange/write",
             "op": "writeproperty"
           },
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/GMS/GMS_SensorType/property/MeasuringRange/read",
+            "dov:topic": "opcua/GMS/GMS_SensorType/property/MeasuringRange/read",
             "op": "readproperty"
           }
         ]
       },
       "Resolution": {
-        "aov:namespace": "http://opcfoundation.org/UA/GMS/",
+        "dov:namespace": "http://opcfoundation.org/UA/GMS/",
         "type": "number",
         "minimum": -1.80e+308,
         "maximum": 1.80e+308,
@@ -494,18 +490,18 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/GMS/GMS_SensorType/property/Resolution/write",
+            "dov:topic": "opcua/GMS/GMS_SensorType/property/Resolution/write",
             "op": "writeproperty"
           },
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/GMS/GMS_SensorType/property/Resolution/read",
+            "dov:topic": "opcua/GMS/GMS_SensorType/property/Resolution/read",
             "op": "readproperty"
           }
         ]
       },
       "WorkingRange": {
-        "aov:namespace": "http://opcfoundation.org/UA/GMS/",
+        "dov:namespace": "http://opcfoundation.org/UA/GMS/",
         "type": "number",
         "minimum": -1.80e+308,
         "maximum": 1.80e+308,
@@ -513,12 +509,12 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/GMS/GMS_SensorType/property/WorkingRange/write",
+            "dov:topic": "opcua/GMS/GMS_SensorType/property/WorkingRange/write",
             "op": "writeproperty"
           },
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/GMS/GMS_SensorType/property/WorkingRange/read",
+            "dov:topic": "opcua/GMS/GMS_SensorType/property/WorkingRange/read",
             "op": "readproperty"
           }
         ]
@@ -526,7 +522,7 @@
     },
     "events": {
       "Capabilities": {
-        "aov:namespace": "http://opcfoundation.org/UA/GMS/",
+        "dov:namespace": "http://opcfoundation.org/UA/GMS/",
         "data": {
           "type": "array",
           "items": {
@@ -537,13 +533,13 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/GMS/GMS_SensorType/event/Capabilities/{senderId}",
+            "dov:topic": "opcua/GMS/GMS_SensorType/event/Capabilities/{senderId}",
             "op": "subscribeevent"
           }
         ]
       },
       "Class": {
-        "aov:namespace": "http://opcfoundation.org/UA/GMS/",
+        "dov:namespace": "http://opcfoundation.org/UA/GMS/",
         "data": {
           "type": "integer",
           "minimum": 0
@@ -551,7 +547,7 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/GMS/GMS_SensorType/event/Class/{senderId}",
+            "dov:topic": "opcua/GMS/GMS_SensorType/event/Class/{senderId}",
             "op": "subscribeevent"
           }
         ]
@@ -562,13 +558,12 @@
     "@context": [
       "https://www.w3.org/2022/wot/td/v1.1",
       {
-        "dtv": "http://azure.com/DigitalTwins/dtmi#",
-        "aov": "http://azure.com/IoT/operations/tm#"
+        "dov": "http://azure.com/DigitalOperations/vocab#"
       }
     ],
     "@type": "tm:ThingModel",
     "title": "GMS_CharacteristicType",
-    "aov:typeRef": "nsu=http://opcfoundation.org/UA/GMS/;i=1009",
+    "dov:typeRef": "nsu=http://opcfoundation.org/UA/GMS/;i=1009",
     "links": [
       {
         "rel": "tm:extends",
@@ -579,7 +574,7 @@
     "schemaDefinitions": {
       "ResultEvaluationEnum": {
         "type": "object",
-        "aov:typeRef": "nsu=http://opcfoundation.org/UA/Machinery/Result/;i=3002",
+        "dov:typeRef": "nsu=http://opcfoundation.org/UA/Machinery/Result/;i=3002",
         "const": {
           "Undefined": 0,
           "OK": 1,
@@ -610,17 +605,17 @@
     "forms": [
       {
         "contentType": "application/json",
-        "dtv:topic": "opcua/GMS/GMS_CharacteristicType/events/{senderId}",
+        "dov:topic": "opcua/GMS/GMS_CharacteristicType/events/{senderId}",
         "op": "subscribeallevents"
       },
       {
         "contentType": "application/json",
-        "dtv:topic": "opcua/GMS/GMS_CharacteristicType/properties/write",
+        "dov:topic": "opcua/GMS/GMS_CharacteristicType/properties/write",
         "op": "writemultipleproperties"
       },
       {
         "contentType": "application/json",
-        "dtv:topic": "opcua/GMS/GMS_CharacteristicType/properties/read",
+        "dov:topic": "opcua/GMS/GMS_CharacteristicType/properties/read",
         "op": "readallproperties"
       }
     ],
@@ -628,24 +623,24 @@
     },
     "properties": {
       "CharacteristicIdentifier": {
-        "aov:namespace": "http://opcfoundation.org/UA/GMS/",
+        "dov:namespace": "http://opcfoundation.org/UA/GMS/",
         "type": "string",
         "readOnly": false,
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/GMS/GMS_CharacteristicType/property/CharacteristicIdentifier/write",
+            "dov:topic": "opcua/GMS/GMS_CharacteristicType/property/CharacteristicIdentifier/write",
             "op": "writeproperty"
           },
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/GMS/GMS_CharacteristicType/property/CharacteristicIdentifier/read",
+            "dov:topic": "opcua/GMS/GMS_CharacteristicType/property/CharacteristicIdentifier/read",
             "op": "readproperty"
           }
         ]
       },
       "CharacteristicsClass": {
-        "aov:namespace": "http://opcfoundation.org/UA/GMS/",
+        "dov:namespace": "http://opcfoundation.org/UA/GMS/",
         "type": "integer",
         "minimum": 0,
         "maximum": 255,
@@ -653,52 +648,52 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/GMS/GMS_CharacteristicType/property/CharacteristicsClass/write",
+            "dov:topic": "opcua/GMS/GMS_CharacteristicType/property/CharacteristicsClass/write",
             "op": "writeproperty"
           },
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/GMS/GMS_CharacteristicType/property/CharacteristicsClass/read",
+            "dov:topic": "opcua/GMS/GMS_CharacteristicType/property/CharacteristicsClass/read",
             "op": "readproperty"
           }
         ]
       },
       "Formula": {
-        "aov:namespace": "http://opcfoundation.org/UA/GMS/",
+        "dov:namespace": "http://opcfoundation.org/UA/GMS/",
         "type": "string",
         "readOnly": false,
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/GMS/GMS_CharacteristicType/property/Formula/write",
+            "dov:topic": "opcua/GMS/GMS_CharacteristicType/property/Formula/write",
             "op": "writeproperty"
           },
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/GMS/GMS_CharacteristicType/property/Formula/read",
+            "dov:topic": "opcua/GMS/GMS_CharacteristicType/property/Formula/read",
             "op": "readproperty"
           }
         ]
       },
       "IsValid": {
-        "aov:namespace": "http://opcfoundation.org/UA/GMS/",
+        "dov:namespace": "http://opcfoundation.org/UA/GMS/",
         "type": "boolean",
         "readOnly": false,
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/GMS/GMS_CharacteristicType/property/IsValid/write",
+            "dov:topic": "opcua/GMS/GMS_CharacteristicType/property/IsValid/write",
             "op": "writeproperty"
           },
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/GMS/GMS_CharacteristicType/property/IsValid/read",
+            "dov:topic": "opcua/GMS/GMS_CharacteristicType/property/IsValid/read",
             "op": "readproperty"
           }
         ]
       },
       "LowerToleranceLimit": {
-        "aov:namespace": "http://opcfoundation.org/UA/GMS/",
+        "dov:namespace": "http://opcfoundation.org/UA/GMS/",
         "type": "number",
         "minimum": -1.80e+308,
         "maximum": 1.80e+308,
@@ -706,18 +701,18 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/GMS/GMS_CharacteristicType/property/LowerToleranceLimit/write",
+            "dov:topic": "opcua/GMS/GMS_CharacteristicType/property/LowerToleranceLimit/write",
             "op": "writeproperty"
           },
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/GMS/GMS_CharacteristicType/property/LowerToleranceLimit/read",
+            "dov:topic": "opcua/GMS/GMS_CharacteristicType/property/LowerToleranceLimit/read",
             "op": "readproperty"
           }
         ]
       },
       "Nominal": {
-        "aov:namespace": "http://opcfoundation.org/UA/GMS/",
+        "dov:namespace": "http://opcfoundation.org/UA/GMS/",
         "type": "number",
         "minimum": -1.80e+308,
         "maximum": 1.80e+308,
@@ -725,20 +720,20 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/GMS/GMS_CharacteristicType/property/Nominal/write",
+            "dov:topic": "opcua/GMS/GMS_CharacteristicType/property/Nominal/write",
             "op": "writeproperty"
           },
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/GMS/GMS_CharacteristicType/property/Nominal/read",
+            "dov:topic": "opcua/GMS/GMS_CharacteristicType/property/Nominal/read",
             "op": "readproperty"
           }
         ]
       },
       "ResultEvaluation": {
-        "aov:namespace": "http://opcfoundation.org/UA/GMS/",
+        "dov:namespace": "http://opcfoundation.org/UA/GMS/",
         "title": "ResultEvaluationEnum",
-        "aov:typeRef": "nsu=http://opcfoundation.org/UA/Machinery/Result/;i=3002",
+        "dov:typeRef": "nsu=http://opcfoundation.org/UA/Machinery/Result/;i=3002",
         "type": "integer",
         "minimum": -2147483648,
         "maximum": 2147483647,
@@ -746,18 +741,18 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/GMS/GMS_CharacteristicType/property/ResultEvaluation/write",
+            "dov:topic": "opcua/GMS/GMS_CharacteristicType/property/ResultEvaluation/write",
             "op": "writeproperty"
           },
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/GMS/GMS_CharacteristicType/property/ResultEvaluation/read",
+            "dov:topic": "opcua/GMS/GMS_CharacteristicType/property/ResultEvaluation/read",
             "op": "readproperty"
           }
         ]
       },
       "ResultValue": {
-        "aov:namespace": "http://opcfoundation.org/UA/GMS/",
+        "dov:namespace": "http://opcfoundation.org/UA/GMS/",
         "type": "number",
         "minimum": -1.80e+308,
         "maximum": 1.80e+308,
@@ -765,18 +760,18 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/GMS/GMS_CharacteristicType/property/ResultValue/write",
+            "dov:topic": "opcua/GMS/GMS_CharacteristicType/property/ResultValue/write",
             "op": "writeproperty"
           },
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/GMS/GMS_CharacteristicType/property/ResultValue/read",
+            "dov:topic": "opcua/GMS/GMS_CharacteristicType/property/ResultValue/read",
             "op": "readproperty"
           }
         ]
       },
       "UpperToleranceLimit": {
-        "aov:namespace": "http://opcfoundation.org/UA/GMS/",
+        "dov:namespace": "http://opcfoundation.org/UA/GMS/",
         "type": "number",
         "minimum": -1.80e+308,
         "maximum": 1.80e+308,
@@ -784,12 +779,12 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/GMS/GMS_CharacteristicType/property/UpperToleranceLimit/write",
+            "dov:topic": "opcua/GMS/GMS_CharacteristicType/property/UpperToleranceLimit/write",
             "op": "writeproperty"
           },
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/GMS/GMS_CharacteristicType/property/UpperToleranceLimit/read",
+            "dov:topic": "opcua/GMS/GMS_CharacteristicType/property/UpperToleranceLimit/read",
             "op": "readproperty"
           }
         ]
@@ -797,7 +792,7 @@
     },
     "events": {
       "LowerToleranceLimit": {
-        "aov:namespace": "http://opcfoundation.org/UA/GMS/",
+        "dov:namespace": "http://opcfoundation.org/UA/GMS/",
         "data": {
           "type": "number",
           "minimum": -1.80e+308,
@@ -806,13 +801,13 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/GMS/GMS_CharacteristicType/event/LowerToleranceLimit/{senderId}",
+            "dov:topic": "opcua/GMS/GMS_CharacteristicType/event/LowerToleranceLimit/{senderId}",
             "op": "subscribeevent"
           }
         ]
       },
       "Nominal": {
-        "aov:namespace": "http://opcfoundation.org/UA/GMS/",
+        "dov:namespace": "http://opcfoundation.org/UA/GMS/",
         "data": {
           "type": "number",
           "minimum": -1.80e+308,
@@ -821,13 +816,13 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/GMS/GMS_CharacteristicType/event/Nominal/{senderId}",
+            "dov:topic": "opcua/GMS/GMS_CharacteristicType/event/Nominal/{senderId}",
             "op": "subscribeevent"
           }
         ]
       },
       "ResultValue": {
-        "aov:namespace": "http://opcfoundation.org/UA/GMS/",
+        "dov:namespace": "http://opcfoundation.org/UA/GMS/",
         "data": {
           "type": "number",
           "minimum": -1.80e+308,
@@ -836,13 +831,13 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/GMS/GMS_CharacteristicType/event/ResultValue/{senderId}",
+            "dov:topic": "opcua/GMS/GMS_CharacteristicType/event/ResultValue/{senderId}",
             "op": "subscribeevent"
           }
         ]
       },
       "UpperToleranceLimit": {
-        "aov:namespace": "http://opcfoundation.org/UA/GMS/",
+        "dov:namespace": "http://opcfoundation.org/UA/GMS/",
         "data": {
           "type": "number",
           "minimum": -1.80e+308,
@@ -851,7 +846,7 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/GMS/GMS_CharacteristicType/event/UpperToleranceLimit/{senderId}",
+            "dov:topic": "opcua/GMS/GMS_CharacteristicType/event/UpperToleranceLimit/{senderId}",
             "op": "subscribeevent"
           }
         ]
@@ -862,13 +857,12 @@
     "@context": [
       "https://www.w3.org/2022/wot/td/v1.1",
       {
-        "dtv": "http://azure.com/DigitalTwins/dtmi#",
-        "aov": "http://azure.com/IoT/operations/tm#"
+        "dov": "http://azure.com/DigitalOperations/vocab#"
       }
     ],
     "@type": "tm:ThingModel",
     "title": "GMS_CorrectionType",
-    "aov:typeRef": "nsu=http://opcfoundation.org/UA/GMS/;i=1005",
+    "dov:typeRef": "nsu=http://opcfoundation.org/UA/GMS/;i=1005",
     "links": [
       {
         "rel": "tm:extends",
@@ -881,17 +875,17 @@
     "forms": [
       {
         "contentType": "application/json",
-        "dtv:topic": "opcua/GMS/GMS_CorrectionType/events/{senderId}",
+        "dov:topic": "opcua/GMS/GMS_CorrectionType/events/{senderId}",
         "op": "subscribeallevents"
       },
       {
         "contentType": "application/json",
-        "dtv:topic": "opcua/GMS/GMS_CorrectionType/properties/write",
+        "dov:topic": "opcua/GMS/GMS_CorrectionType/properties/write",
         "op": "writemultipleproperties"
       },
       {
         "contentType": "application/json",
-        "dtv:topic": "opcua/GMS/GMS_CorrectionType/properties/read",
+        "dov:topic": "opcua/GMS/GMS_CorrectionType/properties/read",
         "op": "readallproperties"
       }
     ],
@@ -899,24 +893,24 @@
     },
     "properties": {
       "CharacteristicIdentifier": {
-        "aov:namespace": "http://opcfoundation.org/UA/GMS/",
+        "dov:namespace": "http://opcfoundation.org/UA/GMS/",
         "type": "string",
         "readOnly": false,
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/GMS/GMS_CorrectionType/property/CharacteristicIdentifier/write",
+            "dov:topic": "opcua/GMS/GMS_CorrectionType/property/CharacteristicIdentifier/write",
             "op": "writeproperty"
           },
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/GMS/GMS_CorrectionType/property/CharacteristicIdentifier/read",
+            "dov:topic": "opcua/GMS/GMS_CorrectionType/property/CharacteristicIdentifier/read",
             "op": "readproperty"
           }
         ]
       },
       "CorrectionValueAbsolute": {
-        "aov:namespace": "http://opcfoundation.org/UA/GMS/",
+        "dov:namespace": "http://opcfoundation.org/UA/GMS/",
         "type": "number",
         "minimum": -1.80e+308,
         "maximum": 1.80e+308,
@@ -924,18 +918,18 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/GMS/GMS_CorrectionType/property/CorrectionValueAbsolute/write",
+            "dov:topic": "opcua/GMS/GMS_CorrectionType/property/CorrectionValueAbsolute/write",
             "op": "writeproperty"
           },
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/GMS/GMS_CorrectionType/property/CorrectionValueAbsolute/read",
+            "dov:topic": "opcua/GMS/GMS_CorrectionType/property/CorrectionValueAbsolute/read",
             "op": "readproperty"
           }
         ]
       },
       "CorrectionValueRelative": {
-        "aov:namespace": "http://opcfoundation.org/UA/GMS/",
+        "dov:namespace": "http://opcfoundation.org/UA/GMS/",
         "type": "number",
         "minimum": -1.80e+308,
         "maximum": 1.80e+308,
@@ -943,52 +937,52 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/GMS/GMS_CorrectionType/property/CorrectionValueRelative/write",
+            "dov:topic": "opcua/GMS/GMS_CorrectionType/property/CorrectionValueRelative/write",
             "op": "writeproperty"
           },
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/GMS/GMS_CorrectionType/property/CorrectionValueRelative/read",
+            "dov:topic": "opcua/GMS/GMS_CorrectionType/property/CorrectionValueRelative/read",
             "op": "readproperty"
           }
         ]
       },
       "Description": {
-        "aov:namespace": "http://opcfoundation.org/UA/GMS/",
+        "dov:namespace": "http://opcfoundation.org/UA/GMS/",
         "type": "string",
         "readOnly": false,
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/GMS/GMS_CorrectionType/property/Description/write",
+            "dov:topic": "opcua/GMS/GMS_CorrectionType/property/Description/write",
             "op": "writeproperty"
           },
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/GMS/GMS_CorrectionType/property/Description/read",
+            "dov:topic": "opcua/GMS/GMS_CorrectionType/property/Description/read",
             "op": "readproperty"
           }
         ]
       },
       "Identifier": {
-        "aov:namespace": "http://opcfoundation.org/UA/GMS/",
+        "dov:namespace": "http://opcfoundation.org/UA/GMS/",
         "type": "string",
         "readOnly": false,
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/GMS/GMS_CorrectionType/property/Identifier/write",
+            "dov:topic": "opcua/GMS/GMS_CorrectionType/property/Identifier/write",
             "op": "writeproperty"
           },
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/GMS/GMS_CorrectionType/property/Identifier/read",
+            "dov:topic": "opcua/GMS/GMS_CorrectionType/property/Identifier/read",
             "op": "readproperty"
           }
         ]
       },
       "LowerControlLimit": {
-        "aov:namespace": "http://opcfoundation.org/UA/GMS/",
+        "dov:namespace": "http://opcfoundation.org/UA/GMS/",
         "type": "number",
         "minimum": -1.80e+308,
         "maximum": 1.80e+308,
@@ -996,35 +990,35 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/GMS/GMS_CorrectionType/property/LowerControlLimit/write",
+            "dov:topic": "opcua/GMS/GMS_CorrectionType/property/LowerControlLimit/write",
             "op": "writeproperty"
           },
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/GMS/GMS_CorrectionType/property/LowerControlLimit/read",
+            "dov:topic": "opcua/GMS/GMS_CorrectionType/property/LowerControlLimit/read",
             "op": "readproperty"
           }
         ]
       },
       "ProgramName": {
-        "aov:namespace": "http://opcfoundation.org/UA/GMS/",
+        "dov:namespace": "http://opcfoundation.org/UA/GMS/",
         "type": "string",
         "readOnly": false,
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/GMS/GMS_CorrectionType/property/ProgramName/write",
+            "dov:topic": "opcua/GMS/GMS_CorrectionType/property/ProgramName/write",
             "op": "writeproperty"
           },
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/GMS/GMS_CorrectionType/property/ProgramName/read",
+            "dov:topic": "opcua/GMS/GMS_CorrectionType/property/ProgramName/read",
             "op": "readproperty"
           }
         ]
       },
       "UpperControlLimit": {
-        "aov:namespace": "http://opcfoundation.org/UA/GMS/",
+        "dov:namespace": "http://opcfoundation.org/UA/GMS/",
         "type": "number",
         "minimum": -1.80e+308,
         "maximum": 1.80e+308,
@@ -1032,12 +1026,12 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/GMS/GMS_CorrectionType/property/UpperControlLimit/write",
+            "dov:topic": "opcua/GMS/GMS_CorrectionType/property/UpperControlLimit/write",
             "op": "writeproperty"
           },
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/GMS/GMS_CorrectionType/property/UpperControlLimit/read",
+            "dov:topic": "opcua/GMS/GMS_CorrectionType/property/UpperControlLimit/read",
             "op": "readproperty"
           }
         ]
@@ -1045,7 +1039,7 @@
     },
     "events": {
       "CorrectionValueAbsolute": {
-        "aov:namespace": "http://opcfoundation.org/UA/GMS/",
+        "dov:namespace": "http://opcfoundation.org/UA/GMS/",
         "data": {
           "type": "number",
           "minimum": -1.80e+308,
@@ -1054,13 +1048,13 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/GMS/GMS_CorrectionType/event/CorrectionValueAbsolute/{senderId}",
+            "dov:topic": "opcua/GMS/GMS_CorrectionType/event/CorrectionValueAbsolute/{senderId}",
             "op": "subscribeevent"
           }
         ]
       },
       "CorrectionValueRelative": {
-        "aov:namespace": "http://opcfoundation.org/UA/GMS/",
+        "dov:namespace": "http://opcfoundation.org/UA/GMS/",
         "data": {
           "type": "number",
           "minimum": -1.80e+308,
@@ -1069,13 +1063,13 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/GMS/GMS_CorrectionType/event/CorrectionValueRelative/{senderId}",
+            "dov:topic": "opcua/GMS/GMS_CorrectionType/event/CorrectionValueRelative/{senderId}",
             "op": "subscribeevent"
           }
         ]
       },
       "LowerControlLimit": {
-        "aov:namespace": "http://opcfoundation.org/UA/GMS/",
+        "dov:namespace": "http://opcfoundation.org/UA/GMS/",
         "data": {
           "type": "number",
           "minimum": -1.80e+308,
@@ -1084,13 +1078,13 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/GMS/GMS_CorrectionType/event/LowerControlLimit/{senderId}",
+            "dov:topic": "opcua/GMS/GMS_CorrectionType/event/LowerControlLimit/{senderId}",
             "op": "subscribeevent"
           }
         ]
       },
       "UpperControlLimit": {
-        "aov:namespace": "http://opcfoundation.org/UA/GMS/",
+        "dov:namespace": "http://opcfoundation.org/UA/GMS/",
         "data": {
           "type": "number",
           "minimum": -1.80e+308,
@@ -1099,7 +1093,7 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/GMS/GMS_CorrectionType/event/UpperControlLimit/{senderId}",
+            "dov:topic": "opcua/GMS/GMS_CorrectionType/event/UpperControlLimit/{senderId}",
             "op": "subscribeevent"
           }
         ]
@@ -1110,13 +1104,12 @@
     "@context": [
       "https://www.w3.org/2022/wot/td/v1.1",
       {
-        "dtv": "http://azure.com/DigitalTwins/dtmi#",
-        "aov": "http://azure.com/IoT/operations/tm#"
+        "dov": "http://azure.com/DigitalOperations/vocab#"
       }
     ],
     "@type": "tm:ThingModel",
     "title": "GMS_LoadingMonitoringType",
-    "aov:typeRef": "nsu=http://opcfoundation.org/UA/GMS/;i=1014",
+    "dov:typeRef": "nsu=http://opcfoundation.org/UA/GMS/;i=1014",
     "links": [
       {
         "rel": "tm:extends",
@@ -1129,17 +1122,17 @@
     "forms": [
       {
         "contentType": "application/json",
-        "dtv:topic": "opcua/GMS/GMS_LoadingMonitoringType/events/{senderId}",
+        "dov:topic": "opcua/GMS/GMS_LoadingMonitoringType/events/{senderId}",
         "op": "subscribeallevents"
       },
       {
         "contentType": "application/json",
-        "dtv:topic": "opcua/GMS/GMS_LoadingMonitoringType/properties/write",
+        "dov:topic": "opcua/GMS/GMS_LoadingMonitoringType/properties/write",
         "op": "writemultipleproperties"
       },
       {
         "contentType": "application/json",
-        "dtv:topic": "opcua/GMS/GMS_LoadingMonitoringType/properties/read",
+        "dov:topic": "opcua/GMS/GMS_LoadingMonitoringType/properties/read",
         "op": "readallproperties"
       }
     ],
@@ -1147,36 +1140,36 @@
     },
     "properties": {
       "IsInLoadingPosition": {
-        "aov:namespace": "http://opcfoundation.org/UA/GMS/",
+        "dov:namespace": "http://opcfoundation.org/UA/GMS/",
         "type": "boolean",
         "readOnly": false,
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/GMS/GMS_LoadingMonitoringType/property/IsInLoadingPosition/write",
+            "dov:topic": "opcua/GMS/GMS_LoadingMonitoringType/property/IsInLoadingPosition/write",
             "op": "writeproperty"
           },
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/GMS/GMS_LoadingMonitoringType/property/IsInLoadingPosition/read",
+            "dov:topic": "opcua/GMS/GMS_LoadingMonitoringType/property/IsInLoadingPosition/read",
             "op": "readproperty"
           }
         ]
       },
       "LoadStatus": {
-        "aov:namespace": "http://opcfoundation.org/UA/GMS/",
+        "dov:namespace": "http://opcfoundation.org/UA/GMS/",
         "type": "integer",
         "minimum": 0,
         "readOnly": false,
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/GMS/GMS_LoadingMonitoringType/property/LoadStatus/write",
+            "dov:topic": "opcua/GMS/GMS_LoadingMonitoringType/property/LoadStatus/write",
             "op": "writeproperty"
           },
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/GMS/GMS_LoadingMonitoringType/property/LoadStatus/read",
+            "dov:topic": "opcua/GMS/GMS_LoadingMonitoringType/property/LoadStatus/read",
             "op": "readproperty"
           }
         ]
@@ -1184,20 +1177,20 @@
     },
     "events": {
       "IsInLoadingPosition": {
-        "aov:namespace": "http://opcfoundation.org/UA/GMS/",
+        "dov:namespace": "http://opcfoundation.org/UA/GMS/",
         "data": {
           "type": "boolean"
         },
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/GMS/GMS_LoadingMonitoringType/event/IsInLoadingPosition/{senderId}",
+            "dov:topic": "opcua/GMS/GMS_LoadingMonitoringType/event/IsInLoadingPosition/{senderId}",
             "op": "subscribeevent"
           }
         ]
       },
       "LoadStatus": {
-        "aov:namespace": "http://opcfoundation.org/UA/GMS/",
+        "dov:namespace": "http://opcfoundation.org/UA/GMS/",
         "data": {
           "type": "integer",
           "minimum": 0
@@ -1205,7 +1198,7 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/GMS/GMS_LoadingMonitoringType/event/LoadStatus/{senderId}",
+            "dov:topic": "opcua/GMS/GMS_LoadingMonitoringType/event/LoadStatus/{senderId}",
             "op": "subscribeevent"
           }
         ]
@@ -1216,13 +1209,12 @@
     "@context": [
       "https://www.w3.org/2022/wot/td/v1.1",
       {
-        "dtv": "http://azure.com/DigitalTwins/dtmi#",
-        "aov": "http://azure.com/IoT/operations/tm#"
+        "dov": "http://azure.com/DigitalOperations/vocab#"
       }
     ],
     "@type": "tm:ThingModel",
     "title": "GMS_ToolMonitoringType",
-    "aov:typeRef": "nsu=http://opcfoundation.org/UA/GMS/;i=1006",
+    "dov:typeRef": "nsu=http://opcfoundation.org/UA/GMS/;i=1006",
     "links": [
       {
         "rel": "tm:extends",
@@ -1235,12 +1227,12 @@
     "forms": [
       {
         "contentType": "application/json",
-        "dtv:topic": "opcua/GMS/GMS_ToolMonitoringType/properties/write",
+        "dov:topic": "opcua/GMS/GMS_ToolMonitoringType/properties/write",
         "op": "writemultipleproperties"
       },
       {
         "contentType": "application/json",
-        "dtv:topic": "opcua/GMS/GMS_ToolMonitoringType/properties/read",
+        "dov:topic": "opcua/GMS/GMS_ToolMonitoringType/properties/read",
         "op": "readallproperties"
       }
     ],
@@ -1248,7 +1240,7 @@
     },
     "properties": {
       "ActiveTool": {
-        "aov:namespace": "http://opcfoundation.org/UA/GMS/",
+        "dov:namespace": "http://opcfoundation.org/UA/GMS/",
         "type": "array",
         "items": {
           "type": "string"
@@ -1257,12 +1249,12 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/GMS/GMS_ToolMonitoringType/property/ActiveTool/write",
+            "dov:topic": "opcua/GMS/GMS_ToolMonitoringType/property/ActiveTool/write",
             "op": "writeproperty"
           },
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/GMS/GMS_ToolMonitoringType/property/ActiveTool/read",
+            "dov:topic": "opcua/GMS/GMS_ToolMonitoringType/property/ActiveTool/read",
             "op": "readproperty"
           }
         ]
@@ -1275,13 +1267,12 @@
     "@context": [
       "https://www.w3.org/2022/wot/td/v1.1",
       {
-        "dtv": "http://azure.com/DigitalTwins/dtmi#",
-        "aov": "http://azure.com/IoT/operations/tm#"
+        "dov": "http://azure.com/DigitalOperations/vocab#"
       }
     ],
     "@type": "tm:ThingModel",
     "title": "GMS_GMSEquipmentType",
-    "aov:typeRef": "nsu=http://opcfoundation.org/UA/GMS/;i=1003",
+    "dov:typeRef": "nsu=http://opcfoundation.org/UA/GMS/;i=1003",
     "links": [
       {
         "rel": "tm:extends",
@@ -1289,20 +1280,20 @@
         "type": "application/tm+json"
       },
       {
-        "rel": "aov:component",
-        "aov:refName": "Accessories",
+        "rel": "dov:component",
+        "dov:refName": "Accessories",
         "href": "./OpcUaCore.TM.json#title=OpcUaCore_FolderType",
         "type": "application/tm+json"
       },
       {
-        "rel": "aov:component",
-        "aov:refName": "AdditionalSensor",
+        "rel": "dov:component",
+        "dov:refName": "AdditionalSensor",
         "href": "./OpcUaCore.TM.json#title=OpcUaCore_FolderType",
         "type": "application/tm+json"
       },
       {
-        "rel": "aov:reference",
-        "aov:refName": "Tools",
+        "rel": "dov:reference",
+        "dov:refName": "Tools",
         "href": "./MachineTool.TM.json#title=MachineTool_ToolListType",
         "type": "application/tm+json"
       }
@@ -1320,13 +1311,12 @@
     "@context": [
       "https://www.w3.org/2022/wot/td/v1.1",
       {
-        "dtv": "http://azure.com/DigitalTwins/dtmi#",
-        "aov": "http://azure.com/IoT/operations/tm#"
+        "dov": "http://azure.com/DigitalOperations/vocab#"
       }
     ],
     "@type": "tm:ThingModel",
     "title": "GMS_GMSIdentificationType",
-    "aov:typeRef": "nsu=http://opcfoundation.org/UA/GMS/;i=1011",
+    "dov:typeRef": "nsu=http://opcfoundation.org/UA/GMS/;i=1011",
     "links": [
       {
         "rel": "tm:extends",
@@ -1339,12 +1329,12 @@
     "forms": [
       {
         "contentType": "application/json",
-        "dtv:topic": "opcua/GMS/GMS_GMSIdentificationType/properties/write",
+        "dov:topic": "opcua/GMS/GMS_GMSIdentificationType/properties/write",
         "op": "writemultipleproperties"
       },
       {
         "contentType": "application/json",
-        "dtv:topic": "opcua/GMS/GMS_GMSIdentificationType/properties/read",
+        "dov:topic": "opcua/GMS/GMS_GMSIdentificationType/properties/read",
         "op": "readallproperties"
       }
     ],
@@ -1352,30 +1342,30 @@
     },
     "properties": {
       "SubDeviceClass": {
-        "aov:namespace": "http://opcfoundation.org/UA/GMS/",
+        "dov:namespace": "http://opcfoundation.org/UA/GMS/",
         "type": "string",
         "readOnly": false,
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/GMS/GMS_GMSIdentificationType/property/SubDeviceClass/write",
+            "dov:topic": "opcua/GMS/GMS_GMSIdentificationType/property/SubDeviceClass/write",
             "op": "writeproperty"
           },
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/GMS/GMS_GMSIdentificationType/property/SubDeviceClass/read",
+            "dov:topic": "opcua/GMS/GMS_GMSIdentificationType/property/SubDeviceClass/read",
             "op": "readproperty"
           }
         ]
       },
       "Workspace": {
-        "aov:namespace": "http://opcfoundation.org/UA/GMS/",
+        "dov:namespace": "http://opcfoundation.org/UA/GMS/",
         "type": "string",
         "readOnly": true,
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/GMS/GMS_GMSIdentificationType/property/Workspace/read",
+            "dov:topic": "opcua/GMS/GMS_GMSIdentificationType/property/Workspace/read",
             "op": "readproperty"
           }
         ]
@@ -1388,14 +1378,13 @@
     "@context": [
       "https://www.w3.org/2022/wot/td/v1.1",
       {
-        "dtv": "http://azure.com/DigitalTwins/dtmi#",
-        "aov": "http://azure.com/IoT/operations/tm#"
+        "dov": "http://azure.com/DigitalOperations/vocab#"
       }
     ],
     "@type": "tm:ThingModel",
     "title": "GMS_GMSType",
-    "aov:typeRef": "nsu=http://opcfoundation.org/UA/GMS/;i=1002",
-    "aov:isComposite": true,
+    "dov:typeRef": "nsu=http://opcfoundation.org/UA/GMS/;i=1002",
+    "dov:isComposite": true,
     "links": [
       {
         "rel": "tm:extends",
@@ -1403,32 +1392,32 @@
         "type": "application/tm+json"
       },
       {
-        "rel": "aov:capability",
-        "aov:refName": "Equipment",
+        "rel": "dov:capability",
+        "dov:refName": "Equipment",
         "href": "#title=GMS_GMSEquipmentType",
         "type": "application/tm+json"
       },
       {
-        "rel": "aov:capability",
-        "aov:refName": "Monitoring",
+        "rel": "dov:capability",
+        "dov:refName": "Monitoring",
         "href": "#title=GMS_GMSMonitoringType",
         "type": "application/tm+json"
       },
       {
-        "rel": "aov:capability",
-        "aov:refName": "Notification",
+        "rel": "dov:capability",
+        "dov:refName": "Notification",
         "href": "./MachineTool.TM.json#title=MachineTool_NotificationType",
         "type": "application/tm+json"
       },
       {
-        "rel": "aov:capability",
-        "aov:refName": "Production",
+        "rel": "dov:capability",
+        "dov:refName": "Production",
         "href": "./MachineTool.TM.json#title=MachineTool_ProductionType",
         "type": "application/tm+json"
       },
       {
-        "rel": "aov:capability",
-        "aov:refName": "ResultManagement",
+        "rel": "dov:capability",
+        "dov:refName": "ResultManagement",
         "href": "#title=GMS_GMSResultManagementType",
         "type": "application/tm+json"
       }
@@ -1446,13 +1435,12 @@
     "@context": [
       "https://www.w3.org/2022/wot/td/v1.1",
       {
-        "dtv": "http://azure.com/DigitalTwins/dtmi#",
-        "aov": "http://azure.com/IoT/operations/tm#"
+        "dov": "http://azure.com/DigitalOperations/vocab#"
       }
     ],
     "@type": "tm:ThingModel",
     "title": "GMS_GMSMonitoringType",
-    "aov:typeRef": "nsu=http://opcfoundation.org/UA/GMS/;i=1004",
+    "dov:typeRef": "nsu=http://opcfoundation.org/UA/GMS/;i=1004",
     "links": [
       {
         "rel": "tm:extends",
@@ -1460,14 +1448,14 @@
         "type": "application/tm+json"
       },
       {
-        "rel": "aov:reference",
-        "aov:refName": "LoadingMonitoring",
+        "rel": "dov:reference",
+        "dov:refName": "LoadingMonitoring",
         "href": "#title=GMS_LoadingMonitoringType",
         "type": "application/tm+json"
       },
       {
-        "rel": "aov:reference",
-        "aov:refName": "ToolMonitoring",
+        "rel": "dov:reference",
+        "dov:refName": "ToolMonitoring",
         "href": "#title=GMS_ToolMonitoringType",
         "type": "application/tm+json"
       }
@@ -1485,14 +1473,13 @@
     "@context": [
       "https://www.w3.org/2022/wot/td/v1.1",
       {
-        "dtv": "http://azure.com/DigitalTwins/dtmi#",
-        "aov": "http://azure.com/IoT/operations/tm#"
+        "dov": "http://azure.com/DigitalOperations/vocab#"
       }
     ],
     "@type": "tm:ThingModel",
     "title": "GMS_GMSJobType",
-    "aov:typeRef": "nsu=http://opcfoundation.org/UA/GMS/;i=1016",
-    "aov:isComposite": true,
+    "dov:typeRef": "nsu=http://opcfoundation.org/UA/GMS/;i=1016",
+    "dov:isComposite": true,
     "links": [
       {
         "rel": "tm:extends",
@@ -1503,7 +1490,7 @@
     "schemaDefinitions": {
       "MeasurementReasonEnum": {
         "type": "object",
-        "aov:typeRef": "nsu=http://opcfoundation.org/UA/GMS/;i=3009",
+        "dov:typeRef": "nsu=http://opcfoundation.org/UA/GMS/;i=3009",
         "const": {
           "ContinuousMeasurements": 0,
           "SpecialMeasurement": 1,
@@ -1537,12 +1524,12 @@
     "forms": [
       {
         "contentType": "application/json",
-        "dtv:topic": "opcua/GMS/GMS_GMSJobType/properties/write",
+        "dov:topic": "opcua/GMS/GMS_GMSJobType/properties/write",
         "op": "writemultipleproperties"
       },
       {
         "contentType": "application/json",
-        "dtv:topic": "opcua/GMS/GMS_GMSJobType/properties/read",
+        "dov:topic": "opcua/GMS/GMS_GMSJobType/properties/read",
         "op": "readallproperties"
       }
     ],
@@ -1550,44 +1537,44 @@
     },
     "properties": {
       "BatchIdentifier": {
-        "aov:namespace": "http://opcfoundation.org/UA/GMS/",
+        "dov:namespace": "http://opcfoundation.org/UA/GMS/",
         "type": "string",
         "readOnly": false,
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/GMS/GMS_GMSJobType/property/BatchIdentifier/write",
+            "dov:topic": "opcua/GMS/GMS_GMSJobType/property/BatchIdentifier/write",
             "op": "writeproperty"
           },
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/GMS/GMS_GMSJobType/property/BatchIdentifier/read",
+            "dov:topic": "opcua/GMS/GMS_GMSJobType/property/BatchIdentifier/read",
             "op": "readproperty"
           }
         ]
       },
       "Duration": {
-        "aov:namespace": "http://opcfoundation.org/UA/GMS/",
+        "dov:namespace": "http://opcfoundation.org/UA/GMS/",
         "type": "string",
         "pattern": "^P(?!$)(?:(?:(?:(?:\\d+Y)|(?:\\d+\\.\\d+Y$))?(?:(?:\\d+M)|(?:\\d+\\.\\d+M$))?)|(?:(?:(?:\\d+W)|(?:\\d+\\.\\d+W$))?))(?:(?:\\d+D)|(?:\\d+\\.\\d+D$))?(?:T(?!$)(?:(?:\\d+H)|(?:\\d+\\.\\d+H$))?(?:(?:\\d+M)|(?:\\d+\\.\\d+M$))?(?:\\d+(?:\\.\\d+)?S)?)?$",
         "readOnly": false,
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/GMS/GMS_GMSJobType/property/Duration/write",
+            "dov:topic": "opcua/GMS/GMS_GMSJobType/property/Duration/write",
             "op": "writeproperty"
           },
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/GMS/GMS_GMSJobType/property/Duration/read",
+            "dov:topic": "opcua/GMS/GMS_GMSJobType/property/Duration/read",
             "op": "readproperty"
           }
         ]
       },
       "MeasurementReason": {
-        "aov:namespace": "http://opcfoundation.org/UA/GMS/",
+        "dov:namespace": "http://opcfoundation.org/UA/GMS/",
         "title": "MeasurementReasonEnum",
-        "aov:typeRef": "nsu=http://opcfoundation.org/UA/GMS/;i=3009",
+        "dov:typeRef": "nsu=http://opcfoundation.org/UA/GMS/;i=3009",
         "type": "integer",
         "minimum": -2147483648,
         "maximum": 2147483647,
@@ -1595,30 +1582,30 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/GMS/GMS_GMSJobType/property/MeasurementReason/write",
+            "dov:topic": "opcua/GMS/GMS_GMSJobType/property/MeasurementReason/write",
             "op": "writeproperty"
           },
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/GMS/GMS_GMSJobType/property/MeasurementReason/read",
+            "dov:topic": "opcua/GMS/GMS_GMSJobType/property/MeasurementReason/read",
             "op": "readproperty"
           }
         ]
       },
       "RemainingTime": {
-        "aov:namespace": "http://opcfoundation.org/UA/GMS/",
+        "dov:namespace": "http://opcfoundation.org/UA/GMS/",
         "type": "string",
         "pattern": "^P(?!$)(?:(?:(?:(?:\\d+Y)|(?:\\d+\\.\\d+Y$))?(?:(?:\\d+M)|(?:\\d+\\.\\d+M$))?)|(?:(?:(?:\\d+W)|(?:\\d+\\.\\d+W$))?))(?:(?:\\d+D)|(?:\\d+\\.\\d+D$))?(?:T(?!$)(?:(?:\\d+H)|(?:\\d+\\.\\d+H$))?(?:(?:\\d+M)|(?:\\d+\\.\\d+M$))?(?:\\d+(?:\\.\\d+)?S)?)?$",
         "readOnly": false,
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/GMS/GMS_GMSJobType/property/RemainingTime/write",
+            "dov:topic": "opcua/GMS/GMS_GMSJobType/property/RemainingTime/write",
             "op": "writeproperty"
           },
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/GMS/GMS_GMSJobType/property/RemainingTime/read",
+            "dov:topic": "opcua/GMS/GMS_GMSJobType/property/RemainingTime/read",
             "op": "readproperty"
           }
         ]
@@ -1631,14 +1618,13 @@
     "@context": [
       "https://www.w3.org/2022/wot/td/v1.1",
       {
-        "dtv": "http://azure.com/DigitalTwins/dtmi#",
-        "aov": "http://azure.com/IoT/operations/tm#"
+        "dov": "http://azure.com/DigitalOperations/vocab#"
       }
     ],
     "@type": "tm:ThingModel",
     "title": "GMS_GMSPartType",
-    "aov:typeRef": "nsu=http://opcfoundation.org/UA/GMS/;i=1017",
-    "aov:isComposite": true,
+    "dov:typeRef": "nsu=http://opcfoundation.org/UA/GMS/;i=1017",
+    "dov:isComposite": true,
     "links": [
       {
         "rel": "tm:extends",
@@ -1651,17 +1637,17 @@
     "forms": [
       {
         "contentType": "application/json",
-        "dtv:topic": "opcua/GMS/GMS_GMSPartType/events/{senderId}",
+        "dov:topic": "opcua/GMS/GMS_GMSPartType/events/{senderId}",
         "op": "subscribeallevents"
       },
       {
         "contentType": "application/json",
-        "dtv:topic": "opcua/GMS/GMS_GMSPartType/properties/write",
+        "dov:topic": "opcua/GMS/GMS_GMSPartType/properties/write",
         "op": "writemultipleproperties"
       },
       {
         "contentType": "application/json",
-        "dtv:topic": "opcua/GMS/GMS_GMSPartType/properties/read",
+        "dov:topic": "opcua/GMS/GMS_GMSPartType/properties/read",
         "op": "readallproperties"
       }
     ],
@@ -1669,109 +1655,109 @@
     },
     "properties": {
       "NestIdentifier": {
-        "aov:namespace": "http://opcfoundation.org/UA/GMS/",
+        "dov:namespace": "http://opcfoundation.org/UA/GMS/",
         "type": "number",
         "readOnly": false,
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/GMS/GMS_GMSPartType/property/NestIdentifier/write",
+            "dov:topic": "opcua/GMS/GMS_GMSPartType/property/NestIdentifier/write",
             "op": "writeproperty"
           },
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/GMS/GMS_GMSPartType/property/NestIdentifier/read",
+            "dov:topic": "opcua/GMS/GMS_GMSPartType/property/NestIdentifier/read",
             "op": "readproperty"
           }
         ]
       },
       "Operator": {
-        "aov:namespace": "http://opcfoundation.org/UA/GMS/",
+        "dov:namespace": "http://opcfoundation.org/UA/GMS/",
         "type": "number",
         "readOnly": false,
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/GMS/GMS_GMSPartType/property/Operator/write",
+            "dov:topic": "opcua/GMS/GMS_GMSPartType/property/Operator/write",
             "op": "writeproperty"
           },
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/GMS/GMS_GMSPartType/property/Operator/read",
+            "dov:topic": "opcua/GMS/GMS_GMSPartType/property/Operator/read",
             "op": "readproperty"
           }
         ]
       },
       "PartAmendmentStatus": {
-        "aov:namespace": "http://opcfoundation.org/UA/GMS/",
+        "dov:namespace": "http://opcfoundation.org/UA/GMS/",
         "type": "string",
         "readOnly": false,
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/GMS/GMS_GMSPartType/property/PartAmendmentStatus/write",
+            "dov:topic": "opcua/GMS/GMS_GMSPartType/property/PartAmendmentStatus/write",
             "op": "writeproperty"
           },
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/GMS/GMS_GMSPartType/property/PartAmendmentStatus/read",
+            "dov:topic": "opcua/GMS/GMS_GMSPartType/property/PartAmendmentStatus/read",
             "op": "readproperty"
           }
         ]
       },
       "PartCarrierIdentifier": {
-        "aov:namespace": "http://opcfoundation.org/UA/GMS/",
+        "dov:namespace": "http://opcfoundation.org/UA/GMS/",
         "type": "number",
         "readOnly": false,
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/GMS/GMS_GMSPartType/property/PartCarrierIdentifier/write",
+            "dov:topic": "opcua/GMS/GMS_GMSPartType/property/PartCarrierIdentifier/write",
             "op": "writeproperty"
           },
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/GMS/GMS_GMSPartType/property/PartCarrierIdentifier/read",
+            "dov:topic": "opcua/GMS/GMS_GMSPartType/property/PartCarrierIdentifier/read",
             "op": "readproperty"
           }
         ]
       },
       "PartDescription": {
-        "aov:namespace": "http://opcfoundation.org/UA/GMS/",
+        "dov:namespace": "http://opcfoundation.org/UA/GMS/",
         "type": "string",
         "readOnly": false,
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/GMS/GMS_GMSPartType/property/PartDescription/write",
+            "dov:topic": "opcua/GMS/GMS_GMSPartType/property/PartDescription/write",
             "op": "writeproperty"
           },
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/GMS/GMS_GMSPartType/property/PartDescription/read",
+            "dov:topic": "opcua/GMS/GMS_GMSPartType/property/PartDescription/read",
             "op": "readproperty"
           }
         ]
       },
       "ProcessingMachineIdentifier": {
-        "aov:namespace": "http://opcfoundation.org/UA/GMS/",
+        "dov:namespace": "http://opcfoundation.org/UA/GMS/",
         "type": "number",
         "readOnly": false,
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/GMS/GMS_GMSPartType/property/ProcessingMachineIdentifier/write",
+            "dov:topic": "opcua/GMS/GMS_GMSPartType/property/ProcessingMachineIdentifier/write",
             "op": "writeproperty"
           },
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/GMS/GMS_GMSPartType/property/ProcessingMachineIdentifier/read",
+            "dov:topic": "opcua/GMS/GMS_GMSPartType/property/ProcessingMachineIdentifier/read",
             "op": "readproperty"
           }
         ]
       },
       "ProcessParameter": {
-        "aov:namespace": "http://opcfoundation.org/UA/GMS/",
+        "dov:namespace": "http://opcfoundation.org/UA/GMS/",
         "type": "array",
         "items": {
           "type": "number"
@@ -1780,29 +1766,29 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/GMS/GMS_GMSPartType/property/ProcessParameter/write",
+            "dov:topic": "opcua/GMS/GMS_GMSPartType/property/ProcessParameter/write",
             "op": "writeproperty"
           },
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/GMS/GMS_GMSPartType/property/ProcessParameter/read",
+            "dov:topic": "opcua/GMS/GMS_GMSPartType/property/ProcessParameter/read",
             "op": "readproperty"
           }
         ]
       },
       "ProductionNumber": {
-        "aov:namespace": "http://opcfoundation.org/UA/GMS/",
+        "dov:namespace": "http://opcfoundation.org/UA/GMS/",
         "type": "string",
         "readOnly": false,
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/GMS/GMS_GMSPartType/property/ProductionNumber/write",
+            "dov:topic": "opcua/GMS/GMS_GMSPartType/property/ProductionNumber/write",
             "op": "writeproperty"
           },
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/GMS/GMS_GMSPartType/property/ProductionNumber/read",
+            "dov:topic": "opcua/GMS/GMS_GMSPartType/property/ProductionNumber/read",
             "op": "readproperty"
           }
         ]
@@ -1810,59 +1796,59 @@
     },
     "events": {
       "NestIdentifier": {
-        "aov:namespace": "http://opcfoundation.org/UA/GMS/",
+        "dov:namespace": "http://opcfoundation.org/UA/GMS/",
         "data": {
           "type": "number"
         },
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/GMS/GMS_GMSPartType/event/NestIdentifier/{senderId}",
+            "dov:topic": "opcua/GMS/GMS_GMSPartType/event/NestIdentifier/{senderId}",
             "op": "subscribeevent"
           }
         ]
       },
       "Operator": {
-        "aov:namespace": "http://opcfoundation.org/UA/GMS/",
+        "dov:namespace": "http://opcfoundation.org/UA/GMS/",
         "data": {
           "type": "number"
         },
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/GMS/GMS_GMSPartType/event/Operator/{senderId}",
+            "dov:topic": "opcua/GMS/GMS_GMSPartType/event/Operator/{senderId}",
             "op": "subscribeevent"
           }
         ]
       },
       "PartCarrierIdentifier": {
-        "aov:namespace": "http://opcfoundation.org/UA/GMS/",
+        "dov:namespace": "http://opcfoundation.org/UA/GMS/",
         "data": {
           "type": "number"
         },
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/GMS/GMS_GMSPartType/event/PartCarrierIdentifier/{senderId}",
+            "dov:topic": "opcua/GMS/GMS_GMSPartType/event/PartCarrierIdentifier/{senderId}",
             "op": "subscribeevent"
           }
         ]
       },
       "ProcessingMachineIdentifier": {
-        "aov:namespace": "http://opcfoundation.org/UA/GMS/",
+        "dov:namespace": "http://opcfoundation.org/UA/GMS/",
         "data": {
           "type": "number"
         },
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/GMS/GMS_GMSPartType/event/ProcessingMachineIdentifier/{senderId}",
+            "dov:topic": "opcua/GMS/GMS_GMSPartType/event/ProcessingMachineIdentifier/{senderId}",
             "op": "subscribeevent"
           }
         ]
       },
       "ProcessParameter": {
-        "aov:namespace": "http://opcfoundation.org/UA/GMS/",
+        "dov:namespace": "http://opcfoundation.org/UA/GMS/",
         "data": {
           "type": "array",
           "items": {
@@ -1872,7 +1858,7 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/GMS/GMS_GMSPartType/event/ProcessParameter/{senderId}",
+            "dov:topic": "opcua/GMS/GMS_GMSPartType/event/ProcessParameter/{senderId}",
             "op": "subscribeevent"
           }
         ]
@@ -1883,13 +1869,12 @@
     "@context": [
       "https://www.w3.org/2022/wot/td/v1.1",
       {
-        "dtv": "http://azure.com/DigitalTwins/dtmi#",
-        "aov": "http://azure.com/IoT/operations/tm#"
+        "dov": "http://azure.com/DigitalOperations/vocab#"
       }
     ],
     "@type": "tm:ThingModel",
     "title": "GMS_CalibrationPrognosisType",
-    "aov:typeRef": "nsu=http://opcfoundation.org/UA/GMS/;i=1019",
+    "dov:typeRef": "nsu=http://opcfoundation.org/UA/GMS/;i=1019",
     "links": [
       {
         "rel": "tm:extends",
@@ -1902,12 +1887,12 @@
     "forms": [
       {
         "contentType": "application/json",
-        "dtv:topic": "opcua/GMS/GMS_CalibrationPrognosisType/properties/write",
+        "dov:topic": "opcua/GMS/GMS_CalibrationPrognosisType/properties/write",
         "op": "writemultipleproperties"
       },
       {
         "contentType": "application/json",
-        "dtv:topic": "opcua/GMS/GMS_CalibrationPrognosisType/properties/read",
+        "dov:topic": "opcua/GMS/GMS_CalibrationPrognosisType/properties/read",
         "op": "readallproperties"
       }
     ],
@@ -1915,24 +1900,24 @@
     },
     "properties": {
       "Calibrated": {
-        "aov:namespace": "http://opcfoundation.org/UA/GMS/",
+        "dov:namespace": "http://opcfoundation.org/UA/GMS/",
         "type": "boolean",
         "readOnly": false,
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/GMS/GMS_CalibrationPrognosisType/property/Calibrated/write",
+            "dov:topic": "opcua/GMS/GMS_CalibrationPrognosisType/property/Calibrated/write",
             "op": "writeproperty"
           },
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/GMS/GMS_CalibrationPrognosisType/property/Calibrated/read",
+            "dov:topic": "opcua/GMS/GMS_CalibrationPrognosisType/property/Calibrated/read",
             "op": "readproperty"
           }
         ]
       },
       "CalibrationCertificate": {
-        "aov:namespace": "http://opcfoundation.org/UA/GMS/",
+        "dov:namespace": "http://opcfoundation.org/UA/GMS/",
         "type": "array",
         "items": {
           "type": "string"
@@ -1941,66 +1926,66 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/GMS/GMS_CalibrationPrognosisType/property/CalibrationCertificate/write",
+            "dov:topic": "opcua/GMS/GMS_CalibrationPrognosisType/property/CalibrationCertificate/write",
             "op": "writeproperty"
           },
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/GMS/GMS_CalibrationPrognosisType/property/CalibrationCertificate/read",
+            "dov:topic": "opcua/GMS/GMS_CalibrationPrognosisType/property/CalibrationCertificate/read",
             "op": "readproperty"
           }
         ]
       },
       "CalibrationInterval": {
-        "aov:namespace": "http://opcfoundation.org/UA/GMS/",
+        "dov:namespace": "http://opcfoundation.org/UA/GMS/",
         "type": "string",
         "pattern": "^P(?!$)(?:(?:(?:(?:\\d+Y)|(?:\\d+\\.\\d+Y$))?(?:(?:\\d+M)|(?:\\d+\\.\\d+M$))?)|(?:(?:(?:\\d+W)|(?:\\d+\\.\\d+W$))?))(?:(?:\\d+D)|(?:\\d+\\.\\d+D$))?(?:T(?!$)(?:(?:\\d+H)|(?:\\d+\\.\\d+H$))?(?:(?:\\d+M)|(?:\\d+\\.\\d+M$))?(?:\\d+(?:\\.\\d+)?S)?)?$",
         "readOnly": false,
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/GMS/GMS_CalibrationPrognosisType/property/CalibrationInterval/write",
+            "dov:topic": "opcua/GMS/GMS_CalibrationPrognosisType/property/CalibrationInterval/write",
             "op": "writeproperty"
           },
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/GMS/GMS_CalibrationPrognosisType/property/CalibrationInterval/read",
+            "dov:topic": "opcua/GMS/GMS_CalibrationPrognosisType/property/CalibrationInterval/read",
             "op": "readproperty"
           }
         ]
       },
       "CalibrationPreptime": {
-        "aov:namespace": "http://opcfoundation.org/UA/GMS/",
+        "dov:namespace": "http://opcfoundation.org/UA/GMS/",
         "type": "string",
         "pattern": "^P(?!$)(?:(?:(?:(?:\\d+Y)|(?:\\d+\\.\\d+Y$))?(?:(?:\\d+M)|(?:\\d+\\.\\d+M$))?)|(?:(?:(?:\\d+W)|(?:\\d+\\.\\d+W$))?))(?:(?:\\d+D)|(?:\\d+\\.\\d+D$))?(?:T(?!$)(?:(?:\\d+H)|(?:\\d+\\.\\d+H$))?(?:(?:\\d+M)|(?:\\d+\\.\\d+M$))?(?:\\d+(?:\\.\\d+)?S)?)?$",
         "readOnly": false,
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/GMS/GMS_CalibrationPrognosisType/property/CalibrationPreptime/write",
+            "dov:topic": "opcua/GMS/GMS_CalibrationPrognosisType/property/CalibrationPreptime/write",
             "op": "writeproperty"
           },
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/GMS/GMS_CalibrationPrognosisType/property/CalibrationPreptime/read",
+            "dov:topic": "opcua/GMS/GMS_CalibrationPrognosisType/property/CalibrationPreptime/read",
             "op": "readproperty"
           }
         ]
       },
       "DateOfCalibration": {
-        "aov:namespace": "http://opcfoundation.org/UA/GMS/",
+        "dov:namespace": "http://opcfoundation.org/UA/GMS/",
         "type": "string",
         "format": "time",
         "readOnly": false,
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/GMS/GMS_CalibrationPrognosisType/property/DateOfCalibration/write",
+            "dov:topic": "opcua/GMS/GMS_CalibrationPrognosisType/property/DateOfCalibration/write",
             "op": "writeproperty"
           },
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/GMS/GMS_CalibrationPrognosisType/property/DateOfCalibration/read",
+            "dov:topic": "opcua/GMS/GMS_CalibrationPrognosisType/property/DateOfCalibration/read",
             "op": "readproperty"
           }
         ]
@@ -2013,13 +1998,12 @@
     "@context": [
       "https://www.w3.org/2022/wot/td/v1.1",
       {
-        "dtv": "http://azure.com/DigitalTwins/dtmi#",
-        "aov": "http://azure.com/IoT/operations/tm#"
+        "dov": "http://azure.com/DigitalOperations/vocab#"
       }
     ],
     "@type": "tm:ThingModel",
     "title": "GMS_GMSResultManagementType",
-    "aov:typeRef": "nsu=http://opcfoundation.org/UA/GMS/;i=1008",
+    "dov:typeRef": "nsu=http://opcfoundation.org/UA/GMS/;i=1008",
     "links": [
       {
         "rel": "tm:extends",
@@ -2027,8 +2011,8 @@
         "type": "application/tm+json"
       },
       {
-        "rel": "aov:component",
-        "aov:refName": "CorrectionsFolder",
+        "rel": "dov:component",
+        "dov:refName": "CorrectionsFolder",
         "href": "./OpcUaCore.TM.json#title=OpcUaCore_FolderType",
         "type": "application/tm+json"
       }
@@ -2046,13 +2030,12 @@
     "@context": [
       "https://www.w3.org/2022/wot/td/v1.1",
       {
-        "dtv": "http://azure.com/DigitalTwins/dtmi#",
-        "aov": "http://azure.com/IoT/operations/tm#"
+        "dov": "http://azure.com/DigitalOperations/vocab#"
       }
     ],
     "@type": "tm:ThingModel",
     "title": "GMS_RotaryTableType",
-    "aov:typeRef": "nsu=http://opcfoundation.org/UA/GMS/;i=1018",
+    "dov:typeRef": "nsu=http://opcfoundation.org/UA/GMS/;i=1018",
     "links": [
       {
         "rel": "tm:extends",
@@ -2065,12 +2048,12 @@
     "forms": [
       {
         "contentType": "application/json",
-        "dtv:topic": "opcua/GMS/GMS_RotaryTableType/properties/write",
+        "dov:topic": "opcua/GMS/GMS_RotaryTableType/properties/write",
         "op": "writemultipleproperties"
       },
       {
         "contentType": "application/json",
-        "dtv:topic": "opcua/GMS/GMS_RotaryTableType/properties/read",
+        "dov:topic": "opcua/GMS/GMS_RotaryTableType/properties/read",
         "op": "readallproperties"
       }
     ],
@@ -2078,24 +2061,24 @@
     },
     "properties": {
       "IsIntegrated": {
-        "aov:namespace": "http://opcfoundation.org/UA/GMS/",
+        "dov:namespace": "http://opcfoundation.org/UA/GMS/",
         "type": "boolean",
         "readOnly": false,
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/GMS/GMS_RotaryTableType/property/IsIntegrated/write",
+            "dov:topic": "opcua/GMS/GMS_RotaryTableType/property/IsIntegrated/write",
             "op": "writeproperty"
           },
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/GMS/GMS_RotaryTableType/property/IsIntegrated/read",
+            "dov:topic": "opcua/GMS/GMS_RotaryTableType/property/IsIntegrated/read",
             "op": "readproperty"
           }
         ]
       },
       "NumberOfAxes": {
-        "aov:namespace": "http://opcfoundation.org/UA/GMS/",
+        "dov:namespace": "http://opcfoundation.org/UA/GMS/",
         "type": "integer",
         "minimum": 0,
         "maximum": 255,
@@ -2103,12 +2086,12 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/GMS/GMS_RotaryTableType/property/NumberOfAxes/write",
+            "dov:topic": "opcua/GMS/GMS_RotaryTableType/property/NumberOfAxes/write",
             "op": "writeproperty"
           },
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/GMS/GMS_RotaryTableType/property/NumberOfAxes/read",
+            "dov:topic": "opcua/GMS/GMS_RotaryTableType/property/NumberOfAxes/read",
             "op": "readproperty"
           }
         ]
@@ -2121,13 +2104,12 @@
     "@context": [
       "https://www.w3.org/2022/wot/td/v1.1",
       {
-        "dtv": "http://azure.com/DigitalTwins/dtmi#",
-        "aov": "http://azure.com/IoT/operations/tm#"
+        "dov": "http://azure.com/DigitalOperations/vocab#"
       }
     ],
     "@type": "tm:ThingModel",
     "title": "GMS_SensorExchangeRackType",
-    "aov:typeRef": "nsu=http://opcfoundation.org/UA/GMS/;i=1015",
+    "dov:typeRef": "nsu=http://opcfoundation.org/UA/GMS/;i=1015",
     "links": [
       {
         "rel": "tm:extends",
@@ -2140,12 +2122,12 @@
     "forms": [
       {
         "contentType": "application/json",
-        "dtv:topic": "opcua/GMS/GMS_SensorExchangeRackType/properties/write",
+        "dov:topic": "opcua/GMS/GMS_SensorExchangeRackType/properties/write",
         "op": "writemultipleproperties"
       },
       {
         "contentType": "application/json",
-        "dtv:topic": "opcua/GMS/GMS_SensorExchangeRackType/properties/read",
+        "dov:topic": "opcua/GMS/GMS_SensorExchangeRackType/properties/read",
         "op": "readallproperties"
       }
     ],
@@ -2153,18 +2135,18 @@
     },
     "properties": {
       "IsAvailable": {
-        "aov:namespace": "http://opcfoundation.org/UA/GMS/",
+        "dov:namespace": "http://opcfoundation.org/UA/GMS/",
         "type": "boolean",
         "readOnly": false,
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/GMS/GMS_SensorExchangeRackType/property/IsAvailable/write",
+            "dov:topic": "opcua/GMS/GMS_SensorExchangeRackType/property/IsAvailable/write",
             "op": "writeproperty"
           },
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/GMS/GMS_SensorExchangeRackType/property/IsAvailable/read",
+            "dov:topic": "opcua/GMS/GMS_SensorExchangeRackType/property/IsAvailable/read",
             "op": "readproperty"
           }
         ]
@@ -2177,13 +2159,12 @@
     "@context": [
       "https://www.w3.org/2022/wot/td/v1.1",
       {
-        "dtv": "http://azure.com/DigitalTwins/dtmi#",
-        "aov": "http://azure.com/IoT/operations/tm#"
+        "dov": "http://azure.com/DigitalOperations/vocab#"
       }
     ],
     "@type": "tm:ThingModel",
     "title": "GMS_TipExchangeRackType",
-    "aov:typeRef": "nsu=http://opcfoundation.org/UA/GMS/;i=1022",
+    "dov:typeRef": "nsu=http://opcfoundation.org/UA/GMS/;i=1022",
     "links": [
       {
         "rel": "tm:extends",
@@ -2196,12 +2177,12 @@
     "forms": [
       {
         "contentType": "application/json",
-        "dtv:topic": "opcua/GMS/GMS_TipExchangeRackType/properties/write",
+        "dov:topic": "opcua/GMS/GMS_TipExchangeRackType/properties/write",
         "op": "writemultipleproperties"
       },
       {
         "contentType": "application/json",
-        "dtv:topic": "opcua/GMS/GMS_TipExchangeRackType/properties/read",
+        "dov:topic": "opcua/GMS/GMS_TipExchangeRackType/properties/read",
         "op": "readallproperties"
       }
     ],
@@ -2209,18 +2190,18 @@
     },
     "properties": {
       "IsAvailable": {
-        "aov:namespace": "http://opcfoundation.org/UA/GMS/",
+        "dov:namespace": "http://opcfoundation.org/UA/GMS/",
         "type": "boolean",
         "readOnly": false,
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/GMS/GMS_TipExchangeRackType/property/IsAvailable/write",
+            "dov:topic": "opcua/GMS/GMS_TipExchangeRackType/property/IsAvailable/write",
             "op": "writeproperty"
           },
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/GMS/GMS_TipExchangeRackType/property/IsAvailable/read",
+            "dov:topic": "opcua/GMS/GMS_TipExchangeRackType/property/IsAvailable/read",
             "op": "readproperty"
           }
         ]

@@ -16,7 +16,23 @@ namespace Azure.Iot.Operations.TDParser.Model
         public const string SafeName = "safe";
         public const string FormsName = TDCommon.FormsName;
         public const string NamespaceName = TDCommon.NamespaceName;
-        public const string MemberOfName = "aov:memberOf";
+        public const string NamespaceLegacyName = TDCommon.NamespaceLegacyName;
+        public const string MemberOfName = "dov:memberOf";
+        public const string MemberOfLegacyName = "aov:memberOf";
+
+        public static readonly HashSet<string> SupportedProperties = new()
+        {
+            DescriptionName,
+            InputName,
+            OutputName,
+            IdempotentName,
+            SafeName,
+            FormsName,
+            NamespaceName,
+            NamespaceLegacyName,
+            MemberOfName,
+            MemberOfLegacyName
+        };
 
         public ValueTracker<StringHolder>? Description { get; set; }
 
@@ -35,6 +51,10 @@ namespace Azure.Iot.Operations.TDParser.Model
         public ValueTracker<StringHolder>? MemberOf { get; set; }
 
         public Dictionary<string, long> PropertyNames { get; set; } = new();
+
+        public PrefixType NamespacePrefixType { get; set; } = PrefixType.Indeterminate;
+
+        public PrefixType MemberOfPrefixType { get; set; } = PrefixType.Indeterminate;
 
         public virtual bool Equals(TDAction? other)
         {
@@ -196,9 +216,19 @@ namespace Azure.Iot.Operations.TDParser.Model
                         break;
                     case NamespaceName:
                         action.Namespace = ValueTracker<StringHolder>.Deserialize(ref reader, NamespaceName);
+                        action.NamespacePrefixType = PrefixType.DoVocabulary;
+                        break;
+                    case NamespaceLegacyName:
+                        action.Namespace = ValueTracker<StringHolder>.Deserialize(ref reader, NamespaceName);
+                        action.NamespacePrefixType = PrefixType.AioPlatform;
                         break;
                     case MemberOfName:
                         action.MemberOf = ValueTracker<StringHolder>.Deserialize(ref reader, MemberOfName);
+                        action.MemberOfPrefixType = PrefixType.DoVocabulary;
+                        break;
+                    case MemberOfLegacyName:
+                        action.MemberOf = ValueTracker<StringHolder>.Deserialize(ref reader, MemberOfName);
+                        action.MemberOfPrefixType = PrefixType.AioPlatform;
                         break;
                     default:
                         reader.Skip();
