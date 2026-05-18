@@ -2,11 +2,11 @@
 // Licensed under the MIT License.
 
 using System.Buffers;
-using System.Globalization;
 using System.Text.Json;
 using Azure.Iot.Operations.Mqtt;
-using Azure.Iot.Operations.Protocol.Events;
+using Azure.Iot.Operations.Protocol;
 using Azure.Iot.Operations.Protocol.Models;
+using Azure.Iot.Operations.Protocol.RPC;
 using Azure.Iot.Operations.Services.AssetAndDeviceRegistry;
 using Azure.Iot.Operations.Services.AssetAndDeviceRegistry.Models;
 using Xunit;
@@ -22,10 +22,12 @@ namespace Azure.Iot.Operations.Connector.IntegrationTests
     /// <remarks>
     /// <para>The sample asset (<c>my-mgmt-action-asset</c>) declares a single
     /// management group <c>device-control</c> with three actions, one of each
-    /// type (Call / Read / Write). Tests invoke each action via raw MQTT 5 RPC
-    /// (publish to the action's topic with <c>ResponseTopic</c> +
-    /// <c>CorrelationData</c>, listen on the response topic) and validate the
-    /// returned payload + status headers.</para>
+    /// type (Call / Read / Write). Tests invoke each action via a real
+    /// <see cref="CommandInvoker{TReq, TResp}"/> — the same RPC primitive a
+    /// downstream service would use — and validate the deserialized
+    /// response body. Non-2xx responses surface as
+    /// <see cref="AkriMqttException"/> with <see cref="AkriMqttErrorKind.ExecutionException"/>
+    /// for application errors, which the error-path tests assert against.</para>
     /// <para>These tests are expected to fail until the
     /// <c>maxim/management-action</c> Part 1 internals (currently
     /// <see cref="System.NotImplementedException"/> stubs in <c>AssetClient</c>)
@@ -41,28 +43,21 @@ namespace Azure.Iot.Operations.Connector.IntegrationTests
         private const string AssetName = "my-mgmt-action-asset";
         private const string GroupName = "device-control";
 
-        private const string RebootRequestTopic =
-            "mgmt/device-1/asset-1/device-control/reboot";
-        private const string ReadTemperatureRequestTopic =
-            "mgmt/device-1/asset-1/device-control/read-temperature";
-        private const string WriteConfigurationRequestTopic =
-            "mgmt/device-1/asset-1/device-control/write-configuration";
-
         private static readonly TimeSpan ResponseWait = TimeSpan.FromSeconds(15);
 
         [Fact]
         public async Task Reboot_Call_ReturnsRebootResponse()
         {
             await using var mqtt = await ClientFactory.CreateSessionClientFromEnvAsync();
+            await using var invoker = CreateInvoker(mqtt);
 
             var request = new MgmtRebootRequest { Force = true };
-            MqttApplicationMessage response = await InvokeAsync(
-                mqtt,
-                requestTopic: RebootRequestTopic,
+            byte[] responseBytes = await InvokeAsync(
+                invoker,
+                actionName: "reboot",
                 requestPayload: JsonSerializer.SerializeToUtf8Bytes(request));
 
-            AssertSuccess(response);
-            MgmtRebootResponse body = DeserializeBody<MgmtRebootResponse>(response);
+            MgmtRebootResponse body = DeserializeBody<MgmtRebootResponse>(responseBytes);
             Assert.NotEqual(Guid.Empty, body.RequestId);
             Assert.True(body.RebootCount >= 1);
         }
@@ -71,27 +66,28 @@ namespace Azure.Iot.Operations.Connector.IntegrationTests
         public async Task ReadTemperature_Read_ReturnsTemperatureReading()
         {
             await using var mqtt = await ClientFactory.CreateSessionClientFromEnvAsync();
+            await using var invoker = CreateInvoker(mqtt);
 
-            MqttApplicationMessage response = await InvokeAsync(
-                mqtt,
-                requestTopic: ReadTemperatureRequestTopic,
-                requestPayload: Array.Empty<byte>());
-
-            // The sample's reboot Call action puts the device into a (simulated)
-            // ~2s "rebooting" window. If the test order happens to interleave a
-            // read with that window, a DeviceUnavailable application error is a
-            // legitimate response — assert one of the two outcomes instead of
-            // racing.
-            int status = GetStatus(response);
-            if (status is 200 or 204)
+            try
             {
-                MgmtTemperatureReading body = DeserializeBody<MgmtTemperatureReading>(response);
+                byte[] responseBytes = await InvokeAsync(
+                    invoker,
+                    actionName: "read-temperature",
+                    requestPayload: Array.Empty<byte>());
+
+                MgmtTemperatureReading body = DeserializeBody<MgmtTemperatureReading>(responseBytes);
                 Assert.True(body.Value > -100 && body.Value < 200, $"unexpected temperature {body.Value}");
                 Assert.True(body.Unit is "C" or "F");
             }
-            else
+            catch (AkriMqttException ex) when (IsApplicationError(ex))
             {
-                AssertApplicationError(response, expectedCode: "DeviceUnavailable");
+                // The sample's reboot Call action puts the FakeDevice into a
+                // (simulated) ~2s "rebooting" window. If the test order happens
+                // to interleave a read with that window, the handler returns a
+                // DeviceUnavailable application error (ErrorPayload = "Device is
+                // currently rebooting."), which CommandInvoker surfaces as an
+                // AkriMqttException with Kind = ExecutionException.
+                Assert.Contains("rebooting", ex.Message, StringComparison.OrdinalIgnoreCase);
             }
         }
 
@@ -99,38 +95,51 @@ namespace Azure.Iot.Operations.Connector.IntegrationTests
         public async Task WriteConfiguration_Write_ReturnsAckAndAffectsSubsequentRead()
         {
             await using var mqtt = await ClientFactory.CreateSessionClientFromEnvAsync();
+            await using var invoker = CreateInvoker(mqtt);
 
             // 1. Apply a known configuration. Use 'F' so it's distinguishable from the default ('C').
             var update = new MgmtConfigurationUpdate { SampleIntervalMs = 750, Unit = "F" };
-            MqttApplicationMessage writeResponse = await InvokeAsync(
-                mqtt,
-                requestTopic: WriteConfigurationRequestTopic,
+            byte[] writeBytes = await InvokeAsync(
+                invoker,
+                actionName: "write-configuration",
                 requestPayload: JsonSerializer.SerializeToUtf8Bytes(update));
 
-            AssertSuccess(writeResponse);
-            MgmtConfigurationAck ack = DeserializeBody<MgmtConfigurationAck>(writeResponse);
+            MgmtConfigurationAck ack = DeserializeBody<MgmtConfigurationAck>(writeBytes);
             Assert.Equal(750, ack.AppliedSampleIntervalMs);
             Assert.Equal("F", ack.AppliedUnit);
 
             // 2. Read back — the sample's FakeDevice is a singleton, so the unit
             //    must reflect the write we just made (modulo a possible "rebooting"
             //    window from the Reboot test running first; retry briefly).
-            await WaitForReadAsync(mqtt, expectedUnit: "F");
+            await WaitForReadAsync(invoker, expectedUnit: "F");
         }
 
         [Fact]
         public async Task WriteConfiguration_InvalidPayload_ReturnsValidationFailedApplicationError()
         {
             await using var mqtt = await ClientFactory.CreateSessionClientFromEnvAsync();
+            await using var invoker = CreateInvoker(mqtt);
 
             // sampleIntervalMs out of range (must be 100..60000 per the sample).
             var bad = new MgmtConfigurationUpdate { SampleIntervalMs = 50, Unit = "C" };
-            MqttApplicationMessage response = await InvokeAsync(
-                mqtt,
-                requestTopic: WriteConfigurationRequestTopic,
-                requestPayload: JsonSerializer.SerializeToUtf8Bytes(bad));
 
-            AssertApplicationError(response, expectedCode: "ValidationFailed");
+            AkriMqttException ex = await Assert.ThrowsAsync<AkriMqttException>(() => InvokeAsync(
+                invoker,
+                actionName: "write-configuration",
+                requestPayload: JsonSerializer.SerializeToUtf8Bytes(bad)));
+
+            // The handler returns ManagementActionApplicationError("ValidationFailed", ...).
+            // The connector marshals that to a non-2xx response with the __apErr user
+            // property set; CommandInvoker translates that to Kind = ExecutionException.
+            Assert.True(
+                IsApplicationError(ex),
+                $"expected an application error but got Kind={ex.Kind}, IsRemote={ex.IsRemote}: {ex.Message}");
+            // The validation handler embeds 'sampleIntervalMs' in its error payload,
+            // which the connector forwards as the response __stMsg header (surfaced
+            // here as the exception Message). Note: the structured AppErrCode
+            // ('ValidationFailed') is not currently exposed through AkriMqttException
+            // / ExtendedResponse for non-2xx responses, hence the substring match.
+            Assert.Contains("sampleIntervalMs", ex.Message, StringComparison.OrdinalIgnoreCase);
         }
 
         [Fact]
@@ -180,26 +189,28 @@ namespace Azure.Iot.Operations.Connector.IntegrationTests
         // Helpers
         // ------------------------------------------------------------------
 
-        private static async Task WaitForReadAsync(OrderedAckMqttClient mqtt, string expectedUnit)
+        private static async Task WaitForReadAsync(ManagementActionInvoker invoker, string expectedUnit)
         {
             for (int i = 0; i < 20; i++)
             {
-                MqttApplicationMessage response = await InvokeAsync(
-                    mqtt,
-                    requestTopic: ReadTemperatureRequestTopic,
-                    requestPayload: Array.Empty<byte>());
-
-                int status = GetStatus(response);
-                if (status is 200 or 204)
+                try
                 {
-                    var body = DeserializeBody<MgmtTemperatureReading>(response);
+                    byte[] responseBytes = await InvokeAsync(
+                        invoker,
+                        actionName: "read-temperature",
+                        requestPayload: Array.Empty<byte>());
+
+                    var body = DeserializeBody<MgmtTemperatureReading>(responseBytes);
                     if (string.Equals(body.Unit, expectedUnit, StringComparison.OrdinalIgnoreCase))
                     {
                         return;
                     }
                 }
+                catch (AkriMqttException ex) when (IsApplicationError(ex))
+                {
+                    // Device is rebooting or otherwise refused the read; retry briefly.
+                }
 
-                // Otherwise: device is rebooting or hasn't observed the write yet. Retry briefly.
                 await Task.Delay(TimeSpan.FromMilliseconds(250));
             }
 
@@ -207,105 +218,89 @@ namespace Azure.Iot.Operations.Connector.IntegrationTests
         }
 
         /// <summary>
-        /// Performs an MQTT 5 RPC call: subscribes to a unique response topic,
-        /// publishes the request with <c>ResponseTopic</c> + <c>CorrelationData</c>,
-        /// and returns the matching response message.
+        /// Performs an MQTT 5 RPC call via a real <see cref="CommandInvoker{TReq, TResp}"/>:
+        /// the invoker manages response-topic subscription, correlation, status
+        /// validation, and exception mapping (non-2xx → <see cref="AkriMqttException"/>).
         /// </summary>
-        private static async Task<MqttApplicationMessage> InvokeAsync(
-            OrderedAckMqttClient mqtt,
-            string requestTopic,
+        private static async Task<byte[]> InvokeAsync(
+            ManagementActionInvoker invoker,
+            string actionName,
             byte[] requestPayload)
         {
-            byte[] correlationData = Guid.NewGuid().ToByteArray();
-            string responseTopic = $"clients/{mqtt.ClientId}/mgmt-test/resp/{Guid.NewGuid():N}";
-
-            var tcs = new TaskCompletionSource<MqttApplicationMessage>();
-            Task Handler(MqttApplicationMessageReceivedEventArgs args)
-            {
-                if (args.ApplicationMessage.Topic == responseTopic
-                    && args.ApplicationMessage.CorrelationData is { } corr
-                    && corr.AsSpan().SequenceEqual(correlationData))
-                {
-                    tcs.TrySetResult(args.ApplicationMessage);
-                }
-                return Task.CompletedTask;
-            }
-
-            mqtt.ApplicationMessageReceivedAsync += Handler;
-            try
-            {
-                await mqtt.SubscribeAsync(new MqttClientSubscribeOptions
-                {
-                    TopicFilters = { new MqttTopicFilter(responseTopic) }
-                });
-
-                var pub = new MqttApplicationMessage(requestTopic)
-                {
-                    PayloadSegment = requestPayload,
-                    CorrelationData = correlationData,
-                    ResponseTopic = responseTopic,
-                    ContentType = "application/json",
-                    MessageExpiryInterval = (uint)ResponseWait.TotalSeconds + 5,
-                };
-
-                await mqtt.PublishAsync(pub);
-
-                return await tcs.Task.WaitAsync(ResponseWait);
-            }
-            finally
-            {
-                mqtt.ApplicationMessageReceivedAsync -= Handler;
-                try
-                {
-                    await mqtt.UnsubscribeAsync(new MqttClientUnsubscribeOptions
-                    {
-                        TopicFilters = { responseTopic }
-                    });
-                }
-                catch
-                {
-                    // Best-effort cleanup; not critical for test correctness.
-                }
-            }
+            ExtendedResponse<byte[]> response = await invoker.InvokeCommandAsync(
+                requestPayload,
+                additionalTopicTokenMap: new Dictionary<string, string> { ["actionName"] = actionName },
+                commandTimeout: ResponseWait);
+            return response.Response;
         }
 
-        private static int GetStatus(MqttApplicationMessage response)
+        private static ManagementActionInvoker CreateInvoker(OrderedAckMqttClient mqtt)
+            => new(new ApplicationContext(), mqtt);
+
+        private static bool IsApplicationError(AkriMqttException ex)
+            => ex.Kind == AkriMqttErrorKind.ExecutionException && ex.IsRemote;
+
+        private static T DeserializeBody<T>(byte[] payload)
         {
-            string? statusValue = response.UserProperties?
-                .FirstOrDefault(p => p.Name == "__stat")?.Value;
-            Assert.False(string.IsNullOrEmpty(statusValue), "response is missing the __stat user property");
-            return int.Parse(statusValue!, CultureInfo.InvariantCulture);
-        }
-
-        private static void AssertSuccess(MqttApplicationMessage response)
-        {
-            int status = GetStatus(response);
-            string? statusMessage = response.UserProperties?.FirstOrDefault(p => p.Name == "__stMsg")?.Value;
-            Assert.True(
-                status is 200 or 204,
-                $"expected 200/204 but got {status}: {statusMessage}");
-        }
-
-        private static void AssertApplicationError(MqttApplicationMessage response, string expectedCode)
-        {
-            int status = GetStatus(response);
-            Assert.NotEqual(200, status);
-            Assert.NotEqual(204, status);
-
-            string? isAppError = response.UserProperties?.FirstOrDefault(p => p.Name == "__apErr")?.Value;
-            Assert.Equal("true", isAppError, ignoreCase: true);
-
-            string? appErrCode = response.UserProperties?.FirstOrDefault(p => p.Name == "AppErrCode")?.Value;
-            Assert.Equal(expectedCode, appErrCode);
-        }
-
-        private static T DeserializeBody<T>(MqttApplicationMessage response)
-        {
-            ReadOnlySequence<byte> payload = response.Payload;
-            Assert.False(payload.IsEmpty, "expected a JSON body but the response payload is empty");
-            T? value = JsonSerializer.Deserialize<T>(payload.ToArray());
+            Assert.NotEmpty(payload);
+            T? value = JsonSerializer.Deserialize<T>(payload);
             Assert.NotNull(value);
             return value!;
+        }
+
+        // ------------------------------------------------------------------
+        // Invoker wiring
+        // ------------------------------------------------------------------
+
+        /// <summary>
+        /// <see cref="CommandInvoker{TReq, TResp}"/> bound to the sample's
+        /// management-action topic shape. The {actionName} token is filled per
+        /// invocation via <c>additionalTopicTokenMap</c>, so a single invoker
+        /// instance handles all three actions on the asset.
+        /// </summary>
+        /// <remarks>
+        /// The literal device/asset/group segments mirror the asset CR shipped
+        /// with the sample (see <c>KubernetesResources/mgmt-action-asset-definition.yaml</c>).
+        /// The default response topic is <c>clients/{invokerClientId}/{request topic}</c>,
+        /// which is generated automatically by the base class.
+        /// </remarks>
+        private sealed class ManagementActionInvoker : CommandInvoker<byte[], byte[]>
+        {
+            public ManagementActionInvoker(ApplicationContext applicationContext, IMqttPubSubClient mqttClient)
+                : base(applicationContext, mqttClient, commandName: "managementAction", new RawJsonSerializer())
+            {
+                RequestTopicPattern = "mgmt/device-1/asset-1/device-control/{actionName}";
+            }
+        }
+
+        /// <summary>
+        /// Passthrough <see cref="IPayloadSerializer"/> that hands raw bytes
+        /// to/from the executor and reports <c>application/json</c> as the
+        /// content type on outgoing requests.
+        /// </summary>
+        private sealed class RawJsonSerializer : IPayloadSerializer
+        {
+            public T FromBytes<T>(ReadOnlySequence<byte> payload, string? contentType, MqttPayloadFormatIndicator payloadFormatIndicator)
+                where T : class
+            {
+                if (typeof(T) != typeof(byte[]))
+                {
+                    throw new InvalidOperationException(
+                        $"{nameof(RawJsonSerializer)} only supports byte[]; got {typeof(T)}.");
+                }
+                object bytes = payload.IsEmpty ? Array.Empty<byte>() : payload.ToArray();
+                return (T)bytes;
+            }
+
+            public SerializedPayloadContext ToBytes<T>(T? payload)
+                where T : class
+            {
+                byte[] bytes = payload as byte[] ?? Array.Empty<byte>();
+                return new SerializedPayloadContext(
+                    new ReadOnlySequence<byte>(bytes),
+                    contentType: "application/json",
+                    payloadFormatIndicator: MqttPayloadFormatIndicator.CharacterData);
+            }
         }
     }
 }
