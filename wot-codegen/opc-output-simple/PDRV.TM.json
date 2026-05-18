@@ -3,13 +3,12 @@
     "@context": [
       "https://www.w3.org/2022/wot/td/v1.1",
       {
-        "dtv": "http://azure.com/DigitalTwins/dtmi#",
-        "aov": "http://azure.com/IoT/operations/tm#"
+        "dov": "http://azure.com/DigitalOperations/vocab#"
       }
     ],
     "@type": "tm:ThingModel",
     "title": "PDRV_DriveAxisType",
-    "aov:typeRef": "nsu=http://opcfoundation.org/UA/PDRV/;i=1000",
+    "dov:typeRef": "nsu=http://opcfoundation.org/UA/PDRV/;i=1000",
     "links": [
       {
         "rel": "tm:extends",
@@ -17,62 +16,62 @@
         "type": "application/tm+json"
       },
       {
-        "rel": "aov:component",
-        "aov:refName": "Monitoring",
+        "rel": "dov:component",
+        "dov:refName": "Monitoring",
         "href": "./OpcUaCore.TM.json#title=OpcUaCore_FolderType",
         "type": "application/tm+json"
       },
       {
-        "rel": "aov:capability",
-        "aov:refName": "Lock",
+        "rel": "dov:capability",
+        "dov:refName": "Lock",
         "href": "./DI.TM.json#title=DI_LockingServicesType",
         "type": "application/tm+json"
       },
       {
-        "rel": "aov:component",
-        "aov:refName": "PNSignals",
+        "rel": "dov:component",
+        "dov:refName": "PNSignals",
         "href": "./OpcUaCore.TM.json#title=OpcUaCore_FolderType",
         "type": "application/tm+json"
       },
       {
-        "rel": "aov:component",
-        "aov:refName": "Maintenance",
+        "rel": "dov:component",
+        "dov:refName": "Maintenance",
         "href": "./OpcUaCore.TM.json#title=OpcUaCore_FolderType",
         "type": "application/tm+json"
       },
       {
-        "rel": "aov:component",
-        "aov:refName": "LimitSupervision",
+        "rel": "dov:component",
+        "dov:refName": "LimitSupervision",
         "href": "./OpcUaCore.TM.json#title=OpcUaCore_FolderType",
         "type": "application/tm+json"
       },
       {
-        "rel": "aov:reference",
-        "aov:refName": "Logbook",
+        "rel": "dov:reference",
+        "dov:refName": "Logbook",
         "href": "./PNENC.TM.json#title=PNENC_LogbookType",
         "type": "application/tm+json"
       },
       {
-        "rel": "aov:component",
-        "aov:refName": "CharacteristicsConverter",
+        "rel": "dov:component",
+        "dov:refName": "CharacteristicsConverter",
         "href": "./OpcUaCore.TM.json#title=OpcUaCore_FolderType",
         "type": "application/tm+json"
       },
       {
-        "rel": "aov:reference",
-        "aov:refName": "Safety",
+        "rel": "dov:reference",
+        "dov:refName": "Safety",
         "href": "#title=PDRV_SafetyType",
         "type": "application/tm+json"
       },
       {
-        "rel": "aov:component",
-        "aov:refName": "CharacteristicsMotorAndControl",
+        "rel": "dov:component",
+        "dov:refName": "CharacteristicsMotorAndControl",
         "href": "./OpcUaCore.TM.json#title=OpcUaCore_FolderType",
         "type": "application/tm+json"
       },
       {
-        "rel": "aov:component",
-        "aov:refName": "VelocityProfile",
+        "rel": "dov:component",
+        "dov:refName": "VelocityProfile",
         "href": "./OpcUaCore.TM.json#title=OpcUaCore_FolderType",
         "type": "application/tm+json"
       }
@@ -82,16 +81,16 @@
     "forms": [
       {
         "contentType": "application/json",
-        "dtv:topic": "opcua/PDRV/PDRV_DriveAxisType/properties/read",
+        "dov:topic": "opcua/PDRV/PDRV_DriveAxisType/properties/read",
         "op": "readallproperties"
       }
     ],
     "actions": {
       "SetApplicationTag": {
-        "aov:namespace": "http://opcfoundation.org/UA/PDRV/",
+        "dov:namespace": "http://opcfoundation.org/UA/PDRV/",
         "input": {
           "type": "object",
-          "aov:typeRef": "nsu=http://opcfoundation.org/UA/PDRV/;i=6038",
+          "dov:typeRef": "nsu=http://opcfoundation.org/UA/PDRV/;i=6038",
           "required": [ "ApplicationTag" ],
           "properties": {
             "ApplicationTag": {
@@ -102,7 +101,7 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/PDRV/PDRV_DriveAxisType/action/SetApplicationTag",
+            "dov:topic": "opcua/PDRV/PDRV_DriveAxisType/action/SetApplicationTag",
             "op": "invokeaction"
           }
         ]
@@ -110,19 +109,19 @@
     },
     "properties": {
       "ApplicationTag": {
-        "aov:namespace": "http://opcfoundation.org/UA/PDRV/",
+        "dov:namespace": "http://opcfoundation.org/UA/PDRV/",
         "type": "string",
         "readOnly": true,
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/PDRV/PDRV_DriveAxisType/property/ApplicationTag/read",
+            "dov:topic": "opcua/PDRV/PDRV_DriveAxisType/property/ApplicationTag/read",
             "op": "readproperty"
           }
         ]
       },
       "AxisType": {
-        "aov:namespace": "http://opcfoundation.org/UA/PDRV/",
+        "dov:namespace": "http://opcfoundation.org/UA/PDRV/",
         "type": "integer",
         "minimum": 0,
         "maximum": 255,
@@ -130,7 +129,7 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/PDRV/PDRV_DriveAxisType/property/AxisType/read",
+            "dov:topic": "opcua/PDRV/PDRV_DriveAxisType/property/AxisType/read",
             "op": "readproperty"
           }
         ]
@@ -143,14 +142,13 @@
     "@context": [
       "https://www.w3.org/2022/wot/td/v1.1",
       {
-        "dtv": "http://azure.com/DigitalTwins/dtmi#",
-        "aov": "http://azure.com/IoT/operations/tm#"
+        "dov": "http://azure.com/DigitalOperations/vocab#"
       }
     ],
     "@type": "tm:ThingModel",
     "title": "PDRV_VelocityDriveAxisType",
-    "aov:typeRef": "nsu=http://opcfoundation.org/UA/PDRV/;i=1002",
-    "aov:isComposite": true,
+    "dov:typeRef": "nsu=http://opcfoundation.org/UA/PDRV/;i=1002",
+    "dov:isComposite": true,
     "links": [
       {
         "rel": "tm:extends",
@@ -158,20 +156,20 @@
         "type": "application/tm+json"
       },
       {
-        "rel": "aov:component",
-        "aov:refName": "Monitoring",
+        "rel": "dov:component",
+        "dov:refName": "Monitoring",
         "href": "./OpcUaCore.TM.json#title=OpcUaCore_FolderType",
         "type": "application/tm+json"
       },
       {
-        "rel": "aov:component",
-        "aov:refName": "LimitSupervision",
+        "rel": "dov:component",
+        "dov:refName": "LimitSupervision",
         "href": "./OpcUaCore.TM.json#title=OpcUaCore_FolderType",
         "type": "application/tm+json"
       },
       {
-        "rel": "aov:component",
-        "aov:refName": "VelocityProfile",
+        "rel": "dov:component",
+        "dov:refName": "VelocityProfile",
         "href": "./OpcUaCore.TM.json#title=OpcUaCore_FolderType",
         "type": "application/tm+json"
       }
@@ -189,14 +187,13 @@
     "@context": [
       "https://www.w3.org/2022/wot/td/v1.1",
       {
-        "dtv": "http://azure.com/DigitalTwins/dtmi#",
-        "aov": "http://azure.com/IoT/operations/tm#"
+        "dov": "http://azure.com/DigitalOperations/vocab#"
       }
     ],
     "@type": "tm:ThingModel",
     "title": "PDRV_FrequencyDriveAxisType",
-    "aov:typeRef": "nsu=http://opcfoundation.org/UA/PDRV/;i=1005",
-    "aov:isComposite": true,
+    "dov:typeRef": "nsu=http://opcfoundation.org/UA/PDRV/;i=1005",
+    "dov:isComposite": true,
     "links": [
       {
         "rel": "tm:extends",
@@ -204,20 +201,20 @@
         "type": "application/tm+json"
       },
       {
-        "rel": "aov:component",
-        "aov:refName": "Monitoring",
+        "rel": "dov:component",
+        "dov:refName": "Monitoring",
         "href": "./OpcUaCore.TM.json#title=OpcUaCore_FolderType",
         "type": "application/tm+json"
       },
       {
-        "rel": "aov:component",
-        "aov:refName": "LimitSupervision",
+        "rel": "dov:component",
+        "dov:refName": "LimitSupervision",
         "href": "./OpcUaCore.TM.json#title=OpcUaCore_FolderType",
         "type": "application/tm+json"
       },
       {
-        "rel": "aov:component",
-        "aov:refName": "VelocityProfile",
+        "rel": "dov:component",
+        "dov:refName": "VelocityProfile",
         "href": "./OpcUaCore.TM.json#title=OpcUaCore_FolderType",
         "type": "application/tm+json"
       }
@@ -235,14 +232,13 @@
     "@context": [
       "https://www.w3.org/2022/wot/td/v1.1",
       {
-        "dtv": "http://azure.com/DigitalTwins/dtmi#",
-        "aov": "http://azure.com/IoT/operations/tm#"
+        "dov": "http://azure.com/DigitalOperations/vocab#"
       }
     ],
     "@type": "tm:ThingModel",
     "title": "PDRV_PositioningDriveAxisType",
-    "aov:typeRef": "nsu=http://opcfoundation.org/UA/PDRV/;i=1006",
-    "aov:isComposite": true,
+    "dov:typeRef": "nsu=http://opcfoundation.org/UA/PDRV/;i=1006",
+    "dov:isComposite": true,
     "links": [
       {
         "rel": "tm:extends",
@@ -250,44 +246,44 @@
         "type": "application/tm+json"
       },
       {
-        "rel": "aov:component",
-        "aov:refName": "LimitSupervision",
+        "rel": "dov:component",
+        "dov:refName": "LimitSupervision",
         "href": "./OpcUaCore.TM.json#title=OpcUaCore_FolderType",
         "type": "application/tm+json"
       },
       {
-        "rel": "aov:component",
-        "aov:refName": "Monitoring",
+        "rel": "dov:component",
+        "dov:refName": "Monitoring",
         "href": "./OpcUaCore.TM.json#title=OpcUaCore_FolderType",
         "type": "application/tm+json"
       },
       {
-        "rel": "aov:component",
-        "aov:refName": "CharacteristicsMechanics",
+        "rel": "dov:component",
+        "dov:refName": "CharacteristicsMechanics",
         "href": "./OpcUaCore.TM.json#title=OpcUaCore_FolderType",
         "type": "application/tm+json"
       },
       {
-        "rel": "aov:component",
-        "aov:refName": "MotionProgram",
+        "rel": "dov:component",
+        "dov:refName": "MotionProgram",
         "href": "./OpcUaCore.TM.json#title=OpcUaCore_FileType",
         "type": "application/tm+json"
       },
       {
-        "rel": "aov:component",
-        "aov:refName": "CharacteristicsMotorAndControl",
+        "rel": "dov:component",
+        "dov:refName": "CharacteristicsMotorAndControl",
         "href": "./OpcUaCore.TM.json#title=OpcUaCore_FolderType",
         "type": "application/tm+json"
       },
       {
-        "rel": "aov:component",
-        "aov:refName": "Homing",
+        "rel": "dov:component",
+        "dov:refName": "Homing",
         "href": "./OpcUaCore.TM.json#title=OpcUaCore_FolderType",
         "type": "application/tm+json"
       },
       {
-        "rel": "aov:component",
-        "aov:refName": "VelocityProfile",
+        "rel": "dov:component",
+        "dov:refName": "VelocityProfile",
         "href": "./OpcUaCore.TM.json#title=OpcUaCore_FolderType",
         "type": "application/tm+json"
       }
@@ -305,13 +301,12 @@
     "@context": [
       "https://www.w3.org/2022/wot/td/v1.1",
       {
-        "dtv": "http://azure.com/DigitalTwins/dtmi#",
-        "aov": "http://azure.com/IoT/operations/tm#"
+        "dov": "http://azure.com/DigitalOperations/vocab#"
       }
     ],
     "@type": "tm:ThingModel",
     "title": "PDRV_TraversingTaskType",
-    "aov:typeRef": "nsu=http://opcfoundation.org/UA/PDRV/;i=1007",
+    "dov:typeRef": "nsu=http://opcfoundation.org/UA/PDRV/;i=1007",
     "links": [
       {
         "rel": "tm:extends",
@@ -324,12 +319,12 @@
     "forms": [
       {
         "contentType": "application/json",
-        "dtv:topic": "opcua/PDRV/PDRV_TraversingTaskType/events/{senderId}",
+        "dov:topic": "opcua/PDRV/PDRV_TraversingTaskType/events/{senderId}",
         "op": "subscribeallevents"
       },
       {
         "contentType": "application/json",
-        "dtv:topic": "opcua/PDRV/PDRV_TraversingTaskType/properties/read",
+        "dov:topic": "opcua/PDRV/PDRV_TraversingTaskType/properties/read",
         "op": "readallproperties"
       }
     ],
@@ -337,7 +332,7 @@
     },
     "properties": {
       "Acceleration": {
-        "aov:namespace": "http://opcfoundation.org/UA/PDRV/",
+        "dov:namespace": "http://opcfoundation.org/UA/PDRV/",
         "type": "number",
         "minimum": -3.40e+38,
         "maximum": 3.40e+38,
@@ -345,13 +340,13 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/PDRV/PDRV_TraversingTaskType/property/Acceleration/read",
+            "dov:topic": "opcua/PDRV/PDRV_TraversingTaskType/property/Acceleration/read",
             "op": "readproperty"
           }
         ]
       },
       "Deceleration": {
-        "aov:namespace": "http://opcfoundation.org/UA/PDRV/",
+        "dov:namespace": "http://opcfoundation.org/UA/PDRV/",
         "type": "number",
         "minimum": -3.40e+38,
         "maximum": 3.40e+38,
@@ -359,13 +354,13 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/PDRV/PDRV_TraversingTaskType/property/Deceleration/read",
+            "dov:topic": "opcua/PDRV/PDRV_TraversingTaskType/property/Deceleration/read",
             "op": "readproperty"
           }
         ]
       },
       "PositioningMode": {
-        "aov:namespace": "http://opcfoundation.org/UA/PDRV/",
+        "dov:namespace": "http://opcfoundation.org/UA/PDRV/",
         "type": "integer",
         "minimum": 0,
         "maximum": 65535,
@@ -373,13 +368,13 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/PDRV/PDRV_TraversingTaskType/property/PositioningMode/read",
+            "dov:topic": "opcua/PDRV/PDRV_TraversingTaskType/property/PositioningMode/read",
             "op": "readproperty"
           }
         ]
       },
       "TargetPosition": {
-        "aov:namespace": "http://opcfoundation.org/UA/PDRV/",
+        "dov:namespace": "http://opcfoundation.org/UA/PDRV/",
         "type": "number",
         "minimum": -3.40e+38,
         "maximum": 3.40e+38,
@@ -387,13 +382,13 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/PDRV/PDRV_TraversingTaskType/property/TargetPosition/read",
+            "dov:topic": "opcua/PDRV/PDRV_TraversingTaskType/property/TargetPosition/read",
             "op": "readproperty"
           }
         ]
       },
       "TraversingTaskNumber": {
-        "aov:namespace": "http://opcfoundation.org/UA/PDRV/",
+        "dov:namespace": "http://opcfoundation.org/UA/PDRV/",
         "type": "integer",
         "minimum": -2147483648,
         "maximum": 2147483647,
@@ -401,13 +396,13 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/PDRV/PDRV_TraversingTaskType/property/TraversingTaskNumber/read",
+            "dov:topic": "opcua/PDRV/PDRV_TraversingTaskType/property/TraversingTaskNumber/read",
             "op": "readproperty"
           }
         ]
       },
       "Velocity": {
-        "aov:namespace": "http://opcfoundation.org/UA/PDRV/",
+        "dov:namespace": "http://opcfoundation.org/UA/PDRV/",
         "type": "number",
         "minimum": -3.40e+38,
         "maximum": 3.40e+38,
@@ -415,7 +410,7 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/PDRV/PDRV_TraversingTaskType/property/Velocity/read",
+            "dov:topic": "opcua/PDRV/PDRV_TraversingTaskType/property/Velocity/read",
             "op": "readproperty"
           }
         ]
@@ -423,7 +418,7 @@
     },
     "events": {
       "Acceleration": {
-        "aov:namespace": "http://opcfoundation.org/UA/PDRV/",
+        "dov:namespace": "http://opcfoundation.org/UA/PDRV/",
         "data": {
           "type": "number",
           "minimum": -3.40e+38,
@@ -432,13 +427,13 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/PDRV/PDRV_TraversingTaskType/event/Acceleration/{senderId}",
+            "dov:topic": "opcua/PDRV/PDRV_TraversingTaskType/event/Acceleration/{senderId}",
             "op": "subscribeevent"
           }
         ]
       },
       "Deceleration": {
-        "aov:namespace": "http://opcfoundation.org/UA/PDRV/",
+        "dov:namespace": "http://opcfoundation.org/UA/PDRV/",
         "data": {
           "type": "number",
           "minimum": -3.40e+38,
@@ -447,13 +442,13 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/PDRV/PDRV_TraversingTaskType/event/Deceleration/{senderId}",
+            "dov:topic": "opcua/PDRV/PDRV_TraversingTaskType/event/Deceleration/{senderId}",
             "op": "subscribeevent"
           }
         ]
       },
       "PositioningMode": {
-        "aov:namespace": "http://opcfoundation.org/UA/PDRV/",
+        "dov:namespace": "http://opcfoundation.org/UA/PDRV/",
         "data": {
           "type": "integer",
           "minimum": 0,
@@ -462,13 +457,13 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/PDRV/PDRV_TraversingTaskType/event/PositioningMode/{senderId}",
+            "dov:topic": "opcua/PDRV/PDRV_TraversingTaskType/event/PositioningMode/{senderId}",
             "op": "subscribeevent"
           }
         ]
       },
       "TargetPosition": {
-        "aov:namespace": "http://opcfoundation.org/UA/PDRV/",
+        "dov:namespace": "http://opcfoundation.org/UA/PDRV/",
         "data": {
           "type": "number",
           "minimum": -3.40e+38,
@@ -477,13 +472,13 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/PDRV/PDRV_TraversingTaskType/event/TargetPosition/{senderId}",
+            "dov:topic": "opcua/PDRV/PDRV_TraversingTaskType/event/TargetPosition/{senderId}",
             "op": "subscribeevent"
           }
         ]
       },
       "TraversingTaskNumber": {
-        "aov:namespace": "http://opcfoundation.org/UA/PDRV/",
+        "dov:namespace": "http://opcfoundation.org/UA/PDRV/",
         "data": {
           "type": "integer",
           "minimum": -2147483648,
@@ -492,13 +487,13 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/PDRV/PDRV_TraversingTaskType/event/TraversingTaskNumber/{senderId}",
+            "dov:topic": "opcua/PDRV/PDRV_TraversingTaskType/event/TraversingTaskNumber/{senderId}",
             "op": "subscribeevent"
           }
         ]
       },
       "Velocity": {
-        "aov:namespace": "http://opcfoundation.org/UA/PDRV/",
+        "dov:namespace": "http://opcfoundation.org/UA/PDRV/",
         "data": {
           "type": "number",
           "minimum": -3.40e+38,
@@ -507,7 +502,7 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/PDRV/PDRV_TraversingTaskType/event/Velocity/{senderId}",
+            "dov:topic": "opcua/PDRV/PDRV_TraversingTaskType/event/Velocity/{senderId}",
             "op": "subscribeevent"
           }
         ]
@@ -518,14 +513,13 @@
     "@context": [
       "https://www.w3.org/2022/wot/td/v1.1",
       {
-        "dtv": "http://azure.com/DigitalTwins/dtmi#",
-        "aov": "http://azure.com/IoT/operations/tm#"
+        "dov": "http://azure.com/DigitalOperations/vocab#"
       }
     ],
     "@type": "tm:ThingModel",
     "title": "PDRV_VelocityServoDriveAxisType",
-    "aov:typeRef": "nsu=http://opcfoundation.org/UA/PDRV/;i=1008",
-    "aov:isComposite": true,
+    "dov:typeRef": "nsu=http://opcfoundation.org/UA/PDRV/;i=1008",
+    "dov:isComposite": true,
     "links": [
       {
         "rel": "tm:extends",
@@ -533,38 +527,38 @@
         "type": "application/tm+json"
       },
       {
-        "rel": "aov:component",
-        "aov:refName": "Monitoring",
+        "rel": "dov:component",
+        "dov:refName": "Monitoring",
         "href": "./OpcUaCore.TM.json#title=OpcUaCore_FolderType",
         "type": "application/tm+json"
       },
       {
-        "rel": "aov:component",
-        "aov:refName": "LimitSupervision",
+        "rel": "dov:component",
+        "dov:refName": "LimitSupervision",
         "href": "./OpcUaCore.TM.json#title=OpcUaCore_FolderType",
         "type": "application/tm+json"
       },
       {
-        "rel": "aov:capability",
-        "aov:refName": "EncoderChannelMotor",
+        "rel": "dov:capability",
+        "dov:refName": "EncoderChannelMotor",
         "href": "./PNENC.TM.json#title=PNENC_EncoderChannelType",
         "type": "application/tm+json"
       },
       {
-        "rel": "aov:component",
-        "aov:refName": "Homing",
+        "rel": "dov:component",
+        "dov:refName": "Homing",
         "href": "./OpcUaCore.TM.json#title=OpcUaCore_FolderType",
         "type": "application/tm+json"
       },
       {
-        "rel": "aov:reference",
-        "aov:refName": "EncoderChannelMechanic",
+        "rel": "dov:reference",
+        "dov:refName": "EncoderChannelMechanic",
         "href": "./PNENC.TM.json#title=PNENC_EncoderChannelType",
         "type": "application/tm+json"
       },
       {
-        "rel": "aov:component",
-        "aov:refName": "S_EncoderChannelAuxiliary_",
+        "rel": "dov:component",
+        "dov:refName": "S_EncoderChannelAuxiliary_",
         "href": "./PNENC.TM.json#title=PNENC_EncoderChannelType",
         "type": "application/tm+json"
       }
@@ -582,14 +576,13 @@
     "@context": [
       "https://www.w3.org/2022/wot/td/v1.1",
       {
-        "dtv": "http://azure.com/DigitalTwins/dtmi#",
-        "aov": "http://azure.com/IoT/operations/tm#"
+        "dov": "http://azure.com/DigitalOperations/vocab#"
       }
     ],
     "@type": "tm:ThingModel",
     "title": "PDRV_PositionServoDriveAxisType",
-    "aov:typeRef": "nsu=http://opcfoundation.org/UA/PDRV/;i=1009",
-    "aov:isComposite": true,
+    "dov:typeRef": "nsu=http://opcfoundation.org/UA/PDRV/;i=1009",
+    "dov:isComposite": true,
     "links": [
       {
         "rel": "tm:extends",
@@ -597,50 +590,50 @@
         "type": "application/tm+json"
       },
       {
-        "rel": "aov:component",
-        "aov:refName": "S_EncoderChannelAuxiliary_",
+        "rel": "dov:component",
+        "dov:refName": "S_EncoderChannelAuxiliary_",
         "href": "./PNENC.TM.json#title=PNENC_EncoderChannelType",
         "type": "application/tm+json"
       },
       {
-        "rel": "aov:component",
-        "aov:refName": "CharacteristicsConverter",
+        "rel": "dov:component",
+        "dov:refName": "CharacteristicsConverter",
         "href": "./OpcUaCore.TM.json#title=OpcUaCore_FolderType",
         "type": "application/tm+json"
       },
       {
-        "rel": "aov:component",
-        "aov:refName": "LimitSupervision",
+        "rel": "dov:component",
+        "dov:refName": "LimitSupervision",
         "href": "./OpcUaCore.TM.json#title=OpcUaCore_FolderType",
         "type": "application/tm+json"
       },
       {
-        "rel": "aov:component",
-        "aov:refName": "Monitoring",
+        "rel": "dov:component",
+        "dov:refName": "Monitoring",
         "href": "./OpcUaCore.TM.json#title=OpcUaCore_FolderType",
         "type": "application/tm+json"
       },
       {
-        "rel": "aov:reference",
-        "aov:refName": "EncoderChannelMechanic",
+        "rel": "dov:reference",
+        "dov:refName": "EncoderChannelMechanic",
         "href": "./PNENC.TM.json#title=PNENC_EncoderChannelType",
         "type": "application/tm+json"
       },
       {
-        "rel": "aov:capability",
-        "aov:refName": "EncoderChannelMotor",
+        "rel": "dov:capability",
+        "dov:refName": "EncoderChannelMotor",
         "href": "./PNENC.TM.json#title=PNENC_EncoderChannelType",
         "type": "application/tm+json"
       },
       {
-        "rel": "aov:component",
-        "aov:refName": "CharacteristicsMotorAndControl",
+        "rel": "dov:component",
+        "dov:refName": "CharacteristicsMotorAndControl",
         "href": "./OpcUaCore.TM.json#title=OpcUaCore_FolderType",
         "type": "application/tm+json"
       },
       {
-        "rel": "aov:component",
-        "aov:refName": "Homing",
+        "rel": "dov:component",
+        "dov:refName": "Homing",
         "href": "./OpcUaCore.TM.json#title=OpcUaCore_FolderType",
         "type": "application/tm+json"
       }
@@ -658,14 +651,13 @@
     "@context": [
       "https://www.w3.org/2022/wot/td/v1.1",
       {
-        "dtv": "http://azure.com/DigitalTwins/dtmi#",
-        "aov": "http://azure.com/IoT/operations/tm#"
+        "dov": "http://azure.com/DigitalOperations/vocab#"
       }
     ],
     "@type": "tm:ThingModel",
     "title": "PDRV_DiagnosisAlarmType",
-    "aov:typeRef": "nsu=http://opcfoundation.org/UA/PDRV/;i=1012",
-    "aov:isEvent": true,
+    "dov:typeRef": "nsu=http://opcfoundation.org/UA/PDRV/;i=1012",
+    "dov:isEvent": true,
     "links": [
       {
         "rel": "tm:extends",
@@ -676,7 +668,7 @@
     "schemaDefinitions": {
       "EventTypeEnumeration": {
         "type": "object",
-        "aov:typeRef": "nsu=http://opcfoundation.org/UA/PNENC/;i=3003",
+        "dov:typeRef": "nsu=http://opcfoundation.org/UA/PNENC/;i=3003",
         "const": {
           "FAULT": 0,
           "WARNING": 1,
@@ -701,7 +693,7 @@
     "forms": [
       {
         "contentType": "application/json",
-        "dtv:topic": "opcua/PDRV/PDRV_DiagnosisAlarmType/properties/read",
+        "dov:topic": "opcua/PDRV/PDRV_DiagnosisAlarmType/properties/read",
         "op": "readallproperties"
       }
     ],
@@ -709,10 +701,10 @@
     },
     "properties": {
       "LogEntry": {
-        "aov:namespace": "http://opcfoundation.org/UA/PDRV/",
+        "dov:namespace": "http://opcfoundation.org/UA/PDRV/",
         "title": "LogEntryDataType",
         "type": "object",
-        "aov:typeRef": "nsu=http://opcfoundation.org/UA/PNENC/;i=3013",
+        "dov:typeRef": "nsu=http://opcfoundation.org/UA/PNENC/;i=3013",
         "required": [ "FaultSituationNumber", "EventNumber", "EventType", "EventCode", "EventText", "EventComing", "EventGoing", "EventAcknowledged" ],
         "properties": {
           "FaultSituationNumber": {
@@ -730,7 +722,7 @@
           "EventType": {
             "title": "EventTypeEnumeration",
             "description": "Characterization of the event (fault, warning, etc.). Must never have the value “UNSPECIFIED”",
-            "aov:typeRef": "nsu=http://opcfoundation.org/UA/PNENC/;i=3003",
+            "dov:typeRef": "nsu=http://opcfoundation.org/UA/PNENC/;i=3003",
             "type": "integer",
             "minimum": -2147483648,
             "maximum": 2147483647
@@ -765,7 +757,7 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/PDRV/PDRV_DiagnosisAlarmType/property/LogEntry/read",
+            "dov:topic": "opcua/PDRV/PDRV_DiagnosisAlarmType/property/LogEntry/read",
             "op": "readproperty"
           }
         ]
@@ -778,14 +770,13 @@
     "@context": [
       "https://www.w3.org/2022/wot/td/v1.1",
       {
-        "dtv": "http://azure.com/DigitalTwins/dtmi#",
-        "aov": "http://azure.com/IoT/operations/tm#"
+        "dov": "http://azure.com/DigitalOperations/vocab#"
       }
     ],
     "@type": "tm:ThingModel",
     "title": "PDRV_AxisSwOvertravelEventType",
-    "aov:typeRef": "nsu=http://opcfoundation.org/UA/PDRV/;i=1013",
-    "aov:isEvent": true,
+    "dov:typeRef": "nsu=http://opcfoundation.org/UA/PDRV/;i=1013",
+    "dov:isEvent": true,
     "links": [
       {
         "rel": "tm:extends",
@@ -798,7 +789,7 @@
     "forms": [
       {
         "contentType": "application/json",
-        "dtv:topic": "opcua/PDRV/PDRV_AxisSwOvertravelEventType/properties/read",
+        "dov:topic": "opcua/PDRV/PDRV_AxisSwOvertravelEventType/properties/read",
         "op": "readallproperties"
       }
     ],
@@ -806,13 +797,13 @@
     },
     "properties": {
       "IsUpperSwLimit": {
-        "aov:namespace": "http://opcfoundation.org/UA/PDRV/",
+        "dov:namespace": "http://opcfoundation.org/UA/PDRV/",
         "type": "boolean",
         "readOnly": true,
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/PDRV/PDRV_AxisSwOvertravelEventType/property/IsUpperSwLimit/read",
+            "dov:topic": "opcua/PDRV/PDRV_AxisSwOvertravelEventType/property/IsUpperSwLimit/read",
             "op": "readproperty"
           }
         ]
@@ -825,14 +816,13 @@
     "@context": [
       "https://www.w3.org/2022/wot/td/v1.1",
       {
-        "dtv": "http://azure.com/DigitalTwins/dtmi#",
-        "aov": "http://azure.com/IoT/operations/tm#"
+        "dov": "http://azure.com/DigitalOperations/vocab#"
       }
     ],
     "@type": "tm:ThingModel",
     "title": "PDRV_AxisHwOvertravelEventType",
-    "aov:typeRef": "nsu=http://opcfoundation.org/UA/PDRV/;i=1014",
-    "aov:isEvent": true,
+    "dov:typeRef": "nsu=http://opcfoundation.org/UA/PDRV/;i=1014",
+    "dov:isEvent": true,
     "links": [
       {
         "rel": "tm:extends",
@@ -845,7 +835,7 @@
     "forms": [
       {
         "contentType": "application/json",
-        "dtv:topic": "opcua/PDRV/PDRV_AxisHwOvertravelEventType/properties/read",
+        "dov:topic": "opcua/PDRV/PDRV_AxisHwOvertravelEventType/properties/read",
         "op": "readallproperties"
       }
     ],
@@ -853,13 +843,13 @@
     },
     "properties": {
       "IsUpperHwLimit": {
-        "aov:namespace": "http://opcfoundation.org/UA/PDRV/",
+        "dov:namespace": "http://opcfoundation.org/UA/PDRV/",
         "type": "boolean",
         "readOnly": true,
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/PDRV/PDRV_AxisHwOvertravelEventType/property/IsUpperHwLimit/read",
+            "dov:topic": "opcua/PDRV/PDRV_AxisHwOvertravelEventType/property/IsUpperHwLimit/read",
             "op": "readproperty"
           }
         ]
@@ -872,13 +862,12 @@
     "@context": [
       "https://www.w3.org/2022/wot/td/v1.1",
       {
-        "dtv": "http://azure.com/DigitalTwins/dtmi#",
-        "aov": "http://azure.com/IoT/operations/tm#"
+        "dov": "http://azure.com/DigitalOperations/vocab#"
       }
     ],
     "@type": "tm:ThingModel",
     "title": "PDRV_SafetyType",
-    "aov:typeRef": "nsu=http://opcfoundation.org/UA/PDRV/;i=1015",
+    "dov:typeRef": "nsu=http://opcfoundation.org/UA/PDRV/;i=1015",
     "links": [
       {
         "rel": "tm:extends",
@@ -886,50 +875,50 @@
         "type": "application/tm+json"
       },
       {
-        "rel": "aov:capability",
-        "aov:refName": "STO",
+        "rel": "dov:capability",
+        "dov:refName": "STO",
         "href": "#title=PDRV_SafetyFunctionType",
         "type": "application/tm+json"
       },
       {
-        "rel": "aov:reference",
-        "aov:refName": "SS1",
+        "rel": "dov:reference",
+        "dov:refName": "SS1",
         "href": "#title=PDRV_SafetyFunctionType",
         "type": "application/tm+json"
       },
       {
-        "rel": "aov:reference",
-        "aov:refName": "SS2",
+        "rel": "dov:reference",
+        "dov:refName": "SS2",
         "href": "#title=PDRV_SafetyFunctionType",
         "type": "application/tm+json"
       },
       {
-        "rel": "aov:reference",
-        "aov:refName": "SOS",
+        "rel": "dov:reference",
+        "dov:refName": "SOS",
         "href": "#title=PDRV_SafetyFunctionType",
         "type": "application/tm+json"
       },
       {
-        "rel": "aov:reference",
-        "aov:refName": "SLS",
+        "rel": "dov:reference",
+        "dov:refName": "SLS",
         "href": "#title=PDRV_SafetyFunctionType",
         "type": "application/tm+json"
       },
       {
-        "rel": "aov:reference",
-        "aov:refName": "SDI",
+        "rel": "dov:reference",
+        "dov:refName": "SDI",
         "href": "#title=PDRV_SafetyFunctionType",
         "type": "application/tm+json"
       },
       {
-        "rel": "aov:reference",
-        "aov:refName": "SLA",
+        "rel": "dov:reference",
+        "dov:refName": "SLA",
         "href": "#title=PDRV_SafetyFunctionType",
         "type": "application/tm+json"
       },
       {
-        "rel": "aov:reference",
-        "aov:refName": "SLP",
+        "rel": "dov:reference",
+        "dov:refName": "SLP",
         "href": "#title=PDRV_SafetyFunctionType",
         "type": "application/tm+json"
       }
@@ -947,14 +936,13 @@
     "@context": [
       "https://www.w3.org/2022/wot/td/v1.1",
       {
-        "dtv": "http://azure.com/DigitalTwins/dtmi#",
-        "aov": "http://azure.com/IoT/operations/tm#"
+        "dov": "http://azure.com/DigitalOperations/vocab#"
       }
     ],
     "@type": "tm:ThingModel",
     "title": "PDRV_TorqueLimitEventType",
-    "aov:typeRef": "nsu=http://opcfoundation.org/UA/PDRV/;i=1016",
-    "aov:isEvent": true,
+    "dov:typeRef": "nsu=http://opcfoundation.org/UA/PDRV/;i=1016",
+    "dov:isEvent": true,
     "links": [
       {
         "rel": "tm:extends",
@@ -967,7 +955,7 @@
     "forms": [
       {
         "contentType": "application/json",
-        "dtv:topic": "opcua/PDRV/PDRV_TorqueLimitEventType/properties/read",
+        "dov:topic": "opcua/PDRV/PDRV_TorqueLimitEventType/properties/read",
         "op": "readallproperties"
       }
     ],
@@ -975,7 +963,7 @@
     },
     "properties": {
       "Torque": {
-        "aov:namespace": "http://opcfoundation.org/UA/PDRV/",
+        "dov:namespace": "http://opcfoundation.org/UA/PDRV/",
         "type": "number",
         "minimum": -3.40e+38,
         "maximum": 3.40e+38,
@@ -983,13 +971,13 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/PDRV/PDRV_TorqueLimitEventType/property/Torque/read",
+            "dov:topic": "opcua/PDRV/PDRV_TorqueLimitEventType/property/Torque/read",
             "op": "readproperty"
           }
         ]
       },
       "TorqueLimit": {
-        "aov:namespace": "http://opcfoundation.org/UA/PDRV/",
+        "dov:namespace": "http://opcfoundation.org/UA/PDRV/",
         "type": "number",
         "minimum": -3.40e+38,
         "maximum": 3.40e+38,
@@ -997,7 +985,7 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/PDRV/PDRV_TorqueLimitEventType/property/TorqueLimit/read",
+            "dov:topic": "opcua/PDRV/PDRV_TorqueLimitEventType/property/TorqueLimit/read",
             "op": "readproperty"
           }
         ]
@@ -1010,14 +998,13 @@
     "@context": [
       "https://www.w3.org/2022/wot/td/v1.1",
       {
-        "dtv": "http://azure.com/DigitalTwins/dtmi#",
-        "aov": "http://azure.com/IoT/operations/tm#"
+        "dov": "http://azure.com/DigitalOperations/vocab#"
       }
     ],
     "@type": "tm:ThingModel",
     "title": "PDRV_MotorCurrentLimitEventType",
-    "aov:typeRef": "nsu=http://opcfoundation.org/UA/PDRV/;i=1017",
-    "aov:isEvent": true,
+    "dov:typeRef": "nsu=http://opcfoundation.org/UA/PDRV/;i=1017",
+    "dov:isEvent": true,
     "links": [
       {
         "rel": "tm:extends",
@@ -1030,7 +1017,7 @@
     "forms": [
       {
         "contentType": "application/json",
-        "dtv:topic": "opcua/PDRV/PDRV_MotorCurrentLimitEventType/properties/read",
+        "dov:topic": "opcua/PDRV/PDRV_MotorCurrentLimitEventType/properties/read",
         "op": "readallproperties"
       }
     ],
@@ -1038,7 +1025,7 @@
     },
     "properties": {
       "MotorCurrentLimitHigh": {
-        "aov:namespace": "http://opcfoundation.org/UA/PDRV/",
+        "dov:namespace": "http://opcfoundation.org/UA/PDRV/",
         "type": "number",
         "minimum": -3.40e+38,
         "maximum": 3.40e+38,
@@ -1046,13 +1033,13 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/PDRV/PDRV_MotorCurrentLimitEventType/property/MotorCurrentLimitHigh/read",
+            "dov:topic": "opcua/PDRV/PDRV_MotorCurrentLimitEventType/property/MotorCurrentLimitHigh/read",
             "op": "readproperty"
           }
         ]
       },
       "OutputCurrent": {
-        "aov:namespace": "http://opcfoundation.org/UA/PDRV/",
+        "dov:namespace": "http://opcfoundation.org/UA/PDRV/",
         "type": "number",
         "minimum": -3.40e+38,
         "maximum": 3.40e+38,
@@ -1060,7 +1047,7 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/PDRV/PDRV_MotorCurrentLimitEventType/property/OutputCurrent/read",
+            "dov:topic": "opcua/PDRV/PDRV_MotorCurrentLimitEventType/property/OutputCurrent/read",
             "op": "readproperty"
           }
         ]
@@ -1073,13 +1060,12 @@
     "@context": [
       "https://www.w3.org/2022/wot/td/v1.1",
       {
-        "dtv": "http://azure.com/DigitalTwins/dtmi#",
-        "aov": "http://azure.com/IoT/operations/tm#"
+        "dov": "http://azure.com/DigitalOperations/vocab#"
       }
     ],
     "@type": "tm:ThingModel",
     "title": "PDRV_SafetyFunctionType",
-    "aov:typeRef": "nsu=http://opcfoundation.org/UA/PDRV/;i=1018",
+    "dov:typeRef": "nsu=http://opcfoundation.org/UA/PDRV/;i=1018",
     "links": [
       {
         "rel": "tm:extends",
@@ -1092,12 +1078,12 @@
     "forms": [
       {
         "contentType": "application/json",
-        "dtv:topic": "opcua/PDRV/PDRV_SafetyFunctionType/events/{senderId}",
+        "dov:topic": "opcua/PDRV/PDRV_SafetyFunctionType/events/{senderId}",
         "op": "subscribeallevents"
       },
       {
         "contentType": "application/json",
-        "dtv:topic": "opcua/PDRV/PDRV_SafetyFunctionType/properties/read",
+        "dov:topic": "opcua/PDRV/PDRV_SafetyFunctionType/properties/read",
         "op": "readallproperties"
       }
     ],
@@ -1105,7 +1091,7 @@
     },
     "properties": {
       "ActivationState": {
-        "aov:namespace": "http://opcfoundation.org/UA/PDRV/",
+        "dov:namespace": "http://opcfoundation.org/UA/PDRV/",
         "type": "integer",
         "minimum": 0,
         "maximum": 65535,
@@ -1113,13 +1099,13 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/PDRV/PDRV_SafetyFunctionType/property/ActivationState/read",
+            "dov:topic": "opcua/PDRV/PDRV_SafetyFunctionType/property/ActivationState/read",
             "op": "readproperty"
           }
         ]
       },
       "Limit": {
-        "aov:namespace": "http://opcfoundation.org/UA/PDRV/",
+        "dov:namespace": "http://opcfoundation.org/UA/PDRV/",
         "type": "number",
         "minimum": -3.40e+38,
         "maximum": 3.40e+38,
@@ -1127,13 +1113,13 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/PDRV/PDRV_SafetyFunctionType/property/Limit/read",
+            "dov:topic": "opcua/PDRV/PDRV_SafetyFunctionType/property/Limit/read",
             "op": "readproperty"
           }
         ]
       },
       "SelectionState": {
-        "aov:namespace": "http://opcfoundation.org/UA/PDRV/",
+        "dov:namespace": "http://opcfoundation.org/UA/PDRV/",
         "type": "integer",
         "minimum": 0,
         "maximum": 65535,
@@ -1141,7 +1127,7 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/PDRV/PDRV_SafetyFunctionType/property/SelectionState/read",
+            "dov:topic": "opcua/PDRV/PDRV_SafetyFunctionType/property/SelectionState/read",
             "op": "readproperty"
           }
         ]
@@ -1149,7 +1135,7 @@
     },
     "events": {
       "ActivationState": {
-        "aov:namespace": "http://opcfoundation.org/UA/PDRV/",
+        "dov:namespace": "http://opcfoundation.org/UA/PDRV/",
         "data": {
           "type": "integer",
           "minimum": 0,
@@ -1158,13 +1144,13 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/PDRV/PDRV_SafetyFunctionType/event/ActivationState/{senderId}",
+            "dov:topic": "opcua/PDRV/PDRV_SafetyFunctionType/event/ActivationState/{senderId}",
             "op": "subscribeevent"
           }
         ]
       },
       "SelectionState": {
-        "aov:namespace": "http://opcfoundation.org/UA/PDRV/",
+        "dov:namespace": "http://opcfoundation.org/UA/PDRV/",
         "data": {
           "type": "integer",
           "minimum": 0,
@@ -1173,7 +1159,7 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/PDRV/PDRV_SafetyFunctionType/event/SelectionState/{senderId}",
+            "dov:topic": "opcua/PDRV/PDRV_SafetyFunctionType/event/SelectionState/{senderId}",
             "op": "subscribeevent"
           }
         ]
@@ -1184,14 +1170,13 @@
     "@context": [
       "https://www.w3.org/2022/wot/td/v1.1",
       {
-        "dtv": "http://azure.com/DigitalTwins/dtmi#",
-        "aov": "http://azure.com/IoT/operations/tm#"
+        "dov": "http://azure.com/DigitalOperations/vocab#"
       }
     ],
     "@type": "tm:ThingModel",
     "title": "PDRV_ForceLimitEventType",
-    "aov:typeRef": "nsu=http://opcfoundation.org/UA/PDRV/;i=1019",
-    "aov:isEvent": true,
+    "dov:typeRef": "nsu=http://opcfoundation.org/UA/PDRV/;i=1019",
+    "dov:isEvent": true,
     "links": [
       {
         "rel": "tm:extends",
@@ -1204,7 +1189,7 @@
     "forms": [
       {
         "contentType": "application/json",
-        "dtv:topic": "opcua/PDRV/PDRV_ForceLimitEventType/properties/read",
+        "dov:topic": "opcua/PDRV/PDRV_ForceLimitEventType/properties/read",
         "op": "readallproperties"
       }
     ],
@@ -1212,7 +1197,7 @@
     },
     "properties": {
       "Force": {
-        "aov:namespace": "http://opcfoundation.org/UA/PDRV/",
+        "dov:namespace": "http://opcfoundation.org/UA/PDRV/",
         "type": "number",
         "minimum": -3.40e+38,
         "maximum": 3.40e+38,
@@ -1220,13 +1205,13 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/PDRV/PDRV_ForceLimitEventType/property/Force/read",
+            "dov:topic": "opcua/PDRV/PDRV_ForceLimitEventType/property/Force/read",
             "op": "readproperty"
           }
         ]
       },
       "ForceLimit": {
-        "aov:namespace": "http://opcfoundation.org/UA/PDRV/",
+        "dov:namespace": "http://opcfoundation.org/UA/PDRV/",
         "type": "number",
         "minimum": -3.40e+38,
         "maximum": 3.40e+38,
@@ -1234,7 +1219,7 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/PDRV/PDRV_ForceLimitEventType/property/ForceLimit/read",
+            "dov:topic": "opcua/PDRV/PDRV_ForceLimitEventType/property/ForceLimit/read",
             "op": "readproperty"
           }
         ]
@@ -1247,14 +1232,13 @@
     "@context": [
       "https://www.w3.org/2022/wot/td/v1.1",
       {
-        "dtv": "http://azure.com/DigitalTwins/dtmi#",
-        "aov": "http://azure.com/IoT/operations/tm#"
+        "dov": "http://azure.com/DigitalOperations/vocab#"
       }
     ],
     "@type": "tm:ThingModel",
     "title": "PDRV_AxisEventType",
-    "aov:typeRef": "nsu=http://opcfoundation.org/UA/PDRV/;i=1001",
-    "aov:isEvent": true,
+    "dov:typeRef": "nsu=http://opcfoundation.org/UA/PDRV/;i=1001",
+    "dov:isEvent": true,
     "links": [
       {
         "rel": "tm:extends",
@@ -1267,7 +1251,7 @@
     "forms": [
       {
         "contentType": "application/json",
-        "dtv:topic": "opcua/PDRV/PDRV_AxisEventType/properties/read",
+        "dov:topic": "opcua/PDRV/PDRV_AxisEventType/properties/read",
         "op": "readallproperties"
       }
     ],
@@ -1275,7 +1259,7 @@
     },
     "properties": {
       "AxisState": {
-        "aov:namespace": "http://opcfoundation.org/UA/PDRV/",
+        "dov:namespace": "http://opcfoundation.org/UA/PDRV/",
         "type": "integer",
         "minimum": 0,
         "maximum": 65535,
@@ -1283,13 +1267,13 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/PDRV/PDRV_AxisEventType/property/AxisState/read",
+            "dov:topic": "opcua/PDRV/PDRV_AxisEventType/property/AxisState/read",
             "op": "readproperty"
           }
         ]
       },
       "BrakeResistorTemperature": {
-        "aov:namespace": "http://opcfoundation.org/UA/PDRV/",
+        "dov:namespace": "http://opcfoundation.org/UA/PDRV/",
         "type": "number",
         "minimum": -3.40e+38,
         "maximum": 3.40e+38,
@@ -1297,13 +1281,13 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/PDRV/PDRV_AxisEventType/property/BrakeResistorTemperature/read",
+            "dov:topic": "opcua/PDRV/PDRV_AxisEventType/property/BrakeResistorTemperature/read",
             "op": "readproperty"
           }
         ]
       },
       "ControlMode": {
-        "aov:namespace": "http://opcfoundation.org/UA/PDRV/",
+        "dov:namespace": "http://opcfoundation.org/UA/PDRV/",
         "type": "integer",
         "minimum": 0,
         "maximum": 65535,
@@ -1311,13 +1295,13 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/PDRV/PDRV_AxisEventType/property/ControlMode/read",
+            "dov:topic": "opcua/PDRV/PDRV_AxisEventType/property/ControlMode/read",
             "op": "readproperty"
           }
         ]
       },
       "ControlPriority": {
-        "aov:namespace": "http://opcfoundation.org/UA/PDRV/",
+        "dov:namespace": "http://opcfoundation.org/UA/PDRV/",
         "type": "integer",
         "minimum": 0,
         "maximum": 65535,
@@ -1325,13 +1309,13 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/PDRV/PDRV_AxisEventType/property/ControlPriority/read",
+            "dov:topic": "opcua/PDRV/PDRV_AxisEventType/property/ControlPriority/read",
             "op": "readproperty"
           }
         ]
       },
       "ConverterTemperature": {
-        "aov:namespace": "http://opcfoundation.org/UA/PDRV/",
+        "dov:namespace": "http://opcfoundation.org/UA/PDRV/",
         "type": "number",
         "minimum": -3.40e+38,
         "maximum": 3.40e+38,
@@ -1339,13 +1323,13 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/PDRV/PDRV_AxisEventType/property/ConverterTemperature/read",
+            "dov:topic": "opcua/PDRV/PDRV_AxisEventType/property/ConverterTemperature/read",
             "op": "readproperty"
           }
         ]
       },
       "DcBusVoltage": {
-        "aov:namespace": "http://opcfoundation.org/UA/PDRV/",
+        "dov:namespace": "http://opcfoundation.org/UA/PDRV/",
         "type": "number",
         "minimum": -3.40e+38,
         "maximum": 3.40e+38,
@@ -1353,13 +1337,13 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/PDRV/PDRV_AxisEventType/property/DcBusVoltage/read",
+            "dov:topic": "opcua/PDRV/PDRV_AxisEventType/property/DcBusVoltage/read",
             "op": "readproperty"
           }
         ]
       },
       "DeviceTemperature": {
-        "aov:namespace": "http://opcfoundation.org/UA/PDRV/",
+        "dov:namespace": "http://opcfoundation.org/UA/PDRV/",
         "type": "number",
         "minimum": -3.40e+38,
         "maximum": 3.40e+38,
@@ -1367,13 +1351,13 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/PDRV/PDRV_AxisEventType/property/DeviceTemperature/read",
+            "dov:topic": "opcua/PDRV/PDRV_AxisEventType/property/DeviceTemperature/read",
             "op": "readproperty"
           }
         ]
       },
       "Force": {
-        "aov:namespace": "http://opcfoundation.org/UA/PDRV/",
+        "dov:namespace": "http://opcfoundation.org/UA/PDRV/",
         "type": "number",
         "minimum": -3.40e+38,
         "maximum": 3.40e+38,
@@ -1381,13 +1365,13 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/PDRV/PDRV_AxisEventType/property/Force/read",
+            "dov:topic": "opcua/PDRV/PDRV_AxisEventType/property/Force/read",
             "op": "readproperty"
           }
         ]
       },
       "MotorTemperature": {
-        "aov:namespace": "http://opcfoundation.org/UA/PDRV/",
+        "dov:namespace": "http://opcfoundation.org/UA/PDRV/",
         "type": "number",
         "minimum": -3.40e+38,
         "maximum": 3.40e+38,
@@ -1395,13 +1379,13 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/PDRV/PDRV_AxisEventType/property/MotorTemperature/read",
+            "dov:topic": "opcua/PDRV/PDRV_AxisEventType/property/MotorTemperature/read",
             "op": "readproperty"
           }
         ]
       },
       "OutputCurrent": {
-        "aov:namespace": "http://opcfoundation.org/UA/PDRV/",
+        "dov:namespace": "http://opcfoundation.org/UA/PDRV/",
         "type": "number",
         "minimum": -3.40e+38,
         "maximum": 3.40e+38,
@@ -1409,13 +1393,13 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/PDRV/PDRV_AxisEventType/property/OutputCurrent/read",
+            "dov:topic": "opcua/PDRV/PDRV_AxisEventType/property/OutputCurrent/read",
             "op": "readproperty"
           }
         ]
       },
       "PositionFollowingError": {
-        "aov:namespace": "http://opcfoundation.org/UA/PDRV/",
+        "dov:namespace": "http://opcfoundation.org/UA/PDRV/",
         "type": "number",
         "minimum": -3.40e+38,
         "maximum": 3.40e+38,
@@ -1423,13 +1407,13 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/PDRV/PDRV_AxisEventType/property/PositionFollowingError/read",
+            "dov:topic": "opcua/PDRV/PDRV_AxisEventType/property/PositionFollowingError/read",
             "op": "readproperty"
           }
         ]
       },
       "Power": {
-        "aov:namespace": "http://opcfoundation.org/UA/PDRV/",
+        "dov:namespace": "http://opcfoundation.org/UA/PDRV/",
         "type": "number",
         "minimum": -3.40e+38,
         "maximum": 3.40e+38,
@@ -1437,28 +1421,28 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/PDRV/PDRV_AxisEventType/property/Power/read",
+            "dov:topic": "opcua/PDRV/PDRV_AxisEventType/property/Power/read",
             "op": "readproperty"
           }
         ]
       },
       "S_FeedbackSensor1_3Temperature_": {
-        "aov:namespace": "http://opcfoundation.org/UA/PDRV/",
+        "dov:namespace": "http://opcfoundation.org/UA/PDRV/",
         "type": "number",
         "minimum": -3.40e+38,
         "maximum": 3.40e+38,
         "readOnly": true,
-        "dtv:placeholder": true,
+        "dov:placeholder": true,
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/PDRV/PDRV_AxisEventType/property/S_FeedbackSensor1_3Temperature_/read",
+            "dov:topic": "opcua/PDRV/PDRV_AxisEventType/property/S_FeedbackSensor1_3Temperature_/read",
             "op": "readproperty"
           }
         ]
       },
       "Torque": {
-        "aov:namespace": "http://opcfoundation.org/UA/PDRV/",
+        "dov:namespace": "http://opcfoundation.org/UA/PDRV/",
         "type": "number",
         "minimum": -3.40e+38,
         "maximum": 3.40e+38,
@@ -1466,13 +1450,13 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/PDRV/PDRV_AxisEventType/property/Torque/read",
+            "dov:topic": "opcua/PDRV/PDRV_AxisEventType/property/Torque/read",
             "op": "readproperty"
           }
         ]
       },
       "VelocityFollowingError": {
-        "aov:namespace": "http://opcfoundation.org/UA/PDRV/",
+        "dov:namespace": "http://opcfoundation.org/UA/PDRV/",
         "type": "number",
         "minimum": -3.40e+38,
         "maximum": 3.40e+38,
@@ -1480,7 +1464,7 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/PDRV/PDRV_AxisEventType/property/VelocityFollowingError/read",
+            "dov:topic": "opcua/PDRV/PDRV_AxisEventType/property/VelocityFollowingError/read",
             "op": "readproperty"
           }
         ]

@@ -3,14 +3,13 @@
     "@context": [
       "https://www.w3.org/2022/wot/td/v1.1",
       {
-        "dtv": "http://azure.com/DigitalTwins/dtmi#",
-        "aov": "http://azure.com/IoT/operations/tm#"
+        "dov": "http://azure.com/DigitalOperations/vocab#"
       }
     ],
     "@type": "tm:ThingModel",
     "title": "PlasticsRubber_Extrusion_Filter_Filter_InterfaceType",
-    "aov:typeRef": "nsu=http://opcfoundation.org/UA/PlasticsRubber/Extrusion/Filter/;i=1002",
-    "aov:isComposite": true,
+    "dov:typeRef": "nsu=http://opcfoundation.org/UA/PlasticsRubber/Extrusion/Filter/;i=1002",
+    "dov:isComposite": true,
     "links": [
       {
         "rel": "tm:extends",
@@ -18,56 +17,56 @@
         "type": "application/tm+json"
       },
       {
-        "rel": "aov:reference",
-        "aov:refName": "AdditionalMeasuringDevices",
+        "rel": "dov:reference",
+        "dov:refName": "AdditionalMeasuringDevices",
         "href": "./PlasticsRubber.GeneralTypes.TM.json#title=PlasticsRubber_GeneralTypes_MeasuringDevicesType",
         "type": "application/tm+json"
       },
       {
-        "rel": "aov:reference",
-        "aov:refName": "Drive",
+        "rel": "dov:reference",
+        "dov:refName": "Drive",
         "href": "./PlasticsRubber.GeneralTypes.TM.json#title=PlasticsRubber_GeneralTypes_DriveType",
         "type": "application/tm+json"
       },
       {
-        "rel": "aov:component",
-        "aov:refName": "FilterPackage__Nr_",
+        "rel": "dov:component",
+        "dov:refName": "FilterPackage__Nr_",
         "href": "#title=PlasticsRubber_Extrusion_Filter_FilterPackageType",
         "type": "application/tm+json"
       },
       {
-        "rel": "aov:component",
-        "aov:refName": "HydraulicPressure",
+        "rel": "dov:component",
+        "dov:refName": "HydraulicPressure",
         "href": "./PlasticsRubber.GeneralTypes.TM.json#title=PlasticsRubber_GeneralTypes_MeasuringDeviceType",
         "type": "application/tm+json"
       },
       {
-        "rel": "aov:reference",
-        "aov:refName": "MeltPressureZones",
+        "rel": "dov:reference",
+        "dov:refName": "MeltPressureZones",
         "href": "./PlasticsRubber.GeneralTypes.TM.json#title=PlasticsRubber_GeneralTypes_MeasuringDevicesType",
         "type": "application/tm+json"
       },
       {
-        "rel": "aov:reference",
-        "aov:refName": "MeltTemperatureZones",
+        "rel": "dov:reference",
+        "dov:refName": "MeltTemperatureZones",
         "href": "./PlasticsRubber.GeneralTypes.TM.json#title=PlasticsRubber_GeneralTypes_MeasuringDevicesType",
         "type": "application/tm+json"
       },
       {
-        "rel": "aov:component",
-        "aov:refName": "SpecificWasteOutput",
+        "rel": "dov:component",
+        "dov:refName": "SpecificWasteOutput",
         "href": "./PlasticsRubber.GeneralTypes.TM.json#title=PlasticsRubber_GeneralTypes_MonitoredParameterType",
         "type": "application/tm+json"
       },
       {
-        "rel": "aov:capability",
-        "aov:refName": "TemperatureZones",
+        "rel": "dov:capability",
+        "dov:refName": "TemperatureZones",
         "href": "./PlasticsRubber.Extrusion.GeneralTypes.TM.json#title=PlasticsRubber_Extrusion_GeneralTypes_ExtrusionTemperatureZonesType",
         "type": "application/tm+json"
       },
       {
-        "rel": "aov:component",
-        "aov:refName": "WasteOutput",
+        "rel": "dov:component",
+        "dov:refName": "WasteOutput",
         "href": "./PlasticsRubber.GeneralTypes.TM.json#title=PlasticsRubber_GeneralTypes_MonitoredParameterType",
         "type": "application/tm+json"
       }
@@ -77,17 +76,17 @@
     "forms": [
       {
         "contentType": "application/json",
-        "dtv:topic": "opcua/PlasticsRubber.Extrusion.Filter/PlasticsRubber_Extrusion_Filter_Filter_InterfaceType/events/{senderId}",
+        "dov:topic": "opcua/PlasticsRubber.Extrusion.Filter/PlasticsRubber_Extrusion_Filter_Filter_InterfaceType/events/{senderId}",
         "op": "subscribeallevents"
       },
       {
         "contentType": "application/json",
-        "dtv:topic": "opcua/PlasticsRubber.Extrusion.Filter/PlasticsRubber_Extrusion_Filter_Filter_InterfaceType/properties/write",
+        "dov:topic": "opcua/PlasticsRubber.Extrusion.Filter/PlasticsRubber_Extrusion_Filter_Filter_InterfaceType/properties/write",
         "op": "writemultipleproperties"
       },
       {
         "contentType": "application/json",
-        "dtv:topic": "opcua/PlasticsRubber.Extrusion.Filter/PlasticsRubber_Extrusion_Filter_Filter_InterfaceType/properties/read",
+        "dov:topic": "opcua/PlasticsRubber.Extrusion.Filter/PlasticsRubber_Extrusion_Filter_Filter_InterfaceType/properties/read",
         "op": "readallproperties"
       }
     ],
@@ -95,7 +94,7 @@
     },
     "properties": {
       "Area": {
-        "aov:namespace": "http://opcfoundation.org/UA/PlasticsRubber/Extrusion/Filter/",
+        "dov:namespace": "http://opcfoundation.org/UA/PlasticsRubber/Extrusion/Filter/",
         "type": "number",
         "minimum": -1.80e+308,
         "maximum": 1.80e+308,
@@ -103,13 +102,13 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/PlasticsRubber.Extrusion.Filter/PlasticsRubber_Extrusion_Filter_Filter_InterfaceType/property/Area/read",
+            "dov:topic": "opcua/PlasticsRubber.Extrusion.Filter/PlasticsRubber_Extrusion_Filter_Filter_InterfaceType/property/Area/read",
             "op": "readproperty"
           }
         ]
       },
       "BackflushPressure": {
-        "aov:namespace": "http://opcfoundation.org/UA/PlasticsRubber/Extrusion/Filter/",
+        "dov:namespace": "http://opcfoundation.org/UA/PlasticsRubber/Extrusion/Filter/",
         "type": "number",
         "minimum": -1.80e+308,
         "maximum": 1.80e+308,
@@ -117,18 +116,18 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/PlasticsRubber.Extrusion.Filter/PlasticsRubber_Extrusion_Filter_Filter_InterfaceType/property/BackflushPressure/write",
+            "dov:topic": "opcua/PlasticsRubber.Extrusion.Filter/PlasticsRubber_Extrusion_Filter_Filter_InterfaceType/property/BackflushPressure/write",
             "op": "writeproperty"
           },
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/PlasticsRubber.Extrusion.Filter/PlasticsRubber_Extrusion_Filter_Filter_InterfaceType/property/BackflushPressure/read",
+            "dov:topic": "opcua/PlasticsRubber.Extrusion.Filter/PlasticsRubber_Extrusion_Filter_Filter_InterfaceType/property/BackflushPressure/read",
             "op": "readproperty"
           }
         ]
       },
       "FiltrationFineness": {
-        "aov:namespace": "http://opcfoundation.org/UA/PlasticsRubber/Extrusion/Filter/",
+        "dov:namespace": "http://opcfoundation.org/UA/PlasticsRubber/Extrusion/Filter/",
         "type": "number",
         "minimum": -1.80e+308,
         "maximum": 1.80e+308,
@@ -136,7 +135,7 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/PlasticsRubber.Extrusion.Filter/PlasticsRubber_Extrusion_Filter_Filter_InterfaceType/property/FiltrationFineness/read",
+            "dov:topic": "opcua/PlasticsRubber.Extrusion.Filter/PlasticsRubber_Extrusion_Filter_Filter_InterfaceType/property/FiltrationFineness/read",
             "op": "readproperty"
           }
         ]
@@ -144,7 +143,7 @@
     },
     "events": {
       "Area": {
-        "aov:namespace": "http://opcfoundation.org/UA/PlasticsRubber/Extrusion/Filter/",
+        "dov:namespace": "http://opcfoundation.org/UA/PlasticsRubber/Extrusion/Filter/",
         "data": {
           "type": "number",
           "minimum": -1.80e+308,
@@ -153,13 +152,13 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/PlasticsRubber.Extrusion.Filter/PlasticsRubber_Extrusion_Filter_Filter_InterfaceType/event/Area/{senderId}",
+            "dov:topic": "opcua/PlasticsRubber.Extrusion.Filter/PlasticsRubber_Extrusion_Filter_Filter_InterfaceType/event/Area/{senderId}",
             "op": "subscribeevent"
           }
         ]
       },
       "BackflushPressure": {
-        "aov:namespace": "http://opcfoundation.org/UA/PlasticsRubber/Extrusion/Filter/",
+        "dov:namespace": "http://opcfoundation.org/UA/PlasticsRubber/Extrusion/Filter/",
         "data": {
           "type": "number",
           "minimum": -1.80e+308,
@@ -168,13 +167,13 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/PlasticsRubber.Extrusion.Filter/PlasticsRubber_Extrusion_Filter_Filter_InterfaceType/event/BackflushPressure/{senderId}",
+            "dov:topic": "opcua/PlasticsRubber.Extrusion.Filter/PlasticsRubber_Extrusion_Filter_Filter_InterfaceType/event/BackflushPressure/{senderId}",
             "op": "subscribeevent"
           }
         ]
       },
       "FiltrationFineness": {
-        "aov:namespace": "http://opcfoundation.org/UA/PlasticsRubber/Extrusion/Filter/",
+        "dov:namespace": "http://opcfoundation.org/UA/PlasticsRubber/Extrusion/Filter/",
         "data": {
           "type": "number",
           "minimum": -1.80e+308,
@@ -183,7 +182,7 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/PlasticsRubber.Extrusion.Filter/PlasticsRubber_Extrusion_Filter_Filter_InterfaceType/event/FiltrationFineness/{senderId}",
+            "dov:topic": "opcua/PlasticsRubber.Extrusion.Filter/PlasticsRubber_Extrusion_Filter_Filter_InterfaceType/event/FiltrationFineness/{senderId}",
             "op": "subscribeevent"
           }
         ]
@@ -194,13 +193,12 @@
     "@context": [
       "https://www.w3.org/2022/wot/td/v1.1",
       {
-        "dtv": "http://azure.com/DigitalTwins/dtmi#",
-        "aov": "http://azure.com/IoT/operations/tm#"
+        "dov": "http://azure.com/DigitalOperations/vocab#"
       }
     ],
     "@type": "tm:ThingModel",
     "title": "PlasticsRubber_Extrusion_Filter_FilterPackageType",
-    "aov:typeRef": "nsu=http://opcfoundation.org/UA/PlasticsRubber/Extrusion/Filter/;i=1004",
+    "dov:typeRef": "nsu=http://opcfoundation.org/UA/PlasticsRubber/Extrusion/Filter/;i=1004",
     "links": [
       {
         "rel": "tm:extends",
@@ -208,8 +206,8 @@
         "type": "application/tm+json"
       },
       {
-        "rel": "aov:component",
-        "aov:refName": "ScreenPackage__Nr_",
+        "rel": "dov:component",
+        "dov:refName": "ScreenPackage__Nr_",
         "href": "#title=PlasticsRubber_Extrusion_Filter_ScreenPackageType",
         "type": "application/tm+json"
       }
@@ -217,7 +215,7 @@
     "schemaDefinitions": {
       "FilterPackageStatusEnumeration": {
         "type": "object",
-        "aov:typeRef": "nsu=http://opcfoundation.org/UA/PlasticsRubber/Extrusion/Filter/;i=3002",
+        "dov:typeRef": "nsu=http://opcfoundation.org/UA/PlasticsRubber/Extrusion/Filter/;i=3002",
         "const": {
           "NOT_ACTIVE": 0,
           "ACTIVE": 1,
@@ -247,17 +245,17 @@
     "forms": [
       {
         "contentType": "application/json",
-        "dtv:topic": "opcua/PlasticsRubber.Extrusion.Filter/PlasticsRubber_Extrusion_Filter_FilterPackageType/events/{senderId}",
+        "dov:topic": "opcua/PlasticsRubber.Extrusion.Filter/PlasticsRubber_Extrusion_Filter_FilterPackageType/events/{senderId}",
         "op": "subscribeallevents"
       },
       {
         "contentType": "application/json",
-        "dtv:topic": "opcua/PlasticsRubber.Extrusion.Filter/PlasticsRubber_Extrusion_Filter_FilterPackageType/properties/write",
+        "dov:topic": "opcua/PlasticsRubber.Extrusion.Filter/PlasticsRubber_Extrusion_Filter_FilterPackageType/properties/write",
         "op": "writemultipleproperties"
       },
       {
         "contentType": "application/json",
-        "dtv:topic": "opcua/PlasticsRubber.Extrusion.Filter/PlasticsRubber_Extrusion_Filter_FilterPackageType/properties/read",
+        "dov:topic": "opcua/PlasticsRubber.Extrusion.Filter/PlasticsRubber_Extrusion_Filter_FilterPackageType/properties/read",
         "op": "readallproperties"
       }
     ],
@@ -265,7 +263,7 @@
     },
     "properties": {
       "Area": {
-        "aov:namespace": "http://opcfoundation.org/UA/PlasticsRubber/Extrusion/Filter/",
+        "dov:namespace": "http://opcfoundation.org/UA/PlasticsRubber/Extrusion/Filter/",
         "type": "number",
         "minimum": -1.80e+308,
         "maximum": 1.80e+308,
@@ -273,13 +271,13 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/PlasticsRubber.Extrusion.Filter/PlasticsRubber_Extrusion_Filter_FilterPackageType/property/Area/read",
+            "dov:topic": "opcua/PlasticsRubber.Extrusion.Filter/PlasticsRubber_Extrusion_Filter_FilterPackageType/property/Area/read",
             "op": "readproperty"
           }
         ]
       },
       "BackflushCounter": {
-        "aov:namespace": "http://opcfoundation.org/UA/PlasticsRubber/Extrusion/Filter/",
+        "dov:namespace": "http://opcfoundation.org/UA/PlasticsRubber/Extrusion/Filter/",
         "type": "integer",
         "minimum": 0,
         "maximum": 4294967295,
@@ -287,45 +285,45 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/PlasticsRubber.Extrusion.Filter/PlasticsRubber_Extrusion_Filter_FilterPackageType/property/BackflushCounter/read",
+            "dov:topic": "opcua/PlasticsRubber.Extrusion.Filter/PlasticsRubber_Extrusion_Filter_FilterPackageType/property/BackflushCounter/read",
             "op": "readproperty"
           }
         ]
       },
       "BackflushTime": {
-        "aov:namespace": "http://opcfoundation.org/UA/PlasticsRubber/Extrusion/Filter/",
+        "dov:namespace": "http://opcfoundation.org/UA/PlasticsRubber/Extrusion/Filter/",
         "type": "string",
         "pattern": "^P(?!$)(?:(?:(?:(?:\\d+Y)|(?:\\d+\\.\\d+Y$))?(?:(?:\\d+M)|(?:\\d+\\.\\d+M$))?)|(?:(?:(?:\\d+W)|(?:\\d+\\.\\d+W$))?))(?:(?:\\d+D)|(?:\\d+\\.\\d+D$))?(?:T(?!$)(?:(?:\\d+H)|(?:\\d+\\.\\d+H$))?(?:(?:\\d+M)|(?:\\d+\\.\\d+M$))?(?:\\d+(?:\\.\\d+)?S)?)?$",
         "readOnly": false,
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/PlasticsRubber.Extrusion.Filter/PlasticsRubber_Extrusion_Filter_FilterPackageType/property/BackflushTime/write",
+            "dov:topic": "opcua/PlasticsRubber.Extrusion.Filter/PlasticsRubber_Extrusion_Filter_FilterPackageType/property/BackflushTime/write",
             "op": "writeproperty"
           },
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/PlasticsRubber.Extrusion.Filter/PlasticsRubber_Extrusion_Filter_FilterPackageType/property/BackflushTime/read",
+            "dov:topic": "opcua/PlasticsRubber.Extrusion.Filter/PlasticsRubber_Extrusion_Filter_FilterPackageType/property/BackflushTime/read",
             "op": "readproperty"
           }
         ]
       },
       "Name": {
-        "aov:namespace": "http://opcfoundation.org/UA/PlasticsRubber/Extrusion/Filter/",
+        "dov:namespace": "http://opcfoundation.org/UA/PlasticsRubber/Extrusion/Filter/",
         "type": "string",
         "readOnly": true,
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/PlasticsRubber.Extrusion.Filter/PlasticsRubber_Extrusion_Filter_FilterPackageType/property/Name/read",
+            "dov:topic": "opcua/PlasticsRubber.Extrusion.Filter/PlasticsRubber_Extrusion_Filter_FilterPackageType/property/Name/read",
             "op": "readproperty"
           }
         ]
       },
       "Status": {
-        "aov:namespace": "http://opcfoundation.org/UA/PlasticsRubber/Extrusion/Filter/",
+        "dov:namespace": "http://opcfoundation.org/UA/PlasticsRubber/Extrusion/Filter/",
         "title": "FilterPackageStatusEnumeration",
-        "aov:typeRef": "nsu=http://opcfoundation.org/UA/PlasticsRubber/Extrusion/Filter/;i=3002",
+        "dov:typeRef": "nsu=http://opcfoundation.org/UA/PlasticsRubber/Extrusion/Filter/;i=3002",
         "type": "integer",
         "minimum": -2147483648,
         "maximum": 2147483647,
@@ -333,7 +331,7 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/PlasticsRubber.Extrusion.Filter/PlasticsRubber_Extrusion_Filter_FilterPackageType/property/Status/read",
+            "dov:topic": "opcua/PlasticsRubber.Extrusion.Filter/PlasticsRubber_Extrusion_Filter_FilterPackageType/property/Status/read",
             "op": "readproperty"
           }
         ]
@@ -341,7 +339,7 @@
     },
     "events": {
       "Area": {
-        "aov:namespace": "http://opcfoundation.org/UA/PlasticsRubber/Extrusion/Filter/",
+        "dov:namespace": "http://opcfoundation.org/UA/PlasticsRubber/Extrusion/Filter/",
         "data": {
           "type": "number",
           "minimum": -1.80e+308,
@@ -350,7 +348,7 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/PlasticsRubber.Extrusion.Filter/PlasticsRubber_Extrusion_Filter_FilterPackageType/event/Area/{senderId}",
+            "dov:topic": "opcua/PlasticsRubber.Extrusion.Filter/PlasticsRubber_Extrusion_Filter_FilterPackageType/event/Area/{senderId}",
             "op": "subscribeevent"
           }
         ]
@@ -361,13 +359,12 @@
     "@context": [
       "https://www.w3.org/2022/wot/td/v1.1",
       {
-        "dtv": "http://azure.com/DigitalTwins/dtmi#",
-        "aov": "http://azure.com/IoT/operations/tm#"
+        "dov": "http://azure.com/DigitalOperations/vocab#"
       }
     ],
     "@type": "tm:ThingModel",
     "title": "PlasticsRubber_Extrusion_Filter_ScreenPackageType",
-    "aov:typeRef": "nsu=http://opcfoundation.org/UA/PlasticsRubber/Extrusion/Filter/;i=1003",
+    "dov:typeRef": "nsu=http://opcfoundation.org/UA/PlasticsRubber/Extrusion/Filter/;i=1003",
     "links": [
       {
         "rel": "tm:extends",
@@ -380,12 +377,12 @@
     "forms": [
       {
         "contentType": "application/json",
-        "dtv:topic": "opcua/PlasticsRubber.Extrusion.Filter/PlasticsRubber_Extrusion_Filter_ScreenPackageType/events/{senderId}",
+        "dov:topic": "opcua/PlasticsRubber.Extrusion.Filter/PlasticsRubber_Extrusion_Filter_ScreenPackageType/events/{senderId}",
         "op": "subscribeallevents"
       },
       {
         "contentType": "application/json",
-        "dtv:topic": "opcua/PlasticsRubber.Extrusion.Filter/PlasticsRubber_Extrusion_Filter_ScreenPackageType/properties/read",
+        "dov:topic": "opcua/PlasticsRubber.Extrusion.Filter/PlasticsRubber_Extrusion_Filter_ScreenPackageType/properties/read",
         "op": "readallproperties"
       }
     ],
@@ -393,7 +390,7 @@
     },
     "properties": {
       "Area": {
-        "aov:namespace": "http://opcfoundation.org/UA/PlasticsRubber/Extrusion/Filter/",
+        "dov:namespace": "http://opcfoundation.org/UA/PlasticsRubber/Extrusion/Filter/",
         "type": "number",
         "minimum": -1.80e+308,
         "maximum": 1.80e+308,
@@ -401,43 +398,43 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/PlasticsRubber.Extrusion.Filter/PlasticsRubber_Extrusion_Filter_ScreenPackageType/property/Area/read",
+            "dov:topic": "opcua/PlasticsRubber.Extrusion.Filter/PlasticsRubber_Extrusion_Filter_ScreenPackageType/property/Area/read",
             "op": "readproperty"
           }
         ]
       },
       "Name": {
-        "aov:namespace": "http://opcfoundation.org/UA/PlasticsRubber/Extrusion/Filter/",
+        "dov:namespace": "http://opcfoundation.org/UA/PlasticsRubber/Extrusion/Filter/",
         "type": "string",
         "readOnly": true,
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/PlasticsRubber.Extrusion.Filter/PlasticsRubber_Extrusion_Filter_ScreenPackageType/property/Name/read",
+            "dov:topic": "opcua/PlasticsRubber.Extrusion.Filter/PlasticsRubber_Extrusion_Filter_ScreenPackageType/property/Name/read",
             "op": "readproperty"
           }
         ]
       },
       "PackageSetup": {
-        "aov:namespace": "http://opcfoundation.org/UA/PlasticsRubber/Extrusion/Filter/",
+        "dov:namespace": "http://opcfoundation.org/UA/PlasticsRubber/Extrusion/Filter/",
         "type": "string",
         "readOnly": true,
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/PlasticsRubber.Extrusion.Filter/PlasticsRubber_Extrusion_Filter_ScreenPackageType/property/PackageSetup/read",
+            "dov:topic": "opcua/PlasticsRubber.Extrusion.Filter/PlasticsRubber_Extrusion_Filter_ScreenPackageType/property/PackageSetup/read",
             "op": "readproperty"
           }
         ]
       },
       "SerialNr": {
-        "aov:namespace": "http://opcfoundation.org/UA/PlasticsRubber/Extrusion/Filter/",
+        "dov:namespace": "http://opcfoundation.org/UA/PlasticsRubber/Extrusion/Filter/",
         "type": "string",
         "readOnly": true,
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/PlasticsRubber.Extrusion.Filter/PlasticsRubber_Extrusion_Filter_ScreenPackageType/property/SerialNr/read",
+            "dov:topic": "opcua/PlasticsRubber.Extrusion.Filter/PlasticsRubber_Extrusion_Filter_ScreenPackageType/property/SerialNr/read",
             "op": "readproperty"
           }
         ]
@@ -445,7 +442,7 @@
     },
     "events": {
       "Area": {
-        "aov:namespace": "http://opcfoundation.org/UA/PlasticsRubber/Extrusion/Filter/",
+        "dov:namespace": "http://opcfoundation.org/UA/PlasticsRubber/Extrusion/Filter/",
         "data": {
           "type": "number",
           "minimum": -1.80e+308,
@@ -454,7 +451,7 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/PlasticsRubber.Extrusion.Filter/PlasticsRubber_Extrusion_Filter_ScreenPackageType/event/Area/{senderId}",
+            "dov:topic": "opcua/PlasticsRubber.Extrusion.Filter/PlasticsRubber_Extrusion_Filter_ScreenPackageType/event/Area/{senderId}",
             "op": "subscribeevent"
           }
         ]

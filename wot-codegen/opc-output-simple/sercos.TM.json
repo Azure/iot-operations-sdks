@@ -3,13 +3,12 @@
     "@context": [
       "https://www.w3.org/2022/wot/td/v1.1",
       {
-        "dtv": "http://azure.com/DigitalTwins/dtmi#",
-        "aov": "http://azure.com/IoT/operations/tm#"
+        "dov": "http://azure.com/DigitalOperations/vocab#"
       }
     ],
     "@type": "tm:ThingModel",
     "title": "Sercos_FunctionalGroupType",
-    "aov:typeRef": "nsu=http://sercos.org/UA/;i=6012",
+    "dov:typeRef": "nsu=http://sercos.org/UA/;i=6012",
     "links": [
       {
         "rel": "tm:extends",
@@ -30,13 +29,12 @@
     "@context": [
       "https://www.w3.org/2022/wot/td/v1.1",
       {
-        "dtv": "http://azure.com/DigitalTwins/dtmi#",
-        "aov": "http://azure.com/IoT/operations/tm#"
+        "dov": "http://azure.com/DigitalOperations/vocab#"
       }
     ],
     "@type": "tm:ThingModel",
     "title": "Sercos_SercosProfileType",
-    "aov:typeRef": "nsu=http://sercos.org/UA/;i=1002",
+    "dov:typeRef": "nsu=http://sercos.org/UA/;i=1002",
     "links": [
       {
         "rel": "tm:extends",
@@ -57,13 +55,12 @@
     "@context": [
       "https://www.w3.org/2022/wot/td/v1.1",
       {
-        "dtv": "http://azure.com/DigitalTwins/dtmi#",
-        "aov": "http://azure.com/IoT/operations/tm#"
+        "dov": "http://azure.com/DigitalOperations/vocab#"
       }
     ],
     "@type": "tm:ThingModel",
     "title": "Sercos_SercosClassType",
-    "aov:typeRef": "nsu=http://sercos.org/UA/;i=1003",
+    "dov:typeRef": "nsu=http://sercos.org/UA/;i=1003",
     "links": [
       {
         "rel": "tm:extends",
@@ -84,13 +81,12 @@
     "@context": [
       "https://www.w3.org/2022/wot/td/v1.1",
       {
-        "dtv": "http://azure.com/DigitalTwins/dtmi#",
-        "aov": "http://azure.com/IoT/operations/tm#"
+        "dov": "http://azure.com/DigitalOperations/vocab#"
       }
     ],
     "@type": "tm:ThingModel",
     "title": "Sercos_SercosFunctionGroupType",
-    "aov:typeRef": "nsu=http://sercos.org/UA/;i=1004",
+    "dov:typeRef": "nsu=http://sercos.org/UA/;i=1004",
     "links": [
       {
         "rel": "tm:extends",
@@ -111,14 +107,13 @@
     "@context": [
       "https://www.w3.org/2022/wot/td/v1.1",
       {
-        "dtv": "http://azure.com/DigitalTwins/dtmi#",
-        "aov": "http://azure.com/IoT/operations/tm#"
+        "dov": "http://azure.com/DigitalOperations/vocab#"
       }
     ],
     "@type": "tm:ThingModel",
     "title": "Sercos_SercosDeviceType",
-    "aov:typeRef": "nsu=http://sercos.org/UA/;i=1001",
-    "aov:isComposite": true,
+    "dov:typeRef": "nsu=http://sercos.org/UA/;i=1001",
+    "dov:isComposite": true,
     "links": [
       {
         "rel": "tm:extends",
@@ -126,26 +121,26 @@
         "type": "application/tm+json"
       },
       {
-        "rel": "aov:capability",
-        "aov:refName": "ParameterSet",
+        "rel": "dov:capability",
+        "dov:refName": "ParameterSet",
         "href": "#title=Sercos_FunctionalGroupType",
         "type": "application/tm+json"
       },
       {
-        "rel": "aov:capability",
-        "aov:refName": "ProfileSet",
+        "rel": "dov:capability",
+        "dov:refName": "ProfileSet",
         "href": "#title=Sercos_FunctionalGroupType",
         "type": "application/tm+json"
       },
       {
-        "rel": "aov:capability",
-        "aov:refName": "ClassSet",
+        "rel": "dov:capability",
+        "dov:refName": "ClassSet",
         "href": "#title=Sercos_FunctionalGroupType",
         "type": "application/tm+json"
       },
       {
-        "rel": "aov:capability",
-        "aov:refName": "FunctionGroupSet",
+        "rel": "dov:capability",
+        "dov:refName": "FunctionGroupSet",
         "href": "#title=Sercos_FunctionalGroupType",
         "type": "application/tm+json"
       }
@@ -163,14 +158,13 @@
     "@context": [
       "https://www.w3.org/2022/wot/td/v1.1",
       {
-        "dtv": "http://azure.com/DigitalTwins/dtmi#",
-        "aov": "http://azure.com/IoT/operations/tm#"
+        "dov": "http://azure.com/DigitalOperations/vocab#"
       }
     ],
     "@type": "tm:ThingModel",
     "title": "Sercos_ProfileSet",
-    "aov:typeRef": "nsu=http://sercos.org/UA/;i=6075",
-    "aov:isComposite": true,
+    "dov:typeRef": "nsu=http://sercos.org/UA/;i=6075",
+    "dov:isComposite": true,
     "links": [
       {
         "rel": "tm:extends",
@@ -178,8 +172,8 @@
         "type": "application/tm+json"
       },
       {
-        "rel": "aov:component",
-        "aov:refName": "SercosProfileIdentifier_Placeholder",
+        "rel": "dov:component",
+        "dov:refName": "SercosProfileIdentifier_Placeholder",
         "href": "#title=Sercos_SercosProfileType",
         "type": "application/tm+json"
       }
@@ -197,14 +191,13 @@
     "@context": [
       "https://www.w3.org/2022/wot/td/v1.1",
       {
-        "dtv": "http://azure.com/DigitalTwins/dtmi#",
-        "aov": "http://azure.com/IoT/operations/tm#"
+        "dov": "http://azure.com/DigitalOperations/vocab#"
       }
     ],
     "@type": "tm:ThingModel",
     "title": "Sercos_ClassSet",
-    "aov:typeRef": "nsu=http://sercos.org/UA/;i=6077",
-    "aov:isComposite": true,
+    "dov:typeRef": "nsu=http://sercos.org/UA/;i=6077",
+    "dov:isComposite": true,
     "links": [
       {
         "rel": "tm:extends",
@@ -212,8 +205,8 @@
         "type": "application/tm+json"
       },
       {
-        "rel": "aov:component",
-        "aov:refName": "SercosClassIdentifier_Placeholder",
+        "rel": "dov:component",
+        "dov:refName": "SercosClassIdentifier_Placeholder",
         "href": "#title=Sercos_SercosClassType",
         "type": "application/tm+json"
       }
@@ -231,14 +224,13 @@
     "@context": [
       "https://www.w3.org/2022/wot/td/v1.1",
       {
-        "dtv": "http://azure.com/DigitalTwins/dtmi#",
-        "aov": "http://azure.com/IoT/operations/tm#"
+        "dov": "http://azure.com/DigitalOperations/vocab#"
       }
     ],
     "@type": "tm:ThingModel",
     "title": "Sercos_FunctionGroupSet",
-    "aov:typeRef": "nsu=http://sercos.org/UA/;i=6079",
-    "aov:isComposite": true,
+    "dov:typeRef": "nsu=http://sercos.org/UA/;i=6079",
+    "dov:isComposite": true,
     "links": [
       {
         "rel": "tm:extends",
@@ -246,8 +238,8 @@
         "type": "application/tm+json"
       },
       {
-        "rel": "aov:component",
-        "aov:refName": "FunctionGroupIdentifier_Placeholder",
+        "rel": "dov:component",
+        "dov:refName": "FunctionGroupIdentifier_Placeholder",
         "href": "#title=Sercos_SercosFunctionGroupType",
         "type": "application/tm+json"
       }

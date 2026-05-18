@@ -3,13 +3,12 @@
     "@context": [
       "https://www.w3.org/2022/wot/td/v1.1",
       {
-        "dtv": "http://azure.com/DigitalTwins/dtmi#",
-        "aov": "http://azure.com/IoT/operations/tm#"
+        "dov": "http://azure.com/DigitalOperations/vocab#"
       }
     ],
     "@type": "tm:ThingModel",
     "title": "WMTP_WMTPMeasurementType",
-    "aov:typeRef": "nsu=http://opcfoundation.org/UA/WMTP/;i=1005",
+    "dov:typeRef": "nsu=http://opcfoundation.org/UA/WMTP/;i=1005",
     "links": [
       {
         "rel": "tm:extends",
@@ -17,8 +16,8 @@
         "type": "application/tm+json"
       },
       {
-        "rel": "aov:capability",
-        "aov:refName": "LimitCounters",
+        "rel": "dov:capability",
+        "dov:refName": "LimitCounters",
         "href": "./Machinery.TM.json#title=Machinery_MachineryOperationCounterType",
         "type": "application/tm+json"
       }
@@ -28,26 +27,26 @@
     "forms": [
       {
         "contentType": "application/json",
-        "dtv:topic": "opcua/WMTP/WMTP_WMTPMeasurementType/events/{senderId}",
+        "dov:topic": "opcua/WMTP/WMTP_WMTPMeasurementType/events/{senderId}",
         "op": "subscribeallevents"
       },
       {
         "contentType": "application/json",
-        "dtv:topic": "opcua/WMTP/WMTP_WMTPMeasurementType/properties/write",
+        "dov:topic": "opcua/WMTP/WMTP_WMTPMeasurementType/properties/write",
         "op": "writemultipleproperties"
       },
       {
         "contentType": "application/json",
-        "dtv:topic": "opcua/WMTP/WMTP_WMTPMeasurementType/properties/read",
+        "dov:topic": "opcua/WMTP/WMTP_WMTPMeasurementType/properties/read",
         "op": "readallproperties"
       }
     ],
     "actions": {
       "SetDeltaCondition": {
-        "aov:namespace": "http://opcfoundation.org/UA/WMTP/",
+        "dov:namespace": "http://opcfoundation.org/UA/WMTP/",
         "input": {
           "type": "object",
-          "aov:typeRef": "nsu=http://opcfoundation.org/UA/WMTP/;i=6200",
+          "dov:typeRef": "nsu=http://opcfoundation.org/UA/WMTP/;i=6200",
           "required": [ "DeltaValue" ],
           "properties": {
             "DeltaValue": {
@@ -58,16 +57,16 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/WMTP/WMTP_WMTPMeasurementType/action/SetDeltaCondition",
+            "dov:topic": "opcua/WMTP/WMTP_WMTPMeasurementType/action/SetDeltaCondition",
             "op": "invokeaction"
           }
         ]
       },
       "SetTriggerSettings": {
-        "aov:namespace": "http://opcfoundation.org/UA/WMTP/",
+        "dov:namespace": "http://opcfoundation.org/UA/WMTP/",
         "input": {
           "type": "object",
-          "aov:typeRef": "nsu=http://opcfoundation.org/UA/WMTP/;i=6182",
+          "dov:typeRef": "nsu=http://opcfoundation.org/UA/WMTP/;i=6182",
           "required": [ "TriggerDuration" ],
           "properties": {
             "TriggerDuration": {
@@ -79,7 +78,7 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/WMTP/WMTP_WMTPMeasurementType/action/SetTriggerSettings",
+            "dov:topic": "opcua/WMTP/WMTP_WMTPMeasurementType/action/SetTriggerSettings",
             "op": "invokeaction"
           }
         ]
@@ -87,7 +86,7 @@
     },
     "properties": {
       "AbsoluteUncertainty": {
-        "aov:namespace": "http://opcfoundation.org/UA/WMTP/",
+        "dov:namespace": "http://opcfoundation.org/UA/WMTP/",
         "type": "number",
         "minimum": -1.80e+308,
         "maximum": 1.80e+308,
@@ -95,18 +94,18 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/WMTP/WMTP_WMTPMeasurementType/property/AbsoluteUncertainty/write",
+            "dov:topic": "opcua/WMTP/WMTP_WMTPMeasurementType/property/AbsoluteUncertainty/write",
             "op": "writeproperty"
           },
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/WMTP/WMTP_WMTPMeasurementType/property/AbsoluteUncertainty/read",
+            "dov:topic": "opcua/WMTP/WMTP_WMTPMeasurementType/property/AbsoluteUncertainty/read",
             "op": "readproperty"
           }
         ]
       },
       "DeltaCondition": {
-        "aov:namespace": "http://opcfoundation.org/UA/WMTP/",
+        "dov:namespace": "http://opcfoundation.org/UA/WMTP/",
         "type": "number",
         "minimum": -1.80e+308,
         "maximum": 1.80e+308,
@@ -114,18 +113,18 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/WMTP/WMTP_WMTPMeasurementType/property/DeltaCondition/write",
+            "dov:topic": "opcua/WMTP/WMTP_WMTPMeasurementType/property/DeltaCondition/write",
             "op": "writeproperty"
           },
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/WMTP/WMTP_WMTPMeasurementType/property/DeltaCondition/read",
+            "dov:topic": "opcua/WMTP/WMTP_WMTPMeasurementType/property/DeltaCondition/read",
             "op": "readproperty"
           }
         ]
       },
       "Index": {
-        "aov:namespace": "http://opcfoundation.org/UA/WMTP/",
+        "dov:namespace": "http://opcfoundation.org/UA/WMTP/",
         "type": "integer",
         "minimum": 0,
         "maximum": 4294967295,
@@ -133,54 +132,54 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/WMTP/WMTP_WMTPMeasurementType/property/Index/write",
+            "dov:topic": "opcua/WMTP/WMTP_WMTPMeasurementType/property/Index/write",
             "op": "writeproperty"
           },
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/WMTP/WMTP_WMTPMeasurementType/property/Index/read",
+            "dov:topic": "opcua/WMTP/WMTP_WMTPMeasurementType/property/Index/read",
             "op": "readproperty"
           }
         ]
       },
       "InternalUpdateInterval": {
-        "aov:namespace": "http://opcfoundation.org/UA/WMTP/",
+        "dov:namespace": "http://opcfoundation.org/UA/WMTP/",
         "type": "string",
         "pattern": "^P(?!$)(?:(?:(?:(?:\\d+Y)|(?:\\d+\\.\\d+Y$))?(?:(?:\\d+M)|(?:\\d+\\.\\d+M$))?)|(?:(?:(?:\\d+W)|(?:\\d+\\.\\d+W$))?))(?:(?:\\d+D)|(?:\\d+\\.\\d+D$))?(?:T(?!$)(?:(?:\\d+H)|(?:\\d+\\.\\d+H$))?(?:(?:\\d+M)|(?:\\d+\\.\\d+M$))?(?:\\d+(?:\\.\\d+)?S)?)?$",
         "readOnly": false,
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/WMTP/WMTP_WMTPMeasurementType/property/InternalUpdateInterval/write",
+            "dov:topic": "opcua/WMTP/WMTP_WMTPMeasurementType/property/InternalUpdateInterval/write",
             "op": "writeproperty"
           },
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/WMTP/WMTP_WMTPMeasurementType/property/InternalUpdateInterval/read",
+            "dov:topic": "opcua/WMTP/WMTP_WMTPMeasurementType/property/InternalUpdateInterval/read",
             "op": "readproperty"
           }
         ]
       },
       "MeasurementPeriod": {
-        "aov:namespace": "http://opcfoundation.org/UA/WMTP/",
+        "dov:namespace": "http://opcfoundation.org/UA/WMTP/",
         "type": "string",
         "pattern": "^P(?!$)(?:(?:(?:(?:\\d+Y)|(?:\\d+\\.\\d+Y$))?(?:(?:\\d+M)|(?:\\d+\\.\\d+M$))?)|(?:(?:(?:\\d+W)|(?:\\d+\\.\\d+W$))?))(?:(?:\\d+D)|(?:\\d+\\.\\d+D$))?(?:T(?!$)(?:(?:\\d+H)|(?:\\d+\\.\\d+H$))?(?:(?:\\d+M)|(?:\\d+\\.\\d+M$))?(?:\\d+(?:\\.\\d+)?S)?)?$",
         "readOnly": false,
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/WMTP/WMTP_WMTPMeasurementType/property/MeasurementPeriod/write",
+            "dov:topic": "opcua/WMTP/WMTP_WMTPMeasurementType/property/MeasurementPeriod/write",
             "op": "writeproperty"
           },
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/WMTP/WMTP_WMTPMeasurementType/property/MeasurementPeriod/read",
+            "dov:topic": "opcua/WMTP/WMTP_WMTPMeasurementType/property/MeasurementPeriod/read",
             "op": "readproperty"
           }
         ]
       },
       "RelativeUncertainty": {
-        "aov:namespace": "http://opcfoundation.org/UA/WMTP/",
+        "dov:namespace": "http://opcfoundation.org/UA/WMTP/",
         "type": "number",
         "minimum": -1.80e+308,
         "maximum": 1.80e+308,
@@ -188,18 +187,18 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/WMTP/WMTP_WMTPMeasurementType/property/RelativeUncertainty/write",
+            "dov:topic": "opcua/WMTP/WMTP_WMTPMeasurementType/property/RelativeUncertainty/write",
             "op": "writeproperty"
           },
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/WMTP/WMTP_WMTPMeasurementType/property/RelativeUncertainty/read",
+            "dov:topic": "opcua/WMTP/WMTP_WMTPMeasurementType/property/RelativeUncertainty/read",
             "op": "readproperty"
           }
         ]
       },
       "Status": {
-        "aov:namespace": "http://opcfoundation.org/UA/Machinery/ProcessValues/",
+        "dov:namespace": "http://opcfoundation.org/UA/Machinery/ProcessValues/",
         "description": "Indicates if a limit has been reached.",
         "type": "integer",
         "minimum": 0,
@@ -208,36 +207,36 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/WMTP/WMTP_WMTPMeasurementType/property/Status/write",
+            "dov:topic": "opcua/WMTP/WMTP_WMTPMeasurementType/property/Status/write",
             "op": "writeproperty"
           },
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/WMTP/WMTP_WMTPMeasurementType/property/Status/read",
+            "dov:topic": "opcua/WMTP/WMTP_WMTPMeasurementType/property/Status/read",
             "op": "readproperty"
           }
         ]
       },
       "Timestamp": {
-        "aov:namespace": "http://opcfoundation.org/UA/WMTP/",
+        "dov:namespace": "http://opcfoundation.org/UA/WMTP/",
         "type": "string",
         "format": "date-time",
         "readOnly": false,
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/WMTP/WMTP_WMTPMeasurementType/property/Timestamp/write",
+            "dov:topic": "opcua/WMTP/WMTP_WMTPMeasurementType/property/Timestamp/write",
             "op": "writeproperty"
           },
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/WMTP/WMTP_WMTPMeasurementType/property/Timestamp/read",
+            "dov:topic": "opcua/WMTP/WMTP_WMTPMeasurementType/property/Timestamp/read",
             "op": "readproperty"
           }
         ]
       },
       "TriggerSettings": {
-        "aov:namespace": "http://opcfoundation.org/UA/WMTP/",
+        "dov:namespace": "http://opcfoundation.org/UA/WMTP/",
         "type": "integer",
         "minimum": 0,
         "maximum": 4294967295,
@@ -245,18 +244,18 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/WMTP/WMTP_WMTPMeasurementType/property/TriggerSettings/write",
+            "dov:topic": "opcua/WMTP/WMTP_WMTPMeasurementType/property/TriggerSettings/write",
             "op": "writeproperty"
           },
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/WMTP/WMTP_WMTPMeasurementType/property/TriggerSettings/read",
+            "dov:topic": "opcua/WMTP/WMTP_WMTPMeasurementType/property/TriggerSettings/read",
             "op": "readproperty"
           }
         ]
       },
       "TypeOfMeasurement": {
-        "aov:namespace": "http://opcfoundation.org/UA/WMTP/",
+        "dov:namespace": "http://opcfoundation.org/UA/WMTP/",
         "type": "integer",
         "minimum": 0,
         "maximum": 4294967295,
@@ -264,18 +263,18 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/WMTP/WMTP_WMTPMeasurementType/property/TypeOfMeasurement/write",
+            "dov:topic": "opcua/WMTP/WMTP_WMTPMeasurementType/property/TypeOfMeasurement/write",
             "op": "writeproperty"
           },
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/WMTP/WMTP_WMTPMeasurementType/property/TypeOfMeasurement/read",
+            "dov:topic": "opcua/WMTP/WMTP_WMTPMeasurementType/property/TypeOfMeasurement/read",
             "op": "readproperty"
           }
         ]
       },
       "TypeOfSample": {
-        "aov:namespace": "http://opcfoundation.org/UA/WMTP/",
+        "dov:namespace": "http://opcfoundation.org/UA/WMTP/",
         "type": "integer",
         "minimum": 0,
         "maximum": 4294967295,
@@ -283,12 +282,12 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/WMTP/WMTP_WMTPMeasurementType/property/TypeOfSample/write",
+            "dov:topic": "opcua/WMTP/WMTP_WMTPMeasurementType/property/TypeOfSample/write",
             "op": "writeproperty"
           },
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/WMTP/WMTP_WMTPMeasurementType/property/TypeOfSample/read",
+            "dov:topic": "opcua/WMTP/WMTP_WMTPMeasurementType/property/TypeOfSample/read",
             "op": "readproperty"
           }
         ]
@@ -296,7 +295,7 @@
     },
     "events": {
       "AbsoluteUncertainty": {
-        "aov:namespace": "http://opcfoundation.org/UA/WMTP/",
+        "dov:namespace": "http://opcfoundation.org/UA/WMTP/",
         "data": {
           "type": "number",
           "minimum": -1.80e+308,
@@ -305,13 +304,13 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/WMTP/WMTP_WMTPMeasurementType/event/AbsoluteUncertainty/{senderId}",
+            "dov:topic": "opcua/WMTP/WMTP_WMTPMeasurementType/event/AbsoluteUncertainty/{senderId}",
             "op": "subscribeevent"
           }
         ]
       },
       "DeltaCondition": {
-        "aov:namespace": "http://opcfoundation.org/UA/WMTP/",
+        "dov:namespace": "http://opcfoundation.org/UA/WMTP/",
         "data": {
           "type": "number",
           "minimum": -1.80e+308,
@@ -320,13 +319,13 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/WMTP/WMTP_WMTPMeasurementType/event/DeltaCondition/{senderId}",
+            "dov:topic": "opcua/WMTP/WMTP_WMTPMeasurementType/event/DeltaCondition/{senderId}",
             "op": "subscribeevent"
           }
         ]
       },
       "RelativeUncertainty": {
-        "aov:namespace": "http://opcfoundation.org/UA/WMTP/",
+        "dov:namespace": "http://opcfoundation.org/UA/WMTP/",
         "data": {
           "type": "number",
           "minimum": -1.80e+308,
@@ -335,13 +334,13 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/WMTP/WMTP_WMTPMeasurementType/event/RelativeUncertainty/{senderId}",
+            "dov:topic": "opcua/WMTP/WMTP_WMTPMeasurementType/event/RelativeUncertainty/{senderId}",
             "op": "subscribeevent"
           }
         ]
       },
       "Status": {
-        "aov:namespace": "http://opcfoundation.org/UA/Machinery/ProcessValues/",
+        "dov:namespace": "http://opcfoundation.org/UA/Machinery/ProcessValues/",
         "data": {
           "description": "Indicates if a limit has been reached.",
           "type": "integer",
@@ -351,13 +350,13 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/WMTP/WMTP_WMTPMeasurementType/event/Status/{senderId}",
+            "dov:topic": "opcua/WMTP/WMTP_WMTPMeasurementType/event/Status/{senderId}",
             "op": "subscribeevent"
           }
         ]
       },
       "TriggerSettings": {
-        "aov:namespace": "http://opcfoundation.org/UA/WMTP/",
+        "dov:namespace": "http://opcfoundation.org/UA/WMTP/",
         "data": {
           "type": "integer",
           "minimum": 0,
@@ -366,13 +365,13 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/WMTP/WMTP_WMTPMeasurementType/event/TriggerSettings/{senderId}",
+            "dov:topic": "opcua/WMTP/WMTP_WMTPMeasurementType/event/TriggerSettings/{senderId}",
             "op": "subscribeevent"
           }
         ]
       },
       "TypeOfMeasurement": {
-        "aov:namespace": "http://opcfoundation.org/UA/WMTP/",
+        "dov:namespace": "http://opcfoundation.org/UA/WMTP/",
         "data": {
           "type": "integer",
           "minimum": 0,
@@ -381,13 +380,13 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/WMTP/WMTP_WMTPMeasurementType/event/TypeOfMeasurement/{senderId}",
+            "dov:topic": "opcua/WMTP/WMTP_WMTPMeasurementType/event/TypeOfMeasurement/{senderId}",
             "op": "subscribeevent"
           }
         ]
       },
       "TypeOfSample": {
-        "aov:namespace": "http://opcfoundation.org/UA/WMTP/",
+        "dov:namespace": "http://opcfoundation.org/UA/WMTP/",
         "data": {
           "type": "integer",
           "minimum": 0,
@@ -396,7 +395,7 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/WMTP/WMTP_WMTPMeasurementType/event/TypeOfSample/{senderId}",
+            "dov:topic": "opcua/WMTP/WMTP_WMTPMeasurementType/event/TypeOfSample/{senderId}",
             "op": "subscribeevent"
           }
         ]
@@ -407,14 +406,13 @@
     "@context": [
       "https://www.w3.org/2022/wot/td/v1.1",
       {
-        "dtv": "http://azure.com/DigitalTwins/dtmi#",
-        "aov": "http://azure.com/IoT/operations/tm#"
+        "dov": "http://azure.com/DigitalOperations/vocab#"
       }
     ],
     "@type": "tm:ThingModel",
     "title": "WMTP_WirelessMachineToolPeripheralType",
-    "aov:typeRef": "nsu=http://opcfoundation.org/UA/WMTP/;i=1003",
-    "aov:isComposite": true,
+    "dov:typeRef": "nsu=http://opcfoundation.org/UA/WMTP/;i=1003",
+    "dov:isComposite": true,
     "links": [
       {
         "rel": "tm:extends",
@@ -422,38 +420,38 @@
         "type": "application/tm+json"
       },
       {
-        "rel": "aov:component",
-        "aov:refName": "DeviceConfiguration",
+        "rel": "dov:component",
+        "dov:refName": "DeviceConfiguration",
         "href": "./OpcUaCore.TM.json#title=OpcUaCore_FolderType",
         "type": "application/tm+json"
       },
       {
-        "rel": "aov:component",
-        "aov:refName": "DeviceInformation",
+        "rel": "dov:component",
+        "dov:refName": "DeviceInformation",
         "href": "./OpcUaCore.TM.json#title=OpcUaCore_FolderType",
         "type": "application/tm+json"
       },
       {
-        "rel": "aov:component",
-        "aov:refName": "MachineryBuildingBlocks",
+        "rel": "dov:component",
+        "dov:refName": "MachineryBuildingBlocks",
         "href": "./OpcUaCore.TM.json#title=OpcUaCore_FolderType",
         "type": "application/tm+json"
       },
       {
-        "rel": "aov:component",
-        "aov:refName": "Measurements",
+        "rel": "dov:component",
+        "dov:refName": "Measurements",
         "href": "./OpcUaCore.TM.json#title=OpcUaCore_FolderType",
         "type": "application/tm+json"
       },
       {
-        "rel": "aov:reference",
-        "aov:refName": "WMTPServiceCycleData",
+        "rel": "dov:reference",
+        "dov:refName": "WMTPServiceCycleData",
         "href": "#title=WMTP_WMTPServiceCycleDataType",
         "type": "application/tm+json"
       },
       {
-        "rel": "aov:reference",
-        "aov:refName": "WMTPWorkCycleData",
+        "rel": "dov:reference",
+        "dov:refName": "WMTPWorkCycleData",
         "href": "#title=WMTP_WMTPWorkCycleDataType",
         "type": "application/tm+json"
       }
@@ -471,13 +469,12 @@
     "@context": [
       "https://www.w3.org/2022/wot/td/v1.1",
       {
-        "dtv": "http://azure.com/DigitalTwins/dtmi#",
-        "aov": "http://azure.com/IoT/operations/tm#"
+        "dov": "http://azure.com/DigitalOperations/vocab#"
       }
     ],
     "@type": "tm:ThingModel",
     "title": "WMTP_WMTPServiceCycleDataType",
-    "aov:typeRef": "nsu=http://opcfoundation.org/UA/WMTP/;i=1007",
+    "dov:typeRef": "nsu=http://opcfoundation.org/UA/WMTP/;i=1007",
     "links": [
       {
         "rel": "tm:extends",
@@ -489,20 +486,20 @@
     },
     "actions": {
       "AbortOperation": {
-        "aov:namespace": "http://opcfoundation.org/UA/WMTP/",
+        "dov:namespace": "http://opcfoundation.org/UA/WMTP/",
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/WMTP/WMTP_WMTPServiceCycleDataType/action/AbortOperation",
+            "dov:topic": "opcua/WMTP/WMTP_WMTPServiceCycleDataType/action/AbortOperation",
             "op": "invokeaction"
           }
         ]
       },
       "CombinedReportAll": {
-        "aov:namespace": "http://opcfoundation.org/UA/WMTP/",
+        "dov:namespace": "http://opcfoundation.org/UA/WMTP/",
         "output": {
           "type": "object",
-          "aov:typeRef": "nsu=http://opcfoundation.org/UA/WMTP/;i=6241",
+          "dov:typeRef": "nsu=http://opcfoundation.org/UA/WMTP/;i=6241",
           "required": [ "CombinedReport" ],
           "properties": {
             "CombinedReport": {
@@ -510,13 +507,13 @@
               "items": {
                 "title": "WMTPOutputDataType",
                 "type": "object",
-                "aov:typeRef": "nsu=http://opcfoundation.org/UA/WMTP/;i=3003",
+                "dov:typeRef": "nsu=http://opcfoundation.org/UA/WMTP/;i=3003",
                 "required": [ "EngineeringUnits", "ActualValue", "TypeOfMeasurement", "TypeOfSample", "InstrumentRange", "EURange", "ValuePrecision", "Definition", "SignalTag", "RelativeUncertainty", "AbsoluteUncertainty", "Timestamp", "Index", "MeasurementPeriod", "InternalUpdateInterval" ],
                 "properties": {
                   "EngineeringUnits": {
                     "title": "EUInformation",
                     "type": "object",
-                    "aov:typeRef": "nsu=http://opcfoundation.org/UA/;i=887",
+                    "dov:typeRef": "nsu=http://opcfoundation.org/UA/;i=887",
                     "required": [ "NamespaceUri", "UnitId", "DisplayName", "Description" ],
                     "properties": {
                       "NamespaceUri": {
@@ -553,7 +550,7 @@
                   "InstrumentRange": {
                     "title": "Range",
                     "type": "object",
-                    "aov:typeRef": "nsu=http://opcfoundation.org/UA/;i=884",
+                    "dov:typeRef": "nsu=http://opcfoundation.org/UA/;i=884",
                     "required": [ "Low", "High" ],
                     "properties": {
                       "Low": {
@@ -571,7 +568,7 @@
                   "EURange": {
                     "title": "Range",
                     "type": "object",
-                    "aov:typeRef": "nsu=http://opcfoundation.org/UA/;i=884",
+                    "dov:typeRef": "nsu=http://opcfoundation.org/UA/;i=884",
                     "required": [ "Low", "High" ],
                     "properties": {
                       "Low": {
@@ -632,28 +629,28 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/WMTP/WMTP_WMTPServiceCycleDataType/action/CombinedReportAll",
+            "dov:topic": "opcua/WMTP/WMTP_WMTPServiceCycleDataType/action/CombinedReportAll",
             "op": "invokeaction"
           }
         ]
       },
       "CombinedReportFirstValue": {
-        "aov:namespace": "http://opcfoundation.org/UA/WMTP/",
+        "dov:namespace": "http://opcfoundation.org/UA/WMTP/",
         "output": {
           "type": "object",
-          "aov:typeRef": "nsu=http://opcfoundation.org/UA/WMTP/;i=6246",
+          "dov:typeRef": "nsu=http://opcfoundation.org/UA/WMTP/;i=6246",
           "required": [ "CombinedReport" ],
           "properties": {
             "CombinedReport": {
               "title": "WMTPOutputDataType",
               "type": "object",
-              "aov:typeRef": "nsu=http://opcfoundation.org/UA/WMTP/;i=3003",
+              "dov:typeRef": "nsu=http://opcfoundation.org/UA/WMTP/;i=3003",
               "required": [ "EngineeringUnits", "ActualValue", "TypeOfMeasurement", "TypeOfSample", "InstrumentRange", "EURange", "ValuePrecision", "Definition", "SignalTag", "RelativeUncertainty", "AbsoluteUncertainty", "Timestamp", "Index", "MeasurementPeriod", "InternalUpdateInterval" ],
               "properties": {
                 "EngineeringUnits": {
                   "title": "EUInformation",
                   "type": "object",
-                  "aov:typeRef": "nsu=http://opcfoundation.org/UA/;i=887",
+                  "dov:typeRef": "nsu=http://opcfoundation.org/UA/;i=887",
                   "required": [ "NamespaceUri", "UnitId", "DisplayName", "Description" ],
                   "properties": {
                     "NamespaceUri": {
@@ -690,7 +687,7 @@
                 "InstrumentRange": {
                   "title": "Range",
                   "type": "object",
-                  "aov:typeRef": "nsu=http://opcfoundation.org/UA/;i=884",
+                  "dov:typeRef": "nsu=http://opcfoundation.org/UA/;i=884",
                   "required": [ "Low", "High" ],
                   "properties": {
                     "Low": {
@@ -708,7 +705,7 @@
                 "EURange": {
                   "title": "Range",
                   "type": "object",
-                  "aov:typeRef": "nsu=http://opcfoundation.org/UA/;i=884",
+                  "dov:typeRef": "nsu=http://opcfoundation.org/UA/;i=884",
                   "required": [ "Low", "High" ],
                   "properties": {
                     "Low": {
@@ -768,16 +765,16 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/WMTP/WMTP_WMTPServiceCycleDataType/action/CombinedReportFirstValue",
+            "dov:topic": "opcua/WMTP/WMTP_WMTPServiceCycleDataType/action/CombinedReportFirstValue",
             "op": "invokeaction"
           }
         ]
       },
       "CombinedReportIndex": {
-        "aov:namespace": "http://opcfoundation.org/UA/WMTP/",
+        "dov:namespace": "http://opcfoundation.org/UA/WMTP/",
         "input": {
           "type": "object",
-          "aov:typeRef": "nsu=http://opcfoundation.org/UA/WMTP/;i=6243",
+          "dov:typeRef": "nsu=http://opcfoundation.org/UA/WMTP/;i=6243",
           "required": [ "FromIndex", "ToIndex" ],
           "properties": {
             "FromIndex": {
@@ -794,7 +791,7 @@
         },
         "output": {
           "type": "object",
-          "aov:typeRef": "nsu=http://opcfoundation.org/UA/WMTP/;i=6244",
+          "dov:typeRef": "nsu=http://opcfoundation.org/UA/WMTP/;i=6244",
           "required": [ "CombinedReport" ],
           "properties": {
             "CombinedReport": {
@@ -802,13 +799,13 @@
               "items": {
                 "title": "WMTPOutputDataType",
                 "type": "object",
-                "aov:typeRef": "nsu=http://opcfoundation.org/UA/WMTP/;i=3003",
+                "dov:typeRef": "nsu=http://opcfoundation.org/UA/WMTP/;i=3003",
                 "required": [ "EngineeringUnits", "ActualValue", "TypeOfMeasurement", "TypeOfSample", "InstrumentRange", "EURange", "ValuePrecision", "Definition", "SignalTag", "RelativeUncertainty", "AbsoluteUncertainty", "Timestamp", "Index", "MeasurementPeriod", "InternalUpdateInterval" ],
                 "properties": {
                   "EngineeringUnits": {
                     "title": "EUInformation",
                     "type": "object",
-                    "aov:typeRef": "nsu=http://opcfoundation.org/UA/;i=887",
+                    "dov:typeRef": "nsu=http://opcfoundation.org/UA/;i=887",
                     "required": [ "NamespaceUri", "UnitId", "DisplayName", "Description" ],
                     "properties": {
                       "NamespaceUri": {
@@ -845,7 +842,7 @@
                   "InstrumentRange": {
                     "title": "Range",
                     "type": "object",
-                    "aov:typeRef": "nsu=http://opcfoundation.org/UA/;i=884",
+                    "dov:typeRef": "nsu=http://opcfoundation.org/UA/;i=884",
                     "required": [ "Low", "High" ],
                     "properties": {
                       "Low": {
@@ -863,7 +860,7 @@
                   "EURange": {
                     "title": "Range",
                     "type": "object",
-                    "aov:typeRef": "nsu=http://opcfoundation.org/UA/;i=884",
+                    "dov:typeRef": "nsu=http://opcfoundation.org/UA/;i=884",
                     "required": [ "Low", "High" ],
                     "properties": {
                       "Low": {
@@ -924,28 +921,28 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/WMTP/WMTP_WMTPServiceCycleDataType/action/CombinedReportIndex",
+            "dov:topic": "opcua/WMTP/WMTP_WMTPServiceCycleDataType/action/CombinedReportIndex",
             "op": "invokeaction"
           }
         ]
       },
       "CombinedReportLastValue": {
-        "aov:namespace": "http://opcfoundation.org/UA/WMTP/",
+        "dov:namespace": "http://opcfoundation.org/UA/WMTP/",
         "output": {
           "type": "object",
-          "aov:typeRef": "nsu=http://opcfoundation.org/UA/WMTP/;i=6245",
+          "dov:typeRef": "nsu=http://opcfoundation.org/UA/WMTP/;i=6245",
           "required": [ "CombinedReport" ],
           "properties": {
             "CombinedReport": {
               "title": "WMTPOutputDataType",
               "type": "object",
-              "aov:typeRef": "nsu=http://opcfoundation.org/UA/WMTP/;i=3003",
+              "dov:typeRef": "nsu=http://opcfoundation.org/UA/WMTP/;i=3003",
               "required": [ "EngineeringUnits", "ActualValue", "TypeOfMeasurement", "TypeOfSample", "InstrumentRange", "EURange", "ValuePrecision", "Definition", "SignalTag", "RelativeUncertainty", "AbsoluteUncertainty", "Timestamp", "Index", "MeasurementPeriod", "InternalUpdateInterval" ],
               "properties": {
                 "EngineeringUnits": {
                   "title": "EUInformation",
                   "type": "object",
-                  "aov:typeRef": "nsu=http://opcfoundation.org/UA/;i=887",
+                  "dov:typeRef": "nsu=http://opcfoundation.org/UA/;i=887",
                   "required": [ "NamespaceUri", "UnitId", "DisplayName", "Description" ],
                   "properties": {
                     "NamespaceUri": {
@@ -982,7 +979,7 @@
                 "InstrumentRange": {
                   "title": "Range",
                   "type": "object",
-                  "aov:typeRef": "nsu=http://opcfoundation.org/UA/;i=884",
+                  "dov:typeRef": "nsu=http://opcfoundation.org/UA/;i=884",
                   "required": [ "Low", "High" ],
                   "properties": {
                     "Low": {
@@ -1000,7 +997,7 @@
                 "EURange": {
                   "title": "Range",
                   "type": "object",
-                  "aov:typeRef": "nsu=http://opcfoundation.org/UA/;i=884",
+                  "dov:typeRef": "nsu=http://opcfoundation.org/UA/;i=884",
                   "required": [ "Low", "High" ],
                   "properties": {
                     "Low": {
@@ -1060,16 +1057,16 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/WMTP/WMTP_WMTPServiceCycleDataType/action/CombinedReportLastValue",
+            "dov:topic": "opcua/WMTP/WMTP_WMTPServiceCycleDataType/action/CombinedReportLastValue",
             "op": "invokeaction"
           }
         ]
       },
       "CombinedReportTime": {
-        "aov:namespace": "http://opcfoundation.org/UA/WMTP/",
+        "dov:namespace": "http://opcfoundation.org/UA/WMTP/",
         "input": {
           "type": "object",
-          "aov:typeRef": "nsu=http://opcfoundation.org/UA/WMTP/;i=6247",
+          "dov:typeRef": "nsu=http://opcfoundation.org/UA/WMTP/;i=6247",
           "required": [ "FromTimestamp", "ToTimestamp" ],
           "properties": {
             "FromTimestamp": {
@@ -1084,7 +1081,7 @@
         },
         "output": {
           "type": "object",
-          "aov:typeRef": "nsu=http://opcfoundation.org/UA/WMTP/;i=6248",
+          "dov:typeRef": "nsu=http://opcfoundation.org/UA/WMTP/;i=6248",
           "required": [ "CombinedReport" ],
           "properties": {
             "CombinedReport": {
@@ -1092,13 +1089,13 @@
               "items": {
                 "title": "WMTPOutputDataType",
                 "type": "object",
-                "aov:typeRef": "nsu=http://opcfoundation.org/UA/WMTP/;i=3003",
+                "dov:typeRef": "nsu=http://opcfoundation.org/UA/WMTP/;i=3003",
                 "required": [ "EngineeringUnits", "ActualValue", "TypeOfMeasurement", "TypeOfSample", "InstrumentRange", "EURange", "ValuePrecision", "Definition", "SignalTag", "RelativeUncertainty", "AbsoluteUncertainty", "Timestamp", "Index", "MeasurementPeriod", "InternalUpdateInterval" ],
                 "properties": {
                   "EngineeringUnits": {
                     "title": "EUInformation",
                     "type": "object",
-                    "aov:typeRef": "nsu=http://opcfoundation.org/UA/;i=887",
+                    "dov:typeRef": "nsu=http://opcfoundation.org/UA/;i=887",
                     "required": [ "NamespaceUri", "UnitId", "DisplayName", "Description" ],
                     "properties": {
                       "NamespaceUri": {
@@ -1135,7 +1132,7 @@
                   "InstrumentRange": {
                     "title": "Range",
                     "type": "object",
-                    "aov:typeRef": "nsu=http://opcfoundation.org/UA/;i=884",
+                    "dov:typeRef": "nsu=http://opcfoundation.org/UA/;i=884",
                     "required": [ "Low", "High" ],
                     "properties": {
                       "Low": {
@@ -1153,7 +1150,7 @@
                   "EURange": {
                     "title": "Range",
                     "type": "object",
-                    "aov:typeRef": "nsu=http://opcfoundation.org/UA/;i=884",
+                    "dov:typeRef": "nsu=http://opcfoundation.org/UA/;i=884",
                     "required": [ "Low", "High" ],
                     "properties": {
                       "Low": {
@@ -1214,16 +1211,16 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/WMTP/WMTP_WMTPServiceCycleDataType/action/CombinedReportTime",
+            "dov:topic": "opcua/WMTP/WMTP_WMTPServiceCycleDataType/action/CombinedReportTime",
             "op": "invokeaction"
           }
         ]
       },
       "DeleteAllStoredRecords": {
-        "aov:namespace": "http://opcfoundation.org/UA/WMTP/",
+        "dov:namespace": "http://opcfoundation.org/UA/WMTP/",
         "output": {
           "type": "object",
-          "aov:typeRef": "nsu=http://opcfoundation.org/UA/WMTP/;i=6164",
+          "dov:typeRef": "nsu=http://opcfoundation.org/UA/WMTP/;i=6164",
           "required": [ "DeleteAllStoredRecordsSuccessfull" ],
           "properties": {
             "DeleteAllStoredRecordsSuccessfull": {
@@ -1234,16 +1231,16 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/WMTP/WMTP_WMTPServiceCycleDataType/action/DeleteAllStoredRecords",
+            "dov:topic": "opcua/WMTP/WMTP_WMTPServiceCycleDataType/action/DeleteAllStoredRecords",
             "op": "invokeaction"
           }
         ]
       },
       "DeleteStoredRecordsIndex": {
-        "aov:namespace": "http://opcfoundation.org/UA/WMTP/",
+        "dov:namespace": "http://opcfoundation.org/UA/WMTP/",
         "input": {
           "type": "object",
-          "aov:typeRef": "nsu=http://opcfoundation.org/UA/WMTP/;i=6170",
+          "dov:typeRef": "nsu=http://opcfoundation.org/UA/WMTP/;i=6170",
           "required": [ "FromIndex", "ToIndex" ],
           "properties": {
             "FromIndex": {
@@ -1261,16 +1258,16 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/WMTP/WMTP_WMTPServiceCycleDataType/action/DeleteStoredRecordsIndex",
+            "dov:topic": "opcua/WMTP/WMTP_WMTPServiceCycleDataType/action/DeleteStoredRecordsIndex",
             "op": "invokeaction"
           }
         ]
       },
       "DeleteStoredRecordsTime": {
-        "aov:namespace": "http://opcfoundation.org/UA/WMTP/",
+        "dov:namespace": "http://opcfoundation.org/UA/WMTP/",
         "input": {
           "type": "object",
-          "aov:typeRef": "nsu=http://opcfoundation.org/UA/WMTP/;i=6166",
+          "dov:typeRef": "nsu=http://opcfoundation.org/UA/WMTP/;i=6166",
           "required": [ "FromTimestamp", "ToTimestamp" ],
           "properties": {
             "FromTimestamp": {
@@ -1286,16 +1283,16 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/WMTP/WMTP_WMTPServiceCycleDataType/action/DeleteStoredRecordsTime",
+            "dov:topic": "opcua/WMTP/WMTP_WMTPServiceCycleDataType/action/DeleteStoredRecordsTime",
             "op": "invokeaction"
           }
         ]
       },
       "ReportNumberOfStoredRecords": {
-        "aov:namespace": "http://opcfoundation.org/UA/WMTP/",
+        "dov:namespace": "http://opcfoundation.org/UA/WMTP/",
         "output": {
           "type": "object",
-          "aov:typeRef": "nsu=http://opcfoundation.org/UA/WMTP/;i=6174",
+          "dov:typeRef": "nsu=http://opcfoundation.org/UA/WMTP/;i=6174",
           "required": [ "NumberOfStoredRecords" ],
           "properties": {
             "NumberOfStoredRecords": {
@@ -1308,16 +1305,16 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/WMTP/WMTP_WMTPServiceCycleDataType/action/ReportNumberOfStoredRecords",
+            "dov:topic": "opcua/WMTP/WMTP_WMTPServiceCycleDataType/action/ReportNumberOfStoredRecords",
             "op": "invokeaction"
           }
         ]
       },
       "ReportNumberOfStoredRecordsTime": {
-        "aov:namespace": "http://opcfoundation.org/UA/WMTP/",
+        "dov:namespace": "http://opcfoundation.org/UA/WMTP/",
         "input": {
           "type": "object",
-          "aov:typeRef": "nsu=http://opcfoundation.org/UA/WMTP/;i=6178",
+          "dov:typeRef": "nsu=http://opcfoundation.org/UA/WMTP/;i=6178",
           "required": [ "FromTimestamp", "ToTimestamp" ],
           "properties": {
             "FromTimestamp": {
@@ -1332,7 +1329,7 @@
         },
         "output": {
           "type": "object",
-          "aov:typeRef": "nsu=http://opcfoundation.org/UA/WMTP/;i=6179",
+          "dov:typeRef": "nsu=http://opcfoundation.org/UA/WMTP/;i=6179",
           "required": [ "NumberOfStoredRecords" ],
           "properties": {
             "NumberOfStoredRecords": {
@@ -1345,7 +1342,7 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/WMTP/WMTP_WMTPServiceCycleDataType/action/ReportNumberOfStoredRecordsTime",
+            "dov:topic": "opcua/WMTP/WMTP_WMTPServiceCycleDataType/action/ReportNumberOfStoredRecordsTime",
             "op": "invokeaction"
           }
         ]
@@ -1360,13 +1357,12 @@
     "@context": [
       "https://www.w3.org/2022/wot/td/v1.1",
       {
-        "dtv": "http://azure.com/DigitalTwins/dtmi#",
-        "aov": "http://azure.com/IoT/operations/tm#"
+        "dov": "http://azure.com/DigitalOperations/vocab#"
       }
     ],
     "@type": "tm:ThingModel",
     "title": "WMTP_WMTPWorkCycleDataType",
-    "aov:typeRef": "nsu=http://opcfoundation.org/UA/WMTP/;i=1004",
+    "dov:typeRef": "nsu=http://opcfoundation.org/UA/WMTP/;i=1004",
     "links": [
       {
         "rel": "tm:extends",
@@ -1378,32 +1374,32 @@
     },
     "actions": {
       "AbortOperation": {
-        "aov:namespace": "http://opcfoundation.org/UA/WMTP/",
+        "dov:namespace": "http://opcfoundation.org/UA/WMTP/",
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/WMTP/WMTP_WMTPWorkCycleDataType/action/AbortOperation",
+            "dov:topic": "opcua/WMTP/WMTP_WMTPWorkCycleDataType/action/AbortOperation",
             "op": "invokeaction"
           }
         ]
       },
       "CombinedReportAll": {
-        "aov:namespace": "http://opcfoundation.org/UA/WMTP/",
+        "dov:namespace": "http://opcfoundation.org/UA/WMTP/",
         "output": {
           "type": "object",
-          "aov:typeRef": "nsu=http://opcfoundation.org/UA/WMTP/;i=6233",
+          "dov:typeRef": "nsu=http://opcfoundation.org/UA/WMTP/;i=6233",
           "required": [ "CombinedReport" ],
           "properties": {
             "CombinedReport": {
               "title": "WMTPOutputDataType",
               "type": "object",
-              "aov:typeRef": "nsu=http://opcfoundation.org/UA/WMTP/;i=3003",
+              "dov:typeRef": "nsu=http://opcfoundation.org/UA/WMTP/;i=3003",
               "required": [ "EngineeringUnits", "ActualValue", "TypeOfMeasurement", "TypeOfSample", "InstrumentRange", "EURange", "ValuePrecision", "Definition", "SignalTag", "RelativeUncertainty", "AbsoluteUncertainty", "Timestamp", "Index", "MeasurementPeriod", "InternalUpdateInterval" ],
               "properties": {
                 "EngineeringUnits": {
                   "title": "EUInformation",
                   "type": "object",
-                  "aov:typeRef": "nsu=http://opcfoundation.org/UA/;i=887",
+                  "dov:typeRef": "nsu=http://opcfoundation.org/UA/;i=887",
                   "required": [ "NamespaceUri", "UnitId", "DisplayName", "Description" ],
                   "properties": {
                     "NamespaceUri": {
@@ -1440,7 +1436,7 @@
                 "InstrumentRange": {
                   "title": "Range",
                   "type": "object",
-                  "aov:typeRef": "nsu=http://opcfoundation.org/UA/;i=884",
+                  "dov:typeRef": "nsu=http://opcfoundation.org/UA/;i=884",
                   "required": [ "Low", "High" ],
                   "properties": {
                     "Low": {
@@ -1458,7 +1454,7 @@
                 "EURange": {
                   "title": "Range",
                   "type": "object",
-                  "aov:typeRef": "nsu=http://opcfoundation.org/UA/;i=884",
+                  "dov:typeRef": "nsu=http://opcfoundation.org/UA/;i=884",
                   "required": [ "Low", "High" ],
                   "properties": {
                     "Low": {
@@ -1518,28 +1514,28 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/WMTP/WMTP_WMTPWorkCycleDataType/action/CombinedReportAll",
+            "dov:topic": "opcua/WMTP/WMTP_WMTPWorkCycleDataType/action/CombinedReportAll",
             "op": "invokeaction"
           }
         ]
       },
       "CombinedReportFirstValue": {
-        "aov:namespace": "http://opcfoundation.org/UA/WMTP/",
+        "dov:namespace": "http://opcfoundation.org/UA/WMTP/",
         "output": {
           "type": "object",
-          "aov:typeRef": "nsu=http://opcfoundation.org/UA/WMTP/;i=6240",
+          "dov:typeRef": "nsu=http://opcfoundation.org/UA/WMTP/;i=6240",
           "required": [ "CombinedReport" ],
           "properties": {
             "CombinedReport": {
               "title": "WMTPOutputDataType",
               "type": "object",
-              "aov:typeRef": "nsu=http://opcfoundation.org/UA/WMTP/;i=3003",
+              "dov:typeRef": "nsu=http://opcfoundation.org/UA/WMTP/;i=3003",
               "required": [ "EngineeringUnits", "ActualValue", "TypeOfMeasurement", "TypeOfSample", "InstrumentRange", "EURange", "ValuePrecision", "Definition", "SignalTag", "RelativeUncertainty", "AbsoluteUncertainty", "Timestamp", "Index", "MeasurementPeriod", "InternalUpdateInterval" ],
               "properties": {
                 "EngineeringUnits": {
                   "title": "EUInformation",
                   "type": "object",
-                  "aov:typeRef": "nsu=http://opcfoundation.org/UA/;i=887",
+                  "dov:typeRef": "nsu=http://opcfoundation.org/UA/;i=887",
                   "required": [ "NamespaceUri", "UnitId", "DisplayName", "Description" ],
                   "properties": {
                     "NamespaceUri": {
@@ -1576,7 +1572,7 @@
                 "InstrumentRange": {
                   "title": "Range",
                   "type": "object",
-                  "aov:typeRef": "nsu=http://opcfoundation.org/UA/;i=884",
+                  "dov:typeRef": "nsu=http://opcfoundation.org/UA/;i=884",
                   "required": [ "Low", "High" ],
                   "properties": {
                     "Low": {
@@ -1594,7 +1590,7 @@
                 "EURange": {
                   "title": "Range",
                   "type": "object",
-                  "aov:typeRef": "nsu=http://opcfoundation.org/UA/;i=884",
+                  "dov:typeRef": "nsu=http://opcfoundation.org/UA/;i=884",
                   "required": [ "Low", "High" ],
                   "properties": {
                     "Low": {
@@ -1654,16 +1650,16 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/WMTP/WMTP_WMTPWorkCycleDataType/action/CombinedReportFirstValue",
+            "dov:topic": "opcua/WMTP/WMTP_WMTPWorkCycleDataType/action/CombinedReportFirstValue",
             "op": "invokeaction"
           }
         ]
       },
       "CombinedReportIndex": {
-        "aov:namespace": "http://opcfoundation.org/UA/WMTP/",
+        "dov:namespace": "http://opcfoundation.org/UA/WMTP/",
         "input": {
           "type": "object",
-          "aov:typeRef": "nsu=http://opcfoundation.org/UA/WMTP/;i=6235",
+          "dov:typeRef": "nsu=http://opcfoundation.org/UA/WMTP/;i=6235",
           "required": [ "FromIndex", "ToIndex" ],
           "properties": {
             "FromIndex": {
@@ -1680,19 +1676,19 @@
         },
         "output": {
           "type": "object",
-          "aov:typeRef": "nsu=http://opcfoundation.org/UA/WMTP/;i=6236",
+          "dov:typeRef": "nsu=http://opcfoundation.org/UA/WMTP/;i=6236",
           "required": [ "CombinedReport" ],
           "properties": {
             "CombinedReport": {
               "title": "WMTPOutputDataType",
               "type": "object",
-              "aov:typeRef": "nsu=http://opcfoundation.org/UA/WMTP/;i=3003",
+              "dov:typeRef": "nsu=http://opcfoundation.org/UA/WMTP/;i=3003",
               "required": [ "EngineeringUnits", "ActualValue", "TypeOfMeasurement", "TypeOfSample", "InstrumentRange", "EURange", "ValuePrecision", "Definition", "SignalTag", "RelativeUncertainty", "AbsoluteUncertainty", "Timestamp", "Index", "MeasurementPeriod", "InternalUpdateInterval" ],
               "properties": {
                 "EngineeringUnits": {
                   "title": "EUInformation",
                   "type": "object",
-                  "aov:typeRef": "nsu=http://opcfoundation.org/UA/;i=887",
+                  "dov:typeRef": "nsu=http://opcfoundation.org/UA/;i=887",
                   "required": [ "NamespaceUri", "UnitId", "DisplayName", "Description" ],
                   "properties": {
                     "NamespaceUri": {
@@ -1729,7 +1725,7 @@
                 "InstrumentRange": {
                   "title": "Range",
                   "type": "object",
-                  "aov:typeRef": "nsu=http://opcfoundation.org/UA/;i=884",
+                  "dov:typeRef": "nsu=http://opcfoundation.org/UA/;i=884",
                   "required": [ "Low", "High" ],
                   "properties": {
                     "Low": {
@@ -1747,7 +1743,7 @@
                 "EURange": {
                   "title": "Range",
                   "type": "object",
-                  "aov:typeRef": "nsu=http://opcfoundation.org/UA/;i=884",
+                  "dov:typeRef": "nsu=http://opcfoundation.org/UA/;i=884",
                   "required": [ "Low", "High" ],
                   "properties": {
                     "Low": {
@@ -1807,28 +1803,28 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/WMTP/WMTP_WMTPWorkCycleDataType/action/CombinedReportIndex",
+            "dov:topic": "opcua/WMTP/WMTP_WMTPWorkCycleDataType/action/CombinedReportIndex",
             "op": "invokeaction"
           }
         ]
       },
       "CombinedReportLastValue": {
-        "aov:namespace": "http://opcfoundation.org/UA/WMTP/",
+        "dov:namespace": "http://opcfoundation.org/UA/WMTP/",
         "output": {
           "type": "object",
-          "aov:typeRef": "nsu=http://opcfoundation.org/UA/WMTP/;i=6239",
+          "dov:typeRef": "nsu=http://opcfoundation.org/UA/WMTP/;i=6239",
           "required": [ "CombinedReport" ],
           "properties": {
             "CombinedReport": {
               "title": "WMTPOutputDataType",
               "type": "object",
-              "aov:typeRef": "nsu=http://opcfoundation.org/UA/WMTP/;i=3003",
+              "dov:typeRef": "nsu=http://opcfoundation.org/UA/WMTP/;i=3003",
               "required": [ "EngineeringUnits", "ActualValue", "TypeOfMeasurement", "TypeOfSample", "InstrumentRange", "EURange", "ValuePrecision", "Definition", "SignalTag", "RelativeUncertainty", "AbsoluteUncertainty", "Timestamp", "Index", "MeasurementPeriod", "InternalUpdateInterval" ],
               "properties": {
                 "EngineeringUnits": {
                   "title": "EUInformation",
                   "type": "object",
-                  "aov:typeRef": "nsu=http://opcfoundation.org/UA/;i=887",
+                  "dov:typeRef": "nsu=http://opcfoundation.org/UA/;i=887",
                   "required": [ "NamespaceUri", "UnitId", "DisplayName", "Description" ],
                   "properties": {
                     "NamespaceUri": {
@@ -1865,7 +1861,7 @@
                 "InstrumentRange": {
                   "title": "Range",
                   "type": "object",
-                  "aov:typeRef": "nsu=http://opcfoundation.org/UA/;i=884",
+                  "dov:typeRef": "nsu=http://opcfoundation.org/UA/;i=884",
                   "required": [ "Low", "High" ],
                   "properties": {
                     "Low": {
@@ -1883,7 +1879,7 @@
                 "EURange": {
                   "title": "Range",
                   "type": "object",
-                  "aov:typeRef": "nsu=http://opcfoundation.org/UA/;i=884",
+                  "dov:typeRef": "nsu=http://opcfoundation.org/UA/;i=884",
                   "required": [ "Low", "High" ],
                   "properties": {
                     "Low": {
@@ -1943,16 +1939,16 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/WMTP/WMTP_WMTPWorkCycleDataType/action/CombinedReportLastValue",
+            "dov:topic": "opcua/WMTP/WMTP_WMTPWorkCycleDataType/action/CombinedReportLastValue",
             "op": "invokeaction"
           }
         ]
       },
       "CombinedReportTime": {
-        "aov:namespace": "http://opcfoundation.org/UA/WMTP/",
+        "dov:namespace": "http://opcfoundation.org/UA/WMTP/",
         "input": {
           "type": "object",
-          "aov:typeRef": "nsu=http://opcfoundation.org/UA/WMTP/;i=6237",
+          "dov:typeRef": "nsu=http://opcfoundation.org/UA/WMTP/;i=6237",
           "required": [ "FromTimestamp", "ToTimestamp" ],
           "properties": {
             "FromTimestamp": {
@@ -1967,19 +1963,19 @@
         },
         "output": {
           "type": "object",
-          "aov:typeRef": "nsu=http://opcfoundation.org/UA/WMTP/;i=6238",
+          "dov:typeRef": "nsu=http://opcfoundation.org/UA/WMTP/;i=6238",
           "required": [ "CombinedReport" ],
           "properties": {
             "CombinedReport": {
               "title": "WMTPOutputDataType",
               "type": "object",
-              "aov:typeRef": "nsu=http://opcfoundation.org/UA/WMTP/;i=3003",
+              "dov:typeRef": "nsu=http://opcfoundation.org/UA/WMTP/;i=3003",
               "required": [ "EngineeringUnits", "ActualValue", "TypeOfMeasurement", "TypeOfSample", "InstrumentRange", "EURange", "ValuePrecision", "Definition", "SignalTag", "RelativeUncertainty", "AbsoluteUncertainty", "Timestamp", "Index", "MeasurementPeriod", "InternalUpdateInterval" ],
               "properties": {
                 "EngineeringUnits": {
                   "title": "EUInformation",
                   "type": "object",
-                  "aov:typeRef": "nsu=http://opcfoundation.org/UA/;i=887",
+                  "dov:typeRef": "nsu=http://opcfoundation.org/UA/;i=887",
                   "required": [ "NamespaceUri", "UnitId", "DisplayName", "Description" ],
                   "properties": {
                     "NamespaceUri": {
@@ -2016,7 +2012,7 @@
                 "InstrumentRange": {
                   "title": "Range",
                   "type": "object",
-                  "aov:typeRef": "nsu=http://opcfoundation.org/UA/;i=884",
+                  "dov:typeRef": "nsu=http://opcfoundation.org/UA/;i=884",
                   "required": [ "Low", "High" ],
                   "properties": {
                     "Low": {
@@ -2034,7 +2030,7 @@
                 "EURange": {
                   "title": "Range",
                   "type": "object",
-                  "aov:typeRef": "nsu=http://opcfoundation.org/UA/;i=884",
+                  "dov:typeRef": "nsu=http://opcfoundation.org/UA/;i=884",
                   "required": [ "Low", "High" ],
                   "properties": {
                     "Low": {
@@ -2094,16 +2090,16 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/WMTP/WMTP_WMTPWorkCycleDataType/action/CombinedReportTime",
+            "dov:topic": "opcua/WMTP/WMTP_WMTPWorkCycleDataType/action/CombinedReportTime",
             "op": "invokeaction"
           }
         ]
       },
       "DeleteAllStoredRecords": {
-        "aov:namespace": "http://opcfoundation.org/UA/WMTP/",
+        "dov:namespace": "http://opcfoundation.org/UA/WMTP/",
         "output": {
           "type": "object",
-          "aov:typeRef": "nsu=http://opcfoundation.org/UA/WMTP/;i=6165",
+          "dov:typeRef": "nsu=http://opcfoundation.org/UA/WMTP/;i=6165",
           "required": [ "DeleteAllStoredRecordsSuccessfull" ],
           "properties": {
             "DeleteAllStoredRecordsSuccessfull": {
@@ -2114,16 +2110,16 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/WMTP/WMTP_WMTPWorkCycleDataType/action/DeleteAllStoredRecords",
+            "dov:topic": "opcua/WMTP/WMTP_WMTPWorkCycleDataType/action/DeleteAllStoredRecords",
             "op": "invokeaction"
           }
         ]
       },
       "DeleteStoredRecordsIndex": {
-        "aov:namespace": "http://opcfoundation.org/UA/WMTP/",
+        "dov:namespace": "http://opcfoundation.org/UA/WMTP/",
         "input": {
           "type": "object",
-          "aov:typeRef": "nsu=http://opcfoundation.org/UA/WMTP/;i=6172",
+          "dov:typeRef": "nsu=http://opcfoundation.org/UA/WMTP/;i=6172",
           "required": [ "FromIndex", "ToIndex" ],
           "properties": {
             "FromIndex": {
@@ -2141,16 +2137,16 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/WMTP/WMTP_WMTPWorkCycleDataType/action/DeleteStoredRecordsIndex",
+            "dov:topic": "opcua/WMTP/WMTP_WMTPWorkCycleDataType/action/DeleteStoredRecordsIndex",
             "op": "invokeaction"
           }
         ]
       },
       "DeleteStoredRecordsTime": {
-        "aov:namespace": "http://opcfoundation.org/UA/WMTP/",
+        "dov:namespace": "http://opcfoundation.org/UA/WMTP/",
         "input": {
           "type": "object",
-          "aov:typeRef": "nsu=http://opcfoundation.org/UA/WMTP/;i=6168",
+          "dov:typeRef": "nsu=http://opcfoundation.org/UA/WMTP/;i=6168",
           "required": [ "FromTimestamp", "ToTimestamp" ],
           "properties": {
             "FromTimestamp": {
@@ -2166,16 +2162,16 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/WMTP/WMTP_WMTPWorkCycleDataType/action/DeleteStoredRecordsTime",
+            "dov:topic": "opcua/WMTP/WMTP_WMTPWorkCycleDataType/action/DeleteStoredRecordsTime",
             "op": "invokeaction"
           }
         ]
       },
       "ReportNumberOfStoredRecords": {
-        "aov:namespace": "http://opcfoundation.org/UA/WMTP/",
+        "dov:namespace": "http://opcfoundation.org/UA/WMTP/",
         "output": {
           "type": "object",
-          "aov:typeRef": "nsu=http://opcfoundation.org/UA/WMTP/;i=6176",
+          "dov:typeRef": "nsu=http://opcfoundation.org/UA/WMTP/;i=6176",
           "required": [ "NumberOfStoredRecords" ],
           "properties": {
             "NumberOfStoredRecords": {
@@ -2188,16 +2184,16 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/WMTP/WMTP_WMTPWorkCycleDataType/action/ReportNumberOfStoredRecords",
+            "dov:topic": "opcua/WMTP/WMTP_WMTPWorkCycleDataType/action/ReportNumberOfStoredRecords",
             "op": "invokeaction"
           }
         ]
       },
       "ReportNumberOfStoredRecordsTime": {
-        "aov:namespace": "http://opcfoundation.org/UA/WMTP/",
+        "dov:namespace": "http://opcfoundation.org/UA/WMTP/",
         "input": {
           "type": "object",
-          "aov:typeRef": "nsu=http://opcfoundation.org/UA/WMTP/;i=6180",
+          "dov:typeRef": "nsu=http://opcfoundation.org/UA/WMTP/;i=6180",
           "required": [ "FromTimestamp", "ToTimestamp" ],
           "properties": {
             "FromTimestamp": {
@@ -2212,7 +2208,7 @@
         },
         "output": {
           "type": "object",
-          "aov:typeRef": "nsu=http://opcfoundation.org/UA/WMTP/;i=6181",
+          "dov:typeRef": "nsu=http://opcfoundation.org/UA/WMTP/;i=6181",
           "required": [ "NumberOfStoredRecords" ],
           "properties": {
             "NumberOfStoredRecords": {
@@ -2225,7 +2221,7 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/WMTP/WMTP_WMTPWorkCycleDataType/action/ReportNumberOfStoredRecordsTime",
+            "dov:topic": "opcua/WMTP/WMTP_WMTPWorkCycleDataType/action/ReportNumberOfStoredRecordsTime",
             "op": "invokeaction"
           }
         ]

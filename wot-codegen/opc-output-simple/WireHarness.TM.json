@@ -3,13 +3,12 @@
     "@context": [
       "https://www.w3.org/2022/wot/td/v1.1",
       {
-        "dtv": "http://azure.com/DigitalTwins/dtmi#",
-        "aov": "http://azure.com/IoT/operations/tm#"
+        "dov": "http://azure.com/DigitalOperations/vocab#"
       }
     ],
     "@type": "tm:ThingModel",
     "title": "WireHarness_ArticleSpecManagementType",
-    "aov:typeRef": "nsu=http://opcfoundation.org/UA/WireHarness/;i=1007",
+    "dov:typeRef": "nsu=http://opcfoundation.org/UA/WireHarness/;i=1007",
     "links": [
       {
         "rel": "tm:extends",
@@ -22,33 +21,33 @@
     "forms": [
       {
         "contentType": "application/json",
-        "dtv:topic": "opcua/WireHarness/WireHarness_ArticleSpecManagementType/events/{senderId}",
+        "dov:topic": "opcua/WireHarness/WireHarness_ArticleSpecManagementType/events/{senderId}",
         "op": "subscribeallevents"
       },
       {
         "contentType": "application/json",
-        "dtv:topic": "opcua/WireHarness/WireHarness_ArticleSpecManagementType/properties/write",
+        "dov:topic": "opcua/WireHarness/WireHarness_ArticleSpecManagementType/properties/write",
         "op": "writemultipleproperties"
       },
       {
         "contentType": "application/json",
-        "dtv:topic": "opcua/WireHarness/WireHarness_ArticleSpecManagementType/properties/read",
+        "dov:topic": "opcua/WireHarness/WireHarness_ArticleSpecManagementType/properties/read",
         "op": "readallproperties"
       }
     ],
     "actions": {
       "ClearArticleSpec": {
-        "aov:namespace": "http://opcfoundation.org/UA/WireHarness/",
+        "dov:namespace": "http://opcfoundation.org/UA/WireHarness/",
         "input": {
           "type": "object",
-          "aov:typeRef": "nsu=http://opcfoundation.org/UA/WireHarness/;i=6058",
+          "dov:typeRef": "nsu=http://opcfoundation.org/UA/WireHarness/;i=6058",
           "required": [ "ArticleSpec" ],
           "properties": {
             "ArticleSpec": {
               "title": "ISA95MaterialDataType",
               "description": "Defines a material resource, a quantity, an optional description, and an optional collection of properties.",
               "type": "object",
-              "aov:typeRef": "nsu=http://opcfoundation.org/UA/ISA95-JOBCONTROL_V2/;i=3010",
+              "dov:typeRef": "nsu=http://opcfoundation.org/UA/ISA95-JOBCONTROL_V2/;i=3010",
               "properties": {
                 "MaterialClassID": {
                   "description": "An identification of the resource, or null if the Material Class is not used to identify the material.",
@@ -86,7 +85,7 @@
                   "title": "EUInformation",
                   "description": "The Unit Of Measure of the quantity",
                   "type": "object",
-                  "aov:typeRef": "nsu=http://opcfoundation.org/UA/;i=887",
+                  "dov:typeRef": "nsu=http://opcfoundation.org/UA/;i=887",
                   "required": [ "NamespaceUri", "UnitId", "DisplayName", "Description" ],
                   "properties": {
                     "NamespaceUri": {
@@ -112,7 +111,7 @@
                     "title": "ISA95PropertyDataType",
                     "description": "A subtype of OPC UA Structure that defines two linked data items: an ID, which is a unique identifier for a property within the scope of the associated resource, and the value, which is the data for the property.",
                     "type": "object",
-                    "aov:typeRef": "nsu=http://opcfoundation.org/UA/ISA95-JOBCONTROL_V2/;i=3002",
+                    "dov:typeRef": "nsu=http://opcfoundation.org/UA/ISA95-JOBCONTROL_V2/;i=3002",
                     "required": [ "ID", "Value" ],
                     "properties": {
                       "ID": {
@@ -134,7 +133,7 @@
                         "title": "EUInformation",
                         "description": "The Unit Of Measure of the value",
                         "type": "object",
-                        "aov:typeRef": "nsu=http://opcfoundation.org/UA/;i=887",
+                        "dov:typeRef": "nsu=http://opcfoundation.org/UA/;i=887",
                         "required": [ "NamespaceUri", "UnitId", "DisplayName", "Description" ],
                         "properties": {
                           "NamespaceUri": {
@@ -170,23 +169,23 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/WireHarness/WireHarness_ArticleSpecManagementType/action/ClearArticleSpec",
+            "dov:topic": "opcua/WireHarness/WireHarness_ArticleSpecManagementType/action/ClearArticleSpec",
             "op": "invokeaction"
           }
         ]
       },
       "StoreArticleSpec": {
-        "aov:namespace": "http://opcfoundation.org/UA/WireHarness/",
+        "dov:namespace": "http://opcfoundation.org/UA/WireHarness/",
         "input": {
           "type": "object",
-          "aov:typeRef": "nsu=http://opcfoundation.org/UA/WireHarness/;i=6057",
+          "dov:typeRef": "nsu=http://opcfoundation.org/UA/WireHarness/;i=6057",
           "required": [ "ArticleSpec" ],
           "properties": {
             "ArticleSpec": {
               "title": "ISA95MaterialDataType",
               "description": "Defines a material resource, a quantity, an optional description, and an optional collection of properties.",
               "type": "object",
-              "aov:typeRef": "nsu=http://opcfoundation.org/UA/ISA95-JOBCONTROL_V2/;i=3010",
+              "dov:typeRef": "nsu=http://opcfoundation.org/UA/ISA95-JOBCONTROL_V2/;i=3010",
               "properties": {
                 "MaterialClassID": {
                   "description": "An identification of the resource, or null if the Material Class is not used to identify the material.",
@@ -224,7 +223,7 @@
                   "title": "EUInformation",
                   "description": "The Unit Of Measure of the quantity",
                   "type": "object",
-                  "aov:typeRef": "nsu=http://opcfoundation.org/UA/;i=887",
+                  "dov:typeRef": "nsu=http://opcfoundation.org/UA/;i=887",
                   "required": [ "NamespaceUri", "UnitId", "DisplayName", "Description" ],
                   "properties": {
                     "NamespaceUri": {
@@ -250,7 +249,7 @@
                     "title": "ISA95PropertyDataType",
                     "description": "A subtype of OPC UA Structure that defines two linked data items: an ID, which is a unique identifier for a property within the scope of the associated resource, and the value, which is the data for the property.",
                     "type": "object",
-                    "aov:typeRef": "nsu=http://opcfoundation.org/UA/ISA95-JOBCONTROL_V2/;i=3002",
+                    "dov:typeRef": "nsu=http://opcfoundation.org/UA/ISA95-JOBCONTROL_V2/;i=3002",
                     "required": [ "ID", "Value" ],
                     "properties": {
                       "ID": {
@@ -272,7 +271,7 @@
                         "title": "EUInformation",
                         "description": "The Unit Of Measure of the value",
                         "type": "object",
-                        "aov:typeRef": "nsu=http://opcfoundation.org/UA/;i=887",
+                        "dov:typeRef": "nsu=http://opcfoundation.org/UA/;i=887",
                         "required": [ "NamespaceUri", "UnitId", "DisplayName", "Description" ],
                         "properties": {
                           "NamespaceUri": {
@@ -308,7 +307,7 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/WireHarness/WireHarness_ArticleSpecManagementType/action/StoreArticleSpec",
+            "dov:topic": "opcua/WireHarness/WireHarness_ArticleSpecManagementType/action/StoreArticleSpec",
             "op": "invokeaction"
           }
         ]
@@ -316,13 +315,13 @@
     },
     "properties": {
       "ArticleSpecList": {
-        "aov:namespace": "http://opcfoundation.org/UA/WireHarness/",
+        "dov:namespace": "http://opcfoundation.org/UA/WireHarness/",
         "type": "array",
         "items": {
           "title": "ISA95MaterialDataType",
           "description": "Defines a material resource, a quantity, an optional description, and an optional collection of properties.",
           "type": "object",
-          "aov:typeRef": "nsu=http://opcfoundation.org/UA/ISA95-JOBCONTROL_V2/;i=3010",
+          "dov:typeRef": "nsu=http://opcfoundation.org/UA/ISA95-JOBCONTROL_V2/;i=3010",
           "properties": {
             "MaterialClassID": {
               "description": "An identification of the resource, or null if the Material Class is not used to identify the material.",
@@ -360,7 +359,7 @@
               "title": "EUInformation",
               "description": "The Unit Of Measure of the quantity",
               "type": "object",
-              "aov:typeRef": "nsu=http://opcfoundation.org/UA/;i=887",
+              "dov:typeRef": "nsu=http://opcfoundation.org/UA/;i=887",
               "required": [ "NamespaceUri", "UnitId", "DisplayName", "Description" ],
               "properties": {
                 "NamespaceUri": {
@@ -386,7 +385,7 @@
                 "title": "ISA95PropertyDataType",
                 "description": "A subtype of OPC UA Structure that defines two linked data items: an ID, which is a unique identifier for a property within the scope of the associated resource, and the value, which is the data for the property.",
                 "type": "object",
-                "aov:typeRef": "nsu=http://opcfoundation.org/UA/ISA95-JOBCONTROL_V2/;i=3002",
+                "dov:typeRef": "nsu=http://opcfoundation.org/UA/ISA95-JOBCONTROL_V2/;i=3002",
                 "required": [ "ID", "Value" ],
                 "properties": {
                   "ID": {
@@ -408,7 +407,7 @@
                     "title": "EUInformation",
                     "description": "The Unit Of Measure of the value",
                     "type": "object",
-                    "aov:typeRef": "nsu=http://opcfoundation.org/UA/;i=887",
+                    "dov:typeRef": "nsu=http://opcfoundation.org/UA/;i=887",
                     "required": [ "NamespaceUri", "UnitId", "DisplayName", "Description" ],
                     "properties": {
                       "NamespaceUri": {
@@ -443,12 +442,12 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/WireHarness/WireHarness_ArticleSpecManagementType/property/ArticleSpecList/write",
+            "dov:topic": "opcua/WireHarness/WireHarness_ArticleSpecManagementType/property/ArticleSpecList/write",
             "op": "writeproperty"
           },
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/WireHarness/WireHarness_ArticleSpecManagementType/property/ArticleSpecList/read",
+            "dov:topic": "opcua/WireHarness/WireHarness_ArticleSpecManagementType/property/ArticleSpecList/read",
             "op": "readproperty"
           }
         ]
@@ -456,14 +455,14 @@
     },
     "events": {
       "ArticleSpecList": {
-        "aov:namespace": "http://opcfoundation.org/UA/WireHarness/",
+        "dov:namespace": "http://opcfoundation.org/UA/WireHarness/",
         "data": {
           "type": "array",
           "items": {
             "title": "ISA95MaterialDataType",
             "description": "Defines a material resource, a quantity, an optional description, and an optional collection of properties.",
             "type": "object",
-            "aov:typeRef": "nsu=http://opcfoundation.org/UA/ISA95-JOBCONTROL_V2/;i=3010",
+            "dov:typeRef": "nsu=http://opcfoundation.org/UA/ISA95-JOBCONTROL_V2/;i=3010",
             "properties": {
               "MaterialClassID": {
                 "description": "An identification of the resource, or null if the Material Class is not used to identify the material.",
@@ -501,7 +500,7 @@
                 "title": "EUInformation",
                 "description": "The Unit Of Measure of the quantity",
                 "type": "object",
-                "aov:typeRef": "nsu=http://opcfoundation.org/UA/;i=887",
+                "dov:typeRef": "nsu=http://opcfoundation.org/UA/;i=887",
                 "required": [ "NamespaceUri", "UnitId", "DisplayName", "Description" ],
                 "properties": {
                   "NamespaceUri": {
@@ -527,7 +526,7 @@
                   "title": "ISA95PropertyDataType",
                   "description": "A subtype of OPC UA Structure that defines two linked data items: an ID, which is a unique identifier for a property within the scope of the associated resource, and the value, which is the data for the property.",
                   "type": "object",
-                  "aov:typeRef": "nsu=http://opcfoundation.org/UA/ISA95-JOBCONTROL_V2/;i=3002",
+                  "dov:typeRef": "nsu=http://opcfoundation.org/UA/ISA95-JOBCONTROL_V2/;i=3002",
                   "required": [ "ID", "Value" ],
                   "properties": {
                     "ID": {
@@ -549,7 +548,7 @@
                       "title": "EUInformation",
                       "description": "The Unit Of Measure of the value",
                       "type": "object",
-                      "aov:typeRef": "nsu=http://opcfoundation.org/UA/;i=887",
+                      "dov:typeRef": "nsu=http://opcfoundation.org/UA/;i=887",
                       "required": [ "NamespaceUri", "UnitId", "DisplayName", "Description" ],
                       "properties": {
                         "NamespaceUri": {
@@ -584,7 +583,7 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/WireHarness/WireHarness_ArticleSpecManagementType/event/ArticleSpecList/{senderId}",
+            "dov:topic": "opcua/WireHarness/WireHarness_ArticleSpecManagementType/event/ArticleSpecList/{senderId}",
             "op": "subscribeevent"
           }
         ]
@@ -595,14 +594,13 @@
     "@context": [
       "https://www.w3.org/2022/wot/td/v1.1",
       {
-        "dtv": "http://azure.com/DigitalTwins/dtmi#",
-        "aov": "http://azure.com/IoT/operations/tm#"
+        "dov": "http://azure.com/DigitalOperations/vocab#"
       }
     ],
     "@type": "tm:ThingModel",
     "title": "WireHarness_ProductFinishedEventType",
-    "aov:typeRef": "nsu=http://opcfoundation.org/UA/WireHarness/;i=1005",
-    "aov:isEvent": true,
+    "dov:typeRef": "nsu=http://opcfoundation.org/UA/WireHarness/;i=1005",
+    "dov:isEvent": true,
     "links": [
       {
         "rel": "tm:extends",
@@ -613,7 +611,7 @@
     "schemaDefinitions": {
       "JobResult": {
         "type": "object",
-        "aov:typeRef": "nsu=http://opcfoundation.org/UA/Machinery/Jobs/;i=3006",
+        "dov:typeRef": "nsu=http://opcfoundation.org/UA/Machinery/Jobs/;i=3006",
         "const": {
           "Unknown": 0,
           "Successful": 1,
@@ -638,12 +636,12 @@
     "forms": [
       {
         "contentType": "application/json",
-        "dtv:topic": "opcua/WireHarness/WireHarness_ProductFinishedEventType/properties/write",
+        "dov:topic": "opcua/WireHarness/WireHarness_ProductFinishedEventType/properties/write",
         "op": "writemultipleproperties"
       },
       {
         "contentType": "application/json",
-        "dtv:topic": "opcua/WireHarness/WireHarness_ProductFinishedEventType/properties/read",
+        "dov:topic": "opcua/WireHarness/WireHarness_ProductFinishedEventType/properties/read",
         "op": "readallproperties"
       }
     ],
@@ -651,76 +649,76 @@
     },
     "properties": {
       "EndTime": {
-        "aov:namespace": "http://opcfoundation.org/UA/WireHarness/",
+        "dov:namespace": "http://opcfoundation.org/UA/WireHarness/",
         "type": "string",
         "format": "date-time",
         "readOnly": false,
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/WireHarness/WireHarness_ProductFinishedEventType/property/EndTime/write",
+            "dov:topic": "opcua/WireHarness/WireHarness_ProductFinishedEventType/property/EndTime/write",
             "op": "writeproperty"
           },
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/WireHarness/WireHarness_ProductFinishedEventType/property/EndTime/read",
+            "dov:topic": "opcua/WireHarness/WireHarness_ProductFinishedEventType/property/EndTime/read",
             "op": "readproperty"
           }
         ]
       },
       "JobOrderID": {
-        "aov:namespace": "http://opcfoundation.org/UA/WireHarness/",
+        "dov:namespace": "http://opcfoundation.org/UA/WireHarness/",
         "type": "string",
         "readOnly": false,
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/WireHarness/WireHarness_ProductFinishedEventType/property/JobOrderID/write",
+            "dov:topic": "opcua/WireHarness/WireHarness_ProductFinishedEventType/property/JobOrderID/write",
             "op": "writeproperty"
           },
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/WireHarness/WireHarness_ProductFinishedEventType/property/JobOrderID/read",
+            "dov:topic": "opcua/WireHarness/WireHarness_ProductFinishedEventType/property/JobOrderID/read",
             "op": "readproperty"
           }
         ]
       },
       "MaterialDefinitionID": {
-        "aov:namespace": "http://opcfoundation.org/UA/WireHarness/",
+        "dov:namespace": "http://opcfoundation.org/UA/WireHarness/",
         "type": "string",
         "readOnly": false,
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/WireHarness/WireHarness_ProductFinishedEventType/property/MaterialDefinitionID/write",
+            "dov:topic": "opcua/WireHarness/WireHarness_ProductFinishedEventType/property/MaterialDefinitionID/write",
             "op": "writeproperty"
           },
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/WireHarness/WireHarness_ProductFinishedEventType/property/MaterialDefinitionID/read",
+            "dov:topic": "opcua/WireHarness/WireHarness_ProductFinishedEventType/property/MaterialDefinitionID/read",
             "op": "readproperty"
           }
         ]
       },
       "ProductID": {
-        "aov:namespace": "http://opcfoundation.org/UA/WireHarness/",
+        "dov:namespace": "http://opcfoundation.org/UA/WireHarness/",
         "type": "string",
         "readOnly": false,
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/WireHarness/WireHarness_ProductFinishedEventType/property/ProductID/write",
+            "dov:topic": "opcua/WireHarness/WireHarness_ProductFinishedEventType/property/ProductID/write",
             "op": "writeproperty"
           },
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/WireHarness/WireHarness_ProductFinishedEventType/property/ProductID/read",
+            "dov:topic": "opcua/WireHarness/WireHarness_ProductFinishedEventType/property/ProductID/read",
             "op": "readproperty"
           }
         ]
       },
       "ResultIDs": {
-        "aov:namespace": "http://opcfoundation.org/UA/WireHarness/",
+        "dov:namespace": "http://opcfoundation.org/UA/WireHarness/",
         "type": "array",
         "items": {
           "type": "string"
@@ -729,18 +727,18 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/WireHarness/WireHarness_ProductFinishedEventType/property/ResultIDs/write",
+            "dov:topic": "opcua/WireHarness/WireHarness_ProductFinishedEventType/property/ResultIDs/write",
             "op": "writeproperty"
           },
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/WireHarness/WireHarness_ProductFinishedEventType/property/ResultIDs/read",
+            "dov:topic": "opcua/WireHarness/WireHarness_ProductFinishedEventType/property/ResultIDs/read",
             "op": "readproperty"
           }
         ]
       },
       "Run": {
-        "aov:namespace": "http://opcfoundation.org/UA/WireHarness/",
+        "dov:namespace": "http://opcfoundation.org/UA/WireHarness/",
         "type": "integer",
         "minimum": 0,
         "maximum": 4294967295,
@@ -748,38 +746,38 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/WireHarness/WireHarness_ProductFinishedEventType/property/Run/write",
+            "dov:topic": "opcua/WireHarness/WireHarness_ProductFinishedEventType/property/Run/write",
             "op": "writeproperty"
           },
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/WireHarness/WireHarness_ProductFinishedEventType/property/Run/read",
+            "dov:topic": "opcua/WireHarness/WireHarness_ProductFinishedEventType/property/Run/read",
             "op": "readproperty"
           }
         ]
       },
       "StartTime": {
-        "aov:namespace": "http://opcfoundation.org/UA/WireHarness/",
+        "dov:namespace": "http://opcfoundation.org/UA/WireHarness/",
         "type": "string",
         "format": "date-time",
         "readOnly": false,
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/WireHarness/WireHarness_ProductFinishedEventType/property/StartTime/write",
+            "dov:topic": "opcua/WireHarness/WireHarness_ProductFinishedEventType/property/StartTime/write",
             "op": "writeproperty"
           },
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/WireHarness/WireHarness_ProductFinishedEventType/property/StartTime/read",
+            "dov:topic": "opcua/WireHarness/WireHarness_ProductFinishedEventType/property/StartTime/read",
             "op": "readproperty"
           }
         ]
       },
       "State": {
-        "aov:namespace": "http://opcfoundation.org/UA/WireHarness/",
+        "dov:namespace": "http://opcfoundation.org/UA/WireHarness/",
         "title": "JobResult",
-        "aov:typeRef": "nsu=http://opcfoundation.org/UA/Machinery/Jobs/;i=3006",
+        "dov:typeRef": "nsu=http://opcfoundation.org/UA/Machinery/Jobs/;i=3006",
         "type": "integer",
         "minimum": -2147483648,
         "maximum": 2147483647,
@@ -787,12 +785,12 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/WireHarness/WireHarness_ProductFinishedEventType/property/State/write",
+            "dov:topic": "opcua/WireHarness/WireHarness_ProductFinishedEventType/property/State/write",
             "op": "writeproperty"
           },
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/WireHarness/WireHarness_ProductFinishedEventType/property/State/read",
+            "dov:topic": "opcua/WireHarness/WireHarness_ProductFinishedEventType/property/State/read",
             "op": "readproperty"
           }
         ]
@@ -805,14 +803,13 @@
     "@context": [
       "https://www.w3.org/2022/wot/td/v1.1",
       {
-        "dtv": "http://azure.com/DigitalTwins/dtmi#",
-        "aov": "http://azure.com/IoT/operations/tm#"
+        "dov": "http://azure.com/DigitalOperations/vocab#"
       }
     ],
     "@type": "tm:ThingModel",
     "title": "WireHarness_RunCompleteEventType",
-    "aov:typeRef": "nsu=http://opcfoundation.org/UA/WireHarness/;i=1008",
-    "aov:isEvent": true,
+    "dov:typeRef": "nsu=http://opcfoundation.org/UA/WireHarness/;i=1008",
+    "dov:isEvent": true,
     "links": [
       {
         "rel": "tm:extends",
@@ -825,12 +822,12 @@
     "forms": [
       {
         "contentType": "application/json",
-        "dtv:topic": "opcua/WireHarness/WireHarness_RunCompleteEventType/properties/write",
+        "dov:topic": "opcua/WireHarness/WireHarness_RunCompleteEventType/properties/write",
         "op": "writemultipleproperties"
       },
       {
         "contentType": "application/json",
-        "dtv:topic": "opcua/WireHarness/WireHarness_RunCompleteEventType/properties/read",
+        "dov:topic": "opcua/WireHarness/WireHarness_RunCompleteEventType/properties/read",
         "op": "readallproperties"
       }
     ],
@@ -838,25 +835,25 @@
     },
     "properties": {
       "EndTime": {
-        "aov:namespace": "http://opcfoundation.org/UA/WireHarness/",
+        "dov:namespace": "http://opcfoundation.org/UA/WireHarness/",
         "type": "string",
         "format": "date-time",
         "readOnly": false,
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/WireHarness/WireHarness_RunCompleteEventType/property/EndTime/write",
+            "dov:topic": "opcua/WireHarness/WireHarness_RunCompleteEventType/property/EndTime/write",
             "op": "writeproperty"
           },
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/WireHarness/WireHarness_RunCompleteEventType/property/EndTime/read",
+            "dov:topic": "opcua/WireHarness/WireHarness_RunCompleteEventType/property/EndTime/read",
             "op": "readproperty"
           }
         ]
       },
       "GoodQuantity": {
-        "aov:namespace": "http://opcfoundation.org/UA/WireHarness/",
+        "dov:namespace": "http://opcfoundation.org/UA/WireHarness/",
         "type": "number",
         "minimum": -1.80e+308,
         "maximum": 1.80e+308,
@@ -864,35 +861,35 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/WireHarness/WireHarness_RunCompleteEventType/property/GoodQuantity/write",
+            "dov:topic": "opcua/WireHarness/WireHarness_RunCompleteEventType/property/GoodQuantity/write",
             "op": "writeproperty"
           },
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/WireHarness/WireHarness_RunCompleteEventType/property/GoodQuantity/read",
+            "dov:topic": "opcua/WireHarness/WireHarness_RunCompleteEventType/property/GoodQuantity/read",
             "op": "readproperty"
           }
         ]
       },
       "JobOrderID": {
-        "aov:namespace": "http://opcfoundation.org/UA/WireHarness/",
+        "dov:namespace": "http://opcfoundation.org/UA/WireHarness/",
         "type": "string",
         "readOnly": false,
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/WireHarness/WireHarness_RunCompleteEventType/property/JobOrderID/write",
+            "dov:topic": "opcua/WireHarness/WireHarness_RunCompleteEventType/property/JobOrderID/write",
             "op": "writeproperty"
           },
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/WireHarness/WireHarness_RunCompleteEventType/property/JobOrderID/read",
+            "dov:topic": "opcua/WireHarness/WireHarness_RunCompleteEventType/property/JobOrderID/read",
             "op": "readproperty"
           }
         ]
       },
       "ProducedQuantity": {
-        "aov:namespace": "http://opcfoundation.org/UA/WireHarness/",
+        "dov:namespace": "http://opcfoundation.org/UA/WireHarness/",
         "type": "number",
         "minimum": -1.80e+308,
         "maximum": 1.80e+308,
@@ -900,18 +897,18 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/WireHarness/WireHarness_RunCompleteEventType/property/ProducedQuantity/write",
+            "dov:topic": "opcua/WireHarness/WireHarness_RunCompleteEventType/property/ProducedQuantity/write",
             "op": "writeproperty"
           },
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/WireHarness/WireHarness_RunCompleteEventType/property/ProducedQuantity/read",
+            "dov:topic": "opcua/WireHarness/WireHarness_RunCompleteEventType/property/ProducedQuantity/read",
             "op": "readproperty"
           }
         ]
       },
       "ProductIDs": {
-        "aov:namespace": "http://opcfoundation.org/UA/WireHarness/",
+        "dov:namespace": "http://opcfoundation.org/UA/WireHarness/",
         "type": "array",
         "items": {
           "type": "string"
@@ -920,18 +917,18 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/WireHarness/WireHarness_RunCompleteEventType/property/ProductIDs/write",
+            "dov:topic": "opcua/WireHarness/WireHarness_RunCompleteEventType/property/ProductIDs/write",
             "op": "writeproperty"
           },
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/WireHarness/WireHarness_RunCompleteEventType/property/ProductIDs/read",
+            "dov:topic": "opcua/WireHarness/WireHarness_RunCompleteEventType/property/ProductIDs/read",
             "op": "readproperty"
           }
         ]
       },
       "Run": {
-        "aov:namespace": "http://opcfoundation.org/UA/WireHarness/",
+        "dov:namespace": "http://opcfoundation.org/UA/WireHarness/",
         "type": "integer",
         "minimum": 0,
         "maximum": 4294967295,
@@ -939,30 +936,30 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/WireHarness/WireHarness_RunCompleteEventType/property/Run/write",
+            "dov:topic": "opcua/WireHarness/WireHarness_RunCompleteEventType/property/Run/write",
             "op": "writeproperty"
           },
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/WireHarness/WireHarness_RunCompleteEventType/property/Run/read",
+            "dov:topic": "opcua/WireHarness/WireHarness_RunCompleteEventType/property/Run/read",
             "op": "readproperty"
           }
         ]
       },
       "StartTime": {
-        "aov:namespace": "http://opcfoundation.org/UA/WireHarness/",
+        "dov:namespace": "http://opcfoundation.org/UA/WireHarness/",
         "type": "string",
         "format": "date-time",
         "readOnly": false,
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/WireHarness/WireHarness_RunCompleteEventType/property/StartTime/write",
+            "dov:topic": "opcua/WireHarness/WireHarness_RunCompleteEventType/property/StartTime/write",
             "op": "writeproperty"
           },
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/WireHarness/WireHarness_RunCompleteEventType/property/StartTime/read",
+            "dov:topic": "opcua/WireHarness/WireHarness_RunCompleteEventType/property/StartTime/read",
             "op": "readproperty"
           }
         ]
@@ -975,13 +972,12 @@
     "@context": [
       "https://www.w3.org/2022/wot/td/v1.1",
       {
-        "dtv": "http://azure.com/DigitalTwins/dtmi#",
-        "aov": "http://azure.com/IoT/operations/tm#"
+        "dov": "http://azure.com/DigitalOperations/vocab#"
       }
     ],
     "@type": "tm:ThingModel",
     "title": "WireHarness_WireHarnessMachineIdentificationType",
-    "aov:typeRef": "nsu=http://opcfoundation.org/UA/WireHarness/;i=1003",
+    "dov:typeRef": "nsu=http://opcfoundation.org/UA/WireHarness/;i=1003",
     "links": [
       {
         "rel": "tm:extends",
@@ -994,12 +990,12 @@
     "forms": [
       {
         "contentType": "application/json",
-        "dtv:topic": "opcua/WireHarness/WireHarness_WireHarnessMachineIdentificationType/properties/write",
+        "dov:topic": "opcua/WireHarness/WireHarness_WireHarnessMachineIdentificationType/properties/write",
         "op": "writemultipleproperties"
       },
       {
         "contentType": "application/json",
-        "dtv:topic": "opcua/WireHarness/WireHarness_WireHarnessMachineIdentificationType/properties/read",
+        "dov:topic": "opcua/WireHarness/WireHarness_WireHarnessMachineIdentificationType/properties/read",
         "op": "readallproperties"
       }
     ],
@@ -1007,19 +1003,19 @@
     },
     "properties": {
       "AssetId": {
-        "aov:namespace": "http://opcfoundation.org/UA/DI/",
+        "dov:namespace": "http://opcfoundation.org/UA/DI/",
         "description": "To be used by end users to store a unique identification in the context of their overall application. Servers shall support at least 40 Unicode characters for the clients writing this value, this means clients can expect to be able to write strings with a length of 40 Unicode characters into that field.",
         "type": "string",
         "readOnly": false,
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/WireHarness/WireHarness_WireHarnessMachineIdentificationType/property/AssetId/write",
+            "dov:topic": "opcua/WireHarness/WireHarness_WireHarnessMachineIdentificationType/property/AssetId/write",
             "op": "writeproperty"
           },
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/WireHarness/WireHarness_WireHarnessMachineIdentificationType/property/AssetId/read",
+            "dov:topic": "opcua/WireHarness/WireHarness_WireHarnessMachineIdentificationType/property/AssetId/read",
             "op": "readproperty"
           }
         ]
@@ -1032,13 +1028,12 @@
     "@context": [
       "https://www.w3.org/2022/wot/td/v1.1",
       {
-        "dtv": "http://azure.com/DigitalTwins/dtmi#",
-        "aov": "http://azure.com/IoT/operations/tm#"
+        "dov": "http://azure.com/DigitalOperations/vocab#"
       }
     ],
     "@type": "tm:ThingModel",
     "title": "WireHarness_PartManagementType",
-    "aov:typeRef": "nsu=http://opcfoundation.org/UA/WireHarness/;i=1004",
+    "dov:typeRef": "nsu=http://opcfoundation.org/UA/WireHarness/;i=1004",
     "links": [
       {
         "rel": "tm:extends",
@@ -1051,33 +1046,33 @@
     "forms": [
       {
         "contentType": "application/json",
-        "dtv:topic": "opcua/WireHarness/WireHarness_PartManagementType/events/{senderId}",
+        "dov:topic": "opcua/WireHarness/WireHarness_PartManagementType/events/{senderId}",
         "op": "subscribeallevents"
       },
       {
         "contentType": "application/json",
-        "dtv:topic": "opcua/WireHarness/WireHarness_PartManagementType/properties/write",
+        "dov:topic": "opcua/WireHarness/WireHarness_PartManagementType/properties/write",
         "op": "writemultipleproperties"
       },
       {
         "contentType": "application/json",
-        "dtv:topic": "opcua/WireHarness/WireHarness_PartManagementType/properties/read",
+        "dov:topic": "opcua/WireHarness/WireHarness_PartManagementType/properties/read",
         "op": "readallproperties"
       }
     ],
     "actions": {
       "ClearPart": {
-        "aov:namespace": "http://opcfoundation.org/UA/WireHarness/",
+        "dov:namespace": "http://opcfoundation.org/UA/WireHarness/",
         "input": {
           "type": "object",
-          "aov:typeRef": "nsu=http://opcfoundation.org/UA/WireHarness/;i=6055",
+          "dov:typeRef": "nsu=http://opcfoundation.org/UA/WireHarness/;i=6055",
           "required": [ "Part" ],
           "properties": {
             "Part": {
               "title": "ISA95MaterialDataType",
               "description": "Defines a material resource, a quantity, an optional description, and an optional collection of properties.",
               "type": "object",
-              "aov:typeRef": "nsu=http://opcfoundation.org/UA/ISA95-JOBCONTROL_V2/;i=3010",
+              "dov:typeRef": "nsu=http://opcfoundation.org/UA/ISA95-JOBCONTROL_V2/;i=3010",
               "properties": {
                 "MaterialClassID": {
                   "description": "An identification of the resource, or null if the Material Class is not used to identify the material.",
@@ -1115,7 +1110,7 @@
                   "title": "EUInformation",
                   "description": "The Unit Of Measure of the quantity",
                   "type": "object",
-                  "aov:typeRef": "nsu=http://opcfoundation.org/UA/;i=887",
+                  "dov:typeRef": "nsu=http://opcfoundation.org/UA/;i=887",
                   "required": [ "NamespaceUri", "UnitId", "DisplayName", "Description" ],
                   "properties": {
                     "NamespaceUri": {
@@ -1141,7 +1136,7 @@
                     "title": "ISA95PropertyDataType",
                     "description": "A subtype of OPC UA Structure that defines two linked data items: an ID, which is a unique identifier for a property within the scope of the associated resource, and the value, which is the data for the property.",
                     "type": "object",
-                    "aov:typeRef": "nsu=http://opcfoundation.org/UA/ISA95-JOBCONTROL_V2/;i=3002",
+                    "dov:typeRef": "nsu=http://opcfoundation.org/UA/ISA95-JOBCONTROL_V2/;i=3002",
                     "required": [ "ID", "Value" ],
                     "properties": {
                       "ID": {
@@ -1163,7 +1158,7 @@
                         "title": "EUInformation",
                         "description": "The Unit Of Measure of the value",
                         "type": "object",
-                        "aov:typeRef": "nsu=http://opcfoundation.org/UA/;i=887",
+                        "dov:typeRef": "nsu=http://opcfoundation.org/UA/;i=887",
                         "required": [ "NamespaceUri", "UnitId", "DisplayName", "Description" ],
                         "properties": {
                           "NamespaceUri": {
@@ -1199,16 +1194,16 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/WireHarness/WireHarness_PartManagementType/action/ClearPart",
+            "dov:topic": "opcua/WireHarness/WireHarness_PartManagementType/action/ClearPart",
             "op": "invokeaction"
           }
         ]
       },
       "FindPartsByType": {
-        "aov:namespace": "http://opcfoundation.org/UA/WireHarness/",
+        "dov:namespace": "http://opcfoundation.org/UA/WireHarness/",
         "input": {
           "type": "object",
-          "aov:typeRef": "nsu=http://opcfoundation.org/UA/WireHarness/;i=6028",
+          "dov:typeRef": "nsu=http://opcfoundation.org/UA/WireHarness/;i=6028",
           "required": [ "TypeNodeId" ],
           "properties": {
             "TypeNodeId": {
@@ -1218,7 +1213,7 @@
         },
         "output": {
           "type": "object",
-          "aov:typeRef": "nsu=http://opcfoundation.org/UA/WireHarness/;i=6034",
+          "dov:typeRef": "nsu=http://opcfoundation.org/UA/WireHarness/;i=6034",
           "required": [ "Parts" ],
           "properties": {
             "Parts": {
@@ -1227,7 +1222,7 @@
                 "title": "ISA95MaterialDataType",
                 "description": "Defines a material resource, a quantity, an optional description, and an optional collection of properties.",
                 "type": "object",
-                "aov:typeRef": "nsu=http://opcfoundation.org/UA/ISA95-JOBCONTROL_V2/;i=3010",
+                "dov:typeRef": "nsu=http://opcfoundation.org/UA/ISA95-JOBCONTROL_V2/;i=3010",
                 "properties": {
                   "MaterialClassID": {
                     "description": "An identification of the resource, or null if the Material Class is not used to identify the material.",
@@ -1265,7 +1260,7 @@
                     "title": "EUInformation",
                     "description": "The Unit Of Measure of the quantity",
                     "type": "object",
-                    "aov:typeRef": "nsu=http://opcfoundation.org/UA/;i=887",
+                    "dov:typeRef": "nsu=http://opcfoundation.org/UA/;i=887",
                     "required": [ "NamespaceUri", "UnitId", "DisplayName", "Description" ],
                     "properties": {
                       "NamespaceUri": {
@@ -1291,7 +1286,7 @@
                       "title": "ISA95PropertyDataType",
                       "description": "A subtype of OPC UA Structure that defines two linked data items: an ID, which is a unique identifier for a property within the scope of the associated resource, and the value, which is the data for the property.",
                       "type": "object",
-                      "aov:typeRef": "nsu=http://opcfoundation.org/UA/ISA95-JOBCONTROL_V2/;i=3002",
+                      "dov:typeRef": "nsu=http://opcfoundation.org/UA/ISA95-JOBCONTROL_V2/;i=3002",
                       "required": [ "ID", "Value" ],
                       "properties": {
                         "ID": {
@@ -1313,7 +1308,7 @@
                           "title": "EUInformation",
                           "description": "The Unit Of Measure of the value",
                           "type": "object",
-                          "aov:typeRef": "nsu=http://opcfoundation.org/UA/;i=887",
+                          "dov:typeRef": "nsu=http://opcfoundation.org/UA/;i=887",
                           "required": [ "NamespaceUri", "UnitId", "DisplayName", "Description" ],
                           "properties": {
                             "NamespaceUri": {
@@ -1350,23 +1345,23 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/WireHarness/WireHarness_PartManagementType/action/FindPartsByType",
+            "dov:topic": "opcua/WireHarness/WireHarness_PartManagementType/action/FindPartsByType",
             "op": "invokeaction"
           }
         ]
       },
       "StorePart": {
-        "aov:namespace": "http://opcfoundation.org/UA/WireHarness/",
+        "dov:namespace": "http://opcfoundation.org/UA/WireHarness/",
         "input": {
           "type": "object",
-          "aov:typeRef": "nsu=http://opcfoundation.org/UA/WireHarness/;i=6054",
+          "dov:typeRef": "nsu=http://opcfoundation.org/UA/WireHarness/;i=6054",
           "required": [ "Part" ],
           "properties": {
             "Part": {
               "title": "ISA95MaterialDataType",
               "description": "Defines a material resource, a quantity, an optional description, and an optional collection of properties.",
               "type": "object",
-              "aov:typeRef": "nsu=http://opcfoundation.org/UA/ISA95-JOBCONTROL_V2/;i=3010",
+              "dov:typeRef": "nsu=http://opcfoundation.org/UA/ISA95-JOBCONTROL_V2/;i=3010",
               "properties": {
                 "MaterialClassID": {
                   "description": "An identification of the resource, or null if the Material Class is not used to identify the material.",
@@ -1404,7 +1399,7 @@
                   "title": "EUInformation",
                   "description": "The Unit Of Measure of the quantity",
                   "type": "object",
-                  "aov:typeRef": "nsu=http://opcfoundation.org/UA/;i=887",
+                  "dov:typeRef": "nsu=http://opcfoundation.org/UA/;i=887",
                   "required": [ "NamespaceUri", "UnitId", "DisplayName", "Description" ],
                   "properties": {
                     "NamespaceUri": {
@@ -1430,7 +1425,7 @@
                     "title": "ISA95PropertyDataType",
                     "description": "A subtype of OPC UA Structure that defines two linked data items: an ID, which is a unique identifier for a property within the scope of the associated resource, and the value, which is the data for the property.",
                     "type": "object",
-                    "aov:typeRef": "nsu=http://opcfoundation.org/UA/ISA95-JOBCONTROL_V2/;i=3002",
+                    "dov:typeRef": "nsu=http://opcfoundation.org/UA/ISA95-JOBCONTROL_V2/;i=3002",
                     "required": [ "ID", "Value" ],
                     "properties": {
                       "ID": {
@@ -1452,7 +1447,7 @@
                         "title": "EUInformation",
                         "description": "The Unit Of Measure of the value",
                         "type": "object",
-                        "aov:typeRef": "nsu=http://opcfoundation.org/UA/;i=887",
+                        "dov:typeRef": "nsu=http://opcfoundation.org/UA/;i=887",
                         "required": [ "NamespaceUri", "UnitId", "DisplayName", "Description" ],
                         "properties": {
                           "NamespaceUri": {
@@ -1488,7 +1483,7 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/WireHarness/WireHarness_PartManagementType/action/StorePart",
+            "dov:topic": "opcua/WireHarness/WireHarness_PartManagementType/action/StorePart",
             "op": "invokeaction"
           }
         ]
@@ -1496,13 +1491,13 @@
     },
     "properties": {
       "Seals": {
-        "aov:namespace": "http://opcfoundation.org/UA/WireHarness/",
+        "dov:namespace": "http://opcfoundation.org/UA/WireHarness/",
         "type": "array",
         "items": {
           "title": "ISA95MaterialDataType",
           "description": "Defines a material resource, a quantity, an optional description, and an optional collection of properties.",
           "type": "object",
-          "aov:typeRef": "nsu=http://opcfoundation.org/UA/ISA95-JOBCONTROL_V2/;i=3010",
+          "dov:typeRef": "nsu=http://opcfoundation.org/UA/ISA95-JOBCONTROL_V2/;i=3010",
           "properties": {
             "MaterialClassID": {
               "description": "An identification of the resource, or null if the Material Class is not used to identify the material.",
@@ -1540,7 +1535,7 @@
               "title": "EUInformation",
               "description": "The Unit Of Measure of the quantity",
               "type": "object",
-              "aov:typeRef": "nsu=http://opcfoundation.org/UA/;i=887",
+              "dov:typeRef": "nsu=http://opcfoundation.org/UA/;i=887",
               "required": [ "NamespaceUri", "UnitId", "DisplayName", "Description" ],
               "properties": {
                 "NamespaceUri": {
@@ -1566,7 +1561,7 @@
                 "title": "ISA95PropertyDataType",
                 "description": "A subtype of OPC UA Structure that defines two linked data items: an ID, which is a unique identifier for a property within the scope of the associated resource, and the value, which is the data for the property.",
                 "type": "object",
-                "aov:typeRef": "nsu=http://opcfoundation.org/UA/ISA95-JOBCONTROL_V2/;i=3002",
+                "dov:typeRef": "nsu=http://opcfoundation.org/UA/ISA95-JOBCONTROL_V2/;i=3002",
                 "required": [ "ID", "Value" ],
                 "properties": {
                   "ID": {
@@ -1588,7 +1583,7 @@
                     "title": "EUInformation",
                     "description": "The Unit Of Measure of the value",
                     "type": "object",
-                    "aov:typeRef": "nsu=http://opcfoundation.org/UA/;i=887",
+                    "dov:typeRef": "nsu=http://opcfoundation.org/UA/;i=887",
                     "required": [ "NamespaceUri", "UnitId", "DisplayName", "Description" ],
                     "properties": {
                       "NamespaceUri": {
@@ -1623,24 +1618,24 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/WireHarness/WireHarness_PartManagementType/property/Seals/write",
+            "dov:topic": "opcua/WireHarness/WireHarness_PartManagementType/property/Seals/write",
             "op": "writeproperty"
           },
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/WireHarness/WireHarness_PartManagementType/property/Seals/read",
+            "dov:topic": "opcua/WireHarness/WireHarness_PartManagementType/property/Seals/read",
             "op": "readproperty"
           }
         ]
       },
       "Sleeves": {
-        "aov:namespace": "http://opcfoundation.org/UA/WireHarness/",
+        "dov:namespace": "http://opcfoundation.org/UA/WireHarness/",
         "type": "array",
         "items": {
           "title": "ISA95MaterialDataType",
           "description": "Defines a material resource, a quantity, an optional description, and an optional collection of properties.",
           "type": "object",
-          "aov:typeRef": "nsu=http://opcfoundation.org/UA/ISA95-JOBCONTROL_V2/;i=3010",
+          "dov:typeRef": "nsu=http://opcfoundation.org/UA/ISA95-JOBCONTROL_V2/;i=3010",
           "properties": {
             "MaterialClassID": {
               "description": "An identification of the resource, or null if the Material Class is not used to identify the material.",
@@ -1678,7 +1673,7 @@
               "title": "EUInformation",
               "description": "The Unit Of Measure of the quantity",
               "type": "object",
-              "aov:typeRef": "nsu=http://opcfoundation.org/UA/;i=887",
+              "dov:typeRef": "nsu=http://opcfoundation.org/UA/;i=887",
               "required": [ "NamespaceUri", "UnitId", "DisplayName", "Description" ],
               "properties": {
                 "NamespaceUri": {
@@ -1704,7 +1699,7 @@
                 "title": "ISA95PropertyDataType",
                 "description": "A subtype of OPC UA Structure that defines two linked data items: an ID, which is a unique identifier for a property within the scope of the associated resource, and the value, which is the data for the property.",
                 "type": "object",
-                "aov:typeRef": "nsu=http://opcfoundation.org/UA/ISA95-JOBCONTROL_V2/;i=3002",
+                "dov:typeRef": "nsu=http://opcfoundation.org/UA/ISA95-JOBCONTROL_V2/;i=3002",
                 "required": [ "ID", "Value" ],
                 "properties": {
                   "ID": {
@@ -1726,7 +1721,7 @@
                     "title": "EUInformation",
                     "description": "The Unit Of Measure of the value",
                     "type": "object",
-                    "aov:typeRef": "nsu=http://opcfoundation.org/UA/;i=887",
+                    "dov:typeRef": "nsu=http://opcfoundation.org/UA/;i=887",
                     "required": [ "NamespaceUri", "UnitId", "DisplayName", "Description" ],
                     "properties": {
                       "NamespaceUri": {
@@ -1761,24 +1756,24 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/WireHarness/WireHarness_PartManagementType/property/Sleeves/write",
+            "dov:topic": "opcua/WireHarness/WireHarness_PartManagementType/property/Sleeves/write",
             "op": "writeproperty"
           },
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/WireHarness/WireHarness_PartManagementType/property/Sleeves/read",
+            "dov:topic": "opcua/WireHarness/WireHarness_PartManagementType/property/Sleeves/read",
             "op": "readproperty"
           }
         ]
       },
       "Terminals": {
-        "aov:namespace": "http://opcfoundation.org/UA/WireHarness/",
+        "dov:namespace": "http://opcfoundation.org/UA/WireHarness/",
         "type": "array",
         "items": {
           "title": "ISA95MaterialDataType",
           "description": "Defines a material resource, a quantity, an optional description, and an optional collection of properties.",
           "type": "object",
-          "aov:typeRef": "nsu=http://opcfoundation.org/UA/ISA95-JOBCONTROL_V2/;i=3010",
+          "dov:typeRef": "nsu=http://opcfoundation.org/UA/ISA95-JOBCONTROL_V2/;i=3010",
           "properties": {
             "MaterialClassID": {
               "description": "An identification of the resource, or null if the Material Class is not used to identify the material.",
@@ -1816,7 +1811,7 @@
               "title": "EUInformation",
               "description": "The Unit Of Measure of the quantity",
               "type": "object",
-              "aov:typeRef": "nsu=http://opcfoundation.org/UA/;i=887",
+              "dov:typeRef": "nsu=http://opcfoundation.org/UA/;i=887",
               "required": [ "NamespaceUri", "UnitId", "DisplayName", "Description" ],
               "properties": {
                 "NamespaceUri": {
@@ -1842,7 +1837,7 @@
                 "title": "ISA95PropertyDataType",
                 "description": "A subtype of OPC UA Structure that defines two linked data items: an ID, which is a unique identifier for a property within the scope of the associated resource, and the value, which is the data for the property.",
                 "type": "object",
-                "aov:typeRef": "nsu=http://opcfoundation.org/UA/ISA95-JOBCONTROL_V2/;i=3002",
+                "dov:typeRef": "nsu=http://opcfoundation.org/UA/ISA95-JOBCONTROL_V2/;i=3002",
                 "required": [ "ID", "Value" ],
                 "properties": {
                   "ID": {
@@ -1864,7 +1859,7 @@
                     "title": "EUInformation",
                     "description": "The Unit Of Measure of the value",
                     "type": "object",
-                    "aov:typeRef": "nsu=http://opcfoundation.org/UA/;i=887",
+                    "dov:typeRef": "nsu=http://opcfoundation.org/UA/;i=887",
                     "required": [ "NamespaceUri", "UnitId", "DisplayName", "Description" ],
                     "properties": {
                       "NamespaceUri": {
@@ -1899,24 +1894,24 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/WireHarness/WireHarness_PartManagementType/property/Terminals/write",
+            "dov:topic": "opcua/WireHarness/WireHarness_PartManagementType/property/Terminals/write",
             "op": "writeproperty"
           },
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/WireHarness/WireHarness_PartManagementType/property/Terminals/read",
+            "dov:topic": "opcua/WireHarness/WireHarness_PartManagementType/property/Terminals/read",
             "op": "readproperty"
           }
         ]
       },
       "Wires": {
-        "aov:namespace": "http://opcfoundation.org/UA/WireHarness/",
+        "dov:namespace": "http://opcfoundation.org/UA/WireHarness/",
         "type": "array",
         "items": {
           "title": "ISA95MaterialDataType",
           "description": "Defines a material resource, a quantity, an optional description, and an optional collection of properties.",
           "type": "object",
-          "aov:typeRef": "nsu=http://opcfoundation.org/UA/ISA95-JOBCONTROL_V2/;i=3010",
+          "dov:typeRef": "nsu=http://opcfoundation.org/UA/ISA95-JOBCONTROL_V2/;i=3010",
           "properties": {
             "MaterialClassID": {
               "description": "An identification of the resource, or null if the Material Class is not used to identify the material.",
@@ -1954,7 +1949,7 @@
               "title": "EUInformation",
               "description": "The Unit Of Measure of the quantity",
               "type": "object",
-              "aov:typeRef": "nsu=http://opcfoundation.org/UA/;i=887",
+              "dov:typeRef": "nsu=http://opcfoundation.org/UA/;i=887",
               "required": [ "NamespaceUri", "UnitId", "DisplayName", "Description" ],
               "properties": {
                 "NamespaceUri": {
@@ -1980,7 +1975,7 @@
                 "title": "ISA95PropertyDataType",
                 "description": "A subtype of OPC UA Structure that defines two linked data items: an ID, which is a unique identifier for a property within the scope of the associated resource, and the value, which is the data for the property.",
                 "type": "object",
-                "aov:typeRef": "nsu=http://opcfoundation.org/UA/ISA95-JOBCONTROL_V2/;i=3002",
+                "dov:typeRef": "nsu=http://opcfoundation.org/UA/ISA95-JOBCONTROL_V2/;i=3002",
                 "required": [ "ID", "Value" ],
                 "properties": {
                   "ID": {
@@ -2002,7 +1997,7 @@
                     "title": "EUInformation",
                     "description": "The Unit Of Measure of the value",
                     "type": "object",
-                    "aov:typeRef": "nsu=http://opcfoundation.org/UA/;i=887",
+                    "dov:typeRef": "nsu=http://opcfoundation.org/UA/;i=887",
                     "required": [ "NamespaceUri", "UnitId", "DisplayName", "Description" ],
                     "properties": {
                       "NamespaceUri": {
@@ -2037,12 +2032,12 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/WireHarness/WireHarness_PartManagementType/property/Wires/write",
+            "dov:topic": "opcua/WireHarness/WireHarness_PartManagementType/property/Wires/write",
             "op": "writeproperty"
           },
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/WireHarness/WireHarness_PartManagementType/property/Wires/read",
+            "dov:topic": "opcua/WireHarness/WireHarness_PartManagementType/property/Wires/read",
             "op": "readproperty"
           }
         ]
@@ -2050,14 +2045,14 @@
     },
     "events": {
       "Seals": {
-        "aov:namespace": "http://opcfoundation.org/UA/WireHarness/",
+        "dov:namespace": "http://opcfoundation.org/UA/WireHarness/",
         "data": {
           "type": "array",
           "items": {
             "title": "ISA95MaterialDataType",
             "description": "Defines a material resource, a quantity, an optional description, and an optional collection of properties.",
             "type": "object",
-            "aov:typeRef": "nsu=http://opcfoundation.org/UA/ISA95-JOBCONTROL_V2/;i=3010",
+            "dov:typeRef": "nsu=http://opcfoundation.org/UA/ISA95-JOBCONTROL_V2/;i=3010",
             "properties": {
               "MaterialClassID": {
                 "description": "An identification of the resource, or null if the Material Class is not used to identify the material.",
@@ -2095,7 +2090,7 @@
                 "title": "EUInformation",
                 "description": "The Unit Of Measure of the quantity",
                 "type": "object",
-                "aov:typeRef": "nsu=http://opcfoundation.org/UA/;i=887",
+                "dov:typeRef": "nsu=http://opcfoundation.org/UA/;i=887",
                 "required": [ "NamespaceUri", "UnitId", "DisplayName", "Description" ],
                 "properties": {
                   "NamespaceUri": {
@@ -2121,7 +2116,7 @@
                   "title": "ISA95PropertyDataType",
                   "description": "A subtype of OPC UA Structure that defines two linked data items: an ID, which is a unique identifier for a property within the scope of the associated resource, and the value, which is the data for the property.",
                   "type": "object",
-                  "aov:typeRef": "nsu=http://opcfoundation.org/UA/ISA95-JOBCONTROL_V2/;i=3002",
+                  "dov:typeRef": "nsu=http://opcfoundation.org/UA/ISA95-JOBCONTROL_V2/;i=3002",
                   "required": [ "ID", "Value" ],
                   "properties": {
                     "ID": {
@@ -2143,7 +2138,7 @@
                       "title": "EUInformation",
                       "description": "The Unit Of Measure of the value",
                       "type": "object",
-                      "aov:typeRef": "nsu=http://opcfoundation.org/UA/;i=887",
+                      "dov:typeRef": "nsu=http://opcfoundation.org/UA/;i=887",
                       "required": [ "NamespaceUri", "UnitId", "DisplayName", "Description" ],
                       "properties": {
                         "NamespaceUri": {
@@ -2178,20 +2173,20 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/WireHarness/WireHarness_PartManagementType/event/Seals/{senderId}",
+            "dov:topic": "opcua/WireHarness/WireHarness_PartManagementType/event/Seals/{senderId}",
             "op": "subscribeevent"
           }
         ]
       },
       "Sleeves": {
-        "aov:namespace": "http://opcfoundation.org/UA/WireHarness/",
+        "dov:namespace": "http://opcfoundation.org/UA/WireHarness/",
         "data": {
           "type": "array",
           "items": {
             "title": "ISA95MaterialDataType",
             "description": "Defines a material resource, a quantity, an optional description, and an optional collection of properties.",
             "type": "object",
-            "aov:typeRef": "nsu=http://opcfoundation.org/UA/ISA95-JOBCONTROL_V2/;i=3010",
+            "dov:typeRef": "nsu=http://opcfoundation.org/UA/ISA95-JOBCONTROL_V2/;i=3010",
             "properties": {
               "MaterialClassID": {
                 "description": "An identification of the resource, or null if the Material Class is not used to identify the material.",
@@ -2229,7 +2224,7 @@
                 "title": "EUInformation",
                 "description": "The Unit Of Measure of the quantity",
                 "type": "object",
-                "aov:typeRef": "nsu=http://opcfoundation.org/UA/;i=887",
+                "dov:typeRef": "nsu=http://opcfoundation.org/UA/;i=887",
                 "required": [ "NamespaceUri", "UnitId", "DisplayName", "Description" ],
                 "properties": {
                   "NamespaceUri": {
@@ -2255,7 +2250,7 @@
                   "title": "ISA95PropertyDataType",
                   "description": "A subtype of OPC UA Structure that defines two linked data items: an ID, which is a unique identifier for a property within the scope of the associated resource, and the value, which is the data for the property.",
                   "type": "object",
-                  "aov:typeRef": "nsu=http://opcfoundation.org/UA/ISA95-JOBCONTROL_V2/;i=3002",
+                  "dov:typeRef": "nsu=http://opcfoundation.org/UA/ISA95-JOBCONTROL_V2/;i=3002",
                   "required": [ "ID", "Value" ],
                   "properties": {
                     "ID": {
@@ -2277,7 +2272,7 @@
                       "title": "EUInformation",
                       "description": "The Unit Of Measure of the value",
                       "type": "object",
-                      "aov:typeRef": "nsu=http://opcfoundation.org/UA/;i=887",
+                      "dov:typeRef": "nsu=http://opcfoundation.org/UA/;i=887",
                       "required": [ "NamespaceUri", "UnitId", "DisplayName", "Description" ],
                       "properties": {
                         "NamespaceUri": {
@@ -2312,20 +2307,20 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/WireHarness/WireHarness_PartManagementType/event/Sleeves/{senderId}",
+            "dov:topic": "opcua/WireHarness/WireHarness_PartManagementType/event/Sleeves/{senderId}",
             "op": "subscribeevent"
           }
         ]
       },
       "Terminals": {
-        "aov:namespace": "http://opcfoundation.org/UA/WireHarness/",
+        "dov:namespace": "http://opcfoundation.org/UA/WireHarness/",
         "data": {
           "type": "array",
           "items": {
             "title": "ISA95MaterialDataType",
             "description": "Defines a material resource, a quantity, an optional description, and an optional collection of properties.",
             "type": "object",
-            "aov:typeRef": "nsu=http://opcfoundation.org/UA/ISA95-JOBCONTROL_V2/;i=3010",
+            "dov:typeRef": "nsu=http://opcfoundation.org/UA/ISA95-JOBCONTROL_V2/;i=3010",
             "properties": {
               "MaterialClassID": {
                 "description": "An identification of the resource, or null if the Material Class is not used to identify the material.",
@@ -2363,7 +2358,7 @@
                 "title": "EUInformation",
                 "description": "The Unit Of Measure of the quantity",
                 "type": "object",
-                "aov:typeRef": "nsu=http://opcfoundation.org/UA/;i=887",
+                "dov:typeRef": "nsu=http://opcfoundation.org/UA/;i=887",
                 "required": [ "NamespaceUri", "UnitId", "DisplayName", "Description" ],
                 "properties": {
                   "NamespaceUri": {
@@ -2389,7 +2384,7 @@
                   "title": "ISA95PropertyDataType",
                   "description": "A subtype of OPC UA Structure that defines two linked data items: an ID, which is a unique identifier for a property within the scope of the associated resource, and the value, which is the data for the property.",
                   "type": "object",
-                  "aov:typeRef": "nsu=http://opcfoundation.org/UA/ISA95-JOBCONTROL_V2/;i=3002",
+                  "dov:typeRef": "nsu=http://opcfoundation.org/UA/ISA95-JOBCONTROL_V2/;i=3002",
                   "required": [ "ID", "Value" ],
                   "properties": {
                     "ID": {
@@ -2411,7 +2406,7 @@
                       "title": "EUInformation",
                       "description": "The Unit Of Measure of the value",
                       "type": "object",
-                      "aov:typeRef": "nsu=http://opcfoundation.org/UA/;i=887",
+                      "dov:typeRef": "nsu=http://opcfoundation.org/UA/;i=887",
                       "required": [ "NamespaceUri", "UnitId", "DisplayName", "Description" ],
                       "properties": {
                         "NamespaceUri": {
@@ -2446,20 +2441,20 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/WireHarness/WireHarness_PartManagementType/event/Terminals/{senderId}",
+            "dov:topic": "opcua/WireHarness/WireHarness_PartManagementType/event/Terminals/{senderId}",
             "op": "subscribeevent"
           }
         ]
       },
       "Wires": {
-        "aov:namespace": "http://opcfoundation.org/UA/WireHarness/",
+        "dov:namespace": "http://opcfoundation.org/UA/WireHarness/",
         "data": {
           "type": "array",
           "items": {
             "title": "ISA95MaterialDataType",
             "description": "Defines a material resource, a quantity, an optional description, and an optional collection of properties.",
             "type": "object",
-            "aov:typeRef": "nsu=http://opcfoundation.org/UA/ISA95-JOBCONTROL_V2/;i=3010",
+            "dov:typeRef": "nsu=http://opcfoundation.org/UA/ISA95-JOBCONTROL_V2/;i=3010",
             "properties": {
               "MaterialClassID": {
                 "description": "An identification of the resource, or null if the Material Class is not used to identify the material.",
@@ -2497,7 +2492,7 @@
                 "title": "EUInformation",
                 "description": "The Unit Of Measure of the quantity",
                 "type": "object",
-                "aov:typeRef": "nsu=http://opcfoundation.org/UA/;i=887",
+                "dov:typeRef": "nsu=http://opcfoundation.org/UA/;i=887",
                 "required": [ "NamespaceUri", "UnitId", "DisplayName", "Description" ],
                 "properties": {
                   "NamespaceUri": {
@@ -2523,7 +2518,7 @@
                   "title": "ISA95PropertyDataType",
                   "description": "A subtype of OPC UA Structure that defines two linked data items: an ID, which is a unique identifier for a property within the scope of the associated resource, and the value, which is the data for the property.",
                   "type": "object",
-                  "aov:typeRef": "nsu=http://opcfoundation.org/UA/ISA95-JOBCONTROL_V2/;i=3002",
+                  "dov:typeRef": "nsu=http://opcfoundation.org/UA/ISA95-JOBCONTROL_V2/;i=3002",
                   "required": [ "ID", "Value" ],
                   "properties": {
                     "ID": {
@@ -2545,7 +2540,7 @@
                       "title": "EUInformation",
                       "description": "The Unit Of Measure of the value",
                       "type": "object",
-                      "aov:typeRef": "nsu=http://opcfoundation.org/UA/;i=887",
+                      "dov:typeRef": "nsu=http://opcfoundation.org/UA/;i=887",
                       "required": [ "NamespaceUri", "UnitId", "DisplayName", "Description" ],
                       "properties": {
                         "NamespaceUri": {
@@ -2580,7 +2575,7 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/WireHarness/WireHarness_PartManagementType/event/Wires/{senderId}",
+            "dov:topic": "opcua/WireHarness/WireHarness_PartManagementType/event/Wires/{senderId}",
             "op": "subscribeevent"
           }
         ]
@@ -2591,14 +2586,13 @@
     "@context": [
       "https://www.w3.org/2022/wot/td/v1.1",
       {
-        "dtv": "http://azure.com/DigitalTwins/dtmi#",
-        "aov": "http://azure.com/IoT/operations/tm#"
+        "dov": "http://azure.com/DigitalOperations/vocab#"
       }
     ],
     "@type": "tm:ThingModel",
     "title": "WireHarness_WireHarnessJobOrderReceiverSubStatesType",
-    "aov:typeRef": "nsu=http://opcfoundation.org/UA/WireHarness/;i=1006",
-    "aov:isComposite": true,
+    "dov:typeRef": "nsu=http://opcfoundation.org/UA/WireHarness/;i=1006",
+    "dov:isComposite": true,
     "links": [
       {
         "rel": "tm:extends",
@@ -2610,10 +2604,10 @@
     },
     "actions": {
       "Abort": {
-        "aov:namespace": "http://opcfoundation.org/UA/ISA95-JOBCONTROL_V2/",
+        "dov:namespace": "http://opcfoundation.org/UA/ISA95-JOBCONTROL_V2/",
         "input": {
           "type": "object",
-          "aov:typeRef": "nsu=http://opcfoundation.org/UA/WireHarness/;i=6021",
+          "dov:typeRef": "nsu=http://opcfoundation.org/UA/WireHarness/;i=6021",
           "required": [ "JobOrderID", "Comment" ],
           "properties": {
             "JobOrderID": {
@@ -2631,7 +2625,7 @@
         },
         "output": {
           "type": "object",
-          "aov:typeRef": "nsu=http://opcfoundation.org/UA/WireHarness/;i=6024",
+          "dov:typeRef": "nsu=http://opcfoundation.org/UA/WireHarness/;i=6024",
           "required": [ "ReturnStatus" ],
           "properties": {
             "ReturnStatus": {
@@ -2645,16 +2639,16 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/WireHarness/WireHarness_WireHarnessJobOrderReceiverSubStatesType/action/Abort",
+            "dov:topic": "opcua/WireHarness/WireHarness_WireHarnessJobOrderReceiverSubStatesType/action/Abort",
             "op": "invokeaction"
           }
         ]
       },
       "Cancel": {
-        "aov:namespace": "http://opcfoundation.org/UA/ISA95-JOBCONTROL_V2/",
+        "dov:namespace": "http://opcfoundation.org/UA/ISA95-JOBCONTROL_V2/",
         "input": {
           "type": "object",
-          "aov:typeRef": "nsu=http://opcfoundation.org/UA/WireHarness/;i=6018",
+          "dov:typeRef": "nsu=http://opcfoundation.org/UA/WireHarness/;i=6018",
           "required": [ "JobOrderID", "Comment" ],
           "properties": {
             "JobOrderID": {
@@ -2672,7 +2666,7 @@
         },
         "output": {
           "type": "object",
-          "aov:typeRef": "nsu=http://opcfoundation.org/UA/WireHarness/;i=6020",
+          "dov:typeRef": "nsu=http://opcfoundation.org/UA/WireHarness/;i=6020",
           "required": [ "ReturnStatus" ],
           "properties": {
             "ReturnStatus": {
@@ -2686,16 +2680,16 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/WireHarness/WireHarness_WireHarnessJobOrderReceiverSubStatesType/action/Cancel",
+            "dov:topic": "opcua/WireHarness/WireHarness_WireHarnessJobOrderReceiverSubStatesType/action/Cancel",
             "op": "invokeaction"
           }
         ]
       },
       "Clear": {
-        "aov:namespace": "http://opcfoundation.org/UA/ISA95-JOBCONTROL_V2/",
+        "dov:namespace": "http://opcfoundation.org/UA/ISA95-JOBCONTROL_V2/",
         "input": {
           "type": "object",
-          "aov:typeRef": "nsu=http://opcfoundation.org/UA/WireHarness/;i=6101",
+          "dov:typeRef": "nsu=http://opcfoundation.org/UA/WireHarness/;i=6101",
           "required": [ "JobOrderID", "Comment" ],
           "properties": {
             "JobOrderID": {
@@ -2713,7 +2707,7 @@
         },
         "output": {
           "type": "object",
-          "aov:typeRef": "nsu=http://opcfoundation.org/UA/WireHarness/;i=6102",
+          "dov:typeRef": "nsu=http://opcfoundation.org/UA/WireHarness/;i=6102",
           "required": [ "ReturnStatus" ],
           "properties": {
             "ReturnStatus": {
@@ -2727,16 +2721,16 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/WireHarness/WireHarness_WireHarnessJobOrderReceiverSubStatesType/action/Clear",
+            "dov:topic": "opcua/WireHarness/WireHarness_WireHarnessJobOrderReceiverSubStatesType/action/Clear",
             "op": "invokeaction"
           }
         ]
       },
       "Pause": {
-        "aov:namespace": "http://opcfoundation.org/UA/ISA95-JOBCONTROL_V2/",
+        "dov:namespace": "http://opcfoundation.org/UA/ISA95-JOBCONTROL_V2/",
         "input": {
           "type": "object",
-          "aov:typeRef": "nsu=http://opcfoundation.org/UA/WireHarness/;i=6103",
+          "dov:typeRef": "nsu=http://opcfoundation.org/UA/WireHarness/;i=6103",
           "required": [ "JobOrderID", "Comment" ],
           "properties": {
             "JobOrderID": {
@@ -2754,7 +2748,7 @@
         },
         "output": {
           "type": "object",
-          "aov:typeRef": "nsu=http://opcfoundation.org/UA/WireHarness/;i=6104",
+          "dov:typeRef": "nsu=http://opcfoundation.org/UA/WireHarness/;i=6104",
           "required": [ "ReturnStatus" ],
           "properties": {
             "ReturnStatus": {
@@ -2768,16 +2762,16 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/WireHarness/WireHarness_WireHarnessJobOrderReceiverSubStatesType/action/Pause",
+            "dov:topic": "opcua/WireHarness/WireHarness_WireHarnessJobOrderReceiverSubStatesType/action/Pause",
             "op": "invokeaction"
           }
         ]
       },
       "Start": {
-        "aov:namespace": "http://opcfoundation.org/UA/ISA95-JOBCONTROL_V2/",
+        "dov:namespace": "http://opcfoundation.org/UA/ISA95-JOBCONTROL_V2/",
         "input": {
           "type": "object",
-          "aov:typeRef": "nsu=http://opcfoundation.org/UA/WireHarness/;i=6025",
+          "dov:typeRef": "nsu=http://opcfoundation.org/UA/WireHarness/;i=6025",
           "required": [ "JobOrderID", "Comment" ],
           "properties": {
             "JobOrderID": {
@@ -2795,7 +2789,7 @@
         },
         "output": {
           "type": "object",
-          "aov:typeRef": "nsu=http://opcfoundation.org/UA/WireHarness/;i=6100",
+          "dov:typeRef": "nsu=http://opcfoundation.org/UA/WireHarness/;i=6100",
           "required": [ "ReturnStatus" ],
           "properties": {
             "ReturnStatus": {
@@ -2809,16 +2803,16 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/WireHarness/WireHarness_WireHarnessJobOrderReceiverSubStatesType/action/Start",
+            "dov:topic": "opcua/WireHarness/WireHarness_WireHarnessJobOrderReceiverSubStatesType/action/Start",
             "op": "invokeaction"
           }
         ]
       },
       "Stop": {
-        "aov:namespace": "http://opcfoundation.org/UA/ISA95-JOBCONTROL_V2/",
+        "dov:namespace": "http://opcfoundation.org/UA/ISA95-JOBCONTROL_V2/",
         "input": {
           "type": "object",
-          "aov:typeRef": "nsu=http://opcfoundation.org/UA/WireHarness/;i=6105",
+          "dov:typeRef": "nsu=http://opcfoundation.org/UA/WireHarness/;i=6105",
           "required": [ "JobOrderID", "Comment" ],
           "properties": {
             "JobOrderID": {
@@ -2836,7 +2830,7 @@
         },
         "output": {
           "type": "object",
-          "aov:typeRef": "nsu=http://opcfoundation.org/UA/WireHarness/;i=6106",
+          "dov:typeRef": "nsu=http://opcfoundation.org/UA/WireHarness/;i=6106",
           "required": [ "ReturnStatus" ],
           "properties": {
             "ReturnStatus": {
@@ -2850,23 +2844,23 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/WireHarness/WireHarness_WireHarnessJobOrderReceiverSubStatesType/action/Stop",
+            "dov:topic": "opcua/WireHarness/WireHarness_WireHarnessJobOrderReceiverSubStatesType/action/Stop",
             "op": "invokeaction"
           }
         ]
       },
       "Store": {
-        "aov:namespace": "http://opcfoundation.org/UA/ISA95-JOBCONTROL_V2/",
+        "dov:namespace": "http://opcfoundation.org/UA/ISA95-JOBCONTROL_V2/",
         "input": {
           "type": "object",
-          "aov:typeRef": "nsu=http://opcfoundation.org/UA/WireHarness/;i=6107",
+          "dov:typeRef": "nsu=http://opcfoundation.org/UA/WireHarness/;i=6107",
           "required": [ "JobOrder", "Comment" ],
           "properties": {
             "JobOrder": {
               "title": "ISA95JobOrderDataType",
               "description": "Defines the information needed to schedule and execute a job.",
               "type": "object",
-              "aov:typeRef": "nsu=http://opcfoundation.org/UA/ISA95-JOBCONTROL_V2/;i=3008",
+              "dov:typeRef": "nsu=http://opcfoundation.org/UA/ISA95-JOBCONTROL_V2/;i=3008",
               "required": [ "JobOrderID" ],
               "properties": {
                 "JobOrderID": {
@@ -2887,7 +2881,7 @@
                     "title": "ISA95WorkMasterDataType",
                     "description": "Defines a Work Master ID and the defined parameters for the Work Master.",
                     "type": "object",
-                    "aov:typeRef": "nsu=http://opcfoundation.org/UA/ISA95-JOBCONTROL_V2/;i=3007",
+                    "dov:typeRef": "nsu=http://opcfoundation.org/UA/ISA95-JOBCONTROL_V2/;i=3007",
                     "required": [ "ID" ],
                     "properties": {
                       "ID": {
@@ -2905,7 +2899,7 @@
                           "title": "ISA95ParameterDataType",
                           "description": "A subtype of OPC UA Structure that defines three linked data items: the ID, which is a unique identifier for a property, the value, which is the data that is identified, and an optional description of the parameter.",
                           "type": "object",
-                          "aov:typeRef": "nsu=http://opcfoundation.org/UA/ISA95-JOBCONTROL_V2/;i=3003",
+                          "dov:typeRef": "nsu=http://opcfoundation.org/UA/ISA95-JOBCONTROL_V2/;i=3003",
                           "required": [ "ID", "Value" ],
                           "properties": {
                             "ID": {
@@ -2927,7 +2921,7 @@
                               "title": "EUInformation",
                               "description": "The Unit Of Measure of the value",
                               "type": "object",
-                              "aov:typeRef": "nsu=http://opcfoundation.org/UA/;i=887",
+                              "dov:typeRef": "nsu=http://opcfoundation.org/UA/;i=887",
                               "required": [ "NamespaceUri", "UnitId", "DisplayName", "Description" ],
                               "properties": {
                                 "NamespaceUri": {
@@ -2982,7 +2976,7 @@
                     "title": "ISA95ParameterDataType",
                     "description": "A subtype of OPC UA Structure that defines three linked data items: the ID, which is a unique identifier for a property, the value, which is the data that is identified, and an optional description of the parameter.",
                     "type": "object",
-                    "aov:typeRef": "nsu=http://opcfoundation.org/UA/ISA95-JOBCONTROL_V2/;i=3003",
+                    "dov:typeRef": "nsu=http://opcfoundation.org/UA/ISA95-JOBCONTROL_V2/;i=3003",
                     "required": [ "ID", "Value" ],
                     "properties": {
                       "ID": {
@@ -3004,7 +2998,7 @@
                         "title": "EUInformation",
                         "description": "The Unit Of Measure of the value",
                         "type": "object",
-                        "aov:typeRef": "nsu=http://opcfoundation.org/UA/;i=887",
+                        "dov:typeRef": "nsu=http://opcfoundation.org/UA/;i=887",
                         "required": [ "NamespaceUri", "UnitId", "DisplayName", "Description" ],
                         "properties": {
                           "NamespaceUri": {
@@ -3040,7 +3034,7 @@
                     "title": "ISA95PersonnelDataType",
                     "description": "Defines a personnel resource or a person, a quantity, an optional description, and an optional collection of properties.",
                     "type": "object",
-                    "aov:typeRef": "nsu=http://opcfoundation.org/UA/ISA95-JOBCONTROL_V2/;i=3011",
+                    "dov:typeRef": "nsu=http://opcfoundation.org/UA/ISA95-JOBCONTROL_V2/;i=3011",
                     "required": [ "ID" ],
                     "properties": {
                       "ID": {
@@ -3067,7 +3061,7 @@
                         "title": "EUInformation",
                         "description": "The Unit Of Measure of the quantity",
                         "type": "object",
-                        "aov:typeRef": "nsu=http://opcfoundation.org/UA/;i=887",
+                        "dov:typeRef": "nsu=http://opcfoundation.org/UA/;i=887",
                         "required": [ "NamespaceUri", "UnitId", "DisplayName", "Description" ],
                         "properties": {
                           "NamespaceUri": {
@@ -3093,7 +3087,7 @@
                           "title": "ISA95PropertyDataType",
                           "description": "A subtype of OPC UA Structure that defines two linked data items: an ID, which is a unique identifier for a property within the scope of the associated resource, and the value, which is the data for the property.",
                           "type": "object",
-                          "aov:typeRef": "nsu=http://opcfoundation.org/UA/ISA95-JOBCONTROL_V2/;i=3002",
+                          "dov:typeRef": "nsu=http://opcfoundation.org/UA/ISA95-JOBCONTROL_V2/;i=3002",
                           "required": [ "ID", "Value" ],
                           "properties": {
                             "ID": {
@@ -3115,7 +3109,7 @@
                               "title": "EUInformation",
                               "description": "The Unit Of Measure of the value",
                               "type": "object",
-                              "aov:typeRef": "nsu=http://opcfoundation.org/UA/;i=887",
+                              "dov:typeRef": "nsu=http://opcfoundation.org/UA/;i=887",
                               "required": [ "NamespaceUri", "UnitId", "DisplayName", "Description" ],
                               "properties": {
                                 "NamespaceUri": {
@@ -3154,7 +3148,7 @@
                     "title": "ISA95EquipmentDataType",
                     "description": "Defines an equipment resource or a piece of equipment, a quantity, an optional description, and an optional collection of properties.",
                     "type": "object",
-                    "aov:typeRef": "nsu=http://opcfoundation.org/UA/ISA95-JOBCONTROL_V2/;i=3005",
+                    "dov:typeRef": "nsu=http://opcfoundation.org/UA/ISA95-JOBCONTROL_V2/;i=3005",
                     "required": [ "ID" ],
                     "properties": {
                       "ID": {
@@ -3181,7 +3175,7 @@
                         "title": "EUInformation",
                         "description": "The Unit Of Measure of the quantity",
                         "type": "object",
-                        "aov:typeRef": "nsu=http://opcfoundation.org/UA/;i=887",
+                        "dov:typeRef": "nsu=http://opcfoundation.org/UA/;i=887",
                         "required": [ "NamespaceUri", "UnitId", "DisplayName", "Description" ],
                         "properties": {
                           "NamespaceUri": {
@@ -3207,7 +3201,7 @@
                           "title": "ISA95PropertyDataType",
                           "description": "A subtype of OPC UA Structure that defines two linked data items: an ID, which is a unique identifier for a property within the scope of the associated resource, and the value, which is the data for the property.",
                           "type": "object",
-                          "aov:typeRef": "nsu=http://opcfoundation.org/UA/ISA95-JOBCONTROL_V2/;i=3002",
+                          "dov:typeRef": "nsu=http://opcfoundation.org/UA/ISA95-JOBCONTROL_V2/;i=3002",
                           "required": [ "ID", "Value" ],
                           "properties": {
                             "ID": {
@@ -3229,7 +3223,7 @@
                               "title": "EUInformation",
                               "description": "The Unit Of Measure of the value",
                               "type": "object",
-                              "aov:typeRef": "nsu=http://opcfoundation.org/UA/;i=887",
+                              "dov:typeRef": "nsu=http://opcfoundation.org/UA/;i=887",
                               "required": [ "NamespaceUri", "UnitId", "DisplayName", "Description" ],
                               "properties": {
                                 "NamespaceUri": {
@@ -3268,7 +3262,7 @@
                     "title": "ISA95PhysicalAssetDataType",
                     "description": "Defines a physical asset, a quantity, an optional description, and an optional collection of properties.",
                     "type": "object",
-                    "aov:typeRef": "nsu=http://opcfoundation.org/UA/ISA95-JOBCONTROL_V2/;i=3012",
+                    "dov:typeRef": "nsu=http://opcfoundation.org/UA/ISA95-JOBCONTROL_V2/;i=3012",
                     "required": [ "ID" ],
                     "properties": {
                       "ID": {
@@ -3295,7 +3289,7 @@
                         "title": "EUInformation",
                         "description": "The Unit Of Measure of the quantity",
                         "type": "object",
-                        "aov:typeRef": "nsu=http://opcfoundation.org/UA/;i=887",
+                        "dov:typeRef": "nsu=http://opcfoundation.org/UA/;i=887",
                         "required": [ "NamespaceUri", "UnitId", "DisplayName", "Description" ],
                         "properties": {
                           "NamespaceUri": {
@@ -3321,7 +3315,7 @@
                           "title": "ISA95PropertyDataType",
                           "description": "A subtype of OPC UA Structure that defines two linked data items: an ID, which is a unique identifier for a property within the scope of the associated resource, and the value, which is the data for the property.",
                           "type": "object",
-                          "aov:typeRef": "nsu=http://opcfoundation.org/UA/ISA95-JOBCONTROL_V2/;i=3002",
+                          "dov:typeRef": "nsu=http://opcfoundation.org/UA/ISA95-JOBCONTROL_V2/;i=3002",
                           "required": [ "ID", "Value" ],
                           "properties": {
                             "ID": {
@@ -3343,7 +3337,7 @@
                               "title": "EUInformation",
                               "description": "The Unit Of Measure of the value",
                               "type": "object",
-                              "aov:typeRef": "nsu=http://opcfoundation.org/UA/;i=887",
+                              "dov:typeRef": "nsu=http://opcfoundation.org/UA/;i=887",
                               "required": [ "NamespaceUri", "UnitId", "DisplayName", "Description" ],
                               "properties": {
                                 "NamespaceUri": {
@@ -3382,7 +3376,7 @@
                     "title": "ISA95MaterialDataType",
                     "description": "Defines a material resource, a quantity, an optional description, and an optional collection of properties.",
                     "type": "object",
-                    "aov:typeRef": "nsu=http://opcfoundation.org/UA/ISA95-JOBCONTROL_V2/;i=3010",
+                    "dov:typeRef": "nsu=http://opcfoundation.org/UA/ISA95-JOBCONTROL_V2/;i=3010",
                     "properties": {
                       "MaterialClassID": {
                         "description": "An identification of the resource, or null if the Material Class is not used to identify the material.",
@@ -3420,7 +3414,7 @@
                         "title": "EUInformation",
                         "description": "The Unit Of Measure of the quantity",
                         "type": "object",
-                        "aov:typeRef": "nsu=http://opcfoundation.org/UA/;i=887",
+                        "dov:typeRef": "nsu=http://opcfoundation.org/UA/;i=887",
                         "required": [ "NamespaceUri", "UnitId", "DisplayName", "Description" ],
                         "properties": {
                           "NamespaceUri": {
@@ -3446,7 +3440,7 @@
                           "title": "ISA95PropertyDataType",
                           "description": "A subtype of OPC UA Structure that defines two linked data items: an ID, which is a unique identifier for a property within the scope of the associated resource, and the value, which is the data for the property.",
                           "type": "object",
-                          "aov:typeRef": "nsu=http://opcfoundation.org/UA/ISA95-JOBCONTROL_V2/;i=3002",
+                          "dov:typeRef": "nsu=http://opcfoundation.org/UA/ISA95-JOBCONTROL_V2/;i=3002",
                           "required": [ "ID", "Value" ],
                           "properties": {
                             "ID": {
@@ -3468,7 +3462,7 @@
                               "title": "EUInformation",
                               "description": "The Unit Of Measure of the value",
                               "type": "object",
-                              "aov:typeRef": "nsu=http://opcfoundation.org/UA/;i=887",
+                              "dov:typeRef": "nsu=http://opcfoundation.org/UA/;i=887",
                               "required": [ "NamespaceUri", "UnitId", "DisplayName", "Description" ],
                               "properties": {
                                 "NamespaceUri": {
@@ -3513,7 +3507,7 @@
         },
         "output": {
           "type": "object",
-          "aov:typeRef": "nsu=http://opcfoundation.org/UA/WireHarness/;i=6108",
+          "dov:typeRef": "nsu=http://opcfoundation.org/UA/WireHarness/;i=6108",
           "required": [ "ReturnStatus" ],
           "properties": {
             "ReturnStatus": {
@@ -3527,7 +3521,7 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/WireHarness/WireHarness_WireHarnessJobOrderReceiverSubStatesType/action/Store",
+            "dov:topic": "opcua/WireHarness/WireHarness_WireHarnessJobOrderReceiverSubStatesType/action/Store",
             "op": "invokeaction"
           }
         ]
@@ -3542,14 +3536,13 @@
     "@context": [
       "https://www.w3.org/2022/wot/td/v1.1",
       {
-        "dtv": "http://azure.com/DigitalTwins/dtmi#",
-        "aov": "http://azure.com/IoT/operations/tm#"
+        "dov": "http://azure.com/DigitalOperations/vocab#"
       }
     ],
     "@type": "tm:ThingModel",
     "title": "WireHarness_WireHarnessMachineType",
-    "aov:typeRef": "nsu=http://opcfoundation.org/UA/WireHarness/;i=1000",
-    "aov:isComposite": true,
+    "dov:typeRef": "nsu=http://opcfoundation.org/UA/WireHarness/;i=1000",
+    "dov:isComposite": true,
     "links": [
       {
         "rel": "tm:extends",
@@ -3557,20 +3550,20 @@
         "type": "application/tm+json"
       },
       {
-        "rel": "aov:reference",
-        "aov:refName": "ArticleSpecManagement",
+        "rel": "dov:reference",
+        "dov:refName": "ArticleSpecManagement",
         "href": "#title=WireHarness_ArticleSpecManagementType",
         "type": "application/tm+json"
       },
       {
-        "rel": "aov:component",
-        "aov:refName": "MachineryBuildingBlocks",
+        "rel": "dov:component",
+        "dov:refName": "MachineryBuildingBlocks",
         "href": "./OpcUaCore.TM.json#title=OpcUaCore_FolderType",
         "type": "application/tm+json"
       },
       {
-        "rel": "aov:reference",
-        "aov:refName": "PartManagement",
+        "rel": "dov:reference",
+        "dov:refName": "PartManagement",
         "href": "#title=WireHarness_PartManagementType",
         "type": "application/tm+json"
       }

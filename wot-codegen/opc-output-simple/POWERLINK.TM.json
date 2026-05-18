@@ -3,13 +3,12 @@
     "@context": [
       "https://www.w3.org/2022/wot/td/v1.1",
       {
-        "dtv": "http://azure.com/DigitalTwins/dtmi#",
-        "aov": "http://azure.com/IoT/operations/tm#"
+        "dov": "http://azure.com/DigitalOperations/vocab#"
       }
     ],
     "@type": "tm:ThingModel",
     "title": "POWERLINK_PowerlinkProtocolType",
-    "aov:typeRef": "nsu=http://opcfoundation.org/UA/POWERLINK/;i=6",
+    "dov:typeRef": "nsu=http://opcfoundation.org/UA/POWERLINK/;i=6",
     "links": [
       {
         "rel": "tm:extends",
@@ -30,13 +29,12 @@
     "@context": [
       "https://www.w3.org/2022/wot/td/v1.1",
       {
-        "dtv": "http://azure.com/DigitalTwins/dtmi#",
-        "aov": "http://azure.com/IoT/operations/tm#"
+        "dov": "http://azure.com/DigitalOperations/vocab#"
       }
     ],
     "@type": "tm:ThingModel",
     "title": "POWERLINK_PowerlinkConnectionPointType",
-    "aov:typeRef": "nsu=http://opcfoundation.org/UA/POWERLINK/;i=3",
+    "dov:typeRef": "nsu=http://opcfoundation.org/UA/POWERLINK/;i=3",
     "links": [
       {
         "rel": "tm:extends",
@@ -44,62 +42,62 @@
         "type": "application/tm+json"
       },
       {
-        "rel": "aov:component",
-        "aov:refName": "ProfileId",
+        "rel": "dov:component",
+        "dov:refName": "ProfileId",
         "href": "#title=POWERLINK_PowerlinkProtocolType",
         "type": "application/tm+json"
       },
       {
-        "rel": "aov:capability",
-        "aov:refName": "Configuration",
+        "rel": "dov:capability",
+        "dov:refName": "Configuration",
         "href": "./DI.TM.json#title=DI_FunctionalGroupType",
         "type": "application/tm+json"
       },
       {
-        "rel": "aov:capability",
-        "aov:refName": "Control",
+        "rel": "dov:capability",
+        "dov:refName": "Control",
         "href": "./DI.TM.json#title=DI_FunctionalGroupType",
         "type": "application/tm+json"
       },
       {
-        "rel": "aov:capability",
-        "aov:refName": "Diagnostics",
+        "rel": "dov:capability",
+        "dov:refName": "Diagnostics",
         "href": "./DI.TM.json#title=DI_FunctionalGroupType",
         "type": "application/tm+json"
       },
       {
-        "rel": "aov:capability",
-        "aov:refName": "Identification",
+        "rel": "dov:capability",
+        "dov:refName": "Identification",
         "href": "./DI.TM.json#title=DI_FunctionalGroupType",
         "type": "application/tm+json"
       },
       {
-        "rel": "aov:component",
-        "aov:refName": "MethodSet",
+        "rel": "dov:component",
+        "dov:refName": "MethodSet",
         "href": "./OpcUaCore.TM.json#title=OpcUaCore_BaseObjectType",
         "type": "application/tm+json"
       },
       {
-        "rel": "aov:capability",
-        "aov:refName": "NetworkAddress",
+        "rel": "dov:capability",
+        "dov:refName": "NetworkAddress",
         "href": "./DI.TM.json#title=DI_FunctionalGroupType",
         "type": "application/tm+json"
       },
       {
-        "rel": "aov:component",
-        "aov:refName": "ParameterSet",
+        "rel": "dov:component",
+        "dov:refName": "ParameterSet",
         "href": "./OpcUaCore.TM.json#title=OpcUaCore_BaseObjectType",
         "type": "application/tm+json"
       },
       {
-        "rel": "aov:capability",
-        "aov:refName": "SdoServices",
+        "rel": "dov:capability",
+        "dov:refName": "SdoServices",
         "href": "./DI.TM.json#title=DI_FunctionalGroupType",
         "type": "application/tm+json"
       },
       {
-        "rel": "aov:capability",
-        "aov:refName": "Status",
+        "rel": "dov:capability",
+        "dov:refName": "Status",
         "href": "./DI.TM.json#title=DI_FunctionalGroupType",
         "type": "application/tm+json"
       }
@@ -117,13 +115,12 @@
     "@context": [
       "https://www.w3.org/2022/wot/td/v1.1",
       {
-        "dtv": "http://azure.com/DigitalTwins/dtmi#",
-        "aov": "http://azure.com/IoT/operations/tm#"
+        "dov": "http://azure.com/DigitalOperations/vocab#"
       }
     ],
     "@type": "tm:ThingModel",
     "title": "POWERLINK_PowerlinkCnConnectionPointType",
-    "aov:typeRef": "nsu=http://opcfoundation.org/UA/POWERLINK/;i=4",
+    "dov:typeRef": "nsu=http://opcfoundation.org/UA/POWERLINK/;i=4",
     "links": [
       {
         "rel": "tm:extends",
@@ -131,26 +128,26 @@
         "type": "application/tm+json"
       },
       {
-        "rel": "aov:component",
-        "aov:refName": "DeviceProfileIdentifier",
+        "rel": "dov:component",
+        "dov:refName": "DeviceProfileIdentifier",
         "href": "#title=POWERLINK_PowerlinkDeviceProfileType",
         "type": "application/tm+json"
       },
       {
-        "rel": "aov:capability",
-        "aov:refName": "Configuration",
+        "rel": "dov:capability",
+        "dov:refName": "Configuration",
         "href": "./DI.TM.json#title=DI_FunctionalGroupType",
         "type": "application/tm+json"
       },
       {
-        "rel": "aov:capability",
-        "aov:refName": "Diagnostics",
+        "rel": "dov:capability",
+        "dov:refName": "Diagnostics",
         "href": "./DI.TM.json#title=DI_FunctionalGroupType",
         "type": "application/tm+json"
       },
       {
-        "rel": "aov:component",
-        "aov:refName": "ParameterSet",
+        "rel": "dov:component",
+        "dov:refName": "ParameterSet",
         "href": "./OpcUaCore.TM.json#title=OpcUaCore_BaseObjectType",
         "type": "application/tm+json"
       }
@@ -168,13 +165,12 @@
     "@context": [
       "https://www.w3.org/2022/wot/td/v1.1",
       {
-        "dtv": "http://azure.com/DigitalTwins/dtmi#",
-        "aov": "http://azure.com/IoT/operations/tm#"
+        "dov": "http://azure.com/DigitalOperations/vocab#"
       }
     ],
     "@type": "tm:ThingModel",
     "title": "POWERLINK_PowerlinkMnConnectionPointType",
-    "aov:typeRef": "nsu=http://opcfoundation.org/UA/POWERLINK/;i=5",
+    "dov:typeRef": "nsu=http://opcfoundation.org/UA/POWERLINK/;i=5",
     "links": [
       {
         "rel": "tm:extends",
@@ -182,20 +178,20 @@
         "type": "application/tm+json"
       },
       {
-        "rel": "aov:capability",
-        "aov:refName": "Configuration",
+        "rel": "dov:capability",
+        "dov:refName": "Configuration",
         "href": "./DI.TM.json#title=DI_FunctionalGroupType",
         "type": "application/tm+json"
       },
       {
-        "rel": "aov:capability",
-        "aov:refName": "Diagnostics",
+        "rel": "dov:capability",
+        "dov:refName": "Diagnostics",
         "href": "./DI.TM.json#title=DI_FunctionalGroupType",
         "type": "application/tm+json"
       },
       {
-        "rel": "aov:component",
-        "aov:refName": "ParameterSet",
+        "rel": "dov:component",
+        "dov:refName": "ParameterSet",
         "href": "./OpcUaCore.TM.json#title=OpcUaCore_BaseObjectType",
         "type": "application/tm+json"
       }
@@ -213,14 +209,13 @@
     "@context": [
       "https://www.w3.org/2022/wot/td/v1.1",
       {
-        "dtv": "http://azure.com/DigitalTwins/dtmi#",
-        "aov": "http://azure.com/IoT/operations/tm#"
+        "dov": "http://azure.com/DigitalOperations/vocab#"
       }
     ],
     "@type": "tm:ThingModel",
     "title": "POWERLINK_PowerlinkDeviceType",
-    "aov:typeRef": "nsu=http://opcfoundation.org/UA/POWERLINK/;i=2",
-    "aov:isComposite": true,
+    "dov:typeRef": "nsu=http://opcfoundation.org/UA/POWERLINK/;i=2",
+    "dov:isComposite": true,
     "links": [
       {
         "rel": "tm:extends",
@@ -228,14 +223,14 @@
         "type": "application/tm+json"
       },
       {
-        "rel": "aov:component",
-        "aov:refName": "CNIdentifier",
+        "rel": "dov:component",
+        "dov:refName": "CNIdentifier",
         "href": "#title=POWERLINK_PowerlinkCnConnectionPointType",
         "type": "application/tm+json"
       },
       {
-        "rel": "aov:component",
-        "aov:refName": "MNIdentifier",
+        "rel": "dov:component",
+        "dov:refName": "MNIdentifier",
         "href": "#title=POWERLINK_PowerlinkMnConnectionPointType",
         "type": "application/tm+json"
       }
@@ -253,13 +248,12 @@
     "@context": [
       "https://www.w3.org/2022/wot/td/v1.1",
       {
-        "dtv": "http://azure.com/DigitalTwins/dtmi#",
-        "aov": "http://azure.com/IoT/operations/tm#"
+        "dov": "http://azure.com/DigitalOperations/vocab#"
       }
     ],
     "@type": "tm:ThingModel",
     "title": "POWERLINK_PowerlinkDeviceProfileType",
-    "aov:typeRef": "nsu=http://opcfoundation.org/UA/POWERLINK/;i=1",
+    "dov:typeRef": "nsu=http://opcfoundation.org/UA/POWERLINK/;i=1",
     "links": [
       {
         "rel": "tm:extends",
@@ -272,7 +266,7 @@
     "forms": [
       {
         "contentType": "application/json",
-        "dtv:topic": "opcua/POWERLINK/POWERLINK_PowerlinkDeviceProfileType/properties/read",
+        "dov:topic": "opcua/POWERLINK/POWERLINK_PowerlinkDeviceProfileType/properties/read",
         "op": "readallproperties"
       }
     ],
@@ -280,7 +274,7 @@
     },
     "properties": {
       "IndexRangeSize": {
-        "aov:namespace": "http://opcfoundation.org/UA/POWERLINK/",
+        "dov:namespace": "http://opcfoundation.org/UA/POWERLINK/",
         "type": "integer",
         "minimum": 0,
         "maximum": 65535,
@@ -288,13 +282,13 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/POWERLINK/POWERLINK_PowerlinkDeviceProfileType/property/IndexRangeSize/read",
+            "dov:topic": "opcua/POWERLINK/POWERLINK_PowerlinkDeviceProfileType/property/IndexRangeSize/read",
             "op": "readproperty"
           }
         ]
       },
       "IndexRangeStart": {
-        "aov:namespace": "http://opcfoundation.org/UA/POWERLINK/",
+        "dov:namespace": "http://opcfoundation.org/UA/POWERLINK/",
         "type": "integer",
         "minimum": 0,
         "maximum": 65535,
@@ -302,7 +296,7 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/POWERLINK/POWERLINK_PowerlinkDeviceProfileType/property/IndexRangeStart/read",
+            "dov:topic": "opcua/POWERLINK/POWERLINK_PowerlinkDeviceProfileType/property/IndexRangeStart/read",
             "op": "readproperty"
           }
         ]
