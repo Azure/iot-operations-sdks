@@ -19,7 +19,6 @@ namespace ManagementActionConnector.Handlers
             {
                 Payload = new ReadOnlySequence<byte>(bytes),
                 ContentType = "application/json",
-                CloudEvent = null,
                 FormatIndicator = MqttPayloadFormatIndicator.CharacterData,
             };
         }
@@ -30,7 +29,6 @@ namespace ManagementActionConnector.Handlers
             {
                 Payload = ReadOnlySequence<byte>.Empty,
                 ContentType = "application/json",
-                CloudEvent = null,
                 ApplicationError = new ManagementActionApplicationError
                 {
                     ErrorCode = errorCode,

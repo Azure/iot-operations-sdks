@@ -23,8 +23,8 @@ namespace Azure.Iot.Operations.Connector
         /// <summary>MIME type of <see cref="Payload"/> (e.g. <c>application/json</c>).</summary>
         public required string ContentType { get; init; }
 
-        /// <summary>Optional CloudEvent metadata to attach to the response.</summary>
-        public required CloudEvent? CloudEvent { get; init; }
+        /// <summary>Optional CloudEvent metadata to attach to the response. Defaults to <c>null</c> (no CloudEvent attached).</summary>
+        public CloudEvent? CloudEvent { get; init; }
 
         /// <summary>MQTT 5 payload format indicator. Defaults to raw bytes.</summary>
         public MqttPayloadFormatIndicator FormatIndicator { get; init; } = MqttPayloadFormatIndicator.Unspecified;

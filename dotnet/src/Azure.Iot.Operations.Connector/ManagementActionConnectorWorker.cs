@@ -223,7 +223,6 @@ namespace Azure.Iot.Operations.Connector
                 {
                     Payload = ReadOnlySequence<byte>.Empty,
                     ContentType = "application/json",
-                    CloudEvent = null,
                     ApplicationError = new ManagementActionApplicationError
                     {
                         ErrorCode = "InternalError",

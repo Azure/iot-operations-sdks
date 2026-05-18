@@ -101,6 +101,5 @@ public class ManagementActionDispatchTests
     {
         Payload = new ReadOnlySequence<byte>(new byte[] { 1, 2, 3 }),
         ContentType = "application/json",
-        CloudEvent = null,
     };
 }
