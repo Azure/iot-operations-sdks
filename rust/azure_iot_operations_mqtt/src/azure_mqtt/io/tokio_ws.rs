@@ -14,16 +14,15 @@ use async_tungstenite::{
     tungstenite::{self, Bytes, Message, client::IntoClientRequest, http::HeaderValue},
 };
 use either::Either;
-use futures_sink::Sink;
-use futures_util::Stream;
+use futures_util::{Stream, Sink};
 use tokio::{
     io::{AsyncRead, AsyncReadExt, AsyncWrite, AsyncWriteExt, ReadBuf, ReadHalf, WriteHalf},
     net::TcpStream,
 };
 
-use crate::buffer_pool::{BufferPool, EitherAccumulator};
-use crate::client::ConnectionTransportTlsConfig;
-use crate::io::{ReadableStream, Reader, WritableStream, Writer, tokio_tls};
+use crate::azure_mqtt::buffer_pool::{BufferPool, EitherAccumulator};
+use crate::azure_mqtt::client::ConnectionTransportTlsConfig;
+use crate::azure_mqtt::io::{ReadableStream, Reader, WritableStream, Writer, tokio_tls};
 
 /// Establish a WebSocket connection using the given request parameters,
 /// and use the given buffer pools to initialize the buffers for the stream reader and writer.
