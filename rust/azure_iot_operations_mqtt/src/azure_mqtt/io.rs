@@ -20,6 +20,9 @@ pub mod tokio_tcp;
 
 pub mod tokio_tls;
 
+#[cfg(feature = "test-utils")]
+pub mod tokio_ws;
+
 mod writer;
 pub use writer::Writer;
 
