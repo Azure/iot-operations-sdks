@@ -14,7 +14,7 @@ use async_tungstenite::{
     tungstenite::{self, Bytes, Message, client::IntoClientRequest, http::HeaderValue},
 };
 use either::Either;
-use futures_util::{Stream, Sink};
+use futures_util::{Sink, Stream};
 use tokio::{
     io::{AsyncRead, AsyncReadExt, AsyncWrite, AsyncWriteExt, ReadBuf, ReadHalf, WriteHalf},
     net::TcpStream,
@@ -52,10 +52,15 @@ where
             "request URI does not contain a scheme component",
         ));
     };
-    let stream = if scheme == "https" {
-        tokio_tls::connect_inner(addr, port.unwrap_or(443), tls_config).await?
-    } else {
-        Either::Left(TcpStream::connect((addr, port.unwrap_or(80))).await?)
+    let stream = match scheme {
+        "https" | "wss" => tokio_tls::connect_inner(addr, port.unwrap_or(443), tls_config).await?,
+        "http" | "ws" => Either::Left(TcpStream::connect((addr, port.unwrap_or(80))).await?),
+        _ => {
+            return Err(IoError::new(
+                io::ErrorKind::InvalidInput,
+                format!("unsupported WebSocket URI scheme: {scheme}"),
+            ));
+        }
     };
     match stream {
         Either::Left(stream) => {
