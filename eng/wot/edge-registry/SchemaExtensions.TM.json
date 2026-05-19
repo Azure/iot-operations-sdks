@@ -1,0 +1,225 @@
+{
+    "@context": [
+        "https://www.w3.org/2022/wot/td/v1.1",
+        { "dtv": "http://azure.com/DigitalTwins/dtmi#" }
+    ],
+    "@type": "tm:ThingModel",
+    "title": "EdgeRegistrySchemaExtensions",
+    "description": "Companion type definitions for the xRegistry Schema entity type. Provides typed schema definitions for SDK codegen targeting schema groups, schema metadata, and schema versions.",
+    "links" : [{
+        "rel": "tm:extends",
+        "href": "./EdgeRegistry.TM.json#title=EdgeRegistry",
+        "type": "application/tm+json"
+    }],
+    "actions": {
+        "getSchema": {
+            "description": "Retrieve an xRegistry Schema Resource entity.",
+            "input": {
+                "type": "object",
+                "properties": {
+                    "groupId": {
+                        "type": "string"
+                    },
+                    "schemaId": {
+                        "type": "string"
+                    }
+                },
+                "required": [ "groupId", "schemaId" ]
+            },
+            "output": {
+                "dtv:ref": "./schema-extension/Schema.schema.json"
+            },
+            "forms": [
+                {
+                    "dtv:topic": "adr/dtmi:ms:adr:EdgeRegistry;1/get/schema",
+                    "contentType": "application/json",
+                    "op": "invokeaction",
+                    "additionalResponses": [
+                        {
+                            "success": false,
+                            "schema": "SchemaExtensionError"
+                        }
+                    ]
+                }
+            ]
+        },
+        "createSchema": {
+            "description": "Create a new xRegistry Schema and default Version entity. Returns the created Schema entity with epoch=1.",
+            "input": {
+                "dtv:ref": "./schema-extension/CreateSchemaAttributes.schema.json"
+            },
+            "output": {
+                "dtv:ref": "./schema-extension/Schema.schema.json"
+            },
+            "forms": [
+                {
+                    "dtv:topic": "adr/dtmi:ms:adr:EdgeRegistry;1/create/schema",
+                    "contentType": "application/json",
+                    "op": "invokeaction",
+                    "additionalResponses": [
+                        {
+                            "success": false,
+                            "schema": "SchemaExtensionError"
+                        }
+                    ]
+                }
+            ]
+        },
+        "getSchemaVersion": {
+            "description": "Retrieve an xRegistry Schema Version entity.",
+            "input": {
+                "type": "object",
+                "properties": {
+                    "groupId": {
+                        "type": "string"
+                    },
+                    "schemaId": {
+                        "type": "string"
+                    },
+                    "versionId": {
+                        "type": "integer"
+                    }
+                },
+                "required": [ "groupId", "schemaId", "versionId"]
+            },
+            "output": {
+                "dtv:ref": "./schema-extension/SchemaVersion.schema.json"
+            },
+            "forms": [
+                {
+                    "dtv:topic": "adr/dtmi:ms:adr:EdgeRegistry;1/get/schema/version",
+                    "contentType": "application/json",
+                    "op": "invokeaction",
+                    "additionalResponses": [
+                        {
+                            "success": false,
+                            "schema": "SchemaExtensionError"
+                        }
+                    ]
+                }
+            ]
+        },
+        "createSchemaVersion": {
+            "description": "Create a new xRegistry Schema Version entity under the specified schema. Returns the created version entity with epoch=1.",
+            "input": {
+                "dtv:ref": "./schema-extension/CreateSchemaVersionAttributes.schema.json"
+            },
+            "output": {
+                "dtv:ref": "./schema-extension/SchemaVersion.schema.json"
+            },
+            "forms": [
+                {
+                    "dtv:topic": "adr/dtmi:ms:adr:EdgeRegistry;1/create/schema/version",
+                    "contentType": "application/json",
+                    "op": "invokeaction",
+                    "additionalResponses": [
+                        {
+                            "success": false,
+                            "schema": "SchemaExtensionError"
+                        }
+                    ]
+                }
+            ]
+        },
+        "listSchemaVersions": {
+            "description": "List all Version IDs for a given Schema entity.",
+            "input": {
+                "type": "object",
+                "properties": {
+                    "groupId": {
+                        "type": "string"
+                    },
+                    "schemaId": {
+                        "type": "string"
+                    }
+                },
+                "required": [ "groupId", "schemaId"]
+            },
+            "output": {
+                "type": "object",
+                "properties": {
+                    "ids": {
+                        "type": "array",
+                        "items": {
+                            "type": "integer"
+                        }
+                    }
+                },
+                "required": ["ids"]
+            },
+            "forms": [
+                {
+                    "dtv:topic": "adr/dtmi:ms:adr:EdgeRegistry;1/list/schema/versions",
+                    "contentType": "application/json",
+                    "op": "invokeaction",
+                    "additionalResponses": [
+                        {
+                            "success": false,
+                            "schema": "SchemaExtensionError"
+                        }
+                    ]
+                }
+            ]
+        }
+    },
+    "schemaDefinitions": {
+        "SchemaFormat": {
+            "type": "object",
+            "const": {
+                "JsonSchemaDraft07": "JsonSchema/draft-07",
+                "Avro1110": "Avro/1.11.0"
+            },
+            "description": "Non-exhaustive supported schema formats",
+            "properties": {
+                "JsonSchemaDraft07": {
+                    "description": "JSON Schema Draft-07 format",
+                    "type": "string"
+                },
+                "Avro1110": {
+                    "description": "Avro 1.11.0 format",
+                    "type": "string"
+                }
+            }
+        },
+        "SchemaGroupType": {
+            "type": "string",
+            "const": "schemagroups",
+            "description": "Group type used in xId for xRegistry Schema groups."
+        },
+        "SchemaResourceType": {
+            "type": "string",
+            "const": "schemas",
+            "description": "Resource type used in xId for xRegistry Schema resources."
+        },
+        "SchemaExtensionError": {
+            "type": "object",
+            "properties": {
+                "type": {
+                    "type": "string",
+                    "description": "URI identifying the error type."
+                },
+                "code": {
+                    "type": "integer",
+                    "description": "HTTP-style response code."
+                },
+                "status": {
+                    "type": "string",
+                    "description": "HTTP-style response status text."
+                },
+                "title": {
+                    "type": "string",
+                    "description": "Short human-readable error title."
+                },
+                "detail": {
+                    "type": "string",
+                    "description": "Detailed error description."
+                },
+                "instance": {
+                    "type": "string",
+                    "description": "The XID of the entity that caused the error."
+                }
+            },
+            "required": ["type", "status", "code", "title", "instance"]
+        }
+    }
+}

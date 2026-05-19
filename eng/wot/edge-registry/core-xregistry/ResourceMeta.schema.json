@@ -1,0 +1,42 @@
+{
+  "$schema": "https://json-schema.org/draft-07/schema",
+  "title": "ResourceMeta",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [ "id", "xid", "epoch", "defaultVersionId", "createdAt", "modifiedAt", "extensions", "labels" ],
+  "properties": {
+    "createdAt": {
+      "description": "The 'createdAt' Field.",
+      "type": "string", "format": "date-time"
+    },
+    "defaultVersionId": {
+      "description": "The 'defaultVersionId' Field.",
+      "type": "string"
+    },
+    "epoch": {
+      "description": "The 'epoch' Field.",
+      "type": "integer"
+    },
+    "extensions": {
+      "description": "Extension-specific attributes (e.g., `format` and `content_type` for schemas).",
+      "type": "object", "additionalProperties": { "type": "string", 
+      "contentEncoding": "base64" }
+    },
+    "labels": {
+      "description": "The 'labels' Field.",
+      "type": "object", "additionalProperties": { "type": "string" }
+    },
+    "id": {
+      "description": "Resource identifier within the group.",
+      "type": "string"
+    },
+    "modifiedAt": {
+      "description": "The 'modifiedAt' Field.",
+      "type": "string", "format": "date-time"
+    },
+    "xid": {
+      "description": "Full XID path.",
+      "type": "string"
+    }
+  }
+}

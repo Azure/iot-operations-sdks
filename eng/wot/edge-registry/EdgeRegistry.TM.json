@@ -1,0 +1,174 @@
+{
+    "@context": [
+        "https://www.w3.org/2022/wot/td/v1.1",
+        { "dtv": "http://azure.com/DigitalTwins/dtmi#" }
+    ],
+    "@type": "tm:ThingModel",
+    "title": "EdgeRegistry",
+    "description": "Generic xRegistry CRUD service — provides create, get, delete, and list operations on xRegistry entities (groups, resources, versions) identified by XID paths.",
+    "actions": {
+        "createGroup": {
+            "description": "Create a new xRegistry Group. Returns the created Group with epoch=1.",
+            "input": {
+                "dtv:ref": "./core-xregistry/GroupAttributes.schema.json"
+            },
+            "output": {
+                "dtv:ref": "./core-xregistry/Group.schema.json"
+            },
+            "forms": [
+                {
+                    "dtv:topic": "adr/dtmi:ms:adr:EdgeRegistry;1/create/group",
+                    "contentType": "application/json",
+                    "op": "invokeaction",
+                    "additionalResponses": [
+                        {
+                            "success": false,
+                            "schema": "EdgeRegistryError"
+                        }
+                    ]
+                }
+            ]
+        },
+        "getGroup": {
+            "description": "Retrieve an xRegistry Group entity by XID path.",
+            "input": {
+                "type": "object",
+                "properties": {
+                    "groupType": {
+                        "type": "string"
+                    },
+                    "groupId": {
+                        "type": "string"
+                    }
+                },
+                "required": [ "groupType", "groupId"]
+            },
+            "output": {
+                "dtv:ref": "./core-xregistry/Group.schema.json",
+                "description": "The group entity."
+            },
+            "forms": [
+                {
+                    "dtv:topic": "adr/dtmi:ms:adr:EdgeRegistry;1/get/group",
+                    "contentType": "application/json",
+                    "op": "invokeaction",
+                    "additionalResponses": [
+                        {
+                            "success": false,
+                            "schema": "EdgeRegistryError"
+                        }
+                    ]
+                }
+            ]
+        },
+        "getResource": {
+            "description": "Retrieve an xRegistry Resource entity by XID path.",
+            "output": {
+                "dtv:ref": "./core-xregistry/Resource.schema.json",
+                "description": "The resource entity."
+            },
+            "forms": [
+                {
+                    "dtv:topic": "adr/dtmi:ms:adr:EdgeRegistry;1/get/{ex:groupType}/{ex:groupId}/{ex:resourceType}/{ex:resourceId}",
+                    "contentType": "application/json",
+                    "op": "invokeaction",
+                    "additionalResponses": [
+                        {
+                            "success": false,
+                            "schema": "EdgeRegistryError"
+                        }
+                    ]
+                }
+            ]
+        },
+        "getVersion": {
+            "description": "Retrieve an xRegistry Version entity by XID path.",
+            "output": {
+                "dtv:ref": "./core-xregistry/Version.schema.json"
+            },
+            "forms": [
+                {
+                    "dtv:topic": "adr/dtmi:ms:adr:EdgeRegistry;1/get/{ex:groupType}/{ex:groupId}/{ex:resourceType}/{ex:resourceId}/versions/{ex:versionId}",
+                    "contentType": "application/json",
+                    "op": "invokeaction",
+                    "additionalResponses": [
+                        {
+                            "success": false,
+                            "schema": "EdgeRegistryError"
+                        }
+                    ]
+                }
+            ]
+        },
+        "list": {
+            "description": "List xRegistry entities at a collection XID path (e.g. /schemagroups or /schemagroups/mygroup/schemas).",
+            "input": {
+                "type": "object",
+                "properties": {
+                    "xid": {
+                        "type": "string",
+                        "description": "XID path of the collection to list. Must end at a collection level (e.g. /schemagroups, /schemagroups/g1/schemas)."
+                    }
+                },
+                "required": ["xid"]
+            },
+            "output": {
+                "type": "object",
+                "properties": {
+                    "ids": {
+                        "type": "array",
+                        "items": {
+                            "type": "string"
+                        }
+                    }
+                },
+                "required": ["ids"]
+            },
+            "forms": [
+                {
+                    "dtv:topic": "adr/dtmi:ms:adr:EdgeRegistry;1/list",
+                    "contentType": "application/json",
+                    "op": "invokeaction",
+                    "additionalResponses": [
+                        {
+                            "success": false,
+                            "schema": "EdgeRegistryError"
+                        }
+                    ]
+                }
+            ]
+        }
+    },
+    "schemaDefinitions": {
+        "EdgeRegistryError": {
+            "type": "object",
+            "properties": {
+                "type": {
+                    "type": "string",
+                    "description": "URI identifying the error type."
+                },
+                "code": {
+                    "type": "integer",
+                    "description": "HTTP-style response code."
+                },
+                "status": {
+                    "type": "string",
+                    "description": "HTTP-style response status text."
+                },
+                "title": {
+                    "type": "string",
+                    "description": "Short human-readable error title."
+                },
+                "detail": {
+                    "type": "string",
+                    "description": "Detailed error description."
+                },
+                "instance": {
+                    "type": "string",
+                    "description": "The XID of the entity that caused the error."
+                }
+            },
+            "required": ["type", "status", "code", "title", "instance"]
+        }
+    }
+}

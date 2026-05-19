@@ -1,0 +1,48 @@
+{
+    "$schema": "https://json-schema.org/draft-07/schema",
+    "title": "CreateThingDescriptionVersionAttributes",
+    "description": "Request payload for creating a Thing Description version.",
+    "type": "object",
+    "additionalProperties": false,
+    "required": ["groupId", "thingDescriptionId", "versionId", "labels", "thingDescriptionDocument"],
+    "properties": {
+        "groupId": {
+            "type": "string"
+        },
+        "thingDescriptionId": {
+            "type": "string"
+        },
+        "versionId": {
+            "type": "string"
+        },
+        "name": {
+            "type": "string"
+        },
+        "description": {
+            "type": "string"
+        },
+        "documentation": {
+            "type": "string"
+        },
+        "labels": {
+            "type": "object", "additionalProperties": { "type": "string" }
+        },
+        "ancestor": {
+            "description": "The versionId of this version's ancestor if it has an ancestor.",
+            "type": "string"
+        },
+        "contentType": {
+            "description": "Content type of the thing description version.",
+            "type": "string"
+        },
+        "format": {
+            "description": "Thing description format identifier, e.g. `WoT-TD/1.1`.",
+            "type": "string"
+        },
+        "thingDescriptionDocument": {
+            "type": "string",
+            "description": "Base64-encoded thing description document content.",
+            "contentEncoding": "base64"
+        }
+    }
+}
