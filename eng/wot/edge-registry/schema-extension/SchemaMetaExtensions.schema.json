@@ -1,0 +1,14 @@
+{
+  "$schema": "https://json-schema.org/draft-07/schema",
+  "type": "object",
+  "title": "SchemaMetaExtensions",
+  "description": "Additional fields and field guarantees for the schema extension.",
+  "required": [ "validation", "defaultVersionId" ],
+  "properties": {
+    "validation": { "type": "boolean", "description": "Whether the schema should be validated." },
+    "defaultVersionId": {
+        "description": "Default Version id as an integer. Must match defaultVersionId on the referenced resource meta entity.",
+        "type": "integer"
+    }
+  }
+}

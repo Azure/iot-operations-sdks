@@ -1,0 +1,180 @@
+{
+    "@context": [
+        "https://www.w3.org/2022/wot/td/v1.1",
+        { "dtv": "http://azure.com/DigitalTwins/dtmi#" }
+    ],
+    "@type": "tm:ThingModel",
+    "title": "EdgeRegistryThingDescriptionExtensions",
+    "description": "Companion type definitions for the xRegistry Thing Description entity type. Provides typed thing description definitions for SDK codegen targeting thing description groups, thing description metadata, and thing description versions.",
+    "links" : [{
+        "rel": "tm:extends",
+        "href": "./EdgeRegistry.TM.json#title=EdgeRegistry",
+        "type": "application/tm+json"
+    }],
+    "actions": {
+        "getThingDescription": {
+            "description": "Retrieve an xRegistry Thing Description Resource entity.",
+            "input": {
+                "type": "object",
+                "properties": {
+                    "groupId": {
+                        "type": "string"
+                    },
+                    "thingDescriptionId": {
+                        "type": "string"
+                    }
+                },
+                "required": [ "groupId", "thingDescriptionId" ]
+            },
+            "output": {
+                "dtv:ref": "./thing-description-extension/ThingDescription.schema.json"
+            },
+            "forms": [
+                {
+                    "dtv:topic": "adr/dtmi:ms:adr:EdgeRegistry;1/get/thingdescription",
+                    "contentType": "application/json",
+                    "op": "invokeaction",
+                    "additionalResponses": [
+                        {
+                            "success": false,
+                            "schema": "ThingDescriptionExtensionError"
+                        }
+                    ]
+                }
+            ]
+        },
+        "createThingDescription": {
+            "description": "Create a new xRegistry Thing Description and default Version entity. Returns the created Thing Description entity with epoch=1.",
+            "input": {
+                "dtv:ref": "./thing-description-extension/CreateThingDescriptionAttributes.schema.json"
+            },
+            "output": {
+                "dtv:ref": "./thing-description-extension/ThingDescription.schema.json"
+            },
+            "forms": [
+                {
+                    "dtv:topic": "adr/dtmi:ms:adr:EdgeRegistry;1/create/thingdescription",
+                    "contentType": "application/json",
+                    "op": "invokeaction",
+                    "additionalResponses": [
+                        {
+                            "success": false,
+                            "schema": "ThingDescriptionExtensionError"
+                        }
+                    ]
+                }
+            ]
+        },
+        "getThingDescriptionVersion": {
+            "description": "Retrieve an xRegistry Thing Description Version entity.",
+            "input": {
+                "type": "object",
+                "properties": {
+                    "groupId": {
+                        "type": "string"
+                    },
+                    "thingDescriptionId": {
+                        "type": "string"
+                    },
+                    "versionId": {
+                        "type": "string"
+                    }
+                },
+                "required": [ "groupId", "thingDescriptionId", "versionId"]
+            },
+            "output": {
+                "dtv:ref": "./thing-description-extension/ThingDescriptionVersion.schema.json"
+            },
+            "forms": [
+                {
+                    "dtv:topic": "adr/dtmi:ms:adr:EdgeRegistry;1/get/thingdescription/version",
+                    "contentType": "application/json",
+                    "op": "invokeaction",
+                    "additionalResponses": [
+                        {
+                            "success": false,
+                            "schema": "ThingDescriptionExtensionError"
+                        }
+                    ]
+                }
+            ]
+        },
+        "createThingDescriptionVersion": {
+            "description": "Create a new xRegistry Thing Description Version entity under the specified thing description. Returns the created version entity with epoch=1.",
+            "input": {
+                "dtv:ref": "./thing-description-extension/CreateThingDescriptionVersionAttributes.schema.json"
+            },
+            "output": {
+                "dtv:ref": "./thing-description-extension/ThingDescriptionVersion.schema.json"
+            },
+            "forms": [
+                {
+                    "dtv:topic": "adr/dtmi:ms:adr:EdgeRegistry;1/create/thingdescription/version",
+                    "contentType": "application/json",
+                    "op": "invokeaction",
+                    "additionalResponses": [
+                        {
+                            "success": false,
+                            "schema": "ThingDescriptionExtensionError"
+                        }
+                    ]
+                }
+            ]
+        }
+    },
+    "schemaDefinitions": {
+        "ThingDescriptionFormat": {
+            "type": "object",
+            "const": {
+                "WotTD11": "WoT-TD/1.1"
+            },
+            "description": "Non-exhaustive supported WoT TD formats",
+            "properties": {
+                "WotTD11": {
+                    "description": "WoT TD 1.1 format",
+                    "type": "string"
+                }
+            }
+        },
+        "ThingDescriptionGroupType": {
+            "type": "string",
+            "const": "thingdescriptiongroups",
+            "description": "Group type used in xId for xRegistry Thing Description groups."
+        },
+        "ThingDescriptionResourceType": {
+            "type": "string",
+            "const": "thingdescriptions",
+            "description": "Resource type used in xId for xRegistry Thing Description resources."
+        },
+        "ThingDescriptionExtensionError": {
+            "type": "object",
+            "properties": {
+                "type": {
+                    "type": "string",
+                    "description": "URI identifying the error type."
+                },
+                "code": {
+                    "type": "integer",
+                    "description": "HTTP-style response code."
+                },
+                "status": {
+                    "type": "string",
+                    "description": "HTTP-style response status text."
+                },
+                "title": {
+                    "type": "string",
+                    "description": "Short human-readable error title."
+                },
+                "detail": {
+                    "type": "string",
+                    "description": "Detailed error description."
+                },
+                "instance": {
+                    "type": "string",
+                    "description": "The XID of the entity that caused the error."
+                }
+            },
+            "required": ["type", "status", "code", "title", "instance"]
+        }
+    }
+}

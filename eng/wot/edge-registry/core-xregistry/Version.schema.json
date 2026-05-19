@@ -1,0 +1,59 @@
+{
+  "$schema": "https://json-schema.org/draft-07/schema",
+  "title": "Version",
+  "description": "A specific version of a resource.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [ "resourceId", "versionId", "xid", "epoch", "createdAt", "modifiedAt", "ancestor", "extensions", "labels" ],
+  "properties": {
+    "ancestor": {
+      "description": "The versionId of this version's ancestor, or this version's versionId if it has no ancestor.",
+      "type": "string"
+    },
+    "createdAt": {
+      "description": "The 'createdAt' Field.",
+      "type": "string", "format": "date-time"
+    },
+    "description": {
+      "description": "The 'description' Field.",
+      "type": "string"
+    },
+    "documentation": {
+      "description": "The 'documentation' Field.",
+      "type": "string"
+    },
+    "epoch": {
+      "description": "The 'epoch' Field.",
+      "type": "integer"
+    },
+    "extensions": {
+      "description": "Extension-specific attributes.",
+      "type": "object", "additionalProperties": { "type": "string", 
+      "contentEncoding": "base64" }
+    },
+    "labels": {
+      "description": "The 'labels' Field.",
+      "type": "object", "additionalProperties": { "type": "string" }
+    },
+    "modifiedAt": {
+      "description": "The 'modifiedAt' Field.",
+      "type": "string", "format": "date-time"
+    },
+    "name": {
+      "description": "The 'name' Field.",
+      "type": "string"
+    },
+    "resourceId": {
+      "description": "Resource identifier.",
+      "type": "string"
+    },
+    "versionId": {
+      "description": "Version identifier.",
+      "type": "string"
+    },
+    "xid": {
+      "description": "The 'xid' Field.",
+      "type": "string"
+    }
+  }
+}

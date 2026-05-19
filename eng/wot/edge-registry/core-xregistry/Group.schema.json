@@ -1,0 +1,55 @@
+{
+  "$schema": "https://json-schema.org/draft-07/schema",
+  "title": "Group",
+  "description": "A group entity — container for related resources.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [ "id", "xid", "epoch", "createdAt", "modifiedAt", "extensions", "labels", "resourcesCount" ],
+  "properties": {
+    "createdAt": {
+      "description": "The 'createdAt' Field.",
+      "type": "string", "format": "date-time"
+    },
+    "description": {
+      "description": "The 'description' Field.",
+      "type": "string"
+    },
+    "documentation": {
+      "description": "The 'documentation' Field.",
+      "type": "string"
+    },
+    "epoch": {
+      "description": "Optimistic concurrency epoch.",
+      "type": "integer"
+    },
+    "extensions": {
+      "description": "Extension-specific attributes (e.g., `envelope`, `protocol` for message groups).",
+      "type": "object", "additionalProperties": { "type": "string", 
+      "contentEncoding": "base64" }
+    },
+    "id": {
+      "description": "Group identifier.",
+      "type": "string"
+    },
+    "labels": {
+      "description": "The 'labels' Field.",
+      "type": "object", "additionalProperties": { "type": "string" }
+    },
+    "modifiedAt": {
+      "description": "The 'modifiedAt' Field.",
+      "type": "string", "format": "date-time"
+    },
+    "name": {
+      "description": "Human-readable name.",
+      "type": "string"
+    },
+    "resourcesCount": {
+      "description": "The 'resourcesCount' Field.",
+      "type": "integer"
+    },
+    "xid": {
+      "description": "Full XID path, e.g. /schemagroups/mygroup",
+      "type": "string"
+    }
+  }
+}
