@@ -6,7 +6,7 @@ The MQ broker is adding a high-priority backpressure-bypass mechanism so
 control-plane traffic (e.g., State Store) is not starved when data-plane
 traffic fills the broker's buffer pool. The mark is an MQTT 5 **user
 property on each PUBLISH** named `$high_priority` (name owned by the
-broker). The property has no value &mdash; its presence alone signals
+broker). The property has no value — its presence alone signals
 high priority. The broker also gets a CRD kill switch and an authz
 policy gating who may set the flag.
 
@@ -35,10 +35,11 @@ policy gating who may set the flag.
 ### Compatibility
 
 - No protocol-version bump. Brokers that don't recognize the property
-  (or have the kill switch on) treat it as opaque &mdash; safe fallback
+  (or have the kill switch on) treat it as opaque — safe fallback
   to normal-priority backpressure.
-- Existing SDK consumers will see their outgoing mRPC traffic marked `$high_priority` after upgrading. This is intentional and
-aligned  with the MQ ADR.
+- Existing SDK consumers will see their outgoing mRPC traffic marked
+  `$high_priority` after upgrading. This is intentional and aligned
+  with the MQ ADR.
 
 ## Consequences
 
