@@ -151,6 +151,11 @@ pub enum ConnectionTransportType {
         config: ConnectionTransportTlsConfig,
     },
     #[cfg(feature = "test-utils")]
+    Ws {
+        request: async_tungstenite::tungstenite::handshake::client::Request,
+        tls_config: ConnectionTransportTlsConfig,
+    },
+    #[cfg(feature = "test-utils")]
     Test {
         incoming_packets: tokio::sync::mpsc::UnboundedReceiver<Packet<Bytes>>,
         outgoing_packets: tokio::sync::mpsc::UnboundedSender<Packet<Bytes>>,
@@ -665,6 +670,18 @@ impl ConnectHandle {
                         &self.reader_pool,
                         &self.writer_pool,
                     ),
+                )
+                .await??
+            }
+
+            #[cfg(feature = "test-utils")]
+            ConnectionTransportType::Ws {
+                request,
+                tls_config,
+            } => {
+                maybe_timeout(
+                    timeout,
+                    crate::azure_mqtt::io::tokio_ws::connect(request, tls_config, &self.reader_pool),
                 )
                 .await??
             }
