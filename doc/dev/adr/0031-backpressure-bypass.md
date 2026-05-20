@@ -8,16 +8,10 @@ traffic fills the broker's buffer pool. The mark is an MQTT 5 **user
 property on each PUBLISH** named `$high_priority` (name owned by the
 broker). The property has no value — its presence alone signals
 high priority. The broker also gets a CRD kill switch and an authz
-policy gating who may set the flag.
+policy gating who may set the flag. No other MQTT semantics change:
+QoS, expiry, topic, correlation, and cache behavior are all unaffected.
 
 ## Decision
-
-### Wire
-
-- The user-property name is `$high_priority`, fixed by the broker. The
-  property is presence-only and carries no value.
-- No other MQTT semantics change: QoS, expiry, topic, correlation, and
-  cache behavior are all unaffected.
 
 ### mRPC
 
