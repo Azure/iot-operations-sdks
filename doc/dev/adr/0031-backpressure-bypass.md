@@ -37,9 +37,8 @@ policy gating who may set the flag.
 - No protocol-version bump. Brokers that don't recognize the property
   (or have the kill switch on) treat it as opaque &mdash; safe fallback
   to normal-priority backpressure.
-- Existing SDK consumers will see their mRPC traffic marked
-  `$high_priority` after upgrading. This is intentional and aligned
-  with the MQ ADR.
+- Existing SDK consumers will see their outgoing mRPC traffic marked `$high_priority` after upgrading. This is intentional and
+aligned  with the MQ ADR.
 
 ## Consequences
 
