@@ -1,4 +1,4 @@
-# ADR 31: MQ Backpressure Bypass for SDK Traffic
+# ADR 31: MQ Backpressure Bypass for mRPC Traffic
 
 ## Context
 
