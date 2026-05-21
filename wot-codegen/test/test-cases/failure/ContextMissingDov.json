@@ -1,20 +1,20 @@
 {
   "success": false,
   "commandLine": {
-    "things": [ "invalidAioBinding/ContextMissingDtv.TM.json" ],
+    "things": [ "invalidAioBinding/ContextMissingDov.TM.json" ],
     "lang": "none"
   },
   "errors": [
     {
       "condition": "PropertyMissing",
-      "filename": "ContextMissingDtv.TM.json",
+      "filename": "ContextMissingDov.TM.json",
       "line": 2,
       "cfLine": 0,
       "crossRef": ""
     },
     {
       "condition": "PropertyInvalid",
-      "filename": "ContextMissingDtv.TM.json",
+      "filename": "ContextMissingDov.TM.json",
       "line": 10,
       "cfLine": 2,
       "crossRef": ""
