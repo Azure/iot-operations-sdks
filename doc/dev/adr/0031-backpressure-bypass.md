@@ -24,7 +24,7 @@ QoS, expiry, topic, correlation, and cache behavior are all unaffected.
 ### Codegen
 
 - No DTDL annotation. Bypass is a property of the caller, not the
-  contract.
+  contract. Generated code must surface the underlying option to override the default behavior, aligning with the invoker/executor surface.
 
 ### Compatibility
 
