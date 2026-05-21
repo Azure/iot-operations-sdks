@@ -20,7 +20,10 @@ QoS, expiry, topic, correlation, and cache behavior are all unaffected.
   to the PUBLISH it produces. Request and response priorities are decoupled.
 - **Granularity is per-PUBLISH.**
   Default behavior is to mark all PUBLISH with the flag, but this can be overridden per PUBLISH.
-
+The user property `$high_priority` is broker-owned and sits outside
+  the SDK-reserved `__` prefix from
+  [ADR 4](./0004-reserved-user-properties.md). SDKs must not validate
+  against or reject `$`-prefixed user properties. If a user sets `$high_priority` themselves, since the contents don't matter to the broker, there isn't a concern about unexpected behavior.
 ### Codegen
 
 - No DTDL annotation. Bypass is a property of the caller, not the
