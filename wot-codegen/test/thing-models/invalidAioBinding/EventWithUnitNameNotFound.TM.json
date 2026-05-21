@@ -3,8 +3,7 @@
     "https://www.w3.org/2022/wot/td/v1.1",
     {
       "qudt": "http://qudt.org/schema/qudt/",
-      "dov": "http://azure.com/DigitalOperations/vocab#",
-      "aov": "http://azure.com/IoT/operations/tm#"
+      "dov": "http://azure.com/DigitalOperations/vocab#"
     }
   ],
   "@type": "tm:ThingModel",
