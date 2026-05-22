@@ -10,12 +10,15 @@ use serde::{Deserialize, Serialize};
 use uuid::Uuid;
 
 use super::super::common_types::{b64::Bytes, date_only::Date, decimal::Decimal, time_only::Time};
+use super::label::Label;
 
 /// Request payload for creating a Thing Description version.
 #[derive(Serialize, Deserialize, Debug, Clone, Builder)]
 pub struct CreateThingDescriptionVersionAttributes {
     #[serde(rename = "groupId")]
-    pub group_id: String,
+    #[serde(skip_serializing_if = "Option::is_none")]
+    #[builder(default = "None")]
+    pub group_id: Option<String>,
 
     #[serde(rename = "thingDescriptionId")]
     pub thing_description_id: String,
@@ -35,8 +38,9 @@ pub struct CreateThingDescriptionVersionAttributes {
     #[builder(default = "None")]
     pub documentation: Option<String>,
 
+    /// Queryable Key Value pairs to be added to the Version
     #[builder(default)]
-    pub labels: HashMap<String, String>,
+    pub labels: Vec<Label>,
 
     /// The versionId of this version's ancestor if it has an ancestor.
     #[serde(skip_serializing_if = "Option::is_none")]
@@ -57,4 +61,10 @@ pub struct CreateThingDescriptionVersionAttributes {
     /// Base64-encoded thing description document content.
     #[serde(rename = "thingDescriptionDocument")]
     pub thing_description_document: Bytes,
+
+    /// Queryable Key Value pairs to be added to the parent Thing Description
+    #[serde(rename = "thingDescriptionLabels")]
+    #[serde(skip_serializing_if = "Option::is_none")]
+    #[builder(default = "None")]
+    pub thing_description_labels: Option<Vec<Label>>,
 }

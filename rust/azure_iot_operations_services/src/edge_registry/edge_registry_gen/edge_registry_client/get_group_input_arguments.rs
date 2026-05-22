@@ -16,7 +16,9 @@ use super::super::common_types::{b64::Bytes, date_only::Date, decimal::Decimal, 
 pub struct GetGroupInputArguments {
     /// The 'groupId' Field.
     #[serde(rename = "groupId")]
-    pub group_id: String,
+    #[serde(skip_serializing_if = "Option::is_none")]
+    #[builder(default = "None")]
+    pub group_id: Option<String>,
 
     /// The 'groupType' Field.
     #[serde(rename = "groupType")]

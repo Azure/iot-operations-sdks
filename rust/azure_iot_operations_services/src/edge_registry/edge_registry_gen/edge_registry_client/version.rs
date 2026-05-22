@@ -10,6 +10,7 @@ use serde::{Deserialize, Serialize};
 use uuid::Uuid;
 
 use super::super::common_types::{b64::Bytes, date_only::Date, decimal::Decimal, time_only::Time};
+use super::label::Label;
 
 /// A specific version of a resource.
 #[derive(Serialize, Deserialize, Debug, Clone, Builder)]
@@ -40,7 +41,7 @@ pub struct Version {
 
     /// The 'labels' Field.
     #[builder(default)]
-    pub labels: HashMap<String, String>,
+    pub labels: Vec<Label>,
 
     /// The 'modifiedAt' Field.
     #[serde(rename = "modifiedAt")]

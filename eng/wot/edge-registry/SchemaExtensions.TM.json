@@ -12,59 +12,6 @@
         "type": "application/tm+json"
     }],
     "actions": {
-        "getSchema": {
-            "description": "Retrieve an xRegistry Schema Resource entity.",
-            "input": {
-                "type": "object",
-                "properties": {
-                    "groupId": {
-                        "type": "string"
-                    },
-                    "schemaId": {
-                        "type": "string"
-                    }
-                },
-                "required": [ "groupId", "schemaId" ]
-            },
-            "output": {
-                "dtv:ref": "./schema-extension/Schema.schema.json"
-            },
-            "forms": [
-                {
-                    "dtv:topic": "adr/dtmi:ms:adr:EdgeRegistry;1/get/schema",
-                    "contentType": "application/json",
-                    "op": "invokeaction",
-                    "additionalResponses": [
-                        {
-                            "success": false,
-                            "schema": "SchemaExtensionError"
-                        }
-                    ]
-                }
-            ]
-        },
-        "createSchema": {
-            "description": "Create a new xRegistry Schema and default Version entity. Returns the created Schema entity with epoch=1.",
-            "input": {
-                "dtv:ref": "./schema-extension/CreateSchemaAttributes.schema.json"
-            },
-            "output": {
-                "dtv:ref": "./schema-extension/Schema.schema.json"
-            },
-            "forms": [
-                {
-                    "dtv:topic": "adr/dtmi:ms:adr:EdgeRegistry;1/create/schema",
-                    "contentType": "application/json",
-                    "op": "invokeaction",
-                    "additionalResponses": [
-                        {
-                            "success": false,
-                            "schema": "SchemaExtensionError"
-                        }
-                    ]
-                }
-            ]
-        },
         "getSchemaVersion": {
             "description": "Retrieve an xRegistry Schema Version entity.",
             "input": {
@@ -80,7 +27,7 @@
                         "type": "integer"
                     }
                 },
-                "required": [ "groupId", "schemaId", "versionId"]
+                "required": [ "schemaId"]
             },
             "output": {
                 "dtv:ref": "./schema-extension/SchemaVersion.schema.json"
@@ -121,6 +68,28 @@
                 }
             ]
         },
+        "createOrGetSchemaVersion": {
+            "description": "Create a new xRegistry Schema Version entity under the specified schema if the document doesn't already exist as a current version. Returns the created version entity or the most recent matching version entity.",
+            "input": {
+                "dtv:ref": "./schema-extension/CreateSchemaVersionAttributes.schema.json"
+            },
+            "output": {
+                "dtv:ref": "./schema-extension/SchemaVersion.schema.json"
+            },
+            "forms": [
+                {
+                    "dtv:topic": "adr/dtmi:ms:adr:EdgeRegistry;1/createOrGet/schema/version",
+                    "contentType": "application/json",
+                    "op": "invokeaction",
+                    "additionalResponses": [
+                        {
+                            "success": false,
+                            "schema": "SchemaExtensionError"
+                        }
+                    ]
+                }
+            ]
+        },
         "listSchemaVersions": {
             "description": "List all Version IDs for a given Schema entity.",
             "input": {
@@ -133,7 +102,7 @@
                         "type": "string"
                     }
                 },
-                "required": [ "groupId", "schemaId"]
+                "required": [ "schemaId"]
             },
             "output": {
                 "type": "object",

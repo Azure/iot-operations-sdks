@@ -10,6 +10,7 @@ use serde::{Deserialize, Serialize};
 use uuid::Uuid;
 
 use super::super::common_types::{b64::Bytes, date_only::Date, decimal::Decimal, time_only::Time};
+use super::label::Label;
 
 /// Request payload for creating or updating a Group.
 #[derive(Serialize, Deserialize, Debug, Clone, Builder)]
@@ -18,7 +19,9 @@ pub struct GroupAttributes {
     pub group_type: String,
 
     #[serde(rename = "groupId")]
-    pub group_id: String,
+    #[serde(skip_serializing_if = "Option::is_none")]
+    #[builder(default = "None")]
+    pub group_id: Option<String>,
 
     #[serde(skip_serializing_if = "Option::is_none")]
     #[builder(default = "None")]
@@ -33,7 +36,7 @@ pub struct GroupAttributes {
     pub documentation: Option<String>,
 
     #[builder(default)]
-    pub labels: HashMap<String, String>,
+    pub labels: Vec<Label>,
 
     /// Extension-specific attributes (e.g., `envelope`, `protocol` for message groups).
     #[builder(default)]

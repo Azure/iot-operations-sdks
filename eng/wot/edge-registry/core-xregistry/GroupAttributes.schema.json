@@ -4,6 +4,7 @@
   "description": "Request payload for creating or updating a Group.",
   "type": "object",
   "additionalProperties": false,
+  "required": ["groupType", "labels", "extensions"],
   "properties": {
       "groupType": {
           "type": "string"
@@ -21,13 +22,16 @@
           "type": "string"
       },
       "labels": {
-          "type": "object", "additionalProperties": { "type": "string" }
+          "type": "array",
+          "items": {
+              "type": "object",
+              "$ref": "Label.schema.json"
+          }
       },
       "extensions": {
         "description": "Extension-specific attributes (e.g., `envelope`, `protocol` for message groups).",
         "type": "object", "additionalProperties": { "type": "string", 
         "contentEncoding": "base64" }
       }
-    },
-    "required": ["groupType", "groupId", "labels", "extensions"]
+    }
 }

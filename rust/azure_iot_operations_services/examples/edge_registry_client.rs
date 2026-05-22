@@ -79,7 +79,7 @@ const THING_DESCRIPTION: &str = r#"
 #[tokio::main(flavor = "current_thread")]
 async fn main() -> Result<(), Box<dyn std::error::Error>> {
     env_logger::Builder::new()
-        .filter_level(log::LevelFilter::Trace)
+        .filter_level(log::LevelFilter::Info)
         .format_timestamp(None)
         .init();
 
@@ -101,11 +101,7 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
     let application_context = ApplicationContextBuilder::default().build()?;
 
     // Create an Edge Registry Client
-    let edge_registry_client = Client::new(
-        application_context,
-        session.create_managed_client(),
-        "azure_iot_operations".to_string(),
-    );
+    let edge_registry_client = Client::new(application_context, session.create_managed_client());
 
     // Run the Session and the State Store operations concurrently
     let results = tokio::join! {
@@ -123,68 +119,68 @@ async fn edge_registry_operations(client: Client) {
     // Schema Extension
     let schema_id = "exampleSchema";
 
-    let group_attributes = GroupAttributesBuilder::default()
-        .name("SDK Schemas")
-        .build()
-        .unwrap();
-    match client
-        .create_schema_group(group_attributes, Duration::from_secs(10))
-        .await
-    {
-        Ok(response) => log::info!("Create schema group response: {response}"),
-        Err(e) => log::error!("Create schema group error: {e:?}"),
-    }
+    // let group_attributes = GroupAttributesBuilder::default()
+    //     .name("SDK Schemas")
+    //     .build()
+    //     .unwrap();
+    // match client
+    //     .create_schema_group(group_attributes, Duration::from_secs(10))
+    //     .await
+    // {
+    //     Ok(response) => log::info!("Create schema group response: {response}"),
+    //     Err(e) => log::error!("Create schema group error: {e:?}"),
+    // }
 
-    match client.get_schema_group(Duration::from_secs(10)).await {
-        Ok(response) => log::info!("Get schema group response: {response}"),
-        Err(e) => log::error!("Get schema group error: {e:?}"),
-    }
+    // match client.get_schema_group(Duration::from_secs(10)).await {
+    //     Ok(response) => log::info!("Get schema group response: {response}"),
+    //     Err(e) => log::error!("Get schema group error: {e:?}"),
+    // }
 
-    let create_initial_version_attributes = CreateSchemaVersionAttributesBuilder::default()
-        .schema_document(JSON_SCHEMA.as_bytes().to_vec())
-        .content_type("application/json")
-        .name("Example Schema Version 1")
-        .description("An example schema version")
-        .format(SchemaFormat::JsonSchemaDraft07)
-        .build()
-        .expect("Failed to build CreateSchemaVersionRequest");
+    // let create_initial_version_attributes = CreateSchemaVersionAttributesBuilder::default()
+    //     .schema_document(JSON_SCHEMA.as_bytes().to_vec())
+    //     .content_type("application/json")
+    //     .name("Example Schema Version 1")
+    //     .description("An example schema version")
+    //     .format(SchemaFormat::JsonSchemaDraft07)
+    //     .build()
+    //     .expect("Failed to build CreateSchemaVersionRequest");
 
-    let version_id_1 = match client
-        .create_schema(
-            schema_id.to_string(),
-            SchemaMetaAttributes::default(),
-            create_initial_version_attributes,
-            Duration::from_secs(10),
-        )
-        .await
-    {
-        Ok(response) => {
-            log::info!("Create schema response: {response}");
-            Some(response.meta.default_version_id)
-        }
-        Err(e) => {
-            log::error!("Create schema error: {e:?}");
-            None
-        }
-    };
+    // let version_id_1 = match client
+    //     .create_schema(
+    //         schema_id.to_string(),
+    //         SchemaMetaAttributes::default(),
+    //         create_initial_version_attributes,
+    //         Duration::from_secs(10),
+    //     )
+    //     .await
+    // {
+    //     Ok(response) => {
+    //         log::info!("Create schema response: {response}");
+    //         Some(response.meta.default_version_id)
+    //     }
+    //     Err(e) => {
+    //         log::error!("Create schema error: {e:?}");
+    //         None
+    //     }
+    // };
 
-    match client
-        .get_schema(schema_id.to_string(), Duration::from_secs(10))
-        .await
-    {
-        Ok(response) => log::info!("Get schema response: {response}"),
-        Err(e) => log::error!("Get schema error: {e:?}"),
-    }
+    // match client
+    //     .get_schema(schema_id.to_string(), Duration::from_secs(10))
+    //     .await
+    // {
+    //     Ok(response) => log::info!("Get schema response: {response}"),
+    //     Err(e) => log::error!("Get schema error: {e:?}"),
+    // }
 
-    if let Some(version_id) = version_id_1 {
-        match client
-            .get_schema_version(schema_id.to_string(), version_id, Duration::from_secs(10))
-            .await
-        {
-            Ok(response) => log::info!("Get version 1 response: {response}"),
-            Err(e) => log::error!("Get version 1 error: {e:?}"),
-        }
-    }
+    // if let Some(version_id) = version_id_1 {
+    //     match client
+    //         .get_schema_version(schema_id.to_string(), version_id, Duration::from_secs(10))
+    //         .await
+    //     {
+    //         Ok(response) => log::info!("Get version 1 response: {response}"),
+    //         Err(e) => log::error!("Get version 1 error: {e:?}"),
+    //     }
+    // }
 
     let mut create_version_attributes_builder = CreateSchemaVersionAttributesBuilder::default();
     create_version_attributes_builder
@@ -194,9 +190,9 @@ async fn edge_registry_operations(client: Client) {
         .description("An example schema version")
         .format(SchemaFormat::JsonSchemaDraft07);
 
-    if let Some(ancestor_version_id) = version_id_1 {
-        create_version_attributes_builder.ancestor(ancestor_version_id);
-    }
+    // if let Some(ancestor_version_id) = version_id_1 {
+    //     create_version_attributes_builder.ancestor(ancestor_version_id);
+    // }
 
     let create_version_attributes = create_version_attributes_builder
         // CreateSchemaVersionAttributesBuilder::default()
@@ -211,6 +207,7 @@ async fn edge_registry_operations(client: Client) {
 
     let schema_version_2 = match client
         .create_schema_version(
+            None,
             schema_id.to_string(),
             create_version_attributes,
             Duration::from_secs(10),
@@ -227,17 +224,22 @@ async fn edge_registry_operations(client: Client) {
         }
     };
 
-    match client
-        .get_schema(schema_id.to_string(), Duration::from_secs(10))
-        .await
-    {
-        Ok(response) => log::info!("Get schema response: {response}"),
-        Err(e) => log::error!("Get schema error: {e:?}"),
-    }
+    // match client
+    //     .get_schema(schema_id.to_string(), Duration::from_secs(10))
+    //     .await
+    // {
+    //     Ok(response) => log::info!("Get schema response: {response}"),
+    //     Err(e) => log::error!("Get schema error: {e:?}"),
+    // }
 
     if let Some(version_id) = schema_version_2 {
         match client
-            .get_schema_version(schema_id.to_string(), version_id, Duration::from_secs(10))
+            .get_schema_version(
+                None,
+                schema_id.to_string(),
+                Some(version_id),
+                Duration::from_secs(10),
+            )
             .await
         {
             Ok(response) => log::info!("Get version 2 response: {response}"),
@@ -250,13 +252,13 @@ async fn edge_registry_operations(client: Client) {
         Err(e) => log::error!("List schema groups error: {e:?}"),
     }
 
-    match client.list_schemas(Duration::from_secs(10)).await {
+    match client.list_schemas(None, Duration::from_secs(10)).await {
         Ok(response) => log::info!("List schemas response: {response:?}"),
         Err(e) => log::error!("List schemas error: {e:?}"),
     }
 
     match client
-        .list_schema_versions(schema_id.to_string(), Duration::from_secs(10))
+        .list_schema_versions(None, schema_id.to_string(), Duration::from_secs(10))
         .await
     {
         Ok(response) => log::info!("List schema versions response: {response:?}"),
@@ -268,69 +270,69 @@ async fn edge_registry_operations(client: Client) {
     let thing_description_version_id_1 = "1.0.1";
     let thing_description_version_id_2 = "1.5.3";
 
-    let group_attributes = GroupAttributesBuilder::default()
-        .name("SDK Thing Descriptions")
-        .build()
-        .unwrap();
-    match client
-        .create_thing_description_group(group_attributes, Duration::from_secs(10))
-        .await
-    {
-        Ok(response) => log::info!("Create thing description group response: {response}"),
-        Err(e) => log::error!("Create thing description group error: {e:?}"),
-    }
+    // let group_attributes = GroupAttributesBuilder::default()
+    //     .name("SDK Thing Descriptions")
+    //     .build()
+    //     .unwrap();
+    // match client
+    //     .create_thing_description_group(group_attributes, Duration::from_secs(10))
+    //     .await
+    // {
+    //     Ok(response) => log::info!("Create thing description group response: {response}"),
+    //     Err(e) => log::error!("Create thing description group error: {e:?}"),
+    // }
 
-    match client
-        .get_thing_description_group(Duration::from_secs(10))
-        .await
-    {
-        Ok(response) => log::info!("Get thing description group response: {response}"),
-        Err(e) => log::error!("Get thing description group error: {e:?}"),
-    }
+    // match client
+    //     .get_thing_description_group(Duration::from_secs(10))
+    //     .await
+    // {
+    //     Ok(response) => log::info!("Get thing description group response: {response}"),
+    //     Err(e) => log::error!("Get thing description group error: {e:?}"),
+    // }
 
-    let create_initial_version_attributes =
-        CreateThingDescriptionVersionAttributesBuilder::default()
-            .thing_description_document(THING_DESCRIPTION.as_bytes().to_vec())
-            .version_id(thing_description_version_id_1.to_string())
-            .content_type("application/json")
-            .name("Example Thing Description Version 1")
-            .description("An example thing description version")
-            .format(ThingDescriptionFormat::WotTd11)
-            .build()
-            .expect("Failed to build CreateThingDescriptionVersionRequest");
+    // let create_initial_version_attributes =
+    //     CreateThingDescriptionVersionAttributesBuilder::default()
+    //         .thing_description_document(THING_DESCRIPTION.as_bytes().to_vec())
+    //         .version_id(thing_description_version_id_1.to_string())
+    //         .content_type("application/json")
+    //         .name("Example Thing Description Version 1")
+    //         .description("An example thing description version")
+    //         .format(ThingDescriptionFormat::WotTd11)
+    //         .build()
+    //         .expect("Failed to build CreateThingDescriptionVersionRequest");
 
-    match client
-        .create_thing_description(
-            thing_description_id.to_string(),
-            ThingDescriptionMetaAttributes::default(),
-            create_initial_version_attributes,
-            Duration::from_secs(10),
-        )
-        .await
-    {
-        Ok(response) => log::info!("Create thing description response: {response}"),
-        Err(e) => log::error!("Create thing description error: {e:?}"),
-    }
+    // match client
+    //     .create_thing_description(
+    //         thing_description_id.to_string(),
+    //         ThingDescriptionMetaAttributes::default(),
+    //         create_initial_version_attributes,
+    //         Duration::from_secs(10),
+    //     )
+    //     .await
+    // {
+    //     Ok(response) => log::info!("Create thing description response: {response}"),
+    //     Err(e) => log::error!("Create thing description error: {e:?}"),
+    // }
 
-    match client
-        .get_thing_description(thing_description_id, Duration::from_secs(10))
-        .await
-    {
-        Ok(response) => log::info!("Get thing description response: {response}"),
-        Err(e) => log::error!("Get thing description error: {e:?}"),
-    }
+    // match client
+    //     .get_thing_description(thing_description_id, Duration::from_secs(10))
+    //     .await
+    // {
+    //     Ok(response) => log::info!("Get thing description response: {response}"),
+    //     Err(e) => log::error!("Get thing description error: {e:?}"),
+    // }
 
-    match client
-        .get_thing_description_version(
-            thing_description_id,
-            &thing_description_version_id_1,
-            Duration::from_secs(10),
-        )
-        .await
-    {
-        Ok(response) => log::info!("Get version 1 response: {response}"),
-        Err(e) => log::error!("Get version 1 error: {e:?}"),
-    }
+    // match client
+    //     .get_thing_description_version(
+    //         thing_description_id,
+    //         &thing_description_version_id_1,
+    //         Duration::from_secs(10),
+    //     )
+    //     .await
+    // {
+    //     Ok(response) => log::info!("Get version 1 response: {response}"),
+    //     Err(e) => log::error!("Get version 1 error: {e:?}"),
+    // }
 
     let create_version_attributes = CreateThingDescriptionVersionAttributesBuilder::default()
         .thing_description_document(THING_DESCRIPTION.as_bytes().to_vec())
@@ -345,6 +347,7 @@ async fn edge_registry_operations(client: Client) {
 
     match client
         .create_thing_description_version(
+            None,
             thing_description_id,
             create_version_attributes,
             Duration::from_secs(10),
@@ -355,18 +358,19 @@ async fn edge_registry_operations(client: Client) {
         Err(e) => log::error!("Create thing description version error: {e:?}"),
     }
 
-    match client
-        .get_thing_description(thing_description_id, Duration::from_secs(10))
-        .await
-    {
-        Ok(response) => log::info!("Get thing description response: {response}"),
-        Err(e) => log::error!("Get thing description error: {e:?}"),
-    }
+    // match client
+    //     .get_thing_description(None, thing_description_id, Duration::from_secs(10))
+    //     .await
+    // {
+    //     Ok(response) => log::info!("Get thing description response: {response}"),
+    //     Err(e) => log::error!("Get thing description error: {e:?}"),
+    // }
 
     match client
         .get_thing_description_version(
-            thing_description_id,
-            thing_description_version_id_2,
+            None,
+            thing_description_id.to_string(),
+            Some(thing_description_version_id_2.to_string()),
             Duration::from_secs(10),
         )
         .await
@@ -384,7 +388,7 @@ async fn edge_registry_operations(client: Client) {
     }
 
     match client
-        .list_thing_descriptions(Duration::from_secs(10))
+        .list_thing_descriptions(None, Duration::from_secs(10))
         .await
     {
         Ok(response) => log::info!("List thing descriptions response: {response:?}"),
@@ -392,7 +396,11 @@ async fn edge_registry_operations(client: Client) {
     }
 
     match client
-        .list_thing_description_versions(thing_description_id, Duration::from_secs(10))
+        .list_thing_description_versions(
+            None,
+            thing_description_id.to_string(),
+            Duration::from_secs(10),
+        )
         .await
     {
         Ok(response) => log::info!("List thing description versions response: {response:?}"),

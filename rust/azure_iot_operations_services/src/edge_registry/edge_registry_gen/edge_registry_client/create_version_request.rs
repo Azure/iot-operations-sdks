@@ -10,6 +10,7 @@ use serde::{Deserialize, Serialize};
 use uuid::Uuid;
 
 use super::super::common_types::{b64::Bytes, date_only::Date, decimal::Decimal, time_only::Time};
+use super::label::Label;
 
 /// Request payload for creating a version.
 #[derive(Serialize, Deserialize, Debug, Clone, Builder)]
@@ -38,7 +39,7 @@ pub struct CreateVersionRequest {
     /// The 'labels' Field.
     #[serde(skip_serializing_if = "Option::is_none")]
     #[builder(default = "None")]
-    pub labels: Option<HashMap<String, String>>,
+    pub labels: Option<Vec<Label>>,
 
     /// The 'name' Field.
     #[serde(skip_serializing_if = "Option::is_none")]

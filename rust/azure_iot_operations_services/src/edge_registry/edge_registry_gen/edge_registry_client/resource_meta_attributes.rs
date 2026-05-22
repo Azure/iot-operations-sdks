@@ -10,6 +10,7 @@ use serde::{Deserialize, Serialize};
 use uuid::Uuid;
 
 use super::super::common_types::{b64::Bytes, date_only::Date, decimal::Decimal, time_only::Time};
+use super::label::Label;
 
 #[derive(Serialize, Deserialize, Debug, Clone, Builder)]
 pub struct ResourceMetaAttributes {
@@ -19,7 +20,7 @@ pub struct ResourceMetaAttributes {
 
     /// The 'labels' Field.
     #[builder(default)]
-    pub labels: HashMap<String, String>,
+    pub labels: Vec<Label>,
 
     /// Resource identifier within the group.
     pub id: String,

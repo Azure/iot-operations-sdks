@@ -16,7 +16,9 @@ use super::super::common_types::{b64::Bytes, date_only::Date, decimal::Decimal, 
 pub struct GetSchemaVersionInputArguments {
     /// The 'groupId' Field.
     #[serde(rename = "groupId")]
-    pub group_id: String,
+    #[serde(skip_serializing_if = "Option::is_none")]
+    #[builder(default = "None")]
+    pub group_id: Option<String>,
 
     /// The 'schemaId' Field.
     #[serde(rename = "schemaId")]
@@ -24,5 +26,7 @@ pub struct GetSchemaVersionInputArguments {
 
     /// The 'versionId' Field.
     #[serde(rename = "versionId")]
-    pub version_id: u64,
+    #[serde(skip_serializing_if = "Option::is_none")]
+    #[builder(default = "None")]
+    pub version_id: Option<u64>,
 }

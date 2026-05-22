@@ -127,7 +127,7 @@ pub struct Group {
     /// Group identifier.
     pub id: String,
     /// The 'labels' Field.
-    pub labels: HashMap<String, String>,
+    pub labels: Vec<(String, String)>,
     /// The 'modifiedAt' Field.
     pub modified_at: DateTime<Utc>,
     /// Human-readable name.
@@ -206,7 +206,7 @@ pub struct GroupAttributes {
     #[builder(default = "None")]
     pub documentation: Option<String>,
     #[builder(default)]
-    pub labels: HashMap<String, String>,
+    pub labels: Vec<(String, String)>,
     #[builder(default)]
     pub extensions: HashMap<String, Vec<u8>>,
 }
@@ -221,7 +221,7 @@ pub struct ResourceMeta {
     pub epoch: u64,
     /// Extension-specific attributes (e.g., `format` and `content_type` for schemas).
     pub extensions: HashMap<String, Vec<u8>>,
-    pub labels: HashMap<String, String>,
+    pub labels: Vec<(String, String)>,
     /// Resource identifier within the group.
     pub id: String,
     /// The 'modifiedAt' Field.
@@ -284,7 +284,7 @@ pub struct ResourceMetaAttributes {
     /// Extension-specific attributes (e.g., `format` and `content_type` for schemas).
     pub extensions: HashMap<String, Vec<u8>>,
     /// The 'labels' Field.
-    pub labels: HashMap<String, String>,
+    pub labels: Vec<(String, String)>,
 }
 
 // -----------------------------------------------------------------------
@@ -313,9 +313,12 @@ pub struct CreateSchemaVersionAttributes {
     pub documentation: Option<String>,
     /// Schema format identifier, e.g. `JsonSchema/draft-07`, `Protobuf/3`.
     pub format: SchemaFormat,
-    /// The 'labels' Field.
+    /// Queryable Key Value pairs to be added to the Version.
     #[builder(default)]
-    pub labels: HashMap<String, String>,
+    pub labels: Vec<(String, String)>,
+    /// Queryable Key Value pairs to be added to the parent Schema
+    #[builder(default)]
+    pub schema_labels: Vec<(String, String)>,
     /// The 'name' Field.
     #[builder(default = "None")]
     pub name: Option<String>,
@@ -345,97 +348,97 @@ impl From<SchemaFormat> for String {
     }
 }
 
-#[derive(Debug, Clone)]
-pub struct Schema {
-    /// The default version of the schema.
-    pub default_version: SchemaVersion,
-    /// Extension-specific attributes (e.g., `format` and `content_type` for schemas).
-    pub extensions: HashMap<String, Vec<u8>>,
-    /// Resource identifier within the group.
-    pub id: String,
-    /// The 'meta' Field.
-    pub meta: SchemaMeta,
-    /// The 'versionsCount' Field.
-    pub versions_count: u64,
-    /// Full XID path.
-    pub xid: String,
-}
+// #[derive(Debug, Clone)]
+// pub struct Schema {
+//     /// The default version of the schema.
+//     pub default_version: SchemaVersion,
+//     /// Extension-specific attributes (e.g., `format` and `content_type` for schemas).
+//     pub extensions: HashMap<String, Vec<u8>>,
+//     /// Resource identifier within the group.
+//     pub id: String,
+//     /// The 'meta' Field.
+//     pub meta: SchemaMeta,
+//     /// The 'versionsCount' Field.
+//     pub versions_count: u64,
+//     /// Full XID path.
+//     pub xid: String,
+// }
 
-impl std::fmt::Display for Schema {
-    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
-        let extensions = self
-            .extensions
-            .iter()
-            .map(|(k, v)| (k, v.len()))
-            .collect::<Vec<_>>();
-        write!(
-            f,
-            "Schema {{ 
-                id: {}, 
-                xid: {}, 
-                versions_count: {}, 
-                default_version: {}, 
-                extensions: {extensions:?}, 
-                meta: {} 
-            }}",
-            self.id, self.xid, self.versions_count, self.default_version, self.meta
-        )
-    }
-}
+// impl std::fmt::Display for Schema {
+//     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
+//         let extensions = self
+//             .extensions
+//             .iter()
+//             .map(|(k, v)| (k, v.len()))
+//             .collect::<Vec<_>>();
+//         write!(
+//             f,
+//             "Schema {{
+//                 id: {},
+//                 xid: {},
+//                 versions_count: {},
+//                 default_version: {},
+//                 extensions: {extensions:?},
+//                 meta: {}
+//             }}",
+//             self.id, self.xid, self.versions_count, self.default_version, self.meta
+//         )
+//     }
+// }
 
-#[derive(Debug, Clone)]
-pub struct SchemaMeta {
-    /// The 'createdAt' Field.
-    pub created_at: DateTime<Utc>,
-    /// The 'defaultVersionId' Field.
-    pub default_version_id: u64,
-    /// The 'epoch' Field.
-    pub epoch: u64,
-    /// Extension-specific attributes (e.g., `format` and `content_type` for schemas).
-    pub extensions: HashMap<String, Vec<u8>>,
-    pub labels: HashMap<String, String>,
-    /// Resource identifier within the group.
-    pub id: String,
-    /// The 'modifiedAt' Field.
-    pub modified_at: DateTime<Utc>,
-    /// Full XID path.
-    pub xid: String,
-    // Extension field
-    /// Whether the schema should be validated or not
-    pub validation: bool,
-}
+// #[derive(Debug, Clone)]
+// pub struct SchemaMeta {
+//     /// The 'createdAt' Field.
+//     pub created_at: DateTime<Utc>,
+//     /// The 'defaultVersionId' Field.
+//     pub default_version_id: u64,
+//     /// The 'epoch' Field.
+//     pub epoch: u64,
+//     /// Extension-specific attributes (e.g., `format` and `content_type` for schemas).
+//     pub extensions: HashMap<String, Vec<u8>>,
+//     pub labels: Vec<(String, String)>,
+//     /// Resource identifier within the group.
+//     pub id: String,
+//     /// The 'modifiedAt' Field.
+//     pub modified_at: DateTime<Utc>,
+//     /// Full XID path.
+//     pub xid: String,
+//     // Extension field
+//     /// Whether the schema should be validated or not
+//     pub validation: bool,
+// }
 
-impl std::fmt::Display for SchemaMeta {
-    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
-        let extensions = self
-            .extensions
-            .iter()
-            .map(|(k, v)| (k, v.len()))
-            .collect::<Vec<_>>();
-        write!(
-            f,
-            "SchemaMeta {{ 
-                id: {}, 
-                xid: {}, 
-                created_at: {}, 
-                modified_at: {}, 
-                default_version_id: {}, 
-                epoch: {}, 
-                validation: {}, 
-                labels: {:?},
-                extensions: {extensions:?} 
-            }}",
-            self.id,
-            self.xid,
-            self.created_at,
-            self.modified_at,
-            self.default_version_id,
-            self.epoch,
-            self.validation,
-            self.labels
-        )
-    }
-}
+// impl std::fmt::Display for SchemaMeta {
+//     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
+//         let extensions = self
+//             .extensions
+//             .iter()
+//             .map(|(k, v)| (k, v.len()))
+//             .collect::<Vec<_>>();
+//         write!(
+//             f,
+//             "SchemaMeta {{
+//                 id: {},
+//                 xid: {},
+//                 created_at: {},
+//                 modified_at: {},
+//                 default_version_id: {},
+//                 epoch: {},
+//                 validation: {},
+//                 labels: {:?},
+//                 extensions: {extensions:?}
+//             }}",
+//             self.id,
+//             self.xid,
+//             self.created_at,
+//             self.modified_at,
+//             self.default_version_id,
+//             self.epoch,
+//             self.validation,
+//             self.labels
+//         )
+//     }
+// }
 
 #[derive(Debug, Clone)]
 pub struct SchemaVersion {
@@ -452,7 +455,7 @@ pub struct SchemaVersion {
     /// Extension-specific attributes.
     pub extensions: HashMap<String, Vec<u8>>,
     /// The 'labels' Field.
-    pub labels: HashMap<String, String>,
+    pub labels: Vec<(String, String)>,
     /// The 'modifiedAt' Field.
     pub modified_at: DateTime<Utc>,
     /// The 'name' Field.
@@ -516,57 +519,57 @@ impl std::fmt::Display for SchemaVersion {
     }
 }
 
-impl From<er_client_gen::Schema> for Schema {
-    fn from(schema: er_client_gen::Schema) -> Self {
-        Schema {
-            default_version: (
-                schema.resource.default_version,
-                schema.default_version_extensions,
-            )
-                .into(),
-            extensions: schema
-                .resource
-                .extensions
-                .into_iter()
-                .map(|(k, v)| (k, v.0))
-                .collect(),
-            id: schema.resource.id,
-            meta: (schema.resource.meta, schema.meta_extensions).into(),
-            versions_count: schema.resource.versions_count,
-            xid: schema.resource.xid,
-        }
-    }
-}
+// impl From<er_client_gen::Schema> for Schema {
+//     fn from(schema: er_client_gen::Schema) -> Self {
+//         Schema {
+//             default_version: (
+//                 schema.resource.default_version,
+//                 schema.default_version_extensions,
+//             )
+//                 .into(),
+//             extensions: schema
+//                 .resource
+//                 .extensions
+//                 .into_iter()
+//                 .map(|(k, v)| (k, v.0))
+//                 .collect(),
+//             id: schema.resource.id,
+//             meta: (schema.resource.meta, schema.meta_extensions).into(),
+//             versions_count: schema.resource.versions_count,
+//             xid: schema.resource.xid,
+//         }
+//     }
+// }
 
-impl
-    From<(
-        er_client_gen::ResourceMeta,
-        er_client_gen::SchemaMetaExtensions,
-    )> for SchemaMeta
-{
-    fn from(
-        (resource_meta, schema_meta_extensions): (
-            er_client_gen::ResourceMeta,
-            er_client_gen::SchemaMetaExtensions,
-        ),
-    ) -> Self {
-        SchemaMeta {
-            created_at: resource_meta.created_at,
-            default_version_id: schema_meta_extensions.default_version_id,
-            epoch: resource_meta.epoch,
-            extensions: resource_meta
-                .extensions
-                .into_iter()
-                .map(|(k, v)| (k, v.0))
-                .collect(),
-            id: resource_meta.id,
-            modified_at: resource_meta.modified_at,
-            xid: resource_meta.xid,
-            validation: schema_meta_extensions.validation,
-            labels: resource_meta.labels,
-        }
-    }
-}
+// impl
+//     From<(
+//         er_client_gen::ResourceMeta,
+//         er_client_gen::SchemaMetaExtensions,
+//     )> for SchemaMeta
+// {
+//     fn from(
+//         (resource_meta, schema_meta_extensions): (
+//             er_client_gen::ResourceMeta,
+//             er_client_gen::SchemaMetaExtensions,
+//         ),
+//     ) -> Self {
+//         SchemaMeta {
+//             created_at: resource_meta.created_at,
+//             default_version_id: schema_meta_extensions.default_version_id,
+//             epoch: resource_meta.epoch,
+//             extensions: resource_meta
+//                 .extensions
+//                 .into_iter()
+//                 .map(|(k, v)| (k, v.0))
+//                 .collect(),
+//             id: resource_meta.id,
+//             modified_at: resource_meta.modified_at,
+//             xid: resource_meta.xid,
+//             validation: schema_meta_extensions.validation,
+//             labels: resource_meta.labels,
+//         }
+//     }
+// }
 
 impl
     From<(
@@ -619,21 +622,21 @@ pub type ThingDescriptionGroup = Group;
 pub type ThingDescriptionMeta = ResourceMeta;
 pub type ThingDescriptionMetaAttributes = ResourceMetaAttributes;
 
-#[derive(Debug, Clone)]
-pub struct ThingDescription {
-    /// The default version of the thing description.
-    pub default_version: ThingDescriptionVersion,
-    /// Extension-specific attributes (e.g., `format` and `content_type` for thing descriptions).
-    pub extensions: HashMap<String, Vec<u8>>,
-    /// Resource identifier within the group.
-    pub id: String,
-    /// The 'meta' Field.
-    pub meta: ThingDescriptionMeta,
-    /// The 'versionsCount' Field.
-    pub versions_count: u64,
-    /// Full XID path.
-    pub xid: String,
-}
+// #[derive(Debug, Clone)]
+// pub struct ThingDescription {
+//     /// The default version of the thing description.
+//     pub default_version: ThingDescriptionVersion,
+//     /// Extension-specific attributes (e.g., `format` and `content_type` for thing descriptions).
+//     pub extensions: HashMap<String, Vec<u8>>,
+//     /// Resource identifier within the group.
+//     pub id: String,
+//     /// The 'meta' Field.
+//     pub meta: ThingDescriptionMeta,
+//     /// The 'versionsCount' Field.
+//     pub versions_count: u64,
+//     /// Full XID path.
+//     pub xid: String,
+// }
 
 #[derive(Debug, Clone)]
 pub struct ThingDescriptionVersion {
@@ -650,7 +653,7 @@ pub struct ThingDescriptionVersion {
     /// Extension-specific attributes.
     pub extensions: HashMap<String, Vec<u8>>,
     /// The 'labels' Field.
-    pub labels: HashMap<String, String>,
+    pub labels: Vec<(String, String)>,
     /// The 'modifiedAt' Field.
     pub modified_at: DateTime<Utc>,
     /// The 'name' Field.
@@ -693,7 +696,7 @@ pub struct CreateThingDescriptionVersionAttributes {
     pub format: ThingDescriptionFormat,
     /// The 'labels' Field.
     #[builder(default)]
-    pub labels: HashMap<String, String>,
+    pub labels: Vec<(String, String)>,
     /// The 'name' Field.
     #[builder(default = "None")]
     pub name: Option<String>,
@@ -719,23 +722,23 @@ impl From<ThingDescriptionFormat> for String {
     }
 }
 
-impl From<er_client_gen::ThingDescription> for ThingDescription {
-    fn from(td: er_client_gen::ThingDescription) -> Self {
-        ThingDescription {
-            default_version: (td.resource.default_version, td.default_version_extensions).into(),
-            extensions: td
-                .resource
-                .extensions
-                .into_iter()
-                .map(|(k, v)| (k, v.0))
-                .collect(),
-            id: td.resource.id,
-            meta: td.resource.meta.into(),
-            versions_count: td.resource.versions_count,
-            xid: td.resource.xid,
-        }
-    }
-}
+// impl From<er_client_gen::ThingDescription> for ThingDescription {
+//     fn from(td: er_client_gen::ThingDescription) -> Self {
+//         ThingDescription {
+//             default_version: (td.resource.default_version, td.default_version_extensions).into(),
+//             extensions: td
+//                 .resource
+//                 .extensions
+//                 .into_iter()
+//                 .map(|(k, v)| (k, v.0))
+//                 .collect(),
+//             id: td.resource.id,
+//             meta: td.resource.meta.into(),
+//             versions_count: td.resource.versions_count,
+//             xid: td.resource.xid,
+//         }
+//     }
+// }
 
 impl From<er_client_gen::ThingDescriptionVersion> for ThingDescriptionVersion {
     fn from(tdv: er_client_gen::ThingDescriptionVersion) -> Self {
@@ -779,27 +782,27 @@ impl
     }
 }
 
-impl std::fmt::Display for ThingDescription {
-    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
-        let extensions = self
-            .extensions
-            .iter()
-            .map(|(k, v)| (k, v.len()))
-            .collect::<Vec<_>>();
-        write!(
-            f,
-            "Thing Description {{ 
-                id: {}, 
-                xid: {}, 
-                versions_count: {}, 
-                default_version: {}, 
-                extensions: {extensions:?}, 
-                meta: {} 
-            }}",
-            self.id, self.xid, self.versions_count, self.default_version, self.meta
-        )
-    }
-}
+// impl std::fmt::Display for ThingDescription {
+//     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
+//         let extensions = self
+//             .extensions
+//             .iter()
+//             .map(|(k, v)| (k, v.len()))
+//             .collect::<Vec<_>>();
+//         write!(
+//             f,
+//             "Thing Description {{
+//                 id: {},
+//                 xid: {},
+//                 versions_count: {},
+//                 default_version: {},
+//                 extensions: {extensions:?},
+//                 meta: {}
+//             }}",
+//             self.id, self.xid, self.versions_count, self.default_version, self.meta
+//         )
+//     }
+// }
 
 impl std::fmt::Display for ThingDescriptionVersion {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
