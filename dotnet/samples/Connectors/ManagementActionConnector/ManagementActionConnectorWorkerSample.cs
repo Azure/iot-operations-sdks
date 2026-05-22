@@ -8,8 +8,9 @@ namespace ManagementActionConnector
 {
     /// <summary>
     /// Thin <see cref="BackgroundService"/> wrapper that owns a
-    /// <see cref="Azure.Iot.Operations.Connector.ManagementActionConnectorWorker"/>
-    /// and runs its <see cref="ConnectorWorker.RunConnectorAsync"/> loop. All the
+    /// <see cref="ConnectorWorker"/> configured with an
+    /// <see cref="IManagementActionHandlerFactory"/> and runs its
+    /// <see cref="ConnectorWorker.RunConnectorAsync"/> loop. All the
     /// interesting business logic lives in the per-action handlers under
     /// <c>Handlers/</c>; the SDK base class handles executor lifecycle, notification
     /// processing, drain, and health/config reporting on our behalf.
@@ -24,13 +25,13 @@ namespace ManagementActionConnector
         IAzureDeviceRegistryClientWrapperProvider adrClientFactory)
         : BackgroundService
     {
-        private readonly ManagementActionConnectorWorker _connector = new(
+        private readonly ConnectorWorker _connector = new(
             applicationContext,
             connectorLogger,
             mqttClient,
-            handlerFactory,
             messageSchemaProvider,
-            adrClientFactory);
+            adrClientFactory,
+            actionHandlerFactory: handlerFactory);
 
         protected override async Task ExecuteAsync(CancellationToken cancellationToken)
         {

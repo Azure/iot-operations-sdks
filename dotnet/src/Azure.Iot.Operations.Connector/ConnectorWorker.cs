@@ -1,12 +1,13 @@
-// Copyright (c) Microsoft Corporation.
+﻿// Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
+using System.Buffers;
 using System.Collections.Concurrent;
-using System.Data;
 using System.Text;
 using Azure.Iot.Operations.Connector.CloudEvents;
 using Azure.Iot.Operations.Connector.ConnectorConfigurations;
 using Azure.Iot.Operations.Connector.Exceptions;
+using Azure.Iot.Operations.Connector.Files;
 using Azure.Iot.Operations.Protocol;
 using Azure.Iot.Operations.Protocol.Connection;
 using Azure.Iot.Operations.Protocol.Models;
@@ -77,13 +78,16 @@ namespace Azure.Iot.Operations.Connector
         /// </remarks>
         public Func<AssetAvailableEventArgs, CancellationToken, Task>? WhileAssetIsAvailable;
 
+        private readonly ManagementActionOrchestrator? _managementActionOrchestrator;
+
         public ConnectorWorker(
             ApplicationContext applicationContext,
             ILogger<ConnectorWorker> logger,
             IMqttClient mqttClient,
             IMessageSchemaProvider messageSchemaProviderFactory,
             IAzureDeviceRegistryClientWrapperProvider adrClientWrapperFactory,
-            IConnectorLeaderElectionConfigurationProvider? leaderElectionConfigurationProvider = null)
+            IConnectorLeaderElectionConfigurationProvider? leaderElectionConfigurationProvider = null,
+            IManagementActionHandlerFactory? actionHandlerFactory = null)
         {
             _applicationContext = applicationContext;
             _logger = logger;
@@ -91,6 +95,10 @@ namespace Azure.Iot.Operations.Connector
             _messageSchemaProviderFactory = messageSchemaProviderFactory;
             _adrClientWrapperFactory = adrClientWrapperFactory;
             _leaderElectionConfiguration = leaderElectionConfigurationProvider?.GetLeaderElectionConfiguration();
+            if (actionHandlerFactory != null)
+            {
+                _managementActionOrchestrator = new ManagementActionOrchestrator(actionHandlerFactory, _logger);
+            }
         }
 
         ///<inheritdoc/>
@@ -738,30 +746,76 @@ namespace Azure.Iot.Operations.Connector
                 _logger.LogInformation($"Asset with name {assetName} has no events to listen for");
             }
 
-            if (WhileAssetIsAvailable != null)
+            if (WhileAssetIsAvailable != null || _managementActionOrchestrator != null)
             {
                 CancellationTokenSource assetTaskCancellationTokenSource = new();
 
                 // Do not block on this call because the user callback is designed to run for extended periods of time.
                 Task userTask = Task.Run(async () =>
                 {
-                    try
+                    // Single args lifetime shared by both the user callback and the built-in
+                    // management-action loop. Disposed once when both branches return.
+                    await using AssetAvailableEventArgs args = new(deviceName, device, inboundEndpointName, assetName, asset, _leaderElectionClient, _adrClient!, this);
+
+                    var branches = new List<Task>(2);
+
+                    // Built-in: management-action handling. Runs whenever a factory was supplied,
+                    // independent of whatever the user assigned to WhileAssetIsAvailable. This is
+                    // intentionally not routed through the public field so a `= WhileAssetIsAvailable`
+                    // assignment from user code can't disable management actions.
+                    if (_managementActionOrchestrator != null)
                     {
-                        await using AssetAvailableEventArgs args = new(deviceName, device, inboundEndpointName, assetName, asset, _leaderElectionClient, _adrClient!, this);
-                        await WhileAssetIsAvailable.Invoke(args, assetTaskCancellationTokenSource.Token);
+                        branches.Add(SafeInvokeAssetBranchAsync(
+                            "ManagementActionHandling",
+                            ct => _managementActionOrchestrator.RunForAssetAsync(args, ct),
+                            assetTaskCancellationTokenSource.Token,
+                            assetName, deviceName, inboundEndpointName));
                     }
-                    catch (OperationCanceledException)
+
+                    // User-supplied per-asset callback. Captured into a local to avoid races with
+                    // a concurrent reassignment of the field.
+                    var userCallback = WhileAssetIsAvailable;
+                    if (userCallback != null)
                     {
-                        // This is the expected way for the callback to exit since this layer signals the cancellation token
+                        branches.Add(SafeInvokeAssetBranchAsync(
+                            "WhileAssetIsAvailable",
+                            ct => userCallback.Invoke(args, ct),
+                            assetTaskCancellationTokenSource.Token,
+                            assetName, deviceName, inboundEndpointName));
                     }
-                    catch (Exception ex)
-                    {
-                        // Surface failures from the user-supplied 'while asset is available' callback. Without this the task faults silently.
-                        _logger.LogError(ex, "User-supplied WhileAssetIsAvailable callback for asset {AssetName} on device {DeviceName} (endpoint {InboundEndpointName}) faulted", assetName, deviceName, inboundEndpointName);
-                    }
+
+                    await Task.WhenAll(branches);
                 });
 
                 _assetTasks.TryAdd(GetCompoundAssetName(compoundDeviceName, assetName), new(userTask, assetTaskCancellationTokenSource));
+            }
+        }
+
+        /// <summary>
+        /// Runs one of the per-asset branches (the user's <see cref="WhileAssetIsAvailable"/>
+        /// callback or the built-in management-action loop) and isolates its failures so a
+        /// fault in one branch doesn't fault the other on the shared <c>Task.WhenAll</c>.
+        /// </summary>
+        private async Task SafeInvokeAssetBranchAsync(
+            string label,
+            Func<CancellationToken, Task> body,
+            CancellationToken cancellationToken,
+            string assetName,
+            string deviceName,
+            string inboundEndpointName)
+        {
+            try
+            {
+                await body(cancellationToken);
+            }
+            catch (OperationCanceledException) when (cancellationToken.IsCancellationRequested)
+            {
+                // This is the expected way for the callback to exit since this layer signals the cancellation token
+            }
+            catch (Exception ex)
+            {
+                // Surface failures so the task doesn't fault silently inside Task.WhenAll.
+                _logger.LogError(ex, "{Label} callback for asset {AssetName} on device {DeviceName} (endpoint {InboundEndpointName}) faulted", label, assetName, deviceName, inboundEndpointName);
             }
         }
 

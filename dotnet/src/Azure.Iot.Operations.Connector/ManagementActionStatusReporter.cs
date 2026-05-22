@@ -7,7 +7,7 @@ namespace Azure.Iot.Operations.Connector
 {
     /// <summary>
     /// Default <see cref="IManagementActionStatusReporter"/> implementation that delegates
-    /// to an <see cref="AssetClient"/>. Constructed by <see cref="ManagementActionConnectorWorker"/>
+    /// to an <see cref="AssetClient"/>. Constructed by <see cref="ConnectorWorker"/>
     /// once per action and shared between the worker's notification loop and the user's
     /// handler (via the factory).
     /// </summary>

@@ -21,7 +21,7 @@ namespace Azure.Iot.Operations.Connector
     /// <para>
     /// Exceptions thrown by the callback are surfaced to the invoker as
     /// <see cref="ManagementActionApplicationError"/> responses by the connector worker; see
-    /// <see cref="ManagementActionConnectorWorker"/>.
+    /// <see cref="ConnectorWorker"/>.
     /// </para>
     /// </remarks>
     public sealed class ManagementActionExecutor : IAsyncDisposable

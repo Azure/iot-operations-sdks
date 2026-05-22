@@ -42,7 +42,9 @@ namespace ManagementActionConnector.Handlers
                 "reboot" => new RebootHandler(logger, _device, statusReporter),
                 "read-temperature" => new ReadTemperatureHandler(logger, _device),
                 "write-configuration" => new WriteConfigurationHandler(logger, _device),
-                _ => new UnknownActionHandler(logger, action.Name),
+                _ => throw new InvalidOperationException(
+                    $"CreateHandler called for unsupported action '{action.Name}'. "
+                    + $"The worker should have filtered this via {nameof(SupportsAction)}."),
             };
         }
 
@@ -75,27 +77,15 @@ namespace ManagementActionConnector.Handlers
             return ValueTask.FromResult<ConfigError?>(null);
         }
 
-        /// <summary>Fallback handler for an action name the sample doesn't recognize.</summary>
-        private sealed class UnknownActionHandler : IManagementActionHandler
+        public bool SupportsAction(AssetManagementGroupAction action)
         {
-            private readonly ILogger _logger;
-            private readonly string _actionName;
-
-            public UnknownActionHandler(ILogger logger, string actionName)
+            return action.Name switch
             {
-                _logger = logger;
-                _actionName = actionName;
-            }
-
-            public Task<ManagementActionResponse> HandleAsync(ManagementActionInvokedEventArgs args, CancellationToken ct)
-            {
-                _logger.LogWarning("Received invocation for unknown action {Group}::{Action}", args.GroupName, args.ActionName);
-                return Task.FromResult(ResponseHelpers.ApplicationError(
-                    "UnknownAction",
-                    $"Sample connector has no handler registered for {args.GroupName}::{_actionName}."));
-            }
-
-            public ValueTask DisposeAsync() => ValueTask.CompletedTask;
+                "reboot" => true,
+                "read-temperature" => true,
+                "write-configuration" => true,
+                _ => false
+            };
         }
     }
 }

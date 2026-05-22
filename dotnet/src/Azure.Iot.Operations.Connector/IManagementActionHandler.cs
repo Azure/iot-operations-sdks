@@ -5,7 +5,7 @@ namespace Azure.Iot.Operations.Connector
 {
     /// <summary>
     /// User-implemented handler for management action invocations. The base
-    /// <see cref="ManagementActionConnectorWorker"/> dispatches every incoming request for the
+    /// <see cref="ConnectorWorker"/> dispatches every incoming request for the
     /// action to <see cref="HandleAsync"/>; the action's
     /// <see cref="Services.AssetAndDeviceRegistry.Models.AssetManagementGroupActionType"/> is
     /// available on <see cref="ManagementActionInvokedEventArgs.ActionType"/> for handlers that

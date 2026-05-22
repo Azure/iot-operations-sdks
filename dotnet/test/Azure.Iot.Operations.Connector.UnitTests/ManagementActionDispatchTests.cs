@@ -9,7 +9,7 @@ using Xunit;
 namespace Azure.Iot.Operations.Connector.UnitTests;
 
 /// <summary>
-/// Unit tests for <see cref="ManagementActionConnectorWorker.InvokeHandlerAsync"/>,
+/// Unit tests for <see cref="ManagementActionOrchestrator.InvokeHandlerAsync"/>,
 /// the SDK's per-request dispatch primitive. Verifies that invocations are routed
 /// to <see cref="IManagementActionHandler.HandleAsync"/> regardless of action type,
 /// that handler exceptions become <c>InternalError</c> application errors, and that
@@ -32,7 +32,7 @@ public class ManagementActionDispatchTests
             .Callback<ManagementActionInvokedEventArgs, CancellationToken>((a, _) => receivedArgs = a)
             .ReturnsAsync(expected);
 
-        ManagementActionResponse response = await ManagementActionConnectorWorker.InvokeHandlerAsync(
+        ManagementActionResponse response = await ManagementActionOrchestrator.InvokeHandlerAsync(
             handler.Object,
             BuildArgs(actionType),
             logger: null,
@@ -54,7 +54,7 @@ public class ManagementActionDispatchTests
         handler.Setup(h => h.HandleAsync(It.IsAny<ManagementActionInvokedEventArgs>(), It.IsAny<CancellationToken>()))
             .ThrowsAsync(new InvalidOperationException("boom"));
 
-        ManagementActionResponse response = await ManagementActionConnectorWorker.InvokeHandlerAsync(
+        ManagementActionResponse response = await ManagementActionOrchestrator.InvokeHandlerAsync(
             handler.Object,
             BuildArgs(AssetManagementGroupActionType.Call),
             logger: null,
@@ -79,7 +79,7 @@ public class ManagementActionDispatchTests
         // OperationCanceledException must NOT be translated to an InternalError; it has to surface
         // so the surrounding loop can observe shutdown.
         await Assert.ThrowsAsync<OperationCanceledException>(() =>
-            ManagementActionConnectorWorker.InvokeHandlerAsync(
+            ManagementActionOrchestrator.InvokeHandlerAsync(
                 handler.Object,
                 BuildArgs(AssetManagementGroupActionType.Read),
                 logger: null,

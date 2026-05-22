@@ -60,6 +60,13 @@ namespace Azure.Iot.Operations.Connector
         /// </summary>
         public DeviceEndpointClient DeviceEndpointClient { get; }
 
+        /// <summary>
+        /// The ADR client used by the worker — exposed to internal SDK collaborators
+        /// (e.g. <see cref="ManagementActionOrchestrator"/>) that need endpoint credentials
+        /// or other ADR data not surfaced through <see cref="AssetClient"/>.
+        /// </summary>
+        internal IAzureDeviceRegistryClientWrapper AdrClient { get; }
+
         internal AssetAvailableEventArgs(string deviceName, Device device, string inboundEndpointName, string assetName, Asset asset, ILeaderElectionClient? leaderElectionClient, IAzureDeviceRegistryClientWrapper adrClient, ConnectorWorker connector)
         {
             DeviceName = deviceName;
@@ -70,6 +77,7 @@ namespace Azure.Iot.Operations.Connector
             LeaderElectionClient = leaderElectionClient;
             AssetClient = new(adrClient, deviceName, inboundEndpointName, assetName, connector, device, asset);
             DeviceEndpointClient = new(adrClient, deviceName, inboundEndpointName, device);
+            AdrClient = adrClient;
         }
 
         public virtual async ValueTask DisposeAsync()

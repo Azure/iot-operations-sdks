@@ -8,7 +8,7 @@ namespace Azure.Iot.Operations.Connector
 {
     /// <summary>
     /// Factory for creating <see cref="IManagementActionHandler"/> instances, one per management
-    /// action defined on an asset. Called by <see cref="ManagementActionConnectorWorker"/> when
+    /// action defined on an asset. Called by <see cref="ConnectorWorker"/> when
     /// an asset becomes available.
     /// </summary>
     /// <remarks>
@@ -87,5 +87,7 @@ namespace Azure.Iot.Operations.Connector
             AssetManagementGroupAction action,
             CancellationToken cancellationToken)
             => ValueTask.FromResult<ConfigError?>(null);
+
+        bool SupportsAction(AssetManagementGroupAction action);
     }
 }
