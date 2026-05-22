@@ -4,7 +4,7 @@
     "description": "Request payload for creating a Schema version.",
     "type": "object",
     "additionalProperties": false,
-    "required": ["groupId", "schemaId", "labels", "schemaDocument"],
+    "required": [ "schemaId", "labels", "schemaDocument", "schemaLabels"],
     "properties": {
         "groupId": {
             "type": "string"
@@ -22,7 +22,12 @@
             "type": "string"
         },
         "labels": {
-            "type": "object", "additionalProperties": { "type": "string" }
+            "description": "Queryable Key Value pairs to be added to the Version",
+            "type": "array",
+            "items": {
+                "type": "object",
+                "$ref": "../core-xregistry/Label.schema.json"
+            }
         },
         "ancestor": {
             "description": "The versionId of this version's ancestor if it has an ancestor.",
@@ -40,6 +45,14 @@
             "type": "string",
             "description": "Base64-encoded schema document content.",
             "contentEncoding": "base64"
+        },
+        "schemaLabels": {
+            "description": "Queryable Key Value pairs to be added to the parent Schema",
+            "type": "array",
+            "items": {
+                "type": "object",
+                "$ref": "../core-xregistry/Label.schema.json"
+            }
         }
     }
 }

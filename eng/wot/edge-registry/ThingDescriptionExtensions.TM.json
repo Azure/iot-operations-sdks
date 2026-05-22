@@ -12,59 +12,6 @@
         "type": "application/tm+json"
     }],
     "actions": {
-        "getThingDescription": {
-            "description": "Retrieve an xRegistry Thing Description Resource entity.",
-            "input": {
-                "type": "object",
-                "properties": {
-                    "groupId": {
-                        "type": "string"
-                    },
-                    "thingDescriptionId": {
-                        "type": "string"
-                    }
-                },
-                "required": [ "groupId", "thingDescriptionId" ]
-            },
-            "output": {
-                "dtv:ref": "./thing-description-extension/ThingDescription.schema.json"
-            },
-            "forms": [
-                {
-                    "dtv:topic": "adr/dtmi:ms:adr:EdgeRegistry;1/get/thingdescription",
-                    "contentType": "application/json",
-                    "op": "invokeaction",
-                    "additionalResponses": [
-                        {
-                            "success": false,
-                            "schema": "ThingDescriptionExtensionError"
-                        }
-                    ]
-                }
-            ]
-        },
-        "createThingDescription": {
-            "description": "Create a new xRegistry Thing Description and default Version entity. Returns the created Thing Description entity with epoch=1.",
-            "input": {
-                "dtv:ref": "./thing-description-extension/CreateThingDescriptionAttributes.schema.json"
-            },
-            "output": {
-                "dtv:ref": "./thing-description-extension/ThingDescription.schema.json"
-            },
-            "forms": [
-                {
-                    "dtv:topic": "adr/dtmi:ms:adr:EdgeRegistry;1/create/thingdescription",
-                    "contentType": "application/json",
-                    "op": "invokeaction",
-                    "additionalResponses": [
-                        {
-                            "success": false,
-                            "schema": "ThingDescriptionExtensionError"
-                        }
-                    ]
-                }
-            ]
-        },
         "getThingDescriptionVersion": {
             "description": "Retrieve an xRegistry Thing Description Version entity.",
             "input": {
@@ -80,7 +27,7 @@
                         "type": "string"
                     }
                 },
-                "required": [ "groupId", "thingDescriptionId", "versionId"]
+                "required": [ "thingDescriptionId" ]
             },
             "output": {
                 "dtv:ref": "./thing-description-extension/ThingDescriptionVersion.schema.json"
@@ -110,6 +57,28 @@
             "forms": [
                 {
                     "dtv:topic": "adr/dtmi:ms:adr:EdgeRegistry;1/create/thingdescription/version",
+                    "contentType": "application/json",
+                    "op": "invokeaction",
+                    "additionalResponses": [
+                        {
+                            "success": false,
+                            "schema": "ThingDescriptionExtensionError"
+                        }
+                    ]
+                }
+            ]
+        },
+        "createOrGetThingDescriptionVersion": {
+            "description": "Create a new xRegistry Thing Description Version entity under the specified thing description if it doesn't already exist with the same document. Returns the created or existing version entity.",
+            "input": {
+                "dtv:ref": "./thing-description-extension/CreateThingDescriptionVersionAttributes.schema.json"
+            },
+            "output": {
+                "dtv:ref": "./thing-description-extension/ThingDescriptionVersion.schema.json"
+            },
+            "forms": [
+                {
+                    "dtv:topic": "adr/dtmi:ms:adr:EdgeRegistry;1/createOrGet/thingdescription/version",
                     "contentType": "application/json",
                     "op": "invokeaction",
                     "additionalResponses": [

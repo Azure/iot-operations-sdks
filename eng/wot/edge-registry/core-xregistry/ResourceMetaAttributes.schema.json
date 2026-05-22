@@ -12,7 +12,11 @@
     },
     "labels": {
       "description": "The 'labels' Field.",
-      "type": "object", "additionalProperties": { "type": "string" }
+      "type": "array",
+      "items": {
+          "type": "object",
+          "$ref": "Label.schema.json"
+      }
     },
     "id": {
       "description": "Resource identifier within the group.",

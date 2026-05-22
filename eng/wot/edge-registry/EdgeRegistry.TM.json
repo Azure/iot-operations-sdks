@@ -41,7 +41,7 @@
                         "type": "string"
                     }
                 },
-                "required": [ "groupType", "groupId"]
+                "required": [ "groupType" ]
             },
             "output": {
                 "dtv:ref": "./core-xregistry/Group.schema.json",
@@ -100,17 +100,16 @@
                 }
             ]
         },
-        "list": {
-            "description": "List xRegistry entities at a collection XID path (e.g. /schemagroups or /schemagroups/mygroup/schemas).",
+        "listGroups": {
+            "description": "List xRegistry groups of a specific type.",
             "input": {
                 "type": "object",
                 "properties": {
-                    "xid": {
-                        "type": "string",
-                        "description": "XID path of the collection to list. Must end at a collection level (e.g. /schemagroups, /schemagroups/g1/schemas)."
+                    "groupType": {
+                        "type": "string"
                     }
                 },
-                "required": ["xid"]
+                "required": ["groupType"]
             },
             "output": {
                 "type": "object",
@@ -126,7 +125,161 @@
             },
             "forms": [
                 {
-                    "dtv:topic": "adr/dtmi:ms:adr:EdgeRegistry;1/list",
+                    "dtv:topic": "adr/dtmi:ms:adr:EdgeRegistry;1/listGroups",
+                    "contentType": "application/json",
+                    "op": "invokeaction",
+                    "additionalResponses": [
+                        {
+                            "success": false,
+                            "schema": "EdgeRegistryError"
+                        }
+                    ]
+                }
+            ]
+        },
+        "listResources": {
+            "description": "List xRegistry resources of a specific type on a group.",
+            "input": {
+                "type": "object",
+                "properties": {
+                    "groupType": {
+                        "type": "string"
+                    },
+                    "groupId": {
+                        "type": "string"
+                    },
+                    "resourceType": {
+                        "type": "string"
+                    }
+                },
+                "required": ["groupType", "resourceType"]
+            },
+            "output": {
+                "type": "object",
+                "properties": {
+                    "ids": {
+                        "type": "array",
+                        "items": {
+                            "type": "string"
+                        }
+                    }
+                },
+                "required": ["ids"]
+            },
+            "forms": [
+                {
+                    "dtv:topic": "adr/dtmi:ms:adr:EdgeRegistry;1/listResources",
+                    "contentType": "application/json",
+                    "op": "invokeaction",
+                    "additionalResponses": [
+                        {
+                            "success": false,
+                            "schema": "EdgeRegistryError"
+                        }
+                    ]
+                }
+            ]
+        },
+        "listResourcesWithLabel": {
+            "description": "List xRegistry resources that have the specified label.",
+            "input": {
+                "type": "object",
+                "properties": {
+                    "groupType": {
+                        "type": "string"
+                    },
+                    "groupId": {
+                        "type": "string"
+                    },
+                    "resourceType": {
+                        "type": "string"
+                    },
+                    "labelKey": {
+                        "type": "string"
+                    },
+                    "labelValue": {
+                        "type": "string"
+                    }
+                },
+                "required": ["labelKey", "labelValue"]
+            },
+            "output": {
+                "type": "object",
+                "properties": {
+                    "resources": {
+                        "type": "array",
+                        "items": {
+                            "type": "object",
+                            "title": "ResourceXId",
+                            "required": ["groupType", "groupId", "resourceType", "resourceId"],
+                            "properties": {
+                                "groupType": {
+                                    "type": "string"
+                                },
+                                "groupId": {
+                                    "type": "string"
+                                },
+                                "resourceType": {
+                                    "type": "string"
+                                },
+                                "resourceId": {
+                                    "type": "string"
+                                }
+                            }
+                        }
+                    }
+                },
+                "required": ["resources"]
+            },
+            "forms": [
+                {
+                    "dtv:topic": "adr/dtmi:ms:adr:EdgeRegistry;1/listResourcesWithLabel",
+                    "contentType": "application/json",
+                    "op": "invokeaction",
+                    "additionalResponses": [
+                        {
+                            "success": false,
+                            "schema": "EdgeRegistryError"
+                        }
+                    ]
+                }
+            ]
+        },
+        "listVersions": {
+            "description": "List xRegistry versions for a Resource.",
+            "input": {
+                "type": "object",
+                "properties": {
+                    "groupType": {
+                        "type": "string"
+                    },
+                    "groupId": {
+                        "type": "string"
+                    },
+                    "resourceType": {
+                        "type": "string"
+                    },
+                    "resourceId": {
+                        "type": "string"
+                    }
+                },
+                "required": ["groupType", "resourceType", "resourceId"]
+            },
+            "output": {
+                "type": "object",
+                "properties": {
+                    "ids": {
+                        "type": "array",
+                        "items": {
+                            "type": "string"
+                        }
+                    }
+                },
+                "required": ["ids"]
+            },
+            "forms": [
+                {
+                    "dtv:topic": "adr/dtmi:ms:adr:EdgeRegistry;1/listVersions",
                     "contentType": "application/json",
                     "op": "invokeaction",
                     "additionalResponses": [
