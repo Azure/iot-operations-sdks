@@ -8,7 +8,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "IOLink_IOLinkAlarmType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/IOLink/;i=1007",
+    "dov:typeRef": "org.opcfoundation.UA.IOLink.IOLinkAlarmType",
     "dov:isEvent": true,
     "links": [
       {
@@ -35,7 +35,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "IOLink_IOLinkDeviceAlarmType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/IOLink/;i=1008",
+    "dov:typeRef": "org.opcfoundation.UA.IOLink.IOLinkDeviceAlarmType",
     "dov:isEvent": true,
     "links": [
       {
@@ -62,7 +62,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "IOLink_IOLinkIODDDeviceAlarmType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/IOLink/;i=1009",
+    "dov:typeRef": "org.opcfoundation.UA.IOLink.IOLinkIODDDeviceAlarmType",
     "dov:isEvent": true,
     "links": [
       {
@@ -89,7 +89,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "IOLink_IOLinkMasterAlarmType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/IOLink/;i=1011",
+    "dov:typeRef": "org.opcfoundation.UA.IOLink.IOLinkMasterAlarmType",
     "dov:isEvent": true,
     "links": [
       {
@@ -116,7 +116,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "IOLink_IOLinkPortAlarmType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/IOLink/;i=1010",
+    "dov:typeRef": "org.opcfoundation.UA.IOLink.IOLinkPortAlarmType",
     "dov:isEvent": true,
     "links": [
       {
@@ -143,7 +143,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "IOLink_IOLinkEventType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/IOLink/;i=1003",
+    "dov:typeRef": "org.opcfoundation.UA.IOLink.IOLinkEventType",
     "dov:isEvent": true,
     "links": [
       {
@@ -170,7 +170,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "IOLink_IOLinkDeviceEventType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/IOLink/;i=1004",
+    "dov:typeRef": "org.opcfoundation.UA.IOLink.IOLinkDeviceEventType",
     "dov:isEvent": true,
     "links": [
       {
@@ -197,7 +197,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "IOLink_IOLinkIODDDeviceEventType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/IOLink/;i=1021",
+    "dov:typeRef": "org.opcfoundation.UA.IOLink.IOLinkIODDDeviceEventType",
     "dov:isEvent": true,
     "links": [
       {
@@ -224,7 +224,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "IOLink_IOLinkMasterEventType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/IOLink/;i=1006",
+    "dov:typeRef": "org.opcfoundation.UA.IOLink.IOLinkMasterEventType",
     "dov:isEvent": true,
     "links": [
       {
@@ -251,7 +251,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "IOLink_IOLinkPortEventType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/IOLink/;i=1005",
+    "dov:typeRef": "org.opcfoundation.UA.IOLink.IOLinkPortEventType",
     "dov:isEvent": true,
     "links": [
       {
@@ -278,7 +278,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "IOLink_DeviceVariantType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/IOLink/;i=1013",
+    "dov:typeRef": "org.opcfoundation.UA.IOLink.DeviceVariantType",
     "links": [
       {
         "rel": "tm:extends",
@@ -304,7 +304,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "IOLink_IOLinkDeviceType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/IOLink/;i=1002",
+    "dov:typeRef": "org.opcfoundation.UA.IOLink.IOLinkDeviceType",
     "links": [
       {
         "rel": "tm:extends",
@@ -330,7 +330,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "IOLink_IOLinkIODDDeviceType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/IOLink/;i=1012",
+    "dov:typeRef": "org.opcfoundation.UA.IOLink.IOLinkIODDDeviceType",
     "links": [
       {
         "rel": "tm:extends",
@@ -356,7 +356,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "IOLink_IOLinkMasterType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/IOLink/;i=1014",
+    "dov:typeRef": "org.opcfoundation.UA.IOLink.IOLinkMasterType",
     "dov:isComposite": true,
     "links": [
       {
@@ -383,7 +383,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "IOLink_IOLinkPortType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/IOLink/;i=1015",
+    "dov:typeRef": "org.opcfoundation.UA.IOLink.IOLinkPortType",
     "links": [
       {
         "rel": "tm:extends",
@@ -409,7 +409,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "OpcUaCore_OffNormalAlarmType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/;i=10637",
+    "dov:typeRef": "org.opcfoundation.UA.OffNormalAlarmType",
     "dov:isEvent": true,
     "links": [
       {
@@ -454,7 +454,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "OpcUaCore_DiscreteAlarmType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/;i=10523",
+    "dov:typeRef": "org.opcfoundation.UA.DiscreteAlarmType",
     "dov:isEvent": true,
     "links": [
       {
@@ -481,7 +481,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "OpcUaCore_AlarmConditionType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/;i=2915",
+    "dov:typeRef": "org.opcfoundation.UA.AlarmConditionType",
     "dov:isEvent": true,
     "links": [
       {
@@ -520,7 +520,7 @@
       "GetGroupMemberships": {
         "output": {
           "type": "object",
-          "dov:typeRef": "nsu=http://opcfoundation.org/UA/;i=25154",
+          "dov:typeRef": "org.opcfoundation.UA.OutputArguments",
           "required": [ "Groups" ],
           "properties": {
             "Groups": {
@@ -551,7 +551,7 @@
       "PlaceInService2": {
         "input": {
           "type": "object",
-          "dov:typeRef": "nsu=http://opcfoundation.org/UA/;i=24323",
+          "dov:typeRef": "org.opcfoundation.UA.InputArguments",
           "required": [ "Comment" ],
           "properties": {
             "Comment": {
@@ -579,7 +579,7 @@
       "RemoveFromService2": {
         "input": {
           "type": "object",
-          "dov:typeRef": "nsu=http://opcfoundation.org/UA/;i=24321",
+          "dov:typeRef": "org.opcfoundation.UA.InputArguments",
           "required": [ "Comment" ],
           "properties": {
             "Comment": {
@@ -607,7 +607,7 @@
       "Reset2": {
         "input": {
           "type": "object",
-          "dov:typeRef": "nsu=http://opcfoundation.org/UA/;i=24325",
+          "dov:typeRef": "org.opcfoundation.UA.InputArguments",
           "required": [ "Comment" ],
           "properties": {
             "Comment": {
@@ -644,7 +644,7 @@
       "Suppress2": {
         "input": {
           "type": "object",
-          "dov:typeRef": "nsu=http://opcfoundation.org/UA/;i=24317",
+          "dov:typeRef": "org.opcfoundation.UA.InputArguments",
           "required": [ "Comment" ],
           "properties": {
             "Comment": {
@@ -672,7 +672,7 @@
       "Unsuppress2": {
         "input": {
           "type": "object",
-          "dov:typeRef": "nsu=http://opcfoundation.org/UA/;i=24319",
+          "dov:typeRef": "org.opcfoundation.UA.InputArguments",
           "required": [ "Comment" ],
           "properties": {
             "Comment": {
@@ -997,7 +997,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "OpcUaCore_AcknowledgeableConditionType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/;i=2881",
+    "dov:typeRef": "org.opcfoundation.UA.AcknowledgeableConditionType",
     "dov:isEvent": true,
     "links": [
       {
@@ -1024,7 +1024,7 @@
       "Acknowledge": {
         "input": {
           "type": "object",
-          "dov:typeRef": "nsu=http://opcfoundation.org/UA/;i=9112",
+          "dov:typeRef": "org.opcfoundation.UA.InputArguments",
           "required": [ "EventId", "Comment" ],
           "properties": {
             "EventId": {
@@ -1049,7 +1049,7 @@
       "Confirm": {
         "input": {
           "type": "object",
-          "dov:typeRef": "nsu=http://opcfoundation.org/UA/;i=9114",
+          "dov:typeRef": "org.opcfoundation.UA.InputArguments",
           "required": [ "EventId", "Comment" ],
           "properties": {
             "EventId": {
@@ -1155,7 +1155,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "OpcUaCore_ConditionType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/;i=2782",
+    "dov:typeRef": "org.opcfoundation.UA.ConditionType",
     "dov:isEvent": true,
     "links": [
       {
@@ -1182,7 +1182,7 @@
       "AddComment": {
         "input": {
           "type": "object",
-          "dov:typeRef": "nsu=http://opcfoundation.org/UA/;i=9030",
+          "dov:typeRef": "org.opcfoundation.UA.InputArguments",
           "required": [ "EventId", "Comment" ],
           "properties": {
             "EventId": {
@@ -1207,7 +1207,7 @@
       "ConditionRefresh": {
         "input": {
           "type": "object",
-          "dov:typeRef": "nsu=http://opcfoundation.org/UA/;i=3876",
+          "dov:typeRef": "org.opcfoundation.UA.InputArguments",
           "required": [ "SubscriptionId" ],
           "properties": {
             "SubscriptionId": {
@@ -1229,7 +1229,7 @@
       "ConditionRefresh2": {
         "input": {
           "type": "object",
-          "dov:typeRef": "nsu=http://opcfoundation.org/UA/;i=12913",
+          "dov:typeRef": "org.opcfoundation.UA.InputArguments",
           "required": [ "SubscriptionId", "MonitoredItemId" ],
           "properties": {
             "SubscriptionId": {
@@ -1488,7 +1488,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "OpcUaCore_BaseEventType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/;i=2041",
+    "dov:typeRef": "org.opcfoundation.UA.BaseEventType",
     "links": [
       {
         "rel": "tm:extends",
@@ -1584,7 +1584,7 @@
       "LocalTime": {
         "title": "TimeZoneDataType",
         "type": "object",
-        "dov:typeRef": "nsu=http://opcfoundation.org/UA/;i=8912",
+        "dov:typeRef": "org.opcfoundation.UA.TimeZoneDataType",
         "required": [ "Offset", "DaylightSavingInOffset" ],
         "properties": {
           "Offset": {
@@ -1688,7 +1688,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "OpcUaCore_BaseObjectType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/;i=58",
+    "dov:typeRef": "org.opcfoundation.UA.BaseObjectType",
     "links": [
     ],
     "schemaDefinitions": {
@@ -1709,7 +1709,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "OpcUaCore_ShelvedStateMachineType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/;i=2929",
+    "dov:typeRef": "org.opcfoundation.UA.ShelvedStateMachineType",
     "links": [
       {
         "rel": "tm:extends",
@@ -1793,7 +1793,7 @@
       "OneShotShelve2": {
         "input": {
           "type": "object",
-          "dov:typeRef": "nsu=http://opcfoundation.org/UA/;i=24761",
+          "dov:typeRef": "org.opcfoundation.UA.InputArguments",
           "required": [ "Comment" ],
           "properties": {
             "Comment": {
@@ -1812,7 +1812,7 @@
       "TimedShelve": {
         "input": {
           "type": "object",
-          "dov:typeRef": "nsu=http://opcfoundation.org/UA/;i=2991",
+          "dov:typeRef": "org.opcfoundation.UA.InputArguments",
           "required": [ "ShelvingTime" ],
           "properties": {
             "ShelvingTime": {
@@ -1832,7 +1832,7 @@
       "TimedShelve2": {
         "input": {
           "type": "object",
-          "dov:typeRef": "nsu=http://opcfoundation.org/UA/;i=24757",
+          "dov:typeRef": "org.opcfoundation.UA.InputArguments",
           "required": [ "ShelvingTime", "Comment" ],
           "properties": {
             "ShelvingTime": {
@@ -1864,7 +1864,7 @@
       "Unshelve2": {
         "input": {
           "type": "object",
-          "dov:typeRef": "nsu=http://opcfoundation.org/UA/;i=24759",
+          "dov:typeRef": "org.opcfoundation.UA.InputArguments",
           "required": [ "Comment" ],
           "properties": {
             "Comment": {
@@ -1907,7 +1907,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "OpcUaCore_FiniteStateMachineType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/;i=2771",
+    "dov:typeRef": "org.opcfoundation.UA.FiniteStateMachineType",
     "links": [
       {
         "rel": "tm:extends",
@@ -2049,7 +2049,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "OpcUaCore_StateMachineType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/;i=2299",
+    "dov:typeRef": "org.opcfoundation.UA.StateMachineType",
     "dov:isComposite": true,
     "links": [
       {
@@ -2134,7 +2134,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "OpcUaCore_StateType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/;i=2307",
+    "dov:typeRef": "org.opcfoundation.UA.StateType",
     "links": [
       {
         "rel": "tm:extends",
@@ -2180,7 +2180,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "OpcUaCore_TransitionType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/;i=2310",
+    "dov:typeRef": "org.opcfoundation.UA.TransitionType",
     "links": [
       {
         "rel": "tm:extends",
@@ -2226,7 +2226,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "OpcUaCore_AlarmGroupType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/;i=16405",
+    "dov:typeRef": "org.opcfoundation.UA.AlarmGroupType",
     "links": [
       {
         "rel": "tm:extends",
@@ -2252,7 +2252,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "OpcUaCore_FolderType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/;i=61",
+    "dov:typeRef": "org.opcfoundation.UA.FolderType",
     "links": [
       {
         "rel": "tm:extends",
@@ -2278,7 +2278,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "DI_TopologyElementType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/DI/;i=1001",
+    "dov:typeRef": "org.opcfoundation.UA.DI.TopologyElementType",
     "links": [
       {
         "rel": "tm:extends",
@@ -2334,7 +2334,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "DI_FunctionalGroupType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/DI/;i=1005",
+    "dov:typeRef": "org.opcfoundation.UA.DI.FunctionalGroupType",
     "links": [
       {
         "rel": "tm:extends",
@@ -2405,7 +2405,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "DI_LockingServicesType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/DI/;i=6388",
+    "dov:typeRef": "org.opcfoundation.UA.DI.LockingServicesType",
     "links": [
       {
         "rel": "tm:extends",
@@ -2427,7 +2427,7 @@
         "dov:namespace": "http://opcfoundation.org/UA/DI/",
         "output": {
           "type": "object",
-          "dov:typeRef": "nsu=http://opcfoundation.org/UA/DI/;i=6401",
+          "dov:typeRef": "org.opcfoundation.UA.OutputArguments",
           "required": [ "BreakLockStatus" ],
           "properties": {
             "BreakLockStatus": {
@@ -2449,7 +2449,7 @@
         "dov:namespace": "http://opcfoundation.org/UA/DI/",
         "output": {
           "type": "object",
-          "dov:typeRef": "nsu=http://opcfoundation.org/UA/DI/;i=6399",
+          "dov:typeRef": "org.opcfoundation.UA.OutputArguments",
           "required": [ "ExitLockStatus" ],
           "properties": {
             "ExitLockStatus": {
@@ -2471,7 +2471,7 @@
         "dov:namespace": "http://opcfoundation.org/UA/DI/",
         "input": {
           "type": "object",
-          "dov:typeRef": "nsu=http://opcfoundation.org/UA/DI/;i=6394",
+          "dov:typeRef": "org.opcfoundation.UA.InputArguments",
           "required": [ "Context" ],
           "properties": {
             "Context": {
@@ -2481,7 +2481,7 @@
         },
         "output": {
           "type": "object",
-          "dov:typeRef": "nsu=http://opcfoundation.org/UA/DI/;i=6395",
+          "dov:typeRef": "org.opcfoundation.UA.OutputArguments",
           "required": [ "InitLockStatus" ],
           "properties": {
             "InitLockStatus": {
@@ -2503,7 +2503,7 @@
         "dov:namespace": "http://opcfoundation.org/UA/DI/",
         "output": {
           "type": "object",
-          "dov:typeRef": "nsu=http://opcfoundation.org/UA/DI/;i=6397",
+          "dov:typeRef": "org.opcfoundation.UA.OutputArguments",
           "required": [ "RenewLockStatus" ],
           "properties": {
             "RenewLockStatus": {

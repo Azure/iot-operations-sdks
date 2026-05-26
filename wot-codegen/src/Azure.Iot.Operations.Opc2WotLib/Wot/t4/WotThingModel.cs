@@ -71,10 +71,8 @@ namespace Azure.Iot.Operations.Opc2WotLib
  ix1 = 1; foreach (OpcUaDataTypeEnum dataTypeEnum in this.dataTypeEnums) { 
             this.Write("    \"");
             this.Write(this.ToStringHelper.ToStringWithCulture(dataTypeEnum.EffectiveName));
-            this.Write("\": {\r\n      \"type\": \"object\",\r\n      \"dov:typeRef\": \"nsu=");
-            this.Write(this.ToStringHelper.ToStringWithCulture(dataTypeEnum.NodeIdNamespace));
-            this.Write(";i=");
-            this.Write(this.ToStringHelper.ToStringWithCulture(dataTypeEnum.NodeId.NodeIndex));
+            this.Write("\": {\r\n      \"type\": \"object\",\r\n      \"dov:typeRef\": \"");
+            this.Write(this.ToStringHelper.ToStringWithCulture(dataTypeEnum.GetTypeRef()));
             this.Write("\",\r\n      \"const\": {\r\n");
  int ix2 = 1; foreach (KeyValuePair<string, OpcUaEnumValue> enumValue in dataTypeEnum.EnumValues) { 
             this.Write("        \"");

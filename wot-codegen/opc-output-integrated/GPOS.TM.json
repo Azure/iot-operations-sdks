@@ -8,7 +8,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "GPOS_ZoneType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/GPOS/;i=1005",
+    "dov:typeRef": "org.opcfoundation.UA.GPOS.ZoneType",
     "dov:isComposite": true,
     "links": [
       {
@@ -83,14 +83,14 @@
           "title": "GroundControlPointDataType",
           "description": "Defines a pair of coordinates - local and global - to allow geo-references from local coordinate to a global coordinate system",
           "type": "object",
-          "dov:typeRef": "nsu=http://opcfoundation.org/UA/GPOS/;i=3005",
+          "dov:typeRef": "org.opcfoundation.UA.RSL.GroundControlPointDataType",
           "required": [ "GlobalPosition", "LocalPosition" ],
           "properties": {
             "GlobalPosition": {
               "title": "S3DGeographicCoordinateDataType",
               "description": "Represents a geographic coordinate",
               "type": "object",
-              "dov:typeRef": "nsu=http://opcfoundation.org/UA/GPOS/;i=3003",
+              "dov:typeRef": "org.opcfoundation.UA.GPOS.S3DGeographicCoordinateDataType",
               "required": [ "Longitude", "Latitude" ],
               "properties": {
                 "Longitude": {
@@ -117,7 +117,7 @@
               "title": "ThreeDCartesianCoordinates",
               "description": "Local position in metric coordinates (in meter)",
               "type": "object",
-              "dov:typeRef": "nsu=http://opcfoundation.org/UA/;i=18810",
+              "dov:typeRef": "org.opcfoundation.UA.ThreeDCartesianCoordinates",
               "required": [ "X", "Y", "Z" ],
               "properties": {
                 "X": {
@@ -176,7 +176,7 @@
         "title": "S3DGeographicCoordinateDataType",
         "description": "Represents a geographic coordinate",
         "type": "object",
-        "dov:typeRef": "nsu=http://opcfoundation.org/UA/GPOS/;i=3003",
+        "dov:typeRef": "org.opcfoundation.UA.GPOS.S3DGeographicCoordinateDataType",
         "required": [ "Longitude", "Latitude" ],
         "properties": {
           "Longitude": {
@@ -279,14 +279,14 @@
             "title": "GroundControlPointDataType",
             "description": "Defines a pair of coordinates - local and global - to allow geo-references from local coordinate to a global coordinate system",
             "type": "object",
-            "dov:typeRef": "nsu=http://opcfoundation.org/UA/GPOS/;i=3005",
+            "dov:typeRef": "org.opcfoundation.UA.RSL.GroundControlPointDataType",
             "required": [ "GlobalPosition", "LocalPosition" ],
             "properties": {
               "GlobalPosition": {
                 "title": "S3DGeographicCoordinateDataType",
                 "description": "Represents a geographic coordinate",
                 "type": "object",
-                "dov:typeRef": "nsu=http://opcfoundation.org/UA/GPOS/;i=3003",
+                "dov:typeRef": "org.opcfoundation.UA.GPOS.S3DGeographicCoordinateDataType",
                 "required": [ "Longitude", "Latitude" ],
                 "properties": {
                   "Longitude": {
@@ -313,7 +313,7 @@
                 "title": "ThreeDCartesianCoordinates",
                 "description": "Local position in metric coordinates (in meter)",
                 "type": "object",
-                "dov:typeRef": "nsu=http://opcfoundation.org/UA/;i=18810",
+                "dov:typeRef": "org.opcfoundation.UA.ThreeDCartesianCoordinates",
                 "required": [ "X", "Y", "Z" ],
                 "properties": {
                   "X": {
@@ -350,7 +350,7 @@
           "title": "S3DGeographicCoordinateDataType",
           "description": "Represents a geographic coordinate",
           "type": "object",
-          "dov:typeRef": "nsu=http://opcfoundation.org/UA/GPOS/;i=3003",
+          "dov:typeRef": "org.opcfoundation.UA.GPOS.S3DGeographicCoordinateDataType",
           "required": [ "Longitude", "Latitude" ],
           "properties": {
             "Longitude": {
@@ -408,7 +408,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "OpcUaCore_BaseObjectType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/;i=58",
+    "dov:typeRef": "org.opcfoundation.UA.BaseObjectType",
     "links": [
     ],
     "schemaDefinitions": {

@@ -8,7 +8,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "Machinery_Example_ExampleComponentType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/Machinery_Example/;i=1009",
+    "dov:typeRef": "org.opcfoundation.UA.Machinery_Example.ExampleComponentType",
     "links": [
       {
         "rel": "tm:extends",
@@ -40,7 +40,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "Machinery_Example_ExampleMachineType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/Machinery_Example/;i=1002",
+    "dov:typeRef": "org.opcfoundation.UA.Machinery_Example.ExampleMachineType",
     "links": [
       {
         "rel": "tm:extends",
@@ -72,7 +72,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "OpcUaCore_BaseObjectType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/;i=58",
+    "dov:typeRef": "org.opcfoundation.UA.BaseObjectType",
     "links": [
     ],
     "schemaDefinitions": {
@@ -93,7 +93,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "OpcUaCore_FolderType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/;i=61",
+    "dov:typeRef": "org.opcfoundation.UA.FolderType",
     "links": [
       {
         "rel": "tm:extends",
@@ -119,7 +119,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "Machinery_MachineryComponentIdentificationType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/Machinery/;i=1005",
+    "dov:typeRef": "org.opcfoundation.UA.Machinery.MachineryComponentIdentificationType",
     "dov:isComposite": true,
     "links": [
       {
@@ -188,7 +188,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "Machinery_MachineryItemIdentificationType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/Machinery/;i=1004",
+    "dov:typeRef": "org.opcfoundation.UA.Machinery.MachineryItemIdentificationType",
     "links": [
       {
         "rel": "tm:extends",
@@ -440,7 +440,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "DI_FunctionalGroupType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/DI/;i=1005",
+    "dov:typeRef": "org.opcfoundation.UA.DI.FunctionalGroupType",
     "links": [
       {
         "rel": "tm:extends",

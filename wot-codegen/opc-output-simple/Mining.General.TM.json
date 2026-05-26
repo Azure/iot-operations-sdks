@@ -8,7 +8,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "Mining_General_MiningEquipmentIdentificationType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/Mining/General/;i=1003",
+    "dov:typeRef": "org.opcfoundation.UA.Mining.General.MiningEquipmentIdentificationType",
     "links": [
       {
         "rel": "tm:extends",
@@ -130,7 +130,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "Mining_General_MiningEquipmentType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/Mining/General/;i=1002",
+    "dov:typeRef": "org.opcfoundation.UA.Mining.General.MiningEquipmentType",
     "links": [
       {
         "rel": "tm:extends",

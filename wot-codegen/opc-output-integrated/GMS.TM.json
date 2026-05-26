@@ -8,7 +8,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "GMS_SensorWarningAlarmType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/GMS/;i=1010",
+    "dov:typeRef": "org.opcfoundation.UA.GMS.SensorWarningAlarmType",
     "dov:isEvent": true,
     "links": [
       {
@@ -64,7 +64,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "GMS_IntermediateResultEventType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/GMS/;i=1001",
+    "dov:typeRef": "org.opcfoundation.UA.GMS.IntermediateResultEventType",
     "dov:isEvent": true,
     "links": [
       {
@@ -126,7 +126,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "GMS_CharacteristicType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/GMS/;i=1009",
+    "dov:typeRef": "org.opcfoundation.UA.GMS.CharacteristicType",
     "links": [
       {
         "rel": "tm:extends",
@@ -137,7 +137,7 @@
     "schemaDefinitions": {
       "ResultEvaluationEnum": {
         "type": "object",
-        "dov:typeRef": "nsu=http://opcfoundation.org/UA/Machinery/Result/;i=3002",
+        "dov:typeRef": "org.opcfoundation.UA.Machinery.Result.ResultEvaluationEnum",
         "const": {
           "Undefined": 0,
           "OK": 1,
@@ -296,7 +296,7 @@
       "ResultEvaluation": {
         "dov:namespace": "http://opcfoundation.org/UA/GMS/",
         "title": "ResultEvaluationEnum",
-        "dov:typeRef": "nsu=http://opcfoundation.org/UA/Machinery/Result/;i=3002",
+        "dov:typeRef": "org.opcfoundation.UA.Machinery.Result.ResultEvaluationEnum",
         "type": "integer",
         "minimum": -2147483648,
         "maximum": 2147483647,
@@ -425,7 +425,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "GMS_MultiSensorType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/GMS/;i=1012",
+    "dov:typeRef": "org.opcfoundation.UA.GMS.MultiSensorType",
     "dov:isComposite": true,
     "links": [
       {
@@ -443,7 +443,7 @@
     "schemaDefinitions": {
       "ToolAlignmentState": {
         "type": "object",
-        "dov:typeRef": "nsu=http://opcfoundation.org/UA/GMS/;i=3004",
+        "dov:typeRef": "org.opcfoundation.UA.GMS.ToolAlignmentState",
         "const": {
           "Fixed": 0,
           "Indexed": 1,
@@ -480,7 +480,7 @@
       "Alignment": {
         "dov:namespace": "http://opcfoundation.org/UA/GMS/",
         "title": "ToolAlignmentState",
-        "dov:typeRef": "nsu=http://opcfoundation.org/UA/GMS/;i=3004",
+        "dov:typeRef": "org.opcfoundation.UA.GMS.ToolAlignmentState",
         "type": "integer",
         "minimum": -2147483648,
         "maximum": 2147483647,
@@ -531,7 +531,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "GMS_SensorType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/GMS/;i=1007",
+    "dov:typeRef": "org.opcfoundation.UA.GMS.SensorType",
     "links": [
       {
         "rel": "tm:extends",
@@ -548,7 +548,7 @@
     "schemaDefinitions": {
       "ToolAlignmentState": {
         "type": "object",
-        "dov:typeRef": "nsu=http://opcfoundation.org/UA/GMS/;i=3004",
+        "dov:typeRef": "org.opcfoundation.UA.GMS.ToolAlignmentState",
         "const": {
           "Fixed": 0,
           "Indexed": 1,
@@ -568,7 +568,7 @@
       },
       "ToolIsQualifiedStatus": {
         "type": "object",
-        "dov:typeRef": "nsu=http://opcfoundation.org/UA/GMS/;i=3002",
+        "dov:typeRef": "org.opcfoundation.UA.GMS.ToolIsQualifiedStatus",
         "const": {
           "Qualified": 0,
           "Imprecise": 1,
@@ -627,7 +627,7 @@
       "Alignment": {
         "dov:namespace": "http://opcfoundation.org/UA/GMS/",
         "title": "ToolAlignmentState",
-        "dov:typeRef": "nsu=http://opcfoundation.org/UA/GMS/;i=3004",
+        "dov:typeRef": "org.opcfoundation.UA.GMS.ToolAlignmentState",
         "type": "integer",
         "minimum": -2147483648,
         "maximum": 2147483647,
@@ -708,7 +708,7 @@
         "dov:namespace": "http://opcfoundation.org/UA/GMS/",
         "title": "EUInformation",
         "type": "object",
-        "dov:typeRef": "nsu=http://opcfoundation.org/UA/;i=887",
+        "dov:typeRef": "org.opcfoundation.UA.EUInformation",
         "required": [ "NamespaceUri", "UnitId", "DisplayName", "Description" ],
         "properties": {
           "NamespaceUri": {
@@ -743,7 +743,7 @@
       "IsQualifiedStatus": {
         "dov:namespace": "http://opcfoundation.org/UA/GMS/",
         "title": "ToolIsQualifiedStatus",
-        "dov:typeRef": "nsu=http://opcfoundation.org/UA/GMS/;i=3002",
+        "dov:typeRef": "org.opcfoundation.UA.GMS.ToolIsQualifiedStatus",
         "type": "integer",
         "minimum": -2147483648,
         "maximum": 2147483647,
@@ -862,7 +862,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "GMS_CorrectionType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/GMS/;i=1005",
+    "dov:typeRef": "org.opcfoundation.UA.GMS.CorrectionType",
     "links": [
       {
         "rel": "tm:extends",
@@ -1109,7 +1109,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "GMS_LoadingMonitoringType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/GMS/;i=1014",
+    "dov:typeRef": "org.opcfoundation.UA.GMS.LoadingMonitoringType",
     "links": [
       {
         "rel": "tm:extends",
@@ -1214,7 +1214,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "GMS_ToolMonitoringType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/GMS/;i=1006",
+    "dov:typeRef": "org.opcfoundation.UA.GMS.ToolMonitoringType",
     "links": [
       {
         "rel": "tm:extends",
@@ -1272,7 +1272,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "GMS_GMSEquipmentType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/GMS/;i=1003",
+    "dov:typeRef": "org.opcfoundation.UA.GMS.GMSEquipmentType",
     "links": [
       {
         "rel": "tm:extends",
@@ -1316,7 +1316,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "GMS_GMSIdentificationType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/GMS/;i=1011",
+    "dov:typeRef": "org.opcfoundation.UA.GMS.GMSIdentificationType",
     "links": [
       {
         "rel": "tm:extends",
@@ -1383,7 +1383,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "GMS_GMSType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/GMS/;i=1002",
+    "dov:typeRef": "org.opcfoundation.UA.GMS.GMSType",
     "dov:isComposite": true,
     "links": [
       {
@@ -1440,7 +1440,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "GMS_GMSMonitoringType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/GMS/;i=1004",
+    "dov:typeRef": "org.opcfoundation.UA.GMS.GMSMonitoringType",
     "links": [
       {
         "rel": "tm:extends",
@@ -1478,7 +1478,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "GMS_GMSResultManagementType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/GMS/;i=1008",
+    "dov:typeRef": "org.opcfoundation.UA.GMS.GMSResultManagementType",
     "links": [
       {
         "rel": "tm:extends",
@@ -1510,7 +1510,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "GMS_GMSJobType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/GMS/;i=1016",
+    "dov:typeRef": "org.opcfoundation.UA.GMS.GMSJobType",
     "dov:isComposite": true,
     "links": [
       {
@@ -1522,7 +1522,7 @@
     "schemaDefinitions": {
       "MeasurementReasonEnum": {
         "type": "object",
-        "dov:typeRef": "nsu=http://opcfoundation.org/UA/GMS/;i=3009",
+        "dov:typeRef": "org.opcfoundation.UA.GMS.MeasurementReasonEnum",
         "const": {
           "ContinuousMeasurements": 0,
           "SpecialMeasurement": 1,
@@ -1606,7 +1606,7 @@
       "MeasurementReason": {
         "dov:namespace": "http://opcfoundation.org/UA/GMS/",
         "title": "MeasurementReasonEnum",
-        "dov:typeRef": "nsu=http://opcfoundation.org/UA/GMS/;i=3009",
+        "dov:typeRef": "org.opcfoundation.UA.GMS.MeasurementReasonEnum",
         "type": "integer",
         "minimum": -2147483648,
         "maximum": 2147483647,
@@ -1655,7 +1655,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "GMS_GMSPartType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/GMS/;i=1017",
+    "dov:typeRef": "org.opcfoundation.UA.GMS.GMSPartType",
     "dov:isComposite": true,
     "links": [
       {
@@ -1906,7 +1906,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "GMS_CalibrationPrognosisType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/GMS/;i=1019",
+    "dov:typeRef": "org.opcfoundation.UA.GMS.CalibrationPrognosisType",
     "links": [
       {
         "rel": "tm:extends",
@@ -2035,7 +2035,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "GMS_RotaryTableType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/GMS/;i=1018",
+    "dov:typeRef": "org.opcfoundation.UA.GMS.RotaryTableType",
     "links": [
       {
         "rel": "tm:extends",
@@ -2109,7 +2109,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "GMS_SensorExchangeRackType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/GMS/;i=1015",
+    "dov:typeRef": "org.opcfoundation.UA.GMS.SensorExchangeRackType",
     "links": [
       {
         "rel": "tm:extends",
@@ -2164,7 +2164,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "GMS_TipExchangeRackType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/GMS/;i=1022",
+    "dov:typeRef": "org.opcfoundation.UA.GMS.TipExchangeRackType",
     "links": [
       {
         "rel": "tm:extends",
@@ -2219,7 +2219,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "OpcUaCore_LimitAlarmType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/;i=2955",
+    "dov:typeRef": "org.opcfoundation.UA.LimitAlarmType",
     "dov:isEvent": true,
     "links": [
       {
@@ -2461,7 +2461,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "OpcUaCore_AlarmConditionType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/;i=2915",
+    "dov:typeRef": "org.opcfoundation.UA.AlarmConditionType",
     "dov:isEvent": true,
     "links": [
       {
@@ -2500,7 +2500,7 @@
       "GetGroupMemberships": {
         "output": {
           "type": "object",
-          "dov:typeRef": "nsu=http://opcfoundation.org/UA/;i=25154",
+          "dov:typeRef": "org.opcfoundation.UA.OutputArguments",
           "required": [ "Groups" ],
           "properties": {
             "Groups": {
@@ -2531,7 +2531,7 @@
       "PlaceInService2": {
         "input": {
           "type": "object",
-          "dov:typeRef": "nsu=http://opcfoundation.org/UA/;i=24323",
+          "dov:typeRef": "org.opcfoundation.UA.InputArguments",
           "required": [ "Comment" ],
           "properties": {
             "Comment": {
@@ -2559,7 +2559,7 @@
       "RemoveFromService2": {
         "input": {
           "type": "object",
-          "dov:typeRef": "nsu=http://opcfoundation.org/UA/;i=24321",
+          "dov:typeRef": "org.opcfoundation.UA.InputArguments",
           "required": [ "Comment" ],
           "properties": {
             "Comment": {
@@ -2587,7 +2587,7 @@
       "Reset2": {
         "input": {
           "type": "object",
-          "dov:typeRef": "nsu=http://opcfoundation.org/UA/;i=24325",
+          "dov:typeRef": "org.opcfoundation.UA.InputArguments",
           "required": [ "Comment" ],
           "properties": {
             "Comment": {
@@ -2624,7 +2624,7 @@
       "Suppress2": {
         "input": {
           "type": "object",
-          "dov:typeRef": "nsu=http://opcfoundation.org/UA/;i=24317",
+          "dov:typeRef": "org.opcfoundation.UA.InputArguments",
           "required": [ "Comment" ],
           "properties": {
             "Comment": {
@@ -2652,7 +2652,7 @@
       "Unsuppress2": {
         "input": {
           "type": "object",
-          "dov:typeRef": "nsu=http://opcfoundation.org/UA/;i=24319",
+          "dov:typeRef": "org.opcfoundation.UA.InputArguments",
           "required": [ "Comment" ],
           "properties": {
             "Comment": {
@@ -2977,7 +2977,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "OpcUaCore_AcknowledgeableConditionType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/;i=2881",
+    "dov:typeRef": "org.opcfoundation.UA.AcknowledgeableConditionType",
     "dov:isEvent": true,
     "links": [
       {
@@ -3004,7 +3004,7 @@
       "Acknowledge": {
         "input": {
           "type": "object",
-          "dov:typeRef": "nsu=http://opcfoundation.org/UA/;i=9112",
+          "dov:typeRef": "org.opcfoundation.UA.InputArguments",
           "required": [ "EventId", "Comment" ],
           "properties": {
             "EventId": {
@@ -3029,7 +3029,7 @@
       "Confirm": {
         "input": {
           "type": "object",
-          "dov:typeRef": "nsu=http://opcfoundation.org/UA/;i=9114",
+          "dov:typeRef": "org.opcfoundation.UA.InputArguments",
           "required": [ "EventId", "Comment" ],
           "properties": {
             "EventId": {
@@ -3135,7 +3135,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "OpcUaCore_ConditionType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/;i=2782",
+    "dov:typeRef": "org.opcfoundation.UA.ConditionType",
     "dov:isEvent": true,
     "links": [
       {
@@ -3162,7 +3162,7 @@
       "AddComment": {
         "input": {
           "type": "object",
-          "dov:typeRef": "nsu=http://opcfoundation.org/UA/;i=9030",
+          "dov:typeRef": "org.opcfoundation.UA.InputArguments",
           "required": [ "EventId", "Comment" ],
           "properties": {
             "EventId": {
@@ -3187,7 +3187,7 @@
       "ConditionRefresh": {
         "input": {
           "type": "object",
-          "dov:typeRef": "nsu=http://opcfoundation.org/UA/;i=3876",
+          "dov:typeRef": "org.opcfoundation.UA.InputArguments",
           "required": [ "SubscriptionId" ],
           "properties": {
             "SubscriptionId": {
@@ -3209,7 +3209,7 @@
       "ConditionRefresh2": {
         "input": {
           "type": "object",
-          "dov:typeRef": "nsu=http://opcfoundation.org/UA/;i=12913",
+          "dov:typeRef": "org.opcfoundation.UA.InputArguments",
           "required": [ "SubscriptionId", "MonitoredItemId" ],
           "properties": {
             "SubscriptionId": {
@@ -3468,7 +3468,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "OpcUaCore_BaseEventType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/;i=2041",
+    "dov:typeRef": "org.opcfoundation.UA.BaseEventType",
     "links": [
       {
         "rel": "tm:extends",
@@ -3564,7 +3564,7 @@
       "LocalTime": {
         "title": "TimeZoneDataType",
         "type": "object",
-        "dov:typeRef": "nsu=http://opcfoundation.org/UA/;i=8912",
+        "dov:typeRef": "org.opcfoundation.UA.TimeZoneDataType",
         "required": [ "Offset", "DaylightSavingInOffset" ],
         "properties": {
           "Offset": {
@@ -3668,7 +3668,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "OpcUaCore_BaseObjectType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/;i=58",
+    "dov:typeRef": "org.opcfoundation.UA.BaseObjectType",
     "links": [
     ],
     "schemaDefinitions": {
@@ -3689,7 +3689,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "OpcUaCore_ShelvedStateMachineType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/;i=2929",
+    "dov:typeRef": "org.opcfoundation.UA.ShelvedStateMachineType",
     "links": [
       {
         "rel": "tm:extends",
@@ -3773,7 +3773,7 @@
       "OneShotShelve2": {
         "input": {
           "type": "object",
-          "dov:typeRef": "nsu=http://opcfoundation.org/UA/;i=24761",
+          "dov:typeRef": "org.opcfoundation.UA.InputArguments",
           "required": [ "Comment" ],
           "properties": {
             "Comment": {
@@ -3792,7 +3792,7 @@
       "TimedShelve": {
         "input": {
           "type": "object",
-          "dov:typeRef": "nsu=http://opcfoundation.org/UA/;i=2991",
+          "dov:typeRef": "org.opcfoundation.UA.InputArguments",
           "required": [ "ShelvingTime" ],
           "properties": {
             "ShelvingTime": {
@@ -3812,7 +3812,7 @@
       "TimedShelve2": {
         "input": {
           "type": "object",
-          "dov:typeRef": "nsu=http://opcfoundation.org/UA/;i=24757",
+          "dov:typeRef": "org.opcfoundation.UA.InputArguments",
           "required": [ "ShelvingTime", "Comment" ],
           "properties": {
             "ShelvingTime": {
@@ -3844,7 +3844,7 @@
       "Unshelve2": {
         "input": {
           "type": "object",
-          "dov:typeRef": "nsu=http://opcfoundation.org/UA/;i=24759",
+          "dov:typeRef": "org.opcfoundation.UA.InputArguments",
           "required": [ "Comment" ],
           "properties": {
             "Comment": {
@@ -3887,7 +3887,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "OpcUaCore_FiniteStateMachineType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/;i=2771",
+    "dov:typeRef": "org.opcfoundation.UA.FiniteStateMachineType",
     "links": [
       {
         "rel": "tm:extends",
@@ -4029,7 +4029,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "OpcUaCore_StateMachineType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/;i=2299",
+    "dov:typeRef": "org.opcfoundation.UA.StateMachineType",
     "dov:isComposite": true,
     "links": [
       {
@@ -4114,7 +4114,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "OpcUaCore_StateType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/;i=2307",
+    "dov:typeRef": "org.opcfoundation.UA.StateType",
     "links": [
       {
         "rel": "tm:extends",
@@ -4160,7 +4160,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "OpcUaCore_TransitionType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/;i=2310",
+    "dov:typeRef": "org.opcfoundation.UA.TransitionType",
     "links": [
       {
         "rel": "tm:extends",
@@ -4206,7 +4206,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "OpcUaCore_AlarmGroupType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/;i=16405",
+    "dov:typeRef": "org.opcfoundation.UA.AlarmGroupType",
     "links": [
       {
         "rel": "tm:extends",
@@ -4232,7 +4232,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "OpcUaCore_FolderType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/;i=61",
+    "dov:typeRef": "org.opcfoundation.UA.FolderType",
     "links": [
       {
         "rel": "tm:extends",
@@ -4258,7 +4258,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "OpcUaCore_FileDirectoryType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/;i=13353",
+    "dov:typeRef": "org.opcfoundation.UA.FileDirectoryType",
     "links": [
       {
         "rel": "tm:extends",
@@ -4272,7 +4272,7 @@
       "CreateDirectory": {
         "input": {
           "type": "object",
-          "dov:typeRef": "nsu=http://opcfoundation.org/UA/;i=13388",
+          "dov:typeRef": "org.opcfoundation.UA.InputArguments",
           "required": [ "DirectoryName" ],
           "properties": {
             "DirectoryName": {
@@ -4282,7 +4282,7 @@
         },
         "output": {
           "type": "object",
-          "dov:typeRef": "nsu=http://opcfoundation.org/UA/;i=13389",
+          "dov:typeRef": "org.opcfoundation.UA.OutputArguments",
           "required": [ "DirectoryNodeId" ],
           "properties": {
             "DirectoryNodeId": {
@@ -4301,7 +4301,7 @@
       "CreateFile": {
         "input": {
           "type": "object",
-          "dov:typeRef": "nsu=http://opcfoundation.org/UA/;i=13391",
+          "dov:typeRef": "org.opcfoundation.UA.InputArguments",
           "required": [ "FileName", "RequestFileOpen" ],
           "properties": {
             "FileName": {
@@ -4314,7 +4314,7 @@
         },
         "output": {
           "type": "object",
-          "dov:typeRef": "nsu=http://opcfoundation.org/UA/;i=13392",
+          "dov:typeRef": "org.opcfoundation.UA.OutputArguments",
           "required": [ "FileNodeId", "FileHandle" ],
           "properties": {
             "FileNodeId": {
@@ -4338,7 +4338,7 @@
       "DeleteFileSystemObject": {
         "input": {
           "type": "object",
-          "dov:typeRef": "nsu=http://opcfoundation.org/UA/;i=13394",
+          "dov:typeRef": "org.opcfoundation.UA.InputArguments",
           "required": [ "ObjectToDelete" ],
           "properties": {
             "ObjectToDelete": {
@@ -4357,7 +4357,7 @@
       "MoveOrCopy": {
         "input": {
           "type": "object",
-          "dov:typeRef": "nsu=http://opcfoundation.org/UA/;i=13396",
+          "dov:typeRef": "org.opcfoundation.UA.InputArguments",
           "required": [ "ObjectToMoveOrCopy", "TargetDirectory", "CreateCopy", "NewName" ],
           "properties": {
             "ObjectToMoveOrCopy": {
@@ -4376,7 +4376,7 @@
         },
         "output": {
           "type": "object",
-          "dov:typeRef": "nsu=http://opcfoundation.org/UA/;i=13397",
+          "dov:typeRef": "org.opcfoundation.UA.OutputArguments",
           "required": [ "NewNodeId" ],
           "properties": {
             "NewNodeId": {
@@ -4407,7 +4407,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "OpcUaCore_OrderedListType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/;i=23518",
+    "dov:typeRef": "org.opcfoundation.UA.OrderedListType",
     "dov:isComposite": true,
     "links": [
       {
@@ -4452,7 +4452,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "OpcUaCore_InitialStateType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/;i=2309",
+    "dov:typeRef": "org.opcfoundation.UA.InitialStateType",
     "links": [
       {
         "rel": "tm:extends",
@@ -4478,7 +4478,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "OpcUaCore_TemporaryFileTransferType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/;i=15744",
+    "dov:typeRef": "org.opcfoundation.UA.TemporaryFileTransferType",
     "dov:isComposite": true,
     "links": [
       {
@@ -4506,7 +4506,7 @@
       "CloseAndCommit": {
         "input": {
           "type": "object",
-          "dov:typeRef": "nsu=http://opcfoundation.org/UA/;i=15752",
+          "dov:typeRef": "org.opcfoundation.UA.InputArguments",
           "required": [ "FileHandle" ],
           "properties": {
             "FileHandle": {
@@ -4518,7 +4518,7 @@
         },
         "output": {
           "type": "object",
-          "dov:typeRef": "nsu=http://opcfoundation.org/UA/;i=15753",
+          "dov:typeRef": "org.opcfoundation.UA.OutputArguments",
           "required": [ "CompletionStateMachine" ],
           "properties": {
             "CompletionStateMachine": {
@@ -4537,7 +4537,7 @@
       "GenerateFileForRead": {
         "input": {
           "type": "object",
-          "dov:typeRef": "nsu=http://opcfoundation.org/UA/;i=15747",
+          "dov:typeRef": "org.opcfoundation.UA.InputArguments",
           "required": [ "GenerateOptions" ],
           "properties": {
             "GenerateOptions": {
@@ -4547,7 +4547,7 @@
         },
         "output": {
           "type": "object",
-          "dov:typeRef": "nsu=http://opcfoundation.org/UA/;i=15748",
+          "dov:typeRef": "org.opcfoundation.UA.OutputArguments",
           "required": [ "FileNodeId", "FileHandle", "CompletionStateMachine" ],
           "properties": {
             "FileNodeId": {
@@ -4574,7 +4574,7 @@
       "GenerateFileForWrite": {
         "input": {
           "type": "object",
-          "dov:typeRef": "nsu=http://opcfoundation.org/UA/;i=16359",
+          "dov:typeRef": "org.opcfoundation.UA.InputArguments",
           "required": [ "GenerateOptions" ],
           "properties": {
             "GenerateOptions": {
@@ -4584,7 +4584,7 @@
         },
         "output": {
           "type": "object",
-          "dov:typeRef": "nsu=http://opcfoundation.org/UA/;i=15750",
+          "dov:typeRef": "org.opcfoundation.UA.OutputArguments",
           "required": [ "FileNodeId", "FileHandle" ],
           "properties": {
             "FileNodeId": {
@@ -4632,7 +4632,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "OpcUaCore_FileTransferStateMachineType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/;i=15803",
+    "dov:typeRef": "org.opcfoundation.UA.FileTransferStateMachineType",
     "links": [
       {
         "rel": "tm:extends",
@@ -4751,7 +4751,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "Machinery_Result_ResultReadyEventType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/Machinery/Result/;i=1002",
+    "dov:typeRef": "org.opcfoundation.UA.Machinery.Result.ResultReadyEventType",
     "dov:isEvent": true,
     "links": [
       {
@@ -4763,7 +4763,7 @@
     "schemaDefinitions": {
       "ResultEvaluationEnum": {
         "type": "object",
-        "dov:typeRef": "nsu=http://opcfoundation.org/UA/Machinery/Result/;i=3002",
+        "dov:typeRef": "org.opcfoundation.UA.Machinery.Result.ResultEvaluationEnum",
         "const": {
           "Undefined": 0,
           "OK": 1,
@@ -4816,14 +4816,14 @@
         "title": "ResultDataType",
         "description": "Contains fields that were created during the execution of a recipe.",
         "type": "object",
-        "dov:typeRef": "nsu=http://opcfoundation.org/UA/Machinery/Result/;i=3008",
+        "dov:typeRef": "org.opcfoundation.UA.Machinery.Result.ResultDataType",
         "required": [ "ResultMetaData", "ResultContent" ],
         "properties": {
           "ResultMetaData": {
             "title": "ResultMetaDataType",
             "description": "Meta data of a result, describing the result.",
             "type": "object",
-            "dov:typeRef": "nsu=http://opcfoundation.org/UA/Machinery/Result/;i=3007",
+            "dov:typeRef": "org.opcfoundation.UA.Machinery.Result.ResultMetaDataType",
             "required": [ "ResultId" ],
             "properties": {
               "ResultId": {
@@ -4889,7 +4889,7 @@
                 "title": "ProcessingTimesDataType",
                 "description": "Contains measured times that were generated during the execution of a recipe.",
                 "type": "object",
-                "dov:typeRef": "nsu=http://opcfoundation.org/UA/Machinery/Result/;i=3006",
+                "dov:typeRef": "org.opcfoundation.UA.Machinery.Result.ProcessingTimesDataType",
                 "required": [ "StartTime", "EndTime" ],
                 "properties": {
                   "StartTime": {
@@ -4924,7 +4924,7 @@
               "ResultEvaluation": {
                 "title": "ResultEvaluationEnum",
                 "description": "The ResultEvaluation indicates whether the result was in tolerance.",
-                "dov:typeRef": "nsu=http://opcfoundation.org/UA/Machinery/Result/;i=3002",
+                "dov:typeRef": "org.opcfoundation.UA.Machinery.Result.ResultEvaluationEnum",
                 "type": "integer",
                 "minimum": -2147483648,
                 "maximum": 2147483647
@@ -4979,14 +4979,14 @@
           "title": "ResultDataType",
           "description": "Contains fields that were created during the execution of a recipe.",
           "type": "object",
-          "dov:typeRef": "nsu=http://opcfoundation.org/UA/Machinery/Result/;i=3008",
+          "dov:typeRef": "org.opcfoundation.UA.Machinery.Result.ResultDataType",
           "required": [ "ResultMetaData", "ResultContent" ],
           "properties": {
             "ResultMetaData": {
               "title": "ResultMetaDataType",
               "description": "Meta data of a result, describing the result.",
               "type": "object",
-              "dov:typeRef": "nsu=http://opcfoundation.org/UA/Machinery/Result/;i=3007",
+              "dov:typeRef": "org.opcfoundation.UA.Machinery.Result.ResultMetaDataType",
               "required": [ "ResultId" ],
               "properties": {
                 "ResultId": {
@@ -5052,7 +5052,7 @@
                   "title": "ProcessingTimesDataType",
                   "description": "Contains measured times that were generated during the execution of a recipe.",
                   "type": "object",
-                  "dov:typeRef": "nsu=http://opcfoundation.org/UA/Machinery/Result/;i=3006",
+                  "dov:typeRef": "org.opcfoundation.UA.Machinery.Result.ProcessingTimesDataType",
                   "required": [ "StartTime", "EndTime" ],
                   "properties": {
                     "StartTime": {
@@ -5087,7 +5087,7 @@
                 "ResultEvaluation": {
                   "title": "ResultEvaluationEnum",
                   "description": "The ResultEvaluation indicates whether the result was in tolerance.",
-                  "dov:typeRef": "nsu=http://opcfoundation.org/UA/Machinery/Result/;i=3002",
+                  "dov:typeRef": "org.opcfoundation.UA.Machinery.Result.ResultEvaluationEnum",
                   "type": "integer",
                   "minimum": -2147483648,
                   "maximum": 2147483647
@@ -5140,7 +5140,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "Machinery_Result_ResultManagementType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/Machinery/Result/;i=1004",
+    "dov:typeRef": "org.opcfoundation.UA.Machinery.Result.ResultManagementType",
     "dov:isComposite": true,
     "links": [
       {
@@ -5164,7 +5164,7 @@
     "schemaDefinitions": {
       "ResultEvaluationEnum": {
         "type": "object",
-        "dov:typeRef": "nsu=http://opcfoundation.org/UA/Machinery/Result/;i=3002",
+        "dov:typeRef": "org.opcfoundation.UA.Machinery.Result.ResultEvaluationEnum",
         "const": {
           "Undefined": 0,
           "OK": 1,
@@ -5193,7 +5193,7 @@
       },
       "FilterOperator": {
         "type": "object",
-        "dov:typeRef": "nsu=http://opcfoundation.org/UA/;i=576",
+        "dov:typeRef": "org.opcfoundation.UA.FilterOperator",
         "const": {
           "Equals": 0,
           "IsNull": 1,
@@ -5289,7 +5289,7 @@
         "dov:namespace": "http://opcfoundation.org/UA/Machinery/Result/",
         "input": {
           "type": "object",
-          "dov:typeRef": "nsu=http://opcfoundation.org/UA/Machinery/Result/;i=6089",
+          "dov:typeRef": "org.opcfoundation.UA.InputArguments",
           "required": [ "ResultIds" ],
           "properties": {
             "ResultIds": {
@@ -5303,7 +5303,7 @@
         },
         "output": {
           "type": "object",
-          "dov:typeRef": "nsu=http://opcfoundation.org/UA/Machinery/Result/;i=6090",
+          "dov:typeRef": "org.opcfoundation.UA.OutputArguments",
           "required": [ "ErrorPerResultId", "Error" ],
           "properties": {
             "ErrorPerResultId": {
@@ -5335,7 +5335,7 @@
         "dov:namespace": "http://opcfoundation.org/UA/Machinery/Result/",
         "input": {
           "type": "object",
-          "dov:typeRef": "nsu=http://opcfoundation.org/UA/Machinery/Result/;i=6054",
+          "dov:typeRef": "org.opcfoundation.UA.InputArguments",
           "required": [ "Timeout" ],
           "properties": {
             "Timeout": {
@@ -5348,7 +5348,7 @@
         },
         "output": {
           "type": "object",
-          "dov:typeRef": "nsu=http://opcfoundation.org/UA/Machinery/Result/;i=6055",
+          "dov:typeRef": "org.opcfoundation.UA.OutputArguments",
           "required": [ "ResultHandle", "Result", "Error" ],
           "properties": {
             "ResultHandle": {
@@ -5361,14 +5361,14 @@
               "title": "ResultDataType",
               "description": "Contains fields that were created during the execution of a recipe.",
               "type": "object",
-              "dov:typeRef": "nsu=http://opcfoundation.org/UA/Machinery/Result/;i=3008",
+              "dov:typeRef": "org.opcfoundation.UA.Machinery.Result.ResultDataType",
               "required": [ "ResultMetaData", "ResultContent" ],
               "properties": {
                 "ResultMetaData": {
                   "title": "ResultMetaDataType",
                   "description": "Meta data of a result, describing the result.",
                   "type": "object",
-                  "dov:typeRef": "nsu=http://opcfoundation.org/UA/Machinery/Result/;i=3007",
+                  "dov:typeRef": "org.opcfoundation.UA.Machinery.Result.ResultMetaDataType",
                   "required": [ "ResultId" ],
                   "properties": {
                     "ResultId": {
@@ -5434,7 +5434,7 @@
                       "title": "ProcessingTimesDataType",
                       "description": "Contains measured times that were generated during the execution of a recipe.",
                       "type": "object",
-                      "dov:typeRef": "nsu=http://opcfoundation.org/UA/Machinery/Result/;i=3006",
+                      "dov:typeRef": "org.opcfoundation.UA.Machinery.Result.ProcessingTimesDataType",
                       "required": [ "StartTime", "EndTime" ],
                       "properties": {
                         "StartTime": {
@@ -5469,7 +5469,7 @@
                     "ResultEvaluation": {
                       "title": "ResultEvaluationEnum",
                       "description": "The ResultEvaluation indicates whether the result was in tolerance.",
-                      "dov:typeRef": "nsu=http://opcfoundation.org/UA/Machinery/Result/;i=3002",
+                      "dov:typeRef": "org.opcfoundation.UA.Machinery.Result.ResultEvaluationEnum",
                       "type": "integer",
                       "minimum": -2147483648,
                       "maximum": 2147483647
@@ -5524,7 +5524,7 @@
         "description": "The server shall return to each client requesting result data a system-wide unique handle identifying the result set / client combination. This handle should be used by the client to indicate to the server that the result data is no longer needed, allowing the server to optimize its resource handling.  If the instance of ResultManagementType does not support the ReleaseResultHandle Method, the resultHandle should always be set to 0.  If the error is set to a value other than 0, the resultHandle may be set to 0.  ",
         "input": {
           "type": "object",
-          "dov:typeRef": "nsu=http://opcfoundation.org/UA/Machinery/Result/;i=6048",
+          "dov:typeRef": "org.opcfoundation.UA.InputArguments",
           "required": [ "ResultId", "Timeout" ],
           "properties": {
             "ResultId": {
@@ -5541,7 +5541,7 @@
         },
         "output": {
           "type": "object",
-          "dov:typeRef": "nsu=http://opcfoundation.org/UA/Machinery/Result/;i=6049",
+          "dov:typeRef": "org.opcfoundation.UA.OutputArguments",
           "required": [ "ResultHandle", "Result", "Error" ],
           "properties": {
             "ResultHandle": {
@@ -5554,14 +5554,14 @@
               "title": "ResultDataType",
               "description": "Contains fields that were created during the execution of a recipe.",
               "type": "object",
-              "dov:typeRef": "nsu=http://opcfoundation.org/UA/Machinery/Result/;i=3008",
+              "dov:typeRef": "org.opcfoundation.UA.Machinery.Result.ResultDataType",
               "required": [ "ResultMetaData", "ResultContent" ],
               "properties": {
                 "ResultMetaData": {
                   "title": "ResultMetaDataType",
                   "description": "Meta data of a result, describing the result.",
                   "type": "object",
-                  "dov:typeRef": "nsu=http://opcfoundation.org/UA/Machinery/Result/;i=3007",
+                  "dov:typeRef": "org.opcfoundation.UA.Machinery.Result.ResultMetaDataType",
                   "required": [ "ResultId" ],
                   "properties": {
                     "ResultId": {
@@ -5627,7 +5627,7 @@
                       "title": "ProcessingTimesDataType",
                       "description": "Contains measured times that were generated during the execution of a recipe.",
                       "type": "object",
-                      "dov:typeRef": "nsu=http://opcfoundation.org/UA/Machinery/Result/;i=3006",
+                      "dov:typeRef": "org.opcfoundation.UA.Machinery.Result.ProcessingTimesDataType",
                       "required": [ "StartTime", "EndTime" ],
                       "properties": {
                         "StartTime": {
@@ -5662,7 +5662,7 @@
                     "ResultEvaluation": {
                       "title": "ResultEvaluationEnum",
                       "description": "The ResultEvaluation indicates whether the result was in tolerance.",
-                      "dov:typeRef": "nsu=http://opcfoundation.org/UA/Machinery/Result/;i=3002",
+                      "dov:typeRef": "org.opcfoundation.UA.Machinery.Result.ResultEvaluationEnum",
                       "type": "integer",
                       "minimum": -2147483648,
                       "maximum": 2147483647
@@ -5716,14 +5716,14 @@
         "dov:namespace": "http://opcfoundation.org/UA/Machinery/Result/",
         "input": {
           "type": "object",
-          "dov:typeRef": "nsu=http://opcfoundation.org/UA/Machinery/Result/;i=6050",
+          "dov:typeRef": "org.opcfoundation.UA.InputArguments",
           "required": [ "Filter", "OrderedBy", "MaxResults", "Timeout" ],
           "properties": {
             "Filter": {
               "title": "ContentFilter",
               "description": "Filter used to filter for specific results based on the meta data of the results. Valid BrowsePaths used in the filter can be built from the fields of the ResultReadyEventType, the ResultType VariableType or the ResultDataType or corresponding subtypes.",
               "type": "object",
-              "dov:typeRef": "nsu=http://opcfoundation.org/UA/;i=586",
+              "dov:typeRef": "org.opcfoundation.UA.ContentFilter",
               "required": [ "Elements" ],
               "properties": {
                 "Elements": {
@@ -5731,12 +5731,12 @@
                   "items": {
                     "title": "ContentFilterElement",
                     "type": "object",
-                    "dov:typeRef": "nsu=http://opcfoundation.org/UA/;i=583",
+                    "dov:typeRef": "org.opcfoundation.UA.ContentFilterElement",
                     "required": [ "FilterOperator", "FilterOperands" ],
                     "properties": {
                       "FilterOperator": {
                         "title": "FilterOperator",
-                        "dov:typeRef": "nsu=http://opcfoundation.org/UA/;i=576",
+                        "dov:typeRef": "org.opcfoundation.UA.FilterOperator",
                         "type": "integer",
                         "minimum": -2147483648,
                         "maximum": 2147483647
@@ -5758,7 +5758,7 @@
               "items": {
                 "title": "RelativePath",
                 "type": "object",
-                "dov:typeRef": "nsu=http://opcfoundation.org/UA/;i=540",
+                "dov:typeRef": "org.opcfoundation.UA.RelativePath",
                 "required": [ "Elements" ],
                 "properties": {
                   "Elements": {
@@ -5766,7 +5766,7 @@
                     "items": {
                       "title": "RelativePathElement",
                       "type": "object",
-                      "dov:typeRef": "nsu=http://opcfoundation.org/UA/;i=537",
+                      "dov:typeRef": "org.opcfoundation.UA.RelativePathElement",
                       "required": [ "ReferenceTypeId", "IsInverse", "IncludeSubtypes", "TargetName" ],
                       "properties": {
                         "ReferenceTypeId": {
@@ -5803,7 +5803,7 @@
         },
         "output": {
           "type": "object",
-          "dov:typeRef": "nsu=http://opcfoundation.org/UA/Machinery/Result/;i=6051",
+          "dov:typeRef": "org.opcfoundation.UA.OutputArguments",
           "required": [ "ResultHandle", "ResultIdList", "Error" ],
           "properties": {
             "ResultHandle": {
@@ -5839,7 +5839,7 @@
         "dov:namespace": "http://opcfoundation.org/UA/Machinery/Result/",
         "input": {
           "type": "object",
-          "dov:typeRef": "nsu=http://opcfoundation.org/UA/Machinery/Result/;i=6052",
+          "dov:typeRef": "org.opcfoundation.UA.InputArguments",
           "required": [ "ResultHandle" ],
           "properties": {
             "ResultHandle": {
@@ -5852,7 +5852,7 @@
         },
         "output": {
           "type": "object",
-          "dov:typeRef": "nsu=http://opcfoundation.org/UA/Machinery/Result/;i=6053",
+          "dov:typeRef": "org.opcfoundation.UA.OutputArguments",
           "required": [ "Error" ],
           "properties": {
             "Error": {
@@ -5903,7 +5903,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "Machinery_Result_ResultTransferType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/Machinery/Result/;i=1003",
+    "dov:typeRef": "org.opcfoundation.UA.Machinery.Result.ResultTransferType",
     "links": [
       {
         "rel": "tm:extends",
@@ -5917,14 +5917,14 @@
       "GenerateFileForRead": {
         "input": {
           "type": "object",
-          "dov:typeRef": "nsu=http://opcfoundation.org/UA/Machinery/Result/;i=6035",
+          "dov:typeRef": "org.opcfoundation.UA.InputArguments",
           "required": [ "GenerateOptions" ],
           "properties": {
             "GenerateOptions": {
               "title": "BaseResultTransferOptionsDataType",
               "description": "Abstract type containing information which file should be provided.",
               "type": "object",
-              "dov:typeRef": "nsu=http://opcfoundation.org/UA/Machinery/Result/;i=3005",
+              "dov:typeRef": "org.opcfoundation.UA.Machinery.Result.BaseResultTransferOptionsDataType",
               "required": [ "ResultId" ],
               "properties": {
                 "ResultId": {
@@ -5937,7 +5937,7 @@
         },
         "output": {
           "type": "object",
-          "dov:typeRef": "nsu=http://opcfoundation.org/UA/Machinery/Result/;i=6036",
+          "dov:typeRef": "org.opcfoundation.UA.OutputArguments",
           "required": [ "FileNodeId", "FileHandle", "CompletionStateMachine" ],
           "properties": {
             "FileNodeId": {
@@ -5979,7 +5979,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "MachineTool_MultiToolType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/MachineTool/;i=51",
+    "dov:typeRef": "org.opcfoundation.UA.MachineTool.MultiToolType",
     "dov:isComposite": true,
     "links": [
       {
@@ -6012,7 +6012,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "MachineTool_BaseToolType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/MachineTool/;i=49",
+    "dov:typeRef": "org.opcfoundation.UA.MachineTool.BaseToolType",
     "links": [
       {
         "rel": "tm:extends",
@@ -6075,7 +6075,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "MachineTool_ToolType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/MachineTool/;i=50",
+    "dov:typeRef": "org.opcfoundation.UA.MachineTool.ToolType",
     "links": [
       {
         "rel": "tm:extends",
@@ -6092,7 +6092,7 @@
     "schemaDefinitions": {
       "ToolManagement": {
         "type": "object",
-        "dov:typeRef": "nsu=http://opcfoundation.org/UA/MachineTool/;i=69",
+        "dov:typeRef": "org.opcfoundation.UA.MachineTool.ToolManagement",
         "const": {
           "NumberBased": 0,
           "GroupBased": 1,
@@ -6160,7 +6160,7 @@
       "ControlIdentifierInterpretation": {
         "dov:namespace": "http://opcfoundation.org/UA/MachineTool/",
         "title": "ToolManagement",
-        "dov:typeRef": "nsu=http://opcfoundation.org/UA/MachineTool/;i=69",
+        "dov:typeRef": "org.opcfoundation.UA.MachineTool.ToolManagement",
         "type": "integer",
         "minimum": -2147483648,
         "maximum": 2147483647,
@@ -6246,7 +6246,7 @@
         "dov:namespace": "http://opcfoundation.org/UA/MachineTool/",
         "data": {
           "title": "ToolManagement",
-          "dov:typeRef": "nsu=http://opcfoundation.org/UA/MachineTool/;i=69",
+          "dov:typeRef": "org.opcfoundation.UA.MachineTool.ToolManagement",
           "type": "integer",
           "minimum": -2147483648,
           "maximum": 2147483647
@@ -6310,7 +6310,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "MachineTool_ElementMonitoringType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/MachineTool/;i=23",
+    "dov:typeRef": "org.opcfoundation.UA.MachineTool.ElementMonitoringType",
     "links": [
       {
         "rel": "tm:extends",
@@ -6355,7 +6355,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "MachineTool_WorkingUnitMonitoringType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/MachineTool/;i=41",
+    "dov:typeRef": "org.opcfoundation.UA.MachineTool.WorkingUnitMonitoringType",
     "links": [
       {
         "rel": "tm:extends",
@@ -6381,7 +6381,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "MachineTool_EquipmentType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/MachineTool/;i=12",
+    "dov:typeRef": "org.opcfoundation.UA.MachineTool.EquipmentType",
     "links": [
       {
         "rel": "tm:extends",
@@ -6413,7 +6413,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "MachineTool_ToolListType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/MachineTool/;i=44",
+    "dov:typeRef": "org.opcfoundation.UA.MachineTool.ToolListType",
     "links": [
       {
         "rel": "tm:extends",
@@ -6463,7 +6463,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "MachineTool_MachineToolIdentificationType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/MachineTool/;i=11",
+    "dov:typeRef": "org.opcfoundation.UA.MachineTool.MachineToolIdentificationType",
     "links": [
       {
         "rel": "tm:extends",
@@ -6495,7 +6495,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "MachineTool_MachineToolType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/MachineTool/;i=13",
+    "dov:typeRef": "org.opcfoundation.UA.MachineTool.MachineToolType",
     "dov:isComposite": true,
     "links": [
       {
@@ -6558,7 +6558,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "MachineTool_MonitoringType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/MachineTool/;i=14",
+    "dov:typeRef": "org.opcfoundation.UA.MachineTool.MonitoringType",
     "links": [
       {
         "rel": "tm:extends",
@@ -6602,7 +6602,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "MachineTool_MachineOperationMonitoringType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/MachineTool/;i=26",
+    "dov:typeRef": "org.opcfoundation.UA.MachineTool.MachineOperationMonitoringType",
     "links": [
       {
         "rel": "tm:extends",
@@ -6619,7 +6619,7 @@
     "schemaDefinitions": {
       "MachineOperationMode": {
         "type": "object",
-        "dov:typeRef": "nsu=http://opcfoundation.org/UA/MachineTool/;i=65",
+        "dov:typeRef": "org.opcfoundation.UA.MachineTool.MachineOperationMode",
         "const": {
           "Manual": 0,
           "Automatic": 1,
@@ -6700,7 +6700,7 @@
       "OperationMode": {
         "dov:namespace": "http://opcfoundation.org/UA/MachineTool/",
         "title": "MachineOperationMode",
-        "dov:typeRef": "nsu=http://opcfoundation.org/UA/MachineTool/;i=65",
+        "dov:typeRef": "org.opcfoundation.UA.MachineTool.MachineOperationMode",
         "type": "integer",
         "minimum": -2147483648,
         "maximum": 2147483647,
@@ -6761,7 +6761,7 @@
         "dov:namespace": "http://opcfoundation.org/UA/MachineTool/",
         "data": {
           "title": "MachineOperationMode",
-          "dov:typeRef": "nsu=http://opcfoundation.org/UA/MachineTool/;i=65",
+          "dov:typeRef": "org.opcfoundation.UA.MachineTool.MachineOperationMode",
           "type": "integer",
           "minimum": -2147483648,
           "maximum": 2147483647
@@ -6800,7 +6800,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "MachineTool_ObligationType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/MachineTool/;i=1002",
+    "dov:typeRef": "org.opcfoundation.UA.MachineTool.ObligationType",
     "links": [
       {
         "rel": "tm:extends",
@@ -6888,7 +6888,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "MachineTool_NotificationType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/MachineTool/;i=7",
+    "dov:typeRef": "org.opcfoundation.UA.MachineTool.NotificationType",
     "links": [
       {
         "rel": "tm:extends",
@@ -6926,7 +6926,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "MachineTool_MessagesType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/MachineTool/;i=38",
+    "dov:typeRef": "org.opcfoundation.UA.MachineTool.MessagesType",
     "links": [
       {
         "rel": "tm:extends",
@@ -6952,7 +6952,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "MachineTool_PrognosisListType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/MachineTool/;i=2",
+    "dov:typeRef": "org.opcfoundation.UA.MachineTool.PrognosisListType",
     "links": [
       {
         "rel": "tm:extends",
@@ -7002,7 +7002,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "MachineTool_PrognosisType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/MachineTool/;i=3",
+    "dov:typeRef": "org.opcfoundation.UA.MachineTool.PrognosisType",
     "links": [
       {
         "rel": "tm:extends",
@@ -7048,7 +7048,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "MachineTool_ProductionType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/MachineTool/;i=21",
+    "dov:typeRef": "org.opcfoundation.UA.MachineTool.ProductionType",
     "links": [
       {
         "rel": "tm:extends",
@@ -7092,7 +7092,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "MachineTool_ProductionActiveProgramType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/MachineTool/;i=32",
+    "dov:typeRef": "org.opcfoundation.UA.MachineTool.ProductionActiveProgramType",
     "links": [
       {
         "rel": "tm:extends",
@@ -7186,7 +7186,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "MachineTool_ProductionProgramType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/MachineTool/;i=59",
+    "dov:typeRef": "org.opcfoundation.UA.MachineTool.ProductionProgramType",
     "links": [
       {
         "rel": "tm:extends",
@@ -7250,7 +7250,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "MachineTool_ProductionProgramStateMachineType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/MachineTool/;i=15",
+    "dov:typeRef": "org.opcfoundation.UA.MachineTool.ProductionProgramStateMachineType",
     "links": [
       {
         "rel": "tm:extends",
@@ -7366,7 +7366,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "MachineTool_ProductionStateMachineType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/MachineTool/;i=24",
+    "dov:typeRef": "org.opcfoundation.UA.MachineTool.ProductionStateMachineType",
     "dov:isComposite": true,
     "links": [
       {
@@ -7541,7 +7541,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "MachineTool_ProductionJobListType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/MachineTool/;i=30",
+    "dov:typeRef": "org.opcfoundation.UA.MachineTool.ProductionJobListType",
     "links": [
       {
         "rel": "tm:extends",
@@ -7567,7 +7567,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "MachineTool_ProductionStatisticsType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/MachineTool/;i=20",
+    "dov:typeRef": "org.opcfoundation.UA.MachineTool.ProductionStatisticsType",
     "links": [
       {
         "rel": "tm:extends",
@@ -7634,7 +7634,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "MachineTool_ProductionJobType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/MachineTool/;i=29",
+    "dov:typeRef": "org.opcfoundation.UA.MachineTool.ProductionJobType",
     "links": [
       {
         "rel": "tm:extends",
@@ -7855,7 +7855,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "MachineTool_ProductionJobStateMachineType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/MachineTool/;i=28",
+    "dov:typeRef": "org.opcfoundation.UA.MachineTool.ProductionJobStateMachineType",
     "links": [
       {
         "rel": "tm:extends",
@@ -7971,7 +7971,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "MachineTool_ProductionPartType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/MachineTool/;i=56",
+    "dov:typeRef": "org.opcfoundation.UA.MachineTool.ProductionPartType",
     "links": [
       {
         "rel": "tm:extends",
@@ -7988,7 +7988,7 @@
     "schemaDefinitions": {
       "PartQuality": {
         "type": "object",
-        "dov:typeRef": "nsu=http://opcfoundation.org/UA/MachineTool/;i=63",
+        "dov:typeRef": "org.opcfoundation.UA.MachineTool.PartQuality",
         "const": {
           "CapabilityUnavailable": 0,
           "Good": 1,
@@ -8021,7 +8021,7 @@
       },
       "ProcessIrregularity": {
         "type": "object",
-        "dov:typeRef": "nsu=http://opcfoundation.org/UA/MachineTool/;i=62",
+        "dov:typeRef": "org.opcfoundation.UA.MachineTool.ProcessIrregularity",
         "const": {
           "CapabilityUnavailable": 0,
           "Detected": 1,
@@ -8102,7 +8102,7 @@
       "PartQuality": {
         "dov:namespace": "http://opcfoundation.org/UA/MachineTool/",
         "title": "PartQuality",
-        "dov:typeRef": "nsu=http://opcfoundation.org/UA/MachineTool/;i=63",
+        "dov:typeRef": "org.opcfoundation.UA.MachineTool.PartQuality",
         "type": "integer",
         "minimum": -2147483648,
         "maximum": 2147483647,
@@ -8118,7 +8118,7 @@
       "ProcessIrregularity": {
         "dov:namespace": "http://opcfoundation.org/UA/MachineTool/",
         "title": "ProcessIrregularity",
-        "dov:typeRef": "nsu=http://opcfoundation.org/UA/MachineTool/;i=62",
+        "dov:typeRef": "org.opcfoundation.UA.MachineTool.ProcessIrregularity",
         "type": "integer",
         "minimum": -2147483648,
         "maximum": 2147483647,
@@ -8137,7 +8137,7 @@
         "dov:namespace": "http://opcfoundation.org/UA/MachineTool/",
         "data": {
           "title": "PartQuality",
-          "dov:typeRef": "nsu=http://opcfoundation.org/UA/MachineTool/;i=63",
+          "dov:typeRef": "org.opcfoundation.UA.MachineTool.PartQuality",
           "type": "integer",
           "minimum": -2147483648,
           "maximum": 2147483647
@@ -8154,7 +8154,7 @@
         "dov:namespace": "http://opcfoundation.org/UA/MachineTool/",
         "data": {
           "title": "ProcessIrregularity",
-          "dov:typeRef": "nsu=http://opcfoundation.org/UA/MachineTool/;i=62",
+          "dov:typeRef": "org.opcfoundation.UA.MachineTool.ProcessIrregularity",
           "type": "integer",
           "minimum": -2147483648,
           "maximum": 2147483647
@@ -8178,7 +8178,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "MachineTool_ProductionPartStateMachineType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/MachineTool/;i=40",
+    "dov:typeRef": "org.opcfoundation.UA.MachineTool.ProductionPartStateMachineType",
     "links": [
       {
         "rel": "tm:extends",
@@ -8294,7 +8294,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "Machinery_MachineIdentificationType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/Machinery/;i=1012",
+    "dov:typeRef": "org.opcfoundation.UA.Machinery.MachineIdentificationType",
     "dov:isComposite": true,
     "links": [
       {
@@ -8376,7 +8376,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "Machinery_MachineryItemIdentificationType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/Machinery/;i=1004",
+    "dov:typeRef": "org.opcfoundation.UA.Machinery.MachineryItemIdentificationType",
     "links": [
       {
         "rel": "tm:extends",
@@ -8628,7 +8628,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "DI_FunctionalGroupType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/DI/;i=1005",
+    "dov:typeRef": "org.opcfoundation.UA.DI.FunctionalGroupType",
     "links": [
       {
         "rel": "tm:extends",
@@ -8699,7 +8699,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "IA_BasicStacklightType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/IA/;i=1002",
+    "dov:typeRef": "org.opcfoundation.UA.IA.BasicStacklightType",
     "dov:isComposite": true,
     "links": [
       {
@@ -8723,7 +8723,7 @@
     "schemaDefinitions": {
       "StacklightOperationMode": {
         "type": "object",
-        "dov:typeRef": "nsu=http://opcfoundation.org/UA/IA/;i=3002",
+        "dov:typeRef": "org.opcfoundation.UA.IA.StacklightOperationMode",
         "const": {
           "Segmented": 0,
           "Levelmeter": 1,
@@ -8770,7 +8770,7 @@
         "dov:namespace": "http://opcfoundation.org/UA/IA/",
         "title": "StacklightOperationMode",
         "description": "Shows in what way (stack of individual lights, level meter, running light) the stacklight unit is used.",
-        "dov:typeRef": "nsu=http://opcfoundation.org/UA/IA/;i=3002",
+        "dov:typeRef": "org.opcfoundation.UA.IA.StacklightOperationMode",
         "type": "integer",
         "minimum": -2147483648,
         "maximum": 2147483647,
@@ -8801,7 +8801,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "IA_StackLevelType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/IA/;i=1003",
+    "dov:typeRef": "org.opcfoundation.UA.IA.StackLevelType",
     "links": [
       {
         "rel": "tm:extends",
@@ -8812,7 +8812,7 @@
     "schemaDefinitions": {
       "LevelDisplayMode": {
         "type": "object",
-        "dov:typeRef": "nsu=http://opcfoundation.org/UA/IA/;i=3003",
+        "dov:typeRef": "org.opcfoundation.UA.IA.LevelDisplayMode",
         "const": {
           "Dimmed": 0,
           "Blinking": 1,
@@ -8859,7 +8859,7 @@
         "dov:namespace": "http://opcfoundation.org/UA/IA/",
         "title": "LevelDisplayMode",
         "description": "Indicates in what way the percentual value is displayed with the stacklight.",
-        "dov:typeRef": "nsu=http://opcfoundation.org/UA/IA/;i=3003",
+        "dov:typeRef": "org.opcfoundation.UA.IA.LevelDisplayMode",
         "type": "integer",
         "minimum": -2147483648,
         "maximum": 2147483647,
@@ -8904,7 +8904,7 @@
         "data": {
           "title": "LevelDisplayMode",
           "description": "Indicates in what way the percentual value is displayed with the stacklight.",
-          "dov:typeRef": "nsu=http://opcfoundation.org/UA/IA/;i=3003",
+          "dov:typeRef": "org.opcfoundation.UA.IA.LevelDisplayMode",
           "type": "integer",
           "minimum": -2147483648,
           "maximum": 2147483647
@@ -8944,7 +8944,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "IA_StackRunningType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/IA/;i=1004",
+    "dov:typeRef": "org.opcfoundation.UA.IA.StackRunningType",
     "links": [
       {
         "rel": "tm:extends",

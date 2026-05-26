@@ -8,7 +8,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "PlasticsRubber_Extrusion_ExtrusionLine_JobGroupStatusChangedEventType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/PlasticsRubber/Extrusion/ExtrusionLine/;i=1012",
+    "dov:typeRef": "org.opcfoundation.UA.PlasticsRubber.Extrusion.ExtrusionLine.JobGroupStatusChangedEventType",
     "dov:isEvent": true,
     "links": [
       {
@@ -20,7 +20,7 @@
     "schemaDefinitions": {
       "JobStatusEnumeration": {
         "type": "object",
-        "dov:typeRef": "nsu=http://opcfoundation.org/UA/PlasticsRubber/GeneralTypes/;i=3017",
+        "dov:typeRef": "org.opcfoundation.UA.PlasticsRubber.GeneralTypes.JobStatusEnumeration",
         "const": {
           "OTHER": 0,
           "TRANSFERRED_ASSIGNED": 1,
@@ -101,7 +101,7 @@
       "ActiveStatus": {
         "dov:namespace": "http://opcfoundation.org/UA/PlasticsRubber/Extrusion/ExtrusionLine/",
         "title": "JobStatusEnumeration",
-        "dov:typeRef": "nsu=http://opcfoundation.org/UA/PlasticsRubber/GeneralTypes/;i=3017",
+        "dov:typeRef": "org.opcfoundation.UA.PlasticsRubber.GeneralTypes.JobStatusEnumeration",
         "type": "integer",
         "minimum": -2147483648,
         "maximum": 2147483647,
@@ -129,7 +129,7 @@
       "LastStatus": {
         "dov:namespace": "http://opcfoundation.org/UA/PlasticsRubber/Extrusion/ExtrusionLine/",
         "title": "JobStatusEnumeration",
-        "dov:typeRef": "nsu=http://opcfoundation.org/UA/PlasticsRubber/GeneralTypes/;i=3017",
+        "dov:typeRef": "org.opcfoundation.UA.PlasticsRubber.GeneralTypes.JobStatusEnumeration",
         "type": "integer",
         "minimum": -2147483648,
         "maximum": 2147483647,
@@ -155,7 +155,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "PlasticsRubber_Extrusion_ExtrusionLine_JobStatusChangedEventType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/PlasticsRubber/Extrusion/ExtrusionLine/;i=1008",
+    "dov:typeRef": "org.opcfoundation.UA.PlasticsRubber.Extrusion.ExtrusionLine.JobStatusChangedEventType",
     "dov:isEvent": true,
     "links": [
       {
@@ -167,7 +167,7 @@
     "schemaDefinitions": {
       "JobStatusEnumeration": {
         "type": "object",
-        "dov:typeRef": "nsu=http://opcfoundation.org/UA/PlasticsRubber/GeneralTypes/;i=3017",
+        "dov:typeRef": "org.opcfoundation.UA.PlasticsRubber.GeneralTypes.JobStatusEnumeration",
         "const": {
           "OTHER": 0,
           "TRANSFERRED_ASSIGNED": 1,
@@ -248,7 +248,7 @@
       "ActiveStatus": {
         "dov:namespace": "http://opcfoundation.org/UA/PlasticsRubber/Extrusion/ExtrusionLine/",
         "title": "JobStatusEnumeration",
-        "dov:typeRef": "nsu=http://opcfoundation.org/UA/PlasticsRubber/GeneralTypes/;i=3017",
+        "dov:typeRef": "org.opcfoundation.UA.PlasticsRubber.GeneralTypes.JobStatusEnumeration",
         "type": "integer",
         "minimum": -2147483648,
         "maximum": 2147483647,
@@ -288,7 +288,7 @@
       "LastStatus": {
         "dov:namespace": "http://opcfoundation.org/UA/PlasticsRubber/Extrusion/ExtrusionLine/",
         "title": "JobStatusEnumeration",
-        "dov:typeRef": "nsu=http://opcfoundation.org/UA/PlasticsRubber/GeneralTypes/;i=3017",
+        "dov:typeRef": "org.opcfoundation.UA.PlasticsRubber.GeneralTypes.JobStatusEnumeration",
         "type": "integer",
         "minimum": -2147483648,
         "maximum": 2147483647,
@@ -314,7 +314,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "PlasticsRubber_Extrusion_ExtrusionLine_LotFinishedEventType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/PlasticsRubber/Extrusion/ExtrusionLine/;i=1010",
+    "dov:typeRef": "org.opcfoundation.UA.PlasticsRubber.Extrusion.ExtrusionLine.LotFinishedEventType",
     "dov:isEvent": true,
     "links": [
       {
@@ -386,7 +386,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "PlasticsRubber_Extrusion_ExtrusionLine_RequestAddMaterialEventType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/PlasticsRubber/Extrusion/ExtrusionLine/;i=1006",
+    "dov:typeRef": "org.opcfoundation.UA.PlasticsRubber.Extrusion.ExtrusionLine.RequestAddMaterialEventType",
     "dov:isEvent": true,
     "links": [
       {
@@ -442,7 +442,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "PlasticsRubber_Extrusion_ExtrusionLine_UnitFinishedEventType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/PlasticsRubber/Extrusion/ExtrusionLine/;i=1009",
+    "dov:typeRef": "org.opcfoundation.UA.PlasticsRubber.Extrusion.ExtrusionLine.UnitFinishedEventType",
     "dov:isEvent": true,
     "links": [
       {
@@ -526,7 +526,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "PlasticsRubber_Extrusion_ExtrusionLine_ExtrusionLine_InterfaceType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/PlasticsRubber/Extrusion/ExtrusionLine/;i=1003",
+    "dov:typeRef": "org.opcfoundation.UA.PlasticsRubber.Extrusion.ExtrusionLine.ExtrusionLine_InterfaceType",
     "dov:isComposite": true,
     "links": [
       {
@@ -592,7 +592,7 @@
     "schemaDefinitions": {
       "ProductionStatusEnumeration": {
         "type": "object",
-        "dov:typeRef": "nsu=http://opcfoundation.org/UA/PlasticsRubber/GeneralTypes/;i=3016",
+        "dov:typeRef": "org.opcfoundation.UA.PlasticsRubber.GeneralTypes.ProductionStatusEnumeration",
         "const": {
           "OTHER": 0,
           "NO_PRODUCTION": 1,
@@ -657,7 +657,7 @@
         "dov:namespace": "http://opcfoundation.org/UA/PlasticsRubber/Extrusion/ExtrusionLine/",
         "input": {
           "type": "object",
-          "dov:typeRef": "nsu=http://opcfoundation.org/UA/PlasticsRubber/Extrusion/ExtrusionLine/;i=6057",
+          "dov:typeRef": "org.opcfoundation.UA.InputArguments",
           "required": [ "Id", "Message", "Message2" ],
           "properties": {
             "Id": {
@@ -689,7 +689,7 @@
         "items": {
           "title": "ConfigurationParameterType",
           "type": "object",
-          "dov:typeRef": "nsu=http://opcfoundation.org/UA/PlasticsRubber/GeneralTypes/;i=3024",
+          "dov:typeRef": "org.opcfoundation.UA.PlasticsRubber.GeneralTypes.ConfigurationParameterType",
           "required": [ "Id", "Description", "DefaultValue", "Unit" ],
           "properties": {
             "Id": {
@@ -710,7 +710,7 @@
               "title": "EUInformation",
               "description": "Engineering unit of the parameter. If the Type of Defaultvalue is not a Number, then the Unit shall be empty",
               "type": "object",
-              "dov:typeRef": "nsu=http://opcfoundation.org/UA/;i=887",
+              "dov:typeRef": "org.opcfoundation.UA.EUInformation",
               "required": [ "NamespaceUri", "UnitId", "DisplayName", "Description" ],
               "properties": {
                 "NamespaceUri": {
@@ -760,7 +760,7 @@
       "LineStatus": {
         "dov:namespace": "http://opcfoundation.org/UA/PlasticsRubber/Extrusion/ExtrusionLine/",
         "title": "ProductionStatusEnumeration",
-        "dov:typeRef": "nsu=http://opcfoundation.org/UA/PlasticsRubber/GeneralTypes/;i=3016",
+        "dov:typeRef": "org.opcfoundation.UA.PlasticsRubber.GeneralTypes.ProductionStatusEnumeration",
         "type": "integer",
         "minimum": -2147483648,
         "maximum": 2147483647,
@@ -786,7 +786,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "PlasticsRubber_Extrusion_ExtrusionLine_JobGroupsType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/PlasticsRubber/Extrusion/ExtrusionLine/;i=1013",
+    "dov:typeRef": "org.opcfoundation.UA.PlasticsRubber.Extrusion.ExtrusionLine.JobGroupsType",
     "links": [
       {
         "rel": "tm:extends",
@@ -814,7 +814,7 @@
         "dov:namespace": "http://opcfoundation.org/UA/PlasticsRubber/Extrusion/ExtrusionLine/",
         "input": {
           "type": "object",
-          "dov:typeRef": "nsu=http://opcfoundation.org/UA/PlasticsRubber/Extrusion/ExtrusionLine/;i=6217",
+          "dov:typeRef": "org.opcfoundation.UA.InputArguments",
           "required": [ "Id", "Description", "EquipmentDescription", "ProductionDatasetName", "MaterialMapping", "Priority", "PlannedStart", "PlannedProductionTime", "PlannedSetUpTime", "LatestEnd" ],
           "properties": {
             "Id": {
@@ -834,7 +834,7 @@
               "items": {
                 "title": "MaterialMappingType",
                 "type": "object",
-                "dov:typeRef": "nsu=http://opcfoundation.org/UA/PlasticsRubber/Extrusion/ExtrusionLine/;i=3003",
+                "dov:typeRef": "org.opcfoundation.UA.PlasticsRubber.Extrusion.ExtrusionLine.MaterialMappingType",
                 "required": [ "MaterialId", "MaterialLot", "HopperId" ],
                 "properties": {
                   "MaterialId": {
@@ -874,7 +874,7 @@
         },
         "output": {
           "type": "object",
-          "dov:typeRef": "nsu=http://opcfoundation.org/UA/PlasticsRubber/Extrusion/ExtrusionLine/;i=6218",
+          "dov:typeRef": "org.opcfoundation.UA.OutputArguments",
           "required": [ "JobGroupNodeId" ],
           "properties": {
             "JobGroupNodeId": {
@@ -894,7 +894,7 @@
         "dov:namespace": "http://opcfoundation.org/UA/PlasticsRubber/Extrusion/ExtrusionLine/",
         "input": {
           "type": "object",
-          "dov:typeRef": "nsu=http://opcfoundation.org/UA/PlasticsRubber/Extrusion/ExtrusionLine/;i=6216",
+          "dov:typeRef": "org.opcfoundation.UA.InputArguments",
           "required": [ "Id" ],
           "properties": {
             "Id": {
@@ -914,7 +914,7 @@
         "dov:namespace": "http://opcfoundation.org/UA/PlasticsRubber/Extrusion/ExtrusionLine/",
         "input": {
           "type": "object",
-          "dov:typeRef": "nsu=http://opcfoundation.org/UA/PlasticsRubber/Extrusion/ExtrusionLine/;i=6215",
+          "dov:typeRef": "org.opcfoundation.UA.InputArguments",
           "required": [ "Id" ],
           "properties": {
             "Id": {
@@ -934,7 +934,7 @@
         "dov:namespace": "http://opcfoundation.org/UA/PlasticsRubber/Extrusion/ExtrusionLine/",
         "input": {
           "type": "object",
-          "dov:typeRef": "nsu=http://opcfoundation.org/UA/PlasticsRubber/Extrusion/ExtrusionLine/;i=6214",
+          "dov:typeRef": "org.opcfoundation.UA.InputArguments",
           "required": [ "Id" ],
           "properties": {
             "Id": {
@@ -954,7 +954,7 @@
         "dov:namespace": "http://opcfoundation.org/UA/PlasticsRubber/Extrusion/ExtrusionLine/",
         "input": {
           "type": "object",
-          "dov:typeRef": "nsu=http://opcfoundation.org/UA/PlasticsRubber/Extrusion/ExtrusionLine/;i=6213",
+          "dov:typeRef": "org.opcfoundation.UA.InputArguments",
           "required": [ "Id" ],
           "properties": {
             "Id": {
@@ -996,7 +996,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "PlasticsRubber_Extrusion_ExtrusionLine_JobGroupType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/PlasticsRubber/Extrusion/ExtrusionLine/;i=1011",
+    "dov:typeRef": "org.opcfoundation.UA.PlasticsRubber.Extrusion.ExtrusionLine.JobGroupType",
     "links": [
       {
         "rel": "tm:extends",
@@ -1013,7 +1013,7 @@
     "schemaDefinitions": {
       "JobStatusEnumeration": {
         "type": "object",
-        "dov:typeRef": "nsu=http://opcfoundation.org/UA/PlasticsRubber/GeneralTypes/;i=3017",
+        "dov:typeRef": "org.opcfoundation.UA.PlasticsRubber.GeneralTypes.JobStatusEnumeration",
         "const": {
           "OTHER": 0,
           "TRANSFERRED_ASSIGNED": 1,
@@ -1098,7 +1098,7 @@
         "dov:namespace": "http://opcfoundation.org/UA/PlasticsRubber/Extrusion/ExtrusionLine/",
         "input": {
           "type": "object",
-          "dov:typeRef": "nsu=http://opcfoundation.org/UA/PlasticsRubber/Extrusion/ExtrusionLine/;i=6171",
+          "dov:typeRef": "org.opcfoundation.UA.InputArguments",
           "required": [ "Id", "Description", "CustomerName", "ProductName", "ProductDescription", "Strand", "Sequence", "ParameterSetting", "SetOutput", "LotSize" ],
           "properties": {
             "Id": {
@@ -1131,7 +1131,7 @@
               "items": {
                 "title": "ParameterSettingType",
                 "type": "object",
-                "dov:typeRef": "nsu=http://opcfoundation.org/UA/PlasticsRubber/GeneralTypes/;i=3026",
+                "dov:typeRef": "org.opcfoundation.UA.PlasticsRubber.GeneralTypes.ParameterSettingType",
                 "required": [ "Id", "Value" ],
                 "properties": {
                   "Id": {
@@ -1160,7 +1160,7 @@
         },
         "output": {
           "type": "object",
-          "dov:typeRef": "nsu=http://opcfoundation.org/UA/PlasticsRubber/Extrusion/ExtrusionLine/;i=6173",
+          "dov:typeRef": "org.opcfoundation.UA.OutputArguments",
           "required": [ "JobNodeId" ],
           "properties": {
             "JobNodeId": {
@@ -1180,7 +1180,7 @@
         "dov:namespace": "http://opcfoundation.org/UA/PlasticsRubber/Extrusion/ExtrusionLine/",
         "input": {
           "type": "object",
-          "dov:typeRef": "nsu=http://opcfoundation.org/UA/PlasticsRubber/Extrusion/ExtrusionLine/;i=6177",
+          "dov:typeRef": "org.opcfoundation.UA.InputArguments",
           "required": [ "Id" ],
           "properties": {
             "Id": {
@@ -1200,7 +1200,7 @@
         "dov:namespace": "http://opcfoundation.org/UA/PlasticsRubber/Extrusion/ExtrusionLine/",
         "input": {
           "type": "object",
-          "dov:typeRef": "nsu=http://opcfoundation.org/UA/PlasticsRubber/Extrusion/ExtrusionLine/;i=6176",
+          "dov:typeRef": "org.opcfoundation.UA.InputArguments",
           "required": [ "Id" ],
           "properties": {
             "Id": {
@@ -1220,7 +1220,7 @@
         "dov:namespace": "http://opcfoundation.org/UA/PlasticsRubber/Extrusion/ExtrusionLine/",
         "input": {
           "type": "object",
-          "dov:typeRef": "nsu=http://opcfoundation.org/UA/PlasticsRubber/Extrusion/ExtrusionLine/;i=6174",
+          "dov:typeRef": "org.opcfoundation.UA.InputArguments",
           "required": [ "Id" ],
           "properties": {
             "Id": {
@@ -1240,7 +1240,7 @@
         "dov:namespace": "http://opcfoundation.org/UA/PlasticsRubber/Extrusion/ExtrusionLine/",
         "input": {
           "type": "object",
-          "dov:typeRef": "nsu=http://opcfoundation.org/UA/PlasticsRubber/Extrusion/ExtrusionLine/;i=6175",
+          "dov:typeRef": "org.opcfoundation.UA.InputArguments",
           "required": [ "Id" ],
           "properties": {
             "Id": {
@@ -1264,7 +1264,7 @@
         "items": {
           "title": "ConfigurationParameterType",
           "type": "object",
-          "dov:typeRef": "nsu=http://opcfoundation.org/UA/PlasticsRubber/GeneralTypes/;i=3024",
+          "dov:typeRef": "org.opcfoundation.UA.PlasticsRubber.GeneralTypes.ConfigurationParameterType",
           "required": [ "Id", "Description", "DefaultValue", "Unit" ],
           "properties": {
             "Id": {
@@ -1285,7 +1285,7 @@
               "title": "EUInformation",
               "description": "Engineering unit of the parameter. If the Type of Defaultvalue is not a Number, then the Unit shall be empty",
               "type": "object",
-              "dov:typeRef": "nsu=http://opcfoundation.org/UA/;i=887",
+              "dov:typeRef": "org.opcfoundation.UA.EUInformation",
               "required": [ "NamespaceUri", "UnitId", "DisplayName", "Description" ],
               "properties": {
                 "NamespaceUri": {
@@ -1398,7 +1398,7 @@
         "items": {
           "title": "MaterialMappingType",
           "type": "object",
-          "dov:typeRef": "nsu=http://opcfoundation.org/UA/PlasticsRubber/Extrusion/ExtrusionLine/;i=3003",
+          "dov:typeRef": "org.opcfoundation.UA.PlasticsRubber.Extrusion.ExtrusionLine.MaterialMappingType",
           "required": [ "MaterialId", "MaterialLot", "HopperId" ],
           "properties": {
             "MaterialId": {
@@ -1514,7 +1514,7 @@
       "Status": {
         "dov:namespace": "http://opcfoundation.org/UA/PlasticsRubber/Extrusion/ExtrusionLine/",
         "title": "JobStatusEnumeration",
-        "dov:typeRef": "nsu=http://opcfoundation.org/UA/PlasticsRubber/GeneralTypes/;i=3017",
+        "dov:typeRef": "org.opcfoundation.UA.PlasticsRubber.GeneralTypes.JobStatusEnumeration",
         "type": "integer",
         "minimum": -2147483648,
         "maximum": 2147483647,
@@ -1585,7 +1585,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "PlasticsRubber_Extrusion_ExtrusionLine_JobType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/PlasticsRubber/Extrusion/ExtrusionLine/;i=1007",
+    "dov:typeRef": "org.opcfoundation.UA.PlasticsRubber.Extrusion.ExtrusionLine.JobType",
     "links": [
       {
         "rel": "tm:extends",
@@ -1596,7 +1596,7 @@
     "schemaDefinitions": {
       "JobStatusEnumeration": {
         "type": "object",
-        "dov:typeRef": "nsu=http://opcfoundation.org/UA/PlasticsRubber/GeneralTypes/;i=3017",
+        "dov:typeRef": "org.opcfoundation.UA.PlasticsRubber.GeneralTypes.JobStatusEnumeration",
         "const": {
           "OTHER": 0,
           "TRANSFERRED_ASSIGNED": 1,
@@ -1867,7 +1867,7 @@
         "items": {
           "title": "ParameterSettingType",
           "type": "object",
-          "dov:typeRef": "nsu=http://opcfoundation.org/UA/PlasticsRubber/GeneralTypes/;i=3026",
+          "dov:typeRef": "org.opcfoundation.UA.PlasticsRubber.GeneralTypes.ParameterSettingType",
           "required": [ "Id", "Value" ],
           "properties": {
             "Id": {
@@ -1959,7 +1959,7 @@
       "Status": {
         "dov:namespace": "http://opcfoundation.org/UA/PlasticsRubber/Extrusion/ExtrusionLine/",
         "title": "JobStatusEnumeration",
-        "dov:typeRef": "nsu=http://opcfoundation.org/UA/PlasticsRubber/GeneralTypes/;i=3017",
+        "dov:typeRef": "org.opcfoundation.UA.PlasticsRubber.GeneralTypes.JobStatusEnumeration",
         "type": "integer",
         "minimum": -2147483648,
         "maximum": 2147483647,
@@ -2174,7 +2174,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "PlasticsRubber_Extrusion_ExtrusionLine_ProductionParametersType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/PlasticsRubber/Extrusion/ExtrusionLine/;i=1002",
+    "dov:typeRef": "org.opcfoundation.UA.PlasticsRubber.Extrusion.ExtrusionLine.ProductionParametersType",
     "links": [
       {
         "rel": "tm:extends",
@@ -2342,7 +2342,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "OpcUaCore_BaseEventType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/;i=2041",
+    "dov:typeRef": "org.opcfoundation.UA.BaseEventType",
     "links": [
       {
         "rel": "tm:extends",
@@ -2438,7 +2438,7 @@
       "LocalTime": {
         "title": "TimeZoneDataType",
         "type": "object",
-        "dov:typeRef": "nsu=http://opcfoundation.org/UA/;i=8912",
+        "dov:typeRef": "org.opcfoundation.UA.TimeZoneDataType",
         "required": [ "Offset", "DaylightSavingInOffset" ],
         "properties": {
           "Offset": {
@@ -2542,7 +2542,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "OpcUaCore_BaseObjectType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/;i=58",
+    "dov:typeRef": "org.opcfoundation.UA.BaseObjectType",
     "links": [
     ],
     "schemaDefinitions": {
@@ -2563,7 +2563,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "OpcUaCore_FolderType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/;i=61",
+    "dov:typeRef": "org.opcfoundation.UA.FolderType",
     "links": [
       {
         "rel": "tm:extends",
@@ -2589,7 +2589,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "OpcUaCore_TemporaryFileTransferType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/;i=15744",
+    "dov:typeRef": "org.opcfoundation.UA.TemporaryFileTransferType",
     "dov:isComposite": true,
     "links": [
       {
@@ -2617,7 +2617,7 @@
       "CloseAndCommit": {
         "input": {
           "type": "object",
-          "dov:typeRef": "nsu=http://opcfoundation.org/UA/;i=15752",
+          "dov:typeRef": "org.opcfoundation.UA.InputArguments",
           "required": [ "FileHandle" ],
           "properties": {
             "FileHandle": {
@@ -2629,7 +2629,7 @@
         },
         "output": {
           "type": "object",
-          "dov:typeRef": "nsu=http://opcfoundation.org/UA/;i=15753",
+          "dov:typeRef": "org.opcfoundation.UA.OutputArguments",
           "required": [ "CompletionStateMachine" ],
           "properties": {
             "CompletionStateMachine": {
@@ -2648,7 +2648,7 @@
       "GenerateFileForRead": {
         "input": {
           "type": "object",
-          "dov:typeRef": "nsu=http://opcfoundation.org/UA/;i=15747",
+          "dov:typeRef": "org.opcfoundation.UA.InputArguments",
           "required": [ "GenerateOptions" ],
           "properties": {
             "GenerateOptions": {
@@ -2658,7 +2658,7 @@
         },
         "output": {
           "type": "object",
-          "dov:typeRef": "nsu=http://opcfoundation.org/UA/;i=15748",
+          "dov:typeRef": "org.opcfoundation.UA.OutputArguments",
           "required": [ "FileNodeId", "FileHandle", "CompletionStateMachine" ],
           "properties": {
             "FileNodeId": {
@@ -2685,7 +2685,7 @@
       "GenerateFileForWrite": {
         "input": {
           "type": "object",
-          "dov:typeRef": "nsu=http://opcfoundation.org/UA/;i=16359",
+          "dov:typeRef": "org.opcfoundation.UA.InputArguments",
           "required": [ "GenerateOptions" ],
           "properties": {
             "GenerateOptions": {
@@ -2695,7 +2695,7 @@
         },
         "output": {
           "type": "object",
-          "dov:typeRef": "nsu=http://opcfoundation.org/UA/;i=15750",
+          "dov:typeRef": "org.opcfoundation.UA.OutputArguments",
           "required": [ "FileNodeId", "FileHandle" ],
           "properties": {
             "FileNodeId": {
@@ -2743,7 +2743,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "OpcUaCore_FileTransferStateMachineType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/;i=15803",
+    "dov:typeRef": "org.opcfoundation.UA.FileTransferStateMachineType",
     "links": [
       {
         "rel": "tm:extends",
@@ -2862,7 +2862,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "OpcUaCore_FiniteStateMachineType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/;i=2771",
+    "dov:typeRef": "org.opcfoundation.UA.FiniteStateMachineType",
     "links": [
       {
         "rel": "tm:extends",
@@ -3004,7 +3004,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "OpcUaCore_StateMachineType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/;i=2299",
+    "dov:typeRef": "org.opcfoundation.UA.StateMachineType",
     "dov:isComposite": true,
     "links": [
       {
@@ -3089,7 +3089,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "OpcUaCore_InitialStateType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/;i=2309",
+    "dov:typeRef": "org.opcfoundation.UA.InitialStateType",
     "links": [
       {
         "rel": "tm:extends",
@@ -3115,7 +3115,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "OpcUaCore_StateType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/;i=2307",
+    "dov:typeRef": "org.opcfoundation.UA.StateType",
     "links": [
       {
         "rel": "tm:extends",
@@ -3161,7 +3161,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "OpcUaCore_TransitionType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/;i=2310",
+    "dov:typeRef": "org.opcfoundation.UA.TransitionType",
     "links": [
       {
         "rel": "tm:extends",
@@ -3207,7 +3207,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "PlasticsRubber_GeneralTypes_MachineConfigurationType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/PlasticsRubber/GeneralTypes/;i=1016",
+    "dov:typeRef": "org.opcfoundation.UA.PlasticsRubber.GeneralTypes.MachineConfigurationType",
     "dov:isComposite": true,
     "links": [
       {
@@ -3236,7 +3236,7 @@
         "description": "Method for retrieving a screenshot of the control system with the currently shown contents",
         "input": {
           "type": "object",
-          "dov:typeRef": "nsu=http://opcfoundation.org/UA/PlasticsRubber/GeneralTypes/;i=6191",
+          "dov:typeRef": "org.opcfoundation.UA.InputArguments",
           "required": [ "VisualisationUnit" ],
           "properties": {
             "VisualisationUnit": {
@@ -3248,7 +3248,7 @@
         },
         "output": {
           "type": "object",
-          "dov:typeRef": "nsu=http://opcfoundation.org/UA/PlasticsRubber/GeneralTypes/;i=6192",
+          "dov:typeRef": "org.opcfoundation.UA.OutputArguments",
           "required": [ "Page" ],
           "properties": {
             "Page": {
@@ -3270,7 +3270,7 @@
         "description": "Method for retrieving the image of a page of the control system",
         "input": {
           "type": "object",
-          "dov:typeRef": "nsu=http://opcfoundation.org/UA/PlasticsRubber/GeneralTypes/;i=6193",
+          "dov:typeRef": "org.opcfoundation.UA.InputArguments",
           "required": [ "Id" ],
           "properties": {
             "Id": {
@@ -3280,7 +3280,7 @@
         },
         "output": {
           "type": "object",
-          "dov:typeRef": "nsu=http://opcfoundation.org/UA/PlasticsRubber/GeneralTypes/;i=6194",
+          "dov:typeRef": "org.opcfoundation.UA.OutputArguments",
           "required": [ "Page" ],
           "properties": {
             "Page": {
@@ -3302,7 +3302,7 @@
         "description": "Method for setting the server time together with TimeZoneOffset",
         "input": {
           "type": "object",
-          "dov:typeRef": "nsu=http://opcfoundation.org/UA/PlasticsRubber/GeneralTypes/;i=6198",
+          "dov:typeRef": "org.opcfoundation.UA.InputArguments",
           "required": [ "DateTime", "TimeZoneOffset" ],
           "properties": {
             "DateTime": {
@@ -3312,7 +3312,7 @@
             "TimeZoneOffset": {
               "title": "TimeZoneDataType",
               "type": "object",
-              "dov:typeRef": "nsu=http://opcfoundation.org/UA/;i=8912",
+              "dov:typeRef": "org.opcfoundation.UA.TimeZoneDataType",
               "required": [ "Offset", "DaylightSavingInOffset" ],
               "properties": {
                 "Offset": {
@@ -3363,7 +3363,7 @@
           "title": "PageEntryDataType",
           "description": "Information on a page that is implemented in the machine control system and shown on the screen of the machine",
           "type": "object",
-          "dov:typeRef": "nsu=http://opcfoundation.org/UA/PlasticsRubber/GeneralTypes/;i=3014",
+          "dov:typeRef": "org.opcfoundation.UA.PlasticsRubber.GeneralTypes.PageEntryDataType",
           "required": [ "Id", "Title" ],
           "properties": {
             "Id": {
@@ -3390,7 +3390,7 @@
         "title": "TimeZoneDataType",
         "description": "Difference of the local time to Coordinated Universal Time (UTC) given by the machine operator or OPC client",
         "type": "object",
-        "dov:typeRef": "nsu=http://opcfoundation.org/UA/;i=8912",
+        "dov:typeRef": "org.opcfoundation.UA.TimeZoneDataType",
         "required": [ "Offset", "DaylightSavingInOffset" ],
         "properties": {
           "Offset": {
@@ -3447,7 +3447,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "PlasticsRubber_GeneralTypes_MachineInformationType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/PlasticsRubber/GeneralTypes/;i=1009",
+    "dov:typeRef": "org.opcfoundation.UA.PlasticsRubber.GeneralTypes.MachineInformationType",
     "dov:isComposite": true,
     "links": [
       {
@@ -3459,7 +3459,7 @@
     "schemaDefinitions": {
       "LogbookEventsEnumeration": {
         "type": "object",
-        "dov:typeRef": "nsu=http://opcfoundation.org/UA/PlasticsRubber/GeneralTypes/;i=3009",
+        "dov:typeRef": "org.opcfoundation.UA.PlasticsRubber.GeneralTypes.LogbookEventsEnumeration",
         "const": {
           "PARAMETER_CHANGE": 0,
           "USER": 1,
@@ -3603,7 +3603,7 @@
         "type": "array",
         "items": {
           "title": "LogbookEventsEnumeration",
-          "dov:typeRef": "nsu=http://opcfoundation.org/UA/PlasticsRubber/GeneralTypes/;i=3009",
+          "dov:typeRef": "org.opcfoundation.UA.PlasticsRubber.GeneralTypes.LogbookEventsEnumeration",
           "type": "integer",
           "minimum": -2147483648,
           "maximum": 2147483647
@@ -3630,7 +3630,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "PlasticsRubber_GeneralTypes_MachineMESConfigurationType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/PlasticsRubber/GeneralTypes/;i=1018",
+    "dov:typeRef": "org.opcfoundation.UA.PlasticsRubber.GeneralTypes.MachineMESConfigurationType",
     "dov:isComposite": true,
     "links": [
       {
@@ -3682,7 +3682,7 @@
           "title": "StandstillReasonType",
           "description": "Description of a standstill reason",
           "type": "object",
-          "dov:typeRef": "nsu=http://opcfoundation.org/UA/PlasticsRubber/GeneralTypes/;i=3015",
+          "dov:typeRef": "org.opcfoundation.UA.PlasticsRubber.GeneralTypes.StandstillReasonType",
           "required": [ "Id", "Text", "LockedByMES" ],
           "properties": {
             "Id": {
@@ -3744,7 +3744,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "PlasticsRubber_GeneralTypes_MaterialListType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/PlasticsRubber/GeneralTypes/;i=1059",
+    "dov:typeRef": "org.opcfoundation.UA.PlasticsRubber.GeneralTypes.MaterialListType",
     "dov:isComposite": true,
     "links": [
       {
@@ -3773,7 +3773,7 @@
         "dov:namespace": "http://opcfoundation.org/UA/PlasticsRubber/GeneralTypes/",
         "input": {
           "type": "object",
-          "dov:typeRef": "nsu=http://opcfoundation.org/UA/PlasticsRubber/GeneralTypes/;i=6100",
+          "dov:typeRef": "org.opcfoundation.UA.InputArguments",
           "required": [ "Id", "Name", "Density" ],
           "properties": {
             "Id": {
@@ -3801,7 +3801,7 @@
         "dov:namespace": "http://opcfoundation.org/UA/PlasticsRubber/GeneralTypes/",
         "input": {
           "type": "object",
-          "dov:typeRef": "nsu=http://opcfoundation.org/UA/PlasticsRubber/GeneralTypes/;i=6307",
+          "dov:typeRef": "org.opcfoundation.UA.InputArguments",
           "required": [ "Id" ],
           "properties": {
             "Id": {
@@ -3823,7 +3823,7 @@
         "dov:namespace": "http://opcfoundation.org/UA/PlasticsRubber/GeneralTypes/",
         "title": "EUInformation",
         "type": "object",
-        "dov:typeRef": "nsu=http://opcfoundation.org/UA/;i=887",
+        "dov:typeRef": "org.opcfoundation.UA.EUInformation",
         "required": [ "NamespaceUri", "UnitId", "DisplayName", "Description" ],
         "properties": {
           "NamespaceUri": {
@@ -3874,7 +3874,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "PlasticsRubber_GeneralTypes_MaterialType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/PlasticsRubber/GeneralTypes/;i=1002",
+    "dov:typeRef": "org.opcfoundation.UA.PlasticsRubber.GeneralTypes.MaterialType",
     "links": [
       {
         "rel": "tm:extends",
@@ -3965,7 +3965,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "PlasticsRubber_GeneralTypes_MESMessageType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/PlasticsRubber/GeneralTypes/;i=1051",
+    "dov:typeRef": "org.opcfoundation.UA.PlasticsRubber.GeneralTypes.MESMessageType",
     "links": [
       {
         "rel": "tm:extends",
@@ -4038,7 +4038,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "PlasticsRubber_GeneralTypes_ProductionDatasetManagementType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/PlasticsRubber/GeneralTypes/;i=1008",
+    "dov:typeRef": "org.opcfoundation.UA.PlasticsRubber.GeneralTypes.ProductionDatasetManagementType",
     "dov:isComposite": true,
     "links": [
       {
@@ -4079,7 +4079,7 @@
         "description": "This Method allows reading the description of a production dataset during the file transfer from the server to the client with ProductionDatasetTransfer",
         "input": {
           "type": "object",
-          "dov:typeRef": "nsu=http://opcfoundation.org/UA/PlasticsRubber/GeneralTypes/;i=6283",
+          "dov:typeRef": "org.opcfoundation.UA.InputArguments",
           "required": [ "fileHandle" ],
           "properties": {
             "fileHandle": {
@@ -4091,14 +4091,14 @@
         },
         "output": {
           "type": "object",
-          "dov:typeRef": "nsu=http://opcfoundation.org/UA/PlasticsRubber/GeneralTypes/;i=6284",
+          "dov:typeRef": "org.opcfoundation.UA.OutputArguments",
           "required": [ "Information" ],
           "properties": {
             "Information": {
               "title": "ProductionDatasetInformationType",
               "description": "Information on a production dataset",
               "type": "object",
-              "dov:typeRef": "nsu=http://opcfoundation.org/UA/PlasticsRubber/GeneralTypes/;i=3006",
+              "dov:typeRef": "org.opcfoundation.UA.PlasticsRubber.GeneralTypes.ProductionDatasetInformationType",
               "required": [ "Name", "Description", "MESId", "CreationTimestamp", "LastModificationTimestamp", "LastSaveTimestamp", "UserName", "Components", "Manufacturer", "SerialNumber", "Model", "ControllerName", "UserMachineName", "LocationName", "ProductName", "MouldId", "NumCavities" ],
               "properties": {
                 "Name": {
@@ -4199,7 +4199,7 @@
         "description": "This Method allows sending of the description of a production dataset during the file transfer from the client to the server with ProductionDatasetTransfer",
         "input": {
           "type": "object",
-          "dov:typeRef": "nsu=http://opcfoundation.org/UA/PlasticsRubber/GeneralTypes/;i=6285",
+          "dov:typeRef": "org.opcfoundation.UA.InputArguments",
           "required": [ "fileHandle", "Information" ],
           "properties": {
             "fileHandle": {
@@ -4211,7 +4211,7 @@
               "title": "ProductionDatasetInformationType",
               "description": "Information on a production dataset",
               "type": "object",
-              "dov:typeRef": "nsu=http://opcfoundation.org/UA/PlasticsRubber/GeneralTypes/;i=3006",
+              "dov:typeRef": "org.opcfoundation.UA.PlasticsRubber.GeneralTypes.ProductionDatasetInformationType",
               "required": [ "Name", "Description", "MESId", "CreationTimestamp", "LastModificationTimestamp", "LastSaveTimestamp", "UserName", "Components", "Manufacturer", "SerialNumber", "Model", "ControllerName", "UserMachineName", "LocationName", "ProductName", "MouldId", "NumCavities" ],
               "properties": {
                 "Name": {
@@ -4322,7 +4322,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "PlasticsRubber_GeneralTypes_ProductionDatasetStatusType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/PlasticsRubber/GeneralTypes/;i=1039",
+    "dov:typeRef": "org.opcfoundation.UA.PlasticsRubber.GeneralTypes.ProductionDatasetStatusType",
     "links": [
       {
         "rel": "tm:extends",
@@ -4350,7 +4350,7 @@
         "description": "Loads a production dataset from the file system of the machine to the control of the machine",
         "input": {
           "type": "object",
-          "dov:typeRef": "nsu=http://opcfoundation.org/UA/PlasticsRubber/GeneralTypes/;i=6275",
+          "dov:typeRef": "org.opcfoundation.UA.InputArguments",
           "required": [ "Name", "Components" ],
           "properties": {
             "Name": {
@@ -4379,7 +4379,7 @@
         "description": "Stores a production dataset from the control of the machine to the file system of the machine",
         "input": {
           "type": "object",
-          "dov:typeRef": "nsu=http://opcfoundation.org/UA/PlasticsRubber/GeneralTypes/;i=6187",
+          "dov:typeRef": "org.opcfoundation.UA.InputArguments",
           "required": [ "Name" ],
           "properties": {
             "Name": {
@@ -4420,7 +4420,7 @@
         "title": "ProductionDatasetInformationType",
         "description": "Information on a production dataset",
         "type": "object",
-        "dov:typeRef": "nsu=http://opcfoundation.org/UA/PlasticsRubber/GeneralTypes/;i=3006",
+        "dov:typeRef": "org.opcfoundation.UA.PlasticsRubber.GeneralTypes.ProductionDatasetInformationType",
         "required": [ "Name", "Description", "MESId", "CreationTimestamp", "LastModificationTimestamp", "LastSaveTimestamp", "UserName", "Components", "Manufacturer", "SerialNumber", "Model", "ControllerName", "UserMachineName", "LocationName", "ProductName", "MouldId", "NumCavities" ],
         "properties": {
           "Name": {
@@ -4540,7 +4540,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "PlasticsRubber_GeneralTypes_ProductionDatasetListsType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/PlasticsRubber/GeneralTypes/;i=1003",
+    "dov:typeRef": "org.opcfoundation.UA.PlasticsRubber.GeneralTypes.ProductionDatasetListsType",
     "links": [
       {
         "rel": "tm:extends",
@@ -4556,7 +4556,7 @@
         "description": "This Method is used to read a list from the server, which production datasets that are available on the machine's file system ",
         "input": {
           "type": "object",
-          "dov:typeRef": "nsu=http://opcfoundation.org/UA/PlasticsRubber/GeneralTypes/;i=6018",
+          "dov:typeRef": "org.opcfoundation.UA.InputArguments",
           "required": [ "NameFilter", "MouldId" ],
           "properties": {
             "NameFilter": {
@@ -4569,7 +4569,7 @@
         },
         "output": {
           "type": "object",
-          "dov:typeRef": "nsu=http://opcfoundation.org/UA/PlasticsRubber/GeneralTypes/;i=6019",
+          "dov:typeRef": "org.opcfoundation.UA.OutputArguments",
           "required": [ "ProductionDatasetList" ],
           "properties": {
             "ProductionDatasetList": {
@@ -4578,7 +4578,7 @@
                 "title": "ProductionDatasetInformationType",
                 "description": "Information on a production dataset",
                 "type": "object",
-                "dov:typeRef": "nsu=http://opcfoundation.org/UA/PlasticsRubber/GeneralTypes/;i=3006",
+                "dov:typeRef": "org.opcfoundation.UA.PlasticsRubber.GeneralTypes.ProductionDatasetInformationType",
                 "required": [ "Name", "Description", "MESId", "CreationTimestamp", "LastModificationTimestamp", "LastSaveTimestamp", "UserName", "Components", "Manufacturer", "SerialNumber", "Model", "ControllerName", "UserMachineName", "LocationName", "ProductName", "MouldId", "NumCavities" ],
                 "properties": {
                   "Name": {
@@ -4680,7 +4680,7 @@
         "description": "This Method is used to send a list of production datasets available on the client to the server",
         "input": {
           "type": "object",
-          "dov:typeRef": "nsu=http://opcfoundation.org/UA/PlasticsRubber/GeneralTypes/;i=6020",
+          "dov:typeRef": "org.opcfoundation.UA.InputArguments",
           "required": [ "ProductionDatasetList" ],
           "properties": {
             "ProductionDatasetList": {
@@ -4689,7 +4689,7 @@
                 "title": "ProductionDatasetInformationType",
                 "description": "Information on a production dataset",
                 "type": "object",
-                "dov:typeRef": "nsu=http://opcfoundation.org/UA/PlasticsRubber/GeneralTypes/;i=3006",
+                "dov:typeRef": "org.opcfoundation.UA.PlasticsRubber.GeneralTypes.ProductionDatasetInformationType",
                 "required": [ "Name", "Description", "MESId", "CreationTimestamp", "LastModificationTimestamp", "LastSaveTimestamp", "UserName", "Components", "Manufacturer", "SerialNumber", "Model", "ControllerName", "UserMachineName", "LocationName", "ProductName", "MouldId", "NumCavities" ],
                 "properties": {
                   "Name": {
@@ -4801,7 +4801,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "PlasticsRubber_GeneralTypes_EnergyType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/PlasticsRubber/GeneralTypes/;i=1063",
+    "dov:typeRef": "org.opcfoundation.UA.PlasticsRubber.GeneralTypes.EnergyType",
     "links": [
       {
         "rel": "tm:extends",
@@ -4955,7 +4955,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "PlasticsRubber_GeneralTypes_UsersType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/PlasticsRubber/GeneralTypes/;i=1048",
+    "dov:typeRef": "org.opcfoundation.UA.PlasticsRubber.GeneralTypes.UsersType",
     "links": [
       {
         "rel": "tm:extends",
@@ -5005,7 +5005,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "PlasticsRubber_GeneralTypes_UserType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/PlasticsRubber/GeneralTypes/;i=1045",
+    "dov:typeRef": "org.opcfoundation.UA.PlasticsRubber.GeneralTypes.UserType",
     "links": [
       {
         "rel": "tm:extends",
@@ -5129,7 +5129,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "DI_ComponentType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/DI/;i=15063",
+    "dov:typeRef": "org.opcfoundation.UA.DI.ComponentType",
     "links": [
       {
         "rel": "tm:extends",
@@ -5332,7 +5332,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "DI_TopologyElementType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/DI/;i=1001",
+    "dov:typeRef": "org.opcfoundation.UA.DI.TopologyElementType",
     "links": [
       {
         "rel": "tm:extends",
@@ -5388,7 +5388,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "DI_FunctionalGroupType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/DI/;i=1005",
+    "dov:typeRef": "org.opcfoundation.UA.DI.FunctionalGroupType",
     "links": [
       {
         "rel": "tm:extends",
@@ -5459,7 +5459,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "DI_LockingServicesType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/DI/;i=6388",
+    "dov:typeRef": "org.opcfoundation.UA.DI.LockingServicesType",
     "links": [
       {
         "rel": "tm:extends",
@@ -5481,7 +5481,7 @@
         "dov:namespace": "http://opcfoundation.org/UA/DI/",
         "output": {
           "type": "object",
-          "dov:typeRef": "nsu=http://opcfoundation.org/UA/DI/;i=6401",
+          "dov:typeRef": "org.opcfoundation.UA.OutputArguments",
           "required": [ "BreakLockStatus" ],
           "properties": {
             "BreakLockStatus": {
@@ -5503,7 +5503,7 @@
         "dov:namespace": "http://opcfoundation.org/UA/DI/",
         "output": {
           "type": "object",
-          "dov:typeRef": "nsu=http://opcfoundation.org/UA/DI/;i=6399",
+          "dov:typeRef": "org.opcfoundation.UA.OutputArguments",
           "required": [ "ExitLockStatus" ],
           "properties": {
             "ExitLockStatus": {
@@ -5525,7 +5525,7 @@
         "dov:namespace": "http://opcfoundation.org/UA/DI/",
         "input": {
           "type": "object",
-          "dov:typeRef": "nsu=http://opcfoundation.org/UA/DI/;i=6394",
+          "dov:typeRef": "org.opcfoundation.UA.InputArguments",
           "required": [ "Context" ],
           "properties": {
             "Context": {
@@ -5535,7 +5535,7 @@
         },
         "output": {
           "type": "object",
-          "dov:typeRef": "nsu=http://opcfoundation.org/UA/DI/;i=6395",
+          "dov:typeRef": "org.opcfoundation.UA.OutputArguments",
           "required": [ "InitLockStatus" ],
           "properties": {
             "InitLockStatus": {
@@ -5557,7 +5557,7 @@
         "dov:namespace": "http://opcfoundation.org/UA/DI/",
         "output": {
           "type": "object",
-          "dov:typeRef": "nsu=http://opcfoundation.org/UA/DI/;i=6397",
+          "dov:typeRef": "org.opcfoundation.UA.OutputArguments",
           "required": [ "RenewLockStatus" ],
           "properties": {
             "RenewLockStatus": {

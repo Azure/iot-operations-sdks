@@ -8,7 +8,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "PlasticsRubber_Extrusion_ExtrusionLine_JobGroupStatusChangedEventType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/PlasticsRubber/Extrusion/ExtrusionLine/;i=1012",
+    "dov:typeRef": "org.opcfoundation.UA.PlasticsRubber.Extrusion.ExtrusionLine.JobGroupStatusChangedEventType",
     "dov:isEvent": true,
     "links": [
       {
@@ -20,7 +20,7 @@
     "schemaDefinitions": {
       "JobStatusEnumeration": {
         "type": "object",
-        "dov:typeRef": "nsu=http://opcfoundation.org/UA/PlasticsRubber/GeneralTypes/;i=3017",
+        "dov:typeRef": "org.opcfoundation.UA.PlasticsRubber.GeneralTypes.JobStatusEnumeration",
         "const": {
           "OTHER": 0,
           "TRANSFERRED_ASSIGNED": 1,
@@ -101,7 +101,7 @@
       "ActiveStatus": {
         "dov:namespace": "http://opcfoundation.org/UA/PlasticsRubber/Extrusion/ExtrusionLine/",
         "title": "JobStatusEnumeration",
-        "dov:typeRef": "nsu=http://opcfoundation.org/UA/PlasticsRubber/GeneralTypes/;i=3017",
+        "dov:typeRef": "org.opcfoundation.UA.PlasticsRubber.GeneralTypes.JobStatusEnumeration",
         "type": "integer",
         "minimum": -2147483648,
         "maximum": 2147483647,
@@ -129,7 +129,7 @@
       "LastStatus": {
         "dov:namespace": "http://opcfoundation.org/UA/PlasticsRubber/Extrusion/ExtrusionLine/",
         "title": "JobStatusEnumeration",
-        "dov:typeRef": "nsu=http://opcfoundation.org/UA/PlasticsRubber/GeneralTypes/;i=3017",
+        "dov:typeRef": "org.opcfoundation.UA.PlasticsRubber.GeneralTypes.JobStatusEnumeration",
         "type": "integer",
         "minimum": -2147483648,
         "maximum": 2147483647,
@@ -155,7 +155,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "PlasticsRubber_Extrusion_ExtrusionLine_JobStatusChangedEventType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/PlasticsRubber/Extrusion/ExtrusionLine/;i=1008",
+    "dov:typeRef": "org.opcfoundation.UA.PlasticsRubber.Extrusion.ExtrusionLine.JobStatusChangedEventType",
     "dov:isEvent": true,
     "links": [
       {
@@ -167,7 +167,7 @@
     "schemaDefinitions": {
       "JobStatusEnumeration": {
         "type": "object",
-        "dov:typeRef": "nsu=http://opcfoundation.org/UA/PlasticsRubber/GeneralTypes/;i=3017",
+        "dov:typeRef": "org.opcfoundation.UA.PlasticsRubber.GeneralTypes.JobStatusEnumeration",
         "const": {
           "OTHER": 0,
           "TRANSFERRED_ASSIGNED": 1,
@@ -248,7 +248,7 @@
       "ActiveStatus": {
         "dov:namespace": "http://opcfoundation.org/UA/PlasticsRubber/Extrusion/ExtrusionLine/",
         "title": "JobStatusEnumeration",
-        "dov:typeRef": "nsu=http://opcfoundation.org/UA/PlasticsRubber/GeneralTypes/;i=3017",
+        "dov:typeRef": "org.opcfoundation.UA.PlasticsRubber.GeneralTypes.JobStatusEnumeration",
         "type": "integer",
         "minimum": -2147483648,
         "maximum": 2147483647,
@@ -288,7 +288,7 @@
       "LastStatus": {
         "dov:namespace": "http://opcfoundation.org/UA/PlasticsRubber/Extrusion/ExtrusionLine/",
         "title": "JobStatusEnumeration",
-        "dov:typeRef": "nsu=http://opcfoundation.org/UA/PlasticsRubber/GeneralTypes/;i=3017",
+        "dov:typeRef": "org.opcfoundation.UA.PlasticsRubber.GeneralTypes.JobStatusEnumeration",
         "type": "integer",
         "minimum": -2147483648,
         "maximum": 2147483647,
@@ -314,7 +314,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "PlasticsRubber_Extrusion_ExtrusionLine_LotFinishedEventType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/PlasticsRubber/Extrusion/ExtrusionLine/;i=1010",
+    "dov:typeRef": "org.opcfoundation.UA.PlasticsRubber.Extrusion.ExtrusionLine.LotFinishedEventType",
     "dov:isEvent": true,
     "links": [
       {
@@ -386,7 +386,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "PlasticsRubber_Extrusion_ExtrusionLine_RequestAddMaterialEventType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/PlasticsRubber/Extrusion/ExtrusionLine/;i=1006",
+    "dov:typeRef": "org.opcfoundation.UA.PlasticsRubber.Extrusion.ExtrusionLine.RequestAddMaterialEventType",
     "dov:isEvent": true,
     "links": [
       {
@@ -442,7 +442,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "PlasticsRubber_Extrusion_ExtrusionLine_UnitFinishedEventType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/PlasticsRubber/Extrusion/ExtrusionLine/;i=1009",
+    "dov:typeRef": "org.opcfoundation.UA.PlasticsRubber.Extrusion.ExtrusionLine.UnitFinishedEventType",
     "dov:isEvent": true,
     "links": [
       {
@@ -526,7 +526,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "PlasticsRubber_Extrusion_ExtrusionLine_ExtrusionLine_InterfaceType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/PlasticsRubber/Extrusion/ExtrusionLine/;i=1003",
+    "dov:typeRef": "org.opcfoundation.UA.PlasticsRubber.Extrusion.ExtrusionLine.ExtrusionLine_InterfaceType",
     "dov:isComposite": true,
     "links": [
       {
@@ -592,7 +592,7 @@
     "schemaDefinitions": {
       "ProductionStatusEnumeration": {
         "type": "object",
-        "dov:typeRef": "nsu=http://opcfoundation.org/UA/PlasticsRubber/GeneralTypes/;i=3016",
+        "dov:typeRef": "org.opcfoundation.UA.PlasticsRubber.GeneralTypes.ProductionStatusEnumeration",
         "const": {
           "OTHER": 0,
           "NO_PRODUCTION": 1,
@@ -657,7 +657,7 @@
         "dov:namespace": "http://opcfoundation.org/UA/PlasticsRubber/Extrusion/ExtrusionLine/",
         "input": {
           "type": "object",
-          "dov:typeRef": "nsu=http://opcfoundation.org/UA/PlasticsRubber/Extrusion/ExtrusionLine/;i=6057",
+          "dov:typeRef": "org.opcfoundation.UA.InputArguments",
           "required": [ "Id", "Message", "Message2" ],
           "properties": {
             "Id": {
@@ -689,7 +689,7 @@
         "items": {
           "title": "ConfigurationParameterType",
           "type": "object",
-          "dov:typeRef": "nsu=http://opcfoundation.org/UA/PlasticsRubber/GeneralTypes/;i=3024",
+          "dov:typeRef": "org.opcfoundation.UA.PlasticsRubber.GeneralTypes.ConfigurationParameterType",
           "required": [ "Id", "Description", "DefaultValue", "Unit" ],
           "properties": {
             "Id": {
@@ -710,7 +710,7 @@
               "title": "EUInformation",
               "description": "Engineering unit of the parameter. If the Type of Defaultvalue is not a Number, then the Unit shall be empty",
               "type": "object",
-              "dov:typeRef": "nsu=http://opcfoundation.org/UA/;i=887",
+              "dov:typeRef": "org.opcfoundation.UA.EUInformation",
               "required": [ "NamespaceUri", "UnitId", "DisplayName", "Description" ],
               "properties": {
                 "NamespaceUri": {
@@ -760,7 +760,7 @@
       "LineStatus": {
         "dov:namespace": "http://opcfoundation.org/UA/PlasticsRubber/Extrusion/ExtrusionLine/",
         "title": "ProductionStatusEnumeration",
-        "dov:typeRef": "nsu=http://opcfoundation.org/UA/PlasticsRubber/GeneralTypes/;i=3016",
+        "dov:typeRef": "org.opcfoundation.UA.PlasticsRubber.GeneralTypes.ProductionStatusEnumeration",
         "type": "integer",
         "minimum": -2147483648,
         "maximum": 2147483647,
@@ -786,7 +786,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "PlasticsRubber_Extrusion_ExtrusionLine_JobGroupsType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/PlasticsRubber/Extrusion/ExtrusionLine/;i=1013",
+    "dov:typeRef": "org.opcfoundation.UA.PlasticsRubber.Extrusion.ExtrusionLine.JobGroupsType",
     "links": [
       {
         "rel": "tm:extends",
@@ -814,7 +814,7 @@
         "dov:namespace": "http://opcfoundation.org/UA/PlasticsRubber/Extrusion/ExtrusionLine/",
         "input": {
           "type": "object",
-          "dov:typeRef": "nsu=http://opcfoundation.org/UA/PlasticsRubber/Extrusion/ExtrusionLine/;i=6217",
+          "dov:typeRef": "org.opcfoundation.UA.InputArguments",
           "required": [ "Id", "Description", "EquipmentDescription", "ProductionDatasetName", "MaterialMapping", "Priority", "PlannedStart", "PlannedProductionTime", "PlannedSetUpTime", "LatestEnd" ],
           "properties": {
             "Id": {
@@ -834,7 +834,7 @@
               "items": {
                 "title": "MaterialMappingType",
                 "type": "object",
-                "dov:typeRef": "nsu=http://opcfoundation.org/UA/PlasticsRubber/Extrusion/ExtrusionLine/;i=3003",
+                "dov:typeRef": "org.opcfoundation.UA.PlasticsRubber.Extrusion.ExtrusionLine.MaterialMappingType",
                 "required": [ "MaterialId", "MaterialLot", "HopperId" ],
                 "properties": {
                   "MaterialId": {
@@ -874,7 +874,7 @@
         },
         "output": {
           "type": "object",
-          "dov:typeRef": "nsu=http://opcfoundation.org/UA/PlasticsRubber/Extrusion/ExtrusionLine/;i=6218",
+          "dov:typeRef": "org.opcfoundation.UA.OutputArguments",
           "required": [ "JobGroupNodeId" ],
           "properties": {
             "JobGroupNodeId": {
@@ -894,7 +894,7 @@
         "dov:namespace": "http://opcfoundation.org/UA/PlasticsRubber/Extrusion/ExtrusionLine/",
         "input": {
           "type": "object",
-          "dov:typeRef": "nsu=http://opcfoundation.org/UA/PlasticsRubber/Extrusion/ExtrusionLine/;i=6216",
+          "dov:typeRef": "org.opcfoundation.UA.InputArguments",
           "required": [ "Id" ],
           "properties": {
             "Id": {
@@ -914,7 +914,7 @@
         "dov:namespace": "http://opcfoundation.org/UA/PlasticsRubber/Extrusion/ExtrusionLine/",
         "input": {
           "type": "object",
-          "dov:typeRef": "nsu=http://opcfoundation.org/UA/PlasticsRubber/Extrusion/ExtrusionLine/;i=6215",
+          "dov:typeRef": "org.opcfoundation.UA.InputArguments",
           "required": [ "Id" ],
           "properties": {
             "Id": {
@@ -934,7 +934,7 @@
         "dov:namespace": "http://opcfoundation.org/UA/PlasticsRubber/Extrusion/ExtrusionLine/",
         "input": {
           "type": "object",
-          "dov:typeRef": "nsu=http://opcfoundation.org/UA/PlasticsRubber/Extrusion/ExtrusionLine/;i=6214",
+          "dov:typeRef": "org.opcfoundation.UA.InputArguments",
           "required": [ "Id" ],
           "properties": {
             "Id": {
@@ -954,7 +954,7 @@
         "dov:namespace": "http://opcfoundation.org/UA/PlasticsRubber/Extrusion/ExtrusionLine/",
         "input": {
           "type": "object",
-          "dov:typeRef": "nsu=http://opcfoundation.org/UA/PlasticsRubber/Extrusion/ExtrusionLine/;i=6213",
+          "dov:typeRef": "org.opcfoundation.UA.InputArguments",
           "required": [ "Id" ],
           "properties": {
             "Id": {
@@ -996,7 +996,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "PlasticsRubber_Extrusion_ExtrusionLine_JobGroupType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/PlasticsRubber/Extrusion/ExtrusionLine/;i=1011",
+    "dov:typeRef": "org.opcfoundation.UA.PlasticsRubber.Extrusion.ExtrusionLine.JobGroupType",
     "links": [
       {
         "rel": "tm:extends",
@@ -1013,7 +1013,7 @@
     "schemaDefinitions": {
       "JobStatusEnumeration": {
         "type": "object",
-        "dov:typeRef": "nsu=http://opcfoundation.org/UA/PlasticsRubber/GeneralTypes/;i=3017",
+        "dov:typeRef": "org.opcfoundation.UA.PlasticsRubber.GeneralTypes.JobStatusEnumeration",
         "const": {
           "OTHER": 0,
           "TRANSFERRED_ASSIGNED": 1,
@@ -1098,7 +1098,7 @@
         "dov:namespace": "http://opcfoundation.org/UA/PlasticsRubber/Extrusion/ExtrusionLine/",
         "input": {
           "type": "object",
-          "dov:typeRef": "nsu=http://opcfoundation.org/UA/PlasticsRubber/Extrusion/ExtrusionLine/;i=6171",
+          "dov:typeRef": "org.opcfoundation.UA.InputArguments",
           "required": [ "Id", "Description", "CustomerName", "ProductName", "ProductDescription", "Strand", "Sequence", "ParameterSetting", "SetOutput", "LotSize" ],
           "properties": {
             "Id": {
@@ -1131,7 +1131,7 @@
               "items": {
                 "title": "ParameterSettingType",
                 "type": "object",
-                "dov:typeRef": "nsu=http://opcfoundation.org/UA/PlasticsRubber/GeneralTypes/;i=3026",
+                "dov:typeRef": "org.opcfoundation.UA.PlasticsRubber.GeneralTypes.ParameterSettingType",
                 "required": [ "Id", "Value" ],
                 "properties": {
                   "Id": {
@@ -1160,7 +1160,7 @@
         },
         "output": {
           "type": "object",
-          "dov:typeRef": "nsu=http://opcfoundation.org/UA/PlasticsRubber/Extrusion/ExtrusionLine/;i=6173",
+          "dov:typeRef": "org.opcfoundation.UA.OutputArguments",
           "required": [ "JobNodeId" ],
           "properties": {
             "JobNodeId": {
@@ -1180,7 +1180,7 @@
         "dov:namespace": "http://opcfoundation.org/UA/PlasticsRubber/Extrusion/ExtrusionLine/",
         "input": {
           "type": "object",
-          "dov:typeRef": "nsu=http://opcfoundation.org/UA/PlasticsRubber/Extrusion/ExtrusionLine/;i=6177",
+          "dov:typeRef": "org.opcfoundation.UA.InputArguments",
           "required": [ "Id" ],
           "properties": {
             "Id": {
@@ -1200,7 +1200,7 @@
         "dov:namespace": "http://opcfoundation.org/UA/PlasticsRubber/Extrusion/ExtrusionLine/",
         "input": {
           "type": "object",
-          "dov:typeRef": "nsu=http://opcfoundation.org/UA/PlasticsRubber/Extrusion/ExtrusionLine/;i=6176",
+          "dov:typeRef": "org.opcfoundation.UA.InputArguments",
           "required": [ "Id" ],
           "properties": {
             "Id": {
@@ -1220,7 +1220,7 @@
         "dov:namespace": "http://opcfoundation.org/UA/PlasticsRubber/Extrusion/ExtrusionLine/",
         "input": {
           "type": "object",
-          "dov:typeRef": "nsu=http://opcfoundation.org/UA/PlasticsRubber/Extrusion/ExtrusionLine/;i=6174",
+          "dov:typeRef": "org.opcfoundation.UA.InputArguments",
           "required": [ "Id" ],
           "properties": {
             "Id": {
@@ -1240,7 +1240,7 @@
         "dov:namespace": "http://opcfoundation.org/UA/PlasticsRubber/Extrusion/ExtrusionLine/",
         "input": {
           "type": "object",
-          "dov:typeRef": "nsu=http://opcfoundation.org/UA/PlasticsRubber/Extrusion/ExtrusionLine/;i=6175",
+          "dov:typeRef": "org.opcfoundation.UA.InputArguments",
           "required": [ "Id" ],
           "properties": {
             "Id": {
@@ -1264,7 +1264,7 @@
         "items": {
           "title": "ConfigurationParameterType",
           "type": "object",
-          "dov:typeRef": "nsu=http://opcfoundation.org/UA/PlasticsRubber/GeneralTypes/;i=3024",
+          "dov:typeRef": "org.opcfoundation.UA.PlasticsRubber.GeneralTypes.ConfigurationParameterType",
           "required": [ "Id", "Description", "DefaultValue", "Unit" ],
           "properties": {
             "Id": {
@@ -1285,7 +1285,7 @@
               "title": "EUInformation",
               "description": "Engineering unit of the parameter. If the Type of Defaultvalue is not a Number, then the Unit shall be empty",
               "type": "object",
-              "dov:typeRef": "nsu=http://opcfoundation.org/UA/;i=887",
+              "dov:typeRef": "org.opcfoundation.UA.EUInformation",
               "required": [ "NamespaceUri", "UnitId", "DisplayName", "Description" ],
               "properties": {
                 "NamespaceUri": {
@@ -1398,7 +1398,7 @@
         "items": {
           "title": "MaterialMappingType",
           "type": "object",
-          "dov:typeRef": "nsu=http://opcfoundation.org/UA/PlasticsRubber/Extrusion/ExtrusionLine/;i=3003",
+          "dov:typeRef": "org.opcfoundation.UA.PlasticsRubber.Extrusion.ExtrusionLine.MaterialMappingType",
           "required": [ "MaterialId", "MaterialLot", "HopperId" ],
           "properties": {
             "MaterialId": {
@@ -1514,7 +1514,7 @@
       "Status": {
         "dov:namespace": "http://opcfoundation.org/UA/PlasticsRubber/Extrusion/ExtrusionLine/",
         "title": "JobStatusEnumeration",
-        "dov:typeRef": "nsu=http://opcfoundation.org/UA/PlasticsRubber/GeneralTypes/;i=3017",
+        "dov:typeRef": "org.opcfoundation.UA.PlasticsRubber.GeneralTypes.JobStatusEnumeration",
         "type": "integer",
         "minimum": -2147483648,
         "maximum": 2147483647,
@@ -1585,7 +1585,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "PlasticsRubber_Extrusion_ExtrusionLine_JobType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/PlasticsRubber/Extrusion/ExtrusionLine/;i=1007",
+    "dov:typeRef": "org.opcfoundation.UA.PlasticsRubber.Extrusion.ExtrusionLine.JobType",
     "links": [
       {
         "rel": "tm:extends",
@@ -1596,7 +1596,7 @@
     "schemaDefinitions": {
       "JobStatusEnumeration": {
         "type": "object",
-        "dov:typeRef": "nsu=http://opcfoundation.org/UA/PlasticsRubber/GeneralTypes/;i=3017",
+        "dov:typeRef": "org.opcfoundation.UA.PlasticsRubber.GeneralTypes.JobStatusEnumeration",
         "const": {
           "OTHER": 0,
           "TRANSFERRED_ASSIGNED": 1,
@@ -1867,7 +1867,7 @@
         "items": {
           "title": "ParameterSettingType",
           "type": "object",
-          "dov:typeRef": "nsu=http://opcfoundation.org/UA/PlasticsRubber/GeneralTypes/;i=3026",
+          "dov:typeRef": "org.opcfoundation.UA.PlasticsRubber.GeneralTypes.ParameterSettingType",
           "required": [ "Id", "Value" ],
           "properties": {
             "Id": {
@@ -1959,7 +1959,7 @@
       "Status": {
         "dov:namespace": "http://opcfoundation.org/UA/PlasticsRubber/Extrusion/ExtrusionLine/",
         "title": "JobStatusEnumeration",
-        "dov:typeRef": "nsu=http://opcfoundation.org/UA/PlasticsRubber/GeneralTypes/;i=3017",
+        "dov:typeRef": "org.opcfoundation.UA.PlasticsRubber.GeneralTypes.JobStatusEnumeration",
         "type": "integer",
         "minimum": -2147483648,
         "maximum": 2147483647,
@@ -2174,7 +2174,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "PlasticsRubber_Extrusion_ExtrusionLine_ProductionParametersType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/PlasticsRubber/Extrusion/ExtrusionLine/;i=1002",
+    "dov:typeRef": "org.opcfoundation.UA.PlasticsRubber.Extrusion.ExtrusionLine.ProductionParametersType",
     "links": [
       {
         "rel": "tm:extends",

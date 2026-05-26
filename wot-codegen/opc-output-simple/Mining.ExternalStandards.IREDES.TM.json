@@ -8,7 +8,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "Mining_ExternalStandards_IREDES_DisplayToOperatorType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/Mining/ExternalStandards/IREDES;i=1004",
+    "dov:typeRef": "org.opcfoundation.UA.Mining.ExternalStandards.IREDES.DisplayToOperatorType",
     "links": [
       {
         "rel": "tm:extends",
@@ -19,7 +19,7 @@
     "schemaDefinitions": {
       "DispFlag": {
         "type": "object",
-        "dov:typeRef": "nsu=http://opcfoundation.org/UA/Mining/ExternalStandards/IREDES;i=3006",
+        "dov:typeRef": "org.opcfoundation.UA.Mining.ExternalStandards.IREDES.DispFlag",
         "const": {
           "MachStart": 0,
           "FileLoad": 1
@@ -95,7 +95,7 @@
         "dov:namespace": "http://opcfoundation.org/UA/Mining/ExternalStandards/IREDES",
         "title": "DispFlag",
         "description": "States under which circumstances the line (message) has to be displayed to the operator.",
-        "dov:typeRef": "nsu=http://opcfoundation.org/UA/Mining/ExternalStandards/IREDES;i=3006",
+        "dov:typeRef": "org.opcfoundation.UA.Mining.ExternalStandards.IREDES.DispFlag",
         "type": "integer",
         "minimum": -2147483648,
         "maximum": 2147483647,
@@ -152,7 +152,7 @@
         "data": {
           "title": "DispFlag",
           "description": "States under which circumstances the line (message) has to be displayed to the operator.",
-          "dov:typeRef": "nsu=http://opcfoundation.org/UA/Mining/ExternalStandards/IREDES;i=3006",
+          "dov:typeRef": "org.opcfoundation.UA.Mining.ExternalStandards.IREDES.DispFlag",
           "type": "integer",
           "minimum": -2147483648,
           "maximum": 2147483647
@@ -190,7 +190,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "Mining_ExternalStandards_IREDES_EquipmentInfoType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/Mining/ExternalStandards/IREDES;i=1006",
+    "dov:typeRef": "org.opcfoundation.UA.Mining.ExternalStandards.IREDES.EquipmentInfoType",
     "links": [
       {
         "rel": "tm:extends",
@@ -408,7 +408,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "Mining_ExternalStandards_IREDES_GenHeadType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/Mining/ExternalStandards/IREDES;i=1009",
+    "dov:typeRef": "org.opcfoundation.UA.Mining.ExternalStandards.IREDES.GenHeadType",
     "links": [
       {
         "rel": "tm:extends",
@@ -518,7 +518,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "Mining_ExternalStandards_IREDES_GenTrailerType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/Mining/ExternalStandards/IREDES;i=1015",
+    "dov:typeRef": "org.opcfoundation.UA.Mining.ExternalStandards.IREDES.GenTrailerType",
     "links": [
       {
         "rel": "tm:extends",
@@ -611,7 +611,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "Mining_ExternalStandards_IREDES_IREDESType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/Mining/ExternalStandards/IREDES;i=1005",
+    "dov:typeRef": "org.opcfoundation.UA.Mining.ExternalStandards.IREDES.IREDESType",
     "links": [
       {
         "rel": "tm:extends",
@@ -702,7 +702,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "Mining_ExternalStandards_IREDES_IRLHDTruckType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/Mining/ExternalStandards/IREDES;i=1030",
+    "dov:typeRef": "org.opcfoundation.UA.Mining.ExternalStandards.IREDES.IRLHDTruckType",
     "dov:isComposite": true,
     "links": [
       {
@@ -759,7 +759,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "Mining_ExternalStandards_IREDES_IRLTMMonType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/Mining/ExternalStandards/IREDES;i=1011",
+    "dov:typeRef": "org.opcfoundation.UA.Mining.ExternalStandards.IREDES.IRLTMMonType",
     "links": [
       {
         "rel": "tm:extends",
@@ -850,7 +850,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "Mining_ExternalStandards_IREDES_IRLTPlanType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/Mining/ExternalStandards/IREDES;i=1014",
+    "dov:typeRef": "org.opcfoundation.UA.Mining.ExternalStandards.IREDES.IRLTPlanType",
     "links": [
       {
         "rel": "tm:extends",
@@ -942,7 +942,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "Mining_ExternalStandards_IREDES_IRLTPPerfType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/Mining/ExternalStandards/IREDES;i=1026",
+    "dov:typeRef": "org.opcfoundation.UA.Mining.ExternalStandards.IREDES.IRLTPPerfType",
     "links": [
       {
         "rel": "tm:extends",
@@ -1033,7 +1033,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "Mining_ExternalStandards_IREDES_IROptionType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/Mining/ExternalStandards/IREDES;i=1008",
+    "dov:typeRef": "org.opcfoundation.UA.Mining.ExternalStandards.IREDES.IROptionType",
     "links": [
       {
         "rel": "tm:extends",
@@ -1126,7 +1126,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "Mining_ExternalStandards_IREDES_IRplanGenType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/Mining/ExternalStandards/IREDES;i=1017",
+    "dov:typeRef": "org.opcfoundation.UA.Mining.ExternalStandards.IREDES.IRplanGenType",
     "links": [
       {
         "rel": "tm:extends",
@@ -1325,7 +1325,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "Mining_ExternalStandards_IREDES_IRpPerfGenType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/Mining/ExternalStandards/IREDES;i=1013",
+    "dov:typeRef": "org.opcfoundation.UA.Mining.ExternalStandards.IREDES.IRpPerfGenType",
     "links": [
       {
         "rel": "tm:extends",
@@ -1473,7 +1473,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "Mining_ExternalStandards_IREDES_IRreplyType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/Mining/ExternalStandards/IREDES;i=1016",
+    "dov:typeRef": "org.opcfoundation.UA.Mining.ExternalStandards.IREDES.IRreplyType",
     "links": [
       {
         "rel": "tm:extends",
@@ -1568,7 +1568,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "Mining_ExternalStandards_IREDES_IRStatusGenType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/Mining/ExternalStandards/IREDES;i=1020",
+    "dov:typeRef": "org.opcfoundation.UA.Mining.ExternalStandards.IREDES.IRStatusGenType",
     "dov:isComposite": true,
     "links": [
       {
@@ -1749,7 +1749,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "Mining_ExternalStandards_IREDES_IRWorkOrderGenType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/Mining/ExternalStandards/IREDES;i=1021",
+    "dov:typeRef": "org.opcfoundation.UA.Mining.ExternalStandards.IREDES.IRWorkOrderGenType",
     "dov:isComposite": true,
     "links": [
       {
@@ -1785,7 +1785,7 @@
         "title": "JobAssignmentTimeDataType",
         "description": "Time the execution of the job is expected to take.",
         "type": "object",
-        "dov:typeRef": "nsu=http://opcfoundation.org/UA/Mining/ExternalStandards/IREDES;i=3004",
+        "dov:typeRef": "org.opcfoundation.UA.Mining.ExternalStandards.IREDES.JobAssignmentTimeDataType",
         "properties": {
           "ExpectedFinishTime": {
             "description": "Time Machine is expected to finish the job.",
@@ -2034,7 +2034,7 @@
           "title": "JobAssignmentTimeDataType",
           "description": "Time the execution of the job is expected to take.",
           "type": "object",
-          "dov:typeRef": "nsu=http://opcfoundation.org/UA/Mining/ExternalStandards/IREDES;i=3004",
+          "dov:typeRef": "org.opcfoundation.UA.Mining.ExternalStandards.IREDES.JobAssignmentTimeDataType",
           "properties": {
             "ExpectedFinishTime": {
               "description": "Time Machine is expected to finish the job.",
@@ -2197,7 +2197,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "Mining_ExternalStandards_IREDES_IRWorkOrderReplyGenType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/Mining/ExternalStandards/IREDES;i=1010",
+    "dov:typeRef": "org.opcfoundation.UA.Mining.ExternalStandards.IREDES.IRWorkOrderReplyGenType",
     "links": [
       {
         "rel": "tm:extends",
@@ -2208,7 +2208,7 @@
     "schemaDefinitions": {
       "Answer": {
         "type": "object",
-        "dov:typeRef": "nsu=http://opcfoundation.org/UA/Mining/ExternalStandards/IREDES;i=3009",
+        "dov:typeRef": "org.opcfoundation.UA.Mining.ExternalStandards.IREDES.Answer",
         "const": {
           "Accepted": 0,
           "Delayed": 1,
@@ -2259,7 +2259,7 @@
         "dov:namespace": "http://opcfoundation.org/UA/Mining/ExternalStandards/IREDES",
         "title": "Answer",
         "description": "See Answer enumeration.",
-        "dov:typeRef": "nsu=http://opcfoundation.org/UA/Mining/ExternalStandards/IREDES;i=3009",
+        "dov:typeRef": "org.opcfoundation.UA.Mining.ExternalStandards.IREDES.Answer",
         "type": "integer",
         "minimum": -2147483648,
         "maximum": 2147483647,
@@ -2379,7 +2379,7 @@
         "data": {
           "title": "Answer",
           "description": "See Answer enumeration.",
-          "dov:typeRef": "nsu=http://opcfoundation.org/UA/Mining/ExternalStandards/IREDES;i=3009",
+          "dov:typeRef": "org.opcfoundation.UA.Mining.ExternalStandards.IREDES.Answer",
           "type": "integer",
           "minimum": -2147483648,
           "maximum": 2147483647
@@ -2465,7 +2465,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "Mining_ExternalStandards_IREDES_LTPPaccPtsType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/Mining/ExternalStandards/IREDES;i=1018",
+    "dov:typeRef": "org.opcfoundation.UA.Mining.ExternalStandards.IREDES.LTPPaccPtsType",
     "links": [
       {
         "rel": "tm:extends",
@@ -2765,7 +2765,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "Mining_ExternalStandards_IREDES_LTPPLoadRepType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/Mining/ExternalStandards/IREDES;i=1019",
+    "dov:typeRef": "org.opcfoundation.UA.Mining.ExternalStandards.IREDES.LTPPLoadRepType",
     "links": [
       {
         "rel": "tm:extends",
@@ -2970,7 +2970,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "Mining_ExternalStandards_IREDES_LTPPMissionType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/Mining/ExternalStandards/IREDES;i=1028",
+    "dov:typeRef": "org.opcfoundation.UA.Mining.ExternalStandards.IREDES.LTPPMissionType",
     "links": [
       {
         "rel": "tm:extends",
@@ -2981,7 +2981,7 @@
     "schemaDefinitions": {
       "LTPPMaction": {
         "type": "object",
-        "dov:typeRef": "nsu=http://opcfoundation.org/UA/Mining/ExternalStandards/IREDES;i=3018",
+        "dov:typeRef": "org.opcfoundation.UA.Mining.ExternalStandards.IREDES.LTPPMaction",
         "const": {
           "Load": 0,
           "Dump": 1,
@@ -3014,7 +3014,7 @@
       },
       "LTPPMptFromType": {
         "type": "object",
-        "dov:typeRef": "nsu=http://opcfoundation.org/UA/Mining/ExternalStandards/IREDES;i=3012",
+        "dov:typeRef": "org.opcfoundation.UA.Mining.ExternalStandards.IREDES.LTPPMptFromType",
         "const": {
           "LoadPt": 0,
           "DumpPt": 1,
@@ -3047,7 +3047,7 @@
       },
       "LTPPMptToType": {
         "type": "object",
-        "dov:typeRef": "nsu=http://opcfoundation.org/UA/Mining/ExternalStandards/IREDES;i=3015",
+        "dov:typeRef": "org.opcfoundation.UA.Mining.ExternalStandards.IREDES.LTPPMptToType",
         "const": {
           "LoadPt": 0,
           "DumpPt": 1,
@@ -3125,7 +3125,7 @@
         "dov:namespace": "http://opcfoundation.org/UA/Mining/ExternalStandards/IREDES",
         "title": "LTPPMaction",
         "description": "Action to be carried out at destination point specified in LTPPMptTo.",
-        "dov:typeRef": "nsu=http://opcfoundation.org/UA/Mining/ExternalStandards/IREDES;i=3018",
+        "dov:typeRef": "org.opcfoundation.UA.Mining.ExternalStandards.IREDES.LTPPMaction",
         "type": "integer",
         "minimum": -2147483648,
         "maximum": 2147483647,
@@ -3297,7 +3297,7 @@
         "dov:namespace": "http://opcfoundation.org/UA/Mining/ExternalStandards/IREDES",
         "title": "LTPPMptFromType",
         "description": "Type of the point where the mission started.",
-        "dov:typeRef": "nsu=http://opcfoundation.org/UA/Mining/ExternalStandards/IREDES;i=3012",
+        "dov:typeRef": "org.opcfoundation.UA.Mining.ExternalStandards.IREDES.LTPPMptFromType",
         "type": "integer",
         "minimum": -2147483648,
         "maximum": 2147483647,
@@ -3355,7 +3355,7 @@
         "dov:namespace": "http://opcfoundation.org/UA/Mining/ExternalStandards/IREDES",
         "title": "LTPPMptToType",
         "description": "Type of the point where the mission ended.",
-        "dov:typeRef": "nsu=http://opcfoundation.org/UA/Mining/ExternalStandards/IREDES;i=3015",
+        "dov:typeRef": "org.opcfoundation.UA.Mining.ExternalStandards.IREDES.LTPPMptToType",
         "type": "integer",
         "minimum": -2147483648,
         "maximum": 2147483647,
@@ -3476,7 +3476,7 @@
         "data": {
           "title": "LTPPMaction",
           "description": "Action to be carried out at destination point specified in LTPPMptTo.",
-          "dov:typeRef": "nsu=http://opcfoundation.org/UA/Mining/ExternalStandards/IREDES;i=3018",
+          "dov:typeRef": "org.opcfoundation.UA.Mining.ExternalStandards.IREDES.LTPPMaction",
           "type": "integer",
           "minimum": -2147483648,
           "maximum": 2147483647
@@ -3582,7 +3582,7 @@
         "data": {
           "title": "LTPPMptFromType",
           "description": "Type of the point where the mission started.",
-          "dov:typeRef": "nsu=http://opcfoundation.org/UA/Mining/ExternalStandards/IREDES;i=3012",
+          "dov:typeRef": "org.opcfoundation.UA.Mining.ExternalStandards.IREDES.LTPPMptFromType",
           "type": "integer",
           "minimum": -2147483648,
           "maximum": 2147483647
@@ -3628,7 +3628,7 @@
         "data": {
           "title": "LTPPMptToType",
           "description": "Type of the point where the mission ended.",
-          "dov:typeRef": "nsu=http://opcfoundation.org/UA/Mining/ExternalStandards/IREDES;i=3015",
+          "dov:typeRef": "org.opcfoundation.UA.Mining.ExternalStandards.IREDES.LTPPMptToType",
           "type": "integer",
           "minimum": -2147483648,
           "maximum": 2147483647
@@ -3713,7 +3713,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "Mining_ExternalStandards_IREDES_LTPPTimeRepType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/Mining/ExternalStandards/IREDES;i=1025",
+    "dov:typeRef": "org.opcfoundation.UA.Mining.ExternalStandards.IREDES.LTPPTimeRepType",
     "links": [
       {
         "rel": "tm:extends",
@@ -3807,7 +3807,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "Mining_ExternalStandards_IREDES_LTPPwaitProcType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/Mining/ExternalStandards/IREDES;i=1022",
+    "dov:typeRef": "org.opcfoundation.UA.Mining.ExternalStandards.IREDES.LTPPwaitProcType",
     "links": [
       {
         "rel": "tm:extends",
@@ -4072,7 +4072,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "Mining_ExternalStandards_IREDES_OpPerfLogType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/Mining/ExternalStandards/IREDES;i=1007",
+    "dov:typeRef": "org.opcfoundation.UA.Mining.ExternalStandards.IREDES.OpPerfLogType",
     "links": [
       {
         "rel": "tm:extends",
@@ -4336,7 +4336,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "Mining_ExternalStandards_IREDES_ProjectInfoType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/Mining/ExternalStandards/IREDES;i=1003",
+    "dov:typeRef": "org.opcfoundation.UA.ProjectInfoType",
     "links": [
       {
         "rel": "tm:extends",
@@ -4461,7 +4461,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "Mining_ExternalStandards_IREDES_SiteHeadType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/Mining/ExternalStandards/IREDES;i=1012",
+    "dov:typeRef": "org.opcfoundation.UA.Mining.ExternalStandards.IREDES.SiteHeadType",
     "links": [
       {
         "rel": "tm:extends",

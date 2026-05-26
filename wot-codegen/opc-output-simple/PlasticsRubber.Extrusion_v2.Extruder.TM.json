@@ -8,7 +8,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "PlasticsRubber_Extrusion_v2_Extruder_FeederType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/PlasticsRubber/Extrusion_v2/Extruder/;i=1063",
+    "dov:typeRef": "org.opcfoundation.UA.PlasticsRubber.Extrusion_v2.Extruder.FeederType",
     "links": [
       {
         "rel": "tm:extends",
@@ -31,7 +31,7 @@
     "schemaDefinitions": {
       "FeedingModeEnumeration": {
         "type": "object",
-        "dov:typeRef": "nsu=http://opcfoundation.org/UA/PlasticsRubber/Extrusion_v2/Extruder/;i=3003",
+        "dov:typeRef": "org.opcfoundation.UA.PlasticsRubber.Extrusion_v2.Extruder.FeedingModeEnumeration",
         "const": {
           "ONLY_CONVEYING": 0,
           "OTHER": 1,
@@ -111,7 +111,7 @@
       "Mode": {
         "dov:namespace": "http://opcfoundation.org/UA/PlasticsRubber/Extrusion_v2/Extruder/",
         "title": "FeedingModeEnumeration",
-        "dov:typeRef": "nsu=http://opcfoundation.org/UA/PlasticsRubber/Extrusion_v2/Extruder/;i=3003",
+        "dov:typeRef": "org.opcfoundation.UA.PlasticsRubber.Extrusion_v2.Extruder.FeedingModeEnumeration",
         "type": "integer",
         "minimum": -2147483648,
         "maximum": 2147483647,
@@ -161,7 +161,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "PlasticsRubber_Extrusion_v2_Extruder_Extruder_InterfaceType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/PlasticsRubber/Extrusion_v2/Extruder/;i=1015",
+    "dov:typeRef": "org.opcfoundation.UA.PlasticsRubber.Extrusion_v2.Extruder.Extruder_InterfaceType",
     "dov:isComposite": true,
     "links": [
       {
@@ -313,7 +313,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "PlasticsRubber_Extrusion_v2_Extruder_FeedersType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/PlasticsRubber/Extrusion_v2/Extruder/;i=1002",
+    "dov:typeRef": "org.opcfoundation.UA.PlasticsRubber.Extrusion_v2.Extruder.FeedersType",
     "links": [
       {
         "rel": "tm:extends",
@@ -363,7 +363,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "PlasticsRubber_Extrusion_v2_Extruder_HopperType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/PlasticsRubber/Extrusion_v2/Extruder/;i=1003",
+    "dov:typeRef": "org.opcfoundation.UA.PlasticsRubber.Extrusion_v2.Extruder.HopperType",
     "links": [
       {
         "rel": "tm:extends",

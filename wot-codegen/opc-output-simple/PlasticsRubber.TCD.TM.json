@@ -8,7 +8,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "PlasticsRubber_TCD_TCDHelpOffNormalAlarmType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/PlasticsRubber/TCD/;i=1009",
+    "dov:typeRef": "org.opcfoundation.UA.PlasticsRubber.TCD.TCDHelpOffNormalAlarmType",
     "dov:isEvent": true,
     "links": [
       {
@@ -58,7 +58,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "PlasticsRubber_TCD_DeviceZoneType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/PlasticsRubber/TCD/;i=1008",
+    "dov:typeRef": "org.opcfoundation.UA.PlasticsRubber.TCD.DeviceZoneType",
     "links": [
       {
         "rel": "tm:extends",
@@ -705,7 +705,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "PlasticsRubber_TCD_ExternalChannelsType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/PlasticsRubber/TCD/;i=1003",
+    "dov:typeRef": "org.opcfoundation.UA.PlasticsRubber.TCD.ExternalChannelsType",
     "links": [
       {
         "rel": "tm:extends",
@@ -755,7 +755,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "PlasticsRubber_TCD_ExternalChannelType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/PlasticsRubber/TCD/;i=1002",
+    "dov:typeRef": "org.opcfoundation.UA.PlasticsRubber.TCD.ExternalChannelType",
     "links": [
       {
         "rel": "tm:extends",
@@ -1022,7 +1022,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "PlasticsRubber_TCD_ExternalSensorType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/PlasticsRubber/TCD/;i=1007",
+    "dov:typeRef": "org.opcfoundation.UA.PlasticsRubber.TCD.ExternalSensorType",
     "links": [
       {
         "rel": "tm:extends",
@@ -1230,7 +1230,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "PlasticsRubber_TCD_LeakStopperType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/PlasticsRubber/TCD/;i=1006",
+    "dov:typeRef": "org.opcfoundation.UA.PlasticsRubber.TCD.LeakStopperType",
     "links": [
       {
         "rel": "tm:extends",
@@ -1278,7 +1278,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "PlasticsRubber_TCD_MaintenanceInformationType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/PlasticsRubber/TCD/;i=1004",
+    "dov:typeRef": "org.opcfoundation.UA.PlasticsRubber.TCD.MaintenanceInformationType",
     "links": [
       {
         "rel": "tm:extends",
@@ -1329,7 +1329,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "PlasticsRubber_TCD_MouldEvacuationType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/PlasticsRubber/TCD/;i=1005",
+    "dov:typeRef": "org.opcfoundation.UA.PlasticsRubber.TCD.MouldEvacuationType",
     "links": [
       {
         "rel": "tm:extends",
@@ -1555,7 +1555,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "PlasticsRubber_TCD_OperationType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/PlasticsRubber/TCD/;i=1010",
+    "dov:typeRef": "org.opcfoundation.UA.PlasticsRubber.TCD.OperationType",
     "links": [
       {
         "rel": "tm:extends",
@@ -1566,7 +1566,7 @@
     "schemaDefinitions": {
       "OperatingModeEnumeration": {
         "type": "object",
-        "dov:typeRef": "nsu=http://opcfoundation.org/UA/PlasticsRubber/TCD/;i=3002",
+        "dov:typeRef": "org.opcfoundation.UA.PlasticsRubber.TCD.OperatingModeEnumeration",
         "const": {
           "OTHER": 0,
           "READY_TO_OPERATE": 1,
@@ -1690,7 +1690,7 @@
         "dov:namespace": "http://opcfoundation.org/UA/PlasticsRubber/TCD/",
         "input": {
           "type": "object",
-          "dov:typeRef": "nsu=http://opcfoundation.org/UA/PlasticsRubber/TCD/;i=6510",
+          "dov:typeRef": "org.opcfoundation.UA.InputArguments",
           "required": [ "Id" ],
           "properties": {
             "Id": {
@@ -1739,7 +1739,7 @@
           "title": "ActiveErrorDataType",
           "description": "Iinformation about an active error in a device",
           "type": "object",
-          "dov:typeRef": "nsu=http://opcfoundation.org/UA/PlasticsRubber/GeneralTypes/;i=3028",
+          "dov:typeRef": "org.opcfoundation.UA.PlasticsRubber.GeneralTypes.ActiveErrorDataType",
           "required": [ "Id", "Severity", "Message" ],
           "properties": {
             "Id": {
@@ -1823,7 +1823,7 @@
         "dov:namespace": "http://opcfoundation.org/UA/PlasticsRubber/TCD/",
         "title": "OperatingModeEnumeration",
         "description": "Actual operating mode of the TCD",
-        "dov:typeRef": "nsu=http://opcfoundation.org/UA/PlasticsRubber/TCD/;i=3002",
+        "dov:typeRef": "org.opcfoundation.UA.PlasticsRubber.TCD.OperatingModeEnumeration",
         "type": "integer",
         "minimum": -2147483648,
         "maximum": 2147483647,
@@ -1859,7 +1859,7 @@
             "title": "ActiveErrorDataType",
             "description": "Iinformation about an active error in a device",
             "type": "object",
-            "dov:typeRef": "nsu=http://opcfoundation.org/UA/PlasticsRubber/GeneralTypes/;i=3028",
+            "dov:typeRef": "org.opcfoundation.UA.PlasticsRubber.GeneralTypes.ActiveErrorDataType",
             "required": [ "Id", "Severity", "Message" ],
             "properties": {
               "Id": {
@@ -1916,7 +1916,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "PlasticsRubber_TCD_TCD_InterfaceType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/PlasticsRubber/TCD/;i=1012",
+    "dov:typeRef": "org.opcfoundation.UA.PlasticsRubber.TCD.TCD_InterfaceType",
     "dov:isComposite": true,
     "links": [
       {
@@ -2004,7 +2004,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "PlasticsRubber_TCD_TCDSpecificationType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/PlasticsRubber/TCD/;i=1011",
+    "dov:typeRef": "org.opcfoundation.UA.PlasticsRubber.TCD.TCDSpecificationType",
     "links": [
       {
         "rel": "tm:extends",

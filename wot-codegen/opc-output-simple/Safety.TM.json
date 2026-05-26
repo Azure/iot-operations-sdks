@@ -8,7 +8,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "Safety_SafetyConsumerParametersType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/Safety;i=1006",
+    "dov:typeRef": "org.opcfoundation.UA.Safety.SafetyConsumerParametersType",
     "links": [
       {
         "rel": "tm:extends",
@@ -34,7 +34,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "Safety_SafetyObjectsType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/Safety;i=1004",
+    "dov:typeRef": "org.opcfoundation.UA.Safety.SafetyObjectsType",
     "links": [
       {
         "rel": "tm:extends",
@@ -60,7 +60,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "Safety_SafetyConsumerType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/Safety;i=1005",
+    "dov:typeRef": "org.opcfoundation.UA.Safety.SafetyConsumerType",
     "dov:isComposite": true,
     "links": [
       {
@@ -87,7 +87,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "Safety_SafetyProviderType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/Safety;i=1003",
+    "dov:typeRef": "org.opcfoundation.UA.Safety.SafetyProviderType",
     "dov:isComposite": true,
     "links": [
       {
@@ -114,7 +114,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "Safety_SafetyPDUsType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/Safety;i=1007",
+    "dov:typeRef": "org.opcfoundation.UA.Safety.SafetyPDUsType",
     "links": [
       {
         "rel": "tm:extends",
@@ -140,7 +140,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "Safety_SafetyProviderParametersType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/Safety;i=1002",
+    "dov:typeRef": "org.opcfoundation.UA.Safety.SafetyProviderParametersType",
     "links": [
       {
         "rel": "tm:extends",

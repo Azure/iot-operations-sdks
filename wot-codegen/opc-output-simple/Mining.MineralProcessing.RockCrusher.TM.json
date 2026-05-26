@@ -8,7 +8,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "Mining_MineralProcessing_RockCrusher_RockCrusherControlType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/Mining/MineralProcessing/RockCrusher/;i=1003",
+    "dov:typeRef": "org.opcfoundation.UA.Mining.MineralProcessing.RockCrusher.RockCrusherControlType",
     "dov:isComposite": true,
     "links": [
       {
@@ -47,7 +47,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "Mining_MineralProcessing_RockCrusher_RockCrusherType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/Mining/MineralProcessing/RockCrusher/;i=1002",
+    "dov:typeRef": "org.opcfoundation.UA.Mining.MineralProcessing.RockCrusher.RockCrusherType",
     "dov:isComposite": true,
     "links": [
       {

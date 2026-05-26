@@ -8,7 +8,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "MetalForming_FormingProcessConditionClassType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/MetalForming/;i=1023",
+    "dov:typeRef": "org.opcfoundation.UA.MetalForming.FormingProcessConditionClassType",
     "links": [
       {
         "rel": "tm:extends",
@@ -34,7 +34,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "MetalForming_AllowableTiltingExceededConditionClassType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/MetalForming/;i=1011",
+    "dov:typeRef": "org.opcfoundation.UA.MetalForming.AllowableTiltingExceededConditionClassType",
     "links": [
       {
         "rel": "tm:extends",
@@ -60,7 +60,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "MetalForming_BreakthroughTonnageExceededConditionClassType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/MetalForming/;i=1014",
+    "dov:typeRef": "org.opcfoundation.UA.MetalForming.BreakthroughTonnageExceededConditionClassType",
     "links": [
       {
         "rel": "tm:extends",
@@ -86,7 +86,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "MetalForming_CorrectionValueOutOfRangeConditionClassType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/MetalForming/;i=1020",
+    "dov:typeRef": "org.opcfoundation.UA.MetalForming.CorrectionValueOutOfRangeConditionClassType",
     "links": [
       {
         "rel": "tm:extends",
@@ -112,7 +112,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "MetalForming_EccentricLoadExceededConditionClassType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/MetalForming/;i=1006",
+    "dov:typeRef": "org.opcfoundation.UA.MetalForming.EccentricLoadExceededConditionClassType",
     "links": [
       {
         "rel": "tm:extends",
@@ -138,7 +138,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "MetalForming_OverloadTriggeredConditionClassType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/MetalForming/;i=1005",
+    "dov:typeRef": "org.opcfoundation.UA.MetalForming.OverloadTriggeredConditionClassType",
     "links": [
       {
         "rel": "tm:extends",
@@ -164,7 +164,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "MetalForming_PositionOutOfRangeConditionClassType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/MetalForming/;i=1017",
+    "dov:typeRef": "org.opcfoundation.UA.MetalForming.PositionOutOfRangeConditionClassType",
     "links": [
       {
         "rel": "tm:extends",
@@ -190,7 +190,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "MetalForming_ProcessForceExceededConditionClassType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/MetalForming/;i=1009",
+    "dov:typeRef": "org.opcfoundation.UA.MetalForming.ProcessForceExceededConditionClassType",
     "links": [
       {
         "rel": "tm:extends",
@@ -216,7 +216,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "MetalForming_CyclicEventType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/MetalForming/;i=1016",
+    "dov:typeRef": "org.opcfoundation.UA.MetalForming.CyclicEventType",
     "dov:isEvent": true,
     "links": [
       {
@@ -330,7 +330,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "MetalForming_FormingToolType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/MetalForming/;i=1010",
+    "dov:typeRef": "org.opcfoundation.UA.MetalForming.FormingToolType",
     "links": [
       {
         "rel": "tm:extends",
@@ -362,7 +362,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "MetalForming_FormingMultiToolType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/MetalForming/;i=1012",
+    "dov:typeRef": "org.opcfoundation.UA.MetalForming.FormingMultiToolType",
     "dov:isComposite": true,
     "links": [
       {
@@ -395,7 +395,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "MetalForming_ProcessWorkingUnitType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/MetalForming/;i=1004",
+    "dov:typeRef": "org.opcfoundation.UA.MetalForming.ProcessWorkingUnitType",
     "dov:isComposite": true,
     "links": [
       {
@@ -440,7 +440,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "MetalForming_FormingProcessWorkingUnitType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/MetalForming/;i=1008",
+    "dov:typeRef": "org.opcfoundation.UA.MetalForming.FormingProcessWorkingUnitType",
     "dov:isComposite": true,
     "links": [
       {
@@ -473,7 +473,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "MetalForming_FormingPositionsType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/MetalForming/;i=1003",
+    "dov:typeRef": "org.opcfoundation.UA.MetalForming.FormingPositionsType",
     "links": [
       {
         "rel": "tm:extends",
@@ -529,7 +529,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "MetalForming_CyclicProcessValueType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/MetalForming/;i=1007",
+    "dov:typeRef": "org.opcfoundation.UA.MetalForming.CyclicProcessValueType",
     "links": [
       {
         "rel": "tm:extends",
@@ -563,7 +563,7 @@
         "dov:namespace": "http://opcfoundation.org/UA/MetalForming/",
         "title": "CyclicProcessValueDataType",
         "type": "object",
-        "dov:typeRef": "nsu=http://opcfoundation.org/UA/MetalForming/;i=3003",
+        "dov:typeRef": "org.opcfoundation.UA.MetalForming.CyclicProcessValueDataType",
         "required": [ "AnalogSignal", "Setpoint", "CycleCount", "IsActive" ],
         "properties": {
           "AnalogSignal": {
@@ -602,7 +602,7 @@
         "data": {
           "title": "CyclicProcessValueDataType",
           "type": "object",
-          "dov:typeRef": "nsu=http://opcfoundation.org/UA/MetalForming/;i=3003",
+          "dov:typeRef": "org.opcfoundation.UA.MetalForming.CyclicProcessValueDataType",
           "required": [ "AnalogSignal", "Setpoint", "CycleCount", "IsActive" ],
           "properties": {
             "AnalogSignal": {

@@ -8,7 +8,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "POWERLINK_PowerlinkProtocolType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/POWERLINK/;i=6",
+    "dov:typeRef": "org.opcfoundation.UA.POWERLINK.PowerlinkProtocolType",
     "links": [
       {
         "rel": "tm:extends",
@@ -34,7 +34,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "POWERLINK_PowerlinkConnectionPointType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/POWERLINK/;i=3",
+    "dov:typeRef": "org.opcfoundation.UA.POWERLINK.PowerlinkConnectionPointType",
     "links": [
       {
         "rel": "tm:extends",
@@ -120,7 +120,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "POWERLINK_PowerlinkCnConnectionPointType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/POWERLINK/;i=4",
+    "dov:typeRef": "org.opcfoundation.UA.POWERLINK.PowerlinkCnConnectionPointType",
     "links": [
       {
         "rel": "tm:extends",
@@ -170,7 +170,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "POWERLINK_PowerlinkMnConnectionPointType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/POWERLINK/;i=5",
+    "dov:typeRef": "org.opcfoundation.UA.POWERLINK.PowerlinkMnConnectionPointType",
     "links": [
       {
         "rel": "tm:extends",
@@ -214,7 +214,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "POWERLINK_PowerlinkDeviceType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/POWERLINK/;i=2",
+    "dov:typeRef": "org.opcfoundation.UA.POWERLINK.PowerlinkDeviceType",
     "dov:isComposite": true,
     "links": [
       {
@@ -253,7 +253,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "POWERLINK_PowerlinkDeviceProfileType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/POWERLINK/;i=1",
+    "dov:typeRef": "org.opcfoundation.UA.POWERLINK.PowerlinkDeviceProfileType",
     "links": [
       {
         "rel": "tm:extends",

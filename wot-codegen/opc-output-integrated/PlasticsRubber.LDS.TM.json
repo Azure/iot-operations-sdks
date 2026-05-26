@@ -8,7 +8,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "PlasticsRubber_LDS_AdditiveType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/PlasticsRubber/LDS/;i=1004",
+    "dov:typeRef": "org.opcfoundation.UA.PlasticsRubber.LDS.AdditiveType",
     "links": [
       {
         "rel": "tm:extends",
@@ -31,7 +31,7 @@
     "schemaDefinitions": {
       "AdditiveStatusEnumeration": {
         "type": "object",
-        "dov:typeRef": "nsu=http://opcfoundation.org/UA/PlasticsRubber/LDS/;i=3002",
+        "dov:typeRef": "org.opcfoundation.UA.PlasticsRubber.LDS.AdditiveStatusEnumeration",
         "const": {
           "GOOD": 0,
           "WARNING": 1,
@@ -158,7 +158,7 @@
         "dov:namespace": "http://opcfoundation.org/UA/PlasticsRubber/LDS/",
         "title": "AdditiveStatusEnumeration",
         "description": "Actual status of the additive provides a minimal error handling for devices without event support.",
-        "dov:typeRef": "nsu=http://opcfoundation.org/UA/PlasticsRubber/LDS/;i=3002",
+        "dov:typeRef": "org.opcfoundation.UA.PlasticsRubber.LDS.AdditiveStatusEnumeration",
         "type": "integer",
         "minimum": -2147483648,
         "maximum": 2147483647,
@@ -184,7 +184,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "PlasticsRubber_LDS_AdditiveAlarmType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/PlasticsRubber/LDS/;i=1002",
+    "dov:typeRef": "org.opcfoundation.UA.PlasticsRubber.LDS.AdditiveAlarmType",
     "dov:isEvent": true,
     "links": [
       {
@@ -211,7 +211,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "PlasticsRubber_LDS_ComponentAlarmType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/PlasticsRubber/LDS/;i=1003",
+    "dov:typeRef": "org.opcfoundation.UA.PlasticsRubber.LDS.ComponentAlarmType",
     "dov:isEvent": true,
     "links": [
       {
@@ -238,7 +238,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "PlasticsRubber_LDS_LDSCycleParametersEventType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/PlasticsRubber/LDS/;i=1008",
+    "dov:typeRef": "org.opcfoundation.UA.PlasticsRubber.LDS.LDSCycleParametersEventType",
     "dov:isEvent": true,
     "links": [
       {
@@ -857,7 +857,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "PlasticsRubber_LDS_ComponentType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/PlasticsRubber/LDS/;i=1005",
+    "dov:typeRef": "org.opcfoundation.UA.PlasticsRubber.LDS.ComponentType",
     "links": [
       {
         "rel": "tm:extends",
@@ -868,7 +868,7 @@
     "schemaDefinitions": {
       "ComponentStatusEnumeration": {
         "type": "object",
-        "dov:typeRef": "nsu=http://opcfoundation.org/UA/PlasticsRubber/LDS/;i=3003",
+        "dov:typeRef": "org.opcfoundation.UA.PlasticsRubber.LDS.ComponentStatusEnumeration",
         "const": {
           "GOOD": 0,
           "WARNING": 1,
@@ -934,7 +934,7 @@
         "description": "This optional method is used to modify SetValueDensity if allowed by the device.",
         "input": {
           "type": "object",
-          "dov:typeRef": "nsu=http://opcfoundation.org/UA/PlasticsRubber/LDS/;i=6448",
+          "dov:typeRef": "org.opcfoundation.UA.InputArguments",
           "required": [ "Density" ],
           "properties": {
             "Density": {
@@ -1082,7 +1082,7 @@
         "dov:namespace": "http://opcfoundation.org/UA/PlasticsRubber/LDS/",
         "title": "ComponentStatusEnumeration",
         "description": "Actual status of the component provides a minimal error handling for devices without event support.",
-        "dov:typeRef": "nsu=http://opcfoundation.org/UA/PlasticsRubber/LDS/;i=3003",
+        "dov:typeRef": "org.opcfoundation.UA.PlasticsRubber.LDS.ComponentStatusEnumeration",
         "type": "integer",
         "minimum": -2147483648,
         "maximum": 2147483647,
@@ -1219,7 +1219,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "PlasticsRubber_LDS_LDS_InterfaceType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/PlasticsRubber/LDS/;i=1007",
+    "dov:typeRef": "org.opcfoundation.UA.PlasticsRubber.LDS.LDS_InterfaceType",
     "dov:isComposite": true,
     "links": [
       {
@@ -1312,7 +1312,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "PlasticsRubber_LDS_OperationType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/PlasticsRubber/LDS/;i=1006",
+    "dov:typeRef": "org.opcfoundation.UA.PlasticsRubber.LDS.OperationType",
     "links": [
       {
         "rel": "tm:extends",
@@ -1353,7 +1353,7 @@
     "schemaDefinitions": {
       "MaterialBalanceSystemTypeEnumeration": {
         "type": "object",
-        "dov:typeRef": "nsu=http://opcfoundation.org/UA/PlasticsRubber/LDS/;i=3005",
+        "dov:typeRef": "org.opcfoundation.UA.PlasticsRubber.LDS.MaterialBalanceSystemTypeEnumeration",
         "const": {
           "NOT_AVAILABLE": 0,
           "ALWAYS_ACTIVE": 1,
@@ -1373,7 +1373,7 @@
       },
       "PurgeStatusEnumeration": {
         "type": "object",
-        "dov:typeRef": "nsu=http://opcfoundation.org/UA/PlasticsRubber/LDS/;i=3004",
+        "dov:typeRef": "org.opcfoundation.UA.PlasticsRubber.LDS.PurgeStatusEnumeration",
         "const": {
           "OFF": 0,
           "COMPONENT_A": 1,
@@ -1445,7 +1445,7 @@
         "description": "Method to reset one error of the device",
         "input": {
           "type": "object",
-          "dov:typeRef": "nsu=http://opcfoundation.org/UA/PlasticsRubber/LDS/;i=6059",
+          "dov:typeRef": "org.opcfoundation.UA.InputArguments",
           "required": [ "Id" ],
           "properties": {
             "Id": {
@@ -1466,7 +1466,7 @@
         "description": "Method to set the cycle number of the LDS to synchronize it with the cycle number of the injection moulding machine",
         "input": {
           "type": "object",
-          "dov:typeRef": "nsu=http://opcfoundation.org/UA/PlasticsRubber/LDS/;i=6039",
+          "dov:typeRef": "org.opcfoundation.UA.InputArguments",
           "required": [ "CycleNumber" ],
           "properties": {
             "CycleNumber": {
@@ -1553,7 +1553,7 @@
           "title": "ClassifiedActiveErrorDataType",
           "description": "Iinformation about an active error in a device including the SoureNodes and a Classification",
           "type": "object",
-          "dov:typeRef": "nsu=http://opcfoundation.org/UA/PlasticsRubber/GeneralTypes/;i=3003",
+          "dov:typeRef": "org.opcfoundation.UA.PlasticsRubber.GeneralTypes.ClassifiedActiveErrorDataType",
           "required": [ "SourceNodes", "Classification" ],
           "properties": {
             "SourceNodes": {
@@ -1701,7 +1701,7 @@
         "dov:namespace": "http://opcfoundation.org/UA/PlasticsRubber/LDS/",
         "title": "MaterialBalanceSystemTypeEnumeration",
         "description": "Type of the material balance system",
-        "dov:typeRef": "nsu=http://opcfoundation.org/UA/PlasticsRubber/LDS/;i=3005",
+        "dov:typeRef": "org.opcfoundation.UA.PlasticsRubber.LDS.MaterialBalanceSystemTypeEnumeration",
         "type": "integer",
         "minimum": -2147483648,
         "maximum": 2147483647,
@@ -1850,7 +1850,7 @@
         "dov:namespace": "http://opcfoundation.org/UA/PlasticsRubber/LDS/",
         "title": "PurgeStatusEnumeration",
         "description": "Actual status of the purge function",
-        "dov:typeRef": "nsu=http://opcfoundation.org/UA/PlasticsRubber/LDS/;i=3004",
+        "dov:typeRef": "org.opcfoundation.UA.PlasticsRubber.LDS.PurgeStatusEnumeration",
         "type": "integer",
         "minimum": -2147483648,
         "maximum": 2147483647,
@@ -1993,7 +1993,7 @@
             "title": "ClassifiedActiveErrorDataType",
             "description": "Iinformation about an active error in a device including the SoureNodes and a Classification",
             "type": "object",
-            "dov:typeRef": "nsu=http://opcfoundation.org/UA/PlasticsRubber/GeneralTypes/;i=3003",
+            "dov:typeRef": "org.opcfoundation.UA.PlasticsRubber.GeneralTypes.ClassifiedActiveErrorDataType",
             "required": [ "SourceNodes", "Classification" ],
             "properties": {
               "SourceNodes": {
@@ -2311,7 +2311,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "OpcUaCore_BaseObjectType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/;i=58",
+    "dov:typeRef": "org.opcfoundation.UA.BaseObjectType",
     "links": [
     ],
     "schemaDefinitions": {
@@ -2332,7 +2332,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "OpcUaCore_OffNormalAlarmType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/;i=10637",
+    "dov:typeRef": "org.opcfoundation.UA.OffNormalAlarmType",
     "dov:isEvent": true,
     "links": [
       {
@@ -2377,7 +2377,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "OpcUaCore_DiscreteAlarmType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/;i=10523",
+    "dov:typeRef": "org.opcfoundation.UA.DiscreteAlarmType",
     "dov:isEvent": true,
     "links": [
       {
@@ -2404,7 +2404,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "OpcUaCore_AlarmConditionType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/;i=2915",
+    "dov:typeRef": "org.opcfoundation.UA.AlarmConditionType",
     "dov:isEvent": true,
     "links": [
       {
@@ -2443,7 +2443,7 @@
       "GetGroupMemberships": {
         "output": {
           "type": "object",
-          "dov:typeRef": "nsu=http://opcfoundation.org/UA/;i=25154",
+          "dov:typeRef": "org.opcfoundation.UA.OutputArguments",
           "required": [ "Groups" ],
           "properties": {
             "Groups": {
@@ -2474,7 +2474,7 @@
       "PlaceInService2": {
         "input": {
           "type": "object",
-          "dov:typeRef": "nsu=http://opcfoundation.org/UA/;i=24323",
+          "dov:typeRef": "org.opcfoundation.UA.InputArguments",
           "required": [ "Comment" ],
           "properties": {
             "Comment": {
@@ -2502,7 +2502,7 @@
       "RemoveFromService2": {
         "input": {
           "type": "object",
-          "dov:typeRef": "nsu=http://opcfoundation.org/UA/;i=24321",
+          "dov:typeRef": "org.opcfoundation.UA.InputArguments",
           "required": [ "Comment" ],
           "properties": {
             "Comment": {
@@ -2530,7 +2530,7 @@
       "Reset2": {
         "input": {
           "type": "object",
-          "dov:typeRef": "nsu=http://opcfoundation.org/UA/;i=24325",
+          "dov:typeRef": "org.opcfoundation.UA.InputArguments",
           "required": [ "Comment" ],
           "properties": {
             "Comment": {
@@ -2567,7 +2567,7 @@
       "Suppress2": {
         "input": {
           "type": "object",
-          "dov:typeRef": "nsu=http://opcfoundation.org/UA/;i=24317",
+          "dov:typeRef": "org.opcfoundation.UA.InputArguments",
           "required": [ "Comment" ],
           "properties": {
             "Comment": {
@@ -2595,7 +2595,7 @@
       "Unsuppress2": {
         "input": {
           "type": "object",
-          "dov:typeRef": "nsu=http://opcfoundation.org/UA/;i=24319",
+          "dov:typeRef": "org.opcfoundation.UA.InputArguments",
           "required": [ "Comment" ],
           "properties": {
             "Comment": {
@@ -2920,7 +2920,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "OpcUaCore_AcknowledgeableConditionType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/;i=2881",
+    "dov:typeRef": "org.opcfoundation.UA.AcknowledgeableConditionType",
     "dov:isEvent": true,
     "links": [
       {
@@ -2947,7 +2947,7 @@
       "Acknowledge": {
         "input": {
           "type": "object",
-          "dov:typeRef": "nsu=http://opcfoundation.org/UA/;i=9112",
+          "dov:typeRef": "org.opcfoundation.UA.InputArguments",
           "required": [ "EventId", "Comment" ],
           "properties": {
             "EventId": {
@@ -2972,7 +2972,7 @@
       "Confirm": {
         "input": {
           "type": "object",
-          "dov:typeRef": "nsu=http://opcfoundation.org/UA/;i=9114",
+          "dov:typeRef": "org.opcfoundation.UA.InputArguments",
           "required": [ "EventId", "Comment" ],
           "properties": {
             "EventId": {
@@ -3078,7 +3078,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "OpcUaCore_ConditionType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/;i=2782",
+    "dov:typeRef": "org.opcfoundation.UA.ConditionType",
     "dov:isEvent": true,
     "links": [
       {
@@ -3105,7 +3105,7 @@
       "AddComment": {
         "input": {
           "type": "object",
-          "dov:typeRef": "nsu=http://opcfoundation.org/UA/;i=9030",
+          "dov:typeRef": "org.opcfoundation.UA.InputArguments",
           "required": [ "EventId", "Comment" ],
           "properties": {
             "EventId": {
@@ -3130,7 +3130,7 @@
       "ConditionRefresh": {
         "input": {
           "type": "object",
-          "dov:typeRef": "nsu=http://opcfoundation.org/UA/;i=3876",
+          "dov:typeRef": "org.opcfoundation.UA.InputArguments",
           "required": [ "SubscriptionId" ],
           "properties": {
             "SubscriptionId": {
@@ -3152,7 +3152,7 @@
       "ConditionRefresh2": {
         "input": {
           "type": "object",
-          "dov:typeRef": "nsu=http://opcfoundation.org/UA/;i=12913",
+          "dov:typeRef": "org.opcfoundation.UA.InputArguments",
           "required": [ "SubscriptionId", "MonitoredItemId" ],
           "properties": {
             "SubscriptionId": {
@@ -3411,7 +3411,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "OpcUaCore_BaseEventType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/;i=2041",
+    "dov:typeRef": "org.opcfoundation.UA.BaseEventType",
     "links": [
       {
         "rel": "tm:extends",
@@ -3507,7 +3507,7 @@
       "LocalTime": {
         "title": "TimeZoneDataType",
         "type": "object",
-        "dov:typeRef": "nsu=http://opcfoundation.org/UA/;i=8912",
+        "dov:typeRef": "org.opcfoundation.UA.TimeZoneDataType",
         "required": [ "Offset", "DaylightSavingInOffset" ],
         "properties": {
           "Offset": {
@@ -3611,7 +3611,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "OpcUaCore_ShelvedStateMachineType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/;i=2929",
+    "dov:typeRef": "org.opcfoundation.UA.ShelvedStateMachineType",
     "links": [
       {
         "rel": "tm:extends",
@@ -3695,7 +3695,7 @@
       "OneShotShelve2": {
         "input": {
           "type": "object",
-          "dov:typeRef": "nsu=http://opcfoundation.org/UA/;i=24761",
+          "dov:typeRef": "org.opcfoundation.UA.InputArguments",
           "required": [ "Comment" ],
           "properties": {
             "Comment": {
@@ -3714,7 +3714,7 @@
       "TimedShelve": {
         "input": {
           "type": "object",
-          "dov:typeRef": "nsu=http://opcfoundation.org/UA/;i=2991",
+          "dov:typeRef": "org.opcfoundation.UA.InputArguments",
           "required": [ "ShelvingTime" ],
           "properties": {
             "ShelvingTime": {
@@ -3734,7 +3734,7 @@
       "TimedShelve2": {
         "input": {
           "type": "object",
-          "dov:typeRef": "nsu=http://opcfoundation.org/UA/;i=24757",
+          "dov:typeRef": "org.opcfoundation.UA.InputArguments",
           "required": [ "ShelvingTime", "Comment" ],
           "properties": {
             "ShelvingTime": {
@@ -3766,7 +3766,7 @@
       "Unshelve2": {
         "input": {
           "type": "object",
-          "dov:typeRef": "nsu=http://opcfoundation.org/UA/;i=24759",
+          "dov:typeRef": "org.opcfoundation.UA.InputArguments",
           "required": [ "Comment" ],
           "properties": {
             "Comment": {
@@ -3809,7 +3809,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "OpcUaCore_FiniteStateMachineType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/;i=2771",
+    "dov:typeRef": "org.opcfoundation.UA.FiniteStateMachineType",
     "links": [
       {
         "rel": "tm:extends",
@@ -3951,7 +3951,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "OpcUaCore_StateMachineType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/;i=2299",
+    "dov:typeRef": "org.opcfoundation.UA.StateMachineType",
     "dov:isComposite": true,
     "links": [
       {
@@ -4036,7 +4036,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "OpcUaCore_StateType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/;i=2307",
+    "dov:typeRef": "org.opcfoundation.UA.StateType",
     "links": [
       {
         "rel": "tm:extends",
@@ -4082,7 +4082,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "OpcUaCore_TransitionType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/;i=2310",
+    "dov:typeRef": "org.opcfoundation.UA.TransitionType",
     "links": [
       {
         "rel": "tm:extends",
@@ -4128,7 +4128,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "OpcUaCore_AlarmGroupType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/;i=16405",
+    "dov:typeRef": "org.opcfoundation.UA.AlarmGroupType",
     "links": [
       {
         "rel": "tm:extends",
@@ -4154,7 +4154,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "OpcUaCore_FolderType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/;i=61",
+    "dov:typeRef": "org.opcfoundation.UA.FolderType",
     "links": [
       {
         "rel": "tm:extends",
@@ -4180,7 +4180,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "PlasticsRubber_GeneralTypes_ControlledParameterType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/PlasticsRubber/GeneralTypes/;i=1057",
+    "dov:typeRef": "org.opcfoundation.UA.PlasticsRubber.GeneralTypes.ControlledParameterType",
     "dov:isComposite": true,
     "links": [
       {
@@ -4302,7 +4302,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "PlasticsRubber_GeneralTypes_MonitoredParameterType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/PlasticsRubber/GeneralTypes/;i=1056",
+    "dov:typeRef": "org.opcfoundation.UA.PlasticsRubber.GeneralTypes.MonitoredParameterType",
     "links": [
       {
         "rel": "tm:extends",
@@ -4822,7 +4822,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "PlasticsRubber_GeneralTypes_ClosedLoopControlType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/PlasticsRubber/GeneralTypes/;i=1054",
+    "dov:typeRef": "org.opcfoundation.UA.PlasticsRubber.GeneralTypes.ClosedLoopControlType",
     "links": [
       {
         "rel": "tm:extends",
@@ -4908,7 +4908,7 @@
           "title": "PIDParametersDataType",
           "description": "Structure for storing the parameters of a PID controller",
           "type": "object",
-          "dov:typeRef": "nsu=http://opcfoundation.org/UA/PlasticsRubber/GeneralTypes/;i=3023",
+          "dov:typeRef": "org.opcfoundation.UA.PlasticsRubber.GeneralTypes.PIDParametersDataType",
           "required": [ "P", "I", "D" ],
           "properties": {
             "P": {
@@ -4958,7 +4958,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "PlasticsRubber_GeneralTypes_HelpOffNormalAlarmType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/PlasticsRubber/GeneralTypes/;i=1052",
+    "dov:typeRef": "org.opcfoundation.UA.PlasticsRubber.GeneralTypes.HelpOffNormalAlarmType",
     "dov:isEvent": true,
     "links": [
       {
@@ -5005,7 +5005,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "PlasticsRubber_GeneralTypes_IdentificationType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/PlasticsRubber/GeneralTypes/;i=1058",
+    "dov:typeRef": "org.opcfoundation.UA.PlasticsRubber.GeneralTypes.IdentificationType",
     "dov:isComposite": true,
     "links": [
       {
@@ -5106,7 +5106,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "PlasticsRubber_GeneralTypes_MachineConfigurationType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/PlasticsRubber/GeneralTypes/;i=1016",
+    "dov:typeRef": "org.opcfoundation.UA.PlasticsRubber.GeneralTypes.MachineConfigurationType",
     "dov:isComposite": true,
     "links": [
       {
@@ -5135,7 +5135,7 @@
         "description": "Method for retrieving a screenshot of the control system with the currently shown contents",
         "input": {
           "type": "object",
-          "dov:typeRef": "nsu=http://opcfoundation.org/UA/PlasticsRubber/GeneralTypes/;i=6191",
+          "dov:typeRef": "org.opcfoundation.UA.InputArguments",
           "required": [ "VisualisationUnit" ],
           "properties": {
             "VisualisationUnit": {
@@ -5147,7 +5147,7 @@
         },
         "output": {
           "type": "object",
-          "dov:typeRef": "nsu=http://opcfoundation.org/UA/PlasticsRubber/GeneralTypes/;i=6192",
+          "dov:typeRef": "org.opcfoundation.UA.OutputArguments",
           "required": [ "Page" ],
           "properties": {
             "Page": {
@@ -5169,7 +5169,7 @@
         "description": "Method for retrieving the image of a page of the control system",
         "input": {
           "type": "object",
-          "dov:typeRef": "nsu=http://opcfoundation.org/UA/PlasticsRubber/GeneralTypes/;i=6193",
+          "dov:typeRef": "org.opcfoundation.UA.InputArguments",
           "required": [ "Id" ],
           "properties": {
             "Id": {
@@ -5179,7 +5179,7 @@
         },
         "output": {
           "type": "object",
-          "dov:typeRef": "nsu=http://opcfoundation.org/UA/PlasticsRubber/GeneralTypes/;i=6194",
+          "dov:typeRef": "org.opcfoundation.UA.OutputArguments",
           "required": [ "Page" ],
           "properties": {
             "Page": {
@@ -5201,7 +5201,7 @@
         "description": "Method for setting the server time together with TimeZoneOffset",
         "input": {
           "type": "object",
-          "dov:typeRef": "nsu=http://opcfoundation.org/UA/PlasticsRubber/GeneralTypes/;i=6198",
+          "dov:typeRef": "org.opcfoundation.UA.InputArguments",
           "required": [ "DateTime", "TimeZoneOffset" ],
           "properties": {
             "DateTime": {
@@ -5211,7 +5211,7 @@
             "TimeZoneOffset": {
               "title": "TimeZoneDataType",
               "type": "object",
-              "dov:typeRef": "nsu=http://opcfoundation.org/UA/;i=8912",
+              "dov:typeRef": "org.opcfoundation.UA.TimeZoneDataType",
               "required": [ "Offset", "DaylightSavingInOffset" ],
               "properties": {
                 "Offset": {
@@ -5262,7 +5262,7 @@
           "title": "PageEntryDataType",
           "description": "Information on a page that is implemented in the machine control system and shown on the screen of the machine",
           "type": "object",
-          "dov:typeRef": "nsu=http://opcfoundation.org/UA/PlasticsRubber/GeneralTypes/;i=3014",
+          "dov:typeRef": "org.opcfoundation.UA.PlasticsRubber.GeneralTypes.PageEntryDataType",
           "required": [ "Id", "Title" ],
           "properties": {
             "Id": {
@@ -5289,7 +5289,7 @@
         "title": "TimeZoneDataType",
         "description": "Difference of the local time to Coordinated Universal Time (UTC) given by the machine operator or OPC client",
         "type": "object",
-        "dov:typeRef": "nsu=http://opcfoundation.org/UA/;i=8912",
+        "dov:typeRef": "org.opcfoundation.UA.TimeZoneDataType",
         "required": [ "Offset", "DaylightSavingInOffset" ],
         "properties": {
           "Offset": {
@@ -5346,7 +5346,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "DI_ComponentType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/DI/;i=15063",
+    "dov:typeRef": "org.opcfoundation.UA.DI.ComponentType",
     "links": [
       {
         "rel": "tm:extends",
@@ -5549,7 +5549,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "DI_TopologyElementType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/DI/;i=1001",
+    "dov:typeRef": "org.opcfoundation.UA.DI.TopologyElementType",
     "links": [
       {
         "rel": "tm:extends",
@@ -5605,7 +5605,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "DI_FunctionalGroupType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/DI/;i=1005",
+    "dov:typeRef": "org.opcfoundation.UA.DI.FunctionalGroupType",
     "links": [
       {
         "rel": "tm:extends",
@@ -5676,7 +5676,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "DI_LockingServicesType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/DI/;i=6388",
+    "dov:typeRef": "org.opcfoundation.UA.DI.LockingServicesType",
     "links": [
       {
         "rel": "tm:extends",
@@ -5698,7 +5698,7 @@
         "dov:namespace": "http://opcfoundation.org/UA/DI/",
         "output": {
           "type": "object",
-          "dov:typeRef": "nsu=http://opcfoundation.org/UA/DI/;i=6401",
+          "dov:typeRef": "org.opcfoundation.UA.OutputArguments",
           "required": [ "BreakLockStatus" ],
           "properties": {
             "BreakLockStatus": {
@@ -5720,7 +5720,7 @@
         "dov:namespace": "http://opcfoundation.org/UA/DI/",
         "output": {
           "type": "object",
-          "dov:typeRef": "nsu=http://opcfoundation.org/UA/DI/;i=6399",
+          "dov:typeRef": "org.opcfoundation.UA.OutputArguments",
           "required": [ "ExitLockStatus" ],
           "properties": {
             "ExitLockStatus": {
@@ -5742,7 +5742,7 @@
         "dov:namespace": "http://opcfoundation.org/UA/DI/",
         "input": {
           "type": "object",
-          "dov:typeRef": "nsu=http://opcfoundation.org/UA/DI/;i=6394",
+          "dov:typeRef": "org.opcfoundation.UA.InputArguments",
           "required": [ "Context" ],
           "properties": {
             "Context": {
@@ -5752,7 +5752,7 @@
         },
         "output": {
           "type": "object",
-          "dov:typeRef": "nsu=http://opcfoundation.org/UA/DI/;i=6395",
+          "dov:typeRef": "org.opcfoundation.UA.OutputArguments",
           "required": [ "InitLockStatus" ],
           "properties": {
             "InitLockStatus": {
@@ -5774,7 +5774,7 @@
         "dov:namespace": "http://opcfoundation.org/UA/DI/",
         "output": {
           "type": "object",
-          "dov:typeRef": "nsu=http://opcfoundation.org/UA/DI/;i=6397",
+          "dov:typeRef": "org.opcfoundation.UA.OutputArguments",
           "required": [ "RenewLockStatus" ],
           "properties": {
             "RenewLockStatus": {

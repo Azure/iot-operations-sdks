@@ -8,7 +8,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "PNENC_EncoderDiagnosisEventType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/PNENC/;i=1006",
+    "dov:typeRef": "org.opcfoundation.UA.PNENC.EncoderDiagnosisEventType",
     "dov:isEvent": true,
     "links": [
       {
@@ -20,7 +20,7 @@
     "schemaDefinitions": {
       "EventTypeEnumeration": {
         "type": "object",
-        "dov:typeRef": "nsu=http://opcfoundation.org/UA/PNENC/;i=3003",
+        "dov:typeRef": "org.opcfoundation.UA.PNENC.EventTypeEnumeration",
         "const": {
           "FAULT": 0,
           "WARNING": 1,
@@ -43,7 +43,7 @@
       },
       "EncoderDiagnosisReasonEnumeration": {
         "type": "object",
-        "dov:typeRef": "nsu=http://opcfoundation.org/UA/PNENC/;i=3012",
+        "dov:typeRef": "org.opcfoundation.UA.PNENC.EncoderDiagnosisReasonEnumeration",
         "const": {
           "ALL_DISAPPEARS": 0,
           "APPEARS": 1,
@@ -83,7 +83,7 @@
       "DiagnosisType": {
         "dov:namespace": "http://opcfoundation.org/UA/PNENC/",
         "title": "EventTypeEnumeration",
-        "dov:typeRef": "nsu=http://opcfoundation.org/UA/PNENC/;i=3003",
+        "dov:typeRef": "org.opcfoundation.UA.PNENC.EventTypeEnumeration",
         "type": "integer",
         "minimum": -2147483648,
         "maximum": 2147483647,
@@ -123,7 +123,7 @@
       "Reason": {
         "dov:namespace": "http://opcfoundation.org/UA/PNENC/",
         "title": "EncoderDiagnosisReasonEnumeration",
-        "dov:typeRef": "nsu=http://opcfoundation.org/UA/PNENC/;i=3012",
+        "dov:typeRef": "org.opcfoundation.UA.PNENC.EncoderDiagnosisReasonEnumeration",
         "type": "integer",
         "minimum": -2147483648,
         "maximum": 2147483647,
@@ -149,7 +149,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "PNENC_EncoderProbeLatchEventType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/PNENC/;i=1005",
+    "dov:typeRef": "org.opcfoundation.UA.PNENC.EncoderProbeLatchEventType",
     "dov:isEvent": true,
     "links": [
       {
@@ -219,7 +219,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "PNENC_EncoderRefLatchEventType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/PNENC/;i=1004",
+    "dov:typeRef": "org.opcfoundation.UA.PNENC.EncoderRefLatchEventType",
     "dov:isEvent": true,
     "links": [
       {
@@ -277,7 +277,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "PNENC_LogbookEventType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/PNENC/;i=1003",
+    "dov:typeRef": "org.opcfoundation.UA.PNENC.LogbookEventType",
     "dov:isEvent": true,
     "links": [
       {
@@ -289,7 +289,7 @@
     "schemaDefinitions": {
       "EventTypeEnumeration": {
         "type": "object",
-        "dov:typeRef": "nsu=http://opcfoundation.org/UA/PNENC/;i=3003",
+        "dov:typeRef": "org.opcfoundation.UA.PNENC.EventTypeEnumeration",
         "const": {
           "FAULT": 0,
           "WARNING": 1,
@@ -325,7 +325,7 @@
         "dov:namespace": "http://opcfoundation.org/UA/PNENC/",
         "title": "LogEntryDataType",
         "type": "object",
-        "dov:typeRef": "nsu=http://opcfoundation.org/UA/PNENC/;i=3013",
+        "dov:typeRef": "org.opcfoundation.UA.PNENC.LogEntryDataType",
         "required": [ "FaultSituationNumber", "EventNumber", "EventType", "EventCode", "EventText", "EventComing", "EventGoing", "EventAcknowledged" ],
         "properties": {
           "FaultSituationNumber": {
@@ -343,7 +343,7 @@
           "EventType": {
             "title": "EventTypeEnumeration",
             "description": "Characterization of the event (fault, warning, etc.). Must never have the value “UNSPECIFIED”",
-            "dov:typeRef": "nsu=http://opcfoundation.org/UA/PNENC/;i=3003",
+            "dov:typeRef": "org.opcfoundation.UA.PNENC.EventTypeEnumeration",
             "type": "integer",
             "minimum": -2147483648,
             "maximum": 2147483647
@@ -396,7 +396,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "PNENC_EncoderAxisConfigType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/PNENC/;i=1009",
+    "dov:typeRef": "org.opcfoundation.UA.PNENC.EncoderAxisConfigType",
     "links": [
       {
         "rel": "tm:extends",
@@ -407,7 +407,7 @@
     "schemaDefinitions": {
       "EncoderAxisTypeEnumeration": {
         "type": "object",
-        "dov:typeRef": "nsu=http://opcfoundation.org/UA/PNENC/;i=3004",
+        "dov:typeRef": "org.opcfoundation.UA.PNENC.EncoderAxisTypeEnumeration",
         "const": {
           "ROTARY": 0,
           "LINEAR": 1
@@ -425,7 +425,7 @@
       },
       "EncoderCodeSequenceEnumeration": {
         "type": "object",
-        "dov:typeRef": "nsu=http://opcfoundation.org/UA/PNENC/;i=3005",
+        "dov:typeRef": "org.opcfoundation.UA.PNENC.EncoderCodeSequenceEnumeration",
         "const": {
           "INCREASING_CLOCKWISE": 0,
           "INCREASING_COUNTERCLOCKWISE": 1
@@ -459,7 +459,7 @@
         "dov:namespace": "http://opcfoundation.org/UA/PNENC/",
         "input": {
           "type": "object",
-          "dov:typeRef": "nsu=http://opcfoundation.org/UA/PNENC/;i=6066",
+          "dov:typeRef": "org.opcfoundation.UA.InputArguments",
           "required": [ "AxisConfigParameters" ],
           "properties": {
             "AxisConfigParameters": {
@@ -467,7 +467,7 @@
               "items": {
                 "title": "KeyValuePair",
                 "type": "object",
-                "dov:typeRef": "nsu=http://opcfoundation.org/UA/;i=14533",
+                "dov:typeRef": "org.opcfoundation.UA.KeyValuePair",
                 "required": [ "Key", "Value" ],
                 "properties": {
                   "Key": {
@@ -484,7 +484,7 @@
         },
         "output": {
           "type": "object",
-          "dov:typeRef": "nsu=http://opcfoundation.org/UA/PNENC/;i=6067",
+          "dov:typeRef": "org.opcfoundation.UA.OutputArguments",
           "required": [ "AxisConfigParametersResult" ],
           "properties": {
             "AxisConfigParametersResult": {
@@ -492,7 +492,7 @@
               "items": {
                 "title": "KeyValuePair",
                 "type": "object",
-                "dov:typeRef": "nsu=http://opcfoundation.org/UA/;i=14533",
+                "dov:typeRef": "org.opcfoundation.UA.KeyValuePair",
                 "required": [ "Key", "Value" ],
                 "properties": {
                   "Key": {
@@ -534,7 +534,7 @@
       "AxisType": {
         "dov:namespace": "http://opcfoundation.org/UA/PNENC/",
         "title": "EncoderAxisTypeEnumeration",
-        "dov:typeRef": "nsu=http://opcfoundation.org/UA/PNENC/;i=3004",
+        "dov:typeRef": "org.opcfoundation.UA.PNENC.EncoderAxisTypeEnumeration",
         "type": "integer",
         "minimum": -2147483648,
         "maximum": 2147483647,
@@ -550,7 +550,7 @@
       "CodeSequence": {
         "dov:namespace": "http://opcfoundation.org/UA/PNENC/",
         "title": "EncoderCodeSequenceEnumeration",
-        "dov:typeRef": "nsu=http://opcfoundation.org/UA/PNENC/;i=3005",
+        "dov:typeRef": "org.opcfoundation.UA.PNENC.EncoderCodeSequenceEnumeration",
         "type": "integer",
         "minimum": -2147483648,
         "maximum": 2147483647,
@@ -677,7 +677,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "PNENC_EncoderChannelType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/PNENC/;i=1002",
+    "dov:typeRef": "org.opcfoundation.UA.PNENC.EncoderChannelType",
     "dov:isComposite": true,
     "links": [
       {
@@ -731,7 +731,7 @@
     "schemaDefinitions": {
       "EncoderChannelStateEnumeration": {
         "type": "object",
-        "dov:typeRef": "nsu=http://opcfoundation.org/UA/PNENC/;i=3002",
+        "dov:typeRef": "org.opcfoundation.UA.PNENC.EncoderChannelStateEnumeration",
         "const": {
           "NORMAL_OPERATION": 0,
           "ERROR_ACKNOWLEDGEMENT": 1,
@@ -810,7 +810,7 @@
         "dov:namespace": "http://opcfoundation.org/UA/PNENC/",
         "input": {
           "type": "object",
-          "dov:typeRef": "nsu=http://opcfoundation.org/UA/PNENC/;i=6002",
+          "dov:typeRef": "org.opcfoundation.UA.InputArguments",
           "required": [ "ApplicationTag" ],
           "properties": {
             "ApplicationTag": {
@@ -857,7 +857,7 @@
       "EncoderChannelState": {
         "dov:namespace": "http://opcfoundation.org/UA/PNENC/",
         "title": "EncoderChannelStateEnumeration",
-        "dov:typeRef": "nsu=http://opcfoundation.org/UA/PNENC/;i=3002",
+        "dov:typeRef": "org.opcfoundation.UA.PNENC.EncoderChannelStateEnumeration",
         "type": "integer",
         "minimum": -2147483648,
         "maximum": 2147483647,
@@ -1157,7 +1157,7 @@
         "dov:namespace": "http://opcfoundation.org/UA/PNENC/",
         "data": {
           "title": "EncoderChannelStateEnumeration",
-          "dov:typeRef": "nsu=http://opcfoundation.org/UA/PNENC/;i=3002",
+          "dov:typeRef": "org.opcfoundation.UA.PNENC.EncoderChannelStateEnumeration",
           "type": "integer",
           "minimum": -2147483648,
           "maximum": 2147483647
@@ -1453,7 +1453,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "PNENC_EncoderControlConfigType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/PNENC/;i=1008",
+    "dov:typeRef": "org.opcfoundation.UA.PNENC.EncoderControlConfigType",
     "links": [
       {
         "rel": "tm:extends",
@@ -1464,7 +1464,7 @@
     "schemaDefinitions": {
       "EncoderAlarmChannelControlEnumeration": {
         "type": "object",
-        "dov:typeRef": "nsu=http://opcfoundation.org/UA/PNENC/;i=3006",
+        "dov:typeRef": "org.opcfoundation.UA.PNENC.EncoderAlarmChannelControlEnumeration",
         "const": {
           "ALARM_CHANNEL_DISABLED": 0,
           "ALARM_CHANNEL_ENABLED": 1
@@ -1482,7 +1482,7 @@
       },
       "EncoderPresetControlEnumeration": {
         "type": "object",
-        "dov:typeRef": "nsu=http://opcfoundation.org/UA/PNENC/;i=3007",
+        "dov:typeRef": "org.opcfoundation.UA.PNENC.EncoderPresetControlEnumeration",
         "const": {
           "ENABLE_PRESET_CONTROL": 0,
           "DISABLE_PRESET_CONTROL": 1
@@ -1511,7 +1511,7 @@
         "dov:namespace": "http://opcfoundation.org/UA/PNENC/",
         "input": {
           "type": "object",
-          "dov:typeRef": "nsu=http://opcfoundation.org/UA/PNENC/;i=6057",
+          "dov:typeRef": "org.opcfoundation.UA.InputArguments",
           "required": [ "ControlConfigParameters" ],
           "properties": {
             "ControlConfigParameters": {
@@ -1519,7 +1519,7 @@
               "items": {
                 "title": "KeyValuePair",
                 "type": "object",
-                "dov:typeRef": "nsu=http://opcfoundation.org/UA/;i=14533",
+                "dov:typeRef": "org.opcfoundation.UA.KeyValuePair",
                 "required": [ "Key", "Value" ],
                 "properties": {
                   "Key": {
@@ -1536,7 +1536,7 @@
         },
         "output": {
           "type": "object",
-          "dov:typeRef": "nsu=http://opcfoundation.org/UA/PNENC/;i=6058",
+          "dov:typeRef": "org.opcfoundation.UA.OutputArguments",
           "required": [ "ControlConfigParametersResult" ],
           "properties": {
             "ControlConfigParametersResult": {
@@ -1544,7 +1544,7 @@
               "items": {
                 "title": "KeyValuePair",
                 "type": "object",
-                "dov:typeRef": "nsu=http://opcfoundation.org/UA/;i=14533",
+                "dov:typeRef": "org.opcfoundation.UA.KeyValuePair",
                 "required": [ "Key", "Value" ],
                 "properties": {
                   "Key": {
@@ -1572,7 +1572,7 @@
       "AlarmChannelControl": {
         "dov:namespace": "http://opcfoundation.org/UA/PNENC/",
         "title": "EncoderAlarmChannelControlEnumeration",
-        "dov:typeRef": "nsu=http://opcfoundation.org/UA/PNENC/;i=3006",
+        "dov:typeRef": "org.opcfoundation.UA.PNENC.EncoderAlarmChannelControlEnumeration",
         "type": "integer",
         "minimum": -2147483648,
         "maximum": 2147483647,
@@ -1602,7 +1602,7 @@
       "XIST1PresetControl": {
         "dov:namespace": "http://opcfoundation.org/UA/PNENC/",
         "title": "EncoderPresetControlEnumeration",
-        "dov:typeRef": "nsu=http://opcfoundation.org/UA/PNENC/;i=3007",
+        "dov:typeRef": "org.opcfoundation.UA.PNENC.EncoderPresetControlEnumeration",
         "type": "integer",
         "minimum": -2147483648,
         "maximum": 2147483647,
@@ -1628,7 +1628,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "PNENC_EncoderProbesType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/PNENC/;i=1012",
+    "dov:typeRef": "org.opcfoundation.UA.PNENC.EncoderProbesType",
     "links": [
       {
         "rel": "tm:extends",
@@ -1660,7 +1660,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "PNENC_EncoderProbeType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/PNENC/;i=1011",
+    "dov:typeRef": "org.opcfoundation.UA.PNENC.EncoderProbeType",
     "links": [
       {
         "rel": "tm:extends",
@@ -1764,7 +1764,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "PNENC_EncoderSensorConfigType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/PNENC/;i=1007",
+    "dov:typeRef": "org.opcfoundation.UA.PNENC.EncoderSensorConfigType",
     "links": [
       {
         "rel": "tm:extends",
@@ -1775,7 +1775,7 @@
     "schemaDefinitions": {
       "EncoderConfigTypeEnumeration": {
         "type": "object",
-        "dov:typeRef": "nsu=http://opcfoundation.org/UA/PNENC/;i=3011",
+        "dov:typeRef": "org.opcfoundation.UA.PNENC.EncoderConfigTypeEnumeration",
         "const": {
           "STATIC": 0,
           "DYNAMIC": 1
@@ -1793,7 +1793,7 @@
       },
       "EncoderSensorAbsoluteTypeEnumeration": {
         "type": "object",
-        "dov:typeRef": "nsu=http://opcfoundation.org/UA/PNENC/;i=3008",
+        "dov:typeRef": "org.opcfoundation.UA.PNENC.EncoderSensorAbsoluteTypeEnumeration",
         "const": {
           "SINGLETURN": 0,
           "MULTITURN": 1
@@ -1822,7 +1822,7 @@
         "dov:namespace": "http://opcfoundation.org/UA/PNENC/",
         "input": {
           "type": "object",
-          "dov:typeRef": "nsu=http://opcfoundation.org/UA/PNENC/;i=6052",
+          "dov:typeRef": "org.opcfoundation.UA.InputArguments",
           "required": [ "SensorConfigParameters" ],
           "properties": {
             "SensorConfigParameters": {
@@ -1830,7 +1830,7 @@
               "items": {
                 "title": "KeyValuePair",
                 "type": "object",
-                "dov:typeRef": "nsu=http://opcfoundation.org/UA/;i=14533",
+                "dov:typeRef": "org.opcfoundation.UA.KeyValuePair",
                 "required": [ "Key", "Value" ],
                 "properties": {
                   "Key": {
@@ -1847,7 +1847,7 @@
         },
         "output": {
           "type": "object",
-          "dov:typeRef": "nsu=http://opcfoundation.org/UA/PNENC/;i=6053",
+          "dov:typeRef": "org.opcfoundation.UA.OutputArguments",
           "required": [ "SensorConfigParametersResult" ],
           "properties": {
             "SensorConfigParametersResult": {
@@ -1855,7 +1855,7 @@
               "items": {
                 "title": "KeyValuePair",
                 "type": "object",
-                "dov:typeRef": "nsu=http://opcfoundation.org/UA/;i=14533",
+                "dov:typeRef": "org.opcfoundation.UA.KeyValuePair",
                 "required": [ "Key", "Value" ],
                 "properties": {
                   "Key": {
@@ -1907,7 +1907,7 @@
       "ConfigType": {
         "dov:namespace": "http://opcfoundation.org/UA/PNENC/",
         "title": "EncoderConfigTypeEnumeration",
-        "dov:typeRef": "nsu=http://opcfoundation.org/UA/PNENC/;i=3011",
+        "dov:typeRef": "org.opcfoundation.UA.PNENC.EncoderConfigTypeEnumeration",
         "type": "integer",
         "minimum": -2147483648,
         "maximum": 2147483647,
@@ -1923,7 +1923,7 @@
       "SensorAbsoluteType": {
         "dov:namespace": "http://opcfoundation.org/UA/PNENC/",
         "title": "EncoderSensorAbsoluteTypeEnumeration",
-        "dov:typeRef": "nsu=http://opcfoundation.org/UA/PNENC/;i=3008",
+        "dov:typeRef": "org.opcfoundation.UA.PNENC.EncoderSensorAbsoluteTypeEnumeration",
         "type": "integer",
         "minimum": -2147483648,
         "maximum": 2147483647,
@@ -1997,7 +1997,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "PNENC_EncoderSensorType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/PNENC/;i=1013",
+    "dov:typeRef": "org.opcfoundation.UA.PNENC.EncoderSensorType",
     "links": [
       {
         "rel": "tm:extends",
@@ -2024,7 +2024,7 @@
         "dov:namespace": "http://opcfoundation.org/UA/PNENC/",
         "input": {
           "type": "object",
-          "dov:typeRef": "nsu=http://opcfoundation.org/UA/PNENC/;i=6086",
+          "dov:typeRef": "org.opcfoundation.UA.InputArguments",
           "required": [ "PresetValue" ],
           "properties": {
             "PresetValue": {
@@ -2140,7 +2140,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "PNENC_LogbookType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/PNENC/;i=1010",
+    "dov:typeRef": "org.opcfoundation.UA.PNENC.LogbookType",
     "links": [
       {
         "rel": "tm:extends",
@@ -2151,7 +2151,7 @@
     "schemaDefinitions": {
       "EventTypeEnumeration": {
         "type": "object",
-        "dov:typeRef": "nsu=http://opcfoundation.org/UA/PNENC/;i=3003",
+        "dov:typeRef": "org.opcfoundation.UA.PNENC.EventTypeEnumeration",
         "const": {
           "FAULT": 0,
           "WARNING": 1,
@@ -2200,7 +2200,7 @@
         "dov:namespace": "http://opcfoundation.org/UA/PNENC/",
         "output": {
           "type": "object",
-          "dov:typeRef": "nsu=http://opcfoundation.org/UA/PNENC/;i=6074",
+          "dov:typeRef": "org.opcfoundation.UA.OutputArguments",
           "required": [ "ActiveDiagnosis" ],
           "properties": {
             "ActiveDiagnosis": {
@@ -2208,7 +2208,7 @@
               "items": {
                 "title": "LogEntryDataType",
                 "type": "object",
-                "dov:typeRef": "nsu=http://opcfoundation.org/UA/PNENC/;i=3013",
+                "dov:typeRef": "org.opcfoundation.UA.PNENC.LogEntryDataType",
                 "required": [ "FaultSituationNumber", "EventNumber", "EventType", "EventCode", "EventText", "EventComing", "EventGoing", "EventAcknowledged" ],
                 "properties": {
                   "FaultSituationNumber": {
@@ -2226,7 +2226,7 @@
                   "EventType": {
                     "title": "EventTypeEnumeration",
                     "description": "Characterization of the event (fault, warning, etc.). Must never have the value “UNSPECIFIED”",
-                    "dov:typeRef": "nsu=http://opcfoundation.org/UA/PNENC/;i=3003",
+                    "dov:typeRef": "org.opcfoundation.UA.PNENC.EventTypeEnumeration",
                     "type": "integer",
                     "minimum": -2147483648,
                     "maximum": 2147483647
@@ -2273,7 +2273,7 @@
         "dov:namespace": "http://opcfoundation.org/UA/PNENC/",
         "output": {
           "type": "object",
-          "dov:typeRef": "nsu=http://opcfoundation.org/UA/PNENC/;i=6071",
+          "dov:typeRef": "org.opcfoundation.UA.OutputArguments",
           "required": [ "CurrentLogEntries" ],
           "properties": {
             "CurrentLogEntries": {
@@ -2281,7 +2281,7 @@
               "items": {
                 "title": "LogEntryDataType",
                 "type": "object",
-                "dov:typeRef": "nsu=http://opcfoundation.org/UA/PNENC/;i=3013",
+                "dov:typeRef": "org.opcfoundation.UA.PNENC.LogEntryDataType",
                 "required": [ "FaultSituationNumber", "EventNumber", "EventType", "EventCode", "EventText", "EventComing", "EventGoing", "EventAcknowledged" ],
                 "properties": {
                   "FaultSituationNumber": {
@@ -2299,7 +2299,7 @@
                   "EventType": {
                     "title": "EventTypeEnumeration",
                     "description": "Characterization of the event (fault, warning, etc.). Must never have the value “UNSPECIFIED”",
-                    "dov:typeRef": "nsu=http://opcfoundation.org/UA/PNENC/;i=3003",
+                    "dov:typeRef": "org.opcfoundation.UA.PNENC.EventTypeEnumeration",
                     "type": "integer",
                     "minimum": -2147483648,
                     "maximum": 2147483647
@@ -2346,7 +2346,7 @@
         "dov:namespace": "http://opcfoundation.org/UA/PNENC/",
         "input": {
           "type": "object",
-          "dov:typeRef": "nsu=http://opcfoundation.org/UA/PNENC/;i=6070",
+          "dov:typeRef": "org.opcfoundation.UA.InputArguments",
           "required": [ "LogbookFilterOptions", "FaultSituationNumber", "EventType", "EventCode", "EventAppearanceInterval" ],
           "properties": {
             "LogbookFilterOptions": {
@@ -2361,7 +2361,7 @@
             },
             "EventType": {
               "title": "EventTypeEnumeration",
-              "dov:typeRef": "nsu=http://opcfoundation.org/UA/PNENC/;i=3003",
+              "dov:typeRef": "org.opcfoundation.UA.PNENC.EventTypeEnumeration",
               "type": "integer",
               "minimum": -2147483648,
               "maximum": 2147483647
@@ -2379,7 +2379,7 @@
         },
         "output": {
           "type": "object",
-          "dov:typeRef": "nsu=http://opcfoundation.org/UA/PNENC/;i=6033",
+          "dov:typeRef": "org.opcfoundation.UA.OutputArguments",
           "required": [ "FilteredLogEntries" ],
           "properties": {
             "FilteredLogEntries": {
@@ -2387,7 +2387,7 @@
               "items": {
                 "title": "LogEntryDataType",
                 "type": "object",
-                "dov:typeRef": "nsu=http://opcfoundation.org/UA/PNENC/;i=3013",
+                "dov:typeRef": "org.opcfoundation.UA.PNENC.LogEntryDataType",
                 "required": [ "FaultSituationNumber", "EventNumber", "EventType", "EventCode", "EventText", "EventComing", "EventGoing", "EventAcknowledged" ],
                 "properties": {
                   "FaultSituationNumber": {
@@ -2405,7 +2405,7 @@
                   "EventType": {
                     "title": "EventTypeEnumeration",
                     "description": "Characterization of the event (fault, warning, etc.). Must never have the value “UNSPECIFIED”",
-                    "dov:typeRef": "nsu=http://opcfoundation.org/UA/PNENC/;i=3003",
+                    "dov:typeRef": "org.opcfoundation.UA.PNENC.EventTypeEnumeration",
                     "type": "integer",
                     "minimum": -2147483648,
                     "maximum": 2147483647
@@ -2452,7 +2452,7 @@
         "dov:namespace": "http://opcfoundation.org/UA/PNENC/",
         "input": {
           "type": "object",
-          "dov:typeRef": "nsu=http://opcfoundation.org/UA/PNENC/;i=6072",
+          "dov:typeRef": "org.opcfoundation.UA.InputArguments",
           "required": [ "FaultSituationNumber" ],
           "properties": {
             "FaultSituationNumber": {
@@ -2464,7 +2464,7 @@
         },
         "output": {
           "type": "object",
-          "dov:typeRef": "nsu=http://opcfoundation.org/UA/PNENC/;i=6073",
+          "dov:typeRef": "org.opcfoundation.UA.OutputArguments",
           "required": [ "HistoricLogEntries" ],
           "properties": {
             "HistoricLogEntries": {
@@ -2472,7 +2472,7 @@
               "items": {
                 "title": "LogEntryDataType",
                 "type": "object",
-                "dov:typeRef": "nsu=http://opcfoundation.org/UA/PNENC/;i=3013",
+                "dov:typeRef": "org.opcfoundation.UA.PNENC.LogEntryDataType",
                 "required": [ "FaultSituationNumber", "EventNumber", "EventType", "EventCode", "EventText", "EventComing", "EventGoing", "EventAcknowledged" ],
                 "properties": {
                   "FaultSituationNumber": {
@@ -2490,7 +2490,7 @@
                   "EventType": {
                     "title": "EventTypeEnumeration",
                     "description": "Characterization of the event (fault, warning, etc.). Must never have the value “UNSPECIFIED”",
-                    "dov:typeRef": "nsu=http://opcfoundation.org/UA/PNENC/;i=3003",
+                    "dov:typeRef": "org.opcfoundation.UA.PNENC.EventTypeEnumeration",
                     "type": "integer",
                     "minimum": -2147483648,
                     "maximum": 2147483647
@@ -2555,7 +2555,7 @@
         "items": {
           "title": "LogEntryDataType",
           "type": "object",
-          "dov:typeRef": "nsu=http://opcfoundation.org/UA/PNENC/;i=3013",
+          "dov:typeRef": "org.opcfoundation.UA.PNENC.LogEntryDataType",
           "required": [ "FaultSituationNumber", "EventNumber", "EventType", "EventCode", "EventText", "EventComing", "EventGoing", "EventAcknowledged" ],
           "properties": {
             "FaultSituationNumber": {
@@ -2573,7 +2573,7 @@
             "EventType": {
               "title": "EventTypeEnumeration",
               "description": "Characterization of the event (fault, warning, etc.). Must never have the value “UNSPECIFIED”",
-              "dov:typeRef": "nsu=http://opcfoundation.org/UA/PNENC/;i=3003",
+              "dov:typeRef": "org.opcfoundation.UA.PNENC.EventTypeEnumeration",
               "type": "integer",
               "minimum": -2147483648,
               "maximum": 2147483647
@@ -2623,7 +2623,7 @@
           "items": {
             "title": "LogEntryDataType",
             "type": "object",
-            "dov:typeRef": "nsu=http://opcfoundation.org/UA/PNENC/;i=3013",
+            "dov:typeRef": "org.opcfoundation.UA.PNENC.LogEntryDataType",
             "required": [ "FaultSituationNumber", "EventNumber", "EventType", "EventCode", "EventText", "EventComing", "EventGoing", "EventAcknowledged" ],
             "properties": {
               "FaultSituationNumber": {
@@ -2641,7 +2641,7 @@
               "EventType": {
                 "title": "EventTypeEnumeration",
                 "description": "Characterization of the event (fault, warning, etc.). Must never have the value “UNSPECIFIED”",
-                "dov:typeRef": "nsu=http://opcfoundation.org/UA/PNENC/;i=3003",
+                "dov:typeRef": "org.opcfoundation.UA.PNENC.EventTypeEnumeration",
                 "type": "integer",
                 "minimum": -2147483648,
                 "maximum": 2147483647

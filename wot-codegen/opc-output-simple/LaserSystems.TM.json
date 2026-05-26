@@ -8,7 +8,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "LaserSystems_ActivityDataMonitoringType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/LaserSystems/;i=1008",
+    "dov:typeRef": "org.opcfoundation.UA.LaserSystems.ActivityDataMonitoringType",
     "links": [
       {
         "rel": "tm:extends",
@@ -146,7 +146,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "LaserSystems_ConditionDataMonitoringType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/LaserSystems/;i=1006",
+    "dov:typeRef": "org.opcfoundation.UA.LaserSystems.ConditionDataMonitoringType",
     "links": [
       {
         "rel": "tm:extends",
@@ -346,7 +346,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "LaserSystems_ConsumptionDataMonitoringType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/LaserSystems/;i=1004",
+    "dov:typeRef": "org.opcfoundation.UA.LaserSystems.ConsumptionDataMonitoringType",
     "links": [
       {
         "rel": "tm:extends",
@@ -446,7 +446,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "LaserSystems_LaserSystemOperationCounterType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/LaserSystems/;i=1010",
+    "dov:typeRef": "org.opcfoundation.UA.LaserSystems.LaserSystemOperationCounterType",
     "links": [
       {
         "rel": "tm:extends",
@@ -527,7 +527,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "LaserSystems_LaserSystemMonitoringType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/LaserSystems/;i=1002",
+    "dov:typeRef": "org.opcfoundation.UA.LaserSystems.LaserSystemMonitoringType",
     "links": [
       {
         "rel": "tm:extends",
@@ -583,7 +583,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "LaserSystems_LaserSystemProductionType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/LaserSystems/;i=1003",
+    "dov:typeRef": "org.opcfoundation.UA.LaserSystems.LaserSystemProductionType",
     "links": [
       {
         "rel": "tm:extends",
@@ -615,7 +615,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "LaserSystems_LaserSystemStatusType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/LaserSystems/;i=1012",
+    "dov:typeRef": "org.opcfoundation.UA.LaserSystems.LaserSystemStatusType",
     "links": [
       {
         "rel": "tm:extends",
@@ -653,7 +653,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "LaserSystems_LaserSystemType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/LaserSystems/;i=1005",
+    "dov:typeRef": "org.opcfoundation.UA.LaserSystems.LaserSystemType",
     "dov:isComposite": true,
     "links": [
       {
@@ -704,7 +704,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "LaserSystems_LaserSystemMaintenancePrognosisType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/LaserSystems/;i=1013",
+    "dov:typeRef": "org.opcfoundation.UA.LaserSystems.LaserSystemMaintenancePrognosisType",
     "dov:isComposite": true,
     "links": [
       {
@@ -780,7 +780,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "LaserSystems_LaserSystemUtilityChangePrognosisType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/LaserSystems/;i=1014",
+    "dov:typeRef": "org.opcfoundation.UA.LaserSystems.LaserSystemUtilityChangePrognosisType",
     "dov:isComposite": true,
     "links": [
       {
@@ -856,7 +856,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "LaserSystems_RecipeSettingsAndOverviewType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/LaserSystems/;i=1007",
+    "dov:typeRef": "org.opcfoundation.UA.LaserSystems.RecipeSettingsAndOverviewType",
     "links": [
       {
         "rel": "tm:extends",
@@ -1023,7 +1023,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "LaserSystems_LaserSystemState_StateMachineType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/LaserSystems/;i=1009",
+    "dov:typeRef": "org.opcfoundation.UA.LaserSystems.LaserSystemState_StateMachineType",
     "links": [
       {
         "rel": "tm:extends",

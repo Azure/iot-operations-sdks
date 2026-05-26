@@ -8,7 +8,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "Mining_Extraction_ShearerLoader_ShearerLoaderDrumType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/Mining/Extraction/ShearerLoader/;i=1003",
+    "dov:typeRef": "org.opcfoundation.UA.Mining.Extraction.ShearerLoader.ShearerLoaderDrumType",
     "dov:isComposite": true,
     "links": [
       {
@@ -41,7 +41,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "Mining_Extraction_ShearerLoader_ShearerLoaderType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/Mining/Extraction/ShearerLoader/;i=1006",
+    "dov:typeRef": "org.opcfoundation.UA.Mining.Extraction.ShearerLoader.ShearerLoaderType",
     "dov:isComposite": true,
     "links": [
       {

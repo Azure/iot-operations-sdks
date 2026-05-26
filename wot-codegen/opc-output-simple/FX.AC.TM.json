@@ -8,7 +8,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "FX_AC_AcDescriptorType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/FX/AC/;i=1027",
+    "dov:typeRef": "org.opcfoundation.UA.FX.AC.AcDescriptorType",
     "dov:isComposite": true,
     "links": [
       {
@@ -61,7 +61,7 @@
         "dov:namespace": "http://opcfoundation.org/UA/FX/AC/",
         "title": "FxVersion",
         "type": "object",
-        "dov:typeRef": "nsu=http://opcfoundation.org/UA/FX/AC/;i=25",
+        "dov:typeRef": "org.opcfoundation.UA.FX.AC.FxVersion",
         "required": [ "Major", "Minor", "Build", "SubBuild" ],
         "properties": {
           "Major": {
@@ -112,7 +112,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "FX_AC_AssetConnectorType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/FX/AC/;i=5",
+    "dov:typeRef": "org.opcfoundation.UA.FX.AC.AssetConnectorType",
     "links": [
       {
         "rel": "tm:extends",
@@ -186,7 +186,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "FX_AC_ClampBlockType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/FX/AC/;i=7",
+    "dov:typeRef": "org.opcfoundation.UA.FX.AC.ClampBlockType",
     "dov:isComposite": true,
     "links": [
       {
@@ -306,7 +306,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "FX_AC_ClampType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/FX/AC/;i=10",
+    "dov:typeRef": "org.opcfoundation.UA.FX.AC.ClampType",
     "links": [
       {
         "rel": "tm:extends",
@@ -400,7 +400,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "FX_AC_SlotType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/FX/AC/;i=6",
+    "dov:typeRef": "org.opcfoundation.UA.FX.AC.SlotType",
     "dov:isComposite": true,
     "links": [
       {
@@ -477,7 +477,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "FX_AC_SocketType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/FX/AC/;i=8",
+    "dov:typeRef": "org.opcfoundation.UA.FX.AC.SocketType",
     "dov:isComposite": true,
     "links": [
       {
@@ -572,7 +572,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "FX_AC_AutomationComponentType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/FX/AC/;i=2",
+    "dov:typeRef": "org.opcfoundation.UA.FX.AC.AutomationComponentType",
     "dov:isComposite": true,
     "links": [
       {
@@ -632,7 +632,7 @@
     "schemaDefinitions": {
       "DeviceHealthOptionSet": {
         "type": "object",
-        "dov:typeRef": "nsu=http://opcfoundation.org/UA/FX/AC/;i=3005",
+        "dov:typeRef": "org.opcfoundation.UA.FX.AC.DeviceHealthOptionSet",
         "const": {
           "DeviceFailure": 0,
           "DeviceCheckFunction": 1,
@@ -660,7 +660,7 @@
       },
       "OperationalHealthOptionSet": {
         "type": "object",
-        "dov:typeRef": "nsu=http://opcfoundation.org/UA/FX/AC/;i=3010",
+        "dov:typeRef": "org.opcfoundation.UA.FX.AC.OperationalHealthOptionSet",
         "const": {
           "OperationalWarning": 16,
           "OperationalError": 17,
@@ -688,7 +688,7 @@
       },
       "FxCommandMask": {
         "type": "object",
-        "dov:typeRef": "nsu=http://opcfoundation.org/UA/FX/Data/;i=1024",
+        "dov:typeRef": "org.opcfoundation.UA.FX.Data.FxCommandMask",
         "const": {
           "VerifyAssetCmd": 0,
           "VerifyFunctionalEntityCmd": 1,
@@ -742,7 +742,7 @@
       },
       "AssetVerificationModeEnum": {
         "type": "object",
-        "dov:typeRef": "nsu=http://opcfoundation.org/UA/FX/Data/;i=1029",
+        "dov:typeRef": "org.opcfoundation.UA.FX.Data.AssetVerificationModeEnum",
         "const": {
           "AssetCompatibility": 0,
           "AssetIdentity": 1,
@@ -765,7 +765,7 @@
       },
       "AssetVerificationResultEnum": {
         "type": "object",
-        "dov:typeRef": "nsu=http://opcfoundation.org/UA/FX/Data/;i=1037",
+        "dov:typeRef": "org.opcfoundation.UA.FX.Data.AssetVerificationResultEnum",
         "const": {
           "NotSet": 0,
           "Match": 1,
@@ -793,7 +793,7 @@
       },
       "FunctionalEntityVerificationResultEnum": {
         "type": "object",
-        "dov:typeRef": "nsu=http://opcfoundation.org/UA/FX/Data/;i=3002",
+        "dov:typeRef": "org.opcfoundation.UA.FX.Data.FunctionalEntityVerificationResultEnum",
         "const": {
           "NotSet": 0,
           "Match": 1,
@@ -837,7 +837,7 @@
         "dov:namespace": "http://opcfoundation.org/UA/FX/AC/",
         "input": {
           "type": "object",
-          "dov:typeRef": "nsu=http://opcfoundation.org/UA/FX/AC/;i=1305",
+          "dov:typeRef": "org.opcfoundation.UA.InputArguments",
           "required": [ "ConnectionEndpoints", "Remove" ],
           "properties": {
             "ConnectionEndpoints": {
@@ -853,7 +853,7 @@
         },
         "output": {
           "type": "object",
-          "dov:typeRef": "nsu=http://opcfoundation.org/UA/FX/AC/;i=1306",
+          "dov:typeRef": "org.opcfoundation.UA.OutputArguments",
           "required": [ "Results" ],
           "properties": {
             "Results": {
@@ -876,12 +876,12 @@
         "dov:namespace": "http://opcfoundation.org/UA/FX/AC/",
         "input": {
           "type": "object",
-          "dov:typeRef": "nsu=http://opcfoundation.org/UA/FX/AC/;i=1303",
+          "dov:typeRef": "org.opcfoundation.UA.InputArguments",
           "required": [ "CommandMask", "AssetVerifications", "ConnectionEndpointConfigurations", "ReserveCommunicationIds", "CommunicationConfigurations" ],
           "properties": {
             "CommandMask": {
               "title": "FxCommandMask",
-              "dov:typeRef": "nsu=http://opcfoundation.org/UA/FX/Data/;i=1024",
+              "dov:typeRef": "org.opcfoundation.UA.FX.Data.FxCommandMask",
               "type": "integer",
               "minimum": -2147483648,
               "maximum": 2147483647
@@ -891,7 +891,7 @@
               "items": {
                 "title": "AssetVerificationDataType",
                 "type": "object",
-                "dov:typeRef": "nsu=http://opcfoundation.org/UA/FX/Data/;i=1048",
+                "dov:typeRef": "org.opcfoundation.UA.FX.Data.AssetVerificationDataType",
                 "required": [ "AssetToVerify", "VerificationMode", "ExpectedVerificationResult", "ExpectedVerificationVariables", "ExpectedAdditionalVerificationVariables" ],
                 "properties": {
                   "AssetToVerify": {
@@ -899,14 +899,14 @@
                   },
                   "VerificationMode": {
                     "title": "AssetVerificationModeEnum",
-                    "dov:typeRef": "nsu=http://opcfoundation.org/UA/FX/Data/;i=1029",
+                    "dov:typeRef": "org.opcfoundation.UA.FX.Data.AssetVerificationModeEnum",
                     "type": "integer",
                     "minimum": -2147483648,
                     "maximum": 2147483647
                   },
                   "ExpectedVerificationResult": {
                     "title": "AssetVerificationResultEnum",
-                    "dov:typeRef": "nsu=http://opcfoundation.org/UA/FX/Data/;i=1037",
+                    "dov:typeRef": "org.opcfoundation.UA.FX.Data.AssetVerificationResultEnum",
                     "type": "integer",
                     "minimum": -2147483648,
                     "maximum": 2147483647
@@ -916,7 +916,7 @@
                     "items": {
                       "title": "KeyValuePair",
                       "type": "object",
-                      "dov:typeRef": "nsu=http://opcfoundation.org/UA/;i=14533",
+                      "dov:typeRef": "org.opcfoundation.UA.KeyValuePair",
                       "required": [ "Key", "Value" ],
                       "properties": {
                         "Key": {
@@ -934,13 +934,13 @@
                     "items": {
                       "title": "NodeIdValuePair",
                       "type": "object",
-                      "dov:typeRef": "nsu=http://opcfoundation.org/UA/FX/Data/;i=1028",
+                      "dov:typeRef": "org.opcfoundation.UA.FX.Data.NodeIdValuePair",
                       "required": [ "Key", "Value" ],
                       "properties": {
                         "Key": {
                           "title": "NodeIdArray",
                           "type": "object",
-                          "dov:typeRef": "nsu=http://opcfoundation.org/UA/FX/Data/;i=1034",
+                          "dov:typeRef": "org.opcfoundation.UA.FX.Data.NodeIdArray",
                           "required": [ "Node", "ArrayIndex" ],
                           "properties": {
                             "Node": {
@@ -971,7 +971,7 @@
               "items": {
                 "title": "ConnectionEndpointConfigurationDataType",
                 "type": "object",
-                "dov:typeRef": "nsu=http://opcfoundation.org/UA/FX/Data/;i=1044",
+                "dov:typeRef": "org.opcfoundation.UA.FX.Data.ConnectionEndpointConfigurationDataType",
                 "required": [ "FunctionalEntityNode", "ConnectionEndpoint", "ExpectedVerificationVariables", "ControlGroups", "ConfigurationData", "CommunicationLinks" ],
                 "properties": {
                   "FunctionalEntityNode": {
@@ -980,12 +980,12 @@
                   "ConnectionEndpoint": {
                     "title": "ConnectionEndpointDefinitionDataType",
                     "type": "object",
-                    "dov:typeRef": "nsu=http://opcfoundation.org/UA/FX/Data/;i=3011",
+                    "dov:typeRef": "org.opcfoundation.UA.FX.Data.ConnectionEndpointDefinitionDataType",
                     "properties": {
                       "Parameter": {
                         "title": "ConnectionEndpointParameterDataType",
                         "type": "object",
-                        "dov:typeRef": "nsu=http://opcfoundation.org/UA/FX/Data/;i=3009",
+                        "dov:typeRef": "org.opcfoundation.UA.FX.Data.ConnectionEndpointParameterDataType",
                         "required": [ "Name", "ConnectionEndpointTypeId", "InputVariableIds", "OutputVariableIds", "IsPersistent", "CleanupTimeout", "RelatedEndpoint", "IsPreconfigured" ],
                         "properties": {
                           "Name": {
@@ -1016,7 +1016,7 @@
                           "RelatedEndpoint": {
                             "title": "RelatedEndpointDataType",
                             "type": "object",
-                            "dov:typeRef": "nsu=http://opcfoundation.org/UA/FX/Data/;i=3003",
+                            "dov:typeRef": "org.opcfoundation.UA.FX.Data.RelatedEndpointDataType",
                             "required": [ "Address", "ConnectionEndpointPath", "ConnectionEndpointName" ],
                             "properties": {
                               "Address": {
@@ -1027,7 +1027,7 @@
                                 "items": {
                                   "title": "PortableQualifiedName",
                                   "type": "object",
-                                  "dov:typeRef": "nsu=http://opcfoundation.org/UA/;i=24105",
+                                  "dov:typeRef": "org.opcfoundation.UA.PortableQualifiedName",
                                   "required": [ "NamespaceUri", "Name" ],
                                   "properties": {
                                     "NamespaceUri": {
@@ -1059,13 +1059,13 @@
                     "items": {
                       "title": "NodeIdValuePair",
                       "type": "object",
-                      "dov:typeRef": "nsu=http://opcfoundation.org/UA/FX/Data/;i=1028",
+                      "dov:typeRef": "org.opcfoundation.UA.FX.Data.NodeIdValuePair",
                       "required": [ "Key", "Value" ],
                       "properties": {
                         "Key": {
                           "title": "NodeIdArray",
                           "type": "object",
-                          "dov:typeRef": "nsu=http://opcfoundation.org/UA/FX/Data/;i=1034",
+                          "dov:typeRef": "org.opcfoundation.UA.FX.Data.NodeIdArray",
                           "required": [ "Node", "ArrayIndex" ],
                           "properties": {
                             "Node": {
@@ -1099,13 +1099,13 @@
                     "items": {
                       "title": "NodeIdValuePair",
                       "type": "object",
-                      "dov:typeRef": "nsu=http://opcfoundation.org/UA/FX/Data/;i=1028",
+                      "dov:typeRef": "org.opcfoundation.UA.FX.Data.NodeIdValuePair",
                       "required": [ "Key", "Value" ],
                       "properties": {
                         "Key": {
                           "title": "NodeIdArray",
                           "type": "object",
-                          "dov:typeRef": "nsu=http://opcfoundation.org/UA/FX/Data/;i=1034",
+                          "dov:typeRef": "org.opcfoundation.UA.FX.Data.NodeIdArray",
                           "required": [ "Node", "ArrayIndex" ],
                           "properties": {
                             "Node": {
@@ -1150,7 +1150,7 @@
         },
         "output": {
           "type": "object",
-          "dov:typeRef": "nsu=http://opcfoundation.org/UA/FX/AC/;i=1304",
+          "dov:typeRef": "org.opcfoundation.UA.OutputArguments",
           "required": [ "AssetVerificationResults", "ConnectionEndpointConfigurationResults", "ReserveCommunicationIdsResults", "CommunicationConfigurationResults" ],
           "properties": {
             "AssetVerificationResults": {
@@ -1158,7 +1158,7 @@
               "items": {
                 "title": "AssetVerificationResultDataType",
                 "type": "object",
-                "dov:typeRef": "nsu=http://opcfoundation.org/UA/FX/Data/;i=1038",
+                "dov:typeRef": "org.opcfoundation.UA.FX.Data.AssetVerificationResultDataType",
                 "required": [ "VerificationStatus", "VerificationResult", "VerificationVariablesErrors", "VerificationAdditionalVariablesErrors" ],
                 "properties": {
                   "VerificationStatus": {
@@ -1166,7 +1166,7 @@
                   },
                   "VerificationResult": {
                     "title": "AssetVerificationResultEnum",
-                    "dov:typeRef": "nsu=http://opcfoundation.org/UA/FX/Data/;i=1037",
+                    "dov:typeRef": "org.opcfoundation.UA.FX.Data.AssetVerificationResultEnum",
                     "type": "integer",
                     "minimum": -2147483648,
                     "maximum": 2147483647
@@ -1191,7 +1191,7 @@
               "items": {
                 "title": "ConnectionEndpointConfigurationResultDataType",
                 "type": "object",
-                "dov:typeRef": "nsu=http://opcfoundation.org/UA/FX/Data/;i=3008",
+                "dov:typeRef": "org.opcfoundation.UA.FX.Data.ConnectionEndpointConfigurationResultDataType",
                 "required": [ "ConnectionEndpointId", "FunctionalEntityNodeResult", "ConnectionEndpointResult", "VerificationResult", "VerificationStatus", "VerificationVariablesErrors", "EstablishControlResult", "ConfigurationDataResult", "ReassignControlResult", "CommunicationLinksResult", "EnableCommunicationResult" ],
                 "properties": {
                   "ConnectionEndpointId": {
@@ -1205,7 +1205,7 @@
                   },
                   "VerificationResult": {
                     "title": "FunctionalEntityVerificationResultEnum",
-                    "dov:typeRef": "nsu=http://opcfoundation.org/UA/FX/Data/;i=3002",
+                    "dov:typeRef": "org.opcfoundation.UA.FX.Data.FunctionalEntityVerificationResultEnum",
                     "type": "integer",
                     "minimum": -2147483648,
                     "maximum": 2147483647
@@ -1274,19 +1274,19 @@
         "dov:namespace": "http://opcfoundation.org/UA/FX/AC/",
         "title": "AggregatedHealthDataType",
         "type": "object",
-        "dov:typeRef": "nsu=http://opcfoundation.org/UA/FX/AC/;i=3003",
+        "dov:typeRef": "org.opcfoundation.UA.FX.AC.AggregatedHealthDataType",
         "required": [ "AggregatedDeviceHealth", "AggregatedOperationalHealth" ],
         "properties": {
           "AggregatedDeviceHealth": {
             "title": "DeviceHealthOptionSet",
-            "dov:typeRef": "nsu=http://opcfoundation.org/UA/FX/AC/;i=3005",
+            "dov:typeRef": "org.opcfoundation.UA.FX.AC.DeviceHealthOptionSet",
             "type": "integer",
             "minimum": -2147483648,
             "maximum": 2147483647
           },
           "AggregatedOperationalHealth": {
             "title": "OperationalHealthOptionSet",
-            "dov:typeRef": "nsu=http://opcfoundation.org/UA/FX/AC/;i=3010",
+            "dov:typeRef": "org.opcfoundation.UA.FX.AC.OperationalHealthOptionSet",
             "type": "integer",
             "minimum": -2147483648,
             "maximum": 2147483647
@@ -1310,7 +1310,7 @@
       "AggregatedHealth_AggregatedDeviceHealth": {
         "dov:namespace": "http://opcfoundation.org/UA/FX/AC/",
         "title": "DeviceHealthOptionSet",
-        "dov:typeRef": "nsu=http://opcfoundation.org/UA/FX/AC/;i=3005",
+        "dov:typeRef": "org.opcfoundation.UA.FX.AC.DeviceHealthOptionSet",
         "type": "integer",
         "minimum": -2147483648,
         "maximum": 2147483647,
@@ -1327,7 +1327,7 @@
       "AggregatedHealth_AggregatedOperationalHealth": {
         "dov:namespace": "http://opcfoundation.org/UA/FX/AC/",
         "title": "OperationalHealthOptionSet",
-        "dov:typeRef": "nsu=http://opcfoundation.org/UA/FX/AC/;i=3010",
+        "dov:typeRef": "org.opcfoundation.UA.FX.AC.OperationalHealthOptionSet",
         "type": "integer",
         "minimum": -2147483648,
         "maximum": 2147483647,
@@ -1360,19 +1360,19 @@
         "data": {
           "title": "AggregatedHealthDataType",
           "type": "object",
-          "dov:typeRef": "nsu=http://opcfoundation.org/UA/FX/AC/;i=3003",
+          "dov:typeRef": "org.opcfoundation.UA.FX.AC.AggregatedHealthDataType",
           "required": [ "AggregatedDeviceHealth", "AggregatedOperationalHealth" ],
           "properties": {
             "AggregatedDeviceHealth": {
               "title": "DeviceHealthOptionSet",
-              "dov:typeRef": "nsu=http://opcfoundation.org/UA/FX/AC/;i=3005",
+              "dov:typeRef": "org.opcfoundation.UA.FX.AC.DeviceHealthOptionSet",
               "type": "integer",
               "minimum": -2147483648,
               "maximum": 2147483647
             },
             "AggregatedOperationalHealth": {
               "title": "OperationalHealthOptionSet",
-              "dov:typeRef": "nsu=http://opcfoundation.org/UA/FX/AC/;i=3010",
+              "dov:typeRef": "org.opcfoundation.UA.FX.AC.OperationalHealthOptionSet",
               "type": "integer",
               "minimum": -2147483648,
               "maximum": 2147483647
@@ -1392,7 +1392,7 @@
         "dov:namespace": "http://opcfoundation.org/UA/FX/AC/",
         "data": {
           "title": "DeviceHealthOptionSet",
-          "dov:typeRef": "nsu=http://opcfoundation.org/UA/FX/AC/;i=3005",
+          "dov:typeRef": "org.opcfoundation.UA.FX.AC.DeviceHealthOptionSet",
           "type": "integer",
           "minimum": -2147483648,
           "maximum": 2147483647
@@ -1410,7 +1410,7 @@
         "dov:namespace": "http://opcfoundation.org/UA/FX/AC/",
         "data": {
           "title": "OperationalHealthOptionSet",
-          "dov:typeRef": "nsu=http://opcfoundation.org/UA/FX/AC/;i=3010",
+          "dov:typeRef": "org.opcfoundation.UA.FX.AC.OperationalHealthOptionSet",
           "type": "integer",
           "minimum": -2147483648,
           "maximum": 2147483647
@@ -1435,7 +1435,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "FX_AC_AuditUaFxEventType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/FX/AC/;i=1030",
+    "dov:typeRef": "org.opcfoundation.UA.FX.AC.AuditUaFxEventType",
     "dov:isEvent": true,
     "links": [
       {
@@ -1462,7 +1462,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "FX_AC_AuditConnectionCleanupEventType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/FX/AC/;i=1040",
+    "dov:typeRef": "org.opcfoundation.UA.FX.AC.AuditConnectionCleanupEventType",
     "dov:isEvent": true,
     "links": [
       {
@@ -1492,7 +1492,7 @@
         "dov:namespace": "http://opcfoundation.org/UA/FX/AC/",
         "title": "RelatedEndpointDataType",
         "type": "object",
-        "dov:typeRef": "nsu=http://opcfoundation.org/UA/FX/Data/;i=3003",
+        "dov:typeRef": "org.opcfoundation.UA.FX.Data.RelatedEndpointDataType",
         "required": [ "Address", "ConnectionEndpointPath", "ConnectionEndpointName" ],
         "properties": {
           "Address": {
@@ -1503,7 +1503,7 @@
             "items": {
               "title": "PortableQualifiedName",
               "type": "object",
-              "dov:typeRef": "nsu=http://opcfoundation.org/UA/;i=24105",
+              "dov:typeRef": "org.opcfoundation.UA.PortableQualifiedName",
               "required": [ "NamespaceUri", "Name" ],
               "properties": {
                 "NamespaceUri": {
@@ -1563,7 +1563,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "FX_AC_IAssetExtensionsType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/FX/AC/;i=1009",
+    "dov:typeRef": "org.opcfoundation.UA.FX.AC.IAssetExtensionsType",
     "links": [
       {
         "rel": "tm:extends",
@@ -1601,7 +1601,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "FX_AC_IAssetRevisionType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/FX/AC/;i=9",
+    "dov:typeRef": "org.opcfoundation.UA.FX.AC.IAssetRevisionType",
     "links": [
       {
         "rel": "tm:extends",
@@ -1612,7 +1612,7 @@
     "schemaDefinitions": {
       "AssetVerificationModeEnum": {
         "type": "object",
-        "dov:typeRef": "nsu=http://opcfoundation.org/UA/FX/Data/;i=1029",
+        "dov:typeRef": "org.opcfoundation.UA.FX.Data.AssetVerificationModeEnum",
         "const": {
           "AssetCompatibility": 0,
           "AssetIdentity": 1,
@@ -1635,7 +1635,7 @@
       },
       "AssetVerificationResultEnum": {
         "type": "object",
-        "dov:typeRef": "nsu=http://opcfoundation.org/UA/FX/Data/;i=1037",
+        "dov:typeRef": "org.opcfoundation.UA.FX.Data.AssetVerificationResultEnum",
         "const": {
           "NotSet": 0,
           "Match": 1,
@@ -1679,14 +1679,14 @@
         "dov:namespace": "http://opcfoundation.org/UA/FX/AC/",
         "input": {
           "type": "object",
-          "dov:typeRef": "nsu=http://opcfoundation.org/UA/FX/AC/;i=1422",
+          "dov:typeRef": "org.opcfoundation.UA.InputArguments",
           "required": [ "VerificationMode", "ExpectedVerificationVariables" ],
           "properties": {
             "VerificationMode": {
               "type": "array",
               "items": {
                 "title": "AssetVerificationModeEnum",
-                "dov:typeRef": "nsu=http://opcfoundation.org/UA/FX/Data/;i=1029",
+                "dov:typeRef": "org.opcfoundation.UA.FX.Data.AssetVerificationModeEnum",
                 "type": "integer",
                 "minimum": -2147483648,
                 "maximum": 2147483647
@@ -1697,7 +1697,7 @@
               "items": {
                 "title": "KeyValuePair",
                 "type": "object",
-                "dov:typeRef": "nsu=http://opcfoundation.org/UA/;i=14533",
+                "dov:typeRef": "org.opcfoundation.UA.KeyValuePair",
                 "required": [ "Key", "Value" ],
                 "properties": {
                   "Key": {
@@ -1714,12 +1714,12 @@
         },
         "output": {
           "type": "object",
-          "dov:typeRef": "nsu=http://opcfoundation.org/UA/FX/AC/;i=1423",
+          "dov:typeRef": "org.opcfoundation.UA.OutputArguments",
           "required": [ "VerificationResult", "VerificationVariablesErrors" ],
           "properties": {
             "VerificationResult": {
               "title": "AssetVerificationResultEnum",
-              "dov:typeRef": "nsu=http://opcfoundation.org/UA/FX/Data/;i=1037",
+              "dov:typeRef": "org.opcfoundation.UA.FX.Data.AssetVerificationResultEnum",
               "type": "integer",
               "minimum": -2147483648,
               "maximum": 2147483647
@@ -1831,7 +1831,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "FX_AC_IFunctionalEntityType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/FX/AC/;i=11",
+    "dov:typeRef": "org.opcfoundation.UA.FX.AC.IFunctionalEntityType",
     "links": [
       {
         "rel": "tm:extends",
@@ -1914,7 +1914,7 @@
     "schemaDefinitions": {
       "OperationalHealthOptionSet": {
         "type": "object",
-        "dov:typeRef": "nsu=http://opcfoundation.org/UA/FX/AC/;i=3010",
+        "dov:typeRef": "org.opcfoundation.UA.FX.AC.OperationalHealthOptionSet",
         "const": {
           "OperationalWarning": 16,
           "OperationalError": 17,
@@ -1942,7 +1942,7 @@
       },
       "FunctionalEntityVerificationResultEnum": {
         "type": "object",
-        "dov:typeRef": "nsu=http://opcfoundation.org/UA/FX/Data/;i=3002",
+        "dov:typeRef": "org.opcfoundation.UA.FX.Data.FunctionalEntityVerificationResultEnum",
         "const": {
           "NotSet": 0,
           "Match": 1,
@@ -1986,7 +1986,7 @@
         "dov:namespace": "http://opcfoundation.org/UA/FX/AC/",
         "input": {
           "type": "object",
-          "dov:typeRef": "nsu=http://opcfoundation.org/UA/FX/AC/;i=1420",
+          "dov:typeRef": "org.opcfoundation.UA.InputArguments",
           "required": [ "ExpectedVerificationVariables" ],
           "properties": {
             "ExpectedVerificationVariables": {
@@ -1994,13 +1994,13 @@
               "items": {
                 "title": "NodeIdValuePair",
                 "type": "object",
-                "dov:typeRef": "nsu=http://opcfoundation.org/UA/FX/Data/;i=1028",
+                "dov:typeRef": "org.opcfoundation.UA.FX.Data.NodeIdValuePair",
                 "required": [ "Key", "Value" ],
                 "properties": {
                   "Key": {
                     "title": "NodeIdArray",
                     "type": "object",
-                    "dov:typeRef": "nsu=http://opcfoundation.org/UA/FX/Data/;i=1034",
+                    "dov:typeRef": "org.opcfoundation.UA.FX.Data.NodeIdArray",
                     "required": [ "Node", "ArrayIndex" ],
                     "properties": {
                       "Node": {
@@ -2027,12 +2027,12 @@
         },
         "output": {
           "type": "object",
-          "dov:typeRef": "nsu=http://opcfoundation.org/UA/FX/AC/;i=1421",
+          "dov:typeRef": "org.opcfoundation.UA.OutputArguments",
           "required": [ "VerificationResult", "VerificationVariablesErrors" ],
           "properties": {
             "VerificationResult": {
               "title": "FunctionalEntityVerificationResultEnum",
-              "dov:typeRef": "nsu=http://opcfoundation.org/UA/FX/Data/;i=3002",
+              "dov:typeRef": "org.opcfoundation.UA.FX.Data.FunctionalEntityVerificationResultEnum",
               "type": "integer",
               "minimum": -2147483648,
               "maximum": 2147483647
@@ -2061,7 +2061,7 @@
         "items": {
           "title": "ApplicationIdentifierDataType",
           "type": "object",
-          "dov:typeRef": "nsu=http://opcfoundation.org/UA/FX/AC/;i=28",
+          "dov:typeRef": "org.opcfoundation.UA.FX.AC.ApplicationIdentifierDataType",
           "required": [ "Name", "UniqueIdentifier" ],
           "properties": {
             "Name": {
@@ -2070,7 +2070,7 @@
             "UniqueIdentifier": {
               "title": "ApplicationId",
               "type": "object",
-              "dov:typeRef": "nsu=http://opcfoundation.org/UA/FX/AC/;i=3013",
+              "dov:typeRef": "org.opcfoundation.UA.FX.AC.ApplicationId",
               "properties": {
                 "IdNumeric": {
                   "type": "integer",
@@ -2127,7 +2127,7 @@
         "dov:namespace": "http://opcfoundation.org/UA/FX/AC/",
         "title": "FxVersion",
         "type": "object",
-        "dov:typeRef": "nsu=http://opcfoundation.org/UA/FX/AC/;i=25",
+        "dov:typeRef": "org.opcfoundation.UA.FX.AC.FxVersion",
         "required": [ "Major", "Minor", "Build", "SubBuild" ],
         "properties": {
           "Major": {
@@ -2185,7 +2185,7 @@
       "OperationalHealth": {
         "dov:namespace": "http://opcfoundation.org/UA/FX/AC/",
         "title": "OperationalHealthOptionSet",
-        "dov:typeRef": "nsu=http://opcfoundation.org/UA/FX/AC/;i=3010",
+        "dov:typeRef": "org.opcfoundation.UA.FX.AC.OperationalHealthOptionSet",
         "type": "integer",
         "minimum": -2147483648,
         "maximum": 2147483647,
@@ -2204,7 +2204,7 @@
         "dov:namespace": "http://opcfoundation.org/UA/FX/AC/",
         "data": {
           "title": "OperationalHealthOptionSet",
-          "dov:typeRef": "nsu=http://opcfoundation.org/UA/FX/AC/;i=3010",
+          "dov:typeRef": "org.opcfoundation.UA.FX.AC.OperationalHealthOptionSet",
           "type": "integer",
           "minimum": -2147483648,
           "maximum": 2147483647
@@ -2228,7 +2228,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "FX_AC_ConnectionEndpointType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/FX/AC/;i=1002",
+    "dov:typeRef": "org.opcfoundation.UA.FX.AC.ConnectionEndpointType",
     "links": [
       {
         "rel": "tm:extends",
@@ -2245,7 +2245,7 @@
     "schemaDefinitions": {
       "ConnectionEndpointStatusEnum": {
         "type": "object",
-        "dov:typeRef": "nsu=http://opcfoundation.org/UA/FX/AC/;i=3007",
+        "dov:typeRef": "org.opcfoundation.UA.FX.AC.ConnectionEndpointStatusEnum",
         "const": {
           "Initial": 0,
           "Ready": 1,
@@ -2394,7 +2394,7 @@
         "dov:namespace": "http://opcfoundation.org/UA/FX/AC/",
         "title": "RelatedEndpointDataType",
         "type": "object",
-        "dov:typeRef": "nsu=http://opcfoundation.org/UA/FX/Data/;i=3003",
+        "dov:typeRef": "org.opcfoundation.UA.FX.Data.RelatedEndpointDataType",
         "required": [ "Address", "ConnectionEndpointPath", "ConnectionEndpointName" ],
         "properties": {
           "Address": {
@@ -2405,7 +2405,7 @@
             "items": {
               "title": "PortableQualifiedName",
               "type": "object",
-              "dov:typeRef": "nsu=http://opcfoundation.org/UA/;i=24105",
+              "dov:typeRef": "org.opcfoundation.UA.PortableQualifiedName",
               "required": [ "NamespaceUri", "Name" ],
               "properties": {
                 "NamespaceUri": {
@@ -2438,7 +2438,7 @@
       "Status": {
         "dov:namespace": "http://opcfoundation.org/UA/FX/AC/",
         "title": "ConnectionEndpointStatusEnum",
-        "dov:typeRef": "nsu=http://opcfoundation.org/UA/FX/AC/;i=3007",
+        "dov:typeRef": "org.opcfoundation.UA.FX.AC.ConnectionEndpointStatusEnum",
         "type": "integer",
         "minimum": -2147483648,
         "maximum": 2147483647,
@@ -2530,7 +2530,7 @@
         "data": {
           "title": "RelatedEndpointDataType",
           "type": "object",
-          "dov:typeRef": "nsu=http://opcfoundation.org/UA/FX/Data/;i=3003",
+          "dov:typeRef": "org.opcfoundation.UA.FX.Data.RelatedEndpointDataType",
           "required": [ "Address", "ConnectionEndpointPath", "ConnectionEndpointName" ],
           "properties": {
             "Address": {
@@ -2541,7 +2541,7 @@
               "items": {
                 "title": "PortableQualifiedName",
                 "type": "object",
-                "dov:typeRef": "nsu=http://opcfoundation.org/UA/;i=24105",
+                "dov:typeRef": "org.opcfoundation.UA.PortableQualifiedName",
                 "required": [ "NamespaceUri", "Name" ],
                 "properties": {
                   "NamespaceUri": {
@@ -2570,7 +2570,7 @@
         "dov:namespace": "http://opcfoundation.org/UA/FX/AC/",
         "data": {
           "title": "ConnectionEndpointStatusEnum",
-          "dov:typeRef": "nsu=http://opcfoundation.org/UA/FX/AC/;i=3007",
+          "dov:typeRef": "org.opcfoundation.UA.FX.AC.ConnectionEndpointStatusEnum",
           "type": "integer",
           "minimum": -2147483648,
           "maximum": 2147483647
@@ -2594,7 +2594,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "FX_AC_PubSubConnectionEndpointType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/FX/AC/;i=1005",
+    "dov:typeRef": "org.opcfoundation.UA.FX.AC.PubSubConnectionEndpointType",
     "dov:isComposite": true,
     "links": [
       {
@@ -2606,7 +2606,7 @@
     "schemaDefinitions": {
       "PubSubConnectionEndpointModeEnum": {
         "type": "object",
-        "dov:typeRef": "nsu=http://opcfoundation.org/UA/FX/Data/;i=31",
+        "dov:typeRef": "org.opcfoundation.UA.FX.Data.PubSubConnectionEndpointModeEnum",
         "const": {
           "PublisherSubscriber": 1,
           "Publisher": 2,
@@ -2651,7 +2651,7 @@
       "Mode": {
         "dov:namespace": "http://opcfoundation.org/UA/FX/AC/",
         "title": "PubSubConnectionEndpointModeEnum",
-        "dov:typeRef": "nsu=http://opcfoundation.org/UA/FX/Data/;i=31",
+        "dov:typeRef": "org.opcfoundation.UA.FX.Data.PubSubConnectionEndpointModeEnum",
         "type": "integer",
         "minimum": -2147483648,
         "maximum": 2147483647,
@@ -2675,7 +2675,7 @@
         "dov:namespace": "http://opcfoundation.org/UA/FX/AC/",
         "data": {
           "title": "PubSubConnectionEndpointModeEnum",
-          "dov:typeRef": "nsu=http://opcfoundation.org/UA/FX/Data/;i=31",
+          "dov:typeRef": "org.opcfoundation.UA.FX.Data.PubSubConnectionEndpointModeEnum",
           "type": "integer",
           "minimum": -2147483648,
           "maximum": 2147483647
@@ -2699,7 +2699,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "FX_AC_ControlGroupType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/FX/AC/;i=15",
+    "dov:typeRef": "org.opcfoundation.UA.FX.AC.ControlGroupType",
     "links": [
       {
         "rel": "tm:extends",
@@ -2750,7 +2750,7 @@
         "dov:namespace": "http://opcfoundation.org/UA/FX/AC/",
         "input": {
           "type": "object",
-          "dov:typeRef": "nsu=http://opcfoundation.org/UA/FX/AC/;i=6093",
+          "dov:typeRef": "org.opcfoundation.UA.InputArguments",
           "required": [ "LockContext" ],
           "properties": {
             "LockContext": {
@@ -2760,7 +2760,7 @@
         },
         "output": {
           "type": "object",
-          "dov:typeRef": "nsu=http://opcfoundation.org/UA/FX/AC/;i=6094",
+          "dov:typeRef": "org.opcfoundation.UA.OutputArguments",
           "required": [ "LockStatus" ],
           "properties": {
             "LockStatus": {
@@ -2782,7 +2782,7 @@
         "dov:namespace": "http://opcfoundation.org/UA/FX/AC/",
         "input": {
           "type": "object",
-          "dov:typeRef": "nsu=http://opcfoundation.org/UA/FX/AC/;i=6366",
+          "dov:typeRef": "org.opcfoundation.UA.InputArguments",
           "required": [ "LockContext" ],
           "properties": {
             "LockContext": {
@@ -2792,7 +2792,7 @@
         },
         "output": {
           "type": "object",
-          "dov:typeRef": "nsu=http://opcfoundation.org/UA/FX/AC/;i=6367",
+          "dov:typeRef": "org.opcfoundation.UA.OutputArguments",
           "required": [ "LockStatus" ],
           "properties": {
             "LockStatus": {
@@ -2852,7 +2852,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "FX_AC_AutomationComponentCapabilitiesType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/FX/AC/;i=1001",
+    "dov:typeRef": "org.opcfoundation.UA.FX.AC.AutomationComponentCapabilitiesType",
     "links": [
       {
         "rel": "tm:extends",
@@ -2878,7 +2878,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "FX_AC_ConnectionEndpointsFolderType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/FX/AC/;i=20",
+    "dov:typeRef": "org.opcfoundation.UA.FX.AC.ConnectionEndpointsFolderType",
     "links": [
       {
         "rel": "tm:extends",
@@ -2896,7 +2896,7 @@
     "schemaDefinitions": {
       "CommHealthOptionSet": {
         "type": "object",
-        "dov:typeRef": "nsu=http://opcfoundation.org/UA/FX/AC/;i=3004",
+        "dov:typeRef": "org.opcfoundation.UA.FX.AC.CommHealthOptionSet",
         "const": {
           "CommInitial": 0,
           "CommPreOperational": 1,
@@ -2936,7 +2936,7 @@
       "CommHealth": {
         "dov:namespace": "http://opcfoundation.org/UA/FX/AC/",
         "title": "CommHealthOptionSet",
-        "dov:typeRef": "nsu=http://opcfoundation.org/UA/FX/AC/;i=3004",
+        "dov:typeRef": "org.opcfoundation.UA.FX.AC.CommHealthOptionSet",
         "type": "integer",
         "minimum": -2147483648,
         "maximum": 2147483647,
@@ -2955,7 +2955,7 @@
         "dov:namespace": "http://opcfoundation.org/UA/FX/AC/",
         "data": {
           "title": "CommHealthOptionSet",
-          "dov:typeRef": "nsu=http://opcfoundation.org/UA/FX/AC/;i=3004",
+          "dov:typeRef": "org.opcfoundation.UA.FX.AC.CommHealthOptionSet",
           "type": "integer",
           "minimum": -2147483648,
           "maximum": 2147483647
@@ -2979,7 +2979,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "FX_AC_ControlGroupsFolderType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/FX/AC/;i=1010",
+    "dov:typeRef": "org.opcfoundation.UA.FX.AC.ControlGroupsFolderType",
     "links": [
       {
         "rel": "tm:extends",
@@ -3012,7 +3012,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "FX_AC_FunctionalEntityCapabilitiesType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/FX/AC/;i=1008",
+    "dov:typeRef": "org.opcfoundation.UA.FX.AC.FunctionalEntityCapabilitiesType",
     "links": [
       {
         "rel": "tm:extends",
@@ -3038,7 +3038,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "FX_AC_ConfigurationDataFolderType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/FX/AC/;i=1041",
+    "dov:typeRef": "org.opcfoundation.UA.FX.AC.ConfigurationDataFolderType",
     "links": [
       {
         "rel": "tm:extends",
@@ -3053,7 +3053,7 @@
         "dov:namespace": "http://opcfoundation.org/UA/FX/AC/",
         "input": {
           "type": "object",
-          "dov:typeRef": "nsu=http://opcfoundation.org/UA/FX/AC/;i=6398",
+          "dov:typeRef": "org.opcfoundation.UA.InputArguments",
           "required": [ "VariablesToClear" ],
           "properties": {
             "VariablesToClear": {
@@ -3066,7 +3066,7 @@
         },
         "output": {
           "type": "object",
-          "dov:typeRef": "nsu=http://opcfoundation.org/UA/FX/AC/;i=6399",
+          "dov:typeRef": "org.opcfoundation.UA.OutputArguments",
           "required": [ "Results" ],
           "properties": {
             "Results": {
@@ -3089,7 +3089,7 @@
         "dov:namespace": "http://opcfoundation.org/UA/FX/AC/",
         "output": {
           "type": "object",
-          "dov:typeRef": "nsu=http://opcfoundation.org/UA/FX/AC/;i=6401",
+          "dov:typeRef": "org.opcfoundation.UA.OutputArguments",
           "required": [ "StoredVariables" ],
           "properties": {
             "StoredVariables": {
@@ -3097,13 +3097,13 @@
               "items": {
                 "title": "NodeIdValuePair",
                 "type": "object",
-                "dov:typeRef": "nsu=http://opcfoundation.org/UA/FX/Data/;i=1028",
+                "dov:typeRef": "org.opcfoundation.UA.FX.Data.NodeIdValuePair",
                 "required": [ "Key", "Value" ],
                 "properties": {
                   "Key": {
                     "title": "NodeIdArray",
                     "type": "object",
-                    "dov:typeRef": "nsu=http://opcfoundation.org/UA/FX/Data/;i=1034",
+                    "dov:typeRef": "org.opcfoundation.UA.FX.Data.NodeIdArray",
                     "required": [ "Node", "ArrayIndex" ],
                     "properties": {
                       "Node": {
@@ -3140,7 +3140,7 @@
         "dov:namespace": "http://opcfoundation.org/UA/FX/AC/",
         "input": {
           "type": "object",
-          "dov:typeRef": "nsu=http://opcfoundation.org/UA/FX/AC/;i=6396",
+          "dov:typeRef": "org.opcfoundation.UA.InputArguments",
           "required": [ "VariablesToStore" ],
           "properties": {
             "VariablesToStore": {
@@ -3153,7 +3153,7 @@
         },
         "output": {
           "type": "object",
-          "dov:typeRef": "nsu=http://opcfoundation.org/UA/FX/AC/;i=6397",
+          "dov:typeRef": "org.opcfoundation.UA.OutputArguments",
           "required": [ "Results" ],
           "properties": {
             "Results": {
@@ -3187,7 +3187,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "FX_AC_ControlItemFolderType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/FX/AC/;i=1011",
+    "dov:typeRef": "org.opcfoundation.UA.FX.AC.ControlItemFolderType",
     "links": [
       {
         "rel": "tm:extends",
@@ -3249,7 +3249,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "FX_AC_InputsFolderType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/FX/AC/;i=1000",
+    "dov:typeRef": "org.opcfoundation.UA.FX.AC.InputsFolderType",
     "links": [
       {
         "rel": "tm:extends",
@@ -3288,7 +3288,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "FX_AC_OutputsFolderType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/FX/AC/;i=1019",
+    "dov:typeRef": "org.opcfoundation.UA.FX.AC.OutputsFolderType",
     "links": [
       {
         "rel": "tm:extends",
@@ -3327,7 +3327,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "FX_AC_FunctionalEntityType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/FX/AC/;i=4",
+    "dov:typeRef": "org.opcfoundation.UA.FX.AC.FunctionalEntityType",
     "links": [
       {
         "rel": "tm:extends",
@@ -3417,7 +3417,7 @@
     "schemaDefinitions": {
       "OperationalHealthOptionSet": {
         "type": "object",
-        "dov:typeRef": "nsu=http://opcfoundation.org/UA/FX/AC/;i=3010",
+        "dov:typeRef": "org.opcfoundation.UA.FX.AC.OperationalHealthOptionSet",
         "const": {
           "OperationalWarning": 16,
           "OperationalError": 17,
@@ -3445,7 +3445,7 @@
       },
       "FunctionalEntityVerificationResultEnum": {
         "type": "object",
-        "dov:typeRef": "nsu=http://opcfoundation.org/UA/FX/Data/;i=3002",
+        "dov:typeRef": "org.opcfoundation.UA.FX.Data.FunctionalEntityVerificationResultEnum",
         "const": {
           "NotSet": 0,
           "Match": 1,
@@ -3489,7 +3489,7 @@
         "dov:namespace": "http://opcfoundation.org/UA/FX/AC/",
         "input": {
           "type": "object",
-          "dov:typeRef": "nsu=http://opcfoundation.org/UA/FX/AC/;i=1358",
+          "dov:typeRef": "org.opcfoundation.UA.InputArguments",
           "required": [ "ExpectedVerificationVariables" ],
           "properties": {
             "ExpectedVerificationVariables": {
@@ -3497,13 +3497,13 @@
               "items": {
                 "title": "NodeIdValuePair",
                 "type": "object",
-                "dov:typeRef": "nsu=http://opcfoundation.org/UA/FX/Data/;i=1028",
+                "dov:typeRef": "org.opcfoundation.UA.FX.Data.NodeIdValuePair",
                 "required": [ "Key", "Value" ],
                 "properties": {
                   "Key": {
                     "title": "NodeIdArray",
                     "type": "object",
-                    "dov:typeRef": "nsu=http://opcfoundation.org/UA/FX/Data/;i=1034",
+                    "dov:typeRef": "org.opcfoundation.UA.FX.Data.NodeIdArray",
                     "required": [ "Node", "ArrayIndex" ],
                     "properties": {
                       "Node": {
@@ -3530,12 +3530,12 @@
         },
         "output": {
           "type": "object",
-          "dov:typeRef": "nsu=http://opcfoundation.org/UA/FX/AC/;i=1359",
+          "dov:typeRef": "org.opcfoundation.UA.OutputArguments",
           "required": [ "VerificationResult", "VerificationVariablesErrors" ],
           "properties": {
             "VerificationResult": {
               "title": "FunctionalEntityVerificationResultEnum",
-              "dov:typeRef": "nsu=http://opcfoundation.org/UA/FX/Data/;i=3002",
+              "dov:typeRef": "org.opcfoundation.UA.FX.Data.FunctionalEntityVerificationResultEnum",
               "type": "integer",
               "minimum": -2147483648,
               "maximum": 2147483647
@@ -3564,7 +3564,7 @@
         "items": {
           "title": "ApplicationIdentifierDataType",
           "type": "object",
-          "dov:typeRef": "nsu=http://opcfoundation.org/UA/FX/AC/;i=28",
+          "dov:typeRef": "org.opcfoundation.UA.FX.AC.ApplicationIdentifierDataType",
           "required": [ "Name", "UniqueIdentifier" ],
           "properties": {
             "Name": {
@@ -3573,7 +3573,7 @@
             "UniqueIdentifier": {
               "title": "ApplicationId",
               "type": "object",
-              "dov:typeRef": "nsu=http://opcfoundation.org/UA/FX/AC/;i=3013",
+              "dov:typeRef": "org.opcfoundation.UA.FX.AC.ApplicationId",
               "properties": {
                 "IdNumeric": {
                   "type": "integer",
@@ -3630,7 +3630,7 @@
         "dov:namespace": "http://opcfoundation.org/UA/FX/AC/",
         "title": "FxVersion",
         "type": "object",
-        "dov:typeRef": "nsu=http://opcfoundation.org/UA/FX/AC/;i=25",
+        "dov:typeRef": "org.opcfoundation.UA.FX.AC.FxVersion",
         "required": [ "Major", "Minor", "Build", "SubBuild" ],
         "properties": {
           "Major": {
@@ -3688,7 +3688,7 @@
       "OperationalHealth": {
         "dov:namespace": "http://opcfoundation.org/UA/FX/AC/",
         "title": "OperationalHealthOptionSet",
-        "dov:typeRef": "nsu=http://opcfoundation.org/UA/FX/AC/;i=3010",
+        "dov:typeRef": "org.opcfoundation.UA.FX.AC.OperationalHealthOptionSet",
         "type": "integer",
         "minimum": -2147483648,
         "maximum": 2147483647,
@@ -3707,7 +3707,7 @@
         "dov:namespace": "http://opcfoundation.org/UA/FX/AC/",
         "data": {
           "title": "OperationalHealthOptionSet",
-          "dov:typeRef": "nsu=http://opcfoundation.org/UA/FX/AC/;i=3010",
+          "dov:typeRef": "org.opcfoundation.UA.FX.AC.OperationalHealthOptionSet",
           "type": "integer",
           "minimum": -2147483648,
           "maximum": 2147483647
@@ -3731,7 +3731,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "FX_AC_FxAssetType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/FX/AC/;i=3",
+    "dov:typeRef": "org.opcfoundation.UA.FX.AC.FxAssetType",
     "links": [
       {
         "rel": "tm:extends",
@@ -3760,7 +3760,7 @@
     "schemaDefinitions": {
       "DeviceHealthEnumeration": {
         "type": "object",
-        "dov:typeRef": "nsu=http://opcfoundation.org/UA/DI/;i=6244",
+        "dov:typeRef": "org.opcfoundation.UA.DI.DeviceHealthEnumeration",
         "const": {
           "NORMAL": 0,
           "FAILURE": 1,
@@ -3793,7 +3793,7 @@
       },
       "AssetVerificationModeEnum": {
         "type": "object",
-        "dov:typeRef": "nsu=http://opcfoundation.org/UA/FX/Data/;i=1029",
+        "dov:typeRef": "org.opcfoundation.UA.FX.Data.AssetVerificationModeEnum",
         "const": {
           "AssetCompatibility": 0,
           "AssetIdentity": 1,
@@ -3816,7 +3816,7 @@
       },
       "AssetVerificationResultEnum": {
         "type": "object",
-        "dov:typeRef": "nsu=http://opcfoundation.org/UA/FX/Data/;i=1037",
+        "dov:typeRef": "org.opcfoundation.UA.FX.Data.AssetVerificationResultEnum",
         "const": {
           "NotSet": 0,
           "Match": 1,
@@ -3865,12 +3865,12 @@
         "dov:namespace": "http://opcfoundation.org/UA/FX/AC/",
         "input": {
           "type": "object",
-          "dov:typeRef": "nsu=http://opcfoundation.org/UA/FX/AC/;i=1356",
+          "dov:typeRef": "org.opcfoundation.UA.InputArguments",
           "required": [ "VerificationMode", "ExpectedVerificationVariables", "ExpectedAdditionalVerificationVariables" ],
           "properties": {
             "VerificationMode": {
               "title": "AssetVerificationModeEnum",
-              "dov:typeRef": "nsu=http://opcfoundation.org/UA/FX/Data/;i=1029",
+              "dov:typeRef": "org.opcfoundation.UA.FX.Data.AssetVerificationModeEnum",
               "type": "integer",
               "minimum": -2147483648,
               "maximum": 2147483647
@@ -3880,7 +3880,7 @@
               "items": {
                 "title": "KeyValuePair",
                 "type": "object",
-                "dov:typeRef": "nsu=http://opcfoundation.org/UA/;i=14533",
+                "dov:typeRef": "org.opcfoundation.UA.KeyValuePair",
                 "required": [ "Key", "Value" ],
                 "properties": {
                   "Key": {
@@ -3898,13 +3898,13 @@
               "items": {
                 "title": "NodeIdValuePair",
                 "type": "object",
-                "dov:typeRef": "nsu=http://opcfoundation.org/UA/FX/Data/;i=1028",
+                "dov:typeRef": "org.opcfoundation.UA.FX.Data.NodeIdValuePair",
                 "required": [ "Key", "Value" ],
                 "properties": {
                   "Key": {
                     "title": "NodeIdArray",
                     "type": "object",
-                    "dov:typeRef": "nsu=http://opcfoundation.org/UA/FX/Data/;i=1034",
+                    "dov:typeRef": "org.opcfoundation.UA.FX.Data.NodeIdArray",
                     "required": [ "Node", "ArrayIndex" ],
                     "properties": {
                       "Node": {
@@ -3931,12 +3931,12 @@
         },
         "output": {
           "type": "object",
-          "dov:typeRef": "nsu=http://opcfoundation.org/UA/FX/AC/;i=1357",
+          "dov:typeRef": "org.opcfoundation.UA.OutputArguments",
           "required": [ "VerificationResult", "VerificationVariablesErrors", "VerificationAdditionalVariablesErrors" ],
           "properties": {
             "VerificationResult": {
               "title": "AssetVerificationResultEnum",
-              "dov:typeRef": "nsu=http://opcfoundation.org/UA/FX/Data/;i=1037",
+              "dov:typeRef": "org.opcfoundation.UA.FX.Data.AssetVerificationResultEnum",
               "type": "integer",
               "minimum": -2147483648,
               "maximum": 2147483647
@@ -4038,7 +4038,7 @@
       "DeviceHealth": {
         "dov:namespace": "http://opcfoundation.org/UA/DI/",
         "title": "DeviceHealthEnumeration",
-        "dov:typeRef": "nsu=http://opcfoundation.org/UA/DI/;i=6244",
+        "dov:typeRef": "org.opcfoundation.UA.DI.DeviceHealthEnumeration",
         "type": "integer",
         "minimum": -2147483648,
         "maximum": 2147483647,
@@ -4308,7 +4308,7 @@
         "dov:namespace": "http://opcfoundation.org/UA/DI/",
         "data": {
           "title": "DeviceHealthEnumeration",
-          "dov:typeRef": "nsu=http://opcfoundation.org/UA/DI/;i=6244",
+          "dov:typeRef": "org.opcfoundation.UA.DI.DeviceHealthEnumeration",
           "type": "integer",
           "minimum": -2147483648,
           "maximum": 2147483647
@@ -4332,7 +4332,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "FX_AC_PublisherCapabilitiesType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/FX/AC/;i=1003",
+    "dov:typeRef": "org.opcfoundation.UA.FX.AC.PublisherCapabilitiesType",
     "links": [
       {
         "rel": "tm:extends",
@@ -4343,7 +4343,7 @@
     "schemaDefinitions": {
       "FxTimeUnitsEnum": {
         "type": "object",
-        "dov:typeRef": "nsu=http://opcfoundation.org/UA/FX/AC/;i=3006",
+        "dov:typeRef": "org.opcfoundation.UA.FX.AC.FxTimeUnitsEnum",
         "const": {
           "Nanosecond": 0,
           "Microsecond": 1,
@@ -4430,7 +4430,7 @@
         "items": {
           "title": "IntervalRange",
           "type": "object",
-          "dov:typeRef": "nsu=http://opcfoundation.org/UA/FX/AC/;i=3008",
+          "dov:typeRef": "org.opcfoundation.UA.FX.AC.IntervalRange",
           "required": [ "Min", "Max", "Increment", "Multiplier", "Unit" ],
           "properties": {
             "Min": {
@@ -4455,7 +4455,7 @@
             },
             "Unit": {
               "title": "FxTimeUnitsEnum",
-              "dov:typeRef": "nsu=http://opcfoundation.org/UA/FX/AC/;i=3006",
+              "dov:typeRef": "org.opcfoundation.UA.FX.AC.FxTimeUnitsEnum",
               "type": "integer",
               "minimum": -2147483648,
               "maximum": 2147483647
@@ -4482,7 +4482,7 @@
         "items": {
           "title": "PublisherQosDataType",
           "type": "object",
-          "dov:typeRef": "nsu=http://opcfoundation.org/UA/FX/AC/;i=3011",
+          "dov:typeRef": "org.opcfoundation.UA.FX.AC.PublisherQosDataType",
           "required": [ "QosCategory", "DatagramQos" ],
           "properties": {
             "QosCategory": {
@@ -4548,7 +4548,7 @@
           "items": {
             "title": "IntervalRange",
             "type": "object",
-            "dov:typeRef": "nsu=http://opcfoundation.org/UA/FX/AC/;i=3008",
+            "dov:typeRef": "org.opcfoundation.UA.FX.AC.IntervalRange",
             "required": [ "Min", "Max", "Increment", "Multiplier", "Unit" ],
             "properties": {
               "Min": {
@@ -4573,7 +4573,7 @@
               },
               "Unit": {
                 "title": "FxTimeUnitsEnum",
-                "dov:typeRef": "nsu=http://opcfoundation.org/UA/FX/AC/;i=3006",
+                "dov:typeRef": "org.opcfoundation.UA.FX.AC.FxTimeUnitsEnum",
                 "type": "integer",
                 "minimum": -2147483648,
                 "maximum": 2147483647
@@ -4596,7 +4596,7 @@
           "items": {
             "title": "PublisherQosDataType",
             "type": "object",
-            "dov:typeRef": "nsu=http://opcfoundation.org/UA/FX/AC/;i=3011",
+            "dov:typeRef": "org.opcfoundation.UA.FX.AC.PublisherQosDataType",
             "required": [ "QosCategory", "DatagramQos" ],
             "properties": {
               "QosCategory": {
@@ -4630,7 +4630,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "FX_AC_SubscriberCapabilitiesType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/FX/AC/;i=1004",
+    "dov:typeRef": "org.opcfoundation.UA.FX.AC.SubscriberCapabilitiesType",
     "links": [
       {
         "rel": "tm:extends",
@@ -4641,7 +4641,7 @@
     "schemaDefinitions": {
       "FxTimeUnitsEnum": {
         "type": "object",
-        "dov:typeRef": "nsu=http://opcfoundation.org/UA/FX/AC/;i=3006",
+        "dov:typeRef": "org.opcfoundation.UA.FX.AC.FxTimeUnitsEnum",
         "const": {
           "Nanosecond": 0,
           "Microsecond": 1,
@@ -4728,7 +4728,7 @@
         "items": {
           "title": "IntervalRange",
           "type": "object",
-          "dov:typeRef": "nsu=http://opcfoundation.org/UA/FX/AC/;i=3008",
+          "dov:typeRef": "org.opcfoundation.UA.FX.AC.IntervalRange",
           "required": [ "Min", "Max", "Increment", "Multiplier", "Unit" ],
           "properties": {
             "Min": {
@@ -4753,7 +4753,7 @@
             },
             "Unit": {
               "title": "FxTimeUnitsEnum",
-              "dov:typeRef": "nsu=http://opcfoundation.org/UA/FX/AC/;i=3006",
+              "dov:typeRef": "org.opcfoundation.UA.FX.AC.FxTimeUnitsEnum",
               "type": "integer",
               "minimum": -2147483648,
               "maximum": 2147483647
@@ -4780,7 +4780,7 @@
         "items": {
           "title": "IntervalRange",
           "type": "object",
-          "dov:typeRef": "nsu=http://opcfoundation.org/UA/FX/AC/;i=3008",
+          "dov:typeRef": "org.opcfoundation.UA.FX.AC.IntervalRange",
           "required": [ "Min", "Max", "Increment", "Multiplier", "Unit" ],
           "properties": {
             "Min": {
@@ -4805,7 +4805,7 @@
             },
             "Unit": {
               "title": "FxTimeUnitsEnum",
-              "dov:typeRef": "nsu=http://opcfoundation.org/UA/FX/AC/;i=3006",
+              "dov:typeRef": "org.opcfoundation.UA.FX.AC.FxTimeUnitsEnum",
               "type": "integer",
               "minimum": -2147483648,
               "maximum": 2147483647
@@ -4832,7 +4832,7 @@
         "items": {
           "title": "SubscriberQosDataType",
           "type": "object",
-          "dov:typeRef": "nsu=http://opcfoundation.org/UA/FX/AC/;i=3012",
+          "dov:typeRef": "org.opcfoundation.UA.FX.AC.SubscriberQosDataType",
           "required": [ "QosCategory", "DatagramQos" ],
           "properties": {
             "QosCategory": {
@@ -4898,7 +4898,7 @@
           "items": {
             "title": "IntervalRange",
             "type": "object",
-            "dov:typeRef": "nsu=http://opcfoundation.org/UA/FX/AC/;i=3008",
+            "dov:typeRef": "org.opcfoundation.UA.FX.AC.IntervalRange",
             "required": [ "Min", "Max", "Increment", "Multiplier", "Unit" ],
             "properties": {
               "Min": {
@@ -4923,7 +4923,7 @@
               },
               "Unit": {
                 "title": "FxTimeUnitsEnum",
-                "dov:typeRef": "nsu=http://opcfoundation.org/UA/FX/AC/;i=3006",
+                "dov:typeRef": "org.opcfoundation.UA.FX.AC.FxTimeUnitsEnum",
                 "type": "integer",
                 "minimum": -2147483648,
                 "maximum": 2147483647
@@ -4946,7 +4946,7 @@
           "items": {
             "title": "IntervalRange",
             "type": "object",
-            "dov:typeRef": "nsu=http://opcfoundation.org/UA/FX/AC/;i=3008",
+            "dov:typeRef": "org.opcfoundation.UA.FX.AC.IntervalRange",
             "required": [ "Min", "Max", "Increment", "Multiplier", "Unit" ],
             "properties": {
               "Min": {
@@ -4971,7 +4971,7 @@
               },
               "Unit": {
                 "title": "FxTimeUnitsEnum",
-                "dov:typeRef": "nsu=http://opcfoundation.org/UA/FX/AC/;i=3006",
+                "dov:typeRef": "org.opcfoundation.UA.FX.AC.FxTimeUnitsEnum",
                 "type": "integer",
                 "minimum": -2147483648,
                 "maximum": 2147483647
@@ -4994,7 +4994,7 @@
           "items": {
             "title": "SubscriberQosDataType",
             "type": "object",
-            "dov:typeRef": "nsu=http://opcfoundation.org/UA/FX/AC/;i=3012",
+            "dov:typeRef": "org.opcfoundation.UA.FX.AC.SubscriberQosDataType",
             "required": [ "QosCategory", "DatagramQos" ],
             "properties": {
               "QosCategory": {

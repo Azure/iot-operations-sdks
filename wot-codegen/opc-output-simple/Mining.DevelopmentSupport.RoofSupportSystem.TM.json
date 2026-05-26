@@ -8,7 +8,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "Mining_DevelopmentSupport_RoofSupportSystem_RoofSupportSystemType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/Mining/DevelopmentSupport/RoofSupportSystem/;i=1002",
+    "dov:typeRef": "org.opcfoundation.UA.Mining.DevelopmentSupport.RoofSupportSystem.RoofSupportSystemType",
     "dov:isComposite": true,
     "links": [
       {

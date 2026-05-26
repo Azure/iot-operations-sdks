@@ -8,7 +8,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "FX_Data_AuditUpdateMethodResultEventType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/FX/Data/;i=1025",
+    "dov:typeRef": "org.opcfoundation.UA.FX.Data.AuditUpdateMethodResultEventType",
     "dov:isEvent": true,
     "links": [
       {

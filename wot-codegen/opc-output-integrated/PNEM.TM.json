@@ -9,7 +9,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "PNEM_IEnergyProfileD0Type",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/PNEM/;i=1011",
+    "dov:typeRef": "org.opcfoundation.UA.PNEM.IEnergyProfileD0Type",
     "links": [
       {
         "rel": "tm:extends",
@@ -103,7 +103,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "PNEM_IEnergyProfileE0Type",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/PNEM/;i=1007",
+    "dov:typeRef": "org.opcfoundation.UA.PNEM.IEnergyProfileE0Type",
     "links": [
       {
         "rel": "tm:extends",
@@ -137,7 +137,7 @@
         "dov:namespace": "http://opcfoundation.org/UA/PNEM/",
         "title": "AcPeDataType",
         "type": "object",
-        "dov:typeRef": "nsu=http://opcfoundation.org/UA/PNEM/;i=3005",
+        "dov:typeRef": "org.opcfoundation.UA.PNEM.AcPeDataType",
         "required": [ "A", "B", "C" ],
         "properties": {
           "A": {
@@ -191,7 +191,7 @@
         "data": {
           "title": "AcPeDataType",
           "type": "object",
-          "dov:typeRef": "nsu=http://opcfoundation.org/UA/PNEM/;i=3005",
+          "dov:typeRef": "org.opcfoundation.UA.PNEM.AcPeDataType",
           "required": [ "A", "B", "C" ],
           "properties": {
             "A": {
@@ -233,7 +233,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "PNEM_IEnergyProfileE1Type",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/PNEM/;i=1008",
+    "dov:typeRef": "org.opcfoundation.UA.PNEM.IEnergyProfileE1Type",
     "links": [
       {
         "rel": "tm:extends",
@@ -327,7 +327,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "PNEM_IEnergyProfileE2Type",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/PNEM/;i=1009",
+    "dov:typeRef": "org.opcfoundation.UA.PNEM.IEnergyProfileE2Type",
     "links": [
       {
         "rel": "tm:extends",
@@ -521,7 +521,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "PNEM_IEnergyProfileE3Type",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/PNEM/;i=1010",
+    "dov:typeRef": "org.opcfoundation.UA.PNEM.IEnergyProfileE3Type",
     "links": [
       {
         "rel": "tm:extends",
@@ -597,7 +597,7 @@
         "dov:namespace": "http://opcfoundation.org/UA/PNEM/",
         "title": "AcPeDataType",
         "type": "object",
-        "dov:typeRef": "nsu=http://opcfoundation.org/UA/PNEM/;i=3005",
+        "dov:typeRef": "org.opcfoundation.UA.PNEM.AcPeDataType",
         "required": [ "A", "B", "C" ],
         "properties": {
           "A": {
@@ -636,7 +636,7 @@
         "dov:namespace": "http://opcfoundation.org/UA/PNEM/",
         "title": "AcPeDataType",
         "type": "object",
-        "dov:typeRef": "nsu=http://opcfoundation.org/UA/PNEM/;i=3005",
+        "dov:typeRef": "org.opcfoundation.UA.PNEM.AcPeDataType",
         "required": [ "A", "B", "C" ],
         "properties": {
           "A": {
@@ -675,7 +675,7 @@
         "dov:namespace": "http://opcfoundation.org/UA/PNEM/",
         "title": "AcPeDataType",
         "type": "object",
-        "dov:typeRef": "nsu=http://opcfoundation.org/UA/PNEM/;i=3005",
+        "dov:typeRef": "org.opcfoundation.UA.PNEM.AcPeDataType",
         "required": [ "A", "B", "C" ],
         "properties": {
           "A": {
@@ -750,7 +750,7 @@
         "dov:namespace": "http://opcfoundation.org/UA/PNEM/",
         "title": "AcPeDataType",
         "type": "object",
-        "dov:typeRef": "nsu=http://opcfoundation.org/UA/PNEM/;i=3005",
+        "dov:typeRef": "org.opcfoundation.UA.PNEM.AcPeDataType",
         "required": [ "A", "B", "C" ],
         "properties": {
           "A": {
@@ -789,7 +789,7 @@
         "dov:namespace": "http://opcfoundation.org/UA/PNEM/",
         "title": "AcPeDataType",
         "type": "object",
-        "dov:typeRef": "nsu=http://opcfoundation.org/UA/PNEM/;i=3005",
+        "dov:typeRef": "org.opcfoundation.UA.PNEM.AcPeDataType",
         "required": [ "A", "B", "C" ],
         "properties": {
           "A": {
@@ -828,7 +828,7 @@
         "dov:namespace": "http://opcfoundation.org/UA/PNEM/",
         "title": "AcPpDataType",
         "type": "object",
-        "dov:typeRef": "nsu=http://opcfoundation.org/UA/PNEM/;i=3006",
+        "dov:typeRef": "org.opcfoundation.UA.PNEM.AcPpDataType",
         "required": [ "A_b", "B_c", "C_a" ],
         "properties": {
           "A_b": {
@@ -988,7 +988,7 @@
         "data": {
           "title": "AcPeDataType",
           "type": "object",
-          "dov:typeRef": "nsu=http://opcfoundation.org/UA/PNEM/;i=3005",
+          "dov:typeRef": "org.opcfoundation.UA.PNEM.AcPeDataType",
           "required": [ "A", "B", "C" ],
           "properties": {
             "A": {
@@ -1023,7 +1023,7 @@
         "data": {
           "title": "AcPeDataType",
           "type": "object",
-          "dov:typeRef": "nsu=http://opcfoundation.org/UA/PNEM/;i=3005",
+          "dov:typeRef": "org.opcfoundation.UA.PNEM.AcPeDataType",
           "required": [ "A", "B", "C" ],
           "properties": {
             "A": {
@@ -1058,7 +1058,7 @@
         "data": {
           "title": "AcPeDataType",
           "type": "object",
-          "dov:typeRef": "nsu=http://opcfoundation.org/UA/PNEM/;i=3005",
+          "dov:typeRef": "org.opcfoundation.UA.PNEM.AcPeDataType",
           "required": [ "A", "B", "C" ],
           "properties": {
             "A": {
@@ -1121,7 +1121,7 @@
         "data": {
           "title": "AcPeDataType",
           "type": "object",
-          "dov:typeRef": "nsu=http://opcfoundation.org/UA/PNEM/;i=3005",
+          "dov:typeRef": "org.opcfoundation.UA.PNEM.AcPeDataType",
           "required": [ "A", "B", "C" ],
           "properties": {
             "A": {
@@ -1156,7 +1156,7 @@
         "data": {
           "title": "AcPeDataType",
           "type": "object",
-          "dov:typeRef": "nsu=http://opcfoundation.org/UA/PNEM/;i=3005",
+          "dov:typeRef": "org.opcfoundation.UA.PNEM.AcPeDataType",
           "required": [ "A", "B", "C" ],
           "properties": {
             "A": {
@@ -1191,7 +1191,7 @@
         "data": {
           "title": "AcPpDataType",
           "type": "object",
-          "dov:typeRef": "nsu=http://opcfoundation.org/UA/PNEM/;i=3006",
+          "dov:typeRef": "org.opcfoundation.UA.PNEM.AcPpDataType",
           "required": [ "A_b", "B_c", "C_a" ],
           "properties": {
             "A_b": {
@@ -1232,7 +1232,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "PNEM_EnergyDevicePowerOffType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/PNEM/;i=1012",
+    "dov:typeRef": "org.opcfoundation.UA.PNEM.EnergyDevicePowerOffType",
     "dov:isComposite": true,
     "links": [
       {
@@ -1260,7 +1260,7 @@
         "dov:namespace": "http://opcfoundation.org/UA/PNEM/",
         "output": {
           "type": "object",
-          "dov:typeRef": "nsu=http://opcfoundation.org/UA/PNEM/;i=6110",
+          "dov:typeRef": "org.opcfoundation.UA.OutputArguments",
           "required": [ "ModeID", "CurrentTimeToDestination", "RegularTimeToOperate", "TimeMinLengthOfStay", "ReturnCode" ],
           "properties": {
             "ModeID": {
@@ -1411,7 +1411,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "PNEM_EnergyMeasurementType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/PNEM/;i=1006",
+    "dov:typeRef": "org.opcfoundation.UA.PNEM.EnergyMeasurementType",
     "dov:isComposite": true,
     "links": [
       {
@@ -1501,7 +1501,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "PNEM_EnergySavingModesContainerType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/PNEM/;i=1004",
+    "dov:typeRef": "org.opcfoundation.UA.PNEM.EnergySavingModesContainerType",
     "links": [
       {
         "rel": "tm:extends",
@@ -1533,7 +1533,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "PNEM_EnergySavingModeType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/PNEM/;i=1003",
+    "dov:typeRef": "org.opcfoundation.UA.PNEM.EnergySavingModeType",
     "links": [
       {
         "rel": "tm:extends",
@@ -1819,7 +1819,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "PNEM_EnergySavingModeStatusType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/PNEM/;i=1002",
+    "dov:typeRef": "org.opcfoundation.UA.PNEM.EnergySavingModeStatusType",
     "links": [
       {
         "rel": "tm:extends",
@@ -1848,7 +1848,7 @@
         "dov:namespace": "http://opcfoundation.org/UA/PNEM/",
         "title": "StandbyModeTransitionDataType",
         "type": "object",
-        "dov:typeRef": "nsu=http://opcfoundation.org/UA/PNEM/;i=3002",
+        "dov:typeRef": "org.opcfoundation.UA.PNEM.StandbyModeTransitionDataType",
         "required": [ "IDDestination", "CurrentTimeToDestination", "CurrentTimeToOperate", "EnergyConsumptionToDestination" ],
         "properties": {
           "IDDestination": {
@@ -1887,7 +1887,7 @@
         "dov:namespace": "http://opcfoundation.org/UA/PNEM/",
         "title": "EnergyStateInformationDataType",
         "type": "object",
-        "dov:typeRef": "nsu=http://opcfoundation.org/UA/PNEM/;i=3003",
+        "dov:typeRef": "org.opcfoundation.UA.PNEM.EnergyStateInformationDataType",
         "required": [ "IDSource", "IDDestination", "RegularTimeToOperate", "ModePowerConsumption" ],
         "properties": {
           "IDSource": {
@@ -1930,7 +1930,7 @@
         "data": {
           "title": "StandbyModeTransitionDataType",
           "type": "object",
-          "dov:typeRef": "nsu=http://opcfoundation.org/UA/PNEM/;i=3002",
+          "dov:typeRef": "org.opcfoundation.UA.PNEM.StandbyModeTransitionDataType",
           "required": [ "IDDestination", "CurrentTimeToDestination", "CurrentTimeToOperate", "EnergyConsumptionToDestination" ],
           "properties": {
             "IDDestination": {
@@ -1970,7 +1970,7 @@
         "data": {
           "title": "EnergyStateInformationDataType",
           "type": "object",
-          "dov:typeRef": "nsu=http://opcfoundation.org/UA/PNEM/;i=3003",
+          "dov:typeRef": "org.opcfoundation.UA.PNEM.EnergyStateInformationDataType",
           "required": [ "IDSource", "IDDestination", "RegularTimeToOperate", "ModePowerConsumption" ],
           "properties": {
             "IDSource": {
@@ -2017,7 +2017,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "PNEM_EnergyStandbyManagementType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/PNEM/;i=1005",
+    "dov:typeRef": "org.opcfoundation.UA.PNEM.EnergyStandbyManagementType",
     "dov:isComposite": true,
     "links": [
       {
@@ -2063,7 +2063,7 @@
         "dov:namespace": "http://opcfoundation.org/UA/PNEM/",
         "output": {
           "type": "object",
-          "dov:typeRef": "nsu=http://opcfoundation.org/UA/PNEM/;i=6054",
+          "dov:typeRef": "org.opcfoundation.UA.OutputArguments",
           "required": [ "CurrentTimeToOperate", "ReturnCode" ],
           "properties": {
             "CurrentTimeToOperate": {
@@ -2091,7 +2091,7 @@
         "dov:namespace": "http://opcfoundation.org/UA/PNEM/",
         "input": {
           "type": "object",
-          "dov:typeRef": "nsu=http://opcfoundation.org/UA/PNEM/;i=6050",
+          "dov:typeRef": "org.opcfoundation.UA.InputArguments",
           "required": [ "PauseTime" ],
           "properties": {
             "PauseTime": {
@@ -2103,7 +2103,7 @@
         },
         "output": {
           "type": "object",
-          "dov:typeRef": "nsu=http://opcfoundation.org/UA/PNEM/;i=6051",
+          "dov:typeRef": "org.opcfoundation.UA.OutputArguments",
           "required": [ "ModeID", "CurrentTimeToDestination", "RegularTimeToOperate", "TimeMinLengthToStay", "ReturnCode" ],
           "properties": {
             "ModeID": {
@@ -2147,7 +2147,7 @@
         "dov:namespace": "http://opcfoundation.org/UA/PNEM/",
         "input": {
           "type": "object",
-          "dov:typeRef": "nsu=http://opcfoundation.org/UA/PNEM/;i=6052",
+          "dov:typeRef": "org.opcfoundation.UA.InputArguments",
           "required": [ "ModeID" ],
           "properties": {
             "ModeID": {
@@ -2160,7 +2160,7 @@
         },
         "output": {
           "type": "object",
-          "dov:typeRef": "nsu=http://opcfoundation.org/UA/PNEM/;i=6053",
+          "dov:typeRef": "org.opcfoundation.UA.OutputArguments",
           "required": [ "EffectiveModeID", "CurrentTimeToDestination", "RegularTimeToOperate", "TimeMinLengthOfStay", "ReturnCode" ],
           "properties": {
             "EffectiveModeID": {
@@ -2271,7 +2271,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "PNEM_PeServiceAccessPointType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/PNEM/;i=1013",
+    "dov:typeRef": "org.opcfoundation.UA.PNEM.PeServiceAccessPointType",
     "dov:isComposite": true,
     "links": [
       {
@@ -2283,7 +2283,7 @@
     "schemaDefinitions": {
       "PeClassEnumeration": {
         "type": "object",
-        "dov:typeRef": "nsu=http://opcfoundation.org/UA/PNEM/;i=3007",
+        "dov:typeRef": "org.opcfoundation.UA.PNEM.PeClassEnumeration",
         "const": {
           "PE_CLASS1": 0,
           "PE_CLASS2": 1,
@@ -2306,7 +2306,7 @@
       },
       "PeSubclassEnumeration": {
         "type": "object",
-        "dov:typeRef": "nsu=http://opcfoundation.org/UA/PNEM/;i=3008",
+        "dov:typeRef": "org.opcfoundation.UA.PNEM.PeSubclassEnumeration",
         "const": {
           "PE_SUBCLASS1": 0,
           "PE_SUBCLASS2": 1
@@ -2341,7 +2341,7 @@
       "PeClass": {
         "dov:namespace": "http://opcfoundation.org/UA/PNEM/",
         "title": "PeClassEnumeration",
-        "dov:typeRef": "nsu=http://opcfoundation.org/UA/PNEM/;i=3007",
+        "dov:typeRef": "org.opcfoundation.UA.PNEM.PeClassEnumeration",
         "type": "integer",
         "minimum": -2147483648,
         "maximum": 2147483647,
@@ -2362,7 +2362,7 @@
       "PeSubclass": {
         "dov:namespace": "http://opcfoundation.org/UA/PNEM/",
         "title": "PeSubclassEnumeration",
-        "dov:typeRef": "nsu=http://opcfoundation.org/UA/PNEM/;i=3008",
+        "dov:typeRef": "org.opcfoundation.UA.PNEM.PeSubclassEnumeration",
         "type": "integer",
         "minimum": -2147483648,
         "maximum": 2147483647,
@@ -2384,7 +2384,7 @@
         "dov:namespace": "http://opcfoundation.org/UA/PNEM/",
         "title": "PeVersionDataType",
         "type": "object",
-        "dov:typeRef": "nsu=http://opcfoundation.org/UA/PNEM/;i=3004",
+        "dov:typeRef": "org.opcfoundation.UA.PNEM.PeVersionDataType",
         "required": [ "MajorVersion", "MinorVersion", "Revision" ],
         "properties": {
           "MajorVersion": {
@@ -2430,7 +2430,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "OpcUaCore_BaseInterfaceType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/;i=17602",
+    "dov:typeRef": "org.opcfoundation.UA.BaseInterfaceType",
     "links": [
       {
         "rel": "tm:extends",
@@ -2456,7 +2456,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "OpcUaCore_BaseObjectType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/;i=58",
+    "dov:typeRef": "org.opcfoundation.UA.BaseObjectType",
     "links": [
     ],
     "schemaDefinitions": {
@@ -2477,7 +2477,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "DI_LockingServicesType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/DI/;i=6388",
+    "dov:typeRef": "org.opcfoundation.UA.DI.LockingServicesType",
     "links": [
       {
         "rel": "tm:extends",
@@ -2499,7 +2499,7 @@
         "dov:namespace": "http://opcfoundation.org/UA/DI/",
         "output": {
           "type": "object",
-          "dov:typeRef": "nsu=http://opcfoundation.org/UA/DI/;i=6401",
+          "dov:typeRef": "org.opcfoundation.UA.OutputArguments",
           "required": [ "BreakLockStatus" ],
           "properties": {
             "BreakLockStatus": {
@@ -2521,7 +2521,7 @@
         "dov:namespace": "http://opcfoundation.org/UA/DI/",
         "output": {
           "type": "object",
-          "dov:typeRef": "nsu=http://opcfoundation.org/UA/DI/;i=6399",
+          "dov:typeRef": "org.opcfoundation.UA.OutputArguments",
           "required": [ "ExitLockStatus" ],
           "properties": {
             "ExitLockStatus": {
@@ -2543,7 +2543,7 @@
         "dov:namespace": "http://opcfoundation.org/UA/DI/",
         "input": {
           "type": "object",
-          "dov:typeRef": "nsu=http://opcfoundation.org/UA/DI/;i=6394",
+          "dov:typeRef": "org.opcfoundation.UA.InputArguments",
           "required": [ "Context" ],
           "properties": {
             "Context": {
@@ -2553,7 +2553,7 @@
         },
         "output": {
           "type": "object",
-          "dov:typeRef": "nsu=http://opcfoundation.org/UA/DI/;i=6395",
+          "dov:typeRef": "org.opcfoundation.UA.OutputArguments",
           "required": [ "InitLockStatus" ],
           "properties": {
             "InitLockStatus": {
@@ -2575,7 +2575,7 @@
         "dov:namespace": "http://opcfoundation.org/UA/DI/",
         "output": {
           "type": "object",
-          "dov:typeRef": "nsu=http://opcfoundation.org/UA/DI/;i=6397",
+          "dov:typeRef": "org.opcfoundation.UA.OutputArguments",
           "required": [ "RenewLockStatus" ],
           "properties": {
             "RenewLockStatus": {

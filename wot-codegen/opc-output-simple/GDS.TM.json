@@ -8,7 +8,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "GDS_DirectoryType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/GDS/;i=13",
+    "dov:typeRef": "org.opcfoundation.UA.GDS.DirectoryType",
     "dov:isComposite": true,
     "links": [
       {
@@ -26,7 +26,7 @@
     "schemaDefinitions": {
       "ApplicationType": {
         "type": "object",
-        "dov:typeRef": "nsu=http://opcfoundation.org/UA/;i=307",
+        "dov:typeRef": "org.opcfoundation.UA.ApplicationType",
         "const": {
           "Server": 0,
           "Client": 1,
@@ -54,7 +54,7 @@
         "dov:namespace": "http://opcfoundation.org/UA/GDS/",
         "input": {
           "type": "object",
-          "dov:typeRef": "nsu=http://opcfoundation.org/UA/GDS/;i=16",
+          "dov:typeRef": "org.opcfoundation.UA.InputArguments",
           "required": [ "ApplicationUri" ],
           "properties": {
             "ApplicationUri": {
@@ -64,7 +64,7 @@
         },
         "output": {
           "type": "object",
-          "dov:typeRef": "nsu=http://opcfoundation.org/UA/GDS/;i=17",
+          "dov:typeRef": "org.opcfoundation.UA.OutputArguments",
           "required": [ "Applications" ],
           "properties": {
             "Applications": {
@@ -72,7 +72,7 @@
               "items": {
                 "title": "ApplicationRecordDataType",
                 "type": "object",
-                "dov:typeRef": "nsu=http://opcfoundation.org/UA/GDS/;i=1",
+                "dov:typeRef": "org.opcfoundation.UA.GDS.ApplicationRecordDataType",
                 "required": [ "ApplicationId", "ApplicationUri", "ApplicationType", "ApplicationNames", "ProductUri", "DiscoveryUrls", "ServerCapabilities" ],
                 "properties": {
                   "ApplicationId": {
@@ -83,7 +83,7 @@
                   },
                   "ApplicationType": {
                     "title": "ApplicationType",
-                    "dov:typeRef": "nsu=http://opcfoundation.org/UA/;i=307",
+                    "dov:typeRef": "org.opcfoundation.UA.ApplicationType",
                     "type": "integer",
                     "minimum": -2147483648,
                     "maximum": 2147483647
@@ -126,7 +126,7 @@
         "dov:namespace": "http://opcfoundation.org/UA/GDS/",
         "input": {
           "type": "object",
-          "dov:typeRef": "nsu=http://opcfoundation.org/UA/GDS/;i=211",
+          "dov:typeRef": "org.opcfoundation.UA.InputArguments",
           "required": [ "ApplicationId" ],
           "properties": {
             "ApplicationId": {
@@ -136,13 +136,13 @@
         },
         "output": {
           "type": "object",
-          "dov:typeRef": "nsu=http://opcfoundation.org/UA/GDS/;i=212",
+          "dov:typeRef": "org.opcfoundation.UA.OutputArguments",
           "required": [ "Application" ],
           "properties": {
             "Application": {
               "title": "ApplicationRecordDataType",
               "type": "object",
-              "dov:typeRef": "nsu=http://opcfoundation.org/UA/GDS/;i=1",
+              "dov:typeRef": "org.opcfoundation.UA.GDS.ApplicationRecordDataType",
               "required": [ "ApplicationId", "ApplicationUri", "ApplicationType", "ApplicationNames", "ProductUri", "DiscoveryUrls", "ServerCapabilities" ],
               "properties": {
                 "ApplicationId": {
@@ -153,7 +153,7 @@
                 },
                 "ApplicationType": {
                   "title": "ApplicationType",
-                  "dov:typeRef": "nsu=http://opcfoundation.org/UA/;i=307",
+                  "dov:typeRef": "org.opcfoundation.UA.ApplicationType",
                   "type": "integer",
                   "minimum": -2147483648,
                   "maximum": 2147483647
@@ -195,7 +195,7 @@
         "dov:namespace": "http://opcfoundation.org/UA/GDS/",
         "input": {
           "type": "object",
-          "dov:typeRef": "nsu=http://opcfoundation.org/UA/GDS/;i=869",
+          "dov:typeRef": "org.opcfoundation.UA.InputArguments",
           "required": [ "StartingRecordId", "MaxRecordsToReturn", "ApplicationName", "ApplicationUri", "ApplicationType", "ProductUri", "Capabilities" ],
           "properties": {
             "StartingRecordId": {
@@ -232,7 +232,7 @@
         },
         "output": {
           "type": "object",
-          "dov:typeRef": "nsu=http://opcfoundation.org/UA/GDS/;i=870",
+          "dov:typeRef": "org.opcfoundation.UA.OutputArguments",
           "required": [ "LastCounterResetTime", "NextRecordId", "Applications" ],
           "properties": {
             "LastCounterResetTime": {
@@ -249,7 +249,7 @@
               "items": {
                 "title": "ApplicationDescription",
                 "type": "object",
-                "dov:typeRef": "nsu=http://opcfoundation.org/UA/;i=308",
+                "dov:typeRef": "org.opcfoundation.UA.ApplicationDescription",
                 "required": [ "ApplicationUri", "ProductUri", "ApplicationName", "ApplicationType", "GatewayServerUri", "DiscoveryProfileUri", "DiscoveryUrls" ],
                 "properties": {
                   "ApplicationUri": {
@@ -263,7 +263,7 @@
                   },
                   "ApplicationType": {
                     "title": "ApplicationType",
-                    "dov:typeRef": "nsu=http://opcfoundation.org/UA/;i=307",
+                    "dov:typeRef": "org.opcfoundation.UA.ApplicationType",
                     "type": "integer",
                     "minimum": -2147483648,
                     "maximum": 2147483647
@@ -297,7 +297,7 @@
         "dov:namespace": "http://opcfoundation.org/UA/GDS/",
         "input": {
           "type": "object",
-          "dov:typeRef": "nsu=http://opcfoundation.org/UA/GDS/;i=24",
+          "dov:typeRef": "org.opcfoundation.UA.InputArguments",
           "required": [ "StartingRecordId", "MaxRecordsToReturn", "ApplicationName", "ApplicationUri", "ProductUri", "ServerCapabilities" ],
           "properties": {
             "StartingRecordId": {
@@ -329,7 +329,7 @@
         },
         "output": {
           "type": "object",
-          "dov:typeRef": "nsu=http://opcfoundation.org/UA/GDS/;i=25",
+          "dov:typeRef": "org.opcfoundation.UA.OutputArguments",
           "required": [ "LastCounterResetTime", "Servers" ],
           "properties": {
             "LastCounterResetTime": {
@@ -341,7 +341,7 @@
               "items": {
                 "title": "ServerOnNetwork",
                 "type": "object",
-                "dov:typeRef": "nsu=http://opcfoundation.org/UA/;i=12189",
+                "dov:typeRef": "org.opcfoundation.UA.ServerOnNetwork",
                 "required": [ "RecordId", "ServerName", "DiscoveryUrl", "ServerCapabilities" ],
                 "properties": {
                   "RecordId": {
@@ -378,13 +378,13 @@
         "dov:namespace": "http://opcfoundation.org/UA/GDS/",
         "input": {
           "type": "object",
-          "dov:typeRef": "nsu=http://opcfoundation.org/UA/GDS/;i=19",
+          "dov:typeRef": "org.opcfoundation.UA.InputArguments",
           "required": [ "Application" ],
           "properties": {
             "Application": {
               "title": "ApplicationRecordDataType",
               "type": "object",
-              "dov:typeRef": "nsu=http://opcfoundation.org/UA/GDS/;i=1",
+              "dov:typeRef": "org.opcfoundation.UA.GDS.ApplicationRecordDataType",
               "required": [ "ApplicationId", "ApplicationUri", "ApplicationType", "ApplicationNames", "ProductUri", "DiscoveryUrls", "ServerCapabilities" ],
               "properties": {
                 "ApplicationId": {
@@ -395,7 +395,7 @@
                 },
                 "ApplicationType": {
                   "title": "ApplicationType",
-                  "dov:typeRef": "nsu=http://opcfoundation.org/UA/;i=307",
+                  "dov:typeRef": "org.opcfoundation.UA.ApplicationType",
                   "type": "integer",
                   "minimum": -2147483648,
                   "maximum": 2147483647
@@ -427,7 +427,7 @@
         },
         "output": {
           "type": "object",
-          "dov:typeRef": "nsu=http://opcfoundation.org/UA/GDS/;i=20",
+          "dov:typeRef": "org.opcfoundation.UA.OutputArguments",
           "required": [ "ApplicationId" ],
           "properties": {
             "ApplicationId": {
@@ -447,7 +447,7 @@
         "dov:namespace": "http://opcfoundation.org/UA/GDS/",
         "input": {
           "type": "object",
-          "dov:typeRef": "nsu=http://opcfoundation.org/UA/GDS/;i=22",
+          "dov:typeRef": "org.opcfoundation.UA.InputArguments",
           "required": [ "ApplicationId" ],
           "properties": {
             "ApplicationId": {
@@ -467,13 +467,13 @@
         "dov:namespace": "http://opcfoundation.org/UA/GDS/",
         "input": {
           "type": "object",
-          "dov:typeRef": "nsu=http://opcfoundation.org/UA/GDS/;i=189",
+          "dov:typeRef": "org.opcfoundation.UA.InputArguments",
           "required": [ "Application" ],
           "properties": {
             "Application": {
               "title": "ApplicationRecordDataType",
               "type": "object",
-              "dov:typeRef": "nsu=http://opcfoundation.org/UA/GDS/;i=1",
+              "dov:typeRef": "org.opcfoundation.UA.GDS.ApplicationRecordDataType",
               "required": [ "ApplicationId", "ApplicationUri", "ApplicationType", "ApplicationNames", "ProductUri", "DiscoveryUrls", "ServerCapabilities" ],
               "properties": {
                 "ApplicationId": {
@@ -484,7 +484,7 @@
                 },
                 "ApplicationType": {
                   "title": "ApplicationType",
-                  "dov:typeRef": "nsu=http://opcfoundation.org/UA/;i=307",
+                  "dov:typeRef": "org.opcfoundation.UA.ApplicationType",
                   "type": "integer",
                   "minimum": -2147483648,
                   "maximum": 2147483647
@@ -537,7 +537,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "GDS_ApplicationRegistrationChangedAuditEventType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/GDS/;i=26",
+    "dov:typeRef": "org.opcfoundation.UA.GDS.ApplicationRegistrationChangedAuditEventType",
     "dov:isEvent": true,
     "links": [
       {
@@ -564,7 +564,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "GDS_CertificateDirectoryType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/GDS/;i=63",
+    "dov:typeRef": "org.opcfoundation.UA.GDS.CertificateDirectoryType",
     "links": [
       {
         "rel": "tm:extends",
@@ -579,7 +579,7 @@
         "dov:namespace": "http://opcfoundation.org/UA/GDS/",
         "input": {
           "type": "object",
-          "dov:typeRef": "nsu=http://opcfoundation.org/UA/GDS/;i=160",
+          "dov:typeRef": "org.opcfoundation.UA.InputArguments",
           "required": [ "Certificate" ],
           "properties": {
             "Certificate": {
@@ -590,7 +590,7 @@
         },
         "output": {
           "type": "object",
-          "dov:typeRef": "nsu=http://opcfoundation.org/UA/GDS/;i=161",
+          "dov:typeRef": "org.opcfoundation.UA.OutputArguments",
           "required": [ "CertificateStatus", "ValidityTime" ],
           "properties": {
             "CertificateStatus": {
@@ -614,7 +614,7 @@
         "dov:namespace": "http://opcfoundation.org/UA/GDS/",
         "input": {
           "type": "object",
-          "dov:typeRef": "nsu=http://opcfoundation.org/UA/GDS/;i=86",
+          "dov:typeRef": "org.opcfoundation.UA.InputArguments",
           "required": [ "ApplicationId", "RequestId" ],
           "properties": {
             "ApplicationId": {
@@ -627,7 +627,7 @@
         },
         "output": {
           "type": "object",
-          "dov:typeRef": "nsu=http://opcfoundation.org/UA/GDS/;i=87",
+          "dov:typeRef": "org.opcfoundation.UA.OutputArguments",
           "required": [ "Certificate", "PrivateKey", "IssuerCertificates" ],
           "properties": {
             "Certificate": {
@@ -659,7 +659,7 @@
         "dov:namespace": "http://opcfoundation.org/UA/GDS/",
         "input": {
           "type": "object",
-          "dov:typeRef": "nsu=http://opcfoundation.org/UA/GDS/;i=370",
+          "dov:typeRef": "org.opcfoundation.UA.InputArguments",
           "required": [ "ApplicationId" ],
           "properties": {
             "ApplicationId": {
@@ -669,7 +669,7 @@
         },
         "output": {
           "type": "object",
-          "dov:typeRef": "nsu=http://opcfoundation.org/UA/GDS/;i=371",
+          "dov:typeRef": "org.opcfoundation.UA.OutputArguments",
           "required": [ "CertificateGroupIds" ],
           "properties": {
             "CertificateGroupIds": {
@@ -692,7 +692,7 @@
         "dov:namespace": "http://opcfoundation.org/UA/GDS/",
         "input": {
           "type": "object",
-          "dov:typeRef": "nsu=http://opcfoundation.org/UA/GDS/;i=90",
+          "dov:typeRef": "org.opcfoundation.UA.InputArguments",
           "required": [ "ApplicationId", "CertificateGroupId" ],
           "properties": {
             "ApplicationId": {
@@ -705,7 +705,7 @@
         },
         "output": {
           "type": "object",
-          "dov:typeRef": "nsu=http://opcfoundation.org/UA/GDS/;i=108",
+          "dov:typeRef": "org.opcfoundation.UA.OutputArguments",
           "required": [ "CertificateTypeIds", "Certificates" ],
           "properties": {
             "CertificateTypeIds": {
@@ -735,7 +735,7 @@
         "dov:namespace": "http://opcfoundation.org/UA/GDS/",
         "input": {
           "type": "object",
-          "dov:typeRef": "nsu=http://opcfoundation.org/UA/GDS/;i=223",
+          "dov:typeRef": "org.opcfoundation.UA.InputArguments",
           "required": [ "ApplicationId", "CertificateGroupId", "CertificateTypeId" ],
           "properties": {
             "ApplicationId": {
@@ -751,7 +751,7 @@
         },
         "output": {
           "type": "object",
-          "dov:typeRef": "nsu=http://opcfoundation.org/UA/GDS/;i=224",
+          "dov:typeRef": "org.opcfoundation.UA.OutputArguments",
           "required": [ "UpdateRequired" ],
           "properties": {
             "UpdateRequired": {
@@ -771,7 +771,7 @@
         "dov:namespace": "http://opcfoundation.org/UA/GDS/",
         "input": {
           "type": "object",
-          "dov:typeRef": "nsu=http://opcfoundation.org/UA/GDS/;i=198",
+          "dov:typeRef": "org.opcfoundation.UA.InputArguments",
           "required": [ "ApplicationId", "CertificateGroupId" ],
           "properties": {
             "ApplicationId": {
@@ -784,7 +784,7 @@
         },
         "output": {
           "type": "object",
-          "dov:typeRef": "nsu=http://opcfoundation.org/UA/GDS/;i=199",
+          "dov:typeRef": "org.opcfoundation.UA.OutputArguments",
           "required": [ "TrustListId" ],
           "properties": {
             "TrustListId": {
@@ -804,7 +804,7 @@
         "dov:namespace": "http://opcfoundation.org/UA/GDS/",
         "input": {
           "type": "object",
-          "dov:typeRef": "nsu=http://opcfoundation.org/UA/GDS/;i=15004",
+          "dov:typeRef": "org.opcfoundation.UA.InputArguments",
           "required": [ "ApplicationId", "Certificate" ],
           "properties": {
             "ApplicationId": {
@@ -828,7 +828,7 @@
         "dov:namespace": "http://opcfoundation.org/UA/GDS/",
         "input": {
           "type": "object",
-          "dov:typeRef": "nsu=http://opcfoundation.org/UA/GDS/;i=77",
+          "dov:typeRef": "org.opcfoundation.UA.InputArguments",
           "required": [ "ApplicationId", "CertificateGroupId", "CertificateTypeId", "SubjectName", "DomainNames", "PrivateKeyFormat", "PrivateKeyPassword" ],
           "properties": {
             "ApplicationId": {
@@ -859,7 +859,7 @@
         },
         "output": {
           "type": "object",
-          "dov:typeRef": "nsu=http://opcfoundation.org/UA/GDS/;i=78",
+          "dov:typeRef": "org.opcfoundation.UA.OutputArguments",
           "required": [ "RequestId" ],
           "properties": {
             "RequestId": {
@@ -879,7 +879,7 @@
         "dov:namespace": "http://opcfoundation.org/UA/GDS/",
         "input": {
           "type": "object",
-          "dov:typeRef": "nsu=http://opcfoundation.org/UA/GDS/;i=80",
+          "dov:typeRef": "org.opcfoundation.UA.InputArguments",
           "required": [ "ApplicationId", "CertificateGroupId", "CertificateTypeId", "CertificateRequest" ],
           "properties": {
             "ApplicationId": {
@@ -899,7 +899,7 @@
         },
         "output": {
           "type": "object",
-          "dov:typeRef": "nsu=http://opcfoundation.org/UA/GDS/;i=81",
+          "dov:typeRef": "org.opcfoundation.UA.OutputArguments",
           "required": [ "RequestId" ],
           "properties": {
             "RequestId": {
@@ -930,7 +930,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "GDS_CertificateRequestedAuditEventType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/GDS/;i=91",
+    "dov:typeRef": "org.opcfoundation.UA.GDS.CertificateRequestedAuditEventType",
     "dov:isEvent": true,
     "links": [
       {
@@ -988,7 +988,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "GDS_CertificateDeliveredAuditEventType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/GDS/;i=109",
+    "dov:typeRef": "org.opcfoundation.UA.GDS.CertificateDeliveredAuditEventType",
     "dov:isEvent": true,
     "links": [
       {
@@ -1046,7 +1046,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "GDS_CertificateRevokedAuditEventType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/GDS/;i=27",
+    "dov:typeRef": "org.opcfoundation.UA.GDS.CertificateRevokedAuditEventType",
     "dov:isEvent": true,
     "links": [
       {
@@ -1073,7 +1073,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "GDS_KeyCredentialManagementFolderType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/GDS/;i=55",
+    "dov:typeRef": "org.opcfoundation.UA.GDS.KeyCredentialManagementFolderType",
     "links": [
       {
         "rel": "tm:extends",
@@ -1105,7 +1105,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "GDS_KeyCredentialServiceType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/GDS/;i=1020",
+    "dov:typeRef": "org.opcfoundation.UA.GDS.KeyCredentialServiceType",
     "links": [
       {
         "rel": "tm:extends",
@@ -1127,7 +1127,7 @@
         "dov:namespace": "http://opcfoundation.org/UA/GDS/",
         "input": {
           "type": "object",
-          "dov:typeRef": "nsu=http://opcfoundation.org/UA/GDS/;i=1027",
+          "dov:typeRef": "org.opcfoundation.UA.InputArguments",
           "required": [ "RequestId", "CancelRequest" ],
           "properties": {
             "RequestId": {
@@ -1140,7 +1140,7 @@
         },
         "output": {
           "type": "object",
-          "dov:typeRef": "nsu=http://opcfoundation.org/UA/GDS/;i=1028",
+          "dov:typeRef": "org.opcfoundation.UA.OutputArguments",
           "required": [ "CredentialId", "CredentialSecret", "CertificateThumbprint", "SecurityPolicyUri", "GrantedRoles" ],
           "properties": {
             "CredentialId": {
@@ -1176,7 +1176,7 @@
         "dov:namespace": "http://opcfoundation.org/UA/GDS/",
         "input": {
           "type": "object",
-          "dov:typeRef": "nsu=http://opcfoundation.org/UA/GDS/;i=1030",
+          "dov:typeRef": "org.opcfoundation.UA.InputArguments",
           "required": [ "CredentialId" ],
           "properties": {
             "CredentialId": {
@@ -1196,7 +1196,7 @@
         "dov:namespace": "http://opcfoundation.org/UA/GDS/",
         "input": {
           "type": "object",
-          "dov:typeRef": "nsu=http://opcfoundation.org/UA/GDS/;i=1024",
+          "dov:typeRef": "org.opcfoundation.UA.InputArguments",
           "required": [ "ApplicationUri", "PublicKey", "SecurityPolicyUri", "RequestedRoles" ],
           "properties": {
             "ApplicationUri": {
@@ -1219,7 +1219,7 @@
         },
         "output": {
           "type": "object",
-          "dov:typeRef": "nsu=http://opcfoundation.org/UA/GDS/;i=1025",
+          "dov:typeRef": "org.opcfoundation.UA.OutputArguments",
           "required": [ "RequestId" ],
           "properties": {
             "RequestId": {
@@ -1292,7 +1292,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "GDS_KeyCredentialRequestedAuditEventType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/GDS/;i=1039",
+    "dov:typeRef": "org.opcfoundation.UA.GDS.KeyCredentialRequestedAuditEventType",
     "dov:isEvent": true,
     "links": [
       {
@@ -1319,7 +1319,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "GDS_KeyCredentialDeliveredAuditEventType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/GDS/;i=1057",
+    "dov:typeRef": "org.opcfoundation.UA.GDS.KeyCredentialDeliveredAuditEventType",
     "dov:isEvent": true,
     "links": [
       {
@@ -1346,7 +1346,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "GDS_KeyCredentialRevokedAuditEventType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/GDS/;i=1075",
+    "dov:typeRef": "org.opcfoundation.UA.GDS.KeyCredentialRevokedAuditEventType",
     "dov:isEvent": true,
     "links": [
       {
@@ -1373,7 +1373,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "GDS_AuthorizationServicesFolderType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/GDS/;i=233",
+    "dov:typeRef": "org.opcfoundation.UA.GDS.AuthorizationServicesFolderType",
     "links": [
       {
         "rel": "tm:extends",
@@ -1399,7 +1399,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "GDS_AuthorizationServiceType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/GDS/;i=966",
+    "dov:typeRef": "org.opcfoundation.UA.GDS.AuthorizationServiceType",
     "links": [
       {
         "rel": "tm:extends",
@@ -1410,7 +1410,7 @@
     "schemaDefinitions": {
       "UserTokenType": {
         "type": "object",
-        "dov:typeRef": "nsu=http://opcfoundation.org/UA/;i=303",
+        "dov:typeRef": "org.opcfoundation.UA.UserTokenType",
         "const": {
           "Anonymous": 0,
           "UserName": 1,
@@ -1445,7 +1445,7 @@
         "dov:namespace": "http://opcfoundation.org/UA/GDS/",
         "output": {
           "type": "object",
-          "dov:typeRef": "nsu=http://opcfoundation.org/UA/GDS/;i=1005",
+          "dov:typeRef": "org.opcfoundation.UA.OutputArguments",
           "required": [ "ServiceUri", "ServiceCertificate", "UserTokenPolicies" ],
           "properties": {
             "ServiceUri": {
@@ -1460,7 +1460,7 @@
               "items": {
                 "title": "UserTokenPolicy",
                 "type": "object",
-                "dov:typeRef": "nsu=http://opcfoundation.org/UA/;i=304",
+                "dov:typeRef": "org.opcfoundation.UA.UserTokenPolicy",
                 "required": [ "PolicyId", "TokenType", "IssuedTokenType", "IssuerEndpointUrl", "SecurityPolicyUri" ],
                 "properties": {
                   "PolicyId": {
@@ -1468,7 +1468,7 @@
                   },
                   "TokenType": {
                     "title": "UserTokenType",
-                    "dov:typeRef": "nsu=http://opcfoundation.org/UA/;i=303",
+                    "dov:typeRef": "org.opcfoundation.UA.UserTokenType",
                     "type": "integer",
                     "minimum": -2147483648,
                     "maximum": 2147483647
@@ -1499,13 +1499,13 @@
         "dov:namespace": "http://opcfoundation.org/UA/GDS/",
         "input": {
           "type": "object",
-          "dov:typeRef": "nsu=http://opcfoundation.org/UA/GDS/;i=970",
+          "dov:typeRef": "org.opcfoundation.UA.InputArguments",
           "required": [ "IdentityToken", "ResourceId" ],
           "properties": {
             "IdentityToken": {
               "title": "UserIdentityToken",
               "type": "object",
-              "dov:typeRef": "nsu=http://opcfoundation.org/UA/;i=316",
+              "dov:typeRef": "org.opcfoundation.UA.UserIdentityToken",
               "required": [ "PolicyId" ],
               "properties": {
                 "PolicyId": {
@@ -1520,7 +1520,7 @@
         },
         "output": {
           "type": "object",
-          "dov:typeRef": "nsu=http://opcfoundation.org/UA/GDS/;i=971",
+          "dov:typeRef": "org.opcfoundation.UA.OutputArguments",
           "required": [ "AccessToken" ],
           "properties": {
             "AccessToken": {
@@ -1569,7 +1569,7 @@
         "items": {
           "title": "UserTokenPolicy",
           "type": "object",
-          "dov:typeRef": "nsu=http://opcfoundation.org/UA/;i=304",
+          "dov:typeRef": "org.opcfoundation.UA.UserTokenPolicy",
           "required": [ "PolicyId", "TokenType", "IssuedTokenType", "IssuerEndpointUrl", "SecurityPolicyUri" ],
           "properties": {
             "PolicyId": {
@@ -1577,7 +1577,7 @@
             },
             "TokenType": {
               "title": "UserTokenType",
-              "dov:typeRef": "nsu=http://opcfoundation.org/UA/;i=303",
+              "dov:typeRef": "org.opcfoundation.UA.UserTokenType",
               "type": "integer",
               "minimum": -2147483648,
               "maximum": 2147483647
@@ -1615,7 +1615,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "GDS_AccessTokenIssuedAuditEventType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/GDS/;i=975",
+    "dov:typeRef": "org.opcfoundation.UA.GDS.AccessTokenIssuedAuditEventType",
     "dov:isEvent": true,
     "links": [
       {

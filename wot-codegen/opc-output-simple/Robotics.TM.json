@@ -8,7 +8,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "Robotics_MultiAcknowledgeableConditionType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/Robotics/;i=1015",
+    "dov:typeRef": "org.opcfoundation.UA.Robotics.MultiAcknowledgeableConditionType",
     "dov:isEvent": true,
     "links": [
       {
@@ -67,7 +67,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "Robotics_EmergencyStopFunctionType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/Robotics/;i=17230",
+    "dov:typeRef": "org.opcfoundation.UA.Robotics.EmergencyStopFunctionType",
     "links": [
       {
         "rel": "tm:extends",
@@ -145,7 +145,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "Robotics_LoadType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/Robotics/;i=1018",
+    "dov:typeRef": "org.opcfoundation.UA.Robotics.LoadType",
     "links": [
       {
         "rel": "tm:extends",
@@ -175,13 +175,13 @@
         "title": "ThreeDFrame",
         "description": "The position and orientation of the center of the mass related to the mounting point using a FrameType. X, Y, Z define the position of the center of gravity relative to the mounting point coordinate system. A, B, C define the orientation of the principal axes of inertia relative to the mounting point coordinate system. Orientation A, B, C can be '0' for systems which do not need these  values.",
         "type": "object",
-        "dov:typeRef": "nsu=http://opcfoundation.org/UA/;i=18814",
+        "dov:typeRef": "org.opcfoundation.UA.ThreeDFrame",
         "required": [ "CartesianCoordinates", "Orientation" ],
         "properties": {
           "CartesianCoordinates": {
             "title": "ThreeDCartesianCoordinates",
             "type": "object",
-            "dov:typeRef": "nsu=http://opcfoundation.org/UA/;i=18810",
+            "dov:typeRef": "org.opcfoundation.UA.ThreeDCartesianCoordinates",
             "required": [ "X", "Y", "Z" ],
             "properties": {
               "X": {
@@ -204,7 +204,7 @@
           "Orientation": {
             "title": "ThreeDOrientation",
             "type": "object",
-            "dov:typeRef": "nsu=http://opcfoundation.org/UA/;i=18812",
+            "dov:typeRef": "org.opcfoundation.UA.ThreeDOrientation",
             "required": [ "A", "B", "C" ],
             "properties": {
               "A": {
@@ -238,7 +238,7 @@
       "CenterOfMass_CartesianCoordinates": {
         "title": "ThreeDCartesianCoordinates",
         "type": "object",
-        "dov:typeRef": "nsu=http://opcfoundation.org/UA/;i=18810",
+        "dov:typeRef": "org.opcfoundation.UA.ThreeDCartesianCoordinates",
         "required": [ "X", "Y", "Z" ],
         "properties": {
           "X": {
@@ -313,7 +313,7 @@
       "CenterOfMass_Orientation": {
         "title": "ThreeDOrientation",
         "type": "object",
-        "dov:typeRef": "nsu=http://opcfoundation.org/UA/;i=18812",
+        "dov:typeRef": "org.opcfoundation.UA.ThreeDOrientation",
         "required": [ "A", "B", "C" ],
         "properties": {
           "A": {
@@ -390,7 +390,7 @@
         "title": "ThreeDVector",
         "description": "The Inertia uses the VectorType to describe the three values of the principal moments of inertia with respect to the mounting point coordinate system. If inertia values are provided for rotary axis the CenterOfMass shall be completely filled as well.",
         "type": "object",
-        "dov:typeRef": "nsu=http://opcfoundation.org/UA/;i=18808",
+        "dov:typeRef": "org.opcfoundation.UA.ThreeDVector",
         "required": [ "X", "Y", "Z" ],
         "properties": {
           "X": {
@@ -484,13 +484,13 @@
           "title": "ThreeDFrame",
           "description": "The position and orientation of the center of the mass related to the mounting point using a FrameType. X, Y, Z define the position of the center of gravity relative to the mounting point coordinate system. A, B, C define the orientation of the principal axes of inertia relative to the mounting point coordinate system. Orientation A, B, C can be '0' for systems which do not need these  values.",
           "type": "object",
-          "dov:typeRef": "nsu=http://opcfoundation.org/UA/;i=18814",
+          "dov:typeRef": "org.opcfoundation.UA.ThreeDFrame",
           "required": [ "CartesianCoordinates", "Orientation" ],
           "properties": {
             "CartesianCoordinates": {
               "title": "ThreeDCartesianCoordinates",
               "type": "object",
-              "dov:typeRef": "nsu=http://opcfoundation.org/UA/;i=18810",
+              "dov:typeRef": "org.opcfoundation.UA.ThreeDCartesianCoordinates",
               "required": [ "X", "Y", "Z" ],
               "properties": {
                 "X": {
@@ -513,7 +513,7 @@
             "Orientation": {
               "title": "ThreeDOrientation",
               "type": "object",
-              "dov:typeRef": "nsu=http://opcfoundation.org/UA/;i=18812",
+              "dov:typeRef": "org.opcfoundation.UA.ThreeDOrientation",
               "required": [ "A", "B", "C" ],
               "properties": {
                 "A": {
@@ -548,7 +548,7 @@
         "data": {
           "title": "ThreeDCartesianCoordinates",
           "type": "object",
-          "dov:typeRef": "nsu=http://opcfoundation.org/UA/;i=18810",
+          "dov:typeRef": "org.opcfoundation.UA.ThreeDCartesianCoordinates",
           "required": [ "X", "Y", "Z" ],
           "properties": {
             "X": {
@@ -627,7 +627,7 @@
         "data": {
           "title": "ThreeDOrientation",
           "type": "object",
-          "dov:typeRef": "nsu=http://opcfoundation.org/UA/;i=18812",
+          "dov:typeRef": "org.opcfoundation.UA.ThreeDOrientation",
           "required": [ "A", "B", "C" ],
           "properties": {
             "A": {
@@ -708,7 +708,7 @@
           "title": "ThreeDVector",
           "description": "The Inertia uses the VectorType to describe the three values of the principal moments of inertia with respect to the mounting point coordinate system. If inertia values are provided for rotary axis the CenterOfMass shall be completely filled as well.",
           "type": "object",
-          "dov:typeRef": "nsu=http://opcfoundation.org/UA/;i=18808",
+          "dov:typeRef": "org.opcfoundation.UA.ThreeDVector",
           "required": [ "X", "Y", "Z" ],
           "properties": {
             "X": {
@@ -809,7 +809,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "Robotics_ProtectiveStopFunctionType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/Robotics/;i=17233",
+    "dov:typeRef": "org.opcfoundation.UA.Robotics.ProtectiveStopFunctionType",
     "links": [
       {
         "rel": "tm:extends",
@@ -914,7 +914,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "Robotics_ExecutingSubstateMachineType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/Robotics/;i=1007",
+    "dov:typeRef": "org.opcfoundation.UA.Robotics.ExecutingSubstateMachineType",
     "links": [
       {
         "rel": "tm:extends",
@@ -1032,7 +1032,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "Robotics_IdleSubstateMachineType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/Robotics/;i=1009",
+    "dov:typeRef": "org.opcfoundation.UA.Robotics.IdleSubstateMachineType",
     "links": [
       {
         "rel": "tm:extends",
@@ -1156,7 +1156,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "Robotics_OperationStateMachineType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/Robotics/;i=1006",
+    "dov:typeRef": "org.opcfoundation.UA.Robotics.OperationStateMachineType",
     "links": [
       {
         "rel": "tm:extends",
@@ -1242,7 +1242,7 @@
         "dov:namespace": "http://opcfoundation.org/UA/Robotics/",
         "output": {
           "type": "object",
-          "dov:typeRef": "nsu=http://opcfoundation.org/UA/Robotics/;i=6023",
+          "dov:typeRef": "org.opcfoundation.UA.OutputArguments",
           "required": [ "Status" ],
           "properties": {
             "Status": {
@@ -1265,7 +1265,7 @@
         "dov:namespace": "http://opcfoundation.org/UA/Robotics/",
         "input": {
           "type": "object",
-          "dov:typeRef": "nsu=http://opcfoundation.org/UA/Robotics/;i=6024",
+          "dov:typeRef": "org.opcfoundation.UA.InputArguments",
           "required": [ "StopMode" ],
           "properties": {
             "StopMode": {
@@ -1278,7 +1278,7 @@
         },
         "output": {
           "type": "object",
-          "dov:typeRef": "nsu=http://opcfoundation.org/UA/Robotics/;i=6025",
+          "dov:typeRef": "org.opcfoundation.UA.OutputArguments",
           "required": [ "Status" ],
           "properties": {
             "Status": {
@@ -1354,7 +1354,7 @@
         "items": {
           "title": "EnumValueType",
           "type": "object",
-          "dov:typeRef": "nsu=http://opcfoundation.org/UA/;i=7594",
+          "dov:typeRef": "org.opcfoundation.UA.EnumValueType",
           "required": [ "Value", "DisplayName", "Description" ],
           "properties": {
             "Value": {
@@ -1435,7 +1435,7 @@
           "items": {
             "title": "EnumValueType",
             "type": "object",
-            "dov:typeRef": "nsu=http://opcfoundation.org/UA/;i=7594",
+            "dov:typeRef": "org.opcfoundation.UA.EnumValueType",
             "required": [ "Value", "DisplayName", "Description" ],
             "properties": {
               "Value": {
@@ -1471,7 +1471,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "Robotics_SystemOperationStateMachineType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/Robotics/;i=1021",
+    "dov:typeRef": "org.opcfoundation.UA.Robotics.SystemOperationStateMachineType",
     "links": [
       {
         "rel": "tm:extends",
@@ -1569,7 +1569,7 @@
         "dov:namespace": "http://opcfoundation.org/UA/Robotics/",
         "output": {
           "type": "object",
-          "dov:typeRef": "nsu=http://opcfoundation.org/UA/Robotics/;i=6068",
+          "dov:typeRef": "org.opcfoundation.UA.OutputArguments",
           "required": [ "Status" ],
           "properties": {
             "Status": {
@@ -1592,7 +1592,7 @@
         "dov:namespace": "http://opcfoundation.org/UA/Robotics/",
         "output": {
           "type": "object",
-          "dov:typeRef": "nsu=http://opcfoundation.org/UA/Robotics/;i=6070",
+          "dov:typeRef": "org.opcfoundation.UA.OutputArguments",
           "required": [ "Status" ],
           "properties": {
             "Status": {
@@ -1615,7 +1615,7 @@
         "dov:namespace": "http://opcfoundation.org/UA/Robotics/",
         "output": {
           "type": "object",
-          "dov:typeRef": "nsu=http://opcfoundation.org/UA/Robotics/;i=6064",
+          "dov:typeRef": "org.opcfoundation.UA.OutputArguments",
           "required": [ "Status" ],
           "properties": {
             "Status": {
@@ -1638,7 +1638,7 @@
         "dov:namespace": "http://opcfoundation.org/UA/Robotics/",
         "input": {
           "type": "object",
-          "dov:typeRef": "nsu=http://opcfoundation.org/UA/Robotics/;i=6065",
+          "dov:typeRef": "org.opcfoundation.UA.InputArguments",
           "required": [ "StopMode" ],
           "properties": {
             "StopMode": {
@@ -1651,7 +1651,7 @@
         },
         "output": {
           "type": "object",
-          "dov:typeRef": "nsu=http://opcfoundation.org/UA/Robotics/;i=6066",
+          "dov:typeRef": "org.opcfoundation.UA.OutputArguments",
           "required": [ "Status" ],
           "properties": {
             "Status": {
@@ -1727,7 +1727,7 @@
         "items": {
           "title": "EnumValueType",
           "type": "object",
-          "dov:typeRef": "nsu=http://opcfoundation.org/UA/;i=7594",
+          "dov:typeRef": "org.opcfoundation.UA.EnumValueType",
           "required": [ "Value", "DisplayName", "Description" ],
           "properties": {
             "Value": {
@@ -1808,7 +1808,7 @@
           "items": {
             "title": "EnumValueType",
             "type": "object",
-            "dov:typeRef": "nsu=http://opcfoundation.org/UA/;i=7594",
+            "dov:typeRef": "org.opcfoundation.UA.EnumValueType",
             "required": [ "Value", "DisplayName", "Description" ],
             "properties": {
               "Value": {
@@ -1844,7 +1844,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "Robotics_TaskControlStateMachineType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/Robotics/;i=1025",
+    "dov:typeRef": "org.opcfoundation.UA.Robotics.TaskControlStateMachineType",
     "links": [
       {
         "rel": "tm:extends",
@@ -1936,7 +1936,7 @@
         "dov:namespace": "http://opcfoundation.org/UA/Robotics/",
         "input": {
           "type": "object",
-          "dov:typeRef": "nsu=http://opcfoundation.org/UA/Robotics/;i=6143",
+          "dov:typeRef": "org.opcfoundation.UA.InputArguments",
           "required": [ "Name" ],
           "properties": {
             "Name": {
@@ -1947,7 +1947,7 @@
         },
         "output": {
           "type": "object",
-          "dov:typeRef": "nsu=http://opcfoundation.org/UA/Robotics/;i=6144",
+          "dov:typeRef": "org.opcfoundation.UA.OutputArguments",
           "required": [ "Status" ],
           "properties": {
             "Status": {
@@ -1970,7 +1970,7 @@
         "dov:namespace": "http://opcfoundation.org/UA/Robotics/",
         "input": {
           "type": "object",
-          "dov:typeRef": "nsu=http://opcfoundation.org/UA/Robotics/;i=6141",
+          "dov:typeRef": "org.opcfoundation.UA.InputArguments",
           "required": [ "Id" ],
           "properties": {
             "Id": {
@@ -1981,7 +1981,7 @@
         },
         "output": {
           "type": "object",
-          "dov:typeRef": "nsu=http://opcfoundation.org/UA/Robotics/;i=6142",
+          "dov:typeRef": "org.opcfoundation.UA.OutputArguments",
           "required": [ "Status" ],
           "properties": {
             "Status": {
@@ -2004,7 +2004,7 @@
         "dov:namespace": "http://opcfoundation.org/UA/Robotics/",
         "output": {
           "type": "object",
-          "dov:typeRef": "nsu=http://opcfoundation.org/UA/Robotics/;i=6101",
+          "dov:typeRef": "org.opcfoundation.UA.OutputArguments",
           "required": [ "Status" ],
           "properties": {
             "Status": {
@@ -2027,7 +2027,7 @@
         "dov:namespace": "http://opcfoundation.org/UA/Robotics/",
         "input": {
           "type": "object",
-          "dov:typeRef": "nsu=http://opcfoundation.org/UA/Robotics/;i=6102",
+          "dov:typeRef": "org.opcfoundation.UA.InputArguments",
           "required": [ "StopMode" ],
           "properties": {
             "StopMode": {
@@ -2040,7 +2040,7 @@
         },
         "output": {
           "type": "object",
-          "dov:typeRef": "nsu=http://opcfoundation.org/UA/Robotics/;i=6103",
+          "dov:typeRef": "org.opcfoundation.UA.OutputArguments",
           "required": [ "Status" ],
           "properties": {
             "Status": {
@@ -2063,7 +2063,7 @@
         "dov:namespace": "http://opcfoundation.org/UA/Robotics/",
         "input": {
           "type": "object",
-          "dov:typeRef": "nsu=http://opcfoundation.org/UA/Robotics/;i=6067",
+          "dov:typeRef": "org.opcfoundation.UA.InputArguments",
           "required": [ "Name" ],
           "properties": {
             "Name": {
@@ -2073,7 +2073,7 @@
         },
         "output": {
           "type": "object",
-          "dov:typeRef": "nsu=http://opcfoundation.org/UA/Robotics/;i=6069",
+          "dov:typeRef": "org.opcfoundation.UA.OutputArguments",
           "required": [ "Status" ],
           "properties": {
             "Status": {
@@ -2095,7 +2095,7 @@
         "dov:namespace": "http://opcfoundation.org/UA/Robotics/",
         "input": {
           "type": "object",
-          "dov:typeRef": "nsu=http://opcfoundation.org/UA/Robotics/;i=6146",
+          "dov:typeRef": "org.opcfoundation.UA.InputArguments",
           "required": [ "Id" ],
           "properties": {
             "Id": {
@@ -2106,7 +2106,7 @@
         },
         "output": {
           "type": "object",
-          "dov:typeRef": "nsu=http://opcfoundation.org/UA/Robotics/;i=6147",
+          "dov:typeRef": "org.opcfoundation.UA.OutputArguments",
           "required": [ "Status" ],
           "properties": {
             "Status": {
@@ -2129,7 +2129,7 @@
         "dov:namespace": "http://opcfoundation.org/UA/Robotics/",
         "output": {
           "type": "object",
-          "dov:typeRef": "nsu=http://opcfoundation.org/UA/Robotics/;i=6145",
+          "dov:typeRef": "org.opcfoundation.UA.OutputArguments",
           "required": [ "Status" ],
           "properties": {
             "Status": {
@@ -2205,7 +2205,7 @@
         "items": {
           "title": "EnumValueType",
           "type": "object",
-          "dov:typeRef": "nsu=http://opcfoundation.org/UA/;i=7594",
+          "dov:typeRef": "org.opcfoundation.UA.EnumValueType",
           "required": [ "Value", "DisplayName", "Description" ],
           "properties": {
             "Value": {
@@ -2286,7 +2286,7 @@
           "items": {
             "title": "EnumValueType",
             "type": "object",
-            "dov:typeRef": "nsu=http://opcfoundation.org/UA/;i=7594",
+            "dov:typeRef": "org.opcfoundation.UA.EnumValueType",
             "required": [ "Value", "DisplayName", "Description" ],
             "properties": {
               "Value": {
@@ -2322,7 +2322,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "Robotics_ReadySubstateMachineType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/Robotics/;i=1012",
+    "dov:typeRef": "org.opcfoundation.UA.Robotics.ReadySubstateMachineType",
     "links": [
       {
         "rel": "tm:extends",
@@ -2378,7 +2378,7 @@
         "dov:namespace": "http://opcfoundation.org/UA/Robotics/",
         "output": {
           "type": "object",
-          "dov:typeRef": "nsu=http://opcfoundation.org/UA/Robotics/;i=6053",
+          "dov:typeRef": "org.opcfoundation.UA.OutputArguments",
           "required": [ "Status" ],
           "properties": {
             "Status": {
@@ -2469,7 +2469,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "Robotics_SystemOperationType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/Robotics/;i=1028",
+    "dov:typeRef": "org.opcfoundation.UA.Robotics.SystemOperationType",
     "links": [
       {
         "rel": "tm:extends",
@@ -2535,7 +2535,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "Robotics_TaskControlOperationType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/Robotics/;i=1008",
+    "dov:typeRef": "org.opcfoundation.UA.Robotics.TaskControlOperationType",
     "links": [
       {
         "rel": "tm:extends",
@@ -2610,7 +2610,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "Robotics_TaskModuleType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/Robotics/;i=1016",
+    "dov:typeRef": "org.opcfoundation.UA.Robotics.TaskModuleType",
     "links": [
       {
         "rel": "tm:extends",
@@ -2699,7 +2699,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "Robotics_AuxiliaryComponentType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/Robotics/;i=17725",
+    "dov:typeRef": "org.opcfoundation.UA.Robotics.AuxiliaryComponentType",
     "dov:isComposite": true,
     "links": [
       {
@@ -2758,7 +2758,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "Robotics_AxisType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/Robotics/;i=16601",
+    "dov:typeRef": "org.opcfoundation.UA.Robotics.AxisType",
     "links": [
       {
         "rel": "tm:extends",
@@ -2788,7 +2788,7 @@
     "schemaDefinitions": {
       "AxisMotionProfileEnumeration": {
         "type": "object",
-        "dov:typeRef": "nsu=http://opcfoundation.org/UA/Robotics/;i=3008",
+        "dov:typeRef": "org.opcfoundation.UA.Robotics.AxisMotionProfileEnumeration",
         "const": {
           "OTHER": 0,
           "ROTARY": 1,
@@ -2846,7 +2846,7 @@
         "dov:namespace": "http://opcfoundation.org/UA/Robotics/",
         "title": "AxisMotionProfileEnumeration",
         "description": "The kind of axis motion as defined with the AxisMotionProfileEnumeration.",
-        "dov:typeRef": "nsu=http://opcfoundation.org/UA/Robotics/;i=3008",
+        "dov:typeRef": "org.opcfoundation.UA.Robotics.AxisMotionProfileEnumeration",
         "type": "integer",
         "minimum": -2147483648,
         "maximum": 2147483647,
@@ -2872,7 +2872,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "Robotics_ControllerType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/Robotics/;i=1003",
+    "dov:typeRef": "org.opcfoundation.UA.Robotics.ControllerType",
     "links": [
       {
         "rel": "tm:extends",
@@ -3039,7 +3039,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "Robotics_DriveType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/Robotics/;i=17793",
+    "dov:typeRef": "org.opcfoundation.UA.Robotics.DriveType",
     "dov:isComposite": true,
     "links": [
       {
@@ -3098,7 +3098,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "Robotics_GearType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/Robotics/;i=1022",
+    "dov:typeRef": "org.opcfoundation.UA.Robotics.GearType",
     "links": [
       {
         "rel": "tm:extends",
@@ -3140,7 +3140,7 @@
         "title": "RationalNumber",
         "description": "The transmission ratio of the gear expressed as a fraction as input velocity (motor side) by output velocity (load side).",
         "type": "object",
-        "dov:typeRef": "nsu=http://opcfoundation.org/UA/;i=18806",
+        "dov:typeRef": "org.opcfoundation.UA.RationalNumber",
         "required": [ "Numerator", "Denominator" ],
         "properties": {
           "Numerator": {
@@ -3263,7 +3263,7 @@
           "title": "RationalNumber",
           "description": "The transmission ratio of the gear expressed as a fraction as input velocity (motor side) by output velocity (load side).",
           "type": "object",
-          "dov:typeRef": "nsu=http://opcfoundation.org/UA/;i=18806",
+          "dov:typeRef": "org.opcfoundation.UA.RationalNumber",
           "required": [ "Numerator", "Denominator" ],
           "properties": {
             "Numerator": {
@@ -3344,7 +3344,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "Robotics_MotionDeviceSystemType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/Robotics/;i=1002",
+    "dov:typeRef": "org.opcfoundation.UA.Robotics.MotionDeviceSystemType",
     "dov:isComposite": true,
     "links": [
       {
@@ -3408,7 +3408,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "Robotics_MotionDeviceType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/Robotics/;i=1004",
+    "dov:typeRef": "org.opcfoundation.UA.Robotics.MotionDeviceType",
     "links": [
       {
         "rel": "tm:extends",
@@ -3449,7 +3449,7 @@
     "schemaDefinitions": {
       "MotionDeviceCategoryEnumeration": {
         "type": "object",
-        "dov:typeRef": "nsu=http://opcfoundation.org/UA/Robotics/;i=18193",
+        "dov:typeRef": "org.opcfoundation.UA.Robotics.MotionDeviceCategoryEnumeration",
         "const": {
           "OTHER": 0,
           "ARTICULATED_ROBOT": 1,
@@ -3570,7 +3570,7 @@
         "dov:namespace": "http://opcfoundation.org/UA/Robotics/",
         "title": "MotionDeviceCategoryEnumeration",
         "description": "The variable MotionDeviceCategory provides the kind of motion device defined by MotionDeviceCategoryEnumeration based on ISO 8373.",
-        "dov:typeRef": "nsu=http://opcfoundation.org/UA/Robotics/;i=18193",
+        "dov:typeRef": "org.opcfoundation.UA.Robotics.MotionDeviceCategoryEnumeration",
         "type": "integer",
         "minimum": -2147483648,
         "maximum": 2147483647,
@@ -3645,7 +3645,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "Robotics_MotorType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/Robotics/;i=1019",
+    "dov:typeRef": "org.opcfoundation.UA.Robotics.MotorType",
     "links": [
       {
         "rel": "tm:extends",
@@ -3751,7 +3751,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "Robotics_PowerTrainType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/Robotics/;i=16794",
+    "dov:typeRef": "org.opcfoundation.UA.Robotics.PowerTrainType",
     "links": [
       {
         "rel": "tm:extends",
@@ -3822,7 +3822,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "Robotics_SafetyStateType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/Robotics/;i=1013",
+    "dov:typeRef": "org.opcfoundation.UA.Robotics.SafetyStateType",
     "links": [
       {
         "rel": "tm:extends",
@@ -3885,7 +3885,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "Robotics_TaskControlType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/Robotics/;i=1011",
+    "dov:typeRef": "org.opcfoundation.UA.Robotics.TaskControlType",
     "links": [
       {
         "rel": "tm:extends",
@@ -3950,7 +3950,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "Robotics_UserType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/Robotics/;i=18175",
+    "dov:typeRef": "org.opcfoundation.UA.Robotics.UserType",
     "links": [
       {
         "rel": "tm:extends",

@@ -8,7 +8,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "PROFINET_PnDiagnosisAlarmType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/PROFINET/;i=1002",
+    "dov:typeRef": "org.opcfoundation.UA.PROFINET.PnDiagnosisAlarmType",
     "dov:isEvent": true,
     "links": [
       {
@@ -20,7 +20,7 @@
     "schemaDefinitions": {
       "PnChannelAccumulativeEnumeration": {
         "type": "object",
-        "dov:typeRef": "nsu=http://opcfoundation.org/UA/PROFINET/;i=3011",
+        "dov:typeRef": "org.opcfoundation.UA.PROFINET.PnChannelAccumulativeEnumeration",
         "const": {
           "SINGLE": 0,
           "ACCUMULATIVE": 256
@@ -38,7 +38,7 @@
       },
       "PnChannelDirectionEnumeration": {
         "type": "object",
-        "dov:typeRef": "nsu=http://opcfoundation.org/UA/PROFINET/;i=3014",
+        "dov:typeRef": "org.opcfoundation.UA.PROFINET.PnChannelDirectionEnumeration",
         "const": {
           "MANUFACTURER_SPECIFIC": 0,
           "INPUT_CHANNEL": 8192,
@@ -66,7 +66,7 @@
       },
       "PnChannelMaintenanceEnumeration": {
         "type": "object",
-        "dov:typeRef": "nsu=http://opcfoundation.org/UA/PROFINET/;i=3012",
+        "dov:typeRef": "org.opcfoundation.UA.PROFINET.PnChannelMaintenanceEnumeration",
         "const": {
           "FAULT": 0,
           "MAINTENANCE_REQUIRED": 512,
@@ -94,7 +94,7 @@
       },
       "PnChannelSpecifierEnumeration": {
         "type": "object",
-        "dov:typeRef": "nsu=http://opcfoundation.org/UA/PROFINET/;i=3013",
+        "dov:typeRef": "org.opcfoundation.UA.PROFINET.PnChannelSpecifierEnumeration",
         "const": {
           "ALL_DISAPPEARS": 0,
           "APPEARS": 2048,
@@ -122,7 +122,7 @@
       },
       "PnChannelTypeEnumeration": {
         "type": "object",
-        "dov:typeRef": "nsu=http://opcfoundation.org/UA/PROFINET/;i=3010",
+        "dov:typeRef": "org.opcfoundation.UA.PROFINET.PnChannelTypeEnumeration",
         "const": {
           "UNSPECIFIC": 0,
           "S1BIT": 1,
@@ -182,7 +182,7 @@
       "Accumulative": {
         "dov:namespace": "http://opcfoundation.org/UA/PROFINET/",
         "title": "PnChannelAccumulativeEnumeration",
-        "dov:typeRef": "nsu=http://opcfoundation.org/UA/PROFINET/;i=3011",
+        "dov:typeRef": "org.opcfoundation.UA.PROFINET.PnChannelAccumulativeEnumeration",
         "type": "integer",
         "minimum": -2147483648,
         "maximum": 2147483647,
@@ -240,7 +240,7 @@
       "Direction": {
         "dov:namespace": "http://opcfoundation.org/UA/PROFINET/",
         "title": "PnChannelDirectionEnumeration",
-        "dov:typeRef": "nsu=http://opcfoundation.org/UA/PROFINET/;i=3014",
+        "dov:typeRef": "org.opcfoundation.UA.PROFINET.PnChannelDirectionEnumeration",
         "type": "integer",
         "minimum": -2147483648,
         "maximum": 2147483647,
@@ -296,7 +296,7 @@
       "Maintenance": {
         "dov:namespace": "http://opcfoundation.org/UA/PROFINET/",
         "title": "PnChannelMaintenanceEnumeration",
-        "dov:typeRef": "nsu=http://opcfoundation.org/UA/PROFINET/;i=3012",
+        "dov:typeRef": "org.opcfoundation.UA.PROFINET.PnChannelMaintenanceEnumeration",
         "type": "integer",
         "minimum": -2147483648,
         "maximum": 2147483647,
@@ -353,7 +353,7 @@
       "Specifier": {
         "dov:namespace": "http://opcfoundation.org/UA/PROFINET/",
         "title": "PnChannelSpecifierEnumeration",
-        "dov:typeRef": "nsu=http://opcfoundation.org/UA/PROFINET/;i=3013",
+        "dov:typeRef": "org.opcfoundation.UA.PROFINET.PnChannelSpecifierEnumeration",
         "type": "integer",
         "minimum": -2147483648,
         "maximum": 2147483647,
@@ -383,7 +383,7 @@
       "Type": {
         "dov:namespace": "http://opcfoundation.org/UA/PROFINET/",
         "title": "PnChannelTypeEnumeration",
-        "dov:typeRef": "nsu=http://opcfoundation.org/UA/PROFINET/;i=3010",
+        "dov:typeRef": "org.opcfoundation.UA.PROFINET.PnChannelTypeEnumeration",
         "type": "integer",
         "minimum": -2147483648,
         "maximum": 2147483647,
@@ -423,7 +423,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "PROFINET_PnAssetChangedEventType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/PROFINET/;i=1003",
+    "dov:typeRef": "org.opcfoundation.UA.PROFINET.PnAssetChangedEventType",
     "dov:isEvent": true,
     "links": [
       {
@@ -435,7 +435,7 @@
     "schemaDefinitions": {
       "PnAssetChangeEnumeration": {
         "type": "object",
-        "dov:typeRef": "nsu=http://opcfoundation.org/UA/PROFINET/;i=3016",
+        "dov:typeRef": "org.opcfoundation.UA.PROFINET.PnAssetChangeEnumeration",
         "const": {
           "INSERTED": 0,
           "REMOVED": 1,
@@ -458,7 +458,7 @@
       },
       "PnAssetTypeEnumeration": {
         "type": "object",
-        "dov:typeRef": "nsu=http://opcfoundation.org/UA/PROFINET/;i=3015",
+        "dov:typeRef": "org.opcfoundation.UA.PROFINET.PnAssetTypeEnumeration",
         "const": {
           "DEVICE": 0,
           "MODULE": 1,
@@ -498,7 +498,7 @@
       "AssetChange": {
         "dov:namespace": "http://opcfoundation.org/UA/PROFINET/",
         "title": "PnAssetChangeEnumeration",
-        "dov:typeRef": "nsu=http://opcfoundation.org/UA/PROFINET/;i=3016",
+        "dov:typeRef": "org.opcfoundation.UA.PROFINET.PnAssetChangeEnumeration",
         "type": "integer",
         "minimum": -2147483648,
         "maximum": 2147483647,
@@ -514,7 +514,7 @@
       "AssetType": {
         "dov:namespace": "http://opcfoundation.org/UA/PROFINET/",
         "title": "PnAssetTypeEnumeration",
-        "dov:typeRef": "nsu=http://opcfoundation.org/UA/PROFINET/;i=3015",
+        "dov:typeRef": "org.opcfoundation.UA.PROFINET.PnAssetTypeEnumeration",
         "type": "integer",
         "minimum": -2147483648,
         "maximum": 2147483647,
@@ -540,7 +540,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "PROFINET_PnTopologyChangedEventType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/PROFINET/;i=1004",
+    "dov:typeRef": "org.opcfoundation.UA.PROFINET.PnTopologyChangedEventType",
     "dov:isEvent": true,
     "links": [
       {
@@ -567,7 +567,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "PROFINET_IPnDomainType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/PROFINET/;i=1031",
+    "dov:typeRef": "org.opcfoundation.UA.PROFINET.IPnDomainType",
     "links": [
       {
         "rel": "tm:extends",
@@ -599,7 +599,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "PROFINET_IPnEquipmentType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/PROFINET/;i=1032",
+    "dov:typeRef": "org.opcfoundation.UA.PROFINET.IPnEquipmentType",
     "links": [
       {
         "rel": "tm:extends",
@@ -640,7 +640,7 @@
     "schemaDefinitions": {
       "PnChannelTypeEnumeration": {
         "type": "object",
-        "dov:typeRef": "nsu=http://opcfoundation.org/UA/PROFINET/;i=3010",
+        "dov:typeRef": "org.opcfoundation.UA.PROFINET.PnChannelTypeEnumeration",
         "const": {
           "UNSPECIFIC": 0,
           "S1BIT": 1,
@@ -688,7 +688,7 @@
       },
       "PnChannelAccumulativeEnumeration": {
         "type": "object",
-        "dov:typeRef": "nsu=http://opcfoundation.org/UA/PROFINET/;i=3011",
+        "dov:typeRef": "org.opcfoundation.UA.PROFINET.PnChannelAccumulativeEnumeration",
         "const": {
           "SINGLE": 0,
           "ACCUMULATIVE": 256
@@ -706,7 +706,7 @@
       },
       "PnChannelMaintenanceEnumeration": {
         "type": "object",
-        "dov:typeRef": "nsu=http://opcfoundation.org/UA/PROFINET/;i=3012",
+        "dov:typeRef": "org.opcfoundation.UA.PROFINET.PnChannelMaintenanceEnumeration",
         "const": {
           "FAULT": 0,
           "MAINTENANCE_REQUIRED": 512,
@@ -734,7 +734,7 @@
       },
       "PnChannelSpecifierEnumeration": {
         "type": "object",
-        "dov:typeRef": "nsu=http://opcfoundation.org/UA/PROFINET/;i=3013",
+        "dov:typeRef": "org.opcfoundation.UA.PROFINET.PnChannelSpecifierEnumeration",
         "const": {
           "ALL_DISAPPEARS": 0,
           "APPEARS": 2048,
@@ -762,7 +762,7 @@
       },
       "PnChannelDirectionEnumeration": {
         "type": "object",
-        "dov:typeRef": "nsu=http://opcfoundation.org/UA/PROFINET/;i=3014",
+        "dov:typeRef": "org.opcfoundation.UA.PROFINET.PnChannelDirectionEnumeration",
         "const": {
           "MANUFACTURER_SPECIFIC": 0,
           "INPUT_CHANNEL": 8192,
@@ -820,7 +820,7 @@
         "items": {
           "title": "PnDeviceDiagnosisDataType",
           "type": "object",
-          "dov:typeRef": "nsu=http://opcfoundation.org/UA/PROFINET/;i=3019",
+          "dov:typeRef": "org.opcfoundation.UA.PROFINET.PnDeviceDiagnosisDataType",
           "required": [ "API", "Slot", "Subslot", "ChannelNumber", "Type", "Accumulative", "Maintenance", "Specifier", "Direction", "UserStructureIdentifier", "ChannelErrorType", "ExtChannelErrorType", "ExtChannelAddValue", "QualifiedChannelQualifier", "ManufacturerData", "Message", "HelpText" ],
           "properties": {
             "API": {
@@ -845,35 +845,35 @@
             },
             "Type": {
               "title": "PnChannelTypeEnumeration",
-              "dov:typeRef": "nsu=http://opcfoundation.org/UA/PROFINET/;i=3010",
+              "dov:typeRef": "org.opcfoundation.UA.PROFINET.PnChannelTypeEnumeration",
               "type": "integer",
               "minimum": -2147483648,
               "maximum": 2147483647
             },
             "Accumulative": {
               "title": "PnChannelAccumulativeEnumeration",
-              "dov:typeRef": "nsu=http://opcfoundation.org/UA/PROFINET/;i=3011",
+              "dov:typeRef": "org.opcfoundation.UA.PROFINET.PnChannelAccumulativeEnumeration",
               "type": "integer",
               "minimum": -2147483648,
               "maximum": 2147483647
             },
             "Maintenance": {
               "title": "PnChannelMaintenanceEnumeration",
-              "dov:typeRef": "nsu=http://opcfoundation.org/UA/PROFINET/;i=3012",
+              "dov:typeRef": "org.opcfoundation.UA.PROFINET.PnChannelMaintenanceEnumeration",
               "type": "integer",
               "minimum": -2147483648,
               "maximum": 2147483647
             },
             "Specifier": {
               "title": "PnChannelSpecifierEnumeration",
-              "dov:typeRef": "nsu=http://opcfoundation.org/UA/PROFINET/;i=3013",
+              "dov:typeRef": "org.opcfoundation.UA.PROFINET.PnChannelSpecifierEnumeration",
               "type": "integer",
               "minimum": -2147483648,
               "maximum": 2147483647
             },
             "Direction": {
               "title": "PnChannelDirectionEnumeration",
-              "dov:typeRef": "nsu=http://opcfoundation.org/UA/PROFINET/;i=3014",
+              "dov:typeRef": "org.opcfoundation.UA.PROFINET.PnChannelDirectionEnumeration",
               "type": "integer",
               "minimum": -2147483648,
               "maximum": 2147483647
@@ -948,7 +948,7 @@
           "items": {
             "title": "PnDeviceDiagnosisDataType",
             "type": "object",
-            "dov:typeRef": "nsu=http://opcfoundation.org/UA/PROFINET/;i=3019",
+            "dov:typeRef": "org.opcfoundation.UA.PROFINET.PnDeviceDiagnosisDataType",
             "required": [ "API", "Slot", "Subslot", "ChannelNumber", "Type", "Accumulative", "Maintenance", "Specifier", "Direction", "UserStructureIdentifier", "ChannelErrorType", "ExtChannelErrorType", "ExtChannelAddValue", "QualifiedChannelQualifier", "ManufacturerData", "Message", "HelpText" ],
             "properties": {
               "API": {
@@ -973,35 +973,35 @@
               },
               "Type": {
                 "title": "PnChannelTypeEnumeration",
-                "dov:typeRef": "nsu=http://opcfoundation.org/UA/PROFINET/;i=3010",
+                "dov:typeRef": "org.opcfoundation.UA.PROFINET.PnChannelTypeEnumeration",
                 "type": "integer",
                 "minimum": -2147483648,
                 "maximum": 2147483647
               },
               "Accumulative": {
                 "title": "PnChannelAccumulativeEnumeration",
-                "dov:typeRef": "nsu=http://opcfoundation.org/UA/PROFINET/;i=3011",
+                "dov:typeRef": "org.opcfoundation.UA.PROFINET.PnChannelAccumulativeEnumeration",
                 "type": "integer",
                 "minimum": -2147483648,
                 "maximum": 2147483647
               },
               "Maintenance": {
                 "title": "PnChannelMaintenanceEnumeration",
-                "dov:typeRef": "nsu=http://opcfoundation.org/UA/PROFINET/;i=3012",
+                "dov:typeRef": "org.opcfoundation.UA.PROFINET.PnChannelMaintenanceEnumeration",
                 "type": "integer",
                 "minimum": -2147483648,
                 "maximum": 2147483647
               },
               "Specifier": {
                 "title": "PnChannelSpecifierEnumeration",
-                "dov:typeRef": "nsu=http://opcfoundation.org/UA/PROFINET/;i=3013",
+                "dov:typeRef": "org.opcfoundation.UA.PROFINET.PnChannelSpecifierEnumeration",
                 "type": "integer",
                 "minimum": -2147483648,
                 "maximum": 2147483647
               },
               "Direction": {
                 "title": "PnChannelDirectionEnumeration",
-                "dov:typeRef": "nsu=http://opcfoundation.org/UA/PROFINET/;i=3014",
+                "dov:typeRef": "org.opcfoundation.UA.PROFINET.PnChannelDirectionEnumeration",
                 "type": "integer",
                 "minimum": -2147483648,
                 "maximum": 2147483647
@@ -1066,7 +1066,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "PROFINET_IPnControllerType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/PROFINET/;i=1035",
+    "dov:typeRef": "org.opcfoundation.UA.PROFINET.IPnControllerType",
     "links": [
       {
         "rel": "tm:extends",
@@ -1098,7 +1098,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "PROFINET_IPnDeviceType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/PROFINET/;i=1034",
+    "dov:typeRef": "org.opcfoundation.UA.PROFINET.IPnDeviceType",
     "links": [
       {
         "rel": "tm:extends",
@@ -1109,7 +1109,7 @@
     "schemaDefinitions": {
       "PnDeviceStateEnumeration": {
         "type": "object",
-        "dov:typeRef": "nsu=http://opcfoundation.org/UA/PROFINET/;i=3003",
+        "dov:typeRef": "org.opcfoundation.UA.PROFINET.PnDeviceStateEnumeration",
         "const": {
           "OFFLINE": 0,
           "OFFLINE_DOCKING": 1,
@@ -1166,7 +1166,7 @@
       "State": {
         "dov:namespace": "http://opcfoundation.org/UA/PROFINET/",
         "title": "PnDeviceStateEnumeration",
-        "dov:typeRef": "nsu=http://opcfoundation.org/UA/PROFINET/;i=3003",
+        "dov:typeRef": "org.opcfoundation.UA.PROFINET.PnDeviceStateEnumeration",
         "type": "integer",
         "minimum": -2147483648,
         "maximum": 2147483647,
@@ -1185,7 +1185,7 @@
         "dov:namespace": "http://opcfoundation.org/UA/PROFINET/",
         "data": {
           "title": "PnDeviceStateEnumeration",
-          "dov:typeRef": "nsu=http://opcfoundation.org/UA/PROFINET/;i=3003",
+          "dov:typeRef": "org.opcfoundation.UA.PROFINET.PnDeviceStateEnumeration",
           "type": "integer",
           "minimum": -2147483648,
           "maximum": 2147483647
@@ -1209,7 +1209,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "PROFINET_IPnInterfaceType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/PROFINET/;i=1008",
+    "dov:typeRef": "org.opcfoundation.UA.PROFINET.IPnInterfaceType",
     "links": [
       {
         "rel": "tm:extends",
@@ -1239,7 +1239,7 @@
     "schemaDefinitions": {
       "PnDeviceRoleOptionSet": {
         "type": "object",
-        "dov:typeRef": "nsu=http://opcfoundation.org/UA/PROFINET/;i=3002",
+        "dov:typeRef": "org.opcfoundation.UA.PROFINET.PnDeviceRoleOptionSet",
         "const": {
           "IO_DEVICE": 0,
           "IO_CONTROLLER": 1,
@@ -1283,7 +1283,7 @@
         "dov:namespace": "http://opcfoundation.org/UA/PROFINET/",
         "input": {
           "type": "object",
-          "dov:typeRef": "nsu=http://opcfoundation.org/UA/PROFINET/;i=6095",
+          "dov:typeRef": "org.opcfoundation.UA.InputArguments",
           "required": [ "NameOfStation" ],
           "properties": {
             "NameOfStation": {
@@ -1333,7 +1333,7 @@
       "DeviceRole": {
         "dov:namespace": "http://opcfoundation.org/UA/PROFINET/",
         "title": "PnDeviceRoleOptionSet",
-        "dov:typeRef": "nsu=http://opcfoundation.org/UA/PROFINET/;i=3002",
+        "dov:typeRef": "org.opcfoundation.UA.PROFINET.PnDeviceRoleOptionSet",
         "type": "integer",
         "minimum": -2147483648,
         "maximum": 2147483647,
@@ -1425,7 +1425,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "PROFINET_IPnModuleType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/PROFINET/;i=1024",
+    "dov:typeRef": "org.opcfoundation.UA.PROFINET.IPnModuleType",
     "links": [
       {
         "rel": "tm:extends",
@@ -1510,7 +1510,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "PROFINET_IPnExpectedModuleType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/PROFINET/;i=1027",
+    "dov:typeRef": "org.opcfoundation.UA.PROFINET.IPnExpectedModuleType",
     "links": [
       {
         "rel": "tm:extends",
@@ -1527,7 +1527,7 @@
     "schemaDefinitions": {
       "PnModuleStateEnumeration": {
         "type": "object",
-        "dov:typeRef": "nsu=http://opcfoundation.org/UA/PROFINET/;i=3006",
+        "dov:typeRef": "org.opcfoundation.UA.PROFINET.PnModuleStateEnumeration",
         "const": {
           "NO_MODULE": 0,
           "WRONG_MODULE": 1,
@@ -1577,7 +1577,7 @@
       "State": {
         "dov:namespace": "http://opcfoundation.org/UA/PROFINET/",
         "title": "PnModuleStateEnumeration",
-        "dov:typeRef": "nsu=http://opcfoundation.org/UA/PROFINET/;i=3006",
+        "dov:typeRef": "org.opcfoundation.UA.PROFINET.PnModuleStateEnumeration",
         "type": "integer",
         "minimum": -2147483648,
         "maximum": 2147483647,
@@ -1596,7 +1596,7 @@
         "dov:namespace": "http://opcfoundation.org/UA/PROFINET/",
         "data": {
           "title": "PnModuleStateEnumeration",
-          "dov:typeRef": "nsu=http://opcfoundation.org/UA/PROFINET/;i=3006",
+          "dov:typeRef": "org.opcfoundation.UA.PROFINET.PnModuleStateEnumeration",
           "type": "integer",
           "minimum": -2147483648,
           "maximum": 2147483647
@@ -1620,7 +1620,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "PROFINET_IPnRealModuleType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/PROFINET/;i=1025",
+    "dov:typeRef": "org.opcfoundation.UA.PROFINET.IPnRealModuleType",
     "links": [
       {
         "rel": "tm:extends",
@@ -1649,7 +1649,7 @@
     "schemaDefinitions": {
       "PnChannelTypeEnumeration": {
         "type": "object",
-        "dov:typeRef": "nsu=http://opcfoundation.org/UA/PROFINET/;i=3010",
+        "dov:typeRef": "org.opcfoundation.UA.PROFINET.PnChannelTypeEnumeration",
         "const": {
           "UNSPECIFIC": 0,
           "S1BIT": 1,
@@ -1697,7 +1697,7 @@
       },
       "PnChannelAccumulativeEnumeration": {
         "type": "object",
-        "dov:typeRef": "nsu=http://opcfoundation.org/UA/PROFINET/;i=3011",
+        "dov:typeRef": "org.opcfoundation.UA.PROFINET.PnChannelAccumulativeEnumeration",
         "const": {
           "SINGLE": 0,
           "ACCUMULATIVE": 256
@@ -1715,7 +1715,7 @@
       },
       "PnChannelMaintenanceEnumeration": {
         "type": "object",
-        "dov:typeRef": "nsu=http://opcfoundation.org/UA/PROFINET/;i=3012",
+        "dov:typeRef": "org.opcfoundation.UA.PROFINET.PnChannelMaintenanceEnumeration",
         "const": {
           "FAULT": 0,
           "MAINTENANCE_REQUIRED": 512,
@@ -1743,7 +1743,7 @@
       },
       "PnChannelSpecifierEnumeration": {
         "type": "object",
-        "dov:typeRef": "nsu=http://opcfoundation.org/UA/PROFINET/;i=3013",
+        "dov:typeRef": "org.opcfoundation.UA.PROFINET.PnChannelSpecifierEnumeration",
         "const": {
           "ALL_DISAPPEARS": 0,
           "APPEARS": 2048,
@@ -1771,7 +1771,7 @@
       },
       "PnChannelDirectionEnumeration": {
         "type": "object",
-        "dov:typeRef": "nsu=http://opcfoundation.org/UA/PROFINET/;i=3014",
+        "dov:typeRef": "org.opcfoundation.UA.PROFINET.PnChannelDirectionEnumeration",
         "const": {
           "MANUFACTURER_SPECIFIC": 0,
           "INPUT_CHANNEL": 8192,
@@ -1819,7 +1819,7 @@
         "items": {
           "title": "PnDeviceDiagnosisDataType",
           "type": "object",
-          "dov:typeRef": "nsu=http://opcfoundation.org/UA/PROFINET/;i=3019",
+          "dov:typeRef": "org.opcfoundation.UA.PROFINET.PnDeviceDiagnosisDataType",
           "required": [ "API", "Slot", "Subslot", "ChannelNumber", "Type", "Accumulative", "Maintenance", "Specifier", "Direction", "UserStructureIdentifier", "ChannelErrorType", "ExtChannelErrorType", "ExtChannelAddValue", "QualifiedChannelQualifier", "ManufacturerData", "Message", "HelpText" ],
           "properties": {
             "API": {
@@ -1844,35 +1844,35 @@
             },
             "Type": {
               "title": "PnChannelTypeEnumeration",
-              "dov:typeRef": "nsu=http://opcfoundation.org/UA/PROFINET/;i=3010",
+              "dov:typeRef": "org.opcfoundation.UA.PROFINET.PnChannelTypeEnumeration",
               "type": "integer",
               "minimum": -2147483648,
               "maximum": 2147483647
             },
             "Accumulative": {
               "title": "PnChannelAccumulativeEnumeration",
-              "dov:typeRef": "nsu=http://opcfoundation.org/UA/PROFINET/;i=3011",
+              "dov:typeRef": "org.opcfoundation.UA.PROFINET.PnChannelAccumulativeEnumeration",
               "type": "integer",
               "minimum": -2147483648,
               "maximum": 2147483647
             },
             "Maintenance": {
               "title": "PnChannelMaintenanceEnumeration",
-              "dov:typeRef": "nsu=http://opcfoundation.org/UA/PROFINET/;i=3012",
+              "dov:typeRef": "org.opcfoundation.UA.PROFINET.PnChannelMaintenanceEnumeration",
               "type": "integer",
               "minimum": -2147483648,
               "maximum": 2147483647
             },
             "Specifier": {
               "title": "PnChannelSpecifierEnumeration",
-              "dov:typeRef": "nsu=http://opcfoundation.org/UA/PROFINET/;i=3013",
+              "dov:typeRef": "org.opcfoundation.UA.PROFINET.PnChannelSpecifierEnumeration",
               "type": "integer",
               "minimum": -2147483648,
               "maximum": 2147483647
             },
             "Direction": {
               "title": "PnChannelDirectionEnumeration",
-              "dov:typeRef": "nsu=http://opcfoundation.org/UA/PROFINET/;i=3014",
+              "dov:typeRef": "org.opcfoundation.UA.PROFINET.PnChannelDirectionEnumeration",
               "type": "integer",
               "minimum": -2147483648,
               "maximum": 2147483647
@@ -1935,7 +1935,7 @@
           "items": {
             "title": "PnDeviceDiagnosisDataType",
             "type": "object",
-            "dov:typeRef": "nsu=http://opcfoundation.org/UA/PROFINET/;i=3019",
+            "dov:typeRef": "org.opcfoundation.UA.PROFINET.PnDeviceDiagnosisDataType",
             "required": [ "API", "Slot", "Subslot", "ChannelNumber", "Type", "Accumulative", "Maintenance", "Specifier", "Direction", "UserStructureIdentifier", "ChannelErrorType", "ExtChannelErrorType", "ExtChannelAddValue", "QualifiedChannelQualifier", "ManufacturerData", "Message", "HelpText" ],
             "properties": {
               "API": {
@@ -1960,35 +1960,35 @@
               },
               "Type": {
                 "title": "PnChannelTypeEnumeration",
-                "dov:typeRef": "nsu=http://opcfoundation.org/UA/PROFINET/;i=3010",
+                "dov:typeRef": "org.opcfoundation.UA.PROFINET.PnChannelTypeEnumeration",
                 "type": "integer",
                 "minimum": -2147483648,
                 "maximum": 2147483647
               },
               "Accumulative": {
                 "title": "PnChannelAccumulativeEnumeration",
-                "dov:typeRef": "nsu=http://opcfoundation.org/UA/PROFINET/;i=3011",
+                "dov:typeRef": "org.opcfoundation.UA.PROFINET.PnChannelAccumulativeEnumeration",
                 "type": "integer",
                 "minimum": -2147483648,
                 "maximum": 2147483647
               },
               "Maintenance": {
                 "title": "PnChannelMaintenanceEnumeration",
-                "dov:typeRef": "nsu=http://opcfoundation.org/UA/PROFINET/;i=3012",
+                "dov:typeRef": "org.opcfoundation.UA.PROFINET.PnChannelMaintenanceEnumeration",
                 "type": "integer",
                 "minimum": -2147483648,
                 "maximum": 2147483647
               },
               "Specifier": {
                 "title": "PnChannelSpecifierEnumeration",
-                "dov:typeRef": "nsu=http://opcfoundation.org/UA/PROFINET/;i=3013",
+                "dov:typeRef": "org.opcfoundation.UA.PROFINET.PnChannelSpecifierEnumeration",
                 "type": "integer",
                 "minimum": -2147483648,
                 "maximum": 2147483647
               },
               "Direction": {
                 "title": "PnChannelDirectionEnumeration",
-                "dov:typeRef": "nsu=http://opcfoundation.org/UA/PROFINET/;i=3014",
+                "dov:typeRef": "org.opcfoundation.UA.PROFINET.PnChannelDirectionEnumeration",
                 "type": "integer",
                 "minimum": -2147483648,
                 "maximum": 2147483647
@@ -2053,7 +2053,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "PROFINET_IPnSubmoduleType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/PROFINET/;i=1019",
+    "dov:typeRef": "org.opcfoundation.UA.PROFINET.IPnSubmoduleType",
     "links": [
       {
         "rel": "tm:extends",
@@ -2152,7 +2152,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "PROFINET_IPnExpectedSubmoduleType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/PROFINET/;i=1022",
+    "dov:typeRef": "org.opcfoundation.UA.PROFINET.IPnExpectedSubmoduleType",
     "links": [
       {
         "rel": "tm:extends",
@@ -2184,7 +2184,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "PROFINET_IPnRealSubmoduleType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/PROFINET/;i=1020",
+    "dov:typeRef": "org.opcfoundation.UA.PROFINET.IPnRealSubmoduleType",
     "links": [
       {
         "rel": "tm:extends",
@@ -2207,7 +2207,7 @@
     "schemaDefinitions": {
       "PnChannelTypeEnumeration": {
         "type": "object",
-        "dov:typeRef": "nsu=http://opcfoundation.org/UA/PROFINET/;i=3010",
+        "dov:typeRef": "org.opcfoundation.UA.PROFINET.PnChannelTypeEnumeration",
         "const": {
           "UNSPECIFIC": 0,
           "S1BIT": 1,
@@ -2255,7 +2255,7 @@
       },
       "PnChannelAccumulativeEnumeration": {
         "type": "object",
-        "dov:typeRef": "nsu=http://opcfoundation.org/UA/PROFINET/;i=3011",
+        "dov:typeRef": "org.opcfoundation.UA.PROFINET.PnChannelAccumulativeEnumeration",
         "const": {
           "SINGLE": 0,
           "ACCUMULATIVE": 256
@@ -2273,7 +2273,7 @@
       },
       "PnChannelMaintenanceEnumeration": {
         "type": "object",
-        "dov:typeRef": "nsu=http://opcfoundation.org/UA/PROFINET/;i=3012",
+        "dov:typeRef": "org.opcfoundation.UA.PROFINET.PnChannelMaintenanceEnumeration",
         "const": {
           "FAULT": 0,
           "MAINTENANCE_REQUIRED": 512,
@@ -2301,7 +2301,7 @@
       },
       "PnChannelSpecifierEnumeration": {
         "type": "object",
-        "dov:typeRef": "nsu=http://opcfoundation.org/UA/PROFINET/;i=3013",
+        "dov:typeRef": "org.opcfoundation.UA.PROFINET.PnChannelSpecifierEnumeration",
         "const": {
           "ALL_DISAPPEARS": 0,
           "APPEARS": 2048,
@@ -2329,7 +2329,7 @@
       },
       "PnChannelDirectionEnumeration": {
         "type": "object",
-        "dov:typeRef": "nsu=http://opcfoundation.org/UA/PROFINET/;i=3014",
+        "dov:typeRef": "org.opcfoundation.UA.PROFINET.PnChannelDirectionEnumeration",
         "const": {
           "MANUFACTURER_SPECIFIC": 0,
           "INPUT_CHANNEL": 8192,
@@ -2377,7 +2377,7 @@
         "items": {
           "title": "PnDeviceDiagnosisDataType",
           "type": "object",
-          "dov:typeRef": "nsu=http://opcfoundation.org/UA/PROFINET/;i=3019",
+          "dov:typeRef": "org.opcfoundation.UA.PROFINET.PnDeviceDiagnosisDataType",
           "required": [ "API", "Slot", "Subslot", "ChannelNumber", "Type", "Accumulative", "Maintenance", "Specifier", "Direction", "UserStructureIdentifier", "ChannelErrorType", "ExtChannelErrorType", "ExtChannelAddValue", "QualifiedChannelQualifier", "ManufacturerData", "Message", "HelpText" ],
           "properties": {
             "API": {
@@ -2402,35 +2402,35 @@
             },
             "Type": {
               "title": "PnChannelTypeEnumeration",
-              "dov:typeRef": "nsu=http://opcfoundation.org/UA/PROFINET/;i=3010",
+              "dov:typeRef": "org.opcfoundation.UA.PROFINET.PnChannelTypeEnumeration",
               "type": "integer",
               "minimum": -2147483648,
               "maximum": 2147483647
             },
             "Accumulative": {
               "title": "PnChannelAccumulativeEnumeration",
-              "dov:typeRef": "nsu=http://opcfoundation.org/UA/PROFINET/;i=3011",
+              "dov:typeRef": "org.opcfoundation.UA.PROFINET.PnChannelAccumulativeEnumeration",
               "type": "integer",
               "minimum": -2147483648,
               "maximum": 2147483647
             },
             "Maintenance": {
               "title": "PnChannelMaintenanceEnumeration",
-              "dov:typeRef": "nsu=http://opcfoundation.org/UA/PROFINET/;i=3012",
+              "dov:typeRef": "org.opcfoundation.UA.PROFINET.PnChannelMaintenanceEnumeration",
               "type": "integer",
               "minimum": -2147483648,
               "maximum": 2147483647
             },
             "Specifier": {
               "title": "PnChannelSpecifierEnumeration",
-              "dov:typeRef": "nsu=http://opcfoundation.org/UA/PROFINET/;i=3013",
+              "dov:typeRef": "org.opcfoundation.UA.PROFINET.PnChannelSpecifierEnumeration",
               "type": "integer",
               "minimum": -2147483648,
               "maximum": 2147483647
             },
             "Direction": {
               "title": "PnChannelDirectionEnumeration",
-              "dov:typeRef": "nsu=http://opcfoundation.org/UA/PROFINET/;i=3014",
+              "dov:typeRef": "org.opcfoundation.UA.PROFINET.PnChannelDirectionEnumeration",
               "type": "integer",
               "minimum": -2147483648,
               "maximum": 2147483647
@@ -2493,7 +2493,7 @@
           "items": {
             "title": "PnDeviceDiagnosisDataType",
             "type": "object",
-            "dov:typeRef": "nsu=http://opcfoundation.org/UA/PROFINET/;i=3019",
+            "dov:typeRef": "org.opcfoundation.UA.PROFINET.PnDeviceDiagnosisDataType",
             "required": [ "API", "Slot", "Subslot", "ChannelNumber", "Type", "Accumulative", "Maintenance", "Specifier", "Direction", "UserStructureIdentifier", "ChannelErrorType", "ExtChannelErrorType", "ExtChannelAddValue", "QualifiedChannelQualifier", "ManufacturerData", "Message", "HelpText" ],
             "properties": {
               "API": {
@@ -2518,35 +2518,35 @@
               },
               "Type": {
                 "title": "PnChannelTypeEnumeration",
-                "dov:typeRef": "nsu=http://opcfoundation.org/UA/PROFINET/;i=3010",
+                "dov:typeRef": "org.opcfoundation.UA.PROFINET.PnChannelTypeEnumeration",
                 "type": "integer",
                 "minimum": -2147483648,
                 "maximum": 2147483647
               },
               "Accumulative": {
                 "title": "PnChannelAccumulativeEnumeration",
-                "dov:typeRef": "nsu=http://opcfoundation.org/UA/PROFINET/;i=3011",
+                "dov:typeRef": "org.opcfoundation.UA.PROFINET.PnChannelAccumulativeEnumeration",
                 "type": "integer",
                 "minimum": -2147483648,
                 "maximum": 2147483647
               },
               "Maintenance": {
                 "title": "PnChannelMaintenanceEnumeration",
-                "dov:typeRef": "nsu=http://opcfoundation.org/UA/PROFINET/;i=3012",
+                "dov:typeRef": "org.opcfoundation.UA.PROFINET.PnChannelMaintenanceEnumeration",
                 "type": "integer",
                 "minimum": -2147483648,
                 "maximum": 2147483647
               },
               "Specifier": {
                 "title": "PnChannelSpecifierEnumeration",
-                "dov:typeRef": "nsu=http://opcfoundation.org/UA/PROFINET/;i=3013",
+                "dov:typeRef": "org.opcfoundation.UA.PROFINET.PnChannelSpecifierEnumeration",
                 "type": "integer",
                 "minimum": -2147483648,
                 "maximum": 2147483647
               },
               "Direction": {
                 "title": "PnChannelDirectionEnumeration",
-                "dov:typeRef": "nsu=http://opcfoundation.org/UA/PROFINET/;i=3014",
+                "dov:typeRef": "org.opcfoundation.UA.PROFINET.PnChannelDirectionEnumeration",
                 "type": "integer",
                 "minimum": -2147483648,
                 "maximum": 2147483647
@@ -2611,7 +2611,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "PROFINET_NetworkComponentFeatureType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/PROFINET/;i=1016",
+    "dov:typeRef": "org.opcfoundation.UA.PROFINET.NetworkComponentFeatureType",
     "links": [
       {
         "rel": "tm:extends",
@@ -2637,7 +2637,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "PROFINET_IPv4FeatureType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/PROFINET/;i=1017",
+    "dov:typeRef": "org.opcfoundation.UA.PROFINET.IPv4FeatureType",
     "dov:isComposite": true,
     "links": [
       {
@@ -2806,7 +2806,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "PROFINET_NetworkComponentType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/PROFINET/;i=1013",
+    "dov:typeRef": "org.opcfoundation.UA.PROFINET.NetworkComponentType",
     "links": [
       {
         "rel": "tm:extends",
@@ -2882,7 +2882,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "PROFINET_EthernetInterfaceType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/PROFINET/;i=1014",
+    "dov:typeRef": "org.opcfoundation.UA.PROFINET.EthernetInterfaceType",
     "links": [
       {
         "rel": "tm:extends",
@@ -2962,7 +2962,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "PROFINET_EthernetPortType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/PROFINET/;i=1015",
+    "dov:typeRef": "org.opcfoundation.UA.PROFINET.EthernetPortType",
     "links": [
       {
         "rel": "tm:extends",
@@ -3042,7 +3042,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "PROFINET_PnApplicationRelationContainerType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/PROFINET/;i=1030",
+    "dov:typeRef": "org.opcfoundation.UA.PROFINET.PnApplicationRelationContainerType",
     "links": [
       {
         "rel": "tm:extends",
@@ -3075,7 +3075,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "PROFINET_PnApplicationRelationType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/PROFINET/;i=1029",
+    "dov:typeRef": "org.opcfoundation.UA.PROFINET.PnApplicationRelationType",
     "links": [
       {
         "rel": "tm:extends",
@@ -3092,7 +3092,7 @@
     "schemaDefinitions": {
       "PnARStateEnumeration": {
         "type": "object",
-        "dov:typeRef": "nsu=http://opcfoundation.org/UA/PROFINET/;i=3004",
+        "dov:typeRef": "org.opcfoundation.UA.PROFINET.PnARStateEnumeration",
         "const": {
           "CONNECTED": 0,
           "UNCONNECTED": 1,
@@ -3125,7 +3125,7 @@
       },
       "PnARTypeEnumeration": {
         "type": "object",
-        "dov:typeRef": "nsu=http://opcfoundation.org/UA/PROFINET/;i=3005",
+        "dov:typeRef": "org.opcfoundation.UA.PROFINET.PnARTypeEnumeration",
         "const": {
           "IOCARSingle": 0,
           "IOSAR": 6,
@@ -3229,7 +3229,7 @@
       "State": {
         "dov:namespace": "http://opcfoundation.org/UA/PROFINET/",
         "title": "PnARStateEnumeration",
-        "dov:typeRef": "nsu=http://opcfoundation.org/UA/PROFINET/;i=3004",
+        "dov:typeRef": "org.opcfoundation.UA.PROFINET.PnARStateEnumeration",
         "type": "integer",
         "minimum": -2147483648,
         "maximum": 2147483647,
@@ -3250,7 +3250,7 @@
       "Type": {
         "dov:namespace": "http://opcfoundation.org/UA/PROFINET/",
         "title": "PnARTypeEnumeration",
-        "dov:typeRef": "nsu=http://opcfoundation.org/UA/PROFINET/;i=3005",
+        "dov:typeRef": "org.opcfoundation.UA.PROFINET.PnARTypeEnumeration",
         "type": "integer",
         "minimum": -2147483648,
         "maximum": 2147483647,
@@ -3269,7 +3269,7 @@
         "dov:namespace": "http://opcfoundation.org/UA/PROFINET/",
         "data": {
           "title": "PnARStateEnumeration",
-          "dov:typeRef": "nsu=http://opcfoundation.org/UA/PROFINET/;i=3004",
+          "dov:typeRef": "org.opcfoundation.UA.PROFINET.PnARStateEnumeration",
           "type": "integer",
           "minimum": -2147483648,
           "maximum": 2147483647
@@ -3293,7 +3293,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "PROFINET_PnAssetContainerType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/PROFINET/;i=1007",
+    "dov:typeRef": "org.opcfoundation.UA.PROFINET.PnAssetContainerType",
     "links": [
       {
         "rel": "tm:extends",
@@ -3326,7 +3326,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "PROFINET_PnAssetType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/PROFINET/;i=1006",
+    "dov:typeRef": "org.opcfoundation.UA.PROFINET.PnAssetType",
     "links": [
       {
         "rel": "tm:extends",
@@ -3514,7 +3514,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "PROFINET_PnEquipmentContainerType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/PROFINET/;i=1033",
+    "dov:typeRef": "org.opcfoundation.UA.PROFINET.PnEquipmentContainerType",
     "links": [
       {
         "rel": "tm:extends",
@@ -3546,7 +3546,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "PROFINET_PnExpectedModuleContainerType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/PROFINET/;i=1028",
+    "dov:typeRef": "org.opcfoundation.UA.PROFINET.PnExpectedModuleContainerType",
     "links": [
       {
         "rel": "tm:extends",
@@ -3579,7 +3579,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "PROFINET_PnExpectedSubmoduleContainerType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/PROFINET/;i=1023",
+    "dov:typeRef": "org.opcfoundation.UA.PROFINET.PnExpectedSubmoduleContainerType",
     "links": [
       {
         "rel": "tm:extends",
@@ -3612,7 +3612,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "PROFINET_PnIdentificationType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/PROFINET/;i=1005",
+    "dov:typeRef": "org.opcfoundation.UA.PROFINET.PnIdentificationType",
     "links": [
       {
         "rel": "tm:extends",
@@ -3623,7 +3623,7 @@
     "schemaDefinitions": {
       "IMTagSelectorEnumeration": {
         "type": "object",
-        "dov:typeRef": "nsu=http://opcfoundation.org/UA/PROFINET/;i=3021",
+        "dov:typeRef": "org.opcfoundation.UA.PROFINET.IMTagSelectorEnumeration",
         "const": {
           "FUNCTION": 0,
           "LOCATION": 1,
@@ -3654,7 +3654,7 @@
         "dov:namespace": "http://opcfoundation.org/UA/PROFINET/",
         "input": {
           "type": "object",
-          "dov:typeRef": "nsu=http://opcfoundation.org/UA/PROFINET/;i=6063",
+          "dov:typeRef": "org.opcfoundation.UA.InputArguments",
           "required": [ "Date" ],
           "properties": {
             "Date": {
@@ -3676,7 +3676,7 @@
         "dov:namespace": "http://opcfoundation.org/UA/PROFINET/",
         "input": {
           "type": "object",
-          "dov:typeRef": "nsu=http://opcfoundation.org/UA/PROFINET/;i=6064",
+          "dov:typeRef": "org.opcfoundation.UA.InputArguments",
           "required": [ "Descriptor" ],
           "properties": {
             "Descriptor": {
@@ -3697,13 +3697,13 @@
         "dov:namespace": "http://opcfoundation.org/UA/PROFINET/",
         "input": {
           "type": "object",
-          "dov:typeRef": "nsu=http://opcfoundation.org/UA/PROFINET/;i=6062",
+          "dov:typeRef": "org.opcfoundation.UA.InputArguments",
           "required": [ "Tag_Selector", "Tag_Function", "Tag_Location" ],
           "properties": {
             "Tag_Selector": {
               "title": "IMTagSelectorEnumeration",
               "description": "If 1, Tag_Function shall be written, If 2, Tag_Location shall be written, if 3 both.",
-              "dov:typeRef": "nsu=http://opcfoundation.org/UA/PROFINET/;i=3021",
+              "dov:typeRef": "org.opcfoundation.UA.PROFINET.IMTagSelectorEnumeration",
               "type": "integer",
               "minimum": -2147483648,
               "maximum": 2147483647
@@ -3772,7 +3772,7 @@
           "title": "PnIM5DataType",
           "description": "Contains the fields of the APDU element I&M5 | I&M5Data",
           "type": "object",
-          "dov:typeRef": "nsu=http://opcfoundation.org/UA/PROFINET/;i=3020",
+          "dov:typeRef": "org.opcfoundation.UA.PROFINET.PnIM5DataType",
           "required": [ "Annotation", "OrderId", "VendorId", "SerialNumber", "HardwareRevision", "SoftwareRevision" ],
           "properties": {
             "Annotation": {
@@ -3980,7 +3980,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "PROFINET_PnInterfaceContainerType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/PROFINET/;i=1009",
+    "dov:typeRef": "org.opcfoundation.UA.PROFINET.PnInterfaceContainerType",
     "links": [
       {
         "rel": "tm:extends",
@@ -4013,7 +4013,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "PROFINET_PnPortContainerType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/PROFINET/;i=1011",
+    "dov:typeRef": "org.opcfoundation.UA.PROFINET.PnPortContainerType",
     "links": [
       {
         "rel": "tm:extends",
@@ -4046,7 +4046,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "PROFINET_PnPortStatisticType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/PROFINET/;i=1012",
+    "dov:typeRef": "org.opcfoundation.UA.PROFINET.PnPortStatisticType",
     "links": [
       {
         "rel": "tm:extends",
@@ -4258,7 +4258,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "PROFINET_PnPortType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/PROFINET/;i=1010",
+    "dov:typeRef": "org.opcfoundation.UA.PROFINET.PnPortType",
     "links": [
       {
         "rel": "tm:extends",
@@ -4282,7 +4282,7 @@
     "schemaDefinitions": {
       "PnLinkStateEnumeration": {
         "type": "object",
-        "dov:typeRef": "nsu=http://opcfoundation.org/UA/PROFINET/;i=3017",
+        "dov:typeRef": "org.opcfoundation.UA.PROFINET.PnLinkStateEnumeration",
         "const": {
           "UP": 1,
           "DOWN": 2,
@@ -4325,7 +4325,7 @@
       },
       "PnPortStateEnumeration": {
         "type": "object",
-        "dov:typeRef": "nsu=http://opcfoundation.org/UA/PROFINET/;i=3018",
+        "dov:typeRef": "org.opcfoundation.UA.PROFINET.PnPortStateEnumeration",
         "const": {
           "UNKNOWN": 0,
           "DISABLED_DISCARDING": 1,
@@ -4408,7 +4408,7 @@
       "LinkState": {
         "dov:namespace": "http://opcfoundation.org/UA/PROFINET/",
         "title": "PnLinkStateEnumeration",
-        "dov:typeRef": "nsu=http://opcfoundation.org/UA/PROFINET/;i=3017",
+        "dov:typeRef": "org.opcfoundation.UA.PROFINET.PnLinkStateEnumeration",
         "type": "integer",
         "minimum": -2147483648,
         "maximum": 2147483647,
@@ -4438,7 +4438,7 @@
       "PortState": {
         "dov:namespace": "http://opcfoundation.org/UA/PROFINET/",
         "title": "PnPortStateEnumeration",
-        "dov:typeRef": "nsu=http://opcfoundation.org/UA/PROFINET/;i=3018",
+        "dov:typeRef": "org.opcfoundation.UA.PROFINET.PnPortStateEnumeration",
         "type": "integer",
         "minimum": -2147483648,
         "maximum": 2147483647,
@@ -4499,7 +4499,7 @@
         "dov:namespace": "http://opcfoundation.org/UA/PROFINET/",
         "data": {
           "title": "PnLinkStateEnumeration",
-          "dov:typeRef": "nsu=http://opcfoundation.org/UA/PROFINET/;i=3017",
+          "dov:typeRef": "org.opcfoundation.UA.PROFINET.PnLinkStateEnumeration",
           "type": "integer",
           "minimum": -2147483648,
           "maximum": 2147483647
@@ -4531,7 +4531,7 @@
         "dov:namespace": "http://opcfoundation.org/UA/PROFINET/",
         "data": {
           "title": "PnPortStateEnumeration",
-          "dov:typeRef": "nsu=http://opcfoundation.org/UA/PROFINET/;i=3018",
+          "dov:typeRef": "org.opcfoundation.UA.PROFINET.PnPortStateEnumeration",
           "type": "integer",
           "minimum": -2147483648,
           "maximum": 2147483647
@@ -4570,7 +4570,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "PROFINET_PnRealModuleContainerType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/PROFINET/;i=1026",
+    "dov:typeRef": "org.opcfoundation.UA.PROFINET.PnRealModuleContainerType",
     "links": [
       {
         "rel": "tm:extends",
@@ -4603,7 +4603,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "PROFINET_PnRealSubmoduleContainerType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/PROFINET/;i=1021",
+    "dov:typeRef": "org.opcfoundation.UA.PROFINET.PnRealSubmoduleContainerType",
     "links": [
       {
         "rel": "tm:extends",
@@ -4636,7 +4636,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "PROFINET_PnSubmoduleStateType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/PROFINET/;i=1018",
+    "dov:typeRef": "org.opcfoundation.UA.PROFINET.PnSubmoduleStateType",
     "links": [
       {
         "rel": "tm:extends",
@@ -4647,7 +4647,7 @@
     "schemaDefinitions": {
       "PnSubmoduleAddInfoEnumeration": {
         "type": "object",
-        "dov:typeRef": "nsu=http://opcfoundation.org/UA/PROFINET/;i=3007",
+        "dov:typeRef": "org.opcfoundation.UA.PROFINET.PnSubmoduleAddInfoEnumeration",
         "const": {
           "NO_ADD_INFO": 0,
           "TAKEOVER_NOT_ALLOWED": 1
@@ -4664,7 +4664,7 @@
       },
       "PnSubmoduleARInfoEnumeration": {
         "type": "object",
-        "dov:typeRef": "nsu=http://opcfoundation.org/UA/PROFINET/;i=3008",
+        "dov:typeRef": "org.opcfoundation.UA.PROFINET.PnSubmoduleARInfoEnumeration",
         "const": {
           "OWN": 0,
           "APPLICATION_READY_PENDING": 128,
@@ -4697,7 +4697,7 @@
       },
       "PnSubmoduleIdentInfoEnumeration": {
         "type": "object",
-        "dov:typeRef": "nsu=http://opcfoundation.org/UA/PROFINET/;i=3009",
+        "dov:typeRef": "org.opcfoundation.UA.PROFINET.PnSubmoduleIdentInfoEnumeration",
         "const": {
           "OK": 0,
           "SUBSTITUTE": 2048,
@@ -4742,7 +4742,7 @@
       "AddInfo": {
         "dov:namespace": "http://opcfoundation.org/UA/PROFINET/",
         "title": "PnSubmoduleAddInfoEnumeration",
-        "dov:typeRef": "nsu=http://opcfoundation.org/UA/PROFINET/;i=3007",
+        "dov:typeRef": "org.opcfoundation.UA.PROFINET.PnSubmoduleAddInfoEnumeration",
         "type": "integer",
         "minimum": -2147483648,
         "maximum": 2147483647,
@@ -4758,7 +4758,7 @@
       "ARInfo": {
         "dov:namespace": "http://opcfoundation.org/UA/PROFINET/",
         "title": "PnSubmoduleARInfoEnumeration",
-        "dov:typeRef": "nsu=http://opcfoundation.org/UA/PROFINET/;i=3008",
+        "dov:typeRef": "org.opcfoundation.UA.PROFINET.PnSubmoduleARInfoEnumeration",
         "type": "integer",
         "minimum": -2147483648,
         "maximum": 2147483647,
@@ -4786,7 +4786,7 @@
       "IdentInfo": {
         "dov:namespace": "http://opcfoundation.org/UA/PROFINET/",
         "title": "PnSubmoduleIdentInfoEnumeration",
-        "dov:typeRef": "nsu=http://opcfoundation.org/UA/PROFINET/;i=3009",
+        "dov:typeRef": "org.opcfoundation.UA.PROFINET.PnSubmoduleIdentInfoEnumeration",
         "type": "integer",
         "minimum": -2147483648,
         "maximum": 2147483647,
@@ -4841,7 +4841,7 @@
         "dov:namespace": "http://opcfoundation.org/UA/PROFINET/",
         "data": {
           "title": "PnSubmoduleAddInfoEnumeration",
-          "dov:typeRef": "nsu=http://opcfoundation.org/UA/PROFINET/;i=3007",
+          "dov:typeRef": "org.opcfoundation.UA.PROFINET.PnSubmoduleAddInfoEnumeration",
           "type": "integer",
           "minimum": -2147483648,
           "maximum": 2147483647
@@ -4858,7 +4858,7 @@
         "dov:namespace": "http://opcfoundation.org/UA/PROFINET/",
         "data": {
           "title": "PnSubmoduleARInfoEnumeration",
-          "dov:typeRef": "nsu=http://opcfoundation.org/UA/PROFINET/;i=3008",
+          "dov:typeRef": "org.opcfoundation.UA.PROFINET.PnSubmoduleARInfoEnumeration",
           "type": "integer",
           "minimum": -2147483648,
           "maximum": 2147483647
@@ -4888,7 +4888,7 @@
         "dov:namespace": "http://opcfoundation.org/UA/PROFINET/",
         "data": {
           "title": "PnSubmoduleIdentInfoEnumeration",
-          "dov:typeRef": "nsu=http://opcfoundation.org/UA/PROFINET/;i=3009",
+          "dov:typeRef": "org.opcfoundation.UA.PROFINET.PnSubmoduleIdentInfoEnumeration",
           "type": "integer",
           "minimum": -2147483648,
           "maximum": 2147483647

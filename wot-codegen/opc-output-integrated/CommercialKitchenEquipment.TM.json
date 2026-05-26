@@ -8,7 +8,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "CommercialKitchenEquipment_BatchInformationType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/CommercialKitchenEquipment/;i=1002",
+    "dov:typeRef": "org.opcfoundation.UA.CommercialKitchenEquipment.BatchInformationType",
     "links": [
       {
         "rel": "tm:extends",
@@ -54,7 +54,7 @@
         "dov:namespace": "http://opcfoundation.org/UA/CommercialKitchenEquipment/",
         "title": "TimeZoneDataType",
         "type": "object",
-        "dov:typeRef": "nsu=http://opcfoundation.org/UA/;i=8912",
+        "dov:typeRef": "org.opcfoundation.UA.TimeZoneDataType",
         "required": [ "Offset", "DaylightSavingInOffset" ],
         "properties": {
           "Offset": {
@@ -128,7 +128,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "CommercialKitchenEquipment_KitchenDeviceHAConfigType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/CommercialKitchenEquipment/;i=1003",
+    "dov:typeRef": "org.opcfoundation.UA.CommercialKitchenEquipment.KitchenDeviceHAConfigType",
     "dov:isComposite": true,
     "links": [
       {
@@ -203,7 +203,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "CommercialKitchenEquipment_KitchenDeviceParameterType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/CommercialKitchenEquipment/;i=1004",
+    "dov:typeRef": "org.opcfoundation.UA.CommercialKitchenEquipment.KitchenDeviceParameterType",
     "links": [
       {
         "rel": "tm:extends",
@@ -343,7 +343,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "CommercialKitchenEquipment_ChamberType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/CommercialKitchenEquipment/;i=1012",
+    "dov:typeRef": "org.opcfoundation.UA.CommercialKitchenEquipment.ChamberType",
     "links": [
       {
         "rel": "tm:extends",
@@ -354,7 +354,7 @@
     "schemaDefinitions": {
       "ChamberModeEnumeration": {
         "type": "object",
-        "dov:typeRef": "nsu=http://opcfoundation.org/UA/CommercialKitchenEquipment/;i=3008",
+        "dov:typeRef": "org.opcfoundation.UA.CommercialKitchenEquipment.ChamberModeEnumeration",
         "const": {
           "NoSpecialMode": 0,
           "Off": 1,
@@ -610,7 +610,7 @@
       "OperationMode": {
         "dov:namespace": "http://opcfoundation.org/UA/CommercialKitchenEquipment/",
         "title": "ChamberModeEnumeration",
-        "dov:typeRef": "nsu=http://opcfoundation.org/UA/CommercialKitchenEquipment/;i=3008",
+        "dov:typeRef": "org.opcfoundation.UA.CommercialKitchenEquipment.ChamberModeEnumeration",
         "type": "integer",
         "minimum": -2147483648,
         "maximum": 2147483647,
@@ -1130,7 +1130,7 @@
         "dov:namespace": "http://opcfoundation.org/UA/CommercialKitchenEquipment/",
         "data": {
           "title": "ChamberModeEnumeration",
-          "dov:typeRef": "nsu=http://opcfoundation.org/UA/CommercialKitchenEquipment/;i=3008",
+          "dov:typeRef": "org.opcfoundation.UA.CommercialKitchenEquipment.ChamberModeEnumeration",
           "type": "integer",
           "minimum": -2147483648,
           "maximum": 2147483647
@@ -1308,7 +1308,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "CommercialKitchenEquipment_CoffeeMachineParameterType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/CommercialKitchenEquipment/;i=1022",
+    "dov:typeRef": "org.opcfoundation.UA.CommercialKitchenEquipment.CoffeeMachineParameterType",
     "links": [
       {
         "rel": "tm:extends",
@@ -1319,7 +1319,7 @@
     "schemaDefinitions": {
       "CoffeeMachineModeEnumeration": {
         "type": "object",
-        "dov:typeRef": "nsu=http://opcfoundation.org/UA/CommercialKitchenEquipment/;i=3015",
+        "dov:typeRef": "org.opcfoundation.UA.CommercialKitchenEquipment.CoffeeMachineModeEnumeration",
         "const": {
           "Off": 0,
           "Standby": 1,
@@ -1425,7 +1425,7 @@
       "CurrentState": {
         "dov:namespace": "http://opcfoundation.org/UA/CommercialKitchenEquipment/",
         "title": "CoffeeMachineModeEnumeration",
-        "dov:typeRef": "nsu=http://opcfoundation.org/UA/CommercialKitchenEquipment/;i=3015",
+        "dov:typeRef": "org.opcfoundation.UA.CommercialKitchenEquipment.CoffeeMachineModeEnumeration",
         "type": "integer",
         "minimum": -2147483648,
         "maximum": 2147483647,
@@ -1608,7 +1608,7 @@
         "dov:namespace": "http://opcfoundation.org/UA/CommercialKitchenEquipment/",
         "data": {
           "title": "CoffeeMachineModeEnumeration",
-          "dov:typeRef": "nsu=http://opcfoundation.org/UA/CommercialKitchenEquipment/;i=3015",
+          "dov:typeRef": "org.opcfoundation.UA.CommercialKitchenEquipment.CoffeeMachineModeEnumeration",
           "type": "integer",
           "minimum": -2147483648,
           "maximum": 2147483647
@@ -1696,7 +1696,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "CommercialKitchenEquipment_CoffeeMachineRecipeParameterType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/CommercialKitchenEquipment/;i=1023",
+    "dov:typeRef": "org.opcfoundation.UA.CommercialKitchenEquipment.CoffeeMachineRecipeParameterType",
     "links": [
       {
         "rel": "tm:extends",
@@ -1707,7 +1707,7 @@
     "schemaDefinitions": {
       "BeverageSMLEnumeration": {
         "type": "object",
-        "dov:typeRef": "nsu=http://opcfoundation.org/UA/CommercialKitchenEquipment/;i=3014",
+        "dov:typeRef": "org.opcfoundation.UA.CommercialKitchenEquipment.BeverageSMLEnumeration",
         "const": {
           "Inactive": 0,
           "Small": 1,
@@ -1774,7 +1774,7 @@
       "BeverageSML": {
         "dov:namespace": "http://opcfoundation.org/UA/CommercialKitchenEquipment/",
         "title": "BeverageSMLEnumeration",
-        "dov:typeRef": "nsu=http://opcfoundation.org/UA/CommercialKitchenEquipment/;i=3014",
+        "dov:typeRef": "org.opcfoundation.UA.CommercialKitchenEquipment.BeverageSMLEnumeration",
         "type": "integer",
         "minimum": -2147483648,
         "maximum": 2147483647,
@@ -2044,7 +2044,7 @@
         "dov:namespace": "http://opcfoundation.org/UA/CommercialKitchenEquipment/",
         "data": {
           "title": "BeverageSMLEnumeration",
-          "dov:typeRef": "nsu=http://opcfoundation.org/UA/CommercialKitchenEquipment/;i=3014",
+          "dov:typeRef": "org.opcfoundation.UA.CommercialKitchenEquipment.BeverageSMLEnumeration",
           "type": "integer",
           "minimum": -2147483648,
           "maximum": 2147483647
@@ -2199,7 +2199,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "CommercialKitchenEquipment_CombiSteamerParameterType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/CommercialKitchenEquipment/;i=1010",
+    "dov:typeRef": "org.opcfoundation.UA.CommercialKitchenEquipment.CombiSteamerParameterType",
     "links": [
       {
         "rel": "tm:extends",
@@ -2210,7 +2210,7 @@
     "schemaDefinitions": {
       "CombiSteamerModeEnumeration": {
         "type": "object",
-        "dov:typeRef": "nsu=http://opcfoundation.org/UA/CommercialKitchenEquipment/;i=3006",
+        "dov:typeRef": "org.opcfoundation.UA.CommercialKitchenEquipment.CombiSteamerModeEnumeration",
         "const": {
           "Off": 0,
           "On": 1,
@@ -2262,7 +2262,7 @@
       },
       "SpecialCookingModeEnumeration": {
         "type": "object",
-        "dov:typeRef": "nsu=http://opcfoundation.org/UA/CommercialKitchenEquipment/;i=3007",
+        "dov:typeRef": "org.opcfoundation.UA.CommercialKitchenEquipment.SpecialCookingModeEnumeration",
         "const": {
           "NoSpecialMode": 0,
           "Baking": 1,
@@ -2399,7 +2399,7 @@
       "CombiSteamerMode": {
         "dov:namespace": "http://opcfoundation.org/UA/CommercialKitchenEquipment/",
         "title": "CombiSteamerModeEnumeration",
-        "dov:typeRef": "nsu=http://opcfoundation.org/UA/CommercialKitchenEquipment/;i=3006",
+        "dov:typeRef": "org.opcfoundation.UA.CommercialKitchenEquipment.CombiSteamerModeEnumeration",
         "type": "integer",
         "minimum": -2147483648,
         "maximum": 2147483647,
@@ -2564,7 +2564,7 @@
       "SpecialCookingMode": {
         "dov:namespace": "http://opcfoundation.org/UA/CommercialKitchenEquipment/",
         "title": "SpecialCookingModeEnumeration",
-        "dov:typeRef": "nsu=http://opcfoundation.org/UA/CommercialKitchenEquipment/;i=3007",
+        "dov:typeRef": "org.opcfoundation.UA.CommercialKitchenEquipment.SpecialCookingModeEnumeration",
         "type": "integer",
         "minimum": -2147483648,
         "maximum": 2147483647,
@@ -2830,7 +2830,7 @@
         "dov:namespace": "http://opcfoundation.org/UA/CommercialKitchenEquipment/",
         "data": {
           "title": "CombiSteamerModeEnumeration",
-          "dov:typeRef": "nsu=http://opcfoundation.org/UA/CommercialKitchenEquipment/;i=3006",
+          "dov:typeRef": "org.opcfoundation.UA.CommercialKitchenEquipment.CombiSteamerModeEnumeration",
           "type": "integer",
           "minimum": -2147483648,
           "maximum": 2147483647
@@ -3001,7 +3001,7 @@
         "dov:namespace": "http://opcfoundation.org/UA/CommercialKitchenEquipment/",
         "data": {
           "title": "SpecialCookingModeEnumeration",
-          "dov:typeRef": "nsu=http://opcfoundation.org/UA/CommercialKitchenEquipment/;i=3007",
+          "dov:typeRef": "org.opcfoundation.UA.CommercialKitchenEquipment.SpecialCookingModeEnumeration",
           "type": "integer",
           "minimum": -2147483648,
           "maximum": 2147483647
@@ -3060,7 +3060,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "CommercialKitchenEquipment_CookingKettleParameterType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/CommercialKitchenEquipment/;i=1016",
+    "dov:typeRef": "org.opcfoundation.UA.CommercialKitchenEquipment.CookingKettleParameterType",
     "links": [
       {
         "rel": "tm:extends",
@@ -3071,7 +3071,7 @@
     "schemaDefinitions": {
       "CookingKettleModeEnumeration": {
         "type": "object",
-        "dov:typeRef": "nsu=http://opcfoundation.org/UA/CommercialKitchenEquipment/;i=3010",
+        "dov:typeRef": "org.opcfoundation.UA.CommercialKitchenEquipment.CookingKettleModeEnumeration",
         "const": {
           "Off": 0,
           "Preheat": 1,
@@ -3115,7 +3115,7 @@
       },
       "SignalModeEnumeration": {
         "type": "object",
-        "dov:typeRef": "nsu=http://opcfoundation.org/UA/CommercialKitchenEquipment/;i=3004",
+        "dov:typeRef": "org.opcfoundation.UA.CommercialKitchenEquipment.SignalModeEnumeration",
         "const": {
           "SignalOff": 0,
           "SignalOn": 1,
@@ -3198,7 +3198,7 @@
       "ProgramMode": {
         "dov:namespace": "http://opcfoundation.org/UA/CommercialKitchenEquipment/",
         "title": "CookingKettleModeEnumeration",
-        "dov:typeRef": "nsu=http://opcfoundation.org/UA/CommercialKitchenEquipment/;i=3010",
+        "dov:typeRef": "org.opcfoundation.UA.CommercialKitchenEquipment.CookingKettleModeEnumeration",
         "type": "integer",
         "minimum": -2147483648,
         "maximum": 2147483647,
@@ -3262,7 +3262,7 @@
       "SignalMode": {
         "dov:namespace": "http://opcfoundation.org/UA/CommercialKitchenEquipment/",
         "title": "SignalModeEnumeration",
-        "dov:typeRef": "nsu=http://opcfoundation.org/UA/CommercialKitchenEquipment/;i=3004",
+        "dov:typeRef": "org.opcfoundation.UA.CommercialKitchenEquipment.SignalModeEnumeration",
         "type": "integer",
         "minimum": -2147483648,
         "maximum": 2147483647,
@@ -3418,7 +3418,7 @@
         "dov:namespace": "http://opcfoundation.org/UA/CommercialKitchenEquipment/",
         "data": {
           "title": "CookingKettleModeEnumeration",
-          "dov:typeRef": "nsu=http://opcfoundation.org/UA/CommercialKitchenEquipment/;i=3010",
+          "dov:typeRef": "org.opcfoundation.UA.CommercialKitchenEquipment.CookingKettleModeEnumeration",
           "type": "integer",
           "minimum": -2147483648,
           "maximum": 2147483647
@@ -3486,7 +3486,7 @@
         "dov:namespace": "http://opcfoundation.org/UA/CommercialKitchenEquipment/",
         "data": {
           "title": "SignalModeEnumeration",
-          "dov:typeRef": "nsu=http://opcfoundation.org/UA/CommercialKitchenEquipment/;i=3004",
+          "dov:typeRef": "org.opcfoundation.UA.CommercialKitchenEquipment.SignalModeEnumeration",
           "type": "integer",
           "minimum": -2147483648,
           "maximum": 2147483647
@@ -3528,7 +3528,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "CommercialKitchenEquipment_CookingZoneParameterType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/CommercialKitchenEquipment/;i=1029",
+    "dov:typeRef": "org.opcfoundation.UA.CommercialKitchenEquipment.CookingZoneParameterType",
     "links": [
       {
         "rel": "tm:extends",
@@ -3539,7 +3539,7 @@
     "schemaDefinitions": {
       "CurrentStateEnumeration": {
         "type": "object",
-        "dov:typeRef": "nsu=http://opcfoundation.org/UA/CommercialKitchenEquipment/;i=3021",
+        "dov:typeRef": "org.opcfoundation.UA.CommercialKitchenEquipment.CurrentStateEnumeration",
         "const": {
           "Off": 0,
           "Standby": 1,
@@ -3638,7 +3638,7 @@
       "CurrentState": {
         "dov:namespace": "http://opcfoundation.org/UA/CommercialKitchenEquipment/",
         "title": "CurrentStateEnumeration",
-        "dov:typeRef": "nsu=http://opcfoundation.org/UA/CommercialKitchenEquipment/;i=3021",
+        "dov:typeRef": "org.opcfoundation.UA.CommercialKitchenEquipment.CurrentStateEnumeration",
         "type": "integer",
         "minimum": -2147483648,
         "maximum": 2147483647,
@@ -3839,7 +3839,7 @@
         "dov:namespace": "http://opcfoundation.org/UA/CommercialKitchenEquipment/",
         "data": {
           "title": "CurrentStateEnumeration",
-          "dov:typeRef": "nsu=http://opcfoundation.org/UA/CommercialKitchenEquipment/;i=3021",
+          "dov:typeRef": "org.opcfoundation.UA.CommercialKitchenEquipment.CurrentStateEnumeration",
           "type": "integer",
           "minimum": -2147483648,
           "maximum": 2147483647
@@ -3928,7 +3928,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "CommercialKitchenEquipment_DishWashingMachineProgramParameterType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/CommercialKitchenEquipment/;i=1025",
+    "dov:typeRef": "org.opcfoundation.UA.CommercialKitchenEquipment.DishWashingMachineProgramParameterType",
     "links": [
       {
         "rel": "tm:extends",
@@ -3939,7 +3939,7 @@
     "schemaDefinitions": {
       "HygieneModeEnumeration": {
         "type": "object",
-        "dov:typeRef": "nsu=http://opcfoundation.org/UA/CommercialKitchenEquipment/;i=3017",
+        "dov:typeRef": "org.opcfoundation.UA.CommercialKitchenEquipment.HygieneModeEnumeration",
         "const": {
           "HygieneOperationOFF": 0,
           "HygieneA0": 1,
@@ -3971,7 +3971,7 @@
       },
       "OperationModeEnumeration": {
         "type": "object",
-        "dov:typeRef": "nsu=http://opcfoundation.org/UA/CommercialKitchenEquipment/;i=3018",
+        "dov:typeRef": "org.opcfoundation.UA.CommercialKitchenEquipment.OperationModeEnumeration",
         "const": {
           "Init": 0,
           "MachineOff": 1,
@@ -4043,7 +4043,7 @@
       },
       "ProgramModeEnumeration": {
         "type": "object",
-        "dov:typeRef": "nsu=http://opcfoundation.org/UA/CommercialKitchenEquipment/;i=3016",
+        "dov:typeRef": "org.opcfoundation.UA.CommercialKitchenEquipment.ProgramModeEnumeration",
         "const": {
           "OperationOFF": 0,
           "PreWash": 1,
@@ -4277,7 +4277,7 @@
       "HygieneMode": {
         "dov:namespace": "http://opcfoundation.org/UA/CommercialKitchenEquipment/",
         "title": "HygieneModeEnumeration",
-        "dov:typeRef": "nsu=http://opcfoundation.org/UA/CommercialKitchenEquipment/;i=3017",
+        "dov:typeRef": "org.opcfoundation.UA.CommercialKitchenEquipment.HygieneModeEnumeration",
         "type": "integer",
         "minimum": -2147483648,
         "maximum": 2147483647,
@@ -4338,7 +4338,7 @@
       "OperationMode": {
         "dov:namespace": "http://opcfoundation.org/UA/CommercialKitchenEquipment/",
         "title": "OperationModeEnumeration",
-        "dov:typeRef": "nsu=http://opcfoundation.org/UA/CommercialKitchenEquipment/;i=3018",
+        "dov:typeRef": "org.opcfoundation.UA.CommercialKitchenEquipment.OperationModeEnumeration",
         "type": "integer",
         "minimum": -2147483648,
         "maximum": 2147483647,
@@ -4411,7 +4411,7 @@
       "ProgramMode": {
         "dov:namespace": "http://opcfoundation.org/UA/CommercialKitchenEquipment/",
         "title": "ProgramModeEnumeration",
-        "dov:typeRef": "nsu=http://opcfoundation.org/UA/CommercialKitchenEquipment/;i=3016",
+        "dov:typeRef": "org.opcfoundation.UA.CommercialKitchenEquipment.ProgramModeEnumeration",
         "type": "integer",
         "minimum": -2147483648,
         "maximum": 2147483647,
@@ -4737,7 +4737,7 @@
         "dov:namespace": "http://opcfoundation.org/UA/CommercialKitchenEquipment/",
         "data": {
           "title": "HygieneModeEnumeration",
-          "dov:typeRef": "nsu=http://opcfoundation.org/UA/CommercialKitchenEquipment/;i=3017",
+          "dov:typeRef": "org.opcfoundation.UA.CommercialKitchenEquipment.HygieneModeEnumeration",
           "type": "integer",
           "minimum": -2147483648,
           "maximum": 2147483647
@@ -4802,7 +4802,7 @@
         "dov:namespace": "http://opcfoundation.org/UA/CommercialKitchenEquipment/",
         "data": {
           "title": "OperationModeEnumeration",
-          "dov:typeRef": "nsu=http://opcfoundation.org/UA/CommercialKitchenEquipment/;i=3018",
+          "dov:typeRef": "org.opcfoundation.UA.CommercialKitchenEquipment.OperationModeEnumeration",
           "type": "integer",
           "minimum": -2147483648,
           "maximum": 2147483647
@@ -4852,7 +4852,7 @@
         "dov:namespace": "http://opcfoundation.org/UA/CommercialKitchenEquipment/",
         "data": {
           "title": "ProgramModeEnumeration",
-          "dov:typeRef": "nsu=http://opcfoundation.org/UA/CommercialKitchenEquipment/;i=3016",
+          "dov:typeRef": "org.opcfoundation.UA.CommercialKitchenEquipment.ProgramModeEnumeration",
           "type": "integer",
           "minimum": -2147483648,
           "maximum": 2147483647
@@ -4910,7 +4910,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "CommercialKitchenEquipment_FryerParameterType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/CommercialKitchenEquipment/;i=1006",
+    "dov:typeRef": "org.opcfoundation.UA.CommercialKitchenEquipment.FryerParameterType",
     "links": [
       {
         "rel": "tm:extends",
@@ -4921,7 +4921,7 @@
     "schemaDefinitions": {
       "FryerModeEnumeration": {
         "type": "object",
-        "dov:typeRef": "nsu=http://opcfoundation.org/UA/CommercialKitchenEquipment/;i=3003",
+        "dov:typeRef": "org.opcfoundation.UA.CommercialKitchenEquipment.FryerModeEnumeration",
         "const": {
           "Off": 0,
           "Preheat": 1,
@@ -4957,7 +4957,7 @@
       },
       "SignalModeEnumeration": {
         "type": "object",
-        "dov:typeRef": "nsu=http://opcfoundation.org/UA/CommercialKitchenEquipment/;i=3004",
+        "dov:typeRef": "org.opcfoundation.UA.CommercialKitchenEquipment.SignalModeEnumeration",
         "const": {
           "SignalOff": 0,
           "SignalOn": 1,
@@ -5022,7 +5022,7 @@
       "ProgramMode": {
         "dov:namespace": "http://opcfoundation.org/UA/CommercialKitchenEquipment/",
         "title": "FryerModeEnumeration",
-        "dov:typeRef": "nsu=http://opcfoundation.org/UA/CommercialKitchenEquipment/;i=3003",
+        "dov:typeRef": "org.opcfoundation.UA.CommercialKitchenEquipment.FryerModeEnumeration",
         "type": "integer",
         "minimum": -2147483648,
         "maximum": 2147483647,
@@ -5070,7 +5070,7 @@
       "SignalMode": {
         "dov:namespace": "http://opcfoundation.org/UA/CommercialKitchenEquipment/",
         "title": "SignalModeEnumeration",
-        "dov:typeRef": "nsu=http://opcfoundation.org/UA/CommercialKitchenEquipment/;i=3004",
+        "dov:typeRef": "org.opcfoundation.UA.CommercialKitchenEquipment.SignalModeEnumeration",
         "type": "integer",
         "minimum": -2147483648,
         "maximum": 2147483647,
@@ -5183,7 +5183,7 @@
         "dov:namespace": "http://opcfoundation.org/UA/CommercialKitchenEquipment/",
         "data": {
           "title": "FryerModeEnumeration",
-          "dov:typeRef": "nsu=http://opcfoundation.org/UA/CommercialKitchenEquipment/;i=3003",
+          "dov:typeRef": "org.opcfoundation.UA.CommercialKitchenEquipment.FryerModeEnumeration",
           "type": "integer",
           "minimum": -2147483648,
           "maximum": 2147483647
@@ -5234,7 +5234,7 @@
         "dov:namespace": "http://opcfoundation.org/UA/CommercialKitchenEquipment/",
         "data": {
           "title": "SignalModeEnumeration",
-          "dov:typeRef": "nsu=http://opcfoundation.org/UA/CommercialKitchenEquipment/;i=3004",
+          "dov:typeRef": "org.opcfoundation.UA.CommercialKitchenEquipment.SignalModeEnumeration",
           "type": "integer",
           "minimum": -2147483648,
           "maximum": 2147483647
@@ -5276,7 +5276,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "CommercialKitchenEquipment_FryingAndGrillingParameterType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/CommercialKitchenEquipment/;i=1031",
+    "dov:typeRef": "org.opcfoundation.UA.CommercialKitchenEquipment.FryingAndGrillingParameterType",
     "links": [
       {
         "rel": "tm:extends",
@@ -5287,7 +5287,7 @@
     "schemaDefinitions": {
       "GrillingZoneStateEnumeration": {
         "type": "object",
-        "dov:typeRef": "nsu=http://opcfoundation.org/UA/CommercialKitchenEquipment/;i=3025",
+        "dov:typeRef": "org.opcfoundation.UA.CommercialKitchenEquipment.GrillingZoneStateEnumeration",
         "const": {
           "Off": 0,
           "Standby": 1,
@@ -5311,7 +5311,7 @@
       },
       "PlatenPositionStateEnumeration": {
         "type": "object",
-        "dov:typeRef": "nsu=http://opcfoundation.org/UA/CommercialKitchenEquipment/;i=3022",
+        "dov:typeRef": "org.opcfoundation.UA.CommercialKitchenEquipment.PlatenPositionStateEnumeration",
         "const": {
           "Home": 0,
           "Cooking": 1,
@@ -5386,7 +5386,7 @@
       "CurrentState": {
         "dov:namespace": "http://opcfoundation.org/UA/CommercialKitchenEquipment/",
         "title": "GrillingZoneStateEnumeration",
-        "dov:typeRef": "nsu=http://opcfoundation.org/UA/CommercialKitchenEquipment/;i=3025",
+        "dov:typeRef": "org.opcfoundation.UA.CommercialKitchenEquipment.GrillingZoneStateEnumeration",
         "type": "integer",
         "minimum": -2147483648,
         "maximum": 2147483647,
@@ -5426,7 +5426,7 @@
       "PlatenPositionState": {
         "dov:namespace": "http://opcfoundation.org/UA/CommercialKitchenEquipment/",
         "title": "PlatenPositionStateEnumeration",
-        "dov:typeRef": "nsu=http://opcfoundation.org/UA/CommercialKitchenEquipment/;i=3022",
+        "dov:typeRef": "org.opcfoundation.UA.CommercialKitchenEquipment.PlatenPositionStateEnumeration",
         "type": "integer",
         "minimum": -2147483648,
         "maximum": 2147483647,
@@ -5619,7 +5619,7 @@
         "dov:namespace": "http://opcfoundation.org/UA/CommercialKitchenEquipment/",
         "data": {
           "title": "GrillingZoneStateEnumeration",
-          "dov:typeRef": "nsu=http://opcfoundation.org/UA/CommercialKitchenEquipment/;i=3025",
+          "dov:typeRef": "org.opcfoundation.UA.CommercialKitchenEquipment.GrillingZoneStateEnumeration",
           "type": "integer",
           "minimum": -2147483648,
           "maximum": 2147483647
@@ -5662,7 +5662,7 @@
         "dov:namespace": "http://opcfoundation.org/UA/CommercialKitchenEquipment/",
         "data": {
           "title": "PlatenPositionStateEnumeration",
-          "dov:typeRef": "nsu=http://opcfoundation.org/UA/CommercialKitchenEquipment/;i=3022",
+          "dov:typeRef": "org.opcfoundation.UA.CommercialKitchenEquipment.PlatenPositionStateEnumeration",
           "type": "integer",
           "minimum": -2147483648,
           "maximum": 2147483647
@@ -5757,7 +5757,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "CommercialKitchenEquipment_FryingPanParameterType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/CommercialKitchenEquipment/;i=1008",
+    "dov:typeRef": "org.opcfoundation.UA.CommercialKitchenEquipment.FryingPanParameterType",
     "links": [
       {
         "rel": "tm:extends",
@@ -5768,7 +5768,7 @@
     "schemaDefinitions": {
       "FryingPanModeEnumeration": {
         "type": "object",
-        "dov:typeRef": "nsu=http://opcfoundation.org/UA/CommercialKitchenEquipment/;i=3005",
+        "dov:typeRef": "org.opcfoundation.UA.CommercialKitchenEquipment.FryingPanModeEnumeration",
         "const": {
           "Off": 0,
           "Preheat": 1,
@@ -5816,7 +5816,7 @@
       },
       "SignalModeEnumeration": {
         "type": "object",
-        "dov:typeRef": "nsu=http://opcfoundation.org/UA/CommercialKitchenEquipment/;i=3004",
+        "dov:typeRef": "org.opcfoundation.UA.CommercialKitchenEquipment.SignalModeEnumeration",
         "const": {
           "SignalOff": 0,
           "SignalOn": 1,
@@ -5927,7 +5927,7 @@
       "ProgramMode": {
         "dov:namespace": "http://opcfoundation.org/UA/CommercialKitchenEquipment/",
         "title": "FryingPanModeEnumeration",
-        "dov:typeRef": "nsu=http://opcfoundation.org/UA/CommercialKitchenEquipment/;i=3005",
+        "dov:typeRef": "org.opcfoundation.UA.CommercialKitchenEquipment.FryingPanModeEnumeration",
         "type": "integer",
         "minimum": -2147483648,
         "maximum": 2147483647,
@@ -5991,7 +5991,7 @@
       "SignalMode": {
         "dov:namespace": "http://opcfoundation.org/UA/CommercialKitchenEquipment/",
         "title": "SignalModeEnumeration",
-        "dov:typeRef": "nsu=http://opcfoundation.org/UA/CommercialKitchenEquipment/;i=3004",
+        "dov:typeRef": "org.opcfoundation.UA.CommercialKitchenEquipment.SignalModeEnumeration",
         "type": "integer",
         "minimum": -2147483648,
         "maximum": 2147483647,
@@ -6189,7 +6189,7 @@
         "dov:namespace": "http://opcfoundation.org/UA/CommercialKitchenEquipment/",
         "data": {
           "title": "FryingPanModeEnumeration",
-          "dov:typeRef": "nsu=http://opcfoundation.org/UA/CommercialKitchenEquipment/;i=3005",
+          "dov:typeRef": "org.opcfoundation.UA.CommercialKitchenEquipment.FryingPanModeEnumeration",
           "type": "integer",
           "minimum": -2147483648,
           "maximum": 2147483647
@@ -6257,7 +6257,7 @@
         "dov:namespace": "http://opcfoundation.org/UA/CommercialKitchenEquipment/",
         "data": {
           "title": "SignalModeEnumeration",
-          "dov:typeRef": "nsu=http://opcfoundation.org/UA/CommercialKitchenEquipment/;i=3004",
+          "dov:typeRef": "org.opcfoundation.UA.CommercialKitchenEquipment.SignalModeEnumeration",
           "type": "integer",
           "minimum": -2147483648,
           "maximum": 2147483647
@@ -6299,7 +6299,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "CommercialKitchenEquipment_IceMachineParameterType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/CommercialKitchenEquipment/;i=1035",
+    "dov:typeRef": "org.opcfoundation.UA.CommercialKitchenEquipment.IceMachineParameterType",
     "links": [
       {
         "rel": "tm:extends",
@@ -6310,7 +6310,7 @@
     "schemaDefinitions": {
       "StatusEnumeration": {
         "type": "object",
-        "dov:typeRef": "nsu=http://opcfoundation.org/UA/CommercialKitchenEquipment/;i=3024",
+        "dov:typeRef": "org.opcfoundation.UA.CommercialKitchenEquipment.StatusEnumeration",
         "const": {
           "INIT": 0,
           "WATER_PURGE": 1,
@@ -6443,7 +6443,7 @@
       "Status": {
         "dov:namespace": "http://opcfoundation.org/UA/CommercialKitchenEquipment/",
         "title": "StatusEnumeration",
-        "dov:typeRef": "nsu=http://opcfoundation.org/UA/CommercialKitchenEquipment/;i=3024",
+        "dov:typeRef": "org.opcfoundation.UA.CommercialKitchenEquipment.StatusEnumeration",
         "type": "integer",
         "minimum": -2147483648,
         "maximum": 2147483647,
@@ -6577,7 +6577,7 @@
         "dov:namespace": "http://opcfoundation.org/UA/CommercialKitchenEquipment/",
         "data": {
           "title": "StatusEnumeration",
-          "dov:typeRef": "nsu=http://opcfoundation.org/UA/CommercialKitchenEquipment/;i=3024",
+          "dov:typeRef": "org.opcfoundation.UA.CommercialKitchenEquipment.StatusEnumeration",
           "type": "integer",
           "minimum": -2147483648,
           "maximum": 2147483647
@@ -6637,7 +6637,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "CommercialKitchenEquipment_MicrowaveCombiOvenParameterType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/CommercialKitchenEquipment/;i=1033",
+    "dov:typeRef": "org.opcfoundation.UA.CommercialKitchenEquipment.MicrowaveCombiOvenParameterType",
     "links": [
       {
         "rel": "tm:extends",
@@ -6648,7 +6648,7 @@
     "schemaDefinitions": {
       "OperatingModeEnumeration": {
         "type": "object",
-        "dov:typeRef": "nsu=http://opcfoundation.org/UA/CommercialKitchenEquipment/;i=3023",
+        "dov:typeRef": "org.opcfoundation.UA.CommercialKitchenEquipment.OperatingModeEnumeration",
         "const": {
           "Preheat": 0,
           "CoolDown": 1,
@@ -6793,7 +6793,7 @@
       "OperatingMode": {
         "dov:namespace": "http://opcfoundation.org/UA/CommercialKitchenEquipment/",
         "title": "OperatingModeEnumeration",
-        "dov:typeRef": "nsu=http://opcfoundation.org/UA/CommercialKitchenEquipment/;i=3023",
+        "dov:typeRef": "org.opcfoundation.UA.CommercialKitchenEquipment.OperatingModeEnumeration",
         "type": "integer",
         "minimum": -2147483648,
         "maximum": 2147483647,
@@ -7039,7 +7039,7 @@
         "dov:namespace": "http://opcfoundation.org/UA/CommercialKitchenEquipment/",
         "data": {
           "title": "OperatingModeEnumeration",
-          "dov:typeRef": "nsu=http://opcfoundation.org/UA/CommercialKitchenEquipment/;i=3023",
+          "dov:typeRef": "org.opcfoundation.UA.CommercialKitchenEquipment.OperatingModeEnumeration",
           "type": "integer",
           "minimum": -2147483648,
           "maximum": 2147483647
@@ -7132,7 +7132,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "CommercialKitchenEquipment_MultiFunctionPanParameterType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/CommercialKitchenEquipment/;i=1018",
+    "dov:typeRef": "org.opcfoundation.UA.CommercialKitchenEquipment.MultiFunctionPanParameterType",
     "links": [
       {
         "rel": "tm:extends",
@@ -7143,7 +7143,7 @@
     "schemaDefinitions": {
       "MultiFunctionPanModeEnumeration": {
         "type": "object",
-        "dov:typeRef": "nsu=http://opcfoundation.org/UA/CommercialKitchenEquipment/;i=3011",
+        "dov:typeRef": "org.opcfoundation.UA.CommercialKitchenEquipment.MultiFunctionPanModeEnumeration",
         "const": {
           "Off": 0,
           "On": 1,
@@ -7215,7 +7215,7 @@
       },
       "SpecialFunctionModeEnumeration": {
         "type": "object",
-        "dov:typeRef": "nsu=http://opcfoundation.org/UA/CommercialKitchenEquipment/;i=3012",
+        "dov:typeRef": "org.opcfoundation.UA.CommercialKitchenEquipment.SpecialFunctionModeEnumeration",
         "const": {
           "LidUpDown": 0,
           "PanTilt": 1,
@@ -7421,7 +7421,7 @@
       "MultiFunctionPanMode": {
         "dov:namespace": "http://opcfoundation.org/UA/CommercialKitchenEquipment/",
         "title": "MultiFunctionPanModeEnumeration",
-        "dov:typeRef": "nsu=http://opcfoundation.org/UA/CommercialKitchenEquipment/;i=3011",
+        "dov:typeRef": "org.opcfoundation.UA.CommercialKitchenEquipment.MultiFunctionPanModeEnumeration",
         "type": "integer",
         "minimum": -2147483648,
         "maximum": 2147483647,
@@ -7518,7 +7518,7 @@
       "SpecialFunctionMode": {
         "dov:namespace": "http://opcfoundation.org/UA/CommercialKitchenEquipment/",
         "title": "SpecialFunctionModeEnumeration",
-        "dov:typeRef": "nsu=http://opcfoundation.org/UA/CommercialKitchenEquipment/;i=3012",
+        "dov:typeRef": "org.opcfoundation.UA.CommercialKitchenEquipment.SpecialFunctionModeEnumeration",
         "type": "integer",
         "minimum": -2147483648,
         "maximum": 2147483647,
@@ -7878,7 +7878,7 @@
         "dov:namespace": "http://opcfoundation.org/UA/CommercialKitchenEquipment/",
         "data": {
           "title": "MultiFunctionPanModeEnumeration",
-          "dov:typeRef": "nsu=http://opcfoundation.org/UA/CommercialKitchenEquipment/;i=3011",
+          "dov:typeRef": "org.opcfoundation.UA.CommercialKitchenEquipment.MultiFunctionPanModeEnumeration",
           "type": "integer",
           "minimum": -2147483648,
           "maximum": 2147483647
@@ -7981,7 +7981,7 @@
         "dov:namespace": "http://opcfoundation.org/UA/CommercialKitchenEquipment/",
         "data": {
           "title": "SpecialFunctionModeEnumeration",
-          "dov:typeRef": "nsu=http://opcfoundation.org/UA/CommercialKitchenEquipment/;i=3012",
+          "dov:typeRef": "org.opcfoundation.UA.CommercialKitchenEquipment.SpecialFunctionModeEnumeration",
           "type": "integer",
           "minimum": -2147483648,
           "maximum": 2147483647
@@ -8040,7 +8040,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "CommercialKitchenEquipment_PastaCookerParameterType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/CommercialKitchenEquipment/;i=1020",
+    "dov:typeRef": "org.opcfoundation.UA.CommercialKitchenEquipment.PastaCookerParameterType",
     "links": [
       {
         "rel": "tm:extends",
@@ -8051,7 +8051,7 @@
     "schemaDefinitions": {
       "PastaCookerModeEnumeration": {
         "type": "object",
-        "dov:typeRef": "nsu=http://opcfoundation.org/UA/CommercialKitchenEquipment/;i=3013",
+        "dov:typeRef": "org.opcfoundation.UA.CommercialKitchenEquipment.PastaCookerModeEnumeration",
         "const": {
           "Off": 0,
           "Preheat": 1,
@@ -8091,7 +8091,7 @@
       },
       "SignalModeEnumeration": {
         "type": "object",
-        "dov:typeRef": "nsu=http://opcfoundation.org/UA/CommercialKitchenEquipment/;i=3004",
+        "dov:typeRef": "org.opcfoundation.UA.CommercialKitchenEquipment.SignalModeEnumeration",
         "const": {
           "SignalOff": 0,
           "SignalOn": 1,
@@ -8158,7 +8158,7 @@
       "ProgramMode": {
         "dov:namespace": "http://opcfoundation.org/UA/CommercialKitchenEquipment/",
         "title": "PastaCookerModeEnumeration",
-        "dov:typeRef": "nsu=http://opcfoundation.org/UA/CommercialKitchenEquipment/;i=3013",
+        "dov:typeRef": "org.opcfoundation.UA.CommercialKitchenEquipment.PastaCookerModeEnumeration",
         "type": "integer",
         "minimum": -2147483648,
         "maximum": 2147483647,
@@ -8206,7 +8206,7 @@
       "SignalMode": {
         "dov:namespace": "http://opcfoundation.org/UA/CommercialKitchenEquipment/",
         "title": "SignalModeEnumeration",
-        "dov:typeRef": "nsu=http://opcfoundation.org/UA/CommercialKitchenEquipment/;i=3004",
+        "dov:typeRef": "org.opcfoundation.UA.CommercialKitchenEquipment.SignalModeEnumeration",
         "type": "integer",
         "minimum": -2147483648,
         "maximum": 2147483647,
@@ -8321,7 +8321,7 @@
         "dov:namespace": "http://opcfoundation.org/UA/CommercialKitchenEquipment/",
         "data": {
           "title": "PastaCookerModeEnumeration",
-          "dov:typeRef": "nsu=http://opcfoundation.org/UA/CommercialKitchenEquipment/;i=3013",
+          "dov:typeRef": "org.opcfoundation.UA.CommercialKitchenEquipment.PastaCookerModeEnumeration",
           "type": "integer",
           "minimum": -2147483648,
           "maximum": 2147483647
@@ -8372,7 +8372,7 @@
         "dov:namespace": "http://opcfoundation.org/UA/CommercialKitchenEquipment/",
         "data": {
           "title": "SignalModeEnumeration",
-          "dov:typeRef": "nsu=http://opcfoundation.org/UA/CommercialKitchenEquipment/;i=3004",
+          "dov:typeRef": "org.opcfoundation.UA.CommercialKitchenEquipment.SignalModeEnumeration",
           "type": "integer",
           "minimum": -2147483648,
           "maximum": 2147483647
@@ -8414,7 +8414,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "CommercialKitchenEquipment_PressureCookingKettleParameterType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/CommercialKitchenEquipment/;i=1014",
+    "dov:typeRef": "org.opcfoundation.UA.CommercialKitchenEquipment.PressureCookingKettleParameterType",
     "links": [
       {
         "rel": "tm:extends",
@@ -8425,7 +8425,7 @@
     "schemaDefinitions": {
       "PressureCookingKettleModeEnumeration": {
         "type": "object",
-        "dov:typeRef": "nsu=http://opcfoundation.org/UA/CommercialKitchenEquipment/;i=3009",
+        "dov:typeRef": "org.opcfoundation.UA.CommercialKitchenEquipment.PressureCookingKettleModeEnumeration",
         "const": {
           "Off": 0,
           "Preheat": 1,
@@ -8469,7 +8469,7 @@
       },
       "SignalModeEnumeration": {
         "type": "object",
-        "dov:typeRef": "nsu=http://opcfoundation.org/UA/CommercialKitchenEquipment/;i=3004",
+        "dov:typeRef": "org.opcfoundation.UA.CommercialKitchenEquipment.SignalModeEnumeration",
         "const": {
           "SignalOff": 0,
           "SignalOn": 1,
@@ -8620,7 +8620,7 @@
       "ProgramMode": {
         "dov:namespace": "http://opcfoundation.org/UA/CommercialKitchenEquipment/",
         "title": "PressureCookingKettleModeEnumeration",
-        "dov:typeRef": "nsu=http://opcfoundation.org/UA/CommercialKitchenEquipment/;i=3009",
+        "dov:typeRef": "org.opcfoundation.UA.CommercialKitchenEquipment.PressureCookingKettleModeEnumeration",
         "type": "integer",
         "minimum": -2147483648,
         "maximum": 2147483647,
@@ -8684,7 +8684,7 @@
       "SignalMode": {
         "dov:namespace": "http://opcfoundation.org/UA/CommercialKitchenEquipment/",
         "title": "SignalModeEnumeration",
-        "dov:typeRef": "nsu=http://opcfoundation.org/UA/CommercialKitchenEquipment/;i=3004",
+        "dov:typeRef": "org.opcfoundation.UA.CommercialKitchenEquipment.SignalModeEnumeration",
         "type": "integer",
         "minimum": -2147483648,
         "maximum": 2147483647,
@@ -8937,7 +8937,7 @@
         "dov:namespace": "http://opcfoundation.org/UA/CommercialKitchenEquipment/",
         "data": {
           "title": "PressureCookingKettleModeEnumeration",
-          "dov:typeRef": "nsu=http://opcfoundation.org/UA/CommercialKitchenEquipment/;i=3009",
+          "dov:typeRef": "org.opcfoundation.UA.CommercialKitchenEquipment.PressureCookingKettleModeEnumeration",
           "type": "integer",
           "minimum": -2147483648,
           "maximum": 2147483647
@@ -9005,7 +9005,7 @@
         "dov:namespace": "http://opcfoundation.org/UA/CommercialKitchenEquipment/",
         "data": {
           "title": "SignalModeEnumeration",
-          "dov:typeRef": "nsu=http://opcfoundation.org/UA/CommercialKitchenEquipment/;i=3004",
+          "dov:typeRef": "org.opcfoundation.UA.CommercialKitchenEquipment.SignalModeEnumeration",
           "type": "integer",
           "minimum": -2147483648,
           "maximum": 2147483647
@@ -9047,7 +9047,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "CommercialKitchenEquipment_TrayType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/CommercialKitchenEquipment/;i=1027",
+    "dov:typeRef": "org.opcfoundation.UA.CommercialKitchenEquipment.TrayType",
     "links": [
       {
         "rel": "tm:extends",
@@ -9058,7 +9058,7 @@
     "schemaDefinitions": {
       "TrayModeEnumeration": {
         "type": "object",
-        "dov:typeRef": "nsu=http://opcfoundation.org/UA/CommercialKitchenEquipment/;i=3019",
+        "dov:typeRef": "org.opcfoundation.UA.CommercialKitchenEquipment.TrayModeEnumeration",
         "const": {
           "Off": 0,
           "PreHeat": 1,
@@ -9090,7 +9090,7 @@
       },
       "TrayTypeEnumeration": {
         "type": "object",
-        "dov:typeRef": "nsu=http://opcfoundation.org/UA/CommercialKitchenEquipment/;i=3020",
+        "dov:typeRef": "org.opcfoundation.UA.CommercialKitchenEquipment.TrayTypeEnumeration",
         "const": {
           "Generic": 0,
           "HeaterPlate": 1,
@@ -9225,7 +9225,7 @@
       "ProgramMode": {
         "dov:namespace": "http://opcfoundation.org/UA/CommercialKitchenEquipment/",
         "title": "TrayModeEnumeration",
-        "dov:typeRef": "nsu=http://opcfoundation.org/UA/CommercialKitchenEquipment/;i=3019",
+        "dov:typeRef": "org.opcfoundation.UA.CommercialKitchenEquipment.TrayModeEnumeration",
         "type": "integer",
         "minimum": -2147483648,
         "maximum": 2147483647,
@@ -9267,7 +9267,7 @@
       "Type": {
         "dov:namespace": "http://opcfoundation.org/UA/CommercialKitchenEquipment/",
         "title": "TrayTypeEnumeration",
-        "dov:typeRef": "nsu=http://opcfoundation.org/UA/CommercialKitchenEquipment/;i=3020",
+        "dov:typeRef": "org.opcfoundation.UA.CommercialKitchenEquipment.TrayTypeEnumeration",
         "type": "integer",
         "minimum": -2147483648,
         "maximum": 2147483647,
@@ -9385,7 +9385,7 @@
         "dov:namespace": "http://opcfoundation.org/UA/CommercialKitchenEquipment/",
         "data": {
           "title": "TrayModeEnumeration",
-          "dov:typeRef": "nsu=http://opcfoundation.org/UA/CommercialKitchenEquipment/;i=3019",
+          "dov:typeRef": "org.opcfoundation.UA.CommercialKitchenEquipment.TrayModeEnumeration",
           "type": "integer",
           "minimum": -2147483648,
           "maximum": 2147483647
@@ -9419,7 +9419,7 @@
         "dov:namespace": "http://opcfoundation.org/UA/CommercialKitchenEquipment/",
         "data": {
           "title": "TrayTypeEnumeration",
-          "dov:typeRef": "nsu=http://opcfoundation.org/UA/CommercialKitchenEquipment/;i=3020",
+          "dov:typeRef": "org.opcfoundation.UA.CommercialKitchenEquipment.TrayTypeEnumeration",
           "type": "integer",
           "minimum": -2147483648,
           "maximum": 2147483647
@@ -9443,7 +9443,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "CommercialKitchenEquipment_CommercialKitchenDeviceType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/CommercialKitchenEquipment/;i=1005",
+    "dov:typeRef": "org.opcfoundation.UA.CommercialKitchenEquipment.CommercialKitchenDeviceType",
     "links": [
       {
         "rel": "tm:extends",
@@ -9525,7 +9525,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "CommercialKitchenEquipment_CoffeeMachineDeviceType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/CommercialKitchenEquipment/;i=1024",
+    "dov:typeRef": "org.opcfoundation.UA.CommercialKitchenEquipment.CoffeeMachineDeviceType",
     "dov:isComposite": true,
     "links": [
       {
@@ -9564,7 +9564,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "CommercialKitchenEquipment_CombiSteamerDeviceType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/CommercialKitchenEquipment/;i=1011",
+    "dov:typeRef": "org.opcfoundation.UA.CommercialKitchenEquipment.CombiSteamerDeviceType",
     "dov:isComposite": true,
     "links": [
       {
@@ -9582,7 +9582,7 @@
     "schemaDefinitions": {
       "EnergySourceEnumeration": {
         "type": "object",
-        "dov:typeRef": "nsu=http://opcfoundation.org/UA/CommercialKitchenEquipment/;i=3002",
+        "dov:typeRef": "org.opcfoundation.UA.CommercialKitchenEquipment.EnergySourceEnumeration",
         "const": {
           "Electric": 0,
           "Gas": 1,
@@ -9614,7 +9614,7 @@
       "EnergySource": {
         "dov:namespace": "http://opcfoundation.org/UA/CommercialKitchenEquipment/",
         "title": "EnergySourceEnumeration",
-        "dov:typeRef": "nsu=http://opcfoundation.org/UA/CommercialKitchenEquipment/;i=3002",
+        "dov:typeRef": "org.opcfoundation.UA.CommercialKitchenEquipment.EnergySourceEnumeration",
         "type": "integer",
         "minimum": -2147483648,
         "maximum": 2147483647,
@@ -9688,7 +9688,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "CommercialKitchenEquipment_CookingKettleDeviceType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/CommercialKitchenEquipment/;i=1017",
+    "dov:typeRef": "org.opcfoundation.UA.CommercialKitchenEquipment.CookingKettleDeviceType",
     "dov:isComposite": true,
     "links": [
       {
@@ -9706,7 +9706,7 @@
     "schemaDefinitions": {
       "EnergySourceEnumeration": {
         "type": "object",
-        "dov:typeRef": "nsu=http://opcfoundation.org/UA/CommercialKitchenEquipment/;i=3002",
+        "dov:typeRef": "org.opcfoundation.UA.CommercialKitchenEquipment.EnergySourceEnumeration",
         "const": {
           "Electric": 0,
           "Gas": 1,
@@ -9738,7 +9738,7 @@
       "EnergySource": {
         "dov:namespace": "http://opcfoundation.org/UA/CommercialKitchenEquipment/",
         "title": "EnergySourceEnumeration",
-        "dov:typeRef": "nsu=http://opcfoundation.org/UA/CommercialKitchenEquipment/;i=3002",
+        "dov:typeRef": "org.opcfoundation.UA.CommercialKitchenEquipment.EnergySourceEnumeration",
         "type": "integer",
         "minimum": -2147483648,
         "maximum": 2147483647,
@@ -9789,7 +9789,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "CommercialKitchenEquipment_CookingZoneDeviceType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/CommercialKitchenEquipment/;i=1030",
+    "dov:typeRef": "org.opcfoundation.UA.CommercialKitchenEquipment.CookingZoneDeviceType",
     "dov:isComposite": true,
     "links": [
       {
@@ -9807,7 +9807,7 @@
     "schemaDefinitions": {
       "EnergySourceEnumeration": {
         "type": "object",
-        "dov:typeRef": "nsu=http://opcfoundation.org/UA/CommercialKitchenEquipment/;i=3002",
+        "dov:typeRef": "org.opcfoundation.UA.CommercialKitchenEquipment.EnergySourceEnumeration",
         "const": {
           "Electric": 0,
           "Gas": 1,
@@ -9844,7 +9844,7 @@
       "EnergySource": {
         "dov:namespace": "http://opcfoundation.org/UA/CommercialKitchenEquipment/",
         "title": "EnergySourceEnumeration",
-        "dov:typeRef": "nsu=http://opcfoundation.org/UA/CommercialKitchenEquipment/;i=3002",
+        "dov:typeRef": "org.opcfoundation.UA.CommercialKitchenEquipment.EnergySourceEnumeration",
         "type": "integer",
         "minimum": -2147483648,
         "maximum": 2147483647,
@@ -9941,7 +9941,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "CommercialKitchenEquipment_DishWashingMachineDeviceType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/CommercialKitchenEquipment/;i=1026",
+    "dov:typeRef": "org.opcfoundation.UA.CommercialKitchenEquipment.DishWashingMachineDeviceType",
     "dov:isComposite": true,
     "links": [
       {
@@ -9974,7 +9974,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "CommercialKitchenEquipment_FryerDeviceType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/CommercialKitchenEquipment/;i=1007",
+    "dov:typeRef": "org.opcfoundation.UA.CommercialKitchenEquipment.FryerDeviceType",
     "dov:isComposite": true,
     "links": [
       {
@@ -9992,7 +9992,7 @@
     "schemaDefinitions": {
       "EnergySourceEnumeration": {
         "type": "object",
-        "dov:typeRef": "nsu=http://opcfoundation.org/UA/CommercialKitchenEquipment/;i=3002",
+        "dov:typeRef": "org.opcfoundation.UA.CommercialKitchenEquipment.EnergySourceEnumeration",
         "const": {
           "Electric": 0,
           "Gas": 1,
@@ -10024,7 +10024,7 @@
       "EnergySource": {
         "dov:namespace": "http://opcfoundation.org/UA/CommercialKitchenEquipment/",
         "title": "EnergySourceEnumeration",
-        "dov:typeRef": "nsu=http://opcfoundation.org/UA/CommercialKitchenEquipment/;i=3002",
+        "dov:typeRef": "org.opcfoundation.UA.CommercialKitchenEquipment.EnergySourceEnumeration",
         "type": "integer",
         "minimum": -2147483648,
         "maximum": 2147483647,
@@ -10062,7 +10062,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "CommercialKitchenEquipment_FryingAndGrillingDeviceType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/CommercialKitchenEquipment/;i=1032",
+    "dov:typeRef": "org.opcfoundation.UA.CommercialKitchenEquipment.FryingAndGrillingDeviceType",
     "dov:isComposite": true,
     "links": [
       {
@@ -10080,7 +10080,7 @@
     "schemaDefinitions": {
       "EnergySourceEnumeration": {
         "type": "object",
-        "dov:typeRef": "nsu=http://opcfoundation.org/UA/CommercialKitchenEquipment/;i=3002",
+        "dov:typeRef": "org.opcfoundation.UA.CommercialKitchenEquipment.EnergySourceEnumeration",
         "const": {
           "Electric": 0,
           "Gas": 1,
@@ -10112,7 +10112,7 @@
       "EnergySource": {
         "dov:namespace": "http://opcfoundation.org/UA/CommercialKitchenEquipment/",
         "title": "EnergySourceEnumeration",
-        "dov:typeRef": "nsu=http://opcfoundation.org/UA/CommercialKitchenEquipment/;i=3002",
+        "dov:typeRef": "org.opcfoundation.UA.CommercialKitchenEquipment.EnergySourceEnumeration",
         "type": "integer",
         "minimum": -2147483648,
         "maximum": 2147483647,
@@ -10138,7 +10138,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "CommercialKitchenEquipment_FryingPanDeviceType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/CommercialKitchenEquipment/;i=1009",
+    "dov:typeRef": "org.opcfoundation.UA.CommercialKitchenEquipment.FryingPanDeviceType",
     "dov:isComposite": true,
     "links": [
       {
@@ -10156,7 +10156,7 @@
     "schemaDefinitions": {
       "EnergySourceEnumeration": {
         "type": "object",
-        "dov:typeRef": "nsu=http://opcfoundation.org/UA/CommercialKitchenEquipment/;i=3002",
+        "dov:typeRef": "org.opcfoundation.UA.CommercialKitchenEquipment.EnergySourceEnumeration",
         "const": {
           "Electric": 0,
           "Gas": 1,
@@ -10188,7 +10188,7 @@
       "EnergySource": {
         "dov:namespace": "http://opcfoundation.org/UA/CommercialKitchenEquipment/",
         "title": "EnergySourceEnumeration",
-        "dov:typeRef": "nsu=http://opcfoundation.org/UA/CommercialKitchenEquipment/;i=3002",
+        "dov:typeRef": "org.opcfoundation.UA.CommercialKitchenEquipment.EnergySourceEnumeration",
         "type": "integer",
         "minimum": -2147483648,
         "maximum": 2147483647,
@@ -10226,7 +10226,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "CommercialKitchenEquipment_IceMachineDeviceType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/CommercialKitchenEquipment/;i=1036",
+    "dov:typeRef": "org.opcfoundation.UA.CommercialKitchenEquipment.IceMachineDeviceType",
     "dov:isComposite": true,
     "links": [
       {
@@ -10259,7 +10259,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "CommercialKitchenEquipment_MicrowaveCombiOvenDeviceType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/CommercialKitchenEquipment/;i=1034",
+    "dov:typeRef": "org.opcfoundation.UA.CommercialKitchenEquipment.MicrowaveCombiOvenDeviceType",
     "dov:isComposite": true,
     "links": [
       {
@@ -10292,7 +10292,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "CommercialKitchenEquipment_MultiFunctionPanDeviceType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/CommercialKitchenEquipment/;i=1019",
+    "dov:typeRef": "org.opcfoundation.UA.CommercialKitchenEquipment.MultiFunctionPanDeviceType",
     "dov:isComposite": true,
     "links": [
       {
@@ -10310,7 +10310,7 @@
     "schemaDefinitions": {
       "EnergySourceEnumeration": {
         "type": "object",
-        "dov:typeRef": "nsu=http://opcfoundation.org/UA/CommercialKitchenEquipment/;i=3002",
+        "dov:typeRef": "org.opcfoundation.UA.CommercialKitchenEquipment.EnergySourceEnumeration",
         "const": {
           "Electric": 0,
           "Gas": 1,
@@ -10342,7 +10342,7 @@
       "EnergySource": {
         "dov:namespace": "http://opcfoundation.org/UA/CommercialKitchenEquipment/",
         "title": "EnergySourceEnumeration",
-        "dov:typeRef": "nsu=http://opcfoundation.org/UA/CommercialKitchenEquipment/;i=3002",
+        "dov:typeRef": "org.opcfoundation.UA.CommercialKitchenEquipment.EnergySourceEnumeration",
         "type": "integer",
         "minimum": -2147483648,
         "maximum": 2147483647,
@@ -10368,7 +10368,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "CommercialKitchenEquipment_OvenDeviceType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/CommercialKitchenEquipment/;i=1013",
+    "dov:typeRef": "org.opcfoundation.UA.CommercialKitchenEquipment.OvenDeviceType",
     "dov:isComposite": true,
     "links": [
       {
@@ -10401,7 +10401,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "CommercialKitchenEquipment_PastaCookerDeviceType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/CommercialKitchenEquipment/;i=1021",
+    "dov:typeRef": "org.opcfoundation.UA.CommercialKitchenEquipment.PastaCookerDeviceType",
     "dov:isComposite": true,
     "links": [
       {
@@ -10419,7 +10419,7 @@
     "schemaDefinitions": {
       "EnergySourceEnumeration": {
         "type": "object",
-        "dov:typeRef": "nsu=http://opcfoundation.org/UA/CommercialKitchenEquipment/;i=3002",
+        "dov:typeRef": "org.opcfoundation.UA.CommercialKitchenEquipment.EnergySourceEnumeration",
         "const": {
           "Electric": 0,
           "Gas": 1,
@@ -10451,7 +10451,7 @@
       "EnergySource": {
         "dov:namespace": "http://opcfoundation.org/UA/CommercialKitchenEquipment/",
         "title": "EnergySourceEnumeration",
-        "dov:typeRef": "nsu=http://opcfoundation.org/UA/CommercialKitchenEquipment/;i=3002",
+        "dov:typeRef": "org.opcfoundation.UA.CommercialKitchenEquipment.EnergySourceEnumeration",
         "type": "integer",
         "minimum": -2147483648,
         "maximum": 2147483647,
@@ -10489,7 +10489,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "CommercialKitchenEquipment_PressureCookingKettleDeviceType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/CommercialKitchenEquipment/;i=1015",
+    "dov:typeRef": "org.opcfoundation.UA.CommercialKitchenEquipment.PressureCookingKettleDeviceType",
     "dov:isComposite": true,
     "links": [
       {
@@ -10507,7 +10507,7 @@
     "schemaDefinitions": {
       "EnergySourceEnumeration": {
         "type": "object",
-        "dov:typeRef": "nsu=http://opcfoundation.org/UA/CommercialKitchenEquipment/;i=3002",
+        "dov:typeRef": "org.opcfoundation.UA.CommercialKitchenEquipment.EnergySourceEnumeration",
         "const": {
           "Electric": 0,
           "Gas": 1,
@@ -10539,7 +10539,7 @@
       "EnergySource": {
         "dov:namespace": "http://opcfoundation.org/UA/CommercialKitchenEquipment/",
         "title": "EnergySourceEnumeration",
-        "dov:typeRef": "nsu=http://opcfoundation.org/UA/CommercialKitchenEquipment/;i=3002",
+        "dov:typeRef": "org.opcfoundation.UA.CommercialKitchenEquipment.EnergySourceEnumeration",
         "type": "integer",
         "minimum": -2147483648,
         "maximum": 2147483647,
@@ -10565,7 +10565,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "CommercialKitchenEquipment_ServeryCounterDeviceType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/CommercialKitchenEquipment/;i=1028",
+    "dov:typeRef": "org.opcfoundation.UA.CommercialKitchenEquipment.ServeryCounterDeviceType",
     "dov:isComposite": true,
     "links": [
       {
@@ -10598,7 +10598,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "OpcUaCore_BaseObjectType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/;i=58",
+    "dov:typeRef": "org.opcfoundation.UA.BaseObjectType",
     "links": [
     ],
     "schemaDefinitions": {
@@ -10619,7 +10619,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "OpcUaCore_HistoricalDataConfigurationType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/;i=2318",
+    "dov:typeRef": "org.opcfoundation.UA.HistoricalDataConfigurationType",
     "links": [
       {
         "rel": "tm:extends",
@@ -10642,7 +10642,7 @@
     "schemaDefinitions": {
       "ExceptionDeviationFormat": {
         "type": "object",
-        "dov:typeRef": "nsu=http://opcfoundation.org/UA/;i=890",
+        "dov:typeRef": "org.opcfoundation.UA.ExceptionDeviationFormat",
         "const": {
           "AbsoluteValue": 0,
           "PercentOfValue": 1,
@@ -10705,7 +10705,7 @@
       },
       "ExceptionDeviationFormat": {
         "title": "ExceptionDeviationFormat",
-        "dov:typeRef": "nsu=http://opcfoundation.org/UA/;i=890",
+        "dov:typeRef": "org.opcfoundation.UA.ExceptionDeviationFormat",
         "type": "integer",
         "minimum": -2147483648,
         "maximum": 2147483647,
@@ -10826,7 +10826,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "OpcUaCore_AggregateConfigurationType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/;i=11187",
+    "dov:typeRef": "org.opcfoundation.UA.AggregateConfigurationType",
     "links": [
       {
         "rel": "tm:extends",
@@ -10907,7 +10907,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "OpcUaCore_FolderType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/;i=61",
+    "dov:typeRef": "org.opcfoundation.UA.FolderType",
     "links": [
       {
         "rel": "tm:extends",
@@ -10933,7 +10933,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "DI_DeviceType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/DI/;i=1002",
+    "dov:typeRef": "org.opcfoundation.UA.DI.DeviceType",
     "links": [
       {
         "rel": "tm:extends",
@@ -10980,7 +10980,7 @@
     "schemaDefinitions": {
       "DeviceHealthEnumeration": {
         "type": "object",
-        "dov:typeRef": "nsu=http://opcfoundation.org/UA/DI/;i=6244",
+        "dov:typeRef": "org.opcfoundation.UA.DI.DeviceHealthEnumeration",
         "const": {
           "NORMAL": 0,
           "FAILURE": 1,
@@ -11042,7 +11042,7 @@
       "DeviceHealth": {
         "dov:namespace": "http://opcfoundation.org/UA/DI/",
         "title": "DeviceHealthEnumeration",
-        "dov:typeRef": "nsu=http://opcfoundation.org/UA/DI/;i=6244",
+        "dov:typeRef": "org.opcfoundation.UA.DI.DeviceHealthEnumeration",
         "type": "integer",
         "minimum": -2147483648,
         "maximum": 2147483647,
@@ -11195,7 +11195,7 @@
         "dov:namespace": "http://opcfoundation.org/UA/DI/",
         "data": {
           "title": "DeviceHealthEnumeration",
-          "dov:typeRef": "nsu=http://opcfoundation.org/UA/DI/;i=6244",
+          "dov:typeRef": "org.opcfoundation.UA.DI.DeviceHealthEnumeration",
           "type": "integer",
           "minimum": -2147483648,
           "maximum": 2147483647
@@ -11219,7 +11219,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "DI_ComponentType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/DI/;i=15063",
+    "dov:typeRef": "org.opcfoundation.UA.DI.ComponentType",
     "links": [
       {
         "rel": "tm:extends",
@@ -11422,7 +11422,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "DI_TopologyElementType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/DI/;i=1001",
+    "dov:typeRef": "org.opcfoundation.UA.DI.TopologyElementType",
     "links": [
       {
         "rel": "tm:extends",
@@ -11478,7 +11478,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "DI_FunctionalGroupType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/DI/;i=1005",
+    "dov:typeRef": "org.opcfoundation.UA.DI.FunctionalGroupType",
     "links": [
       {
         "rel": "tm:extends",
@@ -11549,7 +11549,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "DI_LockingServicesType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/DI/;i=6388",
+    "dov:typeRef": "org.opcfoundation.UA.DI.LockingServicesType",
     "links": [
       {
         "rel": "tm:extends",
@@ -11571,7 +11571,7 @@
         "dov:namespace": "http://opcfoundation.org/UA/DI/",
         "output": {
           "type": "object",
-          "dov:typeRef": "nsu=http://opcfoundation.org/UA/DI/;i=6401",
+          "dov:typeRef": "org.opcfoundation.UA.OutputArguments",
           "required": [ "BreakLockStatus" ],
           "properties": {
             "BreakLockStatus": {
@@ -11593,7 +11593,7 @@
         "dov:namespace": "http://opcfoundation.org/UA/DI/",
         "output": {
           "type": "object",
-          "dov:typeRef": "nsu=http://opcfoundation.org/UA/DI/;i=6399",
+          "dov:typeRef": "org.opcfoundation.UA.OutputArguments",
           "required": [ "ExitLockStatus" ],
           "properties": {
             "ExitLockStatus": {
@@ -11615,7 +11615,7 @@
         "dov:namespace": "http://opcfoundation.org/UA/DI/",
         "input": {
           "type": "object",
-          "dov:typeRef": "nsu=http://opcfoundation.org/UA/DI/;i=6394",
+          "dov:typeRef": "org.opcfoundation.UA.InputArguments",
           "required": [ "Context" ],
           "properties": {
             "Context": {
@@ -11625,7 +11625,7 @@
         },
         "output": {
           "type": "object",
-          "dov:typeRef": "nsu=http://opcfoundation.org/UA/DI/;i=6395",
+          "dov:typeRef": "org.opcfoundation.UA.OutputArguments",
           "required": [ "InitLockStatus" ],
           "properties": {
             "InitLockStatus": {
@@ -11647,7 +11647,7 @@
         "dov:namespace": "http://opcfoundation.org/UA/DI/",
         "output": {
           "type": "object",
-          "dov:typeRef": "nsu=http://opcfoundation.org/UA/DI/;i=6397",
+          "dov:typeRef": "org.opcfoundation.UA.OutputArguments",
           "required": [ "RenewLockStatus" ],
           "properties": {
             "RenewLockStatus": {
@@ -11740,7 +11740,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "DI_ConnectionPointType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/DI/;i=6308",
+    "dov:typeRef": "org.opcfoundation.UA.DI.ConnectionPointType",
     "links": [
       {
         "rel": "tm:extends",
@@ -11785,7 +11785,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "DI_ProtocolType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/DI/;i=1006",
+    "dov:typeRef": "org.opcfoundation.UA.DI.ProtocolType",
     "links": [
       {
         "rel": "tm:extends",
@@ -11811,7 +11811,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "DI_NetworkType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/DI/;i=6247",
+    "dov:typeRef": "org.opcfoundation.UA.DI.NetworkType",
     "links": [
       {
         "rel": "tm:extends",
