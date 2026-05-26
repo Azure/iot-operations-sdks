@@ -127,7 +127,7 @@ impl CreateOrGetSchemaVersionActionInvoker {
         );
 
         let invoker_options = invoker_options_builder
-            .request_topic_pattern("adr/dtmi:ms:adr:EdgeRegistry;1/createorget/schema/version")
+            .request_topic_pattern("adr/dtmi:ms:adr:EdgeRegistry;1/createOrGet/schema/version")
             .command_name("createOrGetSchemaVersion")
             .topic_token_map(topic_token_map)
             .response_topic_prefix(options.response_topic_prefix.clone())

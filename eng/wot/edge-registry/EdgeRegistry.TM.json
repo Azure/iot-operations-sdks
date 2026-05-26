@@ -17,7 +17,7 @@
             },
             "forms": [
                 {
-                    "dtv:topic": "adr/dtmi:ms:adr:EdgeRegistry;1/create/group",
+                    "dtv:topic": "aio/registry/create/{ex:groupType}/{ex:groupId}",
                     "contentType": "application/json",
                     "op": "invokeaction",
                     "additionalResponses": [

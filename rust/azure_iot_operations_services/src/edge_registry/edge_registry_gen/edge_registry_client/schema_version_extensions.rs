@@ -33,6 +33,10 @@ pub struct SchemaVersionExtensions {
     pub format: Option<String>,
 
     /// The raw schema document for this version as bytes.
-    #[serde(rename = "schemaDoc")]
-    pub schema_doc: Bytes,
+    #[serde(rename = "schemaDocument")]
+    pub schema_document: Bytes,
+
+    /// The hash of the schema document for this version.
+    #[serde(rename = "schemaDocumentHash")]
+    pub schema_document_hash: String,
 }

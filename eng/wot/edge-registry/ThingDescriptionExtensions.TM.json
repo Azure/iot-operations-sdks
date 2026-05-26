@@ -95,7 +95,7 @@
         "ThingDescriptionFormat": {
             "type": "object",
             "const": {
-                "WotTD11": "WoT-TD/1.1"
+                "WotTD11": "JSON-LD/1.1"
             },
             "description": "Non-exhaustive supported WoT TD formats",
             "properties": {

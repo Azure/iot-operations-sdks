@@ -3,7 +3,7 @@
   "type": "object",
   "title": "SchemaVersionExtensions",
   "description": "Additional fields and field guarantees for the schema extension.",
-  "required": [ "ancestor", "versionId", "schemaDoc" ],
+  "required": [ "ancestor", "versionId", "schemaDocument", "schemaDocumentHash" ],
   "properties": {
     "ancestor": {
       "description": "The versionId of this version's ancestor, or this version's versionId if it has no ancestor as an integer. Must match ancestor on the referenced Version entity.",
@@ -21,10 +21,14 @@
       "description": "Schema format identifier, e.g. `JsonSchema/draft-07`, `Protobuf/3`.",
       "type": "string"
     },
-    "schemaDoc": {
+    "schemaDocument": {
       "description": "The raw schema document for this version as bytes.",
       "type": "string",
       "contentEncoding": "base64"
+    },
+    "schemaDocumentHash": {
+      "description": "The hash of the schema document for this version.",
+      "type": "string"
     }
   }
 }

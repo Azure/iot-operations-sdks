@@ -323,7 +323,11 @@ impl Client {
             group_id,
             description: create_attributes.description,
             documentation: create_attributes.documentation,
-            labels: create_attributes.labels,
+            labels: create_attributes
+                .labels
+                .into_iter()
+                .map(|label| label.into())
+                .collect(),
             name: create_attributes.name,
             extensions: create_attributes
                 .extensions
@@ -651,7 +655,16 @@ impl Client {
             description: create_version_attributes.description,
             documentation: create_version_attributes.documentation,
             format: Some(create_version_attributes.format.into()),
-            labels: create_version_attributes.labels,
+            labels: create_version_attributes
+                .labels
+                .into_iter()
+                .map(|label| label.into())
+                .collect(),
+            schema_labels: create_version_attributes
+                .schema_labels
+                .into_iter()
+                .map(|label| label.into())
+                .collect(),
             name: create_version_attributes.name,
             schema_document: Bytes(create_version_attributes.schema_document),
             schema_id: schema_id,
@@ -927,7 +940,16 @@ impl Client {
             thing_description_id: thing_description_id.to_string(),
             description: create_version_attributes.description,
             documentation: create_version_attributes.documentation,
-            labels: create_version_attributes.labels,
+            labels: create_version_attributes
+                .labels
+                .into_iter()
+                .map(|label| label.into())
+                .collect(),
+            thing_description_labels: create_version_attributes
+                .thing_description_labels
+                .into_iter()
+                .map(|label| label.into())
+                .collect(),
             name: create_version_attributes.name,
             version_id: create_version_attributes.version_id,
             ancestor: create_version_attributes.ancestor,

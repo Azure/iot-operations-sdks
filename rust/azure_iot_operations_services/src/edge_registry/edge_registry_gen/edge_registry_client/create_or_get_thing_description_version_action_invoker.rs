@@ -133,7 +133,7 @@ impl CreateOrGetThingDescriptionVersionActionInvoker {
 
         let invoker_options = invoker_options_builder
             .request_topic_pattern(
-                "adr/dtmi:ms:adr:EdgeRegistry;1/createorget/thingdescription/version",
+                "adr/dtmi:ms:adr:EdgeRegistry;1/createOrGet/thingdescription/version",
             )
             .command_name("createOrGetThingDescriptionVersion")
             .topic_token_map(topic_token_map)

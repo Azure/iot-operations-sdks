@@ -28,4 +28,8 @@ pub struct ThingDescriptionVersionExtensions {
     /// The raw thing description document for this version as bytes.
     #[serde(rename = "thingDescriptionDocument")]
     pub thing_description_document: Bytes,
+
+    /// The hash of the thing description document for this version.
+    #[serde(rename = "thingDescriptionDocumentHash")]
+    pub thing_description_document_hash: String,
 }

@@ -3,7 +3,7 @@
   "type": "object",
   "title": "ThingDescriptionVersionExtensions",
   "description": "Additional fields and field guarantees for the thing description extension.",
-  "required": [ "thingDescriptionDocument" ],
+  "required": [ "thingDescriptionDocument", "thingDescriptionDocumentHash" ],
   "properties": {
     "contentType": {
       "description": "Content type of the thing description version.",
@@ -17,6 +17,10 @@
       "description": "The raw thing description document for this version as bytes.",
       "type": "string",
       "contentEncoding": "base64"
+    },
+    "thingDescriptionDocumentHash": {
+      "description": "The hash of the thing description document for this version.",
+      "type": "string"
     }
   }
 }

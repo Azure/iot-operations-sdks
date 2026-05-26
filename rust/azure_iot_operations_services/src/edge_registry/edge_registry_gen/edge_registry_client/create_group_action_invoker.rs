@@ -119,7 +119,7 @@ impl CreateGroupActionInvoker {
         );
 
         let invoker_options = invoker_options_builder
-            .request_topic_pattern("adr/dtmi:ms:adr:EdgeRegistry;1/create/group")
+            .request_topic_pattern("aio/registry/create/{ex:groupType}/{ex:groupId}")
             .command_name("createGroup")
             .topic_token_map(topic_token_map)
             .response_topic_prefix(options.response_topic_prefix.clone())

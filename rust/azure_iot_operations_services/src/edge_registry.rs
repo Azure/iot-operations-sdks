@@ -187,7 +187,7 @@ impl From<er_client_gen::Group> for Group {
                 .map(|(k, v)| (k, v.0))
                 .collect(),
             id: value.id,
-            labels: value.labels,
+            labels: value.labels.into_iter().map(|label| label.into()).collect(),
             modified_at: value.modified_at,
             name: value.name,
             resources_count: value.resources_count,
@@ -244,7 +244,7 @@ impl From<er_client_gen::ResourceMeta> for ResourceMeta {
             id: value.id,
             modified_at: value.modified_at,
             xid: value.xid,
-            labels: value.labels,
+            labels: value.labels.into_iter().map(|label| label.into()).collect(),
         }
     }
 }
@@ -285,6 +285,21 @@ pub struct ResourceMetaAttributes {
     pub extensions: HashMap<String, Vec<u8>>,
     /// The 'labels' Field.
     pub labels: Vec<(String, String)>,
+}
+
+impl From<er_client_gen::Label> for (String, String) {
+    fn from(value: er_client_gen::Label) -> Self {
+        (value.key, value.value)
+    }
+}
+
+impl From<(String, String)> for er_client_gen::Label {
+    fn from(value: (String, String)) -> Self {
+        er_client_gen::Label {
+            key: value.0,
+            value: value.1,
+        }
+    }
 }
 
 // -----------------------------------------------------------------------
@@ -473,6 +488,8 @@ pub struct SchemaVersion {
     pub format: Option<String>,
     /// The schema document as a byte array.
     pub schema_document: Vec<u8>,
+    /// The hash of the schema document.
+    pub schema_document_hash: String,
 }
 
 impl std::fmt::Display for SchemaVersion {
@@ -594,7 +611,11 @@ impl
                 .into_iter()
                 .map(|(k, v)| (k, v.0))
                 .collect(),
-            labels: version.labels,
+            labels: version
+                .labels
+                .into_iter()
+                .map(|label| label.into())
+                .collect(),
             modified_at: version.modified_at,
             name: version.name,
             resource_id: version.resource_id,
@@ -602,7 +623,8 @@ impl
             xid: version.xid,
             content_type: schema_version_extensions.content_type,
             format: schema_version_extensions.format,
-            schema_document: schema_version_extensions.schema_doc.to_vec(),
+            schema_document: schema_version_extensions.schema_document.0,
+            schema_document_hash: schema_version_extensions.schema_document_hash,
         }
     }
 }
@@ -671,6 +693,8 @@ pub struct ThingDescriptionVersion {
     pub format: Option<String>,
     /// The thing description document as a byte array.
     pub thing_description_document: Vec<u8>,
+    /// The hash of the thing description document as a hex string.
+    pub thing_description_document_hash: String,
 }
 
 #[derive(Debug, Clone, Builder)]
@@ -769,7 +793,11 @@ impl
                 .into_iter()
                 .map(|(k, v)| (k, v.0))
                 .collect(),
-            labels: version.labels,
+            labels: version
+                .labels
+                .into_iter()
+                .map(|label| label.into())
+                .collect(),
             modified_at: version.modified_at,
             name: version.name,
             resource_id: version.resource_id,
@@ -778,6 +806,7 @@ impl
             content_type: extensions.content_type,
             format: extensions.format,
             thing_description_document: extensions.thing_description_document.0,
+            thing_description_document_hash: extensions.thing_description_document_hash,
         }
     }
 }
