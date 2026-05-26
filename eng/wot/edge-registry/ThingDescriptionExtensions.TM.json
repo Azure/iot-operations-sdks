@@ -20,21 +20,18 @@
                     "groupId": {
                         "type": "string"
                     },
-                    "thingDescriptionId": {
-                        "type": "string"
-                    },
                     "versionId": {
                         "type": "string"
                     }
                 },
-                "required": [ "thingDescriptionId" ]
+                "required": [ ]
             },
             "output": {
                 "dtv:ref": "./thing-description-extension/ThingDescriptionVersion.schema.json"
             },
             "forms": [
                 {
-                    "dtv:topic": "adr/dtmi:ms:adr:EdgeRegistry;1/get/thingdescription/version",
+                    "dtv:topic": "aio/registry/thingDescriptionExtension/get/thingdescriptiongroups/thingdescriptions/{ex:thingDescriptionId}/versions/version",
                     "contentType": "application/json",
                     "op": "invokeaction",
                     "additionalResponses": [
@@ -56,7 +53,7 @@
             },
             "forms": [
                 {
-                    "dtv:topic": "adr/dtmi:ms:adr:EdgeRegistry;1/create/thingdescription/version",
+                    "dtv:topic": "aio/registry/thingDescriptionExtension/create/thingdescriptiongroups/thingdescriptions/{ex:thingDescriptionId}/versions/{ex:versionId}",
                     "contentType": "application/json",
                     "op": "invokeaction",
                     "additionalResponses": [
@@ -78,7 +75,7 @@
             },
             "forms": [
                 {
-                    "dtv:topic": "adr/dtmi:ms:adr:EdgeRegistry;1/createOrGet/thingdescription/version",
+                    "dtv:topic": "aio/registry/thingDescriptionExtension/createOrGet/thingdescriptiongroups/thingdescriptions/{ex:thingDescriptionId}/versions/{ex:versionId}",
                     "contentType": "application/json",
                     "op": "invokeaction",
                     "additionalResponses": [

@@ -126,7 +126,7 @@ impl ListResourcesWithLabelActionInvoker {
         );
 
         let invoker_options = invoker_options_builder
-            .request_topic_pattern("adr/dtmi:ms:adr:EdgeRegistry;1/listResourcesWithLabel")
+            .request_topic_pattern("aio/registry/listWithLabel/resources")
             .command_name("listResourcesWithLabel")
             .topic_token_map(topic_token_map)
             .response_topic_prefix(options.response_topic_prefix.clone())

@@ -17,6 +17,14 @@ use crate::edge_registry::{
     },
 };
 
+const GROUP_TYPE_TOPIC_TOKEN: &str = "groupType";
+const RESOURCE_TYPE_TOPIC_TOKEN: &str = "resourceType";
+const RESOURCE_ID_TOPIC_TOKEN: &str = "resourceId";
+const VERSION_ID_TOPIC_TOKEN: &str = "versionId";
+
+const SCHEMA_ID_TOPIC_TOKEN: &str = "schemaId";
+const THING_DESCRIPTION_ID_TOPIC_TOKEN: &str = "thingDescriptionId";
+
 /// Edge Registry client implementation.
 #[derive(Clone)]
 pub struct Client {
@@ -261,10 +269,11 @@ impl Client {
         group_type: String,
         timeout: Duration,
     ) -> Result<Vec<String>, Error> {
-        let payload = er_client_gen::ListGroupsInputArguments { group_type };
         let request = er_client_gen::ListGroupsRequestBuilder::default()
-            .payload(payload)
-            .map_err(ErrorKind::from)?
+            .topic_tokens(HashMap::from([(
+                GROUP_TYPE_TOPIC_TOKEN.to_string(),
+                group_type,
+            )]))
             .timeout(timeout)
             .build()
             .map_err(ErrorKind::from)?;
@@ -286,7 +295,7 @@ impl Client {
         timeout: Duration,
     ) -> Result<Group, Error> {
         let payload = er_client_gen::GetGroupInputArguments {
-            group_type,
+            // group_type,
             group_id,
         };
         // let topic_tokens = HashMap::from([
@@ -295,6 +304,10 @@ impl Client {
         // ]);
         let request = er_client_gen::GetGroupRequestBuilder::default()
             // .topic_tokens(topic_tokens)
+            .topic_tokens(HashMap::from([(
+                GROUP_TYPE_TOPIC_TOKEN.to_string(),
+                group_type,
+            )]))
             .payload(payload)
             .map_err(ErrorKind::from)?
             .timeout(timeout)
@@ -319,7 +332,6 @@ impl Client {
         timeout: Duration,
     ) -> Result<Group, Error> {
         let payload = er_client_gen::CreateGroupInputArguments {
-            group_type,
             group_id,
             description: create_attributes.description,
             documentation: create_attributes.documentation,
@@ -338,6 +350,10 @@ impl Client {
         let request = er_client_gen::CreateGroupRequestBuilder::default()
             .payload(payload)
             .map_err(ErrorKind::from)?
+            .topic_tokens(HashMap::from([(
+                GROUP_TYPE_TOPIC_TOKEN.to_string(),
+                group_type,
+            )]))
             .timeout(timeout)
             .build()
             .map_err(ErrorKind::from)?;
@@ -364,13 +380,16 @@ impl Client {
         timeout: Duration,
     ) -> Result<Vec<String>, Error> {
         let payload = er_client_gen::ListResourcesInputArguments {
-            group_type,
             group_id,
-            resource_type,
         };
+        let topic_tokens = HashMap::from([
+            (GROUP_TYPE_TOPIC_TOKEN.to_string(), group_type),
+            (RESOURCE_TYPE_TOPIC_TOKEN.to_string(), resource_type),
+        ]);
         let request = er_client_gen::ListResourcesRequestBuilder::default()
             .payload(payload)
             .map_err(ErrorKind::from)?
+            .topic_tokens(topic_tokens)
             .timeout(timeout)
             .build()
             .map_err(ErrorKind::from)?;
@@ -402,14 +421,17 @@ impl Client {
         timeout: Duration,
     ) -> Result<Vec<String>, Error> {
         let payload = er_client_gen::ListVersionsInputArguments {
-            group_type,
             group_id,
-            resource_type,
-            resource_id,
         };
+        let topic_tokens = HashMap::from([
+            (GROUP_TYPE_TOPIC_TOKEN.to_string(), group_type),
+            (RESOURCE_TYPE_TOPIC_TOKEN.to_string(), resource_type),
+            (RESOURCE_ID_TOPIC_TOKEN.to_string(), resource_id),
+        ]);
         let request = er_client_gen::ListVersionsRequestBuilder::default()
             .payload(payload)
             .map_err(ErrorKind::from)?
+            .topic_tokens(topic_tokens)
             .timeout(timeout)
             .build()
             .map_err(ErrorKind::from)?;
@@ -595,11 +617,14 @@ impl Client {
         // .await
         let payload = er_client_gen::ListSchemaVersionsInputArguments {
             group_id,
-            schema_id,
         };
         let request = er_client_gen::ListSchemaVersionsRequestBuilder::default()
             .payload(payload)
             .map_err(ErrorKind::from)?
+            .topic_tokens(HashMap::from([(
+                SCHEMA_ID_TOPIC_TOKEN.to_string(),
+                schema_id,
+            )]))
             .timeout(timeout)
             .build()
             .map_err(ErrorKind::from)?;
@@ -622,12 +647,15 @@ impl Client {
     ) -> Result<SchemaVersion, Error> {
         let payload = er_client_gen::GetSchemaVersionInputArguments {
             group_id,
-            schema_id,
             version_id,
         };
         let request = er_client_gen::GetSchemaVersionRequestBuilder::default()
             .payload(payload)
             .map_err(ErrorKind::from)?
+            .topic_tokens(HashMap::from([(
+                SCHEMA_ID_TOPIC_TOKEN.to_string(),
+                schema_id,
+            )]))
             .timeout(timeout)
             .build()
             .map_err(ErrorKind::from)?;
@@ -667,7 +695,6 @@ impl Client {
                 .collect(),
             name: create_version_attributes.name,
             schema_document: Bytes(create_version_attributes.schema_document),
-            schema_id: schema_id,
         };
         // let payload = er_client_gen::CreateSchemaVersionInputArguments {
         //     version_attributes: er_client_gen::CreateVersionAttributes {
@@ -695,6 +722,10 @@ impl Client {
         let request = er_client_gen::CreateSchemaVersionRequestBuilder::default()
             .payload(payload)
             .map_err(ErrorKind::from)?
+            .topic_tokens(HashMap::from([(
+                SCHEMA_ID_TOPIC_TOKEN.to_string(),
+                schema_id,
+            )]))
             .timeout(timeout)
             .build()
             .map_err(ErrorKind::from)?;
@@ -909,12 +940,15 @@ impl Client {
     ) -> Result<ThingDescriptionVersion, Error> {
         let payload = er_client_gen::GetThingDescriptionVersionInputArguments {
             group_id,
-            thing_description_id,
             version_id,
         };
         let request = er_client_gen::GetThingDescriptionVersionRequestBuilder::default()
             .payload(payload)
             .map_err(ErrorKind::from)?
+            .topic_tokens(HashMap::from([(
+                THING_DESCRIPTION_ID_TOPIC_TOKEN.to_string(),
+                thing_description_id,
+            )]))
             .timeout(timeout)
             .build()
             .map_err(ErrorKind::from)?;
@@ -931,13 +965,12 @@ impl Client {
     pub async fn create_thing_description_version(
         &self,
         group_id: Option<String>,
-        thing_description_id: &str,
+        thing_description_id: String,
         create_version_attributes: CreateThingDescriptionVersionAttributes,
         timeout: Duration,
     ) -> Result<ThingDescriptionVersion, Error> {
         let payload = er_client_gen::CreateThingDescriptionVersionInputArguments {
             group_id,
-            thing_description_id: thing_description_id.to_string(),
             description: create_version_attributes.description,
             documentation: create_version_attributes.documentation,
             labels: create_version_attributes
@@ -951,7 +984,6 @@ impl Client {
                 .map(|label| label.into())
                 .collect(),
             name: create_version_attributes.name,
-            version_id: create_version_attributes.version_id,
             ancestor: create_version_attributes.ancestor,
             content_type: create_version_attributes.content_type,
             format: Some(create_version_attributes.format.into()),
@@ -960,6 +992,16 @@ impl Client {
         let request = er_client_gen::CreateThingDescriptionVersionRequestBuilder::default()
             .payload(payload)
             .map_err(ErrorKind::from)?
+            .topic_tokens(HashMap::from([
+                (
+                    THING_DESCRIPTION_ID_TOPIC_TOKEN.to_string(),
+                    thing_description_id,
+                ),
+                (
+                    VERSION_ID_TOPIC_TOKEN.to_string(),
+                    create_version_attributes.version_id,
+                ),
+            ]))
             .timeout(timeout)
             .build()
             .map_err(ErrorKind::from)?;

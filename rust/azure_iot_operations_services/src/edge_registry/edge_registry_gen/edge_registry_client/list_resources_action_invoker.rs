@@ -119,7 +119,7 @@ impl ListResourcesActionInvoker {
         );
 
         let invoker_options = invoker_options_builder
-            .request_topic_pattern("adr/dtmi:ms:adr:EdgeRegistry;1/listResources")
+            .request_topic_pattern("aio/registry/list/{ex:groupType}/{ex:resourceType}")
             .command_name("listResources")
             .topic_token_map(topic_token_map)
             .response_topic_prefix(options.response_topic_prefix.clone())

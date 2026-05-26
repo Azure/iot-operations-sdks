@@ -20,21 +20,18 @@
                     "groupId": {
                         "type": "string"
                     },
-                    "schemaId": {
-                        "type": "string"
-                    },
                     "versionId": {
                         "type": "integer"
                     }
                 },
-                "required": [ "schemaId"]
+                "required": [ ]
             },
             "output": {
                 "dtv:ref": "./schema-extension/SchemaVersion.schema.json"
             },
             "forms": [
                 {
-                    "dtv:topic": "adr/dtmi:ms:adr:EdgeRegistry;1/get/schema/version",
+                    "dtv:topic": "aio/registry/schemaExtension/get/schemagroups/schemas/{ex:schemaId}/versions/version",
                     "contentType": "application/json",
                     "op": "invokeaction",
                     "additionalResponses": [
@@ -56,7 +53,7 @@
             },
             "forms": [
                 {
-                    "dtv:topic": "adr/dtmi:ms:adr:EdgeRegistry;1/create/schema/version",
+                    "dtv:topic": "aio/registry/schemaExtension/create/schemagroups/schemas/{ex:schemaId}/versions/version",
                     "contentType": "application/json",
                     "op": "invokeaction",
                     "additionalResponses": [
@@ -78,7 +75,7 @@
             },
             "forms": [
                 {
-                    "dtv:topic": "adr/dtmi:ms:adr:EdgeRegistry;1/createOrGet/schema/version",
+                    "dtv:topic": "aio/registry/schemaExtension/createOrGet/schemagroups/schemas/{ex:schemaId}/versions/version",
                     "contentType": "application/json",
                     "op": "invokeaction",
                     "additionalResponses": [
@@ -97,12 +94,9 @@
                 "properties": {
                     "groupId": {
                         "type": "string"
-                    },
-                    "schemaId": {
-                        "type": "string"
                     }
                 },
-                "required": [ "schemaId"]
+                "required": [ ]
             },
             "output": {
                 "type": "object",
@@ -118,7 +112,7 @@
             },
             "forms": [
                 {
-                    "dtv:topic": "adr/dtmi:ms:adr:EdgeRegistry;1/list/schema/versions",
+                    "dtv:topic": "aio/registry/schemaExtension/list/schemagroups/schemas/{ex:schemaId}/versions",
                     "contentType": "application/json",
                     "op": "invokeaction",
                     "additionalResponses": [

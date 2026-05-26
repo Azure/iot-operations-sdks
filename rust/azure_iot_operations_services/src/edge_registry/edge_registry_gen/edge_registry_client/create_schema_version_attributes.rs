@@ -20,9 +20,6 @@ pub struct CreateSchemaVersionAttributes {
     #[builder(default = "None")]
     pub group_id: Option<String>,
 
-    #[serde(rename = "schemaId")]
-    pub schema_id: String,
-
     #[serde(skip_serializing_if = "Option::is_none")]
     #[builder(default = "None")]
     pub name: Option<String>,

@@ -9,15 +9,16 @@ use azure_iot_operations_protocol::application::ApplicationContext;
 use azure_iot_operations_protocol::common::aio_protocol_error::{
     AIOProtocolError, AIOProtocolErrorKind,
 };
+use azure_iot_operations_protocol::common::payload_serialize::PayloadSerialize;
 use azure_iot_operations_protocol::rpc_command;
 
-use super::super::common_types::empty_json::EmptyJson;
 use super::super::common_types::options::CommandInvokerOptions;
 use super::edge_registry_error::EdgeRegistryError;
+use super::get_version_input_arguments::GetVersionInputArguments;
 use super::get_version_output_arguments::GetVersionOutputArguments;
 use super::get_version_response_schema::GetVersionResponseSchema;
 
-pub type GetVersionRequest = rpc_command::invoker::Request<EmptyJson>;
+pub type GetVersionRequest = rpc_command::invoker::Request<GetVersionInputArguments>;
 pub type GetVersionResponse = rpc_command::invoker::Response<GetVersionOutputArguments>;
 pub type GetVersionResponseError = rpc_command::invoker::Response<EdgeRegistryError>;
 pub type GetVersionRequestBuilderError = rpc_command::invoker::RequestBuilderError;
@@ -25,7 +26,7 @@ pub type GetVersionRequestBuilderError = rpc_command::invoker::RequestBuilderErr
 #[derive(Default)]
 /// Builder for [`GetVersionRequest`]
 pub struct GetVersionRequestBuilder {
-    inner_builder: rpc_command::invoker::RequestBuilder<EmptyJson>,
+    inner_builder: rpc_command::invoker::RequestBuilder<GetVersionInputArguments>,
     topic_tokens: HashMap<String, String>,
 }
 
@@ -61,14 +62,24 @@ impl GetVersionRequestBuilder {
         self
     }
 
+    /// Payload of the request
+    ///
+    /// # Errors
+    /// If the payload cannot be serialized
+    pub fn payload(
+        &mut self,
+        payload: GetVersionInputArguments,
+    ) -> Result<&mut Self, AIOProtocolError> {
+        self.inner_builder.payload(payload)?;
+        Ok(self)
+    }
+
     /// Builds a new `GetVersionRequest`
     ///
     /// # Errors
     /// If a required field has not been initialized
     #[allow(clippy::missing_panics_doc)] // The panic is not possible
     pub fn build(&mut self) -> Result<GetVersionRequest, GetVersionRequestBuilderError> {
-        self.inner_builder.payload(EmptyJson {}).unwrap();
-
         self.inner_builder.topic_tokens(self.topic_tokens.clone());
 
         self.inner_builder.build()
@@ -76,7 +87,9 @@ impl GetVersionRequestBuilder {
 }
 
 /// Command Invoker for `getVersion`
-pub struct GetVersionActionInvoker(rpc_command::Invoker<EmptyJson, GetVersionResponseSchema>);
+pub struct GetVersionActionInvoker(
+    rpc_command::Invoker<GetVersionInputArguments, GetVersionResponseSchema>,
+);
 
 impl GetVersionActionInvoker {
     /// Creates a new [`GetVersionActionInvoker`]
@@ -106,7 +119,7 @@ impl GetVersionActionInvoker {
         );
 
         let invoker_options = invoker_options_builder
-            .request_topic_pattern("adr/dtmi:ms:adr:EdgeRegistry;1/get/{ex:groupType}/{ex:groupId}/{ex:resourceType}/{ex:resourceId}/versions/{ex:versionId}")
+            .request_topic_pattern("aio/registry/get/{ex:groupType}/{ex:resourceType}/{ex:resourceId}/versions/{ex:versionId}")
             .command_name("getVersion")
             .topic_token_map(topic_token_map)
             .response_topic_prefix(options.response_topic_prefix.clone())

@@ -128,7 +128,7 @@ impl GetThingDescriptionVersionActionInvoker {
         );
 
         let invoker_options = invoker_options_builder
-            .request_topic_pattern("adr/dtmi:ms:adr:EdgeRegistry;1/get/thingdescription/version")
+            .request_topic_pattern("aio/registry/thingDescriptionExtension/get/thingdescriptiongroups/thingdescriptions/{ex:thingDescriptionId}/versions/version")
             .command_name("getThingDescriptionVersion")
             .topic_token_map(topic_token_map)
             .response_topic_prefix(options.response_topic_prefix.clone())

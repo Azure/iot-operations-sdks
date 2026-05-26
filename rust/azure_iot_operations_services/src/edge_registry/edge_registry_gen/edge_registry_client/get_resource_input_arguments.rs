@@ -11,18 +11,12 @@ use uuid::Uuid;
 
 use super::super::common_types::{b64::Bytes, date_only::Date, decimal::Decimal, time_only::Time};
 
-/// Input arguments for action 'getThingDescriptionVersion'
+/// Input arguments for action 'getResource'
 #[derive(Serialize, Deserialize, Debug, Clone, Builder)]
-pub struct GetThingDescriptionVersionInputArguments {
+pub struct GetResourceInputArguments {
     /// The 'groupId' Field.
     #[serde(rename = "groupId")]
     #[serde(skip_serializing_if = "Option::is_none")]
     #[builder(default = "None")]
     pub group_id: Option<String>,
-
-    /// The 'versionId' Field.
-    #[serde(rename = "versionId")]
-    #[serde(skip_serializing_if = "Option::is_none")]
-    #[builder(default = "None")]
-    pub version_id: Option<String>,
 }

@@ -721,6 +721,9 @@ pub struct CreateThingDescriptionVersionAttributes {
     /// The 'labels' Field.
     #[builder(default)]
     pub labels: Vec<(String, String)>,
+    /// Queryable Key Value pairs to be added to the parent Thing Description
+    #[builder(default)]
+    pub thing_description_labels: Vec<(String, String)>,
     /// The 'name' Field.
     #[builder(default = "None")]
     pub name: Option<String>,

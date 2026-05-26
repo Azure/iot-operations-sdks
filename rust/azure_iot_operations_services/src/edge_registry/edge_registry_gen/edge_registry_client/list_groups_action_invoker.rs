@@ -9,16 +9,15 @@ use azure_iot_operations_protocol::application::ApplicationContext;
 use azure_iot_operations_protocol::common::aio_protocol_error::{
     AIOProtocolError, AIOProtocolErrorKind,
 };
-use azure_iot_operations_protocol::common::payload_serialize::PayloadSerialize;
 use azure_iot_operations_protocol::rpc_command;
 
+use super::super::common_types::empty_json::EmptyJson;
 use super::super::common_types::options::CommandInvokerOptions;
 use super::edge_registry_error::EdgeRegistryError;
-use super::list_groups_input_arguments::ListGroupsInputArguments;
 use super::list_groups_output_arguments::ListGroupsOutputArguments;
 use super::list_groups_response_schema::ListGroupsResponseSchema;
 
-pub type ListGroupsRequest = rpc_command::invoker::Request<ListGroupsInputArguments>;
+pub type ListGroupsRequest = rpc_command::invoker::Request<EmptyJson>;
 pub type ListGroupsResponse = rpc_command::invoker::Response<ListGroupsOutputArguments>;
 pub type ListGroupsResponseError = rpc_command::invoker::Response<EdgeRegistryError>;
 pub type ListGroupsRequestBuilderError = rpc_command::invoker::RequestBuilderError;
@@ -26,7 +25,7 @@ pub type ListGroupsRequestBuilderError = rpc_command::invoker::RequestBuilderErr
 #[derive(Default)]
 /// Builder for [`ListGroupsRequest`]
 pub struct ListGroupsRequestBuilder {
-    inner_builder: rpc_command::invoker::RequestBuilder<ListGroupsInputArguments>,
+    inner_builder: rpc_command::invoker::RequestBuilder<EmptyJson>,
     topic_tokens: HashMap<String, String>,
 }
 
@@ -62,24 +61,14 @@ impl ListGroupsRequestBuilder {
         self
     }
 
-    /// Payload of the request
-    ///
-    /// # Errors
-    /// If the payload cannot be serialized
-    pub fn payload(
-        &mut self,
-        payload: ListGroupsInputArguments,
-    ) -> Result<&mut Self, AIOProtocolError> {
-        self.inner_builder.payload(payload)?;
-        Ok(self)
-    }
-
     /// Builds a new `ListGroupsRequest`
     ///
     /// # Errors
     /// If a required field has not been initialized
     #[allow(clippy::missing_panics_doc)] // The panic is not possible
     pub fn build(&mut self) -> Result<ListGroupsRequest, ListGroupsRequestBuilderError> {
+        self.inner_builder.payload(EmptyJson {}).unwrap();
+
         self.inner_builder.topic_tokens(self.topic_tokens.clone());
 
         self.inner_builder.build()
@@ -87,9 +76,7 @@ impl ListGroupsRequestBuilder {
 }
 
 /// Command Invoker for `listGroups`
-pub struct ListGroupsActionInvoker(
-    rpc_command::Invoker<ListGroupsInputArguments, ListGroupsResponseSchema>,
-);
+pub struct ListGroupsActionInvoker(rpc_command::Invoker<EmptyJson, ListGroupsResponseSchema>);
 
 impl ListGroupsActionInvoker {
     /// Creates a new [`ListGroupsActionInvoker`]
@@ -119,7 +106,7 @@ impl ListGroupsActionInvoker {
         );
 
         let invoker_options = invoker_options_builder
-            .request_topic_pattern("adr/dtmi:ms:adr:EdgeRegistry;1/listGroups")
+            .request_topic_pattern("aio/registry/list/{ex:groupType}")
             .command_name("listGroups")
             .topic_token_map(topic_token_map)
             .response_topic_prefix(options.response_topic_prefix.clone())

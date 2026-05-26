@@ -20,12 +20,6 @@ pub struct CreateThingDescriptionVersionAttributes {
     #[builder(default = "None")]
     pub group_id: Option<String>,
 
-    #[serde(rename = "thingDescriptionId")]
-    pub thing_description_id: String,
-
-    #[serde(rename = "versionId")]
-    pub version_id: String,
-
     #[serde(skip_serializing_if = "Option::is_none")]
     #[builder(default = "None")]
     pub name: Option<String>,
@@ -64,7 +58,6 @@ pub struct CreateThingDescriptionVersionAttributes {
 
     /// Queryable Key Value pairs to be added to the parent Thing Description
     #[serde(rename = "thingDescriptionLabels")]
-    #[serde(skip_serializing_if = "Option::is_none")]
-    #[builder(default = "None")]
-    pub thing_description_labels: Option<Vec<Label>>,
+    #[builder(default)]
+    pub thing_description_labels: Vec<Label>,
 }

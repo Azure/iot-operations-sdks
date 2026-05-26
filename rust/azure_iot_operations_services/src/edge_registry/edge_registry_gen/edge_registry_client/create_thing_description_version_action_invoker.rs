@@ -132,7 +132,7 @@ impl CreateThingDescriptionVersionActionInvoker {
         );
 
         let invoker_options = invoker_options_builder
-            .request_topic_pattern("adr/dtmi:ms:adr:EdgeRegistry;1/create/thingdescription/version")
+            .request_topic_pattern("aio/registry/thingDescriptionExtension/create/thingdescriptiongroups/thingdescriptions/{ex:thingDescriptionId}/versions/{ex:versionId}")
             .command_name("createThingDescriptionVersion")
             .topic_token_map(topic_token_map)
             .response_topic_prefix(options.response_topic_prefix.clone())

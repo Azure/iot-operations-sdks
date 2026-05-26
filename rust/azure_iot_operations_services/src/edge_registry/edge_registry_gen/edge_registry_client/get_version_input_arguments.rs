@@ -11,10 +11,12 @@ use uuid::Uuid;
 
 use super::super::common_types::{b64::Bytes, date_only::Date, decimal::Decimal, time_only::Time};
 
-/// Input arguments for action 'listGroups'
+/// Input arguments for action 'getVersion'
 #[derive(Serialize, Deserialize, Debug, Clone, Builder)]
-pub struct ListGroupsInputArguments {
-    /// The 'groupType' Field.
-    #[serde(rename = "groupType")]
-    pub group_type: String,
+pub struct GetVersionInputArguments {
+    /// The 'groupId' Field.
+    #[serde(rename = "groupId")]
+    #[serde(skip_serializing_if = "Option::is_none")]
+    #[builder(default = "None")]
+    pub group_id: Option<String>,
 }

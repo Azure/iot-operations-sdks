@@ -348,7 +348,7 @@ async fn edge_registry_operations(client: Client) {
     match client
         .create_thing_description_version(
             None,
-            thing_description_id,
+            thing_description_id.to_string(),
             create_version_attributes,
             Duration::from_secs(10),
         )

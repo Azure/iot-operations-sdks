@@ -15,9 +15,6 @@ use super::label::Label;
 /// Request payload for creating or updating a Group.
 #[derive(Serialize, Deserialize, Debug, Clone, Builder)]
 pub struct GroupAttributes {
-    #[serde(rename = "groupType")]
-    pub group_type: String,
-
     #[serde(rename = "groupId")]
     #[serde(skip_serializing_if = "Option::is_none")]
     #[builder(default = "None")]

@@ -5,23 +5,23 @@ use azure_iot_operations_protocol::common::payload_serialize::{
 };
 use serde_json;
 
-use super::list_groups_input_arguments::ListGroupsInputArguments;
+use super::get_resource_input_arguments::GetResourceInputArguments;
 
-const LIST_GROUPS_INPUT_ARGUMENTS_CONTENT_TYPE: &str = "application/json";
+const GET_RESOURCE_INPUT_ARGUMENTS_CONTENT_TYPE: &str = "application/json";
 
-impl ListGroupsInputArguments {
+impl GetResourceInputArguments {
     fn is_content_type(content_type: &str) -> bool {
-        content_type.starts_with(LIST_GROUPS_INPUT_ARGUMENTS_CONTENT_TYPE)
+        content_type.starts_with(GET_RESOURCE_INPUT_ARGUMENTS_CONTENT_TYPE)
             && matches!(
                 content_type
                     .chars()
-                    .nth(LIST_GROUPS_INPUT_ARGUMENTS_CONTENT_TYPE.len()),
+                    .nth(GET_RESOURCE_INPUT_ARGUMENTS_CONTENT_TYPE.len()),
                 None | Some('+' | ';')
             )
     }
 }
 
-impl PayloadSerialize for ListGroupsInputArguments {
+impl PayloadSerialize for GetResourceInputArguments {
     type Error = serde_json::Error;
 
     fn serialize(self) -> Result<SerializedPayload, Self::Error> {
@@ -39,7 +39,7 @@ impl PayloadSerialize for ListGroupsInputArguments {
         _format_indicator: &FormatIndicator,
     ) -> Result<Self, DeserializationError<Self::Error>> {
         if let Some(content_type) = content_type
-            && !ListGroupsInputArguments::is_content_type(content_type)
+            && !GetResourceInputArguments::is_content_type(content_type)
         {
             return Err(DeserializationError::UnsupportedContentType(format!(
                 "Invalid content type: '{content_type}'. Must be 'application/json'"

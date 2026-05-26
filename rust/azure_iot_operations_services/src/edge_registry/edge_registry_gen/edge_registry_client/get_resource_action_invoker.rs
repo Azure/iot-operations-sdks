@@ -9,15 +9,16 @@ use azure_iot_operations_protocol::application::ApplicationContext;
 use azure_iot_operations_protocol::common::aio_protocol_error::{
     AIOProtocolError, AIOProtocolErrorKind,
 };
+use azure_iot_operations_protocol::common::payload_serialize::PayloadSerialize;
 use azure_iot_operations_protocol::rpc_command;
 
-use super::super::common_types::empty_json::EmptyJson;
 use super::super::common_types::options::CommandInvokerOptions;
 use super::edge_registry_error::EdgeRegistryError;
+use super::get_resource_input_arguments::GetResourceInputArguments;
 use super::get_resource_output_arguments::GetResourceOutputArguments;
 use super::get_resource_response_schema::GetResourceResponseSchema;
 
-pub type GetResourceRequest = rpc_command::invoker::Request<EmptyJson>;
+pub type GetResourceRequest = rpc_command::invoker::Request<GetResourceInputArguments>;
 pub type GetResourceResponse = rpc_command::invoker::Response<GetResourceOutputArguments>;
 pub type GetResourceResponseError = rpc_command::invoker::Response<EdgeRegistryError>;
 pub type GetResourceRequestBuilderError = rpc_command::invoker::RequestBuilderError;
@@ -25,7 +26,7 @@ pub type GetResourceRequestBuilderError = rpc_command::invoker::RequestBuilderEr
 #[derive(Default)]
 /// Builder for [`GetResourceRequest`]
 pub struct GetResourceRequestBuilder {
-    inner_builder: rpc_command::invoker::RequestBuilder<EmptyJson>,
+    inner_builder: rpc_command::invoker::RequestBuilder<GetResourceInputArguments>,
     topic_tokens: HashMap<String, String>,
 }
 
@@ -61,14 +62,24 @@ impl GetResourceRequestBuilder {
         self
     }
 
+    /// Payload of the request
+    ///
+    /// # Errors
+    /// If the payload cannot be serialized
+    pub fn payload(
+        &mut self,
+        payload: GetResourceInputArguments,
+    ) -> Result<&mut Self, AIOProtocolError> {
+        self.inner_builder.payload(payload)?;
+        Ok(self)
+    }
+
     /// Builds a new `GetResourceRequest`
     ///
     /// # Errors
     /// If a required field has not been initialized
     #[allow(clippy::missing_panics_doc)] // The panic is not possible
     pub fn build(&mut self) -> Result<GetResourceRequest, GetResourceRequestBuilderError> {
-        self.inner_builder.payload(EmptyJson {}).unwrap();
-
         self.inner_builder.topic_tokens(self.topic_tokens.clone());
 
         self.inner_builder.build()
@@ -76,7 +87,9 @@ impl GetResourceRequestBuilder {
 }
 
 /// Command Invoker for `getResource`
-pub struct GetResourceActionInvoker(rpc_command::Invoker<EmptyJson, GetResourceResponseSchema>);
+pub struct GetResourceActionInvoker(
+    rpc_command::Invoker<GetResourceInputArguments, GetResourceResponseSchema>,
+);
 
 impl GetResourceActionInvoker {
     /// Creates a new [`GetResourceActionInvoker`]
@@ -106,7 +119,9 @@ impl GetResourceActionInvoker {
         );
 
         let invoker_options = invoker_options_builder
-            .request_topic_pattern("adr/dtmi:ms:adr:EdgeRegistry;1/get/{ex:groupType}/{ex:groupId}/{ex:resourceType}/{ex:resourceId}")
+            .request_topic_pattern(
+                "aio/registry/get/{ex:groupType}/{ex:resourceType}/{ex:resourceId}",
+            )
             .command_name("getResource")
             .topic_token_map(topic_token_map)
             .response_topic_prefix(options.response_topic_prefix.clone())

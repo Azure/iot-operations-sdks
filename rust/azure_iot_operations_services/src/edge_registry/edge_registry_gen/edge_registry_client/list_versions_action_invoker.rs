@@ -119,7 +119,9 @@ impl ListVersionsActionInvoker {
         );
 
         let invoker_options = invoker_options_builder
-            .request_topic_pattern("adr/dtmi:ms:adr:EdgeRegistry;1/listVersions")
+            .request_topic_pattern(
+                "aio/registry/list/{ex:groupType}/{ex:resourceType}/{ex:resourceId}/versions",
+            )
             .command_name("listVersions")
             .topic_token_map(topic_token_map)
             .response_topic_prefix(options.response_topic_prefix.clone())

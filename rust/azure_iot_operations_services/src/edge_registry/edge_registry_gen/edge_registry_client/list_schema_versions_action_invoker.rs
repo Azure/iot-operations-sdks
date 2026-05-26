@@ -123,7 +123,9 @@ impl ListSchemaVersionsActionInvoker {
         );
 
         let invoker_options = invoker_options_builder
-            .request_topic_pattern("adr/dtmi:ms:adr:EdgeRegistry;1/list/schema/versions")
+            .request_topic_pattern(
+                "aio/registry/schemaExtension/list/schemagroups/schemas/{ex:schemaId}/versions",
+            )
             .command_name("listSchemaVersions")
             .topic_token_map(topic_token_map)
             .response_topic_prefix(options.response_topic_prefix.clone())

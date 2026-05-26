@@ -19,16 +19,4 @@ pub struct ListVersionsInputArguments {
     #[serde(skip_serializing_if = "Option::is_none")]
     #[builder(default = "None")]
     pub group_id: Option<String>,
-
-    /// The 'groupType' Field.
-    #[serde(rename = "groupType")]
-    pub group_type: String,
-
-    /// The 'resourceId' Field.
-    #[serde(rename = "resourceId")]
-    pub resource_id: String,
-
-    /// The 'resourceType' Field.
-    #[serde(rename = "resourceType")]
-    pub resource_type: String,
 }

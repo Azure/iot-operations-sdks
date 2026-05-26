@@ -123,7 +123,7 @@ impl CreateSchemaVersionActionInvoker {
         );
 
         let invoker_options = invoker_options_builder
-            .request_topic_pattern("adr/dtmi:ms:adr:EdgeRegistry;1/create/schema/version")
+            .request_topic_pattern("aio/registry/schemaExtension/create/schemagroups/schemas/{ex:schemaId}/versions/version")
             .command_name("createSchemaVersion")
             .topic_token_map(topic_token_map)
             .response_topic_prefix(options.response_topic_prefix.clone())
