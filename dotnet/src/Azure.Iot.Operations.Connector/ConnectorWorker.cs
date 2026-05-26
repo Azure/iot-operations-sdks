@@ -767,19 +767,19 @@ namespace Azure.Iot.Operations.Connector
                     {
                         branches.Add(SafeInvokeAssetBranchAsync(
                             "ManagementActionHandling",
-                            ct => _managementActionOrchestrator.RunForAssetAsync(args, ct),
+                            ct => _managementActionOrchestrator.ServeActionsWhileAssetIsAvailableAsync(args, ct),
                             assetTaskCancellationTokenSource.Token,
                             assetName, deviceName, inboundEndpointName));
                     }
 
                     // User-supplied per-asset callback. Captured into a local to avoid races with
                     // a concurrent reassignment of the field.
-                    var userCallback = WhileAssetIsAvailable;
-                    if (userCallback != null)
+                    var whileAssetIsAvailable = WhileAssetIsAvailable;
+                    if (whileAssetIsAvailable != null)
                     {
                         branches.Add(SafeInvokeAssetBranchAsync(
                             "WhileAssetIsAvailable",
-                            ct => userCallback.Invoke(args, ct),
+                            ct => whileAssetIsAvailable.Invoke(args, ct),
                             assetTaskCancellationTokenSource.Token,
                             assetName, deviceName, inboundEndpointName));
                     }

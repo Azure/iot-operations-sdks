@@ -11,9 +11,10 @@ business logic.
 - [`Program.cs`](Program.cs) — host + DI registration. Registers `FakeDevice`
   as a singleton (so writes are observable across handler instances) plus the
   factory and worker.
-- [`ManagementActionConnectorWorker.cs`](ManagementActionConnectorWorker.cs) —
-  thin `BackgroundService` wrapper that runs
-  `Azure.Iot.Operations.Connector.ManagementActionConnectorWorker`'s loop.
+- [`ManagementActionConnectorWorkerSample.cs`](ManagementActionConnectorWorkerSample.cs) —
+  thin `BackgroundService` wrapper that owns an
+  `Azure.Iot.Operations.Connector.ConnectorWorker` configured with an
+  `IManagementActionHandlerFactory` and runs its `RunConnectorAsync` loop.
 - [`Devices/FakeDevice.cs`](Devices/FakeDevice.cs) — in-memory device simulator
   with testability knobs (`SimulatedLatency`, `ForceFailure`,
   `MaxConcurrentOperations`, `InFlightGate`) so tests can deterministically
@@ -80,6 +81,6 @@ Because there is no real southbound process:
   tests deterministic.
 
 Everything between the broker and the SDK's
-`ManagementActionConnectorWorker` (lifecycle, executor management, type
+`ConnectorWorker` + `ManagementActionOrchestrator` (lifecycle, executor management, type
 dispatch, `ApplicationError` round-trips, metadata/CloudEvent propagation,
 ADR status reporting, drain-and-dispose) **is** covered.

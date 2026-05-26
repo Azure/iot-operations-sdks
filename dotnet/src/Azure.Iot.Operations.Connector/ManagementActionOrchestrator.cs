@@ -38,7 +38,7 @@ namespace Azure.Iot.Operations.Connector
         /// management-action loop declared on the asset until the asset goes away (the token
         /// is cancelled) or every action has been deleted.
         /// </summary>
-        public async Task RunForAssetAsync(AssetAvailableEventArgs args, CancellationToken cancellationToken)
+        public async Task ServeActionsWhileAssetIsAvailableAsync(AssetAvailableEventArgs args, CancellationToken cancellationToken)
         {
             _logger.LogInformation(
                 "Asset {AssetName} on device {DeviceName} is available.",
@@ -456,7 +456,7 @@ namespace Azure.Iot.Operations.Connector
         /// <summary>
         /// Internal per-action bundle. Captures everything that's fixed for the lifetime of one
         /// management action's loop so we don't have to thread 8+ parameters through every
-        /// internal helper. Built once in <see cref="RunForAssetAsync"/>.
+        /// internal helper. Built once in <see cref="ManagementActionOrchestrator.ServeActionsWhileAssetIsAvailableAsync"/>.
         /// </summary>
         private sealed record ActionContext(
             AssetClient AssetClient,
