@@ -1,0 +1,35 @@
+{
+  "$schema": "https://json-schema.org/draft-07/schema",
+  "title": "Resource",
+  "description": "Resource entity",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [ "id", "xid", "meta", "extensions", "versionsCount", "defaultVersion" ],
+  "properties": {
+    "defaultVersion": {
+      "description": "A specific version of a resource.",
+      "$ref": "Version.schema.json"
+    },
+    "extensions": {
+      "description": "Extension-specific attributes (e.g., `format` and `content_type` for schemas).",
+      "type": "object", "additionalProperties": { "type": "string", 
+      "contentEncoding": "base64" }
+    },
+    "id": {
+      "description": "Resource identifier within the group.",
+      "type": "string"
+    },
+    "meta": {
+      "description": "The 'meta' Field.",
+      "$ref": "ResourceMeta.schema.json"
+    },
+    "versionsCount": {
+      "description": "The 'versionsCount' Field.",
+      "type": "integer"
+    },
+    "xid": {
+      "description": "Full XID path.",
+      "type": "string"
+    }
+  }
+}

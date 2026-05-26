@@ -4,12 +4,9 @@
     "description": "Request payload for creating a Schema version.",
     "type": "object",
     "additionalProperties": false,
-    "required": [ "schemaId", "labels", "schemaDocument", "schemaLabels"],
+    "required": [ "labels", "schemaDocument", "schemaLabels"],
     "properties": {
         "groupId": {
-            "type": "string"
-        },
-        "schemaId": {
             "type": "string"
         },
         "name": {

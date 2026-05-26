@@ -17,7 +17,7 @@
             },
             "forms": [
                 {
-                    "dtv:topic": "adr/dtmi:ms:adr:EdgeRegistry;1/create/group",
+                    "dtv:topic": "aio/registry/create/{ex:groupType}/group",
                     "contentType": "application/json",
                     "op": "invokeaction",
                     "additionalResponses": [
@@ -34,14 +34,11 @@
             "input": {
                 "type": "object",
                 "properties": {
-                    "groupType": {
-                        "type": "string"
-                    },
                     "groupId": {
                         "type": "string"
                     }
                 },
-                "required": [ "groupType" ]
+                "required": [ ]
             },
             "output": {
                 "dtv:ref": "./core-xregistry/Group.schema.json",
@@ -49,7 +46,7 @@
             },
             "forms": [
                 {
-                    "dtv:topic": "adr/dtmi:ms:adr:EdgeRegistry;1/get/group",
+                    "dtv:topic": "aio/registry/get/{ex:groupType}/group",
                     "contentType": "application/json",
                     "op": "invokeaction",
                     "additionalResponses": [
@@ -63,13 +60,22 @@
         },
         "getResource": {
             "description": "Retrieve an xRegistry Resource entity by XID path.",
+            "input": {
+                "type": "object",
+                "properties": {
+                    "groupId": {
+                        "type": "string"
+                    }
+                },
+                "required": [ ]
+            },
             "output": {
                 "dtv:ref": "./core-xregistry/Resource.schema.json",
                 "description": "The resource entity."
             },
             "forms": [
                 {
-                    "dtv:topic": "adr/dtmi:ms:adr:EdgeRegistry;1/get/{ex:groupType}/{ex:groupId}/{ex:resourceType}/{ex:resourceId}",
+                    "dtv:topic": "aio/registry/get/{ex:groupType}/{ex:resourceType}/{ex:resourceId}",
                     "contentType": "application/json",
                     "op": "invokeaction",
                     "additionalResponses": [
@@ -83,12 +89,21 @@
         },
         "getVersion": {
             "description": "Retrieve an xRegistry Version entity by XID path.",
+            "input": {
+                "type": "object",
+                "properties": {
+                    "groupId": {
+                        "type": "string"
+                    }
+                },
+                "required": [ ]
+            },
             "output": {
                 "dtv:ref": "./core-xregistry/Version.schema.json"
             },
             "forms": [
                 {
-                    "dtv:topic": "adr/dtmi:ms:adr:EdgeRegistry;1/get/{ex:groupType}/{ex:groupId}/{ex:resourceType}/{ex:resourceId}/versions/{ex:versionId}",
+                    "dtv:topic": "aio/registry/get/{ex:groupType}/{ex:resourceType}/{ex:resourceId}/versions/{ex:versionId}",
                     "contentType": "application/json",
                     "op": "invokeaction",
                     "additionalResponses": [
@@ -102,15 +117,6 @@
         },
         "listGroups": {
             "description": "List xRegistry groups of a specific type.",
-            "input": {
-                "type": "object",
-                "properties": {
-                    "groupType": {
-                        "type": "string"
-                    }
-                },
-                "required": ["groupType"]
-            },
             "output": {
                 "type": "object",
                 "properties": {
@@ -125,7 +131,7 @@
             },
             "forms": [
                 {
-                    "dtv:topic": "adr/dtmi:ms:adr:EdgeRegistry;1/listGroups",
+                    "dtv:topic": "aio/registry/list/{ex:groupType}",
                     "contentType": "application/json",
                     "op": "invokeaction",
                     "additionalResponses": [
@@ -142,17 +148,11 @@
             "input": {
                 "type": "object",
                 "properties": {
-                    "groupType": {
-                        "type": "string"
-                    },
                     "groupId": {
-                        "type": "string"
-                    },
-                    "resourceType": {
                         "type": "string"
                     }
                 },
-                "required": ["groupType", "resourceType"]
+                "required": [ ]
             },
             "output": {
                 "type": "object",
@@ -168,7 +168,7 @@
             },
             "forms": [
                 {
-                    "dtv:topic": "adr/dtmi:ms:adr:EdgeRegistry;1/listResources",
+                    "dtv:topic": "aio/registry/list/{ex:groupType}/{ex:resourceType}",
                     "contentType": "application/json",
                     "op": "invokeaction",
                     "additionalResponses": [
@@ -233,7 +233,7 @@
             },
             "forms": [
                 {
-                    "dtv:topic": "adr/dtmi:ms:adr:EdgeRegistry;1/listResourcesWithLabel",
+                    "dtv:topic": "aio/registry/listWithLabel/resources",
                     "contentType": "application/json",
                     "op": "invokeaction",
                     "additionalResponses": [
@@ -250,20 +250,11 @@
             "input": {
                 "type": "object",
                 "properties": {
-                    "groupType": {
-                        "type": "string"
-                    },
                     "groupId": {
-                        "type": "string"
-                    },
-                    "resourceType": {
-                        "type": "string"
-                    },
-                    "resourceId": {
                         "type": "string"
                     }
                 },
-                "required": ["groupType", "resourceType", "resourceId"]
+                "required": [ ]
             },
             "output": {
                 "type": "object",
@@ -279,7 +270,7 @@
             },
             "forms": [
                 {
-                    "dtv:topic": "adr/dtmi:ms:adr:EdgeRegistry;1/listVersions",
+                    "dtv:topic": "aio/registry/list/{ex:groupType}/{ex:resourceType}/{ex:resourceId}/versions",
                     "contentType": "application/json",
                     "op": "invokeaction",
                     "additionalResponses": [

@@ -4,11 +4,8 @@
   "description": "Request payload for creating or updating a Group.",
   "type": "object",
   "additionalProperties": false,
-  "required": ["groupType", "labels", "extensions"],
+  "required": [ "labels", "extensions"],
   "properties": {
-      "groupType": {
-          "type": "string"
-      },
       "groupId": {
           "type": "string"
       },
