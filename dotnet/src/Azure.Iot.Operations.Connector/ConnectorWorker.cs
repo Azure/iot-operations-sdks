@@ -757,7 +757,7 @@ namespace Azure.Iot.Operations.Connector
                     // management-action loop. Disposed once when both branches return.
                     await using AssetAvailableEventArgs args = new(deviceName, device, inboundEndpointName, assetName, asset, _leaderElectionClient, _adrClient!, this);
 
-                    var branches = new List<Task>(2);
+                    var assetBranches = new List<Task>(2);
 
                     // Built-in: management-action handling. Runs whenever a factory was supplied,
                     // independent of whatever the user assigned to WhileAssetIsAvailable. This is
@@ -765,7 +765,7 @@ namespace Azure.Iot.Operations.Connector
                     // assignment from user code can't disable management actions.
                     if (_managementActionOrchestrator != null)
                     {
-                        branches.Add(SafeInvokeAssetBranchAsync(
+                        assetBranches.Add(SafeInvokeAssetBranchAsync(
                             "ManagementActionHandling",
                             ct => _managementActionOrchestrator.ServeActionsWhileAssetIsAvailableAsync(args, ct),
                             assetTaskCancellationTokenSource.Token,
@@ -777,14 +777,14 @@ namespace Azure.Iot.Operations.Connector
                     var whileAssetIsAvailable = WhileAssetIsAvailable;
                     if (whileAssetIsAvailable != null)
                     {
-                        branches.Add(SafeInvokeAssetBranchAsync(
-                            "WhileAssetIsAvailable",
+                        assetBranches.Add(SafeInvokeAssetBranchAsync(
+                            "UserWhileAssetIsAvailableCallback",
                             ct => whileAssetIsAvailable.Invoke(args, ct),
                             assetTaskCancellationTokenSource.Token,
                             assetName, deviceName, inboundEndpointName));
                     }
 
-                    await Task.WhenAll(branches);
+                    await Task.WhenAll(assetBranches);
                 });
 
                 _assetTasks.TryAdd(GetCompoundAssetName(compoundDeviceName, assetName), new(userTask, assetTaskCancellationTokenSource));
@@ -815,7 +815,7 @@ namespace Azure.Iot.Operations.Connector
             catch (Exception ex)
             {
                 // Surface failures so the task doesn't fault silently inside Task.WhenAll.
-                _logger.LogError(ex, "{Label} callback for asset {AssetName} on device {DeviceName} (endpoint {InboundEndpointName}) faulted", label, assetName, deviceName, inboundEndpointName);
+                _logger.LogError(ex, "{Label} for asset {AssetName} on device {DeviceName} (endpoint {InboundEndpointName}) faulted", label, assetName, deviceName, inboundEndpointName);
             }
         }
 
