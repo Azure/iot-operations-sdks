@@ -3,13 +3,12 @@
     "@context": [
       "https://www.w3.org/2022/wot/td/v1.1",
       {
-        "dtv": "http://azure.com/DigitalTwins/dtmi#",
-        "aov": "http://azure.com/IoT/operations/tm#"
+        "dov": "http://azure.com/DigitalOperations/vocab#"
       }
     ],
     "@type": "tm:ThingModel",
     "title": "ECM_AccuracyDomainType",
-    "aov:typeRef": "nsu=http://opcfoundation.org/UA/ECM/;i=1014",
+    "dov:typeRef": "nsu=http://opcfoundation.org/UA/ECM/;i=1014",
     "links": [
       {
         "rel": "tm:extends",
@@ -22,12 +21,12 @@
     "forms": [
       {
         "contentType": "application/json",
-        "dtv:topic": "opcua/ECM/ECM_AccuracyDomainType/properties/write",
+        "dov:topic": "opcua/ECM/ECM_AccuracyDomainType/properties/write",
         "op": "writemultipleproperties"
       },
       {
         "contentType": "application/json",
-        "dtv:topic": "opcua/ECM/ECM_AccuracyDomainType/properties/read",
+        "dov:topic": "opcua/ECM/ECM_AccuracyDomainType/properties/read",
         "op": "readallproperties"
       }
     ],
@@ -39,7 +38,7 @@
         "items": {
           "title": "EnumValueType",
           "type": "object",
-          "aov:typeRef": "nsu=http://opcfoundation.org/UA/;i=7594",
+          "dov:typeRef": "nsu=http://opcfoundation.org/UA/;i=7594",
           "required": [ "Value", "DisplayName", "Description" ],
           "properties": {
             "Value": {
@@ -59,12 +58,12 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/ECM/ECM_AccuracyDomainType/property/EnumValues/write",
+            "dov:topic": "opcua/ECM/ECM_AccuracyDomainType/property/EnumValues/write",
             "op": "writeproperty"
           },
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/ECM/ECM_AccuracyDomainType/property/EnumValues/read",
+            "dov:topic": "opcua/ECM/ECM_AccuracyDomainType/property/EnumValues/read",
             "op": "readproperty"
           }
         ]
@@ -78,13 +77,12 @@
       "https://www.w3.org/2022/wot/td/v1.1",
       {
         "qudt": "http://qudt.org/schema/qudt/",
-        "dtv": "http://azure.com/DigitalTwins/dtmi#",
-        "aov": "http://azure.com/IoT/operations/tm#"
+        "dov": "http://azure.com/DigitalOperations/vocab#"
       }
     ],
     "@type": "tm:ThingModel",
     "title": "ECM_IEnergyProfileD0Type",
-    "aov:typeRef": "nsu=http://opcfoundation.org/UA/ECM/;i=1011",
+    "dov:typeRef": "nsu=http://opcfoundation.org/UA/ECM/;i=1011",
     "links": [
       {
         "rel": "tm:extends",
@@ -97,17 +95,17 @@
     "forms": [
       {
         "contentType": "application/json",
-        "dtv:topic": "opcua/ECM/ECM_IEnergyProfileD0Type/events/{senderId}",
+        "dov:topic": "opcua/ECM/ECM_IEnergyProfileD0Type/events/{senderId}",
         "op": "subscribeallevents"
       },
       {
         "contentType": "application/json",
-        "dtv:topic": "opcua/ECM/ECM_IEnergyProfileD0Type/properties/write",
+        "dov:topic": "opcua/ECM/ECM_IEnergyProfileD0Type/properties/write",
         "op": "writemultipleproperties"
       },
       {
         "contentType": "application/json",
-        "dtv:topic": "opcua/ECM/ECM_IEnergyProfileD0Type/properties/read",
+        "dov:topic": "opcua/ECM/ECM_IEnergyProfileD0Type/properties/read",
         "op": "readallproperties"
       }
     ],
@@ -115,58 +113,58 @@
     },
     "properties": {
       "DcCurrent": {
-        "aov:namespace": "http://opcfoundation.org/UA/ECM/",
+        "dov:namespace": "http://opcfoundation.org/UA/ECM/",
         "type": "number",
         "minimum": -3.40e+38,
         "maximum": 3.40e+38,
         "readOnly": false,
-        "aov:contains": [ "DcCurrent_AccuracyClass", "DcCurrent_Resource" ],
+        "dov:contains": [ "DcCurrent_AccuracyClass", "DcCurrent_Resource" ],
         "qudt:hasQuantityKind": "http://qudt.org/vocab/quantitykind/ElectricCurrent",
-        "aov:withUnit": "properties/DcCurrent_EngineeringUnits",
+        "dov:withUnit": "properties/DcCurrent_EngineeringUnits",
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/ECM/ECM_IEnergyProfileD0Type/property/DcCurrent/write",
+            "dov:topic": "opcua/ECM/ECM_IEnergyProfileD0Type/property/DcCurrent/write",
             "op": "writeproperty"
           },
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/ECM/ECM_IEnergyProfileD0Type/property/DcCurrent/read",
+            "dov:topic": "opcua/ECM/ECM_IEnergyProfileD0Type/property/DcCurrent/read",
             "op": "readproperty"
           }
         ]
       },
       "DcCurrent_AccuracyClass": {
-        "aov:namespace": "http://opcfoundation.org/UA/ECM/",
+        "dov:namespace": "http://opcfoundation.org/UA/ECM/",
         "type": "integer",
         "minimum": 0,
         "maximum": 4294967295,
         "readOnly": true,
-        "aov:containedIn": "DcCurrent",
+        "dov:containedIn": "DcCurrent",
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/ECM/ECM_IEnergyProfileD0Type/property/DcCurrent_AccuracyClass/read",
+            "dov:topic": "opcua/ECM/ECM_IEnergyProfileD0Type/property/DcCurrent_AccuracyClass/read",
             "op": "readproperty"
           }
         ]
       },
       "DcCurrent_Resource": {
-        "aov:namespace": "http://opcfoundation.org/UA/ECM/",
+        "dov:namespace": "http://opcfoundation.org/UA/ECM/",
         "type": "integer",
         "minimum": 0,
         "maximum": 4294967295,
         "readOnly": false,
-        "aov:containedIn": "DcCurrent",
+        "dov:containedIn": "DcCurrent",
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/ECM/ECM_IEnergyProfileD0Type/property/DcCurrent_Resource/write",
+            "dov:topic": "opcua/ECM/ECM_IEnergyProfileD0Type/property/DcCurrent_Resource/write",
             "op": "writeproperty"
           },
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/ECM/ECM_IEnergyProfileD0Type/property/DcCurrent_Resource/read",
+            "dov:topic": "opcua/ECM/ECM_IEnergyProfileD0Type/property/DcCurrent_Resource/read",
             "op": "readproperty"
           }
         ]
@@ -178,7 +176,7 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/ECM/ECM_IEnergyProfileD0Type/property/DcCurrent_EngineeringUnits/read",
+            "dov:topic": "opcua/ECM/ECM_IEnergyProfileD0Type/property/DcCurrent_EngineeringUnits/read",
             "op": "readproperty"
           }
         ]
@@ -186,51 +184,51 @@
     },
     "events": {
       "DcCurrent": {
-        "aov:namespace": "http://opcfoundation.org/UA/ECM/",
+        "dov:namespace": "http://opcfoundation.org/UA/ECM/",
         "data": {
           "type": "number",
           "minimum": -3.40e+38,
           "maximum": 3.40e+38
         },
-        "aov:contains": [ "DcCurrent_AccuracyClass", "DcCurrent_Resource" ],
+        "dov:contains": [ "DcCurrent_AccuracyClass", "DcCurrent_Resource" ],
         "qudt:hasQuantityKind": "http://qudt.org/vocab/quantitykind/ElectricCurrent",
-        "aov:withUnit": "properties/DcCurrent_EngineeringUnits",
+        "dov:withUnit": "properties/DcCurrent_EngineeringUnits",
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/ECM/ECM_IEnergyProfileD0Type/event/DcCurrent/{senderId}",
+            "dov:topic": "opcua/ECM/ECM_IEnergyProfileD0Type/event/DcCurrent/{senderId}",
             "op": "subscribeevent"
           }
         ]
       },
       "DcCurrent_AccuracyClass": {
-        "aov:namespace": "http://opcfoundation.org/UA/ECM/",
+        "dov:namespace": "http://opcfoundation.org/UA/ECM/",
         "data": {
           "type": "integer",
           "minimum": 0,
           "maximum": 4294967295
         },
-        "aov:containedIn": "DcCurrent",
+        "dov:containedIn": "DcCurrent",
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/ECM/ECM_IEnergyProfileD0Type/event/DcCurrent_AccuracyClass/{senderId}",
+            "dov:topic": "opcua/ECM/ECM_IEnergyProfileD0Type/event/DcCurrent_AccuracyClass/{senderId}",
             "op": "subscribeevent"
           }
         ]
       },
       "DcCurrent_Resource": {
-        "aov:namespace": "http://opcfoundation.org/UA/ECM/",
+        "dov:namespace": "http://opcfoundation.org/UA/ECM/",
         "data": {
           "type": "integer",
           "minimum": 0,
           "maximum": 4294967295
         },
-        "aov:containedIn": "DcCurrent",
+        "dov:containedIn": "DcCurrent",
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/ECM/ECM_IEnergyProfileD0Type/event/DcCurrent_Resource/{senderId}",
+            "dov:topic": "opcua/ECM/ECM_IEnergyProfileD0Type/event/DcCurrent_Resource/{senderId}",
             "op": "subscribeevent"
           }
         ]
@@ -242,13 +240,12 @@
       "https://www.w3.org/2022/wot/td/v1.1",
       {
         "qudt": "http://qudt.org/schema/qudt/",
-        "dtv": "http://azure.com/DigitalTwins/dtmi#",
-        "aov": "http://azure.com/IoT/operations/tm#"
+        "dov": "http://azure.com/DigitalOperations/vocab#"
       }
     ],
     "@type": "tm:ThingModel",
     "title": "ECM_IEnergyProfileD1Type",
-    "aov:typeRef": "nsu=http://opcfoundation.org/UA/ECM/;i=1015",
+    "dov:typeRef": "nsu=http://opcfoundation.org/UA/ECM/;i=1015",
     "links": [
       {
         "rel": "tm:extends",
@@ -261,17 +258,17 @@
     "forms": [
       {
         "contentType": "application/json",
-        "dtv:topic": "opcua/ECM/ECM_IEnergyProfileD1Type/events/{senderId}",
+        "dov:topic": "opcua/ECM/ECM_IEnergyProfileD1Type/events/{senderId}",
         "op": "subscribeallevents"
       },
       {
         "contentType": "application/json",
-        "dtv:topic": "opcua/ECM/ECM_IEnergyProfileD1Type/properties/write",
+        "dov:topic": "opcua/ECM/ECM_IEnergyProfileD1Type/properties/write",
         "op": "writemultipleproperties"
       },
       {
         "contentType": "application/json",
-        "dtv:topic": "opcua/ECM/ECM_IEnergyProfileD1Type/properties/read",
+        "dov:topic": "opcua/ECM/ECM_IEnergyProfileD1Type/properties/read",
         "op": "readallproperties"
       }
     ],
@@ -279,172 +276,172 @@
     },
     "properties": {
       "DcActivePower": {
-        "aov:namespace": "http://opcfoundation.org/UA/ECM/",
+        "dov:namespace": "http://opcfoundation.org/UA/ECM/",
         "type": "number",
         "minimum": -3.40e+38,
         "maximum": 3.40e+38,
         "readOnly": false,
-        "aov:contains": [ "DcActivePower_AccuracyClass", "DcActivePower_Resource" ],
+        "dov:contains": [ "DcActivePower_AccuracyClass", "DcActivePower_Resource" ],
         "qudt:hasQuantityKind": "http://qudt.org/vocab/quantitykind/Power",
-        "aov:withUnit": "properties/DcActivePower_EngineeringUnits",
+        "dov:withUnit": "properties/DcActivePower_EngineeringUnits",
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/ECM/ECM_IEnergyProfileD1Type/property/DcActivePower/write",
+            "dov:topic": "opcua/ECM/ECM_IEnergyProfileD1Type/property/DcActivePower/write",
             "op": "writeproperty"
           },
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/ECM/ECM_IEnergyProfileD1Type/property/DcActivePower/read",
+            "dov:topic": "opcua/ECM/ECM_IEnergyProfileD1Type/property/DcActivePower/read",
             "op": "readproperty"
           }
         ]
       },
       "DcActivePower_AccuracyClass": {
-        "aov:namespace": "http://opcfoundation.org/UA/ECM/",
+        "dov:namespace": "http://opcfoundation.org/UA/ECM/",
         "type": "integer",
         "minimum": 0,
         "maximum": 4294967295,
         "readOnly": true,
-        "aov:containedIn": "DcActivePower",
+        "dov:containedIn": "DcActivePower",
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/ECM/ECM_IEnergyProfileD1Type/property/DcActivePower_AccuracyClass/read",
+            "dov:topic": "opcua/ECM/ECM_IEnergyProfileD1Type/property/DcActivePower_AccuracyClass/read",
             "op": "readproperty"
           }
         ]
       },
       "DcActivePower_Resource": {
-        "aov:namespace": "http://opcfoundation.org/UA/ECM/",
+        "dov:namespace": "http://opcfoundation.org/UA/ECM/",
         "type": "integer",
         "minimum": 0,
         "maximum": 4294967295,
         "readOnly": false,
-        "aov:containedIn": "DcActivePower",
+        "dov:containedIn": "DcActivePower",
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/ECM/ECM_IEnergyProfileD1Type/property/DcActivePower_Resource/write",
+            "dov:topic": "opcua/ECM/ECM_IEnergyProfileD1Type/property/DcActivePower_Resource/write",
             "op": "writeproperty"
           },
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/ECM/ECM_IEnergyProfileD1Type/property/DcActivePower_Resource/read",
+            "dov:topic": "opcua/ECM/ECM_IEnergyProfileD1Type/property/DcActivePower_Resource/read",
             "op": "readproperty"
           }
         ]
       },
       "DcCurrent": {
-        "aov:namespace": "http://opcfoundation.org/UA/ECM/",
+        "dov:namespace": "http://opcfoundation.org/UA/ECM/",
         "type": "number",
         "minimum": -3.40e+38,
         "maximum": 3.40e+38,
         "readOnly": false,
-        "aov:contains": [ "DcCurrent_AccuracyClass", "DcCurrent_Resource" ],
+        "dov:contains": [ "DcCurrent_AccuracyClass", "DcCurrent_Resource" ],
         "qudt:hasQuantityKind": "http://qudt.org/vocab/quantitykind/ElectricCurrent",
-        "aov:withUnit": "properties/DcCurrent_EngineeringUnits",
+        "dov:withUnit": "properties/DcCurrent_EngineeringUnits",
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/ECM/ECM_IEnergyProfileD1Type/property/DcCurrent/write",
+            "dov:topic": "opcua/ECM/ECM_IEnergyProfileD1Type/property/DcCurrent/write",
             "op": "writeproperty"
           },
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/ECM/ECM_IEnergyProfileD1Type/property/DcCurrent/read",
+            "dov:topic": "opcua/ECM/ECM_IEnergyProfileD1Type/property/DcCurrent/read",
             "op": "readproperty"
           }
         ]
       },
       "DcCurrent_AccuracyClass": {
-        "aov:namespace": "http://opcfoundation.org/UA/ECM/",
+        "dov:namespace": "http://opcfoundation.org/UA/ECM/",
         "type": "integer",
         "minimum": 0,
         "maximum": 4294967295,
         "readOnly": true,
-        "aov:containedIn": "DcCurrent",
+        "dov:containedIn": "DcCurrent",
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/ECM/ECM_IEnergyProfileD1Type/property/DcCurrent_AccuracyClass/read",
+            "dov:topic": "opcua/ECM/ECM_IEnergyProfileD1Type/property/DcCurrent_AccuracyClass/read",
             "op": "readproperty"
           }
         ]
       },
       "DcCurrent_Resource": {
-        "aov:namespace": "http://opcfoundation.org/UA/ECM/",
+        "dov:namespace": "http://opcfoundation.org/UA/ECM/",
         "type": "integer",
         "minimum": 0,
         "maximum": 4294967295,
         "readOnly": false,
-        "aov:containedIn": "DcCurrent",
+        "dov:containedIn": "DcCurrent",
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/ECM/ECM_IEnergyProfileD1Type/property/DcCurrent_Resource/write",
+            "dov:topic": "opcua/ECM/ECM_IEnergyProfileD1Type/property/DcCurrent_Resource/write",
             "op": "writeproperty"
           },
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/ECM/ECM_IEnergyProfileD1Type/property/DcCurrent_Resource/read",
+            "dov:topic": "opcua/ECM/ECM_IEnergyProfileD1Type/property/DcCurrent_Resource/read",
             "op": "readproperty"
           }
         ]
       },
       "DcVoltage": {
-        "aov:namespace": "http://opcfoundation.org/UA/ECM/",
+        "dov:namespace": "http://opcfoundation.org/UA/ECM/",
         "type": "number",
         "minimum": -3.40e+38,
         "maximum": 3.40e+38,
         "readOnly": false,
-        "aov:contains": [ "DcVoltage_AccuracyClass", "DcVoltage_Resource" ],
+        "dov:contains": [ "DcVoltage_AccuracyClass", "DcVoltage_Resource" ],
         "qudt:hasQuantityKind": "http://qudt.org/vocab/quantitykind/ElectricPotential",
-        "aov:withUnit": "properties/DcVoltage_EngineeringUnits",
+        "dov:withUnit": "properties/DcVoltage_EngineeringUnits",
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/ECM/ECM_IEnergyProfileD1Type/property/DcVoltage/write",
+            "dov:topic": "opcua/ECM/ECM_IEnergyProfileD1Type/property/DcVoltage/write",
             "op": "writeproperty"
           },
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/ECM/ECM_IEnergyProfileD1Type/property/DcVoltage/read",
+            "dov:topic": "opcua/ECM/ECM_IEnergyProfileD1Type/property/DcVoltage/read",
             "op": "readproperty"
           }
         ]
       },
       "DcVoltage_AccuracyClass": {
-        "aov:namespace": "http://opcfoundation.org/UA/ECM/",
+        "dov:namespace": "http://opcfoundation.org/UA/ECM/",
         "type": "integer",
         "minimum": 0,
         "maximum": 4294967295,
         "readOnly": true,
-        "aov:containedIn": "DcVoltage",
+        "dov:containedIn": "DcVoltage",
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/ECM/ECM_IEnergyProfileD1Type/property/DcVoltage_AccuracyClass/read",
+            "dov:topic": "opcua/ECM/ECM_IEnergyProfileD1Type/property/DcVoltage_AccuracyClass/read",
             "op": "readproperty"
           }
         ]
       },
       "DcVoltage_Resource": {
-        "aov:namespace": "http://opcfoundation.org/UA/ECM/",
+        "dov:namespace": "http://opcfoundation.org/UA/ECM/",
         "type": "integer",
         "minimum": 0,
         "maximum": 4294967295,
         "readOnly": false,
-        "aov:containedIn": "DcVoltage",
+        "dov:containedIn": "DcVoltage",
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/ECM/ECM_IEnergyProfileD1Type/property/DcVoltage_Resource/write",
+            "dov:topic": "opcua/ECM/ECM_IEnergyProfileD1Type/property/DcVoltage_Resource/write",
             "op": "writeproperty"
           },
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/ECM/ECM_IEnergyProfileD1Type/property/DcVoltage_Resource/read",
+            "dov:topic": "opcua/ECM/ECM_IEnergyProfileD1Type/property/DcVoltage_Resource/read",
             "op": "readproperty"
           }
         ]
@@ -456,7 +453,7 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/ECM/ECM_IEnergyProfileD1Type/property/DcActivePower_EngineeringUnits/read",
+            "dov:topic": "opcua/ECM/ECM_IEnergyProfileD1Type/property/DcActivePower_EngineeringUnits/read",
             "op": "readproperty"
           }
         ]
@@ -468,7 +465,7 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/ECM/ECM_IEnergyProfileD1Type/property/DcCurrent_EngineeringUnits/read",
+            "dov:topic": "opcua/ECM/ECM_IEnergyProfileD1Type/property/DcCurrent_EngineeringUnits/read",
             "op": "readproperty"
           }
         ]
@@ -480,7 +477,7 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/ECM/ECM_IEnergyProfileD1Type/property/DcVoltage_EngineeringUnits/read",
+            "dov:topic": "opcua/ECM/ECM_IEnergyProfileD1Type/property/DcVoltage_EngineeringUnits/read",
             "op": "readproperty"
           }
         ]
@@ -488,151 +485,151 @@
     },
     "events": {
       "DcActivePower": {
-        "aov:namespace": "http://opcfoundation.org/UA/ECM/",
+        "dov:namespace": "http://opcfoundation.org/UA/ECM/",
         "data": {
           "type": "number",
           "minimum": -3.40e+38,
           "maximum": 3.40e+38
         },
-        "aov:contains": [ "DcActivePower_AccuracyClass", "DcActivePower_Resource" ],
+        "dov:contains": [ "DcActivePower_AccuracyClass", "DcActivePower_Resource" ],
         "qudt:hasQuantityKind": "http://qudt.org/vocab/quantitykind/Power",
-        "aov:withUnit": "properties/DcActivePower_EngineeringUnits",
+        "dov:withUnit": "properties/DcActivePower_EngineeringUnits",
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/ECM/ECM_IEnergyProfileD1Type/event/DcActivePower/{senderId}",
+            "dov:topic": "opcua/ECM/ECM_IEnergyProfileD1Type/event/DcActivePower/{senderId}",
             "op": "subscribeevent"
           }
         ]
       },
       "DcActivePower_AccuracyClass": {
-        "aov:namespace": "http://opcfoundation.org/UA/ECM/",
+        "dov:namespace": "http://opcfoundation.org/UA/ECM/",
         "data": {
           "type": "integer",
           "minimum": 0,
           "maximum": 4294967295
         },
-        "aov:containedIn": "DcActivePower",
+        "dov:containedIn": "DcActivePower",
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/ECM/ECM_IEnergyProfileD1Type/event/DcActivePower_AccuracyClass/{senderId}",
+            "dov:topic": "opcua/ECM/ECM_IEnergyProfileD1Type/event/DcActivePower_AccuracyClass/{senderId}",
             "op": "subscribeevent"
           }
         ]
       },
       "DcActivePower_Resource": {
-        "aov:namespace": "http://opcfoundation.org/UA/ECM/",
+        "dov:namespace": "http://opcfoundation.org/UA/ECM/",
         "data": {
           "type": "integer",
           "minimum": 0,
           "maximum": 4294967295
         },
-        "aov:containedIn": "DcActivePower",
+        "dov:containedIn": "DcActivePower",
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/ECM/ECM_IEnergyProfileD1Type/event/DcActivePower_Resource/{senderId}",
+            "dov:topic": "opcua/ECM/ECM_IEnergyProfileD1Type/event/DcActivePower_Resource/{senderId}",
             "op": "subscribeevent"
           }
         ]
       },
       "DcCurrent": {
-        "aov:namespace": "http://opcfoundation.org/UA/ECM/",
+        "dov:namespace": "http://opcfoundation.org/UA/ECM/",
         "data": {
           "type": "number",
           "minimum": -3.40e+38,
           "maximum": 3.40e+38
         },
-        "aov:contains": [ "DcCurrent_AccuracyClass", "DcCurrent_Resource" ],
+        "dov:contains": [ "DcCurrent_AccuracyClass", "DcCurrent_Resource" ],
         "qudt:hasQuantityKind": "http://qudt.org/vocab/quantitykind/ElectricCurrent",
-        "aov:withUnit": "properties/DcCurrent_EngineeringUnits",
+        "dov:withUnit": "properties/DcCurrent_EngineeringUnits",
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/ECM/ECM_IEnergyProfileD1Type/event/DcCurrent/{senderId}",
+            "dov:topic": "opcua/ECM/ECM_IEnergyProfileD1Type/event/DcCurrent/{senderId}",
             "op": "subscribeevent"
           }
         ]
       },
       "DcCurrent_AccuracyClass": {
-        "aov:namespace": "http://opcfoundation.org/UA/ECM/",
+        "dov:namespace": "http://opcfoundation.org/UA/ECM/",
         "data": {
           "type": "integer",
           "minimum": 0,
           "maximum": 4294967295
         },
-        "aov:containedIn": "DcCurrent",
+        "dov:containedIn": "DcCurrent",
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/ECM/ECM_IEnergyProfileD1Type/event/DcCurrent_AccuracyClass/{senderId}",
+            "dov:topic": "opcua/ECM/ECM_IEnergyProfileD1Type/event/DcCurrent_AccuracyClass/{senderId}",
             "op": "subscribeevent"
           }
         ]
       },
       "DcCurrent_Resource": {
-        "aov:namespace": "http://opcfoundation.org/UA/ECM/",
+        "dov:namespace": "http://opcfoundation.org/UA/ECM/",
         "data": {
           "type": "integer",
           "minimum": 0,
           "maximum": 4294967295
         },
-        "aov:containedIn": "DcCurrent",
+        "dov:containedIn": "DcCurrent",
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/ECM/ECM_IEnergyProfileD1Type/event/DcCurrent_Resource/{senderId}",
+            "dov:topic": "opcua/ECM/ECM_IEnergyProfileD1Type/event/DcCurrent_Resource/{senderId}",
             "op": "subscribeevent"
           }
         ]
       },
       "DcVoltage": {
-        "aov:namespace": "http://opcfoundation.org/UA/ECM/",
+        "dov:namespace": "http://opcfoundation.org/UA/ECM/",
         "data": {
           "type": "number",
           "minimum": -3.40e+38,
           "maximum": 3.40e+38
         },
-        "aov:contains": [ "DcVoltage_AccuracyClass", "DcVoltage_Resource" ],
+        "dov:contains": [ "DcVoltage_AccuracyClass", "DcVoltage_Resource" ],
         "qudt:hasQuantityKind": "http://qudt.org/vocab/quantitykind/ElectricPotential",
-        "aov:withUnit": "properties/DcVoltage_EngineeringUnits",
+        "dov:withUnit": "properties/DcVoltage_EngineeringUnits",
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/ECM/ECM_IEnergyProfileD1Type/event/DcVoltage/{senderId}",
+            "dov:topic": "opcua/ECM/ECM_IEnergyProfileD1Type/event/DcVoltage/{senderId}",
             "op": "subscribeevent"
           }
         ]
       },
       "DcVoltage_AccuracyClass": {
-        "aov:namespace": "http://opcfoundation.org/UA/ECM/",
+        "dov:namespace": "http://opcfoundation.org/UA/ECM/",
         "data": {
           "type": "integer",
           "minimum": 0,
           "maximum": 4294967295
         },
-        "aov:containedIn": "DcVoltage",
+        "dov:containedIn": "DcVoltage",
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/ECM/ECM_IEnergyProfileD1Type/event/DcVoltage_AccuracyClass/{senderId}",
+            "dov:topic": "opcua/ECM/ECM_IEnergyProfileD1Type/event/DcVoltage_AccuracyClass/{senderId}",
             "op": "subscribeevent"
           }
         ]
       },
       "DcVoltage_Resource": {
-        "aov:namespace": "http://opcfoundation.org/UA/ECM/",
+        "dov:namespace": "http://opcfoundation.org/UA/ECM/",
         "data": {
           "type": "integer",
           "minimum": 0,
           "maximum": 4294967295
         },
-        "aov:containedIn": "DcVoltage",
+        "dov:containedIn": "DcVoltage",
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/ECM/ECM_IEnergyProfileD1Type/event/DcVoltage_Resource/{senderId}",
+            "dov:topic": "opcua/ECM/ECM_IEnergyProfileD1Type/event/DcVoltage_Resource/{senderId}",
             "op": "subscribeevent"
           }
         ]
@@ -644,13 +641,12 @@
       "https://www.w3.org/2022/wot/td/v1.1",
       {
         "qudt": "http://qudt.org/schema/qudt/",
-        "dtv": "http://azure.com/DigitalTwins/dtmi#",
-        "aov": "http://azure.com/IoT/operations/tm#"
+        "dov": "http://azure.com/DigitalOperations/vocab#"
       }
     ],
     "@type": "tm:ThingModel",
     "title": "ECM_IEnergyProfileE0Type",
-    "aov:typeRef": "nsu=http://opcfoundation.org/UA/ECM/;i=1007",
+    "dov:typeRef": "nsu=http://opcfoundation.org/UA/ECM/;i=1007",
     "links": [
       {
         "rel": "tm:extends",
@@ -663,17 +659,17 @@
     "forms": [
       {
         "contentType": "application/json",
-        "dtv:topic": "opcua/ECM/ECM_IEnergyProfileE0Type/events/{senderId}",
+        "dov:topic": "opcua/ECM/ECM_IEnergyProfileE0Type/events/{senderId}",
         "op": "subscribeallevents"
       },
       {
         "contentType": "application/json",
-        "dtv:topic": "opcua/ECM/ECM_IEnergyProfileE0Type/properties/write",
+        "dov:topic": "opcua/ECM/ECM_IEnergyProfileE0Type/properties/write",
         "op": "writemultipleproperties"
       },
       {
         "contentType": "application/json",
-        "dtv:topic": "opcua/ECM/ECM_IEnergyProfileE0Type/properties/read",
+        "dov:topic": "opcua/ECM/ECM_IEnergyProfileE0Type/properties/read",
         "op": "readallproperties"
       }
     ],
@@ -681,10 +677,10 @@
     },
     "properties": {
       "AcCurrentPe": {
-        "aov:namespace": "http://opcfoundation.org/UA/ECM/",
+        "dov:namespace": "http://opcfoundation.org/UA/ECM/",
         "title": "AcPeDataType",
         "type": "object",
-        "aov:typeRef": "nsu=http://opcfoundation.org/UA/ECM/;i=3005",
+        "dov:typeRef": "nsu=http://opcfoundation.org/UA/ECM/;i=3005",
         "required": [ "L1", "L2", "L3" ],
         "properties": {
           "L1": {
@@ -707,53 +703,53 @@
           }
         },
         "readOnly": false,
-        "aov:contains": [ "AcCurrentPe_AccuracyClass", "AcCurrentPe_Resource" ],
+        "dov:contains": [ "AcCurrentPe_AccuracyClass", "AcCurrentPe_Resource" ],
         "qudt:hasQuantityKind": "http://qudt.org/vocab/quantitykind/ElectricCurrent",
-        "aov:withUnit": "properties/AcCurrentPe_EngineeringUnits",
+        "dov:withUnit": "properties/AcCurrentPe_EngineeringUnits",
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/ECM/ECM_IEnergyProfileE0Type/property/AcCurrentPe/write",
+            "dov:topic": "opcua/ECM/ECM_IEnergyProfileE0Type/property/AcCurrentPe/write",
             "op": "writeproperty"
           },
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/ECM/ECM_IEnergyProfileE0Type/property/AcCurrentPe/read",
+            "dov:topic": "opcua/ECM/ECM_IEnergyProfileE0Type/property/AcCurrentPe/read",
             "op": "readproperty"
           }
         ]
       },
       "AcCurrentPe_AccuracyClass": {
-        "aov:namespace": "http://opcfoundation.org/UA/ECM/",
+        "dov:namespace": "http://opcfoundation.org/UA/ECM/",
         "type": "integer",
         "minimum": 0,
         "maximum": 4294967295,
         "readOnly": true,
-        "aov:containedIn": "AcCurrentPe",
+        "dov:containedIn": "AcCurrentPe",
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/ECM/ECM_IEnergyProfileE0Type/property/AcCurrentPe_AccuracyClass/read",
+            "dov:topic": "opcua/ECM/ECM_IEnergyProfileE0Type/property/AcCurrentPe_AccuracyClass/read",
             "op": "readproperty"
           }
         ]
       },
       "AcCurrentPe_Resource": {
-        "aov:namespace": "http://opcfoundation.org/UA/ECM/",
+        "dov:namespace": "http://opcfoundation.org/UA/ECM/",
         "type": "integer",
         "minimum": 0,
         "maximum": 4294967295,
         "readOnly": false,
-        "aov:containedIn": "AcCurrentPe",
+        "dov:containedIn": "AcCurrentPe",
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/ECM/ECM_IEnergyProfileE0Type/property/AcCurrentPe_Resource/write",
+            "dov:topic": "opcua/ECM/ECM_IEnergyProfileE0Type/property/AcCurrentPe_Resource/write",
             "op": "writeproperty"
           },
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/ECM/ECM_IEnergyProfileE0Type/property/AcCurrentPe_Resource/read",
+            "dov:topic": "opcua/ECM/ECM_IEnergyProfileE0Type/property/AcCurrentPe_Resource/read",
             "op": "readproperty"
           }
         ]
@@ -765,7 +761,7 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/ECM/ECM_IEnergyProfileE0Type/property/AcCurrentPe_EngineeringUnits/read",
+            "dov:topic": "opcua/ECM/ECM_IEnergyProfileE0Type/property/AcCurrentPe_EngineeringUnits/read",
             "op": "readproperty"
           }
         ]
@@ -773,11 +769,11 @@
     },
     "events": {
       "AcCurrentPe": {
-        "aov:namespace": "http://opcfoundation.org/UA/ECM/",
+        "dov:namespace": "http://opcfoundation.org/UA/ECM/",
         "data": {
           "title": "AcPeDataType",
           "type": "object",
-          "aov:typeRef": "nsu=http://opcfoundation.org/UA/ECM/;i=3005",
+          "dov:typeRef": "nsu=http://opcfoundation.org/UA/ECM/;i=3005",
           "required": [ "L1", "L2", "L3" ],
           "properties": {
             "L1": {
@@ -800,45 +796,45 @@
             }
           }
         },
-        "aov:contains": [ "AcCurrentPe_AccuracyClass", "AcCurrentPe_Resource" ],
+        "dov:contains": [ "AcCurrentPe_AccuracyClass", "AcCurrentPe_Resource" ],
         "qudt:hasQuantityKind": "http://qudt.org/vocab/quantitykind/ElectricCurrent",
-        "aov:withUnit": "properties/AcCurrentPe_EngineeringUnits",
+        "dov:withUnit": "properties/AcCurrentPe_EngineeringUnits",
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/ECM/ECM_IEnergyProfileE0Type/event/AcCurrentPe/{senderId}",
+            "dov:topic": "opcua/ECM/ECM_IEnergyProfileE0Type/event/AcCurrentPe/{senderId}",
             "op": "subscribeevent"
           }
         ]
       },
       "AcCurrentPe_AccuracyClass": {
-        "aov:namespace": "http://opcfoundation.org/UA/ECM/",
+        "dov:namespace": "http://opcfoundation.org/UA/ECM/",
         "data": {
           "type": "integer",
           "minimum": 0,
           "maximum": 4294967295
         },
-        "aov:containedIn": "AcCurrentPe",
+        "dov:containedIn": "AcCurrentPe",
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/ECM/ECM_IEnergyProfileE0Type/event/AcCurrentPe_AccuracyClass/{senderId}",
+            "dov:topic": "opcua/ECM/ECM_IEnergyProfileE0Type/event/AcCurrentPe_AccuracyClass/{senderId}",
             "op": "subscribeevent"
           }
         ]
       },
       "AcCurrentPe_Resource": {
-        "aov:namespace": "http://opcfoundation.org/UA/ECM/",
+        "dov:namespace": "http://opcfoundation.org/UA/ECM/",
         "data": {
           "type": "integer",
           "minimum": 0,
           "maximum": 4294967295
         },
-        "aov:containedIn": "AcCurrentPe",
+        "dov:containedIn": "AcCurrentPe",
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/ECM/ECM_IEnergyProfileE0Type/event/AcCurrentPe_Resource/{senderId}",
+            "dov:topic": "opcua/ECM/ECM_IEnergyProfileE0Type/event/AcCurrentPe_Resource/{senderId}",
             "op": "subscribeevent"
           }
         ]
@@ -850,13 +846,12 @@
       "https://www.w3.org/2022/wot/td/v1.1",
       {
         "qudt": "http://qudt.org/schema/qudt/",
-        "dtv": "http://azure.com/DigitalTwins/dtmi#",
-        "aov": "http://azure.com/IoT/operations/tm#"
+        "dov": "http://azure.com/DigitalOperations/vocab#"
       }
     ],
     "@type": "tm:ThingModel",
     "title": "ECM_IEnergyProfileE1Type",
-    "aov:typeRef": "nsu=http://opcfoundation.org/UA/ECM/;i=1008",
+    "dov:typeRef": "nsu=http://opcfoundation.org/UA/ECM/;i=1008",
     "links": [
       {
         "rel": "tm:extends",
@@ -869,17 +864,17 @@
     "forms": [
       {
         "contentType": "application/json",
-        "dtv:topic": "opcua/ECM/ECM_IEnergyProfileE1Type/events/{senderId}",
+        "dov:topic": "opcua/ECM/ECM_IEnergyProfileE1Type/events/{senderId}",
         "op": "subscribeallevents"
       },
       {
         "contentType": "application/json",
-        "dtv:topic": "opcua/ECM/ECM_IEnergyProfileE1Type/properties/write",
+        "dov:topic": "opcua/ECM/ECM_IEnergyProfileE1Type/properties/write",
         "op": "writemultipleproperties"
       },
       {
         "contentType": "application/json",
-        "dtv:topic": "opcua/ECM/ECM_IEnergyProfileE1Type/properties/read",
+        "dov:topic": "opcua/ECM/ECM_IEnergyProfileE1Type/properties/read",
         "op": "readallproperties"
       }
     ],
@@ -887,58 +882,58 @@
     },
     "properties": {
       "AcActivePowerTotal": {
-        "aov:namespace": "http://opcfoundation.org/UA/ECM/",
+        "dov:namespace": "http://opcfoundation.org/UA/ECM/",
         "type": "number",
         "minimum": -3.40e+38,
         "maximum": 3.40e+38,
         "readOnly": false,
-        "aov:contains": [ "AcActivePowerTotal_AccuracyClass", "AcActivePowerTotal_Resource" ],
+        "dov:contains": [ "AcActivePowerTotal_AccuracyClass", "AcActivePowerTotal_Resource" ],
         "qudt:hasQuantityKind": "http://qudt.org/vocab/quantitykind/Power",
-        "aov:withUnit": "properties/AcActivePowerTotal_EngineeringUnits",
+        "dov:withUnit": "properties/AcActivePowerTotal_EngineeringUnits",
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/ECM/ECM_IEnergyProfileE1Type/property/AcActivePowerTotal/write",
+            "dov:topic": "opcua/ECM/ECM_IEnergyProfileE1Type/property/AcActivePowerTotal/write",
             "op": "writeproperty"
           },
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/ECM/ECM_IEnergyProfileE1Type/property/AcActivePowerTotal/read",
+            "dov:topic": "opcua/ECM/ECM_IEnergyProfileE1Type/property/AcActivePowerTotal/read",
             "op": "readproperty"
           }
         ]
       },
       "AcActivePowerTotal_AccuracyClass": {
-        "aov:namespace": "http://opcfoundation.org/UA/ECM/",
+        "dov:namespace": "http://opcfoundation.org/UA/ECM/",
         "type": "integer",
         "minimum": 0,
         "maximum": 4294967295,
         "readOnly": true,
-        "aov:containedIn": "AcActivePowerTotal",
+        "dov:containedIn": "AcActivePowerTotal",
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/ECM/ECM_IEnergyProfileE1Type/property/AcActivePowerTotal_AccuracyClass/read",
+            "dov:topic": "opcua/ECM/ECM_IEnergyProfileE1Type/property/AcActivePowerTotal_AccuracyClass/read",
             "op": "readproperty"
           }
         ]
       },
       "AcActivePowerTotal_Resource": {
-        "aov:namespace": "http://opcfoundation.org/UA/ECM/",
+        "dov:namespace": "http://opcfoundation.org/UA/ECM/",
         "type": "integer",
         "minimum": 0,
         "maximum": 4294967295,
         "readOnly": false,
-        "aov:containedIn": "AcActivePowerTotal",
+        "dov:containedIn": "AcActivePowerTotal",
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/ECM/ECM_IEnergyProfileE1Type/property/AcActivePowerTotal_Resource/write",
+            "dov:topic": "opcua/ECM/ECM_IEnergyProfileE1Type/property/AcActivePowerTotal_Resource/write",
             "op": "writeproperty"
           },
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/ECM/ECM_IEnergyProfileE1Type/property/AcActivePowerTotal_Resource/read",
+            "dov:topic": "opcua/ECM/ECM_IEnergyProfileE1Type/property/AcActivePowerTotal_Resource/read",
             "op": "readproperty"
           }
         ]
@@ -950,7 +945,7 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/ECM/ECM_IEnergyProfileE1Type/property/AcActivePowerTotal_EngineeringUnits/read",
+            "dov:topic": "opcua/ECM/ECM_IEnergyProfileE1Type/property/AcActivePowerTotal_EngineeringUnits/read",
             "op": "readproperty"
           }
         ]
@@ -958,51 +953,51 @@
     },
     "events": {
       "AcActivePowerTotal": {
-        "aov:namespace": "http://opcfoundation.org/UA/ECM/",
+        "dov:namespace": "http://opcfoundation.org/UA/ECM/",
         "data": {
           "type": "number",
           "minimum": -3.40e+38,
           "maximum": 3.40e+38
         },
-        "aov:contains": [ "AcActivePowerTotal_AccuracyClass", "AcActivePowerTotal_Resource" ],
+        "dov:contains": [ "AcActivePowerTotal_AccuracyClass", "AcActivePowerTotal_Resource" ],
         "qudt:hasQuantityKind": "http://qudt.org/vocab/quantitykind/Power",
-        "aov:withUnit": "properties/AcActivePowerTotal_EngineeringUnits",
+        "dov:withUnit": "properties/AcActivePowerTotal_EngineeringUnits",
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/ECM/ECM_IEnergyProfileE1Type/event/AcActivePowerTotal/{senderId}",
+            "dov:topic": "opcua/ECM/ECM_IEnergyProfileE1Type/event/AcActivePowerTotal/{senderId}",
             "op": "subscribeevent"
           }
         ]
       },
       "AcActivePowerTotal_AccuracyClass": {
-        "aov:namespace": "http://opcfoundation.org/UA/ECM/",
+        "dov:namespace": "http://opcfoundation.org/UA/ECM/",
         "data": {
           "type": "integer",
           "minimum": 0,
           "maximum": 4294967295
         },
-        "aov:containedIn": "AcActivePowerTotal",
+        "dov:containedIn": "AcActivePowerTotal",
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/ECM/ECM_IEnergyProfileE1Type/event/AcActivePowerTotal_AccuracyClass/{senderId}",
+            "dov:topic": "opcua/ECM/ECM_IEnergyProfileE1Type/event/AcActivePowerTotal_AccuracyClass/{senderId}",
             "op": "subscribeevent"
           }
         ]
       },
       "AcActivePowerTotal_Resource": {
-        "aov:namespace": "http://opcfoundation.org/UA/ECM/",
+        "dov:namespace": "http://opcfoundation.org/UA/ECM/",
         "data": {
           "type": "integer",
           "minimum": 0,
           "maximum": 4294967295
         },
-        "aov:containedIn": "AcActivePowerTotal",
+        "dov:containedIn": "AcActivePowerTotal",
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/ECM/ECM_IEnergyProfileE1Type/event/AcActivePowerTotal_Resource/{senderId}",
+            "dov:topic": "opcua/ECM/ECM_IEnergyProfileE1Type/event/AcActivePowerTotal_Resource/{senderId}",
             "op": "subscribeevent"
           }
         ]
@@ -1014,13 +1009,12 @@
       "https://www.w3.org/2022/wot/td/v1.1",
       {
         "qudt": "http://qudt.org/schema/qudt/",
-        "dtv": "http://azure.com/DigitalTwins/dtmi#",
-        "aov": "http://azure.com/IoT/operations/tm#"
+        "dov": "http://azure.com/DigitalOperations/vocab#"
       }
     ],
     "@type": "tm:ThingModel",
     "title": "ECM_IEnergyProfileE2Type",
-    "aov:typeRef": "nsu=http://opcfoundation.org/UA/ECM/;i=1009",
+    "dov:typeRef": "nsu=http://opcfoundation.org/UA/ECM/;i=1009",
     "links": [
       {
         "rel": "tm:extends",
@@ -1033,17 +1027,17 @@
     "forms": [
       {
         "contentType": "application/json",
-        "dtv:topic": "opcua/ECM/ECM_IEnergyProfileE2Type/events/{senderId}",
+        "dov:topic": "opcua/ECM/ECM_IEnergyProfileE2Type/events/{senderId}",
         "op": "subscribeallevents"
       },
       {
         "contentType": "application/json",
-        "dtv:topic": "opcua/ECM/ECM_IEnergyProfileE2Type/properties/write",
+        "dov:topic": "opcua/ECM/ECM_IEnergyProfileE2Type/properties/write",
         "op": "writemultipleproperties"
       },
       {
         "contentType": "application/json",
-        "dtv:topic": "opcua/ECM/ECM_IEnergyProfileE2Type/properties/read",
+        "dov:topic": "opcua/ECM/ECM_IEnergyProfileE2Type/properties/read",
         "op": "readallproperties"
       }
     ],
@@ -1051,58 +1045,58 @@
     },
     "properties": {
       "AcActivePowerTotal": {
-        "aov:namespace": "http://opcfoundation.org/UA/ECM/",
+        "dov:namespace": "http://opcfoundation.org/UA/ECM/",
         "type": "number",
         "minimum": -3.40e+38,
         "maximum": 3.40e+38,
         "readOnly": false,
-        "aov:contains": [ "AcActivePowerTotal_AccuracyClass", "AcActivePowerTotal_Resource" ],
+        "dov:contains": [ "AcActivePowerTotal_AccuracyClass", "AcActivePowerTotal_Resource" ],
         "qudt:hasQuantityKind": "http://qudt.org/vocab/quantitykind/Power",
-        "aov:withUnit": "properties/AcActivePowerTotal_EngineeringUnits",
+        "dov:withUnit": "properties/AcActivePowerTotal_EngineeringUnits",
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/ECM/ECM_IEnergyProfileE2Type/property/AcActivePowerTotal/write",
+            "dov:topic": "opcua/ECM/ECM_IEnergyProfileE2Type/property/AcActivePowerTotal/write",
             "op": "writeproperty"
           },
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/ECM/ECM_IEnergyProfileE2Type/property/AcActivePowerTotal/read",
+            "dov:topic": "opcua/ECM/ECM_IEnergyProfileE2Type/property/AcActivePowerTotal/read",
             "op": "readproperty"
           }
         ]
       },
       "AcActivePowerTotal_AccuracyClass": {
-        "aov:namespace": "http://opcfoundation.org/UA/ECM/",
+        "dov:namespace": "http://opcfoundation.org/UA/ECM/",
         "type": "integer",
         "minimum": 0,
         "maximum": 4294967295,
         "readOnly": true,
-        "aov:containedIn": "AcActivePowerTotal",
+        "dov:containedIn": "AcActivePowerTotal",
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/ECM/ECM_IEnergyProfileE2Type/property/AcActivePowerTotal_AccuracyClass/read",
+            "dov:topic": "opcua/ECM/ECM_IEnergyProfileE2Type/property/AcActivePowerTotal_AccuracyClass/read",
             "op": "readproperty"
           }
         ]
       },
       "AcActivePowerTotal_Resource": {
-        "aov:namespace": "http://opcfoundation.org/UA/ECM/",
+        "dov:namespace": "http://opcfoundation.org/UA/ECM/",
         "type": "integer",
         "minimum": 0,
         "maximum": 4294967295,
         "readOnly": false,
-        "aov:containedIn": "AcActivePowerTotal",
+        "dov:containedIn": "AcActivePowerTotal",
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/ECM/ECM_IEnergyProfileE2Type/property/AcActivePowerTotal_Resource/write",
+            "dov:topic": "opcua/ECM/ECM_IEnergyProfileE2Type/property/AcActivePowerTotal_Resource/write",
             "op": "writeproperty"
           },
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/ECM/ECM_IEnergyProfileE2Type/property/AcActivePowerTotal_Resource/read",
+            "dov:topic": "opcua/ECM/ECM_IEnergyProfileE2Type/property/AcActivePowerTotal_Resource/read",
             "op": "readproperty"
           }
         ]
@@ -1114,7 +1108,7 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/ECM/ECM_IEnergyProfileE2Type/property/AcActivePowerTotal_EngineeringUnits/read",
+            "dov:topic": "opcua/ECM/ECM_IEnergyProfileE2Type/property/AcActivePowerTotal_EngineeringUnits/read",
             "op": "readproperty"
           }
         ]
@@ -1122,51 +1116,51 @@
     },
     "events": {
       "AcActivePowerTotal": {
-        "aov:namespace": "http://opcfoundation.org/UA/ECM/",
+        "dov:namespace": "http://opcfoundation.org/UA/ECM/",
         "data": {
           "type": "number",
           "minimum": -3.40e+38,
           "maximum": 3.40e+38
         },
-        "aov:contains": [ "AcActivePowerTotal_AccuracyClass", "AcActivePowerTotal_Resource" ],
+        "dov:contains": [ "AcActivePowerTotal_AccuracyClass", "AcActivePowerTotal_Resource" ],
         "qudt:hasQuantityKind": "http://qudt.org/vocab/quantitykind/Power",
-        "aov:withUnit": "properties/AcActivePowerTotal_EngineeringUnits",
+        "dov:withUnit": "properties/AcActivePowerTotal_EngineeringUnits",
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/ECM/ECM_IEnergyProfileE2Type/event/AcActivePowerTotal/{senderId}",
+            "dov:topic": "opcua/ECM/ECM_IEnergyProfileE2Type/event/AcActivePowerTotal/{senderId}",
             "op": "subscribeevent"
           }
         ]
       },
       "AcActivePowerTotal_AccuracyClass": {
-        "aov:namespace": "http://opcfoundation.org/UA/ECM/",
+        "dov:namespace": "http://opcfoundation.org/UA/ECM/",
         "data": {
           "type": "integer",
           "minimum": 0,
           "maximum": 4294967295
         },
-        "aov:containedIn": "AcActivePowerTotal",
+        "dov:containedIn": "AcActivePowerTotal",
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/ECM/ECM_IEnergyProfileE2Type/event/AcActivePowerTotal_AccuracyClass/{senderId}",
+            "dov:topic": "opcua/ECM/ECM_IEnergyProfileE2Type/event/AcActivePowerTotal_AccuracyClass/{senderId}",
             "op": "subscribeevent"
           }
         ]
       },
       "AcActivePowerTotal_Resource": {
-        "aov:namespace": "http://opcfoundation.org/UA/ECM/",
+        "dov:namespace": "http://opcfoundation.org/UA/ECM/",
         "data": {
           "type": "integer",
           "minimum": 0,
           "maximum": 4294967295
         },
-        "aov:containedIn": "AcActivePowerTotal",
+        "dov:containedIn": "AcActivePowerTotal",
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/ECM/ECM_IEnergyProfileE2Type/event/AcActivePowerTotal_Resource/{senderId}",
+            "dov:topic": "opcua/ECM/ECM_IEnergyProfileE2Type/event/AcActivePowerTotal_Resource/{senderId}",
             "op": "subscribeevent"
           }
         ]
@@ -1178,13 +1172,12 @@
       "https://www.w3.org/2022/wot/td/v1.1",
       {
         "qudt": "http://qudt.org/schema/qudt/",
-        "dtv": "http://azure.com/DigitalTwins/dtmi#",
-        "aov": "http://azure.com/IoT/operations/tm#"
+        "dov": "http://azure.com/DigitalOperations/vocab#"
       }
     ],
     "@type": "tm:ThingModel",
     "title": "ECM_IEnergyProfileE3Type",
-    "aov:typeRef": "nsu=http://opcfoundation.org/UA/ECM/;i=1010",
+    "dov:typeRef": "nsu=http://opcfoundation.org/UA/ECM/;i=1010",
     "links": [
       {
         "rel": "tm:extends",
@@ -1197,17 +1190,17 @@
     "forms": [
       {
         "contentType": "application/json",
-        "dtv:topic": "opcua/ECM/ECM_IEnergyProfileE3Type/events/{senderId}",
+        "dov:topic": "opcua/ECM/ECM_IEnergyProfileE3Type/events/{senderId}",
         "op": "subscribeallevents"
       },
       {
         "contentType": "application/json",
-        "dtv:topic": "opcua/ECM/ECM_IEnergyProfileE3Type/properties/write",
+        "dov:topic": "opcua/ECM/ECM_IEnergyProfileE3Type/properties/write",
         "op": "writemultipleproperties"
       },
       {
         "contentType": "application/json",
-        "dtv:topic": "opcua/ECM/ECM_IEnergyProfileE3Type/properties/read",
+        "dov:topic": "opcua/ECM/ECM_IEnergyProfileE3Type/properties/read",
         "op": "readallproperties"
       }
     ],
@@ -1215,10 +1208,10 @@
     },
     "properties": {
       "AcActivePowerPe": {
-        "aov:namespace": "http://opcfoundation.org/UA/ECM/",
+        "dov:namespace": "http://opcfoundation.org/UA/ECM/",
         "title": "AcPeDataType",
         "type": "object",
-        "aov:typeRef": "nsu=http://opcfoundation.org/UA/ECM/;i=3005",
+        "dov:typeRef": "nsu=http://opcfoundation.org/UA/ECM/;i=3005",
         "required": [ "L1", "L2", "L3" ],
         "properties": {
           "L1": {
@@ -1241,62 +1234,62 @@
           }
         },
         "readOnly": false,
-        "aov:contains": [ "AcActivePowerPe_AccuracyClass", "AcActivePowerPe_Resource" ],
+        "dov:contains": [ "AcActivePowerPe_AccuracyClass", "AcActivePowerPe_Resource" ],
         "qudt:hasQuantityKind": "http://qudt.org/vocab/quantitykind/Power",
-        "aov:withUnit": "properties/AcActivePowerPe_EngineeringUnits",
+        "dov:withUnit": "properties/AcActivePowerPe_EngineeringUnits",
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/ECM/ECM_IEnergyProfileE3Type/property/AcActivePowerPe/write",
+            "dov:topic": "opcua/ECM/ECM_IEnergyProfileE3Type/property/AcActivePowerPe/write",
             "op": "writeproperty"
           },
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/ECM/ECM_IEnergyProfileE3Type/property/AcActivePowerPe/read",
+            "dov:topic": "opcua/ECM/ECM_IEnergyProfileE3Type/property/AcActivePowerPe/read",
             "op": "readproperty"
           }
         ]
       },
       "AcActivePowerPe_AccuracyClass": {
-        "aov:namespace": "http://opcfoundation.org/UA/ECM/",
+        "dov:namespace": "http://opcfoundation.org/UA/ECM/",
         "type": "integer",
         "minimum": 0,
         "maximum": 4294967295,
         "readOnly": true,
-        "aov:containedIn": "AcActivePowerPe",
+        "dov:containedIn": "AcActivePowerPe",
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/ECM/ECM_IEnergyProfileE3Type/property/AcActivePowerPe_AccuracyClass/read",
+            "dov:topic": "opcua/ECM/ECM_IEnergyProfileE3Type/property/AcActivePowerPe_AccuracyClass/read",
             "op": "readproperty"
           }
         ]
       },
       "AcActivePowerPe_Resource": {
-        "aov:namespace": "http://opcfoundation.org/UA/ECM/",
+        "dov:namespace": "http://opcfoundation.org/UA/ECM/",
         "type": "integer",
         "minimum": 0,
         "maximum": 4294967295,
         "readOnly": false,
-        "aov:containedIn": "AcActivePowerPe",
+        "dov:containedIn": "AcActivePowerPe",
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/ECM/ECM_IEnergyProfileE3Type/property/AcActivePowerPe_Resource/write",
+            "dov:topic": "opcua/ECM/ECM_IEnergyProfileE3Type/property/AcActivePowerPe_Resource/write",
             "op": "writeproperty"
           },
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/ECM/ECM_IEnergyProfileE3Type/property/AcActivePowerPe_Resource/read",
+            "dov:topic": "opcua/ECM/ECM_IEnergyProfileE3Type/property/AcActivePowerPe_Resource/read",
             "op": "readproperty"
           }
         ]
       },
       "AcCurrentPe": {
-        "aov:namespace": "http://opcfoundation.org/UA/ECM/",
+        "dov:namespace": "http://opcfoundation.org/UA/ECM/",
         "title": "AcPeDataType",
         "type": "object",
-        "aov:typeRef": "nsu=http://opcfoundation.org/UA/ECM/;i=3005",
+        "dov:typeRef": "nsu=http://opcfoundation.org/UA/ECM/;i=3005",
         "required": [ "L1", "L2", "L3" ],
         "properties": {
           "L1": {
@@ -1319,62 +1312,62 @@
           }
         },
         "readOnly": false,
-        "aov:contains": [ "AcCurrentPe_AccuracyClass", "AcCurrentPe_Resource" ],
+        "dov:contains": [ "AcCurrentPe_AccuracyClass", "AcCurrentPe_Resource" ],
         "qudt:hasQuantityKind": "http://qudt.org/vocab/quantitykind/ElectricCurrent",
-        "aov:withUnit": "properties/AcCurrentPe_EngineeringUnits",
+        "dov:withUnit": "properties/AcCurrentPe_EngineeringUnits",
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/ECM/ECM_IEnergyProfileE3Type/property/AcCurrentPe/write",
+            "dov:topic": "opcua/ECM/ECM_IEnergyProfileE3Type/property/AcCurrentPe/write",
             "op": "writeproperty"
           },
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/ECM/ECM_IEnergyProfileE3Type/property/AcCurrentPe/read",
+            "dov:topic": "opcua/ECM/ECM_IEnergyProfileE3Type/property/AcCurrentPe/read",
             "op": "readproperty"
           }
         ]
       },
       "AcCurrentPe_AccuracyClass": {
-        "aov:namespace": "http://opcfoundation.org/UA/ECM/",
+        "dov:namespace": "http://opcfoundation.org/UA/ECM/",
         "type": "integer",
         "minimum": 0,
         "maximum": 4294967295,
         "readOnly": true,
-        "aov:containedIn": "AcCurrentPe",
+        "dov:containedIn": "AcCurrentPe",
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/ECM/ECM_IEnergyProfileE3Type/property/AcCurrentPe_AccuracyClass/read",
+            "dov:topic": "opcua/ECM/ECM_IEnergyProfileE3Type/property/AcCurrentPe_AccuracyClass/read",
             "op": "readproperty"
           }
         ]
       },
       "AcCurrentPe_Resource": {
-        "aov:namespace": "http://opcfoundation.org/UA/ECM/",
+        "dov:namespace": "http://opcfoundation.org/UA/ECM/",
         "type": "integer",
         "minimum": 0,
         "maximum": 4294967295,
         "readOnly": false,
-        "aov:containedIn": "AcCurrentPe",
+        "dov:containedIn": "AcCurrentPe",
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/ECM/ECM_IEnergyProfileE3Type/property/AcCurrentPe_Resource/write",
+            "dov:topic": "opcua/ECM/ECM_IEnergyProfileE3Type/property/AcCurrentPe_Resource/write",
             "op": "writeproperty"
           },
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/ECM/ECM_IEnergyProfileE3Type/property/AcCurrentPe_Resource/read",
+            "dov:topic": "opcua/ECM/ECM_IEnergyProfileE3Type/property/AcCurrentPe_Resource/read",
             "op": "readproperty"
           }
         ]
       },
       "AcPowerFactorPe": {
-        "aov:namespace": "http://opcfoundation.org/UA/ECM/",
+        "dov:namespace": "http://opcfoundation.org/UA/ECM/",
         "title": "AcPeDataType",
         "type": "object",
-        "aov:typeRef": "nsu=http://opcfoundation.org/UA/ECM/;i=3005",
+        "dov:typeRef": "nsu=http://opcfoundation.org/UA/ECM/;i=3005",
         "required": [ "L1", "L2", "L3" ],
         "properties": {
           "L1": {
@@ -1397,60 +1390,60 @@
           }
         },
         "readOnly": false,
-        "aov:contains": [ "AcPowerFactorPe_AccuracyClass", "AcPowerFactorPe_Resource" ],
+        "dov:contains": [ "AcPowerFactorPe_AccuracyClass", "AcPowerFactorPe_Resource" ],
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/ECM/ECM_IEnergyProfileE3Type/property/AcPowerFactorPe/write",
+            "dov:topic": "opcua/ECM/ECM_IEnergyProfileE3Type/property/AcPowerFactorPe/write",
             "op": "writeproperty"
           },
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/ECM/ECM_IEnergyProfileE3Type/property/AcPowerFactorPe/read",
+            "dov:topic": "opcua/ECM/ECM_IEnergyProfileE3Type/property/AcPowerFactorPe/read",
             "op": "readproperty"
           }
         ]
       },
       "AcPowerFactorPe_AccuracyClass": {
-        "aov:namespace": "http://opcfoundation.org/UA/ECM/",
+        "dov:namespace": "http://opcfoundation.org/UA/ECM/",
         "type": "integer",
         "minimum": 0,
         "maximum": 4294967295,
         "readOnly": true,
-        "aov:containedIn": "AcPowerFactorPe",
+        "dov:containedIn": "AcPowerFactorPe",
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/ECM/ECM_IEnergyProfileE3Type/property/AcPowerFactorPe_AccuracyClass/read",
+            "dov:topic": "opcua/ECM/ECM_IEnergyProfileE3Type/property/AcPowerFactorPe_AccuracyClass/read",
             "op": "readproperty"
           }
         ]
       },
       "AcPowerFactorPe_Resource": {
-        "aov:namespace": "http://opcfoundation.org/UA/ECM/",
+        "dov:namespace": "http://opcfoundation.org/UA/ECM/",
         "type": "integer",
         "minimum": 0,
         "maximum": 4294967295,
         "readOnly": false,
-        "aov:containedIn": "AcPowerFactorPe",
+        "dov:containedIn": "AcPowerFactorPe",
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/ECM/ECM_IEnergyProfileE3Type/property/AcPowerFactorPe_Resource/write",
+            "dov:topic": "opcua/ECM/ECM_IEnergyProfileE3Type/property/AcPowerFactorPe_Resource/write",
             "op": "writeproperty"
           },
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/ECM/ECM_IEnergyProfileE3Type/property/AcPowerFactorPe_Resource/read",
+            "dov:topic": "opcua/ECM/ECM_IEnergyProfileE3Type/property/AcPowerFactorPe_Resource/read",
             "op": "readproperty"
           }
         ]
       },
       "AcReactivePowerPe": {
-        "aov:namespace": "http://opcfoundation.org/UA/ECM/",
+        "dov:namespace": "http://opcfoundation.org/UA/ECM/",
         "title": "AcPeDataType",
         "type": "object",
-        "aov:typeRef": "nsu=http://opcfoundation.org/UA/ECM/;i=3005",
+        "dov:typeRef": "nsu=http://opcfoundation.org/UA/ECM/;i=3005",
         "required": [ "L1", "L2", "L3" ],
         "properties": {
           "L1": {
@@ -1473,62 +1466,62 @@
           }
         },
         "readOnly": false,
-        "aov:contains": [ "AcReactivePowerPe_AccuracyClass", "AcReactivePowerPe_Resource" ],
+        "dov:contains": [ "AcReactivePowerPe_AccuracyClass", "AcReactivePowerPe_Resource" ],
         "qudt:hasQuantityKind": "http://qudt.org/vocab/quantitykind/ReactivePower",
-        "aov:withUnit": "properties/AcReactivePowerPe_EngineeringUnits",
+        "dov:withUnit": "properties/AcReactivePowerPe_EngineeringUnits",
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/ECM/ECM_IEnergyProfileE3Type/property/AcReactivePowerPe/write",
+            "dov:topic": "opcua/ECM/ECM_IEnergyProfileE3Type/property/AcReactivePowerPe/write",
             "op": "writeproperty"
           },
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/ECM/ECM_IEnergyProfileE3Type/property/AcReactivePowerPe/read",
+            "dov:topic": "opcua/ECM/ECM_IEnergyProfileE3Type/property/AcReactivePowerPe/read",
             "op": "readproperty"
           }
         ]
       },
       "AcReactivePowerPe_AccuracyClass": {
-        "aov:namespace": "http://opcfoundation.org/UA/ECM/",
+        "dov:namespace": "http://opcfoundation.org/UA/ECM/",
         "type": "integer",
         "minimum": 0,
         "maximum": 4294967295,
         "readOnly": true,
-        "aov:containedIn": "AcReactivePowerPe",
+        "dov:containedIn": "AcReactivePowerPe",
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/ECM/ECM_IEnergyProfileE3Type/property/AcReactivePowerPe_AccuracyClass/read",
+            "dov:topic": "opcua/ECM/ECM_IEnergyProfileE3Type/property/AcReactivePowerPe_AccuracyClass/read",
             "op": "readproperty"
           }
         ]
       },
       "AcReactivePowerPe_Resource": {
-        "aov:namespace": "http://opcfoundation.org/UA/ECM/",
+        "dov:namespace": "http://opcfoundation.org/UA/ECM/",
         "type": "integer",
         "minimum": 0,
         "maximum": 4294967295,
         "readOnly": false,
-        "aov:containedIn": "AcReactivePowerPe",
+        "dov:containedIn": "AcReactivePowerPe",
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/ECM/ECM_IEnergyProfileE3Type/property/AcReactivePowerPe_Resource/write",
+            "dov:topic": "opcua/ECM/ECM_IEnergyProfileE3Type/property/AcReactivePowerPe_Resource/write",
             "op": "writeproperty"
           },
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/ECM/ECM_IEnergyProfileE3Type/property/AcReactivePowerPe_Resource/read",
+            "dov:topic": "opcua/ECM/ECM_IEnergyProfileE3Type/property/AcReactivePowerPe_Resource/read",
             "op": "readproperty"
           }
         ]
       },
       "AcVoltagePe": {
-        "aov:namespace": "http://opcfoundation.org/UA/ECM/",
+        "dov:namespace": "http://opcfoundation.org/UA/ECM/",
         "title": "AcPeDataType",
         "type": "object",
-        "aov:typeRef": "nsu=http://opcfoundation.org/UA/ECM/;i=3005",
+        "dov:typeRef": "nsu=http://opcfoundation.org/UA/ECM/;i=3005",
         "required": [ "L1", "L2", "L3" ],
         "properties": {
           "L1": {
@@ -1551,62 +1544,62 @@
           }
         },
         "readOnly": false,
-        "aov:contains": [ "AcVoltagePe_AccuracyClass", "AcVoltagePe_Resource" ],
+        "dov:contains": [ "AcVoltagePe_AccuracyClass", "AcVoltagePe_Resource" ],
         "qudt:hasQuantityKind": "http://qudt.org/vocab/quantitykind/ElectricPotential",
-        "aov:withUnit": "properties/AcVoltagePe_EngineeringUnits",
+        "dov:withUnit": "properties/AcVoltagePe_EngineeringUnits",
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/ECM/ECM_IEnergyProfileE3Type/property/AcVoltagePe/write",
+            "dov:topic": "opcua/ECM/ECM_IEnergyProfileE3Type/property/AcVoltagePe/write",
             "op": "writeproperty"
           },
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/ECM/ECM_IEnergyProfileE3Type/property/AcVoltagePe/read",
+            "dov:topic": "opcua/ECM/ECM_IEnergyProfileE3Type/property/AcVoltagePe/read",
             "op": "readproperty"
           }
         ]
       },
       "AcVoltagePe_AccuracyClass": {
-        "aov:namespace": "http://opcfoundation.org/UA/ECM/",
+        "dov:namespace": "http://opcfoundation.org/UA/ECM/",
         "type": "integer",
         "minimum": 0,
         "maximum": 4294967295,
         "readOnly": true,
-        "aov:containedIn": "AcVoltagePe",
+        "dov:containedIn": "AcVoltagePe",
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/ECM/ECM_IEnergyProfileE3Type/property/AcVoltagePe_AccuracyClass/read",
+            "dov:topic": "opcua/ECM/ECM_IEnergyProfileE3Type/property/AcVoltagePe_AccuracyClass/read",
             "op": "readproperty"
           }
         ]
       },
       "AcVoltagePe_Resource": {
-        "aov:namespace": "http://opcfoundation.org/UA/ECM/",
+        "dov:namespace": "http://opcfoundation.org/UA/ECM/",
         "type": "integer",
         "minimum": 0,
         "maximum": 4294967295,
         "readOnly": false,
-        "aov:containedIn": "AcVoltagePe",
+        "dov:containedIn": "AcVoltagePe",
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/ECM/ECM_IEnergyProfileE3Type/property/AcVoltagePe_Resource/write",
+            "dov:topic": "opcua/ECM/ECM_IEnergyProfileE3Type/property/AcVoltagePe_Resource/write",
             "op": "writeproperty"
           },
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/ECM/ECM_IEnergyProfileE3Type/property/AcVoltagePe_Resource/read",
+            "dov:topic": "opcua/ECM/ECM_IEnergyProfileE3Type/property/AcVoltagePe_Resource/read",
             "op": "readproperty"
           }
         ]
       },
       "AcVoltagePp": {
-        "aov:namespace": "http://opcfoundation.org/UA/ECM/",
+        "dov:namespace": "http://opcfoundation.org/UA/ECM/",
         "title": "AcPpDataType",
         "type": "object",
-        "aov:typeRef": "nsu=http://opcfoundation.org/UA/ECM/;i=3006",
+        "dov:typeRef": "nsu=http://opcfoundation.org/UA/ECM/;i=3006",
         "required": [ "L1L2", "L2L3", "L3L1" ],
         "properties": {
           "L1L2": {
@@ -1629,53 +1622,53 @@
           }
         },
         "readOnly": false,
-        "aov:contains": [ "AcVoltagePp_AccuracyClass", "AcVoltagePp_Resource" ],
+        "dov:contains": [ "AcVoltagePp_AccuracyClass", "AcVoltagePp_Resource" ],
         "qudt:hasQuantityKind": "http://qudt.org/vocab/quantitykind/ElectricPotential",
-        "aov:withUnit": "properties/AcVoltagePp_EngineeringUnits",
+        "dov:withUnit": "properties/AcVoltagePp_EngineeringUnits",
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/ECM/ECM_IEnergyProfileE3Type/property/AcVoltagePp/write",
+            "dov:topic": "opcua/ECM/ECM_IEnergyProfileE3Type/property/AcVoltagePp/write",
             "op": "writeproperty"
           },
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/ECM/ECM_IEnergyProfileE3Type/property/AcVoltagePp/read",
+            "dov:topic": "opcua/ECM/ECM_IEnergyProfileE3Type/property/AcVoltagePp/read",
             "op": "readproperty"
           }
         ]
       },
       "AcVoltagePp_AccuracyClass": {
-        "aov:namespace": "http://opcfoundation.org/UA/ECM/",
+        "dov:namespace": "http://opcfoundation.org/UA/ECM/",
         "type": "integer",
         "minimum": 0,
         "maximum": 4294967295,
         "readOnly": true,
-        "aov:containedIn": "AcVoltagePp",
+        "dov:containedIn": "AcVoltagePp",
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/ECM/ECM_IEnergyProfileE3Type/property/AcVoltagePp_AccuracyClass/read",
+            "dov:topic": "opcua/ECM/ECM_IEnergyProfileE3Type/property/AcVoltagePp_AccuracyClass/read",
             "op": "readproperty"
           }
         ]
       },
       "AcVoltagePp_Resource": {
-        "aov:namespace": "http://opcfoundation.org/UA/ECM/",
+        "dov:namespace": "http://opcfoundation.org/UA/ECM/",
         "type": "integer",
         "minimum": 0,
         "maximum": 4294967295,
         "readOnly": false,
-        "aov:containedIn": "AcVoltagePp",
+        "dov:containedIn": "AcVoltagePp",
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/ECM/ECM_IEnergyProfileE3Type/property/AcVoltagePp_Resource/write",
+            "dov:topic": "opcua/ECM/ECM_IEnergyProfileE3Type/property/AcVoltagePp_Resource/write",
             "op": "writeproperty"
           },
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/ECM/ECM_IEnergyProfileE3Type/property/AcVoltagePp_Resource/read",
+            "dov:topic": "opcua/ECM/ECM_IEnergyProfileE3Type/property/AcVoltagePp_Resource/read",
             "op": "readproperty"
           }
         ]
@@ -1687,7 +1680,7 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/ECM/ECM_IEnergyProfileE3Type/property/AcActivePowerPe_EngineeringUnits/read",
+            "dov:topic": "opcua/ECM/ECM_IEnergyProfileE3Type/property/AcActivePowerPe_EngineeringUnits/read",
             "op": "readproperty"
           }
         ]
@@ -1699,7 +1692,7 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/ECM/ECM_IEnergyProfileE3Type/property/AcCurrentPe_EngineeringUnits/read",
+            "dov:topic": "opcua/ECM/ECM_IEnergyProfileE3Type/property/AcCurrentPe_EngineeringUnits/read",
             "op": "readproperty"
           }
         ]
@@ -1711,7 +1704,7 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/ECM/ECM_IEnergyProfileE3Type/property/AcReactivePowerPe_EngineeringUnits/read",
+            "dov:topic": "opcua/ECM/ECM_IEnergyProfileE3Type/property/AcReactivePowerPe_EngineeringUnits/read",
             "op": "readproperty"
           }
         ]
@@ -1723,7 +1716,7 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/ECM/ECM_IEnergyProfileE3Type/property/AcVoltagePe_EngineeringUnits/read",
+            "dov:topic": "opcua/ECM/ECM_IEnergyProfileE3Type/property/AcVoltagePe_EngineeringUnits/read",
             "op": "readproperty"
           }
         ]
@@ -1735,7 +1728,7 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/ECM/ECM_IEnergyProfileE3Type/property/AcVoltagePp_EngineeringUnits/read",
+            "dov:topic": "opcua/ECM/ECM_IEnergyProfileE3Type/property/AcVoltagePp_EngineeringUnits/read",
             "op": "readproperty"
           }
         ]
@@ -1743,11 +1736,11 @@
     },
     "events": {
       "AcActivePowerPe": {
-        "aov:namespace": "http://opcfoundation.org/UA/ECM/",
+        "dov:namespace": "http://opcfoundation.org/UA/ECM/",
         "data": {
           "title": "AcPeDataType",
           "type": "object",
-          "aov:typeRef": "nsu=http://opcfoundation.org/UA/ECM/;i=3005",
+          "dov:typeRef": "nsu=http://opcfoundation.org/UA/ECM/;i=3005",
           "required": [ "L1", "L2", "L3" ],
           "properties": {
             "L1": {
@@ -1770,55 +1763,55 @@
             }
           }
         },
-        "aov:contains": [ "AcActivePowerPe_AccuracyClass", "AcActivePowerPe_Resource" ],
+        "dov:contains": [ "AcActivePowerPe_AccuracyClass", "AcActivePowerPe_Resource" ],
         "qudt:hasQuantityKind": "http://qudt.org/vocab/quantitykind/Power",
-        "aov:withUnit": "properties/AcActivePowerPe_EngineeringUnits",
+        "dov:withUnit": "properties/AcActivePowerPe_EngineeringUnits",
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/ECM/ECM_IEnergyProfileE3Type/event/AcActivePowerPe/{senderId}",
+            "dov:topic": "opcua/ECM/ECM_IEnergyProfileE3Type/event/AcActivePowerPe/{senderId}",
             "op": "subscribeevent"
           }
         ]
       },
       "AcActivePowerPe_AccuracyClass": {
-        "aov:namespace": "http://opcfoundation.org/UA/ECM/",
+        "dov:namespace": "http://opcfoundation.org/UA/ECM/",
         "data": {
           "type": "integer",
           "minimum": 0,
           "maximum": 4294967295
         },
-        "aov:containedIn": "AcActivePowerPe",
+        "dov:containedIn": "AcActivePowerPe",
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/ECM/ECM_IEnergyProfileE3Type/event/AcActivePowerPe_AccuracyClass/{senderId}",
+            "dov:topic": "opcua/ECM/ECM_IEnergyProfileE3Type/event/AcActivePowerPe_AccuracyClass/{senderId}",
             "op": "subscribeevent"
           }
         ]
       },
       "AcActivePowerPe_Resource": {
-        "aov:namespace": "http://opcfoundation.org/UA/ECM/",
+        "dov:namespace": "http://opcfoundation.org/UA/ECM/",
         "data": {
           "type": "integer",
           "minimum": 0,
           "maximum": 4294967295
         },
-        "aov:containedIn": "AcActivePowerPe",
+        "dov:containedIn": "AcActivePowerPe",
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/ECM/ECM_IEnergyProfileE3Type/event/AcActivePowerPe_Resource/{senderId}",
+            "dov:topic": "opcua/ECM/ECM_IEnergyProfileE3Type/event/AcActivePowerPe_Resource/{senderId}",
             "op": "subscribeevent"
           }
         ]
       },
       "AcCurrentPe": {
-        "aov:namespace": "http://opcfoundation.org/UA/ECM/",
+        "dov:namespace": "http://opcfoundation.org/UA/ECM/",
         "data": {
           "title": "AcPeDataType",
           "type": "object",
-          "aov:typeRef": "nsu=http://opcfoundation.org/UA/ECM/;i=3005",
+          "dov:typeRef": "nsu=http://opcfoundation.org/UA/ECM/;i=3005",
           "required": [ "L1", "L2", "L3" ],
           "properties": {
             "L1": {
@@ -1841,55 +1834,55 @@
             }
           }
         },
-        "aov:contains": [ "AcCurrentPe_AccuracyClass", "AcCurrentPe_Resource" ],
+        "dov:contains": [ "AcCurrentPe_AccuracyClass", "AcCurrentPe_Resource" ],
         "qudt:hasQuantityKind": "http://qudt.org/vocab/quantitykind/ElectricCurrent",
-        "aov:withUnit": "properties/AcCurrentPe_EngineeringUnits",
+        "dov:withUnit": "properties/AcCurrentPe_EngineeringUnits",
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/ECM/ECM_IEnergyProfileE3Type/event/AcCurrentPe/{senderId}",
+            "dov:topic": "opcua/ECM/ECM_IEnergyProfileE3Type/event/AcCurrentPe/{senderId}",
             "op": "subscribeevent"
           }
         ]
       },
       "AcCurrentPe_AccuracyClass": {
-        "aov:namespace": "http://opcfoundation.org/UA/ECM/",
+        "dov:namespace": "http://opcfoundation.org/UA/ECM/",
         "data": {
           "type": "integer",
           "minimum": 0,
           "maximum": 4294967295
         },
-        "aov:containedIn": "AcCurrentPe",
+        "dov:containedIn": "AcCurrentPe",
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/ECM/ECM_IEnergyProfileE3Type/event/AcCurrentPe_AccuracyClass/{senderId}",
+            "dov:topic": "opcua/ECM/ECM_IEnergyProfileE3Type/event/AcCurrentPe_AccuracyClass/{senderId}",
             "op": "subscribeevent"
           }
         ]
       },
       "AcCurrentPe_Resource": {
-        "aov:namespace": "http://opcfoundation.org/UA/ECM/",
+        "dov:namespace": "http://opcfoundation.org/UA/ECM/",
         "data": {
           "type": "integer",
           "minimum": 0,
           "maximum": 4294967295
         },
-        "aov:containedIn": "AcCurrentPe",
+        "dov:containedIn": "AcCurrentPe",
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/ECM/ECM_IEnergyProfileE3Type/event/AcCurrentPe_Resource/{senderId}",
+            "dov:topic": "opcua/ECM/ECM_IEnergyProfileE3Type/event/AcCurrentPe_Resource/{senderId}",
             "op": "subscribeevent"
           }
         ]
       },
       "AcPowerFactorPe": {
-        "aov:namespace": "http://opcfoundation.org/UA/ECM/",
+        "dov:namespace": "http://opcfoundation.org/UA/ECM/",
         "data": {
           "title": "AcPeDataType",
           "type": "object",
-          "aov:typeRef": "nsu=http://opcfoundation.org/UA/ECM/;i=3005",
+          "dov:typeRef": "nsu=http://opcfoundation.org/UA/ECM/;i=3005",
           "required": [ "L1", "L2", "L3" ],
           "properties": {
             "L1": {
@@ -1912,53 +1905,53 @@
             }
           }
         },
-        "aov:contains": [ "AcPowerFactorPe_AccuracyClass", "AcPowerFactorPe_Resource" ],
+        "dov:contains": [ "AcPowerFactorPe_AccuracyClass", "AcPowerFactorPe_Resource" ],
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/ECM/ECM_IEnergyProfileE3Type/event/AcPowerFactorPe/{senderId}",
+            "dov:topic": "opcua/ECM/ECM_IEnergyProfileE3Type/event/AcPowerFactorPe/{senderId}",
             "op": "subscribeevent"
           }
         ]
       },
       "AcPowerFactorPe_AccuracyClass": {
-        "aov:namespace": "http://opcfoundation.org/UA/ECM/",
+        "dov:namespace": "http://opcfoundation.org/UA/ECM/",
         "data": {
           "type": "integer",
           "minimum": 0,
           "maximum": 4294967295
         },
-        "aov:containedIn": "AcPowerFactorPe",
+        "dov:containedIn": "AcPowerFactorPe",
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/ECM/ECM_IEnergyProfileE3Type/event/AcPowerFactorPe_AccuracyClass/{senderId}",
+            "dov:topic": "opcua/ECM/ECM_IEnergyProfileE3Type/event/AcPowerFactorPe_AccuracyClass/{senderId}",
             "op": "subscribeevent"
           }
         ]
       },
       "AcPowerFactorPe_Resource": {
-        "aov:namespace": "http://opcfoundation.org/UA/ECM/",
+        "dov:namespace": "http://opcfoundation.org/UA/ECM/",
         "data": {
           "type": "integer",
           "minimum": 0,
           "maximum": 4294967295
         },
-        "aov:containedIn": "AcPowerFactorPe",
+        "dov:containedIn": "AcPowerFactorPe",
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/ECM/ECM_IEnergyProfileE3Type/event/AcPowerFactorPe_Resource/{senderId}",
+            "dov:topic": "opcua/ECM/ECM_IEnergyProfileE3Type/event/AcPowerFactorPe_Resource/{senderId}",
             "op": "subscribeevent"
           }
         ]
       },
       "AcReactivePowerPe": {
-        "aov:namespace": "http://opcfoundation.org/UA/ECM/",
+        "dov:namespace": "http://opcfoundation.org/UA/ECM/",
         "data": {
           "title": "AcPeDataType",
           "type": "object",
-          "aov:typeRef": "nsu=http://opcfoundation.org/UA/ECM/;i=3005",
+          "dov:typeRef": "nsu=http://opcfoundation.org/UA/ECM/;i=3005",
           "required": [ "L1", "L2", "L3" ],
           "properties": {
             "L1": {
@@ -1981,55 +1974,55 @@
             }
           }
         },
-        "aov:contains": [ "AcReactivePowerPe_AccuracyClass", "AcReactivePowerPe_Resource" ],
+        "dov:contains": [ "AcReactivePowerPe_AccuracyClass", "AcReactivePowerPe_Resource" ],
         "qudt:hasQuantityKind": "http://qudt.org/vocab/quantitykind/ReactivePower",
-        "aov:withUnit": "properties/AcReactivePowerPe_EngineeringUnits",
+        "dov:withUnit": "properties/AcReactivePowerPe_EngineeringUnits",
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/ECM/ECM_IEnergyProfileE3Type/event/AcReactivePowerPe/{senderId}",
+            "dov:topic": "opcua/ECM/ECM_IEnergyProfileE3Type/event/AcReactivePowerPe/{senderId}",
             "op": "subscribeevent"
           }
         ]
       },
       "AcReactivePowerPe_AccuracyClass": {
-        "aov:namespace": "http://opcfoundation.org/UA/ECM/",
+        "dov:namespace": "http://opcfoundation.org/UA/ECM/",
         "data": {
           "type": "integer",
           "minimum": 0,
           "maximum": 4294967295
         },
-        "aov:containedIn": "AcReactivePowerPe",
+        "dov:containedIn": "AcReactivePowerPe",
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/ECM/ECM_IEnergyProfileE3Type/event/AcReactivePowerPe_AccuracyClass/{senderId}",
+            "dov:topic": "opcua/ECM/ECM_IEnergyProfileE3Type/event/AcReactivePowerPe_AccuracyClass/{senderId}",
             "op": "subscribeevent"
           }
         ]
       },
       "AcReactivePowerPe_Resource": {
-        "aov:namespace": "http://opcfoundation.org/UA/ECM/",
+        "dov:namespace": "http://opcfoundation.org/UA/ECM/",
         "data": {
           "type": "integer",
           "minimum": 0,
           "maximum": 4294967295
         },
-        "aov:containedIn": "AcReactivePowerPe",
+        "dov:containedIn": "AcReactivePowerPe",
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/ECM/ECM_IEnergyProfileE3Type/event/AcReactivePowerPe_Resource/{senderId}",
+            "dov:topic": "opcua/ECM/ECM_IEnergyProfileE3Type/event/AcReactivePowerPe_Resource/{senderId}",
             "op": "subscribeevent"
           }
         ]
       },
       "AcVoltagePe": {
-        "aov:namespace": "http://opcfoundation.org/UA/ECM/",
+        "dov:namespace": "http://opcfoundation.org/UA/ECM/",
         "data": {
           "title": "AcPeDataType",
           "type": "object",
-          "aov:typeRef": "nsu=http://opcfoundation.org/UA/ECM/;i=3005",
+          "dov:typeRef": "nsu=http://opcfoundation.org/UA/ECM/;i=3005",
           "required": [ "L1", "L2", "L3" ],
           "properties": {
             "L1": {
@@ -2052,55 +2045,55 @@
             }
           }
         },
-        "aov:contains": [ "AcVoltagePe_AccuracyClass", "AcVoltagePe_Resource" ],
+        "dov:contains": [ "AcVoltagePe_AccuracyClass", "AcVoltagePe_Resource" ],
         "qudt:hasQuantityKind": "http://qudt.org/vocab/quantitykind/ElectricPotential",
-        "aov:withUnit": "properties/AcVoltagePe_EngineeringUnits",
+        "dov:withUnit": "properties/AcVoltagePe_EngineeringUnits",
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/ECM/ECM_IEnergyProfileE3Type/event/AcVoltagePe/{senderId}",
+            "dov:topic": "opcua/ECM/ECM_IEnergyProfileE3Type/event/AcVoltagePe/{senderId}",
             "op": "subscribeevent"
           }
         ]
       },
       "AcVoltagePe_AccuracyClass": {
-        "aov:namespace": "http://opcfoundation.org/UA/ECM/",
+        "dov:namespace": "http://opcfoundation.org/UA/ECM/",
         "data": {
           "type": "integer",
           "minimum": 0,
           "maximum": 4294967295
         },
-        "aov:containedIn": "AcVoltagePe",
+        "dov:containedIn": "AcVoltagePe",
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/ECM/ECM_IEnergyProfileE3Type/event/AcVoltagePe_AccuracyClass/{senderId}",
+            "dov:topic": "opcua/ECM/ECM_IEnergyProfileE3Type/event/AcVoltagePe_AccuracyClass/{senderId}",
             "op": "subscribeevent"
           }
         ]
       },
       "AcVoltagePe_Resource": {
-        "aov:namespace": "http://opcfoundation.org/UA/ECM/",
+        "dov:namespace": "http://opcfoundation.org/UA/ECM/",
         "data": {
           "type": "integer",
           "minimum": 0,
           "maximum": 4294967295
         },
-        "aov:containedIn": "AcVoltagePe",
+        "dov:containedIn": "AcVoltagePe",
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/ECM/ECM_IEnergyProfileE3Type/event/AcVoltagePe_Resource/{senderId}",
+            "dov:topic": "opcua/ECM/ECM_IEnergyProfileE3Type/event/AcVoltagePe_Resource/{senderId}",
             "op": "subscribeevent"
           }
         ]
       },
       "AcVoltagePp": {
-        "aov:namespace": "http://opcfoundation.org/UA/ECM/",
+        "dov:namespace": "http://opcfoundation.org/UA/ECM/",
         "data": {
           "title": "AcPpDataType",
           "type": "object",
-          "aov:typeRef": "nsu=http://opcfoundation.org/UA/ECM/;i=3006",
+          "dov:typeRef": "nsu=http://opcfoundation.org/UA/ECM/;i=3006",
           "required": [ "L1L2", "L2L3", "L3L1" ],
           "properties": {
             "L1L2": {
@@ -2123,45 +2116,45 @@
             }
           }
         },
-        "aov:contains": [ "AcVoltagePp_AccuracyClass", "AcVoltagePp_Resource" ],
+        "dov:contains": [ "AcVoltagePp_AccuracyClass", "AcVoltagePp_Resource" ],
         "qudt:hasQuantityKind": "http://qudt.org/vocab/quantitykind/ElectricPotential",
-        "aov:withUnit": "properties/AcVoltagePp_EngineeringUnits",
+        "dov:withUnit": "properties/AcVoltagePp_EngineeringUnits",
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/ECM/ECM_IEnergyProfileE3Type/event/AcVoltagePp/{senderId}",
+            "dov:topic": "opcua/ECM/ECM_IEnergyProfileE3Type/event/AcVoltagePp/{senderId}",
             "op": "subscribeevent"
           }
         ]
       },
       "AcVoltagePp_AccuracyClass": {
-        "aov:namespace": "http://opcfoundation.org/UA/ECM/",
+        "dov:namespace": "http://opcfoundation.org/UA/ECM/",
         "data": {
           "type": "integer",
           "minimum": 0,
           "maximum": 4294967295
         },
-        "aov:containedIn": "AcVoltagePp",
+        "dov:containedIn": "AcVoltagePp",
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/ECM/ECM_IEnergyProfileE3Type/event/AcVoltagePp_AccuracyClass/{senderId}",
+            "dov:topic": "opcua/ECM/ECM_IEnergyProfileE3Type/event/AcVoltagePp_AccuracyClass/{senderId}",
             "op": "subscribeevent"
           }
         ]
       },
       "AcVoltagePp_Resource": {
-        "aov:namespace": "http://opcfoundation.org/UA/ECM/",
+        "dov:namespace": "http://opcfoundation.org/UA/ECM/",
         "data": {
           "type": "integer",
           "minimum": 0,
           "maximum": 4294967295
         },
-        "aov:containedIn": "AcVoltagePp",
+        "dov:containedIn": "AcVoltagePp",
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/ECM/ECM_IEnergyProfileE3Type/event/AcVoltagePp_Resource/{senderId}",
+            "dov:topic": "opcua/ECM/ECM_IEnergyProfileE3Type/event/AcVoltagePp_Resource/{senderId}",
             "op": "subscribeevent"
           }
         ]
@@ -2172,14 +2165,13 @@
     "@context": [
       "https://www.w3.org/2022/wot/td/v1.1",
       {
-        "dtv": "http://azure.com/DigitalTwins/dtmi#",
-        "aov": "http://azure.com/IoT/operations/tm#"
+        "dov": "http://azure.com/DigitalOperations/vocab#"
       }
     ],
     "@type": "tm:ThingModel",
     "title": "ECM_EnergyDevicePowerOffType",
-    "aov:typeRef": "nsu=http://opcfoundation.org/UA/ECM/;i=1012",
-    "aov:isComposite": true,
+    "dov:typeRef": "nsu=http://opcfoundation.org/UA/ECM/;i=1012",
+    "dov:isComposite": true,
     "links": [
       {
         "rel": "tm:extends",
@@ -2192,21 +2184,21 @@
     "forms": [
       {
         "contentType": "application/json",
-        "dtv:topic": "opcua/ECM/ECM_EnergyDevicePowerOffType/events/{senderId}",
+        "dov:topic": "opcua/ECM/ECM_EnergyDevicePowerOffType/events/{senderId}",
         "op": "subscribeallevents"
       },
       {
         "contentType": "application/json",
-        "dtv:topic": "opcua/ECM/ECM_EnergyDevicePowerOffType/properties/read",
+        "dov:topic": "opcua/ECM/ECM_EnergyDevicePowerOffType/properties/read",
         "op": "readallproperties"
       }
     ],
     "actions": {
       "SwitchOffWOL": {
-        "aov:namespace": "http://opcfoundation.org/UA/ECM/",
+        "dov:namespace": "http://opcfoundation.org/UA/ECM/",
         "output": {
           "type": "object",
-          "aov:typeRef": "nsu=http://opcfoundation.org/UA/ECM/;i=6110",
+          "dov:typeRef": "nsu=http://opcfoundation.org/UA/ECM/;i=6110",
           "required": [ "ModeID", "CurrentTimeToDestination", "RegularTimeToOperate", "TimeMinLengthOfStay", "ReturnCode" ],
           "properties": {
             "ModeID": {
@@ -2241,7 +2233,7 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/ECM/ECM_EnergyDevicePowerOffType/action/SwitchOffWOL",
+            "dov:topic": "opcua/ECM/ECM_EnergyDevicePowerOffType/action/SwitchOffWOL",
             "op": "invokeaction"
           }
         ]
@@ -2249,7 +2241,7 @@
     },
     "properties": {
       "ModePowerConsumption": {
-        "aov:namespace": "http://opcfoundation.org/UA/ECM/",
+        "dov:namespace": "http://opcfoundation.org/UA/ECM/",
         "type": "integer",
         "minimum": 0,
         "maximum": 4294967295,
@@ -2257,46 +2249,46 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/ECM/ECM_EnergyDevicePowerOffType/property/ModePowerConsumption/read",
+            "dov:topic": "opcua/ECM/ECM_EnergyDevicePowerOffType/property/ModePowerConsumption/read",
             "op": "readproperty"
           }
         ]
       },
       "RegularTimeToOperate": {
-        "aov:namespace": "http://opcfoundation.org/UA/ECM/",
+        "dov:namespace": "http://opcfoundation.org/UA/ECM/",
         "type": "string",
         "pattern": "^P(?!$)(?:(?:(?:(?:\\d+Y)|(?:\\d+\\.\\d+Y$))?(?:(?:\\d+M)|(?:\\d+\\.\\d+M$))?)|(?:(?:(?:\\d+W)|(?:\\d+\\.\\d+W$))?))(?:(?:\\d+D)|(?:\\d+\\.\\d+D$))?(?:T(?!$)(?:(?:\\d+H)|(?:\\d+\\.\\d+H$))?(?:(?:\\d+M)|(?:\\d+\\.\\d+M$))?(?:\\d+(?:\\.\\d+)?S)?)?$",
         "readOnly": true,
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/ECM/ECM_EnergyDevicePowerOffType/property/RegularTimeToOperate/read",
+            "dov:topic": "opcua/ECM/ECM_EnergyDevicePowerOffType/property/RegularTimeToOperate/read",
             "op": "readproperty"
           }
         ]
       },
       "TimeMinPause": {
-        "aov:namespace": "http://opcfoundation.org/UA/ECM/",
+        "dov:namespace": "http://opcfoundation.org/UA/ECM/",
         "type": "string",
         "pattern": "^P(?!$)(?:(?:(?:(?:\\d+Y)|(?:\\d+\\.\\d+Y$))?(?:(?:\\d+M)|(?:\\d+\\.\\d+M$))?)|(?:(?:(?:\\d+W)|(?:\\d+\\.\\d+W$))?))(?:(?:\\d+D)|(?:\\d+\\.\\d+D$))?(?:T(?!$)(?:(?:\\d+H)|(?:\\d+\\.\\d+H$))?(?:(?:\\d+M)|(?:\\d+\\.\\d+M$))?(?:\\d+(?:\\.\\d+)?S)?)?$",
         "readOnly": true,
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/ECM/ECM_EnergyDevicePowerOffType/property/TimeMinPause/read",
+            "dov:topic": "opcua/ECM/ECM_EnergyDevicePowerOffType/property/TimeMinPause/read",
             "op": "readproperty"
           }
         ]
       },
       "WOLMagicPacket": {
-        "aov:namespace": "http://opcfoundation.org/UA/ECM/",
+        "dov:namespace": "http://opcfoundation.org/UA/ECM/",
         "type": "string",
         "contentEncoding": "base64",
         "readOnly": true,
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/ECM/ECM_EnergyDevicePowerOffType/property/WOLMagicPacket/read",
+            "dov:topic": "opcua/ECM/ECM_EnergyDevicePowerOffType/property/WOLMagicPacket/read",
             "op": "readproperty"
           }
         ]
@@ -2304,7 +2296,7 @@
     },
     "events": {
       "ModePowerConsumption": {
-        "aov:namespace": "http://opcfoundation.org/UA/ECM/",
+        "dov:namespace": "http://opcfoundation.org/UA/ECM/",
         "data": {
           "type": "integer",
           "minimum": 0,
@@ -2313,13 +2305,13 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/ECM/ECM_EnergyDevicePowerOffType/event/ModePowerConsumption/{senderId}",
+            "dov:topic": "opcua/ECM/ECM_EnergyDevicePowerOffType/event/ModePowerConsumption/{senderId}",
             "op": "subscribeevent"
           }
         ]
       },
       "RegularTimeToOperate": {
-        "aov:namespace": "http://opcfoundation.org/UA/ECM/",
+        "dov:namespace": "http://opcfoundation.org/UA/ECM/",
         "data": {
           "type": "string",
           "pattern": "^P(?!$)(?:(?:(?:(?:\\d+Y)|(?:\\d+\\.\\d+Y$))?(?:(?:\\d+M)|(?:\\d+\\.\\d+M$))?)|(?:(?:(?:\\d+W)|(?:\\d+\\.\\d+W$))?))(?:(?:\\d+D)|(?:\\d+\\.\\d+D$))?(?:T(?!$)(?:(?:\\d+H)|(?:\\d+\\.\\d+H$))?(?:(?:\\d+M)|(?:\\d+\\.\\d+M$))?(?:\\d+(?:\\.\\d+)?S)?)?$"
@@ -2327,13 +2319,13 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/ECM/ECM_EnergyDevicePowerOffType/event/RegularTimeToOperate/{senderId}",
+            "dov:topic": "opcua/ECM/ECM_EnergyDevicePowerOffType/event/RegularTimeToOperate/{senderId}",
             "op": "subscribeevent"
           }
         ]
       },
       "TimeMinPause": {
-        "aov:namespace": "http://opcfoundation.org/UA/ECM/",
+        "dov:namespace": "http://opcfoundation.org/UA/ECM/",
         "data": {
           "type": "string",
           "pattern": "^P(?!$)(?:(?:(?:(?:\\d+Y)|(?:\\d+\\.\\d+Y$))?(?:(?:\\d+M)|(?:\\d+\\.\\d+M$))?)|(?:(?:(?:\\d+W)|(?:\\d+\\.\\d+W$))?))(?:(?:\\d+D)|(?:\\d+\\.\\d+D$))?(?:T(?!$)(?:(?:\\d+H)|(?:\\d+\\.\\d+H$))?(?:(?:\\d+M)|(?:\\d+\\.\\d+M$))?(?:\\d+(?:\\.\\d+)?S)?)?$"
@@ -2341,7 +2333,7 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/ECM/ECM_EnergyDevicePowerOffType/event/TimeMinPause/{senderId}",
+            "dov:topic": "opcua/ECM/ECM_EnergyDevicePowerOffType/event/TimeMinPause/{senderId}",
             "op": "subscribeevent"
           }
         ]
@@ -2352,14 +2344,13 @@
     "@context": [
       "https://www.w3.org/2022/wot/td/v1.1",
       {
-        "dtv": "http://azure.com/DigitalTwins/dtmi#",
-        "aov": "http://azure.com/IoT/operations/tm#"
+        "dov": "http://azure.com/DigitalOperations/vocab#"
       }
     ],
     "@type": "tm:ThingModel",
     "title": "ECM_EnergyMeasurementType",
-    "aov:typeRef": "nsu=http://opcfoundation.org/UA/ECM/;i=1006",
-    "aov:isComposite": true,
+    "dov:typeRef": "nsu=http://opcfoundation.org/UA/ECM/;i=1006",
+    "dov:isComposite": true,
     "links": [
       {
         "rel": "tm:extends",
@@ -2372,27 +2363,27 @@
     "forms": [
       {
         "contentType": "application/json",
-        "dtv:topic": "opcua/ECM/ECM_EnergyMeasurementType/events/{senderId}",
+        "dov:topic": "opcua/ECM/ECM_EnergyMeasurementType/events/{senderId}",
         "op": "subscribeallevents"
       },
       {
         "contentType": "application/json",
-        "dtv:topic": "opcua/ECM/ECM_EnergyMeasurementType/properties/write",
+        "dov:topic": "opcua/ECM/ECM_EnergyMeasurementType/properties/write",
         "op": "writemultipleproperties"
       },
       {
         "contentType": "application/json",
-        "dtv:topic": "opcua/ECM/ECM_EnergyMeasurementType/properties/read",
+        "dov:topic": "opcua/ECM/ECM_EnergyMeasurementType/properties/read",
         "op": "readallproperties"
       }
     ],
     "actions": {
       "ResetStatistics": {
-        "aov:namespace": "http://opcfoundation.org/UA/IA/",
+        "dov:namespace": "http://opcfoundation.org/UA/IA/",
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/ECM/ECM_EnergyMeasurementType/action/ResetStatistics",
+            "dov:topic": "opcua/ECM/ECM_EnergyMeasurementType/action/ResetStatistics",
             "op": "invokeaction"
           }
         ]
@@ -2400,86 +2391,86 @@
     },
     "properties": {
       "ApplicationTag": {
-        "aov:namespace": "http://opcfoundation.org/UA/ECM/",
+        "dov:namespace": "http://opcfoundation.org/UA/ECM/",
         "type": "string",
         "readOnly": false,
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/ECM/ECM_EnergyMeasurementType/property/ApplicationTag/write",
+            "dov:topic": "opcua/ECM/ECM_EnergyMeasurementType/property/ApplicationTag/write",
             "op": "writeproperty"
           },
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/ECM/ECM_EnergyMeasurementType/property/ApplicationTag/read",
+            "dov:topic": "opcua/ECM/ECM_EnergyMeasurementType/property/ApplicationTag/read",
             "op": "readproperty"
           }
         ]
       },
       "MeasurementValue": {
-        "aov:namespace": "http://opcfoundation.org/UA/ECM/",
+        "dov:namespace": "http://opcfoundation.org/UA/ECM/",
         "description": "Stand-in for an unspecified data type.",
         "type": "string",
         "readOnly": true,
-        "dtv:placeholder": true,
-        "aov:contains": [ "MeasurementValue_AccuracyClass", "MeasurementValue_Resource" ],
+        "dov:placeholder": true,
+        "dov:contains": [ "MeasurementValue_AccuracyClass", "MeasurementValue_Resource" ],
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/ECM/ECM_EnergyMeasurementType/property/MeasurementValue/read",
+            "dov:topic": "opcua/ECM/ECM_EnergyMeasurementType/property/MeasurementValue/read",
             "op": "readproperty"
           }
         ]
       },
       "MeasurementValue_AccuracyClass": {
-        "aov:namespace": "http://opcfoundation.org/UA/ECM/",
+        "dov:namespace": "http://opcfoundation.org/UA/ECM/",
         "type": "integer",
         "minimum": 0,
         "maximum": 4294967295,
         "readOnly": true,
-        "aov:containedIn": "MeasurementValue",
+        "dov:containedIn": "MeasurementValue",
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/ECM/ECM_EnergyMeasurementType/property/MeasurementValue_AccuracyClass/read",
+            "dov:topic": "opcua/ECM/ECM_EnergyMeasurementType/property/MeasurementValue_AccuracyClass/read",
             "op": "readproperty"
           }
         ]
       },
       "MeasurementValue_Resource": {
-        "aov:namespace": "http://opcfoundation.org/UA/ECM/",
+        "dov:namespace": "http://opcfoundation.org/UA/ECM/",
         "type": "integer",
         "minimum": 0,
         "maximum": 4294967295,
         "readOnly": false,
-        "aov:containedIn": "MeasurementValue",
+        "dov:containedIn": "MeasurementValue",
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/ECM/ECM_EnergyMeasurementType/property/MeasurementValue_Resource/write",
+            "dov:topic": "opcua/ECM/ECM_EnergyMeasurementType/property/MeasurementValue_Resource/write",
             "op": "writeproperty"
           },
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/ECM/ECM_EnergyMeasurementType/property/MeasurementValue_Resource/read",
+            "dov:topic": "opcua/ECM/ECM_EnergyMeasurementType/property/MeasurementValue_Resource/read",
             "op": "readproperty"
           }
         ]
       },
       "StartTime": {
-        "aov:namespace": "http://opcfoundation.org/UA/IA/",
+        "dov:namespace": "http://opcfoundation.org/UA/IA/",
         "type": "string",
         "format": "date-time",
         "readOnly": false,
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/ECM/ECM_EnergyMeasurementType/property/StartTime/write",
+            "dov:topic": "opcua/ECM/ECM_EnergyMeasurementType/property/StartTime/write",
             "op": "writeproperty"
           },
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/ECM/ECM_EnergyMeasurementType/property/StartTime/read",
+            "dov:topic": "opcua/ECM/ECM_EnergyMeasurementType/property/StartTime/read",
             "op": "readproperty"
           }
         ]
@@ -2487,49 +2478,49 @@
     },
     "events": {
       "MeasurementValue": {
-        "aov:namespace": "http://opcfoundation.org/UA/ECM/",
+        "dov:namespace": "http://opcfoundation.org/UA/ECM/",
         "data": {
           "description": "Stand-in for an unspecified data type.",
           "type": "string"
         },
-        "dtv:placeholder": true,
-        "aov:contains": [ "MeasurementValue_AccuracyClass", "MeasurementValue_Resource" ],
+        "dov:placeholder": true,
+        "dov:contains": [ "MeasurementValue_AccuracyClass", "MeasurementValue_Resource" ],
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/ECM/ECM_EnergyMeasurementType/event/MeasurementValue/{senderId}",
+            "dov:topic": "opcua/ECM/ECM_EnergyMeasurementType/event/MeasurementValue/{senderId}",
             "op": "subscribeevent"
           }
         ]
       },
       "MeasurementValue_AccuracyClass": {
-        "aov:namespace": "http://opcfoundation.org/UA/ECM/",
+        "dov:namespace": "http://opcfoundation.org/UA/ECM/",
         "data": {
           "type": "integer",
           "minimum": 0,
           "maximum": 4294967295
         },
-        "aov:containedIn": "MeasurementValue",
+        "dov:containedIn": "MeasurementValue",
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/ECM/ECM_EnergyMeasurementType/event/MeasurementValue_AccuracyClass/{senderId}",
+            "dov:topic": "opcua/ECM/ECM_EnergyMeasurementType/event/MeasurementValue_AccuracyClass/{senderId}",
             "op": "subscribeevent"
           }
         ]
       },
       "MeasurementValue_Resource": {
-        "aov:namespace": "http://opcfoundation.org/UA/ECM/",
+        "dov:namespace": "http://opcfoundation.org/UA/ECM/",
         "data": {
           "type": "integer",
           "minimum": 0,
           "maximum": 4294967295
         },
-        "aov:containedIn": "MeasurementValue",
+        "dov:containedIn": "MeasurementValue",
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/ECM/ECM_EnergyMeasurementType/event/MeasurementValue_Resource/{senderId}",
+            "dov:topic": "opcua/ECM/ECM_EnergyMeasurementType/event/MeasurementValue_Resource/{senderId}",
             "op": "subscribeevent"
           }
         ]
@@ -2540,13 +2531,12 @@
     "@context": [
       "https://www.w3.org/2022/wot/td/v1.1",
       {
-        "dtv": "http://azure.com/DigitalTwins/dtmi#",
-        "aov": "http://azure.com/IoT/operations/tm#"
+        "dov": "http://azure.com/DigitalOperations/vocab#"
       }
     ],
     "@type": "tm:ThingModel",
     "title": "ECM_EnergySavingModesContainerType",
-    "aov:typeRef": "nsu=http://opcfoundation.org/UA/ECM/;i=1004",
+    "dov:typeRef": "nsu=http://opcfoundation.org/UA/ECM/;i=1004",
     "links": [
       {
         "rel": "tm:extends",
@@ -2554,8 +2544,8 @@
         "type": "application/tm+json"
       },
       {
-        "rel": "aov:component",
-        "aov:refName": "EnergySavingModes",
+        "rel": "dov:component",
+        "dov:refName": "EnergySavingModes",
         "href": "#title=ECM_EnergySavingModeType",
         "type": "application/tm+json"
       }
@@ -2573,13 +2563,12 @@
     "@context": [
       "https://www.w3.org/2022/wot/td/v1.1",
       {
-        "dtv": "http://azure.com/DigitalTwins/dtmi#",
-        "aov": "http://azure.com/IoT/operations/tm#"
+        "dov": "http://azure.com/DigitalOperations/vocab#"
       }
     ],
     "@type": "tm:ThingModel",
     "title": "ECM_EnergySavingModeStatusType",
-    "aov:typeRef": "nsu=http://opcfoundation.org/UA/ECM/;i=1002",
+    "dov:typeRef": "nsu=http://opcfoundation.org/UA/ECM/;i=1002",
     "links": [
       {
         "rel": "tm:extends",
@@ -2592,12 +2581,12 @@
     "forms": [
       {
         "contentType": "application/json",
-        "dtv:topic": "opcua/ECM/ECM_EnergySavingModeStatusType/events/{senderId}",
+        "dov:topic": "opcua/ECM/ECM_EnergySavingModeStatusType/events/{senderId}",
         "op": "subscribeallevents"
       },
       {
         "contentType": "application/json",
-        "dtv:topic": "opcua/ECM/ECM_EnergySavingModeStatusType/properties/read",
+        "dov:topic": "opcua/ECM/ECM_EnergySavingModeStatusType/properties/read",
         "op": "readallproperties"
       }
     ],
@@ -2605,10 +2594,10 @@
     },
     "properties": {
       "CurrentTransitionData": {
-        "aov:namespace": "http://opcfoundation.org/UA/ECM/",
+        "dov:namespace": "http://opcfoundation.org/UA/ECM/",
         "title": "StandbyModeTransitionDataType",
         "type": "object",
-        "aov:typeRef": "nsu=http://opcfoundation.org/UA/ECM/;i=3002",
+        "dov:typeRef": "nsu=http://opcfoundation.org/UA/ECM/;i=3002",
         "required": [ "IDDestination", "CurrentTimeToDestination", "CurrentTimeToOperate", "EnergyConsumptionToDestination" ],
         "properties": {
           "IDDestination": {
@@ -2638,16 +2627,16 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/ECM/ECM_EnergySavingModeStatusType/property/CurrentTransitionData/read",
+            "dov:topic": "opcua/ECM/ECM_EnergySavingModeStatusType/property/CurrentTransitionData/read",
             "op": "readproperty"
           }
         ]
       },
       "StateInformation": {
-        "aov:namespace": "http://opcfoundation.org/UA/ECM/",
+        "dov:namespace": "http://opcfoundation.org/UA/ECM/",
         "title": "EnergyStateInformationDataType",
         "type": "object",
-        "aov:typeRef": "nsu=http://opcfoundation.org/UA/ECM/;i=3003",
+        "dov:typeRef": "nsu=http://opcfoundation.org/UA/ECM/;i=3003",
         "required": [ "IDSource", "IDDestination", "RegularTimeToOperate", "ModePowerConsumption" ],
         "properties": {
           "IDSource": {
@@ -2678,7 +2667,7 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/ECM/ECM_EnergySavingModeStatusType/property/StateInformation/read",
+            "dov:topic": "opcua/ECM/ECM_EnergySavingModeStatusType/property/StateInformation/read",
             "op": "readproperty"
           }
         ]
@@ -2686,11 +2675,11 @@
     },
     "events": {
       "CurrentTransitionData": {
-        "aov:namespace": "http://opcfoundation.org/UA/ECM/",
+        "dov:namespace": "http://opcfoundation.org/UA/ECM/",
         "data": {
           "title": "StandbyModeTransitionDataType",
           "type": "object",
-          "aov:typeRef": "nsu=http://opcfoundation.org/UA/ECM/;i=3002",
+          "dov:typeRef": "nsu=http://opcfoundation.org/UA/ECM/;i=3002",
           "required": [ "IDDestination", "CurrentTimeToDestination", "CurrentTimeToOperate", "EnergyConsumptionToDestination" ],
           "properties": {
             "IDDestination": {
@@ -2720,17 +2709,17 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/ECM/ECM_EnergySavingModeStatusType/event/CurrentTransitionData/{senderId}",
+            "dov:topic": "opcua/ECM/ECM_EnergySavingModeStatusType/event/CurrentTransitionData/{senderId}",
             "op": "subscribeevent"
           }
         ]
       },
       "StateInformation": {
-        "aov:namespace": "http://opcfoundation.org/UA/ECM/",
+        "dov:namespace": "http://opcfoundation.org/UA/ECM/",
         "data": {
           "title": "EnergyStateInformationDataType",
           "type": "object",
-          "aov:typeRef": "nsu=http://opcfoundation.org/UA/ECM/;i=3003",
+          "dov:typeRef": "nsu=http://opcfoundation.org/UA/ECM/;i=3003",
           "required": [ "IDSource", "IDDestination", "RegularTimeToOperate", "ModePowerConsumption" ],
           "properties": {
             "IDSource": {
@@ -2761,7 +2750,7 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/ECM/ECM_EnergySavingModeStatusType/event/StateInformation/{senderId}",
+            "dov:topic": "opcua/ECM/ECM_EnergySavingModeStatusType/event/StateInformation/{senderId}",
             "op": "subscribeevent"
           }
         ]
@@ -2772,13 +2761,12 @@
     "@context": [
       "https://www.w3.org/2022/wot/td/v1.1",
       {
-        "dtv": "http://azure.com/DigitalTwins/dtmi#",
-        "aov": "http://azure.com/IoT/operations/tm#"
+        "dov": "http://azure.com/DigitalOperations/vocab#"
       }
     ],
     "@type": "tm:ThingModel",
     "title": "ECM_EnergySavingModeType",
-    "aov:typeRef": "nsu=http://opcfoundation.org/UA/ECM/;i=1003",
+    "dov:typeRef": "nsu=http://opcfoundation.org/UA/ECM/;i=1003",
     "links": [
       {
         "rel": "tm:extends",
@@ -2791,12 +2779,12 @@
     "forms": [
       {
         "contentType": "application/json",
-        "dtv:topic": "opcua/ECM/ECM_EnergySavingModeType/events/{senderId}",
+        "dov:topic": "opcua/ECM/ECM_EnergySavingModeType/events/{senderId}",
         "op": "subscribeallevents"
       },
       {
         "contentType": "application/json",
-        "dtv:topic": "opcua/ECM/ECM_EnergySavingModeType/properties/read",
+        "dov:topic": "opcua/ECM/ECM_EnergySavingModeType/properties/read",
         "op": "readallproperties"
       }
     ],
@@ -2804,19 +2792,19 @@
     },
     "properties": {
       "DynamicData": {
-        "aov:namespace": "http://opcfoundation.org/UA/ECM/",
+        "dov:namespace": "http://opcfoundation.org/UA/ECM/",
         "type": "boolean",
         "readOnly": true,
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/ECM/ECM_EnergySavingModeType/property/DynamicData/read",
+            "dov:topic": "opcua/ECM/ECM_EnergySavingModeType/property/DynamicData/read",
             "op": "readproperty"
           }
         ]
       },
       "EnergyConsumptionToOperate": {
-        "aov:namespace": "http://opcfoundation.org/UA/ECM/",
+        "dov:namespace": "http://opcfoundation.org/UA/ECM/",
         "type": "number",
         "minimum": -3.40e+38,
         "maximum": 3.40e+38,
@@ -2824,13 +2812,13 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/ECM/ECM_EnergySavingModeType/property/EnergyConsumptionToOperate/read",
+            "dov:topic": "opcua/ECM/ECM_EnergySavingModeType/property/EnergyConsumptionToOperate/read",
             "op": "readproperty"
           }
         ]
       },
       "EnergyConsumptionToPause": {
-        "aov:namespace": "http://opcfoundation.org/UA/ECM/",
+        "dov:namespace": "http://opcfoundation.org/UA/ECM/",
         "type": "number",
         "minimum": -3.40e+38,
         "maximum": 3.40e+38,
@@ -2838,13 +2826,13 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/ECM/ECM_EnergySavingModeType/property/EnergyConsumptionToPause/read",
+            "dov:topic": "opcua/ECM/ECM_EnergySavingModeType/property/EnergyConsumptionToPause/read",
             "op": "readproperty"
           }
         ]
       },
       "ID": {
-        "aov:namespace": "http://opcfoundation.org/UA/ECM/",
+        "dov:namespace": "http://opcfoundation.org/UA/ECM/",
         "type": "integer",
         "minimum": 0,
         "maximum": 255,
@@ -2852,13 +2840,13 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/ECM/ECM_EnergySavingModeType/property/ID/read",
+            "dov:topic": "opcua/ECM/ECM_EnergySavingModeType/property/ID/read",
             "op": "readproperty"
           }
         ]
       },
       "ModePowerConsumption": {
-        "aov:namespace": "http://opcfoundation.org/UA/ECM/",
+        "dov:namespace": "http://opcfoundation.org/UA/ECM/",
         "type": "number",
         "minimum": -3.40e+38,
         "maximum": 3.40e+38,
@@ -2866,72 +2854,72 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/ECM/ECM_EnergySavingModeType/property/ModePowerConsumption/read",
+            "dov:topic": "opcua/ECM/ECM_EnergySavingModeType/property/ModePowerConsumption/read",
             "op": "readproperty"
           }
         ]
       },
       "RegularTimeToOperate": {
-        "aov:namespace": "http://opcfoundation.org/UA/ECM/",
+        "dov:namespace": "http://opcfoundation.org/UA/ECM/",
         "type": "string",
         "pattern": "^P(?!$)(?:(?:(?:(?:\\d+Y)|(?:\\d+\\.\\d+Y$))?(?:(?:\\d+M)|(?:\\d+\\.\\d+M$))?)|(?:(?:(?:\\d+W)|(?:\\d+\\.\\d+W$))?))(?:(?:\\d+D)|(?:\\d+\\.\\d+D$))?(?:T(?!$)(?:(?:\\d+H)|(?:\\d+\\.\\d+H$))?(?:(?:\\d+M)|(?:\\d+\\.\\d+M$))?(?:\\d+(?:\\.\\d+)?S)?)?$",
         "readOnly": true,
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/ECM/ECM_EnergySavingModeType/property/RegularTimeToOperate/read",
+            "dov:topic": "opcua/ECM/ECM_EnergySavingModeType/property/RegularTimeToOperate/read",
             "op": "readproperty"
           }
         ]
       },
       "TimeMaxLengthOfStay": {
-        "aov:namespace": "http://opcfoundation.org/UA/ECM/",
+        "dov:namespace": "http://opcfoundation.org/UA/ECM/",
         "type": "string",
         "pattern": "^P(?!$)(?:(?:(?:(?:\\d+Y)|(?:\\d+\\.\\d+Y$))?(?:(?:\\d+M)|(?:\\d+\\.\\d+M$))?)|(?:(?:(?:\\d+W)|(?:\\d+\\.\\d+W$))?))(?:(?:\\d+D)|(?:\\d+\\.\\d+D$))?(?:T(?!$)(?:(?:\\d+H)|(?:\\d+\\.\\d+H$))?(?:(?:\\d+M)|(?:\\d+\\.\\d+M$))?(?:\\d+(?:\\.\\d+)?S)?)?$",
         "readOnly": true,
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/ECM/ECM_EnergySavingModeType/property/TimeMaxLengthOfStay/read",
+            "dov:topic": "opcua/ECM/ECM_EnergySavingModeType/property/TimeMaxLengthOfStay/read",
             "op": "readproperty"
           }
         ]
       },
       "TimeMinLengthOfStay": {
-        "aov:namespace": "http://opcfoundation.org/UA/ECM/",
+        "dov:namespace": "http://opcfoundation.org/UA/ECM/",
         "type": "string",
         "pattern": "^P(?!$)(?:(?:(?:(?:\\d+Y)|(?:\\d+\\.\\d+Y$))?(?:(?:\\d+M)|(?:\\d+\\.\\d+M$))?)|(?:(?:(?:\\d+W)|(?:\\d+\\.\\d+W$))?))(?:(?:\\d+D)|(?:\\d+\\.\\d+D$))?(?:T(?!$)(?:(?:\\d+H)|(?:\\d+\\.\\d+H$))?(?:(?:\\d+M)|(?:\\d+\\.\\d+M$))?(?:\\d+(?:\\.\\d+)?S)?)?$",
         "readOnly": true,
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/ECM/ECM_EnergySavingModeType/property/TimeMinLengthOfStay/read",
+            "dov:topic": "opcua/ECM/ECM_EnergySavingModeType/property/TimeMinLengthOfStay/read",
             "op": "readproperty"
           }
         ]
       },
       "TimeMinPause": {
-        "aov:namespace": "http://opcfoundation.org/UA/ECM/",
+        "dov:namespace": "http://opcfoundation.org/UA/ECM/",
         "type": "string",
         "pattern": "^P(?!$)(?:(?:(?:(?:\\d+Y)|(?:\\d+\\.\\d+Y$))?(?:(?:\\d+M)|(?:\\d+\\.\\d+M$))?)|(?:(?:(?:\\d+W)|(?:\\d+\\.\\d+W$))?))(?:(?:\\d+D)|(?:\\d+\\.\\d+D$))?(?:T(?!$)(?:(?:\\d+H)|(?:\\d+\\.\\d+H$))?(?:(?:\\d+M)|(?:\\d+\\.\\d+M$))?(?:\\d+(?:\\.\\d+)?S)?)?$",
         "readOnly": true,
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/ECM/ECM_EnergySavingModeType/property/TimeMinPause/read",
+            "dov:topic": "opcua/ECM/ECM_EnergySavingModeType/property/TimeMinPause/read",
             "op": "readproperty"
           }
         ]
       },
       "TimeToPause": {
-        "aov:namespace": "http://opcfoundation.org/UA/ECM/",
+        "dov:namespace": "http://opcfoundation.org/UA/ECM/",
         "type": "string",
         "pattern": "^P(?!$)(?:(?:(?:(?:\\d+Y)|(?:\\d+\\.\\d+Y$))?(?:(?:\\d+M)|(?:\\d+\\.\\d+M$))?)|(?:(?:(?:\\d+W)|(?:\\d+\\.\\d+W$))?))(?:(?:\\d+D)|(?:\\d+\\.\\d+D$))?(?:T(?!$)(?:(?:\\d+H)|(?:\\d+\\.\\d+H$))?(?:(?:\\d+M)|(?:\\d+\\.\\d+M$))?(?:\\d+(?:\\.\\d+)?S)?)?$",
         "readOnly": true,
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/ECM/ECM_EnergySavingModeType/property/TimeToPause/read",
+            "dov:topic": "opcua/ECM/ECM_EnergySavingModeType/property/TimeToPause/read",
             "op": "readproperty"
           }
         ]
@@ -2939,7 +2927,7 @@
     },
     "events": {
       "EnergyConsumptionToOperate": {
-        "aov:namespace": "http://opcfoundation.org/UA/ECM/",
+        "dov:namespace": "http://opcfoundation.org/UA/ECM/",
         "data": {
           "type": "number",
           "minimum": -3.40e+38,
@@ -2948,13 +2936,13 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/ECM/ECM_EnergySavingModeType/event/EnergyConsumptionToOperate/{senderId}",
+            "dov:topic": "opcua/ECM/ECM_EnergySavingModeType/event/EnergyConsumptionToOperate/{senderId}",
             "op": "subscribeevent"
           }
         ]
       },
       "EnergyConsumptionToPause": {
-        "aov:namespace": "http://opcfoundation.org/UA/ECM/",
+        "dov:namespace": "http://opcfoundation.org/UA/ECM/",
         "data": {
           "type": "number",
           "minimum": -3.40e+38,
@@ -2963,13 +2951,13 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/ECM/ECM_EnergySavingModeType/event/EnergyConsumptionToPause/{senderId}",
+            "dov:topic": "opcua/ECM/ECM_EnergySavingModeType/event/EnergyConsumptionToPause/{senderId}",
             "op": "subscribeevent"
           }
         ]
       },
       "ModePowerConsumption": {
-        "aov:namespace": "http://opcfoundation.org/UA/ECM/",
+        "dov:namespace": "http://opcfoundation.org/UA/ECM/",
         "data": {
           "type": "number",
           "minimum": -3.40e+38,
@@ -2978,13 +2966,13 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/ECM/ECM_EnergySavingModeType/event/ModePowerConsumption/{senderId}",
+            "dov:topic": "opcua/ECM/ECM_EnergySavingModeType/event/ModePowerConsumption/{senderId}",
             "op": "subscribeevent"
           }
         ]
       },
       "RegularTimeToOperate": {
-        "aov:namespace": "http://opcfoundation.org/UA/ECM/",
+        "dov:namespace": "http://opcfoundation.org/UA/ECM/",
         "data": {
           "type": "string",
           "pattern": "^P(?!$)(?:(?:(?:(?:\\d+Y)|(?:\\d+\\.\\d+Y$))?(?:(?:\\d+M)|(?:\\d+\\.\\d+M$))?)|(?:(?:(?:\\d+W)|(?:\\d+\\.\\d+W$))?))(?:(?:\\d+D)|(?:\\d+\\.\\d+D$))?(?:T(?!$)(?:(?:\\d+H)|(?:\\d+\\.\\d+H$))?(?:(?:\\d+M)|(?:\\d+\\.\\d+M$))?(?:\\d+(?:\\.\\d+)?S)?)?$"
@@ -2992,13 +2980,13 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/ECM/ECM_EnergySavingModeType/event/RegularTimeToOperate/{senderId}",
+            "dov:topic": "opcua/ECM/ECM_EnergySavingModeType/event/RegularTimeToOperate/{senderId}",
             "op": "subscribeevent"
           }
         ]
       },
       "TimeMaxLengthOfStay": {
-        "aov:namespace": "http://opcfoundation.org/UA/ECM/",
+        "dov:namespace": "http://opcfoundation.org/UA/ECM/",
         "data": {
           "type": "string",
           "pattern": "^P(?!$)(?:(?:(?:(?:\\d+Y)|(?:\\d+\\.\\d+Y$))?(?:(?:\\d+M)|(?:\\d+\\.\\d+M$))?)|(?:(?:(?:\\d+W)|(?:\\d+\\.\\d+W$))?))(?:(?:\\d+D)|(?:\\d+\\.\\d+D$))?(?:T(?!$)(?:(?:\\d+H)|(?:\\d+\\.\\d+H$))?(?:(?:\\d+M)|(?:\\d+\\.\\d+M$))?(?:\\d+(?:\\.\\d+)?S)?)?$"
@@ -3006,13 +2994,13 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/ECM/ECM_EnergySavingModeType/event/TimeMaxLengthOfStay/{senderId}",
+            "dov:topic": "opcua/ECM/ECM_EnergySavingModeType/event/TimeMaxLengthOfStay/{senderId}",
             "op": "subscribeevent"
           }
         ]
       },
       "TimeMinLengthOfStay": {
-        "aov:namespace": "http://opcfoundation.org/UA/ECM/",
+        "dov:namespace": "http://opcfoundation.org/UA/ECM/",
         "data": {
           "type": "string",
           "pattern": "^P(?!$)(?:(?:(?:(?:\\d+Y)|(?:\\d+\\.\\d+Y$))?(?:(?:\\d+M)|(?:\\d+\\.\\d+M$))?)|(?:(?:(?:\\d+W)|(?:\\d+\\.\\d+W$))?))(?:(?:\\d+D)|(?:\\d+\\.\\d+D$))?(?:T(?!$)(?:(?:\\d+H)|(?:\\d+\\.\\d+H$))?(?:(?:\\d+M)|(?:\\d+\\.\\d+M$))?(?:\\d+(?:\\.\\d+)?S)?)?$"
@@ -3020,13 +3008,13 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/ECM/ECM_EnergySavingModeType/event/TimeMinLengthOfStay/{senderId}",
+            "dov:topic": "opcua/ECM/ECM_EnergySavingModeType/event/TimeMinLengthOfStay/{senderId}",
             "op": "subscribeevent"
           }
         ]
       },
       "TimeMinPause": {
-        "aov:namespace": "http://opcfoundation.org/UA/ECM/",
+        "dov:namespace": "http://opcfoundation.org/UA/ECM/",
         "data": {
           "type": "string",
           "pattern": "^P(?!$)(?:(?:(?:(?:\\d+Y)|(?:\\d+\\.\\d+Y$))?(?:(?:\\d+M)|(?:\\d+\\.\\d+M$))?)|(?:(?:(?:\\d+W)|(?:\\d+\\.\\d+W$))?))(?:(?:\\d+D)|(?:\\d+\\.\\d+D$))?(?:T(?!$)(?:(?:\\d+H)|(?:\\d+\\.\\d+H$))?(?:(?:\\d+M)|(?:\\d+\\.\\d+M$))?(?:\\d+(?:\\.\\d+)?S)?)?$"
@@ -3034,13 +3022,13 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/ECM/ECM_EnergySavingModeType/event/TimeMinPause/{senderId}",
+            "dov:topic": "opcua/ECM/ECM_EnergySavingModeType/event/TimeMinPause/{senderId}",
             "op": "subscribeevent"
           }
         ]
       },
       "TimeToPause": {
-        "aov:namespace": "http://opcfoundation.org/UA/ECM/",
+        "dov:namespace": "http://opcfoundation.org/UA/ECM/",
         "data": {
           "type": "string",
           "pattern": "^P(?!$)(?:(?:(?:(?:\\d+Y)|(?:\\d+\\.\\d+Y$))?(?:(?:\\d+M)|(?:\\d+\\.\\d+M$))?)|(?:(?:(?:\\d+W)|(?:\\d+\\.\\d+W$))?))(?:(?:\\d+D)|(?:\\d+\\.\\d+D$))?(?:T(?!$)(?:(?:\\d+H)|(?:\\d+\\.\\d+H$))?(?:(?:\\d+M)|(?:\\d+\\.\\d+M$))?(?:\\d+(?:\\.\\d+)?S)?)?$"
@@ -3048,7 +3036,7 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/ECM/ECM_EnergySavingModeType/event/TimeToPause/{senderId}",
+            "dov:topic": "opcua/ECM/ECM_EnergySavingModeType/event/TimeToPause/{senderId}",
             "op": "subscribeevent"
           }
         ]
@@ -3059,14 +3047,13 @@
     "@context": [
       "https://www.w3.org/2022/wot/td/v1.1",
       {
-        "dtv": "http://azure.com/DigitalTwins/dtmi#",
-        "aov": "http://azure.com/IoT/operations/tm#"
+        "dov": "http://azure.com/DigitalOperations/vocab#"
       }
     ],
     "@type": "tm:ThingModel",
     "title": "ECM_EnergyStandbyManagementType",
-    "aov:typeRef": "nsu=http://opcfoundation.org/UA/ECM/;i=1005",
-    "aov:isComposite": true,
+    "dov:typeRef": "nsu=http://opcfoundation.org/UA/ECM/;i=1005",
+    "dov:isComposite": true,
     "links": [
       {
         "rel": "tm:extends",
@@ -3074,20 +3061,20 @@
         "type": "application/tm+json"
       },
       {
-        "rel": "aov:reference",
-        "aov:refName": "EnergySavingModes",
+        "rel": "dov:reference",
+        "dov:refName": "EnergySavingModes",
         "href": "#title=ECM_EnergySavingModesContainerType",
         "type": "application/tm+json"
       },
       {
-        "rel": "aov:capability",
-        "aov:refName": "EnergySavingModeStatus",
+        "rel": "dov:capability",
+        "dov:refName": "EnergySavingModeStatus",
         "href": "#title=ECM_EnergySavingModeStatusType",
         "type": "application/tm+json"
       },
       {
-        "rel": "aov:capability",
-        "aov:refName": "Lock",
+        "rel": "dov:capability",
+        "dov:refName": "Lock",
         "href": "./DI.TM.json#title=DI_LockingServicesType",
         "type": "application/tm+json"
       }
@@ -3097,26 +3084,26 @@
     "forms": [
       {
         "contentType": "application/json",
-        "dtv:topic": "opcua/ECM/ECM_EnergyStandbyManagementType/events/{senderId}",
+        "dov:topic": "opcua/ECM/ECM_EnergyStandbyManagementType/events/{senderId}",
         "op": "subscribeallevents"
       },
       {
         "contentType": "application/json",
-        "dtv:topic": "opcua/ECM/ECM_EnergyStandbyManagementType/properties/write",
+        "dov:topic": "opcua/ECM/ECM_EnergyStandbyManagementType/properties/write",
         "op": "writemultipleproperties"
       },
       {
         "contentType": "application/json",
-        "dtv:topic": "opcua/ECM/ECM_EnergyStandbyManagementType/properties/read",
+        "dov:topic": "opcua/ECM/ECM_EnergyStandbyManagementType/properties/read",
         "op": "readallproperties"
       }
     ],
     "actions": {
       "EndPause": {
-        "aov:namespace": "http://opcfoundation.org/UA/ECM/",
+        "dov:namespace": "http://opcfoundation.org/UA/ECM/",
         "output": {
           "type": "object",
-          "aov:typeRef": "nsu=http://opcfoundation.org/UA/ECM/;i=6054",
+          "dov:typeRef": "nsu=http://opcfoundation.org/UA/ECM/;i=6054",
           "required": [ "CurrentTimeToOperate", "ReturnCode" ],
           "properties": {
             "CurrentTimeToOperate": {
@@ -3135,16 +3122,16 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/ECM/ECM_EnergyStandbyManagementType/action/EndPause",
+            "dov:topic": "opcua/ECM/ECM_EnergyStandbyManagementType/action/EndPause",
             "op": "invokeaction"
           }
         ]
       },
       "StartPause": {
-        "aov:namespace": "http://opcfoundation.org/UA/ECM/",
+        "dov:namespace": "http://opcfoundation.org/UA/ECM/",
         "input": {
           "type": "object",
-          "aov:typeRef": "nsu=http://opcfoundation.org/UA/ECM/;i=6050",
+          "dov:typeRef": "nsu=http://opcfoundation.org/UA/ECM/;i=6050",
           "required": [ "PauseTime" ],
           "properties": {
             "PauseTime": {
@@ -3156,7 +3143,7 @@
         },
         "output": {
           "type": "object",
-          "aov:typeRef": "nsu=http://opcfoundation.org/UA/ECM/;i=6051",
+          "dov:typeRef": "nsu=http://opcfoundation.org/UA/ECM/;i=6051",
           "required": [ "ModeID", "CurrentTimeToDestination", "RegularTimeToOperate", "TimeMinLengthOfStay", "ReturnCode" ],
           "properties": {
             "ModeID": {
@@ -3191,16 +3178,16 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/ECM/ECM_EnergyStandbyManagementType/action/StartPause",
+            "dov:topic": "opcua/ECM/ECM_EnergyStandbyManagementType/action/StartPause",
             "op": "invokeaction"
           }
         ]
       },
       "SwitchToEnergySavingMode": {
-        "aov:namespace": "http://opcfoundation.org/UA/ECM/",
+        "dov:namespace": "http://opcfoundation.org/UA/ECM/",
         "input": {
           "type": "object",
-          "aov:typeRef": "nsu=http://opcfoundation.org/UA/ECM/;i=6052",
+          "dov:typeRef": "nsu=http://opcfoundation.org/UA/ECM/;i=6052",
           "required": [ "ModeID" ],
           "properties": {
             "ModeID": {
@@ -3213,7 +3200,7 @@
         },
         "output": {
           "type": "object",
-          "aov:typeRef": "nsu=http://opcfoundation.org/UA/ECM/;i=6053",
+          "dov:typeRef": "nsu=http://opcfoundation.org/UA/ECM/;i=6053",
           "required": [ "EffectiveModeID", "CurrentTimeToDestination", "RegularTimeToOperate", "TimeMinLengthOfStay", "ReturnCode" ],
           "properties": {
             "EffectiveModeID": {
@@ -3248,7 +3235,7 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/ECM/ECM_EnergyStandbyManagementType/action/SwitchToEnergySavingMode",
+            "dov:topic": "opcua/ECM/ECM_EnergyStandbyManagementType/action/SwitchToEnergySavingMode",
             "op": "invokeaction"
           }
         ]
@@ -3256,25 +3243,25 @@
     },
     "properties": {
       "PauseTime": {
-        "aov:namespace": "http://opcfoundation.org/UA/ECM/",
+        "dov:namespace": "http://opcfoundation.org/UA/ECM/",
         "type": "string",
         "pattern": "^P(?!$)(?:(?:(?:(?:\\d+Y)|(?:\\d+\\.\\d+Y$))?(?:(?:\\d+M)|(?:\\d+\\.\\d+M$))?)|(?:(?:(?:\\d+W)|(?:\\d+\\.\\d+W$))?))(?:(?:\\d+D)|(?:\\d+\\.\\d+D$))?(?:T(?!$)(?:(?:\\d+H)|(?:\\d+\\.\\d+H$))?(?:(?:\\d+M)|(?:\\d+\\.\\d+M$))?(?:\\d+(?:\\.\\d+)?S)?)?$",
         "readOnly": false,
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/ECM/ECM_EnergyStandbyManagementType/property/PauseTime/write",
+            "dov:topic": "opcua/ECM/ECM_EnergyStandbyManagementType/property/PauseTime/write",
             "op": "writeproperty"
           },
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/ECM/ECM_EnergyStandbyManagementType/property/PauseTime/read",
+            "dov:topic": "opcua/ECM/ECM_EnergyStandbyManagementType/property/PauseTime/read",
             "op": "readproperty"
           }
         ]
       },
       "StandbyManagementStatus": {
-        "aov:namespace": "http://opcfoundation.org/UA/ECM/",
+        "dov:namespace": "http://opcfoundation.org/UA/ECM/",
         "type": "integer",
         "minimum": 0,
         "maximum": 255,
@@ -3282,7 +3269,7 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/ECM/ECM_EnergyStandbyManagementType/property/StandbyManagementStatus/read",
+            "dov:topic": "opcua/ECM/ECM_EnergyStandbyManagementType/property/StandbyManagementStatus/read",
             "op": "readproperty"
           }
         ]
@@ -3290,7 +3277,7 @@
     },
     "events": {
       "PauseTime": {
-        "aov:namespace": "http://opcfoundation.org/UA/ECM/",
+        "dov:namespace": "http://opcfoundation.org/UA/ECM/",
         "data": {
           "type": "string",
           "pattern": "^P(?!$)(?:(?:(?:(?:\\d+Y)|(?:\\d+\\.\\d+Y$))?(?:(?:\\d+M)|(?:\\d+\\.\\d+M$))?)|(?:(?:(?:\\d+W)|(?:\\d+\\.\\d+W$))?))(?:(?:\\d+D)|(?:\\d+\\.\\d+D$))?(?:T(?!$)(?:(?:\\d+H)|(?:\\d+\\.\\d+H$))?(?:(?:\\d+M)|(?:\\d+\\.\\d+M$))?(?:\\d+(?:\\.\\d+)?S)?)?$"
@@ -3298,13 +3285,13 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/ECM/ECM_EnergyStandbyManagementType/event/PauseTime/{senderId}",
+            "dov:topic": "opcua/ECM/ECM_EnergyStandbyManagementType/event/PauseTime/{senderId}",
             "op": "subscribeevent"
           }
         ]
       },
       "StandbyManagementStatus": {
-        "aov:namespace": "http://opcfoundation.org/UA/ECM/",
+        "dov:namespace": "http://opcfoundation.org/UA/ECM/",
         "data": {
           "type": "integer",
           "minimum": 0,
@@ -3313,7 +3300,7 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/ECM/ECM_EnergyStandbyManagementType/event/StandbyManagementStatus/{senderId}",
+            "dov:topic": "opcua/ECM/ECM_EnergyStandbyManagementType/event/StandbyManagementStatus/{senderId}",
             "op": "subscribeevent"
           }
         ]

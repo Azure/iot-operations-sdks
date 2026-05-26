@@ -3,14 +3,13 @@
     "@context": [
       "https://www.w3.org/2022/wot/td/v1.1",
       {
-        "dtv": "http://azure.com/DigitalTwins/dtmi#",
-        "aov": "http://azure.com/IoT/operations/tm#"
+        "dov": "http://azure.com/DigitalOperations/vocab#"
       }
     ],
     "@type": "tm:ThingModel",
     "title": "Glass_Flat_v2_GlassEventType",
-    "aov:typeRef": "nsu=http://opcfoundation.org/UA/Glass/Flat/v2/;i=1030",
-    "aov:isEvent": true,
+    "dov:typeRef": "nsu=http://opcfoundation.org/UA/Glass/Flat/v2/;i=1030",
+    "dov:isEvent": true,
     "links": [
       {
         "rel": "tm:extends",
@@ -23,12 +22,12 @@
     "forms": [
       {
         "contentType": "application/json",
-        "dtv:topic": "opcua/Glass.Flat.v2/Glass_Flat_v2_GlassEventType/properties/write",
+        "dov:topic": "opcua/Glass.Flat.v2/Glass_Flat_v2_GlassEventType/properties/write",
         "op": "writemultipleproperties"
       },
       {
         "contentType": "application/json",
-        "dtv:topic": "opcua/Glass.Flat.v2/Glass_Flat_v2_GlassEventType/properties/read",
+        "dov:topic": "opcua/Glass.Flat.v2/Glass_Flat_v2_GlassEventType/properties/read",
         "op": "readallproperties"
       }
     ],
@@ -36,73 +35,73 @@
     },
     "properties": {
       "Identifier": {
-        "aov:namespace": "http://opcfoundation.org/UA/Glass/Flat/v2/",
+        "dov:namespace": "http://opcfoundation.org/UA/Glass/Flat/v2/",
         "description": "Stand-in for an unspecified data type.",
         "type": "string",
         "readOnly": false,
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/Glass.Flat.v2/Glass_Flat_v2_GlassEventType/property/Identifier/write",
+            "dov:topic": "opcua/Glass.Flat.v2/Glass_Flat_v2_GlassEventType/property/Identifier/write",
             "op": "writeproperty"
           },
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/Glass.Flat.v2/Glass_Flat_v2_GlassEventType/property/Identifier/read",
+            "dov:topic": "opcua/Glass.Flat.v2/Glass_Flat_v2_GlassEventType/property/Identifier/read",
             "op": "readproperty"
           }
         ]
       },
       "JobdIdentifier": {
-        "aov:namespace": "http://opcfoundation.org/UA/Glass/Flat/v2/",
+        "dov:namespace": "http://opcfoundation.org/UA/Glass/Flat/v2/",
         "description": "Stand-in for an unspecified data type.",
         "type": "string",
         "readOnly": false,
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/Glass.Flat.v2/Glass_Flat_v2_GlassEventType/property/JobdIdentifier/write",
+            "dov:topic": "opcua/Glass.Flat.v2/Glass_Flat_v2_GlassEventType/property/JobdIdentifier/write",
             "op": "writeproperty"
           },
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/Glass.Flat.v2/Glass_Flat_v2_GlassEventType/property/JobdIdentifier/read",
+            "dov:topic": "opcua/Glass.Flat.v2/Glass_Flat_v2_GlassEventType/property/JobdIdentifier/read",
             "op": "readproperty"
           }
         ]
       },
       "Location": {
-        "aov:namespace": "http://opcfoundation.org/UA/Glass/Flat/v2/",
+        "dov:namespace": "http://opcfoundation.org/UA/Glass/Flat/v2/",
         "description": "Stand-in for an unspecified data type.",
         "type": "string",
         "readOnly": false,
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/Glass.Flat.v2/Glass_Flat_v2_GlassEventType/property/Location/write",
+            "dov:topic": "opcua/Glass.Flat.v2/Glass_Flat_v2_GlassEventType/property/Location/write",
             "op": "writeproperty"
           },
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/Glass.Flat.v2/Glass_Flat_v2_GlassEventType/property/Location/read",
+            "dov:topic": "opcua/Glass.Flat.v2/Glass_Flat_v2_GlassEventType/property/Location/read",
             "op": "readproperty"
           }
         ]
       },
       "MaterialIdentifier": {
-        "aov:namespace": "http://opcfoundation.org/UA/Glass/Flat/v2/",
+        "dov:namespace": "http://opcfoundation.org/UA/Glass/Flat/v2/",
         "description": "Stand-in for an unspecified data type.",
         "type": "string",
         "readOnly": false,
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/Glass.Flat.v2/Glass_Flat_v2_GlassEventType/property/MaterialIdentifier/write",
+            "dov:topic": "opcua/Glass.Flat.v2/Glass_Flat_v2_GlassEventType/property/MaterialIdentifier/write",
             "op": "writeproperty"
           },
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/Glass.Flat.v2/Glass_Flat_v2_GlassEventType/property/MaterialIdentifier/read",
+            "dov:topic": "opcua/Glass.Flat.v2/Glass_Flat_v2_GlassEventType/property/MaterialIdentifier/read",
             "op": "readproperty"
           }
         ]
@@ -115,13 +114,12 @@
     "@context": [
       "https://www.w3.org/2022/wot/td/v1.1",
       {
-        "dtv": "http://azure.com/DigitalTwins/dtmi#",
-        "aov": "http://azure.com/IoT/operations/tm#"
+        "dov": "http://azure.com/DigitalOperations/vocab#"
       }
     ],
     "@type": "tm:ThingModel",
     "title": "Glass_Flat_v2_ConfigurationRulesType",
-    "aov:typeRef": "nsu=http://opcfoundation.org/UA/Glass/Flat/v2/;i=1063",
+    "dov:typeRef": "nsu=http://opcfoundation.org/UA/Glass/Flat/v2/;i=1063",
     "links": [
       {
         "rel": "tm:extends",
@@ -132,7 +130,7 @@
     "schemaDefinitions": {
       "CoordinateSystemEnumeration": {
         "type": "object",
-        "aov:typeRef": "nsu=http://opcfoundation.org/UA/Glass/Flat/v2/;i=3008",
+        "dov:typeRef": "nsu=http://opcfoundation.org/UA/Glass/Flat/v2/;i=3008",
         "const": {
           "Unknown": 0,
           "System1": 1,
@@ -178,12 +176,12 @@
     "forms": [
       {
         "contentType": "application/json",
-        "dtv:topic": "opcua/Glass.Flat.v2/Glass_Flat_v2_ConfigurationRulesType/properties/write",
+        "dov:topic": "opcua/Glass.Flat.v2/Glass_Flat_v2_ConfigurationRulesType/properties/write",
         "op": "writemultipleproperties"
       },
       {
         "contentType": "application/json",
-        "dtv:topic": "opcua/Glass.Flat.v2/Glass_Flat_v2_ConfigurationRulesType/properties/read",
+        "dov:topic": "opcua/Glass.Flat.v2/Glass_Flat_v2_ConfigurationRulesType/properties/read",
         "op": "readallproperties"
       }
     ],
@@ -191,12 +189,12 @@
     },
     "properties": {
       "AllowedEngineeringUnits": {
-        "aov:namespace": "http://opcfoundation.org/UA/Glass/Flat/v2/",
+        "dov:namespace": "http://opcfoundation.org/UA/Glass/Flat/v2/",
         "type": "array",
         "items": {
           "title": "EUInformation",
           "type": "object",
-          "aov:typeRef": "nsu=http://opcfoundation.org/UA/;i=887",
+          "dov:typeRef": "nsu=http://opcfoundation.org/UA/;i=887",
           "required": [ "NamespaceUri", "UnitId", "DisplayName", "Description" ],
           "properties": {
             "NamespaceUri": {
@@ -219,18 +217,18 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/Glass.Flat.v2/Glass_Flat_v2_ConfigurationRulesType/property/AllowedEngineeringUnits/read",
+            "dov:topic": "opcua/Glass.Flat.v2/Glass_Flat_v2_ConfigurationRulesType/property/AllowedEngineeringUnits/read",
             "op": "readproperty"
           }
         ]
       },
       "AllowedFileFormats": {
-        "aov:namespace": "http://opcfoundation.org/UA/Glass/Flat/v2/",
+        "dov:namespace": "http://opcfoundation.org/UA/Glass/Flat/v2/",
         "type": "array",
         "items": {
           "title": "FileFormatDataType",
           "type": "object",
-          "aov:typeRef": "nsu=http://opcfoundation.org/UA/Glass/Flat/v2/;i=3007",
+          "dov:typeRef": "nsu=http://opcfoundation.org/UA/Glass/Flat/v2/;i=3007",
           "required": [ "Name", "FileExtension", "Version" ],
           "properties": {
             "Name": {
@@ -248,15 +246,15 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/Glass.Flat.v2/Glass_Flat_v2_ConfigurationRulesType/property/AllowedFileFormats/read",
+            "dov:topic": "opcua/Glass.Flat.v2/Glass_Flat_v2_ConfigurationRulesType/property/AllowedFileFormats/read",
             "op": "readproperty"
           }
         ]
       },
       "MachineProcessingCoordinateSystem": {
-        "aov:namespace": "http://opcfoundation.org/UA/Glass/Flat/v2/",
+        "dov:namespace": "http://opcfoundation.org/UA/Glass/Flat/v2/",
         "title": "CoordinateSystemEnumeration",
-        "aov:typeRef": "nsu=http://opcfoundation.org/UA/Glass/Flat/v2/;i=3008",
+        "dov:typeRef": "nsu=http://opcfoundation.org/UA/Glass/Flat/v2/;i=3008",
         "type": "integer",
         "minimum": -2147483648,
         "maximum": 2147483647,
@@ -264,12 +262,12 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/Glass.Flat.v2/Glass_Flat_v2_ConfigurationRulesType/property/MachineProcessingCoordinateSystem/write",
+            "dov:topic": "opcua/Glass.Flat.v2/Glass_Flat_v2_ConfigurationRulesType/property/MachineProcessingCoordinateSystem/write",
             "op": "writeproperty"
           },
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/Glass.Flat.v2/Glass_Flat_v2_ConfigurationRulesType/property/MachineProcessingCoordinateSystem/read",
+            "dov:topic": "opcua/Glass.Flat.v2/Glass_Flat_v2_ConfigurationRulesType/property/MachineProcessingCoordinateSystem/read",
             "op": "readproperty"
           }
         ]
@@ -282,13 +280,12 @@
     "@context": [
       "https://www.w3.org/2022/wot/td/v1.1",
       {
-        "dtv": "http://azure.com/DigitalTwins/dtmi#",
-        "aov": "http://azure.com/IoT/operations/tm#"
+        "dov": "http://azure.com/DigitalOperations/vocab#"
       }
     ],
     "@type": "tm:ThingModel",
     "title": "Glass_Flat_v2_GlassMachineIdentificationType",
-    "aov:typeRef": "nsu=http://opcfoundation.org/UA/Glass/Flat/v2/;i=1020",
+    "dov:typeRef": "nsu=http://opcfoundation.org/UA/Glass/Flat/v2/;i=1020",
     "links": [
       {
         "rel": "tm:extends",
@@ -301,12 +298,12 @@
     "forms": [
       {
         "contentType": "application/json",
-        "dtv:topic": "opcua/Glass.Flat.v2/Glass_Flat_v2_GlassMachineIdentificationType/properties/write",
+        "dov:topic": "opcua/Glass.Flat.v2/Glass_Flat_v2_GlassMachineIdentificationType/properties/write",
         "op": "writemultipleproperties"
       },
       {
         "contentType": "application/json",
-        "dtv:topic": "opcua/Glass.Flat.v2/Glass_Flat_v2_GlassMachineIdentificationType/properties/read",
+        "dov:topic": "opcua/Glass.Flat.v2/Glass_Flat_v2_GlassMachineIdentificationType/properties/read",
         "op": "readallproperties"
       }
     ],
@@ -314,12 +311,12 @@
     },
     "properties": {
       "LoggedInProfiles": {
-        "aov:namespace": "http://opcfoundation.org/UA/Glass/Flat/v2/",
+        "dov:namespace": "http://opcfoundation.org/UA/Glass/Flat/v2/",
         "type": "array",
         "items": {
           "title": "UserProfileDataType",
           "type": "object",
-          "aov:typeRef": "nsu=http://opcfoundation.org/UA/Glass/Flat/v2/;i=3006",
+          "dov:typeRef": "nsu=http://opcfoundation.org/UA/Glass/Flat/v2/;i=3006",
           "required": [ "Name", "LoginTime", "Language", "MeasurementFormat", "AccessLevel", "OpcUaUser" ],
           "properties": {
             "Name": {
@@ -347,18 +344,18 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/Glass.Flat.v2/Glass_Flat_v2_GlassMachineIdentificationType/property/LoggedInProfiles/read",
+            "dov:topic": "opcua/Glass.Flat.v2/Glass_Flat_v2_GlassMachineIdentificationType/property/LoggedInProfiles/read",
             "op": "readproperty"
           }
         ]
       },
       "ProcessingCategories": {
-        "aov:namespace": "http://opcfoundation.org/UA/Glass/Flat/v2/",
+        "dov:namespace": "http://opcfoundation.org/UA/Glass/Flat/v2/",
         "type": "array",
         "items": {
           "title": "ProcessingCategoryDataType",
           "type": "object",
-          "aov:typeRef": "nsu=http://opcfoundation.org/UA/Glass/Flat/v2/;i=3014",
+          "dov:typeRef": "nsu=http://opcfoundation.org/UA/Glass/Flat/v2/;i=3014",
           "required": [ "ID", "Description", "SupportedParameter", "SupportedAssignment", "SupportedVariable", "SupportsTransformation", "SupportsSubProcessing" ],
           "properties": {
             "ID": {
@@ -372,7 +369,7 @@
               "items": {
                 "title": "ProcessingParameterDataType",
                 "type": "object",
-                "aov:typeRef": "nsu=http://opcfoundation.org/UA/Glass/Flat/v2/;i=3011",
+                "dov:typeRef": "nsu=http://opcfoundation.org/UA/Glass/Flat/v2/;i=3011",
                 "required": [ "Name", "Description", "ValueType", "TypicalValue", "Mandatory", "EClass" ],
                 "properties": {
                   "Name": {
@@ -384,7 +381,7 @@
                   "ValueType": {
                     "title": "ValueDataType",
                     "type": "object",
-                    "aov:typeRef": "nsu=http://opcfoundation.org/UA/Glass/Flat/v2/;i=3020",
+                    "dov:typeRef": "nsu=http://opcfoundation.org/UA/Glass/Flat/v2/;i=3020",
                     "required": [ "Name", "Description", "BaseUnit", "PossibleValue" ],
                     "properties": {
                       "Name": {
@@ -410,7 +407,7 @@
                   "EClass": {
                     "title": "EClassTermDataType",
                     "type": "object",
-                    "aov:typeRef": "nsu=http://opcfoundation.org/UA/Glass/Flat/v2/;i=3017",
+                    "dov:typeRef": "nsu=http://opcfoundation.org/UA/Glass/Flat/v2/;i=3017",
                     "required": [ "ID", "Description", "EClass" ],
                     "properties": {
                       "ID": {
@@ -438,7 +435,7 @@
               "items": {
                 "title": "ProcessingParameterDataType",
                 "type": "object",
-                "aov:typeRef": "nsu=http://opcfoundation.org/UA/Glass/Flat/v2/;i=3011",
+                "dov:typeRef": "nsu=http://opcfoundation.org/UA/Glass/Flat/v2/;i=3011",
                 "required": [ "Name", "Description", "ValueType", "TypicalValue", "Mandatory", "EClass" ],
                 "properties": {
                   "Name": {
@@ -450,7 +447,7 @@
                   "ValueType": {
                     "title": "ValueDataType",
                     "type": "object",
-                    "aov:typeRef": "nsu=http://opcfoundation.org/UA/Glass/Flat/v2/;i=3020",
+                    "dov:typeRef": "nsu=http://opcfoundation.org/UA/Glass/Flat/v2/;i=3020",
                     "required": [ "Name", "Description", "BaseUnit", "PossibleValue" ],
                     "properties": {
                       "Name": {
@@ -476,7 +473,7 @@
                   "EClass": {
                     "title": "EClassTermDataType",
                     "type": "object",
-                    "aov:typeRef": "nsu=http://opcfoundation.org/UA/Glass/Flat/v2/;i=3017",
+                    "dov:typeRef": "nsu=http://opcfoundation.org/UA/Glass/Flat/v2/;i=3017",
                     "required": [ "ID", "Description", "EClass" ],
                     "properties": {
                       "ID": {
@@ -509,12 +506,12 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/Glass.Flat.v2/Glass_Flat_v2_GlassMachineIdentificationType/property/ProcessingCategories/write",
+            "dov:topic": "opcua/Glass.Flat.v2/Glass_Flat_v2_GlassMachineIdentificationType/property/ProcessingCategories/write",
             "op": "writeproperty"
           },
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/Glass.Flat.v2/Glass_Flat_v2_GlassMachineIdentificationType/property/ProcessingCategories/read",
+            "dov:topic": "opcua/Glass.Flat.v2/Glass_Flat_v2_GlassMachineIdentificationType/property/ProcessingCategories/read",
             "op": "readproperty"
           }
         ]
@@ -527,13 +524,12 @@
     "@context": [
       "https://www.w3.org/2022/wot/td/v1.1",
       {
-        "dtv": "http://azure.com/DigitalTwins/dtmi#",
-        "aov": "http://azure.com/IoT/operations/tm#"
+        "dov": "http://azure.com/DigitalOperations/vocab#"
       }
     ],
     "@type": "tm:ThingModel",
     "title": "Glass_Flat_v2_ManualFolderType",
-    "aov:typeRef": "nsu=http://opcfoundation.org/UA/Glass/Flat/v2/;i=1041",
+    "dov:typeRef": "nsu=http://opcfoundation.org/UA/Glass/Flat/v2/;i=1041",
     "links": [
       {
         "rel": "tm:extends",
@@ -541,8 +537,8 @@
         "type": "application/tm+json"
       },
       {
-        "rel": "aov:component",
-        "aov:refName": "LocalManuals",
+        "rel": "dov:component",
+        "dov:refName": "LocalManuals",
         "href": "#title=OpcUaCore_FileType",
         "type": "application/tm+json"
       }
@@ -552,7 +548,7 @@
     "forms": [
       {
         "contentType": "application/json",
-        "dtv:topic": "opcua/Glass.Flat.v2/Glass_Flat_v2_ManualFolderType/properties/read",
+        "dov:topic": "opcua/Glass.Flat.v2/Glass_Flat_v2_ManualFolderType/properties/read",
         "op": "readallproperties"
       }
     ],
@@ -560,7 +556,7 @@
     },
     "properties": {
       "ExternalManuals": {
-        "aov:namespace": "http://opcfoundation.org/UA/Glass/Flat/v2/",
+        "dov:namespace": "http://opcfoundation.org/UA/Glass/Flat/v2/",
         "type": "array",
         "items": {
           "type": "string"
@@ -569,7 +565,7 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/Glass.Flat.v2/Glass_Flat_v2_ManualFolderType/property/ExternalManuals/read",
+            "dov:topic": "opcua/Glass.Flat.v2/Glass_Flat_v2_ManualFolderType/property/ExternalManuals/read",
             "op": "readproperty"
           }
         ]
@@ -582,14 +578,13 @@
     "@context": [
       "https://www.w3.org/2022/wot/td/v1.1",
       {
-        "dtv": "http://azure.com/DigitalTwins/dtmi#",
-        "aov": "http://azure.com/IoT/operations/tm#"
+        "dov": "http://azure.com/DigitalOperations/vocab#"
       }
     ],
     "@type": "tm:ThingModel",
     "title": "Glass_Flat_v2_GlassMachineType",
-    "aov:typeRef": "nsu=http://opcfoundation.org/UA/Glass/Flat/v2/;i=1015",
-    "aov:isComposite": true,
+    "dov:typeRef": "nsu=http://opcfoundation.org/UA/Glass/Flat/v2/;i=1015",
+    "dov:isComposite": true,
     "links": [
       {
         "rel": "tm:extends",
@@ -597,32 +592,32 @@
         "type": "application/tm+json"
       },
       {
-        "rel": "aov:capability",
-        "aov:refName": "ConfigurationRules",
+        "rel": "dov:capability",
+        "dov:refName": "ConfigurationRules",
         "href": "#title=Glass_Flat_v2_ConfigurationRulesType",
         "type": "application/tm+json"
       },
       {
-        "rel": "aov:component",
-        "aov:refName": "FileSystem",
+        "rel": "dov:component",
+        "dov:refName": "FileSystem",
         "href": "#title=OpcUaCore_FileDirectoryType",
         "type": "application/tm+json"
       },
       {
-        "rel": "aov:component",
-        "aov:refName": "MachineryBuildingBlocks",
+        "rel": "dov:component",
+        "dov:refName": "MachineryBuildingBlocks",
         "href": "#title=OpcUaCore_FolderType",
         "type": "application/tm+json"
       },
       {
-        "rel": "aov:reference",
-        "aov:refName": "MaintenanceManuals",
+        "rel": "dov:reference",
+        "dov:refName": "MaintenanceManuals",
         "href": "#title=Glass_Flat_v2_ManualFolderType",
         "type": "application/tm+json"
       },
       {
-        "rel": "aov:reference",
-        "aov:refName": "OperationManuals",
+        "rel": "dov:reference",
+        "dov:refName": "OperationManuals",
         "href": "#title=Glass_Flat_v2_ManualFolderType",
         "type": "application/tm+json"
       }
@@ -640,13 +635,12 @@
     "@context": [
       "https://www.w3.org/2022/wot/td/v1.1",
       {
-        "dtv": "http://azure.com/DigitalTwins/dtmi#",
-        "aov": "http://azure.com/IoT/operations/tm#"
+        "dov": "http://azure.com/DigitalOperations/vocab#"
       }
     ],
     "@type": "tm:ThingModel",
     "title": "OpcUaCore_BaseEventType",
-    "aov:typeRef": "nsu=http://opcfoundation.org/UA/;i=2041",
+    "dov:typeRef": "nsu=http://opcfoundation.org/UA/;i=2041",
     "links": [
       {
         "rel": "tm:extends",
@@ -659,7 +653,7 @@
     "forms": [
       {
         "contentType": "application/json",
-        "dtv:topic": "opcua/OpcUaCore/OpcUaCore_BaseEventType/properties/read",
+        "dov:topic": "opcua/OpcUaCore/OpcUaCore_BaseEventType/properties/read",
         "op": "readallproperties"
       }
     ],
@@ -672,7 +666,7 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/OpcUaCore/OpcUaCore_BaseEventType/property/ConditionClassId/read",
+            "dov:topic": "opcua/OpcUaCore/OpcUaCore_BaseEventType/property/ConditionClassId/read",
             "op": "readproperty"
           }
         ]
@@ -683,7 +677,7 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/OpcUaCore/OpcUaCore_BaseEventType/property/ConditionClassName/read",
+            "dov:topic": "opcua/OpcUaCore/OpcUaCore_BaseEventType/property/ConditionClassName/read",
             "op": "readproperty"
           }
         ]
@@ -697,7 +691,7 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/OpcUaCore/OpcUaCore_BaseEventType/property/ConditionSubClassId/read",
+            "dov:topic": "opcua/OpcUaCore/OpcUaCore_BaseEventType/property/ConditionSubClassId/read",
             "op": "readproperty"
           }
         ]
@@ -711,7 +705,7 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/OpcUaCore/OpcUaCore_BaseEventType/property/ConditionSubClassName/read",
+            "dov:topic": "opcua/OpcUaCore/OpcUaCore_BaseEventType/property/ConditionSubClassName/read",
             "op": "readproperty"
           }
         ]
@@ -723,7 +717,7 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/OpcUaCore/OpcUaCore_BaseEventType/property/EventId/read",
+            "dov:topic": "opcua/OpcUaCore/OpcUaCore_BaseEventType/property/EventId/read",
             "op": "readproperty"
           }
         ]
@@ -734,7 +728,7 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/OpcUaCore/OpcUaCore_BaseEventType/property/EventType/read",
+            "dov:topic": "opcua/OpcUaCore/OpcUaCore_BaseEventType/property/EventType/read",
             "op": "readproperty"
           }
         ]
@@ -742,7 +736,7 @@
       "LocalTime": {
         "title": "TimeZoneDataType",
         "type": "object",
-        "aov:typeRef": "nsu=http://opcfoundation.org/UA/;i=8912",
+        "dov:typeRef": "nsu=http://opcfoundation.org/UA/;i=8912",
         "required": [ "Offset", "DaylightSavingInOffset" ],
         "properties": {
           "Offset": {
@@ -758,7 +752,7 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/OpcUaCore/OpcUaCore_BaseEventType/property/LocalTime/read",
+            "dov:topic": "opcua/OpcUaCore/OpcUaCore_BaseEventType/property/LocalTime/read",
             "op": "readproperty"
           }
         ]
@@ -769,7 +763,7 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/OpcUaCore/OpcUaCore_BaseEventType/property/Message/read",
+            "dov:topic": "opcua/OpcUaCore/OpcUaCore_BaseEventType/property/Message/read",
             "op": "readproperty"
           }
         ]
@@ -781,7 +775,7 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/OpcUaCore/OpcUaCore_BaseEventType/property/ReceiveTime/read",
+            "dov:topic": "opcua/OpcUaCore/OpcUaCore_BaseEventType/property/ReceiveTime/read",
             "op": "readproperty"
           }
         ]
@@ -794,7 +788,7 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/OpcUaCore/OpcUaCore_BaseEventType/property/Severity/read",
+            "dov:topic": "opcua/OpcUaCore/OpcUaCore_BaseEventType/property/Severity/read",
             "op": "readproperty"
           }
         ]
@@ -805,7 +799,7 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/OpcUaCore/OpcUaCore_BaseEventType/property/SourceName/read",
+            "dov:topic": "opcua/OpcUaCore/OpcUaCore_BaseEventType/property/SourceName/read",
             "op": "readproperty"
           }
         ]
@@ -816,7 +810,7 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/OpcUaCore/OpcUaCore_BaseEventType/property/SourceNode/read",
+            "dov:topic": "opcua/OpcUaCore/OpcUaCore_BaseEventType/property/SourceNode/read",
             "op": "readproperty"
           }
         ]
@@ -828,7 +822,7 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/OpcUaCore/OpcUaCore_BaseEventType/property/Time/read",
+            "dov:topic": "opcua/OpcUaCore/OpcUaCore_BaseEventType/property/Time/read",
             "op": "readproperty"
           }
         ]
@@ -841,13 +835,12 @@
     "@context": [
       "https://www.w3.org/2022/wot/td/v1.1",
       {
-        "dtv": "http://azure.com/DigitalTwins/dtmi#",
-        "aov": "http://azure.com/IoT/operations/tm#"
+        "dov": "http://azure.com/DigitalOperations/vocab#"
       }
     ],
     "@type": "tm:ThingModel",
     "title": "OpcUaCore_BaseObjectType",
-    "aov:typeRef": "nsu=http://opcfoundation.org/UA/;i=58",
+    "dov:typeRef": "nsu=http://opcfoundation.org/UA/;i=58",
     "links": [
     ],
     "schemaDefinitions": {
@@ -863,13 +856,12 @@
     "@context": [
       "https://www.w3.org/2022/wot/td/v1.1",
       {
-        "dtv": "http://azure.com/DigitalTwins/dtmi#",
-        "aov": "http://azure.com/IoT/operations/tm#"
+        "dov": "http://azure.com/DigitalOperations/vocab#"
       }
     ],
     "@type": "tm:ThingModel",
     "title": "OpcUaCore_FolderType",
-    "aov:typeRef": "nsu=http://opcfoundation.org/UA/;i=61",
+    "dov:typeRef": "nsu=http://opcfoundation.org/UA/;i=61",
     "links": [
       {
         "rel": "tm:extends",
@@ -890,13 +882,12 @@
     "@context": [
       "https://www.w3.org/2022/wot/td/v1.1",
       {
-        "dtv": "http://azure.com/DigitalTwins/dtmi#",
-        "aov": "http://azure.com/IoT/operations/tm#"
+        "dov": "http://azure.com/DigitalOperations/vocab#"
       }
     ],
     "@type": "tm:ThingModel",
     "title": "OpcUaCore_FileType",
-    "aov:typeRef": "nsu=http://opcfoundation.org/UA/;i=11575",
+    "dov:typeRef": "nsu=http://opcfoundation.org/UA/;i=11575",
     "links": [
       {
         "rel": "tm:extends",
@@ -909,7 +900,7 @@
     "forms": [
       {
         "contentType": "application/json",
-        "dtv:topic": "opcua/OpcUaCore/OpcUaCore_FileType/properties/read",
+        "dov:topic": "opcua/OpcUaCore/OpcUaCore_FileType/properties/read",
         "op": "readallproperties"
       }
     ],
@@ -917,7 +908,7 @@
       "Close": {
         "input": {
           "type": "object",
-          "aov:typeRef": "nsu=http://opcfoundation.org/UA/;i=11584",
+          "dov:typeRef": "nsu=http://opcfoundation.org/UA/;i=11584",
           "required": [ "FileHandle" ],
           "properties": {
             "FileHandle": {
@@ -930,7 +921,7 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/OpcUaCore/OpcUaCore_FileType/action/Close",
+            "dov:topic": "opcua/OpcUaCore/OpcUaCore_FileType/action/Close",
             "op": "invokeaction"
           }
         ]
@@ -938,7 +929,7 @@
       "GetPosition": {
         "input": {
           "type": "object",
-          "aov:typeRef": "nsu=http://opcfoundation.org/UA/;i=11591",
+          "dov:typeRef": "nsu=http://opcfoundation.org/UA/;i=11591",
           "required": [ "FileHandle" ],
           "properties": {
             "FileHandle": {
@@ -950,7 +941,7 @@
         },
         "output": {
           "type": "object",
-          "aov:typeRef": "nsu=http://opcfoundation.org/UA/;i=11592",
+          "dov:typeRef": "nsu=http://opcfoundation.org/UA/;i=11592",
           "required": [ "Position" ],
           "properties": {
             "Position": {
@@ -963,7 +954,7 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/OpcUaCore/OpcUaCore_FileType/action/GetPosition",
+            "dov:topic": "opcua/OpcUaCore/OpcUaCore_FileType/action/GetPosition",
             "op": "invokeaction"
           }
         ]
@@ -971,7 +962,7 @@
       "Open": {
         "input": {
           "type": "object",
-          "aov:typeRef": "nsu=http://opcfoundation.org/UA/;i=11581",
+          "dov:typeRef": "nsu=http://opcfoundation.org/UA/;i=11581",
           "required": [ "Mode" ],
           "properties": {
             "Mode": {
@@ -983,7 +974,7 @@
         },
         "output": {
           "type": "object",
-          "aov:typeRef": "nsu=http://opcfoundation.org/UA/;i=11582",
+          "dov:typeRef": "nsu=http://opcfoundation.org/UA/;i=11582",
           "required": [ "FileHandle" ],
           "properties": {
             "FileHandle": {
@@ -996,7 +987,7 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/OpcUaCore/OpcUaCore_FileType/action/Open",
+            "dov:topic": "opcua/OpcUaCore/OpcUaCore_FileType/action/Open",
             "op": "invokeaction"
           }
         ]
@@ -1004,7 +995,7 @@
       "Read": {
         "input": {
           "type": "object",
-          "aov:typeRef": "nsu=http://opcfoundation.org/UA/;i=11586",
+          "dov:typeRef": "nsu=http://opcfoundation.org/UA/;i=11586",
           "required": [ "FileHandle", "Length" ],
           "properties": {
             "FileHandle": {
@@ -1021,7 +1012,7 @@
         },
         "output": {
           "type": "object",
-          "aov:typeRef": "nsu=http://opcfoundation.org/UA/;i=11587",
+          "dov:typeRef": "nsu=http://opcfoundation.org/UA/;i=11587",
           "required": [ "Data" ],
           "properties": {
             "Data": {
@@ -1033,7 +1024,7 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/OpcUaCore/OpcUaCore_FileType/action/Read",
+            "dov:topic": "opcua/OpcUaCore/OpcUaCore_FileType/action/Read",
             "op": "invokeaction"
           }
         ]
@@ -1041,7 +1032,7 @@
       "SetPosition": {
         "input": {
           "type": "object",
-          "aov:typeRef": "nsu=http://opcfoundation.org/UA/;i=11594",
+          "dov:typeRef": "nsu=http://opcfoundation.org/UA/;i=11594",
           "required": [ "FileHandle", "Position" ],
           "properties": {
             "FileHandle": {
@@ -1059,7 +1050,7 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/OpcUaCore/OpcUaCore_FileType/action/SetPosition",
+            "dov:topic": "opcua/OpcUaCore/OpcUaCore_FileType/action/SetPosition",
             "op": "invokeaction"
           }
         ]
@@ -1067,7 +1058,7 @@
       "Write": {
         "input": {
           "type": "object",
-          "aov:typeRef": "nsu=http://opcfoundation.org/UA/;i=11589",
+          "dov:typeRef": "nsu=http://opcfoundation.org/UA/;i=11589",
           "required": [ "FileHandle", "Data" ],
           "properties": {
             "FileHandle": {
@@ -1084,7 +1075,7 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/OpcUaCore/OpcUaCore_FileType/action/Write",
+            "dov:topic": "opcua/OpcUaCore/OpcUaCore_FileType/action/Write",
             "op": "invokeaction"
           }
         ]
@@ -1098,7 +1089,7 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/OpcUaCore/OpcUaCore_FileType/property/LastModifiedTime/read",
+            "dov:topic": "opcua/OpcUaCore/OpcUaCore_FileType/property/LastModifiedTime/read",
             "op": "readproperty"
           }
         ]
@@ -1111,7 +1102,7 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/OpcUaCore/OpcUaCore_FileType/property/MaxByteStringLength/read",
+            "dov:topic": "opcua/OpcUaCore/OpcUaCore_FileType/property/MaxByteStringLength/read",
             "op": "readproperty"
           }
         ]
@@ -1122,7 +1113,7 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/OpcUaCore/OpcUaCore_FileType/property/MimeType/read",
+            "dov:topic": "opcua/OpcUaCore/OpcUaCore_FileType/property/MimeType/read",
             "op": "readproperty"
           }
         ]
@@ -1135,7 +1126,7 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/OpcUaCore/OpcUaCore_FileType/property/OpenCount/read",
+            "dov:topic": "opcua/OpcUaCore/OpcUaCore_FileType/property/OpenCount/read",
             "op": "readproperty"
           }
         ]
@@ -1148,7 +1139,7 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/OpcUaCore/OpcUaCore_FileType/property/Size/read",
+            "dov:topic": "opcua/OpcUaCore/OpcUaCore_FileType/property/Size/read",
             "op": "readproperty"
           }
         ]
@@ -1159,7 +1150,7 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/OpcUaCore/OpcUaCore_FileType/property/UserWritable/read",
+            "dov:topic": "opcua/OpcUaCore/OpcUaCore_FileType/property/UserWritable/read",
             "op": "readproperty"
           }
         ]
@@ -1170,7 +1161,7 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/OpcUaCore/OpcUaCore_FileType/property/Writable/read",
+            "dov:topic": "opcua/OpcUaCore/OpcUaCore_FileType/property/Writable/read",
             "op": "readproperty"
           }
         ]
@@ -1183,13 +1174,12 @@
     "@context": [
       "https://www.w3.org/2022/wot/td/v1.1",
       {
-        "dtv": "http://azure.com/DigitalTwins/dtmi#",
-        "aov": "http://azure.com/IoT/operations/tm#"
+        "dov": "http://azure.com/DigitalOperations/vocab#"
       }
     ],
     "@type": "tm:ThingModel",
     "title": "OpcUaCore_FileDirectoryType",
-    "aov:typeRef": "nsu=http://opcfoundation.org/UA/;i=13353",
+    "dov:typeRef": "nsu=http://opcfoundation.org/UA/;i=13353",
     "links": [
       {
         "rel": "tm:extends",
@@ -1203,7 +1193,7 @@
       "CreateDirectory": {
         "input": {
           "type": "object",
-          "aov:typeRef": "nsu=http://opcfoundation.org/UA/;i=13388",
+          "dov:typeRef": "nsu=http://opcfoundation.org/UA/;i=13388",
           "required": [ "DirectoryName" ],
           "properties": {
             "DirectoryName": {
@@ -1213,7 +1203,7 @@
         },
         "output": {
           "type": "object",
-          "aov:typeRef": "nsu=http://opcfoundation.org/UA/;i=13389",
+          "dov:typeRef": "nsu=http://opcfoundation.org/UA/;i=13389",
           "required": [ "DirectoryNodeId" ],
           "properties": {
             "DirectoryNodeId": {
@@ -1224,7 +1214,7 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/OpcUaCore/OpcUaCore_FileDirectoryType/action/CreateDirectory",
+            "dov:topic": "opcua/OpcUaCore/OpcUaCore_FileDirectoryType/action/CreateDirectory",
             "op": "invokeaction"
           }
         ]
@@ -1232,7 +1222,7 @@
       "CreateFile": {
         "input": {
           "type": "object",
-          "aov:typeRef": "nsu=http://opcfoundation.org/UA/;i=13391",
+          "dov:typeRef": "nsu=http://opcfoundation.org/UA/;i=13391",
           "required": [ "FileName", "RequestFileOpen" ],
           "properties": {
             "FileName": {
@@ -1245,7 +1235,7 @@
         },
         "output": {
           "type": "object",
-          "aov:typeRef": "nsu=http://opcfoundation.org/UA/;i=13392",
+          "dov:typeRef": "nsu=http://opcfoundation.org/UA/;i=13392",
           "required": [ "FileNodeId", "FileHandle" ],
           "properties": {
             "FileNodeId": {
@@ -1261,7 +1251,7 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/OpcUaCore/OpcUaCore_FileDirectoryType/action/CreateFile",
+            "dov:topic": "opcua/OpcUaCore/OpcUaCore_FileDirectoryType/action/CreateFile",
             "op": "invokeaction"
           }
         ]
@@ -1269,7 +1259,7 @@
       "DeleteFileSystemObject": {
         "input": {
           "type": "object",
-          "aov:typeRef": "nsu=http://opcfoundation.org/UA/;i=13394",
+          "dov:typeRef": "nsu=http://opcfoundation.org/UA/;i=13394",
           "required": [ "ObjectToDelete" ],
           "properties": {
             "ObjectToDelete": {
@@ -1280,7 +1270,7 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/OpcUaCore/OpcUaCore_FileDirectoryType/action/DeleteFileSystemObject",
+            "dov:topic": "opcua/OpcUaCore/OpcUaCore_FileDirectoryType/action/DeleteFileSystemObject",
             "op": "invokeaction"
           }
         ]
@@ -1288,7 +1278,7 @@
       "MoveOrCopy": {
         "input": {
           "type": "object",
-          "aov:typeRef": "nsu=http://opcfoundation.org/UA/;i=13396",
+          "dov:typeRef": "nsu=http://opcfoundation.org/UA/;i=13396",
           "required": [ "ObjectToMoveOrCopy", "TargetDirectory", "CreateCopy", "NewName" ],
           "properties": {
             "ObjectToMoveOrCopy": {
@@ -1307,7 +1297,7 @@
         },
         "output": {
           "type": "object",
-          "aov:typeRef": "nsu=http://opcfoundation.org/UA/;i=13397",
+          "dov:typeRef": "nsu=http://opcfoundation.org/UA/;i=13397",
           "required": [ "NewNodeId" ],
           "properties": {
             "NewNodeId": {
@@ -1318,7 +1308,7 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/OpcUaCore/OpcUaCore_FileDirectoryType/action/MoveOrCopy",
+            "dov:topic": "opcua/OpcUaCore/OpcUaCore_FileDirectoryType/action/MoveOrCopy",
             "op": "invokeaction"
           }
         ]
@@ -1333,14 +1323,13 @@
     "@context": [
       "https://www.w3.org/2022/wot/td/v1.1",
       {
-        "dtv": "http://azure.com/DigitalTwins/dtmi#",
-        "aov": "http://azure.com/IoT/operations/tm#"
+        "dov": "http://azure.com/DigitalOperations/vocab#"
       }
     ],
     "@type": "tm:ThingModel",
     "title": "Machinery_MachineIdentificationType",
-    "aov:typeRef": "nsu=http://opcfoundation.org/UA/Machinery/;i=1012",
-    "aov:isComposite": true,
+    "dov:typeRef": "nsu=http://opcfoundation.org/UA/Machinery/;i=1012",
+    "dov:isComposite": true,
     "links": [
       {
         "rel": "tm:extends",
@@ -1353,12 +1342,12 @@
     "forms": [
       {
         "contentType": "application/json",
-        "dtv:topic": "opcua/Machinery/Machinery_MachineIdentificationType/properties/write",
+        "dov:topic": "opcua/Machinery/Machinery_MachineIdentificationType/properties/write",
         "op": "writemultipleproperties"
       },
       {
         "contentType": "application/json",
-        "dtv:topic": "opcua/Machinery/Machinery_MachineIdentificationType/properties/read",
+        "dov:topic": "opcua/Machinery/Machinery_MachineIdentificationType/properties/read",
         "op": "readallproperties"
       }
     ],
@@ -1372,38 +1361,38 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/Machinery/Machinery_MachineIdentificationType/property/DefaultInstanceBrowseName/read",
+            "dov:topic": "opcua/Machinery/Machinery_MachineIdentificationType/property/DefaultInstanceBrowseName/read",
             "op": "readproperty"
           }
         ]
       },
       "Location": {
-        "aov:namespace": "http://opcfoundation.org/UA/Machinery/",
+        "dov:namespace": "http://opcfoundation.org/UA/Machinery/",
         "description": "To be used by end users to store the location of the machine in a scheme specific to the end user. Servers shall support at least 60 Unicode characters for the clients writing this value, this means clients can expect to be able to write strings with a length of 60 Unicode characters into that field.",
         "type": "string",
         "readOnly": false,
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/Machinery/Machinery_MachineIdentificationType/property/Location/write",
+            "dov:topic": "opcua/Machinery/Machinery_MachineIdentificationType/property/Location/write",
             "op": "writeproperty"
           },
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/Machinery/Machinery_MachineIdentificationType/property/Location/read",
+            "dov:topic": "opcua/Machinery/Machinery_MachineIdentificationType/property/Location/read",
             "op": "readproperty"
           }
         ]
       },
       "ProductInstanceUri": {
-        "aov:namespace": "http://opcfoundation.org/UA/DI/",
+        "dov:namespace": "http://opcfoundation.org/UA/DI/",
         "description": "A globally unique resource identifier provided by the manufacturer of the machine",
         "type": "string",
         "readOnly": true,
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/Machinery/Machinery_MachineIdentificationType/property/ProductInstanceUri/read",
+            "dov:topic": "opcua/Machinery/Machinery_MachineIdentificationType/property/ProductInstanceUri/read",
             "op": "readproperty"
           }
         ]
@@ -1416,13 +1405,12 @@
     "@context": [
       "https://www.w3.org/2022/wot/td/v1.1",
       {
-        "dtv": "http://azure.com/DigitalTwins/dtmi#",
-        "aov": "http://azure.com/IoT/operations/tm#"
+        "dov": "http://azure.com/DigitalOperations/vocab#"
       }
     ],
     "@type": "tm:ThingModel",
     "title": "Machinery_MachineryItemIdentificationType",
-    "aov:typeRef": "nsu=http://opcfoundation.org/UA/Machinery/;i=1004",
+    "dov:typeRef": "nsu=http://opcfoundation.org/UA/Machinery/;i=1004",
     "links": [
       {
         "rel": "tm:extends",
@@ -1435,12 +1423,12 @@
     "forms": [
       {
         "contentType": "application/json",
-        "dtv:topic": "opcua/Machinery/Machinery_MachineryItemIdentificationType/properties/write",
+        "dov:topic": "opcua/Machinery/Machinery_MachineryItemIdentificationType/properties/write",
         "op": "writemultipleproperties"
       },
       {
         "contentType": "application/json",
-        "dtv:topic": "opcua/Machinery/Machinery_MachineryItemIdentificationType/properties/read",
+        "dov:topic": "opcua/Machinery/Machinery_MachineryItemIdentificationType/properties/read",
         "op": "readallproperties"
       }
     ],
@@ -1448,37 +1436,37 @@
     },
     "properties": {
       "AssetId": {
-        "aov:namespace": "http://opcfoundation.org/UA/DI/",
+        "dov:namespace": "http://opcfoundation.org/UA/DI/",
         "description": "To be used by end users to store a unique identification in the context of their overall application. Servers shall support at least 40 Unicode characters for the clients writing this value, this means clients can expect to be able to write strings with a length of 40 Unicode characters into that field.",
         "type": "string",
         "readOnly": false,
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/Machinery/Machinery_MachineryItemIdentificationType/property/AssetId/write",
+            "dov:topic": "opcua/Machinery/Machinery_MachineryItemIdentificationType/property/AssetId/write",
             "op": "writeproperty"
           },
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/Machinery/Machinery_MachineryItemIdentificationType/property/AssetId/read",
+            "dov:topic": "opcua/Machinery/Machinery_MachineryItemIdentificationType/property/AssetId/read",
             "op": "readproperty"
           }
         ]
       },
       "ComponentName": {
-        "aov:namespace": "http://opcfoundation.org/UA/DI/",
+        "dov:namespace": "http://opcfoundation.org/UA/DI/",
         "description": "To be used by end users to store a human-readable localized text for the MachineryItem. The minimum number of locales supported for this property shall be two. Servers shall support at least 40 Unicode characters for the clients writing the text part of each locale, this means clients can expect to be able to write texts with a length of 40 Unicode characters into that field.",
         "type": "string",
         "readOnly": false,
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/Machinery/Machinery_MachineryItemIdentificationType/property/ComponentName/write",
+            "dov:topic": "opcua/Machinery/Machinery_MachineryItemIdentificationType/property/ComponentName/write",
             "op": "writeproperty"
           },
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/Machinery/Machinery_MachineryItemIdentificationType/property/ComponentName/read",
+            "dov:topic": "opcua/Machinery/Machinery_MachineryItemIdentificationType/property/ComponentName/read",
             "op": "readproperty"
           }
         ]
@@ -1490,44 +1478,44 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/Machinery/Machinery_MachineryItemIdentificationType/property/DefaultInstanceBrowseName/write",
+            "dov:topic": "opcua/Machinery/Machinery_MachineryItemIdentificationType/property/DefaultInstanceBrowseName/write",
             "op": "writeproperty"
           },
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/Machinery/Machinery_MachineryItemIdentificationType/property/DefaultInstanceBrowseName/read",
+            "dov:topic": "opcua/Machinery/Machinery_MachineryItemIdentificationType/property/DefaultInstanceBrowseName/read",
             "op": "readproperty"
           }
         ]
       },
       "DeviceClass": {
-        "aov:namespace": "http://opcfoundation.org/UA/DI/",
+        "dov:namespace": "http://opcfoundation.org/UA/DI/",
         "description": "Indicates in which domain or for what purpose the MachineryItem is used.",
         "type": "string",
         "readOnly": true,
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/Machinery/Machinery_MachineryItemIdentificationType/property/DeviceClass/read",
+            "dov:topic": "opcua/Machinery/Machinery_MachineryItemIdentificationType/property/DeviceClass/read",
             "op": "readproperty"
           }
         ]
       },
       "HardwareRevision": {
-        "aov:namespace": "http://opcfoundation.org/UA/DI/",
+        "dov:namespace": "http://opcfoundation.org/UA/DI/",
         "description": "A string representation of the revision level of the hardware of a MachineryItem. Hardware is physical equipment, as opposed to programs, procedures, rules and associated documentation. Many machines will not provide such information due to the modular and configurable nature of the machine.",
         "type": "string",
         "readOnly": true,
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/Machinery/Machinery_MachineryItemIdentificationType/property/HardwareRevision/read",
+            "dov:topic": "opcua/Machinery/Machinery_MachineryItemIdentificationType/property/HardwareRevision/read",
             "op": "readproperty"
           }
         ]
       },
       "InitialOperationDate": {
-        "aov:namespace": "http://opcfoundation.org/UA/Machinery/",
+        "dov:namespace": "http://opcfoundation.org/UA/Machinery/",
         "description": "The date, when the MachineryItem was switched on the first time after it has left the manufacturer plant.",
         "type": "string",
         "format": "date-time",
@@ -1535,52 +1523,52 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/Machinery/Machinery_MachineryItemIdentificationType/property/InitialOperationDate/read",
+            "dov:topic": "opcua/Machinery/Machinery_MachineryItemIdentificationType/property/InitialOperationDate/read",
             "op": "readproperty"
           }
         ]
       },
       "Manufacturer": {
-        "aov:namespace": "http://opcfoundation.org/UA/DI/",
+        "dov:namespace": "http://opcfoundation.org/UA/DI/",
         "description": "A human-readable, localized name of the manufacturer of the MachineryItem.",
         "type": "string",
         "readOnly": true,
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/Machinery/Machinery_MachineryItemIdentificationType/property/Manufacturer/read",
+            "dov:topic": "opcua/Machinery/Machinery_MachineryItemIdentificationType/property/Manufacturer/read",
             "op": "readproperty"
           }
         ]
       },
       "ManufacturerUri": {
-        "aov:namespace": "http://opcfoundation.org/UA/DI/",
+        "dov:namespace": "http://opcfoundation.org/UA/DI/",
         "description": "A globally unique identifier of the manufacturer of the MachineryItem.",
         "type": "string",
         "readOnly": true,
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/Machinery/Machinery_MachineryItemIdentificationType/property/ManufacturerUri/read",
+            "dov:topic": "opcua/Machinery/Machinery_MachineryItemIdentificationType/property/ManufacturerUri/read",
             "op": "readproperty"
           }
         ]
       },
       "Model": {
-        "aov:namespace": "http://opcfoundation.org/UA/DI/",
+        "dov:namespace": "http://opcfoundation.org/UA/DI/",
         "description": "A human-readable, localized name of the model of the MachineryItem.",
         "type": "string",
         "readOnly": true,
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/Machinery/Machinery_MachineryItemIdentificationType/property/Model/read",
+            "dov:topic": "opcua/Machinery/Machinery_MachineryItemIdentificationType/property/Model/read",
             "op": "readproperty"
           }
         ]
       },
       "MonthOfConstruction": {
-        "aov:namespace": "http://opcfoundation.org/UA/Machinery/",
+        "dov:namespace": "http://opcfoundation.org/UA/Machinery/",
         "description": "The month in which the manufacturing process of the MachineryItem has been completed. It shall be a number between 1 and 12, representing the month from January to December.",
         "type": "integer",
         "minimum": 0,
@@ -1589,65 +1577,65 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/Machinery/Machinery_MachineryItemIdentificationType/property/MonthOfConstruction/read",
+            "dov:topic": "opcua/Machinery/Machinery_MachineryItemIdentificationType/property/MonthOfConstruction/read",
             "op": "readproperty"
           }
         ]
       },
       "ProductCode": {
-        "aov:namespace": "http://opcfoundation.org/UA/DI/",
+        "dov:namespace": "http://opcfoundation.org/UA/DI/",
         "description": "A machine-readable string of the model of the MachineryItem, that might include options like the hardware configuration of the model. This information might be provided by the ERP system of the vendor. For example, it can be used as order information.",
         "type": "string",
         "readOnly": true,
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/Machinery/Machinery_MachineryItemIdentificationType/property/ProductCode/read",
+            "dov:topic": "opcua/Machinery/Machinery_MachineryItemIdentificationType/property/ProductCode/read",
             "op": "readproperty"
           }
         ]
       },
       "ProductInstanceUri": {
-        "aov:namespace": "http://opcfoundation.org/UA/DI/",
+        "dov:namespace": "http://opcfoundation.org/UA/DI/",
         "description": "A globally unique resource identifier provided by the manufacturer of the MachineryItem.",
         "type": "string",
         "readOnly": true,
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/Machinery/Machinery_MachineryItemIdentificationType/property/ProductInstanceUri/read",
+            "dov:topic": "opcua/Machinery/Machinery_MachineryItemIdentificationType/property/ProductInstanceUri/read",
             "op": "readproperty"
           }
         ]
       },
       "SerialNumber": {
-        "aov:namespace": "http://opcfoundation.org/UA/DI/",
+        "dov:namespace": "http://opcfoundation.org/UA/DI/",
         "description": "A string containing a unique production number of the manufacturer of the MachineryItem. The global uniqueness of the serial number is only given in the context of the manufacturer, and potentially the model. The value shall not change during the life-cycle of the MachineryItem.",
         "type": "string",
         "readOnly": true,
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/Machinery/Machinery_MachineryItemIdentificationType/property/SerialNumber/read",
+            "dov:topic": "opcua/Machinery/Machinery_MachineryItemIdentificationType/property/SerialNumber/read",
             "op": "readproperty"
           }
         ]
       },
       "SoftwareRevision": {
-        "aov:namespace": "http://opcfoundation.org/UA/DI/",
+        "dov:namespace": "http://opcfoundation.org/UA/DI/",
         "description": "A string representation of the revision level of a MachineryItem. In most cases, MachineryItems consist of several software components. In that case, information about the software components might be provided as additional information in the address space, including individual revision information. In that case, this property is either not provided or provides an overall software revision level. The value might change during the life-cycle of a MachineryItem.",
         "type": "string",
         "readOnly": true,
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/Machinery/Machinery_MachineryItemIdentificationType/property/SoftwareRevision/read",
+            "dov:topic": "opcua/Machinery/Machinery_MachineryItemIdentificationType/property/SoftwareRevision/read",
             "op": "readproperty"
           }
         ]
       },
       "YearOfConstruction": {
-        "aov:namespace": "http://opcfoundation.org/UA/Machinery/",
+        "dov:namespace": "http://opcfoundation.org/UA/Machinery/",
         "description": "The year (Gregorian calendar) in which the manufacturing process of the MachineryItem has been completed. It shall be a four-digit number and never change during the life-cycle of a MachineryItem.",
         "type": "integer",
         "minimum": 0,
@@ -1656,7 +1644,7 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/Machinery/Machinery_MachineryItemIdentificationType/property/YearOfConstruction/read",
+            "dov:topic": "opcua/Machinery/Machinery_MachineryItemIdentificationType/property/YearOfConstruction/read",
             "op": "readproperty"
           }
         ]
@@ -1669,13 +1657,12 @@
     "@context": [
       "https://www.w3.org/2022/wot/td/v1.1",
       {
-        "dtv": "http://azure.com/DigitalTwins/dtmi#",
-        "aov": "http://azure.com/IoT/operations/tm#"
+        "dov": "http://azure.com/DigitalOperations/vocab#"
       }
     ],
     "@type": "tm:ThingModel",
     "title": "DI_FunctionalGroupType",
-    "aov:typeRef": "nsu=http://opcfoundation.org/UA/DI/;i=1005",
+    "dov:typeRef": "nsu=http://opcfoundation.org/UA/DI/;i=1005",
     "links": [
       {
         "rel": "tm:extends",
@@ -1683,8 +1670,8 @@
         "type": "application/tm+json"
       },
       {
-        "rel": "aov:component",
-        "aov:refName": "GroupIdentifier",
+        "rel": "dov:component",
+        "dov:refName": "GroupIdentifier",
         "href": "#title=DI_FunctionalGroupType",
         "type": "application/tm+json"
       }
@@ -1694,12 +1681,12 @@
     "forms": [
       {
         "contentType": "application/json",
-        "dtv:topic": "opcua/DI/DI_FunctionalGroupType/events/{senderId}",
+        "dov:topic": "opcua/DI/DI_FunctionalGroupType/events/{senderId}",
         "op": "subscribeallevents"
       },
       {
         "contentType": "application/json",
-        "dtv:topic": "opcua/DI/DI_FunctionalGroupType/properties/read",
+        "dov:topic": "opcua/DI/DI_FunctionalGroupType/properties/read",
         "op": "readallproperties"
       }
     ],
@@ -1707,14 +1694,14 @@
     },
     "properties": {
       "UIElement": {
-        "aov:namespace": "http://opcfoundation.org/UA/DI/",
+        "dov:namespace": "http://opcfoundation.org/UA/DI/",
         "description": "Stand-in for an unspecified data type.",
         "type": "string",
         "readOnly": true,
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/DI/DI_FunctionalGroupType/property/UIElement/read",
+            "dov:topic": "opcua/DI/DI_FunctionalGroupType/property/UIElement/read",
             "op": "readproperty"
           }
         ]
@@ -1722,7 +1709,7 @@
     },
     "events": {
       "UIElement": {
-        "aov:namespace": "http://opcfoundation.org/UA/DI/",
+        "dov:namespace": "http://opcfoundation.org/UA/DI/",
         "data": {
           "description": "Stand-in for an unspecified data type.",
           "type": "string"
@@ -1730,7 +1717,7 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/DI/DI_FunctionalGroupType/event/UIElement/{senderId}",
+            "dov:topic": "opcua/DI/DI_FunctionalGroupType/event/UIElement/{senderId}",
             "op": "subscribeevent"
           }
         ]

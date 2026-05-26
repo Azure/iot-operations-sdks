@@ -79,7 +79,7 @@ namespace Azure.Iot.Operations.Opc2WotLib
 
             if (referenceTypeNodeId.NsIndex != 0)
             {
-                return new LinkInfo(targetModelRef, "aov:typedReference", targetObject.EffectiveName, sourceObjectType.GetReferencedOpcUaNode(referenceTypeNodeId).EffectiveName);
+                return new LinkInfo(targetModelRef, "dov:typedReference", targetObject.EffectiveName, sourceObjectType.GetReferencedOpcUaNode(referenceTypeNodeId).EffectiveName);
             }
             else
             {

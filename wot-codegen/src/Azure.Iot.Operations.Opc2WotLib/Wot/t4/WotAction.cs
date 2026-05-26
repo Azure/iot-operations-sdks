@@ -30,7 +30,7 @@ namespace Azure.Iot.Operations.Opc2WotLib
             this.Write(this.ToStringHelper.ToStringWithCulture(this.actionName));
             this.Write("\": {\r\n");
  if (this.uaMethod.BrowseNamespace != null) { 
-            this.Write("  \"aov:namespace\": \"");
+            this.Write("  \"dov:namespace\": \"");
             this.Write(this.ToStringHelper.ToStringWithCulture(this.uaMethod.BrowseNamespace));
             this.Write("\",\r\n");
  } 
@@ -55,7 +55,7 @@ namespace Azure.Iot.Operations.Opc2WotLib
  this.PopIndent(); 
             this.Write("  },\r\n");
  } 
-            this.Write("  \"forms\": [\r\n    {\r\n      \"contentType\": \"application/json\",\r\n      \"dtv:topic\":" +
+            this.Write("  \"forms\": [\r\n    {\r\n      \"contentType\": \"application/json\",\r\n      \"dov:topic\":" +
                     " \"opcua/");
             this.Write(this.ToStringHelper.ToStringWithCulture(this.specName));
             this.Write("/");

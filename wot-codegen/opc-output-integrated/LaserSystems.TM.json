@@ -3,13 +3,12 @@
     "@context": [
       "https://www.w3.org/2022/wot/td/v1.1",
       {
-        "dtv": "http://azure.com/DigitalTwins/dtmi#",
-        "aov": "http://azure.com/IoT/operations/tm#"
+        "dov": "http://azure.com/DigitalOperations/vocab#"
       }
     ],
     "@type": "tm:ThingModel",
     "title": "LaserSystems_ActivityDataMonitoringType",
-    "aov:typeRef": "nsu=http://opcfoundation.org/UA/LaserSystems/;i=1008",
+    "dov:typeRef": "nsu=http://opcfoundation.org/UA/LaserSystems/;i=1008",
     "links": [
       {
         "rel": "tm:extends",
@@ -22,12 +21,12 @@
     "forms": [
       {
         "contentType": "application/json",
-        "dtv:topic": "opcua/LaserSystems/LaserSystems_ActivityDataMonitoringType/events/{senderId}",
+        "dov:topic": "opcua/LaserSystems/LaserSystems_ActivityDataMonitoringType/events/{senderId}",
         "op": "subscribeallevents"
       },
       {
         "contentType": "application/json",
-        "dtv:topic": "opcua/LaserSystems/LaserSystems_ActivityDataMonitoringType/properties/read",
+        "dov:topic": "opcua/LaserSystems/LaserSystems_ActivityDataMonitoringType/properties/read",
         "op": "readallproperties"
       }
     ],
@@ -35,25 +34,25 @@
     },
     "properties": {
       "CurrentValue": {
-        "aov:namespace": "http://opcfoundation.org/UA/LaserSystems/",
+        "dov:namespace": "http://opcfoundation.org/UA/LaserSystems/",
         "type": "number",
         "readOnly": true,
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/LaserSystems/LaserSystems_ActivityDataMonitoringType/property/CurrentValue/read",
+            "dov:topic": "opcua/LaserSystems/LaserSystems_ActivityDataMonitoringType/property/CurrentValue/read",
             "op": "readproperty"
           }
         ]
       },
       "Description": {
-        "aov:namespace": "http://opcfoundation.org/UA/LaserSystems/",
+        "dov:namespace": "http://opcfoundation.org/UA/LaserSystems/",
         "type": "string",
         "readOnly": true,
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/LaserSystems/LaserSystems_ActivityDataMonitoringType/property/Description/read",
+            "dov:topic": "opcua/LaserSystems/LaserSystems_ActivityDataMonitoringType/property/Description/read",
             "op": "readproperty"
           }
         ]
@@ -66,31 +65,31 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/LaserSystems/LaserSystems_ActivityDataMonitoringType/property/NumberInList/read",
+            "dov:topic": "opcua/LaserSystems/LaserSystems_ActivityDataMonitoringType/property/NumberInList/read",
             "op": "readproperty"
           }
         ]
       },
       "ParameterIdentifier": {
-        "aov:namespace": "http://opcfoundation.org/UA/LaserSystems/",
+        "dov:namespace": "http://opcfoundation.org/UA/LaserSystems/",
         "type": "string",
         "readOnly": true,
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/LaserSystems/LaserSystems_ActivityDataMonitoringType/property/ParameterIdentifier/read",
+            "dov:topic": "opcua/LaserSystems/LaserSystems_ActivityDataMonitoringType/property/ParameterIdentifier/read",
             "op": "readproperty"
           }
         ]
       },
       "PreviousValue": {
-        "aov:namespace": "http://opcfoundation.org/UA/LaserSystems/",
+        "dov:namespace": "http://opcfoundation.org/UA/LaserSystems/",
         "type": "number",
         "readOnly": true,
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/LaserSystems/LaserSystems_ActivityDataMonitoringType/property/PreviousValue/read",
+            "dov:topic": "opcua/LaserSystems/LaserSystems_ActivityDataMonitoringType/property/PreviousValue/read",
             "op": "readproperty"
           }
         ]
@@ -98,40 +97,40 @@
     },
     "events": {
       "CurrentValue": {
-        "aov:namespace": "http://opcfoundation.org/UA/LaserSystems/",
+        "dov:namespace": "http://opcfoundation.org/UA/LaserSystems/",
         "data": {
           "type": "number"
         },
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/LaserSystems/LaserSystems_ActivityDataMonitoringType/event/CurrentValue/{senderId}",
+            "dov:topic": "opcua/LaserSystems/LaserSystems_ActivityDataMonitoringType/event/CurrentValue/{senderId}",
             "op": "subscribeevent"
           }
         ]
       },
       "Description": {
-        "aov:namespace": "http://opcfoundation.org/UA/LaserSystems/",
+        "dov:namespace": "http://opcfoundation.org/UA/LaserSystems/",
         "data": {
           "type": "string"
         },
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/LaserSystems/LaserSystems_ActivityDataMonitoringType/event/Description/{senderId}",
+            "dov:topic": "opcua/LaserSystems/LaserSystems_ActivityDataMonitoringType/event/Description/{senderId}",
             "op": "subscribeevent"
           }
         ]
       },
       "PreviousValue": {
-        "aov:namespace": "http://opcfoundation.org/UA/LaserSystems/",
+        "dov:namespace": "http://opcfoundation.org/UA/LaserSystems/",
         "data": {
           "type": "number"
         },
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/LaserSystems/LaserSystems_ActivityDataMonitoringType/event/PreviousValue/{senderId}",
+            "dov:topic": "opcua/LaserSystems/LaserSystems_ActivityDataMonitoringType/event/PreviousValue/{senderId}",
             "op": "subscribeevent"
           }
         ]
@@ -142,13 +141,12 @@
     "@context": [
       "https://www.w3.org/2022/wot/td/v1.1",
       {
-        "dtv": "http://azure.com/DigitalTwins/dtmi#",
-        "aov": "http://azure.com/IoT/operations/tm#"
+        "dov": "http://azure.com/DigitalOperations/vocab#"
       }
     ],
     "@type": "tm:ThingModel",
     "title": "LaserSystems_ConditionDataMonitoringType",
-    "aov:typeRef": "nsu=http://opcfoundation.org/UA/LaserSystems/;i=1006",
+    "dov:typeRef": "nsu=http://opcfoundation.org/UA/LaserSystems/;i=1006",
     "links": [
       {
         "rel": "tm:extends",
@@ -161,12 +159,12 @@
     "forms": [
       {
         "contentType": "application/json",
-        "dtv:topic": "opcua/LaserSystems/LaserSystems_ConditionDataMonitoringType/events/{senderId}",
+        "dov:topic": "opcua/LaserSystems/LaserSystems_ConditionDataMonitoringType/events/{senderId}",
         "op": "subscribeallevents"
       },
       {
         "contentType": "application/json",
-        "dtv:topic": "opcua/LaserSystems/LaserSystems_ConditionDataMonitoringType/properties/read",
+        "dov:topic": "opcua/LaserSystems/LaserSystems_ConditionDataMonitoringType/properties/read",
         "op": "readallproperties"
       }
     ],
@@ -174,85 +172,85 @@
     },
     "properties": {
       "ConditionParameterIdentifier": {
-        "aov:namespace": "http://opcfoundation.org/UA/LaserSystems/",
+        "dov:namespace": "http://opcfoundation.org/UA/LaserSystems/",
         "type": "string",
         "readOnly": true,
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/LaserSystems/LaserSystems_ConditionDataMonitoringType/property/ConditionParameterIdentifier/read",
+            "dov:topic": "opcua/LaserSystems/LaserSystems_ConditionDataMonitoringType/property/ConditionParameterIdentifier/read",
             "op": "readproperty"
           }
         ]
       },
       "Description": {
-        "aov:namespace": "http://opcfoundation.org/UA/LaserSystems/",
+        "dov:namespace": "http://opcfoundation.org/UA/LaserSystems/",
         "type": "string",
         "readOnly": true,
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/LaserSystems/LaserSystems_ConditionDataMonitoringType/property/Description/read",
+            "dov:topic": "opcua/LaserSystems/LaserSystems_ConditionDataMonitoringType/property/Description/read",
             "op": "readproperty"
           }
         ]
       },
       "LowerErrorLevel": {
-        "aov:namespace": "http://opcfoundation.org/UA/LaserSystems/",
+        "dov:namespace": "http://opcfoundation.org/UA/LaserSystems/",
         "type": "number",
         "readOnly": true,
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/LaserSystems/LaserSystems_ConditionDataMonitoringType/property/LowerErrorLevel/read",
+            "dov:topic": "opcua/LaserSystems/LaserSystems_ConditionDataMonitoringType/property/LowerErrorLevel/read",
             "op": "readproperty"
           }
         ]
       },
       "LowerWarningLevel": {
-        "aov:namespace": "http://opcfoundation.org/UA/LaserSystems/",
+        "dov:namespace": "http://opcfoundation.org/UA/LaserSystems/",
         "type": "number",
         "readOnly": true,
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/LaserSystems/LaserSystems_ConditionDataMonitoringType/property/LowerWarningLevel/read",
+            "dov:topic": "opcua/LaserSystems/LaserSystems_ConditionDataMonitoringType/property/LowerWarningLevel/read",
             "op": "readproperty"
           }
         ]
       },
       "UpperErrorLevel": {
-        "aov:namespace": "http://opcfoundation.org/UA/LaserSystems/",
+        "dov:namespace": "http://opcfoundation.org/UA/LaserSystems/",
         "type": "number",
         "readOnly": true,
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/LaserSystems/LaserSystems_ConditionDataMonitoringType/property/UpperErrorLevel/read",
+            "dov:topic": "opcua/LaserSystems/LaserSystems_ConditionDataMonitoringType/property/UpperErrorLevel/read",
             "op": "readproperty"
           }
         ]
       },
       "UpperWarningLevel": {
-        "aov:namespace": "http://opcfoundation.org/UA/LaserSystems/",
+        "dov:namespace": "http://opcfoundation.org/UA/LaserSystems/",
         "type": "number",
         "readOnly": true,
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/LaserSystems/LaserSystems_ConditionDataMonitoringType/property/UpperWarningLevel/read",
+            "dov:topic": "opcua/LaserSystems/LaserSystems_ConditionDataMonitoringType/property/UpperWarningLevel/read",
             "op": "readproperty"
           }
         ]
       },
       "Value": {
-        "aov:namespace": "http://opcfoundation.org/UA/LaserSystems/",
+        "dov:namespace": "http://opcfoundation.org/UA/LaserSystems/",
         "type": "number",
         "readOnly": true,
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/LaserSystems/LaserSystems_ConditionDataMonitoringType/property/Value/read",
+            "dov:topic": "opcua/LaserSystems/LaserSystems_ConditionDataMonitoringType/property/Value/read",
             "op": "readproperty"
           }
         ]
@@ -260,79 +258,79 @@
     },
     "events": {
       "Description": {
-        "aov:namespace": "http://opcfoundation.org/UA/LaserSystems/",
+        "dov:namespace": "http://opcfoundation.org/UA/LaserSystems/",
         "data": {
           "type": "string"
         },
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/LaserSystems/LaserSystems_ConditionDataMonitoringType/event/Description/{senderId}",
+            "dov:topic": "opcua/LaserSystems/LaserSystems_ConditionDataMonitoringType/event/Description/{senderId}",
             "op": "subscribeevent"
           }
         ]
       },
       "LowerErrorLevel": {
-        "aov:namespace": "http://opcfoundation.org/UA/LaserSystems/",
+        "dov:namespace": "http://opcfoundation.org/UA/LaserSystems/",
         "data": {
           "type": "number"
         },
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/LaserSystems/LaserSystems_ConditionDataMonitoringType/event/LowerErrorLevel/{senderId}",
+            "dov:topic": "opcua/LaserSystems/LaserSystems_ConditionDataMonitoringType/event/LowerErrorLevel/{senderId}",
             "op": "subscribeevent"
           }
         ]
       },
       "LowerWarningLevel": {
-        "aov:namespace": "http://opcfoundation.org/UA/LaserSystems/",
+        "dov:namespace": "http://opcfoundation.org/UA/LaserSystems/",
         "data": {
           "type": "number"
         },
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/LaserSystems/LaserSystems_ConditionDataMonitoringType/event/LowerWarningLevel/{senderId}",
+            "dov:topic": "opcua/LaserSystems/LaserSystems_ConditionDataMonitoringType/event/LowerWarningLevel/{senderId}",
             "op": "subscribeevent"
           }
         ]
       },
       "UpperErrorLevel": {
-        "aov:namespace": "http://opcfoundation.org/UA/LaserSystems/",
+        "dov:namespace": "http://opcfoundation.org/UA/LaserSystems/",
         "data": {
           "type": "number"
         },
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/LaserSystems/LaserSystems_ConditionDataMonitoringType/event/UpperErrorLevel/{senderId}",
+            "dov:topic": "opcua/LaserSystems/LaserSystems_ConditionDataMonitoringType/event/UpperErrorLevel/{senderId}",
             "op": "subscribeevent"
           }
         ]
       },
       "UpperWarningLevel": {
-        "aov:namespace": "http://opcfoundation.org/UA/LaserSystems/",
+        "dov:namespace": "http://opcfoundation.org/UA/LaserSystems/",
         "data": {
           "type": "number"
         },
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/LaserSystems/LaserSystems_ConditionDataMonitoringType/event/UpperWarningLevel/{senderId}",
+            "dov:topic": "opcua/LaserSystems/LaserSystems_ConditionDataMonitoringType/event/UpperWarningLevel/{senderId}",
             "op": "subscribeevent"
           }
         ]
       },
       "Value": {
-        "aov:namespace": "http://opcfoundation.org/UA/LaserSystems/",
+        "dov:namespace": "http://opcfoundation.org/UA/LaserSystems/",
         "data": {
           "type": "number"
         },
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/LaserSystems/LaserSystems_ConditionDataMonitoringType/event/Value/{senderId}",
+            "dov:topic": "opcua/LaserSystems/LaserSystems_ConditionDataMonitoringType/event/Value/{senderId}",
             "op": "subscribeevent"
           }
         ]
@@ -343,13 +341,12 @@
     "@context": [
       "https://www.w3.org/2022/wot/td/v1.1",
       {
-        "dtv": "http://azure.com/DigitalTwins/dtmi#",
-        "aov": "http://azure.com/IoT/operations/tm#"
+        "dov": "http://azure.com/DigitalOperations/vocab#"
       }
     ],
     "@type": "tm:ThingModel",
     "title": "LaserSystems_ConsumptionDataMonitoringType",
-    "aov:typeRef": "nsu=http://opcfoundation.org/UA/LaserSystems/;i=1004",
+    "dov:typeRef": "nsu=http://opcfoundation.org/UA/LaserSystems/;i=1004",
     "links": [
       {
         "rel": "tm:extends",
@@ -362,12 +359,12 @@
     "forms": [
       {
         "contentType": "application/json",
-        "dtv:topic": "opcua/LaserSystems/LaserSystems_ConsumptionDataMonitoringType/events/{senderId}",
+        "dov:topic": "opcua/LaserSystems/LaserSystems_ConsumptionDataMonitoringType/events/{senderId}",
         "op": "subscribeallevents"
       },
       {
         "contentType": "application/json",
-        "dtv:topic": "opcua/LaserSystems/LaserSystems_ConsumptionDataMonitoringType/properties/read",
+        "dov:topic": "opcua/LaserSystems/LaserSystems_ConsumptionDataMonitoringType/properties/read",
         "op": "readallproperties"
       }
     ],
@@ -375,37 +372,37 @@
     },
     "properties": {
       "ConsumableIdentifier": {
-        "aov:namespace": "http://opcfoundation.org/UA/LaserSystems/",
+        "dov:namespace": "http://opcfoundation.org/UA/LaserSystems/",
         "type": "string",
         "readOnly": true,
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/LaserSystems/LaserSystems_ConsumptionDataMonitoringType/property/ConsumableIdentifier/read",
+            "dov:topic": "opcua/LaserSystems/LaserSystems_ConsumptionDataMonitoringType/property/ConsumableIdentifier/read",
             "op": "readproperty"
           }
         ]
       },
       "Description": {
-        "aov:namespace": "http://opcfoundation.org/UA/LaserSystems/",
+        "dov:namespace": "http://opcfoundation.org/UA/LaserSystems/",
         "type": "string",
         "readOnly": true,
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/LaserSystems/LaserSystems_ConsumptionDataMonitoringType/property/Description/read",
+            "dov:topic": "opcua/LaserSystems/LaserSystems_ConsumptionDataMonitoringType/property/Description/read",
             "op": "readproperty"
           }
         ]
       },
       "Value": {
-        "aov:namespace": "http://opcfoundation.org/UA/LaserSystems/",
+        "dov:namespace": "http://opcfoundation.org/UA/LaserSystems/",
         "type": "number",
         "readOnly": true,
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/LaserSystems/LaserSystems_ConsumptionDataMonitoringType/property/Value/read",
+            "dov:topic": "opcua/LaserSystems/LaserSystems_ConsumptionDataMonitoringType/property/Value/read",
             "op": "readproperty"
           }
         ]
@@ -413,27 +410,27 @@
     },
     "events": {
       "Description": {
-        "aov:namespace": "http://opcfoundation.org/UA/LaserSystems/",
+        "dov:namespace": "http://opcfoundation.org/UA/LaserSystems/",
         "data": {
           "type": "string"
         },
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/LaserSystems/LaserSystems_ConsumptionDataMonitoringType/event/Description/{senderId}",
+            "dov:topic": "opcua/LaserSystems/LaserSystems_ConsumptionDataMonitoringType/event/Description/{senderId}",
             "op": "subscribeevent"
           }
         ]
       },
       "Value": {
-        "aov:namespace": "http://opcfoundation.org/UA/LaserSystems/",
+        "dov:namespace": "http://opcfoundation.org/UA/LaserSystems/",
         "data": {
           "type": "number"
         },
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/LaserSystems/LaserSystems_ConsumptionDataMonitoringType/event/Value/{senderId}",
+            "dov:topic": "opcua/LaserSystems/LaserSystems_ConsumptionDataMonitoringType/event/Value/{senderId}",
             "op": "subscribeevent"
           }
         ]
@@ -444,13 +441,12 @@
     "@context": [
       "https://www.w3.org/2022/wot/td/v1.1",
       {
-        "dtv": "http://azure.com/DigitalTwins/dtmi#",
-        "aov": "http://azure.com/IoT/operations/tm#"
+        "dov": "http://azure.com/DigitalOperations/vocab#"
       }
     ],
     "@type": "tm:ThingModel",
     "title": "LaserSystems_LaserSystemOperationCounterType",
-    "aov:typeRef": "nsu=http://opcfoundation.org/UA/LaserSystems/;i=1010",
+    "dov:typeRef": "nsu=http://opcfoundation.org/UA/LaserSystems/;i=1010",
     "links": [
       {
         "rel": "tm:extends",
@@ -463,12 +459,12 @@
     "forms": [
       {
         "contentType": "application/json",
-        "dtv:topic": "opcua/LaserSystems/LaserSystems_LaserSystemOperationCounterType/properties/write",
+        "dov:topic": "opcua/LaserSystems/LaserSystems_LaserSystemOperationCounterType/properties/write",
         "op": "writemultipleproperties"
       },
       {
         "contentType": "application/json",
-        "dtv:topic": "opcua/LaserSystems/LaserSystems_LaserSystemOperationCounterType/properties/read",
+        "dov:topic": "opcua/LaserSystems/LaserSystems_LaserSystemOperationCounterType/properties/read",
         "op": "readallproperties"
       }
     ],
@@ -482,38 +478,38 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/LaserSystems/LaserSystems_LaserSystemOperationCounterType/property/DefaultInstanceBrowseName/write",
+            "dov:topic": "opcua/LaserSystems/LaserSystems_LaserSystemOperationCounterType/property/DefaultInstanceBrowseName/write",
             "op": "writeproperty"
           },
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/LaserSystems/LaserSystems_LaserSystemOperationCounterType/property/DefaultInstanceBrowseName/read",
+            "dov:topic": "opcua/LaserSystems/LaserSystems_LaserSystemOperationCounterType/property/DefaultInstanceBrowseName/read",
             "op": "readproperty"
           }
         ]
       },
       "OperationDuration": {
-        "aov:namespace": "http://opcfoundation.org/UA/DI/",
+        "dov:namespace": "http://opcfoundation.org/UA/DI/",
         "type": "string",
         "pattern": "^P(?!$)(?:(?:(?:(?:\\d+Y)|(?:\\d+\\.\\d+Y$))?(?:(?:\\d+M)|(?:\\d+\\.\\d+M$))?)|(?:(?:(?:\\d+W)|(?:\\d+\\.\\d+W$))?))(?:(?:\\d+D)|(?:\\d+\\.\\d+D$))?(?:T(?!$)(?:(?:\\d+H)|(?:\\d+\\.\\d+H$))?(?:(?:\\d+M)|(?:\\d+\\.\\d+M$))?(?:\\d+(?:\\.\\d+)?S)?)?$",
         "readOnly": true,
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/LaserSystems/LaserSystems_LaserSystemOperationCounterType/property/OperationDuration/read",
+            "dov:topic": "opcua/LaserSystems/LaserSystems_LaserSystemOperationCounterType/property/OperationDuration/read",
             "op": "readproperty"
           }
         ]
       },
       "PowerOnDuration": {
-        "aov:namespace": "http://opcfoundation.org/UA/DI/",
+        "dov:namespace": "http://opcfoundation.org/UA/DI/",
         "type": "string",
         "pattern": "^P(?!$)(?:(?:(?:(?:\\d+Y)|(?:\\d+\\.\\d+Y$))?(?:(?:\\d+M)|(?:\\d+\\.\\d+M$))?)|(?:(?:(?:\\d+W)|(?:\\d+\\.\\d+W$))?))(?:(?:\\d+D)|(?:\\d+\\.\\d+D$))?(?:T(?!$)(?:(?:\\d+H)|(?:\\d+\\.\\d+H$))?(?:(?:\\d+M)|(?:\\d+\\.\\d+M$))?(?:\\d+(?:\\.\\d+)?S)?)?$",
         "readOnly": true,
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/LaserSystems/LaserSystems_LaserSystemOperationCounterType/property/PowerOnDuration/read",
+            "dov:topic": "opcua/LaserSystems/LaserSystems_LaserSystemOperationCounterType/property/PowerOnDuration/read",
             "op": "readproperty"
           }
         ]
@@ -526,13 +522,12 @@
     "@context": [
       "https://www.w3.org/2022/wot/td/v1.1",
       {
-        "dtv": "http://azure.com/DigitalTwins/dtmi#",
-        "aov": "http://azure.com/IoT/operations/tm#"
+        "dov": "http://azure.com/DigitalOperations/vocab#"
       }
     ],
     "@type": "tm:ThingModel",
     "title": "LaserSystems_LaserSystemMonitoringType",
-    "aov:typeRef": "nsu=http://opcfoundation.org/UA/LaserSystems/;i=1002",
+    "dov:typeRef": "nsu=http://opcfoundation.org/UA/LaserSystems/;i=1002",
     "links": [
       {
         "rel": "tm:extends",
@@ -540,32 +535,32 @@
         "type": "application/tm+json"
       },
       {
-        "rel": "aov:reference",
-        "aov:refName": "ActivityData",
+        "rel": "dov:reference",
+        "dov:refName": "ActivityData",
         "href": "#title=OpcUaCore_OrderedListType",
         "type": "application/tm+json"
       },
       {
-        "rel": "aov:component",
-        "aov:refName": "ConditionData",
+        "rel": "dov:component",
+        "dov:refName": "ConditionData",
         "href": "#title=OpcUaCore_FolderType",
         "type": "application/tm+json"
       },
       {
-        "rel": "aov:component",
-        "aov:refName": "ConsumptionData",
+        "rel": "dov:component",
+        "dov:refName": "ConsumptionData",
         "href": "#title=OpcUaCore_FolderType",
         "type": "application/tm+json"
       },
       {
-        "rel": "aov:capability",
-        "aov:refName": "LaserSystemStatus",
+        "rel": "dov:capability",
+        "dov:refName": "LaserSystemStatus",
         "href": "#title=LaserSystems_LaserSystemStatusType",
         "type": "application/tm+json"
       },
       {
-        "rel": "aov:reference",
-        "aov:refName": "BasicStacklight",
+        "rel": "dov:reference",
+        "dov:refName": "BasicStacklight",
         "href": "#title=IA_BasicStacklightType",
         "type": "application/tm+json"
       }
@@ -583,13 +578,12 @@
     "@context": [
       "https://www.w3.org/2022/wot/td/v1.1",
       {
-        "dtv": "http://azure.com/DigitalTwins/dtmi#",
-        "aov": "http://azure.com/IoT/operations/tm#"
+        "dov": "http://azure.com/DigitalOperations/vocab#"
       }
     ],
     "@type": "tm:ThingModel",
     "title": "LaserSystems_LaserSystemStatusType",
-    "aov:typeRef": "nsu=http://opcfoundation.org/UA/LaserSystems/;i=1012",
+    "dov:typeRef": "nsu=http://opcfoundation.org/UA/LaserSystems/;i=1012",
     "links": [
       {
         "rel": "tm:extends",
@@ -597,14 +591,14 @@
         "type": "application/tm+json"
       },
       {
-        "rel": "aov:capability",
-        "aov:refName": "LaserSystemState",
+        "rel": "dov:capability",
+        "dov:refName": "LaserSystemState",
         "href": "#title=LaserSystems_LaserSystemState_StateMachineType",
         "type": "application/tm+json"
       },
       {
-        "rel": "aov:capability",
-        "aov:refName": "MachineToolsLaserStatus",
+        "rel": "dov:capability",
+        "dov:refName": "MachineToolsLaserStatus",
         "href": "#title=MachineTool_LaserMonitoringType",
         "type": "application/tm+json"
       }
@@ -622,13 +616,12 @@
     "@context": [
       "https://www.w3.org/2022/wot/td/v1.1",
       {
-        "dtv": "http://azure.com/DigitalTwins/dtmi#",
-        "aov": "http://azure.com/IoT/operations/tm#"
+        "dov": "http://azure.com/DigitalOperations/vocab#"
       }
     ],
     "@type": "tm:ThingModel",
     "title": "LaserSystems_LaserSystemState_StateMachineType",
-    "aov:typeRef": "nsu=http://opcfoundation.org/UA/LaserSystems/;i=1009",
+    "dov:typeRef": "nsu=http://opcfoundation.org/UA/LaserSystems/;i=1009",
     "links": [
       {
         "rel": "tm:extends",
@@ -636,434 +629,434 @@
         "type": "application/tm+json"
       },
       {
-        "rel": "aov:reference",
-        "aov:refName": "EnergySaving",
+        "rel": "dov:reference",
+        "dov:refName": "EnergySaving",
         "href": "#title=OpcUaCore_StateType",
         "type": "application/tm+json"
       },
       {
-        "rel": "aov:reference",
-        "aov:refName": "Error",
+        "rel": "dov:reference",
+        "dov:refName": "Error",
         "href": "#title=OpcUaCore_StateType",
         "type": "application/tm+json"
       },
       {
-        "rel": "aov:reference",
-        "aov:refName": "FromEnergySavingToEnergySaving",
+        "rel": "dov:reference",
+        "dov:refName": "FromEnergySavingToEnergySaving",
         "href": "#title=OpcUaCore_TransitionType",
         "type": "application/tm+json"
       },
       {
-        "rel": "aov:reference",
-        "aov:refName": "FromEnergySavingToError",
+        "rel": "dov:reference",
+        "dov:refName": "FromEnergySavingToError",
         "href": "#title=OpcUaCore_TransitionType",
         "type": "application/tm+json"
       },
       {
-        "rel": "aov:reference",
-        "aov:refName": "FromEnergySavingToIdle",
+        "rel": "dov:reference",
+        "dov:refName": "FromEnergySavingToIdle",
         "href": "#title=OpcUaCore_TransitionType",
         "type": "application/tm+json"
       },
       {
-        "rel": "aov:reference",
-        "aov:refName": "FromEnergySavingToLaserOn",
+        "rel": "dov:reference",
+        "dov:refName": "FromEnergySavingToLaserOn",
         "href": "#title=OpcUaCore_TransitionType",
         "type": "application/tm+json"
       },
       {
-        "rel": "aov:reference",
-        "aov:refName": "FromEnergySavingToLaserReady",
+        "rel": "dov:reference",
+        "dov:refName": "FromEnergySavingToLaserReady",
         "href": "#title=OpcUaCore_TransitionType",
         "type": "application/tm+json"
       },
       {
-        "rel": "aov:reference",
-        "aov:refName": "FromEnergySavingToMaintenance",
+        "rel": "dov:reference",
+        "dov:refName": "FromEnergySavingToMaintenance",
         "href": "#title=OpcUaCore_TransitionType",
         "type": "application/tm+json"
       },
       {
-        "rel": "aov:reference",
-        "aov:refName": "FromEnergySavingToOff",
+        "rel": "dov:reference",
+        "dov:refName": "FromEnergySavingToOff",
         "href": "#title=OpcUaCore_TransitionType",
         "type": "application/tm+json"
       },
       {
-        "rel": "aov:reference",
-        "aov:refName": "FromEnergySavingToSetUp",
+        "rel": "dov:reference",
+        "dov:refName": "FromEnergySavingToSetUp",
         "href": "#title=OpcUaCore_TransitionType",
         "type": "application/tm+json"
       },
       {
-        "rel": "aov:reference",
-        "aov:refName": "FromErrorToEnergySaving",
+        "rel": "dov:reference",
+        "dov:refName": "FromErrorToEnergySaving",
         "href": "#title=OpcUaCore_TransitionType",
         "type": "application/tm+json"
       },
       {
-        "rel": "aov:reference",
-        "aov:refName": "FromErrorToError",
+        "rel": "dov:reference",
+        "dov:refName": "FromErrorToError",
         "href": "#title=OpcUaCore_TransitionType",
         "type": "application/tm+json"
       },
       {
-        "rel": "aov:reference",
-        "aov:refName": "FromErrorToIdle",
+        "rel": "dov:reference",
+        "dov:refName": "FromErrorToIdle",
         "href": "#title=OpcUaCore_TransitionType",
         "type": "application/tm+json"
       },
       {
-        "rel": "aov:reference",
-        "aov:refName": "FromErrorToLaserOn",
+        "rel": "dov:reference",
+        "dov:refName": "FromErrorToLaserOn",
         "href": "#title=OpcUaCore_TransitionType",
         "type": "application/tm+json"
       },
       {
-        "rel": "aov:reference",
-        "aov:refName": "FromErrorToLaserReady",
+        "rel": "dov:reference",
+        "dov:refName": "FromErrorToLaserReady",
         "href": "#title=OpcUaCore_TransitionType",
         "type": "application/tm+json"
       },
       {
-        "rel": "aov:reference",
-        "aov:refName": "FromErrorToMaintenance",
+        "rel": "dov:reference",
+        "dov:refName": "FromErrorToMaintenance",
         "href": "#title=OpcUaCore_TransitionType",
         "type": "application/tm+json"
       },
       {
-        "rel": "aov:reference",
-        "aov:refName": "FromErrorToOff",
+        "rel": "dov:reference",
+        "dov:refName": "FromErrorToOff",
         "href": "#title=OpcUaCore_TransitionType",
         "type": "application/tm+json"
       },
       {
-        "rel": "aov:reference",
-        "aov:refName": "FromErrorToSetUp",
+        "rel": "dov:reference",
+        "dov:refName": "FromErrorToSetUp",
         "href": "#title=OpcUaCore_TransitionType",
         "type": "application/tm+json"
       },
       {
-        "rel": "aov:reference",
-        "aov:refName": "FromIdleToEnergySaving",
+        "rel": "dov:reference",
+        "dov:refName": "FromIdleToEnergySaving",
         "href": "#title=OpcUaCore_TransitionType",
         "type": "application/tm+json"
       },
       {
-        "rel": "aov:reference",
-        "aov:refName": "FromIdleToError",
+        "rel": "dov:reference",
+        "dov:refName": "FromIdleToError",
         "href": "#title=OpcUaCore_TransitionType",
         "type": "application/tm+json"
       },
       {
-        "rel": "aov:reference",
-        "aov:refName": "FromIdleToIdle",
+        "rel": "dov:reference",
+        "dov:refName": "FromIdleToIdle",
         "href": "#title=OpcUaCore_TransitionType",
         "type": "application/tm+json"
       },
       {
-        "rel": "aov:reference",
-        "aov:refName": "FromIdleToLaserOn",
+        "rel": "dov:reference",
+        "dov:refName": "FromIdleToLaserOn",
         "href": "#title=OpcUaCore_TransitionType",
         "type": "application/tm+json"
       },
       {
-        "rel": "aov:reference",
-        "aov:refName": "FromIdleToLaserReady",
+        "rel": "dov:reference",
+        "dov:refName": "FromIdleToLaserReady",
         "href": "#title=OpcUaCore_TransitionType",
         "type": "application/tm+json"
       },
       {
-        "rel": "aov:reference",
-        "aov:refName": "FromIdleToMaintenance",
+        "rel": "dov:reference",
+        "dov:refName": "FromIdleToMaintenance",
         "href": "#title=OpcUaCore_TransitionType",
         "type": "application/tm+json"
       },
       {
-        "rel": "aov:reference",
-        "aov:refName": "FromIdleToOff",
+        "rel": "dov:reference",
+        "dov:refName": "FromIdleToOff",
         "href": "#title=OpcUaCore_TransitionType",
         "type": "application/tm+json"
       },
       {
-        "rel": "aov:reference",
-        "aov:refName": "FromIdleToSetUp",
+        "rel": "dov:reference",
+        "dov:refName": "FromIdleToSetUp",
         "href": "#title=OpcUaCore_TransitionType",
         "type": "application/tm+json"
       },
       {
-        "rel": "aov:reference",
-        "aov:refName": "FromLaserOnToEnergySaving",
+        "rel": "dov:reference",
+        "dov:refName": "FromLaserOnToEnergySaving",
         "href": "#title=OpcUaCore_TransitionType",
         "type": "application/tm+json"
       },
       {
-        "rel": "aov:reference",
-        "aov:refName": "FromLaserOnToError",
+        "rel": "dov:reference",
+        "dov:refName": "FromLaserOnToError",
         "href": "#title=OpcUaCore_TransitionType",
         "type": "application/tm+json"
       },
       {
-        "rel": "aov:reference",
-        "aov:refName": "FromLaserOnToIdle",
+        "rel": "dov:reference",
+        "dov:refName": "FromLaserOnToIdle",
         "href": "#title=OpcUaCore_TransitionType",
         "type": "application/tm+json"
       },
       {
-        "rel": "aov:reference",
-        "aov:refName": "FromLaserOnToLaserOn",
+        "rel": "dov:reference",
+        "dov:refName": "FromLaserOnToLaserOn",
         "href": "#title=OpcUaCore_TransitionType",
         "type": "application/tm+json"
       },
       {
-        "rel": "aov:reference",
-        "aov:refName": "FromLaserOnToLaserReady",
+        "rel": "dov:reference",
+        "dov:refName": "FromLaserOnToLaserReady",
         "href": "#title=OpcUaCore_TransitionType",
         "type": "application/tm+json"
       },
       {
-        "rel": "aov:reference",
-        "aov:refName": "FromLaserOnToMaintenance",
+        "rel": "dov:reference",
+        "dov:refName": "FromLaserOnToMaintenance",
         "href": "#title=OpcUaCore_TransitionType",
         "type": "application/tm+json"
       },
       {
-        "rel": "aov:reference",
-        "aov:refName": "FromLaserOnToOff",
+        "rel": "dov:reference",
+        "dov:refName": "FromLaserOnToOff",
         "href": "#title=OpcUaCore_TransitionType",
         "type": "application/tm+json"
       },
       {
-        "rel": "aov:reference",
-        "aov:refName": "FromLaserOnToSetUp",
+        "rel": "dov:reference",
+        "dov:refName": "FromLaserOnToSetUp",
         "href": "#title=OpcUaCore_TransitionType",
         "type": "application/tm+json"
       },
       {
-        "rel": "aov:reference",
-        "aov:refName": "FromLaserReadyToEnergySaving",
+        "rel": "dov:reference",
+        "dov:refName": "FromLaserReadyToEnergySaving",
         "href": "#title=OpcUaCore_TransitionType",
         "type": "application/tm+json"
       },
       {
-        "rel": "aov:reference",
-        "aov:refName": "FromLaserReadyToError",
+        "rel": "dov:reference",
+        "dov:refName": "FromLaserReadyToError",
         "href": "#title=OpcUaCore_TransitionType",
         "type": "application/tm+json"
       },
       {
-        "rel": "aov:reference",
-        "aov:refName": "FromLaserReadyToIdle",
+        "rel": "dov:reference",
+        "dov:refName": "FromLaserReadyToIdle",
         "href": "#title=OpcUaCore_TransitionType",
         "type": "application/tm+json"
       },
       {
-        "rel": "aov:reference",
-        "aov:refName": "FromLaserReadyToLaserOn",
+        "rel": "dov:reference",
+        "dov:refName": "FromLaserReadyToLaserOn",
         "href": "#title=OpcUaCore_TransitionType",
         "type": "application/tm+json"
       },
       {
-        "rel": "aov:reference",
-        "aov:refName": "FromLaserReadyToLaserReady",
+        "rel": "dov:reference",
+        "dov:refName": "FromLaserReadyToLaserReady",
         "href": "#title=OpcUaCore_TransitionType",
         "type": "application/tm+json"
       },
       {
-        "rel": "aov:reference",
-        "aov:refName": "FromLaserReadyToMaintenance",
+        "rel": "dov:reference",
+        "dov:refName": "FromLaserReadyToMaintenance",
         "href": "#title=OpcUaCore_TransitionType",
         "type": "application/tm+json"
       },
       {
-        "rel": "aov:reference",
-        "aov:refName": "FromLaserReadyToOff",
+        "rel": "dov:reference",
+        "dov:refName": "FromLaserReadyToOff",
         "href": "#title=OpcUaCore_TransitionType",
         "type": "application/tm+json"
       },
       {
-        "rel": "aov:reference",
-        "aov:refName": "FromLaserReadyToSetUp",
+        "rel": "dov:reference",
+        "dov:refName": "FromLaserReadyToSetUp",
         "href": "#title=OpcUaCore_TransitionType",
         "type": "application/tm+json"
       },
       {
-        "rel": "aov:reference",
-        "aov:refName": "FromMaintenanceToEnergySaving",
+        "rel": "dov:reference",
+        "dov:refName": "FromMaintenanceToEnergySaving",
         "href": "#title=OpcUaCore_TransitionType",
         "type": "application/tm+json"
       },
       {
-        "rel": "aov:reference",
-        "aov:refName": "FromMaintenanceToError",
+        "rel": "dov:reference",
+        "dov:refName": "FromMaintenanceToError",
         "href": "#title=OpcUaCore_TransitionType",
         "type": "application/tm+json"
       },
       {
-        "rel": "aov:reference",
-        "aov:refName": "FromMaintenanceToIdle",
+        "rel": "dov:reference",
+        "dov:refName": "FromMaintenanceToIdle",
         "href": "#title=OpcUaCore_TransitionType",
         "type": "application/tm+json"
       },
       {
-        "rel": "aov:reference",
-        "aov:refName": "FromMaintenanceToLaserOn",
+        "rel": "dov:reference",
+        "dov:refName": "FromMaintenanceToLaserOn",
         "href": "#title=OpcUaCore_TransitionType",
         "type": "application/tm+json"
       },
       {
-        "rel": "aov:reference",
-        "aov:refName": "FromMaintenanceToLaserReady",
+        "rel": "dov:reference",
+        "dov:refName": "FromMaintenanceToLaserReady",
         "href": "#title=OpcUaCore_TransitionType",
         "type": "application/tm+json"
       },
       {
-        "rel": "aov:reference",
-        "aov:refName": "FromMaintenanceToMaintenance",
+        "rel": "dov:reference",
+        "dov:refName": "FromMaintenanceToMaintenance",
         "href": "#title=OpcUaCore_TransitionType",
         "type": "application/tm+json"
       },
       {
-        "rel": "aov:reference",
-        "aov:refName": "FromMaintenanceToOff",
+        "rel": "dov:reference",
+        "dov:refName": "FromMaintenanceToOff",
         "href": "#title=OpcUaCore_TransitionType",
         "type": "application/tm+json"
       },
       {
-        "rel": "aov:reference",
-        "aov:refName": "FromMaintenanceToSetUp",
+        "rel": "dov:reference",
+        "dov:refName": "FromMaintenanceToSetUp",
         "href": "#title=OpcUaCore_TransitionType",
         "type": "application/tm+json"
       },
       {
-        "rel": "aov:reference",
-        "aov:refName": "FromOffToEnergySaving",
+        "rel": "dov:reference",
+        "dov:refName": "FromOffToEnergySaving",
         "href": "#title=OpcUaCore_TransitionType",
         "type": "application/tm+json"
       },
       {
-        "rel": "aov:reference",
-        "aov:refName": "FromOffToError",
+        "rel": "dov:reference",
+        "dov:refName": "FromOffToError",
         "href": "#title=OpcUaCore_TransitionType",
         "type": "application/tm+json"
       },
       {
-        "rel": "aov:reference",
-        "aov:refName": "FromOffToIdle",
+        "rel": "dov:reference",
+        "dov:refName": "FromOffToIdle",
         "href": "#title=OpcUaCore_TransitionType",
         "type": "application/tm+json"
       },
       {
-        "rel": "aov:reference",
-        "aov:refName": "FromOffToLaserOn",
+        "rel": "dov:reference",
+        "dov:refName": "FromOffToLaserOn",
         "href": "#title=OpcUaCore_TransitionType",
         "type": "application/tm+json"
       },
       {
-        "rel": "aov:reference",
-        "aov:refName": "FromOffToLaserReady",
+        "rel": "dov:reference",
+        "dov:refName": "FromOffToLaserReady",
         "href": "#title=OpcUaCore_TransitionType",
         "type": "application/tm+json"
       },
       {
-        "rel": "aov:reference",
-        "aov:refName": "FromOffToMaintenance",
+        "rel": "dov:reference",
+        "dov:refName": "FromOffToMaintenance",
         "href": "#title=OpcUaCore_TransitionType",
         "type": "application/tm+json"
       },
       {
-        "rel": "aov:reference",
-        "aov:refName": "FromOffToOff",
+        "rel": "dov:reference",
+        "dov:refName": "FromOffToOff",
         "href": "#title=OpcUaCore_TransitionType",
         "type": "application/tm+json"
       },
       {
-        "rel": "aov:reference",
-        "aov:refName": "FromOffToSetUp",
+        "rel": "dov:reference",
+        "dov:refName": "FromOffToSetUp",
         "href": "#title=OpcUaCore_TransitionType",
         "type": "application/tm+json"
       },
       {
-        "rel": "aov:reference",
-        "aov:refName": "FromSetUpToEnergySaving",
+        "rel": "dov:reference",
+        "dov:refName": "FromSetUpToEnergySaving",
         "href": "#title=OpcUaCore_TransitionType",
         "type": "application/tm+json"
       },
       {
-        "rel": "aov:reference",
-        "aov:refName": "FromSetUpToError",
+        "rel": "dov:reference",
+        "dov:refName": "FromSetUpToError",
         "href": "#title=OpcUaCore_TransitionType",
         "type": "application/tm+json"
       },
       {
-        "rel": "aov:reference",
-        "aov:refName": "FromSetUpToIdle",
+        "rel": "dov:reference",
+        "dov:refName": "FromSetUpToIdle",
         "href": "#title=OpcUaCore_TransitionType",
         "type": "application/tm+json"
       },
       {
-        "rel": "aov:reference",
-        "aov:refName": "FromSetUpToLaserOn",
+        "rel": "dov:reference",
+        "dov:refName": "FromSetUpToLaserOn",
         "href": "#title=OpcUaCore_TransitionType",
         "type": "application/tm+json"
       },
       {
-        "rel": "aov:reference",
-        "aov:refName": "FromSetUpToLaserReady",
+        "rel": "dov:reference",
+        "dov:refName": "FromSetUpToLaserReady",
         "href": "#title=OpcUaCore_TransitionType",
         "type": "application/tm+json"
       },
       {
-        "rel": "aov:reference",
-        "aov:refName": "FromSetUpToMaintenance",
+        "rel": "dov:reference",
+        "dov:refName": "FromSetUpToMaintenance",
         "href": "#title=OpcUaCore_TransitionType",
         "type": "application/tm+json"
       },
       {
-        "rel": "aov:reference",
-        "aov:refName": "FromSetUpToOff",
+        "rel": "dov:reference",
+        "dov:refName": "FromSetUpToOff",
         "href": "#title=OpcUaCore_TransitionType",
         "type": "application/tm+json"
       },
       {
-        "rel": "aov:reference",
-        "aov:refName": "FromSetUpToSetUp",
+        "rel": "dov:reference",
+        "dov:refName": "FromSetUpToSetUp",
         "href": "#title=OpcUaCore_TransitionType",
         "type": "application/tm+json"
       },
       {
-        "rel": "aov:reference",
-        "aov:refName": "Idle",
+        "rel": "dov:reference",
+        "dov:refName": "Idle",
         "href": "#title=OpcUaCore_StateType",
         "type": "application/tm+json"
       },
       {
-        "rel": "aov:reference",
-        "aov:refName": "LaserOn",
+        "rel": "dov:reference",
+        "dov:refName": "LaserOn",
         "href": "#title=OpcUaCore_StateType",
         "type": "application/tm+json"
       },
       {
-        "rel": "aov:reference",
-        "aov:refName": "LaserReady",
+        "rel": "dov:reference",
+        "dov:refName": "LaserReady",
         "href": "#title=OpcUaCore_StateType",
         "type": "application/tm+json"
       },
       {
-        "rel": "aov:reference",
-        "aov:refName": "Maintenance",
+        "rel": "dov:reference",
+        "dov:refName": "Maintenance",
         "href": "#title=OpcUaCore_StateType",
         "type": "application/tm+json"
       },
       {
-        "rel": "aov:reference",
-        "aov:refName": "Off",
+        "rel": "dov:reference",
+        "dov:refName": "Off",
         "href": "#title=OpcUaCore_StateType",
         "type": "application/tm+json"
       },
       {
-        "rel": "aov:reference",
-        "aov:refName": "SetUp",
+        "rel": "dov:reference",
+        "dov:refName": "SetUp",
         "href": "#title=OpcUaCore_StateType",
         "type": "application/tm+json"
       }
@@ -1073,12 +1066,12 @@
     "forms": [
       {
         "contentType": "application/json",
-        "dtv:topic": "opcua/LaserSystems/LaserSystems_LaserSystemState_StateMachineType/properties/write",
+        "dov:topic": "opcua/LaserSystems/LaserSystems_LaserSystemState_StateMachineType/properties/write",
         "op": "writemultipleproperties"
       },
       {
         "contentType": "application/json",
-        "dtv:topic": "opcua/LaserSystems/LaserSystems_LaserSystemState_StateMachineType/properties/read",
+        "dov:topic": "opcua/LaserSystems/LaserSystems_LaserSystemState_StateMachineType/properties/read",
         "op": "readallproperties"
       }
     ],
@@ -1092,12 +1085,12 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/LaserSystems/LaserSystems_LaserSystemState_StateMachineType/property/DefaultInstanceBrowseName/write",
+            "dov:topic": "opcua/LaserSystems/LaserSystems_LaserSystemState_StateMachineType/property/DefaultInstanceBrowseName/write",
             "op": "writeproperty"
           },
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/LaserSystems/LaserSystems_LaserSystemState_StateMachineType/property/DefaultInstanceBrowseName/read",
+            "dov:topic": "opcua/LaserSystems/LaserSystems_LaserSystemState_StateMachineType/property/DefaultInstanceBrowseName/read",
             "op": "readproperty"
           }
         ]
@@ -1110,13 +1103,12 @@
     "@context": [
       "https://www.w3.org/2022/wot/td/v1.1",
       {
-        "dtv": "http://azure.com/DigitalTwins/dtmi#",
-        "aov": "http://azure.com/IoT/operations/tm#"
+        "dov": "http://azure.com/DigitalOperations/vocab#"
       }
     ],
     "@type": "tm:ThingModel",
     "title": "LaserSystems_LaserSystemProductionType",
-    "aov:typeRef": "nsu=http://opcfoundation.org/UA/LaserSystems/;i=1003",
+    "dov:typeRef": "nsu=http://opcfoundation.org/UA/LaserSystems/;i=1003",
     "links": [
       {
         "rel": "tm:extends",
@@ -1124,8 +1116,8 @@
         "type": "application/tm+json"
       },
       {
-        "rel": "aov:component",
-        "aov:refName": "RecipeSettingsAndOverviews",
+        "rel": "dov:component",
+        "dov:refName": "RecipeSettingsAndOverviews",
         "href": "#title=OpcUaCore_FolderType",
         "type": "application/tm+json"
       }
@@ -1143,14 +1135,13 @@
     "@context": [
       "https://www.w3.org/2022/wot/td/v1.1",
       {
-        "dtv": "http://azure.com/DigitalTwins/dtmi#",
-        "aov": "http://azure.com/IoT/operations/tm#"
+        "dov": "http://azure.com/DigitalOperations/vocab#"
       }
     ],
     "@type": "tm:ThingModel",
     "title": "LaserSystems_LaserSystemType",
-    "aov:typeRef": "nsu=http://opcfoundation.org/UA/LaserSystems/;i=1005",
-    "aov:isComposite": true,
+    "dov:typeRef": "nsu=http://opcfoundation.org/UA/LaserSystems/;i=1005",
+    "dov:isComposite": true,
     "links": [
       {
         "rel": "tm:extends",
@@ -1158,26 +1149,26 @@
         "type": "application/tm+json"
       },
       {
-        "rel": "aov:component",
-        "aov:refName": "MachineryBuildingBlocks",
+        "rel": "dov:component",
+        "dov:refName": "MachineryBuildingBlocks",
         "href": "#title=OpcUaCore_FolderType",
         "type": "application/tm+json"
       },
       {
-        "rel": "aov:capability",
-        "aov:refName": "Monitoring",
+        "rel": "dov:capability",
+        "dov:refName": "Monitoring",
         "href": "#title=LaserSystems_LaserSystemMonitoringType",
         "type": "application/tm+json"
       },
       {
-        "rel": "aov:capability",
-        "aov:refName": "Notification",
+        "rel": "dov:capability",
+        "dov:refName": "Notification",
         "href": "#title=MachineTool_NotificationType",
         "type": "application/tm+json"
       },
       {
-        "rel": "aov:capability",
-        "aov:refName": "Production",
+        "rel": "dov:capability",
+        "dov:refName": "Production",
         "href": "#title=LaserSystems_LaserSystemProductionType",
         "type": "application/tm+json"
       }
@@ -1195,14 +1186,13 @@
     "@context": [
       "https://www.w3.org/2022/wot/td/v1.1",
       {
-        "dtv": "http://azure.com/DigitalTwins/dtmi#",
-        "aov": "http://azure.com/IoT/operations/tm#"
+        "dov": "http://azure.com/DigitalOperations/vocab#"
       }
     ],
     "@type": "tm:ThingModel",
     "title": "LaserSystems_LaserSystemMaintenancePrognosisType",
-    "aov:typeRef": "nsu=http://opcfoundation.org/UA/LaserSystems/;i=1013",
-    "aov:isComposite": true,
+    "dov:typeRef": "nsu=http://opcfoundation.org/UA/LaserSystems/;i=1013",
+    "dov:isComposite": true,
     "links": [
       {
         "rel": "tm:extends",
@@ -1215,12 +1205,12 @@
     "forms": [
       {
         "contentType": "application/json",
-        "dtv:topic": "opcua/LaserSystems/LaserSystems_LaserSystemMaintenancePrognosisType/events/{senderId}",
+        "dov:topic": "opcua/LaserSystems/LaserSystems_LaserSystemMaintenancePrognosisType/events/{senderId}",
         "op": "subscribeallevents"
       },
       {
         "contentType": "application/json",
-        "dtv:topic": "opcua/LaserSystems/LaserSystems_LaserSystemMaintenancePrognosisType/properties/read",
+        "dov:topic": "opcua/LaserSystems/LaserSystems_LaserSystemMaintenancePrognosisType/properties/read",
         "op": "readallproperties"
       }
     ],
@@ -1228,25 +1218,25 @@
     },
     "properties": {
       "Code": {
-        "aov:namespace": "http://opcfoundation.org/UA/LaserSystems/",
+        "dov:namespace": "http://opcfoundation.org/UA/LaserSystems/",
         "type": "string",
         "readOnly": true,
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/LaserSystems/LaserSystems_LaserSystemMaintenancePrognosisType/property/Code/read",
+            "dov:topic": "opcua/LaserSystems/LaserSystems_LaserSystemMaintenancePrognosisType/property/Code/read",
             "op": "readproperty"
           }
         ]
       },
       "Description": {
-        "aov:namespace": "http://opcfoundation.org/UA/LaserSystems/",
+        "dov:namespace": "http://opcfoundation.org/UA/LaserSystems/",
         "type": "string",
         "readOnly": true,
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/LaserSystems/LaserSystems_LaserSystemMaintenancePrognosisType/property/Description/read",
+            "dov:topic": "opcua/LaserSystems/LaserSystems_LaserSystemMaintenancePrognosisType/property/Description/read",
             "op": "readproperty"
           }
         ]
@@ -1254,14 +1244,14 @@
     },
     "events": {
       "Description": {
-        "aov:namespace": "http://opcfoundation.org/UA/LaserSystems/",
+        "dov:namespace": "http://opcfoundation.org/UA/LaserSystems/",
         "data": {
           "type": "string"
         },
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/LaserSystems/LaserSystems_LaserSystemMaintenancePrognosisType/event/Description/{senderId}",
+            "dov:topic": "opcua/LaserSystems/LaserSystems_LaserSystemMaintenancePrognosisType/event/Description/{senderId}",
             "op": "subscribeevent"
           }
         ]
@@ -1272,14 +1262,13 @@
     "@context": [
       "https://www.w3.org/2022/wot/td/v1.1",
       {
-        "dtv": "http://azure.com/DigitalTwins/dtmi#",
-        "aov": "http://azure.com/IoT/operations/tm#"
+        "dov": "http://azure.com/DigitalOperations/vocab#"
       }
     ],
     "@type": "tm:ThingModel",
     "title": "LaserSystems_LaserSystemUtilityChangePrognosisType",
-    "aov:typeRef": "nsu=http://opcfoundation.org/UA/LaserSystems/;i=1014",
-    "aov:isComposite": true,
+    "dov:typeRef": "nsu=http://opcfoundation.org/UA/LaserSystems/;i=1014",
+    "dov:isComposite": true,
     "links": [
       {
         "rel": "tm:extends",
@@ -1292,12 +1281,12 @@
     "forms": [
       {
         "contentType": "application/json",
-        "dtv:topic": "opcua/LaserSystems/LaserSystems_LaserSystemUtilityChangePrognosisType/events/{senderId}",
+        "dov:topic": "opcua/LaserSystems/LaserSystems_LaserSystemUtilityChangePrognosisType/events/{senderId}",
         "op": "subscribeallevents"
       },
       {
         "contentType": "application/json",
-        "dtv:topic": "opcua/LaserSystems/LaserSystems_LaserSystemUtilityChangePrognosisType/properties/read",
+        "dov:topic": "opcua/LaserSystems/LaserSystems_LaserSystemUtilityChangePrognosisType/properties/read",
         "op": "readallproperties"
       }
     ],
@@ -1305,25 +1294,25 @@
     },
     "properties": {
       "Code": {
-        "aov:namespace": "http://opcfoundation.org/UA/LaserSystems/",
+        "dov:namespace": "http://opcfoundation.org/UA/LaserSystems/",
         "type": "string",
         "readOnly": true,
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/LaserSystems/LaserSystems_LaserSystemUtilityChangePrognosisType/property/Code/read",
+            "dov:topic": "opcua/LaserSystems/LaserSystems_LaserSystemUtilityChangePrognosisType/property/Code/read",
             "op": "readproperty"
           }
         ]
       },
       "Description": {
-        "aov:namespace": "http://opcfoundation.org/UA/LaserSystems/",
+        "dov:namespace": "http://opcfoundation.org/UA/LaserSystems/",
         "type": "string",
         "readOnly": true,
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/LaserSystems/LaserSystems_LaserSystemUtilityChangePrognosisType/property/Description/read",
+            "dov:topic": "opcua/LaserSystems/LaserSystems_LaserSystemUtilityChangePrognosisType/property/Description/read",
             "op": "readproperty"
           }
         ]
@@ -1331,14 +1320,14 @@
     },
     "events": {
       "Description": {
-        "aov:namespace": "http://opcfoundation.org/UA/LaserSystems/",
+        "dov:namespace": "http://opcfoundation.org/UA/LaserSystems/",
         "data": {
           "type": "string"
         },
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/LaserSystems/LaserSystems_LaserSystemUtilityChangePrognosisType/event/Description/{senderId}",
+            "dov:topic": "opcua/LaserSystems/LaserSystems_LaserSystemUtilityChangePrognosisType/event/Description/{senderId}",
             "op": "subscribeevent"
           }
         ]
@@ -1349,13 +1338,12 @@
     "@context": [
       "https://www.w3.org/2022/wot/td/v1.1",
       {
-        "dtv": "http://azure.com/DigitalTwins/dtmi#",
-        "aov": "http://azure.com/IoT/operations/tm#"
+        "dov": "http://azure.com/DigitalOperations/vocab#"
       }
     ],
     "@type": "tm:ThingModel",
     "title": "LaserSystems_RecipeSettingsAndOverviewType",
-    "aov:typeRef": "nsu=http://opcfoundation.org/UA/LaserSystems/;i=1007",
+    "dov:typeRef": "nsu=http://opcfoundation.org/UA/LaserSystems/;i=1007",
     "links": [
       {
         "rel": "tm:extends",
@@ -1368,12 +1356,12 @@
     "forms": [
       {
         "contentType": "application/json",
-        "dtv:topic": "opcua/LaserSystems/LaserSystems_RecipeSettingsAndOverviewType/events/{senderId}",
+        "dov:topic": "opcua/LaserSystems/LaserSystems_RecipeSettingsAndOverviewType/events/{senderId}",
         "op": "subscribeallevents"
       },
       {
         "contentType": "application/json",
-        "dtv:topic": "opcua/LaserSystems/LaserSystems_RecipeSettingsAndOverviewType/properties/read",
+        "dov:topic": "opcua/LaserSystems/LaserSystems_RecipeSettingsAndOverviewType/properties/read",
         "op": "readallproperties"
       }
     ],
@@ -1381,94 +1369,94 @@
     },
     "properties": {
       "CreationDate": {
-        "aov:namespace": "http://opcfoundation.org/UA/LaserSystems/",
+        "dov:namespace": "http://opcfoundation.org/UA/LaserSystems/",
         "type": "string",
         "format": "time",
         "readOnly": true,
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/LaserSystems/LaserSystems_RecipeSettingsAndOverviewType/property/CreationDate/read",
+            "dov:topic": "opcua/LaserSystems/LaserSystems_RecipeSettingsAndOverviewType/property/CreationDate/read",
             "op": "readproperty"
           }
         ]
       },
       "Description": {
-        "aov:namespace": "http://opcfoundation.org/UA/LaserSystems/",
+        "dov:namespace": "http://opcfoundation.org/UA/LaserSystems/",
         "type": "string",
         "readOnly": true,
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/LaserSystems/LaserSystems_RecipeSettingsAndOverviewType/property/Description/read",
+            "dov:topic": "opcua/LaserSystems/LaserSystems_RecipeSettingsAndOverviewType/property/Description/read",
             "op": "readproperty"
           }
         ]
       },
       "LastModification": {
-        "aov:namespace": "http://opcfoundation.org/UA/LaserSystems/",
+        "dov:namespace": "http://opcfoundation.org/UA/LaserSystems/",
         "type": "string",
         "format": "time",
         "readOnly": true,
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/LaserSystems/LaserSystems_RecipeSettingsAndOverviewType/property/LastModification/read",
+            "dov:topic": "opcua/LaserSystems/LaserSystems_RecipeSettingsAndOverviewType/property/LastModification/read",
             "op": "readproperty"
           }
         ]
       },
       "LastUsage": {
-        "aov:namespace": "http://opcfoundation.org/UA/LaserSystems/",
+        "dov:namespace": "http://opcfoundation.org/UA/LaserSystems/",
         "type": "string",
         "format": "time",
         "readOnly": true,
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/LaserSystems/LaserSystems_RecipeSettingsAndOverviewType/property/LastUsage/read",
+            "dov:topic": "opcua/LaserSystems/LaserSystems_RecipeSettingsAndOverviewType/property/LastUsage/read",
             "op": "readproperty"
           }
         ]
       },
       "RecipeIdentifier": {
-        "aov:namespace": "http://opcfoundation.org/UA/LaserSystems/",
+        "dov:namespace": "http://opcfoundation.org/UA/LaserSystems/",
         "type": "string",
         "readOnly": true,
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/LaserSystems/LaserSystems_RecipeSettingsAndOverviewType/property/RecipeIdentifier/read",
+            "dov:topic": "opcua/LaserSystems/LaserSystems_RecipeSettingsAndOverviewType/property/RecipeIdentifier/read",
             "op": "readproperty"
           }
         ]
       },
       "RecipeName": {
-        "aov:namespace": "http://opcfoundation.org/UA/LaserSystems/",
+        "dov:namespace": "http://opcfoundation.org/UA/LaserSystems/",
         "type": "string",
         "readOnly": true,
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/LaserSystems/LaserSystems_RecipeSettingsAndOverviewType/property/RecipeName/read",
+            "dov:topic": "opcua/LaserSystems/LaserSystems_RecipeSettingsAndOverviewType/property/RecipeName/read",
             "op": "readproperty"
           }
         ]
       },
       "RecipeRevision": {
-        "aov:namespace": "http://opcfoundation.org/UA/LaserSystems/",
+        "dov:namespace": "http://opcfoundation.org/UA/LaserSystems/",
         "type": "string",
         "readOnly": true,
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/LaserSystems/LaserSystems_RecipeSettingsAndOverviewType/property/RecipeRevision/read",
+            "dov:topic": "opcua/LaserSystems/LaserSystems_RecipeSettingsAndOverviewType/property/RecipeRevision/read",
             "op": "readproperty"
           }
         ]
       },
       "RunsCompleted": {
-        "aov:namespace": "http://opcfoundation.org/UA/LaserSystems/",
+        "dov:namespace": "http://opcfoundation.org/UA/LaserSystems/",
         "type": "integer",
         "minimum": 0,
         "maximum": 18446744073709551615,
@@ -1476,7 +1464,7 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/LaserSystems/LaserSystems_RecipeSettingsAndOverviewType/property/RunsCompleted/read",
+            "dov:topic": "opcua/LaserSystems/LaserSystems_RecipeSettingsAndOverviewType/property/RunsCompleted/read",
             "op": "readproperty"
           }
         ]
@@ -1484,20 +1472,20 @@
     },
     "events": {
       "Description": {
-        "aov:namespace": "http://opcfoundation.org/UA/LaserSystems/",
+        "dov:namespace": "http://opcfoundation.org/UA/LaserSystems/",
         "data": {
           "type": "string"
         },
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/LaserSystems/LaserSystems_RecipeSettingsAndOverviewType/event/Description/{senderId}",
+            "dov:topic": "opcua/LaserSystems/LaserSystems_RecipeSettingsAndOverviewType/event/Description/{senderId}",
             "op": "subscribeevent"
           }
         ]
       },
       "RunsCompleted": {
-        "aov:namespace": "http://opcfoundation.org/UA/LaserSystems/",
+        "dov:namespace": "http://opcfoundation.org/UA/LaserSystems/",
         "data": {
           "type": "integer",
           "minimum": 0,
@@ -1506,7 +1494,7 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/LaserSystems/LaserSystems_RecipeSettingsAndOverviewType/event/RunsCompleted/{senderId}",
+            "dov:topic": "opcua/LaserSystems/LaserSystems_RecipeSettingsAndOverviewType/event/RunsCompleted/{senderId}",
             "op": "subscribeevent"
           }
         ]
@@ -1517,13 +1505,12 @@
     "@context": [
       "https://www.w3.org/2022/wot/td/v1.1",
       {
-        "dtv": "http://azure.com/DigitalTwins/dtmi#",
-        "aov": "http://azure.com/IoT/operations/tm#"
+        "dov": "http://azure.com/DigitalOperations/vocab#"
       }
     ],
     "@type": "tm:ThingModel",
     "title": "MachineTool_ElementMonitoringType",
-    "aov:typeRef": "nsu=http://opcfoundation.org/UA/MachineTool/;i=23",
+    "dov:typeRef": "nsu=http://opcfoundation.org/UA/MachineTool/;i=23",
     "links": [
       {
         "rel": "tm:extends",
@@ -1536,7 +1523,7 @@
     "forms": [
       {
         "contentType": "application/json",
-        "dtv:topic": "opcua/MachineTool/MachineTool_ElementMonitoringType/properties/read",
+        "dov:topic": "opcua/MachineTool/MachineTool_ElementMonitoringType/properties/read",
         "op": "readallproperties"
       }
     ],
@@ -1544,13 +1531,13 @@
     },
     "properties": {
       "Name": {
-        "aov:namespace": "http://opcfoundation.org/UA/MachineTool/",
+        "dov:namespace": "http://opcfoundation.org/UA/MachineTool/",
         "type": "string",
         "readOnly": true,
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/MachineTool/MachineTool_ElementMonitoringType/property/Name/read",
+            "dov:topic": "opcua/MachineTool/MachineTool_ElementMonitoringType/property/Name/read",
             "op": "readproperty"
           }
         ]
@@ -1563,14 +1550,13 @@
     "@context": [
       "https://www.w3.org/2022/wot/td/v1.1",
       {
-        "dtv": "http://azure.com/DigitalTwins/dtmi#",
-        "aov": "http://azure.com/IoT/operations/tm#"
+        "dov": "http://azure.com/DigitalOperations/vocab#"
       }
     ],
     "@type": "tm:ThingModel",
     "title": "MachineTool_LaserMonitoringType",
-    "aov:typeRef": "nsu=http://opcfoundation.org/UA/MachineTool/;i=36",
-    "aov:isComposite": true,
+    "dov:typeRef": "nsu=http://opcfoundation.org/UA/MachineTool/;i=36",
+    "dov:isComposite": true,
     "links": [
       {
         "rel": "tm:extends",
@@ -1581,7 +1567,7 @@
     "schemaDefinitions": {
       "LaserState": {
         "type": "object",
-        "aov:typeRef": "nsu=http://opcfoundation.org/UA/MachineTool/;i=70",
+        "dov:typeRef": "nsu=http://opcfoundation.org/UA/MachineTool/;i=70",
         "const": {
           "Undefined": 0,
           "Ready": 1,
@@ -1611,12 +1597,12 @@
     "forms": [
       {
         "contentType": "application/json",
-        "dtv:topic": "opcua/MachineTool/MachineTool_LaserMonitoringType/events/{senderId}",
+        "dov:topic": "opcua/MachineTool/MachineTool_LaserMonitoringType/events/{senderId}",
         "op": "subscribeallevents"
       },
       {
         "contentType": "application/json",
-        "dtv:topic": "opcua/MachineTool/MachineTool_LaserMonitoringType/properties/read",
+        "dov:topic": "opcua/MachineTool/MachineTool_LaserMonitoringType/properties/read",
         "op": "readallproperties"
       }
     ],
@@ -1624,21 +1610,21 @@
     },
     "properties": {
       "ControllerIsOn": {
-        "aov:namespace": "http://opcfoundation.org/UA/MachineTool/",
+        "dov:namespace": "http://opcfoundation.org/UA/MachineTool/",
         "type": "boolean",
         "readOnly": true,
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/MachineTool/MachineTool_LaserMonitoringType/property/ControllerIsOn/read",
+            "dov:topic": "opcua/MachineTool/MachineTool_LaserMonitoringType/property/ControllerIsOn/read",
             "op": "readproperty"
           }
         ]
       },
       "LaserState": {
-        "aov:namespace": "http://opcfoundation.org/UA/MachineTool/",
+        "dov:namespace": "http://opcfoundation.org/UA/MachineTool/",
         "title": "LaserState",
-        "aov:typeRef": "nsu=http://opcfoundation.org/UA/MachineTool/;i=70",
+        "dov:typeRef": "nsu=http://opcfoundation.org/UA/MachineTool/;i=70",
         "type": "integer",
         "minimum": -2147483648,
         "maximum": 2147483647,
@@ -1646,7 +1632,7 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/MachineTool/MachineTool_LaserMonitoringType/property/LaserState/read",
+            "dov:topic": "opcua/MachineTool/MachineTool_LaserMonitoringType/property/LaserState/read",
             "op": "readproperty"
           }
         ]
@@ -1654,23 +1640,23 @@
     },
     "events": {
       "ControllerIsOn": {
-        "aov:namespace": "http://opcfoundation.org/UA/MachineTool/",
+        "dov:namespace": "http://opcfoundation.org/UA/MachineTool/",
         "data": {
           "type": "boolean"
         },
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/MachineTool/MachineTool_LaserMonitoringType/event/ControllerIsOn/{senderId}",
+            "dov:topic": "opcua/MachineTool/MachineTool_LaserMonitoringType/event/ControllerIsOn/{senderId}",
             "op": "subscribeevent"
           }
         ]
       },
       "LaserState": {
-        "aov:namespace": "http://opcfoundation.org/UA/MachineTool/",
+        "dov:namespace": "http://opcfoundation.org/UA/MachineTool/",
         "data": {
           "title": "LaserState",
-          "aov:typeRef": "nsu=http://opcfoundation.org/UA/MachineTool/;i=70",
+          "dov:typeRef": "nsu=http://opcfoundation.org/UA/MachineTool/;i=70",
           "type": "integer",
           "minimum": -2147483648,
           "maximum": 2147483647
@@ -1678,7 +1664,7 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/MachineTool/MachineTool_LaserMonitoringType/event/LaserState/{senderId}",
+            "dov:topic": "opcua/MachineTool/MachineTool_LaserMonitoringType/event/LaserState/{senderId}",
             "op": "subscribeevent"
           }
         ]
@@ -1689,13 +1675,12 @@
     "@context": [
       "https://www.w3.org/2022/wot/td/v1.1",
       {
-        "dtv": "http://azure.com/DigitalTwins/dtmi#",
-        "aov": "http://azure.com/IoT/operations/tm#"
+        "dov": "http://azure.com/DigitalOperations/vocab#"
       }
     ],
     "@type": "tm:ThingModel",
     "title": "MachineTool_WorkingUnitMonitoringType",
-    "aov:typeRef": "nsu=http://opcfoundation.org/UA/MachineTool/;i=41",
+    "dov:typeRef": "nsu=http://opcfoundation.org/UA/MachineTool/;i=41",
     "links": [
       {
         "rel": "tm:extends",
@@ -1716,13 +1701,12 @@
     "@context": [
       "https://www.w3.org/2022/wot/td/v1.1",
       {
-        "dtv": "http://azure.com/DigitalTwins/dtmi#",
-        "aov": "http://azure.com/IoT/operations/tm#"
+        "dov": "http://azure.com/DigitalOperations/vocab#"
       }
     ],
     "@type": "tm:ThingModel",
     "title": "MachineTool_NotificationType",
-    "aov:typeRef": "nsu=http://opcfoundation.org/UA/MachineTool/;i=7",
+    "dov:typeRef": "nsu=http://opcfoundation.org/UA/MachineTool/;i=7",
     "links": [
       {
         "rel": "tm:extends",
@@ -1730,14 +1714,14 @@
         "type": "application/tm+json"
       },
       {
-        "rel": "aov:reference",
-        "aov:refName": "Messages",
+        "rel": "dov:reference",
+        "dov:refName": "Messages",
         "href": "#title=MachineTool_MessagesType",
         "type": "application/tm+json"
       },
       {
-        "rel": "aov:reference",
-        "aov:refName": "Prognoses",
+        "rel": "dov:reference",
+        "dov:refName": "Prognoses",
         "href": "#title=MachineTool_PrognosisListType",
         "type": "application/tm+json"
       }
@@ -1755,13 +1739,12 @@
     "@context": [
       "https://www.w3.org/2022/wot/td/v1.1",
       {
-        "dtv": "http://azure.com/DigitalTwins/dtmi#",
-        "aov": "http://azure.com/IoT/operations/tm#"
+        "dov": "http://azure.com/DigitalOperations/vocab#"
       }
     ],
     "@type": "tm:ThingModel",
     "title": "MachineTool_MessagesType",
-    "aov:typeRef": "nsu=http://opcfoundation.org/UA/MachineTool/;i=38",
+    "dov:typeRef": "nsu=http://opcfoundation.org/UA/MachineTool/;i=38",
     "links": [
       {
         "rel": "tm:extends",
@@ -1782,13 +1765,12 @@
     "@context": [
       "https://www.w3.org/2022/wot/td/v1.1",
       {
-        "dtv": "http://azure.com/DigitalTwins/dtmi#",
-        "aov": "http://azure.com/IoT/operations/tm#"
+        "dov": "http://azure.com/DigitalOperations/vocab#"
       }
     ],
     "@type": "tm:ThingModel",
     "title": "MachineTool_PrognosisListType",
-    "aov:typeRef": "nsu=http://opcfoundation.org/UA/MachineTool/;i=2",
+    "dov:typeRef": "nsu=http://opcfoundation.org/UA/MachineTool/;i=2",
     "links": [
       {
         "rel": "tm:extends",
@@ -1796,8 +1778,8 @@
         "type": "application/tm+json"
       },
       {
-        "rel": "aov:component",
-        "aov:refName": "Prognosis",
+        "rel": "dov:component",
+        "dov:refName": "Prognosis",
         "href": "#title=MachineTool_PrognosisType",
         "type": "application/tm+json"
       }
@@ -1807,7 +1789,7 @@
     "forms": [
       {
         "contentType": "application/json",
-        "dtv:topic": "opcua/MachineTool/MachineTool_PrognosisListType/properties/read",
+        "dov:topic": "opcua/MachineTool/MachineTool_PrognosisListType/properties/read",
         "op": "readallproperties"
       }
     ],
@@ -1820,7 +1802,7 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/MachineTool/MachineTool_PrognosisListType/property/NodeVersion/read",
+            "dov:topic": "opcua/MachineTool/MachineTool_PrognosisListType/property/NodeVersion/read",
             "op": "readproperty"
           }
         ]
@@ -1833,13 +1815,12 @@
     "@context": [
       "https://www.w3.org/2022/wot/td/v1.1",
       {
-        "dtv": "http://azure.com/DigitalTwins/dtmi#",
-        "aov": "http://azure.com/IoT/operations/tm#"
+        "dov": "http://azure.com/DigitalOperations/vocab#"
       }
     ],
     "@type": "tm:ThingModel",
     "title": "MachineTool_PrognosisType",
-    "aov:typeRef": "nsu=http://opcfoundation.org/UA/MachineTool/;i=3",
+    "dov:typeRef": "nsu=http://opcfoundation.org/UA/MachineTool/;i=3",
     "links": [
       {
         "rel": "tm:extends",
@@ -1852,7 +1833,7 @@
     "forms": [
       {
         "contentType": "application/json",
-        "dtv:topic": "opcua/MachineTool/MachineTool_PrognosisType/properties/read",
+        "dov:topic": "opcua/MachineTool/MachineTool_PrognosisType/properties/read",
         "op": "readallproperties"
       }
     ],
@@ -1860,14 +1841,14 @@
     },
     "properties": {
       "PredictedTime": {
-        "aov:namespace": "http://opcfoundation.org/UA/MachineTool/",
+        "dov:namespace": "http://opcfoundation.org/UA/MachineTool/",
         "type": "string",
         "format": "time",
         "readOnly": true,
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/MachineTool/MachineTool_PrognosisType/property/PredictedTime/read",
+            "dov:topic": "opcua/MachineTool/MachineTool_PrognosisType/property/PredictedTime/read",
             "op": "readproperty"
           }
         ]
@@ -1880,14 +1861,13 @@
     "@context": [
       "https://www.w3.org/2022/wot/td/v1.1",
       {
-        "dtv": "http://azure.com/DigitalTwins/dtmi#",
-        "aov": "http://azure.com/IoT/operations/tm#"
+        "dov": "http://azure.com/DigitalOperations/vocab#"
       }
     ],
     "@type": "tm:ThingModel",
     "title": "MachineTool_MaintenancePrognosisType",
-    "aov:typeRef": "nsu=http://opcfoundation.org/UA/MachineTool/;i=9",
-    "aov:isComposite": true,
+    "dov:typeRef": "nsu=http://opcfoundation.org/UA/MachineTool/;i=9",
+    "dov:isComposite": true,
     "links": [
       {
         "rel": "tm:extends",
@@ -1900,12 +1880,12 @@
     "forms": [
       {
         "contentType": "application/json",
-        "dtv:topic": "opcua/MachineTool/MachineTool_MaintenancePrognosisType/events/{senderId}",
+        "dov:topic": "opcua/MachineTool/MachineTool_MaintenancePrognosisType/events/{senderId}",
         "op": "subscribeallevents"
       },
       {
         "contentType": "application/json",
-        "dtv:topic": "opcua/MachineTool/MachineTool_MaintenancePrognosisType/properties/read",
+        "dov:topic": "opcua/MachineTool/MachineTool_MaintenancePrognosisType/properties/read",
         "op": "readallproperties"
       }
     ],
@@ -1913,13 +1893,13 @@
     },
     "properties": {
       "Activity": {
-        "aov:namespace": "http://opcfoundation.org/UA/MachineTool/",
+        "dov:namespace": "http://opcfoundation.org/UA/MachineTool/",
         "type": "string",
         "readOnly": true,
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/MachineTool/MachineTool_MaintenancePrognosisType/property/Activity/read",
+            "dov:topic": "opcua/MachineTool/MachineTool_MaintenancePrognosisType/property/Activity/read",
             "op": "readproperty"
           }
         ]
@@ -1927,14 +1907,14 @@
     },
     "events": {
       "Activity": {
-        "aov:namespace": "http://opcfoundation.org/UA/MachineTool/",
+        "dov:namespace": "http://opcfoundation.org/UA/MachineTool/",
         "data": {
           "type": "string"
         },
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/MachineTool/MachineTool_MaintenancePrognosisType/event/Activity/{senderId}",
+            "dov:topic": "opcua/MachineTool/MachineTool_MaintenancePrognosisType/event/Activity/{senderId}",
             "op": "subscribeevent"
           }
         ]
@@ -1945,14 +1925,13 @@
     "@context": [
       "https://www.w3.org/2022/wot/td/v1.1",
       {
-        "dtv": "http://azure.com/DigitalTwins/dtmi#",
-        "aov": "http://azure.com/IoT/operations/tm#"
+        "dov": "http://azure.com/DigitalOperations/vocab#"
       }
     ],
     "@type": "tm:ThingModel",
     "title": "MachineTool_UtilityChangePrognosisType",
-    "aov:typeRef": "nsu=http://opcfoundation.org/UA/MachineTool/;i=6",
-    "aov:isComposite": true,
+    "dov:typeRef": "nsu=http://opcfoundation.org/UA/MachineTool/;i=6",
+    "dov:isComposite": true,
     "links": [
       {
         "rel": "tm:extends",
@@ -1965,12 +1944,12 @@
     "forms": [
       {
         "contentType": "application/json",
-        "dtv:topic": "opcua/MachineTool/MachineTool_UtilityChangePrognosisType/events/{senderId}",
+        "dov:topic": "opcua/MachineTool/MachineTool_UtilityChangePrognosisType/events/{senderId}",
         "op": "subscribeallevents"
       },
       {
         "contentType": "application/json",
-        "dtv:topic": "opcua/MachineTool/MachineTool_UtilityChangePrognosisType/properties/read",
+        "dov:topic": "opcua/MachineTool/MachineTool_UtilityChangePrognosisType/properties/read",
         "op": "readallproperties"
       }
     ],
@@ -1978,13 +1957,13 @@
     },
     "properties": {
       "UtilityName": {
-        "aov:namespace": "http://opcfoundation.org/UA/MachineTool/",
+        "dov:namespace": "http://opcfoundation.org/UA/MachineTool/",
         "type": "string",
         "readOnly": true,
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/MachineTool/MachineTool_UtilityChangePrognosisType/property/UtilityName/read",
+            "dov:topic": "opcua/MachineTool/MachineTool_UtilityChangePrognosisType/property/UtilityName/read",
             "op": "readproperty"
           }
         ]
@@ -1992,14 +1971,14 @@
     },
     "events": {
       "UtilityName": {
-        "aov:namespace": "http://opcfoundation.org/UA/MachineTool/",
+        "dov:namespace": "http://opcfoundation.org/UA/MachineTool/",
         "data": {
           "type": "string"
         },
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/MachineTool/MachineTool_UtilityChangePrognosisType/event/UtilityName/{senderId}",
+            "dov:topic": "opcua/MachineTool/MachineTool_UtilityChangePrognosisType/event/UtilityName/{senderId}",
             "op": "subscribeevent"
           }
         ]
@@ -2010,13 +1989,12 @@
     "@context": [
       "https://www.w3.org/2022/wot/td/v1.1",
       {
-        "dtv": "http://azure.com/DigitalTwins/dtmi#",
-        "aov": "http://azure.com/IoT/operations/tm#"
+        "dov": "http://azure.com/DigitalOperations/vocab#"
       }
     ],
     "@type": "tm:ThingModel",
     "title": "OpcUaCore_BaseObjectType",
-    "aov:typeRef": "nsu=http://opcfoundation.org/UA/;i=58",
+    "dov:typeRef": "nsu=http://opcfoundation.org/UA/;i=58",
     "links": [
     ],
     "schemaDefinitions": {
@@ -2032,13 +2010,12 @@
     "@context": [
       "https://www.w3.org/2022/wot/td/v1.1",
       {
-        "dtv": "http://azure.com/DigitalTwins/dtmi#",
-        "aov": "http://azure.com/IoT/operations/tm#"
+        "dov": "http://azure.com/DigitalOperations/vocab#"
       }
     ],
     "@type": "tm:ThingModel",
     "title": "OpcUaCore_FolderType",
-    "aov:typeRef": "nsu=http://opcfoundation.org/UA/;i=61",
+    "dov:typeRef": "nsu=http://opcfoundation.org/UA/;i=61",
     "links": [
       {
         "rel": "tm:extends",
@@ -2059,14 +2036,13 @@
     "@context": [
       "https://www.w3.org/2022/wot/td/v1.1",
       {
-        "dtv": "http://azure.com/DigitalTwins/dtmi#",
-        "aov": "http://azure.com/IoT/operations/tm#"
+        "dov": "http://azure.com/DigitalOperations/vocab#"
       }
     ],
     "@type": "tm:ThingModel",
     "title": "OpcUaCore_OrderedListType",
-    "aov:typeRef": "nsu=http://opcfoundation.org/UA/;i=23518",
-    "aov:isComposite": true,
+    "dov:typeRef": "nsu=http://opcfoundation.org/UA/;i=23518",
+    "dov:isComposite": true,
     "links": [
       {
         "rel": "tm:extends",
@@ -2079,7 +2055,7 @@
     "forms": [
       {
         "contentType": "application/json",
-        "dtv:topic": "opcua/OpcUaCore/OpcUaCore_OrderedListType/properties/read",
+        "dov:topic": "opcua/OpcUaCore/OpcUaCore_OrderedListType/properties/read",
         "op": "readallproperties"
       }
     ],
@@ -2092,7 +2068,7 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/OpcUaCore/OpcUaCore_OrderedListType/property/NodeVersion/read",
+            "dov:topic": "opcua/OpcUaCore/OpcUaCore_OrderedListType/property/NodeVersion/read",
             "op": "readproperty"
           }
         ]
@@ -2105,13 +2081,12 @@
     "@context": [
       "https://www.w3.org/2022/wot/td/v1.1",
       {
-        "dtv": "http://azure.com/DigitalTwins/dtmi#",
-        "aov": "http://azure.com/IoT/operations/tm#"
+        "dov": "http://azure.com/DigitalOperations/vocab#"
       }
     ],
     "@type": "tm:ThingModel",
     "title": "OpcUaCore_FiniteStateMachineType",
-    "aov:typeRef": "nsu=http://opcfoundation.org/UA/;i=2771",
+    "dov:typeRef": "nsu=http://opcfoundation.org/UA/;i=2771",
     "links": [
       {
         "rel": "tm:extends",
@@ -2124,12 +2099,12 @@
     "forms": [
       {
         "contentType": "application/json",
-        "dtv:topic": "opcua/OpcUaCore/OpcUaCore_FiniteStateMachineType/events/{senderId}",
+        "dov:topic": "opcua/OpcUaCore/OpcUaCore_FiniteStateMachineType/events/{senderId}",
         "op": "subscribeallevents"
       },
       {
         "contentType": "application/json",
-        "dtv:topic": "opcua/OpcUaCore/OpcUaCore_FiniteStateMachineType/properties/read",
+        "dov:topic": "opcua/OpcUaCore/OpcUaCore_FiniteStateMachineType/properties/read",
         "op": "readallproperties"
       }
     ],
@@ -2145,7 +2120,7 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/OpcUaCore/OpcUaCore_FiniteStateMachineType/property/AvailableStates/read",
+            "dov:topic": "opcua/OpcUaCore/OpcUaCore_FiniteStateMachineType/property/AvailableStates/read",
             "op": "readproperty"
           }
         ]
@@ -2159,7 +2134,7 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/OpcUaCore/OpcUaCore_FiniteStateMachineType/property/AvailableTransitions/read",
+            "dov:topic": "opcua/OpcUaCore/OpcUaCore_FiniteStateMachineType/property/AvailableTransitions/read",
             "op": "readproperty"
           }
         ]
@@ -2170,7 +2145,7 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/OpcUaCore/OpcUaCore_FiniteStateMachineType/property/CurrentState/read",
+            "dov:topic": "opcua/OpcUaCore/OpcUaCore_FiniteStateMachineType/property/CurrentState/read",
             "op": "readproperty"
           }
         ]
@@ -2181,7 +2156,7 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/OpcUaCore/OpcUaCore_FiniteStateMachineType/property/LastTransition/read",
+            "dov:topic": "opcua/OpcUaCore/OpcUaCore_FiniteStateMachineType/property/LastTransition/read",
             "op": "readproperty"
           }
         ]
@@ -2198,7 +2173,7 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/OpcUaCore/OpcUaCore_FiniteStateMachineType/event/AvailableStates/{senderId}",
+            "dov:topic": "opcua/OpcUaCore/OpcUaCore_FiniteStateMachineType/event/AvailableStates/{senderId}",
             "op": "subscribeevent"
           }
         ]
@@ -2213,7 +2188,7 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/OpcUaCore/OpcUaCore_FiniteStateMachineType/event/AvailableTransitions/{senderId}",
+            "dov:topic": "opcua/OpcUaCore/OpcUaCore_FiniteStateMachineType/event/AvailableTransitions/{senderId}",
             "op": "subscribeevent"
           }
         ]
@@ -2225,7 +2200,7 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/OpcUaCore/OpcUaCore_FiniteStateMachineType/event/CurrentState/{senderId}",
+            "dov:topic": "opcua/OpcUaCore/OpcUaCore_FiniteStateMachineType/event/CurrentState/{senderId}",
             "op": "subscribeevent"
           }
         ]
@@ -2237,7 +2212,7 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/OpcUaCore/OpcUaCore_FiniteStateMachineType/event/LastTransition/{senderId}",
+            "dov:topic": "opcua/OpcUaCore/OpcUaCore_FiniteStateMachineType/event/LastTransition/{senderId}",
             "op": "subscribeevent"
           }
         ]
@@ -2248,14 +2223,13 @@
     "@context": [
       "https://www.w3.org/2022/wot/td/v1.1",
       {
-        "dtv": "http://azure.com/DigitalTwins/dtmi#",
-        "aov": "http://azure.com/IoT/operations/tm#"
+        "dov": "http://azure.com/DigitalOperations/vocab#"
       }
     ],
     "@type": "tm:ThingModel",
     "title": "OpcUaCore_StateMachineType",
-    "aov:typeRef": "nsu=http://opcfoundation.org/UA/;i=2299",
-    "aov:isComposite": true,
+    "dov:typeRef": "nsu=http://opcfoundation.org/UA/;i=2299",
+    "dov:isComposite": true,
     "links": [
       {
         "rel": "tm:extends",
@@ -2268,12 +2242,12 @@
     "forms": [
       {
         "contentType": "application/json",
-        "dtv:topic": "opcua/OpcUaCore/OpcUaCore_StateMachineType/events/{senderId}",
+        "dov:topic": "opcua/OpcUaCore/OpcUaCore_StateMachineType/events/{senderId}",
         "op": "subscribeallevents"
       },
       {
         "contentType": "application/json",
-        "dtv:topic": "opcua/OpcUaCore/OpcUaCore_StateMachineType/properties/read",
+        "dov:topic": "opcua/OpcUaCore/OpcUaCore_StateMachineType/properties/read",
         "op": "readallproperties"
       }
     ],
@@ -2286,7 +2260,7 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/OpcUaCore/OpcUaCore_StateMachineType/property/CurrentState/read",
+            "dov:topic": "opcua/OpcUaCore/OpcUaCore_StateMachineType/property/CurrentState/read",
             "op": "readproperty"
           }
         ]
@@ -2297,7 +2271,7 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/OpcUaCore/OpcUaCore_StateMachineType/property/LastTransition/read",
+            "dov:topic": "opcua/OpcUaCore/OpcUaCore_StateMachineType/property/LastTransition/read",
             "op": "readproperty"
           }
         ]
@@ -2311,7 +2285,7 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/OpcUaCore/OpcUaCore_StateMachineType/event/CurrentState/{senderId}",
+            "dov:topic": "opcua/OpcUaCore/OpcUaCore_StateMachineType/event/CurrentState/{senderId}",
             "op": "subscribeevent"
           }
         ]
@@ -2323,7 +2297,7 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/OpcUaCore/OpcUaCore_StateMachineType/event/LastTransition/{senderId}",
+            "dov:topic": "opcua/OpcUaCore/OpcUaCore_StateMachineType/event/LastTransition/{senderId}",
             "op": "subscribeevent"
           }
         ]
@@ -2334,13 +2308,12 @@
     "@context": [
       "https://www.w3.org/2022/wot/td/v1.1",
       {
-        "dtv": "http://azure.com/DigitalTwins/dtmi#",
-        "aov": "http://azure.com/IoT/operations/tm#"
+        "dov": "http://azure.com/DigitalOperations/vocab#"
       }
     ],
     "@type": "tm:ThingModel",
     "title": "OpcUaCore_StateType",
-    "aov:typeRef": "nsu=http://opcfoundation.org/UA/;i=2307",
+    "dov:typeRef": "nsu=http://opcfoundation.org/UA/;i=2307",
     "links": [
       {
         "rel": "tm:extends",
@@ -2353,7 +2326,7 @@
     "forms": [
       {
         "contentType": "application/json",
-        "dtv:topic": "opcua/OpcUaCore/OpcUaCore_StateType/properties/read",
+        "dov:topic": "opcua/OpcUaCore/OpcUaCore_StateType/properties/read",
         "op": "readallproperties"
       }
     ],
@@ -2368,7 +2341,7 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/OpcUaCore/OpcUaCore_StateType/property/StateNumber/read",
+            "dov:topic": "opcua/OpcUaCore/OpcUaCore_StateType/property/StateNumber/read",
             "op": "readproperty"
           }
         ]
@@ -2381,13 +2354,12 @@
     "@context": [
       "https://www.w3.org/2022/wot/td/v1.1",
       {
-        "dtv": "http://azure.com/DigitalTwins/dtmi#",
-        "aov": "http://azure.com/IoT/operations/tm#"
+        "dov": "http://azure.com/DigitalOperations/vocab#"
       }
     ],
     "@type": "tm:ThingModel",
     "title": "OpcUaCore_TransitionType",
-    "aov:typeRef": "nsu=http://opcfoundation.org/UA/;i=2310",
+    "dov:typeRef": "nsu=http://opcfoundation.org/UA/;i=2310",
     "links": [
       {
         "rel": "tm:extends",
@@ -2400,7 +2372,7 @@
     "forms": [
       {
         "contentType": "application/json",
-        "dtv:topic": "opcua/OpcUaCore/OpcUaCore_TransitionType/properties/read",
+        "dov:topic": "opcua/OpcUaCore/OpcUaCore_TransitionType/properties/read",
         "op": "readallproperties"
       }
     ],
@@ -2415,7 +2387,7 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/OpcUaCore/OpcUaCore_TransitionType/property/TransitionNumber/read",
+            "dov:topic": "opcua/OpcUaCore/OpcUaCore_TransitionType/property/TransitionNumber/read",
             "op": "readproperty"
           }
         ]
@@ -2428,14 +2400,13 @@
     "@context": [
       "https://www.w3.org/2022/wot/td/v1.1",
       {
-        "dtv": "http://azure.com/DigitalTwins/dtmi#",
-        "aov": "http://azure.com/IoT/operations/tm#"
+        "dov": "http://azure.com/DigitalOperations/vocab#"
       }
     ],
     "@type": "tm:ThingModel",
     "title": "Machinery_MachineryOperationCounterType",
-    "aov:typeRef": "nsu=http://opcfoundation.org/UA/Machinery/;i=1009",
-    "aov:isComposite": true,
+    "dov:typeRef": "nsu=http://opcfoundation.org/UA/Machinery/;i=1009",
+    "dov:isComposite": true,
     "links": [
       {
         "rel": "tm:extends",
@@ -2448,12 +2419,12 @@
     "forms": [
       {
         "contentType": "application/json",
-        "dtv:topic": "opcua/Machinery/Machinery_MachineryOperationCounterType/properties/write",
+        "dov:topic": "opcua/Machinery/Machinery_MachineryOperationCounterType/properties/write",
         "op": "writemultipleproperties"
       },
       {
         "contentType": "application/json",
-        "dtv:topic": "opcua/Machinery/Machinery_MachineryOperationCounterType/properties/read",
+        "dov:topic": "opcua/Machinery/Machinery_MachineryOperationCounterType/properties/read",
         "op": "readallproperties"
       }
     ],
@@ -2467,18 +2438,18 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/Machinery/Machinery_MachineryOperationCounterType/property/DefaultInstanceBrowseName/write",
+            "dov:topic": "opcua/Machinery/Machinery_MachineryOperationCounterType/property/DefaultInstanceBrowseName/write",
             "op": "writeproperty"
           },
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/Machinery/Machinery_MachineryOperationCounterType/property/DefaultInstanceBrowseName/read",
+            "dov:topic": "opcua/Machinery/Machinery_MachineryOperationCounterType/property/DefaultInstanceBrowseName/read",
             "op": "readproperty"
           }
         ]
       },
       "OperationCycleCounter": {
-        "aov:namespace": "http://opcfoundation.org/UA/DI/",
+        "dov:namespace": "http://opcfoundation.org/UA/DI/",
         "description": "OperationCycleCounter is counting the times the component switches from not performing an activity to performing an activity. For example, each time a valve starts moving, is counted. This value shall only increase during the lifetime of the component and shall not be reset when the component is restarted.",
         "type": "integer",
         "minimum": 0,
@@ -2486,18 +2457,18 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/Machinery/Machinery_MachineryOperationCounterType/property/OperationCycleCounter/write",
+            "dov:topic": "opcua/Machinery/Machinery_MachineryOperationCounterType/property/OperationCycleCounter/write",
             "op": "writeproperty"
           },
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/Machinery/Machinery_MachineryOperationCounterType/property/OperationCycleCounter/read",
+            "dov:topic": "opcua/Machinery/Machinery_MachineryOperationCounterType/property/OperationCycleCounter/read",
             "op": "readproperty"
           }
         ]
       },
       "OperationDuration": {
-        "aov:namespace": "http://opcfoundation.org/UA/DI/",
+        "dov:namespace": "http://opcfoundation.org/UA/DI/",
         "description": "OperationDuration is the duration the MachineryItem has been powered and performing an activity. This counter is intended for machines and components where a distinction is made between switched on and in operation. For example, a drive might be powered on but not operating. It is not intended for machines or components always performing an activity like sensors always measuring data. This value shall only increase during the lifetime of the MachineryItem and shall not be reset when it is restarted. The OperationDuration is provided as Duration, i.e., in milliseconds or even fractions of a millisecond. However, the Server is not expected to update the value in such a high frequency, but maybe once a minute or once an hour, depending on the application.",
         "type": "string",
         "pattern": "^P(?!$)(?:(?:(?:(?:\\d+Y)|(?:\\d+\\.\\d+Y$))?(?:(?:\\d+M)|(?:\\d+\\.\\d+M$))?)|(?:(?:(?:\\d+W)|(?:\\d+\\.\\d+W$))?))(?:(?:\\d+D)|(?:\\d+\\.\\d+D$))?(?:T(?!$)(?:(?:\\d+H)|(?:\\d+\\.\\d+H$))?(?:(?:\\d+M)|(?:\\d+\\.\\d+M$))?(?:\\d+(?:\\.\\d+)?S)?)?$",
@@ -2505,18 +2476,18 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/Machinery/Machinery_MachineryOperationCounterType/property/OperationDuration/write",
+            "dov:topic": "opcua/Machinery/Machinery_MachineryOperationCounterType/property/OperationDuration/write",
             "op": "writeproperty"
           },
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/Machinery/Machinery_MachineryOperationCounterType/property/OperationDuration/read",
+            "dov:topic": "opcua/Machinery/Machinery_MachineryOperationCounterType/property/OperationDuration/read",
             "op": "readproperty"
           }
         ]
       },
       "PowerOnDuration": {
-        "aov:namespace": "http://opcfoundation.org/UA/DI/",
+        "dov:namespace": "http://opcfoundation.org/UA/DI/",
         "description": "PowerOnDuration is the duration the MachineryItem has been powered. The main purpose is to determine the time in which degradation of the MachineryItem occurred. The details, when the time is counted, is implementation-specific. Companion specifications might define specific rules. Typically, when the MachineryItem has supply voltage and the main CPU is running, the time is counted. This may include any kind of sleep mode, but may not include pure Wake on LAN. This value shall only increase during the lifetime of the MachineryItem and shall not be reset when it is restarted. The PowerOnDuration is provided as Duration, i.e., in milliseconds or even fractions of a millisecond. However, the Server is not expected to update the value in such a high frequency, but maybe once a minute or once an hour, depending on the application.",
         "type": "string",
         "pattern": "^P(?!$)(?:(?:(?:(?:\\d+Y)|(?:\\d+\\.\\d+Y$))?(?:(?:\\d+M)|(?:\\d+\\.\\d+M$))?)|(?:(?:(?:\\d+W)|(?:\\d+\\.\\d+W$))?))(?:(?:\\d+D)|(?:\\d+\\.\\d+D$))?(?:T(?!$)(?:(?:\\d+H)|(?:\\d+\\.\\d+H$))?(?:(?:\\d+M)|(?:\\d+\\.\\d+M$))?(?:\\d+(?:\\.\\d+)?S)?)?$",
@@ -2524,12 +2495,12 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/Machinery/Machinery_MachineryOperationCounterType/property/PowerOnDuration/write",
+            "dov:topic": "opcua/Machinery/Machinery_MachineryOperationCounterType/property/PowerOnDuration/write",
             "op": "writeproperty"
           },
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/Machinery/Machinery_MachineryOperationCounterType/property/PowerOnDuration/read",
+            "dov:topic": "opcua/Machinery/Machinery_MachineryOperationCounterType/property/PowerOnDuration/read",
             "op": "readproperty"
           }
         ]
@@ -2542,13 +2513,12 @@
     "@context": [
       "https://www.w3.org/2022/wot/td/v1.1",
       {
-        "dtv": "http://azure.com/DigitalTwins/dtmi#",
-        "aov": "http://azure.com/IoT/operations/tm#"
+        "dov": "http://azure.com/DigitalOperations/vocab#"
       }
     ],
     "@type": "tm:ThingModel",
     "title": "DI_FunctionalGroupType",
-    "aov:typeRef": "nsu=http://opcfoundation.org/UA/DI/;i=1005",
+    "dov:typeRef": "nsu=http://opcfoundation.org/UA/DI/;i=1005",
     "links": [
       {
         "rel": "tm:extends",
@@ -2556,8 +2526,8 @@
         "type": "application/tm+json"
       },
       {
-        "rel": "aov:component",
-        "aov:refName": "GroupIdentifier",
+        "rel": "dov:component",
+        "dov:refName": "GroupIdentifier",
         "href": "#title=DI_FunctionalGroupType",
         "type": "application/tm+json"
       }
@@ -2567,12 +2537,12 @@
     "forms": [
       {
         "contentType": "application/json",
-        "dtv:topic": "opcua/DI/DI_FunctionalGroupType/events/{senderId}",
+        "dov:topic": "opcua/DI/DI_FunctionalGroupType/events/{senderId}",
         "op": "subscribeallevents"
       },
       {
         "contentType": "application/json",
-        "dtv:topic": "opcua/DI/DI_FunctionalGroupType/properties/read",
+        "dov:topic": "opcua/DI/DI_FunctionalGroupType/properties/read",
         "op": "readallproperties"
       }
     ],
@@ -2580,14 +2550,14 @@
     },
     "properties": {
       "UIElement": {
-        "aov:namespace": "http://opcfoundation.org/UA/DI/",
+        "dov:namespace": "http://opcfoundation.org/UA/DI/",
         "description": "Stand-in for an unspecified data type.",
         "type": "string",
         "readOnly": true,
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/DI/DI_FunctionalGroupType/property/UIElement/read",
+            "dov:topic": "opcua/DI/DI_FunctionalGroupType/property/UIElement/read",
             "op": "readproperty"
           }
         ]
@@ -2595,7 +2565,7 @@
     },
     "events": {
       "UIElement": {
-        "aov:namespace": "http://opcfoundation.org/UA/DI/",
+        "dov:namespace": "http://opcfoundation.org/UA/DI/",
         "data": {
           "description": "Stand-in for an unspecified data type.",
           "type": "string"
@@ -2603,7 +2573,7 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/DI/DI_FunctionalGroupType/event/UIElement/{senderId}",
+            "dov:topic": "opcua/DI/DI_FunctionalGroupType/event/UIElement/{senderId}",
             "op": "subscribeevent"
           }
         ]
@@ -2614,14 +2584,13 @@
     "@context": [
       "https://www.w3.org/2022/wot/td/v1.1",
       {
-        "dtv": "http://azure.com/DigitalTwins/dtmi#",
-        "aov": "http://azure.com/IoT/operations/tm#"
+        "dov": "http://azure.com/DigitalOperations/vocab#"
       }
     ],
     "@type": "tm:ThingModel",
     "title": "IA_BasicStacklightType",
-    "aov:typeRef": "nsu=http://opcfoundation.org/UA/IA/;i=1002",
-    "aov:isComposite": true,
+    "dov:typeRef": "nsu=http://opcfoundation.org/UA/IA/;i=1002",
+    "dov:isComposite": true,
     "links": [
       {
         "rel": "tm:extends",
@@ -2629,14 +2598,14 @@
         "type": "application/tm+json"
       },
       {
-        "rel": "aov:reference",
-        "aov:refName": "StackLevel",
+        "rel": "dov:reference",
+        "dov:refName": "StackLevel",
         "href": "#title=IA_StackLevelType",
         "type": "application/tm+json"
       },
       {
-        "rel": "aov:reference",
-        "aov:refName": "StackRunning",
+        "rel": "dov:reference",
+        "dov:refName": "StackRunning",
         "href": "#title=IA_StackRunningType",
         "type": "application/tm+json"
       }
@@ -2644,7 +2613,7 @@
     "schemaDefinitions": {
       "StacklightOperationMode": {
         "type": "object",
-        "aov:typeRef": "nsu=http://opcfoundation.org/UA/IA/;i=3002",
+        "dov:typeRef": "nsu=http://opcfoundation.org/UA/IA/;i=3002",
         "const": {
           "Segmented": 0,
           "Levelmeter": 1,
@@ -2675,12 +2644,12 @@
     "forms": [
       {
         "contentType": "application/json",
-        "dtv:topic": "opcua/IA/IA_BasicStacklightType/properties/write",
+        "dov:topic": "opcua/IA/IA_BasicStacklightType/properties/write",
         "op": "writemultipleproperties"
       },
       {
         "contentType": "application/json",
-        "dtv:topic": "opcua/IA/IA_BasicStacklightType/properties/read",
+        "dov:topic": "opcua/IA/IA_BasicStacklightType/properties/read",
         "op": "readallproperties"
       }
     ],
@@ -2688,10 +2657,10 @@
     },
     "properties": {
       "StacklightMode": {
-        "aov:namespace": "http://opcfoundation.org/UA/IA/",
+        "dov:namespace": "http://opcfoundation.org/UA/IA/",
         "title": "StacklightOperationMode",
         "description": "Shows in what way (stack of individual lights, level meter, running light) the stacklight unit is used.",
-        "aov:typeRef": "nsu=http://opcfoundation.org/UA/IA/;i=3002",
+        "dov:typeRef": "nsu=http://opcfoundation.org/UA/IA/;i=3002",
         "type": "integer",
         "minimum": -2147483648,
         "maximum": 2147483647,
@@ -2699,12 +2668,12 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/IA/IA_BasicStacklightType/property/StacklightMode/write",
+            "dov:topic": "opcua/IA/IA_BasicStacklightType/property/StacklightMode/write",
             "op": "writeproperty"
           },
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/IA/IA_BasicStacklightType/property/StacklightMode/read",
+            "dov:topic": "opcua/IA/IA_BasicStacklightType/property/StacklightMode/read",
             "op": "readproperty"
           }
         ]
@@ -2717,13 +2686,12 @@
     "@context": [
       "https://www.w3.org/2022/wot/td/v1.1",
       {
-        "dtv": "http://azure.com/DigitalTwins/dtmi#",
-        "aov": "http://azure.com/IoT/operations/tm#"
+        "dov": "http://azure.com/DigitalOperations/vocab#"
       }
     ],
     "@type": "tm:ThingModel",
     "title": "IA_StackLevelType",
-    "aov:typeRef": "nsu=http://opcfoundation.org/UA/IA/;i=1003",
+    "dov:typeRef": "nsu=http://opcfoundation.org/UA/IA/;i=1003",
     "links": [
       {
         "rel": "tm:extends",
@@ -2734,7 +2702,7 @@
     "schemaDefinitions": {
       "LevelDisplayMode": {
         "type": "object",
-        "aov:typeRef": "nsu=http://opcfoundation.org/UA/IA/;i=3003",
+        "dov:typeRef": "nsu=http://opcfoundation.org/UA/IA/;i=3003",
         "const": {
           "Dimmed": 0,
           "Blinking": 1,
@@ -2760,17 +2728,17 @@
     "forms": [
       {
         "contentType": "application/json",
-        "dtv:topic": "opcua/IA/IA_StackLevelType/events/{senderId}",
+        "dov:topic": "opcua/IA/IA_StackLevelType/events/{senderId}",
         "op": "subscribeallevents"
       },
       {
         "contentType": "application/json",
-        "dtv:topic": "opcua/IA/IA_StackLevelType/properties/write",
+        "dov:topic": "opcua/IA/IA_StackLevelType/properties/write",
         "op": "writemultipleproperties"
       },
       {
         "contentType": "application/json",
-        "dtv:topic": "opcua/IA/IA_StackLevelType/properties/read",
+        "dov:topic": "opcua/IA/IA_StackLevelType/properties/read",
         "op": "readallproperties"
       }
     ],
@@ -2778,10 +2746,10 @@
     },
     "properties": {
       "DisplayMode": {
-        "aov:namespace": "http://opcfoundation.org/UA/IA/",
+        "dov:namespace": "http://opcfoundation.org/UA/IA/",
         "title": "LevelDisplayMode",
         "description": "Indicates in what way the percentual value is displayed with the stacklight.",
-        "aov:typeRef": "nsu=http://opcfoundation.org/UA/IA/;i=3003",
+        "dov:typeRef": "nsu=http://opcfoundation.org/UA/IA/;i=3003",
         "type": "integer",
         "minimum": -2147483648,
         "maximum": 2147483647,
@@ -2789,18 +2757,18 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/IA/IA_StackLevelType/property/DisplayMode/write",
+            "dov:topic": "opcua/IA/IA_StackLevelType/property/DisplayMode/write",
             "op": "writeproperty"
           },
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/IA/IA_StackLevelType/property/DisplayMode/read",
+            "dov:topic": "opcua/IA/IA_StackLevelType/property/DisplayMode/read",
             "op": "readproperty"
           }
         ]
       },
       "LevelPercent": {
-        "aov:namespace": "http://opcfoundation.org/UA/IA/",
+        "dov:namespace": "http://opcfoundation.org/UA/IA/",
         "description": "Shows the percentual value the stacklight is representing. The mandatory EURange Property of the Variable indicates the lowest and highest value and thereby allows to calculate the percentage represented by the value. The lowest value is interpreted as 0 percent, the highest is interpreted as 100 percent.",
         "type": "number",
         "minimum": -3.40e+38,
@@ -2809,12 +2777,12 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/IA/IA_StackLevelType/property/LevelPercent/write",
+            "dov:topic": "opcua/IA/IA_StackLevelType/property/LevelPercent/write",
             "op": "writeproperty"
           },
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/IA/IA_StackLevelType/property/LevelPercent/read",
+            "dov:topic": "opcua/IA/IA_StackLevelType/property/LevelPercent/read",
             "op": "readproperty"
           }
         ]
@@ -2822,11 +2790,11 @@
     },
     "events": {
       "DisplayMode": {
-        "aov:namespace": "http://opcfoundation.org/UA/IA/",
+        "dov:namespace": "http://opcfoundation.org/UA/IA/",
         "data": {
           "title": "LevelDisplayMode",
           "description": "Indicates in what way the percentual value is displayed with the stacklight.",
-          "aov:typeRef": "nsu=http://opcfoundation.org/UA/IA/;i=3003",
+          "dov:typeRef": "nsu=http://opcfoundation.org/UA/IA/;i=3003",
           "type": "integer",
           "minimum": -2147483648,
           "maximum": 2147483647
@@ -2834,13 +2802,13 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/IA/IA_StackLevelType/event/DisplayMode/{senderId}",
+            "dov:topic": "opcua/IA/IA_StackLevelType/event/DisplayMode/{senderId}",
             "op": "subscribeevent"
           }
         ]
       },
       "LevelPercent": {
-        "aov:namespace": "http://opcfoundation.org/UA/IA/",
+        "dov:namespace": "http://opcfoundation.org/UA/IA/",
         "data": {
           "description": "Shows the percentual value the stacklight is representing. The mandatory EURange Property of the Variable indicates the lowest and highest value and thereby allows to calculate the percentage represented by the value. The lowest value is interpreted as 0 percent, the highest is interpreted as 100 percent.",
           "type": "number",
@@ -2850,7 +2818,7 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/IA/IA_StackLevelType/event/LevelPercent/{senderId}",
+            "dov:topic": "opcua/IA/IA_StackLevelType/event/LevelPercent/{senderId}",
             "op": "subscribeevent"
           }
         ]
@@ -2861,13 +2829,12 @@
     "@context": [
       "https://www.w3.org/2022/wot/td/v1.1",
       {
-        "dtv": "http://azure.com/DigitalTwins/dtmi#",
-        "aov": "http://azure.com/IoT/operations/tm#"
+        "dov": "http://azure.com/DigitalOperations/vocab#"
       }
     ],
     "@type": "tm:ThingModel",
     "title": "IA_StackRunningType",
-    "aov:typeRef": "nsu=http://opcfoundation.org/UA/IA/;i=1004",
+    "dov:typeRef": "nsu=http://opcfoundation.org/UA/IA/;i=1004",
     "links": [
       {
         "rel": "tm:extends",

@@ -3,14 +3,13 @@
     "@context": [
       "https://www.w3.org/2022/wot/td/v1.1",
       {
-        "dtv": "http://azure.com/DigitalTwins/dtmi#",
-        "aov": "http://azure.com/IoT/operations/tm#"
+        "dov": "http://azure.com/DigitalOperations/vocab#"
       }
     ],
     "@type": "tm:ThingModel",
     "title": "FX_Data_AuditUpdateMethodResultEventType",
-    "aov:typeRef": "nsu=http://opcfoundation.org/UA/FX/Data/;i=1025",
-    "aov:isEvent": true,
+    "dov:typeRef": "nsu=http://opcfoundation.org/UA/FX/Data/;i=1025",
+    "dov:isEvent": true,
     "links": [
       {
         "rel": "tm:extends",
@@ -23,7 +22,7 @@
     "forms": [
       {
         "contentType": "application/json",
-        "dtv:topic": "opcua/FX.Data/FX_Data_AuditUpdateMethodResultEventType/properties/read",
+        "dov:topic": "opcua/FX.Data/FX_Data_AuditUpdateMethodResultEventType/properties/read",
         "op": "readallproperties"
       }
     ],
@@ -40,7 +39,7 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/FX.Data/FX_Data_AuditUpdateMethodResultEventType/property/OutputArguments/read",
+            "dov:topic": "opcua/FX.Data/FX_Data_AuditUpdateMethodResultEventType/property/OutputArguments/read",
             "op": "readproperty"
           }
         ]
@@ -51,7 +50,7 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/FX.Data/FX_Data_AuditUpdateMethodResultEventType/property/StatusCodeId/read",
+            "dov:topic": "opcua/FX.Data/FX_Data_AuditUpdateMethodResultEventType/property/StatusCodeId/read",
             "op": "readproperty"
           }
         ]
@@ -64,14 +63,13 @@
     "@context": [
       "https://www.w3.org/2022/wot/td/v1.1",
       {
-        "dtv": "http://azure.com/DigitalTwins/dtmi#",
-        "aov": "http://azure.com/IoT/operations/tm#"
+        "dov": "http://azure.com/DigitalOperations/vocab#"
       }
     ],
     "@type": "tm:ThingModel",
     "title": "OpcUaCore_AuditUpdateMethodEventType",
-    "aov:typeRef": "nsu=http://opcfoundation.org/UA/;i=2127",
-    "aov:isEvent": true,
+    "dov:typeRef": "nsu=http://opcfoundation.org/UA/;i=2127",
+    "dov:isEvent": true,
     "links": [
       {
         "rel": "tm:extends",
@@ -84,7 +82,7 @@
     "forms": [
       {
         "contentType": "application/json",
-        "dtv:topic": "opcua/OpcUaCore/OpcUaCore_AuditUpdateMethodEventType/properties/read",
+        "dov:topic": "opcua/OpcUaCore/OpcUaCore_AuditUpdateMethodEventType/properties/read",
         "op": "readallproperties"
       }
     ],
@@ -101,7 +99,7 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/OpcUaCore/OpcUaCore_AuditUpdateMethodEventType/property/InputArguments/read",
+            "dov:topic": "opcua/OpcUaCore/OpcUaCore_AuditUpdateMethodEventType/property/InputArguments/read",
             "op": "readproperty"
           }
         ]
@@ -112,7 +110,7 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/OpcUaCore/OpcUaCore_AuditUpdateMethodEventType/property/MethodId/read",
+            "dov:topic": "opcua/OpcUaCore/OpcUaCore_AuditUpdateMethodEventType/property/MethodId/read",
             "op": "readproperty"
           }
         ]
@@ -127,7 +125,7 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/OpcUaCore/OpcUaCore_AuditUpdateMethodEventType/property/OutputArguments/read",
+            "dov:topic": "opcua/OpcUaCore/OpcUaCore_AuditUpdateMethodEventType/property/OutputArguments/read",
             "op": "readproperty"
           }
         ]
@@ -138,7 +136,7 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/OpcUaCore/OpcUaCore_AuditUpdateMethodEventType/property/StatusCodeId/read",
+            "dov:topic": "opcua/OpcUaCore/OpcUaCore_AuditUpdateMethodEventType/property/StatusCodeId/read",
             "op": "readproperty"
           }
         ]
@@ -151,14 +149,13 @@
     "@context": [
       "https://www.w3.org/2022/wot/td/v1.1",
       {
-        "dtv": "http://azure.com/DigitalTwins/dtmi#",
-        "aov": "http://azure.com/IoT/operations/tm#"
+        "dov": "http://azure.com/DigitalOperations/vocab#"
       }
     ],
     "@type": "tm:ThingModel",
     "title": "OpcUaCore_AuditEventType",
-    "aov:typeRef": "nsu=http://opcfoundation.org/UA/;i=2052",
-    "aov:isEvent": true,
+    "dov:typeRef": "nsu=http://opcfoundation.org/UA/;i=2052",
+    "dov:isEvent": true,
     "links": [
       {
         "rel": "tm:extends",
@@ -171,7 +168,7 @@
     "forms": [
       {
         "contentType": "application/json",
-        "dtv:topic": "opcua/OpcUaCore/OpcUaCore_AuditEventType/properties/read",
+        "dov:topic": "opcua/OpcUaCore/OpcUaCore_AuditEventType/properties/read",
         "op": "readallproperties"
       }
     ],
@@ -185,7 +182,7 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/OpcUaCore/OpcUaCore_AuditEventType/property/ActionTimeStamp/read",
+            "dov:topic": "opcua/OpcUaCore/OpcUaCore_AuditEventType/property/ActionTimeStamp/read",
             "op": "readproperty"
           }
         ]
@@ -196,7 +193,7 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/OpcUaCore/OpcUaCore_AuditEventType/property/ClientApplicationUri/read",
+            "dov:topic": "opcua/OpcUaCore/OpcUaCore_AuditEventType/property/ClientApplicationUri/read",
             "op": "readproperty"
           }
         ]
@@ -207,7 +204,7 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/OpcUaCore/OpcUaCore_AuditEventType/property/ClientAuditEntryId/read",
+            "dov:topic": "opcua/OpcUaCore/OpcUaCore_AuditEventType/property/ClientAuditEntryId/read",
             "op": "readproperty"
           }
         ]
@@ -218,7 +215,7 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/OpcUaCore/OpcUaCore_AuditEventType/property/ClientUserId/read",
+            "dov:topic": "opcua/OpcUaCore/OpcUaCore_AuditEventType/property/ClientUserId/read",
             "op": "readproperty"
           }
         ]
@@ -229,7 +226,7 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/OpcUaCore/OpcUaCore_AuditEventType/property/ServerId/read",
+            "dov:topic": "opcua/OpcUaCore/OpcUaCore_AuditEventType/property/ServerId/read",
             "op": "readproperty"
           }
         ]
@@ -240,7 +237,7 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/OpcUaCore/OpcUaCore_AuditEventType/property/Status/read",
+            "dov:topic": "opcua/OpcUaCore/OpcUaCore_AuditEventType/property/Status/read",
             "op": "readproperty"
           }
         ]
@@ -253,13 +250,12 @@
     "@context": [
       "https://www.w3.org/2022/wot/td/v1.1",
       {
-        "dtv": "http://azure.com/DigitalTwins/dtmi#",
-        "aov": "http://azure.com/IoT/operations/tm#"
+        "dov": "http://azure.com/DigitalOperations/vocab#"
       }
     ],
     "@type": "tm:ThingModel",
     "title": "OpcUaCore_BaseEventType",
-    "aov:typeRef": "nsu=http://opcfoundation.org/UA/;i=2041",
+    "dov:typeRef": "nsu=http://opcfoundation.org/UA/;i=2041",
     "links": [
       {
         "rel": "tm:extends",
@@ -272,7 +268,7 @@
     "forms": [
       {
         "contentType": "application/json",
-        "dtv:topic": "opcua/OpcUaCore/OpcUaCore_BaseEventType/properties/read",
+        "dov:topic": "opcua/OpcUaCore/OpcUaCore_BaseEventType/properties/read",
         "op": "readallproperties"
       }
     ],
@@ -285,7 +281,7 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/OpcUaCore/OpcUaCore_BaseEventType/property/ConditionClassId/read",
+            "dov:topic": "opcua/OpcUaCore/OpcUaCore_BaseEventType/property/ConditionClassId/read",
             "op": "readproperty"
           }
         ]
@@ -296,7 +292,7 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/OpcUaCore/OpcUaCore_BaseEventType/property/ConditionClassName/read",
+            "dov:topic": "opcua/OpcUaCore/OpcUaCore_BaseEventType/property/ConditionClassName/read",
             "op": "readproperty"
           }
         ]
@@ -310,7 +306,7 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/OpcUaCore/OpcUaCore_BaseEventType/property/ConditionSubClassId/read",
+            "dov:topic": "opcua/OpcUaCore/OpcUaCore_BaseEventType/property/ConditionSubClassId/read",
             "op": "readproperty"
           }
         ]
@@ -324,7 +320,7 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/OpcUaCore/OpcUaCore_BaseEventType/property/ConditionSubClassName/read",
+            "dov:topic": "opcua/OpcUaCore/OpcUaCore_BaseEventType/property/ConditionSubClassName/read",
             "op": "readproperty"
           }
         ]
@@ -336,7 +332,7 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/OpcUaCore/OpcUaCore_BaseEventType/property/EventId/read",
+            "dov:topic": "opcua/OpcUaCore/OpcUaCore_BaseEventType/property/EventId/read",
             "op": "readproperty"
           }
         ]
@@ -347,7 +343,7 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/OpcUaCore/OpcUaCore_BaseEventType/property/EventType/read",
+            "dov:topic": "opcua/OpcUaCore/OpcUaCore_BaseEventType/property/EventType/read",
             "op": "readproperty"
           }
         ]
@@ -355,7 +351,7 @@
       "LocalTime": {
         "title": "TimeZoneDataType",
         "type": "object",
-        "aov:typeRef": "nsu=http://opcfoundation.org/UA/;i=8912",
+        "dov:typeRef": "nsu=http://opcfoundation.org/UA/;i=8912",
         "required": [ "Offset", "DaylightSavingInOffset" ],
         "properties": {
           "Offset": {
@@ -371,7 +367,7 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/OpcUaCore/OpcUaCore_BaseEventType/property/LocalTime/read",
+            "dov:topic": "opcua/OpcUaCore/OpcUaCore_BaseEventType/property/LocalTime/read",
             "op": "readproperty"
           }
         ]
@@ -382,7 +378,7 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/OpcUaCore/OpcUaCore_BaseEventType/property/Message/read",
+            "dov:topic": "opcua/OpcUaCore/OpcUaCore_BaseEventType/property/Message/read",
             "op": "readproperty"
           }
         ]
@@ -394,7 +390,7 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/OpcUaCore/OpcUaCore_BaseEventType/property/ReceiveTime/read",
+            "dov:topic": "opcua/OpcUaCore/OpcUaCore_BaseEventType/property/ReceiveTime/read",
             "op": "readproperty"
           }
         ]
@@ -407,7 +403,7 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/OpcUaCore/OpcUaCore_BaseEventType/property/Severity/read",
+            "dov:topic": "opcua/OpcUaCore/OpcUaCore_BaseEventType/property/Severity/read",
             "op": "readproperty"
           }
         ]
@@ -418,7 +414,7 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/OpcUaCore/OpcUaCore_BaseEventType/property/SourceName/read",
+            "dov:topic": "opcua/OpcUaCore/OpcUaCore_BaseEventType/property/SourceName/read",
             "op": "readproperty"
           }
         ]
@@ -429,7 +425,7 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/OpcUaCore/OpcUaCore_BaseEventType/property/SourceNode/read",
+            "dov:topic": "opcua/OpcUaCore/OpcUaCore_BaseEventType/property/SourceNode/read",
             "op": "readproperty"
           }
         ]
@@ -441,7 +437,7 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/OpcUaCore/OpcUaCore_BaseEventType/property/Time/read",
+            "dov:topic": "opcua/OpcUaCore/OpcUaCore_BaseEventType/property/Time/read",
             "op": "readproperty"
           }
         ]
@@ -454,13 +450,12 @@
     "@context": [
       "https://www.w3.org/2022/wot/td/v1.1",
       {
-        "dtv": "http://azure.com/DigitalTwins/dtmi#",
-        "aov": "http://azure.com/IoT/operations/tm#"
+        "dov": "http://azure.com/DigitalOperations/vocab#"
       }
     ],
     "@type": "tm:ThingModel",
     "title": "OpcUaCore_BaseObjectType",
-    "aov:typeRef": "nsu=http://opcfoundation.org/UA/;i=58",
+    "dov:typeRef": "nsu=http://opcfoundation.org/UA/;i=58",
     "links": [
     ],
     "schemaDefinitions": {

@@ -98,7 +98,7 @@
           ],
 <# } #>
 <# if (this.infoSchemaName != null) { #>
-          "dtv:headerInfo": [
+          "dov:headerInfo": [
             {
               "contentType": "application/json",
               "schema": "<#=this.infoSchemaName#>"
@@ -106,7 +106,7 @@
           ],
 <# } #>
 <# if (this.codeEnumeration.Count > 0) { #>
-          "dtv:headerCode": [
+          "dov:headerCode": [
 <# int ix = 1; foreach (KeyValuePair<string, string> kvp in this.codeEnumeration) { #>
             "<#=kvp.Key#>"<#=ix < this.codeEnumeration.Count ? "," : ""#>
 <# ix++; } #>
@@ -114,9 +114,9 @@
 <# } #>
 <# } #>
 <# if (this.serviceGroupId != null) { #>
-          "dtv:serviceGroupId": "<#=this.serviceGroupId#>",
+          "dov:serviceGroupId": "<#=this.serviceGroupId#>",
 <# } #>
-          "dtv:topic": "<#=this.commandTopic ?? ""#>",
+          "dov:topic": "<#=this.commandTopic ?? ""#>",
           "op": "invokeaction"
         }
       ]

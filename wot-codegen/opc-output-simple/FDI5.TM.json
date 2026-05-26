@@ -3,13 +3,12 @@
     "@context": [
       "https://www.w3.org/2022/wot/td/v1.1",
       {
-        "dtv": "http://azure.com/DigitalTwins/dtmi#",
-        "aov": "http://azure.com/IoT/operations/tm#"
+        "dov": "http://azure.com/DigitalOperations/vocab#"
       }
     ],
     "@type": "tm:ThingModel",
     "title": "FDI5_ActionType",
-    "aov:typeRef": "nsu=http://fdi-cooperation.com/OPCUA/FDI5/;i=11",
+    "dov:typeRef": "nsu=http://fdi-cooperation.com/OPCUA/FDI5/;i=11",
     "links": [
       {
         "rel": "tm:extends",
@@ -30,13 +29,12 @@
     "@context": [
       "https://www.w3.org/2022/wot/td/v1.1",
       {
-        "dtv": "http://azure.com/DigitalTwins/dtmi#",
-        "aov": "http://azure.com/IoT/operations/tm#"
+        "dov": "http://azure.com/DigitalOperations/vocab#"
       }
     ],
     "@type": "tm:ThingModel",
     "title": "FDI5_ActionServiceType",
-    "aov:typeRef": "nsu=http://fdi-cooperation.com/OPCUA/FDI5/;i=21",
+    "dov:typeRef": "nsu=http://fdi-cooperation.com/OPCUA/FDI5/;i=21",
     "links": [
       {
         "rel": "tm:extends",
@@ -44,8 +42,8 @@
         "type": "application/tm+json"
       },
       {
-        "rel": "aov:component",
-        "aov:refName": "ActionIdentifier_PH",
+        "rel": "dov:component",
+        "dov:refName": "ActionIdentifier_PH",
         "href": "#title=FDI5_ActionType",
         "type": "application/tm+json"
       }
@@ -54,10 +52,10 @@
     },
     "actions": {
       "AbortAction": {
-        "aov:namespace": "http://fdi-cooperation.com/OPCUA/FDI5/",
+        "dov:namespace": "http://fdi-cooperation.com/OPCUA/FDI5/",
         "input": {
           "type": "object",
-          "aov:typeRef": "nsu=http://fdi-cooperation.com/OPCUA/FDI5/;i=29",
+          "dov:typeRef": "nsu=http://fdi-cooperation.com/OPCUA/FDI5/;i=29",
           "required": [ "ActionNodeId" ],
           "properties": {
             "ActionNodeId": {
@@ -67,7 +65,7 @@
         },
         "output": {
           "type": "object",
-          "aov:typeRef": "nsu=http://fdi-cooperation.com/OPCUA/FDI5/;i=30",
+          "dov:typeRef": "nsu=http://fdi-cooperation.com/OPCUA/FDI5/;i=30",
           "required": [ "AbortActionError" ],
           "properties": {
             "AbortActionError": {
@@ -80,16 +78,16 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/FDI5/FDI5_ActionServiceType/action/AbortAction",
+            "dov:topic": "opcua/FDI5/FDI5_ActionServiceType/action/AbortAction",
             "op": "invokeaction"
           }
         ]
       },
       "InvokeAction": {
-        "aov:namespace": "http://fdi-cooperation.com/OPCUA/FDI5/",
+        "dov:namespace": "http://fdi-cooperation.com/OPCUA/FDI5/",
         "input": {
           "type": "object",
-          "aov:typeRef": "nsu=http://fdi-cooperation.com/OPCUA/FDI5/;i=23",
+          "dov:typeRef": "nsu=http://fdi-cooperation.com/OPCUA/FDI5/;i=23",
           "required": [ "ActionName", "MethodArguments" ],
           "properties": {
             "ActionName": {
@@ -102,7 +100,7 @@
         },
         "output": {
           "type": "object",
-          "aov:typeRef": "nsu=http://fdi-cooperation.com/OPCUA/FDI5/;i=24",
+          "dov:typeRef": "nsu=http://fdi-cooperation.com/OPCUA/FDI5/;i=24",
           "required": [ "ActionNodeId", "InvokeActionError" ],
           "properties": {
             "ActionNodeId": {
@@ -118,16 +116,16 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/FDI5/FDI5_ActionServiceType/action/InvokeAction",
+            "dov:topic": "opcua/FDI5/FDI5_ActionServiceType/action/InvokeAction",
             "op": "invokeaction"
           }
         ]
       },
       "RespondAction": {
-        "aov:namespace": "http://fdi-cooperation.com/OPCUA/FDI5/",
+        "dov:namespace": "http://fdi-cooperation.com/OPCUA/FDI5/",
         "input": {
           "type": "object",
-          "aov:typeRef": "nsu=http://fdi-cooperation.com/OPCUA/FDI5/;i=26",
+          "dov:typeRef": "nsu=http://fdi-cooperation.com/OPCUA/FDI5/;i=26",
           "required": [ "ActionNodeId", "Response" ],
           "properties": {
             "ActionNodeId": {
@@ -140,7 +138,7 @@
         },
         "output": {
           "type": "object",
-          "aov:typeRef": "nsu=http://fdi-cooperation.com/OPCUA/FDI5/;i=27",
+          "dov:typeRef": "nsu=http://fdi-cooperation.com/OPCUA/FDI5/;i=27",
           "required": [ "RespondActionError" ],
           "properties": {
             "RespondActionError": {
@@ -153,7 +151,7 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/FDI5/FDI5_ActionServiceType/action/RespondAction",
+            "dov:topic": "opcua/FDI5/FDI5_ActionServiceType/action/RespondAction",
             "op": "invokeaction"
           }
         ]
@@ -168,14 +166,13 @@
     "@context": [
       "https://www.w3.org/2022/wot/td/v1.1",
       {
-        "dtv": "http://azure.com/DigitalTwins/dtmi#",
-        "aov": "http://azure.com/IoT/operations/tm#"
+        "dov": "http://azure.com/DigitalOperations/vocab#"
       }
     ],
     "@type": "tm:ThingModel",
     "title": "FDI5_EditContextType",
-    "aov:typeRef": "nsu=http://fdi-cooperation.com/OPCUA/FDI5/;i=54",
-    "aov:isComposite": true,
+    "dov:typeRef": "nsu=http://fdi-cooperation.com/OPCUA/FDI5/;i=54",
+    "dov:isComposite": true,
     "links": [
       {
         "rel": "tm:extends",
@@ -186,7 +183,7 @@
     "schemaDefinitions": {
       "WindowModeType": {
         "type": "object",
-        "aov:typeRef": "nsu=http://fdi-cooperation.com/OPCUA/FDI5/;i=194",
+        "dov:typeRef": "nsu=http://fdi-cooperation.com/OPCUA/FDI5/;i=194",
         "const": {
           "ModalWindow": 1,
           "NonModalWindow": 2,
@@ -207,10 +204,10 @@
     },
     "actions": {
       "Apply": {
-        "aov:namespace": "http://fdi-cooperation.com/OPCUA/FDI5/",
+        "dov:namespace": "http://fdi-cooperation.com/OPCUA/FDI5/",
         "input": {
           "type": "object",
-          "aov:typeRef": "nsu=http://fdi-cooperation.com/OPCUA/FDI5/;i=65",
+          "dov:typeRef": "nsu=http://fdi-cooperation.com/OPCUA/FDI5/;i=65",
           "required": [ "EditContextId" ],
           "properties": {
             "EditContextId": {
@@ -220,13 +217,13 @@
         },
         "output": {
           "type": "object",
-          "aov:typeRef": "nsu=http://fdi-cooperation.com/OPCUA/FDI5/;i=66",
+          "dov:typeRef": "nsu=http://fdi-cooperation.com/OPCUA/FDI5/;i=66",
           "required": [ "ApplyStatus" ],
           "properties": {
             "ApplyStatus": {
               "title": "ApplyResult",
               "type": "object",
-              "aov:typeRef": "nsu=http://fdi-cooperation.com/OPCUA/FDI5/;i=44",
+              "dov:typeRef": "nsu=http://fdi-cooperation.com/OPCUA/FDI5/;i=44",
               "required": [ "Status", "TransferIncidents" ],
               "properties": {
                 "Status": {
@@ -239,7 +236,7 @@
                   "items": {
                     "title": "TransferIncident",
                     "type": "object",
-                    "aov:typeRef": "nsu=http://fdi-cooperation.com/OPCUA/FDI5/;i=43",
+                    "dov:typeRef": "nsu=http://fdi-cooperation.com/OPCUA/FDI5/;i=43",
                     "required": [ "ContextNodeId", "StatusCode", "Diagnostics" ],
                     "properties": {
                       "ContextNodeId": {
@@ -261,16 +258,16 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/FDI5/FDI5_EditContextType/action/Apply",
+            "dov:topic": "opcua/FDI5/FDI5_EditContextType/action/Apply",
             "op": "invokeaction"
           }
         ]
       },
       "Discard": {
-        "aov:namespace": "http://fdi-cooperation.com/OPCUA/FDI5/",
+        "dov:namespace": "http://fdi-cooperation.com/OPCUA/FDI5/",
         "input": {
           "type": "object",
-          "aov:typeRef": "nsu=http://fdi-cooperation.com/OPCUA/FDI5/;i=71",
+          "dov:typeRef": "nsu=http://fdi-cooperation.com/OPCUA/FDI5/;i=71",
           "required": [ "EditContextId" ],
           "properties": {
             "EditContextId": {
@@ -280,7 +277,7 @@
         },
         "output": {
           "type": "object",
-          "aov:typeRef": "nsu=http://fdi-cooperation.com/OPCUA/FDI5/;i=72",
+          "dov:typeRef": "nsu=http://fdi-cooperation.com/OPCUA/FDI5/;i=72",
           "required": [ "DiscardStatus" ],
           "properties": {
             "DiscardStatus": {
@@ -293,16 +290,16 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/FDI5/FDI5_EditContextType/action/Discard",
+            "dov:topic": "opcua/FDI5/FDI5_EditContextType/action/Discard",
             "op": "invokeaction"
           }
         ]
       },
       "GetEditContext": {
-        "aov:namespace": "http://fdi-cooperation.com/OPCUA/FDI5/",
+        "dov:namespace": "http://fdi-cooperation.com/OPCUA/FDI5/",
         "input": {
           "type": "object",
-          "aov:typeRef": "nsu=http://fdi-cooperation.com/OPCUA/FDI5/;i=56",
+          "dov:typeRef": "nsu=http://fdi-cooperation.com/OPCUA/FDI5/;i=56",
           "required": [ "ParentId", "TargetWindowMode" ],
           "properties": {
             "ParentId": {
@@ -310,7 +307,7 @@
             },
             "TargetWindowMode": {
               "title": "WindowModeType",
-              "aov:typeRef": "nsu=http://fdi-cooperation.com/OPCUA/FDI5/;i=194",
+              "dov:typeRef": "nsu=http://fdi-cooperation.com/OPCUA/FDI5/;i=194",
               "type": "integer",
               "minimum": -2147483648,
               "maximum": 2147483647
@@ -319,7 +316,7 @@
         },
         "output": {
           "type": "object",
-          "aov:typeRef": "nsu=http://fdi-cooperation.com/OPCUA/FDI5/;i=57",
+          "dov:typeRef": "nsu=http://fdi-cooperation.com/OPCUA/FDI5/;i=57",
           "required": [ "EditContextId", "GetEditContextStatus" ],
           "properties": {
             "EditContextId": {
@@ -335,16 +332,16 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/FDI5/FDI5_EditContextType/action/GetEditContext",
+            "dov:topic": "opcua/FDI5/FDI5_EditContextType/action/GetEditContext",
             "op": "invokeaction"
           }
         ]
       },
       "RegisterNodesById": {
-        "aov:namespace": "http://fdi-cooperation.com/OPCUA/FDI5/",
+        "dov:namespace": "http://fdi-cooperation.com/OPCUA/FDI5/",
         "input": {
           "type": "object",
-          "aov:typeRef": "nsu=http://fdi-cooperation.com/OPCUA/FDI5/;i=59",
+          "dov:typeRef": "nsu=http://fdi-cooperation.com/OPCUA/FDI5/;i=59",
           "required": [ "EditContextId", "NodesToRegister" ],
           "properties": {
             "EditContextId": {
@@ -355,13 +352,13 @@
               "items": {
                 "title": "RegistrationParameters",
                 "type": "object",
-                "aov:typeRef": "nsu=http://fdi-cooperation.com/OPCUA/FDI5/;i=37",
+                "dov:typeRef": "nsu=http://fdi-cooperation.com/OPCUA/FDI5/;i=37",
                 "required": [ "Path", "SelectionFlags" ],
                 "properties": {
                   "Path": {
                     "title": "RelativePath",
                     "type": "object",
-                    "aov:typeRef": "nsu=http://opcfoundation.org/UA/;i=540",
+                    "dov:typeRef": "nsu=http://opcfoundation.org/UA/;i=540",
                     "required": [ "Elements" ],
                     "properties": {
                       "Elements": {
@@ -369,7 +366,7 @@
                         "items": {
                           "title": "RelativePathElement",
                           "type": "object",
-                          "aov:typeRef": "nsu=http://opcfoundation.org/UA/;i=537",
+                          "dov:typeRef": "nsu=http://opcfoundation.org/UA/;i=537",
                           "required": [ "ReferenceTypeId", "IsInverse", "IncludeSubtypes", "TargetName" ],
                           "properties": {
                             "ReferenceTypeId": {
@@ -401,13 +398,13 @@
         },
         "output": {
           "type": "object",
-          "aov:typeRef": "nsu=http://fdi-cooperation.com/OPCUA/FDI5/;i=60",
+          "dov:typeRef": "nsu=http://fdi-cooperation.com/OPCUA/FDI5/;i=60",
           "required": [ "RegisterNodesStatus" ],
           "properties": {
             "RegisterNodesStatus": {
               "title": "RegisterNodesResult",
               "type": "object",
-              "aov:typeRef": "nsu=http://fdi-cooperation.com/OPCUA/FDI5/;i=39",
+              "dov:typeRef": "nsu=http://fdi-cooperation.com/OPCUA/FDI5/;i=39",
               "required": [ "Status", "RegisteredNodes" ],
               "properties": {
                 "Status": {
@@ -420,7 +417,7 @@
                   "items": {
                     "title": "RegisteredNode",
                     "type": "object",
-                    "aov:typeRef": "nsu=http://fdi-cooperation.com/OPCUA/FDI5/;i=38",
+                    "dov:typeRef": "nsu=http://fdi-cooperation.com/OPCUA/FDI5/;i=38",
                     "required": [ "NodeStatus", "OnlineContextNodeId", "OnlineDeviceNodeId", "OfflineContextNodeId", "OfflineDeviceNodeId" ],
                     "properties": {
                       "NodeStatus": {
@@ -450,16 +447,16 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/FDI5/FDI5_EditContextType/action/RegisterNodesById",
+            "dov:topic": "opcua/FDI5/FDI5_EditContextType/action/RegisterNodesById",
             "op": "invokeaction"
           }
         ]
       },
       "RegisterNodesByRelativePath": {
-        "aov:namespace": "http://fdi-cooperation.com/OPCUA/FDI5/",
+        "dov:namespace": "http://fdi-cooperation.com/OPCUA/FDI5/",
         "input": {
           "type": "object",
-          "aov:typeRef": "nsu=http://fdi-cooperation.com/OPCUA/FDI5/;i=62",
+          "dov:typeRef": "nsu=http://fdi-cooperation.com/OPCUA/FDI5/;i=62",
           "required": [ "EditContextId", "NodesToRegister" ],
           "properties": {
             "EditContextId": {
@@ -470,13 +467,13 @@
               "items": {
                 "title": "RegistrationParameters",
                 "type": "object",
-                "aov:typeRef": "nsu=http://fdi-cooperation.com/OPCUA/FDI5/;i=37",
+                "dov:typeRef": "nsu=http://fdi-cooperation.com/OPCUA/FDI5/;i=37",
                 "required": [ "Path", "SelectionFlags" ],
                 "properties": {
                   "Path": {
                     "title": "RelativePath",
                     "type": "object",
-                    "aov:typeRef": "nsu=http://opcfoundation.org/UA/;i=540",
+                    "dov:typeRef": "nsu=http://opcfoundation.org/UA/;i=540",
                     "required": [ "Elements" ],
                     "properties": {
                       "Elements": {
@@ -484,7 +481,7 @@
                         "items": {
                           "title": "RelativePathElement",
                           "type": "object",
-                          "aov:typeRef": "nsu=http://opcfoundation.org/UA/;i=537",
+                          "dov:typeRef": "nsu=http://opcfoundation.org/UA/;i=537",
                           "required": [ "ReferenceTypeId", "IsInverse", "IncludeSubtypes", "TargetName" ],
                           "properties": {
                             "ReferenceTypeId": {
@@ -516,13 +513,13 @@
         },
         "output": {
           "type": "object",
-          "aov:typeRef": "nsu=http://fdi-cooperation.com/OPCUA/FDI5/;i=63",
+          "dov:typeRef": "nsu=http://fdi-cooperation.com/OPCUA/FDI5/;i=63",
           "required": [ "RegisterNodesStatus" ],
           "properties": {
             "RegisterNodesStatus": {
               "title": "RegisterNodesResult",
               "type": "object",
-              "aov:typeRef": "nsu=http://fdi-cooperation.com/OPCUA/FDI5/;i=39",
+              "dov:typeRef": "nsu=http://fdi-cooperation.com/OPCUA/FDI5/;i=39",
               "required": [ "Status", "RegisteredNodes" ],
               "properties": {
                 "Status": {
@@ -535,7 +532,7 @@
                   "items": {
                     "title": "RegisteredNode",
                     "type": "object",
-                    "aov:typeRef": "nsu=http://fdi-cooperation.com/OPCUA/FDI5/;i=38",
+                    "dov:typeRef": "nsu=http://fdi-cooperation.com/OPCUA/FDI5/;i=38",
                     "required": [ "NodeStatus", "OnlineContextNodeId", "OnlineDeviceNodeId", "OfflineContextNodeId", "OfflineDeviceNodeId" ],
                     "properties": {
                       "NodeStatus": {
@@ -565,16 +562,16 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/FDI5/FDI5_EditContextType/action/RegisterNodesByRelativePath",
+            "dov:topic": "opcua/FDI5/FDI5_EditContextType/action/RegisterNodesByRelativePath",
             "op": "invokeaction"
           }
         ]
       },
       "Reset": {
-        "aov:namespace": "http://fdi-cooperation.com/OPCUA/FDI5/",
+        "dov:namespace": "http://fdi-cooperation.com/OPCUA/FDI5/",
         "input": {
           "type": "object",
-          "aov:typeRef": "nsu=http://fdi-cooperation.com/OPCUA/FDI5/;i=68",
+          "dov:typeRef": "nsu=http://fdi-cooperation.com/OPCUA/FDI5/;i=68",
           "required": [ "EditContextId" ],
           "properties": {
             "EditContextId": {
@@ -584,7 +581,7 @@
         },
         "output": {
           "type": "object",
-          "aov:typeRef": "nsu=http://fdi-cooperation.com/OPCUA/FDI5/;i=69",
+          "dov:typeRef": "nsu=http://fdi-cooperation.com/OPCUA/FDI5/;i=69",
           "required": [ "ResetStatus" ],
           "properties": {
             "ResetStatus": {
@@ -597,7 +594,7 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/FDI5/FDI5_EditContextType/action/Reset",
+            "dov:topic": "opcua/FDI5/FDI5_EditContextType/action/Reset",
             "op": "invokeaction"
           }
         ]
@@ -612,14 +609,13 @@
     "@context": [
       "https://www.w3.org/2022/wot/td/v1.1",
       {
-        "dtv": "http://azure.com/DigitalTwins/dtmi#",
-        "aov": "http://azure.com/IoT/operations/tm#"
+        "dov": "http://azure.com/DigitalOperations/vocab#"
       }
     ],
     "@type": "tm:ThingModel",
     "title": "FDI5_DirectDeviceAccessType",
-    "aov:typeRef": "nsu=http://fdi-cooperation.com/OPCUA/FDI5/;i=82",
-    "aov:isComposite": true,
+    "dov:typeRef": "nsu=http://fdi-cooperation.com/OPCUA/FDI5/;i=82",
+    "dov:isComposite": true,
     "links": [
       {
         "rel": "tm:extends",
@@ -631,10 +627,10 @@
     },
     "actions": {
       "EndDirectAccess": {
-        "aov:namespace": "http://fdi-cooperation.com/OPCUA/FDI5/",
+        "dov:namespace": "http://fdi-cooperation.com/OPCUA/FDI5/",
         "input": {
           "type": "object",
-          "aov:typeRef": "nsu=http://fdi-cooperation.com/OPCUA/FDI5/;i=90",
+          "dov:typeRef": "nsu=http://fdi-cooperation.com/OPCUA/FDI5/;i=90",
           "required": [ "InvalidateCache" ],
           "properties": {
             "InvalidateCache": {
@@ -644,7 +640,7 @@
         },
         "output": {
           "type": "object",
-          "aov:typeRef": "nsu=http://fdi-cooperation.com/OPCUA/FDI5/;i=91",
+          "dov:typeRef": "nsu=http://fdi-cooperation.com/OPCUA/FDI5/;i=91",
           "required": [ "EndDirectAccessError" ],
           "properties": {
             "EndDirectAccessError": {
@@ -657,16 +653,16 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/FDI5/FDI5_DirectDeviceAccessType/action/EndDirectAccess",
+            "dov:topic": "opcua/FDI5/FDI5_DirectDeviceAccessType/action/EndDirectAccess",
             "op": "invokeaction"
           }
         ]
       },
       "InitDirectAccess": {
-        "aov:namespace": "http://fdi-cooperation.com/OPCUA/FDI5/",
+        "dov:namespace": "http://fdi-cooperation.com/OPCUA/FDI5/",
         "input": {
           "type": "object",
-          "aov:typeRef": "nsu=http://fdi-cooperation.com/OPCUA/FDI5/;i=84",
+          "dov:typeRef": "nsu=http://fdi-cooperation.com/OPCUA/FDI5/;i=84",
           "required": [ "Context" ],
           "properties": {
             "Context": {
@@ -676,7 +672,7 @@
         },
         "output": {
           "type": "object",
-          "aov:typeRef": "nsu=http://fdi-cooperation.com/OPCUA/FDI5/;i=85",
+          "dov:typeRef": "nsu=http://fdi-cooperation.com/OPCUA/FDI5/;i=85",
           "required": [ "InitDirectAccessError" ],
           "properties": {
             "InitDirectAccessError": {
@@ -689,16 +685,16 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/FDI5/FDI5_DirectDeviceAccessType/action/InitDirectAccess",
+            "dov:topic": "opcua/FDI5/FDI5_DirectDeviceAccessType/action/InitDirectAccess",
             "op": "invokeaction"
           }
         ]
       },
       "Transfer": {
-        "aov:namespace": "http://fdi-cooperation.com/OPCUA/FDI5/",
+        "dov:namespace": "http://fdi-cooperation.com/OPCUA/FDI5/",
         "input": {
           "type": "object",
-          "aov:typeRef": "nsu=http://fdi-cooperation.com/OPCUA/FDI5/;i=87",
+          "dov:typeRef": "nsu=http://fdi-cooperation.com/OPCUA/FDI5/;i=87",
           "required": [ "SendData", "ReceiveData" ],
           "properties": {
             "SendData": {
@@ -711,7 +707,7 @@
         },
         "output": {
           "type": "object",
-          "aov:typeRef": "nsu=http://fdi-cooperation.com/OPCUA/FDI5/;i=88",
+          "dov:typeRef": "nsu=http://fdi-cooperation.com/OPCUA/FDI5/;i=88",
           "required": [ "TransferError" ],
           "properties": {
             "TransferError": {
@@ -724,7 +720,7 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/FDI5/FDI5_DirectDeviceAccessType/action/Transfer",
+            "dov:topic": "opcua/FDI5/FDI5_DirectDeviceAccessType/action/Transfer",
             "op": "invokeaction"
           }
         ]

@@ -3,14 +3,13 @@
     "@context": [
       "https://www.w3.org/2022/wot/td/v1.1",
       {
-        "dtv": "http://azure.com/DigitalTwins/dtmi#",
-        "aov": "http://azure.com/IoT/operations/tm#"
+        "dov": "http://azure.com/DigitalOperations/vocab#"
       }
     ],
     "@type": "tm:ThingModel",
     "title": "Machinery_ProcessValues_ZeroPointAdjustmentEventType",
-    "aov:typeRef": "nsu=http://opcfoundation.org/UA/Machinery/ProcessValues/;i=1002",
-    "aov:isEvent": true,
+    "dov:typeRef": "nsu=http://opcfoundation.org/UA/Machinery/ProcessValues/;i=1002",
+    "dov:isEvent": true,
     "links": [
       {
         "rel": "tm:extends",
@@ -23,12 +22,12 @@
     "forms": [
       {
         "contentType": "application/json",
-        "dtv:topic": "opcua/Machinery.ProcessValues/Machinery_ProcessValues_ZeroPointAdjustmentEventType/properties/write",
+        "dov:topic": "opcua/Machinery.ProcessValues/Machinery_ProcessValues_ZeroPointAdjustmentEventType/properties/write",
         "op": "writemultipleproperties"
       },
       {
         "contentType": "application/json",
-        "dtv:topic": "opcua/Machinery.ProcessValues/Machinery_ProcessValues_ZeroPointAdjustmentEventType/properties/read",
+        "dov:topic": "opcua/Machinery.ProcessValues/Machinery_ProcessValues_ZeroPointAdjustmentEventType/properties/read",
         "op": "readallproperties"
       }
     ],
@@ -36,18 +35,18 @@
     },
     "properties": {
       "ZeroPointAdjustmentResult": {
-        "aov:namespace": "http://opcfoundation.org/UA/Machinery/ProcessValues/",
+        "dov:namespace": "http://opcfoundation.org/UA/Machinery/ProcessValues/",
         "type": "string",
         "readOnly": false,
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/Machinery.ProcessValues/Machinery_ProcessValues_ZeroPointAdjustmentEventType/property/ZeroPointAdjustmentResult/write",
+            "dov:topic": "opcua/Machinery.ProcessValues/Machinery_ProcessValues_ZeroPointAdjustmentEventType/property/ZeroPointAdjustmentResult/write",
             "op": "writeproperty"
           },
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/Machinery.ProcessValues/Machinery_ProcessValues_ZeroPointAdjustmentEventType/property/ZeroPointAdjustmentResult/read",
+            "dov:topic": "opcua/Machinery.ProcessValues/Machinery_ProcessValues_ZeroPointAdjustmentEventType/property/ZeroPointAdjustmentResult/read",
             "op": "readproperty"
           }
         ]
@@ -61,14 +60,13 @@
       "https://www.w3.org/2022/wot/td/v1.1",
       {
         "qudt": "http://qudt.org/schema/qudt/",
-        "dtv": "http://azure.com/DigitalTwins/dtmi#",
-        "aov": "http://azure.com/IoT/operations/tm#"
+        "dov": "http://azure.com/DigitalOperations/vocab#"
       }
     ],
     "@type": "tm:ThingModel",
     "title": "Machinery_ProcessValues_ProcessValueType",
-    "aov:typeRef": "nsu=http://opcfoundation.org/UA/Machinery/ProcessValues/;i=1003",
-    "aov:isComposite": true,
+    "dov:typeRef": "nsu=http://opcfoundation.org/UA/Machinery/ProcessValues/;i=1003",
+    "dov:isComposite": true,
     "links": [
       {
         "rel": "tm:extends",
@@ -76,14 +74,14 @@
         "type": "application/tm+json"
       },
       {
-        "rel": "aov:reference",
-        "aov:refName": "DeviationAlarm",
+        "rel": "dov:reference",
+        "dov:refName": "DeviationAlarm",
         "href": "./OpcUaCore.TM.json#title=OpcUaCore_ExclusiveDeviationAlarmType",
         "type": "application/tm+json"
       },
       {
-        "rel": "aov:reference",
-        "aov:refName": "LimitAlarm",
+        "rel": "dov:reference",
+        "dov:refName": "LimitAlarm",
         "href": "./OpcUaCore.TM.json#title=OpcUaCore_ExclusiveLimitAlarmType",
         "type": "application/tm+json"
       }
@@ -93,27 +91,27 @@
     "forms": [
       {
         "contentType": "application/json",
-        "dtv:topic": "opcua/Machinery.ProcessValues/Machinery_ProcessValues_ProcessValueType/events/{senderId}",
+        "dov:topic": "opcua/Machinery.ProcessValues/Machinery_ProcessValues_ProcessValueType/events/{senderId}",
         "op": "subscribeallevents"
       },
       {
         "contentType": "application/json",
-        "dtv:topic": "opcua/Machinery.ProcessValues/Machinery_ProcessValues_ProcessValueType/properties/write",
+        "dov:topic": "opcua/Machinery.ProcessValues/Machinery_ProcessValues_ProcessValueType/properties/write",
         "op": "writemultipleproperties"
       },
       {
         "contentType": "application/json",
-        "dtv:topic": "opcua/Machinery.ProcessValues/Machinery_ProcessValues_ProcessValueType/properties/read",
+        "dov:topic": "opcua/Machinery.ProcessValues/Machinery_ProcessValues_ProcessValueType/properties/read",
         "op": "readallproperties"
       }
     ],
     "actions": {
       "ZeroPointAdjustment": {
-        "aov:namespace": "http://opcfoundation.org/UA/PADIM/",
+        "dov:namespace": "http://opcfoundation.org/UA/PADIM/",
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/Machinery.ProcessValues/Machinery_ProcessValues_ProcessValueType/action/ZeroPointAdjustment",
+            "dov:topic": "opcua/Machinery.ProcessValues/Machinery_ProcessValues_ProcessValueType/action/ZeroPointAdjustment",
             "op": "invokeaction"
           }
         ]
@@ -121,7 +119,7 @@
     },
     "properties": {
       "AlarmSuppression": {
-        "aov:namespace": "http://opcfoundation.org/UA/Machinery/ProcessValues/",
+        "dov:namespace": "http://opcfoundation.org/UA/Machinery/ProcessValues/",
         "description": "Indicates if alarms based on the Status shall be suppressed.",
         "type": "integer",
         "minimum": 0,
@@ -130,154 +128,154 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/Machinery.ProcessValues/Machinery_ProcessValues_ProcessValueType/property/AlarmSuppression/write",
+            "dov:topic": "opcua/Machinery.ProcessValues/Machinery_ProcessValues_ProcessValueType/property/AlarmSuppression/write",
             "op": "writeproperty"
           },
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/Machinery.ProcessValues/Machinery_ProcessValues_ProcessValueType/property/AlarmSuppression/read",
+            "dov:topic": "opcua/Machinery.ProcessValues/Machinery_ProcessValues_ProcessValueType/property/AlarmSuppression/read",
             "op": "readproperty"
           }
         ]
       },
       "AnalogSignal": {
-        "aov:namespace": "http://opcfoundation.org/UA/PADIM/",
+        "dov:namespace": "http://opcfoundation.org/UA/PADIM/",
         "description": "The process value.",
         "type": "number",
         "readOnly": false,
-        "aov:contains": [ "AnalogSignal_HighHighLimit", "AnalogSignal_HighLimit", "AnalogSignal_LowLimit", "AnalogSignal_LowLowLimit", "AnalogSignal_PercentageValue" ],
+        "dov:contains": [ "AnalogSignal_HighHighLimit", "AnalogSignal_HighLimit", "AnalogSignal_LowLimit", "AnalogSignal_LowLowLimit", "AnalogSignal_PercentageValue" ],
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/Machinery.ProcessValues/Machinery_ProcessValues_ProcessValueType/property/AnalogSignal/write",
+            "dov:topic": "opcua/Machinery.ProcessValues/Machinery_ProcessValues_ProcessValueType/property/AnalogSignal/write",
             "op": "writeproperty"
           },
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/Machinery.ProcessValues/Machinery_ProcessValues_ProcessValueType/property/AnalogSignal/read",
+            "dov:topic": "opcua/Machinery.ProcessValues/Machinery_ProcessValues_ProcessValueType/property/AnalogSignal/read",
             "op": "readproperty"
           }
         ]
       },
       "AnalogSignal_HighHighLimit": {
-        "aov:namespace": "http://opcfoundation.org/UA/Machinery/ProcessValues/",
+        "dov:namespace": "http://opcfoundation.org/UA/Machinery/ProcessValues/",
         "description": "Defines the absolute high high limit",
         "type": "number",
         "readOnly": false,
-        "aov:containedIn": "AnalogSignal",
+        "dov:containedIn": "AnalogSignal",
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/Machinery.ProcessValues/Machinery_ProcessValues_ProcessValueType/property/AnalogSignal_HighHighLimit/write",
+            "dov:topic": "opcua/Machinery.ProcessValues/Machinery_ProcessValues_ProcessValueType/property/AnalogSignal_HighHighLimit/write",
             "op": "writeproperty"
           },
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/Machinery.ProcessValues/Machinery_ProcessValues_ProcessValueType/property/AnalogSignal_HighHighLimit/read",
+            "dov:topic": "opcua/Machinery.ProcessValues/Machinery_ProcessValues_ProcessValueType/property/AnalogSignal_HighHighLimit/read",
             "op": "readproperty"
           }
         ]
       },
       "AnalogSignal_HighLimit": {
-        "aov:namespace": "http://opcfoundation.org/UA/Machinery/ProcessValues/",
+        "dov:namespace": "http://opcfoundation.org/UA/Machinery/ProcessValues/",
         "description": "Defines the absolute high limit",
         "type": "number",
         "readOnly": false,
-        "aov:containedIn": "AnalogSignal",
+        "dov:containedIn": "AnalogSignal",
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/Machinery.ProcessValues/Machinery_ProcessValues_ProcessValueType/property/AnalogSignal_HighLimit/write",
+            "dov:topic": "opcua/Machinery.ProcessValues/Machinery_ProcessValues_ProcessValueType/property/AnalogSignal_HighLimit/write",
             "op": "writeproperty"
           },
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/Machinery.ProcessValues/Machinery_ProcessValues_ProcessValueType/property/AnalogSignal_HighLimit/read",
+            "dov:topic": "opcua/Machinery.ProcessValues/Machinery_ProcessValues_ProcessValueType/property/AnalogSignal_HighLimit/read",
             "op": "readproperty"
           }
         ]
       },
       "AnalogSignal_LowLimit": {
-        "aov:namespace": "http://opcfoundation.org/UA/Machinery/ProcessValues/",
+        "dov:namespace": "http://opcfoundation.org/UA/Machinery/ProcessValues/",
         "description": "Defines the absolute low limit",
         "type": "number",
         "readOnly": false,
-        "aov:containedIn": "AnalogSignal",
+        "dov:containedIn": "AnalogSignal",
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/Machinery.ProcessValues/Machinery_ProcessValues_ProcessValueType/property/AnalogSignal_LowLimit/write",
+            "dov:topic": "opcua/Machinery.ProcessValues/Machinery_ProcessValues_ProcessValueType/property/AnalogSignal_LowLimit/write",
             "op": "writeproperty"
           },
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/Machinery.ProcessValues/Machinery_ProcessValues_ProcessValueType/property/AnalogSignal_LowLimit/read",
+            "dov:topic": "opcua/Machinery.ProcessValues/Machinery_ProcessValues_ProcessValueType/property/AnalogSignal_LowLimit/read",
             "op": "readproperty"
           }
         ]
       },
       "AnalogSignal_LowLowLimit": {
-        "aov:namespace": "http://opcfoundation.org/UA/Machinery/ProcessValues/",
+        "dov:namespace": "http://opcfoundation.org/UA/Machinery/ProcessValues/",
         "description": "Defines the absolute low low limit",
         "type": "number",
         "readOnly": false,
-        "aov:containedIn": "AnalogSignal",
+        "dov:containedIn": "AnalogSignal",
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/Machinery.ProcessValues/Machinery_ProcessValues_ProcessValueType/property/AnalogSignal_LowLowLimit/write",
+            "dov:topic": "opcua/Machinery.ProcessValues/Machinery_ProcessValues_ProcessValueType/property/AnalogSignal_LowLowLimit/write",
             "op": "writeproperty"
           },
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/Machinery.ProcessValues/Machinery_ProcessValues_ProcessValueType/property/AnalogSignal_LowLowLimit/read",
+            "dov:topic": "opcua/Machinery.ProcessValues/Machinery_ProcessValues_ProcessValueType/property/AnalogSignal_LowLowLimit/read",
             "op": "readproperty"
           }
         ]
       },
       "AnalogSignal_PercentageValue": {
-        "aov:namespace": "http://opcfoundation.org/UA/Machinery/ProcessValues/",
+        "dov:namespace": "http://opcfoundation.org/UA/Machinery/ProcessValues/",
         "description": "Provides the process value in percentage.",
         "type": "number",
         "minimum": -1.80e+308,
         "maximum": 1.80e+308,
         "readOnly": false,
-        "aov:containedIn": "AnalogSignal",
+        "dov:containedIn": "AnalogSignal",
         "qudt:hasQuantityKind": "http://qudt.org/vocab/quantitykind/DimensionlessRatio",
-        "aov:withUnit": "properties/AnalogSignal_PercentageValue_EngineeringUnits",
+        "dov:withUnit": "properties/AnalogSignal_PercentageValue_EngineeringUnits",
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/Machinery.ProcessValues/Machinery_ProcessValues_ProcessValueType/property/AnalogSignal_PercentageValue/write",
+            "dov:topic": "opcua/Machinery.ProcessValues/Machinery_ProcessValues_ProcessValueType/property/AnalogSignal_PercentageValue/write",
             "op": "writeproperty"
           },
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/Machinery.ProcessValues/Machinery_ProcessValues_ProcessValueType/property/AnalogSignal_PercentageValue/read",
+            "dov:topic": "opcua/Machinery.ProcessValues/Machinery_ProcessValues_ProcessValueType/property/AnalogSignal_PercentageValue/read",
             "op": "readproperty"
           }
         ]
       },
       "ProcessValueSetpoint": {
-        "aov:namespace": "http://opcfoundation.org/UA/Machinery/ProcessValues/",
+        "dov:namespace": "http://opcfoundation.org/UA/Machinery/ProcessValues/",
         "description": "The desired value, may or may not be controlled by the server.",
         "type": "number",
         "readOnly": false,
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/Machinery.ProcessValues/Machinery_ProcessValues_ProcessValueType/property/ProcessValueSetpoint/write",
+            "dov:topic": "opcua/Machinery.ProcessValues/Machinery_ProcessValues_ProcessValueType/property/ProcessValueSetpoint/write",
             "op": "writeproperty"
           },
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/Machinery.ProcessValues/Machinery_ProcessValues_ProcessValueType/property/ProcessValueSetpoint/read",
+            "dov:topic": "opcua/Machinery.ProcessValues/Machinery_ProcessValues_ProcessValueType/property/ProcessValueSetpoint/read",
             "op": "readproperty"
           }
         ]
       },
       "Status": {
-        "aov:namespace": "http://opcfoundation.org/UA/Machinery/ProcessValues/",
+        "dov:namespace": "http://opcfoundation.org/UA/Machinery/ProcessValues/",
         "description": "Indicates if a limit has been reached.",
         "type": "integer",
         "minimum": 0,
@@ -286,12 +284,12 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/Machinery.ProcessValues/Machinery_ProcessValues_ProcessValueType/property/Status/write",
+            "dov:topic": "opcua/Machinery.ProcessValues/Machinery_ProcessValues_ProcessValueType/property/Status/write",
             "op": "writeproperty"
           },
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/Machinery.ProcessValues/Machinery_ProcessValues_ProcessValueType/property/Status/read",
+            "dov:topic": "opcua/Machinery.ProcessValues/Machinery_ProcessValues_ProcessValueType/property/Status/read",
             "op": "readproperty"
           }
         ]
@@ -303,7 +301,7 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/Machinery.ProcessValues/Machinery_ProcessValues_ProcessValueType/property/AnalogSignal_PercentageValue_EngineeringUnits/read",
+            "dov:topic": "opcua/Machinery.ProcessValues/Machinery_ProcessValues_ProcessValueType/property/AnalogSignal_PercentageValue_EngineeringUnits/read",
             "op": "readproperty"
           }
         ]
@@ -311,7 +309,7 @@
     },
     "events": {
       "AlarmSuppression": {
-        "aov:namespace": "http://opcfoundation.org/UA/Machinery/ProcessValues/",
+        "dov:namespace": "http://opcfoundation.org/UA/Machinery/ProcessValues/",
         "data": {
           "description": "Indicates if alarms based on the Status shall be suppressed.",
           "type": "integer",
@@ -321,107 +319,107 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/Machinery.ProcessValues/Machinery_ProcessValues_ProcessValueType/event/AlarmSuppression/{senderId}",
+            "dov:topic": "opcua/Machinery.ProcessValues/Machinery_ProcessValues_ProcessValueType/event/AlarmSuppression/{senderId}",
             "op": "subscribeevent"
           }
         ]
       },
       "AnalogSignal": {
-        "aov:namespace": "http://opcfoundation.org/UA/PADIM/",
+        "dov:namespace": "http://opcfoundation.org/UA/PADIM/",
         "data": {
           "description": "The process value.",
           "type": "number"
         },
-        "aov:contains": [ "AnalogSignal_HighHighLimit", "AnalogSignal_HighLimit", "AnalogSignal_LowLimit", "AnalogSignal_LowLowLimit", "AnalogSignal_PercentageValue" ],
+        "dov:contains": [ "AnalogSignal_HighHighLimit", "AnalogSignal_HighLimit", "AnalogSignal_LowLimit", "AnalogSignal_LowLowLimit", "AnalogSignal_PercentageValue" ],
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/Machinery.ProcessValues/Machinery_ProcessValues_ProcessValueType/event/AnalogSignal/{senderId}",
+            "dov:topic": "opcua/Machinery.ProcessValues/Machinery_ProcessValues_ProcessValueType/event/AnalogSignal/{senderId}",
             "op": "subscribeevent"
           }
         ]
       },
       "AnalogSignal_HighHighLimit": {
-        "aov:namespace": "http://opcfoundation.org/UA/Machinery/ProcessValues/",
+        "dov:namespace": "http://opcfoundation.org/UA/Machinery/ProcessValues/",
         "data": {
           "description": "Defines the absolute high high limit",
           "type": "number"
         },
-        "aov:containedIn": "AnalogSignal",
+        "dov:containedIn": "AnalogSignal",
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/Machinery.ProcessValues/Machinery_ProcessValues_ProcessValueType/event/AnalogSignal_HighHighLimit/{senderId}",
+            "dov:topic": "opcua/Machinery.ProcessValues/Machinery_ProcessValues_ProcessValueType/event/AnalogSignal_HighHighLimit/{senderId}",
             "op": "subscribeevent"
           }
         ]
       },
       "AnalogSignal_HighLimit": {
-        "aov:namespace": "http://opcfoundation.org/UA/Machinery/ProcessValues/",
+        "dov:namespace": "http://opcfoundation.org/UA/Machinery/ProcessValues/",
         "data": {
           "description": "Defines the absolute high limit",
           "type": "number"
         },
-        "aov:containedIn": "AnalogSignal",
+        "dov:containedIn": "AnalogSignal",
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/Machinery.ProcessValues/Machinery_ProcessValues_ProcessValueType/event/AnalogSignal_HighLimit/{senderId}",
+            "dov:topic": "opcua/Machinery.ProcessValues/Machinery_ProcessValues_ProcessValueType/event/AnalogSignal_HighLimit/{senderId}",
             "op": "subscribeevent"
           }
         ]
       },
       "AnalogSignal_LowLimit": {
-        "aov:namespace": "http://opcfoundation.org/UA/Machinery/ProcessValues/",
+        "dov:namespace": "http://opcfoundation.org/UA/Machinery/ProcessValues/",
         "data": {
           "description": "Defines the absolute low limit",
           "type": "number"
         },
-        "aov:containedIn": "AnalogSignal",
+        "dov:containedIn": "AnalogSignal",
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/Machinery.ProcessValues/Machinery_ProcessValues_ProcessValueType/event/AnalogSignal_LowLimit/{senderId}",
+            "dov:topic": "opcua/Machinery.ProcessValues/Machinery_ProcessValues_ProcessValueType/event/AnalogSignal_LowLimit/{senderId}",
             "op": "subscribeevent"
           }
         ]
       },
       "AnalogSignal_LowLowLimit": {
-        "aov:namespace": "http://opcfoundation.org/UA/Machinery/ProcessValues/",
+        "dov:namespace": "http://opcfoundation.org/UA/Machinery/ProcessValues/",
         "data": {
           "description": "Defines the absolute low low limit",
           "type": "number"
         },
-        "aov:containedIn": "AnalogSignal",
+        "dov:containedIn": "AnalogSignal",
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/Machinery.ProcessValues/Machinery_ProcessValues_ProcessValueType/event/AnalogSignal_LowLowLimit/{senderId}",
+            "dov:topic": "opcua/Machinery.ProcessValues/Machinery_ProcessValues_ProcessValueType/event/AnalogSignal_LowLowLimit/{senderId}",
             "op": "subscribeevent"
           }
         ]
       },
       "AnalogSignal_PercentageValue": {
-        "aov:namespace": "http://opcfoundation.org/UA/Machinery/ProcessValues/",
+        "dov:namespace": "http://opcfoundation.org/UA/Machinery/ProcessValues/",
         "data": {
           "description": "Provides the process value in percentage.",
           "type": "number",
           "minimum": -1.80e+308,
           "maximum": 1.80e+308
         },
-        "aov:containedIn": "AnalogSignal",
+        "dov:containedIn": "AnalogSignal",
         "qudt:hasQuantityKind": "http://qudt.org/vocab/quantitykind/DimensionlessRatio",
-        "aov:withUnit": "properties/AnalogSignal_PercentageValue_EngineeringUnits",
+        "dov:withUnit": "properties/AnalogSignal_PercentageValue_EngineeringUnits",
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/Machinery.ProcessValues/Machinery_ProcessValues_ProcessValueType/event/AnalogSignal_PercentageValue/{senderId}",
+            "dov:topic": "opcua/Machinery.ProcessValues/Machinery_ProcessValues_ProcessValueType/event/AnalogSignal_PercentageValue/{senderId}",
             "op": "subscribeevent"
           }
         ]
       },
       "ProcessValueSetpoint": {
-        "aov:namespace": "http://opcfoundation.org/UA/Machinery/ProcessValues/",
+        "dov:namespace": "http://opcfoundation.org/UA/Machinery/ProcessValues/",
         "data": {
           "description": "The desired value, may or may not be controlled by the server.",
           "type": "number"
@@ -429,13 +427,13 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/Machinery.ProcessValues/Machinery_ProcessValues_ProcessValueType/event/ProcessValueSetpoint/{senderId}",
+            "dov:topic": "opcua/Machinery.ProcessValues/Machinery_ProcessValues_ProcessValueType/event/ProcessValueSetpoint/{senderId}",
             "op": "subscribeevent"
           }
         ]
       },
       "Status": {
-        "aov:namespace": "http://opcfoundation.org/UA/Machinery/ProcessValues/",
+        "dov:namespace": "http://opcfoundation.org/UA/Machinery/ProcessValues/",
         "data": {
           "description": "Indicates if a limit has been reached.",
           "type": "integer",
@@ -445,7 +443,7 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/Machinery.ProcessValues/Machinery_ProcessValues_ProcessValueType/event/Status/{senderId}",
+            "dov:topic": "opcua/Machinery.ProcessValues/Machinery_ProcessValues_ProcessValueType/event/Status/{senderId}",
             "op": "subscribeevent"
           }
         ]

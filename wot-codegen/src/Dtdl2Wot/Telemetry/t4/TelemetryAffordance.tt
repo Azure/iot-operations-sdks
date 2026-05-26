@@ -22,10 +22,10 @@
         {
           "contentType": "<#=this.contentType#>",
 <# if (this.serviceGroupId != null) { #>
-          "dtv:serviceGroupId": "<#=this.serviceGroupId#>",
+          "dov:serviceGroupId": "<#=this.serviceGroupId#>",
 <# } #>
 <# if (this.separate) { #>
-          "dtv:topic": "<#=this.telemetryTopic#>",
+          "dov:topic": "<#=this.telemetryTopic#>",
 <# } #>
           "op": "subscribeevent"
         }

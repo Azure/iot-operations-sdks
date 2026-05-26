@@ -13,6 +13,13 @@ namespace Azure.Iot.Operations.TDParser.Model
         public const string ContentTypeName = TDCommon.ContentTypeName;
         public const string SchemaName = "schema";
 
+        public static HashSet<string> SupportedProperties { get; } = new HashSet<string>
+        {
+            SuccessName,
+            ContentTypeName,
+            SchemaName
+        };
+
         public ValueTracker<BoolHolder>? Success { get; set; }
 
         public ValueTracker<StringHolder>? ContentType { get; set; }
