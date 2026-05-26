@@ -6,7 +6,6 @@ using System.Text.Json;
 using Azure.Iot.Operations.Connector;
 using ManagementActionConnector.Contracts;
 using ManagementActionConnector.Devices;
-using Microsoft.Extensions.Logging;
 
 namespace ManagementActionConnector.Handlers
 {

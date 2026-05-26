@@ -1,13 +1,11 @@
 ﻿// Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
-using System.Buffers;
 using System.Collections.Concurrent;
 using System.Text;
 using Azure.Iot.Operations.Connector.CloudEvents;
 using Azure.Iot.Operations.Connector.ConnectorConfigurations;
 using Azure.Iot.Operations.Connector.Exceptions;
-using Azure.Iot.Operations.Connector.Files;
 using Azure.Iot.Operations.Protocol;
 using Azure.Iot.Operations.Protocol.Connection;
 using Azure.Iot.Operations.Protocol.Models;

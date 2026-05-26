@@ -5,7 +5,6 @@ using Azure.Iot.Operations.Connector;
 using Azure.Iot.Operations.Connector.Files;
 using Azure.Iot.Operations.Services.AssetAndDeviceRegistry.Models;
 using ManagementActionConnector.Devices;
-using Microsoft.Extensions.Logging;
 
 namespace ManagementActionConnector.Handlers
 {

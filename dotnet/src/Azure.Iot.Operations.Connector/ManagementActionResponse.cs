@@ -4,7 +4,6 @@
 using System.Buffers;
 using Azure.Iot.Operations.Protocol;
 using Azure.Iot.Operations.Protocol.Models;
-using Azure.Iot.Operations.Protocol.Telemetry;
 
 namespace Azure.Iot.Operations.Connector
 {
