@@ -4,7 +4,7 @@
     "description": "Request payload for creating a Thing Description version.",
     "type": "object",
     "additionalProperties": false,
-    "required": ["labels", "thingDescriptionDocument"],
+    "required": ["labels", "thingDescriptionDocument", "thingDescriptionLabels"],
     "properties": {
         "groupId": {
             "type": "string"
