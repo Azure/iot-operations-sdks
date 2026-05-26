@@ -11,11 +11,12 @@ namespace Azure.Iot.Operations.Opc2Wot
     {
         static void Main(string[] args)
         {
-            var nodeSetsOption = new Option<DirectoryInfo>("--nodeSets")
+            var nodeSetsOption = new Option<string[]>("--nodeSets")
             {
-                Description = "Path to a folder containing OPC UA Nodeset2 files to process",
-                HelpName = "DIRPATH ...",
+                Description = "One or more glob patterns used to locate OPC UA Nodeset files to process",
+                HelpName = "GLOB ...",
                 Required = true,
+                AllowMultipleArgumentsPerToken = true,
             };
 
             var outDirOption = new Option<DirectoryInfo>("--outDir")
@@ -45,7 +46,7 @@ namespace Azure.Iot.Operations.Opc2Wot
             {
                 Environment.ExitCode = CommandHandler.ConvertSpecs(new OptionContainer
                 {
-                    NodeSetsDir = parseResult.GetValue(nodeSetsOption)!,
+                    NodeSetsSpec = parseResult.GetValue(nodeSetsOption)!,
                     OutputDir = parseResult.GetValue(outDirOption)!,
                     Integrate = parseResult.GetValue(integrateOption),
                     InheritVars = parseResult.GetValue(inheritVarsOption),

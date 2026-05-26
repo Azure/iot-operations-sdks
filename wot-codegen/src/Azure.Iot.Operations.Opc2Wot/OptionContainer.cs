@@ -10,8 +10,8 @@ namespace Azure.Iot.Operations.Opc2Wot
     /// </summary>
     public class OptionContainer
     {
-        /// <summary>Gets or sets the path to a folder containing OPC UA Nodeset2 files to process.</summary>
-        public required DirectoryInfo NodeSetsDir { get; set; }
+        /// <summary>Gets or sets one or more glob patterns used to locate OPC UA Nodeset files to process.</summary>
+        public required string[] NodeSetsSpec { get; set; }
 
         /// <summary>Gets or sets the path to a folder for placing files that will each contain a collection of WoT Thing Models.</summary>
         public required DirectoryInfo OutputDir { get; set; }

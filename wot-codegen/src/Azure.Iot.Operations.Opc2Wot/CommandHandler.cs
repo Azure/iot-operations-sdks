@@ -7,6 +7,8 @@ namespace Azure.Iot.Operations.Opc2Wot
     using Azure.Iot.Operations.Opc2WotLib;
     using Azure.Iot.Operations.TDParser;
     using Azure.Iot.Operations.TDParser.Model;
+    using Microsoft.Extensions.FileSystemGlobbing;
+    using Microsoft.Extensions.FileSystemGlobbing.Abstractions;
     using System;
     using System.Collections.Generic;
     using System.IO;
@@ -50,22 +52,30 @@ namespace Azure.Iot.Operations.Opc2Wot
         {
             ErrorLog errorLog = new(string.Empty);
 
-            if (!options.NodeSetsDir.Exists)
+            DirectoryInfo rootDirInfo = new DirectoryInfo(Directory.GetCurrentDirectory());
+
+            Matcher matcher = new Matcher();
+            foreach (string pattern in options.NodeSetsSpec)
             {
-                AddUnlocatableError(ErrorCondition.ItemNotFound, $"Specified NodeSets directory '{options.NodeSetsDir.FullName}' does not exist.", errorLog);
+                matcher.AddInclude(pattern);
+            }
+
+            PatternMatchingResult matchResult = matcher.Execute(new DirectoryInfoWrapper(rootDirInfo));
+
+            if (!matchResult.HasMatches)
+            {
+                AddUnlocatableError(ErrorCondition.ItemNotFound, $"No files match the given glob pattern(s): {string.Join(", ", options.NodeSetsSpec)}", errorLog);
                 return errorLog;
             }
 
             OpcUaGraph opcUaGraph = new OpcUaGraph();
 
-            foreach (FileInfo inputFile in options.NodeSetsDir.GetFiles("*", SearchOption.AllDirectories))
+            foreach (FilePatternMatch match in matchResult.Files)
             {
-                if (inputFile.Name.EndsWith(".Nodeset2.xml", StringComparison.OrdinalIgnoreCase))
-                {
-                    statusReceiver?.Invoke($"Processing file: {inputFile.FullName}", false);
-                    string modelText = inputFile.OpenText().ReadToEnd();
-                    opcUaGraph.AddNodeset(modelText);
-                }
+                FileInfo inputFile = new FileInfo(Path.Combine(rootDirInfo.FullName, match.Path));
+                statusReceiver?.Invoke($"Processing file: {inputFile.FullName}", false);
+                string modelText = inputFile.OpenText().ReadToEnd();
+                opcUaGraph.AddNodeset(modelText);
             }
 
             if (!options.OutputDir.Exists)
