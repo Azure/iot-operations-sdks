@@ -31,7 +31,7 @@
             },
             "forms": [
                 {
-                    "dtv:topic": "aio/registry/thingDescriptionExtension/get/thingdescriptiongroups/thingdescriptions/{ex:thingdescriptionId}/versions/version",
+                    "dtv:topic": "aio/registry/thingDescriptionExtension/get/thingdescriptiongroups/thingdescriptions/{ex:thingDescriptionId}/versions/version",
                     "contentType": "application/json",
                     "op": "invokeaction",
                     "additionalResponses": [
@@ -53,7 +53,7 @@
             },
             "forms": [
                 {
-                    "dtv:topic": "aio/registry/thingDescriptionExtension/create/thingdescriptiongroups/thingdescriptions/{ex:thingdescriptionId}/versions/{ex:versionId}",
+                    "dtv:topic": "aio/registry/thingDescriptionExtension/create/thingdescriptiongroups/thingdescriptions/{ex:thingDescriptionId}/versions/{ex:versionId}",
                     "contentType": "application/json",
                     "op": "invokeaction",
                     "additionalResponses": [
@@ -75,7 +75,7 @@
             },
             "forms": [
                 {
-                    "dtv:topic": "aio/registry/thingDescriptionExtension/createOrGet/thingdescriptiongroups/thingdescriptions/{ex:thingdescriptionId}/versions/{ex:versionId}",
+                    "dtv:topic": "aio/registry/thingDescriptionExtension/createOrGet/thingdescriptiongroups/thingdescriptions/{ex:thingDescriptionId}/versions/{ex:versionId}",
                     "contentType": "application/json",
                     "op": "invokeaction",
                     "additionalResponses": [
