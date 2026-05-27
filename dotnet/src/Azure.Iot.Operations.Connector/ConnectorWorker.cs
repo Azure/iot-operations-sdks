@@ -1,4 +1,4 @@
-﻿// Copyright (c) Microsoft Corporation.
+// Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
 using System.Collections.Concurrent;
@@ -26,7 +26,6 @@ namespace Azure.Iot.Operations.Connector
     {
         protected readonly ILogger<ConnectorWorker> _logger;
         private readonly IMqttClient _mqttClient;
-        private readonly ApplicationContext _applicationContext;
         private readonly IAzureDeviceRegistryClientWrapperProvider _adrClientWrapperFactory;
         protected IAzureDeviceRegistryClientWrapper? _adrClient;
         private readonly IMessageSchemaProvider _messageSchemaProviderFactory;
@@ -116,7 +115,7 @@ namespace Azure.Iot.Operations.Connector
         /// collaborators (e.g. <see cref="AssetClient.GetManagementActionExecutorAsync"/>)
         /// that need to construct protocol clients on top of the worker's MQTT session.
         /// </summary>
-        internal ApplicationContext ApplicationContext => _applicationContext;
+        internal ApplicationContext ApplicationContext { get; }
 
         /// <summary>
         /// Shared MQTT pub/sub client exposed to internal SDK collaborators
@@ -134,7 +133,7 @@ namespace Azure.Iot.Operations.Connector
             IConnectorLeaderElectionConfigurationProvider? leaderElectionConfigurationProvider = null,
             IManagementActionHandlerFactory? actionHandlerFactory = null)
         {
-            _applicationContext = applicationContext;
+            ApplicationContext = applicationContext;
             _logger = logger;
             _mqttClient = mqttClient;
             _messageSchemaProviderFactory = messageSchemaProviderFactory;
@@ -204,7 +203,7 @@ namespace Azure.Iot.Operations.Connector
 
                         _logger.LogInformation($"Leadership position Id {leadershipPositionId} was configured, so this pod will perform leader election");
 
-                        _leaderElectionClient = new(_applicationContext, _mqttClient, leadershipPositionId, mqttConnectionSettings!.ClientId)
+                        _leaderElectionClient = new(ApplicationContext, _mqttClient, leadershipPositionId, mqttConnectionSettings!.ClientId)
                         {
                             AutomaticRenewalOptions = new LeaderElectionAutomaticRenewalOptions()
                             {
@@ -239,7 +238,7 @@ namespace Azure.Iot.Operations.Connector
                     }
                 }
 
-                _adrClient = _adrClientWrapperFactory.CreateAdrClientWrapper(_applicationContext, _mqttClient);
+                _adrClient = _adrClientWrapperFactory.CreateAdrClientWrapper(ApplicationContext, _mqttClient);
 
                 _adrClient.DeviceChanged += OnDeviceChanged;
                 _adrClient.AssetChanged += OnAssetChanged;
@@ -381,7 +380,7 @@ namespace Azure.Iot.Operations.Connector
                     try
                     {
                         _logger.LogInformation($"Registering message schema for dataset with name {dataset.Name} on asset with name {assetName} associated with device with name {deviceName} and inbound endpoint name {inboundEndpointName}");
-                        await using SchemaRegistryClient schemaRegistryClient = new(_applicationContext, _mqttClient);
+                        await using SchemaRegistryClient schemaRegistryClient = new(ApplicationContext, _mqttClient);
                         registeredDatasetMessageSchema = await schemaRegistryClient.PutAsync(
                             datasetMessageSchema.SchemaContent,
                             datasetMessageSchema.SchemaFormat,
@@ -438,7 +437,7 @@ namespace Azure.Iot.Operations.Connector
 
                     var messageMetadata = new OutgoingTelemetryMetadata
                     {
-                        CloudEvent = aioCloudEvent?.ToCloudEvent(_applicationContext.ApplicationHlc.Timestamp)
+                        CloudEvent = aioCloudEvent?.ToCloudEvent(ApplicationContext.ApplicationHlc.Timestamp)
                     };
 
                     // Add AIO-specific extension attributes to UserData
@@ -471,7 +470,7 @@ namespace Azure.Iot.Operations.Connector
                         telemetryTimeout = TimeSpan.FromSeconds(ttl.Value);
                     }
 
-                    var telemetrySender = _telemetrySenderCache.GetOrAdd(topic, t => new ConnectorTelemetrySender(_applicationContext, _mqttClient, t));
+                    var telemetrySender = _telemetrySenderCache.GetOrAdd(topic, t => new ConnectorTelemetrySender(ApplicationContext, _mqttClient, t));
                     await telemetrySender.SendTelemetryAsync(
                         serializedPayload,
                         messageMetadata,
@@ -484,7 +483,7 @@ namespace Azure.Iot.Operations.Connector
                 }
                 else if (destination.Target == DatasetTarget.BrokerStateStore)
                 {
-                    await using StateStoreClient stateStoreClient = new(_applicationContext, _mqttClient);
+                    await using StateStoreClient stateStoreClient = new(ApplicationContext, _mqttClient);
 
                     string stateStoreKey = destination.Configuration.Key ?? throw new AssetConfigurationException("Cannot publish sampled dataset to state store as it has no configured key");
 
@@ -533,7 +532,7 @@ namespace Azure.Iot.Operations.Connector
                     try
                     {
                         _logger.LogInformation($"Registering message schema for event with name {assetEvent.Name} in event group with name {eventGroupName} on asset with name {assetName} associated with device with name {deviceName} and inbound endpoint name {inboundEndpointName}");
-                        await using SchemaRegistryClient schemaRegistryClient = new(_applicationContext, _mqttClient);
+                        await using SchemaRegistryClient schemaRegistryClient = new(ApplicationContext, _mqttClient);
                         registeredEventMessageSchema = await schemaRegistryClient.PutAsync(
                             eventMessageSchema.SchemaContent,
                             eventMessageSchema.SchemaFormat,
@@ -584,7 +583,7 @@ namespace Azure.Iot.Operations.Connector
 
                     var messageMetadata = new OutgoingTelemetryMetadata
                     {
-                        CloudEvent = aioCloudEvent?.ToCloudEvent(_applicationContext.ApplicationHlc.Timestamp)
+                        CloudEvent = aioCloudEvent?.ToCloudEvent(ApplicationContext.ApplicationHlc.Timestamp)
                     };
 
                     // Add AIO-specific extension attributes to UserData
@@ -617,7 +616,7 @@ namespace Azure.Iot.Operations.Connector
                         telemetryTimeout = TimeSpan.FromSeconds(ttl.Value);
                     }
 
-                    var telemetrySender = _telemetrySenderCache.GetOrAdd(topic, t => new ConnectorTelemetrySender(_applicationContext, _mqttClient, t));
+                    var telemetrySender = _telemetrySenderCache.GetOrAdd(topic, t => new ConnectorTelemetrySender(ApplicationContext, _mqttClient, t));
                     await telemetrySender.SendTelemetryAsync(
                         serializedPayload,
                         messageMetadata,
