@@ -3,13 +3,12 @@
     "@context": [
       "https://www.w3.org/2022/wot/td/v1.1",
       {
-        "dtv": "http://azure.com/DigitalTwins/dtmi#",
-        "aov": "http://azure.com/IoT/operations/tm#"
+        "dov": "http://azure.com/DigitalOperations/vocab#"
       }
     ],
     "@type": "tm:ThingModel",
     "title": "I4AAS_AASAdministrativeInformationType",
-    "aov:typeRef": "nsu=http://opcfoundation.org/UA/I4AAS/;i=1030",
+    "dov:typeRef": "nsu=http://opcfoundation.org/UA/I4AAS/;i=1030",
     "links": [
       {
         "rel": "tm:extends",
@@ -22,12 +21,12 @@
     "forms": [
       {
         "contentType": "application/json",
-        "dtv:topic": "opcua/I4AAS/I4AAS_AASAdministrativeInformationType/properties/write",
+        "dov:topic": "opcua/I4AAS/I4AAS_AASAdministrativeInformationType/properties/write",
         "op": "writemultipleproperties"
       },
       {
         "contentType": "application/json",
-        "dtv:topic": "opcua/I4AAS/I4AAS_AASAdministrativeInformationType/properties/read",
+        "dov:topic": "opcua/I4AAS/I4AAS_AASAdministrativeInformationType/properties/read",
         "op": "readallproperties"
       }
     ],
@@ -35,35 +34,35 @@
     },
     "properties": {
       "Revision": {
-        "aov:namespace": "http://opcfoundation.org/UA/I4AAS/",
+        "dov:namespace": "http://opcfoundation.org/UA/I4AAS/",
         "type": "string",
         "readOnly": false,
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/I4AAS/I4AAS_AASAdministrativeInformationType/property/Revision/write",
+            "dov:topic": "opcua/I4AAS/I4AAS_AASAdministrativeInformationType/property/Revision/write",
             "op": "writeproperty"
           },
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/I4AAS/I4AAS_AASAdministrativeInformationType/property/Revision/read",
+            "dov:topic": "opcua/I4AAS/I4AAS_AASAdministrativeInformationType/property/Revision/read",
             "op": "readproperty"
           }
         ]
       },
       "Version": {
-        "aov:namespace": "http://opcfoundation.org/UA/I4AAS/",
+        "dov:namespace": "http://opcfoundation.org/UA/I4AAS/",
         "type": "string",
         "readOnly": false,
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/I4AAS/I4AAS_AASAdministrativeInformationType/property/Version/write",
+            "dov:topic": "opcua/I4AAS/I4AAS_AASAdministrativeInformationType/property/Version/write",
             "op": "writeproperty"
           },
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/I4AAS/I4AAS_AASAdministrativeInformationType/property/Version/read",
+            "dov:topic": "opcua/I4AAS/I4AAS_AASAdministrativeInformationType/property/Version/read",
             "op": "readproperty"
           }
         ]
@@ -76,14 +75,13 @@
     "@context": [
       "https://www.w3.org/2022/wot/td/v1.1",
       {
-        "dtv": "http://azure.com/DigitalTwins/dtmi#",
-        "aov": "http://azure.com/IoT/operations/tm#"
+        "dov": "http://azure.com/DigitalOperations/vocab#"
       }
     ],
     "@type": "tm:ThingModel",
     "title": "I4AAS_AASAssetAdministrationShellType",
-    "aov:typeRef": "nsu=http://opcfoundation.org/UA/I4AAS/;i=1002",
-    "aov:isComposite": true,
+    "dov:typeRef": "nsu=http://opcfoundation.org/UA/I4AAS/;i=1002",
+    "dov:isComposite": true,
     "links": [
       {
         "rel": "tm:extends",
@@ -91,44 +89,44 @@
         "type": "application/tm+json"
       },
       {
-        "rel": "aov:component",
-        "aov:refName": "ConceptDictionary",
+        "rel": "dov:component",
+        "dov:refName": "ConceptDictionary",
         "href": "#title=I4AAS_AASConceptDictionaryType",
         "type": "application/tm+json"
       },
       {
-        "rel": "aov:component",
-        "aov:refName": "DataSpecification",
+        "rel": "dov:component",
+        "dov:refName": "DataSpecification",
         "href": "#title=I4AAS_AASReferenceType",
         "type": "application/tm+json"
       },
       {
-        "rel": "aov:component",
-        "aov:refName": "Submodel",
+        "rel": "dov:component",
+        "dov:refName": "Submodel",
         "href": "#title=I4AAS_AASSubmodelType",
         "type": "application/tm+json"
       },
       {
-        "rel": "aov:component",
-        "aov:refName": "SubmodelReference",
+        "rel": "dov:component",
+        "dov:refName": "SubmodelReference",
         "href": "#title=I4AAS_AASReferenceType",
         "type": "application/tm+json"
       },
       {
-        "rel": "aov:component",
-        "aov:refName": "View",
+        "rel": "dov:component",
+        "dov:refName": "View",
         "href": "#title=I4AAS_AASViewType",
         "type": "application/tm+json"
       },
       {
-        "rel": "aov:capability",
-        "aov:refName": "Asset",
+        "rel": "dov:capability",
+        "dov:refName": "Asset",
         "href": "#title=I4AAS_AASAssetType",
         "type": "application/tm+json"
       },
       {
-        "rel": "aov:reference",
-        "aov:refName": "DerivedFrom",
+        "rel": "dov:reference",
+        "dov:refName": "DerivedFrom",
         "href": "#title=I4AAS_AASReferenceType",
         "type": "application/tm+json"
       }
@@ -146,13 +144,12 @@
     "@context": [
       "https://www.w3.org/2022/wot/td/v1.1",
       {
-        "dtv": "http://azure.com/DigitalTwins/dtmi#",
-        "aov": "http://azure.com/IoT/operations/tm#"
+        "dov": "http://azure.com/DigitalOperations/vocab#"
       }
     ],
     "@type": "tm:ThingModel",
     "title": "I4AAS_AASConceptDictionaryType",
-    "aov:typeRef": "nsu=http://opcfoundation.org/UA/I4AAS/;i=1007",
+    "dov:typeRef": "nsu=http://opcfoundation.org/UA/I4AAS/;i=1007",
     "links": [
       {
         "rel": "tm:extends",
@@ -173,13 +170,12 @@
     "@context": [
       "https://www.w3.org/2022/wot/td/v1.1",
       {
-        "dtv": "http://azure.com/DigitalTwins/dtmi#",
-        "aov": "http://azure.com/IoT/operations/tm#"
+        "dov": "http://azure.com/DigitalOperations/vocab#"
       }
     ],
     "@type": "tm:ThingModel",
     "title": "I4AAS_AASReferenceType",
-    "aov:typeRef": "nsu=http://opcfoundation.org/UA/I4AAS/;i=1004",
+    "dov:typeRef": "nsu=http://opcfoundation.org/UA/I4AAS/;i=1004",
     "links": [
       {
         "rel": "tm:extends",
@@ -187,15 +183,15 @@
         "type": "application/tm+json"
       },
       {
-        "rel": "aov:component",
-        "aov:refName": "Referable",
+        "rel": "dov:component",
+        "dov:refName": "Referable",
         "href": "#title=OpcUaCore_BaseObjectType",
         "type": "application/tm+json"
       },
       {
-        "rel": "aov:typedReference",
-        "aov:refName": "Referable",
-        "aov:refType": "AASReference",
+        "rel": "dov:typedReference",
+        "dov:refName": "Referable",
+        "dov:refType": "AASReference",
         "href": "#title=OpcUaCore_BaseObjectType",
         "type": "application/tm+json"
       }
@@ -203,7 +199,7 @@
     "schemaDefinitions": {
       "AASKeyElementsDataType": {
         "type": "object",
-        "aov:typeRef": "nsu=http://opcfoundation.org/UA/I4AAS/;i=3012",
+        "dov:typeRef": "nsu=http://opcfoundation.org/UA/I4AAS/;i=3012",
         "const": {
           "AccessPermissionRule": 0,
           "AnnotatedRelationshipElement": 1,
@@ -331,7 +327,7 @@
       },
       "AASKeyTypeDataType": {
         "type": "object",
-        "aov:typeRef": "nsu=http://opcfoundation.org/UA/I4AAS/;i=3002",
+        "dov:typeRef": "nsu=http://opcfoundation.org/UA/I4AAS/;i=3002",
         "const": {
           "IdShort": 0,
           "FragmentId": 1,
@@ -366,12 +362,12 @@
     "forms": [
       {
         "contentType": "application/json",
-        "dtv:topic": "opcua/I4AAS/I4AAS_AASReferenceType/properties/write",
+        "dov:topic": "opcua/I4AAS/I4AAS_AASReferenceType/properties/write",
         "op": "writemultipleproperties"
       },
       {
         "contentType": "application/json",
-        "dtv:topic": "opcua/I4AAS/I4AAS_AASReferenceType/properties/read",
+        "dov:topic": "opcua/I4AAS/I4AAS_AASReferenceType/properties/read",
         "op": "readallproperties"
       }
     ],
@@ -379,17 +375,17 @@
     },
     "properties": {
       "Keys": {
-        "aov:namespace": "http://opcfoundation.org/UA/I4AAS/",
+        "dov:namespace": "http://opcfoundation.org/UA/I4AAS/",
         "type": "array",
         "items": {
           "title": "AASKeyDataType",
           "type": "object",
-          "aov:typeRef": "nsu=http://opcfoundation.org/UA/I4AAS/;i=3011",
+          "dov:typeRef": "nsu=http://opcfoundation.org/UA/I4AAS/;i=3011",
           "required": [ "Type", "Local", "Value", "IdType" ],
           "properties": {
             "Type": {
               "title": "AASKeyElementsDataType",
-              "aov:typeRef": "nsu=http://opcfoundation.org/UA/I4AAS/;i=3012",
+              "dov:typeRef": "nsu=http://opcfoundation.org/UA/I4AAS/;i=3012",
               "type": "integer",
               "minimum": -2147483648,
               "maximum": 2147483647
@@ -402,7 +398,7 @@
             },
             "IdType": {
               "title": "AASKeyTypeDataType",
-              "aov:typeRef": "nsu=http://opcfoundation.org/UA/I4AAS/;i=3002",
+              "dov:typeRef": "nsu=http://opcfoundation.org/UA/I4AAS/;i=3002",
               "type": "integer",
               "minimum": -2147483648,
               "maximum": 2147483647
@@ -413,12 +409,12 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/I4AAS/I4AAS_AASReferenceType/property/Keys/write",
+            "dov:topic": "opcua/I4AAS/I4AAS_AASReferenceType/property/Keys/write",
             "op": "writeproperty"
           },
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/I4AAS/I4AAS_AASReferenceType/property/Keys/read",
+            "dov:topic": "opcua/I4AAS/I4AAS_AASReferenceType/property/Keys/read",
             "op": "readproperty"
           }
         ]
@@ -431,13 +427,12 @@
     "@context": [
       "https://www.w3.org/2022/wot/td/v1.1",
       {
-        "dtv": "http://azure.com/DigitalTwins/dtmi#",
-        "aov": "http://azure.com/IoT/operations/tm#"
+        "dov": "http://azure.com/DigitalOperations/vocab#"
       }
     ],
     "@type": "tm:ThingModel",
     "title": "I4AAS_AASSubmodelType",
-    "aov:typeRef": "nsu=http://opcfoundation.org/UA/I4AAS/;i=1006",
+    "dov:typeRef": "nsu=http://opcfoundation.org/UA/I4AAS/;i=1006",
     "links": [
       {
         "rel": "tm:extends",
@@ -445,20 +440,20 @@
         "type": "application/tm+json"
       },
       {
-        "rel": "aov:component",
-        "aov:refName": "DataSpecification",
+        "rel": "dov:component",
+        "dov:refName": "DataSpecification",
         "href": "#title=I4AAS_AASReferenceType",
         "type": "application/tm+json"
       },
       {
-        "rel": "aov:component",
-        "aov:refName": "Qualifier",
+        "rel": "dov:component",
+        "dov:refName": "Qualifier",
         "href": "#title=I4AAS_AASQualifierType",
         "type": "application/tm+json"
       },
       {
-        "rel": "aov:component",
-        "aov:refName": "SubmodelElement",
+        "rel": "dov:component",
+        "dov:refName": "SubmodelElement",
         "href": "#title=I4AAS_AASSubmodelElementType",
         "type": "application/tm+json"
       }
@@ -466,7 +461,7 @@
     "schemaDefinitions": {
       "AASModelingKindDataType": {
         "type": "object",
-        "aov:typeRef": "nsu=http://opcfoundation.org/UA/I4AAS/;i=3015",
+        "dov:typeRef": "nsu=http://opcfoundation.org/UA/I4AAS/;i=3015",
         "const": {
           "Template": 0,
           "Instance": 1
@@ -486,12 +481,12 @@
     "forms": [
       {
         "contentType": "application/json",
-        "dtv:topic": "opcua/I4AAS/I4AAS_AASSubmodelType/properties/write",
+        "dov:topic": "opcua/I4AAS/I4AAS_AASSubmodelType/properties/write",
         "op": "writemultipleproperties"
       },
       {
         "contentType": "application/json",
-        "dtv:topic": "opcua/I4AAS/I4AAS_AASSubmodelType/properties/read",
+        "dov:topic": "opcua/I4AAS/I4AAS_AASSubmodelType/properties/read",
         "op": "readallproperties"
       }
     ],
@@ -499,9 +494,9 @@
     },
     "properties": {
       "ModelingKind": {
-        "aov:namespace": "http://opcfoundation.org/UA/I4AAS/",
+        "dov:namespace": "http://opcfoundation.org/UA/I4AAS/",
         "title": "AASModelingKindDataType",
-        "aov:typeRef": "nsu=http://opcfoundation.org/UA/I4AAS/;i=3015",
+        "dov:typeRef": "nsu=http://opcfoundation.org/UA/I4AAS/;i=3015",
         "type": "integer",
         "minimum": -2147483648,
         "maximum": 2147483647,
@@ -509,12 +504,12 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/I4AAS/I4AAS_AASSubmodelType/property/ModelingKind/write",
+            "dov:topic": "opcua/I4AAS/I4AAS_AASSubmodelType/property/ModelingKind/write",
             "op": "writeproperty"
           },
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/I4AAS/I4AAS_AASSubmodelType/property/ModelingKind/read",
+            "dov:topic": "opcua/I4AAS/I4AAS_AASSubmodelType/property/ModelingKind/read",
             "op": "readproperty"
           }
         ]
@@ -527,13 +522,12 @@
     "@context": [
       "https://www.w3.org/2022/wot/td/v1.1",
       {
-        "dtv": "http://azure.com/DigitalTwins/dtmi#",
-        "aov": "http://azure.com/IoT/operations/tm#"
+        "dov": "http://azure.com/DigitalOperations/vocab#"
       }
     ],
     "@type": "tm:ThingModel",
     "title": "I4AAS_AASQualifierType",
-    "aov:typeRef": "nsu=http://opcfoundation.org/UA/I4AAS/;i=1032",
+    "dov:typeRef": "nsu=http://opcfoundation.org/UA/I4AAS/;i=1032",
     "links": [
       {
         "rel": "tm:extends",
@@ -541,8 +535,8 @@
         "type": "application/tm+json"
       },
       {
-        "rel": "aov:reference",
-        "aov:refName": "ValueId",
+        "rel": "dov:reference",
+        "dov:refName": "ValueId",
         "href": "#title=I4AAS_AASReferenceType",
         "type": "application/tm+json"
       }
@@ -550,7 +544,7 @@
     "schemaDefinitions": {
       "AASValueTypeDataType": {
         "type": "object",
-        "aov:typeRef": "nsu=http://opcfoundation.org/UA/I4AAS/;i=3004",
+        "dov:typeRef": "nsu=http://opcfoundation.org/UA/I4AAS/;i=3004",
         "const": {
           "Boolean": 0,
           "SByte": 1,
@@ -624,12 +618,12 @@
     "forms": [
       {
         "contentType": "application/json",
-        "dtv:topic": "opcua/I4AAS/I4AAS_AASQualifierType/properties/write",
+        "dov:topic": "opcua/I4AAS/I4AAS_AASQualifierType/properties/write",
         "op": "writemultipleproperties"
       },
       {
         "contentType": "application/json",
-        "dtv:topic": "opcua/I4AAS/I4AAS_AASQualifierType/properties/read",
+        "dov:topic": "opcua/I4AAS/I4AAS_AASQualifierType/properties/read",
         "op": "readallproperties"
       }
     ],
@@ -637,44 +631,44 @@
     },
     "properties": {
       "Type": {
-        "aov:namespace": "http://opcfoundation.org/UA/I4AAS/",
+        "dov:namespace": "http://opcfoundation.org/UA/I4AAS/",
         "type": "string",
         "readOnly": false,
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/I4AAS/I4AAS_AASQualifierType/property/Type/write",
+            "dov:topic": "opcua/I4AAS/I4AAS_AASQualifierType/property/Type/write",
             "op": "writeproperty"
           },
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/I4AAS/I4AAS_AASQualifierType/property/Type/read",
+            "dov:topic": "opcua/I4AAS/I4AAS_AASQualifierType/property/Type/read",
             "op": "readproperty"
           }
         ]
       },
       "Value": {
-        "aov:namespace": "http://opcfoundation.org/UA/I4AAS/",
+        "dov:namespace": "http://opcfoundation.org/UA/I4AAS/",
         "description": "Stand-in for an unspecified data type.",
         "type": "string",
         "readOnly": false,
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/I4AAS/I4AAS_AASQualifierType/property/Value/write",
+            "dov:topic": "opcua/I4AAS/I4AAS_AASQualifierType/property/Value/write",
             "op": "writeproperty"
           },
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/I4AAS/I4AAS_AASQualifierType/property/Value/read",
+            "dov:topic": "opcua/I4AAS/I4AAS_AASQualifierType/property/Value/read",
             "op": "readproperty"
           }
         ]
       },
       "ValueType": {
-        "aov:namespace": "http://opcfoundation.org/UA/I4AAS/",
+        "dov:namespace": "http://opcfoundation.org/UA/I4AAS/",
         "title": "AASValueTypeDataType",
-        "aov:typeRef": "nsu=http://opcfoundation.org/UA/I4AAS/;i=3004",
+        "dov:typeRef": "nsu=http://opcfoundation.org/UA/I4AAS/;i=3004",
         "type": "integer",
         "minimum": -2147483648,
         "maximum": 2147483647,
@@ -682,12 +676,12 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/I4AAS/I4AAS_AASQualifierType/property/ValueType/write",
+            "dov:topic": "opcua/I4AAS/I4AAS_AASQualifierType/property/ValueType/write",
             "op": "writeproperty"
           },
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/I4AAS/I4AAS_AASQualifierType/property/ValueType/read",
+            "dov:topic": "opcua/I4AAS/I4AAS_AASQualifierType/property/ValueType/read",
             "op": "readproperty"
           }
         ]
@@ -700,13 +694,12 @@
     "@context": [
       "https://www.w3.org/2022/wot/td/v1.1",
       {
-        "dtv": "http://azure.com/DigitalTwins/dtmi#",
-        "aov": "http://azure.com/IoT/operations/tm#"
+        "dov": "http://azure.com/DigitalOperations/vocab#"
       }
     ],
     "@type": "tm:ThingModel",
     "title": "I4AAS_AASSubmodelElementType",
-    "aov:typeRef": "nsu=http://opcfoundation.org/UA/I4AAS/;i=1009",
+    "dov:typeRef": "nsu=http://opcfoundation.org/UA/I4AAS/;i=1009",
     "links": [
       {
         "rel": "tm:extends",
@@ -714,14 +707,14 @@
         "type": "application/tm+json"
       },
       {
-        "rel": "aov:component",
-        "aov:refName": "DataSpecification",
+        "rel": "dov:component",
+        "dov:refName": "DataSpecification",
         "href": "#title=I4AAS_AASReferenceType",
         "type": "application/tm+json"
       },
       {
-        "rel": "aov:component",
-        "aov:refName": "Qualifier",
+        "rel": "dov:component",
+        "dov:refName": "Qualifier",
         "href": "#title=I4AAS_AASQualifierType",
         "type": "application/tm+json"
       }
@@ -729,7 +722,7 @@
     "schemaDefinitions": {
       "AASModelingKindDataType": {
         "type": "object",
-        "aov:typeRef": "nsu=http://opcfoundation.org/UA/I4AAS/;i=3015",
+        "dov:typeRef": "nsu=http://opcfoundation.org/UA/I4AAS/;i=3015",
         "const": {
           "Template": 0,
           "Instance": 1
@@ -749,12 +742,12 @@
     "forms": [
       {
         "contentType": "application/json",
-        "dtv:topic": "opcua/I4AAS/I4AAS_AASSubmodelElementType/properties/write",
+        "dov:topic": "opcua/I4AAS/I4AAS_AASSubmodelElementType/properties/write",
         "op": "writemultipleproperties"
       },
       {
         "contentType": "application/json",
-        "dtv:topic": "opcua/I4AAS/I4AAS_AASSubmodelElementType/properties/read",
+        "dov:topic": "opcua/I4AAS/I4AAS_AASSubmodelElementType/properties/read",
         "op": "readallproperties"
       }
     ],
@@ -762,26 +755,26 @@
     },
     "properties": {
       "Category": {
-        "aov:namespace": "http://opcfoundation.org/UA/I4AAS/",
+        "dov:namespace": "http://opcfoundation.org/UA/I4AAS/",
         "type": "string",
         "readOnly": false,
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/I4AAS/I4AAS_AASSubmodelElementType/property/Category/write",
+            "dov:topic": "opcua/I4AAS/I4AAS_AASSubmodelElementType/property/Category/write",
             "op": "writeproperty"
           },
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/I4AAS/I4AAS_AASSubmodelElementType/property/Category/read",
+            "dov:topic": "opcua/I4AAS/I4AAS_AASSubmodelElementType/property/Category/read",
             "op": "readproperty"
           }
         ]
       },
       "ModelingKind": {
-        "aov:namespace": "http://opcfoundation.org/UA/I4AAS/",
+        "dov:namespace": "http://opcfoundation.org/UA/I4AAS/",
         "title": "AASModelingKindDataType",
-        "aov:typeRef": "nsu=http://opcfoundation.org/UA/I4AAS/;i=3015",
+        "dov:typeRef": "nsu=http://opcfoundation.org/UA/I4AAS/;i=3015",
         "type": "integer",
         "minimum": -2147483648,
         "maximum": 2147483647,
@@ -789,12 +782,12 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/I4AAS/I4AAS_AASSubmodelElementType/property/ModelingKind/write",
+            "dov:topic": "opcua/I4AAS/I4AAS_AASSubmodelElementType/property/ModelingKind/write",
             "op": "writeproperty"
           },
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/I4AAS/I4AAS_AASSubmodelElementType/property/ModelingKind/read",
+            "dov:topic": "opcua/I4AAS/I4AAS_AASSubmodelElementType/property/ModelingKind/read",
             "op": "readproperty"
           }
         ]
@@ -807,13 +800,12 @@
     "@context": [
       "https://www.w3.org/2022/wot/td/v1.1",
       {
-        "dtv": "http://azure.com/DigitalTwins/dtmi#",
-        "aov": "http://azure.com/IoT/operations/tm#"
+        "dov": "http://azure.com/DigitalOperations/vocab#"
       }
     ],
     "@type": "tm:ThingModel",
     "title": "I4AAS_AASViewType",
-    "aov:typeRef": "nsu=http://opcfoundation.org/UA/I4AAS/;i=1003",
+    "dov:typeRef": "nsu=http://opcfoundation.org/UA/I4AAS/;i=1003",
     "links": [
       {
         "rel": "tm:extends",
@@ -821,14 +813,14 @@
         "type": "application/tm+json"
       },
       {
-        "rel": "aov:component",
-        "aov:refName": "DataSpecification",
+        "rel": "dov:component",
+        "dov:refName": "DataSpecification",
         "href": "#title=I4AAS_AASReferenceType",
         "type": "application/tm+json"
       },
       {
-        "rel": "aov:component",
-        "aov:refName": "Referable",
+        "rel": "dov:component",
+        "dov:refName": "Referable",
         "href": "#title=I4AAS_AASReferenceType",
         "type": "application/tm+json"
       }
@@ -846,13 +838,12 @@
     "@context": [
       "https://www.w3.org/2022/wot/td/v1.1",
       {
-        "dtv": "http://azure.com/DigitalTwins/dtmi#",
-        "aov": "http://azure.com/IoT/operations/tm#"
+        "dov": "http://azure.com/DigitalOperations/vocab#"
       }
     ],
     "@type": "tm:ThingModel",
     "title": "I4AAS_AASAssetType",
-    "aov:typeRef": "nsu=http://opcfoundation.org/UA/I4AAS/;i=1005",
+    "dov:typeRef": "nsu=http://opcfoundation.org/UA/I4AAS/;i=1005",
     "links": [
       {
         "rel": "tm:extends",
@@ -860,20 +851,20 @@
         "type": "application/tm+json"
       },
       {
-        "rel": "aov:component",
-        "aov:refName": "DataSpecification",
+        "rel": "dov:component",
+        "dov:refName": "DataSpecification",
         "href": "#title=I4AAS_AASReferenceType",
         "type": "application/tm+json"
       },
       {
-        "rel": "aov:reference",
-        "aov:refName": "AssetIdentificationModel",
+        "rel": "dov:reference",
+        "dov:refName": "AssetIdentificationModel",
         "href": "#title=I4AAS_AASReferenceType",
         "type": "application/tm+json"
       },
       {
-        "rel": "aov:reference",
-        "aov:refName": "BillOfMaterial",
+        "rel": "dov:reference",
+        "dov:refName": "BillOfMaterial",
         "href": "#title=I4AAS_AASReferenceType",
         "type": "application/tm+json"
       }
@@ -881,7 +872,7 @@
     "schemaDefinitions": {
       "AASAssetKindDataType": {
         "type": "object",
-        "aov:typeRef": "nsu=http://opcfoundation.org/UA/I4AAS/;i=3003",
+        "dov:typeRef": "nsu=http://opcfoundation.org/UA/I4AAS/;i=3003",
         "const": {
           "Type": 0,
           "Instance": 1
@@ -901,12 +892,12 @@
     "forms": [
       {
         "contentType": "application/json",
-        "dtv:topic": "opcua/I4AAS/I4AAS_AASAssetType/properties/write",
+        "dov:topic": "opcua/I4AAS/I4AAS_AASAssetType/properties/write",
         "op": "writemultipleproperties"
       },
       {
         "contentType": "application/json",
-        "dtv:topic": "opcua/I4AAS/I4AAS_AASAssetType/properties/read",
+        "dov:topic": "opcua/I4AAS/I4AAS_AASAssetType/properties/read",
         "op": "readallproperties"
       }
     ],
@@ -914,9 +905,9 @@
     },
     "properties": {
       "AssetKind": {
-        "aov:namespace": "http://opcfoundation.org/UA/I4AAS/",
+        "dov:namespace": "http://opcfoundation.org/UA/I4AAS/",
         "title": "AASAssetKindDataType",
-        "aov:typeRef": "nsu=http://opcfoundation.org/UA/I4AAS/;i=3003",
+        "dov:typeRef": "nsu=http://opcfoundation.org/UA/I4AAS/;i=3003",
         "type": "integer",
         "minimum": -2147483648,
         "maximum": 2147483647,
@@ -924,12 +915,12 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/I4AAS/I4AAS_AASAssetType/property/AssetKind/write",
+            "dov:topic": "opcua/I4AAS/I4AAS_AASAssetType/property/AssetKind/write",
             "op": "writeproperty"
           },
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/I4AAS/I4AAS_AASAssetType/property/AssetKind/read",
+            "dov:topic": "opcua/I4AAS/I4AAS_AASAssetType/property/AssetKind/read",
             "op": "readproperty"
           }
         ]
@@ -942,13 +933,12 @@
     "@context": [
       "https://www.w3.org/2022/wot/td/v1.1",
       {
-        "dtv": "http://azure.com/DigitalTwins/dtmi#",
-        "aov": "http://azure.com/IoT/operations/tm#"
+        "dov": "http://azure.com/DigitalOperations/vocab#"
       }
     ],
     "@type": "tm:ThingModel",
     "title": "I4AAS_AASDataSpecificationType",
-    "aov:typeRef": "nsu=http://opcfoundation.org/UA/I4AAS/;i=1027",
+    "dov:typeRef": "nsu=http://opcfoundation.org/UA/I4AAS/;i=1027",
     "links": [
       {
         "rel": "tm:extends",
@@ -969,14 +959,13 @@
     "@context": [
       "https://www.w3.org/2022/wot/td/v1.1",
       {
-        "dtv": "http://azure.com/DigitalTwins/dtmi#",
-        "aov": "http://azure.com/IoT/operations/tm#"
+        "dov": "http://azure.com/DigitalOperations/vocab#"
       }
     ],
     "@type": "tm:ThingModel",
     "title": "I4AAS_AASDataSpecificationIEC61360Type",
-    "aov:typeRef": "nsu=http://opcfoundation.org/UA/I4AAS/;i=1028",
-    "aov:isComposite": true,
+    "dov:typeRef": "nsu=http://opcfoundation.org/UA/I4AAS/;i=1028",
+    "dov:isComposite": true,
     "links": [
       {
         "rel": "tm:extends",
@@ -984,32 +973,32 @@
         "type": "application/tm+json"
       },
       {
-        "rel": "aov:capability",
-        "aov:refName": "Administration",
+        "rel": "dov:capability",
+        "dov:refName": "Administration",
         "href": "#title=I4AAS_AASAdministrativeInformationType",
         "type": "application/tm+json"
       },
       {
-        "rel": "aov:capability",
-        "aov:refName": "Identification",
+        "rel": "dov:capability",
+        "dov:refName": "Identification",
         "href": "#title=I4AAS_AASIdentifierType",
         "type": "application/tm+json"
       },
       {
-        "rel": "aov:reference",
-        "aov:refName": "UnitId",
+        "rel": "dov:reference",
+        "dov:refName": "UnitId",
         "href": "#title=I4AAS_AASReferenceType",
         "type": "application/tm+json"
       },
       {
-        "rel": "aov:reference",
-        "aov:refName": "ValueId",
+        "rel": "dov:reference",
+        "dov:refName": "ValueId",
         "href": "#title=I4AAS_AASReferenceType",
         "type": "application/tm+json"
       },
       {
-        "rel": "aov:reference",
-        "aov:refName": "ValueList",
+        "rel": "dov:reference",
+        "dov:refName": "ValueList",
         "href": "#title=I4AAS_ValueListType",
         "type": "application/tm+json"
       }
@@ -1017,7 +1006,7 @@
     "schemaDefinitions": {
       "AASCategoryDataType": {
         "type": "object",
-        "aov:typeRef": "nsu=http://opcfoundation.org/UA/I4AAS/;i=3007",
+        "dov:typeRef": "nsu=http://opcfoundation.org/UA/I4AAS/;i=3007",
         "const": {
           "CONSTANT": 0,
           "PARAMETER": 1,
@@ -1045,7 +1034,7 @@
       },
       "AASDataTypeIEC61360DataType": {
         "type": "object",
-        "aov:typeRef": "nsu=http://opcfoundation.org/UA/I4AAS/;i=3008",
+        "dov:typeRef": "nsu=http://opcfoundation.org/UA/I4AAS/;i=3008",
         "const": {
           "BOOLEAN": 0,
           "DATE": 1,
@@ -1113,7 +1102,7 @@
       },
       "AASLevelTypeDataType": {
         "type": "object",
-        "aov:typeRef": "nsu=http://opcfoundation.org/UA/I4AAS/;i=3009",
+        "dov:typeRef": "nsu=http://opcfoundation.org/UA/I4AAS/;i=3009",
         "const": {
           "Min": 0,
           "Max": 1,
@@ -1143,12 +1132,12 @@
     "forms": [
       {
         "contentType": "application/json",
-        "dtv:topic": "opcua/I4AAS/I4AAS_AASDataSpecificationIEC61360Type/properties/write",
+        "dov:topic": "opcua/I4AAS/I4AAS_AASDataSpecificationIEC61360Type/properties/write",
         "op": "writemultipleproperties"
       },
       {
         "contentType": "application/json",
-        "dtv:topic": "opcua/I4AAS/I4AAS_AASDataSpecificationIEC61360Type/properties/read",
+        "dov:topic": "opcua/I4AAS/I4AAS_AASDataSpecificationIEC61360Type/properties/read",
         "op": "readallproperties"
       }
     ],
@@ -1156,9 +1145,9 @@
     },
     "properties": {
       "Category": {
-        "aov:namespace": "http://opcfoundation.org/UA/I4AAS/",
+        "dov:namespace": "http://opcfoundation.org/UA/I4AAS/",
         "title": "AASCategoryDataType",
-        "aov:typeRef": "nsu=http://opcfoundation.org/UA/I4AAS/;i=3007",
+        "dov:typeRef": "nsu=http://opcfoundation.org/UA/I4AAS/;i=3007",
         "type": "integer",
         "minimum": -2147483648,
         "maximum": 2147483647,
@@ -1166,20 +1155,20 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/I4AAS/I4AAS_AASDataSpecificationIEC61360Type/property/Category/write",
+            "dov:topic": "opcua/I4AAS/I4AAS_AASDataSpecificationIEC61360Type/property/Category/write",
             "op": "writeproperty"
           },
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/I4AAS/I4AAS_AASDataSpecificationIEC61360Type/property/Category/read",
+            "dov:topic": "opcua/I4AAS/I4AAS_AASDataSpecificationIEC61360Type/property/Category/read",
             "op": "readproperty"
           }
         ]
       },
       "DataType": {
-        "aov:namespace": "http://opcfoundation.org/UA/I4AAS/",
+        "dov:namespace": "http://opcfoundation.org/UA/I4AAS/",
         "title": "AASDataTypeIEC61360DataType",
-        "aov:typeRef": "nsu=http://opcfoundation.org/UA/I4AAS/;i=3008",
+        "dov:typeRef": "nsu=http://opcfoundation.org/UA/I4AAS/;i=3008",
         "type": "integer",
         "minimum": -2147483648,
         "maximum": 2147483647,
@@ -1187,54 +1176,54 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/I4AAS/I4AAS_AASDataSpecificationIEC61360Type/property/DataType/write",
+            "dov:topic": "opcua/I4AAS/I4AAS_AASDataSpecificationIEC61360Type/property/DataType/write",
             "op": "writeproperty"
           },
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/I4AAS/I4AAS_AASDataSpecificationIEC61360Type/property/DataType/read",
+            "dov:topic": "opcua/I4AAS/I4AAS_AASDataSpecificationIEC61360Type/property/DataType/read",
             "op": "readproperty"
           }
         ]
       },
       "DefaultInstanceBrowseName": {
-        "aov:namespace": "http://opcfoundation.org/UA/I4AAS/",
+        "dov:namespace": "http://opcfoundation.org/UA/I4AAS/",
         "type": "string",
         "readOnly": false,
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/I4AAS/I4AAS_AASDataSpecificationIEC61360Type/property/DefaultInstanceBrowseName/write",
+            "dov:topic": "opcua/I4AAS/I4AAS_AASDataSpecificationIEC61360Type/property/DefaultInstanceBrowseName/write",
             "op": "writeproperty"
           },
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/I4AAS/I4AAS_AASDataSpecificationIEC61360Type/property/DefaultInstanceBrowseName/read",
+            "dov:topic": "opcua/I4AAS/I4AAS_AASDataSpecificationIEC61360Type/property/DefaultInstanceBrowseName/read",
             "op": "readproperty"
           }
         ]
       },
       "Definition": {
-        "aov:namespace": "http://opcfoundation.org/UA/I4AAS/",
+        "dov:namespace": "http://opcfoundation.org/UA/I4AAS/",
         "type": "string",
         "readOnly": false,
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/I4AAS/I4AAS_AASDataSpecificationIEC61360Type/property/Definition/write",
+            "dov:topic": "opcua/I4AAS/I4AAS_AASDataSpecificationIEC61360Type/property/Definition/write",
             "op": "writeproperty"
           },
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/I4AAS/I4AAS_AASDataSpecificationIEC61360Type/property/Definition/read",
+            "dov:topic": "opcua/I4AAS/I4AAS_AASDataSpecificationIEC61360Type/property/Definition/read",
             "op": "readproperty"
           }
         ]
       },
       "LevelType": {
-        "aov:namespace": "http://opcfoundation.org/UA/I4AAS/",
+        "dov:namespace": "http://opcfoundation.org/UA/I4AAS/",
         "title": "AASLevelTypeDataType",
-        "aov:typeRef": "nsu=http://opcfoundation.org/UA/I4AAS/;i=3009",
+        "dov:typeRef": "nsu=http://opcfoundation.org/UA/I4AAS/;i=3009",
         "type": "integer",
         "minimum": -2147483648,
         "maximum": 2147483647,
@@ -1242,132 +1231,132 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/I4AAS/I4AAS_AASDataSpecificationIEC61360Type/property/LevelType/write",
+            "dov:topic": "opcua/I4AAS/I4AAS_AASDataSpecificationIEC61360Type/property/LevelType/write",
             "op": "writeproperty"
           },
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/I4AAS/I4AAS_AASDataSpecificationIEC61360Type/property/LevelType/read",
+            "dov:topic": "opcua/I4AAS/I4AAS_AASDataSpecificationIEC61360Type/property/LevelType/read",
             "op": "readproperty"
           }
         ]
       },
       "PreferredName": {
-        "aov:namespace": "http://opcfoundation.org/UA/I4AAS/",
+        "dov:namespace": "http://opcfoundation.org/UA/I4AAS/",
         "type": "string",
         "readOnly": false,
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/I4AAS/I4AAS_AASDataSpecificationIEC61360Type/property/PreferredName/write",
+            "dov:topic": "opcua/I4AAS/I4AAS_AASDataSpecificationIEC61360Type/property/PreferredName/write",
             "op": "writeproperty"
           },
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/I4AAS/I4AAS_AASDataSpecificationIEC61360Type/property/PreferredName/read",
+            "dov:topic": "opcua/I4AAS/I4AAS_AASDataSpecificationIEC61360Type/property/PreferredName/read",
             "op": "readproperty"
           }
         ]
       },
       "ShortName": {
-        "aov:namespace": "http://opcfoundation.org/UA/I4AAS/",
+        "dov:namespace": "http://opcfoundation.org/UA/I4AAS/",
         "type": "string",
         "readOnly": false,
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/I4AAS/I4AAS_AASDataSpecificationIEC61360Type/property/ShortName/write",
+            "dov:topic": "opcua/I4AAS/I4AAS_AASDataSpecificationIEC61360Type/property/ShortName/write",
             "op": "writeproperty"
           },
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/I4AAS/I4AAS_AASDataSpecificationIEC61360Type/property/ShortName/read",
+            "dov:topic": "opcua/I4AAS/I4AAS_AASDataSpecificationIEC61360Type/property/ShortName/read",
             "op": "readproperty"
           }
         ]
       },
       "SourceOfDefinition": {
-        "aov:namespace": "http://opcfoundation.org/UA/I4AAS/",
+        "dov:namespace": "http://opcfoundation.org/UA/I4AAS/",
         "type": "string",
         "readOnly": false,
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/I4AAS/I4AAS_AASDataSpecificationIEC61360Type/property/SourceOfDefinition/write",
+            "dov:topic": "opcua/I4AAS/I4AAS_AASDataSpecificationIEC61360Type/property/SourceOfDefinition/write",
             "op": "writeproperty"
           },
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/I4AAS/I4AAS_AASDataSpecificationIEC61360Type/property/SourceOfDefinition/read",
+            "dov:topic": "opcua/I4AAS/I4AAS_AASDataSpecificationIEC61360Type/property/SourceOfDefinition/read",
             "op": "readproperty"
           }
         ]
       },
       "Symbol": {
-        "aov:namespace": "http://opcfoundation.org/UA/I4AAS/",
+        "dov:namespace": "http://opcfoundation.org/UA/I4AAS/",
         "type": "string",
         "readOnly": false,
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/I4AAS/I4AAS_AASDataSpecificationIEC61360Type/property/Symbol/write",
+            "dov:topic": "opcua/I4AAS/I4AAS_AASDataSpecificationIEC61360Type/property/Symbol/write",
             "op": "writeproperty"
           },
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/I4AAS/I4AAS_AASDataSpecificationIEC61360Type/property/Symbol/read",
+            "dov:topic": "opcua/I4AAS/I4AAS_AASDataSpecificationIEC61360Type/property/Symbol/read",
             "op": "readproperty"
           }
         ]
       },
       "Unit": {
-        "aov:namespace": "http://opcfoundation.org/UA/I4AAS/",
+        "dov:namespace": "http://opcfoundation.org/UA/I4AAS/",
         "type": "string",
         "readOnly": false,
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/I4AAS/I4AAS_AASDataSpecificationIEC61360Type/property/Unit/write",
+            "dov:topic": "opcua/I4AAS/I4AAS_AASDataSpecificationIEC61360Type/property/Unit/write",
             "op": "writeproperty"
           },
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/I4AAS/I4AAS_AASDataSpecificationIEC61360Type/property/Unit/read",
+            "dov:topic": "opcua/I4AAS/I4AAS_AASDataSpecificationIEC61360Type/property/Unit/read",
             "op": "readproperty"
           }
         ]
       },
       "Value": {
-        "aov:namespace": "http://opcfoundation.org/UA/I4AAS/",
+        "dov:namespace": "http://opcfoundation.org/UA/I4AAS/",
         "description": "Stand-in for an unspecified data type.",
         "type": "string",
         "readOnly": false,
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/I4AAS/I4AAS_AASDataSpecificationIEC61360Type/property/Value/write",
+            "dov:topic": "opcua/I4AAS/I4AAS_AASDataSpecificationIEC61360Type/property/Value/write",
             "op": "writeproperty"
           },
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/I4AAS/I4AAS_AASDataSpecificationIEC61360Type/property/Value/read",
+            "dov:topic": "opcua/I4AAS/I4AAS_AASDataSpecificationIEC61360Type/property/Value/read",
             "op": "readproperty"
           }
         ]
       },
       "ValueFormat": {
-        "aov:namespace": "http://opcfoundation.org/UA/I4AAS/",
+        "dov:namespace": "http://opcfoundation.org/UA/I4AAS/",
         "type": "string",
         "readOnly": false,
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/I4AAS/I4AAS_AASDataSpecificationIEC61360Type/property/ValueFormat/write",
+            "dov:topic": "opcua/I4AAS/I4AAS_AASDataSpecificationIEC61360Type/property/ValueFormat/write",
             "op": "writeproperty"
           },
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/I4AAS/I4AAS_AASDataSpecificationIEC61360Type/property/ValueFormat/read",
+            "dov:topic": "opcua/I4AAS/I4AAS_AASDataSpecificationIEC61360Type/property/ValueFormat/read",
             "op": "readproperty"
           }
         ]
@@ -1380,13 +1369,12 @@
     "@context": [
       "https://www.w3.org/2022/wot/td/v1.1",
       {
-        "dtv": "http://azure.com/DigitalTwins/dtmi#",
-        "aov": "http://azure.com/IoT/operations/tm#"
+        "dov": "http://azure.com/DigitalOperations/vocab#"
       }
     ],
     "@type": "tm:ThingModel",
     "title": "I4AAS_AASIdentifierType",
-    "aov:typeRef": "nsu=http://opcfoundation.org/UA/I4AAS/;i=1029",
+    "dov:typeRef": "nsu=http://opcfoundation.org/UA/I4AAS/;i=1029",
     "links": [
       {
         "rel": "tm:extends",
@@ -1397,7 +1385,7 @@
     "schemaDefinitions": {
       "AASIdentifierTypeDataType": {
         "type": "object",
-        "aov:typeRef": "nsu=http://opcfoundation.org/UA/I4AAS/;i=3010",
+        "dov:typeRef": "nsu=http://opcfoundation.org/UA/I4AAS/;i=3010",
         "const": {
           "IRDI": 0,
           "IRI": 1,
@@ -1422,12 +1410,12 @@
     "forms": [
       {
         "contentType": "application/json",
-        "dtv:topic": "opcua/I4AAS/I4AAS_AASIdentifierType/properties/write",
+        "dov:topic": "opcua/I4AAS/I4AAS_AASIdentifierType/properties/write",
         "op": "writemultipleproperties"
       },
       {
         "contentType": "application/json",
-        "dtv:topic": "opcua/I4AAS/I4AAS_AASIdentifierType/properties/read",
+        "dov:topic": "opcua/I4AAS/I4AAS_AASIdentifierType/properties/read",
         "op": "readallproperties"
       }
     ],
@@ -1435,26 +1423,26 @@
     },
     "properties": {
       "Id": {
-        "aov:namespace": "http://opcfoundation.org/UA/I4AAS/",
+        "dov:namespace": "http://opcfoundation.org/UA/I4AAS/",
         "type": "string",
         "readOnly": false,
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/I4AAS/I4AAS_AASIdentifierType/property/Id/write",
+            "dov:topic": "opcua/I4AAS/I4AAS_AASIdentifierType/property/Id/write",
             "op": "writeproperty"
           },
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/I4AAS/I4AAS_AASIdentifierType/property/Id/read",
+            "dov:topic": "opcua/I4AAS/I4AAS_AASIdentifierType/property/Id/read",
             "op": "readproperty"
           }
         ]
       },
       "IdType": {
-        "aov:namespace": "http://opcfoundation.org/UA/I4AAS/",
+        "dov:namespace": "http://opcfoundation.org/UA/I4AAS/",
         "title": "AASIdentifierTypeDataType",
-        "aov:typeRef": "nsu=http://opcfoundation.org/UA/I4AAS/;i=3010",
+        "dov:typeRef": "nsu=http://opcfoundation.org/UA/I4AAS/;i=3010",
         "type": "integer",
         "minimum": -2147483648,
         "maximum": 2147483647,
@@ -1462,12 +1450,12 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/I4AAS/I4AAS_AASIdentifierType/property/IdType/write",
+            "dov:topic": "opcua/I4AAS/I4AAS_AASIdentifierType/property/IdType/write",
             "op": "writeproperty"
           },
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/I4AAS/I4AAS_AASIdentifierType/property/IdType/read",
+            "dov:topic": "opcua/I4AAS/I4AAS_AASIdentifierType/property/IdType/read",
             "op": "readproperty"
           }
         ]
@@ -1480,13 +1468,12 @@
     "@context": [
       "https://www.w3.org/2022/wot/td/v1.1",
       {
-        "dtv": "http://azure.com/DigitalTwins/dtmi#",
-        "aov": "http://azure.com/IoT/operations/tm#"
+        "dov": "http://azure.com/DigitalOperations/vocab#"
       }
     ],
     "@type": "tm:ThingModel",
     "title": "I4AAS_ValueListType",
-    "aov:typeRef": "nsu=http://opcfoundation.org/UA/I4AAS/;i=1031",
+    "dov:typeRef": "nsu=http://opcfoundation.org/UA/I4AAS/;i=1031",
     "links": [
       {
         "rel": "tm:extends",
@@ -1507,14 +1494,13 @@
     "@context": [
       "https://www.w3.org/2022/wot/td/v1.1",
       {
-        "dtv": "http://azure.com/DigitalTwins/dtmi#",
-        "aov": "http://azure.com/IoT/operations/tm#"
+        "dov": "http://azure.com/DigitalOperations/vocab#"
       }
     ],
     "@type": "tm:ThingModel",
     "title": "I4AAS_AASBlobType",
-    "aov:typeRef": "nsu=http://opcfoundation.org/UA/I4AAS/;i=1016",
-    "aov:isComposite": true,
+    "dov:typeRef": "nsu=http://opcfoundation.org/UA/I4AAS/;i=1016",
+    "dov:isComposite": true,
     "links": [
       {
         "rel": "tm:extends",
@@ -1522,8 +1508,8 @@
         "type": "application/tm+json"
       },
       {
-        "rel": "aov:component",
-        "aov:refName": "File",
+        "rel": "dov:component",
+        "dov:refName": "File",
         "href": "#title=OpcUaCore_FileType",
         "type": "application/tm+json"
       }
@@ -1541,14 +1527,13 @@
     "@context": [
       "https://www.w3.org/2022/wot/td/v1.1",
       {
-        "dtv": "http://azure.com/DigitalTwins/dtmi#",
-        "aov": "http://azure.com/IoT/operations/tm#"
+        "dov": "http://azure.com/DigitalOperations/vocab#"
       }
     ],
     "@type": "tm:ThingModel",
     "title": "I4AAS_AASCapabilityType",
-    "aov:typeRef": "nsu=http://opcfoundation.org/UA/I4AAS/;i=1014",
-    "aov:isComposite": true,
+    "dov:typeRef": "nsu=http://opcfoundation.org/UA/I4AAS/;i=1014",
+    "dov:isComposite": true,
     "links": [
       {
         "rel": "tm:extends",
@@ -1569,14 +1554,13 @@
     "@context": [
       "https://www.w3.org/2022/wot/td/v1.1",
       {
-        "dtv": "http://azure.com/DigitalTwins/dtmi#",
-        "aov": "http://azure.com/IoT/operations/tm#"
+        "dov": "http://azure.com/DigitalOperations/vocab#"
       }
     ],
     "@type": "tm:ThingModel",
     "title": "I4AAS_AASEntityType",
-    "aov:typeRef": "nsu=http://opcfoundation.org/UA/I4AAS/;i=1022",
-    "aov:isComposite": true,
+    "dov:typeRef": "nsu=http://opcfoundation.org/UA/I4AAS/;i=1022",
+    "dov:isComposite": true,
     "links": [
       {
         "rel": "tm:extends",
@@ -1584,14 +1568,14 @@
         "type": "application/tm+json"
       },
       {
-        "rel": "aov:component",
-        "aov:refName": "SubmodelElement",
+        "rel": "dov:component",
+        "dov:refName": "SubmodelElement",
         "href": "#title=I4AAS_AASSubmodelElementType",
         "type": "application/tm+json"
       },
       {
-        "rel": "aov:reference",
-        "aov:refName": "Asset",
+        "rel": "dov:reference",
+        "dov:refName": "Asset",
         "href": "#title=I4AAS_AASReferenceType",
         "type": "application/tm+json"
       }
@@ -1599,7 +1583,7 @@
     "schemaDefinitions": {
       "AASEntityTypeDataType": {
         "type": "object",
-        "aov:typeRef": "nsu=http://opcfoundation.org/UA/I4AAS/;i=3006",
+        "dov:typeRef": "nsu=http://opcfoundation.org/UA/I4AAS/;i=3006",
         "const": {
           "CoManagedEntity": 0,
           "SelfManagedEntity": 1
@@ -1619,12 +1603,12 @@
     "forms": [
       {
         "contentType": "application/json",
-        "dtv:topic": "opcua/I4AAS/I4AAS_AASEntityType/properties/write",
+        "dov:topic": "opcua/I4AAS/I4AAS_AASEntityType/properties/write",
         "op": "writemultipleproperties"
       },
       {
         "contentType": "application/json",
-        "dtv:topic": "opcua/I4AAS/I4AAS_AASEntityType/properties/read",
+        "dov:topic": "opcua/I4AAS/I4AAS_AASEntityType/properties/read",
         "op": "readallproperties"
       }
     ],
@@ -1632,9 +1616,9 @@
     },
     "properties": {
       "EntityType": {
-        "aov:namespace": "http://opcfoundation.org/UA/I4AAS/",
+        "dov:namespace": "http://opcfoundation.org/UA/I4AAS/",
         "title": "AASEntityTypeDataType",
-        "aov:typeRef": "nsu=http://opcfoundation.org/UA/I4AAS/;i=3006",
+        "dov:typeRef": "nsu=http://opcfoundation.org/UA/I4AAS/;i=3006",
         "type": "integer",
         "minimum": -2147483648,
         "maximum": 2147483647,
@@ -1642,12 +1626,12 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/I4AAS/I4AAS_AASEntityType/property/EntityType/write",
+            "dov:topic": "opcua/I4AAS/I4AAS_AASEntityType/property/EntityType/write",
             "op": "writeproperty"
           },
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/I4AAS/I4AAS_AASEntityType/property/EntityType/read",
+            "dov:topic": "opcua/I4AAS/I4AAS_AASEntityType/property/EntityType/read",
             "op": "readproperty"
           }
         ]
@@ -1660,14 +1644,13 @@
     "@context": [
       "https://www.w3.org/2022/wot/td/v1.1",
       {
-        "dtv": "http://azure.com/DigitalTwins/dtmi#",
-        "aov": "http://azure.com/IoT/operations/tm#"
+        "dov": "http://azure.com/DigitalOperations/vocab#"
       }
     ],
     "@type": "tm:ThingModel",
     "title": "I4AAS_AASEventType",
-    "aov:typeRef": "nsu=http://opcfoundation.org/UA/I4AAS/;i=1021",
-    "aov:isComposite": true,
+    "dov:typeRef": "nsu=http://opcfoundation.org/UA/I4AAS/;i=1021",
+    "dov:isComposite": true,
     "links": [
       {
         "rel": "tm:extends",
@@ -1688,14 +1671,13 @@
     "@context": [
       "https://www.w3.org/2022/wot/td/v1.1",
       {
-        "dtv": "http://azure.com/DigitalTwins/dtmi#",
-        "aov": "http://azure.com/IoT/operations/tm#"
+        "dov": "http://azure.com/DigitalOperations/vocab#"
       }
     ],
     "@type": "tm:ThingModel",
     "title": "I4AAS_AASFileType",
-    "aov:typeRef": "nsu=http://opcfoundation.org/UA/I4AAS/;i=1017",
-    "aov:isComposite": true,
+    "dov:typeRef": "nsu=http://opcfoundation.org/UA/I4AAS/;i=1017",
+    "dov:isComposite": true,
     "links": [
       {
         "rel": "tm:extends",
@@ -1703,8 +1685,8 @@
         "type": "application/tm+json"
       },
       {
-        "rel": "aov:component",
-        "aov:refName": "File",
+        "rel": "dov:component",
+        "dov:refName": "File",
         "href": "#title=OpcUaCore_FileType",
         "type": "application/tm+json"
       }
@@ -1714,12 +1696,12 @@
     "forms": [
       {
         "contentType": "application/json",
-        "dtv:topic": "opcua/I4AAS/I4AAS_AASFileType/properties/write",
+        "dov:topic": "opcua/I4AAS/I4AAS_AASFileType/properties/write",
         "op": "writemultipleproperties"
       },
       {
         "contentType": "application/json",
-        "dtv:topic": "opcua/I4AAS/I4AAS_AASFileType/properties/read",
+        "dov:topic": "opcua/I4AAS/I4AAS_AASFileType/properties/read",
         "op": "readallproperties"
       }
     ],
@@ -1727,35 +1709,35 @@
     },
     "properties": {
       "MimeType": {
-        "aov:namespace": "http://opcfoundation.org/UA/I4AAS/",
+        "dov:namespace": "http://opcfoundation.org/UA/I4AAS/",
         "type": "string",
         "readOnly": false,
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/I4AAS/I4AAS_AASFileType/property/MimeType/write",
+            "dov:topic": "opcua/I4AAS/I4AAS_AASFileType/property/MimeType/write",
             "op": "writeproperty"
           },
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/I4AAS/I4AAS_AASFileType/property/MimeType/read",
+            "dov:topic": "opcua/I4AAS/I4AAS_AASFileType/property/MimeType/read",
             "op": "readproperty"
           }
         ]
       },
       "Value": {
-        "aov:namespace": "http://opcfoundation.org/UA/I4AAS/",
+        "dov:namespace": "http://opcfoundation.org/UA/I4AAS/",
         "type": "string",
         "readOnly": false,
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/I4AAS/I4AAS_AASFileType/property/Value/write",
+            "dov:topic": "opcua/I4AAS/I4AAS_AASFileType/property/Value/write",
             "op": "writeproperty"
           },
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/I4AAS/I4AAS_AASFileType/property/Value/read",
+            "dov:topic": "opcua/I4AAS/I4AAS_AASFileType/property/Value/read",
             "op": "readproperty"
           }
         ]
@@ -1768,14 +1750,13 @@
     "@context": [
       "https://www.w3.org/2022/wot/td/v1.1",
       {
-        "dtv": "http://azure.com/DigitalTwins/dtmi#",
-        "aov": "http://azure.com/IoT/operations/tm#"
+        "dov": "http://azure.com/DigitalOperations/vocab#"
       }
     ],
     "@type": "tm:ThingModel",
     "title": "I4AAS_AASMultiLanguagePropertyType",
-    "aov:typeRef": "nsu=http://opcfoundation.org/UA/I4AAS/;i=1012",
-    "aov:isComposite": true,
+    "dov:typeRef": "nsu=http://opcfoundation.org/UA/I4AAS/;i=1012",
+    "dov:isComposite": true,
     "links": [
       {
         "rel": "tm:extends",
@@ -1783,8 +1764,8 @@
         "type": "application/tm+json"
       },
       {
-        "rel": "aov:reference",
-        "aov:refName": "ValueId",
+        "rel": "dov:reference",
+        "dov:refName": "ValueId",
         "href": "#title=I4AAS_AASReferenceType",
         "type": "application/tm+json"
       }
@@ -1794,12 +1775,12 @@
     "forms": [
       {
         "contentType": "application/json",
-        "dtv:topic": "opcua/I4AAS/I4AAS_AASMultiLanguagePropertyType/properties/write",
+        "dov:topic": "opcua/I4AAS/I4AAS_AASMultiLanguagePropertyType/properties/write",
         "op": "writemultipleproperties"
       },
       {
         "contentType": "application/json",
-        "dtv:topic": "opcua/I4AAS/I4AAS_AASMultiLanguagePropertyType/properties/read",
+        "dov:topic": "opcua/I4AAS/I4AAS_AASMultiLanguagePropertyType/properties/read",
         "op": "readallproperties"
       }
     ],
@@ -1807,7 +1788,7 @@
     },
     "properties": {
       "Value": {
-        "aov:namespace": "http://opcfoundation.org/UA/I4AAS/",
+        "dov:namespace": "http://opcfoundation.org/UA/I4AAS/",
         "type": "array",
         "items": {
           "type": "string"
@@ -1816,12 +1797,12 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/I4AAS/I4AAS_AASMultiLanguagePropertyType/property/Value/write",
+            "dov:topic": "opcua/I4AAS/I4AAS_AASMultiLanguagePropertyType/property/Value/write",
             "op": "writeproperty"
           },
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/I4AAS/I4AAS_AASMultiLanguagePropertyType/property/Value/read",
+            "dov:topic": "opcua/I4AAS/I4AAS_AASMultiLanguagePropertyType/property/Value/read",
             "op": "readproperty"
           }
         ]
@@ -1834,14 +1815,13 @@
     "@context": [
       "https://www.w3.org/2022/wot/td/v1.1",
       {
-        "dtv": "http://azure.com/DigitalTwins/dtmi#",
-        "aov": "http://azure.com/IoT/operations/tm#"
+        "dov": "http://azure.com/DigitalOperations/vocab#"
       }
     ],
     "@type": "tm:ThingModel",
     "title": "I4AAS_AASOperationType",
-    "aov:typeRef": "nsu=http://opcfoundation.org/UA/I4AAS/;i=1015",
-    "aov:isComposite": true,
+    "dov:typeRef": "nsu=http://opcfoundation.org/UA/I4AAS/;i=1015",
+    "dov:isComposite": true,
     "links": [
       {
         "rel": "tm:extends",
@@ -1853,11 +1833,11 @@
     },
     "actions": {
       "Operation": {
-        "aov:namespace": "http://opcfoundation.org/UA/I4AAS/",
+        "dov:namespace": "http://opcfoundation.org/UA/I4AAS/",
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/I4AAS/I4AAS_AASOperationType/action/Operation",
+            "dov:topic": "opcua/I4AAS/I4AAS_AASOperationType/action/Operation",
             "op": "invokeaction"
           }
         ]
@@ -1872,14 +1852,13 @@
     "@context": [
       "https://www.w3.org/2022/wot/td/v1.1",
       {
-        "dtv": "http://azure.com/DigitalTwins/dtmi#",
-        "aov": "http://azure.com/IoT/operations/tm#"
+        "dov": "http://azure.com/DigitalOperations/vocab#"
       }
     ],
     "@type": "tm:ThingModel",
     "title": "I4AAS_AASPropertyType",
-    "aov:typeRef": "nsu=http://opcfoundation.org/UA/I4AAS/;i=1013",
-    "aov:isComposite": true,
+    "dov:typeRef": "nsu=http://opcfoundation.org/UA/I4AAS/;i=1013",
+    "dov:isComposite": true,
     "links": [
       {
         "rel": "tm:extends",
@@ -1887,8 +1866,8 @@
         "type": "application/tm+json"
       },
       {
-        "rel": "aov:reference",
-        "aov:refName": "ValueId",
+        "rel": "dov:reference",
+        "dov:refName": "ValueId",
         "href": "#title=I4AAS_AASReferenceType",
         "type": "application/tm+json"
       }
@@ -1896,7 +1875,7 @@
     "schemaDefinitions": {
       "AASValueTypeDataType": {
         "type": "object",
-        "aov:typeRef": "nsu=http://opcfoundation.org/UA/I4AAS/;i=3004",
+        "dov:typeRef": "nsu=http://opcfoundation.org/UA/I4AAS/;i=3004",
         "const": {
           "Boolean": 0,
           "SByte": 1,
@@ -1970,12 +1949,12 @@
     "forms": [
       {
         "contentType": "application/json",
-        "dtv:topic": "opcua/I4AAS/I4AAS_AASPropertyType/properties/write",
+        "dov:topic": "opcua/I4AAS/I4AAS_AASPropertyType/properties/write",
         "op": "writemultipleproperties"
       },
       {
         "contentType": "application/json",
-        "dtv:topic": "opcua/I4AAS/I4AAS_AASPropertyType/properties/read",
+        "dov:topic": "opcua/I4AAS/I4AAS_AASPropertyType/properties/read",
         "op": "readallproperties"
       }
     ],
@@ -1983,27 +1962,27 @@
     },
     "properties": {
       "Value": {
-        "aov:namespace": "http://opcfoundation.org/UA/I4AAS/",
+        "dov:namespace": "http://opcfoundation.org/UA/I4AAS/",
         "description": "Stand-in for an unspecified data type.",
         "type": "string",
         "readOnly": false,
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/I4AAS/I4AAS_AASPropertyType/property/Value/write",
+            "dov:topic": "opcua/I4AAS/I4AAS_AASPropertyType/property/Value/write",
             "op": "writeproperty"
           },
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/I4AAS/I4AAS_AASPropertyType/property/Value/read",
+            "dov:topic": "opcua/I4AAS/I4AAS_AASPropertyType/property/Value/read",
             "op": "readproperty"
           }
         ]
       },
       "ValueType": {
-        "aov:namespace": "http://opcfoundation.org/UA/I4AAS/",
+        "dov:namespace": "http://opcfoundation.org/UA/I4AAS/",
         "title": "AASValueTypeDataType",
-        "aov:typeRef": "nsu=http://opcfoundation.org/UA/I4AAS/;i=3004",
+        "dov:typeRef": "nsu=http://opcfoundation.org/UA/I4AAS/;i=3004",
         "type": "integer",
         "minimum": -2147483648,
         "maximum": 2147483647,
@@ -2011,12 +1990,12 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/I4AAS/I4AAS_AASPropertyType/property/ValueType/write",
+            "dov:topic": "opcua/I4AAS/I4AAS_AASPropertyType/property/ValueType/write",
             "op": "writeproperty"
           },
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/I4AAS/I4AAS_AASPropertyType/property/ValueType/read",
+            "dov:topic": "opcua/I4AAS/I4AAS_AASPropertyType/property/ValueType/read",
             "op": "readproperty"
           }
         ]
@@ -2029,14 +2008,13 @@
     "@context": [
       "https://www.w3.org/2022/wot/td/v1.1",
       {
-        "dtv": "http://azure.com/DigitalTwins/dtmi#",
-        "aov": "http://azure.com/IoT/operations/tm#"
+        "dov": "http://azure.com/DigitalOperations/vocab#"
       }
     ],
     "@type": "tm:ThingModel",
     "title": "I4AAS_AASRangeType",
-    "aov:typeRef": "nsu=http://opcfoundation.org/UA/I4AAS/;i=1023",
-    "aov:isComposite": true,
+    "dov:typeRef": "nsu=http://opcfoundation.org/UA/I4AAS/;i=1023",
+    "dov:isComposite": true,
     "links": [
       {
         "rel": "tm:extends",
@@ -2047,7 +2025,7 @@
     "schemaDefinitions": {
       "AASValueTypeDataType": {
         "type": "object",
-        "aov:typeRef": "nsu=http://opcfoundation.org/UA/I4AAS/;i=3004",
+        "dov:typeRef": "nsu=http://opcfoundation.org/UA/I4AAS/;i=3004",
         "const": {
           "Boolean": 0,
           "SByte": 1,
@@ -2121,12 +2099,12 @@
     "forms": [
       {
         "contentType": "application/json",
-        "dtv:topic": "opcua/I4AAS/I4AAS_AASRangeType/properties/write",
+        "dov:topic": "opcua/I4AAS/I4AAS_AASRangeType/properties/write",
         "op": "writemultipleproperties"
       },
       {
         "contentType": "application/json",
-        "dtv:topic": "opcua/I4AAS/I4AAS_AASRangeType/properties/read",
+        "dov:topic": "opcua/I4AAS/I4AAS_AASRangeType/properties/read",
         "op": "readallproperties"
       }
     ],
@@ -2134,45 +2112,45 @@
     },
     "properties": {
       "Max": {
-        "aov:namespace": "http://opcfoundation.org/UA/I4AAS/",
+        "dov:namespace": "http://opcfoundation.org/UA/I4AAS/",
         "description": "Stand-in for an unspecified data type.",
         "type": "string",
         "readOnly": false,
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/I4AAS/I4AAS_AASRangeType/property/Max/write",
+            "dov:topic": "opcua/I4AAS/I4AAS_AASRangeType/property/Max/write",
             "op": "writeproperty"
           },
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/I4AAS/I4AAS_AASRangeType/property/Max/read",
+            "dov:topic": "opcua/I4AAS/I4AAS_AASRangeType/property/Max/read",
             "op": "readproperty"
           }
         ]
       },
       "Min": {
-        "aov:namespace": "http://opcfoundation.org/UA/I4AAS/",
+        "dov:namespace": "http://opcfoundation.org/UA/I4AAS/",
         "description": "Stand-in for an unspecified data type.",
         "type": "string",
         "readOnly": false,
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/I4AAS/I4AAS_AASRangeType/property/Min/write",
+            "dov:topic": "opcua/I4AAS/I4AAS_AASRangeType/property/Min/write",
             "op": "writeproperty"
           },
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/I4AAS/I4AAS_AASRangeType/property/Min/read",
+            "dov:topic": "opcua/I4AAS/I4AAS_AASRangeType/property/Min/read",
             "op": "readproperty"
           }
         ]
       },
       "ValueType": {
-        "aov:namespace": "http://opcfoundation.org/UA/I4AAS/",
+        "dov:namespace": "http://opcfoundation.org/UA/I4AAS/",
         "title": "AASValueTypeDataType",
-        "aov:typeRef": "nsu=http://opcfoundation.org/UA/I4AAS/;i=3004",
+        "dov:typeRef": "nsu=http://opcfoundation.org/UA/I4AAS/;i=3004",
         "type": "integer",
         "minimum": -2147483648,
         "maximum": 2147483647,
@@ -2180,12 +2158,12 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/I4AAS/I4AAS_AASRangeType/property/ValueType/write",
+            "dov:topic": "opcua/I4AAS/I4AAS_AASRangeType/property/ValueType/write",
             "op": "writeproperty"
           },
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/I4AAS/I4AAS_AASRangeType/property/ValueType/read",
+            "dov:topic": "opcua/I4AAS/I4AAS_AASRangeType/property/ValueType/read",
             "op": "readproperty"
           }
         ]
@@ -2198,14 +2176,13 @@
     "@context": [
       "https://www.w3.org/2022/wot/td/v1.1",
       {
-        "dtv": "http://azure.com/DigitalTwins/dtmi#",
-        "aov": "http://azure.com/IoT/operations/tm#"
+        "dov": "http://azure.com/DigitalOperations/vocab#"
       }
     ],
     "@type": "tm:ThingModel",
     "title": "I4AAS_AASReferenceElementType",
-    "aov:typeRef": "nsu=http://opcfoundation.org/UA/I4AAS/;i=1020",
-    "aov:isComposite": true,
+    "dov:typeRef": "nsu=http://opcfoundation.org/UA/I4AAS/;i=1020",
+    "dov:isComposite": true,
     "links": [
       {
         "rel": "tm:extends",
@@ -2213,8 +2190,8 @@
         "type": "application/tm+json"
       },
       {
-        "rel": "aov:capability",
-        "aov:refName": "Value",
+        "rel": "dov:capability",
+        "dov:refName": "Value",
         "href": "#title=I4AAS_AASReferenceType",
         "type": "application/tm+json"
       }
@@ -2232,14 +2209,13 @@
     "@context": [
       "https://www.w3.org/2022/wot/td/v1.1",
       {
-        "dtv": "http://azure.com/DigitalTwins/dtmi#",
-        "aov": "http://azure.com/IoT/operations/tm#"
+        "dov": "http://azure.com/DigitalOperations/vocab#"
       }
     ],
     "@type": "tm:ThingModel",
     "title": "I4AAS_AASRelationshipElementType",
-    "aov:typeRef": "nsu=http://opcfoundation.org/UA/I4AAS/;i=1018",
-    "aov:isComposite": true,
+    "dov:typeRef": "nsu=http://opcfoundation.org/UA/I4AAS/;i=1018",
+    "dov:isComposite": true,
     "links": [
       {
         "rel": "tm:extends",
@@ -2247,14 +2223,14 @@
         "type": "application/tm+json"
       },
       {
-        "rel": "aov:capability",
-        "aov:refName": "First",
+        "rel": "dov:capability",
+        "dov:refName": "First",
         "href": "#title=I4AAS_AASReferenceType",
         "type": "application/tm+json"
       },
       {
-        "rel": "aov:capability",
-        "aov:refName": "Second",
+        "rel": "dov:capability",
+        "dov:refName": "Second",
         "href": "#title=I4AAS_AASReferenceType",
         "type": "application/tm+json"
       }
@@ -2272,14 +2248,13 @@
     "@context": [
       "https://www.w3.org/2022/wot/td/v1.1",
       {
-        "dtv": "http://azure.com/DigitalTwins/dtmi#",
-        "aov": "http://azure.com/IoT/operations/tm#"
+        "dov": "http://azure.com/DigitalOperations/vocab#"
       }
     ],
     "@type": "tm:ThingModel",
     "title": "I4AAS_AASAnnotatedRelationshipElementType",
-    "aov:typeRef": "nsu=http://opcfoundation.org/UA/I4AAS/;i=1019",
-    "aov:isComposite": true,
+    "dov:typeRef": "nsu=http://opcfoundation.org/UA/I4AAS/;i=1019",
+    "dov:isComposite": true,
     "links": [
       {
         "rel": "tm:extends",
@@ -2287,8 +2262,8 @@
         "type": "application/tm+json"
       },
       {
-        "rel": "aov:component",
-        "aov:refName": "DataElement",
+        "rel": "dov:component",
+        "dov:refName": "DataElement",
         "href": "#title=I4AAS_AASSubmodelElementType",
         "type": "application/tm+json"
       }
@@ -2306,14 +2281,13 @@
     "@context": [
       "https://www.w3.org/2022/wot/td/v1.1",
       {
-        "dtv": "http://azure.com/DigitalTwins/dtmi#",
-        "aov": "http://azure.com/IoT/operations/tm#"
+        "dov": "http://azure.com/DigitalOperations/vocab#"
       }
     ],
     "@type": "tm:ThingModel",
     "title": "I4AAS_AASSubmodelElementCollectionType",
-    "aov:typeRef": "nsu=http://opcfoundation.org/UA/I4AAS/;i=1010",
-    "aov:isComposite": true,
+    "dov:typeRef": "nsu=http://opcfoundation.org/UA/I4AAS/;i=1010",
+    "dov:isComposite": true,
     "links": [
       {
         "rel": "tm:extends",
@@ -2321,8 +2295,8 @@
         "type": "application/tm+json"
       },
       {
-        "rel": "aov:component",
-        "aov:refName": "SubmodelElement",
+        "rel": "dov:component",
+        "dov:refName": "SubmodelElement",
         "href": "#title=I4AAS_AASSubmodelElementType",
         "type": "application/tm+json"
       }
@@ -2332,12 +2306,12 @@
     "forms": [
       {
         "contentType": "application/json",
-        "dtv:topic": "opcua/I4AAS/I4AAS_AASSubmodelElementCollectionType/properties/write",
+        "dov:topic": "opcua/I4AAS/I4AAS_AASSubmodelElementCollectionType/properties/write",
         "op": "writemultipleproperties"
       },
       {
         "contentType": "application/json",
-        "dtv:topic": "opcua/I4AAS/I4AAS_AASSubmodelElementCollectionType/properties/read",
+        "dov:topic": "opcua/I4AAS/I4AAS_AASSubmodelElementCollectionType/properties/read",
         "op": "readallproperties"
       }
     ],
@@ -2345,18 +2319,18 @@
     },
     "properties": {
       "AllowDuplicates": {
-        "aov:namespace": "http://opcfoundation.org/UA/I4AAS/",
+        "dov:namespace": "http://opcfoundation.org/UA/I4AAS/",
         "type": "boolean",
         "readOnly": false,
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/I4AAS/I4AAS_AASSubmodelElementCollectionType/property/AllowDuplicates/write",
+            "dov:topic": "opcua/I4AAS/I4AAS_AASSubmodelElementCollectionType/property/AllowDuplicates/write",
             "op": "writeproperty"
           },
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/I4AAS/I4AAS_AASSubmodelElementCollectionType/property/AllowDuplicates/read",
+            "dov:topic": "opcua/I4AAS/I4AAS_AASSubmodelElementCollectionType/property/AllowDuplicates/read",
             "op": "readproperty"
           }
         ]
@@ -2369,14 +2343,13 @@
     "@context": [
       "https://www.w3.org/2022/wot/td/v1.1",
       {
-        "dtv": "http://azure.com/DigitalTwins/dtmi#",
-        "aov": "http://azure.com/IoT/operations/tm#"
+        "dov": "http://azure.com/DigitalOperations/vocab#"
       }
     ],
     "@type": "tm:ThingModel",
     "title": "I4AAS_AASOrderedSubmodelElementCollectionType",
-    "aov:typeRef": "nsu=http://opcfoundation.org/UA/I4AAS/;i=1011",
-    "aov:isComposite": true,
+    "dov:typeRef": "nsu=http://opcfoundation.org/UA/I4AAS/;i=1011",
+    "dov:isComposite": true,
     "links": [
       {
         "rel": "tm:extends",
@@ -2397,14 +2370,13 @@
     "@context": [
       "https://www.w3.org/2022/wot/td/v1.1",
       {
-        "dtv": "http://azure.com/DigitalTwins/dtmi#",
-        "aov": "http://azure.com/IoT/operations/tm#"
+        "dov": "http://azure.com/DigitalOperations/vocab#"
       }
     ],
     "@type": "tm:ThingModel",
     "title": "I4AAS_IAASReferableType",
-    "aov:typeRef": "nsu=http://opcfoundation.org/UA/I4AAS/;i=1033",
-    "aov:isComposite": true,
+    "dov:typeRef": "nsu=http://opcfoundation.org/UA/I4AAS/;i=1033",
+    "dov:isComposite": true,
     "links": [
       {
         "rel": "tm:extends",
@@ -2417,12 +2389,12 @@
     "forms": [
       {
         "contentType": "application/json",
-        "dtv:topic": "opcua/I4AAS/I4AAS_IAASReferableType/properties/write",
+        "dov:topic": "opcua/I4AAS/I4AAS_IAASReferableType/properties/write",
         "op": "writemultipleproperties"
       },
       {
         "contentType": "application/json",
-        "dtv:topic": "opcua/I4AAS/I4AAS_IAASReferableType/properties/read",
+        "dov:topic": "opcua/I4AAS/I4AAS_IAASReferableType/properties/read",
         "op": "readallproperties"
       }
     ],
@@ -2430,18 +2402,18 @@
     },
     "properties": {
       "Category": {
-        "aov:namespace": "http://opcfoundation.org/UA/I4AAS/",
+        "dov:namespace": "http://opcfoundation.org/UA/I4AAS/",
         "type": "string",
         "readOnly": false,
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/I4AAS/I4AAS_IAASReferableType/property/Category/write",
+            "dov:topic": "opcua/I4AAS/I4AAS_IAASReferableType/property/Category/write",
             "op": "writeproperty"
           },
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/I4AAS/I4AAS_IAASReferableType/property/Category/read",
+            "dov:topic": "opcua/I4AAS/I4AAS_IAASReferableType/property/Category/read",
             "op": "readproperty"
           }
         ]
@@ -2454,14 +2426,13 @@
     "@context": [
       "https://www.w3.org/2022/wot/td/v1.1",
       {
-        "dtv": "http://azure.com/DigitalTwins/dtmi#",
-        "aov": "http://azure.com/IoT/operations/tm#"
+        "dov": "http://azure.com/DigitalOperations/vocab#"
       }
     ],
     "@type": "tm:ThingModel",
     "title": "I4AAS_IAASIdentifiableType",
-    "aov:typeRef": "nsu=http://opcfoundation.org/UA/I4AAS/;i=1034",
-    "aov:isComposite": true,
+    "dov:typeRef": "nsu=http://opcfoundation.org/UA/I4AAS/;i=1034",
+    "dov:isComposite": true,
     "links": [
       {
         "rel": "tm:extends",
@@ -2469,14 +2440,14 @@
         "type": "application/tm+json"
       },
       {
-        "rel": "aov:capability",
-        "aov:refName": "Administration",
+        "rel": "dov:capability",
+        "dov:refName": "Administration",
         "href": "#title=I4AAS_AASAdministrativeInformationType",
         "type": "application/tm+json"
       },
       {
-        "rel": "aov:capability",
-        "aov:refName": "Identification",
+        "rel": "dov:capability",
+        "dov:refName": "Identification",
         "href": "#title=I4AAS_AASIdentifierType",
         "type": "application/tm+json"
       }
@@ -2494,14 +2465,13 @@
     "@context": [
       "https://www.w3.org/2022/wot/td/v1.1",
       {
-        "dtv": "http://azure.com/DigitalTwins/dtmi#",
-        "aov": "http://azure.com/IoT/operations/tm#"
+        "dov": "http://azure.com/DigitalOperations/vocab#"
       }
     ],
     "@type": "tm:ThingModel",
     "title": "I4AAS_AASCustomConceptDescriptionType",
-    "aov:typeRef": "nsu=http://opcfoundation.org/UA/I4AAS/;i=1026",
-    "aov:isComposite": true,
+    "dov:typeRef": "nsu=http://opcfoundation.org/UA/I4AAS/;i=1026",
+    "dov:isComposite": true,
     "links": [
       {
         "rel": "tm:extends",
@@ -2509,14 +2479,14 @@
         "type": "application/tm+json"
       },
       {
-        "rel": "aov:component",
-        "aov:refName": "ConceptDescription",
+        "rel": "dov:component",
+        "dov:refName": "ConceptDescription",
         "href": "#title=I4AAS_AASReferenceType",
         "type": "application/tm+json"
       },
       {
-        "rel": "aov:component",
-        "aov:refName": "DataSpecification",
+        "rel": "dov:component",
+        "dov:refName": "DataSpecification",
         "href": "#title=I4AAS_AASReferenceType",
         "type": "application/tm+json"
       }
@@ -2534,14 +2504,13 @@
     "@context": [
       "https://www.w3.org/2022/wot/td/v1.1",
       {
-        "dtv": "http://azure.com/DigitalTwins/dtmi#",
-        "aov": "http://azure.com/IoT/operations/tm#"
+        "dov": "http://azure.com/DigitalOperations/vocab#"
       }
     ],
     "@type": "tm:ThingModel",
     "title": "I4AAS_AASIrdiConceptDescriptionType",
-    "aov:typeRef": "nsu=http://opcfoundation.org/UA/I4AAS/;i=1024",
-    "aov:isComposite": true,
+    "dov:typeRef": "nsu=http://opcfoundation.org/UA/I4AAS/;i=1024",
+    "dov:isComposite": true,
     "links": [
       {
         "rel": "tm:extends",
@@ -2549,14 +2518,14 @@
         "type": "application/tm+json"
       },
       {
-        "rel": "aov:component",
-        "aov:refName": "DataSpecification",
+        "rel": "dov:component",
+        "dov:refName": "DataSpecification",
         "href": "#title=I4AAS_AASReferenceType",
         "type": "application/tm+json"
       },
       {
-        "rel": "aov:component",
-        "aov:refName": "ConceptDescription",
+        "rel": "dov:component",
+        "dov:refName": "ConceptDescription",
         "href": "#title=I4AAS_AASReferenceType",
         "type": "application/tm+json"
       }
@@ -2574,13 +2543,12 @@
     "@context": [
       "https://www.w3.org/2022/wot/td/v1.1",
       {
-        "dtv": "http://azure.com/DigitalTwins/dtmi#",
-        "aov": "http://azure.com/IoT/operations/tm#"
+        "dov": "http://azure.com/DigitalOperations/vocab#"
       }
     ],
     "@type": "tm:ThingModel",
     "title": "I4AAS_AASIriConceptDescriptionType",
-    "aov:typeRef": "nsu=http://opcfoundation.org/UA/I4AAS/;i=1025",
+    "dov:typeRef": "nsu=http://opcfoundation.org/UA/I4AAS/;i=1025",
     "links": [
       {
         "rel": "tm:extends",
@@ -2588,14 +2556,14 @@
         "type": "application/tm+json"
       },
       {
-        "rel": "aov:component",
-        "aov:refName": "ConceptDescription",
+        "rel": "dov:component",
+        "dov:refName": "ConceptDescription",
         "href": "#title=I4AAS_AASReferenceType",
         "type": "application/tm+json"
       },
       {
-        "rel": "aov:component",
-        "aov:refName": "DataSpecification",
+        "rel": "dov:component",
+        "dov:refName": "DataSpecification",
         "href": "#title=I4AAS_AASReferenceType",
         "type": "application/tm+json"
       }
@@ -2613,13 +2581,12 @@
     "@context": [
       "https://www.w3.org/2022/wot/td/v1.1",
       {
-        "dtv": "http://azure.com/DigitalTwins/dtmi#",
-        "aov": "http://azure.com/IoT/operations/tm#"
+        "dov": "http://azure.com/DigitalOperations/vocab#"
       }
     ],
     "@type": "tm:ThingModel",
     "title": "OpcUaCore_BaseObjectType",
-    "aov:typeRef": "nsu=http://opcfoundation.org/UA/;i=58",
+    "dov:typeRef": "nsu=http://opcfoundation.org/UA/;i=58",
     "links": [
     ],
     "schemaDefinitions": {
@@ -2635,13 +2602,12 @@
     "@context": [
       "https://www.w3.org/2022/wot/td/v1.1",
       {
-        "dtv": "http://azure.com/DigitalTwins/dtmi#",
-        "aov": "http://azure.com/IoT/operations/tm#"
+        "dov": "http://azure.com/DigitalOperations/vocab#"
       }
     ],
     "@type": "tm:ThingModel",
     "title": "OpcUaCore_FolderType",
-    "aov:typeRef": "nsu=http://opcfoundation.org/UA/;i=61",
+    "dov:typeRef": "nsu=http://opcfoundation.org/UA/;i=61",
     "links": [
       {
         "rel": "tm:extends",
@@ -2662,13 +2628,12 @@
     "@context": [
       "https://www.w3.org/2022/wot/td/v1.1",
       {
-        "dtv": "http://azure.com/DigitalTwins/dtmi#",
-        "aov": "http://azure.com/IoT/operations/tm#"
+        "dov": "http://azure.com/DigitalOperations/vocab#"
       }
     ],
     "@type": "tm:ThingModel",
     "title": "OpcUaCore_FileType",
-    "aov:typeRef": "nsu=http://opcfoundation.org/UA/;i=11575",
+    "dov:typeRef": "nsu=http://opcfoundation.org/UA/;i=11575",
     "links": [
       {
         "rel": "tm:extends",
@@ -2681,7 +2646,7 @@
     "forms": [
       {
         "contentType": "application/json",
-        "dtv:topic": "opcua/OpcUaCore/OpcUaCore_FileType/properties/read",
+        "dov:topic": "opcua/OpcUaCore/OpcUaCore_FileType/properties/read",
         "op": "readallproperties"
       }
     ],
@@ -2689,7 +2654,7 @@
       "Close": {
         "input": {
           "type": "object",
-          "aov:typeRef": "nsu=http://opcfoundation.org/UA/;i=11584",
+          "dov:typeRef": "nsu=http://opcfoundation.org/UA/;i=11584",
           "required": [ "FileHandle" ],
           "properties": {
             "FileHandle": {
@@ -2702,7 +2667,7 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/OpcUaCore/OpcUaCore_FileType/action/Close",
+            "dov:topic": "opcua/OpcUaCore/OpcUaCore_FileType/action/Close",
             "op": "invokeaction"
           }
         ]
@@ -2710,7 +2675,7 @@
       "GetPosition": {
         "input": {
           "type": "object",
-          "aov:typeRef": "nsu=http://opcfoundation.org/UA/;i=11591",
+          "dov:typeRef": "nsu=http://opcfoundation.org/UA/;i=11591",
           "required": [ "FileHandle" ],
           "properties": {
             "FileHandle": {
@@ -2722,7 +2687,7 @@
         },
         "output": {
           "type": "object",
-          "aov:typeRef": "nsu=http://opcfoundation.org/UA/;i=11592",
+          "dov:typeRef": "nsu=http://opcfoundation.org/UA/;i=11592",
           "required": [ "Position" ],
           "properties": {
             "Position": {
@@ -2735,7 +2700,7 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/OpcUaCore/OpcUaCore_FileType/action/GetPosition",
+            "dov:topic": "opcua/OpcUaCore/OpcUaCore_FileType/action/GetPosition",
             "op": "invokeaction"
           }
         ]
@@ -2743,7 +2708,7 @@
       "Open": {
         "input": {
           "type": "object",
-          "aov:typeRef": "nsu=http://opcfoundation.org/UA/;i=11581",
+          "dov:typeRef": "nsu=http://opcfoundation.org/UA/;i=11581",
           "required": [ "Mode" ],
           "properties": {
             "Mode": {
@@ -2755,7 +2720,7 @@
         },
         "output": {
           "type": "object",
-          "aov:typeRef": "nsu=http://opcfoundation.org/UA/;i=11582",
+          "dov:typeRef": "nsu=http://opcfoundation.org/UA/;i=11582",
           "required": [ "FileHandle" ],
           "properties": {
             "FileHandle": {
@@ -2768,7 +2733,7 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/OpcUaCore/OpcUaCore_FileType/action/Open",
+            "dov:topic": "opcua/OpcUaCore/OpcUaCore_FileType/action/Open",
             "op": "invokeaction"
           }
         ]
@@ -2776,7 +2741,7 @@
       "Read": {
         "input": {
           "type": "object",
-          "aov:typeRef": "nsu=http://opcfoundation.org/UA/;i=11586",
+          "dov:typeRef": "nsu=http://opcfoundation.org/UA/;i=11586",
           "required": [ "FileHandle", "Length" ],
           "properties": {
             "FileHandle": {
@@ -2793,7 +2758,7 @@
         },
         "output": {
           "type": "object",
-          "aov:typeRef": "nsu=http://opcfoundation.org/UA/;i=11587",
+          "dov:typeRef": "nsu=http://opcfoundation.org/UA/;i=11587",
           "required": [ "Data" ],
           "properties": {
             "Data": {
@@ -2805,7 +2770,7 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/OpcUaCore/OpcUaCore_FileType/action/Read",
+            "dov:topic": "opcua/OpcUaCore/OpcUaCore_FileType/action/Read",
             "op": "invokeaction"
           }
         ]
@@ -2813,7 +2778,7 @@
       "SetPosition": {
         "input": {
           "type": "object",
-          "aov:typeRef": "nsu=http://opcfoundation.org/UA/;i=11594",
+          "dov:typeRef": "nsu=http://opcfoundation.org/UA/;i=11594",
           "required": [ "FileHandle", "Position" ],
           "properties": {
             "FileHandle": {
@@ -2831,7 +2796,7 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/OpcUaCore/OpcUaCore_FileType/action/SetPosition",
+            "dov:topic": "opcua/OpcUaCore/OpcUaCore_FileType/action/SetPosition",
             "op": "invokeaction"
           }
         ]
@@ -2839,7 +2804,7 @@
       "Write": {
         "input": {
           "type": "object",
-          "aov:typeRef": "nsu=http://opcfoundation.org/UA/;i=11589",
+          "dov:typeRef": "nsu=http://opcfoundation.org/UA/;i=11589",
           "required": [ "FileHandle", "Data" ],
           "properties": {
             "FileHandle": {
@@ -2856,7 +2821,7 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/OpcUaCore/OpcUaCore_FileType/action/Write",
+            "dov:topic": "opcua/OpcUaCore/OpcUaCore_FileType/action/Write",
             "op": "invokeaction"
           }
         ]
@@ -2870,7 +2835,7 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/OpcUaCore/OpcUaCore_FileType/property/LastModifiedTime/read",
+            "dov:topic": "opcua/OpcUaCore/OpcUaCore_FileType/property/LastModifiedTime/read",
             "op": "readproperty"
           }
         ]
@@ -2883,7 +2848,7 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/OpcUaCore/OpcUaCore_FileType/property/MaxByteStringLength/read",
+            "dov:topic": "opcua/OpcUaCore/OpcUaCore_FileType/property/MaxByteStringLength/read",
             "op": "readproperty"
           }
         ]
@@ -2894,7 +2859,7 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/OpcUaCore/OpcUaCore_FileType/property/MimeType/read",
+            "dov:topic": "opcua/OpcUaCore/OpcUaCore_FileType/property/MimeType/read",
             "op": "readproperty"
           }
         ]
@@ -2907,7 +2872,7 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/OpcUaCore/OpcUaCore_FileType/property/OpenCount/read",
+            "dov:topic": "opcua/OpcUaCore/OpcUaCore_FileType/property/OpenCount/read",
             "op": "readproperty"
           }
         ]
@@ -2920,7 +2885,7 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/OpcUaCore/OpcUaCore_FileType/property/Size/read",
+            "dov:topic": "opcua/OpcUaCore/OpcUaCore_FileType/property/Size/read",
             "op": "readproperty"
           }
         ]
@@ -2931,7 +2896,7 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/OpcUaCore/OpcUaCore_FileType/property/UserWritable/read",
+            "dov:topic": "opcua/OpcUaCore/OpcUaCore_FileType/property/UserWritable/read",
             "op": "readproperty"
           }
         ]
@@ -2942,7 +2907,7 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/OpcUaCore/OpcUaCore_FileType/property/Writable/read",
+            "dov:topic": "opcua/OpcUaCore/OpcUaCore_FileType/property/Writable/read",
             "op": "readproperty"
           }
         ]
@@ -2955,13 +2920,12 @@
     "@context": [
       "https://www.w3.org/2022/wot/td/v1.1",
       {
-        "dtv": "http://azure.com/DigitalTwins/dtmi#",
-        "aov": "http://azure.com/IoT/operations/tm#"
+        "dov": "http://azure.com/DigitalOperations/vocab#"
       }
     ],
     "@type": "tm:ThingModel",
     "title": "OpcUaCore_BaseInterfaceType",
-    "aov:typeRef": "nsu=http://opcfoundation.org/UA/;i=17602",
+    "dov:typeRef": "nsu=http://opcfoundation.org/UA/;i=17602",
     "links": [
       {
         "rel": "tm:extends",
@@ -2982,13 +2946,12 @@
     "@context": [
       "https://www.w3.org/2022/wot/td/v1.1",
       {
-        "dtv": "http://azure.com/DigitalTwins/dtmi#",
-        "aov": "http://azure.com/IoT/operations/tm#"
+        "dov": "http://azure.com/DigitalOperations/vocab#"
       }
     ],
     "@type": "tm:ThingModel",
     "title": "OpcUaCore_DictionaryEntryType",
-    "aov:typeRef": "nsu=http://opcfoundation.org/UA/;i=17589",
+    "dov:typeRef": "nsu=http://opcfoundation.org/UA/;i=17589",
     "links": [
       {
         "rel": "tm:extends",
@@ -2996,8 +2959,8 @@
         "type": "application/tm+json"
       },
       {
-        "rel": "aov:component",
-        "aov:refName": "DictionaryEntryName_Placeholder",
+        "rel": "dov:component",
+        "dov:refName": "DictionaryEntryName_Placeholder",
         "href": "#title=OpcUaCore_DictionaryEntryType",
         "type": "application/tm+json"
       }
@@ -3015,14 +2978,13 @@
     "@context": [
       "https://www.w3.org/2022/wot/td/v1.1",
       {
-        "dtv": "http://azure.com/DigitalTwins/dtmi#",
-        "aov": "http://azure.com/IoT/operations/tm#"
+        "dov": "http://azure.com/DigitalOperations/vocab#"
       }
     ],
     "@type": "tm:ThingModel",
     "title": "OpcUaCore_IrdiDictionaryEntryType",
-    "aov:typeRef": "nsu=http://opcfoundation.org/UA/;i=17598",
-    "aov:isComposite": true,
+    "dov:typeRef": "nsu=http://opcfoundation.org/UA/;i=17598",
+    "dov:isComposite": true,
     "links": [
       {
         "rel": "tm:extends",
@@ -3043,14 +3005,13 @@
     "@context": [
       "https://www.w3.org/2022/wot/td/v1.1",
       {
-        "dtv": "http://azure.com/DigitalTwins/dtmi#",
-        "aov": "http://azure.com/IoT/operations/tm#"
+        "dov": "http://azure.com/DigitalOperations/vocab#"
       }
     ],
     "@type": "tm:ThingModel",
     "title": "OpcUaCore_UriDictionaryEntryType",
-    "aov:typeRef": "nsu=http://opcfoundation.org/UA/;i=17600",
-    "aov:isComposite": true,
+    "dov:typeRef": "nsu=http://opcfoundation.org/UA/;i=17600",
+    "dov:isComposite": true,
     "links": [
       {
         "rel": "tm:extends",

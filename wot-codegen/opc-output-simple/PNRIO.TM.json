@@ -3,14 +3,13 @@
     "@context": [
       "https://www.w3.org/2022/wot/td/v1.1",
       {
-        "dtv": "http://azure.com/DigitalTwins/dtmi#",
-        "aov": "http://azure.com/IoT/operations/tm#"
+        "dov": "http://azure.com/DigitalOperations/vocab#"
       }
     ],
     "@type": "tm:ThingModel",
     "title": "PNRIO_RioChannelDiagnosisAlarmType",
-    "aov:typeRef": "nsu=http://opcfoundation.org/UA/PNRIO/;i=1004",
-    "aov:isEvent": true,
+    "dov:typeRef": "nsu=http://opcfoundation.org/UA/PNRIO/;i=1004",
+    "dov:isEvent": true,
     "links": [
       {
         "rel": "tm:extends",
@@ -21,7 +20,7 @@
     "schemaDefinitions": {
       "RioChannelDiagnosisReasonEnumeration": {
         "type": "object",
-        "aov:typeRef": "nsu=http://opcfoundation.org/UA/PNRIO/;i=3026",
+        "dov:typeRef": "nsu=http://opcfoundation.org/UA/PNRIO/;i=3026",
         "const": {
           "ALL_DISAPPEARS": 0,
           "APPEARS": 1,
@@ -49,7 +48,7 @@
       },
       "RioChannelDiagnosisStatusEnumeration": {
         "type": "object",
-        "aov:typeRef": "nsu=http://opcfoundation.org/UA/PNRIO/;i=3011",
+        "dov:typeRef": "nsu=http://opcfoundation.org/UA/PNRIO/;i=3011",
         "const": {
           "HI_LIM_EXCEEDED": 0,
           "LO_LIM_EXCEEDED": 1,
@@ -94,7 +93,7 @@
     "forms": [
       {
         "contentType": "application/json",
-        "dtv:topic": "opcua/PNRIO/PNRIO_RioChannelDiagnosisAlarmType/properties/read",
+        "dov:topic": "opcua/PNRIO/PNRIO_RioChannelDiagnosisAlarmType/properties/read",
         "op": "readallproperties"
       }
     ],
@@ -102,44 +101,44 @@
     },
     "properties": {
       "ApplicationTag": {
-        "aov:namespace": "http://opcfoundation.org/UA/PNRIO/",
+        "dov:namespace": "http://opcfoundation.org/UA/PNRIO/",
         "type": "string",
         "readOnly": true,
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/PNRIO/PNRIO_RioChannelDiagnosisAlarmType/property/ApplicationTag/read",
+            "dov:topic": "opcua/PNRIO/PNRIO_RioChannelDiagnosisAlarmType/property/ApplicationTag/read",
             "op": "readproperty"
           }
         ]
       },
       "HelpText": {
-        "aov:namespace": "http://opcfoundation.org/UA/PNRIO/",
+        "dov:namespace": "http://opcfoundation.org/UA/PNRIO/",
         "type": "string",
         "readOnly": true,
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/PNRIO/PNRIO_RioChannelDiagnosisAlarmType/property/HelpText/read",
+            "dov:topic": "opcua/PNRIO/PNRIO_RioChannelDiagnosisAlarmType/property/HelpText/read",
             "op": "readproperty"
           }
         ]
       },
       "ManufacturerData": {
-        "aov:namespace": "http://opcfoundation.org/UA/PNRIO/",
+        "dov:namespace": "http://opcfoundation.org/UA/PNRIO/",
         "type": "string",
         "contentEncoding": "base64",
         "readOnly": true,
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/PNRIO/PNRIO_RioChannelDiagnosisAlarmType/property/ManufacturerData/read",
+            "dov:topic": "opcua/PNRIO/PNRIO_RioChannelDiagnosisAlarmType/property/ManufacturerData/read",
             "op": "readproperty"
           }
         ]
       },
       "PnChannelNumber": {
-        "aov:namespace": "http://opcfoundation.org/UA/PNRIO/",
+        "dov:namespace": "http://opcfoundation.org/UA/PNRIO/",
         "type": "integer",
         "minimum": 0,
         "maximum": 4294967295,
@@ -147,15 +146,15 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/PNRIO/PNRIO_RioChannelDiagnosisAlarmType/property/PnChannelNumber/read",
+            "dov:topic": "opcua/PNRIO/PNRIO_RioChannelDiagnosisAlarmType/property/PnChannelNumber/read",
             "op": "readproperty"
           }
         ]
       },
       "Reason": {
-        "aov:namespace": "http://opcfoundation.org/UA/PNRIO/",
+        "dov:namespace": "http://opcfoundation.org/UA/PNRIO/",
         "title": "RioChannelDiagnosisReasonEnumeration",
-        "aov:typeRef": "nsu=http://opcfoundation.org/UA/PNRIO/;i=3026",
+        "dov:typeRef": "nsu=http://opcfoundation.org/UA/PNRIO/;i=3026",
         "type": "integer",
         "minimum": -2147483648,
         "maximum": 2147483647,
@@ -163,13 +162,13 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/PNRIO/PNRIO_RioChannelDiagnosisAlarmType/property/Reason/read",
+            "dov:topic": "opcua/PNRIO/PNRIO_RioChannelDiagnosisAlarmType/property/Reason/read",
             "op": "readproperty"
           }
         ]
       },
       "RioChannelNumber": {
-        "aov:namespace": "http://opcfoundation.org/UA/PNRIO/",
+        "dov:namespace": "http://opcfoundation.org/UA/PNRIO/",
         "type": "integer",
         "minimum": 0,
         "maximum": 65535,
@@ -177,15 +176,15 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/PNRIO/PNRIO_RioChannelDiagnosisAlarmType/property/RioChannelNumber/read",
+            "dov:topic": "opcua/PNRIO/PNRIO_RioChannelDiagnosisAlarmType/property/RioChannelNumber/read",
             "op": "readproperty"
           }
         ]
       },
       "Status": {
-        "aov:namespace": "http://opcfoundation.org/UA/PNRIO/",
+        "dov:namespace": "http://opcfoundation.org/UA/PNRIO/",
         "title": "RioChannelDiagnosisStatusEnumeration",
-        "aov:typeRef": "nsu=http://opcfoundation.org/UA/PNRIO/;i=3011",
+        "dov:typeRef": "nsu=http://opcfoundation.org/UA/PNRIO/;i=3011",
         "type": "integer",
         "minimum": -2147483648,
         "maximum": 2147483647,
@@ -193,7 +192,7 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/PNRIO/PNRIO_RioChannelDiagnosisAlarmType/property/Status/read",
+            "dov:topic": "opcua/PNRIO/PNRIO_RioChannelDiagnosisAlarmType/property/Status/read",
             "op": "readproperty"
           }
         ]
@@ -206,14 +205,13 @@
     "@context": [
       "https://www.w3.org/2022/wot/td/v1.1",
       {
-        "dtv": "http://azure.com/DigitalTwins/dtmi#",
-        "aov": "http://azure.com/IoT/operations/tm#"
+        "dov": "http://azure.com/DigitalOperations/vocab#"
       }
     ],
     "@type": "tm:ThingModel",
     "title": "PNRIO_RioChannelDiagnosisEventType",
-    "aov:typeRef": "nsu=http://opcfoundation.org/UA/PNRIO/;i=1019",
-    "aov:isEvent": true,
+    "dov:typeRef": "nsu=http://opcfoundation.org/UA/PNRIO/;i=1019",
+    "dov:isEvent": true,
     "links": [
       {
         "rel": "tm:extends",
@@ -224,7 +222,7 @@
     "schemaDefinitions": {
       "RioChannelDiagnosisReasonEnumeration": {
         "type": "object",
-        "aov:typeRef": "nsu=http://opcfoundation.org/UA/PNRIO/;i=3026",
+        "dov:typeRef": "nsu=http://opcfoundation.org/UA/PNRIO/;i=3026",
         "const": {
           "ALL_DISAPPEARS": 0,
           "APPEARS": 1,
@@ -252,7 +250,7 @@
       },
       "RioChannelDiagnosisStatusEnumeration": {
         "type": "object",
-        "aov:typeRef": "nsu=http://opcfoundation.org/UA/PNRIO/;i=3011",
+        "dov:typeRef": "nsu=http://opcfoundation.org/UA/PNRIO/;i=3011",
         "const": {
           "HI_LIM_EXCEEDED": 0,
           "LO_LIM_EXCEEDED": 1,
@@ -297,7 +295,7 @@
     "forms": [
       {
         "contentType": "application/json",
-        "dtv:topic": "opcua/PNRIO/PNRIO_RioChannelDiagnosisEventType/properties/read",
+        "dov:topic": "opcua/PNRIO/PNRIO_RioChannelDiagnosisEventType/properties/read",
         "op": "readallproperties"
       }
     ],
@@ -305,44 +303,44 @@
     },
     "properties": {
       "ApplicationTag": {
-        "aov:namespace": "http://opcfoundation.org/UA/PNRIO/",
+        "dov:namespace": "http://opcfoundation.org/UA/PNRIO/",
         "type": "string",
         "readOnly": true,
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/PNRIO/PNRIO_RioChannelDiagnosisEventType/property/ApplicationTag/read",
+            "dov:topic": "opcua/PNRIO/PNRIO_RioChannelDiagnosisEventType/property/ApplicationTag/read",
             "op": "readproperty"
           }
         ]
       },
       "HelpText": {
-        "aov:namespace": "http://opcfoundation.org/UA/PNRIO/",
+        "dov:namespace": "http://opcfoundation.org/UA/PNRIO/",
         "type": "string",
         "readOnly": true,
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/PNRIO/PNRIO_RioChannelDiagnosisEventType/property/HelpText/read",
+            "dov:topic": "opcua/PNRIO/PNRIO_RioChannelDiagnosisEventType/property/HelpText/read",
             "op": "readproperty"
           }
         ]
       },
       "ManufacturerData": {
-        "aov:namespace": "http://opcfoundation.org/UA/PNRIO/",
+        "dov:namespace": "http://opcfoundation.org/UA/PNRIO/",
         "type": "string",
         "contentEncoding": "base64",
         "readOnly": true,
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/PNRIO/PNRIO_RioChannelDiagnosisEventType/property/ManufacturerData/read",
+            "dov:topic": "opcua/PNRIO/PNRIO_RioChannelDiagnosisEventType/property/ManufacturerData/read",
             "op": "readproperty"
           }
         ]
       },
       "PnChannelNumber": {
-        "aov:namespace": "http://opcfoundation.org/UA/PNRIO/",
+        "dov:namespace": "http://opcfoundation.org/UA/PNRIO/",
         "type": "integer",
         "minimum": 0,
         "maximum": 4294967295,
@@ -350,15 +348,15 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/PNRIO/PNRIO_RioChannelDiagnosisEventType/property/PnChannelNumber/read",
+            "dov:topic": "opcua/PNRIO/PNRIO_RioChannelDiagnosisEventType/property/PnChannelNumber/read",
             "op": "readproperty"
           }
         ]
       },
       "Reason": {
-        "aov:namespace": "http://opcfoundation.org/UA/PNRIO/",
+        "dov:namespace": "http://opcfoundation.org/UA/PNRIO/",
         "title": "RioChannelDiagnosisReasonEnumeration",
-        "aov:typeRef": "nsu=http://opcfoundation.org/UA/PNRIO/;i=3026",
+        "dov:typeRef": "nsu=http://opcfoundation.org/UA/PNRIO/;i=3026",
         "type": "integer",
         "minimum": -2147483648,
         "maximum": 2147483647,
@@ -366,13 +364,13 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/PNRIO/PNRIO_RioChannelDiagnosisEventType/property/Reason/read",
+            "dov:topic": "opcua/PNRIO/PNRIO_RioChannelDiagnosisEventType/property/Reason/read",
             "op": "readproperty"
           }
         ]
       },
       "RioChannelNumber": {
-        "aov:namespace": "http://opcfoundation.org/UA/PNRIO/",
+        "dov:namespace": "http://opcfoundation.org/UA/PNRIO/",
         "type": "integer",
         "minimum": 0,
         "maximum": 65535,
@@ -380,15 +378,15 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/PNRIO/PNRIO_RioChannelDiagnosisEventType/property/RioChannelNumber/read",
+            "dov:topic": "opcua/PNRIO/PNRIO_RioChannelDiagnosisEventType/property/RioChannelNumber/read",
             "op": "readproperty"
           }
         ]
       },
       "Status": {
-        "aov:namespace": "http://opcfoundation.org/UA/PNRIO/",
+        "dov:namespace": "http://opcfoundation.org/UA/PNRIO/",
         "title": "RioChannelDiagnosisStatusEnumeration",
-        "aov:typeRef": "nsu=http://opcfoundation.org/UA/PNRIO/;i=3011",
+        "dov:typeRef": "nsu=http://opcfoundation.org/UA/PNRIO/;i=3011",
         "type": "integer",
         "minimum": -2147483648,
         "maximum": 2147483647,
@@ -396,7 +394,7 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/PNRIO/PNRIO_RioChannelDiagnosisEventType/property/Status/read",
+            "dov:topic": "opcua/PNRIO/PNRIO_RioChannelDiagnosisEventType/property/Status/read",
             "op": "readproperty"
           }
         ]
@@ -409,13 +407,12 @@
     "@context": [
       "https://www.w3.org/2022/wot/td/v1.1",
       {
-        "dtv": "http://azure.com/DigitalTwins/dtmi#",
-        "aov": "http://azure.com/IoT/operations/tm#"
+        "dov": "http://azure.com/DigitalOperations/vocab#"
       }
     ],
     "@type": "tm:ThingModel",
     "title": "PNRIO_PnIoSignalType",
-    "aov:typeRef": "nsu=http://opcfoundation.org/UA/PNRIO/;i=1020",
+    "dov:typeRef": "nsu=http://opcfoundation.org/UA/PNRIO/;i=1020",
     "links": [
       {
         "rel": "tm:extends",
@@ -428,7 +425,7 @@
     "forms": [
       {
         "contentType": "application/json",
-        "dtv:topic": "opcua/PNRIO/PNRIO_PnIoSignalType/properties/read",
+        "dov:topic": "opcua/PNRIO/PNRIO_PnIoSignalType/properties/read",
         "op": "readallproperties"
       }
     ],
@@ -436,7 +433,7 @@
     },
     "properties": {
       "Offset": {
-        "aov:namespace": "http://opcfoundation.org/UA/PNRIO/",
+        "dov:namespace": "http://opcfoundation.org/UA/PNRIO/",
         "type": "integer",
         "minimum": 0,
         "maximum": 65535,
@@ -444,13 +441,13 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/PNRIO/PNRIO_PnIoSignalType/property/Offset/read",
+            "dov:topic": "opcua/PNRIO/PNRIO_PnIoSignalType/property/Offset/read",
             "op": "readproperty"
           }
         ]
       },
       "SignalId": {
-        "aov:namespace": "http://opcfoundation.org/UA/PNRIO/",
+        "dov:namespace": "http://opcfoundation.org/UA/PNRIO/",
         "type": "integer",
         "minimum": 0,
         "maximum": 65535,
@@ -458,7 +455,7 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/PNRIO/PNRIO_PnIoSignalType/property/SignalId/read",
+            "dov:topic": "opcua/PNRIO/PNRIO_PnIoSignalType/property/SignalId/read",
             "op": "readproperty"
           }
         ]
@@ -471,13 +468,12 @@
     "@context": [
       "https://www.w3.org/2022/wot/td/v1.1",
       {
-        "dtv": "http://azure.com/DigitalTwins/dtmi#",
-        "aov": "http://azure.com/IoT/operations/tm#"
+        "dov": "http://azure.com/DigitalOperations/vocab#"
       }
     ],
     "@type": "tm:ThingModel",
     "title": "PNRIO_PnIoTelegramType",
-    "aov:typeRef": "nsu=http://opcfoundation.org/UA/PNRIO/;i=1021",
+    "dov:typeRef": "nsu=http://opcfoundation.org/UA/PNRIO/;i=1021",
     "links": [
       {
         "rel": "tm:extends",
@@ -485,8 +481,8 @@
         "type": "application/tm+json"
       },
       {
-        "rel": "aov:component",
-        "aov:refName": "Nr_SignalName",
+        "rel": "dov:component",
+        "dov:refName": "Nr_SignalName",
         "href": "#title=PNRIO_PnIoSignalType",
         "type": "application/tm+json"
       }
@@ -494,7 +490,7 @@
     "schemaDefinitions": {
       "PnIoTelegramStatusEnumeration": {
         "type": "object",
-        "aov:typeRef": "nsu=http://opcfoundation.org/UA/PNRIO/;i=3002",
+        "dov:typeRef": "nsu=http://opcfoundation.org/UA/PNRIO/;i=3002",
         "const": {
           "GOOD": 0,
           "BAD_BY_SUBSLOT": 1,
@@ -529,7 +525,7 @@
     "forms": [
       {
         "contentType": "application/json",
-        "dtv:topic": "opcua/PNRIO/PNRIO_PnIoTelegramType/properties/read",
+        "dov:topic": "opcua/PNRIO/PNRIO_PnIoTelegramType/properties/read",
         "op": "readallproperties"
       }
     ],
@@ -537,9 +533,9 @@
     },
     "properties": {
       "ConsumerStatus": {
-        "aov:namespace": "http://opcfoundation.org/UA/PNRIO/",
+        "dov:namespace": "http://opcfoundation.org/UA/PNRIO/",
         "title": "PnIoTelegramStatusEnumeration",
-        "aov:typeRef": "nsu=http://opcfoundation.org/UA/PNRIO/;i=3002",
+        "dov:typeRef": "nsu=http://opcfoundation.org/UA/PNRIO/;i=3002",
         "type": "integer",
         "minimum": -2147483648,
         "maximum": 2147483647,
@@ -547,26 +543,26 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/PNRIO/PNRIO_PnIoTelegramType/property/ConsumerStatus/read",
+            "dov:topic": "opcua/PNRIO/PNRIO_PnIoTelegramType/property/ConsumerStatus/read",
             "op": "readproperty"
           }
         ]
       },
       "IoTelegramImage": {
-        "aov:namespace": "http://opcfoundation.org/UA/PNRIO/",
+        "dov:namespace": "http://opcfoundation.org/UA/PNRIO/",
         "type": "string",
         "contentEncoding": "base64",
         "readOnly": true,
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/PNRIO/PNRIO_PnIoTelegramType/property/IoTelegramImage/read",
+            "dov:topic": "opcua/PNRIO/PNRIO_PnIoTelegramType/property/IoTelegramImage/read",
             "op": "readproperty"
           }
         ]
       },
       "Length": {
-        "aov:namespace": "http://opcfoundation.org/UA/PNRIO/",
+        "dov:namespace": "http://opcfoundation.org/UA/PNRIO/",
         "type": "integer",
         "minimum": 0,
         "maximum": 65535,
@@ -574,15 +570,15 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/PNRIO/PNRIO_PnIoTelegramType/property/Length/read",
+            "dov:topic": "opcua/PNRIO/PNRIO_PnIoTelegramType/property/Length/read",
             "op": "readproperty"
           }
         ]
       },
       "ProviderStatus": {
-        "aov:namespace": "http://opcfoundation.org/UA/PNRIO/",
+        "dov:namespace": "http://opcfoundation.org/UA/PNRIO/",
         "title": "PnIoTelegramStatusEnumeration",
-        "aov:typeRef": "nsu=http://opcfoundation.org/UA/PNRIO/;i=3002",
+        "dov:typeRef": "nsu=http://opcfoundation.org/UA/PNRIO/;i=3002",
         "type": "integer",
         "minimum": -2147483648,
         "maximum": 2147483647,
@@ -590,7 +586,7 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/PNRIO/PNRIO_PnIoTelegramType/property/ProviderStatus/read",
+            "dov:topic": "opcua/PNRIO/PNRIO_PnIoTelegramType/property/ProviderStatus/read",
             "op": "readproperty"
           }
         ]
@@ -603,14 +599,13 @@
     "@context": [
       "https://www.w3.org/2022/wot/td/v1.1",
       {
-        "dtv": "http://azure.com/DigitalTwins/dtmi#",
-        "aov": "http://azure.com/IoT/operations/tm#"
+        "dov": "http://azure.com/DigitalOperations/vocab#"
       }
     ],
     "@type": "tm:ThingModel",
     "title": "PNRIO_PnTelegramType",
-    "aov:typeRef": "nsu=http://opcfoundation.org/UA/PNRIO/;i=1018",
-    "aov:isComposite": true,
+    "dov:typeRef": "nsu=http://opcfoundation.org/UA/PNRIO/;i=1018",
+    "dov:isComposite": true,
     "links": [
       {
         "rel": "tm:extends",
@@ -618,14 +613,14 @@
         "type": "application/tm+json"
       },
       {
-        "rel": "aov:reference",
-        "aov:refName": "Input",
+        "rel": "dov:reference",
+        "dov:refName": "Input",
         "href": "#title=PNRIO_PnIoTelegramType",
         "type": "application/tm+json"
       },
       {
-        "rel": "aov:reference",
-        "aov:refName": "Output",
+        "rel": "dov:reference",
+        "dov:refName": "Output",
         "href": "#title=PNRIO_PnIoTelegramType",
         "type": "application/tm+json"
       }
@@ -643,13 +638,12 @@
     "@context": [
       "https://www.w3.org/2022/wot/td/v1.1",
       {
-        "dtv": "http://azure.com/DigitalTwins/dtmi#",
-        "aov": "http://azure.com/IoT/operations/tm#"
+        "dov": "http://azure.com/DigitalOperations/vocab#"
       }
     ],
     "@type": "tm:ThingModel",
     "title": "PNRIO_RioChannelGroupConfigType",
-    "aov:typeRef": "nsu=http://opcfoundation.org/UA/PNRIO/;i=1017",
+    "dov:typeRef": "nsu=http://opcfoundation.org/UA/PNRIO/;i=1017",
     "links": [
       {
         "rel": "tm:extends",
@@ -660,7 +654,7 @@
     "schemaDefinitions": {
       "RioSignalTypeEnumeration": {
         "type": "object",
-        "aov:typeRef": "nsu=http://opcfoundation.org/UA/PNRIO/;i=3005",
+        "dov:typeRef": "nsu=http://opcfoundation.org/UA/PNRIO/;i=3005",
         "const": {
           "CURRENT_4_20_mA": 0,
           "CURRENT_0_20_mA": 1,
@@ -708,7 +702,7 @@
       },
       "RioSubstitutePolicyEnumeration": {
         "type": "object",
-        "aov:typeRef": "nsu=http://opcfoundation.org/UA/PNRIO/;i=3006",
+        "dov:typeRef": "nsu=http://opcfoundation.org/UA/PNRIO/;i=3006",
         "const": {
           "USE_SUBSTITUTE_VALUE": 0,
           "USE_LAST_VALID_VALUE": 1,
@@ -738,12 +732,12 @@
     "forms": [
       {
         "contentType": "application/json",
-        "dtv:topic": "opcua/PNRIO/PNRIO_RioChannelGroupConfigType/events/{senderId}",
+        "dov:topic": "opcua/PNRIO/PNRIO_RioChannelGroupConfigType/events/{senderId}",
         "op": "subscribeallevents"
       },
       {
         "contentType": "application/json",
-        "dtv:topic": "opcua/PNRIO/PNRIO_RioChannelGroupConfigType/properties/read",
+        "dov:topic": "opcua/PNRIO/PNRIO_RioChannelGroupConfigType/properties/read",
         "op": "readallproperties"
       }
     ],
@@ -751,7 +745,7 @@
     },
     "properties": {
       "Damping": {
-        "aov:namespace": "http://opcfoundation.org/UA/PNRIO/",
+        "dov:namespace": "http://opcfoundation.org/UA/PNRIO/",
         "type": "number",
         "minimum": -3.40e+38,
         "maximum": 3.40e+38,
@@ -759,18 +753,18 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/PNRIO/PNRIO_RioChannelGroupConfigType/property/Damping/read",
+            "dov:topic": "opcua/PNRIO/PNRIO_RioChannelGroupConfigType/property/Damping/read",
             "op": "readproperty"
           }
         ]
       },
       "FaAnalogSubstituteValue": {
-        "aov:namespace": "http://opcfoundation.org/UA/PNRIO/",
+        "dov:namespace": "http://opcfoundation.org/UA/PNRIO/",
         "type": "array",
         "items": {
           "title": "RioAnalogDataType",
           "type": "object",
-          "aov:typeRef": "nsu=http://opcfoundation.org/UA/PNRIO/;i=3020",
+          "dov:typeRef": "nsu=http://opcfoundation.org/UA/PNRIO/;i=3020",
           "properties": {
             "Float_32": {
               "type": "number",
@@ -803,16 +797,16 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/PNRIO/PNRIO_RioChannelGroupConfigType/property/FaAnalogSubstituteValue/read",
+            "dov:topic": "opcua/PNRIO/PNRIO_RioChannelGroupConfigType/property/FaAnalogSubstituteValue/read",
             "op": "readproperty"
           }
         ]
       },
       "FaDigitalSubstituteValue": {
-        "aov:namespace": "http://opcfoundation.org/UA/PNRIO/",
+        "dov:namespace": "http://opcfoundation.org/UA/PNRIO/",
         "title": "RioBitFieldDataType",
         "type": "object",
-        "aov:typeRef": "nsu=http://opcfoundation.org/UA/PNRIO/;i=3023",
+        "dov:typeRef": "nsu=http://opcfoundation.org/UA/PNRIO/;i=3023",
         "required": [ "BitData", "BitUsed" ],
         "properties": {
           "BitData": {
@@ -830,16 +824,16 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/PNRIO/PNRIO_RioChannelGroupConfigType/property/FaDigitalSubstituteValue/read",
+            "dov:topic": "opcua/PNRIO/PNRIO_RioChannelGroupConfigType/property/FaDigitalSubstituteValue/read",
             "op": "readproperty"
           }
         ]
       },
       "HighLimit": {
-        "aov:namespace": "http://opcfoundation.org/UA/PNRIO/",
+        "dov:namespace": "http://opcfoundation.org/UA/PNRIO/",
         "title": "RioAnalogDataType",
         "type": "object",
-        "aov:typeRef": "nsu=http://opcfoundation.org/UA/PNRIO/;i=3020",
+        "dov:typeRef": "nsu=http://opcfoundation.org/UA/PNRIO/;i=3020",
         "properties": {
           "Float_32": {
             "type": "number",
@@ -871,40 +865,40 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/PNRIO/PNRIO_RioChannelGroupConfigType/property/HighLimit/read",
+            "dov:topic": "opcua/PNRIO/PNRIO_RioChannelGroupConfigType/property/HighLimit/read",
             "op": "readproperty"
           }
         ]
       },
       "InversionEnabled": {
-        "aov:namespace": "http://opcfoundation.org/UA/PNRIO/",
+        "dov:namespace": "http://opcfoundation.org/UA/PNRIO/",
         "type": "boolean",
         "readOnly": true,
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/PNRIO/PNRIO_RioChannelGroupConfigType/property/InversionEnabled/read",
+            "dov:topic": "opcua/PNRIO/PNRIO_RioChannelGroupConfigType/property/InversionEnabled/read",
             "op": "readproperty"
           }
         ]
       },
       "LoadVoltageCheckEnabled": {
-        "aov:namespace": "http://opcfoundation.org/UA/PNRIO/",
+        "dov:namespace": "http://opcfoundation.org/UA/PNRIO/",
         "type": "boolean",
         "readOnly": true,
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/PNRIO/PNRIO_RioChannelGroupConfigType/property/LoadVoltageCheckEnabled/read",
+            "dov:topic": "opcua/PNRIO/PNRIO_RioChannelGroupConfigType/property/LoadVoltageCheckEnabled/read",
             "op": "readproperty"
           }
         ]
       },
       "LowLimit": {
-        "aov:namespace": "http://opcfoundation.org/UA/PNRIO/",
+        "dov:namespace": "http://opcfoundation.org/UA/PNRIO/",
         "title": "RioAnalogDataType",
         "type": "object",
-        "aov:typeRef": "nsu=http://opcfoundation.org/UA/PNRIO/;i=3020",
+        "dov:typeRef": "nsu=http://opcfoundation.org/UA/PNRIO/;i=3020",
         "properties": {
           "Float_32": {
             "type": "number",
@@ -936,18 +930,18 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/PNRIO/PNRIO_RioChannelGroupConfigType/property/LowLimit/read",
+            "dov:topic": "opcua/PNRIO/PNRIO_RioChannelGroupConfigType/property/LowLimit/read",
             "op": "readproperty"
           }
         ]
       },
       "PaAnalogSubstituteValue": {
-        "aov:namespace": "http://opcfoundation.org/UA/PNRIO/",
+        "dov:namespace": "http://opcfoundation.org/UA/PNRIO/",
         "type": "array",
         "items": {
           "title": "RioAnalogDataType",
           "type": "object",
-          "aov:typeRef": "nsu=http://opcfoundation.org/UA/PNRIO/;i=3020",
+          "dov:typeRef": "nsu=http://opcfoundation.org/UA/PNRIO/;i=3020",
           "properties": {
             "Float_32": {
               "type": "number",
@@ -980,16 +974,16 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/PNRIO/PNRIO_RioChannelGroupConfigType/property/PaAnalogSubstituteValue/read",
+            "dov:topic": "opcua/PNRIO/PNRIO_RioChannelGroupConfigType/property/PaAnalogSubstituteValue/read",
             "op": "readproperty"
           }
         ]
       },
       "PaDigitalSubstituteValue": {
-        "aov:namespace": "http://opcfoundation.org/UA/PNRIO/",
+        "dov:namespace": "http://opcfoundation.org/UA/PNRIO/",
         "title": "RioBitFieldDataType",
         "type": "object",
-        "aov:typeRef": "nsu=http://opcfoundation.org/UA/PNRIO/;i=3023",
+        "dov:typeRef": "nsu=http://opcfoundation.org/UA/PNRIO/;i=3023",
         "required": [ "BitData", "BitUsed" ],
         "properties": {
           "BitData": {
@@ -1007,27 +1001,27 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/PNRIO/PNRIO_RioChannelGroupConfigType/property/PaDigitalSubstituteValue/read",
+            "dov:topic": "opcua/PNRIO/PNRIO_RioChannelGroupConfigType/property/PaDigitalSubstituteValue/read",
             "op": "readproperty"
           }
         ]
       },
       "ShortCircuitCheckEnabled": {
-        "aov:namespace": "http://opcfoundation.org/UA/PNRIO/",
+        "dov:namespace": "http://opcfoundation.org/UA/PNRIO/",
         "type": "boolean",
         "readOnly": true,
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/PNRIO/PNRIO_RioChannelGroupConfigType/property/ShortCircuitCheckEnabled/read",
+            "dov:topic": "opcua/PNRIO/PNRIO_RioChannelGroupConfigType/property/ShortCircuitCheckEnabled/read",
             "op": "readproperty"
           }
         ]
       },
       "SignalType": {
-        "aov:namespace": "http://opcfoundation.org/UA/PNRIO/",
+        "dov:namespace": "http://opcfoundation.org/UA/PNRIO/",
         "title": "RioSignalTypeEnumeration",
-        "aov:typeRef": "nsu=http://opcfoundation.org/UA/PNRIO/;i=3005",
+        "dov:typeRef": "nsu=http://opcfoundation.org/UA/PNRIO/;i=3005",
         "type": "integer",
         "minimum": -2147483648,
         "maximum": 2147483647,
@@ -1035,15 +1029,15 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/PNRIO/PNRIO_RioChannelGroupConfigType/property/SignalType/read",
+            "dov:topic": "opcua/PNRIO/PNRIO_RioChannelGroupConfigType/property/SignalType/read",
             "op": "readproperty"
           }
         ]
       },
       "SubstitutePolicy": {
-        "aov:namespace": "http://opcfoundation.org/UA/PNRIO/",
+        "dov:namespace": "http://opcfoundation.org/UA/PNRIO/",
         "title": "RioSubstitutePolicyEnumeration",
-        "aov:typeRef": "nsu=http://opcfoundation.org/UA/PNRIO/;i=3006",
+        "dov:typeRef": "nsu=http://opcfoundation.org/UA/PNRIO/;i=3006",
         "type": "integer",
         "minimum": -2147483648,
         "maximum": 2147483647,
@@ -1051,13 +1045,13 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/PNRIO/PNRIO_RioChannelGroupConfigType/property/SubstitutePolicy/read",
+            "dov:topic": "opcua/PNRIO/PNRIO_RioChannelGroupConfigType/property/SubstitutePolicy/read",
             "op": "readproperty"
           }
         ]
       },
       "SubstituteTime": {
-        "aov:namespace": "http://opcfoundation.org/UA/PNRIO/",
+        "dov:namespace": "http://opcfoundation.org/UA/PNRIO/",
         "type": "number",
         "minimum": -3.40e+38,
         "maximum": 3.40e+38,
@@ -1065,31 +1059,31 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/PNRIO/PNRIO_RioChannelGroupConfigType/property/SubstituteTime/read",
+            "dov:topic": "opcua/PNRIO/PNRIO_RioChannelGroupConfigType/property/SubstituteTime/read",
             "op": "readproperty"
           }
         ]
       },
       "SupplyVoltageCheckEnabled": {
-        "aov:namespace": "http://opcfoundation.org/UA/PNRIO/",
+        "dov:namespace": "http://opcfoundation.org/UA/PNRIO/",
         "type": "boolean",
         "readOnly": true,
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/PNRIO/PNRIO_RioChannelGroupConfigType/property/SupplyVoltageCheckEnabled/read",
+            "dov:topic": "opcua/PNRIO/PNRIO_RioChannelGroupConfigType/property/SupplyVoltageCheckEnabled/read",
             "op": "readproperty"
           }
         ]
       },
       "WireCheckEnabled": {
-        "aov:namespace": "http://opcfoundation.org/UA/PNRIO/",
+        "dov:namespace": "http://opcfoundation.org/UA/PNRIO/",
         "type": "boolean",
         "readOnly": true,
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/PNRIO/PNRIO_RioChannelGroupConfigType/property/WireCheckEnabled/read",
+            "dov:topic": "opcua/PNRIO/PNRIO_RioChannelGroupConfigType/property/WireCheckEnabled/read",
             "op": "readproperty"
           }
         ]
@@ -1097,11 +1091,11 @@
     },
     "events": {
       "FaDigitalSubstituteValue": {
-        "aov:namespace": "http://opcfoundation.org/UA/PNRIO/",
+        "dov:namespace": "http://opcfoundation.org/UA/PNRIO/",
         "data": {
           "title": "RioBitFieldDataType",
           "type": "object",
-          "aov:typeRef": "nsu=http://opcfoundation.org/UA/PNRIO/;i=3023",
+          "dov:typeRef": "nsu=http://opcfoundation.org/UA/PNRIO/;i=3023",
           "required": [ "BitData", "BitUsed" ],
           "properties": {
             "BitData": {
@@ -1119,17 +1113,17 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/PNRIO/PNRIO_RioChannelGroupConfigType/event/FaDigitalSubstituteValue/{senderId}",
+            "dov:topic": "opcua/PNRIO/PNRIO_RioChannelGroupConfigType/event/FaDigitalSubstituteValue/{senderId}",
             "op": "subscribeevent"
           }
         ]
       },
       "PaDigitalSubstituteValue": {
-        "aov:namespace": "http://opcfoundation.org/UA/PNRIO/",
+        "dov:namespace": "http://opcfoundation.org/UA/PNRIO/",
         "data": {
           "title": "RioBitFieldDataType",
           "type": "object",
-          "aov:typeRef": "nsu=http://opcfoundation.org/UA/PNRIO/;i=3023",
+          "dov:typeRef": "nsu=http://opcfoundation.org/UA/PNRIO/;i=3023",
           "required": [ "BitData", "BitUsed" ],
           "properties": {
             "BitData": {
@@ -1147,7 +1141,7 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/PNRIO/PNRIO_RioChannelGroupConfigType/event/PaDigitalSubstituteValue/{senderId}",
+            "dov:topic": "opcua/PNRIO/PNRIO_RioChannelGroupConfigType/event/PaDigitalSubstituteValue/{senderId}",
             "op": "subscribeevent"
           }
         ]
@@ -1158,13 +1152,12 @@
     "@context": [
       "https://www.w3.org/2022/wot/td/v1.1",
       {
-        "dtv": "http://azure.com/DigitalTwins/dtmi#",
-        "aov": "http://azure.com/IoT/operations/tm#"
+        "dov": "http://azure.com/DigitalOperations/vocab#"
       }
     ],
     "@type": "tm:ThingModel",
     "title": "PNRIO_RioChannelGroupType",
-    "aov:typeRef": "nsu=http://opcfoundation.org/UA/PNRIO/;i=1012",
+    "dov:typeRef": "nsu=http://opcfoundation.org/UA/PNRIO/;i=1012",
     "links": [
       {
         "rel": "tm:extends",
@@ -1172,29 +1165,29 @@
         "type": "application/tm+json"
       },
       {
-        "rel": "aov:typedReference",
-        "aov:refName": "RioInputChannel",
-        "aov:refType": "HasRioInputChannel",
+        "rel": "dov:typedReference",
+        "dov:refName": "RioInputChannel",
+        "dov:refType": "HasRioInputChannel",
         "href": "#title=PNRIO_RioChannelType",
         "type": "application/tm+json"
       },
       {
-        "rel": "aov:typedReference",
-        "aov:refName": "RioOutputChannel",
-        "aov:refType": "HasRioOutputChannel",
+        "rel": "dov:typedReference",
+        "dov:refName": "RioOutputChannel",
+        "dov:refType": "HasRioOutputChannel",
         "href": "#title=PNRIO_RioChannelType",
         "type": "application/tm+json"
       },
       {
-        "rel": "aov:typedReference",
-        "aov:refName": "ChannelGroupConfig",
-        "aov:refType": "HasRioConfiguration",
+        "rel": "dov:typedReference",
+        "dov:refName": "ChannelGroupConfig",
+        "dov:refType": "HasRioConfiguration",
         "href": "#title=PNRIO_RioChannelGroupConfigType",
         "type": "application/tm+json"
       },
       {
-        "rel": "aov:capability",
-        "aov:refName": "Lock",
+        "rel": "dov:capability",
+        "dov:refName": "Lock",
         "href": "./DI.TM.json#title=DI_LockingServicesType",
         "type": "application/tm+json"
       }
@@ -1204,16 +1197,16 @@
     "forms": [
       {
         "contentType": "application/json",
-        "dtv:topic": "opcua/PNRIO/PNRIO_RioChannelGroupType/properties/read",
+        "dov:topic": "opcua/PNRIO/PNRIO_RioChannelGroupType/properties/read",
         "op": "readallproperties"
       }
     ],
     "actions": {
       "SetApplicationTag": {
-        "aov:namespace": "http://opcfoundation.org/UA/PNRIO/",
+        "dov:namespace": "http://opcfoundation.org/UA/PNRIO/",
         "input": {
           "type": "object",
-          "aov:typeRef": "nsu=http://opcfoundation.org/UA/PNRIO/;i=6072",
+          "dov:typeRef": "nsu=http://opcfoundation.org/UA/PNRIO/;i=6072",
           "required": [ "ApplicationTag" ],
           "properties": {
             "ApplicationTag": {
@@ -1224,7 +1217,7 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/PNRIO/PNRIO_RioChannelGroupType/action/SetApplicationTag",
+            "dov:topic": "opcua/PNRIO/PNRIO_RioChannelGroupType/action/SetApplicationTag",
             "op": "invokeaction"
           }
         ]
@@ -1232,32 +1225,32 @@
     },
     "properties": {
       "ApplicationTag": {
-        "aov:namespace": "http://opcfoundation.org/UA/PNRIO/",
+        "dov:namespace": "http://opcfoundation.org/UA/PNRIO/",
         "type": "string",
         "readOnly": true,
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/PNRIO/PNRIO_RioChannelGroupType/property/ApplicationTag/read",
+            "dov:topic": "opcua/PNRIO/PNRIO_RioChannelGroupType/property/ApplicationTag/read",
             "op": "readproperty"
           }
         ]
       },
       "LastParameterChange": {
-        "aov:namespace": "http://opcfoundation.org/UA/PNRIO/",
+        "dov:namespace": "http://opcfoundation.org/UA/PNRIO/",
         "type": "string",
         "format": "date-time",
         "readOnly": true,
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/PNRIO/PNRIO_RioChannelGroupType/property/LastParameterChange/read",
+            "dov:topic": "opcua/PNRIO/PNRIO_RioChannelGroupType/property/LastParameterChange/read",
             "op": "readproperty"
           }
         ]
       },
       "NumberOfChannels": {
-        "aov:namespace": "http://opcfoundation.org/UA/PNRIO/",
+        "dov:namespace": "http://opcfoundation.org/UA/PNRIO/",
         "type": "array",
         "items": {
           "type": "integer",
@@ -1268,7 +1261,7 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/PNRIO/PNRIO_RioChannelGroupType/property/NumberOfChannels/read",
+            "dov:topic": "opcua/PNRIO/PNRIO_RioChannelGroupType/property/NumberOfChannels/read",
             "op": "readproperty"
           }
         ]
@@ -1281,14 +1274,13 @@
     "@context": [
       "https://www.w3.org/2022/wot/td/v1.1",
       {
-        "dtv": "http://azure.com/DigitalTwins/dtmi#",
-        "aov": "http://azure.com/IoT/operations/tm#"
+        "dov": "http://azure.com/DigitalOperations/vocab#"
       }
     ],
     "@type": "tm:ThingModel",
     "title": "PNRIO_RioFaAnalogChannelGroupType",
-    "aov:typeRef": "nsu=http://opcfoundation.org/UA/PNRIO/;i=1014",
-    "aov:isComposite": true,
+    "dov:typeRef": "nsu=http://opcfoundation.org/UA/PNRIO/;i=1014",
+    "dov:isComposite": true,
     "links": [
       {
         "rel": "tm:extends",
@@ -1309,14 +1301,13 @@
     "@context": [
       "https://www.w3.org/2022/wot/td/v1.1",
       {
-        "dtv": "http://azure.com/DigitalTwins/dtmi#",
-        "aov": "http://azure.com/IoT/operations/tm#"
+        "dov": "http://azure.com/DigitalOperations/vocab#"
       }
     ],
     "@type": "tm:ThingModel",
     "title": "PNRIO_RioFaDigitalChannelGroupType",
-    "aov:typeRef": "nsu=http://opcfoundation.org/UA/PNRIO/;i=1016",
-    "aov:isComposite": true,
+    "dov:typeRef": "nsu=http://opcfoundation.org/UA/PNRIO/;i=1016",
+    "dov:isComposite": true,
     "links": [
       {
         "rel": "tm:extends",
@@ -1337,14 +1328,13 @@
     "@context": [
       "https://www.w3.org/2022/wot/td/v1.1",
       {
-        "dtv": "http://azure.com/DigitalTwins/dtmi#",
-        "aov": "http://azure.com/IoT/operations/tm#"
+        "dov": "http://azure.com/DigitalOperations/vocab#"
       }
     ],
     "@type": "tm:ThingModel",
     "title": "PNRIO_RioPaAnalogChannelGroupType",
-    "aov:typeRef": "nsu=http://opcfoundation.org/UA/PNRIO/;i=1013",
-    "aov:isComposite": true,
+    "dov:typeRef": "nsu=http://opcfoundation.org/UA/PNRIO/;i=1013",
+    "dov:isComposite": true,
     "links": [
       {
         "rel": "tm:extends",
@@ -1357,21 +1347,21 @@
     "forms": [
       {
         "contentType": "application/json",
-        "dtv:topic": "opcua/PNRIO/PNRIO_RioPaAnalogChannelGroupType/events/{senderId}",
+        "dov:topic": "opcua/PNRIO/PNRIO_RioPaAnalogChannelGroupType/events/{senderId}",
         "op": "subscribeallevents"
       },
       {
         "contentType": "application/json",
-        "dtv:topic": "opcua/PNRIO/PNRIO_RioPaAnalogChannelGroupType/properties/read",
+        "dov:topic": "opcua/PNRIO/PNRIO_RioPaAnalogChannelGroupType/properties/read",
         "op": "readallproperties"
       }
     ],
     "actions": {
       "SetSimulation": {
-        "aov:namespace": "http://opcfoundation.org/UA/PNRIO/",
+        "dov:namespace": "http://opcfoundation.org/UA/PNRIO/",
         "input": {
           "type": "object",
-          "aov:typeRef": "nsu=http://opcfoundation.org/UA/PNRIO/;i=6133",
+          "dov:typeRef": "nsu=http://opcfoundation.org/UA/PNRIO/;i=6133",
           "required": [ "SimulationEnabled", "Index" ],
           "properties": {
             "SimulationEnabled": {
@@ -1389,23 +1379,23 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/PNRIO/PNRIO_RioPaAnalogChannelGroupType/action/SetSimulation",
+            "dov:topic": "opcua/PNRIO/PNRIO_RioPaAnalogChannelGroupType/action/SetSimulation",
             "op": "invokeaction"
           }
         ]
       },
       "SetSimulationValue": {
-        "aov:namespace": "http://opcfoundation.org/UA/PNRIO/",
+        "dov:namespace": "http://opcfoundation.org/UA/PNRIO/",
         "input": {
           "type": "object",
-          "aov:typeRef": "nsu=http://opcfoundation.org/UA/PNRIO/;i=6292",
+          "dov:typeRef": "nsu=http://opcfoundation.org/UA/PNRIO/;i=6292",
           "required": [ "Value", "Qualifier", "Index" ],
           "properties": {
             "Value": {
               "title": "RioAnalogDataType",
               "description": "Value used to set the Value member of the array element.",
               "type": "object",
-              "aov:typeRef": "nsu=http://opcfoundation.org/UA/PNRIO/;i=3020",
+              "dov:typeRef": "nsu=http://opcfoundation.org/UA/PNRIO/;i=3020",
               "properties": {
                 "Float_32": {
                   "type": "number",
@@ -1451,7 +1441,7 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/PNRIO/PNRIO_RioPaAnalogChannelGroupType/action/SetSimulationValue",
+            "dov:topic": "opcua/PNRIO/PNRIO_RioPaAnalogChannelGroupType/action/SetSimulationValue",
             "op": "invokeaction"
           }
         ]
@@ -1459,7 +1449,7 @@
     },
     "properties": {
       "SimulationEnabled": {
-        "aov:namespace": "http://opcfoundation.org/UA/PNRIO/",
+        "dov:namespace": "http://opcfoundation.org/UA/PNRIO/",
         "type": "array",
         "items": {
           "type": "boolean"
@@ -1468,25 +1458,25 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/PNRIO/PNRIO_RioPaAnalogChannelGroupType/property/SimulationEnabled/read",
+            "dov:topic": "opcua/PNRIO/PNRIO_RioPaAnalogChannelGroupType/property/SimulationEnabled/read",
             "op": "readproperty"
           }
         ]
       },
       "SimulationValues": {
-        "aov:namespace": "http://opcfoundation.org/UA/PNRIO/",
+        "dov:namespace": "http://opcfoundation.org/UA/PNRIO/",
         "type": "array",
         "items": {
           "title": "RioPaAnalogValueDataType",
           "type": "object",
-          "aov:typeRef": "nsu=http://opcfoundation.org/UA/PNRIO/;i=3027",
+          "dov:typeRef": "nsu=http://opcfoundation.org/UA/PNRIO/;i=3027",
           "required": [ "Value", "Qualifier" ],
           "properties": {
             "Value": {
               "title": "RioAnalogDataType",
               "description": "Current value.",
               "type": "object",
-              "aov:typeRef": "nsu=http://opcfoundation.org/UA/PNRIO/;i=3020",
+              "dov:typeRef": "nsu=http://opcfoundation.org/UA/PNRIO/;i=3020",
               "properties": {
                 "Float_32": {
                   "type": "number",
@@ -1527,7 +1517,7 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/PNRIO/PNRIO_RioPaAnalogChannelGroupType/property/SimulationValues/read",
+            "dov:topic": "opcua/PNRIO/PNRIO_RioPaAnalogChannelGroupType/property/SimulationValues/read",
             "op": "readproperty"
           }
         ]
@@ -1535,7 +1525,7 @@
     },
     "events": {
       "SimulationEnabled": {
-        "aov:namespace": "http://opcfoundation.org/UA/PNRIO/",
+        "dov:namespace": "http://opcfoundation.org/UA/PNRIO/",
         "data": {
           "type": "array",
           "items": {
@@ -1545,7 +1535,7 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/PNRIO/PNRIO_RioPaAnalogChannelGroupType/event/SimulationEnabled/{senderId}",
+            "dov:topic": "opcua/PNRIO/PNRIO_RioPaAnalogChannelGroupType/event/SimulationEnabled/{senderId}",
             "op": "subscribeevent"
           }
         ]
@@ -1556,14 +1546,13 @@
     "@context": [
       "https://www.w3.org/2022/wot/td/v1.1",
       {
-        "dtv": "http://azure.com/DigitalTwins/dtmi#",
-        "aov": "http://azure.com/IoT/operations/tm#"
+        "dov": "http://azure.com/DigitalOperations/vocab#"
       }
     ],
     "@type": "tm:ThingModel",
     "title": "PNRIO_RioPaDigitalChannelGroupType",
-    "aov:typeRef": "nsu=http://opcfoundation.org/UA/PNRIO/;i=1015",
-    "aov:isComposite": true,
+    "dov:typeRef": "nsu=http://opcfoundation.org/UA/PNRIO/;i=1015",
+    "dov:isComposite": true,
     "links": [
       {
         "rel": "tm:extends",
@@ -1576,21 +1565,21 @@
     "forms": [
       {
         "contentType": "application/json",
-        "dtv:topic": "opcua/PNRIO/PNRIO_RioPaDigitalChannelGroupType/events/{senderId}",
+        "dov:topic": "opcua/PNRIO/PNRIO_RioPaDigitalChannelGroupType/events/{senderId}",
         "op": "subscribeallevents"
       },
       {
         "contentType": "application/json",
-        "dtv:topic": "opcua/PNRIO/PNRIO_RioPaDigitalChannelGroupType/properties/read",
+        "dov:topic": "opcua/PNRIO/PNRIO_RioPaDigitalChannelGroupType/properties/read",
         "op": "readallproperties"
       }
     ],
     "actions": {
       "SetSimulation": {
-        "aov:namespace": "http://opcfoundation.org/UA/PNRIO/",
+        "dov:namespace": "http://opcfoundation.org/UA/PNRIO/",
         "input": {
           "type": "object",
-          "aov:typeRef": "nsu=http://opcfoundation.org/UA/PNRIO/;i=6169",
+          "dov:typeRef": "nsu=http://opcfoundation.org/UA/PNRIO/;i=6169",
           "required": [ "SimulationEnabled", "Index" ],
           "properties": {
             "SimulationEnabled": {
@@ -1608,16 +1597,16 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/PNRIO/PNRIO_RioPaDigitalChannelGroupType/action/SetSimulation",
+            "dov:topic": "opcua/PNRIO/PNRIO_RioPaDigitalChannelGroupType/action/SetSimulation",
             "op": "invokeaction"
           }
         ]
       },
       "SetSimulationValue": {
-        "aov:namespace": "http://opcfoundation.org/UA/PNRIO/",
+        "dov:namespace": "http://opcfoundation.org/UA/PNRIO/",
         "input": {
           "type": "object",
-          "aov:typeRef": "nsu=http://opcfoundation.org/UA/PNRIO/;i=6062",
+          "dov:typeRef": "nsu=http://opcfoundation.org/UA/PNRIO/;i=6062",
           "required": [ "Value", "Qualifier", "Index" ],
           "properties": {
             "Value": {
@@ -1641,7 +1630,7 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/PNRIO/PNRIO_RioPaDigitalChannelGroupType/action/SetSimulationValue",
+            "dov:topic": "opcua/PNRIO/PNRIO_RioPaDigitalChannelGroupType/action/SetSimulationValue",
             "op": "invokeaction"
           }
         ]
@@ -1649,7 +1638,7 @@
     },
     "properties": {
       "SimulationEnabled": {
-        "aov:namespace": "http://opcfoundation.org/UA/PNRIO/",
+        "dov:namespace": "http://opcfoundation.org/UA/PNRIO/",
         "type": "array",
         "items": {
           "type": "boolean"
@@ -1658,18 +1647,18 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/PNRIO/PNRIO_RioPaDigitalChannelGroupType/property/SimulationEnabled/read",
+            "dov:topic": "opcua/PNRIO/PNRIO_RioPaDigitalChannelGroupType/property/SimulationEnabled/read",
             "op": "readproperty"
           }
         ]
       },
       "SimulationValues": {
-        "aov:namespace": "http://opcfoundation.org/UA/PNRIO/",
+        "dov:namespace": "http://opcfoundation.org/UA/PNRIO/",
         "type": "array",
         "items": {
           "title": "RioPaDigitalValueDataType",
           "type": "object",
-          "aov:typeRef": "nsu=http://opcfoundation.org/UA/PNRIO/;i=3003",
+          "dov:typeRef": "nsu=http://opcfoundation.org/UA/PNRIO/;i=3003",
           "required": [ "Value", "Qualifier" ],
           "properties": {
             "Value": {
@@ -1688,7 +1677,7 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/PNRIO/PNRIO_RioPaDigitalChannelGroupType/property/SimulationValues/read",
+            "dov:topic": "opcua/PNRIO/PNRIO_RioPaDigitalChannelGroupType/property/SimulationValues/read",
             "op": "readproperty"
           }
         ]
@@ -1696,7 +1685,7 @@
     },
     "events": {
       "SimulationEnabled": {
-        "aov:namespace": "http://opcfoundation.org/UA/PNRIO/",
+        "dov:namespace": "http://opcfoundation.org/UA/PNRIO/",
         "data": {
           "type": "array",
           "items": {
@@ -1706,7 +1695,7 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/PNRIO/PNRIO_RioPaDigitalChannelGroupType/event/SimulationEnabled/{senderId}",
+            "dov:topic": "opcua/PNRIO/PNRIO_RioPaDigitalChannelGroupType/event/SimulationEnabled/{senderId}",
             "op": "subscribeevent"
           }
         ]
@@ -1717,13 +1706,12 @@
     "@context": [
       "https://www.w3.org/2022/wot/td/v1.1",
       {
-        "dtv": "http://azure.com/DigitalTwins/dtmi#",
-        "aov": "http://azure.com/IoT/operations/tm#"
+        "dov": "http://azure.com/DigitalOperations/vocab#"
       }
     ],
     "@type": "tm:ThingModel",
     "title": "PNRIO_RioChannelType",
-    "aov:typeRef": "nsu=http://opcfoundation.org/UA/PNRIO/;i=1005",
+    "dov:typeRef": "nsu=http://opcfoundation.org/UA/PNRIO/;i=1005",
     "links": [
       {
         "rel": "tm:extends",
@@ -1731,8 +1719,8 @@
         "type": "application/tm+json"
       },
       {
-        "rel": "aov:capability",
-        "aov:refName": "Lock",
+        "rel": "dov:capability",
+        "dov:refName": "Lock",
         "href": "./DI.TM.json#title=DI_LockingServicesType",
         "type": "application/tm+json"
       }
@@ -1742,16 +1730,16 @@
     "forms": [
       {
         "contentType": "application/json",
-        "dtv:topic": "opcua/PNRIO/PNRIO_RioChannelType/properties/read",
+        "dov:topic": "opcua/PNRIO/PNRIO_RioChannelType/properties/read",
         "op": "readallproperties"
       }
     ],
     "actions": {
       "SetApplicationTag": {
-        "aov:namespace": "http://opcfoundation.org/UA/PNRIO/",
+        "dov:namespace": "http://opcfoundation.org/UA/PNRIO/",
         "input": {
           "type": "object",
-          "aov:typeRef": "nsu=http://opcfoundation.org/UA/PNRIO/;i=6186",
+          "dov:typeRef": "nsu=http://opcfoundation.org/UA/PNRIO/;i=6186",
           "required": [ "ApplicationTag" ],
           "properties": {
             "ApplicationTag": {
@@ -1762,7 +1750,7 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/PNRIO/PNRIO_RioChannelType/action/SetApplicationTag",
+            "dov:topic": "opcua/PNRIO/PNRIO_RioChannelType/action/SetApplicationTag",
             "op": "invokeaction"
           }
         ]
@@ -1770,32 +1758,32 @@
     },
     "properties": {
       "ApplicationTag": {
-        "aov:namespace": "http://opcfoundation.org/UA/PNRIO/",
+        "dov:namespace": "http://opcfoundation.org/UA/PNRIO/",
         "type": "string",
         "readOnly": true,
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/PNRIO/PNRIO_RioChannelType/property/ApplicationTag/read",
+            "dov:topic": "opcua/PNRIO/PNRIO_RioChannelType/property/ApplicationTag/read",
             "op": "readproperty"
           }
         ]
       },
       "LastParameterChange": {
-        "aov:namespace": "http://opcfoundation.org/UA/PNRIO/",
+        "dov:namespace": "http://opcfoundation.org/UA/PNRIO/",
         "type": "string",
         "format": "date-time",
         "readOnly": true,
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/PNRIO/PNRIO_RioChannelType/property/LastParameterChange/read",
+            "dov:topic": "opcua/PNRIO/PNRIO_RioChannelType/property/LastParameterChange/read",
             "op": "readproperty"
           }
         ]
       },
       "RioChannelNumber": {
-        "aov:namespace": "http://opcfoundation.org/UA/PNRIO/",
+        "dov:namespace": "http://opcfoundation.org/UA/PNRIO/",
         "type": "integer",
         "minimum": 0,
         "maximum": 65535,
@@ -1803,7 +1791,7 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/PNRIO/PNRIO_RioChannelType/property/RioChannelNumber/read",
+            "dov:topic": "opcua/PNRIO/PNRIO_RioChannelType/property/RioChannelNumber/read",
             "op": "readproperty"
           }
         ]
@@ -1816,14 +1804,13 @@
     "@context": [
       "https://www.w3.org/2022/wot/td/v1.1",
       {
-        "dtv": "http://azure.com/DigitalTwins/dtmi#",
-        "aov": "http://azure.com/IoT/operations/tm#"
+        "dov": "http://azure.com/DigitalOperations/vocab#"
       }
     ],
     "@type": "tm:ThingModel",
     "title": "PNRIO_RioFaAnalogInputChannelType",
-    "aov:typeRef": "nsu=http://opcfoundation.org/UA/PNRIO/;i=1003",
-    "aov:isComposite": true,
+    "dov:typeRef": "nsu=http://opcfoundation.org/UA/PNRIO/;i=1003",
+    "dov:isComposite": true,
     "links": [
       {
         "rel": "tm:extends",
@@ -1834,7 +1821,7 @@
     "schemaDefinitions": {
       "RioSignalTypeEnumeration": {
         "type": "object",
-        "aov:typeRef": "nsu=http://opcfoundation.org/UA/PNRIO/;i=3005",
+        "dov:typeRef": "nsu=http://opcfoundation.org/UA/PNRIO/;i=3005",
         "const": {
           "CURRENT_4_20_mA": 0,
           "CURRENT_0_20_mA": 1,
@@ -1882,7 +1869,7 @@
       },
       "RioSubstitutePolicyEnumeration": {
         "type": "object",
-        "aov:typeRef": "nsu=http://opcfoundation.org/UA/PNRIO/;i=3006",
+        "dov:typeRef": "nsu=http://opcfoundation.org/UA/PNRIO/;i=3006",
         "const": {
           "USE_SUBSTITUTE_VALUE": 0,
           "USE_LAST_VALID_VALUE": 1,
@@ -1912,12 +1899,12 @@
     "forms": [
       {
         "contentType": "application/json",
-        "dtv:topic": "opcua/PNRIO/PNRIO_RioFaAnalogInputChannelType/events/{senderId}",
+        "dov:topic": "opcua/PNRIO/PNRIO_RioFaAnalogInputChannelType/events/{senderId}",
         "op": "subscribeallevents"
       },
       {
         "contentType": "application/json",
-        "dtv:topic": "opcua/PNRIO/PNRIO_RioFaAnalogInputChannelType/properties/read",
+        "dov:topic": "opcua/PNRIO/PNRIO_RioFaAnalogInputChannelType/properties/read",
         "op": "readallproperties"
       }
     ],
@@ -1925,10 +1912,10 @@
     },
     "properties": {
       "Config": {
-        "aov:namespace": "http://opcfoundation.org/UA/PNRIO/",
+        "dov:namespace": "http://opcfoundation.org/UA/PNRIO/",
         "title": "RioFaAnalogInputConfigDataType",
         "type": "object",
-        "aov:typeRef": "nsu=http://opcfoundation.org/UA/PNRIO/;i=3017",
+        "dov:typeRef": "nsu=http://opcfoundation.org/UA/PNRIO/;i=3017",
         "required": [ "Damping", "SignalType", "WireCheckEnabled", "SupplyVoltageCheckEnabled", "SubstitutePolicy", "SubstituteValue" ],
         "properties": {
           "Damping": {
@@ -1938,7 +1925,7 @@
           },
           "SignalType": {
             "title": "RioSignalTypeEnumeration",
-            "aov:typeRef": "nsu=http://opcfoundation.org/UA/PNRIO/;i=3005",
+            "dov:typeRef": "nsu=http://opcfoundation.org/UA/PNRIO/;i=3005",
             "type": "integer",
             "minimum": -2147483648,
             "maximum": 2147483647
@@ -1951,7 +1938,7 @@
           },
           "SubstitutePolicy": {
             "title": "RioSubstitutePolicyEnumeration",
-            "aov:typeRef": "nsu=http://opcfoundation.org/UA/PNRIO/;i=3006",
+            "dov:typeRef": "nsu=http://opcfoundation.org/UA/PNRIO/;i=3006",
             "type": "integer",
             "minimum": -2147483648,
             "maximum": 2147483647
@@ -1959,7 +1946,7 @@
           "SubstituteValue": {
             "title": "RioAnalogDataType",
             "type": "object",
-            "aov:typeRef": "nsu=http://opcfoundation.org/UA/PNRIO/;i=3020",
+            "dov:typeRef": "nsu=http://opcfoundation.org/UA/PNRIO/;i=3020",
             "properties": {
               "Float_32": {
                 "type": "number",
@@ -1993,16 +1980,16 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/PNRIO/PNRIO_RioFaAnalogInputChannelType/property/Config/read",
+            "dov:topic": "opcua/PNRIO/PNRIO_RioFaAnalogInputChannelType/property/Config/read",
             "op": "readproperty"
           }
         ]
       },
       "ProcessValue": {
-        "aov:namespace": "http://opcfoundation.org/UA/PNRIO/",
+        "dov:namespace": "http://opcfoundation.org/UA/PNRIO/",
         "title": "RioFaAnalogProcessValueDataType",
         "type": "object",
-        "aov:typeRef": "nsu=http://opcfoundation.org/UA/PNRIO/;i=3025",
+        "dov:typeRef": "nsu=http://opcfoundation.org/UA/PNRIO/;i=3025",
         "required": [ "Quality" ],
         "properties": {
           "Quality": {
@@ -2013,30 +2000,30 @@
           }
         },
         "readOnly": true,
-        "aov:contains": [ "ProcessValue_QualifierValue" ],
+        "dov:contains": [ "ProcessValue_QualifierValue" ],
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/PNRIO/PNRIO_RioFaAnalogInputChannelType/property/ProcessValue/read",
+            "dov:topic": "opcua/PNRIO/PNRIO_RioFaAnalogInputChannelType/property/ProcessValue/read",
             "op": "readproperty"
           }
         ]
       },
       "ProcessValue_QualifierValue": {
-        "aov:namespace": "http://opcfoundation.org/UA/PNRIO/",
+        "dov:namespace": "http://opcfoundation.org/UA/PNRIO/",
         "type": "boolean",
         "readOnly": true,
-        "aov:containedIn": "ProcessValue",
+        "dov:containedIn": "ProcessValue",
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/PNRIO/PNRIO_RioFaAnalogInputChannelType/property/ProcessValue_QualifierValue/read",
+            "dov:topic": "opcua/PNRIO/PNRIO_RioFaAnalogInputChannelType/property/ProcessValue_QualifierValue/read",
             "op": "readproperty"
           }
         ]
       },
       "SignalValue": {
-        "aov:namespace": "http://opcfoundation.org/UA/PNRIO/",
+        "dov:namespace": "http://opcfoundation.org/UA/PNRIO/",
         "type": "number",
         "minimum": -1.80e+308,
         "maximum": 1.80e+308,
@@ -2044,7 +2031,7 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/PNRIO/PNRIO_RioFaAnalogInputChannelType/property/SignalValue/read",
+            "dov:topic": "opcua/PNRIO/PNRIO_RioFaAnalogInputChannelType/property/SignalValue/read",
             "op": "readproperty"
           }
         ]
@@ -2052,11 +2039,11 @@
     },
     "events": {
       "Config": {
-        "aov:namespace": "http://opcfoundation.org/UA/PNRIO/",
+        "dov:namespace": "http://opcfoundation.org/UA/PNRIO/",
         "data": {
           "title": "RioFaAnalogInputConfigDataType",
           "type": "object",
-          "aov:typeRef": "nsu=http://opcfoundation.org/UA/PNRIO/;i=3017",
+          "dov:typeRef": "nsu=http://opcfoundation.org/UA/PNRIO/;i=3017",
           "required": [ "Damping", "SignalType", "WireCheckEnabled", "SupplyVoltageCheckEnabled", "SubstitutePolicy", "SubstituteValue" ],
           "properties": {
             "Damping": {
@@ -2066,7 +2053,7 @@
             },
             "SignalType": {
               "title": "RioSignalTypeEnumeration",
-              "aov:typeRef": "nsu=http://opcfoundation.org/UA/PNRIO/;i=3005",
+              "dov:typeRef": "nsu=http://opcfoundation.org/UA/PNRIO/;i=3005",
               "type": "integer",
               "minimum": -2147483648,
               "maximum": 2147483647
@@ -2079,7 +2066,7 @@
             },
             "SubstitutePolicy": {
               "title": "RioSubstitutePolicyEnumeration",
-              "aov:typeRef": "nsu=http://opcfoundation.org/UA/PNRIO/;i=3006",
+              "dov:typeRef": "nsu=http://opcfoundation.org/UA/PNRIO/;i=3006",
               "type": "integer",
               "minimum": -2147483648,
               "maximum": 2147483647
@@ -2087,7 +2074,7 @@
             "SubstituteValue": {
               "title": "RioAnalogDataType",
               "type": "object",
-              "aov:typeRef": "nsu=http://opcfoundation.org/UA/PNRIO/;i=3020",
+              "dov:typeRef": "nsu=http://opcfoundation.org/UA/PNRIO/;i=3020",
               "properties": {
                 "Float_32": {
                   "type": "number",
@@ -2121,17 +2108,17 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/PNRIO/PNRIO_RioFaAnalogInputChannelType/event/Config/{senderId}",
+            "dov:topic": "opcua/PNRIO/PNRIO_RioFaAnalogInputChannelType/event/Config/{senderId}",
             "op": "subscribeevent"
           }
         ]
       },
       "ProcessValue": {
-        "aov:namespace": "http://opcfoundation.org/UA/PNRIO/",
+        "dov:namespace": "http://opcfoundation.org/UA/PNRIO/",
         "data": {
           "title": "RioFaAnalogProcessValueDataType",
           "type": "object",
-          "aov:typeRef": "nsu=http://opcfoundation.org/UA/PNRIO/;i=3025",
+          "dov:typeRef": "nsu=http://opcfoundation.org/UA/PNRIO/;i=3025",
           "required": [ "Quality" ],
           "properties": {
             "Quality": {
@@ -2142,31 +2129,31 @@
             }
           }
         },
-        "aov:contains": [ "ProcessValue_QualifierValue" ],
+        "dov:contains": [ "ProcessValue_QualifierValue" ],
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/PNRIO/PNRIO_RioFaAnalogInputChannelType/event/ProcessValue/{senderId}",
+            "dov:topic": "opcua/PNRIO/PNRIO_RioFaAnalogInputChannelType/event/ProcessValue/{senderId}",
             "op": "subscribeevent"
           }
         ]
       },
       "ProcessValue_QualifierValue": {
-        "aov:namespace": "http://opcfoundation.org/UA/PNRIO/",
+        "dov:namespace": "http://opcfoundation.org/UA/PNRIO/",
         "data": {
           "type": "boolean"
         },
-        "aov:containedIn": "ProcessValue",
+        "dov:containedIn": "ProcessValue",
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/PNRIO/PNRIO_RioFaAnalogInputChannelType/event/ProcessValue_QualifierValue/{senderId}",
+            "dov:topic": "opcua/PNRIO/PNRIO_RioFaAnalogInputChannelType/event/ProcessValue_QualifierValue/{senderId}",
             "op": "subscribeevent"
           }
         ]
       },
       "SignalValue": {
-        "aov:namespace": "http://opcfoundation.org/UA/PNRIO/",
+        "dov:namespace": "http://opcfoundation.org/UA/PNRIO/",
         "data": {
           "type": "number",
           "minimum": -1.80e+308,
@@ -2175,7 +2162,7 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/PNRIO/PNRIO_RioFaAnalogInputChannelType/event/SignalValue/{senderId}",
+            "dov:topic": "opcua/PNRIO/PNRIO_RioFaAnalogInputChannelType/event/SignalValue/{senderId}",
             "op": "subscribeevent"
           }
         ]
@@ -2186,14 +2173,13 @@
     "@context": [
       "https://www.w3.org/2022/wot/td/v1.1",
       {
-        "dtv": "http://azure.com/DigitalTwins/dtmi#",
-        "aov": "http://azure.com/IoT/operations/tm#"
+        "dov": "http://azure.com/DigitalOperations/vocab#"
       }
     ],
     "@type": "tm:ThingModel",
     "title": "PNRIO_RioFaAnalogOutputChannelType",
-    "aov:typeRef": "nsu=http://opcfoundation.org/UA/PNRIO/;i=1007",
-    "aov:isComposite": true,
+    "dov:typeRef": "nsu=http://opcfoundation.org/UA/PNRIO/;i=1007",
+    "dov:isComposite": true,
     "links": [
       {
         "rel": "tm:extends",
@@ -2204,7 +2190,7 @@
     "schemaDefinitions": {
       "RioSignalTypeEnumeration": {
         "type": "object",
-        "aov:typeRef": "nsu=http://opcfoundation.org/UA/PNRIO/;i=3005",
+        "dov:typeRef": "nsu=http://opcfoundation.org/UA/PNRIO/;i=3005",
         "const": {
           "CURRENT_4_20_mA": 0,
           "CURRENT_0_20_mA": 1,
@@ -2252,7 +2238,7 @@
       },
       "RioSubstitutePolicyEnumeration": {
         "type": "object",
-        "aov:typeRef": "nsu=http://opcfoundation.org/UA/PNRIO/;i=3006",
+        "dov:typeRef": "nsu=http://opcfoundation.org/UA/PNRIO/;i=3006",
         "const": {
           "USE_SUBSTITUTE_VALUE": 0,
           "USE_LAST_VALID_VALUE": 1,
@@ -2282,12 +2268,12 @@
     "forms": [
       {
         "contentType": "application/json",
-        "dtv:topic": "opcua/PNRIO/PNRIO_RioFaAnalogOutputChannelType/events/{senderId}",
+        "dov:topic": "opcua/PNRIO/PNRIO_RioFaAnalogOutputChannelType/events/{senderId}",
         "op": "subscribeallevents"
       },
       {
         "contentType": "application/json",
-        "dtv:topic": "opcua/PNRIO/PNRIO_RioFaAnalogOutputChannelType/properties/read",
+        "dov:topic": "opcua/PNRIO/PNRIO_RioFaAnalogOutputChannelType/properties/read",
         "op": "readallproperties"
       }
     ],
@@ -2295,15 +2281,15 @@
     },
     "properties": {
       "Config": {
-        "aov:namespace": "http://opcfoundation.org/UA/PNRIO/",
+        "dov:namespace": "http://opcfoundation.org/UA/PNRIO/",
         "title": "RioFaAnalogOutputConfigDataType",
         "type": "object",
-        "aov:typeRef": "nsu=http://opcfoundation.org/UA/PNRIO/;i=3019",
+        "dov:typeRef": "nsu=http://opcfoundation.org/UA/PNRIO/;i=3019",
         "required": [ "SignalType", "WireCheckEnabled", "SupplyVoltageCheckEnabled", "LoadVoltageCheckEnabled", "SubstitutePolicy", "SubstituteValue", "SubstituteTime" ],
         "properties": {
           "SignalType": {
             "title": "RioSignalTypeEnumeration",
-            "aov:typeRef": "nsu=http://opcfoundation.org/UA/PNRIO/;i=3005",
+            "dov:typeRef": "nsu=http://opcfoundation.org/UA/PNRIO/;i=3005",
             "type": "integer",
             "minimum": -2147483648,
             "maximum": 2147483647
@@ -2319,7 +2305,7 @@
           },
           "SubstitutePolicy": {
             "title": "RioSubstitutePolicyEnumeration",
-            "aov:typeRef": "nsu=http://opcfoundation.org/UA/PNRIO/;i=3006",
+            "dov:typeRef": "nsu=http://opcfoundation.org/UA/PNRIO/;i=3006",
             "type": "integer",
             "minimum": -2147483648,
             "maximum": 2147483647
@@ -2327,7 +2313,7 @@
           "SubstituteValue": {
             "title": "RioAnalogDataType",
             "type": "object",
-            "aov:typeRef": "nsu=http://opcfoundation.org/UA/PNRIO/;i=3020",
+            "dov:typeRef": "nsu=http://opcfoundation.org/UA/PNRIO/;i=3020",
             "properties": {
               "Float_32": {
                 "type": "number",
@@ -2366,16 +2352,16 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/PNRIO/PNRIO_RioFaAnalogOutputChannelType/property/Config/read",
+            "dov:topic": "opcua/PNRIO/PNRIO_RioFaAnalogOutputChannelType/property/Config/read",
             "op": "readproperty"
           }
         ]
       },
       "ProcessValue": {
-        "aov:namespace": "http://opcfoundation.org/UA/PNRIO/",
+        "dov:namespace": "http://opcfoundation.org/UA/PNRIO/",
         "title": "RioFaAnalogProcessValueDataType",
         "type": "object",
-        "aov:typeRef": "nsu=http://opcfoundation.org/UA/PNRIO/;i=3025",
+        "dov:typeRef": "nsu=http://opcfoundation.org/UA/PNRIO/;i=3025",
         "required": [ "Quality" ],
         "properties": {
           "Quality": {
@@ -2386,33 +2372,33 @@
           }
         },
         "readOnly": true,
-        "aov:contains": [ "ProcessValue_QualifierValue" ],
+        "dov:contains": [ "ProcessValue_QualifierValue" ],
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/PNRIO/PNRIO_RioFaAnalogOutputChannelType/property/ProcessValue/read",
+            "dov:topic": "opcua/PNRIO/PNRIO_RioFaAnalogOutputChannelType/property/ProcessValue/read",
             "op": "readproperty"
           }
         ]
       },
       "ProcessValue_QualifierValue": {
-        "aov:namespace": "http://opcfoundation.org/UA/PNRIO/",
+        "dov:namespace": "http://opcfoundation.org/UA/PNRIO/",
         "type": "boolean",
         "readOnly": true,
-        "aov:containedIn": "ProcessValue",
+        "dov:containedIn": "ProcessValue",
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/PNRIO/PNRIO_RioFaAnalogOutputChannelType/property/ProcessValue_QualifierValue/read",
+            "dov:topic": "opcua/PNRIO/PNRIO_RioFaAnalogOutputChannelType/property/ProcessValue_QualifierValue/read",
             "op": "readproperty"
           }
         ]
       },
       "ProcessValueReadback": {
-        "aov:namespace": "http://opcfoundation.org/UA/PNRIO/",
+        "dov:namespace": "http://opcfoundation.org/UA/PNRIO/",
         "title": "RioFaAnalogProcessValueDataType",
         "type": "object",
-        "aov:typeRef": "nsu=http://opcfoundation.org/UA/PNRIO/;i=3025",
+        "dov:typeRef": "nsu=http://opcfoundation.org/UA/PNRIO/;i=3025",
         "required": [ "Quality" ],
         "properties": {
           "Quality": {
@@ -2423,30 +2409,30 @@
           }
         },
         "readOnly": true,
-        "aov:contains": [ "ProcessValueReadback_QualifierValue" ],
+        "dov:contains": [ "ProcessValueReadback_QualifierValue" ],
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/PNRIO/PNRIO_RioFaAnalogOutputChannelType/property/ProcessValueReadback/read",
+            "dov:topic": "opcua/PNRIO/PNRIO_RioFaAnalogOutputChannelType/property/ProcessValueReadback/read",
             "op": "readproperty"
           }
         ]
       },
       "ProcessValueReadback_QualifierValue": {
-        "aov:namespace": "http://opcfoundation.org/UA/PNRIO/",
+        "dov:namespace": "http://opcfoundation.org/UA/PNRIO/",
         "type": "boolean",
         "readOnly": true,
-        "aov:containedIn": "ProcessValueReadback",
+        "dov:containedIn": "ProcessValueReadback",
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/PNRIO/PNRIO_RioFaAnalogOutputChannelType/property/ProcessValueReadback_QualifierValue/read",
+            "dov:topic": "opcua/PNRIO/PNRIO_RioFaAnalogOutputChannelType/property/ProcessValueReadback_QualifierValue/read",
             "op": "readproperty"
           }
         ]
       },
       "SignalValue": {
-        "aov:namespace": "http://opcfoundation.org/UA/PNRIO/",
+        "dov:namespace": "http://opcfoundation.org/UA/PNRIO/",
         "type": "number",
         "minimum": -1.80e+308,
         "maximum": 1.80e+308,
@@ -2454,13 +2440,13 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/PNRIO/PNRIO_RioFaAnalogOutputChannelType/property/SignalValue/read",
+            "dov:topic": "opcua/PNRIO/PNRIO_RioFaAnalogOutputChannelType/property/SignalValue/read",
             "op": "readproperty"
           }
         ]
       },
       "SignalValueReadback": {
-        "aov:namespace": "http://opcfoundation.org/UA/PNRIO/",
+        "dov:namespace": "http://opcfoundation.org/UA/PNRIO/",
         "type": "number",
         "minimum": -1.80e+308,
         "maximum": 1.80e+308,
@@ -2468,7 +2454,7 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/PNRIO/PNRIO_RioFaAnalogOutputChannelType/property/SignalValueReadback/read",
+            "dov:topic": "opcua/PNRIO/PNRIO_RioFaAnalogOutputChannelType/property/SignalValueReadback/read",
             "op": "readproperty"
           }
         ]
@@ -2476,16 +2462,16 @@
     },
     "events": {
       "Config": {
-        "aov:namespace": "http://opcfoundation.org/UA/PNRIO/",
+        "dov:namespace": "http://opcfoundation.org/UA/PNRIO/",
         "data": {
           "title": "RioFaAnalogOutputConfigDataType",
           "type": "object",
-          "aov:typeRef": "nsu=http://opcfoundation.org/UA/PNRIO/;i=3019",
+          "dov:typeRef": "nsu=http://opcfoundation.org/UA/PNRIO/;i=3019",
           "required": [ "SignalType", "WireCheckEnabled", "SupplyVoltageCheckEnabled", "LoadVoltageCheckEnabled", "SubstitutePolicy", "SubstituteValue", "SubstituteTime" ],
           "properties": {
             "SignalType": {
               "title": "RioSignalTypeEnumeration",
-              "aov:typeRef": "nsu=http://opcfoundation.org/UA/PNRIO/;i=3005",
+              "dov:typeRef": "nsu=http://opcfoundation.org/UA/PNRIO/;i=3005",
               "type": "integer",
               "minimum": -2147483648,
               "maximum": 2147483647
@@ -2501,7 +2487,7 @@
             },
             "SubstitutePolicy": {
               "title": "RioSubstitutePolicyEnumeration",
-              "aov:typeRef": "nsu=http://opcfoundation.org/UA/PNRIO/;i=3006",
+              "dov:typeRef": "nsu=http://opcfoundation.org/UA/PNRIO/;i=3006",
               "type": "integer",
               "minimum": -2147483648,
               "maximum": 2147483647
@@ -2509,7 +2495,7 @@
             "SubstituteValue": {
               "title": "RioAnalogDataType",
               "type": "object",
-              "aov:typeRef": "nsu=http://opcfoundation.org/UA/PNRIO/;i=3020",
+              "dov:typeRef": "nsu=http://opcfoundation.org/UA/PNRIO/;i=3020",
               "properties": {
                 "Float_32": {
                   "type": "number",
@@ -2548,17 +2534,17 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/PNRIO/PNRIO_RioFaAnalogOutputChannelType/event/Config/{senderId}",
+            "dov:topic": "opcua/PNRIO/PNRIO_RioFaAnalogOutputChannelType/event/Config/{senderId}",
             "op": "subscribeevent"
           }
         ]
       },
       "ProcessValue": {
-        "aov:namespace": "http://opcfoundation.org/UA/PNRIO/",
+        "dov:namespace": "http://opcfoundation.org/UA/PNRIO/",
         "data": {
           "title": "RioFaAnalogProcessValueDataType",
           "type": "object",
-          "aov:typeRef": "nsu=http://opcfoundation.org/UA/PNRIO/;i=3025",
+          "dov:typeRef": "nsu=http://opcfoundation.org/UA/PNRIO/;i=3025",
           "required": [ "Quality" ],
           "properties": {
             "Quality": {
@@ -2569,35 +2555,35 @@
             }
           }
         },
-        "aov:contains": [ "ProcessValue_QualifierValue" ],
+        "dov:contains": [ "ProcessValue_QualifierValue" ],
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/PNRIO/PNRIO_RioFaAnalogOutputChannelType/event/ProcessValue/{senderId}",
+            "dov:topic": "opcua/PNRIO/PNRIO_RioFaAnalogOutputChannelType/event/ProcessValue/{senderId}",
             "op": "subscribeevent"
           }
         ]
       },
       "ProcessValue_QualifierValue": {
-        "aov:namespace": "http://opcfoundation.org/UA/PNRIO/",
+        "dov:namespace": "http://opcfoundation.org/UA/PNRIO/",
         "data": {
           "type": "boolean"
         },
-        "aov:containedIn": "ProcessValue",
+        "dov:containedIn": "ProcessValue",
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/PNRIO/PNRIO_RioFaAnalogOutputChannelType/event/ProcessValue_QualifierValue/{senderId}",
+            "dov:topic": "opcua/PNRIO/PNRIO_RioFaAnalogOutputChannelType/event/ProcessValue_QualifierValue/{senderId}",
             "op": "subscribeevent"
           }
         ]
       },
       "ProcessValueReadback": {
-        "aov:namespace": "http://opcfoundation.org/UA/PNRIO/",
+        "dov:namespace": "http://opcfoundation.org/UA/PNRIO/",
         "data": {
           "title": "RioFaAnalogProcessValueDataType",
           "type": "object",
-          "aov:typeRef": "nsu=http://opcfoundation.org/UA/PNRIO/;i=3025",
+          "dov:typeRef": "nsu=http://opcfoundation.org/UA/PNRIO/;i=3025",
           "required": [ "Quality" ],
           "properties": {
             "Quality": {
@@ -2608,31 +2594,31 @@
             }
           }
         },
-        "aov:contains": [ "ProcessValueReadback_QualifierValue" ],
+        "dov:contains": [ "ProcessValueReadback_QualifierValue" ],
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/PNRIO/PNRIO_RioFaAnalogOutputChannelType/event/ProcessValueReadback/{senderId}",
+            "dov:topic": "opcua/PNRIO/PNRIO_RioFaAnalogOutputChannelType/event/ProcessValueReadback/{senderId}",
             "op": "subscribeevent"
           }
         ]
       },
       "ProcessValueReadback_QualifierValue": {
-        "aov:namespace": "http://opcfoundation.org/UA/PNRIO/",
+        "dov:namespace": "http://opcfoundation.org/UA/PNRIO/",
         "data": {
           "type": "boolean"
         },
-        "aov:containedIn": "ProcessValueReadback",
+        "dov:containedIn": "ProcessValueReadback",
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/PNRIO/PNRIO_RioFaAnalogOutputChannelType/event/ProcessValueReadback_QualifierValue/{senderId}",
+            "dov:topic": "opcua/PNRIO/PNRIO_RioFaAnalogOutputChannelType/event/ProcessValueReadback_QualifierValue/{senderId}",
             "op": "subscribeevent"
           }
         ]
       },
       "SignalValue": {
-        "aov:namespace": "http://opcfoundation.org/UA/PNRIO/",
+        "dov:namespace": "http://opcfoundation.org/UA/PNRIO/",
         "data": {
           "type": "number",
           "minimum": -1.80e+308,
@@ -2641,13 +2627,13 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/PNRIO/PNRIO_RioFaAnalogOutputChannelType/event/SignalValue/{senderId}",
+            "dov:topic": "opcua/PNRIO/PNRIO_RioFaAnalogOutputChannelType/event/SignalValue/{senderId}",
             "op": "subscribeevent"
           }
         ]
       },
       "SignalValueReadback": {
-        "aov:namespace": "http://opcfoundation.org/UA/PNRIO/",
+        "dov:namespace": "http://opcfoundation.org/UA/PNRIO/",
         "data": {
           "type": "number",
           "minimum": -1.80e+308,
@@ -2656,7 +2642,7 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/PNRIO/PNRIO_RioFaAnalogOutputChannelType/event/SignalValueReadback/{senderId}",
+            "dov:topic": "opcua/PNRIO/PNRIO_RioFaAnalogOutputChannelType/event/SignalValueReadback/{senderId}",
             "op": "subscribeevent"
           }
         ]
@@ -2667,14 +2653,13 @@
     "@context": [
       "https://www.w3.org/2022/wot/td/v1.1",
       {
-        "dtv": "http://azure.com/DigitalTwins/dtmi#",
-        "aov": "http://azure.com/IoT/operations/tm#"
+        "dov": "http://azure.com/DigitalOperations/vocab#"
       }
     ],
     "@type": "tm:ThingModel",
     "title": "PNRIO_RioFaDigitalInputChannelType",
-    "aov:typeRef": "nsu=http://opcfoundation.org/UA/PNRIO/;i=1009",
-    "aov:isComposite": true,
+    "dov:typeRef": "nsu=http://opcfoundation.org/UA/PNRIO/;i=1009",
+    "dov:isComposite": true,
     "links": [
       {
         "rel": "tm:extends",
@@ -2685,7 +2670,7 @@
     "schemaDefinitions": {
       "RioSignalTypeEnumeration": {
         "type": "object",
-        "aov:typeRef": "nsu=http://opcfoundation.org/UA/PNRIO/;i=3005",
+        "dov:typeRef": "nsu=http://opcfoundation.org/UA/PNRIO/;i=3005",
         "const": {
           "CURRENT_4_20_mA": 0,
           "CURRENT_0_20_mA": 1,
@@ -2733,7 +2718,7 @@
       },
       "RioSubstitutePolicyEnumeration": {
         "type": "object",
-        "aov:typeRef": "nsu=http://opcfoundation.org/UA/PNRIO/;i=3006",
+        "dov:typeRef": "nsu=http://opcfoundation.org/UA/PNRIO/;i=3006",
         "const": {
           "USE_SUBSTITUTE_VALUE": 0,
           "USE_LAST_VALID_VALUE": 1,
@@ -2763,12 +2748,12 @@
     "forms": [
       {
         "contentType": "application/json",
-        "dtv:topic": "opcua/PNRIO/PNRIO_RioFaDigitalInputChannelType/events/{senderId}",
+        "dov:topic": "opcua/PNRIO/PNRIO_RioFaDigitalInputChannelType/events/{senderId}",
         "op": "subscribeallevents"
       },
       {
         "contentType": "application/json",
-        "dtv:topic": "opcua/PNRIO/PNRIO_RioFaDigitalInputChannelType/properties/read",
+        "dov:topic": "opcua/PNRIO/PNRIO_RioFaDigitalInputChannelType/properties/read",
         "op": "readallproperties"
       }
     ],
@@ -2776,15 +2761,15 @@
     },
     "properties": {
       "Config": {
-        "aov:namespace": "http://opcfoundation.org/UA/PNRIO/",
+        "dov:namespace": "http://opcfoundation.org/UA/PNRIO/",
         "title": "RioFaDigitalInputConfigDataType",
         "type": "object",
-        "aov:typeRef": "nsu=http://opcfoundation.org/UA/PNRIO/;i=3013",
+        "dov:typeRef": "nsu=http://opcfoundation.org/UA/PNRIO/;i=3013",
         "required": [ "SignalType", "WireCheckEnabled", "SupplyVoltageCheckEnabled", "SubstitutePolicy", "SubstituteValue" ],
         "properties": {
           "SignalType": {
             "title": "RioSignalTypeEnumeration",
-            "aov:typeRef": "nsu=http://opcfoundation.org/UA/PNRIO/;i=3005",
+            "dov:typeRef": "nsu=http://opcfoundation.org/UA/PNRIO/;i=3005",
             "type": "integer",
             "minimum": -2147483648,
             "maximum": 2147483647
@@ -2797,7 +2782,7 @@
           },
           "SubstitutePolicy": {
             "title": "RioSubstitutePolicyEnumeration",
-            "aov:typeRef": "nsu=http://opcfoundation.org/UA/PNRIO/;i=3006",
+            "dov:typeRef": "nsu=http://opcfoundation.org/UA/PNRIO/;i=3006",
             "type": "integer",
             "minimum": -2147483648,
             "maximum": 2147483647
@@ -2810,16 +2795,16 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/PNRIO/PNRIO_RioFaDigitalInputChannelType/property/Config/read",
+            "dov:topic": "opcua/PNRIO/PNRIO_RioFaDigitalInputChannelType/property/Config/read",
             "op": "readproperty"
           }
         ]
       },
       "ProcessValue": {
-        "aov:namespace": "http://opcfoundation.org/UA/PNRIO/",
+        "dov:namespace": "http://opcfoundation.org/UA/PNRIO/",
         "title": "RioFaDigitalProcessValueDataType",
         "type": "object",
-        "aov:typeRef": "nsu=http://opcfoundation.org/UA/PNRIO/;i=3022",
+        "dov:typeRef": "nsu=http://opcfoundation.org/UA/PNRIO/;i=3022",
         "required": [ "Quality" ],
         "properties": {
           "Quality": {
@@ -2833,13 +2818,13 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/PNRIO/PNRIO_RioFaDigitalInputChannelType/property/ProcessValue/read",
+            "dov:topic": "opcua/PNRIO/PNRIO_RioFaDigitalInputChannelType/property/ProcessValue/read",
             "op": "readproperty"
           }
         ]
       },
       "SignalValue": {
-        "aov:namespace": "http://opcfoundation.org/UA/PNRIO/",
+        "dov:namespace": "http://opcfoundation.org/UA/PNRIO/",
         "type": "number",
         "minimum": -1.80e+308,
         "maximum": 1.80e+308,
@@ -2847,7 +2832,7 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/PNRIO/PNRIO_RioFaDigitalInputChannelType/property/SignalValue/read",
+            "dov:topic": "opcua/PNRIO/PNRIO_RioFaDigitalInputChannelType/property/SignalValue/read",
             "op": "readproperty"
           }
         ]
@@ -2855,16 +2840,16 @@
     },
     "events": {
       "Config": {
-        "aov:namespace": "http://opcfoundation.org/UA/PNRIO/",
+        "dov:namespace": "http://opcfoundation.org/UA/PNRIO/",
         "data": {
           "title": "RioFaDigitalInputConfigDataType",
           "type": "object",
-          "aov:typeRef": "nsu=http://opcfoundation.org/UA/PNRIO/;i=3013",
+          "dov:typeRef": "nsu=http://opcfoundation.org/UA/PNRIO/;i=3013",
           "required": [ "SignalType", "WireCheckEnabled", "SupplyVoltageCheckEnabled", "SubstitutePolicy", "SubstituteValue" ],
           "properties": {
             "SignalType": {
               "title": "RioSignalTypeEnumeration",
-              "aov:typeRef": "nsu=http://opcfoundation.org/UA/PNRIO/;i=3005",
+              "dov:typeRef": "nsu=http://opcfoundation.org/UA/PNRIO/;i=3005",
               "type": "integer",
               "minimum": -2147483648,
               "maximum": 2147483647
@@ -2877,7 +2862,7 @@
             },
             "SubstitutePolicy": {
               "title": "RioSubstitutePolicyEnumeration",
-              "aov:typeRef": "nsu=http://opcfoundation.org/UA/PNRIO/;i=3006",
+              "dov:typeRef": "nsu=http://opcfoundation.org/UA/PNRIO/;i=3006",
               "type": "integer",
               "minimum": -2147483648,
               "maximum": 2147483647
@@ -2890,17 +2875,17 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/PNRIO/PNRIO_RioFaDigitalInputChannelType/event/Config/{senderId}",
+            "dov:topic": "opcua/PNRIO/PNRIO_RioFaDigitalInputChannelType/event/Config/{senderId}",
             "op": "subscribeevent"
           }
         ]
       },
       "ProcessValue": {
-        "aov:namespace": "http://opcfoundation.org/UA/PNRIO/",
+        "dov:namespace": "http://opcfoundation.org/UA/PNRIO/",
         "data": {
           "title": "RioFaDigitalProcessValueDataType",
           "type": "object",
-          "aov:typeRef": "nsu=http://opcfoundation.org/UA/PNRIO/;i=3022",
+          "dov:typeRef": "nsu=http://opcfoundation.org/UA/PNRIO/;i=3022",
           "required": [ "Quality" ],
           "properties": {
             "Quality": {
@@ -2914,13 +2899,13 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/PNRIO/PNRIO_RioFaDigitalInputChannelType/event/ProcessValue/{senderId}",
+            "dov:topic": "opcua/PNRIO/PNRIO_RioFaDigitalInputChannelType/event/ProcessValue/{senderId}",
             "op": "subscribeevent"
           }
         ]
       },
       "SignalValue": {
-        "aov:namespace": "http://opcfoundation.org/UA/PNRIO/",
+        "dov:namespace": "http://opcfoundation.org/UA/PNRIO/",
         "data": {
           "type": "number",
           "minimum": -1.80e+308,
@@ -2929,7 +2914,7 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/PNRIO/PNRIO_RioFaDigitalInputChannelType/event/SignalValue/{senderId}",
+            "dov:topic": "opcua/PNRIO/PNRIO_RioFaDigitalInputChannelType/event/SignalValue/{senderId}",
             "op": "subscribeevent"
           }
         ]
@@ -2940,14 +2925,13 @@
     "@context": [
       "https://www.w3.org/2022/wot/td/v1.1",
       {
-        "dtv": "http://azure.com/DigitalTwins/dtmi#",
-        "aov": "http://azure.com/IoT/operations/tm#"
+        "dov": "http://azure.com/DigitalOperations/vocab#"
       }
     ],
     "@type": "tm:ThingModel",
     "title": "PNRIO_RioFaDigitalOutputChannelType",
-    "aov:typeRef": "nsu=http://opcfoundation.org/UA/PNRIO/;i=1011",
-    "aov:isComposite": true,
+    "dov:typeRef": "nsu=http://opcfoundation.org/UA/PNRIO/;i=1011",
+    "dov:isComposite": true,
     "links": [
       {
         "rel": "tm:extends",
@@ -2958,7 +2942,7 @@
     "schemaDefinitions": {
       "RioSignalTypeEnumeration": {
         "type": "object",
-        "aov:typeRef": "nsu=http://opcfoundation.org/UA/PNRIO/;i=3005",
+        "dov:typeRef": "nsu=http://opcfoundation.org/UA/PNRIO/;i=3005",
         "const": {
           "CURRENT_4_20_mA": 0,
           "CURRENT_0_20_mA": 1,
@@ -3006,7 +2990,7 @@
       },
       "RioSubstitutePolicyEnumeration": {
         "type": "object",
-        "aov:typeRef": "nsu=http://opcfoundation.org/UA/PNRIO/;i=3006",
+        "dov:typeRef": "nsu=http://opcfoundation.org/UA/PNRIO/;i=3006",
         "const": {
           "USE_SUBSTITUTE_VALUE": 0,
           "USE_LAST_VALID_VALUE": 1,
@@ -3036,12 +3020,12 @@
     "forms": [
       {
         "contentType": "application/json",
-        "dtv:topic": "opcua/PNRIO/PNRIO_RioFaDigitalOutputChannelType/events/{senderId}",
+        "dov:topic": "opcua/PNRIO/PNRIO_RioFaDigitalOutputChannelType/events/{senderId}",
         "op": "subscribeallevents"
       },
       {
         "contentType": "application/json",
-        "dtv:topic": "opcua/PNRIO/PNRIO_RioFaDigitalOutputChannelType/properties/read",
+        "dov:topic": "opcua/PNRIO/PNRIO_RioFaDigitalOutputChannelType/properties/read",
         "op": "readallproperties"
       }
     ],
@@ -3049,15 +3033,15 @@
     },
     "properties": {
       "Config": {
-        "aov:namespace": "http://opcfoundation.org/UA/PNRIO/",
+        "dov:namespace": "http://opcfoundation.org/UA/PNRIO/",
         "title": "RioFaDigitalOutputConfigDataType",
         "type": "object",
-        "aov:typeRef": "nsu=http://opcfoundation.org/UA/PNRIO/;i=3015",
+        "dov:typeRef": "nsu=http://opcfoundation.org/UA/PNRIO/;i=3015",
         "required": [ "SignalType", "WireCheckEnabled", "SupplyVoltageCheckEnabled", "LoadVoltageCheckEnabled", "SubstitutePolicy", "SubstituteValue", "SubstituteTime" ],
         "properties": {
           "SignalType": {
             "title": "RioSignalTypeEnumeration",
-            "aov:typeRef": "nsu=http://opcfoundation.org/UA/PNRIO/;i=3005",
+            "dov:typeRef": "nsu=http://opcfoundation.org/UA/PNRIO/;i=3005",
             "type": "integer",
             "minimum": -2147483648,
             "maximum": 2147483647
@@ -3073,7 +3057,7 @@
           },
           "SubstitutePolicy": {
             "title": "RioSubstitutePolicyEnumeration",
-            "aov:typeRef": "nsu=http://opcfoundation.org/UA/PNRIO/;i=3006",
+            "dov:typeRef": "nsu=http://opcfoundation.org/UA/PNRIO/;i=3006",
             "type": "integer",
             "minimum": -2147483648,
             "maximum": 2147483647
@@ -3091,16 +3075,16 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/PNRIO/PNRIO_RioFaDigitalOutputChannelType/property/Config/read",
+            "dov:topic": "opcua/PNRIO/PNRIO_RioFaDigitalOutputChannelType/property/Config/read",
             "op": "readproperty"
           }
         ]
       },
       "ProcessValue": {
-        "aov:namespace": "http://opcfoundation.org/UA/PNRIO/",
+        "dov:namespace": "http://opcfoundation.org/UA/PNRIO/",
         "title": "RioFaDigitalProcessValueDataType",
         "type": "object",
-        "aov:typeRef": "nsu=http://opcfoundation.org/UA/PNRIO/;i=3022",
+        "dov:typeRef": "nsu=http://opcfoundation.org/UA/PNRIO/;i=3022",
         "required": [ "Quality" ],
         "properties": {
           "Quality": {
@@ -3114,16 +3098,16 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/PNRIO/PNRIO_RioFaDigitalOutputChannelType/property/ProcessValue/read",
+            "dov:topic": "opcua/PNRIO/PNRIO_RioFaDigitalOutputChannelType/property/ProcessValue/read",
             "op": "readproperty"
           }
         ]
       },
       "ProcessValueReadback": {
-        "aov:namespace": "http://opcfoundation.org/UA/PNRIO/",
+        "dov:namespace": "http://opcfoundation.org/UA/PNRIO/",
         "title": "RioFaDigitalProcessValueDataType",
         "type": "object",
-        "aov:typeRef": "nsu=http://opcfoundation.org/UA/PNRIO/;i=3022",
+        "dov:typeRef": "nsu=http://opcfoundation.org/UA/PNRIO/;i=3022",
         "required": [ "Quality" ],
         "properties": {
           "Quality": {
@@ -3137,13 +3121,13 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/PNRIO/PNRIO_RioFaDigitalOutputChannelType/property/ProcessValueReadback/read",
+            "dov:topic": "opcua/PNRIO/PNRIO_RioFaDigitalOutputChannelType/property/ProcessValueReadback/read",
             "op": "readproperty"
           }
         ]
       },
       "SignalValue": {
-        "aov:namespace": "http://opcfoundation.org/UA/PNRIO/",
+        "dov:namespace": "http://opcfoundation.org/UA/PNRIO/",
         "type": "number",
         "minimum": -1.80e+308,
         "maximum": 1.80e+308,
@@ -3151,13 +3135,13 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/PNRIO/PNRIO_RioFaDigitalOutputChannelType/property/SignalValue/read",
+            "dov:topic": "opcua/PNRIO/PNRIO_RioFaDigitalOutputChannelType/property/SignalValue/read",
             "op": "readproperty"
           }
         ]
       },
       "SignalValueReadback": {
-        "aov:namespace": "http://opcfoundation.org/UA/PNRIO/",
+        "dov:namespace": "http://opcfoundation.org/UA/PNRIO/",
         "type": "number",
         "minimum": -1.80e+308,
         "maximum": 1.80e+308,
@@ -3165,7 +3149,7 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/PNRIO/PNRIO_RioFaDigitalOutputChannelType/property/SignalValueReadback/read",
+            "dov:topic": "opcua/PNRIO/PNRIO_RioFaDigitalOutputChannelType/property/SignalValueReadback/read",
             "op": "readproperty"
           }
         ]
@@ -3173,16 +3157,16 @@
     },
     "events": {
       "Config": {
-        "aov:namespace": "http://opcfoundation.org/UA/PNRIO/",
+        "dov:namespace": "http://opcfoundation.org/UA/PNRIO/",
         "data": {
           "title": "RioFaDigitalOutputConfigDataType",
           "type": "object",
-          "aov:typeRef": "nsu=http://opcfoundation.org/UA/PNRIO/;i=3015",
+          "dov:typeRef": "nsu=http://opcfoundation.org/UA/PNRIO/;i=3015",
           "required": [ "SignalType", "WireCheckEnabled", "SupplyVoltageCheckEnabled", "LoadVoltageCheckEnabled", "SubstitutePolicy", "SubstituteValue", "SubstituteTime" ],
           "properties": {
             "SignalType": {
               "title": "RioSignalTypeEnumeration",
-              "aov:typeRef": "nsu=http://opcfoundation.org/UA/PNRIO/;i=3005",
+              "dov:typeRef": "nsu=http://opcfoundation.org/UA/PNRIO/;i=3005",
               "type": "integer",
               "minimum": -2147483648,
               "maximum": 2147483647
@@ -3198,7 +3182,7 @@
             },
             "SubstitutePolicy": {
               "title": "RioSubstitutePolicyEnumeration",
-              "aov:typeRef": "nsu=http://opcfoundation.org/UA/PNRIO/;i=3006",
+              "dov:typeRef": "nsu=http://opcfoundation.org/UA/PNRIO/;i=3006",
               "type": "integer",
               "minimum": -2147483648,
               "maximum": 2147483647
@@ -3216,17 +3200,17 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/PNRIO/PNRIO_RioFaDigitalOutputChannelType/event/Config/{senderId}",
+            "dov:topic": "opcua/PNRIO/PNRIO_RioFaDigitalOutputChannelType/event/Config/{senderId}",
             "op": "subscribeevent"
           }
         ]
       },
       "ProcessValue": {
-        "aov:namespace": "http://opcfoundation.org/UA/PNRIO/",
+        "dov:namespace": "http://opcfoundation.org/UA/PNRIO/",
         "data": {
           "title": "RioFaDigitalProcessValueDataType",
           "type": "object",
-          "aov:typeRef": "nsu=http://opcfoundation.org/UA/PNRIO/;i=3022",
+          "dov:typeRef": "nsu=http://opcfoundation.org/UA/PNRIO/;i=3022",
           "required": [ "Quality" ],
           "properties": {
             "Quality": {
@@ -3240,17 +3224,17 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/PNRIO/PNRIO_RioFaDigitalOutputChannelType/event/ProcessValue/{senderId}",
+            "dov:topic": "opcua/PNRIO/PNRIO_RioFaDigitalOutputChannelType/event/ProcessValue/{senderId}",
             "op": "subscribeevent"
           }
         ]
       },
       "ProcessValueReadback": {
-        "aov:namespace": "http://opcfoundation.org/UA/PNRIO/",
+        "dov:namespace": "http://opcfoundation.org/UA/PNRIO/",
         "data": {
           "title": "RioFaDigitalProcessValueDataType",
           "type": "object",
-          "aov:typeRef": "nsu=http://opcfoundation.org/UA/PNRIO/;i=3022",
+          "dov:typeRef": "nsu=http://opcfoundation.org/UA/PNRIO/;i=3022",
           "required": [ "Quality" ],
           "properties": {
             "Quality": {
@@ -3264,13 +3248,13 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/PNRIO/PNRIO_RioFaDigitalOutputChannelType/event/ProcessValueReadback/{senderId}",
+            "dov:topic": "opcua/PNRIO/PNRIO_RioFaDigitalOutputChannelType/event/ProcessValueReadback/{senderId}",
             "op": "subscribeevent"
           }
         ]
       },
       "SignalValue": {
-        "aov:namespace": "http://opcfoundation.org/UA/PNRIO/",
+        "dov:namespace": "http://opcfoundation.org/UA/PNRIO/",
         "data": {
           "type": "number",
           "minimum": -1.80e+308,
@@ -3279,13 +3263,13 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/PNRIO/PNRIO_RioFaDigitalOutputChannelType/event/SignalValue/{senderId}",
+            "dov:topic": "opcua/PNRIO/PNRIO_RioFaDigitalOutputChannelType/event/SignalValue/{senderId}",
             "op": "subscribeevent"
           }
         ]
       },
       "SignalValueReadback": {
-        "aov:namespace": "http://opcfoundation.org/UA/PNRIO/",
+        "dov:namespace": "http://opcfoundation.org/UA/PNRIO/",
         "data": {
           "type": "number",
           "minimum": -1.80e+308,
@@ -3294,7 +3278,7 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/PNRIO/PNRIO_RioFaDigitalOutputChannelType/event/SignalValueReadback/{senderId}",
+            "dov:topic": "opcua/PNRIO/PNRIO_RioFaDigitalOutputChannelType/event/SignalValueReadback/{senderId}",
             "op": "subscribeevent"
           }
         ]
@@ -3305,14 +3289,13 @@
     "@context": [
       "https://www.w3.org/2022/wot/td/v1.1",
       {
-        "dtv": "http://azure.com/DigitalTwins/dtmi#",
-        "aov": "http://azure.com/IoT/operations/tm#"
+        "dov": "http://azure.com/DigitalOperations/vocab#"
       }
     ],
     "@type": "tm:ThingModel",
     "title": "PNRIO_RioPaAnalogInputChannelType",
-    "aov:typeRef": "nsu=http://opcfoundation.org/UA/PNRIO/;i=1002",
-    "aov:isComposite": true,
+    "dov:typeRef": "nsu=http://opcfoundation.org/UA/PNRIO/;i=1002",
+    "dov:isComposite": true,
     "links": [
       {
         "rel": "tm:extends",
@@ -3323,7 +3306,7 @@
     "schemaDefinitions": {
       "RioSignalTypeEnumeration": {
         "type": "object",
-        "aov:typeRef": "nsu=http://opcfoundation.org/UA/PNRIO/;i=3005",
+        "dov:typeRef": "nsu=http://opcfoundation.org/UA/PNRIO/;i=3005",
         "const": {
           "CURRENT_4_20_mA": 0,
           "CURRENT_0_20_mA": 1,
@@ -3371,7 +3354,7 @@
       },
       "RioSubstitutePolicyEnumeration": {
         "type": "object",
-        "aov:typeRef": "nsu=http://opcfoundation.org/UA/PNRIO/;i=3006",
+        "dov:typeRef": "nsu=http://opcfoundation.org/UA/PNRIO/;i=3006",
         "const": {
           "USE_SUBSTITUTE_VALUE": 0,
           "USE_LAST_VALID_VALUE": 1,
@@ -3399,7 +3382,7 @@
       },
       "RioChannelModeEnumeration": {
         "type": "object",
-        "aov:typeRef": "nsu=http://opcfoundation.org/UA/PNRIO/;i=3007",
+        "dov:typeRef": "nsu=http://opcfoundation.org/UA/PNRIO/;i=3007",
         "const": {
           "AUTO": 0,
           "MANUAL": 1,
@@ -3424,28 +3407,28 @@
     "forms": [
       {
         "contentType": "application/json",
-        "dtv:topic": "opcua/PNRIO/PNRIO_RioPaAnalogInputChannelType/events/{senderId}",
+        "dov:topic": "opcua/PNRIO/PNRIO_RioPaAnalogInputChannelType/events/{senderId}",
         "op": "subscribeallevents"
       },
       {
         "contentType": "application/json",
-        "dtv:topic": "opcua/PNRIO/PNRIO_RioPaAnalogInputChannelType/properties/read",
+        "dov:topic": "opcua/PNRIO/PNRIO_RioPaAnalogInputChannelType/properties/read",
         "op": "readallproperties"
       }
     ],
     "actions": {
       "SetManualProcessValue": {
-        "aov:namespace": "http://opcfoundation.org/UA/PNRIO/",
+        "dov:namespace": "http://opcfoundation.org/UA/PNRIO/",
         "input": {
           "type": "object",
-          "aov:typeRef": "nsu=http://opcfoundation.org/UA/PNRIO/;i=6294",
+          "dov:typeRef": "nsu=http://opcfoundation.org/UA/PNRIO/;i=6294",
           "required": [ "ManualProcessValue" ],
           "properties": {
             "ManualProcessValue": {
               "title": "RioAnalogDataType",
               "description": "Desired Value of the ManualProcessValue Variable.",
               "type": "object",
-              "aov:typeRef": "nsu=http://opcfoundation.org/UA/PNRIO/;i=3020",
+              "dov:typeRef": "nsu=http://opcfoundation.org/UA/PNRIO/;i=3020",
               "properties": {
                 "Float_32": {
                   "type": "number",
@@ -3479,22 +3462,22 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/PNRIO/PNRIO_RioPaAnalogInputChannelType/action/SetManualProcessValue",
+            "dov:topic": "opcua/PNRIO/PNRIO_RioPaAnalogInputChannelType/action/SetManualProcessValue",
             "op": "invokeaction"
           }
         ]
       },
       "SetMode": {
-        "aov:namespace": "http://opcfoundation.org/UA/PNRIO/",
+        "dov:namespace": "http://opcfoundation.org/UA/PNRIO/",
         "input": {
           "type": "object",
-          "aov:typeRef": "nsu=http://opcfoundation.org/UA/PNRIO/;i=6293",
+          "dov:typeRef": "nsu=http://opcfoundation.org/UA/PNRIO/;i=6293",
           "required": [ "Mode" ],
           "properties": {
             "Mode": {
               "title": "RioChannelModeEnumeration",
               "description": "Desired content of the Mode Variable.",
-              "aov:typeRef": "nsu=http://opcfoundation.org/UA/PNRIO/;i=3007",
+              "dov:typeRef": "nsu=http://opcfoundation.org/UA/PNRIO/;i=3007",
               "type": "integer",
               "minimum": -2147483648,
               "maximum": 2147483647
@@ -3504,16 +3487,16 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/PNRIO/PNRIO_RioPaAnalogInputChannelType/action/SetMode",
+            "dov:topic": "opcua/PNRIO/PNRIO_RioPaAnalogInputChannelType/action/SetMode",
             "op": "invokeaction"
           }
         ]
       },
       "SetSimulation": {
-        "aov:namespace": "http://opcfoundation.org/UA/PNRIO/",
+        "dov:namespace": "http://opcfoundation.org/UA/PNRIO/",
         "input": {
           "type": "object",
-          "aov:typeRef": "nsu=http://opcfoundation.org/UA/PNRIO/;i=6295",
+          "dov:typeRef": "nsu=http://opcfoundation.org/UA/PNRIO/;i=6295",
           "required": [ "SimulationEnabled" ],
           "properties": {
             "SimulationEnabled": {
@@ -3525,23 +3508,23 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/PNRIO/PNRIO_RioPaAnalogInputChannelType/action/SetSimulation",
+            "dov:topic": "opcua/PNRIO/PNRIO_RioPaAnalogInputChannelType/action/SetSimulation",
             "op": "invokeaction"
           }
         ]
       },
       "SetSimulationValue": {
-        "aov:namespace": "http://opcfoundation.org/UA/PNRIO/",
+        "dov:namespace": "http://opcfoundation.org/UA/PNRIO/",
         "input": {
           "type": "object",
-          "aov:typeRef": "nsu=http://opcfoundation.org/UA/PNRIO/;i=6296",
+          "dov:typeRef": "nsu=http://opcfoundation.org/UA/PNRIO/;i=6296",
           "required": [ "Value", "Qualifier" ],
           "properties": {
             "Value": {
               "title": "RioAnalogDataType",
               "description": "Desired content of the Value struct member of the SimulationValue Variable.",
               "type": "object",
-              "aov:typeRef": "nsu=http://opcfoundation.org/UA/PNRIO/;i=3020",
+              "dov:typeRef": "nsu=http://opcfoundation.org/UA/PNRIO/;i=3020",
               "properties": {
                 "Float_32": {
                   "type": "number",
@@ -3581,7 +3564,7 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/PNRIO/PNRIO_RioPaAnalogInputChannelType/action/SetSimulationValue",
+            "dov:topic": "opcua/PNRIO/PNRIO_RioPaAnalogInputChannelType/action/SetSimulationValue",
             "op": "invokeaction"
           }
         ]
@@ -3589,10 +3572,10 @@
     },
     "properties": {
       "Config": {
-        "aov:namespace": "http://opcfoundation.org/UA/PNRIO/",
+        "dov:namespace": "http://opcfoundation.org/UA/PNRIO/",
         "title": "RioPaAnalogInputConfigDataType",
         "type": "object",
-        "aov:typeRef": "nsu=http://opcfoundation.org/UA/PNRIO/;i=3016",
+        "dov:typeRef": "nsu=http://opcfoundation.org/UA/PNRIO/;i=3016",
         "required": [ "Damping", "SignalType", "WireCheckEnabled", "SubstitutePolicy", "SubstituteValue", "HighLimit", "LowLimit" ],
         "properties": {
           "Damping": {
@@ -3602,7 +3585,7 @@
           },
           "SignalType": {
             "title": "RioSignalTypeEnumeration",
-            "aov:typeRef": "nsu=http://opcfoundation.org/UA/PNRIO/;i=3005",
+            "dov:typeRef": "nsu=http://opcfoundation.org/UA/PNRIO/;i=3005",
             "type": "integer",
             "minimum": -2147483648,
             "maximum": 2147483647
@@ -3612,7 +3595,7 @@
           },
           "SubstitutePolicy": {
             "title": "RioSubstitutePolicyEnumeration",
-            "aov:typeRef": "nsu=http://opcfoundation.org/UA/PNRIO/;i=3006",
+            "dov:typeRef": "nsu=http://opcfoundation.org/UA/PNRIO/;i=3006",
             "type": "integer",
             "minimum": -2147483648,
             "maximum": 2147483647
@@ -3620,7 +3603,7 @@
           "SubstituteValue": {
             "title": "RioAnalogDataType",
             "type": "object",
-            "aov:typeRef": "nsu=http://opcfoundation.org/UA/PNRIO/;i=3020",
+            "dov:typeRef": "nsu=http://opcfoundation.org/UA/PNRIO/;i=3020",
             "properties": {
               "Float_32": {
                 "type": "number",
@@ -3652,7 +3635,7 @@
           "HighLimit": {
             "title": "RioAnalogDataType",
             "type": "object",
-            "aov:typeRef": "nsu=http://opcfoundation.org/UA/PNRIO/;i=3020",
+            "dov:typeRef": "nsu=http://opcfoundation.org/UA/PNRIO/;i=3020",
             "properties": {
               "Float_32": {
                 "type": "number",
@@ -3684,7 +3667,7 @@
           "LowLimit": {
             "title": "RioAnalogDataType",
             "type": "object",
-            "aov:typeRef": "nsu=http://opcfoundation.org/UA/PNRIO/;i=3020",
+            "dov:typeRef": "nsu=http://opcfoundation.org/UA/PNRIO/;i=3020",
             "properties": {
               "Float_32": {
                 "type": "number",
@@ -3718,16 +3701,16 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/PNRIO/PNRIO_RioPaAnalogInputChannelType/property/Config/read",
+            "dov:topic": "opcua/PNRIO/PNRIO_RioPaAnalogInputChannelType/property/Config/read",
             "op": "readproperty"
           }
         ]
       },
       "ManualProcessValue": {
-        "aov:namespace": "http://opcfoundation.org/UA/PNRIO/",
+        "dov:namespace": "http://opcfoundation.org/UA/PNRIO/",
         "title": "RioAnalogDataType",
         "type": "object",
-        "aov:typeRef": "nsu=http://opcfoundation.org/UA/PNRIO/;i=3020",
+        "dov:typeRef": "nsu=http://opcfoundation.org/UA/PNRIO/;i=3020",
         "properties": {
           "Float_32": {
             "type": "number",
@@ -3759,15 +3742,15 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/PNRIO/PNRIO_RioPaAnalogInputChannelType/property/ManualProcessValue/read",
+            "dov:topic": "opcua/PNRIO/PNRIO_RioPaAnalogInputChannelType/property/ManualProcessValue/read",
             "op": "readproperty"
           }
         ]
       },
       "Mode": {
-        "aov:namespace": "http://opcfoundation.org/UA/PNRIO/",
+        "dov:namespace": "http://opcfoundation.org/UA/PNRIO/",
         "title": "RioChannelModeEnumeration",
-        "aov:typeRef": "nsu=http://opcfoundation.org/UA/PNRIO/;i=3007",
+        "dov:typeRef": "nsu=http://opcfoundation.org/UA/PNRIO/;i=3007",
         "type": "integer",
         "minimum": -2147483648,
         "maximum": 2147483647,
@@ -3775,16 +3758,16 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/PNRIO/PNRIO_RioPaAnalogInputChannelType/property/Mode/read",
+            "dov:topic": "opcua/PNRIO/PNRIO_RioPaAnalogInputChannelType/property/Mode/read",
             "op": "readproperty"
           }
         ]
       },
       "ProcessValue": {
-        "aov:namespace": "http://opcfoundation.org/UA/PNRIO/",
+        "dov:namespace": "http://opcfoundation.org/UA/PNRIO/",
         "title": "RioPaAnalogProcessValueDataType",
         "type": "object",
-        "aov:typeRef": "nsu=http://opcfoundation.org/UA/PNRIO/;i=3024",
+        "dov:typeRef": "nsu=http://opcfoundation.org/UA/PNRIO/;i=3024",
         "required": [ "Quality", "NE_107", "Status_full" ],
         "properties": {
           "Quality": {
@@ -3810,13 +3793,13 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/PNRIO/PNRIO_RioPaAnalogInputChannelType/property/ProcessValue/read",
+            "dov:topic": "opcua/PNRIO/PNRIO_RioPaAnalogInputChannelType/property/ProcessValue/read",
             "op": "readproperty"
           }
         ]
       },
       "SignalValue": {
-        "aov:namespace": "http://opcfoundation.org/UA/PNRIO/",
+        "dov:namespace": "http://opcfoundation.org/UA/PNRIO/",
         "type": "number",
         "minimum": -1.80e+308,
         "maximum": 1.80e+308,
@@ -3824,35 +3807,35 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/PNRIO/PNRIO_RioPaAnalogInputChannelType/property/SignalValue/read",
+            "dov:topic": "opcua/PNRIO/PNRIO_RioPaAnalogInputChannelType/property/SignalValue/read",
             "op": "readproperty"
           }
         ]
       },
       "SimulationEnabled": {
-        "aov:namespace": "http://opcfoundation.org/UA/PNRIO/",
+        "dov:namespace": "http://opcfoundation.org/UA/PNRIO/",
         "type": "boolean",
         "readOnly": true,
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/PNRIO/PNRIO_RioPaAnalogInputChannelType/property/SimulationEnabled/read",
+            "dov:topic": "opcua/PNRIO/PNRIO_RioPaAnalogInputChannelType/property/SimulationEnabled/read",
             "op": "readproperty"
           }
         ]
       },
       "SimulationValue": {
-        "aov:namespace": "http://opcfoundation.org/UA/PNRIO/",
+        "dov:namespace": "http://opcfoundation.org/UA/PNRIO/",
         "title": "RioPaAnalogValueDataType",
         "type": "object",
-        "aov:typeRef": "nsu=http://opcfoundation.org/UA/PNRIO/;i=3027",
+        "dov:typeRef": "nsu=http://opcfoundation.org/UA/PNRIO/;i=3027",
         "required": [ "Value", "Qualifier" ],
         "properties": {
           "Value": {
             "title": "RioAnalogDataType",
             "description": "Current value.",
             "type": "object",
-            "aov:typeRef": "nsu=http://opcfoundation.org/UA/PNRIO/;i=3020",
+            "dov:typeRef": "nsu=http://opcfoundation.org/UA/PNRIO/;i=3020",
             "properties": {
               "Float_32": {
                 "type": "number",
@@ -3892,7 +3875,7 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/PNRIO/PNRIO_RioPaAnalogInputChannelType/property/SimulationValue/read",
+            "dov:topic": "opcua/PNRIO/PNRIO_RioPaAnalogInputChannelType/property/SimulationValue/read",
             "op": "readproperty"
           }
         ]
@@ -3900,11 +3883,11 @@
     },
     "events": {
       "Config": {
-        "aov:namespace": "http://opcfoundation.org/UA/PNRIO/",
+        "dov:namespace": "http://opcfoundation.org/UA/PNRIO/",
         "data": {
           "title": "RioPaAnalogInputConfigDataType",
           "type": "object",
-          "aov:typeRef": "nsu=http://opcfoundation.org/UA/PNRIO/;i=3016",
+          "dov:typeRef": "nsu=http://opcfoundation.org/UA/PNRIO/;i=3016",
           "required": [ "Damping", "SignalType", "WireCheckEnabled", "SubstitutePolicy", "SubstituteValue", "HighLimit", "LowLimit" ],
           "properties": {
             "Damping": {
@@ -3914,7 +3897,7 @@
             },
             "SignalType": {
               "title": "RioSignalTypeEnumeration",
-              "aov:typeRef": "nsu=http://opcfoundation.org/UA/PNRIO/;i=3005",
+              "dov:typeRef": "nsu=http://opcfoundation.org/UA/PNRIO/;i=3005",
               "type": "integer",
               "minimum": -2147483648,
               "maximum": 2147483647
@@ -3924,7 +3907,7 @@
             },
             "SubstitutePolicy": {
               "title": "RioSubstitutePolicyEnumeration",
-              "aov:typeRef": "nsu=http://opcfoundation.org/UA/PNRIO/;i=3006",
+              "dov:typeRef": "nsu=http://opcfoundation.org/UA/PNRIO/;i=3006",
               "type": "integer",
               "minimum": -2147483648,
               "maximum": 2147483647
@@ -3932,7 +3915,7 @@
             "SubstituteValue": {
               "title": "RioAnalogDataType",
               "type": "object",
-              "aov:typeRef": "nsu=http://opcfoundation.org/UA/PNRIO/;i=3020",
+              "dov:typeRef": "nsu=http://opcfoundation.org/UA/PNRIO/;i=3020",
               "properties": {
                 "Float_32": {
                   "type": "number",
@@ -3964,7 +3947,7 @@
             "HighLimit": {
               "title": "RioAnalogDataType",
               "type": "object",
-              "aov:typeRef": "nsu=http://opcfoundation.org/UA/PNRIO/;i=3020",
+              "dov:typeRef": "nsu=http://opcfoundation.org/UA/PNRIO/;i=3020",
               "properties": {
                 "Float_32": {
                   "type": "number",
@@ -3996,7 +3979,7 @@
             "LowLimit": {
               "title": "RioAnalogDataType",
               "type": "object",
-              "aov:typeRef": "nsu=http://opcfoundation.org/UA/PNRIO/;i=3020",
+              "dov:typeRef": "nsu=http://opcfoundation.org/UA/PNRIO/;i=3020",
               "properties": {
                 "Float_32": {
                   "type": "number",
@@ -4030,17 +4013,17 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/PNRIO/PNRIO_RioPaAnalogInputChannelType/event/Config/{senderId}",
+            "dov:topic": "opcua/PNRIO/PNRIO_RioPaAnalogInputChannelType/event/Config/{senderId}",
             "op": "subscribeevent"
           }
         ]
       },
       "ManualProcessValue": {
-        "aov:namespace": "http://opcfoundation.org/UA/PNRIO/",
+        "dov:namespace": "http://opcfoundation.org/UA/PNRIO/",
         "data": {
           "title": "RioAnalogDataType",
           "type": "object",
-          "aov:typeRef": "nsu=http://opcfoundation.org/UA/PNRIO/;i=3020",
+          "dov:typeRef": "nsu=http://opcfoundation.org/UA/PNRIO/;i=3020",
           "properties": {
             "Float_32": {
               "type": "number",
@@ -4072,16 +4055,16 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/PNRIO/PNRIO_RioPaAnalogInputChannelType/event/ManualProcessValue/{senderId}",
+            "dov:topic": "opcua/PNRIO/PNRIO_RioPaAnalogInputChannelType/event/ManualProcessValue/{senderId}",
             "op": "subscribeevent"
           }
         ]
       },
       "Mode": {
-        "aov:namespace": "http://opcfoundation.org/UA/PNRIO/",
+        "dov:namespace": "http://opcfoundation.org/UA/PNRIO/",
         "data": {
           "title": "RioChannelModeEnumeration",
-          "aov:typeRef": "nsu=http://opcfoundation.org/UA/PNRIO/;i=3007",
+          "dov:typeRef": "nsu=http://opcfoundation.org/UA/PNRIO/;i=3007",
           "type": "integer",
           "minimum": -2147483648,
           "maximum": 2147483647
@@ -4089,17 +4072,17 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/PNRIO/PNRIO_RioPaAnalogInputChannelType/event/Mode/{senderId}",
+            "dov:topic": "opcua/PNRIO/PNRIO_RioPaAnalogInputChannelType/event/Mode/{senderId}",
             "op": "subscribeevent"
           }
         ]
       },
       "ProcessValue": {
-        "aov:namespace": "http://opcfoundation.org/UA/PNRIO/",
+        "dov:namespace": "http://opcfoundation.org/UA/PNRIO/",
         "data": {
           "title": "RioPaAnalogProcessValueDataType",
           "type": "object",
-          "aov:typeRef": "nsu=http://opcfoundation.org/UA/PNRIO/;i=3024",
+          "dov:typeRef": "nsu=http://opcfoundation.org/UA/PNRIO/;i=3024",
           "required": [ "Quality", "NE_107", "Status_full" ],
           "properties": {
             "Quality": {
@@ -4125,13 +4108,13 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/PNRIO/PNRIO_RioPaAnalogInputChannelType/event/ProcessValue/{senderId}",
+            "dov:topic": "opcua/PNRIO/PNRIO_RioPaAnalogInputChannelType/event/ProcessValue/{senderId}",
             "op": "subscribeevent"
           }
         ]
       },
       "SignalValue": {
-        "aov:namespace": "http://opcfoundation.org/UA/PNRIO/",
+        "dov:namespace": "http://opcfoundation.org/UA/PNRIO/",
         "data": {
           "type": "number",
           "minimum": -1.80e+308,
@@ -4140,37 +4123,37 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/PNRIO/PNRIO_RioPaAnalogInputChannelType/event/SignalValue/{senderId}",
+            "dov:topic": "opcua/PNRIO/PNRIO_RioPaAnalogInputChannelType/event/SignalValue/{senderId}",
             "op": "subscribeevent"
           }
         ]
       },
       "SimulationEnabled": {
-        "aov:namespace": "http://opcfoundation.org/UA/PNRIO/",
+        "dov:namespace": "http://opcfoundation.org/UA/PNRIO/",
         "data": {
           "type": "boolean"
         },
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/PNRIO/PNRIO_RioPaAnalogInputChannelType/event/SimulationEnabled/{senderId}",
+            "dov:topic": "opcua/PNRIO/PNRIO_RioPaAnalogInputChannelType/event/SimulationEnabled/{senderId}",
             "op": "subscribeevent"
           }
         ]
       },
       "SimulationValue": {
-        "aov:namespace": "http://opcfoundation.org/UA/PNRIO/",
+        "dov:namespace": "http://opcfoundation.org/UA/PNRIO/",
         "data": {
           "title": "RioPaAnalogValueDataType",
           "type": "object",
-          "aov:typeRef": "nsu=http://opcfoundation.org/UA/PNRIO/;i=3027",
+          "dov:typeRef": "nsu=http://opcfoundation.org/UA/PNRIO/;i=3027",
           "required": [ "Value", "Qualifier" ],
           "properties": {
             "Value": {
               "title": "RioAnalogDataType",
               "description": "Current value.",
               "type": "object",
-              "aov:typeRef": "nsu=http://opcfoundation.org/UA/PNRIO/;i=3020",
+              "dov:typeRef": "nsu=http://opcfoundation.org/UA/PNRIO/;i=3020",
               "properties": {
                 "Float_32": {
                   "type": "number",
@@ -4210,7 +4193,7 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/PNRIO/PNRIO_RioPaAnalogInputChannelType/event/SimulationValue/{senderId}",
+            "dov:topic": "opcua/PNRIO/PNRIO_RioPaAnalogInputChannelType/event/SimulationValue/{senderId}",
             "op": "subscribeevent"
           }
         ]
@@ -4221,14 +4204,13 @@
     "@context": [
       "https://www.w3.org/2022/wot/td/v1.1",
       {
-        "dtv": "http://azure.com/DigitalTwins/dtmi#",
-        "aov": "http://azure.com/IoT/operations/tm#"
+        "dov": "http://azure.com/DigitalOperations/vocab#"
       }
     ],
     "@type": "tm:ThingModel",
     "title": "PNRIO_RioPaAnalogOutputChannelType",
-    "aov:typeRef": "nsu=http://opcfoundation.org/UA/PNRIO/;i=1006",
-    "aov:isComposite": true,
+    "dov:typeRef": "nsu=http://opcfoundation.org/UA/PNRIO/;i=1006",
+    "dov:isComposite": true,
     "links": [
       {
         "rel": "tm:extends",
@@ -4239,7 +4221,7 @@
     "schemaDefinitions": {
       "RioSignalTypeEnumeration": {
         "type": "object",
-        "aov:typeRef": "nsu=http://opcfoundation.org/UA/PNRIO/;i=3005",
+        "dov:typeRef": "nsu=http://opcfoundation.org/UA/PNRIO/;i=3005",
         "const": {
           "CURRENT_4_20_mA": 0,
           "CURRENT_0_20_mA": 1,
@@ -4287,7 +4269,7 @@
       },
       "RioSubstitutePolicyEnumeration": {
         "type": "object",
-        "aov:typeRef": "nsu=http://opcfoundation.org/UA/PNRIO/;i=3006",
+        "dov:typeRef": "nsu=http://opcfoundation.org/UA/PNRIO/;i=3006",
         "const": {
           "USE_SUBSTITUTE_VALUE": 0,
           "USE_LAST_VALID_VALUE": 1,
@@ -4315,7 +4297,7 @@
       },
       "RioChannelModeEnumeration": {
         "type": "object",
-        "aov:typeRef": "nsu=http://opcfoundation.org/UA/PNRIO/;i=3007",
+        "dov:typeRef": "nsu=http://opcfoundation.org/UA/PNRIO/;i=3007",
         "const": {
           "AUTO": 0,
           "MANUAL": 1,
@@ -4340,28 +4322,28 @@
     "forms": [
       {
         "contentType": "application/json",
-        "dtv:topic": "opcua/PNRIO/PNRIO_RioPaAnalogOutputChannelType/events/{senderId}",
+        "dov:topic": "opcua/PNRIO/PNRIO_RioPaAnalogOutputChannelType/events/{senderId}",
         "op": "subscribeallevents"
       },
       {
         "contentType": "application/json",
-        "dtv:topic": "opcua/PNRIO/PNRIO_RioPaAnalogOutputChannelType/properties/read",
+        "dov:topic": "opcua/PNRIO/PNRIO_RioPaAnalogOutputChannelType/properties/read",
         "op": "readallproperties"
       }
     ],
     "actions": {
       "SetManualOutValue": {
-        "aov:namespace": "http://opcfoundation.org/UA/PNRIO/",
+        "dov:namespace": "http://opcfoundation.org/UA/PNRIO/",
         "input": {
           "type": "object",
-          "aov:typeRef": "nsu=http://opcfoundation.org/UA/PNRIO/;i=6298",
+          "dov:typeRef": "nsu=http://opcfoundation.org/UA/PNRIO/;i=6298",
           "required": [ "ManualOutValue" ],
           "properties": {
             "ManualOutValue": {
               "title": "RioAnalogDataType",
               "description": "Desired Value of the ManualOutValue Variable.",
               "type": "object",
-              "aov:typeRef": "nsu=http://opcfoundation.org/UA/PNRIO/;i=3020",
+              "dov:typeRef": "nsu=http://opcfoundation.org/UA/PNRIO/;i=3020",
               "properties": {
                 "Float_32": {
                   "type": "number",
@@ -4395,22 +4377,22 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/PNRIO/PNRIO_RioPaAnalogOutputChannelType/action/SetManualOutValue",
+            "dov:topic": "opcua/PNRIO/PNRIO_RioPaAnalogOutputChannelType/action/SetManualOutValue",
             "op": "invokeaction"
           }
         ]
       },
       "SetMode": {
-        "aov:namespace": "http://opcfoundation.org/UA/PNRIO/",
+        "dov:namespace": "http://opcfoundation.org/UA/PNRIO/",
         "input": {
           "type": "object",
-          "aov:typeRef": "nsu=http://opcfoundation.org/UA/PNRIO/;i=6297",
+          "dov:typeRef": "nsu=http://opcfoundation.org/UA/PNRIO/;i=6297",
           "required": [ "Mode" ],
           "properties": {
             "Mode": {
               "title": "RioChannelModeEnumeration",
               "description": "Desired content of the Mode Variable.",
-              "aov:typeRef": "nsu=http://opcfoundation.org/UA/PNRIO/;i=3007",
+              "dov:typeRef": "nsu=http://opcfoundation.org/UA/PNRIO/;i=3007",
               "type": "integer",
               "minimum": -2147483648,
               "maximum": 2147483647
@@ -4420,16 +4402,16 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/PNRIO/PNRIO_RioPaAnalogOutputChannelType/action/SetMode",
+            "dov:topic": "opcua/PNRIO/PNRIO_RioPaAnalogOutputChannelType/action/SetMode",
             "op": "invokeaction"
           }
         ]
       },
       "SetSimulation": {
-        "aov:namespace": "http://opcfoundation.org/UA/PNRIO/",
+        "dov:namespace": "http://opcfoundation.org/UA/PNRIO/",
         "input": {
           "type": "object",
-          "aov:typeRef": "nsu=http://opcfoundation.org/UA/PNRIO/;i=6299",
+          "dov:typeRef": "nsu=http://opcfoundation.org/UA/PNRIO/;i=6299",
           "required": [ "SimulationEnabled" ],
           "properties": {
             "SimulationEnabled": {
@@ -4441,23 +4423,23 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/PNRIO/PNRIO_RioPaAnalogOutputChannelType/action/SetSimulation",
+            "dov:topic": "opcua/PNRIO/PNRIO_RioPaAnalogOutputChannelType/action/SetSimulation",
             "op": "invokeaction"
           }
         ]
       },
       "SetSimulationValue": {
-        "aov:namespace": "http://opcfoundation.org/UA/PNRIO/",
+        "dov:namespace": "http://opcfoundation.org/UA/PNRIO/",
         "input": {
           "type": "object",
-          "aov:typeRef": "nsu=http://opcfoundation.org/UA/PNRIO/;i=6300",
+          "dov:typeRef": "nsu=http://opcfoundation.org/UA/PNRIO/;i=6300",
           "required": [ "Value", "Qualifier" ],
           "properties": {
             "Value": {
               "title": "RioAnalogDataType",
               "description": "Desired content of the SimulationEnabled Variable.",
               "type": "object",
-              "aov:typeRef": "nsu=http://opcfoundation.org/UA/PNRIO/;i=3020",
+              "dov:typeRef": "nsu=http://opcfoundation.org/UA/PNRIO/;i=3020",
               "properties": {
                 "Float_32": {
                   "type": "number",
@@ -4497,7 +4479,7 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/PNRIO/PNRIO_RioPaAnalogOutputChannelType/action/SetSimulationValue",
+            "dov:topic": "opcua/PNRIO/PNRIO_RioPaAnalogOutputChannelType/action/SetSimulationValue",
             "op": "invokeaction"
           }
         ]
@@ -4505,15 +4487,15 @@
     },
     "properties": {
       "Config": {
-        "aov:namespace": "http://opcfoundation.org/UA/PNRIO/",
+        "dov:namespace": "http://opcfoundation.org/UA/PNRIO/",
         "title": "RioPaAnalogOutputConfigDataType",
         "type": "object",
-        "aov:typeRef": "nsu=http://opcfoundation.org/UA/PNRIO/;i=3018",
+        "dov:typeRef": "nsu=http://opcfoundation.org/UA/PNRIO/;i=3018",
         "required": [ "SignalType", "WireCheckEnabled", "SubstitutePolicy", "SubstituteValue", "SubstituteTime" ],
         "properties": {
           "SignalType": {
             "title": "RioSignalTypeEnumeration",
-            "aov:typeRef": "nsu=http://opcfoundation.org/UA/PNRIO/;i=3005",
+            "dov:typeRef": "nsu=http://opcfoundation.org/UA/PNRIO/;i=3005",
             "type": "integer",
             "minimum": -2147483648,
             "maximum": 2147483647
@@ -4523,7 +4505,7 @@
           },
           "SubstitutePolicy": {
             "title": "RioSubstitutePolicyEnumeration",
-            "aov:typeRef": "nsu=http://opcfoundation.org/UA/PNRIO/;i=3006",
+            "dov:typeRef": "nsu=http://opcfoundation.org/UA/PNRIO/;i=3006",
             "type": "integer",
             "minimum": -2147483648,
             "maximum": 2147483647
@@ -4531,7 +4513,7 @@
           "SubstituteValue": {
             "title": "RioAnalogDataType",
             "type": "object",
-            "aov:typeRef": "nsu=http://opcfoundation.org/UA/PNRIO/;i=3020",
+            "dov:typeRef": "nsu=http://opcfoundation.org/UA/PNRIO/;i=3020",
             "properties": {
               "Float_32": {
                 "type": "number",
@@ -4570,16 +4552,16 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/PNRIO/PNRIO_RioPaAnalogOutputChannelType/property/Config/read",
+            "dov:topic": "opcua/PNRIO/PNRIO_RioPaAnalogOutputChannelType/property/Config/read",
             "op": "readproperty"
           }
         ]
       },
       "ManualOutValue": {
-        "aov:namespace": "http://opcfoundation.org/UA/PNRIO/",
+        "dov:namespace": "http://opcfoundation.org/UA/PNRIO/",
         "title": "RioAnalogDataType",
         "type": "object",
-        "aov:typeRef": "nsu=http://opcfoundation.org/UA/PNRIO/;i=3020",
+        "dov:typeRef": "nsu=http://opcfoundation.org/UA/PNRIO/;i=3020",
         "properties": {
           "Float_32": {
             "type": "number",
@@ -4611,15 +4593,15 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/PNRIO/PNRIO_RioPaAnalogOutputChannelType/property/ManualOutValue/read",
+            "dov:topic": "opcua/PNRIO/PNRIO_RioPaAnalogOutputChannelType/property/ManualOutValue/read",
             "op": "readproperty"
           }
         ]
       },
       "Mode": {
-        "aov:namespace": "http://opcfoundation.org/UA/PNRIO/",
+        "dov:namespace": "http://opcfoundation.org/UA/PNRIO/",
         "title": "RioChannelModeEnumeration",
-        "aov:typeRef": "nsu=http://opcfoundation.org/UA/PNRIO/;i=3007",
+        "dov:typeRef": "nsu=http://opcfoundation.org/UA/PNRIO/;i=3007",
         "type": "integer",
         "minimum": -2147483648,
         "maximum": 2147483647,
@@ -4627,16 +4609,16 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/PNRIO/PNRIO_RioPaAnalogOutputChannelType/property/Mode/read",
+            "dov:topic": "opcua/PNRIO/PNRIO_RioPaAnalogOutputChannelType/property/Mode/read",
             "op": "readproperty"
           }
         ]
       },
       "ProcessValue": {
-        "aov:namespace": "http://opcfoundation.org/UA/PNRIO/",
+        "dov:namespace": "http://opcfoundation.org/UA/PNRIO/",
         "title": "RioPaAnalogProcessValueDataType",
         "type": "object",
-        "aov:typeRef": "nsu=http://opcfoundation.org/UA/PNRIO/;i=3024",
+        "dov:typeRef": "nsu=http://opcfoundation.org/UA/PNRIO/;i=3024",
         "required": [ "Quality", "NE_107", "Status_full" ],
         "properties": {
           "Quality": {
@@ -4662,16 +4644,16 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/PNRIO/PNRIO_RioPaAnalogOutputChannelType/property/ProcessValue/read",
+            "dov:topic": "opcua/PNRIO/PNRIO_RioPaAnalogOutputChannelType/property/ProcessValue/read",
             "op": "readproperty"
           }
         ]
       },
       "ProcessValueReadback": {
-        "aov:namespace": "http://opcfoundation.org/UA/PNRIO/",
+        "dov:namespace": "http://opcfoundation.org/UA/PNRIO/",
         "title": "RioPaAnalogProcessValueDataType",
         "type": "object",
-        "aov:typeRef": "nsu=http://opcfoundation.org/UA/PNRIO/;i=3024",
+        "dov:typeRef": "nsu=http://opcfoundation.org/UA/PNRIO/;i=3024",
         "required": [ "Quality", "NE_107", "Status_full" ],
         "properties": {
           "Quality": {
@@ -4697,13 +4679,13 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/PNRIO/PNRIO_RioPaAnalogOutputChannelType/property/ProcessValueReadback/read",
+            "dov:topic": "opcua/PNRIO/PNRIO_RioPaAnalogOutputChannelType/property/ProcessValueReadback/read",
             "op": "readproperty"
           }
         ]
       },
       "SignalValue": {
-        "aov:namespace": "http://opcfoundation.org/UA/PNRIO/",
+        "dov:namespace": "http://opcfoundation.org/UA/PNRIO/",
         "type": "number",
         "minimum": -1.80e+308,
         "maximum": 1.80e+308,
@@ -4711,13 +4693,13 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/PNRIO/PNRIO_RioPaAnalogOutputChannelType/property/SignalValue/read",
+            "dov:topic": "opcua/PNRIO/PNRIO_RioPaAnalogOutputChannelType/property/SignalValue/read",
             "op": "readproperty"
           }
         ]
       },
       "SignalValueReadback": {
-        "aov:namespace": "http://opcfoundation.org/UA/PNRIO/",
+        "dov:namespace": "http://opcfoundation.org/UA/PNRIO/",
         "type": "number",
         "minimum": -1.80e+308,
         "maximum": 1.80e+308,
@@ -4725,35 +4707,35 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/PNRIO/PNRIO_RioPaAnalogOutputChannelType/property/SignalValueReadback/read",
+            "dov:topic": "opcua/PNRIO/PNRIO_RioPaAnalogOutputChannelType/property/SignalValueReadback/read",
             "op": "readproperty"
           }
         ]
       },
       "SimulationEnabled": {
-        "aov:namespace": "http://opcfoundation.org/UA/PNRIO/",
+        "dov:namespace": "http://opcfoundation.org/UA/PNRIO/",
         "type": "boolean",
         "readOnly": true,
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/PNRIO/PNRIO_RioPaAnalogOutputChannelType/property/SimulationEnabled/read",
+            "dov:topic": "opcua/PNRIO/PNRIO_RioPaAnalogOutputChannelType/property/SimulationEnabled/read",
             "op": "readproperty"
           }
         ]
       },
       "SimulationValue": {
-        "aov:namespace": "http://opcfoundation.org/UA/PNRIO/",
+        "dov:namespace": "http://opcfoundation.org/UA/PNRIO/",
         "title": "RioPaAnalogValueDataType",
         "type": "object",
-        "aov:typeRef": "nsu=http://opcfoundation.org/UA/PNRIO/;i=3027",
+        "dov:typeRef": "nsu=http://opcfoundation.org/UA/PNRIO/;i=3027",
         "required": [ "Value", "Qualifier" ],
         "properties": {
           "Value": {
             "title": "RioAnalogDataType",
             "description": "Current value.",
             "type": "object",
-            "aov:typeRef": "nsu=http://opcfoundation.org/UA/PNRIO/;i=3020",
+            "dov:typeRef": "nsu=http://opcfoundation.org/UA/PNRIO/;i=3020",
             "properties": {
               "Float_32": {
                 "type": "number",
@@ -4793,7 +4775,7 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/PNRIO/PNRIO_RioPaAnalogOutputChannelType/property/SimulationValue/read",
+            "dov:topic": "opcua/PNRIO/PNRIO_RioPaAnalogOutputChannelType/property/SimulationValue/read",
             "op": "readproperty"
           }
         ]
@@ -4801,16 +4783,16 @@
     },
     "events": {
       "Config": {
-        "aov:namespace": "http://opcfoundation.org/UA/PNRIO/",
+        "dov:namespace": "http://opcfoundation.org/UA/PNRIO/",
         "data": {
           "title": "RioPaAnalogOutputConfigDataType",
           "type": "object",
-          "aov:typeRef": "nsu=http://opcfoundation.org/UA/PNRIO/;i=3018",
+          "dov:typeRef": "nsu=http://opcfoundation.org/UA/PNRIO/;i=3018",
           "required": [ "SignalType", "WireCheckEnabled", "SubstitutePolicy", "SubstituteValue", "SubstituteTime" ],
           "properties": {
             "SignalType": {
               "title": "RioSignalTypeEnumeration",
-              "aov:typeRef": "nsu=http://opcfoundation.org/UA/PNRIO/;i=3005",
+              "dov:typeRef": "nsu=http://opcfoundation.org/UA/PNRIO/;i=3005",
               "type": "integer",
               "minimum": -2147483648,
               "maximum": 2147483647
@@ -4820,7 +4802,7 @@
             },
             "SubstitutePolicy": {
               "title": "RioSubstitutePolicyEnumeration",
-              "aov:typeRef": "nsu=http://opcfoundation.org/UA/PNRIO/;i=3006",
+              "dov:typeRef": "nsu=http://opcfoundation.org/UA/PNRIO/;i=3006",
               "type": "integer",
               "minimum": -2147483648,
               "maximum": 2147483647
@@ -4828,7 +4810,7 @@
             "SubstituteValue": {
               "title": "RioAnalogDataType",
               "type": "object",
-              "aov:typeRef": "nsu=http://opcfoundation.org/UA/PNRIO/;i=3020",
+              "dov:typeRef": "nsu=http://opcfoundation.org/UA/PNRIO/;i=3020",
               "properties": {
                 "Float_32": {
                   "type": "number",
@@ -4867,17 +4849,17 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/PNRIO/PNRIO_RioPaAnalogOutputChannelType/event/Config/{senderId}",
+            "dov:topic": "opcua/PNRIO/PNRIO_RioPaAnalogOutputChannelType/event/Config/{senderId}",
             "op": "subscribeevent"
           }
         ]
       },
       "ManualOutValue": {
-        "aov:namespace": "http://opcfoundation.org/UA/PNRIO/",
+        "dov:namespace": "http://opcfoundation.org/UA/PNRIO/",
         "data": {
           "title": "RioAnalogDataType",
           "type": "object",
-          "aov:typeRef": "nsu=http://opcfoundation.org/UA/PNRIO/;i=3020",
+          "dov:typeRef": "nsu=http://opcfoundation.org/UA/PNRIO/;i=3020",
           "properties": {
             "Float_32": {
               "type": "number",
@@ -4909,16 +4891,16 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/PNRIO/PNRIO_RioPaAnalogOutputChannelType/event/ManualOutValue/{senderId}",
+            "dov:topic": "opcua/PNRIO/PNRIO_RioPaAnalogOutputChannelType/event/ManualOutValue/{senderId}",
             "op": "subscribeevent"
           }
         ]
       },
       "Mode": {
-        "aov:namespace": "http://opcfoundation.org/UA/PNRIO/",
+        "dov:namespace": "http://opcfoundation.org/UA/PNRIO/",
         "data": {
           "title": "RioChannelModeEnumeration",
-          "aov:typeRef": "nsu=http://opcfoundation.org/UA/PNRIO/;i=3007",
+          "dov:typeRef": "nsu=http://opcfoundation.org/UA/PNRIO/;i=3007",
           "type": "integer",
           "minimum": -2147483648,
           "maximum": 2147483647
@@ -4926,17 +4908,17 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/PNRIO/PNRIO_RioPaAnalogOutputChannelType/event/Mode/{senderId}",
+            "dov:topic": "opcua/PNRIO/PNRIO_RioPaAnalogOutputChannelType/event/Mode/{senderId}",
             "op": "subscribeevent"
           }
         ]
       },
       "ProcessValue": {
-        "aov:namespace": "http://opcfoundation.org/UA/PNRIO/",
+        "dov:namespace": "http://opcfoundation.org/UA/PNRIO/",
         "data": {
           "title": "RioPaAnalogProcessValueDataType",
           "type": "object",
-          "aov:typeRef": "nsu=http://opcfoundation.org/UA/PNRIO/;i=3024",
+          "dov:typeRef": "nsu=http://opcfoundation.org/UA/PNRIO/;i=3024",
           "required": [ "Quality", "NE_107", "Status_full" ],
           "properties": {
             "Quality": {
@@ -4962,17 +4944,17 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/PNRIO/PNRIO_RioPaAnalogOutputChannelType/event/ProcessValue/{senderId}",
+            "dov:topic": "opcua/PNRIO/PNRIO_RioPaAnalogOutputChannelType/event/ProcessValue/{senderId}",
             "op": "subscribeevent"
           }
         ]
       },
       "ProcessValueReadback": {
-        "aov:namespace": "http://opcfoundation.org/UA/PNRIO/",
+        "dov:namespace": "http://opcfoundation.org/UA/PNRIO/",
         "data": {
           "title": "RioPaAnalogProcessValueDataType",
           "type": "object",
-          "aov:typeRef": "nsu=http://opcfoundation.org/UA/PNRIO/;i=3024",
+          "dov:typeRef": "nsu=http://opcfoundation.org/UA/PNRIO/;i=3024",
           "required": [ "Quality", "NE_107", "Status_full" ],
           "properties": {
             "Quality": {
@@ -4998,13 +4980,13 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/PNRIO/PNRIO_RioPaAnalogOutputChannelType/event/ProcessValueReadback/{senderId}",
+            "dov:topic": "opcua/PNRIO/PNRIO_RioPaAnalogOutputChannelType/event/ProcessValueReadback/{senderId}",
             "op": "subscribeevent"
           }
         ]
       },
       "SignalValue": {
-        "aov:namespace": "http://opcfoundation.org/UA/PNRIO/",
+        "dov:namespace": "http://opcfoundation.org/UA/PNRIO/",
         "data": {
           "type": "number",
           "minimum": -1.80e+308,
@@ -5013,13 +4995,13 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/PNRIO/PNRIO_RioPaAnalogOutputChannelType/event/SignalValue/{senderId}",
+            "dov:topic": "opcua/PNRIO/PNRIO_RioPaAnalogOutputChannelType/event/SignalValue/{senderId}",
             "op": "subscribeevent"
           }
         ]
       },
       "SignalValueReadback": {
-        "aov:namespace": "http://opcfoundation.org/UA/PNRIO/",
+        "dov:namespace": "http://opcfoundation.org/UA/PNRIO/",
         "data": {
           "type": "number",
           "minimum": -1.80e+308,
@@ -5028,37 +5010,37 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/PNRIO/PNRIO_RioPaAnalogOutputChannelType/event/SignalValueReadback/{senderId}",
+            "dov:topic": "opcua/PNRIO/PNRIO_RioPaAnalogOutputChannelType/event/SignalValueReadback/{senderId}",
             "op": "subscribeevent"
           }
         ]
       },
       "SimulationEnabled": {
-        "aov:namespace": "http://opcfoundation.org/UA/PNRIO/",
+        "dov:namespace": "http://opcfoundation.org/UA/PNRIO/",
         "data": {
           "type": "boolean"
         },
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/PNRIO/PNRIO_RioPaAnalogOutputChannelType/event/SimulationEnabled/{senderId}",
+            "dov:topic": "opcua/PNRIO/PNRIO_RioPaAnalogOutputChannelType/event/SimulationEnabled/{senderId}",
             "op": "subscribeevent"
           }
         ]
       },
       "SimulationValue": {
-        "aov:namespace": "http://opcfoundation.org/UA/PNRIO/",
+        "dov:namespace": "http://opcfoundation.org/UA/PNRIO/",
         "data": {
           "title": "RioPaAnalogValueDataType",
           "type": "object",
-          "aov:typeRef": "nsu=http://opcfoundation.org/UA/PNRIO/;i=3027",
+          "dov:typeRef": "nsu=http://opcfoundation.org/UA/PNRIO/;i=3027",
           "required": [ "Value", "Qualifier" ],
           "properties": {
             "Value": {
               "title": "RioAnalogDataType",
               "description": "Current value.",
               "type": "object",
-              "aov:typeRef": "nsu=http://opcfoundation.org/UA/PNRIO/;i=3020",
+              "dov:typeRef": "nsu=http://opcfoundation.org/UA/PNRIO/;i=3020",
               "properties": {
                 "Float_32": {
                   "type": "number",
@@ -5098,7 +5080,7 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/PNRIO/PNRIO_RioPaAnalogOutputChannelType/event/SimulationValue/{senderId}",
+            "dov:topic": "opcua/PNRIO/PNRIO_RioPaAnalogOutputChannelType/event/SimulationValue/{senderId}",
             "op": "subscribeevent"
           }
         ]
@@ -5109,14 +5091,13 @@
     "@context": [
       "https://www.w3.org/2022/wot/td/v1.1",
       {
-        "dtv": "http://azure.com/DigitalTwins/dtmi#",
-        "aov": "http://azure.com/IoT/operations/tm#"
+        "dov": "http://azure.com/DigitalOperations/vocab#"
       }
     ],
     "@type": "tm:ThingModel",
     "title": "PNRIO_RioPaDigitalInputChannelType",
-    "aov:typeRef": "nsu=http://opcfoundation.org/UA/PNRIO/;i=1008",
-    "aov:isComposite": true,
+    "dov:typeRef": "nsu=http://opcfoundation.org/UA/PNRIO/;i=1008",
+    "dov:isComposite": true,
     "links": [
       {
         "rel": "tm:extends",
@@ -5127,7 +5108,7 @@
     "schemaDefinitions": {
       "RioSignalTypeEnumeration": {
         "type": "object",
-        "aov:typeRef": "nsu=http://opcfoundation.org/UA/PNRIO/;i=3005",
+        "dov:typeRef": "nsu=http://opcfoundation.org/UA/PNRIO/;i=3005",
         "const": {
           "CURRENT_4_20_mA": 0,
           "CURRENT_0_20_mA": 1,
@@ -5175,7 +5156,7 @@
       },
       "RioSubstitutePolicyEnumeration": {
         "type": "object",
-        "aov:typeRef": "nsu=http://opcfoundation.org/UA/PNRIO/;i=3006",
+        "dov:typeRef": "nsu=http://opcfoundation.org/UA/PNRIO/;i=3006",
         "const": {
           "USE_SUBSTITUTE_VALUE": 0,
           "USE_LAST_VALID_VALUE": 1,
@@ -5203,7 +5184,7 @@
       },
       "RioChannelModeEnumeration": {
         "type": "object",
-        "aov:typeRef": "nsu=http://opcfoundation.org/UA/PNRIO/;i=3007",
+        "dov:typeRef": "nsu=http://opcfoundation.org/UA/PNRIO/;i=3007",
         "const": {
           "AUTO": 0,
           "MANUAL": 1,
@@ -5228,21 +5209,21 @@
     "forms": [
       {
         "contentType": "application/json",
-        "dtv:topic": "opcua/PNRIO/PNRIO_RioPaDigitalInputChannelType/events/{senderId}",
+        "dov:topic": "opcua/PNRIO/PNRIO_RioPaDigitalInputChannelType/events/{senderId}",
         "op": "subscribeallevents"
       },
       {
         "contentType": "application/json",
-        "dtv:topic": "opcua/PNRIO/PNRIO_RioPaDigitalInputChannelType/properties/read",
+        "dov:topic": "opcua/PNRIO/PNRIO_RioPaDigitalInputChannelType/properties/read",
         "op": "readallproperties"
       }
     ],
     "actions": {
       "SetManualProcessValue": {
-        "aov:namespace": "http://opcfoundation.org/UA/PNRIO/",
+        "dov:namespace": "http://opcfoundation.org/UA/PNRIO/",
         "input": {
           "type": "object",
-          "aov:typeRef": "nsu=http://opcfoundation.org/UA/PNRIO/;i=6302",
+          "dov:typeRef": "nsu=http://opcfoundation.org/UA/PNRIO/;i=6302",
           "required": [ "ManualProcessValue" ],
           "properties": {
             "ManualProcessValue": {
@@ -5254,22 +5235,22 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/PNRIO/PNRIO_RioPaDigitalInputChannelType/action/SetManualProcessValue",
+            "dov:topic": "opcua/PNRIO/PNRIO_RioPaDigitalInputChannelType/action/SetManualProcessValue",
             "op": "invokeaction"
           }
         ]
       },
       "SetMode": {
-        "aov:namespace": "http://opcfoundation.org/UA/PNRIO/",
+        "dov:namespace": "http://opcfoundation.org/UA/PNRIO/",
         "input": {
           "type": "object",
-          "aov:typeRef": "nsu=http://opcfoundation.org/UA/PNRIO/;i=6301",
+          "dov:typeRef": "nsu=http://opcfoundation.org/UA/PNRIO/;i=6301",
           "required": [ "Mode" ],
           "properties": {
             "Mode": {
               "title": "RioChannelModeEnumeration",
               "description": "Desired content of the Mode Variable.",
-              "aov:typeRef": "nsu=http://opcfoundation.org/UA/PNRIO/;i=3007",
+              "dov:typeRef": "nsu=http://opcfoundation.org/UA/PNRIO/;i=3007",
               "type": "integer",
               "minimum": -2147483648,
               "maximum": 2147483647
@@ -5279,16 +5260,16 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/PNRIO/PNRIO_RioPaDigitalInputChannelType/action/SetMode",
+            "dov:topic": "opcua/PNRIO/PNRIO_RioPaDigitalInputChannelType/action/SetMode",
             "op": "invokeaction"
           }
         ]
       },
       "SetSimulation": {
-        "aov:namespace": "http://opcfoundation.org/UA/PNRIO/",
+        "dov:namespace": "http://opcfoundation.org/UA/PNRIO/",
         "input": {
           "type": "object",
-          "aov:typeRef": "nsu=http://opcfoundation.org/UA/PNRIO/;i=6303",
+          "dov:typeRef": "nsu=http://opcfoundation.org/UA/PNRIO/;i=6303",
           "required": [ "SimulationEnabled" ],
           "properties": {
             "SimulationEnabled": {
@@ -5300,16 +5281,16 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/PNRIO/PNRIO_RioPaDigitalInputChannelType/action/SetSimulation",
+            "dov:topic": "opcua/PNRIO/PNRIO_RioPaDigitalInputChannelType/action/SetSimulation",
             "op": "invokeaction"
           }
         ]
       },
       "SetSimulationValue": {
-        "aov:namespace": "http://opcfoundation.org/UA/PNRIO/",
+        "dov:namespace": "http://opcfoundation.org/UA/PNRIO/",
         "input": {
           "type": "object",
-          "aov:typeRef": "nsu=http://opcfoundation.org/UA/PNRIO/;i=6304",
+          "dov:typeRef": "nsu=http://opcfoundation.org/UA/PNRIO/;i=6304",
           "required": [ "Value", "Qualifier" ],
           "properties": {
             "Value": {
@@ -5327,7 +5308,7 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/PNRIO/PNRIO_RioPaDigitalInputChannelType/action/SetSimulationValue",
+            "dov:topic": "opcua/PNRIO/PNRIO_RioPaDigitalInputChannelType/action/SetSimulationValue",
             "op": "invokeaction"
           }
         ]
@@ -5335,15 +5316,15 @@
     },
     "properties": {
       "Config": {
-        "aov:namespace": "http://opcfoundation.org/UA/PNRIO/",
+        "dov:namespace": "http://opcfoundation.org/UA/PNRIO/",
         "title": "RioPaDigitalInputConfigDataType",
         "type": "object",
-        "aov:typeRef": "nsu=http://opcfoundation.org/UA/PNRIO/;i=3012",
+        "dov:typeRef": "nsu=http://opcfoundation.org/UA/PNRIO/;i=3012",
         "required": [ "SignalType", "WireCheckEnabled", "InversionEnabled", "SubstitutePolicy", "SubstituteValue" ],
         "properties": {
           "SignalType": {
             "title": "RioSignalTypeEnumeration",
-            "aov:typeRef": "nsu=http://opcfoundation.org/UA/PNRIO/;i=3005",
+            "dov:typeRef": "nsu=http://opcfoundation.org/UA/PNRIO/;i=3005",
             "type": "integer",
             "minimum": -2147483648,
             "maximum": 2147483647
@@ -5356,7 +5337,7 @@
           },
           "SubstitutePolicy": {
             "title": "RioSubstitutePolicyEnumeration",
-            "aov:typeRef": "nsu=http://opcfoundation.org/UA/PNRIO/;i=3006",
+            "dov:typeRef": "nsu=http://opcfoundation.org/UA/PNRIO/;i=3006",
             "type": "integer",
             "minimum": -2147483648,
             "maximum": 2147483647
@@ -5369,27 +5350,27 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/PNRIO/PNRIO_RioPaDigitalInputChannelType/property/Config/read",
+            "dov:topic": "opcua/PNRIO/PNRIO_RioPaDigitalInputChannelType/property/Config/read",
             "op": "readproperty"
           }
         ]
       },
       "ManualProcessValue": {
-        "aov:namespace": "http://opcfoundation.org/UA/PNRIO/",
+        "dov:namespace": "http://opcfoundation.org/UA/PNRIO/",
         "type": "boolean",
         "readOnly": true,
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/PNRIO/PNRIO_RioPaDigitalInputChannelType/property/ManualProcessValue/read",
+            "dov:topic": "opcua/PNRIO/PNRIO_RioPaDigitalInputChannelType/property/ManualProcessValue/read",
             "op": "readproperty"
           }
         ]
       },
       "Mode": {
-        "aov:namespace": "http://opcfoundation.org/UA/PNRIO/",
+        "dov:namespace": "http://opcfoundation.org/UA/PNRIO/",
         "title": "RioChannelModeEnumeration",
-        "aov:typeRef": "nsu=http://opcfoundation.org/UA/PNRIO/;i=3007",
+        "dov:typeRef": "nsu=http://opcfoundation.org/UA/PNRIO/;i=3007",
         "type": "integer",
         "minimum": -2147483648,
         "maximum": 2147483647,
@@ -5397,16 +5378,16 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/PNRIO/PNRIO_RioPaDigitalInputChannelType/property/Mode/read",
+            "dov:topic": "opcua/PNRIO/PNRIO_RioPaDigitalInputChannelType/property/Mode/read",
             "op": "readproperty"
           }
         ]
       },
       "ProcessValue": {
-        "aov:namespace": "http://opcfoundation.org/UA/PNRIO/",
+        "dov:namespace": "http://opcfoundation.org/UA/PNRIO/",
         "title": "RioPaDigitalProcessValueDataType",
         "type": "object",
-        "aov:typeRef": "nsu=http://opcfoundation.org/UA/PNRIO/;i=3021",
+        "dov:typeRef": "nsu=http://opcfoundation.org/UA/PNRIO/;i=3021",
         "required": [ "Quality", "NE_107", "Status_full" ],
         "properties": {
           "Quality": {
@@ -5432,13 +5413,13 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/PNRIO/PNRIO_RioPaDigitalInputChannelType/property/ProcessValue/read",
+            "dov:topic": "opcua/PNRIO/PNRIO_RioPaDigitalInputChannelType/property/ProcessValue/read",
             "op": "readproperty"
           }
         ]
       },
       "SignalValue": {
-        "aov:namespace": "http://opcfoundation.org/UA/PNRIO/",
+        "dov:namespace": "http://opcfoundation.org/UA/PNRIO/",
         "type": "number",
         "minimum": -1.80e+308,
         "maximum": 1.80e+308,
@@ -5446,28 +5427,28 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/PNRIO/PNRIO_RioPaDigitalInputChannelType/property/SignalValue/read",
+            "dov:topic": "opcua/PNRIO/PNRIO_RioPaDigitalInputChannelType/property/SignalValue/read",
             "op": "readproperty"
           }
         ]
       },
       "SimulationEnabled": {
-        "aov:namespace": "http://opcfoundation.org/UA/PNRIO/",
+        "dov:namespace": "http://opcfoundation.org/UA/PNRIO/",
         "type": "boolean",
         "readOnly": true,
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/PNRIO/PNRIO_RioPaDigitalInputChannelType/property/SimulationEnabled/read",
+            "dov:topic": "opcua/PNRIO/PNRIO_RioPaDigitalInputChannelType/property/SimulationEnabled/read",
             "op": "readproperty"
           }
         ]
       },
       "SimulationValue": {
-        "aov:namespace": "http://opcfoundation.org/UA/PNRIO/",
+        "dov:namespace": "http://opcfoundation.org/UA/PNRIO/",
         "title": "RioPaDigitalValueDataType",
         "type": "object",
-        "aov:typeRef": "nsu=http://opcfoundation.org/UA/PNRIO/;i=3003",
+        "dov:typeRef": "nsu=http://opcfoundation.org/UA/PNRIO/;i=3003",
         "required": [ "Value", "Qualifier" ],
         "properties": {
           "Value": {
@@ -5485,7 +5466,7 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/PNRIO/PNRIO_RioPaDigitalInputChannelType/property/SimulationValue/read",
+            "dov:topic": "opcua/PNRIO/PNRIO_RioPaDigitalInputChannelType/property/SimulationValue/read",
             "op": "readproperty"
           }
         ]
@@ -5493,16 +5474,16 @@
     },
     "events": {
       "Config": {
-        "aov:namespace": "http://opcfoundation.org/UA/PNRIO/",
+        "dov:namespace": "http://opcfoundation.org/UA/PNRIO/",
         "data": {
           "title": "RioPaDigitalInputConfigDataType",
           "type": "object",
-          "aov:typeRef": "nsu=http://opcfoundation.org/UA/PNRIO/;i=3012",
+          "dov:typeRef": "nsu=http://opcfoundation.org/UA/PNRIO/;i=3012",
           "required": [ "SignalType", "WireCheckEnabled", "InversionEnabled", "SubstitutePolicy", "SubstituteValue" ],
           "properties": {
             "SignalType": {
               "title": "RioSignalTypeEnumeration",
-              "aov:typeRef": "nsu=http://opcfoundation.org/UA/PNRIO/;i=3005",
+              "dov:typeRef": "nsu=http://opcfoundation.org/UA/PNRIO/;i=3005",
               "type": "integer",
               "minimum": -2147483648,
               "maximum": 2147483647
@@ -5515,7 +5496,7 @@
             },
             "SubstitutePolicy": {
               "title": "RioSubstitutePolicyEnumeration",
-              "aov:typeRef": "nsu=http://opcfoundation.org/UA/PNRIO/;i=3006",
+              "dov:typeRef": "nsu=http://opcfoundation.org/UA/PNRIO/;i=3006",
               "type": "integer",
               "minimum": -2147483648,
               "maximum": 2147483647
@@ -5528,29 +5509,29 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/PNRIO/PNRIO_RioPaDigitalInputChannelType/event/Config/{senderId}",
+            "dov:topic": "opcua/PNRIO/PNRIO_RioPaDigitalInputChannelType/event/Config/{senderId}",
             "op": "subscribeevent"
           }
         ]
       },
       "ManualProcessValue": {
-        "aov:namespace": "http://opcfoundation.org/UA/PNRIO/",
+        "dov:namespace": "http://opcfoundation.org/UA/PNRIO/",
         "data": {
           "type": "boolean"
         },
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/PNRIO/PNRIO_RioPaDigitalInputChannelType/event/ManualProcessValue/{senderId}",
+            "dov:topic": "opcua/PNRIO/PNRIO_RioPaDigitalInputChannelType/event/ManualProcessValue/{senderId}",
             "op": "subscribeevent"
           }
         ]
       },
       "Mode": {
-        "aov:namespace": "http://opcfoundation.org/UA/PNRIO/",
+        "dov:namespace": "http://opcfoundation.org/UA/PNRIO/",
         "data": {
           "title": "RioChannelModeEnumeration",
-          "aov:typeRef": "nsu=http://opcfoundation.org/UA/PNRIO/;i=3007",
+          "dov:typeRef": "nsu=http://opcfoundation.org/UA/PNRIO/;i=3007",
           "type": "integer",
           "minimum": -2147483648,
           "maximum": 2147483647
@@ -5558,17 +5539,17 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/PNRIO/PNRIO_RioPaDigitalInputChannelType/event/Mode/{senderId}",
+            "dov:topic": "opcua/PNRIO/PNRIO_RioPaDigitalInputChannelType/event/Mode/{senderId}",
             "op": "subscribeevent"
           }
         ]
       },
       "ProcessValue": {
-        "aov:namespace": "http://opcfoundation.org/UA/PNRIO/",
+        "dov:namespace": "http://opcfoundation.org/UA/PNRIO/",
         "data": {
           "title": "RioPaDigitalProcessValueDataType",
           "type": "object",
-          "aov:typeRef": "nsu=http://opcfoundation.org/UA/PNRIO/;i=3021",
+          "dov:typeRef": "nsu=http://opcfoundation.org/UA/PNRIO/;i=3021",
           "required": [ "Quality", "NE_107", "Status_full" ],
           "properties": {
             "Quality": {
@@ -5594,13 +5575,13 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/PNRIO/PNRIO_RioPaDigitalInputChannelType/event/ProcessValue/{senderId}",
+            "dov:topic": "opcua/PNRIO/PNRIO_RioPaDigitalInputChannelType/event/ProcessValue/{senderId}",
             "op": "subscribeevent"
           }
         ]
       },
       "SignalValue": {
-        "aov:namespace": "http://opcfoundation.org/UA/PNRIO/",
+        "dov:namespace": "http://opcfoundation.org/UA/PNRIO/",
         "data": {
           "type": "number",
           "minimum": -1.80e+308,
@@ -5609,30 +5590,30 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/PNRIO/PNRIO_RioPaDigitalInputChannelType/event/SignalValue/{senderId}",
+            "dov:topic": "opcua/PNRIO/PNRIO_RioPaDigitalInputChannelType/event/SignalValue/{senderId}",
             "op": "subscribeevent"
           }
         ]
       },
       "SimulationEnabled": {
-        "aov:namespace": "http://opcfoundation.org/UA/PNRIO/",
+        "dov:namespace": "http://opcfoundation.org/UA/PNRIO/",
         "data": {
           "type": "boolean"
         },
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/PNRIO/PNRIO_RioPaDigitalInputChannelType/event/SimulationEnabled/{senderId}",
+            "dov:topic": "opcua/PNRIO/PNRIO_RioPaDigitalInputChannelType/event/SimulationEnabled/{senderId}",
             "op": "subscribeevent"
           }
         ]
       },
       "SimulationValue": {
-        "aov:namespace": "http://opcfoundation.org/UA/PNRIO/",
+        "dov:namespace": "http://opcfoundation.org/UA/PNRIO/",
         "data": {
           "title": "RioPaDigitalValueDataType",
           "type": "object",
-          "aov:typeRef": "nsu=http://opcfoundation.org/UA/PNRIO/;i=3003",
+          "dov:typeRef": "nsu=http://opcfoundation.org/UA/PNRIO/;i=3003",
           "required": [ "Value", "Qualifier" ],
           "properties": {
             "Value": {
@@ -5650,7 +5631,7 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/PNRIO/PNRIO_RioPaDigitalInputChannelType/event/SimulationValue/{senderId}",
+            "dov:topic": "opcua/PNRIO/PNRIO_RioPaDigitalInputChannelType/event/SimulationValue/{senderId}",
             "op": "subscribeevent"
           }
         ]
@@ -5661,14 +5642,13 @@
     "@context": [
       "https://www.w3.org/2022/wot/td/v1.1",
       {
-        "dtv": "http://azure.com/DigitalTwins/dtmi#",
-        "aov": "http://azure.com/IoT/operations/tm#"
+        "dov": "http://azure.com/DigitalOperations/vocab#"
       }
     ],
     "@type": "tm:ThingModel",
     "title": "PNRIO_RioPaDigitalOutputChannelType",
-    "aov:typeRef": "nsu=http://opcfoundation.org/UA/PNRIO/;i=1010",
-    "aov:isComposite": true,
+    "dov:typeRef": "nsu=http://opcfoundation.org/UA/PNRIO/;i=1010",
+    "dov:isComposite": true,
     "links": [
       {
         "rel": "tm:extends",
@@ -5679,7 +5659,7 @@
     "schemaDefinitions": {
       "RioSignalTypeEnumeration": {
         "type": "object",
-        "aov:typeRef": "nsu=http://opcfoundation.org/UA/PNRIO/;i=3005",
+        "dov:typeRef": "nsu=http://opcfoundation.org/UA/PNRIO/;i=3005",
         "const": {
           "CURRENT_4_20_mA": 0,
           "CURRENT_0_20_mA": 1,
@@ -5727,7 +5707,7 @@
       },
       "RioSubstitutePolicyEnumeration": {
         "type": "object",
-        "aov:typeRef": "nsu=http://opcfoundation.org/UA/PNRIO/;i=3006",
+        "dov:typeRef": "nsu=http://opcfoundation.org/UA/PNRIO/;i=3006",
         "const": {
           "USE_SUBSTITUTE_VALUE": 0,
           "USE_LAST_VALID_VALUE": 1,
@@ -5755,7 +5735,7 @@
       },
       "RioChannelModeEnumeration": {
         "type": "object",
-        "aov:typeRef": "nsu=http://opcfoundation.org/UA/PNRIO/;i=3007",
+        "dov:typeRef": "nsu=http://opcfoundation.org/UA/PNRIO/;i=3007",
         "const": {
           "AUTO": 0,
           "MANUAL": 1,
@@ -5780,21 +5760,21 @@
     "forms": [
       {
         "contentType": "application/json",
-        "dtv:topic": "opcua/PNRIO/PNRIO_RioPaDigitalOutputChannelType/events/{senderId}",
+        "dov:topic": "opcua/PNRIO/PNRIO_RioPaDigitalOutputChannelType/events/{senderId}",
         "op": "subscribeallevents"
       },
       {
         "contentType": "application/json",
-        "dtv:topic": "opcua/PNRIO/PNRIO_RioPaDigitalOutputChannelType/properties/read",
+        "dov:topic": "opcua/PNRIO/PNRIO_RioPaDigitalOutputChannelType/properties/read",
         "op": "readallproperties"
       }
     ],
     "actions": {
       "SetManualOutValue": {
-        "aov:namespace": "http://opcfoundation.org/UA/PNRIO/",
+        "dov:namespace": "http://opcfoundation.org/UA/PNRIO/",
         "input": {
           "type": "object",
-          "aov:typeRef": "nsu=http://opcfoundation.org/UA/PNRIO/;i=6071",
+          "dov:typeRef": "nsu=http://opcfoundation.org/UA/PNRIO/;i=6071",
           "required": [ "ManualOutValue" ],
           "properties": {
             "ManualOutValue": {
@@ -5806,22 +5786,22 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/PNRIO/PNRIO_RioPaDigitalOutputChannelType/action/SetManualOutValue",
+            "dov:topic": "opcua/PNRIO/PNRIO_RioPaDigitalOutputChannelType/action/SetManualOutValue",
             "op": "invokeaction"
           }
         ]
       },
       "SetMode": {
-        "aov:namespace": "http://opcfoundation.org/UA/PNRIO/",
+        "dov:namespace": "http://opcfoundation.org/UA/PNRIO/",
         "input": {
           "type": "object",
-          "aov:typeRef": "nsu=http://opcfoundation.org/UA/PNRIO/;i=6305",
+          "dov:typeRef": "nsu=http://opcfoundation.org/UA/PNRIO/;i=6305",
           "required": [ "Mode" ],
           "properties": {
             "Mode": {
               "title": "RioChannelModeEnumeration",
               "description": "Desired content of the Mode Variable.",
-              "aov:typeRef": "nsu=http://opcfoundation.org/UA/PNRIO/;i=3007",
+              "dov:typeRef": "nsu=http://opcfoundation.org/UA/PNRIO/;i=3007",
               "type": "integer",
               "minimum": -2147483648,
               "maximum": 2147483647
@@ -5831,16 +5811,16 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/PNRIO/PNRIO_RioPaDigitalOutputChannelType/action/SetMode",
+            "dov:topic": "opcua/PNRIO/PNRIO_RioPaDigitalOutputChannelType/action/SetMode",
             "op": "invokeaction"
           }
         ]
       },
       "SetSimulation": {
-        "aov:namespace": "http://opcfoundation.org/UA/PNRIO/",
+        "dov:namespace": "http://opcfoundation.org/UA/PNRIO/",
         "input": {
           "type": "object",
-          "aov:typeRef": "nsu=http://opcfoundation.org/UA/PNRIO/;i=6306",
+          "dov:typeRef": "nsu=http://opcfoundation.org/UA/PNRIO/;i=6306",
           "required": [ "SimulationEnabled" ],
           "properties": {
             "SimulationEnabled": {
@@ -5852,16 +5832,16 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/PNRIO/PNRIO_RioPaDigitalOutputChannelType/action/SetSimulation",
+            "dov:topic": "opcua/PNRIO/PNRIO_RioPaDigitalOutputChannelType/action/SetSimulation",
             "op": "invokeaction"
           }
         ]
       },
       "SetSimulationValue": {
-        "aov:namespace": "http://opcfoundation.org/UA/PNRIO/",
+        "dov:namespace": "http://opcfoundation.org/UA/PNRIO/",
         "input": {
           "type": "object",
-          "aov:typeRef": "nsu=http://opcfoundation.org/UA/PNRIO/;i=6307",
+          "dov:typeRef": "nsu=http://opcfoundation.org/UA/PNRIO/;i=6307",
           "required": [ "Value", "Qualifier" ],
           "properties": {
             "Value": {
@@ -5879,7 +5859,7 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/PNRIO/PNRIO_RioPaDigitalOutputChannelType/action/SetSimulationValue",
+            "dov:topic": "opcua/PNRIO/PNRIO_RioPaDigitalOutputChannelType/action/SetSimulationValue",
             "op": "invokeaction"
           }
         ]
@@ -5887,15 +5867,15 @@
     },
     "properties": {
       "Config": {
-        "aov:namespace": "http://opcfoundation.org/UA/PNRIO/",
+        "dov:namespace": "http://opcfoundation.org/UA/PNRIO/",
         "title": "RioPaDigitalOutputConfigDataType",
         "type": "object",
-        "aov:typeRef": "nsu=http://opcfoundation.org/UA/PNRIO/;i=3014",
+        "dov:typeRef": "nsu=http://opcfoundation.org/UA/PNRIO/;i=3014",
         "required": [ "SignalType", "WireCheckEnabled", "InversionEnabled", "SubstitutePolicy", "SubstituteValue", "SubstituteTime" ],
         "properties": {
           "SignalType": {
             "title": "RioSignalTypeEnumeration",
-            "aov:typeRef": "nsu=http://opcfoundation.org/UA/PNRIO/;i=3005",
+            "dov:typeRef": "nsu=http://opcfoundation.org/UA/PNRIO/;i=3005",
             "type": "integer",
             "minimum": -2147483648,
             "maximum": 2147483647
@@ -5908,7 +5888,7 @@
           },
           "SubstitutePolicy": {
             "title": "RioSubstitutePolicyEnumeration",
-            "aov:typeRef": "nsu=http://opcfoundation.org/UA/PNRIO/;i=3006",
+            "dov:typeRef": "nsu=http://opcfoundation.org/UA/PNRIO/;i=3006",
             "type": "integer",
             "minimum": -2147483648,
             "maximum": 2147483647
@@ -5926,27 +5906,27 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/PNRIO/PNRIO_RioPaDigitalOutputChannelType/property/Config/read",
+            "dov:topic": "opcua/PNRIO/PNRIO_RioPaDigitalOutputChannelType/property/Config/read",
             "op": "readproperty"
           }
         ]
       },
       "ManualOutValue": {
-        "aov:namespace": "http://opcfoundation.org/UA/PNRIO/",
+        "dov:namespace": "http://opcfoundation.org/UA/PNRIO/",
         "type": "boolean",
         "readOnly": true,
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/PNRIO/PNRIO_RioPaDigitalOutputChannelType/property/ManualOutValue/read",
+            "dov:topic": "opcua/PNRIO/PNRIO_RioPaDigitalOutputChannelType/property/ManualOutValue/read",
             "op": "readproperty"
           }
         ]
       },
       "Mode": {
-        "aov:namespace": "http://opcfoundation.org/UA/PNRIO/",
+        "dov:namespace": "http://opcfoundation.org/UA/PNRIO/",
         "title": "RioChannelModeEnumeration",
-        "aov:typeRef": "nsu=http://opcfoundation.org/UA/PNRIO/;i=3007",
+        "dov:typeRef": "nsu=http://opcfoundation.org/UA/PNRIO/;i=3007",
         "type": "integer",
         "minimum": -2147483648,
         "maximum": 2147483647,
@@ -5954,16 +5934,16 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/PNRIO/PNRIO_RioPaDigitalOutputChannelType/property/Mode/read",
+            "dov:topic": "opcua/PNRIO/PNRIO_RioPaDigitalOutputChannelType/property/Mode/read",
             "op": "readproperty"
           }
         ]
       },
       "ProcessValue": {
-        "aov:namespace": "http://opcfoundation.org/UA/PNRIO/",
+        "dov:namespace": "http://opcfoundation.org/UA/PNRIO/",
         "title": "RioPaDigitalProcessValueDataType",
         "type": "object",
-        "aov:typeRef": "nsu=http://opcfoundation.org/UA/PNRIO/;i=3021",
+        "dov:typeRef": "nsu=http://opcfoundation.org/UA/PNRIO/;i=3021",
         "required": [ "Quality", "NE_107", "Status_full" ],
         "properties": {
           "Quality": {
@@ -5989,16 +5969,16 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/PNRIO/PNRIO_RioPaDigitalOutputChannelType/property/ProcessValue/read",
+            "dov:topic": "opcua/PNRIO/PNRIO_RioPaDigitalOutputChannelType/property/ProcessValue/read",
             "op": "readproperty"
           }
         ]
       },
       "ProcessValueReadback": {
-        "aov:namespace": "http://opcfoundation.org/UA/PNRIO/",
+        "dov:namespace": "http://opcfoundation.org/UA/PNRIO/",
         "title": "RioPaDigitalProcessValueDataType",
         "type": "object",
-        "aov:typeRef": "nsu=http://opcfoundation.org/UA/PNRIO/;i=3021",
+        "dov:typeRef": "nsu=http://opcfoundation.org/UA/PNRIO/;i=3021",
         "required": [ "Quality", "NE_107", "Status_full" ],
         "properties": {
           "Quality": {
@@ -6024,13 +6004,13 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/PNRIO/PNRIO_RioPaDigitalOutputChannelType/property/ProcessValueReadback/read",
+            "dov:topic": "opcua/PNRIO/PNRIO_RioPaDigitalOutputChannelType/property/ProcessValueReadback/read",
             "op": "readproperty"
           }
         ]
       },
       "SignalValue": {
-        "aov:namespace": "http://opcfoundation.org/UA/PNRIO/",
+        "dov:namespace": "http://opcfoundation.org/UA/PNRIO/",
         "type": "number",
         "minimum": -1.80e+308,
         "maximum": 1.80e+308,
@@ -6038,13 +6018,13 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/PNRIO/PNRIO_RioPaDigitalOutputChannelType/property/SignalValue/read",
+            "dov:topic": "opcua/PNRIO/PNRIO_RioPaDigitalOutputChannelType/property/SignalValue/read",
             "op": "readproperty"
           }
         ]
       },
       "SignalValueReadback": {
-        "aov:namespace": "http://opcfoundation.org/UA/PNRIO/",
+        "dov:namespace": "http://opcfoundation.org/UA/PNRIO/",
         "type": "number",
         "minimum": -1.80e+308,
         "maximum": 1.80e+308,
@@ -6052,28 +6032,28 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/PNRIO/PNRIO_RioPaDigitalOutputChannelType/property/SignalValueReadback/read",
+            "dov:topic": "opcua/PNRIO/PNRIO_RioPaDigitalOutputChannelType/property/SignalValueReadback/read",
             "op": "readproperty"
           }
         ]
       },
       "SimulationEnabled": {
-        "aov:namespace": "http://opcfoundation.org/UA/PNRIO/",
+        "dov:namespace": "http://opcfoundation.org/UA/PNRIO/",
         "type": "boolean",
         "readOnly": true,
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/PNRIO/PNRIO_RioPaDigitalOutputChannelType/property/SimulationEnabled/read",
+            "dov:topic": "opcua/PNRIO/PNRIO_RioPaDigitalOutputChannelType/property/SimulationEnabled/read",
             "op": "readproperty"
           }
         ]
       },
       "SimulationValue": {
-        "aov:namespace": "http://opcfoundation.org/UA/PNRIO/",
+        "dov:namespace": "http://opcfoundation.org/UA/PNRIO/",
         "title": "RioPaDigitalValueDataType",
         "type": "object",
-        "aov:typeRef": "nsu=http://opcfoundation.org/UA/PNRIO/;i=3003",
+        "dov:typeRef": "nsu=http://opcfoundation.org/UA/PNRIO/;i=3003",
         "required": [ "Value", "Qualifier" ],
         "properties": {
           "Value": {
@@ -6091,7 +6071,7 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/PNRIO/PNRIO_RioPaDigitalOutputChannelType/property/SimulationValue/read",
+            "dov:topic": "opcua/PNRIO/PNRIO_RioPaDigitalOutputChannelType/property/SimulationValue/read",
             "op": "readproperty"
           }
         ]
@@ -6099,16 +6079,16 @@
     },
     "events": {
       "Config": {
-        "aov:namespace": "http://opcfoundation.org/UA/PNRIO/",
+        "dov:namespace": "http://opcfoundation.org/UA/PNRIO/",
         "data": {
           "title": "RioPaDigitalOutputConfigDataType",
           "type": "object",
-          "aov:typeRef": "nsu=http://opcfoundation.org/UA/PNRIO/;i=3014",
+          "dov:typeRef": "nsu=http://opcfoundation.org/UA/PNRIO/;i=3014",
           "required": [ "SignalType", "WireCheckEnabled", "InversionEnabled", "SubstitutePolicy", "SubstituteValue", "SubstituteTime" ],
           "properties": {
             "SignalType": {
               "title": "RioSignalTypeEnumeration",
-              "aov:typeRef": "nsu=http://opcfoundation.org/UA/PNRIO/;i=3005",
+              "dov:typeRef": "nsu=http://opcfoundation.org/UA/PNRIO/;i=3005",
               "type": "integer",
               "minimum": -2147483648,
               "maximum": 2147483647
@@ -6121,7 +6101,7 @@
             },
             "SubstitutePolicy": {
               "title": "RioSubstitutePolicyEnumeration",
-              "aov:typeRef": "nsu=http://opcfoundation.org/UA/PNRIO/;i=3006",
+              "dov:typeRef": "nsu=http://opcfoundation.org/UA/PNRIO/;i=3006",
               "type": "integer",
               "minimum": -2147483648,
               "maximum": 2147483647
@@ -6139,29 +6119,29 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/PNRIO/PNRIO_RioPaDigitalOutputChannelType/event/Config/{senderId}",
+            "dov:topic": "opcua/PNRIO/PNRIO_RioPaDigitalOutputChannelType/event/Config/{senderId}",
             "op": "subscribeevent"
           }
         ]
       },
       "ManualOutValue": {
-        "aov:namespace": "http://opcfoundation.org/UA/PNRIO/",
+        "dov:namespace": "http://opcfoundation.org/UA/PNRIO/",
         "data": {
           "type": "boolean"
         },
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/PNRIO/PNRIO_RioPaDigitalOutputChannelType/event/ManualOutValue/{senderId}",
+            "dov:topic": "opcua/PNRIO/PNRIO_RioPaDigitalOutputChannelType/event/ManualOutValue/{senderId}",
             "op": "subscribeevent"
           }
         ]
       },
       "Mode": {
-        "aov:namespace": "http://opcfoundation.org/UA/PNRIO/",
+        "dov:namespace": "http://opcfoundation.org/UA/PNRIO/",
         "data": {
           "title": "RioChannelModeEnumeration",
-          "aov:typeRef": "nsu=http://opcfoundation.org/UA/PNRIO/;i=3007",
+          "dov:typeRef": "nsu=http://opcfoundation.org/UA/PNRIO/;i=3007",
           "type": "integer",
           "minimum": -2147483648,
           "maximum": 2147483647
@@ -6169,17 +6149,17 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/PNRIO/PNRIO_RioPaDigitalOutputChannelType/event/Mode/{senderId}",
+            "dov:topic": "opcua/PNRIO/PNRIO_RioPaDigitalOutputChannelType/event/Mode/{senderId}",
             "op": "subscribeevent"
           }
         ]
       },
       "ProcessValue": {
-        "aov:namespace": "http://opcfoundation.org/UA/PNRIO/",
+        "dov:namespace": "http://opcfoundation.org/UA/PNRIO/",
         "data": {
           "title": "RioPaDigitalProcessValueDataType",
           "type": "object",
-          "aov:typeRef": "nsu=http://opcfoundation.org/UA/PNRIO/;i=3021",
+          "dov:typeRef": "nsu=http://opcfoundation.org/UA/PNRIO/;i=3021",
           "required": [ "Quality", "NE_107", "Status_full" ],
           "properties": {
             "Quality": {
@@ -6205,17 +6185,17 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/PNRIO/PNRIO_RioPaDigitalOutputChannelType/event/ProcessValue/{senderId}",
+            "dov:topic": "opcua/PNRIO/PNRIO_RioPaDigitalOutputChannelType/event/ProcessValue/{senderId}",
             "op": "subscribeevent"
           }
         ]
       },
       "ProcessValueReadback": {
-        "aov:namespace": "http://opcfoundation.org/UA/PNRIO/",
+        "dov:namespace": "http://opcfoundation.org/UA/PNRIO/",
         "data": {
           "title": "RioPaDigitalProcessValueDataType",
           "type": "object",
-          "aov:typeRef": "nsu=http://opcfoundation.org/UA/PNRIO/;i=3021",
+          "dov:typeRef": "nsu=http://opcfoundation.org/UA/PNRIO/;i=3021",
           "required": [ "Quality", "NE_107", "Status_full" ],
           "properties": {
             "Quality": {
@@ -6241,13 +6221,13 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/PNRIO/PNRIO_RioPaDigitalOutputChannelType/event/ProcessValueReadback/{senderId}",
+            "dov:topic": "opcua/PNRIO/PNRIO_RioPaDigitalOutputChannelType/event/ProcessValueReadback/{senderId}",
             "op": "subscribeevent"
           }
         ]
       },
       "SignalValue": {
-        "aov:namespace": "http://opcfoundation.org/UA/PNRIO/",
+        "dov:namespace": "http://opcfoundation.org/UA/PNRIO/",
         "data": {
           "type": "number",
           "minimum": -1.80e+308,
@@ -6256,13 +6236,13 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/PNRIO/PNRIO_RioPaDigitalOutputChannelType/event/SignalValue/{senderId}",
+            "dov:topic": "opcua/PNRIO/PNRIO_RioPaDigitalOutputChannelType/event/SignalValue/{senderId}",
             "op": "subscribeevent"
           }
         ]
       },
       "SignalValueReadback": {
-        "aov:namespace": "http://opcfoundation.org/UA/PNRIO/",
+        "dov:namespace": "http://opcfoundation.org/UA/PNRIO/",
         "data": {
           "type": "number",
           "minimum": -1.80e+308,
@@ -6271,30 +6251,30 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/PNRIO/PNRIO_RioPaDigitalOutputChannelType/event/SignalValueReadback/{senderId}",
+            "dov:topic": "opcua/PNRIO/PNRIO_RioPaDigitalOutputChannelType/event/SignalValueReadback/{senderId}",
             "op": "subscribeevent"
           }
         ]
       },
       "SimulationEnabled": {
-        "aov:namespace": "http://opcfoundation.org/UA/PNRIO/",
+        "dov:namespace": "http://opcfoundation.org/UA/PNRIO/",
         "data": {
           "type": "boolean"
         },
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/PNRIO/PNRIO_RioPaDigitalOutputChannelType/event/SimulationEnabled/{senderId}",
+            "dov:topic": "opcua/PNRIO/PNRIO_RioPaDigitalOutputChannelType/event/SimulationEnabled/{senderId}",
             "op": "subscribeevent"
           }
         ]
       },
       "SimulationValue": {
-        "aov:namespace": "http://opcfoundation.org/UA/PNRIO/",
+        "dov:namespace": "http://opcfoundation.org/UA/PNRIO/",
         "data": {
           "title": "RioPaDigitalValueDataType",
           "type": "object",
-          "aov:typeRef": "nsu=http://opcfoundation.org/UA/PNRIO/;i=3003",
+          "dov:typeRef": "nsu=http://opcfoundation.org/UA/PNRIO/;i=3003",
           "required": [ "Value", "Qualifier" ],
           "properties": {
             "Value": {
@@ -6312,7 +6292,7 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/PNRIO/PNRIO_RioPaDigitalOutputChannelType/event/SimulationValue/{senderId}",
+            "dov:topic": "opcua/PNRIO/PNRIO_RioPaDigitalOutputChannelType/event/SimulationValue/{senderId}",
             "op": "subscribeevent"
           }
         ]

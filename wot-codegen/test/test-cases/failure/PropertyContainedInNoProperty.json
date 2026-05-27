@@ -8,8 +8,8 @@
     {
       "condition": "ItemNotFound",
       "filename": "PropertyContainedInNoProperty.TM.json",
-      "line": 24,
-      "cfLine": 11,
+      "line": 23,
+      "cfLine": 10,
       "crossRef": ""
     }
   ]

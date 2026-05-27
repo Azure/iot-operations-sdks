@@ -20,9 +20,33 @@ namespace Azure.Iot.Operations.TDParser.Model
         public const string ActionsName = "actions";
         public const string PropertiesName = "properties";
         public const string EventsName = "events";
-        public const string IsCompositeName = "aov:isComposite";
-        public const string IsEventName = "aov:isEvent";
-        public const string TypeRefName = "aov:typeRef";
+        public const string IsCompositeName = "dov:isComposite";
+        public const string IsCompositeLegacyName = "aov:isComposite";
+        public const string IsEventName = "dov:isEvent";
+        public const string IsEventLegacyName = "aov:isEvent";
+        public const string TypeRefName = "dov:typeRef";
+        public const string TypeRefLegacyName = "aov:typeRef";
+
+        public static readonly HashSet<string> SupportedProperties = new()
+        {
+            ContextName,
+            TypeName,
+            TitleName,
+            DescriptionName,
+            LinksName,
+            SchemaDefinitionsName,
+            FormsName,
+            OptionalName,
+            ActionsName,
+            PropertiesName,
+            EventsName,
+            IsCompositeName,
+            IsCompositeLegacyName,
+            IsEventName,
+            IsEventLegacyName,
+            TypeRefName,
+            TypeRefLegacyName
+        };
 
         public ArrayTracker<TDContextSpecifier>? Context { get; set; }
 
@@ -53,6 +77,12 @@ namespace Azure.Iot.Operations.TDParser.Model
         public ValueTracker<StringHolder>? TypeRef { get; set; }
 
         public Dictionary<string, long> PropertyNames { get; set; } = new();
+
+        public PrefixType IsCompositePrefixType { get; set; } = PrefixType.Indeterminate;
+
+        public PrefixType IsEventPrefixType { get; set; } = PrefixType.Indeterminate;
+
+        public PrefixType TypeRefPrefixType { get; set; } = PrefixType.Indeterminate;
 
         public virtual bool Equals(TDThing? other)
         {
@@ -277,12 +307,27 @@ namespace Azure.Iot.Operations.TDParser.Model
                         break;
                     case IsCompositeName:
                         thing.IsComposite = ValueTracker<BoolHolder>.Deserialize(ref reader, IsCompositeName);
+                        thing.IsCompositePrefixType = PrefixType.DoVocabulary;
+                        break;
+                    case IsCompositeLegacyName:
+                        thing.IsComposite = ValueTracker<BoolHolder>.Deserialize(ref reader, IsCompositeName);
+                        thing.IsCompositePrefixType = PrefixType.AioPlatform;
                         break;
                     case IsEventName:
                         thing.IsEvent = ValueTracker<BoolHolder>.Deserialize(ref reader, IsEventName);
+                        thing.IsEventPrefixType = PrefixType.DoVocabulary;
+                        break;
+                    case IsEventLegacyName:
+                        thing.IsEvent = ValueTracker<BoolHolder>.Deserialize(ref reader, IsEventName);
+                        thing.IsEventPrefixType = PrefixType.AioPlatform;
                         break;
                     case TypeRefName:
                         thing.TypeRef = ValueTracker<StringHolder>.Deserialize(ref reader, TypeRefName);
+                        thing.TypeRefPrefixType = PrefixType.DoVocabulary;
+                        break;
+                    case TypeRefLegacyName:
+                        thing.TypeRef = ValueTracker<StringHolder>.Deserialize(ref reader, TypeRefName);
+                        thing.TypeRefPrefixType = PrefixType.AioPlatform;
                         break;
                     default:
                         reader.Skip();

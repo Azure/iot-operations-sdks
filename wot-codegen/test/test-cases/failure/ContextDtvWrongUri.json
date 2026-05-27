@@ -8,14 +8,14 @@
     {
       "condition": "PropertyInvalid",
       "filename": "ContextDtvWrongUri.TM.json",
-      "line": 4,
-      "cfLine": 0,
+      "line": 13,
+      "cfLine": 2,
       "crossRef": ""
     },
     {
-      "condition": "PropertyMissing",
+      "condition": "PropertyInvalid",
       "filename": "ContextDtvWrongUri.TM.json",
-      "line": 2,
+      "line": 4,
       "cfLine": 0,
       "crossRef": ""
     }

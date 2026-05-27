@@ -3,14 +3,13 @@
     "@context": [
       "https://www.w3.org/2022/wot/td/v1.1",
       {
-        "dtv": "http://azure.com/DigitalTwins/dtmi#",
-        "aov": "http://azure.com/IoT/operations/tm#"
+        "dov": "http://azure.com/DigitalOperations/vocab#"
       }
     ],
     "@type": "tm:ThingModel",
     "title": "GDS_DirectoryType",
-    "aov:typeRef": "nsu=http://opcfoundation.org/UA/GDS/;i=13",
-    "aov:isComposite": true,
+    "dov:typeRef": "nsu=http://opcfoundation.org/UA/GDS/;i=13",
+    "dov:isComposite": true,
     "links": [
       {
         "rel": "tm:extends",
@@ -18,8 +17,8 @@
         "type": "application/tm+json"
       },
       {
-        "rel": "aov:component",
-        "aov:refName": "Applications",
+        "rel": "dov:component",
+        "dov:refName": "Applications",
         "href": "./OpcUaCore.TM.json#title=OpcUaCore_FolderType",
         "type": "application/tm+json"
       }
@@ -27,7 +26,7 @@
     "schemaDefinitions": {
       "ApplicationType": {
         "type": "object",
-        "aov:typeRef": "nsu=http://opcfoundation.org/UA/;i=307",
+        "dov:typeRef": "nsu=http://opcfoundation.org/UA/;i=307",
         "const": {
           "Server": 0,
           "Client": 1,
@@ -52,10 +51,10 @@
     },
     "actions": {
       "FindApplications": {
-        "aov:namespace": "http://opcfoundation.org/UA/GDS/",
+        "dov:namespace": "http://opcfoundation.org/UA/GDS/",
         "input": {
           "type": "object",
-          "aov:typeRef": "nsu=http://opcfoundation.org/UA/GDS/;i=16",
+          "dov:typeRef": "nsu=http://opcfoundation.org/UA/GDS/;i=16",
           "required": [ "ApplicationUri" ],
           "properties": {
             "ApplicationUri": {
@@ -65,7 +64,7 @@
         },
         "output": {
           "type": "object",
-          "aov:typeRef": "nsu=http://opcfoundation.org/UA/GDS/;i=17",
+          "dov:typeRef": "nsu=http://opcfoundation.org/UA/GDS/;i=17",
           "required": [ "Applications" ],
           "properties": {
             "Applications": {
@@ -73,7 +72,7 @@
               "items": {
                 "title": "ApplicationRecordDataType",
                 "type": "object",
-                "aov:typeRef": "nsu=http://opcfoundation.org/UA/GDS/;i=1",
+                "dov:typeRef": "nsu=http://opcfoundation.org/UA/GDS/;i=1",
                 "required": [ "ApplicationId", "ApplicationUri", "ApplicationType", "ApplicationNames", "ProductUri", "DiscoveryUrls", "ServerCapabilities" ],
                 "properties": {
                   "ApplicationId": {
@@ -84,7 +83,7 @@
                   },
                   "ApplicationType": {
                     "title": "ApplicationType",
-                    "aov:typeRef": "nsu=http://opcfoundation.org/UA/;i=307",
+                    "dov:typeRef": "nsu=http://opcfoundation.org/UA/;i=307",
                     "type": "integer",
                     "minimum": -2147483648,
                     "maximum": 2147483647
@@ -118,16 +117,16 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/GDS/GDS_DirectoryType/action/FindApplications",
+            "dov:topic": "opcua/GDS/GDS_DirectoryType/action/FindApplications",
             "op": "invokeaction"
           }
         ]
       },
       "GetApplication": {
-        "aov:namespace": "http://opcfoundation.org/UA/GDS/",
+        "dov:namespace": "http://opcfoundation.org/UA/GDS/",
         "input": {
           "type": "object",
-          "aov:typeRef": "nsu=http://opcfoundation.org/UA/GDS/;i=211",
+          "dov:typeRef": "nsu=http://opcfoundation.org/UA/GDS/;i=211",
           "required": [ "ApplicationId" ],
           "properties": {
             "ApplicationId": {
@@ -137,13 +136,13 @@
         },
         "output": {
           "type": "object",
-          "aov:typeRef": "nsu=http://opcfoundation.org/UA/GDS/;i=212",
+          "dov:typeRef": "nsu=http://opcfoundation.org/UA/GDS/;i=212",
           "required": [ "Application" ],
           "properties": {
             "Application": {
               "title": "ApplicationRecordDataType",
               "type": "object",
-              "aov:typeRef": "nsu=http://opcfoundation.org/UA/GDS/;i=1",
+              "dov:typeRef": "nsu=http://opcfoundation.org/UA/GDS/;i=1",
               "required": [ "ApplicationId", "ApplicationUri", "ApplicationType", "ApplicationNames", "ProductUri", "DiscoveryUrls", "ServerCapabilities" ],
               "properties": {
                 "ApplicationId": {
@@ -154,7 +153,7 @@
                 },
                 "ApplicationType": {
                   "title": "ApplicationType",
-                  "aov:typeRef": "nsu=http://opcfoundation.org/UA/;i=307",
+                  "dov:typeRef": "nsu=http://opcfoundation.org/UA/;i=307",
                   "type": "integer",
                   "minimum": -2147483648,
                   "maximum": 2147483647
@@ -187,16 +186,16 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/GDS/GDS_DirectoryType/action/GetApplication",
+            "dov:topic": "opcua/GDS/GDS_DirectoryType/action/GetApplication",
             "op": "invokeaction"
           }
         ]
       },
       "QueryApplications": {
-        "aov:namespace": "http://opcfoundation.org/UA/GDS/",
+        "dov:namespace": "http://opcfoundation.org/UA/GDS/",
         "input": {
           "type": "object",
-          "aov:typeRef": "nsu=http://opcfoundation.org/UA/GDS/;i=869",
+          "dov:typeRef": "nsu=http://opcfoundation.org/UA/GDS/;i=869",
           "required": [ "StartingRecordId", "MaxRecordsToReturn", "ApplicationName", "ApplicationUri", "ApplicationType", "ProductUri", "Capabilities" ],
           "properties": {
             "StartingRecordId": {
@@ -233,7 +232,7 @@
         },
         "output": {
           "type": "object",
-          "aov:typeRef": "nsu=http://opcfoundation.org/UA/GDS/;i=870",
+          "dov:typeRef": "nsu=http://opcfoundation.org/UA/GDS/;i=870",
           "required": [ "LastCounterResetTime", "NextRecordId", "Applications" ],
           "properties": {
             "LastCounterResetTime": {
@@ -250,7 +249,7 @@
               "items": {
                 "title": "ApplicationDescription",
                 "type": "object",
-                "aov:typeRef": "nsu=http://opcfoundation.org/UA/;i=308",
+                "dov:typeRef": "nsu=http://opcfoundation.org/UA/;i=308",
                 "required": [ "ApplicationUri", "ProductUri", "ApplicationName", "ApplicationType", "GatewayServerUri", "DiscoveryProfileUri", "DiscoveryUrls" ],
                 "properties": {
                   "ApplicationUri": {
@@ -264,7 +263,7 @@
                   },
                   "ApplicationType": {
                     "title": "ApplicationType",
-                    "aov:typeRef": "nsu=http://opcfoundation.org/UA/;i=307",
+                    "dov:typeRef": "nsu=http://opcfoundation.org/UA/;i=307",
                     "type": "integer",
                     "minimum": -2147483648,
                     "maximum": 2147483647
@@ -289,16 +288,16 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/GDS/GDS_DirectoryType/action/QueryApplications",
+            "dov:topic": "opcua/GDS/GDS_DirectoryType/action/QueryApplications",
             "op": "invokeaction"
           }
         ]
       },
       "QueryServers": {
-        "aov:namespace": "http://opcfoundation.org/UA/GDS/",
+        "dov:namespace": "http://opcfoundation.org/UA/GDS/",
         "input": {
           "type": "object",
-          "aov:typeRef": "nsu=http://opcfoundation.org/UA/GDS/;i=24",
+          "dov:typeRef": "nsu=http://opcfoundation.org/UA/GDS/;i=24",
           "required": [ "StartingRecordId", "MaxRecordsToReturn", "ApplicationName", "ApplicationUri", "ProductUri", "ServerCapabilities" ],
           "properties": {
             "StartingRecordId": {
@@ -330,7 +329,7 @@
         },
         "output": {
           "type": "object",
-          "aov:typeRef": "nsu=http://opcfoundation.org/UA/GDS/;i=25",
+          "dov:typeRef": "nsu=http://opcfoundation.org/UA/GDS/;i=25",
           "required": [ "LastCounterResetTime", "Servers" ],
           "properties": {
             "LastCounterResetTime": {
@@ -342,7 +341,7 @@
               "items": {
                 "title": "ServerOnNetwork",
                 "type": "object",
-                "aov:typeRef": "nsu=http://opcfoundation.org/UA/;i=12189",
+                "dov:typeRef": "nsu=http://opcfoundation.org/UA/;i=12189",
                 "required": [ "RecordId", "ServerName", "DiscoveryUrl", "ServerCapabilities" ],
                 "properties": {
                   "RecordId": {
@@ -370,22 +369,22 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/GDS/GDS_DirectoryType/action/QueryServers",
+            "dov:topic": "opcua/GDS/GDS_DirectoryType/action/QueryServers",
             "op": "invokeaction"
           }
         ]
       },
       "RegisterApplication": {
-        "aov:namespace": "http://opcfoundation.org/UA/GDS/",
+        "dov:namespace": "http://opcfoundation.org/UA/GDS/",
         "input": {
           "type": "object",
-          "aov:typeRef": "nsu=http://opcfoundation.org/UA/GDS/;i=19",
+          "dov:typeRef": "nsu=http://opcfoundation.org/UA/GDS/;i=19",
           "required": [ "Application" ],
           "properties": {
             "Application": {
               "title": "ApplicationRecordDataType",
               "type": "object",
-              "aov:typeRef": "nsu=http://opcfoundation.org/UA/GDS/;i=1",
+              "dov:typeRef": "nsu=http://opcfoundation.org/UA/GDS/;i=1",
               "required": [ "ApplicationId", "ApplicationUri", "ApplicationType", "ApplicationNames", "ProductUri", "DiscoveryUrls", "ServerCapabilities" ],
               "properties": {
                 "ApplicationId": {
@@ -396,7 +395,7 @@
                 },
                 "ApplicationType": {
                   "title": "ApplicationType",
-                  "aov:typeRef": "nsu=http://opcfoundation.org/UA/;i=307",
+                  "dov:typeRef": "nsu=http://opcfoundation.org/UA/;i=307",
                   "type": "integer",
                   "minimum": -2147483648,
                   "maximum": 2147483647
@@ -428,7 +427,7 @@
         },
         "output": {
           "type": "object",
-          "aov:typeRef": "nsu=http://opcfoundation.org/UA/GDS/;i=20",
+          "dov:typeRef": "nsu=http://opcfoundation.org/UA/GDS/;i=20",
           "required": [ "ApplicationId" ],
           "properties": {
             "ApplicationId": {
@@ -439,16 +438,16 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/GDS/GDS_DirectoryType/action/RegisterApplication",
+            "dov:topic": "opcua/GDS/GDS_DirectoryType/action/RegisterApplication",
             "op": "invokeaction"
           }
         ]
       },
       "UnregisterApplication": {
-        "aov:namespace": "http://opcfoundation.org/UA/GDS/",
+        "dov:namespace": "http://opcfoundation.org/UA/GDS/",
         "input": {
           "type": "object",
-          "aov:typeRef": "nsu=http://opcfoundation.org/UA/GDS/;i=22",
+          "dov:typeRef": "nsu=http://opcfoundation.org/UA/GDS/;i=22",
           "required": [ "ApplicationId" ],
           "properties": {
             "ApplicationId": {
@@ -459,22 +458,22 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/GDS/GDS_DirectoryType/action/UnregisterApplication",
+            "dov:topic": "opcua/GDS/GDS_DirectoryType/action/UnregisterApplication",
             "op": "invokeaction"
           }
         ]
       },
       "UpdateApplication": {
-        "aov:namespace": "http://opcfoundation.org/UA/GDS/",
+        "dov:namespace": "http://opcfoundation.org/UA/GDS/",
         "input": {
           "type": "object",
-          "aov:typeRef": "nsu=http://opcfoundation.org/UA/GDS/;i=189",
+          "dov:typeRef": "nsu=http://opcfoundation.org/UA/GDS/;i=189",
           "required": [ "Application" ],
           "properties": {
             "Application": {
               "title": "ApplicationRecordDataType",
               "type": "object",
-              "aov:typeRef": "nsu=http://opcfoundation.org/UA/GDS/;i=1",
+              "dov:typeRef": "nsu=http://opcfoundation.org/UA/GDS/;i=1",
               "required": [ "ApplicationId", "ApplicationUri", "ApplicationType", "ApplicationNames", "ProductUri", "DiscoveryUrls", "ServerCapabilities" ],
               "properties": {
                 "ApplicationId": {
@@ -485,7 +484,7 @@
                 },
                 "ApplicationType": {
                   "title": "ApplicationType",
-                  "aov:typeRef": "nsu=http://opcfoundation.org/UA/;i=307",
+                  "dov:typeRef": "nsu=http://opcfoundation.org/UA/;i=307",
                   "type": "integer",
                   "minimum": -2147483648,
                   "maximum": 2147483647
@@ -518,7 +517,7 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/GDS/GDS_DirectoryType/action/UpdateApplication",
+            "dov:topic": "opcua/GDS/GDS_DirectoryType/action/UpdateApplication",
             "op": "invokeaction"
           }
         ]
@@ -533,14 +532,13 @@
     "@context": [
       "https://www.w3.org/2022/wot/td/v1.1",
       {
-        "dtv": "http://azure.com/DigitalTwins/dtmi#",
-        "aov": "http://azure.com/IoT/operations/tm#"
+        "dov": "http://azure.com/DigitalOperations/vocab#"
       }
     ],
     "@type": "tm:ThingModel",
     "title": "GDS_ApplicationRegistrationChangedAuditEventType",
-    "aov:typeRef": "nsu=http://opcfoundation.org/UA/GDS/;i=26",
-    "aov:isEvent": true,
+    "dov:typeRef": "nsu=http://opcfoundation.org/UA/GDS/;i=26",
+    "dov:isEvent": true,
     "links": [
       {
         "rel": "tm:extends",
@@ -561,13 +559,12 @@
     "@context": [
       "https://www.w3.org/2022/wot/td/v1.1",
       {
-        "dtv": "http://azure.com/DigitalTwins/dtmi#",
-        "aov": "http://azure.com/IoT/operations/tm#"
+        "dov": "http://azure.com/DigitalOperations/vocab#"
       }
     ],
     "@type": "tm:ThingModel",
     "title": "GDS_CertificateDirectoryType",
-    "aov:typeRef": "nsu=http://opcfoundation.org/UA/GDS/;i=63",
+    "dov:typeRef": "nsu=http://opcfoundation.org/UA/GDS/;i=63",
     "links": [
       {
         "rel": "tm:extends",
@@ -579,10 +576,10 @@
     },
     "actions": {
       "CheckRevocationStatus": {
-        "aov:namespace": "http://opcfoundation.org/UA/GDS/",
+        "dov:namespace": "http://opcfoundation.org/UA/GDS/",
         "input": {
           "type": "object",
-          "aov:typeRef": "nsu=http://opcfoundation.org/UA/GDS/;i=160",
+          "dov:typeRef": "nsu=http://opcfoundation.org/UA/GDS/;i=160",
           "required": [ "Certificate" ],
           "properties": {
             "Certificate": {
@@ -593,7 +590,7 @@
         },
         "output": {
           "type": "object",
-          "aov:typeRef": "nsu=http://opcfoundation.org/UA/GDS/;i=161",
+          "dov:typeRef": "nsu=http://opcfoundation.org/UA/GDS/;i=161",
           "required": [ "CertificateStatus", "ValidityTime" ],
           "properties": {
             "CertificateStatus": {
@@ -608,16 +605,16 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/GDS/GDS_CertificateDirectoryType/action/CheckRevocationStatus",
+            "dov:topic": "opcua/GDS/GDS_CertificateDirectoryType/action/CheckRevocationStatus",
             "op": "invokeaction"
           }
         ]
       },
       "FinishRequest": {
-        "aov:namespace": "http://opcfoundation.org/UA/GDS/",
+        "dov:namespace": "http://opcfoundation.org/UA/GDS/",
         "input": {
           "type": "object",
-          "aov:typeRef": "nsu=http://opcfoundation.org/UA/GDS/;i=86",
+          "dov:typeRef": "nsu=http://opcfoundation.org/UA/GDS/;i=86",
           "required": [ "ApplicationId", "RequestId" ],
           "properties": {
             "ApplicationId": {
@@ -630,7 +627,7 @@
         },
         "output": {
           "type": "object",
-          "aov:typeRef": "nsu=http://opcfoundation.org/UA/GDS/;i=87",
+          "dov:typeRef": "nsu=http://opcfoundation.org/UA/GDS/;i=87",
           "required": [ "Certificate", "PrivateKey", "IssuerCertificates" ],
           "properties": {
             "Certificate": {
@@ -653,16 +650,16 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/GDS/GDS_CertificateDirectoryType/action/FinishRequest",
+            "dov:topic": "opcua/GDS/GDS_CertificateDirectoryType/action/FinishRequest",
             "op": "invokeaction"
           }
         ]
       },
       "GetCertificateGroups": {
-        "aov:namespace": "http://opcfoundation.org/UA/GDS/",
+        "dov:namespace": "http://opcfoundation.org/UA/GDS/",
         "input": {
           "type": "object",
-          "aov:typeRef": "nsu=http://opcfoundation.org/UA/GDS/;i=370",
+          "dov:typeRef": "nsu=http://opcfoundation.org/UA/GDS/;i=370",
           "required": [ "ApplicationId" ],
           "properties": {
             "ApplicationId": {
@@ -672,7 +669,7 @@
         },
         "output": {
           "type": "object",
-          "aov:typeRef": "nsu=http://opcfoundation.org/UA/GDS/;i=371",
+          "dov:typeRef": "nsu=http://opcfoundation.org/UA/GDS/;i=371",
           "required": [ "CertificateGroupIds" ],
           "properties": {
             "CertificateGroupIds": {
@@ -686,16 +683,16 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/GDS/GDS_CertificateDirectoryType/action/GetCertificateGroups",
+            "dov:topic": "opcua/GDS/GDS_CertificateDirectoryType/action/GetCertificateGroups",
             "op": "invokeaction"
           }
         ]
       },
       "GetCertificates": {
-        "aov:namespace": "http://opcfoundation.org/UA/GDS/",
+        "dov:namespace": "http://opcfoundation.org/UA/GDS/",
         "input": {
           "type": "object",
-          "aov:typeRef": "nsu=http://opcfoundation.org/UA/GDS/;i=90",
+          "dov:typeRef": "nsu=http://opcfoundation.org/UA/GDS/;i=90",
           "required": [ "ApplicationId", "CertificateGroupId" ],
           "properties": {
             "ApplicationId": {
@@ -708,7 +705,7 @@
         },
         "output": {
           "type": "object",
-          "aov:typeRef": "nsu=http://opcfoundation.org/UA/GDS/;i=108",
+          "dov:typeRef": "nsu=http://opcfoundation.org/UA/GDS/;i=108",
           "required": [ "CertificateTypeIds", "Certificates" ],
           "properties": {
             "CertificateTypeIds": {
@@ -729,16 +726,16 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/GDS/GDS_CertificateDirectoryType/action/GetCertificates",
+            "dov:topic": "opcua/GDS/GDS_CertificateDirectoryType/action/GetCertificates",
             "op": "invokeaction"
           }
         ]
       },
       "GetCertificateStatus": {
-        "aov:namespace": "http://opcfoundation.org/UA/GDS/",
+        "dov:namespace": "http://opcfoundation.org/UA/GDS/",
         "input": {
           "type": "object",
-          "aov:typeRef": "nsu=http://opcfoundation.org/UA/GDS/;i=223",
+          "dov:typeRef": "nsu=http://opcfoundation.org/UA/GDS/;i=223",
           "required": [ "ApplicationId", "CertificateGroupId", "CertificateTypeId" ],
           "properties": {
             "ApplicationId": {
@@ -754,7 +751,7 @@
         },
         "output": {
           "type": "object",
-          "aov:typeRef": "nsu=http://opcfoundation.org/UA/GDS/;i=224",
+          "dov:typeRef": "nsu=http://opcfoundation.org/UA/GDS/;i=224",
           "required": [ "UpdateRequired" ],
           "properties": {
             "UpdateRequired": {
@@ -765,16 +762,16 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/GDS/GDS_CertificateDirectoryType/action/GetCertificateStatus",
+            "dov:topic": "opcua/GDS/GDS_CertificateDirectoryType/action/GetCertificateStatus",
             "op": "invokeaction"
           }
         ]
       },
       "GetTrustList": {
-        "aov:namespace": "http://opcfoundation.org/UA/GDS/",
+        "dov:namespace": "http://opcfoundation.org/UA/GDS/",
         "input": {
           "type": "object",
-          "aov:typeRef": "nsu=http://opcfoundation.org/UA/GDS/;i=198",
+          "dov:typeRef": "nsu=http://opcfoundation.org/UA/GDS/;i=198",
           "required": [ "ApplicationId", "CertificateGroupId" ],
           "properties": {
             "ApplicationId": {
@@ -787,7 +784,7 @@
         },
         "output": {
           "type": "object",
-          "aov:typeRef": "nsu=http://opcfoundation.org/UA/GDS/;i=199",
+          "dov:typeRef": "nsu=http://opcfoundation.org/UA/GDS/;i=199",
           "required": [ "TrustListId" ],
           "properties": {
             "TrustListId": {
@@ -798,16 +795,16 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/GDS/GDS_CertificateDirectoryType/action/GetTrustList",
+            "dov:topic": "opcua/GDS/GDS_CertificateDirectoryType/action/GetTrustList",
             "op": "invokeaction"
           }
         ]
       },
       "RevokeCertificate": {
-        "aov:namespace": "http://opcfoundation.org/UA/GDS/",
+        "dov:namespace": "http://opcfoundation.org/UA/GDS/",
         "input": {
           "type": "object",
-          "aov:typeRef": "nsu=http://opcfoundation.org/UA/GDS/;i=15004",
+          "dov:typeRef": "nsu=http://opcfoundation.org/UA/GDS/;i=15004",
           "required": [ "ApplicationId", "Certificate" ],
           "properties": {
             "ApplicationId": {
@@ -822,16 +819,16 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/GDS/GDS_CertificateDirectoryType/action/RevokeCertificate",
+            "dov:topic": "opcua/GDS/GDS_CertificateDirectoryType/action/RevokeCertificate",
             "op": "invokeaction"
           }
         ]
       },
       "StartNewKeyPairRequest": {
-        "aov:namespace": "http://opcfoundation.org/UA/GDS/",
+        "dov:namespace": "http://opcfoundation.org/UA/GDS/",
         "input": {
           "type": "object",
-          "aov:typeRef": "nsu=http://opcfoundation.org/UA/GDS/;i=77",
+          "dov:typeRef": "nsu=http://opcfoundation.org/UA/GDS/;i=77",
           "required": [ "ApplicationId", "CertificateGroupId", "CertificateTypeId", "SubjectName", "DomainNames", "PrivateKeyFormat", "PrivateKeyPassword" ],
           "properties": {
             "ApplicationId": {
@@ -862,7 +859,7 @@
         },
         "output": {
           "type": "object",
-          "aov:typeRef": "nsu=http://opcfoundation.org/UA/GDS/;i=78",
+          "dov:typeRef": "nsu=http://opcfoundation.org/UA/GDS/;i=78",
           "required": [ "RequestId" ],
           "properties": {
             "RequestId": {
@@ -873,16 +870,16 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/GDS/GDS_CertificateDirectoryType/action/StartNewKeyPairRequest",
+            "dov:topic": "opcua/GDS/GDS_CertificateDirectoryType/action/StartNewKeyPairRequest",
             "op": "invokeaction"
           }
         ]
       },
       "StartSigningRequest": {
-        "aov:namespace": "http://opcfoundation.org/UA/GDS/",
+        "dov:namespace": "http://opcfoundation.org/UA/GDS/",
         "input": {
           "type": "object",
-          "aov:typeRef": "nsu=http://opcfoundation.org/UA/GDS/;i=80",
+          "dov:typeRef": "nsu=http://opcfoundation.org/UA/GDS/;i=80",
           "required": [ "ApplicationId", "CertificateGroupId", "CertificateTypeId", "CertificateRequest" ],
           "properties": {
             "ApplicationId": {
@@ -902,7 +899,7 @@
         },
         "output": {
           "type": "object",
-          "aov:typeRef": "nsu=http://opcfoundation.org/UA/GDS/;i=81",
+          "dov:typeRef": "nsu=http://opcfoundation.org/UA/GDS/;i=81",
           "required": [ "RequestId" ],
           "properties": {
             "RequestId": {
@@ -913,7 +910,7 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/GDS/GDS_CertificateDirectoryType/action/StartSigningRequest",
+            "dov:topic": "opcua/GDS/GDS_CertificateDirectoryType/action/StartSigningRequest",
             "op": "invokeaction"
           }
         ]
@@ -928,14 +925,13 @@
     "@context": [
       "https://www.w3.org/2022/wot/td/v1.1",
       {
-        "dtv": "http://azure.com/DigitalTwins/dtmi#",
-        "aov": "http://azure.com/IoT/operations/tm#"
+        "dov": "http://azure.com/DigitalOperations/vocab#"
       }
     ],
     "@type": "tm:ThingModel",
     "title": "GDS_CertificateRequestedAuditEventType",
-    "aov:typeRef": "nsu=http://opcfoundation.org/UA/GDS/;i=91",
-    "aov:isEvent": true,
+    "dov:typeRef": "nsu=http://opcfoundation.org/UA/GDS/;i=91",
+    "dov:isEvent": true,
     "links": [
       {
         "rel": "tm:extends",
@@ -948,7 +944,7 @@
     "forms": [
       {
         "contentType": "application/json",
-        "dtv:topic": "opcua/GDS/GDS_CertificateRequestedAuditEventType/properties/read",
+        "dov:topic": "opcua/GDS/GDS_CertificateRequestedAuditEventType/properties/read",
         "op": "readallproperties"
       }
     ],
@@ -956,25 +952,25 @@
     },
     "properties": {
       "CertificateGroup": {
-        "aov:namespace": "http://opcfoundation.org/UA/GDS/",
+        "dov:namespace": "http://opcfoundation.org/UA/GDS/",
         "type": "string",
         "readOnly": true,
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/GDS/GDS_CertificateRequestedAuditEventType/property/CertificateGroup/read",
+            "dov:topic": "opcua/GDS/GDS_CertificateRequestedAuditEventType/property/CertificateGroup/read",
             "op": "readproperty"
           }
         ]
       },
       "CertificateType": {
-        "aov:namespace": "http://opcfoundation.org/UA/GDS/",
+        "dov:namespace": "http://opcfoundation.org/UA/GDS/",
         "type": "string",
         "readOnly": true,
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/GDS/GDS_CertificateRequestedAuditEventType/property/CertificateType/read",
+            "dov:topic": "opcua/GDS/GDS_CertificateRequestedAuditEventType/property/CertificateType/read",
             "op": "readproperty"
           }
         ]
@@ -987,14 +983,13 @@
     "@context": [
       "https://www.w3.org/2022/wot/td/v1.1",
       {
-        "dtv": "http://azure.com/DigitalTwins/dtmi#",
-        "aov": "http://azure.com/IoT/operations/tm#"
+        "dov": "http://azure.com/DigitalOperations/vocab#"
       }
     ],
     "@type": "tm:ThingModel",
     "title": "GDS_CertificateDeliveredAuditEventType",
-    "aov:typeRef": "nsu=http://opcfoundation.org/UA/GDS/;i=109",
-    "aov:isEvent": true,
+    "dov:typeRef": "nsu=http://opcfoundation.org/UA/GDS/;i=109",
+    "dov:isEvent": true,
     "links": [
       {
         "rel": "tm:extends",
@@ -1007,7 +1002,7 @@
     "forms": [
       {
         "contentType": "application/json",
-        "dtv:topic": "opcua/GDS/GDS_CertificateDeliveredAuditEventType/properties/read",
+        "dov:topic": "opcua/GDS/GDS_CertificateDeliveredAuditEventType/properties/read",
         "op": "readallproperties"
       }
     ],
@@ -1015,25 +1010,25 @@
     },
     "properties": {
       "CertificateGroup": {
-        "aov:namespace": "http://opcfoundation.org/UA/GDS/",
+        "dov:namespace": "http://opcfoundation.org/UA/GDS/",
         "type": "string",
         "readOnly": true,
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/GDS/GDS_CertificateDeliveredAuditEventType/property/CertificateGroup/read",
+            "dov:topic": "opcua/GDS/GDS_CertificateDeliveredAuditEventType/property/CertificateGroup/read",
             "op": "readproperty"
           }
         ]
       },
       "CertificateType": {
-        "aov:namespace": "http://opcfoundation.org/UA/GDS/",
+        "dov:namespace": "http://opcfoundation.org/UA/GDS/",
         "type": "string",
         "readOnly": true,
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/GDS/GDS_CertificateDeliveredAuditEventType/property/CertificateType/read",
+            "dov:topic": "opcua/GDS/GDS_CertificateDeliveredAuditEventType/property/CertificateType/read",
             "op": "readproperty"
           }
         ]
@@ -1046,14 +1041,13 @@
     "@context": [
       "https://www.w3.org/2022/wot/td/v1.1",
       {
-        "dtv": "http://azure.com/DigitalTwins/dtmi#",
-        "aov": "http://azure.com/IoT/operations/tm#"
+        "dov": "http://azure.com/DigitalOperations/vocab#"
       }
     ],
     "@type": "tm:ThingModel",
     "title": "GDS_CertificateRevokedAuditEventType",
-    "aov:typeRef": "nsu=http://opcfoundation.org/UA/GDS/;i=27",
-    "aov:isEvent": true,
+    "dov:typeRef": "nsu=http://opcfoundation.org/UA/GDS/;i=27",
+    "dov:isEvent": true,
     "links": [
       {
         "rel": "tm:extends",
@@ -1074,13 +1068,12 @@
     "@context": [
       "https://www.w3.org/2022/wot/td/v1.1",
       {
-        "dtv": "http://azure.com/DigitalTwins/dtmi#",
-        "aov": "http://azure.com/IoT/operations/tm#"
+        "dov": "http://azure.com/DigitalOperations/vocab#"
       }
     ],
     "@type": "tm:ThingModel",
     "title": "GDS_KeyCredentialManagementFolderType",
-    "aov:typeRef": "nsu=http://opcfoundation.org/UA/GDS/;i=55",
+    "dov:typeRef": "nsu=http://opcfoundation.org/UA/GDS/;i=55",
     "links": [
       {
         "rel": "tm:extends",
@@ -1088,8 +1081,8 @@
         "type": "application/tm+json"
       },
       {
-        "rel": "aov:component",
-        "aov:refName": "ServiceName_Placeholder",
+        "rel": "dov:component",
+        "dov:refName": "ServiceName_Placeholder",
         "href": "#title=GDS_KeyCredentialServiceType",
         "type": "application/tm+json"
       }
@@ -1107,13 +1100,12 @@
     "@context": [
       "https://www.w3.org/2022/wot/td/v1.1",
       {
-        "dtv": "http://azure.com/DigitalTwins/dtmi#",
-        "aov": "http://azure.com/IoT/operations/tm#"
+        "dov": "http://azure.com/DigitalOperations/vocab#"
       }
     ],
     "@type": "tm:ThingModel",
     "title": "GDS_KeyCredentialServiceType",
-    "aov:typeRef": "nsu=http://opcfoundation.org/UA/GDS/;i=1020",
+    "dov:typeRef": "nsu=http://opcfoundation.org/UA/GDS/;i=1020",
     "links": [
       {
         "rel": "tm:extends",
@@ -1126,16 +1118,16 @@
     "forms": [
       {
         "contentType": "application/json",
-        "dtv:topic": "opcua/GDS/GDS_KeyCredentialServiceType/properties/read",
+        "dov:topic": "opcua/GDS/GDS_KeyCredentialServiceType/properties/read",
         "op": "readallproperties"
       }
     ],
     "actions": {
       "FinishRequest": {
-        "aov:namespace": "http://opcfoundation.org/UA/GDS/",
+        "dov:namespace": "http://opcfoundation.org/UA/GDS/",
         "input": {
           "type": "object",
-          "aov:typeRef": "nsu=http://opcfoundation.org/UA/GDS/;i=1027",
+          "dov:typeRef": "nsu=http://opcfoundation.org/UA/GDS/;i=1027",
           "required": [ "RequestId", "CancelRequest" ],
           "properties": {
             "RequestId": {
@@ -1148,7 +1140,7 @@
         },
         "output": {
           "type": "object",
-          "aov:typeRef": "nsu=http://opcfoundation.org/UA/GDS/;i=1028",
+          "dov:typeRef": "nsu=http://opcfoundation.org/UA/GDS/;i=1028",
           "required": [ "CredentialId", "CredentialSecret", "CertificateThumbprint", "SecurityPolicyUri", "GrantedRoles" ],
           "properties": {
             "CredentialId": {
@@ -1175,16 +1167,16 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/GDS/GDS_KeyCredentialServiceType/action/FinishRequest",
+            "dov:topic": "opcua/GDS/GDS_KeyCredentialServiceType/action/FinishRequest",
             "op": "invokeaction"
           }
         ]
       },
       "Revoke": {
-        "aov:namespace": "http://opcfoundation.org/UA/GDS/",
+        "dov:namespace": "http://opcfoundation.org/UA/GDS/",
         "input": {
           "type": "object",
-          "aov:typeRef": "nsu=http://opcfoundation.org/UA/GDS/;i=1030",
+          "dov:typeRef": "nsu=http://opcfoundation.org/UA/GDS/;i=1030",
           "required": [ "CredentialId" ],
           "properties": {
             "CredentialId": {
@@ -1195,16 +1187,16 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/GDS/GDS_KeyCredentialServiceType/action/Revoke",
+            "dov:topic": "opcua/GDS/GDS_KeyCredentialServiceType/action/Revoke",
             "op": "invokeaction"
           }
         ]
       },
       "StartRequest": {
-        "aov:namespace": "http://opcfoundation.org/UA/GDS/",
+        "dov:namespace": "http://opcfoundation.org/UA/GDS/",
         "input": {
           "type": "object",
-          "aov:typeRef": "nsu=http://opcfoundation.org/UA/GDS/;i=1024",
+          "dov:typeRef": "nsu=http://opcfoundation.org/UA/GDS/;i=1024",
           "required": [ "ApplicationUri", "PublicKey", "SecurityPolicyUri", "RequestedRoles" ],
           "properties": {
             "ApplicationUri": {
@@ -1227,7 +1219,7 @@
         },
         "output": {
           "type": "object",
-          "aov:typeRef": "nsu=http://opcfoundation.org/UA/GDS/;i=1025",
+          "dov:typeRef": "nsu=http://opcfoundation.org/UA/GDS/;i=1025",
           "required": [ "RequestId" ],
           "properties": {
             "RequestId": {
@@ -1238,7 +1230,7 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/GDS/GDS_KeyCredentialServiceType/action/StartRequest",
+            "dov:topic": "opcua/GDS/GDS_KeyCredentialServiceType/action/StartRequest",
             "op": "invokeaction"
           }
         ]
@@ -1246,7 +1238,7 @@
     },
     "properties": {
       "ProfileUris": {
-        "aov:namespace": "http://opcfoundation.org/UA/GDS/",
+        "dov:namespace": "http://opcfoundation.org/UA/GDS/",
         "type": "array",
         "items": {
           "type": "string"
@@ -1255,25 +1247,25 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/GDS/GDS_KeyCredentialServiceType/property/ProfileUris/read",
+            "dov:topic": "opcua/GDS/GDS_KeyCredentialServiceType/property/ProfileUris/read",
             "op": "readproperty"
           }
         ]
       },
       "ResourceUri": {
-        "aov:namespace": "http://opcfoundation.org/UA/GDS/",
+        "dov:namespace": "http://opcfoundation.org/UA/GDS/",
         "type": "string",
         "readOnly": true,
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/GDS/GDS_KeyCredentialServiceType/property/ResourceUri/read",
+            "dov:topic": "opcua/GDS/GDS_KeyCredentialServiceType/property/ResourceUri/read",
             "op": "readproperty"
           }
         ]
       },
       "SecurityPolicyUris": {
-        "aov:namespace": "http://opcfoundation.org/UA/GDS/",
+        "dov:namespace": "http://opcfoundation.org/UA/GDS/",
         "type": "array",
         "items": {
           "type": "string"
@@ -1282,7 +1274,7 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/GDS/GDS_KeyCredentialServiceType/property/SecurityPolicyUris/read",
+            "dov:topic": "opcua/GDS/GDS_KeyCredentialServiceType/property/SecurityPolicyUris/read",
             "op": "readproperty"
           }
         ]
@@ -1295,14 +1287,13 @@
     "@context": [
       "https://www.w3.org/2022/wot/td/v1.1",
       {
-        "dtv": "http://azure.com/DigitalTwins/dtmi#",
-        "aov": "http://azure.com/IoT/operations/tm#"
+        "dov": "http://azure.com/DigitalOperations/vocab#"
       }
     ],
     "@type": "tm:ThingModel",
     "title": "GDS_KeyCredentialRequestedAuditEventType",
-    "aov:typeRef": "nsu=http://opcfoundation.org/UA/GDS/;i=1039",
-    "aov:isEvent": true,
+    "dov:typeRef": "nsu=http://opcfoundation.org/UA/GDS/;i=1039",
+    "dov:isEvent": true,
     "links": [
       {
         "rel": "tm:extends",
@@ -1323,14 +1314,13 @@
     "@context": [
       "https://www.w3.org/2022/wot/td/v1.1",
       {
-        "dtv": "http://azure.com/DigitalTwins/dtmi#",
-        "aov": "http://azure.com/IoT/operations/tm#"
+        "dov": "http://azure.com/DigitalOperations/vocab#"
       }
     ],
     "@type": "tm:ThingModel",
     "title": "GDS_KeyCredentialDeliveredAuditEventType",
-    "aov:typeRef": "nsu=http://opcfoundation.org/UA/GDS/;i=1057",
-    "aov:isEvent": true,
+    "dov:typeRef": "nsu=http://opcfoundation.org/UA/GDS/;i=1057",
+    "dov:isEvent": true,
     "links": [
       {
         "rel": "tm:extends",
@@ -1351,14 +1341,13 @@
     "@context": [
       "https://www.w3.org/2022/wot/td/v1.1",
       {
-        "dtv": "http://azure.com/DigitalTwins/dtmi#",
-        "aov": "http://azure.com/IoT/operations/tm#"
+        "dov": "http://azure.com/DigitalOperations/vocab#"
       }
     ],
     "@type": "tm:ThingModel",
     "title": "GDS_KeyCredentialRevokedAuditEventType",
-    "aov:typeRef": "nsu=http://opcfoundation.org/UA/GDS/;i=1075",
-    "aov:isEvent": true,
+    "dov:typeRef": "nsu=http://opcfoundation.org/UA/GDS/;i=1075",
+    "dov:isEvent": true,
     "links": [
       {
         "rel": "tm:extends",
@@ -1379,13 +1368,12 @@
     "@context": [
       "https://www.w3.org/2022/wot/td/v1.1",
       {
-        "dtv": "http://azure.com/DigitalTwins/dtmi#",
-        "aov": "http://azure.com/IoT/operations/tm#"
+        "dov": "http://azure.com/DigitalOperations/vocab#"
       }
     ],
     "@type": "tm:ThingModel",
     "title": "GDS_AuthorizationServicesFolderType",
-    "aov:typeRef": "nsu=http://opcfoundation.org/UA/GDS/;i=233",
+    "dov:typeRef": "nsu=http://opcfoundation.org/UA/GDS/;i=233",
     "links": [
       {
         "rel": "tm:extends",
@@ -1406,13 +1394,12 @@
     "@context": [
       "https://www.w3.org/2022/wot/td/v1.1",
       {
-        "dtv": "http://azure.com/DigitalTwins/dtmi#",
-        "aov": "http://azure.com/IoT/operations/tm#"
+        "dov": "http://azure.com/DigitalOperations/vocab#"
       }
     ],
     "@type": "tm:ThingModel",
     "title": "GDS_AuthorizationServiceType",
-    "aov:typeRef": "nsu=http://opcfoundation.org/UA/GDS/;i=966",
+    "dov:typeRef": "nsu=http://opcfoundation.org/UA/GDS/;i=966",
     "links": [
       {
         "rel": "tm:extends",
@@ -1423,7 +1410,7 @@
     "schemaDefinitions": {
       "UserTokenType": {
         "type": "object",
-        "aov:typeRef": "nsu=http://opcfoundation.org/UA/;i=303",
+        "dov:typeRef": "nsu=http://opcfoundation.org/UA/;i=303",
         "const": {
           "Anonymous": 0,
           "UserName": 1,
@@ -1449,16 +1436,16 @@
     "forms": [
       {
         "contentType": "application/json",
-        "dtv:topic": "opcua/GDS/GDS_AuthorizationServiceType/properties/read",
+        "dov:topic": "opcua/GDS/GDS_AuthorizationServiceType/properties/read",
         "op": "readallproperties"
       }
     ],
     "actions": {
       "GetServiceDescription": {
-        "aov:namespace": "http://opcfoundation.org/UA/GDS/",
+        "dov:namespace": "http://opcfoundation.org/UA/GDS/",
         "output": {
           "type": "object",
-          "aov:typeRef": "nsu=http://opcfoundation.org/UA/GDS/;i=1005",
+          "dov:typeRef": "nsu=http://opcfoundation.org/UA/GDS/;i=1005",
           "required": [ "ServiceUri", "ServiceCertificate", "UserTokenPolicies" ],
           "properties": {
             "ServiceUri": {
@@ -1473,7 +1460,7 @@
               "items": {
                 "title": "UserTokenPolicy",
                 "type": "object",
-                "aov:typeRef": "nsu=http://opcfoundation.org/UA/;i=304",
+                "dov:typeRef": "nsu=http://opcfoundation.org/UA/;i=304",
                 "required": [ "PolicyId", "TokenType", "IssuedTokenType", "IssuerEndpointUrl", "SecurityPolicyUri" ],
                 "properties": {
                   "PolicyId": {
@@ -1481,7 +1468,7 @@
                   },
                   "TokenType": {
                     "title": "UserTokenType",
-                    "aov:typeRef": "nsu=http://opcfoundation.org/UA/;i=303",
+                    "dov:typeRef": "nsu=http://opcfoundation.org/UA/;i=303",
                     "type": "integer",
                     "minimum": -2147483648,
                     "maximum": 2147483647
@@ -1503,22 +1490,22 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/GDS/GDS_AuthorizationServiceType/action/GetServiceDescription",
+            "dov:topic": "opcua/GDS/GDS_AuthorizationServiceType/action/GetServiceDescription",
             "op": "invokeaction"
           }
         ]
       },
       "RequestAccessToken": {
-        "aov:namespace": "http://opcfoundation.org/UA/GDS/",
+        "dov:namespace": "http://opcfoundation.org/UA/GDS/",
         "input": {
           "type": "object",
-          "aov:typeRef": "nsu=http://opcfoundation.org/UA/GDS/;i=970",
+          "dov:typeRef": "nsu=http://opcfoundation.org/UA/GDS/;i=970",
           "required": [ "IdentityToken", "ResourceId" ],
           "properties": {
             "IdentityToken": {
               "title": "UserIdentityToken",
               "type": "object",
-              "aov:typeRef": "nsu=http://opcfoundation.org/UA/;i=316",
+              "dov:typeRef": "nsu=http://opcfoundation.org/UA/;i=316",
               "required": [ "PolicyId" ],
               "properties": {
                 "PolicyId": {
@@ -1533,7 +1520,7 @@
         },
         "output": {
           "type": "object",
-          "aov:typeRef": "nsu=http://opcfoundation.org/UA/GDS/;i=971",
+          "dov:typeRef": "nsu=http://opcfoundation.org/UA/GDS/;i=971",
           "required": [ "AccessToken" ],
           "properties": {
             "AccessToken": {
@@ -1544,7 +1531,7 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/GDS/GDS_AuthorizationServiceType/action/RequestAccessToken",
+            "dov:topic": "opcua/GDS/GDS_AuthorizationServiceType/action/RequestAccessToken",
             "op": "invokeaction"
           }
         ]
@@ -1552,37 +1539,37 @@
     },
     "properties": {
       "ServiceCertificate": {
-        "aov:namespace": "http://opcfoundation.org/UA/GDS/",
+        "dov:namespace": "http://opcfoundation.org/UA/GDS/",
         "type": "string",
         "contentEncoding": "base64",
         "readOnly": true,
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/GDS/GDS_AuthorizationServiceType/property/ServiceCertificate/read",
+            "dov:topic": "opcua/GDS/GDS_AuthorizationServiceType/property/ServiceCertificate/read",
             "op": "readproperty"
           }
         ]
       },
       "ServiceUri": {
-        "aov:namespace": "http://opcfoundation.org/UA/GDS/",
+        "dov:namespace": "http://opcfoundation.org/UA/GDS/",
         "type": "string",
         "readOnly": true,
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/GDS/GDS_AuthorizationServiceType/property/ServiceUri/read",
+            "dov:topic": "opcua/GDS/GDS_AuthorizationServiceType/property/ServiceUri/read",
             "op": "readproperty"
           }
         ]
       },
       "UserTokenPolicies": {
-        "aov:namespace": "http://opcfoundation.org/UA/GDS/",
+        "dov:namespace": "http://opcfoundation.org/UA/GDS/",
         "type": "array",
         "items": {
           "title": "UserTokenPolicy",
           "type": "object",
-          "aov:typeRef": "nsu=http://opcfoundation.org/UA/;i=304",
+          "dov:typeRef": "nsu=http://opcfoundation.org/UA/;i=304",
           "required": [ "PolicyId", "TokenType", "IssuedTokenType", "IssuerEndpointUrl", "SecurityPolicyUri" ],
           "properties": {
             "PolicyId": {
@@ -1590,7 +1577,7 @@
             },
             "TokenType": {
               "title": "UserTokenType",
-              "aov:typeRef": "nsu=http://opcfoundation.org/UA/;i=303",
+              "dov:typeRef": "nsu=http://opcfoundation.org/UA/;i=303",
               "type": "integer",
               "minimum": -2147483648,
               "maximum": 2147483647
@@ -1610,7 +1597,7 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/GDS/GDS_AuthorizationServiceType/property/UserTokenPolicies/read",
+            "dov:topic": "opcua/GDS/GDS_AuthorizationServiceType/property/UserTokenPolicies/read",
             "op": "readproperty"
           }
         ]
@@ -1623,14 +1610,13 @@
     "@context": [
       "https://www.w3.org/2022/wot/td/v1.1",
       {
-        "dtv": "http://azure.com/DigitalTwins/dtmi#",
-        "aov": "http://azure.com/IoT/operations/tm#"
+        "dov": "http://azure.com/DigitalOperations/vocab#"
       }
     ],
     "@type": "tm:ThingModel",
     "title": "GDS_AccessTokenIssuedAuditEventType",
-    "aov:typeRef": "nsu=http://opcfoundation.org/UA/GDS/;i=975",
-    "aov:isEvent": true,
+    "dov:typeRef": "nsu=http://opcfoundation.org/UA/GDS/;i=975",
+    "dov:isEvent": true,
     "links": [
       {
         "rel": "tm:extends",

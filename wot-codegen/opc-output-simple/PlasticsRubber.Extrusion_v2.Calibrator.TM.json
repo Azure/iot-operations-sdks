@@ -3,13 +3,12 @@
     "@context": [
       "https://www.w3.org/2022/wot/td/v1.1",
       {
-        "dtv": "http://azure.com/DigitalTwins/dtmi#",
-        "aov": "http://azure.com/IoT/operations/tm#"
+        "dov": "http://azure.com/DigitalOperations/vocab#"
       }
     ],
     "@type": "tm:ThingModel",
     "title": "PlasticsRubber_Extrusion_v2_Calibrator_CalibrationZonesType",
-    "aov:typeRef": "nsu=http://opcfoundation.org/UA/PlasticsRubber/Extrusion_v2/Calibrator/;i=1003",
+    "dov:typeRef": "nsu=http://opcfoundation.org/UA/PlasticsRubber/Extrusion_v2/Calibrator/;i=1003",
     "links": [
       {
         "rel": "tm:extends",
@@ -17,32 +16,32 @@
         "type": "application/tm+json"
       },
       {
-        "rel": "aov:component",
-        "aov:refName": "CalibrationZone__Nr_",
+        "rel": "dov:component",
+        "dov:refName": "CalibrationZone__Nr_",
         "href": "#title=PlasticsRubber_Extrusion_v2_Calibrator_CalibrationZoneType",
         "type": "application/tm+json"
       },
       {
-        "rel": "aov:reference",
-        "aov:refName": "WaterFlowIn",
+        "rel": "dov:reference",
+        "dov:refName": "WaterFlowIn",
         "href": "./PlasticsRubber.GeneralTypes.TM.json#title=PlasticsRubber_GeneralTypes_MeasuringDeviceType",
         "type": "application/tm+json"
       },
       {
-        "rel": "aov:reference",
-        "aov:refName": "WaterFlowOut",
+        "rel": "dov:reference",
+        "dov:refName": "WaterFlowOut",
         "href": "./PlasticsRubber.GeneralTypes.TM.json#title=PlasticsRubber_GeneralTypes_MeasuringDeviceType",
         "type": "application/tm+json"
       },
       {
-        "rel": "aov:reference",
-        "aov:refName": "WaterTemperatureIn",
+        "rel": "dov:reference",
+        "dov:refName": "WaterTemperatureIn",
         "href": "./PlasticsRubber.GeneralTypes.TM.json#title=PlasticsRubber_GeneralTypes_MeasuringDeviceType",
         "type": "application/tm+json"
       },
       {
-        "rel": "aov:reference",
-        "aov:refName": "WaterTemperatureOut",
+        "rel": "dov:reference",
+        "dov:refName": "WaterTemperatureOut",
         "href": "./PlasticsRubber.GeneralTypes.TM.json#title=PlasticsRubber_GeneralTypes_MeasuringDeviceType",
         "type": "application/tm+json"
       }
@@ -52,7 +51,7 @@
     "forms": [
       {
         "contentType": "application/json",
-        "dtv:topic": "opcua/PlasticsRubber.Extrusion_v2.Calibrator/PlasticsRubber_Extrusion_v2_Calibrator_CalibrationZonesType/properties/read",
+        "dov:topic": "opcua/PlasticsRubber.Extrusion_v2.Calibrator/PlasticsRubber_Extrusion_v2_Calibrator_CalibrationZonesType/properties/read",
         "op": "readallproperties"
       }
     ],
@@ -65,7 +64,7 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/PlasticsRubber.Extrusion_v2.Calibrator/PlasticsRubber_Extrusion_v2_Calibrator_CalibrationZonesType/property/NodeVersion/read",
+            "dov:topic": "opcua/PlasticsRubber.Extrusion_v2.Calibrator/PlasticsRubber_Extrusion_v2_Calibrator_CalibrationZonesType/property/NodeVersion/read",
             "op": "readproperty"
           }
         ]
@@ -78,13 +77,12 @@
     "@context": [
       "https://www.w3.org/2022/wot/td/v1.1",
       {
-        "dtv": "http://azure.com/DigitalTwins/dtmi#",
-        "aov": "http://azure.com/IoT/operations/tm#"
+        "dov": "http://azure.com/DigitalOperations/vocab#"
       }
     ],
     "@type": "tm:ThingModel",
     "title": "PlasticsRubber_Extrusion_v2_Calibrator_CalibrationZoneType",
-    "aov:typeRef": "nsu=http://opcfoundation.org/UA/PlasticsRubber/Extrusion_v2/Calibrator/;i=1002",
+    "dov:typeRef": "nsu=http://opcfoundation.org/UA/PlasticsRubber/Extrusion_v2/Calibrator/;i=1002",
     "links": [
       {
         "rel": "tm:extends",
@@ -92,50 +90,50 @@
         "type": "application/tm+json"
       },
       {
-        "rel": "aov:reference",
-        "aov:refName": "AdditionalMeasuringDevices",
+        "rel": "dov:reference",
+        "dov:refName": "AdditionalMeasuringDevices",
         "href": "./PlasticsRubber.GeneralTypes.TM.json#title=PlasticsRubber_GeneralTypes_MeasuringDevicesType",
         "type": "application/tm+json"
       },
       {
-        "rel": "aov:reference",
-        "aov:refName": "AirShowerPressure",
+        "rel": "dov:reference",
+        "dov:refName": "AirShowerPressure",
         "href": "./PlasticsRubber.GeneralTypes.TM.json#title=PlasticsRubber_GeneralTypes_MeasuringDeviceType",
         "type": "application/tm+json"
       },
       {
-        "rel": "aov:reference",
-        "aov:refName": "Vacuum",
+        "rel": "dov:reference",
+        "dov:refName": "Vacuum",
         "href": "./PlasticsRubber.GeneralTypes.TM.json#title=PlasticsRubber_GeneralTypes_MeasuringDeviceType",
         "type": "application/tm+json"
       },
       {
-        "rel": "aov:reference",
-        "aov:refName": "VacuumPumps",
+        "rel": "dov:reference",
+        "dov:refName": "VacuumPumps",
         "href": "./PlasticsRubber.GeneralTypes.TM.json#title=PlasticsRubber_GeneralTypes_DrivesType",
         "type": "application/tm+json"
       },
       {
-        "rel": "aov:reference",
-        "aov:refName": "WaterFlow",
+        "rel": "dov:reference",
+        "dov:refName": "WaterFlow",
         "href": "./PlasticsRubber.GeneralTypes.TM.json#title=PlasticsRubber_GeneralTypes_MeasuringDeviceType",
         "type": "application/tm+json"
       },
       {
-        "rel": "aov:reference",
-        "aov:refName": "WaterLevel",
+        "rel": "dov:reference",
+        "dov:refName": "WaterLevel",
         "href": "./PlasticsRubber.GeneralTypes.TM.json#title=PlasticsRubber_GeneralTypes_MeasuringDeviceType",
         "type": "application/tm+json"
       },
       {
-        "rel": "aov:reference",
-        "aov:refName": "WaterPumps",
+        "rel": "dov:reference",
+        "dov:refName": "WaterPumps",
         "href": "./PlasticsRubber.GeneralTypes.TM.json#title=PlasticsRubber_GeneralTypes_DrivesType",
         "type": "application/tm+json"
       },
       {
-        "rel": "aov:reference",
-        "aov:refName": "WaterTemperature",
+        "rel": "dov:reference",
+        "dov:refName": "WaterTemperature",
         "href": "./PlasticsRubber.GeneralTypes.TM.json#title=PlasticsRubber_GeneralTypes_MeasuringDeviceType",
         "type": "application/tm+json"
       }
@@ -145,12 +143,12 @@
     "forms": [
       {
         "contentType": "application/json",
-        "dtv:topic": "opcua/PlasticsRubber.Extrusion_v2.Calibrator/PlasticsRubber_Extrusion_v2_Calibrator_CalibrationZoneType/properties/write",
+        "dov:topic": "opcua/PlasticsRubber.Extrusion_v2.Calibrator/PlasticsRubber_Extrusion_v2_Calibrator_CalibrationZoneType/properties/write",
         "op": "writemultipleproperties"
       },
       {
         "contentType": "application/json",
-        "dtv:topic": "opcua/PlasticsRubber.Extrusion_v2.Calibrator/PlasticsRubber_Extrusion_v2_Calibrator_CalibrationZoneType/properties/read",
+        "dov:topic": "opcua/PlasticsRubber.Extrusion_v2.Calibrator/PlasticsRubber_Extrusion_v2_Calibrator_CalibrationZoneType/properties/read",
         "op": "readallproperties"
       }
     ],
@@ -158,42 +156,42 @@
     },
     "properties": {
       "IsPresent": {
-        "aov:namespace": "http://opcfoundation.org/UA/PlasticsRubber/Extrusion_v2/Calibrator/",
+        "dov:namespace": "http://opcfoundation.org/UA/PlasticsRubber/Extrusion_v2/Calibrator/",
         "type": "boolean",
         "readOnly": true,
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/PlasticsRubber.Extrusion_v2.Calibrator/PlasticsRubber_Extrusion_v2_Calibrator_CalibrationZoneType/property/IsPresent/read",
+            "dov:topic": "opcua/PlasticsRubber.Extrusion_v2.Calibrator/PlasticsRubber_Extrusion_v2_Calibrator_CalibrationZoneType/property/IsPresent/read",
             "op": "readproperty"
           }
         ]
       },
       "Name": {
-        "aov:namespace": "http://opcfoundation.org/UA/PlasticsRubber/Extrusion_v2/Calibrator/",
+        "dov:namespace": "http://opcfoundation.org/UA/PlasticsRubber/Extrusion_v2/Calibrator/",
         "type": "string",
         "readOnly": false,
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/PlasticsRubber.Extrusion_v2.Calibrator/PlasticsRubber_Extrusion_v2_Calibrator_CalibrationZoneType/property/Name/write",
+            "dov:topic": "opcua/PlasticsRubber.Extrusion_v2.Calibrator/PlasticsRubber_Extrusion_v2_Calibrator_CalibrationZoneType/property/Name/write",
             "op": "writeproperty"
           },
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/PlasticsRubber.Extrusion_v2.Calibrator/PlasticsRubber_Extrusion_v2_Calibrator_CalibrationZoneType/property/Name/read",
+            "dov:topic": "opcua/PlasticsRubber.Extrusion_v2.Calibrator/PlasticsRubber_Extrusion_v2_Calibrator_CalibrationZoneType/property/Name/read",
             "op": "readproperty"
           }
         ]
       },
       "Position": {
-        "aov:namespace": "http://opcfoundation.org/UA/PlasticsRubber/Extrusion_v2/Calibrator/",
+        "dov:namespace": "http://opcfoundation.org/UA/PlasticsRubber/Extrusion_v2/Calibrator/",
         "type": "string",
         "readOnly": true,
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/PlasticsRubber.Extrusion_v2.Calibrator/PlasticsRubber_Extrusion_v2_Calibrator_CalibrationZoneType/property/Position/read",
+            "dov:topic": "opcua/PlasticsRubber.Extrusion_v2.Calibrator/PlasticsRubber_Extrusion_v2_Calibrator_CalibrationZoneType/property/Position/read",
             "op": "readproperty"
           }
         ]
@@ -206,14 +204,13 @@
     "@context": [
       "https://www.w3.org/2022/wot/td/v1.1",
       {
-        "dtv": "http://azure.com/DigitalTwins/dtmi#",
-        "aov": "http://azure.com/IoT/operations/tm#"
+        "dov": "http://azure.com/DigitalOperations/vocab#"
       }
     ],
     "@type": "tm:ThingModel",
     "title": "PlasticsRubber_Extrusion_v2_Calibrator_Calibrator_InterfaceType",
-    "aov:typeRef": "nsu=http://opcfoundation.org/UA/PlasticsRubber/Extrusion_v2/Calibrator/;i=1004",
-    "aov:isComposite": true,
+    "dov:typeRef": "nsu=http://opcfoundation.org/UA/PlasticsRubber/Extrusion_v2/Calibrator/;i=1004",
+    "dov:isComposite": true,
     "links": [
       {
         "rel": "tm:extends",
@@ -221,32 +218,32 @@
         "type": "application/tm+json"
       },
       {
-        "rel": "aov:capability",
-        "aov:refName": "CalibrationZones",
+        "rel": "dov:capability",
+        "dov:refName": "CalibrationZones",
         "href": "#title=PlasticsRubber_Extrusion_v2_Calibrator_CalibrationZonesType",
         "type": "application/tm+json"
       },
       {
-        "rel": "aov:reference",
-        "aov:refName": "PositionsPipeSupport",
+        "rel": "dov:reference",
+        "dov:refName": "PositionsPipeSupport",
         "href": "./PlasticsRubber.GeneralTypes.TM.json#title=PlasticsRubber_GeneralTypes_MeasuringDevicesType",
         "type": "application/tm+json"
       },
       {
-        "rel": "aov:reference",
-        "aov:refName": "PositionsX",
+        "rel": "dov:reference",
+        "dov:refName": "PositionsX",
         "href": "./PlasticsRubber.GeneralTypes.TM.json#title=PlasticsRubber_GeneralTypes_MeasuringDevicesType",
         "type": "application/tm+json"
       },
       {
-        "rel": "aov:reference",
-        "aov:refName": "PositionsY",
+        "rel": "dov:reference",
+        "dov:refName": "PositionsY",
         "href": "./PlasticsRubber.GeneralTypes.TM.json#title=PlasticsRubber_GeneralTypes_MeasuringDevicesType",
         "type": "application/tm+json"
       },
       {
-        "rel": "aov:component",
-        "aov:refName": "PositionZ",
+        "rel": "dov:component",
+        "dov:refName": "PositionZ",
         "href": "./PlasticsRubber.GeneralTypes.TM.json#title=PlasticsRubber_GeneralTypes_MeasuringDeviceType",
         "type": "application/tm+json"
       }

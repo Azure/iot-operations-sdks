@@ -6,7 +6,7 @@
 <# // Licensed under the MIT License #>
 <# this.PushIndent(new string(' ', this.indent)); #>
 "type": "object",
-"dtv:additionalProperties": {
+"dov:additionalProperties": {
 <# if (this.dtMap.Description.Any()) { #>
   "description": "<#=this.dtMap.Description.First().Value#>",
 <# } #>
