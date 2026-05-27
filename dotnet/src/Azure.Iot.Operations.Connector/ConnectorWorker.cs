@@ -757,11 +757,12 @@ namespace Azure.Iot.Operations.Connector
 
                     var assetBranches = new List<Task>(2);
 
-                    // Built-in: management-action handling. Runs whenever a factory was supplied,
-                    // independent of whatever the user assigned to WhileAssetIsAvailable. This is
-                    // intentionally not routed through the public field so a `= WhileAssetIsAvailable`
+                    // Built-in: management-action handling. Runs whenever a factory was supplied
+                    // and the asset actually declares at least one management action. Intentionally
+                    // not routed through the public WhileAssetIsAvailable field so a `= WhileAssetIsAvailable`
                     // assignment from user code can't disable management actions.
-                    if (_managementActionOrchestrator != null)
+                    if (_managementActionOrchestrator != null
+                        && asset.ManagementGroups?.Any(g => g.Actions?.Count > 0) == true)
                     {
                         assetBranches.Add(SafeInvokeAssetBranchAsync(
                             "ManagementActionHandling",
@@ -770,14 +771,12 @@ namespace Azure.Iot.Operations.Connector
                             assetName, deviceName, inboundEndpointName));
                     }
 
-                    // User-supplied per-asset callback. Captured into a local to avoid races with
-                    // a concurrent reassignment of the field.
-                    var whileAssetIsAvailable = WhileAssetIsAvailable;
-                    if (whileAssetIsAvailable != null)
+                    // User-supplied per-asset callback.
+                    if (WhileAssetIsAvailable != null)
                     {
                         assetBranches.Add(SafeInvokeAssetBranchAsync(
                             "UserWhileAssetIsAvailableCallback",
-                            ct => whileAssetIsAvailable.Invoke(args, ct),
+                            ct => WhileAssetIsAvailable.Invoke(args, ct),
                             assetTaskCancellationTokenSource.Token,
                             assetName, deviceName, inboundEndpointName));
                     }

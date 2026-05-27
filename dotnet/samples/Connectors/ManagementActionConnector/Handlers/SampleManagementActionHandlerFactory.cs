@@ -28,8 +28,7 @@ namespace ManagementActionConnector.Handlers
             string inboundEndpointName,
             Asset asset,
             AssetManagementGroupAction action,
-            EndpointCredentials? endpointCredentials,
-            IManagementActionStatusReporter statusReporter)
+            EndpointCredentials? endpointCredentials)
         {
             ILogger logger = _loggerFactory.CreateLogger(action.Name);
             logger.LogInformation(
@@ -38,7 +37,7 @@ namespace ManagementActionConnector.Handlers
 
             return action.Name switch
             {
-                "reboot" => new RebootHandler(logger, _device, statusReporter),
+                "reboot" => new RebootHandler(logger, _device),
                 "read-temperature" => new ReadTemperatureHandler(logger, _device),
                 "write-configuration" => new WriteConfigurationHandler(logger, _device),
                 _ => throw new InvalidOperationException(

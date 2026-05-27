@@ -21,7 +21,7 @@ namespace Azure.Iot.Operations.Connector
     /// consider extracting the shared variants into a common base or generic type (e.g.
     /// <c>ComponentNotification&lt;T&gt;</c>) so all component types share a consistent shape.
     /// </remarks>
-    public abstract record ManagementActionNotification;
+    internal abstract record ManagementActionNotification;
 
     /// <summary>
     /// The management action definition was updated in place — same request topic,
@@ -32,7 +32,7 @@ namespace Azure.Iot.Operations.Connector
     /// Non-null if the updated definition failed validation. The executor still
     /// runs, but the connector should report the config error back via asset status.
     /// </param>
-    public sealed record ManagementActionUpdated(ConfigError? Error) : ManagementActionNotification;
+    internal sealed record ManagementActionUpdated(ConfigError? Error) : ManagementActionNotification;
 
     /// <summary>
     /// The management action definition was updated in a way that requires a new
@@ -47,7 +47,7 @@ namespace Azure.Iot.Operations.Connector
     /// <param name="Error">
     /// Non-null if the updated definition failed validation.
     /// </param>
-    public sealed record ManagementActionUpdatedWithNewExecutor(
+    internal sealed record ManagementActionUpdatedWithNewExecutor(
         ManagementActionExecutor? NewExecutor,
         ConfigError? Error) : ManagementActionNotification;
 
@@ -56,13 +56,13 @@ namespace Azure.Iot.Operations.Connector
     /// is unchanged. The connector may need to re-evaluate surrounding state
     /// (asset context, asset defaults).
     /// </summary>
-    public sealed record ManagementActionAssetUpdated(ConfigError? Error) : ManagementActionNotification;
+    internal sealed record ManagementActionAssetUpdated(ConfigError? Error) : ManagementActionNotification;
 
     /// <summary>
     /// The management action was removed from the asset definition, or the asset
     /// itself was deleted. No further requests will be delivered; the connector
     /// should stop and dispose the executor and exit its per-action loop.
     /// </summary>
-    public sealed record ManagementActionDeleted : ManagementActionNotification;
+    internal sealed record ManagementActionDeleted : ManagementActionNotification;
 }
 

@@ -40,11 +40,6 @@ namespace Azure.Iot.Operations.Connector
         /// </summary>
         public async Task ServeActionsWhileAssetIsAvailableAsync(AssetAvailableEventArgs args, CancellationToken cancellationToken)
         {
-            _logger.LogInformation(
-                "Asset {AssetName} on device {DeviceName} is available.",
-                args.AssetName,
-                args.DeviceName);
-
             var actionTasks = new List<Task>();
             foreach (var group in args.Asset.ManagementGroups ?? Enumerable.Empty<AssetManagementGroup>())
             {
@@ -56,8 +51,6 @@ namespace Azure.Iot.Operations.Connector
                     {
                         credentials = args.AdrClient.GetEndpointCredentials(args.DeviceName, args.InboundEndpointName, inboundEndpoint);
                     }
-
-                    var statusReporter = new ManagementActionStatusReporter(args.AssetClient, group.Name, action.Name);
 
                     // Connector-specific validation. Failure is reported but does NOT block handler
                     // creation — transient validation issues shouldn't permanently kill the action.
@@ -76,8 +69,7 @@ namespace Azure.Iot.Operations.Connector
                             args.InboundEndpointName,
                             args.Asset,
                             action,
-                            credentials,
-                            statusReporter);
+                            credentials);
 
                         var ctx = new ActionContext(
                             AssetClient: args.AssetClient,
@@ -88,8 +80,7 @@ namespace Azure.Iot.Operations.Connector
                             AssetName: args.AssetName,
                             GroupName: group.Name,
                             Action: action,
-                            Handler: handler,
-                            StatusReporter: statusReporter);
+                            Handler: handler);
 
                         actionTasks.Add(RunActionLoopAsync(ctx, initialUserValidationError, cancellationToken));
                     }
@@ -105,7 +96,8 @@ namespace Azure.Iot.Operations.Connector
                             args.AssetClient,
                             group.Name,
                             action.Name,
-                            statusReporter,
+                            args.AssetName,
+                            args.DeviceName,
                             cancellationToken));
                     }
                 }
@@ -137,7 +129,8 @@ namespace Azure.Iot.Operations.Connector
             AssetClient assetClient,
             string groupName,
             string actionName,
-            IManagementActionStatusReporter statusReporter,
+            string assetName,
+            string deviceName,
             CancellationToken cancellationToken)
         {
             ConfigError BuildError() => new()
@@ -149,14 +142,14 @@ namespace Azure.Iot.Operations.Connector
             async Task ReReportAsync()
             {
                 _logger.LogDebug(
-                    "Unsupported action {Group}::{Action} updated; re-reporting UnsupportedAction config error.",
-                    groupName, actionName);
-                await statusReporter.ReportConfigErrorAsync(BuildError(), cancellationToken);
-                await statusReporter.PauseHealthReportingAsync(cancellationToken);
+                    "Unsupported action {Group}::{Action} on asset {AssetName} (device {DeviceName}) updated; re-reporting UnsupportedAction config error.",
+                    groupName, actionName, assetName, deviceName);
+                await ReportConfigErrorAsync(assetClient, groupName, actionName, BuildError(), cancellationToken);
+                await assetClient.PauseManagementActionRuntimeHealthReportingAsync(groupName, actionName, cancellationToken);
             }
 
-            await statusReporter.ReportConfigErrorAsync(BuildError(), cancellationToken);
-            await statusReporter.PauseHealthReportingAsync(cancellationToken);
+            await ReportConfigErrorAsync(assetClient, groupName, actionName, BuildError(), cancellationToken);
+            await assetClient.PauseManagementActionRuntimeHealthReportingAsync(groupName, actionName, cancellationToken);
 
             try
             {
@@ -185,14 +178,14 @@ namespace Azure.Iot.Operations.Connector
 
                         case ManagementActionDeleted:
                             _logger.LogInformation(
-                                "Unsupported action {Group}::{Action} deleted; ending unsupported-action loop.",
-                                groupName, actionName);
+                                "Unsupported action {Group}::{Action} on asset {AssetName} (device {DeviceName}) deleted; ending unsupported-action loop.",
+                                groupName, actionName, assetName, deviceName);
                             return;
 
                         default:
                             _logger.LogWarning(
-                                "Unsupported action {Group}::{Action} received unknown notification type {Type}",
-                                groupName, actionName, notification.GetType().Name);
+                                "Unsupported action {Group}::{Action} on asset {AssetName} (device {DeviceName}) received unknown notification type {Type}",
+                                groupName, actionName, assetName, deviceName, notification.GetType().Name);
                             break;
                     }
                 }
@@ -204,8 +197,8 @@ namespace Azure.Iot.Operations.Connector
             catch (Exception ex)
             {
                 _logger.LogError(ex,
-                    "Unsupported-action loop for {Group}::{Action} faulted",
-                    groupName, actionName);
+                    "Unsupported-action loop for {Group}::{Action} on asset {AssetName} (device {DeviceName}) faulted",
+                    groupName, actionName, assetName, deviceName);
                 throw;
             }
         }
@@ -222,7 +215,9 @@ namespace Azure.Iot.Operations.Connector
             ConfigError? initialUserValidationError,
             CancellationToken cancellationToken)
         {
-            _logger.LogInformation("Starting handler for management action {Group}::{Action}", ctx.GroupName, ctx.ActionName);
+            _logger.LogInformation(
+                "Starting handler for management action {Group}::{Action} on asset {AssetName} (device {DeviceName})",
+                ctx.GroupName, ctx.ActionName, ctx.AssetName, ctx.DeviceName);
 
             ManagementActionExecutor? executor =
                 await ctx.AssetClient.GetManagementActionExecutorAsync(ctx.GroupName, ctx.ActionName, cancellationToken);
@@ -231,11 +226,11 @@ namespace Azure.Iot.Operations.Connector
             // Reflect the connector-supplied validation result from startup, if any.
             if (initialUserValidationError is not null)
             {
-                await ctx.StatusReporter.ReportConfigErrorAsync(initialUserValidationError, cancellationToken);
+                await ReportConfigErrorAsync(ctx.AssetClient, ctx.GroupName, ctx.ActionName, initialUserValidationError, cancellationToken);
                 // Don't claim Unavailable: the device wasn't probed, the configuration is just
                 // invalid. Pause runtime-health reporting so ADR sees Unknown until the next
                 // notification produces a valid config.
-                await ctx.StatusReporter.PauseHealthReportingAsync(cancellationToken);
+                await ctx.AssetClient.PauseManagementActionRuntimeHealthReportingAsync(ctx.GroupName, ctx.ActionName, cancellationToken);
             }
 
             try
@@ -280,7 +275,9 @@ namespace Azure.Iot.Operations.Connector
                 }
 
                 await ctx.Handler.DisposeAsync();
-                _logger.LogInformation("Handler for {Group}::{Action} exited.", ctx.GroupName, ctx.ActionName);
+                _logger.LogInformation(
+                    "Handler for {Group}::{Action} on asset {AssetName} (device {DeviceName}) exited.",
+                    ctx.GroupName, ctx.ActionName, ctx.AssetName, ctx.DeviceName);
             }
         }
 
@@ -298,8 +295,8 @@ namespace Azure.Iot.Operations.Connector
             executor.OnRequestReceived = (args, ct) =>
             {
                 _logger.LogInformation(
-                    "Received invocation for {Group}::{Action} (type={ActionType}, {Bytes} bytes, content-type={ContentType})",
-                    args.GroupName, args.ActionName, args.ActionType, args.Payload.Length, args.ContentType);
+                    "Received invocation for {Group}::{Action} on asset {AssetName} (device {DeviceName}) (type={ActionType}, {Bytes} bytes, content-type={ContentType})",
+                    args.GroupName, args.ActionName, ctx.AssetName, ctx.DeviceName, args.ActionType, args.Payload.Length, args.ContentType);
                 return InvokeHandlerAsync(ctx.Handler, args, _logger, ct);
             };
         }
@@ -352,16 +349,16 @@ namespace Azure.Iot.Operations.Connector
             {
                 case ManagementActionUpdated updated:
                     _logger.LogInformation(
-                        "{Group}::{Action} definition updated (same topic). sdkError={Error}",
-                        ctx.GroupName, ctx.ActionName, updated.Error);
+                        "{Group}::{Action} on asset {AssetName} (device {DeviceName}) definition updated (same topic). sdkError={Error}",
+                        ctx.GroupName, ctx.ActionName, ctx.AssetName, ctx.DeviceName, updated.Error);
                     await ctx.AssetClient.PauseManagementActionRuntimeHealthReportingAsync(ctx.GroupName, ctx.ActionName, cancellationToken);
                     await RevalidateAndReportAsync(ctx, updated.Error, cancellationToken);
                     return false;
 
                 case ManagementActionUpdatedWithNewExecutor updatedWithNew:
                     _logger.LogInformation(
-                        "{Group}::{Action} definition updated — swapping to new executor. sdkError={Error}",
-                        ctx.GroupName, ctx.ActionName, updatedWithNew.Error);
+                        "{Group}::{Action} on asset {AssetName} (device {DeviceName}) definition updated — swapping to new executor. sdkError={Error}",
+                        ctx.GroupName, ctx.ActionName, ctx.AssetName, ctx.DeviceName, updatedWithNew.Error);
                     await ctx.AssetClient.PauseManagementActionRuntimeHealthReportingAsync(ctx.GroupName, ctx.ActionName, cancellationToken);
 
                     if (currentExecutor is not null)
@@ -379,14 +376,16 @@ namespace Azure.Iot.Operations.Connector
 
                 case ManagementActionAssetUpdated assetUpdated:
                     _logger.LogInformation(
-                        "{Group}::{Action}: parent asset updated. error={Error}",
-                        ctx.GroupName, ctx.ActionName, assetUpdated.Error);
+                        "{Group}::{Action} on asset {AssetName} (device {DeviceName}): parent asset updated. error={Error}",
+                        ctx.GroupName, ctx.ActionName, ctx.AssetName, ctx.DeviceName, assetUpdated.Error);
                     await ctx.AssetClient.PauseManagementActionRuntimeHealthReportingAsync(ctx.GroupName, ctx.ActionName, cancellationToken);
                     await RevalidateAndReportAsync(ctx, assetUpdated.Error, cancellationToken);
                     return false;
 
                 case ManagementActionDeleted:
-                    _logger.LogInformation("{Group}::{Action} deleted.", ctx.GroupName, ctx.ActionName);
+                    _logger.LogInformation(
+                        "{Group}::{Action} on asset {AssetName} (device {DeviceName}) deleted.",
+                        ctx.GroupName, ctx.ActionName, ctx.AssetName, ctx.DeviceName);
                     if (currentExecutor is not null)
                     {
                         await currentExecutor.StopAsync(cancellationToken);
@@ -396,8 +395,8 @@ namespace Azure.Iot.Operations.Connector
 
                 default:
                     _logger.LogWarning(
-                        "{Group}::{Action} received unknown notification type {Type}",
-                        ctx.GroupName, ctx.ActionName, notification.GetType().Name);
+                        "{Group}::{Action} on asset {AssetName} (device {DeviceName}) received unknown notification type {Type}",
+                        ctx.GroupName, ctx.ActionName, ctx.AssetName, ctx.DeviceName, notification.GetType().Name);
                     return false;
             }
         }
@@ -416,19 +415,50 @@ namespace Azure.Iot.Operations.Connector
                 ctx.Device, ctx.InboundEndpointName, ctx.Asset, ctx.Action, cancellationToken);
             ConfigError? combined = MergeConfigErrors(sdkError, userError);
 
-            await ctx.StatusReporter.ReportConfigErrorAsync(combined, cancellationToken);
+            await ReportConfigErrorAsync(ctx.AssetClient, ctx.GroupName, ctx.ActionName, combined, cancellationToken);
             if (combined is null)
             {
-                await ctx.StatusReporter.ReportAvailableAsync(cancellationToken);
+                await ctx.AssetClient.ReportManagementActionRuntimeHealthAsync(
+                    ctx.GroupName, ctx.ActionName,
+                    new ConnectorRuntimeHealth { Status = HealthStatus.Available },
+                    cancellationToken: cancellationToken);
             }
             else
             {
                 // Config is invalid → we cannot determine runtime health, so stay silent.
                 // ADR will let the runtime-health status lapse to Unknown rather than us
                 // falsely asserting Unavailable for a device we never probed.
-                await ctx.StatusReporter.PauseHealthReportingAsync(cancellationToken);
+                await ctx.AssetClient.PauseManagementActionRuntimeHealthReportingAsync(ctx.GroupName, ctx.ActionName, cancellationToken);
             }
         }
+
+        /// <summary>
+        /// Updates the action's <c>Config</c> status via <see cref="AssetClient"/>. Pass <c>null</c>
+        /// for <paramref name="validationError"/> to clear an existing configuration error.
+        /// </summary>
+        private static Task ReportConfigErrorAsync(
+            AssetClient assetClient,
+            string groupName,
+            string actionName,
+            ConfigError? validationError,
+            CancellationToken cancellationToken)
+            => assetClient.GetAndUpdateAssetStatusAsync(
+                current =>
+                {
+                    current.Config ??= new ConfigStatus();
+                    current.Config.LastTransitionTime = DateTime.UtcNow;
+                    current.UpdateManagementGroupStatus(
+                        groupName,
+                        new AssetManagementGroupActionStatus
+                        {
+                            Name = actionName,
+                            Error = validationError,
+                        });
+                    return current;
+                },
+                onlyIfChanged: true,
+                commandTimeout: null,
+                cancellationToken);
 
         /// <summary>
         /// Combines an SDK-supplied <see cref="ConfigError"/> with a connector-supplied one. Returns
@@ -467,8 +497,7 @@ namespace Azure.Iot.Operations.Connector
             string AssetName,
             string GroupName,
             AssetManagementGroupAction Action,
-            IManagementActionHandler Handler,
-            IManagementActionStatusReporter StatusReporter)
+            IManagementActionHandler Handler)
         {
             /// <summary>Shorthand for <c>Action.Name</c>; the action's own name is the action name.</summary>
             public string ActionName => Action.Name;

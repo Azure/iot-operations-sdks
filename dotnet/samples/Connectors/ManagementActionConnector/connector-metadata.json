@@ -10,16 +10,6 @@
   "supportedArchitectures": [
     "linux/amd64"
   ],
-  "sourceCode": {
-    "language": "dotnet",
-    "languageVersion": "9.0",
-    "sdks": {
-      "mqttPackageVersion": "1.0.0",
-      "protocolPackageVersion": "1.0.0",
-      "servicesPackageVersion": "1.0.0",
-      "connectorPackageVersion": "1.0.0"
-    }
-  },
   "aioMetadata": {
     "aioMinVersion": "1.2.37"
   },

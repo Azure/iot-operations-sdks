@@ -415,7 +415,7 @@ namespace Azure.Iot.Operations.Connector
         /// <see cref="ManagementActionUpdatedWithNewExecutor"/>); the caller should swap to the
         /// new one it carries (which may itself be null for the same reason).
         /// </summary>
-        public Task<ManagementActionExecutor?> GetManagementActionExecutorAsync(
+        internal Task<ManagementActionExecutor?> GetManagementActionExecutorAsync(
             string managementGroupName,
             string managementActionName,
             CancellationToken cancellationToken = default)
@@ -427,7 +427,7 @@ namespace Azure.Iot.Operations.Connector
         /// <see cref="ManagementActionDeleted"/>) when the action is removed from the asset
         /// definition or the asset itself is deleted.
         /// </summary>
-        public Task<ManagementActionNotification> RecvManagementActionNotificationAsync(
+        internal Task<ManagementActionNotification> RecvManagementActionNotificationAsync(
             string managementGroupName,
             string managementActionName,
             CancellationToken cancellationToken = default)
@@ -438,7 +438,7 @@ namespace Azure.Iot.Operations.Connector
         /// definition changes so the next health event reflects the re-validated definition rather
         /// than the previous one. Matches Rust's <c>pause_and_refresh_health_version</c> pattern.
         /// </summary>
-        public Task PauseManagementActionRuntimeHealthReportingAsync(
+        internal Task PauseManagementActionRuntimeHealthReportingAsync(
             string managementGroupName,
             string managementActionName,
             CancellationToken cancellationToken = default)

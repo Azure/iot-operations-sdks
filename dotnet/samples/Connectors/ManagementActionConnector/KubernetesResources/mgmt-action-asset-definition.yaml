@@ -10,7 +10,7 @@ spec:
     assetType: mgmt-action-sample
   # -----------------------------------------------------------------
   # Single management group with three actions (one of each ActionType:
-  # Call, Read, Write), intended for exercising the upcoming .NET
+  # Call, Read, Write), intended for exercising the .NET
   # Management Action API. The connector will expose these as:
   #   group   = "device-control"
   #   actions = "reboot" (Call),

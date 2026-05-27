@@ -13,8 +13,8 @@ namespace Azure.Iot.Operations.Connector
         /// <summary>Caller-facing error code (connector-defined).</summary>
         public required string ErrorCode { get; set; }
 
-        /// <summary>Human-readable payload describing the error. May be empty.</summary>
-        public string ErrorPayload { get; set; } = string.Empty;
+        /// <summary>Human-readable payload describing the error. May be null.</summary>
+        public string? ErrorPayload { get; set; }
     }
 }
 

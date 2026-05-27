@@ -32,13 +32,6 @@ namespace Azure.Iot.Operations.Connector
         /// <param name="asset">The asset model that declares this action.</param>
         /// <param name="action">The management action definition (carries action type, target URI, timeout, etc.).</param>
         /// <param name="endpointCredentials">Credentials for connecting to the device endpoint, if available.</param>
-        /// <param name="statusReporter">
-        /// Per-action status-reporting hook the handler may retain and call when it discovers
-        /// runtime issues (e.g. target URI becomes unreachable) or recovers from them.
-        /// Configuration-time validation should instead be returned from
-        /// <see cref="ValidateConfigurationAsync"/>; this reporter is for runtime transitions
-        /// that occur after the action is up.
-        /// </param>
         /// <returns>
         /// A handler that will receive invocations for this action. The base connector will
         /// dispose it when the action is deleted or the asset becomes unavailable.
@@ -48,8 +41,7 @@ namespace Azure.Iot.Operations.Connector
             string inboundEndpointName,
             Asset asset,
             AssetManagementGroupAction action,
-            EndpointCredentials? endpointCredentials,
-            IManagementActionStatusReporter statusReporter);
+            EndpointCredentials? endpointCredentials);
 
         /// <summary>
         /// Perform connector-specific validation of an action's definition. Called by the
@@ -88,6 +80,18 @@ namespace Azure.Iot.Operations.Connector
             CancellationToken cancellationToken)
             => ValueTask.FromResult<ConfigError?>(null);
 
+        /// <summary>
+        /// Indicates whether this factory can produce a handler for the supplied management action.
+        /// </summary>
+        /// <remarks>
+        /// Called by the orchestrator before <see cref="ValidateActionAsync"/> and <see cref="CreateHandler"/>.
+        /// If <c>false</c> is returned, the orchestrator reports an <c>UnsupportedAction</c> config error
+        /// for the action and does not create a handler. Implementations should perform a lightweight
+        /// check (for example, matching on <see cref="AssetManagementGroupAction.ActionType"/>) and must
+        /// not have side effects.
+        /// </remarks>
+        /// <param name="action">The action definition declared on the asset.</param>
+        /// <returns><c>true</c> if a handler can be created for <paramref name="action"/>; otherwise <c>false</c>.</returns>
         bool SupportsAction(AssetManagementGroupAction action);
     }
 }

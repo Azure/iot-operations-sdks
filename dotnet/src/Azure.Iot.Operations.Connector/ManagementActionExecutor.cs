@@ -24,7 +24,7 @@ namespace Azure.Iot.Operations.Connector
     /// <see cref="ConnectorWorker"/>.
     /// </para>
     /// </remarks>
-    public sealed class ManagementActionExecutor : IAsyncDisposable
+    internal sealed class ManagementActionExecutor : IAsyncDisposable
     {
         internal ManagementActionExecutor()
         {
