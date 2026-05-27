@@ -8,7 +8,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "MachineVision_AcquisitionDoneEventType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/MachineVision;i=1025",
+    "dov:typeRef": "org.opcfoundation.UA.MachineVision.AcquisitionDoneEventType",
     "dov:isEvent": true,
     "links": [
       {
@@ -38,7 +38,7 @@
         "dov:namespace": "http://opcfoundation.org/UA/MachineVision",
         "title": "JobIdDataType",
         "type": "object",
-        "dov:typeRef": "nsu=http://opcfoundation.org/UA/MachineVision;i=3016",
+        "dov:typeRef": "org.opcfoundation.UA.MachineVision.JobIdDataType",
         "required": [ "Id" ],
         "properties": {
           "Id": {
@@ -73,7 +73,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "MachineVision_VisionConditionType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/MachineVision;i=1033",
+    "dov:typeRef": "org.opcfoundation.UA.MachineVision.VisionConditionType",
     "dov:isEvent": true,
     "links": [
       {
@@ -173,7 +173,7 @@
         "dov:namespace": "http://opcfoundation.org/UA/MachineVision",
         "title": "BinaryIdBaseDataType",
         "type": "object",
-        "dov:typeRef": "nsu=http://opcfoundation.org/UA/MachineVision;i=3019",
+        "dov:typeRef": "org.opcfoundation.UA.MachineVision.BinaryIdBaseDataType",
         "required": [ "Id" ],
         "properties": {
           "Id": {
@@ -216,7 +216,7 @@
         "dov:namespace": "http://opcfoundation.org/UA/MachineVision",
         "title": "BinaryIdBaseDataType",
         "type": "object",
-        "dov:typeRef": "nsu=http://opcfoundation.org/UA/MachineVision;i=3019",
+        "dov:typeRef": "org.opcfoundation.UA.MachineVision.BinaryIdBaseDataType",
         "required": [ "Id" ],
         "properties": {
           "Id": {
@@ -259,7 +259,7 @@
         "dov:namespace": "http://opcfoundation.org/UA/MachineVision",
         "title": "BinaryIdBaseDataType",
         "type": "object",
-        "dov:typeRef": "nsu=http://opcfoundation.org/UA/MachineVision;i=3019",
+        "dov:typeRef": "org.opcfoundation.UA.MachineVision.BinaryIdBaseDataType",
         "required": [ "Id" ],
         "properties": {
           "Id": {
@@ -302,7 +302,7 @@
         "dov:namespace": "http://opcfoundation.org/UA/MachineVision",
         "title": "BinaryIdBaseDataType",
         "type": "object",
-        "dov:typeRef": "nsu=http://opcfoundation.org/UA/MachineVision;i=3019",
+        "dov:typeRef": "org.opcfoundation.UA.MachineVision.BinaryIdBaseDataType",
         "required": [ "Id" ],
         "properties": {
           "Id": {
@@ -345,7 +345,7 @@
         "dov:namespace": "http://opcfoundation.org/UA/MachineVision",
         "title": "JobIdDataType",
         "type": "object",
-        "dov:typeRef": "nsu=http://opcfoundation.org/UA/MachineVision;i=3016",
+        "dov:typeRef": "org.opcfoundation.UA.MachineVision.JobIdDataType",
         "required": [ "Id" ],
         "properties": {
           "Id": {
@@ -371,7 +371,7 @@
         "dov:namespace": "http://opcfoundation.org/UA/MachineVision",
         "title": "MeasIdDataType",
         "type": "object",
-        "dov:typeRef": "nsu=http://opcfoundation.org/UA/MachineVision;i=3015",
+        "dov:typeRef": "org.opcfoundation.UA.MachineVision.MeasIdDataType",
         "required": [ "Id" ],
         "properties": {
           "Id": {
@@ -401,7 +401,7 @@
         "dov:namespace": "http://opcfoundation.org/UA/MachineVision",
         "title": "PartIdDataType",
         "type": "object",
-        "dov:typeRef": "nsu=http://opcfoundation.org/UA/MachineVision;i=3004",
+        "dov:typeRef": "org.opcfoundation.UA.MachineVision.PartIdDataType",
         "required": [ "Id" ],
         "properties": {
           "Id": {
@@ -431,7 +431,7 @@
         "dov:namespace": "http://opcfoundation.org/UA/MachineVision",
         "title": "ProductIdDataType",
         "type": "object",
-        "dov:typeRef": "nsu=http://opcfoundation.org/UA/MachineVision;i=3003",
+        "dov:typeRef": "org.opcfoundation.UA.MachineVision.ProductIdDataType",
         "required": [ "Id" ],
         "properties": {
           "Id": {
@@ -461,7 +461,7 @@
         "dov:namespace": "http://opcfoundation.org/UA/MachineVision",
         "title": "ResultIdDataType",
         "type": "object",
-        "dov:typeRef": "nsu=http://opcfoundation.org/UA/MachineVision;i=3021",
+        "dov:typeRef": "org.opcfoundation.UA.MachineVision.ResultIdDataType",
         "required": [ "Id" ],
         "properties": {
           "Id": {
@@ -513,7 +513,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "MachineVision_VisionErrorConditionType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/MachineVision;i=1035",
+    "dov:typeRef": "org.opcfoundation.UA.MachineVision.VisionErrorConditionType",
     "dov:isEvent": true,
     "links": [
       {
@@ -540,7 +540,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "MachineVision_VisionPersistentErrorConditionType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/MachineVision;i=1036",
+    "dov:typeRef": "org.opcfoundation.UA.MachineVision.VisionPersistentErrorConditionType",
     "dov:isEvent": true,
     "links": [
       {
@@ -567,7 +567,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "MachineVision_VisionWarningConditionType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/MachineVision;i=1034",
+    "dov:typeRef": "org.opcfoundation.UA.MachineVision.VisionWarningConditionType",
     "dov:isEvent": true,
     "links": [
       {
@@ -594,7 +594,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "MachineVision_EnterStepSequenceEventType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/MachineVision;i=1027",
+    "dov:typeRef": "org.opcfoundation.UA.MachineVision.EnterStepSequenceEventType",
     "dov:isEvent": true,
     "links": [
       {
@@ -652,7 +652,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "MachineVision_JobStartedEventType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/MachineVision;i=1013",
+    "dov:typeRef": "org.opcfoundation.UA.MachineVision.JobStartedEventType",
     "dov:isEvent": true,
     "links": [
       {
@@ -682,7 +682,7 @@
         "dov:namespace": "http://opcfoundation.org/UA/MachineVision",
         "title": "JobIdDataType",
         "type": "object",
-        "dov:typeRef": "nsu=http://opcfoundation.org/UA/MachineVision;i=3016",
+        "dov:typeRef": "org.opcfoundation.UA.MachineVision.JobIdDataType",
         "required": [ "Id" ],
         "properties": {
           "Id": {
@@ -717,7 +717,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "MachineVision_LeaveStepSequenceEventType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/MachineVision;i=1029",
+    "dov:typeRef": "org.opcfoundation.UA.MachineVision.LeaveStepSequenceEventType",
     "dov:isEvent": true,
     "links": [
       {
@@ -744,7 +744,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "MachineVision_NextStepEventType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/MachineVision;i=1028",
+    "dov:typeRef": "org.opcfoundation.UA.MachineVision.NextStepEventType",
     "dov:isEvent": true,
     "links": [
       {
@@ -802,7 +802,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "MachineVision_ReadyEventType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/MachineVision;i=1023",
+    "dov:typeRef": "org.opcfoundation.UA.MachineVision.ReadyEventType",
     "dov:isEvent": true,
     "links": [
       {
@@ -832,7 +832,7 @@
         "dov:namespace": "http://opcfoundation.org/UA/MachineVision",
         "title": "JobIdDataType",
         "type": "object",
-        "dov:typeRef": "nsu=http://opcfoundation.org/UA/MachineVision;i=3016",
+        "dov:typeRef": "org.opcfoundation.UA.MachineVision.JobIdDataType",
         "required": [ "Id" ],
         "properties": {
           "Id": {
@@ -867,7 +867,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "MachineVision_RecipePreparedEventType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/MachineVision;i=1022",
+    "dov:typeRef": "org.opcfoundation.UA.MachineVision.RecipePreparedEventType",
     "dov:isEvent": true,
     "links": [
       {
@@ -897,7 +897,7 @@
         "dov:namespace": "http://opcfoundation.org/UA/MachineVision",
         "title": "BinaryIdBaseDataType",
         "type": "object",
-        "dov:typeRef": "nsu=http://opcfoundation.org/UA/MachineVision;i=3019",
+        "dov:typeRef": "org.opcfoundation.UA.MachineVision.BinaryIdBaseDataType",
         "required": [ "Id" ],
         "properties": {
           "Id": {
@@ -940,7 +940,7 @@
         "dov:namespace": "http://opcfoundation.org/UA/MachineVision",
         "title": "BinaryIdBaseDataType",
         "type": "object",
-        "dov:typeRef": "nsu=http://opcfoundation.org/UA/MachineVision;i=3019",
+        "dov:typeRef": "org.opcfoundation.UA.MachineVision.BinaryIdBaseDataType",
         "required": [ "Id" ],
         "properties": {
           "Id": {
@@ -983,7 +983,7 @@
         "dov:namespace": "http://opcfoundation.org/UA/MachineVision",
         "title": "ProductIdDataType",
         "type": "object",
-        "dov:typeRef": "nsu=http://opcfoundation.org/UA/MachineVision;i=3003",
+        "dov:typeRef": "org.opcfoundation.UA.MachineVision.ProductIdDataType",
         "required": [ "Id" ],
         "properties": {
           "Id": {
@@ -1022,7 +1022,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "MachineVision_ResultReadyEventType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/MachineVision;i=1024",
+    "dov:typeRef": "org.opcfoundation.UA.MachineVision.ResultReadyEventType",
     "dov:isEvent": true,
     "links": [
       {
@@ -1070,7 +1070,7 @@
         "dov:namespace": "http://opcfoundation.org/UA/MachineVision",
         "title": "BinaryIdBaseDataType",
         "type": "object",
-        "dov:typeRef": "nsu=http://opcfoundation.org/UA/MachineVision;i=3019",
+        "dov:typeRef": "org.opcfoundation.UA.MachineVision.BinaryIdBaseDataType",
         "required": [ "Id" ],
         "properties": {
           "Id": {
@@ -1113,7 +1113,7 @@
         "dov:namespace": "http://opcfoundation.org/UA/MachineVision",
         "title": "BinaryIdBaseDataType",
         "type": "object",
-        "dov:typeRef": "nsu=http://opcfoundation.org/UA/MachineVision;i=3019",
+        "dov:typeRef": "org.opcfoundation.UA.MachineVision.BinaryIdBaseDataType",
         "required": [ "Id" ],
         "properties": {
           "Id": {
@@ -1156,7 +1156,7 @@
         "dov:namespace": "http://opcfoundation.org/UA/MachineVision",
         "title": "BinaryIdBaseDataType",
         "type": "object",
-        "dov:typeRef": "nsu=http://opcfoundation.org/UA/MachineVision;i=3019",
+        "dov:typeRef": "org.opcfoundation.UA.MachineVision.BinaryIdBaseDataType",
         "required": [ "Id" ],
         "properties": {
           "Id": {
@@ -1199,7 +1199,7 @@
         "dov:namespace": "http://opcfoundation.org/UA/MachineVision",
         "title": "BinaryIdBaseDataType",
         "type": "object",
-        "dov:typeRef": "nsu=http://opcfoundation.org/UA/MachineVision;i=3019",
+        "dov:typeRef": "org.opcfoundation.UA.MachineVision.BinaryIdBaseDataType",
         "required": [ "Id" ],
         "properties": {
           "Id": {
@@ -1276,7 +1276,7 @@
         "dov:namespace": "http://opcfoundation.org/UA/MachineVision",
         "title": "JobIdDataType",
         "type": "object",
-        "dov:typeRef": "nsu=http://opcfoundation.org/UA/MachineVision;i=3016",
+        "dov:typeRef": "org.opcfoundation.UA.MachineVision.JobIdDataType",
         "required": [ "Id" ],
         "properties": {
           "Id": {
@@ -1302,7 +1302,7 @@
         "dov:namespace": "http://opcfoundation.org/UA/MachineVision",
         "title": "MeasIdDataType",
         "type": "object",
-        "dov:typeRef": "nsu=http://opcfoundation.org/UA/MachineVision;i=3015",
+        "dov:typeRef": "org.opcfoundation.UA.MachineVision.MeasIdDataType",
         "required": [ "Id" ],
         "properties": {
           "Id": {
@@ -1332,7 +1332,7 @@
         "dov:namespace": "http://opcfoundation.org/UA/MachineVision",
         "title": "PartIdDataType",
         "type": "object",
-        "dov:typeRef": "nsu=http://opcfoundation.org/UA/MachineVision;i=3004",
+        "dov:typeRef": "org.opcfoundation.UA.MachineVision.PartIdDataType",
         "required": [ "Id" ],
         "properties": {
           "Id": {
@@ -1362,7 +1362,7 @@
         "dov:namespace": "http://opcfoundation.org/UA/MachineVision",
         "title": "ProcessingTimesDataType",
         "type": "object",
-        "dov:typeRef": "nsu=http://opcfoundation.org/UA/MachineVision;i=3005",
+        "dov:typeRef": "org.opcfoundation.UA.MachineVision.ProcessingTimesDataType",
         "required": [ "StartTime", "EndTime" ],
         "properties": {
           "StartTime": {
@@ -1404,7 +1404,7 @@
         "dov:namespace": "http://opcfoundation.org/UA/MachineVision",
         "title": "ProductIdDataType",
         "type": "object",
-        "dov:typeRef": "nsu=http://opcfoundation.org/UA/MachineVision;i=3003",
+        "dov:typeRef": "org.opcfoundation.UA.MachineVision.ProductIdDataType",
         "required": [ "Id" ],
         "properties": {
           "Id": {
@@ -1455,7 +1455,7 @@
         "dov:namespace": "http://opcfoundation.org/UA/MachineVision",
         "title": "ResultIdDataType",
         "type": "object",
-        "dov:typeRef": "nsu=http://opcfoundation.org/UA/MachineVision;i=3021",
+        "dov:typeRef": "org.opcfoundation.UA.MachineVision.ResultIdDataType",
         "required": [ "Id" ],
         "properties": {
           "Id": {
@@ -1509,7 +1509,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "MachineVision_ErrorEventType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/MachineVision;i=1019",
+    "dov:typeRef": "org.opcfoundation.UA.MachineVision.ErrorEventType",
     "dov:isEvent": true,
     "links": [
       {
@@ -1536,7 +1536,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "MachineVision_ErrorResolvedEventType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/MachineVision;i=1020",
+    "dov:typeRef": "org.opcfoundation.UA.MachineVision.ErrorResolvedEventType",
     "dov:isEvent": true,
     "links": [
       {
@@ -1563,7 +1563,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "MachineVision_StateChangedEventType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/MachineVision;i=1018",
+    "dov:typeRef": "org.opcfoundation.UA.MachineVision.StateChangedEventType",
     "dov:isEvent": true,
     "links": [
       {
@@ -1590,7 +1590,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "MachineVision_VisionEventType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/MachineVision;i=1015",
+    "dov:typeRef": "org.opcfoundation.UA.MachineVision.VisionEventType",
     "dov:isEvent": true,
     "links": [
       {
@@ -1637,7 +1637,7 @@
         "dov:namespace": "http://opcfoundation.org/UA/MachineVision",
         "title": "BinaryIdBaseDataType",
         "type": "object",
-        "dov:typeRef": "nsu=http://opcfoundation.org/UA/MachineVision;i=3019",
+        "dov:typeRef": "org.opcfoundation.UA.MachineVision.BinaryIdBaseDataType",
         "required": [ "Id" ],
         "properties": {
           "Id": {
@@ -1680,7 +1680,7 @@
         "dov:namespace": "http://opcfoundation.org/UA/MachineVision",
         "title": "BinaryIdBaseDataType",
         "type": "object",
-        "dov:typeRef": "nsu=http://opcfoundation.org/UA/MachineVision;i=3019",
+        "dov:typeRef": "org.opcfoundation.UA.MachineVision.BinaryIdBaseDataType",
         "required": [ "Id" ],
         "properties": {
           "Id": {
@@ -1723,7 +1723,7 @@
         "dov:namespace": "http://opcfoundation.org/UA/MachineVision",
         "title": "BinaryIdBaseDataType",
         "type": "object",
-        "dov:typeRef": "nsu=http://opcfoundation.org/UA/MachineVision;i=3019",
+        "dov:typeRef": "org.opcfoundation.UA.MachineVision.BinaryIdBaseDataType",
         "required": [ "Id" ],
         "properties": {
           "Id": {
@@ -1766,7 +1766,7 @@
         "dov:namespace": "http://opcfoundation.org/UA/MachineVision",
         "title": "BinaryIdBaseDataType",
         "type": "object",
-        "dov:typeRef": "nsu=http://opcfoundation.org/UA/MachineVision;i=3019",
+        "dov:typeRef": "org.opcfoundation.UA.MachineVision.BinaryIdBaseDataType",
         "required": [ "Id" ],
         "properties": {
           "Id": {
@@ -1809,7 +1809,7 @@
         "dov:namespace": "http://opcfoundation.org/UA/MachineVision",
         "title": "JobIdDataType",
         "type": "object",
-        "dov:typeRef": "nsu=http://opcfoundation.org/UA/MachineVision;i=3016",
+        "dov:typeRef": "org.opcfoundation.UA.MachineVision.JobIdDataType",
         "required": [ "Id" ],
         "properties": {
           "Id": {
@@ -1835,7 +1835,7 @@
         "dov:namespace": "http://opcfoundation.org/UA/MachineVision",
         "title": "MeasIdDataType",
         "type": "object",
-        "dov:typeRef": "nsu=http://opcfoundation.org/UA/MachineVision;i=3015",
+        "dov:typeRef": "org.opcfoundation.UA.MachineVision.MeasIdDataType",
         "required": [ "Id" ],
         "properties": {
           "Id": {
@@ -1865,7 +1865,7 @@
         "dov:namespace": "http://opcfoundation.org/UA/MachineVision",
         "title": "PartIdDataType",
         "type": "object",
-        "dov:typeRef": "nsu=http://opcfoundation.org/UA/MachineVision;i=3004",
+        "dov:typeRef": "org.opcfoundation.UA.MachineVision.PartIdDataType",
         "required": [ "Id" ],
         "properties": {
           "Id": {
@@ -1895,7 +1895,7 @@
         "dov:namespace": "http://opcfoundation.org/UA/MachineVision",
         "title": "ProductIdDataType",
         "type": "object",
-        "dov:typeRef": "nsu=http://opcfoundation.org/UA/MachineVision;i=3003",
+        "dov:typeRef": "org.opcfoundation.UA.MachineVision.ProductIdDataType",
         "required": [ "Id" ],
         "properties": {
           "Id": {
@@ -1925,7 +1925,7 @@
         "dov:namespace": "http://opcfoundation.org/UA/MachineVision",
         "title": "ResultIdDataType",
         "type": "object",
-        "dov:typeRef": "nsu=http://opcfoundation.org/UA/MachineVision;i=3021",
+        "dov:typeRef": "org.opcfoundation.UA.MachineVision.ResultIdDataType",
         "required": [ "Id" ],
         "properties": {
           "Id": {
@@ -1960,7 +1960,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "MachineVision_VisionDiagnosticInfoEventType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/MachineVision;i=1037",
+    "dov:typeRef": "org.opcfoundation.UA.MachineVision.VisionDiagnosticInfoEventType",
     "dov:isEvent": true,
     "links": [
       {
@@ -1987,7 +1987,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "MachineVision_VisionInformationEventType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/MachineVision;i=1038",
+    "dov:typeRef": "org.opcfoundation.UA.MachineVision.VisionInformationEventType",
     "dov:isEvent": true,
     "links": [
       {
@@ -2014,7 +2014,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "MachineVision_VisionSafetyEventType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/MachineVision;i=1030",
+    "dov:typeRef": "org.opcfoundation.UA.MachineVision.VisionSafetyEventType",
     "dov:isEvent": true,
     "links": [
       {
@@ -2087,7 +2087,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "MachineVision_ConfigurationManagementType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/MachineVision;i=1006",
+    "dov:typeRef": "org.opcfoundation.UA.MachineVision.ConfigurationManagementType",
     "links": [
       {
         "rel": "tm:extends",
@@ -2131,13 +2131,13 @@
         "dov:namespace": "http://opcfoundation.org/UA/MachineVision",
         "input": {
           "type": "object",
-          "dov:typeRef": "nsu=http://opcfoundation.org/UA/MachineVision;i=6116",
+          "dov:typeRef": "org.opcfoundation.UA.InputArguments",
           "required": [ "InternalId" ],
           "properties": {
             "InternalId": {
               "title": "BinaryIdBaseDataType",
               "type": "object",
-              "dov:typeRef": "nsu=http://opcfoundation.org/UA/MachineVision;i=3019",
+              "dov:typeRef": "org.opcfoundation.UA.MachineVision.BinaryIdBaseDataType",
               "required": [ "Id" ],
               "properties": {
                 "Id": {
@@ -2167,7 +2167,7 @@
         },
         "output": {
           "type": "object",
-          "dov:typeRef": "nsu=http://opcfoundation.org/UA/MachineVision;i=6117",
+          "dov:typeRef": "org.opcfoundation.UA.OutputArguments",
           "required": [ "Error" ],
           "properties": {
             "Error": {
@@ -2189,13 +2189,13 @@
         "dov:namespace": "http://opcfoundation.org/UA/MachineVision",
         "input": {
           "type": "object",
-          "dov:typeRef": "nsu=http://opcfoundation.org/UA/MachineVision;i=6096",
+          "dov:typeRef": "org.opcfoundation.UA.InputArguments",
           "required": [ "ExternalId" ],
           "properties": {
             "ExternalId": {
               "title": "BinaryIdBaseDataType",
               "type": "object",
-              "dov:typeRef": "nsu=http://opcfoundation.org/UA/MachineVision;i=3019",
+              "dov:typeRef": "org.opcfoundation.UA.MachineVision.BinaryIdBaseDataType",
               "required": [ "Id" ],
               "properties": {
                 "Id": {
@@ -2225,13 +2225,13 @@
         },
         "output": {
           "type": "object",
-          "dov:typeRef": "nsu=http://opcfoundation.org/UA/MachineVision;i=6097",
+          "dov:typeRef": "org.opcfoundation.UA.OutputArguments",
           "required": [ "InternalId", "Configuration", "TransferRequired", "Error" ],
           "properties": {
             "InternalId": {
               "title": "BinaryIdBaseDataType",
               "type": "object",
-              "dov:typeRef": "nsu=http://opcfoundation.org/UA/MachineVision;i=3019",
+              "dov:typeRef": "org.opcfoundation.UA.MachineVision.BinaryIdBaseDataType",
               "required": [ "Id" ],
               "properties": {
                 "Id": {
@@ -2282,13 +2282,13 @@
         "dov:namespace": "http://opcfoundation.org/UA/MachineVision",
         "input": {
           "type": "object",
-          "dov:typeRef": "nsu=http://opcfoundation.org/UA/MachineVision;i=6100",
+          "dov:typeRef": "org.opcfoundation.UA.InputArguments",
           "required": [ "InternalId", "Timeout" ],
           "properties": {
             "InternalId": {
               "title": "BinaryIdBaseDataType",
               "type": "object",
-              "dov:typeRef": "nsu=http://opcfoundation.org/UA/MachineVision;i=3019",
+              "dov:typeRef": "org.opcfoundation.UA.MachineVision.BinaryIdBaseDataType",
               "required": [ "Id" ],
               "properties": {
                 "Id": {
@@ -2323,7 +2323,7 @@
         },
         "output": {
           "type": "object",
-          "dov:typeRef": "nsu=http://opcfoundation.org/UA/MachineVision;i=6101",
+          "dov:typeRef": "org.opcfoundation.UA.OutputArguments",
           "required": [ "ConfigurationHandle", "Configuration", "Error" ],
           "properties": {
             "ConfigurationHandle": {
@@ -2334,7 +2334,7 @@
             "Configuration": {
               "title": "ConfigurationDataType",
               "type": "object",
-              "dov:typeRef": "nsu=http://opcfoundation.org/UA/MachineVision;i=3007",
+              "dov:typeRef": "org.opcfoundation.UA.MachineVision.ConfigurationDataType",
               "required": [ "InternalId", "LastModified" ],
               "properties": {
                 "HasTransferableDataOnFile": {
@@ -2345,7 +2345,7 @@
                   "title": "BinaryIdBaseDataType",
                   "description": "Identification of the configuration used by the environment. This argument must not be empty.",
                   "type": "object",
-                  "dov:typeRef": "nsu=http://opcfoundation.org/UA/MachineVision;i=3019",
+                  "dov:typeRef": "org.opcfoundation.UA.MachineVision.BinaryIdBaseDataType",
                   "required": [ "Id" ],
                   "properties": {
                     "Id": {
@@ -2375,7 +2375,7 @@
                   "title": "BinaryIdBaseDataType",
                   "description": "System-wide unique ID for identifying a configuration. This ID is assigned by the vision system.",
                   "type": "object",
-                  "dov:typeRef": "nsu=http://opcfoundation.org/UA/MachineVision;i=3019",
+                  "dov:typeRef": "org.opcfoundation.UA.MachineVision.BinaryIdBaseDataType",
                   "required": [ "Id" ],
                   "properties": {
                     "Id": {
@@ -2427,7 +2427,7 @@
         "dov:namespace": "http://opcfoundation.org/UA/MachineVision",
         "input": {
           "type": "object",
-          "dov:typeRef": "nsu=http://opcfoundation.org/UA/MachineVision;i=6104",
+          "dov:typeRef": "org.opcfoundation.UA.InputArguments",
           "required": [ "MaxResults", "StartIndex", "Timeout" ],
           "properties": {
             "MaxResults": {
@@ -2449,7 +2449,7 @@
         },
         "output": {
           "type": "object",
-          "dov:typeRef": "nsu=http://opcfoundation.org/UA/MachineVision;i=6105",
+          "dov:typeRef": "org.opcfoundation.UA.OutputArguments",
           "required": [ "IsComplete", "ResultCount", "ConfigurationHandle", "ConfigurationList", "Error" ],
           "properties": {
             "IsComplete": {
@@ -2470,7 +2470,7 @@
               "items": {
                 "title": "ConfigurationDataType",
                 "type": "object",
-                "dov:typeRef": "nsu=http://opcfoundation.org/UA/MachineVision;i=3007",
+                "dov:typeRef": "org.opcfoundation.UA.MachineVision.ConfigurationDataType",
                 "required": [ "InternalId", "LastModified" ],
                 "properties": {
                   "HasTransferableDataOnFile": {
@@ -2481,7 +2481,7 @@
                     "title": "BinaryIdBaseDataType",
                     "description": "Identification of the configuration used by the environment. This argument must not be empty.",
                     "type": "object",
-                    "dov:typeRef": "nsu=http://opcfoundation.org/UA/MachineVision;i=3019",
+                    "dov:typeRef": "org.opcfoundation.UA.MachineVision.BinaryIdBaseDataType",
                     "required": [ "Id" ],
                     "properties": {
                       "Id": {
@@ -2511,7 +2511,7 @@
                     "title": "BinaryIdBaseDataType",
                     "description": "System-wide unique ID for identifying a configuration. This ID is assigned by the vision system.",
                     "type": "object",
-                    "dov:typeRef": "nsu=http://opcfoundation.org/UA/MachineVision;i=3019",
+                    "dov:typeRef": "org.opcfoundation.UA.MachineVision.BinaryIdBaseDataType",
                     "required": [ "Id" ],
                     "properties": {
                       "Id": {
@@ -2564,7 +2564,7 @@
         "dov:namespace": "http://opcfoundation.org/UA/MachineVision",
         "input": {
           "type": "object",
-          "dov:typeRef": "nsu=http://opcfoundation.org/UA/MachineVision;i=6108",
+          "dov:typeRef": "org.opcfoundation.UA.InputArguments",
           "required": [ "ConfigurationHandle" ],
           "properties": {
             "ConfigurationHandle": {
@@ -2576,7 +2576,7 @@
         },
         "output": {
           "type": "object",
-          "dov:typeRef": "nsu=http://opcfoundation.org/UA/MachineVision;i=6109",
+          "dov:typeRef": "org.opcfoundation.UA.OutputArguments",
           "required": [ "Error" ],
           "properties": {
             "Error": {
@@ -2598,13 +2598,13 @@
         "dov:namespace": "http://opcfoundation.org/UA/MachineVision",
         "input": {
           "type": "object",
-          "dov:typeRef": "nsu=http://opcfoundation.org/UA/MachineVision;i=6112",
+          "dov:typeRef": "org.opcfoundation.UA.InputArguments",
           "required": [ "InternalId" ],
           "properties": {
             "InternalId": {
               "title": "BinaryIdBaseDataType",
               "type": "object",
-              "dov:typeRef": "nsu=http://opcfoundation.org/UA/MachineVision;i=3019",
+              "dov:typeRef": "org.opcfoundation.UA.MachineVision.BinaryIdBaseDataType",
               "required": [ "Id" ],
               "properties": {
                 "Id": {
@@ -2634,7 +2634,7 @@
         },
         "output": {
           "type": "object",
-          "dov:typeRef": "nsu=http://opcfoundation.org/UA/MachineVision;i=6113",
+          "dov:typeRef": "org.opcfoundation.UA.OutputArguments",
           "required": [ "Error" ],
           "properties": {
             "Error": {
@@ -2658,7 +2658,7 @@
         "dov:namespace": "http://opcfoundation.org/UA/MachineVision",
         "title": "ConfigurationDataType",
         "type": "object",
-        "dov:typeRef": "nsu=http://opcfoundation.org/UA/MachineVision;i=3007",
+        "dov:typeRef": "org.opcfoundation.UA.MachineVision.ConfigurationDataType",
         "required": [ "InternalId", "LastModified" ],
         "properties": {
           "HasTransferableDataOnFile": {
@@ -2669,7 +2669,7 @@
             "title": "BinaryIdBaseDataType",
             "description": "Identification of the configuration used by the environment. This argument must not be empty.",
             "type": "object",
-            "dov:typeRef": "nsu=http://opcfoundation.org/UA/MachineVision;i=3019",
+            "dov:typeRef": "org.opcfoundation.UA.MachineVision.BinaryIdBaseDataType",
             "required": [ "Id" ],
             "properties": {
               "Id": {
@@ -2699,7 +2699,7 @@
             "title": "BinaryIdBaseDataType",
             "description": "System-wide unique ID for identifying a configuration. This ID is assigned by the vision system.",
             "type": "object",
-            "dov:typeRef": "nsu=http://opcfoundation.org/UA/MachineVision;i=3019",
+            "dov:typeRef": "org.opcfoundation.UA.MachineVision.BinaryIdBaseDataType",
             "required": [ "Id" ],
             "properties": {
               "Id": {
@@ -2752,7 +2752,7 @@
         "data": {
           "title": "ConfigurationDataType",
           "type": "object",
-          "dov:typeRef": "nsu=http://opcfoundation.org/UA/MachineVision;i=3007",
+          "dov:typeRef": "org.opcfoundation.UA.MachineVision.ConfigurationDataType",
           "required": [ "InternalId", "LastModified" ],
           "properties": {
             "HasTransferableDataOnFile": {
@@ -2763,7 +2763,7 @@
               "title": "BinaryIdBaseDataType",
               "description": "Identification of the configuration used by the environment. This argument must not be empty.",
               "type": "object",
-              "dov:typeRef": "nsu=http://opcfoundation.org/UA/MachineVision;i=3019",
+              "dov:typeRef": "org.opcfoundation.UA.MachineVision.BinaryIdBaseDataType",
               "required": [ "Id" ],
               "properties": {
                 "Id": {
@@ -2793,7 +2793,7 @@
               "title": "BinaryIdBaseDataType",
               "description": "System-wide unique ID for identifying a configuration. This ID is assigned by the vision system.",
               "type": "object",
-              "dov:typeRef": "nsu=http://opcfoundation.org/UA/MachineVision;i=3019",
+              "dov:typeRef": "org.opcfoundation.UA.MachineVision.BinaryIdBaseDataType",
               "required": [ "Id" ],
               "properties": {
                 "Id": {
@@ -2845,7 +2845,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "MachineVision_ConfigurationFolderType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/MachineVision;i=1011",
+    "dov:typeRef": "org.opcfoundation.UA.MachineVision.ConfigurationFolderType",
     "links": [
       {
         "rel": "tm:extends",
@@ -2879,7 +2879,7 @@
         "dov:namespace": "http://opcfoundation.org/UA/MachineVision",
         "title": "ConfigurationDataType",
         "type": "object",
-        "dov:typeRef": "nsu=http://opcfoundation.org/UA/MachineVision;i=3007",
+        "dov:typeRef": "org.opcfoundation.UA.MachineVision.ConfigurationDataType",
         "required": [ "InternalId", "LastModified" ],
         "properties": {
           "HasTransferableDataOnFile": {
@@ -2890,7 +2890,7 @@
             "title": "BinaryIdBaseDataType",
             "description": "Identification of the configuration used by the environment. This argument must not be empty.",
             "type": "object",
-            "dov:typeRef": "nsu=http://opcfoundation.org/UA/MachineVision;i=3019",
+            "dov:typeRef": "org.opcfoundation.UA.MachineVision.BinaryIdBaseDataType",
             "required": [ "Id" ],
             "properties": {
               "Id": {
@@ -2920,7 +2920,7 @@
             "title": "BinaryIdBaseDataType",
             "description": "System-wide unique ID for identifying a configuration. This ID is assigned by the vision system.",
             "type": "object",
-            "dov:typeRef": "nsu=http://opcfoundation.org/UA/MachineVision;i=3019",
+            "dov:typeRef": "org.opcfoundation.UA.MachineVision.BinaryIdBaseDataType",
             "required": [ "Id" ],
             "properties": {
               "Id": {
@@ -2974,7 +2974,7 @@
         "data": {
           "title": "ConfigurationDataType",
           "type": "object",
-          "dov:typeRef": "nsu=http://opcfoundation.org/UA/MachineVision;i=3007",
+          "dov:typeRef": "org.opcfoundation.UA.MachineVision.ConfigurationDataType",
           "required": [ "InternalId", "LastModified" ],
           "properties": {
             "HasTransferableDataOnFile": {
@@ -2985,7 +2985,7 @@
               "title": "BinaryIdBaseDataType",
               "description": "Identification of the configuration used by the environment. This argument must not be empty.",
               "type": "object",
-              "dov:typeRef": "nsu=http://opcfoundation.org/UA/MachineVision;i=3019",
+              "dov:typeRef": "org.opcfoundation.UA.MachineVision.BinaryIdBaseDataType",
               "required": [ "Id" ],
               "properties": {
                 "Id": {
@@ -3015,7 +3015,7 @@
               "title": "BinaryIdBaseDataType",
               "description": "System-wide unique ID for identifying a configuration. This ID is assigned by the vision system.",
               "type": "object",
-              "dov:typeRef": "nsu=http://opcfoundation.org/UA/MachineVision;i=3019",
+              "dov:typeRef": "org.opcfoundation.UA.MachineVision.BinaryIdBaseDataType",
               "required": [ "Id" ],
               "properties": {
                 "Id": {
@@ -3068,7 +3068,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "MachineVision_ConfigurationTransferType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/MachineVision;i=1012",
+    "dov:typeRef": "org.opcfoundation.UA.MachineVision.ConfigurationTransferType",
     "links": [
       {
         "rel": "tm:extends",
@@ -3082,20 +3082,20 @@
       "GenerateFileForRead": {
         "input": {
           "type": "object",
-          "dov:typeRef": "nsu=http://opcfoundation.org/UA/MachineVision;i=6617",
+          "dov:typeRef": "org.opcfoundation.UA.InputArguments",
           "required": [ "GenerateOptions" ],
           "properties": {
             "GenerateOptions": {
               "title": "ConfigurationTransferOptions",
               "type": "object",
-              "dov:typeRef": "nsu=http://opcfoundation.org/UA/MachineVision;i=3011",
+              "dov:typeRef": "org.opcfoundation.UA.MachineVision.ConfigurationTransferOptions",
               "required": [ "InternalId" ],
               "properties": {
                 "InternalId": {
                   "title": "BinaryIdBaseDataType",
                   "description": "The Id of the configuration to be transferred to or from the client.",
                   "type": "object",
-                  "dov:typeRef": "nsu=http://opcfoundation.org/UA/MachineVision;i=3019",
+                  "dov:typeRef": "org.opcfoundation.UA.MachineVision.BinaryIdBaseDataType",
                   "required": [ "Id" ],
                   "properties": {
                     "Id": {
@@ -3127,7 +3127,7 @@
         },
         "output": {
           "type": "object",
-          "dov:typeRef": "nsu=http://opcfoundation.org/UA/MachineVision;i=6618",
+          "dov:typeRef": "org.opcfoundation.UA.OutputArguments",
           "required": [ "FileNodeId", "FileHandle", "CompletionStateMachine" ],
           "properties": {
             "FileNodeId": {
@@ -3154,20 +3154,20 @@
       "GenerateFileForWrite": {
         "input": {
           "type": "object",
-          "dov:typeRef": "nsu=http://opcfoundation.org/UA/MachineVision;i=6121",
+          "dov:typeRef": "org.opcfoundation.UA.InputArguments",
           "required": [ "GenerateOptions" ],
           "properties": {
             "GenerateOptions": {
               "title": "ConfigurationTransferOptions",
               "type": "object",
-              "dov:typeRef": "nsu=http://opcfoundation.org/UA/MachineVision;i=3011",
+              "dov:typeRef": "org.opcfoundation.UA.MachineVision.ConfigurationTransferOptions",
               "required": [ "InternalId" ],
               "properties": {
                 "InternalId": {
                   "title": "BinaryIdBaseDataType",
                   "description": "The Id of the configuration to be transferred to or from the client.",
                   "type": "object",
-                  "dov:typeRef": "nsu=http://opcfoundation.org/UA/MachineVision;i=3019",
+                  "dov:typeRef": "org.opcfoundation.UA.MachineVision.BinaryIdBaseDataType",
                   "required": [ "Id" ],
                   "properties": {
                     "Id": {
@@ -3199,7 +3199,7 @@
         },
         "output": {
           "type": "object",
-          "dov:typeRef": "nsu=http://opcfoundation.org/UA/MachineVision;i=6122",
+          "dov:typeRef": "org.opcfoundation.UA.OutputArguments",
           "required": [ "FileNodeId", "FileHandle" ],
           "properties": {
             "FileNodeId": {
@@ -3235,7 +3235,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "MachineVision_ProductFolderType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/MachineVision;i=1010",
+    "dov:typeRef": "org.opcfoundation.UA.MachineVision.ProductFolderType",
     "links": [
       {
         "rel": "tm:extends",
@@ -3269,14 +3269,14 @@
         "dov:namespace": "http://opcfoundation.org/UA/MachineVision",
         "title": "ProductDataType",
         "type": "object",
-        "dov:typeRef": "nsu=http://opcfoundation.org/UA/MachineVision;i=3020",
+        "dov:typeRef": "org.opcfoundation.UA.MachineVision.ProductDataType",
         "required": [ "ExternalId" ],
         "properties": {
           "ExternalId": {
             "title": "ProductIdDataType",
             "description": "Identification of the product used by the environment. This argument must not be empty.",
             "type": "object",
-            "dov:typeRef": "nsu=http://opcfoundation.org/UA/MachineVision;i=3003",
+            "dov:typeRef": "org.opcfoundation.UA.MachineVision.ProductIdDataType",
             "required": [ "Id" ],
             "properties": {
               "Id": {
@@ -3312,14 +3312,14 @@
         "data": {
           "title": "ProductDataType",
           "type": "object",
-          "dov:typeRef": "nsu=http://opcfoundation.org/UA/MachineVision;i=3020",
+          "dov:typeRef": "org.opcfoundation.UA.MachineVision.ProductDataType",
           "required": [ "ExternalId" ],
           "properties": {
             "ExternalId": {
               "title": "ProductIdDataType",
               "description": "Identification of the product used by the environment. This argument must not be empty.",
               "type": "object",
-              "dov:typeRef": "nsu=http://opcfoundation.org/UA/MachineVision;i=3003",
+              "dov:typeRef": "org.opcfoundation.UA.MachineVision.ProductIdDataType",
               "required": [ "Id" ],
               "properties": {
                 "Id": {
@@ -3354,7 +3354,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "MachineVision_RecipeFolderType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/MachineVision;i=1008",
+    "dov:typeRef": "org.opcfoundation.UA.MachineVision.RecipeFolderType",
     "links": [
       {
         "rel": "tm:extends",
@@ -3386,7 +3386,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "MachineVision_RecipeType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/MachineVision;i=1002",
+    "dov:typeRef": "org.opcfoundation.UA.MachineVision.RecipeType",
     "links": [
       {
         "rel": "tm:extends",
@@ -3419,13 +3419,13 @@
         "dov:namespace": "http://opcfoundation.org/UA/MachineVision",
         "input": {
           "type": "object",
-          "dov:typeRef": "nsu=http://opcfoundation.org/UA/MachineVision;i=6190",
+          "dov:typeRef": "org.opcfoundation.UA.InputArguments",
           "required": [ "ProductId" ],
           "properties": {
             "ProductId": {
               "title": "ProductIdDataType",
               "type": "object",
-              "dov:typeRef": "nsu=http://opcfoundation.org/UA/MachineVision;i=3003",
+              "dov:typeRef": "org.opcfoundation.UA.MachineVision.ProductIdDataType",
               "required": [ "Id" ],
               "properties": {
                 "Id": {
@@ -3442,7 +3442,7 @@
         },
         "output": {
           "type": "object",
-          "dov:typeRef": "nsu=http://opcfoundation.org/UA/MachineVision;i=6191",
+          "dov:typeRef": "org.opcfoundation.UA.OutputArguments",
           "required": [ "Error" ],
           "properties": {
             "Error": {
@@ -3464,7 +3464,7 @@
         "dov:namespace": "http://opcfoundation.org/UA/MachineVision",
         "output": {
           "type": "object",
-          "dov:typeRef": "nsu=http://opcfoundation.org/UA/MachineVision;i=6202",
+          "dov:typeRef": "org.opcfoundation.UA.OutputArguments",
           "required": [ "IsCompleted", "Error" ],
           "properties": {
             "IsCompleted": {
@@ -3489,13 +3489,13 @@
         "dov:namespace": "http://opcfoundation.org/UA/MachineVision",
         "input": {
           "type": "object",
-          "dov:typeRef": "nsu=http://opcfoundation.org/UA/MachineVision;i=6196",
+          "dov:typeRef": "org.opcfoundation.UA.InputArguments",
           "required": [ "ProductId" ],
           "properties": {
             "ProductId": {
               "title": "ProductIdDataType",
               "type": "object",
-              "dov:typeRef": "nsu=http://opcfoundation.org/UA/MachineVision;i=3003",
+              "dov:typeRef": "org.opcfoundation.UA.MachineVision.ProductIdDataType",
               "required": [ "Id" ],
               "properties": {
                 "Id": {
@@ -3512,7 +3512,7 @@
         },
         "output": {
           "type": "object",
-          "dov:typeRef": "nsu=http://opcfoundation.org/UA/MachineVision;i=6197",
+          "dov:typeRef": "org.opcfoundation.UA.OutputArguments",
           "required": [ "Error" ],
           "properties": {
             "Error": {
@@ -3534,7 +3534,7 @@
         "dov:namespace": "http://opcfoundation.org/UA/MachineVision",
         "output": {
           "type": "object",
-          "dov:typeRef": "nsu=http://opcfoundation.org/UA/MachineVision;i=6205",
+          "dov:typeRef": "org.opcfoundation.UA.OutputArguments",
           "required": [ "Error" ],
           "properties": {
             "Error": {
@@ -3559,7 +3559,7 @@
         "title": "BinaryIdBaseDataType",
         "description": "Recipe ID for identifying the recipe outside the vision system. The ExternalID is only managed by the host system.",
         "type": "object",
-        "dov:typeRef": "nsu=http://opcfoundation.org/UA/MachineVision;i=3019",
+        "dov:typeRef": "org.opcfoundation.UA.MachineVision.BinaryIdBaseDataType",
         "required": [ "Id" ],
         "properties": {
           "Id": {
@@ -3603,7 +3603,7 @@
         "title": "BinaryIdBaseDataType",
         "description": "System-wide unique ID for identifying a recipe. This ID is assigned by the vision system.",
         "type": "object",
-        "dov:typeRef": "nsu=http://opcfoundation.org/UA/MachineVision;i=3019",
+        "dov:typeRef": "org.opcfoundation.UA.MachineVision.BinaryIdBaseDataType",
         "required": [ "Id" ],
         "properties": {
           "Id": {
@@ -3684,7 +3684,7 @@
         "items": {
           "title": "ProductIdDataType",
           "type": "object",
-          "dov:typeRef": "nsu=http://opcfoundation.org/UA/MachineVision;i=3003",
+          "dov:typeRef": "org.opcfoundation.UA.MachineVision.ProductIdDataType",
           "required": [ "Id" ],
           "properties": {
             "Id": {
@@ -3724,7 +3724,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "MachineVision_ResultFolderType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/MachineVision;i=1016",
+    "dov:typeRef": "org.opcfoundation.UA.MachineVision.ResultFolderType",
     "links": [
       {
         "rel": "tm:extends",
@@ -3758,14 +3758,14 @@
         "dov:namespace": "http://opcfoundation.org/UA/MachineVision",
         "title": "ResultDataType",
         "type": "object",
-        "dov:typeRef": "nsu=http://opcfoundation.org/UA/MachineVision;i=3006",
+        "dov:typeRef": "org.opcfoundation.UA.MachineVision.ResultDataType",
         "required": [ "ResultId", "IsPartial", "ResultState", "InternalRecipeId", "InternalConfigurationId", "JobId", "CreationTime" ],
         "properties": {
           "ResultId": {
             "title": "ResultIdDataType",
             "description": "System-wide unique identifier, which is assigned by the system. This ID can be used for fetching exactly this result using the pertinent result management methods and it is identical to the ResultId of the ResultReadyEventType.",
             "type": "object",
-            "dov:typeRef": "nsu=http://opcfoundation.org/UA/MachineVision;i=3021",
+            "dov:typeRef": "org.opcfoundation.UA.MachineVision.ResultIdDataType",
             "required": [ "Id" ],
             "properties": {
               "Id": {
@@ -3796,7 +3796,7 @@
             "title": "MeasIdDataType",
             "description": "This identifier is given by the client when starting a single job or continuous execution and transmitted to the vision system. It is used to identify the respective result data generated for this job. Although the system-wide unique JobId would be sufficient to identify the job which the result belongs to, this makes for easier filtering on the part of the client without keeping track of JobIds.",
             "type": "object",
-            "dov:typeRef": "nsu=http://opcfoundation.org/UA/MachineVision;i=3015",
+            "dov:typeRef": "org.opcfoundation.UA.MachineVision.MeasIdDataType",
             "required": [ "Id" ],
             "properties": {
               "Id": {
@@ -3813,7 +3813,7 @@
             "title": "PartIdDataType",
             "description": "A PartId is given by the client when starting the job; although the system-wide unique JobId would be sufficient to identify the job which the result belongs to, this makes for easier filtering on the part of the client without keeping track of JobIds.",
             "type": "object",
-            "dov:typeRef": "nsu=http://opcfoundation.org/UA/MachineVision;i=3004",
+            "dov:typeRef": "org.opcfoundation.UA.MachineVision.PartIdDataType",
             "required": [ "Id" ],
             "properties": {
               "Id": {
@@ -3830,7 +3830,7 @@
             "title": "BinaryIdBaseDataType",
             "description": "External Id of the recipe in use which produced the result. The ExternalID is only managed by the environment.",
             "type": "object",
-            "dov:typeRef": "nsu=http://opcfoundation.org/UA/MachineVision;i=3019",
+            "dov:typeRef": "org.opcfoundation.UA.MachineVision.BinaryIdBaseDataType",
             "required": [ "Id" ],
             "properties": {
               "Id": {
@@ -3860,7 +3860,7 @@
             "title": "BinaryIdBaseDataType",
             "description": "Internal Id of the recipe in use which produced the result. This ID is system-wide unique and is assigned by the vision system.",
             "type": "object",
-            "dov:typeRef": "nsu=http://opcfoundation.org/UA/MachineVision;i=3019",
+            "dov:typeRef": "org.opcfoundation.UA.MachineVision.BinaryIdBaseDataType",
             "required": [ "Id" ],
             "properties": {
               "Id": {
@@ -3890,7 +3890,7 @@
             "title": "ProductIdDataType",
             "description": "productId which was used to trigger the job which created the result.",
             "type": "object",
-            "dov:typeRef": "nsu=http://opcfoundation.org/UA/MachineVision;i=3003",
+            "dov:typeRef": "org.opcfoundation.UA.MachineVision.ProductIdDataType",
             "required": [ "Id" ],
             "properties": {
               "Id": {
@@ -3907,7 +3907,7 @@
             "title": "BinaryIdBaseDataType",
             "description": "External Id of the configuration in use which produced the result. The ExternalID is only managed by the environment.",
             "type": "object",
-            "dov:typeRef": "nsu=http://opcfoundation.org/UA/MachineVision;i=3019",
+            "dov:typeRef": "org.opcfoundation.UA.MachineVision.BinaryIdBaseDataType",
             "required": [ "Id" ],
             "properties": {
               "Id": {
@@ -3937,7 +3937,7 @@
             "title": "BinaryIdBaseDataType",
             "description": "Internal Id of the configuration in use which produced the result. This ID is system-wide unique and is assigned by the vision system.",
             "type": "object",
-            "dov:typeRef": "nsu=http://opcfoundation.org/UA/MachineVision;i=3019",
+            "dov:typeRef": "org.opcfoundation.UA.MachineVision.BinaryIdBaseDataType",
             "required": [ "Id" ],
             "properties": {
               "Id": {
@@ -3967,7 +3967,7 @@
             "title": "JobIdDataType",
             "description": "The ID of the job, created by the transition from state Ready to state SingleExecution or to state ContinuousExecution which produced the result.",
             "type": "object",
-            "dov:typeRef": "nsu=http://opcfoundation.org/UA/MachineVision;i=3016",
+            "dov:typeRef": "org.opcfoundation.UA.MachineVision.JobIdDataType",
             "required": [ "Id" ],
             "properties": {
               "Id": {
@@ -3985,7 +3985,7 @@
             "title": "ProcessingTimesDataType",
             "description": "Collection of different processing times that were needed to create the result.",
             "type": "object",
-            "dov:typeRef": "nsu=http://opcfoundation.org/UA/MachineVision;i=3005",
+            "dov:typeRef": "org.opcfoundation.UA.MachineVision.ProcessingTimesDataType",
             "required": [ "StartTime", "EndTime" ],
             "properties": {
               "StartTime": {
@@ -4058,7 +4058,7 @@
         "dov:namespace": "http://opcfoundation.org/UA/MachineVision",
         "title": "BinaryIdBaseDataType",
         "type": "object",
-        "dov:typeRef": "nsu=http://opcfoundation.org/UA/MachineVision;i=3019",
+        "dov:typeRef": "org.opcfoundation.UA.MachineVision.BinaryIdBaseDataType",
         "required": [ "Id" ],
         "properties": {
           "Id": {
@@ -4102,7 +4102,7 @@
         "dov:namespace": "http://opcfoundation.org/UA/MachineVision",
         "title": "BinaryIdBaseDataType",
         "type": "object",
-        "dov:typeRef": "nsu=http://opcfoundation.org/UA/MachineVision;i=3019",
+        "dov:typeRef": "org.opcfoundation.UA.MachineVision.BinaryIdBaseDataType",
         "required": [ "Id" ],
         "properties": {
           "Id": {
@@ -4164,7 +4164,7 @@
         "dov:namespace": "http://opcfoundation.org/UA/MachineVision",
         "title": "JobIdDataType",
         "type": "object",
-        "dov:typeRef": "nsu=http://opcfoundation.org/UA/MachineVision;i=3016",
+        "dov:typeRef": "org.opcfoundation.UA.MachineVision.JobIdDataType",
         "required": [ "Id" ],
         "properties": {
           "Id": {
@@ -4191,7 +4191,7 @@
         "dov:namespace": "http://opcfoundation.org/UA/MachineVision",
         "title": "ResultIdDataType",
         "type": "object",
-        "dov:typeRef": "nsu=http://opcfoundation.org/UA/MachineVision;i=3021",
+        "dov:typeRef": "org.opcfoundation.UA.MachineVision.ResultIdDataType",
         "required": [ "Id" ],
         "properties": {
           "Id": {
@@ -4241,14 +4241,14 @@
         "data": {
           "title": "ResultDataType",
           "type": "object",
-          "dov:typeRef": "nsu=http://opcfoundation.org/UA/MachineVision;i=3006",
+          "dov:typeRef": "org.opcfoundation.UA.MachineVision.ResultDataType",
           "required": [ "ResultId", "IsPartial", "ResultState", "InternalRecipeId", "InternalConfigurationId", "JobId", "CreationTime" ],
           "properties": {
             "ResultId": {
               "title": "ResultIdDataType",
               "description": "System-wide unique identifier, which is assigned by the system. This ID can be used for fetching exactly this result using the pertinent result management methods and it is identical to the ResultId of the ResultReadyEventType.",
               "type": "object",
-              "dov:typeRef": "nsu=http://opcfoundation.org/UA/MachineVision;i=3021",
+              "dov:typeRef": "org.opcfoundation.UA.MachineVision.ResultIdDataType",
               "required": [ "Id" ],
               "properties": {
                 "Id": {
@@ -4279,7 +4279,7 @@
               "title": "MeasIdDataType",
               "description": "This identifier is given by the client when starting a single job or continuous execution and transmitted to the vision system. It is used to identify the respective result data generated for this job. Although the system-wide unique JobId would be sufficient to identify the job which the result belongs to, this makes for easier filtering on the part of the client without keeping track of JobIds.",
               "type": "object",
-              "dov:typeRef": "nsu=http://opcfoundation.org/UA/MachineVision;i=3015",
+              "dov:typeRef": "org.opcfoundation.UA.MachineVision.MeasIdDataType",
               "required": [ "Id" ],
               "properties": {
                 "Id": {
@@ -4296,7 +4296,7 @@
               "title": "PartIdDataType",
               "description": "A PartId is given by the client when starting the job; although the system-wide unique JobId would be sufficient to identify the job which the result belongs to, this makes for easier filtering on the part of the client without keeping track of JobIds.",
               "type": "object",
-              "dov:typeRef": "nsu=http://opcfoundation.org/UA/MachineVision;i=3004",
+              "dov:typeRef": "org.opcfoundation.UA.MachineVision.PartIdDataType",
               "required": [ "Id" ],
               "properties": {
                 "Id": {
@@ -4313,7 +4313,7 @@
               "title": "BinaryIdBaseDataType",
               "description": "External Id of the recipe in use which produced the result. The ExternalID is only managed by the environment.",
               "type": "object",
-              "dov:typeRef": "nsu=http://opcfoundation.org/UA/MachineVision;i=3019",
+              "dov:typeRef": "org.opcfoundation.UA.MachineVision.BinaryIdBaseDataType",
               "required": [ "Id" ],
               "properties": {
                 "Id": {
@@ -4343,7 +4343,7 @@
               "title": "BinaryIdBaseDataType",
               "description": "Internal Id of the recipe in use which produced the result. This ID is system-wide unique and is assigned by the vision system.",
               "type": "object",
-              "dov:typeRef": "nsu=http://opcfoundation.org/UA/MachineVision;i=3019",
+              "dov:typeRef": "org.opcfoundation.UA.MachineVision.BinaryIdBaseDataType",
               "required": [ "Id" ],
               "properties": {
                 "Id": {
@@ -4373,7 +4373,7 @@
               "title": "ProductIdDataType",
               "description": "productId which was used to trigger the job which created the result.",
               "type": "object",
-              "dov:typeRef": "nsu=http://opcfoundation.org/UA/MachineVision;i=3003",
+              "dov:typeRef": "org.opcfoundation.UA.MachineVision.ProductIdDataType",
               "required": [ "Id" ],
               "properties": {
                 "Id": {
@@ -4390,7 +4390,7 @@
               "title": "BinaryIdBaseDataType",
               "description": "External Id of the configuration in use which produced the result. The ExternalID is only managed by the environment.",
               "type": "object",
-              "dov:typeRef": "nsu=http://opcfoundation.org/UA/MachineVision;i=3019",
+              "dov:typeRef": "org.opcfoundation.UA.MachineVision.BinaryIdBaseDataType",
               "required": [ "Id" ],
               "properties": {
                 "Id": {
@@ -4420,7 +4420,7 @@
               "title": "BinaryIdBaseDataType",
               "description": "Internal Id of the configuration in use which produced the result. This ID is system-wide unique and is assigned by the vision system.",
               "type": "object",
-              "dov:typeRef": "nsu=http://opcfoundation.org/UA/MachineVision;i=3019",
+              "dov:typeRef": "org.opcfoundation.UA.MachineVision.BinaryIdBaseDataType",
               "required": [ "Id" ],
               "properties": {
                 "Id": {
@@ -4450,7 +4450,7 @@
               "title": "JobIdDataType",
               "description": "The ID of the job, created by the transition from state Ready to state SingleExecution or to state ContinuousExecution which produced the result.",
               "type": "object",
-              "dov:typeRef": "nsu=http://opcfoundation.org/UA/MachineVision;i=3016",
+              "dov:typeRef": "org.opcfoundation.UA.MachineVision.JobIdDataType",
               "required": [ "Id" ],
               "properties": {
                 "Id": {
@@ -4468,7 +4468,7 @@
               "title": "ProcessingTimesDataType",
               "description": "Collection of different processing times that were needed to create the result.",
               "type": "object",
-              "dov:typeRef": "nsu=http://opcfoundation.org/UA/MachineVision;i=3005",
+              "dov:typeRef": "org.opcfoundation.UA.MachineVision.ProcessingTimesDataType",
               "required": [ "StartTime", "EndTime" ],
               "properties": {
                 "StartTime": {
@@ -4533,7 +4533,7 @@
         "data": {
           "title": "BinaryIdBaseDataType",
           "type": "object",
-          "dov:typeRef": "nsu=http://opcfoundation.org/UA/MachineVision;i=3019",
+          "dov:typeRef": "org.opcfoundation.UA.MachineVision.BinaryIdBaseDataType",
           "required": [ "Id" ],
           "properties": {
             "Id": {
@@ -4573,7 +4573,7 @@
         "data": {
           "title": "BinaryIdBaseDataType",
           "type": "object",
-          "dov:typeRef": "nsu=http://opcfoundation.org/UA/MachineVision;i=3019",
+          "dov:typeRef": "org.opcfoundation.UA.MachineVision.BinaryIdBaseDataType",
           "required": [ "Id" ],
           "properties": {
             "Id": {
@@ -4627,7 +4627,7 @@
         "data": {
           "title": "JobIdDataType",
           "type": "object",
-          "dov:typeRef": "nsu=http://opcfoundation.org/UA/MachineVision;i=3016",
+          "dov:typeRef": "org.opcfoundation.UA.MachineVision.JobIdDataType",
           "required": [ "Id" ],
           "properties": {
             "Id": {
@@ -4650,7 +4650,7 @@
         "data": {
           "title": "ResultIdDataType",
           "type": "object",
-          "dov:typeRef": "nsu=http://opcfoundation.org/UA/MachineVision;i=3021",
+          "dov:typeRef": "org.opcfoundation.UA.MachineVision.ResultIdDataType",
           "required": [ "Id" ],
           "properties": {
             "Id": {
@@ -4695,7 +4695,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "MachineVision_RecipeManagementType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/MachineVision;i=1004",
+    "dov:typeRef": "org.opcfoundation.UA.MachineVision.RecipeManagementType",
     "links": [
       {
         "rel": "tm:extends",
@@ -4724,7 +4724,7 @@
     "schemaDefinitions": {
       "TriStateBooleanDataType": {
         "type": "object",
-        "dov:typeRef": "nsu=http://opcfoundation.org/UA/MachineVision;i=3014",
+        "dov:typeRef": "org.opcfoundation.UA.MachineVision.TriStateBooleanDataType",
         "const": {
           "FALSE_0": 0,
           "TRUE_1": 1,
@@ -4751,13 +4751,13 @@
         "dov:namespace": "http://opcfoundation.org/UA/MachineVision",
         "input": {
           "type": "object",
-          "dov:typeRef": "nsu=http://opcfoundation.org/UA/MachineVision;i=6144",
+          "dov:typeRef": "org.opcfoundation.UA.InputArguments",
           "required": [ "ExternalId", "ProductId" ],
           "properties": {
             "ExternalId": {
               "title": "BinaryIdBaseDataType",
               "type": "object",
-              "dov:typeRef": "nsu=http://opcfoundation.org/UA/MachineVision;i=3019",
+              "dov:typeRef": "org.opcfoundation.UA.MachineVision.BinaryIdBaseDataType",
               "required": [ "Id" ],
               "properties": {
                 "Id": {
@@ -4786,7 +4786,7 @@
             "ProductId": {
               "title": "ProductIdDataType",
               "type": "object",
-              "dov:typeRef": "nsu=http://opcfoundation.org/UA/MachineVision;i=3003",
+              "dov:typeRef": "org.opcfoundation.UA.MachineVision.ProductIdDataType",
               "required": [ "Id" ],
               "properties": {
                 "Id": {
@@ -4803,13 +4803,13 @@
         },
         "output": {
           "type": "object",
-          "dov:typeRef": "nsu=http://opcfoundation.org/UA/MachineVision;i=6145",
+          "dov:typeRef": "org.opcfoundation.UA.OutputArguments",
           "required": [ "InternalId", "Recipe", "Product", "TransferRequired", "Error" ],
           "properties": {
             "InternalId": {
               "title": "BinaryIdBaseDataType",
               "type": "object",
-              "dov:typeRef": "nsu=http://opcfoundation.org/UA/MachineVision;i=3019",
+              "dov:typeRef": "org.opcfoundation.UA.MachineVision.BinaryIdBaseDataType",
               "required": [ "Id" ],
               "properties": {
                 "Id": {
@@ -4863,13 +4863,13 @@
         "dov:namespace": "http://opcfoundation.org/UA/MachineVision",
         "input": {
           "type": "object",
-          "dov:typeRef": "nsu=http://opcfoundation.org/UA/MachineVision;i=6156",
+          "dov:typeRef": "org.opcfoundation.UA.InputArguments",
           "required": [ "ExternalId", "ProductId", "IsPrepared", "MaxResults", "StartIndex", "Timeout" ],
           "properties": {
             "ExternalId": {
               "title": "BinaryIdBaseDataType",
               "type": "object",
-              "dov:typeRef": "nsu=http://opcfoundation.org/UA/MachineVision;i=3019",
+              "dov:typeRef": "org.opcfoundation.UA.MachineVision.BinaryIdBaseDataType",
               "required": [ "Id" ],
               "properties": {
                 "Id": {
@@ -4898,7 +4898,7 @@
             "ProductId": {
               "title": "ProductIdDataType",
               "type": "object",
-              "dov:typeRef": "nsu=http://opcfoundation.org/UA/MachineVision;i=3003",
+              "dov:typeRef": "org.opcfoundation.UA.MachineVision.ProductIdDataType",
               "required": [ "Id" ],
               "properties": {
                 "Id": {
@@ -4913,7 +4913,7 @@
             },
             "IsPrepared": {
               "title": "TriStateBooleanDataType",
-              "dov:typeRef": "nsu=http://opcfoundation.org/UA/MachineVision;i=3014",
+              "dov:typeRef": "org.opcfoundation.UA.MachineVision.TriStateBooleanDataType",
               "type": "integer",
               "minimum": -2147483648,
               "maximum": 2147483647
@@ -4937,7 +4937,7 @@
         },
         "output": {
           "type": "object",
-          "dov:typeRef": "nsu=http://opcfoundation.org/UA/MachineVision;i=6157",
+          "dov:typeRef": "org.opcfoundation.UA.OutputArguments",
           "required": [ "IsComplete", "ResultCount", "RecipeHandle", "RecipeList", "Error" ],
           "properties": {
             "IsComplete": {
@@ -4958,7 +4958,7 @@
               "items": {
                 "title": "BinaryIdBaseDataType",
                 "type": "object",
-                "dov:typeRef": "nsu=http://opcfoundation.org/UA/MachineVision;i=3019",
+                "dov:typeRef": "org.opcfoundation.UA.MachineVision.BinaryIdBaseDataType",
                 "required": [ "Id" ],
                 "properties": {
                   "Id": {
@@ -5004,13 +5004,13 @@
         "dov:namespace": "http://opcfoundation.org/UA/MachineVision",
         "input": {
           "type": "object",
-          "dov:typeRef": "nsu=http://opcfoundation.org/UA/MachineVision;i=6172",
+          "dov:typeRef": "org.opcfoundation.UA.InputArguments",
           "required": [ "ProductId" ],
           "properties": {
             "ProductId": {
               "title": "ProductIdDataType",
               "type": "object",
-              "dov:typeRef": "nsu=http://opcfoundation.org/UA/MachineVision;i=3003",
+              "dov:typeRef": "org.opcfoundation.UA.MachineVision.ProductIdDataType",
               "required": [ "Id" ],
               "properties": {
                 "Id": {
@@ -5027,13 +5027,13 @@
         },
         "output": {
           "type": "object",
-          "dov:typeRef": "nsu=http://opcfoundation.org/UA/MachineVision;i=6173",
+          "dov:typeRef": "org.opcfoundation.UA.OutputArguments",
           "required": [ "InternalId", "Error" ],
           "properties": {
             "InternalId": {
               "title": "BinaryIdBaseDataType",
               "type": "object",
-              "dov:typeRef": "nsu=http://opcfoundation.org/UA/MachineVision;i=3019",
+              "dov:typeRef": "org.opcfoundation.UA.MachineVision.BinaryIdBaseDataType",
               "required": [ "Id" ],
               "properties": {
                 "Id": {
@@ -5078,13 +5078,13 @@
         "dov:namespace": "http://opcfoundation.org/UA/MachineVision",
         "input": {
           "type": "object",
-          "dov:typeRef": "nsu=http://opcfoundation.org/UA/MachineVision;i=6148",
+          "dov:typeRef": "org.opcfoundation.UA.InputArguments",
           "required": [ "ExternalId", "InternalIdIn" ],
           "properties": {
             "ExternalId": {
               "title": "BinaryIdBaseDataType",
               "type": "object",
-              "dov:typeRef": "nsu=http://opcfoundation.org/UA/MachineVision;i=3019",
+              "dov:typeRef": "org.opcfoundation.UA.MachineVision.BinaryIdBaseDataType",
               "required": [ "Id" ],
               "properties": {
                 "Id": {
@@ -5113,7 +5113,7 @@
             "InternalIdIn": {
               "title": "BinaryIdBaseDataType",
               "type": "object",
-              "dov:typeRef": "nsu=http://opcfoundation.org/UA/MachineVision;i=3019",
+              "dov:typeRef": "org.opcfoundation.UA.MachineVision.BinaryIdBaseDataType",
               "required": [ "Id" ],
               "properties": {
                 "Id": {
@@ -5143,13 +5143,13 @@
         },
         "output": {
           "type": "object",
-          "dov:typeRef": "nsu=http://opcfoundation.org/UA/MachineVision;i=6149",
+          "dov:typeRef": "org.opcfoundation.UA.OutputArguments",
           "required": [ "InternalIdOut", "IsCompleted", "Error" ],
           "properties": {
             "InternalIdOut": {
               "title": "BinaryIdBaseDataType",
               "type": "object",
-              "dov:typeRef": "nsu=http://opcfoundation.org/UA/MachineVision;i=3019",
+              "dov:typeRef": "org.opcfoundation.UA.MachineVision.BinaryIdBaseDataType",
               "required": [ "Id" ],
               "properties": {
                 "Id": {
@@ -5197,7 +5197,7 @@
         "dov:namespace": "http://opcfoundation.org/UA/MachineVision",
         "input": {
           "type": "object",
-          "dov:typeRef": "nsu=http://opcfoundation.org/UA/MachineVision;i=6160",
+          "dov:typeRef": "org.opcfoundation.UA.InputArguments",
           "required": [ "RecipeHandle" ],
           "properties": {
             "RecipeHandle": {
@@ -5209,7 +5209,7 @@
         },
         "output": {
           "type": "object",
-          "dov:typeRef": "nsu=http://opcfoundation.org/UA/MachineVision;i=6161",
+          "dov:typeRef": "org.opcfoundation.UA.OutputArguments",
           "required": [ "Error" ],
           "properties": {
             "Error": {
@@ -5231,13 +5231,13 @@
         "dov:namespace": "http://opcfoundation.org/UA/MachineVision",
         "input": {
           "type": "object",
-          "dov:typeRef": "nsu=http://opcfoundation.org/UA/MachineVision;i=6164",
+          "dov:typeRef": "org.opcfoundation.UA.InputArguments",
           "required": [ "ExternalId" ],
           "properties": {
             "ExternalId": {
               "title": "BinaryIdBaseDataType",
               "type": "object",
-              "dov:typeRef": "nsu=http://opcfoundation.org/UA/MachineVision;i=3019",
+              "dov:typeRef": "org.opcfoundation.UA.MachineVision.BinaryIdBaseDataType",
               "required": [ "Id" ],
               "properties": {
                 "Id": {
@@ -5267,7 +5267,7 @@
         },
         "output": {
           "type": "object",
-          "dov:typeRef": "nsu=http://opcfoundation.org/UA/MachineVision;i=6165",
+          "dov:typeRef": "org.opcfoundation.UA.OutputArguments",
           "required": [ "Error" ],
           "properties": {
             "Error": {
@@ -5289,13 +5289,13 @@
         "dov:namespace": "http://opcfoundation.org/UA/MachineVision",
         "input": {
           "type": "object",
-          "dov:typeRef": "nsu=http://opcfoundation.org/UA/MachineVision;i=6180",
+          "dov:typeRef": "org.opcfoundation.UA.InputArguments",
           "required": [ "InternalId", "ProductId" ],
           "properties": {
             "InternalId": {
               "title": "BinaryIdBaseDataType",
               "type": "object",
-              "dov:typeRef": "nsu=http://opcfoundation.org/UA/MachineVision;i=3019",
+              "dov:typeRef": "org.opcfoundation.UA.MachineVision.BinaryIdBaseDataType",
               "required": [ "Id" ],
               "properties": {
                 "Id": {
@@ -5324,7 +5324,7 @@
             "ProductId": {
               "title": "ProductIdDataType",
               "type": "object",
-              "dov:typeRef": "nsu=http://opcfoundation.org/UA/MachineVision;i=3003",
+              "dov:typeRef": "org.opcfoundation.UA.MachineVision.ProductIdDataType",
               "required": [ "Id" ],
               "properties": {
                 "Id": {
@@ -5341,7 +5341,7 @@
         },
         "output": {
           "type": "object",
-          "dov:typeRef": "nsu=http://opcfoundation.org/UA/MachineVision;i=6181",
+          "dov:typeRef": "org.opcfoundation.UA.OutputArguments",
           "required": [ "Error" ],
           "properties": {
             "Error": {
@@ -5363,13 +5363,13 @@
         "dov:namespace": "http://opcfoundation.org/UA/MachineVision",
         "input": {
           "type": "object",
-          "dov:typeRef": "nsu=http://opcfoundation.org/UA/MachineVision;i=6176",
+          "dov:typeRef": "org.opcfoundation.UA.InputArguments",
           "required": [ "ProductId" ],
           "properties": {
             "ProductId": {
               "title": "ProductIdDataType",
               "type": "object",
-              "dov:typeRef": "nsu=http://opcfoundation.org/UA/MachineVision;i=3003",
+              "dov:typeRef": "org.opcfoundation.UA.MachineVision.ProductIdDataType",
               "required": [ "Id" ],
               "properties": {
                 "Id": {
@@ -5386,13 +5386,13 @@
         },
         "output": {
           "type": "object",
-          "dov:typeRef": "nsu=http://opcfoundation.org/UA/MachineVision;i=6177",
+          "dov:typeRef": "org.opcfoundation.UA.OutputArguments",
           "required": [ "InternalId", "Error" ],
           "properties": {
             "InternalId": {
               "title": "BinaryIdBaseDataType",
               "type": "object",
-              "dov:typeRef": "nsu=http://opcfoundation.org/UA/MachineVision;i=3019",
+              "dov:typeRef": "org.opcfoundation.UA.MachineVision.BinaryIdBaseDataType",
               "required": [ "Id" ],
               "properties": {
                 "Id": {
@@ -5437,13 +5437,13 @@
         "dov:namespace": "http://opcfoundation.org/UA/MachineVision",
         "input": {
           "type": "object",
-          "dov:typeRef": "nsu=http://opcfoundation.org/UA/MachineVision;i=6152",
+          "dov:typeRef": "org.opcfoundation.UA.InputArguments",
           "required": [ "ExternalId", "InternalIdIn" ],
           "properties": {
             "ExternalId": {
               "title": "BinaryIdBaseDataType",
               "type": "object",
-              "dov:typeRef": "nsu=http://opcfoundation.org/UA/MachineVision;i=3019",
+              "dov:typeRef": "org.opcfoundation.UA.MachineVision.BinaryIdBaseDataType",
               "required": [ "Id" ],
               "properties": {
                 "Id": {
@@ -5472,7 +5472,7 @@
             "InternalIdIn": {
               "title": "BinaryIdBaseDataType",
               "type": "object",
-              "dov:typeRef": "nsu=http://opcfoundation.org/UA/MachineVision;i=3019",
+              "dov:typeRef": "org.opcfoundation.UA.MachineVision.BinaryIdBaseDataType",
               "required": [ "Id" ],
               "properties": {
                 "Id": {
@@ -5502,13 +5502,13 @@
         },
         "output": {
           "type": "object",
-          "dov:typeRef": "nsu=http://opcfoundation.org/UA/MachineVision;i=6153",
+          "dov:typeRef": "org.opcfoundation.UA.OutputArguments",
           "required": [ "InternalIdOut", "Error" ],
           "properties": {
             "InternalIdOut": {
               "title": "BinaryIdBaseDataType",
               "type": "object",
-              "dov:typeRef": "nsu=http://opcfoundation.org/UA/MachineVision;i=3019",
+              "dov:typeRef": "org.opcfoundation.UA.MachineVision.BinaryIdBaseDataType",
               "required": [ "Id" ],
               "properties": {
                 "Id": {
@@ -5564,7 +5564,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "MachineVision_RecipeTransferType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/MachineVision;i=1014",
+    "dov:typeRef": "org.opcfoundation.UA.MachineVision.RecipeTransferType",
     "links": [
       {
         "rel": "tm:extends",
@@ -5578,20 +5578,20 @@
       "GenerateFileForRead": {
         "input": {
           "type": "object",
-          "dov:typeRef": "nsu=http://opcfoundation.org/UA/MachineVision;i=6184",
+          "dov:typeRef": "org.opcfoundation.UA.InputArguments",
           "required": [ "generateOptions" ],
           "properties": {
             "generateOptions": {
               "title": "RecipeTransferOptions",
               "type": "object",
-              "dov:typeRef": "nsu=http://opcfoundation.org/UA/MachineVision;i=3012",
+              "dov:typeRef": "org.opcfoundation.UA.MachineVision.RecipeTransferOptions",
               "required": [ "InternalId" ],
               "properties": {
                 "InternalId": {
                   "title": "BinaryIdBaseDataType",
                   "description": "The InternalId of the recipe to be transferred to or from the client.",
                   "type": "object",
-                  "dov:typeRef": "nsu=http://opcfoundation.org/UA/MachineVision;i=3019",
+                  "dov:typeRef": "org.opcfoundation.UA.MachineVision.BinaryIdBaseDataType",
                   "required": [ "Id" ],
                   "properties": {
                     "Id": {
@@ -5623,7 +5623,7 @@
         },
         "output": {
           "type": "object",
-          "dov:typeRef": "nsu=http://opcfoundation.org/UA/MachineVision;i=6185",
+          "dov:typeRef": "org.opcfoundation.UA.OutputArguments",
           "required": [ "fileNodeId", "fileHandle", "completionStateMachine" ],
           "properties": {
             "fileNodeId": {
@@ -5650,20 +5650,20 @@
       "GenerateFileForWrite": {
         "input": {
           "type": "object",
-          "dov:typeRef": "nsu=http://opcfoundation.org/UA/MachineVision;i=6583",
+          "dov:typeRef": "org.opcfoundation.UA.InputArguments",
           "required": [ "GenerateOptions" ],
           "properties": {
             "GenerateOptions": {
               "title": "RecipeTransferOptions",
               "type": "object",
-              "dov:typeRef": "nsu=http://opcfoundation.org/UA/MachineVision;i=3012",
+              "dov:typeRef": "org.opcfoundation.UA.MachineVision.RecipeTransferOptions",
               "required": [ "InternalId" ],
               "properties": {
                 "InternalId": {
                   "title": "BinaryIdBaseDataType",
                   "description": "The InternalId of the recipe to be transferred to or from the client.",
                   "type": "object",
-                  "dov:typeRef": "nsu=http://opcfoundation.org/UA/MachineVision;i=3019",
+                  "dov:typeRef": "org.opcfoundation.UA.MachineVision.BinaryIdBaseDataType",
                   "required": [ "Id" ],
                   "properties": {
                     "Id": {
@@ -5695,7 +5695,7 @@
         },
         "output": {
           "type": "object",
-          "dov:typeRef": "nsu=http://opcfoundation.org/UA/MachineVision;i=6584",
+          "dov:typeRef": "org.opcfoundation.UA.OutputArguments",
           "required": [ "FileNodeId", "FileHandle" ],
           "properties": {
             "FileNodeId": {
@@ -5731,7 +5731,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "MachineVision_ResultManagementType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/MachineVision;i=1007",
+    "dov:typeRef": "org.opcfoundation.UA.MachineVision.ResultManagementType",
     "links": [
       {
         "rel": "tm:extends",
@@ -5758,13 +5758,13 @@
         "dov:namespace": "http://opcfoundation.org/UA/MachineVision",
         "input": {
           "type": "object",
-          "dov:typeRef": "nsu=http://opcfoundation.org/UA/MachineVision;i=6209",
+          "dov:typeRef": "org.opcfoundation.UA.InputArguments",
           "required": [ "ResultId", "Timeout" ],
           "properties": {
             "ResultId": {
               "title": "ResultIdDataType",
               "type": "object",
-              "dov:typeRef": "nsu=http://opcfoundation.org/UA/MachineVision;i=3021",
+              "dov:typeRef": "org.opcfoundation.UA.MachineVision.ResultIdDataType",
               "required": [ "Id" ],
               "properties": {
                 "Id": {
@@ -5782,7 +5782,7 @@
         },
         "output": {
           "type": "object",
-          "dov:typeRef": "nsu=http://opcfoundation.org/UA/MachineVision;i=6210",
+          "dov:typeRef": "org.opcfoundation.UA.OutputArguments",
           "required": [ "ResultHandle", "Result", "Error" ],
           "properties": {
             "ResultHandle": {
@@ -5793,14 +5793,14 @@
             "Result": {
               "title": "ResultDataType",
               "type": "object",
-              "dov:typeRef": "nsu=http://opcfoundation.org/UA/MachineVision;i=3006",
+              "dov:typeRef": "org.opcfoundation.UA.MachineVision.ResultDataType",
               "required": [ "ResultId", "IsPartial", "ResultState", "InternalRecipeId", "InternalConfigurationId", "JobId", "CreationTime" ],
               "properties": {
                 "ResultId": {
                   "title": "ResultIdDataType",
                   "description": "System-wide unique identifier, which is assigned by the system. This ID can be used for fetching exactly this result using the pertinent result management methods and it is identical to the ResultId of the ResultReadyEventType.",
                   "type": "object",
-                  "dov:typeRef": "nsu=http://opcfoundation.org/UA/MachineVision;i=3021",
+                  "dov:typeRef": "org.opcfoundation.UA.MachineVision.ResultIdDataType",
                   "required": [ "Id" ],
                   "properties": {
                     "Id": {
@@ -5831,7 +5831,7 @@
                   "title": "MeasIdDataType",
                   "description": "This identifier is given by the client when starting a single job or continuous execution and transmitted to the vision system. It is used to identify the respective result data generated for this job. Although the system-wide unique JobId would be sufficient to identify the job which the result belongs to, this makes for easier filtering on the part of the client without keeping track of JobIds.",
                   "type": "object",
-                  "dov:typeRef": "nsu=http://opcfoundation.org/UA/MachineVision;i=3015",
+                  "dov:typeRef": "org.opcfoundation.UA.MachineVision.MeasIdDataType",
                   "required": [ "Id" ],
                   "properties": {
                     "Id": {
@@ -5848,7 +5848,7 @@
                   "title": "PartIdDataType",
                   "description": "A PartId is given by the client when starting the job; although the system-wide unique JobId would be sufficient to identify the job which the result belongs to, this makes for easier filtering on the part of the client without keeping track of JobIds.",
                   "type": "object",
-                  "dov:typeRef": "nsu=http://opcfoundation.org/UA/MachineVision;i=3004",
+                  "dov:typeRef": "org.opcfoundation.UA.MachineVision.PartIdDataType",
                   "required": [ "Id" ],
                   "properties": {
                     "Id": {
@@ -5865,7 +5865,7 @@
                   "title": "BinaryIdBaseDataType",
                   "description": "External Id of the recipe in use which produced the result. The ExternalID is only managed by the environment.",
                   "type": "object",
-                  "dov:typeRef": "nsu=http://opcfoundation.org/UA/MachineVision;i=3019",
+                  "dov:typeRef": "org.opcfoundation.UA.MachineVision.BinaryIdBaseDataType",
                   "required": [ "Id" ],
                   "properties": {
                     "Id": {
@@ -5895,7 +5895,7 @@
                   "title": "BinaryIdBaseDataType",
                   "description": "Internal Id of the recipe in use which produced the result. This ID is system-wide unique and is assigned by the vision system.",
                   "type": "object",
-                  "dov:typeRef": "nsu=http://opcfoundation.org/UA/MachineVision;i=3019",
+                  "dov:typeRef": "org.opcfoundation.UA.MachineVision.BinaryIdBaseDataType",
                   "required": [ "Id" ],
                   "properties": {
                     "Id": {
@@ -5925,7 +5925,7 @@
                   "title": "ProductIdDataType",
                   "description": "productId which was used to trigger the job which created the result.",
                   "type": "object",
-                  "dov:typeRef": "nsu=http://opcfoundation.org/UA/MachineVision;i=3003",
+                  "dov:typeRef": "org.opcfoundation.UA.MachineVision.ProductIdDataType",
                   "required": [ "Id" ],
                   "properties": {
                     "Id": {
@@ -5942,7 +5942,7 @@
                   "title": "BinaryIdBaseDataType",
                   "description": "External Id of the configuration in use which produced the result. The ExternalID is only managed by the environment.",
                   "type": "object",
-                  "dov:typeRef": "nsu=http://opcfoundation.org/UA/MachineVision;i=3019",
+                  "dov:typeRef": "org.opcfoundation.UA.MachineVision.BinaryIdBaseDataType",
                   "required": [ "Id" ],
                   "properties": {
                     "Id": {
@@ -5972,7 +5972,7 @@
                   "title": "BinaryIdBaseDataType",
                   "description": "Internal Id of the configuration in use which produced the result. This ID is system-wide unique and is assigned by the vision system.",
                   "type": "object",
-                  "dov:typeRef": "nsu=http://opcfoundation.org/UA/MachineVision;i=3019",
+                  "dov:typeRef": "org.opcfoundation.UA.MachineVision.BinaryIdBaseDataType",
                   "required": [ "Id" ],
                   "properties": {
                     "Id": {
@@ -6002,7 +6002,7 @@
                   "title": "JobIdDataType",
                   "description": "The ID of the job, created by the transition from state Ready to state SingleExecution or to state ContinuousExecution which produced the result.",
                   "type": "object",
-                  "dov:typeRef": "nsu=http://opcfoundation.org/UA/MachineVision;i=3016",
+                  "dov:typeRef": "org.opcfoundation.UA.MachineVision.JobIdDataType",
                   "required": [ "Id" ],
                   "properties": {
                     "Id": {
@@ -6020,7 +6020,7 @@
                   "title": "ProcessingTimesDataType",
                   "description": "Collection of different processing times that were needed to create the result.",
                   "type": "object",
-                  "dov:typeRef": "nsu=http://opcfoundation.org/UA/MachineVision;i=3005",
+                  "dov:typeRef": "org.opcfoundation.UA.MachineVision.ProcessingTimesDataType",
                   "required": [ "StartTime", "EndTime" ],
                   "properties": {
                     "StartTime": {
@@ -6074,13 +6074,13 @@
         "dov:namespace": "http://opcfoundation.org/UA/MachineVision",
         "input": {
           "type": "object",
-          "dov:typeRef": "nsu=http://opcfoundation.org/UA/MachineVision;i=6024",
+          "dov:typeRef": "org.opcfoundation.UA.InputArguments",
           "required": [ "ResultId", "Timeout" ],
           "properties": {
             "ResultId": {
               "title": "ResultIdDataType",
               "type": "object",
-              "dov:typeRef": "nsu=http://opcfoundation.org/UA/MachineVision;i=3021",
+              "dov:typeRef": "org.opcfoundation.UA.MachineVision.ResultIdDataType",
               "required": [ "Id" ],
               "properties": {
                 "Id": {
@@ -6098,7 +6098,7 @@
         },
         "output": {
           "type": "object",
-          "dov:typeRef": "nsu=http://opcfoundation.org/UA/MachineVision;i=6025",
+          "dov:typeRef": "org.opcfoundation.UA.OutputArguments",
           "required": [ "HasTransferableDataOnFile", "ResultHandle", "IsPartial", "IsSimulated", "ResultState", "MeasId", "PartId", "ExternalRecipeId", "InternalRecipeId", "ProductId", "ExternalConfigurationId", "InternalConfigurationId", "JobId", "CreationTime", "ProcessingTimes", "ResultContent", "Error" ],
           "properties": {
             "HasTransferableDataOnFile": {
@@ -6123,7 +6123,7 @@
             "MeasId": {
               "title": "MeasIdDataType",
               "type": "object",
-              "dov:typeRef": "nsu=http://opcfoundation.org/UA/MachineVision;i=3015",
+              "dov:typeRef": "org.opcfoundation.UA.MachineVision.MeasIdDataType",
               "required": [ "Id" ],
               "properties": {
                 "Id": {
@@ -6139,7 +6139,7 @@
             "PartId": {
               "title": "PartIdDataType",
               "type": "object",
-              "dov:typeRef": "nsu=http://opcfoundation.org/UA/MachineVision;i=3004",
+              "dov:typeRef": "org.opcfoundation.UA.MachineVision.PartIdDataType",
               "required": [ "Id" ],
               "properties": {
                 "Id": {
@@ -6155,7 +6155,7 @@
             "ExternalRecipeId": {
               "title": "BinaryIdBaseDataType",
               "type": "object",
-              "dov:typeRef": "nsu=http://opcfoundation.org/UA/MachineVision;i=3019",
+              "dov:typeRef": "org.opcfoundation.UA.MachineVision.BinaryIdBaseDataType",
               "required": [ "Id" ],
               "properties": {
                 "Id": {
@@ -6184,7 +6184,7 @@
             "InternalRecipeId": {
               "title": "BinaryIdBaseDataType",
               "type": "object",
-              "dov:typeRef": "nsu=http://opcfoundation.org/UA/MachineVision;i=3019",
+              "dov:typeRef": "org.opcfoundation.UA.MachineVision.BinaryIdBaseDataType",
               "required": [ "Id" ],
               "properties": {
                 "Id": {
@@ -6213,7 +6213,7 @@
             "ProductId": {
               "title": "ProductIdDataType",
               "type": "object",
-              "dov:typeRef": "nsu=http://opcfoundation.org/UA/MachineVision;i=3003",
+              "dov:typeRef": "org.opcfoundation.UA.MachineVision.ProductIdDataType",
               "required": [ "Id" ],
               "properties": {
                 "Id": {
@@ -6229,7 +6229,7 @@
             "ExternalConfigurationId": {
               "title": "BinaryIdBaseDataType",
               "type": "object",
-              "dov:typeRef": "nsu=http://opcfoundation.org/UA/MachineVision;i=3019",
+              "dov:typeRef": "org.opcfoundation.UA.MachineVision.BinaryIdBaseDataType",
               "required": [ "Id" ],
               "properties": {
                 "Id": {
@@ -6258,7 +6258,7 @@
             "InternalConfigurationId": {
               "title": "BinaryIdBaseDataType",
               "type": "object",
-              "dov:typeRef": "nsu=http://opcfoundation.org/UA/MachineVision;i=3019",
+              "dov:typeRef": "org.opcfoundation.UA.MachineVision.BinaryIdBaseDataType",
               "required": [ "Id" ],
               "properties": {
                 "Id": {
@@ -6287,7 +6287,7 @@
             "JobId": {
               "title": "JobIdDataType",
               "type": "object",
-              "dov:typeRef": "nsu=http://opcfoundation.org/UA/MachineVision;i=3016",
+              "dov:typeRef": "org.opcfoundation.UA.MachineVision.JobIdDataType",
               "required": [ "Id" ],
               "properties": {
                 "Id": {
@@ -6303,7 +6303,7 @@
             "ProcessingTimes": {
               "title": "ProcessingTimesDataType",
               "type": "object",
-              "dov:typeRef": "nsu=http://opcfoundation.org/UA/MachineVision;i=3005",
+              "dov:typeRef": "org.opcfoundation.UA.MachineVision.ProcessingTimesDataType",
               "required": [ "StartTime", "EndTime" ],
               "properties": {
                 "StartTime": {
@@ -6353,7 +6353,7 @@
         "dov:namespace": "http://opcfoundation.org/UA/MachineVision",
         "input": {
           "type": "object",
-          "dov:typeRef": "nsu=http://opcfoundation.org/UA/MachineVision;i=6213",
+          "dov:typeRef": "org.opcfoundation.UA.InputArguments",
           "required": [ "ResultState", "MeasId", "PartId", "ExternalRecipeId", "InternalRecipeId", "ExternalConfigurationId", "InternalConfigurationId", "ProductId", "JobId", "MaxResults", "StartIndex", "Timeout" ],
           "properties": {
             "ResultState": {
@@ -6364,7 +6364,7 @@
             "MeasId": {
               "title": "MeasIdDataType",
               "type": "object",
-              "dov:typeRef": "nsu=http://opcfoundation.org/UA/MachineVision;i=3015",
+              "dov:typeRef": "org.opcfoundation.UA.MachineVision.MeasIdDataType",
               "required": [ "Id" ],
               "properties": {
                 "Id": {
@@ -6380,7 +6380,7 @@
             "PartId": {
               "title": "PartIdDataType",
               "type": "object",
-              "dov:typeRef": "nsu=http://opcfoundation.org/UA/MachineVision;i=3004",
+              "dov:typeRef": "org.opcfoundation.UA.MachineVision.PartIdDataType",
               "required": [ "Id" ],
               "properties": {
                 "Id": {
@@ -6396,7 +6396,7 @@
             "ExternalRecipeId": {
               "title": "BinaryIdBaseDataType",
               "type": "object",
-              "dov:typeRef": "nsu=http://opcfoundation.org/UA/MachineVision;i=3019",
+              "dov:typeRef": "org.opcfoundation.UA.MachineVision.BinaryIdBaseDataType",
               "required": [ "Id" ],
               "properties": {
                 "Id": {
@@ -6425,7 +6425,7 @@
             "InternalRecipeId": {
               "title": "BinaryIdBaseDataType",
               "type": "object",
-              "dov:typeRef": "nsu=http://opcfoundation.org/UA/MachineVision;i=3019",
+              "dov:typeRef": "org.opcfoundation.UA.MachineVision.BinaryIdBaseDataType",
               "required": [ "Id" ],
               "properties": {
                 "Id": {
@@ -6454,7 +6454,7 @@
             "ExternalConfigurationId": {
               "title": "BinaryIdBaseDataType",
               "type": "object",
-              "dov:typeRef": "nsu=http://opcfoundation.org/UA/MachineVision;i=3019",
+              "dov:typeRef": "org.opcfoundation.UA.MachineVision.BinaryIdBaseDataType",
               "required": [ "Id" ],
               "properties": {
                 "Id": {
@@ -6483,7 +6483,7 @@
             "InternalConfigurationId": {
               "title": "BinaryIdBaseDataType",
               "type": "object",
-              "dov:typeRef": "nsu=http://opcfoundation.org/UA/MachineVision;i=3019",
+              "dov:typeRef": "org.opcfoundation.UA.MachineVision.BinaryIdBaseDataType",
               "required": [ "Id" ],
               "properties": {
                 "Id": {
@@ -6512,7 +6512,7 @@
             "ProductId": {
               "title": "ProductIdDataType",
               "type": "object",
-              "dov:typeRef": "nsu=http://opcfoundation.org/UA/MachineVision;i=3003",
+              "dov:typeRef": "org.opcfoundation.UA.MachineVision.ProductIdDataType",
               "required": [ "Id" ],
               "properties": {
                 "Id": {
@@ -6528,7 +6528,7 @@
             "JobId": {
               "title": "JobIdDataType",
               "type": "object",
-              "dov:typeRef": "nsu=http://opcfoundation.org/UA/MachineVision;i=3016",
+              "dov:typeRef": "org.opcfoundation.UA.MachineVision.JobIdDataType",
               "required": [ "Id" ],
               "properties": {
                 "Id": {
@@ -6556,7 +6556,7 @@
         },
         "output": {
           "type": "object",
-          "dov:typeRef": "nsu=http://opcfoundation.org/UA/MachineVision;i=6214",
+          "dov:typeRef": "org.opcfoundation.UA.OutputArguments",
           "required": [ "IsComplete", "ResultCount", "ResultHandle", "ResultList", "Error" ],
           "properties": {
             "IsComplete": {
@@ -6577,14 +6577,14 @@
               "items": {
                 "title": "ResultDataType",
                 "type": "object",
-                "dov:typeRef": "nsu=http://opcfoundation.org/UA/MachineVision;i=3006",
+                "dov:typeRef": "org.opcfoundation.UA.MachineVision.ResultDataType",
                 "required": [ "ResultId", "IsPartial", "ResultState", "InternalRecipeId", "InternalConfigurationId", "JobId", "CreationTime" ],
                 "properties": {
                   "ResultId": {
                     "title": "ResultIdDataType",
                     "description": "System-wide unique identifier, which is assigned by the system. This ID can be used for fetching exactly this result using the pertinent result management methods and it is identical to the ResultId of the ResultReadyEventType.",
                     "type": "object",
-                    "dov:typeRef": "nsu=http://opcfoundation.org/UA/MachineVision;i=3021",
+                    "dov:typeRef": "org.opcfoundation.UA.MachineVision.ResultIdDataType",
                     "required": [ "Id" ],
                     "properties": {
                       "Id": {
@@ -6615,7 +6615,7 @@
                     "title": "MeasIdDataType",
                     "description": "This identifier is given by the client when starting a single job or continuous execution and transmitted to the vision system. It is used to identify the respective result data generated for this job. Although the system-wide unique JobId would be sufficient to identify the job which the result belongs to, this makes for easier filtering on the part of the client without keeping track of JobIds.",
                     "type": "object",
-                    "dov:typeRef": "nsu=http://opcfoundation.org/UA/MachineVision;i=3015",
+                    "dov:typeRef": "org.opcfoundation.UA.MachineVision.MeasIdDataType",
                     "required": [ "Id" ],
                     "properties": {
                       "Id": {
@@ -6632,7 +6632,7 @@
                     "title": "PartIdDataType",
                     "description": "A PartId is given by the client when starting the job; although the system-wide unique JobId would be sufficient to identify the job which the result belongs to, this makes for easier filtering on the part of the client without keeping track of JobIds.",
                     "type": "object",
-                    "dov:typeRef": "nsu=http://opcfoundation.org/UA/MachineVision;i=3004",
+                    "dov:typeRef": "org.opcfoundation.UA.MachineVision.PartIdDataType",
                     "required": [ "Id" ],
                     "properties": {
                       "Id": {
@@ -6649,7 +6649,7 @@
                     "title": "BinaryIdBaseDataType",
                     "description": "External Id of the recipe in use which produced the result. The ExternalID is only managed by the environment.",
                     "type": "object",
-                    "dov:typeRef": "nsu=http://opcfoundation.org/UA/MachineVision;i=3019",
+                    "dov:typeRef": "org.opcfoundation.UA.MachineVision.BinaryIdBaseDataType",
                     "required": [ "Id" ],
                     "properties": {
                       "Id": {
@@ -6679,7 +6679,7 @@
                     "title": "BinaryIdBaseDataType",
                     "description": "Internal Id of the recipe in use which produced the result. This ID is system-wide unique and is assigned by the vision system.",
                     "type": "object",
-                    "dov:typeRef": "nsu=http://opcfoundation.org/UA/MachineVision;i=3019",
+                    "dov:typeRef": "org.opcfoundation.UA.MachineVision.BinaryIdBaseDataType",
                     "required": [ "Id" ],
                     "properties": {
                       "Id": {
@@ -6709,7 +6709,7 @@
                     "title": "ProductIdDataType",
                     "description": "productId which was used to trigger the job which created the result.",
                     "type": "object",
-                    "dov:typeRef": "nsu=http://opcfoundation.org/UA/MachineVision;i=3003",
+                    "dov:typeRef": "org.opcfoundation.UA.MachineVision.ProductIdDataType",
                     "required": [ "Id" ],
                     "properties": {
                       "Id": {
@@ -6726,7 +6726,7 @@
                     "title": "BinaryIdBaseDataType",
                     "description": "External Id of the configuration in use which produced the result. The ExternalID is only managed by the environment.",
                     "type": "object",
-                    "dov:typeRef": "nsu=http://opcfoundation.org/UA/MachineVision;i=3019",
+                    "dov:typeRef": "org.opcfoundation.UA.MachineVision.BinaryIdBaseDataType",
                     "required": [ "Id" ],
                     "properties": {
                       "Id": {
@@ -6756,7 +6756,7 @@
                     "title": "BinaryIdBaseDataType",
                     "description": "Internal Id of the configuration in use which produced the result. This ID is system-wide unique and is assigned by the vision system.",
                     "type": "object",
-                    "dov:typeRef": "nsu=http://opcfoundation.org/UA/MachineVision;i=3019",
+                    "dov:typeRef": "org.opcfoundation.UA.MachineVision.BinaryIdBaseDataType",
                     "required": [ "Id" ],
                     "properties": {
                       "Id": {
@@ -6786,7 +6786,7 @@
                     "title": "JobIdDataType",
                     "description": "The ID of the job, created by the transition from state Ready to state SingleExecution or to state ContinuousExecution which produced the result.",
                     "type": "object",
-                    "dov:typeRef": "nsu=http://opcfoundation.org/UA/MachineVision;i=3016",
+                    "dov:typeRef": "org.opcfoundation.UA.MachineVision.JobIdDataType",
                     "required": [ "Id" ],
                     "properties": {
                       "Id": {
@@ -6804,7 +6804,7 @@
                     "title": "ProcessingTimesDataType",
                     "description": "Collection of different processing times that were needed to create the result.",
                     "type": "object",
-                    "dov:typeRef": "nsu=http://opcfoundation.org/UA/MachineVision;i=3005",
+                    "dov:typeRef": "org.opcfoundation.UA.MachineVision.ProcessingTimesDataType",
                     "required": [ "StartTime", "EndTime" ],
                     "properties": {
                       "StartTime": {
@@ -6859,7 +6859,7 @@
         "dov:namespace": "http://opcfoundation.org/UA/MachineVision",
         "input": {
           "type": "object",
-          "dov:typeRef": "nsu=http://opcfoundation.org/UA/MachineVision;i=6217",
+          "dov:typeRef": "org.opcfoundation.UA.InputArguments",
           "required": [ "ResultHandle" ],
           "properties": {
             "ResultHandle": {
@@ -6871,7 +6871,7 @@
         },
         "output": {
           "type": "object",
-          "dov:typeRef": "nsu=http://opcfoundation.org/UA/MachineVision;i=6218",
+          "dov:typeRef": "org.opcfoundation.UA.OutputArguments",
           "required": [ "Error" ],
           "properties": {
             "Error": {
@@ -6904,7 +6904,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "MachineVision_ResultTransferType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/MachineVision;i=1039",
+    "dov:typeRef": "org.opcfoundation.UA.MachineVision.ResultTransferType",
     "links": [
       {
         "rel": "tm:extends",
@@ -6918,20 +6918,20 @@
       "GenerateFileForRead": {
         "input": {
           "type": "object",
-          "dov:typeRef": "nsu=http://opcfoundation.org/UA/MachineVision;i=6169",
+          "dov:typeRef": "org.opcfoundation.UA.InputArguments",
           "required": [ "GenerateOptions" ],
           "properties": {
             "GenerateOptions": {
               "title": "ResultTransferOptions",
               "type": "object",
-              "dov:typeRef": "nsu=http://opcfoundation.org/UA/MachineVision;i=3022",
+              "dov:typeRef": "org.opcfoundation.UA.MachineVision.ResultTransferOptions",
               "required": [ "Id" ],
               "properties": {
                 "Id": {
                   "title": "ResultIdDataType",
                   "description": "The Id of the result to be transferred to the client.",
                   "type": "object",
-                  "dov:typeRef": "nsu=http://opcfoundation.org/UA/MachineVision;i=3021",
+                  "dov:typeRef": "org.opcfoundation.UA.MachineVision.ResultIdDataType",
                   "required": [ "Id" ],
                   "properties": {
                     "Id": {
@@ -6946,7 +6946,7 @@
         },
         "output": {
           "type": "object",
-          "dov:typeRef": "nsu=http://opcfoundation.org/UA/MachineVision;i=6170",
+          "dov:typeRef": "org.opcfoundation.UA.OutputArguments",
           "required": [ "FileNodeId", "FileHandle", "CompletionStateMachine" ],
           "properties": {
             "FileNodeId": {
@@ -6985,7 +6985,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "MachineVision_SafetyStateManagementType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/MachineVision;i=1009",
+    "dov:typeRef": "org.opcfoundation.UA.MachineVision.SafetyStateManagementType",
     "links": [
       {
         "rel": "tm:extends",
@@ -7017,7 +7017,7 @@
         "dov:namespace": "http://opcfoundation.org/UA/MachineVision",
         "input": {
           "type": "object",
-          "dov:typeRef": "nsu=http://opcfoundation.org/UA/MachineVision;i=6222",
+          "dov:typeRef": "org.opcfoundation.UA.InputArguments",
           "required": [ "SafetyTriggered", "SafetyInformation" ],
           "properties": {
             "SafetyTriggered": {
@@ -7030,7 +7030,7 @@
         },
         "output": {
           "type": "object",
-          "dov:typeRef": "nsu=http://opcfoundation.org/UA/MachineVision;i=6223",
+          "dov:typeRef": "org.opcfoundation.UA.OutputArguments",
           "required": [ "Error" ],
           "properties": {
             "Error": {
@@ -7123,7 +7123,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "MachineVision_VisionAutomaticModeStateMachineType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/MachineVision;i=1021",
+    "dov:typeRef": "org.opcfoundation.UA.MachineVision.VisionAutomaticModeStateMachineType",
     "links": [
       {
         "rel": "tm:extends",
@@ -7282,7 +7282,7 @@
         "dov:namespace": "http://opcfoundation.org/UA/MachineVision",
         "input": {
           "type": "object",
-          "dov:typeRef": "nsu=http://opcfoundation.org/UA/MachineVision;i=6285",
+          "dov:typeRef": "org.opcfoundation.UA.InputArguments",
           "required": [ "Cause", "CauseDescription" ],
           "properties": {
             "Cause": {
@@ -7297,7 +7297,7 @@
         },
         "output": {
           "type": "object",
-          "dov:typeRef": "nsu=http://opcfoundation.org/UA/MachineVision;i=6286",
+          "dov:typeRef": "org.opcfoundation.UA.OutputArguments",
           "required": [ "Error" ],
           "properties": {
             "Error": {
@@ -7319,7 +7319,7 @@
         "dov:namespace": "http://opcfoundation.org/UA/MachineVision",
         "input": {
           "type": "object",
-          "dov:typeRef": "nsu=http://opcfoundation.org/UA/MachineVision;i=6289",
+          "dov:typeRef": "org.opcfoundation.UA.InputArguments",
           "required": [ "Activate", "Cause", "CauseDescription" ],
           "properties": {
             "Activate": {
@@ -7337,7 +7337,7 @@
         },
         "output": {
           "type": "object",
-          "dov:typeRef": "nsu=http://opcfoundation.org/UA/MachineVision;i=6290",
+          "dov:typeRef": "org.opcfoundation.UA.OutputArguments",
           "required": [ "Error" ],
           "properties": {
             "Error": {
@@ -7359,13 +7359,13 @@
         "dov:namespace": "http://opcfoundation.org/UA/MachineVision",
         "input": {
           "type": "object",
-          "dov:typeRef": "nsu=http://opcfoundation.org/UA/MachineVision;i=6086",
+          "dov:typeRef": "org.opcfoundation.UA.InputArguments",
           "required": [ "MeasId", "PartId", "RecipeId", "ProductId", "Parameters" ],
           "properties": {
             "MeasId": {
               "title": "MeasIdDataType",
               "type": "object",
-              "dov:typeRef": "nsu=http://opcfoundation.org/UA/MachineVision;i=3015",
+              "dov:typeRef": "org.opcfoundation.UA.MachineVision.MeasIdDataType",
               "required": [ "Id" ],
               "properties": {
                 "Id": {
@@ -7381,7 +7381,7 @@
             "PartId": {
               "title": "PartIdDataType",
               "type": "object",
-              "dov:typeRef": "nsu=http://opcfoundation.org/UA/MachineVision;i=3004",
+              "dov:typeRef": "org.opcfoundation.UA.MachineVision.PartIdDataType",
               "required": [ "Id" ],
               "properties": {
                 "Id": {
@@ -7397,7 +7397,7 @@
             "RecipeId": {
               "title": "BinaryIdBaseDataType",
               "type": "object",
-              "dov:typeRef": "nsu=http://opcfoundation.org/UA/MachineVision;i=3019",
+              "dov:typeRef": "org.opcfoundation.UA.MachineVision.BinaryIdBaseDataType",
               "required": [ "Id" ],
               "properties": {
                 "Id": {
@@ -7426,7 +7426,7 @@
             "ProductId": {
               "title": "ProductIdDataType",
               "type": "object",
-              "dov:typeRef": "nsu=http://opcfoundation.org/UA/MachineVision;i=3003",
+              "dov:typeRef": "org.opcfoundation.UA.MachineVision.ProductIdDataType",
               "required": [ "Id" ],
               "properties": {
                 "Id": {
@@ -7449,13 +7449,13 @@
         },
         "output": {
           "type": "object",
-          "dov:typeRef": "nsu=http://opcfoundation.org/UA/MachineVision;i=6087",
+          "dov:typeRef": "org.opcfoundation.UA.OutputArguments",
           "required": [ "JobId", "Error" ],
           "properties": {
             "JobId": {
               "title": "JobIdDataType",
               "type": "object",
-              "dov:typeRef": "nsu=http://opcfoundation.org/UA/MachineVision;i=3016",
+              "dov:typeRef": "org.opcfoundation.UA.MachineVision.JobIdDataType",
               "required": [ "Id" ],
               "properties": {
                 "Id": {
@@ -7483,13 +7483,13 @@
         "dov:namespace": "http://opcfoundation.org/UA/MachineVision",
         "input": {
           "type": "object",
-          "dov:typeRef": "nsu=http://opcfoundation.org/UA/MachineVision;i=6281",
+          "dov:typeRef": "org.opcfoundation.UA.InputArguments",
           "required": [ "MeasId", "PartId", "RecipeId", "ProductId", "Parameters" ],
           "properties": {
             "MeasId": {
               "title": "MeasIdDataType",
               "type": "object",
-              "dov:typeRef": "nsu=http://opcfoundation.org/UA/MachineVision;i=3015",
+              "dov:typeRef": "org.opcfoundation.UA.MachineVision.MeasIdDataType",
               "required": [ "Id" ],
               "properties": {
                 "Id": {
@@ -7505,7 +7505,7 @@
             "PartId": {
               "title": "PartIdDataType",
               "type": "object",
-              "dov:typeRef": "nsu=http://opcfoundation.org/UA/MachineVision;i=3004",
+              "dov:typeRef": "org.opcfoundation.UA.MachineVision.PartIdDataType",
               "required": [ "Id" ],
               "properties": {
                 "Id": {
@@ -7521,7 +7521,7 @@
             "RecipeId": {
               "title": "BinaryIdBaseDataType",
               "type": "object",
-              "dov:typeRef": "nsu=http://opcfoundation.org/UA/MachineVision;i=3019",
+              "dov:typeRef": "org.opcfoundation.UA.MachineVision.BinaryIdBaseDataType",
               "required": [ "Id" ],
               "properties": {
                 "Id": {
@@ -7550,7 +7550,7 @@
             "ProductId": {
               "title": "ProductIdDataType",
               "type": "object",
-              "dov:typeRef": "nsu=http://opcfoundation.org/UA/MachineVision;i=3003",
+              "dov:typeRef": "org.opcfoundation.UA.MachineVision.ProductIdDataType",
               "required": [ "Id" ],
               "properties": {
                 "Id": {
@@ -7573,13 +7573,13 @@
         },
         "output": {
           "type": "object",
-          "dov:typeRef": "nsu=http://opcfoundation.org/UA/MachineVision;i=6282",
+          "dov:typeRef": "org.opcfoundation.UA.OutputArguments",
           "required": [ "JobId", "Error" ],
           "properties": {
             "JobId": {
               "title": "JobIdDataType",
               "type": "object",
-              "dov:typeRef": "nsu=http://opcfoundation.org/UA/MachineVision;i=3016",
+              "dov:typeRef": "org.opcfoundation.UA.MachineVision.JobIdDataType",
               "required": [ "Id" ],
               "properties": {
                 "Id": {
@@ -7607,7 +7607,7 @@
         "dov:namespace": "http://opcfoundation.org/UA/MachineVision",
         "input": {
           "type": "object",
-          "dov:typeRef": "nsu=http://opcfoundation.org/UA/MachineVision;i=6287",
+          "dov:typeRef": "org.opcfoundation.UA.InputArguments",
           "required": [ "Cause", "CauseDescription" ],
           "properties": {
             "Cause": {
@@ -7622,7 +7622,7 @@
         },
         "output": {
           "type": "object",
-          "dov:typeRef": "nsu=http://opcfoundation.org/UA/MachineVision;i=6288",
+          "dov:typeRef": "org.opcfoundation.UA.OutputArguments",
           "required": [ "Error" ],
           "properties": {
             "Error": {
@@ -7655,7 +7655,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "MachineVision_VisionStepModelStateMachineType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/MachineVision;i=1026",
+    "dov:typeRef": "org.opcfoundation.UA.MachineVision.VisionStepModelStateMachineType",
     "links": [
       {
         "rel": "tm:extends",
@@ -7730,7 +7730,7 @@
         "dov:namespace": "http://opcfoundation.org/UA/MachineVision",
         "input": {
           "type": "object",
-          "dov:typeRef": "nsu=http://opcfoundation.org/UA/MachineVision;i=6319",
+          "dov:typeRef": "org.opcfoundation.UA.InputArguments",
           "required": [ "Cause", "CauseDescription" ],
           "properties": {
             "Cause": {
@@ -7745,7 +7745,7 @@
         },
         "output": {
           "type": "object",
-          "dov:typeRef": "nsu=http://opcfoundation.org/UA/MachineVision;i=6320",
+          "dov:typeRef": "org.opcfoundation.UA.OutputArguments",
           "required": [ "Error" ],
           "properties": {
             "Error": {
@@ -7778,7 +7778,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "MachineVision_VisionStateMachineType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/MachineVision;i=1017",
+    "dov:typeRef": "org.opcfoundation.UA.MachineVision.VisionStateMachineType",
     "links": [
       {
         "rel": "tm:extends",
@@ -7955,7 +7955,7 @@
         "dov:namespace": "http://opcfoundation.org/UA/MachineVision",
         "input": {
           "type": "object",
-          "dov:typeRef": "nsu=http://opcfoundation.org/UA/MachineVision;i=6241",
+          "dov:typeRef": "org.opcfoundation.UA.InputArguments",
           "required": [ "Comment" ],
           "properties": {
             "Comment": {
@@ -7975,7 +7975,7 @@
         "dov:namespace": "http://opcfoundation.org/UA/MachineVision",
         "input": {
           "type": "object",
-          "dov:typeRef": "nsu=http://opcfoundation.org/UA/MachineVision;i=6254",
+          "dov:typeRef": "org.opcfoundation.UA.InputArguments",
           "required": [ "Cause", "CauseDescription" ],
           "properties": {
             "Cause": {
@@ -7990,7 +7990,7 @@
         },
         "output": {
           "type": "object",
-          "dov:typeRef": "nsu=http://opcfoundation.org/UA/MachineVision;i=6255",
+          "dov:typeRef": "org.opcfoundation.UA.OutputArguments",
           "required": [ "Error" ],
           "properties": {
             "Error": {
@@ -8012,7 +8012,7 @@
         "dov:namespace": "http://opcfoundation.org/UA/MachineVision",
         "input": {
           "type": "object",
-          "dov:typeRef": "nsu=http://opcfoundation.org/UA/MachineVision;i=6256",
+          "dov:typeRef": "org.opcfoundation.UA.InputArguments",
           "required": [ "Cause", "CauseDescription" ],
           "properties": {
             "Cause": {
@@ -8027,7 +8027,7 @@
         },
         "output": {
           "type": "object",
-          "dov:typeRef": "nsu=http://opcfoundation.org/UA/MachineVision;i=6257",
+          "dov:typeRef": "org.opcfoundation.UA.OutputArguments",
           "required": [ "Error" ],
           "properties": {
             "Error": {
@@ -8049,7 +8049,7 @@
         "dov:namespace": "http://opcfoundation.org/UA/MachineVision",
         "output": {
           "type": "object",
-          "dov:typeRef": "nsu=http://opcfoundation.org/UA/MachineVision;i=6258",
+          "dov:typeRef": "org.opcfoundation.UA.OutputArguments",
           "required": [ "Error" ],
           "properties": {
             "Error": {
@@ -8082,7 +8082,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "MachineVision_VisionSystemType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/MachineVision;i=1003",
+    "dov:typeRef": "org.opcfoundation.UA.MachineVision.VisionSystemType",
     "dov:isComposite": true,
     "links": [
       {
@@ -8124,7 +8124,7 @@
     "schemaDefinitions": {
       "SystemStateDataType": {
         "type": "object",
-        "dov:typeRef": "nsu=http://opcfoundation.org/UA/MachineVision;i=3023",
+        "dov:typeRef": "org.opcfoundation.UA.MachineVision.SystemStateDataType",
         "const": {
           "PRD_1": 1,
           "SBY_2": 2,
@@ -8204,13 +8204,13 @@
         "dov:namespace": "http://opcfoundation.org/UA/MachineVision",
         "title": "SystemStateDescriptionDataType",
         "type": "object",
-        "dov:typeRef": "nsu=http://opcfoundation.org/UA/MachineVision;i=3024",
+        "dov:typeRef": "org.opcfoundation.UA.MachineVision.SystemStateDescriptionDataType",
         "required": [ "State" ],
         "properties": {
           "State": {
             "title": "SystemStateDataType",
             "description": "Denotes one of the basic SEMI E10 states",
-            "dov:typeRef": "nsu=http://opcfoundation.org/UA/MachineVision;i=3023",
+            "dov:typeRef": "org.opcfoundation.UA.MachineVision.SystemStateDataType",
             "type": "integer",
             "minimum": -2147483648,
             "maximum": 2147483647
@@ -8256,13 +8256,13 @@
         "data": {
           "title": "SystemStateDescriptionDataType",
           "type": "object",
-          "dov:typeRef": "nsu=http://opcfoundation.org/UA/MachineVision;i=3024",
+          "dov:typeRef": "org.opcfoundation.UA.MachineVision.SystemStateDescriptionDataType",
           "required": [ "State" ],
           "properties": {
             "State": {
               "title": "SystemStateDataType",
               "description": "Denotes one of the basic SEMI E10 states",
-              "dov:typeRef": "nsu=http://opcfoundation.org/UA/MachineVision;i=3023",
+              "dov:typeRef": "org.opcfoundation.UA.MachineVision.SystemStateDataType",
               "type": "integer",
               "minimum": -2147483648,
               "maximum": 2147483647
@@ -8292,7 +8292,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "OpcUaCore_BaseEventType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/;i=2041",
+    "dov:typeRef": "org.opcfoundation.UA.BaseEventType",
     "links": [
       {
         "rel": "tm:extends",
@@ -8388,7 +8388,7 @@
       "LocalTime": {
         "title": "TimeZoneDataType",
         "type": "object",
-        "dov:typeRef": "nsu=http://opcfoundation.org/UA/;i=8912",
+        "dov:typeRef": "org.opcfoundation.UA.TimeZoneDataType",
         "required": [ "Offset", "DaylightSavingInOffset" ],
         "properties": {
           "Offset": {
@@ -8492,7 +8492,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "OpcUaCore_BaseObjectType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/;i=58",
+    "dov:typeRef": "org.opcfoundation.UA.BaseObjectType",
     "links": [
     ],
     "schemaDefinitions": {
@@ -8513,7 +8513,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "OpcUaCore_AcknowledgeableConditionType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/;i=2881",
+    "dov:typeRef": "org.opcfoundation.UA.AcknowledgeableConditionType",
     "dov:isEvent": true,
     "links": [
       {
@@ -8540,7 +8540,7 @@
       "Acknowledge": {
         "input": {
           "type": "object",
-          "dov:typeRef": "nsu=http://opcfoundation.org/UA/;i=9112",
+          "dov:typeRef": "org.opcfoundation.UA.InputArguments",
           "required": [ "EventId", "Comment" ],
           "properties": {
             "EventId": {
@@ -8565,7 +8565,7 @@
       "Confirm": {
         "input": {
           "type": "object",
-          "dov:typeRef": "nsu=http://opcfoundation.org/UA/;i=9114",
+          "dov:typeRef": "org.opcfoundation.UA.InputArguments",
           "required": [ "EventId", "Comment" ],
           "properties": {
             "EventId": {
@@ -8671,7 +8671,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "OpcUaCore_ConditionType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/;i=2782",
+    "dov:typeRef": "org.opcfoundation.UA.ConditionType",
     "dov:isEvent": true,
     "links": [
       {
@@ -8698,7 +8698,7 @@
       "AddComment": {
         "input": {
           "type": "object",
-          "dov:typeRef": "nsu=http://opcfoundation.org/UA/;i=9030",
+          "dov:typeRef": "org.opcfoundation.UA.InputArguments",
           "required": [ "EventId", "Comment" ],
           "properties": {
             "EventId": {
@@ -8723,7 +8723,7 @@
       "ConditionRefresh": {
         "input": {
           "type": "object",
-          "dov:typeRef": "nsu=http://opcfoundation.org/UA/;i=3876",
+          "dov:typeRef": "org.opcfoundation.UA.InputArguments",
           "required": [ "SubscriptionId" ],
           "properties": {
             "SubscriptionId": {
@@ -8745,7 +8745,7 @@
       "ConditionRefresh2": {
         "input": {
           "type": "object",
-          "dov:typeRef": "nsu=http://opcfoundation.org/UA/;i=12913",
+          "dov:typeRef": "org.opcfoundation.UA.InputArguments",
           "required": [ "SubscriptionId", "MonitoredItemId" ],
           "properties": {
             "SubscriptionId": {
@@ -9004,7 +9004,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "OpcUaCore_TransitionEventType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/;i=2311",
+    "dov:typeRef": "org.opcfoundation.UA.TransitionEventType",
     "dov:isEvent": true,
     "links": [
       {
@@ -9112,7 +9112,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "OpcUaCore_FolderType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/;i=61",
+    "dov:typeRef": "org.opcfoundation.UA.FolderType",
     "links": [
       {
         "rel": "tm:extends",
@@ -9138,7 +9138,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "OpcUaCore_TemporaryFileTransferType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/;i=15744",
+    "dov:typeRef": "org.opcfoundation.UA.TemporaryFileTransferType",
     "dov:isComposite": true,
     "links": [
       {
@@ -9166,7 +9166,7 @@
       "CloseAndCommit": {
         "input": {
           "type": "object",
-          "dov:typeRef": "nsu=http://opcfoundation.org/UA/;i=15752",
+          "dov:typeRef": "org.opcfoundation.UA.InputArguments",
           "required": [ "FileHandle" ],
           "properties": {
             "FileHandle": {
@@ -9178,7 +9178,7 @@
         },
         "output": {
           "type": "object",
-          "dov:typeRef": "nsu=http://opcfoundation.org/UA/;i=15753",
+          "dov:typeRef": "org.opcfoundation.UA.OutputArguments",
           "required": [ "CompletionStateMachine" ],
           "properties": {
             "CompletionStateMachine": {
@@ -9197,7 +9197,7 @@
       "GenerateFileForRead": {
         "input": {
           "type": "object",
-          "dov:typeRef": "nsu=http://opcfoundation.org/UA/;i=15747",
+          "dov:typeRef": "org.opcfoundation.UA.InputArguments",
           "required": [ "GenerateOptions" ],
           "properties": {
             "GenerateOptions": {
@@ -9207,7 +9207,7 @@
         },
         "output": {
           "type": "object",
-          "dov:typeRef": "nsu=http://opcfoundation.org/UA/;i=15748",
+          "dov:typeRef": "org.opcfoundation.UA.OutputArguments",
           "required": [ "FileNodeId", "FileHandle", "CompletionStateMachine" ],
           "properties": {
             "FileNodeId": {
@@ -9234,7 +9234,7 @@
       "GenerateFileForWrite": {
         "input": {
           "type": "object",
-          "dov:typeRef": "nsu=http://opcfoundation.org/UA/;i=16359",
+          "dov:typeRef": "org.opcfoundation.UA.InputArguments",
           "required": [ "GenerateOptions" ],
           "properties": {
             "GenerateOptions": {
@@ -9244,7 +9244,7 @@
         },
         "output": {
           "type": "object",
-          "dov:typeRef": "nsu=http://opcfoundation.org/UA/;i=15750",
+          "dov:typeRef": "org.opcfoundation.UA.OutputArguments",
           "required": [ "FileNodeId", "FileHandle" ],
           "properties": {
             "FileNodeId": {
@@ -9292,7 +9292,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "OpcUaCore_FileTransferStateMachineType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/;i=15803",
+    "dov:typeRef": "org.opcfoundation.UA.FileTransferStateMachineType",
     "links": [
       {
         "rel": "tm:extends",
@@ -9411,7 +9411,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "OpcUaCore_FiniteStateMachineType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/;i=2771",
+    "dov:typeRef": "org.opcfoundation.UA.FiniteStateMachineType",
     "links": [
       {
         "rel": "tm:extends",
@@ -9553,7 +9553,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "OpcUaCore_StateMachineType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/;i=2299",
+    "dov:typeRef": "org.opcfoundation.UA.StateMachineType",
     "dov:isComposite": true,
     "links": [
       {
@@ -9638,7 +9638,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "OpcUaCore_InitialStateType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/;i=2309",
+    "dov:typeRef": "org.opcfoundation.UA.InitialStateType",
     "links": [
       {
         "rel": "tm:extends",
@@ -9664,7 +9664,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "OpcUaCore_StateType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/;i=2307",
+    "dov:typeRef": "org.opcfoundation.UA.StateType",
     "links": [
       {
         "rel": "tm:extends",
@@ -9710,7 +9710,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "OpcUaCore_TransitionType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/;i=2310",
+    "dov:typeRef": "org.opcfoundation.UA.TransitionType",
     "links": [
       {
         "rel": "tm:extends",
@@ -9756,7 +9756,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "OpcUaCore_FileType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/;i=11575",
+    "dov:typeRef": "org.opcfoundation.UA.FileType",
     "links": [
       {
         "rel": "tm:extends",
@@ -9777,7 +9777,7 @@
       "Close": {
         "input": {
           "type": "object",
-          "dov:typeRef": "nsu=http://opcfoundation.org/UA/;i=11584",
+          "dov:typeRef": "org.opcfoundation.UA.InputArguments",
           "required": [ "FileHandle" ],
           "properties": {
             "FileHandle": {
@@ -9798,7 +9798,7 @@
       "GetPosition": {
         "input": {
           "type": "object",
-          "dov:typeRef": "nsu=http://opcfoundation.org/UA/;i=11591",
+          "dov:typeRef": "org.opcfoundation.UA.InputArguments",
           "required": [ "FileHandle" ],
           "properties": {
             "FileHandle": {
@@ -9810,7 +9810,7 @@
         },
         "output": {
           "type": "object",
-          "dov:typeRef": "nsu=http://opcfoundation.org/UA/;i=11592",
+          "dov:typeRef": "org.opcfoundation.UA.OutputArguments",
           "required": [ "Position" ],
           "properties": {
             "Position": {
@@ -9831,7 +9831,7 @@
       "Open": {
         "input": {
           "type": "object",
-          "dov:typeRef": "nsu=http://opcfoundation.org/UA/;i=11581",
+          "dov:typeRef": "org.opcfoundation.UA.InputArguments",
           "required": [ "Mode" ],
           "properties": {
             "Mode": {
@@ -9843,7 +9843,7 @@
         },
         "output": {
           "type": "object",
-          "dov:typeRef": "nsu=http://opcfoundation.org/UA/;i=11582",
+          "dov:typeRef": "org.opcfoundation.UA.OutputArguments",
           "required": [ "FileHandle" ],
           "properties": {
             "FileHandle": {
@@ -9864,7 +9864,7 @@
       "Read": {
         "input": {
           "type": "object",
-          "dov:typeRef": "nsu=http://opcfoundation.org/UA/;i=11586",
+          "dov:typeRef": "org.opcfoundation.UA.InputArguments",
           "required": [ "FileHandle", "Length" ],
           "properties": {
             "FileHandle": {
@@ -9881,7 +9881,7 @@
         },
         "output": {
           "type": "object",
-          "dov:typeRef": "nsu=http://opcfoundation.org/UA/;i=11587",
+          "dov:typeRef": "org.opcfoundation.UA.OutputArguments",
           "required": [ "Data" ],
           "properties": {
             "Data": {
@@ -9901,7 +9901,7 @@
       "SetPosition": {
         "input": {
           "type": "object",
-          "dov:typeRef": "nsu=http://opcfoundation.org/UA/;i=11594",
+          "dov:typeRef": "org.opcfoundation.UA.InputArguments",
           "required": [ "FileHandle", "Position" ],
           "properties": {
             "FileHandle": {
@@ -9927,7 +9927,7 @@
       "Write": {
         "input": {
           "type": "object",
-          "dov:typeRef": "nsu=http://opcfoundation.org/UA/;i=11589",
+          "dov:typeRef": "org.opcfoundation.UA.InputArguments",
           "required": [ "FileHandle", "Data" ],
           "properties": {
             "FileHandle": {

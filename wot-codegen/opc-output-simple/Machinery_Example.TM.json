@@ -8,7 +8,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "Machinery_Example_ExampleComponentType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/Machinery_Example/;i=1009",
+    "dov:typeRef": "org.opcfoundation.UA.Machinery_Example.ExampleComponentType",
     "links": [
       {
         "rel": "tm:extends",
@@ -40,7 +40,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "Machinery_Example_ExampleMachineType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/Machinery_Example/;i=1002",
+    "dov:typeRef": "org.opcfoundation.UA.Machinery_Example.ExampleMachineType",
     "links": [
       {
         "rel": "tm:extends",

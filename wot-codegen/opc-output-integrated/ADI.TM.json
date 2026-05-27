@@ -8,7 +8,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "ADI_AnalyserDeviceType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/ADI/;i=1001",
+    "dov:typeRef": "org.opcfoundation.UA.ADI.AnalyserDeviceType",
     "links": [
       {
         "rel": "tm:extends",
@@ -88,7 +88,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "ADI_AnalyserDeviceStateMachineType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/ADI/;i=1002",
+    "dov:typeRef": "org.opcfoundation.UA.ADI.AnalyserDeviceStateMachineType",
     "links": [
       {
         "rel": "tm:extends",
@@ -204,7 +204,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "ADI_AnalyserChannelType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/ADI/;i=1003",
+    "dov:typeRef": "org.opcfoundation.UA.ADI.AnalyserChannelType",
     "links": [
       {
         "rel": "tm:extends",
@@ -278,7 +278,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "ADI_AnalyserChannelStateMachineType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/ADI/;i=1007",
+    "dov:typeRef": "org.opcfoundation.UA.ADI.AnalyserChannelStateMachineType",
     "links": [
       {
         "rel": "tm:extends",
@@ -406,7 +406,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "ADI_AnalyserChannel_OperatingModeSubStateMachineType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/ADI/;i=1008",
+    "dov:typeRef": "org.opcfoundation.UA.ADI.AnalyserChannel_OperatingModeSubStateMachineType",
     "links": [
       {
         "rel": "tm:extends",
@@ -864,7 +864,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "ADI_AnalyserChannel_OperatingModeExecuteSubStateMachineType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/ADI/;i=1009",
+    "dov:typeRef": "org.opcfoundation.UA.ADI.AnalyserChannel_OperatingModeExecuteSubStateMachineType",
     "links": [
       {
         "rel": "tm:extends",
@@ -1238,7 +1238,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "ADI_AnalyserChannelOperatingExecuteStateType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/ADI/;i=8964",
+    "dov:typeRef": "org.opcfoundation.UA.ADI.AnalyserChannelOperatingExecuteStateType",
     "links": [
       {
         "rel": "tm:extends",
@@ -1264,7 +1264,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "ADI_AnalyserChannelOperatingStateType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/ADI/;i=1004",
+    "dov:typeRef": "org.opcfoundation.UA.ADI.AnalyserChannelOperatingStateType",
     "links": [
       {
         "rel": "tm:extends",
@@ -1290,7 +1290,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "ADI_AnalyserChannelLocalStateType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/ADI/;i=1005",
+    "dov:typeRef": "org.opcfoundation.UA.ADI.AnalyserChannelLocalStateType",
     "links": [
       {
         "rel": "tm:extends",
@@ -1316,7 +1316,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "ADI_AnalyserChannelMaintenanceStateType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/ADI/;i=1006",
+    "dov:typeRef": "org.opcfoundation.UA.ADI.AnalyserChannelMaintenanceStateType",
     "links": [
       {
         "rel": "tm:extends",
@@ -1342,7 +1342,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "ADI_StreamType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/ADI/;i=1010",
+    "dov:typeRef": "org.opcfoundation.UA.ADI.StreamType",
     "links": [
       {
         "rel": "tm:extends",
@@ -1422,7 +1422,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "ADI_AccessorySlotType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/ADI/;i=1017",
+    "dov:typeRef": "org.opcfoundation.UA.ADI.AccessorySlotType",
     "links": [
       {
         "rel": "tm:extends",
@@ -1493,7 +1493,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "ADI_AccessorySlotStateMachineType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/ADI/;i=1018",
+    "dov:typeRef": "org.opcfoundation.UA.ADI.AccessorySlotStateMachineType",
     "links": [
       {
         "rel": "tm:extends",
@@ -1627,7 +1627,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "ADI_AccessoryType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/ADI/;i=1019",
+    "dov:typeRef": "org.opcfoundation.UA.ADI.AccessoryType",
     "links": [
       {
         "rel": "tm:extends",
@@ -1704,7 +1704,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "ADI_SpectrometerDeviceStreamType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/ADI/;i=1030",
+    "dov:typeRef": "org.opcfoundation.UA.ADI.SpectrometerDeviceStreamType",
     "dov:isComposite": true,
     "links": [
       {
@@ -1767,7 +1767,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "ADI_MassSpectrometerDeviceStreamType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/ADI/;i=1031",
+    "dov:typeRef": "org.opcfoundation.UA.ADI.MassSpectrometerDeviceStreamType",
     "dov:isComposite": true,
     "links": [
       {
@@ -1794,7 +1794,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "ADI_ParticleSizeMonitorDeviceStreamType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/ADI/;i=1032",
+    "dov:typeRef": "org.opcfoundation.UA.ADI.ParticleSizeMonitorDeviceStreamType",
     "dov:isComposite": true,
     "links": [
       {
@@ -1833,7 +1833,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "ADI_AcousticSpectrometerDeviceStreamType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/ADI/;i=1033",
+    "dov:typeRef": "org.opcfoundation.UA.ADI.AcousticSpectrometerDeviceStreamType",
     "dov:isComposite": true,
     "links": [
       {
@@ -1860,7 +1860,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "ADI_ChromatographDeviceStreamType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/ADI/;i=1034",
+    "dov:typeRef": "org.opcfoundation.UA.ADI.ChromatographDeviceStreamType",
     "dov:isComposite": true,
     "links": [
       {
@@ -1887,7 +1887,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "ADI_MNRDeviceStreamType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/ADI/;i=1035",
+    "dov:typeRef": "org.opcfoundation.UA.ADI.MNRDeviceStreamType",
     "dov:isComposite": true,
     "links": [
       {
@@ -1914,7 +1914,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "ADI_SpectrometerDeviceType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/ADI/;i=1011",
+    "dov:typeRef": "org.opcfoundation.UA.ADI.SpectrometerDeviceType",
     "dov:isComposite": true,
     "links": [
       {
@@ -1953,7 +1953,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "ADI_ParticleSizeMonitorDeviceType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/ADI/;i=1012",
+    "dov:typeRef": "org.opcfoundation.UA.ADI.ParticleSizeMonitorDeviceType",
     "dov:isComposite": true,
     "links": [
       {
@@ -1980,7 +1980,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "ADI_ChromatographDeviceType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/ADI/;i=1013",
+    "dov:typeRef": "org.opcfoundation.UA.ADI.ChromatographDeviceType",
     "dov:isComposite": true,
     "links": [
       {
@@ -2007,7 +2007,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "ADI_MassSpectrometerDeviceType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/ADI/;i=1014",
+    "dov:typeRef": "org.opcfoundation.UA.ADI.MassSpectrometerDeviceType",
     "dov:isComposite": true,
     "links": [
       {
@@ -2034,7 +2034,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "ADI_AcousticSpectrometerDeviceType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/ADI/;i=1015",
+    "dov:typeRef": "org.opcfoundation.UA.ADI.AcousticSpectrometerDeviceType",
     "dov:isComposite": true,
     "links": [
       {
@@ -2061,7 +2061,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "ADI_NMRDeviceType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/ADI/;i=1016",
+    "dov:typeRef": "org.opcfoundation.UA.ADI.NMRDeviceType",
     "dov:isComposite": true,
     "links": [
       {
@@ -2088,7 +2088,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "ADI_DetectorType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/ADI/;i=9350",
+    "dov:typeRef": "org.opcfoundation.UA.ADI.DetectorType",
     "dov:isComposite": true,
     "links": [
       {
@@ -2115,7 +2115,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "ADI_SmartSamplingSystemType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/ADI/;i=9359",
+    "dov:typeRef": "org.opcfoundation.UA.ADI.SmartSamplingSystemType",
     "dov:isComposite": true,
     "links": [
       {
@@ -2142,7 +2142,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "ADI_SourceType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/ADI/;i=9368",
+    "dov:typeRef": "org.opcfoundation.UA.ADI.SourceType",
     "dov:isComposite": true,
     "links": [
       {
@@ -2169,7 +2169,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "ADI_GcOvenType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/ADI/;i=1020",
+    "dov:typeRef": "org.opcfoundation.UA.ADI.GcOvenType",
     "dov:isComposite": true,
     "links": [
       {
@@ -2196,7 +2196,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "DI_DeviceType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/DI/;i=1002",
+    "dov:typeRef": "org.opcfoundation.UA.DI.DeviceType",
     "links": [
       {
         "rel": "tm:extends",
@@ -2243,7 +2243,7 @@
     "schemaDefinitions": {
       "DeviceHealthEnumeration": {
         "type": "object",
-        "dov:typeRef": "nsu=http://opcfoundation.org/UA/DI/;i=6244",
+        "dov:typeRef": "org.opcfoundation.UA.DI.DeviceHealthEnumeration",
         "const": {
           "NORMAL": 0,
           "FAILURE": 1,
@@ -2305,7 +2305,7 @@
       "DeviceHealth": {
         "dov:namespace": "http://opcfoundation.org/UA/DI/",
         "title": "DeviceHealthEnumeration",
-        "dov:typeRef": "nsu=http://opcfoundation.org/UA/DI/;i=6244",
+        "dov:typeRef": "org.opcfoundation.UA.DI.DeviceHealthEnumeration",
         "type": "integer",
         "minimum": -2147483648,
         "maximum": 2147483647,
@@ -2458,7 +2458,7 @@
         "dov:namespace": "http://opcfoundation.org/UA/DI/",
         "data": {
           "title": "DeviceHealthEnumeration",
-          "dov:typeRef": "nsu=http://opcfoundation.org/UA/DI/;i=6244",
+          "dov:typeRef": "org.opcfoundation.UA.DI.DeviceHealthEnumeration",
           "type": "integer",
           "minimum": -2147483648,
           "maximum": 2147483647
@@ -2482,7 +2482,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "DI_ComponentType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/DI/;i=15063",
+    "dov:typeRef": "org.opcfoundation.UA.DI.ComponentType",
     "links": [
       {
         "rel": "tm:extends",
@@ -2685,7 +2685,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "DI_TopologyElementType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/DI/;i=1001",
+    "dov:typeRef": "org.opcfoundation.UA.DI.TopologyElementType",
     "links": [
       {
         "rel": "tm:extends",
@@ -2741,7 +2741,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "DI_FunctionalGroupType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/DI/;i=1005",
+    "dov:typeRef": "org.opcfoundation.UA.DI.FunctionalGroupType",
     "links": [
       {
         "rel": "tm:extends",
@@ -2812,7 +2812,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "DI_LockingServicesType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/DI/;i=6388",
+    "dov:typeRef": "org.opcfoundation.UA.DI.LockingServicesType",
     "links": [
       {
         "rel": "tm:extends",
@@ -2834,7 +2834,7 @@
         "dov:namespace": "http://opcfoundation.org/UA/DI/",
         "output": {
           "type": "object",
-          "dov:typeRef": "nsu=http://opcfoundation.org/UA/DI/;i=6401",
+          "dov:typeRef": "org.opcfoundation.UA.OutputArguments",
           "required": [ "BreakLockStatus" ],
           "properties": {
             "BreakLockStatus": {
@@ -2856,7 +2856,7 @@
         "dov:namespace": "http://opcfoundation.org/UA/DI/",
         "output": {
           "type": "object",
-          "dov:typeRef": "nsu=http://opcfoundation.org/UA/DI/;i=6399",
+          "dov:typeRef": "org.opcfoundation.UA.OutputArguments",
           "required": [ "ExitLockStatus" ],
           "properties": {
             "ExitLockStatus": {
@@ -2878,7 +2878,7 @@
         "dov:namespace": "http://opcfoundation.org/UA/DI/",
         "input": {
           "type": "object",
-          "dov:typeRef": "nsu=http://opcfoundation.org/UA/DI/;i=6394",
+          "dov:typeRef": "org.opcfoundation.UA.InputArguments",
           "required": [ "Context" ],
           "properties": {
             "Context": {
@@ -2888,7 +2888,7 @@
         },
         "output": {
           "type": "object",
-          "dov:typeRef": "nsu=http://opcfoundation.org/UA/DI/;i=6395",
+          "dov:typeRef": "org.opcfoundation.UA.OutputArguments",
           "required": [ "InitLockStatus" ],
           "properties": {
             "InitLockStatus": {
@@ -2910,7 +2910,7 @@
         "dov:namespace": "http://opcfoundation.org/UA/DI/",
         "output": {
           "type": "object",
-          "dov:typeRef": "nsu=http://opcfoundation.org/UA/DI/;i=6397",
+          "dov:typeRef": "org.opcfoundation.UA.OutputArguments",
           "required": [ "RenewLockStatus" ],
           "properties": {
             "RenewLockStatus": {
@@ -3003,7 +3003,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "DI_ConnectionPointType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/DI/;i=6308",
+    "dov:typeRef": "org.opcfoundation.UA.DI.ConnectionPointType",
     "links": [
       {
         "rel": "tm:extends",
@@ -3048,7 +3048,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "DI_ProtocolType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/DI/;i=1006",
+    "dov:typeRef": "org.opcfoundation.UA.DI.ProtocolType",
     "links": [
       {
         "rel": "tm:extends",
@@ -3074,7 +3074,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "DI_NetworkType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/DI/;i=6247",
+    "dov:typeRef": "org.opcfoundation.UA.DI.NetworkType",
     "links": [
       {
         "rel": "tm:extends",
@@ -3119,7 +3119,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "DI_ConfigurableObjectType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/DI/;i=1004",
+    "dov:typeRef": "org.opcfoundation.UA.DI.ConfigurableObjectType",
     "dov:isComposite": true,
     "links": [
       {
@@ -3158,7 +3158,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "OpcUaCore_BaseObjectType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/;i=58",
+    "dov:typeRef": "org.opcfoundation.UA.BaseObjectType",
     "links": [
     ],
     "schemaDefinitions": {
@@ -3179,7 +3179,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "OpcUaCore_FolderType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/;i=61",
+    "dov:typeRef": "org.opcfoundation.UA.FolderType",
     "links": [
       {
         "rel": "tm:extends",
@@ -3205,7 +3205,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "OpcUaCore_FiniteStateMachineType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/;i=2771",
+    "dov:typeRef": "org.opcfoundation.UA.FiniteStateMachineType",
     "links": [
       {
         "rel": "tm:extends",
@@ -3347,7 +3347,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "OpcUaCore_StateMachineType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/;i=2299",
+    "dov:typeRef": "org.opcfoundation.UA.StateMachineType",
     "dov:isComposite": true,
     "links": [
       {
@@ -3432,7 +3432,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "OpcUaCore_InitialStateType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/;i=2309",
+    "dov:typeRef": "org.opcfoundation.UA.InitialStateType",
     "links": [
       {
         "rel": "tm:extends",
@@ -3458,7 +3458,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "OpcUaCore_StateType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/;i=2307",
+    "dov:typeRef": "org.opcfoundation.UA.StateType",
     "links": [
       {
         "rel": "tm:extends",
@@ -3504,7 +3504,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "OpcUaCore_TransitionType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/;i=2310",
+    "dov:typeRef": "org.opcfoundation.UA.TransitionType",
     "links": [
       {
         "rel": "tm:extends",

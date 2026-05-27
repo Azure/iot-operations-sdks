@@ -8,7 +8,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "Pumps_IPumpVendorNameplateType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/Pumps/;i=1004",
+    "dov:typeRef": "org.opcfoundation.UA.Pumps.IPumpVendorNameplateType",
     "links": [
       {
         "rel": "tm:extends",
@@ -136,7 +136,7 @@
         "title": "PhysicalAddressDataType",
         "description": "Physical address of the manufacturer.",
         "type": "object",
-        "dov:typeRef": "nsu=http://opcfoundation.org/UA/Pumps/;i=3020",
+        "dov:typeRef": "org.opcfoundation.UA.Pumps.PhysicalAddressDataType",
         "properties": {
           "Street": {
             "description": "Street name where the manufacturer is located.",
@@ -216,7 +216,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "Pumps_DiscreteObjectType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/Pumps/;i=1029",
+    "dov:typeRef": "org.opcfoundation.UA.Pumps.DiscreteObjectType",
     "links": [
       {
         "rel": "tm:extends",
@@ -312,7 +312,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "Pumps_DiscreteInputObjectType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/Pumps/;i=1030",
+    "dov:typeRef": "org.opcfoundation.UA.Pumps.DiscreteInputObjectType",
     "links": [
       {
         "rel": "tm:extends",
@@ -377,7 +377,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "Pumps_DiscreteOutputObjectType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/Pumps/;i=1031",
+    "dov:typeRef": "org.opcfoundation.UA.Pumps.DiscreteOutputObjectType",
     "links": [
       {
         "rel": "tm:extends",
@@ -517,7 +517,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "Pumps_PumpKickObjectType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/Pumps/;i=1032",
+    "dov:typeRef": "org.opcfoundation.UA.Pumps.PumpKickObjectType",
     "links": [
       {
         "rel": "tm:extends",
@@ -528,7 +528,7 @@
     "schemaDefinitions": {
       "PumpKickModeEnum": {
         "type": "object",
-        "dov:typeRef": "nsu=http://opcfoundation.org/UA/Pumps/;i=3009",
+        "dov:typeRef": "org.opcfoundation.UA.Pumps.PumpKickModeEnum",
         "const": {
           "ManufacturerSpecific": 0,
           "Disabled": 1,
@@ -575,7 +575,7 @@
         "dov:namespace": "http://opcfoundation.org/UA/Pumps/",
         "title": "PumpKickModeEnum",
         "description": "This property describes the pump kick mode of the pump.",
-        "dov:typeRef": "nsu=http://opcfoundation.org/UA/Pumps/;i=3009",
+        "dov:typeRef": "org.opcfoundation.UA.Pumps.PumpKickModeEnum",
         "type": "integer",
         "minimum": -2147483648,
         "maximum": 2147483647,
@@ -654,7 +654,7 @@
         "data": {
           "title": "PumpKickModeEnum",
           "description": "This property describes the pump kick mode of the pump.",
-          "dov:typeRef": "nsu=http://opcfoundation.org/UA/Pumps/;i=3009",
+          "dov:typeRef": "org.opcfoundation.UA.Pumps.PumpKickModeEnum",
           "type": "integer",
           "minimum": -2147483648,
           "maximum": 2147483647
@@ -713,7 +713,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "Pumps_ActuationType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/Pumps/;i=1025",
+    "dov:typeRef": "org.opcfoundation.UA.Pumps.ActuationType",
     "links": [
       {
         "rel": "tm:extends",
@@ -1013,7 +1013,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "Pumps_PumpActuationType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/Pumps/;i=1028",
+    "dov:typeRef": "org.opcfoundation.UA.Pumps.PumpActuationType",
     "links": [
       {
         "rel": "tm:extends",
@@ -1078,7 +1078,7 @@
     "schemaDefinitions": {
       "ControlModeEnum": {
         "type": "object",
-        "dov:typeRef": "nsu=http://opcfoundation.org/UA/Pumps/;i=3008",
+        "dov:typeRef": "org.opcfoundation.UA.Pumps.ControlModeEnum",
         "const": {
           "ConstantPressureControl": 0,
           "ConstantTemperatureControl": 1,
@@ -1147,7 +1147,7 @@
       },
       "OperationModeEnum": {
         "type": "object",
-        "dov:typeRef": "nsu=http://opcfoundation.org/UA/Pumps/;i=3007",
+        "dov:typeRef": "org.opcfoundation.UA.Pumps.OperationModeEnum",
         "const": {
           "AutoControl": 0,
           "ClosedLoopStandardPID": 1,
@@ -1234,7 +1234,7 @@
         "dov:namespace": "http://opcfoundation.org/UA/Pumps/",
         "title": "ControlModeEnum",
         "description": "This property describes the actual control mode of the pump.",
-        "dov:typeRef": "nsu=http://opcfoundation.org/UA/Pumps/;i=3008",
+        "dov:typeRef": "org.opcfoundation.UA.Pumps.ControlModeEnum",
         "type": "integer",
         "minimum": -2147483648,
         "maximum": 2147483647,
@@ -1251,7 +1251,7 @@
         "dov:namespace": "http://opcfoundation.org/UA/Pumps/",
         "title": "OperationModeEnum",
         "description": "This property describes the actual operation mode of the pump.",
-        "dov:typeRef": "nsu=http://opcfoundation.org/UA/Pumps/;i=3007",
+        "dov:typeRef": "org.opcfoundation.UA.Pumps.OperationModeEnum",
         "type": "integer",
         "minimum": -2147483648,
         "maximum": 2147483647,
@@ -1335,7 +1335,7 @@
         "dov:namespace": "http://opcfoundation.org/UA/Pumps/",
         "title": "ControlModeEnum",
         "description": "This property describes the desired control mode of the pump.",
-        "dov:typeRef": "nsu=http://opcfoundation.org/UA/Pumps/;i=3008",
+        "dov:typeRef": "org.opcfoundation.UA.Pumps.ControlModeEnum",
         "type": "integer",
         "minimum": -2147483648,
         "maximum": 2147483647,
@@ -1357,7 +1357,7 @@
         "dov:namespace": "http://opcfoundation.org/UA/Pumps/",
         "title": "OperationModeEnum",
         "description": "This property describes the desired operation mode of the pump.",
-        "dov:typeRef": "nsu=http://opcfoundation.org/UA/Pumps/;i=3007",
+        "dov:typeRef": "org.opcfoundation.UA.Pumps.OperationModeEnum",
         "type": "integer",
         "minimum": -2147483648,
         "maximum": 2147483647,
@@ -1382,7 +1382,7 @@
         "data": {
           "title": "ControlModeEnum",
           "description": "This property describes the actual control mode of the pump.",
-          "dov:typeRef": "nsu=http://opcfoundation.org/UA/Pumps/;i=3008",
+          "dov:typeRef": "org.opcfoundation.UA.Pumps.ControlModeEnum",
           "type": "integer",
           "minimum": -2147483648,
           "maximum": 2147483647
@@ -1400,7 +1400,7 @@
         "data": {
           "title": "OperationModeEnum",
           "description": "This property describes the actual operation mode of the pump.",
-          "dov:typeRef": "nsu=http://opcfoundation.org/UA/Pumps/;i=3007",
+          "dov:typeRef": "org.opcfoundation.UA.Pumps.OperationModeEnum",
           "type": "integer",
           "minimum": -2147483648,
           "maximum": 2147483647
@@ -1474,7 +1474,7 @@
         "data": {
           "title": "ControlModeEnum",
           "description": "This property describes the desired control mode of the pump.",
-          "dov:typeRef": "nsu=http://opcfoundation.org/UA/Pumps/;i=3008",
+          "dov:typeRef": "org.opcfoundation.UA.Pumps.ControlModeEnum",
           "type": "integer",
           "minimum": -2147483648,
           "maximum": 2147483647
@@ -1492,7 +1492,7 @@
         "data": {
           "title": "OperationModeEnum",
           "description": "This property describes the desired operation mode of the pump.",
-          "dov:typeRef": "nsu=http://opcfoundation.org/UA/Pumps/;i=3007",
+          "dov:typeRef": "org.opcfoundation.UA.Pumps.OperationModeEnum",
           "type": "integer",
           "minimum": -2147483648,
           "maximum": 2147483647
@@ -1517,7 +1517,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "Pumps_BreakdownMaintenanceType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/Pumps/;i=1010",
+    "dov:typeRef": "org.opcfoundation.UA.Pumps.BreakdownMaintenanceType",
     "links": [
       {
         "rel": "tm:extends",
@@ -1719,7 +1719,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "Pumps_ConditionBasedMaintenanceType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/Pumps/;i=1008",
+    "dov:typeRef": "org.opcfoundation.UA.Pumps.ConditionBasedMaintenanceType",
     "links": [
       {
         "rel": "tm:extends",
@@ -2274,7 +2274,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "Pumps_ConfigurationGroupType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/Pumps/;i=1024",
+    "dov:typeRef": "org.opcfoundation.UA.Pumps.ConfigurationGroupType",
     "links": [
       {
         "rel": "tm:extends",
@@ -2318,7 +2318,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "Pumps_ConnectionDesignType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/Pumps/;i=1040",
+    "dov:typeRef": "org.opcfoundation.UA.Pumps.ConnectionDesignType",
     "links": [
       {
         "rel": "tm:extends",
@@ -2384,7 +2384,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "Pumps_InletConnectionDesignType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/Pumps/;i=1041",
+    "dov:typeRef": "org.opcfoundation.UA.Pumps.InletConnectionDesignType",
     "links": [
       {
         "rel": "tm:extends",
@@ -2799,7 +2799,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "Pumps_OutletConnectionDesignType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/Pumps/;i=1042",
+    "dov:typeRef": "org.opcfoundation.UA.Pumps.OutletConnectionDesignType",
     "links": [
       {
         "rel": "tm:extends",
@@ -3166,7 +3166,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "Pumps_ConnectionImplementationType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/Pumps/;i=1046",
+    "dov:typeRef": "org.opcfoundation.UA.Pumps.ConnectionImplementationType",
     "links": [
       {
         "rel": "tm:extends",
@@ -3242,7 +3242,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "Pumps_InletConnectionImplementationType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/Pumps/;i=1047",
+    "dov:typeRef": "org.opcfoundation.UA.Pumps.InletConnectionImplementationType",
     "links": [
       {
         "rel": "tm:extends",
@@ -3494,7 +3494,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "Pumps_OutletConnectionImplementationType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/Pumps/;i=1048",
+    "dov:typeRef": "org.opcfoundation.UA.Pumps.OutletConnectionImplementationType",
     "links": [
       {
         "rel": "tm:extends",
@@ -3746,7 +3746,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "Pumps_ControlType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/Pumps/;i=1021",
+    "dov:typeRef": "org.opcfoundation.UA.Pumps.ControlType",
     "links": [
       {
         "rel": "tm:extends",
@@ -4250,7 +4250,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "Pumps_DesignType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/Pumps/;i=1020",
+    "dov:typeRef": "org.opcfoundation.UA.Pumps.DesignType",
     "links": [
       {
         "rel": "tm:extends",
@@ -4303,7 +4303,7 @@
     "schemaDefinitions": {
       "DeclarationOfConformityOptionSet": {
         "type": "object",
-        "dov:typeRef": "nsu=http://opcfoundation.org/UA/Pumps/;i=3019",
+        "dov:typeRef": "org.opcfoundation.UA.Pumps.DeclarationOfConformityOptionSet",
         "const": {
           "S2006_42_EC": 0,
           "S2009_125_EC": 1,
@@ -4352,7 +4352,7 @@
       },
       "ExplosionProtectionOptionSet": {
         "type": "object",
-        "dov:typeRef": "nsu=http://opcfoundation.org/UA/Pumps/;i=3016",
+        "dov:typeRef": "org.opcfoundation.UA.Pumps.ExplosionProtectionOptionSet",
         "const": {
           "M1": 0,
           "M2": 1,
@@ -4401,7 +4401,7 @@
       },
       "OfferedControlModesOptionSet": {
         "type": "object",
-        "dov:typeRef": "nsu=http://opcfoundation.org/UA/Pumps/;i=3017",
+        "dov:typeRef": "org.opcfoundation.UA.Pumps.OfferedControlModesOptionSet",
         "const": {
           "Constant_pressure_control": 0,
           "Constant_temperature_control": 1,
@@ -4470,7 +4470,7 @@
       },
       "OfferedFieldbusesOptionSet": {
         "type": "object",
-        "dov:typeRef": "nsu=http://opcfoundation.org/UA/Pumps/;i=3018",
+        "dov:typeRef": "org.opcfoundation.UA.Pumps.OfferedFieldbusesOptionSet",
         "const": {
           "Other": 0,
           "ARCNET": 1,
@@ -4729,7 +4729,7 @@
       },
       "DeviceTypeEnum": {
         "type": "object",
-        "dov:typeRef": "nsu=http://opcfoundation.org/UA/Pumps/;i=3021",
+        "dov:typeRef": "org.opcfoundation.UA.Pumps.DeviceTypeEnum",
         "const": {
           "RotodynamicPump": 0,
           "PositiveDisplacementPump": 1,
@@ -4991,7 +4991,7 @@
         "dov:namespace": "http://opcfoundation.org/UA/Pumps/",
         "title": "DeclarationOfConformityOptionSet",
         "description": "Set of directives on the basis of which conformity was determined.",
-        "dov:typeRef": "nsu=http://opcfoundation.org/UA/Pumps/;i=3019",
+        "dov:typeRef": "org.opcfoundation.UA.Pumps.DeclarationOfConformityOptionSet",
         "type": "integer",
         "minimum": -2147483648,
         "maximum": 2147483647,
@@ -5025,7 +5025,7 @@
         "dov:namespace": "http://opcfoundation.org/UA/Pumps/",
         "title": "ExplosionProtectionOptionSet",
         "description": "Device category for explosion protection according to 2014/34/EU (ATEX).",
-        "dov:typeRef": "nsu=http://opcfoundation.org/UA/Pumps/;i=3016",
+        "dov:typeRef": "org.opcfoundation.UA.Pumps.ExplosionProtectionOptionSet",
         "type": "integer",
         "minimum": -2147483648,
         "maximum": 2147483647,
@@ -5501,7 +5501,7 @@
         "dov:namespace": "http://opcfoundation.org/UA/Pumps/",
         "title": "OfferedControlModesOptionSet",
         "description": "Control modes supported by the manufacturer for the product.",
-        "dov:typeRef": "nsu=http://opcfoundation.org/UA/Pumps/;i=3017",
+        "dov:typeRef": "org.opcfoundation.UA.Pumps.OfferedControlModesOptionSet",
         "type": "integer",
         "minimum": -2147483648,
         "maximum": 2147483647,
@@ -5518,7 +5518,7 @@
         "dov:namespace": "http://opcfoundation.org/UA/Pumps/",
         "title": "OfferedFieldbusesOptionSet",
         "description": "Fieldbuses supported by the manufacturer for the product.",
-        "dov:typeRef": "nsu=http://opcfoundation.org/UA/Pumps/;i=3018",
+        "dov:typeRef": "org.opcfoundation.UA.Pumps.OfferedFieldbusesOptionSet",
         "type": "integer",
         "minimum": -2147483648,
         "maximum": 2147483647,
@@ -5636,7 +5636,7 @@
         "dov:namespace": "http://opcfoundation.org/UA/Pumps/",
         "title": "DeviceTypeEnum",
         "description": "Pump type according to functional principle and pumped fluid",
-        "dov:typeRef": "nsu=http://opcfoundation.org/UA/Pumps/;i=3021",
+        "dov:typeRef": "org.opcfoundation.UA.Pumps.DeviceTypeEnum",
         "type": "integer",
         "minimum": -2147483648,
         "maximum": 2147483647,
@@ -6944,7 +6944,7 @@
         "data": {
           "title": "DeclarationOfConformityOptionSet",
           "description": "Set of directives on the basis of which conformity was determined.",
-          "dov:typeRef": "nsu=http://opcfoundation.org/UA/Pumps/;i=3019",
+          "dov:typeRef": "org.opcfoundation.UA.Pumps.DeclarationOfConformityOptionSet",
           "type": "integer",
           "minimum": -2147483648,
           "maximum": 2147483647
@@ -6980,7 +6980,7 @@
         "data": {
           "title": "ExplosionProtectionOptionSet",
           "description": "Device category for explosion protection according to 2014/34/EU (ATEX).",
-          "dov:typeRef": "nsu=http://opcfoundation.org/UA/Pumps/;i=3016",
+          "dov:typeRef": "org.opcfoundation.UA.Pumps.ExplosionProtectionOptionSet",
           "type": "integer",
           "minimum": -2147483648,
           "maximum": 2147483647
@@ -7484,7 +7484,7 @@
         "data": {
           "title": "OfferedControlModesOptionSet",
           "description": "Control modes supported by the manufacturer for the product.",
-          "dov:typeRef": "nsu=http://opcfoundation.org/UA/Pumps/;i=3017",
+          "dov:typeRef": "org.opcfoundation.UA.Pumps.OfferedControlModesOptionSet",
           "type": "integer",
           "minimum": -2147483648,
           "maximum": 2147483647
@@ -7502,7 +7502,7 @@
         "data": {
           "title": "OfferedFieldbusesOptionSet",
           "description": "Fieldbuses supported by the manufacturer for the product.",
-          "dov:typeRef": "nsu=http://opcfoundation.org/UA/Pumps/;i=3018",
+          "dov:typeRef": "org.opcfoundation.UA.Pumps.OfferedFieldbusesOptionSet",
           "type": "integer",
           "minimum": -2147483648,
           "maximum": 2147483647
@@ -7627,7 +7627,7 @@
         "data": {
           "title": "DeviceTypeEnum",
           "description": "Pump type according to functional principle and pumped fluid",
-          "dov:typeRef": "nsu=http://opcfoundation.org/UA/Pumps/;i=3021",
+          "dov:typeRef": "org.opcfoundation.UA.Pumps.DeviceTypeEnum",
           "type": "integer",
           "minimum": -2147483648,
           "maximum": 2147483647
@@ -8027,7 +8027,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "Pumps_DocumentationType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/Pumps/;i=1006",
+    "dov:typeRef": "org.opcfoundation.UA.Pumps.DocumentationType",
     "links": [
       {
         "rel": "tm:extends",
@@ -8792,7 +8792,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "Pumps_DriveDesignType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/Pumps/;i=1043",
+    "dov:typeRef": "org.opcfoundation.UA.Pumps.DriveDesignType",
     "links": [
       {
         "rel": "tm:extends",
@@ -9355,7 +9355,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "Pumps_DriveMeasurementsType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/Pumps/;i=1051",
+    "dov:typeRef": "org.opcfoundation.UA.Pumps.DriveMeasurementsType",
     "links": [
       {
         "rel": "tm:extends",
@@ -9989,7 +9989,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "Pumps_GeneralMaintenanceType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/Pumps/;i=1007",
+    "dov:typeRef": "org.opcfoundation.UA.Pumps.GeneralMaintenanceType",
     "links": [
       {
         "rel": "tm:extends",
@@ -10000,7 +10000,7 @@
     "schemaDefinitions": {
       "MaintenanceLevelEnum": {
         "type": "object",
-        "dov:typeRef": "nsu=http://opcfoundation.org/UA/Pumps/;i=3004",
+        "dov:typeRef": "org.opcfoundation.UA.Pumps.MaintenanceLevelEnum",
         "const": {
           "Level1": 0,
           "Level2": 1,
@@ -10034,7 +10034,7 @@
       },
       "StateOfTheItemEnum": {
         "type": "object",
-        "dov:typeRef": "nsu=http://opcfoundation.org/UA/Pumps/;i=3003",
+        "dov:typeRef": "org.opcfoundation.UA.Pumps.StateOfTheItemEnum",
         "const": {
           "IdleState": 0,
           "StandByState": 1,
@@ -10171,7 +10171,7 @@
         "dov:namespace": "http://opcfoundation.org/UA/Pumps/",
         "title": "MaintenanceLevelEnum",
         "description": "Maintenance task categorization by complexity",
-        "dov:typeRef": "nsu=http://opcfoundation.org/UA/Pumps/;i=3004",
+        "dov:typeRef": "org.opcfoundation.UA.Pumps.MaintenanceLevelEnum",
         "type": "integer",
         "minimum": -2147483648,
         "maximum": 2147483647,
@@ -10354,7 +10354,7 @@
         "dov:namespace": "http://opcfoundation.org/UA/Pumps/",
         "title": "StateOfTheItemEnum",
         "description": "Current state of the item",
-        "dov:typeRef": "nsu=http://opcfoundation.org/UA/Pumps/;i=3003",
+        "dov:typeRef": "org.opcfoundation.UA.Pumps.StateOfTheItemEnum",
         "type": "integer",
         "minimum": -2147483648,
         "maximum": 2147483647,
@@ -10719,7 +10719,7 @@
         "data": {
           "title": "MaintenanceLevelEnum",
           "description": "Maintenance task categorization by complexity",
-          "dov:typeRef": "nsu=http://opcfoundation.org/UA/Pumps/;i=3004",
+          "dov:typeRef": "org.opcfoundation.UA.Pumps.MaintenanceLevelEnum",
           "type": "integer",
           "minimum": -2147483648,
           "maximum": 2147483647
@@ -10913,7 +10913,7 @@
         "data": {
           "title": "StateOfTheItemEnum",
           "description": "Current state of the item",
-          "dov:typeRef": "nsu=http://opcfoundation.org/UA/Pumps/;i=3003",
+          "dov:typeRef": "org.opcfoundation.UA.Pumps.StateOfTheItemEnum",
           "type": "integer",
           "minimum": -2147483648,
           "maximum": 2147483647
@@ -10992,7 +10992,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "Pumps_ImplementationType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/Pumps/;i=1023",
+    "dov:typeRef": "org.opcfoundation.UA.Pumps.ImplementationType",
     "links": [
       {
         "rel": "tm:extends",
@@ -12752,7 +12752,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "Pumps_InletConnectionMeasurementsType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/Pumps/;i=1050",
+    "dov:typeRef": "org.opcfoundation.UA.Pumps.InletConnectionMeasurementsType",
     "links": [
       {
         "rel": "tm:extends",
@@ -12885,7 +12885,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "Pumps_InletConnectionSystemRequirementsType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/Pumps/;i=1045",
+    "dov:typeRef": "org.opcfoundation.UA.Pumps.InletConnectionSystemRequirementsType",
     "links": [
       {
         "rel": "tm:extends",
@@ -12980,7 +12980,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "Pumps_PumpIdentificationType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/Pumps/;i=1005",
+    "dov:typeRef": "org.opcfoundation.UA.Pumps.PumpIdentificationType",
     "links": [
       {
         "rel": "tm:extends",
@@ -13117,7 +13117,7 @@
         "title": "PhysicalAddressDataType",
         "description": "Physical address of the manufacturer.",
         "type": "object",
-        "dov:typeRef": "nsu=http://opcfoundation.org/UA/Pumps/;i=3020",
+        "dov:typeRef": "org.opcfoundation.UA.Pumps.PhysicalAddressDataType",
         "properties": {
           "Street": {
             "description": "Street name where the manufacturer is located.",
@@ -13192,7 +13192,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "Pumps_MaintenanceGroupType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/Pumps/;i=1011",
+    "dov:typeRef": "org.opcfoundation.UA.Pumps.MaintenanceGroupType",
     "links": [
       {
         "rel": "tm:extends",
@@ -13243,7 +13243,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "Pumps_MeasurementsType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/Pumps/;i=1054",
+    "dov:typeRef": "org.opcfoundation.UA.Pumps.MeasurementsType",
     "links": [
       {
         "rel": "tm:extends",
@@ -15606,7 +15606,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "Pumps_MultiPumpType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/Pumps/;i=1039",
+    "dov:typeRef": "org.opcfoundation.UA.Pumps.MultiPumpType",
     "links": [
       {
         "rel": "tm:extends",
@@ -15617,7 +15617,7 @@
     "schemaDefinitions": {
       "DistributionTypeEnum": {
         "type": "object",
-        "dov:typeRef": "nsu=http://opcfoundation.org/UA/Pumps/;i=3013",
+        "dov:typeRef": "org.opcfoundation.UA.Pumps.DistributionTypeEnum",
         "const": {
           "ManufacturerSpecific": 0,
           "OperatorSpecific": 1,
@@ -15646,7 +15646,7 @@
       },
       "ExchangeModeEnum": {
         "type": "object",
-        "dov:typeRef": "nsu=http://opcfoundation.org/UA/Pumps/;i=3012",
+        "dov:typeRef": "org.opcfoundation.UA.Pumps.ExchangeModeEnum",
         "const": {
           "ManufacturerSpecific": 0,
           "ExchangeDisabled": 1,
@@ -15670,7 +15670,7 @@
       },
       "MultiPumpOperationModeEnum": {
         "type": "object",
-        "dov:typeRef": "nsu=http://opcfoundation.org/UA/Pumps/;i=3011",
+        "dov:typeRef": "org.opcfoundation.UA.Pumps.MultiPumpOperationModeEnum",
         "const": {
           "Standalone": 0,
           "RedundancyOperation": 1,
@@ -15699,7 +15699,7 @@
       },
       "PumpRoleEnum": {
         "type": "object",
-        "dov:typeRef": "nsu=http://opcfoundation.org/UA/Pumps/;i=3010",
+        "dov:typeRef": "org.opcfoundation.UA.Pumps.PumpRoleEnum",
         "const": {
           "Slave": 0,
           "Master": 1,
@@ -15767,7 +15767,7 @@
         "dov:namespace": "http://opcfoundation.org/UA/Pumps/",
         "title": "DistributionTypeEnum",
         "description": "This property describes the share of operation time of different pumps of the pump system in addition operation mode.",
-        "dov:typeRef": "nsu=http://opcfoundation.org/UA/Pumps/;i=3013",
+        "dov:typeRef": "org.opcfoundation.UA.Pumps.DistributionTypeEnum",
         "type": "integer",
         "minimum": -2147483648,
         "maximum": 2147483647,
@@ -15789,7 +15789,7 @@
         "dov:namespace": "http://opcfoundation.org/UA/Pumps/",
         "title": "ExchangeModeEnum",
         "description": "This property specifies the exchange mode of the pump",
-        "dov:typeRef": "nsu=http://opcfoundation.org/UA/Pumps/;i=3012",
+        "dov:typeRef": "org.opcfoundation.UA.Pumps.ExchangeModeEnum",
         "type": "integer",
         "minimum": -2147483648,
         "maximum": 2147483647,
@@ -15872,7 +15872,7 @@
         "dov:namespace": "http://opcfoundation.org/UA/Pumps/",
         "title": "MultiPumpOperationModeEnum",
         "description": "This property specifies the actual multi pump operation mode. In redundant operation mode a pump fulfils the process function of another pump. Addition operation mode characterizes the supplementary fulfilling of the process function. The mixed mode characterizes both operation tasks.",
-        "dov:typeRef": "nsu=http://opcfoundation.org/UA/Pumps/;i=3011",
+        "dov:typeRef": "org.opcfoundation.UA.Pumps.MultiPumpOperationModeEnum",
         "type": "integer",
         "minimum": -2147483648,
         "maximum": 2147483647,
@@ -15935,7 +15935,7 @@
         "dov:namespace": "http://opcfoundation.org/UA/Pumps/",
         "title": "PumpRoleEnum",
         "description": "This property identifies the role rsp. task of the pump within the multi pump management.",
-        "dov:typeRef": "nsu=http://opcfoundation.org/UA/Pumps/;i=3010",
+        "dov:typeRef": "org.opcfoundation.UA.Pumps.PumpRoleEnum",
         "type": "integer",
         "minimum": -2147483648,
         "maximum": 2147483647,
@@ -16010,7 +16010,7 @@
         "data": {
           "title": "DistributionTypeEnum",
           "description": "This property describes the share of operation time of different pumps of the pump system in addition operation mode.",
-          "dov:typeRef": "nsu=http://opcfoundation.org/UA/Pumps/;i=3013",
+          "dov:typeRef": "org.opcfoundation.UA.Pumps.DistributionTypeEnum",
           "type": "integer",
           "minimum": -2147483648,
           "maximum": 2147483647
@@ -16028,7 +16028,7 @@
         "data": {
           "title": "ExchangeModeEnum",
           "description": "This property specifies the exchange mode of the pump",
-          "dov:typeRef": "nsu=http://opcfoundation.org/UA/Pumps/;i=3012",
+          "dov:typeRef": "org.opcfoundation.UA.Pumps.ExchangeModeEnum",
           "type": "integer",
           "minimum": -2147483648,
           "maximum": 2147483647
@@ -16095,7 +16095,7 @@
         "data": {
           "title": "MultiPumpOperationModeEnum",
           "description": "This property specifies the actual multi pump operation mode. In redundant operation mode a pump fulfils the process function of another pump. Addition operation mode characterizes the supplementary fulfilling of the process function. The mixed mode characterizes both operation tasks.",
-          "dov:typeRef": "nsu=http://opcfoundation.org/UA/Pumps/;i=3011",
+          "dov:typeRef": "org.opcfoundation.UA.Pumps.MultiPumpOperationModeEnum",
           "type": "integer",
           "minimum": -2147483648,
           "maximum": 2147483647
@@ -16146,7 +16146,7 @@
         "data": {
           "title": "PumpRoleEnum",
           "description": "This property identifies the role rsp. task of the pump within the multi pump management.",
-          "dov:typeRef": "nsu=http://opcfoundation.org/UA/Pumps/;i=3010",
+          "dov:typeRef": "org.opcfoundation.UA.Pumps.PumpRoleEnum",
           "type": "integer",
           "minimum": -2147483648,
           "maximum": 2147483647
@@ -16187,7 +16187,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "Pumps_OperationalGroupType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/Pumps/;i=1053",
+    "dov:typeRef": "org.opcfoundation.UA.Pumps.OperationalGroupType",
     "links": [
       {
         "rel": "tm:extends",
@@ -16256,7 +16256,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "Pumps_OutletConnectionMeasurementsType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/Pumps/;i=1049",
+    "dov:typeRef": "org.opcfoundation.UA.Pumps.OutletConnectionMeasurementsType",
     "links": [
       {
         "rel": "tm:extends",
@@ -16389,7 +16389,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "Pumps_OutletConnectionSystemRequirementsType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/Pumps/;i=1044",
+    "dov:typeRef": "org.opcfoundation.UA.Pumps.OutletConnectionSystemRequirementsType",
     "links": [
       {
         "rel": "tm:extends",
@@ -16484,7 +16484,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "Pumps_PortsGroupType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/Pumps/;i=1034",
+    "dov:typeRef": "org.opcfoundation.UA.Pumps.PortsGroupType",
     "links": [
       {
         "rel": "tm:extends",
@@ -16529,7 +16529,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "Pumps_PreventiveMaintenanceType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/Pumps/;i=1009",
+    "dov:typeRef": "org.opcfoundation.UA.Pumps.PreventiveMaintenanceType",
     "links": [
       {
         "rel": "tm:extends",
@@ -16846,7 +16846,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "Pumps_SignalsType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/Pumps/;i=1033",
+    "dov:typeRef": "org.opcfoundation.UA.Pumps.SignalsType",
     "links": [
       {
         "rel": "tm:extends",
@@ -16998,7 +16998,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "Pumps_SupervisionAuxiliaryDeviceType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/Pumps/;i=1017",
+    "dov:typeRef": "org.opcfoundation.UA.Pumps.SupervisionAuxiliaryDeviceType",
     "links": [
       {
         "rel": "tm:extends",
@@ -17981,7 +17981,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "Pumps_SupervisionElectronicsType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/Pumps/;i=1018",
+    "dov:typeRef": "org.opcfoundation.UA.Pumps.SupervisionElectronicsType",
     "links": [
       {
         "rel": "tm:extends",
@@ -18559,7 +18559,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "Pumps_SupervisionHardwareType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/Pumps/;i=1013",
+    "dov:typeRef": "org.opcfoundation.UA.Pumps.SupervisionHardwareType",
     "links": [
       {
         "rel": "tm:extends",
@@ -18921,7 +18921,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "Pumps_SupervisionMechanicsType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/Pumps/;i=1012",
+    "dov:typeRef": "org.opcfoundation.UA.Pumps.SupervisionMechanicsType",
     "links": [
       {
         "rel": "tm:extends",
@@ -19391,7 +19391,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "Pumps_SupervisionProcessFluidType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/Pumps/;i=1015",
+    "dov:typeRef": "org.opcfoundation.UA.Pumps.SupervisionProcessFluidType",
     "links": [
       {
         "rel": "tm:extends",
@@ -19780,7 +19780,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "Pumps_SupervisionPumpOperationType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/Pumps/;i=1016",
+    "dov:typeRef": "org.opcfoundation.UA.Pumps.SupervisionPumpOperationType",
     "links": [
       {
         "rel": "tm:extends",
@@ -20817,7 +20817,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "Pumps_SupervisionSoftwareType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/Pumps/;i=1014",
+    "dov:typeRef": "org.opcfoundation.UA.Pumps.SupervisionSoftwareType",
     "links": [
       {
         "rel": "tm:extends",
@@ -21071,7 +21071,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "Pumps_SupervisionType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/Pumps/;i=1019",
+    "dov:typeRef": "org.opcfoundation.UA.Pumps.SupervisionType",
     "links": [
       {
         "rel": "tm:extends",
@@ -21140,7 +21140,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "Pumps_SystemRequirementsType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/Pumps/;i=1022",
+    "dov:typeRef": "org.opcfoundation.UA.Pumps.SystemRequirementsType",
     "links": [
       {
         "rel": "tm:extends",
@@ -21151,7 +21151,7 @@
     "schemaDefinitions": {
       "ExplosionZoneOptionSet": {
         "type": "object",
-        "dov:typeRef": "nsu=http://opcfoundation.org/UA/Pumps/;i=3015",
+        "dov:typeRef": "org.opcfoundation.UA.Pumps.ExplosionZoneOptionSet",
         "const": {
           "Zone_0": 0,
           "Zone_1": 1,
@@ -21190,7 +21190,7 @@
       },
       "FieldbusEnum": {
         "type": "object",
-        "dov:typeRef": "nsu=http://opcfoundation.org/UA/Pumps/;i=3005",
+        "dov:typeRef": "org.opcfoundation.UA.Pumps.FieldbusEnum",
         "const": {
           "Other": 0,
           "ARCNET": 1,
@@ -21449,7 +21449,7 @@
       },
       "OperatingModeEnum": {
         "type": "object",
-        "dov:typeRef": "nsu=http://opcfoundation.org/UA/Pumps/;i=3006",
+        "dov:typeRef": "org.opcfoundation.UA.Pumps.OperatingModeEnum",
         "const": {
           "SingleOperation": 0,
           "SeriesOperation": 1,
@@ -21473,7 +21473,7 @@
       },
       "ControlModeEnum": {
         "type": "object",
-        "dov:typeRef": "nsu=http://opcfoundation.org/UA/Pumps/;i=3008",
+        "dov:typeRef": "org.opcfoundation.UA.Pumps.ControlModeEnum",
         "const": {
           "ConstantPressureControl": 0,
           "ConstantTemperatureControl": 1,
@@ -21585,7 +21585,7 @@
         "dov:namespace": "http://opcfoundation.org/UA/Pumps/",
         "title": "ExplosionZoneOptionSet",
         "description": "Categories of explosion zones for devices according to 2014/34/EU (ATEX).",
-        "dov:typeRef": "nsu=http://opcfoundation.org/UA/Pumps/;i=3015",
+        "dov:typeRef": "org.opcfoundation.UA.Pumps.ExplosionZoneOptionSet",
         "type": "integer",
         "minimum": -2147483648,
         "maximum": 2147483647,
@@ -21607,7 +21607,7 @@
         "dov:namespace": "http://opcfoundation.org/UA/Pumps/",
         "title": "FieldbusEnum",
         "description": "Selected fieldbus for the product",
-        "dov:typeRef": "nsu=http://opcfoundation.org/UA/Pumps/;i=3005",
+        "dov:typeRef": "org.opcfoundation.UA.Pumps.FieldbusEnum",
         "type": "integer",
         "minimum": -2147483648,
         "maximum": 2147483647,
@@ -22149,7 +22149,7 @@
         "dov:namespace": "http://opcfoundation.org/UA/Pumps/",
         "title": "OperatingModeEnum",
         "description": "Specifies whether the pump is to be operated in single, parallel or series connection.",
-        "dov:typeRef": "nsu=http://opcfoundation.org/UA/Pumps/;i=3006",
+        "dov:typeRef": "org.opcfoundation.UA.Pumps.OperatingModeEnum",
         "type": "integer",
         "minimum": -2147483648,
         "maximum": 2147483647,
@@ -22237,7 +22237,7 @@
         "dov:namespace": "http://opcfoundation.org/UA/Pumps/",
         "title": "ControlModeEnum",
         "description": "Specifies which control mode is to be used for the use case.",
-        "dov:typeRef": "nsu=http://opcfoundation.org/UA/Pumps/;i=3008",
+        "dov:typeRef": "org.opcfoundation.UA.Pumps.ControlModeEnum",
         "type": "integer",
         "minimum": -2147483648,
         "maximum": 2147483647,
@@ -22748,7 +22748,7 @@
         "data": {
           "title": "ExplosionZoneOptionSet",
           "description": "Categories of explosion zones for devices according to 2014/34/EU (ATEX).",
-          "dov:typeRef": "nsu=http://opcfoundation.org/UA/Pumps/;i=3015",
+          "dov:typeRef": "org.opcfoundation.UA.Pumps.ExplosionZoneOptionSet",
           "type": "integer",
           "minimum": -2147483648,
           "maximum": 2147483647
@@ -22766,7 +22766,7 @@
         "data": {
           "title": "FieldbusEnum",
           "description": "Selected fieldbus for the product",
-          "dov:typeRef": "nsu=http://opcfoundation.org/UA/Pumps/;i=3005",
+          "dov:typeRef": "org.opcfoundation.UA.Pumps.FieldbusEnum",
           "type": "integer",
           "minimum": -2147483648,
           "maximum": 2147483647
@@ -23208,7 +23208,7 @@
         "data": {
           "title": "OperatingModeEnum",
           "description": "Specifies whether the pump is to be operated in single, parallel or series connection.",
-          "dov:typeRef": "nsu=http://opcfoundation.org/UA/Pumps/;i=3006",
+          "dov:typeRef": "org.opcfoundation.UA.Pumps.OperatingModeEnum",
           "type": "integer",
           "minimum": -2147483648,
           "maximum": 2147483647
@@ -23280,7 +23280,7 @@
         "data": {
           "title": "ControlModeEnum",
           "description": "Specifies which control mode is to be used for the use case.",
-          "dov:typeRef": "nsu=http://opcfoundation.org/UA/Pumps/;i=3008",
+          "dov:typeRef": "org.opcfoundation.UA.Pumps.ControlModeEnum",
           "type": "integer",
           "minimum": -2147483648,
           "maximum": 2147483647
@@ -23395,7 +23395,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "Pumps_VibrationMeasurementType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/Pumps/;i=1055",
+    "dov:typeRef": "org.opcfoundation.UA.Pumps.VibrationMeasurementType",
     "links": [
       {
         "rel": "tm:extends",
@@ -24977,7 +24977,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "Pumps_MarkingsType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/Pumps/;i=1002",
+    "dov:typeRef": "org.opcfoundation.UA.Pumps.MarkingsType",
     "links": [
       {
         "rel": "tm:extends",
@@ -25009,7 +25009,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "Pumps_PortType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/Pumps/;i=1035",
+    "dov:typeRef": "org.opcfoundation.UA.Pumps.PortType",
     "links": [
       {
         "rel": "tm:extends",
@@ -25020,7 +25020,7 @@
     "schemaDefinitions": {
       "PortDirectionEnum": {
         "type": "object",
-        "dov:typeRef": "nsu=http://opcfoundation.org/UA/Pumps/;i=3014",
+        "dov:typeRef": "org.opcfoundation.UA.Pumps.PortDirectionEnum",
         "const": {
           "In": 0,
           "Out": 1,
@@ -25085,7 +25085,7 @@
         "dov:namespace": "http://opcfoundation.org/UA/Pumps/",
         "title": "PortDirectionEnum",
         "description": "Ports with the direction “In” can only be connected to ports with the direction “Out” or “InOut” and ports with the direction “Out” can only be connected with ports with the direction “In” or “InOut”. Ports with the direction “InOut” can be connected to Ports of arbitrary direction.",
-        "dov:typeRef": "nsu=http://opcfoundation.org/UA/Pumps/;i=3014",
+        "dov:typeRef": "org.opcfoundation.UA.Pumps.PortDirectionEnum",
         "type": "integer",
         "minimum": -2147483648,
         "maximum": 2147483647,
@@ -25142,7 +25142,7 @@
         "data": {
           "title": "PortDirectionEnum",
           "description": "Ports with the direction “In” can only be connected to ports with the direction “Out” or “InOut” and ports with the direction “Out” can only be connected with ports with the direction “In” or “InOut”. Ports with the direction “InOut” can be connected to Ports of arbitrary direction.",
-          "dov:typeRef": "nsu=http://opcfoundation.org/UA/Pumps/;i=3014",
+          "dov:typeRef": "org.opcfoundation.UA.Pumps.PortDirectionEnum",
           "type": "integer",
           "minimum": -2147483648,
           "maximum": 2147483647
@@ -25180,7 +25180,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "Pumps_DrivePortType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/Pumps/;i=1038",
+    "dov:typeRef": "org.opcfoundation.UA.Pumps.DrivePortType",
     "links": [
       {
         "rel": "tm:extends",
@@ -25218,7 +25218,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "Pumps_InletConnectionPortType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/Pumps/;i=1036",
+    "dov:typeRef": "org.opcfoundation.UA.Pumps.InletConnectionPortType",
     "links": [
       {
         "rel": "tm:extends",
@@ -25268,7 +25268,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "Pumps_OutletConnectionPortType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/Pumps/;i=1037",
+    "dov:typeRef": "org.opcfoundation.UA.Pumps.OutletConnectionPortType",
     "links": [
       {
         "rel": "tm:extends",
@@ -25318,7 +25318,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "Pumps_PumpType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/Pumps/;i=1052",
+    "dov:typeRef": "org.opcfoundation.UA.Pumps.PumpType",
     "dov:isComposite": true,
     "links": [
       {

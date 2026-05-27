@@ -8,7 +8,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "IJT_Tightening_ITighteningToolParametersType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/IJT/Tightening/;i=1003",
+    "dov:typeRef": "org.opcfoundation.UA.IJT.Tightening.ITighteningToolParametersType",
     "links": [
       {
         "rel": "tm:extends",

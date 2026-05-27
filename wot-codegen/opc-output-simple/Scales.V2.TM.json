@@ -8,7 +8,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "Scales_V2_ScaleAlarmType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/Scales/V2/;i=21",
+    "dov:typeRef": "org.opcfoundation.UA.Scales.V2.ScaleAlarmType",
     "dov:isEvent": true,
     "links": [
       {
@@ -183,7 +183,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "Scales_V2_ScaleEventType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/Scales/V2/;i=13",
+    "dov:typeRef": "org.opcfoundation.UA.Scales.V2.ScaleEventType",
     "dov:isEvent": true,
     "links": [
       {
@@ -358,7 +358,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "Scales_V2_MaterialType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/Scales/V2/;i=35",
+    "dov:typeRef": "org.opcfoundation.UA.Scales.V2.MaterialType",
     "links": [
       {
         "rel": "tm:extends",
@@ -465,7 +465,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "Scales_V2_MaterialAutomaticType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/Scales/V2/;i=41",
+    "dov:typeRef": "org.opcfoundation.UA.Scales.V2.MaterialAutomaticType",
     "dov:isComposite": true,
     "links": [
       {
@@ -498,7 +498,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "Scales_V2_ProductionPresetType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/Scales/V2/;i=14",
+    "dov:typeRef": "org.opcfoundation.UA.Scales.V2.ProductionPresetType",
     "links": [
       {
         "rel": "tm:extends",
@@ -537,7 +537,7 @@
         "description": "Creates an object with the JobType from the address space.",
         "input": {
           "type": "object",
-          "dov:typeRef": "nsu=http://opcfoundation.org/UA/Scales/V2/;i=246",
+          "dov:typeRef": "org.opcfoundation.UA.InputArguments",
           "required": [ "ProductName", "ProductId", "ProductType" ],
           "properties": {
             "ProductName": {
@@ -553,7 +553,7 @@
         },
         "output": {
           "type": "object",
-          "dov:typeRef": "nsu=http://opcfoundation.org/UA/Scales/V2/;i=177",
+          "dov:typeRef": "org.opcfoundation.UA.OutputArguments",
           "required": [ "ProductNodeId" ],
           "properties": {
             "ProductNodeId": {
@@ -573,7 +573,7 @@
         "dov:namespace": "http://opcfoundation.org/UA/Scales/V2/",
         "input": {
           "type": "object",
-          "dov:typeRef": "nsu=http://opcfoundation.org/UA/Scales/V2/;i=176",
+          "dov:typeRef": "org.opcfoundation.UA.InputArguments",
           "required": [ "ProductId" ],
           "properties": {
             "ProductId": {
@@ -594,7 +594,7 @@
         "description": "Removes an object with the JobType from the address space.",
         "input": {
           "type": "object",
-          "dov:typeRef": "nsu=http://opcfoundation.org/UA/Scales/V2/;i=647",
+          "dov:typeRef": "org.opcfoundation.UA.InputArguments",
           "required": [ "ProductId" ],
           "properties": {
             "ProductId": {
@@ -614,7 +614,7 @@
         "dov:namespace": "http://opcfoundation.org/UA/Scales/V2/",
         "input": {
           "type": "object",
-          "dov:typeRef": "nsu=http://opcfoundation.org/UA/Scales/V2/;i=175",
+          "dov:typeRef": "org.opcfoundation.UA.InputArguments",
           "required": [ "ProductId" ],
           "properties": {
             "ProductId": {
@@ -634,7 +634,7 @@
         "dov:namespace": "http://opcfoundation.org/UA/Scales/V2/",
         "input": {
           "type": "object",
-          "dov:typeRef": "nsu=http://opcfoundation.org/UA/Scales/V2/;i=988",
+          "dov:typeRef": "org.opcfoundation.UA.InputArguments",
           "required": [ "ProductId" ],
           "properties": {
             "ProductId": {
@@ -701,7 +701,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "Scales_V2_ProductType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/Scales/V2/;i=11",
+    "dov:typeRef": "org.opcfoundation.UA.Scales.V2.ProductType",
     "links": [
       {
         "rel": "tm:extends",
@@ -938,7 +938,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "Scales_V2_AutomaticFillingProductType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/Scales/V2/;i=16",
+    "dov:typeRef": "org.opcfoundation.UA.Scales.V2.AutomaticFillingProductType",
     "links": [
       {
         "rel": "tm:extends",
@@ -1261,7 +1261,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "Scales_V2_CatchweigherProductType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/Scales/V2/;i=17",
+    "dov:typeRef": "org.opcfoundation.UA.Scales.V2.CatchweigherProductType",
     "links": [
       {
         "rel": "tm:extends",
@@ -1306,7 +1306,7 @@
         "description": "Adds a zone to the zone array.",
         "input": {
           "type": "object",
-          "dov:typeRef": "nsu=http://opcfoundation.org/UA/Scales/V2/;i=145",
+          "dov:typeRef": "org.opcfoundation.UA.InputArguments",
           "required": [ "ZoneName", "LowerLimit", "UpperLimit", "EngineeringUnits" ],
           "properties": {
             "ZoneName": {
@@ -1325,7 +1325,7 @@
             "EngineeringUnits": {
               "title": "EUInformation",
               "type": "object",
-              "dov:typeRef": "nsu=http://opcfoundation.org/UA/;i=887",
+              "dov:typeRef": "org.opcfoundation.UA.EUInformation",
               "required": [ "NamespaceUri", "UnitId", "DisplayName", "Description" ],
               "properties": {
                 "NamespaceUri": {
@@ -1348,7 +1348,7 @@
         },
         "output": {
           "type": "object",
-          "dov:typeRef": "nsu=http://opcfoundation.org/UA/Scales/V2/;i=146",
+          "dov:typeRef": "org.opcfoundation.UA.OutputArguments",
           "required": [ "ZoneNodeId" ],
           "properties": {
             "ZoneNodeId": {
@@ -1369,7 +1369,7 @@
         "description": "Removes a zone from the zone array.",
         "input": {
           "type": "object",
-          "dov:typeRef": "nsu=http://opcfoundation.org/UA/Scales/V2/;i=147",
+          "dov:typeRef": "org.opcfoundation.UA.InputArguments",
           "required": [ "ZoneNodeId" ],
           "properties": {
             "ZoneNodeId": {
@@ -1526,7 +1526,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "Scales_V2_AutomaticWeightPriceLabelerProductType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/Scales/V2/;i=47",
+    "dov:typeRef": "org.opcfoundation.UA.Scales.V2.AutomaticWeightPriceLabelerProductType",
     "links": [
       {
         "rel": "tm:extends",
@@ -1607,7 +1607,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "Scales_V2_CheckweigherProductType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/Scales/V2/;i=46",
+    "dov:typeRef": "org.opcfoundation.UA.Scales.V2.CheckweigherProductType",
     "links": [
       {
         "rel": "tm:extends",
@@ -1748,7 +1748,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "Scales_V2_ContinuousProductType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/Scales/V2/;i=18",
+    "dov:typeRef": "org.opcfoundation.UA.Scales.V2.ContinuousProductType",
     "links": [
       {
         "rel": "tm:extends",
@@ -1887,7 +1887,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "Scales_V2_PieceCountingProductType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/Scales/V2/;i=12",
+    "dov:typeRef": "org.opcfoundation.UA.Scales.V2.PieceCountingProductType",
     "links": [
       {
         "rel": "tm:extends",
@@ -1920,7 +1920,7 @@
         "description": "Set the number of TargetItemCount.",
         "input": {
           "type": "object",
-          "dov:typeRef": "nsu=http://opcfoundation.org/UA/Scales/V2/;i=398",
+          "dov:typeRef": "org.opcfoundation.UA.InputArguments",
           "required": [ "TargetItemCount" ],
           "properties": {
             "TargetItemCount": {
@@ -1943,7 +1943,7 @@
         "description": "Sets the value of TargetPieceCount. See TargetPieceCount.",
         "input": {
           "type": "object",
-          "dov:typeRef": "nsu=http://opcfoundation.org/UA/Scales/V2/;i=184",
+          "dov:typeRef": "org.opcfoundation.UA.InputArguments",
           "required": [ "TargetPieceCount", "PlusTolerance", "MinusTolerance" ],
           "properties": {
             "TargetPieceCount": {
@@ -2258,7 +2258,7 @@
         "title": "WeightType",
         "description": "Defines the summed up number of weight. Will be reset either triggered by the user or a different product selection.",
         "type": "object",
-        "dov:typeRef": "nsu=http://opcfoundation.org/UA/Scales/V2/;i=55",
+        "dov:typeRef": "org.opcfoundation.UA.Scales.V2.WeightType",
         "required": [ "Gross", "Net", "Tare" ],
         "properties": {
           "Gross": {
@@ -2519,7 +2519,7 @@
           "title": "WeightType",
           "description": "Defines the summed up number of weight. Will be reset either triggered by the user or a different product selection.",
           "type": "object",
-          "dov:typeRef": "nsu=http://opcfoundation.org/UA/Scales/V2/;i=55",
+          "dov:typeRef": "org.opcfoundation.UA.Scales.V2.WeightType",
           "required": [ "Gross", "Net", "Tare" ],
           "properties": {
             "Gross": {
@@ -2558,7 +2558,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "Scales_V2_RecipeProductType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/Scales/V2/;i=19",
+    "dov:typeRef": "org.opcfoundation.UA.Scales.V2.RecipeProductType",
     "links": [
       {
         "rel": "tm:extends",
@@ -2619,7 +2619,7 @@
         "items": {
           "title": "RecipeReportElementType",
           "type": "object",
-          "dov:typeRef": "nsu=http://opcfoundation.org/UA/Scales/V2/;i=59",
+          "dov:typeRef": "org.opcfoundation.UA.Scales.V2.RecipeReportElementType",
           "required": [ "ReportMessage", "Timestamp" ],
           "properties": {
             "ReportMessage": {
@@ -2669,7 +2669,7 @@
           "items": {
             "title": "RecipeReportElementType",
             "type": "object",
-            "dov:typeRef": "nsu=http://opcfoundation.org/UA/Scales/V2/;i=59",
+            "dov:typeRef": "org.opcfoundation.UA.Scales.V2.RecipeReportElementType",
             "required": [ "ReportMessage", "Timestamp" ],
             "properties": {
               "ReportMessage": {
@@ -2701,7 +2701,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "Scales_V2_SimpleProductType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/Scales/V2/;i=20",
+    "dov:typeRef": "org.opcfoundation.UA.Scales.V2.SimpleProductType",
     "links": [
       {
         "rel": "tm:extends",
@@ -2791,7 +2791,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "Scales_V2_TotalizingHopperProductType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/Scales/V2/;i=22",
+    "dov:typeRef": "org.opcfoundation.UA.Scales.V2.TotalizingHopperProductType",
     "links": [
       {
         "rel": "tm:extends",
@@ -2900,7 +2900,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "Scales_V2_VehicleProductType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/Scales/V2/;i=832",
+    "dov:typeRef": "org.opcfoundation.UA.Scales.V2.VehicleProductType",
     "links": [
       {
         "rel": "tm:extends",
@@ -2938,7 +2938,7 @@
         "dov:namespace": "http://opcfoundation.org/UA/Scales/V2/",
         "input": {
           "type": "object",
-          "dov:typeRef": "nsu=http://opcfoundation.org/UA/Scales/V2/;i=1208",
+          "dov:typeRef": "org.opcfoundation.UA.InputArguments",
           "required": [ "VehicleId" ],
           "properties": {
             "VehicleId": {
@@ -3011,7 +3011,7 @@
         "dov:namespace": "http://opcfoundation.org/UA/Scales/V2/",
         "title": "WeightType",
         "type": "object",
-        "dov:typeRef": "nsu=http://opcfoundation.org/UA/Scales/V2/;i=55",
+        "dov:typeRef": "org.opcfoundation.UA.Scales.V2.WeightType",
         "required": [ "Gross", "Net", "Tare" ],
         "properties": {
           "Gross": {
@@ -3116,7 +3116,7 @@
         "dov:namespace": "http://opcfoundation.org/UA/Scales/V2/",
         "title": "WeightType",
         "type": "object",
-        "dov:typeRef": "nsu=http://opcfoundation.org/UA/Scales/V2/;i=55",
+        "dov:typeRef": "org.opcfoundation.UA.Scales.V2.WeightType",
         "required": [ "Gross", "Net", "Tare" ],
         "properties": {
           "Gross": {
@@ -3170,7 +3170,7 @@
         "dov:namespace": "http://opcfoundation.org/UA/Scales/V2/",
         "title": "WeightType",
         "type": "object",
-        "dov:typeRef": "nsu=http://opcfoundation.org/UA/Scales/V2/;i=55",
+        "dov:typeRef": "org.opcfoundation.UA.Scales.V2.WeightType",
         "required": [ "Gross", "Net", "Tare" ],
         "properties": {
           "Gross": {
@@ -3276,7 +3276,7 @@
         "dov:namespace": "http://opcfoundation.org/UA/Scales/V2/",
         "title": "WeightType",
         "type": "object",
-        "dov:typeRef": "nsu=http://opcfoundation.org/UA/Scales/V2/;i=55",
+        "dov:typeRef": "org.opcfoundation.UA.Scales.V2.WeightType",
         "required": [ "Gross", "Net", "Tare" ],
         "properties": {
           "Gross": {
@@ -3351,7 +3351,7 @@
         "data": {
           "title": "WeightType",
           "type": "object",
-          "dov:typeRef": "nsu=http://opcfoundation.org/UA/Scales/V2/;i=55",
+          "dov:typeRef": "org.opcfoundation.UA.Scales.V2.WeightType",
           "required": [ "Gross", "Net", "Tare" ],
           "properties": {
             "Gross": {
@@ -3384,7 +3384,7 @@
         "data": {
           "title": "WeightType",
           "type": "object",
-          "dov:typeRef": "nsu=http://opcfoundation.org/UA/Scales/V2/;i=55",
+          "dov:typeRef": "org.opcfoundation.UA.Scales.V2.WeightType",
           "required": [ "Gross", "Net", "Tare" ],
           "properties": {
             "Gross": {
@@ -3417,7 +3417,7 @@
         "data": {
           "title": "WeightType",
           "type": "object",
-          "dov:typeRef": "nsu=http://opcfoundation.org/UA/Scales/V2/;i=55",
+          "dov:typeRef": "org.opcfoundation.UA.Scales.V2.WeightType",
           "required": [ "Gross", "Net", "Tare" ],
           "properties": {
             "Gross": {
@@ -3456,7 +3456,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "Scales_V2_RecipeElementType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/Scales/V2/;i=32",
+    "dov:typeRef": "org.opcfoundation.UA.Scales.V2.RecipeElementType",
     "links": [
       {
         "rel": "tm:extends",
@@ -3482,7 +3482,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "Scales_V2_ActivationType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/Scales/V2/;i=40",
+    "dov:typeRef": "org.opcfoundation.UA.Scales.V2.ActivationType",
     "dov:isComposite": true,
     "links": [
       {
@@ -3593,7 +3593,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "Scales_V2_ConditionSleepType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/Scales/V2/;i=37",
+    "dov:typeRef": "org.opcfoundation.UA.Scales.V2.ConditionSleepType",
     "links": [
       {
         "rel": "tm:extends",
@@ -3766,7 +3766,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "Scales_V2_AnalogConditionSleepType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/Scales/V2/;i=38",
+    "dov:typeRef": "org.opcfoundation.UA.Scales.V2.AnalogConditionSleepType",
     "dov:isComposite": true,
     "links": [
       {
@@ -3778,7 +3778,7 @@
     "schemaDefinitions": {
       "EqualityAndRelationalOperator": {
         "type": "object",
-        "dov:typeRef": "nsu=http://opcfoundation.org/UA/Scales/V2/;i=61",
+        "dov:typeRef": "org.opcfoundation.UA.Scales.V2.EqualityAndRelationalOperator",
         "const": {
           "Equal_0": 0,
           "NotEqual_1": 1,
@@ -3834,7 +3834,7 @@
         "dov:namespace": "http://opcfoundation.org/UA/Scales/V2/",
         "title": "EqualityAndRelationalOperator",
         "description": "Defines the type of condition operator that is used.",
-        "dov:typeRef": "nsu=http://opcfoundation.org/UA/Scales/V2/;i=61",
+        "dov:typeRef": "org.opcfoundation.UA.Scales.V2.EqualityAndRelationalOperator",
         "type": "integer",
         "minimum": -2147483648,
         "maximum": 2147483647,
@@ -3897,7 +3897,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "Scales_V2_EdgeTriggeredSleepType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/Scales/V2/;i=39",
+    "dov:typeRef": "org.opcfoundation.UA.Scales.V2.EdgeTriggeredSleepType",
     "dov:isComposite": true,
     "links": [
       {
@@ -3909,7 +3909,7 @@
     "schemaDefinitions": {
       "EdgeOperator": {
         "type": "object",
-        "dov:typeRef": "nsu=http://opcfoundation.org/UA/Scales/V2/;i=62",
+        "dov:typeRef": "org.opcfoundation.UA.Scales.V2.EdgeOperator",
         "const": {
           "Rising_0": 0,
           "Falling_1": 1
@@ -3948,7 +3948,7 @@
         "dov:namespace": "http://opcfoundation.org/UA/Scales/V2/",
         "title": "EdgeOperator",
         "description": "Defines the type of condition operator that is used.",
-        "dov:typeRef": "nsu=http://opcfoundation.org/UA/Scales/V2/;i=62",
+        "dov:typeRef": "org.opcfoundation.UA.Scales.V2.EdgeOperator",
         "type": "integer",
         "minimum": -2147483648,
         "maximum": 2147483647,
@@ -4011,7 +4011,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "Scales_V2_TimerType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/Scales/V2/;i=36",
+    "dov:typeRef": "org.opcfoundation.UA.Scales.V2.TimerType",
     "dov:isComposite": true,
     "links": [
       {
@@ -4089,7 +4089,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "Scales_V2_UserInstructionType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/Scales/V2/;i=33",
+    "dov:typeRef": "org.opcfoundation.UA.Scales.V2.UserInstructionType",
     "dov:isComposite": true,
     "links": [
       {
@@ -4199,7 +4199,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "Scales_V2_WeighingType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/Scales/V2/;i=34",
+    "dov:typeRef": "org.opcfoundation.UA.Scales.V2.WeighingType",
     "dov:isComposite": true,
     "links": [
       {
@@ -4313,7 +4313,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "Scales_V2_RecipeManagementType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/Scales/V2/;i=30",
+    "dov:typeRef": "org.opcfoundation.UA.Scales.V2.RecipeManagementType",
     "links": [
       {
         "rel": "tm:extends",
@@ -4335,7 +4335,7 @@
         "description": "Method to add an additional recipe of RecipeType.",
         "input": {
           "type": "object",
-          "dov:typeRef": "nsu=http://opcfoundation.org/UA/Scales/V2/;i=181",
+          "dov:typeRef": "org.opcfoundation.UA.InputArguments",
           "required": [ "RecipeId", "RecipeName" ],
           "properties": {
             "RecipeId": {
@@ -4348,7 +4348,7 @@
         },
         "output": {
           "type": "object",
-          "dov:typeRef": "nsu=http://opcfoundation.org/UA/Scales/V2/;i=182",
+          "dov:typeRef": "org.opcfoundation.UA.OutputArguments",
           "required": [ "RecipeNodeId" ],
           "properties": {
             "RecipeNodeId": {
@@ -4369,7 +4369,7 @@
         "description": "Method to remove a recipe of RecipeType.",
         "input": {
           "type": "object",
-          "dov:typeRef": "nsu=http://opcfoundation.org/UA/Scales/V2/;i=180",
+          "dov:typeRef": "org.opcfoundation.UA.InputArguments",
           "required": [ "RecipeId" ],
           "properties": {
             "RecipeId": {
@@ -4400,7 +4400,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "Scales_V2_RecipeType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/Scales/V2/;i=31",
+    "dov:typeRef": "org.opcfoundation.UA.Scales.V2.RecipeType",
     "links": [
       {
         "rel": "tm:extends",
@@ -4439,7 +4439,7 @@
         "dov:namespace": "http://opcfoundation.org/UA/Scales/V2/",
         "input": {
           "type": "object",
-          "dov:typeRef": "nsu=http://opcfoundation.org/UA/Scales/V2/;i=437",
+          "dov:typeRef": "org.opcfoundation.UA.InputArguments",
           "required": [ "ElementType", "ElementName", "PreviousElements" ],
           "properties": {
             "ElementType": {
@@ -4458,7 +4458,7 @@
         },
         "output": {
           "type": "object",
-          "dov:typeRef": "nsu=http://opcfoundation.org/UA/Scales/V2/;i=438",
+          "dov:typeRef": "org.opcfoundation.UA.OutputArguments",
           "required": [ "ElementNodeId" ],
           "properties": {
             "ElementNodeId": {
@@ -4478,7 +4478,7 @@
         "dov:namespace": "http://opcfoundation.org/UA/Scales/V2/",
         "input": {
           "type": "object",
-          "dov:typeRef": "nsu=http://opcfoundation.org/UA/Scales/V2/;i=439",
+          "dov:typeRef": "org.opcfoundation.UA.InputArguments",
           "required": [ "RecipeElementNodeId" ],
           "properties": {
             "RecipeElementNodeId": {
@@ -4545,7 +4545,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "Scales_V2_StatisticCounterType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/Scales/V2/;i=43",
+    "dov:typeRef": "org.opcfoundation.UA.Scales.V2.StatisticCounterType",
     "links": [
       {
         "rel": "tm:extends",
@@ -4601,7 +4601,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "Scales_V2_AcceptedStatisticCounterType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/Scales/V2/;i=1027",
+    "dov:typeRef": "org.opcfoundation.UA.Scales.V2.AcceptedStatisticCounterType",
     "links": [
       {
         "rel": "tm:extends",
@@ -4627,7 +4627,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "Scales_V2_RejectedStatisticCounterType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/Scales/V2/;i=1028",
+    "dov:typeRef": "org.opcfoundation.UA.Scales.V2.RejectedStatisticCounterType",
     "links": [
       {
         "rel": "tm:extends",
@@ -4653,7 +4653,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "Scales_V2_StatisticType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/Scales/V2/;i=25",
+    "dov:typeRef": "org.opcfoundation.UA.Scales.V2.StatisticType",
     "links": [
       {
         "rel": "tm:extends",
@@ -4743,7 +4743,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "Scales_V2_CheckweigherStatisticType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/Scales/V2/;i=48",
+    "dov:typeRef": "org.opcfoundation.UA.Scales.V2.CheckweigherStatisticType",
     "links": [
       {
         "rel": "tm:extends",
@@ -4860,7 +4860,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "Scales_V2_FloatingStatisticType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/Scales/V2/;i=26",
+    "dov:typeRef": "org.opcfoundation.UA.Scales.V2.FloatingStatisticType",
     "dov:isComposite": true,
     "links": [
       {
@@ -4918,7 +4918,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "Scales_V2_FeederModuleType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/Scales/V2/;i=28",
+    "dov:typeRef": "org.opcfoundation.UA.Scales.V2.FeederModuleType",
     "links": [
       {
         "rel": "tm:extends",
@@ -4952,7 +4952,7 @@
         "description": "Allows to set a new value for the speed of the feeder system. The OPC UA server must check if the value is between the minimal and maximum allowed speed and if the unit is allowed.",
         "input": {
           "type": "object",
-          "dov:typeRef": "nsu=http://opcfoundation.org/UA/Scales/V2/;i=337",
+          "dov:typeRef": "org.opcfoundation.UA.InputArguments",
           "required": [ "FeederSpeed", "EngineeringUnits" ],
           "properties": {
             "FeederSpeed": {
@@ -4963,7 +4963,7 @@
             "EngineeringUnits": {
               "title": "EUInformation",
               "type": "object",
-              "dov:typeRef": "nsu=http://opcfoundation.org/UA/;i=887",
+              "dov:typeRef": "org.opcfoundation.UA.EUInformation",
               "required": [ "NamespaceUri", "UnitId", "DisplayName", "Description" ],
               "properties": {
                 "NamespaceUri": {
@@ -5128,7 +5128,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "Scales_V2_PrinterModuleType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/Scales/V2/;i=29",
+    "dov:typeRef": "org.opcfoundation.UA.Scales.V2.PrinterModuleType",
     "links": [
       {
         "rel": "tm:extends",
@@ -5307,7 +5307,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "Scales_V2_ScaleDeviceType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/Scales/V2/;i=2",
+    "dov:typeRef": "org.opcfoundation.UA.Scales.V2.ScaleDeviceType",
     "links": [
       {
         "rel": "tm:extends",
@@ -5395,7 +5395,7 @@
         "dov:namespace": "http://opcfoundation.org/UA/Scales/V2/",
         "input": {
           "type": "object",
-          "dov:typeRef": "nsu=http://opcfoundation.org/UA/Scales/V2/;i=1353",
+          "dov:typeRef": "org.opcfoundation.UA.InputArguments",
           "required": [ "PresetTare", "EngineeringUnits" ],
           "properties": {
             "PresetTare": {
@@ -5406,7 +5406,7 @@
             "EngineeringUnits": {
               "title": "EUInformation",
               "type": "object",
-              "dov:typeRef": "nsu=http://opcfoundation.org/UA/;i=887",
+              "dov:typeRef": "org.opcfoundation.UA.EUInformation",
               "required": [ "NamespaceUri", "UnitId", "DisplayName", "Description" ],
               "properties": {
                 "NamespaceUri": {
@@ -5463,7 +5463,7 @@
         "items": {
           "title": "EUInformation",
           "type": "object",
-          "dov:typeRef": "nsu=http://opcfoundation.org/UA/;i=887",
+          "dov:typeRef": "org.opcfoundation.UA.EUInformation",
           "required": [ "NamespaceUri", "UnitId", "DisplayName", "Description" ],
           "properties": {
             "NamespaceUri": {
@@ -5501,7 +5501,7 @@
         "title": "WeightType",
         "description": "Defines the current value that is measured at the sensor at the current timestamp. Might be a highly fluctuating value.",
         "type": "object",
-        "dov:typeRef": "nsu=http://opcfoundation.org/UA/Scales/V2/;i=55",
+        "dov:typeRef": "org.opcfoundation.UA.Scales.V2.WeightType",
         "required": [ "Gross", "Net", "Tare" ],
         "properties": {
           "Gross": {
@@ -5630,7 +5630,7 @@
         "title": "WeightType",
         "description": "Defines the last valid measurement that was recorded and will be used for further processing. This is the legal registered value of the scale.",
         "type": "object",
-        "dov:typeRef": "nsu=http://opcfoundation.org/UA/Scales/V2/;i=55",
+        "dov:typeRef": "org.opcfoundation.UA.Scales.V2.WeightType",
         "required": [ "Gross", "Net", "Tare" ],
         "properties": {
           "Gross": {
@@ -5671,7 +5671,7 @@
           "title": "WeightType",
           "description": "Defines the current value that is measured at the sensor at the current timestamp. Might be a highly fluctuating value.",
           "type": "object",
-          "dov:typeRef": "nsu=http://opcfoundation.org/UA/Scales/V2/;i=55",
+          "dov:typeRef": "org.opcfoundation.UA.Scales.V2.WeightType",
           "required": [ "Gross", "Net", "Tare" ],
           "properties": {
             "Gross": {
@@ -5718,7 +5718,7 @@
           "title": "WeightType",
           "description": "Defines the last valid measurement that was recorded and will be used for further processing. This is the legal registered value of the scale.",
           "type": "object",
-          "dov:typeRef": "nsu=http://opcfoundation.org/UA/Scales/V2/;i=55",
+          "dov:typeRef": "org.opcfoundation.UA.Scales.V2.WeightType",
           "required": [ "Gross", "Net", "Tare" ],
           "properties": {
             "Gross": {
@@ -5757,7 +5757,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "Scales_V2_AutomaticFillingScaleType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/Scales/V2/;i=5",
+    "dov:typeRef": "org.opcfoundation.UA.Scales.V2.AutomaticFillingScaleType",
     "dov:isComposite": true,
     "links": [
       {
@@ -5775,7 +5775,7 @@
     "schemaDefinitions": {
       "ToleranceState": {
         "type": "object",
-        "dov:typeRef": "nsu=http://opcfoundation.org/UA/Scales/V2/;i=60",
+        "dov:typeRef": "org.opcfoundation.UA.Scales.V2.ToleranceState",
         "const": {
           "In_0": 0,
           "Under_1": 1,
@@ -5840,7 +5840,7 @@
         "dov:namespace": "http://opcfoundation.org/UA/Scales/V2/",
         "title": "ToleranceState",
         "description": "Describes the state of the tolerance deviation. The option under and over needs to be determined via TargetItemType information of TargetWeight.",
-        "dov:typeRef": "nsu=http://opcfoundation.org/UA/Scales/V2/;i=60",
+        "dov:typeRef": "org.opcfoundation.UA.Scales.V2.ToleranceState",
         "type": "integer",
         "minimum": -2147483648,
         "maximum": 2147483647,
@@ -5885,7 +5885,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "Scales_V2_CatchweigherType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/Scales/V2/;i=4",
+    "dov:typeRef": "org.opcfoundation.UA.Scales.V2.CatchweigherType",
     "dov:isComposite": true,
     "links": [
       {
@@ -5918,7 +5918,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "Scales_V2_AutomaticWeightPriceLabelerType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/Scales/V2/;i=49",
+    "dov:typeRef": "org.opcfoundation.UA.Scales.V2.AutomaticWeightPriceLabelerType",
     "dov:isComposite": true,
     "links": [
       {
@@ -5951,7 +5951,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "Scales_V2_CheckweigherType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/Scales/V2/;i=45",
+    "dov:typeRef": "org.opcfoundation.UA.Scales.V2.CheckweigherType",
     "dov:isComposite": true,
     "links": [
       {
@@ -6033,7 +6033,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "Scales_V2_ContinuousScaleType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/Scales/V2/;i=10",
+    "dov:typeRef": "org.opcfoundation.UA.Scales.V2.ContinuousScaleType",
     "dov:isComposite": true,
     "links": [
       {
@@ -6063,7 +6063,7 @@
     "schemaDefinitions": {
       "RateControlMode": {
         "type": "object",
-        "dov:typeRef": "nsu=http://opcfoundation.org/UA/Scales/V2/;i=30003",
+        "dov:typeRef": "org.opcfoundation.UA.Scales.V2.RateControlMode",
         "const": {
           "Gravimetric_0": 0,
           "Volumetric_1": 1
@@ -6189,7 +6189,7 @@
       "RateControlMode": {
         "dov:namespace": "http://opcfoundation.org/UA/Scales/V2/",
         "title": "RateControlMode",
-        "dov:typeRef": "nsu=http://opcfoundation.org/UA/Scales/V2/;i=30003",
+        "dov:typeRef": "org.opcfoundation.UA.Scales.V2.RateControlMode",
         "type": "integer",
         "minimum": -2147483648,
         "maximum": 2147483647,
@@ -6315,7 +6315,7 @@
         "dov:namespace": "http://opcfoundation.org/UA/Scales/V2/",
         "data": {
           "title": "RateControlMode",
-          "dov:typeRef": "nsu=http://opcfoundation.org/UA/Scales/V2/;i=30003",
+          "dov:typeRef": "org.opcfoundation.UA.Scales.V2.RateControlMode",
           "type": "integer",
           "minimum": -2147483648,
           "maximum": 2147483647
@@ -6365,7 +6365,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "Scales_V2_LossInWeightScaleType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/Scales/V2/;i=50",
+    "dov:typeRef": "org.opcfoundation.UA.Scales.V2.LossInWeightScaleType",
     "dov:isComposite": true,
     "links": [
       {
@@ -6582,7 +6582,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "Scales_V2_PieceCountingScaleType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/Scales/V2/;i=6",
+    "dov:typeRef": "org.opcfoundation.UA.Scales.V2.PieceCountingScaleType",
     "dov:isComposite": true,
     "links": [
       {
@@ -6621,7 +6621,7 @@
         "dov:namespace": "http://opcfoundation.org/UA/Scales/V2/",
         "input": {
           "type": "object",
-          "dov:typeRef": "nsu=http://opcfoundation.org/UA/Scales/V2/;i=990",
+          "dov:typeRef": "org.opcfoundation.UA.InputArguments",
           "required": [ "NumberOfReferencePieces" ],
           "properties": {
             "NumberOfReferencePieces": {
@@ -6644,7 +6644,7 @@
         "description": "Sets the value for the ReferencePieceWeight (product-specific data).",
         "input": {
           "type": "object",
-          "dov:typeRef": "nsu=http://opcfoundation.org/UA/Scales/V2/;i=604",
+          "dov:typeRef": "org.opcfoundation.UA.InputArguments",
           "required": [ "ReferencePieceWeight", "EngineeringUnits" ],
           "properties": {
             "ReferencePieceWeight": {
@@ -6655,7 +6655,7 @@
             "EngineeringUnits": {
               "title": "EUInformation",
               "type": "object",
-              "dov:typeRef": "nsu=http://opcfoundation.org/UA/;i=887",
+              "dov:typeRef": "org.opcfoundation.UA.EUInformation",
               "required": [ "NamespaceUri", "UnitId", "DisplayName", "Description" ],
               "properties": {
                 "NamespaceUri": {
@@ -6689,7 +6689,7 @@
         "description": "Triggers the reference weighing process.",
         "input": {
           "type": "object",
-          "dov:typeRef": "nsu=http://opcfoundation.org/UA/Scales/V2/;i=1013",
+          "dov:typeRef": "org.opcfoundation.UA.InputArguments",
           "required": [ "NumberOfReferencePieces" ],
           "properties": {
             "NumberOfReferencePieces": {
@@ -6786,7 +6786,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "Scales_V2_RecipeScaleType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/Scales/V2/;i=7",
+    "dov:typeRef": "org.opcfoundation.UA.Scales.V2.RecipeScaleType",
     "dov:isComposite": true,
     "links": [
       {
@@ -6837,7 +6837,7 @@
         "dov:namespace": "http://opcfoundation.org/UA/Scales/V2/",
         "input": {
           "type": "object",
-          "dov:typeRef": "nsu=http://opcfoundation.org/UA/Scales/V2/;i=1017",
+          "dov:typeRef": "org.opcfoundation.UA.InputArguments",
           "required": [ "RecipeNodeId" ],
           "properties": {
             "RecipeNodeId": {
@@ -6857,7 +6857,7 @@
         "dov:namespace": "http://opcfoundation.org/UA/Scales/V2/",
         "input": {
           "type": "object",
-          "dov:typeRef": "nsu=http://opcfoundation.org/UA/Scales/V2/;i=1015",
+          "dov:typeRef": "org.opcfoundation.UA.InputArguments",
           "required": [ "RecipeNodeId" ],
           "properties": {
             "RecipeNodeId": {
@@ -6877,7 +6877,7 @@
         "dov:namespace": "http://opcfoundation.org/UA/Scales/V2/",
         "input": {
           "type": "object",
-          "dov:typeRef": "nsu=http://opcfoundation.org/UA/Scales/V2/;i=1016",
+          "dov:typeRef": "org.opcfoundation.UA.InputArguments",
           "required": [ "RecipeNodeId" ],
           "properties": {
             "RecipeNodeId": {
@@ -6897,7 +6897,7 @@
         "dov:namespace": "http://opcfoundation.org/UA/Scales/V2/",
         "input": {
           "type": "object",
-          "dov:typeRef": "nsu=http://opcfoundation.org/UA/Scales/V2/;i=373",
+          "dov:typeRef": "org.opcfoundation.UA.InputArguments",
           "required": [ "RecipeNodeId" ],
           "properties": {
             "RecipeNodeId": {
@@ -6917,7 +6917,7 @@
         "dov:namespace": "http://opcfoundation.org/UA/Scales/V2/",
         "input": {
           "type": "object",
-          "dov:typeRef": "nsu=http://opcfoundation.org/UA/Scales/V2/;i=1014",
+          "dov:typeRef": "org.opcfoundation.UA.InputArguments",
           "required": [ "RecipeNodeId" ],
           "properties": {
             "RecipeNodeId": {
@@ -6942,7 +6942,7 @@
         "items": {
           "title": "RecipeTargetValueType",
           "type": "object",
-          "dov:typeRef": "nsu=http://opcfoundation.org/UA/Scales/V2/;i=58",
+          "dov:typeRef": "org.opcfoundation.UA.Scales.V2.RecipeTargetValueType",
           "required": [ "TargetValueId", "TargetValueName" ],
           "properties": {
             "TargetValueId": {
@@ -6979,7 +6979,7 @@
         "items": {
           "title": "RecipeThresholdType",
           "type": "object",
-          "dov:typeRef": "nsu=http://opcfoundation.org/UA/Scales/V2/;i=57",
+          "dov:typeRef": "org.opcfoundation.UA.Scales.V2.RecipeThresholdType",
           "required": [ "ThresholdId", "ThresholdName" ],
           "properties": {
             "ThresholdId": {
@@ -7019,7 +7019,7 @@
           "items": {
             "title": "RecipeTargetValueType",
             "type": "object",
-            "dov:typeRef": "nsu=http://opcfoundation.org/UA/Scales/V2/;i=58",
+            "dov:typeRef": "org.opcfoundation.UA.Scales.V2.RecipeTargetValueType",
             "required": [ "TargetValueId", "TargetValueName" ],
             "properties": {
               "TargetValueId": {
@@ -7052,7 +7052,7 @@
           "items": {
             "title": "RecipeThresholdType",
             "type": "object",
-            "dov:typeRef": "nsu=http://opcfoundation.org/UA/Scales/V2/;i=57",
+            "dov:typeRef": "org.opcfoundation.UA.Scales.V2.RecipeThresholdType",
             "required": [ "ThresholdId", "ThresholdName" ],
             "properties": {
               "ThresholdId": {
@@ -7088,7 +7088,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "Scales_V2_SimpleScaleType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/Scales/V2/;i=3",
+    "dov:typeRef": "org.opcfoundation.UA.Scales.V2.SimpleScaleType",
     "dov:isComposite": true,
     "links": [
       {
@@ -7121,7 +7121,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "Scales_V2_HopperScaleType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/Scales/V2/;i=9",
+    "dov:typeRef": "org.opcfoundation.UA.Scales.V2.HopperScaleType",
     "dov:isComposite": true,
     "links": [
       {
@@ -7284,7 +7284,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "Scales_V2_LaboratoryScaleType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/Scales/V2/;i=15",
+    "dov:typeRef": "org.opcfoundation.UA.Scales.V2.LaboratoryScaleType",
     "dov:isComposite": true,
     "links": [
       {
@@ -7296,7 +7296,7 @@
     "schemaDefinitions": {
       "DraftShieldType": {
         "type": "object",
-        "dov:typeRef": "nsu=http://opcfoundation.org/UA/Scales/V2/;i=65",
+        "dov:typeRef": "org.opcfoundation.UA.Scales.V2.DraftShieldType",
         "const": {
           "Right_0": 0,
           "Left_1": 1,
@@ -7337,12 +7337,12 @@
         "description": "Method to close a certain or all draft shields.",
         "input": {
           "type": "object",
-          "dov:typeRef": "nsu=http://opcfoundation.org/UA/Scales/V2/;i=762",
+          "dov:typeRef": "org.opcfoundation.UA.InputArguments",
           "required": [ "Shield" ],
           "properties": {
             "Shield": {
               "title": "DraftShieldType",
-              "dov:typeRef": "nsu=http://opcfoundation.org/UA/Scales/V2/;i=65",
+              "dov:typeRef": "org.opcfoundation.UA.Scales.V2.DraftShieldType",
               "type": "integer",
               "minimum": -2147483648,
               "maximum": 2147483647
@@ -7362,12 +7362,12 @@
         "description": "Method to open a certain or all draft shields.",
         "input": {
           "type": "object",
-          "dov:typeRef": "nsu=http://opcfoundation.org/UA/Scales/V2/;i=759",
+          "dov:typeRef": "org.opcfoundation.UA.InputArguments",
           "required": [ "Shield" ],
           "properties": {
             "Shield": {
               "title": "DraftShieldType",
-              "dov:typeRef": "nsu=http://opcfoundation.org/UA/Scales/V2/;i=65",
+              "dov:typeRef": "org.opcfoundation.UA.Scales.V2.DraftShieldType",
               "type": "integer",
               "minimum": -2147483648,
               "maximum": 2147483647
@@ -7566,7 +7566,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "Scales_V2_WeighingModuleType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/Scales/V2/;i=1",
+    "dov:typeRef": "org.opcfoundation.UA.Scales.V2.WeighingModuleType",
     "links": [
       {
         "rel": "tm:extends",
@@ -7592,7 +7592,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "Scales_V2_TotalizingHopperScaleType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/Scales/V2/;i=8",
+    "dov:typeRef": "org.opcfoundation.UA.Scales.V2.TotalizingHopperScaleType",
     "dov:isComposite": true,
     "links": [
       {
@@ -7625,7 +7625,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "Scales_V2_VehicleScaleType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/Scales/V2/;i=834",
+    "dov:typeRef": "org.opcfoundation.UA.Scales.V2.VehicleScaleType",
     "dov:isComposite": true,
     "links": [
       {
@@ -7647,7 +7647,7 @@
         "dov:namespace": "http://opcfoundation.org/UA/Scales/V2/",
         "input": {
           "type": "object",
-          "dov:typeRef": "nsu=http://opcfoundation.org/UA/Scales/V2/;i=946",
+          "dov:typeRef": "org.opcfoundation.UA.InputArguments",
           "required": [ "VehicleId" ],
           "properties": {
             "VehicleId": {
@@ -7667,7 +7667,7 @@
         "dov:namespace": "http://opcfoundation.org/UA/Scales/V2/",
         "input": {
           "type": "object",
-          "dov:typeRef": "nsu=http://opcfoundation.org/UA/Scales/V2/;i=949",
+          "dov:typeRef": "org.opcfoundation.UA.InputArguments",
           "required": [ "VehicleId" ],
           "properties": {
             "VehicleId": {
@@ -7687,7 +7687,7 @@
         "dov:namespace": "http://opcfoundation.org/UA/Scales/V2/",
         "input": {
           "type": "object",
-          "dov:typeRef": "nsu=http://opcfoundation.org/UA/Scales/V2/;i=947",
+          "dov:typeRef": "org.opcfoundation.UA.InputArguments",
           "required": [ "VehicleId" ],
           "properties": {
             "VehicleId": {
@@ -7718,7 +7718,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "Scales_V2_ScaleSystemType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/Scales/V2/;i=44",
+    "dov:typeRef": "org.opcfoundation.UA.Scales.V2.ScaleSystemType",
     "dov:isComposite": true,
     "links": [
       {
@@ -7849,7 +7849,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "Scales_V2_TotalizerType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/Scales/V2/;i=27",
+    "dov:typeRef": "org.opcfoundation.UA.Scales.V2.TotalizerType",
     "links": [
       {
         "rel": "tm:extends",
@@ -7925,7 +7925,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "Scales_V2_WeighingItemType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/Scales/V2/;i=24",
+    "dov:typeRef": "org.opcfoundation.UA.Scales.V2.WeighingItemType",
     "links": [
       {
         "rel": "tm:extends",
@@ -8032,7 +8032,7 @@
         "title": "WeightType",
         "description": "Defines the registered weight that may be unmistakeable referenced to one item.",
         "type": "object",
-        "dov:typeRef": "nsu=http://opcfoundation.org/UA/Scales/V2/;i=55",
+        "dov:typeRef": "org.opcfoundation.UA.Scales.V2.WeightType",
         "required": [ "Gross", "Net", "Tare" ],
         "properties": {
           "Gross": {
@@ -8150,7 +8150,7 @@
           "title": "WeightType",
           "description": "Defines the registered weight that may be unmistakeable referenced to one item.",
           "type": "object",
-          "dov:typeRef": "nsu=http://opcfoundation.org/UA/Scales/V2/;i=55",
+          "dov:typeRef": "org.opcfoundation.UA.Scales.V2.WeightType",
           "required": [ "Gross", "Net", "Tare" ],
           "properties": {
             "Gross": {
@@ -8203,7 +8203,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "Scales_V2_PriceItemType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/Scales/V2/;i=833",
+    "dov:typeRef": "org.opcfoundation.UA.Scales.V2.PriceItemType",
     "links": [
       {
         "rel": "tm:extends",
@@ -8278,7 +8278,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "Scales_V2_WeighingRangeElementType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/Scales/V2/;i=23",
+    "dov:typeRef": "org.opcfoundation.UA.Scales.V2.WeighingRangeElementType",
     "links": [
       {
         "rel": "tm:extends",
@@ -8333,7 +8333,7 @@
         "title": "Range",
         "description": "Defines the range within the scale may be operated depending on the additional parameters within this type.",
         "type": "object",
-        "dov:typeRef": "nsu=http://opcfoundation.org/UA/;i=884",
+        "dov:typeRef": "org.opcfoundation.UA.Range",
         "required": [ "Low", "High" ],
         "properties": {
           "Low": {
@@ -8405,7 +8405,7 @@
           "title": "Range",
           "description": "Defines the range within the scale may be operated depending on the additional parameters within this type.",
           "type": "object",
-          "dov:typeRef": "nsu=http://opcfoundation.org/UA/;i=884",
+          "dov:typeRef": "org.opcfoundation.UA.Range",
           "required": [ "Low", "High" ],
           "properties": {
             "Low": {
@@ -8455,7 +8455,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "Scales_V2_ZoneType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/Scales/V2/;i=42",
+    "dov:typeRef": "org.opcfoundation.UA.Scales.V2.ZoneType",
     "links": [
       {
         "rel": "tm:extends",

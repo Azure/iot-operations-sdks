@@ -8,7 +8,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "I4AAS_AASAdministrativeInformationType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/I4AAS/;i=1030",
+    "dov:typeRef": "org.opcfoundation.UA.I4AAS.AASAdministrativeInformationType",
     "links": [
       {
         "rel": "tm:extends",
@@ -80,7 +80,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "I4AAS_AASAssetAdministrationShellType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/I4AAS/;i=1002",
+    "dov:typeRef": "org.opcfoundation.UA.I4AAS.AASAssetAdministrationShellType",
     "dov:isComposite": true,
     "links": [
       {
@@ -149,7 +149,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "I4AAS_AASAssetType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/I4AAS/;i=1005",
+    "dov:typeRef": "org.opcfoundation.UA.I4AAS.AASAssetType",
     "links": [
       {
         "rel": "tm:extends",
@@ -178,7 +178,7 @@
     "schemaDefinitions": {
       "AASAssetKindDataType": {
         "type": "object",
-        "dov:typeRef": "nsu=http://opcfoundation.org/UA/I4AAS/;i=3003",
+        "dov:typeRef": "org.opcfoundation.UA.I4AAS.AASAssetKindDataType",
         "const": {
           "Type": 0,
           "Instance": 1
@@ -213,7 +213,7 @@
       "AssetKind": {
         "dov:namespace": "http://opcfoundation.org/UA/I4AAS/",
         "title": "AASAssetKindDataType",
-        "dov:typeRef": "nsu=http://opcfoundation.org/UA/I4AAS/;i=3003",
+        "dov:typeRef": "org.opcfoundation.UA.I4AAS.AASAssetKindDataType",
         "type": "integer",
         "minimum": -2147483648,
         "maximum": 2147483647,
@@ -244,7 +244,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "I4AAS_AASConceptDictionaryType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/I4AAS/;i=1007",
+    "dov:typeRef": "org.opcfoundation.UA.I4AAS.AASConceptDictionaryType",
     "links": [
       {
         "rel": "tm:extends",
@@ -270,7 +270,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "I4AAS_AASDataSpecificationType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/I4AAS/;i=1027",
+    "dov:typeRef": "org.opcfoundation.UA.I4AAS.AASDataSpecificationType",
     "links": [
       {
         "rel": "tm:extends",
@@ -296,7 +296,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "I4AAS_AASDataSpecificationIEC61360Type",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/I4AAS/;i=1028",
+    "dov:typeRef": "org.opcfoundation.UA.I4AAS.AASDataSpecificationIEC61360Type",
     "dov:isComposite": true,
     "links": [
       {
@@ -338,7 +338,7 @@
     "schemaDefinitions": {
       "AASCategoryDataType": {
         "type": "object",
-        "dov:typeRef": "nsu=http://opcfoundation.org/UA/I4AAS/;i=3007",
+        "dov:typeRef": "org.opcfoundation.UA.I4AAS.AASCategoryDataType",
         "const": {
           "CONSTANT": 0,
           "PARAMETER": 1,
@@ -366,7 +366,7 @@
       },
       "AASDataTypeIEC61360DataType": {
         "type": "object",
-        "dov:typeRef": "nsu=http://opcfoundation.org/UA/I4AAS/;i=3008",
+        "dov:typeRef": "org.opcfoundation.UA.I4AAS.AASDataTypeIEC61360DataType",
         "const": {
           "BOOLEAN": 0,
           "DATE": 1,
@@ -434,7 +434,7 @@
       },
       "AASLevelTypeDataType": {
         "type": "object",
-        "dov:typeRef": "nsu=http://opcfoundation.org/UA/I4AAS/;i=3009",
+        "dov:typeRef": "org.opcfoundation.UA.I4AAS.AASLevelTypeDataType",
         "const": {
           "Min": 0,
           "Max": 1,
@@ -479,7 +479,7 @@
       "Category": {
         "dov:namespace": "http://opcfoundation.org/UA/I4AAS/",
         "title": "AASCategoryDataType",
-        "dov:typeRef": "nsu=http://opcfoundation.org/UA/I4AAS/;i=3007",
+        "dov:typeRef": "org.opcfoundation.UA.I4AAS.AASCategoryDataType",
         "type": "integer",
         "minimum": -2147483648,
         "maximum": 2147483647,
@@ -500,7 +500,7 @@
       "DataType": {
         "dov:namespace": "http://opcfoundation.org/UA/I4AAS/",
         "title": "AASDataTypeIEC61360DataType",
-        "dov:typeRef": "nsu=http://opcfoundation.org/UA/I4AAS/;i=3008",
+        "dov:typeRef": "org.opcfoundation.UA.I4AAS.AASDataTypeIEC61360DataType",
         "type": "integer",
         "minimum": -2147483648,
         "maximum": 2147483647,
@@ -555,7 +555,7 @@
       "LevelType": {
         "dov:namespace": "http://opcfoundation.org/UA/I4AAS/",
         "title": "AASLevelTypeDataType",
-        "dov:typeRef": "nsu=http://opcfoundation.org/UA/I4AAS/;i=3009",
+        "dov:typeRef": "org.opcfoundation.UA.I4AAS.AASLevelTypeDataType",
         "type": "integer",
         "minimum": -2147483648,
         "maximum": 2147483647,
@@ -706,7 +706,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "I4AAS_AASIdentifierType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/I4AAS/;i=1029",
+    "dov:typeRef": "org.opcfoundation.UA.I4AAS.AASIdentifierType",
     "links": [
       {
         "rel": "tm:extends",
@@ -717,7 +717,7 @@
     "schemaDefinitions": {
       "AASIdentifierTypeDataType": {
         "type": "object",
-        "dov:typeRef": "nsu=http://opcfoundation.org/UA/I4AAS/;i=3010",
+        "dov:typeRef": "org.opcfoundation.UA.I4AAS.AASIdentifierTypeDataType",
         "const": {
           "IRDI": 0,
           "IRI": 1,
@@ -774,7 +774,7 @@
       "IdType": {
         "dov:namespace": "http://opcfoundation.org/UA/I4AAS/",
         "title": "AASIdentifierTypeDataType",
-        "dov:typeRef": "nsu=http://opcfoundation.org/UA/I4AAS/;i=3010",
+        "dov:typeRef": "org.opcfoundation.UA.I4AAS.AASIdentifierTypeDataType",
         "type": "integer",
         "minimum": -2147483648,
         "maximum": 2147483647,
@@ -805,7 +805,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "I4AAS_AASQualifierType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/I4AAS/;i=1032",
+    "dov:typeRef": "org.opcfoundation.UA.I4AAS.AASQualifierType",
     "links": [
       {
         "rel": "tm:extends",
@@ -822,7 +822,7 @@
     "schemaDefinitions": {
       "AASValueTypeDataType": {
         "type": "object",
-        "dov:typeRef": "nsu=http://opcfoundation.org/UA/I4AAS/;i=3004",
+        "dov:typeRef": "org.opcfoundation.UA.I4AAS.AASValueTypeDataType",
         "const": {
           "Boolean": 0,
           "SByte": 1,
@@ -946,7 +946,7 @@
       "ValueType": {
         "dov:namespace": "http://opcfoundation.org/UA/I4AAS/",
         "title": "AASValueTypeDataType",
-        "dov:typeRef": "nsu=http://opcfoundation.org/UA/I4AAS/;i=3004",
+        "dov:typeRef": "org.opcfoundation.UA.I4AAS.AASValueTypeDataType",
         "type": "integer",
         "minimum": -2147483648,
         "maximum": 2147483647,
@@ -977,7 +977,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "I4AAS_AASReferenceType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/I4AAS/;i=1004",
+    "dov:typeRef": "org.opcfoundation.UA.I4AAS.AASReferenceType",
     "links": [
       {
         "rel": "tm:extends",
@@ -1001,7 +1001,7 @@
     "schemaDefinitions": {
       "AASKeyElementsDataType": {
         "type": "object",
-        "dov:typeRef": "nsu=http://opcfoundation.org/UA/I4AAS/;i=3012",
+        "dov:typeRef": "org.opcfoundation.UA.I4AAS.AASKeyElementsDataType",
         "const": {
           "AccessPermissionRule": 0,
           "AnnotatedRelationshipElement": 1,
@@ -1129,7 +1129,7 @@
       },
       "AASKeyTypeDataType": {
         "type": "object",
-        "dov:typeRef": "nsu=http://opcfoundation.org/UA/I4AAS/;i=3002",
+        "dov:typeRef": "org.opcfoundation.UA.I4AAS.AASKeyTypeDataType",
         "const": {
           "IdShort": 0,
           "FragmentId": 1,
@@ -1182,12 +1182,12 @@
         "items": {
           "title": "AASKeyDataType",
           "type": "object",
-          "dov:typeRef": "nsu=http://opcfoundation.org/UA/I4AAS/;i=3011",
+          "dov:typeRef": "org.opcfoundation.UA.I4AAS.AASKeyDataType",
           "required": [ "Type", "Local", "Value", "IdType" ],
           "properties": {
             "Type": {
               "title": "AASKeyElementsDataType",
-              "dov:typeRef": "nsu=http://opcfoundation.org/UA/I4AAS/;i=3012",
+              "dov:typeRef": "org.opcfoundation.UA.I4AAS.AASKeyElementsDataType",
               "type": "integer",
               "minimum": -2147483648,
               "maximum": 2147483647
@@ -1200,7 +1200,7 @@
             },
             "IdType": {
               "title": "AASKeyTypeDataType",
-              "dov:typeRef": "nsu=http://opcfoundation.org/UA/I4AAS/;i=3002",
+              "dov:typeRef": "org.opcfoundation.UA.I4AAS.AASKeyTypeDataType",
               "type": "integer",
               "minimum": -2147483648,
               "maximum": 2147483647
@@ -1234,7 +1234,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "I4AAS_AASSubmodelElementType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/I4AAS/;i=1009",
+    "dov:typeRef": "org.opcfoundation.UA.I4AAS.AASSubmodelElementType",
     "links": [
       {
         "rel": "tm:extends",
@@ -1257,7 +1257,7 @@
     "schemaDefinitions": {
       "AASModelingKindDataType": {
         "type": "object",
-        "dov:typeRef": "nsu=http://opcfoundation.org/UA/I4AAS/;i=3015",
+        "dov:typeRef": "org.opcfoundation.UA.I4AAS.AASModelingKindDataType",
         "const": {
           "Template": 0,
           "Instance": 1
@@ -1309,7 +1309,7 @@
       "ModelingKind": {
         "dov:namespace": "http://opcfoundation.org/UA/I4AAS/",
         "title": "AASModelingKindDataType",
-        "dov:typeRef": "nsu=http://opcfoundation.org/UA/I4AAS/;i=3015",
+        "dov:typeRef": "org.opcfoundation.UA.I4AAS.AASModelingKindDataType",
         "type": "integer",
         "minimum": -2147483648,
         "maximum": 2147483647,
@@ -1340,7 +1340,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "I4AAS_AASBlobType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/I4AAS/;i=1016",
+    "dov:typeRef": "org.opcfoundation.UA.I4AAS.AASBlobType",
     "dov:isComposite": true,
     "links": [
       {
@@ -1373,7 +1373,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "I4AAS_AASCapabilityType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/I4AAS/;i=1014",
+    "dov:typeRef": "org.opcfoundation.UA.I4AAS.AASCapabilityType",
     "dov:isComposite": true,
     "links": [
       {
@@ -1400,7 +1400,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "I4AAS_AASEntityType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/I4AAS/;i=1022",
+    "dov:typeRef": "org.opcfoundation.UA.I4AAS.AASEntityType",
     "dov:isComposite": true,
     "links": [
       {
@@ -1424,7 +1424,7 @@
     "schemaDefinitions": {
       "AASEntityTypeDataType": {
         "type": "object",
-        "dov:typeRef": "nsu=http://opcfoundation.org/UA/I4AAS/;i=3006",
+        "dov:typeRef": "org.opcfoundation.UA.I4AAS.AASEntityTypeDataType",
         "const": {
           "CoManagedEntity": 0,
           "SelfManagedEntity": 1
@@ -1459,7 +1459,7 @@
       "EntityType": {
         "dov:namespace": "http://opcfoundation.org/UA/I4AAS/",
         "title": "AASEntityTypeDataType",
-        "dov:typeRef": "nsu=http://opcfoundation.org/UA/I4AAS/;i=3006",
+        "dov:typeRef": "org.opcfoundation.UA.I4AAS.AASEntityTypeDataType",
         "type": "integer",
         "minimum": -2147483648,
         "maximum": 2147483647,
@@ -1490,7 +1490,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "I4AAS_AASEventType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/I4AAS/;i=1021",
+    "dov:typeRef": "org.opcfoundation.UA.I4AAS.AASEventType",
     "dov:isComposite": true,
     "links": [
       {
@@ -1517,7 +1517,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "I4AAS_AASFileType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/I4AAS/;i=1017",
+    "dov:typeRef": "org.opcfoundation.UA.I4AAS.AASFileType",
     "dov:isComposite": true,
     "links": [
       {
@@ -1596,7 +1596,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "I4AAS_AASMultiLanguagePropertyType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/I4AAS/;i=1012",
+    "dov:typeRef": "org.opcfoundation.UA.I4AAS.AASMultiLanguagePropertyType",
     "dov:isComposite": true,
     "links": [
       {
@@ -1661,7 +1661,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "I4AAS_AASOperationType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/I4AAS/;i=1015",
+    "dov:typeRef": "org.opcfoundation.UA.I4AAS.AASOperationType",
     "dov:isComposite": true,
     "links": [
       {
@@ -1698,7 +1698,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "I4AAS_AASPropertyType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/I4AAS/;i=1013",
+    "dov:typeRef": "org.opcfoundation.UA.I4AAS.AASPropertyType",
     "dov:isComposite": true,
     "links": [
       {
@@ -1716,7 +1716,7 @@
     "schemaDefinitions": {
       "AASValueTypeDataType": {
         "type": "object",
-        "dov:typeRef": "nsu=http://opcfoundation.org/UA/I4AAS/;i=3004",
+        "dov:typeRef": "org.opcfoundation.UA.I4AAS.AASValueTypeDataType",
         "const": {
           "Boolean": 0,
           "SByte": 1,
@@ -1823,7 +1823,7 @@
       "ValueType": {
         "dov:namespace": "http://opcfoundation.org/UA/I4AAS/",
         "title": "AASValueTypeDataType",
-        "dov:typeRef": "nsu=http://opcfoundation.org/UA/I4AAS/;i=3004",
+        "dov:typeRef": "org.opcfoundation.UA.I4AAS.AASValueTypeDataType",
         "type": "integer",
         "minimum": -2147483648,
         "maximum": 2147483647,
@@ -1854,7 +1854,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "I4AAS_AASRangeType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/I4AAS/;i=1023",
+    "dov:typeRef": "org.opcfoundation.UA.I4AAS.AASRangeType",
     "dov:isComposite": true,
     "links": [
       {
@@ -1866,7 +1866,7 @@
     "schemaDefinitions": {
       "AASValueTypeDataType": {
         "type": "object",
-        "dov:typeRef": "nsu=http://opcfoundation.org/UA/I4AAS/;i=3004",
+        "dov:typeRef": "org.opcfoundation.UA.I4AAS.AASValueTypeDataType",
         "const": {
           "Boolean": 0,
           "SByte": 1,
@@ -1991,7 +1991,7 @@
       "ValueType": {
         "dov:namespace": "http://opcfoundation.org/UA/I4AAS/",
         "title": "AASValueTypeDataType",
-        "dov:typeRef": "nsu=http://opcfoundation.org/UA/I4AAS/;i=3004",
+        "dov:typeRef": "org.opcfoundation.UA.I4AAS.AASValueTypeDataType",
         "type": "integer",
         "minimum": -2147483648,
         "maximum": 2147483647,
@@ -2022,7 +2022,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "I4AAS_AASReferenceElementType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/I4AAS/;i=1020",
+    "dov:typeRef": "org.opcfoundation.UA.I4AAS.AASReferenceElementType",
     "dov:isComposite": true,
     "links": [
       {
@@ -2055,7 +2055,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "I4AAS_AASRelationshipElementType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/I4AAS/;i=1018",
+    "dov:typeRef": "org.opcfoundation.UA.I4AAS.AASRelationshipElementType",
     "dov:isComposite": true,
     "links": [
       {
@@ -2094,7 +2094,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "I4AAS_AASAnnotatedRelationshipElementType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/I4AAS/;i=1019",
+    "dov:typeRef": "org.opcfoundation.UA.I4AAS.AASAnnotatedRelationshipElementType",
     "dov:isComposite": true,
     "links": [
       {
@@ -2127,7 +2127,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "I4AAS_AASSubmodelElementCollectionType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/I4AAS/;i=1010",
+    "dov:typeRef": "org.opcfoundation.UA.I4AAS.AASSubmodelElementCollectionType",
     "dov:isComposite": true,
     "links": [
       {
@@ -2189,7 +2189,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "I4AAS_AASOrderedSubmodelElementCollectionType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/I4AAS/;i=1011",
+    "dov:typeRef": "org.opcfoundation.UA.I4AAS.AASOrderedSubmodelElementCollectionType",
     "dov:isComposite": true,
     "links": [
       {
@@ -2216,7 +2216,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "I4AAS_AASSubmodelType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/I4AAS/;i=1006",
+    "dov:typeRef": "org.opcfoundation.UA.I4AAS.AASSubmodelType",
     "links": [
       {
         "rel": "tm:extends",
@@ -2245,7 +2245,7 @@
     "schemaDefinitions": {
       "AASModelingKindDataType": {
         "type": "object",
-        "dov:typeRef": "nsu=http://opcfoundation.org/UA/I4AAS/;i=3015",
+        "dov:typeRef": "org.opcfoundation.UA.I4AAS.AASModelingKindDataType",
         "const": {
           "Template": 0,
           "Instance": 1
@@ -2280,7 +2280,7 @@
       "ModelingKind": {
         "dov:namespace": "http://opcfoundation.org/UA/I4AAS/",
         "title": "AASModelingKindDataType",
-        "dov:typeRef": "nsu=http://opcfoundation.org/UA/I4AAS/;i=3015",
+        "dov:typeRef": "org.opcfoundation.UA.I4AAS.AASModelingKindDataType",
         "type": "integer",
         "minimum": -2147483648,
         "maximum": 2147483647,
@@ -2311,7 +2311,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "I4AAS_IAASReferableType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/I4AAS/;i=1033",
+    "dov:typeRef": "org.opcfoundation.UA.I4AAS.IAASReferableType",
     "dov:isComposite": true,
     "links": [
       {
@@ -2367,7 +2367,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "I4AAS_IAASIdentifiableType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/I4AAS/;i=1034",
+    "dov:typeRef": "org.opcfoundation.UA.I4AAS.IAASIdentifiableType",
     "dov:isComposite": true,
     "links": [
       {
@@ -2406,7 +2406,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "I4AAS_AASCustomConceptDescriptionType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/I4AAS/;i=1026",
+    "dov:typeRef": "org.opcfoundation.UA.I4AAS.AASCustomConceptDescriptionType",
     "dov:isComposite": true,
     "links": [
       {
@@ -2445,7 +2445,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "I4AAS_AASIrdiConceptDescriptionType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/I4AAS/;i=1024",
+    "dov:typeRef": "org.opcfoundation.UA.I4AAS.AASIrdiConceptDescriptionType",
     "dov:isComposite": true,
     "links": [
       {
@@ -2484,7 +2484,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "I4AAS_AASIriConceptDescriptionType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/I4AAS/;i=1025",
+    "dov:typeRef": "org.opcfoundation.UA.I4AAS.AASIriConceptDescriptionType",
     "links": [
       {
         "rel": "tm:extends",
@@ -2522,7 +2522,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "I4AAS_AASViewType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/I4AAS/;i=1003",
+    "dov:typeRef": "org.opcfoundation.UA.I4AAS.AASViewType",
     "links": [
       {
         "rel": "tm:extends",
@@ -2560,7 +2560,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "I4AAS_ValueListType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/I4AAS/;i=1031",
+    "dov:typeRef": "org.opcfoundation.UA.I4AAS.ValueListType",
     "links": [
       {
         "rel": "tm:extends",

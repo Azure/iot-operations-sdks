@@ -8,7 +8,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "Mining_Loading_General_LoadingMachineType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/Mining/Loading/General/;i=1002",
+    "dov:typeRef": "org.opcfoundation.UA.Mining.Loading.General.LoadingMachineType",
     "dov:isComposite": true,
     "links": [
       {

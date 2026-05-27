@@ -8,7 +8,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "PlasticsRubber_Extrusion_Filter_Filter_InterfaceType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/PlasticsRubber/Extrusion/Filter/;i=1002",
+    "dov:typeRef": "org.opcfoundation.UA.PlasticsRubber.Extrusion.Filter.Filter_InterfaceType",
     "dov:isComposite": true,
     "links": [
       {
@@ -198,7 +198,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "PlasticsRubber_Extrusion_Filter_FilterPackageType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/PlasticsRubber/Extrusion/Filter/;i=1004",
+    "dov:typeRef": "org.opcfoundation.UA.PlasticsRubber.Extrusion.Filter.FilterPackageType",
     "links": [
       {
         "rel": "tm:extends",
@@ -215,7 +215,7 @@
     "schemaDefinitions": {
       "FilterPackageStatusEnumeration": {
         "type": "object",
-        "dov:typeRef": "nsu=http://opcfoundation.org/UA/PlasticsRubber/Extrusion/Filter/;i=3002",
+        "dov:typeRef": "org.opcfoundation.UA.PlasticsRubber.Extrusion.Filter.FilterPackageStatusEnumeration",
         "const": {
           "NOT_ACTIVE": 0,
           "ACTIVE": 1,
@@ -323,7 +323,7 @@
       "Status": {
         "dov:namespace": "http://opcfoundation.org/UA/PlasticsRubber/Extrusion/Filter/",
         "title": "FilterPackageStatusEnumeration",
-        "dov:typeRef": "nsu=http://opcfoundation.org/UA/PlasticsRubber/Extrusion/Filter/;i=3002",
+        "dov:typeRef": "org.opcfoundation.UA.PlasticsRubber.Extrusion.Filter.FilterPackageStatusEnumeration",
         "type": "integer",
         "minimum": -2147483648,
         "maximum": 2147483647,
@@ -364,7 +364,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "PlasticsRubber_Extrusion_Filter_ScreenPackageType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/PlasticsRubber/Extrusion/Filter/;i=1003",
+    "dov:typeRef": "org.opcfoundation.UA.PlasticsRubber.Extrusion.Filter.ScreenPackageType",
     "links": [
       {
         "rel": "tm:extends",

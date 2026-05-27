@@ -8,7 +8,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "Mining_TransportDumping_General_HaulageMachineType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/Mining/TransportDumping/General/;i=1003",
+    "dov:typeRef": "org.opcfoundation.UA.Mining.TransportDumping.General.HaulageMachineType",
     "dov:isComposite": true,
     "links": [
       {

@@ -8,7 +8,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "Isa95_jobcontrol_ISA95JobOrderStatusEventType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/ISA95-JOBCONTROL_V2/;i=1006",
+    "dov:typeRef": "org.opcfoundation.UA.ISA95-JOBCONTROL_V2.ISA95JobOrderStatusEventType",
     "dov:isEvent": true,
     "links": [
       {
@@ -39,7 +39,7 @@
         "title": "ISA95JobOrderDataType",
         "description": "Defines the information needed to schedule and execute a job.",
         "type": "object",
-        "dov:typeRef": "nsu=http://opcfoundation.org/UA/ISA95-JOBCONTROL_V2/;i=3008",
+        "dov:typeRef": "org.opcfoundation.UA.ISA95-JOBCONTROL_V2.ISA95JobOrderDataType",
         "required": [ "JobOrderID" ],
         "properties": {
           "JobOrderID": {
@@ -60,7 +60,7 @@
               "title": "ISA95WorkMasterDataType",
               "description": "Defines a Work Master ID and the defined parameters for the Work Master.",
               "type": "object",
-              "dov:typeRef": "nsu=http://opcfoundation.org/UA/ISA95-JOBCONTROL_V2/;i=3007",
+              "dov:typeRef": "org.opcfoundation.UA.ISA95-JOBCONTROL_V2.ISA95WorkMasterDataType",
               "required": [ "ID" ],
               "properties": {
                 "ID": {
@@ -78,7 +78,7 @@
                     "title": "ISA95ParameterDataType",
                     "description": "A subtype of OPC UA Structure that defines three linked data items: the ID, which is a unique identifier for a property, the value, which is the data that is identified, and an optional description of the parameter.",
                     "type": "object",
-                    "dov:typeRef": "nsu=http://opcfoundation.org/UA/ISA95-JOBCONTROL_V2/;i=3003",
+                    "dov:typeRef": "org.opcfoundation.UA.ISA95-JOBCONTROL_V2.ISA95ParameterDataType",
                     "required": [ "ID", "Value" ],
                     "properties": {
                       "ID": {
@@ -100,7 +100,7 @@
                         "title": "EUInformation",
                         "description": "The Unit Of Measure of the value",
                         "type": "object",
-                        "dov:typeRef": "nsu=http://opcfoundation.org/UA/;i=887",
+                        "dov:typeRef": "org.opcfoundation.UA.EUInformation",
                         "required": [ "NamespaceUri", "UnitId", "DisplayName", "Description" ],
                         "properties": {
                           "NamespaceUri": {
@@ -155,7 +155,7 @@
               "title": "ISA95ParameterDataType",
               "description": "A subtype of OPC UA Structure that defines three linked data items: the ID, which is a unique identifier for a property, the value, which is the data that is identified, and an optional description of the parameter.",
               "type": "object",
-              "dov:typeRef": "nsu=http://opcfoundation.org/UA/ISA95-JOBCONTROL_V2/;i=3003",
+              "dov:typeRef": "org.opcfoundation.UA.ISA95-JOBCONTROL_V2.ISA95ParameterDataType",
               "required": [ "ID", "Value" ],
               "properties": {
                 "ID": {
@@ -177,7 +177,7 @@
                   "title": "EUInformation",
                   "description": "The Unit Of Measure of the value",
                   "type": "object",
-                  "dov:typeRef": "nsu=http://opcfoundation.org/UA/;i=887",
+                  "dov:typeRef": "org.opcfoundation.UA.EUInformation",
                   "required": [ "NamespaceUri", "UnitId", "DisplayName", "Description" ],
                   "properties": {
                     "NamespaceUri": {
@@ -213,7 +213,7 @@
               "title": "ISA95PersonnelDataType",
               "description": "Defines a personnel resource or a person, a quantity, an optional description, and an optional collection of properties.",
               "type": "object",
-              "dov:typeRef": "nsu=http://opcfoundation.org/UA/ISA95-JOBCONTROL_V2/;i=3011",
+              "dov:typeRef": "org.opcfoundation.UA.ISA95-JOBCONTROL_V2.ISA95PersonnelDataType",
               "required": [ "ID" ],
               "properties": {
                 "ID": {
@@ -240,7 +240,7 @@
                   "title": "EUInformation",
                   "description": "The Unit Of Measure of the quantity",
                   "type": "object",
-                  "dov:typeRef": "nsu=http://opcfoundation.org/UA/;i=887",
+                  "dov:typeRef": "org.opcfoundation.UA.EUInformation",
                   "required": [ "NamespaceUri", "UnitId", "DisplayName", "Description" ],
                   "properties": {
                     "NamespaceUri": {
@@ -266,7 +266,7 @@
                     "title": "ISA95PropertyDataType",
                     "description": "A subtype of OPC UA Structure that defines two linked data items: an ID, which is a unique identifier for a property within the scope of the associated resource, and the value, which is the data for the property.",
                     "type": "object",
-                    "dov:typeRef": "nsu=http://opcfoundation.org/UA/ISA95-JOBCONTROL_V2/;i=3002",
+                    "dov:typeRef": "org.opcfoundation.UA.ISA95-JOBCONTROL_V2.ISA95PropertyDataType",
                     "required": [ "ID", "Value" ],
                     "properties": {
                       "ID": {
@@ -288,7 +288,7 @@
                         "title": "EUInformation",
                         "description": "The Unit Of Measure of the value",
                         "type": "object",
-                        "dov:typeRef": "nsu=http://opcfoundation.org/UA/;i=887",
+                        "dov:typeRef": "org.opcfoundation.UA.EUInformation",
                         "required": [ "NamespaceUri", "UnitId", "DisplayName", "Description" ],
                         "properties": {
                           "NamespaceUri": {
@@ -327,7 +327,7 @@
               "title": "ISA95EquipmentDataType",
               "description": "Defines an equipment resource or a piece of equipment, a quantity, an optional description, and an optional collection of properties.",
               "type": "object",
-              "dov:typeRef": "nsu=http://opcfoundation.org/UA/ISA95-JOBCONTROL_V2/;i=3005",
+              "dov:typeRef": "org.opcfoundation.UA.ISA95-JOBCONTROL_V2.ISA95EquipmentDataType",
               "required": [ "ID" ],
               "properties": {
                 "ID": {
@@ -354,7 +354,7 @@
                   "title": "EUInformation",
                   "description": "The Unit Of Measure of the quantity",
                   "type": "object",
-                  "dov:typeRef": "nsu=http://opcfoundation.org/UA/;i=887",
+                  "dov:typeRef": "org.opcfoundation.UA.EUInformation",
                   "required": [ "NamespaceUri", "UnitId", "DisplayName", "Description" ],
                   "properties": {
                     "NamespaceUri": {
@@ -380,7 +380,7 @@
                     "title": "ISA95PropertyDataType",
                     "description": "A subtype of OPC UA Structure that defines two linked data items: an ID, which is a unique identifier for a property within the scope of the associated resource, and the value, which is the data for the property.",
                     "type": "object",
-                    "dov:typeRef": "nsu=http://opcfoundation.org/UA/ISA95-JOBCONTROL_V2/;i=3002",
+                    "dov:typeRef": "org.opcfoundation.UA.ISA95-JOBCONTROL_V2.ISA95PropertyDataType",
                     "required": [ "ID", "Value" ],
                     "properties": {
                       "ID": {
@@ -402,7 +402,7 @@
                         "title": "EUInformation",
                         "description": "The Unit Of Measure of the value",
                         "type": "object",
-                        "dov:typeRef": "nsu=http://opcfoundation.org/UA/;i=887",
+                        "dov:typeRef": "org.opcfoundation.UA.EUInformation",
                         "required": [ "NamespaceUri", "UnitId", "DisplayName", "Description" ],
                         "properties": {
                           "NamespaceUri": {
@@ -441,7 +441,7 @@
               "title": "ISA95PhysicalAssetDataType",
               "description": "Defines a physical asset, a quantity, an optional description, and an optional collection of properties.",
               "type": "object",
-              "dov:typeRef": "nsu=http://opcfoundation.org/UA/ISA95-JOBCONTROL_V2/;i=3012",
+              "dov:typeRef": "org.opcfoundation.UA.ISA95-JOBCONTROL_V2.ISA95PhysicalAssetDataType",
               "required": [ "ID" ],
               "properties": {
                 "ID": {
@@ -468,7 +468,7 @@
                   "title": "EUInformation",
                   "description": "The Unit Of Measure of the quantity",
                   "type": "object",
-                  "dov:typeRef": "nsu=http://opcfoundation.org/UA/;i=887",
+                  "dov:typeRef": "org.opcfoundation.UA.EUInformation",
                   "required": [ "NamespaceUri", "UnitId", "DisplayName", "Description" ],
                   "properties": {
                     "NamespaceUri": {
@@ -494,7 +494,7 @@
                     "title": "ISA95PropertyDataType",
                     "description": "A subtype of OPC UA Structure that defines two linked data items: an ID, which is a unique identifier for a property within the scope of the associated resource, and the value, which is the data for the property.",
                     "type": "object",
-                    "dov:typeRef": "nsu=http://opcfoundation.org/UA/ISA95-JOBCONTROL_V2/;i=3002",
+                    "dov:typeRef": "org.opcfoundation.UA.ISA95-JOBCONTROL_V2.ISA95PropertyDataType",
                     "required": [ "ID", "Value" ],
                     "properties": {
                       "ID": {
@@ -516,7 +516,7 @@
                         "title": "EUInformation",
                         "description": "The Unit Of Measure of the value",
                         "type": "object",
-                        "dov:typeRef": "nsu=http://opcfoundation.org/UA/;i=887",
+                        "dov:typeRef": "org.opcfoundation.UA.EUInformation",
                         "required": [ "NamespaceUri", "UnitId", "DisplayName", "Description" ],
                         "properties": {
                           "NamespaceUri": {
@@ -555,7 +555,7 @@
               "title": "ISA95MaterialDataType",
               "description": "Defines a material resource, a quantity, an optional description, and an optional collection of properties.",
               "type": "object",
-              "dov:typeRef": "nsu=http://opcfoundation.org/UA/ISA95-JOBCONTROL_V2/;i=3010",
+              "dov:typeRef": "org.opcfoundation.UA.ISA95-JOBCONTROL_V2.ISA95MaterialDataType",
               "properties": {
                 "MaterialClassID": {
                   "description": "An identification of the resource, or null if the Material Class is not used to identify the material.",
@@ -593,7 +593,7 @@
                   "title": "EUInformation",
                   "description": "The Unit Of Measure of the quantity",
                   "type": "object",
-                  "dov:typeRef": "nsu=http://opcfoundation.org/UA/;i=887",
+                  "dov:typeRef": "org.opcfoundation.UA.EUInformation",
                   "required": [ "NamespaceUri", "UnitId", "DisplayName", "Description" ],
                   "properties": {
                     "NamespaceUri": {
@@ -619,7 +619,7 @@
                     "title": "ISA95PropertyDataType",
                     "description": "A subtype of OPC UA Structure that defines two linked data items: an ID, which is a unique identifier for a property within the scope of the associated resource, and the value, which is the data for the property.",
                     "type": "object",
-                    "dov:typeRef": "nsu=http://opcfoundation.org/UA/ISA95-JOBCONTROL_V2/;i=3002",
+                    "dov:typeRef": "org.opcfoundation.UA.ISA95-JOBCONTROL_V2.ISA95PropertyDataType",
                     "required": [ "ID", "Value" ],
                     "properties": {
                       "ID": {
@@ -641,7 +641,7 @@
                         "title": "EUInformation",
                         "description": "The Unit Of Measure of the value",
                         "type": "object",
-                        "dov:typeRef": "nsu=http://opcfoundation.org/UA/;i=887",
+                        "dov:typeRef": "org.opcfoundation.UA.EUInformation",
                         "required": [ "NamespaceUri", "UnitId", "DisplayName", "Description" ],
                         "properties": {
                           "NamespaceUri": {
@@ -693,7 +693,7 @@
         "title": "ISA95JobResponseDataType",
         "description": "Defines the information needed to schedule and execute a job.",
         "type": "object",
-        "dov:typeRef": "nsu=http://opcfoundation.org/UA/ISA95-JOBCONTROL_V2/;i=3013",
+        "dov:typeRef": "org.opcfoundation.UA.ISA95-JOBCONTROL_V2.ISA95JobResponseDataType",
         "required": [ "JobResponseID", "JobOrderID", "JobState" ],
         "properties": {
           "JobResponseID": {
@@ -725,14 +725,14 @@
               "title": "ISA95StateDataType",
               "description": "Defines the information needed to schedule and execute a job.",
               "type": "object",
-              "dov:typeRef": "nsu=http://opcfoundation.org/UA/ISA95-JOBCONTROL_V2/;i=3006",
+              "dov:typeRef": "org.opcfoundation.UA.ISA95-JOBCONTROL_V2.ISA95StateDataType",
               "required": [ "BrowsePath", "StateText", "StateNumber" ],
               "properties": {
                 "BrowsePath": {
                   "title": "RelativePath",
                   "description": "The browse path of substates. Shall be null when the top-level state is represented.",
                   "type": "object",
-                  "dov:typeRef": "nsu=http://opcfoundation.org/UA/;i=540",
+                  "dov:typeRef": "org.opcfoundation.UA.RelativePath",
                   "required": [ "Elements" ],
                   "properties": {
                     "Elements": {
@@ -740,7 +740,7 @@
                       "items": {
                         "title": "RelativePathElement",
                         "type": "object",
-                        "dov:typeRef": "nsu=http://opcfoundation.org/UA/;i=537",
+                        "dov:typeRef": "org.opcfoundation.UA.RelativePathElement",
                         "required": [ "ReferenceTypeId", "IsInverse", "IncludeSubtypes", "TargetName" ],
                         "properties": {
                           "ReferenceTypeId": {
@@ -780,7 +780,7 @@
               "title": "ISA95ParameterDataType",
               "description": "A subtype of OPC UA Structure that defines three linked data items: the ID, which is a unique identifier for a property, the value, which is the data that is identified, and an optional description of the parameter.",
               "type": "object",
-              "dov:typeRef": "nsu=http://opcfoundation.org/UA/ISA95-JOBCONTROL_V2/;i=3003",
+              "dov:typeRef": "org.opcfoundation.UA.ISA95-JOBCONTROL_V2.ISA95ParameterDataType",
               "required": [ "ID", "Value" ],
               "properties": {
                 "ID": {
@@ -802,7 +802,7 @@
                   "title": "EUInformation",
                   "description": "The Unit Of Measure of the value",
                   "type": "object",
-                  "dov:typeRef": "nsu=http://opcfoundation.org/UA/;i=887",
+                  "dov:typeRef": "org.opcfoundation.UA.EUInformation",
                   "required": [ "NamespaceUri", "UnitId", "DisplayName", "Description" ],
                   "properties": {
                     "NamespaceUri": {
@@ -838,7 +838,7 @@
               "title": "ISA95PersonnelDataType",
               "description": "Defines a personnel resource or a person, a quantity, an optional description, and an optional collection of properties.",
               "type": "object",
-              "dov:typeRef": "nsu=http://opcfoundation.org/UA/ISA95-JOBCONTROL_V2/;i=3011",
+              "dov:typeRef": "org.opcfoundation.UA.ISA95-JOBCONTROL_V2.ISA95PersonnelDataType",
               "required": [ "ID" ],
               "properties": {
                 "ID": {
@@ -865,7 +865,7 @@
                   "title": "EUInformation",
                   "description": "The Unit Of Measure of the quantity",
                   "type": "object",
-                  "dov:typeRef": "nsu=http://opcfoundation.org/UA/;i=887",
+                  "dov:typeRef": "org.opcfoundation.UA.EUInformation",
                   "required": [ "NamespaceUri", "UnitId", "DisplayName", "Description" ],
                   "properties": {
                     "NamespaceUri": {
@@ -891,7 +891,7 @@
                     "title": "ISA95PropertyDataType",
                     "description": "A subtype of OPC UA Structure that defines two linked data items: an ID, which is a unique identifier for a property within the scope of the associated resource, and the value, which is the data for the property.",
                     "type": "object",
-                    "dov:typeRef": "nsu=http://opcfoundation.org/UA/ISA95-JOBCONTROL_V2/;i=3002",
+                    "dov:typeRef": "org.opcfoundation.UA.ISA95-JOBCONTROL_V2.ISA95PropertyDataType",
                     "required": [ "ID", "Value" ],
                     "properties": {
                       "ID": {
@@ -913,7 +913,7 @@
                         "title": "EUInformation",
                         "description": "The Unit Of Measure of the value",
                         "type": "object",
-                        "dov:typeRef": "nsu=http://opcfoundation.org/UA/;i=887",
+                        "dov:typeRef": "org.opcfoundation.UA.EUInformation",
                         "required": [ "NamespaceUri", "UnitId", "DisplayName", "Description" ],
                         "properties": {
                           "NamespaceUri": {
@@ -952,7 +952,7 @@
               "title": "ISA95EquipmentDataType",
               "description": "Defines an equipment resource or a piece of equipment, a quantity, an optional description, and an optional collection of properties.",
               "type": "object",
-              "dov:typeRef": "nsu=http://opcfoundation.org/UA/ISA95-JOBCONTROL_V2/;i=3005",
+              "dov:typeRef": "org.opcfoundation.UA.ISA95-JOBCONTROL_V2.ISA95EquipmentDataType",
               "required": [ "ID" ],
               "properties": {
                 "ID": {
@@ -979,7 +979,7 @@
                   "title": "EUInformation",
                   "description": "The Unit Of Measure of the quantity",
                   "type": "object",
-                  "dov:typeRef": "nsu=http://opcfoundation.org/UA/;i=887",
+                  "dov:typeRef": "org.opcfoundation.UA.EUInformation",
                   "required": [ "NamespaceUri", "UnitId", "DisplayName", "Description" ],
                   "properties": {
                     "NamespaceUri": {
@@ -1005,7 +1005,7 @@
                     "title": "ISA95PropertyDataType",
                     "description": "A subtype of OPC UA Structure that defines two linked data items: an ID, which is a unique identifier for a property within the scope of the associated resource, and the value, which is the data for the property.",
                     "type": "object",
-                    "dov:typeRef": "nsu=http://opcfoundation.org/UA/ISA95-JOBCONTROL_V2/;i=3002",
+                    "dov:typeRef": "org.opcfoundation.UA.ISA95-JOBCONTROL_V2.ISA95PropertyDataType",
                     "required": [ "ID", "Value" ],
                     "properties": {
                       "ID": {
@@ -1027,7 +1027,7 @@
                         "title": "EUInformation",
                         "description": "The Unit Of Measure of the value",
                         "type": "object",
-                        "dov:typeRef": "nsu=http://opcfoundation.org/UA/;i=887",
+                        "dov:typeRef": "org.opcfoundation.UA.EUInformation",
                         "required": [ "NamespaceUri", "UnitId", "DisplayName", "Description" ],
                         "properties": {
                           "NamespaceUri": {
@@ -1066,7 +1066,7 @@
               "title": "ISA95PhysicalAssetDataType",
               "description": "Defines a physical asset, a quantity, an optional description, and an optional collection of properties.",
               "type": "object",
-              "dov:typeRef": "nsu=http://opcfoundation.org/UA/ISA95-JOBCONTROL_V2/;i=3012",
+              "dov:typeRef": "org.opcfoundation.UA.ISA95-JOBCONTROL_V2.ISA95PhysicalAssetDataType",
               "required": [ "ID" ],
               "properties": {
                 "ID": {
@@ -1093,7 +1093,7 @@
                   "title": "EUInformation",
                   "description": "The Unit Of Measure of the quantity",
                   "type": "object",
-                  "dov:typeRef": "nsu=http://opcfoundation.org/UA/;i=887",
+                  "dov:typeRef": "org.opcfoundation.UA.EUInformation",
                   "required": [ "NamespaceUri", "UnitId", "DisplayName", "Description" ],
                   "properties": {
                     "NamespaceUri": {
@@ -1119,7 +1119,7 @@
                     "title": "ISA95PropertyDataType",
                     "description": "A subtype of OPC UA Structure that defines two linked data items: an ID, which is a unique identifier for a property within the scope of the associated resource, and the value, which is the data for the property.",
                     "type": "object",
-                    "dov:typeRef": "nsu=http://opcfoundation.org/UA/ISA95-JOBCONTROL_V2/;i=3002",
+                    "dov:typeRef": "org.opcfoundation.UA.ISA95-JOBCONTROL_V2.ISA95PropertyDataType",
                     "required": [ "ID", "Value" ],
                     "properties": {
                       "ID": {
@@ -1141,7 +1141,7 @@
                         "title": "EUInformation",
                         "description": "The Unit Of Measure of the value",
                         "type": "object",
-                        "dov:typeRef": "nsu=http://opcfoundation.org/UA/;i=887",
+                        "dov:typeRef": "org.opcfoundation.UA.EUInformation",
                         "required": [ "NamespaceUri", "UnitId", "DisplayName", "Description" ],
                         "properties": {
                           "NamespaceUri": {
@@ -1180,7 +1180,7 @@
               "title": "ISA95MaterialDataType",
               "description": "Defines a material resource, a quantity, an optional description, and an optional collection of properties.",
               "type": "object",
-              "dov:typeRef": "nsu=http://opcfoundation.org/UA/ISA95-JOBCONTROL_V2/;i=3010",
+              "dov:typeRef": "org.opcfoundation.UA.ISA95-JOBCONTROL_V2.ISA95MaterialDataType",
               "properties": {
                 "MaterialClassID": {
                   "description": "An identification of the resource, or null if the Material Class is not used to identify the material.",
@@ -1218,7 +1218,7 @@
                   "title": "EUInformation",
                   "description": "The Unit Of Measure of the quantity",
                   "type": "object",
-                  "dov:typeRef": "nsu=http://opcfoundation.org/UA/;i=887",
+                  "dov:typeRef": "org.opcfoundation.UA.EUInformation",
                   "required": [ "NamespaceUri", "UnitId", "DisplayName", "Description" ],
                   "properties": {
                     "NamespaceUri": {
@@ -1244,7 +1244,7 @@
                     "title": "ISA95PropertyDataType",
                     "description": "A subtype of OPC UA Structure that defines two linked data items: an ID, which is a unique identifier for a property within the scope of the associated resource, and the value, which is the data for the property.",
                     "type": "object",
-                    "dov:typeRef": "nsu=http://opcfoundation.org/UA/ISA95-JOBCONTROL_V2/;i=3002",
+                    "dov:typeRef": "org.opcfoundation.UA.ISA95-JOBCONTROL_V2.ISA95PropertyDataType",
                     "required": [ "ID", "Value" ],
                     "properties": {
                       "ID": {
@@ -1266,7 +1266,7 @@
                         "title": "EUInformation",
                         "description": "The Unit Of Measure of the value",
                         "type": "object",
-                        "dov:typeRef": "nsu=http://opcfoundation.org/UA/;i=887",
+                        "dov:typeRef": "org.opcfoundation.UA.EUInformation",
                         "required": [ "NamespaceUri", "UnitId", "DisplayName", "Description" ],
                         "properties": {
                           "NamespaceUri": {
@@ -1320,14 +1320,14 @@
           "title": "ISA95StateDataType",
           "description": "Defines the information needed to schedule and execute a job.",
           "type": "object",
-          "dov:typeRef": "nsu=http://opcfoundation.org/UA/ISA95-JOBCONTROL_V2/;i=3006",
+          "dov:typeRef": "org.opcfoundation.UA.ISA95-JOBCONTROL_V2.ISA95StateDataType",
           "required": [ "BrowsePath", "StateText", "StateNumber" ],
           "properties": {
             "BrowsePath": {
               "title": "RelativePath",
               "description": "The browse path of substates. Shall be null when the top-level state is represented.",
               "type": "object",
-              "dov:typeRef": "nsu=http://opcfoundation.org/UA/;i=540",
+              "dov:typeRef": "org.opcfoundation.UA.RelativePath",
               "required": [ "Elements" ],
               "properties": {
                 "Elements": {
@@ -1335,7 +1335,7 @@
                   "items": {
                     "title": "RelativePathElement",
                     "type": "object",
-                    "dov:typeRef": "nsu=http://opcfoundation.org/UA/;i=537",
+                    "dov:typeRef": "org.opcfoundation.UA.RelativePathElement",
                     "required": [ "ReferenceTypeId", "IsInverse", "IncludeSubtypes", "TargetName" ],
                     "properties": {
                       "ReferenceTypeId": {
@@ -1394,7 +1394,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "Isa95_jobcontrol_ISA95JobResponseProviderObjectType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/ISA95-JOBCONTROL_V2/;i=1003",
+    "dov:typeRef": "org.opcfoundation.UA.ISA95-JOBCONTROL_V2.ISA95JobResponseProviderObjectType",
     "dov:isComposite": true,
     "links": [
       {
@@ -1427,7 +1427,7 @@
         "dov:namespace": "http://opcfoundation.org/UA/ISA95-JOBCONTROL_V2/",
         "input": {
           "type": "object",
-          "dov:typeRef": "nsu=http://opcfoundation.org/UA/ISA95-JOBCONTROL_V2/;i=6042",
+          "dov:typeRef": "org.opcfoundation.UA.InputArguments",
           "required": [ "JobOrderID" ],
           "properties": {
             "JobOrderID": {
@@ -1438,14 +1438,14 @@
         },
         "output": {
           "type": "object",
-          "dov:typeRef": "nsu=http://opcfoundation.org/UA/ISA95-JOBCONTROL_V2/;i=6043",
+          "dov:typeRef": "org.opcfoundation.UA.OutputArguments",
           "required": [ "JobResponse", "ReturnStatus" ],
           "properties": {
             "JobResponse": {
               "title": "ISA95JobResponseDataType",
               "description": "Defines the information needed to schedule and execute a job.",
               "type": "object",
-              "dov:typeRef": "nsu=http://opcfoundation.org/UA/ISA95-JOBCONTROL_V2/;i=3013",
+              "dov:typeRef": "org.opcfoundation.UA.ISA95-JOBCONTROL_V2.ISA95JobResponseDataType",
               "required": [ "JobResponseID", "JobOrderID", "JobState" ],
               "properties": {
                 "JobResponseID": {
@@ -1477,14 +1477,14 @@
                     "title": "ISA95StateDataType",
                     "description": "Defines the information needed to schedule and execute a job.",
                     "type": "object",
-                    "dov:typeRef": "nsu=http://opcfoundation.org/UA/ISA95-JOBCONTROL_V2/;i=3006",
+                    "dov:typeRef": "org.opcfoundation.UA.ISA95-JOBCONTROL_V2.ISA95StateDataType",
                     "required": [ "BrowsePath", "StateText", "StateNumber" ],
                     "properties": {
                       "BrowsePath": {
                         "title": "RelativePath",
                         "description": "The browse path of substates. Shall be null when the top-level state is represented.",
                         "type": "object",
-                        "dov:typeRef": "nsu=http://opcfoundation.org/UA/;i=540",
+                        "dov:typeRef": "org.opcfoundation.UA.RelativePath",
                         "required": [ "Elements" ],
                         "properties": {
                           "Elements": {
@@ -1492,7 +1492,7 @@
                             "items": {
                               "title": "RelativePathElement",
                               "type": "object",
-                              "dov:typeRef": "nsu=http://opcfoundation.org/UA/;i=537",
+                              "dov:typeRef": "org.opcfoundation.UA.RelativePathElement",
                               "required": [ "ReferenceTypeId", "IsInverse", "IncludeSubtypes", "TargetName" ],
                               "properties": {
                                 "ReferenceTypeId": {
@@ -1532,7 +1532,7 @@
                     "title": "ISA95ParameterDataType",
                     "description": "A subtype of OPC UA Structure that defines three linked data items: the ID, which is a unique identifier for a property, the value, which is the data that is identified, and an optional description of the parameter.",
                     "type": "object",
-                    "dov:typeRef": "nsu=http://opcfoundation.org/UA/ISA95-JOBCONTROL_V2/;i=3003",
+                    "dov:typeRef": "org.opcfoundation.UA.ISA95-JOBCONTROL_V2.ISA95ParameterDataType",
                     "required": [ "ID", "Value" ],
                     "properties": {
                       "ID": {
@@ -1554,7 +1554,7 @@
                         "title": "EUInformation",
                         "description": "The Unit Of Measure of the value",
                         "type": "object",
-                        "dov:typeRef": "nsu=http://opcfoundation.org/UA/;i=887",
+                        "dov:typeRef": "org.opcfoundation.UA.EUInformation",
                         "required": [ "NamespaceUri", "UnitId", "DisplayName", "Description" ],
                         "properties": {
                           "NamespaceUri": {
@@ -1590,7 +1590,7 @@
                     "title": "ISA95PersonnelDataType",
                     "description": "Defines a personnel resource or a person, a quantity, an optional description, and an optional collection of properties.",
                     "type": "object",
-                    "dov:typeRef": "nsu=http://opcfoundation.org/UA/ISA95-JOBCONTROL_V2/;i=3011",
+                    "dov:typeRef": "org.opcfoundation.UA.ISA95-JOBCONTROL_V2.ISA95PersonnelDataType",
                     "required": [ "ID" ],
                     "properties": {
                       "ID": {
@@ -1617,7 +1617,7 @@
                         "title": "EUInformation",
                         "description": "The Unit Of Measure of the quantity",
                         "type": "object",
-                        "dov:typeRef": "nsu=http://opcfoundation.org/UA/;i=887",
+                        "dov:typeRef": "org.opcfoundation.UA.EUInformation",
                         "required": [ "NamespaceUri", "UnitId", "DisplayName", "Description" ],
                         "properties": {
                           "NamespaceUri": {
@@ -1643,7 +1643,7 @@
                           "title": "ISA95PropertyDataType",
                           "description": "A subtype of OPC UA Structure that defines two linked data items: an ID, which is a unique identifier for a property within the scope of the associated resource, and the value, which is the data for the property.",
                           "type": "object",
-                          "dov:typeRef": "nsu=http://opcfoundation.org/UA/ISA95-JOBCONTROL_V2/;i=3002",
+                          "dov:typeRef": "org.opcfoundation.UA.ISA95-JOBCONTROL_V2.ISA95PropertyDataType",
                           "required": [ "ID", "Value" ],
                           "properties": {
                             "ID": {
@@ -1665,7 +1665,7 @@
                               "title": "EUInformation",
                               "description": "The Unit Of Measure of the value",
                               "type": "object",
-                              "dov:typeRef": "nsu=http://opcfoundation.org/UA/;i=887",
+                              "dov:typeRef": "org.opcfoundation.UA.EUInformation",
                               "required": [ "NamespaceUri", "UnitId", "DisplayName", "Description" ],
                               "properties": {
                                 "NamespaceUri": {
@@ -1704,7 +1704,7 @@
                     "title": "ISA95EquipmentDataType",
                     "description": "Defines an equipment resource or a piece of equipment, a quantity, an optional description, and an optional collection of properties.",
                     "type": "object",
-                    "dov:typeRef": "nsu=http://opcfoundation.org/UA/ISA95-JOBCONTROL_V2/;i=3005",
+                    "dov:typeRef": "org.opcfoundation.UA.ISA95-JOBCONTROL_V2.ISA95EquipmentDataType",
                     "required": [ "ID" ],
                     "properties": {
                       "ID": {
@@ -1731,7 +1731,7 @@
                         "title": "EUInformation",
                         "description": "The Unit Of Measure of the quantity",
                         "type": "object",
-                        "dov:typeRef": "nsu=http://opcfoundation.org/UA/;i=887",
+                        "dov:typeRef": "org.opcfoundation.UA.EUInformation",
                         "required": [ "NamespaceUri", "UnitId", "DisplayName", "Description" ],
                         "properties": {
                           "NamespaceUri": {
@@ -1757,7 +1757,7 @@
                           "title": "ISA95PropertyDataType",
                           "description": "A subtype of OPC UA Structure that defines two linked data items: an ID, which is a unique identifier for a property within the scope of the associated resource, and the value, which is the data for the property.",
                           "type": "object",
-                          "dov:typeRef": "nsu=http://opcfoundation.org/UA/ISA95-JOBCONTROL_V2/;i=3002",
+                          "dov:typeRef": "org.opcfoundation.UA.ISA95-JOBCONTROL_V2.ISA95PropertyDataType",
                           "required": [ "ID", "Value" ],
                           "properties": {
                             "ID": {
@@ -1779,7 +1779,7 @@
                               "title": "EUInformation",
                               "description": "The Unit Of Measure of the value",
                               "type": "object",
-                              "dov:typeRef": "nsu=http://opcfoundation.org/UA/;i=887",
+                              "dov:typeRef": "org.opcfoundation.UA.EUInformation",
                               "required": [ "NamespaceUri", "UnitId", "DisplayName", "Description" ],
                               "properties": {
                                 "NamespaceUri": {
@@ -1818,7 +1818,7 @@
                     "title": "ISA95PhysicalAssetDataType",
                     "description": "Defines a physical asset, a quantity, an optional description, and an optional collection of properties.",
                     "type": "object",
-                    "dov:typeRef": "nsu=http://opcfoundation.org/UA/ISA95-JOBCONTROL_V2/;i=3012",
+                    "dov:typeRef": "org.opcfoundation.UA.ISA95-JOBCONTROL_V2.ISA95PhysicalAssetDataType",
                     "required": [ "ID" ],
                     "properties": {
                       "ID": {
@@ -1845,7 +1845,7 @@
                         "title": "EUInformation",
                         "description": "The Unit Of Measure of the quantity",
                         "type": "object",
-                        "dov:typeRef": "nsu=http://opcfoundation.org/UA/;i=887",
+                        "dov:typeRef": "org.opcfoundation.UA.EUInformation",
                         "required": [ "NamespaceUri", "UnitId", "DisplayName", "Description" ],
                         "properties": {
                           "NamespaceUri": {
@@ -1871,7 +1871,7 @@
                           "title": "ISA95PropertyDataType",
                           "description": "A subtype of OPC UA Structure that defines two linked data items: an ID, which is a unique identifier for a property within the scope of the associated resource, and the value, which is the data for the property.",
                           "type": "object",
-                          "dov:typeRef": "nsu=http://opcfoundation.org/UA/ISA95-JOBCONTROL_V2/;i=3002",
+                          "dov:typeRef": "org.opcfoundation.UA.ISA95-JOBCONTROL_V2.ISA95PropertyDataType",
                           "required": [ "ID", "Value" ],
                           "properties": {
                             "ID": {
@@ -1893,7 +1893,7 @@
                               "title": "EUInformation",
                               "description": "The Unit Of Measure of the value",
                               "type": "object",
-                              "dov:typeRef": "nsu=http://opcfoundation.org/UA/;i=887",
+                              "dov:typeRef": "org.opcfoundation.UA.EUInformation",
                               "required": [ "NamespaceUri", "UnitId", "DisplayName", "Description" ],
                               "properties": {
                                 "NamespaceUri": {
@@ -1932,7 +1932,7 @@
                     "title": "ISA95MaterialDataType",
                     "description": "Defines a material resource, a quantity, an optional description, and an optional collection of properties.",
                     "type": "object",
-                    "dov:typeRef": "nsu=http://opcfoundation.org/UA/ISA95-JOBCONTROL_V2/;i=3010",
+                    "dov:typeRef": "org.opcfoundation.UA.ISA95-JOBCONTROL_V2.ISA95MaterialDataType",
                     "properties": {
                       "MaterialClassID": {
                         "description": "An identification of the resource, or null if the Material Class is not used to identify the material.",
@@ -1970,7 +1970,7 @@
                         "title": "EUInformation",
                         "description": "The Unit Of Measure of the quantity",
                         "type": "object",
-                        "dov:typeRef": "nsu=http://opcfoundation.org/UA/;i=887",
+                        "dov:typeRef": "org.opcfoundation.UA.EUInformation",
                         "required": [ "NamespaceUri", "UnitId", "DisplayName", "Description" ],
                         "properties": {
                           "NamespaceUri": {
@@ -1996,7 +1996,7 @@
                           "title": "ISA95PropertyDataType",
                           "description": "A subtype of OPC UA Structure that defines two linked data items: an ID, which is a unique identifier for a property within the scope of the associated resource, and the value, which is the data for the property.",
                           "type": "object",
-                          "dov:typeRef": "nsu=http://opcfoundation.org/UA/ISA95-JOBCONTROL_V2/;i=3002",
+                          "dov:typeRef": "org.opcfoundation.UA.ISA95-JOBCONTROL_V2.ISA95PropertyDataType",
                           "required": [ "ID", "Value" ],
                           "properties": {
                             "ID": {
@@ -2018,7 +2018,7 @@
                               "title": "EUInformation",
                               "description": "The Unit Of Measure of the value",
                               "type": "object",
-                              "dov:typeRef": "nsu=http://opcfoundation.org/UA/;i=887",
+                              "dov:typeRef": "org.opcfoundation.UA.EUInformation",
                               "required": [ "NamespaceUri", "UnitId", "DisplayName", "Description" ],
                               "properties": {
                                 "NamespaceUri": {
@@ -2072,7 +2072,7 @@
         "dov:namespace": "http://opcfoundation.org/UA/ISA95-JOBCONTROL_V2/",
         "input": {
           "type": "object",
-          "dov:typeRef": "nsu=http://opcfoundation.org/UA/ISA95-JOBCONTROL_V2/;i=6016",
+          "dov:typeRef": "org.opcfoundation.UA.InputArguments",
           "required": [ "JobOrderState" ],
           "properties": {
             "JobOrderState": {
@@ -2082,14 +2082,14 @@
                 "title": "ISA95StateDataType",
                 "description": "Defines the information needed to schedule and execute a job.",
                 "type": "object",
-                "dov:typeRef": "nsu=http://opcfoundation.org/UA/ISA95-JOBCONTROL_V2/;i=3006",
+                "dov:typeRef": "org.opcfoundation.UA.ISA95-JOBCONTROL_V2.ISA95StateDataType",
                 "required": [ "BrowsePath", "StateText", "StateNumber" ],
                 "properties": {
                   "BrowsePath": {
                     "title": "RelativePath",
                     "description": "The browse path of substates. Shall be null when the top-level state is represented.",
                     "type": "object",
-                    "dov:typeRef": "nsu=http://opcfoundation.org/UA/;i=540",
+                    "dov:typeRef": "org.opcfoundation.UA.RelativePath",
                     "required": [ "Elements" ],
                     "properties": {
                       "Elements": {
@@ -2097,7 +2097,7 @@
                         "items": {
                           "title": "RelativePathElement",
                           "type": "object",
-                          "dov:typeRef": "nsu=http://opcfoundation.org/UA/;i=537",
+                          "dov:typeRef": "org.opcfoundation.UA.RelativePathElement",
                           "required": [ "ReferenceTypeId", "IsInverse", "IncludeSubtypes", "TargetName" ],
                           "properties": {
                             "ReferenceTypeId": {
@@ -2134,7 +2134,7 @@
         },
         "output": {
           "type": "object",
-          "dov:typeRef": "nsu=http://opcfoundation.org/UA/ISA95-JOBCONTROL_V2/;i=6017",
+          "dov:typeRef": "org.opcfoundation.UA.OutputArguments",
           "required": [ "JobResponses", "ReturnStatus" ],
           "properties": {
             "JobResponses": {
@@ -2144,7 +2144,7 @@
                 "title": "ISA95JobResponseDataType",
                 "description": "Defines the information needed to schedule and execute a job.",
                 "type": "object",
-                "dov:typeRef": "nsu=http://opcfoundation.org/UA/ISA95-JOBCONTROL_V2/;i=3013",
+                "dov:typeRef": "org.opcfoundation.UA.ISA95-JOBCONTROL_V2.ISA95JobResponseDataType",
                 "required": [ "JobResponseID", "JobOrderID", "JobState" ],
                 "properties": {
                   "JobResponseID": {
@@ -2176,14 +2176,14 @@
                       "title": "ISA95StateDataType",
                       "description": "Defines the information needed to schedule and execute a job.",
                       "type": "object",
-                      "dov:typeRef": "nsu=http://opcfoundation.org/UA/ISA95-JOBCONTROL_V2/;i=3006",
+                      "dov:typeRef": "org.opcfoundation.UA.ISA95-JOBCONTROL_V2.ISA95StateDataType",
                       "required": [ "BrowsePath", "StateText", "StateNumber" ],
                       "properties": {
                         "BrowsePath": {
                           "title": "RelativePath",
                           "description": "The browse path of substates. Shall be null when the top-level state is represented.",
                           "type": "object",
-                          "dov:typeRef": "nsu=http://opcfoundation.org/UA/;i=540",
+                          "dov:typeRef": "org.opcfoundation.UA.RelativePath",
                           "required": [ "Elements" ],
                           "properties": {
                             "Elements": {
@@ -2191,7 +2191,7 @@
                               "items": {
                                 "title": "RelativePathElement",
                                 "type": "object",
-                                "dov:typeRef": "nsu=http://opcfoundation.org/UA/;i=537",
+                                "dov:typeRef": "org.opcfoundation.UA.RelativePathElement",
                                 "required": [ "ReferenceTypeId", "IsInverse", "IncludeSubtypes", "TargetName" ],
                                 "properties": {
                                   "ReferenceTypeId": {
@@ -2231,7 +2231,7 @@
                       "title": "ISA95ParameterDataType",
                       "description": "A subtype of OPC UA Structure that defines three linked data items: the ID, which is a unique identifier for a property, the value, which is the data that is identified, and an optional description of the parameter.",
                       "type": "object",
-                      "dov:typeRef": "nsu=http://opcfoundation.org/UA/ISA95-JOBCONTROL_V2/;i=3003",
+                      "dov:typeRef": "org.opcfoundation.UA.ISA95-JOBCONTROL_V2.ISA95ParameterDataType",
                       "required": [ "ID", "Value" ],
                       "properties": {
                         "ID": {
@@ -2253,7 +2253,7 @@
                           "title": "EUInformation",
                           "description": "The Unit Of Measure of the value",
                           "type": "object",
-                          "dov:typeRef": "nsu=http://opcfoundation.org/UA/;i=887",
+                          "dov:typeRef": "org.opcfoundation.UA.EUInformation",
                           "required": [ "NamespaceUri", "UnitId", "DisplayName", "Description" ],
                           "properties": {
                             "NamespaceUri": {
@@ -2289,7 +2289,7 @@
                       "title": "ISA95PersonnelDataType",
                       "description": "Defines a personnel resource or a person, a quantity, an optional description, and an optional collection of properties.",
                       "type": "object",
-                      "dov:typeRef": "nsu=http://opcfoundation.org/UA/ISA95-JOBCONTROL_V2/;i=3011",
+                      "dov:typeRef": "org.opcfoundation.UA.ISA95-JOBCONTROL_V2.ISA95PersonnelDataType",
                       "required": [ "ID" ],
                       "properties": {
                         "ID": {
@@ -2316,7 +2316,7 @@
                           "title": "EUInformation",
                           "description": "The Unit Of Measure of the quantity",
                           "type": "object",
-                          "dov:typeRef": "nsu=http://opcfoundation.org/UA/;i=887",
+                          "dov:typeRef": "org.opcfoundation.UA.EUInformation",
                           "required": [ "NamespaceUri", "UnitId", "DisplayName", "Description" ],
                           "properties": {
                             "NamespaceUri": {
@@ -2342,7 +2342,7 @@
                             "title": "ISA95PropertyDataType",
                             "description": "A subtype of OPC UA Structure that defines two linked data items: an ID, which is a unique identifier for a property within the scope of the associated resource, and the value, which is the data for the property.",
                             "type": "object",
-                            "dov:typeRef": "nsu=http://opcfoundation.org/UA/ISA95-JOBCONTROL_V2/;i=3002",
+                            "dov:typeRef": "org.opcfoundation.UA.ISA95-JOBCONTROL_V2.ISA95PropertyDataType",
                             "required": [ "ID", "Value" ],
                             "properties": {
                               "ID": {
@@ -2364,7 +2364,7 @@
                                 "title": "EUInformation",
                                 "description": "The Unit Of Measure of the value",
                                 "type": "object",
-                                "dov:typeRef": "nsu=http://opcfoundation.org/UA/;i=887",
+                                "dov:typeRef": "org.opcfoundation.UA.EUInformation",
                                 "required": [ "NamespaceUri", "UnitId", "DisplayName", "Description" ],
                                 "properties": {
                                   "NamespaceUri": {
@@ -2403,7 +2403,7 @@
                       "title": "ISA95EquipmentDataType",
                       "description": "Defines an equipment resource or a piece of equipment, a quantity, an optional description, and an optional collection of properties.",
                       "type": "object",
-                      "dov:typeRef": "nsu=http://opcfoundation.org/UA/ISA95-JOBCONTROL_V2/;i=3005",
+                      "dov:typeRef": "org.opcfoundation.UA.ISA95-JOBCONTROL_V2.ISA95EquipmentDataType",
                       "required": [ "ID" ],
                       "properties": {
                         "ID": {
@@ -2430,7 +2430,7 @@
                           "title": "EUInformation",
                           "description": "The Unit Of Measure of the quantity",
                           "type": "object",
-                          "dov:typeRef": "nsu=http://opcfoundation.org/UA/;i=887",
+                          "dov:typeRef": "org.opcfoundation.UA.EUInformation",
                           "required": [ "NamespaceUri", "UnitId", "DisplayName", "Description" ],
                           "properties": {
                             "NamespaceUri": {
@@ -2456,7 +2456,7 @@
                             "title": "ISA95PropertyDataType",
                             "description": "A subtype of OPC UA Structure that defines two linked data items: an ID, which is a unique identifier for a property within the scope of the associated resource, and the value, which is the data for the property.",
                             "type": "object",
-                            "dov:typeRef": "nsu=http://opcfoundation.org/UA/ISA95-JOBCONTROL_V2/;i=3002",
+                            "dov:typeRef": "org.opcfoundation.UA.ISA95-JOBCONTROL_V2.ISA95PropertyDataType",
                             "required": [ "ID", "Value" ],
                             "properties": {
                               "ID": {
@@ -2478,7 +2478,7 @@
                                 "title": "EUInformation",
                                 "description": "The Unit Of Measure of the value",
                                 "type": "object",
-                                "dov:typeRef": "nsu=http://opcfoundation.org/UA/;i=887",
+                                "dov:typeRef": "org.opcfoundation.UA.EUInformation",
                                 "required": [ "NamespaceUri", "UnitId", "DisplayName", "Description" ],
                                 "properties": {
                                   "NamespaceUri": {
@@ -2517,7 +2517,7 @@
                       "title": "ISA95PhysicalAssetDataType",
                       "description": "Defines a physical asset, a quantity, an optional description, and an optional collection of properties.",
                       "type": "object",
-                      "dov:typeRef": "nsu=http://opcfoundation.org/UA/ISA95-JOBCONTROL_V2/;i=3012",
+                      "dov:typeRef": "org.opcfoundation.UA.ISA95-JOBCONTROL_V2.ISA95PhysicalAssetDataType",
                       "required": [ "ID" ],
                       "properties": {
                         "ID": {
@@ -2544,7 +2544,7 @@
                           "title": "EUInformation",
                           "description": "The Unit Of Measure of the quantity",
                           "type": "object",
-                          "dov:typeRef": "nsu=http://opcfoundation.org/UA/;i=887",
+                          "dov:typeRef": "org.opcfoundation.UA.EUInformation",
                           "required": [ "NamespaceUri", "UnitId", "DisplayName", "Description" ],
                           "properties": {
                             "NamespaceUri": {
@@ -2570,7 +2570,7 @@
                             "title": "ISA95PropertyDataType",
                             "description": "A subtype of OPC UA Structure that defines two linked data items: an ID, which is a unique identifier for a property within the scope of the associated resource, and the value, which is the data for the property.",
                             "type": "object",
-                            "dov:typeRef": "nsu=http://opcfoundation.org/UA/ISA95-JOBCONTROL_V2/;i=3002",
+                            "dov:typeRef": "org.opcfoundation.UA.ISA95-JOBCONTROL_V2.ISA95PropertyDataType",
                             "required": [ "ID", "Value" ],
                             "properties": {
                               "ID": {
@@ -2592,7 +2592,7 @@
                                 "title": "EUInformation",
                                 "description": "The Unit Of Measure of the value",
                                 "type": "object",
-                                "dov:typeRef": "nsu=http://opcfoundation.org/UA/;i=887",
+                                "dov:typeRef": "org.opcfoundation.UA.EUInformation",
                                 "required": [ "NamespaceUri", "UnitId", "DisplayName", "Description" ],
                                 "properties": {
                                   "NamespaceUri": {
@@ -2631,7 +2631,7 @@
                       "title": "ISA95MaterialDataType",
                       "description": "Defines a material resource, a quantity, an optional description, and an optional collection of properties.",
                       "type": "object",
-                      "dov:typeRef": "nsu=http://opcfoundation.org/UA/ISA95-JOBCONTROL_V2/;i=3010",
+                      "dov:typeRef": "org.opcfoundation.UA.ISA95-JOBCONTROL_V2.ISA95MaterialDataType",
                       "properties": {
                         "MaterialClassID": {
                           "description": "An identification of the resource, or null if the Material Class is not used to identify the material.",
@@ -2669,7 +2669,7 @@
                           "title": "EUInformation",
                           "description": "The Unit Of Measure of the quantity",
                           "type": "object",
-                          "dov:typeRef": "nsu=http://opcfoundation.org/UA/;i=887",
+                          "dov:typeRef": "org.opcfoundation.UA.EUInformation",
                           "required": [ "NamespaceUri", "UnitId", "DisplayName", "Description" ],
                           "properties": {
                             "NamespaceUri": {
@@ -2695,7 +2695,7 @@
                             "title": "ISA95PropertyDataType",
                             "description": "A subtype of OPC UA Structure that defines two linked data items: an ID, which is a unique identifier for a property within the scope of the associated resource, and the value, which is the data for the property.",
                             "type": "object",
-                            "dov:typeRef": "nsu=http://opcfoundation.org/UA/ISA95-JOBCONTROL_V2/;i=3002",
+                            "dov:typeRef": "org.opcfoundation.UA.ISA95-JOBCONTROL_V2.ISA95PropertyDataType",
                             "required": [ "ID", "Value" ],
                             "properties": {
                               "ID": {
@@ -2717,7 +2717,7 @@
                                 "title": "EUInformation",
                                 "description": "The Unit Of Measure of the value",
                                 "type": "object",
-                                "dov:typeRef": "nsu=http://opcfoundation.org/UA/;i=887",
+                                "dov:typeRef": "org.opcfoundation.UA.EUInformation",
                                 "required": [ "NamespaceUri", "UnitId", "DisplayName", "Description" ],
                                 "properties": {
                                   "NamespaceUri": {
@@ -2777,7 +2777,7 @@
           "title": "ISA95JobResponseDataType",
           "description": "Defines the information needed to schedule and execute a job.",
           "type": "object",
-          "dov:typeRef": "nsu=http://opcfoundation.org/UA/ISA95-JOBCONTROL_V2/;i=3013",
+          "dov:typeRef": "org.opcfoundation.UA.ISA95-JOBCONTROL_V2.ISA95JobResponseDataType",
           "required": [ "JobResponseID", "JobOrderID", "JobState" ],
           "properties": {
             "JobResponseID": {
@@ -2809,14 +2809,14 @@
                 "title": "ISA95StateDataType",
                 "description": "Defines the information needed to schedule and execute a job.",
                 "type": "object",
-                "dov:typeRef": "nsu=http://opcfoundation.org/UA/ISA95-JOBCONTROL_V2/;i=3006",
+                "dov:typeRef": "org.opcfoundation.UA.ISA95-JOBCONTROL_V2.ISA95StateDataType",
                 "required": [ "BrowsePath", "StateText", "StateNumber" ],
                 "properties": {
                   "BrowsePath": {
                     "title": "RelativePath",
                     "description": "The browse path of substates. Shall be null when the top-level state is represented.",
                     "type": "object",
-                    "dov:typeRef": "nsu=http://opcfoundation.org/UA/;i=540",
+                    "dov:typeRef": "org.opcfoundation.UA.RelativePath",
                     "required": [ "Elements" ],
                     "properties": {
                       "Elements": {
@@ -2824,7 +2824,7 @@
                         "items": {
                           "title": "RelativePathElement",
                           "type": "object",
-                          "dov:typeRef": "nsu=http://opcfoundation.org/UA/;i=537",
+                          "dov:typeRef": "org.opcfoundation.UA.RelativePathElement",
                           "required": [ "ReferenceTypeId", "IsInverse", "IncludeSubtypes", "TargetName" ],
                           "properties": {
                             "ReferenceTypeId": {
@@ -2864,7 +2864,7 @@
                 "title": "ISA95ParameterDataType",
                 "description": "A subtype of OPC UA Structure that defines three linked data items: the ID, which is a unique identifier for a property, the value, which is the data that is identified, and an optional description of the parameter.",
                 "type": "object",
-                "dov:typeRef": "nsu=http://opcfoundation.org/UA/ISA95-JOBCONTROL_V2/;i=3003",
+                "dov:typeRef": "org.opcfoundation.UA.ISA95-JOBCONTROL_V2.ISA95ParameterDataType",
                 "required": [ "ID", "Value" ],
                 "properties": {
                   "ID": {
@@ -2886,7 +2886,7 @@
                     "title": "EUInformation",
                     "description": "The Unit Of Measure of the value",
                     "type": "object",
-                    "dov:typeRef": "nsu=http://opcfoundation.org/UA/;i=887",
+                    "dov:typeRef": "org.opcfoundation.UA.EUInformation",
                     "required": [ "NamespaceUri", "UnitId", "DisplayName", "Description" ],
                     "properties": {
                       "NamespaceUri": {
@@ -2922,7 +2922,7 @@
                 "title": "ISA95PersonnelDataType",
                 "description": "Defines a personnel resource or a person, a quantity, an optional description, and an optional collection of properties.",
                 "type": "object",
-                "dov:typeRef": "nsu=http://opcfoundation.org/UA/ISA95-JOBCONTROL_V2/;i=3011",
+                "dov:typeRef": "org.opcfoundation.UA.ISA95-JOBCONTROL_V2.ISA95PersonnelDataType",
                 "required": [ "ID" ],
                 "properties": {
                   "ID": {
@@ -2949,7 +2949,7 @@
                     "title": "EUInformation",
                     "description": "The Unit Of Measure of the quantity",
                     "type": "object",
-                    "dov:typeRef": "nsu=http://opcfoundation.org/UA/;i=887",
+                    "dov:typeRef": "org.opcfoundation.UA.EUInformation",
                     "required": [ "NamespaceUri", "UnitId", "DisplayName", "Description" ],
                     "properties": {
                       "NamespaceUri": {
@@ -2975,7 +2975,7 @@
                       "title": "ISA95PropertyDataType",
                       "description": "A subtype of OPC UA Structure that defines two linked data items: an ID, which is a unique identifier for a property within the scope of the associated resource, and the value, which is the data for the property.",
                       "type": "object",
-                      "dov:typeRef": "nsu=http://opcfoundation.org/UA/ISA95-JOBCONTROL_V2/;i=3002",
+                      "dov:typeRef": "org.opcfoundation.UA.ISA95-JOBCONTROL_V2.ISA95PropertyDataType",
                       "required": [ "ID", "Value" ],
                       "properties": {
                         "ID": {
@@ -2997,7 +2997,7 @@
                           "title": "EUInformation",
                           "description": "The Unit Of Measure of the value",
                           "type": "object",
-                          "dov:typeRef": "nsu=http://opcfoundation.org/UA/;i=887",
+                          "dov:typeRef": "org.opcfoundation.UA.EUInformation",
                           "required": [ "NamespaceUri", "UnitId", "DisplayName", "Description" ],
                           "properties": {
                             "NamespaceUri": {
@@ -3036,7 +3036,7 @@
                 "title": "ISA95EquipmentDataType",
                 "description": "Defines an equipment resource or a piece of equipment, a quantity, an optional description, and an optional collection of properties.",
                 "type": "object",
-                "dov:typeRef": "nsu=http://opcfoundation.org/UA/ISA95-JOBCONTROL_V2/;i=3005",
+                "dov:typeRef": "org.opcfoundation.UA.ISA95-JOBCONTROL_V2.ISA95EquipmentDataType",
                 "required": [ "ID" ],
                 "properties": {
                   "ID": {
@@ -3063,7 +3063,7 @@
                     "title": "EUInformation",
                     "description": "The Unit Of Measure of the quantity",
                     "type": "object",
-                    "dov:typeRef": "nsu=http://opcfoundation.org/UA/;i=887",
+                    "dov:typeRef": "org.opcfoundation.UA.EUInformation",
                     "required": [ "NamespaceUri", "UnitId", "DisplayName", "Description" ],
                     "properties": {
                       "NamespaceUri": {
@@ -3089,7 +3089,7 @@
                       "title": "ISA95PropertyDataType",
                       "description": "A subtype of OPC UA Structure that defines two linked data items: an ID, which is a unique identifier for a property within the scope of the associated resource, and the value, which is the data for the property.",
                       "type": "object",
-                      "dov:typeRef": "nsu=http://opcfoundation.org/UA/ISA95-JOBCONTROL_V2/;i=3002",
+                      "dov:typeRef": "org.opcfoundation.UA.ISA95-JOBCONTROL_V2.ISA95PropertyDataType",
                       "required": [ "ID", "Value" ],
                       "properties": {
                         "ID": {
@@ -3111,7 +3111,7 @@
                           "title": "EUInformation",
                           "description": "The Unit Of Measure of the value",
                           "type": "object",
-                          "dov:typeRef": "nsu=http://opcfoundation.org/UA/;i=887",
+                          "dov:typeRef": "org.opcfoundation.UA.EUInformation",
                           "required": [ "NamespaceUri", "UnitId", "DisplayName", "Description" ],
                           "properties": {
                             "NamespaceUri": {
@@ -3150,7 +3150,7 @@
                 "title": "ISA95PhysicalAssetDataType",
                 "description": "Defines a physical asset, a quantity, an optional description, and an optional collection of properties.",
                 "type": "object",
-                "dov:typeRef": "nsu=http://opcfoundation.org/UA/ISA95-JOBCONTROL_V2/;i=3012",
+                "dov:typeRef": "org.opcfoundation.UA.ISA95-JOBCONTROL_V2.ISA95PhysicalAssetDataType",
                 "required": [ "ID" ],
                 "properties": {
                   "ID": {
@@ -3177,7 +3177,7 @@
                     "title": "EUInformation",
                     "description": "The Unit Of Measure of the quantity",
                     "type": "object",
-                    "dov:typeRef": "nsu=http://opcfoundation.org/UA/;i=887",
+                    "dov:typeRef": "org.opcfoundation.UA.EUInformation",
                     "required": [ "NamespaceUri", "UnitId", "DisplayName", "Description" ],
                     "properties": {
                       "NamespaceUri": {
@@ -3203,7 +3203,7 @@
                       "title": "ISA95PropertyDataType",
                       "description": "A subtype of OPC UA Structure that defines two linked data items: an ID, which is a unique identifier for a property within the scope of the associated resource, and the value, which is the data for the property.",
                       "type": "object",
-                      "dov:typeRef": "nsu=http://opcfoundation.org/UA/ISA95-JOBCONTROL_V2/;i=3002",
+                      "dov:typeRef": "org.opcfoundation.UA.ISA95-JOBCONTROL_V2.ISA95PropertyDataType",
                       "required": [ "ID", "Value" ],
                       "properties": {
                         "ID": {
@@ -3225,7 +3225,7 @@
                           "title": "EUInformation",
                           "description": "The Unit Of Measure of the value",
                           "type": "object",
-                          "dov:typeRef": "nsu=http://opcfoundation.org/UA/;i=887",
+                          "dov:typeRef": "org.opcfoundation.UA.EUInformation",
                           "required": [ "NamespaceUri", "UnitId", "DisplayName", "Description" ],
                           "properties": {
                             "NamespaceUri": {
@@ -3264,7 +3264,7 @@
                 "title": "ISA95MaterialDataType",
                 "description": "Defines a material resource, a quantity, an optional description, and an optional collection of properties.",
                 "type": "object",
-                "dov:typeRef": "nsu=http://opcfoundation.org/UA/ISA95-JOBCONTROL_V2/;i=3010",
+                "dov:typeRef": "org.opcfoundation.UA.ISA95-JOBCONTROL_V2.ISA95MaterialDataType",
                 "properties": {
                   "MaterialClassID": {
                     "description": "An identification of the resource, or null if the Material Class is not used to identify the material.",
@@ -3302,7 +3302,7 @@
                     "title": "EUInformation",
                     "description": "The Unit Of Measure of the quantity",
                     "type": "object",
-                    "dov:typeRef": "nsu=http://opcfoundation.org/UA/;i=887",
+                    "dov:typeRef": "org.opcfoundation.UA.EUInformation",
                     "required": [ "NamespaceUri", "UnitId", "DisplayName", "Description" ],
                     "properties": {
                       "NamespaceUri": {
@@ -3328,7 +3328,7 @@
                       "title": "ISA95PropertyDataType",
                       "description": "A subtype of OPC UA Structure that defines two linked data items: an ID, which is a unique identifier for a property within the scope of the associated resource, and the value, which is the data for the property.",
                       "type": "object",
-                      "dov:typeRef": "nsu=http://opcfoundation.org/UA/ISA95-JOBCONTROL_V2/;i=3002",
+                      "dov:typeRef": "org.opcfoundation.UA.ISA95-JOBCONTROL_V2.ISA95PropertyDataType",
                       "required": [ "ID", "Value" ],
                       "properties": {
                         "ID": {
@@ -3350,7 +3350,7 @@
                           "title": "EUInformation",
                           "description": "The Unit Of Measure of the value",
                           "type": "object",
-                          "dov:typeRef": "nsu=http://opcfoundation.org/UA/;i=887",
+                          "dov:typeRef": "org.opcfoundation.UA.EUInformation",
                           "required": [ "NamespaceUri", "UnitId", "DisplayName", "Description" ],
                           "properties": {
                             "NamespaceUri": {
@@ -3408,7 +3408,7 @@
             "title": "ISA95JobResponseDataType",
             "description": "Defines the information needed to schedule and execute a job.",
             "type": "object",
-            "dov:typeRef": "nsu=http://opcfoundation.org/UA/ISA95-JOBCONTROL_V2/;i=3013",
+            "dov:typeRef": "org.opcfoundation.UA.ISA95-JOBCONTROL_V2.ISA95JobResponseDataType",
             "required": [ "JobResponseID", "JobOrderID", "JobState" ],
             "properties": {
               "JobResponseID": {
@@ -3440,14 +3440,14 @@
                   "title": "ISA95StateDataType",
                   "description": "Defines the information needed to schedule and execute a job.",
                   "type": "object",
-                  "dov:typeRef": "nsu=http://opcfoundation.org/UA/ISA95-JOBCONTROL_V2/;i=3006",
+                  "dov:typeRef": "org.opcfoundation.UA.ISA95-JOBCONTROL_V2.ISA95StateDataType",
                   "required": [ "BrowsePath", "StateText", "StateNumber" ],
                   "properties": {
                     "BrowsePath": {
                       "title": "RelativePath",
                       "description": "The browse path of substates. Shall be null when the top-level state is represented.",
                       "type": "object",
-                      "dov:typeRef": "nsu=http://opcfoundation.org/UA/;i=540",
+                      "dov:typeRef": "org.opcfoundation.UA.RelativePath",
                       "required": [ "Elements" ],
                       "properties": {
                         "Elements": {
@@ -3455,7 +3455,7 @@
                           "items": {
                             "title": "RelativePathElement",
                             "type": "object",
-                            "dov:typeRef": "nsu=http://opcfoundation.org/UA/;i=537",
+                            "dov:typeRef": "org.opcfoundation.UA.RelativePathElement",
                             "required": [ "ReferenceTypeId", "IsInverse", "IncludeSubtypes", "TargetName" ],
                             "properties": {
                               "ReferenceTypeId": {
@@ -3495,7 +3495,7 @@
                   "title": "ISA95ParameterDataType",
                   "description": "A subtype of OPC UA Structure that defines three linked data items: the ID, which is a unique identifier for a property, the value, which is the data that is identified, and an optional description of the parameter.",
                   "type": "object",
-                  "dov:typeRef": "nsu=http://opcfoundation.org/UA/ISA95-JOBCONTROL_V2/;i=3003",
+                  "dov:typeRef": "org.opcfoundation.UA.ISA95-JOBCONTROL_V2.ISA95ParameterDataType",
                   "required": [ "ID", "Value" ],
                   "properties": {
                     "ID": {
@@ -3517,7 +3517,7 @@
                       "title": "EUInformation",
                       "description": "The Unit Of Measure of the value",
                       "type": "object",
-                      "dov:typeRef": "nsu=http://opcfoundation.org/UA/;i=887",
+                      "dov:typeRef": "org.opcfoundation.UA.EUInformation",
                       "required": [ "NamespaceUri", "UnitId", "DisplayName", "Description" ],
                       "properties": {
                         "NamespaceUri": {
@@ -3553,7 +3553,7 @@
                   "title": "ISA95PersonnelDataType",
                   "description": "Defines a personnel resource or a person, a quantity, an optional description, and an optional collection of properties.",
                   "type": "object",
-                  "dov:typeRef": "nsu=http://opcfoundation.org/UA/ISA95-JOBCONTROL_V2/;i=3011",
+                  "dov:typeRef": "org.opcfoundation.UA.ISA95-JOBCONTROL_V2.ISA95PersonnelDataType",
                   "required": [ "ID" ],
                   "properties": {
                     "ID": {
@@ -3580,7 +3580,7 @@
                       "title": "EUInformation",
                       "description": "The Unit Of Measure of the quantity",
                       "type": "object",
-                      "dov:typeRef": "nsu=http://opcfoundation.org/UA/;i=887",
+                      "dov:typeRef": "org.opcfoundation.UA.EUInformation",
                       "required": [ "NamespaceUri", "UnitId", "DisplayName", "Description" ],
                       "properties": {
                         "NamespaceUri": {
@@ -3606,7 +3606,7 @@
                         "title": "ISA95PropertyDataType",
                         "description": "A subtype of OPC UA Structure that defines two linked data items: an ID, which is a unique identifier for a property within the scope of the associated resource, and the value, which is the data for the property.",
                         "type": "object",
-                        "dov:typeRef": "nsu=http://opcfoundation.org/UA/ISA95-JOBCONTROL_V2/;i=3002",
+                        "dov:typeRef": "org.opcfoundation.UA.ISA95-JOBCONTROL_V2.ISA95PropertyDataType",
                         "required": [ "ID", "Value" ],
                         "properties": {
                           "ID": {
@@ -3628,7 +3628,7 @@
                             "title": "EUInformation",
                             "description": "The Unit Of Measure of the value",
                             "type": "object",
-                            "dov:typeRef": "nsu=http://opcfoundation.org/UA/;i=887",
+                            "dov:typeRef": "org.opcfoundation.UA.EUInformation",
                             "required": [ "NamespaceUri", "UnitId", "DisplayName", "Description" ],
                             "properties": {
                               "NamespaceUri": {
@@ -3667,7 +3667,7 @@
                   "title": "ISA95EquipmentDataType",
                   "description": "Defines an equipment resource or a piece of equipment, a quantity, an optional description, and an optional collection of properties.",
                   "type": "object",
-                  "dov:typeRef": "nsu=http://opcfoundation.org/UA/ISA95-JOBCONTROL_V2/;i=3005",
+                  "dov:typeRef": "org.opcfoundation.UA.ISA95-JOBCONTROL_V2.ISA95EquipmentDataType",
                   "required": [ "ID" ],
                   "properties": {
                     "ID": {
@@ -3694,7 +3694,7 @@
                       "title": "EUInformation",
                       "description": "The Unit Of Measure of the quantity",
                       "type": "object",
-                      "dov:typeRef": "nsu=http://opcfoundation.org/UA/;i=887",
+                      "dov:typeRef": "org.opcfoundation.UA.EUInformation",
                       "required": [ "NamespaceUri", "UnitId", "DisplayName", "Description" ],
                       "properties": {
                         "NamespaceUri": {
@@ -3720,7 +3720,7 @@
                         "title": "ISA95PropertyDataType",
                         "description": "A subtype of OPC UA Structure that defines two linked data items: an ID, which is a unique identifier for a property within the scope of the associated resource, and the value, which is the data for the property.",
                         "type": "object",
-                        "dov:typeRef": "nsu=http://opcfoundation.org/UA/ISA95-JOBCONTROL_V2/;i=3002",
+                        "dov:typeRef": "org.opcfoundation.UA.ISA95-JOBCONTROL_V2.ISA95PropertyDataType",
                         "required": [ "ID", "Value" ],
                         "properties": {
                           "ID": {
@@ -3742,7 +3742,7 @@
                             "title": "EUInformation",
                             "description": "The Unit Of Measure of the value",
                             "type": "object",
-                            "dov:typeRef": "nsu=http://opcfoundation.org/UA/;i=887",
+                            "dov:typeRef": "org.opcfoundation.UA.EUInformation",
                             "required": [ "NamespaceUri", "UnitId", "DisplayName", "Description" ],
                             "properties": {
                               "NamespaceUri": {
@@ -3781,7 +3781,7 @@
                   "title": "ISA95PhysicalAssetDataType",
                   "description": "Defines a physical asset, a quantity, an optional description, and an optional collection of properties.",
                   "type": "object",
-                  "dov:typeRef": "nsu=http://opcfoundation.org/UA/ISA95-JOBCONTROL_V2/;i=3012",
+                  "dov:typeRef": "org.opcfoundation.UA.ISA95-JOBCONTROL_V2.ISA95PhysicalAssetDataType",
                   "required": [ "ID" ],
                   "properties": {
                     "ID": {
@@ -3808,7 +3808,7 @@
                       "title": "EUInformation",
                       "description": "The Unit Of Measure of the quantity",
                       "type": "object",
-                      "dov:typeRef": "nsu=http://opcfoundation.org/UA/;i=887",
+                      "dov:typeRef": "org.opcfoundation.UA.EUInformation",
                       "required": [ "NamespaceUri", "UnitId", "DisplayName", "Description" ],
                       "properties": {
                         "NamespaceUri": {
@@ -3834,7 +3834,7 @@
                         "title": "ISA95PropertyDataType",
                         "description": "A subtype of OPC UA Structure that defines two linked data items: an ID, which is a unique identifier for a property within the scope of the associated resource, and the value, which is the data for the property.",
                         "type": "object",
-                        "dov:typeRef": "nsu=http://opcfoundation.org/UA/ISA95-JOBCONTROL_V2/;i=3002",
+                        "dov:typeRef": "org.opcfoundation.UA.ISA95-JOBCONTROL_V2.ISA95PropertyDataType",
                         "required": [ "ID", "Value" ],
                         "properties": {
                           "ID": {
@@ -3856,7 +3856,7 @@
                             "title": "EUInformation",
                             "description": "The Unit Of Measure of the value",
                             "type": "object",
-                            "dov:typeRef": "nsu=http://opcfoundation.org/UA/;i=887",
+                            "dov:typeRef": "org.opcfoundation.UA.EUInformation",
                             "required": [ "NamespaceUri", "UnitId", "DisplayName", "Description" ],
                             "properties": {
                               "NamespaceUri": {
@@ -3895,7 +3895,7 @@
                   "title": "ISA95MaterialDataType",
                   "description": "Defines a material resource, a quantity, an optional description, and an optional collection of properties.",
                   "type": "object",
-                  "dov:typeRef": "nsu=http://opcfoundation.org/UA/ISA95-JOBCONTROL_V2/;i=3010",
+                  "dov:typeRef": "org.opcfoundation.UA.ISA95-JOBCONTROL_V2.ISA95MaterialDataType",
                   "properties": {
                     "MaterialClassID": {
                       "description": "An identification of the resource, or null if the Material Class is not used to identify the material.",
@@ -3933,7 +3933,7 @@
                       "title": "EUInformation",
                       "description": "The Unit Of Measure of the quantity",
                       "type": "object",
-                      "dov:typeRef": "nsu=http://opcfoundation.org/UA/;i=887",
+                      "dov:typeRef": "org.opcfoundation.UA.EUInformation",
                       "required": [ "NamespaceUri", "UnitId", "DisplayName", "Description" ],
                       "properties": {
                         "NamespaceUri": {
@@ -3959,7 +3959,7 @@
                         "title": "ISA95PropertyDataType",
                         "description": "A subtype of OPC UA Structure that defines two linked data items: an ID, which is a unique identifier for a property within the scope of the associated resource, and the value, which is the data for the property.",
                         "type": "object",
-                        "dov:typeRef": "nsu=http://opcfoundation.org/UA/ISA95-JOBCONTROL_V2/;i=3002",
+                        "dov:typeRef": "org.opcfoundation.UA.ISA95-JOBCONTROL_V2.ISA95PropertyDataType",
                         "required": [ "ID", "Value" ],
                         "properties": {
                           "ID": {
@@ -3981,7 +3981,7 @@
                             "title": "EUInformation",
                             "description": "The Unit Of Measure of the value",
                             "type": "object",
-                            "dov:typeRef": "nsu=http://opcfoundation.org/UA/;i=887",
+                            "dov:typeRef": "org.opcfoundation.UA.EUInformation",
                             "required": [ "NamespaceUri", "UnitId", "DisplayName", "Description" ],
                             "properties": {
                               "NamespaceUri": {
@@ -4035,7 +4035,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "Isa95_jobcontrol_ISA95JobResponseReceiverObjectType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/ISA95-JOBCONTROL_V2/;i=1004",
+    "dov:typeRef": "org.opcfoundation.UA.ISA95-JOBCONTROL_V2.ISA95JobResponseReceiverObjectType",
     "dov:isComposite": true,
     "links": [
       {
@@ -4051,14 +4051,14 @@
         "dov:namespace": "http://opcfoundation.org/UA/ISA95-JOBCONTROL_V2/",
         "input": {
           "type": "object",
-          "dov:typeRef": "nsu=http://opcfoundation.org/UA/ISA95-JOBCONTROL_V2/;i=6044",
+          "dov:typeRef": "org.opcfoundation.UA.InputArguments",
           "required": [ "JobResponse" ],
           "properties": {
             "JobResponse": {
               "title": "ISA95JobResponseDataType",
               "description": "Defines the information needed to schedule and execute a job.",
               "type": "object",
-              "dov:typeRef": "nsu=http://opcfoundation.org/UA/ISA95-JOBCONTROL_V2/;i=3013",
+              "dov:typeRef": "org.opcfoundation.UA.ISA95-JOBCONTROL_V2.ISA95JobResponseDataType",
               "required": [ "JobResponseID", "JobOrderID", "JobState" ],
               "properties": {
                 "JobResponseID": {
@@ -4090,14 +4090,14 @@
                     "title": "ISA95StateDataType",
                     "description": "Defines the information needed to schedule and execute a job.",
                     "type": "object",
-                    "dov:typeRef": "nsu=http://opcfoundation.org/UA/ISA95-JOBCONTROL_V2/;i=3006",
+                    "dov:typeRef": "org.opcfoundation.UA.ISA95-JOBCONTROL_V2.ISA95StateDataType",
                     "required": [ "BrowsePath", "StateText", "StateNumber" ],
                     "properties": {
                       "BrowsePath": {
                         "title": "RelativePath",
                         "description": "The browse path of substates. Shall be null when the top-level state is represented.",
                         "type": "object",
-                        "dov:typeRef": "nsu=http://opcfoundation.org/UA/;i=540",
+                        "dov:typeRef": "org.opcfoundation.UA.RelativePath",
                         "required": [ "Elements" ],
                         "properties": {
                           "Elements": {
@@ -4105,7 +4105,7 @@
                             "items": {
                               "title": "RelativePathElement",
                               "type": "object",
-                              "dov:typeRef": "nsu=http://opcfoundation.org/UA/;i=537",
+                              "dov:typeRef": "org.opcfoundation.UA.RelativePathElement",
                               "required": [ "ReferenceTypeId", "IsInverse", "IncludeSubtypes", "TargetName" ],
                               "properties": {
                                 "ReferenceTypeId": {
@@ -4145,7 +4145,7 @@
                     "title": "ISA95ParameterDataType",
                     "description": "A subtype of OPC UA Structure that defines three linked data items: the ID, which is a unique identifier for a property, the value, which is the data that is identified, and an optional description of the parameter.",
                     "type": "object",
-                    "dov:typeRef": "nsu=http://opcfoundation.org/UA/ISA95-JOBCONTROL_V2/;i=3003",
+                    "dov:typeRef": "org.opcfoundation.UA.ISA95-JOBCONTROL_V2.ISA95ParameterDataType",
                     "required": [ "ID", "Value" ],
                     "properties": {
                       "ID": {
@@ -4167,7 +4167,7 @@
                         "title": "EUInformation",
                         "description": "The Unit Of Measure of the value",
                         "type": "object",
-                        "dov:typeRef": "nsu=http://opcfoundation.org/UA/;i=887",
+                        "dov:typeRef": "org.opcfoundation.UA.EUInformation",
                         "required": [ "NamespaceUri", "UnitId", "DisplayName", "Description" ],
                         "properties": {
                           "NamespaceUri": {
@@ -4203,7 +4203,7 @@
                     "title": "ISA95PersonnelDataType",
                     "description": "Defines a personnel resource or a person, a quantity, an optional description, and an optional collection of properties.",
                     "type": "object",
-                    "dov:typeRef": "nsu=http://opcfoundation.org/UA/ISA95-JOBCONTROL_V2/;i=3011",
+                    "dov:typeRef": "org.opcfoundation.UA.ISA95-JOBCONTROL_V2.ISA95PersonnelDataType",
                     "required": [ "ID" ],
                     "properties": {
                       "ID": {
@@ -4230,7 +4230,7 @@
                         "title": "EUInformation",
                         "description": "The Unit Of Measure of the quantity",
                         "type": "object",
-                        "dov:typeRef": "nsu=http://opcfoundation.org/UA/;i=887",
+                        "dov:typeRef": "org.opcfoundation.UA.EUInformation",
                         "required": [ "NamespaceUri", "UnitId", "DisplayName", "Description" ],
                         "properties": {
                           "NamespaceUri": {
@@ -4256,7 +4256,7 @@
                           "title": "ISA95PropertyDataType",
                           "description": "A subtype of OPC UA Structure that defines two linked data items: an ID, which is a unique identifier for a property within the scope of the associated resource, and the value, which is the data for the property.",
                           "type": "object",
-                          "dov:typeRef": "nsu=http://opcfoundation.org/UA/ISA95-JOBCONTROL_V2/;i=3002",
+                          "dov:typeRef": "org.opcfoundation.UA.ISA95-JOBCONTROL_V2.ISA95PropertyDataType",
                           "required": [ "ID", "Value" ],
                           "properties": {
                             "ID": {
@@ -4278,7 +4278,7 @@
                               "title": "EUInformation",
                               "description": "The Unit Of Measure of the value",
                               "type": "object",
-                              "dov:typeRef": "nsu=http://opcfoundation.org/UA/;i=887",
+                              "dov:typeRef": "org.opcfoundation.UA.EUInformation",
                               "required": [ "NamespaceUri", "UnitId", "DisplayName", "Description" ],
                               "properties": {
                                 "NamespaceUri": {
@@ -4317,7 +4317,7 @@
                     "title": "ISA95EquipmentDataType",
                     "description": "Defines an equipment resource or a piece of equipment, a quantity, an optional description, and an optional collection of properties.",
                     "type": "object",
-                    "dov:typeRef": "nsu=http://opcfoundation.org/UA/ISA95-JOBCONTROL_V2/;i=3005",
+                    "dov:typeRef": "org.opcfoundation.UA.ISA95-JOBCONTROL_V2.ISA95EquipmentDataType",
                     "required": [ "ID" ],
                     "properties": {
                       "ID": {
@@ -4344,7 +4344,7 @@
                         "title": "EUInformation",
                         "description": "The Unit Of Measure of the quantity",
                         "type": "object",
-                        "dov:typeRef": "nsu=http://opcfoundation.org/UA/;i=887",
+                        "dov:typeRef": "org.opcfoundation.UA.EUInformation",
                         "required": [ "NamespaceUri", "UnitId", "DisplayName", "Description" ],
                         "properties": {
                           "NamespaceUri": {
@@ -4370,7 +4370,7 @@
                           "title": "ISA95PropertyDataType",
                           "description": "A subtype of OPC UA Structure that defines two linked data items: an ID, which is a unique identifier for a property within the scope of the associated resource, and the value, which is the data for the property.",
                           "type": "object",
-                          "dov:typeRef": "nsu=http://opcfoundation.org/UA/ISA95-JOBCONTROL_V2/;i=3002",
+                          "dov:typeRef": "org.opcfoundation.UA.ISA95-JOBCONTROL_V2.ISA95PropertyDataType",
                           "required": [ "ID", "Value" ],
                           "properties": {
                             "ID": {
@@ -4392,7 +4392,7 @@
                               "title": "EUInformation",
                               "description": "The Unit Of Measure of the value",
                               "type": "object",
-                              "dov:typeRef": "nsu=http://opcfoundation.org/UA/;i=887",
+                              "dov:typeRef": "org.opcfoundation.UA.EUInformation",
                               "required": [ "NamespaceUri", "UnitId", "DisplayName", "Description" ],
                               "properties": {
                                 "NamespaceUri": {
@@ -4431,7 +4431,7 @@
                     "title": "ISA95PhysicalAssetDataType",
                     "description": "Defines a physical asset, a quantity, an optional description, and an optional collection of properties.",
                     "type": "object",
-                    "dov:typeRef": "nsu=http://opcfoundation.org/UA/ISA95-JOBCONTROL_V2/;i=3012",
+                    "dov:typeRef": "org.opcfoundation.UA.ISA95-JOBCONTROL_V2.ISA95PhysicalAssetDataType",
                     "required": [ "ID" ],
                     "properties": {
                       "ID": {
@@ -4458,7 +4458,7 @@
                         "title": "EUInformation",
                         "description": "The Unit Of Measure of the quantity",
                         "type": "object",
-                        "dov:typeRef": "nsu=http://opcfoundation.org/UA/;i=887",
+                        "dov:typeRef": "org.opcfoundation.UA.EUInformation",
                         "required": [ "NamespaceUri", "UnitId", "DisplayName", "Description" ],
                         "properties": {
                           "NamespaceUri": {
@@ -4484,7 +4484,7 @@
                           "title": "ISA95PropertyDataType",
                           "description": "A subtype of OPC UA Structure that defines two linked data items: an ID, which is a unique identifier for a property within the scope of the associated resource, and the value, which is the data for the property.",
                           "type": "object",
-                          "dov:typeRef": "nsu=http://opcfoundation.org/UA/ISA95-JOBCONTROL_V2/;i=3002",
+                          "dov:typeRef": "org.opcfoundation.UA.ISA95-JOBCONTROL_V2.ISA95PropertyDataType",
                           "required": [ "ID", "Value" ],
                           "properties": {
                             "ID": {
@@ -4506,7 +4506,7 @@
                               "title": "EUInformation",
                               "description": "The Unit Of Measure of the value",
                               "type": "object",
-                              "dov:typeRef": "nsu=http://opcfoundation.org/UA/;i=887",
+                              "dov:typeRef": "org.opcfoundation.UA.EUInformation",
                               "required": [ "NamespaceUri", "UnitId", "DisplayName", "Description" ],
                               "properties": {
                                 "NamespaceUri": {
@@ -4545,7 +4545,7 @@
                     "title": "ISA95MaterialDataType",
                     "description": "Defines a material resource, a quantity, an optional description, and an optional collection of properties.",
                     "type": "object",
-                    "dov:typeRef": "nsu=http://opcfoundation.org/UA/ISA95-JOBCONTROL_V2/;i=3010",
+                    "dov:typeRef": "org.opcfoundation.UA.ISA95-JOBCONTROL_V2.ISA95MaterialDataType",
                     "properties": {
                       "MaterialClassID": {
                         "description": "An identification of the resource, or null if the Material Class is not used to identify the material.",
@@ -4583,7 +4583,7 @@
                         "title": "EUInformation",
                         "description": "The Unit Of Measure of the quantity",
                         "type": "object",
-                        "dov:typeRef": "nsu=http://opcfoundation.org/UA/;i=887",
+                        "dov:typeRef": "org.opcfoundation.UA.EUInformation",
                         "required": [ "NamespaceUri", "UnitId", "DisplayName", "Description" ],
                         "properties": {
                           "NamespaceUri": {
@@ -4609,7 +4609,7 @@
                           "title": "ISA95PropertyDataType",
                           "description": "A subtype of OPC UA Structure that defines two linked data items: an ID, which is a unique identifier for a property within the scope of the associated resource, and the value, which is the data for the property.",
                           "type": "object",
-                          "dov:typeRef": "nsu=http://opcfoundation.org/UA/ISA95-JOBCONTROL_V2/;i=3002",
+                          "dov:typeRef": "org.opcfoundation.UA.ISA95-JOBCONTROL_V2.ISA95PropertyDataType",
                           "required": [ "ID", "Value" ],
                           "properties": {
                             "ID": {
@@ -4631,7 +4631,7 @@
                               "title": "EUInformation",
                               "description": "The Unit Of Measure of the value",
                               "type": "object",
-                              "dov:typeRef": "nsu=http://opcfoundation.org/UA/;i=887",
+                              "dov:typeRef": "org.opcfoundation.UA.EUInformation",
                               "required": [ "NamespaceUri", "UnitId", "DisplayName", "Description" ],
                               "properties": {
                                 "NamespaceUri": {
@@ -4669,7 +4669,7 @@
         },
         "output": {
           "type": "object",
-          "dov:typeRef": "nsu=http://opcfoundation.org/UA/ISA95-JOBCONTROL_V2/;i=6045",
+          "dov:typeRef": "org.opcfoundation.UA.OutputArguments",
           "required": [ "ReturnStatus" ],
           "properties": {
             "ReturnStatus": {
@@ -4703,7 +4703,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "Isa95_jobcontrol_ISA95EndedStateMachineType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/ISA95-JOBCONTROL_V2/;i=1005",
+    "dov:typeRef": "org.opcfoundation.UA.ISA95-JOBCONTROL_V2.ISA95EndedStateMachineType",
     "links": [
       {
         "rel": "tm:extends",
@@ -4747,7 +4747,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "Isa95_jobcontrol_ISA95InterruptedStateMachineType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/ISA95-JOBCONTROL_V2/;i=1007",
+    "dov:typeRef": "org.opcfoundation.UA.ISA95-JOBCONTROL_V2.ISA95InterruptedStateMachineType",
     "links": [
       {
         "rel": "tm:extends",
@@ -4797,7 +4797,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "Isa95_jobcontrol_ISA95JobOrderReceiverObjectType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/ISA95-JOBCONTROL_V2/;i=1002",
+    "dov:typeRef": "org.opcfoundation.UA.ISA95-JOBCONTROL_V2.ISA95JobOrderReceiverObjectType",
     "dov:isComposite": true,
     "links": [
       {
@@ -4939,7 +4939,7 @@
         "dov:namespace": "http://opcfoundation.org/UA/ISA95-JOBCONTROL_V2/",
         "input": {
           "type": "object",
-          "dov:typeRef": "nsu=http://opcfoundation.org/UA/ISA95-JOBCONTROL_V2/;i=6063",
+          "dov:typeRef": "org.opcfoundation.UA.InputArguments",
           "required": [ "JobOrderID", "Comment" ],
           "properties": {
             "JobOrderID": {
@@ -4957,7 +4957,7 @@
         },
         "output": {
           "type": "object",
-          "dov:typeRef": "nsu=http://opcfoundation.org/UA/ISA95-JOBCONTROL_V2/;i=6064",
+          "dov:typeRef": "org.opcfoundation.UA.OutputArguments",
           "required": [ "ReturnStatus" ],
           "properties": {
             "ReturnStatus": {
@@ -4980,7 +4980,7 @@
         "dov:namespace": "http://opcfoundation.org/UA/ISA95-JOBCONTROL_V2/",
         "input": {
           "type": "object",
-          "dov:typeRef": "nsu=http://opcfoundation.org/UA/ISA95-JOBCONTROL_V2/;i=6065",
+          "dov:typeRef": "org.opcfoundation.UA.InputArguments",
           "required": [ "JobOrderID", "Comment" ],
           "properties": {
             "JobOrderID": {
@@ -4998,7 +4998,7 @@
         },
         "output": {
           "type": "object",
-          "dov:typeRef": "nsu=http://opcfoundation.org/UA/ISA95-JOBCONTROL_V2/;i=6066",
+          "dov:typeRef": "org.opcfoundation.UA.OutputArguments",
           "required": [ "ReturnStatus" ],
           "properties": {
             "ReturnStatus": {
@@ -5021,7 +5021,7 @@
         "dov:namespace": "http://opcfoundation.org/UA/ISA95-JOBCONTROL_V2/",
         "input": {
           "type": "object",
-          "dov:typeRef": "nsu=http://opcfoundation.org/UA/ISA95-JOBCONTROL_V2/;i=6067",
+          "dov:typeRef": "org.opcfoundation.UA.InputArguments",
           "required": [ "JobOrderID", "Comment" ],
           "properties": {
             "JobOrderID": {
@@ -5039,7 +5039,7 @@
         },
         "output": {
           "type": "object",
-          "dov:typeRef": "nsu=http://opcfoundation.org/UA/ISA95-JOBCONTROL_V2/;i=6068",
+          "dov:typeRef": "org.opcfoundation.UA.OutputArguments",
           "required": [ "ReturnStatus" ],
           "properties": {
             "ReturnStatus": {
@@ -5062,7 +5062,7 @@
         "dov:namespace": "http://opcfoundation.org/UA/ISA95-JOBCONTROL_V2/",
         "input": {
           "type": "object",
-          "dov:typeRef": "nsu=http://opcfoundation.org/UA/ISA95-JOBCONTROL_V2/;i=6057",
+          "dov:typeRef": "org.opcfoundation.UA.InputArguments",
           "required": [ "JobOrderID", "Comment" ],
           "properties": {
             "JobOrderID": {
@@ -5080,7 +5080,7 @@
         },
         "output": {
           "type": "object",
-          "dov:typeRef": "nsu=http://opcfoundation.org/UA/ISA95-JOBCONTROL_V2/;i=6058",
+          "dov:typeRef": "org.opcfoundation.UA.OutputArguments",
           "required": [ "ReturnStatus" ],
           "properties": {
             "ReturnStatus": {
@@ -5103,7 +5103,7 @@
         "dov:namespace": "http://opcfoundation.org/UA/ISA95-JOBCONTROL_V2/",
         "input": {
           "type": "object",
-          "dov:typeRef": "nsu=http://opcfoundation.org/UA/ISA95-JOBCONTROL_V2/;i=6059",
+          "dov:typeRef": "org.opcfoundation.UA.InputArguments",
           "required": [ "JobOrderID", "Comment" ],
           "properties": {
             "JobOrderID": {
@@ -5121,7 +5121,7 @@
         },
         "output": {
           "type": "object",
-          "dov:typeRef": "nsu=http://opcfoundation.org/UA/ISA95-JOBCONTROL_V2/;i=6060",
+          "dov:typeRef": "org.opcfoundation.UA.OutputArguments",
           "required": [ "ReturnStatus" ],
           "properties": {
             "ReturnStatus": {
@@ -5144,7 +5144,7 @@
         "dov:namespace": "http://opcfoundation.org/UA/ISA95-JOBCONTROL_V2/",
         "input": {
           "type": "object",
-          "dov:typeRef": "nsu=http://opcfoundation.org/UA/ISA95-JOBCONTROL_V2/;i=6069",
+          "dov:typeRef": "org.opcfoundation.UA.InputArguments",
           "required": [ "JobOrderID", "Comment" ],
           "properties": {
             "JobOrderID": {
@@ -5162,7 +5162,7 @@
         },
         "output": {
           "type": "object",
-          "dov:typeRef": "nsu=http://opcfoundation.org/UA/ISA95-JOBCONTROL_V2/;i=6070",
+          "dov:typeRef": "org.opcfoundation.UA.OutputArguments",
           "required": [ "ReturnStatus" ],
           "properties": {
             "ReturnStatus": {
@@ -5185,7 +5185,7 @@
         "dov:namespace": "http://opcfoundation.org/UA/ISA95-JOBCONTROL_V2/",
         "input": {
           "type": "object",
-          "dov:typeRef": "nsu=http://opcfoundation.org/UA/ISA95-JOBCONTROL_V2/;i=6053",
+          "dov:typeRef": "org.opcfoundation.UA.InputArguments",
           "required": [ "JobOrderID", "Comment" ],
           "properties": {
             "JobOrderID": {
@@ -5203,7 +5203,7 @@
         },
         "output": {
           "type": "object",
-          "dov:typeRef": "nsu=http://opcfoundation.org/UA/ISA95-JOBCONTROL_V2/;i=6054",
+          "dov:typeRef": "org.opcfoundation.UA.OutputArguments",
           "required": [ "ReturnStatus" ],
           "properties": {
             "ReturnStatus": {
@@ -5226,7 +5226,7 @@
         "dov:namespace": "http://opcfoundation.org/UA/ISA95-JOBCONTROL_V2/",
         "input": {
           "type": "object",
-          "dov:typeRef": "nsu=http://opcfoundation.org/UA/ISA95-JOBCONTROL_V2/;i=6055",
+          "dov:typeRef": "org.opcfoundation.UA.InputArguments",
           "required": [ "JobOrderID", "Comment" ],
           "properties": {
             "JobOrderID": {
@@ -5244,7 +5244,7 @@
         },
         "output": {
           "type": "object",
-          "dov:typeRef": "nsu=http://opcfoundation.org/UA/ISA95-JOBCONTROL_V2/;i=6056",
+          "dov:typeRef": "org.opcfoundation.UA.OutputArguments",
           "required": [ "ReturnStatus" ],
           "properties": {
             "ReturnStatus": {
@@ -5267,14 +5267,14 @@
         "dov:namespace": "http://opcfoundation.org/UA/ISA95-JOBCONTROL_V2/",
         "input": {
           "type": "object",
-          "dov:typeRef": "nsu=http://opcfoundation.org/UA/ISA95-JOBCONTROL_V2/;i=6040",
+          "dov:typeRef": "org.opcfoundation.UA.InputArguments",
           "required": [ "JobOrder", "Comment" ],
           "properties": {
             "JobOrder": {
               "title": "ISA95JobOrderDataType",
               "description": "Defines the information needed to schedule and execute a job.",
               "type": "object",
-              "dov:typeRef": "nsu=http://opcfoundation.org/UA/ISA95-JOBCONTROL_V2/;i=3008",
+              "dov:typeRef": "org.opcfoundation.UA.ISA95-JOBCONTROL_V2.ISA95JobOrderDataType",
               "required": [ "JobOrderID" ],
               "properties": {
                 "JobOrderID": {
@@ -5295,7 +5295,7 @@
                     "title": "ISA95WorkMasterDataType",
                     "description": "Defines a Work Master ID and the defined parameters for the Work Master.",
                     "type": "object",
-                    "dov:typeRef": "nsu=http://opcfoundation.org/UA/ISA95-JOBCONTROL_V2/;i=3007",
+                    "dov:typeRef": "org.opcfoundation.UA.ISA95-JOBCONTROL_V2.ISA95WorkMasterDataType",
                     "required": [ "ID" ],
                     "properties": {
                       "ID": {
@@ -5313,7 +5313,7 @@
                           "title": "ISA95ParameterDataType",
                           "description": "A subtype of OPC UA Structure that defines three linked data items: the ID, which is a unique identifier for a property, the value, which is the data that is identified, and an optional description of the parameter.",
                           "type": "object",
-                          "dov:typeRef": "nsu=http://opcfoundation.org/UA/ISA95-JOBCONTROL_V2/;i=3003",
+                          "dov:typeRef": "org.opcfoundation.UA.ISA95-JOBCONTROL_V2.ISA95ParameterDataType",
                           "required": [ "ID", "Value" ],
                           "properties": {
                             "ID": {
@@ -5335,7 +5335,7 @@
                               "title": "EUInformation",
                               "description": "The Unit Of Measure of the value",
                               "type": "object",
-                              "dov:typeRef": "nsu=http://opcfoundation.org/UA/;i=887",
+                              "dov:typeRef": "org.opcfoundation.UA.EUInformation",
                               "required": [ "NamespaceUri", "UnitId", "DisplayName", "Description" ],
                               "properties": {
                                 "NamespaceUri": {
@@ -5390,7 +5390,7 @@
                     "title": "ISA95ParameterDataType",
                     "description": "A subtype of OPC UA Structure that defines three linked data items: the ID, which is a unique identifier for a property, the value, which is the data that is identified, and an optional description of the parameter.",
                     "type": "object",
-                    "dov:typeRef": "nsu=http://opcfoundation.org/UA/ISA95-JOBCONTROL_V2/;i=3003",
+                    "dov:typeRef": "org.opcfoundation.UA.ISA95-JOBCONTROL_V2.ISA95ParameterDataType",
                     "required": [ "ID", "Value" ],
                     "properties": {
                       "ID": {
@@ -5412,7 +5412,7 @@
                         "title": "EUInformation",
                         "description": "The Unit Of Measure of the value",
                         "type": "object",
-                        "dov:typeRef": "nsu=http://opcfoundation.org/UA/;i=887",
+                        "dov:typeRef": "org.opcfoundation.UA.EUInformation",
                         "required": [ "NamespaceUri", "UnitId", "DisplayName", "Description" ],
                         "properties": {
                           "NamespaceUri": {
@@ -5448,7 +5448,7 @@
                     "title": "ISA95PersonnelDataType",
                     "description": "Defines a personnel resource or a person, a quantity, an optional description, and an optional collection of properties.",
                     "type": "object",
-                    "dov:typeRef": "nsu=http://opcfoundation.org/UA/ISA95-JOBCONTROL_V2/;i=3011",
+                    "dov:typeRef": "org.opcfoundation.UA.ISA95-JOBCONTROL_V2.ISA95PersonnelDataType",
                     "required": [ "ID" ],
                     "properties": {
                       "ID": {
@@ -5475,7 +5475,7 @@
                         "title": "EUInformation",
                         "description": "The Unit Of Measure of the quantity",
                         "type": "object",
-                        "dov:typeRef": "nsu=http://opcfoundation.org/UA/;i=887",
+                        "dov:typeRef": "org.opcfoundation.UA.EUInformation",
                         "required": [ "NamespaceUri", "UnitId", "DisplayName", "Description" ],
                         "properties": {
                           "NamespaceUri": {
@@ -5501,7 +5501,7 @@
                           "title": "ISA95PropertyDataType",
                           "description": "A subtype of OPC UA Structure that defines two linked data items: an ID, which is a unique identifier for a property within the scope of the associated resource, and the value, which is the data for the property.",
                           "type": "object",
-                          "dov:typeRef": "nsu=http://opcfoundation.org/UA/ISA95-JOBCONTROL_V2/;i=3002",
+                          "dov:typeRef": "org.opcfoundation.UA.ISA95-JOBCONTROL_V2.ISA95PropertyDataType",
                           "required": [ "ID", "Value" ],
                           "properties": {
                             "ID": {
@@ -5523,7 +5523,7 @@
                               "title": "EUInformation",
                               "description": "The Unit Of Measure of the value",
                               "type": "object",
-                              "dov:typeRef": "nsu=http://opcfoundation.org/UA/;i=887",
+                              "dov:typeRef": "org.opcfoundation.UA.EUInformation",
                               "required": [ "NamespaceUri", "UnitId", "DisplayName", "Description" ],
                               "properties": {
                                 "NamespaceUri": {
@@ -5562,7 +5562,7 @@
                     "title": "ISA95EquipmentDataType",
                     "description": "Defines an equipment resource or a piece of equipment, a quantity, an optional description, and an optional collection of properties.",
                     "type": "object",
-                    "dov:typeRef": "nsu=http://opcfoundation.org/UA/ISA95-JOBCONTROL_V2/;i=3005",
+                    "dov:typeRef": "org.opcfoundation.UA.ISA95-JOBCONTROL_V2.ISA95EquipmentDataType",
                     "required": [ "ID" ],
                     "properties": {
                       "ID": {
@@ -5589,7 +5589,7 @@
                         "title": "EUInformation",
                         "description": "The Unit Of Measure of the quantity",
                         "type": "object",
-                        "dov:typeRef": "nsu=http://opcfoundation.org/UA/;i=887",
+                        "dov:typeRef": "org.opcfoundation.UA.EUInformation",
                         "required": [ "NamespaceUri", "UnitId", "DisplayName", "Description" ],
                         "properties": {
                           "NamespaceUri": {
@@ -5615,7 +5615,7 @@
                           "title": "ISA95PropertyDataType",
                           "description": "A subtype of OPC UA Structure that defines two linked data items: an ID, which is a unique identifier for a property within the scope of the associated resource, and the value, which is the data for the property.",
                           "type": "object",
-                          "dov:typeRef": "nsu=http://opcfoundation.org/UA/ISA95-JOBCONTROL_V2/;i=3002",
+                          "dov:typeRef": "org.opcfoundation.UA.ISA95-JOBCONTROL_V2.ISA95PropertyDataType",
                           "required": [ "ID", "Value" ],
                           "properties": {
                             "ID": {
@@ -5637,7 +5637,7 @@
                               "title": "EUInformation",
                               "description": "The Unit Of Measure of the value",
                               "type": "object",
-                              "dov:typeRef": "nsu=http://opcfoundation.org/UA/;i=887",
+                              "dov:typeRef": "org.opcfoundation.UA.EUInformation",
                               "required": [ "NamespaceUri", "UnitId", "DisplayName", "Description" ],
                               "properties": {
                                 "NamespaceUri": {
@@ -5676,7 +5676,7 @@
                     "title": "ISA95PhysicalAssetDataType",
                     "description": "Defines a physical asset, a quantity, an optional description, and an optional collection of properties.",
                     "type": "object",
-                    "dov:typeRef": "nsu=http://opcfoundation.org/UA/ISA95-JOBCONTROL_V2/;i=3012",
+                    "dov:typeRef": "org.opcfoundation.UA.ISA95-JOBCONTROL_V2.ISA95PhysicalAssetDataType",
                     "required": [ "ID" ],
                     "properties": {
                       "ID": {
@@ -5703,7 +5703,7 @@
                         "title": "EUInformation",
                         "description": "The Unit Of Measure of the quantity",
                         "type": "object",
-                        "dov:typeRef": "nsu=http://opcfoundation.org/UA/;i=887",
+                        "dov:typeRef": "org.opcfoundation.UA.EUInformation",
                         "required": [ "NamespaceUri", "UnitId", "DisplayName", "Description" ],
                         "properties": {
                           "NamespaceUri": {
@@ -5729,7 +5729,7 @@
                           "title": "ISA95PropertyDataType",
                           "description": "A subtype of OPC UA Structure that defines two linked data items: an ID, which is a unique identifier for a property within the scope of the associated resource, and the value, which is the data for the property.",
                           "type": "object",
-                          "dov:typeRef": "nsu=http://opcfoundation.org/UA/ISA95-JOBCONTROL_V2/;i=3002",
+                          "dov:typeRef": "org.opcfoundation.UA.ISA95-JOBCONTROL_V2.ISA95PropertyDataType",
                           "required": [ "ID", "Value" ],
                           "properties": {
                             "ID": {
@@ -5751,7 +5751,7 @@
                               "title": "EUInformation",
                               "description": "The Unit Of Measure of the value",
                               "type": "object",
-                              "dov:typeRef": "nsu=http://opcfoundation.org/UA/;i=887",
+                              "dov:typeRef": "org.opcfoundation.UA.EUInformation",
                               "required": [ "NamespaceUri", "UnitId", "DisplayName", "Description" ],
                               "properties": {
                                 "NamespaceUri": {
@@ -5790,7 +5790,7 @@
                     "title": "ISA95MaterialDataType",
                     "description": "Defines a material resource, a quantity, an optional description, and an optional collection of properties.",
                     "type": "object",
-                    "dov:typeRef": "nsu=http://opcfoundation.org/UA/ISA95-JOBCONTROL_V2/;i=3010",
+                    "dov:typeRef": "org.opcfoundation.UA.ISA95-JOBCONTROL_V2.ISA95MaterialDataType",
                     "properties": {
                       "MaterialClassID": {
                         "description": "An identification of the resource, or null if the Material Class is not used to identify the material.",
@@ -5828,7 +5828,7 @@
                         "title": "EUInformation",
                         "description": "The Unit Of Measure of the quantity",
                         "type": "object",
-                        "dov:typeRef": "nsu=http://opcfoundation.org/UA/;i=887",
+                        "dov:typeRef": "org.opcfoundation.UA.EUInformation",
                         "required": [ "NamespaceUri", "UnitId", "DisplayName", "Description" ],
                         "properties": {
                           "NamespaceUri": {
@@ -5854,7 +5854,7 @@
                           "title": "ISA95PropertyDataType",
                           "description": "A subtype of OPC UA Structure that defines two linked data items: an ID, which is a unique identifier for a property within the scope of the associated resource, and the value, which is the data for the property.",
                           "type": "object",
-                          "dov:typeRef": "nsu=http://opcfoundation.org/UA/ISA95-JOBCONTROL_V2/;i=3002",
+                          "dov:typeRef": "org.opcfoundation.UA.ISA95-JOBCONTROL_V2.ISA95PropertyDataType",
                           "required": [ "ID", "Value" ],
                           "properties": {
                             "ID": {
@@ -5876,7 +5876,7 @@
                               "title": "EUInformation",
                               "description": "The Unit Of Measure of the value",
                               "type": "object",
-                              "dov:typeRef": "nsu=http://opcfoundation.org/UA/;i=887",
+                              "dov:typeRef": "org.opcfoundation.UA.EUInformation",
                               "required": [ "NamespaceUri", "UnitId", "DisplayName", "Description" ],
                               "properties": {
                                 "NamespaceUri": {
@@ -5921,7 +5921,7 @@
         },
         "output": {
           "type": "object",
-          "dov:typeRef": "nsu=http://opcfoundation.org/UA/ISA95-JOBCONTROL_V2/;i=6041",
+          "dov:typeRef": "org.opcfoundation.UA.OutputArguments",
           "required": [ "ReturnStatus" ],
           "properties": {
             "ReturnStatus": {
@@ -5944,14 +5944,14 @@
         "dov:namespace": "http://opcfoundation.org/UA/ISA95-JOBCONTROL_V2/",
         "input": {
           "type": "object",
-          "dov:typeRef": "nsu=http://opcfoundation.org/UA/ISA95-JOBCONTROL_V2/;i=6051",
+          "dov:typeRef": "org.opcfoundation.UA.InputArguments",
           "required": [ "JobOrder", "Comment" ],
           "properties": {
             "JobOrder": {
               "title": "ISA95JobOrderDataType",
               "description": "Defines the information needed to schedule and execute a job.",
               "type": "object",
-              "dov:typeRef": "nsu=http://opcfoundation.org/UA/ISA95-JOBCONTROL_V2/;i=3008",
+              "dov:typeRef": "org.opcfoundation.UA.ISA95-JOBCONTROL_V2.ISA95JobOrderDataType",
               "required": [ "JobOrderID" ],
               "properties": {
                 "JobOrderID": {
@@ -5972,7 +5972,7 @@
                     "title": "ISA95WorkMasterDataType",
                     "description": "Defines a Work Master ID and the defined parameters for the Work Master.",
                     "type": "object",
-                    "dov:typeRef": "nsu=http://opcfoundation.org/UA/ISA95-JOBCONTROL_V2/;i=3007",
+                    "dov:typeRef": "org.opcfoundation.UA.ISA95-JOBCONTROL_V2.ISA95WorkMasterDataType",
                     "required": [ "ID" ],
                     "properties": {
                       "ID": {
@@ -5990,7 +5990,7 @@
                           "title": "ISA95ParameterDataType",
                           "description": "A subtype of OPC UA Structure that defines three linked data items: the ID, which is a unique identifier for a property, the value, which is the data that is identified, and an optional description of the parameter.",
                           "type": "object",
-                          "dov:typeRef": "nsu=http://opcfoundation.org/UA/ISA95-JOBCONTROL_V2/;i=3003",
+                          "dov:typeRef": "org.opcfoundation.UA.ISA95-JOBCONTROL_V2.ISA95ParameterDataType",
                           "required": [ "ID", "Value" ],
                           "properties": {
                             "ID": {
@@ -6012,7 +6012,7 @@
                               "title": "EUInformation",
                               "description": "The Unit Of Measure of the value",
                               "type": "object",
-                              "dov:typeRef": "nsu=http://opcfoundation.org/UA/;i=887",
+                              "dov:typeRef": "org.opcfoundation.UA.EUInformation",
                               "required": [ "NamespaceUri", "UnitId", "DisplayName", "Description" ],
                               "properties": {
                                 "NamespaceUri": {
@@ -6067,7 +6067,7 @@
                     "title": "ISA95ParameterDataType",
                     "description": "A subtype of OPC UA Structure that defines three linked data items: the ID, which is a unique identifier for a property, the value, which is the data that is identified, and an optional description of the parameter.",
                     "type": "object",
-                    "dov:typeRef": "nsu=http://opcfoundation.org/UA/ISA95-JOBCONTROL_V2/;i=3003",
+                    "dov:typeRef": "org.opcfoundation.UA.ISA95-JOBCONTROL_V2.ISA95ParameterDataType",
                     "required": [ "ID", "Value" ],
                     "properties": {
                       "ID": {
@@ -6089,7 +6089,7 @@
                         "title": "EUInformation",
                         "description": "The Unit Of Measure of the value",
                         "type": "object",
-                        "dov:typeRef": "nsu=http://opcfoundation.org/UA/;i=887",
+                        "dov:typeRef": "org.opcfoundation.UA.EUInformation",
                         "required": [ "NamespaceUri", "UnitId", "DisplayName", "Description" ],
                         "properties": {
                           "NamespaceUri": {
@@ -6125,7 +6125,7 @@
                     "title": "ISA95PersonnelDataType",
                     "description": "Defines a personnel resource or a person, a quantity, an optional description, and an optional collection of properties.",
                     "type": "object",
-                    "dov:typeRef": "nsu=http://opcfoundation.org/UA/ISA95-JOBCONTROL_V2/;i=3011",
+                    "dov:typeRef": "org.opcfoundation.UA.ISA95-JOBCONTROL_V2.ISA95PersonnelDataType",
                     "required": [ "ID" ],
                     "properties": {
                       "ID": {
@@ -6152,7 +6152,7 @@
                         "title": "EUInformation",
                         "description": "The Unit Of Measure of the quantity",
                         "type": "object",
-                        "dov:typeRef": "nsu=http://opcfoundation.org/UA/;i=887",
+                        "dov:typeRef": "org.opcfoundation.UA.EUInformation",
                         "required": [ "NamespaceUri", "UnitId", "DisplayName", "Description" ],
                         "properties": {
                           "NamespaceUri": {
@@ -6178,7 +6178,7 @@
                           "title": "ISA95PropertyDataType",
                           "description": "A subtype of OPC UA Structure that defines two linked data items: an ID, which is a unique identifier for a property within the scope of the associated resource, and the value, which is the data for the property.",
                           "type": "object",
-                          "dov:typeRef": "nsu=http://opcfoundation.org/UA/ISA95-JOBCONTROL_V2/;i=3002",
+                          "dov:typeRef": "org.opcfoundation.UA.ISA95-JOBCONTROL_V2.ISA95PropertyDataType",
                           "required": [ "ID", "Value" ],
                           "properties": {
                             "ID": {
@@ -6200,7 +6200,7 @@
                               "title": "EUInformation",
                               "description": "The Unit Of Measure of the value",
                               "type": "object",
-                              "dov:typeRef": "nsu=http://opcfoundation.org/UA/;i=887",
+                              "dov:typeRef": "org.opcfoundation.UA.EUInformation",
                               "required": [ "NamespaceUri", "UnitId", "DisplayName", "Description" ],
                               "properties": {
                                 "NamespaceUri": {
@@ -6239,7 +6239,7 @@
                     "title": "ISA95EquipmentDataType",
                     "description": "Defines an equipment resource or a piece of equipment, a quantity, an optional description, and an optional collection of properties.",
                     "type": "object",
-                    "dov:typeRef": "nsu=http://opcfoundation.org/UA/ISA95-JOBCONTROL_V2/;i=3005",
+                    "dov:typeRef": "org.opcfoundation.UA.ISA95-JOBCONTROL_V2.ISA95EquipmentDataType",
                     "required": [ "ID" ],
                     "properties": {
                       "ID": {
@@ -6266,7 +6266,7 @@
                         "title": "EUInformation",
                         "description": "The Unit Of Measure of the quantity",
                         "type": "object",
-                        "dov:typeRef": "nsu=http://opcfoundation.org/UA/;i=887",
+                        "dov:typeRef": "org.opcfoundation.UA.EUInformation",
                         "required": [ "NamespaceUri", "UnitId", "DisplayName", "Description" ],
                         "properties": {
                           "NamespaceUri": {
@@ -6292,7 +6292,7 @@
                           "title": "ISA95PropertyDataType",
                           "description": "A subtype of OPC UA Structure that defines two linked data items: an ID, which is a unique identifier for a property within the scope of the associated resource, and the value, which is the data for the property.",
                           "type": "object",
-                          "dov:typeRef": "nsu=http://opcfoundation.org/UA/ISA95-JOBCONTROL_V2/;i=3002",
+                          "dov:typeRef": "org.opcfoundation.UA.ISA95-JOBCONTROL_V2.ISA95PropertyDataType",
                           "required": [ "ID", "Value" ],
                           "properties": {
                             "ID": {
@@ -6314,7 +6314,7 @@
                               "title": "EUInformation",
                               "description": "The Unit Of Measure of the value",
                               "type": "object",
-                              "dov:typeRef": "nsu=http://opcfoundation.org/UA/;i=887",
+                              "dov:typeRef": "org.opcfoundation.UA.EUInformation",
                               "required": [ "NamespaceUri", "UnitId", "DisplayName", "Description" ],
                               "properties": {
                                 "NamespaceUri": {
@@ -6353,7 +6353,7 @@
                     "title": "ISA95PhysicalAssetDataType",
                     "description": "Defines a physical asset, a quantity, an optional description, and an optional collection of properties.",
                     "type": "object",
-                    "dov:typeRef": "nsu=http://opcfoundation.org/UA/ISA95-JOBCONTROL_V2/;i=3012",
+                    "dov:typeRef": "org.opcfoundation.UA.ISA95-JOBCONTROL_V2.ISA95PhysicalAssetDataType",
                     "required": [ "ID" ],
                     "properties": {
                       "ID": {
@@ -6380,7 +6380,7 @@
                         "title": "EUInformation",
                         "description": "The Unit Of Measure of the quantity",
                         "type": "object",
-                        "dov:typeRef": "nsu=http://opcfoundation.org/UA/;i=887",
+                        "dov:typeRef": "org.opcfoundation.UA.EUInformation",
                         "required": [ "NamespaceUri", "UnitId", "DisplayName", "Description" ],
                         "properties": {
                           "NamespaceUri": {
@@ -6406,7 +6406,7 @@
                           "title": "ISA95PropertyDataType",
                           "description": "A subtype of OPC UA Structure that defines two linked data items: an ID, which is a unique identifier for a property within the scope of the associated resource, and the value, which is the data for the property.",
                           "type": "object",
-                          "dov:typeRef": "nsu=http://opcfoundation.org/UA/ISA95-JOBCONTROL_V2/;i=3002",
+                          "dov:typeRef": "org.opcfoundation.UA.ISA95-JOBCONTROL_V2.ISA95PropertyDataType",
                           "required": [ "ID", "Value" ],
                           "properties": {
                             "ID": {
@@ -6428,7 +6428,7 @@
                               "title": "EUInformation",
                               "description": "The Unit Of Measure of the value",
                               "type": "object",
-                              "dov:typeRef": "nsu=http://opcfoundation.org/UA/;i=887",
+                              "dov:typeRef": "org.opcfoundation.UA.EUInformation",
                               "required": [ "NamespaceUri", "UnitId", "DisplayName", "Description" ],
                               "properties": {
                                 "NamespaceUri": {
@@ -6467,7 +6467,7 @@
                     "title": "ISA95MaterialDataType",
                     "description": "Defines a material resource, a quantity, an optional description, and an optional collection of properties.",
                     "type": "object",
-                    "dov:typeRef": "nsu=http://opcfoundation.org/UA/ISA95-JOBCONTROL_V2/;i=3010",
+                    "dov:typeRef": "org.opcfoundation.UA.ISA95-JOBCONTROL_V2.ISA95MaterialDataType",
                     "properties": {
                       "MaterialClassID": {
                         "description": "An identification of the resource, or null if the Material Class is not used to identify the material.",
@@ -6505,7 +6505,7 @@
                         "title": "EUInformation",
                         "description": "The Unit Of Measure of the quantity",
                         "type": "object",
-                        "dov:typeRef": "nsu=http://opcfoundation.org/UA/;i=887",
+                        "dov:typeRef": "org.opcfoundation.UA.EUInformation",
                         "required": [ "NamespaceUri", "UnitId", "DisplayName", "Description" ],
                         "properties": {
                           "NamespaceUri": {
@@ -6531,7 +6531,7 @@
                           "title": "ISA95PropertyDataType",
                           "description": "A subtype of OPC UA Structure that defines two linked data items: an ID, which is a unique identifier for a property within the scope of the associated resource, and the value, which is the data for the property.",
                           "type": "object",
-                          "dov:typeRef": "nsu=http://opcfoundation.org/UA/ISA95-JOBCONTROL_V2/;i=3002",
+                          "dov:typeRef": "org.opcfoundation.UA.ISA95-JOBCONTROL_V2.ISA95PropertyDataType",
                           "required": [ "ID", "Value" ],
                           "properties": {
                             "ID": {
@@ -6553,7 +6553,7 @@
                               "title": "EUInformation",
                               "description": "The Unit Of Measure of the value",
                               "type": "object",
-                              "dov:typeRef": "nsu=http://opcfoundation.org/UA/;i=887",
+                              "dov:typeRef": "org.opcfoundation.UA.EUInformation",
                               "required": [ "NamespaceUri", "UnitId", "DisplayName", "Description" ],
                               "properties": {
                                 "NamespaceUri": {
@@ -6598,7 +6598,7 @@
         },
         "output": {
           "type": "object",
-          "dov:typeRef": "nsu=http://opcfoundation.org/UA/ISA95-JOBCONTROL_V2/;i=6052",
+          "dov:typeRef": "org.opcfoundation.UA.OutputArguments",
           "required": [ "ReturnStatus" ],
           "properties": {
             "ReturnStatus": {
@@ -6621,14 +6621,14 @@
         "dov:namespace": "http://opcfoundation.org/UA/ISA95-JOBCONTROL_V2/",
         "input": {
           "type": "object",
-          "dov:typeRef": "nsu=http://opcfoundation.org/UA/ISA95-JOBCONTROL_V2/;i=6061",
+          "dov:typeRef": "org.opcfoundation.UA.InputArguments",
           "required": [ "JobOrder", "Comment" ],
           "properties": {
             "JobOrder": {
               "title": "ISA95JobOrderDataType",
               "description": "Defines the information needed to schedule and execute a job.",
               "type": "object",
-              "dov:typeRef": "nsu=http://opcfoundation.org/UA/ISA95-JOBCONTROL_V2/;i=3008",
+              "dov:typeRef": "org.opcfoundation.UA.ISA95-JOBCONTROL_V2.ISA95JobOrderDataType",
               "required": [ "JobOrderID" ],
               "properties": {
                 "JobOrderID": {
@@ -6649,7 +6649,7 @@
                     "title": "ISA95WorkMasterDataType",
                     "description": "Defines a Work Master ID and the defined parameters for the Work Master.",
                     "type": "object",
-                    "dov:typeRef": "nsu=http://opcfoundation.org/UA/ISA95-JOBCONTROL_V2/;i=3007",
+                    "dov:typeRef": "org.opcfoundation.UA.ISA95-JOBCONTROL_V2.ISA95WorkMasterDataType",
                     "required": [ "ID" ],
                     "properties": {
                       "ID": {
@@ -6667,7 +6667,7 @@
                           "title": "ISA95ParameterDataType",
                           "description": "A subtype of OPC UA Structure that defines three linked data items: the ID, which is a unique identifier for a property, the value, which is the data that is identified, and an optional description of the parameter.",
                           "type": "object",
-                          "dov:typeRef": "nsu=http://opcfoundation.org/UA/ISA95-JOBCONTROL_V2/;i=3003",
+                          "dov:typeRef": "org.opcfoundation.UA.ISA95-JOBCONTROL_V2.ISA95ParameterDataType",
                           "required": [ "ID", "Value" ],
                           "properties": {
                             "ID": {
@@ -6689,7 +6689,7 @@
                               "title": "EUInformation",
                               "description": "The Unit Of Measure of the value",
                               "type": "object",
-                              "dov:typeRef": "nsu=http://opcfoundation.org/UA/;i=887",
+                              "dov:typeRef": "org.opcfoundation.UA.EUInformation",
                               "required": [ "NamespaceUri", "UnitId", "DisplayName", "Description" ],
                               "properties": {
                                 "NamespaceUri": {
@@ -6744,7 +6744,7 @@
                     "title": "ISA95ParameterDataType",
                     "description": "A subtype of OPC UA Structure that defines three linked data items: the ID, which is a unique identifier for a property, the value, which is the data that is identified, and an optional description of the parameter.",
                     "type": "object",
-                    "dov:typeRef": "nsu=http://opcfoundation.org/UA/ISA95-JOBCONTROL_V2/;i=3003",
+                    "dov:typeRef": "org.opcfoundation.UA.ISA95-JOBCONTROL_V2.ISA95ParameterDataType",
                     "required": [ "ID", "Value" ],
                     "properties": {
                       "ID": {
@@ -6766,7 +6766,7 @@
                         "title": "EUInformation",
                         "description": "The Unit Of Measure of the value",
                         "type": "object",
-                        "dov:typeRef": "nsu=http://opcfoundation.org/UA/;i=887",
+                        "dov:typeRef": "org.opcfoundation.UA.EUInformation",
                         "required": [ "NamespaceUri", "UnitId", "DisplayName", "Description" ],
                         "properties": {
                           "NamespaceUri": {
@@ -6802,7 +6802,7 @@
                     "title": "ISA95PersonnelDataType",
                     "description": "Defines a personnel resource or a person, a quantity, an optional description, and an optional collection of properties.",
                     "type": "object",
-                    "dov:typeRef": "nsu=http://opcfoundation.org/UA/ISA95-JOBCONTROL_V2/;i=3011",
+                    "dov:typeRef": "org.opcfoundation.UA.ISA95-JOBCONTROL_V2.ISA95PersonnelDataType",
                     "required": [ "ID" ],
                     "properties": {
                       "ID": {
@@ -6829,7 +6829,7 @@
                         "title": "EUInformation",
                         "description": "The Unit Of Measure of the quantity",
                         "type": "object",
-                        "dov:typeRef": "nsu=http://opcfoundation.org/UA/;i=887",
+                        "dov:typeRef": "org.opcfoundation.UA.EUInformation",
                         "required": [ "NamespaceUri", "UnitId", "DisplayName", "Description" ],
                         "properties": {
                           "NamespaceUri": {
@@ -6855,7 +6855,7 @@
                           "title": "ISA95PropertyDataType",
                           "description": "A subtype of OPC UA Structure that defines two linked data items: an ID, which is a unique identifier for a property within the scope of the associated resource, and the value, which is the data for the property.",
                           "type": "object",
-                          "dov:typeRef": "nsu=http://opcfoundation.org/UA/ISA95-JOBCONTROL_V2/;i=3002",
+                          "dov:typeRef": "org.opcfoundation.UA.ISA95-JOBCONTROL_V2.ISA95PropertyDataType",
                           "required": [ "ID", "Value" ],
                           "properties": {
                             "ID": {
@@ -6877,7 +6877,7 @@
                               "title": "EUInformation",
                               "description": "The Unit Of Measure of the value",
                               "type": "object",
-                              "dov:typeRef": "nsu=http://opcfoundation.org/UA/;i=887",
+                              "dov:typeRef": "org.opcfoundation.UA.EUInformation",
                               "required": [ "NamespaceUri", "UnitId", "DisplayName", "Description" ],
                               "properties": {
                                 "NamespaceUri": {
@@ -6916,7 +6916,7 @@
                     "title": "ISA95EquipmentDataType",
                     "description": "Defines an equipment resource or a piece of equipment, a quantity, an optional description, and an optional collection of properties.",
                     "type": "object",
-                    "dov:typeRef": "nsu=http://opcfoundation.org/UA/ISA95-JOBCONTROL_V2/;i=3005",
+                    "dov:typeRef": "org.opcfoundation.UA.ISA95-JOBCONTROL_V2.ISA95EquipmentDataType",
                     "required": [ "ID" ],
                     "properties": {
                       "ID": {
@@ -6943,7 +6943,7 @@
                         "title": "EUInformation",
                         "description": "The Unit Of Measure of the quantity",
                         "type": "object",
-                        "dov:typeRef": "nsu=http://opcfoundation.org/UA/;i=887",
+                        "dov:typeRef": "org.opcfoundation.UA.EUInformation",
                         "required": [ "NamespaceUri", "UnitId", "DisplayName", "Description" ],
                         "properties": {
                           "NamespaceUri": {
@@ -6969,7 +6969,7 @@
                           "title": "ISA95PropertyDataType",
                           "description": "A subtype of OPC UA Structure that defines two linked data items: an ID, which is a unique identifier for a property within the scope of the associated resource, and the value, which is the data for the property.",
                           "type": "object",
-                          "dov:typeRef": "nsu=http://opcfoundation.org/UA/ISA95-JOBCONTROL_V2/;i=3002",
+                          "dov:typeRef": "org.opcfoundation.UA.ISA95-JOBCONTROL_V2.ISA95PropertyDataType",
                           "required": [ "ID", "Value" ],
                           "properties": {
                             "ID": {
@@ -6991,7 +6991,7 @@
                               "title": "EUInformation",
                               "description": "The Unit Of Measure of the value",
                               "type": "object",
-                              "dov:typeRef": "nsu=http://opcfoundation.org/UA/;i=887",
+                              "dov:typeRef": "org.opcfoundation.UA.EUInformation",
                               "required": [ "NamespaceUri", "UnitId", "DisplayName", "Description" ],
                               "properties": {
                                 "NamespaceUri": {
@@ -7030,7 +7030,7 @@
                     "title": "ISA95PhysicalAssetDataType",
                     "description": "Defines a physical asset, a quantity, an optional description, and an optional collection of properties.",
                     "type": "object",
-                    "dov:typeRef": "nsu=http://opcfoundation.org/UA/ISA95-JOBCONTROL_V2/;i=3012",
+                    "dov:typeRef": "org.opcfoundation.UA.ISA95-JOBCONTROL_V2.ISA95PhysicalAssetDataType",
                     "required": [ "ID" ],
                     "properties": {
                       "ID": {
@@ -7057,7 +7057,7 @@
                         "title": "EUInformation",
                         "description": "The Unit Of Measure of the quantity",
                         "type": "object",
-                        "dov:typeRef": "nsu=http://opcfoundation.org/UA/;i=887",
+                        "dov:typeRef": "org.opcfoundation.UA.EUInformation",
                         "required": [ "NamespaceUri", "UnitId", "DisplayName", "Description" ],
                         "properties": {
                           "NamespaceUri": {
@@ -7083,7 +7083,7 @@
                           "title": "ISA95PropertyDataType",
                           "description": "A subtype of OPC UA Structure that defines two linked data items: an ID, which is a unique identifier for a property within the scope of the associated resource, and the value, which is the data for the property.",
                           "type": "object",
-                          "dov:typeRef": "nsu=http://opcfoundation.org/UA/ISA95-JOBCONTROL_V2/;i=3002",
+                          "dov:typeRef": "org.opcfoundation.UA.ISA95-JOBCONTROL_V2.ISA95PropertyDataType",
                           "required": [ "ID", "Value" ],
                           "properties": {
                             "ID": {
@@ -7105,7 +7105,7 @@
                               "title": "EUInformation",
                               "description": "The Unit Of Measure of the value",
                               "type": "object",
-                              "dov:typeRef": "nsu=http://opcfoundation.org/UA/;i=887",
+                              "dov:typeRef": "org.opcfoundation.UA.EUInformation",
                               "required": [ "NamespaceUri", "UnitId", "DisplayName", "Description" ],
                               "properties": {
                                 "NamespaceUri": {
@@ -7144,7 +7144,7 @@
                     "title": "ISA95MaterialDataType",
                     "description": "Defines a material resource, a quantity, an optional description, and an optional collection of properties.",
                     "type": "object",
-                    "dov:typeRef": "nsu=http://opcfoundation.org/UA/ISA95-JOBCONTROL_V2/;i=3010",
+                    "dov:typeRef": "org.opcfoundation.UA.ISA95-JOBCONTROL_V2.ISA95MaterialDataType",
                     "properties": {
                       "MaterialClassID": {
                         "description": "An identification of the resource, or null if the Material Class is not used to identify the material.",
@@ -7182,7 +7182,7 @@
                         "title": "EUInformation",
                         "description": "The Unit Of Measure of the quantity",
                         "type": "object",
-                        "dov:typeRef": "nsu=http://opcfoundation.org/UA/;i=887",
+                        "dov:typeRef": "org.opcfoundation.UA.EUInformation",
                         "required": [ "NamespaceUri", "UnitId", "DisplayName", "Description" ],
                         "properties": {
                           "NamespaceUri": {
@@ -7208,7 +7208,7 @@
                           "title": "ISA95PropertyDataType",
                           "description": "A subtype of OPC UA Structure that defines two linked data items: an ID, which is a unique identifier for a property within the scope of the associated resource, and the value, which is the data for the property.",
                           "type": "object",
-                          "dov:typeRef": "nsu=http://opcfoundation.org/UA/ISA95-JOBCONTROL_V2/;i=3002",
+                          "dov:typeRef": "org.opcfoundation.UA.ISA95-JOBCONTROL_V2.ISA95PropertyDataType",
                           "required": [ "ID", "Value" ],
                           "properties": {
                             "ID": {
@@ -7230,7 +7230,7 @@
                               "title": "EUInformation",
                               "description": "The Unit Of Measure of the value",
                               "type": "object",
-                              "dov:typeRef": "nsu=http://opcfoundation.org/UA/;i=887",
+                              "dov:typeRef": "org.opcfoundation.UA.EUInformation",
                               "required": [ "NamespaceUri", "UnitId", "DisplayName", "Description" ],
                               "properties": {
                                 "NamespaceUri": {
@@ -7275,7 +7275,7 @@
         },
         "output": {
           "type": "object",
-          "dov:typeRef": "nsu=http://opcfoundation.org/UA/ISA95-JOBCONTROL_V2/;i=6062",
+          "dov:typeRef": "org.opcfoundation.UA.OutputArguments",
           "required": [ "ReturnStatus" ],
           "properties": {
             "ReturnStatus": {
@@ -7320,14 +7320,14 @@
           "title": "ISA95JobOrderAndStateDataType",
           "description": "Defines the information needed to schedule and execute a job.",
           "type": "object",
-          "dov:typeRef": "nsu=http://opcfoundation.org/UA/ISA95-JOBCONTROL_V2/;i=3015",
+          "dov:typeRef": "org.opcfoundation.UA.ISA95-JOBCONTROL_V2.ISA95JobOrderAndStateDataType",
           "required": [ "JobOrder", "State" ],
           "properties": {
             "JobOrder": {
               "title": "ISA95JobOrderDataType",
               "description": "Defines the information needed to schedule and execute a job.",
               "type": "object",
-              "dov:typeRef": "nsu=http://opcfoundation.org/UA/ISA95-JOBCONTROL_V2/;i=3008",
+              "dov:typeRef": "org.opcfoundation.UA.ISA95-JOBCONTROL_V2.ISA95JobOrderDataType",
               "required": [ "JobOrderID" ],
               "properties": {
                 "JobOrderID": {
@@ -7348,7 +7348,7 @@
                     "title": "ISA95WorkMasterDataType",
                     "description": "Defines a Work Master ID and the defined parameters for the Work Master.",
                     "type": "object",
-                    "dov:typeRef": "nsu=http://opcfoundation.org/UA/ISA95-JOBCONTROL_V2/;i=3007",
+                    "dov:typeRef": "org.opcfoundation.UA.ISA95-JOBCONTROL_V2.ISA95WorkMasterDataType",
                     "required": [ "ID" ],
                     "properties": {
                       "ID": {
@@ -7366,7 +7366,7 @@
                           "title": "ISA95ParameterDataType",
                           "description": "A subtype of OPC UA Structure that defines three linked data items: the ID, which is a unique identifier for a property, the value, which is the data that is identified, and an optional description of the parameter.",
                           "type": "object",
-                          "dov:typeRef": "nsu=http://opcfoundation.org/UA/ISA95-JOBCONTROL_V2/;i=3003",
+                          "dov:typeRef": "org.opcfoundation.UA.ISA95-JOBCONTROL_V2.ISA95ParameterDataType",
                           "required": [ "ID", "Value" ],
                           "properties": {
                             "ID": {
@@ -7388,7 +7388,7 @@
                               "title": "EUInformation",
                               "description": "The Unit Of Measure of the value",
                               "type": "object",
-                              "dov:typeRef": "nsu=http://opcfoundation.org/UA/;i=887",
+                              "dov:typeRef": "org.opcfoundation.UA.EUInformation",
                               "required": [ "NamespaceUri", "UnitId", "DisplayName", "Description" ],
                               "properties": {
                                 "NamespaceUri": {
@@ -7443,7 +7443,7 @@
                     "title": "ISA95ParameterDataType",
                     "description": "A subtype of OPC UA Structure that defines three linked data items: the ID, which is a unique identifier for a property, the value, which is the data that is identified, and an optional description of the parameter.",
                     "type": "object",
-                    "dov:typeRef": "nsu=http://opcfoundation.org/UA/ISA95-JOBCONTROL_V2/;i=3003",
+                    "dov:typeRef": "org.opcfoundation.UA.ISA95-JOBCONTROL_V2.ISA95ParameterDataType",
                     "required": [ "ID", "Value" ],
                     "properties": {
                       "ID": {
@@ -7465,7 +7465,7 @@
                         "title": "EUInformation",
                         "description": "The Unit Of Measure of the value",
                         "type": "object",
-                        "dov:typeRef": "nsu=http://opcfoundation.org/UA/;i=887",
+                        "dov:typeRef": "org.opcfoundation.UA.EUInformation",
                         "required": [ "NamespaceUri", "UnitId", "DisplayName", "Description" ],
                         "properties": {
                           "NamespaceUri": {
@@ -7501,7 +7501,7 @@
                     "title": "ISA95PersonnelDataType",
                     "description": "Defines a personnel resource or a person, a quantity, an optional description, and an optional collection of properties.",
                     "type": "object",
-                    "dov:typeRef": "nsu=http://opcfoundation.org/UA/ISA95-JOBCONTROL_V2/;i=3011",
+                    "dov:typeRef": "org.opcfoundation.UA.ISA95-JOBCONTROL_V2.ISA95PersonnelDataType",
                     "required": [ "ID" ],
                     "properties": {
                       "ID": {
@@ -7528,7 +7528,7 @@
                         "title": "EUInformation",
                         "description": "The Unit Of Measure of the quantity",
                         "type": "object",
-                        "dov:typeRef": "nsu=http://opcfoundation.org/UA/;i=887",
+                        "dov:typeRef": "org.opcfoundation.UA.EUInformation",
                         "required": [ "NamespaceUri", "UnitId", "DisplayName", "Description" ],
                         "properties": {
                           "NamespaceUri": {
@@ -7554,7 +7554,7 @@
                           "title": "ISA95PropertyDataType",
                           "description": "A subtype of OPC UA Structure that defines two linked data items: an ID, which is a unique identifier for a property within the scope of the associated resource, and the value, which is the data for the property.",
                           "type": "object",
-                          "dov:typeRef": "nsu=http://opcfoundation.org/UA/ISA95-JOBCONTROL_V2/;i=3002",
+                          "dov:typeRef": "org.opcfoundation.UA.ISA95-JOBCONTROL_V2.ISA95PropertyDataType",
                           "required": [ "ID", "Value" ],
                           "properties": {
                             "ID": {
@@ -7576,7 +7576,7 @@
                               "title": "EUInformation",
                               "description": "The Unit Of Measure of the value",
                               "type": "object",
-                              "dov:typeRef": "nsu=http://opcfoundation.org/UA/;i=887",
+                              "dov:typeRef": "org.opcfoundation.UA.EUInformation",
                               "required": [ "NamespaceUri", "UnitId", "DisplayName", "Description" ],
                               "properties": {
                                 "NamespaceUri": {
@@ -7615,7 +7615,7 @@
                     "title": "ISA95EquipmentDataType",
                     "description": "Defines an equipment resource or a piece of equipment, a quantity, an optional description, and an optional collection of properties.",
                     "type": "object",
-                    "dov:typeRef": "nsu=http://opcfoundation.org/UA/ISA95-JOBCONTROL_V2/;i=3005",
+                    "dov:typeRef": "org.opcfoundation.UA.ISA95-JOBCONTROL_V2.ISA95EquipmentDataType",
                     "required": [ "ID" ],
                     "properties": {
                       "ID": {
@@ -7642,7 +7642,7 @@
                         "title": "EUInformation",
                         "description": "The Unit Of Measure of the quantity",
                         "type": "object",
-                        "dov:typeRef": "nsu=http://opcfoundation.org/UA/;i=887",
+                        "dov:typeRef": "org.opcfoundation.UA.EUInformation",
                         "required": [ "NamespaceUri", "UnitId", "DisplayName", "Description" ],
                         "properties": {
                           "NamespaceUri": {
@@ -7668,7 +7668,7 @@
                           "title": "ISA95PropertyDataType",
                           "description": "A subtype of OPC UA Structure that defines two linked data items: an ID, which is a unique identifier for a property within the scope of the associated resource, and the value, which is the data for the property.",
                           "type": "object",
-                          "dov:typeRef": "nsu=http://opcfoundation.org/UA/ISA95-JOBCONTROL_V2/;i=3002",
+                          "dov:typeRef": "org.opcfoundation.UA.ISA95-JOBCONTROL_V2.ISA95PropertyDataType",
                           "required": [ "ID", "Value" ],
                           "properties": {
                             "ID": {
@@ -7690,7 +7690,7 @@
                               "title": "EUInformation",
                               "description": "The Unit Of Measure of the value",
                               "type": "object",
-                              "dov:typeRef": "nsu=http://opcfoundation.org/UA/;i=887",
+                              "dov:typeRef": "org.opcfoundation.UA.EUInformation",
                               "required": [ "NamespaceUri", "UnitId", "DisplayName", "Description" ],
                               "properties": {
                                 "NamespaceUri": {
@@ -7729,7 +7729,7 @@
                     "title": "ISA95PhysicalAssetDataType",
                     "description": "Defines a physical asset, a quantity, an optional description, and an optional collection of properties.",
                     "type": "object",
-                    "dov:typeRef": "nsu=http://opcfoundation.org/UA/ISA95-JOBCONTROL_V2/;i=3012",
+                    "dov:typeRef": "org.opcfoundation.UA.ISA95-JOBCONTROL_V2.ISA95PhysicalAssetDataType",
                     "required": [ "ID" ],
                     "properties": {
                       "ID": {
@@ -7756,7 +7756,7 @@
                         "title": "EUInformation",
                         "description": "The Unit Of Measure of the quantity",
                         "type": "object",
-                        "dov:typeRef": "nsu=http://opcfoundation.org/UA/;i=887",
+                        "dov:typeRef": "org.opcfoundation.UA.EUInformation",
                         "required": [ "NamespaceUri", "UnitId", "DisplayName", "Description" ],
                         "properties": {
                           "NamespaceUri": {
@@ -7782,7 +7782,7 @@
                           "title": "ISA95PropertyDataType",
                           "description": "A subtype of OPC UA Structure that defines two linked data items: an ID, which is a unique identifier for a property within the scope of the associated resource, and the value, which is the data for the property.",
                           "type": "object",
-                          "dov:typeRef": "nsu=http://opcfoundation.org/UA/ISA95-JOBCONTROL_V2/;i=3002",
+                          "dov:typeRef": "org.opcfoundation.UA.ISA95-JOBCONTROL_V2.ISA95PropertyDataType",
                           "required": [ "ID", "Value" ],
                           "properties": {
                             "ID": {
@@ -7804,7 +7804,7 @@
                               "title": "EUInformation",
                               "description": "The Unit Of Measure of the value",
                               "type": "object",
-                              "dov:typeRef": "nsu=http://opcfoundation.org/UA/;i=887",
+                              "dov:typeRef": "org.opcfoundation.UA.EUInformation",
                               "required": [ "NamespaceUri", "UnitId", "DisplayName", "Description" ],
                               "properties": {
                                 "NamespaceUri": {
@@ -7843,7 +7843,7 @@
                     "title": "ISA95MaterialDataType",
                     "description": "Defines a material resource, a quantity, an optional description, and an optional collection of properties.",
                     "type": "object",
-                    "dov:typeRef": "nsu=http://opcfoundation.org/UA/ISA95-JOBCONTROL_V2/;i=3010",
+                    "dov:typeRef": "org.opcfoundation.UA.ISA95-JOBCONTROL_V2.ISA95MaterialDataType",
                     "properties": {
                       "MaterialClassID": {
                         "description": "An identification of the resource, or null if the Material Class is not used to identify the material.",
@@ -7881,7 +7881,7 @@
                         "title": "EUInformation",
                         "description": "The Unit Of Measure of the quantity",
                         "type": "object",
-                        "dov:typeRef": "nsu=http://opcfoundation.org/UA/;i=887",
+                        "dov:typeRef": "org.opcfoundation.UA.EUInformation",
                         "required": [ "NamespaceUri", "UnitId", "DisplayName", "Description" ],
                         "properties": {
                           "NamespaceUri": {
@@ -7907,7 +7907,7 @@
                           "title": "ISA95PropertyDataType",
                           "description": "A subtype of OPC UA Structure that defines two linked data items: an ID, which is a unique identifier for a property within the scope of the associated resource, and the value, which is the data for the property.",
                           "type": "object",
-                          "dov:typeRef": "nsu=http://opcfoundation.org/UA/ISA95-JOBCONTROL_V2/;i=3002",
+                          "dov:typeRef": "org.opcfoundation.UA.ISA95-JOBCONTROL_V2.ISA95PropertyDataType",
                           "required": [ "ID", "Value" ],
                           "properties": {
                             "ID": {
@@ -7929,7 +7929,7 @@
                               "title": "EUInformation",
                               "description": "The Unit Of Measure of the value",
                               "type": "object",
-                              "dov:typeRef": "nsu=http://opcfoundation.org/UA/;i=887",
+                              "dov:typeRef": "org.opcfoundation.UA.EUInformation",
                               "required": [ "NamespaceUri", "UnitId", "DisplayName", "Description" ],
                               "properties": {
                                 "NamespaceUri": {
@@ -7970,14 +7970,14 @@
                 "title": "ISA95StateDataType",
                 "description": "Defines the information needed to schedule and execute a job.",
                 "type": "object",
-                "dov:typeRef": "nsu=http://opcfoundation.org/UA/ISA95-JOBCONTROL_V2/;i=3006",
+                "dov:typeRef": "org.opcfoundation.UA.ISA95-JOBCONTROL_V2.ISA95StateDataType",
                 "required": [ "BrowsePath", "StateText", "StateNumber" ],
                 "properties": {
                   "BrowsePath": {
                     "title": "RelativePath",
                     "description": "The browse path of substates. Shall be null when the top-level state is represented.",
                     "type": "object",
-                    "dov:typeRef": "nsu=http://opcfoundation.org/UA/;i=540",
+                    "dov:typeRef": "org.opcfoundation.UA.RelativePath",
                     "required": [ "Elements" ],
                     "properties": {
                       "Elements": {
@@ -7985,7 +7985,7 @@
                         "items": {
                           "title": "RelativePathElement",
                           "type": "object",
-                          "dov:typeRef": "nsu=http://opcfoundation.org/UA/;i=537",
+                          "dov:typeRef": "org.opcfoundation.UA.RelativePathElement",
                           "required": [ "ReferenceTypeId", "IsInverse", "IncludeSubtypes", "TargetName" ],
                           "properties": {
                             "ReferenceTypeId": {
@@ -8115,7 +8115,7 @@
           "title": "ISA95WorkMasterDataType",
           "description": "Defines a Work Master ID and the defined parameters for the Work Master.",
           "type": "object",
-          "dov:typeRef": "nsu=http://opcfoundation.org/UA/ISA95-JOBCONTROL_V2/;i=3007",
+          "dov:typeRef": "org.opcfoundation.UA.ISA95-JOBCONTROL_V2.ISA95WorkMasterDataType",
           "required": [ "ID" ],
           "properties": {
             "ID": {
@@ -8133,7 +8133,7 @@
                 "title": "ISA95ParameterDataType",
                 "description": "A subtype of OPC UA Structure that defines three linked data items: the ID, which is a unique identifier for a property, the value, which is the data that is identified, and an optional description of the parameter.",
                 "type": "object",
-                "dov:typeRef": "nsu=http://opcfoundation.org/UA/ISA95-JOBCONTROL_V2/;i=3003",
+                "dov:typeRef": "org.opcfoundation.UA.ISA95-JOBCONTROL_V2.ISA95ParameterDataType",
                 "required": [ "ID", "Value" ],
                 "properties": {
                   "ID": {
@@ -8155,7 +8155,7 @@
                     "title": "EUInformation",
                     "description": "The Unit Of Measure of the value",
                     "type": "object",
-                    "dov:typeRef": "nsu=http://opcfoundation.org/UA/;i=887",
+                    "dov:typeRef": "org.opcfoundation.UA.EUInformation",
                     "required": [ "NamespaceUri", "UnitId", "DisplayName", "Description" ],
                     "properties": {
                       "NamespaceUri": {
@@ -8223,14 +8223,14 @@
             "title": "ISA95JobOrderAndStateDataType",
             "description": "Defines the information needed to schedule and execute a job.",
             "type": "object",
-            "dov:typeRef": "nsu=http://opcfoundation.org/UA/ISA95-JOBCONTROL_V2/;i=3015",
+            "dov:typeRef": "org.opcfoundation.UA.ISA95-JOBCONTROL_V2.ISA95JobOrderAndStateDataType",
             "required": [ "JobOrder", "State" ],
             "properties": {
               "JobOrder": {
                 "title": "ISA95JobOrderDataType",
                 "description": "Defines the information needed to schedule and execute a job.",
                 "type": "object",
-                "dov:typeRef": "nsu=http://opcfoundation.org/UA/ISA95-JOBCONTROL_V2/;i=3008",
+                "dov:typeRef": "org.opcfoundation.UA.ISA95-JOBCONTROL_V2.ISA95JobOrderDataType",
                 "required": [ "JobOrderID" ],
                 "properties": {
                   "JobOrderID": {
@@ -8251,7 +8251,7 @@
                       "title": "ISA95WorkMasterDataType",
                       "description": "Defines a Work Master ID and the defined parameters for the Work Master.",
                       "type": "object",
-                      "dov:typeRef": "nsu=http://opcfoundation.org/UA/ISA95-JOBCONTROL_V2/;i=3007",
+                      "dov:typeRef": "org.opcfoundation.UA.ISA95-JOBCONTROL_V2.ISA95WorkMasterDataType",
                       "required": [ "ID" ],
                       "properties": {
                         "ID": {
@@ -8269,7 +8269,7 @@
                             "title": "ISA95ParameterDataType",
                             "description": "A subtype of OPC UA Structure that defines three linked data items: the ID, which is a unique identifier for a property, the value, which is the data that is identified, and an optional description of the parameter.",
                             "type": "object",
-                            "dov:typeRef": "nsu=http://opcfoundation.org/UA/ISA95-JOBCONTROL_V2/;i=3003",
+                            "dov:typeRef": "org.opcfoundation.UA.ISA95-JOBCONTROL_V2.ISA95ParameterDataType",
                             "required": [ "ID", "Value" ],
                             "properties": {
                               "ID": {
@@ -8291,7 +8291,7 @@
                                 "title": "EUInformation",
                                 "description": "The Unit Of Measure of the value",
                                 "type": "object",
-                                "dov:typeRef": "nsu=http://opcfoundation.org/UA/;i=887",
+                                "dov:typeRef": "org.opcfoundation.UA.EUInformation",
                                 "required": [ "NamespaceUri", "UnitId", "DisplayName", "Description" ],
                                 "properties": {
                                   "NamespaceUri": {
@@ -8346,7 +8346,7 @@
                       "title": "ISA95ParameterDataType",
                       "description": "A subtype of OPC UA Structure that defines three linked data items: the ID, which is a unique identifier for a property, the value, which is the data that is identified, and an optional description of the parameter.",
                       "type": "object",
-                      "dov:typeRef": "nsu=http://opcfoundation.org/UA/ISA95-JOBCONTROL_V2/;i=3003",
+                      "dov:typeRef": "org.opcfoundation.UA.ISA95-JOBCONTROL_V2.ISA95ParameterDataType",
                       "required": [ "ID", "Value" ],
                       "properties": {
                         "ID": {
@@ -8368,7 +8368,7 @@
                           "title": "EUInformation",
                           "description": "The Unit Of Measure of the value",
                           "type": "object",
-                          "dov:typeRef": "nsu=http://opcfoundation.org/UA/;i=887",
+                          "dov:typeRef": "org.opcfoundation.UA.EUInformation",
                           "required": [ "NamespaceUri", "UnitId", "DisplayName", "Description" ],
                           "properties": {
                             "NamespaceUri": {
@@ -8404,7 +8404,7 @@
                       "title": "ISA95PersonnelDataType",
                       "description": "Defines a personnel resource or a person, a quantity, an optional description, and an optional collection of properties.",
                       "type": "object",
-                      "dov:typeRef": "nsu=http://opcfoundation.org/UA/ISA95-JOBCONTROL_V2/;i=3011",
+                      "dov:typeRef": "org.opcfoundation.UA.ISA95-JOBCONTROL_V2.ISA95PersonnelDataType",
                       "required": [ "ID" ],
                       "properties": {
                         "ID": {
@@ -8431,7 +8431,7 @@
                           "title": "EUInformation",
                           "description": "The Unit Of Measure of the quantity",
                           "type": "object",
-                          "dov:typeRef": "nsu=http://opcfoundation.org/UA/;i=887",
+                          "dov:typeRef": "org.opcfoundation.UA.EUInformation",
                           "required": [ "NamespaceUri", "UnitId", "DisplayName", "Description" ],
                           "properties": {
                             "NamespaceUri": {
@@ -8457,7 +8457,7 @@
                             "title": "ISA95PropertyDataType",
                             "description": "A subtype of OPC UA Structure that defines two linked data items: an ID, which is a unique identifier for a property within the scope of the associated resource, and the value, which is the data for the property.",
                             "type": "object",
-                            "dov:typeRef": "nsu=http://opcfoundation.org/UA/ISA95-JOBCONTROL_V2/;i=3002",
+                            "dov:typeRef": "org.opcfoundation.UA.ISA95-JOBCONTROL_V2.ISA95PropertyDataType",
                             "required": [ "ID", "Value" ],
                             "properties": {
                               "ID": {
@@ -8479,7 +8479,7 @@
                                 "title": "EUInformation",
                                 "description": "The Unit Of Measure of the value",
                                 "type": "object",
-                                "dov:typeRef": "nsu=http://opcfoundation.org/UA/;i=887",
+                                "dov:typeRef": "org.opcfoundation.UA.EUInformation",
                                 "required": [ "NamespaceUri", "UnitId", "DisplayName", "Description" ],
                                 "properties": {
                                   "NamespaceUri": {
@@ -8518,7 +8518,7 @@
                       "title": "ISA95EquipmentDataType",
                       "description": "Defines an equipment resource or a piece of equipment, a quantity, an optional description, and an optional collection of properties.",
                       "type": "object",
-                      "dov:typeRef": "nsu=http://opcfoundation.org/UA/ISA95-JOBCONTROL_V2/;i=3005",
+                      "dov:typeRef": "org.opcfoundation.UA.ISA95-JOBCONTROL_V2.ISA95EquipmentDataType",
                       "required": [ "ID" ],
                       "properties": {
                         "ID": {
@@ -8545,7 +8545,7 @@
                           "title": "EUInformation",
                           "description": "The Unit Of Measure of the quantity",
                           "type": "object",
-                          "dov:typeRef": "nsu=http://opcfoundation.org/UA/;i=887",
+                          "dov:typeRef": "org.opcfoundation.UA.EUInformation",
                           "required": [ "NamespaceUri", "UnitId", "DisplayName", "Description" ],
                           "properties": {
                             "NamespaceUri": {
@@ -8571,7 +8571,7 @@
                             "title": "ISA95PropertyDataType",
                             "description": "A subtype of OPC UA Structure that defines two linked data items: an ID, which is a unique identifier for a property within the scope of the associated resource, and the value, which is the data for the property.",
                             "type": "object",
-                            "dov:typeRef": "nsu=http://opcfoundation.org/UA/ISA95-JOBCONTROL_V2/;i=3002",
+                            "dov:typeRef": "org.opcfoundation.UA.ISA95-JOBCONTROL_V2.ISA95PropertyDataType",
                             "required": [ "ID", "Value" ],
                             "properties": {
                               "ID": {
@@ -8593,7 +8593,7 @@
                                 "title": "EUInformation",
                                 "description": "The Unit Of Measure of the value",
                                 "type": "object",
-                                "dov:typeRef": "nsu=http://opcfoundation.org/UA/;i=887",
+                                "dov:typeRef": "org.opcfoundation.UA.EUInformation",
                                 "required": [ "NamespaceUri", "UnitId", "DisplayName", "Description" ],
                                 "properties": {
                                   "NamespaceUri": {
@@ -8632,7 +8632,7 @@
                       "title": "ISA95PhysicalAssetDataType",
                       "description": "Defines a physical asset, a quantity, an optional description, and an optional collection of properties.",
                       "type": "object",
-                      "dov:typeRef": "nsu=http://opcfoundation.org/UA/ISA95-JOBCONTROL_V2/;i=3012",
+                      "dov:typeRef": "org.opcfoundation.UA.ISA95-JOBCONTROL_V2.ISA95PhysicalAssetDataType",
                       "required": [ "ID" ],
                       "properties": {
                         "ID": {
@@ -8659,7 +8659,7 @@
                           "title": "EUInformation",
                           "description": "The Unit Of Measure of the quantity",
                           "type": "object",
-                          "dov:typeRef": "nsu=http://opcfoundation.org/UA/;i=887",
+                          "dov:typeRef": "org.opcfoundation.UA.EUInformation",
                           "required": [ "NamespaceUri", "UnitId", "DisplayName", "Description" ],
                           "properties": {
                             "NamespaceUri": {
@@ -8685,7 +8685,7 @@
                             "title": "ISA95PropertyDataType",
                             "description": "A subtype of OPC UA Structure that defines two linked data items: an ID, which is a unique identifier for a property within the scope of the associated resource, and the value, which is the data for the property.",
                             "type": "object",
-                            "dov:typeRef": "nsu=http://opcfoundation.org/UA/ISA95-JOBCONTROL_V2/;i=3002",
+                            "dov:typeRef": "org.opcfoundation.UA.ISA95-JOBCONTROL_V2.ISA95PropertyDataType",
                             "required": [ "ID", "Value" ],
                             "properties": {
                               "ID": {
@@ -8707,7 +8707,7 @@
                                 "title": "EUInformation",
                                 "description": "The Unit Of Measure of the value",
                                 "type": "object",
-                                "dov:typeRef": "nsu=http://opcfoundation.org/UA/;i=887",
+                                "dov:typeRef": "org.opcfoundation.UA.EUInformation",
                                 "required": [ "NamespaceUri", "UnitId", "DisplayName", "Description" ],
                                 "properties": {
                                   "NamespaceUri": {
@@ -8746,7 +8746,7 @@
                       "title": "ISA95MaterialDataType",
                       "description": "Defines a material resource, a quantity, an optional description, and an optional collection of properties.",
                       "type": "object",
-                      "dov:typeRef": "nsu=http://opcfoundation.org/UA/ISA95-JOBCONTROL_V2/;i=3010",
+                      "dov:typeRef": "org.opcfoundation.UA.ISA95-JOBCONTROL_V2.ISA95MaterialDataType",
                       "properties": {
                         "MaterialClassID": {
                           "description": "An identification of the resource, or null if the Material Class is not used to identify the material.",
@@ -8784,7 +8784,7 @@
                           "title": "EUInformation",
                           "description": "The Unit Of Measure of the quantity",
                           "type": "object",
-                          "dov:typeRef": "nsu=http://opcfoundation.org/UA/;i=887",
+                          "dov:typeRef": "org.opcfoundation.UA.EUInformation",
                           "required": [ "NamespaceUri", "UnitId", "DisplayName", "Description" ],
                           "properties": {
                             "NamespaceUri": {
@@ -8810,7 +8810,7 @@
                             "title": "ISA95PropertyDataType",
                             "description": "A subtype of OPC UA Structure that defines two linked data items: an ID, which is a unique identifier for a property within the scope of the associated resource, and the value, which is the data for the property.",
                             "type": "object",
-                            "dov:typeRef": "nsu=http://opcfoundation.org/UA/ISA95-JOBCONTROL_V2/;i=3002",
+                            "dov:typeRef": "org.opcfoundation.UA.ISA95-JOBCONTROL_V2.ISA95PropertyDataType",
                             "required": [ "ID", "Value" ],
                             "properties": {
                               "ID": {
@@ -8832,7 +8832,7 @@
                                 "title": "EUInformation",
                                 "description": "The Unit Of Measure of the value",
                                 "type": "object",
-                                "dov:typeRef": "nsu=http://opcfoundation.org/UA/;i=887",
+                                "dov:typeRef": "org.opcfoundation.UA.EUInformation",
                                 "required": [ "NamespaceUri", "UnitId", "DisplayName", "Description" ],
                                 "properties": {
                                   "NamespaceUri": {
@@ -8873,14 +8873,14 @@
                   "title": "ISA95StateDataType",
                   "description": "Defines the information needed to schedule and execute a job.",
                   "type": "object",
-                  "dov:typeRef": "nsu=http://opcfoundation.org/UA/ISA95-JOBCONTROL_V2/;i=3006",
+                  "dov:typeRef": "org.opcfoundation.UA.ISA95-JOBCONTROL_V2.ISA95StateDataType",
                   "required": [ "BrowsePath", "StateText", "StateNumber" ],
                   "properties": {
                     "BrowsePath": {
                       "title": "RelativePath",
                       "description": "The browse path of substates. Shall be null when the top-level state is represented.",
                       "type": "object",
-                      "dov:typeRef": "nsu=http://opcfoundation.org/UA/;i=540",
+                      "dov:typeRef": "org.opcfoundation.UA.RelativePath",
                       "required": [ "Elements" ],
                       "properties": {
                         "Elements": {
@@ -8888,7 +8888,7 @@
                           "items": {
                             "title": "RelativePathElement",
                             "type": "object",
-                            "dov:typeRef": "nsu=http://opcfoundation.org/UA/;i=537",
+                            "dov:typeRef": "org.opcfoundation.UA.RelativePathElement",
                             "required": [ "ReferenceTypeId", "IsInverse", "IncludeSubtypes", "TargetName" ],
                             "properties": {
                               "ReferenceTypeId": {
@@ -9009,7 +9009,7 @@
             "title": "ISA95WorkMasterDataType",
             "description": "Defines a Work Master ID and the defined parameters for the Work Master.",
             "type": "object",
-            "dov:typeRef": "nsu=http://opcfoundation.org/UA/ISA95-JOBCONTROL_V2/;i=3007",
+            "dov:typeRef": "org.opcfoundation.UA.ISA95-JOBCONTROL_V2.ISA95WorkMasterDataType",
             "required": [ "ID" ],
             "properties": {
               "ID": {
@@ -9027,7 +9027,7 @@
                   "title": "ISA95ParameterDataType",
                   "description": "A subtype of OPC UA Structure that defines three linked data items: the ID, which is a unique identifier for a property, the value, which is the data that is identified, and an optional description of the parameter.",
                   "type": "object",
-                  "dov:typeRef": "nsu=http://opcfoundation.org/UA/ISA95-JOBCONTROL_V2/;i=3003",
+                  "dov:typeRef": "org.opcfoundation.UA.ISA95-JOBCONTROL_V2.ISA95ParameterDataType",
                   "required": [ "ID", "Value" ],
                   "properties": {
                     "ID": {
@@ -9049,7 +9049,7 @@
                       "title": "EUInformation",
                       "description": "The Unit Of Measure of the value",
                       "type": "object",
-                      "dov:typeRef": "nsu=http://opcfoundation.org/UA/;i=887",
+                      "dov:typeRef": "org.opcfoundation.UA.EUInformation",
                       "required": [ "NamespaceUri", "UnitId", "DisplayName", "Description" ],
                       "properties": {
                         "NamespaceUri": {
@@ -9100,7 +9100,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "Isa95_jobcontrol_ISA95JobOrderReceiverSubStatesType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/ISA95-JOBCONTROL_V2/;i=1008",
+    "dov:typeRef": "org.opcfoundation.UA.ISA95-JOBCONTROL_V2.ISA95JobOrderReceiverSubStatesType",
     "dov:isComposite": true,
     "links": [
       {
@@ -9265,7 +9265,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "Isa95_jobcontrol_ISA95PrepareStateMachineType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/ISA95-JOBCONTROL_V2/;i=1001",
+    "dov:typeRef": "org.opcfoundation.UA.ISA95-JOBCONTROL_V2.ISA95PrepareStateMachineType",
     "links": [
       {
         "rel": "tm:extends",

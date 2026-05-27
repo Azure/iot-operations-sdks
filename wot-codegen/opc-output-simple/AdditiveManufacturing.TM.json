@@ -8,7 +8,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "AdditiveManufacturing_EquipmentAMType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/AdditiveManufacturing/;i=1003",
+    "dov:typeRef": "org.opcfoundation.UA.AdditiveManufacturing.EquipmentAMType",
     "links": [
       {
         "rel": "tm:extends",
@@ -40,7 +40,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "AdditiveManufacturing_FeedstockListType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/AdditiveManufacturing/;i=1001",
+    "dov:typeRef": "org.opcfoundation.UA.AdditiveManufacturing.FeedstockListType",
     "links": [
       {
         "rel": "tm:extends",
@@ -90,7 +90,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "AdditiveManufacturing_FeedstockType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/AdditiveManufacturing/;i=1000",
+    "dov:typeRef": "org.opcfoundation.UA.AdditiveManufacturing.FeedstockType",
     "links": [
       {
         "rel": "tm:extends",
@@ -101,7 +101,7 @@
     "schemaDefinitions": {
       "FeedstockFunction": {
         "type": "object",
-        "dov:typeRef": "nsu=http://opcfoundation.org/UA/AdditiveManufacturing/;i=3000",
+        "dov:typeRef": "org.opcfoundation.UA.AdditiveManufacturing.FeedstockFunction",
         "const": {
           "Undefined": 0,
           "Main": 1,
@@ -188,7 +188,7 @@
       "Function": {
         "dov:namespace": "http://opcfoundation.org/UA/AdditiveManufacturing/",
         "title": "FeedstockFunction",
-        "dov:typeRef": "nsu=http://opcfoundation.org/UA/AdditiveManufacturing/;i=3000",
+        "dov:typeRef": "org.opcfoundation.UA.AdditiveManufacturing.FeedstockFunction",
         "type": "integer",
         "minimum": -2147483648,
         "maximum": 2147483647,
@@ -312,7 +312,7 @@
         "dov:namespace": "http://opcfoundation.org/UA/AdditiveManufacturing/",
         "data": {
           "title": "FeedstockFunction",
-          "dov:typeRef": "nsu=http://opcfoundation.org/UA/AdditiveManufacturing/;i=3000",
+          "dov:typeRef": "org.opcfoundation.UA.AdditiveManufacturing.FeedstockFunction",
           "type": "integer",
           "minimum": -2147483648,
           "maximum": 2147483647
@@ -362,7 +362,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "AdditiveManufacturing_MachineIdentificationAMType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/AdditiveManufacturing/;i=1004",
+    "dov:typeRef": "org.opcfoundation.UA.AdditiveManufacturing.MachineIdentificationAMType",
     "links": [
       {
         "rel": "tm:extends",
@@ -417,7 +417,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "AdditiveManufacturing_AdditiveManufacturingType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/AdditiveManufacturing/;i=1005",
+    "dov:typeRef": "org.opcfoundation.UA.AdditiveManufacturing.AdditiveManufacturingType",
     "dov:isComposite": true,
     "links": [
       {
@@ -462,7 +462,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "AdditiveManufacturing_ProcessValueAMType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/AdditiveManufacturing/;i=1002",
+    "dov:typeRef": "org.opcfoundation.UA.AdditiveManufacturing.ProcessValueAMType",
     "dov:isComposite": true,
     "links": [
       {
@@ -474,7 +474,7 @@
     "schemaDefinitions": {
       "SensorCategory": {
         "type": "object",
-        "dov:typeRef": "nsu=http://opcfoundation.org/UA/AdditiveManufacturing/;i=3003",
+        "dov:typeRef": "org.opcfoundation.UA.AdditiveManufacturing.SensorCategory",
         "const": {
           "MachineHealth": 0,
           "MaintenanceTracking": 1,
@@ -498,7 +498,7 @@
       },
       "SensorSeverity": {
         "type": "object",
-        "dov:typeRef": "nsu=http://opcfoundation.org/UA/AdditiveManufacturing/;i=3002",
+        "dov:typeRef": "org.opcfoundation.UA.AdditiveManufacturing.SensorSeverity",
         "const": {
           "Info": 0,
           "Critical": 1
@@ -534,7 +534,7 @@
       "Category": {
         "dov:namespace": "http://opcfoundation.org/UA/AdditiveManufacturing/",
         "title": "SensorCategory",
-        "dov:typeRef": "nsu=http://opcfoundation.org/UA/AdditiveManufacturing/;i=3003",
+        "dov:typeRef": "org.opcfoundation.UA.AdditiveManufacturing.SensorCategory",
         "type": "integer",
         "minimum": -2147483648,
         "maximum": 2147483647,
@@ -555,7 +555,7 @@
       "Severity": {
         "dov:namespace": "http://opcfoundation.org/UA/AdditiveManufacturing/",
         "title": "SensorSeverity",
-        "dov:typeRef": "nsu=http://opcfoundation.org/UA/AdditiveManufacturing/;i=3002",
+        "dov:typeRef": "org.opcfoundation.UA.AdditiveManufacturing.SensorSeverity",
         "type": "integer",
         "minimum": -2147483648,
         "maximum": 2147483647,

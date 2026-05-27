@@ -8,7 +8,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "FDI7_Foundation_H1",
-    "dov:typeRef": "nsu=http://fdi-cooperation.com/OPCUA/FDI7/;i=1371",
+    "dov:typeRef": "com.fdi-cooperation.OPCUA.FDI7.Foundation_H1",
     "dov:isComposite": true,
     "links": [
       {
@@ -35,7 +35,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "FDI7_Foundation_HSE",
-    "dov:typeRef": "nsu=http://fdi-cooperation.com/OPCUA/FDI7/;i=1372",
+    "dov:typeRef": "com.fdi-cooperation.OPCUA.FDI7.Foundation_HSE",
     "dov:isComposite": true,
     "links": [
       {
@@ -62,7 +62,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "FDI7_Profibus_DP",
-    "dov:typeRef": "nsu=http://fdi-cooperation.com/OPCUA/FDI7/;i=1373",
+    "dov:typeRef": "com.fdi-cooperation.OPCUA.FDI7.Profibus_DP",
     "dov:isComposite": true,
     "links": [
       {
@@ -89,7 +89,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "FDI7_Profibus_PA",
-    "dov:typeRef": "nsu=http://fdi-cooperation.com/OPCUA/FDI7/;i=1374",
+    "dov:typeRef": "com.fdi-cooperation.OPCUA.FDI7.Profibus_PA",
     "dov:isComposite": true,
     "links": [
       {
@@ -116,7 +116,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "FDI7_Profinet_IO",
-    "dov:typeRef": "nsu=http://fdi-cooperation.com/OPCUA/FDI7/;i=1375",
+    "dov:typeRef": "com.fdi-cooperation.OPCUA.FDI7.Profinet_IO",
     "dov:isComposite": true,
     "links": [
       {
@@ -143,7 +143,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "FDI7_HART",
-    "dov:typeRef": "nsu=http://fdi-cooperation.com/OPCUA/FDI7/;i=1376",
+    "dov:typeRef": "com.fdi-cooperation.OPCUA.FDI7.HART",
     "dov:isComposite": true,
     "links": [
       {
@@ -170,7 +170,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "FDI7_ISA100_Wireless",
-    "dov:typeRef": "nsu=http://fdi-cooperation.com/OPCUA/FDI7/;i=1377",
+    "dov:typeRef": "com.fdi-cooperation.OPCUA.FDI7.ISA100_Wireless",
     "dov:isComposite": true,
     "links": [
       {
@@ -197,7 +197,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "FDI7_GenericProtocol",
-    "dov:typeRef": "nsu=http://fdi-cooperation.com/OPCUA/FDI7/;i=1378",
+    "dov:typeRef": "com.fdi-cooperation.OPCUA.FDI7.GenericProtocol",
     "dov:isComposite": true,
     "links": [
       {
@@ -243,7 +243,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "FDI7_ConnectionPoint_Foundation_H1",
-    "dov:typeRef": "nsu=http://fdi-cooperation.com/OPCUA/FDI7/;i=1380",
+    "dov:typeRef": "com.fdi-cooperation.OPCUA.FDI7.ConnectionPoint_Foundation_H1",
     "dov:isComposite": true,
     "links": [
       {
@@ -317,7 +317,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "FDI7_ConnectionPoint_Foundation_HSE",
-    "dov:typeRef": "nsu=http://fdi-cooperation.com/OPCUA/FDI7/;i=1424",
+    "dov:typeRef": "com.fdi-cooperation.OPCUA.FDI7.ConnectionPoint_Foundation_HSE",
     "dov:isComposite": true,
     "links": [
       {
@@ -382,7 +382,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "FDI7_ConnectionPoint_Profibus_DP",
-    "dov:typeRef": "nsu=http://fdi-cooperation.com/OPCUA/FDI7/;i=1467",
+    "dov:typeRef": "com.fdi-cooperation.OPCUA.FDI7.ConnectionPoint_Profibus_DP",
     "dov:isComposite": true,
     "links": [
       {
@@ -430,7 +430,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "FDI7_ConnectionPoint_Profinet_IO",
-    "dov:typeRef": "nsu=http://fdi-cooperation.com/OPCUA/FDI7/;i=1509",
+    "dov:typeRef": "com.fdi-cooperation.OPCUA.FDI7.ConnectionPoint_Profinet_IO",
     "dov:isComposite": true,
     "links": [
       {
@@ -522,7 +522,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "FDI7_ConnectionPoint_HART_TP5",
-    "dov:typeRef": "nsu=http://fdi-cooperation.com/OPCUA/FDI7/;i=1554",
+    "dov:typeRef": "com.fdi-cooperation.OPCUA.FDI7.ConnectionPoint_HART_TP5",
     "dov:isComposite": true,
     "links": [
       {
@@ -641,7 +641,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "FDI7_ConnectionPoint_HART_TP6",
-    "dov:typeRef": "nsu=http://fdi-cooperation.com/OPCUA/FDI7/;i=1601",
+    "dov:typeRef": "com.fdi-cooperation.OPCUA.FDI7.ConnectionPoint_HART_TP6",
     "dov:isComposite": true,
     "links": [
       {
@@ -760,7 +760,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "FDI7_ConnectionPoint_HART_TP7",
-    "dov:typeRef": "nsu=http://fdi-cooperation.com/OPCUA/FDI7/;i=1648",
+    "dov:typeRef": "com.fdi-cooperation.OPCUA.FDI7.ConnectionPoint_HART_TP7",
     "dov:isComposite": true,
     "links": [
       {
@@ -879,7 +879,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "FDI7_ConnectionPoint_ISA100_Wireless",
-    "dov:typeRef": "nsu=http://fdi-cooperation.com/OPCUA/FDI7/;i=1695",
+    "dov:typeRef": "com.fdi-cooperation.OPCUA.FDI7.ConnectionPoint_ISA100_Wireless",
     "dov:isComposite": true,
     "links": [
       {
@@ -994,7 +994,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "FDI7_GenericConnectionPoint",
-    "dov:typeRef": "nsu=http://fdi-cooperation.com/OPCUA/FDI7/;i=1742",
+    "dov:typeRef": "com.fdi-cooperation.OPCUA.FDI7.GenericConnectionPoint",
     "dov:isComposite": true,
     "links": [
       {
@@ -1053,7 +1053,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "FDI7_CommunicationServerType",
-    "dov:typeRef": "nsu=http://fdi-cooperation.com/OPCUA/FDI7/;i=11",
+    "dov:typeRef": "com.fdi-cooperation.OPCUA.FDI7.CommunicationServerType",
     "dov:isComposite": true,
     "links": [
       {
@@ -1098,7 +1098,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "FDI7_ServerCommunicationDeviceType",
-    "dov:typeRef": "nsu=http://fdi-cooperation.com/OPCUA/FDI7/;i=93",
+    "dov:typeRef": "com.fdi-cooperation.OPCUA.FDI7.ServerCommunicationDeviceType",
     "links": [
       {
         "rel": "tm:extends",
@@ -1152,7 +1152,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "FDI7_ServerCommunicationFFH1DeviceType",
-    "dov:typeRef": "nsu=http://fdi-cooperation.com/OPCUA/FDI7/;i=324",
+    "dov:typeRef": "com.fdi-cooperation.OPCUA.FDI7.ServerCommunicationFFH1DeviceType",
     "dov:isComposite": true,
     "links": [
       {
@@ -1191,7 +1191,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "FDI7_ServerCommunicationFFH1ServiceType",
-    "dov:typeRef": "nsu=http://fdi-cooperation.com/OPCUA/FDI7/;i=997",
+    "dov:typeRef": "com.fdi-cooperation.OPCUA.FDI7.ServerCommunicationFFH1ServiceType",
     "links": [
       {
         "rel": "tm:extends",
@@ -1223,7 +1223,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "FDI7_ServerCommunicationServiceType",
-    "dov:typeRef": "nsu=http://fdi-cooperation.com/OPCUA/FDI7/;i=233",
+    "dov:typeRef": "com.fdi-cooperation.OPCUA.FDI7.ServerCommunicationServiceType",
     "links": [
       {
         "rel": "tm:extends",
@@ -1255,7 +1255,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "FDI7_ServerCommunicationFFHSEDeviceType",
-    "dov:typeRef": "nsu=http://fdi-cooperation.com/OPCUA/FDI7/;i=452",
+    "dov:typeRef": "com.fdi-cooperation.OPCUA.FDI7.ServerCommunicationFFHSEDeviceType",
     "dov:isComposite": true,
     "links": [
       {
@@ -1294,7 +1294,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "FDI7_ServerCommunicationFFHSEServiceType",
-    "dov:typeRef": "nsu=http://fdi-cooperation.com/OPCUA/FDI7/;i=1073",
+    "dov:typeRef": "com.fdi-cooperation.OPCUA.FDI7.ServerCommunicationFFHSEServiceType",
     "links": [
       {
         "rel": "tm:extends",
@@ -1326,7 +1326,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "FDI7_ServerCommunicationPROFIBUSDeviceType",
-    "dov:typeRef": "nsu=http://fdi-cooperation.com/OPCUA/FDI7/;i=580",
+    "dov:typeRef": "com.fdi-cooperation.OPCUA.FDI7.ServerCommunicationPROFIBUSDeviceType",
     "dov:isComposite": true,
     "links": [
       {
@@ -1365,7 +1365,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "FDI7_ServerCommunicationPROFIBUSServiceType",
-    "dov:typeRef": "nsu=http://fdi-cooperation.com/OPCUA/FDI7/;i=1149",
+    "dov:typeRef": "com.fdi-cooperation.OPCUA.FDI7.ServerCommunicationPROFIBUSServiceType",
     "links": [
       {
         "rel": "tm:extends",
@@ -1397,7 +1397,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "FDI7_ServerCommunicationPROFINETDeviceType",
-    "dov:typeRef": "nsu=http://fdi-cooperation.com/OPCUA/FDI7/;i=705",
+    "dov:typeRef": "com.fdi-cooperation.OPCUA.FDI7.ServerCommunicationPROFINETDeviceType",
     "dov:isComposite": true,
     "links": [
       {
@@ -1436,7 +1436,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "FDI7_ServerCommunicationPROFINETServiceType",
-    "dov:typeRef": "nsu=http://fdi-cooperation.com/OPCUA/FDI7/;i=1222",
+    "dov:typeRef": "com.fdi-cooperation.OPCUA.FDI7.ServerCommunicationPROFINETServiceType",
     "links": [
       {
         "rel": "tm:extends",
@@ -1468,7 +1468,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "FDI7_ServerCommunicationHARType",
-    "dov:typeRef": "nsu=http://fdi-cooperation.com/OPCUA/FDI7/;i=830",
+    "dov:typeRef": "com.fdi-cooperation.OPCUA.FDI7.ServerCommunicationHARType",
     "dov:isComposite": true,
     "links": [
       {
@@ -1507,7 +1507,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "FDI7_ServerCommunicationHARTServiceType",
-    "dov:typeRef": "nsu=http://fdi-cooperation.com/OPCUA/FDI7/;i=1295",
+    "dov:typeRef": "com.fdi-cooperation.OPCUA.FDI7.ServerCommunicationHARTServiceType",
     "links": [
       {
         "rel": "tm:extends",
@@ -1539,7 +1539,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "FDI7_ServerCommunicationISA100_WirelessDeviceType",
-    "dov:typeRef": "nsu=http://fdi-cooperation.com/OPCUA/FDI7/;i=1788",
+    "dov:typeRef": "com.fdi-cooperation.OPCUA.FDI7.ServerCommunicationISA100_WirelessDeviceType",
     "dov:isComposite": true,
     "links": [
       {
@@ -1572,7 +1572,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "FDI7_ServerCommunicationISA100_WirelessServiceType",
-    "dov:typeRef": "nsu=http://fdi-cooperation.com/OPCUA/FDI7/;i=2057",
+    "dov:typeRef": "com.fdi-cooperation.OPCUA.FDI7.ServerCommunicationISA100_WirelessServiceType",
     "links": [
       {
         "rel": "tm:extends",
@@ -1604,7 +1604,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "FDI7_ServerCommunicationGENERICDeviceType",
-    "dov:typeRef": "nsu=http://fdi-cooperation.com/OPCUA/FDI7/;i=1913",
+    "dov:typeRef": "com.fdi-cooperation.OPCUA.FDI7.ServerCommunicationGENERICDeviceType",
     "dov:isComposite": true,
     "links": [
       {
@@ -1662,7 +1662,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "FDI7_ServerCommunicationGENERICServiceType",
-    "dov:typeRef": "nsu=http://fdi-cooperation.com/OPCUA/FDI7/;i=2133",
+    "dov:typeRef": "com.fdi-cooperation.OPCUA.FDI7.ServerCommunicationGENERICServiceType",
     "links": [
       {
         "rel": "tm:extends",
@@ -1694,7 +1694,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "DI_ProtocolType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/DI/;i=1006",
+    "dov:typeRef": "org.opcfoundation.UA.DI.ProtocolType",
     "links": [
       {
         "rel": "tm:extends",
@@ -1720,7 +1720,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "DI_ConnectionPointType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/DI/;i=6308",
+    "dov:typeRef": "org.opcfoundation.UA.DI.ConnectionPointType",
     "links": [
       {
         "rel": "tm:extends",
@@ -1765,7 +1765,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "DI_TopologyElementType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/DI/;i=1001",
+    "dov:typeRef": "org.opcfoundation.UA.DI.TopologyElementType",
     "links": [
       {
         "rel": "tm:extends",
@@ -1821,7 +1821,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "DI_FunctionalGroupType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/DI/;i=1005",
+    "dov:typeRef": "org.opcfoundation.UA.DI.FunctionalGroupType",
     "links": [
       {
         "rel": "tm:extends",
@@ -1892,7 +1892,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "DI_LockingServicesType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/DI/;i=6388",
+    "dov:typeRef": "org.opcfoundation.UA.DI.LockingServicesType",
     "links": [
       {
         "rel": "tm:extends",
@@ -1914,7 +1914,7 @@
         "dov:namespace": "http://opcfoundation.org/UA/DI/",
         "output": {
           "type": "object",
-          "dov:typeRef": "nsu=http://opcfoundation.org/UA/DI/;i=6401",
+          "dov:typeRef": "org.opcfoundation.UA.OutputArguments",
           "required": [ "BreakLockStatus" ],
           "properties": {
             "BreakLockStatus": {
@@ -1936,7 +1936,7 @@
         "dov:namespace": "http://opcfoundation.org/UA/DI/",
         "output": {
           "type": "object",
-          "dov:typeRef": "nsu=http://opcfoundation.org/UA/DI/;i=6399",
+          "dov:typeRef": "org.opcfoundation.UA.OutputArguments",
           "required": [ "ExitLockStatus" ],
           "properties": {
             "ExitLockStatus": {
@@ -1958,7 +1958,7 @@
         "dov:namespace": "http://opcfoundation.org/UA/DI/",
         "input": {
           "type": "object",
-          "dov:typeRef": "nsu=http://opcfoundation.org/UA/DI/;i=6394",
+          "dov:typeRef": "org.opcfoundation.UA.InputArguments",
           "required": [ "Context" ],
           "properties": {
             "Context": {
@@ -1968,7 +1968,7 @@
         },
         "output": {
           "type": "object",
-          "dov:typeRef": "nsu=http://opcfoundation.org/UA/DI/;i=6395",
+          "dov:typeRef": "org.opcfoundation.UA.OutputArguments",
           "required": [ "InitLockStatus" ],
           "properties": {
             "InitLockStatus": {
@@ -1990,7 +1990,7 @@
         "dov:namespace": "http://opcfoundation.org/UA/DI/",
         "output": {
           "type": "object",
-          "dov:typeRef": "nsu=http://opcfoundation.org/UA/DI/;i=6397",
+          "dov:typeRef": "org.opcfoundation.UA.OutputArguments",
           "required": [ "RenewLockStatus" ],
           "properties": {
             "RenewLockStatus": {
@@ -2083,7 +2083,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "DI_NetworkType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/DI/;i=6247",
+    "dov:typeRef": "org.opcfoundation.UA.DI.NetworkType",
     "links": [
       {
         "rel": "tm:extends",
@@ -2128,7 +2128,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "DI_DeviceType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/DI/;i=1002",
+    "dov:typeRef": "org.opcfoundation.UA.DI.DeviceType",
     "links": [
       {
         "rel": "tm:extends",
@@ -2175,7 +2175,7 @@
     "schemaDefinitions": {
       "DeviceHealthEnumeration": {
         "type": "object",
-        "dov:typeRef": "nsu=http://opcfoundation.org/UA/DI/;i=6244",
+        "dov:typeRef": "org.opcfoundation.UA.DI.DeviceHealthEnumeration",
         "const": {
           "NORMAL": 0,
           "FAILURE": 1,
@@ -2237,7 +2237,7 @@
       "DeviceHealth": {
         "dov:namespace": "http://opcfoundation.org/UA/DI/",
         "title": "DeviceHealthEnumeration",
-        "dov:typeRef": "nsu=http://opcfoundation.org/UA/DI/;i=6244",
+        "dov:typeRef": "org.opcfoundation.UA.DI.DeviceHealthEnumeration",
         "type": "integer",
         "minimum": -2147483648,
         "maximum": 2147483647,
@@ -2390,7 +2390,7 @@
         "dov:namespace": "http://opcfoundation.org/UA/DI/",
         "data": {
           "title": "DeviceHealthEnumeration",
-          "dov:typeRef": "nsu=http://opcfoundation.org/UA/DI/;i=6244",
+          "dov:typeRef": "org.opcfoundation.UA.DI.DeviceHealthEnumeration",
           "type": "integer",
           "minimum": -2147483648,
           "maximum": 2147483647
@@ -2414,7 +2414,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "DI_ComponentType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/DI/;i=15063",
+    "dov:typeRef": "org.opcfoundation.UA.DI.ComponentType",
     "links": [
       {
         "rel": "tm:extends",
@@ -2617,7 +2617,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "OpcUaCore_BaseObjectType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/;i=58",
+    "dov:typeRef": "org.opcfoundation.UA.BaseObjectType",
     "links": [
     ],
     "schemaDefinitions": {
@@ -2638,7 +2638,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "OpcUaCore_FolderType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/;i=61",
+    "dov:typeRef": "org.opcfoundation.UA.FolderType",
     "links": [
       {
         "rel": "tm:extends",

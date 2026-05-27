@@ -8,7 +8,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "PlasticsRubber_Extrusion_MeltPump_MeltPump_InterfaceType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/PlasticsRubber/Extrusion/MeltPump/;i=1002",
+    "dov:typeRef": "org.opcfoundation.UA.PlasticsRubber.Extrusion.MeltPump.MeltPump_InterfaceType",
     "dov:isComposite": true,
     "links": [
       {

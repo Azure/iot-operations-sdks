@@ -8,7 +8,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "SurfaceTechnology_Plasma_CirculationSystemType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/SurfaceTechnology/Plasma/;i=1017",
+    "dov:typeRef": "org.opcfoundation.UA.SurfaceTechnology.Plasma.CirculationSystemType",
     "links": [
       {
         "rel": "tm:extends",
@@ -104,7 +104,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "SurfaceTechnology_Plasma_GasSystemType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/SurfaceTechnology/Plasma/;i=1007",
+    "dov:typeRef": "org.opcfoundation.UA.SurfaceTechnology.Plasma.GasSystemType",
     "links": [
       {
         "rel": "tm:extends",
@@ -142,7 +142,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "SurfaceTechnology_Plasma_HeatingSystemType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/SurfaceTechnology/Plasma/;i=1023",
+    "dov:typeRef": "org.opcfoundation.UA.SurfaceTechnology.Plasma.HeatingSystemType",
     "links": [
       {
         "rel": "tm:extends",
@@ -180,7 +180,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "SurfaceTechnology_Plasma_PlantCoolingSystemType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/SurfaceTechnology/Plasma/;i=1014",
+    "dov:typeRef": "org.opcfoundation.UA.SurfaceTechnology.Plasma.PlantCoolingSystemType",
     "links": [
       {
         "rel": "tm:extends",
@@ -218,7 +218,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "SurfaceTechnology_Plasma_PlasmaGeneratorType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/SurfaceTechnology/Plasma/;i=1004",
+    "dov:typeRef": "org.opcfoundation.UA.SurfaceTechnology.Plasma.PlasmaGeneratorType",
     "links": [
       {
         "rel": "tm:extends",
@@ -256,7 +256,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "SurfaceTechnology_Plasma_PlasmaJetType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/SurfaceTechnology/Plasma/;i=1029",
+    "dov:typeRef": "org.opcfoundation.UA.SurfaceTechnology.Plasma.PlasmaJetType",
     "links": [
       {
         "rel": "tm:extends",
@@ -294,7 +294,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "SurfaceTechnology_Plasma_PlasmaSurfaceMachineType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/SurfaceTechnology/Plasma/;i=1003",
+    "dov:typeRef": "org.opcfoundation.UA.SurfaceTechnology.Plasma.PlasmaSurfaceMachineType",
     "dov:isComposite": true,
     "links": [
       {
@@ -333,7 +333,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "SurfaceTechnology_Plasma_AtmosphericPressurePlasmaSurfaceMachineType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/SurfaceTechnology/Plasma/;i=1009",
+    "dov:typeRef": "org.opcfoundation.UA.SurfaceTechnology.Plasma.AtmosphericPressurePlasmaSurfaceMachineType",
     "dov:isComposite": true,
     "links": [
       {
@@ -366,7 +366,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "SurfaceTechnology_Plasma_LowPressurePlasmaSurfaceMachineType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/SurfaceTechnology/Plasma/;i=1006",
+    "dov:typeRef": "org.opcfoundation.UA.SurfaceTechnology.Plasma.LowPressurePlasmaSurfaceMachineType",
     "dov:isComposite": true,
     "links": [
       {
@@ -399,7 +399,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "SurfaceTechnology_Plasma_PrecursorSystemType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/SurfaceTechnology/Plasma/;i=1005",
+    "dov:typeRef": "org.opcfoundation.UA.SurfaceTechnology.Plasma.PrecursorSystemType",
     "links": [
       {
         "rel": "tm:extends",
@@ -437,7 +437,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "SurfaceTechnology_Plasma_ProcessingChamberType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/SurfaceTechnology/Plasma/;i=1020",
+    "dov:typeRef": "org.opcfoundation.UA.SurfaceTechnology.Plasma.ProcessingChamberType",
     "links": [
       {
         "rel": "tm:extends",
@@ -475,7 +475,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "SurfaceTechnology_Plasma_RegulatorType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/SurfaceTechnology/Plasma/;i=1011",
+    "dov:typeRef": "org.opcfoundation.UA.SurfaceTechnology.Plasma.RegulatorType",
     "links": [
       {
         "rel": "tm:extends",
@@ -808,7 +808,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "SurfaceTechnology_Plasma_AtmosphericPressurePlasmaNotExecutingSubState_StateMachineType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/SurfaceTechnology/Plasma/;i=1016",
+    "dov:typeRef": "org.opcfoundation.UA.SurfaceTechnology.Plasma.AtmosphericPressurePlasmaNotExecutingSubState_StateMachineType",
     "links": [
       {
         "rel": "tm:extends",
@@ -887,7 +887,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "SurfaceTechnology_Plasma_LowPressurePlasmaNotExecutingSubState_StateMachineType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/SurfaceTechnology/Plasma/;i=1013",
+    "dov:typeRef": "org.opcfoundation.UA.SurfaceTechnology.Plasma.LowPressurePlasmaNotExecutingSubState_StateMachineType",
     "links": [
       {
         "rel": "tm:extends",
@@ -966,7 +966,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "SurfaceTechnology_Plasma_AtmosphericPressurePlasmaMachineryItemState_StateMachineType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/SurfaceTechnology/Plasma/;i=1010",
+    "dov:typeRef": "org.opcfoundation.UA.SurfaceTechnology.Plasma.AtmosphericPressurePlasmaMachineryItemState_StateMachineType",
     "links": [
       {
         "rel": "tm:extends",
@@ -998,7 +998,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "SurfaceTechnology_Plasma_LowPressurePlasmaMachineryItemState_StateMachineType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/SurfaceTechnology/Plasma/;i=1008",
+    "dov:typeRef": "org.opcfoundation.UA.SurfaceTechnology.Plasma.LowPressurePlasmaMachineryItemState_StateMachineType",
     "links": [
       {
         "rel": "tm:extends",
@@ -1030,7 +1030,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "SurfaceTechnology_Plasma_WorkpieceMotionDeviceType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/SurfaceTechnology/Plasma/;i=1026",
+    "dov:typeRef": "org.opcfoundation.UA.SurfaceTechnology.Plasma.WorkpieceMotionDeviceType",
     "links": [
       {
         "rel": "tm:extends",

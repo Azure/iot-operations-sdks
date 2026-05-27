@@ -8,7 +8,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "PlasticsRubber_Extrusion_Calibrator_CalibrationZonesType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/PlasticsRubber/Extrusion/Calibrator/;i=1003",
+    "dov:typeRef": "org.opcfoundation.UA.PlasticsRubber.Extrusion.Calibrator.CalibrationZonesType",
     "links": [
       {
         "rel": "tm:extends",
@@ -82,7 +82,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "PlasticsRubber_Extrusion_Calibrator_CalibrationZoneType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/PlasticsRubber/Extrusion/Calibrator/;i=1002",
+    "dov:typeRef": "org.opcfoundation.UA.PlasticsRubber.Extrusion.Calibrator.CalibrationZoneType",
     "links": [
       {
         "rel": "tm:extends",
@@ -209,7 +209,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "PlasticsRubber_Extrusion_Calibrator_Calibrator_InterfaceType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/PlasticsRubber/Extrusion/Calibrator/;i=1004",
+    "dov:typeRef": "org.opcfoundation.UA.PlasticsRubber.Extrusion.Calibrator.Calibrator_InterfaceType",
     "dov:isComposite": true,
     "links": [
       {

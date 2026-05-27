@@ -8,7 +8,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "Machinery_ProcessValues_ZeroPointAdjustmentEventType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/Machinery/ProcessValues/;i=1002",
+    "dov:typeRef": "org.opcfoundation.UA.Machinery.ProcessValues.ZeroPointAdjustmentEventType",
     "dov:isEvent": true,
     "links": [
       {
@@ -65,7 +65,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "Machinery_ProcessValues_ProcessValueType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/Machinery/ProcessValues/;i=1003",
+    "dov:typeRef": "org.opcfoundation.UA.Machinery.ProcessValues.ProcessValueType",
     "dov:isComposite": true,
     "links": [
       {

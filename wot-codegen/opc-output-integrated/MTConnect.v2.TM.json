@@ -8,7 +8,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "MTConnect_v2_MTChannelType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/MTConnect/v2/;i=2059",
+    "dov:typeRef": "org.opcfoundation.UA.MTConnect.v2.MTChannelType",
     "dov:isComposite": true,
     "links": [
       {
@@ -124,7 +124,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "MTConnect_v2_MTComponentType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/MTConnect/v2/;i=2021",
+    "dov:typeRef": "org.opcfoundation.UA.MTConnect.v2.MTComponentType",
     "links": [
       {
         "rel": "tm:extends",
@@ -251,7 +251,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "MTConnect_v2_MTDescriptionType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/MTConnect/v2/;i=2053",
+    "dov:typeRef": "org.opcfoundation.UA.MTConnect.v2.MTDescriptionType",
     "links": [
       {
         "rel": "tm:extends",
@@ -336,7 +336,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "MTConnect_v2_MTConfigurationType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/MTConnect/v2/;i=2044",
+    "dov:typeRef": "org.opcfoundation.UA.MTConnect.v2.MTConfigurationType",
     "links": [
       {
         "rel": "tm:extends",
@@ -362,7 +362,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "MTConnect_v2_MTDeviceType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/MTConnect/v2/;i=2015",
+    "dov:typeRef": "org.opcfoundation.UA.MTConnect.v2.MTDeviceType",
     "dov:isComposite": true,
     "links": [
       {
@@ -448,7 +448,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "MTConnect_v2_MTCompositionType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/MTConnect/v2/;i=2067",
+    "dov:typeRef": "org.opcfoundation.UA.MTConnect.v2.MTCompositionType",
     "dov:isComposite": true,
     "links": [
       {
@@ -534,7 +534,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "MTConnect_v2_MTSensorConfigurationType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/MTConnect/v2/;i=2046",
+    "dov:typeRef": "org.opcfoundation.UA.MTConnect.v2.MTSensorConfigurationType",
     "dov:isComposite": true,
     "links": [
       {
@@ -622,7 +622,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "MTConnect_v2_ActuatorType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/MTConnect/v2/;i=2074",
+    "dov:typeRef": "org.opcfoundation.UA.MTConnect.v2.ActuatorType",
     "dov:isComposite": true,
     "links": [
       {
@@ -649,7 +649,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "MTConnect_v2_AuxiliariesType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/MTConnect/v2/;i=2076",
+    "dov:typeRef": "org.opcfoundation.UA.MTConnect.v2.AuxiliariesType",
     "dov:isComposite": true,
     "links": [
       {
@@ -676,7 +676,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "MTConnect_v2_BarFeederType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/MTConnect/v2/;i=2082",
+    "dov:typeRef": "org.opcfoundation.UA.MTConnect.v2.BarFeederType",
     "dov:isComposite": true,
     "links": [
       {
@@ -703,7 +703,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "MTConnect_v2_EnvironmentalType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/MTConnect/v2/;i=2102",
+    "dov:typeRef": "org.opcfoundation.UA.MTConnect.v2.EnvironmentalType",
     "dov:isComposite": true,
     "links": [
       {
@@ -730,7 +730,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "MTConnect_v2_LoaderType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/MTConnect/v2/;i=2112",
+    "dov:typeRef": "org.opcfoundation.UA.MTConnect.v2.LoaderType",
     "dov:isComposite": true,
     "links": [
       {
@@ -757,7 +757,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "MTConnect_v2_SensorType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/MTConnect/v2/;i=2134",
+    "dov:typeRef": "org.opcfoundation.UA.MTConnect.v2.SensorType",
     "dov:isComposite": true,
     "links": [
       {
@@ -784,7 +784,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "MTConnect_v2_ToolingDeliveryType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/MTConnect/v2/;i=2140",
+    "dov:typeRef": "org.opcfoundation.UA.MTConnect.v2.ToolingDeliveryType",
     "dov:isComposite": true,
     "links": [
       {
@@ -811,7 +811,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "MTConnect_v2_WasteDisposalType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/MTConnect/v2/;i=2142",
+    "dov:typeRef": "org.opcfoundation.UA.MTConnect.v2.WasteDisposalType",
     "dov:isComposite": true,
     "links": [
       {
@@ -838,7 +838,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "MTConnect_v2_AxesType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/MTConnect/v2/;i=2078",
+    "dov:typeRef": "org.opcfoundation.UA.MTConnect.v2.AxesType",
     "dov:isComposite": true,
     "links": [
       {
@@ -865,7 +865,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "MTConnect_v2_LinearType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/MTConnect/v2/;i=2110",
+    "dov:typeRef": "org.opcfoundation.UA.MTConnect.v2.LinearType",
     "dov:isComposite": true,
     "links": [
       {
@@ -892,7 +892,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "MTConnect_v2_RotaryType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/MTConnect/v2/;i=2132",
+    "dov:typeRef": "org.opcfoundation.UA.MTConnect.v2.RotaryType",
     "dov:isComposite": true,
     "links": [
       {
@@ -919,7 +919,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "MTConnect_v2_ChuckType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/MTConnect/v2/;i=2086",
+    "dov:typeRef": "org.opcfoundation.UA.MTConnect.v2.ChuckType",
     "dov:isComposite": true,
     "links": [
       {
@@ -946,7 +946,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "MTConnect_v2_ControllerType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/MTConnect/v2/;i=2088",
+    "dov:typeRef": "org.opcfoundation.UA.MTConnect.v2.ControllerType",
     "dov:isComposite": true,
     "links": [
       {
@@ -973,7 +973,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "MTConnect_v2_PathType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/MTConnect/v2/;i=2120",
+    "dov:typeRef": "org.opcfoundation.UA.MTConnect.v2.PathType",
     "dov:isComposite": true,
     "links": [
       {
@@ -1000,7 +1000,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "MTConnect_v2_DoorType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/MTConnect/v2/;i=2096",
+    "dov:typeRef": "org.opcfoundation.UA.MTConnect.v2.DoorType",
     "dov:isComposite": true,
     "links": [
       {
@@ -1027,7 +1027,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "MTConnect_v2_InterfacesType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/MTConnect/v2/;i=2108",
+    "dov:typeRef": "org.opcfoundation.UA.MTConnect.v2.InterfacesType",
     "dov:isComposite": true,
     "links": [
       {
@@ -1054,7 +1054,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "MTConnect_v2_BarFeederInterfaceType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/MTConnect/v2/;i=2080",
+    "dov:typeRef": "org.opcfoundation.UA.MTConnect.v2.BarFeederInterfaceType",
     "dov:isComposite": true,
     "links": [
       {
@@ -1081,7 +1081,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "MTConnect_v2_ChuckInterfaceType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/MTConnect/v2/;i=2084",
+    "dov:typeRef": "org.opcfoundation.UA.MTConnect.v2.ChuckInterfaceType",
     "dov:isComposite": true,
     "links": [
       {
@@ -1108,7 +1108,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "MTConnect_v2_DoorInterfaceType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/MTConnect/v2/;i=2094",
+    "dov:typeRef": "org.opcfoundation.UA.MTConnect.v2.DoorInterfaceType",
     "dov:isComposite": true,
     "links": [
       {
@@ -1135,7 +1135,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "MTConnect_v2_MaterialHandlerInterfaceType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/MTConnect/v2/;i=2116",
+    "dov:typeRef": "org.opcfoundation.UA.MTConnect.v2.MaterialHandlerInterfaceType",
     "dov:isComposite": true,
     "links": [
       {
@@ -1162,7 +1162,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "MTConnect_v2_ResourcesType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/MTConnect/v2/;i=2130",
+    "dov:typeRef": "org.opcfoundation.UA.MTConnect.v2.ResourcesType",
     "dov:isComposite": true,
     "links": [
       {
@@ -1189,7 +1189,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "MTConnect_v2_MaterialsType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/MTConnect/v2/;i=2118",
+    "dov:typeRef": "org.opcfoundation.UA.MTConnect.v2.MaterialsType",
     "dov:isComposite": true,
     "links": [
       {
@@ -1216,7 +1216,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "MTConnect_v2_StockType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/MTConnect/v2/;i=2136",
+    "dov:typeRef": "org.opcfoundation.UA.MTConnect.v2.StockType",
     "dov:isComposite": true,
     "links": [
       {
@@ -1243,7 +1243,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "MTConnect_v2_PersonnelType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/MTConnect/v2/;i=2122",
+    "dov:typeRef": "org.opcfoundation.UA.MTConnect.v2.PersonnelType",
     "dov:isComposite": true,
     "links": [
       {
@@ -1270,7 +1270,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "MTConnect_v2_SystemsType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/MTConnect/v2/;i=2138",
+    "dov:typeRef": "org.opcfoundation.UA.MTConnect.v2.SystemsType",
     "dov:isComposite": true,
     "links": [
       {
@@ -1297,7 +1297,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "MTConnect_v2_CoolantType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/MTConnect/v2/;i=2090",
+    "dov:typeRef": "org.opcfoundation.UA.MTConnect.v2.CoolantType",
     "dov:isComposite": true,
     "links": [
       {
@@ -1324,7 +1324,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "MTConnect_v2_DielectricType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/MTConnect/v2/;i=2092",
+    "dov:typeRef": "org.opcfoundation.UA.MTConnect.v2.DielectricType",
     "dov:isComposite": true,
     "links": [
       {
@@ -1351,7 +1351,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "MTConnect_v2_ElectricType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/MTConnect/v2/;i=2098",
+    "dov:typeRef": "org.opcfoundation.UA.MTConnect.v2.ElectricType",
     "dov:isComposite": true,
     "links": [
       {
@@ -1378,7 +1378,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "MTConnect_v2_EnclosureType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/MTConnect/v2/;i=2100",
+    "dov:typeRef": "org.opcfoundation.UA.MTConnect.v2.EnclosureType",
     "dov:isComposite": true,
     "links": [
       {
@@ -1405,7 +1405,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "MTConnect_v2_FeederType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/MTConnect/v2/;i=2104",
+    "dov:typeRef": "org.opcfoundation.UA.MTConnect.v2.FeederType",
     "dov:isComposite": true,
     "links": [
       {
@@ -1432,7 +1432,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "MTConnect_v2_HydraulicType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/MTConnect/v2/;i=2106",
+    "dov:typeRef": "org.opcfoundation.UA.MTConnect.v2.HydraulicType",
     "dov:isComposite": true,
     "links": [
       {
@@ -1459,7 +1459,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "MTConnect_v2_LubricationType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/MTConnect/v2/;i=2114",
+    "dov:typeRef": "org.opcfoundation.UA.MTConnect.v2.LubricationType",
     "dov:isComposite": true,
     "links": [
       {
@@ -1486,7 +1486,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "MTConnect_v2_PneumaticType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/MTConnect/v2/;i=2124",
+    "dov:typeRef": "org.opcfoundation.UA.MTConnect.v2.PneumaticType",
     "dov:isComposite": true,
     "links": [
       {
@@ -1513,7 +1513,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "MTConnect_v2_ProcessPowerType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/MTConnect/v2/;i=2126",
+    "dov:typeRef": "org.opcfoundation.UA.MTConnect.v2.ProcessPowerType",
     "dov:isComposite": true,
     "links": [
       {
@@ -1540,7 +1540,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "MTConnect_v2_ProtectiveType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/MTConnect/v2/;i=2128",
+    "dov:typeRef": "org.opcfoundation.UA.MTConnect.v2.ProtectiveType",
     "dov:isComposite": true,
     "links": [
       {
@@ -1567,7 +1567,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "MTConnect_v2_MTConditionClassType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/MTConnect/v2/;i=2629",
+    "dov:typeRef": "org.opcfoundation.UA.MTConnect.v2.MTConditionClassType",
     "links": [
       {
         "rel": "tm:extends",
@@ -1593,7 +1593,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "MTConnect_v2_MTDataItemClassType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/MTConnect/v2/;i=2425",
+    "dov:typeRef": "org.opcfoundation.UA.MTConnect.v2.MTDataItemClassType",
     "links": [
       {
         "rel": "tm:extends",
@@ -1619,7 +1619,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "MTConnect_v2_MTConstraintType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/MTConnect/v2/;i=2647",
+    "dov:typeRef": "org.opcfoundation.UA.MTConnect.v2.MTConstraintType",
     "links": [
       {
         "rel": "tm:extends",
@@ -1713,7 +1713,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "MTConnect_v2_MTEventClassType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/MTConnect/v2/;i=2631",
+    "dov:typeRef": "org.opcfoundation.UA.MTConnect.v2.MTEventClassType",
     "links": [
       {
         "rel": "tm:extends",
@@ -1739,7 +1739,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "MTConnect_v2_MTMessageEventType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/MTConnect/v2/;i=2656",
+    "dov:typeRef": "org.opcfoundation.UA.MTConnect.v2.MTMessageEventType",
     "dov:isEvent": true,
     "links": [
       {
@@ -1785,7 +1785,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "MTConnect_v2_MTConditionEventType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/MTConnect/v2/;i=4326",
+    "dov:typeRef": "org.opcfoundation.UA.MTConnect.v2.MTConditionEventType",
     "dov:isEvent": true,
     "links": [
       {
@@ -1797,7 +1797,7 @@
     "schemaDefinitions": {
       "MTSeverityDataType": {
         "type": "object",
-        "dov:typeRef": "nsu=http://opcfoundation.org/UA/MTConnect/v2/;i=2669",
+        "dov:typeRef": "org.opcfoundation.UA.MTConnect.v2.MTSeverityDataType",
         "const": {
           "FAULT": 0,
           "NORMAL": 1,
@@ -1821,7 +1821,7 @@
       },
       "QualifierDataType": {
         "type": "object",
-        "dov:typeRef": "nsu=http://opcfoundation.org/UA/MTConnect/v2/;i=2668",
+        "dov:typeRef": "org.opcfoundation.UA.MTConnect.v2.QualifierDataType",
         "const": {
           "HIGH": 0,
           "LOW": 1
@@ -1879,7 +1879,7 @@
         "dov:namespace": "http://opcfoundation.org/UA/MTConnect/v2/",
         "title": "MTSeverityDataType",
         "description": "        The condition type is derived from the UA \\uamodel{ContitionType}. When        the \\mtmodel{Warning} or \\mtmodel{Fault} state occurs, an        \\mtuatype{MTConditionEventType} \\uamodel{Event} is created with the        \\mtmodel{ActiveState} set to \\uamodel{True} and \\uamodel{Retain} set to        \\uamodel{True}. The severity is used to represent the MTConnect condition        states of Warning and Fault with the values of 500 and 1000 respectively.        A new \\uamodel{NodeId} will be created for every unique instance of the        MTConnect \\mtmodel{Condition} reported. When the \\mtmodel{Condition} goes        back to Normal, the \\mtmodel{ActiveState} is set to \\uamodel{False} and        \\uamodel{Retain} is also set to \\uamodel{False} with the \\uamodel{NodeId}        of the associated \\mtmodel{Condition}. If multiple MTConnect        \\mtmodel{Condition}s have been cleared at the same time, all currently        active \\mtuatype{MTConditionEventType} \\uamodel{Event}s will need to        deactivated. The \\mtuatype{MTConditionEventType} must set the        \\uamodel{BaseEvent} \\uamodel{SourceNode} to the related        \\mtuatype{MTConditionType} that represents the meta-data for this        Condition. The \\mtuatype{MTConditionEventType} will never be instantiated        in the \\uaterm{AddressSpace} as an \\uamodel{Object}.       ",
-        "dov:typeRef": "nsu=http://opcfoundation.org/UA/MTConnect/v2/;i=2669",
+        "dov:typeRef": "org.opcfoundation.UA.MTConnect.v2.MTSeverityDataType",
         "type": "integer",
         "minimum": -2147483648,
         "maximum": 2147483647,
@@ -1948,7 +1948,7 @@
         "dov:namespace": "http://opcfoundation.org/UA/MTConnect/v2/",
         "title": "QualifierDataType",
         "description": "        The condition type is derived from the UA \\uamodel{ContitionType}. When        the \\mtmodel{Warning} or \\mtmodel{Fault} state occurs, an        \\mtuatype{MTConditionEventType} \\uamodel{Event} is created with the        \\mtmodel{ActiveState} set to \\uamodel{True} and \\uamodel{Retain} set to        \\uamodel{True}. The severity is used to represent the MTConnect condition        states of Warning and Fault with the values of 500 and 1000 respectively.        A new \\uamodel{NodeId} will be created for every unique instance of the        MTConnect \\mtmodel{Condition} reported. When the \\mtmodel{Condition} goes        back to Normal, the \\mtmodel{ActiveState} is set to \\uamodel{False} and        \\uamodel{Retain} is also set to \\uamodel{False} with the \\uamodel{NodeId}        of the associated \\mtmodel{Condition}. If multiple MTConnect        \\mtmodel{Condition}s have been cleared at the same time, all currently        active \\mtuatype{MTConditionEventType} \\uamodel{Event}s will need to        deactivated. The \\mtuatype{MTConditionEventType} must set the        \\uamodel{BaseEvent} \\uamodel{SourceNode} to the related        \\mtuatype{MTConditionType} that represents the meta-data for this        Condition. The \\mtuatype{MTConditionEventType} will never be instantiated        in the \\uaterm{AddressSpace} as an \\uamodel{Object}.       ",
-        "dov:typeRef": "nsu=http://opcfoundation.org/UA/MTConnect/v2/;i=2668",
+        "dov:typeRef": "org.opcfoundation.UA.MTConnect.v2.QualifierDataType",
         "type": "integer",
         "minimum": -2147483648,
         "maximum": 2147483647,
@@ -1974,7 +1974,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "MTConnect_v2_MTConditionType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/MTConnect/v2/;i=2660",
+    "dov:typeRef": "org.opcfoundation.UA.MTConnect.v2.MTConditionType",
     "dov:isComposite": true,
     "links": [
       {
@@ -1992,7 +1992,7 @@
     "schemaDefinitions": {
       "MTCategoryType": {
         "type": "object",
-        "dov:typeRef": "nsu=http://opcfoundation.org/UA/MTConnect/v2/;i=2634",
+        "dov:typeRef": "org.opcfoundation.UA.MTConnect.v2.MTCategoryType",
         "const": {
           "EVENT": 0,
           "CONDITION": 1,
@@ -2016,7 +2016,7 @@
       },
       "MTRepresentationType": {
         "type": "object",
-        "dov:typeRef": "nsu=http://opcfoundation.org/UA/MTConnect/v2/;i=2633",
+        "dov:typeRef": "org.opcfoundation.UA.MTConnect.v2.MTRepresentationType",
         "const": {
           "DISCRETE": 0,
           "TIME_SERIES": 1,
@@ -2053,7 +2053,7 @@
         "dov:namespace": "http://opcfoundation.org/UA/MTConnect/v2/",
         "title": "MTCategoryType",
         "description": "        The data item mixin will inject the properties and the methods into the        related classes. This facility is similar to the Ruby module mixin or the        Scala traits. data entity describing a piece of information reported about        a piece of equipment.      ",
-        "dov:typeRef": "nsu=http://opcfoundation.org/UA/MTConnect/v2/;i=2634",
+        "dov:typeRef": "org.opcfoundation.UA.MTConnect.v2.MTCategoryType",
         "type": "integer",
         "minimum": -2147483648,
         "maximum": 2147483647,
@@ -2124,7 +2124,7 @@
         "dov:namespace": "http://opcfoundation.org/UA/MTConnect/v2/",
         "title": "MTRepresentationType",
         "description": "        The data item mixin will inject the properties and the methods into the        related classes. This facility is similar to the Ruby module mixin or the        Scala traits. data entity describing a piece of information reported about        a piece of equipment.      ",
-        "dov:typeRef": "nsu=http://opcfoundation.org/UA/MTConnect/v2/;i=2633",
+        "dov:typeRef": "org.opcfoundation.UA.MTConnect.v2.MTRepresentationType",
         "type": "integer",
         "minimum": -2147483648,
         "maximum": 2147483647,
@@ -2191,7 +2191,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "MTConnect_v2_MTMessageClassType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/MTConnect/v2/;i=2427",
+    "dov:typeRef": "org.opcfoundation.UA.MTConnect.v2.MTMessageClassType",
     "dov:isComposite": true,
     "links": [
       {
@@ -2218,7 +2218,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "MTConnect_v2_MTSampleClassType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/MTConnect/v2/;i=2345",
+    "dov:typeRef": "org.opcfoundation.UA.MTConnect.v2.MTSampleClassType",
     "links": [
       {
         "rel": "tm:extends",
@@ -2244,7 +2244,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "MTConnect_v2_AccelerationClassType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/MTConnect/v2/;i=2265",
+    "dov:typeRef": "org.opcfoundation.UA.MTConnect.v2.AccelerationClassType",
     "dov:isComposite": true,
     "links": [
       {
@@ -2271,7 +2271,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "MTConnect_v2_AccumulatedTimeClassType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/MTConnect/v2/;i=2267",
+    "dov:typeRef": "org.opcfoundation.UA.MTConnect.v2.AccumulatedTimeClassType",
     "dov:isComposite": true,
     "links": [
       {
@@ -2298,7 +2298,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "MTConnect_v2_AmperageClassType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/MTConnect/v2/;i=2273",
+    "dov:typeRef": "org.opcfoundation.UA.MTConnect.v2.AmperageClassType",
     "dov:isComposite": true,
     "links": [
       {
@@ -2325,7 +2325,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "MTConnect_v2_AngleClassType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/MTConnect/v2/;i=2275",
+    "dov:typeRef": "org.opcfoundation.UA.MTConnect.v2.AngleClassType",
     "dov:isComposite": true,
     "links": [
       {
@@ -2352,7 +2352,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "MTConnect_v2_AngularAccelerationClassType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/MTConnect/v2/;i=2269",
+    "dov:typeRef": "org.opcfoundation.UA.MTConnect.v2.AngularAccelerationClassType",
     "dov:isComposite": true,
     "links": [
       {
@@ -2379,7 +2379,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "MTConnect_v2_AngularVelocityClassType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/MTConnect/v2/;i=2271",
+    "dov:typeRef": "org.opcfoundation.UA.MTConnect.v2.AngularVelocityClassType",
     "dov:isComposite": true,
     "links": [
       {
@@ -2406,7 +2406,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "MTConnect_v2_AxisFeedrateClassType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/MTConnect/v2/;i=2277",
+    "dov:typeRef": "org.opcfoundation.UA.MTConnect.v2.AxisFeedrateClassType",
     "dov:isComposite": true,
     "links": [
       {
@@ -2433,7 +2433,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "MTConnect_v2_ClockTimeClassType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/MTConnect/v2/;i=2279",
+    "dov:typeRef": "org.opcfoundation.UA.MTConnect.v2.ClockTimeClassType",
     "dov:isComposite": true,
     "links": [
       {
@@ -2460,7 +2460,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "MTConnect_v2_ConcentrationClassType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/MTConnect/v2/;i=2281",
+    "dov:typeRef": "org.opcfoundation.UA.MTConnect.v2.ConcentrationClassType",
     "dov:isComposite": true,
     "links": [
       {
@@ -2487,7 +2487,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "MTConnect_v2_ConductivityClassType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/MTConnect/v2/;i=2283",
+    "dov:typeRef": "org.opcfoundation.UA.MTConnect.v2.ConductivityClassType",
     "dov:isComposite": true,
     "links": [
       {
@@ -2514,7 +2514,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "MTConnect_v2_DisplacementClassType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/MTConnect/v2/;i=2285",
+    "dov:typeRef": "org.opcfoundation.UA.MTConnect.v2.DisplacementClassType",
     "dov:isComposite": true,
     "links": [
       {
@@ -2541,7 +2541,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "MTConnect_v2_ElectricalEnergyClassType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/MTConnect/v2/;i=2287",
+    "dov:typeRef": "org.opcfoundation.UA.MTConnect.v2.ElectricalEnergyClassType",
     "dov:isComposite": true,
     "links": [
       {
@@ -2568,7 +2568,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "MTConnect_v2_EquipmentTimerClassType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/MTConnect/v2/;i=2289",
+    "dov:typeRef": "org.opcfoundation.UA.MTConnect.v2.EquipmentTimerClassType",
     "dov:isComposite": true,
     "links": [
       {
@@ -2595,7 +2595,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "MTConnect_v2_FillLevelClassType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/MTConnect/v2/;i=2291",
+    "dov:typeRef": "org.opcfoundation.UA.MTConnect.v2.FillLevelClassType",
     "dov:isComposite": true,
     "links": [
       {
@@ -2622,7 +2622,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "MTConnect_v2_FlowClassType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/MTConnect/v2/;i=2293",
+    "dov:typeRef": "org.opcfoundation.UA.MTConnect.v2.FlowClassType",
     "dov:isComposite": true,
     "links": [
       {
@@ -2649,7 +2649,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "MTConnect_v2_FrequencyClassType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/MTConnect/v2/;i=2295",
+    "dov:typeRef": "org.opcfoundation.UA.MTConnect.v2.FrequencyClassType",
     "dov:isComposite": true,
     "links": [
       {
@@ -2676,7 +2676,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "MTConnect_v2_LengthClassType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/MTConnect/v2/;i=2297",
+    "dov:typeRef": "org.opcfoundation.UA.MTConnect.v2.LengthClassType",
     "dov:isComposite": true,
     "links": [
       {
@@ -2703,7 +2703,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "MTConnect_v2_LinearForceClassType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/MTConnect/v2/;i=2299",
+    "dov:typeRef": "org.opcfoundation.UA.MTConnect.v2.LinearForceClassType",
     "dov:isComposite": true,
     "links": [
       {
@@ -2730,7 +2730,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "MTConnect_v2_LoadClassType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/MTConnect/v2/;i=2263",
+    "dov:typeRef": "org.opcfoundation.UA.MTConnect.v2.LoadClassType",
     "dov:isComposite": true,
     "links": [
       {
@@ -2757,7 +2757,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "MTConnect_v2_MassClassType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/MTConnect/v2/;i=2301",
+    "dov:typeRef": "org.opcfoundation.UA.MTConnect.v2.MassClassType",
     "dov:isComposite": true,
     "links": [
       {
@@ -2784,7 +2784,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "MTConnect_v2_PathFeedrateClassType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/MTConnect/v2/;i=2303",
+    "dov:typeRef": "org.opcfoundation.UA.MTConnect.v2.PathFeedrateClassType",
     "dov:isComposite": true,
     "links": [
       {
@@ -2811,7 +2811,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "MTConnect_v2_PathPositionClassType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/MTConnect/v2/;i=2305",
+    "dov:typeRef": "org.opcfoundation.UA.MTConnect.v2.PathPositionClassType",
     "dov:isComposite": true,
     "links": [
       {
@@ -2838,7 +2838,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "MTConnect_v2_PHClassType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/MTConnect/v2/;i=2307",
+    "dov:typeRef": "org.opcfoundation.UA.MTConnect.v2.PHClassType",
     "dov:isComposite": true,
     "links": [
       {
@@ -2865,7 +2865,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "MTConnect_v2_PositionClassType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/MTConnect/v2/;i=2309",
+    "dov:typeRef": "org.opcfoundation.UA.MTConnect.v2.PositionClassType",
     "dov:isComposite": true,
     "links": [
       {
@@ -2892,7 +2892,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "MTConnect_v2_PowerFactorClassType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/MTConnect/v2/;i=2311",
+    "dov:typeRef": "org.opcfoundation.UA.MTConnect.v2.PowerFactorClassType",
     "dov:isComposite": true,
     "links": [
       {
@@ -2919,7 +2919,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "MTConnect_v2_PressureClassType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/MTConnect/v2/;i=2313",
+    "dov:typeRef": "org.opcfoundation.UA.MTConnect.v2.PressureClassType",
     "dov:isComposite": true,
     "links": [
       {
@@ -2946,7 +2946,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "MTConnect_v2_ProcessTimerClassType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/MTConnect/v2/;i=2315",
+    "dov:typeRef": "org.opcfoundation.UA.MTConnect.v2.ProcessTimerClassType",
     "dov:isComposite": true,
     "links": [
       {
@@ -2973,7 +2973,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "MTConnect_v2_ResistenceClassType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/MTConnect/v2/;i=2317",
+    "dov:typeRef": "org.opcfoundation.UA.MTConnect.v2.ResistenceClassType",
     "dov:isComposite": true,
     "links": [
       {
@@ -3000,7 +3000,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "MTConnect_v2_RotaryVelocityClassType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/MTConnect/v2/;i=2319",
+    "dov:typeRef": "org.opcfoundation.UA.MTConnect.v2.RotaryVelocityClassType",
     "dov:isComposite": true,
     "links": [
       {
@@ -3027,7 +3027,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "MTConnect_v2_SoundLevelClassType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/MTConnect/v2/;i=2321",
+    "dov:typeRef": "org.opcfoundation.UA.MTConnect.v2.SoundLevelClassType",
     "dov:isComposite": true,
     "links": [
       {
@@ -3054,7 +3054,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "MTConnect_v2_StrainClassType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/MTConnect/v2/;i=2323",
+    "dov:typeRef": "org.opcfoundation.UA.MTConnect.v2.StrainClassType",
     "dov:isComposite": true,
     "links": [
       {
@@ -3081,7 +3081,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "MTConnect_v2_TemperatureClassType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/MTConnect/v2/;i=2325",
+    "dov:typeRef": "org.opcfoundation.UA.MTConnect.v2.TemperatureClassType",
     "dov:isComposite": true,
     "links": [
       {
@@ -3108,7 +3108,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "MTConnect_v2_TensionClassType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/MTConnect/v2/;i=2327",
+    "dov:typeRef": "org.opcfoundation.UA.MTConnect.v2.TensionClassType",
     "dov:isComposite": true,
     "links": [
       {
@@ -3135,7 +3135,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "MTConnect_v2_TiltClassType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/MTConnect/v2/;i=2329",
+    "dov:typeRef": "org.opcfoundation.UA.MTConnect.v2.TiltClassType",
     "dov:isComposite": true,
     "links": [
       {
@@ -3162,7 +3162,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "MTConnect_v2_TorqueClassType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/MTConnect/v2/;i=2331",
+    "dov:typeRef": "org.opcfoundation.UA.MTConnect.v2.TorqueClassType",
     "dov:isComposite": true,
     "links": [
       {
@@ -3189,7 +3189,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "MTConnect_v2_VelocityClassType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/MTConnect/v2/;i=2335",
+    "dov:typeRef": "org.opcfoundation.UA.MTConnect.v2.VelocityClassType",
     "dov:isComposite": true,
     "links": [
       {
@@ -3216,7 +3216,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "MTConnect_v2_ViscosityClassType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/MTConnect/v2/;i=2339",
+    "dov:typeRef": "org.opcfoundation.UA.MTConnect.v2.ViscosityClassType",
     "dov:isComposite": true,
     "links": [
       {
@@ -3243,7 +3243,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "MTConnect_v2_VoltageClassType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/MTConnect/v2/;i=2341",
+    "dov:typeRef": "org.opcfoundation.UA.MTConnect.v2.VoltageClassType",
     "dov:isComposite": true,
     "links": [
       {
@@ -3270,7 +3270,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "MTConnect_v2_VoltAmpereClassType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/MTConnect/v2/;i=2333",
+    "dov:typeRef": "org.opcfoundation.UA.MTConnect.v2.VoltAmpereClassType",
     "dov:isComposite": true,
     "links": [
       {
@@ -3297,7 +3297,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "MTConnect_v2_VoltAmpereReactiveClassType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/MTConnect/v2/;i=2337",
+    "dov:typeRef": "org.opcfoundation.UA.MTConnect.v2.VoltAmpereReactiveClassType",
     "dov:isComposite": true,
     "links": [
       {
@@ -3324,7 +3324,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "MTConnect_v2_WattageClassType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/MTConnect/v2/;i=2343",
+    "dov:typeRef": "org.opcfoundation.UA.MTConnect.v2.WattageClassType",
     "dov:isComposite": true,
     "links": [
       {
@@ -3351,7 +3351,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "MTConnect_v2_MTControlledVocabEventClassType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/MTConnect/v2/;i=2144",
+    "dov:typeRef": "org.opcfoundation.UA.MTConnect.v2.MTControlledVocabEventClassType",
     "links": [
       {
         "rel": "tm:extends",
@@ -3377,7 +3377,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "MTConnect_v2_ActuatorStateClassType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/MTConnect/v2/;i=2146",
+    "dov:typeRef": "org.opcfoundation.UA.MTConnect.v2.ActuatorStateClassType",
     "dov:isComposite": true,
     "links": [
       {
@@ -3426,7 +3426,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "MTConnect_v2_AvailabilityClassType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/MTConnect/v2/;i=2149",
+    "dov:typeRef": "org.opcfoundation.UA.MTConnect.v2.AvailabilityClassType",
     "dov:isComposite": true,
     "links": [
       {
@@ -3475,7 +3475,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "MTConnect_v2_AxisCouplingClassType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/MTConnect/v2/;i=2152",
+    "dov:typeRef": "org.opcfoundation.UA.MTConnect.v2.AxisCouplingClassType",
     "dov:isComposite": true,
     "links": [
       {
@@ -3524,7 +3524,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "MTConnect_v2_AxisInterlockClassType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/MTConnect/v2/;i=2155",
+    "dov:typeRef": "org.opcfoundation.UA.MTConnect.v2.AxisInterlockClassType",
     "dov:isComposite": true,
     "links": [
       {
@@ -3573,7 +3573,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "MTConnect_v2_AxisStateClassType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/MTConnect/v2/;i=2158",
+    "dov:typeRef": "org.opcfoundation.UA.MTConnect.v2.AxisStateClassType",
     "dov:isComposite": true,
     "links": [
       {
@@ -3622,7 +3622,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "MTConnect_v2_ChuckInterlockClassType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/MTConnect/v2/;i=2161",
+    "dov:typeRef": "org.opcfoundation.UA.MTConnect.v2.ChuckInterlockClassType",
     "dov:isComposite": true,
     "links": [
       {
@@ -3671,7 +3671,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "MTConnect_v2_ChuckStateClassType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/MTConnect/v2/;i=2164",
+    "dov:typeRef": "org.opcfoundation.UA.MTConnect.v2.ChuckStateClassType",
     "dov:isComposite": true,
     "links": [
       {
@@ -3720,7 +3720,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "MTConnect_v2_CloseChuckClassType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/MTConnect/v2/;i=2256",
+    "dov:typeRef": "org.opcfoundation.UA.MTConnect.v2.CloseChuckClassType",
     "dov:isComposite": true,
     "links": [
       {
@@ -3769,7 +3769,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "MTConnect_v2_CloseDoorClassType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/MTConnect/v2/;i=2250",
+    "dov:typeRef": "org.opcfoundation.UA.MTConnect.v2.CloseDoorClassType",
     "dov:isComposite": true,
     "links": [
       {
@@ -3818,7 +3818,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "MTConnect_v2_CompositionStateClassType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/MTConnect/v2/;i=2173",
+    "dov:typeRef": "org.opcfoundation.UA.MTConnect.v2.CompositionStateClassType",
     "dov:isComposite": true,
     "links": [
       {
@@ -3867,7 +3867,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "MTConnect_v2_ControllerModeClassType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/MTConnect/v2/;i=2167",
+    "dov:typeRef": "org.opcfoundation.UA.MTConnect.v2.ControllerModeClassType",
     "dov:isComposite": true,
     "links": [
       {
@@ -3916,7 +3916,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "MTConnect_v2_ControllerModeOverrideClassType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/MTConnect/v2/;i=2176",
+    "dov:typeRef": "org.opcfoundation.UA.MTConnect.v2.ControllerModeOverrideClassType",
     "dov:isComposite": true,
     "links": [
       {
@@ -3965,7 +3965,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "MTConnect_v2_DirectionClassType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/MTConnect/v2/;i=2179",
+    "dov:typeRef": "org.opcfoundation.UA.MTConnect.v2.DirectionClassType",
     "dov:isComposite": true,
     "links": [
       {
@@ -4014,7 +4014,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "MTConnect_v2_DoorStateClassType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/MTConnect/v2/;i=2182",
+    "dov:typeRef": "org.opcfoundation.UA.MTConnect.v2.DoorStateClassType",
     "dov:isComposite": true,
     "links": [
       {
@@ -4063,7 +4063,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "MTConnect_v2_EmergencyStopClassType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/MTConnect/v2/;i=2185",
+    "dov:typeRef": "org.opcfoundation.UA.MTConnect.v2.EmergencyStopClassType",
     "dov:isComposite": true,
     "links": [
       {
@@ -4112,7 +4112,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "MTConnect_v2_EndOfBarClassType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/MTConnect/v2/;i=2188",
+    "dov:typeRef": "org.opcfoundation.UA.MTConnect.v2.EndOfBarClassType",
     "dov:isComposite": true,
     "links": [
       {
@@ -4161,7 +4161,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "MTConnect_v2_EquipmentModeClassType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/MTConnect/v2/;i=2191",
+    "dov:typeRef": "org.opcfoundation.UA.MTConnect.v2.EquipmentModeClassType",
     "dov:isComposite": true,
     "links": [
       {
@@ -4210,7 +4210,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "MTConnect_v2_ExecutionClassType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/MTConnect/v2/;i=2170",
+    "dov:typeRef": "org.opcfoundation.UA.MTConnect.v2.ExecutionClassType",
     "dov:isComposite": true,
     "links": [
       {
@@ -4259,7 +4259,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "MTConnect_v2_FunctionalModeClassType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/MTConnect/v2/;i=2194",
+    "dov:typeRef": "org.opcfoundation.UA.MTConnect.v2.FunctionalModeClassType",
     "dov:isComposite": true,
     "links": [
       {
@@ -4308,7 +4308,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "MTConnect_v2_InterfaceStateClassType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/MTConnect/v2/;i=2227",
+    "dov:typeRef": "org.opcfoundation.UA.MTConnect.v2.InterfaceStateClassType",
     "dov:isComposite": true,
     "links": [
       {
@@ -4357,7 +4357,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "MTConnect_v2_MaterialChangeClassType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/MTConnect/v2/;i=2235",
+    "dov:typeRef": "org.opcfoundation.UA.MTConnect.v2.MaterialChangeClassType",
     "dov:isComposite": true,
     "links": [
       {
@@ -4406,7 +4406,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "MTConnect_v2_MaterialFeedClassType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/MTConnect/v2/;i=2231",
+    "dov:typeRef": "org.opcfoundation.UA.MTConnect.v2.MaterialFeedClassType",
     "dov:isComposite": true,
     "links": [
       {
@@ -4455,7 +4455,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "MTConnect_v2_MaterialLoadClassType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/MTConnect/v2/;i=2241",
+    "dov:typeRef": "org.opcfoundation.UA.MTConnect.v2.MaterialLoadClassType",
     "dov:isComposite": true,
     "links": [
       {
@@ -4504,7 +4504,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "MTConnect_v2_MaterialRetractClassType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/MTConnect/v2/;i=2238",
+    "dov:typeRef": "org.opcfoundation.UA.MTConnect.v2.MaterialRetractClassType",
     "dov:isComposite": true,
     "links": [
       {
@@ -4553,7 +4553,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "MTConnect_v2_MaterialUnloadClassType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/MTConnect/v2/;i=2244",
+    "dov:typeRef": "org.opcfoundation.UA.MTConnect.v2.MaterialUnloadClassType",
     "dov:isComposite": true,
     "links": [
       {
@@ -4602,7 +4602,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "MTConnect_v2_OpenChuckClassType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/MTConnect/v2/;i=2253",
+    "dov:typeRef": "org.opcfoundation.UA.MTConnect.v2.OpenChuckClassType",
     "dov:isComposite": true,
     "links": [
       {
@@ -4651,7 +4651,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "MTConnect_v2_OpenDoorClassType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/MTConnect/v2/;i=2247",
+    "dov:typeRef": "org.opcfoundation.UA.MTConnect.v2.OpenDoorClassType",
     "dov:isComposite": true,
     "links": [
       {
@@ -4700,7 +4700,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "MTConnect_v2_PartChangeClassType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/MTConnect/v2/;i=2259",
+    "dov:typeRef": "org.opcfoundation.UA.MTConnect.v2.PartChangeClassType",
     "dov:isComposite": true,
     "links": [
       {
@@ -4749,7 +4749,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "MTConnect_v2_PathModeClassType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/MTConnect/v2/;i=2215",
+    "dov:typeRef": "org.opcfoundation.UA.MTConnect.v2.PathModeClassType",
     "dov:isComposite": true,
     "links": [
       {
@@ -4798,7 +4798,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "MTConnect_v2_PowerStateClassType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/MTConnect/v2/;i=2218",
+    "dov:typeRef": "org.opcfoundation.UA.MTConnect.v2.PowerStateClassType",
     "dov:isComposite": true,
     "links": [
       {
@@ -4847,7 +4847,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "MTConnect_v2_ProgramEditClassType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/MTConnect/v2/;i=2221",
+    "dov:typeRef": "org.opcfoundation.UA.MTConnect.v2.ProgramEditClassType",
     "dov:isComposite": true,
     "links": [
       {
@@ -4896,7 +4896,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "MTConnect_v2_RotaryModeClassType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/MTConnect/v2/;i=2224",
+    "dov:typeRef": "org.opcfoundation.UA.MTConnect.v2.RotaryModeClassType",
     "dov:isComposite": true,
     "links": [
       {
@@ -4945,7 +4945,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "MTConnect_v2_SpindleInterlockClassType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/MTConnect/v2/;i=2212",
+    "dov:typeRef": "org.opcfoundation.UA.MTConnect.v2.SpindleInterlockClassType",
     "dov:isComposite": true,
     "links": [
       {
@@ -4994,7 +4994,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "MTConnect_v2_MTNumericEventClassType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/MTConnect/v2/;i=2359",
+    "dov:typeRef": "org.opcfoundation.UA.MTConnect.v2.MTNumericEventClassType",
     "links": [
       {
         "rel": "tm:extends",
@@ -5020,7 +5020,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "MTConnect_v2_AxisFeedrateOverrideClassType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/MTConnect/v2/;i=2347",
+    "dov:typeRef": "org.opcfoundation.UA.MTConnect.v2.AxisFeedrateOverrideClassType",
     "dov:isComposite": true,
     "links": [
       {
@@ -5047,7 +5047,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "MTConnect_v2_BlockCountClassType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/MTConnect/v2/;i=2349",
+    "dov:typeRef": "org.opcfoundation.UA.MTConnect.v2.BlockCountClassType",
     "dov:isComposite": true,
     "links": [
       {
@@ -5074,7 +5074,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "MTConnect_v2_HardnessClassType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/MTConnect/v2/;i=2351",
+    "dov:typeRef": "org.opcfoundation.UA.MTConnect.v2.HardnessClassType",
     "dov:isComposite": true,
     "links": [
       {
@@ -5101,7 +5101,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "MTConnect_v2_LineNumberClassType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/MTConnect/v2/;i=2353",
+    "dov:typeRef": "org.opcfoundation.UA.MTConnect.v2.LineNumberClassType",
     "dov:isComposite": true,
     "links": [
       {
@@ -5128,7 +5128,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "MTConnect_v2_PartCountClassType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/MTConnect/v2/;i=2355",
+    "dov:typeRef": "org.opcfoundation.UA.MTConnect.v2.PartCountClassType",
     "dov:isComposite": true,
     "links": [
       {
@@ -5155,7 +5155,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "MTConnect_v2_PathFeedrateOverrideClassType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/MTConnect/v2/;i=3628",
+    "dov:typeRef": "org.opcfoundation.UA.MTConnect.v2.PathFeedrateOverrideClassType",
     "dov:isComposite": true,
     "links": [
       {
@@ -5182,7 +5182,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "MTConnect_v2_RotaryVelocityOverrideClassType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/MTConnect/v2/;i=2357",
+    "dov:typeRef": "org.opcfoundation.UA.MTConnect.v2.RotaryVelocityOverrideClassType",
     "dov:isComposite": true,
     "links": [
       {
@@ -5209,7 +5209,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "MTConnect_v2_MTStringEventClassType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/MTConnect/v2/;i=2361",
+    "dov:typeRef": "org.opcfoundation.UA.MTConnect.v2.MTStringEventClassType",
     "links": [
       {
         "rel": "tm:extends",
@@ -5235,7 +5235,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "MTConnect_v2_AssetChangedClassType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/MTConnect/v2/;i=2405",
+    "dov:typeRef": "org.opcfoundation.UA.MTConnect.v2.AssetChangedClassType",
     "dov:isComposite": true,
     "links": [
       {
@@ -5262,7 +5262,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "MTConnect_v2_AssetRemovedClassType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/MTConnect/v2/;i=2407",
+    "dov:typeRef": "org.opcfoundation.UA.MTConnect.v2.AssetRemovedClassType",
     "dov:isComposite": true,
     "links": [
       {
@@ -5289,7 +5289,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "MTConnect_v2_BlockClassType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/MTConnect/v2/;i=2363",
+    "dov:typeRef": "org.opcfoundation.UA.MTConnect.v2.BlockClassType",
     "dov:isComposite": true,
     "links": [
       {
@@ -5316,7 +5316,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "MTConnect_v2_CoupledAxesClassType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/MTConnect/v2/;i=2365",
+    "dov:typeRef": "org.opcfoundation.UA.MTConnect.v2.CoupledAxesClassType",
     "dov:isComposite": true,
     "links": [
       {
@@ -5343,7 +5343,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "MTConnect_v2_LineClassType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/MTConnect/v2/;i=2409",
+    "dov:typeRef": "org.opcfoundation.UA.MTConnect.v2.LineClassType",
     "dov:isComposite": true,
     "links": [
       {
@@ -5370,7 +5370,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "MTConnect_v2_LineLabelClassType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/MTConnect/v2/;i=2367",
+    "dov:typeRef": "org.opcfoundation.UA.MTConnect.v2.LineLabelClassType",
     "dov:isComposite": true,
     "links": [
       {
@@ -5397,7 +5397,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "MTConnect_v2_MaterialClassType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/MTConnect/v2/;i=2369",
+    "dov:typeRef": "org.opcfoundation.UA.MTConnect.v2.MaterialClassType",
     "dov:isComposite": true,
     "links": [
       {
@@ -5424,7 +5424,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "MTConnect_v2_MessageClassType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/MTConnect/v2/;i=2403",
+    "dov:typeRef": "org.opcfoundation.UA.MTConnect.v2.MessageClassType",
     "dov:isComposite": true,
     "links": [
       {
@@ -5451,7 +5451,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "MTConnect_v2_OperatorIdClassType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/MTConnect/v2/;i=2371",
+    "dov:typeRef": "org.opcfoundation.UA.MTConnect.v2.OperatorIdClassType",
     "dov:isComposite": true,
     "links": [
       {
@@ -5478,7 +5478,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "MTConnect_v2_PalletIdClassType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/MTConnect/v2/;i=2373",
+    "dov:typeRef": "org.opcfoundation.UA.MTConnect.v2.PalletIdClassType",
     "dov:isComposite": true,
     "links": [
       {
@@ -5505,7 +5505,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "MTConnect_v2_PartIdClassType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/MTConnect/v2/;i=2375",
+    "dov:typeRef": "org.opcfoundation.UA.MTConnect.v2.PartIdClassType",
     "dov:isComposite": true,
     "links": [
       {
@@ -5532,7 +5532,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "MTConnect_v2_PartNumberClassType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/MTConnect/v2/;i=2377",
+    "dov:typeRef": "org.opcfoundation.UA.MTConnect.v2.PartNumberClassType",
     "dov:isComposite": true,
     "links": [
       {
@@ -5559,7 +5559,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "MTConnect_v2_ProgramClassType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/MTConnect/v2/;i=2379",
+    "dov:typeRef": "org.opcfoundation.UA.MTConnect.v2.ProgramClassType",
     "dov:isComposite": true,
     "links": [
       {
@@ -5586,7 +5586,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "MTConnect_v2_ProgramCommentClassType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/MTConnect/v2/;i=2385",
+    "dov:typeRef": "org.opcfoundation.UA.MTConnect.v2.ProgramCommentClassType",
     "dov:isComposite": true,
     "links": [
       {
@@ -5613,7 +5613,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "MTConnect_v2_ProgramEditNameClassType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/MTConnect/v2/;i=2381",
+    "dov:typeRef": "org.opcfoundation.UA.MTConnect.v2.ProgramEditNameClassType",
     "dov:isComposite": true,
     "links": [
       {
@@ -5640,7 +5640,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "MTConnect_v2_ProgramHeaderClassType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/MTConnect/v2/;i=2383",
+    "dov:typeRef": "org.opcfoundation.UA.MTConnect.v2.ProgramHeaderClassType",
     "dov:isComposite": true,
     "links": [
       {
@@ -5667,7 +5667,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "MTConnect_v2_SerialNumberClassType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/MTConnect/v2/;i=2387",
+    "dov:typeRef": "org.opcfoundation.UA.MTConnect.v2.SerialNumberClassType",
     "dov:isComposite": true,
     "links": [
       {
@@ -5694,7 +5694,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "MTConnect_v2_ToolAssetIdClassType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/MTConnect/v2/;i=2389",
+    "dov:typeRef": "org.opcfoundation.UA.MTConnect.v2.ToolAssetIdClassType",
     "dov:isComposite": true,
     "links": [
       {
@@ -5721,7 +5721,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "MTConnect_v2_ToolNumberClassType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/MTConnect/v2/;i=2391",
+    "dov:typeRef": "org.opcfoundation.UA.MTConnect.v2.ToolNumberClassType",
     "dov:isComposite": true,
     "links": [
       {
@@ -5748,7 +5748,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "MTConnect_v2_ToolOffsetClassType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/MTConnect/v2/;i=2393",
+    "dov:typeRef": "org.opcfoundation.UA.MTConnect.v2.ToolOffsetClassType",
     "dov:isComposite": true,
     "links": [
       {
@@ -5775,7 +5775,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "MTConnect_v2_UserClassType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/MTConnect/v2/;i=2395",
+    "dov:typeRef": "org.opcfoundation.UA.MTConnect.v2.UserClassType",
     "dov:isComposite": true,
     "links": [
       {
@@ -5802,7 +5802,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "MTConnect_v2_WireClassType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/MTConnect/v2/;i=2397",
+    "dov:typeRef": "org.opcfoundation.UA.MTConnect.v2.WireClassType",
     "dov:isComposite": true,
     "links": [
       {
@@ -5829,7 +5829,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "MTConnect_v2_WorkholdingClassType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/MTConnect/v2/;i=2399",
+    "dov:typeRef": "org.opcfoundation.UA.MTConnect.v2.WorkholdingClassType",
     "dov:isComposite": true,
     "links": [
       {
@@ -5856,7 +5856,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "MTConnect_v2_WorkOffsetClassType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/MTConnect/v2/;i=2401",
+    "dov:typeRef": "org.opcfoundation.UA.MTConnect.v2.WorkOffsetClassType",
     "dov:isComposite": true,
     "links": [
       {
@@ -5883,7 +5883,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "MTConnect_v2_ActuatorClassType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/MTConnect/v2/;i=2411",
+    "dov:typeRef": "org.opcfoundation.UA.MTConnect.v2.ActuatorClassType",
     "dov:isComposite": true,
     "links": [
       {
@@ -5910,7 +5910,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "MTConnect_v2_CommunicationsClassType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/MTConnect/v2/;i=2413",
+    "dov:typeRef": "org.opcfoundation.UA.MTConnect.v2.CommunicationsClassType",
     "dov:isComposite": true,
     "links": [
       {
@@ -5937,7 +5937,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "MTConnect_v2_DataRangeClassType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/MTConnect/v2/;i=2415",
+    "dov:typeRef": "org.opcfoundation.UA.MTConnect.v2.DataRangeClassType",
     "dov:isComposite": true,
     "links": [
       {
@@ -5964,7 +5964,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "MTConnect_v2_HardwareClassType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/MTConnect/v2/;i=2419",
+    "dov:typeRef": "org.opcfoundation.UA.MTConnect.v2.HardwareClassType",
     "dov:isComposite": true,
     "links": [
       {
@@ -5991,7 +5991,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "MTConnect_v2_LogicProgramClassType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/MTConnect/v2/;i=2417",
+    "dov:typeRef": "org.opcfoundation.UA.MTConnect.v2.LogicProgramClassType",
     "dov:isComposite": true,
     "links": [
       {
@@ -6018,7 +6018,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "MTConnect_v2_MotionProgramClassType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/MTConnect/v2/;i=2421",
+    "dov:typeRef": "org.opcfoundation.UA.MTConnect.v2.MotionProgramClassType",
     "dov:isComposite": true,
     "links": [
       {
@@ -6045,7 +6045,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "MTConnect_v2_SystemClassType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/MTConnect/v2/;i=2423",
+    "dov:typeRef": "org.opcfoundation.UA.MTConnect.v2.SystemClassType",
     "dov:isComposite": true,
     "links": [
       {
@@ -6072,7 +6072,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "MTConnect_v2_MTDataItemSubClassType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/MTConnect/v2/;i=2476",
+    "dov:typeRef": "org.opcfoundation.UA.MTConnect.v2.MTDataItemSubClassType",
     "links": [
       {
         "rel": "tm:extends",
@@ -6098,7 +6098,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "MTConnect_v2_AbsoluteSubClassType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/MTConnect/v2/;i=2478",
+    "dov:typeRef": "org.opcfoundation.UA.MTConnect.v2.AbsoluteSubClassType",
     "dov:isComposite": true,
     "links": [
       {
@@ -6125,7 +6125,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "MTConnect_v2_ActionSubClassType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/MTConnect/v2/;i=2482",
+    "dov:typeRef": "org.opcfoundation.UA.MTConnect.v2.ActionSubClassType",
     "dov:isComposite": true,
     "links": [
       {
@@ -6152,7 +6152,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "MTConnect_v2_ActualSubClassType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/MTConnect/v2/;i=2480",
+    "dov:typeRef": "org.opcfoundation.UA.MTConnect.v2.ActualSubClassType",
     "dov:isComposite": true,
     "links": [
       {
@@ -6179,7 +6179,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "MTConnect_v2_AllSubClassType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/MTConnect/v2/;i=2484",
+    "dov:typeRef": "org.opcfoundation.UA.MTConnect.v2.AllSubClassType",
     "dov:isComposite": true,
     "links": [
       {
@@ -6206,7 +6206,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "MTConnect_v2_AlternatingSubClassType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/MTConnect/v2/;i=2486",
+    "dov:typeRef": "org.opcfoundation.UA.MTConnect.v2.AlternatingSubClassType",
     "dov:isComposite": true,
     "links": [
       {
@@ -6233,7 +6233,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "MTConnect_v2_AScaleSubClassType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/MTConnect/v2/;i=2488",
+    "dov:typeRef": "org.opcfoundation.UA.MTConnect.v2.AScaleSubClassType",
     "dov:isComposite": true,
     "links": [
       {
@@ -6260,7 +6260,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "MTConnect_v2_AuxiliarySubClassType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/MTConnect/v2/;i=2490",
+    "dov:typeRef": "org.opcfoundation.UA.MTConnect.v2.AuxiliarySubClassType",
     "dov:isComposite": true,
     "links": [
       {
@@ -6287,7 +6287,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "MTConnect_v2_BadSubClassType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/MTConnect/v2/;i=2492",
+    "dov:typeRef": "org.opcfoundation.UA.MTConnect.v2.BadSubClassType",
     "dov:isComposite": true,
     "links": [
       {
@@ -6314,7 +6314,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "MTConnect_v2_BrinellSubClassType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/MTConnect/v2/;i=2494",
+    "dov:typeRef": "org.opcfoundation.UA.MTConnect.v2.BrinellSubClassType",
     "dov:isComposite": true,
     "links": [
       {
@@ -6341,7 +6341,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "MTConnect_v2_BScaleSubClassType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/MTConnect/v2/;i=2496",
+    "dov:typeRef": "org.opcfoundation.UA.MTConnect.v2.BScaleSubClassType",
     "dov:isComposite": true,
     "links": [
       {
@@ -6368,7 +6368,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "MTConnect_v2_CommandedSubClassType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/MTConnect/v2/;i=2498",
+    "dov:typeRef": "org.opcfoundation.UA.MTConnect.v2.CommandedSubClassType",
     "dov:isComposite": true,
     "links": [
       {
@@ -6395,7 +6395,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "MTConnect_v2_ControlSubClassType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/MTConnect/v2/;i=2502",
+    "dov:typeRef": "org.opcfoundation.UA.MTConnect.v2.ControlSubClassType",
     "dov:isComposite": true,
     "links": [
       {
@@ -6422,7 +6422,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "MTConnect_v2_CScaleSubClassType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/MTConnect/v2/;i=2504",
+    "dov:typeRef": "org.opcfoundation.UA.MTConnect.v2.CScaleSubClassType",
     "dov:isComposite": true,
     "links": [
       {
@@ -6449,7 +6449,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "MTConnect_v2_DelaySubClassType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/MTConnect/v2/;i=2506",
+    "dov:typeRef": "org.opcfoundation.UA.MTConnect.v2.DelaySubClassType",
     "dov:isComposite": true,
     "links": [
       {
@@ -6476,7 +6476,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "MTConnect_v2_DirectSubClassType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/MTConnect/v2/;i=2508",
+    "dov:typeRef": "org.opcfoundation.UA.MTConnect.v2.DirectSubClassType",
     "dov:isComposite": true,
     "links": [
       {
@@ -6503,7 +6503,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "MTConnect_v2_DryRunSubClassType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/MTConnect/v2/;i=2510",
+    "dov:typeRef": "org.opcfoundation.UA.MTConnect.v2.DryRunSubClassType",
     "dov:isComposite": true,
     "links": [
       {
@@ -6530,7 +6530,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "MTConnect_v2_DScaleSubClassType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/MTConnect/v2/;i=2512",
+    "dov:typeRef": "org.opcfoundation.UA.MTConnect.v2.DScaleSubClassType",
     "dov:isComposite": true,
     "links": [
       {
@@ -6557,7 +6557,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "MTConnect_v2_FixtureSubClassType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/MTConnect/v2/;i=2514",
+    "dov:typeRef": "org.opcfoundation.UA.MTConnect.v2.FixtureSubClassType",
     "dov:isComposite": true,
     "links": [
       {
@@ -6584,7 +6584,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "MTConnect_v2_GoodSubClassType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/MTConnect/v2/;i=2500",
+    "dov:typeRef": "org.opcfoundation.UA.MTConnect.v2.GoodSubClassType",
     "dov:isComposite": true,
     "links": [
       {
@@ -6611,7 +6611,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "MTConnect_v2_IncrementalSubClassType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/MTConnect/v2/;i=2516",
+    "dov:typeRef": "org.opcfoundation.UA.MTConnect.v2.IncrementalSubClassType",
     "dov:isComposite": true,
     "links": [
       {
@@ -6638,7 +6638,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "MTConnect_v2_JobSubClassType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/MTConnect/v2/;i=2518",
+    "dov:typeRef": "org.opcfoundation.UA.MTConnect.v2.JobSubClassType",
     "dov:isComposite": true,
     "links": [
       {
@@ -6665,7 +6665,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "MTConnect_v2_KineticSubClassType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/MTConnect/v2/;i=2520",
+    "dov:typeRef": "org.opcfoundation.UA.MTConnect.v2.KineticSubClassType",
     "dov:isComposite": true,
     "links": [
       {
@@ -6692,7 +6692,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "MTConnect_v2_LateralSubClassType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/MTConnect/v2/;i=2522",
+    "dov:typeRef": "org.opcfoundation.UA.MTConnect.v2.LateralSubClassType",
     "dov:isComposite": true,
     "links": [
       {
@@ -6719,7 +6719,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "MTConnect_v2_LeebSubClassType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/MTConnect/v2/;i=2524",
+    "dov:typeRef": "org.opcfoundation.UA.MTConnect.v2.LeebSubClassType",
     "dov:isComposite": true,
     "links": [
       {
@@ -6746,7 +6746,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "MTConnect_v2_LengthSubClassType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/MTConnect/v2/;i=2526",
+    "dov:typeRef": "org.opcfoundation.UA.MTConnect.v2.LengthSubClassType",
     "dov:isComposite": true,
     "links": [
       {
@@ -6773,7 +6773,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "MTConnect_v2_LinearSubClassType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/MTConnect/v2/;i=2528",
+    "dov:typeRef": "org.opcfoundation.UA.MTConnect.v2.LinearSubClassType",
     "dov:isComposite": true,
     "links": [
       {
@@ -6800,7 +6800,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "MTConnect_v2_LineSubClassType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/MTConnect/v2/;i=2530",
+    "dov:typeRef": "org.opcfoundation.UA.MTConnect.v2.LineSubClassType",
     "dov:isComposite": true,
     "links": [
       {
@@ -6827,7 +6827,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "MTConnect_v2_LoadedSubClassType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/MTConnect/v2/;i=2532",
+    "dov:typeRef": "org.opcfoundation.UA.MTConnect.v2.LoadedSubClassType",
     "dov:isComposite": true,
     "links": [
       {
@@ -6854,7 +6854,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "MTConnect_v2_MachineAxisLockSubClassType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/MTConnect/v2/;i=2534",
+    "dov:typeRef": "org.opcfoundation.UA.MTConnect.v2.MachineAxisLockSubClassType",
     "dov:isComposite": true,
     "links": [
       {
@@ -6881,7 +6881,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "MTConnect_v2_MaintenanceSubClassType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/MTConnect/v2/;i=2536",
+    "dov:typeRef": "org.opcfoundation.UA.MTConnect.v2.MaintenanceSubClassType",
     "dov:isComposite": true,
     "links": [
       {
@@ -6908,7 +6908,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "MTConnect_v2_ManualUnclampSubClassType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/MTConnect/v2/;i=2538",
+    "dov:typeRef": "org.opcfoundation.UA.MTConnect.v2.ManualUnclampSubClassType",
     "dov:isComposite": true,
     "links": [
       {
@@ -6935,7 +6935,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "MTConnect_v2_MaximumSubClassType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/MTConnect/v2/;i=2540",
+    "dov:typeRef": "org.opcfoundation.UA.MTConnect.v2.MaximumSubClassType",
     "dov:isComposite": true,
     "links": [
       {
@@ -6962,7 +6962,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "MTConnect_v2_MinimumSubClassType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/MTConnect/v2/;i=2542",
+    "dov:typeRef": "org.opcfoundation.UA.MTConnect.v2.MinimumSubClassType",
     "dov:isComposite": true,
     "links": [
       {
@@ -6989,7 +6989,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "MTConnect_v2_MohsSubClassType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/MTConnect/v2/;i=2544",
+    "dov:typeRef": "org.opcfoundation.UA.MTConnect.v2.MohsSubClassType",
     "dov:isComposite": true,
     "links": [
       {
@@ -7016,7 +7016,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "MTConnect_v2_MoleSubClassType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/MTConnect/v2/;i=2546",
+    "dov:typeRef": "org.opcfoundation.UA.MTConnect.v2.MoleSubClassType",
     "dov:isComposite": true,
     "links": [
       {
@@ -7043,7 +7043,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "MTConnect_v2_MotionSubClassType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/MTConnect/v2/;i=2548",
+    "dov:typeRef": "org.opcfoundation.UA.MTConnect.v2.MotionSubClassType",
     "dov:isComposite": true,
     "links": [
       {
@@ -7070,7 +7070,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "MTConnect_v2_NoScaleSubClassType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/MTConnect/v2/;i=2550",
+    "dov:typeRef": "org.opcfoundation.UA.MTConnect.v2.NoScaleSubClassType",
     "dov:isComposite": true,
     "links": [
       {
@@ -7097,7 +7097,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "MTConnect_v2_OperatingSubClassType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/MTConnect/v2/;i=2552",
+    "dov:typeRef": "org.opcfoundation.UA.MTConnect.v2.OperatingSubClassType",
     "dov:isComposite": true,
     "links": [
       {
@@ -7124,7 +7124,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "MTConnect_v2_OperatorSubClassType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/MTConnect/v2/;i=2554",
+    "dov:typeRef": "org.opcfoundation.UA.MTConnect.v2.OperatorSubClassType",
     "dov:isComposite": true,
     "links": [
       {
@@ -7151,7 +7151,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "MTConnect_v2_OptionalStopSubClassType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/MTConnect/v2/;i=2556",
+    "dov:typeRef": "org.opcfoundation.UA.MTConnect.v2.OptionalStopSubClassType",
     "dov:isComposite": true,
     "links": [
       {
@@ -7178,7 +7178,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "MTConnect_v2_OverrideSubClassType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/MTConnect/v2/;i=2558",
+    "dov:typeRef": "org.opcfoundation.UA.MTConnect.v2.OverrideSubClassType",
     "dov:isComposite": true,
     "links": [
       {
@@ -7205,7 +7205,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "MTConnect_v2_PoweredSubClassType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/MTConnect/v2/;i=2562",
+    "dov:typeRef": "org.opcfoundation.UA.MTConnect.v2.PoweredSubClassType",
     "dov:isComposite": true,
     "links": [
       {
@@ -7232,7 +7232,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "MTConnect_v2_PrimarySubClassType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/MTConnect/v2/;i=2560",
+    "dov:typeRef": "org.opcfoundation.UA.MTConnect.v2.PrimarySubClassType",
     "dov:isComposite": true,
     "links": [
       {
@@ -7259,7 +7259,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "MTConnect_v2_ProbeSubClassType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/MTConnect/v2/;i=2564",
+    "dov:typeRef": "org.opcfoundation.UA.MTConnect.v2.ProbeSubClassType",
     "dov:isComposite": true,
     "links": [
       {
@@ -7286,7 +7286,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "MTConnect_v2_ProcessSubClassType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/MTConnect/v2/;i=2566",
+    "dov:typeRef": "org.opcfoundation.UA.MTConnect.v2.ProcessSubClassType",
     "dov:isComposite": true,
     "links": [
       {
@@ -7313,7 +7313,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "MTConnect_v2_ProgrammedSubClassType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/MTConnect/v2/;i=2568",
+    "dov:typeRef": "org.opcfoundation.UA.MTConnect.v2.ProgrammedSubClassType",
     "dov:isComposite": true,
     "links": [
       {
@@ -7340,7 +7340,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "MTConnect_v2_RadialSubClassType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/MTConnect/v2/;i=2570",
+    "dov:typeRef": "org.opcfoundation.UA.MTConnect.v2.RadialSubClassType",
     "dov:isComposite": true,
     "links": [
       {
@@ -7367,7 +7367,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "MTConnect_v2_RapidSubClassType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/MTConnect/v2/;i=2572",
+    "dov:typeRef": "org.opcfoundation.UA.MTConnect.v2.RapidSubClassType",
     "dov:isComposite": true,
     "links": [
       {
@@ -7394,7 +7394,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "MTConnect_v2_RelativeSubClassType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/MTConnect/v2/;i=2574",
+    "dov:typeRef": "org.opcfoundation.UA.MTConnect.v2.RelativeSubClassType",
     "dov:isComposite": true,
     "links": [
       {
@@ -7421,7 +7421,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "MTConnect_v2_RemainingSubClassType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/MTConnect/v2/;i=2576",
+    "dov:typeRef": "org.opcfoundation.UA.MTConnect.v2.RemainingSubClassType",
     "dov:isComposite": true,
     "links": [
       {
@@ -7448,7 +7448,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "MTConnect_v2_RequestSubClassType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/MTConnect/v2/;i=2578",
+    "dov:typeRef": "org.opcfoundation.UA.MTConnect.v2.RequestSubClassType",
     "dov:isComposite": true,
     "links": [
       {
@@ -7475,7 +7475,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "MTConnect_v2_ResponseSubClassType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/MTConnect/v2/;i=2580",
+    "dov:typeRef": "org.opcfoundation.UA.MTConnect.v2.ResponseSubClassType",
     "dov:isComposite": true,
     "links": [
       {
@@ -7502,7 +7502,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "MTConnect_v2_RockwellSubClassType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/MTConnect/v2/;i=2582",
+    "dov:typeRef": "org.opcfoundation.UA.MTConnect.v2.RockwellSubClassType",
     "dov:isComposite": true,
     "links": [
       {
@@ -7529,7 +7529,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "MTConnect_v2_RotarySubClassType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/MTConnect/v2/;i=2584",
+    "dov:typeRef": "org.opcfoundation.UA.MTConnect.v2.RotarySubClassType",
     "dov:isComposite": true,
     "links": [
       {
@@ -7556,7 +7556,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "MTConnect_v2_SetUpSubClassType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/MTConnect/v2/;i=2586",
+    "dov:typeRef": "org.opcfoundation.UA.MTConnect.v2.SetUpSubClassType",
     "dov:isComposite": true,
     "links": [
       {
@@ -7583,7 +7583,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "MTConnect_v2_ShoreSubClassType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/MTConnect/v2/;i=2588",
+    "dov:typeRef": "org.opcfoundation.UA.MTConnect.v2.ShoreSubClassType",
     "dov:isComposite": true,
     "links": [
       {
@@ -7610,7 +7610,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "MTConnect_v2_StandardSubClassType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/MTConnect/v2/;i=2590",
+    "dov:typeRef": "org.opcfoundation.UA.MTConnect.v2.StandardSubClassType",
     "dov:isComposite": true,
     "links": [
       {
@@ -7637,7 +7637,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "MTConnect_v2_SwitchedSubClassType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/MTConnect/v2/;i=2592",
+    "dov:typeRef": "org.opcfoundation.UA.MTConnect.v2.SwitchedSubClassType",
     "dov:isComposite": true,
     "links": [
       {
@@ -7664,7 +7664,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "MTConnect_v2_TargetSubClassType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/MTConnect/v2/;i=2594",
+    "dov:typeRef": "org.opcfoundation.UA.MTConnect.v2.TargetSubClassType",
     "dov:isComposite": true,
     "links": [
       {
@@ -7691,7 +7691,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "MTConnect_v2_ToolChangeStopSubClassType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/MTConnect/v2/;i=2596",
+    "dov:typeRef": "org.opcfoundation.UA.MTConnect.v2.ToolChangeStopSubClassType",
     "dov:isComposite": true,
     "links": [
       {
@@ -7718,7 +7718,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "MTConnect_v2_ToolEdgeSubClassType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/MTConnect/v2/;i=2598",
+    "dov:typeRef": "org.opcfoundation.UA.MTConnect.v2.ToolEdgeSubClassType",
     "dov:isComposite": true,
     "links": [
       {
@@ -7745,7 +7745,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "MTConnect_v2_ToolGroupSubClassType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/MTConnect/v2/;i=2600",
+    "dov:typeRef": "org.opcfoundation.UA.MTConnect.v2.ToolGroupSubClassType",
     "dov:isComposite": true,
     "links": [
       {
@@ -7772,7 +7772,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "MTConnect_v2_ToolSubClassType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/MTConnect/v2/;i=2602",
+    "dov:typeRef": "org.opcfoundation.UA.MTConnect.v2.ToolSubClassType",
     "dov:isComposite": true,
     "links": [
       {
@@ -7799,7 +7799,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "MTConnect_v2_UasbleSubClassType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/MTConnect/v2/;i=2604",
+    "dov:typeRef": "org.opcfoundation.UA.MTConnect.v2.UasbleSubClassType",
     "dov:isComposite": true,
     "links": [
       {
@@ -7826,7 +7826,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "MTConnect_v2_VerticalSubClassType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/MTConnect/v2/;i=2606",
+    "dov:typeRef": "org.opcfoundation.UA.MTConnect.v2.VerticalSubClassType",
     "dov:isComposite": true,
     "links": [
       {
@@ -7853,7 +7853,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "MTConnect_v2_VickersSubClassType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/MTConnect/v2/;i=2610",
+    "dov:typeRef": "org.opcfoundation.UA.MTConnect.v2.VickersSubClassType",
     "dov:isComposite": true,
     "links": [
       {
@@ -7880,7 +7880,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "MTConnect_v2_VolumeSubClassType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/MTConnect/v2/;i=2608",
+    "dov:typeRef": "org.opcfoundation.UA.MTConnect.v2.VolumeSubClassType",
     "dov:isComposite": true,
     "links": [
       {
@@ -7907,7 +7907,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "MTConnect_v2_WeightSubClassType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/MTConnect/v2/;i=2612",
+    "dov:typeRef": "org.opcfoundation.UA.MTConnect.v2.WeightSubClassType",
     "dov:isComposite": true,
     "links": [
       {
@@ -7934,7 +7934,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "MTConnect_v2_WorkingSubClassType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/MTConnect/v2/;i=2614",
+    "dov:typeRef": "org.opcfoundation.UA.MTConnect.v2.WorkingSubClassType",
     "dov:isComposite": true,
     "links": [
       {
@@ -7961,7 +7961,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "MTConnect_v2_WorkpieceSubClassType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/MTConnect/v2/;i=2616",
+    "dov:typeRef": "org.opcfoundation.UA.MTConnect.v2.WorkpieceSubClassType",
     "dov:isComposite": true,
     "links": [
       {
@@ -7988,7 +7988,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "OpcUaCore_BaseObjectType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/;i=58",
+    "dov:typeRef": "org.opcfoundation.UA.BaseObjectType",
     "links": [
     ],
     "schemaDefinitions": {
@@ -8009,7 +8009,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "OpcUaCore_BaseConditionClassType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/;i=11163",
+    "dov:typeRef": "org.opcfoundation.UA.BaseConditionClassType",
     "links": [
       {
         "rel": "tm:extends",
@@ -8035,7 +8035,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "OpcUaCore_BaseEventType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/;i=2041",
+    "dov:typeRef": "org.opcfoundation.UA.BaseEventType",
     "links": [
       {
         "rel": "tm:extends",
@@ -8131,7 +8131,7 @@
       "LocalTime": {
         "title": "TimeZoneDataType",
         "type": "object",
-        "dov:typeRef": "nsu=http://opcfoundation.org/UA/;i=8912",
+        "dov:typeRef": "org.opcfoundation.UA.TimeZoneDataType",
         "required": [ "Offset", "DaylightSavingInOffset" ],
         "properties": {
           "Offset": {
@@ -8235,7 +8235,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "OpcUaCore_ConditionType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/;i=2782",
+    "dov:typeRef": "org.opcfoundation.UA.ConditionType",
     "dov:isEvent": true,
     "links": [
       {
@@ -8262,7 +8262,7 @@
       "AddComment": {
         "input": {
           "type": "object",
-          "dov:typeRef": "nsu=http://opcfoundation.org/UA/;i=9030",
+          "dov:typeRef": "org.opcfoundation.UA.InputArguments",
           "required": [ "EventId", "Comment" ],
           "properties": {
             "EventId": {
@@ -8287,7 +8287,7 @@
       "ConditionRefresh": {
         "input": {
           "type": "object",
-          "dov:typeRef": "nsu=http://opcfoundation.org/UA/;i=3876",
+          "dov:typeRef": "org.opcfoundation.UA.InputArguments",
           "required": [ "SubscriptionId" ],
           "properties": {
             "SubscriptionId": {
@@ -8309,7 +8309,7 @@
       "ConditionRefresh2": {
         "input": {
           "type": "object",
-          "dov:typeRef": "nsu=http://opcfoundation.org/UA/;i=12913",
+          "dov:typeRef": "org.opcfoundation.UA.InputArguments",
           "required": [ "SubscriptionId", "MonitoredItemId" ],
           "properties": {
             "SubscriptionId": {

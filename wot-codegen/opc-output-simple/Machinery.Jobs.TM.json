@@ -8,7 +8,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "Machinery_Jobs_JobManagementType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/Machinery/Jobs/;i=1003",
+    "dov:typeRef": "org.opcfoundation.UA.Machinery.Jobs.JobManagementType",
     "dov:isComposite": true,
     "links": [
       {

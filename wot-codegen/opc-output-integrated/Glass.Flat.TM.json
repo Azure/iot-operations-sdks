@@ -8,7 +8,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "Glass_Flat_GlassEventType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/Glass/Flat/;i=1030",
+    "dov:typeRef": "org.opcfoundation.UA.Glass.Flat.GlassEventType",
     "dov:isEvent": true,
     "links": [
       {
@@ -115,7 +115,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "Glass_Flat_CommunicationErrorEventType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/Glass/Flat/;i=1040",
+    "dov:typeRef": "org.opcfoundation.UA.Glass.Flat.CommunicationErrorEventType",
     "dov:isEvent": true,
     "links": [
       {
@@ -142,7 +142,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "Glass_Flat_GlassMaterialEventType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/Glass/Flat/;i=1031",
+    "dov:typeRef": "org.opcfoundation.UA.Glass.Flat.GlassMaterialEventType",
     "dov:isEvent": true,
     "links": [
       {
@@ -169,7 +169,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "Glass_Flat_MaterialExitEventType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/Glass/Flat/;i=1025",
+    "dov:typeRef": "org.opcfoundation.UA.Glass.Flat.MaterialExitEventType",
     "dov:isEvent": true,
     "links": [
       {
@@ -196,7 +196,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "Glass_Flat_MaterialMissingEventType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/Glass/Flat/;i=1027",
+    "dov:typeRef": "org.opcfoundation.UA.Glass.Flat.MaterialMissingEventType",
     "dov:isEvent": true,
     "links": [
       {
@@ -223,7 +223,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "Glass_Flat_MaterialReceivedEventType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/Glass/Flat/;i=1026",
+    "dov:typeRef": "org.opcfoundation.UA.Glass.Flat.MaterialReceivedEventType",
     "dov:isEvent": true,
     "links": [
       {
@@ -250,7 +250,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "Glass_Flat_IntermediateStepEvent",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/Glass/Flat/;i=1029",
+    "dov:typeRef": "org.opcfoundation.UA.Glass.Flat.IntermediateStepEvent",
     "dov:isEvent": true,
     "links": [
       {
@@ -323,7 +323,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "Glass_Flat_InterruptedEventType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/Glass/Flat/;i=1032",
+    "dov:typeRef": "org.opcfoundation.UA.Glass.Flat.InterruptedEventType",
     "dov:isEvent": true,
     "links": [
       {
@@ -379,7 +379,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "Glass_Flat_EmergencyButtonPressedEventType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/Glass/Flat/;i=1038",
+    "dov:typeRef": "org.opcfoundation.UA.Glass.Flat.EmergencyButtonPressedEventType",
     "dov:isEvent": true,
     "links": [
       {
@@ -406,7 +406,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "Glass_Flat_MotorTemperatureTooHighEventType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/Glass/Flat/;i=1039",
+    "dov:typeRef": "org.opcfoundation.UA.Glass.Flat.MotorTemperatureTooHighEventType",
     "dov:isEvent": true,
     "links": [
       {
@@ -433,7 +433,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "Glass_Flat_OpenSecurityFenceType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/Glass/Flat/;i=1033",
+    "dov:typeRef": "org.opcfoundation.UA.Glass.Flat.OpenSecurityFenceType",
     "dov:isEvent": true,
     "links": [
       {
@@ -460,7 +460,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "Glass_Flat_OutOfJobEventType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/Glass/Flat/;i=1036",
+    "dov:typeRef": "org.opcfoundation.UA.Glass.Flat.OutOfJobEventType",
     "dov:isEvent": true,
     "links": [
       {
@@ -487,7 +487,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "Glass_Flat_ProcessParameterOutOfRangeType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/Glass/Flat/;i=1034",
+    "dov:typeRef": "org.opcfoundation.UA.Glass.Flat.ProcessParameterOutOfRangeType",
     "dov:isEvent": true,
     "links": [
       {
@@ -514,7 +514,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "Glass_Flat_ToolMissingEventType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/Glass/Flat/;i=1035",
+    "dov:typeRef": "org.opcfoundation.UA.Glass.Flat.ToolMissingEventType",
     "dov:isEvent": true,
     "links": [
       {
@@ -541,7 +541,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "Glass_Flat_JobMovedEventType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/Glass/Flat/;i=1037",
+    "dov:typeRef": "org.opcfoundation.UA.Glass.Flat.JobMovedEventType",
     "dov:isEvent": true,
     "links": [
       {
@@ -614,7 +614,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "Glass_Flat_BaseMaterialType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/Glass/Flat/;i=1006",
+    "dov:typeRef": "org.opcfoundation.UA.Glass.Flat.BaseMaterialType",
     "links": [
       {
         "rel": "tm:extends",
@@ -861,7 +861,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "Glass_Flat_AssemblyType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/Glass/Flat/;i=1002",
+    "dov:typeRef": "org.opcfoundation.UA.Glass.Flat.AssemblyType",
     "links": [
       {
         "rel": "tm:extends",
@@ -887,7 +887,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "Glass_Flat_FoilType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/Glass/Flat/;i=1019",
+    "dov:typeRef": "org.opcfoundation.UA.Glass.Flat.FoilType",
     "dov:isComposite": true,
     "links": [
       {
@@ -966,7 +966,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "Glass_Flat_GasMixType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/Glass/Flat/;i=1010",
+    "dov:typeRef": "org.opcfoundation.UA.Glass.Flat.GasMixType",
     "dov:isComposite": true,
     "links": [
       {
@@ -1114,7 +1114,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "Glass_Flat_GlassType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/Glass/Flat/;i=1011",
+    "dov:typeRef": "org.opcfoundation.UA.Glass.Flat.GlassType",
     "links": [
       {
         "rel": "tm:extends",
@@ -1125,7 +1125,7 @@
     "schemaDefinitions": {
       "CoatingClassEnumeration": {
         "type": "object",
-        "dov:typeRef": "nsu=http://opcfoundation.org/UA/Glass/Flat/;i=3009",
+        "dov:typeRef": "org.opcfoundation.UA.Glass.Flat.CoatingClassEnumeration",
         "const": {
           "HardCoating": 0,
           "SoftCoating": 1,
@@ -1149,7 +1149,7 @@
       },
       "SignificantSideEnumeration": {
         "type": "object",
-        "dov:typeRef": "nsu=http://opcfoundation.org/UA/Glass/Flat/;i=3003",
+        "dov:typeRef": "org.opcfoundation.UA.Glass.Flat.SignificantSideEnumeration",
         "const": {
           "Indifferent": 0,
           "Top": 1,
@@ -1169,7 +1169,7 @@
       },
       "StructureAlignmentEnumeration": {
         "type": "object",
-        "dov:typeRef": "nsu=http://opcfoundation.org/UA/Glass/Flat/;i=3004",
+        "dov:typeRef": "org.opcfoundation.UA.Glass.Flat.StructureAlignmentEnumeration",
         "const": {
           "Indifferent": 0,
           "Longitudinal": 1,
@@ -1228,7 +1228,7 @@
       "CoatingClass": {
         "dov:namespace": "http://opcfoundation.org/UA/Glass/Flat/",
         "title": "CoatingClassEnumeration",
-        "dov:typeRef": "nsu=http://opcfoundation.org/UA/Glass/Flat/;i=3009",
+        "dov:typeRef": "org.opcfoundation.UA.Glass.Flat.CoatingClassEnumeration",
         "type": "integer",
         "minimum": -2147483648,
         "maximum": 2147483647,
@@ -1334,7 +1334,7 @@
       "SignificantSide": {
         "dov:namespace": "http://opcfoundation.org/UA/Glass/Flat/",
         "title": "SignificantSideEnumeration",
-        "dov:typeRef": "nsu=http://opcfoundation.org/UA/Glass/Flat/;i=3003",
+        "dov:typeRef": "org.opcfoundation.UA.Glass.Flat.SignificantSideEnumeration",
         "type": "integer",
         "minimum": -2147483648,
         "maximum": 2147483647,
@@ -1355,7 +1355,7 @@
       "StructureAlignment": {
         "dov:namespace": "http://opcfoundation.org/UA/Glass/Flat/",
         "title": "StructureAlignmentEnumeration",
-        "dov:typeRef": "nsu=http://opcfoundation.org/UA/Glass/Flat/;i=3004",
+        "dov:typeRef": "org.opcfoundation.UA.Glass.Flat.StructureAlignmentEnumeration",
         "type": "integer",
         "minimum": -2147483648,
         "maximum": 2147483647,
@@ -1553,7 +1553,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "Glass_Flat_PackagingType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/Glass/Flat/;i=1017",
+    "dov:typeRef": "org.opcfoundation.UA.Glass.Flat.PackagingType",
     "dov:isComposite": true,
     "links": [
       {
@@ -1688,7 +1688,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "Glass_Flat_SealingMaterialType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/Glass/Flat/;i=1018",
+    "dov:typeRef": "org.opcfoundation.UA.Glass.Flat.SealingMaterialType",
     "dov:isComposite": true,
     "links": [
       {
@@ -1824,7 +1824,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "Glass_Flat_SpacerType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/Glass/Flat/;i=1016",
+    "dov:typeRef": "org.opcfoundation.UA.Glass.Flat.SpacerType",
     "dov:isComposite": true,
     "links": [
       {
@@ -1836,7 +1836,7 @@
     "schemaDefinitions": {
       "SpacerMaterialClass": {
         "type": "object",
-        "dov:typeRef": "nsu=http://opcfoundation.org/UA/Glass/Flat/;i=3005",
+        "dov:typeRef": "org.opcfoundation.UA.Glass.Flat.SpacerMaterialClass",
         "const": {
           "Other": 0,
           "Metalic": 1,
@@ -1943,7 +1943,7 @@
       "SpacerMaterialClass": {
         "dov:namespace": "http://opcfoundation.org/UA/Glass/Flat/",
         "title": "SpacerMaterialClass",
-        "dov:typeRef": "nsu=http://opcfoundation.org/UA/Glass/Flat/;i=3005",
+        "dov:typeRef": "org.opcfoundation.UA.Glass.Flat.SpacerMaterialClass",
         "type": "integer",
         "minimum": -2147483648,
         "maximum": 2147483647,
@@ -2036,7 +2036,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "Glass_Flat_ConfigurationRulesType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/Glass/Flat/;i=1063",
+    "dov:typeRef": "org.opcfoundation.UA.Glass.Flat.ConfigurationRulesType",
     "links": [
       {
         "rel": "tm:extends",
@@ -2047,7 +2047,7 @@
     "schemaDefinitions": {
       "CoordinateSystemEnumeration": {
         "type": "object",
-        "dov:typeRef": "nsu=http://opcfoundation.org/UA/Glass/Flat/;i=3008",
+        "dov:typeRef": "org.opcfoundation.UA.Glass.Flat.CoordinateSystemEnumeration",
         "const": {
           "Unknown": 0,
           "System1": 1,
@@ -2111,7 +2111,7 @@
         "items": {
           "title": "EUInformation",
           "type": "object",
-          "dov:typeRef": "nsu=http://opcfoundation.org/UA/;i=887",
+          "dov:typeRef": "org.opcfoundation.UA.EUInformation",
           "required": [ "NamespaceUri", "UnitId", "DisplayName", "Description" ],
           "properties": {
             "NamespaceUri": {
@@ -2145,7 +2145,7 @@
         "items": {
           "title": "FileFormatType",
           "type": "object",
-          "dov:typeRef": "nsu=http://opcfoundation.org/UA/Glass/Flat/;i=3007",
+          "dov:typeRef": "org.opcfoundation.UA.Glass.Flat.FileFormatType",
           "required": [ "Name", "FileExtension", "Version" ],
           "properties": {
             "Name": {
@@ -2171,7 +2171,7 @@
       "MachineProcessingCoordinateSystem": {
         "dov:namespace": "http://opcfoundation.org/UA/Glass/Flat/",
         "title": "CoordinateSystemEnumeration",
-        "dov:typeRef": "nsu=http://opcfoundation.org/UA/Glass/Flat/;i=3008",
+        "dov:typeRef": "org.opcfoundation.UA.Glass.Flat.CoordinateSystemEnumeration",
         "type": "integer",
         "minimum": -2147483648,
         "maximum": 2147483647,
@@ -2202,7 +2202,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "Glass_Flat_GlassMachineIdentificationType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/Glass/Flat/;i=1020",
+    "dov:typeRef": "org.opcfoundation.UA.Glass.Flat.GlassMachineIdentificationType",
     "links": [
       {
         "rel": "tm:extends",
@@ -2228,7 +2228,7 @@
         "items": {
           "title": "UserProfileType",
           "type": "object",
-          "dov:typeRef": "nsu=http://opcfoundation.org/UA/Glass/Flat/;i=3006",
+          "dov:typeRef": "org.opcfoundation.UA.Glass.Flat.UserProfileType",
           "required": [ "Name", "LoginTime", "Language", "MeasurementFormat", "AccessLevel", "OpcUaUser" ],
           "properties": {
             "Name": {
@@ -2274,7 +2274,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "Glass_Flat_ManualFolderType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/Glass/Flat/;i=1041",
+    "dov:typeRef": "org.opcfoundation.UA.Glass.Flat.ManualFolderType",
     "links": [
       {
         "rel": "tm:extends",
@@ -2328,7 +2328,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "Glass_Flat_GlassMachineType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/Glass/Flat/;i=1015",
+    "dov:typeRef": "org.opcfoundation.UA.Glass.Flat.GlassMachineType",
     "dov:isComposite": true,
     "links": [
       {
@@ -2379,7 +2379,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "Glass_Flat_ProductionType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/Glass/Flat/;i=1021",
+    "dov:typeRef": "org.opcfoundation.UA.Glass.Flat.ProductionType",
     "links": [
       {
         "rel": "tm:extends",
@@ -2412,7 +2412,7 @@
         "dov:namespace": "http://opcfoundation.org/UA/Glass/Flat/",
         "input": {
           "type": "object",
-          "dov:typeRef": "nsu=http://opcfoundation.org/UA/Glass/Flat/;i=6064",
+          "dov:typeRef": "org.opcfoundation.UA.InputArguments",
           "required": [ "Target", "Source", "Before" ],
           "properties": {
             "Target": {
@@ -2438,7 +2438,7 @@
         "dov:namespace": "http://opcfoundation.org/UA/Glass/Flat/",
         "input": {
           "type": "object",
-          "dov:typeRef": "nsu=http://opcfoundation.org/UA/Glass/Flat/;i=6123",
+          "dov:typeRef": "org.opcfoundation.UA.InputArguments",
           "required": [ "Identifier" ],
           "properties": {
             "Identifier": {
@@ -2458,7 +2458,7 @@
         "dov:namespace": "http://opcfoundation.org/UA/Glass/Flat/",
         "input": {
           "type": "object",
-          "dov:typeRef": "nsu=http://opcfoundation.org/UA/Glass/Flat/;i=6156",
+          "dov:typeRef": "org.opcfoundation.UA.InputArguments",
           "required": [ "Identifier", "Name", "InputMaterial", "OutputMaterial" ],
           "properties": {
             "Identifier": {
@@ -2483,7 +2483,7 @@
         },
         "output": {
           "type": "object",
-          "dov:typeRef": "nsu=http://opcfoundation.org/UA/Glass/Flat/;i=6331",
+          "dov:typeRef": "org.opcfoundation.UA.OutputArguments",
           "required": [ "JobNodeId" ],
           "properties": {
             "JobNodeId": {
@@ -2589,7 +2589,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "Glass_Flat_ProductionPlanType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/Glass/Flat/;i=1023",
+    "dov:typeRef": "org.opcfoundation.UA.Glass.Flat.ProductionPlanType",
     "links": [
       {
         "rel": "tm:extends",
@@ -2615,7 +2615,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "Glass_Flat_InstructionType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/Glass/Flat/;i=1003",
+    "dov:typeRef": "org.opcfoundation.UA.Glass.Flat.InstructionType",
     "links": [
       {
         "rel": "tm:extends",
@@ -2650,7 +2650,7 @@
         "dov:namespace": "http://opcfoundation.org/UA/Glass/Flat/",
         "title": "FileFormatType",
         "type": "object",
-        "dov:typeRef": "nsu=http://opcfoundation.org/UA/Glass/Flat/;i=3007",
+        "dov:typeRef": "org.opcfoundation.UA.Glass.Flat.FileFormatType",
         "required": [ "Name", "FileExtension", "Version" ],
         "properties": {
           "Name": {
@@ -2690,7 +2690,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "Glass_Flat_ProductionJobType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/Glass/Flat/;i=1004",
+    "dov:typeRef": "org.opcfoundation.UA.Glass.Flat.ProductionJobType",
     "links": [
       {
         "rel": "tm:extends",
@@ -2937,7 +2937,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "Glass_Flat_ProductionStateMachineType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/Glass/Flat/;i=1005",
+    "dov:typeRef": "org.opcfoundation.UA.Glass.Flat.ProductionStateMachineType",
     "links": [
       {
         "rel": "tm:extends",
@@ -3094,7 +3094,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "Glass_Flat_InitializingSubStateMachineType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/Glass/Flat/;i=1024",
+    "dov:typeRef": "org.opcfoundation.UA.Glass.Flat.InitializingSubStateMachineType",
     "links": [
       {
         "rel": "tm:extends",
@@ -3162,7 +3162,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "Glass_Flat_AssemblyJobType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/Glass/Flat/;i=1008",
+    "dov:typeRef": "org.opcfoundation.UA.Glass.Flat.AssemblyJobType",
     "dov:isComposite": true,
     "links": [
       {
@@ -3201,7 +3201,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "Glass_Flat_CuttingJobType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/Glass/Flat/;i=1007",
+    "dov:typeRef": "org.opcfoundation.UA.Glass.Flat.CuttingJobType",
     "dov:isComposite": true,
     "links": [
       {
@@ -3240,7 +3240,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "Glass_Flat_ProcessingJobType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/Glass/Flat/;i=1009",
+    "dov:typeRef": "org.opcfoundation.UA.Glass.Flat.ProcessingJobType",
     "dov:isComposite": true,
     "links": [
       {
@@ -3279,7 +3279,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "OpcUaCore_BaseEventType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/;i=2041",
+    "dov:typeRef": "org.opcfoundation.UA.BaseEventType",
     "links": [
       {
         "rel": "tm:extends",
@@ -3375,7 +3375,7 @@
       "LocalTime": {
         "title": "TimeZoneDataType",
         "type": "object",
-        "dov:typeRef": "nsu=http://opcfoundation.org/UA/;i=8912",
+        "dov:typeRef": "org.opcfoundation.UA.TimeZoneDataType",
         "required": [ "Offset", "DaylightSavingInOffset" ],
         "properties": {
           "Offset": {
@@ -3479,7 +3479,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "OpcUaCore_BaseObjectType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/;i=58",
+    "dov:typeRef": "org.opcfoundation.UA.BaseObjectType",
     "links": [
     ],
     "schemaDefinitions": {
@@ -3500,7 +3500,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "OpcUaCore_FolderType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/;i=61",
+    "dov:typeRef": "org.opcfoundation.UA.FolderType",
     "links": [
       {
         "rel": "tm:extends",
@@ -3526,7 +3526,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "OpcUaCore_FileType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/;i=11575",
+    "dov:typeRef": "org.opcfoundation.UA.FileType",
     "links": [
       {
         "rel": "tm:extends",
@@ -3547,7 +3547,7 @@
       "Close": {
         "input": {
           "type": "object",
-          "dov:typeRef": "nsu=http://opcfoundation.org/UA/;i=11584",
+          "dov:typeRef": "org.opcfoundation.UA.InputArguments",
           "required": [ "FileHandle" ],
           "properties": {
             "FileHandle": {
@@ -3568,7 +3568,7 @@
       "GetPosition": {
         "input": {
           "type": "object",
-          "dov:typeRef": "nsu=http://opcfoundation.org/UA/;i=11591",
+          "dov:typeRef": "org.opcfoundation.UA.InputArguments",
           "required": [ "FileHandle" ],
           "properties": {
             "FileHandle": {
@@ -3580,7 +3580,7 @@
         },
         "output": {
           "type": "object",
-          "dov:typeRef": "nsu=http://opcfoundation.org/UA/;i=11592",
+          "dov:typeRef": "org.opcfoundation.UA.OutputArguments",
           "required": [ "Position" ],
           "properties": {
             "Position": {
@@ -3601,7 +3601,7 @@
       "Open": {
         "input": {
           "type": "object",
-          "dov:typeRef": "nsu=http://opcfoundation.org/UA/;i=11581",
+          "dov:typeRef": "org.opcfoundation.UA.InputArguments",
           "required": [ "Mode" ],
           "properties": {
             "Mode": {
@@ -3613,7 +3613,7 @@
         },
         "output": {
           "type": "object",
-          "dov:typeRef": "nsu=http://opcfoundation.org/UA/;i=11582",
+          "dov:typeRef": "org.opcfoundation.UA.OutputArguments",
           "required": [ "FileHandle" ],
           "properties": {
             "FileHandle": {
@@ -3634,7 +3634,7 @@
       "Read": {
         "input": {
           "type": "object",
-          "dov:typeRef": "nsu=http://opcfoundation.org/UA/;i=11586",
+          "dov:typeRef": "org.opcfoundation.UA.InputArguments",
           "required": [ "FileHandle", "Length" ],
           "properties": {
             "FileHandle": {
@@ -3651,7 +3651,7 @@
         },
         "output": {
           "type": "object",
-          "dov:typeRef": "nsu=http://opcfoundation.org/UA/;i=11587",
+          "dov:typeRef": "org.opcfoundation.UA.OutputArguments",
           "required": [ "Data" ],
           "properties": {
             "Data": {
@@ -3671,7 +3671,7 @@
       "SetPosition": {
         "input": {
           "type": "object",
-          "dov:typeRef": "nsu=http://opcfoundation.org/UA/;i=11594",
+          "dov:typeRef": "org.opcfoundation.UA.InputArguments",
           "required": [ "FileHandle", "Position" ],
           "properties": {
             "FileHandle": {
@@ -3697,7 +3697,7 @@
       "Write": {
         "input": {
           "type": "object",
-          "dov:typeRef": "nsu=http://opcfoundation.org/UA/;i=11589",
+          "dov:typeRef": "org.opcfoundation.UA.InputArguments",
           "required": [ "FileHandle", "Data" ],
           "properties": {
             "FileHandle": {
@@ -3818,7 +3818,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "OpcUaCore_OrderedListType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/;i=23518",
+    "dov:typeRef": "org.opcfoundation.UA.OrderedListType",
     "dov:isComposite": true,
     "links": [
       {
@@ -3863,7 +3863,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "OpcUaCore_FiniteStateMachineType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/;i=2771",
+    "dov:typeRef": "org.opcfoundation.UA.FiniteStateMachineType",
     "links": [
       {
         "rel": "tm:extends",
@@ -4005,7 +4005,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "OpcUaCore_StateMachineType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/;i=2299",
+    "dov:typeRef": "org.opcfoundation.UA.StateMachineType",
     "dov:isComposite": true,
     "links": [
       {
@@ -4090,7 +4090,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "OpcUaCore_StateType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/;i=2307",
+    "dov:typeRef": "org.opcfoundation.UA.StateType",
     "links": [
       {
         "rel": "tm:extends",
@@ -4136,7 +4136,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "OpcUaCore_TransitionType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/;i=2310",
+    "dov:typeRef": "org.opcfoundation.UA.TransitionType",
     "links": [
       {
         "rel": "tm:extends",
@@ -4182,7 +4182,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "OpcUaCore_InitialStateType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/;i=2309",
+    "dov:typeRef": "org.opcfoundation.UA.InitialStateType",
     "links": [
       {
         "rel": "tm:extends",
@@ -4208,7 +4208,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "Machinery_MachineIdentificationType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/Machinery/;i=1012",
+    "dov:typeRef": "org.opcfoundation.UA.Machinery.MachineIdentificationType",
     "dov:isComposite": true,
     "links": [
       {
@@ -4290,7 +4290,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "Machinery_MachineryItemIdentificationType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/Machinery/;i=1004",
+    "dov:typeRef": "org.opcfoundation.UA.Machinery.MachineryItemIdentificationType",
     "links": [
       {
         "rel": "tm:extends",
@@ -4542,7 +4542,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "DI_FunctionalGroupType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/DI/;i=1005",
+    "dov:typeRef": "org.opcfoundation.UA.DI.FunctionalGroupType",
     "links": [
       {
         "rel": "tm:extends",
@@ -4613,7 +4613,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "DI_LockingServicesType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/DI/;i=6388",
+    "dov:typeRef": "org.opcfoundation.UA.DI.LockingServicesType",
     "links": [
       {
         "rel": "tm:extends",
@@ -4635,7 +4635,7 @@
         "dov:namespace": "http://opcfoundation.org/UA/DI/",
         "output": {
           "type": "object",
-          "dov:typeRef": "nsu=http://opcfoundation.org/UA/DI/;i=6401",
+          "dov:typeRef": "org.opcfoundation.UA.OutputArguments",
           "required": [ "BreakLockStatus" ],
           "properties": {
             "BreakLockStatus": {
@@ -4657,7 +4657,7 @@
         "dov:namespace": "http://opcfoundation.org/UA/DI/",
         "output": {
           "type": "object",
-          "dov:typeRef": "nsu=http://opcfoundation.org/UA/DI/;i=6399",
+          "dov:typeRef": "org.opcfoundation.UA.OutputArguments",
           "required": [ "ExitLockStatus" ],
           "properties": {
             "ExitLockStatus": {
@@ -4679,7 +4679,7 @@
         "dov:namespace": "http://opcfoundation.org/UA/DI/",
         "input": {
           "type": "object",
-          "dov:typeRef": "nsu=http://opcfoundation.org/UA/DI/;i=6394",
+          "dov:typeRef": "org.opcfoundation.UA.InputArguments",
           "required": [ "Context" ],
           "properties": {
             "Context": {
@@ -4689,7 +4689,7 @@
         },
         "output": {
           "type": "object",
-          "dov:typeRef": "nsu=http://opcfoundation.org/UA/DI/;i=6395",
+          "dov:typeRef": "org.opcfoundation.UA.OutputArguments",
           "required": [ "InitLockStatus" ],
           "properties": {
             "InitLockStatus": {
@@ -4711,7 +4711,7 @@
         "dov:namespace": "http://opcfoundation.org/UA/DI/",
         "output": {
           "type": "object",
-          "dov:typeRef": "nsu=http://opcfoundation.org/UA/DI/;i=6397",
+          "dov:typeRef": "org.opcfoundation.UA.OutputArguments",
           "required": [ "RenewLockStatus" ],
           "properties": {
             "RenewLockStatus": {

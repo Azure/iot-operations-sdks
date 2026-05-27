@@ -8,7 +8,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "PDRV_DriveAxisType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/PDRV/;i=1000",
+    "dov:typeRef": "org.opcfoundation.UA.PDRV.DriveAxisType",
     "links": [
       {
         "rel": "tm:extends",
@@ -90,7 +90,7 @@
         "dov:namespace": "http://opcfoundation.org/UA/PDRV/",
         "input": {
           "type": "object",
-          "dov:typeRef": "nsu=http://opcfoundation.org/UA/PDRV/;i=6038",
+          "dov:typeRef": "org.opcfoundation.UA.InputArguments",
           "required": [ "ApplicationTag" ],
           "properties": {
             "ApplicationTag": {
@@ -147,7 +147,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "PDRV_VelocityDriveAxisType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/PDRV/;i=1002",
+    "dov:typeRef": "org.opcfoundation.UA.PDRV.VelocityDriveAxisType",
     "dov:isComposite": true,
     "links": [
       {
@@ -192,7 +192,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "PDRV_FrequencyDriveAxisType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/PDRV/;i=1005",
+    "dov:typeRef": "org.opcfoundation.UA.PDRV.FrequencyDriveAxisType",
     "dov:isComposite": true,
     "links": [
       {
@@ -237,7 +237,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "PDRV_PositioningDriveAxisType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/PDRV/;i=1006",
+    "dov:typeRef": "org.opcfoundation.UA.PDRV.PositioningDriveAxisType",
     "dov:isComposite": true,
     "links": [
       {
@@ -306,7 +306,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "PDRV_TraversingTaskType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/PDRV/;i=1007",
+    "dov:typeRef": "org.opcfoundation.UA.PDRV.TraversingTaskType",
     "links": [
       {
         "rel": "tm:extends",
@@ -518,7 +518,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "PDRV_VelocityServoDriveAxisType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/PDRV/;i=1008",
+    "dov:typeRef": "org.opcfoundation.UA.PDRV.VelocityServoDriveAxisType",
     "dov:isComposite": true,
     "links": [
       {
@@ -581,7 +581,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "PDRV_PositionServoDriveAxisType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/PDRV/;i=1009",
+    "dov:typeRef": "org.opcfoundation.UA.PDRV.PositionServoDriveAxisType",
     "dov:isComposite": true,
     "links": [
       {
@@ -656,7 +656,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "PDRV_DiagnosisAlarmType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/PDRV/;i=1012",
+    "dov:typeRef": "org.opcfoundation.UA.PDRV.DiagnosisAlarmType",
     "dov:isEvent": true,
     "links": [
       {
@@ -668,7 +668,7 @@
     "schemaDefinitions": {
       "EventTypeEnumeration": {
         "type": "object",
-        "dov:typeRef": "nsu=http://opcfoundation.org/UA/PNENC/;i=3003",
+        "dov:typeRef": "org.opcfoundation.UA.PNENC.EventTypeEnumeration",
         "const": {
           "FAULT": 0,
           "WARNING": 1,
@@ -704,7 +704,7 @@
         "dov:namespace": "http://opcfoundation.org/UA/PDRV/",
         "title": "LogEntryDataType",
         "type": "object",
-        "dov:typeRef": "nsu=http://opcfoundation.org/UA/PNENC/;i=3013",
+        "dov:typeRef": "org.opcfoundation.UA.PNENC.LogEntryDataType",
         "required": [ "FaultSituationNumber", "EventNumber", "EventType", "EventCode", "EventText", "EventComing", "EventGoing", "EventAcknowledged" ],
         "properties": {
           "FaultSituationNumber": {
@@ -722,7 +722,7 @@
           "EventType": {
             "title": "EventTypeEnumeration",
             "description": "Characterization of the event (fault, warning, etc.). Must never have the value “UNSPECIFIED”",
-            "dov:typeRef": "nsu=http://opcfoundation.org/UA/PNENC/;i=3003",
+            "dov:typeRef": "org.opcfoundation.UA.PNENC.EventTypeEnumeration",
             "type": "integer",
             "minimum": -2147483648,
             "maximum": 2147483647
@@ -775,7 +775,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "PDRV_AxisSwOvertravelEventType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/PDRV/;i=1013",
+    "dov:typeRef": "org.opcfoundation.UA.PDRV.AxisSwOvertravelEventType",
     "dov:isEvent": true,
     "links": [
       {
@@ -821,7 +821,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "PDRV_AxisHwOvertravelEventType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/PDRV/;i=1014",
+    "dov:typeRef": "org.opcfoundation.UA.PDRV.AxisHwOvertravelEventType",
     "dov:isEvent": true,
     "links": [
       {
@@ -867,7 +867,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "PDRV_SafetyType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/PDRV/;i=1015",
+    "dov:typeRef": "org.opcfoundation.UA.PDRV.SafetyType",
     "links": [
       {
         "rel": "tm:extends",
@@ -941,7 +941,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "PDRV_TorqueLimitEventType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/PDRV/;i=1016",
+    "dov:typeRef": "org.opcfoundation.UA.PDRV.TorqueLimitEventType",
     "dov:isEvent": true,
     "links": [
       {
@@ -1003,7 +1003,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "PDRV_MotorCurrentLimitEventType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/PDRV/;i=1017",
+    "dov:typeRef": "org.opcfoundation.UA.PDRV.MotorCurrentLimitEventType",
     "dov:isEvent": true,
     "links": [
       {
@@ -1065,7 +1065,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "PDRV_SafetyFunctionType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/PDRV/;i=1018",
+    "dov:typeRef": "org.opcfoundation.UA.PDRV.SafetyFunctionType",
     "links": [
       {
         "rel": "tm:extends",
@@ -1175,7 +1175,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "PDRV_ForceLimitEventType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/PDRV/;i=1019",
+    "dov:typeRef": "org.opcfoundation.UA.PDRV.ForceLimitEventType",
     "dov:isEvent": true,
     "links": [
       {
@@ -1237,7 +1237,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "PDRV_AxisEventType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/PDRV/;i=1001",
+    "dov:typeRef": "org.opcfoundation.UA.PDRV.AxisEventType",
     "dov:isEvent": true,
     "links": [
       {

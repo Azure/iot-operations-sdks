@@ -8,7 +8,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "WoT_Con_WoTAssetConnectionManagementType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/WoT-Con/;i=1",
+    "dov:typeRef": "org.opcfoundation.UA.WoT-Con.WoTAssetConnectionManagementType",
     "links": [
       {
         "rel": "tm:extends",
@@ -36,7 +36,7 @@
         "dov:namespace": "http://opcfoundation.org/UA/WoT-Con/",
         "input": {
           "type": "object",
-          "dov:typeRef": "nsu=http://opcfoundation.org/UA/WoT-Con/;i=76",
+          "dov:typeRef": "org.opcfoundation.UA.InputArguments",
           "required": [ "AssetEndpoint" ],
           "properties": {
             "AssetEndpoint": {
@@ -46,7 +46,7 @@
         },
         "output": {
           "type": "object",
-          "dov:typeRef": "nsu=http://opcfoundation.org/UA/WoT-Con/;i=77",
+          "dov:typeRef": "org.opcfoundation.UA.OutputArguments",
           "required": [ "Success", "Status" ],
           "properties": {
             "Success": {
@@ -69,7 +69,7 @@
         "dov:namespace": "http://opcfoundation.org/UA/WoT-Con/",
         "input": {
           "type": "object",
-          "dov:typeRef": "nsu=http://opcfoundation.org/UA/WoT-Con/;i=27",
+          "dov:typeRef": "org.opcfoundation.UA.InputArguments",
           "required": [ "AssetName" ],
           "properties": {
             "AssetName": {
@@ -79,7 +79,7 @@
         },
         "output": {
           "type": "object",
-          "dov:typeRef": "nsu=http://opcfoundation.org/UA/WoT-Con/;i=28",
+          "dov:typeRef": "org.opcfoundation.UA.OutputArguments",
           "required": [ "AssetId" ],
           "properties": {
             "AssetId": {
@@ -99,7 +99,7 @@
         "dov:namespace": "http://opcfoundation.org/UA/WoT-Con/",
         "input": {
           "type": "object",
-          "dov:typeRef": "nsu=http://opcfoundation.org/UA/WoT-Con/;i=50",
+          "dov:typeRef": "org.opcfoundation.UA.InputArguments",
           "required": [ "AssetName", "AssetEndpoint" ],
           "properties": {
             "AssetName": {
@@ -112,7 +112,7 @@
         },
         "output": {
           "type": "object",
-          "dov:typeRef": "nsu=http://opcfoundation.org/UA/WoT-Con/;i=170",
+          "dov:typeRef": "org.opcfoundation.UA.OutputArguments",
           "required": [ "AssetId" ],
           "properties": {
             "AssetId": {
@@ -132,7 +132,7 @@
         "dov:namespace": "http://opcfoundation.org/UA/WoT-Con/",
         "input": {
           "type": "object",
-          "dov:typeRef": "nsu=http://opcfoundation.org/UA/WoT-Con/;i=30",
+          "dov:typeRef": "org.opcfoundation.UA.InputArguments",
           "required": [ "AssetId" ],
           "properties": {
             "AssetId": {
@@ -152,7 +152,7 @@
         "dov:namespace": "http://opcfoundation.org/UA/WoT-Con/",
         "output": {
           "type": "object",
-          "dov:typeRef": "nsu=http://opcfoundation.org/UA/WoT-Con/;i=48",
+          "dov:typeRef": "org.opcfoundation.UA.OutputArguments",
           "required": [ "AssetEndpoints" ],
           "properties": {
             "AssetEndpoints": {
@@ -201,7 +201,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "WoT_Con_WoTAssetConfigurationType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/WoT-Con/;i=105",
+    "dov:typeRef": "org.opcfoundation.UA.WoT-Con.WoTAssetConfigurationType",
     "links": [
       {
         "rel": "tm:extends",
@@ -260,7 +260,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "WoT_Con_IWoTAssetType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/WoT-Con/;i=42",
+    "dov:typeRef": "org.opcfoundation.UA.WoT-Con.IWoTAssetType",
     "links": [
       {
         "rel": "tm:extends",
@@ -311,7 +311,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "WoT_Con_WoTAssetFileType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/WoT-Con/;i=110",
+    "dov:typeRef": "org.opcfoundation.UA.WoT-Con.WoTAssetFileType",
     "links": [
       {
         "rel": "tm:extends",
@@ -326,7 +326,7 @@
         "dov:namespace": "http://opcfoundation.org/UA/WoT-Con/",
         "input": {
           "type": "object",
-          "dov:typeRef": "nsu=http://opcfoundation.org/UA/WoT-Con/;i=112",
+          "dov:typeRef": "org.opcfoundation.UA.InputArguments",
           "required": [ "FileHandle" ],
           "properties": {
             "FileHandle": {

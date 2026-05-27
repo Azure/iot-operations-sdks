@@ -8,7 +8,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "PlasticsRubber_Extrusion_Cutter_CutEventType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/PlasticsRubber/Extrusion/Cutter/;i=1002",
+    "dov:typeRef": "org.opcfoundation.UA.PlasticsRubber.Extrusion.Cutter.CutEventType",
     "dov:isEvent": true,
     "links": [
       {
@@ -82,7 +82,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "PlasticsRubber_Extrusion_Cutter_CuttingProductsType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/PlasticsRubber/Extrusion/Cutter/;i=1004",
+    "dov:typeRef": "org.opcfoundation.UA.PlasticsRubber.Extrusion.Cutter.CuttingProductsType",
     "links": [
       {
         "rel": "tm:extends",
@@ -161,7 +161,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "PlasticsRubber_Extrusion_Cutter_CuttingProductType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/PlasticsRubber/Extrusion/Cutter/;i=1003",
+    "dov:typeRef": "org.opcfoundation.UA.PlasticsRubber.Extrusion.Cutter.CuttingProductType",
     "links": [
       {
         "rel": "tm:extends",
@@ -172,7 +172,7 @@
     "schemaDefinitions": {
       "WallThickeningEnumeration": {
         "type": "object",
-        "dov:typeRef": "nsu=http://opcfoundation.org/UA/PlasticsRubber/Extrusion/Cutter/;i=3002",
+        "dov:typeRef": "org.opcfoundation.UA.PlasticsRubber.Extrusion.Cutter.WallThickeningEnumeration",
         "const": {
           "NO": 0,
           "FRONT": 1,
@@ -344,7 +344,7 @@
       "WallThickeningPosition": {
         "dov:namespace": "http://opcfoundation.org/UA/PlasticsRubber/Extrusion/Cutter/",
         "title": "WallThickeningEnumeration",
-        "dov:typeRef": "nsu=http://opcfoundation.org/UA/PlasticsRubber/Extrusion/Cutter/;i=3002",
+        "dov:typeRef": "org.opcfoundation.UA.PlasticsRubber.Extrusion.Cutter.WallThickeningEnumeration",
         "type": "integer",
         "minimum": -2147483648,
         "maximum": 2147483647,
@@ -465,7 +465,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "PlasticsRubber_Extrusion_Cutter_Cutter_InterfaceType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/PlasticsRubber/Extrusion/Cutter/;i=1005",
+    "dov:typeRef": "org.opcfoundation.UA.PlasticsRubber.Extrusion.Cutter.Cutter_InterfaceType",
     "dov:isComposite": true,
     "links": [
       {

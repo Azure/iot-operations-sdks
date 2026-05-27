@@ -8,7 +8,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "LADS_ActiveProgramType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/LADS/;i=1040",
+    "dov:typeRef": "org.opcfoundation.UA.LADS.ActiveProgramType",
     "links": [
       {
         "rel": "tm:extends",
@@ -34,7 +34,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "LADS_LADSComponentsType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/LADS/;i=1025",
+    "dov:typeRef": "org.opcfoundation.UA.LADS.LADSComponentsType",
     "links": [
       {
         "rel": "tm:extends",
@@ -60,7 +60,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "LADS_LADSOperationCountersType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/LADS/;i=1034",
+    "dov:typeRef": "org.opcfoundation.UA.LADS.LADSOperationCountersType",
     "dov:isComposite": true,
     "links": [
       {
@@ -87,7 +87,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "LADS_FunctionalUnitSetType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/LADS/;i=1023",
+    "dov:typeRef": "org.opcfoundation.UA.LADS.FunctionalUnitSetType",
     "links": [
       {
         "rel": "tm:extends",
@@ -113,7 +113,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "LADS_SetType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/LADS/;i=61",
+    "dov:typeRef": "org.opcfoundation.UA.LADS.SetType",
     "links": [
       {
         "rel": "tm:extends",
@@ -139,7 +139,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "LADS_FunctionSetType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/LADS/;i=1026",
+    "dov:typeRef": "org.opcfoundation.UA.LADS.FunctionSetType",
     "links": [
       {
         "rel": "tm:extends",
@@ -165,7 +165,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "LADS_ProgramTemplateSetType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/LADS/;i=1019",
+    "dov:typeRef": "org.opcfoundation.UA.LADS.ProgramTemplateSetType",
     "links": [
       {
         "rel": "tm:extends",
@@ -191,7 +191,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "LADS_ProgramTemplateType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/LADS/;i=1018",
+    "dov:typeRef": "org.opcfoundation.UA.LADS.ProgramTemplateType",
     "links": [
       {
         "rel": "tm:extends",
@@ -217,7 +217,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "LADS_SupportedPropertiesSetType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/LADS/;i=1033",
+    "dov:typeRef": "org.opcfoundation.UA.LADS.SupportedPropertiesSetType",
     "links": [
       {
         "rel": "tm:extends",
@@ -243,7 +243,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "LADS_SupportedPropertyType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/LADS/;i=1035",
+    "dov:typeRef": "org.opcfoundation.UA.LADS.SupportedPropertyType",
     "links": [
       {
         "rel": "tm:extends",
@@ -269,7 +269,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "LADS_ResultFileSetType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/LADS/;i=1022",
+    "dov:typeRef": "org.opcfoundation.UA.LADS.ResultFileSetType",
     "links": [
       {
         "rel": "tm:extends",
@@ -295,7 +295,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "LADS_ResultFileType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/LADS/;i=1001",
+    "dov:typeRef": "org.opcfoundation.UA.LADS.ResultFileType",
     "links": [
       {
         "rel": "tm:extends",
@@ -321,7 +321,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "LADS_ResultSetType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/LADS/;i=1020",
+    "dov:typeRef": "org.opcfoundation.UA.LADS.ResultSetType",
     "links": [
       {
         "rel": "tm:extends",
@@ -347,7 +347,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "LADS_ResultType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/LADS/;i=1021",
+    "dov:typeRef": "org.opcfoundation.UA.LADS.ResultType",
     "links": [
       {
         "rel": "tm:extends",
@@ -373,7 +373,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "LADS_CoverStateMachineType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/LADS/;i=1010",
+    "dov:typeRef": "org.opcfoundation.UA.LADS.CoverStateMachineType",
     "links": [
       {
         "rel": "tm:extends",
@@ -399,7 +399,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "LADS_LADSDeviceStateMachineType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/LADS/;i=1039",
+    "dov:typeRef": "org.opcfoundation.UA.LADS.LADSDeviceStateMachineType",
     "links": [
       {
         "rel": "tm:extends",
@@ -425,7 +425,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "LADS_FunctionalStateMachineType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/LADS/;i=1038",
+    "dov:typeRef": "org.opcfoundation.UA.LADS.FunctionalStateMachineType",
     "links": [
       {
         "rel": "tm:extends",
@@ -451,7 +451,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "LADS_RunningStateMachineType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/LADS/;i=1036",
+    "dov:typeRef": "org.opcfoundation.UA.LADS.RunningStateMachineType",
     "links": [
       {
         "rel": "tm:extends",
@@ -477,7 +477,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "LADS_MaintenanceSetType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/LADS/;i=1027",
+    "dov:typeRef": "org.opcfoundation.UA.LADS.MaintenanceSetType",
     "links": [
       {
         "rel": "tm:extends",
@@ -503,7 +503,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "LADS_MaintenanceTaskType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/LADS/;i=1028",
+    "dov:typeRef": "org.opcfoundation.UA.LADS.MaintenanceTaskType",
     "dov:isEvent": true,
     "links": [
       {
@@ -530,7 +530,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "LADS_LADSDeviceType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/LADS/;i=1002",
+    "dov:typeRef": "org.opcfoundation.UA.LADS.LADSDeviceType",
     "dov:isComposite": true,
     "links": [
       {
@@ -557,7 +557,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "LADS_LADSComponentType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/LADS/;i=1024",
+    "dov:typeRef": "org.opcfoundation.UA.LADS.LADSComponentType",
     "links": [
       {
         "rel": "tm:extends",
@@ -583,7 +583,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "LADS_FunctionalUnitType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/LADS/;i=1003",
+    "dov:typeRef": "org.opcfoundation.UA.LADS.FunctionalUnitType",
     "links": [
       {
         "rel": "tm:extends",
@@ -609,7 +609,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "LADS_FunctionType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/LADS/;i=1004",
+    "dov:typeRef": "org.opcfoundation.UA.LADS.FunctionType",
     "links": [
       {
         "rel": "tm:extends",
@@ -635,7 +635,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "LADS_BaseControlFunctionType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/LADS/;i=1007",
+    "dov:typeRef": "org.opcfoundation.UA.LADS.BaseControlFunctionType",
     "links": [
       {
         "rel": "tm:extends",
@@ -661,7 +661,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "LADS_AnalogControlFunctionType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/LADS/;i=1009",
+    "dov:typeRef": "org.opcfoundation.UA.LADS.AnalogControlFunctionType",
     "dov:isComposite": true,
     "links": [
       {
@@ -688,7 +688,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "LADS_AnalogControlFunctionWithTotalizerType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/LADS/;i=1014",
+    "dov:typeRef": "org.opcfoundation.UA.LADS.AnalogControlFunctionWithTotalizerType",
     "dov:isComposite": true,
     "links": [
       {
@@ -715,7 +715,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "LADS_DiscreteControlFunctionType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/LADS/;i=1017",
+    "dov:typeRef": "org.opcfoundation.UA.LADS.DiscreteControlFunctionType",
     "links": [
       {
         "rel": "tm:extends",
@@ -741,7 +741,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "LADS_MultiStateDiscreteControlFunctionType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/LADS/;i=1045",
+    "dov:typeRef": "org.opcfoundation.UA.LADS.MultiStateDiscreteControlFunctionType",
     "dov:isComposite": true,
     "links": [
       {
@@ -768,7 +768,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "LADS_TwoStateDiscreteControlFunctionType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/LADS/;i=1042",
+    "dov:typeRef": "org.opcfoundation.UA.LADS.TwoStateDiscreteControlFunctionType",
     "dov:isComposite": true,
     "links": [
       {
@@ -795,7 +795,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "LADS_BaseSensorFunctionType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/LADS/;i=1005",
+    "dov:typeRef": "org.opcfoundation.UA.LADS.BaseSensorFunctionType",
     "links": [
       {
         "rel": "tm:extends",
@@ -821,7 +821,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "LADS_AnalogScalarSensorFunctionType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/LADS/;i=1016",
+    "dov:typeRef": "org.opcfoundation.UA.LADS.AnalogScalarSensorFunctionType",
     "dov:isComposite": true,
     "links": [
       {
@@ -848,7 +848,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "LADS_AnalogSensorFunctionType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/LADS/;i=1046",
+    "dov:typeRef": "org.opcfoundation.UA.LADS.AnalogSensorFunctionType",
     "links": [
       {
         "rel": "tm:extends",
@@ -874,7 +874,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "LADS_DiscreteSensorFunctionType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/LADS/;i=1012",
+    "dov:typeRef": "org.opcfoundation.UA.LADS.DiscreteSensorFunctionType",
     "links": [
       {
         "rel": "tm:extends",
@@ -900,7 +900,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "LADS_CoverFunctionType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/LADS/;i=1011",
+    "dov:typeRef": "org.opcfoundation.UA.LADS.CoverFunctionType",
     "dov:isComposite": true,
     "links": [
       {
@@ -927,7 +927,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "LADS_ProgramManagerType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/LADS/;i=1006",
+    "dov:typeRef": "org.opcfoundation.UA.LADS.ProgramManagerType",
     "links": [
       {
         "rel": "tm:extends",
@@ -953,7 +953,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "LADS_TimerControlFunctionType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/LADS/;i=1013",
+    "dov:typeRef": "org.opcfoundation.UA.LADS.TimerControlFunctionType",
     "dov:isComposite": true,
     "links": [
       {
@@ -980,7 +980,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "LADS_AnalogScalarSensorFunctionWithCompensationType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/LADS/;i=1000",
+    "dov:typeRef": "org.opcfoundation.UA.LADS.AnalogScalarSensorFunctionWithCompensationType",
     "dov:isComposite": true,
     "links": [
       {
@@ -1007,7 +1007,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "LADS_ControllerTuningParameterType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/LADS/;i=1008",
+    "dov:typeRef": "org.opcfoundation.UA.LADS.ControllerTuningParameterType",
     "links": [
       {
         "rel": "tm:extends",
@@ -1033,7 +1033,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "LADS_PidControllerParameterType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/LADS/;i=1030",
+    "dov:typeRef": "org.opcfoundation.UA.LADS.PidControllerParameterType",
     "dov:isComposite": true,
     "links": [
       {
@@ -1060,7 +1060,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "LADS_TwoStateDiscreteSensorFunctionType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/LADS/;i=1031",
+    "dov:typeRef": "org.opcfoundation.UA.LADS.TwoStateDiscreteSensorFunctionType",
     "dov:isComposite": true,
     "links": [
       {
@@ -1087,7 +1087,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "LADS_MultiStateDiscreteSensorFunctionType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/LADS/;i=1037",
+    "dov:typeRef": "org.opcfoundation.UA.LADS.MultiStateDiscreteSensorFunctionType",
     "dov:isComposite": true,
     "links": [
       {
@@ -1114,7 +1114,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "LADS_FunctionalUnitStateMachineType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/LADS/;i=1043",
+    "dov:typeRef": "org.opcfoundation.UA.LADS.FunctionalUnitStateMachineType",
     "links": [
       {
         "rel": "tm:extends",
@@ -1140,7 +1140,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "LADS_ControlFunctionStateMachineType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/LADS/;i=1044",
+    "dov:typeRef": "org.opcfoundation.UA.LADS.ControlFunctionStateMachineType",
     "links": [
       {
         "rel": "tm:extends",
@@ -1166,7 +1166,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "LADS_MultiModeAnalogControlFunctionType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/LADS/;i=1047",
+    "dov:typeRef": "org.opcfoundation.UA.LADS.MultiModeAnalogControlFunctionType",
     "dov:isComposite": true,
     "links": [
       {
@@ -1193,7 +1193,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "LADS_ControllerParameterType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/LADS/;i=1048",
+    "dov:typeRef": "org.opcfoundation.UA.LADS.ControllerParameterType",
     "links": [
       {
         "rel": "tm:extends",
@@ -1219,7 +1219,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "LADS_ControllerParameterSetType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/LADS/;i=1049",
+    "dov:typeRef": "org.opcfoundation.UA.LADS.ControllerParameterSetType",
     "links": [
       {
         "rel": "tm:extends",
@@ -1245,7 +1245,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "LADS_AnalogControlFunctionWithComposedTargetValueType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/LADS/;i=1052",
+    "dov:typeRef": "org.opcfoundation.UA.LADS.AnalogControlFunctionWithComposedTargetValueType",
     "dov:isComposite": true,
     "links": [
       {
@@ -1272,7 +1272,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "LADS_MultiSensorFunctionType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/LADS/;i=1051",
+    "dov:typeRef": "org.opcfoundation.UA.LADS.MultiSensorFunctionType",
     "dov:isComposite": true,
     "links": [
       {
@@ -1299,7 +1299,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "LADS_AnalogControlFunctionWithRelativeTargetValueType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/LADS/;i=1029",
+    "dov:typeRef": "org.opcfoundation.UA.LADS.AnalogControlFunctionWithRelativeTargetValueType",
     "dov:isComposite": true,
     "links": [
       {
@@ -1326,7 +1326,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "LADS_AnalogArraySensorFunctionType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/LADS/;i=1015",
+    "dov:typeRef": "org.opcfoundation.UA.LADS.AnalogArraySensorFunctionType",
     "dov:isComposite": true,
     "links": [
       {
@@ -1353,7 +1353,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "LADS_VariableSetType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/LADS/;i=1041",
+    "dov:typeRef": "org.opcfoundation.UA.LADS.VariableSetType",
     "links": [
       {
         "rel": "tm:extends",
@@ -1379,7 +1379,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "LADS_LADSOperationModeStateMachineType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/LADS/;i=1050",
+    "dov:typeRef": "org.opcfoundation.UA.LADS.LADSOperationModeStateMachineType",
     "links": [
       {
         "rel": "tm:extends",
@@ -1405,7 +1405,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "OpcUaCore_BaseObjectType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/;i=58",
+    "dov:typeRef": "org.opcfoundation.UA.BaseObjectType",
     "links": [
     ],
     "schemaDefinitions": {
@@ -1426,7 +1426,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "OpcUaCore_FolderType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/;i=61",
+    "dov:typeRef": "org.opcfoundation.UA.FolderType",
     "links": [
       {
         "rel": "tm:extends",
@@ -1452,7 +1452,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "OpcUaCore_FiniteStateMachineType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/;i=2771",
+    "dov:typeRef": "org.opcfoundation.UA.FiniteStateMachineType",
     "links": [
       {
         "rel": "tm:extends",
@@ -1594,7 +1594,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "OpcUaCore_StateMachineType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/;i=2299",
+    "dov:typeRef": "org.opcfoundation.UA.StateMachineType",
     "dov:isComposite": true,
     "links": [
       {
@@ -1679,7 +1679,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "OpcUaCore_InstrumentDiagnosticAlarmType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/;i=18347",
+    "dov:typeRef": "org.opcfoundation.UA.InstrumentDiagnosticAlarmType",
     "dov:isEvent": true,
     "links": [
       {
@@ -1706,7 +1706,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "OpcUaCore_OffNormalAlarmType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/;i=10637",
+    "dov:typeRef": "org.opcfoundation.UA.OffNormalAlarmType",
     "dov:isEvent": true,
     "links": [
       {
@@ -1751,7 +1751,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "OpcUaCore_DiscreteAlarmType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/;i=10523",
+    "dov:typeRef": "org.opcfoundation.UA.DiscreteAlarmType",
     "dov:isEvent": true,
     "links": [
       {
@@ -1778,7 +1778,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "OpcUaCore_AlarmConditionType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/;i=2915",
+    "dov:typeRef": "org.opcfoundation.UA.AlarmConditionType",
     "dov:isEvent": true,
     "links": [
       {
@@ -1817,7 +1817,7 @@
       "GetGroupMemberships": {
         "output": {
           "type": "object",
-          "dov:typeRef": "nsu=http://opcfoundation.org/UA/;i=25154",
+          "dov:typeRef": "org.opcfoundation.UA.OutputArguments",
           "required": [ "Groups" ],
           "properties": {
             "Groups": {
@@ -1848,7 +1848,7 @@
       "PlaceInService2": {
         "input": {
           "type": "object",
-          "dov:typeRef": "nsu=http://opcfoundation.org/UA/;i=24323",
+          "dov:typeRef": "org.opcfoundation.UA.InputArguments",
           "required": [ "Comment" ],
           "properties": {
             "Comment": {
@@ -1876,7 +1876,7 @@
       "RemoveFromService2": {
         "input": {
           "type": "object",
-          "dov:typeRef": "nsu=http://opcfoundation.org/UA/;i=24321",
+          "dov:typeRef": "org.opcfoundation.UA.InputArguments",
           "required": [ "Comment" ],
           "properties": {
             "Comment": {
@@ -1904,7 +1904,7 @@
       "Reset2": {
         "input": {
           "type": "object",
-          "dov:typeRef": "nsu=http://opcfoundation.org/UA/;i=24325",
+          "dov:typeRef": "org.opcfoundation.UA.InputArguments",
           "required": [ "Comment" ],
           "properties": {
             "Comment": {
@@ -1941,7 +1941,7 @@
       "Suppress2": {
         "input": {
           "type": "object",
-          "dov:typeRef": "nsu=http://opcfoundation.org/UA/;i=24317",
+          "dov:typeRef": "org.opcfoundation.UA.InputArguments",
           "required": [ "Comment" ],
           "properties": {
             "Comment": {
@@ -1969,7 +1969,7 @@
       "Unsuppress2": {
         "input": {
           "type": "object",
-          "dov:typeRef": "nsu=http://opcfoundation.org/UA/;i=24319",
+          "dov:typeRef": "org.opcfoundation.UA.InputArguments",
           "required": [ "Comment" ],
           "properties": {
             "Comment": {
@@ -2294,7 +2294,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "OpcUaCore_AcknowledgeableConditionType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/;i=2881",
+    "dov:typeRef": "org.opcfoundation.UA.AcknowledgeableConditionType",
     "dov:isEvent": true,
     "links": [
       {
@@ -2321,7 +2321,7 @@
       "Acknowledge": {
         "input": {
           "type": "object",
-          "dov:typeRef": "nsu=http://opcfoundation.org/UA/;i=9112",
+          "dov:typeRef": "org.opcfoundation.UA.InputArguments",
           "required": [ "EventId", "Comment" ],
           "properties": {
             "EventId": {
@@ -2346,7 +2346,7 @@
       "Confirm": {
         "input": {
           "type": "object",
-          "dov:typeRef": "nsu=http://opcfoundation.org/UA/;i=9114",
+          "dov:typeRef": "org.opcfoundation.UA.InputArguments",
           "required": [ "EventId", "Comment" ],
           "properties": {
             "EventId": {
@@ -2452,7 +2452,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "OpcUaCore_ConditionType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/;i=2782",
+    "dov:typeRef": "org.opcfoundation.UA.ConditionType",
     "dov:isEvent": true,
     "links": [
       {
@@ -2479,7 +2479,7 @@
       "AddComment": {
         "input": {
           "type": "object",
-          "dov:typeRef": "nsu=http://opcfoundation.org/UA/;i=9030",
+          "dov:typeRef": "org.opcfoundation.UA.InputArguments",
           "required": [ "EventId", "Comment" ],
           "properties": {
             "EventId": {
@@ -2504,7 +2504,7 @@
       "ConditionRefresh": {
         "input": {
           "type": "object",
-          "dov:typeRef": "nsu=http://opcfoundation.org/UA/;i=3876",
+          "dov:typeRef": "org.opcfoundation.UA.InputArguments",
           "required": [ "SubscriptionId" ],
           "properties": {
             "SubscriptionId": {
@@ -2526,7 +2526,7 @@
       "ConditionRefresh2": {
         "input": {
           "type": "object",
-          "dov:typeRef": "nsu=http://opcfoundation.org/UA/;i=12913",
+          "dov:typeRef": "org.opcfoundation.UA.InputArguments",
           "required": [ "SubscriptionId", "MonitoredItemId" ],
           "properties": {
             "SubscriptionId": {
@@ -2785,7 +2785,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "OpcUaCore_BaseEventType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/;i=2041",
+    "dov:typeRef": "org.opcfoundation.UA.BaseEventType",
     "links": [
       {
         "rel": "tm:extends",
@@ -2881,7 +2881,7 @@
       "LocalTime": {
         "title": "TimeZoneDataType",
         "type": "object",
-        "dov:typeRef": "nsu=http://opcfoundation.org/UA/;i=8912",
+        "dov:typeRef": "org.opcfoundation.UA.TimeZoneDataType",
         "required": [ "Offset", "DaylightSavingInOffset" ],
         "properties": {
           "Offset": {
@@ -2985,7 +2985,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "OpcUaCore_ShelvedStateMachineType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/;i=2929",
+    "dov:typeRef": "org.opcfoundation.UA.ShelvedStateMachineType",
     "links": [
       {
         "rel": "tm:extends",
@@ -3069,7 +3069,7 @@
       "OneShotShelve2": {
         "input": {
           "type": "object",
-          "dov:typeRef": "nsu=http://opcfoundation.org/UA/;i=24761",
+          "dov:typeRef": "org.opcfoundation.UA.InputArguments",
           "required": [ "Comment" ],
           "properties": {
             "Comment": {
@@ -3088,7 +3088,7 @@
       "TimedShelve": {
         "input": {
           "type": "object",
-          "dov:typeRef": "nsu=http://opcfoundation.org/UA/;i=2991",
+          "dov:typeRef": "org.opcfoundation.UA.InputArguments",
           "required": [ "ShelvingTime" ],
           "properties": {
             "ShelvingTime": {
@@ -3108,7 +3108,7 @@
       "TimedShelve2": {
         "input": {
           "type": "object",
-          "dov:typeRef": "nsu=http://opcfoundation.org/UA/;i=24757",
+          "dov:typeRef": "org.opcfoundation.UA.InputArguments",
           "required": [ "ShelvingTime", "Comment" ],
           "properties": {
             "ShelvingTime": {
@@ -3140,7 +3140,7 @@
       "Unshelve2": {
         "input": {
           "type": "object",
-          "dov:typeRef": "nsu=http://opcfoundation.org/UA/;i=24759",
+          "dov:typeRef": "org.opcfoundation.UA.InputArguments",
           "required": [ "Comment" ],
           "properties": {
             "Comment": {
@@ -3183,7 +3183,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "OpcUaCore_StateType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/;i=2307",
+    "dov:typeRef": "org.opcfoundation.UA.StateType",
     "links": [
       {
         "rel": "tm:extends",
@@ -3229,7 +3229,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "OpcUaCore_TransitionType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/;i=2310",
+    "dov:typeRef": "org.opcfoundation.UA.TransitionType",
     "links": [
       {
         "rel": "tm:extends",
@@ -3275,7 +3275,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "OpcUaCore_AlarmGroupType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/;i=16405",
+    "dov:typeRef": "org.opcfoundation.UA.AlarmGroupType",
     "links": [
       {
         "rel": "tm:extends",
@@ -3301,7 +3301,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "Machinery_MachineComponentsType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/Machinery/;i=1006",
+    "dov:typeRef": "org.opcfoundation.UA.Machinery.MachineComponentsType",
     "dov:isComposite": true,
     "links": [
       {
@@ -3363,7 +3363,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "Machinery_MachineryOperationCounterType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/Machinery/;i=1009",
+    "dov:typeRef": "org.opcfoundation.UA.Machinery.MachineryOperationCounterType",
     "dov:isComposite": true,
     "links": [
       {
@@ -3476,7 +3476,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "Machinery_MachineryOperationModeStateMachineType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/Machinery/;i=1008",
+    "dov:typeRef": "org.opcfoundation.UA.Machinery.MachineryOperationModeStateMachineType",
     "links": [
       {
         "rel": "tm:extends",
@@ -3651,7 +3651,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "DI_FunctionalGroupType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/DI/;i=1005",
+    "dov:typeRef": "org.opcfoundation.UA.DI.FunctionalGroupType",
     "links": [
       {
         "rel": "tm:extends",
@@ -3722,7 +3722,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "DI_MaintenanceRequiredAlarmType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/DI/;i=15739",
+    "dov:typeRef": "org.opcfoundation.UA.DI.MaintenanceRequiredAlarmType",
     "dov:isEvent": true,
     "links": [
       {
@@ -3749,7 +3749,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "DI_DeviceHealthDiagnosticAlarmType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/DI/;i=15143",
+    "dov:typeRef": "org.opcfoundation.UA.DI.DeviceHealthDiagnosticAlarmType",
     "dov:isEvent": true,
     "links": [
       {
@@ -3776,7 +3776,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "DI_DeviceType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/DI/;i=1002",
+    "dov:typeRef": "org.opcfoundation.UA.DI.DeviceType",
     "links": [
       {
         "rel": "tm:extends",
@@ -3823,7 +3823,7 @@
     "schemaDefinitions": {
       "DeviceHealthEnumeration": {
         "type": "object",
-        "dov:typeRef": "nsu=http://opcfoundation.org/UA/DI/;i=6244",
+        "dov:typeRef": "org.opcfoundation.UA.DI.DeviceHealthEnumeration",
         "const": {
           "NORMAL": 0,
           "FAILURE": 1,
@@ -3885,7 +3885,7 @@
       "DeviceHealth": {
         "dov:namespace": "http://opcfoundation.org/UA/DI/",
         "title": "DeviceHealthEnumeration",
-        "dov:typeRef": "nsu=http://opcfoundation.org/UA/DI/;i=6244",
+        "dov:typeRef": "org.opcfoundation.UA.DI.DeviceHealthEnumeration",
         "type": "integer",
         "minimum": -2147483648,
         "maximum": 2147483647,
@@ -4038,7 +4038,7 @@
         "dov:namespace": "http://opcfoundation.org/UA/DI/",
         "data": {
           "title": "DeviceHealthEnumeration",
-          "dov:typeRef": "nsu=http://opcfoundation.org/UA/DI/;i=6244",
+          "dov:typeRef": "org.opcfoundation.UA.DI.DeviceHealthEnumeration",
           "type": "integer",
           "minimum": -2147483648,
           "maximum": 2147483647
@@ -4062,7 +4062,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "DI_ComponentType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/DI/;i=15063",
+    "dov:typeRef": "org.opcfoundation.UA.DI.ComponentType",
     "links": [
       {
         "rel": "tm:extends",
@@ -4265,7 +4265,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "DI_TopologyElementType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/DI/;i=1001",
+    "dov:typeRef": "org.opcfoundation.UA.DI.TopologyElementType",
     "links": [
       {
         "rel": "tm:extends",
@@ -4321,7 +4321,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "DI_LockingServicesType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/DI/;i=6388",
+    "dov:typeRef": "org.opcfoundation.UA.DI.LockingServicesType",
     "links": [
       {
         "rel": "tm:extends",
@@ -4343,7 +4343,7 @@
         "dov:namespace": "http://opcfoundation.org/UA/DI/",
         "output": {
           "type": "object",
-          "dov:typeRef": "nsu=http://opcfoundation.org/UA/DI/;i=6401",
+          "dov:typeRef": "org.opcfoundation.UA.OutputArguments",
           "required": [ "BreakLockStatus" ],
           "properties": {
             "BreakLockStatus": {
@@ -4365,7 +4365,7 @@
         "dov:namespace": "http://opcfoundation.org/UA/DI/",
         "output": {
           "type": "object",
-          "dov:typeRef": "nsu=http://opcfoundation.org/UA/DI/;i=6399",
+          "dov:typeRef": "org.opcfoundation.UA.OutputArguments",
           "required": [ "ExitLockStatus" ],
           "properties": {
             "ExitLockStatus": {
@@ -4387,7 +4387,7 @@
         "dov:namespace": "http://opcfoundation.org/UA/DI/",
         "input": {
           "type": "object",
-          "dov:typeRef": "nsu=http://opcfoundation.org/UA/DI/;i=6394",
+          "dov:typeRef": "org.opcfoundation.UA.InputArguments",
           "required": [ "Context" ],
           "properties": {
             "Context": {
@@ -4397,7 +4397,7 @@
         },
         "output": {
           "type": "object",
-          "dov:typeRef": "nsu=http://opcfoundation.org/UA/DI/;i=6395",
+          "dov:typeRef": "org.opcfoundation.UA.OutputArguments",
           "required": [ "InitLockStatus" ],
           "properties": {
             "InitLockStatus": {
@@ -4419,7 +4419,7 @@
         "dov:namespace": "http://opcfoundation.org/UA/DI/",
         "output": {
           "type": "object",
-          "dov:typeRef": "nsu=http://opcfoundation.org/UA/DI/;i=6397",
+          "dov:typeRef": "org.opcfoundation.UA.OutputArguments",
           "required": [ "RenewLockStatus" ],
           "properties": {
             "RenewLockStatus": {
@@ -4512,7 +4512,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "DI_ConnectionPointType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/DI/;i=6308",
+    "dov:typeRef": "org.opcfoundation.UA.DI.ConnectionPointType",
     "links": [
       {
         "rel": "tm:extends",
@@ -4557,7 +4557,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "DI_ProtocolType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/DI/;i=1006",
+    "dov:typeRef": "org.opcfoundation.UA.DI.ProtocolType",
     "links": [
       {
         "rel": "tm:extends",
@@ -4583,7 +4583,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "DI_NetworkType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/DI/;i=6247",
+    "dov:typeRef": "org.opcfoundation.UA.DI.NetworkType",
     "links": [
       {
         "rel": "tm:extends",

@@ -46,7 +46,7 @@
 <# ix1 = 1; foreach (OpcUaDataTypeEnum dataTypeEnum in this.dataTypeEnums) { #>
     "<#=dataTypeEnum.EffectiveName#>": {
       "type": "object",
-      "dov:typeRef": "nsu=<#=dataTypeEnum.NodeIdNamespace#>;i=<#=dataTypeEnum.NodeId.NodeIndex#>",
+      "dov:typeRef": "<#=dataTypeEnum.GetTypeRef()#>",
       "const": {
 <# int ix2 = 1; foreach (KeyValuePair<string, OpcUaEnumValue> enumValue in dataTypeEnum.EnumValues) { #>
         "<#=enumValue.Value.SymbolicName ?? enumValue.Key#>": <#=enumValue.Value.Value#><#=ix2 < dataTypeEnum.EnumValues.Count ? "," : ""#>

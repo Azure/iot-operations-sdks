@@ -8,7 +8,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "Machinery_IMachineTagNameplateType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/Machinery/;i=1011",
+    "dov:typeRef": "org.opcfoundation.UA.Machinery.IMachineTagNameplateType",
     "links": [
       {
         "rel": "tm:extends",
@@ -64,7 +64,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "Machinery_IMachineryEquipmentType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/Machinery/;i=1007",
+    "dov:typeRef": "org.opcfoundation.UA.Machinery.IMachineryEquipmentType",
     "links": [
       {
         "rel": "tm:extends",
@@ -170,7 +170,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "Machinery_IMachineryItemVendorNameplateType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/Machinery/;i=1003",
+    "dov:typeRef": "org.opcfoundation.UA.Machinery.IMachineryItemVendorNameplateType",
     "links": [
       {
         "rel": "tm:extends",
@@ -273,7 +273,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "Machinery_IMachineVendorNameplateType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/Machinery/;i=1010",
+    "dov:typeRef": "org.opcfoundation.UA.Machinery.IMachineVendorNameplateType",
     "links": [
       {
         "rel": "tm:extends",
@@ -319,7 +319,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "Machinery_MachineryItemIdentificationType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/Machinery/;i=1004",
+    "dov:typeRef": "org.opcfoundation.UA.Machinery.MachineryItemIdentificationType",
     "links": [
       {
         "rel": "tm:extends",
@@ -571,7 +571,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "Machinery_MachineIdentificationType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/Machinery/;i=1012",
+    "dov:typeRef": "org.opcfoundation.UA.Machinery.MachineIdentificationType",
     "dov:isComposite": true,
     "links": [
       {
@@ -653,7 +653,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "Machinery_MachineryComponentIdentificationType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/Machinery/;i=1005",
+    "dov:typeRef": "org.opcfoundation.UA.Machinery.MachineryComponentIdentificationType",
     "dov:isComposite": true,
     "links": [
       {
@@ -722,7 +722,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "Machinery_MachineryOperationCounterType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/Machinery/;i=1009",
+    "dov:typeRef": "org.opcfoundation.UA.Machinery.MachineryOperationCounterType",
     "dov:isComposite": true,
     "links": [
       {
@@ -835,7 +835,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "Machinery_MachineryEquipmentFolderType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/Machinery/;i=1013",
+    "dov:typeRef": "org.opcfoundation.UA.Machinery.MachineryEquipmentFolderType",
     "dov:isComposite": true,
     "links": [
       {
@@ -897,7 +897,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "Machinery_MachineryLifetimeCounterType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/Machinery/;i=1015",
+    "dov:typeRef": "org.opcfoundation.UA.Machinery.MachineryLifetimeCounterType",
     "dov:isComposite": true,
     "links": [
       {
@@ -990,7 +990,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "Machinery_MonitoringType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/Machinery/;i=1014",
+    "dov:typeRef": "org.opcfoundation.UA.Machinery.MonitoringType",
     "dov:isComposite": true,
     "links": [
       {
@@ -1060,7 +1060,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "Machinery_NotificationsType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/Machinery/;i=1017",
+    "dov:typeRef": "org.opcfoundation.UA.Machinery.NotificationsType",
     "dov:isComposite": true,
     "links": [
       {
@@ -1116,7 +1116,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "Machinery_MachineComponentsType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/Machinery/;i=1006",
+    "dov:typeRef": "org.opcfoundation.UA.Machinery.MachineComponentsType",
     "dov:isComposite": true,
     "links": [
       {
@@ -1178,7 +1178,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "Machinery_MachineryItemState_StateMachineType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/Machinery/;i=1002",
+    "dov:typeRef": "org.opcfoundation.UA.Machinery.MachineryItemState_StateMachineType",
     "links": [
       {
         "rel": "tm:extends",
@@ -1353,7 +1353,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "Machinery_MachineryOperationModeStateMachineType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/Machinery/;i=1008",
+    "dov:typeRef": "org.opcfoundation.UA.Machinery.MachineryOperationModeStateMachineType",
     "links": [
       {
         "rel": "tm:extends",

@@ -8,7 +8,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "Weihenstephan_WSMachineType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/Weihenstephan/;i=1000",
+    "dov:typeRef": "org.opcfoundation.UA.Weihenstephan.WSMachineType",
     "dov:isComposite": true,
     "links": [
       {
@@ -35,7 +35,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "Weihenstephan_WSBaseObjectType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/Weihenstephan/;i=1001",
+    "dov:typeRef": "org.opcfoundation.UA.Weihenstephan.WSBaseObjectType",
     "dov:isComposite": true,
     "links": [
       {
@@ -62,7 +62,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "Weihenstephan_WSAlarmType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/Weihenstephan/;i=1002",
+    "dov:typeRef": "org.opcfoundation.UA.Weihenstephan.WSAlarmType",
     "dov:isComposite": true,
     "links": [
       {
@@ -89,7 +89,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "Weihenstephan_WSWarningType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/Weihenstephan/;i=1003",
+    "dov:typeRef": "org.opcfoundation.UA.Weihenstephan.WSWarningType",
     "dov:isComposite": true,
     "links": [
       {
@@ -116,7 +116,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "Weihenstephan_WSBaseStateMachineType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/Weihenstephan/;i=1004",
+    "dov:typeRef": "org.opcfoundation.UA.Weihenstephan.WSBaseStateMachineType",
     "dov:isComposite": true,
     "links": [
       {
@@ -143,7 +143,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "Weihenstephan_WSExecuteStateMachineType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/Weihenstephan/;i=1005",
+    "dov:typeRef": "org.opcfoundation.UA.Weihenstephan.WSExecuteStateMachineType",
     "dov:isComposite": true,
     "links": [
       {
@@ -170,7 +170,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "Weihenstephan_WSHeldStateMachineType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/Weihenstephan/;i=1006",
+    "dov:typeRef": "org.opcfoundation.UA.Weihenstephan.WSHeldStateMachineType",
     "links": [
       {
         "rel": "tm:extends",
@@ -196,7 +196,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "Weihenstephan_WSSuspendedStateMachineType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/Weihenstephan/;i=1007",
+    "dov:typeRef": "org.opcfoundation.UA.Weihenstephan.WSSuspendedStateMachineType",
     "links": [
       {
         "rel": "tm:extends",
@@ -222,7 +222,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "OpcUaCore_BaseObjectType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/;i=58",
+    "dov:typeRef": "org.opcfoundation.UA.BaseObjectType",
     "links": [
     ],
     "schemaDefinitions": {
@@ -243,7 +243,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "OpcUaCore_FiniteStateMachineType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/;i=2771",
+    "dov:typeRef": "org.opcfoundation.UA.FiniteStateMachineType",
     "links": [
       {
         "rel": "tm:extends",
@@ -385,7 +385,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "OpcUaCore_StateMachineType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/;i=2299",
+    "dov:typeRef": "org.opcfoundation.UA.StateMachineType",
     "dov:isComposite": true,
     "links": [
       {
@@ -470,7 +470,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "OpcUaCore_StateType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/;i=2307",
+    "dov:typeRef": "org.opcfoundation.UA.StateType",
     "links": [
       {
         "rel": "tm:extends",
@@ -516,7 +516,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "OpcUaCore_TransitionType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/;i=2310",
+    "dov:typeRef": "org.opcfoundation.UA.TransitionType",
     "links": [
       {
         "rel": "tm:extends",
@@ -562,7 +562,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "PackML_PackMLBaseStateMachineType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/PackML/;i=3",
+    "dov:typeRef": "org.opcfoundation.UA.PackML.PackMLBaseStateMachineType",
     "links": [
       {
         "rel": "tm:extends",
@@ -720,7 +720,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "PackML_PackMLMachineStateMachineType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/PackML/;i=2",
+    "dov:typeRef": "org.opcfoundation.UA.PackML.PackMLMachineStateMachineType",
     "links": [
       {
         "rel": "tm:extends",
@@ -890,7 +890,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "PackML_PackMLExecuteStateMachineType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/PackML/;i=1",
+    "dov:typeRef": "org.opcfoundation.UA.PackML.PackMLExecuteStateMachineType",
     "links": [
       {
         "rel": "tm:extends",
@@ -1123,7 +1123,7 @@
         "dov:namespace": "http://opcfoundation.org/UA/PackML/",
         "input": {
           "type": "object",
-          "dov:typeRef": "nsu=http://opcfoundation.org/UA/PackML/;i=342",
+          "dov:typeRef": "org.opcfoundation.UA.InputArguments",
           "required": [ "Parameter" ],
           "properties": {
             "Parameter": {
@@ -1132,7 +1132,7 @@
               "items": {
                 "title": "PackMLDescriptorDataType",
                 "type": "object",
-                "dov:typeRef": "nsu=http://opcfoundation.org/UA/PackML/;i=16",
+                "dov:typeRef": "org.opcfoundation.UA.PackML.PackMLDescriptorDataType",
                 "required": [ "ID", "Name", "Unit", "Value" ],
                 "properties": {
                   "ID": {
@@ -1149,7 +1149,7 @@
                     "title": "EUInformation",
                     "description": "OPC UA engineering unit information",
                     "type": "object",
-                    "dov:typeRef": "nsu=http://opcfoundation.org/UA/;i=887",
+                    "dov:typeRef": "org.opcfoundation.UA.EUInformation",
                     "required": [ "NamespaceUri", "UnitId", "DisplayName", "Description" ],
                     "properties": {
                       "NamespaceUri": {

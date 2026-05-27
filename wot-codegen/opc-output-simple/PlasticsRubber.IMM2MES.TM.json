@@ -8,7 +8,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "PlasticsRubber_IMM2MES_IMM_MES_InterfaceType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/PlasticsRubber/IMM2MES/;i=1007",
+    "dov:typeRef": "org.opcfoundation.UA.PlasticsRubber.IMM2MES.IMM_MES_InterfaceType",
     "dov:isComposite": true,
     "links": [
       {
@@ -95,7 +95,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "PlasticsRubber_IMM2MES_InjectionUnitCycleParametersType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/PlasticsRubber/IMM2MES/;i=1039",
+    "dov:typeRef": "org.opcfoundation.UA.PlasticsRubber.IMM2MES.InjectionUnitCycleParametersType",
     "links": [
       {
         "rel": "tm:extends",
@@ -1167,7 +1167,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "PlasticsRubber_IMM2MES_InjectionUnitsType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/PlasticsRubber/IMM2MES/;i=1016",
+    "dov:typeRef": "org.opcfoundation.UA.PlasticsRubber.IMM2MES.InjectionUnitsType",
     "links": [
       {
         "rel": "tm:extends",
@@ -1217,7 +1217,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "PlasticsRubber_IMM2MES_InjectionUnitType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/PlasticsRubber/IMM2MES/;i=1028",
+    "dov:typeRef": "org.opcfoundation.UA.PlasticsRubber.IMM2MES.InjectionUnitType",
     "links": [
       {
         "rel": "tm:extends",

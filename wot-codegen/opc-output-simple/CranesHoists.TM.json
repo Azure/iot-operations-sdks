@@ -8,7 +8,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "CranesHoists_BrakeType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/CranesHoists/;i=1556",
+    "dov:typeRef": "org.opcfoundation.UA.CranesHoists.BrakeType",
     "links": [
       {
         "rel": "tm:extends",
@@ -34,7 +34,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "CranesHoists_CraneAxisType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/CranesHoists/;i=1369",
+    "dov:typeRef": "org.opcfoundation.UA.CranesHoists.CraneAxisType",
     "dov:isComposite": true,
     "links": [
       {
@@ -61,7 +61,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "CranesHoists_CraneMotionDeviceType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/CranesHoists/;i=1392",
+    "dov:typeRef": "org.opcfoundation.UA.CranesHoists.CraneMotionDeviceType",
     "links": [
       {
         "rel": "tm:extends",
@@ -87,7 +87,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "CranesHoists_CraneMotionDeviceSystemType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/CranesHoists/;i=2112",
+    "dov:typeRef": "org.opcfoundation.UA.CranesHoists.CraneMotionDeviceSystemType",
     "dov:isComposite": true,
     "links": [
       {
@@ -114,7 +114,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "CranesHoists_CraneMotorType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/CranesHoists/;i=1262",
+    "dov:typeRef": "org.opcfoundation.UA.CranesHoists.CraneMotorType",
     "links": [
       {
         "rel": "tm:extends",
@@ -147,7 +147,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "CranesHoists_ProtectiveFunctionType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/CranesHoists/;i=1462",
+    "dov:typeRef": "org.opcfoundation.UA.CranesHoists.ProtectiveFunctionType",
     "links": [
       {
         "rel": "tm:extends",

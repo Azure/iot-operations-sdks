@@ -8,7 +8,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "DEXPI_DEXPISupplementaryDataType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/DEXPI/;i=1061",
+    "dov:typeRef": "org.opcfoundation.UA.DEXPI.DEXPISupplementaryDataType",
     "links": [
       {
         "rel": "tm:extends",
@@ -130,7 +130,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "DEXPI_BaseDEXPIObjectType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/DEXPI/;i=1060",
+    "dov:typeRef": "org.opcfoundation.UA.DEXPI.BaseDEXPIObjectType",
     "links": [
       {
         "rel": "tm:extends",
@@ -156,7 +156,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "DEXPI_PlantModelType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/DEXPI/;i=1068",
+    "dov:typeRef": "org.opcfoundation.UA.DEXPI.PlantModelType",
     "dov:isComposite": true,
     "links": [
       {
@@ -201,7 +201,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "DEXPI_MetaDataType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/DEXPI/;i=1079",
+    "dov:typeRef": "org.opcfoundation.UA.DEXPI.MetaDataType",
     "links": [
       {
         "rel": "tm:extends",
@@ -212,7 +212,7 @@
     "schemaDefinitions": {
       "ConfidentialityClassification": {
         "type": "object",
-        "dov:typeRef": "nsu=http://opcfoundation.org/UA/DEXPI/;i=1012",
+        "dov:typeRef": "org.opcfoundation.UA.DEXPI.ConfidentialityClassification",
         "const": {
           "ConfidentialInformation": 0,
           "NonConfidentialInformation": 1
@@ -434,7 +434,7 @@
         "dov:namespace": "http://opcfoundation.org/UA/DEXPI/",
         "title": "ConfidentialityClassification",
         "description": "The confidentiality of the drawing.",
-        "dov:typeRef": "nsu=http://opcfoundation.org/UA/DEXPI/;i=1012",
+        "dov:typeRef": "org.opcfoundation.UA.DEXPI.ConfidentialityClassification",
         "type": "integer",
         "minimum": -2147483648,
         "maximum": 2147483647,
@@ -1069,7 +1069,7 @@
         "data": {
           "title": "ConfidentialityClassification",
           "description": "The confidentiality of the drawing.",
-          "dov:typeRef": "nsu=http://opcfoundation.org/UA/DEXPI/;i=1012",
+          "dov:typeRef": "org.opcfoundation.UA.DEXPI.ConfidentialityClassification",
           "type": "integer",
           "minimum": -2147483648,
           "maximum": 2147483647
@@ -1459,7 +1459,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "DEXPI_PlantStructureItemType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/DEXPI/;i=1308",
+    "dov:typeRef": "org.opcfoundation.UA.DEXPI.PlantStructureItemType",
     "links": [
       {
         "rel": "tm:extends",
@@ -1485,7 +1485,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "DEXPI_PlantType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/DEXPI/;i=1072",
+    "dov:typeRef": "org.opcfoundation.UA.DEXPI.PlantType",
     "links": [
       {
         "rel": "tm:extends",
@@ -1547,7 +1547,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "DEXPI_ActuatingSystemType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/DEXPI/;i=1200",
+    "dov:typeRef": "org.opcfoundation.UA.DEXPI.ActuatingSystemType",
     "links": [
       {
         "rel": "tm:extends",
@@ -1672,7 +1672,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "DEXPI_ControlledActuatorType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/DEXPI/;i=1258",
+    "dov:typeRef": "org.opcfoundation.UA.DEXPI.ControlledActuatorType",
     "links": [
       {
         "rel": "tm:extends",
@@ -1683,7 +1683,7 @@
     "schemaDefinitions": {
       "FailActionClassification": {
         "type": "object",
-        "dov:typeRef": "nsu=http://opcfoundation.org/UA/DEXPI/;i=1050",
+        "dov:typeRef": "org.opcfoundation.UA.DEXPI.FailActionClassification",
         "const": {
           "FailClose": 0,
           "FailOpen": 1,
@@ -1766,7 +1766,7 @@
         "dov:namespace": "http://opcfoundation.org/UA/DEXPI/",
         "title": "FailActionClassification",
         "description": "The fail action of the ControlledActuator.",
-        "dov:typeRef": "nsu=http://opcfoundation.org/UA/DEXPI/;i=1050",
+        "dov:typeRef": "org.opcfoundation.UA.DEXPI.FailActionClassification",
         "type": "integer",
         "minimum": -2147483648,
         "maximum": 2147483647,
@@ -1837,7 +1837,7 @@
         "data": {
           "title": "FailActionClassification",
           "description": "The fail action of the ControlledActuator.",
-          "dov:typeRef": "nsu=http://opcfoundation.org/UA/DEXPI/;i=1050",
+          "dov:typeRef": "org.opcfoundation.UA.DEXPI.FailActionClassification",
           "type": "integer",
           "minimum": -2147483648,
           "maximum": 2147483647
@@ -1875,7 +1875,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "DEXPI_ShutOffValveReferenceType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/DEXPI/;i=1197",
+    "dov:typeRef": "org.opcfoundation.UA.DEXPI.ShutOffValveReferenceType",
     "links": [
       {
         "rel": "tm:extends",
@@ -1950,7 +1950,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "DEXPI_PositionerType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/DEXPI/;i=1127",
+    "dov:typeRef": "org.opcfoundation.UA.DEXPI.PositionerType",
     "links": [
       {
         "rel": "tm:extends",
@@ -2057,7 +2057,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "DEXPI_InstrumentationLoopFunctionType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/DEXPI/;i=1188",
+    "dov:typeRef": "org.opcfoundation.UA.DEXPI.InstrumentationLoopFunctionType",
     "links": [
       {
         "rel": "tm:extends",
@@ -2132,7 +2132,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "DEXPI_PipingNetworkSystemType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/DEXPI/;i=1726",
+    "dov:typeRef": "org.opcfoundation.UA.DEXPI.PipingNetworkSystemType",
     "links": [
       {
         "rel": "tm:extends",
@@ -2155,7 +2155,7 @@
     "schemaDefinitions": {
       "HeatTracingTypeClassification": {
         "type": "object",
-        "dov:typeRef": "nsu=http://opcfoundation.org/UA/DEXPI/;i=1038",
+        "dov:typeRef": "org.opcfoundation.UA.DEXPI.HeatTracingTypeClassification",
         "const": {
           "ElectricalHeatTracingSystem": 0,
           "HeatTracingSystem": 1,
@@ -2189,7 +2189,7 @@
       },
       "JacketedPipeClassification": {
         "type": "object",
-        "dov:typeRef": "nsu=http://opcfoundation.org/UA/DEXPI/;i=1052",
+        "dov:typeRef": "org.opcfoundation.UA.DEXPI.JacketedPipeClassification",
         "const": {
           "JacketedPipe": 0,
           "UnjacketedPipe": 1
@@ -2208,7 +2208,7 @@
       },
       "NominalDiameterStandardClassification": {
         "type": "object",
-        "dov:typeRef": "nsu=http://opcfoundation.org/UA/DEXPI/;i=1032",
+        "dov:typeRef": "org.opcfoundation.UA.DEXPI.NominalDiameterStandardClassification",
         "const": {
           "Din2448ObjectDn100": 0,
           "Din2448ObjectDn125": 1,
@@ -2542,7 +2542,7 @@
       },
       "OnHoldClassification": {
         "type": "object",
-        "dov:typeRef": "nsu=http://opcfoundation.org/UA/DEXPI/;i=1008",
+        "dov:typeRef": "org.opcfoundation.UA.DEXPI.OnHoldClassification",
         "const": {
           "NotOnHold": 0,
           "OnHold": 1
@@ -2620,7 +2620,7 @@
         "dov:namespace": "http://opcfoundation.org/UA/DEXPI/",
         "title": "HeatTracingTypeClassification",
         "description": "A specialization indicating the heat tracing type related to the PipingNetworkSystem.",
-        "dov:typeRef": "nsu=http://opcfoundation.org/UA/DEXPI/;i=1038",
+        "dov:typeRef": "org.opcfoundation.UA.DEXPI.HeatTracingTypeClassification",
         "type": "integer",
         "minimum": -2147483648,
         "maximum": 2147483647,
@@ -2698,7 +2698,7 @@
         "dov:namespace": "http://opcfoundation.org/UA/DEXPI/",
         "title": "JacketedPipeClassification",
         "description": "A specialization indicating whether the PipingNetworkSystem is jacketed.",
-        "dov:typeRef": "nsu=http://opcfoundation.org/UA/DEXPI/;i=1052",
+        "dov:typeRef": "org.opcfoundation.UA.DEXPI.JacketedPipeClassification",
         "type": "integer",
         "minimum": -2147483648,
         "maximum": 2147483647,
@@ -2812,7 +2812,7 @@
         "dov:namespace": "http://opcfoundation.org/UA/DEXPI/",
         "title": "NominalDiameterStandardClassification",
         "description": "The nominal diameter of the PipingNetworkSystem, given as a reference to a nominal  diameter standard and value.",
-        "dov:typeRef": "nsu=http://opcfoundation.org/UA/DEXPI/;i=1032",
+        "dov:typeRef": "org.opcfoundation.UA.DEXPI.NominalDiameterStandardClassification",
         "type": "integer",
         "minimum": -2147483648,
         "maximum": 2147483647,
@@ -2852,7 +2852,7 @@
         "dov:namespace": "http://opcfoundation.org/UA/DEXPI/",
         "title": "OnHoldClassification",
         "description": "A specialization indicating if the PipingNetworkSystem is on hold or not.",
-        "dov:typeRef": "nsu=http://opcfoundation.org/UA/DEXPI/;i=1008",
+        "dov:typeRef": "org.opcfoundation.UA.DEXPI.OnHoldClassification",
         "type": "integer",
         "minimum": -2147483648,
         "maximum": 2147483647,
@@ -2941,7 +2941,7 @@
         "data": {
           "title": "HeatTracingTypeClassification",
           "description": "A specialization indicating the heat tracing type related to the PipingNetworkSystem.",
-          "dov:typeRef": "nsu=http://opcfoundation.org/UA/DEXPI/;i=1038",
+          "dov:typeRef": "org.opcfoundation.UA.DEXPI.HeatTracingTypeClassification",
           "type": "integer",
           "minimum": -2147483648,
           "maximum": 2147483647
@@ -3003,7 +3003,7 @@
         "data": {
           "title": "JacketedPipeClassification",
           "description": "A specialization indicating whether the PipingNetworkSystem is jacketed.",
-          "dov:typeRef": "nsu=http://opcfoundation.org/UA/DEXPI/;i=1052",
+          "dov:typeRef": "org.opcfoundation.UA.DEXPI.JacketedPipeClassification",
           "type": "integer",
           "minimum": -2147483648,
           "maximum": 2147483647
@@ -3093,7 +3093,7 @@
         "data": {
           "title": "NominalDiameterStandardClassification",
           "description": "The nominal diameter of the PipingNetworkSystem, given as a reference to a nominal  diameter standard and value.",
-          "dov:typeRef": "nsu=http://opcfoundation.org/UA/DEXPI/;i=1032",
+          "dov:typeRef": "org.opcfoundation.UA.DEXPI.NominalDiameterStandardClassification",
           "type": "integer",
           "minimum": -2147483648,
           "maximum": 2147483647
@@ -3125,7 +3125,7 @@
         "data": {
           "title": "OnHoldClassification",
           "description": "A specialization indicating if the PipingNetworkSystem is on hold or not.",
-          "dov:typeRef": "nsu=http://opcfoundation.org/UA/DEXPI/;i=1008",
+          "dov:typeRef": "org.opcfoundation.UA.DEXPI.OnHoldClassification",
           "type": "integer",
           "minimum": -2147483648,
           "maximum": 2147483647
@@ -3177,7 +3177,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "DEXPI_PipingNetworkSegmentType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/DEXPI/;i=1898",
+    "dov:typeRef": "org.opcfoundation.UA.DEXPI.PipingNetworkSegmentType",
     "links": [
       {
         "rel": "tm:extends",
@@ -3200,7 +3200,7 @@
     "schemaDefinitions": {
       "PipingNetworkSegmentFlowClassification": {
         "type": "object",
-        "dov:typeRef": "nsu=http://opcfoundation.org/UA/DEXPI/;i=1002",
+        "dov:typeRef": "org.opcfoundation.UA.DEXPI.PipingNetworkSegmentFlowClassification",
         "const": {
           "DualFlowPipingNetworkSegment": 0,
           "SingleFlowPipingNetworkSegment": 1
@@ -3219,7 +3219,7 @@
       },
       "HeatTracingTypeClassification": {
         "type": "object",
-        "dov:typeRef": "nsu=http://opcfoundation.org/UA/DEXPI/;i=1038",
+        "dov:typeRef": "org.opcfoundation.UA.DEXPI.HeatTracingTypeClassification",
         "const": {
           "ElectricalHeatTracingSystem": 0,
           "HeatTracingSystem": 1,
@@ -3253,7 +3253,7 @@
       },
       "JacketedPipeClassification": {
         "type": "object",
-        "dov:typeRef": "nsu=http://opcfoundation.org/UA/DEXPI/;i=1052",
+        "dov:typeRef": "org.opcfoundation.UA.DEXPI.JacketedPipeClassification",
         "const": {
           "JacketedPipe": 0,
           "UnjacketedPipe": 1
@@ -3272,7 +3272,7 @@
       },
       "NominalDiameterStandardClassification": {
         "type": "object",
-        "dov:typeRef": "nsu=http://opcfoundation.org/UA/DEXPI/;i=1032",
+        "dov:typeRef": "org.opcfoundation.UA.DEXPI.NominalDiameterStandardClassification",
         "const": {
           "Din2448ObjectDn100": 0,
           "Din2448ObjectDn125": 1,
@@ -3606,7 +3606,7 @@
       },
       "OnHoldClassification": {
         "type": "object",
-        "dov:typeRef": "nsu=http://opcfoundation.org/UA/DEXPI/;i=1008",
+        "dov:typeRef": "org.opcfoundation.UA.DEXPI.OnHoldClassification",
         "const": {
           "NotOnHold": 0,
           "OnHold": 1
@@ -3625,7 +3625,7 @@
       },
       "PrimarySecondaryPipingNetworkSegmentClassification": {
         "type": "object",
-        "dov:typeRef": "nsu=http://opcfoundation.org/UA/DEXPI/;i=1042",
+        "dov:typeRef": "org.opcfoundation.UA.DEXPI.PrimarySecondaryPipingNetworkSegmentClassification",
         "const": {
           "PrimaryPipingNetworkSegment": 0,
           "SecondaryPipingNetworkSegment": 1
@@ -3644,7 +3644,7 @@
       },
       "SiphonClassification": {
         "type": "object",
-        "dov:typeRef": "nsu=http://opcfoundation.org/UA/DEXPI/;i=1000",
+        "dov:typeRef": "org.opcfoundation.UA.DEXPI.SiphonClassification",
         "const": {
           "NoSiphon": 0,
           "Siphon": 1
@@ -3663,7 +3663,7 @@
       },
       "PipingNetworkSegmentSlopeClassification": {
         "type": "object",
-        "dov:typeRef": "nsu=http://opcfoundation.org/UA/DEXPI/;i=1034",
+        "dov:typeRef": "org.opcfoundation.UA.DEXPI.PipingNetworkSegmentSlopeClassification",
         "const": {
           "SlopedPipingNetworkSegment": 0,
           "UnslopedPipingNetworkSegment": 1
@@ -3741,7 +3741,7 @@
         "dov:namespace": "http://opcfoundation.org/UA/DEXPI/",
         "title": "PipingNetworkSegmentFlowClassification",
         "description": "A specialization indicating if the PipingNetworkSegment enables dual flow or not.",
-        "dov:typeRef": "nsu=http://opcfoundation.org/UA/DEXPI/;i=1002",
+        "dov:typeRef": "org.opcfoundation.UA.DEXPI.PipingNetworkSegmentFlowClassification",
         "type": "integer",
         "minimum": -2147483648,
         "maximum": 2147483647,
@@ -3799,7 +3799,7 @@
         "dov:namespace": "http://opcfoundation.org/UA/DEXPI/",
         "title": "HeatTracingTypeClassification",
         "description": "A specialization indicating the heat tracing type related to the PipingNetworkSegment.",
-        "dov:typeRef": "nsu=http://opcfoundation.org/UA/DEXPI/;i=1038",
+        "dov:typeRef": "org.opcfoundation.UA.DEXPI.HeatTracingTypeClassification",
         "type": "integer",
         "minimum": -2147483648,
         "maximum": 2147483647,
@@ -3879,7 +3879,7 @@
         "dov:namespace": "http://opcfoundation.org/UA/DEXPI/",
         "title": "JacketedPipeClassification",
         "description": "A specialization indicating whether the PipingNetworkSegment is jacketed.",
-        "dov:typeRef": "nsu=http://opcfoundation.org/UA/DEXPI/;i=1052",
+        "dov:typeRef": "org.opcfoundation.UA.DEXPI.JacketedPipeClassification",
         "type": "integer",
         "minimum": -2147483648,
         "maximum": 2147483647,
@@ -3957,7 +3957,7 @@
         "dov:namespace": "http://opcfoundation.org/UA/DEXPI/",
         "title": "NominalDiameterStandardClassification",
         "description": "The nominal diameter of the PipingNetworkSegment, given as a reference to a nominal  diameter standard and value.",
-        "dov:typeRef": "nsu=http://opcfoundation.org/UA/DEXPI/;i=1032",
+        "dov:typeRef": "org.opcfoundation.UA.DEXPI.NominalDiameterStandardClassification",
         "type": "integer",
         "minimum": -2147483648,
         "maximum": 2147483647,
@@ -3997,7 +3997,7 @@
         "dov:namespace": "http://opcfoundation.org/UA/DEXPI/",
         "title": "OnHoldClassification",
         "description": "A specialization indicating if the PipingNetworkSegment is on hold or not.",
-        "dov:typeRef": "nsu=http://opcfoundation.org/UA/DEXPI/;i=1008",
+        "dov:typeRef": "org.opcfoundation.UA.DEXPI.OnHoldClassification",
         "type": "integer",
         "minimum": -2147483648,
         "maximum": 2147483647,
@@ -4075,7 +4075,7 @@
         "dov:namespace": "http://opcfoundation.org/UA/DEXPI/",
         "title": "PrimarySecondaryPipingNetworkSegmentClassification",
         "description": "A specialization indicating whether the PipingNetworkSegment is a primary or secondary PipingNetworkSegment.",
-        "dov:typeRef": "nsu=http://opcfoundation.org/UA/DEXPI/;i=1042",
+        "dov:typeRef": "org.opcfoundation.UA.DEXPI.PrimarySecondaryPipingNetworkSegmentClassification",
         "type": "integer",
         "minimum": -2147483648,
         "maximum": 2147483647,
@@ -4115,7 +4115,7 @@
         "dov:namespace": "http://opcfoundation.org/UA/DEXPI/",
         "title": "SiphonClassification",
         "description": "A specialization indicating if the PipingNetworkSegment is a siphon or not.",
-        "dov:typeRef": "nsu=http://opcfoundation.org/UA/DEXPI/;i=1000",
+        "dov:typeRef": "org.opcfoundation.UA.DEXPI.SiphonClassification",
         "type": "integer",
         "minimum": -2147483648,
         "maximum": 2147483647,
@@ -4137,7 +4137,7 @@
         "dov:namespace": "http://opcfoundation.org/UA/DEXPI/",
         "title": "PipingNetworkSegmentSlopeClassification",
         "description": "A specialization indicating if the PipingNetworkSegment is sloped or not.",
-        "dov:typeRef": "nsu=http://opcfoundation.org/UA/DEXPI/;i=1034",
+        "dov:typeRef": "org.opcfoundation.UA.DEXPI.PipingNetworkSegmentSlopeClassification",
         "type": "integer",
         "minimum": -2147483648,
         "maximum": 2147483647,
@@ -4190,7 +4190,7 @@
         "data": {
           "title": "PipingNetworkSegmentFlowClassification",
           "description": "A specialization indicating if the PipingNetworkSegment enables dual flow or not.",
-          "dov:typeRef": "nsu=http://opcfoundation.org/UA/DEXPI/;i=1002",
+          "dov:typeRef": "org.opcfoundation.UA.DEXPI.PipingNetworkSegmentFlowClassification",
           "type": "integer",
           "minimum": -2147483648,
           "maximum": 2147483647
@@ -4236,7 +4236,7 @@
         "data": {
           "title": "HeatTracingTypeClassification",
           "description": "A specialization indicating the heat tracing type related to the PipingNetworkSegment.",
-          "dov:typeRef": "nsu=http://opcfoundation.org/UA/DEXPI/;i=1038",
+          "dov:typeRef": "org.opcfoundation.UA.DEXPI.HeatTracingTypeClassification",
           "type": "integer",
           "minimum": -2147483648,
           "maximum": 2147483647
@@ -4300,7 +4300,7 @@
         "data": {
           "title": "JacketedPipeClassification",
           "description": "A specialization indicating whether the PipingNetworkSegment is jacketed.",
-          "dov:typeRef": "nsu=http://opcfoundation.org/UA/DEXPI/;i=1052",
+          "dov:typeRef": "org.opcfoundation.UA.DEXPI.JacketedPipeClassification",
           "type": "integer",
           "minimum": -2147483648,
           "maximum": 2147483647
@@ -4362,7 +4362,7 @@
         "data": {
           "title": "NominalDiameterStandardClassification",
           "description": "The nominal diameter of the PipingNetworkSegment, given as a reference to a nominal  diameter standard and value.",
-          "dov:typeRef": "nsu=http://opcfoundation.org/UA/DEXPI/;i=1032",
+          "dov:typeRef": "org.opcfoundation.UA.DEXPI.NominalDiameterStandardClassification",
           "type": "integer",
           "minimum": -2147483648,
           "maximum": 2147483647
@@ -4394,7 +4394,7 @@
         "data": {
           "title": "OnHoldClassification",
           "description": "A specialization indicating if the PipingNetworkSegment is on hold or not.",
-          "dov:typeRef": "nsu=http://opcfoundation.org/UA/DEXPI/;i=1008",
+          "dov:typeRef": "org.opcfoundation.UA.DEXPI.OnHoldClassification",
           "type": "integer",
           "minimum": -2147483648,
           "maximum": 2147483647
@@ -4456,7 +4456,7 @@
         "data": {
           "title": "PrimarySecondaryPipingNetworkSegmentClassification",
           "description": "A specialization indicating whether the PipingNetworkSegment is a primary or secondary PipingNetworkSegment.",
-          "dov:typeRef": "nsu=http://opcfoundation.org/UA/DEXPI/;i=1042",
+          "dov:typeRef": "org.opcfoundation.UA.DEXPI.PrimarySecondaryPipingNetworkSegmentClassification",
           "type": "integer",
           "minimum": -2147483648,
           "maximum": 2147483647
@@ -4488,7 +4488,7 @@
         "data": {
           "title": "SiphonClassification",
           "description": "A specialization indicating if the PipingNetworkSegment is a siphon or not.",
-          "dov:typeRef": "nsu=http://opcfoundation.org/UA/DEXPI/;i=1000",
+          "dov:typeRef": "org.opcfoundation.UA.DEXPI.SiphonClassification",
           "type": "integer",
           "minimum": -2147483648,
           "maximum": 2147483647
@@ -4506,7 +4506,7 @@
         "data": {
           "title": "PipingNetworkSegmentSlopeClassification",
           "description": "A specialization indicating if the PipingNetworkSegment is sloped or not.",
-          "dov:typeRef": "nsu=http://opcfoundation.org/UA/DEXPI/;i=1034",
+          "dov:typeRef": "org.opcfoundation.UA.DEXPI.PipingNetworkSegmentSlopeClassification",
           "type": "integer",
           "minimum": -2147483648,
           "maximum": 2147483647
@@ -4530,7 +4530,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "DEXPI_PipingNetworkSegmentItemType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/DEXPI/;i=1754",
+    "dov:typeRef": "org.opcfoundation.UA.DEXPI.PipingNetworkSegmentItemType",
     "links": [
       {
         "rel": "tm:extends",
@@ -4556,7 +4556,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "DEXPI_PipingConnectionType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/DEXPI/;i=1989",
+    "dov:typeRef": "org.opcfoundation.UA.DEXPI.PipingConnectionType",
     "links": [
       {
         "rel": "tm:extends",
@@ -4582,7 +4582,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "DEXPI_PropertyBreakType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/DEXPI/;i=1938",
+    "dov:typeRef": "org.opcfoundation.UA.DEXPI.PropertyBreakType",
     "links": [
       {
         "rel": "tm:extends",
@@ -4599,7 +4599,7 @@
     "schemaDefinitions": {
       "CompositionBreakClassification": {
         "type": "object",
-        "dov:typeRef": "nsu=http://opcfoundation.org/UA/DEXPI/;i=1026",
+        "dov:typeRef": "org.opcfoundation.UA.DEXPI.CompositionBreakClassification",
         "const": {
           "CompositionBreak": 0,
           "NoCompositionBreak": 1
@@ -4618,7 +4618,7 @@
       },
       "InsulationBreakClassification": {
         "type": "object",
-        "dov:typeRef": "nsu=http://opcfoundation.org/UA/DEXPI/;i=1030",
+        "dov:typeRef": "org.opcfoundation.UA.DEXPI.InsulationBreakClassification",
         "const": {
           "InsulationBreak": 0,
           "NoInsulationBreak": 1
@@ -4637,7 +4637,7 @@
       },
       "NominalDiameterBreakClassification": {
         "type": "object",
-        "dov:typeRef": "nsu=http://opcfoundation.org/UA/DEXPI/;i=1048",
+        "dov:typeRef": "org.opcfoundation.UA.DEXPI.NominalDiameterBreakClassification",
         "const": {
           "NoNominalDiameterBreak": 0,
           "NominalDiameterBreak": 1
@@ -4656,7 +4656,7 @@
       },
       "PipingClassBreakClassification": {
         "type": "object",
-        "dov:typeRef": "nsu=http://opcfoundation.org/UA/DEXPI/;i=1016",
+        "dov:typeRef": "org.opcfoundation.UA.DEXPI.PipingClassBreakClassification",
         "const": {
           "NoPipingClassBreak": 0,
           "PipingClassBreak": 1
@@ -4698,7 +4698,7 @@
         "dov:namespace": "http://opcfoundation.org/UA/DEXPI/",
         "title": "CompositionBreakClassification",
         "description": "A specialization indicating if the PropertyBreak is a composition break or not.",
-        "dov:typeRef": "nsu=http://opcfoundation.org/UA/DEXPI/;i=1026",
+        "dov:typeRef": "org.opcfoundation.UA.DEXPI.CompositionBreakClassification",
         "type": "integer",
         "minimum": -2147483648,
         "maximum": 2147483647,
@@ -4720,7 +4720,7 @@
         "dov:namespace": "http://opcfoundation.org/UA/DEXPI/",
         "title": "InsulationBreakClassification",
         "description": "A specialization indicating if the PropertyBreak is an insulation break or not.",
-        "dov:typeRef": "nsu=http://opcfoundation.org/UA/DEXPI/;i=1030",
+        "dov:typeRef": "org.opcfoundation.UA.DEXPI.InsulationBreakClassification",
         "type": "integer",
         "minimum": -2147483648,
         "maximum": 2147483647,
@@ -4742,7 +4742,7 @@
         "dov:namespace": "http://opcfoundation.org/UA/DEXPI/",
         "title": "NominalDiameterBreakClassification",
         "description": "A specialization indicating if the PropertyBreak is a nominal diameter break or not.",
-        "dov:typeRef": "nsu=http://opcfoundation.org/UA/DEXPI/;i=1048",
+        "dov:typeRef": "org.opcfoundation.UA.DEXPI.NominalDiameterBreakClassification",
         "type": "integer",
         "minimum": -2147483648,
         "maximum": 2147483647,
@@ -4764,7 +4764,7 @@
         "dov:namespace": "http://opcfoundation.org/UA/DEXPI/",
         "title": "PipingClassBreakClassification",
         "description": "A specialization indicating if the PropertyBreak is a composition break or not.",
-        "dov:typeRef": "nsu=http://opcfoundation.org/UA/DEXPI/;i=1016",
+        "dov:typeRef": "org.opcfoundation.UA.DEXPI.PipingClassBreakClassification",
         "type": "integer",
         "minimum": -2147483648,
         "maximum": 2147483647,
@@ -4789,7 +4789,7 @@
         "data": {
           "title": "CompositionBreakClassification",
           "description": "A specialization indicating if the PropertyBreak is a composition break or not.",
-          "dov:typeRef": "nsu=http://opcfoundation.org/UA/DEXPI/;i=1026",
+          "dov:typeRef": "org.opcfoundation.UA.DEXPI.CompositionBreakClassification",
           "type": "integer",
           "minimum": -2147483648,
           "maximum": 2147483647
@@ -4807,7 +4807,7 @@
         "data": {
           "title": "InsulationBreakClassification",
           "description": "A specialization indicating if the PropertyBreak is an insulation break or not.",
-          "dov:typeRef": "nsu=http://opcfoundation.org/UA/DEXPI/;i=1030",
+          "dov:typeRef": "org.opcfoundation.UA.DEXPI.InsulationBreakClassification",
           "type": "integer",
           "minimum": -2147483648,
           "maximum": 2147483647
@@ -4825,7 +4825,7 @@
         "data": {
           "title": "NominalDiameterBreakClassification",
           "description": "A specialization indicating if the PropertyBreak is a nominal diameter break or not.",
-          "dov:typeRef": "nsu=http://opcfoundation.org/UA/DEXPI/;i=1048",
+          "dov:typeRef": "org.opcfoundation.UA.DEXPI.NominalDiameterBreakClassification",
           "type": "integer",
           "minimum": -2147483648,
           "maximum": 2147483647
@@ -4843,7 +4843,7 @@
         "data": {
           "title": "PipingClassBreakClassification",
           "description": "A specialization indicating if the PropertyBreak is a composition break or not.",
-          "dov:typeRef": "nsu=http://opcfoundation.org/UA/DEXPI/;i=1016",
+          "dov:typeRef": "org.opcfoundation.UA.DEXPI.PipingClassBreakClassification",
           "type": "integer",
           "minimum": -2147483648,
           "maximum": 2147483647
@@ -4867,7 +4867,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "DEXPI_PipingNodeType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/DEXPI/;i=2008",
+    "dov:typeRef": "org.opcfoundation.UA.DEXPI.PipingNodeType",
     "links": [
       {
         "rel": "tm:extends",
@@ -4878,7 +4878,7 @@
     "schemaDefinitions": {
       "NodeFlowClassification": {
         "type": "object",
-        "dov:typeRef": "nsu=http://opcfoundation.org/UA/DEXPI/;i=1028",
+        "dov:typeRef": "org.opcfoundation.UA.DEXPI.NodeFlowClassification",
         "const": {
           "MainFlowInNode": 0,
           "MainFlowOutNode": 1
@@ -4897,7 +4897,7 @@
       },
       "NominalDiameterStandardClassification": {
         "type": "object",
-        "dov:typeRef": "nsu=http://opcfoundation.org/UA/DEXPI/;i=1032",
+        "dov:typeRef": "org.opcfoundation.UA.DEXPI.NominalDiameterStandardClassification",
         "const": {
           "Din2448ObjectDn100": 0,
           "Din2448ObjectDn125": 1,
@@ -5254,7 +5254,7 @@
         "dov:namespace": "http://opcfoundation.org/UA/DEXPI/",
         "title": "NodeFlowClassification",
         "description": "A classification of the flow direction in the PipingNode with respect to its PipingNodeOwner.",
-        "dov:typeRef": "nsu=http://opcfoundation.org/UA/DEXPI/;i=1028",
+        "dov:typeRef": "org.opcfoundation.UA.DEXPI.NodeFlowClassification",
         "type": "integer",
         "minimum": -2147483648,
         "maximum": 2147483647,
@@ -5312,7 +5312,7 @@
         "dov:namespace": "http://opcfoundation.org/UA/DEXPI/",
         "title": "NominalDiameterStandardClassification",
         "description": "The nominal diameter of the PipingNode, given as a reference to a nominal  diameter standard and value.",
-        "dov:typeRef": "nsu=http://opcfoundation.org/UA/DEXPI/;i=1032",
+        "dov:typeRef": "org.opcfoundation.UA.DEXPI.NominalDiameterStandardClassification",
         "type": "integer",
         "minimum": -2147483648,
         "maximum": 2147483647,
@@ -5355,7 +5355,7 @@
         "data": {
           "title": "NodeFlowClassification",
           "description": "A classification of the flow direction in the PipingNode with respect to its PipingNodeOwner.",
-          "dov:typeRef": "nsu=http://opcfoundation.org/UA/DEXPI/;i=1028",
+          "dov:typeRef": "org.opcfoundation.UA.DEXPI.NodeFlowClassification",
           "type": "integer",
           "minimum": -2147483648,
           "maximum": 2147483647
@@ -5401,7 +5401,7 @@
         "data": {
           "title": "NominalDiameterStandardClassification",
           "description": "The nominal diameter of the PipingNode, given as a reference to a nominal  diameter standard and value.",
-          "dov:typeRef": "nsu=http://opcfoundation.org/UA/DEXPI/;i=1032",
+          "dov:typeRef": "org.opcfoundation.UA.DEXPI.NominalDiameterStandardClassification",
           "type": "integer",
           "minimum": -2147483648,
           "maximum": 2147483647
@@ -5439,7 +5439,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "DEXPI_ProcessInstrumentationFunctionType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/DEXPI/;i=1130",
+    "dov:typeRef": "org.opcfoundation.UA.DEXPI.ProcessInstrumentationFunctionType",
     "links": [
       {
         "rel": "tm:extends",
@@ -5468,7 +5468,7 @@
     "schemaDefinitions": {
       "GmpRelevanceClassification": {
         "type": "object",
-        "dov:typeRef": "nsu=http://opcfoundation.org/UA/DEXPI/;i=1020",
+        "dov:typeRef": "org.opcfoundation.UA.DEXPI.GmpRelevanceClassification",
         "const": {
           "GmpRelevantFunction": 0,
           "NonGmpRelevantFunction": 1
@@ -5487,7 +5487,7 @@
       },
       "GuaranteedSupplyFunctionClassification": {
         "type": "object",
-        "dov:typeRef": "nsu=http://opcfoundation.org/UA/DEXPI/;i=1004",
+        "dov:typeRef": "org.opcfoundation.UA.DEXPI.GuaranteedSupplyFunctionClassification",
         "const": {
           "GuaranteedSupplyFunction": 0,
           "NonGuaranteedSupplyFunction": 1
@@ -5506,7 +5506,7 @@
       },
       "LocationClassification": {
         "type": "object",
-        "dov:typeRef": "nsu=http://opcfoundation.org/UA/DEXPI/;i=1054",
+        "dov:typeRef": "org.opcfoundation.UA.DEXPI.LocationClassification",
         "const": {
           "CentralLocation": 0,
           "ControlPanel": 1,
@@ -5530,7 +5530,7 @@
       },
       "QualityRelevanceClassification": {
         "type": "object",
-        "dov:typeRef": "nsu=http://opcfoundation.org/UA/DEXPI/;i=1010",
+        "dov:typeRef": "org.opcfoundation.UA.DEXPI.QualityRelevanceClassification",
         "const": {
           "NonQualityRelevantFunction": 0,
           "QualityRelevantFunction": 1
@@ -5590,7 +5590,7 @@
         "dov:namespace": "http://opcfoundation.org/UA/DEXPI/",
         "title": "GmpRelevanceClassification",
         "description": "A classification indicating if the ProcessInstrumentationFunction is relevant for GMP (good manufacturing practise).",
-        "dov:typeRef": "nsu=http://opcfoundation.org/UA/DEXPI/;i=1020",
+        "dov:typeRef": "org.opcfoundation.UA.DEXPI.GmpRelevanceClassification",
         "type": "integer",
         "minimum": -2147483648,
         "maximum": 2147483647,
@@ -5612,7 +5612,7 @@
         "dov:namespace": "http://opcfoundation.org/UA/DEXPI/",
         "title": "GuaranteedSupplyFunctionClassification",
         "description": "A classification indicating if the ProcessInstrumentationFunction is a guaranteed supply function.",
-        "dov:typeRef": "nsu=http://opcfoundation.org/UA/DEXPI/;i=1004",
+        "dov:typeRef": "org.opcfoundation.UA.DEXPI.GuaranteedSupplyFunctionClassification",
         "type": "integer",
         "minimum": -2147483648,
         "maximum": 2147483647,
@@ -5634,7 +5634,7 @@
         "dov:namespace": "http://opcfoundation.org/UA/DEXPI/",
         "title": "LocationClassification",
         "description": "A specialization indicating the location of the ProcessInstrumentationFunction.",
-        "dov:typeRef": "nsu=http://opcfoundation.org/UA/DEXPI/;i=1054",
+        "dov:typeRef": "org.opcfoundation.UA.DEXPI.LocationClassification",
         "type": "integer",
         "minimum": -2147483648,
         "maximum": 2147483647,
@@ -5746,7 +5746,7 @@
         "dov:namespace": "http://opcfoundation.org/UA/DEXPI/",
         "title": "QualityRelevanceClassification",
         "description": "A classification indicating if the ProcessInstrumentationFunction is quality relevant.",
-        "dov:typeRef": "nsu=http://opcfoundation.org/UA/DEXPI/;i=1010",
+        "dov:typeRef": "org.opcfoundation.UA.DEXPI.QualityRelevanceClassification",
         "type": "integer",
         "minimum": -2147483648,
         "maximum": 2147483647,
@@ -5857,7 +5857,7 @@
         "data": {
           "title": "GmpRelevanceClassification",
           "description": "A classification indicating if the ProcessInstrumentationFunction is relevant for GMP (good manufacturing practise).",
-          "dov:typeRef": "nsu=http://opcfoundation.org/UA/DEXPI/;i=1020",
+          "dov:typeRef": "org.opcfoundation.UA.DEXPI.GmpRelevanceClassification",
           "type": "integer",
           "minimum": -2147483648,
           "maximum": 2147483647
@@ -5875,7 +5875,7 @@
         "data": {
           "title": "GuaranteedSupplyFunctionClassification",
           "description": "A classification indicating if the ProcessInstrumentationFunction is a guaranteed supply function.",
-          "dov:typeRef": "nsu=http://opcfoundation.org/UA/DEXPI/;i=1004",
+          "dov:typeRef": "org.opcfoundation.UA.DEXPI.GuaranteedSupplyFunctionClassification",
           "type": "integer",
           "minimum": -2147483648,
           "maximum": 2147483647
@@ -5893,7 +5893,7 @@
         "data": {
           "title": "LocationClassification",
           "description": "A specialization indicating the location of the ProcessInstrumentationFunction.",
-          "dov:typeRef": "nsu=http://opcfoundation.org/UA/DEXPI/;i=1054",
+          "dov:typeRef": "org.opcfoundation.UA.DEXPI.LocationClassification",
           "type": "integer",
           "minimum": -2147483648,
           "maximum": 2147483647
@@ -5981,7 +5981,7 @@
         "data": {
           "title": "QualityRelevanceClassification",
           "description": "A classification indicating if the ProcessInstrumentationFunction is quality relevant.",
-          "dov:typeRef": "nsu=http://opcfoundation.org/UA/DEXPI/;i=1010",
+          "dov:typeRef": "org.opcfoundation.UA.DEXPI.QualityRelevanceClassification",
           "type": "integer",
           "minimum": -2147483648,
           "maximum": 2147483647
@@ -6061,7 +6061,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "DEXPI_ActuatingFunctionType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/DEXPI/;i=1239",
+    "dov:typeRef": "org.opcfoundation.UA.DEXPI.ActuatingFunctionType",
     "links": [
       {
         "rel": "tm:extends",
@@ -6136,7 +6136,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "DEXPI_ProcessSignalGeneratingFunctionType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/DEXPI/;i=1210",
+    "dov:typeRef": "org.opcfoundation.UA.DEXPI.ProcessSignalGeneratingFunctionType",
     "links": [
       {
         "rel": "tm:extends",
@@ -6243,7 +6243,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "DEXPI_SignalConveyingFunctionType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/DEXPI/;i=1251",
+    "dov:typeRef": "org.opcfoundation.UA.DEXPI.SignalConveyingFunctionType",
     "links": [
       {
         "rel": "tm:extends",
@@ -6254,7 +6254,7 @@
     "schemaDefinitions": {
       "PortStatusClassification": {
         "type": "object",
-        "dov:typeRef": "nsu=http://opcfoundation.org/UA/DEXPI/;i=1056",
+        "dov:typeRef": "org.opcfoundation.UA.DEXPI.PortStatusClassification",
         "const": {
           "StatusHighHighHighPort": 0,
           "StatusHighHighPort": 1,
@@ -6293,7 +6293,7 @@
       },
       "SignalConveyingTypeClassification": {
         "type": "object",
-        "dov:typeRef": "nsu=http://opcfoundation.org/UA/DEXPI/;i=1040",
+        "dov:typeRef": "org.opcfoundation.UA.DEXPI.SignalConveyingTypeClassification",
         "const": {
           "CapillarySignalConveying": 0,
           "ConductedRadiationSignalConveying": 1,
@@ -6350,7 +6350,7 @@
         "dov:namespace": "http://opcfoundation.org/UA/DEXPI/",
         "title": "PortStatusClassification",
         "description": "A classification indicating the port status of the SignalConveyingFunction.",
-        "dov:typeRef": "nsu=http://opcfoundation.org/UA/DEXPI/;i=1056",
+        "dov:typeRef": "org.opcfoundation.UA.DEXPI.PortStatusClassification",
         "type": "integer",
         "minimum": -2147483648,
         "maximum": 2147483647,
@@ -6372,7 +6372,7 @@
         "dov:namespace": "http://opcfoundation.org/UA/DEXPI/",
         "title": "SignalConveyingTypeClassification",
         "description": "A classification indicating the signal conveying type of the SignalConveyingFunction.",
-        "dov:typeRef": "nsu=http://opcfoundation.org/UA/DEXPI/;i=1040",
+        "dov:typeRef": "org.opcfoundation.UA.DEXPI.SignalConveyingTypeClassification",
         "type": "integer",
         "minimum": -2147483648,
         "maximum": 2147483647,
@@ -6433,7 +6433,7 @@
         "data": {
           "title": "PortStatusClassification",
           "description": "A classification indicating the port status of the SignalConveyingFunction.",
-          "dov:typeRef": "nsu=http://opcfoundation.org/UA/DEXPI/;i=1056",
+          "dov:typeRef": "org.opcfoundation.UA.DEXPI.PortStatusClassification",
           "type": "integer",
           "minimum": -2147483648,
           "maximum": 2147483647
@@ -6451,7 +6451,7 @@
         "data": {
           "title": "SignalConveyingTypeClassification",
           "description": "A classification indicating the signal conveying type of the SignalConveyingFunction.",
-          "dov:typeRef": "nsu=http://opcfoundation.org/UA/DEXPI/;i=1040",
+          "dov:typeRef": "org.opcfoundation.UA.DEXPI.SignalConveyingTypeClassification",
           "type": "integer",
           "minimum": -2147483648,
           "maximum": 2147483647
@@ -6503,7 +6503,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "DEXPI_ProcessSignalGeneratingSystemType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/DEXPI/;i=1118",
+    "dov:typeRef": "org.opcfoundation.UA.DEXPI.ProcessSignalGeneratingSystemType",
     "links": [
       {
         "rel": "tm:extends",
@@ -6622,7 +6622,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "DEXPI_PrimaryElementType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/DEXPI/;i=1195",
+    "dov:typeRef": "org.opcfoundation.UA.DEXPI.PrimaryElementType",
     "links": [
       {
         "rel": "tm:extends",
@@ -6697,7 +6697,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "DEXPI_TransmitterType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/DEXPI/;i=1247",
+    "dov:typeRef": "org.opcfoundation.UA.DEXPI.TransmitterType",
     "links": [
       {
         "rel": "tm:extends",
@@ -6804,7 +6804,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "DEXPI_TaggedPlantItemType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/DEXPI/;i=1337",
+    "dov:typeRef": "org.opcfoundation.UA.DEXPI.TaggedPlantItemType",
     "links": [
       {
         "rel": "tm:extends",
@@ -6975,7 +6975,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "DEXPI_SensingLocationType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/DEXPI/;i=1117",
+    "dov:typeRef": "org.opcfoundation.UA.DEXPI.SensingLocationType",
     "links": [
       {
         "rel": "tm:extends",
@@ -7001,7 +7001,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "DEXPI_ProcessControlFunctionType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/DEXPI/;i=1152",
+    "dov:typeRef": "org.opcfoundation.UA.DEXPI.ProcessControlFunctionType",
     "dov:isComposite": true,
     "links": [
       {
@@ -7031,7 +7031,7 @@
     "schemaDefinitions": {
       "GmpRelevanceClassification": {
         "type": "object",
-        "dov:typeRef": "nsu=http://opcfoundation.org/UA/DEXPI/;i=1020",
+        "dov:typeRef": "org.opcfoundation.UA.DEXPI.GmpRelevanceClassification",
         "const": {
           "GmpRelevantFunction": 0,
           "NonGmpRelevantFunction": 1
@@ -7050,7 +7050,7 @@
       },
       "GuaranteedSupplyFunctionClassification": {
         "type": "object",
-        "dov:typeRef": "nsu=http://opcfoundation.org/UA/DEXPI/;i=1004",
+        "dov:typeRef": "org.opcfoundation.UA.DEXPI.GuaranteedSupplyFunctionClassification",
         "const": {
           "GuaranteedSupplyFunction": 0,
           "NonGuaranteedSupplyFunction": 1
@@ -7069,7 +7069,7 @@
       },
       "LocationClassification": {
         "type": "object",
-        "dov:typeRef": "nsu=http://opcfoundation.org/UA/DEXPI/;i=1054",
+        "dov:typeRef": "org.opcfoundation.UA.DEXPI.LocationClassification",
         "const": {
           "CentralLocation": 0,
           "ControlPanel": 1,
@@ -7093,7 +7093,7 @@
       },
       "QualityRelevanceClassification": {
         "type": "object",
-        "dov:typeRef": "nsu=http://opcfoundation.org/UA/DEXPI/;i=1010",
+        "dov:typeRef": "org.opcfoundation.UA.DEXPI.QualityRelevanceClassification",
         "const": {
           "NonQualityRelevantFunction": 0,
           "QualityRelevantFunction": 1
@@ -7153,7 +7153,7 @@
         "dov:namespace": "http://opcfoundation.org/UA/DEXPI/",
         "title": "GmpRelevanceClassification",
         "description": "A classification indicating if the ProcessInstrumentationFunction is relevant for GMP (good manufacturing practise).",
-        "dov:typeRef": "nsu=http://opcfoundation.org/UA/DEXPI/;i=1020",
+        "dov:typeRef": "org.opcfoundation.UA.DEXPI.GmpRelevanceClassification",
         "type": "integer",
         "minimum": -2147483648,
         "maximum": 2147483647,
@@ -7175,7 +7175,7 @@
         "dov:namespace": "http://opcfoundation.org/UA/DEXPI/",
         "title": "GuaranteedSupplyFunctionClassification",
         "description": "A classification indicating if the ProcessInstrumentationFunction is a guaranteed supply function.",
-        "dov:typeRef": "nsu=http://opcfoundation.org/UA/DEXPI/;i=1004",
+        "dov:typeRef": "org.opcfoundation.UA.DEXPI.GuaranteedSupplyFunctionClassification",
         "type": "integer",
         "minimum": -2147483648,
         "maximum": 2147483647,
@@ -7197,7 +7197,7 @@
         "dov:namespace": "http://opcfoundation.org/UA/DEXPI/",
         "title": "LocationClassification",
         "description": "A specialization indicating the location of the ProcessInstrumentationFunction.",
-        "dov:typeRef": "nsu=http://opcfoundation.org/UA/DEXPI/;i=1054",
+        "dov:typeRef": "org.opcfoundation.UA.DEXPI.LocationClassification",
         "type": "integer",
         "minimum": -2147483648,
         "maximum": 2147483647,
@@ -7309,7 +7309,7 @@
         "dov:namespace": "http://opcfoundation.org/UA/DEXPI/",
         "title": "QualityRelevanceClassification",
         "description": "A classification indicating if the ProcessInstrumentationFunction is quality relevant.",
-        "dov:typeRef": "nsu=http://opcfoundation.org/UA/DEXPI/;i=1010",
+        "dov:typeRef": "org.opcfoundation.UA.DEXPI.QualityRelevanceClassification",
         "type": "integer",
         "minimum": -2147483648,
         "maximum": 2147483647,
@@ -7420,7 +7420,7 @@
         "data": {
           "title": "GmpRelevanceClassification",
           "description": "A classification indicating if the ProcessInstrumentationFunction is relevant for GMP (good manufacturing practise).",
-          "dov:typeRef": "nsu=http://opcfoundation.org/UA/DEXPI/;i=1020",
+          "dov:typeRef": "org.opcfoundation.UA.DEXPI.GmpRelevanceClassification",
           "type": "integer",
           "minimum": -2147483648,
           "maximum": 2147483647
@@ -7438,7 +7438,7 @@
         "data": {
           "title": "GuaranteedSupplyFunctionClassification",
           "description": "A classification indicating if the ProcessInstrumentationFunction is a guaranteed supply function.",
-          "dov:typeRef": "nsu=http://opcfoundation.org/UA/DEXPI/;i=1004",
+          "dov:typeRef": "org.opcfoundation.UA.DEXPI.GuaranteedSupplyFunctionClassification",
           "type": "integer",
           "minimum": -2147483648,
           "maximum": 2147483647
@@ -7456,7 +7456,7 @@
         "data": {
           "title": "LocationClassification",
           "description": "A specialization indicating the location of the ProcessInstrumentationFunction.",
-          "dov:typeRef": "nsu=http://opcfoundation.org/UA/DEXPI/;i=1054",
+          "dov:typeRef": "org.opcfoundation.UA.DEXPI.LocationClassification",
           "type": "integer",
           "minimum": -2147483648,
           "maximum": 2147483647
@@ -7544,7 +7544,7 @@
         "data": {
           "title": "QualityRelevanceClassification",
           "description": "A classification indicating if the ProcessInstrumentationFunction is quality relevant.",
-          "dov:typeRef": "nsu=http://opcfoundation.org/UA/DEXPI/;i=1010",
+          "dov:typeRef": "org.opcfoundation.UA.DEXPI.QualityRelevanceClassification",
           "type": "integer",
           "minimum": -2147483648,
           "maximum": 2147483647
@@ -7624,7 +7624,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "DEXPI_SignalLineFunctionType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/DEXPI/;i=1174",
+    "dov:typeRef": "org.opcfoundation.UA.DEXPI.SignalLineFunctionType",
     "dov:isComposite": true,
     "links": [
       {
@@ -7636,7 +7636,7 @@
     "schemaDefinitions": {
       "PortStatusClassification": {
         "type": "object",
-        "dov:typeRef": "nsu=http://opcfoundation.org/UA/DEXPI/;i=1056",
+        "dov:typeRef": "org.opcfoundation.UA.DEXPI.PortStatusClassification",
         "const": {
           "StatusHighHighHighPort": 0,
           "StatusHighHighPort": 1,
@@ -7675,7 +7675,7 @@
       },
       "SignalConveyingTypeClassification": {
         "type": "object",
-        "dov:typeRef": "nsu=http://opcfoundation.org/UA/DEXPI/;i=1040",
+        "dov:typeRef": "org.opcfoundation.UA.DEXPI.SignalConveyingTypeClassification",
         "const": {
           "CapillarySignalConveying": 0,
           "ConductedRadiationSignalConveying": 1,
@@ -7732,7 +7732,7 @@
         "dov:namespace": "http://opcfoundation.org/UA/DEXPI/",
         "title": "PortStatusClassification",
         "description": "A classification indicating the port status of the SignalConveyingFunction.",
-        "dov:typeRef": "nsu=http://opcfoundation.org/UA/DEXPI/;i=1056",
+        "dov:typeRef": "org.opcfoundation.UA.DEXPI.PortStatusClassification",
         "type": "integer",
         "minimum": -2147483648,
         "maximum": 2147483647,
@@ -7754,7 +7754,7 @@
         "dov:namespace": "http://opcfoundation.org/UA/DEXPI/",
         "title": "SignalConveyingTypeClassification",
         "description": "A classification indicating the signal conveying type of the SignalConveyingFunction.",
-        "dov:typeRef": "nsu=http://opcfoundation.org/UA/DEXPI/;i=1040",
+        "dov:typeRef": "org.opcfoundation.UA.DEXPI.SignalConveyingTypeClassification",
         "type": "integer",
         "minimum": -2147483648,
         "maximum": 2147483647,
@@ -7815,7 +7815,7 @@
         "data": {
           "title": "PortStatusClassification",
           "description": "A classification indicating the port status of the SignalConveyingFunction.",
-          "dov:typeRef": "nsu=http://opcfoundation.org/UA/DEXPI/;i=1056",
+          "dov:typeRef": "org.opcfoundation.UA.DEXPI.PortStatusClassification",
           "type": "integer",
           "minimum": -2147483648,
           "maximum": 2147483647
@@ -7833,7 +7833,7 @@
         "data": {
           "title": "SignalConveyingTypeClassification",
           "description": "A classification indicating the signal conveying type of the SignalConveyingFunction.",
-          "dov:typeRef": "nsu=http://opcfoundation.org/UA/DEXPI/;i=1040",
+          "dov:typeRef": "org.opcfoundation.UA.DEXPI.SignalConveyingTypeClassification",
           "type": "integer",
           "minimum": -2147483648,
           "maximum": 2147483647
@@ -7885,7 +7885,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "DEXPI_MeasuringLineFunctionType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/DEXPI/;i=1181",
+    "dov:typeRef": "org.opcfoundation.UA.DEXPI.MeasuringLineFunctionType",
     "dov:isComposite": true,
     "links": [
       {
@@ -7897,7 +7897,7 @@
     "schemaDefinitions": {
       "PortStatusClassification": {
         "type": "object",
-        "dov:typeRef": "nsu=http://opcfoundation.org/UA/DEXPI/;i=1056",
+        "dov:typeRef": "org.opcfoundation.UA.DEXPI.PortStatusClassification",
         "const": {
           "StatusHighHighHighPort": 0,
           "StatusHighHighPort": 1,
@@ -7936,7 +7936,7 @@
       },
       "SignalConveyingTypeClassification": {
         "type": "object",
-        "dov:typeRef": "nsu=http://opcfoundation.org/UA/DEXPI/;i=1040",
+        "dov:typeRef": "org.opcfoundation.UA.DEXPI.SignalConveyingTypeClassification",
         "const": {
           "CapillarySignalConveying": 0,
           "ConductedRadiationSignalConveying": 1,
@@ -7993,7 +7993,7 @@
         "dov:namespace": "http://opcfoundation.org/UA/DEXPI/",
         "title": "PortStatusClassification",
         "description": "A classification indicating the port status of the SignalConveyingFunction.",
-        "dov:typeRef": "nsu=http://opcfoundation.org/UA/DEXPI/;i=1056",
+        "dov:typeRef": "org.opcfoundation.UA.DEXPI.PortStatusClassification",
         "type": "integer",
         "minimum": -2147483648,
         "maximum": 2147483647,
@@ -8015,7 +8015,7 @@
         "dov:namespace": "http://opcfoundation.org/UA/DEXPI/",
         "title": "SignalConveyingTypeClassification",
         "description": "A classification indicating the signal conveying type of the SignalConveyingFunction.",
-        "dov:typeRef": "nsu=http://opcfoundation.org/UA/DEXPI/;i=1040",
+        "dov:typeRef": "org.opcfoundation.UA.DEXPI.SignalConveyingTypeClassification",
         "type": "integer",
         "minimum": -2147483648,
         "maximum": 2147483647,
@@ -8076,7 +8076,7 @@
         "data": {
           "title": "PortStatusClassification",
           "description": "A classification indicating the port status of the SignalConveyingFunction.",
-          "dov:typeRef": "nsu=http://opcfoundation.org/UA/DEXPI/;i=1056",
+          "dov:typeRef": "org.opcfoundation.UA.DEXPI.PortStatusClassification",
           "type": "integer",
           "minimum": -2147483648,
           "maximum": 2147483647
@@ -8094,7 +8094,7 @@
         "data": {
           "title": "SignalConveyingTypeClassification",
           "description": "A classification indicating the signal conveying type of the SignalConveyingFunction.",
-          "dov:typeRef": "nsu=http://opcfoundation.org/UA/DEXPI/;i=1040",
+          "dov:typeRef": "org.opcfoundation.UA.DEXPI.SignalConveyingTypeClassification",
           "type": "integer",
           "minimum": -2147483648,
           "maximum": 2147483647
@@ -8146,7 +8146,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "DEXPI_SignalConveyingFunctionTargetType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/DEXPI/;i=1219",
+    "dov:typeRef": "org.opcfoundation.UA.DEXPI.SignalConveyingFunctionTargetType",
     "links": [
       {
         "rel": "tm:extends",
@@ -8172,7 +8172,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "DEXPI_OfflinePrimaryElementType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/DEXPI/;i=1220",
+    "dov:typeRef": "org.opcfoundation.UA.DEXPI.OfflinePrimaryElementType",
     "dov:isComposite": true,
     "links": [
       {
@@ -8184,7 +8184,7 @@
     "schemaDefinitions": {
       "NominalDiameterStandardClassification": {
         "type": "object",
-        "dov:typeRef": "nsu=http://opcfoundation.org/UA/DEXPI/;i=1032",
+        "dov:typeRef": "org.opcfoundation.UA.DEXPI.NominalDiameterStandardClassification",
         "const": {
           "Din2448ObjectDn100": 0,
           "Din2448ObjectDn125": 1,
@@ -8518,7 +8518,7 @@
       },
       "HeatTracingTypeClassification": {
         "type": "object",
-        "dov:typeRef": "nsu=http://opcfoundation.org/UA/DEXPI/;i=1038",
+        "dov:typeRef": "org.opcfoundation.UA.DEXPI.HeatTracingTypeClassification",
         "const": {
           "ElectricalHeatTracingSystem": 0,
           "HeatTracingSystem": 1,
@@ -8611,7 +8611,7 @@
         "dov:namespace": "http://opcfoundation.org/UA/DEXPI/",
         "title": "NominalDiameterStandardClassification",
         "description": "The nominal diameter of the device connection of the OfflinePrimaryElement, given as a reference to a nominal diameter standard and value.",
-        "dov:typeRef": "nsu=http://opcfoundation.org/UA/DEXPI/;i=1032",
+        "dov:typeRef": "org.opcfoundation.UA.DEXPI.NominalDiameterStandardClassification",
         "type": "integer",
         "minimum": -2147483648,
         "maximum": 2147483647,
@@ -8687,7 +8687,7 @@
         "dov:namespace": "http://opcfoundation.org/UA/DEXPI/",
         "title": "HeatTracingTypeClassification",
         "description": "A specialization indicating the heat tracing type related to the OfflinePrimaryElement.",
-        "dov:typeRef": "nsu=http://opcfoundation.org/UA/DEXPI/;i=1038",
+        "dov:typeRef": "org.opcfoundation.UA.DEXPI.HeatTracingTypeClassification",
         "type": "integer",
         "minimum": -2147483648,
         "maximum": 2147483647,
@@ -8783,7 +8783,7 @@
         "dov:namespace": "http://opcfoundation.org/UA/DEXPI/",
         "title": "NominalDiameterStandardClassification",
         "description": "The nominal diameter of the location of the OfflinePrimaryElement, given as a reference to a nominal diameter standard and value.",
-        "dov:typeRef": "nsu=http://opcfoundation.org/UA/DEXPI/;i=1032",
+        "dov:typeRef": "org.opcfoundation.UA.DEXPI.NominalDiameterStandardClassification",
         "type": "integer",
         "minimum": -2147483648,
         "maximum": 2147483647,
@@ -8874,7 +8874,7 @@
         "data": {
           "title": "NominalDiameterStandardClassification",
           "description": "The nominal diameter of the device connection of the OfflinePrimaryElement, given as a reference to a nominal diameter standard and value.",
-          "dov:typeRef": "nsu=http://opcfoundation.org/UA/DEXPI/;i=1032",
+          "dov:typeRef": "org.opcfoundation.UA.DEXPI.NominalDiameterStandardClassification",
           "type": "integer",
           "minimum": -2147483648,
           "maximum": 2147483647
@@ -8934,7 +8934,7 @@
         "data": {
           "title": "HeatTracingTypeClassification",
           "description": "A specialization indicating the heat tracing type related to the OfflinePrimaryElement.",
-          "dov:typeRef": "nsu=http://opcfoundation.org/UA/DEXPI/;i=1038",
+          "dov:typeRef": "org.opcfoundation.UA.DEXPI.HeatTracingTypeClassification",
           "type": "integer",
           "minimum": -2147483648,
           "maximum": 2147483647
@@ -9010,7 +9010,7 @@
         "data": {
           "title": "NominalDiameterStandardClassification",
           "description": "The nominal diameter of the location of the OfflinePrimaryElement, given as a reference to a nominal diameter standard and value.",
-          "dov:typeRef": "nsu=http://opcfoundation.org/UA/DEXPI/;i=1032",
+          "dov:typeRef": "org.opcfoundation.UA.DEXPI.NominalDiameterStandardClassification",
           "type": "integer",
           "minimum": -2147483648,
           "maximum": 2147483647
@@ -9064,7 +9064,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "DEXPI_SignalConveyingFunctionSourceType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/DEXPI/;i=1250",
+    "dov:typeRef": "org.opcfoundation.UA.DEXPI.SignalConveyingFunctionSourceType",
     "links": [
       {
         "rel": "tm:extends",
@@ -9090,7 +9090,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "DEXPI_InlinePrimaryElementReferenceType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/DEXPI/;i=1263",
+    "dov:typeRef": "org.opcfoundation.UA.DEXPI.InlinePrimaryElementReferenceType",
     "dov:isComposite": true,
     "links": [
       {
@@ -9117,7 +9117,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "DEXPI_PlantSectionIso10209_2012Type",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/DEXPI/;i=1265",
+    "dov:typeRef": "org.opcfoundation.UA.DEXPI.PlantSectionIso10209-2012Type",
     "dov:isComposite": true,
     "links": [
       {
@@ -9225,7 +9225,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "DEXPI_AreaIsa95LocatedStructureType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/DEXPI/;i=1270",
+    "dov:typeRef": "org.opcfoundation.UA.DEXPI.AreaIsa95LocatedStructureType",
     "links": [
       {
         "rel": "tm:extends",
@@ -9251,7 +9251,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "DEXPI_IndustrialComplexIso10209_2012Type",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/DEXPI/;i=1272",
+    "dov:typeRef": "org.opcfoundation.UA.DEXPI.IndustrialComplexIso10209-2012Type",
     "dov:isComposite": true,
     "links": [
       {
@@ -9359,7 +9359,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "DEXPI_PlantTrainLocatedStructureType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/DEXPI/;i=1277",
+    "dov:typeRef": "org.opcfoundation.UA.DEXPI.PlantTrainLocatedStructureType",
     "links": [
       {
         "rel": "tm:extends",
@@ -9385,7 +9385,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "DEXPI_ProcessPlantParentStructureType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/DEXPI/;i=1279",
+    "dov:typeRef": "org.opcfoundation.UA.DEXPI.ProcessPlantParentStructureType",
     "links": [
       {
         "rel": "tm:extends",
@@ -9411,7 +9411,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "DEXPI_SiteIsa95Type",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/DEXPI/;i=1280",
+    "dov:typeRef": "org.opcfoundation.UA.DEXPI.SiteIsa95Type",
     "dov:isComposite": true,
     "links": [
       {
@@ -9519,7 +9519,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "DEXPI_IndustrialComplexIso10209_2012ParentStructureType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/DEXPI/;i=1284",
+    "dov:typeRef": "org.opcfoundation.UA.DEXPI.IndustrialComplexIso10209-2012ParentStructureType",
     "links": [
       {
         "rel": "tm:extends",
@@ -9545,7 +9545,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "DEXPI_TechnicalItemType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/DEXPI/;i=1285",
+    "dov:typeRef": "org.opcfoundation.UA.DEXPI.TechnicalItemType",
     "links": [
       {
         "rel": "tm:extends",
@@ -9571,7 +9571,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "DEXPI_AreaIsa95Type",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/DEXPI/;i=1290",
+    "dov:typeRef": "org.opcfoundation.UA.DEXPI.AreaIsa95Type",
     "dov:isComposite": true,
     "links": [
       {
@@ -9679,7 +9679,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "DEXPI_PlantSystemLocatedStructureType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/DEXPI/;i=1293",
+    "dov:typeRef": "org.opcfoundation.UA.DEXPI.PlantSystemLocatedStructureType",
     "links": [
       {
         "rel": "tm:extends",
@@ -9705,7 +9705,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "DEXPI_TechnicalItemParentStructureType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/DEXPI/;i=1295",
+    "dov:typeRef": "org.opcfoundation.UA.DEXPI.TechnicalItemParentStructureType",
     "links": [
       {
         "rel": "tm:extends",
@@ -9731,7 +9731,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "DEXPI_PlantSectionIso10209_2012ParentStructureType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/DEXPI/;i=1296",
+    "dov:typeRef": "org.opcfoundation.UA.DEXPI.PlantSectionIso10209-2012ParentStructureType",
     "links": [
       {
         "rel": "tm:extends",
@@ -9757,7 +9757,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "DEXPI_PlantSystemType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/DEXPI/;i=1297",
+    "dov:typeRef": "org.opcfoundation.UA.DEXPI.PlantSystemType",
     "dov:isComposite": true,
     "links": [
       {
@@ -9865,7 +9865,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "DEXPI_ProcessPlantType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/DEXPI/;i=1300",
+    "dov:typeRef": "org.opcfoundation.UA.DEXPI.ProcessPlantType",
     "dov:isComposite": true,
     "links": [
       {
@@ -9973,7 +9973,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "DEXPI_Isa95EnterpriseType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/DEXPI/;i=1305",
+    "dov:typeRef": "org.opcfoundation.UA.DEXPI.Isa95EnterpriseType",
     "dov:isComposite": true,
     "links": [
       {
@@ -10081,7 +10081,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "DEXPI_PlantTrainType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/DEXPI/;i=1309",
+    "dov:typeRef": "org.opcfoundation.UA.DEXPI.PlantTrainType",
     "dov:isComposite": true,
     "links": [
       {
@@ -10189,7 +10189,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "DEXPI_EjectorPumpType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/DEXPI/;i=1312",
+    "dov:typeRef": "org.opcfoundation.UA.DEXPI.EjectorPumpType",
     "dov:isComposite": true,
     "links": [
       {
@@ -10269,7 +10269,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "DEXPI_PumpType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/DEXPI/;i=1716",
+    "dov:typeRef": "org.opcfoundation.UA.DEXPI.PumpType",
     "dov:isComposite": true,
     "links": [
       {
@@ -10421,7 +10421,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "DEXPI_EquipmentType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/DEXPI/;i=1682",
+    "dov:typeRef": "org.opcfoundation.UA.DEXPI.EquipmentType",
     "links": [
       {
         "rel": "tm:extends",
@@ -10636,7 +10636,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "DEXPI_ChamberType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/DEXPI/;i=1523",
+    "dov:typeRef": "org.opcfoundation.UA.DEXPI.ChamberType",
     "links": [
       {
         "rel": "tm:extends",
@@ -10647,7 +10647,7 @@
     "schemaDefinitions": {
       "ChamberFunctionClassification": {
         "type": "object",
-        "dov:typeRef": "nsu=http://opcfoundation.org/UA/DEXPI/;i=1044",
+        "dov:typeRef": "org.opcfoundation.UA.DEXPI.ChamberFunctionClassification",
         "const": {
           "Cooling": 0,
           "Heating": 1,
@@ -10735,7 +10735,7 @@
         "dov:namespace": "http://opcfoundation.org/UA/DEXPI/",
         "title": "ChamberFunctionClassification",
         "description": "A specialization indicating the function of the Chamber.",
-        "dov:typeRef": "nsu=http://opcfoundation.org/UA/DEXPI/;i=1044",
+        "dov:typeRef": "org.opcfoundation.UA.DEXPI.ChamberFunctionClassification",
         "type": "integer",
         "minimum": -2147483648,
         "maximum": 2147483647,
@@ -11022,7 +11022,7 @@
         "data": {
           "title": "ChamberFunctionClassification",
           "description": "A specialization indicating the function of the Chamber.",
-          "dov:typeRef": "nsu=http://opcfoundation.org/UA/DEXPI/;i=1044",
+          "dov:typeRef": "org.opcfoundation.UA.DEXPI.ChamberFunctionClassification",
           "type": "integer",
           "minimum": -2147483648,
           "maximum": 2147483647
@@ -11232,7 +11232,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "DEXPI_NozzleType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/DEXPI/;i=1361",
+    "dov:typeRef": "org.opcfoundation.UA.DEXPI.NozzleType",
     "links": [
       {
         "rel": "tm:extends",
@@ -11249,7 +11249,7 @@
     "schemaDefinitions": {
       "NominalPressureStandardClassification": {
         "type": "object",
-        "dov:typeRef": "nsu=http://opcfoundation.org/UA/DEXPI/;i=1018",
+        "dov:typeRef": "org.opcfoundation.UA.DEXPI.NominalPressureStandardClassification",
         "const": {
           "Class10000PsiArtefact": 0,
           "Class1000KpaArtefact": 1,
@@ -11537,7 +11537,7 @@
         "dov:namespace": "http://opcfoundation.org/UA/DEXPI/",
         "title": "NominalPressureStandardClassification",
         "description": "The nominal pressure of the Nozzle, given as a reference to a nominal pressure standard and value.",
-        "dov:typeRef": "nsu=http://opcfoundation.org/UA/DEXPI/;i=1018",
+        "dov:typeRef": "org.opcfoundation.UA.DEXPI.NominalPressureStandardClassification",
         "type": "integer",
         "minimum": -2147483648,
         "maximum": 2147483647,
@@ -11626,7 +11626,7 @@
         "data": {
           "title": "NominalPressureStandardClassification",
           "description": "The nominal pressure of the Nozzle, given as a reference to a nominal pressure standard and value.",
-          "dov:typeRef": "nsu=http://opcfoundation.org/UA/DEXPI/;i=1018",
+          "dov:typeRef": "org.opcfoundation.UA.DEXPI.NominalPressureStandardClassification",
           "type": "integer",
           "minimum": -2147483648,
           "maximum": 2147483647
@@ -11678,7 +11678,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "DEXPI_KneaderType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/DEXPI/;i=1316",
+    "dov:typeRef": "org.opcfoundation.UA.DEXPI.KneaderType",
     "dov:isComposite": true,
     "links": [
       {
@@ -11830,7 +11830,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "DEXPI_MixerType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/DEXPI/;i=1454",
+    "dov:typeRef": "org.opcfoundation.UA.DEXPI.MixerType",
     "dov:isComposite": true,
     "links": [
       {
@@ -11863,7 +11863,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "DEXPI_MixingElementAssemblyType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/DEXPI/;i=1562",
+    "dov:typeRef": "org.opcfoundation.UA.DEXPI.MixingElementAssemblyType",
     "links": [
       {
         "rel": "tm:extends",
@@ -11974,7 +11974,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "DEXPI_HeatExchangerType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/DEXPI/;i=1326",
+    "dov:typeRef": "org.opcfoundation.UA.DEXPI.HeatExchangerType",
     "dov:isComposite": true,
     "links": [
       {
@@ -12126,7 +12126,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "DEXPI_RotaryPumpType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/DEXPI/;i=1342",
+    "dov:typeRef": "org.opcfoundation.UA.DEXPI.RotaryPumpType",
     "dov:isComposite": true,
     "links": [
       {
@@ -12248,7 +12248,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "DEXPI_DisplacerType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/DEXPI/;i=1656",
+    "dov:typeRef": "org.opcfoundation.UA.DEXPI.DisplacerType",
     "links": [
       {
         "rel": "tm:extends",
@@ -12391,7 +12391,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "DEXPI_ThinFilmEvaporatorType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/DEXPI/;i=1350",
+    "dov:typeRef": "org.opcfoundation.UA.DEXPI.ThinFilmEvaporatorType",
     "dov:isComposite": true,
     "links": [
       {
@@ -12549,7 +12549,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "DEXPI_HeatExchangerRotorType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/DEXPI/;i=1491",
+    "dov:typeRef": "org.opcfoundation.UA.DEXPI.HeatExchangerRotorType",
     "links": [
       {
         "rel": "tm:extends",
@@ -12624,7 +12624,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "DEXPI_SpiralHeatExchangerType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/DEXPI/;i=1369",
+    "dov:typeRef": "org.opcfoundation.UA.DEXPI.SpiralHeatExchangerType",
     "dov:isComposite": true,
     "links": [
       {
@@ -12651,7 +12651,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "DEXPI_ColumnPackingsArrangementType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/DEXPI/;i=1370",
+    "dov:typeRef": "org.opcfoundation.UA.DEXPI.ColumnPackingsArrangementType",
     "dov:isComposite": true,
     "links": [
       {
@@ -12831,7 +12831,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "DEXPI_ChamberOwnerType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/DEXPI/;i=1377",
+    "dov:typeRef": "org.opcfoundation.UA.DEXPI.ChamberOwnerType",
     "links": [
       {
         "rel": "tm:extends",
@@ -12863,7 +12863,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "DEXPI_ReciprocatingCompressorType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/DEXPI/;i=1379",
+    "dov:typeRef": "org.opcfoundation.UA.DEXPI.ReciprocatingCompressorType",
     "dov:isComposite": true,
     "links": [
       {
@@ -12985,7 +12985,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "DEXPI_CompressorType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/DEXPI/;i=1408",
+    "dov:typeRef": "org.opcfoundation.UA.DEXPI.CompressorType",
     "dov:isComposite": true,
     "links": [
       {
@@ -13101,7 +13101,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "DEXPI_SpecialCompressorType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/DEXPI/;i=1387",
+    "dov:typeRef": "org.opcfoundation.UA.DEXPI.SpecialCompressorType",
     "dov:isComposite": true,
     "links": [
       {
@@ -13291,7 +13291,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "DEXPI_CompressorEquipmentType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/DEXPI/;i=1636",
+    "dov:typeRef": "org.opcfoundation.UA.DEXPI.CompressorEquipmentType",
     "links": [
       {
         "rel": "tm:extends",
@@ -13317,7 +13317,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "DEXPI_SubTaggedColumnSectionType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/DEXPI/;i=1399",
+    "dov:typeRef": "org.opcfoundation.UA.DEXPI.SubTaggedColumnSectionType",
     "links": [
       {
         "rel": "tm:extends",
@@ -13470,7 +13470,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "DEXPI_ColumnInternalsArrangementType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/DEXPI/;i=1489",
+    "dov:typeRef": "org.opcfoundation.UA.DEXPI.ColumnInternalsArrangementType",
     "links": [
       {
         "rel": "tm:extends",
@@ -13496,7 +13496,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "DEXPI_RotaryMixerType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/DEXPI/;i=1415",
+    "dov:typeRef": "org.opcfoundation.UA.DEXPI.RotaryMixerType",
     "dov:isComposite": true,
     "links": [
       {
@@ -13648,7 +13648,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "DEXPI_VesselType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/DEXPI/;i=1425",
+    "dov:typeRef": "org.opcfoundation.UA.DEXPI.VesselType",
     "dov:isComposite": true,
     "links": [
       {
@@ -13728,7 +13728,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "DEXPI_GasFilterType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/DEXPI/;i=1431",
+    "dov:typeRef": "org.opcfoundation.UA.DEXPI.GasFilterType",
     "dov:isComposite": true,
     "links": [
       {
@@ -13922,7 +13922,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "DEXPI_FilterType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/DEXPI/;i=1619",
+    "dov:typeRef": "org.opcfoundation.UA.DEXPI.FilterType",
     "dov:isComposite": true,
     "links": [
       {
@@ -13949,7 +13949,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "DEXPI_FilterUnitType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/DEXPI/;i=1456",
+    "dov:typeRef": "org.opcfoundation.UA.DEXPI.FilterUnitType",
     "links": [
       {
         "rel": "tm:extends",
@@ -14276,7 +14276,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "DEXPI_PressureVesselType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/DEXPI/;i=1445",
+    "dov:typeRef": "org.opcfoundation.UA.DEXPI.PressureVesselType",
     "dov:isComposite": true,
     "links": [
       {
@@ -14356,7 +14356,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "DEXPI_SpecialVesselType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/DEXPI/;i=1449",
+    "dov:typeRef": "org.opcfoundation.UA.DEXPI.SpecialVesselType",
     "dov:isComposite": true,
     "links": [
       {
@@ -14468,7 +14468,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "DEXPI_AirCoolingSystemType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/DEXPI/;i=1478",
+    "dov:typeRef": "org.opcfoundation.UA.DEXPI.AirCoolingSystemType",
     "dov:isComposite": true,
     "links": [
       {
@@ -14626,7 +14626,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "DEXPI_SiloType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/DEXPI/;i=1490",
+    "dov:typeRef": "org.opcfoundation.UA.DEXPI.SiloType",
     "dov:isComposite": true,
     "links": [
       {
@@ -14653,7 +14653,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "DEXPI_ColumnSectionType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/DEXPI/;i=1494",
+    "dov:typeRef": "org.opcfoundation.UA.DEXPI.ColumnSectionType",
     "links": [
       {
         "rel": "tm:extends",
@@ -14774,7 +14774,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "DEXPI_PumpEquipmentType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/DEXPI/;i=1502",
+    "dov:typeRef": "org.opcfoundation.UA.DEXPI.PumpEquipmentType",
     "links": [
       {
         "rel": "tm:extends",
@@ -14800,7 +14800,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "DEXPI_ReciprocatingPumpType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/DEXPI/;i=1503",
+    "dov:typeRef": "org.opcfoundation.UA.DEXPI.ReciprocatingPumpType",
     "dov:isComposite": true,
     "links": [
       {
@@ -14922,7 +14922,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "DEXPI_TaggedColumnSectionType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/DEXPI/;i=1511",
+    "dov:typeRef": "org.opcfoundation.UA.DEXPI.TaggedColumnSectionType",
     "dov:isComposite": true,
     "links": [
       {
@@ -15172,7 +15172,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "DEXPI_ElectricHeaterType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/DEXPI/;i=1557",
+    "dov:typeRef": "org.opcfoundation.UA.DEXPI.ElectricHeaterType",
     "dov:isComposite": true,
     "links": [
       {
@@ -15258,7 +15258,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "DEXPI_TubeBundleType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/DEXPI/;i=1592",
+    "dov:typeRef": "org.opcfoundation.UA.DEXPI.TubeBundleType",
     "links": [
       {
         "rel": "tm:extends",
@@ -15269,7 +15269,7 @@
     "schemaDefinitions": {
       "NominalDiameterStandardClassification": {
         "type": "object",
-        "dov:typeRef": "nsu=http://opcfoundation.org/UA/DEXPI/;i=1032",
+        "dov:typeRef": "org.opcfoundation.UA.DEXPI.NominalDiameterStandardClassification",
         "const": {
           "Din2448ObjectDn100": 0,
           "Din2448ObjectDn125": 1,
@@ -15720,7 +15720,7 @@
         "dov:namespace": "http://opcfoundation.org/UA/DEXPI/",
         "title": "NominalDiameterStandardClassification",
         "description": "The nominal diameter of the tubes, given as a reference to a nominal diameter standard and value.",
-        "dov:typeRef": "nsu=http://opcfoundation.org/UA/DEXPI/;i=1032",
+        "dov:typeRef": "org.opcfoundation.UA.DEXPI.NominalDiameterStandardClassification",
         "type": "integer",
         "minimum": -2147483648,
         "maximum": 2147483647,
@@ -15837,7 +15837,7 @@
         "data": {
           "title": "NominalDiameterStandardClassification",
           "description": "The nominal diameter of the tubes, given as a reference to a nominal diameter standard and value.",
-          "dov:typeRef": "nsu=http://opcfoundation.org/UA/DEXPI/;i=1032",
+          "dov:typeRef": "org.opcfoundation.UA.DEXPI.NominalDiameterStandardClassification",
           "type": "integer",
           "minimum": -2147483648,
           "maximum": 2147483647
@@ -15875,7 +15875,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "DEXPI_CentrifugalCompressorType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/DEXPI/;i=1566",
+    "dov:typeRef": "org.opcfoundation.UA.DEXPI.CentrifugalCompressorType",
     "dov:isComposite": true,
     "links": [
       {
@@ -15997,7 +15997,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "DEXPI_ImpellerType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/DEXPI/;i=1629",
+    "dov:typeRef": "org.opcfoundation.UA.DEXPI.ImpellerType",
     "links": [
       {
         "rel": "tm:extends",
@@ -16140,7 +16140,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "DEXPI_NozzleOwnerType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/DEXPI/;i=1574",
+    "dov:typeRef": "org.opcfoundation.UA.DEXPI.NozzleOwnerType",
     "links": [
       {
         "rel": "tm:extends",
@@ -16172,7 +16172,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "DEXPI_PlateAndShellHeatExchangerType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/DEXPI/;i=1576",
+    "dov:typeRef": "org.opcfoundation.UA.DEXPI.PlateAndShellHeatExchangerType",
     "dov:isComposite": true,
     "links": [
       {
@@ -16324,7 +16324,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "DEXPI_CentrifugalPumpType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/DEXPI/;i=1584",
+    "dov:typeRef": "org.opcfoundation.UA.DEXPI.CentrifugalPumpType",
     "dov:isComposite": true,
     "links": [
       {
@@ -16446,7 +16446,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "DEXPI_ColumnTraysArrangementType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/DEXPI/;i=1603",
+    "dov:typeRef": "org.opcfoundation.UA.DEXPI.ColumnTraysArrangementType",
     "dov:isComposite": true,
     "links": [
       {
@@ -16590,7 +16590,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "DEXPI_SpecialPumpType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/DEXPI/;i=1607",
+    "dov:typeRef": "org.opcfoundation.UA.DEXPI.SpecialPumpType",
     "dov:isComposite": true,
     "links": [
       {
@@ -16780,7 +16780,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "DEXPI_AirEjectorType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/DEXPI/;i=1620",
+    "dov:typeRef": "org.opcfoundation.UA.DEXPI.AirEjectorType",
     "dov:isComposite": true,
     "links": [
       {
@@ -16866,7 +16866,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "DEXPI_StaticMixerType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/DEXPI/;i=1625",
+    "dov:typeRef": "org.opcfoundation.UA.DEXPI.StaticMixerType",
     "dov:isComposite": true,
     "links": [
       {
@@ -16946,7 +16946,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "DEXPI_AgitatorType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/DEXPI/;i=1637",
+    "dov:typeRef": "org.opcfoundation.UA.DEXPI.AgitatorType",
     "dov:isComposite": true,
     "links": [
       {
@@ -17068,7 +17068,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "DEXPI_AgitatorRotorType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/DEXPI/;i=1672",
+    "dov:typeRef": "org.opcfoundation.UA.DEXPI.AgitatorRotorType",
     "links": [
       {
         "rel": "tm:extends",
@@ -17247,7 +17247,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "DEXPI_AxialCompressorType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/DEXPI/;i=1645",
+    "dov:typeRef": "org.opcfoundation.UA.DEXPI.AxialCompressorType",
     "dov:isComposite": true,
     "links": [
       {
@@ -17369,7 +17369,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "DEXPI_ShellAndTubeHeatExchangerType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/DEXPI/;i=1653",
+    "dov:typeRef": "org.opcfoundation.UA.DEXPI.ShellAndTubeHeatExchangerType",
     "dov:isComposite": true,
     "links": [
       {
@@ -17451,7 +17451,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "DEXPI_TankType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/DEXPI/;i=1663",
+    "dov:typeRef": "org.opcfoundation.UA.DEXPI.TankType",
     "dov:isComposite": true,
     "links": [
       {
@@ -17531,7 +17531,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "DEXPI_ProcessColumnType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/DEXPI/;i=1667",
+    "dov:typeRef": "org.opcfoundation.UA.DEXPI.ProcessColumnType",
     "dov:isComposite": true,
     "links": [
       {
@@ -17617,7 +17617,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "DEXPI_LiquidFilterType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/DEXPI/;i=1694",
+    "dov:typeRef": "org.opcfoundation.UA.DEXPI.LiquidFilterType",
     "dov:isComposite": true,
     "links": [
       {
@@ -17811,7 +17811,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "DEXPI_RotaryCompressorType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/DEXPI/;i=1708",
+    "dov:typeRef": "org.opcfoundation.UA.DEXPI.RotaryCompressorType",
     "dov:isComposite": true,
     "links": [
       {
@@ -17933,7 +17933,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "DEXPI_TurbineFlowMeterType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/DEXPI/;i=1755",
+    "dov:typeRef": "org.opcfoundation.UA.DEXPI.TurbineFlowMeterType",
     "dov:isComposite": true,
     "links": [
       {
@@ -17960,7 +17960,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "DEXPI_InlinePrimaryElementType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/DEXPI/;i=1793",
+    "dov:typeRef": "org.opcfoundation.UA.DEXPI.InlinePrimaryElementType",
     "dov:isComposite": true,
     "links": [
       {
@@ -17972,7 +17972,7 @@
     "schemaDefinitions": {
       "HeatTracingTypeClassification": {
         "type": "object",
-        "dov:typeRef": "nsu=http://opcfoundation.org/UA/DEXPI/;i=1038",
+        "dov:typeRef": "org.opcfoundation.UA.DEXPI.HeatTracingTypeClassification",
         "const": {
           "ElectricalHeatTracingSystem": 0,
           "HeatTracingSystem": 1,
@@ -18047,7 +18047,7 @@
         "dov:namespace": "http://opcfoundation.org/UA/DEXPI/",
         "title": "HeatTracingTypeClassification",
         "description": "A specialization indicating the heat tracing type related to the InlinePrimaryElement.",
-        "dov:typeRef": "nsu=http://opcfoundation.org/UA/DEXPI/;i=1038",
+        "dov:typeRef": "org.opcfoundation.UA.DEXPI.HeatTracingTypeClassification",
         "type": "integer",
         "minimum": -2147483648,
         "maximum": 2147483647,
@@ -18180,7 +18180,7 @@
         "data": {
           "title": "HeatTracingTypeClassification",
           "description": "A specialization indicating the heat tracing type related to the InlinePrimaryElement.",
-          "dov:typeRef": "nsu=http://opcfoundation.org/UA/DEXPI/;i=1038",
+          "dov:typeRef": "org.opcfoundation.UA.DEXPI.HeatTracingTypeClassification",
           "type": "integer",
           "minimum": -2147483648,
           "maximum": 2147483647
@@ -18278,7 +18278,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "DEXPI_PipingComponentType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/DEXPI/;i=1995",
+    "dov:typeRef": "org.opcfoundation.UA.DEXPI.PipingComponentType",
     "links": [
       {
         "rel": "tm:extends",
@@ -18295,7 +18295,7 @@
     "schemaDefinitions": {
       "OnHoldClassification": {
         "type": "object",
-        "dov:typeRef": "nsu=http://opcfoundation.org/UA/DEXPI/;i=1008",
+        "dov:typeRef": "org.opcfoundation.UA.DEXPI.OnHoldClassification",
         "const": {
           "NotOnHold": 0,
           "OnHold": 1
@@ -18314,7 +18314,7 @@
       },
       "PipingClassArtefactClassification": {
         "type": "object",
-        "dov:typeRef": "nsu=http://opcfoundation.org/UA/DEXPI/;i=1036",
+        "dov:typeRef": "org.opcfoundation.UA.DEXPI.PipingClassArtefactClassification",
         "const": {
           "NonPipingClassArtefact": 0,
           "PipingClassArtefact": 1
@@ -18410,7 +18410,7 @@
         "dov:namespace": "http://opcfoundation.org/UA/DEXPI/",
         "title": "OnHoldClassification",
         "description": "A specialization indicating if the PipingComponent is on hold or not.",
-        "dov:typeRef": "nsu=http://opcfoundation.org/UA/DEXPI/;i=1008",
+        "dov:typeRef": "org.opcfoundation.UA.DEXPI.OnHoldClassification",
         "type": "integer",
         "minimum": -2147483648,
         "maximum": 2147483647,
@@ -18432,7 +18432,7 @@
         "dov:namespace": "http://opcfoundation.org/UA/DEXPI/",
         "title": "PipingClassArtefactClassification",
         "description": "A specialization indicating if the PipingComponent is an artefact that is         described by a piping class.",
-        "dov:typeRef": "nsu=http://opcfoundation.org/UA/DEXPI/;i=1036",
+        "dov:typeRef": "org.opcfoundation.UA.DEXPI.PipingClassArtefactClassification",
         "type": "integer",
         "minimum": -2147483648,
         "maximum": 2147483647,
@@ -18517,7 +18517,7 @@
         "data": {
           "title": "OnHoldClassification",
           "description": "A specialization indicating if the PipingComponent is on hold or not.",
-          "dov:typeRef": "nsu=http://opcfoundation.org/UA/DEXPI/;i=1008",
+          "dov:typeRef": "org.opcfoundation.UA.DEXPI.OnHoldClassification",
           "type": "integer",
           "minimum": -2147483648,
           "maximum": 2147483647
@@ -18535,7 +18535,7 @@
         "data": {
           "title": "PipingClassArtefactClassification",
           "description": "A specialization indicating if the PipingComponent is an artefact that is         described by a piping class.",
-          "dov:typeRef": "nsu=http://opcfoundation.org/UA/DEXPI/;i=1036",
+          "dov:typeRef": "org.opcfoundation.UA.DEXPI.PipingClassArtefactClassification",
           "type": "integer",
           "minimum": -2147483648,
           "maximum": 2147483647
@@ -18573,7 +18573,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "DEXPI_AngleValveType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/DEXPI/;i=1756",
+    "dov:typeRef": "org.opcfoundation.UA.DEXPI.AngleValveType",
     "dov:isComposite": true,
     "links": [
       {
@@ -18600,7 +18600,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "DEXPI_ShutOffValveType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/DEXPI/;i=1845",
+    "dov:typeRef": "org.opcfoundation.UA.DEXPI.ShutOffValveType",
     "dov:isComposite": true,
     "links": [
       {
@@ -18612,7 +18612,7 @@
     "schemaDefinitions": {
       "HeatTracingTypeClassification": {
         "type": "object",
-        "dov:typeRef": "nsu=http://opcfoundation.org/UA/DEXPI/;i=1038",
+        "dov:typeRef": "org.opcfoundation.UA.DEXPI.HeatTracingTypeClassification",
         "const": {
           "ElectricalHeatTracingSystem": 0,
           "HeatTracingSystem": 1,
@@ -18646,7 +18646,7 @@
       },
       "NumberOfPortsClassification": {
         "type": "object",
-        "dov:typeRef": "nsu=http://opcfoundation.org/UA/DEXPI/;i=1022",
+        "dov:typeRef": "org.opcfoundation.UA.DEXPI.NumberOfPortsClassification",
         "const": {
           "FourPortValve": 0,
           "ThreePortValve": 1,
@@ -18670,7 +18670,7 @@
       },
       "OperationClassification": {
         "type": "object",
-        "dov:typeRef": "nsu=http://opcfoundation.org/UA/DEXPI/;i=1046",
+        "dov:typeRef": "org.opcfoundation.UA.DEXPI.OperationClassification",
         "const": {
           "ContinuousOperation": 0,
           "IntermittentOperation": 1
@@ -18730,7 +18730,7 @@
         "dov:namespace": "http://opcfoundation.org/UA/DEXPI/",
         "title": "HeatTracingTypeClassification",
         "description": "A specialization indicating the heat tracing type related to the ShutOffValve.",
-        "dov:typeRef": "nsu=http://opcfoundation.org/UA/DEXPI/;i=1038",
+        "dov:typeRef": "org.opcfoundation.UA.DEXPI.HeatTracingTypeClassification",
         "type": "integer",
         "minimum": -2147483648,
         "maximum": 2147483647,
@@ -18810,7 +18810,7 @@
         "dov:namespace": "http://opcfoundation.org/UA/DEXPI/",
         "title": "NumberOfPortsClassification",
         "description": "A specialization indicating the number of ports of the ShutOffValve.",
-        "dov:typeRef": "nsu=http://opcfoundation.org/UA/DEXPI/;i=1022",
+        "dov:typeRef": "org.opcfoundation.UA.DEXPI.NumberOfPortsClassification",
         "type": "integer",
         "minimum": -2147483648,
         "maximum": 2147483647,
@@ -18832,7 +18832,7 @@
         "dov:namespace": "http://opcfoundation.org/UA/DEXPI/",
         "title": "OperationClassification",
         "description": "A specialization indicating the operation of the ShutOffValve.",
-        "dov:typeRef": "nsu=http://opcfoundation.org/UA/DEXPI/;i=1046",
+        "dov:typeRef": "org.opcfoundation.UA.DEXPI.OperationClassification",
         "type": "integer",
         "minimum": -2147483648,
         "maximum": 2147483647,
@@ -18925,7 +18925,7 @@
         "data": {
           "title": "HeatTracingTypeClassification",
           "description": "A specialization indicating the heat tracing type related to the ShutOffValve.",
-          "dov:typeRef": "nsu=http://opcfoundation.org/UA/DEXPI/;i=1038",
+          "dov:typeRef": "org.opcfoundation.UA.DEXPI.HeatTracingTypeClassification",
           "type": "integer",
           "minimum": -2147483648,
           "maximum": 2147483647
@@ -18989,7 +18989,7 @@
         "data": {
           "title": "NumberOfPortsClassification",
           "description": "A specialization indicating the number of ports of the ShutOffValve.",
-          "dov:typeRef": "nsu=http://opcfoundation.org/UA/DEXPI/;i=1022",
+          "dov:typeRef": "org.opcfoundation.UA.DEXPI.NumberOfPortsClassification",
           "type": "integer",
           "minimum": -2147483648,
           "maximum": 2147483647
@@ -19007,7 +19007,7 @@
         "data": {
           "title": "OperationClassification",
           "description": "A specialization indicating the operation of the ShutOffValve.",
-          "dov:typeRef": "nsu=http://opcfoundation.org/UA/DEXPI/;i=1046",
+          "dov:typeRef": "org.opcfoundation.UA.DEXPI.OperationClassification",
           "type": "integer",
           "minimum": -2147483648,
           "maximum": 2147483647
@@ -19073,7 +19073,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "DEXPI_StrainerType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/DEXPI/;i=1757",
+    "dov:typeRef": "org.opcfoundation.UA.DEXPI.StrainerType",
     "dov:isComposite": true,
     "links": [
       {
@@ -19085,7 +19085,7 @@
     "schemaDefinitions": {
       "HeatTracingTypeClassification": {
         "type": "object",
-        "dov:typeRef": "nsu=http://opcfoundation.org/UA/DEXPI/;i=1038",
+        "dov:typeRef": "org.opcfoundation.UA.DEXPI.HeatTracingTypeClassification",
         "const": {
           "ElectricalHeatTracingSystem": 0,
           "HeatTracingSystem": 1,
@@ -19160,7 +19160,7 @@
         "dov:namespace": "http://opcfoundation.org/UA/DEXPI/",
         "title": "HeatTracingTypeClassification",
         "description": "A specialization indicating the heat tracing type related to the PipeFitting.",
-        "dov:typeRef": "nsu=http://opcfoundation.org/UA/DEXPI/;i=1038",
+        "dov:typeRef": "org.opcfoundation.UA.DEXPI.HeatTracingTypeClassification",
         "type": "integer",
         "minimum": -2147483648,
         "maximum": 2147483647,
@@ -19311,7 +19311,7 @@
         "data": {
           "title": "HeatTracingTypeClassification",
           "description": "A specialization indicating the heat tracing type related to the PipeFitting.",
-          "dov:typeRef": "nsu=http://opcfoundation.org/UA/DEXPI/;i=1038",
+          "dov:typeRef": "org.opcfoundation.UA.DEXPI.HeatTracingTypeClassification",
           "type": "integer",
           "minimum": -2147483648,
           "maximum": 2147483647
@@ -19423,7 +19423,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "DEXPI_FunnelType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/DEXPI/;i=1770",
+    "dov:typeRef": "org.opcfoundation.UA.DEXPI.FunnelType",
     "dov:isComposite": true,
     "links": [
       {
@@ -19450,7 +19450,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "DEXPI_PipeFittingType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/DEXPI/;i=1877",
+    "dov:typeRef": "org.opcfoundation.UA.DEXPI.PipeFittingType",
     "dov:isComposite": true,
     "links": [
       {
@@ -19462,7 +19462,7 @@
     "schemaDefinitions": {
       "HeatTracingTypeClassification": {
         "type": "object",
-        "dov:typeRef": "nsu=http://opcfoundation.org/UA/DEXPI/;i=1038",
+        "dov:typeRef": "org.opcfoundation.UA.DEXPI.HeatTracingTypeClassification",
         "const": {
           "ElectricalHeatTracingSystem": 0,
           "HeatTracingSystem": 1,
@@ -19537,7 +19537,7 @@
         "dov:namespace": "http://opcfoundation.org/UA/DEXPI/",
         "title": "HeatTracingTypeClassification",
         "description": "A specialization indicating the heat tracing type related to the PipeFitting.",
-        "dov:typeRef": "nsu=http://opcfoundation.org/UA/DEXPI/;i=1038",
+        "dov:typeRef": "org.opcfoundation.UA.DEXPI.HeatTracingTypeClassification",
         "type": "integer",
         "minimum": -2147483648,
         "maximum": 2147483647,
@@ -19688,7 +19688,7 @@
         "data": {
           "title": "HeatTracingTypeClassification",
           "description": "A specialization indicating the heat tracing type related to the PipeFitting.",
-          "dov:typeRef": "nsu=http://opcfoundation.org/UA/DEXPI/;i=1038",
+          "dov:typeRef": "org.opcfoundation.UA.DEXPI.HeatTracingTypeClassification",
           "type": "integer",
           "minimum": -2147483648,
           "maximum": 2147483647
@@ -19800,7 +19800,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "DEXPI_NeedleValveType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/DEXPI/;i=1771",
+    "dov:typeRef": "org.opcfoundation.UA.DEXPI.NeedleValveType",
     "dov:isComposite": true,
     "links": [
       {
@@ -19827,7 +19827,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "DEXPI_InLineMixerType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/DEXPI/;i=1772",
+    "dov:typeRef": "org.opcfoundation.UA.DEXPI.InLineMixerType",
     "dov:isComposite": true,
     "links": [
       {
@@ -19854,7 +19854,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "DEXPI_CheckValveType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/DEXPI/;i=1773",
+    "dov:typeRef": "org.opcfoundation.UA.DEXPI.CheckValveType",
     "dov:isComposite": true,
     "links": [
       {
@@ -19866,7 +19866,7 @@
     "schemaDefinitions": {
       "HeatTracingTypeClassification": {
         "type": "object",
-        "dov:typeRef": "nsu=http://opcfoundation.org/UA/DEXPI/;i=1038",
+        "dov:typeRef": "org.opcfoundation.UA.DEXPI.HeatTracingTypeClassification",
         "const": {
           "ElectricalHeatTracingSystem": 0,
           "HeatTracingSystem": 1,
@@ -19941,7 +19941,7 @@
         "dov:namespace": "http://opcfoundation.org/UA/DEXPI/",
         "title": "HeatTracingTypeClassification",
         "description": "A specialization indicating the heat tracing type related to the CheckValve.",
-        "dov:typeRef": "nsu=http://opcfoundation.org/UA/DEXPI/;i=1038",
+        "dov:typeRef": "org.opcfoundation.UA.DEXPI.HeatTracingTypeClassification",
         "type": "integer",
         "minimum": -2147483648,
         "maximum": 2147483647,
@@ -20092,7 +20092,7 @@
         "data": {
           "title": "HeatTracingTypeClassification",
           "description": "A specialization indicating the heat tracing type related to the CheckValve.",
-          "dov:typeRef": "nsu=http://opcfoundation.org/UA/DEXPI/;i=1038",
+          "dov:typeRef": "org.opcfoundation.UA.DEXPI.HeatTracingTypeClassification",
           "type": "integer",
           "minimum": -2147483648,
           "maximum": 2147483647
@@ -20204,7 +20204,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "DEXPI_PipeConnectorSymbolType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/DEXPI/;i=1786",
+    "dov:typeRef": "org.opcfoundation.UA.DEXPI.PipeConnectorSymbolType",
     "links": [
       {
         "rel": "tm:extends",
@@ -20236,7 +20236,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "DEXPI_FlangeType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/DEXPI/;i=1788",
+    "dov:typeRef": "org.opcfoundation.UA.DEXPI.FlangeType",
     "dov:isComposite": true,
     "links": [
       {
@@ -20263,7 +20263,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "DEXPI_AngleBallValveType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/DEXPI/;i=1789",
+    "dov:typeRef": "org.opcfoundation.UA.DEXPI.AngleBallValveType",
     "dov:isComposite": true,
     "links": [
       {
@@ -20290,7 +20290,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "DEXPI_BallValveType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/DEXPI/;i=1790",
+    "dov:typeRef": "org.opcfoundation.UA.DEXPI.BallValveType",
     "dov:isComposite": true,
     "links": [
       {
@@ -20317,7 +20317,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "DEXPI_PlugValveType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/DEXPI/;i=1791",
+    "dov:typeRef": "org.opcfoundation.UA.DEXPI.PlugValveType",
     "dov:isComposite": true,
     "links": [
       {
@@ -20344,7 +20344,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "DEXPI_CompensatorType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/DEXPI/;i=1792",
+    "dov:typeRef": "org.opcfoundation.UA.DEXPI.CompensatorType",
     "dov:isComposite": true,
     "links": [
       {
@@ -20371,7 +20371,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "DEXPI_FlangedConnectionType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/DEXPI/;i=1805",
+    "dov:typeRef": "org.opcfoundation.UA.DEXPI.FlangedConnectionType",
     "dov:isComposite": true,
     "links": [
       {
@@ -20398,7 +20398,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "DEXPI_HoseType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/DEXPI/;i=1806",
+    "dov:typeRef": "org.opcfoundation.UA.DEXPI.HoseType",
     "dov:isComposite": true,
     "links": [
       {
@@ -20425,7 +20425,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "DEXPI_PipingSourceItemType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/DEXPI/;i=1807",
+    "dov:typeRef": "org.opcfoundation.UA.DEXPI.PipingSourceItemType",
     "links": [
       {
         "rel": "tm:extends",
@@ -20451,7 +20451,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "DEXPI_AngleGlobeValveType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/DEXPI/;i=1808",
+    "dov:typeRef": "org.opcfoundation.UA.DEXPI.AngleGlobeValveType",
     "dov:isComposite": true,
     "links": [
       {
@@ -20478,7 +20478,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "DEXPI_PositiveDisplacementFlowMeterType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/DEXPI/;i=1809",
+    "dov:typeRef": "org.opcfoundation.UA.DEXPI.PositiveDisplacementFlowMeterType",
     "dov:isComposite": true,
     "links": [
       {
@@ -20505,7 +20505,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "DEXPI_VariableAreaFlowMeterType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/DEXPI/;i=1810",
+    "dov:typeRef": "org.opcfoundation.UA.DEXPI.VariableAreaFlowMeterType",
     "dov:isComposite": true,
     "links": [
       {
@@ -20532,7 +20532,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "DEXPI_ElectromagneticFlowMeterType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/DEXPI/;i=1811",
+    "dov:typeRef": "org.opcfoundation.UA.DEXPI.ElectromagneticFlowMeterType",
     "dov:isComposite": true,
     "links": [
       {
@@ -20559,7 +20559,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "DEXPI_SteamTrapType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/DEXPI/;i=1812",
+    "dov:typeRef": "org.opcfoundation.UA.DEXPI.SteamTrapType",
     "dov:isComposite": true,
     "links": [
       {
@@ -20571,7 +20571,7 @@
     "schemaDefinitions": {
       "HeatTracingTypeClassification": {
         "type": "object",
-        "dov:typeRef": "nsu=http://opcfoundation.org/UA/DEXPI/;i=1038",
+        "dov:typeRef": "org.opcfoundation.UA.DEXPI.HeatTracingTypeClassification",
         "const": {
           "ElectricalHeatTracingSystem": 0,
           "HeatTracingSystem": 1,
@@ -20646,7 +20646,7 @@
         "dov:namespace": "http://opcfoundation.org/UA/DEXPI/",
         "title": "HeatTracingTypeClassification",
         "description": "A specialization indicating the heat tracing type related to the PipeFitting.",
-        "dov:typeRef": "nsu=http://opcfoundation.org/UA/DEXPI/;i=1038",
+        "dov:typeRef": "org.opcfoundation.UA.DEXPI.HeatTracingTypeClassification",
         "type": "integer",
         "minimum": -2147483648,
         "maximum": 2147483647,
@@ -20797,7 +20797,7 @@
         "data": {
           "title": "HeatTracingTypeClassification",
           "description": "A specialization indicating the heat tracing type related to the PipeFitting.",
-          "dov:typeRef": "nsu=http://opcfoundation.org/UA/DEXPI/;i=1038",
+          "dov:typeRef": "org.opcfoundation.UA.DEXPI.HeatTracingTypeClassification",
           "type": "integer",
           "minimum": -2147483648,
           "maximum": 2147483647
@@ -20909,7 +20909,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "DEXPI_IlluminatedSightGlassType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/DEXPI/;i=1825",
+    "dov:typeRef": "org.opcfoundation.UA.DEXPI.IlluminatedSightGlassType",
     "dov:isComposite": true,
     "links": [
       {
@@ -20936,7 +20936,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "DEXPI_PipingTargetItemType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/DEXPI/;i=1826",
+    "dov:typeRef": "org.opcfoundation.UA.DEXPI.PipingTargetItemType",
     "links": [
       {
         "rel": "tm:extends",
@@ -20962,7 +20962,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "DEXPI_FlowInPipeConnectorSymbolType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/DEXPI/;i=1827",
+    "dov:typeRef": "org.opcfoundation.UA.DEXPI.FlowInPipeConnectorSymbolType",
     "dov:isComposite": true,
     "links": [
       {
@@ -20995,7 +20995,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "DEXPI_FlowOutPipeConnectorSymbolType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/DEXPI/;i=1829",
+    "dov:typeRef": "org.opcfoundation.UA.DEXPI.FlowOutPipeConnectorSymbolType",
     "dov:isComposite": true,
     "links": [
       {
@@ -21028,7 +21028,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "DEXPI_SpringLoadedGlobeSafetyValveType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/DEXPI/;i=1831",
+    "dov:typeRef": "org.opcfoundation.UA.DEXPI.SpringLoadedGlobeSafetyValveType",
     "dov:isComposite": true,
     "links": [
       {
@@ -21055,7 +21055,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "DEXPI_SafetyValveOrFittingType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/DEXPI/;i=1944",
+    "dov:typeRef": "org.opcfoundation.UA.DEXPI.SafetyValveOrFittingType",
     "dov:isComposite": true,
     "links": [
       {
@@ -21299,7 +21299,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "DEXPI_SilencerType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/DEXPI/;i=1832",
+    "dov:typeRef": "org.opcfoundation.UA.DEXPI.SilencerType",
     "dov:isComposite": true,
     "links": [
       {
@@ -21311,7 +21311,7 @@
     "schemaDefinitions": {
       "HeatTracingTypeClassification": {
         "type": "object",
-        "dov:typeRef": "nsu=http://opcfoundation.org/UA/DEXPI/;i=1038",
+        "dov:typeRef": "org.opcfoundation.UA.DEXPI.HeatTracingTypeClassification",
         "const": {
           "ElectricalHeatTracingSystem": 0,
           "HeatTracingSystem": 1,
@@ -21386,7 +21386,7 @@
         "dov:namespace": "http://opcfoundation.org/UA/DEXPI/",
         "title": "HeatTracingTypeClassification",
         "description": "A specialization indicating the heat tracing type related to the PipeFitting.",
-        "dov:typeRef": "nsu=http://opcfoundation.org/UA/DEXPI/;i=1038",
+        "dov:typeRef": "org.opcfoundation.UA.DEXPI.HeatTracingTypeClassification",
         "type": "integer",
         "minimum": -2147483648,
         "maximum": 2147483647,
@@ -21537,7 +21537,7 @@
         "data": {
           "title": "HeatTracingTypeClassification",
           "description": "A specialization indicating the heat tracing type related to the PipeFitting.",
-          "dov:typeRef": "nsu=http://opcfoundation.org/UA/DEXPI/;i=1038",
+          "dov:typeRef": "org.opcfoundation.UA.DEXPI.HeatTracingTypeClassification",
           "type": "integer",
           "minimum": -2147483648,
           "maximum": 2147483647
@@ -21649,7 +21649,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "DEXPI_DirectPipingConnectionType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/DEXPI/;i=1860",
+    "dov:typeRef": "org.opcfoundation.UA.DEXPI.DirectPipingConnectionType",
     "dov:isComposite": true,
     "links": [
       {
@@ -21676,7 +21676,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "DEXPI_FlowDetectorType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/DEXPI/;i=1865",
+    "dov:typeRef": "org.opcfoundation.UA.DEXPI.FlowDetectorType",
     "dov:isComposite": true,
     "links": [
       {
@@ -21703,7 +21703,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "DEXPI_ConicalStrainerType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/DEXPI/;i=1866",
+    "dov:typeRef": "org.opcfoundation.UA.DEXPI.ConicalStrainerType",
     "dov:isComposite": true,
     "links": [
       {
@@ -21730,7 +21730,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "DEXPI_SightGlassType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/DEXPI/;i=1867",
+    "dov:typeRef": "org.opcfoundation.UA.DEXPI.SightGlassType",
     "dov:isComposite": true,
     "links": [
       {
@@ -21757,7 +21757,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "DEXPI_BreatherValveType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/DEXPI/;i=1868",
+    "dov:typeRef": "org.opcfoundation.UA.DEXPI.BreatherValveType",
     "dov:isComposite": true,
     "links": [
       {
@@ -21784,7 +21784,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "DEXPI_GlobeValveType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/DEXPI/;i=1869",
+    "dov:typeRef": "org.opcfoundation.UA.DEXPI.GlobeValveType",
     "dov:isComposite": true,
     "links": [
       {
@@ -21811,7 +21811,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "DEXPI_PipeFlangeSpacerType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/DEXPI/;i=1870",
+    "dov:typeRef": "org.opcfoundation.UA.DEXPI.PipeFlangeSpacerType",
     "dov:isComposite": true,
     "links": [
       {
@@ -21838,7 +21838,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "DEXPI_BlindFlangeType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/DEXPI/;i=1871",
+    "dov:typeRef": "org.opcfoundation.UA.DEXPI.BlindFlangeType",
     "dov:isComposite": true,
     "links": [
       {
@@ -21865,7 +21865,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "DEXPI_RuptureDiscType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/DEXPI/;i=1872",
+    "dov:typeRef": "org.opcfoundation.UA.DEXPI.RuptureDiscType",
     "dov:isComposite": true,
     "links": [
       {
@@ -21892,7 +21892,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "DEXPI_StraightwayValveType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/DEXPI/;i=1873",
+    "dov:typeRef": "org.opcfoundation.UA.DEXPI.StraightwayValveType",
     "dov:isComposite": true,
     "links": [
       {
@@ -21919,7 +21919,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "DEXPI_GlobeCheckValveType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/DEXPI/;i=1874",
+    "dov:typeRef": "org.opcfoundation.UA.DEXPI.GlobeCheckValveType",
     "dov:isComposite": true,
     "links": [
       {
@@ -21946,7 +21946,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "DEXPI_PipeTeeType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/DEXPI/;i=1875",
+    "dov:typeRef": "org.opcfoundation.UA.DEXPI.PipeTeeType",
     "dov:isComposite": true,
     "links": [
       {
@@ -21973,7 +21973,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "DEXPI_SpringLoadedAngleGlobeSafetyValveType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/DEXPI/;i=1876",
+    "dov:typeRef": "org.opcfoundation.UA.DEXPI.SpringLoadedAngleGlobeSafetyValveType",
     "dov:isComposite": true,
     "links": [
       {
@@ -22000,7 +22000,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "DEXPI_PipeType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/DEXPI/;i=1890",
+    "dov:typeRef": "org.opcfoundation.UA.DEXPI.PipeType",
     "dov:isComposite": true,
     "links": [
       {
@@ -22027,7 +22027,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "DEXPI_VolumetricFlowDetectorType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/DEXPI/;i=1895",
+    "dov:typeRef": "org.opcfoundation.UA.DEXPI.VolumetricFlowDetectorType",
     "dov:isComposite": true,
     "links": [
       {
@@ -22054,7 +22054,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "DEXPI_PipeFlangeSpadeType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/DEXPI/;i=1896",
+    "dov:typeRef": "org.opcfoundation.UA.DEXPI.PipeFlangeSpadeType",
     "dov:isComposite": true,
     "links": [
       {
@@ -22081,7 +22081,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "DEXPI_ClampedFlangeCouplingType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/DEXPI/;i=1897",
+    "dov:typeRef": "org.opcfoundation.UA.DEXPI.ClampedFlangeCouplingType",
     "dov:isComposite": true,
     "links": [
       {
@@ -22108,7 +22108,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "DEXPI_PenetrationType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/DEXPI/;i=1936",
+    "dov:typeRef": "org.opcfoundation.UA.DEXPI.PenetrationType",
     "dov:isComposite": true,
     "links": [
       {
@@ -22135,7 +22135,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "DEXPI_SwingCheckValveType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/DEXPI/;i=1937",
+    "dov:typeRef": "org.opcfoundation.UA.DEXPI.SwingCheckValveType",
     "dov:isComposite": true,
     "links": [
       {
@@ -22162,7 +22162,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "DEXPI_VenturiTubeType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/DEXPI/;i=1955",
+    "dov:typeRef": "org.opcfoundation.UA.DEXPI.VenturiTubeType",
     "dov:isComposite": true,
     "links": [
       {
@@ -22189,7 +22189,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "DEXPI_FlowNozzleType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/DEXPI/;i=1956",
+    "dov:typeRef": "org.opcfoundation.UA.DEXPI.FlowNozzleType",
     "dov:isComposite": true,
     "links": [
       {
@@ -22216,7 +22216,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "DEXPI_AnglePlugValveType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/DEXPI/;i=1957",
+    "dov:typeRef": "org.opcfoundation.UA.DEXPI.AnglePlugValveType",
     "dov:isComposite": true,
     "links": [
       {
@@ -22243,7 +22243,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "DEXPI_VentilationDeviceType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/DEXPI/;i=1958",
+    "dov:typeRef": "org.opcfoundation.UA.DEXPI.VentilationDeviceType",
     "dov:isComposite": true,
     "links": [
       {
@@ -22255,7 +22255,7 @@
     "schemaDefinitions": {
       "HeatTracingTypeClassification": {
         "type": "object",
-        "dov:typeRef": "nsu=http://opcfoundation.org/UA/DEXPI/;i=1038",
+        "dov:typeRef": "org.opcfoundation.UA.DEXPI.HeatTracingTypeClassification",
         "const": {
           "ElectricalHeatTracingSystem": 0,
           "HeatTracingSystem": 1,
@@ -22330,7 +22330,7 @@
         "dov:namespace": "http://opcfoundation.org/UA/DEXPI/",
         "title": "HeatTracingTypeClassification",
         "description": "A specialization indicating the heat tracing type related to the PipeFitting.",
-        "dov:typeRef": "nsu=http://opcfoundation.org/UA/DEXPI/;i=1038",
+        "dov:typeRef": "org.opcfoundation.UA.DEXPI.HeatTracingTypeClassification",
         "type": "integer",
         "minimum": -2147483648,
         "maximum": 2147483647,
@@ -22481,7 +22481,7 @@
         "data": {
           "title": "HeatTracingTypeClassification",
           "description": "A specialization indicating the heat tracing type related to the PipeFitting.",
-          "dov:typeRef": "nsu=http://opcfoundation.org/UA/DEXPI/;i=1038",
+          "dov:typeRef": "org.opcfoundation.UA.DEXPI.HeatTracingTypeClassification",
           "type": "integer",
           "minimum": -2147483648,
           "maximum": 2147483647
@@ -22593,7 +22593,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "DEXPI_PipeCouplingType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/DEXPI/;i=1971",
+    "dov:typeRef": "org.opcfoundation.UA.DEXPI.PipeCouplingType",
     "dov:isComposite": true,
     "links": [
       {
@@ -22620,7 +22620,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "DEXPI_FlameArrestorType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/DEXPI/;i=1972",
+    "dov:typeRef": "org.opcfoundation.UA.DEXPI.FlameArrestorType",
     "dov:isComposite": true,
     "links": [
       {
@@ -22632,7 +22632,7 @@
     "schemaDefinitions": {
       "DetonationProofArtefactClassification": {
         "type": "object",
-        "dov:typeRef": "nsu=http://opcfoundation.org/UA/DEXPI/;i=1024",
+        "dov:typeRef": "org.opcfoundation.UA.DEXPI.DetonationProofArtefactClassification",
         "const": {
           "DetonationProofArtefact": 0,
           "NonDetonationProofArtefact": 1
@@ -22651,7 +22651,7 @@
       },
       "ExplosionProofArtefactClassification": {
         "type": "object",
-        "dov:typeRef": "nsu=http://opcfoundation.org/UA/DEXPI/;i=1014",
+        "dov:typeRef": "org.opcfoundation.UA.DEXPI.ExplosionProofArtefactClassification",
         "const": {
           "ExplosionProofArtefact": 0,
           "NonExplosionProofArtefact": 1
@@ -22670,7 +22670,7 @@
       },
       "FireResistantArtefactClassification": {
         "type": "object",
-        "dov:typeRef": "nsu=http://opcfoundation.org/UA/DEXPI/;i=1006",
+        "dov:typeRef": "org.opcfoundation.UA.DEXPI.FireResistantArtefactClassification",
         "const": {
           "FireResistantArtefact": 0,
           "NonFireResistantArtefact": 1
@@ -22712,7 +22712,7 @@
         "dov:namespace": "http://opcfoundation.org/UA/DEXPI/",
         "title": "DetonationProofArtefactClassification",
         "description": "A specialization indicating if the FlameArrestor is detonation-proof.",
-        "dov:typeRef": "nsu=http://opcfoundation.org/UA/DEXPI/;i=1024",
+        "dov:typeRef": "org.opcfoundation.UA.DEXPI.DetonationProofArtefactClassification",
         "type": "integer",
         "minimum": -2147483648,
         "maximum": 2147483647,
@@ -22734,7 +22734,7 @@
         "dov:namespace": "http://opcfoundation.org/UA/DEXPI/",
         "title": "ExplosionProofArtefactClassification",
         "description": "A specialization indicating if the FlameArrestor is explosion-proof.",
-        "dov:typeRef": "nsu=http://opcfoundation.org/UA/DEXPI/;i=1014",
+        "dov:typeRef": "org.opcfoundation.UA.DEXPI.ExplosionProofArtefactClassification",
         "type": "integer",
         "minimum": -2147483648,
         "maximum": 2147483647,
@@ -22756,7 +22756,7 @@
         "dov:namespace": "http://opcfoundation.org/UA/DEXPI/",
         "title": "FireResistantArtefactClassification",
         "description": "A specialization indicating if the FlameArrestor is fire-resistant.",
-        "dov:typeRef": "nsu=http://opcfoundation.org/UA/DEXPI/;i=1006",
+        "dov:typeRef": "org.opcfoundation.UA.DEXPI.FireResistantArtefactClassification",
         "type": "integer",
         "minimum": -2147483648,
         "maximum": 2147483647,
@@ -22781,7 +22781,7 @@
         "data": {
           "title": "DetonationProofArtefactClassification",
           "description": "A specialization indicating if the FlameArrestor is detonation-proof.",
-          "dov:typeRef": "nsu=http://opcfoundation.org/UA/DEXPI/;i=1024",
+          "dov:typeRef": "org.opcfoundation.UA.DEXPI.DetonationProofArtefactClassification",
           "type": "integer",
           "minimum": -2147483648,
           "maximum": 2147483647
@@ -22799,7 +22799,7 @@
         "data": {
           "title": "ExplosionProofArtefactClassification",
           "description": "A specialization indicating if the FlameArrestor is explosion-proof.",
-          "dov:typeRef": "nsu=http://opcfoundation.org/UA/DEXPI/;i=1014",
+          "dov:typeRef": "org.opcfoundation.UA.DEXPI.ExplosionProofArtefactClassification",
           "type": "integer",
           "minimum": -2147483648,
           "maximum": 2147483647
@@ -22817,7 +22817,7 @@
         "data": {
           "title": "FireResistantArtefactClassification",
           "description": "A specialization indicating if the FlameArrestor is fire-resistant.",
-          "dov:typeRef": "nsu=http://opcfoundation.org/UA/DEXPI/;i=1006",
+          "dov:typeRef": "org.opcfoundation.UA.DEXPI.FireResistantArtefactClassification",
           "type": "integer",
           "minimum": -2147483648,
           "maximum": 2147483647
@@ -22841,7 +22841,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "DEXPI_OrificePlateType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/DEXPI/;i=1976",
+    "dov:typeRef": "org.opcfoundation.UA.DEXPI.OrificePlateType",
     "dov:isComposite": true,
     "links": [
       {
@@ -22853,7 +22853,7 @@
     "schemaDefinitions": {
       "HeatTracingTypeClassification": {
         "type": "object",
-        "dov:typeRef": "nsu=http://opcfoundation.org/UA/DEXPI/;i=1038",
+        "dov:typeRef": "org.opcfoundation.UA.DEXPI.HeatTracingTypeClassification",
         "const": {
           "ElectricalHeatTracingSystem": 0,
           "HeatTracingSystem": 1,
@@ -22928,7 +22928,7 @@
         "dov:namespace": "http://opcfoundation.org/UA/DEXPI/",
         "title": "HeatTracingTypeClassification",
         "description": "A specialization indicating the heat tracing type related to the PipeFitting.",
-        "dov:typeRef": "nsu=http://opcfoundation.org/UA/DEXPI/;i=1038",
+        "dov:typeRef": "org.opcfoundation.UA.DEXPI.HeatTracingTypeClassification",
         "type": "integer",
         "minimum": -2147483648,
         "maximum": 2147483647,
@@ -23079,7 +23079,7 @@
         "data": {
           "title": "HeatTracingTypeClassification",
           "description": "A specialization indicating the heat tracing type related to the PipeFitting.",
-          "dov:typeRef": "nsu=http://opcfoundation.org/UA/DEXPI/;i=1038",
+          "dov:typeRef": "org.opcfoundation.UA.DEXPI.HeatTracingTypeClassification",
           "type": "integer",
           "minimum": -2147483648,
           "maximum": 2147483647
@@ -23191,7 +23191,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "DEXPI_ButterflyValveType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/DEXPI/;i=1994",
+    "dov:typeRef": "org.opcfoundation.UA.DEXPI.ButterflyValveType",
     "dov:isComposite": true,
     "links": [
       {
@@ -23218,7 +23218,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "DEXPI_GateValveType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/DEXPI/;i=2003",
+    "dov:typeRef": "org.opcfoundation.UA.DEXPI.GateValveType",
     "dov:isComposite": true,
     "links": [
       {
@@ -23245,7 +23245,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "DEXPI_PipeReducerType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/DEXPI/;i=2004",
+    "dov:typeRef": "org.opcfoundation.UA.DEXPI.PipeReducerType",
     "dov:isComposite": true,
     "links": [
       {
@@ -23272,7 +23272,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "DEXPI_LineBlindType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/DEXPI/;i=2005",
+    "dov:typeRef": "org.opcfoundation.UA.DEXPI.LineBlindType",
     "dov:isComposite": true,
     "links": [
       {
@@ -23299,7 +23299,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "DEXPI_PipingNodeOwnerType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/DEXPI/;i=2006",
+    "dov:typeRef": "org.opcfoundation.UA.DEXPI.PipingNodeOwnerType",
     "links": [
       {
         "rel": "tm:extends",
@@ -23331,7 +23331,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "DEXPI_RotationalSpeedType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/DEXPI/;i=2014",
+    "dov:typeRef": "org.opcfoundation.UA.DEXPI.RotationalSpeedType",
     "dov:isComposite": true,
     "links": [
       {
@@ -23443,7 +23443,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "DEXPI_HeatTransferCoefficientType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/DEXPI/;i=2018",
+    "dov:typeRef": "org.opcfoundation.UA.DEXPI.HeatTransferCoefficientType",
     "dov:isComposite": true,
     "links": [
       {
@@ -23555,7 +23555,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "DEXPI_TemperatureType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/DEXPI/;i=2022",
+    "dov:typeRef": "org.opcfoundation.UA.DEXPI.TemperatureType",
     "dov:isComposite": true,
     "links": [
       {
@@ -23667,7 +23667,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "DEXPI_PhysicalQuantityType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/DEXPI/;i=2026",
+    "dov:typeRef": "org.opcfoundation.UA.DEXPI.PhysicalQuantityType",
     "links": [
       {
         "rel": "tm:extends",
@@ -23746,7 +23746,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "DEXPI_AreaType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/DEXPI/;i=2029",
+    "dov:typeRef": "org.opcfoundation.UA.DEXPI.AreaType",
     "dov:isComposite": true,
     "links": [
       {
@@ -23858,7 +23858,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "DEXPI_VolumeFlowRateType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/DEXPI/;i=2033",
+    "dov:typeRef": "org.opcfoundation.UA.DEXPI.VolumeFlowRateType",
     "dov:isComposite": true,
     "links": [
       {
@@ -23970,7 +23970,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "DEXPI_PowerType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/DEXPI/;i=2037",
+    "dov:typeRef": "org.opcfoundation.UA.DEXPI.PowerType",
     "dov:isComposite": true,
     "links": [
       {
@@ -24082,7 +24082,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "DEXPI_LengthType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/DEXPI/;i=2041",
+    "dov:typeRef": "org.opcfoundation.UA.DEXPI.LengthType",
     "dov:isComposite": true,
     "links": [
       {
@@ -24194,7 +24194,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "DEXPI_PercentageType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/DEXPI/;i=2045",
+    "dov:typeRef": "org.opcfoundation.UA.DEXPI.PercentageType",
     "dov:isComposite": true,
     "links": [
       {
@@ -24306,7 +24306,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "DEXPI_VolumeType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/DEXPI/;i=2049",
+    "dov:typeRef": "org.opcfoundation.UA.DEXPI.VolumeType",
     "dov:isComposite": true,
     "links": [
       {
@@ -24418,7 +24418,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "DEXPI_MassType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/DEXPI/;i=2053",
+    "dov:typeRef": "org.opcfoundation.UA.DEXPI.MassType",
     "dov:isComposite": true,
     "links": [
       {
@@ -24530,7 +24530,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "DEXPI_PressureType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/DEXPI/;i=2057",
+    "dov:typeRef": "org.opcfoundation.UA.DEXPI.PressureType",
     "dov:isComposite": true,
     "links": [
       {
@@ -24642,7 +24642,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "DEXPI_AngleType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/DEXPI/;i=2061",
+    "dov:typeRef": "org.opcfoundation.UA.DEXPI.AngleType",
     "dov:isComposite": true,
     "links": [
       {
@@ -24754,7 +24754,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "OpcUaCore_BaseObjectType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/;i=58",
+    "dov:typeRef": "org.opcfoundation.UA.BaseObjectType",
     "links": [
     ],
     "schemaDefinitions": {
@@ -24775,7 +24775,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "OpcUaCore_FileType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/;i=11575",
+    "dov:typeRef": "org.opcfoundation.UA.FileType",
     "links": [
       {
         "rel": "tm:extends",
@@ -24796,7 +24796,7 @@
       "Close": {
         "input": {
           "type": "object",
-          "dov:typeRef": "nsu=http://opcfoundation.org/UA/;i=11584",
+          "dov:typeRef": "org.opcfoundation.UA.InputArguments",
           "required": [ "FileHandle" ],
           "properties": {
             "FileHandle": {
@@ -24817,7 +24817,7 @@
       "GetPosition": {
         "input": {
           "type": "object",
-          "dov:typeRef": "nsu=http://opcfoundation.org/UA/;i=11591",
+          "dov:typeRef": "org.opcfoundation.UA.InputArguments",
           "required": [ "FileHandle" ],
           "properties": {
             "FileHandle": {
@@ -24829,7 +24829,7 @@
         },
         "output": {
           "type": "object",
-          "dov:typeRef": "nsu=http://opcfoundation.org/UA/;i=11592",
+          "dov:typeRef": "org.opcfoundation.UA.OutputArguments",
           "required": [ "Position" ],
           "properties": {
             "Position": {
@@ -24850,7 +24850,7 @@
       "Open": {
         "input": {
           "type": "object",
-          "dov:typeRef": "nsu=http://opcfoundation.org/UA/;i=11581",
+          "dov:typeRef": "org.opcfoundation.UA.InputArguments",
           "required": [ "Mode" ],
           "properties": {
             "Mode": {
@@ -24862,7 +24862,7 @@
         },
         "output": {
           "type": "object",
-          "dov:typeRef": "nsu=http://opcfoundation.org/UA/;i=11582",
+          "dov:typeRef": "org.opcfoundation.UA.OutputArguments",
           "required": [ "FileHandle" ],
           "properties": {
             "FileHandle": {
@@ -24883,7 +24883,7 @@
       "Read": {
         "input": {
           "type": "object",
-          "dov:typeRef": "nsu=http://opcfoundation.org/UA/;i=11586",
+          "dov:typeRef": "org.opcfoundation.UA.InputArguments",
           "required": [ "FileHandle", "Length" ],
           "properties": {
             "FileHandle": {
@@ -24900,7 +24900,7 @@
         },
         "output": {
           "type": "object",
-          "dov:typeRef": "nsu=http://opcfoundation.org/UA/;i=11587",
+          "dov:typeRef": "org.opcfoundation.UA.OutputArguments",
           "required": [ "Data" ],
           "properties": {
             "Data": {
@@ -24920,7 +24920,7 @@
       "SetPosition": {
         "input": {
           "type": "object",
-          "dov:typeRef": "nsu=http://opcfoundation.org/UA/;i=11594",
+          "dov:typeRef": "org.opcfoundation.UA.InputArguments",
           "required": [ "FileHandle", "Position" ],
           "properties": {
             "FileHandle": {
@@ -24946,7 +24946,7 @@
       "Write": {
         "input": {
           "type": "object",
-          "dov:typeRef": "nsu=http://opcfoundation.org/UA/;i=11589",
+          "dov:typeRef": "org.opcfoundation.UA.InputArguments",
           "required": [ "FileHandle", "Data" ],
           "properties": {
             "FileHandle": {

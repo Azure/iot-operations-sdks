@@ -8,7 +8,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "AdditiveManufacturing_EquipmentAMType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/AdditiveManufacturing/;i=1003",
+    "dov:typeRef": "org.opcfoundation.UA.AdditiveManufacturing.EquipmentAMType",
     "links": [
       {
         "rel": "tm:extends",
@@ -40,7 +40,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "AdditiveManufacturing_FeedstockListType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/AdditiveManufacturing/;i=1001",
+    "dov:typeRef": "org.opcfoundation.UA.AdditiveManufacturing.FeedstockListType",
     "links": [
       {
         "rel": "tm:extends",
@@ -90,7 +90,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "AdditiveManufacturing_FeedstockType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/AdditiveManufacturing/;i=1000",
+    "dov:typeRef": "org.opcfoundation.UA.AdditiveManufacturing.FeedstockType",
     "links": [
       {
         "rel": "tm:extends",
@@ -101,7 +101,7 @@
     "schemaDefinitions": {
       "FeedstockFunction": {
         "type": "object",
-        "dov:typeRef": "nsu=http://opcfoundation.org/UA/AdditiveManufacturing/;i=3000",
+        "dov:typeRef": "org.opcfoundation.UA.AdditiveManufacturing.FeedstockFunction",
         "const": {
           "Undefined": 0,
           "Main": 1,
@@ -188,7 +188,7 @@
       "Function": {
         "dov:namespace": "http://opcfoundation.org/UA/AdditiveManufacturing/",
         "title": "FeedstockFunction",
-        "dov:typeRef": "nsu=http://opcfoundation.org/UA/AdditiveManufacturing/;i=3000",
+        "dov:typeRef": "org.opcfoundation.UA.AdditiveManufacturing.FeedstockFunction",
         "type": "integer",
         "minimum": -2147483648,
         "maximum": 2147483647,
@@ -312,7 +312,7 @@
         "dov:namespace": "http://opcfoundation.org/UA/AdditiveManufacturing/",
         "data": {
           "title": "FeedstockFunction",
-          "dov:typeRef": "nsu=http://opcfoundation.org/UA/AdditiveManufacturing/;i=3000",
+          "dov:typeRef": "org.opcfoundation.UA.AdditiveManufacturing.FeedstockFunction",
           "type": "integer",
           "minimum": -2147483648,
           "maximum": 2147483647
@@ -362,7 +362,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "AdditiveManufacturing_MachineIdentificationAMType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/AdditiveManufacturing/;i=1004",
+    "dov:typeRef": "org.opcfoundation.UA.AdditiveManufacturing.MachineIdentificationAMType",
     "links": [
       {
         "rel": "tm:extends",
@@ -417,7 +417,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "AdditiveManufacturing_AdditiveManufacturingType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/AdditiveManufacturing/;i=1005",
+    "dov:typeRef": "org.opcfoundation.UA.AdditiveManufacturing.AdditiveManufacturingType",
     "dov:isComposite": true,
     "links": [
       {
@@ -462,7 +462,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "AdditiveManufacturing_ProcessValueAMType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/AdditiveManufacturing/;i=1002",
+    "dov:typeRef": "org.opcfoundation.UA.AdditiveManufacturing.ProcessValueAMType",
     "dov:isComposite": true,
     "links": [
       {
@@ -474,7 +474,7 @@
     "schemaDefinitions": {
       "SensorCategory": {
         "type": "object",
-        "dov:typeRef": "nsu=http://opcfoundation.org/UA/AdditiveManufacturing/;i=3003",
+        "dov:typeRef": "org.opcfoundation.UA.AdditiveManufacturing.SensorCategory",
         "const": {
           "MachineHealth": 0,
           "MaintenanceTracking": 1,
@@ -498,7 +498,7 @@
       },
       "SensorSeverity": {
         "type": "object",
-        "dov:typeRef": "nsu=http://opcfoundation.org/UA/AdditiveManufacturing/;i=3002",
+        "dov:typeRef": "org.opcfoundation.UA.AdditiveManufacturing.SensorSeverity",
         "const": {
           "Info": 0,
           "Critical": 1
@@ -534,7 +534,7 @@
       "Category": {
         "dov:namespace": "http://opcfoundation.org/UA/AdditiveManufacturing/",
         "title": "SensorCategory",
-        "dov:typeRef": "nsu=http://opcfoundation.org/UA/AdditiveManufacturing/;i=3003",
+        "dov:typeRef": "org.opcfoundation.UA.AdditiveManufacturing.SensorCategory",
         "type": "integer",
         "minimum": -2147483648,
         "maximum": 2147483647,
@@ -555,7 +555,7 @@
       "Severity": {
         "dov:namespace": "http://opcfoundation.org/UA/AdditiveManufacturing/",
         "title": "SensorSeverity",
-        "dov:typeRef": "nsu=http://opcfoundation.org/UA/AdditiveManufacturing/;i=3002",
+        "dov:typeRef": "org.opcfoundation.UA.AdditiveManufacturing.SensorSeverity",
         "type": "integer",
         "minimum": -2147483648,
         "maximum": 2147483647,
@@ -586,7 +586,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "MachineTool_EquipmentType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/MachineTool/;i=12",
+    "dov:typeRef": "org.opcfoundation.UA.MachineTool.EquipmentType",
     "links": [
       {
         "rel": "tm:extends",
@@ -618,7 +618,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "MachineTool_ToolListType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/MachineTool/;i=44",
+    "dov:typeRef": "org.opcfoundation.UA.MachineTool.ToolListType",
     "links": [
       {
         "rel": "tm:extends",
@@ -668,7 +668,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "MachineTool_BaseToolType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/MachineTool/;i=49",
+    "dov:typeRef": "org.opcfoundation.UA.MachineTool.BaseToolType",
     "links": [
       {
         "rel": "tm:extends",
@@ -731,7 +731,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "MachineTool_MachineToolIdentificationType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/MachineTool/;i=11",
+    "dov:typeRef": "org.opcfoundation.UA.MachineTool.MachineToolIdentificationType",
     "links": [
       {
         "rel": "tm:extends",
@@ -763,7 +763,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "MachineTool_MachineToolType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/MachineTool/;i=13",
+    "dov:typeRef": "org.opcfoundation.UA.MachineTool.MachineToolType",
     "dov:isComposite": true,
     "links": [
       {
@@ -826,7 +826,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "MachineTool_MonitoringType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/MachineTool/;i=14",
+    "dov:typeRef": "org.opcfoundation.UA.MachineTool.MonitoringType",
     "links": [
       {
         "rel": "tm:extends",
@@ -870,7 +870,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "MachineTool_ElementMonitoringType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/MachineTool/;i=23",
+    "dov:typeRef": "org.opcfoundation.UA.MachineTool.ElementMonitoringType",
     "links": [
       {
         "rel": "tm:extends",
@@ -915,7 +915,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "MachineTool_MachineOperationMonitoringType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/MachineTool/;i=26",
+    "dov:typeRef": "org.opcfoundation.UA.MachineTool.MachineOperationMonitoringType",
     "links": [
       {
         "rel": "tm:extends",
@@ -932,7 +932,7 @@
     "schemaDefinitions": {
       "MachineOperationMode": {
         "type": "object",
-        "dov:typeRef": "nsu=http://opcfoundation.org/UA/MachineTool/;i=65",
+        "dov:typeRef": "org.opcfoundation.UA.MachineTool.MachineOperationMode",
         "const": {
           "Manual": 0,
           "Automatic": 1,
@@ -1013,7 +1013,7 @@
       "OperationMode": {
         "dov:namespace": "http://opcfoundation.org/UA/MachineTool/",
         "title": "MachineOperationMode",
-        "dov:typeRef": "nsu=http://opcfoundation.org/UA/MachineTool/;i=65",
+        "dov:typeRef": "org.opcfoundation.UA.MachineTool.MachineOperationMode",
         "type": "integer",
         "minimum": -2147483648,
         "maximum": 2147483647,
@@ -1074,7 +1074,7 @@
         "dov:namespace": "http://opcfoundation.org/UA/MachineTool/",
         "data": {
           "title": "MachineOperationMode",
-          "dov:typeRef": "nsu=http://opcfoundation.org/UA/MachineTool/;i=65",
+          "dov:typeRef": "org.opcfoundation.UA.MachineTool.MachineOperationMode",
           "type": "integer",
           "minimum": -2147483648,
           "maximum": 2147483647
@@ -1113,7 +1113,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "MachineTool_ObligationType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/MachineTool/;i=1002",
+    "dov:typeRef": "org.opcfoundation.UA.MachineTool.ObligationType",
     "links": [
       {
         "rel": "tm:extends",
@@ -1201,7 +1201,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "MachineTool_NotificationType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/MachineTool/;i=7",
+    "dov:typeRef": "org.opcfoundation.UA.MachineTool.NotificationType",
     "links": [
       {
         "rel": "tm:extends",
@@ -1239,7 +1239,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "MachineTool_MessagesType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/MachineTool/;i=38",
+    "dov:typeRef": "org.opcfoundation.UA.MachineTool.MessagesType",
     "links": [
       {
         "rel": "tm:extends",
@@ -1265,7 +1265,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "MachineTool_PrognosisListType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/MachineTool/;i=2",
+    "dov:typeRef": "org.opcfoundation.UA.MachineTool.PrognosisListType",
     "links": [
       {
         "rel": "tm:extends",
@@ -1315,7 +1315,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "MachineTool_PrognosisType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/MachineTool/;i=3",
+    "dov:typeRef": "org.opcfoundation.UA.MachineTool.PrognosisType",
     "links": [
       {
         "rel": "tm:extends",
@@ -1361,7 +1361,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "MachineTool_ProductionType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/MachineTool/;i=21",
+    "dov:typeRef": "org.opcfoundation.UA.MachineTool.ProductionType",
     "links": [
       {
         "rel": "tm:extends",
@@ -1405,7 +1405,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "MachineTool_ProductionActiveProgramType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/MachineTool/;i=32",
+    "dov:typeRef": "org.opcfoundation.UA.MachineTool.ProductionActiveProgramType",
     "links": [
       {
         "rel": "tm:extends",
@@ -1499,7 +1499,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "MachineTool_ProductionProgramType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/MachineTool/;i=59",
+    "dov:typeRef": "org.opcfoundation.UA.MachineTool.ProductionProgramType",
     "links": [
       {
         "rel": "tm:extends",
@@ -1563,7 +1563,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "MachineTool_ProductionProgramStateMachineType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/MachineTool/;i=15",
+    "dov:typeRef": "org.opcfoundation.UA.MachineTool.ProductionProgramStateMachineType",
     "links": [
       {
         "rel": "tm:extends",
@@ -1679,7 +1679,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "MachineTool_ProductionStateMachineType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/MachineTool/;i=24",
+    "dov:typeRef": "org.opcfoundation.UA.MachineTool.ProductionStateMachineType",
     "dov:isComposite": true,
     "links": [
       {
@@ -1854,7 +1854,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "MachineTool_ProductionJobListType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/MachineTool/;i=30",
+    "dov:typeRef": "org.opcfoundation.UA.MachineTool.ProductionJobListType",
     "links": [
       {
         "rel": "tm:extends",
@@ -1880,7 +1880,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "MachineTool_ProductionStatisticsType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/MachineTool/;i=20",
+    "dov:typeRef": "org.opcfoundation.UA.MachineTool.ProductionStatisticsType",
     "links": [
       {
         "rel": "tm:extends",
@@ -1947,7 +1947,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "OpcUaCore_BaseObjectType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/;i=58",
+    "dov:typeRef": "org.opcfoundation.UA.BaseObjectType",
     "links": [
     ],
     "schemaDefinitions": {
@@ -1968,7 +1968,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "OpcUaCore_FolderType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/;i=61",
+    "dov:typeRef": "org.opcfoundation.UA.FolderType",
     "links": [
       {
         "rel": "tm:extends",
@@ -1994,7 +1994,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "OpcUaCore_FileDirectoryType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/;i=13353",
+    "dov:typeRef": "org.opcfoundation.UA.FileDirectoryType",
     "links": [
       {
         "rel": "tm:extends",
@@ -2008,7 +2008,7 @@
       "CreateDirectory": {
         "input": {
           "type": "object",
-          "dov:typeRef": "nsu=http://opcfoundation.org/UA/;i=13388",
+          "dov:typeRef": "org.opcfoundation.UA.InputArguments",
           "required": [ "DirectoryName" ],
           "properties": {
             "DirectoryName": {
@@ -2018,7 +2018,7 @@
         },
         "output": {
           "type": "object",
-          "dov:typeRef": "nsu=http://opcfoundation.org/UA/;i=13389",
+          "dov:typeRef": "org.opcfoundation.UA.OutputArguments",
           "required": [ "DirectoryNodeId" ],
           "properties": {
             "DirectoryNodeId": {
@@ -2037,7 +2037,7 @@
       "CreateFile": {
         "input": {
           "type": "object",
-          "dov:typeRef": "nsu=http://opcfoundation.org/UA/;i=13391",
+          "dov:typeRef": "org.opcfoundation.UA.InputArguments",
           "required": [ "FileName", "RequestFileOpen" ],
           "properties": {
             "FileName": {
@@ -2050,7 +2050,7 @@
         },
         "output": {
           "type": "object",
-          "dov:typeRef": "nsu=http://opcfoundation.org/UA/;i=13392",
+          "dov:typeRef": "org.opcfoundation.UA.OutputArguments",
           "required": [ "FileNodeId", "FileHandle" ],
           "properties": {
             "FileNodeId": {
@@ -2074,7 +2074,7 @@
       "DeleteFileSystemObject": {
         "input": {
           "type": "object",
-          "dov:typeRef": "nsu=http://opcfoundation.org/UA/;i=13394",
+          "dov:typeRef": "org.opcfoundation.UA.InputArguments",
           "required": [ "ObjectToDelete" ],
           "properties": {
             "ObjectToDelete": {
@@ -2093,7 +2093,7 @@
       "MoveOrCopy": {
         "input": {
           "type": "object",
-          "dov:typeRef": "nsu=http://opcfoundation.org/UA/;i=13396",
+          "dov:typeRef": "org.opcfoundation.UA.InputArguments",
           "required": [ "ObjectToMoveOrCopy", "TargetDirectory", "CreateCopy", "NewName" ],
           "properties": {
             "ObjectToMoveOrCopy": {
@@ -2112,7 +2112,7 @@
         },
         "output": {
           "type": "object",
-          "dov:typeRef": "nsu=http://opcfoundation.org/UA/;i=13397",
+          "dov:typeRef": "org.opcfoundation.UA.OutputArguments",
           "required": [ "NewNodeId" ],
           "properties": {
             "NewNodeId": {
@@ -2143,7 +2143,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "OpcUaCore_OrderedListType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/;i=23518",
+    "dov:typeRef": "org.opcfoundation.UA.OrderedListType",
     "dov:isComposite": true,
     "links": [
       {
@@ -2188,7 +2188,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "OpcUaCore_FiniteStateMachineType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/;i=2771",
+    "dov:typeRef": "org.opcfoundation.UA.FiniteStateMachineType",
     "links": [
       {
         "rel": "tm:extends",
@@ -2330,7 +2330,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "OpcUaCore_StateMachineType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/;i=2299",
+    "dov:typeRef": "org.opcfoundation.UA.StateMachineType",
     "dov:isComposite": true,
     "links": [
       {
@@ -2415,7 +2415,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "OpcUaCore_StateType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/;i=2307",
+    "dov:typeRef": "org.opcfoundation.UA.StateType",
     "links": [
       {
         "rel": "tm:extends",
@@ -2461,7 +2461,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "OpcUaCore_TransitionType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/;i=2310",
+    "dov:typeRef": "org.opcfoundation.UA.TransitionType",
     "links": [
       {
         "rel": "tm:extends",
@@ -2507,7 +2507,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "OpcUaCore_InitialStateType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/;i=2309",
+    "dov:typeRef": "org.opcfoundation.UA.InitialStateType",
     "links": [
       {
         "rel": "tm:extends",
@@ -2533,7 +2533,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "OpcUaCore_ExclusiveDeviationAlarmType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/;i=9764",
+    "dov:typeRef": "org.opcfoundation.UA.ExclusiveDeviationAlarmType",
     "dov:isEvent": true,
     "links": [
       {
@@ -2589,7 +2589,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "OpcUaCore_ExclusiveLimitAlarmType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/;i=9341",
+    "dov:typeRef": "org.opcfoundation.UA.ExclusiveLimitAlarmType",
     "dov:isEvent": true,
     "links": [
       {
@@ -2657,7 +2657,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "OpcUaCore_LimitAlarmType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/;i=2955",
+    "dov:typeRef": "org.opcfoundation.UA.LimitAlarmType",
     "dov:isEvent": true,
     "links": [
       {
@@ -2899,7 +2899,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "OpcUaCore_AlarmConditionType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/;i=2915",
+    "dov:typeRef": "org.opcfoundation.UA.AlarmConditionType",
     "dov:isEvent": true,
     "links": [
       {
@@ -2938,7 +2938,7 @@
       "GetGroupMemberships": {
         "output": {
           "type": "object",
-          "dov:typeRef": "nsu=http://opcfoundation.org/UA/;i=25154",
+          "dov:typeRef": "org.opcfoundation.UA.OutputArguments",
           "required": [ "Groups" ],
           "properties": {
             "Groups": {
@@ -2969,7 +2969,7 @@
       "PlaceInService2": {
         "input": {
           "type": "object",
-          "dov:typeRef": "nsu=http://opcfoundation.org/UA/;i=24323",
+          "dov:typeRef": "org.opcfoundation.UA.InputArguments",
           "required": [ "Comment" ],
           "properties": {
             "Comment": {
@@ -2997,7 +2997,7 @@
       "RemoveFromService2": {
         "input": {
           "type": "object",
-          "dov:typeRef": "nsu=http://opcfoundation.org/UA/;i=24321",
+          "dov:typeRef": "org.opcfoundation.UA.InputArguments",
           "required": [ "Comment" ],
           "properties": {
             "Comment": {
@@ -3025,7 +3025,7 @@
       "Reset2": {
         "input": {
           "type": "object",
-          "dov:typeRef": "nsu=http://opcfoundation.org/UA/;i=24325",
+          "dov:typeRef": "org.opcfoundation.UA.InputArguments",
           "required": [ "Comment" ],
           "properties": {
             "Comment": {
@@ -3062,7 +3062,7 @@
       "Suppress2": {
         "input": {
           "type": "object",
-          "dov:typeRef": "nsu=http://opcfoundation.org/UA/;i=24317",
+          "dov:typeRef": "org.opcfoundation.UA.InputArguments",
           "required": [ "Comment" ],
           "properties": {
             "Comment": {
@@ -3090,7 +3090,7 @@
       "Unsuppress2": {
         "input": {
           "type": "object",
-          "dov:typeRef": "nsu=http://opcfoundation.org/UA/;i=24319",
+          "dov:typeRef": "org.opcfoundation.UA.InputArguments",
           "required": [ "Comment" ],
           "properties": {
             "Comment": {
@@ -3415,7 +3415,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "OpcUaCore_AcknowledgeableConditionType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/;i=2881",
+    "dov:typeRef": "org.opcfoundation.UA.AcknowledgeableConditionType",
     "dov:isEvent": true,
     "links": [
       {
@@ -3442,7 +3442,7 @@
       "Acknowledge": {
         "input": {
           "type": "object",
-          "dov:typeRef": "nsu=http://opcfoundation.org/UA/;i=9112",
+          "dov:typeRef": "org.opcfoundation.UA.InputArguments",
           "required": [ "EventId", "Comment" ],
           "properties": {
             "EventId": {
@@ -3467,7 +3467,7 @@
       "Confirm": {
         "input": {
           "type": "object",
-          "dov:typeRef": "nsu=http://opcfoundation.org/UA/;i=9114",
+          "dov:typeRef": "org.opcfoundation.UA.InputArguments",
           "required": [ "EventId", "Comment" ],
           "properties": {
             "EventId": {
@@ -3573,7 +3573,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "OpcUaCore_ConditionType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/;i=2782",
+    "dov:typeRef": "org.opcfoundation.UA.ConditionType",
     "dov:isEvent": true,
     "links": [
       {
@@ -3600,7 +3600,7 @@
       "AddComment": {
         "input": {
           "type": "object",
-          "dov:typeRef": "nsu=http://opcfoundation.org/UA/;i=9030",
+          "dov:typeRef": "org.opcfoundation.UA.InputArguments",
           "required": [ "EventId", "Comment" ],
           "properties": {
             "EventId": {
@@ -3625,7 +3625,7 @@
       "ConditionRefresh": {
         "input": {
           "type": "object",
-          "dov:typeRef": "nsu=http://opcfoundation.org/UA/;i=3876",
+          "dov:typeRef": "org.opcfoundation.UA.InputArguments",
           "required": [ "SubscriptionId" ],
           "properties": {
             "SubscriptionId": {
@@ -3647,7 +3647,7 @@
       "ConditionRefresh2": {
         "input": {
           "type": "object",
-          "dov:typeRef": "nsu=http://opcfoundation.org/UA/;i=12913",
+          "dov:typeRef": "org.opcfoundation.UA.InputArguments",
           "required": [ "SubscriptionId", "MonitoredItemId" ],
           "properties": {
             "SubscriptionId": {
@@ -3906,7 +3906,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "OpcUaCore_BaseEventType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/;i=2041",
+    "dov:typeRef": "org.opcfoundation.UA.BaseEventType",
     "links": [
       {
         "rel": "tm:extends",
@@ -4002,7 +4002,7 @@
       "LocalTime": {
         "title": "TimeZoneDataType",
         "type": "object",
-        "dov:typeRef": "nsu=http://opcfoundation.org/UA/;i=8912",
+        "dov:typeRef": "org.opcfoundation.UA.TimeZoneDataType",
         "required": [ "Offset", "DaylightSavingInOffset" ],
         "properties": {
           "Offset": {
@@ -4106,7 +4106,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "OpcUaCore_ShelvedStateMachineType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/;i=2929",
+    "dov:typeRef": "org.opcfoundation.UA.ShelvedStateMachineType",
     "links": [
       {
         "rel": "tm:extends",
@@ -4190,7 +4190,7 @@
       "OneShotShelve2": {
         "input": {
           "type": "object",
-          "dov:typeRef": "nsu=http://opcfoundation.org/UA/;i=24761",
+          "dov:typeRef": "org.opcfoundation.UA.InputArguments",
           "required": [ "Comment" ],
           "properties": {
             "Comment": {
@@ -4209,7 +4209,7 @@
       "TimedShelve": {
         "input": {
           "type": "object",
-          "dov:typeRef": "nsu=http://opcfoundation.org/UA/;i=2991",
+          "dov:typeRef": "org.opcfoundation.UA.InputArguments",
           "required": [ "ShelvingTime" ],
           "properties": {
             "ShelvingTime": {
@@ -4229,7 +4229,7 @@
       "TimedShelve2": {
         "input": {
           "type": "object",
-          "dov:typeRef": "nsu=http://opcfoundation.org/UA/;i=24757",
+          "dov:typeRef": "org.opcfoundation.UA.InputArguments",
           "required": [ "ShelvingTime", "Comment" ],
           "properties": {
             "ShelvingTime": {
@@ -4261,7 +4261,7 @@
       "Unshelve2": {
         "input": {
           "type": "object",
-          "dov:typeRef": "nsu=http://opcfoundation.org/UA/;i=24759",
+          "dov:typeRef": "org.opcfoundation.UA.InputArguments",
           "required": [ "Comment" ],
           "properties": {
             "Comment": {
@@ -4304,7 +4304,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "OpcUaCore_AlarmGroupType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/;i=16405",
+    "dov:typeRef": "org.opcfoundation.UA.AlarmGroupType",
     "links": [
       {
         "rel": "tm:extends",
@@ -4330,7 +4330,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "OpcUaCore_ExclusiveLimitStateMachineType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/;i=9318",
+    "dov:typeRef": "org.opcfoundation.UA.ExclusiveLimitStateMachineType",
     "links": [
       {
         "rel": "tm:extends",
@@ -4404,7 +4404,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "Machinery_MachineIdentificationType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/Machinery/;i=1012",
+    "dov:typeRef": "org.opcfoundation.UA.Machinery.MachineIdentificationType",
     "dov:isComposite": true,
     "links": [
       {
@@ -4486,7 +4486,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "Machinery_MachineryItemIdentificationType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/Machinery/;i=1004",
+    "dov:typeRef": "org.opcfoundation.UA.Machinery.MachineryItemIdentificationType",
     "links": [
       {
         "rel": "tm:extends",
@@ -4738,7 +4738,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "DI_FunctionalGroupType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/DI/;i=1005",
+    "dov:typeRef": "org.opcfoundation.UA.DI.FunctionalGroupType",
     "links": [
       {
         "rel": "tm:extends",
@@ -4809,7 +4809,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "IA_BasicStacklightType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/IA/;i=1002",
+    "dov:typeRef": "org.opcfoundation.UA.IA.BasicStacklightType",
     "dov:isComposite": true,
     "links": [
       {
@@ -4833,7 +4833,7 @@
     "schemaDefinitions": {
       "StacklightOperationMode": {
         "type": "object",
-        "dov:typeRef": "nsu=http://opcfoundation.org/UA/IA/;i=3002",
+        "dov:typeRef": "org.opcfoundation.UA.IA.StacklightOperationMode",
         "const": {
           "Segmented": 0,
           "Levelmeter": 1,
@@ -4880,7 +4880,7 @@
         "dov:namespace": "http://opcfoundation.org/UA/IA/",
         "title": "StacklightOperationMode",
         "description": "Shows in what way (stack of individual lights, level meter, running light) the stacklight unit is used.",
-        "dov:typeRef": "nsu=http://opcfoundation.org/UA/IA/;i=3002",
+        "dov:typeRef": "org.opcfoundation.UA.IA.StacklightOperationMode",
         "type": "integer",
         "minimum": -2147483648,
         "maximum": 2147483647,
@@ -4911,7 +4911,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "IA_StackLevelType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/IA/;i=1003",
+    "dov:typeRef": "org.opcfoundation.UA.IA.StackLevelType",
     "links": [
       {
         "rel": "tm:extends",
@@ -4922,7 +4922,7 @@
     "schemaDefinitions": {
       "LevelDisplayMode": {
         "type": "object",
-        "dov:typeRef": "nsu=http://opcfoundation.org/UA/IA/;i=3003",
+        "dov:typeRef": "org.opcfoundation.UA.IA.LevelDisplayMode",
         "const": {
           "Dimmed": 0,
           "Blinking": 1,
@@ -4969,7 +4969,7 @@
         "dov:namespace": "http://opcfoundation.org/UA/IA/",
         "title": "LevelDisplayMode",
         "description": "Indicates in what way the percentual value is displayed with the stacklight.",
-        "dov:typeRef": "nsu=http://opcfoundation.org/UA/IA/;i=3003",
+        "dov:typeRef": "org.opcfoundation.UA.IA.LevelDisplayMode",
         "type": "integer",
         "minimum": -2147483648,
         "maximum": 2147483647,
@@ -5014,7 +5014,7 @@
         "data": {
           "title": "LevelDisplayMode",
           "description": "Indicates in what way the percentual value is displayed with the stacklight.",
-          "dov:typeRef": "nsu=http://opcfoundation.org/UA/IA/;i=3003",
+          "dov:typeRef": "org.opcfoundation.UA.IA.LevelDisplayMode",
           "type": "integer",
           "minimum": -2147483648,
           "maximum": 2147483647
@@ -5054,7 +5054,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "IA_StackRunningType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/IA/;i=1004",
+    "dov:typeRef": "org.opcfoundation.UA.IA.StackRunningType",
     "links": [
       {
         "rel": "tm:extends",
@@ -5081,7 +5081,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "Machinery_ProcessValues_ProcessValueType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/Machinery/ProcessValues/;i=1003",
+    "dov:typeRef": "org.opcfoundation.UA.Machinery.ProcessValues.ProcessValueType",
     "dov:isComposite": true,
     "links": [
       {
@@ -5475,7 +5475,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "PADIM_AnalogSignalType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/PADIM/;i=1022",
+    "dov:typeRef": "org.opcfoundation.UA.PADIM.AnalogSignalType",
     "dov:isComposite": true,
     "links": [
       {
@@ -5571,7 +5571,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "PADIM_SignalType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/PADIM/;i=1008",
+    "dov:typeRef": "org.opcfoundation.UA.PADIM.SignalType",
     "links": [
       {
         "rel": "tm:extends",

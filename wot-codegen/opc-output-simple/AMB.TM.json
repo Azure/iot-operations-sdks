@@ -8,7 +8,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "AMB_CalibrationDueConditionClassType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/AMB/;i=1005",
+    "dov:typeRef": "org.opcfoundation.UA.AMB.CalibrationDueConditionClassType",
     "links": [
       {
         "rel": "tm:extends",
@@ -34,7 +34,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "AMB_ExternalCheckConditionClassType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/AMB/;i=1015",
+    "dov:typeRef": "org.opcfoundation.UA.AMB.ExternalCheckConditionClassType",
     "links": [
       {
         "rel": "tm:extends",
@@ -60,7 +60,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "AMB_FlashUpdateInProgressConditionClassType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/AMB/;i=1007",
+    "dov:typeRef": "org.opcfoundation.UA.AMB.FlashUpdateInProgressConditionClassType",
     "links": [
       {
         "rel": "tm:extends",
@@ -86,7 +86,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "AMB_ImprovementConditionClassType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/AMB/;i=1018",
+    "dov:typeRef": "org.opcfoundation.UA.AMB.ImprovementConditionClassType",
     "links": [
       {
         "rel": "tm:extends",
@@ -112,7 +112,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "AMB_InspectionConditionClassType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/AMB/;i=1014",
+    "dov:typeRef": "org.opcfoundation.UA.AMB.InspectionConditionClassType",
     "links": [
       {
         "rel": "tm:extends",
@@ -138,7 +138,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "AMB_RepairConditionClassType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/AMB/;i=1017",
+    "dov:typeRef": "org.opcfoundation.UA.AMB.RepairConditionClassType",
     "links": [
       {
         "rel": "tm:extends",
@@ -164,7 +164,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "AMB_ServicingConditionClassType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/AMB/;i=1016",
+    "dov:typeRef": "org.opcfoundation.UA.AMB.ServicingConditionClassType",
     "links": [
       {
         "rel": "tm:extends",
@@ -190,7 +190,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "AMB_BadConfigurationConditionClassType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/AMB/;i=1008",
+    "dov:typeRef": "org.opcfoundation.UA.AMB.BadConfigurationConditionClassType",
     "links": [
       {
         "rel": "tm:extends",
@@ -216,7 +216,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "AMB_ConnectionFailureConditionClassType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/AMB/;i=1003",
+    "dov:typeRef": "org.opcfoundation.UA.AMB.ConnectionFailureConditionClassType",
     "links": [
       {
         "rel": "tm:extends",
@@ -242,7 +242,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "AMB_FlashUpdateFailedConditionClassType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/AMB/;i=1019",
+    "dov:typeRef": "org.opcfoundation.UA.AMB.FlashUpdateFailedConditionClassType",
     "links": [
       {
         "rel": "tm:extends",
@@ -268,7 +268,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "AMB_OutOfResourcesConditionClassType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/AMB/;i=1009",
+    "dov:typeRef": "org.opcfoundation.UA.AMB.OutOfResourcesConditionClassType",
     "links": [
       {
         "rel": "tm:extends",
@@ -294,7 +294,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "AMB_OutOfMemoryConditionClassType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/AMB/;i=1010",
+    "dov:typeRef": "org.opcfoundation.UA.AMB.OutOfMemoryConditionClassType",
     "links": [
       {
         "rel": "tm:extends",
@@ -320,7 +320,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "AMB_OverTemperatureConditionClassType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/AMB/;i=1004",
+    "dov:typeRef": "org.opcfoundation.UA.AMB.OverTemperatureConditionClassType",
     "links": [
       {
         "rel": "tm:extends",
@@ -346,7 +346,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "AMB_SelfTestFailureConditionClassType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/AMB/;i=1006",
+    "dov:typeRef": "org.opcfoundation.UA.AMB.SelfTestFailureConditionClassType",
     "links": [
       {
         "rel": "tm:extends",
@@ -372,7 +372,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "AMB_IMaintenanceEventType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/AMB/;i=1012",
+    "dov:typeRef": "org.opcfoundation.UA.AMB.IMaintenanceEventType",
     "links": [
       {
         "rel": "tm:extends",
@@ -389,7 +389,7 @@
     "schemaDefinitions": {
       "MaintenanceMethodEnum": {
         "type": "object",
-        "dov:typeRef": "nsu=http://opcfoundation.org/UA/AMB/;i=3004",
+        "dov:typeRef": "org.opcfoundation.UA.AMB.MaintenanceMethodEnum",
         "const": {
           "Local": 0,
           "Remote": 1
@@ -462,7 +462,7 @@
         "dov:namespace": "http://opcfoundation.org/UA/AMB/",
         "title": "MaintenanceMethodEnum",
         "description": "Information about the planned or used maintenance method. The content may change during the different MaintenanceStates. By accessing the history of Events a Client can distinguish between the planned and actual used maintenance method during the maintenance activity.",
-        "dov:typeRef": "nsu=http://opcfoundation.org/UA/AMB/;i=3004",
+        "dov:typeRef": "org.opcfoundation.UA.AMB.MaintenanceMethodEnum",
         "type": "integer",
         "minimum": -2147483648,
         "maximum": 2147483647,
@@ -485,7 +485,7 @@
         "title": "NameNodeIdDataType",
         "description": "A human-readable name of something plus optionally the NodeId in case the something is represented in the AddressSpace",
         "type": "object",
-        "dov:typeRef": "nsu=http://opcfoundation.org/UA/AMB/;i=3003",
+        "dov:typeRef": "org.opcfoundation.UA.AMB.NameNodeIdDataType",
         "required": [ "Name", "NodeId" ],
         "properties": {
           "Name": {
@@ -519,7 +519,7 @@
           "title": "NameNodeIdDataType",
           "description": "A human-readable name of something plus optionally the NodeId in case the something is represented in the AddressSpace",
           "type": "object",
-          "dov:typeRef": "nsu=http://opcfoundation.org/UA/AMB/;i=3003",
+          "dov:typeRef": "org.opcfoundation.UA.AMB.NameNodeIdDataType",
           "required": [ "Name", "NodeId" ],
           "properties": {
             "Name": {
@@ -554,7 +554,7 @@
           "title": "NameNodeIdDataType",
           "description": "A human-readable name of something plus optionally the NodeId in case the something is represented in the AddressSpace",
           "type": "object",
-          "dov:typeRef": "nsu=http://opcfoundation.org/UA/AMB/;i=3003",
+          "dov:typeRef": "org.opcfoundation.UA.AMB.NameNodeIdDataType",
           "required": [ "Name", "NodeId" ],
           "properties": {
             "Name": {
@@ -605,7 +605,7 @@
         "title": "NameNodeIdDataType",
         "description": "A human-readable name of something plus optionally the NodeId in case the something is represented in the AddressSpace",
         "type": "object",
-        "dov:typeRef": "nsu=http://opcfoundation.org/UA/AMB/;i=3003",
+        "dov:typeRef": "org.opcfoundation.UA.AMB.NameNodeIdDataType",
         "required": [ "Name", "NodeId" ],
         "properties": {
           "Name": {
@@ -644,7 +644,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "AMB_IRootCauseIndicationType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/AMB/;i=1002",
+    "dov:typeRef": "org.opcfoundation.UA.AMB.IRootCauseIndicationType",
     "links": [
       {
         "rel": "tm:extends",
@@ -677,7 +677,7 @@
           "title": "RootCauseDataType",
           "description": "Root cause of an alarm",
           "type": "object",
-          "dov:typeRef": "nsu=http://opcfoundation.org/UA/AMB/;i=3002",
+          "dov:typeRef": "org.opcfoundation.UA.AMB.RootCauseDataType",
           "required": [ "RootCauseId", "RootCause" ],
           "properties": {
             "RootCauseId": {
@@ -717,7 +717,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "AMB_DocumentationLinksType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/AMB/;i=1011",
+    "dov:typeRef": "org.opcfoundation.UA.AMB.DocumentationLinksType",
     "dov:isComposite": true,
     "links": [
       {
@@ -751,7 +751,7 @@
         "description": "Method to add an end-user specific link that is stored persistently in the server.",
         "input": {
           "type": "object",
-          "dov:typeRef": "nsu=http://opcfoundation.org/UA/AMB/;i=6018",
+          "dov:typeRef": "org.opcfoundation.UA.InputArguments",
           "required": [ "LinkToExternalSource", "BrowseName", "DisplayName", "Description" ],
           "properties": {
             "LinkToExternalSource": {
@@ -774,7 +774,7 @@
         },
         "output": {
           "type": "object",
-          "dov:typeRef": "nsu=http://opcfoundation.org/UA/AMB/;i=6019",
+          "dov:typeRef": "org.opcfoundation.UA.OutputArguments",
           "required": [ "LinkVariable" ],
           "properties": {
             "LinkVariable": {
@@ -796,7 +796,7 @@
         "description": "Method to remove an end-user specific link that is managed in the server.",
         "input": {
           "type": "object",
-          "dov:typeRef": "nsu=http://opcfoundation.org/UA/AMB/;i=6020",
+          "dov:typeRef": "org.opcfoundation.UA.InputArguments",
           "required": [ "VariableToBeDeleted" ],
           "properties": {
             "VariableToBeDeleted": {
@@ -878,7 +878,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "AMB_MaintenanceEventStateMachineType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/AMB/;i=1013",
+    "dov:typeRef": "org.opcfoundation.UA.AMB.MaintenanceEventStateMachineType",
     "links": [
       {
         "rel": "tm:extends",

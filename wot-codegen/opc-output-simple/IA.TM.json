@@ -8,7 +8,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "IA_AcousticSignalType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/IA/;i=1009",
+    "dov:typeRef": "org.opcfoundation.UA.IA.AcousticSignalType",
     "links": [
       {
         "rel": "tm:extends",
@@ -103,7 +103,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "IA_BaseCalibrationTargetCategoryType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/IA/;i=1014",
+    "dov:typeRef": "org.opcfoundation.UA.IA.BaseCalibrationTargetCategoryType",
     "links": [
       {
         "rel": "tm:extends",
@@ -129,7 +129,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "IA_DynamicCalibrationTargetCategoryType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/IA/;i=1018",
+    "dov:typeRef": "org.opcfoundation.UA.IA.DynamicCalibrationTargetCategoryType",
     "dov:isComposite": true,
     "links": [
       {
@@ -156,7 +156,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "IA_OneTimeCalibrationTargetCategoryType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/IA/;i=1017",
+    "dov:typeRef": "org.opcfoundation.UA.IA.OneTimeCalibrationTargetCategoryType",
     "dov:isComposite": true,
     "links": [
       {
@@ -183,7 +183,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "IA_ReusableCalibrationTargetCategoryType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/IA/;i=1015",
+    "dov:typeRef": "org.opcfoundation.UA.IA.ReusableCalibrationTargetCategoryType",
     "dov:isComposite": true,
     "links": [
       {
@@ -210,7 +210,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "IA_ReusableDeviceCalibrationTargetCategoryType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/IA/;i=1016",
+    "dov:typeRef": "org.opcfoundation.UA.IA.ReusableDeviceCalibrationTargetCategoryType",
     "dov:isComposite": true,
     "links": [
       {
@@ -237,7 +237,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "IA_IStatisticsType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/IA/;i=1011",
+    "dov:typeRef": "org.opcfoundation.UA.IA.IStatisticsType",
     "links": [
       {
         "rel": "tm:extends",
@@ -305,7 +305,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "IA_IAggregateStatisticsType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/IA/;i=1012",
+    "dov:typeRef": "org.opcfoundation.UA.IA.IAggregateStatisticsType",
     "links": [
       {
         "rel": "tm:extends",
@@ -361,7 +361,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "IA_IRollingStatisticsType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/IA/;i=1013",
+    "dov:typeRef": "org.opcfoundation.UA.IA.IRollingStatisticsType",
     "links": [
       {
         "rel": "tm:extends",
@@ -438,7 +438,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "IA_CalibrationTargetType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/IA/;i=1019",
+    "dov:typeRef": "org.opcfoundation.UA.IA.CalibrationTargetType",
     "dov:isComposite": true,
     "links": [
       {
@@ -577,7 +577,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "IA_ControlChannelType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/IA/;i=1008",
+    "dov:typeRef": "org.opcfoundation.UA.IA.ControlChannelType",
     "links": [
       {
         "rel": "tm:extends",
@@ -588,7 +588,7 @@
     "schemaDefinitions": {
       "SignalColor": {
         "type": "object",
-        "dov:typeRef": "nsu=http://opcfoundation.org/UA/IA/;i=3004",
+        "dov:typeRef": "org.opcfoundation.UA.IA.SignalColor",
         "const": {
           "Off": 0,
           "Red": 1,
@@ -637,7 +637,7 @@
       },
       "SignalModeLight": {
         "type": "object",
-        "dov:typeRef": "nsu=http://opcfoundation.org/UA/IA/;i=3005",
+        "dov:typeRef": "org.opcfoundation.UA.IA.SignalModeLight",
         "const": {
           "Continuous": 0,
           "Blinking": 1,
@@ -689,7 +689,7 @@
         "dov:namespace": "http://opcfoundation.org/UA/IA/",
         "title": "SignalColor",
         "description": "Indicates in what mode (continuously on, blinking, flashing) the channel operates when switched on.",
-        "dov:typeRef": "nsu=http://opcfoundation.org/UA/IA/;i=3004",
+        "dov:typeRef": "org.opcfoundation.UA.IA.SignalColor",
         "type": "integer",
         "minimum": -2147483648,
         "maximum": 2147483647,
@@ -731,7 +731,7 @@
         "dov:namespace": "http://opcfoundation.org/UA/IA/",
         "title": "SignalModeLight",
         "description": "Contains a list of audio signals used by this acoustic stacklight element.",
-        "dov:typeRef": "nsu=http://opcfoundation.org/UA/IA/;i=3005",
+        "dov:typeRef": "org.opcfoundation.UA.IA.SignalModeLight",
         "type": "integer",
         "minimum": -2147483648,
         "maximum": 2147483647,
@@ -774,7 +774,7 @@
         "data": {
           "title": "SignalColor",
           "description": "Indicates in what mode (continuously on, blinking, flashing) the channel operates when switched on.",
-          "dov:typeRef": "nsu=http://opcfoundation.org/UA/IA/;i=3004",
+          "dov:typeRef": "org.opcfoundation.UA.IA.SignalColor",
           "type": "integer",
           "minimum": -2147483648,
           "maximum": 2147483647
@@ -808,7 +808,7 @@
         "data": {
           "title": "SignalModeLight",
           "description": "Contains a list of audio signals used by this acoustic stacklight element.",
-          "dov:typeRef": "nsu=http://opcfoundation.org/UA/IA/;i=3005",
+          "dov:typeRef": "org.opcfoundation.UA.IA.SignalModeLight",
           "type": "integer",
           "minimum": -2147483648,
           "maximum": 2147483647
@@ -832,7 +832,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "IA_BasicStacklightType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/IA/;i=1002",
+    "dov:typeRef": "org.opcfoundation.UA.IA.BasicStacklightType",
     "dov:isComposite": true,
     "links": [
       {
@@ -856,7 +856,7 @@
     "schemaDefinitions": {
       "StacklightOperationMode": {
         "type": "object",
-        "dov:typeRef": "nsu=http://opcfoundation.org/UA/IA/;i=3002",
+        "dov:typeRef": "org.opcfoundation.UA.IA.StacklightOperationMode",
         "const": {
           "Segmented": 0,
           "Levelmeter": 1,
@@ -903,7 +903,7 @@
         "dov:namespace": "http://opcfoundation.org/UA/IA/",
         "title": "StacklightOperationMode",
         "description": "Shows in what way (stack of individual lights, level meter, running light) the stacklight unit is used.",
-        "dov:typeRef": "nsu=http://opcfoundation.org/UA/IA/;i=3002",
+        "dov:typeRef": "org.opcfoundation.UA.IA.StacklightOperationMode",
         "type": "integer",
         "minimum": -2147483648,
         "maximum": 2147483647,
@@ -934,7 +934,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "IA_StacklightType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/IA/;i=1010",
+    "dov:typeRef": "org.opcfoundation.UA.IA.StacklightType",
     "dov:isComposite": true,
     "links": [
       {
@@ -952,7 +952,7 @@
     "schemaDefinitions": {
       "DeviceHealthEnumeration": {
         "type": "object",
-        "dov:typeRef": "nsu=http://opcfoundation.org/UA/DI/;i=6244",
+        "dov:typeRef": "org.opcfoundation.UA.DI.DeviceHealthEnumeration",
         "const": {
           "NORMAL": 0,
           "FAILURE": 1,
@@ -1008,7 +1008,7 @@
         "dov:namespace": "http://opcfoundation.org/UA/DI/",
         "title": "DeviceHealthEnumeration",
         "description": "Contains the health status information of the stacklight.",
-        "dov:typeRef": "nsu=http://opcfoundation.org/UA/DI/;i=6244",
+        "dov:typeRef": "org.opcfoundation.UA.DI.DeviceHealthEnumeration",
         "type": "integer",
         "minimum": -2147483648,
         "maximum": 2147483647,
@@ -1033,7 +1033,7 @@
         "data": {
           "title": "DeviceHealthEnumeration",
           "description": "Contains the health status information of the stacklight.",
-          "dov:typeRef": "nsu=http://opcfoundation.org/UA/DI/;i=6244",
+          "dov:typeRef": "org.opcfoundation.UA.DI.DeviceHealthEnumeration",
           "type": "integer",
           "minimum": -2147483648,
           "maximum": 2147483647
@@ -1057,7 +1057,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "IA_StackElementType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/IA/;i=1005",
+    "dov:typeRef": "org.opcfoundation.UA.IA.StackElementType",
     "links": [
       {
         "rel": "tm:extends",
@@ -1144,7 +1144,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "IA_StackElementAcousticType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/IA/;i=1007",
+    "dov:typeRef": "org.opcfoundation.UA.IA.StackElementAcousticType",
     "dov:isComposite": true,
     "links": [
       {
@@ -1264,7 +1264,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "IA_StackElementLightType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/IA/;i=1006",
+    "dov:typeRef": "org.opcfoundation.UA.IA.StackElementLightType",
     "dov:isComposite": true,
     "links": [
       {
@@ -1282,7 +1282,7 @@
     "schemaDefinitions": {
       "SignalColor": {
         "type": "object",
-        "dov:typeRef": "nsu=http://opcfoundation.org/UA/IA/;i=3004",
+        "dov:typeRef": "org.opcfoundation.UA.IA.SignalColor",
         "const": {
           "Off": 0,
           "Red": 1,
@@ -1331,7 +1331,7 @@
       },
       "SignalModeLight": {
         "type": "object",
-        "dov:typeRef": "nsu=http://opcfoundation.org/UA/IA/;i=3005",
+        "dov:typeRef": "org.opcfoundation.UA.IA.SignalModeLight",
         "const": {
           "Continuous": 0,
           "Blinking": 1,
@@ -1403,7 +1403,7 @@
         "dov:namespace": "http://opcfoundation.org/UA/IA/",
         "title": "SignalColor",
         "description": "Indicates the colour the lamp element has when switched on.",
-        "dov:typeRef": "nsu=http://opcfoundation.org/UA/IA/;i=3004",
+        "dov:typeRef": "org.opcfoundation.UA.IA.SignalColor",
         "type": "integer",
         "minimum": -2147483648,
         "maximum": 2147483647,
@@ -1425,7 +1425,7 @@
         "dov:namespace": "http://opcfoundation.org/UA/IA/",
         "title": "SignalModeLight",
         "description": "Shows in what way the lamp is used (continuous light, flashing, blinking) when switched on.",
-        "dov:typeRef": "nsu=http://opcfoundation.org/UA/IA/;i=3005",
+        "dov:typeRef": "org.opcfoundation.UA.IA.SignalModeLight",
         "type": "integer",
         "minimum": -2147483648,
         "maximum": 2147483647,
@@ -1447,7 +1447,7 @@
         "dov:namespace": "http://opcfoundation.org/UA/IA/",
         "title": "RGBWDataType",
         "type": "object",
-        "dov:typeRef": "nsu=http://opcfoundation.org/UA/IA/;i=3007",
+        "dov:typeRef": "org.opcfoundation.UA.IA.RGBWDataType",
         "required": [ "Red", "Green", "Blue" ],
         "properties": {
           "Red": {
@@ -1512,7 +1512,7 @@
         "data": {
           "title": "SignalColor",
           "description": "Indicates the colour the lamp element has when switched on.",
-          "dov:typeRef": "nsu=http://opcfoundation.org/UA/IA/;i=3004",
+          "dov:typeRef": "org.opcfoundation.UA.IA.SignalColor",
           "type": "integer",
           "minimum": -2147483648,
           "maximum": 2147483647
@@ -1530,7 +1530,7 @@
         "data": {
           "title": "SignalModeLight",
           "description": "Shows in what way the lamp is used (continuous light, flashing, blinking) when switched on.",
-          "dov:typeRef": "nsu=http://opcfoundation.org/UA/IA/;i=3005",
+          "dov:typeRef": "org.opcfoundation.UA.IA.SignalModeLight",
           "type": "integer",
           "minimum": -2147483648,
           "maximum": 2147483647
@@ -1548,7 +1548,7 @@
         "data": {
           "title": "RGBWDataType",
           "type": "object",
-          "dov:typeRef": "nsu=http://opcfoundation.org/UA/IA/;i=3007",
+          "dov:typeRef": "org.opcfoundation.UA.IA.RGBWDataType",
           "required": [ "Red", "Green", "Blue" ],
           "properties": {
             "Red": {
@@ -1596,7 +1596,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "IA_StackLevelType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/IA/;i=1003",
+    "dov:typeRef": "org.opcfoundation.UA.IA.StackLevelType",
     "links": [
       {
         "rel": "tm:extends",
@@ -1607,7 +1607,7 @@
     "schemaDefinitions": {
       "LevelDisplayMode": {
         "type": "object",
-        "dov:typeRef": "nsu=http://opcfoundation.org/UA/IA/;i=3003",
+        "dov:typeRef": "org.opcfoundation.UA.IA.LevelDisplayMode",
         "const": {
           "Dimmed": 0,
           "Blinking": 1,
@@ -1654,7 +1654,7 @@
         "dov:namespace": "http://opcfoundation.org/UA/IA/",
         "title": "LevelDisplayMode",
         "description": "Indicates in what way the percentual value is displayed with the stacklight.",
-        "dov:typeRef": "nsu=http://opcfoundation.org/UA/IA/;i=3003",
+        "dov:typeRef": "org.opcfoundation.UA.IA.LevelDisplayMode",
         "type": "integer",
         "minimum": -2147483648,
         "maximum": 2147483647,
@@ -1699,7 +1699,7 @@
         "data": {
           "title": "LevelDisplayMode",
           "description": "Indicates in what way the percentual value is displayed with the stacklight.",
-          "dov:typeRef": "nsu=http://opcfoundation.org/UA/IA/;i=3003",
+          "dov:typeRef": "org.opcfoundation.UA.IA.LevelDisplayMode",
           "type": "integer",
           "minimum": -2147483648,
           "maximum": 2147483647
@@ -1739,7 +1739,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "IA_StackRunningType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/IA/;i=1004",
+    "dov:typeRef": "org.opcfoundation.UA.IA.StackRunningType",
     "links": [
       {
         "rel": "tm:extends",

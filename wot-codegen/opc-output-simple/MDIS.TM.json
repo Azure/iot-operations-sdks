@@ -8,7 +8,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "MDIS_MDISBaseObjectType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/MDIS;i=194",
+    "dov:typeRef": "org.opcfoundation.UA.MDIS.MDISBaseObjectType",
     "links": [
       {
         "rel": "tm:extends",
@@ -35,7 +35,7 @@
         "dov:namespace": "http://opcfoundation.org/UA/MDIS",
         "input": {
           "type": "object",
-          "dov:typeRef": "nsu=http://opcfoundation.org/UA/MDIS;i=196",
+          "dov:typeRef": "org.opcfoundation.UA.InputArguments",
           "required": [ "Enable" ],
           "properties": {
             "Enable": {
@@ -213,7 +213,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "MDIS_MDISAggregateObjectType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/MDIS;i=1315",
+    "dov:typeRef": "org.opcfoundation.UA.MDIS.MDISAggregateObjectType",
     "links": [
       {
         "rel": "tm:extends",
@@ -329,7 +329,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "MDIS_MDISChokeObjectType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/MDIS;i=1066",
+    "dov:typeRef": "org.opcfoundation.UA.MDIS.MDISChokeObjectType",
     "links": [
       {
         "rel": "tm:extends",
@@ -340,7 +340,7 @@
     "schemaDefinitions": {
       "ChokeMoveEnum": {
         "type": "object",
-        "dov:typeRef": "nsu=http://opcfoundation.org/UA/MDIS;i=602",
+        "dov:typeRef": "org.opcfoundation.UA.MDIS.ChokeMoveEnum",
         "const": {
           "Moving": 1,
           "Stopped": 2
@@ -358,7 +358,7 @@
       },
       "SetCalculatedPositionEnum": {
         "type": "object",
-        "dov:typeRef": "nsu=http://opcfoundation.org/UA/MDIS;i=1287",
+        "dov:typeRef": "org.opcfoundation.UA.MDIS.SetCalculatedPositionEnum",
         "const": {
           "Initial": 0,
           "Inprogress": 1,
@@ -386,7 +386,7 @@
       },
       "SEMEnum": {
         "type": "object",
-        "dov:typeRef": "nsu=http://opcfoundation.org/UA/MDIS;i=5",
+        "dov:typeRef": "org.opcfoundation.UA.MDIS.SEMEnum",
         "const": {
           "SEM_A": 1,
           "SEM_B": 2,
@@ -409,7 +409,7 @@
       },
       "ChokeCommandEnum": {
         "type": "object",
-        "dov:typeRef": "nsu=http://opcfoundation.org/UA/MDIS;i=701",
+        "dov:typeRef": "org.opcfoundation.UA.MDIS.ChokeCommandEnum",
         "const": {
           "Close": 1,
           "Open": 2
@@ -453,7 +453,7 @@
         "dov:namespace": "http://opcfoundation.org/UA/MDIS",
         "input": {
           "type": "object",
-          "dov:typeRef": "nsu=http://opcfoundation.org/UA/MDIS;i=1156",
+          "dov:typeRef": "org.opcfoundation.UA.InputArguments",
           "required": [ "Position", "OverrideInterlocks", "SEM" ],
           "properties": {
             "Position": {
@@ -469,7 +469,7 @@
             "SEM": {
               "title": "SEMEnum",
               "description": "The selection of which SEM to send the command to",
-              "dov:typeRef": "nsu=http://opcfoundation.org/UA/MDIS;i=5",
+              "dov:typeRef": "org.opcfoundation.UA.MDIS.SEMEnum",
               "type": "integer",
               "minimum": -2147483648,
               "maximum": 2147483647
@@ -488,7 +488,7 @@
         "dov:namespace": "http://opcfoundation.org/UA/MDIS",
         "input": {
           "type": "object",
-          "dov:typeRef": "nsu=http://opcfoundation.org/UA/MDIS;i=1285",
+          "dov:typeRef": "org.opcfoundation.UA.InputArguments",
           "required": [ "Position" ],
           "properties": {
             "Position": {
@@ -511,13 +511,13 @@
         "dov:namespace": "http://opcfoundation.org/UA/MDIS",
         "input": {
           "type": "object",
-          "dov:typeRef": "nsu=http://opcfoundation.org/UA/MDIS;i=1158",
+          "dov:typeRef": "org.opcfoundation.UA.InputArguments",
           "required": [ "Direction", "Steps", "OverrideInterlocks", "SEM" ],
           "properties": {
             "Direction": {
               "title": "ChokeCommandEnum",
               "description": "The direction for the valve, true is opening a valve, false if closing the valve",
-              "dov:typeRef": "nsu=http://opcfoundation.org/UA/MDIS;i=701",
+              "dov:typeRef": "org.opcfoundation.UA.MDIS.ChokeCommandEnum",
               "type": "integer",
               "minimum": -2147483648,
               "maximum": 2147483647
@@ -535,7 +535,7 @@
             "SEM": {
               "title": "SEMEnum",
               "description": "The selection of which SEM to send the command to",
-              "dov:typeRef": "nsu=http://opcfoundation.org/UA/MDIS;i=5",
+              "dov:typeRef": "org.opcfoundation.UA.MDIS.SEMEnum",
               "type": "integer",
               "minimum": -2147483648,
               "maximum": 2147483647
@@ -605,7 +605,7 @@
       "Moving": {
         "dov:namespace": "http://opcfoundation.org/UA/MDIS",
         "title": "ChokeMoveEnum",
-        "dov:typeRef": "nsu=http://opcfoundation.org/UA/MDIS;i=602",
+        "dov:typeRef": "org.opcfoundation.UA.MDIS.ChokeMoveEnum",
         "type": "integer",
         "minimum": -2147483648,
         "maximum": 2147483647,
@@ -659,7 +659,7 @@
       "SetCalculatedPositionStatus": {
         "dov:namespace": "http://opcfoundation.org/UA/MDIS",
         "title": "SetCalculatedPositionEnum",
-        "dov:typeRef": "nsu=http://opcfoundation.org/UA/MDIS;i=1287",
+        "dov:typeRef": "org.opcfoundation.UA.MDIS.SetCalculatedPositionEnum",
         "type": "integer",
         "minimum": -2147483648,
         "maximum": 2147483647,
@@ -772,7 +772,7 @@
         "dov:namespace": "http://opcfoundation.org/UA/MDIS",
         "data": {
           "title": "ChokeMoveEnum",
-          "dov:typeRef": "nsu=http://opcfoundation.org/UA/MDIS;i=602",
+          "dov:typeRef": "org.opcfoundation.UA.MDIS.ChokeMoveEnum",
           "type": "integer",
           "minimum": -2147483648,
           "maximum": 2147483647
@@ -830,7 +830,7 @@
         "dov:namespace": "http://opcfoundation.org/UA/MDIS",
         "data": {
           "title": "SetCalculatedPositionEnum",
-          "dov:typeRef": "nsu=http://opcfoundation.org/UA/MDIS;i=1287",
+          "dov:typeRef": "org.opcfoundation.UA.MDIS.SetCalculatedPositionEnum",
           "type": "integer",
           "minimum": -2147483648,
           "maximum": 2147483647
@@ -854,7 +854,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "MDIS_MDISCIMVObjectType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/MDIS;i=15114",
+    "dov:typeRef": "org.opcfoundation.UA.MDIS.MDISCIMVObjectType",
     "links": [
       {
         "rel": "tm:extends",
@@ -877,7 +877,7 @@
     "schemaDefinitions": {
       "CIMVMoveEnum": {
         "type": "object",
-        "dov:typeRef": "nsu=http://opcfoundation.org/UA/MDIS;i=15007",
+        "dov:typeRef": "org.opcfoundation.UA.MDIS.CIMVMoveEnum",
         "const": {
           "MoveClose": 1,
           "MoveOpen": 2,
@@ -900,7 +900,7 @@
       },
       "CIMVOperationModeEnum": {
         "type": "object",
-        "dov:typeRef": "nsu=http://opcfoundation.org/UA/MDIS;i=15102",
+        "dov:typeRef": "org.opcfoundation.UA.MDIS.CIMVOperationModeEnum",
         "const": {
           "Position": 1,
           "Flow": 2,
@@ -923,7 +923,7 @@
       },
       "SEMEnum": {
         "type": "object",
-        "dov:typeRef": "nsu=http://opcfoundation.org/UA/MDIS;i=5",
+        "dov:typeRef": "org.opcfoundation.UA.MDIS.SEMEnum",
         "const": {
           "SEM_A": 1,
           "SEM_B": 2,
@@ -972,7 +972,7 @@
         "dov:namespace": "http://opcfoundation.org/UA/MDIS",
         "input": {
           "type": "object",
-          "dov:typeRef": "nsu=http://opcfoundation.org/UA/MDIS;i=15167",
+          "dov:typeRef": "org.opcfoundation.UA.InputArguments",
           "required": [ "Initial" ],
           "properties": {
             "Initial": {
@@ -995,7 +995,7 @@
         "dov:namespace": "http://opcfoundation.org/UA/MDIS",
         "input": {
           "type": "object",
-          "dov:typeRef": "nsu=http://opcfoundation.org/UA/MDIS;i=15171",
+          "dov:typeRef": "org.opcfoundation.UA.InputArguments",
           "required": [ "FlowRate", "SEM", "ShutdownRequest" ],
           "properties": {
             "FlowRate": {
@@ -1007,7 +1007,7 @@
             "SEM": {
               "title": "SEMEnum",
               "description": "The selection of which SEM to send the command to",
-              "dov:typeRef": "nsu=http://opcfoundation.org/UA/MDIS;i=5",
+              "dov:typeRef": "org.opcfoundation.UA.MDIS.SEMEnum",
               "type": "integer",
               "minimum": -2147483648,
               "maximum": 2147483647
@@ -1030,13 +1030,13 @@
         "dov:namespace": "http://opcfoundation.org/UA/MDIS",
         "input": {
           "type": "object",
-          "dov:typeRef": "nsu=http://opcfoundation.org/UA/MDIS;i=15175",
+          "dov:typeRef": "org.opcfoundation.UA.InputArguments",
           "required": [ "Direction", "Delta", "SEM", "ShutdownRequest" ],
           "properties": {
             "Direction": {
               "title": "CIMVMoveEnum",
               "description": "Direction to move – Open or Close",
-              "dov:typeRef": "nsu=http://opcfoundation.org/UA/MDIS;i=15007",
+              "dov:typeRef": "org.opcfoundation.UA.MDIS.CIMVMoveEnum",
               "type": "integer",
               "minimum": -2147483648,
               "maximum": 2147483647
@@ -1050,7 +1050,7 @@
             "SEM": {
               "title": "SEMEnum",
               "description": "The selection of which SEM to send the command to",
-              "dov:typeRef": "nsu=http://opcfoundation.org/UA/MDIS;i=5",
+              "dov:typeRef": "org.opcfoundation.UA.MDIS.SEMEnum",
               "type": "integer",
               "minimum": -2147483648,
               "maximum": 2147483647
@@ -1073,13 +1073,13 @@
         "dov:namespace": "http://opcfoundation.org/UA/MDIS",
         "input": {
           "type": "object",
-          "dov:typeRef": "nsu=http://opcfoundation.org/UA/MDIS;i=15169",
+          "dov:typeRef": "org.opcfoundation.UA.InputArguments",
           "required": [ "Mode", "SEM", "ShutdownRequest" ],
           "properties": {
             "Mode": {
               "title": "CIMVOperationModeEnum",
               "description": "Enumeration indicating the requested operation mode",
-              "dov:typeRef": "nsu=http://opcfoundation.org/UA/MDIS;i=15102",
+              "dov:typeRef": "org.opcfoundation.UA.MDIS.CIMVOperationModeEnum",
               "type": "integer",
               "minimum": -2147483648,
               "maximum": 2147483647
@@ -1087,7 +1087,7 @@
             "SEM": {
               "title": "SEMEnum",
               "description": "The selection of which SEM to send the command to",
-              "dov:typeRef": "nsu=http://opcfoundation.org/UA/MDIS;i=5",
+              "dov:typeRef": "org.opcfoundation.UA.MDIS.SEMEnum",
               "type": "integer",
               "minimum": -2147483648,
               "maximum": 2147483647
@@ -1110,7 +1110,7 @@
         "dov:namespace": "http://opcfoundation.org/UA/MDIS",
         "input": {
           "type": "object",
-          "dov:typeRef": "nsu=http://opcfoundation.org/UA/MDIS;i=15173",
+          "dov:typeRef": "org.opcfoundation.UA.InputArguments",
           "required": [ "Position", "SEM", "ShutdownRequest" ],
           "properties": {
             "Position": {
@@ -1122,7 +1122,7 @@
             "SEM": {
               "title": "SEMEnum",
               "description": "The selection of which SEM to send the command to",
-              "dov:typeRef": "nsu=http://opcfoundation.org/UA/MDIS;i=5",
+              "dov:typeRef": "org.opcfoundation.UA.MDIS.SEMEnum",
               "type": "integer",
               "minimum": -2147483648,
               "maximum": 2147483647
@@ -1214,7 +1214,7 @@
       "Moving": {
         "dov:namespace": "http://opcfoundation.org/UA/MDIS",
         "title": "CIMVMoveEnum",
-        "dov:typeRef": "nsu=http://opcfoundation.org/UA/MDIS;i=15007",
+        "dov:typeRef": "org.opcfoundation.UA.MDIS.CIMVMoveEnum",
         "type": "integer",
         "minimum": -2147483648,
         "maximum": 2147483647,
@@ -1266,7 +1266,7 @@
       "OperationMode": {
         "dov:namespace": "http://opcfoundation.org/UA/MDIS",
         "title": "CIMVOperationModeEnum",
-        "dov:typeRef": "nsu=http://opcfoundation.org/UA/MDIS;i=15102",
+        "dov:typeRef": "org.opcfoundation.UA.MDIS.CIMVOperationModeEnum",
         "type": "integer",
         "minimum": -2147483648,
         "maximum": 2147483647,
@@ -1428,7 +1428,7 @@
         "dov:namespace": "http://opcfoundation.org/UA/MDIS",
         "data": {
           "title": "CIMVMoveEnum",
-          "dov:typeRef": "nsu=http://opcfoundation.org/UA/MDIS;i=15007",
+          "dov:typeRef": "org.opcfoundation.UA.MDIS.CIMVMoveEnum",
           "type": "integer",
           "minimum": -2147483648,
           "maximum": 2147483647
@@ -1484,7 +1484,7 @@
         "dov:namespace": "http://opcfoundation.org/UA/MDIS",
         "data": {
           "title": "CIMVOperationModeEnum",
-          "dov:typeRef": "nsu=http://opcfoundation.org/UA/MDIS;i=15102",
+          "dov:typeRef": "org.opcfoundation.UA.MDIS.CIMVOperationModeEnum",
           "type": "integer",
           "minimum": -2147483648,
           "maximum": 2147483647
@@ -1583,7 +1583,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "MDIS_MDISDigitalInstrumentObjectType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/MDIS;i=889",
+    "dov:typeRef": "org.opcfoundation.UA.MDIS.MDISDigitalInstrumentObjectType",
     "links": [
       {
         "rel": "tm:extends",
@@ -1646,7 +1646,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "MDIS_MDISDigitalArbitrationObjectType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/MDIS;i=15015",
+    "dov:typeRef": "org.opcfoundation.UA.MDIS.MDISDigitalArbitrationObjectType",
     "links": [
       {
         "rel": "tm:extends",
@@ -1657,7 +1657,7 @@
     "schemaDefinitions": {
       "ArbitrationModeEnum": {
         "type": "object",
-        "dov:typeRef": "nsu=http://opcfoundation.org/UA/MDIS;i=15009",
+        "dov:typeRef": "org.opcfoundation.UA.MDIS.ArbitrationModeEnum",
         "const": {
           "Average": 1,
           "DefaultA": 2,
@@ -1716,13 +1716,13 @@
         "dov:namespace": "http://opcfoundation.org/UA/MDIS",
         "input": {
           "type": "object",
-          "dov:typeRef": "nsu=http://opcfoundation.org/UA/MDIS;i=15029",
+          "dov:typeRef": "org.opcfoundation.UA.InputArguments",
           "required": [ "ArbitrationMode" ],
           "properties": {
             "ArbitrationMode": {
               "title": "ArbitrationModeEnum",
               "description": "ArbitrationMode enumeration value Variable, that defines the new arbitration mode",
-              "dov:typeRef": "nsu=http://opcfoundation.org/UA/MDIS;i=15009",
+              "dov:typeRef": "org.opcfoundation.UA.MDIS.ArbitrationModeEnum",
               "type": "integer",
               "minimum": -2147483648,
               "maximum": 2147483647
@@ -1742,7 +1742,7 @@
       "ArbitrationMode": {
         "dov:namespace": "http://opcfoundation.org/UA/MDIS",
         "title": "ArbitrationModeEnum",
-        "dov:typeRef": "nsu=http://opcfoundation.org/UA/MDIS;i=15009",
+        "dov:typeRef": "org.opcfoundation.UA.MDIS.ArbitrationModeEnum",
         "type": "integer",
         "minimum": -2147483648,
         "maximum": 2147483647,
@@ -1785,7 +1785,7 @@
         "dov:namespace": "http://opcfoundation.org/UA/MDIS",
         "data": {
           "title": "ArbitrationModeEnum",
-          "dov:typeRef": "nsu=http://opcfoundation.org/UA/MDIS;i=15009",
+          "dov:typeRef": "org.opcfoundation.UA.MDIS.ArbitrationModeEnum",
           "type": "integer",
           "minimum": -2147483648,
           "maximum": 2147483647
@@ -1835,7 +1835,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "MDIS_MDISDigitalOutObjectType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/MDIS;i=1230",
+    "dov:typeRef": "org.opcfoundation.UA.MDIS.MDISDigitalOutObjectType",
     "links": [
       {
         "rel": "tm:extends",
@@ -1850,7 +1850,7 @@
         "dov:namespace": "http://opcfoundation.org/UA/MDIS",
         "input": {
           "type": "object",
-          "dov:typeRef": "nsu=http://opcfoundation.org/UA/MDIS;i=1241",
+          "dov:typeRef": "org.opcfoundation.UA.InputArguments",
           "required": [ "State" ],
           "properties": {
             "State": {
@@ -1882,7 +1882,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "MDIS_MDISDiscreteInstrumentObjectType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/MDIS;i=1214",
+    "dov:typeRef": "org.opcfoundation.UA.MDIS.MDISDiscreteInstrumentObjectType",
     "links": [
       {
         "rel": "tm:extends",
@@ -1949,7 +1949,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "MDIS_MDISDiscreteArbitrationObjectType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/MDIS;i=15032",
+    "dov:typeRef": "org.opcfoundation.UA.MDIS.MDISDiscreteArbitrationObjectType",
     "links": [
       {
         "rel": "tm:extends",
@@ -1960,7 +1960,7 @@
     "schemaDefinitions": {
       "ArbitrationModeEnum": {
         "type": "object",
-        "dov:typeRef": "nsu=http://opcfoundation.org/UA/MDIS;i=15009",
+        "dov:typeRef": "org.opcfoundation.UA.MDIS.ArbitrationModeEnum",
         "const": {
           "Average": 1,
           "DefaultA": 2,
@@ -2019,13 +2019,13 @@
         "dov:namespace": "http://opcfoundation.org/UA/MDIS",
         "input": {
           "type": "object",
-          "dov:typeRef": "nsu=http://opcfoundation.org/UA/MDIS;i=15546",
+          "dov:typeRef": "org.opcfoundation.UA.InputArguments",
           "required": [ "ArbitrationMode" ],
           "properties": {
             "ArbitrationMode": {
               "title": "ArbitrationModeEnum",
               "description": "ArbitrationMode enumeration value Variable, that defines the new arbitration mode",
-              "dov:typeRef": "nsu=http://opcfoundation.org/UA/MDIS;i=15009",
+              "dov:typeRef": "org.opcfoundation.UA.MDIS.ArbitrationModeEnum",
               "type": "integer",
               "minimum": -2147483648,
               "maximum": 2147483647
@@ -2045,7 +2045,7 @@
       "ArbitrationMode": {
         "dov:namespace": "http://opcfoundation.org/UA/MDIS",
         "title": "ArbitrationModeEnum",
-        "dov:typeRef": "nsu=http://opcfoundation.org/UA/MDIS;i=15009",
+        "dov:typeRef": "org.opcfoundation.UA.MDIS.ArbitrationModeEnum",
         "type": "integer",
         "minimum": -2147483648,
         "maximum": 2147483647,
@@ -2092,7 +2092,7 @@
         "dov:namespace": "http://opcfoundation.org/UA/MDIS",
         "data": {
           "title": "ArbitrationModeEnum",
-          "dov:typeRef": "nsu=http://opcfoundation.org/UA/MDIS;i=15009",
+          "dov:typeRef": "org.opcfoundation.UA.MDIS.ArbitrationModeEnum",
           "type": "integer",
           "minimum": -2147483648,
           "maximum": 2147483647
@@ -2146,7 +2146,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "MDIS_MDISDiscreteOutObjectType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/MDIS;i=1242",
+    "dov:typeRef": "org.opcfoundation.UA.MDIS.MDISDiscreteOutObjectType",
     "links": [
       {
         "rel": "tm:extends",
@@ -2161,7 +2161,7 @@
         "dov:namespace": "http://opcfoundation.org/UA/MDIS",
         "input": {
           "type": "object",
-          "dov:typeRef": "nsu=http://opcfoundation.org/UA/MDIS;i=1253",
+          "dov:typeRef": "org.opcfoundation.UA.InputArguments",
           "required": [ "State" ],
           "properties": {
             "State": {
@@ -2195,7 +2195,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "MDIS_MDISElectricChokeObjectType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/MDIS;i=15076",
+    "dov:typeRef": "org.opcfoundation.UA.MDIS.MDISElectricChokeObjectType",
     "links": [
       {
         "rel": "tm:extends",
@@ -2206,7 +2206,7 @@
     "schemaDefinitions": {
       "ChokeMoveEnum": {
         "type": "object",
-        "dov:typeRef": "nsu=http://opcfoundation.org/UA/MDIS;i=602",
+        "dov:typeRef": "org.opcfoundation.UA.MDIS.ChokeMoveEnum",
         "const": {
           "Moving": 1,
           "Stopped": 2
@@ -2224,7 +2224,7 @@
       },
       "SEMEnum": {
         "type": "object",
-        "dov:typeRef": "nsu=http://opcfoundation.org/UA/MDIS;i=5",
+        "dov:typeRef": "org.opcfoundation.UA.MDIS.SEMEnum",
         "const": {
           "SEM_A": 1,
           "SEM_B": 2,
@@ -2273,7 +2273,7 @@
         "dov:namespace": "http://opcfoundation.org/UA/MDIS",
         "input": {
           "type": "object",
-          "dov:typeRef": "nsu=http://opcfoundation.org/UA/MDIS;i=15093",
+          "dov:typeRef": "org.opcfoundation.UA.InputArguments",
           "required": [ "Position", "OverrideInterlocks", "SEM" ],
           "properties": {
             "Position": {
@@ -2289,7 +2289,7 @@
             "SEM": {
               "title": "SEMEnum",
               "description": "The selection of which SEM to send the command to",
-              "dov:typeRef": "nsu=http://opcfoundation.org/UA/MDIS;i=5",
+              "dov:typeRef": "org.opcfoundation.UA.MDIS.SEMEnum",
               "type": "integer",
               "minimum": -2147483648,
               "maximum": 2147483647
@@ -2359,7 +2359,7 @@
       "Moving": {
         "dov:namespace": "http://opcfoundation.org/UA/MDIS",
         "title": "ChokeMoveEnum",
-        "dov:typeRef": "nsu=http://opcfoundation.org/UA/MDIS;i=602",
+        "dov:typeRef": "org.opcfoundation.UA.MDIS.ChokeMoveEnum",
         "type": "integer",
         "minimum": -2147483648,
         "maximum": 2147483647,
@@ -2456,7 +2456,7 @@
         "dov:namespace": "http://opcfoundation.org/UA/MDIS",
         "data": {
           "title": "ChokeMoveEnum",
-          "dov:typeRef": "nsu=http://opcfoundation.org/UA/MDIS;i=602",
+          "dov:typeRef": "org.opcfoundation.UA.MDIS.ChokeMoveEnum",
           "type": "integer",
           "minimum": -2147483648,
           "maximum": 2147483647
@@ -2506,7 +2506,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "MDIS_MDISInstrumentObjectType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/MDIS;i=971",
+    "dov:typeRef": "org.opcfoundation.UA.MDIS.MDISInstrumentObjectType",
     "links": [
       {
         "rel": "tm:extends",
@@ -2754,7 +2754,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "MDIS_MDISInstrumentArbitrationObjectType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/MDIS;i=15547",
+    "dov:typeRef": "org.opcfoundation.UA.MDIS.MDISInstrumentArbitrationObjectType",
     "links": [
       {
         "rel": "tm:extends",
@@ -2765,7 +2765,7 @@
     "schemaDefinitions": {
       "ArbitrationModeEnum": {
         "type": "object",
-        "dov:typeRef": "nsu=http://opcfoundation.org/UA/MDIS;i=15009",
+        "dov:typeRef": "org.opcfoundation.UA.MDIS.ArbitrationModeEnum",
         "const": {
           "Average": 1,
           "DefaultA": 2,
@@ -2829,13 +2829,13 @@
         "dov:namespace": "http://opcfoundation.org/UA/MDIS",
         "input": {
           "type": "object",
-          "dov:typeRef": "nsu=http://opcfoundation.org/UA/MDIS;i=15075",
+          "dov:typeRef": "org.opcfoundation.UA.InputArguments",
           "required": [ "ArbitrationMode" ],
           "properties": {
             "ArbitrationMode": {
               "title": "ArbitrationModeEnum",
               "description": "ArbitrationMode enumeration value Variable, that defines the new arbitration mode",
-              "dov:typeRef": "nsu=http://opcfoundation.org/UA/MDIS;i=15009",
+              "dov:typeRef": "org.opcfoundation.UA.MDIS.ArbitrationModeEnum",
               "type": "integer",
               "minimum": -2147483648,
               "maximum": 2147483647
@@ -2855,7 +2855,7 @@
       "ArbitrationMode": {
         "dov:namespace": "http://opcfoundation.org/UA/MDIS",
         "title": "ArbitrationModeEnum",
-        "dov:typeRef": "nsu=http://opcfoundation.org/UA/MDIS;i=15009",
+        "dov:typeRef": "org.opcfoundation.UA.MDIS.ArbitrationModeEnum",
         "type": "integer",
         "minimum": -2147483648,
         "maximum": 2147483647,
@@ -2921,7 +2921,7 @@
         "dov:namespace": "http://opcfoundation.org/UA/MDIS",
         "data": {
           "title": "ArbitrationModeEnum",
-          "dov:typeRef": "nsu=http://opcfoundation.org/UA/MDIS;i=15009",
+          "dov:typeRef": "org.opcfoundation.UA.MDIS.ArbitrationModeEnum",
           "type": "integer",
           "minimum": -2147483648,
           "maximum": 2147483647
@@ -2975,7 +2975,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "MDIS_MDISInstrumentOutObjectType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/MDIS;i=1254",
+    "dov:typeRef": "org.opcfoundation.UA.MDIS.MDISInstrumentOutObjectType",
     "links": [
       {
         "rel": "tm:extends",
@@ -2990,7 +2990,7 @@
         "dov:namespace": "http://opcfoundation.org/UA/MDIS",
         "input": {
           "type": "object",
-          "dov:typeRef": "nsu=http://opcfoundation.org/UA/MDIS;i=1278",
+          "dov:typeRef": "org.opcfoundation.UA.InputArguments",
           "required": [ "Value" ],
           "properties": {
             "Value": {
@@ -3024,7 +3024,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "MDIS_MDISMotorObjectType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/MDIS;i=15190",
+    "dov:typeRef": "org.opcfoundation.UA.MDIS.MDISMotorObjectType",
     "links": [
       {
         "rel": "tm:extends",
@@ -3035,7 +3035,7 @@
     "schemaDefinitions": {
       "MotorOperationEnum": {
         "type": "object",
-        "dov:typeRef": "nsu=http://opcfoundation.org/UA/MDIS;i=15013",
+        "dov:typeRef": "org.opcfoundation.UA.MDIS.MotorOperationEnum",
         "const": {
           "Off": 1,
           "Auto": 2,
@@ -3074,13 +3074,13 @@
         "dov:namespace": "http://opcfoundation.org/UA/MDIS",
         "input": {
           "type": "object",
-          "dov:typeRef": "nsu=http://opcfoundation.org/UA/MDIS;i=15210",
+          "dov:typeRef": "org.opcfoundation.UA.InputArguments",
           "required": [ "Mode" ],
           "properties": {
             "Mode": {
               "title": "MotorOperationEnum",
               "description": "Mode to operate in (i.e. Auto or Manual)",
-              "dov:typeRef": "nsu=http://opcfoundation.org/UA/MDIS;i=15013",
+              "dov:typeRef": "org.opcfoundation.UA.MDIS.MotorOperationEnum",
               "type": "integer",
               "minimum": -2147483648,
               "maximum": 2147483647
@@ -3099,7 +3099,7 @@
         "dov:namespace": "http://opcfoundation.org/UA/MDIS",
         "input": {
           "type": "object",
-          "dov:typeRef": "nsu=http://opcfoundation.org/UA/MDIS;i=15206",
+          "dov:typeRef": "org.opcfoundation.UA.InputArguments",
           "required": [ "OverrideInterlocks" ],
           "properties": {
             "OverrideInterlocks": {
@@ -3120,7 +3120,7 @@
         "dov:namespace": "http://opcfoundation.org/UA/MDIS",
         "input": {
           "type": "object",
-          "dov:typeRef": "nsu=http://opcfoundation.org/UA/MDIS;i=15208",
+          "dov:typeRef": "org.opcfoundation.UA.InputArguments",
           "required": [ "OverrideInterlocks" ],
           "properties": {
             "OverrideInterlocks": {
@@ -3190,7 +3190,7 @@
       "Operation": {
         "dov:namespace": "http://opcfoundation.org/UA/MDIS",
         "title": "MotorOperationEnum",
-        "dov:typeRef": "nsu=http://opcfoundation.org/UA/MDIS;i=15013",
+        "dov:typeRef": "org.opcfoundation.UA.MDIS.MotorOperationEnum",
         "type": "integer",
         "minimum": -2147483648,
         "maximum": 2147483647,
@@ -3273,7 +3273,7 @@
         "dov:namespace": "http://opcfoundation.org/UA/MDIS",
         "data": {
           "title": "MotorOperationEnum",
-          "dov:typeRef": "nsu=http://opcfoundation.org/UA/MDIS;i=15013",
+          "dov:typeRef": "org.opcfoundation.UA.MDIS.MotorOperationEnum",
           "type": "integer",
           "minimum": -2147483648,
           "maximum": 2147483647
@@ -3310,7 +3310,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "MDIS_MDISValveObjectType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/MDIS;i=794",
+    "dov:typeRef": "org.opcfoundation.UA.MDIS.MDISValveObjectType",
     "links": [
       {
         "rel": "tm:extends",
@@ -3328,7 +3328,7 @@
     "schemaDefinitions": {
       "CommandEnum": {
         "type": "object",
-        "dov:typeRef": "nsu=http://opcfoundation.org/UA/MDIS;i=3",
+        "dov:typeRef": "org.opcfoundation.UA.MDIS.CommandEnum",
         "const": {
           "Close": 1,
           "Open": 2,
@@ -3351,7 +3351,7 @@
       },
       "ValvePositionEnum": {
         "type": "object",
-        "dov:typeRef": "nsu=http://opcfoundation.org/UA/MDIS;i=703",
+        "dov:typeRef": "org.opcfoundation.UA.MDIS.ValvePositionEnum",
         "const": {
           "Closed": 1,
           "Open": 2,
@@ -3379,7 +3379,7 @@
       },
       "SignatureStatusEnum": {
         "type": "object",
-        "dov:typeRef": "nsu=http://opcfoundation.org/UA/MDIS;i=699",
+        "dov:typeRef": "org.opcfoundation.UA.MDIS.SignatureStatusEnum",
         "const": {
           "NotAvailable": 1,
           "Completed": 2,
@@ -3402,7 +3402,7 @@
       },
       "SEMEnum": {
         "type": "object",
-        "dov:typeRef": "nsu=http://opcfoundation.org/UA/MDIS;i=5",
+        "dov:typeRef": "org.opcfoundation.UA.MDIS.SEMEnum",
         "const": {
           "SEM_A": 1,
           "SEM_B": 2,
@@ -3441,13 +3441,13 @@
         "dov:namespace": "http://opcfoundation.org/UA/MDIS",
         "input": {
           "type": "object",
-          "dov:typeRef": "nsu=http://opcfoundation.org/UA/MDIS;i=884",
+          "dov:typeRef": "org.opcfoundation.UA.InputArguments",
           "required": [ "Direction", "OverrideInterlock", "SEM", "Signature", "ShutdownRequest" ],
           "properties": {
             "Direction": {
               "title": "CommandEnum",
               "description": "The enumeration indicates whether the command is to open the valve or to close the valve",
-              "dov:typeRef": "nsu=http://opcfoundation.org/UA/MDIS;i=3",
+              "dov:typeRef": "org.opcfoundation.UA.MDIS.CommandEnum",
               "type": "integer",
               "minimum": -2147483648,
               "maximum": 2147483647
@@ -3459,7 +3459,7 @@
             "SEM": {
               "title": "SEMEnum",
               "description": "The selection of which SEM to send the command to",
-              "dov:typeRef": "nsu=http://opcfoundation.org/UA/MDIS;i=5",
+              "dov:typeRef": "org.opcfoundation.UA.MDIS.SEMEnum",
               "type": "integer",
               "minimum": -2147483648,
               "maximum": 2147483647
@@ -3536,7 +3536,7 @@
       "LastCommand": {
         "dov:namespace": "http://opcfoundation.org/UA/MDIS",
         "title": "CommandEnum",
-        "dov:typeRef": "nsu=http://opcfoundation.org/UA/MDIS;i=3",
+        "dov:typeRef": "org.opcfoundation.UA.MDIS.CommandEnum",
         "type": "integer",
         "minimum": -2147483648,
         "maximum": 2147483647,
@@ -3589,7 +3589,7 @@
       "Position": {
         "dov:namespace": "http://opcfoundation.org/UA/MDIS",
         "title": "ValvePositionEnum",
-        "dov:typeRef": "nsu=http://opcfoundation.org/UA/MDIS;i=703",
+        "dov:typeRef": "org.opcfoundation.UA.MDIS.ValvePositionEnum",
         "type": "integer",
         "minimum": -2147483648,
         "maximum": 2147483647,
@@ -3605,7 +3605,7 @@
       "SignatureRequestStatus": {
         "dov:namespace": "http://opcfoundation.org/UA/MDIS",
         "title": "SignatureStatusEnum",
-        "dov:typeRef": "nsu=http://opcfoundation.org/UA/MDIS;i=699",
+        "dov:typeRef": "org.opcfoundation.UA.MDIS.SignatureStatusEnum",
         "type": "integer",
         "minimum": -2147483648,
         "maximum": 2147483647,
@@ -3663,7 +3663,7 @@
         "dov:namespace": "http://opcfoundation.org/UA/MDIS",
         "data": {
           "title": "CommandEnum",
-          "dov:typeRef": "nsu=http://opcfoundation.org/UA/MDIS;i=3",
+          "dov:typeRef": "org.opcfoundation.UA.MDIS.CommandEnum",
           "type": "integer",
           "minimum": -2147483648,
           "maximum": 2147483647
@@ -3706,7 +3706,7 @@
         "dov:namespace": "http://opcfoundation.org/UA/MDIS",
         "data": {
           "title": "ValvePositionEnum",
-          "dov:typeRef": "nsu=http://opcfoundation.org/UA/MDIS;i=703",
+          "dov:typeRef": "org.opcfoundation.UA.MDIS.ValvePositionEnum",
           "type": "integer",
           "minimum": -2147483648,
           "maximum": 2147483647
@@ -3723,7 +3723,7 @@
         "dov:namespace": "http://opcfoundation.org/UA/MDIS",
         "data": {
           "title": "SignatureStatusEnum",
-          "dov:typeRef": "nsu=http://opcfoundation.org/UA/MDIS;i=699",
+          "dov:typeRef": "org.opcfoundation.UA.MDIS.SignatureStatusEnum",
           "type": "integer",
           "minimum": -2147483648,
           "maximum": 2147483647
@@ -3747,7 +3747,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "MDIS_MDISCounterObjectType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/MDIS;i=15098",
+    "dov:typeRef": "org.opcfoundation.UA.MDIS.MDISCounterObjectType",
     "links": [
       {
         "rel": "tm:extends",
@@ -3774,7 +3774,7 @@
         "dov:namespace": "http://opcfoundation.org/UA/MDIS",
         "input": {
           "type": "object",
-          "dov:typeRef": "nsu=http://opcfoundation.org/UA/MDIS;i=15101",
+          "dov:typeRef": "org.opcfoundation.UA.InputArguments",
           "required": [ "Initial" ],
           "properties": {
             "Initial": {
@@ -3831,7 +3831,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "MDIS_MDISInformationObjectType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/MDIS;i=1471",
+    "dov:typeRef": "org.opcfoundation.UA.MDIS.MDISInformationObjectType",
     "links": [
       {
         "rel": "tm:extends",
@@ -3872,7 +3872,7 @@
         "dov:namespace": "http://opcfoundation.org/UA/MDIS",
         "title": "MDISVersionDataType",
         "type": "object",
-        "dov:typeRef": "nsu=http://opcfoundation.org/UA/MDIS;i=1289",
+        "dov:typeRef": "org.opcfoundation.UA.MDIS.MDISVersionDataType",
         "required": [ "MajorVersion", "MinorVersion", "Build" ],
         "properties": {
           "MajorVersion": {
@@ -3907,7 +3907,7 @@
         "data": {
           "title": "MDISVersionDataType",
           "type": "object",
-          "dov:typeRef": "nsu=http://opcfoundation.org/UA/MDIS;i=1289",
+          "dov:typeRef": "org.opcfoundation.UA.MDIS.MDISVersionDataType",
           "required": [ "MajorVersion", "MinorVersion", "Build" ],
           "properties": {
             "MajorVersion": {
@@ -3946,7 +3946,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "MDIS_MDISTimeSyncObjectType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/MDIS;i=1468",
+    "dov:typeRef": "org.opcfoundation.UA.MDIS.MDISTimeSyncObjectType",
     "links": [
       {
         "rel": "tm:extends",
@@ -3961,7 +3961,7 @@
         "dov:namespace": "http://opcfoundation.org/UA/MDIS",
         "input": {
           "type": "object",
-          "dov:typeRef": "nsu=http://opcfoundation.org/UA/MDIS;i=1470",
+          "dov:typeRef": "org.opcfoundation.UA.InputArguments",
           "required": [ "TargetTime" ],
           "properties": {
             "TargetTime": {
