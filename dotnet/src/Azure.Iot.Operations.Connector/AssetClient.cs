@@ -1,6 +1,8 @@
 ﻿// Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
+using System.Collections.Concurrent;
+using System.Threading.Channels;
 using Azure.Iot.Operations.Services.AssetAndDeviceRegistry;
 using Azure.Iot.Operations.Services.AssetAndDeviceRegistry.Models;
 
@@ -17,12 +19,31 @@ namespace Azure.Iot.Operations.Connector
         private readonly string _inboundEndpointName;
         private readonly string _assetName;
         private readonly Device _device;
-        private readonly Asset _asset;
+
+        // Mutable: replaced by ApplyAssetUpdateAsync when the parent asset is updated, so that
+        // the AssetClient instance can outlive a single asset revision. Reads from BuildAndStartExecutorAsync
+        // and ApplyAssetUpdateAsync are serialized via _assetUpdateMutex below; reads from arbitrary
+        // public methods (e.g. ForwardSampledDatasetAsync) observe whatever revision is current.
+        private Asset _asset { get; set; }
         private readonly AssetRuntimeHealthReporter _healthReporter;
 
         // Used to make getAndUpdate calls behave atomically so that a user does not accidentally update
         // an asset while another thread is in the middle of a getAndUpdate call.
         private readonly SemaphoreSlim _semaphore = new(1, 1);
+
+        // Per-(group, action) state for the management-action API. Lazily populated on the first
+        // access via Get/Recv/Pause so callers don't have to enumerate the asset's actions up front.
+        private readonly ConcurrentDictionary<(string Group, string Action), ManagementActionState> _managementActionStates = new();
+
+        // Serializes ApplyAssetUpdateAsync against itself and against per-action state mutations so
+        // a concurrent Get + Update can't race on _asset / _managementActionStates.
+        private readonly SemaphoreSlim _assetUpdateMutex = new(1, 1);
+
+        // Signal for the ManagementActionOrchestrator to discover newly-added actions after an
+        // asset update. Each ApplyAssetUpdateAsync writes the new Asset reference; the orchestrator
+        // awaits this channel and diffs against its tracked action loops.
+        private readonly Channel<Asset> _assetUpdatedSignal = Channel.CreateUnbounded<Asset>(
+            new UnboundedChannelOptions { SingleReader = true, SingleWriter = false });
 
         internal AssetClient(IAzureDeviceRegistryClientWrapper adrClient, string deviceName, string inboundEndpointName, string assetName, ConnectorWorker connector, Device device, Asset asset)
         {
@@ -401,6 +422,165 @@ namespace Azure.Iot.Operations.Connector
         // ============================================================
 
         /// <summary>
+        /// Snapshot of the current asset revision. Replaced atomically by
+        /// <see cref="ApplyAssetUpdateAsync"/> whenever the parent asset is updated.
+        /// Internal because consumers should read field-level data through the
+        /// caller-facing surface (e.g. <see cref="AssetAvailableEventArgs.Asset"/>);
+        /// this is only exposed for <see cref="ManagementActionOrchestrator"/>, which
+        /// needs to enumerate the latest set of management actions after an update.
+        /// </summary>
+        internal Asset CurrentAsset => _asset;
+
+        /// <summary>
+        /// Apply an updated asset definition. Diffs the new asset against the cached one,
+        /// pushes per-action lifecycle notifications into the per-(group, action) channels,
+        /// swaps cached executors when an action's request topic changes, and signals
+        /// <see cref="WaitForAssetUpdateAsync"/> so the orchestrator can spawn loops for
+        /// newly-added actions. The AssetClient instance survives the update so any
+        /// in-flight handler state held by <see cref="ManagementActionExecutor"/>
+        /// callbacks is preserved.
+        /// </summary>
+        /// <remarks>
+        /// Notification rules per tracked (group, action):
+        /// <list type="bullet">
+        /// <item>Action gone from new asset → push <see cref="ManagementActionDeleted"/>,
+        /// stop+dispose cached executor, drop the cached executor reference.</item>
+        /// <item>Action present, request topic changed → build the replacement executor,
+        /// swap it into the cache, push <see cref="ManagementActionUpdatedWithNewExecutor"/>
+        /// carrying the new executor. Caller is responsible for disposing the previous
+        /// executor it held.</item>
+        /// <item>Action present, definition changed but topic unchanged → push
+        /// <see cref="ManagementActionUpdated"/>.</item>
+        /// <item>Action present, definition byte-identical → push
+        /// <see cref="ManagementActionAssetUpdated"/> so the loop can re-evaluate
+        /// surrounding asset context (e.g. group defaults).</item>
+        /// </list>
+        /// Newly-introduced actions that the orchestrator was not already tracking are
+        /// surfaced via the <see cref="WaitForAssetUpdateAsync"/> signal rather than a
+        /// per-action channel write (there is no reader yet).
+        /// </remarks>
+        internal async Task ApplyAssetUpdateAsync(Asset newAsset, CancellationToken cancellationToken = default)
+        {
+            ArgumentNullException.ThrowIfNull(newAsset);
+
+            await _assetUpdateMutex.WaitAsync(cancellationToken).ConfigureAwait(false);
+            try
+            {
+                Asset oldAsset = _asset;
+                _asset = newAsset;
+
+                foreach (KeyValuePair<(string Group, string Action), ManagementActionState> kvp in _managementActionStates)
+                {
+                    (string groupName, string actionName) = kvp.Key;
+                    ManagementActionState state = kvp.Value;
+
+                    AssetManagementGroupAction? oldAction = FindAction(oldAsset, groupName, actionName);
+                    AssetManagementGroup? newGroup = newAsset.ManagementGroups?
+                        .FirstOrDefault(g => string.Equals(g.Name, groupName, StringComparison.Ordinal));
+                    AssetManagementGroupAction? newAction = newGroup?.Actions?
+                        .FirstOrDefault(a => string.Equals(a.Name, actionName, StringComparison.Ordinal));
+
+                    if (newAction is null)
+                    {
+                        // Deleted from the asset (or its parent group went away).
+                        await state.Mutex.WaitAsync(cancellationToken).ConfigureAwait(false);
+                        try
+                        {
+                            ManagementActionExecutor? cached = state.CurrentExecutor;
+                            state.CurrentExecutor = null;
+                            if (cached is not null)
+                            {
+                                try { await cached.StopAsync(cancellationToken).ConfigureAwait(false); }
+                                catch { /* best-effort */ }
+                                try { await cached.DisposeAsync().ConfigureAwait(false); }
+                                catch { /* best-effort */ }
+                            }
+                        }
+                        finally
+                        {
+                            state.Mutex.Release();
+                        }
+                        state.Notifications.Writer.TryWrite(new ManagementActionDeleted());
+                        continue;
+                    }
+
+                    string? oldTopic = oldAction?.Topic;
+                    string? newTopic = newAction.Topic;
+                    bool topicChanged = !string.Equals(oldTopic, newTopic, StringComparison.Ordinal);
+
+                    if (topicChanged)
+                    {
+                        ManagementActionExecutor? newExecutor;
+                        await state.Mutex.WaitAsync(cancellationToken).ConfigureAwait(false);
+                        try
+                        {
+                            // Note: we do NOT stop/dispose the previous executor here. The orchestrator
+                            // holds the live reference and will tear it down on receipt of
+                            // ManagementActionUpdatedWithNewExecutor (matching the semantics it already
+                            // applies when this notification arrives by any other path).
+                            newExecutor = await BuildAndStartExecutorAsync(groupName, actionName, cancellationToken).ConfigureAwait(false);
+                            state.CurrentExecutor = newExecutor;
+                        }
+                        finally
+                        {
+                            state.Mutex.Release();
+                        }
+                        state.Notifications.Writer.TryWrite(new ManagementActionUpdatedWithNewExecutor(newExecutor, Error: null));
+                    }
+                    else if (!ActionDefinitionEquals(oldAction, newAction))
+                    {
+                        state.Notifications.Writer.TryWrite(new ManagementActionUpdated(Error: null));
+                    }
+                    else
+                    {
+                        // Action definition is unchanged but surrounding asset metadata may have
+                        // changed (e.g. group defaults). Surface as AssetUpdated so the loop can
+                        // re-evaluate without claiming the action itself changed.
+                        state.Notifications.Writer.TryWrite(new ManagementActionAssetUpdated(Error: null));
+                    }
+                }
+
+                // Signal the orchestrator so it can pick up newly-added actions (ones not yet
+                // present in _managementActionStates). Existing loops are driven by their per-action
+                // channels above; this signal is purely for "spawn a loop I wasn't running".
+                _assetUpdatedSignal.Writer.TryWrite(newAsset);
+            }
+            finally
+            {
+                _assetUpdateMutex.Release();
+            }
+        }
+
+        /// <summary>
+        /// Await the next asset-update signal. Used by <see cref="ManagementActionOrchestrator"/>
+        /// to discover newly-added management actions after an <see cref="ApplyAssetUpdateAsync"/>
+        /// call. The returned <see cref="Asset"/> is the same reference now visible via
+        /// <see cref="CurrentAsset"/>; callers should generally re-read <see cref="CurrentAsset"/>
+        /// after acting on it since further updates may have arrived in the meantime.
+        /// </summary>
+        internal Task<Asset> WaitForAssetUpdateAsync(CancellationToken cancellationToken = default)
+            => _assetUpdatedSignal.Reader.ReadAsync(cancellationToken).AsTask();
+
+        private static AssetManagementGroupAction? FindAction(Asset asset, string groupName, string actionName)
+            => asset.ManagementGroups?
+                .FirstOrDefault(g => string.Equals(g.Name, groupName, StringComparison.Ordinal))?
+                .Actions?
+                .FirstOrDefault(a => string.Equals(a.Name, actionName, StringComparison.Ordinal));
+
+        private static bool ActionDefinitionEquals(AssetManagementGroupAction? a, AssetManagementGroupAction? b)
+        {
+            if (ReferenceEquals(a, b)) return true;
+            if (a is null || b is null) return false;
+            return string.Equals(a.Name, b.Name, StringComparison.Ordinal)
+                && string.Equals(a.Topic, b.Topic, StringComparison.Ordinal)
+                && a.ActionType == b.ActionType
+                && string.Equals(a.TargetUri, b.TargetUri, StringComparison.Ordinal)
+                && string.Equals(a.TypeRef, b.TypeRef, StringComparison.Ordinal)
+                && a.TimeoutInSeconds == b.TimeoutInSeconds
+                && string.Equals(a.ActionConfiguration, b.ActionConfiguration, StringComparison.Ordinal);
+        }
+
+        /// <summary>
         /// Get the <see cref="ManagementActionExecutor"/> for <paramref name="managementGroupName"/> /
         /// <paramref name="managementActionName"/>. Returns the currently-valid executor bound to
         /// the action's request topic, or <c>null</c> if no valid executor exists right now —
@@ -415,11 +595,39 @@ namespace Azure.Iot.Operations.Connector
         /// <see cref="ManagementActionUpdatedWithNewExecutor"/>); the caller should swap to the
         /// new one it carries (which may itself be null for the same reason).
         /// </summary>
-        internal Task<ManagementActionExecutor?> GetManagementActionExecutorAsync(
+        internal async Task<ManagementActionExecutor?> GetManagementActionExecutorAsync(
             string managementGroupName,
             string managementActionName,
             CancellationToken cancellationToken = default)
-            => throw new NotImplementedException();
+        {
+            ArgumentException.ThrowIfNullOrEmpty(managementGroupName);
+            ArgumentException.ThrowIfNullOrEmpty(managementActionName);
+
+            ManagementActionState state = _managementActionStates.GetOrAdd(
+                (managementGroupName, managementActionName),
+                _ => new ManagementActionState());
+
+            await state.Mutex.WaitAsync(cancellationToken).ConfigureAwait(false);
+            try
+            {
+                if (state.CurrentExecutor is not null)
+                {
+                    return state.CurrentExecutor;
+                }
+
+                ManagementActionExecutor? executor = await BuildAndStartExecutorAsync(
+                    managementGroupName,
+                    managementActionName,
+                    cancellationToken).ConfigureAwait(false);
+
+                state.CurrentExecutor = executor;
+                return executor;
+            }
+            finally
+            {
+                state.Mutex.Release();
+            }
+        }
 
         /// <summary>
         /// Await the next lifecycle notification for <paramref name="managementGroupName"/> /
@@ -431,7 +639,16 @@ namespace Azure.Iot.Operations.Connector
             string managementGroupName,
             string managementActionName,
             CancellationToken cancellationToken = default)
-            => throw new NotImplementedException();
+        {
+            ArgumentException.ThrowIfNullOrEmpty(managementGroupName);
+            ArgumentException.ThrowIfNullOrEmpty(managementActionName);
+
+            ManagementActionState state = _managementActionStates.GetOrAdd(
+                (managementGroupName, managementActionName),
+                _ => new ManagementActionState());
+
+            return state.Notifications.Reader.ReadAsync(cancellationToken).AsTask();
+        }
 
         /// <summary>
         /// Pause periodic runtime-health reporting for a specific management action. Used on
@@ -442,11 +659,107 @@ namespace Azure.Iot.Operations.Connector
             string managementGroupName,
             string managementActionName,
             CancellationToken cancellationToken = default)
-            => throw new NotImplementedException();
+        {
+            ArgumentException.ThrowIfNullOrEmpty(managementGroupName);
+            ArgumentException.ThrowIfNullOrEmpty(managementActionName);
+            cancellationToken.ThrowIfCancellationRequested();
+
+            ManagementActionState state = _managementActionStates.GetOrAdd(
+                (managementGroupName, managementActionName),
+                _ => new ManagementActionState());
+
+            // Mark the action as paused. Wiring this through to the underlying
+            // AssetRuntimeHealthReporter (so periodic ManagementActionsRuntimeHealthEvent
+            // emissions for this action are suppressed until the next definition swap)
+            // is a follow-up; for now this captures the intent and matches the Rust
+            // pause_and_refresh_health_version contract.
+            state.HealthReportingPaused = true;
+            return Task.CompletedTask;
+        }
 
         // ============================================================
         // End of Management Action API
         // ============================================================
+
+        /// <summary>
+        /// Build and start a <see cref="ManagementActionExecutor"/> for the given group/action
+        /// using the asset definition cached on this client. Returns <c>null</c> when the
+        /// action is unknown on this asset or its request topic is missing/empty &mdash;
+        /// callers should surface this as a config error rather than treat it as a fault.
+        /// </summary>
+        /// <remarks>
+        /// Mirrors the Rust <c>try_executor_topic_from_management_topics</c> behavior: the
+        /// request topic is taken verbatim from <see cref="AssetManagementGroupAction.Topic"/>;
+        /// <see cref="AssetManagementGroup.DefaultTopic"/> is reserved for future use.
+        /// </remarks>
+        private async Task<ManagementActionExecutor?> BuildAndStartExecutorAsync(
+            string managementGroupName,
+            string managementActionName,
+            CancellationToken cancellationToken)
+        {
+            AssetManagementGroup? group = _asset.ManagementGroups?
+                .FirstOrDefault(g => string.Equals(g.Name, managementGroupName, StringComparison.Ordinal));
+            AssetManagementGroupAction? action = group?.Actions?
+                .FirstOrDefault(a => string.Equals(a.Name, managementActionName, StringComparison.Ordinal));
+
+            if (group is null || action is null)
+            {
+                return null;
+            }
+
+            string? requestTopic = action.Topic;
+            if (string.IsNullOrEmpty(requestTopic))
+            {
+                return null;
+            }
+
+            ulong? timeoutSeconds = action.TimeoutInSeconds ?? group.DefaultTimeoutInSeconds;
+            TimeSpan executionTimeout = timeoutSeconds is { } secs && secs > 0
+                ? TimeSpan.FromSeconds(secs)
+                : DefaultManagementActionExecutionTimeout;
+
+            ManagementActionExecutor executor = new(
+                _connector.ApplicationContext,
+                _connector.MqttPubSubClient,
+                _deviceName,
+                _assetName,
+                managementGroupName,
+                managementActionName,
+                action.ActionType,
+                requestTopic,
+                serviceGroupId: string.Empty, // Match Rust: no shared subscription for management actions.
+                executionTimeout,
+                topicTokenMap: new Dictionary<string, string>());
+
+            try
+            {
+                await executor.StartAsync(cancellationToken).ConfigureAwait(false);
+                return executor;
+            }
+            catch
+            {
+                await executor.DisposeAsync().ConfigureAwait(false);
+                throw;
+            }
+        }
+
+        private static readonly TimeSpan DefaultManagementActionExecutionTimeout = TimeSpan.FromSeconds(30);
+
+        /// <summary>
+        /// Per-(group, action) state for the management-action API. One instance per
+        /// distinct action observed via <see cref="GetManagementActionExecutorAsync"/>,
+        /// <see cref="RecvManagementActionNotificationAsync"/>, or
+        /// <see cref="PauseManagementActionRuntimeHealthReportingAsync"/>.
+        /// </summary>
+        private sealed class ManagementActionState
+        {
+            public SemaphoreSlim Mutex { get; } = new(1, 1);
+            public Channel<ManagementActionNotification> Notifications { get; } =
+                Channel.CreateUnbounded<ManagementActionNotification>(
+                    new UnboundedChannelOptions { SingleReader = true, SingleWriter = false });
+            public ManagementActionExecutor? CurrentExecutor { get; set; }
+            public bool HealthReportingPaused { get; set; }
+        }
 
         public virtual async ValueTask DisposeAsync()
         {
@@ -461,6 +774,61 @@ namespace Azure.Iot.Operations.Connector
 
         private async ValueTask DisposeAsyncCore()
         {
+            // Stop and dispose any management-action executors we created on demand, and
+            // signal Deleted to any orchestrator currently parked in RecvManagementActionNotificationAsync
+            // so it can exit its per-action loop cleanly.
+            foreach (KeyValuePair<(string Group, string Action), ManagementActionState> kvp in _managementActionStates)
+            {
+                ManagementActionState state = kvp.Value;
+                ManagementActionExecutor? executor = state.CurrentExecutor;
+                state.CurrentExecutor = null;
+                if (executor is not null)
+                {
+                    try
+                    {
+                        await executor.StopAsync().ConfigureAwait(false);
+                    }
+                    catch
+                    {
+                        // Best-effort during dispose.
+                    }
+
+                    try
+                    {
+                        await executor.DisposeAsync().ConfigureAwait(false);
+                    }
+                    catch
+                    {
+                        // Best-effort during dispose.
+                    }
+                }
+
+                state.Notifications.Writer.TryWrite(new ManagementActionDeleted());
+                state.Notifications.Writer.TryComplete();
+
+                try
+                {
+                    state.Mutex.Dispose();
+                }
+                catch (ObjectDisposedException)
+                {
+                    // Best-effort during dispose.
+                }
+            }
+
+            _managementActionStates.Clear();
+
+            _assetUpdatedSignal.Writer.TryComplete();
+
+            try
+            {
+                _assetUpdateMutex.Dispose();
+            }
+            catch (ObjectDisposedException)
+            {
+                // It's fine if this semaphore is already disposed.
+            }
+
             try
             {
                 _semaphore.Dispose();

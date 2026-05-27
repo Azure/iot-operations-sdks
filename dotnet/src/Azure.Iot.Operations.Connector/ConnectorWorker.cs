@@ -39,8 +39,11 @@ namespace Azure.Iot.Operations.Connector
         // Keys are <deviceName>_<inboundEndpointName> and values are the running task and their cancellation token to signal once the device is no longer available or the connector is shutting down
         private readonly ConcurrentDictionary<string, UserTaskContext> _deviceTasks = new();
 
-        // Keys are <deviceName>_<inboundEndpointName>_<assetName> and values are the running task and their cancellation token to signal once the asset is no longer available or the connector is shutting down
-        private readonly ConcurrentDictionary<string, UserTaskContext> _assetTasks = new();
+        // Keys are <deviceName>_<inboundEndpointName>_<assetName>. Holds the long-lived per-asset
+        // runtime state: the AssetClient (preserved across asset Updated events), the
+        // management-action branch task (cancelled only on Deleted), and the user-callback branch
+        // (cancelled and rebuilt on every Updated so the user gets a fresh CancellationToken).
+        private readonly ConcurrentDictionary<string, AssetRuntimeContext> _assetTasks = new();
 
         // keys are "{composite device name}_{asset name}_{dataset name}. The value is the message schema registered for that device's asset's dataset
         private readonly ConcurrentDictionary<string, Schema> _registeredDatasetMessageSchemas = new();
@@ -77,6 +80,50 @@ namespace Azure.Iot.Operations.Connector
         public Func<AssetAvailableEventArgs, CancellationToken, Task>? WhileAssetIsAvailable;
 
         private readonly ManagementActionOrchestrator? _managementActionOrchestrator;
+
+        // TODO (refactor, follow-up PR): Replace the back-pointer that AssetClient holds to
+        // ConnectorWorker (and the two internal accessors below) with a narrow seam, e.g.
+        //
+        //     internal interface IConnectorRuntime
+        //     {
+        //         ApplicationContext ApplicationContext { get; }
+        //         IMqttPubSubClient  MqttPubSubClient   { get; }
+        //         Task ForwardSampledDatasetAsync(...);
+        //         Task ForwardReceivedEventAsync(...);
+        //         MessageSchemaReference? GetRegisteredDatasetMessageSchema(...);
+        //         MessageSchemaReference? GetRegisteredEventMessageSchema(...);
+        //     }
+        //
+        // Today AssetClient takes a `ConnectorWorker _connector` and reaches through it for
+        // ForwardSampledDatasetAsync / ForwardReceivedEventAsync / GetRegisteredXxxMessageSchema
+        // as well as the two accessors below (added for Workstream B so AssetClient can build
+        // a ManagementActionExecutor on the worker's shared MQTT session). That's a
+        // service-locator / Law-of-Demeter smell: AssetClient doesn't advertise what it
+        // depends on, and it's hard to unit-test in isolation (you need a real or mocked
+        // ConnectorWorker just to construct one).
+        //
+        // The fix is to declare IConnectorRuntime, have ConnectorWorker implement it, and
+        // change AssetClient's ctor + field to IConnectorRuntime. That keeps the runtime
+        // call paths intact, makes AssetClient mockable, and gives a single chokepoint for
+        // any future "AssetClient needs something else from the worker" requests instead of
+        // growing more internal properties on ConnectorWorker over time.
+        //
+        // Out of scope for the management-action workstream; tracked here so it doesn't get
+        // lost. See doc/dev/tmp/management-action-implementation-design.md (deviations).
+
+        /// <summary>
+        /// Shared <see cref="ApplicationContext"/> (HLC, etc.) exposed to internal SDK
+        /// collaborators (e.g. <see cref="AssetClient.GetManagementActionExecutorAsync"/>)
+        /// that need to construct protocol clients on top of the worker's MQTT session.
+        /// </summary>
+        internal ApplicationContext ApplicationContext => _applicationContext;
+
+        /// <summary>
+        /// Shared MQTT pub/sub client exposed to internal SDK collaborators
+        /// (e.g. <see cref="AssetClient.GetManagementActionExecutorAsync"/>) that need to
+        /// build executors/senders on top of the worker's MQTT session.
+        /// </summary>
+        internal IMqttPubSubClient MqttPubSubClient => _mqttClient;
 
         public ConnectorWorker(
             ApplicationContext applicationContext,
@@ -227,13 +274,22 @@ namespace Azure.Iot.Operations.Connector
                 List<Task> tasksToAwait = new();
 
                 _logger.LogInformation("Stopping all tasks that run while an asset is available");
-                foreach (UserTaskContext userTaskContext in _assetTasks.Values.ToList())
+                foreach (AssetRuntimeContext assetCtx in _assetTasks.Values.ToList())
                 {
-                    // Cancel all tasks that run while an asset is available
-                    userTaskContext.CancellationTokenSource.Cancel();
-                    userTaskContext.CancellationTokenSource.Dispose();
+                    // Cancel both branches and capture both tasks. AssetClient itself is disposed
+                    // explicitly when its key is removed (AssetUnavailable on Deleted) or below in
+                    // the post-shutdown cleanup; here we only want to stop the running tasks.
+                    try { assetCtx.UserCts.Cancel(); } catch (ObjectDisposedException) { }
+                    try { assetCtx.MaCts.Cancel(); } catch (ObjectDisposedException) { }
 
-                    tasksToAwait.Add(userTaskContext.UserTask);
+                    if (assetCtx.UserTask is not null)
+                    {
+                        tasksToAwait.Add(assetCtx.UserTask);
+                    }
+                    if (assetCtx.MaTask is not null)
+                    {
+                        tasksToAwait.Add(assetCtx.MaTask);
+                    }
                 }
 
                 _logger.LogInformation("Stopping all tasks that run while a device is available");
@@ -254,6 +310,20 @@ namespace Azure.Iot.Operations.Connector
                 catch (Exception e)
                 {
                     _logger.LogError(e, "Encountered an error while waiting for all the user-defined tasks to complete");
+                }
+
+                // Dispose per-asset runtime contexts: drains the owned AssetClient (which stops/
+                // disposes any cached ManagementActionExecutors) and the long-lived owned args.
+                foreach (var kvp in _assetTasks.ToList())
+                {
+                    if (_assetTasks.TryRemove(kvp.Key, out AssetRuntimeContext? ctx))
+                    {
+                        try { await ctx.DisposeAsync(); }
+                        catch (Exception e)
+                        {
+                            _logger.LogError(e, "Encountered an error while disposing asset runtime context for {Key}", kvp.Key);
+                        }
+                    }
                 }
             }
 
@@ -613,8 +683,7 @@ namespace Azure.Iot.Operations.Connector
             else if (args.ChangeType == ChangeType.Updated)
             {
                 _logger.LogInformation("Asset with name {0} updated on endpoint with name {1} on device with name {2}", args.AssetName, args.InboundEndpointName, args.DeviceName);
-                await AssetUnavailableAsync(args.DeviceName, args.InboundEndpointName, args.AssetName);
-                AssetAvailable(args.DeviceName, args.InboundEndpointName, args.Asset, args.AssetName);
+                await AssetUpdatedAsync(args.DeviceName, args.InboundEndpointName, args.AssetName, args.Asset);
             }
         }
 
@@ -744,48 +813,141 @@ namespace Azure.Iot.Operations.Connector
                 _logger.LogInformation($"Asset with name {assetName} has no events to listen for");
             }
 
-            if (WhileAssetIsAvailable != null || _managementActionOrchestrator != null)
+            if (WhileAssetIsAvailable == null && _managementActionOrchestrator == null)
             {
-                CancellationTokenSource assetTaskCancellationTokenSource = new();
-
-                // Do not block on this call because the user callback is designed to run for extended periods of time.
-                Task userTask = Task.Run(async () =>
-                {
-                    // Single args lifetime shared by both the user callback and the built-in
-                    // management-action loop. Disposed once when both branches return.
-                    await using AssetAvailableEventArgs args = new(deviceName, device, inboundEndpointName, assetName, asset, _leaderElectionClient, _adrClient!, this);
-
-                    var assetBranches = new List<Task>(2);
-
-                    // Built-in: management-action handling. Runs whenever a factory was supplied
-                    // and the asset actually declares at least one management action. Intentionally
-                    // not routed through the public WhileAssetIsAvailable field so a `= WhileAssetIsAvailable`
-                    // assignment from user code can't disable management actions.
-                    if (_managementActionOrchestrator != null
-                        && asset.ManagementGroups?.Any(g => g.Actions?.Count > 0) == true)
-                    {
-                        assetBranches.Add(SafeInvokeAssetBranchAsync(
-                            "ManagementActionHandling",
-                            ct => _managementActionOrchestrator.ServeActionsWhileAssetIsAvailableAsync(args, ct),
-                            assetTaskCancellationTokenSource.Token,
-                            assetName, deviceName, inboundEndpointName));
-                    }
-
-                    // User-supplied per-asset callback.
-                    if (WhileAssetIsAvailable != null)
-                    {
-                        assetBranches.Add(SafeInvokeAssetBranchAsync(
-                            "UserWhileAssetIsAvailableCallback",
-                            ct => WhileAssetIsAvailable.Invoke(args, ct),
-                            assetTaskCancellationTokenSource.Token,
-                            assetName, deviceName, inboundEndpointName));
-                    }
-
-                    await Task.WhenAll(assetBranches);
-                });
-
-                _assetTasks.TryAdd(GetCompoundAssetName(compoundDeviceName, assetName), new(userTask, assetTaskCancellationTokenSource));
+                return;
             }
+
+            // Long-lived per-asset runtime context. `ownedArgs` keeps the AssetClient alive across
+            // any future Updated events; it is the args passed to the management-action branch.
+            // The user-callback branch gets a separate `userArgs` (borrow mode) that we rebuild on
+            // each Updated so the user callback sees a fresh CancellationToken.
+            AssetAvailableEventArgs ownedArgs = new(deviceName, device, inboundEndpointName, assetName, asset, _leaderElectionClient, _adrClient!, this);
+
+            CancellationTokenSource maCts = new();
+            CancellationTokenSource userCts = new();
+
+            Task? maTask = null;
+            if (_managementActionOrchestrator != null
+                && asset.ManagementGroups?.Any(g => g.Actions?.Count > 0) == true)
+            {
+                maTask = Task.Run(() => SafeInvokeAssetBranchAsync(
+                    "ManagementActionHandling",
+                    ct => _managementActionOrchestrator.ServeActionsWhileAssetIsAvailableAsync(ownedArgs, ct),
+                    maCts.Token,
+                    assetName, deviceName, inboundEndpointName));
+            }
+
+            AssetAvailableEventArgs? userArgs = null;
+            Task? userTask = null;
+            if (WhileAssetIsAvailable != null)
+            {
+                userArgs = new AssetAvailableEventArgs(deviceName, device, inboundEndpointName, assetName, asset, _leaderElectionClient, _adrClient!, ownedArgs.AssetClient);
+                AssetAvailableEventArgs capturedUserArgs = userArgs;
+                userTask = Task.Run(() => SafeInvokeAssetBranchAsync(
+                    "UserWhileAssetIsAvailableCallback",
+                    ct => WhileAssetIsAvailable!.Invoke(capturedUserArgs, ct),
+                    userCts.Token,
+                    assetName, deviceName, inboundEndpointName));
+            }
+
+            AssetRuntimeContext ctx = new(
+                assetClient: ownedArgs.AssetClient,
+                ownedArgs: ownedArgs,
+                maCts: maCts,
+                maTask: maTask,
+                userCts: userCts,
+                userTask: userTask,
+                userArgs: userArgs);
+
+            _assetTasks.TryAdd(GetCompoundAssetName(compoundDeviceName, assetName), ctx);
+        }
+
+        /// <summary>
+        /// Handle an asset update: preserves the long-lived <see cref="AssetClient"/> (so
+        /// management-action handler state survives), pushes diff notifications via
+        /// <see cref="AssetClient.ApplyAssetUpdateAsync"/>, and cancels + rebuilds the
+        /// user-supplied <see cref="WhileAssetIsAvailable"/> callback branch so the user sees a
+        /// fresh <see cref="CancellationToken"/>. The management-action orchestrator branch keeps
+        /// running across the update.
+        /// </summary>
+        private async Task AssetUpdatedAsync(string deviceName, string inboundEndpointName, string assetName, Asset? newAsset)
+        {
+            string compoundDeviceName = $"{deviceName}_{inboundEndpointName}";
+            string key = GetCompoundAssetName(compoundDeviceName, assetName);
+
+            if (newAsset is null)
+            {
+                _logger.LogError("Received Updated notification for asset {AssetName} with no asset payload; ignoring", assetName);
+                return;
+            }
+
+            if (!_assetTasks.TryGetValue(key, out AssetRuntimeContext? ctx))
+            {
+                // We weren't tracking it (e.g. user supplied neither a WhileAssetIsAvailable nor an
+                // action-handler factory). Fall back to the create path so the rest of the worker
+                // (device.Assets dictionary, etc.) stays consistent.
+                AssetAvailable(deviceName, inboundEndpointName, newAsset, assetName);
+                return;
+            }
+
+            // Refresh the device-level snapshot for the rest of the worker.
+            if (_devices.TryGetValue(compoundDeviceName, out DeviceContext? deviceContext))
+            {
+                deviceContext.Assets[assetName] = newAsset;
+            }
+
+            // 1) Push the diff into the per-action channels and notify the orchestrator's outer
+            //    loop. ApplyAssetUpdateAsync is responsible for swapping cached executors when an
+            //    action's request topic changes; the MA branch keeps running and consumes the
+            //    notifications without restart.
+            try
+            {
+                await ctx.AssetClient.ApplyAssetUpdateAsync(newAsset);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Failed to apply asset update for {AssetName}; user callback will be rebuilt anyway", assetName);
+            }
+
+            // 2) Cancel and tear down the previous user-callback branch.
+            CancellationTokenSource oldUserCts = ctx.UserCts;
+            Task? oldUserTask = ctx.UserTask;
+            AssetAvailableEventArgs? oldUserArgs = ctx.UserArgs;
+
+            try { oldUserCts.Cancel(); } catch (ObjectDisposedException) { }
+            if (oldUserTask is not null)
+            {
+                try { await oldUserTask; }
+                catch (Exception ex)
+                {
+                    _logger.LogError(ex, "User WhileAssetIsAvailable callback for asset {AssetName} faulted during update tear-down", assetName);
+                }
+            }
+            try { oldUserCts.Dispose(); } catch { /* best-effort */ }
+            if (oldUserArgs is not null)
+            {
+                try { await oldUserArgs.DisposeAsync(); } catch { /* borrow-mode args; safe */ }
+            }
+
+            // 3) Rebuild the user-callback branch with a fresh CTS and fresh borrow-mode args.
+            CancellationTokenSource newUserCts = new();
+            AssetAvailableEventArgs? newUserArgs = null;
+            Task? newUserTask = null;
+
+            Device? device = deviceContext?.Device;
+            if (WhileAssetIsAvailable != null && device != null)
+            {
+                newUserArgs = new AssetAvailableEventArgs(deviceName, device, inboundEndpointName, assetName, newAsset, _leaderElectionClient, _adrClient!, ctx.AssetClient);
+                AssetAvailableEventArgs capturedArgs = newUserArgs;
+                newUserTask = Task.Run(() => SafeInvokeAssetBranchAsync(
+                    "UserWhileAssetIsAvailableCallback",
+                    ct => WhileAssetIsAvailable!.Invoke(capturedArgs, ct),
+                    newUserCts.Token,
+                    assetName, deviceName, inboundEndpointName));
+            }
+
+            ctx.SwapUserBranch(newUserCts, newUserTask, newUserArgs);
         }
 
         /// <summary>
@@ -820,19 +982,39 @@ namespace Azure.Iot.Operations.Connector
         {
             string compoundDeviceName = $"{deviceName}_{inboundEndpointName}";
 
-            // This method may be called either when an asset was updated or when it was deleted. If it was updated, then it will still be sampleable.
-            if (_assetTasks.TryRemove(GetCompoundAssetName(compoundDeviceName, assetName), out UserTaskContext? userTaskContext))
+            // This method is only called when an asset is deleted (or its parent device is going
+            // away). Updated is handled by AssetUpdatedAsync; this path always tears down the
+            // long-lived AssetClient and both branches.
+            if (_assetTasks.TryRemove(GetCompoundAssetName(compoundDeviceName, assetName), out AssetRuntimeContext? ctx))
             {
-                userTaskContext.CancellationTokenSource.Cancel();
-                userTaskContext.CancellationTokenSource.Dispose();
+                // Cancel user branch first so the user callback observes shutdown before MA loops
+                // start tearing down their executors (matches the original ordering: user code is
+                // the most user-visible cancellation, MA framework finishes draining after).
+                try { ctx.UserCts.Cancel(); } catch (ObjectDisposedException) { }
+                try { ctx.MaCts.Cancel(); } catch (ObjectDisposedException) { }
 
                 try
                 {
-                    await userTaskContext.UserTask;
+                    if (ctx.UserTask is not null) await ctx.UserTask;
                 }
                 catch (Exception e)
                 {
                     _logger.LogError(e, "Encountered an exception while cancelling user-defined task for device name {deviceName}, inbound endpoint name {inboundEndpointName}, asset name {assetName}", deviceName, inboundEndpointName, assetName);
+                }
+
+                try
+                {
+                    if (ctx.MaTask is not null) await ctx.MaTask;
+                }
+                catch (Exception e)
+                {
+                    _logger.LogError(e, "Encountered an exception while cancelling management-action task for device name {deviceName}, inbound endpoint name {inboundEndpointName}, asset name {assetName}", deviceName, inboundEndpointName, assetName);
+                }
+
+                try { await ctx.DisposeAsync(); }
+                catch (Exception e)
+                {
+                    _logger.LogError(e, "Encountered an exception while disposing asset runtime context for device name {deviceName}, inbound endpoint name {inboundEndpointName}, asset name {assetName}", deviceName, inboundEndpointName, assetName);
                 }
             }
         }

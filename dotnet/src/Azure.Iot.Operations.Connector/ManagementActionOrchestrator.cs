@@ -2,6 +2,7 @@
 // Licensed under the MIT License.
 
 using System.Buffers;
+using System.Threading.Channels;
 using Azure.Iot.Operations.Connector.Files;
 using Azure.Iot.Operations.Services.AssetAndDeviceRegistry.Models;
 using Microsoft.Extensions.Logging;
@@ -36,15 +37,85 @@ namespace Azure.Iot.Operations.Connector
         /// <summary>
         /// Entry point — invoked once per <see cref="AssetAvailableEventArgs"/>. Runs every
         /// management-action loop declared on the asset until the asset goes away (the token
-        /// is cancelled) or every action has been deleted.
+        /// is cancelled). Long-lived across asset Updated events: spawns additional loops for
+        /// newly-introduced actions as <see cref="AssetClient.ApplyAssetUpdateAsync"/> signals
+        /// arrive via <see cref="AssetClient.WaitForAssetUpdateAsync"/>; existing loops handle
+        /// updates/deletions themselves via their per-action notification channels.
         /// </summary>
         public async Task ServeActionsWhileAssetIsAvailableAsync(AssetAvailableEventArgs args, CancellationToken cancellationToken)
         {
-            var actionTasks = new List<Task>();
-            foreach (var group in args.Asset.ManagementGroups ?? Enumerable.Empty<AssetManagementGroup>())
+            // Tracks one task per (group, action) that has been spawned. Per-action loops exit on
+            // their own (ManagementActionDeleted) or on cancellation; we never remove entries
+            // ourselves, the dictionary lives for the lifetime of this method so we can await
+            // every task on shutdown via Task.WhenAll.
+            var actionTasks = new Dictionary<(string Group, string Action), Task>();
+
+            // Initial spawn for actions present at AssetAvailable time.
+            SpawnLoopsForNewActions(args, args.AssetClient.CurrentAsset, actionTasks, cancellationToken);
+
+            // Outer loop: re-enumerate on each asset-update signal and spawn loops for any
+            // newly-introduced actions. Existing loops keep running across updates.
+            try
+            {
+                while (!cancellationToken.IsCancellationRequested)
+                {
+                    Asset updatedAsset;
+                    try
+                    {
+                        updatedAsset = await args.AssetClient.WaitForAssetUpdateAsync(cancellationToken);
+                    }
+                    catch (OperationCanceledException) when (cancellationToken.IsCancellationRequested)
+                    {
+                        break;
+                    }
+                    catch (ChannelClosedException)
+                    {
+                        // AssetClient was disposed while we were parked; treat as shutdown.
+                        break;
+                    }
+
+                    SpawnLoopsForNewActions(args, updatedAsset, actionTasks, cancellationToken);
+                }
+            }
+            finally
+            {
+                // Wait for every spawned per-action loop. Loops self-exit on cancellation or on a
+                // ManagementActionDeleted notification (whichever comes first).
+                if (actionTasks.Count > 0)
+                {
+                    try { await Task.WhenAll(actionTasks.Values); }
+                    catch
+                    {
+                        // Per-action loops log + rethrow their own faults; nothing useful to do
+                        // here other than ensure we don't propagate an aggregate that would mask
+                        // the cancellation/shutdown intent.
+                    }
+                }
+            }
+        }
+
+        /// <summary>
+        /// Diff <paramref name="snapshot"/> against the set of <paramref name="actionTasks"/>
+        /// we are already running and spawn a per-action loop (handler or unsupported) for any
+        /// (group, action) we have not yet started. Idempotent: re-spawning an already-tracked
+        /// action is a no-op.
+        /// </summary>
+        private void SpawnLoopsForNewActions(
+            AssetAvailableEventArgs args,
+            Asset snapshot,
+            Dictionary<(string Group, string Action), Task> actionTasks,
+            CancellationToken cancellationToken)
+        {
+            foreach (var group in snapshot.ManagementGroups ?? Enumerable.Empty<AssetManagementGroup>())
             {
                 foreach (var action in group.Actions ?? Enumerable.Empty<AssetManagementGroupAction>())
                 {
+                    var key = (group.Name, action.Name);
+                    if (actionTasks.ContainsKey(key))
+                    {
+                        continue;
+                    }
+
                     EndpointCredentials? credentials = null;
                     if (args.Device.Endpoints?.Inbound != null
                         && args.Device.Endpoints.Inbound.TryGetValue(args.InboundEndpointName, out var inboundEndpoint))
@@ -52,22 +123,12 @@ namespace Azure.Iot.Operations.Connector
                         credentials = args.AdrClient.GetEndpointCredentials(args.DeviceName, args.InboundEndpointName, inboundEndpoint);
                     }
 
-                    // Connector-specific validation. Failure is reported but does NOT block handler
-                    // creation — transient validation issues shouldn't permanently kill the action.
-                    // The notification loop re-runs validation on every Updated* notification.
-                    ConfigError? initialUserValidationError = await _factory.ValidateConfigurationAsync(
-                        args.Device,
-                        args.InboundEndpointName,
-                        args.Asset,
-                        action,
-                        cancellationToken);
-
                     if (_factory.SupportsAction(action))
                     {
                         IManagementActionHandler handler = _factory.CreateHandler(
                             args.Device,
                             args.InboundEndpointName,
-                            args.Asset,
+                            snapshot,
                             action,
                             credentials);
 
@@ -75,14 +136,21 @@ namespace Azure.Iot.Operations.Connector
                             AssetClient: args.AssetClient,
                             Device: args.Device,
                             InboundEndpointName: args.InboundEndpointName,
-                            Asset: args.Asset,
                             DeviceName: args.DeviceName,
                             AssetName: args.AssetName,
                             GroupName: group.Name,
-                            Action: action,
+                            ActionName: action.Name,
                             Handler: handler);
 
-                        actionTasks.Add(RunActionLoopAsync(ctx, initialUserValidationError, cancellationToken));
+                        // Snapshot the initial validation so the loop can apply it on entry without
+                        // a duplicate revalidation call. The notification loop re-runs validation
+                        // on every Updated*/AssetUpdated notification.
+                        actionTasks[key] = Task.Run(async () =>
+                        {
+                            ConfigError? initialError = await _factory.ValidateConfigurationAsync(
+                                args.Device, args.InboundEndpointName, snapshot, action, cancellationToken);
+                            await RunActionLoopAsync(ctx, initialError, cancellationToken);
+                        });
                     }
                     else
                     {
@@ -92,7 +160,7 @@ namespace Azure.Iot.Operations.Connector
                             group.Name,
                             args.AssetName,
                             args.DeviceName);
-                        actionTasks.Add(RunUnsupportedActionLoopAsync(
+                        actionTasks[key] = Task.Run(() => RunUnsupportedActionLoopAsync(
                             args.AssetClient,
                             group.Name,
                             action.Name,
@@ -102,14 +170,6 @@ namespace Azure.Iot.Operations.Connector
                     }
                 }
             }
-
-            if (actionTasks.Count == 0)
-            {
-                _logger.LogInformation("No management actions declared on asset {AssetName}.", args.AssetName);
-                return;
-            }
-
-            await Task.WhenAll(actionTasks);
         }
 
         /// <summary>
@@ -411,8 +471,17 @@ namespace Azure.Iot.Operations.Connector
         /// </summary>
         private async Task RevalidateAndReportAsync(ActionContext ctx, ConfigError? sdkError, CancellationToken cancellationToken)
         {
+            AssetManagementGroupAction? currentAction = ctx.CurrentAction;
+            if (currentAction is null)
+            {
+                // The action was removed from the asset between the notification we're handling
+                // and now. A ManagementActionDeleted notification is already queued (or will be)
+                // and the loop will exit on the next iteration; nothing to validate or report.
+                return;
+            }
+
             ConfigError? userError = await _factory.ValidateConfigurationAsync(
-                ctx.Device, ctx.InboundEndpointName, ctx.Asset, ctx.Action, cancellationToken);
+                ctx.Device, ctx.InboundEndpointName, ctx.Asset, currentAction, cancellationToken);
             ConfigError? combined = MergeConfigErrors(sdkError, userError);
 
             await ReportConfigErrorAsync(ctx.AssetClient, ctx.GroupName, ctx.ActionName, combined, cancellationToken);
@@ -486,21 +555,36 @@ namespace Azure.Iot.Operations.Connector
         /// <summary>
         /// Internal per-action bundle. Captures everything that's fixed for the lifetime of one
         /// management action's loop so we don't have to thread 8+ parameters through every
-        /// internal helper. Built once in <see cref="ManagementActionOrchestrator.ServeActionsWhileAssetIsAvailableAsync"/>.
+        /// internal helper. Built once in <see cref="ManagementActionOrchestrator.SpawnLoopsForNewActions"/>.
+        /// <para/>
+        /// <see cref="Asset"/> and <see cref="CurrentAction"/> read live from
+        /// <see cref="AssetClient.CurrentAsset"/> so revalidation always sees the latest
+        /// definition after an <see cref="AssetClient.ApplyAssetUpdateAsync"/> call.
         /// </summary>
         private sealed record ActionContext(
             AssetClient AssetClient,
             Device Device,
             string InboundEndpointName,
-            Asset Asset,
             string DeviceName,
             string AssetName,
             string GroupName,
-            AssetManagementGroupAction Action,
+            string ActionName,
             IManagementActionHandler Handler)
         {
-            /// <summary>Shorthand for <c>Action.Name</c>; the action's own name is the action name.</summary>
-            public string ActionName => Action.Name;
+            /// <summary>Latest asset snapshot held by the owning <see cref="AssetClient"/>.</summary>
+            public Asset Asset => AssetClient.CurrentAsset;
+
+            /// <summary>
+            /// Latest action definition. Returns <c>null</c> only if the action has been deleted
+            /// from the asset between a revalidation read and the corresponding notification
+            /// being processed; the per-action loop will see <see cref="ManagementActionDeleted"/>
+            /// shortly after and exit.
+            /// </summary>
+            public AssetManagementGroupAction? CurrentAction =>
+                Asset.ManagementGroups?
+                    .FirstOrDefault(g => string.Equals(g.Name, GroupName, StringComparison.Ordinal))?
+                    .Actions?
+                    .FirstOrDefault(a => string.Equals(a.Name, ActionName, StringComparison.Ordinal));
         }
     }
 }

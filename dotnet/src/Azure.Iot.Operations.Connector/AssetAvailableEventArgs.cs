@@ -67,6 +67,12 @@ namespace Azure.Iot.Operations.Connector
         /// </summary>
         internal IAzureDeviceRegistryClientWrapper AdrClient { get; }
 
+        // When true, DisposeAsync skips disposing AssetClient — used when this args instance
+        // borrows an AssetClient that outlives a single asset revision (rebuilt on Updated by
+        // ConnectorWorker so the user-supplied WhileAssetIsAvailable callback gets a fresh
+        // CancellationToken without tearing down management-action state).
+        private readonly bool _ownsAssetClient;
+
         internal AssetAvailableEventArgs(string deviceName, Device device, string inboundEndpointName, string assetName, Asset asset, ILeaderElectionClient? leaderElectionClient, IAzureDeviceRegistryClientWrapper adrClient, ConnectorWorker connector)
         {
             DeviceName = deviceName;
@@ -78,6 +84,30 @@ namespace Azure.Iot.Operations.Connector
             AssetClient = new(adrClient, deviceName, inboundEndpointName, assetName, connector, device, asset);
             DeviceEndpointClient = new(adrClient, deviceName, inboundEndpointName, device);
             AdrClient = adrClient;
+            _ownsAssetClient = true;
+        }
+
+        /// <summary>
+        /// Borrow-mode ctor: wraps an existing <see cref="AssetClient"/> (and a fresh
+        /// <see cref="DeviceEndpointClient"/>) without taking ownership of it. Used by
+        /// <see cref="ConnectorWorker"/> when an asset is updated: a new event-args
+        /// instance is handed to the user-supplied
+        /// <see cref="ConnectorWorker.WhileAssetIsAvailable"/> callback so the user gets a
+        /// fresh <see cref="CancellationToken"/>, but the management-action state on the
+        /// underlying <see cref="AssetClient"/> is preserved across the update.
+        /// </summary>
+        internal AssetAvailableEventArgs(string deviceName, Device device, string inboundEndpointName, string assetName, Asset asset, ILeaderElectionClient? leaderElectionClient, IAzureDeviceRegistryClientWrapper adrClient, AssetClient borrowedAssetClient)
+        {
+            DeviceName = deviceName;
+            Device = device;
+            InboundEndpointName = inboundEndpointName;
+            AssetName = assetName;
+            Asset = asset;
+            LeaderElectionClient = leaderElectionClient;
+            AssetClient = borrowedAssetClient;
+            DeviceEndpointClient = new(adrClient, deviceName, inboundEndpointName, device);
+            AdrClient = adrClient;
+            _ownsAssetClient = false;
         }
 
         public virtual async ValueTask DisposeAsync()
@@ -93,13 +123,16 @@ namespace Azure.Iot.Operations.Connector
 
         private async ValueTask DisposeAsyncCore()
         {
-            try
+            if (_ownsAssetClient)
             {
-                await AssetClient.DisposeAsync();
-            }
-            catch (ObjectDisposedException)
-            {
-                // It's fine if this is already disposed
+                try
+                {
+                    await AssetClient.DisposeAsync();
+                }
+                catch (ObjectDisposedException)
+                {
+                    // It's fine if this is already disposed
+                }
             }
 
             try
