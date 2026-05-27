@@ -710,7 +710,7 @@ namespace Azure.Iot.Operations.CodeGeneration
                 }
 
                 string titleValue = title.Value.Value;
-                if (string.IsNullOrEmpty(titleValue))
+                if (string.IsNullOrWhiteSpace(titleValue))
                 {
                     errorReporter.ReportError(ErrorCondition.PropertyEmpty, $"Thing Model '{propertyName}' array element '{TDAffordanceGroup.TitleName}' property has empty value.", title.TokenIndex);
                     hasError = true;
