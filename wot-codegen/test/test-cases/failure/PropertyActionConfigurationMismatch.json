@@ -1,13 +1,13 @@
 {
   "success": false,
   "commandLine": {
-    "things": [ "invalidAioBinding/PropertyMemberOf.TM.json" ],
+    "things": [ "invalidAioBinding/PropertyActionConfigurationMismatch.TM.json" ],
     "lang": "none"
   },
   "errors": [
     {
       "condition": "PropertyUnsupported",
-      "filename": "PropertyMemberOf.TM.json",
+      "filename": "PropertyActionConfigurationMismatch.TM.json",
       "line": 13,
       "cfLine": 0,
       "crossRef": ""
