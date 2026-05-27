@@ -8,7 +8,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "PlasticsRubber_Extrusion_GeneralTypes_ExtrusionDeviceType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/PlasticsRubber/Extrusion/GeneralTypes/;i=1002",
+    "dov:typeRef": "org.opcfoundation.UA.PlasticsRubber.Extrusion.GeneralTypes.ExtrusionDeviceType",
     "links": [
       {
         "rel": "tm:extends",
@@ -73,7 +73,7 @@
     "schemaDefinitions": {
       "ComponentStatusEnumeration": {
         "type": "object",
-        "dov:typeRef": "nsu=http://opcfoundation.org/UA/PlasticsRubber/Extrusion/GeneralTypes/;i=3003",
+        "dov:typeRef": "org.opcfoundation.UA.PlasticsRubber.Extrusion.GeneralTypes.ComponentStatusEnumeration",
         "const": {
           "OFFLINE": 0,
           "IDLE": 1,
@@ -159,7 +159,7 @@
       "Status": {
         "dov:namespace": "http://opcfoundation.org/UA/PlasticsRubber/Extrusion/GeneralTypes/",
         "title": "ComponentStatusEnumeration",
-        "dov:typeRef": "nsu=http://opcfoundation.org/UA/PlasticsRubber/Extrusion/GeneralTypes/;i=3003",
+        "dov:typeRef": "org.opcfoundation.UA.PlasticsRubber.Extrusion.GeneralTypes.ComponentStatusEnumeration",
         "type": "integer",
         "minimum": -2147483648,
         "maximum": 2147483647,
@@ -211,7 +211,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "PlasticsRubber_Extrusion_GeneralTypes_ExtrusionTemperatureZonesType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/PlasticsRubber/Extrusion/GeneralTypes/;i=1017",
+    "dov:typeRef": "org.opcfoundation.UA.PlasticsRubber.Extrusion.GeneralTypes.ExtrusionTemperatureZonesType",
     "dov:isComposite": true,
     "links": [
       {
@@ -274,7 +274,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "PlasticsRubber_Extrusion_GeneralTypes_GapsType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/PlasticsRubber/Extrusion/GeneralTypes/;i=1004",
+    "dov:typeRef": "org.opcfoundation.UA.PlasticsRubber.Extrusion.GeneralTypes.GapsType",
     "dov:isComposite": true,
     "links": [
       {
@@ -325,7 +325,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "PlasticsRubber_Extrusion_GeneralTypes_GapType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/PlasticsRubber/Extrusion/GeneralTypes/;i=1003",
+    "dov:typeRef": "org.opcfoundation.UA.PlasticsRubber.Extrusion.GeneralTypes.GapType",
     "links": [
       {
         "rel": "tm:extends",
@@ -454,7 +454,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "PlasticsRubber_Extrusion_GeneralTypes_ExtrusionTemperatureZoneType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/PlasticsRubber/Extrusion/GeneralTypes/;i=1016",
+    "dov:typeRef": "org.opcfoundation.UA.PlasticsRubber.Extrusion.GeneralTypes.ExtrusionTemperatureZoneType",
     "links": [
       {
         "rel": "tm:extends",
@@ -585,7 +585,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "PlasticsRubber_Extrusion_GeneralTypes_RollBendingType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/PlasticsRubber/Extrusion/GeneralTypes/;i=1007",
+    "dov:typeRef": "org.opcfoundation.UA.PlasticsRubber.Extrusion.GeneralTypes.RollBendingType",
     "links": [
       {
         "rel": "tm:extends",
@@ -635,7 +635,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "PlasticsRubber_Extrusion_GeneralTypes_RollPeripheralDevicesType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/PlasticsRubber/Extrusion/GeneralTypes/;i=1008",
+    "dov:typeRef": "org.opcfoundation.UA.PlasticsRubber.Extrusion.GeneralTypes.RollPeripheralDevicesType",
     "links": [
       {
         "rel": "tm:extends",
@@ -691,7 +691,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "PlasticsRubber_Extrusion_GeneralTypes_RollsType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/PlasticsRubber/Extrusion/GeneralTypes/;i=1006",
+    "dov:typeRef": "org.opcfoundation.UA.PlasticsRubber.Extrusion.GeneralTypes.RollsType",
     "dov:isComposite": true,
     "links": [
       {
@@ -742,7 +742,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "PlasticsRubber_Extrusion_GeneralTypes_RollType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/PlasticsRubber/Extrusion/GeneralTypes/;i=1005",
+    "dov:typeRef": "org.opcfoundation.UA.PlasticsRubber.Extrusion.GeneralTypes.RollType",
     "links": [
       {
         "rel": "tm:extends",

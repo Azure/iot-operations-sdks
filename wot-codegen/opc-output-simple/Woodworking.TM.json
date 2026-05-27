@@ -8,7 +8,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "Woodworking_WwAlarmConditionType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/Woodworking/;i=1007",
+    "dov:typeRef": "org.opcfoundation.UA.Woodworking.WwAlarmConditionType",
     "dov:isEvent": true,
     "links": [
       {
@@ -20,7 +20,7 @@
     "schemaDefinitions": {
       "WwEventCategoryEnumeration": {
         "type": "object",
-        "dov:typeRef": "nsu=http://opcfoundation.org/UA/Woodworking/;i=3004",
+        "dov:typeRef": "org.opcfoundation.UA.Woodworking.WwEventCategoryEnumeration",
         "const": {
           "OTHER": 0,
           "DIAGNOSTIC": 1,
@@ -76,14 +76,14 @@
           "title": "WwMessageArgumentDataType",
           "description": "The WwArgumentDataType definition extends the argument structure with an argument value.",
           "type": "object",
-          "dov:typeRef": "nsu=http://opcfoundation.org/UA/Woodworking/;i=3003",
+          "dov:typeRef": "org.opcfoundation.UA.Woodworking.WwMessageArgumentDataType",
           "required": [ "Value" ],
           "properties": {
             "Value": {
               "title": "WwMessageArgumentValueDataType",
               "description": "The WwArgumentValueDataType definition defines the possible types of an argument value.",
               "type": "object",
-              "dov:typeRef": "nsu=http://opcfoundation.org/UA/Woodworking/;i=3002",
+              "dov:typeRef": "org.opcfoundation.UA.Woodworking.WwMessageArgumentValueDataType",
               "properties": {
                 "Array": {
                   "description": "The content of the value as an array of the own type",
@@ -196,7 +196,7 @@
         "dov:namespace": "http://opcfoundation.org/UA/Woodworking/",
         "title": "WwEventCategoryEnumeration",
         "description": "The EventCategory Variable provides the category of the event.",
-        "dov:typeRef": "nsu=http://opcfoundation.org/UA/Woodworking/;i=3004",
+        "dov:typeRef": "org.opcfoundation.UA.Woodworking.WwEventCategoryEnumeration",
         "type": "integer",
         "minimum": -2147483648,
         "maximum": 2147483647,
@@ -293,7 +293,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "Woodworking_WwAcknowledgeableConditionType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/Woodworking/;i=1005",
+    "dov:typeRef": "org.opcfoundation.UA.Woodworking.WwAcknowledgeableConditionType",
     "dov:isEvent": true,
     "links": [
       {
@@ -305,7 +305,7 @@
     "schemaDefinitions": {
       "WwEventCategoryEnumeration": {
         "type": "object",
-        "dov:typeRef": "nsu=http://opcfoundation.org/UA/Woodworking/;i=3004",
+        "dov:typeRef": "org.opcfoundation.UA.Woodworking.WwEventCategoryEnumeration",
         "const": {
           "OTHER": 0,
           "DIAGNOSTIC": 1,
@@ -361,14 +361,14 @@
           "title": "WwMessageArgumentDataType",
           "description": "The WwArgumentDataType definition extends the argument structure with an argument value.",
           "type": "object",
-          "dov:typeRef": "nsu=http://opcfoundation.org/UA/Woodworking/;i=3003",
+          "dov:typeRef": "org.opcfoundation.UA.Woodworking.WwMessageArgumentDataType",
           "required": [ "Value" ],
           "properties": {
             "Value": {
               "title": "WwMessageArgumentValueDataType",
               "description": "The WwArgumentValueDataType definition defines the possible types of an argument value.",
               "type": "object",
-              "dov:typeRef": "nsu=http://opcfoundation.org/UA/Woodworking/;i=3002",
+              "dov:typeRef": "org.opcfoundation.UA.Woodworking.WwMessageArgumentValueDataType",
               "properties": {
                 "Array": {
                   "description": "The content of the value as an array of the own type",
@@ -481,7 +481,7 @@
         "dov:namespace": "http://opcfoundation.org/UA/Woodworking/",
         "title": "WwEventCategoryEnumeration",
         "description": "The EventCategory Variable provides the category of the event.",
-        "dov:typeRef": "nsu=http://opcfoundation.org/UA/Woodworking/;i=3004",
+        "dov:typeRef": "org.opcfoundation.UA.Woodworking.WwEventCategoryEnumeration",
         "type": "integer",
         "minimum": -2147483648,
         "maximum": 2147483647,
@@ -578,7 +578,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "Woodworking_WwConditionType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/Woodworking/;i=1004",
+    "dov:typeRef": "org.opcfoundation.UA.Woodworking.WwConditionType",
     "dov:isEvent": true,
     "links": [
       {
@@ -590,7 +590,7 @@
     "schemaDefinitions": {
       "WwEventCategoryEnumeration": {
         "type": "object",
-        "dov:typeRef": "nsu=http://opcfoundation.org/UA/Woodworking/;i=3004",
+        "dov:typeRef": "org.opcfoundation.UA.Woodworking.WwEventCategoryEnumeration",
         "const": {
           "OTHER": 0,
           "DIAGNOSTIC": 1,
@@ -646,14 +646,14 @@
           "title": "WwMessageArgumentDataType",
           "description": "The WwArgumentDataType definition extends the argument structure with an argument value.",
           "type": "object",
-          "dov:typeRef": "nsu=http://opcfoundation.org/UA/Woodworking/;i=3003",
+          "dov:typeRef": "org.opcfoundation.UA.Woodworking.WwMessageArgumentDataType",
           "required": [ "Value" ],
           "properties": {
             "Value": {
               "title": "WwMessageArgumentValueDataType",
               "description": "The WwArgumentValueDataType definition defines the possible types of an argument value.",
               "type": "object",
-              "dov:typeRef": "nsu=http://opcfoundation.org/UA/Woodworking/;i=3002",
+              "dov:typeRef": "org.opcfoundation.UA.Woodworking.WwMessageArgumentValueDataType",
               "properties": {
                 "Array": {
                   "description": "The content of the value as an array of the own type",
@@ -766,7 +766,7 @@
         "dov:namespace": "http://opcfoundation.org/UA/Woodworking/",
         "title": "WwEventCategoryEnumeration",
         "description": "The EventCategory Variable provides the category of the event.",
-        "dov:typeRef": "nsu=http://opcfoundation.org/UA/Woodworking/;i=3004",
+        "dov:typeRef": "org.opcfoundation.UA.Woodworking.WwEventCategoryEnumeration",
         "type": "integer",
         "minimum": -2147483648,
         "maximum": 2147483647,
@@ -863,7 +863,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "Woodworking_WwBaseEventType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/Woodworking/;i=13",
+    "dov:typeRef": "org.opcfoundation.UA.Woodworking.WwBaseEventType",
     "dov:isEvent": true,
     "links": [
       {
@@ -875,7 +875,7 @@
     "schemaDefinitions": {
       "WwEventCategoryEnumeration": {
         "type": "object",
-        "dov:typeRef": "nsu=http://opcfoundation.org/UA/Woodworking/;i=3004",
+        "dov:typeRef": "org.opcfoundation.UA.Woodworking.WwEventCategoryEnumeration",
         "const": {
           "OTHER": 0,
           "DIAGNOSTIC": 1,
@@ -931,14 +931,14 @@
           "title": "WwMessageArgumentDataType",
           "description": "The WwArgumentDataType definition extends the argument structure with an argument value.",
           "type": "object",
-          "dov:typeRef": "nsu=http://opcfoundation.org/UA/Woodworking/;i=3003",
+          "dov:typeRef": "org.opcfoundation.UA.Woodworking.WwMessageArgumentDataType",
           "required": [ "Value" ],
           "properties": {
             "Value": {
               "title": "WwMessageArgumentValueDataType",
               "description": "The WwArgumentValueDataType definition defines the possible types of an argument value.",
               "type": "object",
-              "dov:typeRef": "nsu=http://opcfoundation.org/UA/Woodworking/;i=3002",
+              "dov:typeRef": "org.opcfoundation.UA.Woodworking.WwMessageArgumentValueDataType",
               "properties": {
                 "Array": {
                   "description": "The content of the value as an array of the own type",
@@ -1051,7 +1051,7 @@
         "dov:namespace": "http://opcfoundation.org/UA/Woodworking/",
         "title": "WwEventCategoryEnumeration",
         "description": "The EventCategory Variable provides the category of the event.",
-        "dov:typeRef": "nsu=http://opcfoundation.org/UA/Woodworking/;i=3004",
+        "dov:typeRef": "org.opcfoundation.UA.Woodworking.WwEventCategoryEnumeration",
         "type": "integer",
         "minimum": -2147483648,
         "maximum": 2147483647,
@@ -1148,7 +1148,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "Woodworking_IWwBaseStateType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/Woodworking/;i=6",
+    "dov:typeRef": "org.opcfoundation.UA.Woodworking.IWwBaseStateType",
     "links": [
       {
         "rel": "tm:extends",
@@ -1192,7 +1192,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "Woodworking_IWwEventMessageType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/Woodworking/;i=1002",
+    "dov:typeRef": "org.opcfoundation.UA.Woodworking.IWwEventMessageType",
     "links": [
       {
         "rel": "tm:extends",
@@ -1203,7 +1203,7 @@
     "schemaDefinitions": {
       "WwEventCategoryEnumeration": {
         "type": "object",
-        "dov:typeRef": "nsu=http://opcfoundation.org/UA/Woodworking/;i=3004",
+        "dov:typeRef": "org.opcfoundation.UA.Woodworking.WwEventCategoryEnumeration",
         "const": {
           "OTHER": 0,
           "DIAGNOSTIC": 1,
@@ -1259,14 +1259,14 @@
           "title": "WwMessageArgumentDataType",
           "description": "The WwArgumentDataType definition extends the argument structure with an argument value.",
           "type": "object",
-          "dov:typeRef": "nsu=http://opcfoundation.org/UA/Woodworking/;i=3003",
+          "dov:typeRef": "org.opcfoundation.UA.Woodworking.WwMessageArgumentDataType",
           "required": [ "Value" ],
           "properties": {
             "Value": {
               "title": "WwMessageArgumentValueDataType",
               "description": "The WwArgumentValueDataType definition defines the possible types of an argument value.",
               "type": "object",
-              "dov:typeRef": "nsu=http://opcfoundation.org/UA/Woodworking/;i=3002",
+              "dov:typeRef": "org.opcfoundation.UA.Woodworking.WwMessageArgumentValueDataType",
               "properties": {
                 "Array": {
                   "description": "The content of the value as an array of the own type",
@@ -1379,7 +1379,7 @@
         "dov:namespace": "http://opcfoundation.org/UA/Woodworking/",
         "title": "WwEventCategoryEnumeration",
         "description": "The EventCategory Variable provides the category of the event.",
-        "dov:typeRef": "nsu=http://opcfoundation.org/UA/Woodworking/;i=3004",
+        "dov:typeRef": "org.opcfoundation.UA.Woodworking.WwEventCategoryEnumeration",
         "type": "integer",
         "minimum": -2147483648,
         "maximum": 2147483647,
@@ -1476,7 +1476,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "Woodworking_IWwStateType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/Woodworking/;i=8",
+    "dov:typeRef": "org.opcfoundation.UA.Woodworking.IWwStateType",
     "links": [
       {
         "rel": "tm:extends",
@@ -1514,7 +1514,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "Woodworking_IWwSubUnitsType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/Woodworking/;i=7",
+    "dov:typeRef": "org.opcfoundation.UA.Woodworking.IWwSubUnitsType",
     "links": [
       {
         "rel": "tm:extends",
@@ -1546,7 +1546,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "Woodworking_IWwUnitFlagsType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/Woodworking/;i=4",
+    "dov:typeRef": "org.opcfoundation.UA.Woodworking.IWwUnitFlagsType",
     "links": [
       {
         "rel": "tm:extends",
@@ -2284,7 +2284,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "Woodworking_IWwUnitOverviewType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/Woodworking/;i=5",
+    "dov:typeRef": "org.opcfoundation.UA.Woodworking.IWwUnitOverviewType",
     "links": [
       {
         "rel": "tm:extends",
@@ -2295,7 +2295,7 @@
     "schemaDefinitions": {
       "WwUnitModeEnumeration": {
         "type": "object",
-        "dov:typeRef": "nsu=http://opcfoundation.org/UA/Woodworking/;i=20",
+        "dov:typeRef": "org.opcfoundation.UA.Woodworking.WwUnitModeEnumeration",
         "const": {
           "OTHER": 0,
           "AUTOMATIC": 1,
@@ -2334,7 +2334,7 @@
       },
       "WwUnitStateEnumeration": {
         "type": "object",
-        "dov:typeRef": "nsu=http://opcfoundation.org/UA/Woodworking/;i=21",
+        "dov:typeRef": "org.opcfoundation.UA.Woodworking.WwUnitStateEnumeration",
         "const": {
           "OFFLINE": 0,
           "STANDBY": 1,
@@ -2386,7 +2386,7 @@
         "dov:namespace": "http://opcfoundation.org/UA/Woodworking/",
         "title": "WwUnitModeEnumeration",
         "description": "The CurrentMode Variable provides the generalized mode of the component.",
-        "dov:typeRef": "nsu=http://opcfoundation.org/UA/Woodworking/;i=20",
+        "dov:typeRef": "org.opcfoundation.UA.Woodworking.WwUnitModeEnumeration",
         "type": "integer",
         "minimum": -2147483648,
         "maximum": 2147483647,
@@ -2403,7 +2403,7 @@
         "dov:namespace": "http://opcfoundation.org/UA/Woodworking/",
         "title": "WwUnitStateEnumeration",
         "description": "The CurrentState Variable provides the generalized state of the component.",
-        "dov:typeRef": "nsu=http://opcfoundation.org/UA/Woodworking/;i=21",
+        "dov:typeRef": "org.opcfoundation.UA.Woodworking.WwUnitStateEnumeration",
         "type": "integer",
         "minimum": -2147483648,
         "maximum": 2147483647,
@@ -2423,7 +2423,7 @@
         "data": {
           "title": "WwUnitModeEnumeration",
           "description": "The CurrentMode Variable provides the generalized mode of the component.",
-          "dov:typeRef": "nsu=http://opcfoundation.org/UA/Woodworking/;i=20",
+          "dov:typeRef": "org.opcfoundation.UA.Woodworking.WwUnitModeEnumeration",
           "type": "integer",
           "minimum": -2147483648,
           "maximum": 2147483647
@@ -2441,7 +2441,7 @@
         "data": {
           "title": "WwUnitStateEnumeration",
           "description": "The CurrentState Variable provides the generalized state of the component.",
-          "dov:typeRef": "nsu=http://opcfoundation.org/UA/Woodworking/;i=21",
+          "dov:typeRef": "org.opcfoundation.UA.Woodworking.WwUnitStateEnumeration",
           "type": "integer",
           "minimum": -2147483648,
           "maximum": 2147483647
@@ -2465,7 +2465,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "Woodworking_IWwUnitValuesType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/Woodworking/;i=1006",
+    "dov:typeRef": "org.opcfoundation.UA.Woodworking.IWwUnitValuesType",
     "links": [
       {
         "rel": "tm:extends",
@@ -3588,7 +3588,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "Woodworking_WwEventsDispatcherType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/Woodworking/;i=15",
+    "dov:typeRef": "org.opcfoundation.UA.Woodworking.WwEventsDispatcherType",
     "links": [
       {
         "rel": "tm:extends",
@@ -3614,7 +3614,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "Woodworking_WwMachineType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/Woodworking/;i=2",
+    "dov:typeRef": "org.opcfoundation.UA.Woodworking.WwMachineType",
     "dov:isComposite": true,
     "links": [
       {

@@ -8,7 +8,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "Mining_DevelopmentSupport_Dozer_DozerType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/Mining/DevelopmentSupport/Dozer/;i=1002",
+    "dov:typeRef": "org.opcfoundation.UA.Mining.DevelopmentSupport.Dozer.DozerType",
     "dov:isComposite": true,
     "links": [
       {

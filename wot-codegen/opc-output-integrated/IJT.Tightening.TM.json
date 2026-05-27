@@ -8,7 +8,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "IJT_Tightening_ITighteningToolParametersType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/IJT/Tightening/;i=1003",
+    "dov:typeRef": "org.opcfoundation.UA.IJT.Tightening.ITighteningToolParametersType",
     "links": [
       {
         "rel": "tm:extends",
@@ -395,7 +395,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "OpcUaCore_BaseInterfaceType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/;i=17602",
+    "dov:typeRef": "org.opcfoundation.UA.BaseInterfaceType",
     "links": [
       {
         "rel": "tm:extends",
@@ -421,7 +421,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "OpcUaCore_BaseObjectType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/;i=58",
+    "dov:typeRef": "org.opcfoundation.UA.BaseObjectType",
     "links": [
     ],
     "schemaDefinitions": {

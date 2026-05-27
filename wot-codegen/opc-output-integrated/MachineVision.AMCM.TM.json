@@ -8,7 +8,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "MachineVision_AMCM_IVisionInfoType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/MachineVision/AMCM/;i=1002",
+    "dov:typeRef": "org.opcfoundation.UA.MachineVision.AMCM.IVisionInfoType",
     "links": [
       {
         "rel": "tm:extends",
@@ -34,7 +34,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "MachineVision_AMCM_ICableType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/MachineVision/AMCM/;i=1018",
+    "dov:typeRef": "org.opcfoundation.UA.MachineVision.AMCM.ICableType",
     "links": [
       {
         "rel": "tm:extends",
@@ -60,7 +60,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "MachineVision_AMCM_IComputingDeviceType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/MachineVision/AMCM/;i=1009",
+    "dov:typeRef": "org.opcfoundation.UA.MachineVision.AMCM.IComputingDeviceType",
     "links": [
       {
         "rel": "tm:extends",
@@ -86,7 +86,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "MachineVision_AMCM_IDisplayUnitType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/MachineVision/AMCM/;i=1011",
+    "dov:typeRef": "org.opcfoundation.UA.MachineVision.AMCM.IDisplayUnitType",
     "links": [
       {
         "rel": "tm:extends",
@@ -112,7 +112,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "MachineVision_AMCM_ILampType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/MachineVision/AMCM/;i=1016",
+    "dov:typeRef": "org.opcfoundation.UA.MachineVision.AMCM.ILampType",
     "links": [
       {
         "rel": "tm:extends",
@@ -138,7 +138,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "MachineVision_AMCM_ILensType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/MachineVision/AMCM/;i=1013",
+    "dov:typeRef": "org.opcfoundation.UA.MachineVision.AMCM.ILensType",
     "links": [
       {
         "rel": "tm:extends",
@@ -164,7 +164,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "MachineVision_AMCM_ILicenseType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/MachineVision/AMCM/;i=1017",
+    "dov:typeRef": "org.opcfoundation.UA.MachineVision.AMCM.ILicenseType",
     "links": [
       {
         "rel": "tm:extends",
@@ -190,7 +190,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "MachineVision_AMCM_ILightingControllerType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/MachineVision/AMCM/;i=1015",
+    "dov:typeRef": "org.opcfoundation.UA.MachineVision.AMCM.ILightingControllerType",
     "links": [
       {
         "rel": "tm:extends",
@@ -216,7 +216,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "MachineVision_AMCM_IPhysicalInterfaceType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/MachineVision/AMCM/;i=1012",
+    "dov:typeRef": "org.opcfoundation.UA.MachineVision.AMCM.IPhysicalInterfaceType",
     "links": [
       {
         "rel": "tm:extends",
@@ -242,7 +242,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "MachineVision_AMCM_VisionItemFolderType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/MachineVision/AMCM/;i=1005",
+    "dov:typeRef": "org.opcfoundation.UA.MachineVision.AMCM.VisionItemFolderType",
     "links": [
       {
         "rel": "tm:extends",
@@ -268,7 +268,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "MachineVision_AMCM_VisionMachineIdentificationType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/MachineVision/AMCM/;i=1006",
+    "dov:typeRef": "org.opcfoundation.UA.MachineVision.AMCM.VisionMachineIdentificationType",
     "links": [
       {
         "rel": "tm:extends",
@@ -539,7 +539,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "MachineVision_AMCM_VisionComponentIdentificationType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/MachineVision/AMCM/;i=1007",
+    "dov:typeRef": "org.opcfoundation.UA.MachineVision.AMCM.VisionComponentIdentificationType",
     "links": [
       {
         "rel": "tm:extends",
@@ -810,7 +810,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "MachineVision_AMCM_VisionHealthInfoType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/MachineVision/AMCM/;i=1004",
+    "dov:typeRef": "org.opcfoundation.UA.MachineVision.AMCM.VisionHealthInfoType",
     "links": [
       {
         "rel": "tm:extends",
@@ -827,7 +827,7 @@
     "schemaDefinitions": {
       "DeviceHealthEnumeration": {
         "type": "object",
-        "dov:typeRef": "nsu=http://opcfoundation.org/UA/DI/;i=6244",
+        "dov:typeRef": "org.opcfoundation.UA.DI.DeviceHealthEnumeration",
         "const": {
           "NORMAL": 0,
           "FAILURE": 1,
@@ -883,7 +883,7 @@
         "dov:namespace": "http://opcfoundation.org/UA/DI/",
         "title": "DeviceHealthEnumeration",
         "description": "indicates the status as defined by NAMUR Recommendation NE107. The DeviceHealthEnumeration DataType is formally defined in OPC 10000-100 Device Model",
-        "dov:typeRef": "nsu=http://opcfoundation.org/UA/DI/;i=6244",
+        "dov:typeRef": "org.opcfoundation.UA.DI.DeviceHealthEnumeration",
         "type": "integer",
         "minimum": -2147483648,
         "maximum": 2147483647,
@@ -924,7 +924,7 @@
         "title": "SEMI_E10SystemStateDataType",
         "description": "denotes the SEMI E10 State of the item ",
         "type": "object",
-        "dov:typeRef": "nsu=http://opcfoundation.org/UA/MachineVision/AMCM/;i=3002",
+        "dov:typeRef": "org.opcfoundation.UA.MachineVision.AMCM.SEMI_E10SystemStateDataType",
         "required": [ "Id", "Priority" ],
         "properties": {
           "Id": {
@@ -979,7 +979,7 @@
         "data": {
           "title": "DeviceHealthEnumeration",
           "description": "indicates the status as defined by NAMUR Recommendation NE107. The DeviceHealthEnumeration DataType is formally defined in OPC 10000-100 Device Model",
-          "dov:typeRef": "nsu=http://opcfoundation.org/UA/DI/;i=6244",
+          "dov:typeRef": "org.opcfoundation.UA.DI.DeviceHealthEnumeration",
           "type": "integer",
           "minimum": -2147483648,
           "maximum": 2147483647
@@ -1012,7 +1012,7 @@
           "title": "SEMI_E10SystemStateDataType",
           "description": "denotes the SEMI E10 State of the item ",
           "type": "object",
-          "dov:typeRef": "nsu=http://opcfoundation.org/UA/MachineVision/AMCM/;i=3002",
+          "dov:typeRef": "org.opcfoundation.UA.MachineVision.AMCM.SEMI_E10SystemStateDataType",
           "required": [ "Id", "Priority" ],
           "properties": {
             "Id": {
@@ -1062,7 +1062,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "MachineVision_AMCM_VisionMaintenanceInfoType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/MachineVision/AMCM/;i=1003",
+    "dov:typeRef": "org.opcfoundation.UA.MachineVision.AMCM.VisionMaintenanceInfoType",
     "links": [
       {
         "rel": "tm:extends",
@@ -1288,7 +1288,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "MachineVision_AMCM_VisionAcquisitionBackgroundType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/MachineVision/AMCM/;i=1032",
+    "dov:typeRef": "org.opcfoundation.UA.MachineVision.AMCM.VisionAcquisitionBackgroundType",
     "dov:isComposite": true,
     "links": [
       {
@@ -1315,7 +1315,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "MachineVision_AMCM_VisionAspectImageReceiverType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/MachineVision/AMCM/;i=1040",
+    "dov:typeRef": "org.opcfoundation.UA.MachineVision.AMCM.VisionAspectImageReceiverType",
     "dov:isComposite": true,
     "links": [
       {
@@ -1342,7 +1342,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "MachineVision_AMCM_VisionAspectImageTransceiverType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/MachineVision/AMCM/;i=1041",
+    "dov:typeRef": "org.opcfoundation.UA.MachineVision.AMCM.VisionAspectImageTransceiverType",
     "dov:isComposite": true,
     "links": [
       {
@@ -1369,7 +1369,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "MachineVision_AMCM_VisionAspectImageTransmitterType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/MachineVision/AMCM/;i=1039",
+    "dov:typeRef": "org.opcfoundation.UA.MachineVision.AMCM.VisionAspectImageTransmitterType",
     "dov:isComposite": true,
     "links": [
       {
@@ -1396,7 +1396,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "MachineVision_AMCM_VisionCableType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/MachineVision/AMCM/;i=1038",
+    "dov:typeRef": "org.opcfoundation.UA.MachineVision.AMCM.VisionCableType",
     "dov:isComposite": true,
     "links": [
       {
@@ -1423,7 +1423,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "MachineVision_AMCM_VisionClimateControllerType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/MachineVision/AMCM/;i=1035",
+    "dov:typeRef": "org.opcfoundation.UA.MachineVision.AMCM.VisionClimateControllerType",
     "dov:isComposite": true,
     "links": [
       {
@@ -1450,7 +1450,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "MachineVision_AMCM_VisionComputingDeviceType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/MachineVision/AMCM/;i=1010",
+    "dov:typeRef": "org.opcfoundation.UA.MachineVision.AMCM.VisionComputingDeviceType",
     "dov:isComposite": true,
     "links": [
       {
@@ -1477,7 +1477,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "MachineVision_AMCM_VisionDisplayUnitType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/MachineVision/AMCM/;i=1019",
+    "dov:typeRef": "org.opcfoundation.UA.MachineVision.AMCM.VisionDisplayUnitType",
     "dov:isComposite": true,
     "links": [
       {
@@ -1504,7 +1504,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "MachineVision_AMCM_VisionFrameGrabberType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/MachineVision/AMCM/;i=1021",
+    "dov:typeRef": "org.opcfoundation.UA.MachineVision.AMCM.VisionFrameGrabberType",
     "dov:isComposite": true,
     "links": [
       {
@@ -1531,7 +1531,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "MachineVision_AMCM_VisionHousingType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/MachineVision/AMCM/;i=1034",
+    "dov:typeRef": "org.opcfoundation.UA.MachineVision.AMCM.VisionHousingType",
     "dov:isComposite": true,
     "links": [
       {
@@ -1558,7 +1558,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "MachineVision_AMCM_VisionImageSensorType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/MachineVision/AMCM/;i=1020",
+    "dov:typeRef": "org.opcfoundation.UA.MachineVision.AMCM.VisionImageSensorType",
     "dov:isComposite": true,
     "links": [
       {
@@ -1585,7 +1585,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "MachineVision_AMCM_VisionLampType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/MachineVision/AMCM/;i=1028",
+    "dov:typeRef": "org.opcfoundation.UA.MachineVision.AMCM.VisionLampType",
     "dov:isComposite": true,
     "links": [
       {
@@ -1612,7 +1612,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "MachineVision_AMCM_VisionLensControllerType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/MachineVision/AMCM/;i=1023",
+    "dov:typeRef": "org.opcfoundation.UA.MachineVision.AMCM.VisionLensControllerType",
     "dov:isComposite": true,
     "links": [
       {
@@ -1639,7 +1639,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "MachineVision_AMCM_VisionLensType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/MachineVision/AMCM/;i=1022",
+    "dov:typeRef": "org.opcfoundation.UA.MachineVision.AMCM.VisionLensType",
     "dov:isComposite": true,
     "links": [
       {
@@ -1666,7 +1666,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "MachineVision_AMCM_VisionLicenseType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/MachineVision/AMCM/;i=1036",
+    "dov:typeRef": "org.opcfoundation.UA.MachineVision.AMCM.VisionLicenseType",
     "dov:isComposite": true,
     "links": [
       {
@@ -1693,7 +1693,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "MachineVision_AMCM_VisionLightingControllerType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/MachineVision/AMCM/;i=1029",
+    "dov:typeRef": "org.opcfoundation.UA.MachineVision.AMCM.VisionLightingControllerType",
     "dov:isComposite": true,
     "links": [
       {
@@ -1720,7 +1720,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "MachineVision_AMCM_VisionNetworkDeviceType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/MachineVision/AMCM/;i=1037",
+    "dov:typeRef": "org.opcfoundation.UA.MachineVision.AMCM.VisionNetworkDeviceType",
     "dov:isComposite": true,
     "links": [
       {
@@ -1747,7 +1747,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "MachineVision_AMCM_VisionOpticalFilterType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/MachineVision/AMCM/;i=1024",
+    "dov:typeRef": "org.opcfoundation.UA.MachineVision.AMCM.VisionOpticalFilterType",
     "dov:isComposite": true,
     "links": [
       {
@@ -1774,7 +1774,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "MachineVision_AMCM_VisionOtherOpticalEquipmentType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/MachineVision/AMCM/;i=1025",
+    "dov:typeRef": "org.opcfoundation.UA.MachineVision.AMCM.VisionOtherOpticalEquipmentType",
     "dov:isComposite": true,
     "links": [
       {
@@ -1801,7 +1801,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "MachineVision_AMCM_VisionPatternGeneratorType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/MachineVision/AMCM/;i=1030",
+    "dov:typeRef": "org.opcfoundation.UA.MachineVision.AMCM.VisionPatternGeneratorType",
     "dov:isComposite": true,
     "links": [
       {
@@ -1828,7 +1828,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "MachineVision_AMCM_VisionPhysicalInterfaceType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/MachineVision/AMCM/;i=1014",
+    "dov:typeRef": "org.opcfoundation.UA.MachineVision.AMCM.VisionPhysicalInterfaceType",
     "dov:isComposite": true,
     "links": [
       {
@@ -1855,7 +1855,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "MachineVision_AMCM_VisionPowerSupplyType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/MachineVision/AMCM/;i=1031",
+    "dov:typeRef": "org.opcfoundation.UA.MachineVision.AMCM.VisionPowerSupplyType",
     "dov:isComposite": true,
     "links": [
       {
@@ -1882,7 +1882,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "MachineVision_AMCM_VisionSurroundingEnvironmentType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/MachineVision/AMCM/;i=1033",
+    "dov:typeRef": "org.opcfoundation.UA.MachineVision.AMCM.VisionSurroundingEnvironmentType",
     "dov:isComposite": true,
     "links": [
       {
@@ -1909,7 +1909,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "MachineVision_AMCM_VisionSystemAssetType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/MachineVision/AMCM/;i=1008",
+    "dov:typeRef": "org.opcfoundation.UA.MachineVision.AMCM.VisionSystemAssetType",
     "dov:isComposite": true,
     "links": [
       {
@@ -2092,7 +2092,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "MachineVision_AMCM_VisionTriggerSensorType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/MachineVision/AMCM/;i=1027",
+    "dov:typeRef": "org.opcfoundation.UA.MachineVision.AMCM.VisionTriggerSensorType",
     "dov:isComposite": true,
     "links": [
       {
@@ -2119,7 +2119,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "MachineVision_AMCM_VisionWayEncoderType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/MachineVision/AMCM/;i=1026",
+    "dov:typeRef": "org.opcfoundation.UA.MachineVision.AMCM.VisionWayEncoderType",
     "dov:isComposite": true,
     "links": [
       {
@@ -2146,7 +2146,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "OpcUaCore_BaseInterfaceType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/;i=17602",
+    "dov:typeRef": "org.opcfoundation.UA.BaseInterfaceType",
     "links": [
       {
         "rel": "tm:extends",
@@ -2172,7 +2172,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "OpcUaCore_BaseObjectType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/;i=58",
+    "dov:typeRef": "org.opcfoundation.UA.BaseObjectType",
     "links": [
     ],
     "schemaDefinitions": {
@@ -2193,7 +2193,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "OpcUaCore_FolderType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/;i=61",
+    "dov:typeRef": "org.opcfoundation.UA.FolderType",
     "links": [
       {
         "rel": "tm:extends",
@@ -2219,7 +2219,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "Machinery_MachineIdentificationType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/Machinery/;i=1012",
+    "dov:typeRef": "org.opcfoundation.UA.Machinery.MachineIdentificationType",
     "dov:isComposite": true,
     "links": [
       {
@@ -2301,7 +2301,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "Machinery_MachineryItemIdentificationType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/Machinery/;i=1004",
+    "dov:typeRef": "org.opcfoundation.UA.Machinery.MachineryItemIdentificationType",
     "links": [
       {
         "rel": "tm:extends",
@@ -2553,7 +2553,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "Machinery_MachineryComponentIdentificationType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/Machinery/;i=1005",
+    "dov:typeRef": "org.opcfoundation.UA.Machinery.MachineryComponentIdentificationType",
     "dov:isComposite": true,
     "links": [
       {
@@ -2622,7 +2622,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "DI_FunctionalGroupType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/DI/;i=1005",
+    "dov:typeRef": "org.opcfoundation.UA.DI.FunctionalGroupType",
     "links": [
       {
         "rel": "tm:extends",

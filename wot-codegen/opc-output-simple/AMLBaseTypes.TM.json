@@ -8,7 +8,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "AMLBaseTypes_CAEXBasicObjectType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/AML/;i=1006",
+    "dov:typeRef": "org.opcfoundation.UA.AML.CAEXBasicObjectType",
     "dov:isComposite": true,
     "links": [
       {
@@ -54,7 +54,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "AMLBaseTypes_CAEXFileType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/AML/;i=1005",
+    "dov:typeRef": "org.opcfoundation.UA.AML.CAEXFileType",
     "dov:isComposite": true,
     "links": [
       {
@@ -105,7 +105,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "AMLBaseTypes_CAEXObjectType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/AML/;i=1001",
+    "dov:typeRef": "org.opcfoundation.UA.AML.CAEXObjectType",
     "dov:isComposite": true,
     "links": [
       {
@@ -151,7 +151,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "AMLBaseTypes_AutomationMLBaseInterface",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/AML/;i=1002",
+    "dov:typeRef": "org.opcfoundation.UA.AML.AutomationMLBaseInterface",
     "dov:isComposite": true,
     "links": [
       {
@@ -178,7 +178,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "AMLBaseTypes_AutomationMLBaseRole",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/AML/;i=1003",
+    "dov:typeRef": "org.opcfoundation.UA.AML.AutomationMLBaseRole",
     "dov:isComposite": true,
     "links": [
       {
@@ -205,7 +205,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "AMLBaseTypes_AutomationMLBaseSystemUnit",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/AML/;i=1004",
+    "dov:typeRef": "org.opcfoundation.UA.AML.AutomationMLBaseSystemUnit",
     "dov:isComposite": true,
     "links": [
       {

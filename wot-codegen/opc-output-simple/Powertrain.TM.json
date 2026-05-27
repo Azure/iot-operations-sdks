@@ -8,7 +8,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "Powertrain_IPtTagNameplateType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/Powertrain/;i=15898",
+    "dov:typeRef": "org.opcfoundation.UA.Powertrain.IPtTagNameplateType",
     "dov:isComposite": true,
     "links": [
       {
@@ -98,7 +98,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "Powertrain_PtAssetAttributesType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/Powertrain/;i=16337",
+    "dov:typeRef": "org.opcfoundation.UA.Powertrain.PtAssetAttributesType",
     "links": [
       {
         "rel": "tm:extends",
@@ -152,7 +152,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "Powertrain_PtBleedAttributesType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/Powertrain/;i=1008",
+    "dov:typeRef": "org.opcfoundation.UA.Powertrain.PtBleedAttributesType",
     "links": [
       {
         "rel": "tm:extends",
@@ -271,7 +271,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "Powertrain_PtBrakeAttributesType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/Powertrain/;i=16609",
+    "dov:typeRef": "org.opcfoundation.UA.Powertrain.PtBrakeAttributesType",
     "links": [
       {
         "rel": "tm:extends",
@@ -990,7 +990,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "Powertrain_PtCapacitanceAttributesType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/Powertrain/;i=1004",
+    "dov:typeRef": "org.opcfoundation.UA.Powertrain.PtCapacitanceAttributesType",
     "links": [
       {
         "rel": "tm:extends",
@@ -1078,7 +1078,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "Powertrain_PtCommonAssetAttributesType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/Powertrain/;i=16873",
+    "dov:typeRef": "org.opcfoundation.UA.Powertrain.PtCommonAssetAttributesType",
     "links": [
       {
         "rel": "tm:extends",
@@ -1132,7 +1132,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "Powertrain_PtAmbientAttributesType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/Powertrain/;i=16875",
+    "dov:typeRef": "org.opcfoundation.UA.Powertrain.PtAmbientAttributesType",
     "links": [
       {
         "rel": "tm:extends",
@@ -1394,7 +1394,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "Powertrain_PtAnalogInputElectricalAttributesType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/Powertrain/;i=16907",
+    "dov:typeRef": "org.opcfoundation.UA.Powertrain.PtAnalogInputElectricalAttributesType",
     "links": [
       {
         "rel": "tm:extends",
@@ -1470,7 +1470,7 @@
         "dov:namespace": "http://opcfoundation.org/UA/Powertrain/",
         "title": "Range",
         "type": "object",
-        "dov:typeRef": "nsu=http://opcfoundation.org/UA/;i=884",
+        "dov:typeRef": "org.opcfoundation.UA.Range",
         "required": [ "Low", "High" ],
         "properties": {
           "Low": {
@@ -1497,7 +1497,7 @@
         "dov:namespace": "http://opcfoundation.org/UA/Powertrain/",
         "title": "Range",
         "type": "object",
-        "dov:typeRef": "nsu=http://opcfoundation.org/UA/;i=884",
+        "dov:typeRef": "org.opcfoundation.UA.Range",
         "required": [ "Low", "High" ],
         "properties": {
           "Low": {
@@ -1584,7 +1584,7 @@
         "data": {
           "title": "Range",
           "type": "object",
-          "dov:typeRef": "nsu=http://opcfoundation.org/UA/;i=884",
+          "dov:typeRef": "org.opcfoundation.UA.Range",
           "required": [ "Low", "High" ],
           "properties": {
             "Low": {
@@ -1612,7 +1612,7 @@
         "data": {
           "title": "Range",
           "type": "object",
-          "dov:typeRef": "nsu=http://opcfoundation.org/UA/;i=884",
+          "dov:typeRef": "org.opcfoundation.UA.Range",
           "required": [ "Low", "High" ],
           "properties": {
             "Low": {
@@ -1661,7 +1661,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "Powertrain_PtAnalogOutputElectricalAttributesType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/Powertrain/;i=16913",
+    "dov:typeRef": "org.opcfoundation.UA.Powertrain.PtAnalogOutputElectricalAttributesType",
     "links": [
       {
         "rel": "tm:extends",
@@ -1725,7 +1725,7 @@
         "dov:namespace": "http://opcfoundation.org/UA/Powertrain/",
         "title": "Range",
         "type": "object",
-        "dov:typeRef": "nsu=http://opcfoundation.org/UA/;i=884",
+        "dov:typeRef": "org.opcfoundation.UA.Range",
         "required": [ "Low", "High" ],
         "properties": {
           "Low": {
@@ -1798,7 +1798,7 @@
         "data": {
           "title": "Range",
           "type": "object",
-          "dov:typeRef": "nsu=http://opcfoundation.org/UA/;i=884",
+          "dov:typeRef": "org.opcfoundation.UA.Range",
           "required": [ "Low", "High" ],
           "properties": {
             "Low": {
@@ -1847,7 +1847,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "Powertrain_PtAuxiliarySupplyAttributesType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/Powertrain/;i=16928",
+    "dov:typeRef": "org.opcfoundation.UA.Powertrain.PtAuxiliarySupplyAttributesType",
     "links": [
       {
         "rel": "tm:extends",
@@ -2051,7 +2051,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "Powertrain_PtCertificateAttributesType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/Powertrain/;i=16960",
+    "dov:typeRef": "org.opcfoundation.UA.Powertrain.PtCertificateAttributesType",
     "links": [
       {
         "rel": "tm:extends",
@@ -2120,7 +2120,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "Powertrain_PtCommunicationInterfaceAttributesType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/Powertrain/;i=16963",
+    "dov:typeRef": "org.opcfoundation.UA.Powertrain.PtCommunicationInterfaceAttributesType",
     "links": [
       {
         "rel": "tm:extends",
@@ -2310,7 +2310,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "Powertrain_PtCoolingAttributesType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/Powertrain/;i=16970",
+    "dov:typeRef": "org.opcfoundation.UA.Powertrain.PtCoolingAttributesType",
     "links": [
       {
         "rel": "tm:extends",
@@ -2398,7 +2398,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "Powertrain_PtDigitalInputElectricalAttributesType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/Powertrain/;i=17000",
+    "dov:typeRef": "org.opcfoundation.UA.Powertrain.PtDigitalInputElectricalAttributesType",
     "links": [
       {
         "rel": "tm:extends",
@@ -2512,7 +2512,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "Powertrain_PtDigitalOutputElectricalAttributesType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/Powertrain/;i=17009",
+    "dov:typeRef": "org.opcfoundation.UA.Powertrain.PtDigitalOutputElectricalAttributesType",
     "links": [
       {
         "rel": "tm:extends",
@@ -2655,7 +2655,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "Powertrain_PtFunctionalSafetyAttributesType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/Powertrain/;i=17144",
+    "dov:typeRef": "org.opcfoundation.UA.Powertrain.PtFunctionalSafetyAttributesType",
     "links": [
       {
         "rel": "tm:extends",
@@ -2743,7 +2743,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "Powertrain_PtFuseAttributesType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/Powertrain/;i=17024",
+    "dov:typeRef": "org.opcfoundation.UA.Powertrain.PtFuseAttributesType",
     "links": [
       {
         "rel": "tm:extends",
@@ -2930,7 +2930,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "Powertrain_PtHardwareAttributesType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/Powertrain/;i=16973",
+    "dov:typeRef": "org.opcfoundation.UA.Powertrain.PtHardwareAttributesType",
     "links": [
       {
         "rel": "tm:extends",
@@ -3178,7 +3178,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "Powertrain_PtInputInterfaceAttributesType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/Powertrain/;i=17046",
+    "dov:typeRef": "org.opcfoundation.UA.Powertrain.PtInputInterfaceAttributesType",
     "links": [
       {
         "rel": "tm:extends",
@@ -3270,7 +3270,7 @@
         "dov:namespace": "http://opcfoundation.org/UA/Powertrain/",
         "title": "Range",
         "type": "object",
-        "dov:typeRef": "nsu=http://opcfoundation.org/UA/;i=884",
+        "dov:typeRef": "org.opcfoundation.UA.Range",
         "required": [ "Low", "High" ],
         "properties": {
           "Low": {
@@ -3339,7 +3339,7 @@
         "dov:namespace": "http://opcfoundation.org/UA/Powertrain/",
         "title": "Range",
         "type": "object",
-        "dov:typeRef": "nsu=http://opcfoundation.org/UA/;i=884",
+        "dov:typeRef": "org.opcfoundation.UA.Range",
         "required": [ "Low", "High" ],
         "properties": {
           "Low": {
@@ -3442,7 +3442,7 @@
         "data": {
           "title": "Range",
           "type": "object",
-          "dov:typeRef": "nsu=http://opcfoundation.org/UA/;i=884",
+          "dov:typeRef": "org.opcfoundation.UA.Range",
           "required": [ "Low", "High" ],
           "properties": {
             "Low": {
@@ -3515,7 +3515,7 @@
         "data": {
           "title": "Range",
           "type": "object",
-          "dov:typeRef": "nsu=http://opcfoundation.org/UA/;i=884",
+          "dov:typeRef": "org.opcfoundation.UA.Range",
           "required": [ "Low", "High" ],
           "properties": {
             "Low": {
@@ -3564,7 +3564,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "Powertrain_PtMechanicalStrengthAttributesType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/Powertrain/;i=17136",
+    "dov:typeRef": "org.opcfoundation.UA.Powertrain.PtMechanicalStrengthAttributesType",
     "links": [
       {
         "rel": "tm:extends",
@@ -3648,7 +3648,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "Powertrain_PtOutputInterfaceAttributesType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/Powertrain/;i=17085",
+    "dov:typeRef": "org.opcfoundation.UA.Powertrain.PtOutputInterfaceAttributesType",
     "links": [
       {
         "rel": "tm:extends",
@@ -3838,7 +3838,7 @@
         "dov:namespace": "http://opcfoundation.org/UA/Powertrain/",
         "title": "Range",
         "type": "object",
-        "dov:typeRef": "nsu=http://opcfoundation.org/UA/;i=884",
+        "dov:typeRef": "org.opcfoundation.UA.Range",
         "required": [ "Low", "High" ],
         "properties": {
           "Low": {
@@ -4017,7 +4017,7 @@
         "data": {
           "title": "Range",
           "type": "object",
-          "dov:typeRef": "nsu=http://opcfoundation.org/UA/;i=884",
+          "dov:typeRef": "org.opcfoundation.UA.Range",
           "required": [ "Low", "High" ],
           "properties": {
             "Low": {
@@ -4066,7 +4066,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "Powertrain_PtProtectionClassAttributesType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/Powertrain/;i=17140",
+    "dov:typeRef": "org.opcfoundation.UA.Powertrain.PtProtectionClassAttributesType",
     "links": [
       {
         "rel": "tm:extends",
@@ -4166,7 +4166,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "Powertrain_PtSafetyFunctionsAttributesType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/Powertrain/;i=17149",
+    "dov:typeRef": "org.opcfoundation.UA.Powertrain.PtSafetyFunctionsAttributesType",
     "links": [
       {
         "rel": "tm:extends",
@@ -4356,7 +4356,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "Powertrain_PtStandardAttributesType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/Powertrain/;i=17156",
+    "dov:typeRef": "org.opcfoundation.UA.Powertrain.PtStandardAttributesType",
     "links": [
       {
         "rel": "tm:extends",
@@ -4425,7 +4425,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "Powertrain_PtContactorAttributesType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/Powertrain/;i=16847",
+    "dov:typeRef": "org.opcfoundation.UA.Powertrain.PtContactorAttributesType",
     "links": [
       {
         "rel": "tm:extends",
@@ -4454,7 +4454,7 @@
         "dov:namespace": "http://opcfoundation.org/UA/Powertrain/",
         "title": "Range",
         "type": "object",
-        "dov:typeRef": "nsu=http://opcfoundation.org/UA/;i=884",
+        "dov:typeRef": "org.opcfoundation.UA.Range",
         "required": [ "Low", "High" ],
         "properties": {
           "Low": {
@@ -4562,7 +4562,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "Powertrain_PtDcBusAttributesType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/Powertrain/;i=16798",
+    "dov:typeRef": "org.opcfoundation.UA.Powertrain.PtDcBusAttributesType",
     "links": [
       {
         "rel": "tm:extends",
@@ -4596,7 +4596,7 @@
         "dov:namespace": "http://opcfoundation.org/UA/Powertrain/",
         "title": "Range",
         "type": "object",
-        "dov:typeRef": "nsu=http://opcfoundation.org/UA/;i=884",
+        "dov:typeRef": "org.opcfoundation.UA.Range",
         "required": [ "Low", "High" ],
         "properties": {
           "Low": {
@@ -4657,7 +4657,7 @@
         "data": {
           "title": "Range",
           "type": "object",
-          "dov:typeRef": "nsu=http://opcfoundation.org/UA/;i=884",
+          "dov:typeRef": "org.opcfoundation.UA.Range",
           "required": [ "Low", "High" ],
           "properties": {
             "Low": {
@@ -4707,7 +4707,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "Powertrain_PtElectronicOverloadRelayAttributesType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/Powertrain/;i=1014",
+    "dov:typeRef": "org.opcfoundation.UA.Powertrain.PtElectronicOverloadRelayAttributesType",
     "links": [
       {
         "rel": "tm:extends",
@@ -4795,7 +4795,7 @@
         "dov:namespace": "http://opcfoundation.org/UA/Powertrain/",
         "title": "Range",
         "type": "object",
-        "dov:typeRef": "nsu=http://opcfoundation.org/UA/;i=884",
+        "dov:typeRef": "org.opcfoundation.UA.Range",
         "required": [ "Low", "High" ],
         "properties": {
           "Low": {
@@ -4898,7 +4898,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "Powertrain_PtEncoderAttributesType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/Powertrain/;i=16553",
+    "dov:typeRef": "org.opcfoundation.UA.Powertrain.PtEncoderAttributesType",
     "dov:isComposite": true,
     "links": [
       {
@@ -5016,7 +5016,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "Powertrain_PtEncoderLinearAttributesType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/Powertrain/;i=1024",
+    "dov:typeRef": "org.opcfoundation.UA.Powertrain.PtEncoderLinearAttributesType",
     "links": [
       {
         "rel": "tm:extends",
@@ -5219,7 +5219,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "Powertrain_PtEncoderRotaryAttributesType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/Powertrain/;i=1021",
+    "dov:typeRef": "org.opcfoundation.UA.Powertrain.PtEncoderRotaryAttributesType",
     "links": [
       {
         "rel": "tm:extends",
@@ -5596,7 +5596,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "Powertrain_PtEncoderInterfaceAttributesType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/Powertrain/;i=1003",
+    "dov:typeRef": "org.opcfoundation.UA.Powertrain.PtEncoderInterfaceAttributesType",
     "links": [
       {
         "rel": "tm:extends",
@@ -5691,7 +5691,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "Powertrain_PtEncoderInterfaceProtocolAttributesType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/Powertrain/;i=16605",
+    "dov:typeRef": "org.opcfoundation.UA.Powertrain.PtEncoderInterfaceProtocolAttributesType",
     "links": [
       {
         "rel": "tm:extends",
@@ -5779,7 +5779,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "Powertrain_PtGearAttributesType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/Powertrain/;i=16503",
+    "dov:typeRef": "org.opcfoundation.UA.Powertrain.PtGearAttributesType",
     "links": [
       {
         "rel": "tm:extends",
@@ -6146,7 +6146,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "Powertrain_PtInputConverterAttributesType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/Powertrain/;i=16806",
+    "dov:typeRef": "org.opcfoundation.UA.Powertrain.PtInputConverterAttributesType",
     "links": [
       {
         "rel": "tm:extends",
@@ -6364,7 +6364,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "Powertrain_PtInputFilterAttributesType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/Powertrain/;i=16827",
+    "dov:typeRef": "org.opcfoundation.UA.Powertrain.PtInputFilterAttributesType",
     "links": [
       {
         "rel": "tm:extends",
@@ -6539,7 +6539,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "Powertrain_PtMotorAttributesType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/Powertrain/;i=16383",
+    "dov:typeRef": "org.opcfoundation.UA.Powertrain.PtMotorAttributesType",
     "dov:isComposite": true,
     "links": [
       {
@@ -6628,7 +6628,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "Powertrain_PtMotorLinearAttributesType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/Powertrain/;i=1012",
+    "dov:typeRef": "org.opcfoundation.UA.Powertrain.PtMotorLinearAttributesType",
     "links": [
       {
         "rel": "tm:extends",
@@ -6774,7 +6774,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "Powertrain_PtMotorRotaryAttributesType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/Powertrain/;i=1009",
+    "dov:typeRef": "org.opcfoundation.UA.Powertrain.PtMotorRotaryAttributesType",
     "links": [
       {
         "rel": "tm:extends",
@@ -6905,7 +6905,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "Powertrain_PtMotorDutyAttributesType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/Powertrain/;i=16499",
+    "dov:typeRef": "org.opcfoundation.UA.Powertrain.PtMotorDutyAttributesType",
     "links": [
       {
         "rel": "tm:extends",
@@ -7008,7 +7008,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "Powertrain_PtMotorManagementDeviceAttributesType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/Powertrain/;i=1023",
+    "dov:typeRef": "org.opcfoundation.UA.Powertrain.PtMotorManagementDeviceAttributesType",
     "links": [
       {
         "rel": "tm:extends",
@@ -7042,7 +7042,7 @@
         "dov:namespace": "http://opcfoundation.org/UA/Powertrain/",
         "title": "Range",
         "type": "object",
-        "dov:typeRef": "nsu=http://opcfoundation.org/UA/;i=884",
+        "dov:typeRef": "org.opcfoundation.UA.Range",
         "required": [ "Low", "High" ],
         "properties": {
           "Low": {
@@ -7213,7 +7213,7 @@
         "dov:namespace": "http://opcfoundation.org/UA/Powertrain/",
         "title": "Range",
         "type": "object",
-        "dov:typeRef": "nsu=http://opcfoundation.org/UA/;i=884",
+        "dov:typeRef": "org.opcfoundation.UA.Range",
         "required": [ "Low", "High" ],
         "properties": {
           "Low": {
@@ -7362,7 +7362,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "Powertrain_PtMotorRatedAttributesType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/Powertrain/;i=16399",
+    "dov:typeRef": "org.opcfoundation.UA.Powertrain.PtMotorRatedAttributesType",
     "dov:isComposite": true,
     "links": [
       {
@@ -7591,7 +7591,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "Powertrain_PtMotorLinearRatedAttributesType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/Powertrain/;i=1018",
+    "dov:typeRef": "org.opcfoundation.UA.Powertrain.PtMotorLinearRatedAttributesType",
     "links": [
       {
         "rel": "tm:extends",
@@ -7824,7 +7824,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "Powertrain_PtMotorRotaryRatedAttributesType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/Powertrain/;i=1015",
+    "dov:typeRef": "org.opcfoundation.UA.Powertrain.PtMotorRotaryRatedAttributesType",
     "links": [
       {
         "rel": "tm:extends",
@@ -8057,7 +8057,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "Powertrain_PtMotorStarterAttributesType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/Powertrain/;i=16854",
+    "dov:typeRef": "org.opcfoundation.UA.Powertrain.PtMotorStarterAttributesType",
     "links": [
       {
         "rel": "tm:extends",
@@ -8091,7 +8091,7 @@
         "dov:namespace": "http://opcfoundation.org/UA/Powertrain/",
         "title": "Range",
         "type": "object",
-        "dov:typeRef": "nsu=http://opcfoundation.org/UA/;i=884",
+        "dov:typeRef": "org.opcfoundation.UA.Range",
         "required": [ "Low", "High" ],
         "properties": {
           "Low": {
@@ -8190,7 +8190,7 @@
         "dov:namespace": "http://opcfoundation.org/UA/Powertrain/",
         "title": "Range",
         "type": "object",
-        "dov:typeRef": "nsu=http://opcfoundation.org/UA/;i=884",
+        "dov:typeRef": "org.opcfoundation.UA.Range",
         "required": [ "Low", "High" ],
         "properties": {
           "Low": {
@@ -8255,7 +8255,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "Powertrain_PtOutputConverterAttributesType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/Powertrain/;i=16818",
+    "dov:typeRef": "org.opcfoundation.UA.Powertrain.PtOutputConverterAttributesType",
     "links": [
       {
         "rel": "tm:extends",
@@ -8374,7 +8374,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "Powertrain_PtOutputFilterAttributesType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/Powertrain/;i=16838",
+    "dov:typeRef": "org.opcfoundation.UA.Powertrain.PtOutputFilterAttributesType",
     "links": [
       {
         "rel": "tm:extends",
@@ -8491,7 +8491,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "Powertrain_PtPrechargeAttributesType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/Powertrain/;i=1010",
+    "dov:typeRef": "org.opcfoundation.UA.Powertrain.PtPrechargeAttributesType",
     "links": [
       {
         "rel": "tm:extends",
@@ -8724,7 +8724,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "Powertrain_PtReactorAttributesType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/Powertrain/;i=1006",
+    "dov:typeRef": "org.opcfoundation.UA.Powertrain.PtReactorAttributesType",
     "links": [
       {
         "rel": "tm:extends",
@@ -8812,7 +8812,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "Powertrain_PtSoftStarterAttributesType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/Powertrain/;i=1019",
+    "dov:typeRef": "org.opcfoundation.UA.Powertrain.PtSoftStarterAttributesType",
     "links": [
       {
         "rel": "tm:extends",
@@ -8895,7 +8895,7 @@
         "dov:namespace": "http://opcfoundation.org/UA/Powertrain/",
         "title": "Range",
         "type": "object",
-        "dov:typeRef": "nsu=http://opcfoundation.org/UA/;i=884",
+        "dov:typeRef": "org.opcfoundation.UA.Range",
         "required": [ "Low", "High" ],
         "properties": {
           "Low": {
@@ -8931,7 +8931,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "Powertrain_PtTemperatureSensorAttributesType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/Powertrain/;i=16708",
+    "dov:typeRef": "org.opcfoundation.UA.Powertrain.PtTemperatureSensorAttributesType",
     "links": [
       {
         "rel": "tm:extends",
@@ -9118,7 +9118,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "Powertrain_PtVibrationSensorAttributesType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/Powertrain/;i=16747",
+    "dov:typeRef": "org.opcfoundation.UA.Powertrain.PtVibrationSensorAttributesType",
     "links": [
       {
         "rel": "tm:extends",
@@ -9238,7 +9238,7 @@
         "dov:namespace": "http://opcfoundation.org/UA/Powertrain/",
         "title": "Range",
         "type": "object",
-        "dov:typeRef": "nsu=http://opcfoundation.org/UA/;i=884",
+        "dov:typeRef": "org.opcfoundation.UA.Range",
         "required": [ "Low", "High" ],
         "properties": {
           "Low": {
@@ -9279,7 +9279,7 @@
         "dov:namespace": "http://opcfoundation.org/UA/Powertrain/",
         "title": "Range",
         "type": "object",
-        "dov:typeRef": "nsu=http://opcfoundation.org/UA/;i=884",
+        "dov:typeRef": "org.opcfoundation.UA.Range",
         "required": [ "Low", "High" ],
         "properties": {
           "Low": {
@@ -9426,7 +9426,7 @@
         "data": {
           "title": "Range",
           "type": "object",
-          "dov:typeRef": "nsu=http://opcfoundation.org/UA/;i=884",
+          "dov:typeRef": "org.opcfoundation.UA.Range",
           "required": [ "Low", "High" ],
           "properties": {
             "Low": {
@@ -9469,7 +9469,7 @@
         "data": {
           "title": "Range",
           "type": "object",
-          "dov:typeRef": "nsu=http://opcfoundation.org/UA/;i=884",
+          "dov:typeRef": "org.opcfoundation.UA.Range",
           "required": [ "Low", "High" ],
           "properties": {
             "Low": {
@@ -9548,7 +9548,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "Powertrain_PtAssetType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/Powertrain/;i=15912",
+    "dov:typeRef": "org.opcfoundation.UA.Powertrain.PtAssetType",
     "dov:isComposite": true,
     "links": [
       {
@@ -9662,7 +9662,7 @@
     "schemaDefinitions": {
       "DeviceHealthEnumeration": {
         "type": "object",
-        "dov:typeRef": "nsu=http://opcfoundation.org/UA/DI/;i=6244",
+        "dov:typeRef": "org.opcfoundation.UA.DI.DeviceHealthEnumeration",
         "const": {
           "NORMAL": 0,
           "FAILURE": 1,
@@ -9695,7 +9695,7 @@
       },
       "AssetVerificationModeEnum": {
         "type": "object",
-        "dov:typeRef": "nsu=http://opcfoundation.org/UA/FX/Data/;i=1029",
+        "dov:typeRef": "org.opcfoundation.UA.FX.Data.AssetVerificationModeEnum",
         "const": {
           "AssetCompatibility": 0,
           "AssetIdentity": 1,
@@ -9718,7 +9718,7 @@
       },
       "AssetVerificationResultEnum": {
         "type": "object",
-        "dov:typeRef": "nsu=http://opcfoundation.org/UA/FX/Data/;i=1037",
+        "dov:typeRef": "org.opcfoundation.UA.FX.Data.AssetVerificationResultEnum",
         "const": {
           "NotSet": 0,
           "Match": 1,
@@ -9767,14 +9767,14 @@
         "dov:namespace": "http://opcfoundation.org/UA/FX/AC/",
         "input": {
           "type": "object",
-          "dov:typeRef": "nsu=http://opcfoundation.org/UA/FX/AC/;i=1422",
+          "dov:typeRef": "org.opcfoundation.UA.InputArguments",
           "required": [ "VerificationMode", "ExpectedVerificationVariables" ],
           "properties": {
             "VerificationMode": {
               "type": "array",
               "items": {
                 "title": "AssetVerificationModeEnum",
-                "dov:typeRef": "nsu=http://opcfoundation.org/UA/FX/Data/;i=1029",
+                "dov:typeRef": "org.opcfoundation.UA.FX.Data.AssetVerificationModeEnum",
                 "type": "integer",
                 "minimum": -2147483648,
                 "maximum": 2147483647
@@ -9785,7 +9785,7 @@
               "items": {
                 "title": "KeyValuePair",
                 "type": "object",
-                "dov:typeRef": "nsu=http://opcfoundation.org/UA/;i=14533",
+                "dov:typeRef": "org.opcfoundation.UA.KeyValuePair",
                 "required": [ "Key", "Value" ],
                 "properties": {
                   "Key": {
@@ -9802,12 +9802,12 @@
         },
         "output": {
           "type": "object",
-          "dov:typeRef": "nsu=http://opcfoundation.org/UA/FX/AC/;i=1423",
+          "dov:typeRef": "org.opcfoundation.UA.OutputArguments",
           "required": [ "VerificationResult", "VerificationVariablesErrors" ],
           "properties": {
             "VerificationResult": {
               "title": "AssetVerificationResultEnum",
-              "dov:typeRef": "nsu=http://opcfoundation.org/UA/FX/Data/;i=1037",
+              "dov:typeRef": "org.opcfoundation.UA.FX.Data.AssetVerificationResultEnum",
               "type": "integer",
               "minimum": -2147483648,
               "maximum": 2147483647
@@ -9948,7 +9948,7 @@
       "DeviceHealth": {
         "dov:namespace": "http://opcfoundation.org/UA/DI/",
         "title": "DeviceHealthEnumeration",
-        "dov:typeRef": "nsu=http://opcfoundation.org/UA/DI/;i=6244",
+        "dov:typeRef": "org.opcfoundation.UA.DI.DeviceHealthEnumeration",
         "type": "integer",
         "minimum": -2147483648,
         "maximum": 2147483647,
@@ -10267,7 +10267,7 @@
         "dov:namespace": "http://opcfoundation.org/UA/DI/",
         "data": {
           "title": "DeviceHealthEnumeration",
-          "dov:typeRef": "nsu=http://opcfoundation.org/UA/DI/;i=6244",
+          "dov:typeRef": "org.opcfoundation.UA.DI.DeviceHealthEnumeration",
           "type": "integer",
           "minimum": -2147483648,
           "maximum": 2147483647
@@ -10291,7 +10291,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "Powertrain_PtAssetBleedType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/Powertrain/;i=1013",
+    "dov:typeRef": "org.opcfoundation.UA.Powertrain.PtAssetBleedType",
     "dov:isComposite": true,
     "links": [
       {
@@ -10353,7 +10353,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "Powertrain_PtAssetBrakeType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/Powertrain/;i=15116",
+    "dov:typeRef": "org.opcfoundation.UA.Powertrain.PtAssetBrakeType",
     "dov:isComposite": true,
     "links": [
       {
@@ -10415,7 +10415,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "Powertrain_PtAssetCommunicationModuleType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/Powertrain/;i=15430",
+    "dov:typeRef": "org.opcfoundation.UA.Powertrain.PtAssetCommunicationModuleType",
     "dov:isComposite": true,
     "links": [
       {
@@ -10484,7 +10484,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "Powertrain_PtAssetContactorType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/Powertrain/;i=15549",
+    "dov:typeRef": "org.opcfoundation.UA.Powertrain.PtAssetContactorType",
     "dov:isComposite": true,
     "links": [
       {
@@ -10546,7 +10546,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "Powertrain_PtAssetControlModuleType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/Powertrain/;i=15447",
+    "dov:typeRef": "org.opcfoundation.UA.Powertrain.PtAssetControlModuleType",
     "dov:isComposite": true,
     "links": [
       {
@@ -10622,7 +10622,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "Powertrain_PtAssetCoolingType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/Powertrain/;i=15541",
+    "dov:typeRef": "org.opcfoundation.UA.Powertrain.PtAssetCoolingType",
     "dov:isComposite": true,
     "links": [
       {
@@ -10684,7 +10684,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "Powertrain_PtAssetDcBusModuleType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/Powertrain/;i=1005",
+    "dov:typeRef": "org.opcfoundation.UA.Powertrain.PtAssetDcBusModuleType",
     "dov:isComposite": true,
     "links": [
       {
@@ -10753,7 +10753,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "Powertrain_PtAssetDriveType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/Powertrain/;i=1035",
+    "dov:typeRef": "org.opcfoundation.UA.Powertrain.PtAssetDriveType",
     "dov:isComposite": true,
     "links": [
       {
@@ -10892,7 +10892,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "Powertrain_PtAssetFrequencyConverterType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/Powertrain/;i=1016",
+    "dov:typeRef": "org.opcfoundation.UA.Powertrain.PtAssetFrequencyConverterType",
     "dov:isComposite": true,
     "links": [
       {
@@ -10947,7 +10947,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "Powertrain_PtAssetServoDriveType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/Powertrain/;i=1020",
+    "dov:typeRef": "org.opcfoundation.UA.Powertrain.PtAssetServoDriveType",
     "dov:isComposite": true,
     "links": [
       {
@@ -11009,7 +11009,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "Powertrain_PtAssetVariableSpeedDriveType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/Powertrain/;i=1028",
+    "dov:typeRef": "org.opcfoundation.UA.Powertrain.PtAssetVariableSpeedDriveType",
     "dov:isComposite": true,
     "links": [
       {
@@ -11071,7 +11071,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "Powertrain_PtAssetElectricalBrakingModuleType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/Powertrain/;i=15148",
+    "dov:typeRef": "org.opcfoundation.UA.Powertrain.PtAssetElectricalBrakingModuleType",
     "dov:isComposite": true,
     "links": [
       {
@@ -11147,7 +11147,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "Powertrain_PtAssetElectricOverloadRelayType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/Powertrain/;i=1026",
+    "dov:typeRef": "org.opcfoundation.UA.Powertrain.PtAssetElectricOverloadRelayType",
     "dov:isComposite": true,
     "links": [
       {
@@ -11216,7 +11216,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "Powertrain_PtAssetEncoderInterfaceModuleType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/Powertrain/;i=1045",
+    "dov:typeRef": "org.opcfoundation.UA.Powertrain.PtAssetEncoderInterfaceModuleType",
     "dov:isComposite": true,
     "links": [
       {
@@ -11285,7 +11285,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "Powertrain_PtAssetEncoderType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/Powertrain/;i=15108",
+    "dov:typeRef": "org.opcfoundation.UA.Powertrain.PtAssetEncoderType",
     "dov:isComposite": true,
     "links": [
       {
@@ -11361,7 +11361,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "Powertrain_PtAssetEncoderLinearType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/Powertrain/;i=1042",
+    "dov:typeRef": "org.opcfoundation.UA.Powertrain.PtAssetEncoderLinearType",
     "dov:isComposite": true,
     "links": [
       {
@@ -11423,7 +11423,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "Powertrain_PtAssetEncoderRotaryType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/Powertrain/;i=1039",
+    "dov:typeRef": "org.opcfoundation.UA.Powertrain.PtAssetEncoderRotaryType",
     "dov:isComposite": true,
     "links": [
       {
@@ -11485,7 +11485,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "Powertrain_PtAssetGearType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/Powertrain/;i=15122",
+    "dov:typeRef": "org.opcfoundation.UA.Powertrain.PtAssetGearType",
     "dov:isComposite": true,
     "links": [
       {
@@ -11561,7 +11561,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "Powertrain_PtAssetInputConverterType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/Powertrain/;i=15168",
+    "dov:typeRef": "org.opcfoundation.UA.Powertrain.PtAssetInputConverterType",
     "dov:isComposite": true,
     "links": [
       {
@@ -11693,7 +11693,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "Powertrain_PtAssetInputFilterType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/Powertrain/;i=15196",
+    "dov:typeRef": "org.opcfoundation.UA.Powertrain.PtAssetInputFilterType",
     "dov:isComposite": true,
     "links": [
       {
@@ -11769,7 +11769,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "Powertrain_PtAssetInputOutputConverterType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/Powertrain/;i=1022",
+    "dov:typeRef": "org.opcfoundation.UA.Powertrain.PtAssetInputOutputConverterType",
     "dov:isComposite": true,
     "links": [
       {
@@ -11915,7 +11915,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "Powertrain_PtAssetInputReactorType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/Powertrain/;i=15241",
+    "dov:typeRef": "org.opcfoundation.UA.Powertrain.PtAssetInputReactorType",
     "dov:isComposite": true,
     "links": [
       {
@@ -11984,7 +11984,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "Powertrain_PtAssetIoModuleType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/Powertrain/;i=15468",
+    "dov:typeRef": "org.opcfoundation.UA.Powertrain.PtAssetIoModuleType",
     "dov:isComposite": true,
     "links": [
       {
@@ -12053,7 +12053,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "Powertrain_PtAssetMotorManagementDeviceType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/Powertrain/;i=1040",
+    "dov:typeRef": "org.opcfoundation.UA.Powertrain.PtAssetMotorManagementDeviceType",
     "dov:isComposite": true,
     "links": [
       {
@@ -12122,7 +12122,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "Powertrain_PtAssetMotorStarterType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/Powertrain/;i=15561",
+    "dov:typeRef": "org.opcfoundation.UA.Powertrain.PtAssetMotorStarterType",
     "dov:isComposite": true,
     "links": [
       {
@@ -12191,7 +12191,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "Powertrain_PtAssetMotorType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/Powertrain/;i=15083",
+    "dov:typeRef": "org.opcfoundation.UA.Powertrain.PtAssetMotorType",
     "dov:isComposite": true,
     "links": [
       {
@@ -12274,7 +12274,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "Powertrain_PtAssetMotorLinearType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/Powertrain/;i=1030",
+    "dov:typeRef": "org.opcfoundation.UA.Powertrain.PtAssetMotorLinearType",
     "dov:isComposite": true,
     "links": [
       {
@@ -12350,7 +12350,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "Powertrain_PtAssetDriveIntegratedMotorLinearType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/Powertrain/;i=1017",
+    "dov:typeRef": "org.opcfoundation.UA.Powertrain.PtAssetDriveIntegratedMotorLinearType",
     "dov:isComposite": true,
     "links": [
       {
@@ -12447,7 +12447,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "Powertrain_PtAssetDriveIntegratedGearMotorLinearType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/Powertrain/;i=1036",
+    "dov:typeRef": "org.opcfoundation.UA.Powertrain.PtAssetDriveIntegratedGearMotorLinearType",
     "dov:isComposite": true,
     "links": [
       {
@@ -12509,7 +12509,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "Powertrain_PtAssetGearMotorLinearType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/Powertrain/;i=1029",
+    "dov:typeRef": "org.opcfoundation.UA.Powertrain.PtAssetGearMotorLinearType",
     "dov:isComposite": true,
     "links": [
       {
@@ -12571,7 +12571,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "Powertrain_PtAssetMotorRotaryType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/Powertrain/;i=1027",
+    "dov:typeRef": "org.opcfoundation.UA.Powertrain.PtAssetMotorRotaryType",
     "dov:isComposite": true,
     "links": [
       {
@@ -12647,7 +12647,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "Powertrain_PtAssetDriveIntegratedMotorRotaryType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/Powertrain/;i=1011",
+    "dov:typeRef": "org.opcfoundation.UA.Powertrain.PtAssetDriveIntegratedMotorRotaryType",
     "dov:isComposite": true,
     "links": [
       {
@@ -12744,7 +12744,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "Powertrain_PtAssetDriveIntegratedGearMotorRotaryType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/Powertrain/;i=1033",
+    "dov:typeRef": "org.opcfoundation.UA.Powertrain.PtAssetDriveIntegratedGearMotorRotaryType",
     "dov:isComposite": true,
     "links": [
       {
@@ -12806,7 +12806,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "Powertrain_PtAssetGearMotorRotaryType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/Powertrain/;i=1025",
+    "dov:typeRef": "org.opcfoundation.UA.Powertrain.PtAssetGearMotorRotaryType",
     "dov:isComposite": true,
     "links": [
       {
@@ -12868,7 +12868,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "Powertrain_PtAssetOutputConverterType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/Powertrain/;i=15182",
+    "dov:typeRef": "org.opcfoundation.UA.Powertrain.PtAssetOutputConverterType",
     "dov:isComposite": true,
     "links": [
       {
@@ -13000,7 +13000,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "Powertrain_PtAssetOutputFilterType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/Powertrain/;i=15303",
+    "dov:typeRef": "org.opcfoundation.UA.Powertrain.PtAssetOutputFilterType",
     "dov:isComposite": true,
     "links": [
       {
@@ -13076,7 +13076,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "Powertrain_PtAssetOutputReactorType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/Powertrain/;i=15368",
+    "dov:typeRef": "org.opcfoundation.UA.Powertrain.PtAssetOutputReactorType",
     "dov:isComposite": true,
     "links": [
       {
@@ -13145,7 +13145,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "Powertrain_PtAssetPrechargeType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/Powertrain/;i=1031",
+    "dov:typeRef": "org.opcfoundation.UA.Powertrain.PtAssetPrechargeType",
     "dov:isComposite": true,
     "links": [
       {
@@ -13235,7 +13235,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "Powertrain_PtAssetReactorFilterType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/Powertrain/;i=1007",
+    "dov:typeRef": "org.opcfoundation.UA.Powertrain.PtAssetReactorFilterType",
     "dov:isComposite": true,
     "links": [
       {
@@ -13304,7 +13304,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "Powertrain_PtAssetSafetyModuleType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/Powertrain/;i=15527",
+    "dov:typeRef": "org.opcfoundation.UA.Powertrain.PtAssetSafetyModuleType",
     "dov:isComposite": true,
     "links": [
       {
@@ -13373,7 +13373,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "Powertrain_PtAssetSoftStarterType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/Powertrain/;i=1034",
+    "dov:typeRef": "org.opcfoundation.UA.Powertrain.PtAssetSoftStarterType",
     "dov:isComposite": true,
     "links": [
       {
@@ -13442,7 +13442,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "Powertrain_PtAssetTemperatureSensorType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/Powertrain/;i=15130",
+    "dov:typeRef": "org.opcfoundation.UA.Powertrain.PtAssetTemperatureSensorType",
     "dov:isComposite": true,
     "links": [
       {
@@ -13504,7 +13504,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "Powertrain_PtAssetVibrationSensorType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/Powertrain/;i=15136",
+    "dov:typeRef": "org.opcfoundation.UA.Powertrain.PtAssetVibrationSensorType",
     "dov:isComposite": true,
     "links": [
       {

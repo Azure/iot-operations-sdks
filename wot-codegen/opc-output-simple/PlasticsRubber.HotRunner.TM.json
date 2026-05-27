@@ -8,7 +8,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "PlasticsRubber_HotRunner_ZoneAlarmType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/PlasticsRubber/HotRunner/;i=1002",
+    "dov:typeRef": "org.opcfoundation.UA.PlasticsRubber.HotRunner.ZoneAlarmType",
     "dov:isEvent": true,
     "links": [
       {
@@ -35,7 +35,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "PlasticsRubber_HotRunner_ControllerType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/PlasticsRubber/HotRunner/;i=1005",
+    "dov:typeRef": "org.opcfoundation.UA.PlasticsRubber.HotRunner.ControllerType",
     "links": [
       {
         "rel": "tm:extends",
@@ -58,7 +58,7 @@
     "schemaDefinitions": {
       "ControllerTypeEnumeration": {
         "type": "object",
-        "dov:typeRef": "nsu=http://opcfoundation.org/UA/PlasticsRubber/HotRunner/;i=3002",
+        "dov:typeRef": "org.opcfoundation.UA.PlasticsRubber.HotRunner.ControllerTypeEnumeration",
         "const": {
           "CLOSED_LOOP_CONTROL": 0,
           "MANUAL": 1,
@@ -132,7 +132,7 @@
         "dov:namespace": "http://opcfoundation.org/UA/PlasticsRubber/HotRunner/",
         "title": "ControllerTypeEnumeration",
         "description": "Actual value for the controller type used by the zone",
-        "dov:typeRef": "nsu=http://opcfoundation.org/UA/PlasticsRubber/HotRunner/;i=3002",
+        "dov:typeRef": "org.opcfoundation.UA.PlasticsRubber.HotRunner.ControllerTypeEnumeration",
         "type": "integer",
         "minimum": -2147483648,
         "maximum": 2147483647,
@@ -473,7 +473,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "PlasticsRubber_HotRunner_HeatUpType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/PlasticsRubber/HotRunner/;i=1004",
+    "dov:typeRef": "org.opcfoundation.UA.PlasticsRubber.HotRunner.HeatUpType",
     "links": [
       {
         "rel": "tm:extends",
@@ -663,7 +663,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "PlasticsRubber_HotRunner_HRD_InterfaceType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/PlasticsRubber/HotRunner/;i=1010",
+    "dov:typeRef": "org.opcfoundation.UA.PlasticsRubber.HotRunner.HRD_InterfaceType",
     "dov:isComposite": true,
     "links": [
       {
@@ -756,7 +756,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "PlasticsRubber_HotRunner_MaintenanceInformationType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/PlasticsRubber/HotRunner/;i=1007",
+    "dov:typeRef": "org.opcfoundation.UA.PlasticsRubber.HotRunner.MaintenanceInformationType",
     "links": [
       {
         "rel": "tm:extends",
@@ -800,7 +800,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "PlasticsRubber_HotRunner_HRDTemperatureType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/PlasticsRubber/HotRunner/;i=1011",
+    "dov:typeRef": "org.opcfoundation.UA.PlasticsRubber.HotRunner.HRDTemperatureType",
     "links": [
       {
         "rel": "tm:extends",
@@ -931,7 +931,7 @@
         "items": {
           "title": "TimeMethodPIDParametersDataType",
           "type": "object",
-          "dov:typeRef": "nsu=http://opcfoundation.org/UA/PlasticsRubber/HotRunner/;i=3005",
+          "dov:typeRef": "org.opcfoundation.UA.PlasticsRubber.HotRunner.TimeMethodPIDParametersDataType",
           "required": [ "Xp", "Tn", "Tv", "Ts" ],
           "properties": {
             "Xp": {
@@ -1051,7 +1051,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "PlasticsRubber_HotRunner_OperationType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/PlasticsRubber/HotRunner/;i=1009",
+    "dov:typeRef": "org.opcfoundation.UA.PlasticsRubber.HotRunner.OperationType",
     "links": [
       {
         "rel": "tm:extends",
@@ -1106,7 +1106,7 @@
         "description": "Method to reset one error of the device",
         "input": {
           "type": "object",
-          "dov:typeRef": "nsu=http://opcfoundation.org/UA/PlasticsRubber/HotRunner/;i=6378",
+          "dov:typeRef": "org.opcfoundation.UA.InputArguments",
           "required": [ "Id" ],
           "properties": {
             "Id": {
@@ -1127,7 +1127,7 @@
         "description": "Method to set ReactionOnDisconnect and SessionNameForReactionOnDisconnect",
         "input": {
           "type": "object",
-          "dov:typeRef": "nsu=http://opcfoundation.org/UA/PlasticsRubber/HotRunner/;i=6651",
+          "dov:typeRef": "org.opcfoundation.UA.InputArguments",
           "required": [ "ReactionOnDisconnect" ],
           "properties": {
             "ReactionOnDisconnect": {
@@ -1155,7 +1155,7 @@
           "title": "ClassifiedActiveErrorDataType",
           "description": "Iinformation about an active error in a device including the SoureNodes and a Classification",
           "type": "object",
-          "dov:typeRef": "nsu=http://opcfoundation.org/UA/PlasticsRubber/GeneralTypes/;i=3003",
+          "dov:typeRef": "org.opcfoundation.UA.PlasticsRubber.GeneralTypes.ClassifiedActiveErrorDataType",
           "required": [ "SourceNodes", "Classification" ],
           "properties": {
             "SourceNodes": {
@@ -1314,7 +1314,7 @@
             "title": "ClassifiedActiveErrorDataType",
             "description": "Iinformation about an active error in a device including the SoureNodes and a Classification",
             "type": "object",
-            "dov:typeRef": "nsu=http://opcfoundation.org/UA/PlasticsRubber/GeneralTypes/;i=3003",
+            "dov:typeRef": "org.opcfoundation.UA.PlasticsRubber.GeneralTypes.ClassifiedActiveErrorDataType",
             "required": [ "SourceNodes", "Classification" ],
             "properties": {
               "SourceNodes": {
@@ -1400,7 +1400,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "PlasticsRubber_HotRunner_TemperatureRiseMonitoringType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/PlasticsRubber/HotRunner/;i=1003",
+    "dov:typeRef": "org.opcfoundation.UA.PlasticsRubber.HotRunner.TemperatureRiseMonitoringType",
     "links": [
       {
         "rel": "tm:extends",
@@ -1529,7 +1529,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "PlasticsRubber_HotRunner_ZonesType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/PlasticsRubber/HotRunner/;i=1008",
+    "dov:typeRef": "org.opcfoundation.UA.PlasticsRubber.HotRunner.ZonesType",
     "links": [
       {
         "rel": "tm:extends",
@@ -1579,7 +1579,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "PlasticsRubber_HotRunner_ZoneType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/PlasticsRubber/HotRunner/;i=1006",
+    "dov:typeRef": "org.opcfoundation.UA.PlasticsRubber.HotRunner.ZoneType",
     "links": [
       {
         "rel": "tm:extends",

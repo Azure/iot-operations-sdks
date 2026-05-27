@@ -8,7 +8,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "Machinery_Result_ResultReadyEventType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/Machinery/Result/;i=1002",
+    "dov:typeRef": "org.opcfoundation.UA.Machinery.Result.ResultReadyEventType",
     "dov:isEvent": true,
     "links": [
       {
@@ -20,7 +20,7 @@
     "schemaDefinitions": {
       "ResultEvaluationEnum": {
         "type": "object",
-        "dov:typeRef": "nsu=http://opcfoundation.org/UA/Machinery/Result/;i=3002",
+        "dov:typeRef": "org.opcfoundation.UA.Machinery.Result.ResultEvaluationEnum",
         "const": {
           "Undefined": 0,
           "OK": 1,
@@ -73,14 +73,14 @@
         "title": "ResultDataType",
         "description": "Contains fields that were created during the execution of a recipe.",
         "type": "object",
-        "dov:typeRef": "nsu=http://opcfoundation.org/UA/Machinery/Result/;i=3008",
+        "dov:typeRef": "org.opcfoundation.UA.Machinery.Result.ResultDataType",
         "required": [ "ResultMetaData", "ResultContent" ],
         "properties": {
           "ResultMetaData": {
             "title": "ResultMetaDataType",
             "description": "Meta data of a result, describing the result.",
             "type": "object",
-            "dov:typeRef": "nsu=http://opcfoundation.org/UA/Machinery/Result/;i=3007",
+            "dov:typeRef": "org.opcfoundation.UA.Machinery.Result.ResultMetaDataType",
             "required": [ "ResultId" ],
             "properties": {
               "ResultId": {
@@ -146,7 +146,7 @@
                 "title": "ProcessingTimesDataType",
                 "description": "Contains measured times that were generated during the execution of a recipe.",
                 "type": "object",
-                "dov:typeRef": "nsu=http://opcfoundation.org/UA/Machinery/Result/;i=3006",
+                "dov:typeRef": "org.opcfoundation.UA.Machinery.Result.ProcessingTimesDataType",
                 "required": [ "StartTime", "EndTime" ],
                 "properties": {
                   "StartTime": {
@@ -181,7 +181,7 @@
               "ResultEvaluation": {
                 "title": "ResultEvaluationEnum",
                 "description": "The ResultEvaluation indicates whether the result was in tolerance.",
-                "dov:typeRef": "nsu=http://opcfoundation.org/UA/Machinery/Result/;i=3002",
+                "dov:typeRef": "org.opcfoundation.UA.Machinery.Result.ResultEvaluationEnum",
                 "type": "integer",
                 "minimum": -2147483648,
                 "maximum": 2147483647
@@ -236,14 +236,14 @@
           "title": "ResultDataType",
           "description": "Contains fields that were created during the execution of a recipe.",
           "type": "object",
-          "dov:typeRef": "nsu=http://opcfoundation.org/UA/Machinery/Result/;i=3008",
+          "dov:typeRef": "org.opcfoundation.UA.Machinery.Result.ResultDataType",
           "required": [ "ResultMetaData", "ResultContent" ],
           "properties": {
             "ResultMetaData": {
               "title": "ResultMetaDataType",
               "description": "Meta data of a result, describing the result.",
               "type": "object",
-              "dov:typeRef": "nsu=http://opcfoundation.org/UA/Machinery/Result/;i=3007",
+              "dov:typeRef": "org.opcfoundation.UA.Machinery.Result.ResultMetaDataType",
               "required": [ "ResultId" ],
               "properties": {
                 "ResultId": {
@@ -309,7 +309,7 @@
                   "title": "ProcessingTimesDataType",
                   "description": "Contains measured times that were generated during the execution of a recipe.",
                   "type": "object",
-                  "dov:typeRef": "nsu=http://opcfoundation.org/UA/Machinery/Result/;i=3006",
+                  "dov:typeRef": "org.opcfoundation.UA.Machinery.Result.ProcessingTimesDataType",
                   "required": [ "StartTime", "EndTime" ],
                   "properties": {
                     "StartTime": {
@@ -344,7 +344,7 @@
                 "ResultEvaluation": {
                   "title": "ResultEvaluationEnum",
                   "description": "The ResultEvaluation indicates whether the result was in tolerance.",
-                  "dov:typeRef": "nsu=http://opcfoundation.org/UA/Machinery/Result/;i=3002",
+                  "dov:typeRef": "org.opcfoundation.UA.Machinery.Result.ResultEvaluationEnum",
                   "type": "integer",
                   "minimum": -2147483648,
                   "maximum": 2147483647
@@ -397,7 +397,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "Machinery_Result_ResultManagementType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/Machinery/Result/;i=1004",
+    "dov:typeRef": "org.opcfoundation.UA.Machinery.Result.ResultManagementType",
     "dov:isComposite": true,
     "links": [
       {
@@ -421,7 +421,7 @@
     "schemaDefinitions": {
       "ResultEvaluationEnum": {
         "type": "object",
-        "dov:typeRef": "nsu=http://opcfoundation.org/UA/Machinery/Result/;i=3002",
+        "dov:typeRef": "org.opcfoundation.UA.Machinery.Result.ResultEvaluationEnum",
         "const": {
           "Undefined": 0,
           "OK": 1,
@@ -450,7 +450,7 @@
       },
       "FilterOperator": {
         "type": "object",
-        "dov:typeRef": "nsu=http://opcfoundation.org/UA/;i=576",
+        "dov:typeRef": "org.opcfoundation.UA.FilterOperator",
         "const": {
           "Equals": 0,
           "IsNull": 1,
@@ -546,7 +546,7 @@
         "dov:namespace": "http://opcfoundation.org/UA/Machinery/Result/",
         "input": {
           "type": "object",
-          "dov:typeRef": "nsu=http://opcfoundation.org/UA/Machinery/Result/;i=6089",
+          "dov:typeRef": "org.opcfoundation.UA.InputArguments",
           "required": [ "ResultIds" ],
           "properties": {
             "ResultIds": {
@@ -560,7 +560,7 @@
         },
         "output": {
           "type": "object",
-          "dov:typeRef": "nsu=http://opcfoundation.org/UA/Machinery/Result/;i=6090",
+          "dov:typeRef": "org.opcfoundation.UA.OutputArguments",
           "required": [ "ErrorPerResultId", "Error" ],
           "properties": {
             "ErrorPerResultId": {
@@ -592,7 +592,7 @@
         "dov:namespace": "http://opcfoundation.org/UA/Machinery/Result/",
         "input": {
           "type": "object",
-          "dov:typeRef": "nsu=http://opcfoundation.org/UA/Machinery/Result/;i=6054",
+          "dov:typeRef": "org.opcfoundation.UA.InputArguments",
           "required": [ "Timeout" ],
           "properties": {
             "Timeout": {
@@ -605,7 +605,7 @@
         },
         "output": {
           "type": "object",
-          "dov:typeRef": "nsu=http://opcfoundation.org/UA/Machinery/Result/;i=6055",
+          "dov:typeRef": "org.opcfoundation.UA.OutputArguments",
           "required": [ "ResultHandle", "Result", "Error" ],
           "properties": {
             "ResultHandle": {
@@ -618,14 +618,14 @@
               "title": "ResultDataType",
               "description": "Contains fields that were created during the execution of a recipe.",
               "type": "object",
-              "dov:typeRef": "nsu=http://opcfoundation.org/UA/Machinery/Result/;i=3008",
+              "dov:typeRef": "org.opcfoundation.UA.Machinery.Result.ResultDataType",
               "required": [ "ResultMetaData", "ResultContent" ],
               "properties": {
                 "ResultMetaData": {
                   "title": "ResultMetaDataType",
                   "description": "Meta data of a result, describing the result.",
                   "type": "object",
-                  "dov:typeRef": "nsu=http://opcfoundation.org/UA/Machinery/Result/;i=3007",
+                  "dov:typeRef": "org.opcfoundation.UA.Machinery.Result.ResultMetaDataType",
                   "required": [ "ResultId" ],
                   "properties": {
                     "ResultId": {
@@ -691,7 +691,7 @@
                       "title": "ProcessingTimesDataType",
                       "description": "Contains measured times that were generated during the execution of a recipe.",
                       "type": "object",
-                      "dov:typeRef": "nsu=http://opcfoundation.org/UA/Machinery/Result/;i=3006",
+                      "dov:typeRef": "org.opcfoundation.UA.Machinery.Result.ProcessingTimesDataType",
                       "required": [ "StartTime", "EndTime" ],
                       "properties": {
                         "StartTime": {
@@ -726,7 +726,7 @@
                     "ResultEvaluation": {
                       "title": "ResultEvaluationEnum",
                       "description": "The ResultEvaluation indicates whether the result was in tolerance.",
-                      "dov:typeRef": "nsu=http://opcfoundation.org/UA/Machinery/Result/;i=3002",
+                      "dov:typeRef": "org.opcfoundation.UA.Machinery.Result.ResultEvaluationEnum",
                       "type": "integer",
                       "minimum": -2147483648,
                       "maximum": 2147483647
@@ -781,7 +781,7 @@
         "description": "The server shall return to each client requesting result data a system-wide unique handle identifying the result set / client combination. This handle should be used by the client to indicate to the server that the result data is no longer needed, allowing the server to optimize its resource handling.  If the instance of ResultManagementType does not support the ReleaseResultHandle Method, the resultHandle should always be set to 0.  If the error is set to a value other than 0, the resultHandle may be set to 0.  ",
         "input": {
           "type": "object",
-          "dov:typeRef": "nsu=http://opcfoundation.org/UA/Machinery/Result/;i=6048",
+          "dov:typeRef": "org.opcfoundation.UA.InputArguments",
           "required": [ "ResultId", "Timeout" ],
           "properties": {
             "ResultId": {
@@ -798,7 +798,7 @@
         },
         "output": {
           "type": "object",
-          "dov:typeRef": "nsu=http://opcfoundation.org/UA/Machinery/Result/;i=6049",
+          "dov:typeRef": "org.opcfoundation.UA.OutputArguments",
           "required": [ "ResultHandle", "Result", "Error" ],
           "properties": {
             "ResultHandle": {
@@ -811,14 +811,14 @@
               "title": "ResultDataType",
               "description": "Contains fields that were created during the execution of a recipe.",
               "type": "object",
-              "dov:typeRef": "nsu=http://opcfoundation.org/UA/Machinery/Result/;i=3008",
+              "dov:typeRef": "org.opcfoundation.UA.Machinery.Result.ResultDataType",
               "required": [ "ResultMetaData", "ResultContent" ],
               "properties": {
                 "ResultMetaData": {
                   "title": "ResultMetaDataType",
                   "description": "Meta data of a result, describing the result.",
                   "type": "object",
-                  "dov:typeRef": "nsu=http://opcfoundation.org/UA/Machinery/Result/;i=3007",
+                  "dov:typeRef": "org.opcfoundation.UA.Machinery.Result.ResultMetaDataType",
                   "required": [ "ResultId" ],
                   "properties": {
                     "ResultId": {
@@ -884,7 +884,7 @@
                       "title": "ProcessingTimesDataType",
                       "description": "Contains measured times that were generated during the execution of a recipe.",
                       "type": "object",
-                      "dov:typeRef": "nsu=http://opcfoundation.org/UA/Machinery/Result/;i=3006",
+                      "dov:typeRef": "org.opcfoundation.UA.Machinery.Result.ProcessingTimesDataType",
                       "required": [ "StartTime", "EndTime" ],
                       "properties": {
                         "StartTime": {
@@ -919,7 +919,7 @@
                     "ResultEvaluation": {
                       "title": "ResultEvaluationEnum",
                       "description": "The ResultEvaluation indicates whether the result was in tolerance.",
-                      "dov:typeRef": "nsu=http://opcfoundation.org/UA/Machinery/Result/;i=3002",
+                      "dov:typeRef": "org.opcfoundation.UA.Machinery.Result.ResultEvaluationEnum",
                       "type": "integer",
                       "minimum": -2147483648,
                       "maximum": 2147483647
@@ -973,14 +973,14 @@
         "dov:namespace": "http://opcfoundation.org/UA/Machinery/Result/",
         "input": {
           "type": "object",
-          "dov:typeRef": "nsu=http://opcfoundation.org/UA/Machinery/Result/;i=6050",
+          "dov:typeRef": "org.opcfoundation.UA.InputArguments",
           "required": [ "Filter", "OrderedBy", "MaxResults", "Timeout" ],
           "properties": {
             "Filter": {
               "title": "ContentFilter",
               "description": "Filter used to filter for specific results based on the meta data of the results. Valid BrowsePaths used in the filter can be built from the fields of the ResultReadyEventType, the ResultType VariableType or the ResultDataType or corresponding subtypes.",
               "type": "object",
-              "dov:typeRef": "nsu=http://opcfoundation.org/UA/;i=586",
+              "dov:typeRef": "org.opcfoundation.UA.ContentFilter",
               "required": [ "Elements" ],
               "properties": {
                 "Elements": {
@@ -988,12 +988,12 @@
                   "items": {
                     "title": "ContentFilterElement",
                     "type": "object",
-                    "dov:typeRef": "nsu=http://opcfoundation.org/UA/;i=583",
+                    "dov:typeRef": "org.opcfoundation.UA.ContentFilterElement",
                     "required": [ "FilterOperator", "FilterOperands" ],
                     "properties": {
                       "FilterOperator": {
                         "title": "FilterOperator",
-                        "dov:typeRef": "nsu=http://opcfoundation.org/UA/;i=576",
+                        "dov:typeRef": "org.opcfoundation.UA.FilterOperator",
                         "type": "integer",
                         "minimum": -2147483648,
                         "maximum": 2147483647
@@ -1015,7 +1015,7 @@
               "items": {
                 "title": "RelativePath",
                 "type": "object",
-                "dov:typeRef": "nsu=http://opcfoundation.org/UA/;i=540",
+                "dov:typeRef": "org.opcfoundation.UA.RelativePath",
                 "required": [ "Elements" ],
                 "properties": {
                   "Elements": {
@@ -1023,7 +1023,7 @@
                     "items": {
                       "title": "RelativePathElement",
                       "type": "object",
-                      "dov:typeRef": "nsu=http://opcfoundation.org/UA/;i=537",
+                      "dov:typeRef": "org.opcfoundation.UA.RelativePathElement",
                       "required": [ "ReferenceTypeId", "IsInverse", "IncludeSubtypes", "TargetName" ],
                       "properties": {
                         "ReferenceTypeId": {
@@ -1060,7 +1060,7 @@
         },
         "output": {
           "type": "object",
-          "dov:typeRef": "nsu=http://opcfoundation.org/UA/Machinery/Result/;i=6051",
+          "dov:typeRef": "org.opcfoundation.UA.OutputArguments",
           "required": [ "ResultHandle", "ResultIdList", "Error" ],
           "properties": {
             "ResultHandle": {
@@ -1096,7 +1096,7 @@
         "dov:namespace": "http://opcfoundation.org/UA/Machinery/Result/",
         "input": {
           "type": "object",
-          "dov:typeRef": "nsu=http://opcfoundation.org/UA/Machinery/Result/;i=6052",
+          "dov:typeRef": "org.opcfoundation.UA.InputArguments",
           "required": [ "ResultHandle" ],
           "properties": {
             "ResultHandle": {
@@ -1109,7 +1109,7 @@
         },
         "output": {
           "type": "object",
-          "dov:typeRef": "nsu=http://opcfoundation.org/UA/Machinery/Result/;i=6053",
+          "dov:typeRef": "org.opcfoundation.UA.OutputArguments",
           "required": [ "Error" ],
           "properties": {
             "Error": {
@@ -1160,7 +1160,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "Machinery_Result_ResultTransferType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/Machinery/Result/;i=1003",
+    "dov:typeRef": "org.opcfoundation.UA.Machinery.Result.ResultTransferType",
     "links": [
       {
         "rel": "tm:extends",
@@ -1174,14 +1174,14 @@
       "GenerateFileForRead": {
         "input": {
           "type": "object",
-          "dov:typeRef": "nsu=http://opcfoundation.org/UA/Machinery/Result/;i=6035",
+          "dov:typeRef": "org.opcfoundation.UA.InputArguments",
           "required": [ "GenerateOptions" ],
           "properties": {
             "GenerateOptions": {
               "title": "BaseResultTransferOptionsDataType",
               "description": "Abstract type containing information which file should be provided.",
               "type": "object",
-              "dov:typeRef": "nsu=http://opcfoundation.org/UA/Machinery/Result/;i=3005",
+              "dov:typeRef": "org.opcfoundation.UA.Machinery.Result.BaseResultTransferOptionsDataType",
               "required": [ "ResultId" ],
               "properties": {
                 "ResultId": {
@@ -1194,7 +1194,7 @@
         },
         "output": {
           "type": "object",
-          "dov:typeRef": "nsu=http://opcfoundation.org/UA/Machinery/Result/;i=6036",
+          "dov:typeRef": "org.opcfoundation.UA.OutputArguments",
           "required": [ "FileNodeId", "FileHandle", "CompletionStateMachine" ],
           "properties": {
             "FileNodeId": {

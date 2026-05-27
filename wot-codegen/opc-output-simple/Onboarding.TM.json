@@ -8,7 +8,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "Onboarding_DeviceRegistrarAdminType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/Onboarding/;i=1175",
+    "dov:typeRef": "org.opcfoundation.UA.Onboarding.DeviceRegistrarAdminType",
     "links": [
       {
         "rel": "tm:extends",
@@ -35,7 +35,7 @@
         "dov:namespace": "http://opcfoundation.org/UA/Onboarding/",
         "input": {
           "type": "object",
-          "dov:typeRef": "nsu=http://opcfoundation.org/UA/Onboarding/;i=1177",
+          "dov:typeRef": "org.opcfoundation.UA.InputArguments",
           "required": [ "Tickets" ],
           "properties": {
             "Tickets": {
@@ -48,7 +48,7 @@
         },
         "output": {
           "type": "object",
-          "dov:typeRef": "nsu=http://opcfoundation.org/UA/Onboarding/;i=1178",
+          "dov:typeRef": "org.opcfoundation.UA.OutputArguments",
           "required": [ "Results" ],
           "properties": {
             "Results": {
@@ -71,7 +71,7 @@
         "dov:namespace": "http://opcfoundation.org/UA/Onboarding/",
         "input": {
           "type": "object",
-          "dov:typeRef": "nsu=http://opcfoundation.org/UA/Onboarding/;i=1180",
+          "dov:typeRef": "org.opcfoundation.UA.InputArguments",
           "required": [ "Tickets" ],
           "properties": {
             "Tickets": {
@@ -84,7 +84,7 @@
         },
         "output": {
           "type": "object",
-          "dov:typeRef": "nsu=http://opcfoundation.org/UA/Onboarding/;i=1181",
+          "dov:typeRef": "org.opcfoundation.UA.OutputArguments",
           "required": [ "Results" ],
           "properties": {
             "Results": {
@@ -118,7 +118,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "Onboarding_DeviceRegistrarType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/Onboarding/;i=1259",
+    "dov:typeRef": "org.opcfoundation.UA.Onboarding.DeviceRegistrarType",
     "links": [
       {
         "rel": "tm:extends",
@@ -135,7 +135,7 @@
     "schemaDefinitions": {
       "ApplicationType": {
         "type": "object",
-        "dov:typeRef": "nsu=http://opcfoundation.org/UA/;i=307",
+        "dov:typeRef": "org.opcfoundation.UA.ApplicationType",
         "const": {
           "Server": 0,
           "Client": 1,
@@ -163,7 +163,7 @@
         "dov:namespace": "http://opcfoundation.org/UA/Onboarding/",
         "output": {
           "type": "object",
-          "dov:typeRef": "nsu=http://opcfoundation.org/UA/Onboarding/;i=1506",
+          "dov:typeRef": "org.opcfoundation.UA.OutputArguments",
           "required": [ "Managers" ],
           "properties": {
             "Managers": {
@@ -171,7 +171,7 @@
               "items": {
                 "title": "ManagerDescription",
                 "type": "object",
-                "dov:typeRef": "nsu=http://opcfoundation.org/UA/Onboarding/;i=1495",
+                "dov:typeRef": "org.opcfoundation.UA.Onboarding.ManagerDescription",
                 "required": [ "Name", "IsRequired", "PurposeUri", "ProtocolUri", "EndpointUrls" ],
                 "properties": {
                   "Name": {
@@ -209,7 +209,7 @@
         "dov:namespace": "http://opcfoundation.org/UA/Onboarding/",
         "input": {
           "type": "object",
-          "dov:typeRef": "nsu=http://opcfoundation.org/UA/Onboarding/;i=1261",
+          "dov:typeRef": "org.opcfoundation.UA.InputArguments",
           "required": [ "Identities", "Issuers", "Tickets" ],
           "properties": {
             "Identities": {
@@ -236,7 +236,7 @@
         },
         "output": {
           "type": "object",
-          "dov:typeRef": "nsu=http://opcfoundation.org/UA/Onboarding/;i=1262",
+          "dov:typeRef": "org.opcfoundation.UA.OutputArguments",
           "required": [ "SelectedIdentity", "MatchingTicket", "ApplicationId", "SoftwareUpdateManager" ],
           "properties": {
             "SelectedIdentity": {
@@ -246,7 +246,7 @@
             "MatchingTicket": {
               "title": "BaseTicketType",
               "type": "object",
-              "dov:typeRef": "nsu=http://opcfoundation.org/UA/Onboarding/;i=1165",
+              "dov:typeRef": "org.opcfoundation.UA.Onboarding.BaseTicketType",
               "required": [ "ManufacturerName", "ModelName", "ModelVersion", "HardwareRevision", "SoftwareRevision", "SerialNumber", "ManufactureDate", "Authorities" ],
               "properties": {
                 "ManufacturerName": {
@@ -276,7 +276,7 @@
                   "items": {
                     "title": "CertificateAuthorityType",
                     "type": "object",
-                    "dov:typeRef": "nsu=http://opcfoundation.org/UA/Onboarding/;i=1164",
+                    "dov:typeRef": "org.opcfoundation.UA.Onboarding.CertificateAuthorityType",
                     "required": [ "AuthorityCertificate", "IssuerCertificates" ],
                     "properties": {
                       "AuthorityCertificate": {
@@ -301,7 +301,7 @@
             "SoftwareUpdateManager": {
               "title": "ManagerDescription",
               "type": "object",
-              "dov:typeRef": "nsu=http://opcfoundation.org/UA/Onboarding/;i=1495",
+              "dov:typeRef": "org.opcfoundation.UA.Onboarding.ManagerDescription",
               "required": [ "Name", "IsRequired", "PurposeUri", "ProtocolUri", "EndpointUrls" ],
               "properties": {
                 "Name": {
@@ -338,13 +338,13 @@
         "dov:namespace": "http://opcfoundation.org/UA/Onboarding/",
         "input": {
           "type": "object",
-          "dov:typeRef": "nsu=http://opcfoundation.org/UA/Onboarding/;i=1264",
+          "dov:typeRef": "org.opcfoundation.UA.InputArguments",
           "required": [ "Application" ],
           "properties": {
             "Application": {
               "title": "ApplicationDescription",
               "type": "object",
-              "dov:typeRef": "nsu=http://opcfoundation.org/UA/;i=308",
+              "dov:typeRef": "org.opcfoundation.UA.ApplicationDescription",
               "required": [ "ApplicationUri", "ProductUri", "ApplicationName", "ApplicationType", "GatewayServerUri", "DiscoveryProfileUri", "DiscoveryUrls" ],
               "properties": {
                 "ApplicationUri": {
@@ -358,7 +358,7 @@
                 },
                 "ApplicationType": {
                   "title": "ApplicationType",
-                  "dov:typeRef": "nsu=http://opcfoundation.org/UA/;i=307",
+                  "dov:typeRef": "org.opcfoundation.UA.ApplicationType",
                   "type": "integer",
                   "minimum": -2147483648,
                   "maximum": 2147483647
@@ -391,13 +391,13 @@
         "dov:namespace": "http://opcfoundation.org/UA/Onboarding/",
         "input": {
           "type": "object",
-          "dov:typeRef": "nsu=http://opcfoundation.org/UA/Onboarding/;i=1508",
+          "dov:typeRef": "org.opcfoundation.UA.InputArguments",
           "required": [ "Application", "ProtocolUri" ],
           "properties": {
             "Application": {
               "title": "ApplicationRecordDataType",
               "type": "object",
-              "dov:typeRef": "nsu=http://opcfoundation.org/UA/GDS/;i=1",
+              "dov:typeRef": "org.opcfoundation.UA.GDS.ApplicationRecordDataType",
               "required": [ "ApplicationId", "ApplicationUri", "ApplicationType", "ApplicationNames", "ProductUri", "DiscoveryUrls", "ServerCapabilities" ],
               "properties": {
                 "ApplicationId": {
@@ -408,7 +408,7 @@
                 },
                 "ApplicationType": {
                   "title": "ApplicationType",
-                  "dov:typeRef": "nsu=http://opcfoundation.org/UA/;i=307",
+                  "dov:typeRef": "org.opcfoundation.UA.ApplicationType",
                   "type": "integer",
                   "minimum": -2147483648,
                   "maximum": 2147483647
@@ -443,7 +443,7 @@
         },
         "output": {
           "type": "object",
-          "dov:typeRef": "nsu=http://opcfoundation.org/UA/Onboarding/;i=1509",
+          "dov:typeRef": "org.opcfoundation.UA.OutputArguments",
           "required": [ "ApplicationId" ],
           "properties": {
             "ApplicationId": {
@@ -463,7 +463,7 @@
         "dov:namespace": "http://opcfoundation.org/UA/Onboarding/",
         "input": {
           "type": "object",
-          "dov:typeRef": "nsu=http://opcfoundation.org/UA/Onboarding/;i=1504",
+          "dov:typeRef": "org.opcfoundation.UA.InputArguments",
           "required": [ "ProductInstanceUri", "Status", "SoftwareRevision" ],
           "properties": {
             "ProductInstanceUri": {
@@ -500,7 +500,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "Onboarding_DeviceRegistrationAuditEventType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/Onboarding/;i=1517",
+    "dov:typeRef": "org.opcfoundation.UA.Onboarding.DeviceRegistrationAuditEventType",
     "dov:isEvent": true,
     "links": [
       {
@@ -546,7 +546,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "Onboarding_DeviceIdentityAcceptedAuditEventType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/Onboarding/;i=1533",
+    "dov:typeRef": "org.opcfoundation.UA.Onboarding.DeviceIdentityAcceptedAuditEventType",
     "dov:isEvent": true,
     "links": [
       {
@@ -617,7 +617,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "Onboarding_DeviceSoftwareUpdatedAuditEventType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/Onboarding/;i=1552",
+    "dov:typeRef": "org.opcfoundation.UA.Onboarding.DeviceSoftwareUpdatedAuditEventType",
     "dov:isEvent": true,
     "links": [
       {

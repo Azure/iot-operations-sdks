@@ -8,7 +8,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "FDI5_ActionType",
-    "dov:typeRef": "nsu=http://fdi-cooperation.com/OPCUA/FDI5/;i=11",
+    "dov:typeRef": "com.fdi-cooperation.OPCUA.FDI5.ActionType",
     "links": [
       {
         "rel": "tm:extends",
@@ -34,7 +34,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "FDI5_ActionServiceType",
-    "dov:typeRef": "nsu=http://fdi-cooperation.com/OPCUA/FDI5/;i=21",
+    "dov:typeRef": "com.fdi-cooperation.OPCUA.FDI5.ActionServiceType",
     "links": [
       {
         "rel": "tm:extends",
@@ -55,7 +55,7 @@
         "dov:namespace": "http://fdi-cooperation.com/OPCUA/FDI5/",
         "input": {
           "type": "object",
-          "dov:typeRef": "nsu=http://fdi-cooperation.com/OPCUA/FDI5/;i=29",
+          "dov:typeRef": "org.opcfoundation.UA.InputArguments",
           "required": [ "ActionNodeId" ],
           "properties": {
             "ActionNodeId": {
@@ -65,7 +65,7 @@
         },
         "output": {
           "type": "object",
-          "dov:typeRef": "nsu=http://fdi-cooperation.com/OPCUA/FDI5/;i=30",
+          "dov:typeRef": "org.opcfoundation.UA.OutputArguments",
           "required": [ "AbortActionError" ],
           "properties": {
             "AbortActionError": {
@@ -87,7 +87,7 @@
         "dov:namespace": "http://fdi-cooperation.com/OPCUA/FDI5/",
         "input": {
           "type": "object",
-          "dov:typeRef": "nsu=http://fdi-cooperation.com/OPCUA/FDI5/;i=23",
+          "dov:typeRef": "org.opcfoundation.UA.InputArguments",
           "required": [ "ActionName", "MethodArguments" ],
           "properties": {
             "ActionName": {
@@ -100,7 +100,7 @@
         },
         "output": {
           "type": "object",
-          "dov:typeRef": "nsu=http://fdi-cooperation.com/OPCUA/FDI5/;i=24",
+          "dov:typeRef": "org.opcfoundation.UA.OutputArguments",
           "required": [ "ActionNodeId", "InvokeActionError" ],
           "properties": {
             "ActionNodeId": {
@@ -125,7 +125,7 @@
         "dov:namespace": "http://fdi-cooperation.com/OPCUA/FDI5/",
         "input": {
           "type": "object",
-          "dov:typeRef": "nsu=http://fdi-cooperation.com/OPCUA/FDI5/;i=26",
+          "dov:typeRef": "org.opcfoundation.UA.InputArguments",
           "required": [ "ActionNodeId", "Response" ],
           "properties": {
             "ActionNodeId": {
@@ -138,7 +138,7 @@
         },
         "output": {
           "type": "object",
-          "dov:typeRef": "nsu=http://fdi-cooperation.com/OPCUA/FDI5/;i=27",
+          "dov:typeRef": "org.opcfoundation.UA.OutputArguments",
           "required": [ "RespondActionError" ],
           "properties": {
             "RespondActionError": {
@@ -171,7 +171,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "FDI5_EditContextType",
-    "dov:typeRef": "nsu=http://fdi-cooperation.com/OPCUA/FDI5/;i=54",
+    "dov:typeRef": "com.fdi-cooperation.OPCUA.FDI5.EditContextType",
     "dov:isComposite": true,
     "links": [
       {
@@ -183,7 +183,7 @@
     "schemaDefinitions": {
       "WindowModeType": {
         "type": "object",
-        "dov:typeRef": "nsu=http://fdi-cooperation.com/OPCUA/FDI5/;i=194",
+        "dov:typeRef": "com.fdi-cooperation.OPCUA.FDI5.WindowModeType",
         "const": {
           "ModalWindow": 1,
           "NonModalWindow": 2,
@@ -207,7 +207,7 @@
         "dov:namespace": "http://fdi-cooperation.com/OPCUA/FDI5/",
         "input": {
           "type": "object",
-          "dov:typeRef": "nsu=http://fdi-cooperation.com/OPCUA/FDI5/;i=65",
+          "dov:typeRef": "org.opcfoundation.UA.InputArguments",
           "required": [ "EditContextId" ],
           "properties": {
             "EditContextId": {
@@ -217,13 +217,13 @@
         },
         "output": {
           "type": "object",
-          "dov:typeRef": "nsu=http://fdi-cooperation.com/OPCUA/FDI5/;i=66",
+          "dov:typeRef": "org.opcfoundation.UA.OutputArguments",
           "required": [ "ApplyStatus" ],
           "properties": {
             "ApplyStatus": {
               "title": "ApplyResult",
               "type": "object",
-              "dov:typeRef": "nsu=http://fdi-cooperation.com/OPCUA/FDI5/;i=44",
+              "dov:typeRef": "com.fdi-cooperation.OPCUA.FDI5.ApplyResult",
               "required": [ "Status", "TransferIncidents" ],
               "properties": {
                 "Status": {
@@ -236,7 +236,7 @@
                   "items": {
                     "title": "TransferIncident",
                     "type": "object",
-                    "dov:typeRef": "nsu=http://fdi-cooperation.com/OPCUA/FDI5/;i=43",
+                    "dov:typeRef": "com.fdi-cooperation.OPCUA.FDI5.TransferIncident",
                     "required": [ "ContextNodeId", "StatusCode", "Diagnostics" ],
                     "properties": {
                       "ContextNodeId": {
@@ -267,7 +267,7 @@
         "dov:namespace": "http://fdi-cooperation.com/OPCUA/FDI5/",
         "input": {
           "type": "object",
-          "dov:typeRef": "nsu=http://fdi-cooperation.com/OPCUA/FDI5/;i=71",
+          "dov:typeRef": "org.opcfoundation.UA.InputArguments",
           "required": [ "EditContextId" ],
           "properties": {
             "EditContextId": {
@@ -277,7 +277,7 @@
         },
         "output": {
           "type": "object",
-          "dov:typeRef": "nsu=http://fdi-cooperation.com/OPCUA/FDI5/;i=72",
+          "dov:typeRef": "org.opcfoundation.UA.OutputArguments",
           "required": [ "DiscardStatus" ],
           "properties": {
             "DiscardStatus": {
@@ -299,7 +299,7 @@
         "dov:namespace": "http://fdi-cooperation.com/OPCUA/FDI5/",
         "input": {
           "type": "object",
-          "dov:typeRef": "nsu=http://fdi-cooperation.com/OPCUA/FDI5/;i=56",
+          "dov:typeRef": "org.opcfoundation.UA.InputArguments",
           "required": [ "ParentId", "TargetWindowMode" ],
           "properties": {
             "ParentId": {
@@ -307,7 +307,7 @@
             },
             "TargetWindowMode": {
               "title": "WindowModeType",
-              "dov:typeRef": "nsu=http://fdi-cooperation.com/OPCUA/FDI5/;i=194",
+              "dov:typeRef": "com.fdi-cooperation.OPCUA.FDI5.WindowModeType",
               "type": "integer",
               "minimum": -2147483648,
               "maximum": 2147483647
@@ -316,7 +316,7 @@
         },
         "output": {
           "type": "object",
-          "dov:typeRef": "nsu=http://fdi-cooperation.com/OPCUA/FDI5/;i=57",
+          "dov:typeRef": "org.opcfoundation.UA.OutputArguments",
           "required": [ "EditContextId", "GetEditContextStatus" ],
           "properties": {
             "EditContextId": {
@@ -341,7 +341,7 @@
         "dov:namespace": "http://fdi-cooperation.com/OPCUA/FDI5/",
         "input": {
           "type": "object",
-          "dov:typeRef": "nsu=http://fdi-cooperation.com/OPCUA/FDI5/;i=59",
+          "dov:typeRef": "org.opcfoundation.UA.InputArguments",
           "required": [ "EditContextId", "NodesToRegister" ],
           "properties": {
             "EditContextId": {
@@ -352,13 +352,13 @@
               "items": {
                 "title": "RegistrationParameters",
                 "type": "object",
-                "dov:typeRef": "nsu=http://fdi-cooperation.com/OPCUA/FDI5/;i=37",
+                "dov:typeRef": "com.fdi-cooperation.OPCUA.FDI5.RegistrationParameters",
                 "required": [ "Path", "SelectionFlags" ],
                 "properties": {
                   "Path": {
                     "title": "RelativePath",
                     "type": "object",
-                    "dov:typeRef": "nsu=http://opcfoundation.org/UA/;i=540",
+                    "dov:typeRef": "org.opcfoundation.UA.RelativePath",
                     "required": [ "Elements" ],
                     "properties": {
                       "Elements": {
@@ -366,7 +366,7 @@
                         "items": {
                           "title": "RelativePathElement",
                           "type": "object",
-                          "dov:typeRef": "nsu=http://opcfoundation.org/UA/;i=537",
+                          "dov:typeRef": "org.opcfoundation.UA.RelativePathElement",
                           "required": [ "ReferenceTypeId", "IsInverse", "IncludeSubtypes", "TargetName" ],
                           "properties": {
                             "ReferenceTypeId": {
@@ -398,13 +398,13 @@
         },
         "output": {
           "type": "object",
-          "dov:typeRef": "nsu=http://fdi-cooperation.com/OPCUA/FDI5/;i=60",
+          "dov:typeRef": "org.opcfoundation.UA.OutputArguments",
           "required": [ "RegisterNodesStatus" ],
           "properties": {
             "RegisterNodesStatus": {
               "title": "RegisterNodesResult",
               "type": "object",
-              "dov:typeRef": "nsu=http://fdi-cooperation.com/OPCUA/FDI5/;i=39",
+              "dov:typeRef": "com.fdi-cooperation.OPCUA.FDI5.RegisterNodesResult",
               "required": [ "Status", "RegisteredNodes" ],
               "properties": {
                 "Status": {
@@ -417,7 +417,7 @@
                   "items": {
                     "title": "RegisteredNode",
                     "type": "object",
-                    "dov:typeRef": "nsu=http://fdi-cooperation.com/OPCUA/FDI5/;i=38",
+                    "dov:typeRef": "com.fdi-cooperation.OPCUA.FDI5.RegisteredNode",
                     "required": [ "NodeStatus", "OnlineContextNodeId", "OnlineDeviceNodeId", "OfflineContextNodeId", "OfflineDeviceNodeId" ],
                     "properties": {
                       "NodeStatus": {
@@ -456,7 +456,7 @@
         "dov:namespace": "http://fdi-cooperation.com/OPCUA/FDI5/",
         "input": {
           "type": "object",
-          "dov:typeRef": "nsu=http://fdi-cooperation.com/OPCUA/FDI5/;i=62",
+          "dov:typeRef": "org.opcfoundation.UA.InputArguments",
           "required": [ "EditContextId", "NodesToRegister" ],
           "properties": {
             "EditContextId": {
@@ -467,13 +467,13 @@
               "items": {
                 "title": "RegistrationParameters",
                 "type": "object",
-                "dov:typeRef": "nsu=http://fdi-cooperation.com/OPCUA/FDI5/;i=37",
+                "dov:typeRef": "com.fdi-cooperation.OPCUA.FDI5.RegistrationParameters",
                 "required": [ "Path", "SelectionFlags" ],
                 "properties": {
                   "Path": {
                     "title": "RelativePath",
                     "type": "object",
-                    "dov:typeRef": "nsu=http://opcfoundation.org/UA/;i=540",
+                    "dov:typeRef": "org.opcfoundation.UA.RelativePath",
                     "required": [ "Elements" ],
                     "properties": {
                       "Elements": {
@@ -481,7 +481,7 @@
                         "items": {
                           "title": "RelativePathElement",
                           "type": "object",
-                          "dov:typeRef": "nsu=http://opcfoundation.org/UA/;i=537",
+                          "dov:typeRef": "org.opcfoundation.UA.RelativePathElement",
                           "required": [ "ReferenceTypeId", "IsInverse", "IncludeSubtypes", "TargetName" ],
                           "properties": {
                             "ReferenceTypeId": {
@@ -513,13 +513,13 @@
         },
         "output": {
           "type": "object",
-          "dov:typeRef": "nsu=http://fdi-cooperation.com/OPCUA/FDI5/;i=63",
+          "dov:typeRef": "org.opcfoundation.UA.OutputArguments",
           "required": [ "RegisterNodesStatus" ],
           "properties": {
             "RegisterNodesStatus": {
               "title": "RegisterNodesResult",
               "type": "object",
-              "dov:typeRef": "nsu=http://fdi-cooperation.com/OPCUA/FDI5/;i=39",
+              "dov:typeRef": "com.fdi-cooperation.OPCUA.FDI5.RegisterNodesResult",
               "required": [ "Status", "RegisteredNodes" ],
               "properties": {
                 "Status": {
@@ -532,7 +532,7 @@
                   "items": {
                     "title": "RegisteredNode",
                     "type": "object",
-                    "dov:typeRef": "nsu=http://fdi-cooperation.com/OPCUA/FDI5/;i=38",
+                    "dov:typeRef": "com.fdi-cooperation.OPCUA.FDI5.RegisteredNode",
                     "required": [ "NodeStatus", "OnlineContextNodeId", "OnlineDeviceNodeId", "OfflineContextNodeId", "OfflineDeviceNodeId" ],
                     "properties": {
                       "NodeStatus": {
@@ -571,7 +571,7 @@
         "dov:namespace": "http://fdi-cooperation.com/OPCUA/FDI5/",
         "input": {
           "type": "object",
-          "dov:typeRef": "nsu=http://fdi-cooperation.com/OPCUA/FDI5/;i=68",
+          "dov:typeRef": "org.opcfoundation.UA.InputArguments",
           "required": [ "EditContextId" ],
           "properties": {
             "EditContextId": {
@@ -581,7 +581,7 @@
         },
         "output": {
           "type": "object",
-          "dov:typeRef": "nsu=http://fdi-cooperation.com/OPCUA/FDI5/;i=69",
+          "dov:typeRef": "org.opcfoundation.UA.OutputArguments",
           "required": [ "ResetStatus" ],
           "properties": {
             "ResetStatus": {
@@ -614,7 +614,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "FDI5_DirectDeviceAccessType",
-    "dov:typeRef": "nsu=http://fdi-cooperation.com/OPCUA/FDI5/;i=82",
+    "dov:typeRef": "com.fdi-cooperation.OPCUA.FDI5.DirectDeviceAccessType",
     "dov:isComposite": true,
     "links": [
       {
@@ -630,7 +630,7 @@
         "dov:namespace": "http://fdi-cooperation.com/OPCUA/FDI5/",
         "input": {
           "type": "object",
-          "dov:typeRef": "nsu=http://fdi-cooperation.com/OPCUA/FDI5/;i=90",
+          "dov:typeRef": "org.opcfoundation.UA.InputArguments",
           "required": [ "InvalidateCache" ],
           "properties": {
             "InvalidateCache": {
@@ -640,7 +640,7 @@
         },
         "output": {
           "type": "object",
-          "dov:typeRef": "nsu=http://fdi-cooperation.com/OPCUA/FDI5/;i=91",
+          "dov:typeRef": "org.opcfoundation.UA.OutputArguments",
           "required": [ "EndDirectAccessError" ],
           "properties": {
             "EndDirectAccessError": {
@@ -662,7 +662,7 @@
         "dov:namespace": "http://fdi-cooperation.com/OPCUA/FDI5/",
         "input": {
           "type": "object",
-          "dov:typeRef": "nsu=http://fdi-cooperation.com/OPCUA/FDI5/;i=84",
+          "dov:typeRef": "org.opcfoundation.UA.InputArguments",
           "required": [ "Context" ],
           "properties": {
             "Context": {
@@ -672,7 +672,7 @@
         },
         "output": {
           "type": "object",
-          "dov:typeRef": "nsu=http://fdi-cooperation.com/OPCUA/FDI5/;i=85",
+          "dov:typeRef": "org.opcfoundation.UA.OutputArguments",
           "required": [ "InitDirectAccessError" ],
           "properties": {
             "InitDirectAccessError": {
@@ -694,7 +694,7 @@
         "dov:namespace": "http://fdi-cooperation.com/OPCUA/FDI5/",
         "input": {
           "type": "object",
-          "dov:typeRef": "nsu=http://fdi-cooperation.com/OPCUA/FDI5/;i=87",
+          "dov:typeRef": "org.opcfoundation.UA.InputArguments",
           "required": [ "SendData", "ReceiveData" ],
           "properties": {
             "SendData": {
@@ -707,7 +707,7 @@
         },
         "output": {
           "type": "object",
-          "dov:typeRef": "nsu=http://fdi-cooperation.com/OPCUA/FDI5/;i=88",
+          "dov:typeRef": "org.opcfoundation.UA.OutputArguments",
           "required": [ "TransferError" ],
           "properties": {
             "TransferError": {

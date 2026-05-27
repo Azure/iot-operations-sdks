@@ -8,7 +8,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "IJT_Base_AcceptedEntityConditionClassType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/IJT/Base/;i=1090",
+    "dov:typeRef": "org.opcfoundation.UA.IJT.Base.AcceptedEntityConditionClassType",
     "dov:isComposite": true,
     "links": [
       {
@@ -35,7 +35,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "IJT_Base_AddedEntityConditionClassType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/IJT/Base/;i=1096",
+    "dov:typeRef": "org.opcfoundation.UA.IJT.Base.AddedEntityConditionClassType",
     "dov:isComposite": true,
     "links": [
       {
@@ -62,7 +62,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "IJT_Base_AssetConnectedConditionClassType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/IJT/Base/;i=1018",
+    "dov:typeRef": "org.opcfoundation.UA.IJT.Base.AssetConnectedConditionClassType",
     "dov:isComposite": true,
     "links": [
       {
@@ -89,7 +89,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "IJT_Base_AssetDisabledConditionClassType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/IJT/Base/;i=1027",
+    "dov:typeRef": "org.opcfoundation.UA.IJT.Base.AssetDisabledConditionClassType",
     "dov:isComposite": true,
     "links": [
       {
@@ -116,7 +116,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "IJT_Base_AssetDisconnectedConditionClassType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/IJT/Base/;i=1021",
+    "dov:typeRef": "org.opcfoundation.UA.IJT.Base.AssetDisconnectedConditionClassType",
     "dov:isComposite": true,
     "links": [
       {
@@ -143,7 +143,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "IJT_Base_AssetEnabledConditionClassType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/IJT/Base/;i=1024",
+    "dov:typeRef": "org.opcfoundation.UA.IJT.Base.AssetEnabledConditionClassType",
     "dov:isComposite": true,
     "links": [
       {
@@ -170,7 +170,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "IJT_Base_AssetLocationConditionClassType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/IJT/Base/;i=1048",
+    "dov:typeRef": "org.opcfoundation.UA.IJT.Base.AssetLocationConditionClassType",
     "dov:isComposite": true,
     "links": [
       {
@@ -197,7 +197,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "IJT_Base_CertificateConditionClassType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/IJT/Base/;i=1072",
+    "dov:typeRef": "org.opcfoundation.UA.IJT.Base.CertificateConditionClassType",
     "dov:isComposite": true,
     "links": [
       {
@@ -224,7 +224,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "IJT_Base_ConfigurationChangeConditionClassType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/IJT/Base/;i=1030",
+    "dov:typeRef": "org.opcfoundation.UA.IJT.Base.ConfigurationChangeConditionClassType",
     "dov:isComposite": true,
     "links": [
       {
@@ -251,7 +251,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "IJT_Base_DataValidationFailureConditionClassType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/IJT/Base/;i=1057",
+    "dov:typeRef": "org.opcfoundation.UA.IJT.Base.DataValidationFailureConditionClassType",
     "dov:isComposite": true,
     "links": [
       {
@@ -278,7 +278,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "IJT_Base_EntityExpiryWarningConditionClassType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/IJT/Base/;i=1034",
+    "dov:typeRef": "org.opcfoundation.UA.IJT.Base.EntityExpiryWarningConditionClassType",
     "dov:isComposite": true,
     "links": [
       {
@@ -305,7 +305,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "IJT_Base_ErrorConditionClassType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/IJT/Base/;i=1063",
+    "dov:typeRef": "org.opcfoundation.UA.IJT.Base.ErrorConditionClassType",
     "dov:isComposite": true,
     "links": [
       {
@@ -332,7 +332,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "IJT_Base_ExpiredEntityConditionClassType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/IJT/Base/;i=1081",
+    "dov:typeRef": "org.opcfoundation.UA.IJT.Base.ExpiredEntityConditionClassType",
     "dov:isComposite": true,
     "links": [
       {
@@ -359,7 +359,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "IJT_Base_HardwareConditionClassType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/IJT/Base/;i=1069",
+    "dov:typeRef": "org.opcfoundation.UA.IJT.Base.HardwareConditionClassType",
     "dov:isComposite": true,
     "links": [
       {
@@ -386,7 +386,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "IJT_Base_IncompatibleEntityConditionClassType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/IJT/Base/;i=1087",
+    "dov:typeRef": "org.opcfoundation.UA.IJT.Base.IncompatibleEntityConditionClassType",
     "dov:isComposite": true,
     "links": [
       {
@@ -413,7 +413,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "IJT_Base_InputValidationFailureConditionClassType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/IJT/Base/;i=1060",
+    "dov:typeRef": "org.opcfoundation.UA.IJT.Base.InputValidationFailureConditionClassType",
     "dov:isComposite": true,
     "links": [
       {
@@ -440,7 +440,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "IJT_Base_InvalidEntityConditionClassType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/IJT/Base/;i=1084",
+    "dov:typeRef": "org.opcfoundation.UA.IJT.Base.InvalidEntityConditionClassType",
     "dov:isComposite": true,
     "links": [
       {
@@ -467,7 +467,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "IJT_Base_JoiningSystemUserLoggedInConditionClassType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/IJT/Base/;i=1039",
+    "dov:typeRef": "org.opcfoundation.UA.IJT.Base.JoiningSystemUserLoggedInConditionClassType",
     "dov:isComposite": true,
     "links": [
       {
@@ -494,7 +494,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "IJT_Base_JoiningSystemUserLoggedOutConditionClassType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/IJT/Base/;i=1042",
+    "dov:typeRef": "org.opcfoundation.UA.IJT.Base.JoiningSystemUserLoggedOutConditionClassType",
     "dov:isComposite": true,
     "links": [
       {
@@ -521,7 +521,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "IJT_Base_LicenseConditionClassType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/IJT/Base/;i=1075",
+    "dov:typeRef": "org.opcfoundation.UA.IJT.Base.LicenseConditionClassType",
     "dov:isComposite": true,
     "links": [
       {
@@ -548,7 +548,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "IJT_Base_LocationInZoneConditionClassType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/IJT/Base/;i=1051",
+    "dov:typeRef": "org.opcfoundation.UA.IJT.Base.LocationInZoneConditionClassType",
     "dov:isComposite": true,
     "links": [
       {
@@ -575,7 +575,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "IJT_Base_LocationOutOfZoneConditionClassType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/IJT/Base/;i=1054",
+    "dov:typeRef": "org.opcfoundation.UA.IJT.Base.LocationOutOfZoneConditionClassType",
     "dov:isComposite": true,
     "links": [
       {
@@ -602,7 +602,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "IJT_Base_MissingEntityConditionClassType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/IJT/Base/;i=1078",
+    "dov:typeRef": "org.opcfoundation.UA.IJT.Base.MissingEntityConditionClassType",
     "dov:isComposite": true,
     "links": [
       {
@@ -629,7 +629,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "IJT_Base_NotAvailableEntityConditionClassType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/IJT/Base/;i=1047",
+    "dov:typeRef": "org.opcfoundation.UA.IJT.Base.NotAvailableEntityConditionClassType",
     "dov:isComposite": true,
     "links": [
       {
@@ -656,7 +656,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "IJT_Base_NotSupportedEntityConditionClassType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/IJT/Base/;i=1052",
+    "dov:typeRef": "org.opcfoundation.UA.IJT.Base.NotSupportedEntityConditionClassType",
     "dov:isComposite": true,
     "links": [
       {
@@ -683,7 +683,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "IJT_Base_ReceivedEntityConditionClassType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/IJT/Base/;i=1105",
+    "dov:typeRef": "org.opcfoundation.UA.IJT.Base.ReceivedEntityConditionClassType",
     "dov:isComposite": true,
     "links": [
       {
@@ -710,7 +710,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "IJT_Base_RejectedEntityConditionClassType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/IJT/Base/;i=1093",
+    "dov:typeRef": "org.opcfoundation.UA.IJT.Base.RejectedEntityConditionClassType",
     "dov:isComposite": true,
     "links": [
       {
@@ -737,7 +737,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "IJT_Base_RemovedEntityConditionClassType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/IJT/Base/;i=1102",
+    "dov:typeRef": "org.opcfoundation.UA.IJT.Base.RemovedEntityConditionClassType",
     "dov:isComposite": true,
     "links": [
       {
@@ -764,7 +764,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "IJT_Base_SelectedEntityConditionClassType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/IJT/Base/;i=1032",
+    "dov:typeRef": "org.opcfoundation.UA.IJT.Base.SelectedEntityConditionClassType",
     "dov:isComposite": true,
     "links": [
       {
@@ -791,7 +791,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "IJT_Base_SelectedProcessConditionClassType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/IJT/Base/;i=1037",
+    "dov:typeRef": "org.opcfoundation.UA.IJT.Base.SelectedProcessConditionClassType",
     "dov:isComposite": true,
     "links": [
       {
@@ -818,7 +818,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "IJT_Base_SoftwareConditionClassType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/IJT/Base/;i=1066",
+    "dov:typeRef": "org.opcfoundation.UA.IJT.Base.SoftwareConditionClassType",
     "dov:isComposite": true,
     "links": [
       {
@@ -845,7 +845,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "IJT_Base_StartedEntityConditionClassType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/IJT/Base/;i=1038",
+    "dov:typeRef": "org.opcfoundation.UA.IJT.Base.StartedEntityConditionClassType",
     "dov:isComposite": true,
     "links": [
       {
@@ -872,7 +872,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "IJT_Base_StoppedEntityConditionClassType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/IJT/Base/;i=1044",
+    "dov:typeRef": "org.opcfoundation.UA.IJT.Base.StoppedEntityConditionClassType",
     "dov:isComposite": true,
     "links": [
       {
@@ -899,7 +899,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "IJT_Base_ThresholdViolationConditionClassType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/IJT/Base/;i=1033",
+    "dov:typeRef": "org.opcfoundation.UA.IJT.Base.ThresholdViolationConditionClassType",
     "dov:isComposite": true,
     "links": [
       {
@@ -926,7 +926,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "IJT_Base_ThresholdViolationResolvedConditionClassType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/IJT/Base/;i=1036",
+    "dov:typeRef": "org.opcfoundation.UA.IJT.Base.ThresholdViolationResolvedConditionClassType",
     "dov:isComposite": true,
     "links": [
       {
@@ -953,7 +953,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "IJT_Base_UnacknowledgedResultsConditionClassType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/IJT/Base/;i=1041",
+    "dov:typeRef": "org.opcfoundation.UA.IJT.Base.UnacknowledgedResultsConditionClassType",
     "dov:isComposite": true,
     "links": [
       {
@@ -980,7 +980,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "IJT_Base_UpdatedEntityConditionClassType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/IJT/Base/;i=1099",
+    "dov:typeRef": "org.opcfoundation.UA.IJT.Base.UpdatedEntityConditionClassType",
     "dov:isComposite": true,
     "links": [
       {
@@ -1007,7 +1007,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "IJT_Base_JoiningSystemConditionType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/IJT/Base/;i=1020",
+    "dov:typeRef": "org.opcfoundation.UA.IJT.Base.JoiningSystemConditionType",
     "dov:isEvent": true,
     "links": [
       {
@@ -1055,7 +1055,7 @@
           "title": "EntityDataType",
           "description": "This structure provides the identification data for a given entity in the system.",
           "type": "object",
-          "dov:typeRef": "nsu=http://opcfoundation.org/UA/IJT/Base/;i=3010",
+          "dov:typeRef": "org.opcfoundation.UA.IJT.Base.EntityDataType",
           "required": [ "EntityId", "EntityType" ],
           "properties": {
             "Name": {
@@ -1148,7 +1148,7 @@
           "title": "ReportedValueDataType",
           "description": "This structure provides the given value and corresponding limits for a given physical quantity (if applicable).",
           "type": "object",
-          "dov:typeRef": "nsu=http://opcfoundation.org/UA/IJT/Base/;i=3022",
+          "dov:typeRef": "org.opcfoundation.UA.IJT.Base.ReportedValueDataType",
           "required": [ "CurrentValue" ],
           "properties": {
             "PhysicalQuantity": {
@@ -1185,7 +1185,7 @@
               "title": "EUInformation",
               "description": "It is the engineering unit of the CurrentValue, PreviousValue, LowLimit, HighLimit.  It is not applicable for values which does not have PhysicalQuantity.",
               "type": "object",
-              "dov:typeRef": "nsu=http://opcfoundation.org/UA/;i=887",
+              "dov:typeRef": "org.opcfoundation.UA.EUInformation",
               "required": [ "NamespaceUri", "UnitId", "DisplayName", "Description" ],
               "properties": {
                 "NamespaceUri": {
@@ -1242,7 +1242,7 @@
             "title": "EntityDataType",
             "description": "This structure provides the identification data for a given entity in the system.",
             "type": "object",
-            "dov:typeRef": "nsu=http://opcfoundation.org/UA/IJT/Base/;i=3010",
+            "dov:typeRef": "org.opcfoundation.UA.IJT.Base.EntityDataType",
             "required": [ "EntityId", "EntityType" ],
             "properties": {
               "Name": {
@@ -1339,7 +1339,7 @@
             "title": "ReportedValueDataType",
             "description": "This structure provides the given value and corresponding limits for a given physical quantity (if applicable).",
             "type": "object",
-            "dov:typeRef": "nsu=http://opcfoundation.org/UA/IJT/Base/;i=3022",
+            "dov:typeRef": "org.opcfoundation.UA.IJT.Base.ReportedValueDataType",
             "required": [ "CurrentValue" ],
             "properties": {
               "PhysicalQuantity": {
@@ -1376,7 +1376,7 @@
                 "title": "EUInformation",
                 "description": "It is the engineering unit of the CurrentValue, PreviousValue, LowLimit, HighLimit.  It is not applicable for values which does not have PhysicalQuantity.",
                 "type": "object",
-                "dov:typeRef": "nsu=http://opcfoundation.org/UA/;i=887",
+                "dov:typeRef": "org.opcfoundation.UA.EUInformation",
                 "required": [ "NamespaceUri", "UnitId", "DisplayName", "Description" ],
                 "properties": {
                   "NamespaceUri": {
@@ -1418,7 +1418,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "IJT_Base_JoiningSystemEventType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/IJT/Base/;i=1006",
+    "dov:typeRef": "org.opcfoundation.UA.IJT.Base.JoiningSystemEventType",
     "dov:isEvent": true,
     "links": [
       {
@@ -1466,7 +1466,7 @@
           "title": "EntityDataType",
           "description": "This structure provides the identification data for a given entity in the system.",
           "type": "object",
-          "dov:typeRef": "nsu=http://opcfoundation.org/UA/IJT/Base/;i=3010",
+          "dov:typeRef": "org.opcfoundation.UA.IJT.Base.EntityDataType",
           "required": [ "EntityId", "EntityType" ],
           "properties": {
             "Name": {
@@ -1559,7 +1559,7 @@
           "title": "ReportedValueDataType",
           "description": "This structure provides the given value and corresponding limits for a given physical quantity (if applicable).",
           "type": "object",
-          "dov:typeRef": "nsu=http://opcfoundation.org/UA/IJT/Base/;i=3022",
+          "dov:typeRef": "org.opcfoundation.UA.IJT.Base.ReportedValueDataType",
           "required": [ "CurrentValue" ],
           "properties": {
             "PhysicalQuantity": {
@@ -1596,7 +1596,7 @@
               "title": "EUInformation",
               "description": "It is the engineering unit of the CurrentValue, PreviousValue, LowLimit, HighLimit.  It is not applicable for values which does not have PhysicalQuantity.",
               "type": "object",
-              "dov:typeRef": "nsu=http://opcfoundation.org/UA/;i=887",
+              "dov:typeRef": "org.opcfoundation.UA.EUInformation",
               "required": [ "NamespaceUri", "UnitId", "DisplayName", "Description" ],
               "properties": {
                 "NamespaceUri": {
@@ -1653,7 +1653,7 @@
             "title": "EntityDataType",
             "description": "This structure provides the identification data for a given entity in the system.",
             "type": "object",
-            "dov:typeRef": "nsu=http://opcfoundation.org/UA/IJT/Base/;i=3010",
+            "dov:typeRef": "org.opcfoundation.UA.IJT.Base.EntityDataType",
             "required": [ "EntityId", "EntityType" ],
             "properties": {
               "Name": {
@@ -1750,7 +1750,7 @@
             "title": "ReportedValueDataType",
             "description": "This structure provides the given value and corresponding limits for a given physical quantity (if applicable).",
             "type": "object",
-            "dov:typeRef": "nsu=http://opcfoundation.org/UA/IJT/Base/;i=3022",
+            "dov:typeRef": "org.opcfoundation.UA.IJT.Base.ReportedValueDataType",
             "required": [ "CurrentValue" ],
             "properties": {
               "PhysicalQuantity": {
@@ -1787,7 +1787,7 @@
                 "title": "EUInformation",
                 "description": "It is the engineering unit of the CurrentValue, PreviousValue, LowLimit, HighLimit.  It is not applicable for values which does not have PhysicalQuantity.",
                 "type": "object",
-                "dov:typeRef": "nsu=http://opcfoundation.org/UA/;i=887",
+                "dov:typeRef": "org.opcfoundation.UA.EUInformation",
                 "required": [ "NamespaceUri", "UnitId", "DisplayName", "Description" ],
                 "properties": {
                   "NamespaceUri": {
@@ -1829,7 +1829,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "IJT_Base_JoiningSystemResultReadyEventType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/IJT/Base/;i=1007",
+    "dov:typeRef": "org.opcfoundation.UA.IJT.Base.JoiningSystemResultReadyEventType",
     "dov:isEvent": true,
     "links": [
       {
@@ -1841,7 +1841,7 @@
     "schemaDefinitions": {
       "ResultEvaluationEnum": {
         "type": "object",
-        "dov:typeRef": "nsu=http://opcfoundation.org/UA/Machinery/Result/;i=3002",
+        "dov:typeRef": "org.opcfoundation.UA.Machinery.Result.ResultEvaluationEnum",
         "const": {
           "Undefined": 0,
           "OK": 1,
@@ -1894,14 +1894,14 @@
         "title": "ResultDataType",
         "description": "Contains fields that were created during the execution of a recipe.",
         "type": "object",
-        "dov:typeRef": "nsu=http://opcfoundation.org/UA/Machinery/Result/;i=3008",
+        "dov:typeRef": "org.opcfoundation.UA.Machinery.Result.ResultDataType",
         "required": [ "ResultMetaData", "ResultContent" ],
         "properties": {
           "ResultMetaData": {
             "title": "ResultMetaDataType",
             "description": "Meta data of a result, describing the result.",
             "type": "object",
-            "dov:typeRef": "nsu=http://opcfoundation.org/UA/Machinery/Result/;i=3007",
+            "dov:typeRef": "org.opcfoundation.UA.Machinery.Result.ResultMetaDataType",
             "required": [ "ResultId" ],
             "properties": {
               "ResultId": {
@@ -1967,7 +1967,7 @@
                 "title": "ProcessingTimesDataType",
                 "description": "Contains measured times that were generated during the execution of a recipe.",
                 "type": "object",
-                "dov:typeRef": "nsu=http://opcfoundation.org/UA/Machinery/Result/;i=3006",
+                "dov:typeRef": "org.opcfoundation.UA.Machinery.Result.ProcessingTimesDataType",
                 "required": [ "StartTime", "EndTime" ],
                 "properties": {
                   "StartTime": {
@@ -2002,7 +2002,7 @@
               "ResultEvaluation": {
                 "title": "ResultEvaluationEnum",
                 "description": "The ResultEvaluation indicates whether the result was in tolerance.",
-                "dov:typeRef": "nsu=http://opcfoundation.org/UA/Machinery/Result/;i=3002",
+                "dov:typeRef": "org.opcfoundation.UA.Machinery.Result.ResultEvaluationEnum",
                 "type": "integer",
                 "minimum": -2147483648,
                 "maximum": 2147483647
@@ -2057,14 +2057,14 @@
           "title": "ResultDataType",
           "description": "Contains fields that were created during the execution of a recipe.",
           "type": "object",
-          "dov:typeRef": "nsu=http://opcfoundation.org/UA/Machinery/Result/;i=3008",
+          "dov:typeRef": "org.opcfoundation.UA.Machinery.Result.ResultDataType",
           "required": [ "ResultMetaData", "ResultContent" ],
           "properties": {
             "ResultMetaData": {
               "title": "ResultMetaDataType",
               "description": "Meta data of a result, describing the result.",
               "type": "object",
-              "dov:typeRef": "nsu=http://opcfoundation.org/UA/Machinery/Result/;i=3007",
+              "dov:typeRef": "org.opcfoundation.UA.Machinery.Result.ResultMetaDataType",
               "required": [ "ResultId" ],
               "properties": {
                 "ResultId": {
@@ -2130,7 +2130,7 @@
                   "title": "ProcessingTimesDataType",
                   "description": "Contains measured times that were generated during the execution of a recipe.",
                   "type": "object",
-                  "dov:typeRef": "nsu=http://opcfoundation.org/UA/Machinery/Result/;i=3006",
+                  "dov:typeRef": "org.opcfoundation.UA.Machinery.Result.ProcessingTimesDataType",
                   "required": [ "StartTime", "EndTime" ],
                   "properties": {
                     "StartTime": {
@@ -2165,7 +2165,7 @@
                 "ResultEvaluation": {
                   "title": "ResultEvaluationEnum",
                   "description": "The ResultEvaluation indicates whether the result was in tolerance.",
-                  "dov:typeRef": "nsu=http://opcfoundation.org/UA/Machinery/Result/;i=3002",
+                  "dov:typeRef": "org.opcfoundation.UA.Machinery.Result.ResultEvaluationEnum",
                   "type": "integer",
                   "minimum": -2147483648,
                   "maximum": 2147483647
@@ -2218,7 +2218,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "IJT_Base_RequestedResultEventType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/IJT/Base/;i=1035",
+    "dov:typeRef": "org.opcfoundation.UA.IJT.Base.RequestedResultEventType",
     "dov:isEvent": true,
     "links": [
       {
@@ -2245,7 +2245,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "IJT_Base_IJoiningAdditionalInformationType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/IJT/Base/;i=1017",
+    "dov:typeRef": "org.opcfoundation.UA.IJT.Base.IJoiningAdditionalInformationType",
     "links": [
       {
         "rel": "tm:extends",
@@ -2317,7 +2317,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "IJT_Base_IJoiningSystemAssetType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/IJT/Base/;i=1002",
+    "dov:typeRef": "org.opcfoundation.UA.IJT.Base.IJoiningSystemAssetType",
     "links": [
       {
         "rel": "tm:extends",
@@ -2367,7 +2367,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "IJT_Base_IAccessoryType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/IJT/Base/;i=1015",
+    "dov:typeRef": "org.opcfoundation.UA.IJT.Base.IAccessoryType",
     "links": [
       {
         "rel": "tm:extends",
@@ -2399,7 +2399,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "IJT_Base_IBatteryType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/IJT/Base/;i=1010",
+    "dov:typeRef": "org.opcfoundation.UA.IJT.Base.IBatteryType",
     "links": [
       {
         "rel": "tm:extends",
@@ -2431,7 +2431,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "IJT_Base_ICableType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/IJT/Base/;i=1014",
+    "dov:typeRef": "org.opcfoundation.UA.IJT.Base.ICableType",
     "links": [
       {
         "rel": "tm:extends",
@@ -2463,7 +2463,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "IJT_Base_IControllerType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/IJT/Base/;i=1003",
+    "dov:typeRef": "org.opcfoundation.UA.IJT.Base.IControllerType",
     "links": [
       {
         "rel": "tm:extends",
@@ -2495,7 +2495,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "IJT_Base_IFeederType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/IJT/Base/;i=1012",
+    "dov:typeRef": "org.opcfoundation.UA.IJT.Base.IFeederType",
     "links": [
       {
         "rel": "tm:extends",
@@ -2527,7 +2527,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "IJT_Base_IMemoryDeviceType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/IJT/Base/;i=1013",
+    "dov:typeRef": "org.opcfoundation.UA.IJT.Base.IMemoryDeviceType",
     "links": [
       {
         "rel": "tm:extends",
@@ -2559,7 +2559,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "IJT_Base_IPowerSupplyType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/IJT/Base/;i=1009",
+    "dov:typeRef": "org.opcfoundation.UA.IJT.Base.IPowerSupplyType",
     "links": [
       {
         "rel": "tm:extends",
@@ -2591,7 +2591,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "IJT_Base_ISensorType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/IJT/Base/;i=1011",
+    "dov:typeRef": "org.opcfoundation.UA.IJT.Base.ISensorType",
     "links": [
       {
         "rel": "tm:extends",
@@ -2623,7 +2623,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "IJT_Base_IServoType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/IJT/Base/;i=1008",
+    "dov:typeRef": "org.opcfoundation.UA.IJT.Base.IServoType",
     "links": [
       {
         "rel": "tm:extends",
@@ -2655,7 +2655,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "IJT_Base_ISoftwareType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/IJT/Base/;i=1019",
+    "dov:typeRef": "org.opcfoundation.UA.IJT.Base.ISoftwareType",
     "links": [
       {
         "rel": "tm:extends",
@@ -2681,7 +2681,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "IJT_Base_ISubComponentType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/IJT/Base/;i=1016",
+    "dov:typeRef": "org.opcfoundation.UA.IJT.Base.ISubComponentType",
     "links": [
       {
         "rel": "tm:extends",
@@ -2713,7 +2713,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "IJT_Base_IToolType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/IJT/Base/;i=1004",
+    "dov:typeRef": "org.opcfoundation.UA.IJT.Base.IToolType",
     "links": [
       {
         "rel": "tm:extends",
@@ -2745,7 +2745,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "IJT_Base_IVirtualStationType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/IJT/Base/;i=1031",
+    "dov:typeRef": "org.opcfoundation.UA.IJT.Base.IVirtualStationType",
     "links": [
       {
         "rel": "tm:extends",
@@ -2771,7 +2771,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "IJT_Base_JoiningSystemIdentificationType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/IJT/Base/;i=1029",
+    "dov:typeRef": "org.opcfoundation.UA.IJT.Base.JoiningSystemIdentificationType",
     "links": [
       {
         "rel": "tm:extends",
@@ -2981,7 +2981,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "IJT_Base_JoiningProcessManagementType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/IJT/Base/;i=1025",
+    "dov:typeRef": "org.opcfoundation.UA.IJT.Base.JoiningProcessManagementType",
     "links": [
       {
         "rel": "tm:extends",
@@ -3004,7 +3004,7 @@
         "description": "The Method AbortJoiningProcess is used to abort the input joining process if it is under execution.",
         "input": {
           "type": "object",
-          "dov:typeRef": "nsu=http://opcfoundation.org/UA/IJT/Base/;i=6368",
+          "dov:typeRef": "org.opcfoundation.UA.InputArguments",
           "required": [ "ProductInstanceUri", "JoiningProcessIdentification", "AbortMessage" ],
           "properties": {
             "ProductInstanceUri": {
@@ -3015,7 +3015,7 @@
               "title": "JoiningProcessIdentificationDataType",
               "description": "This structure contains the identification information of a Joining Process. It is used in set of methods defined in JoiningProcessManagementType.",
               "type": "object",
-              "dov:typeRef": "nsu=http://opcfoundation.org/UA/IJT/Base/;i=3029",
+              "dov:typeRef": "org.opcfoundation.UA.IJT.Base.JoiningProcessIdentificationDataType",
               "properties": {
                 "JoiningProcessId": {
                   "description": "It is the system-wide unique identifier of the joining process.",
@@ -3039,7 +3039,7 @@
         },
         "output": {
           "type": "object",
-          "dov:typeRef": "nsu=http://opcfoundation.org/UA/IJT/Base/;i=6369",
+          "dov:typeRef": "org.opcfoundation.UA.OutputArguments",
           "required": [ "Status", "StatusMessage" ],
           "properties": {
             "Status": {
@@ -3067,7 +3067,7 @@
         "description": "The Method DecrementJoiningProcessCounter used to decrement the counter of the sequential joining processes such as Job, etc.",
         "input": {
           "type": "object",
-          "dov:typeRef": "nsu=http://opcfoundation.org/UA/IJT/Base/;i=6360",
+          "dov:typeRef": "org.opcfoundation.UA.InputArguments",
           "required": [ "ProductInstanceUri", "JoiningProcessIdentification", "DecrementCount" ],
           "properties": {
             "ProductInstanceUri": {
@@ -3078,7 +3078,7 @@
               "title": "JoiningProcessIdentificationDataType",
               "description": "This structure contains the identification information of a Joining Process. It is used in set of methods defined in JoiningProcessManagementType.",
               "type": "object",
-              "dov:typeRef": "nsu=http://opcfoundation.org/UA/IJT/Base/;i=3029",
+              "dov:typeRef": "org.opcfoundation.UA.IJT.Base.JoiningProcessIdentificationDataType",
               "properties": {
                 "JoiningProcessId": {
                   "description": "It is the system-wide unique identifier of the joining process.",
@@ -3104,7 +3104,7 @@
         },
         "output": {
           "type": "object",
-          "dov:typeRef": "nsu=http://opcfoundation.org/UA/IJT/Base/;i=6361",
+          "dov:typeRef": "org.opcfoundation.UA.OutputArguments",
           "required": [ "Status", "StatusMessage" ],
           "properties": {
             "Status": {
@@ -3132,7 +3132,7 @@
         "description": "The Method DeleteJoiningProcess is used to delete the input joining process.",
         "input": {
           "type": "object",
-          "dov:typeRef": "nsu=http://opcfoundation.org/UA/IJT/Base/;i=6127",
+          "dov:typeRef": "org.opcfoundation.UA.InputArguments",
           "required": [ "ProductInstanceUri", "JoiningProcessIdentification" ],
           "properties": {
             "ProductInstanceUri": {
@@ -3143,7 +3143,7 @@
               "title": "JoiningProcessIdentificationDataType",
               "description": "This structure contains the identification information of a Joining Process. It is used in set of methods defined in JoiningProcessManagementType.",
               "type": "object",
-              "dov:typeRef": "nsu=http://opcfoundation.org/UA/IJT/Base/;i=3029",
+              "dov:typeRef": "org.opcfoundation.UA.IJT.Base.JoiningProcessIdentificationDataType",
               "properties": {
                 "JoiningProcessId": {
                   "description": "It is the system-wide unique identifier of the joining process.",
@@ -3163,7 +3163,7 @@
         },
         "output": {
           "type": "object",
-          "dov:typeRef": "nsu=http://opcfoundation.org/UA/IJT/Base/;i=6140",
+          "dov:typeRef": "org.opcfoundation.UA.OutputArguments",
           "required": [ "Status", "StatusMessage" ],
           "properties": {
             "Status": {
@@ -3191,7 +3191,7 @@
         "description": "The Method DeselectJoiningProcess is used to deselect any selected joining process.",
         "input": {
           "type": "object",
-          "dov:typeRef": "nsu=http://opcfoundation.org/UA/IJT/Base/;i=6356",
+          "dov:typeRef": "org.opcfoundation.UA.InputArguments",
           "required": [ "ProductInstanceUri" ],
           "properties": {
             "ProductInstanceUri": {
@@ -3202,7 +3202,7 @@
         },
         "output": {
           "type": "object",
-          "dov:typeRef": "nsu=http://opcfoundation.org/UA/IJT/Base/;i=6357",
+          "dov:typeRef": "org.opcfoundation.UA.OutputArguments",
           "required": [ "Status", "StatusMessage" ],
           "properties": {
             "Status": {
@@ -3230,7 +3230,7 @@
         "description": "The Method GetJoiningProcess is used to get the joining process based on the input identifier.",
         "input": {
           "type": "object",
-          "dov:typeRef": "nsu=http://opcfoundation.org/UA/IJT/Base/;i=6448",
+          "dov:typeRef": "org.opcfoundation.UA.InputArguments",
           "required": [ "ProductInstanceUri", "JoiningProcessId" ],
           "properties": {
             "ProductInstanceUri": {
@@ -3245,21 +3245,21 @@
         },
         "output": {
           "type": "object",
-          "dov:typeRef": "nsu=http://opcfoundation.org/UA/IJT/Base/;i=6449",
+          "dov:typeRef": "org.opcfoundation.UA.OutputArguments",
           "required": [ "JoiningProcess", "SelectionName", "Status", "StatusMessage" ],
           "properties": {
             "JoiningProcess": {
               "title": "JoiningProcessDataType",
               "description": "This structure provides the base container for any joining process in a joining system.   Note: This specification defines the meta data of a JoiningProcess, and the actual content of the Joining Process is application specific.",
               "type": "object",
-              "dov:typeRef": "nsu=http://opcfoundation.org/UA/IJT/Base/;i=3016",
+              "dov:typeRef": "org.opcfoundation.UA.IJT.Base.JoiningProcessDataType",
               "required": [ "JoiningProcessMetaData", "JoiningProcessContent" ],
               "properties": {
                 "JoiningProcessMetaData": {
                   "title": "JoiningProcessMetaDataType",
                   "description": "This structure provides the meta data which describes the joining process.",
                   "type": "object",
-                  "dov:typeRef": "nsu=http://opcfoundation.org/UA/IJT/Base/;i=3024",
+                  "dov:typeRef": "org.opcfoundation.UA.IJT.Base.JoiningProcessMetaDataType",
                   "required": [ "JoiningProcessId" ],
                   "properties": {
                     "JoiningProcessId": {
@@ -3305,7 +3305,7 @@
                         "title": "EntityDataType",
                         "description": "This structure provides the identification data for a given entity in the system.",
                         "type": "object",
-                        "dov:typeRef": "nsu=http://opcfoundation.org/UA/IJT/Base/;i=3010",
+                        "dov:typeRef": "org.opcfoundation.UA.IJT.Base.EntityDataType",
                         "required": [ "EntityId", "EntityType" ],
                         "properties": {
                           "Name": {
@@ -3378,7 +3378,7 @@
         "description": "The Method GetJoiningProcessList is used to get the list of joining process meta data available in the system.",
         "input": {
           "type": "object",
-          "dov:typeRef": "nsu=http://opcfoundation.org/UA/IJT/Base/;i=6348",
+          "dov:typeRef": "org.opcfoundation.UA.InputArguments",
           "required": [ "ProductInstanceUri" ],
           "properties": {
             "ProductInstanceUri": {
@@ -3389,7 +3389,7 @@
         },
         "output": {
           "type": "object",
-          "dov:typeRef": "nsu=http://opcfoundation.org/UA/IJT/Base/;i=6349",
+          "dov:typeRef": "org.opcfoundation.UA.OutputArguments",
           "required": [ "JoiningProcessList", "Status", "StatusMessage" ],
           "properties": {
             "JoiningProcessList": {
@@ -3399,7 +3399,7 @@
                 "title": "JoiningProcessMetaDataType",
                 "description": "This structure provides the meta data which describes the joining process.",
                 "type": "object",
-                "dov:typeRef": "nsu=http://opcfoundation.org/UA/IJT/Base/;i=3024",
+                "dov:typeRef": "org.opcfoundation.UA.IJT.Base.JoiningProcessMetaDataType",
                 "required": [ "JoiningProcessId" ],
                 "properties": {
                   "JoiningProcessId": {
@@ -3445,7 +3445,7 @@
                       "title": "EntityDataType",
                       "description": "This structure provides the identification data for a given entity in the system.",
                       "type": "object",
-                      "dov:typeRef": "nsu=http://opcfoundation.org/UA/IJT/Base/;i=3010",
+                      "dov:typeRef": "org.opcfoundation.UA.IJT.Base.EntityDataType",
                       "required": [ "EntityId", "EntityType" ],
                       "properties": {
                         "Name": {
@@ -3505,7 +3505,7 @@
         "description": "The Method GetJoiningProcessRevisionList is used to get the list available revisions of a specific joining process based on the joiningProcessOriginId.",
         "input": {
           "type": "object",
-          "dov:typeRef": "nsu=http://opcfoundation.org/UA/IJT/Base/;i=6350",
+          "dov:typeRef": "org.opcfoundation.UA.InputArguments",
           "required": [ "ProductInstanceUri", "JoiningProcessOriginId" ],
           "properties": {
             "ProductInstanceUri": {
@@ -3520,7 +3520,7 @@
         },
         "output": {
           "type": "object",
-          "dov:typeRef": "nsu=http://opcfoundation.org/UA/IJT/Base/;i=6351",
+          "dov:typeRef": "org.opcfoundation.UA.OutputArguments",
           "required": [ "JoiningProcessList", "Status", "StatusMessage" ],
           "properties": {
             "JoiningProcessList": {
@@ -3530,7 +3530,7 @@
                 "title": "JoiningProcessMetaDataType",
                 "description": "This structure provides the meta data which describes the joining process.",
                 "type": "object",
-                "dov:typeRef": "nsu=http://opcfoundation.org/UA/IJT/Base/;i=3024",
+                "dov:typeRef": "org.opcfoundation.UA.IJT.Base.JoiningProcessMetaDataType",
                 "required": [ "JoiningProcessId" ],
                 "properties": {
                   "JoiningProcessId": {
@@ -3576,7 +3576,7 @@
                       "title": "EntityDataType",
                       "description": "This structure provides the identification data for a given entity in the system.",
                       "type": "object",
-                      "dov:typeRef": "nsu=http://opcfoundation.org/UA/IJT/Base/;i=3010",
+                      "dov:typeRef": "org.opcfoundation.UA.IJT.Base.EntityDataType",
                       "required": [ "EntityId", "EntityType" ],
                       "properties": {
                         "Name": {
@@ -3636,7 +3636,7 @@
         "description": "The Method GetSelectedJoiningProgram is used to get the selected joining program for a given asset.",
         "input": {
           "type": "object",
-          "dov:typeRef": "nsu=http://opcfoundation.org/UA/IJT/Base/;i=6461",
+          "dov:typeRef": "org.opcfoundation.UA.InputArguments",
           "required": [ "ProductInstanceUri" ],
           "properties": {
             "ProductInstanceUri": {
@@ -3647,14 +3647,14 @@
         },
         "output": {
           "type": "object",
-          "dov:typeRef": "nsu=http://opcfoundation.org/UA/IJT/Base/;i=6462",
+          "dov:typeRef": "org.opcfoundation.UA.OutputArguments",
           "required": [ "SelectedJoiningProgram", "Status", "StatusMessage" ],
           "properties": {
             "SelectedJoiningProgram": {
               "title": "JoiningProcessMetaDataType",
               "description": "This structure provides the meta data which describes the joining process.",
               "type": "object",
-              "dov:typeRef": "nsu=http://opcfoundation.org/UA/IJT/Base/;i=3024",
+              "dov:typeRef": "org.opcfoundation.UA.IJT.Base.JoiningProcessMetaDataType",
               "required": [ "JoiningProcessId" ],
               "properties": {
                 "JoiningProcessId": {
@@ -3700,7 +3700,7 @@
                     "title": "EntityDataType",
                     "description": "This structure provides the identification data for a given entity in the system.",
                     "type": "object",
-                    "dov:typeRef": "nsu=http://opcfoundation.org/UA/IJT/Base/;i=3010",
+                    "dov:typeRef": "org.opcfoundation.UA.IJT.Base.EntityDataType",
                     "required": [ "EntityId", "EntityType" ],
                     "properties": {
                       "Name": {
@@ -3759,7 +3759,7 @@
         "description": "The Method IncrementJoiningProcessCounter is used to increment the counter of the sequential joining processes such as Job, etc.",
         "input": {
           "type": "object",
-          "dov:typeRef": "nsu=http://opcfoundation.org/UA/IJT/Base/;i=6358",
+          "dov:typeRef": "org.opcfoundation.UA.InputArguments",
           "required": [ "ProductInstanceUri", "JoiningProcessIdentification", "IncrementCount" ],
           "properties": {
             "ProductInstanceUri": {
@@ -3770,7 +3770,7 @@
               "title": "JoiningProcessIdentificationDataType",
               "description": "This structure contains the identification information of a Joining Process. It is used in set of methods defined in JoiningProcessManagementType.",
               "type": "object",
-              "dov:typeRef": "nsu=http://opcfoundation.org/UA/IJT/Base/;i=3029",
+              "dov:typeRef": "org.opcfoundation.UA.IJT.Base.JoiningProcessIdentificationDataType",
               "properties": {
                 "JoiningProcessId": {
                   "description": "It is the system-wide unique identifier of the joining process.",
@@ -3796,7 +3796,7 @@
         },
         "output": {
           "type": "object",
-          "dov:typeRef": "nsu=http://opcfoundation.org/UA/IJT/Base/;i=6359",
+          "dov:typeRef": "org.opcfoundation.UA.OutputArguments",
           "required": [ "Status", "StatusMessage" ],
           "properties": {
             "Status": {
@@ -3824,7 +3824,7 @@
         "description": "The Method ResetJoiningProcess is used to reset/restart the sequential joining processes such as Job, etc.",
         "input": {
           "type": "object",
-          "dov:typeRef": "nsu=http://opcfoundation.org/UA/IJT/Base/;i=6366",
+          "dov:typeRef": "org.opcfoundation.UA.InputArguments",
           "required": [ "ProductInstanceUri", "JoiningProcessIdentification" ],
           "properties": {
             "ProductInstanceUri": {
@@ -3835,7 +3835,7 @@
               "title": "JoiningProcessIdentificationDataType",
               "description": "This structure contains the identification information of a Joining Process. It is used in set of methods defined in JoiningProcessManagementType.",
               "type": "object",
-              "dov:typeRef": "nsu=http://opcfoundation.org/UA/IJT/Base/;i=3029",
+              "dov:typeRef": "org.opcfoundation.UA.IJT.Base.JoiningProcessIdentificationDataType",
               "properties": {
                 "JoiningProcessId": {
                   "description": "It is the system-wide unique identifier of the joining process.",
@@ -3855,7 +3855,7 @@
         },
         "output": {
           "type": "object",
-          "dov:typeRef": "nsu=http://opcfoundation.org/UA/IJT/Base/;i=6367",
+          "dov:typeRef": "org.opcfoundation.UA.OutputArguments",
           "required": [ "Status", "StatusMessage" ],
           "properties": {
             "Status": {
@@ -3883,7 +3883,7 @@
         "description": "The Method SelectJoiningProcess is used to select the joining process based on the input arguments.",
         "input": {
           "type": "object",
-          "dov:typeRef": "nsu=http://opcfoundation.org/UA/IJT/Base/;i=6354",
+          "dov:typeRef": "org.opcfoundation.UA.InputArguments",
           "required": [ "ProductInstanceUri", "JoiningProcessIdentification" ],
           "properties": {
             "ProductInstanceUri": {
@@ -3894,7 +3894,7 @@
               "title": "JoiningProcessIdentificationDataType",
               "description": "This structure contains the identification information of a Joining Process. It is used in set of methods defined in JoiningProcessManagementType.",
               "type": "object",
-              "dov:typeRef": "nsu=http://opcfoundation.org/UA/IJT/Base/;i=3029",
+              "dov:typeRef": "org.opcfoundation.UA.IJT.Base.JoiningProcessIdentificationDataType",
               "properties": {
                 "JoiningProcessId": {
                   "description": "It is the system-wide unique identifier of the joining process.",
@@ -3914,7 +3914,7 @@
         },
         "output": {
           "type": "object",
-          "dov:typeRef": "nsu=http://opcfoundation.org/UA/IJT/Base/;i=6355",
+          "dov:typeRef": "org.opcfoundation.UA.OutputArguments",
           "required": [ "Status", "StatusMessage" ],
           "properties": {
             "Status": {
@@ -3942,7 +3942,7 @@
         "description": "The Method SendJoiningProcess is used to send a joining process to the joining system. It can be used to insert a joining program or joining batch or joining job or any other process applicable to a joining system. It shall overwrite the joining process if it already exists in the joining system.",
         "input": {
           "type": "object",
-          "dov:typeRef": "nsu=http://opcfoundation.org/UA/IJT/Base/;i=6340",
+          "dov:typeRef": "org.opcfoundation.UA.InputArguments",
           "required": [ "ProductInstanceUri", "JoiningProcess", "SelectionName" ],
           "properties": {
             "ProductInstanceUri": {
@@ -3953,14 +3953,14 @@
               "title": "JoiningProcessDataType",
               "description": "This structure provides the base container for any joining process in a joining system.   Note: This specification defines the meta data of a JoiningProcess, and the actual content of the Joining Process is application specific.",
               "type": "object",
-              "dov:typeRef": "nsu=http://opcfoundation.org/UA/IJT/Base/;i=3016",
+              "dov:typeRef": "org.opcfoundation.UA.IJT.Base.JoiningProcessDataType",
               "required": [ "JoiningProcessMetaData", "JoiningProcessContent" ],
               "properties": {
                 "JoiningProcessMetaData": {
                   "title": "JoiningProcessMetaDataType",
                   "description": "This structure provides the meta data which describes the joining process.",
                   "type": "object",
-                  "dov:typeRef": "nsu=http://opcfoundation.org/UA/IJT/Base/;i=3024",
+                  "dov:typeRef": "org.opcfoundation.UA.IJT.Base.JoiningProcessMetaDataType",
                   "required": [ "JoiningProcessId" ],
                   "properties": {
                     "JoiningProcessId": {
@@ -4006,7 +4006,7 @@
                         "title": "EntityDataType",
                         "description": "This structure provides the identification data for a given entity in the system.",
                         "type": "object",
-                        "dov:typeRef": "nsu=http://opcfoundation.org/UA/IJT/Base/;i=3010",
+                        "dov:typeRef": "org.opcfoundation.UA.IJT.Base.EntityDataType",
                         "required": [ "EntityId", "EntityType" ],
                         "properties": {
                           "Name": {
@@ -4058,7 +4058,7 @@
         },
         "output": {
           "type": "object",
-          "dov:typeRef": "nsu=http://opcfoundation.org/UA/IJT/Base/;i=6347",
+          "dov:typeRef": "org.opcfoundation.UA.OutputArguments",
           "required": [ "Status", "StatusMessage" ],
           "properties": {
             "Status": {
@@ -4086,7 +4086,7 @@
         "description": "The Method SetJoiningProcessCounter is used to set the counter of a sequential joining processes (such as Job, etc.) to the given input value.",
         "input": {
           "type": "object",
-          "dov:typeRef": "nsu=http://opcfoundation.org/UA/IJT/Base/;i=6362",
+          "dov:typeRef": "org.opcfoundation.UA.InputArguments",
           "required": [ "ProductInstanceUri", "JoiningProcessIdentification", "CounterValue" ],
           "properties": {
             "ProductInstanceUri": {
@@ -4097,7 +4097,7 @@
               "title": "JoiningProcessIdentificationDataType",
               "description": "This structure contains the identification information of a Joining Process. It is used in set of methods defined in JoiningProcessManagementType.",
               "type": "object",
-              "dov:typeRef": "nsu=http://opcfoundation.org/UA/IJT/Base/;i=3029",
+              "dov:typeRef": "org.opcfoundation.UA.IJT.Base.JoiningProcessIdentificationDataType",
               "properties": {
                 "JoiningProcessId": {
                   "description": "It is the system-wide unique identifier of the joining process.",
@@ -4123,7 +4123,7 @@
         },
         "output": {
           "type": "object",
-          "dov:typeRef": "nsu=http://opcfoundation.org/UA/IJT/Base/;i=6363",
+          "dov:typeRef": "org.opcfoundation.UA.OutputArguments",
           "required": [ "Status", "StatusMessage" ],
           "properties": {
             "Status": {
@@ -4151,7 +4151,7 @@
         "description": "The Method SetJoiningProcessMapping is used to set the mapping of the joining process in a joining system. It can be used to map a joining process to a selection name.",
         "input": {
           "type": "object",
-          "dov:typeRef": "nsu=http://opcfoundation.org/UA/IJT/Base/;i=6352",
+          "dov:typeRef": "org.opcfoundation.UA.InputArguments",
           "required": [ "ProductInstanceUri", "JoiningProcessIdentification" ],
           "properties": {
             "ProductInstanceUri": {
@@ -4162,7 +4162,7 @@
               "title": "JoiningProcessIdentificationDataType",
               "description": "This structure contains the identification information of a Joining Process. It is used in set of methods defined in JoiningProcessManagementType.",
               "type": "object",
-              "dov:typeRef": "nsu=http://opcfoundation.org/UA/IJT/Base/;i=3029",
+              "dov:typeRef": "org.opcfoundation.UA.IJT.Base.JoiningProcessIdentificationDataType",
               "properties": {
                 "JoiningProcessId": {
                   "description": "It is the system-wide unique identifier of the joining process.",
@@ -4182,7 +4182,7 @@
         },
         "output": {
           "type": "object",
-          "dov:typeRef": "nsu=http://opcfoundation.org/UA/IJT/Base/;i=6353",
+          "dov:typeRef": "org.opcfoundation.UA.OutputArguments",
           "required": [ "Status", "StatusMessage" ],
           "properties": {
             "Status": {
@@ -4210,7 +4210,7 @@
         "description": "The Method SetJoiningProcessSize is used to set the size of the batch joining process.",
         "input": {
           "type": "object",
-          "dov:typeRef": "nsu=http://opcfoundation.org/UA/IJT/Base/;i=6364",
+          "dov:typeRef": "org.opcfoundation.UA.InputArguments",
           "required": [ "ProductInstanceUri", "JoiningProcessIdentification", "MaxCounterSize" ],
           "properties": {
             "ProductInstanceUri": {
@@ -4221,7 +4221,7 @@
               "title": "JoiningProcessIdentificationDataType",
               "description": "This structure contains the identification information of a Joining Process. It is used in set of methods defined in JoiningProcessManagementType.",
               "type": "object",
-              "dov:typeRef": "nsu=http://opcfoundation.org/UA/IJT/Base/;i=3029",
+              "dov:typeRef": "org.opcfoundation.UA.IJT.Base.JoiningProcessIdentificationDataType",
               "properties": {
                 "JoiningProcessId": {
                   "description": "It is the system-wide unique identifier of the joining process.",
@@ -4247,7 +4247,7 @@
         },
         "output": {
           "type": "object",
-          "dov:typeRef": "nsu=http://opcfoundation.org/UA/IJT/Base/;i=6365",
+          "dov:typeRef": "org.opcfoundation.UA.OutputArguments",
           "required": [ "Status", "StatusMessage" ],
           "properties": {
             "Status": {
@@ -4275,7 +4275,7 @@
         "description": "The Method StartJoiningProcess is used to start the input joining process.   Note: It is not intended to be used in a hard real-time use case.",
         "input": {
           "type": "object",
-          "dov:typeRef": "nsu=http://opcfoundation.org/UA/IJT/Base/;i=6374",
+          "dov:typeRef": "org.opcfoundation.UA.InputArguments",
           "required": [ "ProductInstanceUri", "JoiningProcessIdentification", "AssociatedEntities" ],
           "properties": {
             "ProductInstanceUri": {
@@ -4286,7 +4286,7 @@
               "title": "JoiningProcessIdentificationDataType",
               "description": "This structure contains the identification information of a Joining Process. It is used in set of methods defined in JoiningProcessManagementType.",
               "type": "object",
-              "dov:typeRef": "nsu=http://opcfoundation.org/UA/IJT/Base/;i=3029",
+              "dov:typeRef": "org.opcfoundation.UA.IJT.Base.JoiningProcessIdentificationDataType",
               "properties": {
                 "JoiningProcessId": {
                   "description": "It is the system-wide unique identifier of the joining process.",
@@ -4309,7 +4309,7 @@
                 "title": "EntityDataType",
                 "description": "This structure provides the identification data for a given entity in the system.",
                 "type": "object",
-                "dov:typeRef": "nsu=http://opcfoundation.org/UA/IJT/Base/;i=3010",
+                "dov:typeRef": "org.opcfoundation.UA.IJT.Base.EntityDataType",
                 "required": [ "EntityId", "EntityType" ],
                 "properties": {
                   "Name": {
@@ -4345,7 +4345,7 @@
         },
         "output": {
           "type": "object",
-          "dov:typeRef": "nsu=http://opcfoundation.org/UA/IJT/Base/;i=6375",
+          "dov:typeRef": "org.opcfoundation.UA.OutputArguments",
           "required": [ "Status", "StatusMessage" ],
           "properties": {
             "Status": {
@@ -4373,7 +4373,7 @@
         "description": "The Method StartSelectedJoining is used to start the selected joining. The joining operation can be selected using SelectJoiningProcess or SelectJoint.   Note: It is not intended to be used in a hard real-time use case.",
         "input": {
           "type": "object",
-          "dov:typeRef": "nsu=http://opcfoundation.org/UA/IJT/Base/;i=6408",
+          "dov:typeRef": "org.opcfoundation.UA.InputArguments",
           "required": [ "ProductInstanceUri", "DeselectAfterJoining" ],
           "properties": {
             "ProductInstanceUri": {
@@ -4388,7 +4388,7 @@
         },
         "output": {
           "type": "object",
-          "dov:typeRef": "nsu=http://opcfoundation.org/UA/IJT/Base/;i=6409",
+          "dov:typeRef": "org.opcfoundation.UA.OutputArguments",
           "required": [ "Status", "StatusMessage" ],
           "properties": {
             "Status": {
@@ -4438,7 +4438,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "IJT_Base_JoiningSystemAssetMethodSetType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/IJT/Base/;i=1026",
+    "dov:typeRef": "org.opcfoundation.UA.IJT.Base.JoiningSystemAssetMethodSetType",
     "links": [
       {
         "rel": "tm:extends",
@@ -4461,7 +4461,7 @@
         "description": "The Method DisconnectAsset is used to disconnect or connect the asset.",
         "input": {
           "type": "object",
-          "dov:typeRef": "nsu=http://opcfoundation.org/UA/IJT/Base/;i=6047",
+          "dov:typeRef": "org.opcfoundation.UA.InputArguments",
           "required": [ "ProductInstanceUri", "Disconnect" ],
           "properties": {
             "ProductInstanceUri": {
@@ -4476,7 +4476,7 @@
         },
         "output": {
           "type": "object",
-          "dov:typeRef": "nsu=http://opcfoundation.org/UA/IJT/Base/;i=6051",
+          "dov:typeRef": "org.opcfoundation.UA.OutputArguments",
           "required": [ "Status", "StatusMessage" ],
           "properties": {
             "Status": {
@@ -4504,7 +4504,7 @@
         "description": "The Method EnableAsset is used to Enable or Disable a given asset. It is mostly applicable for Tool.  The joining system can report a respective event when an asset is enabled or disabled.",
         "input": {
           "type": "object",
-          "dov:typeRef": "nsu=http://opcfoundation.org/UA/IJT/Base/;i=6043",
+          "dov:typeRef": "org.opcfoundation.UA.InputArguments",
           "required": [ "ProductInstanceUri", "Enable" ],
           "properties": {
             "ProductInstanceUri": {
@@ -4519,7 +4519,7 @@
         },
         "output": {
           "type": "object",
-          "dov:typeRef": "nsu=http://opcfoundation.org/UA/IJT/Base/;i=6046",
+          "dov:typeRef": "org.opcfoundation.UA.OutputArguments",
           "required": [ "Status", "StatusMessage" ],
           "properties": {
             "Status": {
@@ -4547,7 +4547,7 @@
         "description": "The Method ExecuteOperation is an application specific interface to execute any generic operations supported by a joining system.",
         "input": {
           "type": "object",
-          "dov:typeRef": "nsu=http://opcfoundation.org/UA/IJT/Base/;i=6086",
+          "dov:typeRef": "org.opcfoundation.UA.InputArguments",
           "required": [ "ProductInstanceUri", "OperationType", "OperationText", "VendorName" ],
           "properties": {
             "ProductInstanceUri": {
@@ -4572,7 +4572,7 @@
         },
         "output": {
           "type": "object",
-          "dov:typeRef": "nsu=http://opcfoundation.org/UA/IJT/Base/;i=6087",
+          "dov:typeRef": "org.opcfoundation.UA.OutputArguments",
           "required": [ "Status", "StatusMessage" ],
           "properties": {
             "Status": {
@@ -4600,7 +4600,7 @@
         "description": "The Method GetErrorInformation is used to get the error information based on the input identifier. The details returned from the joining system is application specific.",
         "input": {
           "type": "object",
-          "dov:typeRef": "nsu=http://opcfoundation.org/UA/IJT/Base/;i=6088",
+          "dov:typeRef": "org.opcfoundation.UA.InputArguments",
           "required": [ "ProductInstanceUri", "ErrorId" ],
           "properties": {
             "ProductInstanceUri": {
@@ -4615,7 +4615,7 @@
         },
         "output": {
           "type": "object",
-          "dov:typeRef": "nsu=http://opcfoundation.org/UA/IJT/Base/;i=6102",
+          "dov:typeRef": "org.opcfoundation.UA.OutputArguments",
           "required": [ "ErrorContent", "Status", "StatusMessage" ],
           "properties": {
             "ErrorContent": {
@@ -4647,7 +4647,7 @@
         "description": "The Method GetFeedbackFileList is used to get the list of feedback files from the asset.",
         "input": {
           "type": "object",
-          "dov:typeRef": "nsu=http://opcfoundation.org/UA/IJT/Base/;i=6061",
+          "dov:typeRef": "org.opcfoundation.UA.InputArguments",
           "required": [ "ProductInstanceUri" ],
           "properties": {
             "ProductInstanceUri": {
@@ -4658,7 +4658,7 @@
         },
         "output": {
           "type": "object",
-          "dov:typeRef": "nsu=http://opcfoundation.org/UA/IJT/Base/;i=6062",
+          "dov:typeRef": "org.opcfoundation.UA.OutputArguments",
           "required": [ "FeedbackFileList", "Status", "StatusMessage" ],
           "properties": {
             "FeedbackFileList": {
@@ -4693,7 +4693,7 @@
         "description": "The Method GetIdentifiers is used to get the list of identifiers available in the system which were managed by external systems.",
         "input": {
           "type": "object",
-          "dov:typeRef": "nsu=http://opcfoundation.org/UA/IJT/Base/;i=6069",
+          "dov:typeRef": "org.opcfoundation.UA.InputArguments",
           "required": [ "ProductInstanceUri", "IdentifierNames" ],
           "properties": {
             "ProductInstanceUri": {
@@ -4711,7 +4711,7 @@
         },
         "output": {
           "type": "object",
-          "dov:typeRef": "nsu=http://opcfoundation.org/UA/IJT/Base/;i=6070",
+          "dov:typeRef": "org.opcfoundation.UA.OutputArguments",
           "required": [ "EntityList", "Status", "StatusMessage" ],
           "properties": {
             "EntityList": {
@@ -4721,7 +4721,7 @@
                 "title": "EntityDataType",
                 "description": "This structure provides the identification data for a given entity in the system.",
                 "type": "object",
-                "dov:typeRef": "nsu=http://opcfoundation.org/UA/IJT/Base/;i=3010",
+                "dov:typeRef": "org.opcfoundation.UA.IJT.Base.EntityDataType",
                 "required": [ "EntityId", "EntityType" ],
                 "properties": {
                   "Name": {
@@ -4778,7 +4778,7 @@
         "description": "The Method GetIOSignals is used to get the list of available signals from the asset.",
         "input": {
           "type": "object",
-          "dov:typeRef": "nsu=http://opcfoundation.org/UA/IJT/Base/;i=6067",
+          "dov:typeRef": "org.opcfoundation.UA.InputArguments",
           "required": [ "ProductInstanceUri", "SignalIdList" ],
           "properties": {
             "ProductInstanceUri": {
@@ -4796,7 +4796,7 @@
         },
         "output": {
           "type": "object",
-          "dov:typeRef": "nsu=http://opcfoundation.org/UA/IJT/Base/;i=6068",
+          "dov:typeRef": "org.opcfoundation.UA.OutputArguments",
           "required": [ "SignalList", "Status", "StatusMessage" ],
           "properties": {
             "SignalList": {
@@ -4806,7 +4806,7 @@
                 "title": "SignalDataType",
                 "description": "This structure contains the signal information which is used in SetIOSignals and GetIOSignals methods.",
                 "type": "object",
-                "dov:typeRef": "nsu=http://opcfoundation.org/UA/IJT/Base/;i=3019",
+                "dov:typeRef": "org.opcfoundation.UA.IJT.Base.SignalDataType",
                 "required": [ "SignalId", "SignalValue", "SignalDescription", "SignalType" ],
                 "properties": {
                   "SignalId": {
@@ -4855,7 +4855,7 @@
         "description": "The Method RebootAsset is used to reboot an asset.",
         "input": {
           "type": "object",
-          "dov:typeRef": "nsu=http://opcfoundation.org/UA/IJT/Base/;i=6053",
+          "dov:typeRef": "org.opcfoundation.UA.InputArguments",
           "required": [ "ProductInstanceUri" ],
           "properties": {
             "ProductInstanceUri": {
@@ -4866,7 +4866,7 @@
         },
         "output": {
           "type": "object",
-          "dov:typeRef": "nsu=http://opcfoundation.org/UA/IJT/Base/;i=6055",
+          "dov:typeRef": "org.opcfoundation.UA.OutputArguments",
           "required": [ "Status", "StatusMessage" ],
           "properties": {
             "Status": {
@@ -4894,7 +4894,7 @@
         "description": "The Method ResetIdentifiers is used to reset the specified identifiers.",
         "input": {
           "type": "object",
-          "dov:typeRef": "nsu=http://opcfoundation.org/UA/IJT/Base/;i=6081",
+          "dov:typeRef": "org.opcfoundation.UA.InputArguments",
           "required": [ "ProductInstanceUri", "IdentifierList", "ResetAll", "ResetLatest" ],
           "properties": {
             "ProductInstanceUri": {
@@ -4920,7 +4920,7 @@
         },
         "output": {
           "type": "object",
-          "dov:typeRef": "nsu=http://opcfoundation.org/UA/IJT/Base/;i=6085",
+          "dov:typeRef": "org.opcfoundation.UA.OutputArguments",
           "required": [ "Status", "StatusMessage" ],
           "properties": {
             "Status": {
@@ -4948,7 +4948,7 @@
         "description": "The Method SendFeedback is used to send any type of feedback to a given asset. The feedback can be a text input or other types of feedback supported by the asset.",
         "input": {
           "type": "object",
-          "dov:typeRef": "nsu=http://opcfoundation.org/UA/IJT/Base/;i=6058",
+          "dov:typeRef": "org.opcfoundation.UA.InputArguments",
           "required": [ "ProductInstanceUri", "FeedbackType", "FeedbackText", "FeedbackFile" ],
           "properties": {
             "ProductInstanceUri": {
@@ -4973,7 +4973,7 @@
         },
         "output": {
           "type": "object",
-          "dov:typeRef": "nsu=http://opcfoundation.org/UA/IJT/Base/;i=6059",
+          "dov:typeRef": "org.opcfoundation.UA.OutputArguments",
           "required": [ "Status", "StatusMessage" ],
           "properties": {
             "Status": {
@@ -5001,7 +5001,7 @@
         "description": "The Method SendIdentifiers is used to send one or more identifiers to the joining system.  These identifiers can be used for selection of a joining process, etc.  These identifiers can often be part of the generated result.   The input argument to this method is an array of EntityDataType structure where every entity in the joining system can be associated to a specific type for filtering.",
         "input": {
           "type": "object",
-          "dov:typeRef": "nsu=http://opcfoundation.org/UA/IJT/Base/;i=6072",
+          "dov:typeRef": "org.opcfoundation.UA.InputArguments",
           "required": [ "ProductInstanceUri", "EntityList" ],
           "properties": {
             "ProductInstanceUri": {
@@ -5015,7 +5015,7 @@
                 "title": "EntityDataType",
                 "description": "This structure provides the identification data for a given entity in the system.",
                 "type": "object",
-                "dov:typeRef": "nsu=http://opcfoundation.org/UA/IJT/Base/;i=3010",
+                "dov:typeRef": "org.opcfoundation.UA.IJT.Base.EntityDataType",
                 "required": [ "EntityId", "EntityType" ],
                 "properties": {
                   "Name": {
@@ -5051,7 +5051,7 @@
         },
         "output": {
           "type": "object",
-          "dov:typeRef": "nsu=http://opcfoundation.org/UA/IJT/Base/;i=6078",
+          "dov:typeRef": "org.opcfoundation.UA.OutputArguments",
           "required": [ "Status", "StatusMessage" ],
           "properties": {
             "Status": {
@@ -5079,7 +5079,7 @@
         "description": "The Method SendTextIdentifiers is used to send one or more identifiers to a joining system.   These identifiers can be used for selection of a joining process, etc.  These identifiers can often be part of the generated result.   Note: The decision on which set of identifiers are used for the selection of a joining process and which set of identifiers should be part of the generated result is application specific.",
         "input": {
           "type": "object",
-          "dov:typeRef": "nsu=http://opcfoundation.org/UA/IJT/Base/;i=6079",
+          "dov:typeRef": "org.opcfoundation.UA.InputArguments",
           "required": [ "ProductInstanceUri", "IdentifierList" ],
           "properties": {
             "ProductInstanceUri": {
@@ -5097,7 +5097,7 @@
         },
         "output": {
           "type": "object",
-          "dov:typeRef": "nsu=http://opcfoundation.org/UA/IJT/Base/;i=6080",
+          "dov:typeRef": "org.opcfoundation.UA.OutputArguments",
           "required": [ "Status", "StatusMessage" ],
           "properties": {
             "Status": {
@@ -5125,7 +5125,7 @@
         "description": "The Method SetCalibration is used to set the calibration information of a given asset.   It is intended to set the basic calibration information and does not cover the certification process.",
         "input": {
           "type": "object",
-          "dov:typeRef": "nsu=http://opcfoundation.org/UA/IJT/Base/;i=6040",
+          "dov:typeRef": "org.opcfoundation.UA.InputArguments",
           "required": [ "ProductInstanceUri", "CalibrationData" ],
           "properties": {
             "ProductInstanceUri": {
@@ -5136,7 +5136,7 @@
               "title": "CalibrationDataType",
               "description": "This structure contains the Calibration information. It is used as an input argument in SetCalibration method.  Note: The input data sent in SetCalibration shall be updated in the respective parameters of the asset under Maintenance/Calibration.",
               "type": "object",
-              "dov:typeRef": "nsu=http://opcfoundation.org/UA/IJT/Base/;i=3003",
+              "dov:typeRef": "org.opcfoundation.UA.IJT.Base.CalibrationDataType",
               "required": [ "LastCalibration" ],
               "properties": {
                 "LastCalibration": {
@@ -5173,7 +5173,7 @@
                   "title": "EUInformation",
                   "description": "It defines the engineering unit of the value.",
                   "type": "object",
-                  "dov:typeRef": "nsu=http://opcfoundation.org/UA/;i=887",
+                  "dov:typeRef": "org.opcfoundation.UA.EUInformation",
                   "required": [ "NamespaceUri", "UnitId", "DisplayName", "Description" ],
                   "properties": {
                     "NamespaceUri": {
@@ -5198,7 +5198,7 @@
         },
         "output": {
           "type": "object",
-          "dov:typeRef": "nsu=http://opcfoundation.org/UA/IJT/Base/;i=6041",
+          "dov:typeRef": "org.opcfoundation.UA.OutputArguments",
           "required": [ "Status", "StatusMessage" ],
           "properties": {
             "Status": {
@@ -5226,7 +5226,7 @@
         "description": "The Method SetIOSignals is used to set a list of IO signals of the asset. The type of operations mapped to each signal is application specific.",
         "input": {
           "type": "object",
-          "dov:typeRef": "nsu=http://opcfoundation.org/UA/IJT/Base/;i=6063",
+          "dov:typeRef": "org.opcfoundation.UA.InputArguments",
           "required": [ "ProductInstanceUri", "SignalList" ],
           "properties": {
             "ProductInstanceUri": {
@@ -5240,7 +5240,7 @@
                 "title": "SignalDataType",
                 "description": "This structure contains the signal information which is used in SetIOSignals and GetIOSignals methods.",
                 "type": "object",
-                "dov:typeRef": "nsu=http://opcfoundation.org/UA/IJT/Base/;i=3019",
+                "dov:typeRef": "org.opcfoundation.UA.IJT.Base.SignalDataType",
                 "required": [ "SignalId", "SignalValue", "SignalDescription", "SignalType" ],
                 "properties": {
                   "SignalId": {
@@ -5268,7 +5268,7 @@
         },
         "output": {
           "type": "object",
-          "dov:typeRef": "nsu=http://opcfoundation.org/UA/IJT/Base/;i=6064",
+          "dov:typeRef": "org.opcfoundation.UA.OutputArguments",
           "required": [ "SignalStatusList", "Status", "StatusMessage" ],
           "properties": {
             "SignalStatusList": {
@@ -5305,7 +5305,7 @@
         "description": "The Method SetOfflineTimer is used to set the offline timer for the asset to determine how long the asset can perform the joining operations in an offline mode.   Note: If an asset performs the joining operation in offline mode after setting the offline timer, the corresponding results generated shall have the IsGeneratedOffline flag set to TRUE.",
         "input": {
           "type": "object",
-          "dov:typeRef": "nsu=http://opcfoundation.org/UA/IJT/Base/;i=6056",
+          "dov:typeRef": "org.opcfoundation.UA.InputArguments",
           "required": [ "ProductInstanceUri", "OfflineTimer" ],
           "properties": {
             "ProductInstanceUri": {
@@ -5321,7 +5321,7 @@
         },
         "output": {
           "type": "object",
-          "dov:typeRef": "nsu=http://opcfoundation.org/UA/IJT/Base/;i=6057",
+          "dov:typeRef": "org.opcfoundation.UA.OutputArguments",
           "required": [ "Status", "StatusMessage" ],
           "properties": {
             "Status": {
@@ -5349,7 +5349,7 @@
         "description": "The Method SetTime is used to set the time of the asset manually. It is recommended to be used only when an asset does not have automated time synchronization.  The joining system can report a respective event when the time is configured manually using this method.",
         "input": {
           "type": "object",
-          "dov:typeRef": "nsu=http://opcfoundation.org/UA/IJT/Base/;i=6406",
+          "dov:typeRef": "org.opcfoundation.UA.InputArguments",
           "required": [ "ProductInstanceUri", "InputTime" ],
           "properties": {
             "ProductInstanceUri": {
@@ -5365,7 +5365,7 @@
         },
         "output": {
           "type": "object",
-          "dov:typeRef": "nsu=http://opcfoundation.org/UA/IJT/Base/;i=6407",
+          "dov:typeRef": "org.opcfoundation.UA.OutputArguments",
           "required": [ "Status", "StatusMessage" ],
           "properties": {
             "Status": {
@@ -5415,7 +5415,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "IJT_Base_JoiningSystemType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/IJT/Base/;i=1005",
+    "dov:typeRef": "org.opcfoundation.UA.IJT.Base.JoiningSystemType",
     "dov:isComposite": true,
     "links": [
       {
@@ -5454,7 +5454,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "IJT_Base_JointManagementType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/IJT/Base/;i=1023",
+    "dov:typeRef": "org.opcfoundation.UA.IJT.Base.JointManagementType",
     "links": [
       {
         "rel": "tm:extends",
@@ -5477,7 +5477,7 @@
         "description": "The Method DeleteJoint is used to delete the joint based on the input identifier.",
         "input": {
           "type": "object",
-          "dov:typeRef": "nsu=http://opcfoundation.org/UA/IJT/Base/;i=6141",
+          "dov:typeRef": "org.opcfoundation.UA.InputArguments",
           "required": [ "ProductInstanceUri", "JointId", "JointOriginId" ],
           "properties": {
             "ProductInstanceUri": {
@@ -5496,7 +5496,7 @@
         },
         "output": {
           "type": "object",
-          "dov:typeRef": "nsu=http://opcfoundation.org/UA/IJT/Base/;i=6151",
+          "dov:typeRef": "org.opcfoundation.UA.OutputArguments",
           "required": [ "Status", "StatusMessage" ],
           "properties": {
             "Status": {
@@ -5524,7 +5524,7 @@
         "description": "The Method DeleteJointComponent is used to delete the joint component based on the input identifier.",
         "input": {
           "type": "object",
-          "dov:typeRef": "nsu=http://opcfoundation.org/UA/IJT/Base/;i=6162",
+          "dov:typeRef": "org.opcfoundation.UA.InputArguments",
           "required": [ "ProductInstanceUri", "JointComponentId" ],
           "properties": {
             "ProductInstanceUri": {
@@ -5539,7 +5539,7 @@
         },
         "output": {
           "type": "object",
-          "dov:typeRef": "nsu=http://opcfoundation.org/UA/IJT/Base/;i=6163",
+          "dov:typeRef": "org.opcfoundation.UA.OutputArguments",
           "required": [ "Status", "StatusMessage" ],
           "properties": {
             "Status": {
@@ -5567,7 +5567,7 @@
         "description": "The Method DeleteJointDesign is used to delete the joint design based on the input identifier.",
         "input": {
           "type": "object",
-          "dov:typeRef": "nsu=http://opcfoundation.org/UA/IJT/Base/;i=6153",
+          "dov:typeRef": "org.opcfoundation.UA.InputArguments",
           "required": [ "ProductInstanceUri", "JointDesignId" ],
           "properties": {
             "ProductInstanceUri": {
@@ -5582,7 +5582,7 @@
         },
         "output": {
           "type": "object",
-          "dov:typeRef": "nsu=http://opcfoundation.org/UA/IJT/Base/;i=6161",
+          "dov:typeRef": "org.opcfoundation.UA.OutputArguments",
           "required": [ "Status", "StatusMessage" ],
           "properties": {
             "Status": {
@@ -5610,7 +5610,7 @@
         "description": "The Method GetJoint is used to get the joint based on the input identifier.",
         "input": {
           "type": "object",
-          "dov:typeRef": "nsu=http://opcfoundation.org/UA/IJT/Base/;i=6310",
+          "dov:typeRef": "org.opcfoundation.UA.InputArguments",
           "required": [ "ProductInstanceUri", "JointId" ],
           "properties": {
             "ProductInstanceUri": {
@@ -5625,14 +5625,14 @@
         },
         "output": {
           "type": "object",
-          "dov:typeRef": "nsu=http://opcfoundation.org/UA/IJT/Base/;i=6311",
+          "dov:typeRef": "org.opcfoundation.UA.OutputArguments",
           "required": [ "Joint", "Status", "StatusMessage" ],
           "properties": {
             "Joint": {
               "title": "JointDataType",
               "description": "This structure provides the joint information. Joint is the physical outcome of the joining operation which determines the properties of the point where multiple parts are assembled.",
               "type": "object",
-              "dov:typeRef": "nsu=http://opcfoundation.org/UA/IJT/Base/;i=3028",
+              "dov:typeRef": "org.opcfoundation.UA.IJT.Base.JointDataType",
               "required": [ "JointId" ],
               "properties": {
                 "JointId": {
@@ -5686,7 +5686,7 @@
                     "title": "EntityDataType",
                     "description": "This structure provides the identification data for a given entity in the system.",
                     "type": "object",
-                    "dov:typeRef": "nsu=http://opcfoundation.org/UA/IJT/Base/;i=3010",
+                    "dov:typeRef": "org.opcfoundation.UA.IJT.Base.EntityDataType",
                     "required": [ "EntityId", "EntityType" ],
                     "properties": {
                       "Name": {
@@ -5749,7 +5749,7 @@
         "description": "The Method GetJointComponent is used to get the joint component based on the input identifier.",
         "input": {
           "type": "object",
-          "dov:typeRef": "nsu=http://opcfoundation.org/UA/IJT/Base/;i=6314",
+          "dov:typeRef": "org.opcfoundation.UA.InputArguments",
           "required": [ "ProductInstanceUri", "JointComponentId" ],
           "properties": {
             "ProductInstanceUri": {
@@ -5764,14 +5764,14 @@
         },
         "output": {
           "type": "object",
-          "dov:typeRef": "nsu=http://opcfoundation.org/UA/IJT/Base/;i=6315",
+          "dov:typeRef": "org.opcfoundation.UA.OutputArguments",
           "required": [ "JointComponent", "Status", "StatusMessage" ],
           "properties": {
             "JointComponent": {
               "title": "JointComponentDataType",
               "description": "This structure is the base container for any joint component such as Bolt, Rivet, Gasket, Glue string, etc.   Note: The concrete definition of joint component is not defined in this version of the specification.",
               "type": "object",
-              "dov:typeRef": "nsu=http://opcfoundation.org/UA/IJT/Base/;i=3021",
+              "dov:typeRef": "org.opcfoundation.UA.IJT.Base.JointComponentDataType",
               "required": [ "JointComponentId" ],
               "properties": {
                 "JointComponentId": {
@@ -5825,7 +5825,7 @@
         "description": "The Method GetJointComponentList is used to get the list of available joint components in the system.",
         "input": {
           "type": "object",
-          "dov:typeRef": "nsu=http://opcfoundation.org/UA/IJT/Base/;i=6306",
+          "dov:typeRef": "org.opcfoundation.UA.InputArguments",
           "required": [ "ProductInstanceUri" ],
           "properties": {
             "ProductInstanceUri": {
@@ -5836,7 +5836,7 @@
         },
         "output": {
           "type": "object",
-          "dov:typeRef": "nsu=http://opcfoundation.org/UA/IJT/Base/;i=6307",
+          "dov:typeRef": "org.opcfoundation.UA.OutputArguments",
           "required": [ "JointComponentList", "Status", "StatusMessage" ],
           "properties": {
             "JointComponentList": {
@@ -5846,7 +5846,7 @@
                 "title": "JointComponentDataType",
                 "description": "This structure is the base container for any joint component such as Bolt, Rivet, Gasket, Glue string, etc.   Note: The concrete definition of joint component is not defined in this version of the specification.",
                 "type": "object",
-                "dov:typeRef": "nsu=http://opcfoundation.org/UA/IJT/Base/;i=3021",
+                "dov:typeRef": "org.opcfoundation.UA.IJT.Base.JointComponentDataType",
                 "required": [ "JointComponentId" ],
                 "properties": {
                   "JointComponentId": {
@@ -5901,7 +5901,7 @@
         "description": "The Method GetJointDesign is used to get the joint design based on the input identifier.",
         "input": {
           "type": "object",
-          "dov:typeRef": "nsu=http://opcfoundation.org/UA/IJT/Base/;i=6312",
+          "dov:typeRef": "org.opcfoundation.UA.InputArguments",
           "required": [ "ProductInstanceUri", "JointDesignId" ],
           "properties": {
             "ProductInstanceUri": {
@@ -5916,14 +5916,14 @@
         },
         "output": {
           "type": "object",
-          "dov:typeRef": "nsu=http://opcfoundation.org/UA/IJT/Base/;i=6313",
+          "dov:typeRef": "org.opcfoundation.UA.OutputArguments",
           "required": [ "JointDesign", "Status", "StatusMessage" ],
           "properties": {
             "JointDesign": {
               "title": "JointDesignDataType",
               "description": "This structure provides the design information of a given joint.",
               "type": "object",
-              "dov:typeRef": "nsu=http://opcfoundation.org/UA/IJT/Base/;i=3025",
+              "dov:typeRef": "org.opcfoundation.UA.IJT.Base.JointDesignDataType",
               "required": [ "JointDesignId" ],
               "properties": {
                 "JointDesignId": {
@@ -5945,7 +5945,7 @@
                     "title": "DesignValueDataType",
                     "description": "This structure provides the design value for a given physical quantity. It is used in JointDesignDataType.",
                     "type": "object",
-                    "dov:typeRef": "nsu=http://opcfoundation.org/UA/IJT/Base/;i=3015",
+                    "dov:typeRef": "org.opcfoundation.UA.IJT.Base.DesignValueDataType",
                     "properties": {
                       "PhysicalQuantity": {
                         "description": "It is the physical quantity of the value. Example: Force, Angle, etc.",
@@ -5965,7 +5965,7 @@
                         "title": "EUInformation",
                         "description": "It is the engineering unit of the design value.",
                         "type": "object",
-                        "dov:typeRef": "nsu=http://opcfoundation.org/UA/;i=887",
+                        "dov:typeRef": "org.opcfoundation.UA.EUInformation",
                         "required": [ "NamespaceUri", "UnitId", "DisplayName", "Description" ],
                         "properties": {
                           "NamespaceUri": {
@@ -6021,7 +6021,7 @@
         "description": "The Method GetJointDesignList is used to get the list of available joint designs in the system.",
         "input": {
           "type": "object",
-          "dov:typeRef": "nsu=http://opcfoundation.org/UA/IJT/Base/;i=6304",
+          "dov:typeRef": "org.opcfoundation.UA.InputArguments",
           "required": [ "ProductInstanceUri" ],
           "properties": {
             "ProductInstanceUri": {
@@ -6032,7 +6032,7 @@
         },
         "output": {
           "type": "object",
-          "dov:typeRef": "nsu=http://opcfoundation.org/UA/IJT/Base/;i=6305",
+          "dov:typeRef": "org.opcfoundation.UA.OutputArguments",
           "required": [ "JointDesignList", "Status", "StatusMessage" ],
           "properties": {
             "JointDesignList": {
@@ -6042,7 +6042,7 @@
                 "title": "JointDesignDataType",
                 "description": "This structure provides the design information of a given joint.",
                 "type": "object",
-                "dov:typeRef": "nsu=http://opcfoundation.org/UA/IJT/Base/;i=3025",
+                "dov:typeRef": "org.opcfoundation.UA.IJT.Base.JointDesignDataType",
                 "required": [ "JointDesignId" ],
                 "properties": {
                   "JointDesignId": {
@@ -6064,7 +6064,7 @@
                       "title": "DesignValueDataType",
                       "description": "This structure provides the design value for a given physical quantity. It is used in JointDesignDataType.",
                       "type": "object",
-                      "dov:typeRef": "nsu=http://opcfoundation.org/UA/IJT/Base/;i=3015",
+                      "dov:typeRef": "org.opcfoundation.UA.IJT.Base.DesignValueDataType",
                       "properties": {
                         "PhysicalQuantity": {
                           "description": "It is the physical quantity of the value. Example: Force, Angle, etc.",
@@ -6084,7 +6084,7 @@
                           "title": "EUInformation",
                           "description": "It is the engineering unit of the design value.",
                           "type": "object",
-                          "dov:typeRef": "nsu=http://opcfoundation.org/UA/;i=887",
+                          "dov:typeRef": "org.opcfoundation.UA.EUInformation",
                           "required": [ "NamespaceUri", "UnitId", "DisplayName", "Description" ],
                           "properties": {
                             "NamespaceUri": {
@@ -6141,7 +6141,7 @@
         "description": "The Method GetJointList is used to get the list of available joints in the system.",
         "input": {
           "type": "object",
-          "dov:typeRef": "nsu=http://opcfoundation.org/UA/IJT/Base/;i=6235",
+          "dov:typeRef": "org.opcfoundation.UA.InputArguments",
           "required": [ "ProductInstanceUri" ],
           "properties": {
             "ProductInstanceUri": {
@@ -6152,7 +6152,7 @@
         },
         "output": {
           "type": "object",
-          "dov:typeRef": "nsu=http://opcfoundation.org/UA/IJT/Base/;i=6303",
+          "dov:typeRef": "org.opcfoundation.UA.OutputArguments",
           "required": [ "JointList", "Status", "StatusMessage" ],
           "properties": {
             "JointList": {
@@ -6162,7 +6162,7 @@
                 "title": "JointDataType",
                 "description": "This structure provides the joint information. Joint is the physical outcome of the joining operation which determines the properties of the point where multiple parts are assembled.",
                 "type": "object",
-                "dov:typeRef": "nsu=http://opcfoundation.org/UA/IJT/Base/;i=3028",
+                "dov:typeRef": "org.opcfoundation.UA.IJT.Base.JointDataType",
                 "required": [ "JointId" ],
                 "properties": {
                   "JointId": {
@@ -6216,7 +6216,7 @@
                       "title": "EntityDataType",
                       "description": "This structure provides the identification data for a given entity in the system.",
                       "type": "object",
-                      "dov:typeRef": "nsu=http://opcfoundation.org/UA/IJT/Base/;i=3010",
+                      "dov:typeRef": "org.opcfoundation.UA.IJT.Base.EntityDataType",
                       "required": [ "EntityId", "EntityType" ],
                       "properties": {
                         "Name": {
@@ -6280,7 +6280,7 @@
         "description": "The Method GetJointRevisionList is used to get the list available revisions of a specific joint based on the JointOriginId.",
         "input": {
           "type": "object",
-          "dov:typeRef": "nsu=http://opcfoundation.org/UA/IJT/Base/;i=6308",
+          "dov:typeRef": "org.opcfoundation.UA.InputArguments",
           "required": [ "ProductInstanceUri", "JointOriginId" ],
           "properties": {
             "ProductInstanceUri": {
@@ -6295,7 +6295,7 @@
         },
         "output": {
           "type": "object",
-          "dov:typeRef": "nsu=http://opcfoundation.org/UA/IJT/Base/;i=6309",
+          "dov:typeRef": "org.opcfoundation.UA.OutputArguments",
           "required": [ "JointList", "Status", "StatusMessage" ],
           "properties": {
             "JointList": {
@@ -6305,7 +6305,7 @@
                 "title": "JointDataType",
                 "description": "This structure provides the joint information. Joint is the physical outcome of the joining operation which determines the properties of the point where multiple parts are assembled.",
                 "type": "object",
-                "dov:typeRef": "nsu=http://opcfoundation.org/UA/IJT/Base/;i=3028",
+                "dov:typeRef": "org.opcfoundation.UA.IJT.Base.JointDataType",
                 "required": [ "JointId" ],
                 "properties": {
                   "JointId": {
@@ -6359,7 +6359,7 @@
                       "title": "EntityDataType",
                       "description": "This structure provides the identification data for a given entity in the system.",
                       "type": "object",
-                      "dov:typeRef": "nsu=http://opcfoundation.org/UA/IJT/Base/;i=3010",
+                      "dov:typeRef": "org.opcfoundation.UA.IJT.Base.EntityDataType",
                       "required": [ "EntityId", "EntityType" ],
                       "properties": {
                         "Name": {
@@ -6423,7 +6423,7 @@
         "description": "The Method SelectJoint is used to select the joint and the associated joining process.",
         "input": {
           "type": "object",
-          "dov:typeRef": "nsu=http://opcfoundation.org/UA/IJT/Base/;i=6229",
+          "dov:typeRef": "org.opcfoundation.UA.InputArguments",
           "required": [ "ProductInstanceUri", "JointId", "JointOriginId" ],
           "properties": {
             "ProductInstanceUri": {
@@ -6442,7 +6442,7 @@
         },
         "output": {
           "type": "object",
-          "dov:typeRef": "nsu=http://opcfoundation.org/UA/IJT/Base/;i=6230",
+          "dov:typeRef": "org.opcfoundation.UA.OutputArguments",
           "required": [ "Status", "StatusMessage" ],
           "properties": {
             "Status": {
@@ -6470,7 +6470,7 @@
         "description": "The Method SendJoint is used to send a joint to a joining system. If the input joint already exists in the system, it shall be overwritten.",
         "input": {
           "type": "object",
-          "dov:typeRef": "nsu=http://opcfoundation.org/UA/IJT/Base/;i=6183",
+          "dov:typeRef": "org.opcfoundation.UA.InputArguments",
           "required": [ "ProductInstanceUri", "Joint" ],
           "properties": {
             "ProductInstanceUri": {
@@ -6481,7 +6481,7 @@
               "title": "JointDataType",
               "description": "This structure provides the joint information. Joint is the physical outcome of the joining operation which determines the properties of the point where multiple parts are assembled.",
               "type": "object",
-              "dov:typeRef": "nsu=http://opcfoundation.org/UA/IJT/Base/;i=3028",
+              "dov:typeRef": "org.opcfoundation.UA.IJT.Base.JointDataType",
               "required": [ "JointId" ],
               "properties": {
                 "JointId": {
@@ -6535,7 +6535,7 @@
                     "title": "EntityDataType",
                     "description": "This structure provides the identification data for a given entity in the system.",
                     "type": "object",
-                    "dov:typeRef": "nsu=http://opcfoundation.org/UA/IJT/Base/;i=3010",
+                    "dov:typeRef": "org.opcfoundation.UA.IJT.Base.EntityDataType",
                     "required": [ "EntityId", "EntityType" ],
                     "properties": {
                       "Name": {
@@ -6577,7 +6577,7 @@
         },
         "output": {
           "type": "object",
-          "dov:typeRef": "nsu=http://opcfoundation.org/UA/IJT/Base/;i=6184",
+          "dov:typeRef": "org.opcfoundation.UA.OutputArguments",
           "required": [ "Status", "StatusMessage" ],
           "properties": {
             "Status": {
@@ -6605,7 +6605,7 @@
         "description": "The Method SendJointComponent is used to send a joint component to a joining system. If the input joint component already exists in the system, it shall be overwritten.",
         "input": {
           "type": "object",
-          "dov:typeRef": "nsu=http://opcfoundation.org/UA/IJT/Base/;i=6192",
+          "dov:typeRef": "org.opcfoundation.UA.InputArguments",
           "required": [ "ProductInstanceUri", "JointComponent" ],
           "properties": {
             "ProductInstanceUri": {
@@ -6616,7 +6616,7 @@
               "title": "JointComponentDataType",
               "description": "This structure is the base container for any joint component such as Bolt, Rivet, Gasket, Glue string, etc.   Note: The concrete definition of joint component is not defined in this version of the specification.",
               "type": "object",
-              "dov:typeRef": "nsu=http://opcfoundation.org/UA/IJT/Base/;i=3021",
+              "dov:typeRef": "org.opcfoundation.UA.IJT.Base.JointComponentDataType",
               "required": [ "JointComponentId" ],
               "properties": {
                 "JointComponentId": {
@@ -6649,7 +6649,7 @@
         },
         "output": {
           "type": "object",
-          "dov:typeRef": "nsu=http://opcfoundation.org/UA/IJT/Base/;i=6228",
+          "dov:typeRef": "org.opcfoundation.UA.OutputArguments",
           "required": [ "Status", "StatusMessage" ],
           "properties": {
             "Status": {
@@ -6677,7 +6677,7 @@
         "description": "The Method SendJointDesign is used to send a joint design to a joining system. If the input joint design already exists in the system, it shall be overwritten.",
         "input": {
           "type": "object",
-          "dov:typeRef": "nsu=http://opcfoundation.org/UA/IJT/Base/;i=6186",
+          "dov:typeRef": "org.opcfoundation.UA.InputArguments",
           "required": [ "ProductInstanceUri", "JointDesign" ],
           "properties": {
             "ProductInstanceUri": {
@@ -6688,7 +6688,7 @@
               "title": "JointDesignDataType",
               "description": "This structure provides the design information of a given joint.",
               "type": "object",
-              "dov:typeRef": "nsu=http://opcfoundation.org/UA/IJT/Base/;i=3025",
+              "dov:typeRef": "org.opcfoundation.UA.IJT.Base.JointDesignDataType",
               "required": [ "JointDesignId" ],
               "properties": {
                 "JointDesignId": {
@@ -6710,7 +6710,7 @@
                     "title": "DesignValueDataType",
                     "description": "This structure provides the design value for a given physical quantity. It is used in JointDesignDataType.",
                     "type": "object",
-                    "dov:typeRef": "nsu=http://opcfoundation.org/UA/IJT/Base/;i=3015",
+                    "dov:typeRef": "org.opcfoundation.UA.IJT.Base.DesignValueDataType",
                     "properties": {
                       "PhysicalQuantity": {
                         "description": "It is the physical quantity of the value. Example: Force, Angle, etc.",
@@ -6730,7 +6730,7 @@
                         "title": "EUInformation",
                         "description": "It is the engineering unit of the design value.",
                         "type": "object",
-                        "dov:typeRef": "nsu=http://opcfoundation.org/UA/;i=887",
+                        "dov:typeRef": "org.opcfoundation.UA.EUInformation",
                         "required": [ "NamespaceUri", "UnitId", "DisplayName", "Description" ],
                         "properties": {
                           "NamespaceUri": {
@@ -6765,7 +6765,7 @@
         },
         "output": {
           "type": "object",
-          "dov:typeRef": "nsu=http://opcfoundation.org/UA/IJT/Base/;i=6191",
+          "dov:typeRef": "org.opcfoundation.UA.OutputArguments",
           "required": [ "Status", "StatusMessage" ],
           "properties": {
             "Status": {
@@ -6815,7 +6815,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "IJT_Base_JoiningSystemResultManagementType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/IJT/Base/;i=1022",
+    "dov:typeRef": "org.opcfoundation.UA.IJT.Base.JoiningSystemResultManagementType",
     "links": [
       {
         "rel": "tm:extends",
@@ -6836,7 +6836,7 @@
         "dov:namespace": "http://opcfoundation.org/UA/IJT/Base/",
         "input": {
           "type": "object",
-          "dov:typeRef": "nsu=http://opcfoundation.org/UA/IJT/Base/;i=6459",
+          "dov:typeRef": "org.opcfoundation.UA.InputArguments",
           "required": [ "FromSequenceNumber", "ToSequenceNumber", "FromTime", "ToTime", "RequestedMinimumDurationBetweenResults" ],
           "properties": {
             "FromSequenceNumber": {
@@ -6870,7 +6870,7 @@
         },
         "output": {
           "type": "object",
-          "dov:typeRef": "nsu=http://opcfoundation.org/UA/IJT/Base/;i=6460",
+          "dov:typeRef": "org.opcfoundation.UA.OutputArguments",
           "required": [ "RevisedMinimumDurationBetweenResults", "Status", "StatusMessage" ],
           "properties": {
             "RevisedMinimumDurationBetweenResults": {
@@ -6902,7 +6902,7 @@
         "dov:namespace": "http://opcfoundation.org/UA/IJT/Base/",
         "input": {
           "type": "object",
-          "dov:typeRef": "nsu=http://opcfoundation.org/UA/IJT/Base/;i=6470",
+          "dov:typeRef": "org.opcfoundation.UA.InputArguments",
           "required": [ "MaxResults", "RequestedMinimumDurationBetweenResults" ],
           "properties": {
             "MaxResults": {
@@ -6920,7 +6920,7 @@
         },
         "output": {
           "type": "object",
-          "dov:typeRef": "nsu=http://opcfoundation.org/UA/IJT/Base/;i=6471",
+          "dov:typeRef": "org.opcfoundation.UA.OutputArguments",
           "required": [ "RevisedMinimumDurationBetweenResults", "UnacknowledgedResultCount", "Status", "StatusMessage" ],
           "properties": {
             "RevisedMinimumDurationBetweenResults": {

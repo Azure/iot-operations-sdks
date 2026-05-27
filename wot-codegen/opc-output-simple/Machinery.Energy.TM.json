@@ -9,7 +9,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "Machinery_Energy_IBaseFlowType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/Machinery/Energy/;i=1006",
+    "dov:typeRef": "org.opcfoundation.UA.Machinery.Energy.IBaseFlowType",
     "links": [
       {
         "rel": "tm:extends",
@@ -291,7 +291,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "Machinery_Energy_IMassFlowType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/Machinery/Energy/;i=1008",
+    "dov:typeRef": "org.opcfoundation.UA.Machinery.Energy.IMassFlowType",
     "links": [
       {
         "rel": "tm:extends",
@@ -573,7 +573,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "Machinery_Energy_IVolumeFlowType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/Machinery/Energy/;i=1004",
+    "dov:typeRef": "org.opcfoundation.UA.Machinery.Energy.IVolumeFlowType",
     "links": [
       {
         "rel": "tm:extends",
@@ -854,7 +854,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "Machinery_Energy_INonElectricalEnergyType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/Machinery/Energy/;i=1003",
+    "dov:typeRef": "org.opcfoundation.UA.Machinery.Energy.INonElectricalEnergyType",
     "links": [
       {
         "rel": "tm:extends",

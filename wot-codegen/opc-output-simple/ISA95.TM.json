@@ -8,7 +8,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "ISA95_ISA95ClassType",
-    "dov:typeRef": "nsu=http://www.OPCFoundation.org/UA/2013/01/ISA95;i=4957",
+    "dov:typeRef": "org.opcfoundation.www.UA.2013.01.ISA95.ISA95ClassType",
     "links": [
       {
         "rel": "tm:extends",
@@ -34,7 +34,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "ISA95_ISA95ObjectType",
-    "dov:typeRef": "nsu=http://www.OPCFoundation.org/UA/2013/01/ISA95;i=4958",
+    "dov:typeRef": "org.opcfoundation.www.UA.2013.01.ISA95.ISA95ObjectType",
     "links": [
       {
         "rel": "tm:extends",
@@ -60,7 +60,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "ISA95_ISA95TestSpecificationType",
-    "dov:typeRef": "nsu=http://www.OPCFoundation.org/UA/2013/01/ISA95;i=4959",
+    "dov:typeRef": "org.opcfoundation.www.UA.2013.01.ISA95.ISA95TestSpecificationType",
     "links": [
       {
         "rel": "tm:extends",
@@ -86,7 +86,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "ISA95_QualificationTestSpecificationType",
-    "dov:typeRef": "nsu=http://www.OPCFoundation.org/UA/2013/01/ISA95;i=4977",
+    "dov:typeRef": "org.opcfoundation.www.UA.2013.01.ISA95.QualificationTestSpecificationType",
     "links": [
       {
         "rel": "tm:extends",
@@ -112,7 +112,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "ISA95_PersonnelClassType",
-    "dov:typeRef": "nsu=http://www.OPCFoundation.org/UA/2013/01/ISA95;i=4996",
+    "dov:typeRef": "org.opcfoundation.www.UA.2013.01.ISA95.PersonnelClassType",
     "links": [
       {
         "rel": "tm:extends",
@@ -145,7 +145,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "ISA95_PersonType",
-    "dov:typeRef": "nsu=http://www.OPCFoundation.org/UA/2013/01/ISA95;i=5131",
+    "dov:typeRef": "org.opcfoundation.www.UA.2013.01.ISA95.PersonType",
     "dov:isComposite": true,
     "links": [
       {
@@ -186,7 +186,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "ISA95_PhysicalAssetCapabilityTestSpecificationType",
-    "dov:typeRef": "nsu=http://www.OPCFoundation.org/UA/2013/01/ISA95;i=5057",
+    "dov:typeRef": "org.opcfoundation.www.UA.2013.01.ISA95.PhysicalAssetCapabilityTestSpecificationType",
     "links": [
       {
         "rel": "tm:extends",
@@ -212,7 +212,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "ISA95_PhysicalAssetClassType",
-    "dov:typeRef": "nsu=http://www.OPCFoundation.org/UA/2013/01/ISA95;i=5078",
+    "dov:typeRef": "org.opcfoundation.www.UA.2013.01.ISA95.PhysicalAssetClassType",
     "links": [
       {
         "rel": "tm:extends",
@@ -245,7 +245,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "ISA95_PhysicalAssetType",
-    "dov:typeRef": "nsu=http://www.OPCFoundation.org/UA/2013/01/ISA95;i=5085",
+    "dov:typeRef": "org.opcfoundation.www.UA.2013.01.ISA95.PhysicalAssetType",
     "links": [
       {
         "rel": "tm:extends",
@@ -331,7 +331,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "ISA95_EquipmentCapabilityTestSpecificationType",
-    "dov:typeRef": "nsu=http://www.OPCFoundation.org/UA/2013/01/ISA95;i=5015",
+    "dov:typeRef": "org.opcfoundation.www.UA.2013.01.ISA95.EquipmentCapabilityTestSpecificationType",
     "links": [
       {
         "rel": "tm:extends",
@@ -357,7 +357,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "ISA95_EquipmentClassType",
-    "dov:typeRef": "nsu=http://www.OPCFoundation.org/UA/2013/01/ISA95;i=5034",
+    "dov:typeRef": "org.opcfoundation.www.UA.2013.01.ISA95.EquipmentClassType",
     "links": [
       {
         "rel": "tm:extends",
@@ -390,7 +390,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "ISA95_EquipmentType",
-    "dov:typeRef": "nsu=http://www.OPCFoundation.org/UA/2013/01/ISA95;i=5040",
+    "dov:typeRef": "org.opcfoundation.www.UA.2013.01.ISA95.EquipmentType",
     "links": [
       {
         "rel": "tm:extends",
@@ -483,7 +483,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "ISA95_MaterialTestSpecificationType",
-    "dov:typeRef": "nsu=http://www.OPCFoundation.org/UA/2013/01/ISA95;i=5172",
+    "dov:typeRef": "org.opcfoundation.www.UA.2013.01.ISA95.MaterialTestSpecificationType",
     "links": [
       {
         "rel": "tm:extends",
@@ -509,7 +509,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "ISA95_MaterialClassType",
-    "dov:typeRef": "nsu=http://www.OPCFoundation.org/UA/2013/01/ISA95;i=5209",
+    "dov:typeRef": "org.opcfoundation.www.UA.2013.01.ISA95.MaterialClassType",
     "links": [
       {
         "rel": "tm:extends",
@@ -549,7 +549,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "ISA95_MaterialDefinitionType",
-    "dov:typeRef": "nsu=http://www.OPCFoundation.org/UA/2013/01/ISA95;i=5219",
+    "dov:typeRef": "org.opcfoundation.www.UA.2013.01.ISA95.MaterialDefinitionType",
     "links": [
       {
         "rel": "tm:extends",
@@ -589,7 +589,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "ISA95_MaterialLotType",
-    "dov:typeRef": "nsu=http://www.OPCFoundation.org/UA/2013/01/ISA95;i=5232",
+    "dov:typeRef": "org.opcfoundation.www.UA.2013.01.ISA95.MaterialLotType",
     "links": [
       {
         "rel": "tm:extends",
@@ -636,7 +636,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "ISA95_MaterialSublotType",
-    "dov:typeRef": "nsu=http://www.OPCFoundation.org/UA/2013/01/ISA95;i=5259",
+    "dov:typeRef": "org.opcfoundation.www.UA.2013.01.ISA95.MaterialSublotType",
     "links": [
       {
         "rel": "tm:extends",

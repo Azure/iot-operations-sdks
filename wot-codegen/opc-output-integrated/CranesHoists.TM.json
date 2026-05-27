@@ -8,7 +8,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "CranesHoists_BrakeType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/CranesHoists/;i=1556",
+    "dov:typeRef": "org.opcfoundation.UA.CranesHoists.BrakeType",
     "links": [
       {
         "rel": "tm:extends",
@@ -34,7 +34,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "CranesHoists_CraneAxisType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/CranesHoists/;i=1369",
+    "dov:typeRef": "org.opcfoundation.UA.CranesHoists.CraneAxisType",
     "dov:isComposite": true,
     "links": [
       {
@@ -61,7 +61,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "CranesHoists_CraneMotionDeviceType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/CranesHoists/;i=1392",
+    "dov:typeRef": "org.opcfoundation.UA.CranesHoists.CraneMotionDeviceType",
     "links": [
       {
         "rel": "tm:extends",
@@ -87,7 +87,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "CranesHoists_CraneMotionDeviceSystemType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/CranesHoists/;i=2112",
+    "dov:typeRef": "org.opcfoundation.UA.CranesHoists.CraneMotionDeviceSystemType",
     "dov:isComposite": true,
     "links": [
       {
@@ -114,7 +114,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "CranesHoists_CraneMotorType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/CranesHoists/;i=1262",
+    "dov:typeRef": "org.opcfoundation.UA.CranesHoists.CraneMotorType",
     "links": [
       {
         "rel": "tm:extends",
@@ -147,7 +147,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "CranesHoists_ProtectiveFunctionType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/CranesHoists/;i=1462",
+    "dov:typeRef": "org.opcfoundation.UA.CranesHoists.ProtectiveFunctionType",
     "links": [
       {
         "rel": "tm:extends",
@@ -173,7 +173,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "DI_ComponentType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/DI/;i=15063",
+    "dov:typeRef": "org.opcfoundation.UA.DI.ComponentType",
     "links": [
       {
         "rel": "tm:extends",
@@ -376,7 +376,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "DI_TopologyElementType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/DI/;i=1001",
+    "dov:typeRef": "org.opcfoundation.UA.DI.TopologyElementType",
     "links": [
       {
         "rel": "tm:extends",
@@ -432,7 +432,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "DI_FunctionalGroupType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/DI/;i=1005",
+    "dov:typeRef": "org.opcfoundation.UA.DI.FunctionalGroupType",
     "links": [
       {
         "rel": "tm:extends",
@@ -503,7 +503,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "DI_LockingServicesType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/DI/;i=6388",
+    "dov:typeRef": "org.opcfoundation.UA.DI.LockingServicesType",
     "links": [
       {
         "rel": "tm:extends",
@@ -525,7 +525,7 @@
         "dov:namespace": "http://opcfoundation.org/UA/DI/",
         "output": {
           "type": "object",
-          "dov:typeRef": "nsu=http://opcfoundation.org/UA/DI/;i=6401",
+          "dov:typeRef": "org.opcfoundation.UA.OutputArguments",
           "required": [ "BreakLockStatus" ],
           "properties": {
             "BreakLockStatus": {
@@ -547,7 +547,7 @@
         "dov:namespace": "http://opcfoundation.org/UA/DI/",
         "output": {
           "type": "object",
-          "dov:typeRef": "nsu=http://opcfoundation.org/UA/DI/;i=6399",
+          "dov:typeRef": "org.opcfoundation.UA.OutputArguments",
           "required": [ "ExitLockStatus" ],
           "properties": {
             "ExitLockStatus": {
@@ -569,7 +569,7 @@
         "dov:namespace": "http://opcfoundation.org/UA/DI/",
         "input": {
           "type": "object",
-          "dov:typeRef": "nsu=http://opcfoundation.org/UA/DI/;i=6394",
+          "dov:typeRef": "org.opcfoundation.UA.InputArguments",
           "required": [ "Context" ],
           "properties": {
             "Context": {
@@ -579,7 +579,7 @@
         },
         "output": {
           "type": "object",
-          "dov:typeRef": "nsu=http://opcfoundation.org/UA/DI/;i=6395",
+          "dov:typeRef": "org.opcfoundation.UA.OutputArguments",
           "required": [ "InitLockStatus" ],
           "properties": {
             "InitLockStatus": {
@@ -601,7 +601,7 @@
         "dov:namespace": "http://opcfoundation.org/UA/DI/",
         "output": {
           "type": "object",
-          "dov:typeRef": "nsu=http://opcfoundation.org/UA/DI/;i=6397",
+          "dov:typeRef": "org.opcfoundation.UA.OutputArguments",
           "required": [ "RenewLockStatus" ],
           "properties": {
             "RenewLockStatus": {
@@ -694,7 +694,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "OpcUaCore_BaseObjectType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/;i=58",
+    "dov:typeRef": "org.opcfoundation.UA.BaseObjectType",
     "links": [
     ],
     "schemaDefinitions": {
@@ -715,7 +715,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "OpcUaCore_FolderType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/;i=61",
+    "dov:typeRef": "org.opcfoundation.UA.FolderType",
     "links": [
       {
         "rel": "tm:extends",
@@ -741,7 +741,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "Robotics_AxisType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/Robotics/;i=16601",
+    "dov:typeRef": "org.opcfoundation.UA.Robotics.AxisType",
     "links": [
       {
         "rel": "tm:extends",
@@ -771,7 +771,7 @@
     "schemaDefinitions": {
       "AxisMotionProfileEnumeration": {
         "type": "object",
-        "dov:typeRef": "nsu=http://opcfoundation.org/UA/Robotics/;i=3008",
+        "dov:typeRef": "org.opcfoundation.UA.Robotics.AxisMotionProfileEnumeration",
         "const": {
           "OTHER": 0,
           "ROTARY": 1,
@@ -829,7 +829,7 @@
         "dov:namespace": "http://opcfoundation.org/UA/Robotics/",
         "title": "AxisMotionProfileEnumeration",
         "description": "The kind of axis motion as defined with the AxisMotionProfileEnumeration.",
-        "dov:typeRef": "nsu=http://opcfoundation.org/UA/Robotics/;i=3008",
+        "dov:typeRef": "org.opcfoundation.UA.Robotics.AxisMotionProfileEnumeration",
         "type": "integer",
         "minimum": -2147483648,
         "maximum": 2147483647,
@@ -855,7 +855,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "Robotics_PowerTrainType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/Robotics/;i=16794",
+    "dov:typeRef": "org.opcfoundation.UA.Robotics.PowerTrainType",
     "links": [
       {
         "rel": "tm:extends",
@@ -926,7 +926,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "Robotics_GearType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/Robotics/;i=1022",
+    "dov:typeRef": "org.opcfoundation.UA.Robotics.GearType",
     "links": [
       {
         "rel": "tm:extends",
@@ -968,7 +968,7 @@
         "title": "RationalNumber",
         "description": "The transmission ratio of the gear expressed as a fraction as input velocity (motor side) by output velocity (load side).",
         "type": "object",
-        "dov:typeRef": "nsu=http://opcfoundation.org/UA/;i=18806",
+        "dov:typeRef": "org.opcfoundation.UA.RationalNumber",
         "required": [ "Numerator", "Denominator" ],
         "properties": {
           "Numerator": {
@@ -1091,7 +1091,7 @@
           "title": "RationalNumber",
           "description": "The transmission ratio of the gear expressed as a fraction as input velocity (motor side) by output velocity (load side).",
           "type": "object",
-          "dov:typeRef": "nsu=http://opcfoundation.org/UA/;i=18806",
+          "dov:typeRef": "org.opcfoundation.UA.RationalNumber",
           "required": [ "Numerator", "Denominator" ],
           "properties": {
             "Numerator": {
@@ -1172,7 +1172,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "Robotics_MotorType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/Robotics/;i=1019",
+    "dov:typeRef": "org.opcfoundation.UA.Robotics.MotorType",
     "links": [
       {
         "rel": "tm:extends",
@@ -1278,7 +1278,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "Robotics_LoadType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/Robotics/;i=1018",
+    "dov:typeRef": "org.opcfoundation.UA.Robotics.LoadType",
     "links": [
       {
         "rel": "tm:extends",
@@ -1308,13 +1308,13 @@
         "title": "ThreeDFrame",
         "description": "The position and orientation of the center of the mass related to the mounting point using a FrameType. X, Y, Z define the position of the center of gravity relative to the mounting point coordinate system. A, B, C define the orientation of the principal axes of inertia relative to the mounting point coordinate system. Orientation A, B, C can be '0' for systems which do not need these  values.",
         "type": "object",
-        "dov:typeRef": "nsu=http://opcfoundation.org/UA/;i=18814",
+        "dov:typeRef": "org.opcfoundation.UA.ThreeDFrame",
         "required": [ "CartesianCoordinates", "Orientation" ],
         "properties": {
           "CartesianCoordinates": {
             "title": "ThreeDCartesianCoordinates",
             "type": "object",
-            "dov:typeRef": "nsu=http://opcfoundation.org/UA/;i=18810",
+            "dov:typeRef": "org.opcfoundation.UA.ThreeDCartesianCoordinates",
             "required": [ "X", "Y", "Z" ],
             "properties": {
               "X": {
@@ -1337,7 +1337,7 @@
           "Orientation": {
             "title": "ThreeDOrientation",
             "type": "object",
-            "dov:typeRef": "nsu=http://opcfoundation.org/UA/;i=18812",
+            "dov:typeRef": "org.opcfoundation.UA.ThreeDOrientation",
             "required": [ "A", "B", "C" ],
             "properties": {
               "A": {
@@ -1371,7 +1371,7 @@
       "CenterOfMass_CartesianCoordinates": {
         "title": "ThreeDCartesianCoordinates",
         "type": "object",
-        "dov:typeRef": "nsu=http://opcfoundation.org/UA/;i=18810",
+        "dov:typeRef": "org.opcfoundation.UA.ThreeDCartesianCoordinates",
         "required": [ "X", "Y", "Z" ],
         "properties": {
           "X": {
@@ -1446,7 +1446,7 @@
       "CenterOfMass_Orientation": {
         "title": "ThreeDOrientation",
         "type": "object",
-        "dov:typeRef": "nsu=http://opcfoundation.org/UA/;i=18812",
+        "dov:typeRef": "org.opcfoundation.UA.ThreeDOrientation",
         "required": [ "A", "B", "C" ],
         "properties": {
           "A": {
@@ -1523,7 +1523,7 @@
         "title": "ThreeDVector",
         "description": "The Inertia uses the VectorType to describe the three values of the principal moments of inertia with respect to the mounting point coordinate system. If inertia values are provided for rotary axis the CenterOfMass shall be completely filled as well.",
         "type": "object",
-        "dov:typeRef": "nsu=http://opcfoundation.org/UA/;i=18808",
+        "dov:typeRef": "org.opcfoundation.UA.ThreeDVector",
         "required": [ "X", "Y", "Z" ],
         "properties": {
           "X": {
@@ -1617,13 +1617,13 @@
           "title": "ThreeDFrame",
           "description": "The position and orientation of the center of the mass related to the mounting point using a FrameType. X, Y, Z define the position of the center of gravity relative to the mounting point coordinate system. A, B, C define the orientation of the principal axes of inertia relative to the mounting point coordinate system. Orientation A, B, C can be '0' for systems which do not need these  values.",
           "type": "object",
-          "dov:typeRef": "nsu=http://opcfoundation.org/UA/;i=18814",
+          "dov:typeRef": "org.opcfoundation.UA.ThreeDFrame",
           "required": [ "CartesianCoordinates", "Orientation" ],
           "properties": {
             "CartesianCoordinates": {
               "title": "ThreeDCartesianCoordinates",
               "type": "object",
-              "dov:typeRef": "nsu=http://opcfoundation.org/UA/;i=18810",
+              "dov:typeRef": "org.opcfoundation.UA.ThreeDCartesianCoordinates",
               "required": [ "X", "Y", "Z" ],
               "properties": {
                 "X": {
@@ -1646,7 +1646,7 @@
             "Orientation": {
               "title": "ThreeDOrientation",
               "type": "object",
-              "dov:typeRef": "nsu=http://opcfoundation.org/UA/;i=18812",
+              "dov:typeRef": "org.opcfoundation.UA.ThreeDOrientation",
               "required": [ "A", "B", "C" ],
               "properties": {
                 "A": {
@@ -1681,7 +1681,7 @@
         "data": {
           "title": "ThreeDCartesianCoordinates",
           "type": "object",
-          "dov:typeRef": "nsu=http://opcfoundation.org/UA/;i=18810",
+          "dov:typeRef": "org.opcfoundation.UA.ThreeDCartesianCoordinates",
           "required": [ "X", "Y", "Z" ],
           "properties": {
             "X": {
@@ -1760,7 +1760,7 @@
         "data": {
           "title": "ThreeDOrientation",
           "type": "object",
-          "dov:typeRef": "nsu=http://opcfoundation.org/UA/;i=18812",
+          "dov:typeRef": "org.opcfoundation.UA.ThreeDOrientation",
           "required": [ "A", "B", "C" ],
           "properties": {
             "A": {
@@ -1841,7 +1841,7 @@
           "title": "ThreeDVector",
           "description": "The Inertia uses the VectorType to describe the three values of the principal moments of inertia with respect to the mounting point coordinate system. If inertia values are provided for rotary axis the CenterOfMass shall be completely filled as well.",
           "type": "object",
-          "dov:typeRef": "nsu=http://opcfoundation.org/UA/;i=18808",
+          "dov:typeRef": "org.opcfoundation.UA.ThreeDVector",
           "required": [ "X", "Y", "Z" ],
           "properties": {
             "X": {
@@ -1942,7 +1942,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "Robotics_MotionDeviceType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/Robotics/;i=1004",
+    "dov:typeRef": "org.opcfoundation.UA.Robotics.MotionDeviceType",
     "links": [
       {
         "rel": "tm:extends",
@@ -1983,7 +1983,7 @@
     "schemaDefinitions": {
       "MotionDeviceCategoryEnumeration": {
         "type": "object",
-        "dov:typeRef": "nsu=http://opcfoundation.org/UA/Robotics/;i=18193",
+        "dov:typeRef": "org.opcfoundation.UA.Robotics.MotionDeviceCategoryEnumeration",
         "const": {
           "OTHER": 0,
           "ARTICULATED_ROBOT": 1,
@@ -2104,7 +2104,7 @@
         "dov:namespace": "http://opcfoundation.org/UA/Robotics/",
         "title": "MotionDeviceCategoryEnumeration",
         "description": "The variable MotionDeviceCategory provides the kind of motion device defined by MotionDeviceCategoryEnumeration based on ISO 8373.",
-        "dov:typeRef": "nsu=http://opcfoundation.org/UA/Robotics/;i=18193",
+        "dov:typeRef": "org.opcfoundation.UA.Robotics.MotionDeviceCategoryEnumeration",
         "type": "integer",
         "minimum": -2147483648,
         "maximum": 2147483647,
@@ -2179,7 +2179,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "Robotics_MotionDeviceSystemType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/Robotics/;i=1002",
+    "dov:typeRef": "org.opcfoundation.UA.Robotics.MotionDeviceSystemType",
     "dov:isComposite": true,
     "links": [
       {

@@ -8,7 +8,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "Mining_PELOServices_FaceAlignmentSystem_FaceAlignmentSystemType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/Mining/PELOServices/FaceAlignmentSystem/;i=1002",
+    "dov:typeRef": "org.opcfoundation.UA.Mining.PELOServices.FaceAlignmentSystem.FaceAlignmentSystemType",
     "dov:isComposite": true,
     "links": [
       {

@@ -8,7 +8,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "PADIM_PADIMType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/PADIM/;i=1009",
+    "dov:typeRef": "org.opcfoundation.UA.PADIM.PADIMType",
     "dov:isComposite": true,
     "links": [
       {
@@ -44,7 +44,7 @@
     "schemaDefinitions": {
       "DeviceHealthEnumeration": {
         "type": "object",
-        "dov:typeRef": "nsu=http://opcfoundation.org/UA/DI/;i=6244",
+        "dov:typeRef": "org.opcfoundation.UA.DI.DeviceHealthEnumeration",
         "const": {
           "NORMAL": 0,
           "FAILURE": 1,
@@ -77,7 +77,7 @@
       },
       "ResetModeEnum": {
         "type": "object",
-        "dov:typeRef": "nsu=http://opcfoundation.org/UA/PADIM/;i=1156",
+        "dov:typeRef": "org.opcfoundation.UA.PADIM.ResetModeEnum",
         "const": {
           "Application": 1,
           "Communication": 2712,
@@ -118,12 +118,12 @@
         "dov:namespace": "http://opcfoundation.org/UA/PADIM/",
         "input": {
           "type": "object",
-          "dov:typeRef": "nsu=http://opcfoundation.org/UA/PADIM/;i=1030",
+          "dov:typeRef": "org.opcfoundation.UA.InputArguments",
           "required": [ "ResetMode" ],
           "properties": {
             "ResetMode": {
               "title": "ResetModeEnum",
-              "dov:typeRef": "nsu=http://opcfoundation.org/UA/PADIM/;i=1156",
+              "dov:typeRef": "org.opcfoundation.UA.PADIM.ResetModeEnum",
               "type": "integer",
               "minimum": -2147483648,
               "maximum": 2147483647
@@ -184,7 +184,7 @@
       "DeviceHealth": {
         "dov:namespace": "http://opcfoundation.org/UA/DI/",
         "title": "DeviceHealthEnumeration",
-        "dov:typeRef": "nsu=http://opcfoundation.org/UA/DI/;i=6244",
+        "dov:typeRef": "org.opcfoundation.UA.DI.DeviceHealthEnumeration",
         "type": "integer",
         "minimum": -2147483648,
         "maximum": 2147483647,
@@ -356,7 +356,7 @@
         "dov:namespace": "http://opcfoundation.org/UA/DI/",
         "data": {
           "title": "DeviceHealthEnumeration",
-          "dov:typeRef": "nsu=http://opcfoundation.org/UA/DI/;i=6244",
+          "dov:typeRef": "org.opcfoundation.UA.DI.DeviceHealthEnumeration",
           "type": "integer",
           "minimum": -2147483648,
           "maximum": 2147483647
@@ -393,7 +393,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "PADIM_SignalSetType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/PADIM/;i=1021",
+    "dov:typeRef": "org.opcfoundation.UA.PADIM.SignalSetType",
     "links": [
       {
         "rel": "tm:extends",
@@ -425,7 +425,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "PADIM_IAdministrationType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/PADIM/;i=1050",
+    "dov:typeRef": "org.opcfoundation.UA.PADIM.IAdministrationType",
     "links": [
       {
         "rel": "tm:extends",
@@ -436,7 +436,7 @@
     "schemaDefinitions": {
       "ResetModeEnum": {
         "type": "object",
-        "dov:typeRef": "nsu=http://opcfoundation.org/UA/PADIM/;i=1156",
+        "dov:typeRef": "org.opcfoundation.UA.PADIM.ResetModeEnum",
         "const": {
           "Application": 1,
           "Communication": 2712,
@@ -477,12 +477,12 @@
         "dov:namespace": "http://opcfoundation.org/UA/PADIM/",
         "input": {
           "type": "object",
-          "dov:typeRef": "nsu=http://opcfoundation.org/UA/PADIM/;i=1080",
+          "dov:typeRef": "org.opcfoundation.UA.InputArguments",
           "required": [ "ResetMode" ],
           "properties": {
             "ResetMode": {
               "title": "ResetModeEnum",
-              "dov:typeRef": "nsu=http://opcfoundation.org/UA/PADIM/;i=1156",
+              "dov:typeRef": "org.opcfoundation.UA.PADIM.ResetModeEnum",
               "type": "integer",
               "minimum": -2147483648,
               "maximum": 2147483647
@@ -569,7 +569,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "PADIM_ISignalSetType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/PADIM/;i=1052",
+    "dov:typeRef": "org.opcfoundation.UA.PADIM.ISignalSetType",
     "links": [
       {
         "rel": "tm:extends",
@@ -601,7 +601,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "PADIM_SignalType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/PADIM/;i=1008",
+    "dov:typeRef": "org.opcfoundation.UA.PADIM.SignalType",
     "links": [
       {
         "rel": "tm:extends",
@@ -656,7 +656,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "PADIM_AnalogSignalType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/PADIM/;i=1022",
+    "dov:typeRef": "org.opcfoundation.UA.PADIM.AnalogSignalType",
     "dov:isComposite": true,
     "links": [
       {
@@ -752,7 +752,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "PADIM_ControlSignalType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/PADIM/;i=1023",
+    "dov:typeRef": "org.opcfoundation.UA.PADIM.ControlSignalType",
     "dov:isComposite": true,
     "links": [
       {
@@ -764,7 +764,7 @@
     "schemaDefinitions": {
       "ExecutionModeEnum": {
         "type": "object",
-        "dov:typeRef": "nsu=http://opcfoundation.org/UA/PADIM/;i=1158",
+        "dov:typeRef": "org.opcfoundation.UA.PADIM.ExecutionModeEnum",
         "const": {
           "Start": 2,
           "Abort": 255
@@ -801,12 +801,12 @@
         "dov:namespace": "http://opcfoundation.org/UA/PADIM/",
         "input": {
           "type": "object",
-          "dov:typeRef": "nsu=http://opcfoundation.org/UA/PADIM/;i=1119",
+          "dov:typeRef": "org.opcfoundation.UA.InputArguments",
           "required": [ "ExecutionMode" ],
           "properties": {
             "ExecutionMode": {
               "title": "ExecutionModeEnum",
-              "dov:typeRef": "nsu=http://opcfoundation.org/UA/PADIM/;i=1158",
+              "dov:typeRef": "org.opcfoundation.UA.PADIM.ExecutionModeEnum",
               "type": "integer",
               "minimum": -2147483648,
               "maximum": 2147483647
@@ -980,7 +980,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "PADIM_DiscreteSignalType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/PADIM/;i=1036",
+    "dov:typeRef": "org.opcfoundation.UA.PADIM.DiscreteSignalType",
     "dov:isComposite": true,
     "links": [
       {
@@ -1056,7 +1056,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "PADIM_TwoStateDiscreteSignalType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/PADIM/;i=1037",
+    "dov:typeRef": "org.opcfoundation.UA.PADIM.TwoStateDiscreteSignalType",
     "dov:isComposite": true,
     "links": [
       {
@@ -1130,7 +1130,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "PADIM_MultiStateDiscreteSignalType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/PADIM/;i=1038",
+    "dov:typeRef": "org.opcfoundation.UA.PADIM.MultiStateDiscreteSignalType",
     "dov:isComposite": true,
     "links": [
       {
@@ -1208,7 +1208,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "PADIM_TwoStateDiscreteControlSignalType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/PADIM/;i=1223",
+    "dov:typeRef": "org.opcfoundation.UA.PADIM.TwoStateDiscreteControlSignalType",
     "dov:isComposite": true,
     "links": [
       {
@@ -1352,7 +1352,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "PADIM_MultiStateDiscreteControlSignalType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/PADIM/;i=1239",
+    "dov:typeRef": "org.opcfoundation.UA.PADIM.MultiStateDiscreteControlSignalType",
     "dov:isComposite": true,
     "links": [
       {
@@ -1468,7 +1468,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "PADIM_CalibrationPointType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/PADIM/;i=1042",
+    "dov:typeRef": "org.opcfoundation.UA.PADIM.CalibrationPointType",
     "links": [
       {
         "rel": "tm:extends",
@@ -1564,7 +1564,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "PADIM_CalibrationPointSetType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/PADIM/;i=1043",
+    "dov:typeRef": "org.opcfoundation.UA.PADIM.CalibrationPointSetType",
     "links": [
       {
         "rel": "tm:extends",
@@ -1596,7 +1596,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "PADIM_GeneralDeviceConditionSetType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/PADIM/;i=1051",
+    "dov:typeRef": "org.opcfoundation.UA.PADIM.GeneralDeviceConditionSetType",
     "links": [
       {
         "rel": "tm:extends",
@@ -1719,7 +1719,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "PADIM_IGeneralDeviceConditionSetType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/PADIM/;i=1044",
+    "dov:typeRef": "org.opcfoundation.UA.PADIM.IGeneralDeviceConditionSetType",
     "links": [
       {
         "rel": "tm:extends",
@@ -1757,7 +1757,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "PADIM_ICalibrationType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/PADIM/;i=1045",
+    "dov:typeRef": "org.opcfoundation.UA.PADIM.ICalibrationType",
     "links": [
       {
         "rel": "tm:extends",
@@ -1858,7 +1858,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "PADIM_IPhCalibrationType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/PADIM/;i=1046",
+    "dov:typeRef": "org.opcfoundation.UA.PADIM.IPhCalibrationType",
     "links": [
       {
         "rel": "tm:extends",
@@ -1968,7 +1968,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "PADIM_IConductivityCalibrationType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/PADIM/;i=1047",
+    "dov:typeRef": "org.opcfoundation.UA.PADIM.IConductivityCalibrationType",
     "links": [
       {
         "rel": "tm:extends",
@@ -2035,7 +2035,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "PADIM_IAmperometricCalibrationType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/PADIM/;i=1048",
+    "dov:typeRef": "org.opcfoundation.UA.PADIM.IAmperometricCalibrationType",
     "links": [
       {
         "rel": "tm:extends",
@@ -2174,7 +2174,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "PADIM_IOpticalFluorescenseQuenchingCalibrationType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/PADIM/;i=1049",
+    "dov:typeRef": "org.opcfoundation.UA.PADIM.IOpticalFluorescenseQuenchingCalibrationType",
     "links": [
       {
         "rel": "tm:extends",
@@ -2313,7 +2313,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "PADIM_ITocDeviceConditionSetType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/PADIM/;i=1053",
+    "dov:typeRef": "org.opcfoundation.UA.PADIM.ITocDeviceConditionSetType",
     "links": [
       {
         "rel": "tm:extends",
@@ -2554,7 +2554,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "PADIM_IFlameIonisationDeviceConditionSetType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/PADIM/;i=1054",
+    "dov:typeRef": "org.opcfoundation.UA.PADIM.IFlameIonisationDeviceConditionSetType",
     "links": [
       {
         "rel": "tm:extends",
@@ -2708,7 +2708,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "PADIM_INonDispersiveInfraredSignalConditionSetType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/PADIM/;i=1055",
+    "dov:typeRef": "org.opcfoundation.UA.PADIM.INonDispersiveInfraredSignalConditionSetType",
     "links": [
       {
         "rel": "tm:extends",
@@ -2847,7 +2847,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "PADIM_ITocSignalConditionSetType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/PADIM/;i=1056",
+    "dov:typeRef": "org.opcfoundation.UA.PADIM.ITocSignalConditionSetType",
     "links": [
       {
         "rel": "tm:extends",
@@ -3073,7 +3073,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "PADIM_IParamagneticSignalConditionSetType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/PADIM/;i=1057",
+    "dov:typeRef": "org.opcfoundation.UA.PADIM.IParamagneticSignalConditionSetType",
     "links": [
       {
         "rel": "tm:extends",
@@ -3169,7 +3169,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "PADIM_IThermalConductivitySignalConditionSetType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/PADIM/;i=1058",
+    "dov:typeRef": "org.opcfoundation.UA.PADIM.IThermalConductivitySignalConditionSetType",
     "links": [
       {
         "rel": "tm:extends",
@@ -3236,7 +3236,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "PADIM_ITunableDiodeLaserSignalConditionSetType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/PADIM/;i=1059",
+    "dov:typeRef": "org.opcfoundation.UA.PADIM.ITunableDiodeLaserSignalConditionSetType",
     "links": [
       {
         "rel": "tm:extends",
@@ -3458,7 +3458,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "PADIM_IZirconiumDioxideSignalConditionSetType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/PADIM/;i=1060",
+    "dov:typeRef": "org.opcfoundation.UA.PADIM.IZirconiumDioxideSignalConditionSetType",
     "links": [
       {
         "rel": "tm:extends",
@@ -3583,7 +3583,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "PADIM_IPhSignalConditionSetType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/PADIM/;i=1061",
+    "dov:typeRef": "org.opcfoundation.UA.PADIM.IPhSignalConditionSetType",
     "links": [
       {
         "rel": "tm:extends",
@@ -3794,7 +3794,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "PADIM_IConductivitySignalConditionSetType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/PADIM/;i=1062",
+    "dov:typeRef": "org.opcfoundation.UA.PADIM.IConductivitySignalConditionSetType",
     "links": [
       {
         "rel": "tm:extends",
@@ -3947,7 +3947,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "PADIM_IOpticalFluorescenseQuenchingSignalConditionSetType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/PADIM/;i=1063",
+    "dov:typeRef": "org.opcfoundation.UA.PADIM.IOpticalFluorescenseQuenchingSignalConditionSetType",
     "links": [
       {
         "rel": "tm:extends",
@@ -4071,7 +4071,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "PADIM_IAmperometricSignalConditionSetType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/PADIM/;i=1064",
+    "dov:typeRef": "org.opcfoundation.UA.PADIM.IAmperometricSignalConditionSetType",
     "links": [
       {
         "rel": "tm:extends",
@@ -4195,7 +4195,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "PADIM_AnalyticalSignalType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/PADIM/;i=1065",
+    "dov:typeRef": "org.opcfoundation.UA.PADIM.AnalyticalSignalType",
     "dov:isComposite": true,
     "links": [
       {
@@ -4273,7 +4273,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "PADIM_AmperometricSignalType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/PADIM/;i=1066",
+    "dov:typeRef": "org.opcfoundation.UA.PADIM.AmperometricSignalType",
     "dov:isComposite": true,
     "links": [
       {
@@ -4312,7 +4312,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "PADIM_ConductivitySignalType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/PADIM/;i=1067",
+    "dov:typeRef": "org.opcfoundation.UA.PADIM.ConductivitySignalType",
     "dov:isComposite": true,
     "links": [
       {
@@ -4351,7 +4351,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "PADIM_FlameIonisationSignalType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/PADIM/;i=1069",
+    "dov:typeRef": "org.opcfoundation.UA.PADIM.FlameIonisationSignalType",
     "dov:isComposite": true,
     "links": [
       {
@@ -4378,7 +4378,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "PADIM_NonDispersiveInfraredSignalType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/PADIM/;i=1071",
+    "dov:typeRef": "org.opcfoundation.UA.PADIM.NonDispersiveInfraredSignalType",
     "dov:isComposite": true,
     "links": [
       {
@@ -4411,7 +4411,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "PADIM_OpticalFluorescenseQuenchingSignalType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/PADIM/;i=1073",
+    "dov:typeRef": "org.opcfoundation.UA.PADIM.OpticalFluorescenseQuenchingSignalType",
     "dov:isComposite": true,
     "links": [
       {
@@ -4450,7 +4450,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "PADIM_ParamagneticSignalType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/PADIM/;i=1075",
+    "dov:typeRef": "org.opcfoundation.UA.PADIM.ParamagneticSignalType",
     "dov:isComposite": true,
     "links": [
       {
@@ -4483,7 +4483,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "PADIM_PhSignalType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/PADIM/;i=1076",
+    "dov:typeRef": "org.opcfoundation.UA.PADIM.PhSignalType",
     "dov:isComposite": true,
     "links": [
       {
@@ -4522,7 +4522,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "PADIM_ThermalConductivitySignalType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/PADIM/;i=1077",
+    "dov:typeRef": "org.opcfoundation.UA.PADIM.ThermalConductivitySignalType",
     "dov:isComposite": true,
     "links": [
       {
@@ -4555,7 +4555,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "PADIM_TocSignalType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/PADIM/;i=1078",
+    "dov:typeRef": "org.opcfoundation.UA.PADIM.TocSignalType",
     "dov:isComposite": true,
     "links": [
       {
@@ -4588,7 +4588,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "PADIM_TunableDiodeLaserSignalType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/PADIM/;i=1079",
+    "dov:typeRef": "org.opcfoundation.UA.PADIM.TunableDiodeLaserSignalType",
     "dov:isComposite": true,
     "links": [
       {
@@ -4621,7 +4621,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "PADIM_ZirconiumDioxideSignalType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/PADIM/;i=1081",
+    "dov:typeRef": "org.opcfoundation.UA.PADIM.ZirconiumDioxideSignalType",
     "dov:isComposite": true,
     "links": [
       {
@@ -4654,7 +4654,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "PADIM_ProcessAnalyserType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/PADIM/;i=1082",
+    "dov:typeRef": "org.opcfoundation.UA.PADIM.ProcessAnalyserType",
     "dov:isComposite": true,
     "links": [
       {
@@ -4681,7 +4681,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "PADIM_AmperometricAnalyserType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/PADIM/;i=1083",
+    "dov:typeRef": "org.opcfoundation.UA.PADIM.AmperometricAnalyserType",
     "dov:isComposite": true,
     "links": [
       {
@@ -4708,7 +4708,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "PADIM_ConductivityMeterType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/PADIM/;i=1084",
+    "dov:typeRef": "org.opcfoundation.UA.PADIM.ConductivityMeterType",
     "dov:isComposite": true,
     "links": [
       {
@@ -4735,7 +4735,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "PADIM_FlameIonisationDetectorType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/PADIM/;i=1085",
+    "dov:typeRef": "org.opcfoundation.UA.PADIM.FlameIonisationDetectorType",
     "dov:isComposite": true,
     "links": [
       {
@@ -4768,7 +4768,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "PADIM_NonDispersiveInfraredGasAnalyserType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/PADIM/;i=1086",
+    "dov:typeRef": "org.opcfoundation.UA.PADIM.NonDispersiveInfraredGasAnalyserType",
     "dov:isComposite": true,
     "links": [
       {
@@ -4795,7 +4795,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "PADIM_OpticalFluorescenseQuenchingSensorType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/PADIM/;i=1087",
+    "dov:typeRef": "org.opcfoundation.UA.PADIM.OpticalFluorescenseQuenchingSensorType",
     "dov:isComposite": true,
     "links": [
       {
@@ -4822,7 +4822,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "PADIM_ParamagneticGasAnalyserType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/PADIM/;i=1088",
+    "dov:typeRef": "org.opcfoundation.UA.PADIM.ParamagneticGasAnalyserType",
     "dov:isComposite": true,
     "links": [
       {
@@ -4849,7 +4849,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "PADIM_PhMeterType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/PADIM/;i=1089",
+    "dov:typeRef": "org.opcfoundation.UA.PADIM.PhMeterType",
     "dov:isComposite": true,
     "links": [
       {
@@ -4876,7 +4876,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "PADIM_ThermalConductivityGasAnalyserType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/PADIM/;i=1090",
+    "dov:typeRef": "org.opcfoundation.UA.PADIM.ThermalConductivityGasAnalyserType",
     "dov:isComposite": true,
     "links": [
       {
@@ -4903,7 +4903,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "PADIM_TocAnalyserType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/PADIM/;i=1091",
+    "dov:typeRef": "org.opcfoundation.UA.PADIM.TocAnalyserType",
     "dov:isComposite": true,
     "links": [
       {
@@ -4936,7 +4936,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "PADIM_TunableDiodeLaserSpectrometerType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/PADIM/;i=1092",
+    "dov:typeRef": "org.opcfoundation.UA.PADIM.TunableDiodeLaserSpectrometerType",
     "dov:isComposite": true,
     "links": [
       {
@@ -4963,7 +4963,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "PADIM_ZirconiumDioxideAnalyserType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/PADIM/;i=1093",
+    "dov:typeRef": "org.opcfoundation.UA.PADIM.ZirconiumDioxideAnalyserType",
     "dov:isComposite": true,
     "links": [
       {

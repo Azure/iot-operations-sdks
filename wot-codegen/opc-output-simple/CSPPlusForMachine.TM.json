@@ -8,7 +8,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "CSPPlusForMachine_CsppMachineType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/CSPPlusForMachine/;i=1001",
+    "dov:typeRef": "org.opcfoundation.UA.CSPPlusForMachine.CsppMachineType",
     "links": [
       {
         "rel": "tm:extends",

@@ -8,7 +8,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "PackML_PackMLAdminObjectType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/PackML/;i=5",
+    "dov:typeRef": "org.opcfoundation.UA.PackML.PackMLAdminObjectType",
     "links": [
       {
         "rel": "tm:extends",
@@ -129,7 +129,7 @@
         "items": {
           "title": "PackMLDescriptorDataType",
           "type": "object",
-          "dov:typeRef": "nsu=http://opcfoundation.org/UA/PackML/;i=16",
+          "dov:typeRef": "org.opcfoundation.UA.PackML.PackMLDescriptorDataType",
           "required": [ "ID", "Name", "Unit", "Value" ],
           "properties": {
             "ID": {
@@ -146,7 +146,7 @@
               "title": "EUInformation",
               "description": "OPC UA engineering unit information",
               "type": "object",
-              "dov:typeRef": "nsu=http://opcfoundation.org/UA/;i=887",
+              "dov:typeRef": "org.opcfoundation.UA.EUInformation",
               "required": [ "NamespaceUri", "UnitId", "DisplayName", "Description" ],
               "properties": {
                 "NamespaceUri": {
@@ -188,7 +188,7 @@
         "items": {
           "title": "PackMLCountDataType",
           "type": "object",
-          "dov:typeRef": "nsu=http://opcfoundation.org/UA/PackML/;i=14",
+          "dov:typeRef": "org.opcfoundation.UA.PackML.PackMLCountDataType",
           "required": [ "ID", "Name", "Unit", "Count", "AccCount" ],
           "properties": {
             "ID": {
@@ -205,7 +205,7 @@
               "title": "EUInformation",
               "description": "OPC UA engineering unit information for the count.",
               "type": "object",
-              "dov:typeRef": "nsu=http://opcfoundation.org/UA/;i=887",
+              "dov:typeRef": "org.opcfoundation.UA.EUInformation",
               "required": [ "NamespaceUri", "UnitId", "DisplayName", "Description" ],
               "properties": {
                 "NamespaceUri": {
@@ -253,7 +253,7 @@
         "items": {
           "title": "PackMLCountDataType",
           "type": "object",
-          "dov:typeRef": "nsu=http://opcfoundation.org/UA/PackML/;i=14",
+          "dov:typeRef": "org.opcfoundation.UA.PackML.PackMLCountDataType",
           "required": [ "ID", "Name", "Unit", "Count", "AccCount" ],
           "properties": {
             "ID": {
@@ -270,7 +270,7 @@
               "title": "EUInformation",
               "description": "OPC UA engineering unit information for the count.",
               "type": "object",
-              "dov:typeRef": "nsu=http://opcfoundation.org/UA/;i=887",
+              "dov:typeRef": "org.opcfoundation.UA.EUInformation",
               "required": [ "NamespaceUri", "UnitId", "DisplayName", "Description" ],
               "properties": {
                 "NamespaceUri": {
@@ -318,7 +318,7 @@
         "items": {
           "title": "PackMLCountDataType",
           "type": "object",
-          "dov:typeRef": "nsu=http://opcfoundation.org/UA/PackML/;i=14",
+          "dov:typeRef": "org.opcfoundation.UA.PackML.PackMLCountDataType",
           "required": [ "ID", "Name", "Unit", "Count", "AccCount" ],
           "properties": {
             "ID": {
@@ -335,7 +335,7 @@
               "title": "EUInformation",
               "description": "OPC UA engineering unit information for the count.",
               "type": "object",
-              "dov:typeRef": "nsu=http://opcfoundation.org/UA/;i=887",
+              "dov:typeRef": "org.opcfoundation.UA.EUInformation",
               "required": [ "NamespaceUri", "UnitId", "DisplayName", "Description" ],
               "properties": {
                 "NamespaceUri": {
@@ -550,7 +550,7 @@
           "items": {
             "title": "PackMLDescriptorDataType",
             "type": "object",
-            "dov:typeRef": "nsu=http://opcfoundation.org/UA/PackML/;i=16",
+            "dov:typeRef": "org.opcfoundation.UA.PackML.PackMLDescriptorDataType",
             "required": [ "ID", "Name", "Unit", "Value" ],
             "properties": {
               "ID": {
@@ -567,7 +567,7 @@
                 "title": "EUInformation",
                 "description": "OPC UA engineering unit information",
                 "type": "object",
-                "dov:typeRef": "nsu=http://opcfoundation.org/UA/;i=887",
+                "dov:typeRef": "org.opcfoundation.UA.EUInformation",
                 "required": [ "NamespaceUri", "UnitId", "DisplayName", "Description" ],
                 "properties": {
                   "NamespaceUri": {
@@ -610,7 +610,7 @@
           "items": {
             "title": "PackMLCountDataType",
             "type": "object",
-            "dov:typeRef": "nsu=http://opcfoundation.org/UA/PackML/;i=14",
+            "dov:typeRef": "org.opcfoundation.UA.PackML.PackMLCountDataType",
             "required": [ "ID", "Name", "Unit", "Count", "AccCount" ],
             "properties": {
               "ID": {
@@ -627,7 +627,7 @@
                 "title": "EUInformation",
                 "description": "OPC UA engineering unit information for the count.",
                 "type": "object",
-                "dov:typeRef": "nsu=http://opcfoundation.org/UA/;i=887",
+                "dov:typeRef": "org.opcfoundation.UA.EUInformation",
                 "required": [ "NamespaceUri", "UnitId", "DisplayName", "Description" ],
                 "properties": {
                   "NamespaceUri": {
@@ -676,7 +676,7 @@
           "items": {
             "title": "PackMLCountDataType",
             "type": "object",
-            "dov:typeRef": "nsu=http://opcfoundation.org/UA/PackML/;i=14",
+            "dov:typeRef": "org.opcfoundation.UA.PackML.PackMLCountDataType",
             "required": [ "ID", "Name", "Unit", "Count", "AccCount" ],
             "properties": {
               "ID": {
@@ -693,7 +693,7 @@
                 "title": "EUInformation",
                 "description": "OPC UA engineering unit information for the count.",
                 "type": "object",
-                "dov:typeRef": "nsu=http://opcfoundation.org/UA/;i=887",
+                "dov:typeRef": "org.opcfoundation.UA.EUInformation",
                 "required": [ "NamespaceUri", "UnitId", "DisplayName", "Description" ],
                 "properties": {
                   "NamespaceUri": {
@@ -742,7 +742,7 @@
           "items": {
             "title": "PackMLCountDataType",
             "type": "object",
-            "dov:typeRef": "nsu=http://opcfoundation.org/UA/PackML/;i=14",
+            "dov:typeRef": "org.opcfoundation.UA.PackML.PackMLCountDataType",
             "required": [ "ID", "Name", "Unit", "Count", "AccCount" ],
             "properties": {
               "ID": {
@@ -759,7 +759,7 @@
                 "title": "EUInformation",
                 "description": "OPC UA engineering unit information for the count.",
                 "type": "object",
-                "dov:typeRef": "nsu=http://opcfoundation.org/UA/;i=887",
+                "dov:typeRef": "org.opcfoundation.UA.EUInformation",
                 "required": [ "NamespaceUri", "UnitId", "DisplayName", "Description" ],
                 "properties": {
                   "NamespaceUri": {
@@ -884,7 +884,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "PackML_PackMLBaseObjectType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/PackML/;i=6",
+    "dov:typeRef": "org.opcfoundation.UA.PackML.PackMLBaseObjectType",
     "dov:isComposite": true,
     "links": [
       {
@@ -925,7 +925,7 @@
         "dov:namespace": "http://opcfoundation.org/UA/PackML/",
         "input": {
           "type": "object",
-          "dov:typeRef": "nsu=http://opcfoundation.org/UA/PackML/;i=350",
+          "dov:typeRef": "org.opcfoundation.UA.InputArguments",
           "required": [ "RemoteInterface" ],
           "properties": {
             "RemoteInterface": {
@@ -934,7 +934,7 @@
               "items": {
                 "title": "PackMLRemoteInterfaceDataType",
                 "type": "object",
-                "dov:typeRef": "nsu=http://opcfoundation.org/UA/PackML/;i=19",
+                "dov:typeRef": "org.opcfoundation.UA.PackML.PackMLRemoteInterfaceDataType",
                 "required": [ "Number", "ControlCmdNumber", "CmdValue", "Parameter" ],
                 "properties": {
                   "Number": {
@@ -961,7 +961,7 @@
                     "items": {
                       "title": "PackMLDescriptorDataType",
                       "type": "object",
-                      "dov:typeRef": "nsu=http://opcfoundation.org/UA/PackML/;i=16",
+                      "dov:typeRef": "org.opcfoundation.UA.PackML.PackMLDescriptorDataType",
                       "required": [ "ID", "Name", "Unit", "Value" ],
                       "properties": {
                         "ID": {
@@ -978,7 +978,7 @@
                           "title": "EUInformation",
                           "description": "OPC UA engineering unit information",
                           "type": "object",
-                          "dov:typeRef": "nsu=http://opcfoundation.org/UA/;i=887",
+                          "dov:typeRef": "org.opcfoundation.UA.EUInformation",
                           "required": [ "NamespaceUri", "UnitId", "DisplayName", "Description" ],
                           "properties": {
                             "NamespaceUri": {
@@ -1023,7 +1023,7 @@
         "dov:namespace": "http://opcfoundation.org/UA/PackML/",
         "input": {
           "type": "object",
-          "dov:typeRef": "nsu=http://opcfoundation.org/UA/PackML/;i=351",
+          "dov:typeRef": "org.opcfoundation.UA.InputArguments",
           "required": [ "InterlockId", "State" ],
           "properties": {
             "InterlockId": {
@@ -1050,7 +1050,7 @@
         "dov:namespace": "http://opcfoundation.org/UA/PackML/",
         "input": {
           "type": "object",
-          "dov:typeRef": "nsu=http://opcfoundation.org/UA/PackML/;i=348",
+          "dov:typeRef": "org.opcfoundation.UA.InputArguments",
           "required": [ "RequestedMachineSpeed" ],
           "properties": {
             "RequestedMachineSpeed": {
@@ -1073,7 +1073,7 @@
         "dov:namespace": "http://opcfoundation.org/UA/PackML/",
         "input": {
           "type": "object",
-          "dov:typeRef": "nsu=http://opcfoundation.org/UA/PackML/;i=352",
+          "dov:typeRef": "org.opcfoundation.UA.InputArguments",
           "required": [ "Parameter" ],
           "properties": {
             "Parameter": {
@@ -1082,7 +1082,7 @@
               "items": {
                 "title": "PackMLDescriptorDataType",
                 "type": "object",
-                "dov:typeRef": "nsu=http://opcfoundation.org/UA/PackML/;i=16",
+                "dov:typeRef": "org.opcfoundation.UA.PackML.PackMLDescriptorDataType",
                 "required": [ "ID", "Name", "Unit", "Value" ],
                 "properties": {
                   "ID": {
@@ -1099,7 +1099,7 @@
                     "title": "EUInformation",
                     "description": "OPC UA engineering unit information",
                     "type": "object",
-                    "dov:typeRef": "nsu=http://opcfoundation.org/UA/;i=887",
+                    "dov:typeRef": "org.opcfoundation.UA.EUInformation",
                     "required": [ "NamespaceUri", "UnitId", "DisplayName", "Description" ],
                     "properties": {
                       "NamespaceUri": {
@@ -1141,7 +1141,7 @@
         "dov:namespace": "http://opcfoundation.org/UA/PackML/",
         "input": {
           "type": "object",
-          "dov:typeRef": "nsu=http://opcfoundation.org/UA/PackML/;i=349",
+          "dov:typeRef": "org.opcfoundation.UA.InputArguments",
           "required": [ "Product" ],
           "properties": {
             "Product": {
@@ -1150,7 +1150,7 @@
               "items": {
                 "title": "PackMLProductDataType",
                 "type": "object",
-                "dov:typeRef": "nsu=http://opcfoundation.org/UA/PackML/;i=18",
+                "dov:typeRef": "org.opcfoundation.UA.PackML.PackMLProductDataType",
                 "required": [ "ProductID", "ProcessVariables", "Ingredients" ],
                 "properties": {
                   "ProductID": {
@@ -1165,7 +1165,7 @@
                     "items": {
                       "title": "PackMLDescriptorDataType",
                       "type": "object",
-                      "dov:typeRef": "nsu=http://opcfoundation.org/UA/PackML/;i=16",
+                      "dov:typeRef": "org.opcfoundation.UA.PackML.PackMLDescriptorDataType",
                       "required": [ "ID", "Name", "Unit", "Value" ],
                       "properties": {
                         "ID": {
@@ -1182,7 +1182,7 @@
                           "title": "EUInformation",
                           "description": "OPC UA engineering unit information",
                           "type": "object",
-                          "dov:typeRef": "nsu=http://opcfoundation.org/UA/;i=887",
+                          "dov:typeRef": "org.opcfoundation.UA.EUInformation",
                           "required": [ "NamespaceUri", "UnitId", "DisplayName", "Description" ],
                           "properties": {
                             "NamespaceUri": {
@@ -1216,7 +1216,7 @@
                     "items": {
                       "title": "PackMLIngredientsDataType",
                       "type": "object",
-                      "dov:typeRef": "nsu=http://opcfoundation.org/UA/PackML/;i=17",
+                      "dov:typeRef": "org.opcfoundation.UA.PackML.PackMLIngredientsDataType",
                       "required": [ "IngredientID", "Parameter" ],
                       "properties": {
                         "IngredientID": {
@@ -1231,7 +1231,7 @@
                           "items": {
                             "title": "PackMLDescriptorDataType",
                             "type": "object",
-                            "dov:typeRef": "nsu=http://opcfoundation.org/UA/PackML/;i=16",
+                            "dov:typeRef": "org.opcfoundation.UA.PackML.PackMLDescriptorDataType",
                             "required": [ "ID", "Name", "Unit", "Value" ],
                             "properties": {
                               "ID": {
@@ -1248,7 +1248,7 @@
                                 "title": "EUInformation",
                                 "description": "OPC UA engineering unit information",
                                 "type": "object",
-                                "dov:typeRef": "nsu=http://opcfoundation.org/UA/;i=887",
+                                "dov:typeRef": "org.opcfoundation.UA.EUInformation",
                                 "required": [ "NamespaceUri", "UnitId", "DisplayName", "Description" ],
                                 "properties": {
                                   "NamespaceUri": {
@@ -1296,7 +1296,7 @@
         "dov:namespace": "http://opcfoundation.org/UA/PackML/",
         "input": {
           "type": "object",
-          "dov:typeRef": "nsu=http://opcfoundation.org/UA/PackML/;i=118",
+          "dov:typeRef": "org.opcfoundation.UA.InputArguments",
           "required": [ "RequestedMode" ],
           "properties": {
             "RequestedMode": {
@@ -1354,7 +1354,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "PackML_PackMLStatusObjectType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/PackML/;i=4",
+    "dov:typeRef": "org.opcfoundation.UA.PackML.PackMLStatusObjectType",
     "links": [
       {
         "rel": "tm:extends",
@@ -1449,7 +1449,7 @@
         "items": {
           "title": "PackMLDescriptorDataType",
           "type": "object",
-          "dov:typeRef": "nsu=http://opcfoundation.org/UA/PackML/;i=16",
+          "dov:typeRef": "org.opcfoundation.UA.PackML.PackMLDescriptorDataType",
           "required": [ "ID", "Name", "Unit", "Value" ],
           "properties": {
             "ID": {
@@ -1466,7 +1466,7 @@
               "title": "EUInformation",
               "description": "OPC UA engineering unit information",
               "type": "object",
-              "dov:typeRef": "nsu=http://opcfoundation.org/UA/;i=887",
+              "dov:typeRef": "org.opcfoundation.UA.EUInformation",
               "required": [ "NamespaceUri", "UnitId", "DisplayName", "Description" ],
               "properties": {
                 "NamespaceUri": {
@@ -1508,7 +1508,7 @@
         "items": {
           "title": "PackMLProductDataType",
           "type": "object",
-          "dov:typeRef": "nsu=http://opcfoundation.org/UA/PackML/;i=18",
+          "dov:typeRef": "org.opcfoundation.UA.PackML.PackMLProductDataType",
           "required": [ "ProductID", "ProcessVariables", "Ingredients" ],
           "properties": {
             "ProductID": {
@@ -1523,7 +1523,7 @@
               "items": {
                 "title": "PackMLDescriptorDataType",
                 "type": "object",
-                "dov:typeRef": "nsu=http://opcfoundation.org/UA/PackML/;i=16",
+                "dov:typeRef": "org.opcfoundation.UA.PackML.PackMLDescriptorDataType",
                 "required": [ "ID", "Name", "Unit", "Value" ],
                 "properties": {
                   "ID": {
@@ -1540,7 +1540,7 @@
                     "title": "EUInformation",
                     "description": "OPC UA engineering unit information",
                     "type": "object",
-                    "dov:typeRef": "nsu=http://opcfoundation.org/UA/;i=887",
+                    "dov:typeRef": "org.opcfoundation.UA.EUInformation",
                     "required": [ "NamespaceUri", "UnitId", "DisplayName", "Description" ],
                     "properties": {
                       "NamespaceUri": {
@@ -1574,7 +1574,7 @@
               "items": {
                 "title": "PackMLIngredientsDataType",
                 "type": "object",
-                "dov:typeRef": "nsu=http://opcfoundation.org/UA/PackML/;i=17",
+                "dov:typeRef": "org.opcfoundation.UA.PackML.PackMLIngredientsDataType",
                 "required": [ "IngredientID", "Parameter" ],
                 "properties": {
                   "IngredientID": {
@@ -1589,7 +1589,7 @@
                     "items": {
                       "title": "PackMLDescriptorDataType",
                       "type": "object",
-                      "dov:typeRef": "nsu=http://opcfoundation.org/UA/PackML/;i=16",
+                      "dov:typeRef": "org.opcfoundation.UA.PackML.PackMLDescriptorDataType",
                       "required": [ "ID", "Name", "Unit", "Value" ],
                       "properties": {
                         "ID": {
@@ -1606,7 +1606,7 @@
                           "title": "EUInformation",
                           "description": "OPC UA engineering unit information",
                           "type": "object",
-                          "dov:typeRef": "nsu=http://opcfoundation.org/UA/;i=887",
+                          "dov:typeRef": "org.opcfoundation.UA.EUInformation",
                           "required": [ "NamespaceUri", "UnitId", "DisplayName", "Description" ],
                           "properties": {
                             "NamespaceUri": {
@@ -1654,7 +1654,7 @@
         "items": {
           "title": "PackMLRemoteInterfaceDataType",
           "type": "object",
-          "dov:typeRef": "nsu=http://opcfoundation.org/UA/PackML/;i=19",
+          "dov:typeRef": "org.opcfoundation.UA.PackML.PackMLRemoteInterfaceDataType",
           "required": [ "Number", "ControlCmdNumber", "CmdValue", "Parameter" ],
           "properties": {
             "Number": {
@@ -1681,7 +1681,7 @@
               "items": {
                 "title": "PackMLDescriptorDataType",
                 "type": "object",
-                "dov:typeRef": "nsu=http://opcfoundation.org/UA/PackML/;i=16",
+                "dov:typeRef": "org.opcfoundation.UA.PackML.PackMLDescriptorDataType",
                 "required": [ "ID", "Name", "Unit", "Value" ],
                 "properties": {
                   "ID": {
@@ -1698,7 +1698,7 @@
                     "title": "EUInformation",
                     "description": "OPC UA engineering unit information",
                     "type": "object",
-                    "dov:typeRef": "nsu=http://opcfoundation.org/UA/;i=887",
+                    "dov:typeRef": "org.opcfoundation.UA.EUInformation",
                     "required": [ "NamespaceUri", "UnitId", "DisplayName", "Description" ],
                     "properties": {
                       "NamespaceUri": {
@@ -1889,7 +1889,7 @@
           "items": {
             "title": "PackMLDescriptorDataType",
             "type": "object",
-            "dov:typeRef": "nsu=http://opcfoundation.org/UA/PackML/;i=16",
+            "dov:typeRef": "org.opcfoundation.UA.PackML.PackMLDescriptorDataType",
             "required": [ "ID", "Name", "Unit", "Value" ],
             "properties": {
               "ID": {
@@ -1906,7 +1906,7 @@
                 "title": "EUInformation",
                 "description": "OPC UA engineering unit information",
                 "type": "object",
-                "dov:typeRef": "nsu=http://opcfoundation.org/UA/;i=887",
+                "dov:typeRef": "org.opcfoundation.UA.EUInformation",
                 "required": [ "NamespaceUri", "UnitId", "DisplayName", "Description" ],
                 "properties": {
                   "NamespaceUri": {
@@ -1949,7 +1949,7 @@
           "items": {
             "title": "PackMLProductDataType",
             "type": "object",
-            "dov:typeRef": "nsu=http://opcfoundation.org/UA/PackML/;i=18",
+            "dov:typeRef": "org.opcfoundation.UA.PackML.PackMLProductDataType",
             "required": [ "ProductID", "ProcessVariables", "Ingredients" ],
             "properties": {
               "ProductID": {
@@ -1964,7 +1964,7 @@
                 "items": {
                   "title": "PackMLDescriptorDataType",
                   "type": "object",
-                  "dov:typeRef": "nsu=http://opcfoundation.org/UA/PackML/;i=16",
+                  "dov:typeRef": "org.opcfoundation.UA.PackML.PackMLDescriptorDataType",
                   "required": [ "ID", "Name", "Unit", "Value" ],
                   "properties": {
                     "ID": {
@@ -1981,7 +1981,7 @@
                       "title": "EUInformation",
                       "description": "OPC UA engineering unit information",
                       "type": "object",
-                      "dov:typeRef": "nsu=http://opcfoundation.org/UA/;i=887",
+                      "dov:typeRef": "org.opcfoundation.UA.EUInformation",
                       "required": [ "NamespaceUri", "UnitId", "DisplayName", "Description" ],
                       "properties": {
                         "NamespaceUri": {
@@ -2015,7 +2015,7 @@
                 "items": {
                   "title": "PackMLIngredientsDataType",
                   "type": "object",
-                  "dov:typeRef": "nsu=http://opcfoundation.org/UA/PackML/;i=17",
+                  "dov:typeRef": "org.opcfoundation.UA.PackML.PackMLIngredientsDataType",
                   "required": [ "IngredientID", "Parameter" ],
                   "properties": {
                     "IngredientID": {
@@ -2030,7 +2030,7 @@
                       "items": {
                         "title": "PackMLDescriptorDataType",
                         "type": "object",
-                        "dov:typeRef": "nsu=http://opcfoundation.org/UA/PackML/;i=16",
+                        "dov:typeRef": "org.opcfoundation.UA.PackML.PackMLDescriptorDataType",
                         "required": [ "ID", "Name", "Unit", "Value" ],
                         "properties": {
                           "ID": {
@@ -2047,7 +2047,7 @@
                             "title": "EUInformation",
                             "description": "OPC UA engineering unit information",
                             "type": "object",
-                            "dov:typeRef": "nsu=http://opcfoundation.org/UA/;i=887",
+                            "dov:typeRef": "org.opcfoundation.UA.EUInformation",
                             "required": [ "NamespaceUri", "UnitId", "DisplayName", "Description" ],
                             "properties": {
                               "NamespaceUri": {
@@ -2096,7 +2096,7 @@
           "items": {
             "title": "PackMLRemoteInterfaceDataType",
             "type": "object",
-            "dov:typeRef": "nsu=http://opcfoundation.org/UA/PackML/;i=19",
+            "dov:typeRef": "org.opcfoundation.UA.PackML.PackMLRemoteInterfaceDataType",
             "required": [ "Number", "ControlCmdNumber", "CmdValue", "Parameter" ],
             "properties": {
               "Number": {
@@ -2123,7 +2123,7 @@
                 "items": {
                   "title": "PackMLDescriptorDataType",
                   "type": "object",
-                  "dov:typeRef": "nsu=http://opcfoundation.org/UA/PackML/;i=16",
+                  "dov:typeRef": "org.opcfoundation.UA.PackML.PackMLDescriptorDataType",
                   "required": [ "ID", "Name", "Unit", "Value" ],
                   "properties": {
                     "ID": {
@@ -2140,7 +2140,7 @@
                       "title": "EUInformation",
                       "description": "OPC UA engineering unit information",
                       "type": "object",
-                      "dov:typeRef": "nsu=http://opcfoundation.org/UA/;i=887",
+                      "dov:typeRef": "org.opcfoundation.UA.EUInformation",
                       "required": [ "NamespaceUri", "UnitId", "DisplayName", "Description" ],
                       "properties": {
                         "NamespaceUri": {
@@ -2257,7 +2257,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "PackML_PackMLBaseStateMachineType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/PackML/;i=3",
+    "dov:typeRef": "org.opcfoundation.UA.PackML.PackMLBaseStateMachineType",
     "links": [
       {
         "rel": "tm:extends",
@@ -2415,7 +2415,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "PackML_PackMLExecuteStateMachineType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/PackML/;i=1",
+    "dov:typeRef": "org.opcfoundation.UA.PackML.PackMLExecuteStateMachineType",
     "links": [
       {
         "rel": "tm:extends",
@@ -2648,7 +2648,7 @@
         "dov:namespace": "http://opcfoundation.org/UA/PackML/",
         "input": {
           "type": "object",
-          "dov:typeRef": "nsu=http://opcfoundation.org/UA/PackML/;i=342",
+          "dov:typeRef": "org.opcfoundation.UA.InputArguments",
           "required": [ "Parameter" ],
           "properties": {
             "Parameter": {
@@ -2657,7 +2657,7 @@
               "items": {
                 "title": "PackMLDescriptorDataType",
                 "type": "object",
-                "dov:typeRef": "nsu=http://opcfoundation.org/UA/PackML/;i=16",
+                "dov:typeRef": "org.opcfoundation.UA.PackML.PackMLDescriptorDataType",
                 "required": [ "ID", "Name", "Unit", "Value" ],
                 "properties": {
                   "ID": {
@@ -2674,7 +2674,7 @@
                     "title": "EUInformation",
                     "description": "OPC UA engineering unit information",
                     "type": "object",
-                    "dov:typeRef": "nsu=http://opcfoundation.org/UA/;i=887",
+                    "dov:typeRef": "org.opcfoundation.UA.EUInformation",
                     "required": [ "NamespaceUri", "UnitId", "DisplayName", "Description" ],
                     "properties": {
                       "NamespaceUri": {
@@ -2825,7 +2825,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "PackML_PackMLMachineStateMachineType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/PackML/;i=2",
+    "dov:typeRef": "org.opcfoundation.UA.PackML.PackMLMachineStateMachineType",
     "links": [
       {
         "rel": "tm:extends",

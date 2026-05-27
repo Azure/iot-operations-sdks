@@ -30,7 +30,7 @@ namespace Azure.Iot.Operations.Opc2WotLib
         {
             this.specName = specName;
             this.thingName = WotUtil.LegalizeName(uaObjectType.DiscriminatedEffectiveName, specName);
-            this.typeRef = $"nsu={uaObjectType.NodeIdNamespace};i={uaObjectType.NodeId.NodeIndex}";
+            this.typeRef = uaObjectType.GetTypeRef();
             this.isIntegrated = isIntegrated;
             this.inheritVars = inheritVars;
 

@@ -8,7 +8,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "ECM_AccuracyDomainType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/ECM/;i=1014",
+    "dov:typeRef": "org.opcfoundation.UA.ECM.AccuracyDomainType",
     "links": [
       {
         "rel": "tm:extends",
@@ -38,7 +38,7 @@
         "items": {
           "title": "EnumValueType",
           "type": "object",
-          "dov:typeRef": "nsu=http://opcfoundation.org/UA/;i=7594",
+          "dov:typeRef": "org.opcfoundation.UA.EnumValueType",
           "required": [ "Value", "DisplayName", "Description" ],
           "properties": {
             "Value": {
@@ -82,7 +82,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "ECM_IEnergyProfileD0Type",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/ECM/;i=1011",
+    "dov:typeRef": "org.opcfoundation.UA.ECM.IEnergyProfileD0Type",
     "links": [
       {
         "rel": "tm:extends",
@@ -245,7 +245,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "ECM_IEnergyProfileD1Type",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/ECM/;i=1015",
+    "dov:typeRef": "org.opcfoundation.UA.ECM.IEnergyProfileD1Type",
     "links": [
       {
         "rel": "tm:extends",
@@ -646,7 +646,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "ECM_IEnergyProfileE0Type",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/ECM/;i=1007",
+    "dov:typeRef": "org.opcfoundation.UA.ECM.IEnergyProfileE0Type",
     "links": [
       {
         "rel": "tm:extends",
@@ -680,7 +680,7 @@
         "dov:namespace": "http://opcfoundation.org/UA/ECM/",
         "title": "AcPeDataType",
         "type": "object",
-        "dov:typeRef": "nsu=http://opcfoundation.org/UA/ECM/;i=3005",
+        "dov:typeRef": "org.opcfoundation.UA.ECM.AcPeDataType",
         "required": [ "L1", "L2", "L3" ],
         "properties": {
           "L1": {
@@ -773,7 +773,7 @@
         "data": {
           "title": "AcPeDataType",
           "type": "object",
-          "dov:typeRef": "nsu=http://opcfoundation.org/UA/ECM/;i=3005",
+          "dov:typeRef": "org.opcfoundation.UA.ECM.AcPeDataType",
           "required": [ "L1", "L2", "L3" ],
           "properties": {
             "L1": {
@@ -851,7 +851,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "ECM_IEnergyProfileE1Type",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/ECM/;i=1008",
+    "dov:typeRef": "org.opcfoundation.UA.ECM.IEnergyProfileE1Type",
     "links": [
       {
         "rel": "tm:extends",
@@ -1014,7 +1014,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "ECM_IEnergyProfileE2Type",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/ECM/;i=1009",
+    "dov:typeRef": "org.opcfoundation.UA.ECM.IEnergyProfileE2Type",
     "links": [
       {
         "rel": "tm:extends",
@@ -1177,7 +1177,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "ECM_IEnergyProfileE3Type",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/ECM/;i=1010",
+    "dov:typeRef": "org.opcfoundation.UA.ECM.IEnergyProfileE3Type",
     "links": [
       {
         "rel": "tm:extends",
@@ -1211,7 +1211,7 @@
         "dov:namespace": "http://opcfoundation.org/UA/ECM/",
         "title": "AcPeDataType",
         "type": "object",
-        "dov:typeRef": "nsu=http://opcfoundation.org/UA/ECM/;i=3005",
+        "dov:typeRef": "org.opcfoundation.UA.ECM.AcPeDataType",
         "required": [ "L1", "L2", "L3" ],
         "properties": {
           "L1": {
@@ -1289,7 +1289,7 @@
         "dov:namespace": "http://opcfoundation.org/UA/ECM/",
         "title": "AcPeDataType",
         "type": "object",
-        "dov:typeRef": "nsu=http://opcfoundation.org/UA/ECM/;i=3005",
+        "dov:typeRef": "org.opcfoundation.UA.ECM.AcPeDataType",
         "required": [ "L1", "L2", "L3" ],
         "properties": {
           "L1": {
@@ -1367,7 +1367,7 @@
         "dov:namespace": "http://opcfoundation.org/UA/ECM/",
         "title": "AcPeDataType",
         "type": "object",
-        "dov:typeRef": "nsu=http://opcfoundation.org/UA/ECM/;i=3005",
+        "dov:typeRef": "org.opcfoundation.UA.ECM.AcPeDataType",
         "required": [ "L1", "L2", "L3" ],
         "properties": {
           "L1": {
@@ -1443,7 +1443,7 @@
         "dov:namespace": "http://opcfoundation.org/UA/ECM/",
         "title": "AcPeDataType",
         "type": "object",
-        "dov:typeRef": "nsu=http://opcfoundation.org/UA/ECM/;i=3005",
+        "dov:typeRef": "org.opcfoundation.UA.ECM.AcPeDataType",
         "required": [ "L1", "L2", "L3" ],
         "properties": {
           "L1": {
@@ -1521,7 +1521,7 @@
         "dov:namespace": "http://opcfoundation.org/UA/ECM/",
         "title": "AcPeDataType",
         "type": "object",
-        "dov:typeRef": "nsu=http://opcfoundation.org/UA/ECM/;i=3005",
+        "dov:typeRef": "org.opcfoundation.UA.ECM.AcPeDataType",
         "required": [ "L1", "L2", "L3" ],
         "properties": {
           "L1": {
@@ -1599,7 +1599,7 @@
         "dov:namespace": "http://opcfoundation.org/UA/ECM/",
         "title": "AcPpDataType",
         "type": "object",
-        "dov:typeRef": "nsu=http://opcfoundation.org/UA/ECM/;i=3006",
+        "dov:typeRef": "org.opcfoundation.UA.ECM.AcPpDataType",
         "required": [ "L1L2", "L2L3", "L3L1" ],
         "properties": {
           "L1L2": {
@@ -1740,7 +1740,7 @@
         "data": {
           "title": "AcPeDataType",
           "type": "object",
-          "dov:typeRef": "nsu=http://opcfoundation.org/UA/ECM/;i=3005",
+          "dov:typeRef": "org.opcfoundation.UA.ECM.AcPeDataType",
           "required": [ "L1", "L2", "L3" ],
           "properties": {
             "L1": {
@@ -1811,7 +1811,7 @@
         "data": {
           "title": "AcPeDataType",
           "type": "object",
-          "dov:typeRef": "nsu=http://opcfoundation.org/UA/ECM/;i=3005",
+          "dov:typeRef": "org.opcfoundation.UA.ECM.AcPeDataType",
           "required": [ "L1", "L2", "L3" ],
           "properties": {
             "L1": {
@@ -1882,7 +1882,7 @@
         "data": {
           "title": "AcPeDataType",
           "type": "object",
-          "dov:typeRef": "nsu=http://opcfoundation.org/UA/ECM/;i=3005",
+          "dov:typeRef": "org.opcfoundation.UA.ECM.AcPeDataType",
           "required": [ "L1", "L2", "L3" ],
           "properties": {
             "L1": {
@@ -1951,7 +1951,7 @@
         "data": {
           "title": "AcPeDataType",
           "type": "object",
-          "dov:typeRef": "nsu=http://opcfoundation.org/UA/ECM/;i=3005",
+          "dov:typeRef": "org.opcfoundation.UA.ECM.AcPeDataType",
           "required": [ "L1", "L2", "L3" ],
           "properties": {
             "L1": {
@@ -2022,7 +2022,7 @@
         "data": {
           "title": "AcPeDataType",
           "type": "object",
-          "dov:typeRef": "nsu=http://opcfoundation.org/UA/ECM/;i=3005",
+          "dov:typeRef": "org.opcfoundation.UA.ECM.AcPeDataType",
           "required": [ "L1", "L2", "L3" ],
           "properties": {
             "L1": {
@@ -2093,7 +2093,7 @@
         "data": {
           "title": "AcPpDataType",
           "type": "object",
-          "dov:typeRef": "nsu=http://opcfoundation.org/UA/ECM/;i=3006",
+          "dov:typeRef": "org.opcfoundation.UA.ECM.AcPpDataType",
           "required": [ "L1L2", "L2L3", "L3L1" ],
           "properties": {
             "L1L2": {
@@ -2170,7 +2170,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "ECM_EnergyDevicePowerOffType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/ECM/;i=1012",
+    "dov:typeRef": "org.opcfoundation.UA.ECM.EnergyDevicePowerOffType",
     "dov:isComposite": true,
     "links": [
       {
@@ -2198,7 +2198,7 @@
         "dov:namespace": "http://opcfoundation.org/UA/ECM/",
         "output": {
           "type": "object",
-          "dov:typeRef": "nsu=http://opcfoundation.org/UA/ECM/;i=6110",
+          "dov:typeRef": "org.opcfoundation.UA.OutputArguments",
           "required": [ "ModeID", "CurrentTimeToDestination", "RegularTimeToOperate", "TimeMinLengthOfStay", "ReturnCode" ],
           "properties": {
             "ModeID": {
@@ -2349,7 +2349,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "ECM_EnergyMeasurementType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/ECM/;i=1006",
+    "dov:typeRef": "org.opcfoundation.UA.ECM.EnergyMeasurementType",
     "dov:isComposite": true,
     "links": [
       {
@@ -2536,7 +2536,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "ECM_EnergySavingModesContainerType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/ECM/;i=1004",
+    "dov:typeRef": "org.opcfoundation.UA.ECM.EnergySavingModesContainerType",
     "links": [
       {
         "rel": "tm:extends",
@@ -2568,7 +2568,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "ECM_EnergySavingModeType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/ECM/;i=1003",
+    "dov:typeRef": "org.opcfoundation.UA.ECM.EnergySavingModeType",
     "links": [
       {
         "rel": "tm:extends",
@@ -2854,7 +2854,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "ECM_EnergySavingModeStatusType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/ECM/;i=1002",
+    "dov:typeRef": "org.opcfoundation.UA.ECM.EnergySavingModeStatusType",
     "links": [
       {
         "rel": "tm:extends",
@@ -2883,7 +2883,7 @@
         "dov:namespace": "http://opcfoundation.org/UA/ECM/",
         "title": "StandbyModeTransitionDataType",
         "type": "object",
-        "dov:typeRef": "nsu=http://opcfoundation.org/UA/ECM/;i=3002",
+        "dov:typeRef": "org.opcfoundation.UA.ECM.StandbyModeTransitionDataType",
         "required": [ "IDDestination", "CurrentTimeToDestination", "CurrentTimeToOperate", "EnergyConsumptionToDestination" ],
         "properties": {
           "IDDestination": {
@@ -2922,7 +2922,7 @@
         "dov:namespace": "http://opcfoundation.org/UA/ECM/",
         "title": "EnergyStateInformationDataType",
         "type": "object",
-        "dov:typeRef": "nsu=http://opcfoundation.org/UA/ECM/;i=3003",
+        "dov:typeRef": "org.opcfoundation.UA.ECM.EnergyStateInformationDataType",
         "required": [ "IDSource", "IDDestination", "RegularTimeToOperate", "ModePowerConsumption" ],
         "properties": {
           "IDSource": {
@@ -2965,7 +2965,7 @@
         "data": {
           "title": "StandbyModeTransitionDataType",
           "type": "object",
-          "dov:typeRef": "nsu=http://opcfoundation.org/UA/ECM/;i=3002",
+          "dov:typeRef": "org.opcfoundation.UA.ECM.StandbyModeTransitionDataType",
           "required": [ "IDDestination", "CurrentTimeToDestination", "CurrentTimeToOperate", "EnergyConsumptionToDestination" ],
           "properties": {
             "IDDestination": {
@@ -3005,7 +3005,7 @@
         "data": {
           "title": "EnergyStateInformationDataType",
           "type": "object",
-          "dov:typeRef": "nsu=http://opcfoundation.org/UA/ECM/;i=3003",
+          "dov:typeRef": "org.opcfoundation.UA.ECM.EnergyStateInformationDataType",
           "required": [ "IDSource", "IDDestination", "RegularTimeToOperate", "ModePowerConsumption" ],
           "properties": {
             "IDSource": {
@@ -3052,7 +3052,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "ECM_EnergyStandbyManagementType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/ECM/;i=1005",
+    "dov:typeRef": "org.opcfoundation.UA.ECM.EnergyStandbyManagementType",
     "dov:isComposite": true,
     "links": [
       {
@@ -3103,7 +3103,7 @@
         "dov:namespace": "http://opcfoundation.org/UA/ECM/",
         "output": {
           "type": "object",
-          "dov:typeRef": "nsu=http://opcfoundation.org/UA/ECM/;i=6054",
+          "dov:typeRef": "org.opcfoundation.UA.OutputArguments",
           "required": [ "CurrentTimeToOperate", "ReturnCode" ],
           "properties": {
             "CurrentTimeToOperate": {
@@ -3131,7 +3131,7 @@
         "dov:namespace": "http://opcfoundation.org/UA/ECM/",
         "input": {
           "type": "object",
-          "dov:typeRef": "nsu=http://opcfoundation.org/UA/ECM/;i=6050",
+          "dov:typeRef": "org.opcfoundation.UA.InputArguments",
           "required": [ "PauseTime" ],
           "properties": {
             "PauseTime": {
@@ -3143,7 +3143,7 @@
         },
         "output": {
           "type": "object",
-          "dov:typeRef": "nsu=http://opcfoundation.org/UA/ECM/;i=6051",
+          "dov:typeRef": "org.opcfoundation.UA.OutputArguments",
           "required": [ "ModeID", "CurrentTimeToDestination", "RegularTimeToOperate", "TimeMinLengthOfStay", "ReturnCode" ],
           "properties": {
             "ModeID": {
@@ -3187,7 +3187,7 @@
         "dov:namespace": "http://opcfoundation.org/UA/ECM/",
         "input": {
           "type": "object",
-          "dov:typeRef": "nsu=http://opcfoundation.org/UA/ECM/;i=6052",
+          "dov:typeRef": "org.opcfoundation.UA.InputArguments",
           "required": [ "ModeID" ],
           "properties": {
             "ModeID": {
@@ -3200,7 +3200,7 @@
         },
         "output": {
           "type": "object",
-          "dov:typeRef": "nsu=http://opcfoundation.org/UA/ECM/;i=6053",
+          "dov:typeRef": "org.opcfoundation.UA.OutputArguments",
           "required": [ "EffectiveModeID", "CurrentTimeToDestination", "RegularTimeToOperate", "TimeMinLengthOfStay", "ReturnCode" ],
           "properties": {
             "EffectiveModeID": {
@@ -3316,7 +3316,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "OpcUaCore_BaseObjectType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/;i=58",
+    "dov:typeRef": "org.opcfoundation.UA.BaseObjectType",
     "links": [
     ],
     "schemaDefinitions": {
@@ -3337,7 +3337,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "OpcUaCore_BaseInterfaceType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/;i=17602",
+    "dov:typeRef": "org.opcfoundation.UA.BaseInterfaceType",
     "links": [
       {
         "rel": "tm:extends",
@@ -3363,7 +3363,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "DI_LockingServicesType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/DI/;i=6388",
+    "dov:typeRef": "org.opcfoundation.UA.DI.LockingServicesType",
     "links": [
       {
         "rel": "tm:extends",
@@ -3385,7 +3385,7 @@
         "dov:namespace": "http://opcfoundation.org/UA/DI/",
         "output": {
           "type": "object",
-          "dov:typeRef": "nsu=http://opcfoundation.org/UA/DI/;i=6401",
+          "dov:typeRef": "org.opcfoundation.UA.OutputArguments",
           "required": [ "BreakLockStatus" ],
           "properties": {
             "BreakLockStatus": {
@@ -3407,7 +3407,7 @@
         "dov:namespace": "http://opcfoundation.org/UA/DI/",
         "output": {
           "type": "object",
-          "dov:typeRef": "nsu=http://opcfoundation.org/UA/DI/;i=6399",
+          "dov:typeRef": "org.opcfoundation.UA.OutputArguments",
           "required": [ "ExitLockStatus" ],
           "properties": {
             "ExitLockStatus": {
@@ -3429,7 +3429,7 @@
         "dov:namespace": "http://opcfoundation.org/UA/DI/",
         "input": {
           "type": "object",
-          "dov:typeRef": "nsu=http://opcfoundation.org/UA/DI/;i=6394",
+          "dov:typeRef": "org.opcfoundation.UA.InputArguments",
           "required": [ "Context" ],
           "properties": {
             "Context": {
@@ -3439,7 +3439,7 @@
         },
         "output": {
           "type": "object",
-          "dov:typeRef": "nsu=http://opcfoundation.org/UA/DI/;i=6395",
+          "dov:typeRef": "org.opcfoundation.UA.OutputArguments",
           "required": [ "InitLockStatus" ],
           "properties": {
             "InitLockStatus": {
@@ -3461,7 +3461,7 @@
         "dov:namespace": "http://opcfoundation.org/UA/DI/",
         "output": {
           "type": "object",
-          "dov:typeRef": "nsu=http://opcfoundation.org/UA/DI/;i=6397",
+          "dov:typeRef": "org.opcfoundation.UA.OutputArguments",
           "required": [ "RenewLockStatus" ],
           "properties": {
             "RenewLockStatus": {

@@ -8,7 +8,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "Mining_TransportDumping_RearDumpTruck_RearDumpTruckType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/Mining/TransportDumping/RearDumpTruck/;i=1002",
+    "dov:typeRef": "org.opcfoundation.UA.Mining.TransportDumping.RearDumpTruck.RearDumpTruckType",
     "dov:isComposite": true,
     "links": [
       {

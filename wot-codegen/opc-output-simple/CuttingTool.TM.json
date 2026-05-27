@@ -8,7 +8,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "CuttingTool_CuttingToolFileType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/CuttingTool/;i=1003",
+    "dov:typeRef": "org.opcfoundation.UA.CuttingTool.CuttingToolFileType",
     "dov:isComposite": true,
     "links": [
       {
@@ -38,7 +38,7 @@
         "dov:namespace": "http://opcfoundation.org/UA/CuttingTool/",
         "title": "FileFormatDataType",
         "type": "object",
-        "dov:typeRef": "nsu=http://opcfoundation.org/UA/CuttingTool/;i=3003",
+        "dov:typeRef": "org.opcfoundation.UA.CuttingTool.FileFormatDataType",
         "required": [ "Name", "FileExtension", "Version" ],
         "properties": {
           "Name": {
@@ -78,7 +78,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "CuttingTool_ToolMeasuringMachineType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/CuttingTool/;i=1021",
+    "dov:typeRef": "org.opcfoundation.UA.CuttingTool.ToolMeasuringMachineType",
     "dov:isComposite": true,
     "links": [
       {
@@ -117,7 +117,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "CuttingTool_ToolManufacturingMachineType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/CuttingTool/;i=1025",
+    "dov:typeRef": "org.opcfoundation.UA.CuttingTool.ToolManufacturingMachineType",
     "dov:isComposite": true,
     "links": [
       {

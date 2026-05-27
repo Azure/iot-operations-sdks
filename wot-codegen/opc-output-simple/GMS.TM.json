@@ -8,7 +8,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "GMS_SensorWarningAlarmType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/GMS/;i=1010",
+    "dov:typeRef": "org.opcfoundation.UA.GMS.SensorWarningAlarmType",
     "dov:isEvent": true,
     "links": [
       {
@@ -64,7 +64,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "GMS_IntermediateResultEventType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/GMS/;i=1001",
+    "dov:typeRef": "org.opcfoundation.UA.GMS.IntermediateResultEventType",
     "dov:isEvent": true,
     "links": [
       {
@@ -126,7 +126,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "GMS_MultiSensorType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/GMS/;i=1012",
+    "dov:typeRef": "org.opcfoundation.UA.GMS.MultiSensorType",
     "dov:isComposite": true,
     "links": [
       {
@@ -144,7 +144,7 @@
     "schemaDefinitions": {
       "ToolAlignmentState": {
         "type": "object",
-        "dov:typeRef": "nsu=http://opcfoundation.org/UA/GMS/;i=3004",
+        "dov:typeRef": "org.opcfoundation.UA.GMS.ToolAlignmentState",
         "const": {
           "Fixed": 0,
           "Indexed": 1,
@@ -181,7 +181,7 @@
       "Alignment": {
         "dov:namespace": "http://opcfoundation.org/UA/GMS/",
         "title": "ToolAlignmentState",
-        "dov:typeRef": "nsu=http://opcfoundation.org/UA/GMS/;i=3004",
+        "dov:typeRef": "org.opcfoundation.UA.GMS.ToolAlignmentState",
         "type": "integer",
         "minimum": -2147483648,
         "maximum": 2147483647,
@@ -232,7 +232,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "GMS_SensorType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/GMS/;i=1007",
+    "dov:typeRef": "org.opcfoundation.UA.GMS.SensorType",
     "links": [
       {
         "rel": "tm:extends",
@@ -249,7 +249,7 @@
     "schemaDefinitions": {
       "ToolAlignmentState": {
         "type": "object",
-        "dov:typeRef": "nsu=http://opcfoundation.org/UA/GMS/;i=3004",
+        "dov:typeRef": "org.opcfoundation.UA.GMS.ToolAlignmentState",
         "const": {
           "Fixed": 0,
           "Indexed": 1,
@@ -269,7 +269,7 @@
       },
       "ToolIsQualifiedStatus": {
         "type": "object",
-        "dov:typeRef": "nsu=http://opcfoundation.org/UA/GMS/;i=3002",
+        "dov:typeRef": "org.opcfoundation.UA.GMS.ToolIsQualifiedStatus",
         "const": {
           "Qualified": 0,
           "Imprecise": 1,
@@ -328,7 +328,7 @@
       "Alignment": {
         "dov:namespace": "http://opcfoundation.org/UA/GMS/",
         "title": "ToolAlignmentState",
-        "dov:typeRef": "nsu=http://opcfoundation.org/UA/GMS/;i=3004",
+        "dov:typeRef": "org.opcfoundation.UA.GMS.ToolAlignmentState",
         "type": "integer",
         "minimum": -2147483648,
         "maximum": 2147483647,
@@ -409,7 +409,7 @@
         "dov:namespace": "http://opcfoundation.org/UA/GMS/",
         "title": "EUInformation",
         "type": "object",
-        "dov:typeRef": "nsu=http://opcfoundation.org/UA/;i=887",
+        "dov:typeRef": "org.opcfoundation.UA.EUInformation",
         "required": [ "NamespaceUri", "UnitId", "DisplayName", "Description" ],
         "properties": {
           "NamespaceUri": {
@@ -444,7 +444,7 @@
       "IsQualifiedStatus": {
         "dov:namespace": "http://opcfoundation.org/UA/GMS/",
         "title": "ToolIsQualifiedStatus",
-        "dov:typeRef": "nsu=http://opcfoundation.org/UA/GMS/;i=3002",
+        "dov:typeRef": "org.opcfoundation.UA.GMS.ToolIsQualifiedStatus",
         "type": "integer",
         "minimum": -2147483648,
         "maximum": 2147483647,
@@ -563,7 +563,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "GMS_CharacteristicType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/GMS/;i=1009",
+    "dov:typeRef": "org.opcfoundation.UA.GMS.CharacteristicType",
     "links": [
       {
         "rel": "tm:extends",
@@ -574,7 +574,7 @@
     "schemaDefinitions": {
       "ResultEvaluationEnum": {
         "type": "object",
-        "dov:typeRef": "nsu=http://opcfoundation.org/UA/Machinery/Result/;i=3002",
+        "dov:typeRef": "org.opcfoundation.UA.Machinery.Result.ResultEvaluationEnum",
         "const": {
           "Undefined": 0,
           "OK": 1,
@@ -733,7 +733,7 @@
       "ResultEvaluation": {
         "dov:namespace": "http://opcfoundation.org/UA/GMS/",
         "title": "ResultEvaluationEnum",
-        "dov:typeRef": "nsu=http://opcfoundation.org/UA/Machinery/Result/;i=3002",
+        "dov:typeRef": "org.opcfoundation.UA.Machinery.Result.ResultEvaluationEnum",
         "type": "integer",
         "minimum": -2147483648,
         "maximum": 2147483647,
@@ -862,7 +862,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "GMS_CorrectionType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/GMS/;i=1005",
+    "dov:typeRef": "org.opcfoundation.UA.GMS.CorrectionType",
     "links": [
       {
         "rel": "tm:extends",
@@ -1109,7 +1109,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "GMS_LoadingMonitoringType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/GMS/;i=1014",
+    "dov:typeRef": "org.opcfoundation.UA.GMS.LoadingMonitoringType",
     "links": [
       {
         "rel": "tm:extends",
@@ -1214,7 +1214,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "GMS_ToolMonitoringType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/GMS/;i=1006",
+    "dov:typeRef": "org.opcfoundation.UA.GMS.ToolMonitoringType",
     "links": [
       {
         "rel": "tm:extends",
@@ -1272,7 +1272,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "GMS_GMSEquipmentType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/GMS/;i=1003",
+    "dov:typeRef": "org.opcfoundation.UA.GMS.GMSEquipmentType",
     "links": [
       {
         "rel": "tm:extends",
@@ -1316,7 +1316,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "GMS_GMSIdentificationType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/GMS/;i=1011",
+    "dov:typeRef": "org.opcfoundation.UA.GMS.GMSIdentificationType",
     "links": [
       {
         "rel": "tm:extends",
@@ -1383,7 +1383,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "GMS_GMSType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/GMS/;i=1002",
+    "dov:typeRef": "org.opcfoundation.UA.GMS.GMSType",
     "dov:isComposite": true,
     "links": [
       {
@@ -1440,7 +1440,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "GMS_GMSMonitoringType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/GMS/;i=1004",
+    "dov:typeRef": "org.opcfoundation.UA.GMS.GMSMonitoringType",
     "links": [
       {
         "rel": "tm:extends",
@@ -1478,7 +1478,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "GMS_GMSJobType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/GMS/;i=1016",
+    "dov:typeRef": "org.opcfoundation.UA.GMS.GMSJobType",
     "dov:isComposite": true,
     "links": [
       {
@@ -1490,7 +1490,7 @@
     "schemaDefinitions": {
       "MeasurementReasonEnum": {
         "type": "object",
-        "dov:typeRef": "nsu=http://opcfoundation.org/UA/GMS/;i=3009",
+        "dov:typeRef": "org.opcfoundation.UA.GMS.MeasurementReasonEnum",
         "const": {
           "ContinuousMeasurements": 0,
           "SpecialMeasurement": 1,
@@ -1574,7 +1574,7 @@
       "MeasurementReason": {
         "dov:namespace": "http://opcfoundation.org/UA/GMS/",
         "title": "MeasurementReasonEnum",
-        "dov:typeRef": "nsu=http://opcfoundation.org/UA/GMS/;i=3009",
+        "dov:typeRef": "org.opcfoundation.UA.GMS.MeasurementReasonEnum",
         "type": "integer",
         "minimum": -2147483648,
         "maximum": 2147483647,
@@ -1623,7 +1623,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "GMS_GMSPartType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/GMS/;i=1017",
+    "dov:typeRef": "org.opcfoundation.UA.GMS.GMSPartType",
     "dov:isComposite": true,
     "links": [
       {
@@ -1874,7 +1874,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "GMS_CalibrationPrognosisType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/GMS/;i=1019",
+    "dov:typeRef": "org.opcfoundation.UA.GMS.CalibrationPrognosisType",
     "links": [
       {
         "rel": "tm:extends",
@@ -2003,7 +2003,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "GMS_GMSResultManagementType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/GMS/;i=1008",
+    "dov:typeRef": "org.opcfoundation.UA.GMS.GMSResultManagementType",
     "links": [
       {
         "rel": "tm:extends",
@@ -2035,7 +2035,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "GMS_RotaryTableType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/GMS/;i=1018",
+    "dov:typeRef": "org.opcfoundation.UA.GMS.RotaryTableType",
     "links": [
       {
         "rel": "tm:extends",
@@ -2109,7 +2109,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "GMS_SensorExchangeRackType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/GMS/;i=1015",
+    "dov:typeRef": "org.opcfoundation.UA.GMS.SensorExchangeRackType",
     "links": [
       {
         "rel": "tm:extends",
@@ -2164,7 +2164,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "GMS_TipExchangeRackType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/GMS/;i=1022",
+    "dov:typeRef": "org.opcfoundation.UA.GMS.TipExchangeRackType",
     "links": [
       {
         "rel": "tm:extends",

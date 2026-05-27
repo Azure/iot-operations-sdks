@@ -8,7 +8,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "Weihenstephan_WSMachineType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/Weihenstephan/;i=1000",
+    "dov:typeRef": "org.opcfoundation.UA.Weihenstephan.WSMachineType",
     "dov:isComposite": true,
     "links": [
       {
@@ -35,7 +35,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "Weihenstephan_WSBaseObjectType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/Weihenstephan/;i=1001",
+    "dov:typeRef": "org.opcfoundation.UA.Weihenstephan.WSBaseObjectType",
     "dov:isComposite": true,
     "links": [
       {
@@ -62,7 +62,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "Weihenstephan_WSAlarmType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/Weihenstephan/;i=1002",
+    "dov:typeRef": "org.opcfoundation.UA.Weihenstephan.WSAlarmType",
     "dov:isComposite": true,
     "links": [
       {
@@ -89,7 +89,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "Weihenstephan_WSWarningType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/Weihenstephan/;i=1003",
+    "dov:typeRef": "org.opcfoundation.UA.Weihenstephan.WSWarningType",
     "dov:isComposite": true,
     "links": [
       {
@@ -116,7 +116,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "Weihenstephan_WSBaseStateMachineType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/Weihenstephan/;i=1004",
+    "dov:typeRef": "org.opcfoundation.UA.Weihenstephan.WSBaseStateMachineType",
     "dov:isComposite": true,
     "links": [
       {
@@ -143,7 +143,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "Weihenstephan_WSExecuteStateMachineType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/Weihenstephan/;i=1005",
+    "dov:typeRef": "org.opcfoundation.UA.Weihenstephan.WSExecuteStateMachineType",
     "dov:isComposite": true,
     "links": [
       {
@@ -170,7 +170,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "Weihenstephan_WSHeldStateMachineType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/Weihenstephan/;i=1006",
+    "dov:typeRef": "org.opcfoundation.UA.Weihenstephan.WSHeldStateMachineType",
     "links": [
       {
         "rel": "tm:extends",
@@ -196,7 +196,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "Weihenstephan_WSSuspendedStateMachineType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/Weihenstephan/;i=1007",
+    "dov:typeRef": "org.opcfoundation.UA.Weihenstephan.WSSuspendedStateMachineType",
     "links": [
       {
         "rel": "tm:extends",

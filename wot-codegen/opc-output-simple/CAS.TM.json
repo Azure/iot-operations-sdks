@@ -8,7 +8,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "CAS_AnalysisType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/CAS/;i=1004",
+    "dov:typeRef": "org.opcfoundation.UA.CAS.AnalysisType",
     "links": [
       {
         "rel": "tm:extends",
@@ -51,7 +51,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "CAS_CASType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/CAS/;i=1035",
+    "dov:typeRef": "org.opcfoundation.UA.CAS.CASType",
     "dov:isComposite": true,
     "links": [
       {
@@ -102,7 +102,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "CAS_CommunicationSettingsType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/CAS/;i=1048",
+    "dov:typeRef": "org.opcfoundation.UA.CAS.CommunicationSettingsType",
     "links": [
       {
         "rel": "tm:extends",
@@ -113,7 +113,7 @@
     "schemaDefinitions": {
       "IpVersionEnum": {
         "type": "object",
-        "dov:typeRef": "nsu=http://opcfoundation.org/UA/CAS/;i=3016",
+        "dov:typeRef": "org.opcfoundation.UA.CAS.IpVersionEnum",
         "const": {
           "IPv4": 0,
           "IPv6": 1
@@ -227,7 +227,7 @@
         "dov:namespace": "http://opcfoundation.org/UA/CAS/",
         "title": "IpVersionEnum",
         "description": "Version of the internet protocol used for the MCS.",
-        "dov:typeRef": "nsu=http://opcfoundation.org/UA/CAS/;i=3016",
+        "dov:typeRef": "org.opcfoundation.UA.CAS.IpVersionEnum",
         "type": "integer",
         "minimum": -2147483648,
         "maximum": 2147483647,
@@ -307,7 +307,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "CAS_ElectricalCircuitType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/CAS/;i=1014",
+    "dov:typeRef": "org.opcfoundation.UA.CAS.ElectricalCircuitType",
     "links": [
       {
         "rel": "tm:extends",
@@ -357,7 +357,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "CAS_ElectricalQuantitiesType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/CAS/;i=1011",
+    "dov:typeRef": "org.opcfoundation.UA.CAS.ElectricalQuantitiesType",
     "links": [
       {
         "rel": "tm:extends",
@@ -575,7 +575,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "CAS_FluidCircuitType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/CAS/;i=1013",
+    "dov:typeRef": "org.opcfoundation.UA.CAS.FluidCircuitType",
     "links": [
       {
         "rel": "tm:extends",
@@ -610,7 +610,7 @@
     "schemaDefinitions": {
       "FluidTypeEnum": {
         "type": "object",
-        "dov:typeRef": "nsu=http://opcfoundation.org/UA/CAS/;i=3006",
+        "dov:typeRef": "org.opcfoundation.UA.CAS.FluidTypeEnum",
         "const": {
           "Air": 0,
           "Condensate": 1,
@@ -657,7 +657,7 @@
         "dov:namespace": "http://opcfoundation.org/UA/CAS/",
         "title": "FluidTypeEnum",
         "description": "Enumeration of possible fluid types.",
-        "dov:typeRef": "nsu=http://opcfoundation.org/UA/CAS/;i=3006",
+        "dov:typeRef": "org.opcfoundation.UA.CAS.FluidTypeEnum",
         "type": "integer",
         "minimum": -2147483648,
         "maximum": 2147483647,
@@ -677,7 +677,7 @@
         "data": {
           "title": "FluidTypeEnum",
           "description": "Enumeration of possible fluid types.",
-          "dov:typeRef": "nsu=http://opcfoundation.org/UA/CAS/;i=3006",
+          "dov:typeRef": "org.opcfoundation.UA.CAS.FluidTypeEnum",
           "type": "integer",
           "minimum": -2147483648,
           "maximum": 2147483647
@@ -701,7 +701,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "CAS_FluidQuantitiesType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/CAS/;i=1012",
+    "dov:typeRef": "org.opcfoundation.UA.CAS.FluidQuantitiesType",
     "links": [
       {
         "rel": "tm:extends",
@@ -1109,7 +1109,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "CAS_AirnetComponentsType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/CAS/;i=1050",
+    "dov:typeRef": "org.opcfoundation.UA.CAS.AirnetComponentsType",
     "links": [
       {
         "rel": "tm:extends",
@@ -1213,7 +1213,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "CAS_AnalysesType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/CAS/;i=1049",
+    "dov:typeRef": "org.opcfoundation.UA.CAS.AnalysesType",
     "links": [
       {
         "rel": "tm:extends",
@@ -1257,7 +1257,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "CAS_CalibrationType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/CAS/;i=1054",
+    "dov:typeRef": "org.opcfoundation.UA.CAS.CalibrationType",
     "links": [
       {
         "rel": "tm:extends",
@@ -1353,7 +1353,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "CAS_CASIdentificationType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/CAS/;i=1051",
+    "dov:typeRef": "org.opcfoundation.UA.CAS.CASIdentificationType",
     "links": [
       {
         "rel": "tm:extends",
@@ -1425,7 +1425,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "CAS_ConfigurationType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/CAS/;i=1037",
+    "dov:typeRef": "org.opcfoundation.UA.CAS.ConfigurationType",
     "links": [
       {
         "rel": "tm:extends",
@@ -1451,7 +1451,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "CAS_AirnetConfigurationType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/CAS/;i=1016",
+    "dov:typeRef": "org.opcfoundation.UA.CAS.AirnetConfigurationType",
     "links": [
       {
         "rel": "tm:extends",
@@ -1566,7 +1566,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "CAS_MCSConfigurationType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/CAS/;i=1019",
+    "dov:typeRef": "org.opcfoundation.UA.CAS.MCSConfigurationType",
     "links": [
       {
         "rel": "tm:extends",
@@ -1626,7 +1626,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "CAS_DesignType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/CAS/;i=1044",
+    "dov:typeRef": "org.opcfoundation.UA.CAS.DesignType",
     "links": [
       {
         "rel": "tm:extends",
@@ -1691,7 +1691,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "CAS_CompressorDesignType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/CAS/;i=1008",
+    "dov:typeRef": "org.opcfoundation.UA.CAS.CompressorDesignType",
     "links": [
       {
         "rel": "tm:extends",
@@ -1702,7 +1702,7 @@
     "schemaDefinitions": {
       "CompressorTypeEnum": {
         "type": "object",
-        "dov:typeRef": "nsu=http://opcfoundation.org/UA/CAS/;i=3018",
+        "dov:typeRef": "org.opcfoundation.UA.CAS.CompressorTypeEnum",
         "const": {
           "Other": 0,
           "AxialTurboCompressor": 1,
@@ -1776,7 +1776,7 @@
       },
       "DisplacementTypeEnum": {
         "type": "object",
-        "dov:typeRef": "nsu=http://opcfoundation.org/UA/CAS/;i=3020",
+        "dov:typeRef": "org.opcfoundation.UA.CAS.DisplacementTypeEnum",
         "const": {
           "PositiveDisplacement": 0,
           "DynamicDisplacement": 1
@@ -1795,7 +1795,7 @@
       },
       "LubricationTypeEnum": {
         "type": "object",
-        "dov:typeRef": "nsu=http://opcfoundation.org/UA/CAS/;i=3019",
+        "dov:typeRef": "org.opcfoundation.UA.CAS.LubricationTypeEnum",
         "const": {
           "NoLubrication": 0,
           "OilLubricated": 1,
@@ -1837,7 +1837,7 @@
         "dov:namespace": "http://opcfoundation.org/UA/CAS/",
         "title": "CompressorTypeEnum",
         "description": "Enumeration of possible compressor types.",
-        "dov:typeRef": "nsu=http://opcfoundation.org/UA/CAS/;i=3018",
+        "dov:typeRef": "org.opcfoundation.UA.CAS.CompressorTypeEnum",
         "type": "integer",
         "minimum": -2147483648,
         "maximum": 2147483647,
@@ -1854,7 +1854,7 @@
         "dov:namespace": "http://opcfoundation.org/UA/CAS/",
         "title": "DisplacementTypeEnum",
         "description": "Enumeration of possible displacement types.",
-        "dov:typeRef": "nsu=http://opcfoundation.org/UA/CAS/;i=3020",
+        "dov:typeRef": "org.opcfoundation.UA.CAS.DisplacementTypeEnum",
         "type": "integer",
         "minimum": -2147483648,
         "maximum": 2147483647,
@@ -1871,7 +1871,7 @@
         "dov:namespace": "http://opcfoundation.org/UA/CAS/",
         "title": "LubricationTypeEnum",
         "description": "Enumeration of possible lubrication types for the compression process of a compressor.",
-        "dov:typeRef": "nsu=http://opcfoundation.org/UA/CAS/;i=3019",
+        "dov:typeRef": "org.opcfoundation.UA.CAS.LubricationTypeEnum",
         "type": "integer",
         "minimum": -2147483648,
         "maximum": 2147483647,
@@ -1919,7 +1919,7 @@
         "data": {
           "title": "CompressorTypeEnum",
           "description": "Enumeration of possible compressor types.",
-          "dov:typeRef": "nsu=http://opcfoundation.org/UA/CAS/;i=3018",
+          "dov:typeRef": "org.opcfoundation.UA.CAS.CompressorTypeEnum",
           "type": "integer",
           "minimum": -2147483648,
           "maximum": 2147483647
@@ -1937,7 +1937,7 @@
         "data": {
           "title": "DisplacementTypeEnum",
           "description": "Enumeration of possible displacement types.",
-          "dov:typeRef": "nsu=http://opcfoundation.org/UA/CAS/;i=3020",
+          "dov:typeRef": "org.opcfoundation.UA.CAS.DisplacementTypeEnum",
           "type": "integer",
           "minimum": -2147483648,
           "maximum": 2147483647
@@ -1955,7 +1955,7 @@
         "data": {
           "title": "LubricationTypeEnum",
           "description": "Enumeration of possible lubrication types for the compression process of a compressor.",
-          "dov:typeRef": "nsu=http://opcfoundation.org/UA/CAS/;i=3019",
+          "dov:typeRef": "org.opcfoundation.UA.CAS.LubricationTypeEnum",
           "type": "integer",
           "minimum": -2147483648,
           "maximum": 2147483647
@@ -2009,7 +2009,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "CAS_ConverterDesignType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/CAS/;i=1041",
+    "dov:typeRef": "org.opcfoundation.UA.CAS.ConverterDesignType",
     "links": [
       {
         "rel": "tm:extends",
@@ -2020,7 +2020,7 @@
     "schemaDefinitions": {
       "ConverterTypeEnum": {
         "type": "object",
-        "dov:typeRef": "nsu=http://opcfoundation.org/UA/CAS/;i=3015",
+        "dov:typeRef": "org.opcfoundation.UA.CAS.ConverterTypeEnum",
         "const": {
           "Other": 0,
           "CatalyticHCConverter": 1
@@ -2057,7 +2057,7 @@
         "dov:namespace": "http://opcfoundation.org/UA/CAS/",
         "title": "ConverterTypeEnum",
         "description": "Enumeration of possible converter types.",
-        "dov:typeRef": "nsu=http://opcfoundation.org/UA/CAS/;i=3015",
+        "dov:typeRef": "org.opcfoundation.UA.CAS.ConverterTypeEnum",
         "type": "integer",
         "minimum": -2147483648,
         "maximum": 2147483647,
@@ -2077,7 +2077,7 @@
         "data": {
           "title": "ConverterTypeEnum",
           "description": "Enumeration of possible converter types.",
-          "dov:typeRef": "nsu=http://opcfoundation.org/UA/CAS/;i=3015",
+          "dov:typeRef": "org.opcfoundation.UA.CAS.ConverterTypeEnum",
           "type": "integer",
           "minimum": -2147483648,
           "maximum": 2147483647
@@ -2101,7 +2101,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "CAS_DrainDesignType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/CAS/;i=1036",
+    "dov:typeRef": "org.opcfoundation.UA.CAS.DrainDesignType",
     "links": [
       {
         "rel": "tm:extends",
@@ -2112,7 +2112,7 @@
     "schemaDefinitions": {
       "DrainTypeEnum": {
         "type": "object",
-        "dov:typeRef": "nsu=http://opcfoundation.org/UA/CAS/;i=3012",
+        "dov:typeRef": "org.opcfoundation.UA.CAS.DrainTypeEnum",
         "const": {
           "Other": 0,
           "CapacitiveDrain": 1,
@@ -2159,7 +2159,7 @@
         "dov:namespace": "http://opcfoundation.org/UA/CAS/",
         "title": "DrainTypeEnum",
         "description": "Enumeration of possible condensate drain types.",
-        "dov:typeRef": "nsu=http://opcfoundation.org/UA/CAS/;i=3012",
+        "dov:typeRef": "org.opcfoundation.UA.CAS.DrainTypeEnum",
         "type": "integer",
         "minimum": -2147483648,
         "maximum": 2147483647,
@@ -2179,7 +2179,7 @@
         "data": {
           "title": "DrainTypeEnum",
           "description": "Enumeration of possible condensate drain types.",
-          "dov:typeRef": "nsu=http://opcfoundation.org/UA/CAS/;i=3012",
+          "dov:typeRef": "org.opcfoundation.UA.CAS.DrainTypeEnum",
           "type": "integer",
           "minimum": -2147483648,
           "maximum": 2147483647
@@ -2203,7 +2203,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "CAS_DryerDesignType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/CAS/;i=1033",
+    "dov:typeRef": "org.opcfoundation.UA.CAS.DryerDesignType",
     "links": [
       {
         "rel": "tm:extends",
@@ -2214,7 +2214,7 @@
     "schemaDefinitions": {
       "DryerTypeEnum": {
         "type": "object",
-        "dov:typeRef": "nsu=http://opcfoundation.org/UA/CAS/;i=3017",
+        "dov:typeRef": "org.opcfoundation.UA.CAS.DryerTypeEnum",
         "const": {
           "Other": 0,
           "AbsorptionDryer": 1,
@@ -2266,7 +2266,7 @@
         "dov:namespace": "http://opcfoundation.org/UA/CAS/",
         "title": "DryerTypeEnum",
         "description": "Enumeration of possible dryer types.",
-        "dov:typeRef": "nsu=http://opcfoundation.org/UA/CAS/;i=3017",
+        "dov:typeRef": "org.opcfoundation.UA.CAS.DryerTypeEnum",
         "type": "integer",
         "minimum": -2147483648,
         "maximum": 2147483647,
@@ -2301,7 +2301,7 @@
         "data": {
           "title": "DryerTypeEnum",
           "description": "Enumeration of possible dryer types.",
-          "dov:typeRef": "nsu=http://opcfoundation.org/UA/CAS/;i=3017",
+          "dov:typeRef": "org.opcfoundation.UA.CAS.DryerTypeEnum",
           "type": "integer",
           "minimum": -2147483648,
           "maximum": 2147483647
@@ -2341,7 +2341,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "CAS_FilterDesignType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/CAS/;i=1009",
+    "dov:typeRef": "org.opcfoundation.UA.CAS.FilterDesignType",
     "links": [
       {
         "rel": "tm:extends",
@@ -2352,7 +2352,7 @@
     "schemaDefinitions": {
       "FilterTypeEnum": {
         "type": "object",
-        "dov:typeRef": "nsu=http://opcfoundation.org/UA/CAS/;i=3005",
+        "dov:typeRef": "org.opcfoundation.UA.CAS.FilterTypeEnum",
         "const": {
           "Other": 0,
           "ActivatedCarbonFilter": 1,
@@ -2396,7 +2396,7 @@
       },
       "FilterClassEnum": {
         "type": "object",
-        "dov:typeRef": "nsu=http://opcfoundation.org/UA/CAS/;i=3008",
+        "dov:typeRef": "org.opcfoundation.UA.CAS.FilterClassEnum",
         "const": {
           "S0": 0,
           "S1": 1,
@@ -2478,7 +2478,7 @@
         "dov:namespace": "http://opcfoundation.org/UA/CAS/",
         "title": "FilterTypeEnum",
         "description": "Enumeration of possible filter types.",
-        "dov:typeRef": "nsu=http://opcfoundation.org/UA/CAS/;i=3005",
+        "dov:typeRef": "org.opcfoundation.UA.CAS.FilterTypeEnum",
         "type": "integer",
         "minimum": -2147483648,
         "maximum": 2147483647,
@@ -2496,13 +2496,13 @@
         "title": "FilterClassDataType",
         "description": "information about the used filter class according to ISO 8573-1 of a filter",
         "type": "object",
-        "dov:typeRef": "nsu=http://opcfoundation.org/UA/CAS/;i=3007",
+        "dov:typeRef": "org.opcfoundation.UA.CAS.FilterClassDataType",
         "required": [ "A", "B", "C" ],
         "properties": {
           "A": {
             "title": "FilterClassEnum",
             "description": "Class for particles",
-            "dov:typeRef": "nsu=http://opcfoundation.org/UA/CAS/;i=3008",
+            "dov:typeRef": "org.opcfoundation.UA.CAS.FilterClassEnum",
             "type": "integer",
             "minimum": -2147483648,
             "maximum": 2147483647
@@ -2510,7 +2510,7 @@
           "B": {
             "title": "FilterClassEnum",
             "description": "Class for water and humidity",
-            "dov:typeRef": "nsu=http://opcfoundation.org/UA/CAS/;i=3008",
+            "dov:typeRef": "org.opcfoundation.UA.CAS.FilterClassEnum",
             "type": "integer",
             "minimum": -2147483648,
             "maximum": 2147483647
@@ -2518,7 +2518,7 @@
           "C": {
             "title": "FilterClassEnum",
             "description": "Class for oil",
-            "dov:typeRef": "nsu=http://opcfoundation.org/UA/CAS/;i=3008",
+            "dov:typeRef": "org.opcfoundation.UA.CAS.FilterClassEnum",
             "type": "integer",
             "minimum": -2147483648,
             "maximum": 2147483647
@@ -2540,7 +2540,7 @@
         "data": {
           "title": "FilterTypeEnum",
           "description": "Enumeration of possible filter types.",
-          "dov:typeRef": "nsu=http://opcfoundation.org/UA/CAS/;i=3005",
+          "dov:typeRef": "org.opcfoundation.UA.CAS.FilterTypeEnum",
           "type": "integer",
           "minimum": -2147483648,
           "maximum": 2147483647
@@ -2559,13 +2559,13 @@
           "title": "FilterClassDataType",
           "description": "information about the used filter class according to ISO 8573-1 of a filter",
           "type": "object",
-          "dov:typeRef": "nsu=http://opcfoundation.org/UA/CAS/;i=3007",
+          "dov:typeRef": "org.opcfoundation.UA.CAS.FilterClassDataType",
           "required": [ "A", "B", "C" ],
           "properties": {
             "A": {
               "title": "FilterClassEnum",
               "description": "Class for particles",
-              "dov:typeRef": "nsu=http://opcfoundation.org/UA/CAS/;i=3008",
+              "dov:typeRef": "org.opcfoundation.UA.CAS.FilterClassEnum",
               "type": "integer",
               "minimum": -2147483648,
               "maximum": 2147483647
@@ -2573,7 +2573,7 @@
             "B": {
               "title": "FilterClassEnum",
               "description": "Class for water and humidity",
-              "dov:typeRef": "nsu=http://opcfoundation.org/UA/CAS/;i=3008",
+              "dov:typeRef": "org.opcfoundation.UA.CAS.FilterClassEnum",
               "type": "integer",
               "minimum": -2147483648,
               "maximum": 2147483647
@@ -2581,7 +2581,7 @@
             "C": {
               "title": "FilterClassEnum",
               "description": "Class for oil",
-              "dov:typeRef": "nsu=http://opcfoundation.org/UA/CAS/;i=3008",
+              "dov:typeRef": "org.opcfoundation.UA.CAS.FilterClassEnum",
               "type": "integer",
               "minimum": -2147483648,
               "maximum": 2147483647
@@ -2607,7 +2607,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "CAS_ReceiverDesignType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/CAS/;i=1023",
+    "dov:typeRef": "org.opcfoundation.UA.CAS.ReceiverDesignType",
     "links": [
       {
         "rel": "tm:extends",
@@ -2618,7 +2618,7 @@
     "schemaDefinitions": {
       "ReceiverTypeEnum": {
         "type": "object",
-        "dov:typeRef": "nsu=http://opcfoundation.org/UA/CAS/;i=3004",
+        "dov:typeRef": "org.opcfoundation.UA.CAS.ReceiverTypeEnum",
         "const": {
           "Other": 0,
           "DryReceiver": 1,
@@ -2660,7 +2660,7 @@
         "dov:namespace": "http://opcfoundation.org/UA/CAS/",
         "title": "ReceiverTypeEnum",
         "description": "Enumeration of possible receiver types.",
-        "dov:typeRef": "nsu=http://opcfoundation.org/UA/CAS/;i=3004",
+        "dov:typeRef": "org.opcfoundation.UA.CAS.ReceiverTypeEnum",
         "type": "integer",
         "minimum": -2147483648,
         "maximum": 2147483647,
@@ -2695,7 +2695,7 @@
         "data": {
           "title": "ReceiverTypeEnum",
           "description": "Enumeration of possible receiver types.",
-          "dov:typeRef": "nsu=http://opcfoundation.org/UA/CAS/;i=3004",
+          "dov:typeRef": "org.opcfoundation.UA.CAS.ReceiverTypeEnum",
           "type": "integer",
           "minimum": -2147483648,
           "maximum": 2147483647
@@ -2735,7 +2735,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "CAS_SensorDesignType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/CAS/;i=1031",
+    "dov:typeRef": "org.opcfoundation.UA.CAS.SensorDesignType",
     "links": [
       {
         "rel": "tm:extends",
@@ -2746,7 +2746,7 @@
     "schemaDefinitions": {
       "SensorTypeEnum": {
         "type": "object",
-        "dov:typeRef": "nsu=http://opcfoundation.org/UA/CAS/;i=3021",
+        "dov:typeRef": "org.opcfoundation.UA.CAS.SensorTypeEnum",
         "const": {
           "Other": 0,
           "Ammeter": 1,
@@ -2820,7 +2820,7 @@
       },
       "SensorTechnologyOptionSet": {
         "type": "object",
-        "dov:typeRef": "nsu=http://opcfoundation.org/UA/CAS/;i=3010",
+        "dov:typeRef": "org.opcfoundation.UA.CAS.SensorTechnologyOptionSet",
         "const": {
           "CapacitiveSensor": 0,
           "ElectronTube": 1,
@@ -2907,7 +2907,7 @@
         "dov:namespace": "http://opcfoundation.org/UA/CAS/",
         "title": "SensorTypeEnum",
         "description": "Enumeration of possible sensor types.",
-        "dov:typeRef": "nsu=http://opcfoundation.org/UA/CAS/;i=3021",
+        "dov:typeRef": "org.opcfoundation.UA.CAS.SensorTypeEnum",
         "type": "integer",
         "minimum": -2147483648,
         "maximum": 2147483647,
@@ -2924,7 +2924,7 @@
         "dov:namespace": "http://opcfoundation.org/UA/CAS/",
         "title": "SensorTechnologyOptionSet",
         "description": "Selection of sensor technologies this sensor uses.",
-        "dov:typeRef": "nsu=http://opcfoundation.org/UA/CAS/;i=3010",
+        "dov:typeRef": "org.opcfoundation.UA.CAS.SensorTechnologyOptionSet",
         "type": "integer",
         "minimum": -2147483648,
         "maximum": 2147483647,
@@ -2957,7 +2957,7 @@
         "data": {
           "title": "SensorTypeEnum",
           "description": "Enumeration of possible sensor types.",
-          "dov:typeRef": "nsu=http://opcfoundation.org/UA/CAS/;i=3021",
+          "dov:typeRef": "org.opcfoundation.UA.CAS.SensorTypeEnum",
           "type": "integer",
           "minimum": -2147483648,
           "maximum": 2147483647
@@ -2975,7 +2975,7 @@
         "data": {
           "title": "SensorTechnologyOptionSet",
           "description": "Selection of sensor technologies this sensor uses.",
-          "dov:typeRef": "nsu=http://opcfoundation.org/UA/CAS/;i=3010",
+          "dov:typeRef": "org.opcfoundation.UA.CAS.SensorTechnologyOptionSet",
           "type": "integer",
           "minimum": -2147483648,
           "maximum": 2147483647
@@ -3013,7 +3013,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "CAS_SeparatorDesignType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/CAS/;i=1040",
+    "dov:typeRef": "org.opcfoundation.UA.CAS.SeparatorDesignType",
     "links": [
       {
         "rel": "tm:extends",
@@ -3024,7 +3024,7 @@
     "schemaDefinitions": {
       "SeparatorTypeEnum": {
         "type": "object",
-        "dov:typeRef": "nsu=http://opcfoundation.org/UA/CAS/;i=3013",
+        "dov:typeRef": "org.opcfoundation.UA.CAS.SeparatorTypeEnum",
         "const": {
           "Other": 0,
           "CentrifugalOilyWaterSeparator": 1,
@@ -3081,7 +3081,7 @@
         "dov:namespace": "http://opcfoundation.org/UA/CAS/",
         "title": "SeparatorTypeEnum",
         "description": "Enumeration of possible condensate separator types.",
-        "dov:typeRef": "nsu=http://opcfoundation.org/UA/CAS/;i=3013",
+        "dov:typeRef": "org.opcfoundation.UA.CAS.SeparatorTypeEnum",
         "type": "integer",
         "minimum": -2147483648,
         "maximum": 2147483647,
@@ -3101,7 +3101,7 @@
         "data": {
           "title": "SeparatorTypeEnum",
           "description": "Enumeration of possible condensate separator types.",
-          "dov:typeRef": "nsu=http://opcfoundation.org/UA/CAS/;i=3013",
+          "dov:typeRef": "org.opcfoundation.UA.CAS.SeparatorTypeEnum",
           "type": "integer",
           "minimum": -2147483648,
           "maximum": 2147483647
@@ -3125,7 +3125,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "CAS_ValveDesignType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/CAS/;i=1032",
+    "dov:typeRef": "org.opcfoundation.UA.CAS.ValveDesignType",
     "links": [
       {
         "rel": "tm:extends",
@@ -3136,7 +3136,7 @@
     "schemaDefinitions": {
       "ValveTypeEnum": {
         "type": "object",
-        "dov:typeRef": "nsu=http://opcfoundation.org/UA/CAS/;i=3011",
+        "dov:typeRef": "org.opcfoundation.UA.CAS.ValveTypeEnum",
         "const": {
           "Other": 0,
           "CheckValve": 1,
@@ -3193,7 +3193,7 @@
         "dov:namespace": "http://opcfoundation.org/UA/CAS/",
         "title": "ValveTypeEnum",
         "description": "Enumeration of possible valve types.",
-        "dov:typeRef": "nsu=http://opcfoundation.org/UA/CAS/;i=3011",
+        "dov:typeRef": "org.opcfoundation.UA.CAS.ValveTypeEnum",
         "type": "integer",
         "minimum": -2147483648,
         "maximum": 2147483647,
@@ -3228,7 +3228,7 @@
         "data": {
           "title": "ValveTypeEnum",
           "description": "Enumeration of possible valve types.",
-          "dov:typeRef": "nsu=http://opcfoundation.org/UA/CAS/;i=3011",
+          "dov:typeRef": "org.opcfoundation.UA.CAS.ValveTypeEnum",
           "type": "integer",
           "minimum": -2147483648,
           "maximum": 2147483647
@@ -3268,7 +3268,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "CAS_EventsType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/CAS/;i=1020",
+    "dov:typeRef": "org.opcfoundation.UA.CAS.EventsType",
     "links": [
       {
         "rel": "tm:extends",
@@ -3324,7 +3324,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "CAS_MaintenanceType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/CAS/;i=1028",
+    "dov:typeRef": "org.opcfoundation.UA.CAS.MaintenanceType",
     "links": [
       {
         "rel": "tm:extends",
@@ -3424,7 +3424,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "CAS_OperationalType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/CAS/;i=1006",
+    "dov:typeRef": "org.opcfoundation.UA.CAS.OperationalType",
     "links": [
       {
         "rel": "tm:extends",
@@ -3570,7 +3570,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "CAS_AirnetOperationalType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/CAS/;i=1002",
+    "dov:typeRef": "org.opcfoundation.UA.CAS.AirnetOperationalType",
     "links": [
       {
         "rel": "tm:extends",
@@ -3581,7 +3581,7 @@
     "schemaDefinitions": {
       "AirnetHealthStateEnum": {
         "type": "object",
-        "dov:typeRef": "nsu=http://opcfoundation.org/UA/CAS/;i=3022",
+        "dov:typeRef": "org.opcfoundation.UA.CAS.AirnetHealthStateEnum",
         "const": {
           "OK": 0,
           "Warning": 1,
@@ -3609,7 +3609,7 @@
       },
       "AirnetIntegratedStateEnum": {
         "type": "object",
-        "dov:typeRef": "nsu=http://opcfoundation.org/UA/CAS/;i=3023",
+        "dov:typeRef": "org.opcfoundation.UA.CAS.AirnetIntegratedStateEnum",
         "const": {
           "FullyIntegrated": 0,
           "PartiallyIntegrated": 1,
@@ -3632,7 +3632,7 @@
       },
       "AirnetOperatingStateEnum": {
         "type": "object",
-        "dov:typeRef": "nsu=http://opcfoundation.org/UA/CAS/;i=3024",
+        "dov:typeRef": "org.opcfoundation.UA.CAS.AirnetOperatingStateEnum",
         "const": {
           "Other": 0,
           "Stopped": 1,
@@ -3758,7 +3758,7 @@
         "dov:namespace": "http://opcfoundation.org/UA/CAS/",
         "title": "AirnetHealthStateEnum",
         "description": "Actual health state of the airnet.",
-        "dov:typeRef": "nsu=http://opcfoundation.org/UA/CAS/;i=3022",
+        "dov:typeRef": "org.opcfoundation.UA.CAS.AirnetHealthStateEnum",
         "type": "integer",
         "minimum": -2147483648,
         "maximum": 2147483647,
@@ -3775,7 +3775,7 @@
         "dov:namespace": "http://opcfoundation.org/UA/CAS/",
         "title": "AirnetIntegratedStateEnum",
         "description": "Actual integrated state of the airnet.",
-        "dov:typeRef": "nsu=http://opcfoundation.org/UA/CAS/;i=3023",
+        "dov:typeRef": "org.opcfoundation.UA.CAS.AirnetIntegratedStateEnum",
         "type": "integer",
         "minimum": -2147483648,
         "maximum": 2147483647,
@@ -3792,7 +3792,7 @@
         "dov:namespace": "http://opcfoundation.org/UA/CAS/",
         "title": "AirnetOperatingStateEnum",
         "description": "Actual operating state of the airnet.",
-        "dov:typeRef": "nsu=http://opcfoundation.org/UA/CAS/;i=3024",
+        "dov:typeRef": "org.opcfoundation.UA.CAS.AirnetOperatingStateEnum",
         "type": "integer",
         "minimum": -2147483648,
         "maximum": 2147483647,
@@ -3952,7 +3952,7 @@
         "data": {
           "title": "AirnetHealthStateEnum",
           "description": "Actual health state of the airnet.",
-          "dov:typeRef": "nsu=http://opcfoundation.org/UA/CAS/;i=3022",
+          "dov:typeRef": "org.opcfoundation.UA.CAS.AirnetHealthStateEnum",
           "type": "integer",
           "minimum": -2147483648,
           "maximum": 2147483647
@@ -3970,7 +3970,7 @@
         "data": {
           "title": "AirnetIntegratedStateEnum",
           "description": "Actual integrated state of the airnet.",
-          "dov:typeRef": "nsu=http://opcfoundation.org/UA/CAS/;i=3023",
+          "dov:typeRef": "org.opcfoundation.UA.CAS.AirnetIntegratedStateEnum",
           "type": "integer",
           "minimum": -2147483648,
           "maximum": 2147483647
@@ -3988,7 +3988,7 @@
         "data": {
           "title": "AirnetOperatingStateEnum",
           "description": "Actual operating state of the airnet.",
-          "dov:typeRef": "nsu=http://opcfoundation.org/UA/CAS/;i=3024",
+          "dov:typeRef": "org.opcfoundation.UA.CAS.AirnetOperatingStateEnum",
           "type": "integer",
           "minimum": -2147483648,
           "maximum": 2147483647
@@ -4076,7 +4076,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "CAS_CompressorOperationalType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/CAS/;i=1045",
+    "dov:typeRef": "org.opcfoundation.UA.CAS.CompressorOperationalType",
     "links": [
       {
         "rel": "tm:extends",
@@ -4087,7 +4087,7 @@
     "schemaDefinitions": {
       "CompressorOperatingStateEnum": {
         "type": "object",
-        "dov:typeRef": "nsu=http://opcfoundation.org/UA/CAS/;i=3025",
+        "dov:typeRef": "org.opcfoundation.UA.CAS.CompressorOperatingStateEnum",
         "const": {
           "Other": 0,
           "Stopped": 1,
@@ -4198,7 +4198,7 @@
         "dov:namespace": "http://opcfoundation.org/UA/CAS/",
         "title": "CompressorOperatingStateEnum",
         "description": "Actual operating state of the compressor.",
-        "dov:typeRef": "nsu=http://opcfoundation.org/UA/CAS/;i=3025",
+        "dov:typeRef": "org.opcfoundation.UA.CAS.CompressorOperatingStateEnum",
         "type": "integer",
         "minimum": -2147483648,
         "maximum": 2147483647,
@@ -4281,7 +4281,7 @@
         "data": {
           "title": "CompressorOperatingStateEnum",
           "description": "Actual operating state of the compressor.",
-          "dov:typeRef": "nsu=http://opcfoundation.org/UA/CAS/;i=3025",
+          "dov:typeRef": "org.opcfoundation.UA.CAS.CompressorOperatingStateEnum",
           "type": "integer",
           "minimum": -2147483648,
           "maximum": 2147483647
@@ -4321,7 +4321,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "CAS_ConverterOperationalType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/CAS/;i=1046",
+    "dov:typeRef": "org.opcfoundation.UA.CAS.ConverterOperationalType",
     "links": [
       {
         "rel": "tm:extends",
@@ -4390,7 +4390,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "CAS_DrainOperationalType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/CAS/;i=1003",
+    "dov:typeRef": "org.opcfoundation.UA.CAS.DrainOperationalType",
     "links": [
       {
         "rel": "tm:extends",
@@ -4427,7 +4427,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "CAS_DryerOperationalType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/CAS/;i=1052",
+    "dov:typeRef": "org.opcfoundation.UA.CAS.DryerOperationalType",
     "links": [
       {
         "rel": "tm:extends",
@@ -4438,7 +4438,7 @@
     "schemaDefinitions": {
       "DryerOperatingStateEnum": {
         "type": "object",
-        "dov:typeRef": "nsu=http://opcfoundation.org/UA/CAS/;i=3026",
+        "dov:typeRef": "org.opcfoundation.UA.CAS.DryerOperatingStateEnum",
         "const": {
           "Other": 0,
           "Stopped": 1,
@@ -4542,7 +4542,7 @@
         "dov:namespace": "http://opcfoundation.org/UA/CAS/",
         "title": "DryerOperatingStateEnum",
         "description": "Actual operating state of the dryer.",
-        "dov:typeRef": "nsu=http://opcfoundation.org/UA/CAS/;i=3026",
+        "dov:typeRef": "org.opcfoundation.UA.CAS.DryerOperatingStateEnum",
         "type": "integer",
         "minimum": -2147483648,
         "maximum": 2147483647,
@@ -4591,7 +4591,7 @@
         "data": {
           "title": "DryerOperatingStateEnum",
           "description": "Actual operating state of the dryer.",
-          "dov:typeRef": "nsu=http://opcfoundation.org/UA/CAS/;i=3026",
+          "dov:typeRef": "org.opcfoundation.UA.CAS.DryerOperatingStateEnum",
           "type": "integer",
           "minimum": -2147483648,
           "maximum": 2147483647
@@ -4631,7 +4631,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "CAS_ValveOperationalType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/CAS/;i=1053",
+    "dov:typeRef": "org.opcfoundation.UA.CAS.ValveOperationalType",
     "links": [
       {
         "rel": "tm:extends",
@@ -4731,7 +4731,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "CAS_StatisticsType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/CAS/;i=1018",
+    "dov:typeRef": "org.opcfoundation.UA.CAS.StatisticsType",
     "links": [
       {
         "rel": "tm:extends",
@@ -4931,7 +4931,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "CAS_CompressorStatisticsType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/CAS/;i=1027",
+    "dov:typeRef": "org.opcfoundation.UA.CAS.CompressorStatisticsType",
     "links": [
       {
         "rel": "tm:extends",
@@ -5031,7 +5031,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "CAS_AirnetsType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/CAS/;i=1038",
+    "dov:typeRef": "org.opcfoundation.UA.CAS.AirnetsType",
     "links": [
       {
         "rel": "tm:extends",
@@ -5092,7 +5092,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "CAS_ComponentsGroupType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/CAS/;i=1047",
+    "dov:typeRef": "org.opcfoundation.UA.CAS.ComponentsGroupType",
     "links": [
       {
         "rel": "tm:extends",
@@ -5196,7 +5196,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "CAS_ParticleType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/CAS/;i=1043",
+    "dov:typeRef": "org.opcfoundation.UA.CAS.ParticleType",
     "links": [
       {
         "rel": "tm:extends",
@@ -5327,7 +5327,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "CAS_AirnetType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/CAS/;i=1007",
+    "dov:typeRef": "org.opcfoundation.UA.CAS.AirnetType",
     "links": [
       {
         "rel": "tm:extends",
@@ -5395,7 +5395,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "CAS_CASComponentType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/CAS/;i=1021",
+    "dov:typeRef": "org.opcfoundation.UA.CAS.CASComponentType",
     "links": [
       {
         "rel": "tm:extends",
@@ -5511,7 +5511,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "CAS_ChargingSystemType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/CAS/;i=1005",
+    "dov:typeRef": "org.opcfoundation.UA.CAS.ChargingSystemType",
     "dov:isComposite": true,
     "links": [
       {
@@ -5538,7 +5538,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "CAS_CompressorType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/CAS/;i=1039",
+    "dov:typeRef": "org.opcfoundation.UA.CAS.CompressorType",
     "dov:isComposite": true,
     "links": [
       {
@@ -5589,7 +5589,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "CAS_ConverterType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/CAS/;i=1029",
+    "dov:typeRef": "org.opcfoundation.UA.CAS.ConverterType",
     "dov:isComposite": true,
     "links": [
       {
@@ -5628,7 +5628,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "CAS_CoolingSystemType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/CAS/;i=1001",
+    "dov:typeRef": "org.opcfoundation.UA.CAS.CoolingSystemType",
     "dov:isComposite": true,
     "links": [
       {
@@ -5655,7 +5655,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "CAS_DrainType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/CAS/;i=1025",
+    "dov:typeRef": "org.opcfoundation.UA.CAS.DrainType",
     "dov:isComposite": true,
     "links": [
       {
@@ -5700,7 +5700,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "CAS_DryerType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/CAS/;i=1030",
+    "dov:typeRef": "org.opcfoundation.UA.CAS.DryerType",
     "dov:isComposite": true,
     "links": [
       {
@@ -5739,7 +5739,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "CAS_FilterType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/CAS/;i=1034",
+    "dov:typeRef": "org.opcfoundation.UA.CAS.FilterType",
     "dov:isComposite": true,
     "links": [
       {
@@ -5772,7 +5772,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "CAS_HeatRecoverySystemType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/CAS/;i=1042",
+    "dov:typeRef": "org.opcfoundation.UA.CAS.HeatRecoverySystemType",
     "dov:isComposite": true,
     "links": [
       {
@@ -5799,7 +5799,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "CAS_ReceiverType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/CAS/;i=1022",
+    "dov:typeRef": "org.opcfoundation.UA.CAS.ReceiverType",
     "dov:isComposite": true,
     "links": [
       {
@@ -5832,7 +5832,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "CAS_SensorType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/CAS/;i=1015",
+    "dov:typeRef": "org.opcfoundation.UA.CAS.SensorType",
     "dov:isComposite": true,
     "links": [
       {
@@ -5883,7 +5883,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "CAS_SeparatorType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/CAS/;i=1026",
+    "dov:typeRef": "org.opcfoundation.UA.CAS.SeparatorType",
     "dov:isComposite": true,
     "links": [
       {
@@ -5922,7 +5922,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "CAS_ValveType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/CAS/;i=1024",
+    "dov:typeRef": "org.opcfoundation.UA.CAS.ValveType",
     "dov:isComposite": true,
     "links": [
       {
@@ -5961,7 +5961,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "CAS_MCSType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/CAS/;i=1017",
+    "dov:typeRef": "org.opcfoundation.UA.CAS.MCSType",
     "links": [
       {
         "rel": "tm:extends",

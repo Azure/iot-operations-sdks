@@ -8,7 +8,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "WMTP_WMTPMeasurementType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/WMTP/;i=1005",
+    "dov:typeRef": "org.opcfoundation.UA.WMTP.WMTPMeasurementType",
     "links": [
       {
         "rel": "tm:extends",
@@ -46,7 +46,7 @@
         "dov:namespace": "http://opcfoundation.org/UA/WMTP/",
         "input": {
           "type": "object",
-          "dov:typeRef": "nsu=http://opcfoundation.org/UA/WMTP/;i=6200",
+          "dov:typeRef": "org.opcfoundation.UA.InputArguments",
           "required": [ "DeltaValue" ],
           "properties": {
             "DeltaValue": {
@@ -66,7 +66,7 @@
         "dov:namespace": "http://opcfoundation.org/UA/WMTP/",
         "input": {
           "type": "object",
-          "dov:typeRef": "nsu=http://opcfoundation.org/UA/WMTP/;i=6182",
+          "dov:typeRef": "org.opcfoundation.UA.InputArguments",
           "required": [ "TriggerDuration" ],
           "properties": {
             "TriggerDuration": {
@@ -411,7 +411,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "WMTP_WirelessMachineToolPeripheralType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/WMTP/;i=1003",
+    "dov:typeRef": "org.opcfoundation.UA.WMTP.WirelessMachineToolPeripheralType",
     "dov:isComposite": true,
     "links": [
       {
@@ -474,7 +474,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "WMTP_WMTPServiceCycleDataType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/WMTP/;i=1007",
+    "dov:typeRef": "org.opcfoundation.UA.WMTP.WMTPServiceCycleDataType",
     "links": [
       {
         "rel": "tm:extends",
@@ -499,7 +499,7 @@
         "dov:namespace": "http://opcfoundation.org/UA/WMTP/",
         "output": {
           "type": "object",
-          "dov:typeRef": "nsu=http://opcfoundation.org/UA/WMTP/;i=6241",
+          "dov:typeRef": "org.opcfoundation.UA.OutputArguments",
           "required": [ "CombinedReport" ],
           "properties": {
             "CombinedReport": {
@@ -507,13 +507,13 @@
               "items": {
                 "title": "WMTPOutputDataType",
                 "type": "object",
-                "dov:typeRef": "nsu=http://opcfoundation.org/UA/WMTP/;i=3003",
+                "dov:typeRef": "org.opcfoundation.UA.WMTP.WMTPOutputDataType",
                 "required": [ "EngineeringUnits", "ActualValue", "TypeOfMeasurement", "TypeOfSample", "InstrumentRange", "EURange", "ValuePrecision", "Definition", "SignalTag", "RelativeUncertainty", "AbsoluteUncertainty", "Timestamp", "Index", "MeasurementPeriod", "InternalUpdateInterval" ],
                 "properties": {
                   "EngineeringUnits": {
                     "title": "EUInformation",
                     "type": "object",
-                    "dov:typeRef": "nsu=http://opcfoundation.org/UA/;i=887",
+                    "dov:typeRef": "org.opcfoundation.UA.EUInformation",
                     "required": [ "NamespaceUri", "UnitId", "DisplayName", "Description" ],
                     "properties": {
                       "NamespaceUri": {
@@ -550,7 +550,7 @@
                   "InstrumentRange": {
                     "title": "Range",
                     "type": "object",
-                    "dov:typeRef": "nsu=http://opcfoundation.org/UA/;i=884",
+                    "dov:typeRef": "org.opcfoundation.UA.Range",
                     "required": [ "Low", "High" ],
                     "properties": {
                       "Low": {
@@ -568,7 +568,7 @@
                   "EURange": {
                     "title": "Range",
                     "type": "object",
-                    "dov:typeRef": "nsu=http://opcfoundation.org/UA/;i=884",
+                    "dov:typeRef": "org.opcfoundation.UA.Range",
                     "required": [ "Low", "High" ],
                     "properties": {
                       "Low": {
@@ -638,19 +638,19 @@
         "dov:namespace": "http://opcfoundation.org/UA/WMTP/",
         "output": {
           "type": "object",
-          "dov:typeRef": "nsu=http://opcfoundation.org/UA/WMTP/;i=6246",
+          "dov:typeRef": "org.opcfoundation.UA.OutputArguments",
           "required": [ "CombinedReport" ],
           "properties": {
             "CombinedReport": {
               "title": "WMTPOutputDataType",
               "type": "object",
-              "dov:typeRef": "nsu=http://opcfoundation.org/UA/WMTP/;i=3003",
+              "dov:typeRef": "org.opcfoundation.UA.WMTP.WMTPOutputDataType",
               "required": [ "EngineeringUnits", "ActualValue", "TypeOfMeasurement", "TypeOfSample", "InstrumentRange", "EURange", "ValuePrecision", "Definition", "SignalTag", "RelativeUncertainty", "AbsoluteUncertainty", "Timestamp", "Index", "MeasurementPeriod", "InternalUpdateInterval" ],
               "properties": {
                 "EngineeringUnits": {
                   "title": "EUInformation",
                   "type": "object",
-                  "dov:typeRef": "nsu=http://opcfoundation.org/UA/;i=887",
+                  "dov:typeRef": "org.opcfoundation.UA.EUInformation",
                   "required": [ "NamespaceUri", "UnitId", "DisplayName", "Description" ],
                   "properties": {
                     "NamespaceUri": {
@@ -687,7 +687,7 @@
                 "InstrumentRange": {
                   "title": "Range",
                   "type": "object",
-                  "dov:typeRef": "nsu=http://opcfoundation.org/UA/;i=884",
+                  "dov:typeRef": "org.opcfoundation.UA.Range",
                   "required": [ "Low", "High" ],
                   "properties": {
                     "Low": {
@@ -705,7 +705,7 @@
                 "EURange": {
                   "title": "Range",
                   "type": "object",
-                  "dov:typeRef": "nsu=http://opcfoundation.org/UA/;i=884",
+                  "dov:typeRef": "org.opcfoundation.UA.Range",
                   "required": [ "Low", "High" ],
                   "properties": {
                     "Low": {
@@ -774,7 +774,7 @@
         "dov:namespace": "http://opcfoundation.org/UA/WMTP/",
         "input": {
           "type": "object",
-          "dov:typeRef": "nsu=http://opcfoundation.org/UA/WMTP/;i=6243",
+          "dov:typeRef": "org.opcfoundation.UA.InputArguments",
           "required": [ "FromIndex", "ToIndex" ],
           "properties": {
             "FromIndex": {
@@ -791,7 +791,7 @@
         },
         "output": {
           "type": "object",
-          "dov:typeRef": "nsu=http://opcfoundation.org/UA/WMTP/;i=6244",
+          "dov:typeRef": "org.opcfoundation.UA.OutputArguments",
           "required": [ "CombinedReport" ],
           "properties": {
             "CombinedReport": {
@@ -799,13 +799,13 @@
               "items": {
                 "title": "WMTPOutputDataType",
                 "type": "object",
-                "dov:typeRef": "nsu=http://opcfoundation.org/UA/WMTP/;i=3003",
+                "dov:typeRef": "org.opcfoundation.UA.WMTP.WMTPOutputDataType",
                 "required": [ "EngineeringUnits", "ActualValue", "TypeOfMeasurement", "TypeOfSample", "InstrumentRange", "EURange", "ValuePrecision", "Definition", "SignalTag", "RelativeUncertainty", "AbsoluteUncertainty", "Timestamp", "Index", "MeasurementPeriod", "InternalUpdateInterval" ],
                 "properties": {
                   "EngineeringUnits": {
                     "title": "EUInformation",
                     "type": "object",
-                    "dov:typeRef": "nsu=http://opcfoundation.org/UA/;i=887",
+                    "dov:typeRef": "org.opcfoundation.UA.EUInformation",
                     "required": [ "NamespaceUri", "UnitId", "DisplayName", "Description" ],
                     "properties": {
                       "NamespaceUri": {
@@ -842,7 +842,7 @@
                   "InstrumentRange": {
                     "title": "Range",
                     "type": "object",
-                    "dov:typeRef": "nsu=http://opcfoundation.org/UA/;i=884",
+                    "dov:typeRef": "org.opcfoundation.UA.Range",
                     "required": [ "Low", "High" ],
                     "properties": {
                       "Low": {
@@ -860,7 +860,7 @@
                   "EURange": {
                     "title": "Range",
                     "type": "object",
-                    "dov:typeRef": "nsu=http://opcfoundation.org/UA/;i=884",
+                    "dov:typeRef": "org.opcfoundation.UA.Range",
                     "required": [ "Low", "High" ],
                     "properties": {
                       "Low": {
@@ -930,19 +930,19 @@
         "dov:namespace": "http://opcfoundation.org/UA/WMTP/",
         "output": {
           "type": "object",
-          "dov:typeRef": "nsu=http://opcfoundation.org/UA/WMTP/;i=6245",
+          "dov:typeRef": "org.opcfoundation.UA.OutputArguments",
           "required": [ "CombinedReport" ],
           "properties": {
             "CombinedReport": {
               "title": "WMTPOutputDataType",
               "type": "object",
-              "dov:typeRef": "nsu=http://opcfoundation.org/UA/WMTP/;i=3003",
+              "dov:typeRef": "org.opcfoundation.UA.WMTP.WMTPOutputDataType",
               "required": [ "EngineeringUnits", "ActualValue", "TypeOfMeasurement", "TypeOfSample", "InstrumentRange", "EURange", "ValuePrecision", "Definition", "SignalTag", "RelativeUncertainty", "AbsoluteUncertainty", "Timestamp", "Index", "MeasurementPeriod", "InternalUpdateInterval" ],
               "properties": {
                 "EngineeringUnits": {
                   "title": "EUInformation",
                   "type": "object",
-                  "dov:typeRef": "nsu=http://opcfoundation.org/UA/;i=887",
+                  "dov:typeRef": "org.opcfoundation.UA.EUInformation",
                   "required": [ "NamespaceUri", "UnitId", "DisplayName", "Description" ],
                   "properties": {
                     "NamespaceUri": {
@@ -979,7 +979,7 @@
                 "InstrumentRange": {
                   "title": "Range",
                   "type": "object",
-                  "dov:typeRef": "nsu=http://opcfoundation.org/UA/;i=884",
+                  "dov:typeRef": "org.opcfoundation.UA.Range",
                   "required": [ "Low", "High" ],
                   "properties": {
                     "Low": {
@@ -997,7 +997,7 @@
                 "EURange": {
                   "title": "Range",
                   "type": "object",
-                  "dov:typeRef": "nsu=http://opcfoundation.org/UA/;i=884",
+                  "dov:typeRef": "org.opcfoundation.UA.Range",
                   "required": [ "Low", "High" ],
                   "properties": {
                     "Low": {
@@ -1066,7 +1066,7 @@
         "dov:namespace": "http://opcfoundation.org/UA/WMTP/",
         "input": {
           "type": "object",
-          "dov:typeRef": "nsu=http://opcfoundation.org/UA/WMTP/;i=6247",
+          "dov:typeRef": "org.opcfoundation.UA.InputArguments",
           "required": [ "FromTimestamp", "ToTimestamp" ],
           "properties": {
             "FromTimestamp": {
@@ -1081,7 +1081,7 @@
         },
         "output": {
           "type": "object",
-          "dov:typeRef": "nsu=http://opcfoundation.org/UA/WMTP/;i=6248",
+          "dov:typeRef": "org.opcfoundation.UA.OutputArguments",
           "required": [ "CombinedReport" ],
           "properties": {
             "CombinedReport": {
@@ -1089,13 +1089,13 @@
               "items": {
                 "title": "WMTPOutputDataType",
                 "type": "object",
-                "dov:typeRef": "nsu=http://opcfoundation.org/UA/WMTP/;i=3003",
+                "dov:typeRef": "org.opcfoundation.UA.WMTP.WMTPOutputDataType",
                 "required": [ "EngineeringUnits", "ActualValue", "TypeOfMeasurement", "TypeOfSample", "InstrumentRange", "EURange", "ValuePrecision", "Definition", "SignalTag", "RelativeUncertainty", "AbsoluteUncertainty", "Timestamp", "Index", "MeasurementPeriod", "InternalUpdateInterval" ],
                 "properties": {
                   "EngineeringUnits": {
                     "title": "EUInformation",
                     "type": "object",
-                    "dov:typeRef": "nsu=http://opcfoundation.org/UA/;i=887",
+                    "dov:typeRef": "org.opcfoundation.UA.EUInformation",
                     "required": [ "NamespaceUri", "UnitId", "DisplayName", "Description" ],
                     "properties": {
                       "NamespaceUri": {
@@ -1132,7 +1132,7 @@
                   "InstrumentRange": {
                     "title": "Range",
                     "type": "object",
-                    "dov:typeRef": "nsu=http://opcfoundation.org/UA/;i=884",
+                    "dov:typeRef": "org.opcfoundation.UA.Range",
                     "required": [ "Low", "High" ],
                     "properties": {
                       "Low": {
@@ -1150,7 +1150,7 @@
                   "EURange": {
                     "title": "Range",
                     "type": "object",
-                    "dov:typeRef": "nsu=http://opcfoundation.org/UA/;i=884",
+                    "dov:typeRef": "org.opcfoundation.UA.Range",
                     "required": [ "Low", "High" ],
                     "properties": {
                       "Low": {
@@ -1220,7 +1220,7 @@
         "dov:namespace": "http://opcfoundation.org/UA/WMTP/",
         "output": {
           "type": "object",
-          "dov:typeRef": "nsu=http://opcfoundation.org/UA/WMTP/;i=6164",
+          "dov:typeRef": "org.opcfoundation.UA.OutputArguments",
           "required": [ "DeleteAllStoredRecordsSuccessfull" ],
           "properties": {
             "DeleteAllStoredRecordsSuccessfull": {
@@ -1240,7 +1240,7 @@
         "dov:namespace": "http://opcfoundation.org/UA/WMTP/",
         "input": {
           "type": "object",
-          "dov:typeRef": "nsu=http://opcfoundation.org/UA/WMTP/;i=6170",
+          "dov:typeRef": "org.opcfoundation.UA.InputArguments",
           "required": [ "FromIndex", "ToIndex" ],
           "properties": {
             "FromIndex": {
@@ -1267,7 +1267,7 @@
         "dov:namespace": "http://opcfoundation.org/UA/WMTP/",
         "input": {
           "type": "object",
-          "dov:typeRef": "nsu=http://opcfoundation.org/UA/WMTP/;i=6166",
+          "dov:typeRef": "org.opcfoundation.UA.InputArguments",
           "required": [ "FromTimestamp", "ToTimestamp" ],
           "properties": {
             "FromTimestamp": {
@@ -1292,7 +1292,7 @@
         "dov:namespace": "http://opcfoundation.org/UA/WMTP/",
         "output": {
           "type": "object",
-          "dov:typeRef": "nsu=http://opcfoundation.org/UA/WMTP/;i=6174",
+          "dov:typeRef": "org.opcfoundation.UA.OutputArguments",
           "required": [ "NumberOfStoredRecords" ],
           "properties": {
             "NumberOfStoredRecords": {
@@ -1314,7 +1314,7 @@
         "dov:namespace": "http://opcfoundation.org/UA/WMTP/",
         "input": {
           "type": "object",
-          "dov:typeRef": "nsu=http://opcfoundation.org/UA/WMTP/;i=6178",
+          "dov:typeRef": "org.opcfoundation.UA.InputArguments",
           "required": [ "FromTimestamp", "ToTimestamp" ],
           "properties": {
             "FromTimestamp": {
@@ -1329,7 +1329,7 @@
         },
         "output": {
           "type": "object",
-          "dov:typeRef": "nsu=http://opcfoundation.org/UA/WMTP/;i=6179",
+          "dov:typeRef": "org.opcfoundation.UA.OutputArguments",
           "required": [ "NumberOfStoredRecords" ],
           "properties": {
             "NumberOfStoredRecords": {
@@ -1362,7 +1362,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "WMTP_WMTPWorkCycleDataType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/WMTP/;i=1004",
+    "dov:typeRef": "org.opcfoundation.UA.WMTP.WMTPWorkCycleDataType",
     "links": [
       {
         "rel": "tm:extends",
@@ -1387,19 +1387,19 @@
         "dov:namespace": "http://opcfoundation.org/UA/WMTP/",
         "output": {
           "type": "object",
-          "dov:typeRef": "nsu=http://opcfoundation.org/UA/WMTP/;i=6233",
+          "dov:typeRef": "org.opcfoundation.UA.OutputArguments",
           "required": [ "CombinedReport" ],
           "properties": {
             "CombinedReport": {
               "title": "WMTPOutputDataType",
               "type": "object",
-              "dov:typeRef": "nsu=http://opcfoundation.org/UA/WMTP/;i=3003",
+              "dov:typeRef": "org.opcfoundation.UA.WMTP.WMTPOutputDataType",
               "required": [ "EngineeringUnits", "ActualValue", "TypeOfMeasurement", "TypeOfSample", "InstrumentRange", "EURange", "ValuePrecision", "Definition", "SignalTag", "RelativeUncertainty", "AbsoluteUncertainty", "Timestamp", "Index", "MeasurementPeriod", "InternalUpdateInterval" ],
               "properties": {
                 "EngineeringUnits": {
                   "title": "EUInformation",
                   "type": "object",
-                  "dov:typeRef": "nsu=http://opcfoundation.org/UA/;i=887",
+                  "dov:typeRef": "org.opcfoundation.UA.EUInformation",
                   "required": [ "NamespaceUri", "UnitId", "DisplayName", "Description" ],
                   "properties": {
                     "NamespaceUri": {
@@ -1436,7 +1436,7 @@
                 "InstrumentRange": {
                   "title": "Range",
                   "type": "object",
-                  "dov:typeRef": "nsu=http://opcfoundation.org/UA/;i=884",
+                  "dov:typeRef": "org.opcfoundation.UA.Range",
                   "required": [ "Low", "High" ],
                   "properties": {
                     "Low": {
@@ -1454,7 +1454,7 @@
                 "EURange": {
                   "title": "Range",
                   "type": "object",
-                  "dov:typeRef": "nsu=http://opcfoundation.org/UA/;i=884",
+                  "dov:typeRef": "org.opcfoundation.UA.Range",
                   "required": [ "Low", "High" ],
                   "properties": {
                     "Low": {
@@ -1523,19 +1523,19 @@
         "dov:namespace": "http://opcfoundation.org/UA/WMTP/",
         "output": {
           "type": "object",
-          "dov:typeRef": "nsu=http://opcfoundation.org/UA/WMTP/;i=6240",
+          "dov:typeRef": "org.opcfoundation.UA.OutputArguments",
           "required": [ "CombinedReport" ],
           "properties": {
             "CombinedReport": {
               "title": "WMTPOutputDataType",
               "type": "object",
-              "dov:typeRef": "nsu=http://opcfoundation.org/UA/WMTP/;i=3003",
+              "dov:typeRef": "org.opcfoundation.UA.WMTP.WMTPOutputDataType",
               "required": [ "EngineeringUnits", "ActualValue", "TypeOfMeasurement", "TypeOfSample", "InstrumentRange", "EURange", "ValuePrecision", "Definition", "SignalTag", "RelativeUncertainty", "AbsoluteUncertainty", "Timestamp", "Index", "MeasurementPeriod", "InternalUpdateInterval" ],
               "properties": {
                 "EngineeringUnits": {
                   "title": "EUInformation",
                   "type": "object",
-                  "dov:typeRef": "nsu=http://opcfoundation.org/UA/;i=887",
+                  "dov:typeRef": "org.opcfoundation.UA.EUInformation",
                   "required": [ "NamespaceUri", "UnitId", "DisplayName", "Description" ],
                   "properties": {
                     "NamespaceUri": {
@@ -1572,7 +1572,7 @@
                 "InstrumentRange": {
                   "title": "Range",
                   "type": "object",
-                  "dov:typeRef": "nsu=http://opcfoundation.org/UA/;i=884",
+                  "dov:typeRef": "org.opcfoundation.UA.Range",
                   "required": [ "Low", "High" ],
                   "properties": {
                     "Low": {
@@ -1590,7 +1590,7 @@
                 "EURange": {
                   "title": "Range",
                   "type": "object",
-                  "dov:typeRef": "nsu=http://opcfoundation.org/UA/;i=884",
+                  "dov:typeRef": "org.opcfoundation.UA.Range",
                   "required": [ "Low", "High" ],
                   "properties": {
                     "Low": {
@@ -1659,7 +1659,7 @@
         "dov:namespace": "http://opcfoundation.org/UA/WMTP/",
         "input": {
           "type": "object",
-          "dov:typeRef": "nsu=http://opcfoundation.org/UA/WMTP/;i=6235",
+          "dov:typeRef": "org.opcfoundation.UA.InputArguments",
           "required": [ "FromIndex", "ToIndex" ],
           "properties": {
             "FromIndex": {
@@ -1676,19 +1676,19 @@
         },
         "output": {
           "type": "object",
-          "dov:typeRef": "nsu=http://opcfoundation.org/UA/WMTP/;i=6236",
+          "dov:typeRef": "org.opcfoundation.UA.OutputArguments",
           "required": [ "CombinedReport" ],
           "properties": {
             "CombinedReport": {
               "title": "WMTPOutputDataType",
               "type": "object",
-              "dov:typeRef": "nsu=http://opcfoundation.org/UA/WMTP/;i=3003",
+              "dov:typeRef": "org.opcfoundation.UA.WMTP.WMTPOutputDataType",
               "required": [ "EngineeringUnits", "ActualValue", "TypeOfMeasurement", "TypeOfSample", "InstrumentRange", "EURange", "ValuePrecision", "Definition", "SignalTag", "RelativeUncertainty", "AbsoluteUncertainty", "Timestamp", "Index", "MeasurementPeriod", "InternalUpdateInterval" ],
               "properties": {
                 "EngineeringUnits": {
                   "title": "EUInformation",
                   "type": "object",
-                  "dov:typeRef": "nsu=http://opcfoundation.org/UA/;i=887",
+                  "dov:typeRef": "org.opcfoundation.UA.EUInformation",
                   "required": [ "NamespaceUri", "UnitId", "DisplayName", "Description" ],
                   "properties": {
                     "NamespaceUri": {
@@ -1725,7 +1725,7 @@
                 "InstrumentRange": {
                   "title": "Range",
                   "type": "object",
-                  "dov:typeRef": "nsu=http://opcfoundation.org/UA/;i=884",
+                  "dov:typeRef": "org.opcfoundation.UA.Range",
                   "required": [ "Low", "High" ],
                   "properties": {
                     "Low": {
@@ -1743,7 +1743,7 @@
                 "EURange": {
                   "title": "Range",
                   "type": "object",
-                  "dov:typeRef": "nsu=http://opcfoundation.org/UA/;i=884",
+                  "dov:typeRef": "org.opcfoundation.UA.Range",
                   "required": [ "Low", "High" ],
                   "properties": {
                     "Low": {
@@ -1812,19 +1812,19 @@
         "dov:namespace": "http://opcfoundation.org/UA/WMTP/",
         "output": {
           "type": "object",
-          "dov:typeRef": "nsu=http://opcfoundation.org/UA/WMTP/;i=6239",
+          "dov:typeRef": "org.opcfoundation.UA.OutputArguments",
           "required": [ "CombinedReport" ],
           "properties": {
             "CombinedReport": {
               "title": "WMTPOutputDataType",
               "type": "object",
-              "dov:typeRef": "nsu=http://opcfoundation.org/UA/WMTP/;i=3003",
+              "dov:typeRef": "org.opcfoundation.UA.WMTP.WMTPOutputDataType",
               "required": [ "EngineeringUnits", "ActualValue", "TypeOfMeasurement", "TypeOfSample", "InstrumentRange", "EURange", "ValuePrecision", "Definition", "SignalTag", "RelativeUncertainty", "AbsoluteUncertainty", "Timestamp", "Index", "MeasurementPeriod", "InternalUpdateInterval" ],
               "properties": {
                 "EngineeringUnits": {
                   "title": "EUInformation",
                   "type": "object",
-                  "dov:typeRef": "nsu=http://opcfoundation.org/UA/;i=887",
+                  "dov:typeRef": "org.opcfoundation.UA.EUInformation",
                   "required": [ "NamespaceUri", "UnitId", "DisplayName", "Description" ],
                   "properties": {
                     "NamespaceUri": {
@@ -1861,7 +1861,7 @@
                 "InstrumentRange": {
                   "title": "Range",
                   "type": "object",
-                  "dov:typeRef": "nsu=http://opcfoundation.org/UA/;i=884",
+                  "dov:typeRef": "org.opcfoundation.UA.Range",
                   "required": [ "Low", "High" ],
                   "properties": {
                     "Low": {
@@ -1879,7 +1879,7 @@
                 "EURange": {
                   "title": "Range",
                   "type": "object",
-                  "dov:typeRef": "nsu=http://opcfoundation.org/UA/;i=884",
+                  "dov:typeRef": "org.opcfoundation.UA.Range",
                   "required": [ "Low", "High" ],
                   "properties": {
                     "Low": {
@@ -1948,7 +1948,7 @@
         "dov:namespace": "http://opcfoundation.org/UA/WMTP/",
         "input": {
           "type": "object",
-          "dov:typeRef": "nsu=http://opcfoundation.org/UA/WMTP/;i=6237",
+          "dov:typeRef": "org.opcfoundation.UA.InputArguments",
           "required": [ "FromTimestamp", "ToTimestamp" ],
           "properties": {
             "FromTimestamp": {
@@ -1963,19 +1963,19 @@
         },
         "output": {
           "type": "object",
-          "dov:typeRef": "nsu=http://opcfoundation.org/UA/WMTP/;i=6238",
+          "dov:typeRef": "org.opcfoundation.UA.OutputArguments",
           "required": [ "CombinedReport" ],
           "properties": {
             "CombinedReport": {
               "title": "WMTPOutputDataType",
               "type": "object",
-              "dov:typeRef": "nsu=http://opcfoundation.org/UA/WMTP/;i=3003",
+              "dov:typeRef": "org.opcfoundation.UA.WMTP.WMTPOutputDataType",
               "required": [ "EngineeringUnits", "ActualValue", "TypeOfMeasurement", "TypeOfSample", "InstrumentRange", "EURange", "ValuePrecision", "Definition", "SignalTag", "RelativeUncertainty", "AbsoluteUncertainty", "Timestamp", "Index", "MeasurementPeriod", "InternalUpdateInterval" ],
               "properties": {
                 "EngineeringUnits": {
                   "title": "EUInformation",
                   "type": "object",
-                  "dov:typeRef": "nsu=http://opcfoundation.org/UA/;i=887",
+                  "dov:typeRef": "org.opcfoundation.UA.EUInformation",
                   "required": [ "NamespaceUri", "UnitId", "DisplayName", "Description" ],
                   "properties": {
                     "NamespaceUri": {
@@ -2012,7 +2012,7 @@
                 "InstrumentRange": {
                   "title": "Range",
                   "type": "object",
-                  "dov:typeRef": "nsu=http://opcfoundation.org/UA/;i=884",
+                  "dov:typeRef": "org.opcfoundation.UA.Range",
                   "required": [ "Low", "High" ],
                   "properties": {
                     "Low": {
@@ -2030,7 +2030,7 @@
                 "EURange": {
                   "title": "Range",
                   "type": "object",
-                  "dov:typeRef": "nsu=http://opcfoundation.org/UA/;i=884",
+                  "dov:typeRef": "org.opcfoundation.UA.Range",
                   "required": [ "Low", "High" ],
                   "properties": {
                     "Low": {
@@ -2099,7 +2099,7 @@
         "dov:namespace": "http://opcfoundation.org/UA/WMTP/",
         "output": {
           "type": "object",
-          "dov:typeRef": "nsu=http://opcfoundation.org/UA/WMTP/;i=6165",
+          "dov:typeRef": "org.opcfoundation.UA.OutputArguments",
           "required": [ "DeleteAllStoredRecordsSuccessfull" ],
           "properties": {
             "DeleteAllStoredRecordsSuccessfull": {
@@ -2119,7 +2119,7 @@
         "dov:namespace": "http://opcfoundation.org/UA/WMTP/",
         "input": {
           "type": "object",
-          "dov:typeRef": "nsu=http://opcfoundation.org/UA/WMTP/;i=6172",
+          "dov:typeRef": "org.opcfoundation.UA.InputArguments",
           "required": [ "FromIndex", "ToIndex" ],
           "properties": {
             "FromIndex": {
@@ -2146,7 +2146,7 @@
         "dov:namespace": "http://opcfoundation.org/UA/WMTP/",
         "input": {
           "type": "object",
-          "dov:typeRef": "nsu=http://opcfoundation.org/UA/WMTP/;i=6168",
+          "dov:typeRef": "org.opcfoundation.UA.InputArguments",
           "required": [ "FromTimestamp", "ToTimestamp" ],
           "properties": {
             "FromTimestamp": {
@@ -2171,7 +2171,7 @@
         "dov:namespace": "http://opcfoundation.org/UA/WMTP/",
         "output": {
           "type": "object",
-          "dov:typeRef": "nsu=http://opcfoundation.org/UA/WMTP/;i=6176",
+          "dov:typeRef": "org.opcfoundation.UA.OutputArguments",
           "required": [ "NumberOfStoredRecords" ],
           "properties": {
             "NumberOfStoredRecords": {
@@ -2193,7 +2193,7 @@
         "dov:namespace": "http://opcfoundation.org/UA/WMTP/",
         "input": {
           "type": "object",
-          "dov:typeRef": "nsu=http://opcfoundation.org/UA/WMTP/;i=6180",
+          "dov:typeRef": "org.opcfoundation.UA.InputArguments",
           "required": [ "FromTimestamp", "ToTimestamp" ],
           "properties": {
             "FromTimestamp": {
@@ -2208,7 +2208,7 @@
         },
         "output": {
           "type": "object",
-          "dov:typeRef": "nsu=http://opcfoundation.org/UA/WMTP/;i=6181",
+          "dov:typeRef": "org.opcfoundation.UA.OutputArguments",
           "required": [ "NumberOfStoredRecords" ],
           "properties": {
             "NumberOfStoredRecords": {

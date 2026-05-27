@@ -8,7 +8,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "Mining_TransportDumping_ArmouredFaceConveyor_AFCType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/Mining/TransportDumping/ArmouredFaceConveyor/;i=1002",
+    "dov:typeRef": "org.opcfoundation.UA.Mining.TransportDumping.ArmouredFaceConveyor.AFCType",
     "dov:isComposite": true,
     "links": [
       {

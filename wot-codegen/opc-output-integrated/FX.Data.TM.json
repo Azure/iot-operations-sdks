@@ -8,7 +8,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "FX_Data_AuditUpdateMethodResultEventType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/FX/Data/;i=1025",
+    "dov:typeRef": "org.opcfoundation.UA.FX.Data.AuditUpdateMethodResultEventType",
     "dov:isEvent": true,
     "links": [
       {
@@ -68,7 +68,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "OpcUaCore_AuditUpdateMethodEventType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/;i=2127",
+    "dov:typeRef": "org.opcfoundation.UA.AuditUpdateMethodEventType",
     "dov:isEvent": true,
     "links": [
       {
@@ -154,7 +154,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "OpcUaCore_AuditEventType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/;i=2052",
+    "dov:typeRef": "org.opcfoundation.UA.AuditEventType",
     "dov:isEvent": true,
     "links": [
       {
@@ -255,7 +255,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "OpcUaCore_BaseEventType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/;i=2041",
+    "dov:typeRef": "org.opcfoundation.UA.BaseEventType",
     "links": [
       {
         "rel": "tm:extends",
@@ -351,7 +351,7 @@
       "LocalTime": {
         "title": "TimeZoneDataType",
         "type": "object",
-        "dov:typeRef": "nsu=http://opcfoundation.org/UA/;i=8912",
+        "dov:typeRef": "org.opcfoundation.UA.TimeZoneDataType",
         "required": [ "Offset", "DaylightSavingInOffset" ],
         "properties": {
           "Offset": {
@@ -455,7 +455,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "OpcUaCore_BaseObjectType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/;i=58",
+    "dov:typeRef": "org.opcfoundation.UA.BaseObjectType",
     "links": [
     ],
     "schemaDefinitions": {

@@ -8,7 +8,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "PAEFS_AirConnectionType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/PAEFS/;i=1007",
+    "dov:typeRef": "org.opcfoundation.UA.PAEFS.AirConnectionType",
     "links": [
       {
         "rel": "tm:extends",
@@ -49,7 +49,7 @@
     "schemaDefinitions": {
       "AirConnectionOpenEnum": {
         "type": "object",
-        "dov:typeRef": "nsu=http://opcfoundation.org/UA/PAEFS/;i=3005",
+        "dov:typeRef": "org.opcfoundation.UA.PAEFS.AirConnectionOpenEnum",
         "const": {
           "Open": 0,
           "Closed": 1,
@@ -109,7 +109,7 @@
         "dov:namespace": "http://opcfoundation.org/UA/PAEFS/",
         "title": "AirConnectionOpenEnum",
         "description": "Indicates the connections status (open, closed, or a state in between)",
-        "dov:typeRef": "nsu=http://opcfoundation.org/UA/PAEFS/;i=3005",
+        "dov:typeRef": "org.opcfoundation.UA.PAEFS.AirConnectionOpenEnum",
         "type": "integer",
         "minimum": -2147483648,
         "maximum": 2147483647,
@@ -148,7 +148,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "PAEFS_SensorMonitoringType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/PAEFS/;i=1010",
+    "dov:typeRef": "org.opcfoundation.UA.PAEFS.SensorMonitoringType",
     "links": [
       {
         "rel": "tm:extends",
@@ -171,7 +171,7 @@
     "schemaDefinitions": {
       "AnalogDigitalEnum": {
         "type": "object",
-        "dov:typeRef": "nsu=http://opcfoundation.org/UA/PAEFS/;i=3002",
+        "dov:typeRef": "org.opcfoundation.UA.PAEFS.AnalogDigitalEnum",
         "const": {
           "Analog": 0,
           "Digital": 1
@@ -201,7 +201,7 @@
         "dov:namespace": "http://opcfoundation.org/UA/PAEFS/",
         "title": "AnalogDigitalEnum",
         "description": "Specifies whether the sensor is an analog or a digital sensor.",
-        "dov:typeRef": "nsu=http://opcfoundation.org/UA/PAEFS/;i=3002",
+        "dov:typeRef": "org.opcfoundation.UA.PAEFS.AnalogDigitalEnum",
         "type": "integer",
         "minimum": -2147483648,
         "maximum": 2147483647,
@@ -227,7 +227,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "PAEFS_CompressedAirSupplyInterruptedAlarmType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/PAEFS/;i=1032",
+    "dov:typeRef": "org.opcfoundation.UA.PAEFS.CompressedAirSupplyInterruptedAlarmType",
     "dov:isEvent": true,
     "links": [
       {
@@ -254,7 +254,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "PAEFS_EndOfFilterRollAlarmType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/PAEFS/;i=1026",
+    "dov:typeRef": "org.opcfoundation.UA.PAEFS.EndOfFilterRollAlarmType",
     "dov:isEvent": true,
     "links": [
       {
@@ -281,7 +281,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "PAEFS_MalfunctionAlarmType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/PAEFS/;i=1025",
+    "dov:typeRef": "org.opcfoundation.UA.PAEFS.MalfunctionAlarmType",
     "dov:isEvent": true,
     "links": [
       {
@@ -308,7 +308,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "PAEFS_SafetySystemTriggeredAlarmType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/PAEFS/;i=1041",
+    "dov:typeRef": "org.opcfoundation.UA.PAEFS.SafetySystemTriggeredAlarmType",
     "dov:isEvent": true,
     "links": [
       {
@@ -335,7 +335,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "PAEFS_WashingAgentDrainMalfunctionAlarmType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/PAEFS/;i=1030",
+    "dov:typeRef": "org.opcfoundation.UA.PAEFS.WashingAgentDrainMalfunctionAlarmType",
     "dov:isEvent": true,
     "links": [
       {
@@ -362,7 +362,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "PAEFS_WashingAgentInflowMalfunctionAlarmType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/PAEFS/;i=1029",
+    "dov:typeRef": "org.opcfoundation.UA.PAEFS.WashingAgentInflowMalfunctionAlarmType",
     "dov:isEvent": true,
     "links": [
       {
@@ -389,7 +389,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "PAEFS_CleaningRecommendedConditionType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/PAEFS/;i=1037",
+    "dov:typeRef": "org.opcfoundation.UA.PAEFS.CleaningRecommendedConditionType",
     "dov:isEvent": true,
     "links": [
       {
@@ -436,7 +436,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "PAEFS_MaintenanceRequestedConditionType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/PAEFS/;i=1023",
+    "dov:typeRef": "org.opcfoundation.UA.PAEFS.MaintenanceRequestedConditionType",
     "dov:isEvent": true,
     "links": [
       {
@@ -483,7 +483,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "PAEFS_AirConnectionStatusChangedConditionType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/PAEFS/;i=1040",
+    "dov:typeRef": "org.opcfoundation.UA.PAEFS.AirConnectionStatusChangedConditionType",
     "dov:isEvent": true,
     "links": [
       {
@@ -495,7 +495,7 @@
     "schemaDefinitions": {
       "AirConnectionOpenEnum": {
         "type": "object",
-        "dov:typeRef": "nsu=http://opcfoundation.org/UA/PAEFS/;i=3005",
+        "dov:typeRef": "org.opcfoundation.UA.PAEFS.AirConnectionOpenEnum",
         "const": {
           "Open": 0,
           "Closed": 1,
@@ -533,7 +533,7 @@
         "dov:namespace": "http://opcfoundation.org/UA/PAEFS/",
         "title": "AirConnectionOpenEnum",
         "description": "Reflects the value of the ConnectionOpen property at the time the event is triggered",
-        "dov:typeRef": "nsu=http://opcfoundation.org/UA/PAEFS/;i=3005",
+        "dov:typeRef": "org.opcfoundation.UA.PAEFS.AirConnectionOpenEnum",
         "type": "integer",
         "minimum": -2147483648,
         "maximum": 2147483647,
@@ -559,7 +559,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "PAEFS_CleaningUnitActiveConditionType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/PAEFS/;i=1036",
+    "dov:typeRef": "org.opcfoundation.UA.PAEFS.CleaningUnitActiveConditionType",
     "dov:isEvent": true,
     "links": [
       {
@@ -606,7 +606,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "PAEFS_ContainerOpenConditionType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/PAEFS/;i=1024",
+    "dov:typeRef": "org.opcfoundation.UA.PAEFS.ContainerOpenConditionType",
     "dov:isEvent": true,
     "links": [
       {
@@ -653,7 +653,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "PAEFS_DischargeContainerInstalledConditionType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/PAEFS/;i=1038",
+    "dov:typeRef": "org.opcfoundation.UA.PAEFS.DischargeContainerInstalledConditionType",
     "dov:isEvent": true,
     "links": [
       {
@@ -700,7 +700,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "PAEFS_FilterAidDeviceStatusChangedConditionType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/PAEFS/;i=1033",
+    "dov:typeRef": "org.opcfoundation.UA.PAEFS.FilterAidDeviceStatusChangedConditionType",
     "dov:isEvent": true,
     "links": [
       {
@@ -712,7 +712,7 @@
     "schemaDefinitions": {
       "FilterAidDeviceStatusEnum": {
         "type": "object",
-        "dov:typeRef": "nsu=http://opcfoundation.org/UA/PAEFS/;i=3006",
+        "dov:typeRef": "org.opcfoundation.UA.PAEFS.FilterAidDeviceStatusEnum",
         "const": {
           "DeviceActive": 0,
           "DeviceInactive": 1,
@@ -750,7 +750,7 @@
         "dov:namespace": "http://opcfoundation.org/UA/PAEFS/",
         "title": "FilterAidDeviceStatusEnum",
         "description": "Reflects the value of the FilterAidDeviceStatus property at the time the condition was triggered",
-        "dov:typeRef": "nsu=http://opcfoundation.org/UA/PAEFS/;i=3006",
+        "dov:typeRef": "org.opcfoundation.UA.PAEFS.FilterAidDeviceStatusEnum",
         "type": "integer",
         "minimum": -2147483648,
         "maximum": 2147483647,
@@ -776,7 +776,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "PAEFS_MaintenanceSwitchConditionType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/PAEFS/;i=1039",
+    "dov:typeRef": "org.opcfoundation.UA.PAEFS.MaintenanceSwitchConditionType",
     "dov:isEvent": true,
     "links": [
       {
@@ -823,7 +823,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "PAEFS_WashingAgentDrainOpenConditionType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/PAEFS/;i=1028",
+    "dov:typeRef": "org.opcfoundation.UA.PAEFS.WashingAgentDrainOpenConditionType",
     "dov:isEvent": true,
     "links": [
       {
@@ -870,7 +870,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "PAEFS_WashingAgentInflowOpenConditionType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/PAEFS/;i=1027",
+    "dov:typeRef": "org.opcfoundation.UA.PAEFS.WashingAgentInflowOpenConditionType",
     "dov:isEvent": true,
     "links": [
       {
@@ -917,7 +917,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "PAEFS_HighVoltageUnitSupplyActiveEventType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/PAEFS/;i=1031",
+    "dov:typeRef": "org.opcfoundation.UA.PAEFS.HighVoltageUnitSupplyActiveEventType",
     "dov:isEvent": true,
     "links": [
       {
@@ -964,7 +964,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "PAEFS_CleaningUnitType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/PAEFS/;i=1005",
+    "dov:typeRef": "org.opcfoundation.UA.PAEFS.CleaningUnitType",
     "links": [
       {
         "rel": "tm:extends",
@@ -1121,7 +1121,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "PAEFS_CleaningUnitValveType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/PAEFS/;i=1016",
+    "dov:typeRef": "org.opcfoundation.UA.PAEFS.CleaningUnitValveType",
     "links": [
       {
         "rel": "tm:extends",
@@ -1180,7 +1180,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "PAEFS_ConsumptionType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/PAEFS/;i=1011",
+    "dov:typeRef": "org.opcfoundation.UA.PAEFS.ConsumptionType",
     "links": [
       {
         "rel": "tm:extends",
@@ -1255,7 +1255,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "PAEFS_SensorSetpointWriteType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/PAEFS/;i=1035",
+    "dov:typeRef": "org.opcfoundation.UA.PAEFS.SensorSetpointWriteType",
     "links": [
       {
         "rel": "tm:extends",
@@ -1287,7 +1287,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "PAEFS_SensorSetpointReadType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/PAEFS/;i=1034",
+    "dov:typeRef": "org.opcfoundation.UA.PAEFS.SensorSetpointReadType",
     "links": [
       {
         "rel": "tm:extends",
@@ -1339,7 +1339,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "PAEFS_CollectorType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/PAEFS/;i=1020",
+    "dov:typeRef": "org.opcfoundation.UA.PAEFS.CollectorType",
     "links": [
       {
         "rel": "tm:extends",
@@ -1371,7 +1371,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "PAEFS_DischargeSystemType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/PAEFS/;i=1006",
+    "dov:typeRef": "org.opcfoundation.UA.PAEFS.DischargeSystemType",
     "links": [
       {
         "rel": "tm:extends",
@@ -1484,7 +1484,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "PAEFS_FanType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/PAEFS/;i=1009",
+    "dov:typeRef": "org.opcfoundation.UA.PAEFS.FanType",
     "links": [
       {
         "rel": "tm:extends",
@@ -1561,7 +1561,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "PAEFS_FilterAidDeviceType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/PAEFS/;i=1004",
+    "dov:typeRef": "org.opcfoundation.UA.PAEFS.FilterAidDeviceType",
     "links": [
       {
         "rel": "tm:extends",
@@ -1602,7 +1602,7 @@
     "schemaDefinitions": {
       "FilterAidDeviceStatusEnum": {
         "type": "object",
-        "dov:typeRef": "nsu=http://opcfoundation.org/UA/PAEFS/;i=3006",
+        "dov:typeRef": "org.opcfoundation.UA.PAEFS.FilterAidDeviceStatusEnum",
         "const": {
           "DeviceActive": 0,
           "DeviceInactive": 1,
@@ -1724,7 +1724,7 @@
         "dov:namespace": "http://opcfoundation.org/UA/PAEFS/",
         "title": "FilterAidDeviceStatusEnum",
         "description": "Describes the action performed by the dosage unit (see FilterAidDeviceStatusEnum).",
-        "dov:typeRef": "nsu=http://opcfoundation.org/UA/PAEFS/;i=3006",
+        "dov:typeRef": "org.opcfoundation.UA.PAEFS.FilterAidDeviceStatusEnum",
         "type": "integer",
         "minimum": -2147483648,
         "maximum": 2147483647,
@@ -1763,7 +1763,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "PAEFS_FilterSystemType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/PAEFS/;i=1002",
+    "dov:typeRef": "org.opcfoundation.UA.PAEFS.FilterSystemType",
     "dov:isComposite": true,
     "links": [
       {
@@ -1841,7 +1841,7 @@
     "schemaDefinitions": {
       "ControlModeEnum": {
         "type": "object",
-        "dov:typeRef": "nsu=http://opcfoundation.org/UA/PAEFS/;i=3003",
+        "dov:typeRef": "org.opcfoundation.UA.PAEFS.ControlModeEnum",
         "const": {
           "Automatic": 0,
           "Manual": 1,
@@ -1897,7 +1897,7 @@
         "dov:namespace": "http://opcfoundation.org/UA/PAEFS/",
         "title": "ControlModeEnum",
         "description": "Operating mode that describes whether the system can be controlled externally. Possible values are manual, auto and other.",
-        "dov:typeRef": "nsu=http://opcfoundation.org/UA/PAEFS/;i=3003",
+        "dov:typeRef": "org.opcfoundation.UA.PAEFS.ControlModeEnum",
         "type": "integer",
         "minimum": -2147483648,
         "maximum": 2147483647,
@@ -1988,7 +1988,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "PAEFS_FilterUnitType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/PAEFS/;i=1012",
+    "dov:typeRef": "org.opcfoundation.UA.PAEFS.FilterUnitType",
     "links": [
       {
         "rel": "tm:extends",
@@ -2105,7 +2105,7 @@
         "description": "The Method SetAirflowSetpoint sets a setpoint for the airflow. The value’s unit is the same as the one specified in object Airflow. Since setpoints are mutually exclusive, the method also sets the boolean IsActiveSetpoint of the setpoints for pressure and rotational speed to false.",
         "input": {
           "type": "object",
-          "dov:typeRef": "nsu=http://opcfoundation.org/UA/PAEFS/;i=6277",
+          "dov:typeRef": "org.opcfoundation.UA.InputArguments",
           "required": [ "Value" ],
           "properties": {
             "Value": {
@@ -2128,7 +2128,7 @@
         "description": "The Method SetPressureSetpoint sets a setpoint for the pressure. The value’s unit is the same as the one specified in object Pressure. Since setpoints are mutually exclusive, the method also sets the boolean IsActiveSetpoint of the setpoints for airflow and rotational speed to false.",
         "input": {
           "type": "object",
-          "dov:typeRef": "nsu=http://opcfoundation.org/UA/PAEFS/;i=6278",
+          "dov:typeRef": "org.opcfoundation.UA.InputArguments",
           "required": [ "Value" ],
           "properties": {
             "Value": {
@@ -2151,7 +2151,7 @@
         "description": "The Method SetRotationalSpeedSetpoint sets a setpoint for the rotational speed. The value’s unit is the same as the one specified in object RotationalSpeed. Since setpoints are mutually exclusive, the method also sets the boolean IsActiveSetpoint of the setpoints for airflow and pressure to false.",
         "input": {
           "type": "object",
-          "dov:typeRef": "nsu=http://opcfoundation.org/UA/PAEFS/;i=6279",
+          "dov:typeRef": "org.opcfoundation.UA.InputArguments",
           "required": [ "Value" ],
           "properties": {
             "Value": {
@@ -2249,7 +2249,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "PAEFS_SeparatorType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/PAEFS/;i=1003",
+    "dov:typeRef": "org.opcfoundation.UA.PAEFS.SeparatorType",
     "links": [
       {
         "rel": "tm:extends",
@@ -2321,7 +2321,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "PAEFS_SafetySystemType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/PAEFS/;i=1008",
+    "dov:typeRef": "org.opcfoundation.UA.PAEFS.SafetySystemType",
     "links": [
       {
         "rel": "tm:extends",
@@ -2386,7 +2386,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "PAEFS_TemperatureRegulatorType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/PAEFS/;i=1017",
+    "dov:typeRef": "org.opcfoundation.UA.PAEFS.TemperatureRegulatorType",
     "links": [
       {
         "rel": "tm:extends",
@@ -2450,7 +2450,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "PAEFS_FilterMachineIdentificationType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/PAEFS/;i=1022",
+    "dov:typeRef": "org.opcfoundation.UA.PAEFS.FilterMachineIdentificationType",
     "dov:isComposite": true,
     "links": [
       {
@@ -2579,7 +2579,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "PAEFS_HighVoltageUnitType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/PAEFS/;i=1015",
+    "dov:typeRef": "org.opcfoundation.UA.PAEFS.HighVoltageUnitType",
     "links": [
       {
         "rel": "tm:extends",
@@ -2738,7 +2738,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "PAEFS_IonizerType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/PAEFS/;i=1019",
+    "dov:typeRef": "org.opcfoundation.UA.PAEFS.IonizerType",
     "links": [
       {
         "rel": "tm:extends",
@@ -2770,7 +2770,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "PAEFS_AutomaticRollFilterType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/PAEFS/;i=1021",
+    "dov:typeRef": "org.opcfoundation.UA.PAEFS.AutomaticRollFilterType",
     "dov:isComposite": true,
     "links": [
       {
@@ -2817,7 +2817,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "PAEFS_CartridgeFilterType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/PAEFS/;i=1013",
+    "dov:typeRef": "org.opcfoundation.UA.PAEFS.CartridgeFilterType",
     "dov:isComposite": true,
     "links": [
       {
@@ -2844,7 +2844,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "PAEFS_ElectrostaticPrecipitatorType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/PAEFS/;i=1018",
+    "dov:typeRef": "org.opcfoundation.UA.PAEFS.ElectrostaticPrecipitatorType",
     "dov:isComposite": true,
     "links": [
       {
@@ -2877,7 +2877,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "PAEFS_WetSeparatorType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/PAEFS/;i=1014",
+    "dov:typeRef": "org.opcfoundation.UA.PAEFS.WetSeparatorType",
     "dov:isComposite": true,
     "links": [
       {
@@ -2963,7 +2963,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "OpcUaCore_BaseObjectType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/;i=58",
+    "dov:typeRef": "org.opcfoundation.UA.BaseObjectType",
     "links": [
     ],
     "schemaDefinitions": {
@@ -2984,7 +2984,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "OpcUaCore_FolderType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/;i=61",
+    "dov:typeRef": "org.opcfoundation.UA.FolderType",
     "links": [
       {
         "rel": "tm:extends",
@@ -3010,7 +3010,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "OpcUaCore_ExclusiveDeviationAlarmType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/;i=9764",
+    "dov:typeRef": "org.opcfoundation.UA.ExclusiveDeviationAlarmType",
     "dov:isEvent": true,
     "links": [
       {
@@ -3066,7 +3066,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "OpcUaCore_ExclusiveLimitAlarmType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/;i=9341",
+    "dov:typeRef": "org.opcfoundation.UA.ExclusiveLimitAlarmType",
     "dov:isEvent": true,
     "links": [
       {
@@ -3134,7 +3134,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "OpcUaCore_LimitAlarmType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/;i=2955",
+    "dov:typeRef": "org.opcfoundation.UA.LimitAlarmType",
     "dov:isEvent": true,
     "links": [
       {
@@ -3376,7 +3376,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "OpcUaCore_AlarmConditionType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/;i=2915",
+    "dov:typeRef": "org.opcfoundation.UA.AlarmConditionType",
     "dov:isEvent": true,
     "links": [
       {
@@ -3415,7 +3415,7 @@
       "GetGroupMemberships": {
         "output": {
           "type": "object",
-          "dov:typeRef": "nsu=http://opcfoundation.org/UA/;i=25154",
+          "dov:typeRef": "org.opcfoundation.UA.OutputArguments",
           "required": [ "Groups" ],
           "properties": {
             "Groups": {
@@ -3446,7 +3446,7 @@
       "PlaceInService2": {
         "input": {
           "type": "object",
-          "dov:typeRef": "nsu=http://opcfoundation.org/UA/;i=24323",
+          "dov:typeRef": "org.opcfoundation.UA.InputArguments",
           "required": [ "Comment" ],
           "properties": {
             "Comment": {
@@ -3474,7 +3474,7 @@
       "RemoveFromService2": {
         "input": {
           "type": "object",
-          "dov:typeRef": "nsu=http://opcfoundation.org/UA/;i=24321",
+          "dov:typeRef": "org.opcfoundation.UA.InputArguments",
           "required": [ "Comment" ],
           "properties": {
             "Comment": {
@@ -3502,7 +3502,7 @@
       "Reset2": {
         "input": {
           "type": "object",
-          "dov:typeRef": "nsu=http://opcfoundation.org/UA/;i=24325",
+          "dov:typeRef": "org.opcfoundation.UA.InputArguments",
           "required": [ "Comment" ],
           "properties": {
             "Comment": {
@@ -3539,7 +3539,7 @@
       "Suppress2": {
         "input": {
           "type": "object",
-          "dov:typeRef": "nsu=http://opcfoundation.org/UA/;i=24317",
+          "dov:typeRef": "org.opcfoundation.UA.InputArguments",
           "required": [ "Comment" ],
           "properties": {
             "Comment": {
@@ -3567,7 +3567,7 @@
       "Unsuppress2": {
         "input": {
           "type": "object",
-          "dov:typeRef": "nsu=http://opcfoundation.org/UA/;i=24319",
+          "dov:typeRef": "org.opcfoundation.UA.InputArguments",
           "required": [ "Comment" ],
           "properties": {
             "Comment": {
@@ -3892,7 +3892,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "OpcUaCore_AcknowledgeableConditionType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/;i=2881",
+    "dov:typeRef": "org.opcfoundation.UA.AcknowledgeableConditionType",
     "dov:isEvent": true,
     "links": [
       {
@@ -3919,7 +3919,7 @@
       "Acknowledge": {
         "input": {
           "type": "object",
-          "dov:typeRef": "nsu=http://opcfoundation.org/UA/;i=9112",
+          "dov:typeRef": "org.opcfoundation.UA.InputArguments",
           "required": [ "EventId", "Comment" ],
           "properties": {
             "EventId": {
@@ -3944,7 +3944,7 @@
       "Confirm": {
         "input": {
           "type": "object",
-          "dov:typeRef": "nsu=http://opcfoundation.org/UA/;i=9114",
+          "dov:typeRef": "org.opcfoundation.UA.InputArguments",
           "required": [ "EventId", "Comment" ],
           "properties": {
             "EventId": {
@@ -4050,7 +4050,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "OpcUaCore_ConditionType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/;i=2782",
+    "dov:typeRef": "org.opcfoundation.UA.ConditionType",
     "dov:isEvent": true,
     "links": [
       {
@@ -4077,7 +4077,7 @@
       "AddComment": {
         "input": {
           "type": "object",
-          "dov:typeRef": "nsu=http://opcfoundation.org/UA/;i=9030",
+          "dov:typeRef": "org.opcfoundation.UA.InputArguments",
           "required": [ "EventId", "Comment" ],
           "properties": {
             "EventId": {
@@ -4102,7 +4102,7 @@
       "ConditionRefresh": {
         "input": {
           "type": "object",
-          "dov:typeRef": "nsu=http://opcfoundation.org/UA/;i=3876",
+          "dov:typeRef": "org.opcfoundation.UA.InputArguments",
           "required": [ "SubscriptionId" ],
           "properties": {
             "SubscriptionId": {
@@ -4124,7 +4124,7 @@
       "ConditionRefresh2": {
         "input": {
           "type": "object",
-          "dov:typeRef": "nsu=http://opcfoundation.org/UA/;i=12913",
+          "dov:typeRef": "org.opcfoundation.UA.InputArguments",
           "required": [ "SubscriptionId", "MonitoredItemId" ],
           "properties": {
             "SubscriptionId": {
@@ -4383,7 +4383,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "OpcUaCore_BaseEventType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/;i=2041",
+    "dov:typeRef": "org.opcfoundation.UA.BaseEventType",
     "links": [
       {
         "rel": "tm:extends",
@@ -4479,7 +4479,7 @@
       "LocalTime": {
         "title": "TimeZoneDataType",
         "type": "object",
-        "dov:typeRef": "nsu=http://opcfoundation.org/UA/;i=8912",
+        "dov:typeRef": "org.opcfoundation.UA.TimeZoneDataType",
         "required": [ "Offset", "DaylightSavingInOffset" ],
         "properties": {
           "Offset": {
@@ -4583,7 +4583,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "OpcUaCore_ShelvedStateMachineType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/;i=2929",
+    "dov:typeRef": "org.opcfoundation.UA.ShelvedStateMachineType",
     "links": [
       {
         "rel": "tm:extends",
@@ -4667,7 +4667,7 @@
       "OneShotShelve2": {
         "input": {
           "type": "object",
-          "dov:typeRef": "nsu=http://opcfoundation.org/UA/;i=24761",
+          "dov:typeRef": "org.opcfoundation.UA.InputArguments",
           "required": [ "Comment" ],
           "properties": {
             "Comment": {
@@ -4686,7 +4686,7 @@
       "TimedShelve": {
         "input": {
           "type": "object",
-          "dov:typeRef": "nsu=http://opcfoundation.org/UA/;i=2991",
+          "dov:typeRef": "org.opcfoundation.UA.InputArguments",
           "required": [ "ShelvingTime" ],
           "properties": {
             "ShelvingTime": {
@@ -4706,7 +4706,7 @@
       "TimedShelve2": {
         "input": {
           "type": "object",
-          "dov:typeRef": "nsu=http://opcfoundation.org/UA/;i=24757",
+          "dov:typeRef": "org.opcfoundation.UA.InputArguments",
           "required": [ "ShelvingTime", "Comment" ],
           "properties": {
             "ShelvingTime": {
@@ -4738,7 +4738,7 @@
       "Unshelve2": {
         "input": {
           "type": "object",
-          "dov:typeRef": "nsu=http://opcfoundation.org/UA/;i=24759",
+          "dov:typeRef": "org.opcfoundation.UA.InputArguments",
           "required": [ "Comment" ],
           "properties": {
             "Comment": {
@@ -4781,7 +4781,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "OpcUaCore_FiniteStateMachineType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/;i=2771",
+    "dov:typeRef": "org.opcfoundation.UA.FiniteStateMachineType",
     "links": [
       {
         "rel": "tm:extends",
@@ -4923,7 +4923,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "OpcUaCore_StateMachineType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/;i=2299",
+    "dov:typeRef": "org.opcfoundation.UA.StateMachineType",
     "dov:isComposite": true,
     "links": [
       {
@@ -5008,7 +5008,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "OpcUaCore_StateType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/;i=2307",
+    "dov:typeRef": "org.opcfoundation.UA.StateType",
     "links": [
       {
         "rel": "tm:extends",
@@ -5054,7 +5054,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "OpcUaCore_TransitionType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/;i=2310",
+    "dov:typeRef": "org.opcfoundation.UA.TransitionType",
     "links": [
       {
         "rel": "tm:extends",
@@ -5100,7 +5100,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "OpcUaCore_AlarmGroupType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/;i=16405",
+    "dov:typeRef": "org.opcfoundation.UA.AlarmGroupType",
     "links": [
       {
         "rel": "tm:extends",
@@ -5126,7 +5126,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "OpcUaCore_ExclusiveLimitStateMachineType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/;i=9318",
+    "dov:typeRef": "org.opcfoundation.UA.ExclusiveLimitStateMachineType",
     "links": [
       {
         "rel": "tm:extends",
@@ -5200,7 +5200,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "OpcUaCore_OffNormalAlarmType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/;i=10637",
+    "dov:typeRef": "org.opcfoundation.UA.OffNormalAlarmType",
     "dov:isEvent": true,
     "links": [
       {
@@ -5245,7 +5245,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "OpcUaCore_DiscreteAlarmType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/;i=10523",
+    "dov:typeRef": "org.opcfoundation.UA.DiscreteAlarmType",
     "dov:isEvent": true,
     "links": [
       {
@@ -5273,7 +5273,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "Machinery_ProcessValues_ProcessValueType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/Machinery/ProcessValues/;i=1003",
+    "dov:typeRef": "org.opcfoundation.UA.Machinery.ProcessValues.ProcessValueType",
     "dov:isComposite": true,
     "links": [
       {
@@ -5667,7 +5667,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "PADIM_AnalogSignalType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/PADIM/;i=1022",
+    "dov:typeRef": "org.opcfoundation.UA.PADIM.AnalogSignalType",
     "dov:isComposite": true,
     "links": [
       {
@@ -5763,7 +5763,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "PADIM_SignalType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/PADIM/;i=1008",
+    "dov:typeRef": "org.opcfoundation.UA.PADIM.SignalType",
     "links": [
       {
         "rel": "tm:extends",
@@ -5818,7 +5818,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "Machinery_MachineIdentificationType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/Machinery/;i=1012",
+    "dov:typeRef": "org.opcfoundation.UA.Machinery.MachineIdentificationType",
     "dov:isComposite": true,
     "links": [
       {
@@ -5900,7 +5900,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "Machinery_MachineryItemIdentificationType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/Machinery/;i=1004",
+    "dov:typeRef": "org.opcfoundation.UA.Machinery.MachineryItemIdentificationType",
     "links": [
       {
         "rel": "tm:extends",
@@ -6152,7 +6152,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "DI_FunctionalGroupType",
-    "dov:typeRef": "nsu=http://opcfoundation.org/UA/DI/;i=1005",
+    "dov:typeRef": "org.opcfoundation.UA.DI.FunctionalGroupType",
     "links": [
       {
         "rel": "tm:extends",
