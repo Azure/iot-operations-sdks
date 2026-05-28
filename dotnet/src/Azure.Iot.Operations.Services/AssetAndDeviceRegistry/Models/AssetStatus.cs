@@ -126,15 +126,25 @@ public record AssetStatus
     public void UpdateManagementGroupStatus(string managementGroupName, AssetManagementGroupActionStatus actionNewStatus)
     {
         ManagementGroups ??= new();
-        ManagementGroups.ForEach(
-            (managementGroupStatus) => {
-            if (managementGroupStatus.Name.Equals(managementGroupName))
+
+        AssetManagementGroupStatus? existing = ManagementGroups.Find(g => g.Name.Equals(managementGroupName));
+        if (existing is null)
+        {
+            // First time we hear about this group: add an entry. Without this branch the
+            // ForEach below would silently no-op when the group is missing, leaving
+            // ManagementGroups as an empty list forever (observed end-to-end as
+            // AssetStatus.ManagementGroups == [] for management-action-only assets).
+            ManagementGroups.Add(new AssetManagementGroupStatus
             {
-                managementGroupStatus.Actions ??= new();
-                managementGroupStatus.Actions.RemoveAll((actionStatus) => actionStatus.Name.Equals(actionNewStatus.Name));
-                managementGroupStatus.Actions.Add(actionNewStatus);
-            }
-        });
+                Name = managementGroupName,
+                Actions = new List<AssetManagementGroupActionStatus> { actionNewStatus },
+            });
+            return;
+        }
+
+        existing.Actions ??= new();
+        existing.Actions.RemoveAll((actionStatus) => actionStatus.Name.Equals(actionNewStatus.Name));
+        existing.Actions.Add(actionNewStatus);
     }
 
     /// <summary>
