@@ -283,13 +283,17 @@ namespace Azure.Iot.Operations.Connector
                 await ctx.AssetClient.GetManagementActionExecutorAsync(ctx.GroupName, ctx.ActionName, cancellationToken);
             WireCallback(executor, ctx);
 
-            // Reflect the connector-supplied validation result from startup, if any.
-            if (initialUserValidationError is not null)
+            await ReportConfigErrorAsync(ctx.AssetClient, ctx.GroupName, ctx.ActionName, initialUserValidationError, cancellationToken);
+            if (initialUserValidationError is null)
             {
-                await ReportConfigErrorAsync(ctx.AssetClient, ctx.GroupName, ctx.ActionName, initialUserValidationError, cancellationToken);
-                // Don't claim Unavailable: the device wasn't probed, the configuration is just
-                // invalid. Pause runtime-health reporting so ADR sees Unknown until the next
-                // notification produces a valid config.
+                await ctx.AssetClient.ReportManagementActionRuntimeHealthAsync(
+                    ctx.GroupName, ctx.ActionName,
+                    new ConnectorRuntimeHealth { Status = HealthStatus.Available },
+                    cancellationToken: cancellationToken);
+            }
+            else
+            {
+                // Invalid config: pause so ADR sees Unknown rather than a fabricated Unavailable.
                 await ctx.AssetClient.PauseManagementActionRuntimeHealthReportingAsync(ctx.GroupName, ctx.ActionName, cancellationToken);
             }
 
