@@ -88,6 +88,11 @@ namespace Azure.Iot.Operations.CodeGeneration
                 hasError = true;
             }
 
+            if (!TryValidateOptional(thing.Optional, thing.Actions, thing.Properties, thing.Events))
+            {
+                hasError = true;
+            }
+
             if (!TryValidateAffordanceGroups(thing.PropertyGroups, thing.EventGroups, thing.ActionGroups))
             {
                 hasError = true;
@@ -647,6 +652,76 @@ namespace Azure.Iot.Operations.CodeGeneration
             {
                 errorReporter?.ReportError(ErrorCondition.PropertyInvalid, $"Thing Model '{TDThing.TitleName}' property value \"{title.Value.Value}\" does not conform to codegen type naming rules -- it must start with an uppercase letter and contain only alphanumeric characters and underscores", title.TokenIndex);
                 return false;
+            }
+
+            return true;
+        }
+
+        private bool TryValidateOptional(ArrayTracker<StringHolder>? opt, MapTracker<TDAction>? actions, MapTracker<TDProperty>? properties, MapTracker<TDEvent>? evts)
+        {
+            if (opt?.Elements == null)
+            {
+                return true;
+            }
+
+            foreach (var optElt in opt.Elements)
+            {
+                if (string.IsNullOrWhiteSpace(optElt.Value.Value))
+                {
+                    errorReporter.ReportError(ErrorCondition.PropertyEmpty, $"Optional element has empty string value.", optElt.TokenIndex);
+                    return false;
+                }
+
+                string[] optParts = optElt.Value.Value.Split('/', StringSplitOptions.RemoveEmptyEntries);
+
+                if (optParts.Length < 2)
+                {
+                    errorReporter.ReportError(ErrorCondition.PropertyUnsupportedValue, $"Optional element value '{optElt.Value.Value}' must be a 2-level JSON Pointer, such as '/{TDThing.ActionsName}/Example'.", optElt.TokenIndex);
+                    return false;
+                }
+
+                switch (optParts[0])
+                {
+                    case TDThing.ActionsName:
+                        if (actions?.Entries == null)
+                        {
+                            errorReporter.ReportError(ErrorCondition.ItemNotFound, $"Optional element has value '{optElt.Value.Value}', but no '{TDThing.ActionsName}' collection in Thing Model.", optElt.TokenIndex);
+                            return false;
+                        }
+                        if (!actions.Entries!.ContainsKey(optParts[1]))
+                        {
+                            errorReporter.ReportError(ErrorCondition.ItemNotFound, $"Optional element has value '{optElt.Value.Value}', but no '{optParts[1]}' action in Thing Model.", optElt.TokenIndex, actions.TokenIndex);
+                            return false;
+                        }
+                        break;
+                    case TDThing.PropertiesName:
+                        if (properties?.Entries == null)
+                        {
+                            errorReporter.ReportError(ErrorCondition.ItemNotFound, $"Optional element has value '{optElt.Value.Value}', but no '{TDThing.PropertiesName}' collection in Thing Model.", optElt.TokenIndex);
+                            return false;
+                        }
+                        if (!properties.Entries!.ContainsKey(optParts[1]))
+                        {
+                            errorReporter.ReportError(ErrorCondition.ItemNotFound, $"Optional element has value '{optElt.Value.Value}', but no '{optParts[1]}' property in Thing Model.", optElt.TokenIndex, properties.TokenIndex);
+                            return false;
+                        }
+                        break;
+                    case TDThing.EventsName:
+                        if (evts?.Entries == null)
+                        {
+                            errorReporter.ReportError(ErrorCondition.ItemNotFound, $"Optional element has value '{optElt.Value.Value}', but no '{TDThing.EventsName}' collection in Thing Model.", optElt.TokenIndex);
+                            return false;
+                        }
+                        if (!evts.Entries!.ContainsKey(optParts[1]))
+                        {
+                            errorReporter.ReportError(ErrorCondition.ItemNotFound, $"Optional element has value '{optElt.Value.Value}', but no '{optParts[1]}' event in Thing Model.", optElt.TokenIndex, evts.TokenIndex);
+                            return false;
+                        }
+                        break;
+                    default:
+                        errorReporter.ReportError(ErrorCondition.PropertyUnsupportedValue, $"Optional element value '{optElt.Value.Value}' must be a JSON Pointer whose first level is '{TDThing.ActionsName}', '{TDThing.PropertiesName}', or '{TDThing.EventsName}'.", optElt.TokenIndex);
+                        return false;
+                }
             }
 
             return true;
@@ -1620,28 +1695,35 @@ namespace Azure.Iot.Operations.CodeGeneration
                 return false;
             }
 
-            if (!withUnit.Value.Value.StartsWith(TDCommon.WithUnitPrefix))
+            string[] withUnitParts = withUnit.Value.Value.Split('/', StringSplitOptions.RemoveEmptyEntries);
+
+            if (withUnitParts.Length < 2)
             {
-                errorReporter.ReportError(ErrorCondition.PropertyUnsupportedValue, $"{affordanceType} element '{TDCommon.WithUnitName}' property value must start with '{TDCommon.WithUnitPrefix}'.", withUnit.TokenIndex);
+                errorReporter.ReportError(ErrorCondition.PropertyUnsupportedValue, $"{affordanceType} element '{TDCommon.WithUnitName}' property value '{withUnit.Value.Value}' must be a 2-level JSON Pointer, such as '/{TDThing.PropertiesName}/ExampleUnit'.", withUnit.TokenIndex);
                 return false;
             }
 
-            string unitPropName = withUnit.Value.Value.Substring(TDCommon.WithUnitPrefix.Length);
-            if (string.IsNullOrWhiteSpace(unitPropName))
+            if (withUnitParts[0] != TDThing.PropertiesName)
             {
-                errorReporter.ReportError(ErrorCondition.PropertyUnsupportedValue, $"{affordanceType} element '{TDCommon.WithUnitName}' property has no referenced property name following '{TDCommon.WithUnitPrefix}'.", withUnit.TokenIndex);
+                errorReporter.ReportError(ErrorCondition.PropertyUnsupportedValue, $"{affordanceType} element '{TDCommon.WithUnitName}' property value '{withUnit.Value.Value}' must be a JSON Pointer whose first level is '{TDThing.PropertiesName}'.", withUnit.TokenIndex);
                 return false;
             }
 
-            if (!properties.Entries!.TryGetValue(unitPropName, out ValueTracker<TDProperty>? unitProperty))
+            if (properties?.Entries == null)
             {
-                errorReporter.ReportError(ErrorCondition.ItemNotFound, $"{affordanceType} element '{TDCommon.WithUnitName}' property references property '{unitPropName}', which is not present in 'properties' collection.", withUnit.TokenIndex, properties.TokenIndex);
+                errorReporter.ReportError(ErrorCondition.ItemNotFound, $"{affordanceType} element '{TDCommon.WithUnitName}' property has value '{withUnit.Value.Value}', but no '{TDThing.PropertiesName}' collection in Thing Model.", withUnit.TokenIndex);
+                return false;
+            }
+
+            if (!properties.Entries!.TryGetValue(withUnitParts[1], out ValueTracker<TDProperty>? unitProperty))
+            {
+                errorReporter.ReportError(ErrorCondition.ItemNotFound, $"{affordanceType} element '{TDCommon.WithUnitName}' property has value '{withUnit.Value.Value}', but no '{withUnitParts[1]}' property in Thing Model.", withUnit.TokenIndex, properties.TokenIndex);
                 return false;
             }
 
             if (unitProperty.Value.Type?.Value.Value != TDValues.TypeString)
             {
-                errorReporter.ReportError(ErrorCondition.TypeMismatch, $"{affordanceType} element '{TDCommon.WithUnitName}' property references property '{unitPropName}', but that property's schema is not of type string.", withUnit.TokenIndex, unitProperty.TokenIndex);
+                errorReporter.ReportError(ErrorCondition.TypeMismatch, $"{affordanceType} element '{TDCommon.WithUnitName}' property references property '{withUnitParts[1]}', but that property's schema is not of type string.", withUnit.TokenIndex, unitProperty.TokenIndex);
                 return false;
             }
 
