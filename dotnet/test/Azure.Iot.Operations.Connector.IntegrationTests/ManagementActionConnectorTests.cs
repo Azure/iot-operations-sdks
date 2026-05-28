@@ -10,6 +10,7 @@ using Azure.Iot.Operations.Protocol.RPC;
 using Azure.Iot.Operations.Services.AssetAndDeviceRegistry;
 using Azure.Iot.Operations.Services.AssetAndDeviceRegistry.Models;
 using Xunit;
+using Xunit.Abstractions;
 
 namespace Azure.Iot.Operations.Connector.IntegrationTests
 {
@@ -45,6 +46,13 @@ namespace Azure.Iot.Operations.Connector.IntegrationTests
 
         private static readonly TimeSpan ResponseWait = TimeSpan.FromSeconds(15);
 
+        private readonly ITestOutputHelper _output;
+
+        public ManagementActionConnectorTests(ITestOutputHelper output)
+        {
+            _output = output;
+        }
+
         [Fact]
         public async Task Reboot_Call_ReturnsRebootResponse()
         {
@@ -58,6 +66,7 @@ namespace Azure.Iot.Operations.Connector.IntegrationTests
                 requestPayload: JsonSerializer.SerializeToUtf8Bytes(request));
 
             MgmtRebootResponse body = DeserializeBody<MgmtRebootResponse>(responseBytes);
+            _output.WriteLine($"[Reboot_Call] parsed body: RequestId={body.RequestId}, RebootCount={body.RebootCount}");
             Assert.NotEqual(Guid.Empty, body.RequestId);
             Assert.True(body.RebootCount >= 1);
         }
@@ -76,6 +85,7 @@ namespace Azure.Iot.Operations.Connector.IntegrationTests
                     requestPayload: Array.Empty<byte>());
 
                 MgmtTemperatureReading body = DeserializeBody<MgmtTemperatureReading>(responseBytes);
+                _output.WriteLine($"[ReadTemperature_Read] parsed body: Value={body.Value}, Unit={body.Unit}");
                 Assert.True(body.Value > -100 && body.Value < 200, $"unexpected temperature {body.Value}");
                 Assert.True(body.Unit is "C" or "F");
             }
@@ -87,6 +97,7 @@ namespace Azure.Iot.Operations.Connector.IntegrationTests
                 // DeviceUnavailable application error (ErrorPayload = "Device is
                 // currently rebooting."), which CommandInvoker surfaces as an
                 // AkriMqttException with Kind = ExecutionException.
+                _output.WriteLine($"[ReadTemperature_Read] swallowed application error: {DescribeException(ex)}");
                 Assert.Contains("rebooting", ex.Message, StringComparison.OrdinalIgnoreCase);
             }
         }
@@ -105,6 +116,7 @@ namespace Azure.Iot.Operations.Connector.IntegrationTests
                 requestPayload: JsonSerializer.SerializeToUtf8Bytes(update));
 
             MgmtConfigurationAck ack = DeserializeBody<MgmtConfigurationAck>(writeBytes);
+            _output.WriteLine($"[WriteConfiguration_Write] parsed ack: AppliedSampleIntervalMs={ack.AppliedSampleIntervalMs}, AppliedUnit={ack.AppliedUnit}");
             Assert.Equal(750, ack.AppliedSampleIntervalMs);
             Assert.Equal("F", ack.AppliedUnit);
 
@@ -122,11 +134,14 @@ namespace Azure.Iot.Operations.Connector.IntegrationTests
 
             // sampleIntervalMs out of range (must be 100..60000 per the sample).
             var bad = new MgmtConfigurationUpdate { SampleIntervalMs = 50, Unit = "C" };
+            _output.WriteLine($"[WriteConfiguration_InvalidPayload] sending bad payload: {JsonSerializer.Serialize(bad)}");
 
             AkriMqttException ex = await Assert.ThrowsAsync<AkriMqttException>(() => InvokeAsync(
                 invoker,
                 actionName: "write-configuration",
                 requestPayload: JsonSerializer.SerializeToUtf8Bytes(bad)));
+
+            _output.WriteLine($"[WriteConfiguration_InvalidPayload] got expected exception: {DescribeException(ex)}");
 
             // The handler returns ManagementActionApplicationError("ValidationFailed", ...).
             // The connector marshals that to a non-2xx response with the __apErr user
@@ -153,11 +168,15 @@ namespace Azure.Iot.Operations.Connector.IntegrationTests
             {
                 try
                 {
+                    _output.WriteLine($"[AssetStatus] attempt #{retry + 1}: fetching device + asset status for device='{DeviceName}', endpoint='{EndpointName}', asset='{AssetName}'");
+
                     DeviceStatus deviceStatus = await adrClient.GetDeviceStatusAsync(DeviceName, EndpointName);
+                    _output.WriteLine($"[AssetStatus] DeviceStatus: {SafeSerialize(deviceStatus)}");
                     Assert.NotNull(deviceStatus.Config);
                     Assert.Null(deviceStatus.Config.Error);
 
                     AssetStatus assetStatus = await adrClient.GetAssetStatusAsync(DeviceName, EndpointName, AssetName);
+                    _output.WriteLine($"[AssetStatus] AssetStatus: {SafeSerialize(assetStatus)}");
                     Assert.NotNull(assetStatus.Config);
                     Assert.Null(assetStatus.Config.Error);
                     Assert.NotNull(assetStatus.ManagementGroups);
@@ -177,8 +196,9 @@ namespace Azure.Iot.Operations.Connector.IntegrationTests
                     }
                     return;
                 }
-                catch
+                catch (Exception ex)
                 {
+                    _output.WriteLine($"[AssetStatus] attempt #{retry + 1} failed: {ex.GetType().Name}: {ex.Message}");
                     if (++retry > 5) throw;
                     await Task.Delay(TimeSpan.FromSeconds(10));
                 }
@@ -189,10 +209,11 @@ namespace Azure.Iot.Operations.Connector.IntegrationTests
         // Helpers
         // ------------------------------------------------------------------
 
-        private static async Task WaitForReadAsync(ManagementActionInvoker invoker, string expectedUnit)
+        private async Task WaitForReadAsync(ManagementActionInvoker invoker, string expectedUnit)
         {
             for (int i = 0; i < 20; i++)
             {
+                _output.WriteLine($"[WaitForRead] iteration {i + 1}/20, expecting unit='{expectedUnit}'");
                 try
                 {
                     byte[] responseBytes = await InvokeAsync(
@@ -200,15 +221,24 @@ namespace Azure.Iot.Operations.Connector.IntegrationTests
                         actionName: "read-temperature",
                         requestPayload: Array.Empty<byte>());
 
-                    var body = DeserializeBody<MgmtTemperatureReading>(responseBytes);
-                    if (string.Equals(body.Unit, expectedUnit, StringComparison.OrdinalIgnoreCase))
+                    if (responseBytes.Length == 0)
                     {
-                        return;
+                        _output.WriteLine($"[WaitForRead] iteration {i + 1}: response payload was empty; retrying");
+                    }
+                    else
+                    {
+                        var body = DeserializeBody<MgmtTemperatureReading>(responseBytes);
+                        _output.WriteLine($"[WaitForRead] iteration {i + 1}: got Value={body.Value}, Unit='{body.Unit}'");
+                        if (string.Equals(body.Unit, expectedUnit, StringComparison.OrdinalIgnoreCase))
+                        {
+                            return;
+                        }
                     }
                 }
                 catch (AkriMqttException ex) when (IsApplicationError(ex))
                 {
                     // Device is rebooting or otherwise refused the read; retry briefly.
+                    _output.WriteLine($"[WaitForRead] iteration {i + 1}: application error (will retry): {DescribeException(ex)}");
                 }
 
                 await Task.Delay(TimeSpan.FromMilliseconds(250));
@@ -222,30 +252,84 @@ namespace Azure.Iot.Operations.Connector.IntegrationTests
         /// the invoker manages response-topic subscription, correlation, status
         /// validation, and exception mapping (non-2xx → <see cref="AkriMqttException"/>).
         /// </summary>
-        private static async Task<byte[]> InvokeAsync(
+        private async Task<byte[]> InvokeAsync(
             ManagementActionInvoker invoker,
             string actionName,
             byte[] requestPayload)
         {
-            ExtendedResponse<byte[]> response = await invoker.InvokeCommandAsync(
-                requestPayload,
-                additionalTopicTokenMap: new Dictionary<string, string> { ["actionName"] = actionName },
-                commandTimeout: ResponseWait);
-            return response.Response;
+            _output.WriteLine(
+                $"[Invoke] action='{actionName}', requestBytes={requestPayload.Length}, request UTF-8='{SafeUtf8(requestPayload)}'");
+            try
+            {
+                ExtendedResponse<byte[]> response = await invoker.InvokeCommandAsync(
+                    requestPayload,
+                    additionalTopicTokenMap: new Dictionary<string, string> { ["actionName"] = actionName },
+                    commandTimeout: ResponseWait);
+
+                byte[] payload = response.Response ?? Array.Empty<byte>();
+                _output.WriteLine(
+                    $"[Invoke] action='{actionName}' got responseBytes={payload.Length}, response UTF-8='{SafeUtf8(payload)}'");
+                _output.WriteLine(
+                    $"[Invoke] action='{actionName}' response metadata: {DescribeMetadata(response.ResponseMetadata)}");
+                return payload;
+            }
+            catch (AkriMqttException ex)
+            {
+                _output.WriteLine($"[Invoke] action='{actionName}' threw: {DescribeException(ex)}");
+                throw;
+            }
         }
 
-        private static ManagementActionInvoker CreateInvoker(OrderedAckMqttClient mqtt)
-            => new(new ApplicationContext(), mqtt);
+        private ManagementActionInvoker CreateInvoker(OrderedAckMqttClient mqtt)
+        {
+            var inv = new ManagementActionInvoker(new ApplicationContext(), mqtt);
+            _output.WriteLine($"[CreateInvoker] clientId='{mqtt.ClientId}'");
+            return inv;
+        }
 
         private static bool IsApplicationError(AkriMqttException ex)
             => ex.Kind == AkriMqttErrorKind.ExecutionException && ex.IsRemote;
 
-        private static T DeserializeBody<T>(byte[] payload)
+        private T DeserializeBody<T>(byte[] payload)
         {
+            _output.WriteLine(
+                $"[Deserialize<{typeof(T).Name}>] bytes={payload.Length}, hex={BitConverter.ToString(payload)}, UTF-8='{SafeUtf8(payload)}'");
             Assert.NotEmpty(payload);
             T? value = JsonSerializer.Deserialize<T>(payload);
             Assert.NotNull(value);
             return value!;
+        }
+
+        private static string SafeUtf8(byte[] payload)
+        {
+            if (payload == null || payload.Length == 0) return string.Empty;
+            try { return System.Text.Encoding.UTF8.GetString(payload); }
+            catch (Exception ex) { return $"<utf8 decode failed: {ex.Message}>"; }
+        }
+
+        private static string SafeSerialize(object? value)
+        {
+            if (value == null) return "<null>";
+            try { return JsonSerializer.Serialize(value, new JsonSerializerOptions { WriteIndented = false }); }
+            catch (Exception ex) { return $"<{value.GetType().Name}: serialize failed: {ex.Message}>"; }
+        }
+
+        private static string DescribeException(AkriMqttException ex)
+        {
+            return $"Kind={ex.Kind}, IsRemote={ex.IsRemote}, IsShallow={ex.IsShallow}, " +
+                   $"CorrelationId={ex.CorrelationId?.ToString() ?? "<null>"}, " +
+                   $"HeaderName='{ex.HeaderName}', HeaderValue='{ex.HeaderValue}', " +
+                   $"PropertyName='{ex.PropertyName}', PropertyValue='{ex.PropertyValue}', " +
+                   $"CommandName='{ex.CommandName}', Message='{ex.Message}'";
+        }
+
+        private static string DescribeMetadata(CommandResponseMetadata? metadata)
+        {
+            if (metadata == null) return "<null>";
+            string userData = metadata.UserData == null
+                ? "<null>"
+                : "{" + string.Join(", ", metadata.UserData.Select(kv => $"\"{kv.Key}\"=\"{kv.Value}\"")) + "}";
+            return $"ContentType='{metadata.ContentType}', UserData={userData}";
         }
 
         // ------------------------------------------------------------------
