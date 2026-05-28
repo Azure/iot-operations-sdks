@@ -759,6 +759,53 @@ namespace Azure.Iot.Operations.Connector
             {
                 _devices[compoundDeviceName] = new(args.DeviceName, args.InboundEndpointName, args.Device);
                 _adrClient!.ObserveAssets(args.DeviceName, args.InboundEndpointName);
+
+                // Polling/event connectors publish initial healthy device status through their
+                // user-supplied WhileDeviceIsAvailable callback (see PollingTelemetryConnectorWorker).
+                // Management-action-only connectors typically don't supply that callback, so without
+                // this branch DeviceStatus.Config stays null forever and downstream consumers
+                // (e.g. AzureDeviceRegistryClient.GetDeviceStatusAsync) only see "Config":null.
+                // When a ManagementAction orchestrator is wired up but no user device callback is
+                // provided, take responsibility for publishing the initial healthy status ourselves.
+                if (_managementActionOrchestrator != null && WhileDeviceIsAvailable == null)
+                {
+                    _ = Task.Run(() => PublishInitialHealthyDeviceStatusAsync(args.DeviceName, args.InboundEndpointName));
+                }
+            }
+        }
+
+        /// <summary>
+        /// Publish a healthy <see cref="DeviceStatus"/> (Config + per-inbound-endpoint entry, both
+        /// with <c>Error = null</c>) for the given device endpoint. Best-effort: any failure is
+        /// logged and swallowed so it can't fault the notification thread or block subsequent
+        /// asset processing. Idempotent &mdash; safe to call repeatedly (e.g. on Created and Updated).
+        /// </summary>
+        private async Task PublishInitialHealthyDeviceStatusAsync(string deviceName, string inboundEndpointName)
+        {
+            try
+            {
+                DeviceStatus current = await _adrClient!.GetDeviceStatusAsync(deviceName, inboundEndpointName);
+                current.Config ??= new();
+                current.Config.LastTransitionTime = DateTime.UtcNow;
+                current.Config.Error = null;
+                current.Endpoints ??= new();
+                current.Endpoints.Inbound ??= new();
+                if (!current.Endpoints.Inbound.ContainsKey(inboundEndpointName))
+                {
+                    current.Endpoints.Inbound[inboundEndpointName] = new();
+                }
+                current.Endpoints.Inbound[inboundEndpointName].Error = null;
+
+                await _adrClient.UpdateDeviceStatusAsync(deviceName, inboundEndpointName, current);
+                _logger.LogInformation(
+                    "Reported initial healthy device status for device {DeviceName} (endpoint {InboundEndpointName}) on behalf of the management-action orchestrator",
+                    deviceName, inboundEndpointName);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex,
+                    "Failed to publish initial healthy device status for device {DeviceName} (endpoint {InboundEndpointName})",
+                    deviceName, inboundEndpointName);
             }
         }
 

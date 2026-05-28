@@ -136,25 +136,29 @@ namespace Azure.Iot.Operations.Connector.IntegrationTests
             var bad = new MgmtConfigurationUpdate { SampleIntervalMs = 50, Unit = "C" };
             _output.WriteLine($"[WriteConfiguration_InvalidPayload] sending bad payload: {JsonSerializer.Serialize(bad)}");
 
-            AkriMqttException ex = await Assert.ThrowsAsync<AkriMqttException>(() => InvokeAsync(
+            // Application errors raised via ExtendedResponse.WithApplicationError are surfaced
+            // as a *successful* RPC response carrying the AppErrCode / AppErrPayload user
+            // properties (see CounterEnvoyTests for the canonical pattern). CommandInvoker
+            // therefore does NOT raise AkriMqttException for these — the caller must inspect
+            // ExtendedResponse.TryGetApplicationError().
+            ExtendedResponse<byte[]> response = await InvokeExtendedAsync(
                 invoker,
                 actionName: "write-configuration",
-                requestPayload: JsonSerializer.SerializeToUtf8Bytes(bad)));
+                requestPayload: JsonSerializer.SerializeToUtf8Bytes(bad));
 
-            _output.WriteLine($"[WriteConfiguration_InvalidPayload] got expected exception: {DescribeException(ex)}");
-
-            // The handler returns ManagementActionApplicationError("ValidationFailed", ...).
-            // The connector marshals that to a non-2xx response with the __apErr user
-            // property set; CommandInvoker translates that to Kind = ExecutionException.
             Assert.True(
-                IsApplicationError(ex),
-                $"expected an application error but got Kind={ex.Kind}, IsRemote={ex.IsRemote}: {ex.Message}");
-            // The validation handler embeds 'sampleIntervalMs' in its error payload,
-            // which the connector forwards as the response __stMsg header (surfaced
-            // here as the exception Message). Note: the structured AppErrCode
-            // ('ValidationFailed') is not currently exposed through AkriMqttException
-            // / ExtendedResponse for non-2xx responses, hence the substring match.
-            Assert.Contains("sampleIntervalMs", ex.Message, StringComparison.OrdinalIgnoreCase);
+                response.IsApplicationError(),
+                $"expected application error metadata on response; metadata={DescribeMetadata(response.ResponseMetadata)}");
+
+            Assert.True(
+                response.TryGetApplicationError(out string? errorCode, out string? errorPayload),
+                "TryGetApplicationError should report true when IsApplicationError() is true");
+
+            // The sample's write-configuration handler emits ManagementActionApplicationError(
+            //   "ValidationFailed", "sampleIntervalMs must be between 100 and 60000; got <n>.").
+            Assert.Equal("ValidationFailed", errorCode);
+            Assert.NotNull(errorPayload);
+            Assert.Contains("sampleIntervalMs", errorPayload!, StringComparison.OrdinalIgnoreCase);
         }
 
         [Fact]
@@ -257,6 +261,20 @@ namespace Azure.Iot.Operations.Connector.IntegrationTests
             string actionName,
             byte[] requestPayload)
         {
+            ExtendedResponse<byte[]> response = await InvokeExtendedAsync(invoker, actionName, requestPayload);
+            return response.Response ?? Array.Empty<byte>();
+        }
+
+        /// <summary>
+        /// Variant of <see cref="InvokeAsync"/> that returns the full <see cref="ExtendedResponse{TResp}"/>
+        /// so the caller can inspect response metadata (e.g. <c>AppErrCode</c> / <c>AppErrPayload</c>
+        /// user properties via <see cref="ExtendedResponse{TResp}.TryGetApplicationError"/>).
+        /// </summary>
+        private async Task<ExtendedResponse<byte[]>> InvokeExtendedAsync(
+            ManagementActionInvoker invoker,
+            string actionName,
+            byte[] requestPayload)
+        {
             _output.WriteLine(
                 $"[Invoke] action='{actionName}', requestBytes={requestPayload.Length}, request UTF-8='{SafeUtf8(requestPayload)}'");
             try
@@ -271,7 +289,7 @@ namespace Azure.Iot.Operations.Connector.IntegrationTests
                     $"[Invoke] action='{actionName}' got responseBytes={payload.Length}, response UTF-8='{SafeUtf8(payload)}'");
                 _output.WriteLine(
                     $"[Invoke] action='{actionName}' response metadata: {DescribeMetadata(response.ResponseMetadata)}");
-                return payload;
+                return response;
             }
             catch (AkriMqttException ex)
             {
