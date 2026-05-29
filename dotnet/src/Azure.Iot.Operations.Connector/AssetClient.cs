@@ -76,6 +76,10 @@ namespace Azure.Iot.Operations.Connector
         /// This method uses a semaphore to ensure that this same client doesn't accidentally update the asset status while
         /// another thread is in the middle of updating the same asset. This ensures that the current device status provided in <paramref name="handler"/>
         /// stays accurate while any updating occurs.
+        ///
+        /// <paramref name="handler"/> may safely mutate the provided status in place and return that same instance.
+        /// When <paramref name="onlyIfChanged"/> is true, change detection compares the handler's result against a
+        /// snapshot of the status taken before the handler runs, so in-place mutation is detected correctly.
         /// </remarks>
         public async Task<AssetStatus> GetAndUpdateAssetStatusAsync(Func<AssetStatus, AssetStatus?> handler, bool onlyIfChanged = false, TimeSpan? commandTimeout = null, CancellationToken cancellationToken = default)
         {
@@ -83,8 +87,13 @@ namespace Azure.Iot.Operations.Connector
             try
             {
                 AssetStatus currentStatus = await GetAssetStatusAsync(commandTimeout, cancellationToken);
+
+                // Snapshot the current status before invoking the handler. Handlers commonly mutate the
+                // provided status in place and return the same reference, so comparing against the live
+                // object would always report "no change" and the update would never be sent.
+                AssetStatus originalStatus = currentStatus.DeepClone();
                 AssetStatus? desiredStatus = handler.Invoke(currentStatus);
-                if (desiredStatus != null && (!onlyIfChanged || !currentStatus.EqualTo(desiredStatus)))
+                if (desiredStatus != null && (!onlyIfChanged || !originalStatus.EqualTo(desiredStatus)))
                 {
                     return await UpdateAssetStatusAsync(desiredStatus, commandTimeout, cancellationToken);
                 }
