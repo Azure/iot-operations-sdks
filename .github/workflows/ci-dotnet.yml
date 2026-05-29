@@ -241,12 +241,7 @@ jobs:
         sleep 10
 
     - name: Test SDK (TLS + SAT)
-      # TEMP (maxim/management-action): scoped to ManagementAction-related tests only to keep
-      # CI runs short while iterating on this feature branch. Remove the `--filter` argument
-      # and the `console;verbosity=detailed` logger below before merging to restore the full
-      # test suite. The detailed console logger surfaces ITestOutputHelper output even for
-      # passing tests (default behavior only prints it on failure).
-      run: dotnet test dotnet/Azure.Iot.Operations.sln --filter "FullyQualifiedName~ManagementAction" -e MQTT_TEST_BROKER_CS="HostName=127.0.0.1;TcpPort=8884;UseTls=true;ClientId=TestClient;CaFile=${{ env.CA_FILE_PATH }};SatAuthFile=${{ env.TOKEN_FILE_PATH }}" -e FAULTABLE_MQTT_TEST_BROKER_CS="HostName=localhost;TcpPort=1884;UseTls=false;ClientId=TestClient" --collect:"XPlat Code Coverage" --logger:"trx;LogFileName=test-results.trx" --logger:"console;verbosity=detailed" -- xunit.parallelizeAssembly=true
+      run: dotnet test dotnet/Azure.Iot.Operations.sln -e MQTT_TEST_BROKER_CS="HostName=127.0.0.1;TcpPort=8884;UseTls=true;ClientId=TestClient;CaFile=${{ env.CA_FILE_PATH }};SatAuthFile=${{ env.TOKEN_FILE_PATH }}" -e FAULTABLE_MQTT_TEST_BROKER_CS="HostName=localhost;TcpPort=1884;UseTls=false;ClientId=TestClient" --collect:"XPlat Code Coverage" --logger:"trx;LogFileName=test-results.trx" -- xunit.parallelizeAssembly=true
 
     - name: Test SDK (TLS + x509)
       run: dotnet test dotnet/Azure.Iot.Operations.sln --filter "FullyQualifiedName~Azure.Iot.Operations.Services.IntegrationTest.LeaderElectionClientIntegrationTests.TestFencing" -e MQTT_TEST_BROKER_CS="HostName=127.0.0.1;TcpPort=8883;UseTls=true;ClientId=TestClient;CaFile=${{ env.CA_FILE_PATH }};KeyFile=${{ env.CLIENT_KEY }};CertFile=${{ env.CLIENT_CERT }}" --logger:"trx;LogFileName=test-results.trx" -- xunit.parallelizeAssembly=true    
