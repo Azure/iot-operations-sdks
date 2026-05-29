@@ -5,7 +5,7 @@
     ],
     "@type": "tm:ThingModel",
     "title": "EdgeRegistrySchemaExtensions",
-    "description": "Companion type definitions for the xRegistry Schema entity type. Provides typed schema definitions for SDK codegen targeting schema groups, schema metadata, and schema versions.",
+    "description": "Companion type definitions for the xRegistry Schema entity type. Provides typed schema definitions for SDK codegen targeting schema Groups, schema metadata, and schema Versions.",
     "links" : [{
         "rel": "tm:extends",
         "href": "./EdgeRegistry.TM.json#title=EdgeRegistry",
@@ -18,15 +18,18 @@
                 "type": "object",
                 "properties": {
                     "groupId": {
+                        "description": "Group identifier. Uses the default if not specified.",
                         "type": "string"
                     },
                     "versionId": {
+                        "description": "Version identifier. Returns the default Version if not specified.",
                         "type": "integer"
                     }
                 },
                 "required": [ ]
             },
             "output": {
+                "description": "The Schema Version entity.",
                 "dtv:ref": "./schema-extension/SchemaVersion.schema.json"
             },
             "forms": [
@@ -44,11 +47,13 @@
             ]
         },
         "createSchemaVersion": {
-            "description": "Create a new xRegistry Schema Version entity under the specified schema. Returns the created version entity with epoch=1.",
+            "description": "Create a new xRegistry Schema Version entity under the specified schema. Returns the created Version entity with epoch=1.",
             "input": {
+                "description": "Attributes needed to create a Schema Version.",
                 "dtv:ref": "./schema-extension/CreateSchemaVersionAttributes.schema.json"
             },
             "output": {
+                "description": "The Schema Version entity.",
                 "dtv:ref": "./schema-extension/SchemaVersion.schema.json"
             },
             "forms": [
@@ -66,11 +71,13 @@
             ]
         },
         "createOrGetSchemaVersion": {
-            "description": "Create a new xRegistry Schema Version entity under the specified schema if the document doesn't already exist as a current version. Returns the created version entity or the most recent matching version entity.",
+            "description": "Create a new xRegistry Schema Version entity under the specified schema if the document doesn't already exist as a current Version. Returns the created Version entity or the most recent matching Version entity.",
             "input": {
+                "description": "Attributes needed to create a Schema Version.",
                 "dtv:ref": "./schema-extension/CreateSchemaVersionAttributes.schema.json"
             },
             "output": {
+                "description": "The Created or document identical existing Schema Version entity.",
                 "dtv:ref": "./schema-extension/SchemaVersion.schema.json"
             },
             "forms": [
@@ -88,22 +95,26 @@
             ]
         },
         "listSchemaVersions": {
-            "description": "List all Version IDs for a given Schema entity.",
+            "description": "List all Version IDs for a Schema.",
             "input": {
                 "type": "object",
                 "properties": {
                     "groupId": {
+                        "description": "Group identifier. Uses the default if not specified.",
                         "type": "string"
                     }
                 },
                 "required": [ ]
             },
             "output": {
+                "description": "List of Version identifiers.",
                 "type": "object",
                 "properties": {
                     "ids": {
+                        "description": "List of Version identifiers.",
                         "type": "array",
                         "items": {
+                            "description": "Version identifier.",
                             "type": "integer"
                         }
                     }
@@ -147,12 +158,12 @@
         "SchemaGroupType": {
             "type": "string",
             "const": "schemagroups",
-            "description": "Group type used in xId for xRegistry Schema groups."
+            "description": "Group type used in xId for xRegistry Schema Groups."
         },
         "SchemaResourceType": {
             "type": "string",
             "const": "schemas",
-            "description": "Resource type used in xId for xRegistry Schema resources."
+            "description": "Resource type used in xId for xRegistry Schema Resources."
         },
         "SchemaExtensionError": {
             "type": "object",

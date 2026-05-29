@@ -6,20 +6,20 @@
   "required": [ "thingDescriptionDocument", "thingDescriptionDocumentHash" ],
   "properties": {
     "contentType": {
-      "description": "Content type of the thing description version.",
+      "description": "Content type of the thing description Version.",
       "type": "string"
     },
     "format": {
-      "description": "Thing description format identifier, e.g. `WoT-TD/1.1`.",
+      "description": "Thing description format identifier, e.g. `JSON-LD/1.1`.",
       "type": "string"
     },
     "thingDescriptionDocument": {
-      "description": "The raw thing description document for this version as bytes.",
+      "description": "The raw thing description document for this Version as bytes.",
       "type": "string",
       "contentEncoding": "base64"
     },
     "thingDescriptionDocumentHash": {
-      "description": "The hash of the thing description document for this version.",
+      "description": "The hash of the thing description document for this Version.",
       "type": "string"
     }
   }

@@ -6,15 +6,15 @@
   "required": [ "ancestor", "versionId", "schemaDocument", "schemaDocumentHash" ],
   "properties": {
     "ancestor": {
-      "description": "The versionId of this version's ancestor, or this version's versionId if it has no ancestor as an integer. Must match ancestor on the referenced Version entity.",
+      "description": "The versionId of this Version's ancestor, or this Version's versionId if it has no ancestor, as an integer. Must match ancestor on the referenced Version entity.",
       "type": "integer"
     },
     "versionId": {
-      "description": "Version identifier as an integer. Must match versionId on the referenced Version entity.",
+      "description": "VersionId as an integer. Must match versionId on the referenced Version entity.",
       "type": "integer"
     },
     "contentType": {
-      "description": "Content type of the schema version.",
+      "description": "Content type of the schema Version.",
       "type": "string"
     },
     "format": {
@@ -22,12 +22,12 @@
       "type": "string"
     },
     "schemaDocument": {
-      "description": "The raw schema document for this version as bytes.",
+      "description": "The raw schema document for this Version as bytes.",
       "type": "string",
       "contentEncoding": "base64"
     },
     "schemaDocumentHash": {
-      "description": "The hash of the schema document for this version.",
+      "description": "The hash of the schema document for this Version.",
       "type": "string"
     }
   }

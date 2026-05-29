@@ -7,7 +7,7 @@
   "required": [ "id", "xid", "meta", "extensions", "versionsCount", "defaultVersion" ],
   "properties": {
     "defaultVersion": {
-      "description": "A specific version of a resource.",
+      "description": "A specific Version of a Resource.",
       "$ref": "Version.schema.json"
     },
     "extensions": {
@@ -16,15 +16,15 @@
       "contentEncoding": "base64" }
     },
     "id": {
-      "description": "Resource identifier within the group.",
+      "description": "Resource identifier.",
       "type": "string"
     },
     "meta": {
-      "description": "The 'meta' Field.",
+      "description": "An object that contains most of the Resource-level attributes.",
       "$ref": "ResourceMeta.schema.json"
     },
     "versionsCount": {
-      "description": "The 'versionsCount' Field.",
+      "description": "The number of Versions contained on the Resource.",
       "type": "integer"
     },
     "xid": {

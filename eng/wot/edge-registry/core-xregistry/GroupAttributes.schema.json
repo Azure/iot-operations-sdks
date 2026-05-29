@@ -7,18 +7,23 @@
   "required": [ "labels", "extensions"],
   "properties": {
       "groupId": {
+          "description": "Group identifier.",
           "type": "string"
       },
       "name": {
+          "description": "Human-readable name.",
           "type": "string"
       },
       "description": {
+          "description": "A human-readable summary of the purpose of the entity.",
           "type": "string"
       },
       "documentation": {
+          "description": "A URL to additional information about this entity.",
           "type": "string"
       },
       "labels": {
+          "description": "A mechanism in which additional metadata about the entity can be stored without changing the model definition of the entity. Labels can be used for querying.",
           "type": "array",
           "items": {
               "type": "object",
@@ -26,7 +31,7 @@
           }
       },
       "extensions": {
-        "description": "Extension-specific attributes (e.g., `envelope`, `protocol` for message groups).",
+        "description": "Extension-specific attributes (e.g., `envelope`, `protocol` for message Groups).",
         "type": "object", "additionalProperties": { "type": "string", 
         "contentEncoding": "base64" }
       }

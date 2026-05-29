@@ -5,15 +5,17 @@
     ],
     "@type": "tm:ThingModel",
     "title": "EdgeRegistry",
-    "description": "Generic xRegistry CRUD service — provides create, get, delete, and list operations on xRegistry entities (groups, resources, versions) identified by XID paths.",
+    "description": "Generic xRegistry CRUD service — provides create, get, delete, and list operations on xRegistry entities (Groups, Resources, Versions) identified by XID paths.",
     "actions": {
         "createGroup": {
             "description": "Create a new xRegistry Group. Returns the created Group with epoch=1.",
             "input": {
-                "dtv:ref": "./core-xregistry/GroupAttributes.schema.json"
+                "dtv:ref": "./core-xregistry/GroupAttributes.schema.json",
+                "description": "The attributes needed to create the Group entity."
             },
             "output": {
-                "dtv:ref": "./core-xregistry/Group.schema.json"
+                "dtv:ref": "./core-xregistry/Group.schema.json",
+                "description": "The Group entity."
             },
             "forms": [
                 {
@@ -30,19 +32,20 @@
             ]
         },
         "getGroup": {
-            "description": "Retrieve an xRegistry Group entity by XID path.",
+            "description": "Retrieve an xRegistry Group entity.",
             "input": {
                 "type": "object",
                 "properties": {
                     "groupId": {
-                        "type": "string"
+                        "type": "string",
+                        "description": "Group identifier. Uses the default if not specified."
                     }
                 },
                 "required": [ ]
             },
             "output": {
                 "dtv:ref": "./core-xregistry/Group.schema.json",
-                "description": "The group entity."
+                "description": "The Group entity."
             },
             "forms": [
                 {
@@ -59,11 +62,12 @@
             ]
         },
         "getResource": {
-            "description": "Retrieve an xRegistry Resource entity by XID path.",
+            "description": "Retrieve an xRegistry Resource entity.",
             "input": {
                 "type": "object",
                 "properties": {
                     "groupId": {
+                        "description": "Group identifier. Uses the default if not specified.",
                         "type": "string"
                     }
                 },
@@ -71,7 +75,7 @@
             },
             "output": {
                 "dtv:ref": "./core-xregistry/Resource.schema.json",
-                "description": "The resource entity."
+                "description": "The Resource entity."
             },
             "forms": [
                 {
@@ -88,17 +92,19 @@
             ]
         },
         "getVersion": {
-            "description": "Retrieve an xRegistry Version entity by XID path.",
+            "description": "Retrieve an xRegistry Version entity.",
             "input": {
                 "type": "object",
                 "properties": {
                     "groupId": {
+                        "description": "Group identifier. Uses the default if not specified.",
                         "type": "string"
                     }
                 },
                 "required": [ ]
             },
             "output": {
+                "description": "The Version entity.",
                 "dtv:ref": "./core-xregistry/Version.schema.json"
             },
             "forms": [
@@ -116,13 +122,16 @@
             ]
         },
         "listGroups": {
-            "description": "List xRegistry groups of a specific type.",
+            "description": "List xRegistry Groups of a specific type.",
             "output": {
+                "description": "List of Group identifiers.",
                 "type": "object",
                 "properties": {
                     "ids": {
+                        "description": "List of Group identifiers.",
                         "type": "array",
                         "items": {
+                            "description": "Group identifier.",
                             "type": "string"
                         }
                     }
@@ -144,22 +153,26 @@
             ]
         },
         "listResources": {
-            "description": "List xRegistry resources of a specific type on a group.",
+            "description": "List xRegistry Resources of a specific type on a Group.",
             "input": {
                 "type": "object",
                 "properties": {
                     "groupId": {
+                        "description": "Group identifier. Uses the default if not specified.",
                         "type": "string"
                     }
                 },
                 "required": [ ]
             },
             "output": {
+                "description": "List of Resource identifiers.",
                 "type": "object",
                 "properties": {
                     "ids": {
+                        "description": "List of Resource identifiers.",
                         "type": "array",
                         "items": {
+                            "description": "Resource identifier.",
                             "type": "string"
                         }
                     }
@@ -181,48 +194,60 @@
             ]
         },
         "listResourcesWithLabel": {
-            "description": "List xRegistry resources that have the specified label.",
+            "description": "List xRegistry Resources that have the specified label.",
             "input": {
                 "type": "object",
                 "properties": {
                     "groupType": {
+                        "description": "Group type. Lists Resources across all Group types if not specified.",
                         "type": "string"
                     },
                     "groupId": {
+                        "description": "Group identifier. Lists Resources across all Groups if not specified.",
                         "type": "string"
                     },
                     "resourceType": {
+                        "description": "Resource type. Lists Resources across all Resource types if not specified.",
                         "type": "string"
                     },
                     "labelKey": {
+                        "description": "Label key.",
                         "type": "string"
                     },
                     "labelValue": {
+                        "description": "Label value.",
                         "type": "string"
                     }
                 },
                 "required": ["labelKey", "labelValue"]
             },
             "output": {
+                "description": "List of Resource XIDs within provided constraints with the specified label.",
                 "type": "object",
                 "properties": {
                     "resources": {
+                        "description": "List of Resource XID components.",
                         "type": "array",
                         "items": {
+                            "description": "The XID of a Resource that has the specified label.",
                             "type": "object",
                             "title": "ResourceXId",
                             "required": ["groupType", "groupId", "resourceType", "resourceId"],
                             "properties": {
                                 "groupType": {
+                                    "description": "Group type.",
                                     "type": "string"
                                 },
                                 "groupId": {
+                                    "description": "Group identifier.",
                                     "type": "string"
                                 },
                                 "resourceType": {
+                                    "description": "Resource type.",
                                     "type": "string"
                                 },
                                 "resourceId": {
+                                    "description": "Resource identifier.",
                                     "type": "string"
                                 }
                             }
@@ -246,22 +271,26 @@
             ]
         },
         "listVersions": {
-            "description": "List xRegistry versions for a Resource.",
+            "description": "List xRegistry Versions for a Resource.",
             "input": {
                 "type": "object",
                 "properties": {
                     "groupId": {
+                        "description": "Group identifier. Uses the default if not specified.",
                         "type": "string"
                     }
                 },
                 "required": [ ]
             },
             "output": {
+                "description": "List of Version identifiers.",
                 "type": "object",
                 "properties": {
                     "ids": {
+                        "description": "List of Version identifiers.",
                         "type": "array",
                         "items": {
+                            "description": "Version identifier.",
                             "type": "string"
                         }
                     }

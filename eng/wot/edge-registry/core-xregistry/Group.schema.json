@@ -1,29 +1,29 @@
 {
   "$schema": "https://json-schema.org/draft-07/schema",
   "title": "Group",
-  "description": "A group entity — container for related resources.",
+  "description": "A Group entity — container for related Resources.",
   "type": "object",
   "additionalProperties": false,
   "required": [ "id", "xid", "epoch", "createdAt", "modifiedAt", "extensions", "labels", "resourcesCount" ],
   "properties": {
     "createdAt": {
-      "description": "The 'createdAt' Field.",
+      "description": "The date/time of when the entity was created.",
       "type": "string", "format": "date-time"
     },
     "description": {
-      "description": "The 'description' Field.",
+      "description": "A human-readable summary of the purpose of the entity.",
       "type": "string"
     },
     "documentation": {
-      "description": "The 'documentation' Field.",
+      "description": "A URL to additional information about this entity.",
       "type": "string"
     },
     "epoch": {
-      "description": "Optimistic concurrency epoch.",
+      "description": "A numeric value used to determine whether an entity has been modified.",
       "type": "integer"
     },
     "extensions": {
-      "description": "Extension-specific attributes (e.g., `envelope`, `protocol` for message groups).",
+      "description": "Extension-specific attributes (e.g., `envelope`, `protocol` for message Groups).",
       "type": "object", "additionalProperties": { "type": "string", 
       "contentEncoding": "base64" }
     },
@@ -32,7 +32,7 @@
       "type": "string"
     },
     "labels": {
-      "description": "The 'labels' Field.",
+      "description": "A mechanism in which additional metadata about the entity can be stored without changing the model definition of the entity. Labels can be used for querying.",
       "type": "array",
       "items": {
           "type": "object",
@@ -40,7 +40,7 @@
       }
     },
     "modifiedAt": {
-      "description": "The 'modifiedAt' Field.",
+      "description": "The date/time of when the entity was last updated.",
       "type": "string", "format": "date-time"
     },
     "name": {
@@ -48,7 +48,7 @@
       "type": "string"
     },
     "resourcesCount": {
-      "description": "The 'resourcesCount' Field.",
+      "description": "The number of Resources contained in the Group.",
       "type": "integer"
     },
     "xid": {
