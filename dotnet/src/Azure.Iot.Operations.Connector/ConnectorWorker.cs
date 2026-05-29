@@ -31,6 +31,13 @@ namespace Azure.Iot.Operations.Connector
         private readonly IMessageSchemaProvider _messageSchemaProviderFactory;
         private LeaderElectionClient? _leaderElectionClient;
         private readonly ConcurrentDictionary<string, DeviceContext> _devices = new();
+
+        // Asset-available notifications can arrive before (or racing with) the device-available
+        // notification that populates _devices (startup churn, or re-observe after a device update).
+        // Rather than dropping such notifications permanently, we buffer them here keyed by
+        // "<deviceName>_<inboundEndpointName>" and replay them once the owning device is available.
+        private readonly ConcurrentDictionary<string, ConcurrentDictionary<string, Asset>> _pendingAssets = new();
+
         private bool _isDisposed = false;
         private readonly ConnectorLeaderElectionConfiguration? _leaderElectionConfiguration;
         private readonly ConcurrentDictionary<string, ConnectorTelemetrySender> _telemetrySenderCache = new();
@@ -743,7 +750,47 @@ namespace Azure.Iot.Operations.Connector
             else if (args.ChangeType == ChangeType.Updated)
             {
                 _logger.LogInformation("Device with name {0} and/or its endpoint with name {} was updated", args.DeviceName, args.InboundEndpointName);
-                await DeviceUnavailableAsync(args, compoundDeviceName);
+                DeviceUpdated(args, compoundDeviceName);
+            }
+        }
+
+        /// <summary>
+        /// Handle a device <see cref="ChangeType.Updated"/> notification. The device/endpoint
+        /// identity is unchanged, so we refresh the cached <see cref="Device"/> snapshot in place
+        /// without tearing anything down. Previously this path called
+        /// <see cref="DeviceUnavailableAsync"/> followed by <see cref="DeviceAvailable"/>, which
+        /// removed the device from <see cref="_devices"/> and cancelled every in-flight per-asset
+        /// runtime (including the management-action orchestrator and its subscribed executors).
+        /// During startup churn ADR can emit several spurious device Updated notifications in quick
+        /// succession; tearing down on each one dropped executor subscriptions (transient
+        /// <c>NoMatchingSubscribers</c>) and cancelled action loops mid-flight before they finished
+        /// reporting status. Refreshing the snapshot keeps the asset runtime alive across updates.
+        /// </summary>
+        private void DeviceUpdated(DeviceChangedEventArgs args, string compoundDeviceName)
+        {
+            if (args.Device == null)
+            {
+                // shouldn't ever happen
+                _logger.LogError("Received notification that device was updated, but no device was provided");
+                return;
+            }
+
+            if (_devices.TryGetValue(compoundDeviceName, out DeviceContext? existing))
+            {
+                // Same device/endpoint identity: refresh the snapshot, keep the asset runtime running.
+                existing.Device = args.Device;
+
+                // Management-action-only connectors take responsibility for publishing healthy device
+                // status themselves (idempotent). Re-publish so a device update keeps Config populated.
+                if (_managementActionOrchestrator != null && WhileDeviceIsAvailable == null)
+                {
+                    _ = Task.Run(() => PublishInitialHealthyDeviceStatusAsync(args.DeviceName, args.InboundEndpointName));
+                }
+            }
+            else
+            {
+                // We weren't tracking this device yet (Updated arrived before Created, or after a
+                // prior teardown). Treat it as newly available.
                 DeviceAvailable(args, compoundDeviceName);
             }
         }
@@ -759,6 +806,10 @@ namespace Azure.Iot.Operations.Connector
             {
                 _devices[compoundDeviceName] = new(args.DeviceName, args.InboundEndpointName, args.Device);
                 _adrClient!.ObserveAssets(args.DeviceName, args.InboundEndpointName);
+
+                // An asset-available notification can arrive before the device that owns it is
+                // registered (startup churn). Such assets are buffered; replay them now.
+                ReplayPendingAssets(args.DeviceName, args.InboundEndpointName, compoundDeviceName);
 
                 // Polling/event connectors publish initial healthy device status through their
                 // user-supplied WhileDeviceIsAvailable callback (see PollingTelemetryConnectorWorker).
@@ -835,8 +886,20 @@ namespace Azure.Iot.Operations.Connector
 
             if (!_devices.TryGetValue(compoundDeviceName, out DeviceContext? deviceContext))
             {
-                _logger.LogWarning("Received notification of asset with name {} becoming available on device {} with inbound endpoint name {}, but that device and/or inbound endpoint are not available. Ignoring this unexpected asset", assetName, deviceName, inboundEndpointName);
-                return;
+                // The device that owns this asset isn't registered yet (asset-available raced ahead
+                // of device-available, e.g. during startup churn). Buffer the asset and replay it
+                // when the device becomes available instead of dropping it permanently.
+                ConcurrentDictionary<string, Asset> pending = _pendingAssets.GetOrAdd(compoundDeviceName, _ => new());
+                pending[assetName] = asset;
+                _logger.LogWarning("Received notification of asset with name {} becoming available on device {} with inbound endpoint name {}, but that device and/or inbound endpoint is not available yet. Buffering this asset until the device becomes available.", assetName, deviceName, inboundEndpointName);
+
+                // The device may have been registered concurrently between the check above and the
+                // buffer write. If so, reclaim the asset and process it now so it isn't stranded.
+                if (!_devices.TryGetValue(compoundDeviceName, out deviceContext) || !pending.TryRemove(assetName, out asset!))
+                {
+                    return;
+                }
+                // else: device is now available and we reclaimed the asset; fall through to process it.
             }
 
             deviceContext.Assets.TryAdd(assetName, asset);
@@ -907,6 +970,29 @@ namespace Azure.Iot.Operations.Connector
                 userArgs: userArgs);
 
             _assetTasks.TryAdd(GetCompoundAssetName(compoundDeviceName, assetName), ctx);
+        }
+
+        /// <summary>
+        /// Replay any asset-available notifications that were buffered while the device was not yet
+        /// registered. Called from <see cref="DeviceAvailable"/> once the device is in
+        /// <see cref="_devices"/>, so each replayed <see cref="AssetAvailable"/> call now finds its
+        /// owning device and processes normally instead of being dropped.
+        /// </summary>
+        private void ReplayPendingAssets(string deviceName, string inboundEndpointName, string compoundDeviceName)
+        {
+            if (!_pendingAssets.TryRemove(compoundDeviceName, out ConcurrentDictionary<string, Asset>? pending))
+            {
+                return;
+            }
+
+            foreach (string assetName in pending.Keys)
+            {
+                if (pending.TryRemove(assetName, out Asset? bufferedAsset))
+                {
+                    _logger.LogInformation("Replaying buffered asset {} on device {} (endpoint {}) now that the device is available.", assetName, deviceName, inboundEndpointName);
+                    AssetAvailable(deviceName, inboundEndpointName, bufferedAsset, assetName);
+                }
+            }
         }
 
         /// <summary>
