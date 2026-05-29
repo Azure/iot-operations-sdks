@@ -58,10 +58,14 @@ jobs:
       # version, the failure message will name the new version — bump CHROME_VERSION
       # below to match (or replace with `chrome@stable` if linkspector ever stops
       # pinning a specific build).
+      #
+      # NOTE: @puppeteer/browsers defaults to installing into the CURRENT WORKING
+      # DIRECTORY (./chrome/...), but Puppeteer itself looks at ~/.cache/puppeteer.
+      # Pass --path explicitly so the cache layout matches what Puppeteer expects.
       - name: Pre-install Chrome into Puppeteer cache (linkspector workaround)
         env:
           CHROME_VERSION: "148.0.7778.97"
-        run: npx --yes @puppeteer/browsers install "chrome@${CHROME_VERSION}"
+        run: npx --yes @puppeteer/browsers install "chrome@${CHROME_VERSION}" --path "$HOME/.cache/puppeteer"
 
       - name: Run linkspector
         uses: umbrelladocs/action-linkspector@v1
