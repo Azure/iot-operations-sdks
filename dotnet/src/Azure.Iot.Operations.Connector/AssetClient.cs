@@ -31,6 +31,15 @@ namespace Azure.Iot.Operations.Connector
         // an asset while another thread is in the middle of a getAndUpdate call.
         private readonly SemaphoreSlim _semaphore = new(1, 1);
 
+        // The last status this client successfully wrote to ADR. This connector is the sole authoritative
+        // writer of its own asset status, so once we have written a status we treat our local copy as the
+        // source of truth for subsequent read-modify-write cycles instead of re-reading from ADR. ADR's
+        // get-after-put is not guaranteed to be read-your-writes consistent, so re-reading would let
+        // concurrent (but semaphore-serialized) reports clobber each other's contributions (e.g. multiple
+        // management actions on the same asset each reading a status that is missing the others' writes).
+        // Guarded by _semaphore.
+        private AssetStatus? _lastWrittenStatus;
+
         // Per-(group, action) state for the management-action API. Lazily populated on the first
         // access via Get/Recv/Pause so callers don't have to enumerate the asset's actions up front.
         private readonly ConcurrentDictionary<(string Group, string Action), ManagementActionState> _managementActionStates = new();
@@ -86,7 +95,11 @@ namespace Azure.Iot.Operations.Connector
             await _semaphore.WaitAsync(cancellationToken);
             try
             {
-                AssetStatus currentStatus = await GetAssetStatusAsync(commandTimeout, cancellationToken);
+                // Prefer our last-written status as the base for the read-modify-write. We are the sole
+                // writer of this asset's status, and ADR's get-after-put is not guaranteed read-your-writes
+                // consistent, so re-reading from ADR here can drop concurrent serialized contributions.
+                AssetStatus currentStatus = _lastWrittenStatus?.DeepClone()
+                    ?? await GetAssetStatusAsync(commandTimeout, cancellationToken);
 
                 // Snapshot the current status before invoking the handler. Handlers commonly mutate the
                 // provided status in place and return the same reference, so comparing against the live
@@ -95,7 +108,9 @@ namespace Azure.Iot.Operations.Connector
                 AssetStatus? desiredStatus = handler.Invoke(currentStatus);
                 if (desiredStatus != null && (!onlyIfChanged || !originalStatus.EqualTo(desiredStatus)))
                 {
-                    return await UpdateAssetStatusAsync(desiredStatus, commandTimeout, cancellationToken);
+                    AssetStatus updatedStatus = await UpdateAssetStatusAsync(desiredStatus, commandTimeout, cancellationToken);
+                    _lastWrittenStatus = desiredStatus.DeepClone();
+                    return updatedStatus;
                 }
 
                 return currentStatus;
