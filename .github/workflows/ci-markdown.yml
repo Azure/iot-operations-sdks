@@ -48,6 +48,21 @@ jobs:
               - '.github/.linkspector.yml'
               - '.github/workflows/ci-markdown.yml'
 
+      # Workaround for https://github.com/UmbrellaDocs/action-linkspector "Could not
+      # find Chrome (ver. <X>)" failures: the action ships linkspector but does NOT
+      # run `puppeteer browsers install` first, so on a fresh runner Puppeteer's cache
+      # (~/.cache/puppeteer) is empty and Chromium launch fails with e.g.:
+      #   💥 Main error: Could not find Chrome (ver. 148.0.7778.97).
+      # We populate the cache ourselves with the exact build linkspector's bundled
+      # Puppeteer wants. If a future linkspector release bumps its required Chrome
+      # version, the failure message will name the new version — bump CHROME_VERSION
+      # below to match (or replace with `chrome@stable` if linkspector ever stops
+      # pinning a specific build).
+      - name: Pre-install Chrome into Puppeteer cache (linkspector workaround)
+        env:
+          CHROME_VERSION: "148.0.7778.97"
+        run: npx --yes @puppeteer/browsers install "chrome@${CHROME_VERSION}"
+
       - name: Run linkspector
         uses: umbrelladocs/action-linkspector@v1
         with:
