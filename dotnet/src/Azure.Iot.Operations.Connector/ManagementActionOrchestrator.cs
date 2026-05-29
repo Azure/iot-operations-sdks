@@ -281,11 +281,13 @@ namespace Azure.Iot.Operations.Connector
 
             ManagementActionExecutor? executor =
                 await ctx.AssetClient.GetManagementActionExecutorAsync(ctx.GroupName, ctx.ActionName, cancellationToken);
-            WireCallback(executor, ctx);
 
+            // Executor is subscribed but stays unwired until validation succeeds; requests that
+            // arrive first get a deterministic HandlerNotConfigured error (validation before dispatch).
             await ReportConfigErrorAsync(ctx.AssetClient, ctx.GroupName, ctx.ActionName, initialUserValidationError, cancellationToken);
             if (initialUserValidationError is null)
             {
+                SetDispatchEnabled(executor, ctx, enabled: true);
                 await ctx.AssetClient.ReportManagementActionRuntimeHealthAsync(
                     ctx.GroupName, ctx.ActionName,
                     new ConnectorRuntimeHealth { Status = HealthStatus.Available },
@@ -293,7 +295,8 @@ namespace Azure.Iot.Operations.Connector
             }
             else
             {
-                // Invalid config: pause so ADR sees Unknown rather than a fabricated Unavailable.
+                // Invalid config: keep dispatch off and pause so ADR sees Unknown, not Unavailable.
+                SetDispatchEnabled(executor, ctx, enabled: false);
                 await ctx.AssetClient.PauseManagementActionRuntimeHealthReportingAsync(ctx.GroupName, ctx.ActionName, cancellationToken);
             }
 
@@ -310,8 +313,9 @@ namespace Azure.Iot.Operations.Connector
                         currentExecutor: executor,
                         updateExecutor: next =>
                         {
+                            // Swap the reference only; HandleNotificationAsync enables dispatch
+                            // after revalidation confirms the new definition is valid.
                             executor = next;
-                            WireCallback(executor, ctx);
                         },
                         cancellationToken);
 
@@ -346,15 +350,25 @@ namespace Azure.Iot.Operations.Connector
         }
 
         /// <summary>
-        /// Wire the executor's <see cref="ManagementActionExecutor.OnRequestReceived"/>
-        /// callback so incoming requests are dispatched to the handler in <paramref name="ctx"/>
-        /// via <see cref="InvokeHandlerAsync"/>. No-op if <paramref name="executor"/> is null
-        /// (the action's current definition is invalid; the worker is waiting for the next
-        /// notification to swap it in).
+        /// Enable or disable request dispatch for <paramref name="executor"/>. When
+        /// <paramref name="enabled"/> is <c>true</c>, wires
+        /// <see cref="ManagementActionExecutor.OnRequestReceived"/> so incoming requests are
+        /// dispatched to the handler in <paramref name="ctx"/> via <see cref="InvokeHandlerAsync"/>.
+        /// When <c>false</c>, clears the callback so the executor answers any request with a
+        /// deterministic <c>HandlerNotConfigured</c> application error — used while the action's
+        /// current definition is invalid (validation has not yet succeeded). No-op if
+        /// <paramref name="executor"/> is null (no valid executor exists yet; the worker is
+        /// waiting for the next notification to swap one in).
         /// </summary>
-        private void WireCallback(ManagementActionExecutor? executor, ActionContext ctx)
+        private void SetDispatchEnabled(ManagementActionExecutor? executor, ActionContext ctx, bool enabled)
         {
             if (executor is null) return;
+
+            if (!enabled)
+            {
+                executor.OnRequestReceived = null;
+                return;
+            }
 
             executor.OnRequestReceived = (args, ct) =>
             {
@@ -416,7 +430,12 @@ namespace Azure.Iot.Operations.Connector
                         "{Group}::{Action} on asset {AssetName} (device {DeviceName}) definition updated (same topic). sdkError={Error}",
                         ctx.GroupName, ctx.ActionName, ctx.AssetName, ctx.DeviceName, updated.Error);
                     await ctx.AssetClient.PauseManagementActionRuntimeHealthReportingAsync(ctx.GroupName, ctx.ActionName, cancellationToken);
-                    await RevalidateAndReportAsync(ctx, updated.Error, cancellationToken);
+                    // Disable dispatch while revalidating, re-enable only if it passes.
+                    SetDispatchEnabled(currentExecutor, ctx, enabled: false);
+                    {
+                        bool valid = await RevalidateAndReportAsync(ctx, updated.Error, cancellationToken);
+                        SetDispatchEnabled(currentExecutor, ctx, enabled: valid);
+                    }
                     return false;
 
                 case ManagementActionUpdatedWithNewExecutor updatedWithNew:
@@ -434,8 +453,12 @@ namespace Azure.Iot.Operations.Connector
                         await currentExecutor.DisposeAsync();
                     }
 
+                    // New executor starts unwired; enable dispatch only after revalidation passes.
                     updateExecutor(updatedWithNew.NewExecutor);
-                    await RevalidateAndReportAsync(ctx, updatedWithNew.Error, cancellationToken);
+                    {
+                        bool valid = await RevalidateAndReportAsync(ctx, updatedWithNew.Error, cancellationToken);
+                        SetDispatchEnabled(updatedWithNew.NewExecutor, ctx, enabled: valid);
+                    }
                     return false;
 
                 case ManagementActionAssetUpdated assetUpdated:
@@ -443,7 +466,11 @@ namespace Azure.Iot.Operations.Connector
                         "{Group}::{Action} on asset {AssetName} (device {DeviceName}): parent asset updated. error={Error}",
                         ctx.GroupName, ctx.ActionName, ctx.AssetName, ctx.DeviceName, assetUpdated.Error);
                     await ctx.AssetClient.PauseManagementActionRuntimeHealthReportingAsync(ctx.GroupName, ctx.ActionName, cancellationToken);
-                    await RevalidateAndReportAsync(ctx, assetUpdated.Error, cancellationToken);
+                    SetDispatchEnabled(currentExecutor, ctx, enabled: false);
+                    {
+                        bool valid = await RevalidateAndReportAsync(ctx, assetUpdated.Error, cancellationToken);
+                        SetDispatchEnabled(currentExecutor, ctx, enabled: valid);
+                    }
                     return false;
 
                 case ManagementActionDeleted:
@@ -473,7 +500,11 @@ namespace Azure.Iot.Operations.Connector
         /// runtime-health status lapses to <c>Unknown</c> (we cannot probe the device, so we make
         /// no claim about it — only the config error itself is surfaced).
         /// </summary>
-        private async Task RevalidateAndReportAsync(ActionContext ctx, ConfigError? sdkError, CancellationToken cancellationToken)
+        /// <returns>
+        /// <c>true</c> if the definition is valid (dispatch may be enabled); <c>false</c> if a
+        /// config error was reported or the action was removed mid-update (dispatch must stay off).
+        /// </returns>
+        private async Task<bool> RevalidateAndReportAsync(ActionContext ctx, ConfigError? sdkError, CancellationToken cancellationToken)
         {
             AssetManagementGroupAction? currentAction = ctx.CurrentAction;
             if (currentAction is null)
@@ -481,7 +512,7 @@ namespace Azure.Iot.Operations.Connector
                 // The action was removed from the asset between the notification we're handling
                 // and now. A ManagementActionDeleted notification is already queued (or will be)
                 // and the loop will exit on the next iteration; nothing to validate or report.
-                return;
+                return false;
             }
 
             ConfigError? userError = await _factory.ValidateConfigurationAsync(
@@ -495,6 +526,7 @@ namespace Azure.Iot.Operations.Connector
                     ctx.GroupName, ctx.ActionName,
                     new ConnectorRuntimeHealth { Status = HealthStatus.Available },
                     cancellationToken: cancellationToken);
+                return true;
             }
             else
             {
@@ -502,6 +534,7 @@ namespace Azure.Iot.Operations.Connector
                 // ADR will let the runtime-health status lapse to Unknown rather than us
                 // falsely asserting Unavailable for a device we never probed.
                 await ctx.AssetClient.PauseManagementActionRuntimeHealthReportingAsync(ctx.GroupName, ctx.ActionName, cancellationToken);
+                return false;
             }
         }
 

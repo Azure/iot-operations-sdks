@@ -84,7 +84,7 @@ namespace Azure.Iot.Operations.Connector
             {
                 AssetStatus currentStatus = await GetAssetStatusAsync(commandTimeout, cancellationToken);
                 AssetStatus? desiredStatus = handler.Invoke(currentStatus);
-                if (desiredStatus != null && (!onlyIfChanged || currentStatus.EqualTo(desiredStatus)))
+                if (desiredStatus != null && (!onlyIfChanged || !currentStatus.EqualTo(desiredStatus)))
                 {
                     return await UpdateAssetStatusAsync(desiredStatus, commandTimeout, cancellationToken);
                 }
@@ -655,7 +655,7 @@ namespace Azure.Iot.Operations.Connector
         /// definition changes so the next health event reflects the re-validated definition rather
         /// than the previous one. Matches Rust's <c>pause_and_refresh_health_version</c> pattern.
         /// </summary>
-        internal Task PauseManagementActionRuntimeHealthReportingAsync(
+        internal async Task PauseManagementActionRuntimeHealthReportingAsync(
             string managementGroupName,
             string managementActionName,
             CancellationToken cancellationToken = default)
@@ -668,13 +668,11 @@ namespace Azure.Iot.Operations.Connector
                 (managementGroupName, managementActionName),
                 _ => new ManagementActionState());
 
-            // Mark the action as paused. Wiring this through to the underlying
-            // AssetRuntimeHealthReporter (so periodic ManagementActionsRuntimeHealthEvent
-            // emissions for this action are suppressed until the next definition swap)
-            // is a follow-up; for now this captures the intent and matches the Rust
-            // pause_and_refresh_health_version contract.
+            // Drop the cached health so periodic emissions stop until the next
+            // ReportManagementActionRuntimeHealthAsync sets a fresh status; ADR then lapses to
+            // Unknown rather than re-asserting a stale status. Matches Rust's pause_and_refresh.
             state.HealthReportingPaused = true;
-            return Task.CompletedTask;
+            await _healthReporter.PauseReportingManagementActionAsync(managementGroupName, managementActionName, cancellationToken);
         }
 
         // ============================================================

@@ -84,7 +84,7 @@ namespace Azure.Iot.Operations.Connector
         /// Indicates whether this factory can produce a handler for the supplied management action.
         /// </summary>
         /// <remarks>
-        /// Called by the orchestrator before <see cref="ValidateActionAsync"/> and <see cref="CreateHandler"/>.
+        /// Called by the orchestrator before <see cref="ValidateConfigurationAsync"/> and <see cref="CreateHandler"/>.
         /// If <c>false</c> is returned, the orchestrator reports an <c>UnsupportedAction</c> config error
         /// for the action and does not create a handler. Implementations should perform a lightweight
         /// check (for example, matching on <see cref="AssetManagementGroupAction.ActionType"/>) and must

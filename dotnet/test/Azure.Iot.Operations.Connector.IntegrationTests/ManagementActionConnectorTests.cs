@@ -29,12 +29,6 @@ namespace Azure.Iot.Operations.Connector.IntegrationTests
     /// response body. Non-2xx responses surface as
     /// <see cref="AkriMqttException"/> with <see cref="AkriMqttErrorKind.ExecutionException"/>
     /// for application errors, which the error-path tests assert against.</para>
-    /// <para>These tests are expected to fail until the
-    /// <c>maxim/management-action</c> Part 1 internals (currently
-    /// <see cref="System.NotImplementedException"/> stubs in <c>AssetClient</c>)
-    /// are wired up. They are intentionally <em>not</em> marked
-    /// <c>[Fact(Skip = "...")]</c> — they should turn green incrementally as
-    /// each piece of the invocation pipeline lands.</para>
     /// </remarks>
     public class ManagementActionConnectorTests
     {

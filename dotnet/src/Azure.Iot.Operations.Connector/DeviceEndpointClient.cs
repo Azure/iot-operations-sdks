@@ -58,7 +58,7 @@ namespace Azure.Iot.Operations.Connector
                 DeviceStatus currentStatus = await GetDeviceStatusAsync(commandTimeout, cancellationToken);
                 DeviceStatus? desiredStatus = handler.Invoke(currentStatus);
 
-                if (desiredStatus != null && (!onlyIfChanged || currentStatus.EqualTo(desiredStatus)))
+                if (desiredStatus != null && (!onlyIfChanged || !currentStatus.EqualTo(desiredStatus)))
                 {
                     return await UpdateDeviceStatusAsync(desiredStatus, commandTimeout, cancellationToken);
                 }
