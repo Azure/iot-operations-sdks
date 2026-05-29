@@ -11,8 +11,8 @@ namespace Azure.Iot.Operations.Connector
 {
     /// <summary>
     /// Executor for a single management action. Thin wrapper over the MQTT RPC command
-    /// executor (<c>CommandExecutor&lt;byte[], byte[]&gt;</c>) subscribed to the action's
-    /// request topic. Obtain instances via
+    /// executor (<c>CommandExecutor&lt;BypassPayload, BypassPayload&gt;</c>) subscribed to the
+    /// action's request topic. Obtain instances via
     /// <see cref="AssetClient.GetManagementActionExecutorAsync(string, string, System.Threading.CancellationToken)"/>.
     /// </summary>
     /// <remarks>
@@ -181,16 +181,16 @@ namespace Azure.Iot.Operations.Connector
             await _inner.DisposeAsync().ConfigureAwait(false);
         }
 
-        private async Task<ExtendedResponse<byte[]>> HandleCommandAsync(
-            ExtendedRequest<byte[]> request,
+        private async Task<ExtendedResponse<BypassPayload>> HandleCommandAsync(
+            ExtendedRequest<BypassPayload> request,
             CancellationToken cancellationToken)
         {
             Func<ManagementActionInvokedEventArgs, CancellationToken, Task<ManagementActionResponse>>? handler = OnRequestReceived;
             if (handler is null)
             {
-                return new ExtendedResponse<byte[]>
+                return new ExtendedResponse<BypassPayload>
                 {
-                    Response = Array.Empty<byte>(),
+                    Response = new BypassPayload(),
                     ResponseMetadata = new CommandResponseMetadata(),
                 }.WithApplicationError(
                     "HandlerNotConfigured",
@@ -198,6 +198,7 @@ namespace Azure.Iot.Operations.Connector
             }
 
             CommandRequestMetadata requestMetadata = request.RequestMetadata;
+            BypassPayload requestPayload = request.Request ?? new BypassPayload();
 
             ManagementActionInvokedEventArgs args = new()
             {
@@ -206,7 +207,7 @@ namespace Azure.Iot.Operations.Connector
                 GroupName = _groupName,
                 ActionName = _actionName,
                 ActionType = _actionType,
-                Payload = new ReadOnlySequence<byte>(request.Request ?? Array.Empty<byte>()),
+                Payload = requestPayload.Payload,
                 ContentType = requestMetadata.ContentType ?? DefaultContentType,
                 FormatIndicator = requestMetadata.PayloadFormatIndicator,
                 CustomUserData = requestMetadata.UserData,
@@ -217,9 +218,12 @@ namespace Azure.Iot.Operations.Connector
 
             ManagementActionResponse response = await handler(args, cancellationToken).ConfigureAwait(false);
 
-            byte[] payload = response.Payload.IsEmpty
-                ? Array.Empty<byte>()
-                : response.Payload.ToArray();
+            BypassPayload responsePayload = new()
+            {
+                Payload = response.Payload,
+                ContentType = response.ContentType,
+                FormatIndicator = response.FormatIndicator,
+            };
 
             CommandResponseMetadata responseMetadata = new()
             {
@@ -234,9 +238,9 @@ namespace Azure.Iot.Operations.Connector
                 }
             }
 
-            ExtendedResponse<byte[]> extended = new()
+            ExtendedResponse<BypassPayload> extended = new()
             {
-                Response = payload,
+                Response = responsePayload,
                 ResponseMetadata = responseMetadata,
             };
 
@@ -247,30 +251,21 @@ namespace Azure.Iot.Operations.Connector
                     response.ApplicationError.ErrorPayload);
             }
 
-            // NOTE: The underlying CommandExecutor derives the response message's ContentType
-            // and PayloadFormatIndicator from the serializer's SerializedPayloadContext rather
-            // than CommandResponseMetadata. With the byte[] PassthroughSerializer used here,
-            // responses are always tagged "application/octet-stream" / Unspecified. Honoring
-            // ManagementActionResponse.ContentType / FormatIndicator end-to-end requires either
-            // a wrapper-typed serializer or a CommandExecutor change; tracked as a follow-up.
-            _ = response.ContentType;
-            _ = response.FormatIndicator;
-
             return extended;
         }
 
         /// <summary>
-        /// Concrete <see cref="CommandExecutor{TReq, TResp}"/> wired to a byte[] passthrough
+        /// Concrete <see cref="CommandExecutor{TReq, TResp}"/> wired to a <see cref="BypassPayload"/>
         /// serializer. The outer <see cref="ManagementActionExecutor"/> owns this instance
         /// and dispatches incoming requests through <see cref="HandleCommandAsync"/>.
         /// </summary>
-        private sealed class InnerCommandExecutor : CommandExecutor<byte[], byte[]>
+        private sealed class InnerCommandExecutor : CommandExecutor<BypassPayload, BypassPayload>
         {
             public InnerCommandExecutor(
                 ApplicationContext applicationContext,
                 IMqttPubSubClient mqttClient,
                 string commandName)
-                : base(applicationContext, mqttClient, commandName, new PassthroughSerializer())
+                : base(applicationContext, mqttClient, commandName, new BypassSerializer())
             {
             }
         }
