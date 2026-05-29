@@ -60,11 +60,6 @@ End-to-end integration tests live in
 They invoke each action over MQTT 5 RPC against the deployed connector pod and
 validate the response payload + status headers.
 
-> **Status:** these tests are expected to fail today because
-> [Part 1 of the management-action implementation](../../../../doc/dev/tmp/management-action-design-onepager.md)
-> is still scaffolding (`AssetClient` stubs throw `NotImplementedException`).
-> They are intentionally **not** marked `[Fact(Skip = "...")]` so they turn green
-> incrementally as each piece of the invocation pipeline lands.
 
 ## What this sample does *not* exercise
 
