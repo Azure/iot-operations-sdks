@@ -942,40 +942,58 @@ namespace Azure.Iot.Operations.Connector
             CancellationTokenSource maCts = new();
             CancellationTokenSource userCts = new();
 
-            Task? maTask = null;
-            if (_managementActionOrchestrator != null
-                && asset.ManagementGroups?.Any(g => g.Actions?.Count > 0) == true)
-            {
-                maTask = Task.Run(() => SafeInvokeAssetBranchAsync(
-                    "ManagementActionHandling",
-                    ct => _managementActionOrchestrator.ServeActionsWhileAssetIsAvailableAsync(ownedArgs, ct),
-                    maCts.Token,
-                    assetName, deviceName, inboundEndpointName));
-            }
-
-            AssetAvailableEventArgs? userArgs = null;
-            Task? userTask = null;
-            if (WhileAssetIsAvailable != null)
-            {
-                userArgs = new AssetAvailableEventArgs(deviceName, device, inboundEndpointName, assetName, asset, _leaderElectionClient, _adrClient!, ownedArgs.AssetClient);
-                AssetAvailableEventArgs capturedUserArgs = userArgs;
-                userTask = Task.Run(() => SafeInvokeAssetBranchAsync(
-                    "UserWhileAssetIsAvailableCallback",
-                    ct => WhileAssetIsAvailable!.Invoke(capturedUserArgs, ct),
-                    userCts.Token,
-                    assetName, deviceName, inboundEndpointName));
-            }
-
+            // Reserve the per-asset slot BEFORE starting any branch. If another AssetAvailable for
+            // the same asset already won the slot (e.g. an asset-available racing an asset-update or
+            // a buffered-asset replay during startup churn), we must NOT start our branches: a second
+            // AssetClient would run its own management-action loops, read a stale status from ADR
+            // (get-after-put is not read-your-writes consistent) and clobber the authoritative
+            // client's accumulated status writes. (Observed end-to-end as only 1 of 3 management
+            // actions surviving in AssetStatus.) Disposing the loser here, before any branch is
+            // started, guarantees it can never touch ADR.
             AssetRuntimeContext ctx = new(
                 assetClient: ownedArgs.AssetClient,
                 ownedArgs: ownedArgs,
                 maCts: maCts,
-                maTask: maTask,
+                maTask: null,
                 userCts: userCts,
-                userTask: userTask,
-                userArgs: userArgs);
+                userTask: null,
+                userArgs: null);
 
-            _assetTasks.TryAdd(GetCompoundAssetName(compoundDeviceName, assetName), ctx);
+            if (!_assetTasks.TryAdd(GetCompoundAssetName(compoundDeviceName, assetName), ctx))
+            {
+                _logger.LogInformation(
+                    "Asset {AssetName} on device {DeviceName} (endpoint {InboundEndpointName}) is already being tracked; discarding duplicate runtime context before any branch starts.",
+                    assetName, deviceName, inboundEndpointName);
+                maCts.Dispose();
+                userCts.Dispose();
+                // Disposes the orphan AssetClient (ownedArgs owns it). Best-effort, fire-and-forget;
+                // no branch was started so there is nothing to await.
+                _ = ownedArgs.DisposeAsync();
+                return;
+            }
+
+            // We own the slot: start the branches now.
+            if (_managementActionOrchestrator != null
+                && asset.ManagementGroups?.Any(g => g.Actions?.Count > 0) == true)
+            {
+                Task maTask = Task.Run(() => SafeInvokeAssetBranchAsync(
+                    "ManagementActionHandling",
+                    ct => _managementActionOrchestrator.ServeActionsWhileAssetIsAvailableAsync(ownedArgs, ct),
+                    maCts.Token,
+                    assetName, deviceName, inboundEndpointName));
+                ctx.AttachMaTask(maTask);
+            }
+
+            if (WhileAssetIsAvailable != null)
+            {
+                AssetAvailableEventArgs userArgs = new(deviceName, device, inboundEndpointName, assetName, asset, _leaderElectionClient, _adrClient!, ownedArgs.AssetClient);
+                Task userTask = Task.Run(() => SafeInvokeAssetBranchAsync(
+                    "UserWhileAssetIsAvailableCallback",
+                    ct => WhileAssetIsAvailable!.Invoke(userArgs, ct),
+                    userCts.Token,
+                    assetName, deviceName, inboundEndpointName));
+                ctx.SwapUserBranch(userCts, userTask, userArgs);
+            }
         }
 
         /// <summary>

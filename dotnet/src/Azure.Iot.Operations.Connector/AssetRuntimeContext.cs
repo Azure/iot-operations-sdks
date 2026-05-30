@@ -27,7 +27,7 @@ namespace Azure.Iot.Operations.Connector
         public AssetClient AssetClient { get; }
         public AssetAvailableEventArgs OwnedArgs { get; }
         public CancellationTokenSource MaCts { get; }
-        public Task? MaTask { get; }
+        public Task? MaTask { get; private set; }
 
         public CancellationTokenSource UserCts { get; private set; }
         public Task? UserTask { get; private set; }
@@ -50,6 +50,14 @@ namespace Azure.Iot.Operations.Connector
             UserTask = userTask;
             UserArgs = userArgs;
         }
+
+        /// <summary>
+        /// Attach the management-action branch task after the runtime context has been registered
+        /// in the worker's tracking dictionary. The MA branch is started only once the per-asset
+        /// slot has been reserved, so a context that loses the reservation race never starts a
+        /// branch (and therefore can never write to / clobber ADR).
+        /// </summary>
+        public void AttachMaTask(Task maTask) => MaTask = maTask;
 
         /// <summary>
         /// Atomically replace the user-branch trio after a successful tear-down + relaunch on
