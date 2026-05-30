@@ -5,6 +5,7 @@ using System.Collections.Concurrent;
 using System.Threading.Channels;
 using Azure.Iot.Operations.Services.AssetAndDeviceRegistry;
 using Azure.Iot.Operations.Services.AssetAndDeviceRegistry.Models;
+using Microsoft.Extensions.Logging;
 
 namespace Azure.Iot.Operations.Connector
 {
@@ -100,6 +101,7 @@ namespace Azure.Iot.Operations.Connector
                 // Prefer our last-written status as the base for the read-modify-write. We are the sole
                 // writer of this asset's status, and ADR's get-after-put is not guaranteed read-your-writes
                 // consistent, so re-reading from ADR here can drop concurrent serialized contributions.
+                bool cacheHit = _lastWrittenStatus != null;
                 AssetStatus currentStatus = _lastWrittenStatus?.DeepClone()
                     ?? await GetAssetStatusAsync(commandTimeout, cancellationToken);
 
@@ -108,10 +110,20 @@ namespace Azure.Iot.Operations.Connector
                 // object would always report "no change" and the update would never be sent.
                 AssetStatus originalStatus = currentStatus.DeepClone();
                 AssetStatus? desiredStatus = handler.Invoke(currentStatus);
-                if (desiredStatus != null && (!onlyIfChanged || !originalStatus.EqualTo(desiredStatus)))
+                bool changed = desiredStatus != null && (!onlyIfChanged || !originalStatus.EqualTo(desiredStatus));
+                _connector.Logger.LogInformation(
+                    "[GetAndUpdate] client={ClientId} asset={Asset} cacheHit={CacheHit} onlyIfChanged={OnlyIfChanged} origActions={OrigActions} desiredActions={DesiredActions} willWrite={WillWrite}",
+                    System.Runtime.CompilerServices.RuntimeHelpers.GetHashCode(this),
+                    _assetName,
+                    cacheHit,
+                    onlyIfChanged,
+                    CountActions(originalStatus),
+                    desiredStatus is null ? -1 : CountActions(desiredStatus),
+                    changed);
+                if (changed)
                 {
-                    AssetStatus updatedStatus = await UpdateAssetStatusAsync(desiredStatus, commandTimeout, cancellationToken);
-                    _lastWrittenStatus = desiredStatus.DeepClone();
+                    AssetStatus updatedStatus = await UpdateAssetStatusAsync(desiredStatus!, commandTimeout, cancellationToken);
+                    _lastWrittenStatus = desiredStatus!.DeepClone();
                     return updatedStatus;
                 }
 
@@ -122,6 +134,9 @@ namespace Azure.Iot.Operations.Connector
                 _semaphore.Release();
             }
         }
+
+        private static int CountActions(AssetStatus status)
+            => status.ManagementGroups?.Sum(g => g.Actions?.Count ?? 0) ?? 0;
 
         /// <summary>
         /// Push a sampled dataset to the configured destinations.

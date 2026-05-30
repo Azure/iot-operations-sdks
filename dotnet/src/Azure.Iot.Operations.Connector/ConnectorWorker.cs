@@ -131,6 +131,12 @@ namespace Azure.Iot.Operations.Connector
         /// </summary>
         internal IMqttPubSubClient MqttPubSubClient => _mqttClient;
 
+        /// <summary>
+        /// Logger exposed to internal SDK collaborators (e.g. <see cref="AssetClient"/>) so they
+        /// can emit diagnostics without each constructing their own logger.
+        /// </summary>
+        internal ILogger Logger => _logger;
+
         public ConnectorWorker(
             ApplicationContext applicationContext,
             ILogger<ConnectorWorker> logger,
