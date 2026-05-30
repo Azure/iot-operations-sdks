@@ -188,8 +188,8 @@ public record AssetStatus
             foreach (var dataset in Datasets)
             {
                 // All dataset entries in this are present exactly once in other
-                var matches = other.Datasets.Select((a) => a.EqualTo(dataset));
-                if (matches == null || matches.Count() != 1)
+                var matches = other.Datasets.Where((a) => a.EqualTo(dataset));
+                if (matches.Count() != 1)
                 {
                     return false;
                 }
@@ -198,8 +198,8 @@ public record AssetStatus
             foreach (var dataset in other.Datasets)
             {
                 // All dataset entries in other are present exactly once in this
-                var matches = Datasets.Select((a) => a.EqualTo(dataset));
-                if (matches == null || matches.Count() != 1)
+                var matches = Datasets.Where((a) => a.EqualTo(dataset));
+                if (matches.Count() != 1)
                 {
                     return false;
                 }
@@ -224,8 +224,8 @@ public record AssetStatus
             foreach (var stream in Streams)
             {
                 // All stream entries in this are present exactly once in other
-                var matches = other.Streams.Select((a) => a.EqualTo(stream));
-                if (matches == null || matches.Count() != 1)
+                var matches = other.Streams.Where((a) => a.EqualTo(stream));
+                if (matches.Count() != 1)
                 {
                     return false;
                 }
@@ -234,8 +234,8 @@ public record AssetStatus
             foreach (var stream in other.Streams)
             {
                 // All dataset entries in other are present exactly once in this
-                var matches = Streams.Select((a) => a.EqualTo(stream));
-                if (matches == null || matches.Count() != 1)
+                var matches = Streams.Where((a) => a.EqualTo(stream));
+                if (matches.Count() != 1)
                 {
                     return false;
                 }
@@ -260,8 +260,8 @@ public record AssetStatus
             foreach (var managementGroup in ManagementGroups)
             {
                 // All dataset entries in this are present exactly once in other
-                var matches = other.ManagementGroups.Select((a) => a.EqualTo(managementGroup));
-                if (matches == null || matches.Count() != 1)
+                var matches = other.ManagementGroups.Where((a) => a.EqualTo(managementGroup));
+                if (matches.Count() != 1)
                 {
                     return false;
                 }
@@ -270,8 +270,8 @@ public record AssetStatus
             foreach (var managementGroup in other.ManagementGroups)
             {
                 // All dataset entries in other are present exactly once in this
-                var matches = ManagementGroups.Select((a) => a.EqualTo(managementGroup));
-                if (matches == null || matches.Count() != 1)
+                var matches = ManagementGroups.Where((a) => a.EqualTo(managementGroup));
+                if (matches.Count() != 1)
                 {
                     return false;
                 }
@@ -296,8 +296,8 @@ public record AssetStatus
             foreach (var eventGroup in EventGroups)
             {
                 // All dataset entries in this are present exactly once in other
-                var matches = other.EventGroups.Select((a) => a.EqualTo(eventGroup));
-                if (matches == null || matches.Count() != 1)
+                var matches = other.EventGroups.Where((a) => a.EqualTo(eventGroup));
+                if (matches.Count() != 1)
                 {
                     return false;
                 }
@@ -306,8 +306,8 @@ public record AssetStatus
             foreach (var eventGroup in other.EventGroups)
             {
                 // All dataset entries in other are present exactly once in this
-                var matches = EventGroups.Select((a) => a.EqualTo(eventGroup));
-                if (matches == null || matches.Count() != 1)
+                var matches = EventGroups.Where((a) => a.EqualTo(eventGroup));
+                if (matches.Count() != 1)
                 {
                     return false;
                 }
