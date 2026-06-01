@@ -6,7 +6,10 @@ set -e
 # sample uses an in-process FakeDevice (see Devices/FakeDevice.cs), which is the
 # whole point of this sample.
 dotnet publish /t:PublishContainer
-k3d image import managementactionconnector:latest -c k3s-default
+# Import images into k3d with verification + retry (guards against the silent
+# `k3d image import` flake that surfaces later as ErrImageNeverPull).
+source "$(dirname "$0")/../k3d-image-import.sh"
+k3d_image_import_with_retry managementactionconnector:latest k3s-default
 
 # Deploy connector template
 kubectl apply -f ./KubernetesResources/connector-template.yaml
