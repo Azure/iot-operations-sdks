@@ -9,24 +9,28 @@
 # reason unrelated to the code under test.
 #
 # k3d_image_import_with_retry imports the image and then verifies it is present
-# in the containerd image store of every k3d node, retrying the whole import on
-# failure. It returns non-zero (so `set -e` callers fail fast) if the image is
-# still missing after the configured number of attempts.
+# in the CRI image store (the kubelet's view) of every real k3s node, retrying
+# the whole import on failure. It returns non-zero (so `set -e` callers fail
+# fast) if the image is still missing after the configured number of attempts.
 #
 # Usage:
 #   source "$(dirname "$0")/../k3d-image-import.sh"
 #   k3d_image_import_with_retry myimage:latest            # cluster defaults to k3s-default
 #   k3d_image_import_with_retry myimage:latest k3s-default 5
 
-# Returns 0 if the given image is present in the named k3d node's containerd.
-# Uses `k3s ctr`, which targets k3s's containerd socket automatically.
+# Returns 0 if the given image is present in the named k3d node's image store as
+# seen by Kubernetes. Uses `k3s crictl images`, which queries the CRI (the same
+# view the kubelet consults for `imagePullPolicy: Never`), so a match here means
+# the pod will actually be able to start. k3d imports images into the `k8s.io`
+# containerd namespace that crictl reads, whereas plain `ctr images ls` reads the
+# default namespace and would not see them.
 k3d_node_has_image() {
     local node="$1"
     local image="$2"
-    # Match on the bare image name (strip the tag) since containerd lists it with
-    # a registry/repo prefix (e.g. docker.io/library/<image>:latest).
+    # Match on the bare image name (strip the tag) since crictl lists the repo
+    # with a registry prefix (e.g. docker.io/library/<image>).
     local name="${image%%:*}"
-    docker exec "$node" k3s ctr images ls 2>/dev/null | grep -q "$name"
+    docker exec "$node" k3s crictl images 2>/dev/null | grep -q "$name"
 }
 
 k3d_image_import_with_retry() {
@@ -42,9 +46,11 @@ k3d_image_import_with_retry() {
         # retry deliberately.
         k3d image import "$image" -c "$cluster" || true
 
-        # Enumerate every k3d node container for this cluster (server + agents) so
-        # we verify the image regardless of which node the pod is scheduled on.
-        nodes=$(docker ps --filter "name=k3d-${cluster}-server" --filter "name=k3d-${cluster}-agent" --format '{{.Names}}')
+        # Enumerate the cluster's actual k3s nodes (server + agents). Exclude the
+        # load balancer node (k3d-<cluster>-serverlb): it runs nginx, not k3s/CRI,
+        # so it never holds images. The trailing '-' in the name filters anchor on
+        # the numbered nodes (server-0, agent-0, ...) and skip 'serverlb'.
+        nodes=$(docker ps --filter "name=k3d-${cluster}-server-" --filter "name=k3d-${cluster}-agent-" --format '{{.Names}}')
         if [ -z "$nodes" ]; then
             nodes="k3d-${cluster}-server-0"
         fi
@@ -52,7 +58,7 @@ k3d_image_import_with_retry() {
         local all_present=true
         for node in $nodes; do
             if ! k3d_node_has_image "$node" "$image"; then
-                echo "Image '$image' not yet present in containerd on node '$node'." >&2
+                echo "Image '$image' not yet present in the CRI image store on node '$node'." >&2
                 all_present=false
             fi
         done
