@@ -16,10 +16,9 @@ namespace Azure.Iot.Operations.Connector
     /// reports config errors, and tears everything down when the asset goes away.
     /// </summary>
     /// <remarks>
-    /// Extracted from <see cref="ConnectorWorker"/> so the base worker doesn't need to know about
-    /// <see cref="ManagementActionExecutor"/>, action-loop notification semantics, or
-    /// <see cref="ConfigError"/> merging. Mirrors the strategy-object pattern used by
-    /// <see cref="PollingTelemetryConnectorWorker"/> + <see cref="IDatasetSampler"/>.
+    /// Extracted from <see cref="ConnectorWorker"/> (strategy-object pattern, like
+    /// <see cref="PollingTelemetryConnectorWorker"/> + <see cref="IDatasetSampler"/>) so the base
+    /// worker stays unaware of executors, action-loop semantics, and <see cref="ConfigError"/> merging.
     /// </remarks>
     internal sealed class ManagementActionOrchestrator
     {
@@ -35,26 +34,21 @@ namespace Azure.Iot.Operations.Connector
         }
 
         /// <summary>
-        /// Entry point — invoked once per <see cref="AssetAvailableEventArgs"/>. Runs every
-        /// management-action loop declared on the asset until the asset goes away (the token
-        /// is cancelled). Long-lived across asset Updated events: spawns additional loops for
-        /// newly-introduced actions as <see cref="AssetClient.ApplyAssetUpdateAsync"/> signals
-        /// arrive via <see cref="AssetClient.WaitForAssetUpdateAsync"/>; existing loops handle
-        /// updates/deletions themselves via their per-action notification channels.
+        /// Entry point — invoked once per <see cref="AssetAvailableEventArgs"/>. Runs every management-action
+        /// loop declared on the asset until the asset goes away (token cancelled). Long-lived across Updated
+        /// events: spawns loops for newly-introduced actions as <see cref="AssetClient.WaitForAssetUpdateAsync"/>
+        /// signals arrive; existing loops handle updates/deletions via their per-action channels.
         /// </summary>
         public async Task ServeActionsWhileAssetIsAvailableAsync(AssetAvailableEventArgs args, CancellationToken cancellationToken)
         {
-            // Tracks one task per (group, action) that has been spawned. Per-action loops exit on
-            // their own (ManagementActionDeleted) or on cancellation; we never remove entries
-            // ourselves, the dictionary lives for the lifetime of this method so we can await
-            // every task on shutdown via Task.WhenAll.
+            // One task per spawned (group, action). Loops self-exit on ManagementActionDeleted or
+            // cancellation; entries live for the method's lifetime so we can await them all on shutdown.
             var actionTasks = new Dictionary<(string Group, string Action), Task>();
 
             // Initial spawn for actions present at AssetAvailable time.
             SpawnLoopsForNewActions(args, args.AssetClient.CurrentAsset, actionTasks, cancellationToken);
 
-            // Outer loop: re-enumerate on each asset-update signal and spawn loops for any
-            // newly-introduced actions. Existing loops keep running across updates.
+            // Re-enumerate on each asset-update signal and spawn loops for newly-introduced actions.
             try
             {
                 while (!cancellationToken.IsCancellationRequested)
@@ -79,26 +73,23 @@ namespace Azure.Iot.Operations.Connector
             }
             finally
             {
-                // Wait for every spawned per-action loop. Loops self-exit on cancellation or on a
-                // ManagementActionDeleted notification (whichever comes first).
+                // Await every spawned loop; they self-exit on cancellation or ManagementActionDeleted.
                 if (actionTasks.Count > 0)
                 {
                     try { await Task.WhenAll(actionTasks.Values); }
                     catch
                     {
-                        // Per-action loops log + rethrow their own faults; nothing useful to do
-                        // here other than ensure we don't propagate an aggregate that would mask
-                        // the cancellation/shutdown intent.
+                        // Per-action loops log their own faults; don't propagate an aggregate that
+                        // would mask the shutdown intent.
                     }
                 }
             }
         }
 
         /// <summary>
-        /// Diff <paramref name="snapshot"/> against the set of <paramref name="actionTasks"/>
-        /// we are already running and spawn a per-action loop (handler or unsupported) for any
-        /// (group, action) we have not yet started. Idempotent: re-spawning an already-tracked
-        /// action is a no-op.
+        /// Diff <paramref name="snapshot"/> against the <paramref name="actionTasks"/> already running and
+        /// spawn a per-action loop (handler or unsupported) for any (group, action) not yet started.
+        /// Idempotent.
         /// </summary>
         private void SpawnLoopsForNewActions(
             AssetAvailableEventArgs args,
@@ -142,9 +133,8 @@ namespace Azure.Iot.Operations.Connector
                             ActionName: action.Name,
                             Handler: handler);
 
-                        // Snapshot the initial validation so the loop can apply it on entry without
-                        // a duplicate revalidation call. The notification loop re-runs validation
-                        // on every Updated*/AssetUpdated notification.
+                        // Snapshot the initial validation so the loop applies it on entry without a
+                        // duplicate revalidation; the loop re-validates on every later notification.
                         actionTasks[key] = Task.Run(async () =>
                         {
                             ConfigError? initialError = await _factory.ValidateConfigurationAsync(
@@ -173,18 +163,11 @@ namespace Azure.Iot.Operations.Connector
         }
 
         /// <summary>
-        /// Per-action loop for an action whose factory returned <c>false</c> from
-        /// <see cref="IManagementActionHandlerFactory.SupportsAction"/>. Reports an
-        /// <c>UnsupportedAction</c> <see cref="ConfigError"/> to ADR, then waits on
-        /// notifications and re-reports on every update so the status doesn't silently
-        /// lapse if ADR clears it or the action definition changes. Exits on
-        /// <see cref="ManagementActionDeleted"/>.
+        /// Per-action loop for an action the factory does not support. Reports an <c>UnsupportedAction</c>
+        /// <see cref="ConfigError"/> to ADR and re-reports on every update so the status doesn't lapse.
+        /// Exits on <see cref="ManagementActionDeleted"/>. Never subscribes an executor; if the SDK hands
+        /// one in via <see cref="ManagementActionUpdatedWithNewExecutor"/> it is disposed immediately.
         /// </summary>
-        /// <remarks>
-        /// No <see cref="ManagementActionExecutor"/> is ever subscribed by this loop, but if
-        /// the SDK hands one to us via <see cref="ManagementActionUpdatedWithNewExecutor"/>
-        /// we dispose it immediately so the MQTT subscription isn't leaked.
-        /// </remarks>
         private async Task RunUnsupportedActionLoopAsync(
             AssetClient assetClient,
             string groupName,
@@ -221,8 +204,8 @@ namespace Azure.Iot.Operations.Connector
                     switch (notification)
                     {
                         case ManagementActionUpdatedWithNewExecutor updatedWithNew:
-                            // We're not going to drive this executor; drop the subscription so the
-                            // broker stops delivering to a topic we'll never service.
+                            // Not driving this executor; drop the subscription so the broker stops
+                            // delivering to a topic we'll never service.
                             if (updatedWithNew.NewExecutor is not null)
                             {
                                 await updatedWithNew.NewExecutor.StopAsync(cancellationToken);
@@ -264,10 +247,9 @@ namespace Azure.Iot.Operations.Connector
         }
 
         /// <summary>
-        /// Per-action loop: manages executor lifecycle and dispatches incoming requests to the
-        /// user's <see cref="IManagementActionHandler"/>. Runs for the lifetime of the action
-        /// (until deleted or the asset becomes unavailable). Translates any unhandled exception
-        /// into a logged-and-rethrown event so the task doesn't fault silently inside
+        /// Per-action loop: manages executor lifecycle and dispatches incoming requests to the user's
+        /// <see cref="IManagementActionHandler"/> until the action is deleted or the asset becomes
+        /// unavailable. Logs-and-rethrows unhandled exceptions so the task doesn't fault silently in
         /// <c>Task.WhenAll</c>.
         /// </summary>
         private async Task RunActionLoopAsync(
@@ -350,15 +332,11 @@ namespace Azure.Iot.Operations.Connector
         }
 
         /// <summary>
-        /// Enable or disable request dispatch for <paramref name="executor"/>. When
-        /// <paramref name="enabled"/> is <c>true</c>, wires
-        /// <see cref="ManagementActionExecutor.OnRequestReceived"/> so incoming requests are
-        /// dispatched to the handler in <paramref name="ctx"/> via <see cref="InvokeHandlerAsync"/>.
-        /// When <c>false</c>, clears the callback so the executor answers any request with a
-        /// deterministic <c>HandlerNotConfigured</c> application error — used while the action's
-        /// current definition is invalid (validation has not yet succeeded). No-op if
-        /// <paramref name="executor"/> is null (no valid executor exists yet; the worker is
-        /// waiting for the next notification to swap one in).
+        /// Enable or disable request dispatch for <paramref name="executor"/>. When enabled, wires
+        /// <see cref="ManagementActionExecutor.OnRequestReceived"/> to the handler in <paramref name="ctx"/>;
+        /// when disabled, clears the callback so the executor answers with a deterministic
+        /// <c>HandlerNotConfigured</c> error (used while the definition is invalid). No-op if
+        /// <paramref name="executor"/> is null.
         /// </summary>
         private void SetDispatchEnabled(ManagementActionExecutor? executor, ActionContext ctx, bool enabled)
         {
@@ -381,11 +359,9 @@ namespace Azure.Iot.Operations.Connector
 
         /// <summary>
         /// Invokes the handler and translates unhandled exceptions into a
-        /// <see cref="ManagementActionApplicationError"/> response so the invoker sees a
-        /// deterministic failure rather than a fault. <see cref="OperationCanceledException"/>
-        /// is propagated unchanged so the surrounding loop can observe shutdown.
-        /// Pure function over its inputs — does not touch the executor or any worker
-        /// state — so it can be unit-tested without the surrounding loop.
+        /// <see cref="ManagementActionApplicationError"/> response (rather than a fault).
+        /// <see cref="OperationCanceledException"/> is propagated so the loop can observe shutdown.
+        /// Pure over its inputs, so it can be unit-tested without the surrounding loop.
         /// </summary>
         internal static async Task<ManagementActionResponse> InvokeHandlerAsync(
             IManagementActionHandler handler,
@@ -446,9 +422,8 @@ namespace Azure.Iot.Operations.Connector
 
                     if (currentExecutor is not null)
                     {
-                        // Unsubscribe so the broker stops delivering new requests, then wait for
-                        // in-flight invocations to wind down. In-flight callbacks complete naturally
-                        // or are bounded by the underlying CommandExecutor's ExecutionTimeout.
+                        // Unsubscribe so the broker stops delivering, then let in-flight invocations
+                        // wind down (bounded by the CommandExecutor's ExecutionTimeout).
                         await currentExecutor.StopAsync(cancellationToken);
                         await currentExecutor.DisposeAsync();
                     }
@@ -493,12 +468,10 @@ namespace Azure.Iot.Operations.Connector
         }
 
         /// <summary>
-        /// Re-runs connector-supplied <see cref="IManagementActionHandlerFactory.ValidateConfigurationAsync"/>,
-        /// merges its result with <paramref name="sdkError"/>, and reports the resulting config
-        /// state to ADR. On success the action is reported <c>Available</c>; on a config error the
-        /// action's config error is reported and runtime-health reporting is paused so the
-        /// runtime-health status lapses to <c>Unknown</c> (we cannot probe the device, so we make
-        /// no claim about it — only the config error itself is surfaced).
+        /// Re-runs <see cref="IManagementActionHandlerFactory.ValidateConfigurationAsync"/>, merges its
+        /// result with <paramref name="sdkError"/>, and reports the config state to ADR. On success the
+        /// action is reported <c>Available</c>; on a config error the error is reported and runtime-health
+        /// reporting is paused so the status lapses to <c>Unknown</c> rather than asserting Unavailable.
         /// </summary>
         /// <returns>
         /// <c>true</c> if the definition is valid (dispatch may be enabled); <c>false</c> if a
@@ -509,9 +482,8 @@ namespace Azure.Iot.Operations.Connector
             AssetManagementGroupAction? currentAction = ctx.CurrentAction;
             if (currentAction is null)
             {
-                // The action was removed from the asset between the notification we're handling
-                // and now. A ManagementActionDeleted notification is already queued (or will be)
-                // and the loop will exit on the next iteration; nothing to validate or report.
+                // Action was removed between the notification and now; a ManagementActionDeleted is
+                // already queued and the loop will exit next iteration. Nothing to validate or report.
                 return false;
             }
 
@@ -530,9 +502,8 @@ namespace Azure.Iot.Operations.Connector
             }
             else
             {
-                // Config is invalid → we cannot determine runtime health, so stay silent.
-                // ADR will let the runtime-health status lapse to Unknown rather than us
-                // falsely asserting Unavailable for a device we never probed.
+                // Config is invalid → we can't determine runtime health, so stay silent and let ADR
+                // lapse the status to Unknown rather than falsely asserting Unavailable.
                 await ctx.AssetClient.PauseManagementActionRuntimeHealthReportingAsync(ctx.GroupName, ctx.ActionName, cancellationToken);
                 return false;
             }
@@ -590,13 +561,9 @@ namespace Azure.Iot.Operations.Connector
         }
 
         /// <summary>
-        /// Internal per-action bundle. Captures everything that's fixed for the lifetime of one
-        /// management action's loop so we don't have to thread 8+ parameters through every
-        /// internal helper. Built once in <see cref="ManagementActionOrchestrator.SpawnLoopsForNewActions"/>.
-        /// <para/>
-        /// <see cref="Asset"/> and <see cref="CurrentAction"/> read live from
-        /// <see cref="AssetClient.CurrentAsset"/> so revalidation always sees the latest
-        /// definition after an <see cref="AssetClient.ApplyAssetUpdateAsync"/> call.
+        /// Per-action bundle: everything fixed for the lifetime of one action's loop, so helpers don't
+        /// thread 8+ parameters. <see cref="Asset"/> and <see cref="CurrentAction"/> read live from
+        /// <see cref="AssetClient.CurrentAsset"/> so revalidation always sees the latest definition.
         /// </summary>
         private sealed record ActionContext(
             AssetClient AssetClient,
@@ -612,10 +579,8 @@ namespace Azure.Iot.Operations.Connector
             public Asset Asset => AssetClient.CurrentAsset;
 
             /// <summary>
-            /// Latest action definition. Returns <c>null</c> only if the action has been deleted
-            /// from the asset between a revalidation read and the corresponding notification
-            /// being processed; the per-action loop will see <see cref="ManagementActionDeleted"/>
-            /// shortly after and exit.
+            /// Latest action definition, or <c>null</c> if the action was deleted between a revalidation
+            /// read and its notification; the loop sees <see cref="ManagementActionDeleted"/> and exits.
             /// </summary>
             public AssetManagementGroupAction? CurrentAction =>
                 Asset.ManagementGroups?

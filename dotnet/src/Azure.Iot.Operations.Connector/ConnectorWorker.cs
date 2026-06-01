@@ -32,10 +32,9 @@ namespace Azure.Iot.Operations.Connector
         private LeaderElectionClient? _leaderElectionClient;
         private readonly ConcurrentDictionary<string, DeviceContext> _devices = new();
 
-        // Asset-available notifications can arrive before (or racing with) the device-available
-        // notification that populates _devices (startup churn, or re-observe after a device update).
-        // Rather than dropping such notifications permanently, we buffer them here keyed by
-        // "<deviceName>_<inboundEndpointName>" and replay them once the owning device is available.
+        // Asset-available notifications can arrive before the device-available notification that populates
+        // _devices (startup churn). Buffer them keyed by "<deviceName>_<inboundEndpointName>" and replay
+        // once the owning device is available instead of dropping them.
         private readonly ConcurrentDictionary<string, ConcurrentDictionary<string, Asset>> _pendingAssets = new();
 
         private bool _isDisposed = false;
@@ -45,22 +44,15 @@ namespace Azure.Iot.Operations.Connector
         // Keys are <deviceName>_<inboundEndpointName> and values are the running task and their cancellation token to signal once the device is no longer available or the connector is shutting down
         private readonly ConcurrentDictionary<string, UserTaskContext> _deviceTasks = new();
 
-        // Keys are <deviceName>_<inboundEndpointName>_<assetName>. Holds the long-lived per-asset
-        // runtime state: the AssetClient (preserved across asset Updated events), the
-        // management-action branch task (cancelled only on Deleted), and the user-callback branch
-        // (cancelled and rebuilt on every Updated so the user gets a fresh CancellationToken).
+        // Keys are <deviceName>_<inboundEndpointName>_<assetName>. Long-lived per-asset runtime state:
+        // the AssetClient (preserved across asset Updated events), the management-action branch task
+        // (cancelled only on Deleted), and the user-callback branch (cancelled+rebuilt on every Updated).
         private readonly ConcurrentDictionary<string, AssetRuntimeContext> _assetTasks = new();
 
-        // Per-key sequential notification chains. Created/Deleted notifications originate from the
-        // asset/device file monitor while Updated notifications originate from a separate ADR MQTT
-        // callback; both raise the same AssetChanged/DeviceChanged event, but without coordination
-        // their handlers would run concurrently and out of order for a single asset/device. Each
-        // entry is the tail of a Task chain for one key: a new notification is appended after the
-        // previous one for the same key so that all Created/Updated/Deleted notifications for a
-        // given asset (or device) are processed strictly one-at-a-time in arrival order. This is
-        // the invariant that guarantees exactly one AssetClient exists per asset at any time. The
-        // locks guard the append (a brief, await-free critical section); never start the work
-        // inside ConcurrentDictionary.AddOrUpdate, whose factory may run more than once.
+        // Per-key sequential notification chains. Created/Deleted (file monitor) and Updated (ADR MQTT
+        // callback) arrive from independent sources; appending each notification after the previous one
+        // for the same key processes them strictly one-at-a-time in arrival order. This is what guarantees
+        // exactly one AssetClient exists per asset at any time. The locks guard only the brief append.
         private readonly Dictionary<string, Task> _assetNotificationChains = new();
         private readonly object _assetNotificationChainLock = new();
         private readonly Dictionary<string, Task> _deviceNotificationChains = new();
@@ -102,47 +94,15 @@ namespace Azure.Iot.Operations.Connector
 
         private readonly ManagementActionOrchestrator? _managementActionOrchestrator;
 
-        // TODO (refactor, follow-up PR): Replace the back-pointer that AssetClient holds to
-        // ConnectorWorker (and the two internal accessors below) with a narrow seam, e.g.
-        //
-        //     internal interface IConnectorRuntime
-        //     {
-        //         ApplicationContext ApplicationContext { get; }
-        //         IMqttPubSubClient  MqttPubSubClient   { get; }
-        //         Task ForwardSampledDatasetAsync(...);
-        //         Task ForwardReceivedEventAsync(...);
-        //         MessageSchemaReference? GetRegisteredDatasetMessageSchema(...);
-        //         MessageSchemaReference? GetRegisteredEventMessageSchema(...);
-        //     }
-        //
-        // Today AssetClient takes a `ConnectorWorker _connector` and reaches through it for
-        // ForwardSampledDatasetAsync / ForwardReceivedEventAsync / GetRegisteredXxxMessageSchema
-        // as well as the two accessors below (added for Workstream B so AssetClient can build
-        // a ManagementActionExecutor on the worker's shared MQTT session). That's a
-        // service-locator / Law-of-Demeter smell: AssetClient doesn't advertise what it
-        // depends on, and it's hard to unit-test in isolation (you need a real or mocked
-        // ConnectorWorker just to construct one).
-        //
-        // The fix is to declare IConnectorRuntime, have ConnectorWorker implement it, and
-        // change AssetClient's ctor + field to IConnectorRuntime. That keeps the runtime
-        // call paths intact, makes AssetClient mockable, and gives a single chokepoint for
-        // any future "AssetClient needs something else from the worker" requests instead of
-        // growing more internal properties on ConnectorWorker over time.
-        //
-        // Out of scope for the management-action workstream; tracked here so it doesn't get
-        // lost. See doc/dev/tmp/management-action-implementation-design.md (deviations).
-
         /// <summary>
-        /// Shared <see cref="ApplicationContext"/> (HLC, etc.) exposed to internal SDK
-        /// collaborators (e.g. <see cref="AssetClient.GetManagementActionExecutorAsync"/>)
-        /// that need to construct protocol clients on top of the worker's MQTT session.
+        /// Shared <see cref="ApplicationContext"/> exposed to internal SDK collaborators that build
+        /// protocol clients on top of the worker's MQTT session.
         /// </summary>
         internal ApplicationContext ApplicationContext { get; }
 
         /// <summary>
-        /// Shared MQTT pub/sub client exposed to internal SDK collaborators
-        /// (e.g. <see cref="AssetClient.GetManagementActionExecutorAsync"/>) that need to
-        /// build executors/senders on top of the worker's MQTT session.
+        /// Shared MQTT pub/sub client exposed to internal SDK collaborators that build executors/senders
+        /// on top of the worker's MQTT session.
         /// </summary>
         internal IMqttPubSubClient MqttPubSubClient => _mqttClient;
 
@@ -685,12 +645,10 @@ namespace Azure.Iot.Operations.Connector
         }
         private void OnAssetChanged(object? _, AssetChangedEventArgs args)
         {
-            // Append this notification to the per-asset chain so it runs only after the previous
-            // notification for the same asset has finished. Created/Deleted (file monitor) and
-            // Updated (ADR MQTT callback) arrive from independent sources; serializing here is what
-            // guarantees Created fully registers the runtime context before any Updated runs (so
-            // Updated always finds it and never forks a second AssetClient) and that Deleted tears
-            // down only after in-flight work for the asset has drained.
+            // Append to the per-asset chain so this runs only after the previous notification for the
+            // same asset finishes. This serialization guarantees Created registers the runtime context
+            // before any Updated runs (never forking a second AssetClient) and that Deleted tears down
+            // only after in-flight work has drained.
             string key = GetCompoundAssetName($"{args.DeviceName}_{args.InboundEndpointName}", args.AssetName);
             lock (_assetNotificationChainLock)
             {
@@ -703,8 +661,7 @@ namespace Azure.Iot.Operations.Connector
 
         private async Task ProcessAssetChangedAsync(AssetChangedEventArgs args, Task previous)
         {
-            // Wait for the prior notification for this same asset to finish. A prior notification's
-            // failure must not block later ones, so swallow it here (it was already logged below).
+            // A prior notification's failure must not block later ones, so swallow it here.
             try { await previous.ConfigureAwait(false); }
             catch { /* prior notification already logged its own failure */ }
 
@@ -739,10 +696,7 @@ namespace Azure.Iot.Operations.Connector
 
         private void OnDeviceChanged(object? _, DeviceChangedEventArgs args)
         {
-            // Serialize device notifications per device/endpoint for the same reason as assets:
-            // Created/Deleted (file monitor) and Updated (ADR MQTT callback) arrive from independent
-            // sources, so without chaining they could race and tear down / rebuild device state out
-            // of order. See _deviceNotificationChains.
+            // Serialize device notifications per device/endpoint for the same reason as assets.
             string key = $"{args.DeviceName}_{args.InboundEndpointName}";
             lock (_deviceNotificationChainLock)
             {
@@ -754,13 +708,10 @@ namespace Azure.Iot.Operations.Connector
         }
 
         /// <summary>
-        /// Schedule removal of <paramref name="key"/> from <paramref name="chains"/> once
-        /// <paramref name="current"/> (the current tail of that key's notification chain) completes,
-        /// but only if it is still the tail at that point. Without this, <paramref name="chains"/>
-        /// would retain one completed <see cref="Task"/> per distinct device/asset name for the
-        /// lifetime of the connector. The <c>tail == current</c> check (under
-        /// <paramref name="chainLock"/>) ensures we never drop a chain that a newer notification has
-        /// already appended to, preserving the per-key serialization invariant.
+        /// Remove <paramref name="key"/> from <paramref name="chains"/> once <paramref name="current"/>
+        /// completes, but only if it is still the tail (otherwise a newer notification has appended to it).
+        /// Without this, <paramref name="chains"/> would retain one completed task per name for the
+        /// connector's lifetime.
         /// </summary>
         private static void PruneNotificationChainWhenComplete(
             Dictionary<string, Task> chains,
@@ -1028,26 +979,19 @@ namespace Azure.Iot.Operations.Connector
                 return;
             }
 
-            // Long-lived per-asset runtime context. `ownedArgs` keeps the AssetClient alive across
-            // any future Updated events; it is the args passed to the management-action branch.
-            // The user-callback branch gets a separate `userArgs` (borrow mode) that we rebuild on
-            // each Updated so the user callback sees a fresh CancellationToken.
+            // Long-lived per-asset runtime context. `ownedArgs` keeps the AssetClient alive across future
+            // Updated events and drives the management-action branch; the user-callback branch gets a
+            // separate `userArgs` rebuilt on each Updated so the user sees a fresh CancellationToken.
             AssetAvailableEventArgs ownedArgs = new(deviceName, device, inboundEndpointName, assetName, asset, _leaderElectionClient, _adrClient!, this);
 
             CancellationTokenSource maCts = new();
             CancellationTokenSource userCts = new();
 
-            // Reserve the per-asset slot BEFORE starting any branch. Asset notifications are
-            // serialized per asset (see OnAssetChanged / _assetNotificationChains), so Created
-            // fully completes this registration before any Updated runs and a Deleted always
-            // removes the slot before a subsequent Created re-adds it. This TryAdd is therefore the
-            // single point that enforces the "exactly one AssetClient per asset" invariant; it
-            // should never fail in practice. If it ever does (a defensive guard against a future
-            // change that breaks serialization), we must NOT start our branches: a second
-            // AssetClient would run its own management-action loops, read a stale status from ADR
-            // (get-after-put is not read-your-writes consistent) and clobber the authoritative
-            // client's accumulated status writes. Disposing the loser here, before any branch is
-            // started, guarantees it can never touch ADR.
+            // Reserve the per-asset slot BEFORE starting any branch. Per-asset serialization means this
+            // TryAdd is the single point enforcing "exactly one AssetClient per asset" and should never
+            // fail. If it ever does, we must NOT start our branches: a second AssetClient would run its
+            // own loops and clobber the authoritative client's ADR status writes. Disposing the loser
+            // here, before any branch starts, guarantees it never touches ADR.
             AssetRuntimeContext ctx = new(
                 assetClient: ownedArgs.AssetClient,
                 ownedArgs: ownedArgs,
@@ -1059,18 +1003,14 @@ namespace Azure.Iot.Operations.Connector
 
             if (!_assetTasks.TryAdd(GetCompoundAssetName(compoundDeviceName, assetName), ctx))
             {
-                // Invariant violation: asset notifications are serialized per asset, so a runtime
-                // context should already have been removed (Deleted) before AssetAvailable runs
-                // again for the same asset. Reaching here means that serialization guarantee was
-                // broken (e.g. a future change). Bail out without starting any branch so we never
-                // run a second AssetClient that would clobber ADR status.
+                // Invariant violation: the prior context should have been removed (Deleted) before
+                // AssetAvailable runs again for the same asset. Bail out without starting any branch.
                 _logger.LogWarning(
                     "Asset {AssetName} on device {DeviceName} (endpoint {InboundEndpointName}) is already being tracked; discarding duplicate runtime context before any branch starts. This indicates the per-asset notification serialization invariant was violated.",
                     assetName, deviceName, inboundEndpointName);
                 maCts.Dispose();
                 userCts.Dispose();
-                // Disposes the orphan AssetClient (ownedArgs owns it). Best-effort, fire-and-forget;
-                // no branch was started so there is nothing to await.
+                // Dispose the orphan AssetClient (ownedArgs owns it). No branch started, nothing to await.
                 _ = ownedArgs.DisposeAsync();
                 return;
             }
@@ -1123,12 +1063,10 @@ namespace Azure.Iot.Operations.Connector
         }
 
         /// <summary>
-        /// Handle an asset update: preserves the long-lived <see cref="AssetClient"/> (so
-        /// management-action handler state survives), pushes diff notifications via
-        /// <see cref="AssetClient.ApplyAssetUpdateAsync"/>, and cancels + rebuilds the
-        /// user-supplied <see cref="WhileAssetIsAvailable"/> callback branch so the user sees a
-        /// fresh <see cref="CancellationToken"/>. The management-action orchestrator branch keeps
-        /// running across the update.
+        /// Handle an asset update: preserves the long-lived <see cref="AssetClient"/> (so management-action
+        /// state survives), pushes diff notifications via <see cref="AssetClient.ApplyAssetUpdateAsync"/>,
+        /// and cancels+rebuilds the user <see cref="WhileAssetIsAvailable"/> branch with a fresh
+        /// <see cref="CancellationToken"/>. The management-action branch keeps running across the update.
         /// </summary>
         private async Task AssetUpdatedAsync(string deviceName, string inboundEndpointName, string assetName, Asset? newAsset)
         {
@@ -1156,10 +1094,8 @@ namespace Azure.Iot.Operations.Connector
                 deviceContext.Assets[assetName] = newAsset;
             }
 
-            // 1) Push the diff into the per-action channels and notify the orchestrator's outer
-            //    loop. ApplyAssetUpdateAsync is responsible for swapping cached executors when an
-            //    action's request topic changes; the MA branch keeps running and consumes the
-            //    notifications without restart.
+            // 1) Push the diff into the per-action channels and notify the orchestrator. ApplyAssetUpdateAsync
+            //    swaps cached executors when an action's request topic changes; the MA branch keeps running.
             try
             {
                 await ctx.AssetClient.ApplyAssetUpdateAsync(newAsset);

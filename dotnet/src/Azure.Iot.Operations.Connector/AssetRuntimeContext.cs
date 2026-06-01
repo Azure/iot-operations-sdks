@@ -5,23 +5,17 @@ namespace Azure.Iot.Operations.Connector
 {
     /// <summary>
     /// Per-asset runtime bookkeeping inside <see cref="ConnectorWorker"/>. Owns the long-lived
-    /// <see cref="AssetClient"/> and the two independent branch lifetimes that run while an asset
-    /// is available:
+    /// <see cref="AssetClient"/> and two independent branch lifetimes:
     /// <list type="bullet">
-    /// <item><b>MA branch</b> (<see cref="MaCts"/>/<see cref="MaTask"/>) runs the built-in
-    /// management-action orchestrator. Cancelled <em>only</em> on Deleted, so handler state
-    /// survives across asset Updated events.</item>
-    /// <item><b>User branch</b> (<see cref="UserCts"/>/<see cref="UserTask"/>) runs the
-    /// user-supplied <see cref="ConnectorWorker.WhileAssetIsAvailable"/> callback. Cancelled
-    /// on both Updated and Deleted; replaced via <see cref="SwapUserBranch"/> on Updated so the
-    /// user callback sees a fresh <see cref="CancellationToken"/>.</item>
+    /// <item><b>MA branch</b> (<see cref="MaCts"/>/<see cref="MaTask"/>): the built-in management-action
+    /// orchestrator. Cancelled <em>only</em> on Deleted, so handler state survives Updated events.</item>
+    /// <item><b>User branch</b> (<see cref="UserCts"/>/<see cref="UserTask"/>): the
+    /// <see cref="ConnectorWorker.WhileAssetIsAvailable"/> callback. Cancelled on Updated and Deleted;
+    /// replaced via <see cref="SwapUserBranch"/> on Updated so it sees a fresh token.</item>
     /// </list>
+    /// <see cref="OwnedArgs"/> owns the <see cref="AssetClient"/>; <see cref="UserArgs"/> is borrow-mode.
+    /// Disposing this context disposes both args and (through <see cref="OwnedArgs"/>) the AssetClient.
     /// </summary>
-    /// <remarks>
-    /// <see cref="OwnedArgs"/> owns the <see cref="AssetClient"/>; <see cref="UserArgs"/> is a
-    /// borrow-mode args instance that does not. Disposing this context disposes both args and
-    /// (through <see cref="OwnedArgs"/>) the <see cref="AssetClient"/>.
-    /// </remarks>
     internal sealed class AssetRuntimeContext : IAsyncDisposable
     {
         public AssetClient AssetClient { get; }
@@ -52,17 +46,14 @@ namespace Azure.Iot.Operations.Connector
         }
 
         /// <summary>
-        /// Attach the management-action branch task after the runtime context has been registered
-        /// in the worker's tracking dictionary. The MA branch is started only once the per-asset
-        /// slot has been reserved, so a context that loses the reservation race never starts a
-        /// branch (and therefore can never write to / clobber ADR).
+        /// Attach the management-action branch task after the context is registered. The MA branch starts
+        /// only once the per-asset slot is reserved, so a context that loses the race never writes to ADR.
         /// </summary>
         public void AttachMaTask(Task maTask) => MaTask = maTask;
 
         /// <summary>
-        /// Atomically replace the user-branch trio after a successful tear-down + relaunch on
-        /// asset Updated. Caller is responsible for cancelling/disposing the previous CTS,
-        /// awaiting the previous task, and disposing the previous user args before invoking.
+        /// Atomically replace the user-branch trio after a tear-down + relaunch on Updated. Caller must
+        /// first cancel/dispose the previous CTS, await the previous task, and dispose the previous args.
         /// </summary>
         public void SwapUserBranch(CancellationTokenSource newUserCts, Task? newUserTask, AssetAvailableEventArgs? newUserArgs)
         {

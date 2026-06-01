@@ -10,25 +10,16 @@ using Azure.Iot.Operations.Services.AssetAndDeviceRegistry.Models;
 namespace Azure.Iot.Operations.Connector
 {
     /// <summary>
-    /// Executor for a single management action. Thin wrapper over the MQTT RPC command
-    /// executor (<c>CommandExecutor&lt;BypassPayload, BypassPayload&gt;</c>) subscribed to the
-    /// action's request topic. Obtain instances via
+    /// Executor for a single management action. Thin wrapper over the MQTT RPC command executor
+    /// (<c>CommandExecutor&lt;BypassPayload, BypassPayload&gt;</c>) subscribed to the action's request
+    /// topic. Obtain instances via
     /// <see cref="AssetClient.GetManagementActionExecutorAsync(string, string, System.Threading.CancellationToken)"/>.
     /// </summary>
     /// <remarks>
-    /// <para>
-    /// The executor is callback-shaped, mirroring the underlying
-    /// <c>CommandExecutor.OnCommandReceived</c> contract: set
-    /// <see cref="OnRequestReceived"/> once after acquiring the executor (or after a swap
-    /// triggered by a <see cref="ManagementActionUpdatedWithNewExecutor"/> notification),
-    /// and the callback will be invoked once per incoming management action request.
-    /// The returned <see cref="ManagementActionResponse"/> is sent back to the invoker.
-    /// </para>
-    /// <para>
-    /// Exceptions thrown by the callback are surfaced to the invoker as
-    /// <see cref="ManagementActionApplicationError"/> responses by the connector worker; see
-    /// <see cref="ConnectorWorker"/>.
-    /// </para>
+    /// Callback-shaped: set <see cref="OnRequestReceived"/> after acquiring the executor (or after a
+    /// <see cref="ManagementActionUpdatedWithNewExecutor"/> swap); it is invoked once per request and its
+    /// <see cref="ManagementActionResponse"/> is returned to the invoker. Callback exceptions are surfaced
+    /// to the invoker as <see cref="ManagementActionApplicationError"/> responses by the connector worker.
     /// </remarks>
     internal sealed class ManagementActionExecutor : IAsyncDisposable
     {
@@ -42,8 +33,8 @@ namespace Azure.Iot.Operations.Connector
         private readonly AssetManagementGroupActionType _actionType;
 
         /// <summary>
-        /// Creates a new executor for a single management action. Intended to be invoked by
-        /// <see cref="AssetClient"/>; not part of the public API surface.
+        /// Creates a new executor for a single management action. Invoked by <see cref="AssetClient"/>;
+        /// not part of the public API surface.
         /// </summary>
         /// <param name="applicationContext">Shared application context (HLC, etc.).</param>
         /// <param name="mqttClient">Shared MQTT pub/sub client.</param>
@@ -53,17 +44,9 @@ namespace Azure.Iot.Operations.Connector
         /// <param name="actionName">Management action name (also used as the underlying command name).</param>
         /// <param name="actionType">Static action type (Call/Read/Write).</param>
         /// <param name="requestTopicPattern">Resolved request topic pattern for the action.</param>
-        /// <param name="serviceGroupId">
-        /// MQTT5 shared-subscription group id. Empty string means "no shared subscription".
-        /// Source of this value is an open design question (see
-        /// <c>doc/dev/tmp/management-action-implementation-design.md</c>, Open Questions §1);
-        /// callers should pass an explicit value.
-        /// </param>
+        /// <param name="serviceGroupId">MQTT5 shared-subscription group id; empty means no shared subscription.</param>
         /// <param name="executionTimeout">Per-invocation execution timeout.</param>
-        /// <param name="topicTokenMap">
-        /// Token replacements applied when resolving <paramref name="requestTopicPattern"/>.
-        /// Typically contains device, endpoint, asset, group, and action names.
-        /// </param>
+        /// <param name="topicTokenMap">Token replacements applied when resolving <paramref name="requestTopicPattern"/>.</param>
         internal ManagementActionExecutor(
             ApplicationContext applicationContext,
             IMqttPubSubClient mqttClient,
@@ -108,72 +91,41 @@ namespace Azure.Iot.Operations.Connector
         }
 
         /// <summary>
-        /// Invoked once per management action request. The returned
-        /// <see cref="ManagementActionResponse"/> is sent to the invoker.
+        /// Invoked once per management action request; the returned <see cref="ManagementActionResponse"/>
+        /// is sent to the invoker. The supplied <see cref="ManagementActionInvokedEventArgs"/> is already
+        /// stamped with group/action/asset/device names.
         /// </summary>
         /// <remarks>
-        /// <para>
-        /// Must be set before the executor begins dispatching. Requests that arrive while
-        /// this property is <c>null</c> are replied to with an
-        /// <see cref="ManagementActionApplicationError"/> (<c>HandlerNotConfigured</c>) so
-        /// invokers see a deterministic failure rather than a timeout.
-        /// </para>
-        /// <para>
-        /// The <see cref="ManagementActionInvokedEventArgs"/> passed to the callback is
-        /// already stamped with the action's group / action / asset / device names &mdash;
-        /// the executor has that context from
-        /// <see cref="AssetClient.GetManagementActionExecutorAsync(string, string, CancellationToken)"/>.
-        /// </para>
-        /// <para>
-        /// The supplied <see cref="CancellationToken"/> is signalled when the underlying
-        /// command execution times out (per the command executor's <c>ExecutionTimeout</c>),
-        /// when the executor is being stopped/replaced, or when the asset becomes unavailable.
-        /// Handlers should honor it and abort device I/O promptly.
-        /// </para>
+        /// Set this before dispatching. Requests arriving while it is <c>null</c> get a deterministic
+        /// <c>HandlerNotConfigured</c> <see cref="ManagementActionApplicationError"/>. The
+        /// <see cref="CancellationToken"/> fires on execution timeout, stop/replace, or asset-unavailable;
+        /// handlers should honor it and abort device I/O promptly.
         /// </remarks>
         public Func<ManagementActionInvokedEventArgs, CancellationToken, Task<ManagementActionResponse>>? OnRequestReceived { get; set; }
 
         /// <summary>
-        /// Subscribe to the action's request topic and begin dispatching invocations.
-        /// Intended to be invoked by <see cref="AssetClient"/> after the executor has been
-        /// fully wired (i.e. after <see cref="OnRequestReceived"/> has been set, where
-        /// possible) and before the orchestrator's per-action loop begins suspending on
-        /// notifications.
+        /// Subscribe to the action's request topic and begin dispatching. Invoked by
+        /// <see cref="AssetClient"/> after the executor is wired. Requests arriving before
+        /// <see cref="OnRequestReceived"/> is set get a <c>HandlerNotConfigured</c> error.
         /// </summary>
-        /// <remarks>
-        /// Requests that arrive before <see cref="OnRequestReceived"/> is set are replied to
-        /// with a <c>HandlerNotConfigured</c> application error.
-        /// </remarks>
         internal Task StartAsync(CancellationToken cancellationToken = default)
             => _inner.StartAsync(preferredDispatchConcurrency: null, cancellationToken);
 
         /// <summary>
-        /// Tear down the MQTT subscription for this action's request topic. After this
-        /// completes the broker delivers no further requests to this executor; any
-        /// in-flight <see cref="OnRequestReceived"/> invocations continue until they
-        /// return (bounded by the underlying command executor's execution timeout) or
-        /// are awaited out by <see cref="DisposeAsync"/>.
+        /// Tear down the MQTT subscription for this action's request topic. After this completes the broker
+        /// delivers no further requests; in-flight invocations continue until they return (bounded by the
+        /// command executor's execution timeout). Driven by the SDK when the executor becomes outdated;
+        /// user code should not call it directly.
         /// </summary>
-        /// <remarks>
-        /// Intended to be invoked by the Connector SDK itself when this executor becomes
-        /// outdated (action deleted, definition replaced with a new topic, asset
-        /// unavailable, connector shutting down). User code generally should not call
-        /// this directly; await the corresponding
-        /// <see cref="ManagementActionNotification"/> and let the worker drive the
-        /// lifecycle.
-        /// </remarks>
         public async ValueTask StopAsync(CancellationToken cancellationToken = default)
         {
             await _inner.StopAsync(cancellationToken).ConfigureAwait(false);
         }
 
         /// <summary>
-        /// Wait for any in-flight <see cref="OnRequestReceived"/> invocations to complete
-        /// and release local resources owned by this executor (callback registrations,
-        /// internal queues). Does not unsubscribe from MQTT &mdash; that is
-        /// <see cref="StopAsync"/>'s job and must already have happened by the time the
-        /// caller disposes. Does not dispose the underlying MQTT client (shared with the
-        /// rest of the connector).
+        /// Wait for in-flight invocations to complete and release this executor's local resources.
+        /// Does not unsubscribe from MQTT (that is <see cref="StopAsync"/>'s job and must already have run)
+        /// and does not dispose the shared MQTT client.
         /// </summary>
         public async ValueTask DisposeAsync()
         {

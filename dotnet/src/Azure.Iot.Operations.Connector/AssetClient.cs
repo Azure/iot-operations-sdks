@@ -34,27 +34,20 @@ namespace Azure.Iot.Operations.Connector
         private readonly SemaphoreSlim _semaphore = new(1, 1);
 
         // The last status this client successfully wrote to ADR. This connector is the sole authoritative
-        // writer of its own asset status, so once we have written a status we treat our local copy as the
-        // source of truth for subsequent read-modify-write cycles instead of re-reading from ADR. ADR's
-        // get-after-put is not guaranteed to be read-your-writes consistent, so re-reading would let
-        // concurrent (but _semaphore-serialized) reports clobber each other's contributions (e.g. the
-        // three management actions on one asset each reading a status that is missing the others' writes,
-        // so only the last writer's action survives). Because this AssetClient instance now outlives
-        // device-update churn (ConnectorWorker no longer tears it down on device Updated), this cache
-        // stays warm across the asset's lifetime. Guarded by _semaphore.
+        // writer of its own asset status, so we use our local copy as the base for read-modify-write
+        // cycles instead of re-reading: ADR's get-after-put is not read-your-writes consistent, so
+        // re-reading would let _semaphore-serialized reports clobber each other's contributions (e.g.
+        // three actions on one asset each reading a status missing the others' writes). Guarded by _semaphore.
         private AssetStatus? _lastWrittenStatus;
 
-        // Per-(group, action) state for the management-action API. Lazily populated on the first
-        // access via Get/Recv/Pause so callers don't have to enumerate the asset's actions up front.
+        // Per-(group, action) state for the management-action API. Lazily populated on first access.
         private readonly ConcurrentDictionary<(string Group, string Action), ManagementActionState> _managementActionStates = new();
 
-        // Serializes ApplyAssetUpdateAsync against itself and against per-action state mutations so
-        // a concurrent Get + Update can't race on _asset / _managementActionStates.
+        // Serializes ApplyAssetUpdateAsync against itself and per-action state mutations so a concurrent
+        // Get + Update can't race on _asset / _managementActionStates.
         private readonly SemaphoreSlim _assetUpdateMutex = new(1, 1);
 
-        // Signal for the ManagementActionOrchestrator to discover newly-added actions after an
-        // asset update. Each ApplyAssetUpdateAsync writes the new Asset reference; the orchestrator
-        // awaits this channel and diffs against its tracked action loops.
+        // Signals the ManagementActionOrchestrator to discover newly-added actions after an asset update.
         private readonly Channel<Asset> _assetUpdatedSignal = Channel.CreateUnbounded<Asset>(
             new UnboundedChannelOptions { SingleReader = true, SingleWriter = false });
 
@@ -99,15 +92,13 @@ namespace Azure.Iot.Operations.Connector
             await _semaphore.WaitAsync(cancellationToken);
             try
             {
-                // Prefer our last-written status as the base for the read-modify-write. We are the sole
-                // writer of this asset's status, and ADR's get-after-put is not guaranteed read-your-writes
-                // consistent, so re-reading from ADR here can drop concurrent serialized contributions.
+                // Prefer our last-written status as the base: ADR's get-after-put is not read-your-writes
+                // consistent, so re-reading here can drop concurrent serialized contributions.
                 AssetStatus currentStatus = _lastWrittenStatus?.DeepClone()
                     ?? await GetAssetStatusAsync(commandTimeout, cancellationToken);
 
-                // Snapshot the current status before invoking the handler. Handlers commonly mutate the
-                // provided status in place and return the same reference, so comparing against the live
-                // object would always report "no change" and the update would never be sent.
+                // Snapshot before invoking the handler: handlers commonly mutate the status in place and
+                // return the same reference, so comparing against the live object would always report "no change".
                 AssetStatus originalStatus = currentStatus.DeepClone();
                 AssetStatus? desiredStatus = handler.Invoke(currentStatus);
                 bool changed = desiredStatus != null && (!onlyIfChanged || !originalStatus.EqualTo(desiredStatus));
@@ -452,41 +443,28 @@ namespace Azure.Iot.Operations.Connector
 
         /// <summary>
         /// Snapshot of the current asset revision. Replaced atomically by
-        /// <see cref="ApplyAssetUpdateAsync"/> whenever the parent asset is updated.
-        /// Internal because consumers should read field-level data through the
-        /// caller-facing surface (e.g. <see cref="AssetAvailableEventArgs.Asset"/>);
-        /// this is only exposed for <see cref="ManagementActionOrchestrator"/>, which
-        /// needs to enumerate the latest set of management actions after an update.
+        /// <see cref="ApplyAssetUpdateAsync"/>. Exposed only for <see cref="ManagementActionOrchestrator"/>,
+        /// which enumerates the latest set of management actions after an update.
         /// </summary>
         internal Asset CurrentAsset => _asset;
 
         /// <summary>
-        /// Apply an updated asset definition. Diffs the new asset against the cached one,
-        /// pushes per-action lifecycle notifications into the per-(group, action) channels,
-        /// swaps cached executors when an action's request topic changes, and signals
-        /// <see cref="WaitForAssetUpdateAsync"/> so the orchestrator can spawn loops for
-        /// newly-added actions. The AssetClient instance survives the update so any
-        /// in-flight handler state held by <see cref="ManagementActionExecutor"/>
-        /// callbacks is preserved.
+        /// Apply an updated asset definition: diffs the new asset against the cached one, pushes per-action
+        /// lifecycle notifications, swaps cached executors when an action's request topic changes, and signals
+        /// <see cref="WaitForAssetUpdateAsync"/> so the orchestrator can spawn loops for newly-added actions.
+        /// The AssetClient survives the update so in-flight handler state is preserved.
         /// </summary>
         /// <remarks>
         /// Notification rules per tracked (group, action):
         /// <list type="bullet">
-        /// <item>Action gone from new asset → push <see cref="ManagementActionDeleted"/>,
-        /// stop+dispose cached executor, drop the cached executor reference.</item>
-        /// <item>Action present, request topic changed → build the replacement executor,
-        /// swap it into the cache, push <see cref="ManagementActionUpdatedWithNewExecutor"/>
-        /// carrying the new executor. Caller is responsible for disposing the previous
-        /// executor it held.</item>
-        /// <item>Action present, definition changed but topic unchanged → push
-        /// <see cref="ManagementActionUpdated"/>.</item>
-        /// <item>Action present, definition byte-identical → push
-        /// <see cref="ManagementActionAssetUpdated"/> so the loop can re-evaluate
-        /// surrounding asset context (e.g. group defaults).</item>
+        /// <item>Action gone → <see cref="ManagementActionDeleted"/>, stop+dispose cached executor.</item>
+        /// <item>Request topic changed → build replacement executor, swap into cache, push
+        /// <see cref="ManagementActionUpdatedWithNewExecutor"/>. Caller disposes the previous executor.</item>
+        /// <item>Definition changed, topic unchanged → <see cref="ManagementActionUpdated"/>.</item>
+        /// <item>Definition byte-identical → <see cref="ManagementActionAssetUpdated"/> so the loop can
+        /// re-evaluate surrounding asset context (e.g. group defaults).</item>
         /// </list>
-        /// Newly-introduced actions that the orchestrator was not already tracking are
-        /// surfaced via the <see cref="WaitForAssetUpdateAsync"/> signal rather than a
-        /// per-action channel write (there is no reader yet).
+        /// Newly-introduced actions are surfaced via <see cref="WaitForAssetUpdateAsync"/> (no reader yet).
         /// </remarks>
         internal async Task ApplyAssetUpdateAsync(Asset newAsset, CancellationToken cancellationToken = default)
         {
@@ -543,10 +521,8 @@ namespace Azure.Iot.Operations.Connector
                         await state.Mutex.WaitAsync(cancellationToken).ConfigureAwait(false);
                         try
                         {
-                            // Note: we do NOT stop/dispose the previous executor here. The orchestrator
-                            // holds the live reference and will tear it down on receipt of
-                            // ManagementActionUpdatedWithNewExecutor (matching the semantics it already
-                            // applies when this notification arrives by any other path).
+                            // Don't stop/dispose the previous executor here: the orchestrator holds the
+                            // live reference and tears it down on ManagementActionUpdatedWithNewExecutor.
                             newExecutor = await BuildAndStartExecutorAsync(groupName, actionName, cancellationToken).ConfigureAwait(false);
                             state.CurrentExecutor = newExecutor;
                         }
@@ -562,16 +538,15 @@ namespace Azure.Iot.Operations.Connector
                     }
                     else
                     {
-                        // Action definition is unchanged but surrounding asset metadata may have
-                        // changed (e.g. group defaults). Surface as AssetUpdated so the loop can
-                        // re-evaluate without claiming the action itself changed.
+                        // Action unchanged but surrounding asset metadata may have changed (e.g. group
+                        // defaults). Surface as AssetUpdated so the loop re-evaluates without claiming
+                        // the action itself changed.
                         state.Notifications.Writer.TryWrite(new ManagementActionAssetUpdated(Error: null));
                     }
                 }
 
-                // Signal the orchestrator so it can pick up newly-added actions (ones not yet
-                // present in _managementActionStates). Existing loops are driven by their per-action
-                // channels above; this signal is purely for "spawn a loop I wasn't running".
+                // Signal the orchestrator to pick up newly-added actions (not yet in
+                // _managementActionStates). Existing loops are driven by their per-action channels above.
                 _assetUpdatedSignal.Writer.TryWrite(newAsset);
             }
             finally
@@ -581,11 +556,8 @@ namespace Azure.Iot.Operations.Connector
         }
 
         /// <summary>
-        /// Await the next asset-update signal. Used by <see cref="ManagementActionOrchestrator"/>
-        /// to discover newly-added management actions after an <see cref="ApplyAssetUpdateAsync"/>
-        /// call. The returned <see cref="Asset"/> is the same reference now visible via
-        /// <see cref="CurrentAsset"/>; callers should generally re-read <see cref="CurrentAsset"/>
-        /// after acting on it since further updates may have arrived in the meantime.
+        /// Await the next asset-update signal. Used by <see cref="ManagementActionOrchestrator"/> to discover
+        /// newly-added management actions after an <see cref="ApplyAssetUpdateAsync"/> call.
         /// </summary>
         internal Task<Asset> WaitForAssetUpdateAsync(CancellationToken cancellationToken = default)
             => _assetUpdatedSignal.Reader.ReadAsync(cancellationToken).AsTask();
@@ -610,19 +582,10 @@ namespace Azure.Iot.Operations.Connector
         }
 
         /// <summary>
-        /// Get the <see cref="ManagementActionExecutor"/> for <paramref name="managementGroupName"/> /
-        /// <paramref name="managementActionName"/>. Returns the currently-valid executor bound to
-        /// the action's request topic, or <c>null</c> if no valid executor exists right now —
-        /// for example, the action's current definition was rejected (its
-        /// <see cref="ManagementActionUpdated"/> / <see cref="ManagementActionUpdatedWithNewExecutor"/>
-        /// notification carried a non-null <c>ConfigError</c>) or the action is still being
-        /// initialized. A null result is not an error; callers should await
-        /// <see cref="RecvManagementActionNotificationAsync"/> for the next definition and call
-        /// this method again. When the action definition changes in a way that requires a new
-        /// topic, the existing executor is surfaced as outdated via
-        /// <see cref="RecvManagementActionNotificationAsync"/> (as
-        /// <see cref="ManagementActionUpdatedWithNewExecutor"/>); the caller should swap to the
-        /// new one it carries (which may itself be null for the same reason).
+        /// Get the <see cref="ManagementActionExecutor"/> for the given group/action, or <c>null</c> if no
+        /// valid executor exists right now (e.g. the current definition was rejected, or the action is still
+        /// initializing). A null result is not an error; callers should await
+        /// <see cref="RecvManagementActionNotificationAsync"/> for the next definition and retry.
         /// </summary>
         internal async Task<ManagementActionExecutor?> GetManagementActionExecutorAsync(
             string managementGroupName,
@@ -680,9 +643,8 @@ namespace Azure.Iot.Operations.Connector
         }
 
         /// <summary>
-        /// Pause periodic runtime-health reporting for a specific management action. Used on
-        /// definition changes so the next health event reflects the re-validated definition rather
-        /// than the previous one. Matches Rust's <c>pause_and_refresh_health_version</c> pattern.
+        /// Pause periodic runtime-health reporting for a management action so the next health event
+        /// reflects the re-validated definition. Matches Rust's <c>pause_and_refresh_health_version</c>.
         /// </summary>
         internal async Task PauseManagementActionRuntimeHealthReportingAsync(
             string managementGroupName,
@@ -693,9 +655,8 @@ namespace Azure.Iot.Operations.Connector
             ArgumentException.ThrowIfNullOrEmpty(managementActionName);
             cancellationToken.ThrowIfCancellationRequested();
 
-            // Stop periodic emissions until the next ReportManagementActionRuntimeHealthAsync sets a
-            // fresh status; ADR then lapses to Unknown rather than re-asserting a stale status.
-            // Matches Rust's pause_and_refresh. The reporter owns the pause state.
+            // Stop emissions until the next ReportManagementActionRuntimeHealthAsync sets a fresh status;
+            // ADR then lapses to Unknown rather than re-asserting a stale one. The reporter owns the pause state.
             await _healthReporter.PauseReportingManagementActionAsync(managementGroupName, managementActionName, cancellationToken);
         }
 
@@ -704,16 +665,11 @@ namespace Azure.Iot.Operations.Connector
         // ============================================================
 
         /// <summary>
-        /// Build and start a <see cref="ManagementActionExecutor"/> for the given group/action
-        /// using the asset definition cached on this client. Returns <c>null</c> when the
-        /// action is unknown on this asset or its request topic is missing/empty &mdash;
-        /// callers should surface this as a config error rather than treat it as a fault.
+        /// Build and start a <see cref="ManagementActionExecutor"/> for the given group/action from the
+        /// cached asset definition. Returns <c>null</c> when the action is unknown or its request topic is
+        /// missing/empty &mdash; callers should surface that as a config error, not a fault. The request
+        /// topic is taken verbatim from <see cref="AssetManagementGroupAction.Topic"/> (matches Rust).
         /// </summary>
-        /// <remarks>
-        /// Mirrors the Rust <c>try_executor_topic_from_management_topics</c> behavior: the
-        /// request topic is taken verbatim from <see cref="AssetManagementGroupAction.Topic"/>;
-        /// <see cref="AssetManagementGroup.DefaultTopic"/> is reserved for future use.
-        /// </remarks>
         private async Task<ManagementActionExecutor?> BuildAndStartExecutorAsync(
             string managementGroupName,
             string managementActionName,
@@ -768,9 +724,7 @@ namespace Azure.Iot.Operations.Connector
         private static readonly TimeSpan DefaultManagementActionExecutionTimeout = TimeSpan.FromSeconds(30);
 
         /// <summary>
-        /// Per-(group, action) state for the management-action API. One instance per
-        /// distinct action observed via <see cref="GetManagementActionExecutorAsync"/> or
-        /// <see cref="RecvManagementActionNotificationAsync"/>.
+        /// Per-(group, action) state for the management-action API. One instance per distinct action.
         /// </summary>
         private sealed class ManagementActionState
         {
