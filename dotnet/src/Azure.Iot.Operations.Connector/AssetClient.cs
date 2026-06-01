@@ -21,10 +21,12 @@ namespace Azure.Iot.Operations.Connector
         private readonly Device _device;
 
         // Mutable: replaced by ApplyAssetUpdateAsync when the parent asset is updated, so that
-        // the AssetClient instance can outlive a single asset revision. Reads from BuildAndStartExecutorAsync
-        // and ApplyAssetUpdateAsync are serialized via _assetUpdateMutex below; reads from arbitrary
-        // public methods (e.g. ForwardSampledDatasetAsync) observe whatever revision is current.
-        private Asset _asset { get; set; }
+        // the AssetClient instance can outlive a single asset revision. Writes are serialized via
+        // _assetUpdateMutex below; reads from arbitrary public methods (e.g. ForwardSampledDatasetAsync)
+        // and lock-free paths (CurrentAsset, BuildAndStartExecutorAsync, health reporting) observe
+        // whatever revision is current. Reference assignment is atomic, so reads never tear; volatile
+        // guarantees a reader promptly observes the latest reference without taking _assetUpdateMutex.
+        private volatile Asset _asset;
         private readonly AssetRuntimeHealthReporter _healthReporter;
 
         // Used to make getAndUpdate calls behave atomically so that a user does not accidentally update
