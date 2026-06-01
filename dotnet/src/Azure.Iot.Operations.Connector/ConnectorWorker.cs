@@ -51,6 +51,21 @@ namespace Azure.Iot.Operations.Connector
         // (cancelled and rebuilt on every Updated so the user gets a fresh CancellationToken).
         private readonly ConcurrentDictionary<string, AssetRuntimeContext> _assetTasks = new();
 
+        // Per-key sequential notification chains. Created/Deleted notifications originate from the
+        // asset/device file monitor while Updated notifications originate from a separate ADR MQTT
+        // callback; both raise the same AssetChanged/DeviceChanged event, but without coordination
+        // their handlers would run concurrently and out of order for a single asset/device. Each
+        // entry is the tail of a Task chain for one key: a new notification is appended after the
+        // previous one for the same key so that all Created/Updated/Deleted notifications for a
+        // given asset (or device) are processed strictly one-at-a-time in arrival order. This is
+        // the invariant that guarantees exactly one AssetClient exists per asset at any time. The
+        // locks guard the append (a brief, await-free critical section); never start the work
+        // inside ConcurrentDictionary.AddOrUpdate, whose factory may run more than once.
+        private readonly Dictionary<string, Task> _assetNotificationChains = new();
+        private readonly object _assetNotificationChainLock = new();
+        private readonly Dictionary<string, Task> _deviceNotificationChains = new();
+        private readonly object _deviceNotificationChainLock = new();
+
         // keys are "{composite device name}_{asset name}_{dataset name}. The value is the message schema registered for that device's asset's dataset
         private readonly ConcurrentDictionary<string, Schema> _registeredDatasetMessageSchemas = new();
 
@@ -130,12 +145,6 @@ namespace Azure.Iot.Operations.Connector
         /// build executors/senders on top of the worker's MQTT session.
         /// </summary>
         internal IMqttPubSubClient MqttPubSubClient => _mqttClient;
-
-        /// <summary>
-        /// Logger exposed to internal SDK collaborators (e.g. <see cref="AssetClient"/>) so they
-        /// can emit diagnostics without each constructing their own logger.
-        /// </summary>
-        internal ILogger Logger => _logger;
 
         public ConnectorWorker(
             ApplicationContext applicationContext,
@@ -674,89 +683,140 @@ namespace Azure.Iot.Operations.Connector
                 _isDisposed = true;
             }
         }
-        private async void OnAssetChanged(object? _, AssetChangedEventArgs args)
+        private void OnAssetChanged(object? _, AssetChangedEventArgs args)
         {
-            string compoundDeviceName = $"{args.DeviceName}_{args.InboundEndpointName}";
-            if (args.ChangeType == ChangeType.Created)
+            // Append this notification to the per-asset chain so it runs only after the previous
+            // notification for the same asset has finished. Created/Deleted (file monitor) and
+            // Updated (ADR MQTT callback) arrive from independent sources; serializing here is what
+            // guarantees Created fully registers the runtime context before any Updated runs (so
+            // Updated always finds it and never forks a second AssetClient) and that Deleted tears
+            // down only after in-flight work for the asset has drained.
+            string key = GetCompoundAssetName($"{args.DeviceName}_{args.InboundEndpointName}", args.AssetName);
+            lock (_assetNotificationChainLock)
             {
-                _logger.LogInformation("Asset with name {0} created on endpoint with name {1} on device with name {2}", args.AssetName, args.InboundEndpointName, args.DeviceName);
-                AssetAvailable(args.DeviceName, args.InboundEndpointName, args.Asset, args.AssetName);
-                _adrClient!.ObserveAssets(args.DeviceName, args.InboundEndpointName);
-            }
-            else if (args.ChangeType == ChangeType.Deleted)
-            {
-                _logger.LogInformation("Asset with name {0} deleted from endpoint with name {1} on device with name {2}", args.AssetName, args.InboundEndpointName, args.DeviceName);
-                await AssetUnavailableAsync(args.DeviceName, args.InboundEndpointName, args.AssetName);
-
-                // Note that the connector does not unsubscribe from notifications about this now-deleted asset. In the near future,
-                // the ADR service itself will do this for the connector. Trying to unsubscribe would yield a 404 from the ADR service
-                // since the asset the notifications were about no longer exists.
-            }
-            else if (args.ChangeType == ChangeType.Updated)
-            {
-                _logger.LogInformation("Asset with name {0} updated on endpoint with name {1} on device with name {2}", args.AssetName, args.InboundEndpointName, args.DeviceName);
-                await AssetUpdatedAsync(args.DeviceName, args.InboundEndpointName, args.AssetName, args.Asset);
+                Task previous = _assetNotificationChains.TryGetValue(key, out Task? p) ? p : Task.CompletedTask;
+                _assetNotificationChains[key] = ProcessAssetChangedAsync(args, previous);
             }
         }
 
-        private async void OnDeviceChanged(object? _, DeviceChangedEventArgs args)
+        private async Task ProcessAssetChangedAsync(AssetChangedEventArgs args, Task previous)
         {
+            // Wait for the prior notification for this same asset to finish. A prior notification's
+            // failure must not block later ones, so swallow it here (it was already logged below).
+            try { await previous.ConfigureAwait(false); }
+            catch { /* prior notification already logged its own failure */ }
+
+            try
+            {
+                if (args.ChangeType == ChangeType.Created)
+                {
+                    _logger.LogInformation("Asset with name {0} created on endpoint with name {1} on device with name {2}", args.AssetName, args.InboundEndpointName, args.DeviceName);
+                    AssetAvailable(args.DeviceName, args.InboundEndpointName, args.Asset, args.AssetName);
+                    _adrClient!.ObserveAssets(args.DeviceName, args.InboundEndpointName);
+                }
+                else if (args.ChangeType == ChangeType.Deleted)
+                {
+                    _logger.LogInformation("Asset with name {0} deleted from endpoint with name {1} on device with name {2}", args.AssetName, args.InboundEndpointName, args.DeviceName);
+                    await AssetUnavailableAsync(args.DeviceName, args.InboundEndpointName, args.AssetName);
+
+                    // Note that the connector does not unsubscribe from notifications about this now-deleted asset. In the near future,
+                    // the ADR service itself will do this for the connector. Trying to unsubscribe would yield a 404 from the ADR service
+                    // since the asset the notifications were about no longer exists.
+                }
+                else if (args.ChangeType == ChangeType.Updated)
+                {
+                    _logger.LogInformation("Asset with name {0} updated on endpoint with name {1} on device with name {2}", args.AssetName, args.InboundEndpointName, args.DeviceName);
+                    await AssetUpdatedAsync(args.DeviceName, args.InboundEndpointName, args.AssetName, args.Asset);
+                }
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Failed to process {ChangeType} notification for asset {AssetName} on endpoint {InboundEndpointName} of device {DeviceName}", args.ChangeType, args.AssetName, args.InboundEndpointName, args.DeviceName);
+            }
+        }
+
+        private void OnDeviceChanged(object? _, DeviceChangedEventArgs args)
+        {
+            // Serialize device notifications per device/endpoint for the same reason as assets:
+            // Created/Deleted (file monitor) and Updated (ADR MQTT callback) arrive from independent
+            // sources, so without chaining they could race and tear down / rebuild device state out
+            // of order. See _deviceNotificationChains.
+            string key = $"{args.DeviceName}_{args.InboundEndpointName}";
+            lock (_deviceNotificationChainLock)
+            {
+                Task previous = _deviceNotificationChains.TryGetValue(key, out Task? p) ? p : Task.CompletedTask;
+                _deviceNotificationChains[key] = ProcessDeviceChangedAsync(args, previous);
+            }
+        }
+
+        private async Task ProcessDeviceChangedAsync(DeviceChangedEventArgs args, Task previous)
+        {
+            try { await previous.ConfigureAwait(false); }
+            catch { /* prior notification already logged its own failure */ }
+
             string compoundDeviceName = $"{args.DeviceName}_{args.InboundEndpointName}";
-            if (args.ChangeType == ChangeType.Created)
+            try
             {
-                _logger.LogInformation("Device with name {0} and/or its endpoint with name {} was created", args.DeviceName, args.InboundEndpointName);
-                DeviceAvailable(args, compoundDeviceName);
-                if (args.Device != null)
+                if (args.ChangeType == ChangeType.Created)
                 {
-                    if (WhileDeviceIsAvailable != null)
+                    _logger.LogInformation("Device with name {0} and/or its endpoint with name {} was created", args.DeviceName, args.InboundEndpointName);
+                    DeviceAvailable(args, compoundDeviceName);
+                    if (args.Device != null)
                     {
-                        CancellationTokenSource deviceTaskCancellationTokenSource = new();
-
-                        // Do not block on this call because the user callback is designed to run for extended periods of time.
-                        Task userTask = Task.Run(async () =>
+                        if (WhileDeviceIsAvailable != null)
                         {
-                            try
-                            {
-                                await using var deviceAvailableEventArgs = new DeviceAvailableEventArgs(args.DeviceName, args.Device, args.InboundEndpointName, _leaderElectionClient, _adrClient!);
-                                await WhileDeviceIsAvailable.Invoke(deviceAvailableEventArgs, deviceTaskCancellationTokenSource.Token);
-                            }
-                            catch (OperationCanceledException)
-                            {
-                                // This is the expected way for the callback to exit since this layer signals the cancellation token
-                            }
-                            catch (Exception ex)
-                            {
-                                _logger.LogError(ex, "User-supplied WhileDeviceIsAvailable callback for device {DeviceName} (endpoint {InboundEndpointName}) faulted", args.DeviceName, args.InboundEndpointName);
-                            }
-                        });
+                            CancellationTokenSource deviceTaskCancellationTokenSource = new();
 
-                        _deviceTasks.TryAdd(compoundDeviceName, new(userTask, deviceTaskCancellationTokenSource));
+                            // Do not block on this call because the user callback is designed to run for extended periods of time.
+                            Task userTask = Task.Run(async () =>
+                            {
+                                try
+                                {
+                                    await using var deviceAvailableEventArgs = new DeviceAvailableEventArgs(args.DeviceName, args.Device, args.InboundEndpointName, _leaderElectionClient, _adrClient!);
+                                    await WhileDeviceIsAvailable.Invoke(deviceAvailableEventArgs, deviceTaskCancellationTokenSource.Token);
+                                }
+                                catch (OperationCanceledException)
+                                {
+                                    // This is the expected way for the callback to exit since this layer signals the cancellation token
+                                }
+                                catch (Exception ex)
+                                {
+                                    _logger.LogError(ex, "User-supplied WhileDeviceIsAvailable callback for device {DeviceName} (endpoint {InboundEndpointName}) faulted", args.DeviceName, args.InboundEndpointName);
+                                }
+                            });
+
+                            _deviceTasks.TryAdd(compoundDeviceName, new(userTask, deviceTaskCancellationTokenSource));
+                        }
                     }
                 }
-            }
-            else if (args.ChangeType == ChangeType.Deleted)
-            {
-                _logger.LogInformation("Device with name {0} and/or its endpoint with name {} was deleted", args.DeviceName, args.InboundEndpointName);
-                await DeviceUnavailableAsync(args, compoundDeviceName);
-                if (_deviceTasks.TryRemove(compoundDeviceName, out UserTaskContext? userTaskContext))
+                else if (args.ChangeType == ChangeType.Deleted)
                 {
-                    userTaskContext.CancellationTokenSource.Cancel();
-                    userTaskContext.CancellationTokenSource.Dispose();
+                    _logger.LogInformation("Device with name {0} and/or its endpoint with name {} was deleted", args.DeviceName, args.InboundEndpointName);
+                    await DeviceUnavailableAsync(args, compoundDeviceName);
+                    if (_deviceTasks.TryRemove(compoundDeviceName, out UserTaskContext? userTaskContext))
+                    {
+                        userTaskContext.CancellationTokenSource.Cancel();
+                        userTaskContext.CancellationTokenSource.Dispose();
 
-                    try
-                    {
-                        await userTaskContext.UserTask;
-                    }
-                    catch (Exception e)
-                    {
-                        _logger.LogError(e, "Encountered an exception while cancelling user-defined task for device name {deviceName}, inbound endpoint name {inboundEndpointName}", args.DeviceName, args.InboundEndpointName);
+                        try
+                        {
+                            await userTaskContext.UserTask;
+                        }
+                        catch (Exception e)
+                        {
+                            _logger.LogError(e, "Encountered an exception while cancelling user-defined task for device name {deviceName}, inbound endpoint name {inboundEndpointName}", args.DeviceName, args.InboundEndpointName);
+                        }
                     }
                 }
+                else if (args.ChangeType == ChangeType.Updated)
+                {
+                    _logger.LogInformation("Device with name {0} and/or its endpoint with name {} was updated", args.DeviceName, args.InboundEndpointName);
+                    DeviceUpdated(args, compoundDeviceName);
+                }
             }
-            else if (args.ChangeType == ChangeType.Updated)
+            catch (Exception ex)
             {
-                _logger.LogInformation("Device with name {0} and/or its endpoint with name {} was updated", args.DeviceName, args.InboundEndpointName);
-                DeviceUpdated(args, compoundDeviceName);
+                _logger.LogError(ex, "Failed to process {ChangeType} notification for device {DeviceName} (endpoint {InboundEndpointName})", args.ChangeType, args.DeviceName, args.InboundEndpointName);
             }
         }
 
@@ -942,13 +1002,16 @@ namespace Azure.Iot.Operations.Connector
             CancellationTokenSource maCts = new();
             CancellationTokenSource userCts = new();
 
-            // Reserve the per-asset slot BEFORE starting any branch. If another AssetAvailable for
-            // the same asset already won the slot (e.g. an asset-available racing an asset-update or
-            // a buffered-asset replay during startup churn), we must NOT start our branches: a second
+            // Reserve the per-asset slot BEFORE starting any branch. Asset notifications are
+            // serialized per asset (see OnAssetChanged / _assetNotificationChains), so Created
+            // fully completes this registration before any Updated runs and a Deleted always
+            // removes the slot before a subsequent Created re-adds it. This TryAdd is therefore the
+            // single point that enforces the "exactly one AssetClient per asset" invariant; it
+            // should never fail in practice. If it ever does (a defensive guard against a future
+            // change that breaks serialization), we must NOT start our branches: a second
             // AssetClient would run its own management-action loops, read a stale status from ADR
             // (get-after-put is not read-your-writes consistent) and clobber the authoritative
-            // client's accumulated status writes. (Observed end-to-end as only 1 of 3 management
-            // actions surviving in AssetStatus.) Disposing the loser here, before any branch is
+            // client's accumulated status writes. Disposing the loser here, before any branch is
             // started, guarantees it can never touch ADR.
             AssetRuntimeContext ctx = new(
                 assetClient: ownedArgs.AssetClient,
