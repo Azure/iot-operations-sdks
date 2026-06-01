@@ -695,7 +695,9 @@ namespace Azure.Iot.Operations.Connector
             lock (_assetNotificationChainLock)
             {
                 Task previous = _assetNotificationChains.TryGetValue(key, out Task? p) ? p : Task.CompletedTask;
-                _assetNotificationChains[key] = ProcessAssetChangedAsync(args, previous);
+                Task current = ProcessAssetChangedAsync(args, previous);
+                _assetNotificationChains[key] = current;
+                PruneNotificationChainWhenComplete(_assetNotificationChains, _assetNotificationChainLock, key, current);
             }
         }
 
@@ -745,8 +747,41 @@ namespace Azure.Iot.Operations.Connector
             lock (_deviceNotificationChainLock)
             {
                 Task previous = _deviceNotificationChains.TryGetValue(key, out Task? p) ? p : Task.CompletedTask;
-                _deviceNotificationChains[key] = ProcessDeviceChangedAsync(args, previous);
+                Task current = ProcessDeviceChangedAsync(args, previous);
+                _deviceNotificationChains[key] = current;
+                PruneNotificationChainWhenComplete(_deviceNotificationChains, _deviceNotificationChainLock, key, current);
             }
+        }
+
+        /// <summary>
+        /// Schedule removal of <paramref name="key"/> from <paramref name="chains"/> once
+        /// <paramref name="current"/> (the current tail of that key's notification chain) completes,
+        /// but only if it is still the tail at that point. Without this, <paramref name="chains"/>
+        /// would retain one completed <see cref="Task"/> per distinct device/asset name for the
+        /// lifetime of the connector. The <c>tail == current</c> check (under
+        /// <paramref name="chainLock"/>) ensures we never drop a chain that a newer notification has
+        /// already appended to, preserving the per-key serialization invariant.
+        /// </summary>
+        private static void PruneNotificationChainWhenComplete(
+            Dictionary<string, Task> chains,
+            object chainLock,
+            string key,
+            Task current)
+        {
+            _ = current.ContinueWith(
+                _ =>
+                {
+                    lock (chainLock)
+                    {
+                        if (chains.TryGetValue(key, out Task? tail) && tail == current)
+                        {
+                            chains.Remove(key);
+                        }
+                    }
+                },
+                CancellationToken.None,
+                TaskContinuationOptions.None,
+                TaskScheduler.Default);
         }
 
         private async Task ProcessDeviceChangedAsync(DeviceChangedEventArgs args, Task previous)

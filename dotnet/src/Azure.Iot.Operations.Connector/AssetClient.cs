@@ -691,14 +691,9 @@ namespace Azure.Iot.Operations.Connector
             ArgumentException.ThrowIfNullOrEmpty(managementActionName);
             cancellationToken.ThrowIfCancellationRequested();
 
-            ManagementActionState state = _managementActionStates.GetOrAdd(
-                (managementGroupName, managementActionName),
-                _ => new ManagementActionState());
-
-            // Drop the cached health so periodic emissions stop until the next
-            // ReportManagementActionRuntimeHealthAsync sets a fresh status; ADR then lapses to
-            // Unknown rather than re-asserting a stale status. Matches Rust's pause_and_refresh.
-            state.HealthReportingPaused = true;
+            // Stop periodic emissions until the next ReportManagementActionRuntimeHealthAsync sets a
+            // fresh status; ADR then lapses to Unknown rather than re-asserting a stale status.
+            // Matches Rust's pause_and_refresh. The reporter owns the pause state.
             await _healthReporter.PauseReportingManagementActionAsync(managementGroupName, managementActionName, cancellationToken);
         }
 
@@ -772,9 +767,8 @@ namespace Azure.Iot.Operations.Connector
 
         /// <summary>
         /// Per-(group, action) state for the management-action API. One instance per
-        /// distinct action observed via <see cref="GetManagementActionExecutorAsync"/>,
-        /// <see cref="RecvManagementActionNotificationAsync"/>, or
-        /// <see cref="PauseManagementActionRuntimeHealthReportingAsync"/>.
+        /// distinct action observed via <see cref="GetManagementActionExecutorAsync"/> or
+        /// <see cref="RecvManagementActionNotificationAsync"/>.
         /// </summary>
         private sealed class ManagementActionState
         {
@@ -783,7 +777,6 @@ namespace Azure.Iot.Operations.Connector
                 Channel.CreateUnbounded<ManagementActionNotification>(
                     new UnboundedChannelOptions { SingleReader = true, SingleWriter = false });
             public ManagementActionExecutor? CurrentExecutor { get; set; }
-            public bool HealthReportingPaused { get; set; }
         }
 
         public virtual async ValueTask DisposeAsync()
