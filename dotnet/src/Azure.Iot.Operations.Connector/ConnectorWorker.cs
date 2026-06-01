@@ -1024,8 +1024,13 @@ namespace Azure.Iot.Operations.Connector
 
             if (!_assetTasks.TryAdd(GetCompoundAssetName(compoundDeviceName, assetName), ctx))
             {
-                _logger.LogInformation(
-                    "Asset {AssetName} on device {DeviceName} (endpoint {InboundEndpointName}) is already being tracked; discarding duplicate runtime context before any branch starts.",
+                // Invariant violation: asset notifications are serialized per asset, so a runtime
+                // context should already have been removed (Deleted) before AssetAvailable runs
+                // again for the same asset. Reaching here means that serialization guarantee was
+                // broken (e.g. a future change). Bail out without starting any branch so we never
+                // run a second AssetClient that would clobber ADR status.
+                _logger.LogWarning(
+                    "Asset {AssetName} on device {DeviceName} (endpoint {InboundEndpointName}) is already being tracked; discarding duplicate runtime context before any branch starts. This indicates the per-asset notification serialization invariant was violated.",
                     assetName, deviceName, inboundEndpointName);
                 maCts.Dispose();
                 userCts.Dispose();
