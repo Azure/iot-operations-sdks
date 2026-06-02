@@ -36,9 +36,10 @@ namespace Azure.Iot.Operations.Opc2WotLib
 
             PropertyName = WotUtil.LegalizeName(variableName);
             ReadOnly = (uaVariable.AccessLevel & writeMask) == 0;
+            IsMandatory = uaVariable.IsMandatory;
         }
 
-        public WotProperty(string specName, string thingModelName, string propertyName, OpcUaNodeId dataTypeNodeId, bool readOnly, string? description)
+        public WotProperty(string specName, string thingModelName, string propertyName, OpcUaNodeId dataTypeNodeId, bool readOnly, bool isMandatory, string? description)
         {
             this.dataSchema = new WotDataSchemaPrimitive(dataTypeNodeId, description);
             this.browseNamespace = null;
@@ -51,11 +52,14 @@ namespace Azure.Iot.Operations.Opc2WotLib
 
             PropertyName = propertyName;
             ReadOnly = readOnly;
+            IsMandatory = isMandatory;
         }
 
         public string PropertyName { get; }
 
         public bool ReadOnly { get; }
+
+        public bool IsMandatory { get; }
 
         public bool UsesUnits { get => quantityKind != null; }
     }

@@ -21,14 +21,14 @@ namespace Azure.Iot.Operations.Opc2Wot
 
             var outDirOption = new Option<DirectoryInfo>("--outDir")
             {
-                Description = "Path to a folder for placing files that will each contain a collection of WoT Thing Models",
+                Description = "Path to a folder for placing files that will each contain a collection of WoT Things",
                 HelpName = "DIRPATH",
                 Required = true,
             };
 
             var integrateOption = new Option<bool>("--integrate")
             {
-                Description = "Integrate all referenced Thing Models into each Thing Model collection, making each output file self-contained",
+                Description = "Integrate all referenced Thing Models into each Thing collection, making each output file self-contained",
             };
 
             var inheritVarsOption = new Option<bool>("--inheritVars")
@@ -36,11 +36,17 @@ namespace Azure.Iot.Operations.Opc2Wot
                 Description = "Add a 'dov:includeInherited' property to root-level forms where appropriate, so that inherited variables are included in aggregate events and properties",
             };
 
-            var rootCommand = new RootCommand("Tool for converting OPC UA specs to WoT Thing Models for use in Akri");
+            var includeTDsOption = new Option<bool>("--includeTDs")
+            {
+                Description = "Include Thing Descriptions, in addition to Thing Models, in the Thing collection",
+            };
+
+            var rootCommand = new RootCommand("Tool for converting OPC UA specs to WoT Thing Models and Thing Descriptions for use in Akri");
             rootCommand.Add(nodeSetsOption);
             rootCommand.Add(outDirOption);
             rootCommand.Add(integrateOption);
             rootCommand.Add(inheritVarsOption);
+            rootCommand.Add(includeTDsOption);
 
             rootCommand.SetAction(parseResult =>
             {
@@ -50,6 +56,7 @@ namespace Azure.Iot.Operations.Opc2Wot
                     OutputDir = parseResult.GetValue(outDirOption)!,
                     Integrate = parseResult.GetValue(integrateOption),
                     InheritVars = parseResult.GetValue(inheritVarsOption),
+                    IncludeTDs = parseResult.GetValue(includeTDsOption),
                 });
             });
 

@@ -27,7 +27,7 @@ namespace Azure.Iot.Operations.Opc2WotLib
  // Copyright (c) Microsoft Corporation. 
  // Licensed under the MIT License 
             this.Write("\"");
-            this.Write(this.ToStringHelper.ToStringWithCulture(this.actionName));
+            this.Write(this.ToStringHelper.ToStringWithCulture(this.ActionName));
             this.Write("\": {\r\n");
  if (this.uaMethod.BrowseNamespace != null) { 
             this.Write("  \"dov:namespace\": \"");
@@ -61,7 +61,7 @@ namespace Azure.Iot.Operations.Opc2WotLib
             this.Write("/");
             this.Write(this.ToStringHelper.ToStringWithCulture(this.thingModelName));
             this.Write("/action/");
-            this.Write(this.ToStringHelper.ToStringWithCulture(this.actionName));
+            this.Write(this.ToStringHelper.ToStringWithCulture(this.ActionName));
             this.Write("\",\r\n      \"op\": \"invokeaction\"\r\n    }\r\n  ]\r\n}");
             return this.GenerationEnvironment.ToString();
         }

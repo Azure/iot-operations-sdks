@@ -38,7 +38,7 @@ namespace Azure.Iot.Operations.CodeGeneration
             }
             long contextTokenIndex = thing.Context?.TokenIndex ?? -1;
 
-            if (!TryValidateType(thing.Type))
+            if (!TryValidateType(thing.Type, out bool isDescription))
             {
                 hasError = true;
             }
@@ -54,6 +54,11 @@ namespace Azure.Iot.Operations.CodeGeneration
             }
 
             if (!TryValidateTypeRef(thing.TypeRef, thing.TypeRefPrefixType, dovContextPresent, platContextPresent, contextTokenIndex))
+            {
+                hasError = true;
+            }
+
+            if (!TryValidateSecurity(thing.SecurityDefinitions, thing.Security, isDescription))
             {
                 hasError = true;
             }
@@ -601,27 +606,38 @@ namespace Azure.Iot.Operations.CodeGeneration
             }
         }
 
-        private bool TryValidateType(ValueTracker<StringHolder>? type)
+        private bool TryValidateType(ValueTracker<StringHolder>? type, out bool isDescription)
         {
             if (type == null)
             {
-                errorReporter.ReportError(ErrorCondition.PropertyMissing, $"Thing Model is missing required '{TDThing.TypeName}' property.", -1);
+                errorReporter.ReportError(ErrorCondition.PropertyMissing, $"Thing is missing required '{TDThing.TypeName}' property.", -1);
+                isDescription = false;
                 return false;
             }
 
             if (string.IsNullOrWhiteSpace(type.Value.Value))
             {
-                errorReporter.ReportError(ErrorCondition.PropertyEmpty, $"Thing Model '{TDThing.TypeName}' property has empty value.", type.TokenIndex);
+                errorReporter.ReportError(ErrorCondition.PropertyEmpty, $"Thing '{TDThing.TypeName}' property has empty value.", type.TokenIndex);
+                isDescription = false;
                 return false;
             }
 
-            if (type.Value.Value != TDValues.TypeThingModel)
+            if (type.Value.Value == TDValues.TypeThingDescription)
             {
-                errorReporter?.ReportError(ErrorCondition.PropertyInvalid, $"Thing Model '{TDThing.TypeName}' property value '{type.Value.Value}' is not correct; value must be `{TDValues.TypeThingModel}`.", type.TokenIndex);
+                isDescription = true;
+                return true;
+            }
+            else if (type.Value.Value == TDValues.TypeThingModel)
+            {
+                isDescription = false;
+                return true;
+            }
+            else
+            {
+                errorReporter?.ReportError(ErrorCondition.PropertyInvalid, $"Thing '{TDThing.TypeName}' property value '{type.Value.Value}' is not correct; value must be `{TDValues.TypeThingDescription}` or `{TDValues.TypeThingModel}`.", type.TokenIndex);
+                isDescription = false;
                 return false;
             }
-
-            return true;
         }
 
         private bool TryValidateTitle(ValueTracker<StringHolder>? title)
@@ -699,6 +715,55 @@ namespace Azure.Iot.Operations.CodeGeneration
             return true;
         }
 
+        private bool TryValidateSecurity(MapTracker<TDAnything>? securityDefinitions, ValueTracker<StringHolder>? security, bool isDescription)
+        {
+            bool hasError = false;
+
+            if (!isDescription)
+            {
+                if (securityDefinitions != null)
+                {
+                    errorReporter.ReportError(ErrorCondition.PropertyUnsupported, $"Thing Model has '{TDThing.SecurityDefinitionsName}' property, which is not allowed in a Thing Model.", securityDefinitions.TokenIndex);
+                    hasError = true;
+                }
+                if (security != null)
+                {
+                    errorReporter.ReportError(ErrorCondition.PropertyUnsupported, $"Thing Model has '{TDThing.SecurityName}' property, which is not allowed in a Thing Model.", security.TokenIndex);
+                    hasError = true;
+                }
+                return !hasError;
+            }
+
+            if (securityDefinitions?.Entries == null)
+            {
+                errorReporter.ReportError(ErrorCondition.PropertyMissing, $"Thing Description is missing required '{TDThing.SecurityDefinitionsName}' property.", -1);
+                hasError = true;
+            }
+            if (security == null)
+            {
+                errorReporter.ReportError(ErrorCondition.PropertyMissing, $"Thing Description is missing required '{TDThing.SecurityName}' property.", -1);
+                hasError = true;
+            }
+            if (hasError)
+            {
+                return false;
+            }
+
+            if (string.IsNullOrWhiteSpace(security!.Value.Value))
+            {
+                errorReporter.ReportError(ErrorCondition.PropertyEmpty, $"Thing Description '{TDThing.SecurityName}' property has empty value.", security.TokenIndex);
+                return false;
+            }
+
+            if (!securityDefinitions!.Entries!.ContainsKey(security.Value.Value))
+            {
+                errorReporter.ReportError(ErrorCondition.ItemNotFound, $"Thing Description '{TDThing.SecurityName}' property value '{security.Value.Value}' is not present among the keys of the '{TDThing.SecurityDefinitionsName}' property.", security.TokenIndex, securityDefinitions.TokenIndex);
+                return false;
+            }
+
+            return true;
+        }
+
         private bool TryValidateLinks(IResolvingThing resolvingThing, bool dovContextPresent, bool platContextPresent, long contextTokenIndex, bool validateReferences)
         {
             if (resolvingThing.ParsedThing.Thing.Links?.Elements == null)
@@ -719,6 +784,7 @@ namespace Azure.Iot.Operations.CodeGeneration
                 }
 
                 if (link.Value.Rel.Value.Value != TDValues.RelationExtends &&
+                    link.Value.Rel.Value.Value != TDValues.RelationType &&
                     link.Value.Rel.Value.Value != TDValues.RelationReference &&
                     link.Value.Rel.Value.Value != TDValues.RelationReferenceLegacy &&
                     link.Value.Rel.Value.Value != TDValues.RelationTypedReference &&
@@ -759,6 +825,7 @@ namespace Azure.Iot.Operations.CodeGeneration
                 string requiredContentType = link.Value.Rel.Value.Value switch
                 {
                     TDValues.RelationExtends => TDValues.ContentTypeTmJson,
+                    TDValues.RelationType => TDValues.ContentTypeTmJson,
                     TDValues.RelationReference or TDValues.RelationReferenceLegacy => TDValues.ContentTypeTmJson,
                     TDValues.RelationTypedReference or TDValues.RelationTypedReferenceLegacy => TDValues.ContentTypeTmJson,
                     TDValues.RelationCapability or TDValues.RelationCapabilityLegacy => TDValues.ContentTypeTmJson,

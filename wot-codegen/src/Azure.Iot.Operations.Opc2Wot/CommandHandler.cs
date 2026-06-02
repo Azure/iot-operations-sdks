@@ -52,17 +52,34 @@ namespace Azure.Iot.Operations.Opc2Wot
         {
             ErrorLog errorLog = new(string.Empty);
 
-            DirectoryInfo rootDirInfo = new DirectoryInfo(Directory.GetCurrentDirectory());
+            List<(DirectoryInfo Root, string Pattern)> rootedPatterns = options.NodeSetsSpec
+                .Select(SplitGlobSpec)
+                .ToList();
 
-            Matcher matcher = new Matcher();
-            foreach (string pattern in options.NodeSetsSpec)
+            Dictionary<string, (DirectoryInfo Root, Matcher Matcher)> matchersByRoot = new();
+            foreach ((DirectoryInfo root, string pattern) in rootedPatterns)
             {
-                matcher.AddInclude(pattern);
+                string key = root.FullName;
+                if (!matchersByRoot.TryGetValue(key, out var entry))
+                {
+                    entry = (root, new Matcher());
+                    matchersByRoot[key] = entry;
+                }
+
+                entry.Matcher.AddInclude(pattern);
             }
 
-            PatternMatchingResult matchResult = matcher.Execute(new DirectoryInfoWrapper(rootDirInfo));
+            List<FileInfo> inputFiles = new();
+            foreach ((DirectoryInfo root, Matcher matcher) in matchersByRoot.Values)
+            {
+                PatternMatchingResult matchResult = matcher.Execute(new DirectoryInfoWrapper(root));
+                foreach (FilePatternMatch match in matchResult.Files)
+                {
+                    inputFiles.Add(new FileInfo(Path.Combine(root.FullName, match.Path)));
+                }
+            }
 
-            if (!matchResult.HasMatches)
+            if (inputFiles.Count == 0)
             {
                 AddUnlocatableError(ErrorCondition.ItemNotFound, $"No files match the given glob pattern(s): {string.Join(", ", options.NodeSetsSpec)}", errorLog);
                 return errorLog;
@@ -70,9 +87,8 @@ namespace Azure.Iot.Operations.Opc2Wot
 
             OpcUaGraph opcUaGraph = new OpcUaGraph();
 
-            foreach (FilePatternMatch match in matchResult.Files)
+            foreach (FileInfo inputFile in inputFiles)
             {
-                FileInfo inputFile = new FileInfo(Path.Combine(rootDirInfo.FullName, match.Path));
                 statusReceiver?.Invoke($"Processing file: {inputFile.FullName}", false);
                 string modelText = inputFile.OpenText().ReadToEnd();
                 opcUaGraph.AddNodeset(modelText);
@@ -94,7 +110,7 @@ namespace Azure.Iot.Operations.Opc2Wot
             {
                 errorLog.ClearRegistrations();
 
-                WotThingCollection thingCollection = new WotThingCollection(opcUaGraph.GetOpcUaModelInfo(modelUri), linkRelRuleEngine, options.Integrate, options.InheritVars);
+                WotThingCollection thingCollection = new WotThingCollection(opcUaGraph.GetOpcUaModelInfo(modelUri), linkRelRuleEngine, options.Integrate, options.InheritVars, options.IncludeTDs);
 
                 string thingText = thingCollection.TransformText();
 
@@ -103,8 +119,21 @@ namespace Azure.Iot.Operations.Opc2Wot
 
                 ValidateThing(thingText, errorLog, outFileName, validateReferences: options.Integrate);
 
-                statusReceiver?.Invoke($"Writing Thing Model for '{modelUri}' to '{outFileName}'", false);
-                File.WriteAllText(outFilePath, thingText);
+                List<string> thingTypes = new();
+                if (thingCollection.ThingDescriptions.Any())
+                {
+                    thingTypes.Add("Thing Descriptions");
+                }
+                if (thingCollection.ThingModels.Any())
+                {
+                    thingTypes.Add("Thing Models");
+                }
+
+                if (thingCollection.ThingDescriptions.Any() || thingCollection.ThingModels.Any())
+                {
+                    statusReceiver?.Invoke($"Writing {string.Join(" and ", thingTypes)} for '{modelUri}' to '{outFileName}'", false);
+                    File.WriteAllText(outFilePath, thingText);
+                }
             }
 
             if (errorLog.HasErrors)
@@ -192,6 +221,35 @@ namespace Azure.Iot.Operations.Opc2Wot
         private static void AddUnlocatableError(ErrorCondition condition, string message, ErrorLog errorLog)
         {
             errorLog.AddError(ErrorLevel.Error, condition, message, string.Empty, 0);
+        }
+
+        private static (DirectoryInfo Root, string Pattern) SplitGlobSpec(string spec)
+        {
+            string normalized = spec.Replace('\\', '/');
+            int firstWildcard = normalized.IndexOfAny(new[] { '*', '?', '[' });
+            int splitIndex = firstWildcard < 0
+                ? normalized.LastIndexOf('/')
+                : normalized.LastIndexOf('/', firstWildcard);
+
+            string rootPart;
+            string patternPart;
+            if (splitIndex < 0)
+            {
+                rootPart = ".";
+                patternPart = normalized;
+            }
+            else
+            {
+                rootPart = normalized.Substring(0, splitIndex);
+                patternPart = normalized.Substring(splitIndex + 1);
+                if (rootPart.Length == 0)
+                {
+                    rootPart = "/";
+                }
+            }
+
+            string fullRoot = Path.GetFullPath(rootPart);
+            return (new DirectoryInfo(fullRoot), patternPart);
         }
     }
 }

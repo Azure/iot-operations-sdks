@@ -28,9 +28,12 @@ namespace Azure.Iot.Operations.Opc2WotLib
             this.quantityKind = uaVariable.TryGetEngineeringUnits(out OpcUaVariable? engUnitsVariable) ? UnitMapper.GetQuantityKindFromUnitId(engUnitsVariable.UnitId) : null;
 
             EventName = WotUtil.LegalizeName(variableName);
+            IsMandatory = uaVariable.IsMandatory;
         }
 
         public string EventName { get; }
+
+        public bool IsMandatory { get; }
 
         public bool UsesUnits { get => quantityKind != null; }
     }
