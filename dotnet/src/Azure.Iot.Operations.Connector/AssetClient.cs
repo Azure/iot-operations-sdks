@@ -31,13 +31,13 @@ namespace Azure.Iot.Operations.Connector
 
         // Used to make getAndUpdate calls behave atomically so that a user does not accidentally update
         // an asset while another thread is in the middle of a getAndUpdate call.
-        private readonly SemaphoreSlim _semaphore = new(1, 1);
+        private readonly SemaphoreSlim _statusUpdateMutex = new(1, 1);
 
         // The last status this client successfully wrote to ADR. This connector is the sole authoritative
         // writer of its own asset status, so we use our local copy as the base for read-modify-write
         // cycles instead of re-reading: ADR's get-after-put is not read-your-writes consistent, so
-        // re-reading would let _semaphore-serialized reports clobber each other's contributions (e.g.
-        // three actions on one asset each reading a status missing the others' writes). Guarded by _semaphore.
+        // re-reading would let _statusUpdateMutex-serialized reports clobber each other's contributions (e.g.
+        // three actions on one asset each reading a status missing the others' writes). Guarded by _statusUpdateMutex.
         private AssetStatus? _lastWrittenStatus;
 
         // Per-(group, action) state for the management-action API. Lazily populated on first access.
@@ -89,7 +89,7 @@ namespace Azure.Iot.Operations.Connector
         /// </remarks>
         public async Task<AssetStatus> GetAndUpdateAssetStatusAsync(Func<AssetStatus, AssetStatus?> handler, bool onlyIfChanged = false, TimeSpan? commandTimeout = null, CancellationToken cancellationToken = default)
         {
-            await _semaphore.WaitAsync(cancellationToken);
+            await _statusUpdateMutex.WaitAsync(cancellationToken);
             try
             {
                 // Prefer our last-written status as the base: ADR's get-after-put is not read-your-writes
@@ -113,7 +113,7 @@ namespace Azure.Iot.Operations.Connector
             }
             finally
             {
-                _semaphore.Release();
+                _statusUpdateMutex.Release();
             }
         }
 
@@ -805,7 +805,7 @@ namespace Azure.Iot.Operations.Connector
 
             try
             {
-                _semaphore.Dispose();
+                _statusUpdateMutex.Dispose();
             }
             catch (ObjectDisposedException)
             {
