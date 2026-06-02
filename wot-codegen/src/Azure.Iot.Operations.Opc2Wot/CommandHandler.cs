@@ -69,13 +69,23 @@ namespace Azure.Iot.Operations.Opc2Wot
                 entry.Matcher.AddInclude(pattern);
             }
 
+            HashSet<string> seenInputPaths = new(StringComparer.OrdinalIgnoreCase);
             List<FileInfo> inputFiles = new();
             foreach ((DirectoryInfo root, Matcher matcher) in matchersByRoot.Values)
             {
+                if (!root.Exists)
+                {
+                    continue;
+                }
+
                 PatternMatchingResult matchResult = matcher.Execute(new DirectoryInfoWrapper(root));
                 foreach (FilePatternMatch match in matchResult.Files)
                 {
-                    inputFiles.Add(new FileInfo(Path.Combine(root.FullName, match.Path)));
+                    string fullPath = Path.GetFullPath(Path.Combine(root.FullName, match.Path));
+                    if (seenInputPaths.Add(fullPath))
+                    {
+                        inputFiles.Add(new FileInfo(fullPath));
+                    }
                 }
             }
 
