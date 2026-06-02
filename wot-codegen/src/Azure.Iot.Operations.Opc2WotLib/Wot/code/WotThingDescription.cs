@@ -14,7 +14,7 @@ namespace Azure.Iot.Operations.Opc2WotLib
         private string specName;
         private string thingName;
         private string typeRef;
-        private string? defininingModelRef;
+        private string? definingModelRef;
         private List<WotAction> actions;
         private List<WotProperty> properties;
         private List<WotEvent> events;
@@ -25,7 +25,7 @@ namespace Azure.Iot.Operations.Opc2WotLib
             this.specName = specName;
             this.thingName = WotUtil.LegalizeName(uaObject.DiscriminatedEffectiveName, specName);
             this.typeRef = uaObject.GetTypeRef();
-            this.defininingModelRef = uaObject.HasTypeDefinition != null && uaObject.HasTypeDefinition.NodeId.NsIndex != 0 ? GetModelRef(uaObject, uaObject.HasTypeDefinition) : null;
+            this.definingModelRef = uaObject.HasTypeDefinition != null && uaObject.HasTypeDefinition.NodeId.NsIndex != 0 ? GetModelRef(uaObject, uaObject.HasTypeDefinition) : null;
 
             this.actions = uaObject.Methods.OrderBy(m => m.EffectiveName).Select(m => new WotAction(specName, this.thingName, m)).ToList();
             this.properties = uaObject.VariableRecords.OrderBy(r => r.Key).Select(r => new WotProperty(specName, this.thingName, r.Value.UaVariable, r.Key, r.Value.ContainedIn, r.Value.Contains)).ToList();

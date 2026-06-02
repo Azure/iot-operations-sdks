@@ -37,9 +37,9 @@ namespace Azure.Iot.Operations.Opc2WotLib
             this.Write(this.ToStringHelper.ToStringWithCulture(this.typeRef));
             this.Write("\",\r\n  \"securityDefinitions\": {\r\n    \"basic_sc\": {\r\n      \"scheme\": \"basic\",\r\n    " +
                     "  \"in\": \"header\"\r\n    }\r\n  },\r\n  \"security\": \"basic_sc\",\r\n");
- if (this.defininingModelRef != null) { 
+ if (this.definingModelRef != null) { 
             this.Write("  \"links\": [\r\n    {\r\n      \"rel\": \"type\",\r\n      \"href\": \"");
-            this.Write(this.ToStringHelper.ToStringWithCulture(this.defininingModelRef));
+            this.Write(this.ToStringHelper.ToStringWithCulture(this.definingModelRef));
             this.Write("\",\r\n      \"type\": \"application/tm+json\"\r\n    }\r\n  ],\r\n");
  } 
  if (this.properties.Any() || this.events.Any()) { 

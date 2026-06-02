@@ -23,11 +23,11 @@
     }
   },
   "security": "basic_sc",
-<# if (this.defininingModelRef != null) { #>
+<# if (this.definingModelRef != null) { #>
   "links": [
     {
       "rel": "type",
-      "href": "<#=this.defininingModelRef#>",
+      "href": "<#=this.definingModelRef#>",
       "type": "application/tm+json"
     }
   ],
