@@ -9,10 +9,8 @@ namespace Azure.Iot.Operations.Connector
 {
     /// <summary>
     /// Raw bytes bundled with the content type and format indicator to emit on the wire.
-    /// Mirrors the Rust <c>BypassPayload</c>/<c>SerializedPayload</c> contract: the
-    /// command executor sources the response's content type from the serialized payload,
-    /// so carrying it on the value lets a handler's chosen content type flow end-to-end
-    /// instead of being flattened to a hardcoded default.
+    /// The command executor sources the response's content type from the serialized payload,
+    /// so carrying it on the value lets a handler's chosen content type flow end-to-end.
     /// </summary>
     internal sealed class BypassPayload
     {

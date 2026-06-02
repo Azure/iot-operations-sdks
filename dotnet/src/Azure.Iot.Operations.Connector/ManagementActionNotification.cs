@@ -10,17 +10,6 @@ namespace Azure.Iot.Operations.Connector
     /// <see cref="AssetClient.RecvManagementActionNotificationAsync(string, string, System.Threading.CancellationToken)"/>.
     /// Discriminated union — use pattern matching (<c>switch</c>) to dispatch.
     /// </summary>
-    /// <remarks>
-    /// The three common variants (<see cref="ManagementActionUpdated"/>,
-    /// <see cref="ManagementActionAssetUpdated"/>, <see cref="ManagementActionDeleted"/>)
-    /// mirror the Rust SDK's <c>DataOperationNotification</c> (Updated / AssetUpdated / Deleted).
-    /// <see cref="ManagementActionUpdatedWithNewExecutor"/> is management-action-specific
-    /// (datasets/events/streams don't have executors).
-    /// <para/>
-    /// TODO: When per-component notifications are added for datasets, events, and streams,
-    /// consider extracting the shared variants into a common base or generic type (e.g.
-    /// <c>ComponentNotification&lt;T&gt;</c>) so all component types share a consistent shape.
-    /// </remarks>
     internal abstract record ManagementActionNotification;
 
     /// <summary>

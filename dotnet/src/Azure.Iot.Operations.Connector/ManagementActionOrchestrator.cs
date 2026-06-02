@@ -15,11 +15,6 @@ namespace Azure.Iot.Operations.Connector
     /// dispatches incoming RPC requests to the user's <see cref="IManagementActionHandler"/>,
     /// reports config errors, and tears everything down when the asset goes away.
     /// </summary>
-    /// <remarks>
-    /// Extracted from <see cref="ConnectorWorker"/> (strategy-object pattern, like
-    /// <see cref="PollingTelemetryConnectorWorker"/> + <see cref="IDatasetSampler"/>) so the base
-    /// worker stays unaware of executors, action-loop semantics, and <see cref="ConfigError"/> merging.
-    /// </remarks>
     internal sealed class ManagementActionOrchestrator
     {
         private readonly IManagementActionHandlerFactory _factory;
@@ -133,8 +128,6 @@ namespace Azure.Iot.Operations.Connector
                             ActionName: action.Name,
                             Handler: handler);
 
-                        // Snapshot the initial validation so the loop applies it on entry without a
-                        // duplicate revalidation; the loop re-validates on every later notification.
                         actionTasks[key] = Task.Run(async () =>
                         {
                             ConfigError? initialError = await _factory.ValidateConfigurationAsync(

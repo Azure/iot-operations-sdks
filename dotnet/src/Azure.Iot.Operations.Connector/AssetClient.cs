@@ -644,7 +644,7 @@ namespace Azure.Iot.Operations.Connector
 
         /// <summary>
         /// Pause periodic runtime-health reporting for a management action so the next health event
-        /// reflects the re-validated definition. Matches Rust's <c>pause_and_refresh_health_version</c>.
+        /// reflects the re-validated definition.
         /// </summary>
         internal async Task PauseManagementActionRuntimeHealthReportingAsync(
             string managementGroupName,
@@ -660,15 +660,11 @@ namespace Azure.Iot.Operations.Connector
             await _healthReporter.PauseReportingManagementActionAsync(managementGroupName, managementActionName, cancellationToken);
         }
 
-        // ============================================================
-        // End of Management Action API
-        // ============================================================
-
         /// <summary>
         /// Build and start a <see cref="ManagementActionExecutor"/> for the given group/action from the
         /// cached asset definition. Returns <c>null</c> when the action is unknown or its request topic is
         /// missing/empty &mdash; callers should surface that as a config error, not a fault. The request
-        /// topic is taken verbatim from <see cref="AssetManagementGroupAction.Topic"/> (matches Rust).
+        /// topic is taken verbatim from <see cref="AssetManagementGroupAction.Topic"/>.
         /// </summary>
         private async Task<ManagementActionExecutor?> BuildAndStartExecutorAsync(
             string managementGroupName,
@@ -705,7 +701,7 @@ namespace Azure.Iot.Operations.Connector
                 managementActionName,
                 action.ActionType,
                 requestTopic,
-                serviceGroupId: string.Empty, // Match Rust: no shared subscription for management actions.
+                serviceGroupId: string.Empty,
                 executionTimeout,
                 topicTokenMap: new Dictionary<string, string>());
 
@@ -734,6 +730,10 @@ namespace Azure.Iot.Operations.Connector
                     new UnboundedChannelOptions { SingleReader = true, SingleWriter = false });
             public ManagementActionExecutor? CurrentExecutor { get; set; }
         }
+
+        // ============================================================
+        // End of Management Action API
+        // ============================================================
 
         public virtual async ValueTask DisposeAsync()
         {
