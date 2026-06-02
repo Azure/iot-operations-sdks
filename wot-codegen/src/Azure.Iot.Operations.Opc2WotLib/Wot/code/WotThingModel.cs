@@ -55,10 +55,6 @@ namespace Azure.Iot.Operations.Opc2WotLib
             this.properties = uaObjectType.VariableRecords.OrderBy(r => r.Key).Select(r => new WotProperty(specName, this.thingName, r.Value.UaVariable, r.Key, r.Value.ContainedIn, r.Value.Contains)).ToList();
             this.events = uaObjectType.VariableRecords.OrderBy(r => r.Key).Where(r => r.Value.IsDataVariable).Select(r => new WotEvent(specName, this.thingName, r.Value.UaVariable, r.Key, r.Value.ContainedIn, r.Value.Contains)).ToList();
 
-            this.optionalActionNames = this.actions.Where(a => !a.IsMandatory).Select(a => a.ActionName).ToList();
-            this.optionalPropertyNames = this.properties.Where(p => !p.IsMandatory).Select(p => p.PropertyName).ToList();
-            this.optionalEventNames = this.events.Where(e => !e.IsMandatory).Select(e => e.EventName).ToList();
-
             List<string> unitfulPropertyNames = this.properties.Where(p => p.UsesUnits).Select(p => p.PropertyName).ToList();
             List<string> unitfulEventNames = this.events.Where(e => e.UsesUnits).Select(e => e.EventName).ToList();
             foreach (string unitfulPropertyName in unitfulPropertyNames)
@@ -67,6 +63,10 @@ namespace Azure.Iot.Operations.Opc2WotLib
                 string description = $"Unit designator for {whichAffordances} with name {unitfulPropertyName}, expressed as a 2- or 3-character UN/ECE code";
                 this.properties.Add(new WotProperty(specName, this.thingName, $"{unitfulPropertyName}_EngineeringUnits", StringDataTypeNodeId, true, false, description));
             }
+
+            this.optionalActionNames = this.actions.Where(a => !a.IsMandatory).Select(a => a.ActionName).ToList();
+            this.optionalPropertyNames = this.properties.Where(p => !p.IsMandatory).Select(p => p.PropertyName).ToList();
+            this.optionalEventNames = this.events.Where(e => !e.IsMandatory).Select(e => e.EventName).ToList();
 
             this.areUnitsInUse = unitfulPropertyNames.Any();
         }
