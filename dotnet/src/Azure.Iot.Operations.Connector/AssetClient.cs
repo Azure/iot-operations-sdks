@@ -20,28 +20,22 @@ namespace Azure.Iot.Operations.Connector
         private readonly string _assetName;
         private readonly Device _device;
 
-        // Current asset revision; replaced by ApplyAssetUpdateAsync (serialized via _assetUpdateMutex) so
-        // the AssetClient outlives a single revision. volatile + atomic reference assignment lets lock-free
-        // readers (CurrentAsset, BuildAndStartExecutorAsync, health reporting) promptly observe the latest
-        // revision without tearing or taking the mutex.
+        // Current asset revision (see ApplyAssetUpdateAsync). volatile so lock-free readers promptly
+        // observe the latest revision without tearing or taking the mutex.
         private volatile Asset _asset;
         private readonly AssetRuntimeHealthReporter _healthReporter;
 
-        // Used to make getAndUpdate calls behave atomically so that a user does not accidentally update
-        // an asset while another thread is in the middle of a getAndUpdate call.
+        // Serializes GetAndUpdateAssetStatusAsync calls (see its remarks).
         private readonly SemaphoreSlim _statusUpdateMutex = new(1, 1);
 
-        // Base for read-modify-write status cycles. The connector is the sole writer of its own asset
-        // status, so our last write is the source of truth: we don't re-read ADR (whose get-after-put we
-        // don't assume is read-your-writes consistent), which would otherwise let _statusUpdateMutex-
-        // serialized reports clobber each other's contributions. Guarded by _statusUpdateMutex.
+        // Base for read-modify-write status cycles (rationale in GetAndUpdateAssetStatusAsync).
+        // Guarded by _statusUpdateMutex.
         private AssetStatus? _lastWrittenStatus;
 
         // Per-(group, action) state for the management-action API. Lazily populated on first access.
         private readonly ConcurrentDictionary<(string Group, string Action), ManagementActionState> _managementActionStates = new();
 
-        // Serializes ApplyAssetUpdateAsync against itself and per-action state mutations so a concurrent
-        // Get + Update can't race on _asset / _managementActionStates.
+        // Serializes ApplyAssetUpdateAsync against concurrent management-action state mutations.
         private readonly SemaphoreSlim _assetUpdateMutex = new(1, 1);
 
         // Signals the ManagementActionOrchestrator to discover newly-added actions after an asset update.
@@ -89,10 +83,9 @@ namespace Azure.Iot.Operations.Connector
             await _statusUpdateMutex.WaitAsync(cancellationToken);
             try
             {
-                // Prefer our last-written status as the base. The connector is the sole writer of its own
-                // asset status, so our last write is the source of truth; we don't rely on ADR's get-after-put
-                // being read-your-writes consistent, which would otherwise let serialized reports drop each
-                // other's contributions.
+                // Base off our last write, not a fresh ADR read: the connector is the sole writer of its
+                // own asset status, and re-reading risks dropping contributions if ADR's get-after-put
+                // isn't read-your-writes consistent.
                 AssetStatus currentStatus = _lastWrittenStatus?.DeepClone()
                     ?? await GetAssetStatusAsync(commandTimeout, cancellationToken);
 
@@ -747,9 +740,7 @@ namespace Azure.Iot.Operations.Connector
 
         private async ValueTask DisposeAsyncCore()
         {
-            // Stop and dispose any management-action executors we created on demand, and
-            // signal Deleted to any orchestrator currently parked in RecvManagementActionNotificationAsync
-            // so it can exit its per-action loop cleanly.
+            // Stop/dispose on-demand executors and signal Deleted so any parked orchestrator loop exits cleanly.
             foreach (KeyValuePair<(string Group, string Action), ManagementActionState> kvp in _managementActionStates)
             {
                 ManagementActionState state = kvp.Value;
