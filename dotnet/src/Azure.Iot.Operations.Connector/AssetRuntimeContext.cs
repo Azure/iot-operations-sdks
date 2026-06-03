@@ -18,7 +18,7 @@ namespace Azure.Iot.Operations.Connector
     /// </summary>
     internal sealed class AssetRuntimeContext : IAsyncDisposable
     {
-        public AssetClient AssetClient { get; }
+        public AssetClient AssetClient => OwnedArgs.AssetClient;
         public AssetAvailableEventArgs OwnedArgs { get; }
         public CancellationTokenSource MaCts { get; }
         public Task? MaTask { get; private set; }
@@ -28,7 +28,6 @@ namespace Azure.Iot.Operations.Connector
         public AssetAvailableEventArgs? UserArgs { get; private set; }
 
         public AssetRuntimeContext(
-            AssetClient assetClient,
             AssetAvailableEventArgs ownedArgs,
             CancellationTokenSource maCts,
             Task? maTask,
@@ -36,7 +35,6 @@ namespace Azure.Iot.Operations.Connector
             Task? userTask,
             AssetAvailableEventArgs? userArgs)
         {
-            AssetClient = assetClient;
             OwnedArgs = ownedArgs;
             MaCts = maCts;
             MaTask = maTask;

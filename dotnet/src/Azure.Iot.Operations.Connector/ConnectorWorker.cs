@@ -936,13 +936,13 @@ namespace Azure.Iot.Operations.Connector
                 // The device that owns this asset isn't registered yet (asset-available raced ahead
                 // of device-available, e.g. during startup churn). Buffer the asset and replay it
                 // when the device becomes available instead of dropping it permanently.
-                ConcurrentDictionary<string, Asset> pending = _pendingAssets.GetOrAdd(compoundDeviceName, _ => new());
-                pending[assetName] = asset;
+                ConcurrentDictionary<string, Asset> pendingAssetsForDevice = _pendingAssets.GetOrAdd(compoundDeviceName, _ => new());
+                pendingAssetsForDevice[assetName] = asset;
                 _logger.LogWarning("Received notification of asset with name {} becoming available on device {} with inbound endpoint name {}, but that device and/or inbound endpoint is not available yet. Buffering this asset until the device becomes available.", assetName, deviceName, inboundEndpointName);
 
                 // The device may have been registered concurrently between the check above and the
                 // buffer write. If so, reclaim the asset and process it now so it isn't stranded.
-                if (!_devices.TryGetValue(compoundDeviceName, out deviceContext) || !pending.TryRemove(assetName, out asset!))
+                if (!_devices.TryGetValue(compoundDeviceName, out deviceContext) || !pendingAssetsForDevice.TryRemove(assetName, out asset!))
                 {
                     return;
                 }
@@ -974,29 +974,24 @@ namespace Azure.Iot.Operations.Connector
                 return;
             }
 
-            // Long-lived per-asset runtime context. `ownedArgs` keeps the AssetClient alive across future
-            // Updated events and drives the management-action branch; the user-callback branch gets a
-            // separate `userArgs` rebuilt on each Updated so the user sees a fresh CancellationToken.
-            AssetAvailableEventArgs ownedArgs = new(deviceName, device, inboundEndpointName, assetName, asset, _leaderElectionClient, _adrClient!, this);
-
+            // Long-lived context owning the AssetClient (survives Updated events, drives the MA branch).
+            // The user-callback branch gets a separate `userArgs` rebuilt on each Updated for a fresh token.
+            AssetAvailableEventArgs assetClientOwnerArgs = new(deviceName, device, inboundEndpointName, assetName, asset, _leaderElectionClient, _adrClient!, this);
             CancellationTokenSource maCts = new();
             CancellationTokenSource userCts = new();
 
-            // Reserve the per-asset slot BEFORE starting any branch. Per-asset serialization means this
-            // TryAdd is the single point enforcing "exactly one AssetClient per asset" and should never
-            // fail. If it ever does, we must NOT start our branches: a second AssetClient would run its
-            // own loops and clobber the authoritative client's ADR status writes. Disposing the loser
-            // here, before any branch starts, guarantees it never touches ADR.
-            AssetRuntimeContext ctx = new(
-                assetClient: ownedArgs.AssetClient,
-                ownedArgs: ownedArgs,
+            // Reserve the per-asset slot BEFORE starting any branch. Per-asset serialization makes this
+            // TryAdd the single enforcer of "exactly one AssetClient per asset".
+            // Disposing the loser here guarantees it never touches ADR.
+            AssetRuntimeContext assetRuntimeCtx = new(
+                ownedArgs: assetClientOwnerArgs,
                 maCts: maCts,
                 maTask: null,
                 userCts: userCts,
                 userTask: null,
                 userArgs: null);
 
-            if (!_assetTasks.TryAdd(GetCompoundAssetName(compoundDeviceName, assetName), ctx))
+            if (!_assetTasks.TryAdd(GetCompoundAssetName(compoundDeviceName, assetName), assetRuntimeCtx))
             {
                 // Invariant violation: the prior context should have been removed (Deleted) before
                 // AssetAvailable runs again for the same asset. Bail out without starting any branch.
@@ -1005,8 +1000,8 @@ namespace Azure.Iot.Operations.Connector
                     assetName, deviceName, inboundEndpointName);
                 maCts.Dispose();
                 userCts.Dispose();
-                // Dispose the orphan AssetClient (ownedArgs owns it). No branch started, nothing to await.
-                _ = ownedArgs.DisposeAsync();
+                // Dispose the orphan AssetClient (assetClientOwnerArgs owns it). No branch started, nothing to await.
+                _ = assetClientOwnerArgs.DisposeAsync();
                 return;
             }
 
@@ -1016,21 +1011,21 @@ namespace Azure.Iot.Operations.Connector
             {
                 Task maTask = Task.Run(() => SafeInvokeAssetBranchAsync(
                     "ManagementActionHandling",
-                    ct => _managementActionOrchestrator.ServeActionsWhileAssetIsAvailableAsync(ownedArgs, ct),
+                    ct => _managementActionOrchestrator.ServeActionsWhileAssetIsAvailableAsync(assetClientOwnerArgs, ct),
                     maCts.Token,
                     assetName, deviceName, inboundEndpointName));
-                ctx.AttachMaTask(maTask);
+                assetRuntimeCtx.AttachMaTask(maTask);
             }
 
             if (WhileAssetIsAvailable != null)
             {
-                AssetAvailableEventArgs userArgs = new(deviceName, device, inboundEndpointName, assetName, asset, _leaderElectionClient, _adrClient!, ownedArgs.AssetClient);
+                AssetAvailableEventArgs userArgs = new(deviceName, device, inboundEndpointName, assetName, asset, _leaderElectionClient, _adrClient!, assetClientOwnerArgs.AssetClient);
                 Task userTask = Task.Run(() => SafeInvokeAssetBranchAsync(
                     "UserWhileAssetIsAvailableCallback",
                     ct => WhileAssetIsAvailable!.Invoke(userArgs, ct),
                     userCts.Token,
                     assetName, deviceName, inboundEndpointName));
-                ctx.SwapUserBranch(userCts, userTask, userArgs);
+                assetRuntimeCtx.SwapUserBranch(userCts, userTask, userArgs);
             }
         }
 
@@ -1042,14 +1037,14 @@ namespace Azure.Iot.Operations.Connector
         /// </summary>
         private void ReplayPendingAssets(string deviceName, string inboundEndpointName, string compoundDeviceName)
         {
-            if (!_pendingAssets.TryRemove(compoundDeviceName, out ConcurrentDictionary<string, Asset>? pending))
+            if (!_pendingAssets.TryRemove(compoundDeviceName, out ConcurrentDictionary<string, Asset>? pendingAssetsForDevice))
             {
-                return;
+                return; 
             }
 
-            foreach (string assetName in pending.Keys)
+            foreach (string assetName in pendingAssetsForDevice.Keys)
             {
-                if (pending.TryRemove(assetName, out Asset? bufferedAsset))
+                if (pendingAssetsForDevice.TryRemove(assetName, out Asset? bufferedAsset))
                 {
                     _logger.LogInformation("Replaying buffered asset {} on device {} (endpoint {}) now that the device is available.", assetName, deviceName, inboundEndpointName);
                     AssetAvailable(deviceName, inboundEndpointName, bufferedAsset, assetName);
