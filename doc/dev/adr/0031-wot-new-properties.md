@@ -7,10 +7,10 @@
 Since these ADRs were written, two related changes have been made to the WoT modeling vocabulary used by the AIO ProtocolCompiler:
 
 1. The two RDF term prefixes `dtv:` and `aov:` have been unified under a single new prefix `dov:` (the "Digital Operations Vocabulary"), bound to a new URI `http://azure.com/DigitalOperations/vocab#`.
-Both previous prefixes continue to be accepted for the specific set of terms where each had been employed prior to this change, so that legacy models remain valid; however, new vocabulary terms are defined only under `dov:`.
+   Both previous prefixes continue to be accepted for the specific set of terms where each had been employed prior to this change, so that legacy models remain valid; however, new vocabulary terms are defined only under `dov:`.
 
 2. Common Information Model (CIM) work has identified the need for additional Thing Model expressiveness that is not covered by the existing AIO Platform Binding.
-In particular, modelers need a way to:
+   In particular, modelers need a way to:
    * Carry free-form metadata at the Thing Model level and at the individual affordance level.
    * Declare named groups of affordances and assign individual affordances (actions, properties, and events) to those groups.
    * Attach a stable cross-modeling-system identifier ("propertyIRI") to each affordance.
