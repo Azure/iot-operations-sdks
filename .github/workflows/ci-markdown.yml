@@ -34,6 +34,12 @@ jobs:
     steps:
       - uses: actions/checkout@v6
 
+      # Linkspector uses Puppeteer, which requires a Chrome binary that is
+      # not present on the runner by default. Install it explicitly.
+      - name: Setup Chrome
+        id: chrome
+        uses: browser-actions/setup-chrome@v1
+
       # On PRs, detect whether the link-check config or workflow itself was
       # modified. If so, we want a full-repo scan (nofilter) instead of the
       # default per-PR-diff scan (added), since the change affects how every
@@ -50,6 +56,8 @@ jobs:
 
       - name: Run linkspector
         uses: umbrelladocs/action-linkspector@v1
+        env:
+          CHROME_BIN: ${{ steps.chrome.outputs.chrome-path }}
         with:
           config_file: .github/.linkspector.yml
           fail_on_error: true
