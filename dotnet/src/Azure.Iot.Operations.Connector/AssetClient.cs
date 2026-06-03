@@ -20,12 +20,10 @@ namespace Azure.Iot.Operations.Connector
         private readonly string _assetName;
         private readonly Device _device;
 
-        // Mutable: replaced by ApplyAssetUpdateAsync when the parent asset is updated, so that
-        // the AssetClient instance can outlive a single asset revision. Writes are serialized via
-        // _assetUpdateMutex below; reads from arbitrary public methods (e.g. ForwardSampledDatasetAsync)
-        // and lock-free paths (CurrentAsset, BuildAndStartExecutorAsync, health reporting) observe
-        // whatever revision is current. Reference assignment is atomic, so reads never tear; volatile
-        // guarantees a reader promptly observes the latest reference without taking _assetUpdateMutex.
+        // Current asset revision; replaced by ApplyAssetUpdateAsync (serialized via _assetUpdateMutex) so
+        // the AssetClient outlives a single revision. volatile + atomic reference assignment lets lock-free
+        // readers (CurrentAsset, BuildAndStartExecutorAsync, health reporting) promptly observe the latest
+        // revision without tearing or taking the mutex.
         private volatile Asset _asset;
         private readonly AssetRuntimeHealthReporter _healthReporter;
 
@@ -33,11 +31,10 @@ namespace Azure.Iot.Operations.Connector
         // an asset while another thread is in the middle of a getAndUpdate call.
         private readonly SemaphoreSlim _statusUpdateMutex = new(1, 1);
 
-        // The last status this client successfully wrote to ADR. This connector is the sole authoritative
-        // writer of its own asset status, so we use our local copy as the base for read-modify-write
-        // cycles instead of re-reading: ADR's get-after-put is not read-your-writes consistent, so
-        // re-reading would let _statusUpdateMutex-serialized reports clobber each other's contributions (e.g.
-        // three actions on one asset each reading a status missing the others' writes). Guarded by _statusUpdateMutex.
+        // Base for read-modify-write status cycles. The connector is the sole writer of its own asset
+        // status, so our last write is the source of truth: we don't re-read ADR (whose get-after-put we
+        // don't assume is read-your-writes consistent), which would otherwise let _statusUpdateMutex-
+        // serialized reports clobber each other's contributions. Guarded by _statusUpdateMutex.
         private AssetStatus? _lastWrittenStatus;
 
         // Per-(group, action) state for the management-action API. Lazily populated on first access.
@@ -92,8 +89,10 @@ namespace Azure.Iot.Operations.Connector
             await _statusUpdateMutex.WaitAsync(cancellationToken);
             try
             {
-                // Prefer our last-written status as the base: ADR's get-after-put is not read-your-writes
-                // consistent, so re-reading here can drop concurrent serialized contributions.
+                // Prefer our last-written status as the base. The connector is the sole writer of its own
+                // asset status, so our last write is the source of truth; we don't rely on ADR's get-after-put
+                // being read-your-writes consistent, which would otherwise let serialized reports drop each
+                // other's contributions.
                 AssetStatus currentStatus = _lastWrittenStatus?.DeepClone()
                     ?? await GetAssetStatusAsync(commandTimeout, cancellationToken);
 
