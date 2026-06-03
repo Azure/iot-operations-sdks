@@ -93,8 +93,7 @@ namespace Azure.Iot.Operations.Connector
                 // return the same reference, so comparing against the live object would always report "no change".
                 AssetStatus originalStatus = currentStatus.DeepClone();
                 AssetStatus? desiredStatus = handler.Invoke(currentStatus);
-                bool changed = desiredStatus != null && (!onlyIfChanged || !originalStatus.EqualTo(desiredStatus));
-                if (changed)
+                if (desiredStatus != null && (!onlyIfChanged || !originalStatus.EqualTo(desiredStatus))) // changed or forced update
                 {
                     AssetStatus updatedStatus = await UpdateAssetStatusAsync(desiredStatus!, commandTimeout, cancellationToken);
                     _lastWrittenStatus = desiredStatus!.DeepClone();
