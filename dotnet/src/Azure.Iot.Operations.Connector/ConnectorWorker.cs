@@ -1061,7 +1061,7 @@ namespace Azure.Iot.Operations.Connector
         private async Task AssetUpdatedAsync(string deviceName, string inboundEndpointName, string assetName, Asset? newAsset)
         {
             string compoundDeviceName = $"{deviceName}_{inboundEndpointName}";
-            string key = GetCompoundAssetName(compoundDeviceName, assetName);
+            string compoundAssetName = GetCompoundAssetName(compoundDeviceName, assetName);
 
             if (newAsset is null)
             {
@@ -1069,11 +1069,10 @@ namespace Azure.Iot.Operations.Connector
                 return;
             }
 
-            if (!_assetTasks.TryGetValue(key, out AssetRuntimeContext? ctx))
+            if (!_assetTasks.TryGetValue(compoundAssetName, out AssetRuntimeContext? assetRuntimeContext))
             {
-                // We weren't tracking it (e.g. user supplied neither a WhileAssetIsAvailable nor an
-                // action-handler factory). Fall back to the create path so the rest of the worker
-                // (device.Assets dictionary, etc.) stays consistent.
+                // No live runtime for this asset (no callback/orchestrator configured, or Created was
+                // never seen). Treat the update as a create so bookkeeping stays consistent.
                 AssetAvailable(deviceName, inboundEndpointName, newAsset, assetName);
                 return;
             }
@@ -1088,7 +1087,7 @@ namespace Azure.Iot.Operations.Connector
             //    swaps cached executors when an action's request topic changes; the MA branch keeps running.
             try
             {
-                await ctx.AssetClient.ApplyAssetUpdateAsync(newAsset);
+                await assetRuntimeContext.AssetClient.ApplyAssetUpdateAsync(newAsset);
             }
             catch (Exception ex)
             {
@@ -1096,9 +1095,9 @@ namespace Azure.Iot.Operations.Connector
             }
 
             // 2) Cancel and tear down the previous user-callback branch.
-            CancellationTokenSource oldUserCts = ctx.UserCts;
-            Task? oldUserTask = ctx.UserTask;
-            AssetAvailableEventArgs? oldUserArgs = ctx.UserArgs;
+            CancellationTokenSource oldUserCts = assetRuntimeContext.UserCts;
+            Task? oldUserTask = assetRuntimeContext.UserTask;
+            AssetAvailableEventArgs? oldUserArgs = assetRuntimeContext.UserArgs;
 
             try { oldUserCts.Cancel(); } catch (ObjectDisposedException) { }
             if (oldUserTask is not null)
@@ -1123,7 +1122,7 @@ namespace Azure.Iot.Operations.Connector
             Device? device = deviceContext?.Device;
             if (WhileAssetIsAvailable != null && device != null)
             {
-                newUserArgs = new AssetAvailableEventArgs(deviceName, device, inboundEndpointName, assetName, newAsset, _leaderElectionClient, _adrClient!, ctx.AssetClient);
+                newUserArgs = new AssetAvailableEventArgs(deviceName, device, inboundEndpointName, assetName, newAsset, _leaderElectionClient, _adrClient!, assetRuntimeContext.AssetClient);
                 AssetAvailableEventArgs capturedArgs = newUserArgs;
                 newUserTask = Task.Run(() => SafeInvokeAssetBranchAsync(
                     "UserWhileAssetIsAvailableCallback",
@@ -1132,7 +1131,7 @@ namespace Azure.Iot.Operations.Connector
                     assetName, deviceName, inboundEndpointName));
             }
 
-            ctx.SwapUserBranch(newUserCts, newUserTask, newUserArgs);
+            assetRuntimeContext.SwapUserBranch(newUserCts, newUserTask, newUserArgs);
         }
 
         /// <summary>
