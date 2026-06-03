@@ -832,9 +832,9 @@ namespace Azure.Iot.Operations.Connector
                 // Same device/endpoint identity: refresh the snapshot, keep the asset runtime running.
                 existing.Device = args.Device;
 
-                // Management-action-only connectors take responsibility for publishing healthy device
-                // status themselves (idempotent). Re-publish so a device update keeps Config populated.
-                if (_managementActionOrchestrator != null && WhileDeviceIsAvailable == null)
+                // When the user supplies no WhileDeviceIsAvailable callback, the SDK owns the device's
+                // baseline status (idempotent). Re-publish so a device update keeps Config populated.
+                if (WhileDeviceIsAvailable == null)
                 {
                     _ = Task.Run(() => PublishInitialHealthyDeviceStatusAsync(args.DeviceName, args.InboundEndpointName));
                 }
@@ -863,14 +863,9 @@ namespace Azure.Iot.Operations.Connector
                 // registered (startup churn). Such assets are buffered; replay them now.
                 ReplayPendingAssets(args.DeviceName, args.InboundEndpointName, compoundDeviceName);
 
-                // Polling/event connectors publish initial healthy device status through their
-                // user-supplied WhileDeviceIsAvailable callback (see PollingTelemetryConnectorWorker).
-                // Management-action-only connectors typically don't supply that callback, so without
-                // this branch DeviceStatus.Config stays null forever and downstream consumers
-                // (e.g. AzureDeviceRegistryClient.GetDeviceStatusAsync) only see "Config":null.
-                // When a ManagementAction orchestrator is wired up but no user device callback is
-                // provided, take responsibility for publishing the initial healthy status ourselves.
-                if (_managementActionOrchestrator != null && WhileDeviceIsAvailable == null)
+                // Device status is a device-lifecycle concern. When no WhileDeviceIsAvailable callback
+                // reports it, the SDK owns the baseline so DeviceStatus.Config never stays null. Idempotent.
+                if (WhileDeviceIsAvailable == null)
                 {
                     _ = Task.Run(() => PublishInitialHealthyDeviceStatusAsync(args.DeviceName, args.InboundEndpointName));
                 }
@@ -901,7 +896,7 @@ namespace Azure.Iot.Operations.Connector
 
                 await _adrClient.UpdateDeviceStatusAsync(deviceName, inboundEndpointName, current);
                 _logger.LogInformation(
-                    "Reported initial healthy device status for device {DeviceName} (endpoint {InboundEndpointName}) on behalf of the management-action orchestrator",
+                    "Reported initial healthy device status for device {DeviceName} (endpoint {InboundEndpointName})",
                     deviceName, inboundEndpointName);
             }
             catch (Exception ex)
