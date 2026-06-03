@@ -907,6 +907,36 @@ namespace Azure.Iot.Operations.Connector
             }
         }
 
+        /// <summary>
+        /// Publish a healthy <see cref="AssetStatus"/> baseline (<c>Config.Error = null</c>) so an
+        /// asset's <see cref="AssetStatus.Config"/> is never left null when the SDK owns its status.
+        /// Routed through <see cref="AssetClient.GetAndUpdateAssetStatusAsync"/> (not the ADR client
+        /// directly) so it shares the per-asset mutex and last-written-status cache with the
+        /// management-action orchestrator and can't clobber per-action error reporting. Only touches
+        /// <c>Config</c>; leaves Datasets/Events/Streams/ManagementGroups intact. Best-effort and
+        /// idempotent (<c>onlyIfChanged: true</c>): safe to call on both Created and Updated.
+        /// </summary>
+        private async Task PublishInitialHealthyAssetStatusAsync(AssetClient assetClient, string assetName)
+        {
+            try
+            {
+                await assetClient.GetAndUpdateAssetStatusAsync(
+                    current =>
+                    {
+                        current.Config ??= new();
+                        current.Config.LastTransitionTime = DateTime.UtcNow;
+                        current.Config.Error = null;
+                        return current;
+                    },
+                    onlyIfChanged: true);
+                _logger.LogInformation("Reported initial healthy asset status for asset {AssetName}", assetName);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Failed to publish initial healthy asset status for asset {AssetName}", assetName);
+            }
+        }
+
         private async Task DeviceUnavailableAsync(DeviceChangedEventArgs args, string compoundDeviceName)
         {
             await _adrClient!.UnobserveAssetsAsync(args.DeviceName, args.InboundEndpointName);
@@ -1027,6 +1057,14 @@ namespace Azure.Iot.Operations.Connector
                     assetName, deviceName, inboundEndpointName));
                 assetRuntimeCtx.SwapUserBranch(userCts, userTask, userArgs);
             }
+
+            // When the user supplies no WhileAssetIsAvailable callback, the SDK owns the asset's
+            // baseline status. Publish a healthy Config so AssetStatus.Config never stays null even
+            // when the asset has no (or not-yet-validated) management actions. Idempotent; fire-and-forget.
+            if (WhileAssetIsAvailable == null)
+            {
+                _ = Task.Run(() => PublishInitialHealthyAssetStatusAsync(assetClientOwnerArgs.AssetClient, assetName));
+            }
         }
 
         /// <summary>
@@ -1132,6 +1170,13 @@ namespace Azure.Iot.Operations.Connector
             }
 
             assetRuntimeContext.SwapUserBranch(newUserCts, newUserTask, newUserArgs);
+
+            // SDK owns the asset baseline when there's no user callback; re-publish so an asset
+            // update keeps Config populated. Idempotent; fire-and-forget.
+            if (WhileAssetIsAvailable == null)
+            {
+                _ = Task.Run(() => PublishInitialHealthyAssetStatusAsync(assetRuntimeContext.AssetClient, assetName));
+            }
         }
 
         /// <summary>
