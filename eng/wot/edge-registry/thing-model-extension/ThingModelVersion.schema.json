@@ -85,7 +85,7 @@
       "type": "string"
     },
     "thingModelDocument": {
-      "description": "The raw thing model document for this Version as bytes.",
+      "description": "The raw thing model document for this Version as base64-encoded bytes.",
       "type": "string",
       "contentEncoding": "base64"
     },

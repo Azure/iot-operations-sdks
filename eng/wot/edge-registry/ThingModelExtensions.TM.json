@@ -172,7 +172,7 @@
             ]
         },
         "deleteThingModelVersion": {
-            "description": "Delete an xRegistry Thing Model Version entity. Deletes cascade. [ASK: behavior when deleting the default Version \u2014 promote next-most-recent, or error?]",
+            "description": "Delete an xRegistry Thing Model Version entity. [ASK: behavior when deleting the default Version \u2014 promote next-most-recent, or error?]",
             "input": {
                 "type": "object",
                 "properties": {

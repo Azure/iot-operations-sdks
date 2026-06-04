@@ -4,7 +4,11 @@
     "description": "Request payload for creating a Schema Version.",
     "type": "object",
     "additionalProperties": false,
-    "required": [ "labels", "schemaDocument", "schemaLabels"],
+    "required": [
+        "labels",
+        "schemaDocument",
+        "schemaLabels"
+    ],
     "properties": {
         "groupId": {
             "description": "Group identifier for this Version.",
@@ -42,11 +46,6 @@
             "description": "Schema format identifier, e.g. `JsonSchema/draft-07`, `Protobuf/3`.",
             "type": "string"
         },
-        "schemaDocument": {
-            "type": "string",
-            "description": "Base64-encoded schema document content.",
-            "contentEncoding": "base64"
-        },
         "schemaLabels": {
             "description": "Queryable Key Value pairs to be added to the parent Schema. Labels can be used to store additional metadata about the Schema.",
             "type": "array",
@@ -54,6 +53,11 @@
                 "type": "object",
                 "$ref": "../core-xregistry/Label.schema.json"
             }
+        },
+        "schemaDocument": {
+            "type": "string",
+            "description": "Base64-encoded schema document content.",
+            "contentEncoding": "base64"
         }
     }
 }

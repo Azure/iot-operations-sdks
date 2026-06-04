@@ -4,7 +4,11 @@
     "description": "Request payload for creating a Thing Description Version.",
     "type": "object",
     "additionalProperties": false,
-    "required": ["labels", "thingDescriptionDocument", "thingDescriptionLabels"],
+    "required": [
+        "labels",
+        "thingDescriptionDocument",
+        "thingDescriptionLabels"
+    ],
     "properties": {
         "groupId": {
             "description": "Group identifier for this Version.",
@@ -42,11 +46,6 @@
             "description": "Thing description format identifier, e.g. `JSON-LD/1.1`.",
             "type": "string"
         },
-        "thingDescriptionDocument": {
-            "type": "string",
-            "description": "Base64-encoded thing description document content.",
-            "contentEncoding": "base64"
-        },
         "thingDescriptionLabels": {
             "description": "Queryable Key Value pairs to be added to the parent Thing Description. Labels can be used to store additional metadata about the Thing Description.",
             "type": "array",
@@ -54,6 +53,11 @@
                 "type": "object",
                 "$ref": "../core-xregistry/Label.schema.json"
             }
+        },
+        "thingDescriptionDocument": {
+            "type": "string",
+            "description": "Base64-encoded thing description document content.",
+            "contentEncoding": "base64"
         }
     }
 }

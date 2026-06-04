@@ -4,7 +4,7 @@
   "description": "A specific Version of a Resource.",
   "type": "object",
   "additionalProperties": false,
-  "required": [ "resourceId", "versionId", "xid", "epoch", "createdAt", "modifiedAt", "ancestor", "extensions", "labels" ],
+  "required": [ "resourceId", "versionId", "xid", "epoch", "createdAt", "modifiedAt", "ancestor", "extensions", "labels", "document", "documentHash" ],
   "properties": {
     "ancestor": {
       "description": "The versionId of this Version's ancestor, or this Version's versionId if it has no ancestor.",
@@ -16,6 +16,15 @@
     },
     "description": {
       "description": "A human-readable summary of the purpose of the entity.",
+      "type": "string"
+    },
+    "document": {
+      "description": "The raw document content for this Version as base64-encoded bytes. The interpretation (schema, thing description, thing model, …) is determined by the parent Resource's type.",
+      "type": "string",
+      "contentEncoding": "base64"
+    },
+    "documentHash": {
+      "description": "The hash of the document content for this Version.",
       "type": "string"
     },
     "documentation": {

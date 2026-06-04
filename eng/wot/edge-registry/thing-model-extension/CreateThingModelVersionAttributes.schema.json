@@ -4,7 +4,11 @@
     "description": "Request payload for creating a Thing Model Version.",
     "type": "object",
     "additionalProperties": false,
-    "required": ["labels", "thingModelDocument", "thingModelLabels"],
+    "required": [
+        "labels",
+        "thingModelDocument",
+        "thingModelLabels"
+    ],
     "properties": {
         "groupId": {
             "description": "Group identifier for this Version.",
@@ -42,11 +46,6 @@
             "description": "Thing model format identifier, e.g. `WoT-TM/1.1`.",
             "type": "string"
         },
-        "thingModelDocument": {
-            "type": "string",
-            "description": "Base64-encoded thing model document content.",
-            "contentEncoding": "base64"
-        },
         "thingModelLabels": {
             "description": "Queryable Key Value pairs to be added to the parent Thing Model. Labels can be used to store additional metadata about the Thing Model.",
             "type": "array",
@@ -54,6 +53,11 @@
                 "type": "object",
                 "$ref": "../core-xregistry/Label.schema.json"
             }
+        },
+        "thingModelDocument": {
+            "type": "string",
+            "description": "Base64-encoded thing model document content.",
+            "contentEncoding": "base64"
         }
     }
 }
