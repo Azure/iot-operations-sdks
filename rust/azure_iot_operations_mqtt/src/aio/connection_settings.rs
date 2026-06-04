@@ -69,6 +69,11 @@ pub struct MqttConnectionSettings {
     /// Path to a SAT file to be used for SAT auth
     #[builder(default = "None")]
     pub(crate) sat_file: Option<String>,
+    /// If true, disables Nagle's algorithm (sets TCP_NODELAY) on the socket.
+    /// This reduces latency for request/response protocols at the cost of
+    /// potentially lower throughput for bulk transfers. Defaults to `true`.
+    #[builder(default = "true")]
+    pub(crate) tcp_nodelay: bool,
 }
 
 impl MqttConnectionSettingsBuilder {

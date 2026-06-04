@@ -20,14 +20,25 @@ use crate::azure_mqtt::io::{ReadableStream, Reader, WritableStream, Writer};
 // TODO: Also take max packet size and forward it to `Reader`.
 pub async fn connect<BP>(
     addr: impl ToSocketAddrs,
+    tcp_nodelay: bool,
     reader_pool: &BP,
     writer_pool: &BP,
 ) -> io::Result<(Reader<BP>, Writer<BP>)>
 where
     BP: BufferPool,
 {
-    let stream = TcpStream::connect(addr).await?;
+    let stream = connect_tcp(addr, tcp_nodelay).await?;
     Ok(connect_inner(stream, reader_pool, writer_pool))
+}
+
+/// Establish a TCP connection and apply socket options.
+pub(crate) async fn connect_tcp(
+    addr: impl ToSocketAddrs,
+    tcp_nodelay: bool,
+) -> io::Result<TcpStream> {
+    let stream = TcpStream::connect(addr).await?;
+    stream.set_nodelay(tcp_nodelay)?;
+    Ok(stream)
 }
 
 pub(crate) fn connect_inner<BP>(

@@ -135,6 +135,7 @@ fn create_connection_transport_config(
     hostname: String,
     tcp_port: u16,
     timeout: Duration,
+    tcp_nodelay: bool,
 ) -> Result<ConnectionTransportConfig, ConnectionSettingsAdapterError> {
     let transport_type = if use_tls {
         let (client_cert, ca_trust_bundle) =
@@ -176,6 +177,7 @@ fn create_connection_transport_config(
     Ok(ConnectionTransportConfig {
         transport_type,
         timeout: Some(timeout),
+        tcp_nodelay,
     })
 }
 
@@ -195,6 +197,8 @@ pub struct AzureMqttConnectParameters {
     pub connect_properties: ConnectProperties,
     /// Connection timeout duration
     pub connection_timeout: Duration,
+    /// If true, disables Nagle's algorithm (sets TCP_NODELAY) on the socket.
+    pub tcp_nodelay: bool,
 
     /// properties used to create the `ConnectionTransportConfig` on demand
     ca_file: Option<String>,
@@ -235,6 +239,7 @@ impl AzureMqttConnectParameters {
                     outgoing_packets: outgoing_packets_tx,
                 },
                 timeout: Some(self.connection_timeout),
+                tcp_nodelay: self.tcp_nodelay,
             });
         }
 
@@ -247,6 +252,7 @@ impl AzureMqttConnectParameters {
             self.hostname.clone(),
             self.tcp_port,
             self.connection_timeout,
+            self.tcp_nodelay,
         )
     }
 }
@@ -327,6 +333,7 @@ impl MqttConnectionSettings {
             self.hostname.clone(),
             self.tcp_port,
             self.connection_timeout,
+            self.tcp_nodelay,
         )?;
 
         Ok((
@@ -346,6 +353,7 @@ impl MqttConnectionSettings {
                 tcp_port: self.tcp_port,
                 connect_properties,
                 connection_timeout: self.connection_timeout,
+                tcp_nodelay: self.tcp_nodelay,
                 #[cfg(feature = "test-utils")]
                 injected_packet_channels,
             },

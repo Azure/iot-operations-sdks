@@ -43,6 +43,7 @@ use crate::azure_mqtt::opensslext::ssl::{ConnectionTrafficSecrets, ExtractedSecr
 pub async fn connect<BP>(
     hostname: &str,
     port: u16,
+    tcp_nodelay: bool,
     config: ConnectionTransportTlsConfig,
     reader_pool: &BP,
     writer_pool: &BP,
@@ -50,7 +51,7 @@ pub async fn connect<BP>(
 where
     BP: BufferPool,
 {
-    Ok(match connect_inner(hostname, port, config).await? {
+    Ok(match connect_inner(hostname, port, tcp_nodelay, config).await? {
         Either::Left(tcp_stream) => tokio_tcp::connect_inner(tcp_stream, reader_pool, writer_pool),
 
         Either::Right(ssl_stream) => {
@@ -69,6 +70,7 @@ where
 pub(crate) async fn connect_inner(
     hostname: &str,
     port: u16,
+    tcp_nodelay: bool,
     config: ConnectionTransportTlsConfig,
 ) -> io::Result<Either<TcpStream, SslStream<TcpStream>>> {
     /// We haven't attempted to create a TLS connection yet, so whether the kernel supports TLS or not
@@ -91,7 +93,7 @@ pub(crate) async fn connect_inner(
 
         let connector = connector.build();
 
-        let tcp_stream = TcpStream::connect((hostname, port)).await?;
+        let tcp_stream = tokio_tcp::connect_tcp((hostname, port), tcp_nodelay).await?;
 
         let std_tcp_stream = {
             let fd = tcp_stream.as_fd();
@@ -128,7 +130,7 @@ pub(crate) async fn connect_inner(
 
         let connector = connector.build();
 
-        let tcp_stream = TcpStream::connect((hostname, port)).await?;
+        let tcp_stream = tokio_tcp::connect_tcp((hostname, port), tcp_nodelay).await?;
 
         let std_tcp_stream = {
             let fd = tcp_stream.as_fd();
@@ -147,7 +149,7 @@ pub(crate) async fn connect_inner(
     } else {
         debug_assert_eq!(method, TLS_METHOD_USERSPACE);
 
-        let tcp_stream = TcpStream::connect((hostname, port)).await?;
+        let tcp_stream = tokio_tcp::connect_tcp((hostname, port), tcp_nodelay).await?;
 
         let connector = connector.build().configure()?;
 
