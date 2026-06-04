@@ -1,35 +1,41 @@
 {
     "$schema": "https://json-schema.org/draft-07/schema",
     "title": "CreateSchemaVersionAttributes",
-    "description": "Request payload for creating a Schema version.",
+    "description": "Request payload for creating a Schema Version.",
     "type": "object",
     "additionalProperties": false,
-    "required": ["groupId", "schemaId", "labels", "schemaDocument"],
+    "required": [ "labels", "schemaDocument", "schemaLabels"],
     "properties": {
         "groupId": {
-            "type": "string"
-        },
-        "schemaId": {
+            "description": "Group identifier for this Version.",
             "type": "string"
         },
         "name": {
+            "description": "Human-readable name.",
             "type": "string"
         },
         "description": {
+            "description": "A human-readable summary of the purpose of the entity.",
             "type": "string"
         },
         "documentation": {
+            "description": "A URL to additional information about this entity.",
             "type": "string"
         },
         "labels": {
-            "type": "object", "additionalProperties": { "type": "string" }
+            "description": "Queryable Key Value pairs to be added to the Version. Labels can be used to store additional metadata about the Version.",
+            "type": "array",
+            "items": {
+                "type": "object",
+                "$ref": "../core-xregistry/Label.schema.json"
+            }
         },
         "ancestor": {
-            "description": "The versionId of this version's ancestor if it has an ancestor.",
+            "description": "The versionId of this Version's ancestor if it has an ancestor.",
             "type": "integer"
         },
         "contentType": {
-            "description": "Content type of the schema version.",
+            "description": "Content type of the schema Version.",
             "type": "string"
         },
         "format": {
@@ -40,6 +46,14 @@
             "type": "string",
             "description": "Base64-encoded schema document content.",
             "contentEncoding": "base64"
+        },
+        "schemaLabels": {
+            "description": "Queryable Key Value pairs to be added to the parent Schema. Labels can be used to store additional metadata about the Schema.",
+            "type": "array",
+            "items": {
+                "type": "object",
+                "$ref": "../core-xregistry/Label.schema.json"
+            }
         }
     }
 }

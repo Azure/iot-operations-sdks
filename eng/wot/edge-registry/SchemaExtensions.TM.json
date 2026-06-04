@@ -5,89 +5,36 @@
     ],
     "@type": "tm:ThingModel",
     "title": "EdgeRegistrySchemaExtensions",
-    "description": "Companion type definitions for the xRegistry Schema entity type. Provides typed schema definitions for SDK codegen targeting schema groups, schema metadata, and schema versions.",
+    "description": "Companion type definitions for the xRegistry Schema entity type. Provides typed schema definitions for SDK codegen targeting schema Groups, schema metadata, and schema Versions.",
     "links" : [{
         "rel": "tm:extends",
         "href": "./EdgeRegistry.TM.json#title=EdgeRegistry",
         "type": "application/tm+json"
     }],
     "actions": {
-        "getSchema": {
-            "description": "Retrieve an xRegistry Schema Resource entity.",
-            "input": {
-                "type": "object",
-                "properties": {
-                    "groupId": {
-                        "type": "string"
-                    },
-                    "schemaId": {
-                        "type": "string"
-                    }
-                },
-                "required": [ "groupId", "schemaId" ]
-            },
-            "output": {
-                "dtv:ref": "./schema-extension/Schema.schema.json"
-            },
-            "forms": [
-                {
-                    "dtv:topic": "adr/dtmi:ms:adr:EdgeRegistry;1/get/schema",
-                    "contentType": "application/json",
-                    "op": "invokeaction",
-                    "additionalResponses": [
-                        {
-                            "success": false,
-                            "schema": "SchemaExtensionError"
-                        }
-                    ]
-                }
-            ]
-        },
-        "createSchema": {
-            "description": "Create a new xRegistry Schema and default Version entity. Returns the created Schema entity with epoch=1.",
-            "input": {
-                "dtv:ref": "./schema-extension/CreateSchemaAttributes.schema.json"
-            },
-            "output": {
-                "dtv:ref": "./schema-extension/Schema.schema.json"
-            },
-            "forms": [
-                {
-                    "dtv:topic": "adr/dtmi:ms:adr:EdgeRegistry;1/create/schema",
-                    "contentType": "application/json",
-                    "op": "invokeaction",
-                    "additionalResponses": [
-                        {
-                            "success": false,
-                            "schema": "SchemaExtensionError"
-                        }
-                    ]
-                }
-            ]
-        },
         "getSchemaVersion": {
             "description": "Retrieve an xRegistry Schema Version entity.",
             "input": {
                 "type": "object",
                 "properties": {
                     "groupId": {
-                        "type": "string"
-                    },
-                    "schemaId": {
+                        "description": "Group identifier. Uses the default if not specified.",
                         "type": "string"
                     },
                     "versionId": {
+                        "description": "Version identifier. Returns the default Version if not specified.",
                         "type": "integer"
                     }
                 },
-                "required": [ "groupId", "schemaId", "versionId"]
+                "required": [ ]
             },
             "output": {
+                "description": "The Schema Version entity.",
                 "dtv:ref": "./schema-extension/SchemaVersion.schema.json"
             },
             "forms": [
                 {
-                    "dtv:topic": "adr/dtmi:ms:adr:EdgeRegistry;1/get/schema/version",
+                    "dtv:topic": "aio/registry/schemaExtension/get/schemagroups/schemas/{ex:schemaId}/versions/version",
                     "contentType": "application/json",
                     "op": "invokeaction",
                     "additionalResponses": [
@@ -100,16 +47,42 @@
             ]
         },
         "createSchemaVersion": {
-            "description": "Create a new xRegistry Schema Version entity under the specified schema. Returns the created version entity with epoch=1.",
+            "description": "Create a new xRegistry Schema Version entity under the specified schema. Returns the created Version entity with epoch=1.",
             "input": {
+                "description": "Attributes needed to create a Schema Version.",
                 "dtv:ref": "./schema-extension/CreateSchemaVersionAttributes.schema.json"
             },
             "output": {
+                "description": "The Schema Version entity.",
                 "dtv:ref": "./schema-extension/SchemaVersion.schema.json"
             },
             "forms": [
                 {
-                    "dtv:topic": "adr/dtmi:ms:adr:EdgeRegistry;1/create/schema/version",
+                    "dtv:topic": "aio/registry/schemaExtension/create/schemagroups/schemas/{ex:schemaId}/versions/version",
+                    "contentType": "application/json",
+                    "op": "invokeaction",
+                    "additionalResponses": [
+                        {
+                            "success": false,
+                            "schema": "SchemaExtensionError"
+                        }
+                    ]
+                }
+            ]
+        },
+        "createOrGetSchemaVersion": {
+            "description": "Create a new xRegistry Schema Version entity under the specified schema if the document doesn't already exist as a current Version. Returns the created Version entity or the most recent matching Version entity.",
+            "input": {
+                "description": "Attributes needed to create a Schema Version.",
+                "dtv:ref": "./schema-extension/CreateSchemaVersionAttributes.schema.json"
+            },
+            "output": {
+                "description": "The Created or document identical existing Schema Version entity.",
+                "dtv:ref": "./schema-extension/SchemaVersion.schema.json"
+            },
+            "forms": [
+                {
+                    "dtv:topic": "aio/registry/schemaExtension/createOrGet/schemagroups/schemas/{ex:schemaId}/versions/version",
                     "contentType": "application/json",
                     "op": "invokeaction",
                     "additionalResponses": [
@@ -122,25 +95,26 @@
             ]
         },
         "listSchemaVersions": {
-            "description": "List all Version IDs for a given Schema entity.",
+            "description": "List all Version IDs for a Schema.",
             "input": {
                 "type": "object",
                 "properties": {
                     "groupId": {
-                        "type": "string"
-                    },
-                    "schemaId": {
+                        "description": "Group identifier. Uses the default if not specified.",
                         "type": "string"
                     }
                 },
-                "required": [ "groupId", "schemaId"]
+                "required": [ ]
             },
             "output": {
+                "description": "List of Version identifiers.",
                 "type": "object",
                 "properties": {
                     "ids": {
+                        "description": "List of Version identifiers.",
                         "type": "array",
                         "items": {
+                            "description": "Version identifier.",
                             "type": "integer"
                         }
                     }
@@ -149,7 +123,7 @@
             },
             "forms": [
                 {
-                    "dtv:topic": "adr/dtmi:ms:adr:EdgeRegistry;1/list/schema/versions",
+                    "dtv:topic": "aio/registry/schemaExtension/list/schemagroups/schemas/{ex:schemaId}/versions",
                     "contentType": "application/json",
                     "op": "invokeaction",
                     "additionalResponses": [
@@ -184,12 +158,12 @@
         "SchemaGroupType": {
             "type": "string",
             "const": "schemagroups",
-            "description": "Group type used in xId for xRegistry Schema groups."
+            "description": "Group type used in xId for xRegistry Schema Groups."
         },
         "SchemaResourceType": {
             "type": "string",
             "const": "schemas",
-            "description": "Resource type used in xId for xRegistry Schema resources."
+            "description": "Resource type used in xId for xRegistry Schema Resources."
         },
         "SchemaExtensionError": {
             "type": "object",

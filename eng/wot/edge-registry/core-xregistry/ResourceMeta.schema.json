@@ -6,15 +6,15 @@
   "required": [ "id", "xid", "epoch", "defaultVersionId", "createdAt", "modifiedAt", "extensions", "labels" ],
   "properties": {
     "createdAt": {
-      "description": "The 'createdAt' Field.",
+      "description": "The date/time of when the entity was created.",
       "type": "string", "format": "date-time"
     },
     "defaultVersionId": {
-      "description": "The 'defaultVersionId' Field.",
+      "description": "The versionId of the default Version of the Resource.",
       "type": "string"
     },
     "epoch": {
-      "description": "The 'epoch' Field.",
+      "description": "A numeric value used to determine whether an entity has been modified.",
       "type": "integer"
     },
     "extensions": {
@@ -23,15 +23,19 @@
       "contentEncoding": "base64" }
     },
     "labels": {
-      "description": "The 'labels' Field.",
-      "type": "object", "additionalProperties": { "type": "string" }
+      "description": "A mechanism in which additional metadata about the entity can be stored without changing the model definition of the entity. Labels can be used for querying.",
+      "type": "array",
+      "items": {
+          "type": "object",
+          "$ref": "Label.schema.json"
+      }
     },
     "id": {
-      "description": "Resource identifier within the group.",
+      "description": "Resource identifier.",
       "type": "string"
     },
     "modifiedAt": {
-      "description": "The 'modifiedAt' Field.",
+      "description": "The date/time of when the entity was last updated.",
       "type": "string", "format": "date-time"
     },
     "xid": {

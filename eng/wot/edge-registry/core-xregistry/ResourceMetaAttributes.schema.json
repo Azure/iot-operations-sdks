@@ -11,11 +11,15 @@
       "contentEncoding": "base64" }
     },
     "labels": {
-      "description": "The 'labels' Field.",
-      "type": "object", "additionalProperties": { "type": "string" }
+      "description": "A mechanism in which additional metadata about the entity can be stored without changing the model definition of the entity. Labels can be used for querying.",
+      "type": "array",
+      "items": {
+          "type": "object",
+          "$ref": "Label.schema.json"
+      }
     },
     "id": {
-      "description": "Resource identifier within the group.",
+      "description": "Resource identifier.",
       "type": "string"
     }
   }

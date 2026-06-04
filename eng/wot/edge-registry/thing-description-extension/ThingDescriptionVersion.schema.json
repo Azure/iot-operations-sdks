@@ -1,13 +1,13 @@
 {
   "$schema": "https://json-schema.org/draft-07/schema",
   "title": "ThingDescriptionVersion",
-  "description": "A specific version of a thing description.",
+  "description": "A specific Version of a thing description.",
   "type": "object",
   "additionalProperties": false,
   "required": [ "extensions", "version"],
   "properties": {
     "version": {
-      "description": "The generic version entity.",
+      "description": "The generic Version entity.",
       "$ref": "../core-xregistry/Version.schema.json"
     },
     "extensions": {
