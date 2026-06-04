@@ -1,18 +1,97 @@
 {
   "$schema": "https://json-schema.org/draft-07/schema",
   "title": "ThingDescriptionVersion",
-  "description": "A specific Version of a thing description.",
+  "description": "A specific Version of a Thing Description. Self-contained: combines the generic Version fields and the thing-description-specific extension fields into one schema, with integer-typed versionId and ancestor.",
   "type": "object",
   "additionalProperties": false,
-  "required": [ "extensions", "version"],
+  "required": [
+    "resourceId",
+    "versionId",
+    "xid",
+    "epoch",
+    "createdAt",
+    "modifiedAt",
+    "ancestor",
+    "extensions",
+    "labels",
+    "thingDescriptionDocument",
+    "thingDescriptionDocumentHash"
+  ],
   "properties": {
-    "version": {
-      "description": "The generic Version entity.",
-      "$ref": "../core-xregistry/Version.schema.json"
+    "ancestor": {
+      "description": "The versionId of this Version's ancestor, or this Version's versionId if it has no ancestor.",
+      "type": "integer"
+    },
+    "createdAt": {
+      "description": "The date/time of when the entity was created.",
+      "type": "string",
+      "format": "date-time"
+    },
+    "description": {
+      "description": "A human-readable summary of the purpose of the entity.",
+      "type": "string"
+    },
+    "documentation": {
+      "description": "A URL to additional information about this entity.",
+      "type": "string"
+    },
+    "epoch": {
+      "description": "A numeric value used to determine whether an entity has been modified.",
+      "type": "integer"
     },
     "extensions": {
-      "description": "Additional fields and field guarantees for the thing description extension.",
-      "$ref": "ThingDescriptionVersionExtensions.schema.json"
+      "description": "Extension-specific attributes.",
+      "type": "object",
+      "additionalProperties": {
+        "type": "string",
+        "contentEncoding": "base64"
+      }
+    },
+    "labels": {
+      "description": "A mechanism in which additional metadata about the entity can be stored without changing the model definition of the entity. Labels can be used for querying.",
+      "type": "array",
+      "items": {
+        "type": "object",
+        "$ref": "../core-xregistry/Label.schema.json"
+      }
+    },
+    "modifiedAt": {
+      "description": "The date/time of when the entity was last updated.",
+      "type": "string",
+      "format": "date-time"
+    },
+    "name": {
+      "description": "Human-readable name.",
+      "type": "string"
+    },
+    "resourceId": {
+      "description": "Thing Description (Resource) identifier.",
+      "type": "string"
+    },
+    "versionId": {
+      "description": "Version identifier.",
+      "type": "integer"
+    },
+    "xid": {
+      "description": "Full XID path.",
+      "type": "string"
+    },
+    "contentType": {
+      "description": "Content type of the thing description Version.",
+      "type": "string"
+    },
+    "format": {
+      "description": "Thing description format identifier, e.g. `JSON-LD/1.1`.",
+      "type": "string"
+    },
+    "thingDescriptionDocument": {
+      "description": "The raw thing description document for this Version as bytes.",
+      "type": "string",
+      "contentEncoding": "base64"
+    },
+    "thingDescriptionDocumentHash": {
+      "description": "The hash of the thing description document for this Version.",
+      "type": "string"
     }
   }
 }

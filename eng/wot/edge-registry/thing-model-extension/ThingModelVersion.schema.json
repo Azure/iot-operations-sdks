@@ -1,7 +1,7 @@
 {
   "$schema": "https://json-schema.org/draft-07/schema",
-  "title": "SchemaVersion",
-  "description": "A specific Version of a Schema. Self-contained: combines the generic Version fields and the schema-specific extension fields into one schema, with integer-typed versionId and ancestor.",
+  "title": "ThingModelVersion",
+  "description": "A specific Version of a Thing Model. Self-contained: combines the generic Version fields and the thing-model-specific extension fields into one schema, with integer-typed versionId and ancestor.",
   "type": "object",
   "additionalProperties": false,
   "required": [
@@ -14,8 +14,8 @@
     "ancestor",
     "extensions",
     "labels",
-    "schemaDocument",
-    "schemaDocumentHash"
+    "thingModelDocument",
+    "thingModelDocumentHash"
   ],
   "properties": {
     "ancestor": {
@@ -65,7 +65,7 @@
       "type": "string"
     },
     "resourceId": {
-      "description": "Schema (Resource) identifier.",
+      "description": "Thing Model (Resource) identifier.",
       "type": "string"
     },
     "versionId": {
@@ -77,20 +77,20 @@
       "type": "string"
     },
     "contentType": {
-      "description": "Content type of the schema Version.",
+      "description": "Content type of the thing model Version.",
       "type": "string"
     },
     "format": {
-      "description": "Schema format identifier, e.g. `JsonSchema/draft-07`, `Protobuf/3`.",
+      "description": "Thing model format identifier, e.g. `WoT-TM/1.1`.",
       "type": "string"
     },
-    "schemaDocument": {
-      "description": "The raw schema document for this Version as bytes.",
+    "thingModelDocument": {
+      "description": "The raw thing model document for this Version as bytes.",
       "type": "string",
       "contentEncoding": "base64"
     },
-    "schemaDocumentHash": {
-      "description": "The hash of the schema document for this Version.",
+    "thingModelDocumentHash": {
+      "description": "The hash of the thing model document for this Version.",
       "type": "string"
     }
   }

@@ -1,10 +1,10 @@
 {
     "$schema": "https://json-schema.org/draft-07/schema",
-    "title": "CreateThingDescriptionVersionAttributes",
-    "description": "Request payload for creating a Thing Description Version.",
+    "title": "CreateThingModelVersionAttributes",
+    "description": "Request payload for creating a Thing Model Version.",
     "type": "object",
     "additionalProperties": false,
-    "required": ["labels", "thingDescriptionDocument", "thingDescriptionLabels"],
+    "required": ["labels", "thingModelDocument", "thingModelLabels"],
     "properties": {
         "groupId": {
             "description": "Group identifier for this Version.",
@@ -35,20 +35,20 @@
             "type": "integer"
         },
         "contentType": {
-            "description": "Content type of the thing description Version.",
+            "description": "Content type of the thing model Version.",
             "type": "string"
         },
         "format": {
-            "description": "Thing description format identifier, e.g. `JSON-LD/1.1`.",
+            "description": "Thing model format identifier, e.g. `WoT-TM/1.1`.",
             "type": "string"
         },
-        "thingDescriptionDocument": {
+        "thingModelDocument": {
             "type": "string",
-            "description": "Base64-encoded thing description document content.",
+            "description": "Base64-encoded thing model document content.",
             "contentEncoding": "base64"
         },
-        "thingDescriptionLabels": {
-            "description": "Queryable Key Value pairs to be added to the parent Thing Description. Labels can be used to store additional metadata about the Thing Description.",
+        "thingModelLabels": {
+            "description": "Queryable Key Value pairs to be added to the parent Thing Model. Labels can be used to store additional metadata about the Thing Model.",
             "type": "array",
             "items": {
                 "type": "object",

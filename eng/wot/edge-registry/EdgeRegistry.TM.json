@@ -61,6 +61,30 @@
                 }
             ]
         },
+        "createResource": {
+            "description": "Create a new xRegistry Resource entity. Returns the created Resource with epoch=1.",
+            "input": {
+                "dtv:ref": "./core-xregistry/CreateResourceRequest.schema.json",
+                "description": "The attributes needed to create the Resource entity."
+            },
+            "output": {
+                "dtv:ref": "./core-xregistry/Resource.schema.json",
+                "description": "The Resource entity."
+            },
+            "forms": [
+                {
+                    "dtv:topic": "aio/registry/create/{ex:groupType}/{ex:resourceType}/{ex:resourceId}",
+                    "contentType": "application/json",
+                    "op": "invokeaction",
+                    "additionalResponses": [
+                        {
+                            "success": false,
+                            "schema": "EdgeRegistryError"
+                        }
+                    ]
+                }
+            ]
+        },
         "getResource": {
             "description": "Retrieve an xRegistry Resource entity.",
             "input": {
@@ -80,6 +104,30 @@
             "forms": [
                 {
                     "dtv:topic": "aio/registry/get/{ex:groupType}/{ex:resourceType}/{ex:resourceId}",
+                    "contentType": "application/json",
+                    "op": "invokeaction",
+                    "additionalResponses": [
+                        {
+                            "success": false,
+                            "schema": "EdgeRegistryError"
+                        }
+                    ]
+                }
+            ]
+        },
+        "createVersion": {
+            "description": "Create a new xRegistry Version entity under the specified Resource. The parent Resource is implicitly created if it doesn't already exist. Create is strictly idempotent: if every field matches the latest Version of the Resource (including labels), the latest Version is returned unchanged; otherwise a new Version is created.",
+            "input": {
+                "dtv:ref": "./core-xregistry/CreateVersionRequest.schema.json",
+                "description": "The attributes needed to create the Version entity."
+            },
+            "output": {
+                "dtv:ref": "./core-xregistry/Version.schema.json",
+                "description": "The created or matching existing Version entity."
+            },
+            "forms": [
+                {
+                    "dtv:topic": "aio/registry/create/{ex:groupType}/{ex:resourceType}/{ex:resourceId}/versions/{ex:versionId}",
                     "contentType": "application/json",
                     "op": "invokeaction",
                     "additionalResponses": [
@@ -300,6 +348,133 @@
             "forms": [
                 {
                     "dtv:topic": "aio/registry/list/{ex:groupType}/{ex:resourceType}/{ex:resourceId}/versions",
+                    "contentType": "application/json",
+                    "op": "invokeaction",
+                    "additionalResponses": [
+                        {
+                            "success": false,
+                            "schema": "EdgeRegistryError"
+                        }
+                    ]
+                }
+            ]
+        },
+        "listVersionsWithLabel": {
+            "description": "List xRegistry Version IDs for a Resource, filtered by a label match.",
+            "input": {
+                "type": "object",
+                "properties": {
+                    "groupId": {
+                        "description": "Group identifier. Uses the default if not specified.",
+                        "type": "string"
+                    },
+                    "labelKey": {
+                        "description": "Label key.",
+                        "type": "string"
+                    },
+                    "labelValue": {
+                        "description": "Label value.",
+                        "type": "string"
+                    }
+                },
+                "required": ["labelKey", "labelValue"]
+            },
+            "output": {
+                "description": "List of Version identifiers.",
+                "type": "object",
+                "properties": {
+                    "ids": {
+                        "description": "List of Version identifiers.",
+                        "type": "array",
+                        "items": {
+                            "description": "Version identifier.",
+                            "type": "string"
+                        }
+                    }
+                },
+                "required": ["ids"]
+            },
+            "forms": [
+                {
+                    "dtv:topic": "aio/registry/listWithLabel/{ex:groupType}/{ex:resourceType}/{ex:resourceId}/versions",
+                    "contentType": "application/json",
+                    "op": "invokeaction",
+                    "additionalResponses": [
+                        {
+                            "success": false,
+                            "schema": "EdgeRegistryError"
+                        }
+                    ]
+                }
+            ]
+        },
+        "deleteGroup": {
+            "description": "Delete an xRegistry Group entity. Deletes cascade: all Resources contained in the Group and all of their Versions are deleted.",
+            "input": {
+                "type": "object",
+                "properties": {
+                    "groupId": {
+                        "type": "string",
+                        "description": "Group identifier. Uses the default if not specified."
+                    }
+                },
+                "required": [ ]
+            },
+            "forms": [
+                {
+                    "dtv:topic": "aio/registry/delete/{ex:groupType}/group",
+                    "contentType": "application/json",
+                    "op": "invokeaction",
+                    "additionalResponses": [
+                        {
+                            "success": false,
+                            "schema": "EdgeRegistryError"
+                        }
+                    ]
+                }
+            ]
+        },
+        "deleteResource": {
+            "description": "Delete an xRegistry Resource entity. Deletes cascade: all Versions of the Resource are deleted.",
+            "input": {
+                "type": "object",
+                "properties": {
+                    "groupId": {
+                        "description": "Group identifier. Uses the default if not specified.",
+                        "type": "string"
+                    }
+                },
+                "required": [ ]
+            },
+            "forms": [
+                {
+                    "dtv:topic": "aio/registry/delete/{ex:groupType}/{ex:resourceType}/{ex:resourceId}",
+                    "contentType": "application/json",
+                    "op": "invokeaction",
+                    "additionalResponses": [
+                        {
+                            "success": false,
+                            "schema": "EdgeRegistryError"
+                        }
+                    ]
+                }
+            ]
+        },
+        "deleteVersion": {
+            "description": "Delete an xRegistry Version entity. [ASK: behavior when deleting the default Version — promote next-most-recent, or error?]",
+            "input": {
+                "type": "object",
+                "properties": {
+                    "groupId": {
+                        "description": "Group identifier. Uses the default if not specified.",
+                        "type": "string"
+                    }
+                },
+                "required": [ ]
+            },
+            "forms": [
+                {
+                    "dtv:topic": "aio/registry/delete/{ex:groupType}/{ex:resourceType}/{ex:resourceId}/versions/{ex:versionId}",
                     "contentType": "application/json",
                     "op": "invokeaction",
                     "additionalResponses": [

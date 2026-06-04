@@ -6,8 +6,8 @@
         }
     ],
     "@type": "tm:ThingModel",
-    "title": "EdgeRegistryThingDescriptionExtensions",
-    "description": "Companion type definitions for the xRegistry Thing Description entity type. Provides typed thing description definitions for SDK codegen targeting thing description Groups, thing description metadata, and thing description Versions.",
+    "title": "EdgeRegistryThingModelExtensions",
+    "description": "Companion type definitions for the xRegistry Thing Model entity type. Provides typed thing model definitions for SDK codegen targeting thing model Groups, thing model metadata, and thing model Versions.",
     "links": [
         {
             "rel": "tm:extends",
@@ -16,8 +16,8 @@
         }
     ],
     "actions": {
-        "getThingDescriptionVersion": {
-            "description": "Retrieve an xRegistry Thing Description Version entity.",
+        "getThingModelVersion": {
+            "description": "Retrieve an xRegistry Thing Model Version entity.",
             "input": {
                 "type": "object",
                 "properties": {
@@ -33,49 +33,49 @@
                 "required": []
             },
             "output": {
-                "description": "The Thing Description Version entity.",
-                "dtv:ref": "./thing-description-extension/ThingDescriptionVersion.schema.json"
+                "description": "The Thing Model Version entity.",
+                "dtv:ref": "./thing-model-extension/ThingModelVersion.schema.json"
             },
             "forms": [
                 {
-                    "dtv:topic": "aio/registry/thingDescriptionExtension/get/thingdescriptiongroups/thingdescriptions/{ex:thingDescriptionId}/versions/version",
+                    "dtv:topic": "aio/registry/thingModelExtension/get/thingmodelgroups/thingmodels/{ex:thingModelId}/versions/version",
                     "contentType": "application/json",
                     "op": "invokeaction",
                     "additionalResponses": [
                         {
                             "success": false,
-                            "schema": "ThingDescriptionExtensionError"
+                            "schema": "ThingModelExtensionError"
                         }
                     ]
                 }
             ]
         },
-        "createThingDescriptionVersion": {
-            "description": "Create a new xRegistry Thing Description Version entity under the specified thing description. Returns the created Version entity with epoch=1. Create is strictly idempotent: if every field matches the latest Version of the parent Thing Description (including labels), the latest Version is returned unchanged; otherwise a new Version is created.",
+        "createThingModelVersion": {
+            "description": "Create a new xRegistry Thing Model Version entity under the specified thing model. Returns the created Version entity with epoch=1. Create is strictly idempotent: if every field matches the latest Version of the parent Thing Model (including labels), the latest Version is returned unchanged; otherwise a new Version is created.",
             "input": {
-                "description": "Attributes needed to create a Thing Description Version.",
-                "dtv:ref": "./thing-description-extension/CreateThingDescriptionVersionAttributes.schema.json"
+                "description": "Attributes needed to create a Thing Model Version.",
+                "dtv:ref": "./thing-model-extension/CreateThingModelVersionAttributes.schema.json"
             },
             "output": {
-                "description": "The Thing Description Version entity.",
-                "dtv:ref": "./thing-description-extension/ThingDescriptionVersion.schema.json"
+                "description": "The Thing Model Version entity.",
+                "dtv:ref": "./thing-model-extension/ThingModelVersion.schema.json"
             },
             "forms": [
                 {
-                    "dtv:topic": "aio/registry/thingDescriptionExtension/create/thingdescriptiongroups/thingdescriptions/{ex:thingDescriptionId}/versions/version",
+                    "dtv:topic": "aio/registry/thingModelExtension/create/thingmodelgroups/thingmodels/{ex:thingModelId}/versions/version",
                     "contentType": "application/json",
                     "op": "invokeaction",
                     "additionalResponses": [
                         {
                             "success": false,
-                            "schema": "ThingDescriptionExtensionError"
+                            "schema": "ThingModelExtensionError"
                         }
                     ]
                 }
             ]
         },
-        "listThingDescriptionVersions": {
-            "description": "List all Version IDs for a Thing Description.",
+        "listThingModelVersions": {
+            "description": "List all Version IDs for a Thing Model.",
             "input": {
                 "type": "object",
                 "properties": {
@@ -105,20 +105,20 @@
             },
             "forms": [
                 {
-                    "dtv:topic": "aio/registry/thingDescriptionExtension/list/thingdescriptiongroups/thingdescriptions/{ex:thingDescriptionId}/versions",
+                    "dtv:topic": "aio/registry/thingModelExtension/list/thingmodelgroups/thingmodels/{ex:thingModelId}/versions",
                     "contentType": "application/json",
                     "op": "invokeaction",
                     "additionalResponses": [
                         {
                             "success": false,
-                            "schema": "ThingDescriptionExtensionError"
+                            "schema": "ThingModelExtensionError"
                         }
                     ]
                 }
             ]
         },
-        "listThingDescriptionVersionsWithLabel": {
-            "description": "List Thing Description Version IDs for a Thing Description, filtered by a label match.",
+        "listThingModelVersionsWithLabel": {
+            "description": "List Thing Model Version IDs for a Thing Model, filtered by a label match.",
             "input": {
                 "type": "object",
                 "properties": {
@@ -159,20 +159,20 @@
             },
             "forms": [
                 {
-                    "dtv:topic": "aio/registry/thingDescriptionExtension/listWithLabel/thingdescriptiongroups/thingdescriptions/{ex:thingDescriptionId}/versions",
+                    "dtv:topic": "aio/registry/thingModelExtension/listWithLabel/thingmodelgroups/thingmodels/{ex:thingModelId}/versions",
                     "contentType": "application/json",
                     "op": "invokeaction",
                     "additionalResponses": [
                         {
                             "success": false,
-                            "schema": "ThingDescriptionExtensionError"
+                            "schema": "ThingModelExtensionError"
                         }
                     ]
                 }
             ]
         },
-        "deleteThingDescriptionVersion": {
-            "description": "Delete an xRegistry Thing Description Version entity. Deletes cascade. [ASK: behavior when deleting the default Version \u2014 promote next-most-recent, or error?]",
+        "deleteThingModelVersion": {
+            "description": "Delete an xRegistry Thing Model Version entity. Deletes cascade. [ASK: behavior when deleting the default Version \u2014 promote next-most-recent, or error?]",
             "input": {
                 "type": "object",
                 "properties": {
@@ -191,13 +191,13 @@
             },
             "forms": [
                 {
-                    "dtv:topic": "aio/registry/thingDescriptionExtension/delete/thingdescriptiongroups/thingdescriptions/{ex:thingDescriptionId}/versions/version",
+                    "dtv:topic": "aio/registry/thingModelExtension/delete/thingmodelgroups/thingmodels/{ex:thingModelId}/versions/version",
                     "contentType": "application/json",
                     "op": "invokeaction",
                     "additionalResponses": [
                         {
                             "success": false,
-                            "schema": "ThingDescriptionExtensionError"
+                            "schema": "ThingModelExtensionError"
                         }
                     ]
                 }
@@ -205,30 +205,30 @@
         }
     },
     "schemaDefinitions": {
-        "ThingDescriptionFormat": {
+        "ThingModelFormat": {
             "type": "object",
             "const": {
-                "JsonLD11": "JSON-LD/1.1"
+                "WotTM11": "WoT-TM/1.1"
             },
-            "description": "Non-exhaustive supported WoT TD formats",
+            "description": "Non-exhaustive supported WoT TM formats",
             "properties": {
-                "JsonLD11": {
-                    "description": "JSON-LD 1.1 format",
+                "WotTM11": {
+                    "description": "WoT TM 1.1 format",
                     "type": "string"
                 }
             }
         },
-        "ThingDescriptionGroupType": {
+        "ThingModelGroupType": {
             "type": "string",
-            "const": "thingdescriptiongroups",
-            "description": "Group type used in XID for xRegistry Thing Description Groups."
+            "const": "thingmodelgroups",
+            "description": "Group type used in XID for xRegistry Thing Model Groups."
         },
-        "ThingDescriptionResourceType": {
+        "ThingModelResourceType": {
             "type": "string",
-            "const": "thingdescriptions",
-            "description": "Resource type used in XID for xRegistry Thing Description Resources."
+            "const": "thingmodels",
+            "description": "Resource type used in XID for xRegistry Thing Model Resources."
         },
-        "ThingDescriptionExtensionError": {
+        "ThingModelExtensionError": {
             "type": "object",
             "properties": {
                 "type": {

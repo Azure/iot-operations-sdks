@@ -1,0 +1,34 @@
+{
+  "$schema": "https://json-schema.org/draft-07/schema",
+  "title": "CreateResourceRequest",
+  "description": "Request payload for creating a generic xRegistry Resource entity.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["labels"],
+  "properties": {
+    "groupId": {
+      "description": "Group identifier. Uses the default if not specified.",
+      "type": "string"
+    },
+    "name": {
+      "description": "Human-readable name.",
+      "type": "string"
+    },
+    "description": {
+      "description": "A human-readable summary of the purpose of the entity.",
+      "type": "string"
+    },
+    "documentation": {
+      "description": "A URL to additional information about this entity.",
+      "type": "string"
+    },
+    "labels": {
+      "description": "Queryable Key Value pairs to be added to the Resource.",
+      "type": "array",
+      "items": {
+        "type": "object",
+        "$ref": "Label.schema.json"
+      }
+    }
+  }
+}

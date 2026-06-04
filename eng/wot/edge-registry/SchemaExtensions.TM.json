@@ -1,16 +1,20 @@
 {
     "@context": [
         "https://www.w3.org/2022/wot/td/v1.1",
-        { "dtv": "http://azure.com/DigitalTwins/dtmi#" }
+        {
+            "dtv": "http://azure.com/DigitalTwins/dtmi#"
+        }
     ],
     "@type": "tm:ThingModel",
     "title": "EdgeRegistrySchemaExtensions",
     "description": "Companion type definitions for the xRegistry Schema entity type. Provides typed schema definitions for SDK codegen targeting schema Groups, schema metadata, and schema Versions.",
-    "links" : [{
-        "rel": "tm:extends",
-        "href": "./EdgeRegistry.TM.json#title=EdgeRegistry",
-        "type": "application/tm+json"
-    }],
+    "links": [
+        {
+            "rel": "tm:extends",
+            "href": "./EdgeRegistry.TM.json#title=EdgeRegistry",
+            "type": "application/tm+json"
+        }
+    ],
     "actions": {
         "getSchemaVersion": {
             "description": "Retrieve an xRegistry Schema Version entity.",
@@ -26,7 +30,7 @@
                         "type": "integer"
                     }
                 },
-                "required": [ ]
+                "required": []
             },
             "output": {
                 "description": "The Schema Version entity.",
@@ -47,7 +51,7 @@
             ]
         },
         "createSchemaVersion": {
-            "description": "Create a new xRegistry Schema Version entity under the specified schema. Returns the created Version entity with epoch=1.",
+            "description": "Create a new xRegistry Schema Version entity under the specified schema. Returns the created Version entity with epoch=1. Create is strictly idempotent: if every field matches the latest Version of the parent Schema (including labels), the latest Version is returned unchanged; otherwise a new Version is created.",
             "input": {
                 "description": "Attributes needed to create a Schema Version.",
                 "dtv:ref": "./schema-extension/CreateSchemaVersionAttributes.schema.json"
@@ -70,30 +74,6 @@
                 }
             ]
         },
-        "createOrGetSchemaVersion": {
-            "description": "Create a new xRegistry Schema Version entity under the specified schema if the document doesn't already exist as a current Version. Returns the created Version entity or the most recent matching Version entity.",
-            "input": {
-                "description": "Attributes needed to create a Schema Version.",
-                "dtv:ref": "./schema-extension/CreateSchemaVersionAttributes.schema.json"
-            },
-            "output": {
-                "description": "The Created or document identical existing Schema Version entity.",
-                "dtv:ref": "./schema-extension/SchemaVersion.schema.json"
-            },
-            "forms": [
-                {
-                    "dtv:topic": "aio/registry/schemaExtension/createOrGet/schemagroups/schemas/{ex:schemaId}/versions/version",
-                    "contentType": "application/json",
-                    "op": "invokeaction",
-                    "additionalResponses": [
-                        {
-                            "success": false,
-                            "schema": "SchemaExtensionError"
-                        }
-                    ]
-                }
-            ]
-        },
         "listSchemaVersions": {
             "description": "List all Version IDs for a Schema.",
             "input": {
@@ -104,7 +84,7 @@
                         "type": "string"
                     }
                 },
-                "required": [ ]
+                "required": []
             },
             "output": {
                 "description": "List of Version identifiers.",
@@ -119,11 +99,99 @@
                         }
                     }
                 },
-                "required": ["ids"]
+                "required": [
+                    "ids"
+                ]
             },
             "forms": [
                 {
                     "dtv:topic": "aio/registry/schemaExtension/list/schemagroups/schemas/{ex:schemaId}/versions",
+                    "contentType": "application/json",
+                    "op": "invokeaction",
+                    "additionalResponses": [
+                        {
+                            "success": false,
+                            "schema": "SchemaExtensionError"
+                        }
+                    ]
+                }
+            ]
+        },
+        "listSchemaVersionsWithLabel": {
+            "description": "List Schema Version IDs for a Schema, filtered by a label match.",
+            "input": {
+                "type": "object",
+                "properties": {
+                    "groupId": {
+                        "description": "Group identifier. Uses the default if not specified.",
+                        "type": "string"
+                    },
+                    "labelKey": {
+                        "description": "Label key.",
+                        "type": "string"
+                    },
+                    "labelValue": {
+                        "description": "Label value.",
+                        "type": "string"
+                    }
+                },
+                "required": [
+                    "labelKey",
+                    "labelValue"
+                ]
+            },
+            "output": {
+                "description": "List of Version identifiers.",
+                "type": "object",
+                "properties": {
+                    "ids": {
+                        "description": "List of Version identifiers.",
+                        "type": "array",
+                        "items": {
+                            "description": "Version identifier.",
+                            "type": "integer"
+                        }
+                    }
+                },
+                "required": [
+                    "ids"
+                ]
+            },
+            "forms": [
+                {
+                    "dtv:topic": "aio/registry/schemaExtension/listWithLabel/schemagroups/schemas/{ex:schemaId}/versions",
+                    "contentType": "application/json",
+                    "op": "invokeaction",
+                    "additionalResponses": [
+                        {
+                            "success": false,
+                            "schema": "SchemaExtensionError"
+                        }
+                    ]
+                }
+            ]
+        },
+        "deleteSchemaVersion": {
+            "description": "Delete an xRegistry Schema Version entity. Deletes cascade. [ASK: behavior when deleting the default Version \u2014 promote next-most-recent, or error?]",
+            "input": {
+                "type": "object",
+                "properties": {
+                    "groupId": {
+                        "description": "Group identifier. Uses the default if not specified.",
+                        "type": "string"
+                    },
+                    "versionId": {
+                        "description": "Version identifier.",
+                        "type": "integer"
+                    }
+                },
+                "required": [
+                    "versionId"
+                ]
+            },
+            "forms": [
+                {
+                    "dtv:topic": "aio/registry/schemaExtension/delete/schemagroups/schemas/{ex:schemaId}/versions/version",
                     "contentType": "application/json",
                     "op": "invokeaction",
                     "additionalResponses": [
@@ -193,7 +261,13 @@
                     "description": "The XID of the entity that caused the error."
                 }
             },
-            "required": ["type", "status", "code", "title", "instance"]
+            "required": [
+                "type",
+                "status",
+                "code",
+                "title",
+                "instance"
+            ]
         }
     }
 }
