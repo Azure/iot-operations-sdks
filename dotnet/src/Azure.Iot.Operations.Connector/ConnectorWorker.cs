@@ -261,15 +261,15 @@ namespace Azure.Iot.Operations.Connector
                     // explicitly when its key is removed (AssetUnavailable on Deleted) or below in
                     // the post-shutdown cleanup; here we only want to stop the running tasks.
                     try { assetCtx.UserCts.Cancel(); } catch (ObjectDisposedException) { }
-                    try { assetCtx.MaCts.Cancel(); } catch (ObjectDisposedException) { }
+                    try { assetCtx.ManagementActionCts.Cancel(); } catch (ObjectDisposedException) { }
 
                     if (assetCtx.UserTask is not null)
                     {
                         tasksToAwait.Add(assetCtx.UserTask);
                     }
-                    if (assetCtx.MaTask is not null)
+                    if (assetCtx.ManagementActionTask is not null)
                     {
-                        tasksToAwait.Add(assetCtx.MaTask);
+                        tasksToAwait.Add(assetCtx.ManagementActionTask);
                     }
                 }
 
@@ -1004,19 +1004,22 @@ namespace Azure.Iot.Operations.Connector
                 return;
             }
 
-            // Long-lived context owning the AssetClient (survives Updated events, drives the MA branch).
-            // The user-callback branch gets a separate `userArgs` rebuilt on each Updated for a fresh token.
-            AssetAvailableEventArgs assetClientOwnerArgs = new(deviceName, device, inboundEndpointName, assetName, asset, _leaderElectionClient, _adrClient!, this);
-            CancellationTokenSource maCts = new();
+            // Long-lived AssetClient (survives Updated events, drives the MA branch). The runtime context
+            // owns it; the MA-branch args and the user-callback args (rebuilt on each Updated for a fresh
+            // token) merely wrap it without taking ownership.
+            AssetClient assetClient = new(_adrClient!, deviceName, inboundEndpointName, assetName, this, device, asset);
+            AssetAvailableEventArgs managementActionArgs = new(deviceName, device, inboundEndpointName, assetName, asset, _leaderElectionClient, _adrClient!, assetClient);
+            CancellationTokenSource managementActionCts = new();
             CancellationTokenSource userCts = new();
 
             // Reserve the per-asset slot BEFORE starting any branch. Per-asset serialization makes this
             // TryAdd the single enforcer of "exactly one AssetClient per asset".
             // Disposing the loser here guarantees it never touches ADR.
             AssetRuntimeContext assetRuntimeCtx = new(
-                ownedArgs: assetClientOwnerArgs,
-                maCts: maCts,
-                maTask: null,
+                assetClient: assetClient,
+                managementActionArgs: managementActionArgs,
+                managementActionCts: managementActionCts,
+                managementActionTask: null,
                 userCts: userCts,
                 userTask: null,
                 userArgs: null);
@@ -1028,10 +1031,11 @@ namespace Azure.Iot.Operations.Connector
                 _logger.LogWarning(
                     "Asset {AssetName} on device {DeviceName} (endpoint {InboundEndpointName}) is already being tracked; discarding duplicate runtime context before any branch starts. This indicates the per-asset notification serialization invariant was violated.",
                     assetName, deviceName, inboundEndpointName);
-                maCts.Dispose();
+                managementActionCts.Dispose();
                 userCts.Dispose();
-                // Dispose the orphan AssetClient (assetClientOwnerArgs owns it). No branch started, nothing to await.
-                _ = assetClientOwnerArgs.DisposeAsync();
+                // Dispose the orphan args and AssetClient. No branch started, nothing to await.
+                _ = managementActionArgs.DisposeAsync();
+                _ = assetClient.DisposeAsync();
                 return;
             }
 
@@ -1039,17 +1043,17 @@ namespace Azure.Iot.Operations.Connector
             if (_managementActionOrchestrator != null
                 && asset.ManagementGroups?.Any(g => g.Actions?.Count > 0) == true)
             {
-                Task maTask = Task.Run(() => SafeInvokeAssetBranchAsync(
+                Task managementActionTask = Task.Run(() => SafeInvokeAssetBranchAsync(
                     "ManagementActionHandling",
-                    ct => _managementActionOrchestrator.ServeActionsWhileAssetIsAvailableAsync(assetClientOwnerArgs, ct),
-                    maCts.Token,
+                    ct => _managementActionOrchestrator.ServeActionsWhileAssetIsAvailableAsync(managementActionArgs, ct),
+                    managementActionCts.Token,
                     assetName, deviceName, inboundEndpointName));
-                assetRuntimeCtx.AttachMaTask(maTask);
+                assetRuntimeCtx.AttachManagementActionTask(managementActionTask);
             }
 
             if (WhileAssetIsAvailable != null)
             {
-                AssetAvailableEventArgs userArgs = new(deviceName, device, inboundEndpointName, assetName, asset, _leaderElectionClient, _adrClient!, assetClientOwnerArgs.AssetClient);
+                AssetAvailableEventArgs userArgs = new(deviceName, device, inboundEndpointName, assetName, asset, _leaderElectionClient, _adrClient!, assetClient);
                 Task userTask = Task.Run(() => SafeInvokeAssetBranchAsync(
                     "UserWhileAssetIsAvailableCallback",
                     ct => WhileAssetIsAvailable!.Invoke(userArgs, ct),
@@ -1063,7 +1067,7 @@ namespace Azure.Iot.Operations.Connector
             // when the asset has no (or not-yet-validated) management actions. Idempotent; fire-and-forget.
             if (WhileAssetIsAvailable == null)
             {
-                _ = Task.Run(() => PublishInitialHealthyAssetStatusAsync(assetClientOwnerArgs.AssetClient, assetName));
+                _ = Task.Run(() => PublishInitialHealthyAssetStatusAsync(assetClient, assetName));
             }
         }
 
@@ -1220,7 +1224,7 @@ namespace Azure.Iot.Operations.Connector
                 // start tearing down their executors (matches the original ordering: user code is
                 // the most user-visible cancellation, MA framework finishes draining after).
                 try { ctx.UserCts.Cancel(); } catch (ObjectDisposedException) { }
-                try { ctx.MaCts.Cancel(); } catch (ObjectDisposedException) { }
+                try { ctx.ManagementActionCts.Cancel(); } catch (ObjectDisposedException) { }
 
                 try
                 {
@@ -1233,7 +1237,7 @@ namespace Azure.Iot.Operations.Connector
 
                 try
                 {
-                    if (ctx.MaTask is not null) await ctx.MaTask;
+                    if (ctx.ManagementActionTask is not null) await ctx.ManagementActionTask;
                 }
                 catch (Exception e)
                 {

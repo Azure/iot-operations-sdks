@@ -7,37 +7,39 @@ namespace Azure.Iot.Operations.Connector
     /// Per-asset runtime bookkeeping inside <see cref="ConnectorWorker"/>. Owns the long-lived
     /// <see cref="AssetClient"/> and two independent branch lifetimes:
     /// <list type="bullet">
-    /// <item><b>MA branch</b> (<see cref="MaCts"/>/<see cref="MaTask"/>): the built-in management-action
+    /// <item><b>MA branch</b> (<see cref="ManagementActionCts"/>/<see cref="ManagementActionTask"/>): the built-in management-action
     /// orchestrator. Cancelled <em>only</em> on Deleted, so handler state survives Updated events.</item>
     /// <item><b>User branch</b> (<see cref="UserCts"/>/<see cref="UserTask"/>): the
     /// <see cref="ConnectorWorker.WhileAssetIsAvailable"/> callback. Cancelled on Updated and Deleted;
     /// replaced via <see cref="SwapUserBranch"/> on Updated so it sees a fresh token.</item>
     /// </list>
-    /// <see cref="OwnedArgs"/> owns the <see cref="AssetClient"/>; <see cref="UserArgs"/> is borrow-mode.
-    /// Disposing this context disposes both args and (through <see cref="OwnedArgs"/>) the AssetClient.
+    /// This context owns the <see cref="AssetClient"/>; <see cref="ManagementActionArgs"/> and <see cref="UserArgs"/>
+    /// merely wrap it. Disposing this context disposes both args and then the AssetClient.
     /// </summary>
     internal sealed class AssetRuntimeContext : IAsyncDisposable
     {
-        public AssetClient AssetClient => OwnedArgs.AssetClient;
-        public AssetAvailableEventArgs OwnedArgs { get; }
-        public CancellationTokenSource MaCts { get; }
-        public Task? MaTask { get; private set; }
+        public AssetClient AssetClient { get; }
+        public AssetAvailableEventArgs ManagementActionArgs { get; }
+        public CancellationTokenSource ManagementActionCts { get; }
+        public Task? ManagementActionTask { get; private set; }
 
         public CancellationTokenSource UserCts { get; private set; }
         public Task? UserTask { get; private set; }
         public AssetAvailableEventArgs? UserArgs { get; private set; }
 
         public AssetRuntimeContext(
-            AssetAvailableEventArgs ownedArgs,
-            CancellationTokenSource maCts,
-            Task? maTask,
+            AssetClient assetClient,
+            AssetAvailableEventArgs managementActionArgs,
+            CancellationTokenSource managementActionCts,
+            Task? managementActionTask,
             CancellationTokenSource userCts,
             Task? userTask,
             AssetAvailableEventArgs? userArgs)
         {
-            OwnedArgs = ownedArgs;
-            MaCts = maCts;
-            MaTask = maTask;
+            AssetClient = assetClient;
+            ManagementActionArgs = managementActionArgs;
+            ManagementActionCts = managementActionCts;
+            ManagementActionTask = managementActionTask;
             UserCts = userCts;
             UserTask = userTask;
             UserArgs = userArgs;
@@ -47,7 +49,7 @@ namespace Azure.Iot.Operations.Connector
         /// Attach the management-action branch task after the context is registered. The MA branch starts
         /// only once the per-asset slot is reserved, so a context that loses the race never writes to ADR.
         /// </summary>
-        public void AttachMaTask(Task maTask) => MaTask = maTask;
+        public void AttachManagementActionTask(Task managementActionTask) => ManagementActionTask = managementActionTask;
 
         /// <summary>
         /// Atomically replace the user-branch trio after a tear-down + relaunch on Updated. Caller must
@@ -62,7 +64,7 @@ namespace Azure.Iot.Operations.Connector
 
         public async ValueTask DisposeAsync()
         {
-            try { MaCts.Dispose(); } catch (ObjectDisposedException) { }
+            try { ManagementActionCts.Dispose(); } catch (ObjectDisposedException) { }
             try { UserCts.Dispose(); } catch (ObjectDisposedException) { }
 
             if (UserArgs is not null)
@@ -70,8 +72,10 @@ namespace Azure.Iot.Operations.Connector
                 try { await UserArgs.DisposeAsync(); } catch { /* best-effort */ }
             }
 
-            // OwnedArgs disposes the AssetClient (it was constructed in owns=true mode).
-            try { await OwnedArgs.DisposeAsync(); } catch { /* best-effort */ }
+            try { await ManagementActionArgs.DisposeAsync(); } catch { /* best-effort */ }
+
+            // This context owns the AssetClient; dispose it once both args are torn down.
+            try { await AssetClient.DisposeAsync(); } catch { /* best-effort */ }
         }
     }
 }
