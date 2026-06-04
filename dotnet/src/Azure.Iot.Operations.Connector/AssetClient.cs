@@ -470,70 +470,7 @@ namespace Azure.Iot.Operations.Connector
                 foreach (KeyValuePair<(string Group, string Action), ManagementActionState> kvp in _managementActionStates)
                 {
                     (string groupName, string actionName) = kvp.Key;
-                    ManagementActionState state = kvp.Value;
-
-                    AssetManagementGroupAction? oldAction = FindAction(oldAsset, groupName, actionName);
-                    AssetManagementGroup? newGroup = newAsset.ManagementGroups?
-                        .FirstOrDefault(g => string.Equals(g.Name, groupName, StringComparison.Ordinal));
-                    AssetManagementGroupAction? newAction = newGroup?.Actions?
-                        .FirstOrDefault(a => string.Equals(a.Name, actionName, StringComparison.Ordinal));
-
-                    if (newAction is null)
-                    {
-                        // Deleted from the asset (or its parent group went away).
-                        await state.Mutex.WaitAsync(cancellationToken).ConfigureAwait(false);
-                        try
-                        {
-                            ManagementActionExecutor? cached = state.CurrentExecutor;
-                            state.CurrentExecutor = null;
-                            if (cached is not null)
-                            {
-                                try { await cached.StopAsync(cancellationToken).ConfigureAwait(false); }
-                                catch { /* best-effort */ }
-                                try { await cached.DisposeAsync().ConfigureAwait(false); }
-                                catch { /* best-effort */ }
-                            }
-                        }
-                        finally
-                        {
-                            state.Mutex.Release();
-                        }
-                        state.Notifications.Writer.TryWrite(new ManagementActionDeleted());
-                        continue;
-                    }
-
-                    string? oldTopic = oldAction?.Topic;
-                    string? newTopic = newAction.Topic;
-                    bool topicChanged = !string.Equals(oldTopic, newTopic, StringComparison.Ordinal);
-
-                    if (topicChanged)
-                    {
-                        ManagementActionExecutor? newExecutor;
-                        await state.Mutex.WaitAsync(cancellationToken).ConfigureAwait(false);
-                        try
-                        {
-                            // Don't stop/dispose the previous executor here: the orchestrator holds the
-                            // live reference and tears it down on ManagementActionUpdatedWithNewExecutor.
-                            newExecutor = await BuildAndStartExecutorAsync(groupName, actionName, cancellationToken).ConfigureAwait(false);
-                            state.CurrentExecutor = newExecutor;
-                        }
-                        finally
-                        {
-                            state.Mutex.Release();
-                        }
-                        state.Notifications.Writer.TryWrite(new ManagementActionUpdatedWithNewExecutor(newExecutor, Error: null));
-                    }
-                    else if (!ActionDefinitionEquals(oldAction, newAction))
-                    {
-                        state.Notifications.Writer.TryWrite(new ManagementActionUpdated(Error: null));
-                    }
-                    else
-                    {
-                        // Action unchanged but surrounding asset metadata may have changed (e.g. group
-                        // defaults). Surface as AssetUpdated so the loop re-evaluates without claiming
-                        // the action itself changed.
-                        state.Notifications.Writer.TryWrite(new ManagementActionAssetUpdated(Error: null));
-                    }
+                    await ApplyUpdateToTrackedActionAsync(groupName, actionName, kvp.Value, oldAsset, newAsset, cancellationToken).ConfigureAwait(false);
                 }
 
                 // Signal the orchestrator to pick up newly-added actions (not yet in
@@ -544,6 +481,86 @@ namespace Azure.Iot.Operations.Connector
             {
                 _assetUpdateMutex.Release();
             }
+        }
+
+        /// <summary>
+        /// Apply an asset update to a single already-tracked (group, action) and push the matching
+        /// lifecycle notification. See <see cref="ApplyAssetUpdateAsync"/> for the notification rules.
+        /// </summary>
+        private async Task ApplyUpdateToTrackedActionAsync(
+            string groupName,
+            string actionName,
+            ManagementActionState state,
+            Asset oldAsset,
+            Asset newAsset,
+            CancellationToken cancellationToken)
+        {
+            AssetManagementGroupAction? oldAction = FindAction(oldAsset, groupName, actionName);
+            AssetManagementGroupAction? newAction = FindAction(newAsset, groupName, actionName);
+
+            if (newAction is null)
+            {
+                // Deleted from the asset (or its parent group went away).
+                await state.Mutex.WaitAsync(cancellationToken).ConfigureAwait(false);
+                try
+                {
+                    ManagementActionExecutor? cached = state.CurrentExecutor;
+                    state.CurrentExecutor = null;
+                    if (cached is not null)
+                    {
+                        await StopAndDisposeExecutorAsync(cached, cancellationToken).ConfigureAwait(false);
+                    }
+                }
+                finally
+                {
+                    state.Mutex.Release();
+                }
+                state.Notifications.Writer.TryWrite(new ManagementActionDeleted());
+                return;
+            }
+
+            bool topicChanged = !string.Equals(oldAction?.Topic, newAction.Topic, StringComparison.Ordinal);
+
+            if (topicChanged)
+            {
+                ManagementActionExecutor? newExecutor;
+                await state.Mutex.WaitAsync(cancellationToken).ConfigureAwait(false);
+                try
+                {
+                    // Don't stop/dispose the previous executor here: the orchestrator holds the
+                    // live reference and tears it down on ManagementActionUpdatedWithNewExecutor.
+                    newExecutor = await BuildAndStartExecutorAsync(groupName, actionName, cancellationToken).ConfigureAwait(false);
+                    state.CurrentExecutor = newExecutor;
+                }
+                finally
+                {
+                    state.Mutex.Release();
+                }
+                state.Notifications.Writer.TryWrite(new ManagementActionUpdatedWithNewExecutor(newExecutor, Error: null));
+            }
+            else if (!ActionDefinitionEquals(oldAction, newAction))
+            {
+                state.Notifications.Writer.TryWrite(new ManagementActionUpdated(Error: null));
+            }
+            else
+            {
+                // Action unchanged but surrounding asset metadata may have changed (e.g. group
+                // defaults). Surface as AssetUpdated so the loop re-evaluates without claiming
+                // the action itself changed.
+                state.Notifications.Writer.TryWrite(new ManagementActionAssetUpdated(Error: null));
+            }
+        }
+
+        /// <summary>
+        /// Best-effort stop then dispose of an executor; swallows exceptions so teardown can't fault
+        /// the caller. Used on action deletion and during <see cref="DisposeAsyncCore"/>.
+        /// </summary>
+        private static async Task StopAndDisposeExecutorAsync(ManagementActionExecutor executor, CancellationToken cancellationToken = default)
+        {
+            try { await executor.StopAsync(cancellationToken).ConfigureAwait(false); }
+            catch { /* best-effort */ }
+            try { await executor.DisposeAsync().ConfigureAwait(false); }
+            catch { /* best-effort */ }
         }
 
         /// <summary>
@@ -747,23 +764,7 @@ namespace Azure.Iot.Operations.Connector
                 state.CurrentExecutor = null;
                 if (executor is not null)
                 {
-                    try
-                    {
-                        await executor.StopAsync().ConfigureAwait(false);
-                    }
-                    catch
-                    {
-                        // Best-effort during dispose.
-                    }
-
-                    try
-                    {
-                        await executor.DisposeAsync().ConfigureAwait(false);
-                    }
-                    catch
-                    {
-                        // Best-effort during dispose.
-                    }
+                    await StopAndDisposeExecutorAsync(executor).ConfigureAwait(false);
                 }
 
                 state.Notifications.Writer.TryWrite(new ManagementActionDeleted());
