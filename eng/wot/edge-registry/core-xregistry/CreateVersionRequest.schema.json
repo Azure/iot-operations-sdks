@@ -4,7 +4,7 @@
   "description": "Request payload for creating a generic xRegistry Version entity. Create is strictly idempotent: if every field matches the latest Version of the parent Resource (including labels), the latest Version is returned; otherwise a new Version is created.",
   "type": "object",
   "additionalProperties": false,
-  "required": ["labels", "document", "resourceLabels"],
+  "required": ["labels", "resourceLabels"],
   "properties": {
     "groupId": {
       "description": "Group identifier. Uses the default if not specified.",
@@ -20,6 +20,10 @@
     },
     "documentation": {
       "description": "A URL to additional information about this entity.",
+      "type": "string"
+    },
+    "icon": {
+      "description": "A URL to a graphical icon for the owning entity.",
       "type": "string"
     },
     "labels": {
@@ -43,9 +47,14 @@
       "type": "string"
     },
     "document": {
-      "description": "Base64-encoded document content for the Version. The interpretation (schema, thing description, thing model, etc.) is determined by the Resource type in the topic.",
+      "description": "Base64-encoded document content for the Version. The interpretation (schema, thing description, thing model, etc.) is determined by the Resource type.",
       "type": "string",
       "contentEncoding": "base64"
+    },
+    "extensions": {
+      "description": "Extension-specific attributes.",
+      "type": "object", "additionalProperties": { "type": "string", 
+      "contentEncoding": "base64" }
     },
     "resourceLabels": {
       "description": "Queryable Key Value pairs to be added to the parent Resource. The parent Resource is implicitly created if it doesn't already exist.",
