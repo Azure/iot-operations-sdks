@@ -47,7 +47,7 @@
       "type": "string"
     },
     "format": {
-      "description": "Format identifier of the Version document (resource-type-specific, e.g. `JsonSchema/draft-07`, `JSON-LD/1.1`, `WoT-TM/1.1`).",
+      "description": "Format identifier of the Version document (resource-type-specific, e.g. `JsonSchema/draft-07`, `JSON-LD/1.1`).",
       "type": "string"
     },
     "document": {

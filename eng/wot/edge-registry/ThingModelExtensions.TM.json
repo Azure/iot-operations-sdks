@@ -208,12 +208,12 @@
         "ThingModelFormat": {
             "type": "object",
             "const": {
-                "WotTM11": "WoT-TM/1.1"
+                "JsonLD11": "JSON-LD/1.1"
             },
             "description": "Non-exhaustive supported WoT TM formats",
             "properties": {
-                "WotTM11": {
-                    "description": "WoT TM 1.1 format",
+                "JsonLD11": {
+                    "description": "JSON-LD 1.1 format",
                     "type": "string"
                 }
             }
