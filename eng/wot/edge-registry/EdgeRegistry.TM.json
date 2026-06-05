@@ -64,7 +64,7 @@
         "createResource": {
             "description": "Create a new xRegistry Resource entity. Returns the created Resource with epoch=1.",
             "input": {
-                "dtv:ref": "./core-xregistry/CreateResourceRequest.schema.json",
+                "dtv:ref": "./core-xregistry/ResourceMetaAttributes.schema.json",
                 "description": "The attributes needed to create the Resource entity."
             },
             "output": {

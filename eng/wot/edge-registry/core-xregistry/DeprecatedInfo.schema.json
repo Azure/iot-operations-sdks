@@ -1,0 +1,28 @@
+{
+  "$schema": "https://json-schema.org/draft-07/schema",
+  "title": "DeprecatedInfo",
+  "description": "Information about the deprecation status of an entity.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [ ],
+  "properties": {
+    "effective": {
+      "description": "Indicates the time when the entity entered, or will enter, a deprecated state. The date MAY be in the past or future. If this property is not present the entity is already in a deprecated state.",
+      "type": "string",
+      "format": "date-time"
+    },
+    "removal": {
+      "description": "Indicates the time when the entity will be removed. The entity MUST NOT be removed before this time. If this property is not present, the client cannot make any assumptions as to when the entity might be removed. This MUST NOT be sooner than the `effective` time, if that is present.",
+      "type": "string",
+      "format": "date-time"
+    },
+    "alternative": {
+      "description": "The URL to an alternative entity the client can consider as a replacement for this entity. There is no guarantee that the referenced entity is an exact replacement.",
+      "type": "string"
+    },
+    "documentation": {
+      "description": "The URL to additional information about the deprecation of this entity.",
+      "type": "string"
+    }
+  }
+}
