@@ -1,7 +1,7 @@
 {
   "$schema": "https://json-schema.org/draft-07/schema",
   "title": "SchemaVersion",
-  "description": "A specific Version of a Schema. Self-contained: combines the generic Version fields and the schema-specific extension fields into one schema, with integer-typed versionId and ancestor.",
+  "description": "A specific Version of a Schema. Self-contained: combines the generic Version fields and the schema-specific fields into one schema, with integer-typed versionId and ancestor.",
   "type": "object",
   "additionalProperties": false,
   "required": [
@@ -9,18 +9,28 @@
     "versionId",
     "xid",
     "epoch",
+    "isDefault",
     "createdAt",
     "modifiedAt",
     "ancestor",
     "extensions",
     "labels",
-    "schemaDocument",
-    "schemaDocumentHash"
+    "format",
+    "document",
+    "documentHash"
   ],
   "properties": {
     "ancestor": {
       "description": "The versionId of this Version's ancestor, or this Version's versionId if it has no ancestor.",
       "type": "integer"
+    },
+    "compatibilityValidated": {
+      "description": "When compatibility validation is enabled, indicates whether the server has validated that the Version conforms to the rules defined by its Resource's `meta.compatibility` attribute.",
+      "$ref": "../core-xregistry/Validated.schema.json"
+    },
+    "contentType": {
+      "description": "The media type of the entity as defined by RFC9110.",
+      "type": "string"
     },
     "createdAt": {
       "description": "The date/time of when the entity was created.",
@@ -29,6 +39,15 @@
     },
     "description": {
       "description": "A human-readable summary of the purpose of the entity.",
+      "type": "string"
+    },
+    "document": {
+      "description": "The raw schema document for this Version as base64-encoded bytes.",
+      "type": "string",
+      "contentEncoding": "base64"
+    },
+    "documentHash": {
+      "description": "The hash of the schema document for this Version.",
       "type": "string"
     },
     "documentation": {
@@ -46,6 +65,22 @@
         "type": "string",
         "contentEncoding": "base64"
       }
+    },
+    "format": {
+      "description": "Schema format identifier.",
+      "type": "string"
+    },
+    "formatValidated": {
+      "description": "When format validation is enabled, indicates whether the server has validated that the Version conforms to the rules defined by its `format` attribute.",
+      "$ref": "../core-xregistry/Validated.schema.json"
+    },
+    "icon": {
+      "description": "A URL to a graphical icon for the owning entity.",
+      "type": "string"
+    },
+    "isDefault": {
+      "description": "Indicates whether this Version is the default Version of the owning Resource.",
+      "type": "boolean"
     },
     "labels": {
       "description": "A mechanism in which additional metadata about the entity can be stored without changing the model definition of the entity. Labels can be used for querying.",
@@ -74,23 +109,6 @@
     },
     "xid": {
       "description": "Full XID path.",
-      "type": "string"
-    },
-    "contentType": {
-      "description": "Content type of the schema Version.",
-      "type": "string"
-    },
-    "format": {
-      "description": "Schema format identifier, e.g. `JsonSchema/draft-07`, `Protobuf/3`.",
-      "type": "string"
-    },
-    "schemaDocument": {
-      "description": "The raw schema document for this Version as base64-encoded bytes.",
-      "type": "string",
-      "contentEncoding": "base64"
-    },
-    "schemaDocumentHash": {
-      "description": "The hash of the schema document for this Version.",
       "type": "string"
     }
   }

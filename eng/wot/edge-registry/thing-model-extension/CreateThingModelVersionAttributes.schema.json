@@ -6,12 +6,12 @@
     "additionalProperties": false,
     "required": [
         "labels",
-        "thingModelDocument",
-        "thingModelLabels"
+        "format",
+        "document"
     ],
     "properties": {
         "groupId": {
-            "description": "Group identifier for this Version.",
+            "description": "Group identifier. Uses the default if not specified.",
             "type": "string"
         },
         "name": {
@@ -24,6 +24,10 @@
         },
         "documentation": {
             "description": "A URL to additional information about this entity.",
+            "type": "string"
+        },
+        "icon": {
+            "description": "A URL to a graphical icon for the owning entity.",
             "type": "string"
         },
         "labels": {
@@ -39,25 +43,25 @@
             "type": "integer"
         },
         "contentType": {
-            "description": "Content type of the thing model Version.",
+            "description": "The media type of the entity as defined by RFC9110.",
             "type": "string"
         },
         "format": {
-            "description": "Thing model format identifier, e.g. `WoT-TM/1.1`.",
+            "description": "Thing Model format identifier.",
             "type": "string"
         },
-        "thingModelLabels": {
-            "description": "Queryable Key Value pairs to be added to the parent Thing Model. Labels can be used to store additional metadata about the Thing Model.",
-            "type": "array",
-            "items": {
-                "type": "object",
-                "$ref": "../core-xregistry/Label.schema.json"
-            }
-        },
-        "thingModelDocument": {
-            "type": "string",
+        "document": {
             "description": "Base64-encoded thing model document content.",
+            "type": "string",
             "contentEncoding": "base64"
+        },
+        "extensions": {
+            "description": "Extension-specific attributes.",
+            "type": "object",
+            "additionalProperties": {
+                "type": "string",
+                "contentEncoding": "base64"
+            }
         }
     }
 }
