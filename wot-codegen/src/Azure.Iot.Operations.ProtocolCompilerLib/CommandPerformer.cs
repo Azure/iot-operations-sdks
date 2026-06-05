@@ -393,13 +393,15 @@ namespace Azure.Iot.Operations.ProtocolCompilerLib
                 return;
             }
 
-            if (!SdkTargetMap.ContainsKey(options.SdkTarget))
+            string sdkTargetKey = options.SdkTarget?.ToLowerInvariant() ?? string.Empty;
+            if (!SdkTargetMap.ContainsKey(sdkTargetKey))
             {
                 AddUnlocatableError(ErrorCondition.PropertyUnsupportedValue, $"SDK target '{options.SdkTarget}' not recognized; SDK target must be {string.Join(" or ", SdkTargetMap.Keys.Select(s => $"'{s}'"))} (use 'none' to skip SDK target generation)", errorLog);
                 return;
             }
 
-            if (!LanguageMap.ContainsKey(options.Language))
+            string languageKey = options.Language?.ToLowerInvariant() ?? string.Empty;
+            if (!LanguageMap.ContainsKey(languageKey))
             {
                 string langCondition = string.IsNullOrEmpty(options.Language) ? "language not specified" : $"language '{options.Language}' not recognized";
                 AddUnlocatableError(ErrorCondition.PropertyUnsupportedValue, $"{langCondition}; language must be {string.Join(" or ", LanguageMap.Keys.Select(l => $"'{l}'"))} (use 'none' for no code generation)", errorLog);
