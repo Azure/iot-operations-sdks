@@ -22,6 +22,10 @@
           "description": "A URL to additional information about this entity.",
           "type": "string"
       },
+      "icon": {
+          "description": "A URL to a graphical icon for the owning entity.",
+          "type": "string"
+      },
       "labels": {
           "description": "A mechanism in which additional metadata about the entity can be stored without changing the model definition of the entity. Labels can be used for querying.",
           "type": "array",
@@ -29,6 +33,10 @@
               "type": "object",
               "$ref": "Label.schema.json"
           }
+      },
+      "deprecated": {
+          "description": "Information about deprecation status of the entity, if applicable.",
+          "$ref": "DeprecatedInfo.schema.json"
       },
       "extensions": {
         "description": "Extension-specific attributes (e.g., `envelope`, `protocol` for message Groups).",
