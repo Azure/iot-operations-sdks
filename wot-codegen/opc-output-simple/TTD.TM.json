@@ -3,14 +3,13 @@
     "@context": [
       "https://www.w3.org/2022/wot/td/v1.1",
       {
-        "dtv": "http://azure.com/DigitalTwins/dtmi#",
-        "aov": "http://azure.com/IoT/operations/tm#"
+        "dov": "http://azure.com/DigitalOperations/vocab#"
       }
     ],
     "@type": "tm:ThingModel",
     "title": "TTD_TTDResultReadyEventType",
-    "aov:typeRef": "nsu=http://opcfoundation.org/UA/TTD/;i=1006",
-    "aov:isEvent": true,
+    "dov:typeRef": "org.opcfoundation.UA.TTD.TTDResultReadyEventType",
+    "dov:isEvent": true,
     "links": [
       {
         "rel": "tm:extends",
@@ -21,7 +20,7 @@
     "schemaDefinitions": {
       "ResultEvaluationEnum": {
         "type": "object",
-        "aov:typeRef": "nsu=http://opcfoundation.org/UA/Machinery/Result/;i=3002",
+        "dov:typeRef": "org.opcfoundation.UA.Machinery.Result.ResultEvaluationEnum",
         "const": {
           "Undefined": 0,
           "OK": 1,
@@ -52,17 +51,17 @@
     "forms": [
       {
         "contentType": "application/json",
-        "dtv:topic": "opcua/TTD/TTD_TTDResultReadyEventType/events/{senderId}",
+        "dov:topic": "opcua/TTD/TTD_TTDResultReadyEventType/events/{senderId}",
         "op": "subscribeallevents"
       },
       {
         "contentType": "application/json",
-        "dtv:topic": "opcua/TTD/TTD_TTDResultReadyEventType/properties/write",
+        "dov:topic": "opcua/TTD/TTD_TTDResultReadyEventType/properties/write",
         "op": "writemultipleproperties"
       },
       {
         "contentType": "application/json",
-        "dtv:topic": "opcua/TTD/TTD_TTDResultReadyEventType/properties/read",
+        "dov:topic": "opcua/TTD/TTD_TTDResultReadyEventType/properties/read",
         "op": "readallproperties"
       }
     ],
@@ -70,18 +69,18 @@
     },
     "properties": {
       "Result": {
-        "aov:namespace": "http://opcfoundation.org/UA/Machinery/Result/",
+        "dov:namespace": "http://opcfoundation.org/UA/Machinery/Result/",
         "title": "ResultDataType",
         "description": "Contains fields that were created during the execution of a recipe.",
         "type": "object",
-        "aov:typeRef": "nsu=http://opcfoundation.org/UA/Machinery/Result/;i=3008",
+        "dov:typeRef": "org.opcfoundation.UA.Machinery.Result.ResultDataType",
         "required": [ "ResultMetaData", "ResultContent" ],
         "properties": {
           "ResultMetaData": {
             "title": "ResultMetaDataType",
             "description": "Meta data of a result, describing the result.",
             "type": "object",
-            "aov:typeRef": "nsu=http://opcfoundation.org/UA/Machinery/Result/;i=3007",
+            "dov:typeRef": "org.opcfoundation.UA.Machinery.Result.ResultMetaDataType",
             "required": [ "ResultId" ],
             "properties": {
               "ResultId": {
@@ -147,7 +146,7 @@
                 "title": "ProcessingTimesDataType",
                 "description": "Contains measured times that were generated during the execution of a recipe.",
                 "type": "object",
-                "aov:typeRef": "nsu=http://opcfoundation.org/UA/Machinery/Result/;i=3006",
+                "dov:typeRef": "org.opcfoundation.UA.Machinery.Result.ProcessingTimesDataType",
                 "required": [ "StartTime", "EndTime" ],
                 "properties": {
                   "StartTime": {
@@ -182,7 +181,7 @@
               "ResultEvaluation": {
                 "title": "ResultEvaluationEnum",
                 "description": "The ResultEvaluation indicates whether the result was in tolerance.",
-                "aov:typeRef": "nsu=http://opcfoundation.org/UA/Machinery/Result/;i=3002",
+                "dov:typeRef": "org.opcfoundation.UA.Machinery.Result.ResultEvaluationEnum",
                 "type": "integer",
                 "minimum": -2147483648,
                 "maximum": 2147483647
@@ -219,12 +218,12 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/TTD/TTD_TTDResultReadyEventType/property/Result/write",
+            "dov:topic": "opcua/TTD/TTD_TTDResultReadyEventType/property/Result/write",
             "op": "writeproperty"
           },
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/TTD/TTD_TTDResultReadyEventType/property/Result/read",
+            "dov:topic": "opcua/TTD/TTD_TTDResultReadyEventType/property/Result/read",
             "op": "readproperty"
           }
         ]
@@ -232,19 +231,19 @@
     },
     "events": {
       "Result": {
-        "aov:namespace": "http://opcfoundation.org/UA/Machinery/Result/",
+        "dov:namespace": "http://opcfoundation.org/UA/Machinery/Result/",
         "data": {
           "title": "ResultDataType",
           "description": "Contains fields that were created during the execution of a recipe.",
           "type": "object",
-          "aov:typeRef": "nsu=http://opcfoundation.org/UA/Machinery/Result/;i=3008",
+          "dov:typeRef": "org.opcfoundation.UA.Machinery.Result.ResultDataType",
           "required": [ "ResultMetaData", "ResultContent" ],
           "properties": {
             "ResultMetaData": {
               "title": "ResultMetaDataType",
               "description": "Meta data of a result, describing the result.",
               "type": "object",
-              "aov:typeRef": "nsu=http://opcfoundation.org/UA/Machinery/Result/;i=3007",
+              "dov:typeRef": "org.opcfoundation.UA.Machinery.Result.ResultMetaDataType",
               "required": [ "ResultId" ],
               "properties": {
                 "ResultId": {
@@ -310,7 +309,7 @@
                   "title": "ProcessingTimesDataType",
                   "description": "Contains measured times that were generated during the execution of a recipe.",
                   "type": "object",
-                  "aov:typeRef": "nsu=http://opcfoundation.org/UA/Machinery/Result/;i=3006",
+                  "dov:typeRef": "org.opcfoundation.UA.Machinery.Result.ProcessingTimesDataType",
                   "required": [ "StartTime", "EndTime" ],
                   "properties": {
                     "StartTime": {
@@ -345,7 +344,7 @@
                 "ResultEvaluation": {
                   "title": "ResultEvaluationEnum",
                   "description": "The ResultEvaluation indicates whether the result was in tolerance.",
-                  "aov:typeRef": "nsu=http://opcfoundation.org/UA/Machinery/Result/;i=3002",
+                  "dov:typeRef": "org.opcfoundation.UA.Machinery.Result.ResultEvaluationEnum",
                   "type": "integer",
                   "minimum": -2147483648,
                   "maximum": 2147483647
@@ -382,7 +381,7 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/TTD/TTD_TTDResultReadyEventType/event/Result/{senderId}",
+            "dov:topic": "opcua/TTD/TTD_TTDResultReadyEventType/event/Result/{senderId}",
             "op": "subscribeevent"
           }
         ]
@@ -393,14 +392,13 @@
     "@context": [
       "https://www.w3.org/2022/wot/td/v1.1",
       {
-        "dtv": "http://azure.com/DigitalTwins/dtmi#",
-        "aov": "http://azure.com/IoT/operations/tm#"
+        "dov": "http://azure.com/DigitalOperations/vocab#"
       }
     ],
     "@type": "tm:ThingModel",
     "title": "TTD_JobStatisticsType",
-    "aov:typeRef": "nsu=http://opcfoundation.org/UA/TTD/;i=1009",
-    "aov:isComposite": true,
+    "dov:typeRef": "org.opcfoundation.UA.TTD.JobStatisticsType",
+    "dov:isComposite": true,
     "links": [
       {
         "rel": "tm:extends",
@@ -413,7 +411,7 @@
     "forms": [
       {
         "contentType": "application/json",
-        "dtv:topic": "opcua/TTD/TTD_JobStatisticsType/properties/read",
+        "dov:topic": "opcua/TTD/TTD_JobStatisticsType/properties/read",
         "op": "readallproperties"
       }
     ],
@@ -421,66 +419,66 @@
     },
     "properties": {
       "EndTime": {
-        "aov:namespace": "http://opcfoundation.org/UA/TTD/",
+        "dov:namespace": "http://opcfoundation.org/UA/TTD/",
         "type": "string",
         "format": "time",
         "readOnly": true,
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/TTD/TTD_JobStatisticsType/property/EndTime/read",
+            "dov:topic": "opcua/TTD/TTD_JobStatisticsType/property/EndTime/read",
             "op": "readproperty"
           }
         ]
       },
       "StartTime": {
-        "aov:namespace": "http://opcfoundation.org/UA/TTD/",
+        "dov:namespace": "http://opcfoundation.org/UA/TTD/",
         "type": "string",
         "format": "time",
         "readOnly": true,
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/TTD/TTD_JobStatisticsType/property/StartTime/read",
+            "dov:topic": "opcua/TTD/TTD_JobStatisticsType/property/StartTime/read",
             "op": "readproperty"
           }
         ]
       },
       "TotalInitializingTime": {
-        "aov:namespace": "http://opcfoundation.org/UA/TTD/",
+        "dov:namespace": "http://opcfoundation.org/UA/TTD/",
         "type": "string",
         "pattern": "^P(?!$)(?:(?:(?:(?:\\d+Y)|(?:\\d+\\.\\d+Y$))?(?:(?:\\d+M)|(?:\\d+\\.\\d+M$))?)|(?:(?:(?:\\d+W)|(?:\\d+\\.\\d+W$))?))(?:(?:\\d+D)|(?:\\d+\\.\\d+D$))?(?:T(?!$)(?:(?:\\d+H)|(?:\\d+\\.\\d+H$))?(?:(?:\\d+M)|(?:\\d+\\.\\d+M$))?(?:\\d+(?:\\.\\d+)?S)?)?$",
         "readOnly": true,
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/TTD/TTD_JobStatisticsType/property/TotalInitializingTime/read",
+            "dov:topic": "opcua/TTD/TTD_JobStatisticsType/property/TotalInitializingTime/read",
             "op": "readproperty"
           }
         ]
       },
       "TotalInterruptedTime": {
-        "aov:namespace": "http://opcfoundation.org/UA/TTD/",
+        "dov:namespace": "http://opcfoundation.org/UA/TTD/",
         "type": "string",
         "pattern": "^P(?!$)(?:(?:(?:(?:\\d+Y)|(?:\\d+\\.\\d+Y$))?(?:(?:\\d+M)|(?:\\d+\\.\\d+M$))?)|(?:(?:(?:\\d+W)|(?:\\d+\\.\\d+W$))?))(?:(?:\\d+D)|(?:\\d+\\.\\d+D$))?(?:T(?!$)(?:(?:\\d+H)|(?:\\d+\\.\\d+H$))?(?:(?:\\d+M)|(?:\\d+\\.\\d+M$))?(?:\\d+(?:\\.\\d+)?S)?)?$",
         "readOnly": true,
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/TTD/TTD_JobStatisticsType/property/TotalInterruptedTime/read",
+            "dov:topic": "opcua/TTD/TTD_JobStatisticsType/property/TotalInterruptedTime/read",
             "op": "readproperty"
           }
         ]
       },
       "TotalRunningTime": {
-        "aov:namespace": "http://opcfoundation.org/UA/TTD/",
+        "dov:namespace": "http://opcfoundation.org/UA/TTD/",
         "type": "string",
         "pattern": "^P(?!$)(?:(?:(?:(?:\\d+Y)|(?:\\d+\\.\\d+Y$))?(?:(?:\\d+M)|(?:\\d+\\.\\d+M$))?)|(?:(?:(?:\\d+W)|(?:\\d+\\.\\d+W$))?))(?:(?:\\d+D)|(?:\\d+\\.\\d+D$))?(?:T(?!$)(?:(?:\\d+H)|(?:\\d+\\.\\d+H$))?(?:(?:\\d+M)|(?:\\d+\\.\\d+M$))?(?:\\d+(?:\\.\\d+)?S)?)?$",
         "readOnly": true,
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/TTD/TTD_JobStatisticsType/property/TotalRunningTime/read",
+            "dov:topic": "opcua/TTD/TTD_JobStatisticsType/property/TotalRunningTime/read",
             "op": "readproperty"
           }
         ]
@@ -493,13 +491,12 @@
     "@context": [
       "https://www.w3.org/2022/wot/td/v1.1",
       {
-        "dtv": "http://azure.com/DigitalTwins/dtmi#",
-        "aov": "http://azure.com/IoT/operations/tm#"
+        "dov": "http://azure.com/DigitalOperations/vocab#"
       }
     ],
     "@type": "tm:ThingModel",
     "title": "TTD_MachineStatisticsType",
-    "aov:typeRef": "nsu=http://opcfoundation.org/UA/TTD/;i=1012",
+    "dov:typeRef": "org.opcfoundation.UA.TTD.MachineStatisticsType",
     "links": [
       {
         "rel": "tm:extends",
@@ -512,22 +509,22 @@
     "forms": [
       {
         "contentType": "application/json",
-        "dtv:topic": "opcua/TTD/TTD_MachineStatisticsType/properties/write",
+        "dov:topic": "opcua/TTD/TTD_MachineStatisticsType/properties/write",
         "op": "writemultipleproperties"
       },
       {
         "contentType": "application/json",
-        "dtv:topic": "opcua/TTD/TTD_MachineStatisticsType/properties/read",
+        "dov:topic": "opcua/TTD/TTD_MachineStatisticsType/properties/read",
         "op": "readallproperties"
       }
     ],
     "actions": {
       "ResetStatistics": {
-        "aov:namespace": "http://opcfoundation.org/UA/IA/",
+        "dov:namespace": "http://opcfoundation.org/UA/IA/",
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/TTD/TTD_MachineStatisticsType/action/ResetStatistics",
+            "dov:topic": "opcua/TTD/TTD_MachineStatisticsType/action/ResetStatistics",
             "op": "invokeaction"
           }
         ]
@@ -535,19 +532,19 @@
     },
     "properties": {
       "StartTime": {
-        "aov:namespace": "http://opcfoundation.org/UA/IA/",
+        "dov:namespace": "http://opcfoundation.org/UA/IA/",
         "type": "string",
         "format": "date-time",
         "readOnly": false,
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/TTD/TTD_MachineStatisticsType/property/StartTime/write",
+            "dov:topic": "opcua/TTD/TTD_MachineStatisticsType/property/StartTime/write",
             "op": "writeproperty"
           },
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/TTD/TTD_MachineStatisticsType/property/StartTime/read",
+            "dov:topic": "opcua/TTD/TTD_MachineStatisticsType/property/StartTime/read",
             "op": "readproperty"
           }
         ]
@@ -560,14 +557,13 @@
     "@context": [
       "https://www.w3.org/2022/wot/td/v1.1",
       {
-        "dtv": "http://azure.com/DigitalTwins/dtmi#",
-        "aov": "http://azure.com/IoT/operations/tm#"
+        "dov": "http://azure.com/DigitalOperations/vocab#"
       }
     ],
     "@type": "tm:ThingModel",
     "title": "TTD_RecurrentPrognosisType",
-    "aov:typeRef": "nsu=http://opcfoundation.org/UA/TTD/;i=1004",
-    "aov:isComposite": true,
+    "dov:typeRef": "org.opcfoundation.UA.TTD.RecurrentPrognosisType",
+    "dov:isComposite": true,
     "links": [
       {
         "rel": "tm:extends",
@@ -580,17 +576,17 @@
     "forms": [
       {
         "contentType": "application/json",
-        "dtv:topic": "opcua/TTD/TTD_RecurrentPrognosisType/events/{senderId}",
+        "dov:topic": "opcua/TTD/TTD_RecurrentPrognosisType/events/{senderId}",
         "op": "subscribeallevents"
       },
       {
         "contentType": "application/json",
-        "dtv:topic": "opcua/TTD/TTD_RecurrentPrognosisType/properties/write",
+        "dov:topic": "opcua/TTD/TTD_RecurrentPrognosisType/properties/write",
         "op": "writemultipleproperties"
       },
       {
         "contentType": "application/json",
-        "dtv:topic": "opcua/TTD/TTD_RecurrentPrognosisType/properties/read",
+        "dov:topic": "opcua/TTD/TTD_RecurrentPrognosisType/properties/read",
         "op": "readallproperties"
       }
     ],
@@ -598,54 +594,54 @@
     },
     "properties": {
       "Activity": {
-        "aov:namespace": "http://opcfoundation.org/UA/TTD/",
+        "dov:namespace": "http://opcfoundation.org/UA/TTD/",
         "type": "string",
         "readOnly": false,
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/TTD/TTD_RecurrentPrognosisType/property/Activity/write",
+            "dov:topic": "opcua/TTD/TTD_RecurrentPrognosisType/property/Activity/write",
             "op": "writeproperty"
           },
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/TTD/TTD_RecurrentPrognosisType/property/Activity/read",
+            "dov:topic": "opcua/TTD/TTD_RecurrentPrognosisType/property/Activity/read",
             "op": "readproperty"
           }
         ]
       },
       "Interval": {
-        "aov:namespace": "http://opcfoundation.org/UA/TTD/",
+        "dov:namespace": "http://opcfoundation.org/UA/TTD/",
         "type": "string",
         "format": "time",
         "readOnly": false,
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/TTD/TTD_RecurrentPrognosisType/property/Interval/write",
+            "dov:topic": "opcua/TTD/TTD_RecurrentPrognosisType/property/Interval/write",
             "op": "writeproperty"
           },
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/TTD/TTD_RecurrentPrognosisType/property/Interval/read",
+            "dov:topic": "opcua/TTD/TTD_RecurrentPrognosisType/property/Interval/read",
             "op": "readproperty"
           }
         ]
       },
       "LastExecutionTime": {
-        "aov:namespace": "http://opcfoundation.org/UA/TTD/",
+        "dov:namespace": "http://opcfoundation.org/UA/TTD/",
         "type": "string",
         "format": "time",
         "readOnly": false,
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/TTD/TTD_RecurrentPrognosisType/property/LastExecutionTime/write",
+            "dov:topic": "opcua/TTD/TTD_RecurrentPrognosisType/property/LastExecutionTime/write",
             "op": "writeproperty"
           },
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/TTD/TTD_RecurrentPrognosisType/property/LastExecutionTime/read",
+            "dov:topic": "opcua/TTD/TTD_RecurrentPrognosisType/property/LastExecutionTime/read",
             "op": "readproperty"
           }
         ]
@@ -653,14 +649,14 @@
     },
     "events": {
       "Activity": {
-        "aov:namespace": "http://opcfoundation.org/UA/TTD/",
+        "dov:namespace": "http://opcfoundation.org/UA/TTD/",
         "data": {
           "type": "string"
         },
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/TTD/TTD_RecurrentPrognosisType/event/Activity/{senderId}",
+            "dov:topic": "opcua/TTD/TTD_RecurrentPrognosisType/event/Activity/{senderId}",
             "op": "subscribeevent"
           }
         ]
@@ -671,13 +667,12 @@
     "@context": [
       "https://www.w3.org/2022/wot/td/v1.1",
       {
-        "dtv": "http://azure.com/DigitalTwins/dtmi#",
-        "aov": "http://azure.com/IoT/operations/tm#"
+        "dov": "http://azure.com/DigitalOperations/vocab#"
       }
     ],
     "@type": "tm:ThingModel",
     "title": "TTD_RecipeManagementType",
-    "aov:typeRef": "nsu=http://opcfoundation.org/UA/TTD/;i=1003",
+    "dov:typeRef": "org.opcfoundation.UA.TTD.RecipeManagementType",
     "links": [
       {
         "rel": "tm:extends",
@@ -690,21 +685,21 @@
     "forms": [
       {
         "contentType": "application/json",
-        "dtv:topic": "opcua/TTD/TTD_RecipeManagementType/properties/write",
+        "dov:topic": "opcua/TTD/TTD_RecipeManagementType/properties/write",
         "op": "writemultipleproperties"
       },
       {
         "contentType": "application/json",
-        "dtv:topic": "opcua/TTD/TTD_RecipeManagementType/properties/read",
+        "dov:topic": "opcua/TTD/TTD_RecipeManagementType/properties/read",
         "op": "readallproperties"
       }
     ],
     "actions": {
       "DeleteRecipe": {
-        "aov:namespace": "http://opcfoundation.org/UA/TTD/",
+        "dov:namespace": "http://opcfoundation.org/UA/TTD/",
         "input": {
           "type": "object",
-          "aov:typeRef": "nsu=http://opcfoundation.org/UA/TTD/;i=6053",
+          "dov:typeRef": "org.opcfoundation.UA.InputArguments",
           "required": [ "RecipeId" ],
           "properties": {
             "RecipeId": {
@@ -715,16 +710,16 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/TTD/TTD_RecipeManagementType/action/DeleteRecipe",
+            "dov:topic": "opcua/TTD/TTD_RecipeManagementType/action/DeleteRecipe",
             "op": "invokeaction"
           }
         ]
       },
       "GetRecipe": {
-        "aov:namespace": "http://opcfoundation.org/UA/TTD/",
+        "dov:namespace": "http://opcfoundation.org/UA/TTD/",
         "input": {
           "type": "object",
-          "aov:typeRef": "nsu=http://opcfoundation.org/UA/TTD/;i=6050",
+          "dov:typeRef": "org.opcfoundation.UA.InputArguments",
           "required": [ "RecipeId" ],
           "properties": {
             "RecipeId": {
@@ -734,20 +729,20 @@
         },
         "output": {
           "type": "object",
-          "aov:typeRef": "nsu=http://opcfoundation.org/UA/TTD/;i=6051",
+          "dov:typeRef": "org.opcfoundation.UA.OutputArguments",
           "required": [ "Recipe" ],
           "properties": {
             "Recipe": {
               "title": "RecipeDataType",
               "type": "object",
-              "aov:typeRef": "nsu=http://opcfoundation.org/UA/TTD/;i=3018",
+              "dov:typeRef": "org.opcfoundation.UA.TTD.RecipeDataType",
               "required": [ "RecipeId", "RecipeContent", "ContentEncoding" ],
               "properties": {
                 "RecipeId": {
                   "title": "RecipeIdDataType",
                   "description": "RecipeId meta data describing this recipe.",
                   "type": "object",
-                  "aov:typeRef": "nsu=http://opcfoundation.org/UA/TTD/;i=3003",
+                  "dov:typeRef": "org.opcfoundation.UA.TTD.RecipeIdDataType",
                   "required": [ "Id" ],
                   "properties": {
                     "Name": {
@@ -801,16 +796,16 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/TTD/TTD_RecipeManagementType/action/GetRecipe",
+            "dov:topic": "opcua/TTD/TTD_RecipeManagementType/action/GetRecipe",
             "op": "invokeaction"
           }
         ]
       },
       "GetRecipeIds": {
-        "aov:namespace": "http://opcfoundation.org/UA/TTD/",
+        "dov:namespace": "http://opcfoundation.org/UA/TTD/",
         "output": {
           "type": "object",
-          "aov:typeRef": "nsu=http://opcfoundation.org/UA/TTD/;i=6049",
+          "dov:typeRef": "org.opcfoundation.UA.OutputArguments",
           "required": [ "RecipeIds" ],
           "properties": {
             "RecipeIds": {
@@ -818,7 +813,7 @@
               "items": {
                 "title": "RecipeIdDataType",
                 "type": "object",
-                "aov:typeRef": "nsu=http://opcfoundation.org/UA/TTD/;i=3003",
+                "dov:typeRef": "org.opcfoundation.UA.TTD.RecipeIdDataType",
                 "required": [ "Id" ],
                 "properties": {
                   "Name": {
@@ -862,16 +857,16 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/TTD/TTD_RecipeManagementType/action/GetRecipeIds",
+            "dov:topic": "opcua/TTD/TTD_RecipeManagementType/action/GetRecipeIds",
             "op": "invokeaction"
           }
         ]
       },
       "GetRecipes": {
-        "aov:namespace": "http://opcfoundation.org/UA/TTD/",
+        "dov:namespace": "http://opcfoundation.org/UA/TTD/",
         "output": {
           "type": "object",
-          "aov:typeRef": "nsu=http://opcfoundation.org/UA/TTD/;i=6054",
+          "dov:typeRef": "org.opcfoundation.UA.OutputArguments",
           "required": [ "Recipes" ],
           "properties": {
             "Recipes": {
@@ -879,14 +874,14 @@
               "items": {
                 "title": "RecipeDataType",
                 "type": "object",
-                "aov:typeRef": "nsu=http://opcfoundation.org/UA/TTD/;i=3018",
+                "dov:typeRef": "org.opcfoundation.UA.TTD.RecipeDataType",
                 "required": [ "RecipeId", "RecipeContent", "ContentEncoding" ],
                 "properties": {
                   "RecipeId": {
                     "title": "RecipeIdDataType",
                     "description": "RecipeId meta data describing this recipe.",
                     "type": "object",
-                    "aov:typeRef": "nsu=http://opcfoundation.org/UA/TTD/;i=3003",
+                    "dov:typeRef": "org.opcfoundation.UA.TTD.RecipeIdDataType",
                     "required": [ "Id" ],
                     "properties": {
                       "Name": {
@@ -941,29 +936,29 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/TTD/TTD_RecipeManagementType/action/GetRecipes",
+            "dov:topic": "opcua/TTD/TTD_RecipeManagementType/action/GetRecipes",
             "op": "invokeaction"
           }
         ]
       },
       "SetRecipe": {
-        "aov:namespace": "http://opcfoundation.org/UA/TTD/",
+        "dov:namespace": "http://opcfoundation.org/UA/TTD/",
         "input": {
           "type": "object",
-          "aov:typeRef": "nsu=http://opcfoundation.org/UA/TTD/;i=6052",
+          "dov:typeRef": "org.opcfoundation.UA.InputArguments",
           "required": [ "Recipe", "Overwrite" ],
           "properties": {
             "Recipe": {
               "title": "RecipeDataType",
               "type": "object",
-              "aov:typeRef": "nsu=http://opcfoundation.org/UA/TTD/;i=3018",
+              "dov:typeRef": "org.opcfoundation.UA.TTD.RecipeDataType",
               "required": [ "RecipeId", "RecipeContent", "ContentEncoding" ],
               "properties": {
                 "RecipeId": {
                   "title": "RecipeIdDataType",
                   "description": "RecipeId meta data describing this recipe.",
                   "type": "object",
-                  "aov:typeRef": "nsu=http://opcfoundation.org/UA/TTD/;i=3003",
+                  "dov:typeRef": "org.opcfoundation.UA.TTD.RecipeIdDataType",
                   "required": [ "Id" ],
                   "properties": {
                     "Name": {
@@ -1020,16 +1015,16 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/TTD/TTD_RecipeManagementType/action/SetRecipe",
+            "dov:topic": "opcua/TTD/TTD_RecipeManagementType/action/SetRecipe",
             "op": "invokeaction"
           }
         ]
       },
       "SetRecipes": {
-        "aov:namespace": "http://opcfoundation.org/UA/TTD/",
+        "dov:namespace": "http://opcfoundation.org/UA/TTD/",
         "input": {
           "type": "object",
-          "aov:typeRef": "nsu=http://opcfoundation.org/UA/TTD/;i=6055",
+          "dov:typeRef": "org.opcfoundation.UA.InputArguments",
           "required": [ "Recipes", "Overwrite" ],
           "properties": {
             "Recipes": {
@@ -1037,14 +1032,14 @@
               "items": {
                 "title": "RecipeDataType",
                 "type": "object",
-                "aov:typeRef": "nsu=http://opcfoundation.org/UA/TTD/;i=3018",
+                "dov:typeRef": "org.opcfoundation.UA.TTD.RecipeDataType",
                 "required": [ "RecipeId", "RecipeContent", "ContentEncoding" ],
                 "properties": {
                   "RecipeId": {
                     "title": "RecipeIdDataType",
                     "description": "RecipeId meta data describing this recipe.",
                     "type": "object",
-                    "aov:typeRef": "nsu=http://opcfoundation.org/UA/TTD/;i=3003",
+                    "dov:typeRef": "org.opcfoundation.UA.TTD.RecipeIdDataType",
                     "required": [ "Id" ],
                     "properties": {
                       "Name": {
@@ -1102,7 +1097,7 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/TTD/TTD_RecipeManagementType/action/SetRecipes",
+            "dov:topic": "opcua/TTD/TTD_RecipeManagementType/action/SetRecipes",
             "op": "invokeaction"
           }
         ]
@@ -1110,12 +1105,12 @@
     },
     "properties": {
       "RecipeIds": {
-        "aov:namespace": "http://opcfoundation.org/UA/TTD/",
+        "dov:namespace": "http://opcfoundation.org/UA/TTD/",
         "type": "array",
         "items": {
           "title": "RecipeIdDataType",
           "type": "object",
-          "aov:typeRef": "nsu=http://opcfoundation.org/UA/TTD/;i=3003",
+          "dov:typeRef": "org.opcfoundation.UA.TTD.RecipeIdDataType",
           "required": [ "Id" ],
           "properties": {
             "Name": {
@@ -1157,12 +1152,12 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/TTD/TTD_RecipeManagementType/property/RecipeIds/write",
+            "dov:topic": "opcua/TTD/TTD_RecipeManagementType/property/RecipeIds/write",
             "op": "writeproperty"
           },
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/TTD/TTD_RecipeManagementType/property/RecipeIds/read",
+            "dov:topic": "opcua/TTD/TTD_RecipeManagementType/property/RecipeIds/read",
             "op": "readproperty"
           }
         ]
@@ -1175,13 +1170,12 @@
     "@context": [
       "https://www.w3.org/2022/wot/td/v1.1",
       {
-        "dtv": "http://azure.com/DigitalTwins/dtmi#",
-        "aov": "http://azure.com/IoT/operations/tm#"
+        "dov": "http://azure.com/DigitalOperations/vocab#"
       }
     ],
     "@type": "tm:ThingModel",
     "title": "TTD_TTDResultManagementType",
-    "aov:typeRef": "nsu=http://opcfoundation.org/UA/TTD/;i=1007",
+    "dov:typeRef": "org.opcfoundation.UA.TTD.TTDResultManagementType",
     "links": [
       {
         "rel": "tm:extends",
@@ -1189,14 +1183,14 @@
         "type": "application/tm+json"
       },
       {
-        "rel": "aov:component",
-        "aov:refName": "Results",
+        "rel": "dov:component",
+        "dov:refName": "Results",
         "href": "./OpcUaCore.TM.json#title=OpcUaCore_FolderType",
         "type": "application/tm+json"
       },
       {
-        "rel": "aov:capability",
-        "aov:refName": "ResultTransfer",
+        "rel": "dov:capability",
+        "dov:refName": "ResultTransfer",
         "href": "./Machinery.Result.TM.json#title=Machinery_Result_ResultTransferType",
         "type": "application/tm+json"
       }
@@ -1204,7 +1198,7 @@
     "schemaDefinitions": {
       "ResultEvaluationEnum": {
         "type": "object",
-        "aov:typeRef": "nsu=http://opcfoundation.org/UA/Machinery/Result/;i=3002",
+        "dov:typeRef": "org.opcfoundation.UA.Machinery.Result.ResultEvaluationEnum",
         "const": {
           "Undefined": 0,
           "OK": 1,
@@ -1234,10 +1228,10 @@
     },
     "actions": {
       "GetResultById": {
-        "aov:namespace": "http://opcfoundation.org/UA/Machinery/Result/",
+        "dov:namespace": "http://opcfoundation.org/UA/Machinery/Result/",
         "input": {
           "type": "object",
-          "aov:typeRef": "nsu=http://opcfoundation.org/UA/TTD/;i=6111",
+          "dov:typeRef": "org.opcfoundation.UA.InputArguments",
           "required": [ "ResultId", "Timeout" ],
           "properties": {
             "ResultId": {
@@ -1254,7 +1248,7 @@
         },
         "output": {
           "type": "object",
-          "aov:typeRef": "nsu=http://opcfoundation.org/UA/TTD/;i=6112",
+          "dov:typeRef": "org.opcfoundation.UA.OutputArguments",
           "required": [ "ResultHandle", "Result", "Error" ],
           "properties": {
             "ResultHandle": {
@@ -1267,14 +1261,14 @@
               "title": "ResultDataType",
               "description": "Contains fields that were created during the execution of a recipe.",
               "type": "object",
-              "aov:typeRef": "nsu=http://opcfoundation.org/UA/Machinery/Result/;i=3008",
+              "dov:typeRef": "org.opcfoundation.UA.Machinery.Result.ResultDataType",
               "required": [ "ResultMetaData", "ResultContent" ],
               "properties": {
                 "ResultMetaData": {
                   "title": "ResultMetaDataType",
                   "description": "Meta data of a result, describing the result.",
                   "type": "object",
-                  "aov:typeRef": "nsu=http://opcfoundation.org/UA/Machinery/Result/;i=3007",
+                  "dov:typeRef": "org.opcfoundation.UA.Machinery.Result.ResultMetaDataType",
                   "required": [ "ResultId" ],
                   "properties": {
                     "ResultId": {
@@ -1340,7 +1334,7 @@
                       "title": "ProcessingTimesDataType",
                       "description": "Contains measured times that were generated during the execution of a recipe.",
                       "type": "object",
-                      "aov:typeRef": "nsu=http://opcfoundation.org/UA/Machinery/Result/;i=3006",
+                      "dov:typeRef": "org.opcfoundation.UA.Machinery.Result.ProcessingTimesDataType",
                       "required": [ "StartTime", "EndTime" ],
                       "properties": {
                         "StartTime": {
@@ -1375,7 +1369,7 @@
                     "ResultEvaluation": {
                       "title": "ResultEvaluationEnum",
                       "description": "The ResultEvaluation indicates whether the result was in tolerance.",
-                      "aov:typeRef": "nsu=http://opcfoundation.org/UA/Machinery/Result/;i=3002",
+                      "dov:typeRef": "org.opcfoundation.UA.Machinery.Result.ResultEvaluationEnum",
                       "type": "integer",
                       "minimum": -2147483648,
                       "maximum": 2147483647
@@ -1420,7 +1414,7 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/TTD/TTD_TTDResultManagementType/action/GetResultById",
+            "dov:topic": "opcua/TTD/TTD_TTDResultManagementType/action/GetResultById",
             "op": "invokeaction"
           }
         ]
@@ -1435,14 +1429,13 @@
     "@context": [
       "https://www.w3.org/2022/wot/td/v1.1",
       {
-        "dtv": "http://azure.com/DigitalTwins/dtmi#",
-        "aov": "http://azure.com/IoT/operations/tm#"
+        "dov": "http://azure.com/DigitalOperations/vocab#"
       }
     ],
     "@type": "tm:ThingModel",
     "title": "TTD_TextileTestingDeviceType",
-    "aov:typeRef": "nsu=http://opcfoundation.org/UA/TTD/;i=1010",
-    "aov:isComposite": true,
+    "dov:typeRef": "org.opcfoundation.UA.TTD.TextileTestingDeviceType",
+    "dov:isComposite": true,
     "links": [
       {
         "rel": "tm:extends",
@@ -1450,20 +1443,20 @@
         "type": "application/tm+json"
       },
       {
-        "rel": "aov:capability",
-        "aov:refName": "MachineStatistics",
+        "rel": "dov:capability",
+        "dov:refName": "MachineStatistics",
         "href": "#title=TTD_MachineStatisticsType",
         "type": "application/tm+json"
       },
       {
-        "rel": "aov:capability",
-        "aov:refName": "Notification",
+        "rel": "dov:capability",
+        "dov:refName": "Notification",
         "href": "./MachineTool.TM.json#title=MachineTool_NotificationType",
         "type": "application/tm+json"
       },
       {
-        "rel": "aov:capability",
-        "aov:refName": "RecipeManagement",
+        "rel": "dov:capability",
+        "dov:refName": "RecipeManagement",
         "href": "#title=TTD_RecipeManagementType",
         "type": "application/tm+json"
       }
@@ -1473,12 +1466,12 @@
     "forms": [
       {
         "contentType": "application/json",
-        "dtv:topic": "opcua/TTD/TTD_TextileTestingDeviceType/properties/write",
+        "dov:topic": "opcua/TTD/TTD_TextileTestingDeviceType/properties/write",
         "op": "writemultipleproperties"
       },
       {
         "contentType": "application/json",
-        "dtv:topic": "opcua/TTD/TTD_TextileTestingDeviceType/properties/read",
+        "dov:topic": "opcua/TTD/TTD_TextileTestingDeviceType/properties/read",
         "op": "readallproperties"
       }
     ],
@@ -1486,12 +1479,12 @@
     },
     "properties": {
       "AvailableExchangeableParts": {
-        "aov:namespace": "http://opcfoundation.org/UA/TTD/",
+        "dov:namespace": "http://opcfoundation.org/UA/TTD/",
         "type": "array",
         "items": {
           "title": "ExchangeablePartDataType",
           "type": "object",
-          "aov:typeRef": "nsu=http://opcfoundation.org/UA/TTD/;i=3006",
+          "dov:typeRef": "org.opcfoundation.UA.TTD.ExchangeablePartDataType",
           "required": [ "PartType", "Mounted" ],
           "properties": {
             "PartType": {
@@ -1525,23 +1518,23 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/TTD/TTD_TextileTestingDeviceType/property/AvailableExchangeableParts/write",
+            "dov:topic": "opcua/TTD/TTD_TextileTestingDeviceType/property/AvailableExchangeableParts/write",
             "op": "writeproperty"
           },
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/TTD/TTD_TextileTestingDeviceType/property/AvailableExchangeableParts/read",
+            "dov:topic": "opcua/TTD/TTD_TextileTestingDeviceType/property/AvailableExchangeableParts/read",
             "op": "readproperty"
           }
         ]
       },
       "InstalledTesterModules": {
-        "aov:namespace": "http://opcfoundation.org/UA/TTD/",
+        "dov:namespace": "http://opcfoundation.org/UA/TTD/",
         "type": "array",
         "items": {
           "title": "OptionalModuleDataType",
           "type": "object",
-          "aov:typeRef": "nsu=http://opcfoundation.org/UA/TTD/;i=3009",
+          "dov:typeRef": "org.opcfoundation.UA.TTD.OptionalModuleDataType",
           "required": [ "ModuleName", "ModuleType", "IsInstalled" ],
           "properties": {
             "ModuleName": {
@@ -1566,23 +1559,23 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/TTD/TTD_TextileTestingDeviceType/property/InstalledTesterModules/write",
+            "dov:topic": "opcua/TTD/TTD_TextileTestingDeviceType/property/InstalledTesterModules/write",
             "op": "writeproperty"
           },
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/TTD/TTD_TextileTestingDeviceType/property/InstalledTesterModules/read",
+            "dov:topic": "opcua/TTD/TTD_TextileTestingDeviceType/property/InstalledTesterModules/read",
             "op": "readproperty"
           }
         ]
       },
       "TestProcedureIds": {
-        "aov:namespace": "http://opcfoundation.org/UA/TTD/",
+        "dov:namespace": "http://opcfoundation.org/UA/TTD/",
         "type": "array",
         "items": {
           "title": "TestProcedureIdDataType",
           "type": "object",
-          "aov:typeRef": "nsu=http://opcfoundation.org/UA/TTD/;i=3034",
+          "dov:typeRef": "org.opcfoundation.UA.TTD.TestProcedureIdDataType",
           "required": [ "TestProcedureId" ],
           "properties": {
             "TestProcedureId": {
@@ -1610,12 +1603,12 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/TTD/TTD_TextileTestingDeviceType/property/TestProcedureIds/write",
+            "dov:topic": "opcua/TTD/TTD_TextileTestingDeviceType/property/TestProcedureIds/write",
             "op": "writeproperty"
           },
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/TTD/TTD_TextileTestingDeviceType/property/TestProcedureIds/read",
+            "dov:topic": "opcua/TTD/TTD_TextileTestingDeviceType/property/TestProcedureIds/read",
             "op": "readproperty"
           }
         ]

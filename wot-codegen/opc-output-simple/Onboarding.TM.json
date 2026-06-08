@@ -3,13 +3,12 @@
     "@context": [
       "https://www.w3.org/2022/wot/td/v1.1",
       {
-        "dtv": "http://azure.com/DigitalTwins/dtmi#",
-        "aov": "http://azure.com/IoT/operations/tm#"
+        "dov": "http://azure.com/DigitalOperations/vocab#"
       }
     ],
     "@type": "tm:ThingModel",
     "title": "Onboarding_DeviceRegistrarAdminType",
-    "aov:typeRef": "nsu=http://opcfoundation.org/UA/Onboarding/;i=1175",
+    "dov:typeRef": "org.opcfoundation.UA.Onboarding.DeviceRegistrarAdminType",
     "links": [
       {
         "rel": "tm:extends",
@@ -17,14 +16,14 @@
         "type": "application/tm+json"
       },
       {
-        "rel": "aov:component",
-        "aov:refName": "TicketAuthorities",
+        "rel": "dov:component",
+        "dov:refName": "TicketAuthorities",
         "href": "./OpcUaCore.TM.json#title=OpcUaCore_TrustListType",
         "type": "application/tm+json"
       },
       {
-        "rel": "aov:component",
-        "aov:refName": "DeviceIdentityAuthorities",
+        "rel": "dov:component",
+        "dov:refName": "DeviceIdentityAuthorities",
         "href": "./OpcUaCore.TM.json#title=OpcUaCore_TrustListType",
         "type": "application/tm+json"
       }
@@ -33,10 +32,10 @@
     },
     "actions": {
       "RegisterTickets": {
-        "aov:namespace": "http://opcfoundation.org/UA/Onboarding/",
+        "dov:namespace": "http://opcfoundation.org/UA/Onboarding/",
         "input": {
           "type": "object",
-          "aov:typeRef": "nsu=http://opcfoundation.org/UA/Onboarding/;i=1177",
+          "dov:typeRef": "org.opcfoundation.UA.InputArguments",
           "required": [ "Tickets" ],
           "properties": {
             "Tickets": {
@@ -49,7 +48,7 @@
         },
         "output": {
           "type": "object",
-          "aov:typeRef": "nsu=http://opcfoundation.org/UA/Onboarding/;i=1178",
+          "dov:typeRef": "org.opcfoundation.UA.OutputArguments",
           "required": [ "Results" ],
           "properties": {
             "Results": {
@@ -63,16 +62,16 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/Onboarding/Onboarding_DeviceRegistrarAdminType/action/RegisterTickets",
+            "dov:topic": "opcua/Onboarding/Onboarding_DeviceRegistrarAdminType/action/RegisterTickets",
             "op": "invokeaction"
           }
         ]
       },
       "UnregisterTickets": {
-        "aov:namespace": "http://opcfoundation.org/UA/Onboarding/",
+        "dov:namespace": "http://opcfoundation.org/UA/Onboarding/",
         "input": {
           "type": "object",
-          "aov:typeRef": "nsu=http://opcfoundation.org/UA/Onboarding/;i=1180",
+          "dov:typeRef": "org.opcfoundation.UA.InputArguments",
           "required": [ "Tickets" ],
           "properties": {
             "Tickets": {
@@ -85,7 +84,7 @@
         },
         "output": {
           "type": "object",
-          "aov:typeRef": "nsu=http://opcfoundation.org/UA/Onboarding/;i=1181",
+          "dov:typeRef": "org.opcfoundation.UA.OutputArguments",
           "required": [ "Results" ],
           "properties": {
             "Results": {
@@ -99,7 +98,7 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/Onboarding/Onboarding_DeviceRegistrarAdminType/action/UnregisterTickets",
+            "dov:topic": "opcua/Onboarding/Onboarding_DeviceRegistrarAdminType/action/UnregisterTickets",
             "op": "invokeaction"
           }
         ]
@@ -114,13 +113,12 @@
     "@context": [
       "https://www.w3.org/2022/wot/td/v1.1",
       {
-        "dtv": "http://azure.com/DigitalTwins/dtmi#",
-        "aov": "http://azure.com/IoT/operations/tm#"
+        "dov": "http://azure.com/DigitalOperations/vocab#"
       }
     ],
     "@type": "tm:ThingModel",
     "title": "Onboarding_DeviceRegistrarType",
-    "aov:typeRef": "nsu=http://opcfoundation.org/UA/Onboarding/;i=1259",
+    "dov:typeRef": "org.opcfoundation.UA.Onboarding.DeviceRegistrarType",
     "links": [
       {
         "rel": "tm:extends",
@@ -128,8 +126,8 @@
         "type": "application/tm+json"
       },
       {
-        "rel": "aov:reference",
-        "aov:refName": "Administration",
+        "rel": "dov:reference",
+        "dov:refName": "Administration",
         "href": "#title=Onboarding_DeviceRegistrarAdminType",
         "type": "application/tm+json"
       }
@@ -137,7 +135,7 @@
     "schemaDefinitions": {
       "ApplicationType": {
         "type": "object",
-        "aov:typeRef": "nsu=http://opcfoundation.org/UA/;i=307",
+        "dov:typeRef": "org.opcfoundation.UA.ApplicationType",
         "const": {
           "Server": 0,
           "Client": 1,
@@ -162,10 +160,10 @@
     },
     "actions": {
       "GetManagers": {
-        "aov:namespace": "http://opcfoundation.org/UA/Onboarding/",
+        "dov:namespace": "http://opcfoundation.org/UA/Onboarding/",
         "output": {
           "type": "object",
-          "aov:typeRef": "nsu=http://opcfoundation.org/UA/Onboarding/;i=1506",
+          "dov:typeRef": "org.opcfoundation.UA.OutputArguments",
           "required": [ "Managers" ],
           "properties": {
             "Managers": {
@@ -173,7 +171,7 @@
               "items": {
                 "title": "ManagerDescription",
                 "type": "object",
-                "aov:typeRef": "nsu=http://opcfoundation.org/UA/Onboarding/;i=1495",
+                "dov:typeRef": "org.opcfoundation.UA.Onboarding.ManagerDescription",
                 "required": [ "Name", "IsRequired", "PurposeUri", "ProtocolUri", "EndpointUrls" ],
                 "properties": {
                   "Name": {
@@ -202,16 +200,16 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/Onboarding/Onboarding_DeviceRegistrarType/action/GetManagers",
+            "dov:topic": "opcua/Onboarding/Onboarding_DeviceRegistrarType/action/GetManagers",
             "op": "invokeaction"
           }
         ]
       },
       "ProvideIdentities": {
-        "aov:namespace": "http://opcfoundation.org/UA/Onboarding/",
+        "dov:namespace": "http://opcfoundation.org/UA/Onboarding/",
         "input": {
           "type": "object",
-          "aov:typeRef": "nsu=http://opcfoundation.org/UA/Onboarding/;i=1261",
+          "dov:typeRef": "org.opcfoundation.UA.InputArguments",
           "required": [ "Identities", "Issuers", "Tickets" ],
           "properties": {
             "Identities": {
@@ -238,7 +236,7 @@
         },
         "output": {
           "type": "object",
-          "aov:typeRef": "nsu=http://opcfoundation.org/UA/Onboarding/;i=1262",
+          "dov:typeRef": "org.opcfoundation.UA.OutputArguments",
           "required": [ "SelectedIdentity", "MatchingTicket", "ApplicationId", "SoftwareUpdateManager" ],
           "properties": {
             "SelectedIdentity": {
@@ -248,7 +246,7 @@
             "MatchingTicket": {
               "title": "BaseTicketType",
               "type": "object",
-              "aov:typeRef": "nsu=http://opcfoundation.org/UA/Onboarding/;i=1165",
+              "dov:typeRef": "org.opcfoundation.UA.Onboarding.BaseTicketType",
               "required": [ "ManufacturerName", "ModelName", "ModelVersion", "HardwareRevision", "SoftwareRevision", "SerialNumber", "ManufactureDate", "Authorities" ],
               "properties": {
                 "ManufacturerName": {
@@ -278,7 +276,7 @@
                   "items": {
                     "title": "CertificateAuthorityType",
                     "type": "object",
-                    "aov:typeRef": "nsu=http://opcfoundation.org/UA/Onboarding/;i=1164",
+                    "dov:typeRef": "org.opcfoundation.UA.Onboarding.CertificateAuthorityType",
                     "required": [ "AuthorityCertificate", "IssuerCertificates" ],
                     "properties": {
                       "AuthorityCertificate": {
@@ -303,7 +301,7 @@
             "SoftwareUpdateManager": {
               "title": "ManagerDescription",
               "type": "object",
-              "aov:typeRef": "nsu=http://opcfoundation.org/UA/Onboarding/;i=1495",
+              "dov:typeRef": "org.opcfoundation.UA.Onboarding.ManagerDescription",
               "required": [ "Name", "IsRequired", "PurposeUri", "ProtocolUri", "EndpointUrls" ],
               "properties": {
                 "Name": {
@@ -331,22 +329,22 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/Onboarding/Onboarding_DeviceRegistrarType/action/ProvideIdentities",
+            "dov:topic": "opcua/Onboarding/Onboarding_DeviceRegistrarType/action/ProvideIdentities",
             "op": "invokeaction"
           }
         ]
       },
       "RegisterDeviceEndpoint": {
-        "aov:namespace": "http://opcfoundation.org/UA/Onboarding/",
+        "dov:namespace": "http://opcfoundation.org/UA/Onboarding/",
         "input": {
           "type": "object",
-          "aov:typeRef": "nsu=http://opcfoundation.org/UA/Onboarding/;i=1264",
+          "dov:typeRef": "org.opcfoundation.UA.InputArguments",
           "required": [ "Application" ],
           "properties": {
             "Application": {
               "title": "ApplicationDescription",
               "type": "object",
-              "aov:typeRef": "nsu=http://opcfoundation.org/UA/;i=308",
+              "dov:typeRef": "org.opcfoundation.UA.ApplicationDescription",
               "required": [ "ApplicationUri", "ProductUri", "ApplicationName", "ApplicationType", "GatewayServerUri", "DiscoveryProfileUri", "DiscoveryUrls" ],
               "properties": {
                 "ApplicationUri": {
@@ -360,7 +358,7 @@
                 },
                 "ApplicationType": {
                   "title": "ApplicationType",
-                  "aov:typeRef": "nsu=http://opcfoundation.org/UA/;i=307",
+                  "dov:typeRef": "org.opcfoundation.UA.ApplicationType",
                   "type": "integer",
                   "minimum": -2147483648,
                   "maximum": 2147483647
@@ -384,22 +382,22 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/Onboarding/Onboarding_DeviceRegistrarType/action/RegisterDeviceEndpoint",
+            "dov:topic": "opcua/Onboarding/Onboarding_DeviceRegistrarType/action/RegisterDeviceEndpoint",
             "op": "invokeaction"
           }
         ]
       },
       "RegisterManagedApplication": {
-        "aov:namespace": "http://opcfoundation.org/UA/Onboarding/",
+        "dov:namespace": "http://opcfoundation.org/UA/Onboarding/",
         "input": {
           "type": "object",
-          "aov:typeRef": "nsu=http://opcfoundation.org/UA/Onboarding/;i=1508",
+          "dov:typeRef": "org.opcfoundation.UA.InputArguments",
           "required": [ "Application", "ProtocolUri" ],
           "properties": {
             "Application": {
               "title": "ApplicationRecordDataType",
               "type": "object",
-              "aov:typeRef": "nsu=http://opcfoundation.org/UA/GDS/;i=1",
+              "dov:typeRef": "org.opcfoundation.UA.GDS.ApplicationRecordDataType",
               "required": [ "ApplicationId", "ApplicationUri", "ApplicationType", "ApplicationNames", "ProductUri", "DiscoveryUrls", "ServerCapabilities" ],
               "properties": {
                 "ApplicationId": {
@@ -410,7 +408,7 @@
                 },
                 "ApplicationType": {
                   "title": "ApplicationType",
-                  "aov:typeRef": "nsu=http://opcfoundation.org/UA/;i=307",
+                  "dov:typeRef": "org.opcfoundation.UA.ApplicationType",
                   "type": "integer",
                   "minimum": -2147483648,
                   "maximum": 2147483647
@@ -445,7 +443,7 @@
         },
         "output": {
           "type": "object",
-          "aov:typeRef": "nsu=http://opcfoundation.org/UA/Onboarding/;i=1509",
+          "dov:typeRef": "org.opcfoundation.UA.OutputArguments",
           "required": [ "ApplicationId" ],
           "properties": {
             "ApplicationId": {
@@ -456,16 +454,16 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/Onboarding/Onboarding_DeviceRegistrarType/action/RegisterManagedApplication",
+            "dov:topic": "opcua/Onboarding/Onboarding_DeviceRegistrarType/action/RegisterManagedApplication",
             "op": "invokeaction"
           }
         ]
       },
       "UpdateSoftwareStatus": {
-        "aov:namespace": "http://opcfoundation.org/UA/Onboarding/",
+        "dov:namespace": "http://opcfoundation.org/UA/Onboarding/",
         "input": {
           "type": "object",
-          "aov:typeRef": "nsu=http://opcfoundation.org/UA/Onboarding/;i=1504",
+          "dov:typeRef": "org.opcfoundation.UA.InputArguments",
           "required": [ "ProductInstanceUri", "Status", "SoftwareRevision" ],
           "properties": {
             "ProductInstanceUri": {
@@ -482,7 +480,7 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/Onboarding/Onboarding_DeviceRegistrarType/action/UpdateSoftwareStatus",
+            "dov:topic": "opcua/Onboarding/Onboarding_DeviceRegistrarType/action/UpdateSoftwareStatus",
             "op": "invokeaction"
           }
         ]
@@ -497,14 +495,13 @@
     "@context": [
       "https://www.w3.org/2022/wot/td/v1.1",
       {
-        "dtv": "http://azure.com/DigitalTwins/dtmi#",
-        "aov": "http://azure.com/IoT/operations/tm#"
+        "dov": "http://azure.com/DigitalOperations/vocab#"
       }
     ],
     "@type": "tm:ThingModel",
     "title": "Onboarding_DeviceRegistrationAuditEventType",
-    "aov:typeRef": "nsu=http://opcfoundation.org/UA/Onboarding/;i=1517",
-    "aov:isEvent": true,
+    "dov:typeRef": "org.opcfoundation.UA.Onboarding.DeviceRegistrationAuditEventType",
+    "dov:isEvent": true,
     "links": [
       {
         "rel": "tm:extends",
@@ -517,7 +514,7 @@
     "forms": [
       {
         "contentType": "application/json",
-        "dtv:topic": "opcua/Onboarding/Onboarding_DeviceRegistrationAuditEventType/properties/read",
+        "dov:topic": "opcua/Onboarding/Onboarding_DeviceRegistrationAuditEventType/properties/read",
         "op": "readallproperties"
       }
     ],
@@ -525,13 +522,13 @@
     },
     "properties": {
       "ProductInstanceUri": {
-        "aov:namespace": "http://opcfoundation.org/UA/Onboarding/",
+        "dov:namespace": "http://opcfoundation.org/UA/Onboarding/",
         "type": "string",
         "readOnly": true,
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/Onboarding/Onboarding_DeviceRegistrationAuditEventType/property/ProductInstanceUri/read",
+            "dov:topic": "opcua/Onboarding/Onboarding_DeviceRegistrationAuditEventType/property/ProductInstanceUri/read",
             "op": "readproperty"
           }
         ]
@@ -544,14 +541,13 @@
     "@context": [
       "https://www.w3.org/2022/wot/td/v1.1",
       {
-        "dtv": "http://azure.com/DigitalTwins/dtmi#",
-        "aov": "http://azure.com/IoT/operations/tm#"
+        "dov": "http://azure.com/DigitalOperations/vocab#"
       }
     ],
     "@type": "tm:ThingModel",
     "title": "Onboarding_DeviceIdentityAcceptedAuditEventType",
-    "aov:typeRef": "nsu=http://opcfoundation.org/UA/Onboarding/;i=1533",
-    "aov:isEvent": true,
+    "dov:typeRef": "org.opcfoundation.UA.Onboarding.DeviceIdentityAcceptedAuditEventType",
+    "dov:isEvent": true,
     "links": [
       {
         "rel": "tm:extends",
@@ -564,7 +560,7 @@
     "forms": [
       {
         "contentType": "application/json",
-        "dtv:topic": "opcua/Onboarding/Onboarding_DeviceIdentityAcceptedAuditEventType/properties/read",
+        "dov:topic": "opcua/Onboarding/Onboarding_DeviceIdentityAcceptedAuditEventType/properties/read",
         "op": "readallproperties"
       }
     ],
@@ -572,38 +568,38 @@
     },
     "properties": {
       "Certificate": {
-        "aov:namespace": "http://opcfoundation.org/UA/Onboarding/",
+        "dov:namespace": "http://opcfoundation.org/UA/Onboarding/",
         "type": "string",
         "contentEncoding": "base64",
         "readOnly": true,
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/Onboarding/Onboarding_DeviceIdentityAcceptedAuditEventType/property/Certificate/read",
+            "dov:topic": "opcua/Onboarding/Onboarding_DeviceIdentityAcceptedAuditEventType/property/Certificate/read",
             "op": "readproperty"
           }
         ]
       },
       "Composite": {
-        "aov:namespace": "http://opcfoundation.org/UA/Onboarding/",
+        "dov:namespace": "http://opcfoundation.org/UA/Onboarding/",
         "type": "string",
         "readOnly": true,
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/Onboarding/Onboarding_DeviceIdentityAcceptedAuditEventType/property/Composite/read",
+            "dov:topic": "opcua/Onboarding/Onboarding_DeviceIdentityAcceptedAuditEventType/property/Composite/read",
             "op": "readproperty"
           }
         ]
       },
       "Ticket": {
-        "aov:namespace": "http://opcfoundation.org/UA/Onboarding/",
+        "dov:namespace": "http://opcfoundation.org/UA/Onboarding/",
         "type": "string",
         "readOnly": true,
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/Onboarding/Onboarding_DeviceIdentityAcceptedAuditEventType/property/Ticket/read",
+            "dov:topic": "opcua/Onboarding/Onboarding_DeviceIdentityAcceptedAuditEventType/property/Ticket/read",
             "op": "readproperty"
           }
         ]
@@ -616,14 +612,13 @@
     "@context": [
       "https://www.w3.org/2022/wot/td/v1.1",
       {
-        "dtv": "http://azure.com/DigitalTwins/dtmi#",
-        "aov": "http://azure.com/IoT/operations/tm#"
+        "dov": "http://azure.com/DigitalOperations/vocab#"
       }
     ],
     "@type": "tm:ThingModel",
     "title": "Onboarding_DeviceSoftwareUpdatedAuditEventType",
-    "aov:typeRef": "nsu=http://opcfoundation.org/UA/Onboarding/;i=1552",
-    "aov:isEvent": true,
+    "dov:typeRef": "org.opcfoundation.UA.Onboarding.DeviceSoftwareUpdatedAuditEventType",
+    "dov:isEvent": true,
     "links": [
       {
         "rel": "tm:extends",
@@ -636,7 +631,7 @@
     "forms": [
       {
         "contentType": "application/json",
-        "dtv:topic": "opcua/Onboarding/Onboarding_DeviceSoftwareUpdatedAuditEventType/properties/read",
+        "dov:topic": "opcua/Onboarding/Onboarding_DeviceSoftwareUpdatedAuditEventType/properties/read",
         "op": "readallproperties"
       }
     ],
@@ -644,25 +639,25 @@
     },
     "properties": {
       "SoftwareRevision": {
-        "aov:namespace": "http://opcfoundation.org/UA/Onboarding/",
+        "dov:namespace": "http://opcfoundation.org/UA/Onboarding/",
         "type": "string",
         "readOnly": true,
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/Onboarding/Onboarding_DeviceSoftwareUpdatedAuditEventType/property/SoftwareRevision/read",
+            "dov:topic": "opcua/Onboarding/Onboarding_DeviceSoftwareUpdatedAuditEventType/property/SoftwareRevision/read",
             "op": "readproperty"
           }
         ]
       },
       "Status": {
-        "aov:namespace": "http://opcfoundation.org/UA/Onboarding/",
+        "dov:namespace": "http://opcfoundation.org/UA/Onboarding/",
         "type": "boolean",
         "readOnly": true,
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/Onboarding/Onboarding_DeviceSoftwareUpdatedAuditEventType/property/Status/read",
+            "dov:topic": "opcua/Onboarding/Onboarding_DeviceSoftwareUpdatedAuditEventType/property/Status/read",
             "op": "readproperty"
           }
         ]

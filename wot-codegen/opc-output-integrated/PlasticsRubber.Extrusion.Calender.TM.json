@@ -3,13 +3,12 @@
     "@context": [
       "https://www.w3.org/2022/wot/td/v1.1",
       {
-        "dtv": "http://azure.com/DigitalTwins/dtmi#",
-        "aov": "http://azure.com/IoT/operations/tm#"
+        "dov": "http://azure.com/DigitalOperations/vocab#"
       }
     ],
     "@type": "tm:ThingModel",
     "title": "PlasticsRubber_Extrusion_Calender_CouplingProductForcesType",
-    "aov:typeRef": "nsu=http://opcfoundation.org/UA/PlasticsRubber/Extrusion/Calender/;i=1003",
+    "dov:typeRef": "org.opcfoundation.UA.PlasticsRubber.Extrusion.Calender.CouplingProductForcesType",
     "links": [
       {
         "rel": "tm:extends",
@@ -17,8 +16,8 @@
         "type": "application/tm+json"
       },
       {
-        "rel": "aov:component",
-        "aov:refName": "CouplingProductForce__Nr_",
+        "rel": "dov:component",
+        "dov:refName": "CouplingProductForce__Nr_",
         "href": "#title=PlasticsRubber_GeneralTypes_MonitoredParameterType",
         "type": "application/tm+json"
       }
@@ -28,7 +27,7 @@
     "forms": [
       {
         "contentType": "application/json",
-        "dtv:topic": "opcua/PlasticsRubber.Extrusion.Calender/PlasticsRubber_Extrusion_Calender_CouplingProductForcesType/properties/read",
+        "dov:topic": "opcua/PlasticsRubber.Extrusion.Calender/PlasticsRubber_Extrusion_Calender_CouplingProductForcesType/properties/read",
         "op": "readallproperties"
       }
     ],
@@ -41,7 +40,7 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/PlasticsRubber.Extrusion.Calender/PlasticsRubber_Extrusion_Calender_CouplingProductForcesType/property/NodeVersion/read",
+            "dov:topic": "opcua/PlasticsRubber.Extrusion.Calender/PlasticsRubber_Extrusion_Calender_CouplingProductForcesType/property/NodeVersion/read",
             "op": "readproperty"
           }
         ]
@@ -54,13 +53,12 @@
     "@context": [
       "https://www.w3.org/2022/wot/td/v1.1",
       {
-        "dtv": "http://azure.com/DigitalTwins/dtmi#",
-        "aov": "http://azure.com/IoT/operations/tm#"
+        "dov": "http://azure.com/DigitalOperations/vocab#"
       }
     ],
     "@type": "tm:ThingModel",
     "title": "PlasticsRubber_Extrusion_Calender_CouplingProductTensionsType",
-    "aov:typeRef": "nsu=http://opcfoundation.org/UA/PlasticsRubber/Extrusion/Calender/;i=1004",
+    "dov:typeRef": "org.opcfoundation.UA.PlasticsRubber.Extrusion.Calender.CouplingProductTensionsType",
     "links": [
       {
         "rel": "tm:extends",
@@ -68,8 +66,8 @@
         "type": "application/tm+json"
       },
       {
-        "rel": "aov:component",
-        "aov:refName": "CouplingProductTension__Nr_",
+        "rel": "dov:component",
+        "dov:refName": "CouplingProductTension__Nr_",
         "href": "#title=PlasticsRubber_GeneralTypes_MonitoredParameterType",
         "type": "application/tm+json"
       }
@@ -79,7 +77,7 @@
     "forms": [
       {
         "contentType": "application/json",
-        "dtv:topic": "opcua/PlasticsRubber.Extrusion.Calender/PlasticsRubber_Extrusion_Calender_CouplingProductTensionsType/properties/read",
+        "dov:topic": "opcua/PlasticsRubber.Extrusion.Calender/PlasticsRubber_Extrusion_Calender_CouplingProductTensionsType/properties/read",
         "op": "readallproperties"
       }
     ],
@@ -92,7 +90,7 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/PlasticsRubber.Extrusion.Calender/PlasticsRubber_Extrusion_Calender_CouplingProductTensionsType/property/NodeVersion/read",
+            "dov:topic": "opcua/PlasticsRubber.Extrusion.Calender/PlasticsRubber_Extrusion_Calender_CouplingProductTensionsType/property/NodeVersion/read",
             "op": "readproperty"
           }
         ]
@@ -105,14 +103,13 @@
     "@context": [
       "https://www.w3.org/2022/wot/td/v1.1",
       {
-        "dtv": "http://azure.com/DigitalTwins/dtmi#",
-        "aov": "http://azure.com/IoT/operations/tm#"
+        "dov": "http://azure.com/DigitalOperations/vocab#"
       }
     ],
     "@type": "tm:ThingModel",
     "title": "PlasticsRubber_Extrusion_Calender_Calender_InterfaceType",
-    "aov:typeRef": "nsu=http://opcfoundation.org/UA/PlasticsRubber/Extrusion/Calender/;i=1002",
-    "aov:isComposite": true,
+    "dov:typeRef": "org.opcfoundation.UA.PlasticsRubber.Extrusion.Calender.Calender_InterfaceType",
+    "dov:isComposite": true,
     "links": [
       {
         "rel": "tm:extends",
@@ -120,50 +117,50 @@
         "type": "application/tm+json"
       },
       {
-        "rel": "aov:reference",
-        "aov:refName": "CouplingProductForces",
+        "rel": "dov:reference",
+        "dov:refName": "CouplingProductForces",
         "href": "#title=PlasticsRubber_Extrusion_Calender_CouplingProductForcesType",
         "type": "application/tm+json"
       },
       {
-        "rel": "aov:reference",
-        "aov:refName": "CouplingProductTensions",
+        "rel": "dov:reference",
+        "dov:refName": "CouplingProductTensions",
         "href": "#title=PlasticsRubber_Extrusion_Calender_CouplingProductTensionsType",
         "type": "application/tm+json"
       },
       {
-        "rel": "aov:capability",
-        "aov:refName": "Gaps",
+        "rel": "dov:capability",
+        "dov:refName": "Gaps",
         "href": "#title=PlasticsRubber_Extrusion_GeneralTypes_GapsType",
         "type": "application/tm+json"
       },
       {
-        "rel": "aov:component",
-        "aov:refName": "HorizontalPosition",
+        "rel": "dov:component",
+        "dov:refName": "HorizontalPosition",
         "href": "#title=PlasticsRubber_GeneralTypes_MonitoredParameterType",
         "type": "application/tm+json"
       },
       {
-        "rel": "aov:component",
-        "aov:refName": "ProductForce",
+        "rel": "dov:component",
+        "dov:refName": "ProductForce",
         "href": "#title=PlasticsRubber_GeneralTypes_MonitoredParameterType",
         "type": "application/tm+json"
       },
       {
-        "rel": "aov:component",
-        "aov:refName": "ProductTension",
+        "rel": "dov:component",
+        "dov:refName": "ProductTension",
         "href": "#title=PlasticsRubber_GeneralTypes_MonitoredParameterType",
         "type": "application/tm+json"
       },
       {
-        "rel": "aov:capability",
-        "aov:refName": "Rolls",
+        "rel": "dov:capability",
+        "dov:refName": "Rolls",
         "href": "#title=PlasticsRubber_Extrusion_GeneralTypes_RollsType",
         "type": "application/tm+json"
       },
       {
-        "rel": "aov:component",
-        "aov:refName": "VerticalPosition",
+        "rel": "dov:component",
+        "dov:refName": "VerticalPosition",
         "href": "#title=PlasticsRubber_GeneralTypes_MonitoredParameterType",
         "type": "application/tm+json"
       }
@@ -181,13 +178,12 @@
     "@context": [
       "https://www.w3.org/2022/wot/td/v1.1",
       {
-        "dtv": "http://azure.com/DigitalTwins/dtmi#",
-        "aov": "http://azure.com/IoT/operations/tm#"
+        "dov": "http://azure.com/DigitalOperations/vocab#"
       }
     ],
     "@type": "tm:ThingModel",
     "title": "OpcUaCore_BaseObjectType",
-    "aov:typeRef": "nsu=http://opcfoundation.org/UA/;i=58",
+    "dov:typeRef": "org.opcfoundation.UA.BaseObjectType",
     "links": [
     ],
     "schemaDefinitions": {
@@ -203,13 +199,12 @@
     "@context": [
       "https://www.w3.org/2022/wot/td/v1.1",
       {
-        "dtv": "http://azure.com/DigitalTwins/dtmi#",
-        "aov": "http://azure.com/IoT/operations/tm#"
+        "dov": "http://azure.com/DigitalOperations/vocab#"
       }
     ],
     "@type": "tm:ThingModel",
     "title": "OpcUaCore_FolderType",
-    "aov:typeRef": "nsu=http://opcfoundation.org/UA/;i=61",
+    "dov:typeRef": "org.opcfoundation.UA.FolderType",
     "links": [
       {
         "rel": "tm:extends",
@@ -230,14 +225,13 @@
     "@context": [
       "https://www.w3.org/2022/wot/td/v1.1",
       {
-        "dtv": "http://azure.com/DigitalTwins/dtmi#",
-        "aov": "http://azure.com/IoT/operations/tm#"
+        "dov": "http://azure.com/DigitalOperations/vocab#"
       }
     ],
     "@type": "tm:ThingModel",
     "title": "OpcUaCore_TemporaryFileTransferType",
-    "aov:typeRef": "nsu=http://opcfoundation.org/UA/;i=15744",
-    "aov:isComposite": true,
+    "dov:typeRef": "org.opcfoundation.UA.TemporaryFileTransferType",
+    "dov:isComposite": true,
     "links": [
       {
         "rel": "tm:extends",
@@ -245,8 +239,8 @@
         "type": "application/tm+json"
       },
       {
-        "rel": "aov:component",
-        "aov:refName": "TransferState_Placeholder",
+        "rel": "dov:component",
+        "dov:refName": "TransferState_Placeholder",
         "href": "#title=OpcUaCore_FileTransferStateMachineType",
         "type": "application/tm+json"
       }
@@ -256,7 +250,7 @@
     "forms": [
       {
         "contentType": "application/json",
-        "dtv:topic": "opcua/OpcUaCore/OpcUaCore_TemporaryFileTransferType/properties/read",
+        "dov:topic": "opcua/OpcUaCore/OpcUaCore_TemporaryFileTransferType/properties/read",
         "op": "readallproperties"
       }
     ],
@@ -264,7 +258,7 @@
       "CloseAndCommit": {
         "input": {
           "type": "object",
-          "aov:typeRef": "nsu=http://opcfoundation.org/UA/;i=15752",
+          "dov:typeRef": "org.opcfoundation.UA.InputArguments",
           "required": [ "FileHandle" ],
           "properties": {
             "FileHandle": {
@@ -276,7 +270,7 @@
         },
         "output": {
           "type": "object",
-          "aov:typeRef": "nsu=http://opcfoundation.org/UA/;i=15753",
+          "dov:typeRef": "org.opcfoundation.UA.OutputArguments",
           "required": [ "CompletionStateMachine" ],
           "properties": {
             "CompletionStateMachine": {
@@ -287,7 +281,7 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/OpcUaCore/OpcUaCore_TemporaryFileTransferType/action/CloseAndCommit",
+            "dov:topic": "opcua/OpcUaCore/OpcUaCore_TemporaryFileTransferType/action/CloseAndCommit",
             "op": "invokeaction"
           }
         ]
@@ -295,7 +289,7 @@
       "GenerateFileForRead": {
         "input": {
           "type": "object",
-          "aov:typeRef": "nsu=http://opcfoundation.org/UA/;i=15747",
+          "dov:typeRef": "org.opcfoundation.UA.InputArguments",
           "required": [ "GenerateOptions" ],
           "properties": {
             "GenerateOptions": {
@@ -305,7 +299,7 @@
         },
         "output": {
           "type": "object",
-          "aov:typeRef": "nsu=http://opcfoundation.org/UA/;i=15748",
+          "dov:typeRef": "org.opcfoundation.UA.OutputArguments",
           "required": [ "FileNodeId", "FileHandle", "CompletionStateMachine" ],
           "properties": {
             "FileNodeId": {
@@ -324,7 +318,7 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/OpcUaCore/OpcUaCore_TemporaryFileTransferType/action/GenerateFileForRead",
+            "dov:topic": "opcua/OpcUaCore/OpcUaCore_TemporaryFileTransferType/action/GenerateFileForRead",
             "op": "invokeaction"
           }
         ]
@@ -332,7 +326,7 @@
       "GenerateFileForWrite": {
         "input": {
           "type": "object",
-          "aov:typeRef": "nsu=http://opcfoundation.org/UA/;i=16359",
+          "dov:typeRef": "org.opcfoundation.UA.InputArguments",
           "required": [ "GenerateOptions" ],
           "properties": {
             "GenerateOptions": {
@@ -342,7 +336,7 @@
         },
         "output": {
           "type": "object",
-          "aov:typeRef": "nsu=http://opcfoundation.org/UA/;i=15750",
+          "dov:typeRef": "org.opcfoundation.UA.OutputArguments",
           "required": [ "FileNodeId", "FileHandle" ],
           "properties": {
             "FileNodeId": {
@@ -358,7 +352,7 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/OpcUaCore/OpcUaCore_TemporaryFileTransferType/action/GenerateFileForWrite",
+            "dov:topic": "opcua/OpcUaCore/OpcUaCore_TemporaryFileTransferType/action/GenerateFileForWrite",
             "op": "invokeaction"
           }
         ]
@@ -372,7 +366,7 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/OpcUaCore/OpcUaCore_TemporaryFileTransferType/property/ClientProcessingTimeout/read",
+            "dov:topic": "opcua/OpcUaCore/OpcUaCore_TemporaryFileTransferType/property/ClientProcessingTimeout/read",
             "op": "readproperty"
           }
         ]
@@ -385,13 +379,12 @@
     "@context": [
       "https://www.w3.org/2022/wot/td/v1.1",
       {
-        "dtv": "http://azure.com/DigitalTwins/dtmi#",
-        "aov": "http://azure.com/IoT/operations/tm#"
+        "dov": "http://azure.com/DigitalOperations/vocab#"
       }
     ],
     "@type": "tm:ThingModel",
     "title": "OpcUaCore_FileTransferStateMachineType",
-    "aov:typeRef": "nsu=http://opcfoundation.org/UA/;i=15803",
+    "dov:typeRef": "org.opcfoundation.UA.FileTransferStateMachineType",
     "links": [
       {
         "rel": "tm:extends",
@@ -399,86 +392,86 @@
         "type": "application/tm+json"
       },
       {
-        "rel": "aov:reference",
-        "aov:refName": "Idle",
+        "rel": "dov:reference",
+        "dov:refName": "Idle",
         "href": "#title=OpcUaCore_InitialStateType",
         "type": "application/tm+json"
       },
       {
-        "rel": "aov:reference",
-        "aov:refName": "ReadPrepare",
+        "rel": "dov:reference",
+        "dov:refName": "ReadPrepare",
         "href": "#title=OpcUaCore_StateType",
         "type": "application/tm+json"
       },
       {
-        "rel": "aov:reference",
-        "aov:refName": "ReadTransfer",
+        "rel": "dov:reference",
+        "dov:refName": "ReadTransfer",
         "href": "#title=OpcUaCore_StateType",
         "type": "application/tm+json"
       },
       {
-        "rel": "aov:reference",
-        "aov:refName": "ApplyWrite",
+        "rel": "dov:reference",
+        "dov:refName": "ApplyWrite",
         "href": "#title=OpcUaCore_StateType",
         "type": "application/tm+json"
       },
       {
-        "rel": "aov:reference",
-        "aov:refName": "Error",
+        "rel": "dov:reference",
+        "dov:refName": "Error",
         "href": "#title=OpcUaCore_StateType",
         "type": "application/tm+json"
       },
       {
-        "rel": "aov:reference",
-        "aov:refName": "IdleToReadPrepare",
+        "rel": "dov:reference",
+        "dov:refName": "IdleToReadPrepare",
         "href": "#title=OpcUaCore_TransitionType",
         "type": "application/tm+json"
       },
       {
-        "rel": "aov:reference",
-        "aov:refName": "ReadPrepareToReadTransfer",
+        "rel": "dov:reference",
+        "dov:refName": "ReadPrepareToReadTransfer",
         "href": "#title=OpcUaCore_TransitionType",
         "type": "application/tm+json"
       },
       {
-        "rel": "aov:reference",
-        "aov:refName": "ReadTransferToIdle",
+        "rel": "dov:reference",
+        "dov:refName": "ReadTransferToIdle",
         "href": "#title=OpcUaCore_TransitionType",
         "type": "application/tm+json"
       },
       {
-        "rel": "aov:reference",
-        "aov:refName": "IdleToApplyWrite",
+        "rel": "dov:reference",
+        "dov:refName": "IdleToApplyWrite",
         "href": "#title=OpcUaCore_TransitionType",
         "type": "application/tm+json"
       },
       {
-        "rel": "aov:reference",
-        "aov:refName": "ApplyWriteToIdle",
+        "rel": "dov:reference",
+        "dov:refName": "ApplyWriteToIdle",
         "href": "#title=OpcUaCore_TransitionType",
         "type": "application/tm+json"
       },
       {
-        "rel": "aov:reference",
-        "aov:refName": "ReadPrepareToError",
+        "rel": "dov:reference",
+        "dov:refName": "ReadPrepareToError",
         "href": "#title=OpcUaCore_TransitionType",
         "type": "application/tm+json"
       },
       {
-        "rel": "aov:reference",
-        "aov:refName": "ReadTransferToError",
+        "rel": "dov:reference",
+        "dov:refName": "ReadTransferToError",
         "href": "#title=OpcUaCore_TransitionType",
         "type": "application/tm+json"
       },
       {
-        "rel": "aov:reference",
-        "aov:refName": "ApplyWriteToError",
+        "rel": "dov:reference",
+        "dov:refName": "ApplyWriteToError",
         "href": "#title=OpcUaCore_TransitionType",
         "type": "application/tm+json"
       },
       {
-        "rel": "aov:reference",
-        "aov:refName": "ErrorToIdle",
+        "rel": "dov:reference",
+        "dov:refName": "ErrorToIdle",
         "href": "#title=OpcUaCore_TransitionType",
         "type": "application/tm+json"
       }
@@ -490,7 +483,7 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/OpcUaCore/OpcUaCore_FileTransferStateMachineType/action/Reset",
+            "dov:topic": "opcua/OpcUaCore/OpcUaCore_FileTransferStateMachineType/action/Reset",
             "op": "invokeaction"
           }
         ]
@@ -505,13 +498,12 @@
     "@context": [
       "https://www.w3.org/2022/wot/td/v1.1",
       {
-        "dtv": "http://azure.com/DigitalTwins/dtmi#",
-        "aov": "http://azure.com/IoT/operations/tm#"
+        "dov": "http://azure.com/DigitalOperations/vocab#"
       }
     ],
     "@type": "tm:ThingModel",
     "title": "OpcUaCore_FiniteStateMachineType",
-    "aov:typeRef": "nsu=http://opcfoundation.org/UA/;i=2771",
+    "dov:typeRef": "org.opcfoundation.UA.FiniteStateMachineType",
     "links": [
       {
         "rel": "tm:extends",
@@ -524,12 +516,12 @@
     "forms": [
       {
         "contentType": "application/json",
-        "dtv:topic": "opcua/OpcUaCore/OpcUaCore_FiniteStateMachineType/events/{senderId}",
+        "dov:topic": "opcua/OpcUaCore/OpcUaCore_FiniteStateMachineType/events/{senderId}",
         "op": "subscribeallevents"
       },
       {
         "contentType": "application/json",
-        "dtv:topic": "opcua/OpcUaCore/OpcUaCore_FiniteStateMachineType/properties/read",
+        "dov:topic": "opcua/OpcUaCore/OpcUaCore_FiniteStateMachineType/properties/read",
         "op": "readallproperties"
       }
     ],
@@ -545,7 +537,7 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/OpcUaCore/OpcUaCore_FiniteStateMachineType/property/AvailableStates/read",
+            "dov:topic": "opcua/OpcUaCore/OpcUaCore_FiniteStateMachineType/property/AvailableStates/read",
             "op": "readproperty"
           }
         ]
@@ -559,7 +551,7 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/OpcUaCore/OpcUaCore_FiniteStateMachineType/property/AvailableTransitions/read",
+            "dov:topic": "opcua/OpcUaCore/OpcUaCore_FiniteStateMachineType/property/AvailableTransitions/read",
             "op": "readproperty"
           }
         ]
@@ -570,7 +562,7 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/OpcUaCore/OpcUaCore_FiniteStateMachineType/property/CurrentState/read",
+            "dov:topic": "opcua/OpcUaCore/OpcUaCore_FiniteStateMachineType/property/CurrentState/read",
             "op": "readproperty"
           }
         ]
@@ -581,7 +573,7 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/OpcUaCore/OpcUaCore_FiniteStateMachineType/property/LastTransition/read",
+            "dov:topic": "opcua/OpcUaCore/OpcUaCore_FiniteStateMachineType/property/LastTransition/read",
             "op": "readproperty"
           }
         ]
@@ -598,7 +590,7 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/OpcUaCore/OpcUaCore_FiniteStateMachineType/event/AvailableStates/{senderId}",
+            "dov:topic": "opcua/OpcUaCore/OpcUaCore_FiniteStateMachineType/event/AvailableStates/{senderId}",
             "op": "subscribeevent"
           }
         ]
@@ -613,7 +605,7 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/OpcUaCore/OpcUaCore_FiniteStateMachineType/event/AvailableTransitions/{senderId}",
+            "dov:topic": "opcua/OpcUaCore/OpcUaCore_FiniteStateMachineType/event/AvailableTransitions/{senderId}",
             "op": "subscribeevent"
           }
         ]
@@ -625,7 +617,7 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/OpcUaCore/OpcUaCore_FiniteStateMachineType/event/CurrentState/{senderId}",
+            "dov:topic": "opcua/OpcUaCore/OpcUaCore_FiniteStateMachineType/event/CurrentState/{senderId}",
             "op": "subscribeevent"
           }
         ]
@@ -637,7 +629,7 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/OpcUaCore/OpcUaCore_FiniteStateMachineType/event/LastTransition/{senderId}",
+            "dov:topic": "opcua/OpcUaCore/OpcUaCore_FiniteStateMachineType/event/LastTransition/{senderId}",
             "op": "subscribeevent"
           }
         ]
@@ -648,14 +640,13 @@
     "@context": [
       "https://www.w3.org/2022/wot/td/v1.1",
       {
-        "dtv": "http://azure.com/DigitalTwins/dtmi#",
-        "aov": "http://azure.com/IoT/operations/tm#"
+        "dov": "http://azure.com/DigitalOperations/vocab#"
       }
     ],
     "@type": "tm:ThingModel",
     "title": "OpcUaCore_StateMachineType",
-    "aov:typeRef": "nsu=http://opcfoundation.org/UA/;i=2299",
-    "aov:isComposite": true,
+    "dov:typeRef": "org.opcfoundation.UA.StateMachineType",
+    "dov:isComposite": true,
     "links": [
       {
         "rel": "tm:extends",
@@ -668,12 +659,12 @@
     "forms": [
       {
         "contentType": "application/json",
-        "dtv:topic": "opcua/OpcUaCore/OpcUaCore_StateMachineType/events/{senderId}",
+        "dov:topic": "opcua/OpcUaCore/OpcUaCore_StateMachineType/events/{senderId}",
         "op": "subscribeallevents"
       },
       {
         "contentType": "application/json",
-        "dtv:topic": "opcua/OpcUaCore/OpcUaCore_StateMachineType/properties/read",
+        "dov:topic": "opcua/OpcUaCore/OpcUaCore_StateMachineType/properties/read",
         "op": "readallproperties"
       }
     ],
@@ -686,7 +677,7 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/OpcUaCore/OpcUaCore_StateMachineType/property/CurrentState/read",
+            "dov:topic": "opcua/OpcUaCore/OpcUaCore_StateMachineType/property/CurrentState/read",
             "op": "readproperty"
           }
         ]
@@ -697,7 +688,7 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/OpcUaCore/OpcUaCore_StateMachineType/property/LastTransition/read",
+            "dov:topic": "opcua/OpcUaCore/OpcUaCore_StateMachineType/property/LastTransition/read",
             "op": "readproperty"
           }
         ]
@@ -711,7 +702,7 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/OpcUaCore/OpcUaCore_StateMachineType/event/CurrentState/{senderId}",
+            "dov:topic": "opcua/OpcUaCore/OpcUaCore_StateMachineType/event/CurrentState/{senderId}",
             "op": "subscribeevent"
           }
         ]
@@ -723,7 +714,7 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/OpcUaCore/OpcUaCore_StateMachineType/event/LastTransition/{senderId}",
+            "dov:topic": "opcua/OpcUaCore/OpcUaCore_StateMachineType/event/LastTransition/{senderId}",
             "op": "subscribeevent"
           }
         ]
@@ -734,13 +725,12 @@
     "@context": [
       "https://www.w3.org/2022/wot/td/v1.1",
       {
-        "dtv": "http://azure.com/DigitalTwins/dtmi#",
-        "aov": "http://azure.com/IoT/operations/tm#"
+        "dov": "http://azure.com/DigitalOperations/vocab#"
       }
     ],
     "@type": "tm:ThingModel",
     "title": "OpcUaCore_InitialStateType",
-    "aov:typeRef": "nsu=http://opcfoundation.org/UA/;i=2309",
+    "dov:typeRef": "org.opcfoundation.UA.InitialStateType",
     "links": [
       {
         "rel": "tm:extends",
@@ -761,13 +751,12 @@
     "@context": [
       "https://www.w3.org/2022/wot/td/v1.1",
       {
-        "dtv": "http://azure.com/DigitalTwins/dtmi#",
-        "aov": "http://azure.com/IoT/operations/tm#"
+        "dov": "http://azure.com/DigitalOperations/vocab#"
       }
     ],
     "@type": "tm:ThingModel",
     "title": "OpcUaCore_StateType",
-    "aov:typeRef": "nsu=http://opcfoundation.org/UA/;i=2307",
+    "dov:typeRef": "org.opcfoundation.UA.StateType",
     "links": [
       {
         "rel": "tm:extends",
@@ -780,7 +769,7 @@
     "forms": [
       {
         "contentType": "application/json",
-        "dtv:topic": "opcua/OpcUaCore/OpcUaCore_StateType/properties/read",
+        "dov:topic": "opcua/OpcUaCore/OpcUaCore_StateType/properties/read",
         "op": "readallproperties"
       }
     ],
@@ -795,7 +784,7 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/OpcUaCore/OpcUaCore_StateType/property/StateNumber/read",
+            "dov:topic": "opcua/OpcUaCore/OpcUaCore_StateType/property/StateNumber/read",
             "op": "readproperty"
           }
         ]
@@ -808,13 +797,12 @@
     "@context": [
       "https://www.w3.org/2022/wot/td/v1.1",
       {
-        "dtv": "http://azure.com/DigitalTwins/dtmi#",
-        "aov": "http://azure.com/IoT/operations/tm#"
+        "dov": "http://azure.com/DigitalOperations/vocab#"
       }
     ],
     "@type": "tm:ThingModel",
     "title": "OpcUaCore_TransitionType",
-    "aov:typeRef": "nsu=http://opcfoundation.org/UA/;i=2310",
+    "dov:typeRef": "org.opcfoundation.UA.TransitionType",
     "links": [
       {
         "rel": "tm:extends",
@@ -827,7 +815,7 @@
     "forms": [
       {
         "contentType": "application/json",
-        "dtv:topic": "opcua/OpcUaCore/OpcUaCore_TransitionType/properties/read",
+        "dov:topic": "opcua/OpcUaCore/OpcUaCore_TransitionType/properties/read",
         "op": "readallproperties"
       }
     ],
@@ -842,7 +830,7 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/OpcUaCore/OpcUaCore_TransitionType/property/TransitionNumber/read",
+            "dov:topic": "opcua/OpcUaCore/OpcUaCore_TransitionType/property/TransitionNumber/read",
             "op": "readproperty"
           }
         ]
@@ -855,13 +843,12 @@
     "@context": [
       "https://www.w3.org/2022/wot/td/v1.1",
       {
-        "dtv": "http://azure.com/DigitalTwins/dtmi#",
-        "aov": "http://azure.com/IoT/operations/tm#"
+        "dov": "http://azure.com/DigitalOperations/vocab#"
       }
     ],
     "@type": "tm:ThingModel",
     "title": "PlasticsRubber_GeneralTypes_MonitoredParameterType",
-    "aov:typeRef": "nsu=http://opcfoundation.org/UA/PlasticsRubber/GeneralTypes/;i=1056",
+    "dov:typeRef": "org.opcfoundation.UA.PlasticsRubber.GeneralTypes.MonitoredParameterType",
     "links": [
       {
         "rel": "tm:extends",
@@ -874,28 +861,28 @@
     "forms": [
       {
         "contentType": "application/json",
-        "dtv:topic": "opcua/PlasticsRubber.GeneralTypes/PlasticsRubber_GeneralTypes_MonitoredParameterType/events/{senderId}",
+        "dov:topic": "opcua/PlasticsRubber.GeneralTypes/PlasticsRubber_GeneralTypes_MonitoredParameterType/events/{senderId}",
         "op": "subscribeallevents"
       },
       {
         "contentType": "application/json",
-        "dtv:topic": "opcua/PlasticsRubber.GeneralTypes/PlasticsRubber_GeneralTypes_MonitoredParameterType/properties/write",
+        "dov:topic": "opcua/PlasticsRubber.GeneralTypes/PlasticsRubber_GeneralTypes_MonitoredParameterType/properties/write",
         "op": "writemultipleproperties"
       },
       {
         "contentType": "application/json",
-        "dtv:topic": "opcua/PlasticsRubber.GeneralTypes/PlasticsRubber_GeneralTypes_MonitoredParameterType/properties/read",
+        "dov:topic": "opcua/PlasticsRubber.GeneralTypes/PlasticsRubber_GeneralTypes_MonitoredParameterType/properties/read",
         "op": "readallproperties"
       }
     ],
     "actions": {
       "ResetMonitoring": {
-        "aov:namespace": "http://opcfoundation.org/UA/PlasticsRubber/GeneralTypes/",
+        "dov:namespace": "http://opcfoundation.org/UA/PlasticsRubber/GeneralTypes/",
         "description": "With this method the tolerance values are set according to the actual value and the set monitoring sensitivity",
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/PlasticsRubber.GeneralTypes/PlasticsRubber_GeneralTypes_MonitoredParameterType/action/ResetMonitoring",
+            "dov:topic": "opcua/PlasticsRubber.GeneralTypes/PlasticsRubber_GeneralTypes_MonitoredParameterType/action/ResetMonitoring",
             "op": "invokeaction"
           }
         ]
@@ -903,7 +890,7 @@
     },
     "properties": {
       "ActualValue": {
-        "aov:namespace": "http://opcfoundation.org/UA/PlasticsRubber/GeneralTypes/",
+        "dov:namespace": "http://opcfoundation.org/UA/PlasticsRubber/GeneralTypes/",
         "description": "Actual value of the monitored parameter",
         "type": "number",
         "minimum": -1.80e+308,
@@ -912,13 +899,13 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/PlasticsRubber.GeneralTypes/PlasticsRubber_GeneralTypes_MonitoredParameterType/property/ActualValue/read",
+            "dov:topic": "opcua/PlasticsRubber.GeneralTypes/PlasticsRubber_GeneralTypes_MonitoredParameterType/property/ActualValue/read",
             "op": "readproperty"
           }
         ]
       },
       "AlarmSuppression": {
-        "aov:namespace": "http://opcfoundation.org/UA/PlasticsRubber/GeneralTypes/",
+        "dov:namespace": "http://opcfoundation.org/UA/PlasticsRubber/GeneralTypes/",
         "description": "The start-up alarm suppression deactivates alarms of a monitored parameter during start up or a setpoint jump",
         "type": "integer",
         "minimum": 0,
@@ -927,36 +914,36 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/PlasticsRubber.GeneralTypes/PlasticsRubber_GeneralTypes_MonitoredParameterType/property/AlarmSuppression/write",
+            "dov:topic": "opcua/PlasticsRubber.GeneralTypes/PlasticsRubber_GeneralTypes_MonitoredParameterType/property/AlarmSuppression/write",
             "op": "writeproperty"
           },
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/PlasticsRubber.GeneralTypes/PlasticsRubber_GeneralTypes_MonitoredParameterType/property/AlarmSuppression/read",
+            "dov:topic": "opcua/PlasticsRubber.GeneralTypes/PlasticsRubber_GeneralTypes_MonitoredParameterType/property/AlarmSuppression/read",
             "op": "readproperty"
           }
         ]
       },
       "AutomaticMonitoring": {
-        "aov:namespace": "http://opcfoundation.org/UA/PlasticsRubber/GeneralTypes/",
+        "dov:namespace": "http://opcfoundation.org/UA/PlasticsRubber/GeneralTypes/",
         "description": "Determination if monitoring tolerance parameters are determined by auto-tuning itself (TRUE) or can be manually adjusted (FALSE)",
         "type": "boolean",
         "readOnly": false,
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/PlasticsRubber.GeneralTypes/PlasticsRubber_GeneralTypes_MonitoredParameterType/property/AutomaticMonitoring/write",
+            "dov:topic": "opcua/PlasticsRubber.GeneralTypes/PlasticsRubber_GeneralTypes_MonitoredParameterType/property/AutomaticMonitoring/write",
             "op": "writeproperty"
           },
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/PlasticsRubber.GeneralTypes/PlasticsRubber_GeneralTypes_MonitoredParameterType/property/AutomaticMonitoring/read",
+            "dov:topic": "opcua/PlasticsRubber.GeneralTypes/PlasticsRubber_GeneralTypes_MonitoredParameterType/property/AutomaticMonitoring/read",
             "op": "readproperty"
           }
         ]
       },
       "LowerTolerance": {
-        "aov:namespace": "http://opcfoundation.org/UA/PlasticsRubber/GeneralTypes/",
+        "dov:namespace": "http://opcfoundation.org/UA/PlasticsRubber/GeneralTypes/",
         "description": "Lower relative tolerance value of the process parameter",
         "type": "number",
         "minimum": -1.80e+308,
@@ -965,18 +952,18 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/PlasticsRubber.GeneralTypes/PlasticsRubber_GeneralTypes_MonitoredParameterType/property/LowerTolerance/write",
+            "dov:topic": "opcua/PlasticsRubber.GeneralTypes/PlasticsRubber_GeneralTypes_MonitoredParameterType/property/LowerTolerance/write",
             "op": "writeproperty"
           },
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/PlasticsRubber.GeneralTypes/PlasticsRubber_GeneralTypes_MonitoredParameterType/property/LowerTolerance/read",
+            "dov:topic": "opcua/PlasticsRubber.GeneralTypes/PlasticsRubber_GeneralTypes_MonitoredParameterType/property/LowerTolerance/read",
             "op": "readproperty"
           }
         ]
       },
       "LowerTolerance2": {
-        "aov:namespace": "http://opcfoundation.org/UA/PlasticsRubber/GeneralTypes/",
+        "dov:namespace": "http://opcfoundation.org/UA/PlasticsRubber/GeneralTypes/",
         "description": "Second lower relative tolerance value of the process parameter",
         "type": "number",
         "minimum": -1.80e+308,
@@ -985,18 +972,18 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/PlasticsRubber.GeneralTypes/PlasticsRubber_GeneralTypes_MonitoredParameterType/property/LowerTolerance2/write",
+            "dov:topic": "opcua/PlasticsRubber.GeneralTypes/PlasticsRubber_GeneralTypes_MonitoredParameterType/property/LowerTolerance2/write",
             "op": "writeproperty"
           },
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/PlasticsRubber.GeneralTypes/PlasticsRubber_GeneralTypes_MonitoredParameterType/property/LowerTolerance2/read",
+            "dov:topic": "opcua/PlasticsRubber.GeneralTypes/PlasticsRubber_GeneralTypes_MonitoredParameterType/property/LowerTolerance2/read",
             "op": "readproperty"
           }
         ]
       },
       "MaxValue": {
-        "aov:namespace": "http://opcfoundation.org/UA/PlasticsRubber/GeneralTypes/",
+        "dov:namespace": "http://opcfoundation.org/UA/PlasticsRubber/GeneralTypes/",
         "description": "Maximum absolute value of the process parameter",
         "type": "number",
         "minimum": -1.80e+308,
@@ -1005,18 +992,18 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/PlasticsRubber.GeneralTypes/PlasticsRubber_GeneralTypes_MonitoredParameterType/property/MaxValue/write",
+            "dov:topic": "opcua/PlasticsRubber.GeneralTypes/PlasticsRubber_GeneralTypes_MonitoredParameterType/property/MaxValue/write",
             "op": "writeproperty"
           },
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/PlasticsRubber.GeneralTypes/PlasticsRubber_GeneralTypes_MonitoredParameterType/property/MaxValue/read",
+            "dov:topic": "opcua/PlasticsRubber.GeneralTypes/PlasticsRubber_GeneralTypes_MonitoredParameterType/property/MaxValue/read",
             "op": "readproperty"
           }
         ]
       },
       "MinValue": {
-        "aov:namespace": "http://opcfoundation.org/UA/PlasticsRubber/GeneralTypes/",
+        "dov:namespace": "http://opcfoundation.org/UA/PlasticsRubber/GeneralTypes/",
         "description": "Minimum absolute value of the process parameter",
         "type": "number",
         "minimum": -1.80e+308,
@@ -1025,18 +1012,18 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/PlasticsRubber.GeneralTypes/PlasticsRubber_GeneralTypes_MonitoredParameterType/property/MinValue/write",
+            "dov:topic": "opcua/PlasticsRubber.GeneralTypes/PlasticsRubber_GeneralTypes_MonitoredParameterType/property/MinValue/write",
             "op": "writeproperty"
           },
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/PlasticsRubber.GeneralTypes/PlasticsRubber_GeneralTypes_MonitoredParameterType/property/MinValue/read",
+            "dov:topic": "opcua/PlasticsRubber.GeneralTypes/PlasticsRubber_GeneralTypes_MonitoredParameterType/property/MinValue/read",
             "op": "readproperty"
           }
         ]
       },
       "MonitoringSensitivity": {
-        "aov:namespace": "http://opcfoundation.org/UA/PlasticsRubber/GeneralTypes/",
+        "dov:namespace": "http://opcfoundation.org/UA/PlasticsRubber/GeneralTypes/",
         "description": "Defines how closely the tolerances are set during the automatic limit setting",
         "type": "integer",
         "minimum": 0,
@@ -1045,18 +1032,18 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/PlasticsRubber.GeneralTypes/PlasticsRubber_GeneralTypes_MonitoredParameterType/property/MonitoringSensitivity/write",
+            "dov:topic": "opcua/PlasticsRubber.GeneralTypes/PlasticsRubber_GeneralTypes_MonitoredParameterType/property/MonitoringSensitivity/write",
             "op": "writeproperty"
           },
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/PlasticsRubber.GeneralTypes/PlasticsRubber_GeneralTypes_MonitoredParameterType/property/MonitoringSensitivity/read",
+            "dov:topic": "opcua/PlasticsRubber.GeneralTypes/PlasticsRubber_GeneralTypes_MonitoredParameterType/property/MonitoringSensitivity/read",
             "op": "readproperty"
           }
         ]
       },
       "SetRampDown": {
-        "aov:namespace": "http://opcfoundation.org/UA/PlasticsRubber/GeneralTypes/",
+        "dov:namespace": "http://opcfoundation.org/UA/PlasticsRubber/GeneralTypes/",
         "description": "Indication if SetValue that is lower than the actual value shall be reached as fast as possible (SetRampDown = 0) or within a given value change per time",
         "type": "number",
         "minimum": -1.80e+308,
@@ -1065,13 +1052,13 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/PlasticsRubber.GeneralTypes/PlasticsRubber_GeneralTypes_MonitoredParameterType/property/SetRampDown/read",
+            "dov:topic": "opcua/PlasticsRubber.GeneralTypes/PlasticsRubber_GeneralTypes_MonitoredParameterType/property/SetRampDown/read",
             "op": "readproperty"
           }
         ]
       },
       "SetRampUp": {
-        "aov:namespace": "http://opcfoundation.org/UA/PlasticsRubber/GeneralTypes/",
+        "dov:namespace": "http://opcfoundation.org/UA/PlasticsRubber/GeneralTypes/",
         "description": "Indication if a SetValue that is higher than the actual value shall be reached as fast as possible (SetRampUp = 0) or within a given value change per time",
         "type": "number",
         "minimum": -1.80e+308,
@@ -1080,13 +1067,13 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/PlasticsRubber.GeneralTypes/PlasticsRubber_GeneralTypes_MonitoredParameterType/property/SetRampUp/read",
+            "dov:topic": "opcua/PlasticsRubber.GeneralTypes/PlasticsRubber_GeneralTypes_MonitoredParameterType/property/SetRampUp/read",
             "op": "readproperty"
           }
         ]
       },
       "SetValue": {
-        "aov:namespace": "http://opcfoundation.org/UA/PlasticsRubber/GeneralTypes/",
+        "dov:namespace": "http://opcfoundation.org/UA/PlasticsRubber/GeneralTypes/",
         "description": "Set/nominal/target value of the monitored parameter",
         "type": "number",
         "minimum": -1.80e+308,
@@ -1095,18 +1082,18 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/PlasticsRubber.GeneralTypes/PlasticsRubber_GeneralTypes_MonitoredParameterType/property/SetValue/write",
+            "dov:topic": "opcua/PlasticsRubber.GeneralTypes/PlasticsRubber_GeneralTypes_MonitoredParameterType/property/SetValue/write",
             "op": "writeproperty"
           },
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/PlasticsRubber.GeneralTypes/PlasticsRubber_GeneralTypes_MonitoredParameterType/property/SetValue/read",
+            "dov:topic": "opcua/PlasticsRubber.GeneralTypes/PlasticsRubber_GeneralTypes_MonitoredParameterType/property/SetValue/read",
             "op": "readproperty"
           }
         ]
       },
       "Status": {
-        "aov:namespace": "http://opcfoundation.org/UA/PlasticsRubber/GeneralTypes/",
+        "dov:namespace": "http://opcfoundation.org/UA/PlasticsRubber/GeneralTypes/",
         "description": "Information if the ActualValue is within the tolerances or has passed a tolerance or min/max value",
         "type": "integer",
         "minimum": 0,
@@ -1115,13 +1102,13 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/PlasticsRubber.GeneralTypes/PlasticsRubber_GeneralTypes_MonitoredParameterType/property/Status/read",
+            "dov:topic": "opcua/PlasticsRubber.GeneralTypes/PlasticsRubber_GeneralTypes_MonitoredParameterType/property/Status/read",
             "op": "readproperty"
           }
         ]
       },
       "UpperTolerance": {
-        "aov:namespace": "http://opcfoundation.org/UA/PlasticsRubber/GeneralTypes/",
+        "dov:namespace": "http://opcfoundation.org/UA/PlasticsRubber/GeneralTypes/",
         "description": "Upper relative tolerance value of the process parameter",
         "type": "number",
         "minimum": -1.80e+308,
@@ -1130,18 +1117,18 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/PlasticsRubber.GeneralTypes/PlasticsRubber_GeneralTypes_MonitoredParameterType/property/UpperTolerance/write",
+            "dov:topic": "opcua/PlasticsRubber.GeneralTypes/PlasticsRubber_GeneralTypes_MonitoredParameterType/property/UpperTolerance/write",
             "op": "writeproperty"
           },
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/PlasticsRubber.GeneralTypes/PlasticsRubber_GeneralTypes_MonitoredParameterType/property/UpperTolerance/read",
+            "dov:topic": "opcua/PlasticsRubber.GeneralTypes/PlasticsRubber_GeneralTypes_MonitoredParameterType/property/UpperTolerance/read",
             "op": "readproperty"
           }
         ]
       },
       "UpperTolerance2": {
-        "aov:namespace": "http://opcfoundation.org/UA/PlasticsRubber/GeneralTypes/",
+        "dov:namespace": "http://opcfoundation.org/UA/PlasticsRubber/GeneralTypes/",
         "description": "Second upper relative tolerance value of the process parameter",
         "type": "number",
         "minimum": -1.80e+308,
@@ -1150,12 +1137,12 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/PlasticsRubber.GeneralTypes/PlasticsRubber_GeneralTypes_MonitoredParameterType/property/UpperTolerance2/write",
+            "dov:topic": "opcua/PlasticsRubber.GeneralTypes/PlasticsRubber_GeneralTypes_MonitoredParameterType/property/UpperTolerance2/write",
             "op": "writeproperty"
           },
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/PlasticsRubber.GeneralTypes/PlasticsRubber_GeneralTypes_MonitoredParameterType/property/UpperTolerance2/read",
+            "dov:topic": "opcua/PlasticsRubber.GeneralTypes/PlasticsRubber_GeneralTypes_MonitoredParameterType/property/UpperTolerance2/read",
             "op": "readproperty"
           }
         ]
@@ -1163,7 +1150,7 @@
     },
     "events": {
       "ActualValue": {
-        "aov:namespace": "http://opcfoundation.org/UA/PlasticsRubber/GeneralTypes/",
+        "dov:namespace": "http://opcfoundation.org/UA/PlasticsRubber/GeneralTypes/",
         "data": {
           "description": "Actual value of the monitored parameter",
           "type": "number",
@@ -1173,13 +1160,13 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/PlasticsRubber.GeneralTypes/PlasticsRubber_GeneralTypes_MonitoredParameterType/event/ActualValue/{senderId}",
+            "dov:topic": "opcua/PlasticsRubber.GeneralTypes/PlasticsRubber_GeneralTypes_MonitoredParameterType/event/ActualValue/{senderId}",
             "op": "subscribeevent"
           }
         ]
       },
       "AlarmSuppression": {
-        "aov:namespace": "http://opcfoundation.org/UA/PlasticsRubber/GeneralTypes/",
+        "dov:namespace": "http://opcfoundation.org/UA/PlasticsRubber/GeneralTypes/",
         "data": {
           "description": "The start-up alarm suppression deactivates alarms of a monitored parameter during start up or a setpoint jump",
           "type": "integer",
@@ -1189,13 +1176,13 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/PlasticsRubber.GeneralTypes/PlasticsRubber_GeneralTypes_MonitoredParameterType/event/AlarmSuppression/{senderId}",
+            "dov:topic": "opcua/PlasticsRubber.GeneralTypes/PlasticsRubber_GeneralTypes_MonitoredParameterType/event/AlarmSuppression/{senderId}",
             "op": "subscribeevent"
           }
         ]
       },
       "LowerTolerance": {
-        "aov:namespace": "http://opcfoundation.org/UA/PlasticsRubber/GeneralTypes/",
+        "dov:namespace": "http://opcfoundation.org/UA/PlasticsRubber/GeneralTypes/",
         "data": {
           "description": "Lower relative tolerance value of the process parameter",
           "type": "number",
@@ -1205,13 +1192,13 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/PlasticsRubber.GeneralTypes/PlasticsRubber_GeneralTypes_MonitoredParameterType/event/LowerTolerance/{senderId}",
+            "dov:topic": "opcua/PlasticsRubber.GeneralTypes/PlasticsRubber_GeneralTypes_MonitoredParameterType/event/LowerTolerance/{senderId}",
             "op": "subscribeevent"
           }
         ]
       },
       "LowerTolerance2": {
-        "aov:namespace": "http://opcfoundation.org/UA/PlasticsRubber/GeneralTypes/",
+        "dov:namespace": "http://opcfoundation.org/UA/PlasticsRubber/GeneralTypes/",
         "data": {
           "description": "Second lower relative tolerance value of the process parameter",
           "type": "number",
@@ -1221,13 +1208,13 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/PlasticsRubber.GeneralTypes/PlasticsRubber_GeneralTypes_MonitoredParameterType/event/LowerTolerance2/{senderId}",
+            "dov:topic": "opcua/PlasticsRubber.GeneralTypes/PlasticsRubber_GeneralTypes_MonitoredParameterType/event/LowerTolerance2/{senderId}",
             "op": "subscribeevent"
           }
         ]
       },
       "MaxValue": {
-        "aov:namespace": "http://opcfoundation.org/UA/PlasticsRubber/GeneralTypes/",
+        "dov:namespace": "http://opcfoundation.org/UA/PlasticsRubber/GeneralTypes/",
         "data": {
           "description": "Maximum absolute value of the process parameter",
           "type": "number",
@@ -1237,13 +1224,13 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/PlasticsRubber.GeneralTypes/PlasticsRubber_GeneralTypes_MonitoredParameterType/event/MaxValue/{senderId}",
+            "dov:topic": "opcua/PlasticsRubber.GeneralTypes/PlasticsRubber_GeneralTypes_MonitoredParameterType/event/MaxValue/{senderId}",
             "op": "subscribeevent"
           }
         ]
       },
       "MinValue": {
-        "aov:namespace": "http://opcfoundation.org/UA/PlasticsRubber/GeneralTypes/",
+        "dov:namespace": "http://opcfoundation.org/UA/PlasticsRubber/GeneralTypes/",
         "data": {
           "description": "Minimum absolute value of the process parameter",
           "type": "number",
@@ -1253,13 +1240,13 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/PlasticsRubber.GeneralTypes/PlasticsRubber_GeneralTypes_MonitoredParameterType/event/MinValue/{senderId}",
+            "dov:topic": "opcua/PlasticsRubber.GeneralTypes/PlasticsRubber_GeneralTypes_MonitoredParameterType/event/MinValue/{senderId}",
             "op": "subscribeevent"
           }
         ]
       },
       "MonitoringSensitivity": {
-        "aov:namespace": "http://opcfoundation.org/UA/PlasticsRubber/GeneralTypes/",
+        "dov:namespace": "http://opcfoundation.org/UA/PlasticsRubber/GeneralTypes/",
         "data": {
           "description": "Defines how closely the tolerances are set during the automatic limit setting",
           "type": "integer",
@@ -1269,13 +1256,13 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/PlasticsRubber.GeneralTypes/PlasticsRubber_GeneralTypes_MonitoredParameterType/event/MonitoringSensitivity/{senderId}",
+            "dov:topic": "opcua/PlasticsRubber.GeneralTypes/PlasticsRubber_GeneralTypes_MonitoredParameterType/event/MonitoringSensitivity/{senderId}",
             "op": "subscribeevent"
           }
         ]
       },
       "SetRampDown": {
-        "aov:namespace": "http://opcfoundation.org/UA/PlasticsRubber/GeneralTypes/",
+        "dov:namespace": "http://opcfoundation.org/UA/PlasticsRubber/GeneralTypes/",
         "data": {
           "description": "Indication if SetValue that is lower than the actual value shall be reached as fast as possible (SetRampDown = 0) or within a given value change per time",
           "type": "number",
@@ -1285,13 +1272,13 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/PlasticsRubber.GeneralTypes/PlasticsRubber_GeneralTypes_MonitoredParameterType/event/SetRampDown/{senderId}",
+            "dov:topic": "opcua/PlasticsRubber.GeneralTypes/PlasticsRubber_GeneralTypes_MonitoredParameterType/event/SetRampDown/{senderId}",
             "op": "subscribeevent"
           }
         ]
       },
       "SetRampUp": {
-        "aov:namespace": "http://opcfoundation.org/UA/PlasticsRubber/GeneralTypes/",
+        "dov:namespace": "http://opcfoundation.org/UA/PlasticsRubber/GeneralTypes/",
         "data": {
           "description": "Indication if a SetValue that is higher than the actual value shall be reached as fast as possible (SetRampUp = 0) or within a given value change per time",
           "type": "number",
@@ -1301,13 +1288,13 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/PlasticsRubber.GeneralTypes/PlasticsRubber_GeneralTypes_MonitoredParameterType/event/SetRampUp/{senderId}",
+            "dov:topic": "opcua/PlasticsRubber.GeneralTypes/PlasticsRubber_GeneralTypes_MonitoredParameterType/event/SetRampUp/{senderId}",
             "op": "subscribeevent"
           }
         ]
       },
       "SetValue": {
-        "aov:namespace": "http://opcfoundation.org/UA/PlasticsRubber/GeneralTypes/",
+        "dov:namespace": "http://opcfoundation.org/UA/PlasticsRubber/GeneralTypes/",
         "data": {
           "description": "Set/nominal/target value of the monitored parameter",
           "type": "number",
@@ -1317,13 +1304,13 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/PlasticsRubber.GeneralTypes/PlasticsRubber_GeneralTypes_MonitoredParameterType/event/SetValue/{senderId}",
+            "dov:topic": "opcua/PlasticsRubber.GeneralTypes/PlasticsRubber_GeneralTypes_MonitoredParameterType/event/SetValue/{senderId}",
             "op": "subscribeevent"
           }
         ]
       },
       "Status": {
-        "aov:namespace": "http://opcfoundation.org/UA/PlasticsRubber/GeneralTypes/",
+        "dov:namespace": "http://opcfoundation.org/UA/PlasticsRubber/GeneralTypes/",
         "data": {
           "description": "Information if the ActualValue is within the tolerances or has passed a tolerance or min/max value",
           "type": "integer",
@@ -1333,13 +1320,13 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/PlasticsRubber.GeneralTypes/PlasticsRubber_GeneralTypes_MonitoredParameterType/event/Status/{senderId}",
+            "dov:topic": "opcua/PlasticsRubber.GeneralTypes/PlasticsRubber_GeneralTypes_MonitoredParameterType/event/Status/{senderId}",
             "op": "subscribeevent"
           }
         ]
       },
       "UpperTolerance": {
-        "aov:namespace": "http://opcfoundation.org/UA/PlasticsRubber/GeneralTypes/",
+        "dov:namespace": "http://opcfoundation.org/UA/PlasticsRubber/GeneralTypes/",
         "data": {
           "description": "Upper relative tolerance value of the process parameter",
           "type": "number",
@@ -1349,13 +1336,13 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/PlasticsRubber.GeneralTypes/PlasticsRubber_GeneralTypes_MonitoredParameterType/event/UpperTolerance/{senderId}",
+            "dov:topic": "opcua/PlasticsRubber.GeneralTypes/PlasticsRubber_GeneralTypes_MonitoredParameterType/event/UpperTolerance/{senderId}",
             "op": "subscribeevent"
           }
         ]
       },
       "UpperTolerance2": {
-        "aov:namespace": "http://opcfoundation.org/UA/PlasticsRubber/GeneralTypes/",
+        "dov:namespace": "http://opcfoundation.org/UA/PlasticsRubber/GeneralTypes/",
         "data": {
           "description": "Second upper relative tolerance value of the process parameter",
           "type": "number",
@@ -1365,7 +1352,7 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/PlasticsRubber.GeneralTypes/PlasticsRubber_GeneralTypes_MonitoredParameterType/event/UpperTolerance2/{senderId}",
+            "dov:topic": "opcua/PlasticsRubber.GeneralTypes/PlasticsRubber_GeneralTypes_MonitoredParameterType/event/UpperTolerance2/{senderId}",
             "op": "subscribeevent"
           }
         ]
@@ -1376,13 +1363,12 @@
     "@context": [
       "https://www.w3.org/2022/wot/td/v1.1",
       {
-        "dtv": "http://azure.com/DigitalTwins/dtmi#",
-        "aov": "http://azure.com/IoT/operations/tm#"
+        "dov": "http://azure.com/DigitalOperations/vocab#"
       }
     ],
     "@type": "tm:ThingModel",
     "title": "PlasticsRubber_GeneralTypes_MeasuringDevicesType",
-    "aov:typeRef": "nsu=http://opcfoundation.org/UA/PlasticsRubber/GeneralTypes/;i=1065",
+    "dov:typeRef": "org.opcfoundation.UA.PlasticsRubber.GeneralTypes.MeasuringDevicesType",
     "links": [
       {
         "rel": "tm:extends",
@@ -1390,8 +1376,8 @@
         "type": "application/tm+json"
       },
       {
-        "rel": "aov:component",
-        "aov:refName": "Name___Nr",
+        "rel": "dov:component",
+        "dov:refName": "Name___Nr",
         "href": "#title=PlasticsRubber_GeneralTypes_MeasuringDeviceType",
         "type": "application/tm+json"
       }
@@ -1401,7 +1387,7 @@
     "forms": [
       {
         "contentType": "application/json",
-        "dtv:topic": "opcua/PlasticsRubber.GeneralTypes/PlasticsRubber_GeneralTypes_MeasuringDevicesType/properties/read",
+        "dov:topic": "opcua/PlasticsRubber.GeneralTypes/PlasticsRubber_GeneralTypes_MeasuringDevicesType/properties/read",
         "op": "readallproperties"
       }
     ],
@@ -1414,7 +1400,7 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/PlasticsRubber.GeneralTypes/PlasticsRubber_GeneralTypes_MeasuringDevicesType/property/NodeVersion/read",
+            "dov:topic": "opcua/PlasticsRubber.GeneralTypes/PlasticsRubber_GeneralTypes_MeasuringDevicesType/property/NodeVersion/read",
             "op": "readproperty"
           }
         ]
@@ -1427,13 +1413,12 @@
     "@context": [
       "https://www.w3.org/2022/wot/td/v1.1",
       {
-        "dtv": "http://azure.com/DigitalTwins/dtmi#",
-        "aov": "http://azure.com/IoT/operations/tm#"
+        "dov": "http://azure.com/DigitalOperations/vocab#"
       }
     ],
     "@type": "tm:ThingModel",
     "title": "PlasticsRubber_GeneralTypes_MeasuringDeviceType",
-    "aov:typeRef": "nsu=http://opcfoundation.org/UA/PlasticsRubber/GeneralTypes/;i=1064",
+    "dov:typeRef": "org.opcfoundation.UA.PlasticsRubber.GeneralTypes.MeasuringDeviceType",
     "links": [
       {
         "rel": "tm:extends",
@@ -1441,14 +1426,14 @@
         "type": "application/tm+json"
       },
       {
-        "rel": "aov:reference",
-        "aov:refName": "Maintenance",
+        "rel": "dov:reference",
+        "dov:refName": "Maintenance",
         "href": "#title=PlasticsRubber_GeneralTypes_MaintenanceType",
         "type": "application/tm+json"
       },
       {
-        "rel": "aov:reference",
-        "aov:refName": "StartDevice",
+        "rel": "dov:reference",
+        "dov:refName": "StartDevice",
         "href": "#title=PlasticsRubber_GeneralTypes_StartDeviceType",
         "type": "application/tm+json"
       }
@@ -1456,7 +1441,7 @@
     "schemaDefinitions": {
       "ControlModeEnumeration": {
         "type": "object",
-        "aov:typeRef": "nsu=http://opcfoundation.org/UA/PlasticsRubber/GeneralTypes/;i=3001",
+        "dov:typeRef": "org.opcfoundation.UA.PlasticsRubber.GeneralTypes.ControlModeEnumeration",
         "const": {
           "OTHER": 0,
           "OFF": 1,
@@ -1502,7 +1487,7 @@
     "forms": [
       {
         "contentType": "application/json",
-        "dtv:topic": "opcua/PlasticsRubber.GeneralTypes/PlasticsRubber_GeneralTypes_MeasuringDeviceType/properties/read",
+        "dov:topic": "opcua/PlasticsRubber.GeneralTypes/PlasticsRubber_GeneralTypes_MeasuringDeviceType/properties/read",
         "op": "readallproperties"
       }
     ],
@@ -1510,9 +1495,9 @@
     },
     "properties": {
       "ControlMode": {
-        "aov:namespace": "http://opcfoundation.org/UA/PlasticsRubber/GeneralTypes/",
+        "dov:namespace": "http://opcfoundation.org/UA/PlasticsRubber/GeneralTypes/",
         "title": "ControlModeEnumeration",
-        "aov:typeRef": "nsu=http://opcfoundation.org/UA/PlasticsRubber/GeneralTypes/;i=3001",
+        "dov:typeRef": "org.opcfoundation.UA.PlasticsRubber.GeneralTypes.ControlModeEnumeration",
         "type": "integer",
         "minimum": -2147483648,
         "maximum": 2147483647,
@@ -1520,55 +1505,55 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/PlasticsRubber.GeneralTypes/PlasticsRubber_GeneralTypes_MeasuringDeviceType/property/ControlMode/read",
+            "dov:topic": "opcua/PlasticsRubber.GeneralTypes/PlasticsRubber_GeneralTypes_MeasuringDeviceType/property/ControlMode/read",
             "op": "readproperty"
           }
         ]
       },
       "Id": {
-        "aov:namespace": "http://opcfoundation.org/UA/PlasticsRubber/GeneralTypes/",
+        "dov:namespace": "http://opcfoundation.org/UA/PlasticsRubber/GeneralTypes/",
         "type": "string",
         "readOnly": true,
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/PlasticsRubber.GeneralTypes/PlasticsRubber_GeneralTypes_MeasuringDeviceType/property/Id/read",
+            "dov:topic": "opcua/PlasticsRubber.GeneralTypes/PlasticsRubber_GeneralTypes_MeasuringDeviceType/property/Id/read",
             "op": "readproperty"
           }
         ]
       },
       "IsPresent": {
-        "aov:namespace": "http://opcfoundation.org/UA/PlasticsRubber/GeneralTypes/",
+        "dov:namespace": "http://opcfoundation.org/UA/PlasticsRubber/GeneralTypes/",
         "type": "boolean",
         "readOnly": true,
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/PlasticsRubber.GeneralTypes/PlasticsRubber_GeneralTypes_MeasuringDeviceType/property/IsPresent/read",
+            "dov:topic": "opcua/PlasticsRubber.GeneralTypes/PlasticsRubber_GeneralTypes_MeasuringDeviceType/property/IsPresent/read",
             "op": "readproperty"
           }
         ]
       },
       "Name": {
-        "aov:namespace": "http://opcfoundation.org/UA/PlasticsRubber/GeneralTypes/",
+        "dov:namespace": "http://opcfoundation.org/UA/PlasticsRubber/GeneralTypes/",
         "type": "string",
         "readOnly": true,
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/PlasticsRubber.GeneralTypes/PlasticsRubber_GeneralTypes_MeasuringDeviceType/property/Name/read",
+            "dov:topic": "opcua/PlasticsRubber.GeneralTypes/PlasticsRubber_GeneralTypes_MeasuringDeviceType/property/Name/read",
             "op": "readproperty"
           }
         ]
       },
       "Position": {
-        "aov:namespace": "http://opcfoundation.org/UA/PlasticsRubber/GeneralTypes/",
+        "dov:namespace": "http://opcfoundation.org/UA/PlasticsRubber/GeneralTypes/",
         "type": "string",
         "readOnly": true,
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/PlasticsRubber.GeneralTypes/PlasticsRubber_GeneralTypes_MeasuringDeviceType/property/Position/read",
+            "dov:topic": "opcua/PlasticsRubber.GeneralTypes/PlasticsRubber_GeneralTypes_MeasuringDeviceType/property/Position/read",
             "op": "readproperty"
           }
         ]
@@ -1581,14 +1566,13 @@
     "@context": [
       "https://www.w3.org/2022/wot/td/v1.1",
       {
-        "dtv": "http://azure.com/DigitalTwins/dtmi#",
-        "aov": "http://azure.com/IoT/operations/tm#"
+        "dov": "http://azure.com/DigitalOperations/vocab#"
       }
     ],
     "@type": "tm:ThingModel",
     "title": "PlasticsRubber_GeneralTypes_ControlledParameterType",
-    "aov:typeRef": "nsu=http://opcfoundation.org/UA/PlasticsRubber/GeneralTypes/;i=1057",
-    "aov:isComposite": true,
+    "dov:typeRef": "org.opcfoundation.UA.PlasticsRubber.GeneralTypes.ControlledParameterType",
+    "dov:isComposite": true,
     "links": [
       {
         "rel": "tm:extends",
@@ -1596,8 +1580,8 @@
         "type": "application/tm+json"
       },
       {
-        "rel": "aov:reference",
-        "aov:refName": "ClosedLoopControl",
+        "rel": "dov:reference",
+        "dov:refName": "ClosedLoopControl",
         "href": "#title=PlasticsRubber_GeneralTypes_ClosedLoopControlType",
         "type": "application/tm+json"
       }
@@ -1607,17 +1591,17 @@
     "forms": [
       {
         "contentType": "application/json",
-        "dtv:topic": "opcua/PlasticsRubber.GeneralTypes/PlasticsRubber_GeneralTypes_ControlledParameterType/events/{senderId}",
+        "dov:topic": "opcua/PlasticsRubber.GeneralTypes/PlasticsRubber_GeneralTypes_ControlledParameterType/events/{senderId}",
         "op": "subscribeallevents"
       },
       {
         "contentType": "application/json",
-        "dtv:topic": "opcua/PlasticsRubber.GeneralTypes/PlasticsRubber_GeneralTypes_ControlledParameterType/properties/write",
+        "dov:topic": "opcua/PlasticsRubber.GeneralTypes/PlasticsRubber_GeneralTypes_ControlledParameterType/properties/write",
         "op": "writemultipleproperties"
       },
       {
         "contentType": "application/json",
-        "dtv:topic": "opcua/PlasticsRubber.GeneralTypes/PlasticsRubber_GeneralTypes_ControlledParameterType/properties/read",
+        "dov:topic": "opcua/PlasticsRubber.GeneralTypes/PlasticsRubber_GeneralTypes_ControlledParameterType/properties/read",
         "op": "readallproperties"
       }
     ],
@@ -1625,7 +1609,7 @@
     },
     "properties": {
       "SetRampDown": {
-        "aov:namespace": "http://opcfoundation.org/UA/PlasticsRubber/GeneralTypes/",
+        "dov:namespace": "http://opcfoundation.org/UA/PlasticsRubber/GeneralTypes/",
         "description": "Indication if SetValue that is lower than the actual value shall be reached as fast as possible (SetRampDown = 0) or within a given value change per time",
         "type": "number",
         "minimum": -1.80e+308,
@@ -1634,18 +1618,18 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/PlasticsRubber.GeneralTypes/PlasticsRubber_GeneralTypes_ControlledParameterType/property/SetRampDown/write",
+            "dov:topic": "opcua/PlasticsRubber.GeneralTypes/PlasticsRubber_GeneralTypes_ControlledParameterType/property/SetRampDown/write",
             "op": "writeproperty"
           },
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/PlasticsRubber.GeneralTypes/PlasticsRubber_GeneralTypes_ControlledParameterType/property/SetRampDown/read",
+            "dov:topic": "opcua/PlasticsRubber.GeneralTypes/PlasticsRubber_GeneralTypes_ControlledParameterType/property/SetRampDown/read",
             "op": "readproperty"
           }
         ]
       },
       "SetRampUp": {
-        "aov:namespace": "http://opcfoundation.org/UA/PlasticsRubber/GeneralTypes/",
+        "dov:namespace": "http://opcfoundation.org/UA/PlasticsRubber/GeneralTypes/",
         "description": "Indication if a SetValue that is higher than the actual value shall be reached as fast as possible (SetRampUp = 0) or within a given value change per time",
         "type": "number",
         "minimum": -1.80e+308,
@@ -1654,12 +1638,12 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/PlasticsRubber.GeneralTypes/PlasticsRubber_GeneralTypes_ControlledParameterType/property/SetRampUp/write",
+            "dov:topic": "opcua/PlasticsRubber.GeneralTypes/PlasticsRubber_GeneralTypes_ControlledParameterType/property/SetRampUp/write",
             "op": "writeproperty"
           },
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/PlasticsRubber.GeneralTypes/PlasticsRubber_GeneralTypes_ControlledParameterType/property/SetRampUp/read",
+            "dov:topic": "opcua/PlasticsRubber.GeneralTypes/PlasticsRubber_GeneralTypes_ControlledParameterType/property/SetRampUp/read",
             "op": "readproperty"
           }
         ]
@@ -1667,7 +1651,7 @@
     },
     "events": {
       "SetRampDown": {
-        "aov:namespace": "http://opcfoundation.org/UA/PlasticsRubber/GeneralTypes/",
+        "dov:namespace": "http://opcfoundation.org/UA/PlasticsRubber/GeneralTypes/",
         "data": {
           "description": "Indication if SetValue that is lower than the actual value shall be reached as fast as possible (SetRampDown = 0) or within a given value change per time",
           "type": "number",
@@ -1677,13 +1661,13 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/PlasticsRubber.GeneralTypes/PlasticsRubber_GeneralTypes_ControlledParameterType/event/SetRampDown/{senderId}",
+            "dov:topic": "opcua/PlasticsRubber.GeneralTypes/PlasticsRubber_GeneralTypes_ControlledParameterType/event/SetRampDown/{senderId}",
             "op": "subscribeevent"
           }
         ]
       },
       "SetRampUp": {
-        "aov:namespace": "http://opcfoundation.org/UA/PlasticsRubber/GeneralTypes/",
+        "dov:namespace": "http://opcfoundation.org/UA/PlasticsRubber/GeneralTypes/",
         "data": {
           "description": "Indication if a SetValue that is higher than the actual value shall be reached as fast as possible (SetRampUp = 0) or within a given value change per time",
           "type": "number",
@@ -1693,7 +1677,7 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/PlasticsRubber.GeneralTypes/PlasticsRubber_GeneralTypes_ControlledParameterType/event/SetRampUp/{senderId}",
+            "dov:topic": "opcua/PlasticsRubber.GeneralTypes/PlasticsRubber_GeneralTypes_ControlledParameterType/event/SetRampUp/{senderId}",
             "op": "subscribeevent"
           }
         ]
@@ -1704,13 +1688,12 @@
     "@context": [
       "https://www.w3.org/2022/wot/td/v1.1",
       {
-        "dtv": "http://azure.com/DigitalTwins/dtmi#",
-        "aov": "http://azure.com/IoT/operations/tm#"
+        "dov": "http://azure.com/DigitalOperations/vocab#"
       }
     ],
     "@type": "tm:ThingModel",
     "title": "PlasticsRubber_GeneralTypes_ClosedLoopControlType",
-    "aov:typeRef": "nsu=http://opcfoundation.org/UA/PlasticsRubber/GeneralTypes/;i=1054",
+    "dov:typeRef": "org.opcfoundation.UA.PlasticsRubber.GeneralTypes.ClosedLoopControlType",
     "links": [
       {
         "rel": "tm:extends",
@@ -1723,34 +1706,34 @@
     "forms": [
       {
         "contentType": "application/json",
-        "dtv:topic": "opcua/PlasticsRubber.GeneralTypes/PlasticsRubber_GeneralTypes_ClosedLoopControlType/properties/write",
+        "dov:topic": "opcua/PlasticsRubber.GeneralTypes/PlasticsRubber_GeneralTypes_ClosedLoopControlType/properties/write",
         "op": "writemultipleproperties"
       },
       {
         "contentType": "application/json",
-        "dtv:topic": "opcua/PlasticsRubber.GeneralTypes/PlasticsRubber_GeneralTypes_ClosedLoopControlType/properties/read",
+        "dov:topic": "opcua/PlasticsRubber.GeneralTypes/PlasticsRubber_GeneralTypes_ClosedLoopControlType/properties/read",
         "op": "readallproperties"
       }
     ],
     "actions": {
       "AutoTuningOff": {
-        "aov:namespace": "http://opcfoundation.org/UA/PlasticsRubber/GeneralTypes/",
+        "dov:namespace": "http://opcfoundation.org/UA/PlasticsRubber/GeneralTypes/",
         "description": "Stops an already active self-optimisation process (no control parameters are changed)",
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/PlasticsRubber.GeneralTypes/PlasticsRubber_GeneralTypes_ClosedLoopControlType/action/AutoTuningOff",
+            "dov:topic": "opcua/PlasticsRubber.GeneralTypes/PlasticsRubber_GeneralTypes_ClosedLoopControlType/action/AutoTuningOff",
             "op": "invokeaction"
           }
         ]
       },
       "AutoTuningOn": {
-        "aov:namespace": "http://opcfoundation.org/UA/PlasticsRubber/GeneralTypes/",
+        "dov:namespace": "http://opcfoundation.org/UA/PlasticsRubber/GeneralTypes/",
         "description": "Starts the self-optimisation of the controller",
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/PlasticsRubber.GeneralTypes/PlasticsRubber_GeneralTypes_ClosedLoopControlType/action/AutoTuningOn",
+            "dov:topic": "opcua/PlasticsRubber.GeneralTypes/PlasticsRubber_GeneralTypes_ClosedLoopControlType/action/AutoTuningOn",
             "op": "invokeaction"
           }
         ]
@@ -1758,45 +1741,45 @@
     },
     "properties": {
       "AutomaticControllerMode": {
-        "aov:namespace": "http://opcfoundation.org/UA/PlasticsRubber/GeneralTypes/",
+        "dov:namespace": "http://opcfoundation.org/UA/PlasticsRubber/GeneralTypes/",
         "description": "Determination if PID Parameters are determined by auto-tuning itself (TRUE) or can be manually adjusted (FALSE)",
         "type": "boolean",
         "readOnly": false,
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/PlasticsRubber.GeneralTypes/PlasticsRubber_GeneralTypes_ClosedLoopControlType/property/AutomaticControllerMode/write",
+            "dov:topic": "opcua/PlasticsRubber.GeneralTypes/PlasticsRubber_GeneralTypes_ClosedLoopControlType/property/AutomaticControllerMode/write",
             "op": "writeproperty"
           },
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/PlasticsRubber.GeneralTypes/PlasticsRubber_GeneralTypes_ClosedLoopControlType/property/AutomaticControllerMode/read",
+            "dov:topic": "opcua/PlasticsRubber.GeneralTypes/PlasticsRubber_GeneralTypes_ClosedLoopControlType/property/AutomaticControllerMode/read",
             "op": "readproperty"
           }
         ]
       },
       "AutoTuningActive": {
-        "aov:namespace": "http://opcfoundation.org/UA/PlasticsRubber/GeneralTypes/",
+        "dov:namespace": "http://opcfoundation.org/UA/PlasticsRubber/GeneralTypes/",
         "description": "Informs if the automatic tuning is currently active",
         "type": "boolean",
         "readOnly": true,
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/PlasticsRubber.GeneralTypes/PlasticsRubber_GeneralTypes_ClosedLoopControlType/property/AutoTuningActive/read",
+            "dov:topic": "opcua/PlasticsRubber.GeneralTypes/PlasticsRubber_GeneralTypes_ClosedLoopControlType/property/AutoTuningActive/read",
             "op": "readproperty"
           }
         ]
       },
       "PIDParameters": {
-        "aov:namespace": "http://opcfoundation.org/UA/PlasticsRubber/GeneralTypes/",
+        "dov:namespace": "http://opcfoundation.org/UA/PlasticsRubber/GeneralTypes/",
         "description": "PID Parameters as array if several input signals (sensors) are used for the control",
         "type": "array",
         "items": {
           "title": "PIDParametersDataType",
           "description": "Structure for storing the parameters of a PID controller",
           "type": "object",
-          "aov:typeRef": "nsu=http://opcfoundation.org/UA/PlasticsRubber/GeneralTypes/;i=3023",
+          "dov:typeRef": "org.opcfoundation.UA.PlasticsRubber.GeneralTypes.PIDParametersDataType",
           "required": [ "P", "I", "D" ],
           "properties": {
             "P": {
@@ -1823,12 +1806,12 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/PlasticsRubber.GeneralTypes/PlasticsRubber_GeneralTypes_ClosedLoopControlType/property/PIDParameters/write",
+            "dov:topic": "opcua/PlasticsRubber.GeneralTypes/PlasticsRubber_GeneralTypes_ClosedLoopControlType/property/PIDParameters/write",
             "op": "writeproperty"
           },
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/PlasticsRubber.GeneralTypes/PlasticsRubber_GeneralTypes_ClosedLoopControlType/property/PIDParameters/read",
+            "dov:topic": "opcua/PlasticsRubber.GeneralTypes/PlasticsRubber_GeneralTypes_ClosedLoopControlType/property/PIDParameters/read",
             "op": "readproperty"
           }
         ]
@@ -1841,13 +1824,12 @@
     "@context": [
       "https://www.w3.org/2022/wot/td/v1.1",
       {
-        "dtv": "http://azure.com/DigitalTwins/dtmi#",
-        "aov": "http://azure.com/IoT/operations/tm#"
+        "dov": "http://azure.com/DigitalOperations/vocab#"
       }
     ],
     "@type": "tm:ThingModel",
     "title": "PlasticsRubber_GeneralTypes_MaintenanceType",
-    "aov:typeRef": "nsu=http://opcfoundation.org/UA/PlasticsRubber/GeneralTypes/;i=1053",
+    "dov:typeRef": "org.opcfoundation.UA.PlasticsRubber.GeneralTypes.MaintenanceType",
     "links": [
       {
         "rel": "tm:extends",
@@ -1858,7 +1840,7 @@
     "schemaDefinitions": {
       "MaintenanceStatusEnumeration": {
         "type": "object",
-        "aov:typeRef": "nsu=http://opcfoundation.org/UA/PlasticsRubber/GeneralTypes/;i=3013",
+        "dov:typeRef": "org.opcfoundation.UA.PlasticsRubber.GeneralTypes.MaintenanceStatusEnumeration",
         "const": {
           "NOT_DUE": 0,
           "WARNING": 1,
@@ -1884,23 +1866,23 @@
     "forms": [
       {
         "contentType": "application/json",
-        "dtv:topic": "opcua/PlasticsRubber.GeneralTypes/PlasticsRubber_GeneralTypes_MaintenanceType/events/{senderId}",
+        "dov:topic": "opcua/PlasticsRubber.GeneralTypes/PlasticsRubber_GeneralTypes_MaintenanceType/events/{senderId}",
         "op": "subscribeallevents"
       },
       {
         "contentType": "application/json",
-        "dtv:topic": "opcua/PlasticsRubber.GeneralTypes/PlasticsRubber_GeneralTypes_MaintenanceType/properties/read",
+        "dov:topic": "opcua/PlasticsRubber.GeneralTypes/PlasticsRubber_GeneralTypes_MaintenanceType/properties/read",
         "op": "readallproperties"
       }
     ],
     "actions": {
       "Reset": {
-        "aov:namespace": "http://opcfoundation.org/UA/PlasticsRubber/GeneralTypes/",
+        "dov:namespace": "http://opcfoundation.org/UA/PlasticsRubber/GeneralTypes/",
         "description": "This Method sets the RemainingInterval to Interval and Status to NOT_DUE_0",
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/PlasticsRubber.GeneralTypes/PlasticsRubber_GeneralTypes_MaintenanceType/action/Reset",
+            "dov:topic": "opcua/PlasticsRubber.GeneralTypes/PlasticsRubber_GeneralTypes_MaintenanceType/action/Reset",
             "op": "invokeaction"
           }
         ]
@@ -1908,20 +1890,20 @@
     },
     "properties": {
       "AdditionalInformation": {
-        "aov:namespace": "http://opcfoundation.org/UA/PlasticsRubber/GeneralTypes/",
+        "dov:namespace": "http://opcfoundation.org/UA/PlasticsRubber/GeneralTypes/",
         "description": "Additional information on the necessary maintenance. Can be also a link to another document.",
         "type": "string",
         "readOnly": true,
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/PlasticsRubber.GeneralTypes/PlasticsRubber_GeneralTypes_MaintenanceType/property/AdditionalInformation/read",
+            "dov:topic": "opcua/PlasticsRubber.GeneralTypes/PlasticsRubber_GeneralTypes_MaintenanceType/property/AdditionalInformation/read",
             "op": "readproperty"
           }
         ]
       },
       "Interval": {
-        "aov:namespace": "http://opcfoundation.org/UA/PlasticsRubber/GeneralTypes/",
+        "dov:namespace": "http://opcfoundation.org/UA/PlasticsRubber/GeneralTypes/",
         "description": "Regular interval between two maintenances",
         "type": "number",
         "minimum": -1.80e+308,
@@ -1930,13 +1912,13 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/PlasticsRubber.GeneralTypes/PlasticsRubber_GeneralTypes_MaintenanceType/property/Interval/read",
+            "dov:topic": "opcua/PlasticsRubber.GeneralTypes/PlasticsRubber_GeneralTypes_MaintenanceType/property/Interval/read",
             "op": "readproperty"
           }
         ]
       },
       "RemainingInterval": {
-        "aov:namespace": "http://opcfoundation.org/UA/PlasticsRubber/GeneralTypes/",
+        "dov:namespace": "http://opcfoundation.org/UA/PlasticsRubber/GeneralTypes/",
         "description": "Interval before next maintenance is due",
         "type": "number",
         "minimum": -1.80e+308,
@@ -1945,16 +1927,16 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/PlasticsRubber.GeneralTypes/PlasticsRubber_GeneralTypes_MaintenanceType/property/RemainingInterval/read",
+            "dov:topic": "opcua/PlasticsRubber.GeneralTypes/PlasticsRubber_GeneralTypes_MaintenanceType/property/RemainingInterval/read",
             "op": "readproperty"
           }
         ]
       },
       "Status": {
-        "aov:namespace": "http://opcfoundation.org/UA/PlasticsRubber/GeneralTypes/",
+        "dov:namespace": "http://opcfoundation.org/UA/PlasticsRubber/GeneralTypes/",
         "title": "MaintenanceStatusEnumeration",
         "description": "Maintenance status of the machine/device/component (represented by the parent element)",
-        "aov:typeRef": "nsu=http://opcfoundation.org/UA/PlasticsRubber/GeneralTypes/;i=3013",
+        "dov:typeRef": "org.opcfoundation.UA.PlasticsRubber.GeneralTypes.MaintenanceStatusEnumeration",
         "type": "integer",
         "minimum": -2147483648,
         "maximum": 2147483647,
@@ -1962,13 +1944,13 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/PlasticsRubber.GeneralTypes/PlasticsRubber_GeneralTypes_MaintenanceType/property/Status/read",
+            "dov:topic": "opcua/PlasticsRubber.GeneralTypes/PlasticsRubber_GeneralTypes_MaintenanceType/property/Status/read",
             "op": "readproperty"
           }
         ]
       },
       "TotalOperation": {
-        "aov:namespace": "http://opcfoundation.org/UA/PlasticsRubber/GeneralTypes/",
+        "dov:namespace": "http://opcfoundation.org/UA/PlasticsRubber/GeneralTypes/",
         "description": "How long is the component running in total",
         "type": "number",
         "minimum": -1.80e+308,
@@ -1977,7 +1959,7 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/PlasticsRubber.GeneralTypes/PlasticsRubber_GeneralTypes_MaintenanceType/property/TotalOperation/read",
+            "dov:topic": "opcua/PlasticsRubber.GeneralTypes/PlasticsRubber_GeneralTypes_MaintenanceType/property/TotalOperation/read",
             "op": "readproperty"
           }
         ]
@@ -1985,7 +1967,7 @@
     },
     "events": {
       "Interval": {
-        "aov:namespace": "http://opcfoundation.org/UA/PlasticsRubber/GeneralTypes/",
+        "dov:namespace": "http://opcfoundation.org/UA/PlasticsRubber/GeneralTypes/",
         "data": {
           "description": "Regular interval between two maintenances",
           "type": "number",
@@ -1995,13 +1977,13 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/PlasticsRubber.GeneralTypes/PlasticsRubber_GeneralTypes_MaintenanceType/event/Interval/{senderId}",
+            "dov:topic": "opcua/PlasticsRubber.GeneralTypes/PlasticsRubber_GeneralTypes_MaintenanceType/event/Interval/{senderId}",
             "op": "subscribeevent"
           }
         ]
       },
       "RemainingInterval": {
-        "aov:namespace": "http://opcfoundation.org/UA/PlasticsRubber/GeneralTypes/",
+        "dov:namespace": "http://opcfoundation.org/UA/PlasticsRubber/GeneralTypes/",
         "data": {
           "description": "Interval before next maintenance is due",
           "type": "number",
@@ -2011,13 +1993,13 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/PlasticsRubber.GeneralTypes/PlasticsRubber_GeneralTypes_MaintenanceType/event/RemainingInterval/{senderId}",
+            "dov:topic": "opcua/PlasticsRubber.GeneralTypes/PlasticsRubber_GeneralTypes_MaintenanceType/event/RemainingInterval/{senderId}",
             "op": "subscribeevent"
           }
         ]
       },
       "TotalOperation": {
-        "aov:namespace": "http://opcfoundation.org/UA/PlasticsRubber/GeneralTypes/",
+        "dov:namespace": "http://opcfoundation.org/UA/PlasticsRubber/GeneralTypes/",
         "data": {
           "description": "How long is the component running in total",
           "type": "number",
@@ -2027,7 +2009,7 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/PlasticsRubber.GeneralTypes/PlasticsRubber_GeneralTypes_MaintenanceType/event/TotalOperation/{senderId}",
+            "dov:topic": "opcua/PlasticsRubber.GeneralTypes/PlasticsRubber_GeneralTypes_MaintenanceType/event/TotalOperation/{senderId}",
             "op": "subscribeevent"
           }
         ]
@@ -2038,13 +2020,12 @@
     "@context": [
       "https://www.w3.org/2022/wot/td/v1.1",
       {
-        "dtv": "http://azure.com/DigitalTwins/dtmi#",
-        "aov": "http://azure.com/IoT/operations/tm#"
+        "dov": "http://azure.com/DigitalOperations/vocab#"
       }
     ],
     "@type": "tm:ThingModel",
     "title": "PlasticsRubber_GeneralTypes_StartDeviceType",
-    "aov:typeRef": "nsu=http://opcfoundation.org/UA/PlasticsRubber/GeneralTypes/;i=1023",
+    "dov:typeRef": "org.opcfoundation.UA.PlasticsRubber.GeneralTypes.StartDeviceType",
     "links": [
       {
         "rel": "tm:extends",
@@ -2055,7 +2036,7 @@
     "schemaDefinitions": {
       "StartEnumeration": {
         "type": "object",
-        "aov:typeRef": "nsu=http://opcfoundation.org/UA/PlasticsRubber/GeneralTypes/;i=3025",
+        "dov:typeRef": "org.opcfoundation.UA.PlasticsRubber.GeneralTypes.StartEnumeration",
         "const": {
           "NOT_READY_TO_START": 0,
           "START_BLOCKED_BY_CLIENT": 1,
@@ -2089,32 +2070,32 @@
     "forms": [
       {
         "contentType": "application/json",
-        "dtv:topic": "opcua/PlasticsRubber.GeneralTypes/PlasticsRubber_GeneralTypes_StartDeviceType/properties/write",
+        "dov:topic": "opcua/PlasticsRubber.GeneralTypes/PlasticsRubber_GeneralTypes_StartDeviceType/properties/write",
         "op": "writemultipleproperties"
       },
       {
         "contentType": "application/json",
-        "dtv:topic": "opcua/PlasticsRubber.GeneralTypes/PlasticsRubber_GeneralTypes_StartDeviceType/properties/read",
+        "dov:topic": "opcua/PlasticsRubber.GeneralTypes/PlasticsRubber_GeneralTypes_StartDeviceType/properties/read",
         "op": "readallproperties"
       }
     ],
     "actions": {
       "StartRequest": {
-        "aov:namespace": "http://opcfoundation.org/UA/PlasticsRubber/GeneralTypes/",
+        "dov:namespace": "http://opcfoundation.org/UA/PlasticsRubber/GeneralTypes/",
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/PlasticsRubber.GeneralTypes/PlasticsRubber_GeneralTypes_StartDeviceType/action/StartRequest",
+            "dov:topic": "opcua/PlasticsRubber.GeneralTypes/PlasticsRubber_GeneralTypes_StartDeviceType/action/StartRequest",
             "op": "invokeaction"
           }
         ]
       },
       "StopRequest": {
-        "aov:namespace": "http://opcfoundation.org/UA/PlasticsRubber/GeneralTypes/",
+        "dov:namespace": "http://opcfoundation.org/UA/PlasticsRubber/GeneralTypes/",
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/PlasticsRubber.GeneralTypes/PlasticsRubber_GeneralTypes_StartDeviceType/action/StopRequest",
+            "dov:topic": "opcua/PlasticsRubber.GeneralTypes/PlasticsRubber_GeneralTypes_StartDeviceType/action/StopRequest",
             "op": "invokeaction"
           }
         ]
@@ -2122,26 +2103,26 @@
     },
     "properties": {
       "StartBlockedByClient": {
-        "aov:namespace": "http://opcfoundation.org/UA/PlasticsRubber/GeneralTypes/",
+        "dov:namespace": "http://opcfoundation.org/UA/PlasticsRubber/GeneralTypes/",
         "type": "boolean",
         "readOnly": false,
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/PlasticsRubber.GeneralTypes/PlasticsRubber_GeneralTypes_StartDeviceType/property/StartBlockedByClient/write",
+            "dov:topic": "opcua/PlasticsRubber.GeneralTypes/PlasticsRubber_GeneralTypes_StartDeviceType/property/StartBlockedByClient/write",
             "op": "writeproperty"
           },
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/PlasticsRubber.GeneralTypes/PlasticsRubber_GeneralTypes_StartDeviceType/property/StartBlockedByClient/read",
+            "dov:topic": "opcua/PlasticsRubber.GeneralTypes/PlasticsRubber_GeneralTypes_StartDeviceType/property/StartBlockedByClient/read",
             "op": "readproperty"
           }
         ]
       },
       "Status": {
-        "aov:namespace": "http://opcfoundation.org/UA/PlasticsRubber/GeneralTypes/",
+        "dov:namespace": "http://opcfoundation.org/UA/PlasticsRubber/GeneralTypes/",
         "title": "StartEnumeration",
-        "aov:typeRef": "nsu=http://opcfoundation.org/UA/PlasticsRubber/GeneralTypes/;i=3025",
+        "dov:typeRef": "org.opcfoundation.UA.PlasticsRubber.GeneralTypes.StartEnumeration",
         "type": "integer",
         "minimum": -2147483648,
         "maximum": 2147483647,
@@ -2149,7 +2130,7 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/PlasticsRubber.GeneralTypes/PlasticsRubber_GeneralTypes_StartDeviceType/property/Status/read",
+            "dov:topic": "opcua/PlasticsRubber.GeneralTypes/PlasticsRubber_GeneralTypes_StartDeviceType/property/Status/read",
             "op": "readproperty"
           }
         ]
@@ -2162,13 +2143,12 @@
     "@context": [
       "https://www.w3.org/2022/wot/td/v1.1",
       {
-        "dtv": "http://azure.com/DigitalTwins/dtmi#",
-        "aov": "http://azure.com/IoT/operations/tm#"
+        "dov": "http://azure.com/DigitalOperations/vocab#"
       }
     ],
     "@type": "tm:ThingModel",
     "title": "PlasticsRubber_GeneralTypes_EnergyType",
-    "aov:typeRef": "nsu=http://opcfoundation.org/UA/PlasticsRubber/GeneralTypes/;i=1063",
+    "dov:typeRef": "org.opcfoundation.UA.PlasticsRubber.GeneralTypes.EnergyType",
     "links": [
       {
         "rel": "tm:extends",
@@ -2181,12 +2161,12 @@
     "forms": [
       {
         "contentType": "application/json",
-        "dtv:topic": "opcua/PlasticsRubber.GeneralTypes/PlasticsRubber_GeneralTypes_EnergyType/events/{senderId}",
+        "dov:topic": "opcua/PlasticsRubber.GeneralTypes/PlasticsRubber_GeneralTypes_EnergyType/events/{senderId}",
         "op": "subscribeallevents"
       },
       {
         "contentType": "application/json",
-        "dtv:topic": "opcua/PlasticsRubber.GeneralTypes/PlasticsRubber_GeneralTypes_EnergyType/properties/read",
+        "dov:topic": "opcua/PlasticsRubber.GeneralTypes/PlasticsRubber_GeneralTypes_EnergyType/properties/read",
         "op": "readallproperties"
       }
     ],
@@ -2194,7 +2174,7 @@
     },
     "properties": {
       "ActualPower": {
-        "aov:namespace": "http://opcfoundation.org/UA/PlasticsRubber/GeneralTypes/",
+        "dov:namespace": "http://opcfoundation.org/UA/PlasticsRubber/GeneralTypes/",
         "type": "number",
         "minimum": -1.80e+308,
         "maximum": 1.80e+308,
@@ -2202,13 +2182,13 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/PlasticsRubber.GeneralTypes/PlasticsRubber_GeneralTypes_EnergyType/property/ActualPower/read",
+            "dov:topic": "opcua/PlasticsRubber.GeneralTypes/PlasticsRubber_GeneralTypes_EnergyType/property/ActualPower/read",
             "op": "readproperty"
           }
         ]
       },
       "ActualSpecificEnergy": {
-        "aov:namespace": "http://opcfoundation.org/UA/PlasticsRubber/GeneralTypes/",
+        "dov:namespace": "http://opcfoundation.org/UA/PlasticsRubber/GeneralTypes/",
         "type": "number",
         "minimum": -1.80e+308,
         "maximum": 1.80e+308,
@@ -2216,13 +2196,13 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/PlasticsRubber.GeneralTypes/PlasticsRubber_GeneralTypes_EnergyType/property/ActualSpecificEnergy/read",
+            "dov:topic": "opcua/PlasticsRubber.GeneralTypes/PlasticsRubber_GeneralTypes_EnergyType/property/ActualSpecificEnergy/read",
             "op": "readproperty"
           }
         ]
       },
       "PowerConsumption": {
-        "aov:namespace": "http://opcfoundation.org/UA/PlasticsRubber/GeneralTypes/",
+        "dov:namespace": "http://opcfoundation.org/UA/PlasticsRubber/GeneralTypes/",
         "type": "number",
         "minimum": -1.80e+308,
         "maximum": 1.80e+308,
@@ -2230,13 +2210,13 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/PlasticsRubber.GeneralTypes/PlasticsRubber_GeneralTypes_EnergyType/property/PowerConsumption/read",
+            "dov:topic": "opcua/PlasticsRubber.GeneralTypes/PlasticsRubber_GeneralTypes_EnergyType/property/PowerConsumption/read",
             "op": "readproperty"
           }
         ]
       },
       "PowerFactor": {
-        "aov:namespace": "http://opcfoundation.org/UA/PlasticsRubber/GeneralTypes/",
+        "dov:namespace": "http://opcfoundation.org/UA/PlasticsRubber/GeneralTypes/",
         "type": "number",
         "minimum": -1.80e+308,
         "maximum": 1.80e+308,
@@ -2244,7 +2224,7 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/PlasticsRubber.GeneralTypes/PlasticsRubber_GeneralTypes_EnergyType/property/PowerFactor/read",
+            "dov:topic": "opcua/PlasticsRubber.GeneralTypes/PlasticsRubber_GeneralTypes_EnergyType/property/PowerFactor/read",
             "op": "readproperty"
           }
         ]
@@ -2252,7 +2232,7 @@
     },
     "events": {
       "ActualPower": {
-        "aov:namespace": "http://opcfoundation.org/UA/PlasticsRubber/GeneralTypes/",
+        "dov:namespace": "http://opcfoundation.org/UA/PlasticsRubber/GeneralTypes/",
         "data": {
           "type": "number",
           "minimum": -1.80e+308,
@@ -2261,13 +2241,13 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/PlasticsRubber.GeneralTypes/PlasticsRubber_GeneralTypes_EnergyType/event/ActualPower/{senderId}",
+            "dov:topic": "opcua/PlasticsRubber.GeneralTypes/PlasticsRubber_GeneralTypes_EnergyType/event/ActualPower/{senderId}",
             "op": "subscribeevent"
           }
         ]
       },
       "ActualSpecificEnergy": {
-        "aov:namespace": "http://opcfoundation.org/UA/PlasticsRubber/GeneralTypes/",
+        "dov:namespace": "http://opcfoundation.org/UA/PlasticsRubber/GeneralTypes/",
         "data": {
           "type": "number",
           "minimum": -1.80e+308,
@@ -2276,13 +2256,13 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/PlasticsRubber.GeneralTypes/PlasticsRubber_GeneralTypes_EnergyType/event/ActualSpecificEnergy/{senderId}",
+            "dov:topic": "opcua/PlasticsRubber.GeneralTypes/PlasticsRubber_GeneralTypes_EnergyType/event/ActualSpecificEnergy/{senderId}",
             "op": "subscribeevent"
           }
         ]
       },
       "PowerConsumption": {
-        "aov:namespace": "http://opcfoundation.org/UA/PlasticsRubber/GeneralTypes/",
+        "dov:namespace": "http://opcfoundation.org/UA/PlasticsRubber/GeneralTypes/",
         "data": {
           "type": "number",
           "minimum": -1.80e+308,
@@ -2291,13 +2271,13 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/PlasticsRubber.GeneralTypes/PlasticsRubber_GeneralTypes_EnergyType/event/PowerConsumption/{senderId}",
+            "dov:topic": "opcua/PlasticsRubber.GeneralTypes/PlasticsRubber_GeneralTypes_EnergyType/event/PowerConsumption/{senderId}",
             "op": "subscribeevent"
           }
         ]
       },
       "PowerFactor": {
-        "aov:namespace": "http://opcfoundation.org/UA/PlasticsRubber/GeneralTypes/",
+        "dov:namespace": "http://opcfoundation.org/UA/PlasticsRubber/GeneralTypes/",
         "data": {
           "type": "number",
           "minimum": -1.80e+308,
@@ -2306,7 +2286,7 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/PlasticsRubber.GeneralTypes/PlasticsRubber_GeneralTypes_EnergyType/event/PowerFactor/{senderId}",
+            "dov:topic": "opcua/PlasticsRubber.GeneralTypes/PlasticsRubber_GeneralTypes_EnergyType/event/PowerFactor/{senderId}",
             "op": "subscribeevent"
           }
         ]
@@ -2317,14 +2297,13 @@
     "@context": [
       "https://www.w3.org/2022/wot/td/v1.1",
       {
-        "dtv": "http://azure.com/DigitalTwins/dtmi#",
-        "aov": "http://azure.com/IoT/operations/tm#"
+        "dov": "http://azure.com/DigitalOperations/vocab#"
       }
     ],
     "@type": "tm:ThingModel",
     "title": "PlasticsRubber_GeneralTypes_MachineConfigurationType",
-    "aov:typeRef": "nsu=http://opcfoundation.org/UA/PlasticsRubber/GeneralTypes/;i=1016",
-    "aov:isComposite": true,
+    "dov:typeRef": "org.opcfoundation.UA.PlasticsRubber.GeneralTypes.MachineConfigurationType",
+    "dov:isComposite": true,
     "links": [
       {
         "rel": "tm:extends",
@@ -2337,22 +2316,22 @@
     "forms": [
       {
         "contentType": "application/json",
-        "dtv:topic": "opcua/PlasticsRubber.GeneralTypes/PlasticsRubber_GeneralTypes_MachineConfigurationType/properties/write",
+        "dov:topic": "opcua/PlasticsRubber.GeneralTypes/PlasticsRubber_GeneralTypes_MachineConfigurationType/properties/write",
         "op": "writemultipleproperties"
       },
       {
         "contentType": "application/json",
-        "dtv:topic": "opcua/PlasticsRubber.GeneralTypes/PlasticsRubber_GeneralTypes_MachineConfigurationType/properties/read",
+        "dov:topic": "opcua/PlasticsRubber.GeneralTypes/PlasticsRubber_GeneralTypes_MachineConfigurationType/properties/read",
         "op": "readallproperties"
       }
     ],
     "actions": {
       "GetCurrentPage": {
-        "aov:namespace": "http://opcfoundation.org/UA/PlasticsRubber/GeneralTypes/",
+        "dov:namespace": "http://opcfoundation.org/UA/PlasticsRubber/GeneralTypes/",
         "description": "Method for retrieving a screenshot of the control system with the currently shown contents",
         "input": {
           "type": "object",
-          "aov:typeRef": "nsu=http://opcfoundation.org/UA/PlasticsRubber/GeneralTypes/;i=6191",
+          "dov:typeRef": "org.opcfoundation.UA.InputArguments",
           "required": [ "VisualisationUnit" ],
           "properties": {
             "VisualisationUnit": {
@@ -2364,7 +2343,7 @@
         },
         "output": {
           "type": "object",
-          "aov:typeRef": "nsu=http://opcfoundation.org/UA/PlasticsRubber/GeneralTypes/;i=6192",
+          "dov:typeRef": "org.opcfoundation.UA.OutputArguments",
           "required": [ "Page" ],
           "properties": {
             "Page": {
@@ -2376,17 +2355,17 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/PlasticsRubber.GeneralTypes/PlasticsRubber_GeneralTypes_MachineConfigurationType/action/GetCurrentPage",
+            "dov:topic": "opcua/PlasticsRubber.GeneralTypes/PlasticsRubber_GeneralTypes_MachineConfigurationType/action/GetCurrentPage",
             "op": "invokeaction"
           }
         ]
       },
       "GetPage": {
-        "aov:namespace": "http://opcfoundation.org/UA/PlasticsRubber/GeneralTypes/",
+        "dov:namespace": "http://opcfoundation.org/UA/PlasticsRubber/GeneralTypes/",
         "description": "Method for retrieving the image of a page of the control system",
         "input": {
           "type": "object",
-          "aov:typeRef": "nsu=http://opcfoundation.org/UA/PlasticsRubber/GeneralTypes/;i=6193",
+          "dov:typeRef": "org.opcfoundation.UA.InputArguments",
           "required": [ "Id" ],
           "properties": {
             "Id": {
@@ -2396,7 +2375,7 @@
         },
         "output": {
           "type": "object",
-          "aov:typeRef": "nsu=http://opcfoundation.org/UA/PlasticsRubber/GeneralTypes/;i=6194",
+          "dov:typeRef": "org.opcfoundation.UA.OutputArguments",
           "required": [ "Page" ],
           "properties": {
             "Page": {
@@ -2408,17 +2387,17 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/PlasticsRubber.GeneralTypes/PlasticsRubber_GeneralTypes_MachineConfigurationType/action/GetPage",
+            "dov:topic": "opcua/PlasticsRubber.GeneralTypes/PlasticsRubber_GeneralTypes_MachineConfigurationType/action/GetPage",
             "op": "invokeaction"
           }
         ]
       },
       "SetMachineTime": {
-        "aov:namespace": "http://opcfoundation.org/UA/PlasticsRubber/GeneralTypes/",
+        "dov:namespace": "http://opcfoundation.org/UA/PlasticsRubber/GeneralTypes/",
         "description": "Method for setting the server time together with TimeZoneOffset",
         "input": {
           "type": "object",
-          "aov:typeRef": "nsu=http://opcfoundation.org/UA/PlasticsRubber/GeneralTypes/;i=6198",
+          "dov:typeRef": "org.opcfoundation.UA.InputArguments",
           "required": [ "DateTime", "TimeZoneOffset" ],
           "properties": {
             "DateTime": {
@@ -2428,7 +2407,7 @@
             "TimeZoneOffset": {
               "title": "TimeZoneDataType",
               "type": "object",
-              "aov:typeRef": "nsu=http://opcfoundation.org/UA/;i=8912",
+              "dov:typeRef": "org.opcfoundation.UA.TimeZoneDataType",
               "required": [ "Offset", "DaylightSavingInOffset" ],
               "properties": {
                 "Offset": {
@@ -2446,7 +2425,7 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/PlasticsRubber.GeneralTypes/PlasticsRubber_GeneralTypes_MachineConfigurationType/action/SetMachineTime",
+            "dov:topic": "opcua/PlasticsRubber.GeneralTypes/PlasticsRubber_GeneralTypes_MachineConfigurationType/action/SetMachineTime",
             "op": "invokeaction"
           }
         ]
@@ -2454,32 +2433,32 @@
     },
     "properties": {
       "LocationName": {
-        "aov:namespace": "http://opcfoundation.org/UA/PlasticsRubber/GeneralTypes/",
+        "dov:namespace": "http://opcfoundation.org/UA/PlasticsRubber/GeneralTypes/",
         "description": "Description of the location of the machine given by the machine operator or OPC client",
         "type": "string",
         "readOnly": false,
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/PlasticsRubber.GeneralTypes/PlasticsRubber_GeneralTypes_MachineConfigurationType/property/LocationName/write",
+            "dov:topic": "opcua/PlasticsRubber.GeneralTypes/PlasticsRubber_GeneralTypes_MachineConfigurationType/property/LocationName/write",
             "op": "writeproperty"
           },
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/PlasticsRubber.GeneralTypes/PlasticsRubber_GeneralTypes_MachineConfigurationType/property/LocationName/read",
+            "dov:topic": "opcua/PlasticsRubber.GeneralTypes/PlasticsRubber_GeneralTypes_MachineConfigurationType/property/LocationName/read",
             "op": "readproperty"
           }
         ]
       },
       "PageDirectory": {
-        "aov:namespace": "http://opcfoundation.org/UA/PlasticsRubber/GeneralTypes/",
+        "dov:namespace": "http://opcfoundation.org/UA/PlasticsRubber/GeneralTypes/",
         "description": "List of the pages that are implemented in the machine control system and are shown on the screen of the machine",
         "type": "array",
         "items": {
           "title": "PageEntryDataType",
           "description": "Information on a page that is implemented in the machine control system and shown on the screen of the machine",
           "type": "object",
-          "aov:typeRef": "nsu=http://opcfoundation.org/UA/PlasticsRubber/GeneralTypes/;i=3014",
+          "dov:typeRef": "org.opcfoundation.UA.PlasticsRubber.GeneralTypes.PageEntryDataType",
           "required": [ "Id", "Title" ],
           "properties": {
             "Id": {
@@ -2496,17 +2475,17 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/PlasticsRubber.GeneralTypes/PlasticsRubber_GeneralTypes_MachineConfigurationType/property/PageDirectory/read",
+            "dov:topic": "opcua/PlasticsRubber.GeneralTypes/PlasticsRubber_GeneralTypes_MachineConfigurationType/property/PageDirectory/read",
             "op": "readproperty"
           }
         ]
       },
       "TimeZoneOffset": {
-        "aov:namespace": "http://opcfoundation.org/UA/PlasticsRubber/GeneralTypes/",
+        "dov:namespace": "http://opcfoundation.org/UA/PlasticsRubber/GeneralTypes/",
         "title": "TimeZoneDataType",
         "description": "Difference of the local time to Coordinated Universal Time (UTC) given by the machine operator or OPC client",
         "type": "object",
-        "aov:typeRef": "nsu=http://opcfoundation.org/UA/;i=8912",
+        "dov:typeRef": "org.opcfoundation.UA.TimeZoneDataType",
         "required": [ "Offset", "DaylightSavingInOffset" ],
         "properties": {
           "Offset": {
@@ -2522,30 +2501,30 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/PlasticsRubber.GeneralTypes/PlasticsRubber_GeneralTypes_MachineConfigurationType/property/TimeZoneOffset/write",
+            "dov:topic": "opcua/PlasticsRubber.GeneralTypes/PlasticsRubber_GeneralTypes_MachineConfigurationType/property/TimeZoneOffset/write",
             "op": "writeproperty"
           },
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/PlasticsRubber.GeneralTypes/PlasticsRubber_GeneralTypes_MachineConfigurationType/property/TimeZoneOffset/read",
+            "dov:topic": "opcua/PlasticsRubber.GeneralTypes/PlasticsRubber_GeneralTypes_MachineConfigurationType/property/TimeZoneOffset/read",
             "op": "readproperty"
           }
         ]
       },
       "UserMachineName": {
-        "aov:namespace": "http://opcfoundation.org/UA/PlasticsRubber/GeneralTypes/",
+        "dov:namespace": "http://opcfoundation.org/UA/PlasticsRubber/GeneralTypes/",
         "description": "Description of the machine given by the machine operator or OPC client",
         "type": "string",
         "readOnly": false,
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/PlasticsRubber.GeneralTypes/PlasticsRubber_GeneralTypes_MachineConfigurationType/property/UserMachineName/write",
+            "dov:topic": "opcua/PlasticsRubber.GeneralTypes/PlasticsRubber_GeneralTypes_MachineConfigurationType/property/UserMachineName/write",
             "op": "writeproperty"
           },
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/PlasticsRubber.GeneralTypes/PlasticsRubber_GeneralTypes_MachineConfigurationType/property/UserMachineName/read",
+            "dov:topic": "opcua/PlasticsRubber.GeneralTypes/PlasticsRubber_GeneralTypes_MachineConfigurationType/property/UserMachineName/read",
             "op": "readproperty"
           }
         ]
@@ -2558,14 +2537,13 @@
     "@context": [
       "https://www.w3.org/2022/wot/td/v1.1",
       {
-        "dtv": "http://azure.com/DigitalTwins/dtmi#",
-        "aov": "http://azure.com/IoT/operations/tm#"
+        "dov": "http://azure.com/DigitalOperations/vocab#"
       }
     ],
     "@type": "tm:ThingModel",
     "title": "PlasticsRubber_GeneralTypes_MachineInformationType",
-    "aov:typeRef": "nsu=http://opcfoundation.org/UA/PlasticsRubber/GeneralTypes/;i=1009",
-    "aov:isComposite": true,
+    "dov:typeRef": "org.opcfoundation.UA.PlasticsRubber.GeneralTypes.MachineInformationType",
+    "dov:isComposite": true,
     "links": [
       {
         "rel": "tm:extends",
@@ -2576,7 +2554,7 @@
     "schemaDefinitions": {
       "LogbookEventsEnumeration": {
         "type": "object",
-        "aov:typeRef": "nsu=http://opcfoundation.org/UA/PlasticsRubber/GeneralTypes/;i=3009",
+        "dov:typeRef": "org.opcfoundation.UA.PlasticsRubber.GeneralTypes.LogbookEventsEnumeration",
         "const": {
           "PARAMETER_CHANGE": 0,
           "USER": 1,
@@ -2642,7 +2620,7 @@
     "forms": [
       {
         "contentType": "application/json",
-        "dtv:topic": "opcua/PlasticsRubber.GeneralTypes/PlasticsRubber_GeneralTypes_MachineInformationType/properties/read",
+        "dov:topic": "opcua/PlasticsRubber.GeneralTypes/PlasticsRubber_GeneralTypes_MachineInformationType/properties/read",
         "op": "readallproperties"
       }
     ],
@@ -2650,77 +2628,77 @@
     },
     "properties": {
       "ControllerName": {
-        "aov:namespace": "http://opcfoundation.org/UA/PlasticsRubber/GeneralTypes/",
+        "dov:namespace": "http://opcfoundation.org/UA/PlasticsRubber/GeneralTypes/",
         "description": "Name of the machine controller ",
         "type": "string",
         "readOnly": true,
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/PlasticsRubber.GeneralTypes/PlasticsRubber_GeneralTypes_MachineInformationType/property/ControllerName/read",
+            "dov:topic": "opcua/PlasticsRubber.GeneralTypes/PlasticsRubber_GeneralTypes_MachineInformationType/property/ControllerName/read",
             "op": "readproperty"
           }
         ]
       },
       "DeviceClass": {
-        "aov:namespace": "http://opcfoundation.org/UA/DI/",
+        "dov:namespace": "http://opcfoundation.org/UA/DI/",
         "description": "Indicates in which domain or for what purpose a device is used.",
         "type": "string",
         "readOnly": true,
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/PlasticsRubber.GeneralTypes/PlasticsRubber_GeneralTypes_MachineInformationType/property/DeviceClass/read",
+            "dov:topic": "opcua/PlasticsRubber.GeneralTypes/PlasticsRubber_GeneralTypes_MachineInformationType/property/DeviceClass/read",
             "op": "readproperty"
           }
         ]
       },
       "Manufacturer": {
-        "aov:namespace": "http://opcfoundation.org/UA/DI/",
+        "dov:namespace": "http://opcfoundation.org/UA/DI/",
         "description": "Name of the company that manufactured the device",
         "type": "string",
         "readOnly": true,
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/PlasticsRubber.GeneralTypes/PlasticsRubber_GeneralTypes_MachineInformationType/property/Manufacturer/read",
+            "dov:topic": "opcua/PlasticsRubber.GeneralTypes/PlasticsRubber_GeneralTypes_MachineInformationType/property/Manufacturer/read",
             "op": "readproperty"
           }
         ]
       },
       "Model": {
-        "aov:namespace": "http://opcfoundation.org/UA/DI/",
+        "dov:namespace": "http://opcfoundation.org/UA/DI/",
         "description": "Model name of the device",
         "type": "string",
         "readOnly": true,
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/PlasticsRubber.GeneralTypes/PlasticsRubber_GeneralTypes_MachineInformationType/property/Model/read",
+            "dov:topic": "opcua/PlasticsRubber.GeneralTypes/PlasticsRubber_GeneralTypes_MachineInformationType/property/Model/read",
             "op": "readproperty"
           }
         ]
       },
       "SerialNumber": {
-        "aov:namespace": "http://opcfoundation.org/UA/DI/",
+        "dov:namespace": "http://opcfoundation.org/UA/DI/",
         "description": "Identifier that uniquely identifies, within a manufacturer, a device instance",
         "type": "string",
         "readOnly": true,
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/PlasticsRubber.GeneralTypes/PlasticsRubber_GeneralTypes_MachineInformationType/property/SerialNumber/read",
+            "dov:topic": "opcua/PlasticsRubber.GeneralTypes/PlasticsRubber_GeneralTypes_MachineInformationType/property/SerialNumber/read",
             "op": "readproperty"
           }
         ]
       },
       "SupportedLogbookEvents": {
-        "aov:namespace": "http://opcfoundation.org/UA/PlasticsRubber/GeneralTypes/",
+        "dov:namespace": "http://opcfoundation.org/UA/PlasticsRubber/GeneralTypes/",
         "description": "Information which LogbookEvents are supported by the machine",
         "type": "array",
         "items": {
           "title": "LogbookEventsEnumeration",
-          "aov:typeRef": "nsu=http://opcfoundation.org/UA/PlasticsRubber/GeneralTypes/;i=3009",
+          "dov:typeRef": "org.opcfoundation.UA.PlasticsRubber.GeneralTypes.LogbookEventsEnumeration",
           "type": "integer",
           "minimum": -2147483648,
           "maximum": 2147483647
@@ -2729,7 +2707,7 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/PlasticsRubber.GeneralTypes/PlasticsRubber_GeneralTypes_MachineInformationType/property/SupportedLogbookEvents/read",
+            "dov:topic": "opcua/PlasticsRubber.GeneralTypes/PlasticsRubber_GeneralTypes_MachineInformationType/property/SupportedLogbookEvents/read",
             "op": "readproperty"
           }
         ]
@@ -2742,14 +2720,13 @@
     "@context": [
       "https://www.w3.org/2022/wot/td/v1.1",
       {
-        "dtv": "http://azure.com/DigitalTwins/dtmi#",
-        "aov": "http://azure.com/IoT/operations/tm#"
+        "dov": "http://azure.com/DigitalOperations/vocab#"
       }
     ],
     "@type": "tm:ThingModel",
     "title": "PlasticsRubber_GeneralTypes_ProductionDatasetManagementType",
-    "aov:typeRef": "nsu=http://opcfoundation.org/UA/PlasticsRubber/GeneralTypes/;i=1008",
-    "aov:isComposite": true,
+    "dov:typeRef": "org.opcfoundation.UA.PlasticsRubber.GeneralTypes.ProductionDatasetManagementType",
+    "dov:isComposite": true,
     "links": [
       {
         "rel": "tm:extends",
@@ -2757,26 +2734,26 @@
         "type": "application/tm+json"
       },
       {
-        "rel": "aov:capability",
-        "aov:refName": "ActiveProductionDatasetStatus",
+        "rel": "dov:capability",
+        "dov:refName": "ActiveProductionDatasetStatus",
         "href": "#title=PlasticsRubber_GeneralTypes_ProductionDatasetStatusType",
         "type": "application/tm+json"
       },
       {
-        "rel": "aov:reference",
-        "aov:refName": "ProductionDatasetInPreparationStatus",
+        "rel": "dov:reference",
+        "dov:refName": "ProductionDatasetInPreparationStatus",
         "href": "#title=PlasticsRubber_GeneralTypes_ProductionDatasetStatusType",
         "type": "application/tm+json"
       },
       {
-        "rel": "aov:reference",
-        "aov:refName": "ProductionDatasetLists",
+        "rel": "dov:reference",
+        "dov:refName": "ProductionDatasetLists",
         "href": "#title=PlasticsRubber_GeneralTypes_ProductionDatasetListsType",
         "type": "application/tm+json"
       },
       {
-        "rel": "aov:capability",
-        "aov:refName": "ProductionDatasetTransfer",
+        "rel": "dov:capability",
+        "dov:refName": "ProductionDatasetTransfer",
         "href": "#title=OpcUaCore_TemporaryFileTransferType",
         "type": "application/tm+json"
       }
@@ -2785,11 +2762,11 @@
     },
     "actions": {
       "GetProductionDatasetInformation": {
-        "aov:namespace": "http://opcfoundation.org/UA/PlasticsRubber/GeneralTypes/",
+        "dov:namespace": "http://opcfoundation.org/UA/PlasticsRubber/GeneralTypes/",
         "description": "This Method allows reading the description of a production dataset during the file transfer from the server to the client with ProductionDatasetTransfer",
         "input": {
           "type": "object",
-          "aov:typeRef": "nsu=http://opcfoundation.org/UA/PlasticsRubber/GeneralTypes/;i=6283",
+          "dov:typeRef": "org.opcfoundation.UA.InputArguments",
           "required": [ "fileHandle" ],
           "properties": {
             "fileHandle": {
@@ -2801,14 +2778,14 @@
         },
         "output": {
           "type": "object",
-          "aov:typeRef": "nsu=http://opcfoundation.org/UA/PlasticsRubber/GeneralTypes/;i=6284",
+          "dov:typeRef": "org.opcfoundation.UA.OutputArguments",
           "required": [ "Information" ],
           "properties": {
             "Information": {
               "title": "ProductionDatasetInformationType",
               "description": "Information on a production dataset",
               "type": "object",
-              "aov:typeRef": "nsu=http://opcfoundation.org/UA/PlasticsRubber/GeneralTypes/;i=3006",
+              "dov:typeRef": "org.opcfoundation.UA.PlasticsRubber.GeneralTypes.ProductionDatasetInformationType",
               "required": [ "Name", "Description", "MESId", "CreationTimestamp", "LastModificationTimestamp", "LastSaveTimestamp", "UserName", "Components", "Manufacturer", "SerialNumber", "Model", "ControllerName", "UserMachineName", "LocationName", "ProductName", "MouldId", "NumCavities" ],
               "properties": {
                 "Name": {
@@ -2899,17 +2876,17 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/PlasticsRubber.GeneralTypes/PlasticsRubber_GeneralTypes_ProductionDatasetManagementType/action/GetProductionDatasetInformation",
+            "dov:topic": "opcua/PlasticsRubber.GeneralTypes/PlasticsRubber_GeneralTypes_ProductionDatasetManagementType/action/GetProductionDatasetInformation",
             "op": "invokeaction"
           }
         ]
       },
       "SendProductionDatasetInformation": {
-        "aov:namespace": "http://opcfoundation.org/UA/PlasticsRubber/GeneralTypes/",
+        "dov:namespace": "http://opcfoundation.org/UA/PlasticsRubber/GeneralTypes/",
         "description": "This Method allows sending of the description of a production dataset during the file transfer from the client to the server with ProductionDatasetTransfer",
         "input": {
           "type": "object",
-          "aov:typeRef": "nsu=http://opcfoundation.org/UA/PlasticsRubber/GeneralTypes/;i=6285",
+          "dov:typeRef": "org.opcfoundation.UA.InputArguments",
           "required": [ "fileHandle", "Information" ],
           "properties": {
             "fileHandle": {
@@ -2921,7 +2898,7 @@
               "title": "ProductionDatasetInformationType",
               "description": "Information on a production dataset",
               "type": "object",
-              "aov:typeRef": "nsu=http://opcfoundation.org/UA/PlasticsRubber/GeneralTypes/;i=3006",
+              "dov:typeRef": "org.opcfoundation.UA.PlasticsRubber.GeneralTypes.ProductionDatasetInformationType",
               "required": [ "Name", "Description", "MESId", "CreationTimestamp", "LastModificationTimestamp", "LastSaveTimestamp", "UserName", "Components", "Manufacturer", "SerialNumber", "Model", "ControllerName", "UserMachineName", "LocationName", "ProductName", "MouldId", "NumCavities" ],
               "properties": {
                 "Name": {
@@ -3012,7 +2989,7 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/PlasticsRubber.GeneralTypes/PlasticsRubber_GeneralTypes_ProductionDatasetManagementType/action/SendProductionDatasetInformation",
+            "dov:topic": "opcua/PlasticsRubber.GeneralTypes/PlasticsRubber_GeneralTypes_ProductionDatasetManagementType/action/SendProductionDatasetInformation",
             "op": "invokeaction"
           }
         ]
@@ -3027,13 +3004,12 @@
     "@context": [
       "https://www.w3.org/2022/wot/td/v1.1",
       {
-        "dtv": "http://azure.com/DigitalTwins/dtmi#",
-        "aov": "http://azure.com/IoT/operations/tm#"
+        "dov": "http://azure.com/DigitalOperations/vocab#"
       }
     ],
     "@type": "tm:ThingModel",
     "title": "PlasticsRubber_GeneralTypes_ProductionDatasetStatusType",
-    "aov:typeRef": "nsu=http://opcfoundation.org/UA/PlasticsRubber/GeneralTypes/;i=1039",
+    "dov:typeRef": "org.opcfoundation.UA.PlasticsRubber.GeneralTypes.ProductionDatasetStatusType",
     "links": [
       {
         "rel": "tm:extends",
@@ -3046,22 +3022,22 @@
     "forms": [
       {
         "contentType": "application/json",
-        "dtv:topic": "opcua/PlasticsRubber.GeneralTypes/PlasticsRubber_GeneralTypes_ProductionDatasetStatusType/properties/write",
+        "dov:topic": "opcua/PlasticsRubber.GeneralTypes/PlasticsRubber_GeneralTypes_ProductionDatasetStatusType/properties/write",
         "op": "writemultipleproperties"
       },
       {
         "contentType": "application/json",
-        "dtv:topic": "opcua/PlasticsRubber.GeneralTypes/PlasticsRubber_GeneralTypes_ProductionDatasetStatusType/properties/read",
+        "dov:topic": "opcua/PlasticsRubber.GeneralTypes/PlasticsRubber_GeneralTypes_ProductionDatasetStatusType/properties/read",
         "op": "readallproperties"
       }
     ],
     "actions": {
       "Load": {
-        "aov:namespace": "http://opcfoundation.org/UA/PlasticsRubber/GeneralTypes/",
+        "dov:namespace": "http://opcfoundation.org/UA/PlasticsRubber/GeneralTypes/",
         "description": "Loads a production dataset from the file system of the machine to the control of the machine",
         "input": {
           "type": "object",
-          "aov:typeRef": "nsu=http://opcfoundation.org/UA/PlasticsRubber/GeneralTypes/;i=6275",
+          "dov:typeRef": "org.opcfoundation.UA.InputArguments",
           "required": [ "Name", "Components" ],
           "properties": {
             "Name": {
@@ -3080,17 +3056,17 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/PlasticsRubber.GeneralTypes/PlasticsRubber_GeneralTypes_ProductionDatasetStatusType/action/Load",
+            "dov:topic": "opcua/PlasticsRubber.GeneralTypes/PlasticsRubber_GeneralTypes_ProductionDatasetStatusType/action/Load",
             "op": "invokeaction"
           }
         ]
       },
       "Save": {
-        "aov:namespace": "http://opcfoundation.org/UA/PlasticsRubber/GeneralTypes/",
+        "dov:namespace": "http://opcfoundation.org/UA/PlasticsRubber/GeneralTypes/",
         "description": "Stores a production dataset from the control of the machine to the file system of the machine",
         "input": {
           "type": "object",
-          "aov:typeRef": "nsu=http://opcfoundation.org/UA/PlasticsRubber/GeneralTypes/;i=6187",
+          "dov:typeRef": "org.opcfoundation.UA.InputArguments",
           "required": [ "Name" ],
           "properties": {
             "Name": {
@@ -3101,7 +3077,7 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/PlasticsRubber.GeneralTypes/PlasticsRubber_GeneralTypes_ProductionDatasetStatusType/action/Save",
+            "dov:topic": "opcua/PlasticsRubber.GeneralTypes/PlasticsRubber_GeneralTypes_ProductionDatasetStatusType/action/Save",
             "op": "invokeaction"
           }
         ]
@@ -3109,29 +3085,29 @@
     },
     "properties": {
       "Frozen": {
-        "aov:namespace": "http://opcfoundation.org/UA/PlasticsRubber/GeneralTypes/",
+        "dov:namespace": "http://opcfoundation.org/UA/PlasticsRubber/GeneralTypes/",
         "description": "Indication if changes on the machine in the production dataset are allowed",
         "type": "boolean",
         "readOnly": false,
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/PlasticsRubber.GeneralTypes/PlasticsRubber_GeneralTypes_ProductionDatasetStatusType/property/Frozen/write",
+            "dov:topic": "opcua/PlasticsRubber.GeneralTypes/PlasticsRubber_GeneralTypes_ProductionDatasetStatusType/property/Frozen/write",
             "op": "writeproperty"
           },
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/PlasticsRubber.GeneralTypes/PlasticsRubber_GeneralTypes_ProductionDatasetStatusType/property/Frozen/read",
+            "dov:topic": "opcua/PlasticsRubber.GeneralTypes/PlasticsRubber_GeneralTypes_ProductionDatasetStatusType/property/Frozen/read",
             "op": "readproperty"
           }
         ]
       },
       "Information": {
-        "aov:namespace": "http://opcfoundation.org/UA/PlasticsRubber/GeneralTypes/",
+        "dov:namespace": "http://opcfoundation.org/UA/PlasticsRubber/GeneralTypes/",
         "title": "ProductionDatasetInformationType",
         "description": "Information on a production dataset",
         "type": "object",
-        "aov:typeRef": "nsu=http://opcfoundation.org/UA/PlasticsRubber/GeneralTypes/;i=3006",
+        "dov:typeRef": "org.opcfoundation.UA.PlasticsRubber.GeneralTypes.ProductionDatasetInformationType",
         "required": [ "Name", "Description", "MESId", "CreationTimestamp", "LastModificationTimestamp", "LastSaveTimestamp", "UserName", "Components", "Manufacturer", "SerialNumber", "Model", "ControllerName", "UserMachineName", "LocationName", "ProductName", "MouldId", "NumCavities" ],
         "properties": {
           "Name": {
@@ -3220,20 +3196,20 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/PlasticsRubber.GeneralTypes/PlasticsRubber_GeneralTypes_ProductionDatasetStatusType/property/Information/read",
+            "dov:topic": "opcua/PlasticsRubber.GeneralTypes/PlasticsRubber_GeneralTypes_ProductionDatasetStatusType/property/Information/read",
             "op": "readproperty"
           }
         ]
       },
       "Modified": {
-        "aov:namespace": "http://opcfoundation.org/UA/PlasticsRubber/GeneralTypes/",
+        "dov:namespace": "http://opcfoundation.org/UA/PlasticsRubber/GeneralTypes/",
         "description": "Indication if the production dataset has been changed after the last storage",
         "type": "boolean",
         "readOnly": true,
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/PlasticsRubber.GeneralTypes/PlasticsRubber_GeneralTypes_ProductionDatasetStatusType/property/Modified/read",
+            "dov:topic": "opcua/PlasticsRubber.GeneralTypes/PlasticsRubber_GeneralTypes_ProductionDatasetStatusType/property/Modified/read",
             "op": "readproperty"
           }
         ]
@@ -3246,13 +3222,12 @@
     "@context": [
       "https://www.w3.org/2022/wot/td/v1.1",
       {
-        "dtv": "http://azure.com/DigitalTwins/dtmi#",
-        "aov": "http://azure.com/IoT/operations/tm#"
+        "dov": "http://azure.com/DigitalOperations/vocab#"
       }
     ],
     "@type": "tm:ThingModel",
     "title": "PlasticsRubber_GeneralTypes_ProductionDatasetListsType",
-    "aov:typeRef": "nsu=http://opcfoundation.org/UA/PlasticsRubber/GeneralTypes/;i=1003",
+    "dov:typeRef": "org.opcfoundation.UA.PlasticsRubber.GeneralTypes.ProductionDatasetListsType",
     "links": [
       {
         "rel": "tm:extends",
@@ -3264,11 +3239,11 @@
     },
     "actions": {
       "GetProductionDatasetList": {
-        "aov:namespace": "http://opcfoundation.org/UA/PlasticsRubber/GeneralTypes/",
+        "dov:namespace": "http://opcfoundation.org/UA/PlasticsRubber/GeneralTypes/",
         "description": "This Method is used to read a list from the server, which production datasets that are available on the machine's file system ",
         "input": {
           "type": "object",
-          "aov:typeRef": "nsu=http://opcfoundation.org/UA/PlasticsRubber/GeneralTypes/;i=6018",
+          "dov:typeRef": "org.opcfoundation.UA.InputArguments",
           "required": [ "NameFilter", "MouldId" ],
           "properties": {
             "NameFilter": {
@@ -3281,7 +3256,7 @@
         },
         "output": {
           "type": "object",
-          "aov:typeRef": "nsu=http://opcfoundation.org/UA/PlasticsRubber/GeneralTypes/;i=6019",
+          "dov:typeRef": "org.opcfoundation.UA.OutputArguments",
           "required": [ "ProductionDatasetList" ],
           "properties": {
             "ProductionDatasetList": {
@@ -3290,7 +3265,7 @@
                 "title": "ProductionDatasetInformationType",
                 "description": "Information on a production dataset",
                 "type": "object",
-                "aov:typeRef": "nsu=http://opcfoundation.org/UA/PlasticsRubber/GeneralTypes/;i=3006",
+                "dov:typeRef": "org.opcfoundation.UA.PlasticsRubber.GeneralTypes.ProductionDatasetInformationType",
                 "required": [ "Name", "Description", "MESId", "CreationTimestamp", "LastModificationTimestamp", "LastSaveTimestamp", "UserName", "Components", "Manufacturer", "SerialNumber", "Model", "ControllerName", "UserMachineName", "LocationName", "ProductName", "MouldId", "NumCavities" ],
                 "properties": {
                   "Name": {
@@ -3382,17 +3357,17 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/PlasticsRubber.GeneralTypes/PlasticsRubber_GeneralTypes_ProductionDatasetListsType/action/GetProductionDatasetList",
+            "dov:topic": "opcua/PlasticsRubber.GeneralTypes/PlasticsRubber_GeneralTypes_ProductionDatasetListsType/action/GetProductionDatasetList",
             "op": "invokeaction"
           }
         ]
       },
       "SendProductionDatasetList": {
-        "aov:namespace": "http://opcfoundation.org/UA/PlasticsRubber/GeneralTypes/",
+        "dov:namespace": "http://opcfoundation.org/UA/PlasticsRubber/GeneralTypes/",
         "description": "This Method is used to send a list of production datasets available on the client to the server",
         "input": {
           "type": "object",
-          "aov:typeRef": "nsu=http://opcfoundation.org/UA/PlasticsRubber/GeneralTypes/;i=6020",
+          "dov:typeRef": "org.opcfoundation.UA.InputArguments",
           "required": [ "ProductionDatasetList" ],
           "properties": {
             "ProductionDatasetList": {
@@ -3401,7 +3376,7 @@
                 "title": "ProductionDatasetInformationType",
                 "description": "Information on a production dataset",
                 "type": "object",
-                "aov:typeRef": "nsu=http://opcfoundation.org/UA/PlasticsRubber/GeneralTypes/;i=3006",
+                "dov:typeRef": "org.opcfoundation.UA.PlasticsRubber.GeneralTypes.ProductionDatasetInformationType",
                 "required": [ "Name", "Description", "MESId", "CreationTimestamp", "LastModificationTimestamp", "LastSaveTimestamp", "UserName", "Components", "Manufacturer", "SerialNumber", "Model", "ControllerName", "UserMachineName", "LocationName", "ProductName", "MouldId", "NumCavities" ],
                 "properties": {
                   "Name": {
@@ -3493,7 +3468,7 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/PlasticsRubber.GeneralTypes/PlasticsRubber_GeneralTypes_ProductionDatasetListsType/action/SendProductionDatasetList",
+            "dov:topic": "opcua/PlasticsRubber.GeneralTypes/PlasticsRubber_GeneralTypes_ProductionDatasetListsType/action/SendProductionDatasetList",
             "op": "invokeaction"
           }
         ]
@@ -3508,13 +3483,12 @@
     "@context": [
       "https://www.w3.org/2022/wot/td/v1.1",
       {
-        "dtv": "http://azure.com/DigitalTwins/dtmi#",
-        "aov": "http://azure.com/IoT/operations/tm#"
+        "dov": "http://azure.com/DigitalOperations/vocab#"
       }
     ],
     "@type": "tm:ThingModel",
     "title": "PlasticsRubber_GeneralTypes_DriveType",
-    "aov:typeRef": "nsu=http://opcfoundation.org/UA/PlasticsRubber/GeneralTypes/;i=1068",
+    "dov:typeRef": "org.opcfoundation.UA.PlasticsRubber.GeneralTypes.DriveType",
     "links": [
       {
         "rel": "tm:extends",
@@ -3522,38 +3496,38 @@
         "type": "application/tm+json"
       },
       {
-        "rel": "aov:reference",
-        "aov:refName": "AdditionalMeasuringDevices",
+        "rel": "dov:reference",
+        "dov:refName": "AdditionalMeasuringDevices",
         "href": "#title=PlasticsRubber_GeneralTypes_MeasuringDevicesType",
         "type": "application/tm+json"
       },
       {
-        "rel": "aov:reference",
-        "aov:refName": "Energy",
+        "rel": "dov:reference",
+        "dov:refName": "Energy",
         "href": "#title=PlasticsRubber_GeneralTypes_EnergyType",
         "type": "application/tm+json"
       },
       {
-        "rel": "aov:reference",
-        "aov:refName": "Maintenance",
+        "rel": "dov:reference",
+        "dov:refName": "Maintenance",
         "href": "#title=PlasticsRubber_GeneralTypes_MaintenanceType",
         "type": "application/tm+json"
       },
       {
-        "rel": "aov:reference",
-        "aov:refName": "Speed",
+        "rel": "dov:reference",
+        "dov:refName": "Speed",
         "href": "#title=PlasticsRubber_GeneralTypes_MonitoredParameterType",
         "type": "application/tm+json"
       },
       {
-        "rel": "aov:reference",
-        "aov:refName": "StartDrive",
+        "rel": "dov:reference",
+        "dov:refName": "StartDrive",
         "href": "#title=PlasticsRubber_GeneralTypes_StartDeviceType",
         "type": "application/tm+json"
       },
       {
-        "rel": "aov:reference",
-        "aov:refName": "Torque",
+        "rel": "dov:reference",
+        "dov:refName": "Torque",
         "href": "#title=PlasticsRubber_GeneralTypes_MonitoredParameterType",
         "type": "application/tm+json"
       }
@@ -3563,7 +3537,7 @@
     "forms": [
       {
         "contentType": "application/json",
-        "dtv:topic": "opcua/PlasticsRubber.GeneralTypes/PlasticsRubber_GeneralTypes_DriveType/properties/read",
+        "dov:topic": "opcua/PlasticsRubber.GeneralTypes/PlasticsRubber_GeneralTypes_DriveType/properties/read",
         "op": "readallproperties"
       }
     ],
@@ -3571,13 +3545,13 @@
     },
     "properties": {
       "Position": {
-        "aov:namespace": "http://opcfoundation.org/UA/PlasticsRubber/GeneralTypes/",
+        "dov:namespace": "http://opcfoundation.org/UA/PlasticsRubber/GeneralTypes/",
         "type": "string",
         "readOnly": true,
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/PlasticsRubber.GeneralTypes/PlasticsRubber_GeneralTypes_DriveType/property/Position/read",
+            "dov:topic": "opcua/PlasticsRubber.GeneralTypes/PlasticsRubber_GeneralTypes_DriveType/property/Position/read",
             "op": "readproperty"
           }
         ]
@@ -3590,13 +3564,12 @@
     "@context": [
       "https://www.w3.org/2022/wot/td/v1.1",
       {
-        "dtv": "http://azure.com/DigitalTwins/dtmi#",
-        "aov": "http://azure.com/IoT/operations/tm#"
+        "dov": "http://azure.com/DigitalOperations/vocab#"
       }
     ],
     "@type": "tm:ThingModel",
     "title": "PlasticsRubber_Extrusion_GeneralTypes_ExtrusionDeviceType",
-    "aov:typeRef": "nsu=http://opcfoundation.org/UA/PlasticsRubber/Extrusion/GeneralTypes/;i=1002",
+    "dov:typeRef": "org.opcfoundation.UA.PlasticsRubber.Extrusion.GeneralTypes.ExtrusionDeviceType",
     "links": [
       {
         "rel": "tm:extends",
@@ -3604,56 +3577,56 @@
         "type": "application/tm+json"
       },
       {
-        "rel": "aov:reference",
-        "aov:refName": "AdditionalMeasuringDevices",
+        "rel": "dov:reference",
+        "dov:refName": "AdditionalMeasuringDevices",
         "href": "#title=PlasticsRubber_GeneralTypes_MeasuringDevicesType",
         "type": "application/tm+json"
       },
       {
-        "rel": "aov:reference",
-        "aov:refName": "ElectricalEnergy",
+        "rel": "dov:reference",
+        "dov:refName": "ElectricalEnergy",
         "href": "#title=PlasticsRubber_GeneralTypes_EnergyType",
         "type": "application/tm+json"
       },
       {
-        "rel": "aov:reference",
-        "aov:refName": "FluidEnergy",
+        "rel": "dov:reference",
+        "dov:refName": "FluidEnergy",
         "href": "#title=PlasticsRubber_GeneralTypes_EnergyType",
         "type": "application/tm+json"
       },
       {
-        "rel": "aov:reference",
-        "aov:refName": "MachineConfiguration",
+        "rel": "dov:reference",
+        "dov:refName": "MachineConfiguration",
         "href": "#title=PlasticsRubber_GeneralTypes_MachineConfigurationType",
         "type": "application/tm+json"
       },
       {
-        "rel": "aov:capability",
-        "aov:refName": "MachineInformation",
+        "rel": "dov:capability",
+        "dov:refName": "MachineInformation",
         "href": "#title=PlasticsRubber_GeneralTypes_MachineInformationType",
         "type": "application/tm+json"
       },
       {
-        "rel": "aov:reference",
-        "aov:refName": "Maintenance",
+        "rel": "dov:reference",
+        "dov:refName": "Maintenance",
         "href": "#title=PlasticsRubber_GeneralTypes_MaintenanceType",
         "type": "application/tm+json"
       },
       {
-        "rel": "aov:reference",
-        "aov:refName": "PressureAir",
+        "rel": "dov:reference",
+        "dov:refName": "PressureAir",
         "href": "#title=PlasticsRubber_GeneralTypes_EnergyType",
         "type": "application/tm+json"
       },
       {
-        "rel": "aov:reference",
-        "aov:refName": "ProductionDatasetManagement",
+        "rel": "dov:reference",
+        "dov:refName": "ProductionDatasetManagement",
         "href": "#title=PlasticsRubber_GeneralTypes_ProductionDatasetManagementType",
         "type": "application/tm+json"
       },
       {
-        "rel": "aov:reference",
-        "aov:refName": "StartDevice",
+        "rel": "dov:reference",
+        "dov:refName": "StartDevice",
         "href": "#title=PlasticsRubber_GeneralTypes_StartDeviceType",
         "type": "application/tm+json"
       }
@@ -3661,7 +3634,7 @@
     "schemaDefinitions": {
       "ComponentStatusEnumeration": {
         "type": "object",
-        "aov:typeRef": "nsu=http://opcfoundation.org/UA/PlasticsRubber/Extrusion/GeneralTypes/;i=3003",
+        "dov:typeRef": "org.opcfoundation.UA.PlasticsRubber.Extrusion.GeneralTypes.ComponentStatusEnumeration",
         "const": {
           "OFFLINE": 0,
           "IDLE": 1,
@@ -3703,12 +3676,12 @@
     "forms": [
       {
         "contentType": "application/json",
-        "dtv:topic": "opcua/PlasticsRubber.Extrusion.GeneralTypes/PlasticsRubber_Extrusion_GeneralTypes_ExtrusionDeviceType/properties/write",
+        "dov:topic": "opcua/PlasticsRubber.Extrusion.GeneralTypes/PlasticsRubber_Extrusion_GeneralTypes_ExtrusionDeviceType/properties/write",
         "op": "writemultipleproperties"
       },
       {
         "contentType": "application/json",
-        "dtv:topic": "opcua/PlasticsRubber.Extrusion.GeneralTypes/PlasticsRubber_Extrusion_GeneralTypes_ExtrusionDeviceType/properties/read",
+        "dov:topic": "opcua/PlasticsRubber.Extrusion.GeneralTypes/PlasticsRubber_Extrusion_GeneralTypes_ExtrusionDeviceType/properties/read",
         "op": "readallproperties"
       }
     ],
@@ -3716,38 +3689,38 @@
     },
     "properties": {
       "IsPresent": {
-        "aov:namespace": "http://opcfoundation.org/UA/PlasticsRubber/Extrusion/GeneralTypes/",
+        "dov:namespace": "http://opcfoundation.org/UA/PlasticsRubber/Extrusion/GeneralTypes/",
         "type": "boolean",
         "readOnly": true,
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/PlasticsRubber.Extrusion.GeneralTypes/PlasticsRubber_Extrusion_GeneralTypes_ExtrusionDeviceType/property/IsPresent/read",
+            "dov:topic": "opcua/PlasticsRubber.Extrusion.GeneralTypes/PlasticsRubber_Extrusion_GeneralTypes_ExtrusionDeviceType/property/IsPresent/read",
             "op": "readproperty"
           }
         ]
       },
       "LineId": {
-        "aov:namespace": "http://opcfoundation.org/UA/PlasticsRubber/Extrusion/GeneralTypes/",
+        "dov:namespace": "http://opcfoundation.org/UA/PlasticsRubber/Extrusion/GeneralTypes/",
         "type": "string",
         "readOnly": false,
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/PlasticsRubber.Extrusion.GeneralTypes/PlasticsRubber_Extrusion_GeneralTypes_ExtrusionDeviceType/property/LineId/write",
+            "dov:topic": "opcua/PlasticsRubber.Extrusion.GeneralTypes/PlasticsRubber_Extrusion_GeneralTypes_ExtrusionDeviceType/property/LineId/write",
             "op": "writeproperty"
           },
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/PlasticsRubber.Extrusion.GeneralTypes/PlasticsRubber_Extrusion_GeneralTypes_ExtrusionDeviceType/property/LineId/read",
+            "dov:topic": "opcua/PlasticsRubber.Extrusion.GeneralTypes/PlasticsRubber_Extrusion_GeneralTypes_ExtrusionDeviceType/property/LineId/read",
             "op": "readproperty"
           }
         ]
       },
       "Status": {
-        "aov:namespace": "http://opcfoundation.org/UA/PlasticsRubber/Extrusion/GeneralTypes/",
+        "dov:namespace": "http://opcfoundation.org/UA/PlasticsRubber/Extrusion/GeneralTypes/",
         "title": "ComponentStatusEnumeration",
-        "aov:typeRef": "nsu=http://opcfoundation.org/UA/PlasticsRubber/Extrusion/GeneralTypes/;i=3003",
+        "dov:typeRef": "org.opcfoundation.UA.PlasticsRubber.Extrusion.GeneralTypes.ComponentStatusEnumeration",
         "type": "integer",
         "minimum": -2147483648,
         "maximum": 2147483647,
@@ -3755,13 +3728,13 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/PlasticsRubber.Extrusion.GeneralTypes/PlasticsRubber_Extrusion_GeneralTypes_ExtrusionDeviceType/property/Status/read",
+            "dov:topic": "opcua/PlasticsRubber.Extrusion.GeneralTypes/PlasticsRubber_Extrusion_GeneralTypes_ExtrusionDeviceType/property/Status/read",
             "op": "readproperty"
           }
         ]
       },
       "Strand": {
-        "aov:namespace": "http://opcfoundation.org/UA/PlasticsRubber/Extrusion/GeneralTypes/",
+        "dov:namespace": "http://opcfoundation.org/UA/PlasticsRubber/Extrusion/GeneralTypes/",
         "type": "integer",
         "minimum": 0,
         "maximum": 4294967295,
@@ -3769,19 +3742,19 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/PlasticsRubber.Extrusion.GeneralTypes/PlasticsRubber_Extrusion_GeneralTypes_ExtrusionDeviceType/property/Strand/read",
+            "dov:topic": "opcua/PlasticsRubber.Extrusion.GeneralTypes/PlasticsRubber_Extrusion_GeneralTypes_ExtrusionDeviceType/property/Strand/read",
             "op": "readproperty"
           }
         ]
       },
       "Target": {
-        "aov:namespace": "http://opcfoundation.org/UA/PlasticsRubber/Extrusion/GeneralTypes/",
+        "dov:namespace": "http://opcfoundation.org/UA/PlasticsRubber/Extrusion/GeneralTypes/",
         "type": "string",
         "readOnly": true,
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/PlasticsRubber.Extrusion.GeneralTypes/PlasticsRubber_Extrusion_GeneralTypes_ExtrusionDeviceType/property/Target/read",
+            "dov:topic": "opcua/PlasticsRubber.Extrusion.GeneralTypes/PlasticsRubber_Extrusion_GeneralTypes_ExtrusionDeviceType/property/Target/read",
             "op": "readproperty"
           }
         ]
@@ -3794,14 +3767,13 @@
     "@context": [
       "https://www.w3.org/2022/wot/td/v1.1",
       {
-        "dtv": "http://azure.com/DigitalTwins/dtmi#",
-        "aov": "http://azure.com/IoT/operations/tm#"
+        "dov": "http://azure.com/DigitalOperations/vocab#"
       }
     ],
     "@type": "tm:ThingModel",
     "title": "PlasticsRubber_Extrusion_GeneralTypes_GapsType",
-    "aov:typeRef": "nsu=http://opcfoundation.org/UA/PlasticsRubber/Extrusion/GeneralTypes/;i=1004",
-    "aov:isComposite": true,
+    "dov:typeRef": "org.opcfoundation.UA.PlasticsRubber.Extrusion.GeneralTypes.GapsType",
+    "dov:isComposite": true,
     "links": [
       {
         "rel": "tm:extends",
@@ -3809,8 +3781,8 @@
         "type": "application/tm+json"
       },
       {
-        "rel": "aov:component",
-        "aov:refName": "Gap__Nr_",
+        "rel": "dov:component",
+        "dov:refName": "Gap__Nr_",
         "href": "#title=PlasticsRubber_Extrusion_GeneralTypes_GapType",
         "type": "application/tm+json"
       }
@@ -3820,7 +3792,7 @@
     "forms": [
       {
         "contentType": "application/json",
-        "dtv:topic": "opcua/PlasticsRubber.Extrusion.GeneralTypes/PlasticsRubber_Extrusion_GeneralTypes_GapsType/properties/read",
+        "dov:topic": "opcua/PlasticsRubber.Extrusion.GeneralTypes/PlasticsRubber_Extrusion_GeneralTypes_GapsType/properties/read",
         "op": "readallproperties"
       }
     ],
@@ -3833,7 +3805,7 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/PlasticsRubber.Extrusion.GeneralTypes/PlasticsRubber_Extrusion_GeneralTypes_GapsType/property/NodeVersion/read",
+            "dov:topic": "opcua/PlasticsRubber.Extrusion.GeneralTypes/PlasticsRubber_Extrusion_GeneralTypes_GapsType/property/NodeVersion/read",
             "op": "readproperty"
           }
         ]
@@ -3846,13 +3818,12 @@
     "@context": [
       "https://www.w3.org/2022/wot/td/v1.1",
       {
-        "dtv": "http://azure.com/DigitalTwins/dtmi#",
-        "aov": "http://azure.com/IoT/operations/tm#"
+        "dov": "http://azure.com/DigitalOperations/vocab#"
       }
     ],
     "@type": "tm:ThingModel",
     "title": "PlasticsRubber_Extrusion_GeneralTypes_GapType",
-    "aov:typeRef": "nsu=http://opcfoundation.org/UA/PlasticsRubber/Extrusion/GeneralTypes/;i=1003",
+    "dov:typeRef": "org.opcfoundation.UA.PlasticsRubber.Extrusion.GeneralTypes.GapType",
     "links": [
       {
         "rel": "tm:extends",
@@ -3860,20 +3831,20 @@
         "type": "application/tm+json"
       },
       {
-        "rel": "aov:reference",
-        "aov:refName": "ContactForce",
+        "rel": "dov:reference",
+        "dov:refName": "ContactForce",
         "href": "#title=PlasticsRubber_GeneralTypes_MonitoredParameterType",
         "type": "application/tm+json"
       },
       {
-        "rel": "aov:reference",
-        "aov:refName": "DistanceLeft",
+        "rel": "dov:reference",
+        "dov:refName": "DistanceLeft",
         "href": "#title=PlasticsRubber_GeneralTypes_MonitoredParameterType",
         "type": "application/tm+json"
       },
       {
-        "rel": "aov:reference",
-        "aov:refName": "DistanceRight",
+        "rel": "dov:reference",
+        "dov:refName": "DistanceRight",
         "href": "#title=PlasticsRubber_GeneralTypes_MonitoredParameterType",
         "type": "application/tm+json"
       }
@@ -3883,12 +3854,12 @@
     "forms": [
       {
         "contentType": "application/json",
-        "dtv:topic": "opcua/PlasticsRubber.Extrusion.GeneralTypes/PlasticsRubber_Extrusion_GeneralTypes_GapType/events/{senderId}",
+        "dov:topic": "opcua/PlasticsRubber.Extrusion.GeneralTypes/PlasticsRubber_Extrusion_GeneralTypes_GapType/events/{senderId}",
         "op": "subscribeallevents"
       },
       {
         "contentType": "application/json",
-        "dtv:topic": "opcua/PlasticsRubber.Extrusion.GeneralTypes/PlasticsRubber_Extrusion_GeneralTypes_GapType/properties/read",
+        "dov:topic": "opcua/PlasticsRubber.Extrusion.GeneralTypes/PlasticsRubber_Extrusion_GeneralTypes_GapType/properties/read",
         "op": "readallproperties"
       }
     ],
@@ -3896,61 +3867,61 @@
     },
     "properties": {
       "Id": {
-        "aov:namespace": "http://opcfoundation.org/UA/PlasticsRubber/Extrusion/GeneralTypes/",
+        "dov:namespace": "http://opcfoundation.org/UA/PlasticsRubber/Extrusion/GeneralTypes/",
         "type": "string",
         "readOnly": true,
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/PlasticsRubber.Extrusion.GeneralTypes/PlasticsRubber_Extrusion_GeneralTypes_GapType/property/Id/read",
+            "dov:topic": "opcua/PlasticsRubber.Extrusion.GeneralTypes/PlasticsRubber_Extrusion_GeneralTypes_GapType/property/Id/read",
             "op": "readproperty"
           }
         ]
       },
       "IsClosed": {
-        "aov:namespace": "http://opcfoundation.org/UA/PlasticsRubber/Extrusion/GeneralTypes/",
+        "dov:namespace": "http://opcfoundation.org/UA/PlasticsRubber/Extrusion/GeneralTypes/",
         "type": "boolean",
         "readOnly": true,
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/PlasticsRubber.Extrusion.GeneralTypes/PlasticsRubber_Extrusion_GeneralTypes_GapType/property/IsClosed/read",
+            "dov:topic": "opcua/PlasticsRubber.Extrusion.GeneralTypes/PlasticsRubber_Extrusion_GeneralTypes_GapType/property/IsClosed/read",
             "op": "readproperty"
           }
         ]
       },
       "RollId1": {
-        "aov:namespace": "http://opcfoundation.org/UA/PlasticsRubber/Extrusion/GeneralTypes/",
+        "dov:namespace": "http://opcfoundation.org/UA/PlasticsRubber/Extrusion/GeneralTypes/",
         "type": "string",
         "readOnly": true,
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/PlasticsRubber.Extrusion.GeneralTypes/PlasticsRubber_Extrusion_GeneralTypes_GapType/property/RollId1/read",
+            "dov:topic": "opcua/PlasticsRubber.Extrusion.GeneralTypes/PlasticsRubber_Extrusion_GeneralTypes_GapType/property/RollId1/read",
             "op": "readproperty"
           }
         ]
       },
       "RollId2": {
-        "aov:namespace": "http://opcfoundation.org/UA/PlasticsRubber/Extrusion/GeneralTypes/",
+        "dov:namespace": "http://opcfoundation.org/UA/PlasticsRubber/Extrusion/GeneralTypes/",
         "type": "string",
         "readOnly": true,
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/PlasticsRubber.Extrusion.GeneralTypes/PlasticsRubber_Extrusion_GeneralTypes_GapType/property/RollId2/read",
+            "dov:topic": "opcua/PlasticsRubber.Extrusion.GeneralTypes/PlasticsRubber_Extrusion_GeneralTypes_GapType/property/RollId2/read",
             "op": "readproperty"
           }
         ]
       },
       "StockingGuideIsPresent": {
-        "aov:namespace": "http://opcfoundation.org/UA/PlasticsRubber/Extrusion/GeneralTypes/",
+        "dov:namespace": "http://opcfoundation.org/UA/PlasticsRubber/Extrusion/GeneralTypes/",
         "type": "boolean",
         "readOnly": true,
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/PlasticsRubber.Extrusion.GeneralTypes/PlasticsRubber_Extrusion_GeneralTypes_GapType/property/StockingGuideIsPresent/read",
+            "dov:topic": "opcua/PlasticsRubber.Extrusion.GeneralTypes/PlasticsRubber_Extrusion_GeneralTypes_GapType/property/StockingGuideIsPresent/read",
             "op": "readproperty"
           }
         ]
@@ -3958,14 +3929,14 @@
     },
     "events": {
       "IsClosed": {
-        "aov:namespace": "http://opcfoundation.org/UA/PlasticsRubber/Extrusion/GeneralTypes/",
+        "dov:namespace": "http://opcfoundation.org/UA/PlasticsRubber/Extrusion/GeneralTypes/",
         "data": {
           "type": "boolean"
         },
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/PlasticsRubber.Extrusion.GeneralTypes/PlasticsRubber_Extrusion_GeneralTypes_GapType/event/IsClosed/{senderId}",
+            "dov:topic": "opcua/PlasticsRubber.Extrusion.GeneralTypes/PlasticsRubber_Extrusion_GeneralTypes_GapType/event/IsClosed/{senderId}",
             "op": "subscribeevent"
           }
         ]
@@ -3976,14 +3947,13 @@
     "@context": [
       "https://www.w3.org/2022/wot/td/v1.1",
       {
-        "dtv": "http://azure.com/DigitalTwins/dtmi#",
-        "aov": "http://azure.com/IoT/operations/tm#"
+        "dov": "http://azure.com/DigitalOperations/vocab#"
       }
     ],
     "@type": "tm:ThingModel",
     "title": "PlasticsRubber_Extrusion_GeneralTypes_RollsType",
-    "aov:typeRef": "nsu=http://opcfoundation.org/UA/PlasticsRubber/Extrusion/GeneralTypes/;i=1006",
-    "aov:isComposite": true,
+    "dov:typeRef": "org.opcfoundation.UA.PlasticsRubber.Extrusion.GeneralTypes.RollsType",
+    "dov:isComposite": true,
     "links": [
       {
         "rel": "tm:extends",
@@ -3991,8 +3961,8 @@
         "type": "application/tm+json"
       },
       {
-        "rel": "aov:component",
-        "aov:refName": "Roll__Nr_",
+        "rel": "dov:component",
+        "dov:refName": "Roll__Nr_",
         "href": "#title=PlasticsRubber_Extrusion_GeneralTypes_RollType",
         "type": "application/tm+json"
       }
@@ -4002,7 +3972,7 @@
     "forms": [
       {
         "contentType": "application/json",
-        "dtv:topic": "opcua/PlasticsRubber.Extrusion.GeneralTypes/PlasticsRubber_Extrusion_GeneralTypes_RollsType/properties/read",
+        "dov:topic": "opcua/PlasticsRubber.Extrusion.GeneralTypes/PlasticsRubber_Extrusion_GeneralTypes_RollsType/properties/read",
         "op": "readallproperties"
       }
     ],
@@ -4015,7 +3985,7 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/PlasticsRubber.Extrusion.GeneralTypes/PlasticsRubber_Extrusion_GeneralTypes_RollsType/property/NodeVersion/read",
+            "dov:topic": "opcua/PlasticsRubber.Extrusion.GeneralTypes/PlasticsRubber_Extrusion_GeneralTypes_RollsType/property/NodeVersion/read",
             "op": "readproperty"
           }
         ]
@@ -4028,13 +3998,12 @@
     "@context": [
       "https://www.w3.org/2022/wot/td/v1.1",
       {
-        "dtv": "http://azure.com/DigitalTwins/dtmi#",
-        "aov": "http://azure.com/IoT/operations/tm#"
+        "dov": "http://azure.com/DigitalOperations/vocab#"
       }
     ],
     "@type": "tm:ThingModel",
     "title": "PlasticsRubber_Extrusion_GeneralTypes_RollType",
-    "aov:typeRef": "nsu=http://opcfoundation.org/UA/PlasticsRubber/Extrusion/GeneralTypes/;i=1005",
+    "dov:typeRef": "org.opcfoundation.UA.PlasticsRubber.Extrusion.GeneralTypes.RollType",
     "links": [
       {
         "rel": "tm:extends",
@@ -4042,38 +4011,38 @@
         "type": "application/tm+json"
       },
       {
-        "rel": "aov:reference",
-        "aov:refName": "CrossAxisLeft",
+        "rel": "dov:reference",
+        "dov:refName": "CrossAxisLeft",
         "href": "#title=PlasticsRubber_GeneralTypes_MonitoredParameterType",
         "type": "application/tm+json"
       },
       {
-        "rel": "aov:reference",
-        "aov:refName": "CrossAxisRight",
+        "rel": "dov:reference",
+        "dov:refName": "CrossAxisRight",
         "href": "#title=PlasticsRubber_GeneralTypes_MonitoredParameterType",
         "type": "application/tm+json"
       },
       {
-        "rel": "aov:capability",
-        "aov:refName": "Drive",
+        "rel": "dov:capability",
+        "dov:refName": "Drive",
         "href": "#title=PlasticsRubber_GeneralTypes_DriveType",
         "type": "application/tm+json"
       },
       {
-        "rel": "aov:reference",
-        "aov:refName": "PeripheralDevices",
+        "rel": "dov:reference",
+        "dov:refName": "PeripheralDevices",
         "href": "#title=PlasticsRubber_Extrusion_GeneralTypes_RollPeripheralDevicesType",
         "type": "application/tm+json"
       },
       {
-        "rel": "aov:reference",
-        "aov:refName": "RollBending",
+        "rel": "dov:reference",
+        "dov:refName": "RollBending",
         "href": "#title=PlasticsRubber_Extrusion_GeneralTypes_RollBendingType",
         "type": "application/tm+json"
       },
       {
-        "rel": "aov:capability",
-        "aov:refName": "Temperature",
+        "rel": "dov:capability",
+        "dov:refName": "Temperature",
         "href": "#title=PlasticsRubber_Extrusion_GeneralTypes_ExtrusionTemperatureZoneType",
         "type": "application/tm+json"
       }
@@ -4083,7 +4052,7 @@
     "forms": [
       {
         "contentType": "application/json",
-        "dtv:topic": "opcua/PlasticsRubber.Extrusion.GeneralTypes/PlasticsRubber_Extrusion_GeneralTypes_RollType/properties/read",
+        "dov:topic": "opcua/PlasticsRubber.Extrusion.GeneralTypes/PlasticsRubber_Extrusion_GeneralTypes_RollType/properties/read",
         "op": "readallproperties"
       }
     ],
@@ -4091,37 +4060,37 @@
     },
     "properties": {
       "Id": {
-        "aov:namespace": "http://opcfoundation.org/UA/PlasticsRubber/Extrusion/GeneralTypes/",
+        "dov:namespace": "http://opcfoundation.org/UA/PlasticsRubber/Extrusion/GeneralTypes/",
         "type": "string",
         "readOnly": true,
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/PlasticsRubber.Extrusion.GeneralTypes/PlasticsRubber_Extrusion_GeneralTypes_RollType/property/Id/read",
+            "dov:topic": "opcua/PlasticsRubber.Extrusion.GeneralTypes/PlasticsRubber_Extrusion_GeneralTypes_RollType/property/Id/read",
             "op": "readproperty"
           }
         ]
       },
       "MasterRollId": {
-        "aov:namespace": "http://opcfoundation.org/UA/PlasticsRubber/Extrusion/GeneralTypes/",
+        "dov:namespace": "http://opcfoundation.org/UA/PlasticsRubber/Extrusion/GeneralTypes/",
         "type": "string",
         "readOnly": true,
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/PlasticsRubber.Extrusion.GeneralTypes/PlasticsRubber_Extrusion_GeneralTypes_RollType/property/MasterRollId/read",
+            "dov:topic": "opcua/PlasticsRubber.Extrusion.GeneralTypes/PlasticsRubber_Extrusion_GeneralTypes_RollType/property/MasterRollId/read",
             "op": "readproperty"
           }
         ]
       },
       "Name": {
-        "aov:namespace": "http://opcfoundation.org/UA/PlasticsRubber/Extrusion/GeneralTypes/",
+        "dov:namespace": "http://opcfoundation.org/UA/PlasticsRubber/Extrusion/GeneralTypes/",
         "type": "string",
         "readOnly": true,
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/PlasticsRubber.Extrusion.GeneralTypes/PlasticsRubber_Extrusion_GeneralTypes_RollType/property/Name/read",
+            "dov:topic": "opcua/PlasticsRubber.Extrusion.GeneralTypes/PlasticsRubber_Extrusion_GeneralTypes_RollType/property/Name/read",
             "op": "readproperty"
           }
         ]
@@ -4134,13 +4103,12 @@
     "@context": [
       "https://www.w3.org/2022/wot/td/v1.1",
       {
-        "dtv": "http://azure.com/DigitalTwins/dtmi#",
-        "aov": "http://azure.com/IoT/operations/tm#"
+        "dov": "http://azure.com/DigitalOperations/vocab#"
       }
     ],
     "@type": "tm:ThingModel",
     "title": "PlasticsRubber_Extrusion_GeneralTypes_RollPeripheralDevicesType",
-    "aov:typeRef": "nsu=http://opcfoundation.org/UA/PlasticsRubber/Extrusion/GeneralTypes/;i=1008",
+    "dov:typeRef": "org.opcfoundation.UA.PlasticsRubber.Extrusion.GeneralTypes.RollPeripheralDevicesType",
     "links": [
       {
         "rel": "tm:extends",
@@ -4148,14 +4116,14 @@
         "type": "application/tm+json"
       },
       {
-        "rel": "aov:component",
-        "aov:refName": "CleaningSystem__Nr_",
+        "rel": "dov:component",
+        "dov:refName": "CleaningSystem__Nr_",
         "href": "#title=PlasticsRubber_GeneralTypes_StartDeviceType",
         "type": "application/tm+json"
       },
       {
-        "rel": "aov:component",
-        "aov:refName": "InfraredHeatingSystem__Nr_",
+        "rel": "dov:component",
+        "dov:refName": "InfraredHeatingSystem__Nr_",
         "href": "#title=PlasticsRubber_GeneralTypes_StartDeviceType",
         "type": "application/tm+json"
       }
@@ -4165,7 +4133,7 @@
     "forms": [
       {
         "contentType": "application/json",
-        "dtv:topic": "opcua/PlasticsRubber.Extrusion.GeneralTypes/PlasticsRubber_Extrusion_GeneralTypes_RollPeripheralDevicesType/properties/read",
+        "dov:topic": "opcua/PlasticsRubber.Extrusion.GeneralTypes/PlasticsRubber_Extrusion_GeneralTypes_RollPeripheralDevicesType/properties/read",
         "op": "readallproperties"
       }
     ],
@@ -4178,7 +4146,7 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/PlasticsRubber.Extrusion.GeneralTypes/PlasticsRubber_Extrusion_GeneralTypes_RollPeripheralDevicesType/property/NodeVersion/read",
+            "dov:topic": "opcua/PlasticsRubber.Extrusion.GeneralTypes/PlasticsRubber_Extrusion_GeneralTypes_RollPeripheralDevicesType/property/NodeVersion/read",
             "op": "readproperty"
           }
         ]
@@ -4191,13 +4159,12 @@
     "@context": [
       "https://www.w3.org/2022/wot/td/v1.1",
       {
-        "dtv": "http://azure.com/DigitalTwins/dtmi#",
-        "aov": "http://azure.com/IoT/operations/tm#"
+        "dov": "http://azure.com/DigitalOperations/vocab#"
       }
     ],
     "@type": "tm:ThingModel",
     "title": "PlasticsRubber_Extrusion_GeneralTypes_RollBendingType",
-    "aov:typeRef": "nsu=http://opcfoundation.org/UA/PlasticsRubber/Extrusion/GeneralTypes/;i=1007",
+    "dov:typeRef": "org.opcfoundation.UA.PlasticsRubber.Extrusion.GeneralTypes.RollBendingType",
     "links": [
       {
         "rel": "tm:extends",
@@ -4205,8 +4172,8 @@
         "type": "application/tm+json"
       },
       {
-        "rel": "aov:component",
-        "aov:refName": "ReferencePoint__Nr_",
+        "rel": "dov:component",
+        "dov:refName": "ReferencePoint__Nr_",
         "href": "#title=PlasticsRubber_GeneralTypes_MeasuringDeviceType",
         "type": "application/tm+json"
       }
@@ -4216,7 +4183,7 @@
     "forms": [
       {
         "contentType": "application/json",
-        "dtv:topic": "opcua/PlasticsRubber.Extrusion.GeneralTypes/PlasticsRubber_Extrusion_GeneralTypes_RollBendingType/properties/read",
+        "dov:topic": "opcua/PlasticsRubber.Extrusion.GeneralTypes/PlasticsRubber_Extrusion_GeneralTypes_RollBendingType/properties/read",
         "op": "readallproperties"
       }
     ],
@@ -4229,7 +4196,7 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/PlasticsRubber.Extrusion.GeneralTypes/PlasticsRubber_Extrusion_GeneralTypes_RollBendingType/property/NodeVersion/read",
+            "dov:topic": "opcua/PlasticsRubber.Extrusion.GeneralTypes/PlasticsRubber_Extrusion_GeneralTypes_RollBendingType/property/NodeVersion/read",
             "op": "readproperty"
           }
         ]
@@ -4242,13 +4209,12 @@
     "@context": [
       "https://www.w3.org/2022/wot/td/v1.1",
       {
-        "dtv": "http://azure.com/DigitalTwins/dtmi#",
-        "aov": "http://azure.com/IoT/operations/tm#"
+        "dov": "http://azure.com/DigitalOperations/vocab#"
       }
     ],
     "@type": "tm:ThingModel",
     "title": "PlasticsRubber_Extrusion_GeneralTypes_ExtrusionTemperatureZoneType",
-    "aov:typeRef": "nsu=http://opcfoundation.org/UA/PlasticsRubber/Extrusion/GeneralTypes/;i=1016",
+    "dov:typeRef": "org.opcfoundation.UA.PlasticsRubber.Extrusion.GeneralTypes.ExtrusionTemperatureZoneType",
     "links": [
       {
         "rel": "tm:extends",
@@ -4256,8 +4222,8 @@
         "type": "application/tm+json"
       },
       {
-        "rel": "aov:component",
-        "aov:refName": "ElectricalCurrent",
+        "rel": "dov:component",
+        "dov:refName": "ElectricalCurrent",
         "href": "#title=PlasticsRubber_GeneralTypes_MonitoredParameterType",
         "type": "application/tm+json"
       }
@@ -4267,12 +4233,12 @@
     "forms": [
       {
         "contentType": "application/json",
-        "dtv:topic": "opcua/PlasticsRubber.Extrusion.GeneralTypes/PlasticsRubber_Extrusion_GeneralTypes_ExtrusionTemperatureZoneType/events/{senderId}",
+        "dov:topic": "opcua/PlasticsRubber.Extrusion.GeneralTypes/PlasticsRubber_Extrusion_GeneralTypes_ExtrusionTemperatureZoneType/events/{senderId}",
         "op": "subscribeallevents"
       },
       {
         "contentType": "application/json",
-        "dtv:topic": "opcua/PlasticsRubber.Extrusion.GeneralTypes/PlasticsRubber_Extrusion_GeneralTypes_ExtrusionTemperatureZoneType/properties/read",
+        "dov:topic": "opcua/PlasticsRubber.Extrusion.GeneralTypes/PlasticsRubber_Extrusion_GeneralTypes_ExtrusionTemperatureZoneType/properties/read",
         "op": "readallproperties"
       }
     ],
@@ -4280,7 +4246,7 @@
     },
     "properties": {
       "ControllerOutput": {
-        "aov:namespace": "http://opcfoundation.org/UA/PlasticsRubber/Extrusion/GeneralTypes/",
+        "dov:namespace": "http://opcfoundation.org/UA/PlasticsRubber/Extrusion/GeneralTypes/",
         "type": "number",
         "minimum": -1.80e+308,
         "maximum": 1.80e+308,
@@ -4288,13 +4254,13 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/PlasticsRubber.Extrusion.GeneralTypes/PlasticsRubber_Extrusion_GeneralTypes_ExtrusionTemperatureZoneType/property/ControllerOutput/read",
+            "dov:topic": "opcua/PlasticsRubber.Extrusion.GeneralTypes/PlasticsRubber_Extrusion_GeneralTypes_ExtrusionTemperatureZoneType/property/ControllerOutput/read",
             "op": "readproperty"
           }
         ]
       },
       "NominalCoolingPower": {
-        "aov:namespace": "http://opcfoundation.org/UA/PlasticsRubber/Extrusion/GeneralTypes/",
+        "dov:namespace": "http://opcfoundation.org/UA/PlasticsRubber/Extrusion/GeneralTypes/",
         "type": "number",
         "minimum": -1.80e+308,
         "maximum": 1.80e+308,
@@ -4302,13 +4268,13 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/PlasticsRubber.Extrusion.GeneralTypes/PlasticsRubber_Extrusion_GeneralTypes_ExtrusionTemperatureZoneType/property/NominalCoolingPower/read",
+            "dov:topic": "opcua/PlasticsRubber.Extrusion.GeneralTypes/PlasticsRubber_Extrusion_GeneralTypes_ExtrusionTemperatureZoneType/property/NominalCoolingPower/read",
             "op": "readproperty"
           }
         ]
       },
       "NominalHeatingPower": {
-        "aov:namespace": "http://opcfoundation.org/UA/PlasticsRubber/Extrusion/GeneralTypes/",
+        "dov:namespace": "http://opcfoundation.org/UA/PlasticsRubber/Extrusion/GeneralTypes/",
         "type": "number",
         "minimum": -1.80e+308,
         "maximum": 1.80e+308,
@@ -4316,7 +4282,7 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/PlasticsRubber.Extrusion.GeneralTypes/PlasticsRubber_Extrusion_GeneralTypes_ExtrusionTemperatureZoneType/property/NominalHeatingPower/read",
+            "dov:topic": "opcua/PlasticsRubber.Extrusion.GeneralTypes/PlasticsRubber_Extrusion_GeneralTypes_ExtrusionTemperatureZoneType/property/NominalHeatingPower/read",
             "op": "readproperty"
           }
         ]
@@ -4324,7 +4290,7 @@
     },
     "events": {
       "ControllerOutput": {
-        "aov:namespace": "http://opcfoundation.org/UA/PlasticsRubber/Extrusion/GeneralTypes/",
+        "dov:namespace": "http://opcfoundation.org/UA/PlasticsRubber/Extrusion/GeneralTypes/",
         "data": {
           "type": "number",
           "minimum": -1.80e+308,
@@ -4333,13 +4299,13 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/PlasticsRubber.Extrusion.GeneralTypes/PlasticsRubber_Extrusion_GeneralTypes_ExtrusionTemperatureZoneType/event/ControllerOutput/{senderId}",
+            "dov:topic": "opcua/PlasticsRubber.Extrusion.GeneralTypes/PlasticsRubber_Extrusion_GeneralTypes_ExtrusionTemperatureZoneType/event/ControllerOutput/{senderId}",
             "op": "subscribeevent"
           }
         ]
       },
       "NominalCoolingPower": {
-        "aov:namespace": "http://opcfoundation.org/UA/PlasticsRubber/Extrusion/GeneralTypes/",
+        "dov:namespace": "http://opcfoundation.org/UA/PlasticsRubber/Extrusion/GeneralTypes/",
         "data": {
           "type": "number",
           "minimum": -1.80e+308,
@@ -4348,13 +4314,13 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/PlasticsRubber.Extrusion.GeneralTypes/PlasticsRubber_Extrusion_GeneralTypes_ExtrusionTemperatureZoneType/event/NominalCoolingPower/{senderId}",
+            "dov:topic": "opcua/PlasticsRubber.Extrusion.GeneralTypes/PlasticsRubber_Extrusion_GeneralTypes_ExtrusionTemperatureZoneType/event/NominalCoolingPower/{senderId}",
             "op": "subscribeevent"
           }
         ]
       },
       "NominalHeatingPower": {
-        "aov:namespace": "http://opcfoundation.org/UA/PlasticsRubber/Extrusion/GeneralTypes/",
+        "dov:namespace": "http://opcfoundation.org/UA/PlasticsRubber/Extrusion/GeneralTypes/",
         "data": {
           "type": "number",
           "minimum": -1.80e+308,
@@ -4363,7 +4329,7 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/PlasticsRubber.Extrusion.GeneralTypes/PlasticsRubber_Extrusion_GeneralTypes_ExtrusionTemperatureZoneType/event/NominalHeatingPower/{senderId}",
+            "dov:topic": "opcua/PlasticsRubber.Extrusion.GeneralTypes/PlasticsRubber_Extrusion_GeneralTypes_ExtrusionTemperatureZoneType/event/NominalHeatingPower/{senderId}",
             "op": "subscribeevent"
           }
         ]
@@ -4374,13 +4340,12 @@
     "@context": [
       "https://www.w3.org/2022/wot/td/v1.1",
       {
-        "dtv": "http://azure.com/DigitalTwins/dtmi#",
-        "aov": "http://azure.com/IoT/operations/tm#"
+        "dov": "http://azure.com/DigitalOperations/vocab#"
       }
     ],
     "@type": "tm:ThingModel",
     "title": "DI_ComponentType",
-    "aov:typeRef": "nsu=http://opcfoundation.org/UA/DI/;i=15063",
+    "dov:typeRef": "org.opcfoundation.UA.DI.ComponentType",
     "links": [
       {
         "rel": "tm:extends",
@@ -4393,7 +4358,7 @@
     "forms": [
       {
         "contentType": "application/json",
-        "dtv:topic": "opcua/DI/DI_ComponentType/properties/read",
+        "dov:topic": "opcua/DI/DI_ComponentType/properties/read",
         "op": "readallproperties"
       }
     ],
@@ -4401,139 +4366,139 @@
     },
     "properties": {
       "AssetId": {
-        "aov:namespace": "http://opcfoundation.org/UA/DI/",
+        "dov:namespace": "http://opcfoundation.org/UA/DI/",
         "type": "string",
         "readOnly": true,
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/DI/DI_ComponentType/property/AssetId/read",
+            "dov:topic": "opcua/DI/DI_ComponentType/property/AssetId/read",
             "op": "readproperty"
           }
         ]
       },
       "ComponentName": {
-        "aov:namespace": "http://opcfoundation.org/UA/DI/",
+        "dov:namespace": "http://opcfoundation.org/UA/DI/",
         "type": "string",
         "readOnly": true,
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/DI/DI_ComponentType/property/ComponentName/read",
+            "dov:topic": "opcua/DI/DI_ComponentType/property/ComponentName/read",
             "op": "readproperty"
           }
         ]
       },
       "DeviceClass": {
-        "aov:namespace": "http://opcfoundation.org/UA/DI/",
+        "dov:namespace": "http://opcfoundation.org/UA/DI/",
         "type": "string",
         "readOnly": true,
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/DI/DI_ComponentType/property/DeviceClass/read",
+            "dov:topic": "opcua/DI/DI_ComponentType/property/DeviceClass/read",
             "op": "readproperty"
           }
         ]
       },
       "DeviceManual": {
-        "aov:namespace": "http://opcfoundation.org/UA/DI/",
+        "dov:namespace": "http://opcfoundation.org/UA/DI/",
         "type": "string",
         "readOnly": true,
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/DI/DI_ComponentType/property/DeviceManual/read",
+            "dov:topic": "opcua/DI/DI_ComponentType/property/DeviceManual/read",
             "op": "readproperty"
           }
         ]
       },
       "DeviceRevision": {
-        "aov:namespace": "http://opcfoundation.org/UA/DI/",
+        "dov:namespace": "http://opcfoundation.org/UA/DI/",
         "type": "string",
         "readOnly": true,
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/DI/DI_ComponentType/property/DeviceRevision/read",
+            "dov:topic": "opcua/DI/DI_ComponentType/property/DeviceRevision/read",
             "op": "readproperty"
           }
         ]
       },
       "HardwareRevision": {
-        "aov:namespace": "http://opcfoundation.org/UA/DI/",
+        "dov:namespace": "http://opcfoundation.org/UA/DI/",
         "type": "string",
         "readOnly": true,
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/DI/DI_ComponentType/property/HardwareRevision/read",
+            "dov:topic": "opcua/DI/DI_ComponentType/property/HardwareRevision/read",
             "op": "readproperty"
           }
         ]
       },
       "Manufacturer": {
-        "aov:namespace": "http://opcfoundation.org/UA/DI/",
+        "dov:namespace": "http://opcfoundation.org/UA/DI/",
         "type": "string",
         "readOnly": true,
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/DI/DI_ComponentType/property/Manufacturer/read",
+            "dov:topic": "opcua/DI/DI_ComponentType/property/Manufacturer/read",
             "op": "readproperty"
           }
         ]
       },
       "ManufacturerUri": {
-        "aov:namespace": "http://opcfoundation.org/UA/DI/",
+        "dov:namespace": "http://opcfoundation.org/UA/DI/",
         "type": "string",
         "readOnly": true,
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/DI/DI_ComponentType/property/ManufacturerUri/read",
+            "dov:topic": "opcua/DI/DI_ComponentType/property/ManufacturerUri/read",
             "op": "readproperty"
           }
         ]
       },
       "Model": {
-        "aov:namespace": "http://opcfoundation.org/UA/DI/",
+        "dov:namespace": "http://opcfoundation.org/UA/DI/",
         "type": "string",
         "readOnly": true,
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/DI/DI_ComponentType/property/Model/read",
+            "dov:topic": "opcua/DI/DI_ComponentType/property/Model/read",
             "op": "readproperty"
           }
         ]
       },
       "ProductCode": {
-        "aov:namespace": "http://opcfoundation.org/UA/DI/",
+        "dov:namespace": "http://opcfoundation.org/UA/DI/",
         "type": "string",
         "readOnly": true,
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/DI/DI_ComponentType/property/ProductCode/read",
+            "dov:topic": "opcua/DI/DI_ComponentType/property/ProductCode/read",
             "op": "readproperty"
           }
         ]
       },
       "ProductInstanceUri": {
-        "aov:namespace": "http://opcfoundation.org/UA/DI/",
+        "dov:namespace": "http://opcfoundation.org/UA/DI/",
         "type": "string",
         "readOnly": true,
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/DI/DI_ComponentType/property/ProductInstanceUri/read",
+            "dov:topic": "opcua/DI/DI_ComponentType/property/ProductInstanceUri/read",
             "op": "readproperty"
           }
         ]
       },
       "RevisionCounter": {
-        "aov:namespace": "http://opcfoundation.org/UA/DI/",
+        "dov:namespace": "http://opcfoundation.org/UA/DI/",
         "type": "integer",
         "minimum": -2147483648,
         "maximum": 2147483647,
@@ -4541,31 +4506,31 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/DI/DI_ComponentType/property/RevisionCounter/read",
+            "dov:topic": "opcua/DI/DI_ComponentType/property/RevisionCounter/read",
             "op": "readproperty"
           }
         ]
       },
       "SerialNumber": {
-        "aov:namespace": "http://opcfoundation.org/UA/DI/",
+        "dov:namespace": "http://opcfoundation.org/UA/DI/",
         "type": "string",
         "readOnly": true,
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/DI/DI_ComponentType/property/SerialNumber/read",
+            "dov:topic": "opcua/DI/DI_ComponentType/property/SerialNumber/read",
             "op": "readproperty"
           }
         ]
       },
       "SoftwareRevision": {
-        "aov:namespace": "http://opcfoundation.org/UA/DI/",
+        "dov:namespace": "http://opcfoundation.org/UA/DI/",
         "type": "string",
         "readOnly": true,
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/DI/DI_ComponentType/property/SoftwareRevision/read",
+            "dov:topic": "opcua/DI/DI_ComponentType/property/SoftwareRevision/read",
             "op": "readproperty"
           }
         ]
@@ -4578,13 +4543,12 @@
     "@context": [
       "https://www.w3.org/2022/wot/td/v1.1",
       {
-        "dtv": "http://azure.com/DigitalTwins/dtmi#",
-        "aov": "http://azure.com/IoT/operations/tm#"
+        "dov": "http://azure.com/DigitalOperations/vocab#"
       }
     ],
     "@type": "tm:ThingModel",
     "title": "DI_TopologyElementType",
-    "aov:typeRef": "nsu=http://opcfoundation.org/UA/DI/;i=1001",
+    "dov:typeRef": "org.opcfoundation.UA.DI.TopologyElementType",
     "links": [
       {
         "rel": "tm:extends",
@@ -4592,32 +4556,32 @@
         "type": "application/tm+json"
       },
       {
-        "rel": "aov:component",
-        "aov:refName": "ParameterSet",
+        "rel": "dov:component",
+        "dov:refName": "ParameterSet",
         "href": "#title=OpcUaCore_BaseObjectType",
         "type": "application/tm+json"
       },
       {
-        "rel": "aov:component",
-        "aov:refName": "MethodSet",
+        "rel": "dov:component",
+        "dov:refName": "MethodSet",
         "href": "#title=OpcUaCore_BaseObjectType",
         "type": "application/tm+json"
       },
       {
-        "rel": "aov:component",
-        "aov:refName": "GroupIdentifier",
+        "rel": "dov:component",
+        "dov:refName": "GroupIdentifier",
         "href": "#title=DI_FunctionalGroupType",
         "type": "application/tm+json"
       },
       {
-        "rel": "aov:capability",
-        "aov:refName": "Identification",
+        "rel": "dov:capability",
+        "dov:refName": "Identification",
         "href": "#title=DI_FunctionalGroupType",
         "type": "application/tm+json"
       },
       {
-        "rel": "aov:capability",
-        "aov:refName": "Lock",
+        "rel": "dov:capability",
+        "dov:refName": "Lock",
         "href": "#title=DI_LockingServicesType",
         "type": "application/tm+json"
       }
@@ -4635,13 +4599,12 @@
     "@context": [
       "https://www.w3.org/2022/wot/td/v1.1",
       {
-        "dtv": "http://azure.com/DigitalTwins/dtmi#",
-        "aov": "http://azure.com/IoT/operations/tm#"
+        "dov": "http://azure.com/DigitalOperations/vocab#"
       }
     ],
     "@type": "tm:ThingModel",
     "title": "DI_FunctionalGroupType",
-    "aov:typeRef": "nsu=http://opcfoundation.org/UA/DI/;i=1005",
+    "dov:typeRef": "org.opcfoundation.UA.DI.FunctionalGroupType",
     "links": [
       {
         "rel": "tm:extends",
@@ -4649,8 +4612,8 @@
         "type": "application/tm+json"
       },
       {
-        "rel": "aov:component",
-        "aov:refName": "GroupIdentifier",
+        "rel": "dov:component",
+        "dov:refName": "GroupIdentifier",
         "href": "#title=DI_FunctionalGroupType",
         "type": "application/tm+json"
       }
@@ -4660,12 +4623,12 @@
     "forms": [
       {
         "contentType": "application/json",
-        "dtv:topic": "opcua/DI/DI_FunctionalGroupType/events/{senderId}",
+        "dov:topic": "opcua/DI/DI_FunctionalGroupType/events/{senderId}",
         "op": "subscribeallevents"
       },
       {
         "contentType": "application/json",
-        "dtv:topic": "opcua/DI/DI_FunctionalGroupType/properties/read",
+        "dov:topic": "opcua/DI/DI_FunctionalGroupType/properties/read",
         "op": "readallproperties"
       }
     ],
@@ -4673,14 +4636,14 @@
     },
     "properties": {
       "UIElement": {
-        "aov:namespace": "http://opcfoundation.org/UA/DI/",
+        "dov:namespace": "http://opcfoundation.org/UA/DI/",
         "description": "Stand-in for an unspecified data type.",
         "type": "string",
         "readOnly": true,
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/DI/DI_FunctionalGroupType/property/UIElement/read",
+            "dov:topic": "opcua/DI/DI_FunctionalGroupType/property/UIElement/read",
             "op": "readproperty"
           }
         ]
@@ -4688,7 +4651,7 @@
     },
     "events": {
       "UIElement": {
-        "aov:namespace": "http://opcfoundation.org/UA/DI/",
+        "dov:namespace": "http://opcfoundation.org/UA/DI/",
         "data": {
           "description": "Stand-in for an unspecified data type.",
           "type": "string"
@@ -4696,7 +4659,7 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/DI/DI_FunctionalGroupType/event/UIElement/{senderId}",
+            "dov:topic": "opcua/DI/DI_FunctionalGroupType/event/UIElement/{senderId}",
             "op": "subscribeevent"
           }
         ]
@@ -4707,13 +4670,12 @@
     "@context": [
       "https://www.w3.org/2022/wot/td/v1.1",
       {
-        "dtv": "http://azure.com/DigitalTwins/dtmi#",
-        "aov": "http://azure.com/IoT/operations/tm#"
+        "dov": "http://azure.com/DigitalOperations/vocab#"
       }
     ],
     "@type": "tm:ThingModel",
     "title": "DI_LockingServicesType",
-    "aov:typeRef": "nsu=http://opcfoundation.org/UA/DI/;i=6388",
+    "dov:typeRef": "org.opcfoundation.UA.DI.LockingServicesType",
     "links": [
       {
         "rel": "tm:extends",
@@ -4726,16 +4688,16 @@
     "forms": [
       {
         "contentType": "application/json",
-        "dtv:topic": "opcua/DI/DI_LockingServicesType/properties/read",
+        "dov:topic": "opcua/DI/DI_LockingServicesType/properties/read",
         "op": "readallproperties"
       }
     ],
     "actions": {
       "BreakLock": {
-        "aov:namespace": "http://opcfoundation.org/UA/DI/",
+        "dov:namespace": "http://opcfoundation.org/UA/DI/",
         "output": {
           "type": "object",
-          "aov:typeRef": "nsu=http://opcfoundation.org/UA/DI/;i=6401",
+          "dov:typeRef": "org.opcfoundation.UA.OutputArguments",
           "required": [ "BreakLockStatus" ],
           "properties": {
             "BreakLockStatus": {
@@ -4748,16 +4710,16 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/DI/DI_LockingServicesType/action/BreakLock",
+            "dov:topic": "opcua/DI/DI_LockingServicesType/action/BreakLock",
             "op": "invokeaction"
           }
         ]
       },
       "ExitLock": {
-        "aov:namespace": "http://opcfoundation.org/UA/DI/",
+        "dov:namespace": "http://opcfoundation.org/UA/DI/",
         "output": {
           "type": "object",
-          "aov:typeRef": "nsu=http://opcfoundation.org/UA/DI/;i=6399",
+          "dov:typeRef": "org.opcfoundation.UA.OutputArguments",
           "required": [ "ExitLockStatus" ],
           "properties": {
             "ExitLockStatus": {
@@ -4770,16 +4732,16 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/DI/DI_LockingServicesType/action/ExitLock",
+            "dov:topic": "opcua/DI/DI_LockingServicesType/action/ExitLock",
             "op": "invokeaction"
           }
         ]
       },
       "InitLock": {
-        "aov:namespace": "http://opcfoundation.org/UA/DI/",
+        "dov:namespace": "http://opcfoundation.org/UA/DI/",
         "input": {
           "type": "object",
-          "aov:typeRef": "nsu=http://opcfoundation.org/UA/DI/;i=6394",
+          "dov:typeRef": "org.opcfoundation.UA.InputArguments",
           "required": [ "Context" ],
           "properties": {
             "Context": {
@@ -4789,7 +4751,7 @@
         },
         "output": {
           "type": "object",
-          "aov:typeRef": "nsu=http://opcfoundation.org/UA/DI/;i=6395",
+          "dov:typeRef": "org.opcfoundation.UA.OutputArguments",
           "required": [ "InitLockStatus" ],
           "properties": {
             "InitLockStatus": {
@@ -4802,16 +4764,16 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/DI/DI_LockingServicesType/action/InitLock",
+            "dov:topic": "opcua/DI/DI_LockingServicesType/action/InitLock",
             "op": "invokeaction"
           }
         ]
       },
       "RenewLock": {
-        "aov:namespace": "http://opcfoundation.org/UA/DI/",
+        "dov:namespace": "http://opcfoundation.org/UA/DI/",
         "output": {
           "type": "object",
-          "aov:typeRef": "nsu=http://opcfoundation.org/UA/DI/;i=6397",
+          "dov:typeRef": "org.opcfoundation.UA.OutputArguments",
           "required": [ "RenewLockStatus" ],
           "properties": {
             "RenewLockStatus": {
@@ -4824,7 +4786,7 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/DI/DI_LockingServicesType/action/RenewLock",
+            "dov:topic": "opcua/DI/DI_LockingServicesType/action/RenewLock",
             "op": "invokeaction"
           }
         ]
@@ -4837,56 +4799,56 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/DI/DI_LockingServicesType/property/DefaultInstanceBrowseName/read",
+            "dov:topic": "opcua/DI/DI_LockingServicesType/property/DefaultInstanceBrowseName/read",
             "op": "readproperty"
           }
         ]
       },
       "Locked": {
-        "aov:namespace": "http://opcfoundation.org/UA/DI/",
+        "dov:namespace": "http://opcfoundation.org/UA/DI/",
         "type": "boolean",
         "readOnly": true,
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/DI/DI_LockingServicesType/property/Locked/read",
+            "dov:topic": "opcua/DI/DI_LockingServicesType/property/Locked/read",
             "op": "readproperty"
           }
         ]
       },
       "LockingClient": {
-        "aov:namespace": "http://opcfoundation.org/UA/DI/",
+        "dov:namespace": "http://opcfoundation.org/UA/DI/",
         "type": "string",
         "readOnly": true,
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/DI/DI_LockingServicesType/property/LockingClient/read",
+            "dov:topic": "opcua/DI/DI_LockingServicesType/property/LockingClient/read",
             "op": "readproperty"
           }
         ]
       },
       "LockingUser": {
-        "aov:namespace": "http://opcfoundation.org/UA/DI/",
+        "dov:namespace": "http://opcfoundation.org/UA/DI/",
         "type": "string",
         "readOnly": true,
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/DI/DI_LockingServicesType/property/LockingUser/read",
+            "dov:topic": "opcua/DI/DI_LockingServicesType/property/LockingUser/read",
             "op": "readproperty"
           }
         ]
       },
       "RemainingLockTime": {
-        "aov:namespace": "http://opcfoundation.org/UA/DI/",
+        "dov:namespace": "http://opcfoundation.org/UA/DI/",
         "type": "string",
         "pattern": "^P(?!$)(?:(?:(?:(?:\\d+Y)|(?:\\d+\\.\\d+Y$))?(?:(?:\\d+M)|(?:\\d+\\.\\d+M$))?)|(?:(?:(?:\\d+W)|(?:\\d+\\.\\d+W$))?))(?:(?:\\d+D)|(?:\\d+\\.\\d+D$))?(?:T(?!$)(?:(?:\\d+H)|(?:\\d+\\.\\d+H$))?(?:(?:\\d+M)|(?:\\d+\\.\\d+M$))?(?:\\d+(?:\\.\\d+)?S)?)?$",
         "readOnly": true,
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/DI/DI_LockingServicesType/property/RemainingLockTime/read",
+            "dov:topic": "opcua/DI/DI_LockingServicesType/property/RemainingLockTime/read",
             "op": "readproperty"
           }
         ]

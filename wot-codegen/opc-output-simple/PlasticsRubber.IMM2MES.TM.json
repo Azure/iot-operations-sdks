@@ -3,14 +3,13 @@
     "@context": [
       "https://www.w3.org/2022/wot/td/v1.1",
       {
-        "dtv": "http://azure.com/DigitalTwins/dtmi#",
-        "aov": "http://azure.com/IoT/operations/tm#"
+        "dov": "http://azure.com/DigitalOperations/vocab#"
       }
     ],
     "@type": "tm:ThingModel",
     "title": "PlasticsRubber_IMM2MES_IMM_MES_InterfaceType",
-    "aov:typeRef": "nsu=http://opcfoundation.org/UA/PlasticsRubber/IMM2MES/;i=1007",
-    "aov:isComposite": true,
+    "dov:typeRef": "org.opcfoundation.UA.PlasticsRubber.IMM2MES.IMM_MES_InterfaceType",
+    "dov:isComposite": true,
     "links": [
       {
         "rel": "tm:extends",
@@ -18,62 +17,62 @@
         "type": "application/tm+json"
       },
       {
-        "rel": "aov:capability",
-        "aov:refName": "InjectionUnits",
+        "rel": "dov:capability",
+        "dov:refName": "InjectionUnits",
         "href": "#title=PlasticsRubber_IMM2MES_InjectionUnitsType",
         "type": "application/tm+json"
       },
       {
-        "rel": "aov:reference",
-        "aov:refName": "Jobs",
+        "rel": "dov:reference",
+        "dov:refName": "Jobs",
         "href": "./PlasticsRubber.GeneralTypes.TM.json#title=PlasticsRubber_GeneralTypes_JobsType",
         "type": "application/tm+json"
       },
       {
-        "rel": "aov:capability",
-        "aov:refName": "MachineConfiguration",
+        "rel": "dov:capability",
+        "dov:refName": "MachineConfiguration",
         "href": "./PlasticsRubber.GeneralTypes.TM.json#title=PlasticsRubber_GeneralTypes_MachineConfigurationType",
         "type": "application/tm+json"
       },
       {
-        "rel": "aov:capability",
-        "aov:refName": "MachineInformation",
+        "rel": "dov:capability",
+        "dov:refName": "MachineInformation",
         "href": "./PlasticsRubber.GeneralTypes.TM.json#title=PlasticsRubber_GeneralTypes_MachineInformationType",
         "type": "application/tm+json"
       },
       {
-        "rel": "aov:capability",
-        "aov:refName": "MachineMESConfiguration",
+        "rel": "dov:capability",
+        "dov:refName": "MachineMESConfiguration",
         "href": "./PlasticsRubber.GeneralTypes.TM.json#title=PlasticsRubber_GeneralTypes_MachineMESConfigurationType",
         "type": "application/tm+json"
       },
       {
-        "rel": "aov:capability",
-        "aov:refName": "MachineMESStatus",
+        "rel": "dov:capability",
+        "dov:refName": "MachineMESStatus",
         "href": "./PlasticsRubber.GeneralTypes.TM.json#title=PlasticsRubber_GeneralTypes_MachineMESStatusType",
         "type": "application/tm+json"
       },
       {
-        "rel": "aov:capability",
-        "aov:refName": "MachineStatus",
+        "rel": "dov:capability",
+        "dov:refName": "MachineStatus",
         "href": "./PlasticsRubber.GeneralTypes.TM.json#title=PlasticsRubber_GeneralTypes_MachineStatusType",
         "type": "application/tm+json"
       },
       {
-        "rel": "aov:capability",
-        "aov:refName": "Moulds",
+        "rel": "dov:capability",
+        "dov:refName": "Moulds",
         "href": "./PlasticsRubber.GeneralTypes.TM.json#title=PlasticsRubber_GeneralTypes_MouldsType",
         "type": "application/tm+json"
       },
       {
-        "rel": "aov:capability",
-        "aov:refName": "PowerUnits",
+        "rel": "dov:capability",
+        "dov:refName": "PowerUnits",
         "href": "./PlasticsRubber.GeneralTypes.TM.json#title=PlasticsRubber_GeneralTypes_PowerUnitsType",
         "type": "application/tm+json"
       },
       {
-        "rel": "aov:reference",
-        "aov:refName": "ProductionDatasetManagement",
+        "rel": "dov:reference",
+        "dov:refName": "ProductionDatasetManagement",
         "href": "./PlasticsRubber.GeneralTypes.TM.json#title=PlasticsRubber_GeneralTypes_ProductionDatasetManagementType",
         "type": "application/tm+json"
       }
@@ -91,13 +90,12 @@
     "@context": [
       "https://www.w3.org/2022/wot/td/v1.1",
       {
-        "dtv": "http://azure.com/DigitalTwins/dtmi#",
-        "aov": "http://azure.com/IoT/operations/tm#"
+        "dov": "http://azure.com/DigitalOperations/vocab#"
       }
     ],
     "@type": "tm:ThingModel",
     "title": "PlasticsRubber_IMM2MES_InjectionUnitCycleParametersType",
-    "aov:typeRef": "nsu=http://opcfoundation.org/UA/PlasticsRubber/IMM2MES/;i=1039",
+    "dov:typeRef": "org.opcfoundation.UA.PlasticsRubber.IMM2MES.InjectionUnitCycleParametersType",
     "links": [
       {
         "rel": "tm:extends",
@@ -110,12 +108,12 @@
     "forms": [
       {
         "contentType": "application/json",
-        "dtv:topic": "opcua/PlasticsRubber.IMM2MES/PlasticsRubber_IMM2MES_InjectionUnitCycleParametersType/events/{senderId}",
+        "dov:topic": "opcua/PlasticsRubber.IMM2MES/PlasticsRubber_IMM2MES_InjectionUnitCycleParametersType/events/{senderId}",
         "op": "subscribeallevents"
       },
       {
         "contentType": "application/json",
-        "dtv:topic": "opcua/PlasticsRubber.IMM2MES/PlasticsRubber_IMM2MES_InjectionUnitCycleParametersType/properties/read",
+        "dov:topic": "opcua/PlasticsRubber.IMM2MES/PlasticsRubber_IMM2MES_InjectionUnitCycleParametersType/properties/read",
         "op": "readallproperties"
       }
     ],
@@ -123,7 +121,7 @@
     },
     "properties": {
       "BackPressure": {
-        "aov:namespace": "http://opcfoundation.org/UA/PlasticsRubber/IMM2MES/",
+        "dov:namespace": "http://opcfoundation.org/UA/PlasticsRubber/IMM2MES/",
         "description": "Back pressure is the melt-pressure against the screw movement during dosage",
         "type": "number",
         "minimum": -1.80e+308,
@@ -132,13 +130,13 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/PlasticsRubber.IMM2MES/PlasticsRubber_IMM2MES_InjectionUnitCycleParametersType/property/BackPressure/read",
+            "dov:topic": "opcua/PlasticsRubber.IMM2MES/PlasticsRubber_IMM2MES_InjectionUnitCycleParametersType/property/BackPressure/read",
             "op": "readproperty"
           }
         ]
       },
       "CavityPressureMaximum": {
-        "aov:namespace": "http://opcfoundation.org/UA/PlasticsRubber/IMM2MES/",
+        "dov:namespace": "http://opcfoundation.org/UA/PlasticsRubber/IMM2MES/",
         "description": "Maximum pressure during the injection process in the cavity or mould",
         "type": "number",
         "minimum": -1.80e+308,
@@ -147,13 +145,13 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/PlasticsRubber.IMM2MES/PlasticsRubber_IMM2MES_InjectionUnitCycleParametersType/property/CavityPressureMaximum/read",
+            "dov:topic": "opcua/PlasticsRubber.IMM2MES/PlasticsRubber_IMM2MES_InjectionUnitCycleParametersType/property/CavityPressureMaximum/read",
             "op": "readproperty"
           }
         ]
       },
       "CushionStroke": {
-        "aov:namespace": "http://opcfoundation.org/UA/PlasticsRubber/IMM2MES/",
+        "dov:namespace": "http://opcfoundation.org/UA/PlasticsRubber/IMM2MES/",
         "description": "Stroke position at cushion",
         "type": "number",
         "minimum": -1.80e+308,
@@ -162,13 +160,13 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/PlasticsRubber.IMM2MES/PlasticsRubber_IMM2MES_InjectionUnitCycleParametersType/property/CushionStroke/read",
+            "dov:topic": "opcua/PlasticsRubber.IMM2MES/PlasticsRubber_IMM2MES_InjectionUnitCycleParametersType/property/CushionStroke/read",
             "op": "readproperty"
           }
         ]
       },
       "CushionVolume": {
-        "aov:namespace": "http://opcfoundation.org/UA/PlasticsRubber/IMM2MES/",
+        "dov:namespace": "http://opcfoundation.org/UA/PlasticsRubber/IMM2MES/",
         "description": "Material volume remained in front of the screw after injection and holding pressure",
         "type": "number",
         "minimum": -1.80e+308,
@@ -177,13 +175,13 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/PlasticsRubber.IMM2MES/PlasticsRubber_IMM2MES_InjectionUnitCycleParametersType/property/CushionVolume/read",
+            "dov:topic": "opcua/PlasticsRubber.IMM2MES/PlasticsRubber_IMM2MES_InjectionUnitCycleParametersType/property/CushionVolume/read",
             "op": "readproperty"
           }
         ]
       },
       "DecompressionVolumeAfterPlastification": {
-        "aov:namespace": "http://opcfoundation.org/UA/PlasticsRubber/IMM2MES/",
+        "dov:namespace": "http://opcfoundation.org/UA/PlasticsRubber/IMM2MES/",
         "description": "Decompression after plastification is the movement of the screw in the opposite direction to injection",
         "type": "number",
         "minimum": -1.80e+308,
@@ -192,13 +190,13 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/PlasticsRubber.IMM2MES/PlasticsRubber_IMM2MES_InjectionUnitCycleParametersType/property/DecompressionVolumeAfterPlastification/read",
+            "dov:topic": "opcua/PlasticsRubber.IMM2MES/PlasticsRubber_IMM2MES_InjectionUnitCycleParametersType/property/DecompressionVolumeAfterPlastification/read",
             "op": "readproperty"
           }
         ]
       },
       "DecompressionVolumeBeforePlastification": {
-        "aov:namespace": "http://opcfoundation.org/UA/PlasticsRubber/IMM2MES/",
+        "dov:namespace": "http://opcfoundation.org/UA/PlasticsRubber/IMM2MES/",
         "description": "Decompression before plastification is the movement of the screw in the opposite direction to injection",
         "type": "number",
         "minimum": -1.80e+308,
@@ -207,13 +205,13 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/PlasticsRubber.IMM2MES/PlasticsRubber_IMM2MES_InjectionUnitCycleParametersType/property/DecompressionVolumeBeforePlastification/read",
+            "dov:topic": "opcua/PlasticsRubber.IMM2MES/PlasticsRubber_IMM2MES_InjectionUnitCycleParametersType/property/DecompressionVolumeBeforePlastification/read",
             "op": "readproperty"
           }
         ]
       },
       "DosingTime": {
-        "aov:namespace": "http://opcfoundation.org/UA/PlasticsRubber/IMM2MES/",
+        "dov:namespace": "http://opcfoundation.org/UA/PlasticsRubber/IMM2MES/",
         "description": "Time to melt-up the plastic granulates and feed the melt for the next injection shot to the front of the screw",
         "type": "string",
         "pattern": "^P(?!$)(?:(?:(?:(?:\\d+Y)|(?:\\d+\\.\\d+Y$))?(?:(?:\\d+M)|(?:\\d+\\.\\d+M$))?)|(?:(?:(?:\\d+W)|(?:\\d+\\.\\d+W$))?))(?:(?:\\d+D)|(?:\\d+\\.\\d+D$))?(?:T(?!$)(?:(?:\\d+H)|(?:\\d+\\.\\d+H$))?(?:(?:\\d+M)|(?:\\d+\\.\\d+M$))?(?:\\d+(?:\\.\\d+)?S)?)?$",
@@ -221,13 +219,13 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/PlasticsRubber.IMM2MES/PlasticsRubber_IMM2MES_InjectionUnitCycleParametersType/property/DosingTime/read",
+            "dov:topic": "opcua/PlasticsRubber.IMM2MES/PlasticsRubber_IMM2MES_InjectionUnitCycleParametersType/property/DosingTime/read",
             "op": "readproperty"
           }
         ]
       },
       "FlowIndex": {
-        "aov:namespace": "http://opcfoundation.org/UA/PlasticsRubber/IMM2MES/",
+        "dov:namespace": "http://opcfoundation.org/UA/PlasticsRubber/IMM2MES/",
         "description": "Flow index",
         "type": "number",
         "minimum": -1.80e+308,
@@ -236,13 +234,13 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/PlasticsRubber.IMM2MES/PlasticsRubber_IMM2MES_InjectionUnitCycleParametersType/property/FlowIndex/read",
+            "dov:topic": "opcua/PlasticsRubber.IMM2MES/PlasticsRubber_IMM2MES_InjectionUnitCycleParametersType/property/FlowIndex/read",
             "op": "readproperty"
           }
         ]
       },
       "HoldHydraulicPressureAverage": {
-        "aov:namespace": "http://opcfoundation.org/UA/PlasticsRubber/IMM2MES/",
+        "dov:namespace": "http://opcfoundation.org/UA/PlasticsRubber/IMM2MES/",
         "description": "Average holding pressure in the hydraulic cylinder",
         "type": "number",
         "minimum": -1.80e+308,
@@ -251,13 +249,13 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/PlasticsRubber.IMM2MES/PlasticsRubber_IMM2MES_InjectionUnitCycleParametersType/property/HoldHydraulicPressureAverage/read",
+            "dov:topic": "opcua/PlasticsRubber.IMM2MES/PlasticsRubber_IMM2MES_InjectionUnitCycleParametersType/property/HoldHydraulicPressureAverage/read",
             "op": "readproperty"
           }
         ]
       },
       "HoldHydraulicPressureMaximum": {
-        "aov:namespace": "http://opcfoundation.org/UA/PlasticsRubber/IMM2MES/",
+        "dov:namespace": "http://opcfoundation.org/UA/PlasticsRubber/IMM2MES/",
         "description": "Maximum holding pressure in the hydraulic cylinder",
         "type": "number",
         "minimum": -1.80e+308,
@@ -266,13 +264,13 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/PlasticsRubber.IMM2MES/PlasticsRubber_IMM2MES_InjectionUnitCycleParametersType/property/HoldHydraulicPressureMaximum/read",
+            "dov:topic": "opcua/PlasticsRubber.IMM2MES/PlasticsRubber_IMM2MES_InjectionUnitCycleParametersType/property/HoldHydraulicPressureMaximum/read",
             "op": "readproperty"
           }
         ]
       },
       "HoldSpecificPressureAverage": {
-        "aov:namespace": "http://opcfoundation.org/UA/PlasticsRubber/IMM2MES/",
+        "dov:namespace": "http://opcfoundation.org/UA/PlasticsRubber/IMM2MES/",
         "description": "Average holding pressure in front of the screw",
         "type": "number",
         "minimum": -1.80e+308,
@@ -281,13 +279,13 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/PlasticsRubber.IMM2MES/PlasticsRubber_IMM2MES_InjectionUnitCycleParametersType/property/HoldSpecificPressureAverage/read",
+            "dov:topic": "opcua/PlasticsRubber.IMM2MES/PlasticsRubber_IMM2MES_InjectionUnitCycleParametersType/property/HoldSpecificPressureAverage/read",
             "op": "readproperty"
           }
         ]
       },
       "HoldSpecificPressureMaximum": {
-        "aov:namespace": "http://opcfoundation.org/UA/PlasticsRubber/IMM2MES/",
+        "dov:namespace": "http://opcfoundation.org/UA/PlasticsRubber/IMM2MES/",
         "description": "Maximum holding pressure in front of the screw",
         "type": "number",
         "minimum": -1.80e+308,
@@ -296,13 +294,13 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/PlasticsRubber.IMM2MES/PlasticsRubber_IMM2MES_InjectionUnitCycleParametersType/property/HoldSpecificPressureMaximum/read",
+            "dov:topic": "opcua/PlasticsRubber.IMM2MES/PlasticsRubber_IMM2MES_InjectionUnitCycleParametersType/property/HoldSpecificPressureMaximum/read",
             "op": "readproperty"
           }
         ]
       },
       "HydraulicPressureMaximum": {
-        "aov:namespace": "http://opcfoundation.org/UA/PlasticsRubber/IMM2MES/",
+        "dov:namespace": "http://opcfoundation.org/UA/PlasticsRubber/IMM2MES/",
         "description": "Maximum pressure in the hydraulic cylinder",
         "type": "number",
         "minimum": -1.80e+308,
@@ -311,13 +309,13 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/PlasticsRubber.IMM2MES/PlasticsRubber_IMM2MES_InjectionUnitCycleParametersType/property/HydraulicPressureMaximum/read",
+            "dov:topic": "opcua/PlasticsRubber.IMM2MES/PlasticsRubber_IMM2MES_InjectionUnitCycleParametersType/property/HydraulicPressureMaximum/read",
             "op": "readproperty"
           }
         ]
       },
       "Index": {
-        "aov:namespace": "http://opcfoundation.org/UA/PlasticsRubber/IMM2MES/",
+        "dov:namespace": "http://opcfoundation.org/UA/PlasticsRubber/IMM2MES/",
         "description": "Index of the injection unit",
         "type": "integer",
         "minimum": 0,
@@ -326,13 +324,13 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/PlasticsRubber.IMM2MES/PlasticsRubber_IMM2MES_InjectionUnitCycleParametersType/property/Index/read",
+            "dov:topic": "opcua/PlasticsRubber.IMM2MES/PlasticsRubber_IMM2MES_InjectionUnitCycleParametersType/property/Index/read",
             "op": "readproperty"
           }
         ]
       },
       "InjectionSpeedAverage": {
-        "aov:namespace": "http://opcfoundation.org/UA/PlasticsRubber/IMM2MES/",
+        "dov:namespace": "http://opcfoundation.org/UA/PlasticsRubber/IMM2MES/",
         "description": "Average injection speed (e.g. mm/s)",
         "type": "number",
         "minimum": -1.80e+308,
@@ -341,13 +339,13 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/PlasticsRubber.IMM2MES/PlasticsRubber_IMM2MES_InjectionUnitCycleParametersType/property/InjectionSpeedAverage/read",
+            "dov:topic": "opcua/PlasticsRubber.IMM2MES/PlasticsRubber_IMM2MES_InjectionUnitCycleParametersType/property/InjectionSpeedAverage/read",
             "op": "readproperty"
           }
         ]
       },
       "InjectionSpeedMaximum": {
-        "aov:namespace": "http://opcfoundation.org/UA/PlasticsRubber/IMM2MES/",
+        "dov:namespace": "http://opcfoundation.org/UA/PlasticsRubber/IMM2MES/",
         "description": "Maximum injection speed (e.g. mm/s)",
         "type": "number",
         "minimum": -1.80e+308,
@@ -356,13 +354,13 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/PlasticsRubber.IMM2MES/PlasticsRubber_IMM2MES_InjectionUnitCycleParametersType/property/InjectionSpeedMaximum/read",
+            "dov:topic": "opcua/PlasticsRubber.IMM2MES/PlasticsRubber_IMM2MES_InjectionUnitCycleParametersType/property/InjectionSpeedMaximum/read",
             "op": "readproperty"
           }
         ]
       },
       "InjectionStartPosition": {
-        "aov:namespace": "http://opcfoundation.org/UA/PlasticsRubber/IMM2MES/",
+        "dov:namespace": "http://opcfoundation.org/UA/PlasticsRubber/IMM2MES/",
         "description": "Start position of the injection",
         "type": "number",
         "minimum": -1.80e+308,
@@ -371,13 +369,13 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/PlasticsRubber.IMM2MES/PlasticsRubber_IMM2MES_InjectionUnitCycleParametersType/property/InjectionStartPosition/read",
+            "dov:topic": "opcua/PlasticsRubber.IMM2MES/PlasticsRubber_IMM2MES_InjectionUnitCycleParametersType/property/InjectionStartPosition/read",
             "op": "readproperty"
           }
         ]
       },
       "InjectionTime": {
-        "aov:namespace": "http://opcfoundation.org/UA/PlasticsRubber/IMM2MES/",
+        "dov:namespace": "http://opcfoundation.org/UA/PlasticsRubber/IMM2MES/",
         "description": "Time required to fill the cavity or mould",
         "type": "string",
         "pattern": "^P(?!$)(?:(?:(?:(?:\\d+Y)|(?:\\d+\\.\\d+Y$))?(?:(?:\\d+M)|(?:\\d+\\.\\d+M$))?)|(?:(?:(?:\\d+W)|(?:\\d+\\.\\d+W$))?))(?:(?:\\d+D)|(?:\\d+\\.\\d+D$))?(?:T(?!$)(?:(?:\\d+H)|(?:\\d+\\.\\d+H$))?(?:(?:\\d+M)|(?:\\d+\\.\\d+M$))?(?:\\d+(?:\\.\\d+)?S)?)?$",
@@ -385,13 +383,13 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/PlasticsRubber.IMM2MES/PlasticsRubber_IMM2MES_InjectionUnitCycleParametersType/property/InjectionTime/read",
+            "dov:topic": "opcua/PlasticsRubber.IMM2MES/PlasticsRubber_IMM2MES_InjectionUnitCycleParametersType/property/InjectionTime/read",
             "op": "readproperty"
           }
         ]
       },
       "PlastificationCircumferentialSpeedAverage": {
-        "aov:namespace": "http://opcfoundation.org/UA/PlasticsRubber/IMM2MES/",
+        "dov:namespace": "http://opcfoundation.org/UA/PlasticsRubber/IMM2MES/",
         "description": "Average screw circumferential speed for plastification (e.g. mm/s)",
         "type": "number",
         "minimum": -1.80e+308,
@@ -400,13 +398,13 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/PlasticsRubber.IMM2MES/PlasticsRubber_IMM2MES_InjectionUnitCycleParametersType/property/PlastificationCircumferentialSpeedAverage/read",
+            "dov:topic": "opcua/PlasticsRubber.IMM2MES/PlasticsRubber_IMM2MES_InjectionUnitCycleParametersType/property/PlastificationCircumferentialSpeedAverage/read",
             "op": "readproperty"
           }
         ]
       },
       "PlastificationCircumferentialSpeedMaximum": {
-        "aov:namespace": "http://opcfoundation.org/UA/PlasticsRubber/IMM2MES/",
+        "dov:namespace": "http://opcfoundation.org/UA/PlasticsRubber/IMM2MES/",
         "description": "Maximum screw circumferential speed for plastification (e.g. mm/s)",
         "type": "number",
         "minimum": -1.80e+308,
@@ -415,13 +413,13 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/PlasticsRubber.IMM2MES/PlasticsRubber_IMM2MES_InjectionUnitCycleParametersType/property/PlastificationCircumferentialSpeedMaximum/read",
+            "dov:topic": "opcua/PlasticsRubber.IMM2MES/PlasticsRubber_IMM2MES_InjectionUnitCycleParametersType/property/PlastificationCircumferentialSpeedMaximum/read",
             "op": "readproperty"
           }
         ]
       },
       "PlastificationHydraulicPressureAverage": {
-        "aov:namespace": "http://opcfoundation.org/UA/PlasticsRubber/IMM2MES/",
+        "dov:namespace": "http://opcfoundation.org/UA/PlasticsRubber/IMM2MES/",
         "description": "Average plastification pressure in cylinder",
         "type": "number",
         "minimum": -1.80e+308,
@@ -430,13 +428,13 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/PlasticsRubber.IMM2MES/PlasticsRubber_IMM2MES_InjectionUnitCycleParametersType/property/PlastificationHydraulicPressureAverage/read",
+            "dov:topic": "opcua/PlasticsRubber.IMM2MES/PlasticsRubber_IMM2MES_InjectionUnitCycleParametersType/property/PlastificationHydraulicPressureAverage/read",
             "op": "readproperty"
           }
         ]
       },
       "PlastificationHydraulicPressureMaximum": {
-        "aov:namespace": "http://opcfoundation.org/UA/PlasticsRubber/IMM2MES/",
+        "dov:namespace": "http://opcfoundation.org/UA/PlasticsRubber/IMM2MES/",
         "description": "Maximum plastification pressure in cylinder ",
         "type": "number",
         "minimum": -1.80e+308,
@@ -445,13 +443,13 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/PlasticsRubber.IMM2MES/PlasticsRubber_IMM2MES_InjectionUnitCycleParametersType/property/PlastificationHydraulicPressureMaximum/read",
+            "dov:topic": "opcua/PlasticsRubber.IMM2MES/PlasticsRubber_IMM2MES_InjectionUnitCycleParametersType/property/PlastificationHydraulicPressureMaximum/read",
             "op": "readproperty"
           }
         ]
       },
       "PlastificationRotationalSpeedAverage": {
-        "aov:namespace": "http://opcfoundation.org/UA/PlasticsRubber/IMM2MES/",
+        "dov:namespace": "http://opcfoundation.org/UA/PlasticsRubber/IMM2MES/",
         "description": "Average plastification speed of the injection unit (RPM)",
         "type": "number",
         "minimum": -1.80e+308,
@@ -460,13 +458,13 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/PlasticsRubber.IMM2MES/PlasticsRubber_IMM2MES_InjectionUnitCycleParametersType/property/PlastificationRotationalSpeedAverage/read",
+            "dov:topic": "opcua/PlasticsRubber.IMM2MES/PlasticsRubber_IMM2MES_InjectionUnitCycleParametersType/property/PlastificationRotationalSpeedAverage/read",
             "op": "readproperty"
           }
         ]
       },
       "PlastificationRotationalSpeedMaximum": {
-        "aov:namespace": "http://opcfoundation.org/UA/PlasticsRubber/IMM2MES/",
+        "dov:namespace": "http://opcfoundation.org/UA/PlasticsRubber/IMM2MES/",
         "description": "Maximum plastification speed of the injection unit (RPM)",
         "type": "number",
         "minimum": -1.80e+308,
@@ -475,13 +473,13 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/PlasticsRubber.IMM2MES/PlasticsRubber_IMM2MES_InjectionUnitCycleParametersType/property/PlastificationRotationalSpeedMaximum/read",
+            "dov:topic": "opcua/PlasticsRubber.IMM2MES/PlasticsRubber_IMM2MES_InjectionUnitCycleParametersType/property/PlastificationRotationalSpeedMaximum/read",
             "op": "readproperty"
           }
         ]
       },
       "PlastificationSpecificPressureAverage": {
-        "aov:namespace": "http://opcfoundation.org/UA/PlasticsRubber/IMM2MES/",
+        "dov:namespace": "http://opcfoundation.org/UA/PlasticsRubber/IMM2MES/",
         "description": "Average plastification pressure in front of the screw tip",
         "type": "number",
         "minimum": -1.80e+308,
@@ -490,13 +488,13 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/PlasticsRubber.IMM2MES/PlasticsRubber_IMM2MES_InjectionUnitCycleParametersType/property/PlastificationSpecificPressureAverage/read",
+            "dov:topic": "opcua/PlasticsRubber.IMM2MES/PlasticsRubber_IMM2MES_InjectionUnitCycleParametersType/property/PlastificationSpecificPressureAverage/read",
             "op": "readproperty"
           }
         ]
       },
       "PlastificationSpecificPressureMaximum": {
-        "aov:namespace": "http://opcfoundation.org/UA/PlasticsRubber/IMM2MES/",
+        "dov:namespace": "http://opcfoundation.org/UA/PlasticsRubber/IMM2MES/",
         "description": "Maximum plastification pressure in front of the screw tip",
         "type": "number",
         "minimum": -1.80e+308,
@@ -505,13 +503,13 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/PlasticsRubber.IMM2MES/PlasticsRubber_IMM2MES_InjectionUnitCycleParametersType/property/PlastificationSpecificPressureMaximum/read",
+            "dov:topic": "opcua/PlasticsRubber.IMM2MES/PlasticsRubber_IMM2MES_InjectionUnitCycleParametersType/property/PlastificationSpecificPressureMaximum/read",
             "op": "readproperty"
           }
         ]
       },
       "PlastificationVolume": {
-        "aov:namespace": "http://opcfoundation.org/UA/PlasticsRubber/IMM2MES/",
+        "dov:namespace": "http://opcfoundation.org/UA/PlasticsRubber/IMM2MES/",
         "description": "Volume dosed by the machine for the next injection shot",
         "type": "number",
         "minimum": -1.80e+308,
@@ -520,13 +518,13 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/PlasticsRubber.IMM2MES/PlasticsRubber_IMM2MES_InjectionUnitCycleParametersType/property/PlastificationVolume/read",
+            "dov:topic": "opcua/PlasticsRubber.IMM2MES/PlasticsRubber_IMM2MES_InjectionUnitCycleParametersType/property/PlastificationVolume/read",
             "op": "readproperty"
           }
         ]
       },
       "SpecificPressureMaximum": {
-        "aov:namespace": "http://opcfoundation.org/UA/PlasticsRubber/IMM2MES/",
+        "dov:namespace": "http://opcfoundation.org/UA/PlasticsRubber/IMM2MES/",
         "description": "Pressure in front of the screw tip",
         "type": "number",
         "minimum": -1.80e+308,
@@ -535,13 +533,13 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/PlasticsRubber.IMM2MES/PlasticsRubber_IMM2MES_InjectionUnitCycleParametersType/property/SpecificPressureMaximum/read",
+            "dov:topic": "opcua/PlasticsRubber.IMM2MES/PlasticsRubber_IMM2MES_InjectionUnitCycleParametersType/property/SpecificPressureMaximum/read",
             "op": "readproperty"
           }
         ]
       },
       "TransferCavityPressure": {
-        "aov:namespace": "http://opcfoundation.org/UA/PlasticsRubber/IMM2MES/",
+        "dov:namespace": "http://opcfoundation.org/UA/PlasticsRubber/IMM2MES/",
         "description": "Cavity pressure in the mould during switch-over to the holding pressure",
         "type": "number",
         "minimum": -1.80e+308,
@@ -550,13 +548,13 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/PlasticsRubber.IMM2MES/PlasticsRubber_IMM2MES_InjectionUnitCycleParametersType/property/TransferCavityPressure/read",
+            "dov:topic": "opcua/PlasticsRubber.IMM2MES/PlasticsRubber_IMM2MES_InjectionUnitCycleParametersType/property/TransferCavityPressure/read",
             "op": "readproperty"
           }
         ]
       },
       "TransferHydraulicPressure": {
-        "aov:namespace": "http://opcfoundation.org/UA/PlasticsRubber/IMM2MES/",
+        "dov:namespace": "http://opcfoundation.org/UA/PlasticsRubber/IMM2MES/",
         "description": "Hydraulic pressure in the cylinder during switch-over to the holding pressure",
         "type": "number",
         "minimum": -1.80e+308,
@@ -565,13 +563,13 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/PlasticsRubber.IMM2MES/PlasticsRubber_IMM2MES_InjectionUnitCycleParametersType/property/TransferHydraulicPressure/read",
+            "dov:topic": "opcua/PlasticsRubber.IMM2MES/PlasticsRubber_IMM2MES_InjectionUnitCycleParametersType/property/TransferHydraulicPressure/read",
             "op": "readproperty"
           }
         ]
       },
       "TransferSpecificPressure": {
-        "aov:namespace": "http://opcfoundation.org/UA/PlasticsRubber/IMM2MES/",
+        "dov:namespace": "http://opcfoundation.org/UA/PlasticsRubber/IMM2MES/",
         "description": "Pressure in front of the screw tip during switch-over to the holding pressure",
         "type": "number",
         "minimum": -1.80e+308,
@@ -580,13 +578,13 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/PlasticsRubber.IMM2MES/PlasticsRubber_IMM2MES_InjectionUnitCycleParametersType/property/TransferSpecificPressure/read",
+            "dov:topic": "opcua/PlasticsRubber.IMM2MES/PlasticsRubber_IMM2MES_InjectionUnitCycleParametersType/property/TransferSpecificPressure/read",
             "op": "readproperty"
           }
         ]
       },
       "TransferStroke": {
-        "aov:namespace": "http://opcfoundation.org/UA/PlasticsRubber/IMM2MES/",
+        "dov:namespace": "http://opcfoundation.org/UA/PlasticsRubber/IMM2MES/",
         "description": "Switch-over point to the holding pressure via stroke",
         "type": "number",
         "minimum": -1.80e+308,
@@ -595,13 +593,13 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/PlasticsRubber.IMM2MES/PlasticsRubber_IMM2MES_InjectionUnitCycleParametersType/property/TransferStroke/read",
+            "dov:topic": "opcua/PlasticsRubber.IMM2MES/PlasticsRubber_IMM2MES_InjectionUnitCycleParametersType/property/TransferStroke/read",
             "op": "readproperty"
           }
         ]
       },
       "TransferVolume": {
-        "aov:namespace": "http://opcfoundation.org/UA/PlasticsRubber/IMM2MES/",
+        "dov:namespace": "http://opcfoundation.org/UA/PlasticsRubber/IMM2MES/",
         "description": "Switch-over point to the holding pressure via volume",
         "type": "number",
         "minimum": -1.80e+308,
@@ -610,13 +608,13 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/PlasticsRubber.IMM2MES/PlasticsRubber_IMM2MES_InjectionUnitCycleParametersType/property/TransferVolume/read",
+            "dov:topic": "opcua/PlasticsRubber.IMM2MES/PlasticsRubber_IMM2MES_InjectionUnitCycleParametersType/property/TransferVolume/read",
             "op": "readproperty"
           }
         ]
       },
       "VPChangeOverPosition": {
-        "aov:namespace": "http://opcfoundation.org/UA/PlasticsRubber/IMM2MES/",
+        "dov:namespace": "http://opcfoundation.org/UA/PlasticsRubber/IMM2MES/",
         "description": "Screw position at switching between injection (V) and holding pressure (P)",
         "type": "number",
         "minimum": -1.80e+308,
@@ -625,7 +623,7 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/PlasticsRubber.IMM2MES/PlasticsRubber_IMM2MES_InjectionUnitCycleParametersType/property/VPChangeOverPosition/read",
+            "dov:topic": "opcua/PlasticsRubber.IMM2MES/PlasticsRubber_IMM2MES_InjectionUnitCycleParametersType/property/VPChangeOverPosition/read",
             "op": "readproperty"
           }
         ]
@@ -633,7 +631,7 @@
     },
     "events": {
       "BackPressure": {
-        "aov:namespace": "http://opcfoundation.org/UA/PlasticsRubber/IMM2MES/",
+        "dov:namespace": "http://opcfoundation.org/UA/PlasticsRubber/IMM2MES/",
         "data": {
           "description": "Back pressure is the melt-pressure against the screw movement during dosage",
           "type": "number",
@@ -643,13 +641,13 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/PlasticsRubber.IMM2MES/PlasticsRubber_IMM2MES_InjectionUnitCycleParametersType/event/BackPressure/{senderId}",
+            "dov:topic": "opcua/PlasticsRubber.IMM2MES/PlasticsRubber_IMM2MES_InjectionUnitCycleParametersType/event/BackPressure/{senderId}",
             "op": "subscribeevent"
           }
         ]
       },
       "CavityPressureMaximum": {
-        "aov:namespace": "http://opcfoundation.org/UA/PlasticsRubber/IMM2MES/",
+        "dov:namespace": "http://opcfoundation.org/UA/PlasticsRubber/IMM2MES/",
         "data": {
           "description": "Maximum pressure during the injection process in the cavity or mould",
           "type": "number",
@@ -659,13 +657,13 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/PlasticsRubber.IMM2MES/PlasticsRubber_IMM2MES_InjectionUnitCycleParametersType/event/CavityPressureMaximum/{senderId}",
+            "dov:topic": "opcua/PlasticsRubber.IMM2MES/PlasticsRubber_IMM2MES_InjectionUnitCycleParametersType/event/CavityPressureMaximum/{senderId}",
             "op": "subscribeevent"
           }
         ]
       },
       "CushionStroke": {
-        "aov:namespace": "http://opcfoundation.org/UA/PlasticsRubber/IMM2MES/",
+        "dov:namespace": "http://opcfoundation.org/UA/PlasticsRubber/IMM2MES/",
         "data": {
           "description": "Stroke position at cushion",
           "type": "number",
@@ -675,13 +673,13 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/PlasticsRubber.IMM2MES/PlasticsRubber_IMM2MES_InjectionUnitCycleParametersType/event/CushionStroke/{senderId}",
+            "dov:topic": "opcua/PlasticsRubber.IMM2MES/PlasticsRubber_IMM2MES_InjectionUnitCycleParametersType/event/CushionStroke/{senderId}",
             "op": "subscribeevent"
           }
         ]
       },
       "CushionVolume": {
-        "aov:namespace": "http://opcfoundation.org/UA/PlasticsRubber/IMM2MES/",
+        "dov:namespace": "http://opcfoundation.org/UA/PlasticsRubber/IMM2MES/",
         "data": {
           "description": "Material volume remained in front of the screw after injection and holding pressure",
           "type": "number",
@@ -691,13 +689,13 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/PlasticsRubber.IMM2MES/PlasticsRubber_IMM2MES_InjectionUnitCycleParametersType/event/CushionVolume/{senderId}",
+            "dov:topic": "opcua/PlasticsRubber.IMM2MES/PlasticsRubber_IMM2MES_InjectionUnitCycleParametersType/event/CushionVolume/{senderId}",
             "op": "subscribeevent"
           }
         ]
       },
       "DecompressionVolumeAfterPlastification": {
-        "aov:namespace": "http://opcfoundation.org/UA/PlasticsRubber/IMM2MES/",
+        "dov:namespace": "http://opcfoundation.org/UA/PlasticsRubber/IMM2MES/",
         "data": {
           "description": "Decompression after plastification is the movement of the screw in the opposite direction to injection",
           "type": "number",
@@ -707,13 +705,13 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/PlasticsRubber.IMM2MES/PlasticsRubber_IMM2MES_InjectionUnitCycleParametersType/event/DecompressionVolumeAfterPlastification/{senderId}",
+            "dov:topic": "opcua/PlasticsRubber.IMM2MES/PlasticsRubber_IMM2MES_InjectionUnitCycleParametersType/event/DecompressionVolumeAfterPlastification/{senderId}",
             "op": "subscribeevent"
           }
         ]
       },
       "DecompressionVolumeBeforePlastification": {
-        "aov:namespace": "http://opcfoundation.org/UA/PlasticsRubber/IMM2MES/",
+        "dov:namespace": "http://opcfoundation.org/UA/PlasticsRubber/IMM2MES/",
         "data": {
           "description": "Decompression before plastification is the movement of the screw in the opposite direction to injection",
           "type": "number",
@@ -723,13 +721,13 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/PlasticsRubber.IMM2MES/PlasticsRubber_IMM2MES_InjectionUnitCycleParametersType/event/DecompressionVolumeBeforePlastification/{senderId}",
+            "dov:topic": "opcua/PlasticsRubber.IMM2MES/PlasticsRubber_IMM2MES_InjectionUnitCycleParametersType/event/DecompressionVolumeBeforePlastification/{senderId}",
             "op": "subscribeevent"
           }
         ]
       },
       "DosingTime": {
-        "aov:namespace": "http://opcfoundation.org/UA/PlasticsRubber/IMM2MES/",
+        "dov:namespace": "http://opcfoundation.org/UA/PlasticsRubber/IMM2MES/",
         "data": {
           "description": "Time to melt-up the plastic granulates and feed the melt for the next injection shot to the front of the screw",
           "type": "string",
@@ -738,13 +736,13 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/PlasticsRubber.IMM2MES/PlasticsRubber_IMM2MES_InjectionUnitCycleParametersType/event/DosingTime/{senderId}",
+            "dov:topic": "opcua/PlasticsRubber.IMM2MES/PlasticsRubber_IMM2MES_InjectionUnitCycleParametersType/event/DosingTime/{senderId}",
             "op": "subscribeevent"
           }
         ]
       },
       "FlowIndex": {
-        "aov:namespace": "http://opcfoundation.org/UA/PlasticsRubber/IMM2MES/",
+        "dov:namespace": "http://opcfoundation.org/UA/PlasticsRubber/IMM2MES/",
         "data": {
           "description": "Flow index",
           "type": "number",
@@ -754,13 +752,13 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/PlasticsRubber.IMM2MES/PlasticsRubber_IMM2MES_InjectionUnitCycleParametersType/event/FlowIndex/{senderId}",
+            "dov:topic": "opcua/PlasticsRubber.IMM2MES/PlasticsRubber_IMM2MES_InjectionUnitCycleParametersType/event/FlowIndex/{senderId}",
             "op": "subscribeevent"
           }
         ]
       },
       "HoldHydraulicPressureAverage": {
-        "aov:namespace": "http://opcfoundation.org/UA/PlasticsRubber/IMM2MES/",
+        "dov:namespace": "http://opcfoundation.org/UA/PlasticsRubber/IMM2MES/",
         "data": {
           "description": "Average holding pressure in the hydraulic cylinder",
           "type": "number",
@@ -770,13 +768,13 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/PlasticsRubber.IMM2MES/PlasticsRubber_IMM2MES_InjectionUnitCycleParametersType/event/HoldHydraulicPressureAverage/{senderId}",
+            "dov:topic": "opcua/PlasticsRubber.IMM2MES/PlasticsRubber_IMM2MES_InjectionUnitCycleParametersType/event/HoldHydraulicPressureAverage/{senderId}",
             "op": "subscribeevent"
           }
         ]
       },
       "HoldHydraulicPressureMaximum": {
-        "aov:namespace": "http://opcfoundation.org/UA/PlasticsRubber/IMM2MES/",
+        "dov:namespace": "http://opcfoundation.org/UA/PlasticsRubber/IMM2MES/",
         "data": {
           "description": "Maximum holding pressure in the hydraulic cylinder",
           "type": "number",
@@ -786,13 +784,13 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/PlasticsRubber.IMM2MES/PlasticsRubber_IMM2MES_InjectionUnitCycleParametersType/event/HoldHydraulicPressureMaximum/{senderId}",
+            "dov:topic": "opcua/PlasticsRubber.IMM2MES/PlasticsRubber_IMM2MES_InjectionUnitCycleParametersType/event/HoldHydraulicPressureMaximum/{senderId}",
             "op": "subscribeevent"
           }
         ]
       },
       "HoldSpecificPressureAverage": {
-        "aov:namespace": "http://opcfoundation.org/UA/PlasticsRubber/IMM2MES/",
+        "dov:namespace": "http://opcfoundation.org/UA/PlasticsRubber/IMM2MES/",
         "data": {
           "description": "Average holding pressure in front of the screw",
           "type": "number",
@@ -802,13 +800,13 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/PlasticsRubber.IMM2MES/PlasticsRubber_IMM2MES_InjectionUnitCycleParametersType/event/HoldSpecificPressureAverage/{senderId}",
+            "dov:topic": "opcua/PlasticsRubber.IMM2MES/PlasticsRubber_IMM2MES_InjectionUnitCycleParametersType/event/HoldSpecificPressureAverage/{senderId}",
             "op": "subscribeevent"
           }
         ]
       },
       "HoldSpecificPressureMaximum": {
-        "aov:namespace": "http://opcfoundation.org/UA/PlasticsRubber/IMM2MES/",
+        "dov:namespace": "http://opcfoundation.org/UA/PlasticsRubber/IMM2MES/",
         "data": {
           "description": "Maximum holding pressure in front of the screw",
           "type": "number",
@@ -818,13 +816,13 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/PlasticsRubber.IMM2MES/PlasticsRubber_IMM2MES_InjectionUnitCycleParametersType/event/HoldSpecificPressureMaximum/{senderId}",
+            "dov:topic": "opcua/PlasticsRubber.IMM2MES/PlasticsRubber_IMM2MES_InjectionUnitCycleParametersType/event/HoldSpecificPressureMaximum/{senderId}",
             "op": "subscribeevent"
           }
         ]
       },
       "HydraulicPressureMaximum": {
-        "aov:namespace": "http://opcfoundation.org/UA/PlasticsRubber/IMM2MES/",
+        "dov:namespace": "http://opcfoundation.org/UA/PlasticsRubber/IMM2MES/",
         "data": {
           "description": "Maximum pressure in the hydraulic cylinder",
           "type": "number",
@@ -834,13 +832,13 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/PlasticsRubber.IMM2MES/PlasticsRubber_IMM2MES_InjectionUnitCycleParametersType/event/HydraulicPressureMaximum/{senderId}",
+            "dov:topic": "opcua/PlasticsRubber.IMM2MES/PlasticsRubber_IMM2MES_InjectionUnitCycleParametersType/event/HydraulicPressureMaximum/{senderId}",
             "op": "subscribeevent"
           }
         ]
       },
       "InjectionSpeedAverage": {
-        "aov:namespace": "http://opcfoundation.org/UA/PlasticsRubber/IMM2MES/",
+        "dov:namespace": "http://opcfoundation.org/UA/PlasticsRubber/IMM2MES/",
         "data": {
           "description": "Average injection speed (e.g. mm/s)",
           "type": "number",
@@ -850,13 +848,13 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/PlasticsRubber.IMM2MES/PlasticsRubber_IMM2MES_InjectionUnitCycleParametersType/event/InjectionSpeedAverage/{senderId}",
+            "dov:topic": "opcua/PlasticsRubber.IMM2MES/PlasticsRubber_IMM2MES_InjectionUnitCycleParametersType/event/InjectionSpeedAverage/{senderId}",
             "op": "subscribeevent"
           }
         ]
       },
       "InjectionSpeedMaximum": {
-        "aov:namespace": "http://opcfoundation.org/UA/PlasticsRubber/IMM2MES/",
+        "dov:namespace": "http://opcfoundation.org/UA/PlasticsRubber/IMM2MES/",
         "data": {
           "description": "Maximum injection speed (e.g. mm/s)",
           "type": "number",
@@ -866,13 +864,13 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/PlasticsRubber.IMM2MES/PlasticsRubber_IMM2MES_InjectionUnitCycleParametersType/event/InjectionSpeedMaximum/{senderId}",
+            "dov:topic": "opcua/PlasticsRubber.IMM2MES/PlasticsRubber_IMM2MES_InjectionUnitCycleParametersType/event/InjectionSpeedMaximum/{senderId}",
             "op": "subscribeevent"
           }
         ]
       },
       "InjectionStartPosition": {
-        "aov:namespace": "http://opcfoundation.org/UA/PlasticsRubber/IMM2MES/",
+        "dov:namespace": "http://opcfoundation.org/UA/PlasticsRubber/IMM2MES/",
         "data": {
           "description": "Start position of the injection",
           "type": "number",
@@ -882,13 +880,13 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/PlasticsRubber.IMM2MES/PlasticsRubber_IMM2MES_InjectionUnitCycleParametersType/event/InjectionStartPosition/{senderId}",
+            "dov:topic": "opcua/PlasticsRubber.IMM2MES/PlasticsRubber_IMM2MES_InjectionUnitCycleParametersType/event/InjectionStartPosition/{senderId}",
             "op": "subscribeevent"
           }
         ]
       },
       "InjectionTime": {
-        "aov:namespace": "http://opcfoundation.org/UA/PlasticsRubber/IMM2MES/",
+        "dov:namespace": "http://opcfoundation.org/UA/PlasticsRubber/IMM2MES/",
         "data": {
           "description": "Time required to fill the cavity or mould",
           "type": "string",
@@ -897,13 +895,13 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/PlasticsRubber.IMM2MES/PlasticsRubber_IMM2MES_InjectionUnitCycleParametersType/event/InjectionTime/{senderId}",
+            "dov:topic": "opcua/PlasticsRubber.IMM2MES/PlasticsRubber_IMM2MES_InjectionUnitCycleParametersType/event/InjectionTime/{senderId}",
             "op": "subscribeevent"
           }
         ]
       },
       "PlastificationCircumferentialSpeedAverage": {
-        "aov:namespace": "http://opcfoundation.org/UA/PlasticsRubber/IMM2MES/",
+        "dov:namespace": "http://opcfoundation.org/UA/PlasticsRubber/IMM2MES/",
         "data": {
           "description": "Average screw circumferential speed for plastification (e.g. mm/s)",
           "type": "number",
@@ -913,13 +911,13 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/PlasticsRubber.IMM2MES/PlasticsRubber_IMM2MES_InjectionUnitCycleParametersType/event/PlastificationCircumferentialSpeedAverage/{senderId}",
+            "dov:topic": "opcua/PlasticsRubber.IMM2MES/PlasticsRubber_IMM2MES_InjectionUnitCycleParametersType/event/PlastificationCircumferentialSpeedAverage/{senderId}",
             "op": "subscribeevent"
           }
         ]
       },
       "PlastificationCircumferentialSpeedMaximum": {
-        "aov:namespace": "http://opcfoundation.org/UA/PlasticsRubber/IMM2MES/",
+        "dov:namespace": "http://opcfoundation.org/UA/PlasticsRubber/IMM2MES/",
         "data": {
           "description": "Maximum screw circumferential speed for plastification (e.g. mm/s)",
           "type": "number",
@@ -929,13 +927,13 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/PlasticsRubber.IMM2MES/PlasticsRubber_IMM2MES_InjectionUnitCycleParametersType/event/PlastificationCircumferentialSpeedMaximum/{senderId}",
+            "dov:topic": "opcua/PlasticsRubber.IMM2MES/PlasticsRubber_IMM2MES_InjectionUnitCycleParametersType/event/PlastificationCircumferentialSpeedMaximum/{senderId}",
             "op": "subscribeevent"
           }
         ]
       },
       "PlastificationHydraulicPressureAverage": {
-        "aov:namespace": "http://opcfoundation.org/UA/PlasticsRubber/IMM2MES/",
+        "dov:namespace": "http://opcfoundation.org/UA/PlasticsRubber/IMM2MES/",
         "data": {
           "description": "Average plastification pressure in cylinder",
           "type": "number",
@@ -945,13 +943,13 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/PlasticsRubber.IMM2MES/PlasticsRubber_IMM2MES_InjectionUnitCycleParametersType/event/PlastificationHydraulicPressureAverage/{senderId}",
+            "dov:topic": "opcua/PlasticsRubber.IMM2MES/PlasticsRubber_IMM2MES_InjectionUnitCycleParametersType/event/PlastificationHydraulicPressureAverage/{senderId}",
             "op": "subscribeevent"
           }
         ]
       },
       "PlastificationHydraulicPressureMaximum": {
-        "aov:namespace": "http://opcfoundation.org/UA/PlasticsRubber/IMM2MES/",
+        "dov:namespace": "http://opcfoundation.org/UA/PlasticsRubber/IMM2MES/",
         "data": {
           "description": "Maximum plastification pressure in cylinder ",
           "type": "number",
@@ -961,13 +959,13 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/PlasticsRubber.IMM2MES/PlasticsRubber_IMM2MES_InjectionUnitCycleParametersType/event/PlastificationHydraulicPressureMaximum/{senderId}",
+            "dov:topic": "opcua/PlasticsRubber.IMM2MES/PlasticsRubber_IMM2MES_InjectionUnitCycleParametersType/event/PlastificationHydraulicPressureMaximum/{senderId}",
             "op": "subscribeevent"
           }
         ]
       },
       "PlastificationRotationalSpeedAverage": {
-        "aov:namespace": "http://opcfoundation.org/UA/PlasticsRubber/IMM2MES/",
+        "dov:namespace": "http://opcfoundation.org/UA/PlasticsRubber/IMM2MES/",
         "data": {
           "description": "Average plastification speed of the injection unit (RPM)",
           "type": "number",
@@ -977,13 +975,13 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/PlasticsRubber.IMM2MES/PlasticsRubber_IMM2MES_InjectionUnitCycleParametersType/event/PlastificationRotationalSpeedAverage/{senderId}",
+            "dov:topic": "opcua/PlasticsRubber.IMM2MES/PlasticsRubber_IMM2MES_InjectionUnitCycleParametersType/event/PlastificationRotationalSpeedAverage/{senderId}",
             "op": "subscribeevent"
           }
         ]
       },
       "PlastificationRotationalSpeedMaximum": {
-        "aov:namespace": "http://opcfoundation.org/UA/PlasticsRubber/IMM2MES/",
+        "dov:namespace": "http://opcfoundation.org/UA/PlasticsRubber/IMM2MES/",
         "data": {
           "description": "Maximum plastification speed of the injection unit (RPM)",
           "type": "number",
@@ -993,13 +991,13 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/PlasticsRubber.IMM2MES/PlasticsRubber_IMM2MES_InjectionUnitCycleParametersType/event/PlastificationRotationalSpeedMaximum/{senderId}",
+            "dov:topic": "opcua/PlasticsRubber.IMM2MES/PlasticsRubber_IMM2MES_InjectionUnitCycleParametersType/event/PlastificationRotationalSpeedMaximum/{senderId}",
             "op": "subscribeevent"
           }
         ]
       },
       "PlastificationSpecificPressureAverage": {
-        "aov:namespace": "http://opcfoundation.org/UA/PlasticsRubber/IMM2MES/",
+        "dov:namespace": "http://opcfoundation.org/UA/PlasticsRubber/IMM2MES/",
         "data": {
           "description": "Average plastification pressure in front of the screw tip",
           "type": "number",
@@ -1009,13 +1007,13 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/PlasticsRubber.IMM2MES/PlasticsRubber_IMM2MES_InjectionUnitCycleParametersType/event/PlastificationSpecificPressureAverage/{senderId}",
+            "dov:topic": "opcua/PlasticsRubber.IMM2MES/PlasticsRubber_IMM2MES_InjectionUnitCycleParametersType/event/PlastificationSpecificPressureAverage/{senderId}",
             "op": "subscribeevent"
           }
         ]
       },
       "PlastificationSpecificPressureMaximum": {
-        "aov:namespace": "http://opcfoundation.org/UA/PlasticsRubber/IMM2MES/",
+        "dov:namespace": "http://opcfoundation.org/UA/PlasticsRubber/IMM2MES/",
         "data": {
           "description": "Maximum plastification pressure in front of the screw tip",
           "type": "number",
@@ -1025,13 +1023,13 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/PlasticsRubber.IMM2MES/PlasticsRubber_IMM2MES_InjectionUnitCycleParametersType/event/PlastificationSpecificPressureMaximum/{senderId}",
+            "dov:topic": "opcua/PlasticsRubber.IMM2MES/PlasticsRubber_IMM2MES_InjectionUnitCycleParametersType/event/PlastificationSpecificPressureMaximum/{senderId}",
             "op": "subscribeevent"
           }
         ]
       },
       "PlastificationVolume": {
-        "aov:namespace": "http://opcfoundation.org/UA/PlasticsRubber/IMM2MES/",
+        "dov:namespace": "http://opcfoundation.org/UA/PlasticsRubber/IMM2MES/",
         "data": {
           "description": "Volume dosed by the machine for the next injection shot",
           "type": "number",
@@ -1041,13 +1039,13 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/PlasticsRubber.IMM2MES/PlasticsRubber_IMM2MES_InjectionUnitCycleParametersType/event/PlastificationVolume/{senderId}",
+            "dov:topic": "opcua/PlasticsRubber.IMM2MES/PlasticsRubber_IMM2MES_InjectionUnitCycleParametersType/event/PlastificationVolume/{senderId}",
             "op": "subscribeevent"
           }
         ]
       },
       "SpecificPressureMaximum": {
-        "aov:namespace": "http://opcfoundation.org/UA/PlasticsRubber/IMM2MES/",
+        "dov:namespace": "http://opcfoundation.org/UA/PlasticsRubber/IMM2MES/",
         "data": {
           "description": "Pressure in front of the screw tip",
           "type": "number",
@@ -1057,13 +1055,13 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/PlasticsRubber.IMM2MES/PlasticsRubber_IMM2MES_InjectionUnitCycleParametersType/event/SpecificPressureMaximum/{senderId}",
+            "dov:topic": "opcua/PlasticsRubber.IMM2MES/PlasticsRubber_IMM2MES_InjectionUnitCycleParametersType/event/SpecificPressureMaximum/{senderId}",
             "op": "subscribeevent"
           }
         ]
       },
       "TransferCavityPressure": {
-        "aov:namespace": "http://opcfoundation.org/UA/PlasticsRubber/IMM2MES/",
+        "dov:namespace": "http://opcfoundation.org/UA/PlasticsRubber/IMM2MES/",
         "data": {
           "description": "Cavity pressure in the mould during switch-over to the holding pressure",
           "type": "number",
@@ -1073,13 +1071,13 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/PlasticsRubber.IMM2MES/PlasticsRubber_IMM2MES_InjectionUnitCycleParametersType/event/TransferCavityPressure/{senderId}",
+            "dov:topic": "opcua/PlasticsRubber.IMM2MES/PlasticsRubber_IMM2MES_InjectionUnitCycleParametersType/event/TransferCavityPressure/{senderId}",
             "op": "subscribeevent"
           }
         ]
       },
       "TransferHydraulicPressure": {
-        "aov:namespace": "http://opcfoundation.org/UA/PlasticsRubber/IMM2MES/",
+        "dov:namespace": "http://opcfoundation.org/UA/PlasticsRubber/IMM2MES/",
         "data": {
           "description": "Hydraulic pressure in the cylinder during switch-over to the holding pressure",
           "type": "number",
@@ -1089,13 +1087,13 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/PlasticsRubber.IMM2MES/PlasticsRubber_IMM2MES_InjectionUnitCycleParametersType/event/TransferHydraulicPressure/{senderId}",
+            "dov:topic": "opcua/PlasticsRubber.IMM2MES/PlasticsRubber_IMM2MES_InjectionUnitCycleParametersType/event/TransferHydraulicPressure/{senderId}",
             "op": "subscribeevent"
           }
         ]
       },
       "TransferSpecificPressure": {
-        "aov:namespace": "http://opcfoundation.org/UA/PlasticsRubber/IMM2MES/",
+        "dov:namespace": "http://opcfoundation.org/UA/PlasticsRubber/IMM2MES/",
         "data": {
           "description": "Pressure in front of the screw tip during switch-over to the holding pressure",
           "type": "number",
@@ -1105,13 +1103,13 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/PlasticsRubber.IMM2MES/PlasticsRubber_IMM2MES_InjectionUnitCycleParametersType/event/TransferSpecificPressure/{senderId}",
+            "dov:topic": "opcua/PlasticsRubber.IMM2MES/PlasticsRubber_IMM2MES_InjectionUnitCycleParametersType/event/TransferSpecificPressure/{senderId}",
             "op": "subscribeevent"
           }
         ]
       },
       "TransferStroke": {
-        "aov:namespace": "http://opcfoundation.org/UA/PlasticsRubber/IMM2MES/",
+        "dov:namespace": "http://opcfoundation.org/UA/PlasticsRubber/IMM2MES/",
         "data": {
           "description": "Switch-over point to the holding pressure via stroke",
           "type": "number",
@@ -1121,13 +1119,13 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/PlasticsRubber.IMM2MES/PlasticsRubber_IMM2MES_InjectionUnitCycleParametersType/event/TransferStroke/{senderId}",
+            "dov:topic": "opcua/PlasticsRubber.IMM2MES/PlasticsRubber_IMM2MES_InjectionUnitCycleParametersType/event/TransferStroke/{senderId}",
             "op": "subscribeevent"
           }
         ]
       },
       "TransferVolume": {
-        "aov:namespace": "http://opcfoundation.org/UA/PlasticsRubber/IMM2MES/",
+        "dov:namespace": "http://opcfoundation.org/UA/PlasticsRubber/IMM2MES/",
         "data": {
           "description": "Switch-over point to the holding pressure via volume",
           "type": "number",
@@ -1137,13 +1135,13 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/PlasticsRubber.IMM2MES/PlasticsRubber_IMM2MES_InjectionUnitCycleParametersType/event/TransferVolume/{senderId}",
+            "dov:topic": "opcua/PlasticsRubber.IMM2MES/PlasticsRubber_IMM2MES_InjectionUnitCycleParametersType/event/TransferVolume/{senderId}",
             "op": "subscribeevent"
           }
         ]
       },
       "VPChangeOverPosition": {
-        "aov:namespace": "http://opcfoundation.org/UA/PlasticsRubber/IMM2MES/",
+        "dov:namespace": "http://opcfoundation.org/UA/PlasticsRubber/IMM2MES/",
         "data": {
           "description": "Screw position at switching between injection (V) and holding pressure (P)",
           "type": "number",
@@ -1153,7 +1151,7 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/PlasticsRubber.IMM2MES/PlasticsRubber_IMM2MES_InjectionUnitCycleParametersType/event/VPChangeOverPosition/{senderId}",
+            "dov:topic": "opcua/PlasticsRubber.IMM2MES/PlasticsRubber_IMM2MES_InjectionUnitCycleParametersType/event/VPChangeOverPosition/{senderId}",
             "op": "subscribeevent"
           }
         ]
@@ -1164,13 +1162,12 @@
     "@context": [
       "https://www.w3.org/2022/wot/td/v1.1",
       {
-        "dtv": "http://azure.com/DigitalTwins/dtmi#",
-        "aov": "http://azure.com/IoT/operations/tm#"
+        "dov": "http://azure.com/DigitalOperations/vocab#"
       }
     ],
     "@type": "tm:ThingModel",
     "title": "PlasticsRubber_IMM2MES_InjectionUnitsType",
-    "aov:typeRef": "nsu=http://opcfoundation.org/UA/PlasticsRubber/IMM2MES/;i=1016",
+    "dov:typeRef": "org.opcfoundation.UA.PlasticsRubber.IMM2MES.InjectionUnitsType",
     "links": [
       {
         "rel": "tm:extends",
@@ -1178,8 +1175,8 @@
         "type": "application/tm+json"
       },
       {
-        "rel": "aov:component",
-        "aov:refName": "InjectionUnit__Nr_",
+        "rel": "dov:component",
+        "dov:refName": "InjectionUnit__Nr_",
         "href": "#title=PlasticsRubber_IMM2MES_InjectionUnitType",
         "type": "application/tm+json"
       }
@@ -1189,7 +1186,7 @@
     "forms": [
       {
         "contentType": "application/json",
-        "dtv:topic": "opcua/PlasticsRubber.IMM2MES/PlasticsRubber_IMM2MES_InjectionUnitsType/properties/read",
+        "dov:topic": "opcua/PlasticsRubber.IMM2MES/PlasticsRubber_IMM2MES_InjectionUnitsType/properties/read",
         "op": "readallproperties"
       }
     ],
@@ -1202,7 +1199,7 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/PlasticsRubber.IMM2MES/PlasticsRubber_IMM2MES_InjectionUnitsType/property/NodeVersion/read",
+            "dov:topic": "opcua/PlasticsRubber.IMM2MES/PlasticsRubber_IMM2MES_InjectionUnitsType/property/NodeVersion/read",
             "op": "readproperty"
           }
         ]
@@ -1215,13 +1212,12 @@
     "@context": [
       "https://www.w3.org/2022/wot/td/v1.1",
       {
-        "dtv": "http://azure.com/DigitalTwins/dtmi#",
-        "aov": "http://azure.com/IoT/operations/tm#"
+        "dov": "http://azure.com/DigitalOperations/vocab#"
       }
     ],
     "@type": "tm:ThingModel",
     "title": "PlasticsRubber_IMM2MES_InjectionUnitType",
-    "aov:typeRef": "nsu=http://opcfoundation.org/UA/PlasticsRubber/IMM2MES/;i=1028",
+    "dov:typeRef": "org.opcfoundation.UA.PlasticsRubber.IMM2MES.InjectionUnitType",
     "links": [
       {
         "rel": "tm:extends",
@@ -1229,8 +1225,8 @@
         "type": "application/tm+json"
       },
       {
-        "rel": "aov:capability",
-        "aov:refName": "TemperatureZones",
+        "rel": "dov:capability",
+        "dov:refName": "TemperatureZones",
         "href": "./PlasticsRubber.GeneralTypes.TM.json#title=PlasticsRubber_GeneralTypes_TemperatureZonesType",
         "type": "application/tm+json"
       }
@@ -1240,12 +1236,12 @@
     "forms": [
       {
         "contentType": "application/json",
-        "dtv:topic": "opcua/PlasticsRubber.IMM2MES/PlasticsRubber_IMM2MES_InjectionUnitType/events/{senderId}",
+        "dov:topic": "opcua/PlasticsRubber.IMM2MES/PlasticsRubber_IMM2MES_InjectionUnitType/events/{senderId}",
         "op": "subscribeallevents"
       },
       {
         "contentType": "application/json",
-        "dtv:topic": "opcua/PlasticsRubber.IMM2MES/PlasticsRubber_IMM2MES_InjectionUnitType/properties/read",
+        "dov:topic": "opcua/PlasticsRubber.IMM2MES/PlasticsRubber_IMM2MES_InjectionUnitType/properties/read",
         "op": "readallproperties"
       }
     ],
@@ -1253,20 +1249,20 @@
     },
     "properties": {
       "BarrelId": {
-        "aov:namespace": "http://opcfoundation.org/UA/PlasticsRubber/IMM2MES/",
+        "dov:namespace": "http://opcfoundation.org/UA/PlasticsRubber/IMM2MES/",
         "description": "Id (e.g. serial number) of the barrel",
         "type": "string",
         "readOnly": true,
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/PlasticsRubber.IMM2MES/PlasticsRubber_IMM2MES_InjectionUnitType/property/BarrelId/read",
+            "dov:topic": "opcua/PlasticsRubber.IMM2MES/PlasticsRubber_IMM2MES_InjectionUnitType/property/BarrelId/read",
             "op": "readproperty"
           }
         ]
       },
       "Index": {
-        "aov:namespace": "http://opcfoundation.org/UA/PlasticsRubber/IMM2MES/",
+        "dov:namespace": "http://opcfoundation.org/UA/PlasticsRubber/IMM2MES/",
         "description": "Number of the injection unit",
         "type": "integer",
         "minimum": 0,
@@ -1275,39 +1271,39 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/PlasticsRubber.IMM2MES/PlasticsRubber_IMM2MES_InjectionUnitType/property/Index/read",
+            "dov:topic": "opcua/PlasticsRubber.IMM2MES/PlasticsRubber_IMM2MES_InjectionUnitType/property/Index/read",
             "op": "readproperty"
           }
         ]
       },
       "InProduction": {
-        "aov:namespace": "http://opcfoundation.org/UA/PlasticsRubber/IMM2MES/",
+        "dov:namespace": "http://opcfoundation.org/UA/PlasticsRubber/IMM2MES/",
         "description": "information if the injection unit is used in the current running production",
         "type": "boolean",
         "readOnly": true,
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/PlasticsRubber.IMM2MES/PlasticsRubber_IMM2MES_InjectionUnitType/property/InProduction/read",
+            "dov:topic": "opcua/PlasticsRubber.IMM2MES/PlasticsRubber_IMM2MES_InjectionUnitType/property/InProduction/read",
             "op": "readproperty"
           }
         ]
       },
       "IsPresent": {
-        "aov:namespace": "http://opcfoundation.org/UA/PlasticsRubber/IMM2MES/",
+        "dov:namespace": "http://opcfoundation.org/UA/PlasticsRubber/IMM2MES/",
         "description": "Information if the injection unit is physically installed on the injection machines",
         "type": "boolean",
         "readOnly": true,
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/PlasticsRubber.IMM2MES/PlasticsRubber_IMM2MES_InjectionUnitType/property/IsPresent/read",
+            "dov:topic": "opcua/PlasticsRubber.IMM2MES/PlasticsRubber_IMM2MES_InjectionUnitType/property/IsPresent/read",
             "op": "readproperty"
           }
         ]
       },
       "MaxScrewStroke": {
-        "aov:namespace": "http://opcfoundation.org/UA/PlasticsRubber/IMM2MES/",
+        "dov:namespace": "http://opcfoundation.org/UA/PlasticsRubber/IMM2MES/",
         "description": "maximum stroke of the screw installed in the injection unit",
         "type": "number",
         "minimum": -1.80e+308,
@@ -1316,13 +1312,13 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/PlasticsRubber.IMM2MES/PlasticsRubber_IMM2MES_InjectionUnitType/property/MaxScrewStroke/read",
+            "dov:topic": "opcua/PlasticsRubber.IMM2MES/PlasticsRubber_IMM2MES_InjectionUnitType/property/MaxScrewStroke/read",
             "op": "readproperty"
           }
         ]
       },
       "ScrewDiameter": {
-        "aov:namespace": "http://opcfoundation.org/UA/PlasticsRubber/IMM2MES/",
+        "dov:namespace": "http://opcfoundation.org/UA/PlasticsRubber/IMM2MES/",
         "description": "diameter of the screw installed in the injection unit",
         "type": "number",
         "minimum": -1.80e+308,
@@ -1331,26 +1327,26 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/PlasticsRubber.IMM2MES/PlasticsRubber_IMM2MES_InjectionUnitType/property/ScrewDiameter/read",
+            "dov:topic": "opcua/PlasticsRubber.IMM2MES/PlasticsRubber_IMM2MES_InjectionUnitType/property/ScrewDiameter/read",
             "op": "readproperty"
           }
         ]
       },
       "ScrewId": {
-        "aov:namespace": "http://opcfoundation.org/UA/PlasticsRubber/IMM2MES/",
+        "dov:namespace": "http://opcfoundation.org/UA/PlasticsRubber/IMM2MES/",
         "description": "Id of the screw installed in the injection unit",
         "type": "string",
         "readOnly": true,
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/PlasticsRubber.IMM2MES/PlasticsRubber_IMM2MES_InjectionUnitType/property/ScrewId/read",
+            "dov:topic": "opcua/PlasticsRubber.IMM2MES/PlasticsRubber_IMM2MES_InjectionUnitType/property/ScrewId/read",
             "op": "readproperty"
           }
         ]
       },
       "ScrewVolume": {
-        "aov:namespace": "http://opcfoundation.org/UA/PlasticsRubber/IMM2MES/",
+        "dov:namespace": "http://opcfoundation.org/UA/PlasticsRubber/IMM2MES/",
         "description": "volume of the screw installed in the injection unit",
         "type": "number",
         "minimum": -1.80e+308,
@@ -1359,7 +1355,7 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/PlasticsRubber.IMM2MES/PlasticsRubber_IMM2MES_InjectionUnitType/property/ScrewVolume/read",
+            "dov:topic": "opcua/PlasticsRubber.IMM2MES/PlasticsRubber_IMM2MES_InjectionUnitType/property/ScrewVolume/read",
             "op": "readproperty"
           }
         ]
@@ -1367,7 +1363,7 @@
     },
     "events": {
       "MaxScrewStroke": {
-        "aov:namespace": "http://opcfoundation.org/UA/PlasticsRubber/IMM2MES/",
+        "dov:namespace": "http://opcfoundation.org/UA/PlasticsRubber/IMM2MES/",
         "data": {
           "description": "maximum stroke of the screw installed in the injection unit",
           "type": "number",
@@ -1377,13 +1373,13 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/PlasticsRubber.IMM2MES/PlasticsRubber_IMM2MES_InjectionUnitType/event/MaxScrewStroke/{senderId}",
+            "dov:topic": "opcua/PlasticsRubber.IMM2MES/PlasticsRubber_IMM2MES_InjectionUnitType/event/MaxScrewStroke/{senderId}",
             "op": "subscribeevent"
           }
         ]
       },
       "ScrewDiameter": {
-        "aov:namespace": "http://opcfoundation.org/UA/PlasticsRubber/IMM2MES/",
+        "dov:namespace": "http://opcfoundation.org/UA/PlasticsRubber/IMM2MES/",
         "data": {
           "description": "diameter of the screw installed in the injection unit",
           "type": "number",
@@ -1393,13 +1389,13 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/PlasticsRubber.IMM2MES/PlasticsRubber_IMM2MES_InjectionUnitType/event/ScrewDiameter/{senderId}",
+            "dov:topic": "opcua/PlasticsRubber.IMM2MES/PlasticsRubber_IMM2MES_InjectionUnitType/event/ScrewDiameter/{senderId}",
             "op": "subscribeevent"
           }
         ]
       },
       "ScrewVolume": {
-        "aov:namespace": "http://opcfoundation.org/UA/PlasticsRubber/IMM2MES/",
+        "dov:namespace": "http://opcfoundation.org/UA/PlasticsRubber/IMM2MES/",
         "data": {
           "description": "volume of the screw installed in the injection unit",
           "type": "number",
@@ -1409,7 +1405,7 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/PlasticsRubber.IMM2MES/PlasticsRubber_IMM2MES_InjectionUnitType/event/ScrewVolume/{senderId}",
+            "dov:topic": "opcua/PlasticsRubber.IMM2MES/PlasticsRubber_IMM2MES_InjectionUnitType/event/ScrewVolume/{senderId}",
             "op": "subscribeevent"
           }
         ]

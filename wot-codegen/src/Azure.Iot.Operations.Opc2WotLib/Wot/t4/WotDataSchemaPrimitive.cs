@@ -37,7 +37,7 @@ namespace Azure.Iot.Operations.Opc2WotLib
             this.Write("\",\r\n");
  } 
  if (this.typeRef != null) { 
-            this.Write("\"aov:typeRef\": \"");
+            this.Write("\"dov:typeRef\": \"");
             this.Write(this.ToStringHelper.ToStringWithCulture(this.typeRef));
             this.Write("\",\r\n");
  } 

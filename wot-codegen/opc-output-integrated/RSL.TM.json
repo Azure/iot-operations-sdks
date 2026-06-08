@@ -3,14 +3,13 @@
     "@context": [
       "https://www.w3.org/2022/wot/td/v1.1",
       {
-        "dtv": "http://azure.com/DigitalTwins/dtmi#",
-        "aov": "http://azure.com/IoT/operations/tm#"
+        "dov": "http://azure.com/DigitalOperations/vocab#"
       }
     ],
     "@type": "tm:ThingModel",
     "title": "RSL_SpatialObjectsListType",
-    "aov:typeRef": "nsu=http://opcfoundation.org/UA/RSL/;i=1003",
-    "aov:isComposite": true,
+    "dov:typeRef": "org.opcfoundation.UA.RSL.SpatialObjectsListType",
+    "dov:isComposite": true,
     "links": [
       {
         "rel": "tm:extends",
@@ -23,17 +22,17 @@
     "forms": [
       {
         "contentType": "application/json",
-        "dtv:topic": "opcua/RSL/RSL_SpatialObjectsListType/events/{senderId}",
+        "dov:topic": "opcua/RSL/RSL_SpatialObjectsListType/events/{senderId}",
         "op": "subscribeallevents"
       },
       {
         "contentType": "application/json",
-        "dtv:topic": "opcua/RSL/RSL_SpatialObjectsListType/properties/write",
+        "dov:topic": "opcua/RSL/RSL_SpatialObjectsListType/properties/write",
         "op": "writemultipleproperties"
       },
       {
         "contentType": "application/json",
-        "dtv:topic": "opcua/RSL/RSL_SpatialObjectsListType/properties/read",
+        "dov:topic": "opcua/RSL/RSL_SpatialObjectsListType/properties/read",
         "op": "readallproperties"
       }
     ],
@@ -41,18 +40,18 @@
     },
     "properties": {
       "Identifier": {
-        "aov:namespace": "http://opcfoundation.org/UA/RSL/",
+        "dov:namespace": "http://opcfoundation.org/UA/RSL/",
         "type": "string",
         "readOnly": false,
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/RSL/RSL_SpatialObjectsListType/property/Identifier/write",
+            "dov:topic": "opcua/RSL/RSL_SpatialObjectsListType/property/Identifier/write",
             "op": "writeproperty"
           },
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/RSL/RSL_SpatialObjectsListType/property/Identifier/read",
+            "dov:topic": "opcua/RSL/RSL_SpatialObjectsListType/property/Identifier/read",
             "op": "readproperty"
           }
         ]
@@ -63,50 +62,50 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/RSL/RSL_SpatialObjectsListType/property/NodeVersion/write",
+            "dov:topic": "opcua/RSL/RSL_SpatialObjectsListType/property/NodeVersion/write",
             "op": "writeproperty"
           },
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/RSL/RSL_SpatialObjectsListType/property/NodeVersion/read",
+            "dov:topic": "opcua/RSL/RSL_SpatialObjectsListType/property/NodeVersion/read",
             "op": "readproperty"
           }
         ]
       },
       "WorldFrame": {
-        "aov:namespace": "http://opcfoundation.org/UA/RSL/",
+        "dov:namespace": "http://opcfoundation.org/UA/RSL/",
         "description": "Stand-in for an unspecified data type.",
         "type": "string",
         "readOnly": false,
-        "aov:contains": [ "WorldFrame_Base" ],
+        "dov:contains": [ "WorldFrame_Base" ],
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/RSL/RSL_SpatialObjectsListType/property/WorldFrame/write",
+            "dov:topic": "opcua/RSL/RSL_SpatialObjectsListType/property/WorldFrame/write",
             "op": "writeproperty"
           },
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/RSL/RSL_SpatialObjectsListType/property/WorldFrame/read",
+            "dov:topic": "opcua/RSL/RSL_SpatialObjectsListType/property/WorldFrame/read",
             "op": "readproperty"
           }
         ]
       },
       "WorldFrame_Base": {
-        "aov:namespace": "http://opcfoundation.org/UA/RSL/",
+        "dov:namespace": "http://opcfoundation.org/UA/RSL/",
         "description": "WorldFrame as the origin of the coordinate system has no Base i.e. it must be null.",
         "type": "string",
         "readOnly": false,
-        "aov:containedIn": "WorldFrame",
+        "dov:containedIn": "WorldFrame",
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/RSL/RSL_SpatialObjectsListType/property/WorldFrame_Base/write",
+            "dov:topic": "opcua/RSL/RSL_SpatialObjectsListType/property/WorldFrame_Base/write",
             "op": "writeproperty"
           },
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/RSL/RSL_SpatialObjectsListType/property/WorldFrame_Base/read",
+            "dov:topic": "opcua/RSL/RSL_SpatialObjectsListType/property/WorldFrame_Base/read",
             "op": "readproperty"
           }
         ]
@@ -114,31 +113,31 @@
     },
     "events": {
       "WorldFrame": {
-        "aov:namespace": "http://opcfoundation.org/UA/RSL/",
+        "dov:namespace": "http://opcfoundation.org/UA/RSL/",
         "data": {
           "description": "Stand-in for an unspecified data type.",
           "type": "string"
         },
-        "aov:contains": [ "WorldFrame_Base" ],
+        "dov:contains": [ "WorldFrame_Base" ],
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/RSL/RSL_SpatialObjectsListType/event/WorldFrame/{senderId}",
+            "dov:topic": "opcua/RSL/RSL_SpatialObjectsListType/event/WorldFrame/{senderId}",
             "op": "subscribeevent"
           }
         ]
       },
       "WorldFrame_Base": {
-        "aov:namespace": "http://opcfoundation.org/UA/RSL/",
+        "dov:namespace": "http://opcfoundation.org/UA/RSL/",
         "data": {
           "description": "WorldFrame as the origin of the coordinate system has no Base i.e. it must be null.",
           "type": "string"
         },
-        "aov:containedIn": "WorldFrame",
+        "dov:containedIn": "WorldFrame",
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/RSL/RSL_SpatialObjectsListType/event/WorldFrame_Base/{senderId}",
+            "dov:topic": "opcua/RSL/RSL_SpatialObjectsListType/event/WorldFrame_Base/{senderId}",
             "op": "subscribeevent"
           }
         ]
@@ -149,13 +148,12 @@
     "@context": [
       "https://www.w3.org/2022/wot/td/v1.1",
       {
-        "dtv": "http://azure.com/DigitalTwins/dtmi#",
-        "aov": "http://azure.com/IoT/operations/tm#"
+        "dov": "http://azure.com/DigitalOperations/vocab#"
       }
     ],
     "@type": "tm:ThingModel",
     "title": "RSL_SpatialObjectType",
-    "aov:typeRef": "nsu=http://opcfoundation.org/UA/RSL/;i=1002",
+    "dov:typeRef": "org.opcfoundation.UA.RSL.SpatialObjectType",
     "links": [
       {
         "rel": "tm:extends",
@@ -163,20 +161,20 @@
         "type": "application/tm+json"
       },
       {
-        "rel": "aov:component",
-        "aov:refName": "AlternativeFrames",
+        "rel": "dov:component",
+        "dov:refName": "AlternativeFrames",
         "href": "#title=OpcUaCore_FolderType",
         "type": "application/tm+json"
       },
       {
-        "rel": "aov:component",
-        "aov:refName": "AttachPoints",
+        "rel": "dov:component",
+        "dov:refName": "AttachPoints",
         "href": "#title=OpcUaCore_FolderType",
         "type": "application/tm+json"
       },
       {
-        "rel": "aov:component",
-        "aov:refName": "InternalFrames",
+        "rel": "dov:component",
+        "dov:refName": "InternalFrames",
         "href": "#title=OpcUaCore_FolderType",
         "type": "application/tm+json"
       }
@@ -186,17 +184,17 @@
     "forms": [
       {
         "contentType": "application/json",
-        "dtv:topic": "opcua/RSL/RSL_SpatialObjectType/events/{senderId}",
+        "dov:topic": "opcua/RSL/RSL_SpatialObjectType/events/{senderId}",
         "op": "subscribeallevents"
       },
       {
         "contentType": "application/json",
-        "dtv:topic": "opcua/RSL/RSL_SpatialObjectType/properties/write",
+        "dov:topic": "opcua/RSL/RSL_SpatialObjectType/properties/write",
         "op": "writemultipleproperties"
       },
       {
         "contentType": "application/json",
-        "dtv:topic": "opcua/RSL/RSL_SpatialObjectType/properties/read",
+        "dov:topic": "opcua/RSL/RSL_SpatialObjectType/properties/read",
         "op": "readallproperties"
       }
     ],
@@ -210,66 +208,66 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/RSL/RSL_SpatialObjectType/property/DefaultInstanceBrowseName/write",
+            "dov:topic": "opcua/RSL/RSL_SpatialObjectType/property/DefaultInstanceBrowseName/write",
             "op": "writeproperty"
           },
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/RSL/RSL_SpatialObjectType/property/DefaultInstanceBrowseName/read",
+            "dov:topic": "opcua/RSL/RSL_SpatialObjectType/property/DefaultInstanceBrowseName/read",
             "op": "readproperty"
           }
         ]
       },
       "Identifier": {
-        "aov:namespace": "http://opcfoundation.org/UA/RSL/",
+        "dov:namespace": "http://opcfoundation.org/UA/RSL/",
         "type": "string",
         "readOnly": false,
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/RSL/RSL_SpatialObjectType/property/Identifier/write",
+            "dov:topic": "opcua/RSL/RSL_SpatialObjectType/property/Identifier/write",
             "op": "writeproperty"
           },
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/RSL/RSL_SpatialObjectType/property/Identifier/read",
+            "dov:topic": "opcua/RSL/RSL_SpatialObjectType/property/Identifier/read",
             "op": "readproperty"
           }
         ]
       },
       "PositionFrame": {
-        "aov:namespace": "http://opcfoundation.org/UA/RSL/",
+        "dov:namespace": "http://opcfoundation.org/UA/RSL/",
         "description": "Stand-in for an unspecified data type.",
         "type": "string",
         "readOnly": false,
-        "aov:contains": [ "PositionFrame_Base" ],
+        "dov:contains": [ "PositionFrame_Base" ],
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/RSL/RSL_SpatialObjectType/property/PositionFrame/write",
+            "dov:topic": "opcua/RSL/RSL_SpatialObjectType/property/PositionFrame/write",
             "op": "writeproperty"
           },
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/RSL/RSL_SpatialObjectType/property/PositionFrame/read",
+            "dov:topic": "opcua/RSL/RSL_SpatialObjectType/property/PositionFrame/read",
             "op": "readproperty"
           }
         ]
       },
       "PositionFrame_Base": {
-        "aov:namespace": "http://opcfoundation.org/UA/RSL/",
+        "dov:namespace": "http://opcfoundation.org/UA/RSL/",
         "type": "string",
         "readOnly": false,
-        "aov:containedIn": "PositionFrame",
+        "dov:containedIn": "PositionFrame",
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/RSL/RSL_SpatialObjectType/property/PositionFrame_Base/write",
+            "dov:topic": "opcua/RSL/RSL_SpatialObjectType/property/PositionFrame_Base/write",
             "op": "writeproperty"
           },
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/RSL/RSL_SpatialObjectType/property/PositionFrame_Base/read",
+            "dov:topic": "opcua/RSL/RSL_SpatialObjectType/property/PositionFrame_Base/read",
             "op": "readproperty"
           }
         ]
@@ -277,30 +275,30 @@
     },
     "events": {
       "PositionFrame": {
-        "aov:namespace": "http://opcfoundation.org/UA/RSL/",
+        "dov:namespace": "http://opcfoundation.org/UA/RSL/",
         "data": {
           "description": "Stand-in for an unspecified data type.",
           "type": "string"
         },
-        "aov:contains": [ "PositionFrame_Base" ],
+        "dov:contains": [ "PositionFrame_Base" ],
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/RSL/RSL_SpatialObjectType/event/PositionFrame/{senderId}",
+            "dov:topic": "opcua/RSL/RSL_SpatialObjectType/event/PositionFrame/{senderId}",
             "op": "subscribeevent"
           }
         ]
       },
       "PositionFrame_Base": {
-        "aov:namespace": "http://opcfoundation.org/UA/RSL/",
+        "dov:namespace": "http://opcfoundation.org/UA/RSL/",
         "data": {
           "type": "string"
         },
-        "aov:containedIn": "PositionFrame",
+        "dov:containedIn": "PositionFrame",
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/RSL/RSL_SpatialObjectType/event/PositionFrame_Base/{senderId}",
+            "dov:topic": "opcua/RSL/RSL_SpatialObjectType/event/PositionFrame_Base/{senderId}",
             "op": "subscribeevent"
           }
         ]
@@ -311,13 +309,12 @@
     "@context": [
       "https://www.w3.org/2022/wot/td/v1.1",
       {
-        "dtv": "http://azure.com/DigitalTwins/dtmi#",
-        "aov": "http://azure.com/IoT/operations/tm#"
+        "dov": "http://azure.com/DigitalOperations/vocab#"
       }
     ],
     "@type": "tm:ThingModel",
     "title": "OpcUaCore_BaseObjectType",
-    "aov:typeRef": "nsu=http://opcfoundation.org/UA/;i=58",
+    "dov:typeRef": "org.opcfoundation.UA.BaseObjectType",
     "links": [
     ],
     "schemaDefinitions": {
@@ -333,13 +330,12 @@
     "@context": [
       "https://www.w3.org/2022/wot/td/v1.1",
       {
-        "dtv": "http://azure.com/DigitalTwins/dtmi#",
-        "aov": "http://azure.com/IoT/operations/tm#"
+        "dov": "http://azure.com/DigitalOperations/vocab#"
       }
     ],
     "@type": "tm:ThingModel",
     "title": "OpcUaCore_FolderType",
-    "aov:typeRef": "nsu=http://opcfoundation.org/UA/;i=61",
+    "dov:typeRef": "org.opcfoundation.UA.FolderType",
     "links": [
       {
         "rel": "tm:extends",

@@ -3,14 +3,13 @@
     "@context": [
       "https://www.w3.org/2022/wot/td/v1.1",
       {
-        "dtv": "http://azure.com/DigitalTwins/dtmi#",
-        "aov": "http://azure.com/IoT/operations/tm#"
+        "dov": "http://azure.com/DigitalOperations/vocab#"
       }
     ],
     "@type": "tm:ThingModel",
     "title": "CuttingTool_CuttingToolFileType",
-    "aov:typeRef": "nsu=http://opcfoundation.org/UA/CuttingTool/;i=1003",
-    "aov:isComposite": true,
+    "dov:typeRef": "org.opcfoundation.UA.CuttingTool.CuttingToolFileType",
+    "dov:isComposite": true,
     "links": [
       {
         "rel": "tm:extends",
@@ -23,12 +22,12 @@
     "forms": [
       {
         "contentType": "application/json",
-        "dtv:topic": "opcua/CuttingTool/CuttingTool_CuttingToolFileType/properties/write",
+        "dov:topic": "opcua/CuttingTool/CuttingTool_CuttingToolFileType/properties/write",
         "op": "writemultipleproperties"
       },
       {
         "contentType": "application/json",
-        "dtv:topic": "opcua/CuttingTool/CuttingTool_CuttingToolFileType/properties/read",
+        "dov:topic": "opcua/CuttingTool/CuttingTool_CuttingToolFileType/properties/read",
         "op": "readallproperties"
       }
     ],
@@ -36,10 +35,10 @@
     },
     "properties": {
       "FileFormat": {
-        "aov:namespace": "http://opcfoundation.org/UA/CuttingTool/",
+        "dov:namespace": "http://opcfoundation.org/UA/CuttingTool/",
         "title": "FileFormatDataType",
         "type": "object",
-        "aov:typeRef": "nsu=http://opcfoundation.org/UA/CuttingTool/;i=3003",
+        "dov:typeRef": "org.opcfoundation.UA.CuttingTool.FileFormatDataType",
         "required": [ "Name", "FileExtension", "Version" ],
         "properties": {
           "Name": {
@@ -56,12 +55,12 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/CuttingTool/CuttingTool_CuttingToolFileType/property/FileFormat/write",
+            "dov:topic": "opcua/CuttingTool/CuttingTool_CuttingToolFileType/property/FileFormat/write",
             "op": "writeproperty"
           },
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/CuttingTool/CuttingTool_CuttingToolFileType/property/FileFormat/read",
+            "dov:topic": "opcua/CuttingTool/CuttingTool_CuttingToolFileType/property/FileFormat/read",
             "op": "readproperty"
           }
         ]
@@ -74,14 +73,13 @@
     "@context": [
       "https://www.w3.org/2022/wot/td/v1.1",
       {
-        "dtv": "http://azure.com/DigitalTwins/dtmi#",
-        "aov": "http://azure.com/IoT/operations/tm#"
+        "dov": "http://azure.com/DigitalOperations/vocab#"
       }
     ],
     "@type": "tm:ThingModel",
     "title": "CuttingTool_ToolMeasuringMachineType",
-    "aov:typeRef": "nsu=http://opcfoundation.org/UA/CuttingTool/;i=1021",
-    "aov:isComposite": true,
+    "dov:typeRef": "org.opcfoundation.UA.CuttingTool.ToolMeasuringMachineType",
+    "dov:isComposite": true,
     "links": [
       {
         "rel": "tm:extends",
@@ -89,14 +87,14 @@
         "type": "application/tm+json"
       },
       {
-        "rel": "aov:component",
-        "aov:refName": "FileSystem",
+        "rel": "dov:component",
+        "dov:refName": "FileSystem",
         "href": "#title=OpcUaCore_FileDirectoryType",
         "type": "application/tm+json"
       },
       {
-        "rel": "aov:component",
-        "aov:refName": "MachineryBuildingBlocks",
+        "rel": "dov:component",
+        "dov:refName": "MachineryBuildingBlocks",
         "href": "#title=OpcUaCore_FolderType",
         "type": "application/tm+json"
       }
@@ -114,14 +112,13 @@
     "@context": [
       "https://www.w3.org/2022/wot/td/v1.1",
       {
-        "dtv": "http://azure.com/DigitalTwins/dtmi#",
-        "aov": "http://azure.com/IoT/operations/tm#"
+        "dov": "http://azure.com/DigitalOperations/vocab#"
       }
     ],
     "@type": "tm:ThingModel",
     "title": "CuttingTool_ToolManufacturingMachineType",
-    "aov:typeRef": "nsu=http://opcfoundation.org/UA/CuttingTool/;i=1025",
-    "aov:isComposite": true,
+    "dov:typeRef": "org.opcfoundation.UA.CuttingTool.ToolManufacturingMachineType",
+    "dov:isComposite": true,
     "links": [
       {
         "rel": "tm:extends",
@@ -129,14 +126,14 @@
         "type": "application/tm+json"
       },
       {
-        "rel": "aov:component",
-        "aov:refName": "FileSystem",
+        "rel": "dov:component",
+        "dov:refName": "FileSystem",
         "href": "#title=OpcUaCore_FileDirectoryType",
         "type": "application/tm+json"
       },
       {
-        "rel": "aov:component",
-        "aov:refName": "MachineryBuildingBlocks",
+        "rel": "dov:component",
+        "dov:refName": "MachineryBuildingBlocks",
         "href": "#title=OpcUaCore_FolderType",
         "type": "application/tm+json"
       }
@@ -154,13 +151,12 @@
     "@context": [
       "https://www.w3.org/2022/wot/td/v1.1",
       {
-        "dtv": "http://azure.com/DigitalTwins/dtmi#",
-        "aov": "http://azure.com/IoT/operations/tm#"
+        "dov": "http://azure.com/DigitalOperations/vocab#"
       }
     ],
     "@type": "tm:ThingModel",
     "title": "OpcUaCore_FileType",
-    "aov:typeRef": "nsu=http://opcfoundation.org/UA/;i=11575",
+    "dov:typeRef": "org.opcfoundation.UA.FileType",
     "links": [
       {
         "rel": "tm:extends",
@@ -173,7 +169,7 @@
     "forms": [
       {
         "contentType": "application/json",
-        "dtv:topic": "opcua/OpcUaCore/OpcUaCore_FileType/properties/read",
+        "dov:topic": "opcua/OpcUaCore/OpcUaCore_FileType/properties/read",
         "op": "readallproperties"
       }
     ],
@@ -181,7 +177,7 @@
       "Close": {
         "input": {
           "type": "object",
-          "aov:typeRef": "nsu=http://opcfoundation.org/UA/;i=11584",
+          "dov:typeRef": "org.opcfoundation.UA.InputArguments",
           "required": [ "FileHandle" ],
           "properties": {
             "FileHandle": {
@@ -194,7 +190,7 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/OpcUaCore/OpcUaCore_FileType/action/Close",
+            "dov:topic": "opcua/OpcUaCore/OpcUaCore_FileType/action/Close",
             "op": "invokeaction"
           }
         ]
@@ -202,7 +198,7 @@
       "GetPosition": {
         "input": {
           "type": "object",
-          "aov:typeRef": "nsu=http://opcfoundation.org/UA/;i=11591",
+          "dov:typeRef": "org.opcfoundation.UA.InputArguments",
           "required": [ "FileHandle" ],
           "properties": {
             "FileHandle": {
@@ -214,7 +210,7 @@
         },
         "output": {
           "type": "object",
-          "aov:typeRef": "nsu=http://opcfoundation.org/UA/;i=11592",
+          "dov:typeRef": "org.opcfoundation.UA.OutputArguments",
           "required": [ "Position" ],
           "properties": {
             "Position": {
@@ -227,7 +223,7 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/OpcUaCore/OpcUaCore_FileType/action/GetPosition",
+            "dov:topic": "opcua/OpcUaCore/OpcUaCore_FileType/action/GetPosition",
             "op": "invokeaction"
           }
         ]
@@ -235,7 +231,7 @@
       "Open": {
         "input": {
           "type": "object",
-          "aov:typeRef": "nsu=http://opcfoundation.org/UA/;i=11581",
+          "dov:typeRef": "org.opcfoundation.UA.InputArguments",
           "required": [ "Mode" ],
           "properties": {
             "Mode": {
@@ -247,7 +243,7 @@
         },
         "output": {
           "type": "object",
-          "aov:typeRef": "nsu=http://opcfoundation.org/UA/;i=11582",
+          "dov:typeRef": "org.opcfoundation.UA.OutputArguments",
           "required": [ "FileHandle" ],
           "properties": {
             "FileHandle": {
@@ -260,7 +256,7 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/OpcUaCore/OpcUaCore_FileType/action/Open",
+            "dov:topic": "opcua/OpcUaCore/OpcUaCore_FileType/action/Open",
             "op": "invokeaction"
           }
         ]
@@ -268,7 +264,7 @@
       "Read": {
         "input": {
           "type": "object",
-          "aov:typeRef": "nsu=http://opcfoundation.org/UA/;i=11586",
+          "dov:typeRef": "org.opcfoundation.UA.InputArguments",
           "required": [ "FileHandle", "Length" ],
           "properties": {
             "FileHandle": {
@@ -285,7 +281,7 @@
         },
         "output": {
           "type": "object",
-          "aov:typeRef": "nsu=http://opcfoundation.org/UA/;i=11587",
+          "dov:typeRef": "org.opcfoundation.UA.OutputArguments",
           "required": [ "Data" ],
           "properties": {
             "Data": {
@@ -297,7 +293,7 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/OpcUaCore/OpcUaCore_FileType/action/Read",
+            "dov:topic": "opcua/OpcUaCore/OpcUaCore_FileType/action/Read",
             "op": "invokeaction"
           }
         ]
@@ -305,7 +301,7 @@
       "SetPosition": {
         "input": {
           "type": "object",
-          "aov:typeRef": "nsu=http://opcfoundation.org/UA/;i=11594",
+          "dov:typeRef": "org.opcfoundation.UA.InputArguments",
           "required": [ "FileHandle", "Position" ],
           "properties": {
             "FileHandle": {
@@ -323,7 +319,7 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/OpcUaCore/OpcUaCore_FileType/action/SetPosition",
+            "dov:topic": "opcua/OpcUaCore/OpcUaCore_FileType/action/SetPosition",
             "op": "invokeaction"
           }
         ]
@@ -331,7 +327,7 @@
       "Write": {
         "input": {
           "type": "object",
-          "aov:typeRef": "nsu=http://opcfoundation.org/UA/;i=11589",
+          "dov:typeRef": "org.opcfoundation.UA.InputArguments",
           "required": [ "FileHandle", "Data" ],
           "properties": {
             "FileHandle": {
@@ -348,7 +344,7 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/OpcUaCore/OpcUaCore_FileType/action/Write",
+            "dov:topic": "opcua/OpcUaCore/OpcUaCore_FileType/action/Write",
             "op": "invokeaction"
           }
         ]
@@ -362,7 +358,7 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/OpcUaCore/OpcUaCore_FileType/property/LastModifiedTime/read",
+            "dov:topic": "opcua/OpcUaCore/OpcUaCore_FileType/property/LastModifiedTime/read",
             "op": "readproperty"
           }
         ]
@@ -375,7 +371,7 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/OpcUaCore/OpcUaCore_FileType/property/MaxByteStringLength/read",
+            "dov:topic": "opcua/OpcUaCore/OpcUaCore_FileType/property/MaxByteStringLength/read",
             "op": "readproperty"
           }
         ]
@@ -386,7 +382,7 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/OpcUaCore/OpcUaCore_FileType/property/MimeType/read",
+            "dov:topic": "opcua/OpcUaCore/OpcUaCore_FileType/property/MimeType/read",
             "op": "readproperty"
           }
         ]
@@ -399,7 +395,7 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/OpcUaCore/OpcUaCore_FileType/property/OpenCount/read",
+            "dov:topic": "opcua/OpcUaCore/OpcUaCore_FileType/property/OpenCount/read",
             "op": "readproperty"
           }
         ]
@@ -412,7 +408,7 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/OpcUaCore/OpcUaCore_FileType/property/Size/read",
+            "dov:topic": "opcua/OpcUaCore/OpcUaCore_FileType/property/Size/read",
             "op": "readproperty"
           }
         ]
@@ -423,7 +419,7 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/OpcUaCore/OpcUaCore_FileType/property/UserWritable/read",
+            "dov:topic": "opcua/OpcUaCore/OpcUaCore_FileType/property/UserWritable/read",
             "op": "readproperty"
           }
         ]
@@ -434,7 +430,7 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/OpcUaCore/OpcUaCore_FileType/property/Writable/read",
+            "dov:topic": "opcua/OpcUaCore/OpcUaCore_FileType/property/Writable/read",
             "op": "readproperty"
           }
         ]
@@ -447,13 +443,12 @@
     "@context": [
       "https://www.w3.org/2022/wot/td/v1.1",
       {
-        "dtv": "http://azure.com/DigitalTwins/dtmi#",
-        "aov": "http://azure.com/IoT/operations/tm#"
+        "dov": "http://azure.com/DigitalOperations/vocab#"
       }
     ],
     "@type": "tm:ThingModel",
     "title": "OpcUaCore_BaseObjectType",
-    "aov:typeRef": "nsu=http://opcfoundation.org/UA/;i=58",
+    "dov:typeRef": "org.opcfoundation.UA.BaseObjectType",
     "links": [
     ],
     "schemaDefinitions": {
@@ -469,13 +464,12 @@
     "@context": [
       "https://www.w3.org/2022/wot/td/v1.1",
       {
-        "dtv": "http://azure.com/DigitalTwins/dtmi#",
-        "aov": "http://azure.com/IoT/operations/tm#"
+        "dov": "http://azure.com/DigitalOperations/vocab#"
       }
     ],
     "@type": "tm:ThingModel",
     "title": "OpcUaCore_FileDirectoryType",
-    "aov:typeRef": "nsu=http://opcfoundation.org/UA/;i=13353",
+    "dov:typeRef": "org.opcfoundation.UA.FileDirectoryType",
     "links": [
       {
         "rel": "tm:extends",
@@ -489,7 +483,7 @@
       "CreateDirectory": {
         "input": {
           "type": "object",
-          "aov:typeRef": "nsu=http://opcfoundation.org/UA/;i=13388",
+          "dov:typeRef": "org.opcfoundation.UA.InputArguments",
           "required": [ "DirectoryName" ],
           "properties": {
             "DirectoryName": {
@@ -499,7 +493,7 @@
         },
         "output": {
           "type": "object",
-          "aov:typeRef": "nsu=http://opcfoundation.org/UA/;i=13389",
+          "dov:typeRef": "org.opcfoundation.UA.OutputArguments",
           "required": [ "DirectoryNodeId" ],
           "properties": {
             "DirectoryNodeId": {
@@ -510,7 +504,7 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/OpcUaCore/OpcUaCore_FileDirectoryType/action/CreateDirectory",
+            "dov:topic": "opcua/OpcUaCore/OpcUaCore_FileDirectoryType/action/CreateDirectory",
             "op": "invokeaction"
           }
         ]
@@ -518,7 +512,7 @@
       "CreateFile": {
         "input": {
           "type": "object",
-          "aov:typeRef": "nsu=http://opcfoundation.org/UA/;i=13391",
+          "dov:typeRef": "org.opcfoundation.UA.InputArguments",
           "required": [ "FileName", "RequestFileOpen" ],
           "properties": {
             "FileName": {
@@ -531,7 +525,7 @@
         },
         "output": {
           "type": "object",
-          "aov:typeRef": "nsu=http://opcfoundation.org/UA/;i=13392",
+          "dov:typeRef": "org.opcfoundation.UA.OutputArguments",
           "required": [ "FileNodeId", "FileHandle" ],
           "properties": {
             "FileNodeId": {
@@ -547,7 +541,7 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/OpcUaCore/OpcUaCore_FileDirectoryType/action/CreateFile",
+            "dov:topic": "opcua/OpcUaCore/OpcUaCore_FileDirectoryType/action/CreateFile",
             "op": "invokeaction"
           }
         ]
@@ -555,7 +549,7 @@
       "DeleteFileSystemObject": {
         "input": {
           "type": "object",
-          "aov:typeRef": "nsu=http://opcfoundation.org/UA/;i=13394",
+          "dov:typeRef": "org.opcfoundation.UA.InputArguments",
           "required": [ "ObjectToDelete" ],
           "properties": {
             "ObjectToDelete": {
@@ -566,7 +560,7 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/OpcUaCore/OpcUaCore_FileDirectoryType/action/DeleteFileSystemObject",
+            "dov:topic": "opcua/OpcUaCore/OpcUaCore_FileDirectoryType/action/DeleteFileSystemObject",
             "op": "invokeaction"
           }
         ]
@@ -574,7 +568,7 @@
       "MoveOrCopy": {
         "input": {
           "type": "object",
-          "aov:typeRef": "nsu=http://opcfoundation.org/UA/;i=13396",
+          "dov:typeRef": "org.opcfoundation.UA.InputArguments",
           "required": [ "ObjectToMoveOrCopy", "TargetDirectory", "CreateCopy", "NewName" ],
           "properties": {
             "ObjectToMoveOrCopy": {
@@ -593,7 +587,7 @@
         },
         "output": {
           "type": "object",
-          "aov:typeRef": "nsu=http://opcfoundation.org/UA/;i=13397",
+          "dov:typeRef": "org.opcfoundation.UA.OutputArguments",
           "required": [ "NewNodeId" ],
           "properties": {
             "NewNodeId": {
@@ -604,7 +598,7 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/OpcUaCore/OpcUaCore_FileDirectoryType/action/MoveOrCopy",
+            "dov:topic": "opcua/OpcUaCore/OpcUaCore_FileDirectoryType/action/MoveOrCopy",
             "op": "invokeaction"
           }
         ]
@@ -619,13 +613,12 @@
     "@context": [
       "https://www.w3.org/2022/wot/td/v1.1",
       {
-        "dtv": "http://azure.com/DigitalTwins/dtmi#",
-        "aov": "http://azure.com/IoT/operations/tm#"
+        "dov": "http://azure.com/DigitalOperations/vocab#"
       }
     ],
     "@type": "tm:ThingModel",
     "title": "OpcUaCore_FolderType",
-    "aov:typeRef": "nsu=http://opcfoundation.org/UA/;i=61",
+    "dov:typeRef": "org.opcfoundation.UA.FolderType",
     "links": [
       {
         "rel": "tm:extends",
@@ -646,14 +639,13 @@
     "@context": [
       "https://www.w3.org/2022/wot/td/v1.1",
       {
-        "dtv": "http://azure.com/DigitalTwins/dtmi#",
-        "aov": "http://azure.com/IoT/operations/tm#"
+        "dov": "http://azure.com/DigitalOperations/vocab#"
       }
     ],
     "@type": "tm:ThingModel",
     "title": "OpcUaCore_OrderedListType",
-    "aov:typeRef": "nsu=http://opcfoundation.org/UA/;i=23518",
-    "aov:isComposite": true,
+    "dov:typeRef": "org.opcfoundation.UA.OrderedListType",
+    "dov:isComposite": true,
     "links": [
       {
         "rel": "tm:extends",
@@ -666,7 +658,7 @@
     "forms": [
       {
         "contentType": "application/json",
-        "dtv:topic": "opcua/OpcUaCore/OpcUaCore_OrderedListType/properties/read",
+        "dov:topic": "opcua/OpcUaCore/OpcUaCore_OrderedListType/properties/read",
         "op": "readallproperties"
       }
     ],
@@ -679,7 +671,7 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/OpcUaCore/OpcUaCore_OrderedListType/property/NodeVersion/read",
+            "dov:topic": "opcua/OpcUaCore/OpcUaCore_OrderedListType/property/NodeVersion/read",
             "op": "readproperty"
           }
         ]
@@ -692,13 +684,12 @@
     "@context": [
       "https://www.w3.org/2022/wot/td/v1.1",
       {
-        "dtv": "http://azure.com/DigitalTwins/dtmi#",
-        "aov": "http://azure.com/IoT/operations/tm#"
+        "dov": "http://azure.com/DigitalOperations/vocab#"
       }
     ],
     "@type": "tm:ThingModel",
     "title": "OpcUaCore_FiniteStateMachineType",
-    "aov:typeRef": "nsu=http://opcfoundation.org/UA/;i=2771",
+    "dov:typeRef": "org.opcfoundation.UA.FiniteStateMachineType",
     "links": [
       {
         "rel": "tm:extends",
@@ -711,12 +702,12 @@
     "forms": [
       {
         "contentType": "application/json",
-        "dtv:topic": "opcua/OpcUaCore/OpcUaCore_FiniteStateMachineType/events/{senderId}",
+        "dov:topic": "opcua/OpcUaCore/OpcUaCore_FiniteStateMachineType/events/{senderId}",
         "op": "subscribeallevents"
       },
       {
         "contentType": "application/json",
-        "dtv:topic": "opcua/OpcUaCore/OpcUaCore_FiniteStateMachineType/properties/read",
+        "dov:topic": "opcua/OpcUaCore/OpcUaCore_FiniteStateMachineType/properties/read",
         "op": "readallproperties"
       }
     ],
@@ -732,7 +723,7 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/OpcUaCore/OpcUaCore_FiniteStateMachineType/property/AvailableStates/read",
+            "dov:topic": "opcua/OpcUaCore/OpcUaCore_FiniteStateMachineType/property/AvailableStates/read",
             "op": "readproperty"
           }
         ]
@@ -746,7 +737,7 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/OpcUaCore/OpcUaCore_FiniteStateMachineType/property/AvailableTransitions/read",
+            "dov:topic": "opcua/OpcUaCore/OpcUaCore_FiniteStateMachineType/property/AvailableTransitions/read",
             "op": "readproperty"
           }
         ]
@@ -757,7 +748,7 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/OpcUaCore/OpcUaCore_FiniteStateMachineType/property/CurrentState/read",
+            "dov:topic": "opcua/OpcUaCore/OpcUaCore_FiniteStateMachineType/property/CurrentState/read",
             "op": "readproperty"
           }
         ]
@@ -768,7 +759,7 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/OpcUaCore/OpcUaCore_FiniteStateMachineType/property/LastTransition/read",
+            "dov:topic": "opcua/OpcUaCore/OpcUaCore_FiniteStateMachineType/property/LastTransition/read",
             "op": "readproperty"
           }
         ]
@@ -785,7 +776,7 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/OpcUaCore/OpcUaCore_FiniteStateMachineType/event/AvailableStates/{senderId}",
+            "dov:topic": "opcua/OpcUaCore/OpcUaCore_FiniteStateMachineType/event/AvailableStates/{senderId}",
             "op": "subscribeevent"
           }
         ]
@@ -800,7 +791,7 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/OpcUaCore/OpcUaCore_FiniteStateMachineType/event/AvailableTransitions/{senderId}",
+            "dov:topic": "opcua/OpcUaCore/OpcUaCore_FiniteStateMachineType/event/AvailableTransitions/{senderId}",
             "op": "subscribeevent"
           }
         ]
@@ -812,7 +803,7 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/OpcUaCore/OpcUaCore_FiniteStateMachineType/event/CurrentState/{senderId}",
+            "dov:topic": "opcua/OpcUaCore/OpcUaCore_FiniteStateMachineType/event/CurrentState/{senderId}",
             "op": "subscribeevent"
           }
         ]
@@ -824,7 +815,7 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/OpcUaCore/OpcUaCore_FiniteStateMachineType/event/LastTransition/{senderId}",
+            "dov:topic": "opcua/OpcUaCore/OpcUaCore_FiniteStateMachineType/event/LastTransition/{senderId}",
             "op": "subscribeevent"
           }
         ]
@@ -835,14 +826,13 @@
     "@context": [
       "https://www.w3.org/2022/wot/td/v1.1",
       {
-        "dtv": "http://azure.com/DigitalTwins/dtmi#",
-        "aov": "http://azure.com/IoT/operations/tm#"
+        "dov": "http://azure.com/DigitalOperations/vocab#"
       }
     ],
     "@type": "tm:ThingModel",
     "title": "OpcUaCore_StateMachineType",
-    "aov:typeRef": "nsu=http://opcfoundation.org/UA/;i=2299",
-    "aov:isComposite": true,
+    "dov:typeRef": "org.opcfoundation.UA.StateMachineType",
+    "dov:isComposite": true,
     "links": [
       {
         "rel": "tm:extends",
@@ -855,12 +845,12 @@
     "forms": [
       {
         "contentType": "application/json",
-        "dtv:topic": "opcua/OpcUaCore/OpcUaCore_StateMachineType/events/{senderId}",
+        "dov:topic": "opcua/OpcUaCore/OpcUaCore_StateMachineType/events/{senderId}",
         "op": "subscribeallevents"
       },
       {
         "contentType": "application/json",
-        "dtv:topic": "opcua/OpcUaCore/OpcUaCore_StateMachineType/properties/read",
+        "dov:topic": "opcua/OpcUaCore/OpcUaCore_StateMachineType/properties/read",
         "op": "readallproperties"
       }
     ],
@@ -873,7 +863,7 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/OpcUaCore/OpcUaCore_StateMachineType/property/CurrentState/read",
+            "dov:topic": "opcua/OpcUaCore/OpcUaCore_StateMachineType/property/CurrentState/read",
             "op": "readproperty"
           }
         ]
@@ -884,7 +874,7 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/OpcUaCore/OpcUaCore_StateMachineType/property/LastTransition/read",
+            "dov:topic": "opcua/OpcUaCore/OpcUaCore_StateMachineType/property/LastTransition/read",
             "op": "readproperty"
           }
         ]
@@ -898,7 +888,7 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/OpcUaCore/OpcUaCore_StateMachineType/event/CurrentState/{senderId}",
+            "dov:topic": "opcua/OpcUaCore/OpcUaCore_StateMachineType/event/CurrentState/{senderId}",
             "op": "subscribeevent"
           }
         ]
@@ -910,7 +900,7 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/OpcUaCore/OpcUaCore_StateMachineType/event/LastTransition/{senderId}",
+            "dov:topic": "opcua/OpcUaCore/OpcUaCore_StateMachineType/event/LastTransition/{senderId}",
             "op": "subscribeevent"
           }
         ]
@@ -921,13 +911,12 @@
     "@context": [
       "https://www.w3.org/2022/wot/td/v1.1",
       {
-        "dtv": "http://azure.com/DigitalTwins/dtmi#",
-        "aov": "http://azure.com/IoT/operations/tm#"
+        "dov": "http://azure.com/DigitalOperations/vocab#"
       }
     ],
     "@type": "tm:ThingModel",
     "title": "OpcUaCore_StateType",
-    "aov:typeRef": "nsu=http://opcfoundation.org/UA/;i=2307",
+    "dov:typeRef": "org.opcfoundation.UA.StateType",
     "links": [
       {
         "rel": "tm:extends",
@@ -940,7 +929,7 @@
     "forms": [
       {
         "contentType": "application/json",
-        "dtv:topic": "opcua/OpcUaCore/OpcUaCore_StateType/properties/read",
+        "dov:topic": "opcua/OpcUaCore/OpcUaCore_StateType/properties/read",
         "op": "readallproperties"
       }
     ],
@@ -955,7 +944,7 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/OpcUaCore/OpcUaCore_StateType/property/StateNumber/read",
+            "dov:topic": "opcua/OpcUaCore/OpcUaCore_StateType/property/StateNumber/read",
             "op": "readproperty"
           }
         ]
@@ -968,13 +957,12 @@
     "@context": [
       "https://www.w3.org/2022/wot/td/v1.1",
       {
-        "dtv": "http://azure.com/DigitalTwins/dtmi#",
-        "aov": "http://azure.com/IoT/operations/tm#"
+        "dov": "http://azure.com/DigitalOperations/vocab#"
       }
     ],
     "@type": "tm:ThingModel",
     "title": "OpcUaCore_TransitionType",
-    "aov:typeRef": "nsu=http://opcfoundation.org/UA/;i=2310",
+    "dov:typeRef": "org.opcfoundation.UA.TransitionType",
     "links": [
       {
         "rel": "tm:extends",
@@ -987,7 +975,7 @@
     "forms": [
       {
         "contentType": "application/json",
-        "dtv:topic": "opcua/OpcUaCore/OpcUaCore_TransitionType/properties/read",
+        "dov:topic": "opcua/OpcUaCore/OpcUaCore_TransitionType/properties/read",
         "op": "readallproperties"
       }
     ],
@@ -1002,7 +990,7 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/OpcUaCore/OpcUaCore_TransitionType/property/TransitionNumber/read",
+            "dov:topic": "opcua/OpcUaCore/OpcUaCore_TransitionType/property/TransitionNumber/read",
             "op": "readproperty"
           }
         ]
@@ -1015,13 +1003,12 @@
     "@context": [
       "https://www.w3.org/2022/wot/td/v1.1",
       {
-        "dtv": "http://azure.com/DigitalTwins/dtmi#",
-        "aov": "http://azure.com/IoT/operations/tm#"
+        "dov": "http://azure.com/DigitalOperations/vocab#"
       }
     ],
     "@type": "tm:ThingModel",
     "title": "OpcUaCore_InitialStateType",
-    "aov:typeRef": "nsu=http://opcfoundation.org/UA/;i=2309",
+    "dov:typeRef": "org.opcfoundation.UA.InitialStateType",
     "links": [
       {
         "rel": "tm:extends",
@@ -1042,14 +1029,13 @@
     "@context": [
       "https://www.w3.org/2022/wot/td/v1.1",
       {
-        "dtv": "http://azure.com/DigitalTwins/dtmi#",
-        "aov": "http://azure.com/IoT/operations/tm#"
+        "dov": "http://azure.com/DigitalOperations/vocab#"
       }
     ],
     "@type": "tm:ThingModel",
     "title": "OpcUaCore_TemporaryFileTransferType",
-    "aov:typeRef": "nsu=http://opcfoundation.org/UA/;i=15744",
-    "aov:isComposite": true,
+    "dov:typeRef": "org.opcfoundation.UA.TemporaryFileTransferType",
+    "dov:isComposite": true,
     "links": [
       {
         "rel": "tm:extends",
@@ -1057,8 +1043,8 @@
         "type": "application/tm+json"
       },
       {
-        "rel": "aov:component",
-        "aov:refName": "TransferState_Placeholder",
+        "rel": "dov:component",
+        "dov:refName": "TransferState_Placeholder",
         "href": "#title=OpcUaCore_FileTransferStateMachineType",
         "type": "application/tm+json"
       }
@@ -1068,7 +1054,7 @@
     "forms": [
       {
         "contentType": "application/json",
-        "dtv:topic": "opcua/OpcUaCore/OpcUaCore_TemporaryFileTransferType/properties/read",
+        "dov:topic": "opcua/OpcUaCore/OpcUaCore_TemporaryFileTransferType/properties/read",
         "op": "readallproperties"
       }
     ],
@@ -1076,7 +1062,7 @@
       "CloseAndCommit": {
         "input": {
           "type": "object",
-          "aov:typeRef": "nsu=http://opcfoundation.org/UA/;i=15752",
+          "dov:typeRef": "org.opcfoundation.UA.InputArguments",
           "required": [ "FileHandle" ],
           "properties": {
             "FileHandle": {
@@ -1088,7 +1074,7 @@
         },
         "output": {
           "type": "object",
-          "aov:typeRef": "nsu=http://opcfoundation.org/UA/;i=15753",
+          "dov:typeRef": "org.opcfoundation.UA.OutputArguments",
           "required": [ "CompletionStateMachine" ],
           "properties": {
             "CompletionStateMachine": {
@@ -1099,7 +1085,7 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/OpcUaCore/OpcUaCore_TemporaryFileTransferType/action/CloseAndCommit",
+            "dov:topic": "opcua/OpcUaCore/OpcUaCore_TemporaryFileTransferType/action/CloseAndCommit",
             "op": "invokeaction"
           }
         ]
@@ -1107,7 +1093,7 @@
       "GenerateFileForRead": {
         "input": {
           "type": "object",
-          "aov:typeRef": "nsu=http://opcfoundation.org/UA/;i=15747",
+          "dov:typeRef": "org.opcfoundation.UA.InputArguments",
           "required": [ "GenerateOptions" ],
           "properties": {
             "GenerateOptions": {
@@ -1117,7 +1103,7 @@
         },
         "output": {
           "type": "object",
-          "aov:typeRef": "nsu=http://opcfoundation.org/UA/;i=15748",
+          "dov:typeRef": "org.opcfoundation.UA.OutputArguments",
           "required": [ "FileNodeId", "FileHandle", "CompletionStateMachine" ],
           "properties": {
             "FileNodeId": {
@@ -1136,7 +1122,7 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/OpcUaCore/OpcUaCore_TemporaryFileTransferType/action/GenerateFileForRead",
+            "dov:topic": "opcua/OpcUaCore/OpcUaCore_TemporaryFileTransferType/action/GenerateFileForRead",
             "op": "invokeaction"
           }
         ]
@@ -1144,7 +1130,7 @@
       "GenerateFileForWrite": {
         "input": {
           "type": "object",
-          "aov:typeRef": "nsu=http://opcfoundation.org/UA/;i=16359",
+          "dov:typeRef": "org.opcfoundation.UA.InputArguments",
           "required": [ "GenerateOptions" ],
           "properties": {
             "GenerateOptions": {
@@ -1154,7 +1140,7 @@
         },
         "output": {
           "type": "object",
-          "aov:typeRef": "nsu=http://opcfoundation.org/UA/;i=15750",
+          "dov:typeRef": "org.opcfoundation.UA.OutputArguments",
           "required": [ "FileNodeId", "FileHandle" ],
           "properties": {
             "FileNodeId": {
@@ -1170,7 +1156,7 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/OpcUaCore/OpcUaCore_TemporaryFileTransferType/action/GenerateFileForWrite",
+            "dov:topic": "opcua/OpcUaCore/OpcUaCore_TemporaryFileTransferType/action/GenerateFileForWrite",
             "op": "invokeaction"
           }
         ]
@@ -1184,7 +1170,7 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/OpcUaCore/OpcUaCore_TemporaryFileTransferType/property/ClientProcessingTimeout/read",
+            "dov:topic": "opcua/OpcUaCore/OpcUaCore_TemporaryFileTransferType/property/ClientProcessingTimeout/read",
             "op": "readproperty"
           }
         ]
@@ -1197,13 +1183,12 @@
     "@context": [
       "https://www.w3.org/2022/wot/td/v1.1",
       {
-        "dtv": "http://azure.com/DigitalTwins/dtmi#",
-        "aov": "http://azure.com/IoT/operations/tm#"
+        "dov": "http://azure.com/DigitalOperations/vocab#"
       }
     ],
     "@type": "tm:ThingModel",
     "title": "OpcUaCore_FileTransferStateMachineType",
-    "aov:typeRef": "nsu=http://opcfoundation.org/UA/;i=15803",
+    "dov:typeRef": "org.opcfoundation.UA.FileTransferStateMachineType",
     "links": [
       {
         "rel": "tm:extends",
@@ -1211,86 +1196,86 @@
         "type": "application/tm+json"
       },
       {
-        "rel": "aov:reference",
-        "aov:refName": "Idle",
+        "rel": "dov:reference",
+        "dov:refName": "Idle",
         "href": "#title=OpcUaCore_InitialStateType",
         "type": "application/tm+json"
       },
       {
-        "rel": "aov:reference",
-        "aov:refName": "ReadPrepare",
+        "rel": "dov:reference",
+        "dov:refName": "ReadPrepare",
         "href": "#title=OpcUaCore_StateType",
         "type": "application/tm+json"
       },
       {
-        "rel": "aov:reference",
-        "aov:refName": "ReadTransfer",
+        "rel": "dov:reference",
+        "dov:refName": "ReadTransfer",
         "href": "#title=OpcUaCore_StateType",
         "type": "application/tm+json"
       },
       {
-        "rel": "aov:reference",
-        "aov:refName": "ApplyWrite",
+        "rel": "dov:reference",
+        "dov:refName": "ApplyWrite",
         "href": "#title=OpcUaCore_StateType",
         "type": "application/tm+json"
       },
       {
-        "rel": "aov:reference",
-        "aov:refName": "Error",
+        "rel": "dov:reference",
+        "dov:refName": "Error",
         "href": "#title=OpcUaCore_StateType",
         "type": "application/tm+json"
       },
       {
-        "rel": "aov:reference",
-        "aov:refName": "IdleToReadPrepare",
+        "rel": "dov:reference",
+        "dov:refName": "IdleToReadPrepare",
         "href": "#title=OpcUaCore_TransitionType",
         "type": "application/tm+json"
       },
       {
-        "rel": "aov:reference",
-        "aov:refName": "ReadPrepareToReadTransfer",
+        "rel": "dov:reference",
+        "dov:refName": "ReadPrepareToReadTransfer",
         "href": "#title=OpcUaCore_TransitionType",
         "type": "application/tm+json"
       },
       {
-        "rel": "aov:reference",
-        "aov:refName": "ReadTransferToIdle",
+        "rel": "dov:reference",
+        "dov:refName": "ReadTransferToIdle",
         "href": "#title=OpcUaCore_TransitionType",
         "type": "application/tm+json"
       },
       {
-        "rel": "aov:reference",
-        "aov:refName": "IdleToApplyWrite",
+        "rel": "dov:reference",
+        "dov:refName": "IdleToApplyWrite",
         "href": "#title=OpcUaCore_TransitionType",
         "type": "application/tm+json"
       },
       {
-        "rel": "aov:reference",
-        "aov:refName": "ApplyWriteToIdle",
+        "rel": "dov:reference",
+        "dov:refName": "ApplyWriteToIdle",
         "href": "#title=OpcUaCore_TransitionType",
         "type": "application/tm+json"
       },
       {
-        "rel": "aov:reference",
-        "aov:refName": "ReadPrepareToError",
+        "rel": "dov:reference",
+        "dov:refName": "ReadPrepareToError",
         "href": "#title=OpcUaCore_TransitionType",
         "type": "application/tm+json"
       },
       {
-        "rel": "aov:reference",
-        "aov:refName": "ReadTransferToError",
+        "rel": "dov:reference",
+        "dov:refName": "ReadTransferToError",
         "href": "#title=OpcUaCore_TransitionType",
         "type": "application/tm+json"
       },
       {
-        "rel": "aov:reference",
-        "aov:refName": "ApplyWriteToError",
+        "rel": "dov:reference",
+        "dov:refName": "ApplyWriteToError",
         "href": "#title=OpcUaCore_TransitionType",
         "type": "application/tm+json"
       },
       {
-        "rel": "aov:reference",
-        "aov:refName": "ErrorToIdle",
+        "rel": "dov:reference",
+        "dov:refName": "ErrorToIdle",
         "href": "#title=OpcUaCore_TransitionType",
         "type": "application/tm+json"
       }
@@ -1302,7 +1287,7 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/OpcUaCore/OpcUaCore_FileTransferStateMachineType/action/Reset",
+            "dov:topic": "opcua/OpcUaCore/OpcUaCore_FileTransferStateMachineType/action/Reset",
             "op": "invokeaction"
           }
         ]
@@ -1317,14 +1302,13 @@
     "@context": [
       "https://www.w3.org/2022/wot/td/v1.1",
       {
-        "dtv": "http://azure.com/DigitalTwins/dtmi#",
-        "aov": "http://azure.com/IoT/operations/tm#"
+        "dov": "http://azure.com/DigitalOperations/vocab#"
       }
     ],
     "@type": "tm:ThingModel",
     "title": "GMS_GMSType",
-    "aov:typeRef": "nsu=http://opcfoundation.org/UA/GMS/;i=1002",
-    "aov:isComposite": true,
+    "dov:typeRef": "org.opcfoundation.UA.GMS.GMSType",
+    "dov:isComposite": true,
     "links": [
       {
         "rel": "tm:extends",
@@ -1332,32 +1316,32 @@
         "type": "application/tm+json"
       },
       {
-        "rel": "aov:capability",
-        "aov:refName": "Equipment",
+        "rel": "dov:capability",
+        "dov:refName": "Equipment",
         "href": "#title=GMS_GMSEquipmentType",
         "type": "application/tm+json"
       },
       {
-        "rel": "aov:capability",
-        "aov:refName": "Monitoring",
+        "rel": "dov:capability",
+        "dov:refName": "Monitoring",
         "href": "#title=GMS_GMSMonitoringType",
         "type": "application/tm+json"
       },
       {
-        "rel": "aov:capability",
-        "aov:refName": "Notification",
+        "rel": "dov:capability",
+        "dov:refName": "Notification",
         "href": "#title=MachineTool_NotificationType",
         "type": "application/tm+json"
       },
       {
-        "rel": "aov:capability",
-        "aov:refName": "Production",
+        "rel": "dov:capability",
+        "dov:refName": "Production",
         "href": "#title=MachineTool_ProductionType",
         "type": "application/tm+json"
       },
       {
-        "rel": "aov:capability",
-        "aov:refName": "ResultManagement",
+        "rel": "dov:capability",
+        "dov:refName": "ResultManagement",
         "href": "#title=GMS_GMSResultManagementType",
         "type": "application/tm+json"
       }
@@ -1375,13 +1359,12 @@
     "@context": [
       "https://www.w3.org/2022/wot/td/v1.1",
       {
-        "dtv": "http://azure.com/DigitalTwins/dtmi#",
-        "aov": "http://azure.com/IoT/operations/tm#"
+        "dov": "http://azure.com/DigitalOperations/vocab#"
       }
     ],
     "@type": "tm:ThingModel",
     "title": "GMS_GMSEquipmentType",
-    "aov:typeRef": "nsu=http://opcfoundation.org/UA/GMS/;i=1003",
+    "dov:typeRef": "org.opcfoundation.UA.GMS.GMSEquipmentType",
     "links": [
       {
         "rel": "tm:extends",
@@ -1389,20 +1372,20 @@
         "type": "application/tm+json"
       },
       {
-        "rel": "aov:component",
-        "aov:refName": "Accessories",
+        "rel": "dov:component",
+        "dov:refName": "Accessories",
         "href": "#title=OpcUaCore_FolderType",
         "type": "application/tm+json"
       },
       {
-        "rel": "aov:component",
-        "aov:refName": "AdditionalSensor",
+        "rel": "dov:component",
+        "dov:refName": "AdditionalSensor",
         "href": "#title=OpcUaCore_FolderType",
         "type": "application/tm+json"
       },
       {
-        "rel": "aov:reference",
-        "aov:refName": "Tools",
+        "rel": "dov:reference",
+        "dov:refName": "Tools",
         "href": "#title=MachineTool_ToolListType",
         "type": "application/tm+json"
       }
@@ -1420,13 +1403,12 @@
     "@context": [
       "https://www.w3.org/2022/wot/td/v1.1",
       {
-        "dtv": "http://azure.com/DigitalTwins/dtmi#",
-        "aov": "http://azure.com/IoT/operations/tm#"
+        "dov": "http://azure.com/DigitalOperations/vocab#"
       }
     ],
     "@type": "tm:ThingModel",
     "title": "GMS_GMSMonitoringType",
-    "aov:typeRef": "nsu=http://opcfoundation.org/UA/GMS/;i=1004",
+    "dov:typeRef": "org.opcfoundation.UA.GMS.GMSMonitoringType",
     "links": [
       {
         "rel": "tm:extends",
@@ -1434,14 +1416,14 @@
         "type": "application/tm+json"
       },
       {
-        "rel": "aov:reference",
-        "aov:refName": "LoadingMonitoring",
+        "rel": "dov:reference",
+        "dov:refName": "LoadingMonitoring",
         "href": "#title=GMS_LoadingMonitoringType",
         "type": "application/tm+json"
       },
       {
-        "rel": "aov:reference",
-        "aov:refName": "ToolMonitoring",
+        "rel": "dov:reference",
+        "dov:refName": "ToolMonitoring",
         "href": "#title=GMS_ToolMonitoringType",
         "type": "application/tm+json"
       }
@@ -1459,13 +1441,12 @@
     "@context": [
       "https://www.w3.org/2022/wot/td/v1.1",
       {
-        "dtv": "http://azure.com/DigitalTwins/dtmi#",
-        "aov": "http://azure.com/IoT/operations/tm#"
+        "dov": "http://azure.com/DigitalOperations/vocab#"
       }
     ],
     "@type": "tm:ThingModel",
     "title": "GMS_LoadingMonitoringType",
-    "aov:typeRef": "nsu=http://opcfoundation.org/UA/GMS/;i=1014",
+    "dov:typeRef": "org.opcfoundation.UA.GMS.LoadingMonitoringType",
     "links": [
       {
         "rel": "tm:extends",
@@ -1478,17 +1459,17 @@
     "forms": [
       {
         "contentType": "application/json",
-        "dtv:topic": "opcua/GMS/GMS_LoadingMonitoringType/events/{senderId}",
+        "dov:topic": "opcua/GMS/GMS_LoadingMonitoringType/events/{senderId}",
         "op": "subscribeallevents"
       },
       {
         "contentType": "application/json",
-        "dtv:topic": "opcua/GMS/GMS_LoadingMonitoringType/properties/write",
+        "dov:topic": "opcua/GMS/GMS_LoadingMonitoringType/properties/write",
         "op": "writemultipleproperties"
       },
       {
         "contentType": "application/json",
-        "dtv:topic": "opcua/GMS/GMS_LoadingMonitoringType/properties/read",
+        "dov:topic": "opcua/GMS/GMS_LoadingMonitoringType/properties/read",
         "op": "readallproperties"
       }
     ],
@@ -1496,36 +1477,36 @@
     },
     "properties": {
       "IsInLoadingPosition": {
-        "aov:namespace": "http://opcfoundation.org/UA/GMS/",
+        "dov:namespace": "http://opcfoundation.org/UA/GMS/",
         "type": "boolean",
         "readOnly": false,
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/GMS/GMS_LoadingMonitoringType/property/IsInLoadingPosition/write",
+            "dov:topic": "opcua/GMS/GMS_LoadingMonitoringType/property/IsInLoadingPosition/write",
             "op": "writeproperty"
           },
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/GMS/GMS_LoadingMonitoringType/property/IsInLoadingPosition/read",
+            "dov:topic": "opcua/GMS/GMS_LoadingMonitoringType/property/IsInLoadingPosition/read",
             "op": "readproperty"
           }
         ]
       },
       "LoadStatus": {
-        "aov:namespace": "http://opcfoundation.org/UA/GMS/",
+        "dov:namespace": "http://opcfoundation.org/UA/GMS/",
         "type": "integer",
         "minimum": 0,
         "readOnly": false,
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/GMS/GMS_LoadingMonitoringType/property/LoadStatus/write",
+            "dov:topic": "opcua/GMS/GMS_LoadingMonitoringType/property/LoadStatus/write",
             "op": "writeproperty"
           },
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/GMS/GMS_LoadingMonitoringType/property/LoadStatus/read",
+            "dov:topic": "opcua/GMS/GMS_LoadingMonitoringType/property/LoadStatus/read",
             "op": "readproperty"
           }
         ]
@@ -1533,20 +1514,20 @@
     },
     "events": {
       "IsInLoadingPosition": {
-        "aov:namespace": "http://opcfoundation.org/UA/GMS/",
+        "dov:namespace": "http://opcfoundation.org/UA/GMS/",
         "data": {
           "type": "boolean"
         },
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/GMS/GMS_LoadingMonitoringType/event/IsInLoadingPosition/{senderId}",
+            "dov:topic": "opcua/GMS/GMS_LoadingMonitoringType/event/IsInLoadingPosition/{senderId}",
             "op": "subscribeevent"
           }
         ]
       },
       "LoadStatus": {
-        "aov:namespace": "http://opcfoundation.org/UA/GMS/",
+        "dov:namespace": "http://opcfoundation.org/UA/GMS/",
         "data": {
           "type": "integer",
           "minimum": 0
@@ -1554,7 +1535,7 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/GMS/GMS_LoadingMonitoringType/event/LoadStatus/{senderId}",
+            "dov:topic": "opcua/GMS/GMS_LoadingMonitoringType/event/LoadStatus/{senderId}",
             "op": "subscribeevent"
           }
         ]
@@ -1565,13 +1546,12 @@
     "@context": [
       "https://www.w3.org/2022/wot/td/v1.1",
       {
-        "dtv": "http://azure.com/DigitalTwins/dtmi#",
-        "aov": "http://azure.com/IoT/operations/tm#"
+        "dov": "http://azure.com/DigitalOperations/vocab#"
       }
     ],
     "@type": "tm:ThingModel",
     "title": "GMS_ToolMonitoringType",
-    "aov:typeRef": "nsu=http://opcfoundation.org/UA/GMS/;i=1006",
+    "dov:typeRef": "org.opcfoundation.UA.GMS.ToolMonitoringType",
     "links": [
       {
         "rel": "tm:extends",
@@ -1584,12 +1564,12 @@
     "forms": [
       {
         "contentType": "application/json",
-        "dtv:topic": "opcua/GMS/GMS_ToolMonitoringType/properties/write",
+        "dov:topic": "opcua/GMS/GMS_ToolMonitoringType/properties/write",
         "op": "writemultipleproperties"
       },
       {
         "contentType": "application/json",
-        "dtv:topic": "opcua/GMS/GMS_ToolMonitoringType/properties/read",
+        "dov:topic": "opcua/GMS/GMS_ToolMonitoringType/properties/read",
         "op": "readallproperties"
       }
     ],
@@ -1597,7 +1577,7 @@
     },
     "properties": {
       "ActiveTool": {
-        "aov:namespace": "http://opcfoundation.org/UA/GMS/",
+        "dov:namespace": "http://opcfoundation.org/UA/GMS/",
         "type": "array",
         "items": {
           "type": "string"
@@ -1606,12 +1586,12 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/GMS/GMS_ToolMonitoringType/property/ActiveTool/write",
+            "dov:topic": "opcua/GMS/GMS_ToolMonitoringType/property/ActiveTool/write",
             "op": "writeproperty"
           },
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/GMS/GMS_ToolMonitoringType/property/ActiveTool/read",
+            "dov:topic": "opcua/GMS/GMS_ToolMonitoringType/property/ActiveTool/read",
             "op": "readproperty"
           }
         ]
@@ -1624,13 +1604,12 @@
     "@context": [
       "https://www.w3.org/2022/wot/td/v1.1",
       {
-        "dtv": "http://azure.com/DigitalTwins/dtmi#",
-        "aov": "http://azure.com/IoT/operations/tm#"
+        "dov": "http://azure.com/DigitalOperations/vocab#"
       }
     ],
     "@type": "tm:ThingModel",
     "title": "GMS_GMSResultManagementType",
-    "aov:typeRef": "nsu=http://opcfoundation.org/UA/GMS/;i=1008",
+    "dov:typeRef": "org.opcfoundation.UA.GMS.GMSResultManagementType",
     "links": [
       {
         "rel": "tm:extends",
@@ -1638,8 +1617,8 @@
         "type": "application/tm+json"
       },
       {
-        "rel": "aov:component",
-        "aov:refName": "CorrectionsFolder",
+        "rel": "dov:component",
+        "dov:refName": "CorrectionsFolder",
         "href": "#title=OpcUaCore_FolderType",
         "type": "application/tm+json"
       }
@@ -1657,14 +1636,13 @@
     "@context": [
       "https://www.w3.org/2022/wot/td/v1.1",
       {
-        "dtv": "http://azure.com/DigitalTwins/dtmi#",
-        "aov": "http://azure.com/IoT/operations/tm#"
+        "dov": "http://azure.com/DigitalOperations/vocab#"
       }
     ],
     "@type": "tm:ThingModel",
     "title": "MachineTool_MachineToolType",
-    "aov:typeRef": "nsu=http://opcfoundation.org/UA/MachineTool/;i=13",
-    "aov:isComposite": true,
+    "dov:typeRef": "org.opcfoundation.UA.MachineTool.MachineToolType",
+    "dov:isComposite": true,
     "links": [
       {
         "rel": "tm:extends",
@@ -1672,38 +1650,38 @@
         "type": "application/tm+json"
       },
       {
-        "rel": "aov:capability",
-        "aov:refName": "Equipment",
+        "rel": "dov:capability",
+        "dov:refName": "Equipment",
         "href": "#title=MachineTool_EquipmentType",
         "type": "application/tm+json"
       },
       {
-        "rel": "aov:component",
-        "aov:refName": "FileSystem",
+        "rel": "dov:component",
+        "dov:refName": "FileSystem",
         "href": "#title=OpcUaCore_FileDirectoryType",
         "type": "application/tm+json"
       },
       {
-        "rel": "aov:component",
-        "aov:refName": "MachineryBuildingBlocks",
+        "rel": "dov:component",
+        "dov:refName": "MachineryBuildingBlocks",
         "href": "#title=OpcUaCore_FolderType",
         "type": "application/tm+json"
       },
       {
-        "rel": "aov:capability",
-        "aov:refName": "Monitoring",
+        "rel": "dov:capability",
+        "dov:refName": "Monitoring",
         "href": "#title=MachineTool_MonitoringType",
         "type": "application/tm+json"
       },
       {
-        "rel": "aov:capability",
-        "aov:refName": "Notification",
+        "rel": "dov:capability",
+        "dov:refName": "Notification",
         "href": "#title=MachineTool_NotificationType",
         "type": "application/tm+json"
       },
       {
-        "rel": "aov:capability",
-        "aov:refName": "Production",
+        "rel": "dov:capability",
+        "dov:refName": "Production",
         "href": "#title=MachineTool_ProductionType",
         "type": "application/tm+json"
       }
@@ -1721,13 +1699,12 @@
     "@context": [
       "https://www.w3.org/2022/wot/td/v1.1",
       {
-        "dtv": "http://azure.com/DigitalTwins/dtmi#",
-        "aov": "http://azure.com/IoT/operations/tm#"
+        "dov": "http://azure.com/DigitalOperations/vocab#"
       }
     ],
     "@type": "tm:ThingModel",
     "title": "MachineTool_EquipmentType",
-    "aov:typeRef": "nsu=http://opcfoundation.org/UA/MachineTool/;i=12",
+    "dov:typeRef": "org.opcfoundation.UA.MachineTool.EquipmentType",
     "links": [
       {
         "rel": "tm:extends",
@@ -1735,8 +1712,8 @@
         "type": "application/tm+json"
       },
       {
-        "rel": "aov:reference",
-        "aov:refName": "Tools",
+        "rel": "dov:reference",
+        "dov:refName": "Tools",
         "href": "#title=MachineTool_ToolListType",
         "type": "application/tm+json"
       }
@@ -1754,13 +1731,12 @@
     "@context": [
       "https://www.w3.org/2022/wot/td/v1.1",
       {
-        "dtv": "http://azure.com/DigitalTwins/dtmi#",
-        "aov": "http://azure.com/IoT/operations/tm#"
+        "dov": "http://azure.com/DigitalOperations/vocab#"
       }
     ],
     "@type": "tm:ThingModel",
     "title": "MachineTool_ToolListType",
-    "aov:typeRef": "nsu=http://opcfoundation.org/UA/MachineTool/;i=44",
+    "dov:typeRef": "org.opcfoundation.UA.MachineTool.ToolListType",
     "links": [
       {
         "rel": "tm:extends",
@@ -1768,8 +1744,8 @@
         "type": "application/tm+json"
       },
       {
-        "rel": "aov:component",
-        "aov:refName": "Tool",
+        "rel": "dov:component",
+        "dov:refName": "Tool",
         "href": "#title=MachineTool_BaseToolType",
         "type": "application/tm+json"
       }
@@ -1779,7 +1755,7 @@
     "forms": [
       {
         "contentType": "application/json",
-        "dtv:topic": "opcua/MachineTool/MachineTool_ToolListType/properties/read",
+        "dov:topic": "opcua/MachineTool/MachineTool_ToolListType/properties/read",
         "op": "readallproperties"
       }
     ],
@@ -1792,7 +1768,7 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/MachineTool/MachineTool_ToolListType/property/NodeVersion/read",
+            "dov:topic": "opcua/MachineTool/MachineTool_ToolListType/property/NodeVersion/read",
             "op": "readproperty"
           }
         ]
@@ -1805,13 +1781,12 @@
     "@context": [
       "https://www.w3.org/2022/wot/td/v1.1",
       {
-        "dtv": "http://azure.com/DigitalTwins/dtmi#",
-        "aov": "http://azure.com/IoT/operations/tm#"
+        "dov": "http://azure.com/DigitalOperations/vocab#"
       }
     ],
     "@type": "tm:ThingModel",
     "title": "MachineTool_BaseToolType",
-    "aov:typeRef": "nsu=http://opcfoundation.org/UA/MachineTool/;i=49",
+    "dov:typeRef": "org.opcfoundation.UA.MachineTool.BaseToolType",
     "links": [
       {
         "rel": "tm:extends",
@@ -1819,8 +1794,8 @@
         "type": "application/tm+json"
       },
       {
-        "rel": "aov:component",
-        "aov:refName": "Location",
+        "rel": "dov:component",
+        "dov:refName": "Location",
         "href": "#title=OpcUaCore_BaseObjectType",
         "type": "application/tm+json"
       }
@@ -1830,7 +1805,7 @@
     "forms": [
       {
         "contentType": "application/json",
-        "dtv:topic": "opcua/MachineTool/MachineTool_BaseToolType/properties/read",
+        "dov:topic": "opcua/MachineTool/MachineTool_BaseToolType/properties/read",
         "op": "readallproperties"
       }
     ],
@@ -1838,25 +1813,25 @@
     },
     "properties": {
       "Identifier": {
-        "aov:namespace": "http://opcfoundation.org/UA/MachineTool/",
+        "dov:namespace": "http://opcfoundation.org/UA/MachineTool/",
         "type": "string",
         "readOnly": true,
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/MachineTool/MachineTool_BaseToolType/property/Identifier/read",
+            "dov:topic": "opcua/MachineTool/MachineTool_BaseToolType/property/Identifier/read",
             "op": "readproperty"
           }
         ]
       },
       "Name": {
-        "aov:namespace": "http://opcfoundation.org/UA/MachineTool/",
+        "dov:namespace": "http://opcfoundation.org/UA/MachineTool/",
         "type": "string",
         "readOnly": true,
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/MachineTool/MachineTool_BaseToolType/property/Name/read",
+            "dov:topic": "opcua/MachineTool/MachineTool_BaseToolType/property/Name/read",
             "op": "readproperty"
           }
         ]
@@ -1869,13 +1844,12 @@
     "@context": [
       "https://www.w3.org/2022/wot/td/v1.1",
       {
-        "dtv": "http://azure.com/DigitalTwins/dtmi#",
-        "aov": "http://azure.com/IoT/operations/tm#"
+        "dov": "http://azure.com/DigitalOperations/vocab#"
       }
     ],
     "@type": "tm:ThingModel",
     "title": "MachineTool_MonitoringType",
-    "aov:typeRef": "nsu=http://opcfoundation.org/UA/MachineTool/;i=14",
+    "dov:typeRef": "org.opcfoundation.UA.MachineTool.MonitoringType",
     "links": [
       {
         "rel": "tm:extends",
@@ -1883,20 +1857,20 @@
         "type": "application/tm+json"
       },
       {
-        "rel": "aov:component",
-        "aov:refName": "MonitoredElement",
+        "rel": "dov:component",
+        "dov:refName": "MonitoredElement",
         "href": "#title=MachineTool_ElementMonitoringType",
         "type": "application/tm+json"
       },
       {
-        "rel": "aov:capability",
-        "aov:refName": "MachineTool",
+        "rel": "dov:capability",
+        "dov:refName": "MachineTool",
         "href": "#title=MachineTool_MachineOperationMonitoringType",
         "type": "application/tm+json"
       },
       {
-        "rel": "aov:reference",
-        "aov:refName": "Stacklight",
+        "rel": "dov:reference",
+        "dov:refName": "Stacklight",
         "href": "#title=IA_BasicStacklightType",
         "type": "application/tm+json"
       }
@@ -1914,13 +1888,12 @@
     "@context": [
       "https://www.w3.org/2022/wot/td/v1.1",
       {
-        "dtv": "http://azure.com/DigitalTwins/dtmi#",
-        "aov": "http://azure.com/IoT/operations/tm#"
+        "dov": "http://azure.com/DigitalOperations/vocab#"
       }
     ],
     "@type": "tm:ThingModel",
     "title": "MachineTool_ElementMonitoringType",
-    "aov:typeRef": "nsu=http://opcfoundation.org/UA/MachineTool/;i=23",
+    "dov:typeRef": "org.opcfoundation.UA.MachineTool.ElementMonitoringType",
     "links": [
       {
         "rel": "tm:extends",
@@ -1933,7 +1906,7 @@
     "forms": [
       {
         "contentType": "application/json",
-        "dtv:topic": "opcua/MachineTool/MachineTool_ElementMonitoringType/properties/read",
+        "dov:topic": "opcua/MachineTool/MachineTool_ElementMonitoringType/properties/read",
         "op": "readallproperties"
       }
     ],
@@ -1941,13 +1914,13 @@
     },
     "properties": {
       "Name": {
-        "aov:namespace": "http://opcfoundation.org/UA/MachineTool/",
+        "dov:namespace": "http://opcfoundation.org/UA/MachineTool/",
         "type": "string",
         "readOnly": true,
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/MachineTool/MachineTool_ElementMonitoringType/property/Name/read",
+            "dov:topic": "opcua/MachineTool/MachineTool_ElementMonitoringType/property/Name/read",
             "op": "readproperty"
           }
         ]
@@ -1960,13 +1933,12 @@
     "@context": [
       "https://www.w3.org/2022/wot/td/v1.1",
       {
-        "dtv": "http://azure.com/DigitalTwins/dtmi#",
-        "aov": "http://azure.com/IoT/operations/tm#"
+        "dov": "http://azure.com/DigitalOperations/vocab#"
       }
     ],
     "@type": "tm:ThingModel",
     "title": "MachineTool_MachineOperationMonitoringType",
-    "aov:typeRef": "nsu=http://opcfoundation.org/UA/MachineTool/;i=26",
+    "dov:typeRef": "org.opcfoundation.UA.MachineTool.MachineOperationMonitoringType",
     "links": [
       {
         "rel": "tm:extends",
@@ -1974,8 +1946,8 @@
         "type": "application/tm+json"
       },
       {
-        "rel": "aov:reference",
-        "aov:refName": "Obligation",
+        "rel": "dov:reference",
+        "dov:refName": "Obligation",
         "href": "#title=MachineTool_ObligationType",
         "type": "application/tm+json"
       }
@@ -1983,7 +1955,7 @@
     "schemaDefinitions": {
       "MachineOperationMode": {
         "type": "object",
-        "aov:typeRef": "nsu=http://opcfoundation.org/UA/MachineTool/;i=65",
+        "dov:typeRef": "org.opcfoundation.UA.MachineTool.MachineOperationMode",
         "const": {
           "Manual": 0,
           "Automatic": 1,
@@ -2023,12 +1995,12 @@
     "forms": [
       {
         "contentType": "application/json",
-        "dtv:topic": "opcua/MachineTool/MachineTool_MachineOperationMonitoringType/events/{senderId}",
+        "dov:topic": "opcua/MachineTool/MachineTool_MachineOperationMonitoringType/events/{senderId}",
         "op": "subscribeallevents"
       },
       {
         "contentType": "application/json",
-        "dtv:topic": "opcua/MachineTool/MachineTool_MachineOperationMonitoringType/properties/read",
+        "dov:topic": "opcua/MachineTool/MachineTool_MachineOperationMonitoringType/properties/read",
         "op": "readallproperties"
       }
     ],
@@ -2036,7 +2008,7 @@
     },
     "properties": {
       "FeedOverride": {
-        "aov:namespace": "http://opcfoundation.org/UA/MachineTool/",
+        "dov:namespace": "http://opcfoundation.org/UA/MachineTool/",
         "type": "number",
         "minimum": -1.80e+308,
         "maximum": 1.80e+308,
@@ -2044,27 +2016,27 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/MachineTool/MachineTool_MachineOperationMonitoringType/property/FeedOverride/read",
+            "dov:topic": "opcua/MachineTool/MachineTool_MachineOperationMonitoringType/property/FeedOverride/read",
             "op": "readproperty"
           }
         ]
       },
       "IsWarmUp": {
-        "aov:namespace": "http://opcfoundation.org/UA/MachineTool/",
+        "dov:namespace": "http://opcfoundation.org/UA/MachineTool/",
         "type": "boolean",
         "readOnly": true,
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/MachineTool/MachineTool_MachineOperationMonitoringType/property/IsWarmUp/read",
+            "dov:topic": "opcua/MachineTool/MachineTool_MachineOperationMonitoringType/property/IsWarmUp/read",
             "op": "readproperty"
           }
         ]
       },
       "OperationMode": {
-        "aov:namespace": "http://opcfoundation.org/UA/MachineTool/",
+        "dov:namespace": "http://opcfoundation.org/UA/MachineTool/",
         "title": "MachineOperationMode",
-        "aov:typeRef": "nsu=http://opcfoundation.org/UA/MachineTool/;i=65",
+        "dov:typeRef": "org.opcfoundation.UA.MachineTool.MachineOperationMode",
         "type": "integer",
         "minimum": -2147483648,
         "maximum": 2147483647,
@@ -2072,13 +2044,13 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/MachineTool/MachineTool_MachineOperationMonitoringType/property/OperationMode/read",
+            "dov:topic": "opcua/MachineTool/MachineTool_MachineOperationMonitoringType/property/OperationMode/read",
             "op": "readproperty"
           }
         ]
       },
       "PowerOnDuration": {
-        "aov:namespace": "http://opcfoundation.org/UA/MachineTool/",
+        "dov:namespace": "http://opcfoundation.org/UA/MachineTool/",
         "type": "integer",
         "minimum": 0,
         "maximum": 4294967295,
@@ -2086,7 +2058,7 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/MachineTool/MachineTool_MachineOperationMonitoringType/property/PowerOnDuration/read",
+            "dov:topic": "opcua/MachineTool/MachineTool_MachineOperationMonitoringType/property/PowerOnDuration/read",
             "op": "readproperty"
           }
         ]
@@ -2094,7 +2066,7 @@
     },
     "events": {
       "FeedOverride": {
-        "aov:namespace": "http://opcfoundation.org/UA/MachineTool/",
+        "dov:namespace": "http://opcfoundation.org/UA/MachineTool/",
         "data": {
           "type": "number",
           "minimum": -1.80e+308,
@@ -2103,29 +2075,29 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/MachineTool/MachineTool_MachineOperationMonitoringType/event/FeedOverride/{senderId}",
+            "dov:topic": "opcua/MachineTool/MachineTool_MachineOperationMonitoringType/event/FeedOverride/{senderId}",
             "op": "subscribeevent"
           }
         ]
       },
       "IsWarmUp": {
-        "aov:namespace": "http://opcfoundation.org/UA/MachineTool/",
+        "dov:namespace": "http://opcfoundation.org/UA/MachineTool/",
         "data": {
           "type": "boolean"
         },
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/MachineTool/MachineTool_MachineOperationMonitoringType/event/IsWarmUp/{senderId}",
+            "dov:topic": "opcua/MachineTool/MachineTool_MachineOperationMonitoringType/event/IsWarmUp/{senderId}",
             "op": "subscribeevent"
           }
         ]
       },
       "OperationMode": {
-        "aov:namespace": "http://opcfoundation.org/UA/MachineTool/",
+        "dov:namespace": "http://opcfoundation.org/UA/MachineTool/",
         "data": {
           "title": "MachineOperationMode",
-          "aov:typeRef": "nsu=http://opcfoundation.org/UA/MachineTool/;i=65",
+          "dov:typeRef": "org.opcfoundation.UA.MachineTool.MachineOperationMode",
           "type": "integer",
           "minimum": -2147483648,
           "maximum": 2147483647
@@ -2133,13 +2105,13 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/MachineTool/MachineTool_MachineOperationMonitoringType/event/OperationMode/{senderId}",
+            "dov:topic": "opcua/MachineTool/MachineTool_MachineOperationMonitoringType/event/OperationMode/{senderId}",
             "op": "subscribeevent"
           }
         ]
       },
       "PowerOnDuration": {
-        "aov:namespace": "http://opcfoundation.org/UA/MachineTool/",
+        "dov:namespace": "http://opcfoundation.org/UA/MachineTool/",
         "data": {
           "type": "integer",
           "minimum": 0,
@@ -2148,7 +2120,7 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/MachineTool/MachineTool_MachineOperationMonitoringType/event/PowerOnDuration/{senderId}",
+            "dov:topic": "opcua/MachineTool/MachineTool_MachineOperationMonitoringType/event/PowerOnDuration/{senderId}",
             "op": "subscribeevent"
           }
         ]
@@ -2159,13 +2131,12 @@
     "@context": [
       "https://www.w3.org/2022/wot/td/v1.1",
       {
-        "dtv": "http://azure.com/DigitalTwins/dtmi#",
-        "aov": "http://azure.com/IoT/operations/tm#"
+        "dov": "http://azure.com/DigitalOperations/vocab#"
       }
     ],
     "@type": "tm:ThingModel",
     "title": "MachineTool_ObligationType",
-    "aov:typeRef": "nsu=http://opcfoundation.org/UA/MachineTool/;i=1002",
+    "dov:typeRef": "org.opcfoundation.UA.MachineTool.ObligationType",
     "links": [
       {
         "rel": "tm:extends",
@@ -2178,12 +2149,12 @@
     "forms": [
       {
         "contentType": "application/json",
-        "dtv:topic": "opcua/MachineTool/MachineTool_ObligationType/events/{senderId}",
+        "dov:topic": "opcua/MachineTool/MachineTool_ObligationType/events/{senderId}",
         "op": "subscribeallevents"
       },
       {
         "contentType": "application/json",
-        "dtv:topic": "opcua/MachineTool/MachineTool_ObligationType/properties/read",
+        "dov:topic": "opcua/MachineTool/MachineTool_ObligationType/properties/read",
         "op": "readallproperties"
       }
     ],
@@ -2191,25 +2162,25 @@
     },
     "properties": {
       "EndUserObligated": {
-        "aov:namespace": "http://opcfoundation.org/UA/MachineTool/",
+        "dov:namespace": "http://opcfoundation.org/UA/MachineTool/",
         "type": "boolean",
         "readOnly": true,
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/MachineTool/MachineTool_ObligationType/property/EndUserObligated/read",
+            "dov:topic": "opcua/MachineTool/MachineTool_ObligationType/property/EndUserObligated/read",
             "op": "readproperty"
           }
         ]
       },
       "MachineBuilderObligated": {
-        "aov:namespace": "http://opcfoundation.org/UA/MachineTool/",
+        "dov:namespace": "http://opcfoundation.org/UA/MachineTool/",
         "type": "boolean",
         "readOnly": true,
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/MachineTool/MachineTool_ObligationType/property/MachineBuilderObligated/read",
+            "dov:topic": "opcua/MachineTool/MachineTool_ObligationType/property/MachineBuilderObligated/read",
             "op": "readproperty"
           }
         ]
@@ -2217,27 +2188,27 @@
     },
     "events": {
       "EndUserObligated": {
-        "aov:namespace": "http://opcfoundation.org/UA/MachineTool/",
+        "dov:namespace": "http://opcfoundation.org/UA/MachineTool/",
         "data": {
           "type": "boolean"
         },
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/MachineTool/MachineTool_ObligationType/event/EndUserObligated/{senderId}",
+            "dov:topic": "opcua/MachineTool/MachineTool_ObligationType/event/EndUserObligated/{senderId}",
             "op": "subscribeevent"
           }
         ]
       },
       "MachineBuilderObligated": {
-        "aov:namespace": "http://opcfoundation.org/UA/MachineTool/",
+        "dov:namespace": "http://opcfoundation.org/UA/MachineTool/",
         "data": {
           "type": "boolean"
         },
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/MachineTool/MachineTool_ObligationType/event/MachineBuilderObligated/{senderId}",
+            "dov:topic": "opcua/MachineTool/MachineTool_ObligationType/event/MachineBuilderObligated/{senderId}",
             "op": "subscribeevent"
           }
         ]
@@ -2248,13 +2219,12 @@
     "@context": [
       "https://www.w3.org/2022/wot/td/v1.1",
       {
-        "dtv": "http://azure.com/DigitalTwins/dtmi#",
-        "aov": "http://azure.com/IoT/operations/tm#"
+        "dov": "http://azure.com/DigitalOperations/vocab#"
       }
     ],
     "@type": "tm:ThingModel",
     "title": "MachineTool_NotificationType",
-    "aov:typeRef": "nsu=http://opcfoundation.org/UA/MachineTool/;i=7",
+    "dov:typeRef": "org.opcfoundation.UA.MachineTool.NotificationType",
     "links": [
       {
         "rel": "tm:extends",
@@ -2262,14 +2232,14 @@
         "type": "application/tm+json"
       },
       {
-        "rel": "aov:reference",
-        "aov:refName": "Messages",
+        "rel": "dov:reference",
+        "dov:refName": "Messages",
         "href": "#title=MachineTool_MessagesType",
         "type": "application/tm+json"
       },
       {
-        "rel": "aov:reference",
-        "aov:refName": "Prognoses",
+        "rel": "dov:reference",
+        "dov:refName": "Prognoses",
         "href": "#title=MachineTool_PrognosisListType",
         "type": "application/tm+json"
       }
@@ -2287,13 +2257,12 @@
     "@context": [
       "https://www.w3.org/2022/wot/td/v1.1",
       {
-        "dtv": "http://azure.com/DigitalTwins/dtmi#",
-        "aov": "http://azure.com/IoT/operations/tm#"
+        "dov": "http://azure.com/DigitalOperations/vocab#"
       }
     ],
     "@type": "tm:ThingModel",
     "title": "MachineTool_MessagesType",
-    "aov:typeRef": "nsu=http://opcfoundation.org/UA/MachineTool/;i=38",
+    "dov:typeRef": "org.opcfoundation.UA.MachineTool.MessagesType",
     "links": [
       {
         "rel": "tm:extends",
@@ -2314,13 +2283,12 @@
     "@context": [
       "https://www.w3.org/2022/wot/td/v1.1",
       {
-        "dtv": "http://azure.com/DigitalTwins/dtmi#",
-        "aov": "http://azure.com/IoT/operations/tm#"
+        "dov": "http://azure.com/DigitalOperations/vocab#"
       }
     ],
     "@type": "tm:ThingModel",
     "title": "MachineTool_PrognosisListType",
-    "aov:typeRef": "nsu=http://opcfoundation.org/UA/MachineTool/;i=2",
+    "dov:typeRef": "org.opcfoundation.UA.MachineTool.PrognosisListType",
     "links": [
       {
         "rel": "tm:extends",
@@ -2328,8 +2296,8 @@
         "type": "application/tm+json"
       },
       {
-        "rel": "aov:component",
-        "aov:refName": "Prognosis",
+        "rel": "dov:component",
+        "dov:refName": "Prognosis",
         "href": "#title=MachineTool_PrognosisType",
         "type": "application/tm+json"
       }
@@ -2339,7 +2307,7 @@
     "forms": [
       {
         "contentType": "application/json",
-        "dtv:topic": "opcua/MachineTool/MachineTool_PrognosisListType/properties/read",
+        "dov:topic": "opcua/MachineTool/MachineTool_PrognosisListType/properties/read",
         "op": "readallproperties"
       }
     ],
@@ -2352,7 +2320,7 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/MachineTool/MachineTool_PrognosisListType/property/NodeVersion/read",
+            "dov:topic": "opcua/MachineTool/MachineTool_PrognosisListType/property/NodeVersion/read",
             "op": "readproperty"
           }
         ]
@@ -2365,13 +2333,12 @@
     "@context": [
       "https://www.w3.org/2022/wot/td/v1.1",
       {
-        "dtv": "http://azure.com/DigitalTwins/dtmi#",
-        "aov": "http://azure.com/IoT/operations/tm#"
+        "dov": "http://azure.com/DigitalOperations/vocab#"
       }
     ],
     "@type": "tm:ThingModel",
     "title": "MachineTool_PrognosisType",
-    "aov:typeRef": "nsu=http://opcfoundation.org/UA/MachineTool/;i=3",
+    "dov:typeRef": "org.opcfoundation.UA.MachineTool.PrognosisType",
     "links": [
       {
         "rel": "tm:extends",
@@ -2384,7 +2351,7 @@
     "forms": [
       {
         "contentType": "application/json",
-        "dtv:topic": "opcua/MachineTool/MachineTool_PrognosisType/properties/read",
+        "dov:topic": "opcua/MachineTool/MachineTool_PrognosisType/properties/read",
         "op": "readallproperties"
       }
     ],
@@ -2392,14 +2359,14 @@
     },
     "properties": {
       "PredictedTime": {
-        "aov:namespace": "http://opcfoundation.org/UA/MachineTool/",
+        "dov:namespace": "http://opcfoundation.org/UA/MachineTool/",
         "type": "string",
         "format": "time",
         "readOnly": true,
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/MachineTool/MachineTool_PrognosisType/property/PredictedTime/read",
+            "dov:topic": "opcua/MachineTool/MachineTool_PrognosisType/property/PredictedTime/read",
             "op": "readproperty"
           }
         ]
@@ -2412,13 +2379,12 @@
     "@context": [
       "https://www.w3.org/2022/wot/td/v1.1",
       {
-        "dtv": "http://azure.com/DigitalTwins/dtmi#",
-        "aov": "http://azure.com/IoT/operations/tm#"
+        "dov": "http://azure.com/DigitalOperations/vocab#"
       }
     ],
     "@type": "tm:ThingModel",
     "title": "MachineTool_ProductionType",
-    "aov:typeRef": "nsu=http://opcfoundation.org/UA/MachineTool/;i=21",
+    "dov:typeRef": "org.opcfoundation.UA.MachineTool.ProductionType",
     "links": [
       {
         "rel": "tm:extends",
@@ -2426,20 +2392,20 @@
         "type": "application/tm+json"
       },
       {
-        "rel": "aov:capability",
-        "aov:refName": "ActiveProgram",
+        "rel": "dov:capability",
+        "dov:refName": "ActiveProgram",
         "href": "#title=MachineTool_ProductionActiveProgramType",
         "type": "application/tm+json"
       },
       {
-        "rel": "aov:reference",
-        "aov:refName": "ProductionPlan",
+        "rel": "dov:reference",
+        "dov:refName": "ProductionPlan",
         "href": "#title=MachineTool_ProductionJobListType",
         "type": "application/tm+json"
       },
       {
-        "rel": "aov:reference",
-        "aov:refName": "Statistics",
+        "rel": "dov:reference",
+        "dov:refName": "Statistics",
         "href": "#title=MachineTool_ProductionStatisticsType",
         "type": "application/tm+json"
       }
@@ -2457,13 +2423,12 @@
     "@context": [
       "https://www.w3.org/2022/wot/td/v1.1",
       {
-        "dtv": "http://azure.com/DigitalTwins/dtmi#",
-        "aov": "http://azure.com/IoT/operations/tm#"
+        "dov": "http://azure.com/DigitalOperations/vocab#"
       }
     ],
     "@type": "tm:ThingModel",
     "title": "MachineTool_ProductionActiveProgramType",
-    "aov:typeRef": "nsu=http://opcfoundation.org/UA/MachineTool/;i=32",
+    "dov:typeRef": "org.opcfoundation.UA.MachineTool.ProductionActiveProgramType",
     "links": [
       {
         "rel": "tm:extends",
@@ -2471,8 +2436,8 @@
         "type": "application/tm+json"
       },
       {
-        "rel": "aov:capability",
-        "aov:refName": "State",
+        "rel": "dov:capability",
+        "dov:refName": "State",
         "href": "#title=MachineTool_ProductionProgramStateMachineType",
         "type": "application/tm+json"
       }
@@ -2482,12 +2447,12 @@
     "forms": [
       {
         "contentType": "application/json",
-        "dtv:topic": "opcua/MachineTool/MachineTool_ProductionActiveProgramType/events/{senderId}",
+        "dov:topic": "opcua/MachineTool/MachineTool_ProductionActiveProgramType/events/{senderId}",
         "op": "subscribeallevents"
       },
       {
         "contentType": "application/json",
-        "dtv:topic": "opcua/MachineTool/MachineTool_ProductionActiveProgramType/properties/read",
+        "dov:topic": "opcua/MachineTool/MachineTool_ProductionActiveProgramType/properties/read",
         "op": "readallproperties"
       }
     ],
@@ -2495,25 +2460,25 @@
     },
     "properties": {
       "JobIdentifier": {
-        "aov:namespace": "http://opcfoundation.org/UA/MachineTool/",
+        "dov:namespace": "http://opcfoundation.org/UA/MachineTool/",
         "type": "string",
         "readOnly": true,
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/MachineTool/MachineTool_ProductionActiveProgramType/property/JobIdentifier/read",
+            "dov:topic": "opcua/MachineTool/MachineTool_ProductionActiveProgramType/property/JobIdentifier/read",
             "op": "readproperty"
           }
         ]
       },
       "JobNodeId": {
-        "aov:namespace": "http://opcfoundation.org/UA/MachineTool/",
+        "dov:namespace": "http://opcfoundation.org/UA/MachineTool/",
         "type": "string",
         "readOnly": true,
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/MachineTool/MachineTool_ProductionActiveProgramType/property/JobNodeId/read",
+            "dov:topic": "opcua/MachineTool/MachineTool_ProductionActiveProgramType/property/JobNodeId/read",
             "op": "readproperty"
           }
         ]
@@ -2521,27 +2486,27 @@
     },
     "events": {
       "JobIdentifier": {
-        "aov:namespace": "http://opcfoundation.org/UA/MachineTool/",
+        "dov:namespace": "http://opcfoundation.org/UA/MachineTool/",
         "data": {
           "type": "string"
         },
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/MachineTool/MachineTool_ProductionActiveProgramType/event/JobIdentifier/{senderId}",
+            "dov:topic": "opcua/MachineTool/MachineTool_ProductionActiveProgramType/event/JobIdentifier/{senderId}",
             "op": "subscribeevent"
           }
         ]
       },
       "JobNodeId": {
-        "aov:namespace": "http://opcfoundation.org/UA/MachineTool/",
+        "dov:namespace": "http://opcfoundation.org/UA/MachineTool/",
         "data": {
           "type": "string"
         },
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/MachineTool/MachineTool_ProductionActiveProgramType/event/JobNodeId/{senderId}",
+            "dov:topic": "opcua/MachineTool/MachineTool_ProductionActiveProgramType/event/JobNodeId/{senderId}",
             "op": "subscribeevent"
           }
         ]
@@ -2552,13 +2517,12 @@
     "@context": [
       "https://www.w3.org/2022/wot/td/v1.1",
       {
-        "dtv": "http://azure.com/DigitalTwins/dtmi#",
-        "aov": "http://azure.com/IoT/operations/tm#"
+        "dov": "http://azure.com/DigitalOperations/vocab#"
       }
     ],
     "@type": "tm:ThingModel",
     "title": "MachineTool_ProductionProgramType",
-    "aov:typeRef": "nsu=http://opcfoundation.org/UA/MachineTool/;i=59",
+    "dov:typeRef": "org.opcfoundation.UA.MachineTool.ProductionProgramType",
     "links": [
       {
         "rel": "tm:extends",
@@ -2566,8 +2530,8 @@
         "type": "application/tm+json"
       },
       {
-        "rel": "aov:capability",
-        "aov:refName": "State",
+        "rel": "dov:capability",
+        "dov:refName": "State",
         "href": "#title=MachineTool_ProductionProgramStateMachineType",
         "type": "application/tm+json"
       }
@@ -2577,7 +2541,7 @@
     "forms": [
       {
         "contentType": "application/json",
-        "dtv:topic": "opcua/MachineTool/MachineTool_ProductionProgramType/properties/read",
+        "dov:topic": "opcua/MachineTool/MachineTool_ProductionProgramType/properties/read",
         "op": "readallproperties"
       }
     ],
@@ -2585,13 +2549,13 @@
     },
     "properties": {
       "Name": {
-        "aov:namespace": "http://opcfoundation.org/UA/MachineTool/",
+        "dov:namespace": "http://opcfoundation.org/UA/MachineTool/",
         "type": "string",
         "readOnly": true,
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/MachineTool/MachineTool_ProductionProgramType/property/Name/read",
+            "dov:topic": "opcua/MachineTool/MachineTool_ProductionProgramType/property/Name/read",
             "op": "readproperty"
           }
         ]
@@ -2604,7 +2568,7 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/MachineTool/MachineTool_ProductionProgramType/property/NumberInList/read",
+            "dov:topic": "opcua/MachineTool/MachineTool_ProductionProgramType/property/NumberInList/read",
             "op": "readproperty"
           }
         ]
@@ -2617,13 +2581,12 @@
     "@context": [
       "https://www.w3.org/2022/wot/td/v1.1",
       {
-        "dtv": "http://azure.com/DigitalTwins/dtmi#",
-        "aov": "http://azure.com/IoT/operations/tm#"
+        "dov": "http://azure.com/DigitalOperations/vocab#"
       }
     ],
     "@type": "tm:ThingModel",
     "title": "MachineTool_ProductionProgramStateMachineType",
-    "aov:typeRef": "nsu=http://opcfoundation.org/UA/MachineTool/;i=15",
+    "dov:typeRef": "org.opcfoundation.UA.MachineTool.ProductionProgramStateMachineType",
     "links": [
       {
         "rel": "tm:extends",
@@ -2631,92 +2594,92 @@
         "type": "application/tm+json"
       },
       {
-        "rel": "aov:reference",
-        "aov:refName": "Aborted",
+        "rel": "dov:reference",
+        "dov:refName": "Aborted",
         "href": "#title=OpcUaCore_StateType",
         "type": "application/tm+json"
       },
       {
-        "rel": "aov:reference",
-        "aov:refName": "AbortedToInitializing",
+        "rel": "dov:reference",
+        "dov:refName": "AbortedToInitializing",
         "href": "#title=OpcUaCore_TransitionType",
         "type": "application/tm+json"
       },
       {
-        "rel": "aov:reference",
-        "aov:refName": "Ended",
+        "rel": "dov:reference",
+        "dov:refName": "Ended",
         "href": "#title=OpcUaCore_StateType",
         "type": "application/tm+json"
       },
       {
-        "rel": "aov:reference",
-        "aov:refName": "EndedToInitializing",
+        "rel": "dov:reference",
+        "dov:refName": "EndedToInitializing",
         "href": "#title=OpcUaCore_TransitionType",
         "type": "application/tm+json"
       },
       {
-        "rel": "aov:reference",
-        "aov:refName": "Initializing",
+        "rel": "dov:reference",
+        "dov:refName": "Initializing",
         "href": "#title=OpcUaCore_InitialStateType",
         "type": "application/tm+json"
       },
       {
-        "rel": "aov:reference",
-        "aov:refName": "InitializingToAborted",
+        "rel": "dov:reference",
+        "dov:refName": "InitializingToAborted",
         "href": "#title=OpcUaCore_TransitionType",
         "type": "application/tm+json"
       },
       {
-        "rel": "aov:reference",
-        "aov:refName": "InitializingToRunning",
+        "rel": "dov:reference",
+        "dov:refName": "InitializingToRunning",
         "href": "#title=OpcUaCore_TransitionType",
         "type": "application/tm+json"
       },
       {
-        "rel": "aov:reference",
-        "aov:refName": "Interrupted",
+        "rel": "dov:reference",
+        "dov:refName": "Interrupted",
         "href": "#title=OpcUaCore_StateType",
         "type": "application/tm+json"
       },
       {
-        "rel": "aov:reference",
-        "aov:refName": "InterruptedToAborted",
+        "rel": "dov:reference",
+        "dov:refName": "InterruptedToAborted",
         "href": "#title=OpcUaCore_TransitionType",
         "type": "application/tm+json"
       },
       {
-        "rel": "aov:reference",
-        "aov:refName": "InterruptedToRunning",
+        "rel": "dov:reference",
+        "dov:refName": "InterruptedToRunning",
         "href": "#title=OpcUaCore_TransitionType",
         "type": "application/tm+json"
       },
       {
-        "rel": "aov:reference",
-        "aov:refName": "Running",
+        "rel": "dov:reference",
+        "dov:refName": "Running",
         "href": "#title=OpcUaCore_StateType",
         "type": "application/tm+json"
       },
       {
-        "rel": "aov:reference",
-        "aov:refName": "RunningToAborted",
+        "rel": "dov:reference",
+        "dov:refName": "RunningToAborted",
         "href": "#title=OpcUaCore_TransitionType",
         "type": "application/tm+json"
       },
       {
-        "rel": "aov:reference",
-        "aov:refName": "RunningToEnded",
+        "rel": "dov:reference",
+        "dov:refName": "RunningToEnded",
         "href": "#title=OpcUaCore_TransitionType",
         "type": "application/tm+json"
       },
       {
-        "rel": "aov:reference",
-        "aov:refName": "RunningToInterrupted",
+        "rel": "dov:reference",
+        "dov:refName": "RunningToInterrupted",
         "href": "#title=OpcUaCore_TransitionType",
         "type": "application/tm+json"
       },
       {
-        "rel": "aov:reference",
-        "aov:refName": "RunningToRunning",
+        "rel": "dov:reference",
+        "dov:refName": "RunningToRunning",
         "href": "#title=OpcUaCore_TransitionType",
         "type": "application/tm+json"
       }
@@ -2734,14 +2697,13 @@
     "@context": [
       "https://www.w3.org/2022/wot/td/v1.1",
       {
-        "dtv": "http://azure.com/DigitalTwins/dtmi#",
-        "aov": "http://azure.com/IoT/operations/tm#"
+        "dov": "http://azure.com/DigitalOperations/vocab#"
       }
     ],
     "@type": "tm:ThingModel",
     "title": "MachineTool_ProductionStateMachineType",
-    "aov:typeRef": "nsu=http://opcfoundation.org/UA/MachineTool/;i=24",
-    "aov:isComposite": true,
+    "dov:typeRef": "org.opcfoundation.UA.MachineTool.ProductionStateMachineType",
+    "dov:isComposite": true,
     "links": [
       {
         "rel": "tm:extends",
@@ -2749,92 +2711,92 @@
         "type": "application/tm+json"
       },
       {
-        "rel": "aov:reference",
-        "aov:refName": "Aborted",
+        "rel": "dov:reference",
+        "dov:refName": "Aborted",
         "href": "#title=OpcUaCore_StateType",
         "type": "application/tm+json"
       },
       {
-        "rel": "aov:reference",
-        "aov:refName": "AbortedToInitializing",
+        "rel": "dov:reference",
+        "dov:refName": "AbortedToInitializing",
         "href": "#title=OpcUaCore_TransitionType",
         "type": "application/tm+json"
       },
       {
-        "rel": "aov:reference",
-        "aov:refName": "Ended",
+        "rel": "dov:reference",
+        "dov:refName": "Ended",
         "href": "#title=OpcUaCore_StateType",
         "type": "application/tm+json"
       },
       {
-        "rel": "aov:reference",
-        "aov:refName": "EndedToInitializing",
+        "rel": "dov:reference",
+        "dov:refName": "EndedToInitializing",
         "href": "#title=OpcUaCore_TransitionType",
         "type": "application/tm+json"
       },
       {
-        "rel": "aov:reference",
-        "aov:refName": "Initializing",
+        "rel": "dov:reference",
+        "dov:refName": "Initializing",
         "href": "#title=OpcUaCore_InitialStateType",
         "type": "application/tm+json"
       },
       {
-        "rel": "aov:reference",
-        "aov:refName": "InitializingToAborted",
+        "rel": "dov:reference",
+        "dov:refName": "InitializingToAborted",
         "href": "#title=OpcUaCore_TransitionType",
         "type": "application/tm+json"
       },
       {
-        "rel": "aov:reference",
-        "aov:refName": "InitializingToRunning",
+        "rel": "dov:reference",
+        "dov:refName": "InitializingToRunning",
         "href": "#title=OpcUaCore_TransitionType",
         "type": "application/tm+json"
       },
       {
-        "rel": "aov:reference",
-        "aov:refName": "Interrupted",
+        "rel": "dov:reference",
+        "dov:refName": "Interrupted",
         "href": "#title=OpcUaCore_StateType",
         "type": "application/tm+json"
       },
       {
-        "rel": "aov:reference",
-        "aov:refName": "InterruptedToAborted",
+        "rel": "dov:reference",
+        "dov:refName": "InterruptedToAborted",
         "href": "#title=OpcUaCore_TransitionType",
         "type": "application/tm+json"
       },
       {
-        "rel": "aov:reference",
-        "aov:refName": "InterruptedToRunning",
+        "rel": "dov:reference",
+        "dov:refName": "InterruptedToRunning",
         "href": "#title=OpcUaCore_TransitionType",
         "type": "application/tm+json"
       },
       {
-        "rel": "aov:reference",
-        "aov:refName": "Running",
+        "rel": "dov:reference",
+        "dov:refName": "Running",
         "href": "#title=OpcUaCore_StateType",
         "type": "application/tm+json"
       },
       {
-        "rel": "aov:reference",
-        "aov:refName": "RunningToAborted",
+        "rel": "dov:reference",
+        "dov:refName": "RunningToAborted",
         "href": "#title=OpcUaCore_TransitionType",
         "type": "application/tm+json"
       },
       {
-        "rel": "aov:reference",
-        "aov:refName": "RunningToEnded",
+        "rel": "dov:reference",
+        "dov:refName": "RunningToEnded",
         "href": "#title=OpcUaCore_TransitionType",
         "type": "application/tm+json"
       },
       {
-        "rel": "aov:reference",
-        "aov:refName": "RunningToInterrupted",
+        "rel": "dov:reference",
+        "dov:refName": "RunningToInterrupted",
         "href": "#title=OpcUaCore_TransitionType",
         "type": "application/tm+json"
       },
       {
-        "rel": "aov:reference",
-        "aov:refName": "RunningToRunning",
+        "rel": "dov:reference",
+        "dov:refName": "RunningToRunning",
         "href": "#title=OpcUaCore_TransitionType",
         "type": "application/tm+json"
       }
@@ -2844,12 +2806,12 @@
     "forms": [
       {
         "contentType": "application/json",
-        "dtv:topic": "opcua/MachineTool/MachineTool_ProductionStateMachineType/events/{senderId}",
+        "dov:topic": "opcua/MachineTool/MachineTool_ProductionStateMachineType/events/{senderId}",
         "op": "subscribeallevents"
       },
       {
         "contentType": "application/json",
-        "dtv:topic": "opcua/MachineTool/MachineTool_ProductionStateMachineType/properties/read",
+        "dov:topic": "opcua/MachineTool/MachineTool_ProductionStateMachineType/properties/read",
         "op": "readallproperties"
       }
     ],
@@ -2862,7 +2824,7 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/MachineTool/MachineTool_ProductionStateMachineType/property/CurrentState/read",
+            "dov:topic": "opcua/MachineTool/MachineTool_ProductionStateMachineType/property/CurrentState/read",
             "op": "readproperty"
           }
         ]
@@ -2873,7 +2835,7 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/MachineTool/MachineTool_ProductionStateMachineType/property/LastTransition/read",
+            "dov:topic": "opcua/MachineTool/MachineTool_ProductionStateMachineType/property/LastTransition/read",
             "op": "readproperty"
           }
         ]
@@ -2887,7 +2849,7 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/MachineTool/MachineTool_ProductionStateMachineType/event/CurrentState/{senderId}",
+            "dov:topic": "opcua/MachineTool/MachineTool_ProductionStateMachineType/event/CurrentState/{senderId}",
             "op": "subscribeevent"
           }
         ]
@@ -2899,7 +2861,7 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/MachineTool/MachineTool_ProductionStateMachineType/event/LastTransition/{senderId}",
+            "dov:topic": "opcua/MachineTool/MachineTool_ProductionStateMachineType/event/LastTransition/{senderId}",
             "op": "subscribeevent"
           }
         ]
@@ -2910,13 +2872,12 @@
     "@context": [
       "https://www.w3.org/2022/wot/td/v1.1",
       {
-        "dtv": "http://azure.com/DigitalTwins/dtmi#",
-        "aov": "http://azure.com/IoT/operations/tm#"
+        "dov": "http://azure.com/DigitalOperations/vocab#"
       }
     ],
     "@type": "tm:ThingModel",
     "title": "MachineTool_ProductionJobListType",
-    "aov:typeRef": "nsu=http://opcfoundation.org/UA/MachineTool/;i=30",
+    "dov:typeRef": "org.opcfoundation.UA.MachineTool.ProductionJobListType",
     "links": [
       {
         "rel": "tm:extends",
@@ -2937,13 +2898,12 @@
     "@context": [
       "https://www.w3.org/2022/wot/td/v1.1",
       {
-        "dtv": "http://azure.com/DigitalTwins/dtmi#",
-        "aov": "http://azure.com/IoT/operations/tm#"
+        "dov": "http://azure.com/DigitalOperations/vocab#"
       }
     ],
     "@type": "tm:ThingModel",
     "title": "MachineTool_ProductionStatisticsType",
-    "aov:typeRef": "nsu=http://opcfoundation.org/UA/MachineTool/;i=20",
+    "dov:typeRef": "org.opcfoundation.UA.MachineTool.ProductionStatisticsType",
     "links": [
       {
         "rel": "tm:extends",
@@ -2956,12 +2916,12 @@
     "forms": [
       {
         "contentType": "application/json",
-        "dtv:topic": "opcua/MachineTool/MachineTool_ProductionStatisticsType/events/{senderId}",
+        "dov:topic": "opcua/MachineTool/MachineTool_ProductionStatisticsType/events/{senderId}",
         "op": "subscribeallevents"
       },
       {
         "contentType": "application/json",
-        "dtv:topic": "opcua/MachineTool/MachineTool_ProductionStatisticsType/properties/read",
+        "dov:topic": "opcua/MachineTool/MachineTool_ProductionStatisticsType/properties/read",
         "op": "readallproperties"
       }
     ],
@@ -2969,7 +2929,7 @@
     },
     "properties": {
       "PartsProducedInLifetime": {
-        "aov:namespace": "http://opcfoundation.org/UA/MachineTool/",
+        "dov:namespace": "http://opcfoundation.org/UA/MachineTool/",
         "type": "integer",
         "minimum": 0,
         "maximum": 4294967295,
@@ -2977,7 +2937,7 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/MachineTool/MachineTool_ProductionStatisticsType/property/PartsProducedInLifetime/read",
+            "dov:topic": "opcua/MachineTool/MachineTool_ProductionStatisticsType/property/PartsProducedInLifetime/read",
             "op": "readproperty"
           }
         ]
@@ -2985,7 +2945,7 @@
     },
     "events": {
       "PartsProducedInLifetime": {
-        "aov:namespace": "http://opcfoundation.org/UA/MachineTool/",
+        "dov:namespace": "http://opcfoundation.org/UA/MachineTool/",
         "data": {
           "type": "integer",
           "minimum": 0,
@@ -2994,7 +2954,7 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/MachineTool/MachineTool_ProductionStatisticsType/event/PartsProducedInLifetime/{senderId}",
+            "dov:topic": "opcua/MachineTool/MachineTool_ProductionStatisticsType/event/PartsProducedInLifetime/{senderId}",
             "op": "subscribeevent"
           }
         ]
@@ -3005,13 +2965,12 @@
     "@context": [
       "https://www.w3.org/2022/wot/td/v1.1",
       {
-        "dtv": "http://azure.com/DigitalTwins/dtmi#",
-        "aov": "http://azure.com/IoT/operations/tm#"
+        "dov": "http://azure.com/DigitalOperations/vocab#"
       }
     ],
     "@type": "tm:ThingModel",
     "title": "MachineTool_WorkingUnitMonitoringType",
-    "aov:typeRef": "nsu=http://opcfoundation.org/UA/MachineTool/;i=41",
+    "dov:typeRef": "org.opcfoundation.UA.MachineTool.WorkingUnitMonitoringType",
     "links": [
       {
         "rel": "tm:extends",
@@ -3032,14 +2991,13 @@
     "@context": [
       "https://www.w3.org/2022/wot/td/v1.1",
       {
-        "dtv": "http://azure.com/DigitalTwins/dtmi#",
-        "aov": "http://azure.com/IoT/operations/tm#"
+        "dov": "http://azure.com/DigitalOperations/vocab#"
       }
     ],
     "@type": "tm:ThingModel",
     "title": "IA_BasicStacklightType",
-    "aov:typeRef": "nsu=http://opcfoundation.org/UA/IA/;i=1002",
-    "aov:isComposite": true,
+    "dov:typeRef": "org.opcfoundation.UA.IA.BasicStacklightType",
+    "dov:isComposite": true,
     "links": [
       {
         "rel": "tm:extends",
@@ -3047,14 +3005,14 @@
         "type": "application/tm+json"
       },
       {
-        "rel": "aov:reference",
-        "aov:refName": "StackLevel",
+        "rel": "dov:reference",
+        "dov:refName": "StackLevel",
         "href": "#title=IA_StackLevelType",
         "type": "application/tm+json"
       },
       {
-        "rel": "aov:reference",
-        "aov:refName": "StackRunning",
+        "rel": "dov:reference",
+        "dov:refName": "StackRunning",
         "href": "#title=IA_StackRunningType",
         "type": "application/tm+json"
       }
@@ -3062,7 +3020,7 @@
     "schemaDefinitions": {
       "StacklightOperationMode": {
         "type": "object",
-        "aov:typeRef": "nsu=http://opcfoundation.org/UA/IA/;i=3002",
+        "dov:typeRef": "org.opcfoundation.UA.IA.StacklightOperationMode",
         "const": {
           "Segmented": 0,
           "Levelmeter": 1,
@@ -3093,12 +3051,12 @@
     "forms": [
       {
         "contentType": "application/json",
-        "dtv:topic": "opcua/IA/IA_BasicStacklightType/properties/write",
+        "dov:topic": "opcua/IA/IA_BasicStacklightType/properties/write",
         "op": "writemultipleproperties"
       },
       {
         "contentType": "application/json",
-        "dtv:topic": "opcua/IA/IA_BasicStacklightType/properties/read",
+        "dov:topic": "opcua/IA/IA_BasicStacklightType/properties/read",
         "op": "readallproperties"
       }
     ],
@@ -3106,10 +3064,10 @@
     },
     "properties": {
       "StacklightMode": {
-        "aov:namespace": "http://opcfoundation.org/UA/IA/",
+        "dov:namespace": "http://opcfoundation.org/UA/IA/",
         "title": "StacklightOperationMode",
         "description": "Shows in what way (stack of individual lights, level meter, running light) the stacklight unit is used.",
-        "aov:typeRef": "nsu=http://opcfoundation.org/UA/IA/;i=3002",
+        "dov:typeRef": "org.opcfoundation.UA.IA.StacklightOperationMode",
         "type": "integer",
         "minimum": -2147483648,
         "maximum": 2147483647,
@@ -3117,12 +3075,12 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/IA/IA_BasicStacklightType/property/StacklightMode/write",
+            "dov:topic": "opcua/IA/IA_BasicStacklightType/property/StacklightMode/write",
             "op": "writeproperty"
           },
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/IA/IA_BasicStacklightType/property/StacklightMode/read",
+            "dov:topic": "opcua/IA/IA_BasicStacklightType/property/StacklightMode/read",
             "op": "readproperty"
           }
         ]
@@ -3135,13 +3093,12 @@
     "@context": [
       "https://www.w3.org/2022/wot/td/v1.1",
       {
-        "dtv": "http://azure.com/DigitalTwins/dtmi#",
-        "aov": "http://azure.com/IoT/operations/tm#"
+        "dov": "http://azure.com/DigitalOperations/vocab#"
       }
     ],
     "@type": "tm:ThingModel",
     "title": "IA_StackLevelType",
-    "aov:typeRef": "nsu=http://opcfoundation.org/UA/IA/;i=1003",
+    "dov:typeRef": "org.opcfoundation.UA.IA.StackLevelType",
     "links": [
       {
         "rel": "tm:extends",
@@ -3152,7 +3109,7 @@
     "schemaDefinitions": {
       "LevelDisplayMode": {
         "type": "object",
-        "aov:typeRef": "nsu=http://opcfoundation.org/UA/IA/;i=3003",
+        "dov:typeRef": "org.opcfoundation.UA.IA.LevelDisplayMode",
         "const": {
           "Dimmed": 0,
           "Blinking": 1,
@@ -3178,17 +3135,17 @@
     "forms": [
       {
         "contentType": "application/json",
-        "dtv:topic": "opcua/IA/IA_StackLevelType/events/{senderId}",
+        "dov:topic": "opcua/IA/IA_StackLevelType/events/{senderId}",
         "op": "subscribeallevents"
       },
       {
         "contentType": "application/json",
-        "dtv:topic": "opcua/IA/IA_StackLevelType/properties/write",
+        "dov:topic": "opcua/IA/IA_StackLevelType/properties/write",
         "op": "writemultipleproperties"
       },
       {
         "contentType": "application/json",
-        "dtv:topic": "opcua/IA/IA_StackLevelType/properties/read",
+        "dov:topic": "opcua/IA/IA_StackLevelType/properties/read",
         "op": "readallproperties"
       }
     ],
@@ -3196,10 +3153,10 @@
     },
     "properties": {
       "DisplayMode": {
-        "aov:namespace": "http://opcfoundation.org/UA/IA/",
+        "dov:namespace": "http://opcfoundation.org/UA/IA/",
         "title": "LevelDisplayMode",
         "description": "Indicates in what way the percentual value is displayed with the stacklight.",
-        "aov:typeRef": "nsu=http://opcfoundation.org/UA/IA/;i=3003",
+        "dov:typeRef": "org.opcfoundation.UA.IA.LevelDisplayMode",
         "type": "integer",
         "minimum": -2147483648,
         "maximum": 2147483647,
@@ -3207,18 +3164,18 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/IA/IA_StackLevelType/property/DisplayMode/write",
+            "dov:topic": "opcua/IA/IA_StackLevelType/property/DisplayMode/write",
             "op": "writeproperty"
           },
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/IA/IA_StackLevelType/property/DisplayMode/read",
+            "dov:topic": "opcua/IA/IA_StackLevelType/property/DisplayMode/read",
             "op": "readproperty"
           }
         ]
       },
       "LevelPercent": {
-        "aov:namespace": "http://opcfoundation.org/UA/IA/",
+        "dov:namespace": "http://opcfoundation.org/UA/IA/",
         "description": "Shows the percentual value the stacklight is representing. The mandatory EURange Property of the Variable indicates the lowest and highest value and thereby allows to calculate the percentage represented by the value. The lowest value is interpreted as 0 percent, the highest is interpreted as 100 percent.",
         "type": "number",
         "minimum": -3.40e+38,
@@ -3227,12 +3184,12 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/IA/IA_StackLevelType/property/LevelPercent/write",
+            "dov:topic": "opcua/IA/IA_StackLevelType/property/LevelPercent/write",
             "op": "writeproperty"
           },
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/IA/IA_StackLevelType/property/LevelPercent/read",
+            "dov:topic": "opcua/IA/IA_StackLevelType/property/LevelPercent/read",
             "op": "readproperty"
           }
         ]
@@ -3240,11 +3197,11 @@
     },
     "events": {
       "DisplayMode": {
-        "aov:namespace": "http://opcfoundation.org/UA/IA/",
+        "dov:namespace": "http://opcfoundation.org/UA/IA/",
         "data": {
           "title": "LevelDisplayMode",
           "description": "Indicates in what way the percentual value is displayed with the stacklight.",
-          "aov:typeRef": "nsu=http://opcfoundation.org/UA/IA/;i=3003",
+          "dov:typeRef": "org.opcfoundation.UA.IA.LevelDisplayMode",
           "type": "integer",
           "minimum": -2147483648,
           "maximum": 2147483647
@@ -3252,13 +3209,13 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/IA/IA_StackLevelType/event/DisplayMode/{senderId}",
+            "dov:topic": "opcua/IA/IA_StackLevelType/event/DisplayMode/{senderId}",
             "op": "subscribeevent"
           }
         ]
       },
       "LevelPercent": {
-        "aov:namespace": "http://opcfoundation.org/UA/IA/",
+        "dov:namespace": "http://opcfoundation.org/UA/IA/",
         "data": {
           "description": "Shows the percentual value the stacklight is representing. The mandatory EURange Property of the Variable indicates the lowest and highest value and thereby allows to calculate the percentage represented by the value. The lowest value is interpreted as 0 percent, the highest is interpreted as 100 percent.",
           "type": "number",
@@ -3268,7 +3225,7 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/IA/IA_StackLevelType/event/LevelPercent/{senderId}",
+            "dov:topic": "opcua/IA/IA_StackLevelType/event/LevelPercent/{senderId}",
             "op": "subscribeevent"
           }
         ]
@@ -3279,13 +3236,12 @@
     "@context": [
       "https://www.w3.org/2022/wot/td/v1.1",
       {
-        "dtv": "http://azure.com/DigitalTwins/dtmi#",
-        "aov": "http://azure.com/IoT/operations/tm#"
+        "dov": "http://azure.com/DigitalOperations/vocab#"
       }
     ],
     "@type": "tm:ThingModel",
     "title": "IA_StackRunningType",
-    "aov:typeRef": "nsu=http://opcfoundation.org/UA/IA/;i=1004",
+    "dov:typeRef": "org.opcfoundation.UA.IA.StackRunningType",
     "links": [
       {
         "rel": "tm:extends",
@@ -3306,14 +3262,13 @@
     "@context": [
       "https://www.w3.org/2022/wot/td/v1.1",
       {
-        "dtv": "http://azure.com/DigitalTwins/dtmi#",
-        "aov": "http://azure.com/IoT/operations/tm#"
+        "dov": "http://azure.com/DigitalOperations/vocab#"
       }
     ],
     "@type": "tm:ThingModel",
     "title": "Machinery_Result_ResultManagementType",
-    "aov:typeRef": "nsu=http://opcfoundation.org/UA/Machinery/Result/;i=1004",
-    "aov:isComposite": true,
+    "dov:typeRef": "org.opcfoundation.UA.Machinery.Result.ResultManagementType",
+    "dov:isComposite": true,
     "links": [
       {
         "rel": "tm:extends",
@@ -3321,14 +3276,14 @@
         "type": "application/tm+json"
       },
       {
-        "rel": "aov:component",
-        "aov:refName": "Results",
+        "rel": "dov:component",
+        "dov:refName": "Results",
         "href": "#title=OpcUaCore_FolderType",
         "type": "application/tm+json"
       },
       {
-        "rel": "aov:capability",
-        "aov:refName": "ResultTransfer",
+        "rel": "dov:capability",
+        "dov:refName": "ResultTransfer",
         "href": "#title=Machinery_Result_ResultTransferType",
         "type": "application/tm+json"
       }
@@ -3336,7 +3291,7 @@
     "schemaDefinitions": {
       "ResultEvaluationEnum": {
         "type": "object",
-        "aov:typeRef": "nsu=http://opcfoundation.org/UA/Machinery/Result/;i=3002",
+        "dov:typeRef": "org.opcfoundation.UA.Machinery.Result.ResultEvaluationEnum",
         "const": {
           "Undefined": 0,
           "OK": 1,
@@ -3365,7 +3320,7 @@
       },
       "FilterOperator": {
         "type": "object",
-        "aov:typeRef": "nsu=http://opcfoundation.org/UA/;i=576",
+        "dov:typeRef": "org.opcfoundation.UA.FilterOperator",
         "const": {
           "Equals": 0,
           "IsNull": 1,
@@ -3447,21 +3402,21 @@
     "forms": [
       {
         "contentType": "application/json",
-        "dtv:topic": "opcua/Machinery.Result/Machinery_Result_ResultManagementType/properties/write",
+        "dov:topic": "opcua/Machinery.Result/Machinery_Result_ResultManagementType/properties/write",
         "op": "writemultipleproperties"
       },
       {
         "contentType": "application/json",
-        "dtv:topic": "opcua/Machinery.Result/Machinery_Result_ResultManagementType/properties/read",
+        "dov:topic": "opcua/Machinery.Result/Machinery_Result_ResultManagementType/properties/read",
         "op": "readallproperties"
       }
     ],
     "actions": {
       "AcknowledgeResults": {
-        "aov:namespace": "http://opcfoundation.org/UA/Machinery/Result/",
+        "dov:namespace": "http://opcfoundation.org/UA/Machinery/Result/",
         "input": {
           "type": "object",
-          "aov:typeRef": "nsu=http://opcfoundation.org/UA/Machinery/Result/;i=6089",
+          "dov:typeRef": "org.opcfoundation.UA.InputArguments",
           "required": [ "ResultIds" ],
           "properties": {
             "ResultIds": {
@@ -3475,7 +3430,7 @@
         },
         "output": {
           "type": "object",
-          "aov:typeRef": "nsu=http://opcfoundation.org/UA/Machinery/Result/;i=6090",
+          "dov:typeRef": "org.opcfoundation.UA.OutputArguments",
           "required": [ "ErrorPerResultId", "Error" ],
           "properties": {
             "ErrorPerResultId": {
@@ -3498,16 +3453,16 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/Machinery.Result/Machinery_Result_ResultManagementType/action/AcknowledgeResults",
+            "dov:topic": "opcua/Machinery.Result/Machinery_Result_ResultManagementType/action/AcknowledgeResults",
             "op": "invokeaction"
           }
         ]
       },
       "GetLatestResult": {
-        "aov:namespace": "http://opcfoundation.org/UA/Machinery/Result/",
+        "dov:namespace": "http://opcfoundation.org/UA/Machinery/Result/",
         "input": {
           "type": "object",
-          "aov:typeRef": "nsu=http://opcfoundation.org/UA/Machinery/Result/;i=6054",
+          "dov:typeRef": "org.opcfoundation.UA.InputArguments",
           "required": [ "Timeout" ],
           "properties": {
             "Timeout": {
@@ -3520,7 +3475,7 @@
         },
         "output": {
           "type": "object",
-          "aov:typeRef": "nsu=http://opcfoundation.org/UA/Machinery/Result/;i=6055",
+          "dov:typeRef": "org.opcfoundation.UA.OutputArguments",
           "required": [ "ResultHandle", "Result", "Error" ],
           "properties": {
             "ResultHandle": {
@@ -3533,14 +3488,14 @@
               "title": "ResultDataType",
               "description": "Contains fields that were created during the execution of a recipe.",
               "type": "object",
-              "aov:typeRef": "nsu=http://opcfoundation.org/UA/Machinery/Result/;i=3008",
+              "dov:typeRef": "org.opcfoundation.UA.Machinery.Result.ResultDataType",
               "required": [ "ResultMetaData", "ResultContent" ],
               "properties": {
                 "ResultMetaData": {
                   "title": "ResultMetaDataType",
                   "description": "Meta data of a result, describing the result.",
                   "type": "object",
-                  "aov:typeRef": "nsu=http://opcfoundation.org/UA/Machinery/Result/;i=3007",
+                  "dov:typeRef": "org.opcfoundation.UA.Machinery.Result.ResultMetaDataType",
                   "required": [ "ResultId" ],
                   "properties": {
                     "ResultId": {
@@ -3606,7 +3561,7 @@
                       "title": "ProcessingTimesDataType",
                       "description": "Contains measured times that were generated during the execution of a recipe.",
                       "type": "object",
-                      "aov:typeRef": "nsu=http://opcfoundation.org/UA/Machinery/Result/;i=3006",
+                      "dov:typeRef": "org.opcfoundation.UA.Machinery.Result.ProcessingTimesDataType",
                       "required": [ "StartTime", "EndTime" ],
                       "properties": {
                         "StartTime": {
@@ -3641,7 +3596,7 @@
                     "ResultEvaluation": {
                       "title": "ResultEvaluationEnum",
                       "description": "The ResultEvaluation indicates whether the result was in tolerance.",
-                      "aov:typeRef": "nsu=http://opcfoundation.org/UA/Machinery/Result/;i=3002",
+                      "dov:typeRef": "org.opcfoundation.UA.Machinery.Result.ResultEvaluationEnum",
                       "type": "integer",
                       "minimum": -2147483648,
                       "maximum": 2147483647
@@ -3686,17 +3641,17 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/Machinery.Result/Machinery_Result_ResultManagementType/action/GetLatestResult",
+            "dov:topic": "opcua/Machinery.Result/Machinery_Result_ResultManagementType/action/GetLatestResult",
             "op": "invokeaction"
           }
         ]
       },
       "GetResultById": {
-        "aov:namespace": "http://opcfoundation.org/UA/Machinery/Result/",
+        "dov:namespace": "http://opcfoundation.org/UA/Machinery/Result/",
         "description": "The server shall return to each client requesting result data a system-wide unique handle identifying the result set / client combination. This handle should be used by the client to indicate to the server that the result data is no longer needed, allowing the server to optimize its resource handling.  If the instance of ResultManagementType does not support the ReleaseResultHandle Method, the resultHandle should always be set to 0.  If the error is set to a value other than 0, the resultHandle may be set to 0.  ",
         "input": {
           "type": "object",
-          "aov:typeRef": "nsu=http://opcfoundation.org/UA/Machinery/Result/;i=6048",
+          "dov:typeRef": "org.opcfoundation.UA.InputArguments",
           "required": [ "ResultId", "Timeout" ],
           "properties": {
             "ResultId": {
@@ -3713,7 +3668,7 @@
         },
         "output": {
           "type": "object",
-          "aov:typeRef": "nsu=http://opcfoundation.org/UA/Machinery/Result/;i=6049",
+          "dov:typeRef": "org.opcfoundation.UA.OutputArguments",
           "required": [ "ResultHandle", "Result", "Error" ],
           "properties": {
             "ResultHandle": {
@@ -3726,14 +3681,14 @@
               "title": "ResultDataType",
               "description": "Contains fields that were created during the execution of a recipe.",
               "type": "object",
-              "aov:typeRef": "nsu=http://opcfoundation.org/UA/Machinery/Result/;i=3008",
+              "dov:typeRef": "org.opcfoundation.UA.Machinery.Result.ResultDataType",
               "required": [ "ResultMetaData", "ResultContent" ],
               "properties": {
                 "ResultMetaData": {
                   "title": "ResultMetaDataType",
                   "description": "Meta data of a result, describing the result.",
                   "type": "object",
-                  "aov:typeRef": "nsu=http://opcfoundation.org/UA/Machinery/Result/;i=3007",
+                  "dov:typeRef": "org.opcfoundation.UA.Machinery.Result.ResultMetaDataType",
                   "required": [ "ResultId" ],
                   "properties": {
                     "ResultId": {
@@ -3799,7 +3754,7 @@
                       "title": "ProcessingTimesDataType",
                       "description": "Contains measured times that were generated during the execution of a recipe.",
                       "type": "object",
-                      "aov:typeRef": "nsu=http://opcfoundation.org/UA/Machinery/Result/;i=3006",
+                      "dov:typeRef": "org.opcfoundation.UA.Machinery.Result.ProcessingTimesDataType",
                       "required": [ "StartTime", "EndTime" ],
                       "properties": {
                         "StartTime": {
@@ -3834,7 +3789,7 @@
                     "ResultEvaluation": {
                       "title": "ResultEvaluationEnum",
                       "description": "The ResultEvaluation indicates whether the result was in tolerance.",
-                      "aov:typeRef": "nsu=http://opcfoundation.org/UA/Machinery/Result/;i=3002",
+                      "dov:typeRef": "org.opcfoundation.UA.Machinery.Result.ResultEvaluationEnum",
                       "type": "integer",
                       "minimum": -2147483648,
                       "maximum": 2147483647
@@ -3879,23 +3834,23 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/Machinery.Result/Machinery_Result_ResultManagementType/action/GetResultById",
+            "dov:topic": "opcua/Machinery.Result/Machinery_Result_ResultManagementType/action/GetResultById",
             "op": "invokeaction"
           }
         ]
       },
       "GetResultIdListFiltered": {
-        "aov:namespace": "http://opcfoundation.org/UA/Machinery/Result/",
+        "dov:namespace": "http://opcfoundation.org/UA/Machinery/Result/",
         "input": {
           "type": "object",
-          "aov:typeRef": "nsu=http://opcfoundation.org/UA/Machinery/Result/;i=6050",
+          "dov:typeRef": "org.opcfoundation.UA.InputArguments",
           "required": [ "Filter", "OrderedBy", "MaxResults", "Timeout" ],
           "properties": {
             "Filter": {
               "title": "ContentFilter",
               "description": "Filter used to filter for specific results based on the meta data of the results. Valid BrowsePaths used in the filter can be built from the fields of the ResultReadyEventType, the ResultType VariableType or the ResultDataType or corresponding subtypes.",
               "type": "object",
-              "aov:typeRef": "nsu=http://opcfoundation.org/UA/;i=586",
+              "dov:typeRef": "org.opcfoundation.UA.ContentFilter",
               "required": [ "Elements" ],
               "properties": {
                 "Elements": {
@@ -3903,12 +3858,12 @@
                   "items": {
                     "title": "ContentFilterElement",
                     "type": "object",
-                    "aov:typeRef": "nsu=http://opcfoundation.org/UA/;i=583",
+                    "dov:typeRef": "org.opcfoundation.UA.ContentFilterElement",
                     "required": [ "FilterOperator", "FilterOperands" ],
                     "properties": {
                       "FilterOperator": {
                         "title": "FilterOperator",
-                        "aov:typeRef": "nsu=http://opcfoundation.org/UA/;i=576",
+                        "dov:typeRef": "org.opcfoundation.UA.FilterOperator",
                         "type": "integer",
                         "minimum": -2147483648,
                         "maximum": 2147483647
@@ -3930,7 +3885,7 @@
               "items": {
                 "title": "RelativePath",
                 "type": "object",
-                "aov:typeRef": "nsu=http://opcfoundation.org/UA/;i=540",
+                "dov:typeRef": "org.opcfoundation.UA.RelativePath",
                 "required": [ "Elements" ],
                 "properties": {
                   "Elements": {
@@ -3938,7 +3893,7 @@
                     "items": {
                       "title": "RelativePathElement",
                       "type": "object",
-                      "aov:typeRef": "nsu=http://opcfoundation.org/UA/;i=537",
+                      "dov:typeRef": "org.opcfoundation.UA.RelativePathElement",
                       "required": [ "ReferenceTypeId", "IsInverse", "IncludeSubtypes", "TargetName" ],
                       "properties": {
                         "ReferenceTypeId": {
@@ -3975,7 +3930,7 @@
         },
         "output": {
           "type": "object",
-          "aov:typeRef": "nsu=http://opcfoundation.org/UA/Machinery/Result/;i=6051",
+          "dov:typeRef": "org.opcfoundation.UA.OutputArguments",
           "required": [ "ResultHandle", "ResultIdList", "Error" ],
           "properties": {
             "ResultHandle": {
@@ -4002,16 +3957,16 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/Machinery.Result/Machinery_Result_ResultManagementType/action/GetResultIdListFiltered",
+            "dov:topic": "opcua/Machinery.Result/Machinery_Result_ResultManagementType/action/GetResultIdListFiltered",
             "op": "invokeaction"
           }
         ]
       },
       "ReleaseResultHandle": {
-        "aov:namespace": "http://opcfoundation.org/UA/Machinery/Result/",
+        "dov:namespace": "http://opcfoundation.org/UA/Machinery/Result/",
         "input": {
           "type": "object",
-          "aov:typeRef": "nsu=http://opcfoundation.org/UA/Machinery/Result/;i=6052",
+          "dov:typeRef": "org.opcfoundation.UA.InputArguments",
           "required": [ "ResultHandle" ],
           "properties": {
             "ResultHandle": {
@@ -4024,7 +3979,7 @@
         },
         "output": {
           "type": "object",
-          "aov:typeRef": "nsu=http://opcfoundation.org/UA/Machinery/Result/;i=6053",
+          "dov:typeRef": "org.opcfoundation.UA.OutputArguments",
           "required": [ "Error" ],
           "properties": {
             "Error": {
@@ -4038,7 +3993,7 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/Machinery.Result/Machinery_Result_ResultManagementType/action/ReleaseResultHandle",
+            "dov:topic": "opcua/Machinery.Result/Machinery_Result_ResultManagementType/action/ReleaseResultHandle",
             "op": "invokeaction"
           }
         ]
@@ -4052,12 +4007,12 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/Machinery.Result/Machinery_Result_ResultManagementType/property/DefaultInstanceBrowseName/write",
+            "dov:topic": "opcua/Machinery.Result/Machinery_Result_ResultManagementType/property/DefaultInstanceBrowseName/write",
             "op": "writeproperty"
           },
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/Machinery.Result/Machinery_Result_ResultManagementType/property/DefaultInstanceBrowseName/read",
+            "dov:topic": "opcua/Machinery.Result/Machinery_Result_ResultManagementType/property/DefaultInstanceBrowseName/read",
             "op": "readproperty"
           }
         ]
@@ -4070,13 +4025,12 @@
     "@context": [
       "https://www.w3.org/2022/wot/td/v1.1",
       {
-        "dtv": "http://azure.com/DigitalTwins/dtmi#",
-        "aov": "http://azure.com/IoT/operations/tm#"
+        "dov": "http://azure.com/DigitalOperations/vocab#"
       }
     ],
     "@type": "tm:ThingModel",
     "title": "Machinery_Result_ResultTransferType",
-    "aov:typeRef": "nsu=http://opcfoundation.org/UA/Machinery/Result/;i=1003",
+    "dov:typeRef": "org.opcfoundation.UA.Machinery.Result.ResultTransferType",
     "links": [
       {
         "rel": "tm:extends",
@@ -4090,14 +4044,14 @@
       "GenerateFileForRead": {
         "input": {
           "type": "object",
-          "aov:typeRef": "nsu=http://opcfoundation.org/UA/Machinery/Result/;i=6035",
+          "dov:typeRef": "org.opcfoundation.UA.InputArguments",
           "required": [ "GenerateOptions" ],
           "properties": {
             "GenerateOptions": {
               "title": "BaseResultTransferOptionsDataType",
               "description": "Abstract type containing information which file should be provided.",
               "type": "object",
-              "aov:typeRef": "nsu=http://opcfoundation.org/UA/Machinery/Result/;i=3005",
+              "dov:typeRef": "org.opcfoundation.UA.Machinery.Result.BaseResultTransferOptionsDataType",
               "required": [ "ResultId" ],
               "properties": {
                 "ResultId": {
@@ -4110,7 +4064,7 @@
         },
         "output": {
           "type": "object",
-          "aov:typeRef": "nsu=http://opcfoundation.org/UA/Machinery/Result/;i=6036",
+          "dov:typeRef": "org.opcfoundation.UA.OutputArguments",
           "required": [ "FileNodeId", "FileHandle", "CompletionStateMachine" ],
           "properties": {
             "FileNodeId": {
@@ -4132,7 +4086,7 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/Machinery.Result/Machinery_Result_ResultTransferType/action/GenerateFileForRead",
+            "dov:topic": "opcua/Machinery.Result/Machinery_Result_ResultTransferType/action/GenerateFileForRead",
             "op": "invokeaction"
           }
         ]

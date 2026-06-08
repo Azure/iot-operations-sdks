@@ -5,5 +5,5 @@
 <# // Copyright (c) Microsoft Corporation. #>
 <# // Licensed under the MIT License #>
 <# this.PushIndent(new string(' ', this.indent)); #>
-"dtv:placeholder": true,
+"dov:placeholder": true,
 <#=this.thingDescriber.GetTypeAndAddenda(this.dtMap.MapValue.Schema, 0)#><# this.PopIndent(); #>

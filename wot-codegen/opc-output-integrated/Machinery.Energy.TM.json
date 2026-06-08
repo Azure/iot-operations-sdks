@@ -4,13 +4,12 @@
       "https://www.w3.org/2022/wot/td/v1.1",
       {
         "qudt": "http://qudt.org/schema/qudt/",
-        "dtv": "http://azure.com/DigitalTwins/dtmi#",
-        "aov": "http://azure.com/IoT/operations/tm#"
+        "dov": "http://azure.com/DigitalOperations/vocab#"
       }
     ],
     "@type": "tm:ThingModel",
     "title": "Machinery_Energy_IBaseFlowType",
-    "aov:typeRef": "nsu=http://opcfoundation.org/UA/Machinery/Energy/;i=1006",
+    "dov:typeRef": "org.opcfoundation.UA.Machinery.Energy.IBaseFlowType",
     "links": [
       {
         "rel": "tm:extends",
@@ -23,17 +22,17 @@
     "forms": [
       {
         "contentType": "application/json",
-        "dtv:topic": "opcua/Machinery.Energy/Machinery_Energy_IBaseFlowType/events/{senderId}",
+        "dov:topic": "opcua/Machinery.Energy/Machinery_Energy_IBaseFlowType/events/{senderId}",
         "op": "subscribeallevents"
       },
       {
         "contentType": "application/json",
-        "dtv:topic": "opcua/Machinery.Energy/Machinery_Energy_IBaseFlowType/properties/write",
+        "dov:topic": "opcua/Machinery.Energy/Machinery_Energy_IBaseFlowType/properties/write",
         "op": "writemultipleproperties"
       },
       {
         "contentType": "application/json",
-        "dtv:topic": "opcua/Machinery.Energy/Machinery_Energy_IBaseFlowType/properties/read",
+        "dov:topic": "opcua/Machinery.Energy/Machinery_Energy_IBaseFlowType/properties/read",
         "op": "readallproperties"
       }
     ],
@@ -41,115 +40,115 @@
     },
     "properties": {
       "Pressure": {
-        "aov:namespace": "http://opcfoundation.org/UA/ECM/",
+        "dov:namespace": "http://opcfoundation.org/UA/ECM/",
         "type": "number",
         "minimum": -3.40e+38,
         "maximum": 3.40e+38,
         "readOnly": false,
-        "aov:contains": [ "Pressure_AccuracyClass", "Pressure_Resource" ],
+        "dov:contains": [ "Pressure_AccuracyClass", "Pressure_Resource" ],
         "qudt:hasQuantityKind": "http://qudt.org/vocab/quantitykind/ForcePerArea",
-        "aov:withUnit": "properties/Pressure_EngineeringUnits",
+        "dov:withUnit": "properties/Pressure_EngineeringUnits",
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/Machinery.Energy/Machinery_Energy_IBaseFlowType/property/Pressure/write",
+            "dov:topic": "opcua/Machinery.Energy/Machinery_Energy_IBaseFlowType/property/Pressure/write",
             "op": "writeproperty"
           },
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/Machinery.Energy/Machinery_Energy_IBaseFlowType/property/Pressure/read",
+            "dov:topic": "opcua/Machinery.Energy/Machinery_Energy_IBaseFlowType/property/Pressure/read",
             "op": "readproperty"
           }
         ]
       },
       "Pressure_AccuracyClass": {
-        "aov:namespace": "http://opcfoundation.org/UA/ECM/",
+        "dov:namespace": "http://opcfoundation.org/UA/ECM/",
         "type": "integer",
         "minimum": 0,
         "maximum": 4294967295,
         "readOnly": true,
-        "aov:containedIn": "Pressure",
+        "dov:containedIn": "Pressure",
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/Machinery.Energy/Machinery_Energy_IBaseFlowType/property/Pressure_AccuracyClass/read",
+            "dov:topic": "opcua/Machinery.Energy/Machinery_Energy_IBaseFlowType/property/Pressure_AccuracyClass/read",
             "op": "readproperty"
           }
         ]
       },
       "Pressure_Resource": {
-        "aov:namespace": "http://opcfoundation.org/UA/ECM/",
+        "dov:namespace": "http://opcfoundation.org/UA/ECM/",
         "type": "integer",
         "minimum": 0,
         "maximum": 4294967295,
         "readOnly": false,
-        "aov:containedIn": "Pressure",
+        "dov:containedIn": "Pressure",
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/Machinery.Energy/Machinery_Energy_IBaseFlowType/property/Pressure_Resource/write",
+            "dov:topic": "opcua/Machinery.Energy/Machinery_Energy_IBaseFlowType/property/Pressure_Resource/write",
             "op": "writeproperty"
           },
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/Machinery.Energy/Machinery_Energy_IBaseFlowType/property/Pressure_Resource/read",
+            "dov:topic": "opcua/Machinery.Energy/Machinery_Energy_IBaseFlowType/property/Pressure_Resource/read",
             "op": "readproperty"
           }
         ]
       },
       "Temperature": {
-        "aov:namespace": "http://opcfoundation.org/UA/ECM/",
+        "dov:namespace": "http://opcfoundation.org/UA/ECM/",
         "type": "number",
         "minimum": -3.40e+38,
         "maximum": 3.40e+38,
         "readOnly": false,
-        "aov:contains": [ "Temperature_AccuracyClass", "Temperature_Resource" ],
+        "dov:contains": [ "Temperature_AccuracyClass", "Temperature_Resource" ],
         "qudt:hasQuantityKind": "http://qudt.org/vocab/quantitykind/Temperature",
-        "aov:withUnit": "properties/Temperature_EngineeringUnits",
+        "dov:withUnit": "properties/Temperature_EngineeringUnits",
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/Machinery.Energy/Machinery_Energy_IBaseFlowType/property/Temperature/write",
+            "dov:topic": "opcua/Machinery.Energy/Machinery_Energy_IBaseFlowType/property/Temperature/write",
             "op": "writeproperty"
           },
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/Machinery.Energy/Machinery_Energy_IBaseFlowType/property/Temperature/read",
+            "dov:topic": "opcua/Machinery.Energy/Machinery_Energy_IBaseFlowType/property/Temperature/read",
             "op": "readproperty"
           }
         ]
       },
       "Temperature_AccuracyClass": {
-        "aov:namespace": "http://opcfoundation.org/UA/ECM/",
+        "dov:namespace": "http://opcfoundation.org/UA/ECM/",
         "type": "integer",
         "minimum": 0,
         "maximum": 4294967295,
         "readOnly": true,
-        "aov:containedIn": "Temperature",
+        "dov:containedIn": "Temperature",
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/Machinery.Energy/Machinery_Energy_IBaseFlowType/property/Temperature_AccuracyClass/read",
+            "dov:topic": "opcua/Machinery.Energy/Machinery_Energy_IBaseFlowType/property/Temperature_AccuracyClass/read",
             "op": "readproperty"
           }
         ]
       },
       "Temperature_Resource": {
-        "aov:namespace": "http://opcfoundation.org/UA/ECM/",
+        "dov:namespace": "http://opcfoundation.org/UA/ECM/",
         "type": "integer",
         "minimum": 0,
         "maximum": 4294967295,
         "readOnly": false,
-        "aov:containedIn": "Temperature",
+        "dov:containedIn": "Temperature",
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/Machinery.Energy/Machinery_Energy_IBaseFlowType/property/Temperature_Resource/write",
+            "dov:topic": "opcua/Machinery.Energy/Machinery_Energy_IBaseFlowType/property/Temperature_Resource/write",
             "op": "writeproperty"
           },
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/Machinery.Energy/Machinery_Energy_IBaseFlowType/property/Temperature_Resource/read",
+            "dov:topic": "opcua/Machinery.Energy/Machinery_Energy_IBaseFlowType/property/Temperature_Resource/read",
             "op": "readproperty"
           }
         ]
@@ -161,7 +160,7 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/Machinery.Energy/Machinery_Energy_IBaseFlowType/property/Pressure_EngineeringUnits/read",
+            "dov:topic": "opcua/Machinery.Energy/Machinery_Energy_IBaseFlowType/property/Pressure_EngineeringUnits/read",
             "op": "readproperty"
           }
         ]
@@ -173,7 +172,7 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/Machinery.Energy/Machinery_Energy_IBaseFlowType/property/Temperature_EngineeringUnits/read",
+            "dov:topic": "opcua/Machinery.Energy/Machinery_Energy_IBaseFlowType/property/Temperature_EngineeringUnits/read",
             "op": "readproperty"
           }
         ]
@@ -181,101 +180,101 @@
     },
     "events": {
       "Pressure": {
-        "aov:namespace": "http://opcfoundation.org/UA/ECM/",
+        "dov:namespace": "http://opcfoundation.org/UA/ECM/",
         "data": {
           "type": "number",
           "minimum": -3.40e+38,
           "maximum": 3.40e+38
         },
-        "aov:contains": [ "Pressure_AccuracyClass", "Pressure_Resource" ],
+        "dov:contains": [ "Pressure_AccuracyClass", "Pressure_Resource" ],
         "qudt:hasQuantityKind": "http://qudt.org/vocab/quantitykind/ForcePerArea",
-        "aov:withUnit": "properties/Pressure_EngineeringUnits",
+        "dov:withUnit": "properties/Pressure_EngineeringUnits",
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/Machinery.Energy/Machinery_Energy_IBaseFlowType/event/Pressure/{senderId}",
+            "dov:topic": "opcua/Machinery.Energy/Machinery_Energy_IBaseFlowType/event/Pressure/{senderId}",
             "op": "subscribeevent"
           }
         ]
       },
       "Pressure_AccuracyClass": {
-        "aov:namespace": "http://opcfoundation.org/UA/ECM/",
+        "dov:namespace": "http://opcfoundation.org/UA/ECM/",
         "data": {
           "type": "integer",
           "minimum": 0,
           "maximum": 4294967295
         },
-        "aov:containedIn": "Pressure",
+        "dov:containedIn": "Pressure",
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/Machinery.Energy/Machinery_Energy_IBaseFlowType/event/Pressure_AccuracyClass/{senderId}",
+            "dov:topic": "opcua/Machinery.Energy/Machinery_Energy_IBaseFlowType/event/Pressure_AccuracyClass/{senderId}",
             "op": "subscribeevent"
           }
         ]
       },
       "Pressure_Resource": {
-        "aov:namespace": "http://opcfoundation.org/UA/ECM/",
+        "dov:namespace": "http://opcfoundation.org/UA/ECM/",
         "data": {
           "type": "integer",
           "minimum": 0,
           "maximum": 4294967295
         },
-        "aov:containedIn": "Pressure",
+        "dov:containedIn": "Pressure",
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/Machinery.Energy/Machinery_Energy_IBaseFlowType/event/Pressure_Resource/{senderId}",
+            "dov:topic": "opcua/Machinery.Energy/Machinery_Energy_IBaseFlowType/event/Pressure_Resource/{senderId}",
             "op": "subscribeevent"
           }
         ]
       },
       "Temperature": {
-        "aov:namespace": "http://opcfoundation.org/UA/ECM/",
+        "dov:namespace": "http://opcfoundation.org/UA/ECM/",
         "data": {
           "type": "number",
           "minimum": -3.40e+38,
           "maximum": 3.40e+38
         },
-        "aov:contains": [ "Temperature_AccuracyClass", "Temperature_Resource" ],
+        "dov:contains": [ "Temperature_AccuracyClass", "Temperature_Resource" ],
         "qudt:hasQuantityKind": "http://qudt.org/vocab/quantitykind/Temperature",
-        "aov:withUnit": "properties/Temperature_EngineeringUnits",
+        "dov:withUnit": "properties/Temperature_EngineeringUnits",
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/Machinery.Energy/Machinery_Energy_IBaseFlowType/event/Temperature/{senderId}",
+            "dov:topic": "opcua/Machinery.Energy/Machinery_Energy_IBaseFlowType/event/Temperature/{senderId}",
             "op": "subscribeevent"
           }
         ]
       },
       "Temperature_AccuracyClass": {
-        "aov:namespace": "http://opcfoundation.org/UA/ECM/",
+        "dov:namespace": "http://opcfoundation.org/UA/ECM/",
         "data": {
           "type": "integer",
           "minimum": 0,
           "maximum": 4294967295
         },
-        "aov:containedIn": "Temperature",
+        "dov:containedIn": "Temperature",
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/Machinery.Energy/Machinery_Energy_IBaseFlowType/event/Temperature_AccuracyClass/{senderId}",
+            "dov:topic": "opcua/Machinery.Energy/Machinery_Energy_IBaseFlowType/event/Temperature_AccuracyClass/{senderId}",
             "op": "subscribeevent"
           }
         ]
       },
       "Temperature_Resource": {
-        "aov:namespace": "http://opcfoundation.org/UA/ECM/",
+        "dov:namespace": "http://opcfoundation.org/UA/ECM/",
         "data": {
           "type": "integer",
           "minimum": 0,
           "maximum": 4294967295
         },
-        "aov:containedIn": "Temperature",
+        "dov:containedIn": "Temperature",
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/Machinery.Energy/Machinery_Energy_IBaseFlowType/event/Temperature_Resource/{senderId}",
+            "dov:topic": "opcua/Machinery.Energy/Machinery_Energy_IBaseFlowType/event/Temperature_Resource/{senderId}",
             "op": "subscribeevent"
           }
         ]
@@ -287,13 +286,12 @@
       "https://www.w3.org/2022/wot/td/v1.1",
       {
         "qudt": "http://qudt.org/schema/qudt/",
-        "dtv": "http://azure.com/DigitalTwins/dtmi#",
-        "aov": "http://azure.com/IoT/operations/tm#"
+        "dov": "http://azure.com/DigitalOperations/vocab#"
       }
     ],
     "@type": "tm:ThingModel",
     "title": "Machinery_Energy_IMassFlowType",
-    "aov:typeRef": "nsu=http://opcfoundation.org/UA/Machinery/Energy/;i=1008",
+    "dov:typeRef": "org.opcfoundation.UA.Machinery.Energy.IMassFlowType",
     "links": [
       {
         "rel": "tm:extends",
@@ -306,17 +304,17 @@
     "forms": [
       {
         "contentType": "application/json",
-        "dtv:topic": "opcua/Machinery.Energy/Machinery_Energy_IMassFlowType/events/{senderId}",
+        "dov:topic": "opcua/Machinery.Energy/Machinery_Energy_IMassFlowType/events/{senderId}",
         "op": "subscribeallevents"
       },
       {
         "contentType": "application/json",
-        "dtv:topic": "opcua/Machinery.Energy/Machinery_Energy_IMassFlowType/properties/write",
+        "dov:topic": "opcua/Machinery.Energy/Machinery_Energy_IMassFlowType/properties/write",
         "op": "writemultipleproperties"
       },
       {
         "contentType": "application/json",
-        "dtv:topic": "opcua/Machinery.Energy/Machinery_Energy_IMassFlowType/properties/read",
+        "dov:topic": "opcua/Machinery.Energy/Machinery_Energy_IMassFlowType/properties/read",
         "op": "readallproperties"
       }
     ],
@@ -324,115 +322,115 @@
     },
     "properties": {
       "Mass": {
-        "aov:namespace": "http://opcfoundation.org/UA/ECM/",
+        "dov:namespace": "http://opcfoundation.org/UA/ECM/",
         "type": "number",
         "minimum": -3.40e+38,
         "maximum": 3.40e+38,
         "readOnly": false,
-        "aov:contains": [ "Mass_AccuracyClass", "Mass_Resource" ],
+        "dov:contains": [ "Mass_AccuracyClass", "Mass_Resource" ],
         "qudt:hasQuantityKind": "http://qudt.org/vocab/quantitykind/Mass",
-        "aov:withUnit": "properties/Mass_EngineeringUnits",
+        "dov:withUnit": "properties/Mass_EngineeringUnits",
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/Machinery.Energy/Machinery_Energy_IMassFlowType/property/Mass/write",
+            "dov:topic": "opcua/Machinery.Energy/Machinery_Energy_IMassFlowType/property/Mass/write",
             "op": "writeproperty"
           },
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/Machinery.Energy/Machinery_Energy_IMassFlowType/property/Mass/read",
+            "dov:topic": "opcua/Machinery.Energy/Machinery_Energy_IMassFlowType/property/Mass/read",
             "op": "readproperty"
           }
         ]
       },
       "Mass_AccuracyClass": {
-        "aov:namespace": "http://opcfoundation.org/UA/ECM/",
+        "dov:namespace": "http://opcfoundation.org/UA/ECM/",
         "type": "integer",
         "minimum": 0,
         "maximum": 4294967295,
         "readOnly": true,
-        "aov:containedIn": "Mass",
+        "dov:containedIn": "Mass",
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/Machinery.Energy/Machinery_Energy_IMassFlowType/property/Mass_AccuracyClass/read",
+            "dov:topic": "opcua/Machinery.Energy/Machinery_Energy_IMassFlowType/property/Mass_AccuracyClass/read",
             "op": "readproperty"
           }
         ]
       },
       "Mass_Resource": {
-        "aov:namespace": "http://opcfoundation.org/UA/ECM/",
+        "dov:namespace": "http://opcfoundation.org/UA/ECM/",
         "type": "integer",
         "minimum": 0,
         "maximum": 4294967295,
         "readOnly": false,
-        "aov:containedIn": "Mass",
+        "dov:containedIn": "Mass",
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/Machinery.Energy/Machinery_Energy_IMassFlowType/property/Mass_Resource/write",
+            "dov:topic": "opcua/Machinery.Energy/Machinery_Energy_IMassFlowType/property/Mass_Resource/write",
             "op": "writeproperty"
           },
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/Machinery.Energy/Machinery_Energy_IMassFlowType/property/Mass_Resource/read",
+            "dov:topic": "opcua/Machinery.Energy/Machinery_Energy_IMassFlowType/property/Mass_Resource/read",
             "op": "readproperty"
           }
         ]
       },
       "MassFlowRate": {
-        "aov:namespace": "http://opcfoundation.org/UA/ECM/",
+        "dov:namespace": "http://opcfoundation.org/UA/ECM/",
         "type": "number",
         "minimum": -3.40e+38,
         "maximum": 3.40e+38,
         "readOnly": false,
-        "aov:contains": [ "MassFlowRate_AccuracyClass", "MassFlowRate_Resource" ],
+        "dov:contains": [ "MassFlowRate_AccuracyClass", "MassFlowRate_Resource" ],
         "qudt:hasQuantityKind": "http://qudt.org/vocab/quantitykind/MassFlowRate",
-        "aov:withUnit": "properties/MassFlowRate_EngineeringUnits",
+        "dov:withUnit": "properties/MassFlowRate_EngineeringUnits",
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/Machinery.Energy/Machinery_Energy_IMassFlowType/property/MassFlowRate/write",
+            "dov:topic": "opcua/Machinery.Energy/Machinery_Energy_IMassFlowType/property/MassFlowRate/write",
             "op": "writeproperty"
           },
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/Machinery.Energy/Machinery_Energy_IMassFlowType/property/MassFlowRate/read",
+            "dov:topic": "opcua/Machinery.Energy/Machinery_Energy_IMassFlowType/property/MassFlowRate/read",
             "op": "readproperty"
           }
         ]
       },
       "MassFlowRate_AccuracyClass": {
-        "aov:namespace": "http://opcfoundation.org/UA/ECM/",
+        "dov:namespace": "http://opcfoundation.org/UA/ECM/",
         "type": "integer",
         "minimum": 0,
         "maximum": 4294967295,
         "readOnly": true,
-        "aov:containedIn": "MassFlowRate",
+        "dov:containedIn": "MassFlowRate",
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/Machinery.Energy/Machinery_Energy_IMassFlowType/property/MassFlowRate_AccuracyClass/read",
+            "dov:topic": "opcua/Machinery.Energy/Machinery_Energy_IMassFlowType/property/MassFlowRate_AccuracyClass/read",
             "op": "readproperty"
           }
         ]
       },
       "MassFlowRate_Resource": {
-        "aov:namespace": "http://opcfoundation.org/UA/ECM/",
+        "dov:namespace": "http://opcfoundation.org/UA/ECM/",
         "type": "integer",
         "minimum": 0,
         "maximum": 4294967295,
         "readOnly": false,
-        "aov:containedIn": "MassFlowRate",
+        "dov:containedIn": "MassFlowRate",
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/Machinery.Energy/Machinery_Energy_IMassFlowType/property/MassFlowRate_Resource/write",
+            "dov:topic": "opcua/Machinery.Energy/Machinery_Energy_IMassFlowType/property/MassFlowRate_Resource/write",
             "op": "writeproperty"
           },
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/Machinery.Energy/Machinery_Energy_IMassFlowType/property/MassFlowRate_Resource/read",
+            "dov:topic": "opcua/Machinery.Energy/Machinery_Energy_IMassFlowType/property/MassFlowRate_Resource/read",
             "op": "readproperty"
           }
         ]
@@ -444,7 +442,7 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/Machinery.Energy/Machinery_Energy_IMassFlowType/property/Mass_EngineeringUnits/read",
+            "dov:topic": "opcua/Machinery.Energy/Machinery_Energy_IMassFlowType/property/Mass_EngineeringUnits/read",
             "op": "readproperty"
           }
         ]
@@ -456,7 +454,7 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/Machinery.Energy/Machinery_Energy_IMassFlowType/property/MassFlowRate_EngineeringUnits/read",
+            "dov:topic": "opcua/Machinery.Energy/Machinery_Energy_IMassFlowType/property/MassFlowRate_EngineeringUnits/read",
             "op": "readproperty"
           }
         ]
@@ -464,101 +462,101 @@
     },
     "events": {
       "Mass": {
-        "aov:namespace": "http://opcfoundation.org/UA/ECM/",
+        "dov:namespace": "http://opcfoundation.org/UA/ECM/",
         "data": {
           "type": "number",
           "minimum": -3.40e+38,
           "maximum": 3.40e+38
         },
-        "aov:contains": [ "Mass_AccuracyClass", "Mass_Resource" ],
+        "dov:contains": [ "Mass_AccuracyClass", "Mass_Resource" ],
         "qudt:hasQuantityKind": "http://qudt.org/vocab/quantitykind/Mass",
-        "aov:withUnit": "properties/Mass_EngineeringUnits",
+        "dov:withUnit": "properties/Mass_EngineeringUnits",
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/Machinery.Energy/Machinery_Energy_IMassFlowType/event/Mass/{senderId}",
+            "dov:topic": "opcua/Machinery.Energy/Machinery_Energy_IMassFlowType/event/Mass/{senderId}",
             "op": "subscribeevent"
           }
         ]
       },
       "Mass_AccuracyClass": {
-        "aov:namespace": "http://opcfoundation.org/UA/ECM/",
+        "dov:namespace": "http://opcfoundation.org/UA/ECM/",
         "data": {
           "type": "integer",
           "minimum": 0,
           "maximum": 4294967295
         },
-        "aov:containedIn": "Mass",
+        "dov:containedIn": "Mass",
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/Machinery.Energy/Machinery_Energy_IMassFlowType/event/Mass_AccuracyClass/{senderId}",
+            "dov:topic": "opcua/Machinery.Energy/Machinery_Energy_IMassFlowType/event/Mass_AccuracyClass/{senderId}",
             "op": "subscribeevent"
           }
         ]
       },
       "Mass_Resource": {
-        "aov:namespace": "http://opcfoundation.org/UA/ECM/",
+        "dov:namespace": "http://opcfoundation.org/UA/ECM/",
         "data": {
           "type": "integer",
           "minimum": 0,
           "maximum": 4294967295
         },
-        "aov:containedIn": "Mass",
+        "dov:containedIn": "Mass",
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/Machinery.Energy/Machinery_Energy_IMassFlowType/event/Mass_Resource/{senderId}",
+            "dov:topic": "opcua/Machinery.Energy/Machinery_Energy_IMassFlowType/event/Mass_Resource/{senderId}",
             "op": "subscribeevent"
           }
         ]
       },
       "MassFlowRate": {
-        "aov:namespace": "http://opcfoundation.org/UA/ECM/",
+        "dov:namespace": "http://opcfoundation.org/UA/ECM/",
         "data": {
           "type": "number",
           "minimum": -3.40e+38,
           "maximum": 3.40e+38
         },
-        "aov:contains": [ "MassFlowRate_AccuracyClass", "MassFlowRate_Resource" ],
+        "dov:contains": [ "MassFlowRate_AccuracyClass", "MassFlowRate_Resource" ],
         "qudt:hasQuantityKind": "http://qudt.org/vocab/quantitykind/MassFlowRate",
-        "aov:withUnit": "properties/MassFlowRate_EngineeringUnits",
+        "dov:withUnit": "properties/MassFlowRate_EngineeringUnits",
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/Machinery.Energy/Machinery_Energy_IMassFlowType/event/MassFlowRate/{senderId}",
+            "dov:topic": "opcua/Machinery.Energy/Machinery_Energy_IMassFlowType/event/MassFlowRate/{senderId}",
             "op": "subscribeevent"
           }
         ]
       },
       "MassFlowRate_AccuracyClass": {
-        "aov:namespace": "http://opcfoundation.org/UA/ECM/",
+        "dov:namespace": "http://opcfoundation.org/UA/ECM/",
         "data": {
           "type": "integer",
           "minimum": 0,
           "maximum": 4294967295
         },
-        "aov:containedIn": "MassFlowRate",
+        "dov:containedIn": "MassFlowRate",
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/Machinery.Energy/Machinery_Energy_IMassFlowType/event/MassFlowRate_AccuracyClass/{senderId}",
+            "dov:topic": "opcua/Machinery.Energy/Machinery_Energy_IMassFlowType/event/MassFlowRate_AccuracyClass/{senderId}",
             "op": "subscribeevent"
           }
         ]
       },
       "MassFlowRate_Resource": {
-        "aov:namespace": "http://opcfoundation.org/UA/ECM/",
+        "dov:namespace": "http://opcfoundation.org/UA/ECM/",
         "data": {
           "type": "integer",
           "minimum": 0,
           "maximum": 4294967295
         },
-        "aov:containedIn": "MassFlowRate",
+        "dov:containedIn": "MassFlowRate",
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/Machinery.Energy/Machinery_Energy_IMassFlowType/event/MassFlowRate_Resource/{senderId}",
+            "dov:topic": "opcua/Machinery.Energy/Machinery_Energy_IMassFlowType/event/MassFlowRate_Resource/{senderId}",
             "op": "subscribeevent"
           }
         ]
@@ -570,13 +568,12 @@
       "https://www.w3.org/2022/wot/td/v1.1",
       {
         "qudt": "http://qudt.org/schema/qudt/",
-        "dtv": "http://azure.com/DigitalTwins/dtmi#",
-        "aov": "http://azure.com/IoT/operations/tm#"
+        "dov": "http://azure.com/DigitalOperations/vocab#"
       }
     ],
     "@type": "tm:ThingModel",
     "title": "Machinery_Energy_IVolumeFlowType",
-    "aov:typeRef": "nsu=http://opcfoundation.org/UA/Machinery/Energy/;i=1004",
+    "dov:typeRef": "org.opcfoundation.UA.Machinery.Energy.IVolumeFlowType",
     "links": [
       {
         "rel": "tm:extends",
@@ -589,17 +586,17 @@
     "forms": [
       {
         "contentType": "application/json",
-        "dtv:topic": "opcua/Machinery.Energy/Machinery_Energy_IVolumeFlowType/events/{senderId}",
+        "dov:topic": "opcua/Machinery.Energy/Machinery_Energy_IVolumeFlowType/events/{senderId}",
         "op": "subscribeallevents"
       },
       {
         "contentType": "application/json",
-        "dtv:topic": "opcua/Machinery.Energy/Machinery_Energy_IVolumeFlowType/properties/write",
+        "dov:topic": "opcua/Machinery.Energy/Machinery_Energy_IVolumeFlowType/properties/write",
         "op": "writemultipleproperties"
       },
       {
         "contentType": "application/json",
-        "dtv:topic": "opcua/Machinery.Energy/Machinery_Energy_IVolumeFlowType/properties/read",
+        "dov:topic": "opcua/Machinery.Energy/Machinery_Energy_IVolumeFlowType/properties/read",
         "op": "readallproperties"
       }
     ],
@@ -607,115 +604,115 @@
     },
     "properties": {
       "Volume": {
-        "aov:namespace": "http://opcfoundation.org/UA/ECM/",
+        "dov:namespace": "http://opcfoundation.org/UA/ECM/",
         "type": "number",
         "minimum": -3.40e+38,
         "maximum": 3.40e+38,
         "readOnly": false,
-        "aov:contains": [ "Volume_AccuracyClass", "Volume_Resource" ],
+        "dov:contains": [ "Volume_AccuracyClass", "Volume_Resource" ],
         "qudt:hasQuantityKind": "http://qudt.org/vocab/quantitykind/Volume",
-        "aov:withUnit": "properties/Volume_EngineeringUnits",
+        "dov:withUnit": "properties/Volume_EngineeringUnits",
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/Machinery.Energy/Machinery_Energy_IVolumeFlowType/property/Volume/write",
+            "dov:topic": "opcua/Machinery.Energy/Machinery_Energy_IVolumeFlowType/property/Volume/write",
             "op": "writeproperty"
           },
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/Machinery.Energy/Machinery_Energy_IVolumeFlowType/property/Volume/read",
+            "dov:topic": "opcua/Machinery.Energy/Machinery_Energy_IVolumeFlowType/property/Volume/read",
             "op": "readproperty"
           }
         ]
       },
       "Volume_AccuracyClass": {
-        "aov:namespace": "http://opcfoundation.org/UA/ECM/",
+        "dov:namespace": "http://opcfoundation.org/UA/ECM/",
         "type": "integer",
         "minimum": 0,
         "maximum": 4294967295,
         "readOnly": true,
-        "aov:containedIn": "Volume",
+        "dov:containedIn": "Volume",
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/Machinery.Energy/Machinery_Energy_IVolumeFlowType/property/Volume_AccuracyClass/read",
+            "dov:topic": "opcua/Machinery.Energy/Machinery_Energy_IVolumeFlowType/property/Volume_AccuracyClass/read",
             "op": "readproperty"
           }
         ]
       },
       "Volume_Resource": {
-        "aov:namespace": "http://opcfoundation.org/UA/ECM/",
+        "dov:namespace": "http://opcfoundation.org/UA/ECM/",
         "type": "integer",
         "minimum": 0,
         "maximum": 4294967295,
         "readOnly": false,
-        "aov:containedIn": "Volume",
+        "dov:containedIn": "Volume",
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/Machinery.Energy/Machinery_Energy_IVolumeFlowType/property/Volume_Resource/write",
+            "dov:topic": "opcua/Machinery.Energy/Machinery_Energy_IVolumeFlowType/property/Volume_Resource/write",
             "op": "writeproperty"
           },
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/Machinery.Energy/Machinery_Energy_IVolumeFlowType/property/Volume_Resource/read",
+            "dov:topic": "opcua/Machinery.Energy/Machinery_Energy_IVolumeFlowType/property/Volume_Resource/read",
             "op": "readproperty"
           }
         ]
       },
       "VolumeFlowRate": {
-        "aov:namespace": "http://opcfoundation.org/UA/ECM/",
+        "dov:namespace": "http://opcfoundation.org/UA/ECM/",
         "type": "number",
         "minimum": -3.40e+38,
         "maximum": 3.40e+38,
         "readOnly": false,
-        "aov:contains": [ "VolumeFlowRate_AccuracyClass", "VolumeFlowRate_Resource" ],
+        "dov:contains": [ "VolumeFlowRate_AccuracyClass", "VolumeFlowRate_Resource" ],
         "qudt:hasQuantityKind": "http://qudt.org/vocab/quantitykind/VolumeFlowRate",
-        "aov:withUnit": "properties/VolumeFlowRate_EngineeringUnits",
+        "dov:withUnit": "properties/VolumeFlowRate_EngineeringUnits",
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/Machinery.Energy/Machinery_Energy_IVolumeFlowType/property/VolumeFlowRate/write",
+            "dov:topic": "opcua/Machinery.Energy/Machinery_Energy_IVolumeFlowType/property/VolumeFlowRate/write",
             "op": "writeproperty"
           },
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/Machinery.Energy/Machinery_Energy_IVolumeFlowType/property/VolumeFlowRate/read",
+            "dov:topic": "opcua/Machinery.Energy/Machinery_Energy_IVolumeFlowType/property/VolumeFlowRate/read",
             "op": "readproperty"
           }
         ]
       },
       "VolumeFlowRate_AccuracyClass": {
-        "aov:namespace": "http://opcfoundation.org/UA/ECM/",
+        "dov:namespace": "http://opcfoundation.org/UA/ECM/",
         "type": "integer",
         "minimum": 0,
         "maximum": 4294967295,
         "readOnly": true,
-        "aov:containedIn": "VolumeFlowRate",
+        "dov:containedIn": "VolumeFlowRate",
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/Machinery.Energy/Machinery_Energy_IVolumeFlowType/property/VolumeFlowRate_AccuracyClass/read",
+            "dov:topic": "opcua/Machinery.Energy/Machinery_Energy_IVolumeFlowType/property/VolumeFlowRate_AccuracyClass/read",
             "op": "readproperty"
           }
         ]
       },
       "VolumeFlowRate_Resource": {
-        "aov:namespace": "http://opcfoundation.org/UA/ECM/",
+        "dov:namespace": "http://opcfoundation.org/UA/ECM/",
         "type": "integer",
         "minimum": 0,
         "maximum": 4294967295,
         "readOnly": false,
-        "aov:containedIn": "VolumeFlowRate",
+        "dov:containedIn": "VolumeFlowRate",
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/Machinery.Energy/Machinery_Energy_IVolumeFlowType/property/VolumeFlowRate_Resource/write",
+            "dov:topic": "opcua/Machinery.Energy/Machinery_Energy_IVolumeFlowType/property/VolumeFlowRate_Resource/write",
             "op": "writeproperty"
           },
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/Machinery.Energy/Machinery_Energy_IVolumeFlowType/property/VolumeFlowRate_Resource/read",
+            "dov:topic": "opcua/Machinery.Energy/Machinery_Energy_IVolumeFlowType/property/VolumeFlowRate_Resource/read",
             "op": "readproperty"
           }
         ]
@@ -727,7 +724,7 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/Machinery.Energy/Machinery_Energy_IVolumeFlowType/property/Volume_EngineeringUnits/read",
+            "dov:topic": "opcua/Machinery.Energy/Machinery_Energy_IVolumeFlowType/property/Volume_EngineeringUnits/read",
             "op": "readproperty"
           }
         ]
@@ -739,7 +736,7 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/Machinery.Energy/Machinery_Energy_IVolumeFlowType/property/VolumeFlowRate_EngineeringUnits/read",
+            "dov:topic": "opcua/Machinery.Energy/Machinery_Energy_IVolumeFlowType/property/VolumeFlowRate_EngineeringUnits/read",
             "op": "readproperty"
           }
         ]
@@ -747,101 +744,101 @@
     },
     "events": {
       "Volume": {
-        "aov:namespace": "http://opcfoundation.org/UA/ECM/",
+        "dov:namespace": "http://opcfoundation.org/UA/ECM/",
         "data": {
           "type": "number",
           "minimum": -3.40e+38,
           "maximum": 3.40e+38
         },
-        "aov:contains": [ "Volume_AccuracyClass", "Volume_Resource" ],
+        "dov:contains": [ "Volume_AccuracyClass", "Volume_Resource" ],
         "qudt:hasQuantityKind": "http://qudt.org/vocab/quantitykind/Volume",
-        "aov:withUnit": "properties/Volume_EngineeringUnits",
+        "dov:withUnit": "properties/Volume_EngineeringUnits",
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/Machinery.Energy/Machinery_Energy_IVolumeFlowType/event/Volume/{senderId}",
+            "dov:topic": "opcua/Machinery.Energy/Machinery_Energy_IVolumeFlowType/event/Volume/{senderId}",
             "op": "subscribeevent"
           }
         ]
       },
       "Volume_AccuracyClass": {
-        "aov:namespace": "http://opcfoundation.org/UA/ECM/",
+        "dov:namespace": "http://opcfoundation.org/UA/ECM/",
         "data": {
           "type": "integer",
           "minimum": 0,
           "maximum": 4294967295
         },
-        "aov:containedIn": "Volume",
+        "dov:containedIn": "Volume",
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/Machinery.Energy/Machinery_Energy_IVolumeFlowType/event/Volume_AccuracyClass/{senderId}",
+            "dov:topic": "opcua/Machinery.Energy/Machinery_Energy_IVolumeFlowType/event/Volume_AccuracyClass/{senderId}",
             "op": "subscribeevent"
           }
         ]
       },
       "Volume_Resource": {
-        "aov:namespace": "http://opcfoundation.org/UA/ECM/",
+        "dov:namespace": "http://opcfoundation.org/UA/ECM/",
         "data": {
           "type": "integer",
           "minimum": 0,
           "maximum": 4294967295
         },
-        "aov:containedIn": "Volume",
+        "dov:containedIn": "Volume",
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/Machinery.Energy/Machinery_Energy_IVolumeFlowType/event/Volume_Resource/{senderId}",
+            "dov:topic": "opcua/Machinery.Energy/Machinery_Energy_IVolumeFlowType/event/Volume_Resource/{senderId}",
             "op": "subscribeevent"
           }
         ]
       },
       "VolumeFlowRate": {
-        "aov:namespace": "http://opcfoundation.org/UA/ECM/",
+        "dov:namespace": "http://opcfoundation.org/UA/ECM/",
         "data": {
           "type": "number",
           "minimum": -3.40e+38,
           "maximum": 3.40e+38
         },
-        "aov:contains": [ "VolumeFlowRate_AccuracyClass", "VolumeFlowRate_Resource" ],
+        "dov:contains": [ "VolumeFlowRate_AccuracyClass", "VolumeFlowRate_Resource" ],
         "qudt:hasQuantityKind": "http://qudt.org/vocab/quantitykind/VolumeFlowRate",
-        "aov:withUnit": "properties/VolumeFlowRate_EngineeringUnits",
+        "dov:withUnit": "properties/VolumeFlowRate_EngineeringUnits",
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/Machinery.Energy/Machinery_Energy_IVolumeFlowType/event/VolumeFlowRate/{senderId}",
+            "dov:topic": "opcua/Machinery.Energy/Machinery_Energy_IVolumeFlowType/event/VolumeFlowRate/{senderId}",
             "op": "subscribeevent"
           }
         ]
       },
       "VolumeFlowRate_AccuracyClass": {
-        "aov:namespace": "http://opcfoundation.org/UA/ECM/",
+        "dov:namespace": "http://opcfoundation.org/UA/ECM/",
         "data": {
           "type": "integer",
           "minimum": 0,
           "maximum": 4294967295
         },
-        "aov:containedIn": "VolumeFlowRate",
+        "dov:containedIn": "VolumeFlowRate",
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/Machinery.Energy/Machinery_Energy_IVolumeFlowType/event/VolumeFlowRate_AccuracyClass/{senderId}",
+            "dov:topic": "opcua/Machinery.Energy/Machinery_Energy_IVolumeFlowType/event/VolumeFlowRate_AccuracyClass/{senderId}",
             "op": "subscribeevent"
           }
         ]
       },
       "VolumeFlowRate_Resource": {
-        "aov:namespace": "http://opcfoundation.org/UA/ECM/",
+        "dov:namespace": "http://opcfoundation.org/UA/ECM/",
         "data": {
           "type": "integer",
           "minimum": 0,
           "maximum": 4294967295
         },
-        "aov:containedIn": "VolumeFlowRate",
+        "dov:containedIn": "VolumeFlowRate",
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/Machinery.Energy/Machinery_Energy_IVolumeFlowType/event/VolumeFlowRate_Resource/{senderId}",
+            "dov:topic": "opcua/Machinery.Energy/Machinery_Energy_IVolumeFlowType/event/VolumeFlowRate_Resource/{senderId}",
             "op": "subscribeevent"
           }
         ]
@@ -852,13 +849,12 @@
     "@context": [
       "https://www.w3.org/2022/wot/td/v1.1",
       {
-        "dtv": "http://azure.com/DigitalTwins/dtmi#",
-        "aov": "http://azure.com/IoT/operations/tm#"
+        "dov": "http://azure.com/DigitalOperations/vocab#"
       }
     ],
     "@type": "tm:ThingModel",
     "title": "Machinery_Energy_INonElectricalEnergyType",
-    "aov:typeRef": "nsu=http://opcfoundation.org/UA/Machinery/Energy/;i=1003",
+    "dov:typeRef": "org.opcfoundation.UA.Machinery.Energy.INonElectricalEnergyType",
     "links": [
       {
         "rel": "tm:extends",
@@ -879,13 +875,12 @@
     "@context": [
       "https://www.w3.org/2022/wot/td/v1.1",
       {
-        "dtv": "http://azure.com/DigitalTwins/dtmi#",
-        "aov": "http://azure.com/IoT/operations/tm#"
+        "dov": "http://azure.com/DigitalOperations/vocab#"
       }
     ],
     "@type": "tm:ThingModel",
     "title": "OpcUaCore_BaseInterfaceType",
-    "aov:typeRef": "nsu=http://opcfoundation.org/UA/;i=17602",
+    "dov:typeRef": "org.opcfoundation.UA.BaseInterfaceType",
     "links": [
       {
         "rel": "tm:extends",
@@ -906,13 +901,12 @@
     "@context": [
       "https://www.w3.org/2022/wot/td/v1.1",
       {
-        "dtv": "http://azure.com/DigitalTwins/dtmi#",
-        "aov": "http://azure.com/IoT/operations/tm#"
+        "dov": "http://azure.com/DigitalOperations/vocab#"
       }
     ],
     "@type": "tm:ThingModel",
     "title": "OpcUaCore_BaseObjectType",
-    "aov:typeRef": "nsu=http://opcfoundation.org/UA/;i=58",
+    "dov:typeRef": "org.opcfoundation.UA.BaseObjectType",
     "links": [
     ],
     "schemaDefinitions": {

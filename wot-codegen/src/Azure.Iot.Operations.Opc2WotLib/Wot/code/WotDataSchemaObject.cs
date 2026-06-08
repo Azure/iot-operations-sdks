@@ -19,7 +19,7 @@ namespace Azure.Iot.Operations.Opc2WotLib
         {
             this.description = description;
             this.schemaName = schemaName;
-            this.typeRef = $"nsu={containingNode.NodeIdNamespace};i={containingNode.NodeId.NodeIndex}";
+            this.typeRef = containingNode.GetTypeRef();
 
             fieldDataSchemas =  fields.ToDictionary(
                 field => field.Key,
