@@ -24,6 +24,12 @@ namespace Azure.Iot.Operations.ProtocolCompilerLib
         public const string DefaultOutDir = ".";
         public const string DefaultWorkingDir = "schemas";
 
+        public static readonly Dictionary<string, TargetSdk> SdkTargetMap = new()
+        {
+            { "aio", TargetSdk.Aio },
+            { "none", TargetSdk.None },
+        };
+
         public static readonly Dictionary<string, LanguageInfo> LanguageMap = new()
         {
             { "csharp", new LanguageInfo(TargetLanguage.CSharp, "", new Regex(@"^[A-Z][a-zA-Z0-9]*(?:\.[A-Z][a-zA-Z0-9]*)*$"), true, false, "Generated", "", "must have PascalCase name segments separated by dots") },
@@ -45,6 +51,7 @@ namespace Azure.Iot.Operations.ProtocolCompilerLib
                 }
 
                 string projectName = LegalizeProjectName(options.OutputDir.Name);
+                TargetSdk targetSdk = SdkTargetMap[options.SdkTarget.ToLowerInvariant()];
                 LanguageInfo languageInfo = LanguageMap[options.Language.ToLowerInvariant()];
 
                 string genNamespace = options.GenNamespace ?? languageInfo.DefaultNamespace;
@@ -131,6 +138,7 @@ namespace Azure.Iot.Operations.ProtocolCompilerLib
                 List<GeneratedItem> generatedEnvoys = EnvoyGenerator.GenerateEnvoys(
                     filepathToTitleToParsedThingMap.Values.SelectMany(titleToParsedThingMap => titleToParsedThingMap.Values),
                     serializationFormats.ToList(),
+                    targetSdk,
                     languageInfo.TargetLanguage,
                     genNamespace,
                     commonNs,
@@ -385,7 +393,15 @@ namespace Azure.Iot.Operations.ProtocolCompilerLib
                 return;
             }
 
-            if (!LanguageMap.ContainsKey(options.Language))
+            string sdkTargetKey = options.SdkTarget?.ToLowerInvariant() ?? string.Empty;
+            if (!SdkTargetMap.ContainsKey(sdkTargetKey))
+            {
+                AddUnlocatableError(ErrorCondition.PropertyUnsupportedValue, $"SDK target '{options.SdkTarget}' not recognized; SDK target must be {string.Join(" or ", SdkTargetMap.Keys.Select(s => $"'{s}'"))} (use 'none' to skip SDK target generation)", errorLog);
+                return;
+            }
+
+            string languageKey = options.Language?.ToLowerInvariant() ?? string.Empty;
+            if (!LanguageMap.ContainsKey(languageKey))
             {
                 string langCondition = string.IsNullOrEmpty(options.Language) ? "language not specified" : $"language '{options.Language}' not recognized";
                 AddUnlocatableError(ErrorCondition.PropertyUnsupportedValue, $"{langCondition}; language must be {string.Join(" or ", LanguageMap.Keys.Select(l => $"'{l}'"))} (use 'none' for no code generation)", errorLog);
