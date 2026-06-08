@@ -26,6 +26,9 @@
 <# } #>
   "forms": [
     {
+<# if (this.inDescription) { #>
+      "href": "https://placeholder.example.com/endpoint",
+<# } #>
       "contentType": "application/json",
       "dov:topic": "opcua/<#=this.specName#>/<#=this.thingModelName#>/action/<#=this.ActionName#>",
       "op": "invokeaction"

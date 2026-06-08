@@ -36,26 +36,26 @@
   "forms": [
 <# if (this.events.Any()) { #>
     {
+      "href": "https://placeholder.example.com/endpoint",
       "contentType": "application/json",
       "dov:topic": "opcua/<#=this.specName#>/<#=this.thingName#>/events/{senderId}",
-      "op": "subscribeallevents",
-      "href": "https://placeholder.example.com/endpoint"
+      "op": "subscribeallevents"
     }<#=this.properties.Any() ? "," : ""#>
 <# } #>
 <# if (this.properties.Any()) { #>
 <# if (this.properties.Any(p => !p.ReadOnly)) { #>
     {
+      "href": "https://placeholder.example.com/endpoint",
       "contentType": "application/json",
       "dov:topic": "opcua/<#=this.specName#>/<#=this.thingName#>/properties/write",
-      "op": "writemultipleproperties",
-      "href": "https://placeholder.example.com/endpoint"
+      "op": "writemultipleproperties"
     },
 <# } #>
     {
+      "href": "https://placeholder.example.com/endpoint",
       "contentType": "application/json",
       "dov:topic": "opcua/<#=this.specName#>/<#=this.thingName#>/properties/read",
-      "op": "readallproperties",
-      "href": "https://placeholder.example.com/endpoint"
+      "op": "readallproperties"
     }
 <# } #>
   ],

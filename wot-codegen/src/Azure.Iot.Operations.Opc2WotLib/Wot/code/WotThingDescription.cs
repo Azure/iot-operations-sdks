@@ -27,9 +27,9 @@ namespace Azure.Iot.Operations.Opc2WotLib
             this.typeRef = uaObject.GetTypeRef();
             this.definingModelRef = uaObject.HasTypeDefinition != null && uaObject.HasTypeDefinition.NodeId.NsIndex != 0 ? GetModelRef(uaObject, uaObject.HasTypeDefinition) : null;
 
-            this.actions = uaObject.Methods.OrderBy(m => m.EffectiveName).Select(m => new WotAction(specName, this.thingName, m)).ToList();
-            this.properties = uaObject.VariableRecords.OrderBy(r => r.Key).Select(r => new WotProperty(specName, this.thingName, r.Value.UaVariable, r.Key, r.Value.ContainedIn, r.Value.Contains)).ToList();
-            this.events = uaObject.VariableRecords.OrderBy(r => r.Key).Where(r => r.Value.IsDataVariable).Select(r => new WotEvent(specName, this.thingName, r.Value.UaVariable, r.Key, r.Value.ContainedIn, r.Value.Contains)).ToList();
+            this.actions = uaObject.Methods.OrderBy(m => m.EffectiveName).Select(m => new WotAction(specName, this.thingName, m, true)).ToList();
+            this.properties = uaObject.VariableRecords.OrderBy(r => r.Key).Select(r => new WotProperty(specName, this.thingName, r.Value.UaVariable, r.Key, r.Value.ContainedIn, r.Value.Contains, true)).ToList();
+            this.events = uaObject.VariableRecords.OrderBy(r => r.Key).Where(r => r.Value.IsDataVariable).Select(r => new WotEvent(specName, this.thingName, r.Value.UaVariable, r.Key, r.Value.ContainedIn, r.Value.Contains, true)).ToList();
 
             List<string> unitfulPropertyNames = this.properties.Where(p => p.UsesUnits).Select(p => p.PropertyName).ToList();
             List<string> unitfulEventNames = this.events.Where(e => e.UsesUnits).Select(e => e.EventName).ToList();
@@ -37,7 +37,7 @@ namespace Azure.Iot.Operations.Opc2WotLib
             {
                 string whichAffordances = unitfulEventNames.Contains(unitfulPropertyName) ? "property and event" : "property";
                 string description = $"Unit designator for {whichAffordances} with name {unitfulPropertyName}, expressed as a 2- or 3-character UN/ECE code";
-                this.properties.Add(new WotProperty(specName, this.thingName, $"{unitfulPropertyName}_EngineeringUnits", StringDataTypeNodeId, true, false, description));
+                this.properties.Add(new WotProperty(specName, this.thingName, $"{unitfulPropertyName}_EngineeringUnits", StringDataTypeNodeId, true, false, description, true));
             }
 
             this.areUnitsInUse = unitfulPropertyNames.Any();

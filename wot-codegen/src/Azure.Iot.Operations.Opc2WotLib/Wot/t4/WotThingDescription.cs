@@ -45,30 +45,30 @@ namespace Azure.Iot.Operations.Opc2WotLib
  if (this.properties.Any() || this.events.Any()) { 
             this.Write("  \"forms\": [\r\n");
  if (this.events.Any()) { 
-            this.Write("    {\r\n      \"contentType\": \"application/json\",\r\n      \"dov:topic\": \"opcua/");
+            this.Write("    {\r\n      \"href\": \"https://placeholder.example.com/endpoint\",\r\n      \"contentT" +
+                    "ype\": \"application/json\",\r\n      \"dov:topic\": \"opcua/");
             this.Write(this.ToStringHelper.ToStringWithCulture(this.specName));
             this.Write("/");
             this.Write(this.ToStringHelper.ToStringWithCulture(this.thingName));
-            this.Write("/events/{senderId}\",\r\n      \"op\": \"subscribeallevents\",\r\n      \"href\": \"https://p" +
-                    "laceholder.example.com/endpoint\"\r\n    }");
+            this.Write("/events/{senderId}\",\r\n      \"op\": \"subscribeallevents\"\r\n    }");
             this.Write(this.ToStringHelper.ToStringWithCulture(this.properties.Any() ? "," : ""));
             this.Write("\r\n");
  } 
  if (this.properties.Any()) { 
  if (this.properties.Any(p => !p.ReadOnly)) { 
-            this.Write("    {\r\n      \"contentType\": \"application/json\",\r\n      \"dov:topic\": \"opcua/");
+            this.Write("    {\r\n      \"href\": \"https://placeholder.example.com/endpoint\",\r\n      \"contentT" +
+                    "ype\": \"application/json\",\r\n      \"dov:topic\": \"opcua/");
             this.Write(this.ToStringHelper.ToStringWithCulture(this.specName));
             this.Write("/");
             this.Write(this.ToStringHelper.ToStringWithCulture(this.thingName));
-            this.Write("/properties/write\",\r\n      \"op\": \"writemultipleproperties\",\r\n      \"href\": \"https" +
-                    "://placeholder.example.com/endpoint\"\r\n    },\r\n");
+            this.Write("/properties/write\",\r\n      \"op\": \"writemultipleproperties\"\r\n    },\r\n");
  } 
-            this.Write("    {\r\n      \"contentType\": \"application/json\",\r\n      \"dov:topic\": \"opcua/");
+            this.Write("    {\r\n      \"href\": \"https://placeholder.example.com/endpoint\",\r\n      \"contentT" +
+                    "ype\": \"application/json\",\r\n      \"dov:topic\": \"opcua/");
             this.Write(this.ToStringHelper.ToStringWithCulture(this.specName));
             this.Write("/");
             this.Write(this.ToStringHelper.ToStringWithCulture(this.thingName));
-            this.Write("/properties/read\",\r\n      \"op\": \"readallproperties\",\r\n      \"href\": \"https://plac" +
-                    "eholder.example.com/endpoint\"\r\n    }\r\n");
+            this.Write("/properties/read\",\r\n      \"op\": \"readallproperties\"\r\n    }\r\n");
  } 
             this.Write("  ],\r\n");
  } 
