@@ -11,7 +11,7 @@
       "type": "boolean"
     },
     "reason": {
-      "description": "If validation was not performed, the reason why not.",
+      "description": "If validation was not performed, the reason why not. MUST be present if validated is false. MUST NOT be present if validated is true.",
       "type": "string"
     }
   }

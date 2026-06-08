@@ -7,7 +7,9 @@
     "required": [
         "labels",
         "format",
-        "document"
+        "document",
+        "extensions",
+        "thingDescriptionLabels"
     ],
     "properties": {
         "groupId": {
@@ -61,6 +63,14 @@
             "additionalProperties": {
                 "type": "string",
                 "contentEncoding": "base64"
+            }
+        },
+        "thingDescriptionLabels": {
+            "description": "Queryable Key Value pairs to be added to the parent Thing Description. Labels can be used to store additional metadata about the Thing Description.",
+            "type": "array",
+            "items": {
+                "type": "object",
+                "$ref": "../core-xregistry/Label.schema.json"
             }
         }
     }

@@ -341,12 +341,16 @@
             ]
         },
         "getVersion": {
-            "description": "Retrieve an xRegistry Version entity.",
+            "description": "Retrieve an xRegistry Version entity. Returns the default Version if no versionId is specified.",
             "input": {
                 "type": "object",
                 "properties": {
                     "groupId": {
                         "description": "Group identifier. Uses the default if not specified.",
+                        "type": "string"
+                    },
+                    "versionId": {
+                        "description": "Version identifier. Returns the default Version if not specified.",
                         "type": "string"
                     }
                 },
@@ -358,7 +362,7 @@
             },
             "forms": [
                 {
-                    "dtv:topic": "aio/registry/get/{ex:groupType}/{ex:resourceType}/{ex:resourceId}/versions/{ex:versionId}",
+                    "dtv:topic": "aio/registry/get/{ex:groupType}/{ex:resourceType}/{ex:resourceId}/versions/version",
                     "contentType": "application/json",
                     "op": "invokeaction",
                     "additionalResponses": [
