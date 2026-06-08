@@ -21,14 +21,15 @@ use tokio::{
 };
 
 use crate::azure_mqtt::buffer_pool::{BufferPool, EitherAccumulator};
-use crate::azure_mqtt::client::ConnectionTransportTlsConfig;
+use crate::azure_mqtt::transport::{Proxy, TlsConfig};
 use crate::azure_mqtt::io::{ReadableStream, Reader, WritableStream, Writer, tokio_tls};
 
 /// Establish a WebSocket connection using the given request parameters,
 /// and use the given buffer pools to initialize the buffers for the stream reader and writer.
 pub async fn connect<BP>(
     request: impl IntoClientRequest,
-    tls_config: ConnectionTransportTlsConfig,
+    tls_config: TlsConfig,
+    proxy: Option<&Proxy>,
     reader_pool: &BP,
 ) -> io::Result<(Reader<BP>, Writer<BP>)>
 where
@@ -53,8 +54,8 @@ where
         ));
     };
     let stream = match scheme {
-        "https" | "wss" => tokio_tls::connect_inner(addr, port.unwrap_or(443), tls_config).await?,
-        "http" | "ws" => Either::Left(TcpStream::connect((addr, port.unwrap_or(80))).await?),
+        "https" | "wss" => tokio_tls::connect_inner(addr, port.unwrap_or(443), tls_config, proxy).await?,
+        "http" | "ws" => Either::Left(super::tcp::connect(addr, port.unwrap_or(80), proxy).await?),
         _ => {
             return Err(IoError::new(
                 io::ErrorKind::InvalidInput,

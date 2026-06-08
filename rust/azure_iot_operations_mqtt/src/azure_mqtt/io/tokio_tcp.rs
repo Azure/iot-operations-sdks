@@ -9,9 +9,10 @@ use std::{
     sync::Arc,
 };
 
-use tokio::net::{TcpStream, ToSocketAddrs};
+use tokio::net::TcpStream;
 
 use crate::azure_mqtt::buffer_pool::{BufferPool, EitherAccumulator};
+use crate::azure_mqtt::transport::Proxy;
 
 use crate::azure_mqtt::io::{ReadableStream, Reader, WritableStream, Writer};
 
@@ -19,14 +20,16 @@ use crate::azure_mqtt::io::{ReadableStream, Reader, WritableStream, Writer};
 /// to initialize the buffers for the stream reader and writer.
 // TODO: Also take max packet size and forward it to `Reader`.
 pub async fn connect<BP>(
-    addr: impl ToSocketAddrs,
+    hostname: &str,
+    port: u16,
+    proxy: Option<&Proxy>,
     reader_pool: &BP,
     writer_pool: &BP,
 ) -> io::Result<(Reader<BP>, Writer<BP>)>
 where
     BP: BufferPool,
 {
-    let stream = TcpStream::connect(addr).await?;
+    let stream = super::tcp::connect(hostname, port, proxy).await?;
     Ok(connect_inner(stream, reader_pool, writer_pool))
 }
 

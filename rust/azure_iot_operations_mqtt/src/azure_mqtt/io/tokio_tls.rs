@@ -32,7 +32,7 @@ use tokio::{
 use tokio_openssl::SslStream;
 
 use crate::azure_mqtt::buffer_pool::{BufferPool, EitherAccumulator};
-use crate::azure_mqtt::client::ConnectionTransportTlsConfig;
+use crate::azure_mqtt::transport::{Proxy, TlsConfig};
 use crate::azure_mqtt::io::{ReadableStream, Reader, WritableStream, Writer, tokio_tcp};
 use crate::azure_mqtt::opensslext::ssl::{ConnectionTrafficSecrets, ExtractedSecrets};
 
@@ -43,14 +43,15 @@ use crate::azure_mqtt::opensslext::ssl::{ConnectionTrafficSecrets, ExtractedSecr
 pub async fn connect<BP>(
     hostname: &str,
     port: u16,
-    config: ConnectionTransportTlsConfig,
+    config: TlsConfig,
+    proxy: Option<&Proxy>,
     reader_pool: &BP,
     writer_pool: &BP,
 ) -> io::Result<(Reader<BP>, Writer<BP>)>
 where
     BP: BufferPool,
 {
-    Ok(match connect_inner(hostname, port, config).await? {
+    Ok(match connect_inner(hostname, port, config, proxy).await? {
         Either::Left(tcp_stream) => tokio_tcp::connect_inner(tcp_stream, reader_pool, writer_pool),
 
         Either::Right(ssl_stream) => {
@@ -69,7 +70,8 @@ where
 pub(crate) async fn connect_inner(
     hostname: &str,
     port: u16,
-    config: ConnectionTransportTlsConfig,
+    config: TlsConfig,
+    proxy: Option<&Proxy>,
 ) -> io::Result<Either<TcpStream, SslStream<TcpStream>>> {
     /// We haven't attempted to create a TLS connection yet, so whether the kernel supports TLS or not
     /// is not yet known.
@@ -83,7 +85,7 @@ pub(crate) async fn connect_inner(
     // Disable kTLS until we have a fix.
     static TLS_METHOD: AtomicU8 = AtomicU8::new(TLS_METHOD_USERSPACE);
 
-    let ConnectionTransportTlsConfig(mut connector) = config;
+    let TlsConfig(mut connector) = config;
 
     let method = TLS_METHOD.load(Ordering::Relaxed);
     if method == TLS_METHOD_UNKNOWN {
@@ -91,7 +93,7 @@ pub(crate) async fn connect_inner(
 
         let connector = connector.build();
 
-        let tcp_stream = TcpStream::connect((hostname, port)).await?;
+        let tcp_stream = super::tcp::connect(hostname, port, proxy).await?;
 
         let std_tcp_stream = {
             let fd = tcp_stream.as_fd();
@@ -128,7 +130,7 @@ pub(crate) async fn connect_inner(
 
         let connector = connector.build();
 
-        let tcp_stream = TcpStream::connect((hostname, port)).await?;
+        let tcp_stream = super::tcp::connect(hostname, port, proxy).await?;
 
         let std_tcp_stream = {
             let fd = tcp_stream.as_fd();
@@ -147,7 +149,7 @@ pub(crate) async fn connect_inner(
     } else {
         debug_assert_eq!(method, TLS_METHOD_USERSPACE);
 
-        let tcp_stream = TcpStream::connect((hostname, port)).await?;
+        let tcp_stream = super::tcp::connect(hostname, port, proxy).await?;
 
         let connector = connector.build().configure()?;
 
