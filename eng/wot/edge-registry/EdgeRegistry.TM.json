@@ -121,7 +121,7 @@
         "createResource": {
             "description": "Create a new xRegistry Resource entity. Returns the created Resource with epoch=1.",
             "input": {
-                "dtv:ref": "./core-xregistry/ResourceMetaAttributes.schema.json",
+                "dtv:ref": "./core-xregistry/CreateResourceRequest.schema.json",
                 "description": "The attributes needed to create the Resource entity."
             },
             "output": {
@@ -223,8 +223,12 @@
                         "type": "string"
                     },
                     "groupId": {
-                        "description": "Group identifier. Lists Resources across all Groups if not specified.",
+                        "description": "Group identifier. Uses the default Group if not specified. Ignored if allGroups is true.",
                         "type": "string"
+                    },
+                    "allGroups": {
+                        "description": "If true, lists Resources across all Groups (groupId is ignored). If false or unspecified, lists within the Group specified by groupId, or the default Group if groupId is unspecified.",
+                        "type": "boolean"
                     },
                     "resourceType": {
                         "description": "Resource type. Lists Resources across all Resource types if not specified.",
@@ -425,8 +429,12 @@
                         "type": "string"
                     },
                     "groupId": {
-                        "description": "Group identifier. Lists Versions across all Groups if not specified.",
+                        "description": "Group identifier. Uses the default Group if not specified. Ignored if allGroups is true.",
                         "type": "string"
+                    },
+                    "allGroups": {
+                        "description": "If true, lists Versions across all Groups (groupId is ignored). If false or unspecified, lists within the Group specified by groupId, or the default Group if groupId is unspecified.",
+                        "type": "boolean"
                     },
                     "resourceType": {
                         "description": "Resource type. Lists Versions across all Resource types if not specified.",

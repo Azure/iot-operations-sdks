@@ -6,10 +6,6 @@
   "additionalProperties": false,
   "required": [ "labels", "extensions" ],
   "properties": {
-    "groupId": {
-      "description": "Group identifier. Uses the default if not specified.",
-      "type": "string"
-    },
     "xref": {
       "description": "Indicates that this Resource is a reference to another Resource within the same Registry. The XID path of the referenced Resource.",
       "type": "string"
