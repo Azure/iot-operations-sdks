@@ -56,8 +56,7 @@ use std::{
 use crate::azure_mqtt::{
     self,
     client::{
-        ConnectEnhancedAuthResult, ConnectResult, Connection,
-        DisconnectedEvent, ReauthResult,
+        ConnectEnhancedAuthResult, ConnectResult, Connection, DisconnectedEvent, ReauthResult,
     },
     packet::{AuthProperties, ConnAck, DisconnectProperties, SessionExpiryInterval},
     transport::ConnectionTransportConfig,

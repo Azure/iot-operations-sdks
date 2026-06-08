@@ -8,7 +8,7 @@ use std::{fmt, fs, time::Duration};
 
 use crate::azure_mqtt::client::ClientOptions;
 use crate::azure_mqtt::packet::{ConnectProperties, SessionExpiryInterval, Will};
-use crate::azure_mqtt::transport::{ConnectionTransportConfig, TlsConfig, ConnectionTransportType};
+use crate::azure_mqtt::transport::{ConnectionTransportConfig, ConnectionTransportType, TlsConfig};
 use bytes::Bytes;
 use openssl::{
     pkey::{PKey, Private},
@@ -148,17 +148,16 @@ fn create_connection_transport_config(
                 }
             })?;
 
-        let tls_config =
-            TlsConfig::new(client_cert, ca_trust_bundle).map_err(|e| {
-                ConnectionSettingsAdapterError {
-                    msg: "failed to create TLS config".to_string(),
-                    field: ConnectionSettingsField::UseTls(true),
-                    source: Some(Box::new(TlsError {
-                        msg: e.to_string(),
-                        source: Some(e.into()),
-                    })),
-                }
-            })?;
+        let tls_config = TlsConfig::new(client_cert, ca_trust_bundle).map_err(|e| {
+            ConnectionSettingsAdapterError {
+                msg: "failed to create TLS config".to_string(),
+                field: ConnectionSettingsField::UseTls(true),
+                source: Some(Box::new(TlsError {
+                    msg: e.to_string(),
+                    source: Some(e.into()),
+                })),
+            }
+        })?;
 
         ConnectionTransportType::Tls {
             tls_config,
