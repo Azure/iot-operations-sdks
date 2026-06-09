@@ -11,11 +11,11 @@
       "type": "string"
     },
     "meta": {
-      "description": "The attributes of the Resource (its `meta` sub-entity).",
+      "description": "The attributes needed to create the Resource Meta (its `meta` sub-entity).",
       "$ref": "ResourceMetaAttributes.schema.json"
     },
     "defaultVersion": {
-      "description": "The attributes of the Resource's default Version.",
+      "description": "The attributes of the Resource's default Version, which will be created along side this Resource.",
       "$ref": "VersionAttributes.schema.json"
     }
   }

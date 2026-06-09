@@ -2,7 +2,7 @@
     "@context": [
         "https://www.w3.org/2022/wot/td/v1.1",
         {
-            "dtv": "http://azure.com/DigitalTwins/dtmi#"
+            "dov": "http://azure.com/DigitalTwins/dtmi#"
         }
     ],
     "@type": "tm:ThingModel",
@@ -34,11 +34,11 @@
             },
             "output": {
                 "description": "The Thing Model Version entity.",
-                "dtv:ref": "./thing-model-extension/ThingModelVersion.schema.json"
+                "dov:ref": "./thing-model-extension/ThingModelVersion.schema.json"
             },
             "forms": [
                 {
-                    "dtv:topic": "aio/registry/thingModelExtension/get/thingmodelgroups/thingmodels/{ex:thingModelId}/versions/version",
+                    "dov:topic": "aio/registry/thingModelExtension/get/thingmodelgroups/thingmodels/{ex:thingModelId}/versions/version",
                     "contentType": "application/json",
                     "op": "invokeaction",
                     "additionalResponses": [
@@ -54,15 +54,15 @@
             "description": "Create a new xRegistry Thing Model Version entity under the specified thing model. Returns the created Version entity with epoch=1. Create is strictly idempotent: if every field matches the latest Version of the parent Thing Model (including labels), the latest Version is returned unchanged; otherwise a new Version is created.",
             "input": {
                 "description": "Attributes needed to create a Thing Model Version.",
-                "dtv:ref": "./thing-model-extension/CreateThingModelVersionAttributes.schema.json"
+                "dov:ref": "./thing-model-extension/CreateThingModelVersionAttributes.schema.json"
             },
             "output": {
                 "description": "The Thing Model Version entity.",
-                "dtv:ref": "./thing-model-extension/ThingModelVersion.schema.json"
+                "dov:ref": "./thing-model-extension/ThingModelVersion.schema.json"
             },
             "forms": [
                 {
-                    "dtv:topic": "aio/registry/thingModelExtension/create/thingmodelgroups/thingmodels/{ex:thingModelId}/versions/version",
+                    "dov:topic": "aio/registry/thingModelExtension/create/thingmodelgroups/thingmodels/{ex:thingModelId}/versions/version",
                     "contentType": "application/json",
                     "op": "invokeaction",
                     "additionalResponses": [
@@ -105,7 +105,7 @@
             },
             "forms": [
                 {
-                    "dtv:topic": "aio/registry/thingModelExtension/list/thingmodelgroups/thingmodels/{ex:thingModelId}/versions",
+                    "dov:topic": "aio/registry/thingModelExtension/list/thingmodelgroups/thingmodels/{ex:thingModelId}/versions",
                     "contentType": "application/json",
                     "op": "invokeaction",
                     "additionalResponses": [
@@ -159,7 +159,7 @@
             },
             "forms": [
                 {
-                    "dtv:topic": "aio/registry/thingModelExtension/listWithLabel/thingmodelgroups/thingmodels/{ex:thingModelId}/versions",
+                    "dov:topic": "aio/registry/thingModelExtension/listWithLabel/thingmodelgroups/thingmodels/{ex:thingModelId}/versions",
                     "contentType": "application/json",
                     "op": "invokeaction",
                     "additionalResponses": [
@@ -191,7 +191,7 @@
             },
             "forms": [
                 {
-                    "dtv:topic": "aio/registry/thingModelExtension/delete/thingmodelgroups/thingmodels/{ex:thingModelId}/versions/version",
+                    "dov:topic": "aio/registry/thingModelExtension/delete/thingmodelgroups/thingmodels/{ex:thingModelId}/versions/version",
                     "contentType": "application/json",
                     "op": "invokeaction",
                     "additionalResponses": [

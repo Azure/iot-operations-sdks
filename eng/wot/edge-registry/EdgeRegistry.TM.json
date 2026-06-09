@@ -1,7 +1,7 @@
 {
     "@context": [
         "https://www.w3.org/2022/wot/td/v1.1",
-        { "dtv": "http://azure.com/DigitalTwins/dtmi#" }
+        { "dov": "http://azure.com/DigitalTwins/dtmi#" }
     ],
     "@type": "tm:ThingModel",
     "title": "EdgeRegistry",
@@ -10,16 +10,16 @@
         "createGroup": {
             "description": "Create a new xRegistry Group. Returns the created Group with epoch=1.",
             "input": {
-                "dtv:ref": "./core-xregistry/GroupAttributes.schema.json",
+                "dov:ref": "./core-xregistry/GroupAttributes.schema.json",
                 "description": "The attributes needed to create the Group entity."
             },
             "output": {
-                "dtv:ref": "./core-xregistry/Group.schema.json",
+                "dov:ref": "./core-xregistry/Group.schema.json",
                 "description": "The Group entity."
             },
             "forms": [
                 {
-                    "dtv:topic": "aio/registry/create/{ex:groupType}/group",
+                    "dov:topic": "aio/registry/create/{ex:groupType}/group",
                     "contentType": "application/json",
                     "op": "invokeaction",
                     "additionalResponses": [
@@ -44,12 +44,12 @@
                 "required": [ ]
             },
             "output": {
-                "dtv:ref": "./core-xregistry/Group.schema.json",
+                "dov:ref": "./core-xregistry/Group.schema.json",
                 "description": "The Group entity."
             },
             "forms": [
                 {
-                    "dtv:topic": "aio/registry/get/{ex:groupType}/group",
+                    "dov:topic": "aio/registry/get/{ex:groupType}/group",
                     "contentType": "application/json",
                     "op": "invokeaction",
                     "additionalResponses": [
@@ -80,7 +80,7 @@
             },
             "forms": [
                 {
-                    "dtv:topic": "aio/registry/list/{ex:groupType}",
+                    "dov:topic": "aio/registry/list/{ex:groupType}",
                     "contentType": "application/json",
                     "op": "invokeaction",
                     "additionalResponses": [
@@ -106,7 +106,7 @@
             },
             "forms": [
                 {
-                    "dtv:topic": "aio/registry/delete/{ex:groupType}/group",
+                    "dov:topic": "aio/registry/delete/{ex:groupType}/group",
                     "contentType": "application/json",
                     "op": "invokeaction",
                     "additionalResponses": [
@@ -121,16 +121,16 @@
         "createResource": {
             "description": "Create a new xRegistry Resource entity. Returns the created Resource with epoch=1.",
             "input": {
-                "dtv:ref": "./core-xregistry/CreateResourceRequest.schema.json",
+                "dov:ref": "./core-xregistry/CreateResourceRequest.schema.json",
                 "description": "The attributes needed to create the Resource entity."
             },
             "output": {
-                "dtv:ref": "./core-xregistry/Resource.schema.json",
+                "dov:ref": "./core-xregistry/Resource.schema.json",
                 "description": "The Resource entity."
             },
             "forms": [
                 {
-                    "dtv:topic": "aio/registry/create/{ex:groupType}/{ex:resourceType}/{ex:resourceId}",
+                    "dov:topic": "aio/registry/create/{ex:groupType}/{ex:resourceType}/{ex:resourceId}",
                     "contentType": "application/json",
                     "op": "invokeaction",
                     "additionalResponses": [
@@ -155,12 +155,12 @@
                 "required": [ ]
             },
             "output": {
-                "dtv:ref": "./core-xregistry/Resource.schema.json",
+                "dov:ref": "./core-xregistry/Resource.schema.json",
                 "description": "The Resource entity."
             },
             "forms": [
                 {
-                    "dtv:topic": "aio/registry/get/{ex:groupType}/{ex:resourceType}/{ex:resourceId}",
+                    "dov:topic": "aio/registry/get/{ex:groupType}/{ex:resourceType}/{ex:resourceId}",
                     "contentType": "application/json",
                     "op": "invokeaction",
                     "additionalResponses": [
@@ -201,7 +201,7 @@
             },
             "forms": [
                 {
-                    "dtv:topic": "aio/registry/list/{ex:groupType}/{ex:resourceType}",
+                    "dov:topic": "aio/registry/list/{ex:groupType}/{ex:resourceType}",
                     "contentType": "application/json",
                     "op": "invokeaction",
                     "additionalResponses": [
@@ -282,7 +282,7 @@
             },
             "forms": [
                 {
-                    "dtv:topic": "aio/registry/listWithLabel/resources",
+                    "dov:topic": "aio/registry/listWithLabel/resources",
                     "contentType": "application/json",
                     "op": "invokeaction",
                     "additionalResponses": [
@@ -308,7 +308,7 @@
             },
             "forms": [
                 {
-                    "dtv:topic": "aio/registry/delete/{ex:groupType}/{ex:resourceType}/{ex:resourceId}",
+                    "dov:topic": "aio/registry/delete/{ex:groupType}/{ex:resourceType}/{ex:resourceId}",
                     "contentType": "application/json",
                     "op": "invokeaction",
                     "additionalResponses": [
@@ -323,16 +323,16 @@
         "createVersion": {
             "description": "Create a new xRegistry Version entity under the specified Resource. The parent Resource is implicitly created if it doesn't already exist. If a versionId is specified: if a Version with that versionId already exists and every field matches (including labels), the existing Version is returned unchanged; if it exists but any field differs, an error is returned; otherwise the Version is created. If no versionId is specified: the server determines the versionId, and Create is strictly idempotent — if every field matches the latest Version of the Resource (including labels), the latest Version is returned unchanged; otherwise a new Version is created.",
             "input": {
-                "dtv:ref": "./core-xregistry/CreateVersionRequest.schema.json",
+                "dov:ref": "./core-xregistry/CreateVersionRequest.schema.json",
                 "description": "The attributes needed to create the Version entity."
             },
             "output": {
-                "dtv:ref": "./core-xregistry/Version.schema.json",
+                "dov:ref": "./core-xregistry/Version.schema.json",
                 "description": "The created or matching existing Version entity."
             },
             "forms": [
                 {
-                    "dtv:topic": "aio/registry/create/{ex:groupType}/{ex:resourceType}/{ex:resourceId}/versions/version",
+                    "dov:topic": "aio/registry/create/{ex:groupType}/{ex:resourceType}/{ex:resourceId}/versions/version",
                     "contentType": "application/json",
                     "op": "invokeaction",
                     "additionalResponses": [
@@ -362,11 +362,11 @@
             },
             "output": {
                 "description": "The Version entity.",
-                "dtv:ref": "./core-xregistry/Version.schema.json"
+                "dov:ref": "./core-xregistry/Version.schema.json"
             },
             "forms": [
                 {
-                    "dtv:topic": "aio/registry/get/{ex:groupType}/{ex:resourceType}/{ex:resourceId}/versions/version",
+                    "dov:topic": "aio/registry/get/{ex:groupType}/{ex:resourceType}/{ex:resourceId}/versions/version",
                     "contentType": "application/json",
                     "op": "invokeaction",
                     "additionalResponses": [
@@ -407,7 +407,7 @@
             },
             "forms": [
                 {
-                    "dtv:topic": "aio/registry/list/{ex:groupType}/{ex:resourceType}/{ex:resourceId}/versions",
+                    "dov:topic": "aio/registry/list/{ex:groupType}/{ex:resourceType}/{ex:resourceId}/versions",
                     "contentType": "application/json",
                     "op": "invokeaction",
                     "additionalResponses": [
@@ -496,7 +496,7 @@
             },
             "forms": [
                 {
-                    "dtv:topic": "aio/registry/listWithLabel/versions",
+                    "dov:topic": "aio/registry/listWithLabel/versions",
                     "contentType": "application/json",
                     "op": "invokeaction",
                     "additionalResponses": [
@@ -522,7 +522,7 @@
             },
             "forms": [
                 {
-                    "dtv:topic": "aio/registry/delete/{ex:groupType}/{ex:resourceType}/{ex:resourceId}/versions/{ex:versionId}",
+                    "dov:topic": "aio/registry/delete/{ex:groupType}/{ex:resourceType}/{ex:resourceId}/versions/{ex:versionId}",
                     "contentType": "application/json",
                     "op": "invokeaction",
                     "additionalResponses": [

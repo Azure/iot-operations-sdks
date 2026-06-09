@@ -2,7 +2,7 @@
     "@context": [
         "https://www.w3.org/2022/wot/td/v1.1",
         {
-            "dtv": "http://azure.com/DigitalTwins/dtmi#"
+            "dov": "http://azure.com/DigitalTwins/dtmi#"
         }
     ],
     "@type": "tm:ThingModel",
@@ -34,11 +34,11 @@
             },
             "output": {
                 "description": "The Schema Version entity.",
-                "dtv:ref": "./schema-extension/SchemaVersion.schema.json"
+                "dov:ref": "./schema-extension/SchemaVersion.schema.json"
             },
             "forms": [
                 {
-                    "dtv:topic": "aio/registry/schemaExtension/get/schemagroups/schemas/{ex:schemaId}/versions/version",
+                    "dov:topic": "aio/registry/schemaExtension/get/schemagroups/schemas/{ex:schemaId}/versions/version",
                     "contentType": "application/json",
                     "op": "invokeaction",
                     "additionalResponses": [
@@ -54,15 +54,15 @@
             "description": "Create a new xRegistry Schema Version entity under the specified schema. Returns the created Version entity with epoch=1. Create is strictly idempotent: if every field matches the latest Version of the parent Schema (including labels), the latest Version is returned unchanged; otherwise a new Version is created.",
             "input": {
                 "description": "Attributes needed to create a Schema Version.",
-                "dtv:ref": "./schema-extension/CreateSchemaVersionAttributes.schema.json"
+                "dov:ref": "./schema-extension/CreateSchemaVersionAttributes.schema.json"
             },
             "output": {
                 "description": "The Schema Version entity.",
-                "dtv:ref": "./schema-extension/SchemaVersion.schema.json"
+                "dov:ref": "./schema-extension/SchemaVersion.schema.json"
             },
             "forms": [
                 {
-                    "dtv:topic": "aio/registry/schemaExtension/create/schemagroups/schemas/{ex:schemaId}/versions/version",
+                    "dov:topic": "aio/registry/schemaExtension/create/schemagroups/schemas/{ex:schemaId}/versions/version",
                     "contentType": "application/json",
                     "op": "invokeaction",
                     "additionalResponses": [
@@ -105,7 +105,7 @@
             },
             "forms": [
                 {
-                    "dtv:topic": "aio/registry/schemaExtension/list/schemagroups/schemas/{ex:schemaId}/versions",
+                    "dov:topic": "aio/registry/schemaExtension/list/schemagroups/schemas/{ex:schemaId}/versions",
                     "contentType": "application/json",
                     "op": "invokeaction",
                     "additionalResponses": [
@@ -159,7 +159,7 @@
             },
             "forms": [
                 {
-                    "dtv:topic": "aio/registry/schemaExtension/listWithLabel/schemagroups/schemas/{ex:schemaId}/versions",
+                    "dov:topic": "aio/registry/schemaExtension/listWithLabel/schemagroups/schemas/{ex:schemaId}/versions",
                     "contentType": "application/json",
                     "op": "invokeaction",
                     "additionalResponses": [
@@ -191,7 +191,7 @@
             },
             "forms": [
                 {
-                    "dtv:topic": "aio/registry/schemaExtension/delete/schemagroups/schemas/{ex:schemaId}/versions/version",
+                    "dov:topic": "aio/registry/schemaExtension/delete/schemagroups/schemas/{ex:schemaId}/versions/version",
                     "contentType": "application/json",
                     "op": "invokeaction",
                     "additionalResponses": [

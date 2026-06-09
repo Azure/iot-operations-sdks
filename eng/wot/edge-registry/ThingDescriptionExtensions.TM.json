@@ -2,7 +2,7 @@
     "@context": [
         "https://www.w3.org/2022/wot/td/v1.1",
         {
-            "dtv": "http://azure.com/DigitalTwins/dtmi#"
+            "dov": "http://azure.com/DigitalTwins/dtmi#"
         }
     ],
     "@type": "tm:ThingModel",
@@ -34,11 +34,11 @@
             },
             "output": {
                 "description": "The Thing Description Version entity.",
-                "dtv:ref": "./thing-description-extension/ThingDescriptionVersion.schema.json"
+                "dov:ref": "./thing-description-extension/ThingDescriptionVersion.schema.json"
             },
             "forms": [
                 {
-                    "dtv:topic": "aio/registry/thingDescriptionExtension/get/thingdescriptiongroups/thingdescriptions/{ex:thingDescriptionId}/versions/version",
+                    "dov:topic": "aio/registry/thingDescriptionExtension/get/thingdescriptiongroups/thingdescriptions/{ex:thingDescriptionId}/versions/version",
                     "contentType": "application/json",
                     "op": "invokeaction",
                     "additionalResponses": [
@@ -54,15 +54,15 @@
             "description": "Create a new xRegistry Thing Description Version entity under the specified thing description. Returns the created Version entity with epoch=1. Create is strictly idempotent: if every field matches the latest Version of the parent Thing Description (including labels), the latest Version is returned unchanged; otherwise a new Version is created.",
             "input": {
                 "description": "Attributes needed to create a Thing Description Version.",
-                "dtv:ref": "./thing-description-extension/CreateThingDescriptionVersionAttributes.schema.json"
+                "dov:ref": "./thing-description-extension/CreateThingDescriptionVersionAttributes.schema.json"
             },
             "output": {
                 "description": "The Thing Description Version entity.",
-                "dtv:ref": "./thing-description-extension/ThingDescriptionVersion.schema.json"
+                "dov:ref": "./thing-description-extension/ThingDescriptionVersion.schema.json"
             },
             "forms": [
                 {
-                    "dtv:topic": "aio/registry/thingDescriptionExtension/create/thingdescriptiongroups/thingdescriptions/{ex:thingDescriptionId}/versions/version",
+                    "dov:topic": "aio/registry/thingDescriptionExtension/create/thingdescriptiongroups/thingdescriptions/{ex:thingDescriptionId}/versions/version",
                     "contentType": "application/json",
                     "op": "invokeaction",
                     "additionalResponses": [
@@ -105,7 +105,7 @@
             },
             "forms": [
                 {
-                    "dtv:topic": "aio/registry/thingDescriptionExtension/list/thingdescriptiongroups/thingdescriptions/{ex:thingDescriptionId}/versions",
+                    "dov:topic": "aio/registry/thingDescriptionExtension/list/thingdescriptiongroups/thingdescriptions/{ex:thingDescriptionId}/versions",
                     "contentType": "application/json",
                     "op": "invokeaction",
                     "additionalResponses": [
@@ -159,7 +159,7 @@
             },
             "forms": [
                 {
-                    "dtv:topic": "aio/registry/thingDescriptionExtension/listWithLabel/thingdescriptiongroups/thingdescriptions/{ex:thingDescriptionId}/versions",
+                    "dov:topic": "aio/registry/thingDescriptionExtension/listWithLabel/thingdescriptiongroups/thingdescriptions/{ex:thingDescriptionId}/versions",
                     "contentType": "application/json",
                     "op": "invokeaction",
                     "additionalResponses": [
@@ -191,7 +191,7 @@
             },
             "forms": [
                 {
-                    "dtv:topic": "aio/registry/thingDescriptionExtension/delete/thingdescriptiongroups/thingdescriptions/{ex:thingDescriptionId}/versions/version",
+                    "dov:topic": "aio/registry/thingDescriptionExtension/delete/thingdescriptiongroups/thingdescriptions/{ex:thingDescriptionId}/versions/version",
                     "contentType": "application/json",
                     "op": "invokeaction",
                     "additionalResponses": [
