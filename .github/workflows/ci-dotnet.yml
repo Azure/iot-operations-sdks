@@ -199,6 +199,26 @@ jobs:
         kubectl rollout status deployment/mssql-deployment -n azure-iot-operations --timeout=180s
         echo "Waiting for SQL pod to be fully initialized..."
         kubectl wait --for=condition=ready pod -l app=mssql -n azure-iot-operations --timeout=120s
+        echo "Waiting for MySampleDB to be created and seeded..."
+        SA_PASSWORD=$(kubectl get secret sql-server-auth-credentials -n azure-iot-operations -o jsonpath='{.data.SA_PASSWORD}' | base64 -d)
+        db_ready=false
+        for i in {1..36}; do
+          rows=$(kubectl exec -n azure-iot-operations deployment/mssql-deployment -- \
+            /opt/mssql-tools18/bin/sqlcmd -S localhost -U sa -P "$SA_PASSWORD" -C -d MySampleDB -h -1 -W \
+            -Q "SET NOCOUNT ON; SELECT COUNT(*) FROM CountryMeasurements" 2>/dev/null | tr -d '[:space:]' || true)
+          if [[ "$rows" =~ ^[0-9]+$ ]] && [ "$rows" -gt 0 ]; then
+            echo "MySampleDB is ready with $rows rows in CountryMeasurements"
+            db_ready=true
+            break
+          fi
+          echo "Waiting for MySampleDB... ($i/36)"
+          sleep 5
+        done
+        if [ "$db_ready" != "true" ]; then
+          echo "ERROR: MySampleDB was not created and seeded in time"
+          kubectl logs -n azure-iot-operations deployment/mssql-deployment --tail=50 || true
+          exit 1
+        fi
         echo "Waiting for connector pod to appear and be ready..."
         for i in {1..30}; do
           if kubectl get pods -n azure-iot-operations | grep -q "sql-ctemplate.*Running"; then
