@@ -139,27 +139,10 @@ spec:
               cp /usr/config/mssql.conf /var/opt/mssql/mssql.conf
               /opt/mssql/bin/sqlservr &
               pid=$!
-              echo "Waiting for SQL Server to accept connections..."
-              for i in $(seq 1 60); do
-                if /opt/mssql-tools18/bin/sqlcmd -S localhost -U sa -P "$SA_PASSWORD" -C -Q "SELECT 1" >/dev/null 2>&1; then
-                  echo "SQL Server is accepting connections"
-                  break
-                fi
-                echo "Waiting for SQL Server... ($i/60)"
-                sleep 2
-              done
-              setup_done=false
-              for attempt in $(seq 1 10); do
-                if /opt/mssql-tools18/bin/sqlcmd -S localhost -U sa -P "$SA_PASSWORD" -d master -i /usr/config/setup.sql -C; then
-                  echo "Setup script completed successfully"
-                  setup_done=true
-                  break
-                fi
-                echo "Setup script attempt $attempt failed; retrying in 5s..."
-                sleep 5
-              done
-              if [ "$setup_done" != "true" ]; then
-                echo "Setup script failed after multiple attempts"
+              sleep 60
+              /opt/mssql-tools18/bin/sqlcmd -S localhost -U sa -P $SA_PASSWORD -d master -i /usr/config/setup.sql -C
+              if [ $? -ne 0 ]; then
+                echo "Setup script failed"
                 exit 1
               fi
               wait $pid
