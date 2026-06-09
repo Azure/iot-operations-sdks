@@ -15,6 +15,7 @@ publish = true
 [dependencies]
 anyhow = "1.0.86"
 async-trait = "0.1.81"
+async-tungstenite = { version = "0.34", optional = true, features = ["tokio-openssl"] }
 bytes.workspace = true
 chrono.workspace = true
 derive_builder.workspace = true
@@ -78,7 +79,7 @@ paste = { version = "1.0", default-features = false }
 
 [features]
 default = [ ]
-test-utils = ["tempfile"]
+test-utils = ["tempfile", "async-tungstenite"]
 
 [lints]
 workspace = true

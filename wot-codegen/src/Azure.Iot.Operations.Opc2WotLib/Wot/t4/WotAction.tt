@@ -5,7 +5,7 @@
 <# // Licensed under the MIT License #>
 "<#=this.actionName#>": {
 <# if (this.uaMethod.BrowseNamespace != null) { #>
-  "aov:namespace": "<#=this.uaMethod.BrowseNamespace#>",
+  "dov:namespace": "<#=this.uaMethod.BrowseNamespace#>",
 <# } #>
 <# if (this.uaMethod.Description != null) { #>
   "description": "<#=this.uaMethod.Description#>",
@@ -27,7 +27,7 @@
   "forms": [
     {
       "contentType": "application/json",
-      "dtv:topic": "opcua/<#=this.specName#>/<#=this.thingModelName#>/action/<#=this.actionName#>",
+      "dov:topic": "opcua/<#=this.specName#>/<#=this.thingModelName#>/action/<#=this.actionName#>",
       "op": "invokeaction"
     }
   ]

@@ -3,14 +3,13 @@
     "@context": [
       "https://www.w3.org/2022/wot/td/v1.1",
       {
-        "dtv": "http://azure.com/DigitalTwins/dtmi#",
-        "aov": "http://azure.com/IoT/operations/tm#"
+        "dov": "http://azure.com/DigitalOperations/vocab#"
       }
     ],
     "@type": "tm:ThingModel",
     "title": "CuttingTool_CuttingToolFileType",
-    "aov:typeRef": "nsu=http://opcfoundation.org/UA/CuttingTool/;i=1003",
-    "aov:isComposite": true,
+    "dov:typeRef": "org.opcfoundation.UA.CuttingTool.CuttingToolFileType",
+    "dov:isComposite": true,
     "links": [
       {
         "rel": "tm:extends",
@@ -23,12 +22,12 @@
     "forms": [
       {
         "contentType": "application/json",
-        "dtv:topic": "opcua/CuttingTool/CuttingTool_CuttingToolFileType/properties/write",
+        "dov:topic": "opcua/CuttingTool/CuttingTool_CuttingToolFileType/properties/write",
         "op": "writemultipleproperties"
       },
       {
         "contentType": "application/json",
-        "dtv:topic": "opcua/CuttingTool/CuttingTool_CuttingToolFileType/properties/read",
+        "dov:topic": "opcua/CuttingTool/CuttingTool_CuttingToolFileType/properties/read",
         "op": "readallproperties"
       }
     ],
@@ -36,10 +35,10 @@
     },
     "properties": {
       "FileFormat": {
-        "aov:namespace": "http://opcfoundation.org/UA/CuttingTool/",
+        "dov:namespace": "http://opcfoundation.org/UA/CuttingTool/",
         "title": "FileFormatDataType",
         "type": "object",
-        "aov:typeRef": "nsu=http://opcfoundation.org/UA/CuttingTool/;i=3003",
+        "dov:typeRef": "org.opcfoundation.UA.CuttingTool.FileFormatDataType",
         "required": [ "Name", "FileExtension", "Version" ],
         "properties": {
           "Name": {
@@ -56,12 +55,12 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/CuttingTool/CuttingTool_CuttingToolFileType/property/FileFormat/write",
+            "dov:topic": "opcua/CuttingTool/CuttingTool_CuttingToolFileType/property/FileFormat/write",
             "op": "writeproperty"
           },
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/CuttingTool/CuttingTool_CuttingToolFileType/property/FileFormat/read",
+            "dov:topic": "opcua/CuttingTool/CuttingTool_CuttingToolFileType/property/FileFormat/read",
             "op": "readproperty"
           }
         ]
@@ -74,14 +73,13 @@
     "@context": [
       "https://www.w3.org/2022/wot/td/v1.1",
       {
-        "dtv": "http://azure.com/DigitalTwins/dtmi#",
-        "aov": "http://azure.com/IoT/operations/tm#"
+        "dov": "http://azure.com/DigitalOperations/vocab#"
       }
     ],
     "@type": "tm:ThingModel",
     "title": "CuttingTool_ToolMeasuringMachineType",
-    "aov:typeRef": "nsu=http://opcfoundation.org/UA/CuttingTool/;i=1021",
-    "aov:isComposite": true,
+    "dov:typeRef": "org.opcfoundation.UA.CuttingTool.ToolMeasuringMachineType",
+    "dov:isComposite": true,
     "links": [
       {
         "rel": "tm:extends",
@@ -89,14 +87,14 @@
         "type": "application/tm+json"
       },
       {
-        "rel": "aov:component",
-        "aov:refName": "FileSystem",
+        "rel": "dov:component",
+        "dov:refName": "FileSystem",
         "href": "./OpcUaCore.TM.json#title=OpcUaCore_FileDirectoryType",
         "type": "application/tm+json"
       },
       {
-        "rel": "aov:component",
-        "aov:refName": "MachineryBuildingBlocks",
+        "rel": "dov:component",
+        "dov:refName": "MachineryBuildingBlocks",
         "href": "./OpcUaCore.TM.json#title=OpcUaCore_FolderType",
         "type": "application/tm+json"
       }
@@ -114,14 +112,13 @@
     "@context": [
       "https://www.w3.org/2022/wot/td/v1.1",
       {
-        "dtv": "http://azure.com/DigitalTwins/dtmi#",
-        "aov": "http://azure.com/IoT/operations/tm#"
+        "dov": "http://azure.com/DigitalOperations/vocab#"
       }
     ],
     "@type": "tm:ThingModel",
     "title": "CuttingTool_ToolManufacturingMachineType",
-    "aov:typeRef": "nsu=http://opcfoundation.org/UA/CuttingTool/;i=1025",
-    "aov:isComposite": true,
+    "dov:typeRef": "org.opcfoundation.UA.CuttingTool.ToolManufacturingMachineType",
+    "dov:isComposite": true,
     "links": [
       {
         "rel": "tm:extends",
@@ -129,14 +126,14 @@
         "type": "application/tm+json"
       },
       {
-        "rel": "aov:component",
-        "aov:refName": "FileSystem",
+        "rel": "dov:component",
+        "dov:refName": "FileSystem",
         "href": "./OpcUaCore.TM.json#title=OpcUaCore_FileDirectoryType",
         "type": "application/tm+json"
       },
       {
-        "rel": "aov:component",
-        "aov:refName": "MachineryBuildingBlocks",
+        "rel": "dov:component",
+        "dov:refName": "MachineryBuildingBlocks",
         "href": "./OpcUaCore.TM.json#title=OpcUaCore_FolderType",
         "type": "application/tm+json"
       }

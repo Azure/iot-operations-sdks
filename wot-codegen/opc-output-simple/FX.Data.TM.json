@@ -3,14 +3,13 @@
     "@context": [
       "https://www.w3.org/2022/wot/td/v1.1",
       {
-        "dtv": "http://azure.com/DigitalTwins/dtmi#",
-        "aov": "http://azure.com/IoT/operations/tm#"
+        "dov": "http://azure.com/DigitalOperations/vocab#"
       }
     ],
     "@type": "tm:ThingModel",
     "title": "FX_Data_AuditUpdateMethodResultEventType",
-    "aov:typeRef": "nsu=http://opcfoundation.org/UA/FX/Data/;i=1025",
-    "aov:isEvent": true,
+    "dov:typeRef": "org.opcfoundation.UA.FX.Data.AuditUpdateMethodResultEventType",
+    "dov:isEvent": true,
     "links": [
       {
         "rel": "tm:extends",
@@ -23,7 +22,7 @@
     "forms": [
       {
         "contentType": "application/json",
-        "dtv:topic": "opcua/FX.Data/FX_Data_AuditUpdateMethodResultEventType/properties/read",
+        "dov:topic": "opcua/FX.Data/FX_Data_AuditUpdateMethodResultEventType/properties/read",
         "op": "readallproperties"
       }
     ],
@@ -40,7 +39,7 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/FX.Data/FX_Data_AuditUpdateMethodResultEventType/property/OutputArguments/read",
+            "dov:topic": "opcua/FX.Data/FX_Data_AuditUpdateMethodResultEventType/property/OutputArguments/read",
             "op": "readproperty"
           }
         ]
@@ -51,7 +50,7 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/FX.Data/FX_Data_AuditUpdateMethodResultEventType/property/StatusCodeId/read",
+            "dov:topic": "opcua/FX.Data/FX_Data_AuditUpdateMethodResultEventType/property/StatusCodeId/read",
             "op": "readproperty"
           }
         ]

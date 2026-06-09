@@ -3,13 +3,12 @@
     "@context": [
       "https://www.w3.org/2022/wot/td/v1.1",
       {
-        "dtv": "http://azure.com/DigitalTwins/dtmi#",
-        "aov": "http://azure.com/IoT/operations/tm#"
+        "dov": "http://azure.com/DigitalOperations/vocab#"
       }
     ],
     "@type": "tm:ThingModel",
     "title": "PlasticsRubber_Extrusion_v2_Calender_CouplingProductForcesType",
-    "aov:typeRef": "nsu=http://opcfoundation.org/UA/PlasticsRubber/Extrusion_v2/Calender/;i=1003",
+    "dov:typeRef": "org.opcfoundation.UA.PlasticsRubber.Extrusion_v2.Calender.CouplingProductForcesType",
     "links": [
       {
         "rel": "tm:extends",
@@ -17,8 +16,8 @@
         "type": "application/tm+json"
       },
       {
-        "rel": "aov:component",
-        "aov:refName": "CouplingProductForce__Nr_",
+        "rel": "dov:component",
+        "dov:refName": "CouplingProductForce__Nr_",
         "href": "./PlasticsRubber.GeneralTypes.TM.json#title=PlasticsRubber_GeneralTypes_MonitoredParameterType",
         "type": "application/tm+json"
       }
@@ -28,7 +27,7 @@
     "forms": [
       {
         "contentType": "application/json",
-        "dtv:topic": "opcua/PlasticsRubber.Extrusion_v2.Calender/PlasticsRubber_Extrusion_v2_Calender_CouplingProductForcesType/properties/read",
+        "dov:topic": "opcua/PlasticsRubber.Extrusion_v2.Calender/PlasticsRubber_Extrusion_v2_Calender_CouplingProductForcesType/properties/read",
         "op": "readallproperties"
       }
     ],
@@ -41,7 +40,7 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/PlasticsRubber.Extrusion_v2.Calender/PlasticsRubber_Extrusion_v2_Calender_CouplingProductForcesType/property/NodeVersion/read",
+            "dov:topic": "opcua/PlasticsRubber.Extrusion_v2.Calender/PlasticsRubber_Extrusion_v2_Calender_CouplingProductForcesType/property/NodeVersion/read",
             "op": "readproperty"
           }
         ]
@@ -54,13 +53,12 @@
     "@context": [
       "https://www.w3.org/2022/wot/td/v1.1",
       {
-        "dtv": "http://azure.com/DigitalTwins/dtmi#",
-        "aov": "http://azure.com/IoT/operations/tm#"
+        "dov": "http://azure.com/DigitalOperations/vocab#"
       }
     ],
     "@type": "tm:ThingModel",
     "title": "PlasticsRubber_Extrusion_v2_Calender_CouplingProductTensionsType",
-    "aov:typeRef": "nsu=http://opcfoundation.org/UA/PlasticsRubber/Extrusion_v2/Calender/;i=1004",
+    "dov:typeRef": "org.opcfoundation.UA.PlasticsRubber.Extrusion_v2.Calender.CouplingProductTensionsType",
     "links": [
       {
         "rel": "tm:extends",
@@ -68,8 +66,8 @@
         "type": "application/tm+json"
       },
       {
-        "rel": "aov:component",
-        "aov:refName": "CouplingProductTension__Nr_",
+        "rel": "dov:component",
+        "dov:refName": "CouplingProductTension__Nr_",
         "href": "./PlasticsRubber.GeneralTypes.TM.json#title=PlasticsRubber_GeneralTypes_MonitoredParameterType",
         "type": "application/tm+json"
       }
@@ -79,7 +77,7 @@
     "forms": [
       {
         "contentType": "application/json",
-        "dtv:topic": "opcua/PlasticsRubber.Extrusion_v2.Calender/PlasticsRubber_Extrusion_v2_Calender_CouplingProductTensionsType/properties/read",
+        "dov:topic": "opcua/PlasticsRubber.Extrusion_v2.Calender/PlasticsRubber_Extrusion_v2_Calender_CouplingProductTensionsType/properties/read",
         "op": "readallproperties"
       }
     ],
@@ -92,7 +90,7 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/PlasticsRubber.Extrusion_v2.Calender/PlasticsRubber_Extrusion_v2_Calender_CouplingProductTensionsType/property/NodeVersion/read",
+            "dov:topic": "opcua/PlasticsRubber.Extrusion_v2.Calender/PlasticsRubber_Extrusion_v2_Calender_CouplingProductTensionsType/property/NodeVersion/read",
             "op": "readproperty"
           }
         ]
@@ -105,14 +103,13 @@
     "@context": [
       "https://www.w3.org/2022/wot/td/v1.1",
       {
-        "dtv": "http://azure.com/DigitalTwins/dtmi#",
-        "aov": "http://azure.com/IoT/operations/tm#"
+        "dov": "http://azure.com/DigitalOperations/vocab#"
       }
     ],
     "@type": "tm:ThingModel",
     "title": "PlasticsRubber_Extrusion_v2_Calender_Calender_InterfaceType",
-    "aov:typeRef": "nsu=http://opcfoundation.org/UA/PlasticsRubber/Extrusion_v2/Calender/;i=1002",
-    "aov:isComposite": true,
+    "dov:typeRef": "org.opcfoundation.UA.PlasticsRubber.Extrusion_v2.Calender.Calender_InterfaceType",
+    "dov:isComposite": true,
     "links": [
       {
         "rel": "tm:extends",
@@ -120,50 +117,50 @@
         "type": "application/tm+json"
       },
       {
-        "rel": "aov:reference",
-        "aov:refName": "CouplingProductForces",
+        "rel": "dov:reference",
+        "dov:refName": "CouplingProductForces",
         "href": "#title=PlasticsRubber_Extrusion_v2_Calender_CouplingProductForcesType",
         "type": "application/tm+json"
       },
       {
-        "rel": "aov:reference",
-        "aov:refName": "CouplingProductTensions",
+        "rel": "dov:reference",
+        "dov:refName": "CouplingProductTensions",
         "href": "#title=PlasticsRubber_Extrusion_v2_Calender_CouplingProductTensionsType",
         "type": "application/tm+json"
       },
       {
-        "rel": "aov:capability",
-        "aov:refName": "Gaps",
+        "rel": "dov:capability",
+        "dov:refName": "Gaps",
         "href": "./PlasticsRubber.Extrusion_v2.GeneralTypes.TM.json#title=PlasticsRubber_Extrusion_v2_GeneralTypes_GapsType",
         "type": "application/tm+json"
       },
       {
-        "rel": "aov:component",
-        "aov:refName": "HorizontalPosition",
+        "rel": "dov:component",
+        "dov:refName": "HorizontalPosition",
         "href": "./PlasticsRubber.GeneralTypes.TM.json#title=PlasticsRubber_GeneralTypes_MonitoredParameterType",
         "type": "application/tm+json"
       },
       {
-        "rel": "aov:component",
-        "aov:refName": "ProductForce",
+        "rel": "dov:component",
+        "dov:refName": "ProductForce",
         "href": "./PlasticsRubber.GeneralTypes.TM.json#title=PlasticsRubber_GeneralTypes_MonitoredParameterType",
         "type": "application/tm+json"
       },
       {
-        "rel": "aov:component",
-        "aov:refName": "ProductTension",
+        "rel": "dov:component",
+        "dov:refName": "ProductTension",
         "href": "./PlasticsRubber.GeneralTypes.TM.json#title=PlasticsRubber_GeneralTypes_MonitoredParameterType",
         "type": "application/tm+json"
       },
       {
-        "rel": "aov:capability",
-        "aov:refName": "Rolls",
+        "rel": "dov:capability",
+        "dov:refName": "Rolls",
         "href": "./PlasticsRubber.Extrusion_v2.GeneralTypes.TM.json#title=PlasticsRubber_Extrusion_v2_GeneralTypes_RollsType",
         "type": "application/tm+json"
       },
       {
-        "rel": "aov:component",
-        "aov:refName": "VerticalPosition",
+        "rel": "dov:component",
+        "dov:refName": "VerticalPosition",
         "href": "./PlasticsRubber.GeneralTypes.TM.json#title=PlasticsRubber_GeneralTypes_MonitoredParameterType",
         "type": "application/tm+json"
       }

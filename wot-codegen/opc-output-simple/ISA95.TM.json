@@ -3,13 +3,12 @@
     "@context": [
       "https://www.w3.org/2022/wot/td/v1.1",
       {
-        "dtv": "http://azure.com/DigitalTwins/dtmi#",
-        "aov": "http://azure.com/IoT/operations/tm#"
+        "dov": "http://azure.com/DigitalOperations/vocab#"
       }
     ],
     "@type": "tm:ThingModel",
     "title": "ISA95_ISA95ClassType",
-    "aov:typeRef": "nsu=http://www.OPCFoundation.org/UA/2013/01/ISA95;i=4957",
+    "dov:typeRef": "org.opcfoundation.www.UA.2013.01.ISA95.ISA95ClassType",
     "links": [
       {
         "rel": "tm:extends",
@@ -30,13 +29,12 @@
     "@context": [
       "https://www.w3.org/2022/wot/td/v1.1",
       {
-        "dtv": "http://azure.com/DigitalTwins/dtmi#",
-        "aov": "http://azure.com/IoT/operations/tm#"
+        "dov": "http://azure.com/DigitalOperations/vocab#"
       }
     ],
     "@type": "tm:ThingModel",
     "title": "ISA95_ISA95ObjectType",
-    "aov:typeRef": "nsu=http://www.OPCFoundation.org/UA/2013/01/ISA95;i=4958",
+    "dov:typeRef": "org.opcfoundation.www.UA.2013.01.ISA95.ISA95ObjectType",
     "links": [
       {
         "rel": "tm:extends",
@@ -57,13 +55,12 @@
     "@context": [
       "https://www.w3.org/2022/wot/td/v1.1",
       {
-        "dtv": "http://azure.com/DigitalTwins/dtmi#",
-        "aov": "http://azure.com/IoT/operations/tm#"
+        "dov": "http://azure.com/DigitalOperations/vocab#"
       }
     ],
     "@type": "tm:ThingModel",
     "title": "ISA95_ISA95TestSpecificationType",
-    "aov:typeRef": "nsu=http://www.OPCFoundation.org/UA/2013/01/ISA95;i=4959",
+    "dov:typeRef": "org.opcfoundation.www.UA.2013.01.ISA95.ISA95TestSpecificationType",
     "links": [
       {
         "rel": "tm:extends",
@@ -84,13 +81,12 @@
     "@context": [
       "https://www.w3.org/2022/wot/td/v1.1",
       {
-        "dtv": "http://azure.com/DigitalTwins/dtmi#",
-        "aov": "http://azure.com/IoT/operations/tm#"
+        "dov": "http://azure.com/DigitalOperations/vocab#"
       }
     ],
     "@type": "tm:ThingModel",
     "title": "ISA95_QualificationTestSpecificationType",
-    "aov:typeRef": "nsu=http://www.OPCFoundation.org/UA/2013/01/ISA95;i=4977",
+    "dov:typeRef": "org.opcfoundation.www.UA.2013.01.ISA95.QualificationTestSpecificationType",
     "links": [
       {
         "rel": "tm:extends",
@@ -111,13 +107,12 @@
     "@context": [
       "https://www.w3.org/2022/wot/td/v1.1",
       {
-        "dtv": "http://azure.com/DigitalTwins/dtmi#",
-        "aov": "http://azure.com/IoT/operations/tm#"
+        "dov": "http://azure.com/DigitalOperations/vocab#"
       }
     ],
     "@type": "tm:ThingModel",
     "title": "ISA95_PersonnelClassType",
-    "aov:typeRef": "nsu=http://www.OPCFoundation.org/UA/2013/01/ISA95;i=4996",
+    "dov:typeRef": "org.opcfoundation.www.UA.2013.01.ISA95.PersonnelClassType",
     "links": [
       {
         "rel": "tm:extends",
@@ -125,9 +120,9 @@
         "type": "application/tm+json"
       },
       {
-        "rel": "aov:typedReference",
-        "aov:refName": "<TestSpecification>",
-        "aov:refType": "TestedByQualificationTest",
+        "rel": "dov:typedReference",
+        "dov:refName": "<TestSpecification>",
+        "dov:refType": "TestedByQualificationTest",
         "href": "#title=ISA95_QualificationTestSpecificationType",
         "type": "application/tm+json"
       }
@@ -145,14 +140,13 @@
     "@context": [
       "https://www.w3.org/2022/wot/td/v1.1",
       {
-        "dtv": "http://azure.com/DigitalTwins/dtmi#",
-        "aov": "http://azure.com/IoT/operations/tm#"
+        "dov": "http://azure.com/DigitalOperations/vocab#"
       }
     ],
     "@type": "tm:ThingModel",
     "title": "ISA95_PersonType",
-    "aov:typeRef": "nsu=http://www.OPCFoundation.org/UA/2013/01/ISA95;i=5131",
-    "aov:isComposite": true,
+    "dov:typeRef": "org.opcfoundation.www.UA.2013.01.ISA95.PersonType",
+    "dov:isComposite": true,
     "links": [
       {
         "rel": "tm:extends",
@@ -160,16 +154,16 @@
         "type": "application/tm+json"
       },
       {
-        "rel": "aov:typedReference",
-        "aov:refName": "<PersonnelClass>",
-        "aov:refType": "DefinedByPersonnelClass",
+        "rel": "dov:typedReference",
+        "dov:refName": "<PersonnelClass>",
+        "dov:refType": "DefinedByPersonnelClass",
         "href": "#title=ISA95_PersonnelClassType",
         "type": "application/tm+json"
       },
       {
-        "rel": "aov:typedReference",
-        "aov:refName": "<TestSpecification>",
-        "aov:refType": "TestedByQualificationTest",
+        "rel": "dov:typedReference",
+        "dov:refName": "<TestSpecification>",
+        "dov:refType": "TestedByQualificationTest",
         "href": "#title=ISA95_QualificationTestSpecificationType",
         "type": "application/tm+json"
       }
@@ -187,13 +181,12 @@
     "@context": [
       "https://www.w3.org/2022/wot/td/v1.1",
       {
-        "dtv": "http://azure.com/DigitalTwins/dtmi#",
-        "aov": "http://azure.com/IoT/operations/tm#"
+        "dov": "http://azure.com/DigitalOperations/vocab#"
       }
     ],
     "@type": "tm:ThingModel",
     "title": "ISA95_PhysicalAssetCapabilityTestSpecificationType",
-    "aov:typeRef": "nsu=http://www.OPCFoundation.org/UA/2013/01/ISA95;i=5057",
+    "dov:typeRef": "org.opcfoundation.www.UA.2013.01.ISA95.PhysicalAssetCapabilityTestSpecificationType",
     "links": [
       {
         "rel": "tm:extends",
@@ -214,13 +207,12 @@
     "@context": [
       "https://www.w3.org/2022/wot/td/v1.1",
       {
-        "dtv": "http://azure.com/DigitalTwins/dtmi#",
-        "aov": "http://azure.com/IoT/operations/tm#"
+        "dov": "http://azure.com/DigitalOperations/vocab#"
       }
     ],
     "@type": "tm:ThingModel",
     "title": "ISA95_PhysicalAssetClassType",
-    "aov:typeRef": "nsu=http://www.OPCFoundation.org/UA/2013/01/ISA95;i=5078",
+    "dov:typeRef": "org.opcfoundation.www.UA.2013.01.ISA95.PhysicalAssetClassType",
     "links": [
       {
         "rel": "tm:extends",
@@ -228,9 +220,9 @@
         "type": "application/tm+json"
       },
       {
-        "rel": "aov:typedReference",
-        "aov:refName": "<TestSpecification>",
-        "aov:refType": "TestedByPhysicalAssetTest",
+        "rel": "dov:typedReference",
+        "dov:refName": "<TestSpecification>",
+        "dov:refType": "TestedByPhysicalAssetTest",
         "href": "#title=ISA95_PhysicalAssetCapabilityTestSpecificationType",
         "type": "application/tm+json"
       }
@@ -248,13 +240,12 @@
     "@context": [
       "https://www.w3.org/2022/wot/td/v1.1",
       {
-        "dtv": "http://azure.com/DigitalTwins/dtmi#",
-        "aov": "http://azure.com/IoT/operations/tm#"
+        "dov": "http://azure.com/DigitalOperations/vocab#"
       }
     ],
     "@type": "tm:ThingModel",
     "title": "ISA95_PhysicalAssetType",
-    "aov:typeRef": "nsu=http://www.OPCFoundation.org/UA/2013/01/ISA95;i=5085",
+    "dov:typeRef": "org.opcfoundation.www.UA.2013.01.ISA95.PhysicalAssetType",
     "links": [
       {
         "rel": "tm:extends",
@@ -262,23 +253,23 @@
         "type": "application/tm+json"
       },
       {
-        "rel": "aov:typedReference",
-        "aov:refName": "<PhysicalAsset>",
-        "aov:refType": "HasISA95Property",
+        "rel": "dov:typedReference",
+        "dov:refName": "<PhysicalAsset>",
+        "dov:refType": "HasISA95Property",
         "href": "#title=ISA95_PhysicalAssetType",
         "type": "application/tm+json"
       },
       {
-        "rel": "aov:typedReference",
-        "aov:refName": "PhysicalAssetClass",
-        "aov:refType": "DefinedByPhysicalAssetClass",
+        "rel": "dov:typedReference",
+        "dov:refName": "PhysicalAssetClass",
+        "dov:refType": "DefinedByPhysicalAssetClass",
         "href": "#title=ISA95_PhysicalAssetClassType",
         "type": "application/tm+json"
       },
       {
-        "rel": "aov:typedReference",
-        "aov:refName": "<TestSpecification>",
-        "aov:refType": "TestedByPhysicalAssetTest",
+        "rel": "dov:typedReference",
+        "dov:refName": "<TestSpecification>",
+        "dov:refType": "TestedByPhysicalAssetTest",
         "href": "#title=ISA95_PhysicalAssetCapabilityTestSpecificationType",
         "type": "application/tm+json"
       }
@@ -288,12 +279,12 @@
     "forms": [
       {
         "contentType": "application/json",
-        "dtv:topic": "opcua/ISA95/ISA95_PhysicalAssetType/events/{senderId}",
+        "dov:topic": "opcua/ISA95/ISA95_PhysicalAssetType/events/{senderId}",
         "op": "subscribeallevents"
       },
       {
         "contentType": "application/json",
-        "dtv:topic": "opcua/ISA95/ISA95_PhysicalAssetType/properties/read",
+        "dov:topic": "opcua/ISA95/ISA95_PhysicalAssetType/properties/read",
         "op": "readallproperties"
       }
     ],
@@ -301,14 +292,14 @@
     },
     "properties": {
       "AssetAssignment": {
-        "aov:namespace": "http://www.OPCFoundation.org/UA/2013/01/ISA95",
+        "dov:namespace": "http://www.OPCFoundation.org/UA/2013/01/ISA95",
         "description": "Stand-in for an unspecified data type.",
         "type": "string",
         "readOnly": true,
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/ISA95/ISA95_PhysicalAssetType/property/AssetAssignment/read",
+            "dov:topic": "opcua/ISA95/ISA95_PhysicalAssetType/property/AssetAssignment/read",
             "op": "readproperty"
           }
         ]
@@ -316,7 +307,7 @@
     },
     "events": {
       "AssetAssignment": {
-        "aov:namespace": "http://www.OPCFoundation.org/UA/2013/01/ISA95",
+        "dov:namespace": "http://www.OPCFoundation.org/UA/2013/01/ISA95",
         "data": {
           "description": "Stand-in for an unspecified data type.",
           "type": "string"
@@ -324,7 +315,7 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/ISA95/ISA95_PhysicalAssetType/event/AssetAssignment/{senderId}",
+            "dov:topic": "opcua/ISA95/ISA95_PhysicalAssetType/event/AssetAssignment/{senderId}",
             "op": "subscribeevent"
           }
         ]
@@ -335,13 +326,12 @@
     "@context": [
       "https://www.w3.org/2022/wot/td/v1.1",
       {
-        "dtv": "http://azure.com/DigitalTwins/dtmi#",
-        "aov": "http://azure.com/IoT/operations/tm#"
+        "dov": "http://azure.com/DigitalOperations/vocab#"
       }
     ],
     "@type": "tm:ThingModel",
     "title": "ISA95_EquipmentCapabilityTestSpecificationType",
-    "aov:typeRef": "nsu=http://www.OPCFoundation.org/UA/2013/01/ISA95;i=5015",
+    "dov:typeRef": "org.opcfoundation.www.UA.2013.01.ISA95.EquipmentCapabilityTestSpecificationType",
     "links": [
       {
         "rel": "tm:extends",
@@ -362,13 +352,12 @@
     "@context": [
       "https://www.w3.org/2022/wot/td/v1.1",
       {
-        "dtv": "http://azure.com/DigitalTwins/dtmi#",
-        "aov": "http://azure.com/IoT/operations/tm#"
+        "dov": "http://azure.com/DigitalOperations/vocab#"
       }
     ],
     "@type": "tm:ThingModel",
     "title": "ISA95_EquipmentClassType",
-    "aov:typeRef": "nsu=http://www.OPCFoundation.org/UA/2013/01/ISA95;i=5034",
+    "dov:typeRef": "org.opcfoundation.www.UA.2013.01.ISA95.EquipmentClassType",
     "links": [
       {
         "rel": "tm:extends",
@@ -376,9 +365,9 @@
         "type": "application/tm+json"
       },
       {
-        "rel": "aov:typedReference",
-        "aov:refName": "<TestSpecification>",
-        "aov:refType": "TestedByEquipmentTest",
+        "rel": "dov:typedReference",
+        "dov:refName": "<TestSpecification>",
+        "dov:refType": "TestedByEquipmentTest",
         "href": "#title=ISA95_EquipmentCapabilityTestSpecificationType",
         "type": "application/tm+json"
       }
@@ -396,13 +385,12 @@
     "@context": [
       "https://www.w3.org/2022/wot/td/v1.1",
       {
-        "dtv": "http://azure.com/DigitalTwins/dtmi#",
-        "aov": "http://azure.com/IoT/operations/tm#"
+        "dov": "http://azure.com/DigitalOperations/vocab#"
       }
     ],
     "@type": "tm:ThingModel",
     "title": "ISA95_EquipmentType",
-    "aov:typeRef": "nsu=http://www.OPCFoundation.org/UA/2013/01/ISA95;i=5040",
+    "dov:typeRef": "org.opcfoundation.www.UA.2013.01.ISA95.EquipmentType",
     "links": [
       {
         "rel": "tm:extends",
@@ -410,30 +398,30 @@
         "type": "application/tm+json"
       },
       {
-        "rel": "aov:typedReference",
-        "aov:refName": "<EquipmentClass>",
-        "aov:refType": "DefinedByEquipmentClass",
+        "rel": "dov:typedReference",
+        "dov:refName": "<EquipmentClass>",
+        "dov:refType": "DefinedByEquipmentClass",
         "href": "#title=ISA95_EquipmentClassType",
         "type": "application/tm+json"
       },
       {
-        "rel": "aov:typedReference",
-        "aov:refName": "<TestSpecification>",
-        "aov:refType": "TestedByEquipmentTest",
+        "rel": "dov:typedReference",
+        "dov:refName": "<TestSpecification>",
+        "dov:refType": "TestedByEquipmentTest",
         "href": "#title=ISA95_EquipmentCapabilityTestSpecificationType",
         "type": "application/tm+json"
       },
       {
-        "rel": "aov:typedReference",
-        "aov:refName": "<Equipment>",
-        "aov:refType": "MadeUpOfEquipment",
+        "rel": "dov:typedReference",
+        "dov:refName": "<Equipment>",
+        "dov:refType": "MadeUpOfEquipment",
         "href": "#title=ISA95_EquipmentType",
         "type": "application/tm+json"
       },
       {
-        "rel": "aov:typedReference",
-        "aov:refName": "<PhysicalAsset>",
-        "aov:refType": "ImplementedBy",
+        "rel": "dov:typedReference",
+        "dov:refName": "<PhysicalAsset>",
+        "dov:refType": "ImplementedBy",
         "href": "#title=ISA95_PhysicalAssetType",
         "type": "application/tm+json"
       }
@@ -443,12 +431,12 @@
     "forms": [
       {
         "contentType": "application/json",
-        "dtv:topic": "opcua/ISA95/ISA95_EquipmentType/events/{senderId}",
+        "dov:topic": "opcua/ISA95/ISA95_EquipmentType/events/{senderId}",
         "op": "subscribeallevents"
       },
       {
         "contentType": "application/json",
-        "dtv:topic": "opcua/ISA95/ISA95_EquipmentType/properties/read",
+        "dov:topic": "opcua/ISA95/ISA95_EquipmentType/properties/read",
         "op": "readallproperties"
       }
     ],
@@ -456,14 +444,14 @@
     },
     "properties": {
       "AssetAssignment": {
-        "aov:namespace": "http://www.OPCFoundation.org/UA/2013/01/ISA95",
+        "dov:namespace": "http://www.OPCFoundation.org/UA/2013/01/ISA95",
         "description": "Stand-in for an unspecified data type.",
         "type": "string",
         "readOnly": true,
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/ISA95/ISA95_EquipmentType/property/AssetAssignment/read",
+            "dov:topic": "opcua/ISA95/ISA95_EquipmentType/property/AssetAssignment/read",
             "op": "readproperty"
           }
         ]
@@ -471,7 +459,7 @@
     },
     "events": {
       "AssetAssignment": {
-        "aov:namespace": "http://www.OPCFoundation.org/UA/2013/01/ISA95",
+        "dov:namespace": "http://www.OPCFoundation.org/UA/2013/01/ISA95",
         "data": {
           "description": "Stand-in for an unspecified data type.",
           "type": "string"
@@ -479,7 +467,7 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/ISA95/ISA95_EquipmentType/event/AssetAssignment/{senderId}",
+            "dov:topic": "opcua/ISA95/ISA95_EquipmentType/event/AssetAssignment/{senderId}",
             "op": "subscribeevent"
           }
         ]
@@ -490,13 +478,12 @@
     "@context": [
       "https://www.w3.org/2022/wot/td/v1.1",
       {
-        "dtv": "http://azure.com/DigitalTwins/dtmi#",
-        "aov": "http://azure.com/IoT/operations/tm#"
+        "dov": "http://azure.com/DigitalOperations/vocab#"
       }
     ],
     "@type": "tm:ThingModel",
     "title": "ISA95_MaterialTestSpecificationType",
-    "aov:typeRef": "nsu=http://www.OPCFoundation.org/UA/2013/01/ISA95;i=5172",
+    "dov:typeRef": "org.opcfoundation.www.UA.2013.01.ISA95.MaterialTestSpecificationType",
     "links": [
       {
         "rel": "tm:extends",
@@ -517,13 +504,12 @@
     "@context": [
       "https://www.w3.org/2022/wot/td/v1.1",
       {
-        "dtv": "http://azure.com/DigitalTwins/dtmi#",
-        "aov": "http://azure.com/IoT/operations/tm#"
+        "dov": "http://azure.com/DigitalOperations/vocab#"
       }
     ],
     "@type": "tm:ThingModel",
     "title": "ISA95_MaterialClassType",
-    "aov:typeRef": "nsu=http://www.OPCFoundation.org/UA/2013/01/ISA95;i=5209",
+    "dov:typeRef": "org.opcfoundation.www.UA.2013.01.ISA95.MaterialClassType",
     "links": [
       {
         "rel": "tm:extends",
@@ -531,16 +517,16 @@
         "type": "application/tm+json"
       },
       {
-        "rel": "aov:typedReference",
-        "aov:refName": "<TestSpecification>",
-        "aov:refType": "TestedByMaterialTest",
+        "rel": "dov:typedReference",
+        "dov:refName": "<TestSpecification>",
+        "dov:refType": "TestedByMaterialTest",
         "href": "#title=ISA95_MaterialTestSpecificationType",
         "type": "application/tm+json"
       },
       {
-        "rel": "aov:typedReference",
-        "aov:refName": "<AssemblyClass>",
-        "aov:refType": "AssembledFromClass",
+        "rel": "dov:typedReference",
+        "dov:refName": "<AssemblyClass>",
+        "dov:refType": "AssembledFromClass",
         "href": "#title=ISA95_MaterialClassType",
         "type": "application/tm+json"
       }
@@ -558,13 +544,12 @@
     "@context": [
       "https://www.w3.org/2022/wot/td/v1.1",
       {
-        "dtv": "http://azure.com/DigitalTwins/dtmi#",
-        "aov": "http://azure.com/IoT/operations/tm#"
+        "dov": "http://azure.com/DigitalOperations/vocab#"
       }
     ],
     "@type": "tm:ThingModel",
     "title": "ISA95_MaterialDefinitionType",
-    "aov:typeRef": "nsu=http://www.OPCFoundation.org/UA/2013/01/ISA95;i=5219",
+    "dov:typeRef": "org.opcfoundation.www.UA.2013.01.ISA95.MaterialDefinitionType",
     "links": [
       {
         "rel": "tm:extends",
@@ -572,16 +557,16 @@
         "type": "application/tm+json"
       },
       {
-        "rel": "aov:typedReference",
-        "aov:refName": "<TestSpecification>",
-        "aov:refType": "TestedByMaterialTest",
+        "rel": "dov:typedReference",
+        "dov:refName": "<TestSpecification>",
+        "dov:refType": "TestedByMaterialTest",
         "href": "#title=ISA95_MaterialTestSpecificationType",
         "type": "application/tm+json"
       },
       {
-        "rel": "aov:typedReference",
-        "aov:refName": "<AssemblyClass>",
-        "aov:refType": "AssembledFromDefinition",
+        "rel": "dov:typedReference",
+        "dov:refName": "<AssemblyClass>",
+        "dov:refType": "AssembledFromDefinition",
         "href": "#title=ISA95_MaterialDefinitionType",
         "type": "application/tm+json"
       }
@@ -599,13 +584,12 @@
     "@context": [
       "https://www.w3.org/2022/wot/td/v1.1",
       {
-        "dtv": "http://azure.com/DigitalTwins/dtmi#",
-        "aov": "http://azure.com/IoT/operations/tm#"
+        "dov": "http://azure.com/DigitalOperations/vocab#"
       }
     ],
     "@type": "tm:ThingModel",
     "title": "ISA95_MaterialLotType",
-    "aov:typeRef": "nsu=http://www.OPCFoundation.org/UA/2013/01/ISA95;i=5232",
+    "dov:typeRef": "org.opcfoundation.www.UA.2013.01.ISA95.MaterialLotType",
     "links": [
       {
         "rel": "tm:extends",
@@ -613,23 +597,23 @@
         "type": "application/tm+json"
       },
       {
-        "rel": "aov:typedReference",
-        "aov:refName": "<TestSpecification>",
-        "aov:refType": "TestedByMaterialTest",
+        "rel": "dov:typedReference",
+        "dov:refName": "<TestSpecification>",
+        "dov:refType": "TestedByMaterialTest",
         "href": "#title=ISA95_MaterialTestSpecificationType",
         "type": "application/tm+json"
       },
       {
-        "rel": "aov:typedReference",
-        "aov:refName": "<MaterialDefinition>",
-        "aov:refType": "DefinedByMaterialDefinition",
+        "rel": "dov:typedReference",
+        "dov:refName": "<MaterialDefinition>",
+        "dov:refType": "DefinedByMaterialDefinition",
         "href": "#title=ISA95_MaterialDefinitionType",
         "type": "application/tm+json"
       },
       {
-        "rel": "aov:typedReference",
-        "aov:refName": "<AssemblyLot>",
-        "aov:refType": "AssembledFromLot",
+        "rel": "dov:typedReference",
+        "dov:refName": "<AssemblyLot>",
+        "dov:refType": "AssembledFromLot",
         "href": "#title=ISA95_MaterialLotType",
         "type": "application/tm+json"
       }
@@ -647,13 +631,12 @@
     "@context": [
       "https://www.w3.org/2022/wot/td/v1.1",
       {
-        "dtv": "http://azure.com/DigitalTwins/dtmi#",
-        "aov": "http://azure.com/IoT/operations/tm#"
+        "dov": "http://azure.com/DigitalOperations/vocab#"
       }
     ],
     "@type": "tm:ThingModel",
     "title": "ISA95_MaterialSublotType",
-    "aov:typeRef": "nsu=http://www.OPCFoundation.org/UA/2013/01/ISA95;i=5259",
+    "dov:typeRef": "org.opcfoundation.www.UA.2013.01.ISA95.MaterialSublotType",
     "links": [
       {
         "rel": "tm:extends",
@@ -661,23 +644,23 @@
         "type": "application/tm+json"
       },
       {
-        "rel": "aov:typedReference",
-        "aov:refName": "<TestSpecification>",
-        "aov:refType": "TestedByMaterialTest",
+        "rel": "dov:typedReference",
+        "dov:refName": "<TestSpecification>",
+        "dov:refType": "TestedByMaterialTest",
         "href": "#title=ISA95_MaterialTestSpecificationType",
         "type": "application/tm+json"
       },
       {
-        "rel": "aov:typedReference",
-        "aov:refName": "<AssemblyLot>",
-        "aov:refType": "AssembledFromLot",
+        "rel": "dov:typedReference",
+        "dov:refName": "<AssemblyLot>",
+        "dov:refType": "AssembledFromLot",
         "href": "#title=ISA95_MaterialLotType",
         "type": "application/tm+json"
       },
       {
-        "rel": "aov:typedReference",
-        "aov:refName": "<Sublot>",
-        "aov:refType": "MadeUpOfMaterialSublot",
+        "rel": "dov:typedReference",
+        "dov:refName": "<Sublot>",
+        "dov:refType": "MadeUpOfMaterialSublot",
         "href": "#title=ISA95_MaterialSublotType",
         "type": "application/tm+json"
       }

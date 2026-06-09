@@ -11,13 +11,36 @@ namespace Azure.Iot.Operations.TDParser.Model
     {
         public const string DescriptionName = TDCommon.DescriptionName;
         public const string DataName = "data";
-        public const string PlaceholderName = "dtv:placeholder";
+        public const string PlaceholderName = "dov:placeholder";
+        public const string PlaceholderLegacyName = "dtv:placeholder";
         public const string FormsName = TDCommon.FormsName;
         public const string ContainsName = TDCommon.ContainsName;
+        public const string ContainsLegacyName = TDCommon.ContainsLegacyName;
         public const string ContainedInName = TDCommon.ContainedInName;
+        public const string ContainedInLegacyName = TDCommon.ContainedInLegacyName;
         public const string NamespaceName = TDCommon.NamespaceName;
+        public const string NamespaceLegacyName = TDCommon.NamespaceLegacyName;
         public const string WithUnitName = TDCommon.WithUnitName;
+        public const string WithUnitLegacyName = TDCommon.WithUnitLegacyName;
         public const string HasQuantityKindName = TDCommon.HasQuantityKindName;
+
+        public static readonly HashSet<string> SupportedProperties = new()
+        {
+            DescriptionName,
+            DataName,
+            PlaceholderName,
+            PlaceholderLegacyName,
+            FormsName,
+            ContainsName,
+            ContainsLegacyName,
+            ContainedInName,
+            ContainedInLegacyName,
+            NamespaceName,
+            NamespaceLegacyName,
+            WithUnitName,
+            WithUnitLegacyName,
+            HasQuantityKindName
+        };
 
         public ValueTracker<StringHolder>? Description { get; set; }
 
@@ -38,6 +61,16 @@ namespace Azure.Iot.Operations.TDParser.Model
         public ValueTracker<StringHolder>? WithUnit { get; set; }
 
         public ValueTracker<StringHolder>? HasQuantityKind { get; set; }
+
+        public PrefixType PlaceholderPrefixType { get; set; } = PrefixType.Indeterminate;
+
+        public PrefixType ContainsPrefixType { get; set; } = PrefixType.Indeterminate;
+
+        public PrefixType ContainedInPrefixType { get; set; } = PrefixType.Indeterminate;
+
+        public PrefixType NamespacePrefixType { get; set; } = PrefixType.Indeterminate;
+
+        public PrefixType WithUnitPrefixType { get; set; } = PrefixType.Indeterminate;
 
         public virtual bool Equals(TDEvent? other)
         {
@@ -195,21 +228,46 @@ namespace Azure.Iot.Operations.TDParser.Model
                         break;
                     case PlaceholderName:
                         evt.Placeholder = ValueTracker<BoolHolder>.Deserialize(ref reader, PlaceholderName);
+                        evt.PlaceholderPrefixType = PrefixType.DoVocabulary;
+                        break;
+                    case PlaceholderLegacyName:
+                        evt.Placeholder = ValueTracker<BoolHolder>.Deserialize(ref reader, PlaceholderName);
+                        evt.PlaceholderPrefixType = PrefixType.AioProtocol;
                         break;
                     case FormsName:
                         evt.Forms = ArrayTracker<TDForm>.Deserialize(ref reader, FormsName);
                         break;
                     case ContainsName:
                         evt.Contains = ArrayTracker<StringHolder>.Deserialize(ref reader, ContainsName);
+                        evt.ContainsPrefixType = PrefixType.DoVocabulary;
+                        break;
+                    case ContainsLegacyName:
+                        evt.Contains = ArrayTracker<StringHolder>.Deserialize(ref reader, ContainsName);
+                        evt.ContainsPrefixType = PrefixType.AioPlatform;
                         break;
                     case ContainedInName:
                         evt.ContainedIn = ValueTracker<StringHolder>.Deserialize(ref reader, ContainedInName);
+                        evt.ContainedInPrefixType = PrefixType.DoVocabulary;
+                        break;
+                    case ContainedInLegacyName:
+                        evt.ContainedIn = ValueTracker<StringHolder>.Deserialize(ref reader, ContainedInName);
+                        evt.ContainedInPrefixType = PrefixType.AioPlatform;
                         break;
                     case NamespaceName:
                         evt.Namespace = ValueTracker<StringHolder>.Deserialize(ref reader, NamespaceName);
+                        evt.NamespacePrefixType = PrefixType.DoVocabulary;
+                        break;
+                    case NamespaceLegacyName:
+                        evt.Namespace = ValueTracker<StringHolder>.Deserialize(ref reader, NamespaceName);
+                        evt.NamespacePrefixType = PrefixType.AioPlatform;
                         break;
                     case WithUnitName:
                         evt.WithUnit = ValueTracker<StringHolder>.Deserialize(ref reader, WithUnitName);
+                        evt.WithUnitPrefixType = PrefixType.DoVocabulary;
+                        break;
+                    case WithUnitLegacyName:
+                        evt.WithUnit = ValueTracker<StringHolder>.Deserialize(ref reader, WithUnitName);
+                        evt.WithUnitPrefixType = PrefixType.AioPlatform;
                         break;
                     case HasQuantityKindName:
                         evt.HasQuantityKind = ValueTracker<StringHolder>.Deserialize(ref reader, HasQuantityKindName);

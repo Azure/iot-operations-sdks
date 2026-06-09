@@ -3,13 +3,12 @@
     "@context": [
       "https://www.w3.org/2022/wot/td/v1.1",
       {
-        "dtv": "http://azure.com/DigitalTwins/dtmi#",
-        "aov": "http://azure.com/IoT/operations/tm#"
+        "dov": "http://azure.com/DigitalOperations/vocab#"
       }
     ],
     "@type": "tm:ThingModel",
     "title": "PlasticsRubber_Extrusion_Pelletizer_DiePlateType",
-    "aov:typeRef": "nsu=http://opcfoundation.org/UA/PlasticsRubber/Extrusion/Pelletizer/;i=1002",
+    "dov:typeRef": "org.opcfoundation.UA.PlasticsRubber.Extrusion.Pelletizer.DiePlateType",
     "links": [
       {
         "rel": "tm:extends",
@@ -22,7 +21,7 @@
     "forms": [
       {
         "contentType": "application/json",
-        "dtv:topic": "opcua/PlasticsRubber.Extrusion.Pelletizer/PlasticsRubber_Extrusion_Pelletizer_DiePlateType/properties/read",
+        "dov:topic": "opcua/PlasticsRubber.Extrusion.Pelletizer/PlasticsRubber_Extrusion_Pelletizer_DiePlateType/properties/read",
         "op": "readallproperties"
       }
     ],
@@ -30,26 +29,26 @@
     },
     "properties": {
       "ActiveTime": {
-        "aov:namespace": "http://opcfoundation.org/UA/PlasticsRubber/Extrusion/Pelletizer/",
+        "dov:namespace": "http://opcfoundation.org/UA/PlasticsRubber/Extrusion/Pelletizer/",
         "type": "string",
         "pattern": "^P(?!$)(?:(?:(?:(?:\\d+Y)|(?:\\d+\\.\\d+Y$))?(?:(?:\\d+M)|(?:\\d+\\.\\d+M$))?)|(?:(?:(?:\\d+W)|(?:\\d+\\.\\d+W$))?))(?:(?:\\d+D)|(?:\\d+\\.\\d+D$))?(?:T(?!$)(?:(?:\\d+H)|(?:\\d+\\.\\d+H$))?(?:(?:\\d+M)|(?:\\d+\\.\\d+M$))?(?:\\d+(?:\\.\\d+)?S)?)?$",
         "readOnly": true,
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/PlasticsRubber.Extrusion.Pelletizer/PlasticsRubber_Extrusion_Pelletizer_DiePlateType/property/ActiveTime/read",
+            "dov:topic": "opcua/PlasticsRubber.Extrusion.Pelletizer/PlasticsRubber_Extrusion_Pelletizer_DiePlateType/property/ActiveTime/read",
             "op": "readproperty"
           }
         ]
       },
       "Name": {
-        "aov:namespace": "http://opcfoundation.org/UA/PlasticsRubber/Extrusion/Pelletizer/",
+        "dov:namespace": "http://opcfoundation.org/UA/PlasticsRubber/Extrusion/Pelletizer/",
         "type": "string",
         "readOnly": true,
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/PlasticsRubber.Extrusion.Pelletizer/PlasticsRubber_Extrusion_Pelletizer_DiePlateType/property/Name/read",
+            "dov:topic": "opcua/PlasticsRubber.Extrusion.Pelletizer/PlasticsRubber_Extrusion_Pelletizer_DiePlateType/property/Name/read",
             "op": "readproperty"
           }
         ]
@@ -62,14 +61,13 @@
     "@context": [
       "https://www.w3.org/2022/wot/td/v1.1",
       {
-        "dtv": "http://azure.com/DigitalTwins/dtmi#",
-        "aov": "http://azure.com/IoT/operations/tm#"
+        "dov": "http://azure.com/DigitalOperations/vocab#"
       }
     ],
     "@type": "tm:ThingModel",
     "title": "PlasticsRubber_Extrusion_Pelletizer_Pelletizer_InterfaceType",
-    "aov:typeRef": "nsu=http://opcfoundation.org/UA/PlasticsRubber/Extrusion/Pelletizer/;i=1004",
-    "aov:isComposite": true,
+    "dov:typeRef": "org.opcfoundation.UA.PlasticsRubber.Extrusion.Pelletizer.Pelletizer_InterfaceType",
+    "dov:isComposite": true,
     "links": [
       {
         "rel": "tm:extends",
@@ -77,32 +75,32 @@
         "type": "application/tm+json"
       },
       {
-        "rel": "aov:component",
-        "aov:refName": "DiePlate__Nr_",
+        "rel": "dov:component",
+        "dov:refName": "DiePlate__Nr_",
         "href": "#title=PlasticsRubber_Extrusion_Pelletizer_DiePlateType",
         "type": "application/tm+json"
       },
       {
-        "rel": "aov:capability",
-        "aov:refName": "Drive",
+        "rel": "dov:capability",
+        "dov:refName": "Drive",
         "href": "./PlasticsRubber.GeneralTypes.TM.json#title=PlasticsRubber_GeneralTypes_DriveType",
         "type": "application/tm+json"
       },
       {
-        "rel": "aov:component",
-        "aov:refName": "KnifePackage__Nr_",
+        "rel": "dov:component",
+        "dov:refName": "KnifePackage__Nr_",
         "href": "#title=PlasticsRubber_Extrusion_Pelletizer_KnifePackageType",
         "type": "application/tm+json"
       },
       {
-        "rel": "aov:reference",
-        "aov:refName": "PressureZones",
+        "rel": "dov:reference",
+        "dov:refName": "PressureZones",
         "href": "./PlasticsRubber.GeneralTypes.TM.json#title=PlasticsRubber_GeneralTypes_MeasuringDevicesType",
         "type": "application/tm+json"
       },
       {
-        "rel": "aov:reference",
-        "aov:refName": "TemperatureZones",
+        "rel": "dov:reference",
+        "dov:refName": "TemperatureZones",
         "href": "./PlasticsRubber.Extrusion.GeneralTypes.TM.json#title=PlasticsRubber_Extrusion_GeneralTypes_ExtrusionTemperatureZonesType",
         "type": "application/tm+json"
       }
@@ -112,12 +110,12 @@
     "forms": [
       {
         "contentType": "application/json",
-        "dtv:topic": "opcua/PlasticsRubber.Extrusion.Pelletizer/PlasticsRubber_Extrusion_Pelletizer_Pelletizer_InterfaceType/events/{senderId}",
+        "dov:topic": "opcua/PlasticsRubber.Extrusion.Pelletizer/PlasticsRubber_Extrusion_Pelletizer_Pelletizer_InterfaceType/events/{senderId}",
         "op": "subscribeallevents"
       },
       {
         "contentType": "application/json",
-        "dtv:topic": "opcua/PlasticsRubber.Extrusion.Pelletizer/PlasticsRubber_Extrusion_Pelletizer_Pelletizer_InterfaceType/properties/read",
+        "dov:topic": "opcua/PlasticsRubber.Extrusion.Pelletizer/PlasticsRubber_Extrusion_Pelletizer_Pelletizer_InterfaceType/properties/read",
         "op": "readallproperties"
       }
     ],
@@ -125,7 +123,7 @@
     },
     "properties": {
       "CutGap": {
-        "aov:namespace": "http://opcfoundation.org/UA/PlasticsRubber/Extrusion/Pelletizer/",
+        "dov:namespace": "http://opcfoundation.org/UA/PlasticsRubber/Extrusion/Pelletizer/",
         "type": "number",
         "minimum": -1.80e+308,
         "maximum": 1.80e+308,
@@ -133,31 +131,31 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/PlasticsRubber.Extrusion.Pelletizer/PlasticsRubber_Extrusion_Pelletizer_Pelletizer_InterfaceType/property/CutGap/read",
+            "dov:topic": "opcua/PlasticsRubber.Extrusion.Pelletizer/PlasticsRubber_Extrusion_Pelletizer_Pelletizer_InterfaceType/property/CutGap/read",
             "op": "readproperty"
           }
         ]
       },
       "PelletizerClosed": {
-        "aov:namespace": "http://opcfoundation.org/UA/PlasticsRubber/Extrusion/Pelletizer/",
+        "dov:namespace": "http://opcfoundation.org/UA/PlasticsRubber/Extrusion/Pelletizer/",
         "type": "boolean",
         "readOnly": true,
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/PlasticsRubber.Extrusion.Pelletizer/PlasticsRubber_Extrusion_Pelletizer_Pelletizer_InterfaceType/property/PelletizerClosed/read",
+            "dov:topic": "opcua/PlasticsRubber.Extrusion.Pelletizer/PlasticsRubber_Extrusion_Pelletizer_Pelletizer_InterfaceType/property/PelletizerClosed/read",
             "op": "readproperty"
           }
         ]
       },
       "WaterFlowActive": {
-        "aov:namespace": "http://opcfoundation.org/UA/PlasticsRubber/Extrusion/Pelletizer/",
+        "dov:namespace": "http://opcfoundation.org/UA/PlasticsRubber/Extrusion/Pelletizer/",
         "type": "boolean",
         "readOnly": true,
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/PlasticsRubber.Extrusion.Pelletizer/PlasticsRubber_Extrusion_Pelletizer_Pelletizer_InterfaceType/property/WaterFlowActive/read",
+            "dov:topic": "opcua/PlasticsRubber.Extrusion.Pelletizer/PlasticsRubber_Extrusion_Pelletizer_Pelletizer_InterfaceType/property/WaterFlowActive/read",
             "op": "readproperty"
           }
         ]
@@ -165,7 +163,7 @@
     },
     "events": {
       "CutGap": {
-        "aov:namespace": "http://opcfoundation.org/UA/PlasticsRubber/Extrusion/Pelletizer/",
+        "dov:namespace": "http://opcfoundation.org/UA/PlasticsRubber/Extrusion/Pelletizer/",
         "data": {
           "type": "number",
           "minimum": -1.80e+308,
@@ -174,7 +172,7 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/PlasticsRubber.Extrusion.Pelletizer/PlasticsRubber_Extrusion_Pelletizer_Pelletizer_InterfaceType/event/CutGap/{senderId}",
+            "dov:topic": "opcua/PlasticsRubber.Extrusion.Pelletizer/PlasticsRubber_Extrusion_Pelletizer_Pelletizer_InterfaceType/event/CutGap/{senderId}",
             "op": "subscribeevent"
           }
         ]
@@ -185,13 +183,12 @@
     "@context": [
       "https://www.w3.org/2022/wot/td/v1.1",
       {
-        "dtv": "http://azure.com/DigitalTwins/dtmi#",
-        "aov": "http://azure.com/IoT/operations/tm#"
+        "dov": "http://azure.com/DigitalOperations/vocab#"
       }
     ],
     "@type": "tm:ThingModel",
     "title": "PlasticsRubber_Extrusion_Pelletizer_KnifePackageType",
-    "aov:typeRef": "nsu=http://opcfoundation.org/UA/PlasticsRubber/Extrusion/Pelletizer/;i=1003",
+    "dov:typeRef": "org.opcfoundation.UA.PlasticsRubber.Extrusion.Pelletizer.KnifePackageType",
     "links": [
       {
         "rel": "tm:extends",
@@ -204,7 +201,7 @@
     "forms": [
       {
         "contentType": "application/json",
-        "dtv:topic": "opcua/PlasticsRubber.Extrusion.Pelletizer/PlasticsRubber_Extrusion_Pelletizer_KnifePackageType/properties/read",
+        "dov:topic": "opcua/PlasticsRubber.Extrusion.Pelletizer/PlasticsRubber_Extrusion_Pelletizer_KnifePackageType/properties/read",
         "op": "readallproperties"
       }
     ],
@@ -212,20 +209,20 @@
     },
     "properties": {
       "ActiveTime": {
-        "aov:namespace": "http://opcfoundation.org/UA/PlasticsRubber/Extrusion/Pelletizer/",
+        "dov:namespace": "http://opcfoundation.org/UA/PlasticsRubber/Extrusion/Pelletizer/",
         "type": "string",
         "pattern": "^P(?!$)(?:(?:(?:(?:\\d+Y)|(?:\\d+\\.\\d+Y$))?(?:(?:\\d+M)|(?:\\d+\\.\\d+M$))?)|(?:(?:(?:\\d+W)|(?:\\d+\\.\\d+W$))?))(?:(?:\\d+D)|(?:\\d+\\.\\d+D$))?(?:T(?!$)(?:(?:\\d+H)|(?:\\d+\\.\\d+H$))?(?:(?:\\d+M)|(?:\\d+\\.\\d+M$))?(?:\\d+(?:\\.\\d+)?S)?)?$",
         "readOnly": true,
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/PlasticsRubber.Extrusion.Pelletizer/PlasticsRubber_Extrusion_Pelletizer_KnifePackageType/property/ActiveTime/read",
+            "dov:topic": "opcua/PlasticsRubber.Extrusion.Pelletizer/PlasticsRubber_Extrusion_Pelletizer_KnifePackageType/property/ActiveTime/read",
             "op": "readproperty"
           }
         ]
       },
       "Amount": {
-        "aov:namespace": "http://opcfoundation.org/UA/PlasticsRubber/Extrusion/Pelletizer/",
+        "dov:namespace": "http://opcfoundation.org/UA/PlasticsRubber/Extrusion/Pelletizer/",
         "type": "integer",
         "minimum": 0,
         "maximum": 65535,
@@ -233,19 +230,19 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/PlasticsRubber.Extrusion.Pelletizer/PlasticsRubber_Extrusion_Pelletizer_KnifePackageType/property/Amount/read",
+            "dov:topic": "opcua/PlasticsRubber.Extrusion.Pelletizer/PlasticsRubber_Extrusion_Pelletizer_KnifePackageType/property/Amount/read",
             "op": "readproperty"
           }
         ]
       },
       "Name": {
-        "aov:namespace": "http://opcfoundation.org/UA/PlasticsRubber/Extrusion/Pelletizer/",
+        "dov:namespace": "http://opcfoundation.org/UA/PlasticsRubber/Extrusion/Pelletizer/",
         "type": "string",
         "readOnly": true,
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/PlasticsRubber.Extrusion.Pelletizer/PlasticsRubber_Extrusion_Pelletizer_KnifePackageType/property/Name/read",
+            "dov:topic": "opcua/PlasticsRubber.Extrusion.Pelletizer/PlasticsRubber_Extrusion_Pelletizer_KnifePackageType/property/Name/read",
             "op": "readproperty"
           }
         ]

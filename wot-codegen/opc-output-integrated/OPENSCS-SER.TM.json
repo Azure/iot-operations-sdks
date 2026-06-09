@@ -3,14 +3,13 @@
     "@context": [
       "https://www.w3.org/2022/wot/td/v1.1",
       {
-        "dtv": "http://azure.com/DigitalTwins/dtmi#",
-        "aov": "http://azure.com/IoT/operations/tm#"
+        "dov": "http://azure.com/DigitalOperations/vocab#"
       }
     ],
     "@type": "tm:ThingModel",
     "title": "OPENSCS_SER_OPENSCSAggregationManagerObjectType",
-    "aov:typeRef": "nsu=http://opcfoundation.org/UA/OPENSCS-SER/;i=15094",
-    "aov:isComposite": true,
+    "dov:typeRef": "org.opcfoundation.UA.OPENSCS-SER.OPENSCSAggregationManagerObjectType",
+    "dov:isComposite": true,
     "links": [
       {
         "rel": "tm:extends",
@@ -21,7 +20,7 @@
     "schemaDefinitions": {
       "OPENSCSReturnEnum": {
         "type": "object",
-        "aov:typeRef": "nsu=http://opcfoundation.org/UA/OPENSCS-SER/;i=15001",
+        "dov:typeRef": "org.opcfoundation.UA.OPENSCS-SER.OPENSCSReturnEnum",
         "const": {
           "Undefined0": 0,
           "NoError1": 1,
@@ -91,16 +90,16 @@
     "forms": [
       {
         "contentType": "application/json",
-        "dtv:topic": "opcua/OPENSCS-SER/OPENSCS_SER_OPENSCSAggregationManagerObjectType/properties/read",
+        "dov:topic": "opcua/OPENSCS-SER/OPENSCS_SER_OPENSCSAggregationManagerObjectType/properties/read",
         "op": "readallproperties"
       }
     ],
     "actions": {
       "AggregationPackingEvent": {
-        "aov:namespace": "http://opcfoundation.org/UA/OPENSCS-SER/",
+        "dov:namespace": "http://opcfoundation.org/UA/OPENSCS-SER/",
         "input": {
           "type": "object",
-          "aov:typeRef": "nsu=http://opcfoundation.org/UA/OPENSCS-SER/;i=15100",
+          "dov:typeRef": "org.opcfoundation.UA.InputArguments",
           "required": [ "AggregationElement", "ParentSNFormat", "PackedElementSNFormat", "AggregationContext" ],
           "properties": {
             "AggregationElement": {
@@ -109,14 +108,14 @@
                 "title": "OPENSCSAggregationDataType",
                 "description": "Iidentifies a parent element and a collection of packed elements. This is used in the aggregation packing and unpacking methods.",
                 "type": "object",
-                "aov:typeRef": "nsu=http://opcfoundation.org/UA/OPENSCS-SER/;i=3002",
+                "dov:typeRef": "org.opcfoundation.UA.OPENSCS-SER.OPENSCSAggregationDataType",
                 "required": [ "ParentElement", "ParentElementCollection" ],
                 "properties": {
                   "ParentElement": {
                     "title": "OPENSCSLabelDataType",
                     "description": "Defines a single serial number and label, which may be associated with an SID, and collection of properties in the form of OPENSCSKeyValueDataType. ",
                     "type": "object",
-                    "aov:typeRef": "nsu=http://opcfoundation.org/UA/OPENSCS-SER/;i=3003",
+                    "dov:typeRef": "org.opcfoundation.UA.OPENSCS-SER.OPENSCSLabelDataType",
                     "required": [ "ID", "LabelProperties" ],
                     "properties": {
                       "ID": {
@@ -129,7 +128,7 @@
                         "items": {
                           "title": "OPENSCSKeyValueDataType",
                           "type": "object",
-                          "aov:typeRef": "nsu=http://opcfoundation.org/UA/OPENSCS-SER/;i=15010",
+                          "dov:typeRef": "org.opcfoundation.UA.OPENSCS-SER.OPENSCSKeyValueDataType",
                           "required": [ "Key", "Value" ],
                           "properties": {
                             "Key": {
@@ -149,7 +148,7 @@
                     "title": "OPENSCSLabelCollectionDataType",
                     "description": "Identifies the Serial Number Collection that was added to, or removed from, the parent element.",
                     "type": "object",
-                    "aov:typeRef": "nsu=http://opcfoundation.org/UA/OPENSCS-SER/;i=15006",
+                    "dov:typeRef": "org.opcfoundation.UA.OPENSCS-SER.OPENSCSLabelCollectionDataType",
                     "required": [ "LabelCollection" ],
                     "properties": {
                       "LabelCollection": {
@@ -159,7 +158,7 @@
                           "title": "OPENSCSLabelDataType",
                           "description": "Defines a single serial number and label, which may be associated with an SID, and collection of properties in the form of OPENSCSKeyValueDataType. ",
                           "type": "object",
-                          "aov:typeRef": "nsu=http://opcfoundation.org/UA/OPENSCS-SER/;i=3003",
+                          "dov:typeRef": "org.opcfoundation.UA.OPENSCS-SER.OPENSCSLabelDataType",
                           "required": [ "ID", "LabelProperties" ],
                           "properties": {
                             "ID": {
@@ -172,7 +171,7 @@
                               "items": {
                                 "title": "OPENSCSKeyValueDataType",
                                 "type": "object",
-                                "aov:typeRef": "nsu=http://opcfoundation.org/UA/OPENSCS-SER/;i=15010",
+                                "dov:typeRef": "org.opcfoundation.UA.OPENSCS-SER.OPENSCSKeyValueDataType",
                                 "required": [ "Key", "Value" ],
                                 "properties": {
                                   "Key": {
@@ -195,7 +194,7 @@
                         "items": {
                           "title": "OPENSCSKeyValueDataType",
                           "type": "object",
-                          "aov:typeRef": "nsu=http://opcfoundation.org/UA/OPENSCS-SER/;i=15010",
+                          "dov:typeRef": "org.opcfoundation.UA.OPENSCS-SER.OPENSCSKeyValueDataType",
                           "required": [ "Key", "Value" ],
                           "properties": {
                             "Key": {
@@ -225,7 +224,7 @@
               "items": {
                 "title": "OPENSCSKeyValueDataType",
                 "type": "object",
-                "aov:typeRef": "nsu=http://opcfoundation.org/UA/OPENSCS-SER/;i=15010",
+                "dov:typeRef": "org.opcfoundation.UA.OPENSCS-SER.OPENSCSKeyValueDataType",
                 "required": [ "Key", "Value" ],
                 "properties": {
                   "Key": {
@@ -243,13 +242,13 @@
         },
         "output": {
           "type": "object",
-          "aov:typeRef": "nsu=http://opcfoundation.org/UA/OPENSCS-SER/;i=15101",
+          "dov:typeRef": "org.opcfoundation.UA.OutputArguments",
           "required": [ "ReturnStatus" ],
           "properties": {
             "ReturnStatus": {
               "title": "OPENSCSReturnEnum",
               "description": "Returns the status of the method execution.",
-              "aov:typeRef": "nsu=http://opcfoundation.org/UA/OPENSCS-SER/;i=15001",
+              "dov:typeRef": "org.opcfoundation.UA.OPENSCS-SER.OPENSCSReturnEnum",
               "type": "integer",
               "minimum": -2147483648,
               "maximum": 2147483647
@@ -259,16 +258,16 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/OPENSCS-SER/OPENSCS_SER_OPENSCSAggregationManagerObjectType/action/AggregationPackingEvent",
+            "dov:topic": "opcua/OPENSCS-SER/OPENSCS_SER_OPENSCSAggregationManagerObjectType/action/AggregationPackingEvent",
             "op": "invokeaction"
           }
         ]
       },
       "AggregationUnpackingEvent": {
-        "aov:namespace": "http://opcfoundation.org/UA/OPENSCS-SER/",
+        "dov:namespace": "http://opcfoundation.org/UA/OPENSCS-SER/",
         "input": {
           "type": "object",
-          "aov:typeRef": "nsu=http://opcfoundation.org/UA/OPENSCS-SER/;i=6011",
+          "dov:typeRef": "org.opcfoundation.UA.InputArguments",
           "required": [ "AggregationElement", "ParentSNFormat", "PackedElementSNFormat", "AggregationContext" ],
           "properties": {
             "AggregationElement": {
@@ -277,14 +276,14 @@
                 "title": "OPENSCSAggregationDataType",
                 "description": "Iidentifies a parent element and a collection of packed elements. This is used in the aggregation packing and unpacking methods.",
                 "type": "object",
-                "aov:typeRef": "nsu=http://opcfoundation.org/UA/OPENSCS-SER/;i=3002",
+                "dov:typeRef": "org.opcfoundation.UA.OPENSCS-SER.OPENSCSAggregationDataType",
                 "required": [ "ParentElement", "ParentElementCollection" ],
                 "properties": {
                   "ParentElement": {
                     "title": "OPENSCSLabelDataType",
                     "description": "Defines a single serial number and label, which may be associated with an SID, and collection of properties in the form of OPENSCSKeyValueDataType. ",
                     "type": "object",
-                    "aov:typeRef": "nsu=http://opcfoundation.org/UA/OPENSCS-SER/;i=3003",
+                    "dov:typeRef": "org.opcfoundation.UA.OPENSCS-SER.OPENSCSLabelDataType",
                     "required": [ "ID", "LabelProperties" ],
                     "properties": {
                       "ID": {
@@ -297,7 +296,7 @@
                         "items": {
                           "title": "OPENSCSKeyValueDataType",
                           "type": "object",
-                          "aov:typeRef": "nsu=http://opcfoundation.org/UA/OPENSCS-SER/;i=15010",
+                          "dov:typeRef": "org.opcfoundation.UA.OPENSCS-SER.OPENSCSKeyValueDataType",
                           "required": [ "Key", "Value" ],
                           "properties": {
                             "Key": {
@@ -317,7 +316,7 @@
                     "title": "OPENSCSLabelCollectionDataType",
                     "description": "Identifies the Serial Number Collection that was added to, or removed from, the parent element.",
                     "type": "object",
-                    "aov:typeRef": "nsu=http://opcfoundation.org/UA/OPENSCS-SER/;i=15006",
+                    "dov:typeRef": "org.opcfoundation.UA.OPENSCS-SER.OPENSCSLabelCollectionDataType",
                     "required": [ "LabelCollection" ],
                     "properties": {
                       "LabelCollection": {
@@ -327,7 +326,7 @@
                           "title": "OPENSCSLabelDataType",
                           "description": "Defines a single serial number and label, which may be associated with an SID, and collection of properties in the form of OPENSCSKeyValueDataType. ",
                           "type": "object",
-                          "aov:typeRef": "nsu=http://opcfoundation.org/UA/OPENSCS-SER/;i=3003",
+                          "dov:typeRef": "org.opcfoundation.UA.OPENSCS-SER.OPENSCSLabelDataType",
                           "required": [ "ID", "LabelProperties" ],
                           "properties": {
                             "ID": {
@@ -340,7 +339,7 @@
                               "items": {
                                 "title": "OPENSCSKeyValueDataType",
                                 "type": "object",
-                                "aov:typeRef": "nsu=http://opcfoundation.org/UA/OPENSCS-SER/;i=15010",
+                                "dov:typeRef": "org.opcfoundation.UA.OPENSCS-SER.OPENSCSKeyValueDataType",
                                 "required": [ "Key", "Value" ],
                                 "properties": {
                                   "Key": {
@@ -363,7 +362,7 @@
                         "items": {
                           "title": "OPENSCSKeyValueDataType",
                           "type": "object",
-                          "aov:typeRef": "nsu=http://opcfoundation.org/UA/OPENSCS-SER/;i=15010",
+                          "dov:typeRef": "org.opcfoundation.UA.OPENSCS-SER.OPENSCSKeyValueDataType",
                           "required": [ "Key", "Value" ],
                           "properties": {
                             "Key": {
@@ -393,7 +392,7 @@
               "items": {
                 "title": "OPENSCSKeyValueDataType",
                 "type": "object",
-                "aov:typeRef": "nsu=http://opcfoundation.org/UA/OPENSCS-SER/;i=15010",
+                "dov:typeRef": "org.opcfoundation.UA.OPENSCS-SER.OPENSCSKeyValueDataType",
                 "required": [ "Key", "Value" ],
                 "properties": {
                   "Key": {
@@ -411,12 +410,12 @@
         },
         "output": {
           "type": "object",
-          "aov:typeRef": "nsu=http://opcfoundation.org/UA/OPENSCS-SER/;i=6013",
+          "dov:typeRef": "org.opcfoundation.UA.OutputArguments",
           "required": [ "ReturnStatus" ],
           "properties": {
             "ReturnStatus": {
               "title": "OPENSCSReturnEnum",
-              "aov:typeRef": "nsu=http://opcfoundation.org/UA/OPENSCS-SER/;i=15001",
+              "dov:typeRef": "org.opcfoundation.UA.OPENSCS-SER.OPENSCSReturnEnum",
               "type": "integer",
               "minimum": -2147483648,
               "maximum": 2147483647
@@ -426,7 +425,7 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/OPENSCS-SER/OPENSCS_SER_OPENSCSAggregationManagerObjectType/action/AggregationUnpackingEvent",
+            "dov:topic": "opcua/OPENSCS-SER/OPENSCS_SER_OPENSCSAggregationManagerObjectType/action/AggregationUnpackingEvent",
             "op": "invokeaction"
           }
         ]
@@ -434,7 +433,7 @@
     },
     "properties": {
       "MaxAggregationEvents": {
-        "aov:namespace": "http://opcfoundation.org/UA/OPENSCS-SER/",
+        "dov:namespace": "http://opcfoundation.org/UA/OPENSCS-SER/",
         "type": "integer",
         "minimum": 0,
         "maximum": 4294967295,
@@ -442,7 +441,7 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/OPENSCS-SER/OPENSCS_SER_OPENSCSAggregationManagerObjectType/property/MaxAggregationEvents/read",
+            "dov:topic": "opcua/OPENSCS-SER/OPENSCS_SER_OPENSCSAggregationManagerObjectType/property/MaxAggregationEvents/read",
             "op": "readproperty"
           }
         ]
@@ -455,14 +454,13 @@
     "@context": [
       "https://www.w3.org/2022/wot/td/v1.1",
       {
-        "dtv": "http://azure.com/DigitalTwins/dtmi#",
-        "aov": "http://azure.com/IoT/operations/tm#"
+        "dov": "http://azure.com/DigitalOperations/vocab#"
       }
     ],
     "@type": "tm:ThingModel",
     "title": "OPENSCS_SER_OPENSCSEventManagerObjectType",
-    "aov:typeRef": "nsu=http://opcfoundation.org/UA/OPENSCS-SER/;i=15062",
-    "aov:isComposite": true,
+    "dov:typeRef": "org.opcfoundation.UA.OPENSCS-SER.OPENSCSEventManagerObjectType",
+    "dov:isComposite": true,
     "links": [
       {
         "rel": "tm:extends",
@@ -470,8 +468,8 @@
         "type": "application/tm+json"
       },
       {
-        "rel": "aov:capability",
-        "aov:refName": "EPCISStream",
+        "rel": "dov:capability",
+        "dov:refName": "EPCISStream",
         "href": "#title=OpcUaCore_TemporaryFileTransferType",
         "type": "application/tm+json"
       }
@@ -479,7 +477,7 @@
     "schemaDefinitions": {
       "OPENSCSReturnEnum": {
         "type": "object",
-        "aov:typeRef": "nsu=http://opcfoundation.org/UA/OPENSCS-SER/;i=15001",
+        "dov:typeRef": "org.opcfoundation.UA.OPENSCS-SER.OPENSCSReturnEnum",
         "const": {
           "Undefined0": 0,
           "NoError1": 1,
@@ -547,7 +545,7 @@
       },
       "OPENSCSSerialNumberStateEnum": {
         "type": "object",
-        "aov:typeRef": "nsu=http://opcfoundation.org/UA/OPENSCS-SER/;i=15143",
+        "dov:typeRef": "org.opcfoundation.UA.OPENSCS-SER.OPENSCSSerialNumberStateEnum",
         "const": {
           "Unassigned0": 0,
           "Unallocated1": 1,
@@ -617,28 +615,28 @@
     "forms": [
       {
         "contentType": "application/json",
-        "dtv:topic": "opcua/OPENSCS-SER/OPENSCS_SER_OPENSCSEventManagerObjectType/properties/write",
+        "dov:topic": "opcua/OPENSCS-SER/OPENSCS_SER_OPENSCSEventManagerObjectType/properties/write",
         "op": "writemultipleproperties"
       },
       {
         "contentType": "application/json",
-        "dtv:topic": "opcua/OPENSCS-SER/OPENSCS_SER_OPENSCSEventManagerObjectType/properties/read",
+        "dov:topic": "opcua/OPENSCS-SER/OPENSCS_SER_OPENSCSEventManagerObjectType/properties/read",
         "op": "readallproperties"
       }
     ],
     "actions": {
       "LabelsEncodingEvent": {
-        "aov:namespace": "http://opcfoundation.org/UA/OPENSCS-SER/",
+        "dov:namespace": "http://opcfoundation.org/UA/OPENSCS-SER/",
         "input": {
           "type": "object",
-          "aov:typeRef": "nsu=http://opcfoundation.org/UA/OPENSCS-SER/;i=15089",
+          "dov:typeRef": "org.opcfoundation.UA.InputArguments",
           "required": [ "LabelCollection", "SNFormat", "OPENSCSEventContext" ],
           "properties": {
             "LabelCollection": {
               "title": "OPENSCSLabelCollectionDataType",
               "description": "Identifies the Label Collection with Serial Numbers and optional label properties.",
               "type": "object",
-              "aov:typeRef": "nsu=http://opcfoundation.org/UA/OPENSCS-SER/;i=15006",
+              "dov:typeRef": "org.opcfoundation.UA.OPENSCS-SER.OPENSCSLabelCollectionDataType",
               "required": [ "LabelCollection" ],
               "properties": {
                 "LabelCollection": {
@@ -648,7 +646,7 @@
                     "title": "OPENSCSLabelDataType",
                     "description": "Defines a single serial number and label, which may be associated with an SID, and collection of properties in the form of OPENSCSKeyValueDataType. ",
                     "type": "object",
-                    "aov:typeRef": "nsu=http://opcfoundation.org/UA/OPENSCS-SER/;i=3003",
+                    "dov:typeRef": "org.opcfoundation.UA.OPENSCS-SER.OPENSCSLabelDataType",
                     "required": [ "ID", "LabelProperties" ],
                     "properties": {
                       "ID": {
@@ -661,7 +659,7 @@
                         "items": {
                           "title": "OPENSCSKeyValueDataType",
                           "type": "object",
-                          "aov:typeRef": "nsu=http://opcfoundation.org/UA/OPENSCS-SER/;i=15010",
+                          "dov:typeRef": "org.opcfoundation.UA.OPENSCS-SER.OPENSCSKeyValueDataType",
                           "required": [ "Key", "Value" ],
                           "properties": {
                             "Key": {
@@ -684,7 +682,7 @@
                   "items": {
                     "title": "OPENSCSKeyValueDataType",
                     "type": "object",
-                    "aov:typeRef": "nsu=http://opcfoundation.org/UA/OPENSCS-SER/;i=15010",
+                    "dov:typeRef": "org.opcfoundation.UA.OPENSCS-SER.OPENSCSKeyValueDataType",
                     "required": [ "Key", "Value" ],
                     "properties": {
                       "Key": {
@@ -710,7 +708,7 @@
               "items": {
                 "title": "OPENSCSKeyValueDataType",
                 "type": "object",
-                "aov:typeRef": "nsu=http://opcfoundation.org/UA/OPENSCS-SER/;i=15010",
+                "dov:typeRef": "org.opcfoundation.UA.OPENSCS-SER.OPENSCSKeyValueDataType",
                 "required": [ "Key", "Value" ],
                 "properties": {
                   "Key": {
@@ -728,13 +726,13 @@
         },
         "output": {
           "type": "object",
-          "aov:typeRef": "nsu=http://opcfoundation.org/UA/OPENSCS-SER/;i=15090",
+          "dov:typeRef": "org.opcfoundation.UA.OutputArguments",
           "required": [ "ReturnStatus" ],
           "properties": {
             "ReturnStatus": {
               "title": "OPENSCSReturnEnum",
               "description": "Returns the status of the method execution.",
-              "aov:typeRef": "nsu=http://opcfoundation.org/UA/OPENSCS-SER/;i=15001",
+              "dov:typeRef": "org.opcfoundation.UA.OPENSCS-SER.OPENSCSReturnEnum",
               "type": "integer",
               "minimum": -2147483648,
               "maximum": 2147483647
@@ -744,23 +742,23 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/OPENSCS-SER/OPENSCS_SER_OPENSCSEventManagerObjectType/action/LabelsEncodingEvent",
+            "dov:topic": "opcua/OPENSCS-SER/OPENSCS_SER_OPENSCSEventManagerObjectType/action/LabelsEncodingEvent",
             "op": "invokeaction"
           }
         ]
       },
       "LabelsInspectingEvent": {
-        "aov:namespace": "http://opcfoundation.org/UA/OPENSCS-SER/",
+        "dov:namespace": "http://opcfoundation.org/UA/OPENSCS-SER/",
         "input": {
           "type": "object",
-          "aov:typeRef": "nsu=http://opcfoundation.org/UA/OPENSCS-SER/;i=15083",
+          "dov:typeRef": "org.opcfoundation.UA.InputArguments",
           "required": [ "LabelCollection", "SNFormat", "OPENSCSEventContext" ],
           "properties": {
             "LabelCollection": {
               "title": "OPENSCSLabelCollectionDataType",
               "description": "Identifies the Label Collection with Serial Numbers and optional label properties.",
               "type": "object",
-              "aov:typeRef": "nsu=http://opcfoundation.org/UA/OPENSCS-SER/;i=15006",
+              "dov:typeRef": "org.opcfoundation.UA.OPENSCS-SER.OPENSCSLabelCollectionDataType",
               "required": [ "LabelCollection" ],
               "properties": {
                 "LabelCollection": {
@@ -770,7 +768,7 @@
                     "title": "OPENSCSLabelDataType",
                     "description": "Defines a single serial number and label, which may be associated with an SID, and collection of properties in the form of OPENSCSKeyValueDataType. ",
                     "type": "object",
-                    "aov:typeRef": "nsu=http://opcfoundation.org/UA/OPENSCS-SER/;i=3003",
+                    "dov:typeRef": "org.opcfoundation.UA.OPENSCS-SER.OPENSCSLabelDataType",
                     "required": [ "ID", "LabelProperties" ],
                     "properties": {
                       "ID": {
@@ -783,7 +781,7 @@
                         "items": {
                           "title": "OPENSCSKeyValueDataType",
                           "type": "object",
-                          "aov:typeRef": "nsu=http://opcfoundation.org/UA/OPENSCS-SER/;i=15010",
+                          "dov:typeRef": "org.opcfoundation.UA.OPENSCS-SER.OPENSCSKeyValueDataType",
                           "required": [ "Key", "Value" ],
                           "properties": {
                             "Key": {
@@ -806,7 +804,7 @@
                   "items": {
                     "title": "OPENSCSKeyValueDataType",
                     "type": "object",
-                    "aov:typeRef": "nsu=http://opcfoundation.org/UA/OPENSCS-SER/;i=15010",
+                    "dov:typeRef": "org.opcfoundation.UA.OPENSCS-SER.OPENSCSKeyValueDataType",
                     "required": [ "Key", "Value" ],
                     "properties": {
                       "Key": {
@@ -832,7 +830,7 @@
               "items": {
                 "title": "OPENSCSKeyValueDataType",
                 "type": "object",
-                "aov:typeRef": "nsu=http://opcfoundation.org/UA/OPENSCS-SER/;i=15010",
+                "dov:typeRef": "org.opcfoundation.UA.OPENSCS-SER.OPENSCSKeyValueDataType",
                 "required": [ "Key", "Value" ],
                 "properties": {
                   "Key": {
@@ -850,13 +848,13 @@
         },
         "output": {
           "type": "object",
-          "aov:typeRef": "nsu=http://opcfoundation.org/UA/OPENSCS-SER/;i=15084",
+          "dov:typeRef": "org.opcfoundation.UA.OutputArguments",
           "required": [ "ReturnStatus" ],
           "properties": {
             "ReturnStatus": {
               "title": "OPENSCSReturnEnum",
               "description": "Returns the status of the method execution.",
-              "aov:typeRef": "nsu=http://opcfoundation.org/UA/OPENSCS-SER/;i=15001",
+              "dov:typeRef": "org.opcfoundation.UA.OPENSCS-SER.OPENSCSReturnEnum",
               "type": "integer",
               "minimum": -2147483648,
               "maximum": 2147483647
@@ -866,23 +864,23 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/OPENSCS-SER/OPENSCS_SER_OPENSCSEventManagerObjectType/action/LabelsInspectingEvent",
+            "dov:topic": "opcua/OPENSCS-SER/OPENSCS_SER_OPENSCSEventManagerObjectType/action/LabelsInspectingEvent",
             "op": "invokeaction"
           }
         ]
       },
       "LabelsSamplingEvent": {
-        "aov:namespace": "http://opcfoundation.org/UA/OPENSCS-SER/",
+        "dov:namespace": "http://opcfoundation.org/UA/OPENSCS-SER/",
         "input": {
           "type": "object",
-          "aov:typeRef": "nsu=http://opcfoundation.org/UA/OPENSCS-SER/;i=15080",
+          "dov:typeRef": "org.opcfoundation.UA.InputArguments",
           "required": [ "LabelCollection", "SNFormat", "OPENSCSEventContext" ],
           "properties": {
             "LabelCollection": {
               "title": "OPENSCSLabelCollectionDataType",
               "description": "Identifies the Label Collection with Serial Numbers and optional label properties.",
               "type": "object",
-              "aov:typeRef": "nsu=http://opcfoundation.org/UA/OPENSCS-SER/;i=15006",
+              "dov:typeRef": "org.opcfoundation.UA.OPENSCS-SER.OPENSCSLabelCollectionDataType",
               "required": [ "LabelCollection" ],
               "properties": {
                 "LabelCollection": {
@@ -892,7 +890,7 @@
                     "title": "OPENSCSLabelDataType",
                     "description": "Defines a single serial number and label, which may be associated with an SID, and collection of properties in the form of OPENSCSKeyValueDataType. ",
                     "type": "object",
-                    "aov:typeRef": "nsu=http://opcfoundation.org/UA/OPENSCS-SER/;i=3003",
+                    "dov:typeRef": "org.opcfoundation.UA.OPENSCS-SER.OPENSCSLabelDataType",
                     "required": [ "ID", "LabelProperties" ],
                     "properties": {
                       "ID": {
@@ -905,7 +903,7 @@
                         "items": {
                           "title": "OPENSCSKeyValueDataType",
                           "type": "object",
-                          "aov:typeRef": "nsu=http://opcfoundation.org/UA/OPENSCS-SER/;i=15010",
+                          "dov:typeRef": "org.opcfoundation.UA.OPENSCS-SER.OPENSCSKeyValueDataType",
                           "required": [ "Key", "Value" ],
                           "properties": {
                             "Key": {
@@ -928,7 +926,7 @@
                   "items": {
                     "title": "OPENSCSKeyValueDataType",
                     "type": "object",
-                    "aov:typeRef": "nsu=http://opcfoundation.org/UA/OPENSCS-SER/;i=15010",
+                    "dov:typeRef": "org.opcfoundation.UA.OPENSCS-SER.OPENSCSKeyValueDataType",
                     "required": [ "Key", "Value" ],
                     "properties": {
                       "Key": {
@@ -954,7 +952,7 @@
               "items": {
                 "title": "OPENSCSKeyValueDataType",
                 "type": "object",
-                "aov:typeRef": "nsu=http://opcfoundation.org/UA/OPENSCS-SER/;i=15010",
+                "dov:typeRef": "org.opcfoundation.UA.OPENSCS-SER.OPENSCSKeyValueDataType",
                 "required": [ "Key", "Value" ],
                 "properties": {
                   "Key": {
@@ -972,13 +970,13 @@
         },
         "output": {
           "type": "object",
-          "aov:typeRef": "nsu=http://opcfoundation.org/UA/OPENSCS-SER/;i=15081",
+          "dov:typeRef": "org.opcfoundation.UA.OutputArguments",
           "required": [ "ReturnStatus" ],
           "properties": {
             "ReturnStatus": {
               "title": "OPENSCSReturnEnum",
               "description": "Returns the status of the method execution.",
-              "aov:typeRef": "nsu=http://opcfoundation.org/UA/OPENSCS-SER/;i=15001",
+              "dov:typeRef": "org.opcfoundation.UA.OPENSCS-SER.OPENSCSReturnEnum",
               "type": "integer",
               "minimum": -2147483648,
               "maximum": 2147483647
@@ -988,23 +986,23 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/OPENSCS-SER/OPENSCS_SER_OPENSCSEventManagerObjectType/action/LabelsSamplingEvent",
+            "dov:topic": "opcua/OPENSCS-SER/OPENSCS_SER_OPENSCSEventManagerObjectType/action/LabelsSamplingEvent",
             "op": "invokeaction"
           }
         ]
       },
       "LabelsScrappingEvent": {
-        "aov:namespace": "http://opcfoundation.org/UA/OPENSCS-SER/",
+        "dov:namespace": "http://opcfoundation.org/UA/OPENSCS-SER/",
         "input": {
           "type": "object",
-          "aov:typeRef": "nsu=http://opcfoundation.org/UA/OPENSCS-SER/;i=15086",
+          "dov:typeRef": "org.opcfoundation.UA.InputArguments",
           "required": [ "LabelCollection", "SNFormat", "OPENSCSEventContext" ],
           "properties": {
             "LabelCollection": {
               "title": "OPENSCSLabelCollectionDataType",
               "description": "Identifies the Label Collection with Serial Numbers and optional label properties.",
               "type": "object",
-              "aov:typeRef": "nsu=http://opcfoundation.org/UA/OPENSCS-SER/;i=15006",
+              "dov:typeRef": "org.opcfoundation.UA.OPENSCS-SER.OPENSCSLabelCollectionDataType",
               "required": [ "LabelCollection" ],
               "properties": {
                 "LabelCollection": {
@@ -1014,7 +1012,7 @@
                     "title": "OPENSCSLabelDataType",
                     "description": "Defines a single serial number and label, which may be associated with an SID, and collection of properties in the form of OPENSCSKeyValueDataType. ",
                     "type": "object",
-                    "aov:typeRef": "nsu=http://opcfoundation.org/UA/OPENSCS-SER/;i=3003",
+                    "dov:typeRef": "org.opcfoundation.UA.OPENSCS-SER.OPENSCSLabelDataType",
                     "required": [ "ID", "LabelProperties" ],
                     "properties": {
                       "ID": {
@@ -1027,7 +1025,7 @@
                         "items": {
                           "title": "OPENSCSKeyValueDataType",
                           "type": "object",
-                          "aov:typeRef": "nsu=http://opcfoundation.org/UA/OPENSCS-SER/;i=15010",
+                          "dov:typeRef": "org.opcfoundation.UA.OPENSCS-SER.OPENSCSKeyValueDataType",
                           "required": [ "Key", "Value" ],
                           "properties": {
                             "Key": {
@@ -1050,7 +1048,7 @@
                   "items": {
                     "title": "OPENSCSKeyValueDataType",
                     "type": "object",
-                    "aov:typeRef": "nsu=http://opcfoundation.org/UA/OPENSCS-SER/;i=15010",
+                    "dov:typeRef": "org.opcfoundation.UA.OPENSCS-SER.OPENSCSKeyValueDataType",
                     "required": [ "Key", "Value" ],
                     "properties": {
                       "Key": {
@@ -1076,7 +1074,7 @@
               "items": {
                 "title": "OPENSCSKeyValueDataType",
                 "type": "object",
-                "aov:typeRef": "nsu=http://opcfoundation.org/UA/OPENSCS-SER/;i=15010",
+                "dov:typeRef": "org.opcfoundation.UA.OPENSCS-SER.OPENSCSKeyValueDataType",
                 "required": [ "Key", "Value" ],
                 "properties": {
                   "Key": {
@@ -1094,13 +1092,13 @@
         },
         "output": {
           "type": "object",
-          "aov:typeRef": "nsu=http://opcfoundation.org/UA/OPENSCS-SER/;i=15087",
+          "dov:typeRef": "org.opcfoundation.UA.OutputArguments",
           "required": [ "ReturnStatus" ],
           "properties": {
             "ReturnStatus": {
               "title": "OPENSCSReturnEnum",
               "description": "Returns the status of the method execution.",
-              "aov:typeRef": "nsu=http://opcfoundation.org/UA/OPENSCS-SER/;i=15001",
+              "dov:typeRef": "org.opcfoundation.UA.OPENSCS-SER.OPENSCSReturnEnum",
               "type": "integer",
               "minimum": -2147483648,
               "maximum": 2147483647
@@ -1110,23 +1108,23 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/OPENSCS-SER/OPENSCS_SER_OPENSCSEventManagerObjectType/action/LabelsScrappingEvent",
+            "dov:topic": "opcua/OPENSCS-SER/OPENSCS_SER_OPENSCSEventManagerObjectType/action/LabelsScrappingEvent",
             "op": "invokeaction"
           }
         ]
       },
       "SIDCommissioningEvent": {
-        "aov:namespace": "http://opcfoundation.org/UA/OPENSCS-SER/",
+        "dov:namespace": "http://opcfoundation.org/UA/OPENSCS-SER/",
         "input": {
           "type": "object",
-          "aov:typeRef": "nsu=http://opcfoundation.org/UA/OPENSCS-SER/;i=15077",
+          "dov:typeRef": "org.opcfoundation.UA.InputArguments",
           "required": [ "LabelCollection", "SNFormat", "OPENSCSEventContext" ],
           "properties": {
             "LabelCollection": {
               "title": "OPENSCSLabelCollectionDataType",
               "description": "Identifies the Label Collection with Serial Numbers and optional label properties.",
               "type": "object",
-              "aov:typeRef": "nsu=http://opcfoundation.org/UA/OPENSCS-SER/;i=15006",
+              "dov:typeRef": "org.opcfoundation.UA.OPENSCS-SER.OPENSCSLabelCollectionDataType",
               "required": [ "LabelCollection" ],
               "properties": {
                 "LabelCollection": {
@@ -1136,7 +1134,7 @@
                     "title": "OPENSCSLabelDataType",
                     "description": "Defines a single serial number and label, which may be associated with an SID, and collection of properties in the form of OPENSCSKeyValueDataType. ",
                     "type": "object",
-                    "aov:typeRef": "nsu=http://opcfoundation.org/UA/OPENSCS-SER/;i=3003",
+                    "dov:typeRef": "org.opcfoundation.UA.OPENSCS-SER.OPENSCSLabelDataType",
                     "required": [ "ID", "LabelProperties" ],
                     "properties": {
                       "ID": {
@@ -1149,7 +1147,7 @@
                         "items": {
                           "title": "OPENSCSKeyValueDataType",
                           "type": "object",
-                          "aov:typeRef": "nsu=http://opcfoundation.org/UA/OPENSCS-SER/;i=15010",
+                          "dov:typeRef": "org.opcfoundation.UA.OPENSCS-SER.OPENSCSKeyValueDataType",
                           "required": [ "Key", "Value" ],
                           "properties": {
                             "Key": {
@@ -1172,7 +1170,7 @@
                   "items": {
                     "title": "OPENSCSKeyValueDataType",
                     "type": "object",
-                    "aov:typeRef": "nsu=http://opcfoundation.org/UA/OPENSCS-SER/;i=15010",
+                    "dov:typeRef": "org.opcfoundation.UA.OPENSCS-SER.OPENSCSKeyValueDataType",
                     "required": [ "Key", "Value" ],
                     "properties": {
                       "Key": {
@@ -1198,7 +1196,7 @@
               "items": {
                 "title": "OPENSCSKeyValueDataType",
                 "type": "object",
-                "aov:typeRef": "nsu=http://opcfoundation.org/UA/OPENSCS-SER/;i=15010",
+                "dov:typeRef": "org.opcfoundation.UA.OPENSCS-SER.OPENSCSKeyValueDataType",
                 "required": [ "Key", "Value" ],
                 "properties": {
                   "Key": {
@@ -1216,13 +1214,13 @@
         },
         "output": {
           "type": "object",
-          "aov:typeRef": "nsu=http://opcfoundation.org/UA/OPENSCS-SER/;i=15078",
+          "dov:typeRef": "org.opcfoundation.UA.OutputArguments",
           "required": [ "ReturnStatus" ],
           "properties": {
             "ReturnStatus": {
               "title": "OPENSCSReturnEnum",
               "description": "Returns the status of the method execution.",
-              "aov:typeRef": "nsu=http://opcfoundation.org/UA/OPENSCS-SER/;i=15001",
+              "dov:typeRef": "org.opcfoundation.UA.OPENSCS-SER.OPENSCSReturnEnum",
               "type": "integer",
               "minimum": -2147483648,
               "maximum": 2147483647
@@ -1232,23 +1230,23 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/OPENSCS-SER/OPENSCS_SER_OPENSCSEventManagerObjectType/action/SIDCommissioningEvent",
+            "dov:topic": "opcua/OPENSCS-SER/OPENSCS_SER_OPENSCSEventManagerObjectType/action/SIDCommissioningEvent",
             "op": "invokeaction"
           }
         ]
       },
       "SIDDecommissioningEvent": {
-        "aov:namespace": "http://opcfoundation.org/UA/OPENSCS-SER/",
+        "dov:namespace": "http://opcfoundation.org/UA/OPENSCS-SER/",
         "input": {
           "type": "object",
-          "aov:typeRef": "nsu=http://opcfoundation.org/UA/OPENSCS-SER/;i=15065",
+          "dov:typeRef": "org.opcfoundation.UA.InputArguments",
           "required": [ "LabelCollection", "SNFormat", "OPENSCSEventContext" ],
           "properties": {
             "LabelCollection": {
               "title": "OPENSCSLabelCollectionDataType",
               "description": "Identifies the Label Collection with Serial Numbers and optional label properties.",
               "type": "object",
-              "aov:typeRef": "nsu=http://opcfoundation.org/UA/OPENSCS-SER/;i=15006",
+              "dov:typeRef": "org.opcfoundation.UA.OPENSCS-SER.OPENSCSLabelCollectionDataType",
               "required": [ "LabelCollection" ],
               "properties": {
                 "LabelCollection": {
@@ -1258,7 +1256,7 @@
                     "title": "OPENSCSLabelDataType",
                     "description": "Defines a single serial number and label, which may be associated with an SID, and collection of properties in the form of OPENSCSKeyValueDataType. ",
                     "type": "object",
-                    "aov:typeRef": "nsu=http://opcfoundation.org/UA/OPENSCS-SER/;i=3003",
+                    "dov:typeRef": "org.opcfoundation.UA.OPENSCS-SER.OPENSCSLabelDataType",
                     "required": [ "ID", "LabelProperties" ],
                     "properties": {
                       "ID": {
@@ -1271,7 +1269,7 @@
                         "items": {
                           "title": "OPENSCSKeyValueDataType",
                           "type": "object",
-                          "aov:typeRef": "nsu=http://opcfoundation.org/UA/OPENSCS-SER/;i=15010",
+                          "dov:typeRef": "org.opcfoundation.UA.OPENSCS-SER.OPENSCSKeyValueDataType",
                           "required": [ "Key", "Value" ],
                           "properties": {
                             "Key": {
@@ -1294,7 +1292,7 @@
                   "items": {
                     "title": "OPENSCSKeyValueDataType",
                     "type": "object",
-                    "aov:typeRef": "nsu=http://opcfoundation.org/UA/OPENSCS-SER/;i=15010",
+                    "dov:typeRef": "org.opcfoundation.UA.OPENSCS-SER.OPENSCSKeyValueDataType",
                     "required": [ "Key", "Value" ],
                     "properties": {
                       "Key": {
@@ -1320,7 +1318,7 @@
               "items": {
                 "title": "OPENSCSKeyValueDataType",
                 "type": "object",
-                "aov:typeRef": "nsu=http://opcfoundation.org/UA/OPENSCS-SER/;i=15010",
+                "dov:typeRef": "org.opcfoundation.UA.OPENSCS-SER.OPENSCSKeyValueDataType",
                 "required": [ "Key", "Value" ],
                 "properties": {
                   "Key": {
@@ -1338,13 +1336,13 @@
         },
         "output": {
           "type": "object",
-          "aov:typeRef": "nsu=http://opcfoundation.org/UA/OPENSCS-SER/;i=15066",
+          "dov:typeRef": "org.opcfoundation.UA.OutputArguments",
           "required": [ "ReturnStatus" ],
           "properties": {
             "ReturnStatus": {
               "title": "OPENSCSReturnEnum",
               "description": "Returns the status of the method execution.",
-              "aov:typeRef": "nsu=http://opcfoundation.org/UA/OPENSCS-SER/;i=15001",
+              "dov:typeRef": "org.opcfoundation.UA.OPENSCS-SER.OPENSCSReturnEnum",
               "type": "integer",
               "minimum": -2147483648,
               "maximum": 2147483647
@@ -1354,23 +1352,23 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/OPENSCS-SER/OPENSCS_SER_OPENSCSEventManagerObjectType/action/SIDDecommissioningEvent",
+            "dov:topic": "opcua/OPENSCS-SER/OPENSCS_SER_OPENSCSEventManagerObjectType/action/SIDDecommissioningEvent",
             "op": "invokeaction"
           }
         ]
       },
       "SIDDestroyingEvent": {
-        "aov:namespace": "http://opcfoundation.org/UA/OPENSCS-SER/",
+        "dov:namespace": "http://opcfoundation.org/UA/OPENSCS-SER/",
         "input": {
           "type": "object",
-          "aov:typeRef": "nsu=http://opcfoundation.org/UA/OPENSCS-SER/;i=15074",
+          "dov:typeRef": "org.opcfoundation.UA.InputArguments",
           "required": [ "LabelCollection", "SNFormat", "OPENSCSEventContext" ],
           "properties": {
             "LabelCollection": {
               "title": "OPENSCSLabelCollectionDataType",
               "description": "Identifies the Label Collection with Serial Numbers and optional label properties.",
               "type": "object",
-              "aov:typeRef": "nsu=http://opcfoundation.org/UA/OPENSCS-SER/;i=15006",
+              "dov:typeRef": "org.opcfoundation.UA.OPENSCS-SER.OPENSCSLabelCollectionDataType",
               "required": [ "LabelCollection" ],
               "properties": {
                 "LabelCollection": {
@@ -1380,7 +1378,7 @@
                     "title": "OPENSCSLabelDataType",
                     "description": "Defines a single serial number and label, which may be associated with an SID, and collection of properties in the form of OPENSCSKeyValueDataType. ",
                     "type": "object",
-                    "aov:typeRef": "nsu=http://opcfoundation.org/UA/OPENSCS-SER/;i=3003",
+                    "dov:typeRef": "org.opcfoundation.UA.OPENSCS-SER.OPENSCSLabelDataType",
                     "required": [ "ID", "LabelProperties" ],
                     "properties": {
                       "ID": {
@@ -1393,7 +1391,7 @@
                         "items": {
                           "title": "OPENSCSKeyValueDataType",
                           "type": "object",
-                          "aov:typeRef": "nsu=http://opcfoundation.org/UA/OPENSCS-SER/;i=15010",
+                          "dov:typeRef": "org.opcfoundation.UA.OPENSCS-SER.OPENSCSKeyValueDataType",
                           "required": [ "Key", "Value" ],
                           "properties": {
                             "Key": {
@@ -1416,7 +1414,7 @@
                   "items": {
                     "title": "OPENSCSKeyValueDataType",
                     "type": "object",
-                    "aov:typeRef": "nsu=http://opcfoundation.org/UA/OPENSCS-SER/;i=15010",
+                    "dov:typeRef": "org.opcfoundation.UA.OPENSCS-SER.OPENSCSKeyValueDataType",
                     "required": [ "Key", "Value" ],
                     "properties": {
                       "Key": {
@@ -1442,7 +1440,7 @@
               "items": {
                 "title": "OPENSCSKeyValueDataType",
                 "type": "object",
-                "aov:typeRef": "nsu=http://opcfoundation.org/UA/OPENSCS-SER/;i=15010",
+                "dov:typeRef": "org.opcfoundation.UA.OPENSCS-SER.OPENSCSKeyValueDataType",
                 "required": [ "Key", "Value" ],
                 "properties": {
                   "Key": {
@@ -1460,13 +1458,13 @@
         },
         "output": {
           "type": "object",
-          "aov:typeRef": "nsu=http://opcfoundation.org/UA/OPENSCS-SER/;i=15075",
+          "dov:typeRef": "org.opcfoundation.UA.OutputArguments",
           "required": [ "ReturnStatus" ],
           "properties": {
             "ReturnStatus": {
               "title": "OPENSCSReturnEnum",
               "description": "Returns the status of the method execution.",
-              "aov:typeRef": "nsu=http://opcfoundation.org/UA/OPENSCS-SER/;i=15001",
+              "dov:typeRef": "org.opcfoundation.UA.OPENSCS-SER.OPENSCSReturnEnum",
               "type": "integer",
               "minimum": -2147483648,
               "maximum": 2147483647
@@ -1476,23 +1474,23 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/OPENSCS-SER/OPENSCS_SER_OPENSCSEventManagerObjectType/action/SIDDestroyingEvent",
+            "dov:topic": "opcua/OPENSCS-SER/OPENSCS_SER_OPENSCSEventManagerObjectType/action/SIDDestroyingEvent",
             "op": "invokeaction"
           }
         ]
       },
       "SIDInspectingEvent": {
-        "aov:namespace": "http://opcfoundation.org/UA/OPENSCS-SER/",
+        "dov:namespace": "http://opcfoundation.org/UA/OPENSCS-SER/",
         "input": {
           "type": "object",
-          "aov:typeRef": "nsu=http://opcfoundation.org/UA/OPENSCS-SER/;i=15068",
+          "dov:typeRef": "org.opcfoundation.UA.InputArguments",
           "required": [ "LabelCollection", "SNFormat", "OPENSCSEventContext" ],
           "properties": {
             "LabelCollection": {
               "title": "OPENSCSLabelCollectionDataType",
               "description": "Identifies the Label Collection with Serial Numbers and optional label properties.",
               "type": "object",
-              "aov:typeRef": "nsu=http://opcfoundation.org/UA/OPENSCS-SER/;i=15006",
+              "dov:typeRef": "org.opcfoundation.UA.OPENSCS-SER.OPENSCSLabelCollectionDataType",
               "required": [ "LabelCollection" ],
               "properties": {
                 "LabelCollection": {
@@ -1502,7 +1500,7 @@
                     "title": "OPENSCSLabelDataType",
                     "description": "Defines a single serial number and label, which may be associated with an SID, and collection of properties in the form of OPENSCSKeyValueDataType. ",
                     "type": "object",
-                    "aov:typeRef": "nsu=http://opcfoundation.org/UA/OPENSCS-SER/;i=3003",
+                    "dov:typeRef": "org.opcfoundation.UA.OPENSCS-SER.OPENSCSLabelDataType",
                     "required": [ "ID", "LabelProperties" ],
                     "properties": {
                       "ID": {
@@ -1515,7 +1513,7 @@
                         "items": {
                           "title": "OPENSCSKeyValueDataType",
                           "type": "object",
-                          "aov:typeRef": "nsu=http://opcfoundation.org/UA/OPENSCS-SER/;i=15010",
+                          "dov:typeRef": "org.opcfoundation.UA.OPENSCS-SER.OPENSCSKeyValueDataType",
                           "required": [ "Key", "Value" ],
                           "properties": {
                             "Key": {
@@ -1538,7 +1536,7 @@
                   "items": {
                     "title": "OPENSCSKeyValueDataType",
                     "type": "object",
-                    "aov:typeRef": "nsu=http://opcfoundation.org/UA/OPENSCS-SER/;i=15010",
+                    "dov:typeRef": "org.opcfoundation.UA.OPENSCS-SER.OPENSCSKeyValueDataType",
                     "required": [ "Key", "Value" ],
                     "properties": {
                       "Key": {
@@ -1564,7 +1562,7 @@
               "items": {
                 "title": "OPENSCSKeyValueDataType",
                 "type": "object",
-                "aov:typeRef": "nsu=http://opcfoundation.org/UA/OPENSCS-SER/;i=15010",
+                "dov:typeRef": "org.opcfoundation.UA.OPENSCS-SER.OPENSCSKeyValueDataType",
                 "required": [ "Key", "Value" ],
                 "properties": {
                   "Key": {
@@ -1582,13 +1580,13 @@
         },
         "output": {
           "type": "object",
-          "aov:typeRef": "nsu=http://opcfoundation.org/UA/OPENSCS-SER/;i=15069",
+          "dov:typeRef": "org.opcfoundation.UA.OutputArguments",
           "required": [ "ReturnStatus" ],
           "properties": {
             "ReturnStatus": {
               "title": "OPENSCSReturnEnum",
               "description": "Returns the status of the method execution.",
-              "aov:typeRef": "nsu=http://opcfoundation.org/UA/OPENSCS-SER/;i=15001",
+              "dov:typeRef": "org.opcfoundation.UA.OPENSCS-SER.OPENSCSReturnEnum",
               "type": "integer",
               "minimum": -2147483648,
               "maximum": 2147483647
@@ -1598,23 +1596,23 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/OPENSCS-SER/OPENSCS_SER_OPENSCSEventManagerObjectType/action/SIDInspectingEvent",
+            "dov:topic": "opcua/OPENSCS-SER/OPENSCS_SER_OPENSCSEventManagerObjectType/action/SIDInspectingEvent",
             "op": "invokeaction"
           }
         ]
       },
       "SIDShippingEvent": {
-        "aov:namespace": "http://opcfoundation.org/UA/OPENSCS-SER/",
+        "dov:namespace": "http://opcfoundation.org/UA/OPENSCS-SER/",
         "input": {
           "type": "object",
-          "aov:typeRef": "nsu=http://opcfoundation.org/UA/OPENSCS-SER/;i=15071",
+          "dov:typeRef": "org.opcfoundation.UA.InputArguments",
           "required": [ "LabelCollection", "SNFormat", "OPENSCSEventContext" ],
           "properties": {
             "LabelCollection": {
               "title": "OPENSCSLabelCollectionDataType",
               "description": "Identifies the Label Collection with Serial Numbers and optional label properties.",
               "type": "object",
-              "aov:typeRef": "nsu=http://opcfoundation.org/UA/OPENSCS-SER/;i=15006",
+              "dov:typeRef": "org.opcfoundation.UA.OPENSCS-SER.OPENSCSLabelCollectionDataType",
               "required": [ "LabelCollection" ],
               "properties": {
                 "LabelCollection": {
@@ -1624,7 +1622,7 @@
                     "title": "OPENSCSLabelDataType",
                     "description": "Defines a single serial number and label, which may be associated with an SID, and collection of properties in the form of OPENSCSKeyValueDataType. ",
                     "type": "object",
-                    "aov:typeRef": "nsu=http://opcfoundation.org/UA/OPENSCS-SER/;i=3003",
+                    "dov:typeRef": "org.opcfoundation.UA.OPENSCS-SER.OPENSCSLabelDataType",
                     "required": [ "ID", "LabelProperties" ],
                     "properties": {
                       "ID": {
@@ -1637,7 +1635,7 @@
                         "items": {
                           "title": "OPENSCSKeyValueDataType",
                           "type": "object",
-                          "aov:typeRef": "nsu=http://opcfoundation.org/UA/OPENSCS-SER/;i=15010",
+                          "dov:typeRef": "org.opcfoundation.UA.OPENSCS-SER.OPENSCSKeyValueDataType",
                           "required": [ "Key", "Value" ],
                           "properties": {
                             "Key": {
@@ -1660,7 +1658,7 @@
                   "items": {
                     "title": "OPENSCSKeyValueDataType",
                     "type": "object",
-                    "aov:typeRef": "nsu=http://opcfoundation.org/UA/OPENSCS-SER/;i=15010",
+                    "dov:typeRef": "org.opcfoundation.UA.OPENSCS-SER.OPENSCSKeyValueDataType",
                     "required": [ "Key", "Value" ],
                     "properties": {
                       "Key": {
@@ -1686,7 +1684,7 @@
               "items": {
                 "title": "OPENSCSKeyValueDataType",
                 "type": "object",
-                "aov:typeRef": "nsu=http://opcfoundation.org/UA/OPENSCS-SER/;i=15010",
+                "dov:typeRef": "org.opcfoundation.UA.OPENSCS-SER.OPENSCSKeyValueDataType",
                 "required": [ "Key", "Value" ],
                 "properties": {
                   "Key": {
@@ -1704,13 +1702,13 @@
         },
         "output": {
           "type": "object",
-          "aov:typeRef": "nsu=http://opcfoundation.org/UA/OPENSCS-SER/;i=15072",
+          "dov:typeRef": "org.opcfoundation.UA.OutputArguments",
           "required": [ "ReturnStatus" ],
           "properties": {
             "ReturnStatus": {
               "title": "OPENSCSReturnEnum",
               "description": "Returns the status of the method execution.",
-              "aov:typeRef": "nsu=http://opcfoundation.org/UA/OPENSCS-SER/;i=15001",
+              "dov:typeRef": "org.opcfoundation.UA.OPENSCS-SER.OPENSCSReturnEnum",
               "type": "integer",
               "minimum": -2147483648,
               "maximum": 2147483647
@@ -1720,23 +1718,23 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/OPENSCS-SER/OPENSCS_SER_OPENSCSEventManagerObjectType/action/SIDShippingEvent",
+            "dov:topic": "opcua/OPENSCS-SER/OPENSCS_SER_OPENSCSEventManagerObjectType/action/SIDShippingEvent",
             "op": "invokeaction"
           }
         ]
       },
       "SNInvalidatingEvent": {
-        "aov:namespace": "http://opcfoundation.org/UA/OPENSCS-SER/",
+        "dov:namespace": "http://opcfoundation.org/UA/OPENSCS-SER/",
         "input": {
           "type": "object",
-          "aov:typeRef": "nsu=http://opcfoundation.org/UA/OPENSCS-SER/;i=15092",
+          "dov:typeRef": "org.opcfoundation.UA.InputArguments",
           "required": [ "SNCollection", "SNFormat", "OPENSCSEventContext" ],
           "properties": {
             "SNCollection": {
               "title": "OPENSCSCollectionDataType",
               "description": "Identifies the Serial Number Collection.",
               "type": "object",
-              "aov:typeRef": "nsu=http://opcfoundation.org/UA/OPENSCS-SER/;i=15005",
+              "dov:typeRef": "org.opcfoundation.UA.OPENSCS-SER.OPENSCSCollectionDataType",
               "required": [ "ID", "Description", "State", "AssociatedPoolID", "SerialNumbers" ],
               "properties": {
                 "ID": {
@@ -1750,7 +1748,7 @@
                 "State": {
                   "title": "OPENSCSSerialNumberStateEnum",
                   "description": "State of the Serial Numbers in the Collection. ",
-                  "aov:typeRef": "nsu=http://opcfoundation.org/UA/OPENSCS-SER/;i=15143",
+                  "dov:typeRef": "org.opcfoundation.UA.OPENSCS-SER.OPENSCSSerialNumberStateEnum",
                   "type": "integer",
                   "minimum": -2147483648,
                   "maximum": 2147483647
@@ -1778,7 +1776,7 @@
               "items": {
                 "title": "OPENSCSKeyValueDataType",
                 "type": "object",
-                "aov:typeRef": "nsu=http://opcfoundation.org/UA/OPENSCS-SER/;i=15010",
+                "dov:typeRef": "org.opcfoundation.UA.OPENSCS-SER.OPENSCSKeyValueDataType",
                 "required": [ "Key", "Value" ],
                 "properties": {
                   "Key": {
@@ -1796,13 +1794,13 @@
         },
         "output": {
           "type": "object",
-          "aov:typeRef": "nsu=http://opcfoundation.org/UA/OPENSCS-SER/;i=15093",
+          "dov:typeRef": "org.opcfoundation.UA.OutputArguments",
           "required": [ "ReturnStatus" ],
           "properties": {
             "ReturnStatus": {
               "title": "OPENSCSReturnEnum",
               "description": "Returns the status of the method execution.",
-              "aov:typeRef": "nsu=http://opcfoundation.org/UA/OPENSCS-SER/;i=15001",
+              "dov:typeRef": "org.opcfoundation.UA.OPENSCS-SER.OPENSCSReturnEnum",
               "type": "integer",
               "minimum": -2147483648,
               "maximum": 2147483647
@@ -1812,7 +1810,7 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/OPENSCS-SER/OPENSCS_SER_OPENSCSEventManagerObjectType/action/SNInvalidatingEvent",
+            "dov:topic": "opcua/OPENSCS-SER/OPENSCS_SER_OPENSCSEventManagerObjectType/action/SNInvalidatingEvent",
             "op": "invokeaction"
           }
         ]
@@ -1820,7 +1818,7 @@
     },
     "properties": {
       "MaxEPCISaggregationEvents": {
-        "aov:namespace": "http://opcfoundation.org/UA/OPENSCS-SER/",
+        "dov:namespace": "http://opcfoundation.org/UA/OPENSCS-SER/",
         "type": "integer",
         "minimum": 0,
         "maximum": 4294967295,
@@ -1828,18 +1826,18 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/OPENSCS-SER/OPENSCS_SER_OPENSCSEventManagerObjectType/property/MaxEPCISaggregationEvents/write",
+            "dov:topic": "opcua/OPENSCS-SER/OPENSCS_SER_OPENSCSEventManagerObjectType/property/MaxEPCISaggregationEvents/write",
             "op": "writeproperty"
           },
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/OPENSCS-SER/OPENSCS_SER_OPENSCSEventManagerObjectType/property/MaxEPCISaggregationEvents/read",
+            "dov:topic": "opcua/OPENSCS-SER/OPENSCS_SER_OPENSCSEventManagerObjectType/property/MaxEPCISaggregationEvents/read",
             "op": "readproperty"
           }
         ]
       },
       "MaxEPCISObjectEventSIDs": {
-        "aov:namespace": "http://opcfoundation.org/UA/OPENSCS-SER/",
+        "dov:namespace": "http://opcfoundation.org/UA/OPENSCS-SER/",
         "type": "integer",
         "minimum": 0,
         "maximum": 4294967295,
@@ -1847,18 +1845,18 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/OPENSCS-SER/OPENSCS_SER_OPENSCSEventManagerObjectType/property/MaxEPCISObjectEventSIDs/write",
+            "dov:topic": "opcua/OPENSCS-SER/OPENSCS_SER_OPENSCSEventManagerObjectType/property/MaxEPCISObjectEventSIDs/write",
             "op": "writeproperty"
           },
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/OPENSCS-SER/OPENSCS_SER_OPENSCSEventManagerObjectType/property/MaxEPCISObjectEventSIDs/read",
+            "dov:topic": "opcua/OPENSCS-SER/OPENSCS_SER_OPENSCSEventManagerObjectType/property/MaxEPCISObjectEventSIDs/read",
             "op": "readproperty"
           }
         ]
       },
       "MaxEvents": {
-        "aov:namespace": "http://opcfoundation.org/UA/OPENSCS-SER/",
+        "dov:namespace": "http://opcfoundation.org/UA/OPENSCS-SER/",
         "type": "integer",
         "minimum": 0,
         "maximum": 4294967295,
@@ -1866,7 +1864,7 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/OPENSCS-SER/OPENSCS_SER_OPENSCSEventManagerObjectType/property/MaxEvents/read",
+            "dov:topic": "opcua/OPENSCS-SER/OPENSCS_SER_OPENSCSEventManagerObjectType/property/MaxEvents/read",
             "op": "readproperty"
           }
         ]
@@ -1879,14 +1877,13 @@
     "@context": [
       "https://www.w3.org/2022/wot/td/v1.1",
       {
-        "dtv": "http://azure.com/DigitalTwins/dtmi#",
-        "aov": "http://azure.com/IoT/operations/tm#"
+        "dov": "http://azure.com/DigitalOperations/vocab#"
       }
     ],
     "@type": "tm:ThingModel",
     "title": "OPENSCS_SER_OPENSCSPoolManagerObjectType",
-    "aov:typeRef": "nsu=http://opcfoundation.org/UA/OPENSCS-SER/;i=15032",
-    "aov:isComposite": true,
+    "dov:typeRef": "org.opcfoundation.UA.OPENSCS-SER.OPENSCSPoolManagerObjectType",
+    "dov:isComposite": true,
     "links": [
       {
         "rel": "tm:extends",
@@ -1897,7 +1894,7 @@
     "schemaDefinitions": {
       "OPENSCSReturnEnum": {
         "type": "object",
-        "aov:typeRef": "nsu=http://opcfoundation.org/UA/OPENSCS-SER/;i=15001",
+        "dov:typeRef": "org.opcfoundation.UA.OPENSCS-SER.OPENSCSReturnEnum",
         "const": {
           "Undefined0": 0,
           "NoError1": 1,
@@ -1965,7 +1962,7 @@
       },
       "OPENSCSSerialNumberStateEnum": {
         "type": "object",
-        "aov:typeRef": "nsu=http://opcfoundation.org/UA/OPENSCS-SER/;i=15143",
+        "dov:typeRef": "org.opcfoundation.UA.OPENSCS-SER.OPENSCSSerialNumberStateEnum",
         "const": {
           "Unassigned0": 0,
           "Unallocated1": 1,
@@ -2035,16 +2032,16 @@
     "forms": [
       {
         "contentType": "application/json",
-        "dtv:topic": "opcua/OPENSCS-SER/OPENSCS_SER_OPENSCSPoolManagerObjectType/properties/read",
+        "dov:topic": "opcua/OPENSCS-SER/OPENSCS_SER_OPENSCSPoolManagerObjectType/properties/read",
         "op": "readallproperties"
       }
     ],
     "actions": {
       "SNRequestAllocated": {
-        "aov:namespace": "http://opcfoundation.org/UA/OPENSCS-SER/",
+        "dov:namespace": "http://opcfoundation.org/UA/OPENSCS-SER/",
         "input": {
           "type": "object",
-          "aov:typeRef": "nsu=http://opcfoundation.org/UA/OPENSCS-SER/;i=15054",
+          "dov:typeRef": "org.opcfoundation.UA.InputArguments",
           "required": [ "SNCollectionID", "Count", "SNFormat", "PoolSelectionCriteria", "RequestToken" ],
           "properties": {
             "SNCollectionID": {
@@ -2067,7 +2064,7 @@
               "items": {
                 "title": "OPENSCSKeyValueDataType",
                 "type": "object",
-                "aov:typeRef": "nsu=http://opcfoundation.org/UA/OPENSCS-SER/;i=15010",
+                "dov:typeRef": "org.opcfoundation.UA.OPENSCS-SER.OPENSCSKeyValueDataType",
                 "required": [ "Key", "Value" ],
                 "properties": {
                   "Key": {
@@ -2089,13 +2086,13 @@
         },
         "output": {
           "type": "object",
-          "aov:typeRef": "nsu=http://opcfoundation.org/UA/OPENSCS-SER/;i=15055",
+          "dov:typeRef": "org.opcfoundation.UA.OutputArguments",
           "required": [ "ReturnStatus", "SNCollection", "ReturnedRequestToken" ],
           "properties": {
             "ReturnStatus": {
               "title": "OPENSCSReturnEnum",
               "description": "Returns the status of the method execution. ",
-              "aov:typeRef": "nsu=http://opcfoundation.org/UA/OPENSCS-SER/;i=15001",
+              "dov:typeRef": "org.opcfoundation.UA.OPENSCS-SER.OPENSCSReturnEnum",
               "type": "integer",
               "minimum": -2147483648,
               "maximum": 2147483647
@@ -2104,7 +2101,7 @@
               "title": "OPENSCSCollectionDataType",
               "description": "Contains requested Serial Number collection with Serial Numbers of the specified state. ",
               "type": "object",
-              "aov:typeRef": "nsu=http://opcfoundation.org/UA/OPENSCS-SER/;i=15005",
+              "dov:typeRef": "org.opcfoundation.UA.OPENSCS-SER.OPENSCSCollectionDataType",
               "required": [ "ID", "Description", "State", "AssociatedPoolID", "SerialNumbers" ],
               "properties": {
                 "ID": {
@@ -2118,7 +2115,7 @@
                 "State": {
                   "title": "OPENSCSSerialNumberStateEnum",
                   "description": "State of the Serial Numbers in the Collection. ",
-                  "aov:typeRef": "nsu=http://opcfoundation.org/UA/OPENSCS-SER/;i=15143",
+                  "dov:typeRef": "org.opcfoundation.UA.OPENSCS-SER.OPENSCSSerialNumberStateEnum",
                   "type": "integer",
                   "minimum": -2147483648,
                   "maximum": 2147483647
@@ -2145,16 +2142,16 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/OPENSCS-SER/OPENSCS_SER_OPENSCSPoolManagerObjectType/action/SNRequestAllocated",
+            "dov:topic": "opcua/OPENSCS-SER/OPENSCS_SER_OPENSCSPoolManagerObjectType/action/SNRequestAllocated",
             "op": "invokeaction"
           }
         ]
       },
       "SNRequestUnallocated": {
-        "aov:namespace": "http://opcfoundation.org/UA/OPENSCS-SER/",
+        "dov:namespace": "http://opcfoundation.org/UA/OPENSCS-SER/",
         "input": {
           "type": "object",
-          "aov:typeRef": "nsu=http://opcfoundation.org/UA/OPENSCS-SER/;i=15057",
+          "dov:typeRef": "org.opcfoundation.UA.InputArguments",
           "required": [ "SNCollectionID", "Count", "SNFormat", "PoolSelectionCriteria", "RequestToken" ],
           "properties": {
             "SNCollectionID": {
@@ -2177,7 +2174,7 @@
               "items": {
                 "title": "OPENSCSKeyValueDataType",
                 "type": "object",
-                "aov:typeRef": "nsu=http://opcfoundation.org/UA/OPENSCS-SER/;i=15010",
+                "dov:typeRef": "org.opcfoundation.UA.OPENSCS-SER.OPENSCSKeyValueDataType",
                 "required": [ "Key", "Value" ],
                 "properties": {
                   "Key": {
@@ -2199,13 +2196,13 @@
         },
         "output": {
           "type": "object",
-          "aov:typeRef": "nsu=http://opcfoundation.org/UA/OPENSCS-SER/;i=15058",
+          "dov:typeRef": "org.opcfoundation.UA.OutputArguments",
           "required": [ "ReturnStatus", "SNCollection", "ReturnedRequestToken" ],
           "properties": {
             "ReturnStatus": {
               "title": "OPENSCSReturnEnum",
               "description": "Returns the status of the method execution. ",
-              "aov:typeRef": "nsu=http://opcfoundation.org/UA/OPENSCS-SER/;i=15001",
+              "dov:typeRef": "org.opcfoundation.UA.OPENSCS-SER.OPENSCSReturnEnum",
               "type": "integer",
               "minimum": -2147483648,
               "maximum": 2147483647
@@ -2214,7 +2211,7 @@
               "title": "OPENSCSCollectionDataType",
               "description": "Contains requested Serial Number collection with Serial Numbers of the specified state. ",
               "type": "object",
-              "aov:typeRef": "nsu=http://opcfoundation.org/UA/OPENSCS-SER/;i=15005",
+              "dov:typeRef": "org.opcfoundation.UA.OPENSCS-SER.OPENSCSCollectionDataType",
               "required": [ "ID", "Description", "State", "AssociatedPoolID", "SerialNumbers" ],
               "properties": {
                 "ID": {
@@ -2228,7 +2225,7 @@
                 "State": {
                   "title": "OPENSCSSerialNumberStateEnum",
                   "description": "State of the Serial Numbers in the Collection. ",
-                  "aov:typeRef": "nsu=http://opcfoundation.org/UA/OPENSCS-SER/;i=15143",
+                  "dov:typeRef": "org.opcfoundation.UA.OPENSCS-SER.OPENSCSSerialNumberStateEnum",
                   "type": "integer",
                   "minimum": -2147483648,
                   "maximum": 2147483647
@@ -2255,16 +2252,16 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/OPENSCS-SER/OPENSCS_SER_OPENSCSPoolManagerObjectType/action/SNRequestUnallocated",
+            "dov:topic": "opcua/OPENSCS-SER/OPENSCS_SER_OPENSCSPoolManagerObjectType/action/SNRequestUnallocated",
             "op": "invokeaction"
           }
         ]
       },
       "SNRequestUnassigned": {
-        "aov:namespace": "http://opcfoundation.org/UA/OPENSCS-SER/",
+        "dov:namespace": "http://opcfoundation.org/UA/OPENSCS-SER/",
         "input": {
           "type": "object",
-          "aov:typeRef": "nsu=http://opcfoundation.org/UA/OPENSCS-SER/;i=15060",
+          "dov:typeRef": "org.opcfoundation.UA.InputArguments",
           "required": [ "SNCollectionID", "Count", "SNFormat", "PoolSelectionCriteria", "RequestToken" ],
           "properties": {
             "SNCollectionID": {
@@ -2287,7 +2284,7 @@
               "items": {
                 "title": "OPENSCSKeyValueDataType",
                 "type": "object",
-                "aov:typeRef": "nsu=http://opcfoundation.org/UA/OPENSCS-SER/;i=15010",
+                "dov:typeRef": "org.opcfoundation.UA.OPENSCS-SER.OPENSCSKeyValueDataType",
                 "required": [ "Key", "Value" ],
                 "properties": {
                   "Key": {
@@ -2309,13 +2306,13 @@
         },
         "output": {
           "type": "object",
-          "aov:typeRef": "nsu=http://opcfoundation.org/UA/OPENSCS-SER/;i=15061",
+          "dov:typeRef": "org.opcfoundation.UA.OutputArguments",
           "required": [ "ReturnStatus", "SNCollection", "ReturnedRequestToken" ],
           "properties": {
             "ReturnStatus": {
               "title": "OPENSCSReturnEnum",
               "description": "Returns the status of the method execution. ",
-              "aov:typeRef": "nsu=http://opcfoundation.org/UA/OPENSCS-SER/;i=15001",
+              "dov:typeRef": "org.opcfoundation.UA.OPENSCS-SER.OPENSCSReturnEnum",
               "type": "integer",
               "minimum": -2147483648,
               "maximum": 2147483647
@@ -2324,7 +2321,7 @@
               "title": "OPENSCSCollectionDataType",
               "description": "Contains requested Serial Number collection with Serial Numbers of the specified state. ",
               "type": "object",
-              "aov:typeRef": "nsu=http://opcfoundation.org/UA/OPENSCS-SER/;i=15005",
+              "dov:typeRef": "org.opcfoundation.UA.OPENSCS-SER.OPENSCSCollectionDataType",
               "required": [ "ID", "Description", "State", "AssociatedPoolID", "SerialNumbers" ],
               "properties": {
                 "ID": {
@@ -2338,7 +2335,7 @@
                 "State": {
                   "title": "OPENSCSSerialNumberStateEnum",
                   "description": "State of the Serial Numbers in the Collection. ",
-                  "aov:typeRef": "nsu=http://opcfoundation.org/UA/OPENSCS-SER/;i=15143",
+                  "dov:typeRef": "org.opcfoundation.UA.OPENSCS-SER.OPENSCSSerialNumberStateEnum",
                   "type": "integer",
                   "minimum": -2147483648,
                   "maximum": 2147483647
@@ -2365,23 +2362,23 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/OPENSCS-SER/OPENSCS_SER_OPENSCSPoolManagerObjectType/action/SNRequestUnassigned",
+            "dov:topic": "opcua/OPENSCS-SER/OPENSCS_SER_OPENSCSPoolManagerObjectType/action/SNRequestUnassigned",
             "op": "invokeaction"
           }
         ]
       },
       "SNReturnAllocated": {
-        "aov:namespace": "http://opcfoundation.org/UA/OPENSCS-SER/",
+        "dov:namespace": "http://opcfoundation.org/UA/OPENSCS-SER/",
         "input": {
           "type": "object",
-          "aov:typeRef": "nsu=http://opcfoundation.org/UA/OPENSCS-SER/;i=15048",
+          "dov:typeRef": "org.opcfoundation.UA.InputArguments",
           "required": [ "SNCollection", "PoolSelectionCriteria", "SNFormat" ],
           "properties": {
             "SNCollection": {
               "title": "OPENSCSCollectionDataType",
               "description": "Contains a Serial Number Collection from which Serial Numbers were originally provided.",
               "type": "object",
-              "aov:typeRef": "nsu=http://opcfoundation.org/UA/OPENSCS-SER/;i=15005",
+              "dov:typeRef": "org.opcfoundation.UA.OPENSCS-SER.OPENSCSCollectionDataType",
               "required": [ "ID", "Description", "State", "AssociatedPoolID", "SerialNumbers" ],
               "properties": {
                 "ID": {
@@ -2395,7 +2392,7 @@
                 "State": {
                   "title": "OPENSCSSerialNumberStateEnum",
                   "description": "State of the Serial Numbers in the Collection. ",
-                  "aov:typeRef": "nsu=http://opcfoundation.org/UA/OPENSCS-SER/;i=15143",
+                  "dov:typeRef": "org.opcfoundation.UA.OPENSCS-SER.OPENSCSSerialNumberStateEnum",
                   "type": "integer",
                   "minimum": -2147483648,
                   "maximum": 2147483647
@@ -2419,7 +2416,7 @@
               "items": {
                 "title": "OPENSCSKeyValueDataType",
                 "type": "object",
-                "aov:typeRef": "nsu=http://opcfoundation.org/UA/OPENSCS-SER/;i=15010",
+                "dov:typeRef": "org.opcfoundation.UA.OPENSCS-SER.OPENSCSKeyValueDataType",
                 "required": [ "Key", "Value" ],
                 "properties": {
                   "Key": {
@@ -2441,13 +2438,13 @@
         },
         "output": {
           "type": "object",
-          "aov:typeRef": "nsu=http://opcfoundation.org/UA/OPENSCS-SER/;i=15049",
+          "dov:typeRef": "org.opcfoundation.UA.OutputArguments",
           "required": [ "ReturnStatus" ],
           "properties": {
             "ReturnStatus": {
               "title": "OPENSCSReturnEnum",
               "description": "Returns the status of the method execution.",
-              "aov:typeRef": "nsu=http://opcfoundation.org/UA/OPENSCS-SER/;i=15001",
+              "dov:typeRef": "org.opcfoundation.UA.OPENSCS-SER.OPENSCSReturnEnum",
               "type": "integer",
               "minimum": -2147483648,
               "maximum": 2147483647
@@ -2457,23 +2454,23 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/OPENSCS-SER/OPENSCS_SER_OPENSCSPoolManagerObjectType/action/SNReturnAllocated",
+            "dov:topic": "opcua/OPENSCS-SER/OPENSCS_SER_OPENSCSPoolManagerObjectType/action/SNReturnAllocated",
             "op": "invokeaction"
           }
         ]
       },
       "SNReturnUnallocated": {
-        "aov:namespace": "http://opcfoundation.org/UA/OPENSCS-SER/",
+        "dov:namespace": "http://opcfoundation.org/UA/OPENSCS-SER/",
         "input": {
           "type": "object",
-          "aov:typeRef": "nsu=http://opcfoundation.org/UA/OPENSCS-SER/;i=15051",
+          "dov:typeRef": "org.opcfoundation.UA.InputArguments",
           "required": [ "SNCollection", "PoolSelectionCriteria", "SNFormat" ],
           "properties": {
             "SNCollection": {
               "title": "OPENSCSCollectionDataType",
               "description": "Contains a Serial Number Collection from which Serial Numbers were originally provided.",
               "type": "object",
-              "aov:typeRef": "nsu=http://opcfoundation.org/UA/OPENSCS-SER/;i=15005",
+              "dov:typeRef": "org.opcfoundation.UA.OPENSCS-SER.OPENSCSCollectionDataType",
               "required": [ "ID", "Description", "State", "AssociatedPoolID", "SerialNumbers" ],
               "properties": {
                 "ID": {
@@ -2487,7 +2484,7 @@
                 "State": {
                   "title": "OPENSCSSerialNumberStateEnum",
                   "description": "State of the Serial Numbers in the Collection. ",
-                  "aov:typeRef": "nsu=http://opcfoundation.org/UA/OPENSCS-SER/;i=15143",
+                  "dov:typeRef": "org.opcfoundation.UA.OPENSCS-SER.OPENSCSSerialNumberStateEnum",
                   "type": "integer",
                   "minimum": -2147483648,
                   "maximum": 2147483647
@@ -2511,7 +2508,7 @@
               "items": {
                 "title": "OPENSCSKeyValueDataType",
                 "type": "object",
-                "aov:typeRef": "nsu=http://opcfoundation.org/UA/OPENSCS-SER/;i=15010",
+                "dov:typeRef": "org.opcfoundation.UA.OPENSCS-SER.OPENSCSKeyValueDataType",
                 "required": [ "Key", "Value" ],
                 "properties": {
                   "Key": {
@@ -2533,13 +2530,13 @@
         },
         "output": {
           "type": "object",
-          "aov:typeRef": "nsu=http://opcfoundation.org/UA/OPENSCS-SER/;i=15052",
+          "dov:typeRef": "org.opcfoundation.UA.OutputArguments",
           "required": [ "ReturnStatus" ],
           "properties": {
             "ReturnStatus": {
               "title": "OPENSCSReturnEnum",
               "description": "Returns the status of the method execution.",
-              "aov:typeRef": "nsu=http://opcfoundation.org/UA/OPENSCS-SER/;i=15001",
+              "dov:typeRef": "org.opcfoundation.UA.OPENSCS-SER.OPENSCSReturnEnum",
               "type": "integer",
               "minimum": -2147483648,
               "maximum": 2147483647
@@ -2549,22 +2546,22 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/OPENSCS-SER/OPENSCS_SER_OPENSCSPoolManagerObjectType/action/SNReturnUnallocated",
+            "dov:topic": "opcua/OPENSCS-SER/OPENSCS_SER_OPENSCSPoolManagerObjectType/action/SNReturnUnallocated",
             "op": "invokeaction"
           }
         ]
       },
       "SNtoAllocated": {
-        "aov:namespace": "http://opcfoundation.org/UA/OPENSCS-SER/",
+        "dov:namespace": "http://opcfoundation.org/UA/OPENSCS-SER/",
         "input": {
           "type": "object",
-          "aov:typeRef": "nsu=http://opcfoundation.org/UA/OPENSCS-SER/;i=15111",
+          "dov:typeRef": "org.opcfoundation.UA.InputArguments",
           "required": [ "SNCollection", "PoolSelectionCriteria", "SNFormat" ],
           "properties": {
             "SNCollection": {
               "title": "OPENSCSCollectionDataType",
               "type": "object",
-              "aov:typeRef": "nsu=http://opcfoundation.org/UA/OPENSCS-SER/;i=15005",
+              "dov:typeRef": "org.opcfoundation.UA.OPENSCS-SER.OPENSCSCollectionDataType",
               "required": [ "ID", "Description", "State", "AssociatedPoolID", "SerialNumbers" ],
               "properties": {
                 "ID": {
@@ -2578,7 +2575,7 @@
                 "State": {
                   "title": "OPENSCSSerialNumberStateEnum",
                   "description": "State of the Serial Numbers in the Collection. ",
-                  "aov:typeRef": "nsu=http://opcfoundation.org/UA/OPENSCS-SER/;i=15143",
+                  "dov:typeRef": "org.opcfoundation.UA.OPENSCS-SER.OPENSCSSerialNumberStateEnum",
                   "type": "integer",
                   "minimum": -2147483648,
                   "maximum": 2147483647
@@ -2601,7 +2598,7 @@
               "items": {
                 "title": "OPENSCSKeyValueDataType",
                 "type": "object",
-                "aov:typeRef": "nsu=http://opcfoundation.org/UA/OPENSCS-SER/;i=15010",
+                "dov:typeRef": "org.opcfoundation.UA.OPENSCS-SER.OPENSCSKeyValueDataType",
                 "required": [ "Key", "Value" ],
                 "properties": {
                   "Key": {
@@ -2622,12 +2619,12 @@
         },
         "output": {
           "type": "object",
-          "aov:typeRef": "nsu=http://opcfoundation.org/UA/OPENSCS-SER/;i=15112",
+          "dov:typeRef": "org.opcfoundation.UA.OutputArguments",
           "required": [ "ReturnStatus" ],
           "properties": {
             "ReturnStatus": {
               "title": "OPENSCSReturnEnum",
-              "aov:typeRef": "nsu=http://opcfoundation.org/UA/OPENSCS-SER/;i=15001",
+              "dov:typeRef": "org.opcfoundation.UA.OPENSCS-SER.OPENSCSReturnEnum",
               "type": "integer",
               "minimum": -2147483648,
               "maximum": 2147483647
@@ -2637,22 +2634,22 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/OPENSCS-SER/OPENSCS_SER_OPENSCSPoolManagerObjectType/action/SNtoAllocated",
+            "dov:topic": "opcua/OPENSCS-SER/OPENSCS_SER_OPENSCSPoolManagerObjectType/action/SNtoAllocated",
             "op": "invokeaction"
           }
         ]
       },
       "SNtoEncoded": {
-        "aov:namespace": "http://opcfoundation.org/UA/OPENSCS-SER/",
+        "dov:namespace": "http://opcfoundation.org/UA/OPENSCS-SER/",
         "input": {
           "type": "object",
-          "aov:typeRef": "nsu=http://opcfoundation.org/UA/OPENSCS-SER/;i=15039",
+          "dov:typeRef": "org.opcfoundation.UA.InputArguments",
           "required": [ "SNCollection", "PoolSelectionCriteria", "SNFormat" ],
           "properties": {
             "SNCollection": {
               "title": "OPENSCSCollectionDataType",
               "type": "object",
-              "aov:typeRef": "nsu=http://opcfoundation.org/UA/OPENSCS-SER/;i=15005",
+              "dov:typeRef": "org.opcfoundation.UA.OPENSCS-SER.OPENSCSCollectionDataType",
               "required": [ "ID", "Description", "State", "AssociatedPoolID", "SerialNumbers" ],
               "properties": {
                 "ID": {
@@ -2666,7 +2663,7 @@
                 "State": {
                   "title": "OPENSCSSerialNumberStateEnum",
                   "description": "State of the Serial Numbers in the Collection. ",
-                  "aov:typeRef": "nsu=http://opcfoundation.org/UA/OPENSCS-SER/;i=15143",
+                  "dov:typeRef": "org.opcfoundation.UA.OPENSCS-SER.OPENSCSSerialNumberStateEnum",
                   "type": "integer",
                   "minimum": -2147483648,
                   "maximum": 2147483647
@@ -2689,7 +2686,7 @@
               "items": {
                 "title": "OPENSCSKeyValueDataType",
                 "type": "object",
-                "aov:typeRef": "nsu=http://opcfoundation.org/UA/OPENSCS-SER/;i=15010",
+                "dov:typeRef": "org.opcfoundation.UA.OPENSCS-SER.OPENSCSKeyValueDataType",
                 "required": [ "Key", "Value" ],
                 "properties": {
                   "Key": {
@@ -2710,12 +2707,12 @@
         },
         "output": {
           "type": "object",
-          "aov:typeRef": "nsu=http://opcfoundation.org/UA/OPENSCS-SER/;i=15040",
+          "dov:typeRef": "org.opcfoundation.UA.OutputArguments",
           "required": [ "ReturnStatus" ],
           "properties": {
             "ReturnStatus": {
               "title": "OPENSCSReturnEnum",
-              "aov:typeRef": "nsu=http://opcfoundation.org/UA/OPENSCS-SER/;i=15001",
+              "dov:typeRef": "org.opcfoundation.UA.OPENSCS-SER.OPENSCSReturnEnum",
               "type": "integer",
               "minimum": -2147483648,
               "maximum": 2147483647
@@ -2725,22 +2722,22 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/OPENSCS-SER/OPENSCS_SER_OPENSCSPoolManagerObjectType/action/SNtoEncoded",
+            "dov:topic": "opcua/OPENSCS-SER/OPENSCS_SER_OPENSCSPoolManagerObjectType/action/SNtoEncoded",
             "op": "invokeaction"
           }
         ]
       },
       "SNtoUnallocated": {
-        "aov:namespace": "http://opcfoundation.org/UA/OPENSCS-SER/",
+        "dov:namespace": "http://opcfoundation.org/UA/OPENSCS-SER/",
         "input": {
           "type": "object",
-          "aov:typeRef": "nsu=http://opcfoundation.org/UA/OPENSCS-SER/;i=15045",
+          "dov:typeRef": "org.opcfoundation.UA.InputArguments",
           "required": [ "SNCollection", "PoolSelectionCriteria", "SNFormat" ],
           "properties": {
             "SNCollection": {
               "title": "OPENSCSCollectionDataType",
               "type": "object",
-              "aov:typeRef": "nsu=http://opcfoundation.org/UA/OPENSCS-SER/;i=15005",
+              "dov:typeRef": "org.opcfoundation.UA.OPENSCS-SER.OPENSCSCollectionDataType",
               "required": [ "ID", "Description", "State", "AssociatedPoolID", "SerialNumbers" ],
               "properties": {
                 "ID": {
@@ -2754,7 +2751,7 @@
                 "State": {
                   "title": "OPENSCSSerialNumberStateEnum",
                   "description": "State of the Serial Numbers in the Collection. ",
-                  "aov:typeRef": "nsu=http://opcfoundation.org/UA/OPENSCS-SER/;i=15143",
+                  "dov:typeRef": "org.opcfoundation.UA.OPENSCS-SER.OPENSCSSerialNumberStateEnum",
                   "type": "integer",
                   "minimum": -2147483648,
                   "maximum": 2147483647
@@ -2777,7 +2774,7 @@
               "items": {
                 "title": "OPENSCSKeyValueDataType",
                 "type": "object",
-                "aov:typeRef": "nsu=http://opcfoundation.org/UA/OPENSCS-SER/;i=15010",
+                "dov:typeRef": "org.opcfoundation.UA.OPENSCS-SER.OPENSCSKeyValueDataType",
                 "required": [ "Key", "Value" ],
                 "properties": {
                   "Key": {
@@ -2798,12 +2795,12 @@
         },
         "output": {
           "type": "object",
-          "aov:typeRef": "nsu=http://opcfoundation.org/UA/OPENSCS-SER/;i=15046",
+          "dov:typeRef": "org.opcfoundation.UA.OutputArguments",
           "required": [ "ReturnStatus" ],
           "properties": {
             "ReturnStatus": {
               "title": "OPENSCSReturnEnum",
-              "aov:typeRef": "nsu=http://opcfoundation.org/UA/OPENSCS-SER/;i=15001",
+              "dov:typeRef": "org.opcfoundation.UA.OPENSCS-SER.OPENSCSReturnEnum",
               "type": "integer",
               "minimum": -2147483648,
               "maximum": 2147483647
@@ -2813,7 +2810,7 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/OPENSCS-SER/OPENSCS_SER_OPENSCSPoolManagerObjectType/action/SNtoUnallocated",
+            "dov:topic": "opcua/OPENSCS-SER/OPENSCS_SER_OPENSCSPoolManagerObjectType/action/SNtoUnallocated",
             "op": "invokeaction"
           }
         ]
@@ -2821,7 +2818,7 @@
     },
     "properties": {
       "MaxSNPushable": {
-        "aov:namespace": "http://opcfoundation.org/UA/OPENSCS-SER/",
+        "dov:namespace": "http://opcfoundation.org/UA/OPENSCS-SER/",
         "type": "integer",
         "minimum": 0,
         "maximum": 4294967295,
@@ -2829,13 +2826,13 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/OPENSCS-SER/OPENSCS_SER_OPENSCSPoolManagerObjectType/property/MaxSNPushable/read",
+            "dov:topic": "opcua/OPENSCS-SER/OPENSCS_SER_OPENSCSPoolManagerObjectType/property/MaxSNPushable/read",
             "op": "readproperty"
           }
         ]
       },
       "MaxSNRequestable": {
-        "aov:namespace": "http://opcfoundation.org/UA/OPENSCS-SER/",
+        "dov:namespace": "http://opcfoundation.org/UA/OPENSCS-SER/",
         "type": "integer",
         "minimum": 0,
         "maximum": 4294967295,
@@ -2843,13 +2840,13 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/OPENSCS-SER/OPENSCS_SER_OPENSCSPoolManagerObjectType/property/MaxSNRequestable/read",
+            "dov:topic": "opcua/OPENSCS-SER/OPENSCS_SER_OPENSCSPoolManagerObjectType/property/MaxSNRequestable/read",
             "op": "readproperty"
           }
         ]
       },
       "MaxSNReturnable": {
-        "aov:namespace": "http://opcfoundation.org/UA/OPENSCS-SER/",
+        "dov:namespace": "http://opcfoundation.org/UA/OPENSCS-SER/",
         "type": "integer",
         "minimum": 0,
         "maximum": 4294967295,
@@ -2857,18 +2854,18 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/OPENSCS-SER/OPENSCS_SER_OPENSCSPoolManagerObjectType/property/MaxSNReturnable/read",
+            "dov:topic": "opcua/OPENSCS-SER/OPENSCS_SER_OPENSCSPoolManagerObjectType/property/MaxSNReturnable/read",
             "op": "readproperty"
           }
         ]
       },
       "PoolSelectionCriteria": {
-        "aov:namespace": "http://opcfoundation.org/UA/OPENSCS-SER/",
+        "dov:namespace": "http://opcfoundation.org/UA/OPENSCS-SER/",
         "type": "array",
         "items": {
           "title": "OPENSCSKeyValueDataType",
           "type": "object",
-          "aov:typeRef": "nsu=http://opcfoundation.org/UA/OPENSCS-SER/;i=15010",
+          "dov:typeRef": "org.opcfoundation.UA.OPENSCS-SER.OPENSCSKeyValueDataType",
           "required": [ "Key", "Value" ],
           "properties": {
             "Key": {
@@ -2885,13 +2882,13 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/OPENSCS-SER/OPENSCS_SER_OPENSCSPoolManagerObjectType/property/PoolSelectionCriteria/read",
+            "dov:topic": "opcua/OPENSCS-SER/OPENSCS_SER_OPENSCSPoolManagerObjectType/property/PoolSelectionCriteria/read",
             "op": "readproperty"
           }
         ]
       },
       "SNFormat": {
-        "aov:namespace": "http://opcfoundation.org/UA/OPENSCS-SER/",
+        "dov:namespace": "http://opcfoundation.org/UA/OPENSCS-SER/",
         "type": "array",
         "items": {
           "type": "string"
@@ -2900,7 +2897,7 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/OPENSCS-SER/OPENSCS_SER_OPENSCSPoolManagerObjectType/property/SNFormat/read",
+            "dov:topic": "opcua/OPENSCS-SER/OPENSCS_SER_OPENSCSPoolManagerObjectType/property/SNFormat/read",
             "op": "readproperty"
           }
         ]
@@ -2913,14 +2910,13 @@
     "@context": [
       "https://www.w3.org/2022/wot/td/v1.1",
       {
-        "dtv": "http://azure.com/DigitalTwins/dtmi#",
-        "aov": "http://azure.com/IoT/operations/tm#"
+        "dov": "http://azure.com/DigitalOperations/vocab#"
       }
     ],
     "@type": "tm:ThingModel",
     "title": "OPENSCS_SER_OPENSCSSIDClassObjectType",
-    "aov:typeRef": "nsu=http://opcfoundation.org/UA/OPENSCS-SER/;i=15102",
-    "aov:isComposite": true,
+    "dov:typeRef": "org.opcfoundation.UA.OPENSCS-SER.OPENSCSSIDClassObjectType",
+    "dov:isComposite": true,
     "links": [
       {
         "rel": "tm:extends",
@@ -2933,12 +2929,12 @@
     "forms": [
       {
         "contentType": "application/json",
-        "dtv:topic": "opcua/OPENSCS-SER/OPENSCS_SER_OPENSCSSIDClassObjectType/properties/write",
+        "dov:topic": "opcua/OPENSCS-SER/OPENSCS_SER_OPENSCSSIDClassObjectType/properties/write",
         "op": "writemultipleproperties"
       },
       {
         "contentType": "application/json",
-        "dtv:topic": "opcua/OPENSCS-SER/OPENSCS_SER_OPENSCSSIDClassObjectType/properties/read",
+        "dov:topic": "opcua/OPENSCS-SER/OPENSCS_SER_OPENSCSSIDClassObjectType/properties/read",
         "op": "readallproperties"
       }
     ],
@@ -2946,72 +2942,72 @@
     },
     "properties": {
       "AllowedCharacterSet": {
-        "aov:namespace": "http://opcfoundation.org/UA/OPENSCS-SER/",
+        "dov:namespace": "http://opcfoundation.org/UA/OPENSCS-SER/",
         "type": "string",
         "readOnly": true,
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/OPENSCS-SER/OPENSCS_SER_OPENSCSSIDClassObjectType/property/AllowedCharacterSet/read",
+            "dov:topic": "opcua/OPENSCS-SER/OPENSCS_SER_OPENSCSSIDClassObjectType/property/AllowedCharacterSet/read",
             "op": "readproperty"
           }
         ]
       },
       "IntendedUse": {
-        "aov:namespace": "http://opcfoundation.org/UA/OPENSCS-SER/",
+        "dov:namespace": "http://opcfoundation.org/UA/OPENSCS-SER/",
         "type": "string",
         "readOnly": true,
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/OPENSCS-SER/OPENSCS_SER_OPENSCSSIDClassObjectType/property/IntendedUse/read",
+            "dov:topic": "opcua/OPENSCS-SER/OPENSCS_SER_OPENSCSSIDClassObjectType/property/IntendedUse/read",
             "op": "readproperty"
           }
         ]
       },
       "SIDClassDescription": {
-        "aov:namespace": "http://opcfoundation.org/UA/OPENSCS-SER/",
+        "dov:namespace": "http://opcfoundation.org/UA/OPENSCS-SER/",
         "type": "string",
         "readOnly": true,
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/OPENSCS-SER/OPENSCS_SER_OPENSCSSIDClassObjectType/property/SIDClassDescription/read",
+            "dov:topic": "opcua/OPENSCS-SER/OPENSCS_SER_OPENSCSSIDClassObjectType/property/SIDClassDescription/read",
             "op": "readproperty"
           }
         ]
       },
       "SIDClassID": {
-        "aov:namespace": "http://opcfoundation.org/UA/OPENSCS-SER/",
+        "dov:namespace": "http://opcfoundation.org/UA/OPENSCS-SER/",
         "type": "string",
         "readOnly": true,
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/OPENSCS-SER/OPENSCS_SER_OPENSCSSIDClassObjectType/property/SIDClassID/read",
+            "dov:topic": "opcua/OPENSCS-SER/OPENSCS_SER_OPENSCSSIDClassObjectType/property/SIDClassID/read",
             "op": "readproperty"
           }
         ]
       },
       "SIDClassOwner": {
-        "aov:namespace": "http://opcfoundation.org/UA/OPENSCS-SER/",
+        "dov:namespace": "http://opcfoundation.org/UA/OPENSCS-SER/",
         "type": "string",
         "readOnly": true,
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/OPENSCS-SER/OPENSCS_SER_OPENSCSSIDClassObjectType/property/SIDClassOwner/read",
+            "dov:topic": "opcua/OPENSCS-SER/OPENSCS_SER_OPENSCSSIDClassObjectType/property/SIDClassOwner/read",
             "op": "readproperty"
           }
         ]
       },
       "SIDClassProperty": {
-        "aov:namespace": "http://opcfoundation.org/UA/OPENSCS-SER/",
+        "dov:namespace": "http://opcfoundation.org/UA/OPENSCS-SER/",
         "type": "array",
         "items": {
           "title": "OPENSCSSIDClassPropertyDataType",
           "type": "object",
-          "aov:typeRef": "nsu=http://opcfoundation.org/UA/OPENSCS-SER/;i=15009",
+          "dov:typeRef": "org.opcfoundation.UA.OPENSCS-SER.OPENSCSSIDClassPropertyDataType",
           "required": [ "PropertyID", "PropertyDescription", "PropertyValue", "LabelProperty" ],
           "properties": {
             "PropertyID": {
@@ -3032,7 +3028,7 @@
               "items": {
                 "title": "OPENSCSLabelPropertyDataType",
                 "type": "object",
-                "aov:typeRef": "nsu=http://opcfoundation.org/UA/OPENSCS-SER/;i=15007",
+                "dov:typeRef": "org.opcfoundation.UA.OPENSCS-SER.OPENSCSLabelPropertyDataType",
                 "required": [ "PropertyID", "PropertyDescription", "PropertyValue" ],
                 "properties": {
                   "PropertyID": {
@@ -3056,24 +3052,24 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/OPENSCS-SER/OPENSCS_SER_OPENSCSSIDClassObjectType/property/SIDClassProperty/write",
+            "dov:topic": "opcua/OPENSCS-SER/OPENSCS_SER_OPENSCSSIDClassObjectType/property/SIDClassProperty/write",
             "op": "writeproperty"
           },
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/OPENSCS-SER/OPENSCS_SER_OPENSCSSIDClassObjectType/property/SIDClassProperty/read",
+            "dov:topic": "opcua/OPENSCS-SER/OPENSCS_SER_OPENSCSSIDClassObjectType/property/SIDClassProperty/read",
             "op": "readproperty"
           }
         ]
       },
       "SyntaxSpecification": {
-        "aov:namespace": "http://opcfoundation.org/UA/OPENSCS-SER/",
+        "dov:namespace": "http://opcfoundation.org/UA/OPENSCS-SER/",
         "type": "string",
         "readOnly": true,
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/OPENSCS-SER/OPENSCS_SER_OPENSCSSIDClassObjectType/property/SyntaxSpecification/read",
+            "dov:topic": "opcua/OPENSCS-SER/OPENSCS_SER_OPENSCSSIDClassObjectType/property/SyntaxSpecification/read",
             "op": "readproperty"
           }
         ]
@@ -3086,13 +3082,12 @@
     "@context": [
       "https://www.w3.org/2022/wot/td/v1.1",
       {
-        "dtv": "http://azure.com/DigitalTwins/dtmi#",
-        "aov": "http://azure.com/IoT/operations/tm#"
+        "dov": "http://azure.com/DigitalOperations/vocab#"
       }
     ],
     "@type": "tm:ThingModel",
     "title": "OpcUaCore_BaseObjectType",
-    "aov:typeRef": "nsu=http://opcfoundation.org/UA/;i=58",
+    "dov:typeRef": "org.opcfoundation.UA.BaseObjectType",
     "links": [
     ],
     "schemaDefinitions": {
@@ -3108,14 +3103,13 @@
     "@context": [
       "https://www.w3.org/2022/wot/td/v1.1",
       {
-        "dtv": "http://azure.com/DigitalTwins/dtmi#",
-        "aov": "http://azure.com/IoT/operations/tm#"
+        "dov": "http://azure.com/DigitalOperations/vocab#"
       }
     ],
     "@type": "tm:ThingModel",
     "title": "OpcUaCore_TemporaryFileTransferType",
-    "aov:typeRef": "nsu=http://opcfoundation.org/UA/;i=15744",
-    "aov:isComposite": true,
+    "dov:typeRef": "org.opcfoundation.UA.TemporaryFileTransferType",
+    "dov:isComposite": true,
     "links": [
       {
         "rel": "tm:extends",
@@ -3123,8 +3117,8 @@
         "type": "application/tm+json"
       },
       {
-        "rel": "aov:component",
-        "aov:refName": "TransferState_Placeholder",
+        "rel": "dov:component",
+        "dov:refName": "TransferState_Placeholder",
         "href": "#title=OpcUaCore_FileTransferStateMachineType",
         "type": "application/tm+json"
       }
@@ -3134,7 +3128,7 @@
     "forms": [
       {
         "contentType": "application/json",
-        "dtv:topic": "opcua/OpcUaCore/OpcUaCore_TemporaryFileTransferType/properties/read",
+        "dov:topic": "opcua/OpcUaCore/OpcUaCore_TemporaryFileTransferType/properties/read",
         "op": "readallproperties"
       }
     ],
@@ -3142,7 +3136,7 @@
       "CloseAndCommit": {
         "input": {
           "type": "object",
-          "aov:typeRef": "nsu=http://opcfoundation.org/UA/;i=15752",
+          "dov:typeRef": "org.opcfoundation.UA.InputArguments",
           "required": [ "FileHandle" ],
           "properties": {
             "FileHandle": {
@@ -3154,7 +3148,7 @@
         },
         "output": {
           "type": "object",
-          "aov:typeRef": "nsu=http://opcfoundation.org/UA/;i=15753",
+          "dov:typeRef": "org.opcfoundation.UA.OutputArguments",
           "required": [ "CompletionStateMachine" ],
           "properties": {
             "CompletionStateMachine": {
@@ -3165,7 +3159,7 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/OpcUaCore/OpcUaCore_TemporaryFileTransferType/action/CloseAndCommit",
+            "dov:topic": "opcua/OpcUaCore/OpcUaCore_TemporaryFileTransferType/action/CloseAndCommit",
             "op": "invokeaction"
           }
         ]
@@ -3173,7 +3167,7 @@
       "GenerateFileForRead": {
         "input": {
           "type": "object",
-          "aov:typeRef": "nsu=http://opcfoundation.org/UA/;i=15747",
+          "dov:typeRef": "org.opcfoundation.UA.InputArguments",
           "required": [ "GenerateOptions" ],
           "properties": {
             "GenerateOptions": {
@@ -3183,7 +3177,7 @@
         },
         "output": {
           "type": "object",
-          "aov:typeRef": "nsu=http://opcfoundation.org/UA/;i=15748",
+          "dov:typeRef": "org.opcfoundation.UA.OutputArguments",
           "required": [ "FileNodeId", "FileHandle", "CompletionStateMachine" ],
           "properties": {
             "FileNodeId": {
@@ -3202,7 +3196,7 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/OpcUaCore/OpcUaCore_TemporaryFileTransferType/action/GenerateFileForRead",
+            "dov:topic": "opcua/OpcUaCore/OpcUaCore_TemporaryFileTransferType/action/GenerateFileForRead",
             "op": "invokeaction"
           }
         ]
@@ -3210,7 +3204,7 @@
       "GenerateFileForWrite": {
         "input": {
           "type": "object",
-          "aov:typeRef": "nsu=http://opcfoundation.org/UA/;i=16359",
+          "dov:typeRef": "org.opcfoundation.UA.InputArguments",
           "required": [ "GenerateOptions" ],
           "properties": {
             "GenerateOptions": {
@@ -3220,7 +3214,7 @@
         },
         "output": {
           "type": "object",
-          "aov:typeRef": "nsu=http://opcfoundation.org/UA/;i=15750",
+          "dov:typeRef": "org.opcfoundation.UA.OutputArguments",
           "required": [ "FileNodeId", "FileHandle" ],
           "properties": {
             "FileNodeId": {
@@ -3236,7 +3230,7 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/OpcUaCore/OpcUaCore_TemporaryFileTransferType/action/GenerateFileForWrite",
+            "dov:topic": "opcua/OpcUaCore/OpcUaCore_TemporaryFileTransferType/action/GenerateFileForWrite",
             "op": "invokeaction"
           }
         ]
@@ -3250,7 +3244,7 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/OpcUaCore/OpcUaCore_TemporaryFileTransferType/property/ClientProcessingTimeout/read",
+            "dov:topic": "opcua/OpcUaCore/OpcUaCore_TemporaryFileTransferType/property/ClientProcessingTimeout/read",
             "op": "readproperty"
           }
         ]
@@ -3263,13 +3257,12 @@
     "@context": [
       "https://www.w3.org/2022/wot/td/v1.1",
       {
-        "dtv": "http://azure.com/DigitalTwins/dtmi#",
-        "aov": "http://azure.com/IoT/operations/tm#"
+        "dov": "http://azure.com/DigitalOperations/vocab#"
       }
     ],
     "@type": "tm:ThingModel",
     "title": "OpcUaCore_FileTransferStateMachineType",
-    "aov:typeRef": "nsu=http://opcfoundation.org/UA/;i=15803",
+    "dov:typeRef": "org.opcfoundation.UA.FileTransferStateMachineType",
     "links": [
       {
         "rel": "tm:extends",
@@ -3277,86 +3270,86 @@
         "type": "application/tm+json"
       },
       {
-        "rel": "aov:reference",
-        "aov:refName": "Idle",
+        "rel": "dov:reference",
+        "dov:refName": "Idle",
         "href": "#title=OpcUaCore_InitialStateType",
         "type": "application/tm+json"
       },
       {
-        "rel": "aov:reference",
-        "aov:refName": "ReadPrepare",
+        "rel": "dov:reference",
+        "dov:refName": "ReadPrepare",
         "href": "#title=OpcUaCore_StateType",
         "type": "application/tm+json"
       },
       {
-        "rel": "aov:reference",
-        "aov:refName": "ReadTransfer",
+        "rel": "dov:reference",
+        "dov:refName": "ReadTransfer",
         "href": "#title=OpcUaCore_StateType",
         "type": "application/tm+json"
       },
       {
-        "rel": "aov:reference",
-        "aov:refName": "ApplyWrite",
+        "rel": "dov:reference",
+        "dov:refName": "ApplyWrite",
         "href": "#title=OpcUaCore_StateType",
         "type": "application/tm+json"
       },
       {
-        "rel": "aov:reference",
-        "aov:refName": "Error",
+        "rel": "dov:reference",
+        "dov:refName": "Error",
         "href": "#title=OpcUaCore_StateType",
         "type": "application/tm+json"
       },
       {
-        "rel": "aov:reference",
-        "aov:refName": "IdleToReadPrepare",
+        "rel": "dov:reference",
+        "dov:refName": "IdleToReadPrepare",
         "href": "#title=OpcUaCore_TransitionType",
         "type": "application/tm+json"
       },
       {
-        "rel": "aov:reference",
-        "aov:refName": "ReadPrepareToReadTransfer",
+        "rel": "dov:reference",
+        "dov:refName": "ReadPrepareToReadTransfer",
         "href": "#title=OpcUaCore_TransitionType",
         "type": "application/tm+json"
       },
       {
-        "rel": "aov:reference",
-        "aov:refName": "ReadTransferToIdle",
+        "rel": "dov:reference",
+        "dov:refName": "ReadTransferToIdle",
         "href": "#title=OpcUaCore_TransitionType",
         "type": "application/tm+json"
       },
       {
-        "rel": "aov:reference",
-        "aov:refName": "IdleToApplyWrite",
+        "rel": "dov:reference",
+        "dov:refName": "IdleToApplyWrite",
         "href": "#title=OpcUaCore_TransitionType",
         "type": "application/tm+json"
       },
       {
-        "rel": "aov:reference",
-        "aov:refName": "ApplyWriteToIdle",
+        "rel": "dov:reference",
+        "dov:refName": "ApplyWriteToIdle",
         "href": "#title=OpcUaCore_TransitionType",
         "type": "application/tm+json"
       },
       {
-        "rel": "aov:reference",
-        "aov:refName": "ReadPrepareToError",
+        "rel": "dov:reference",
+        "dov:refName": "ReadPrepareToError",
         "href": "#title=OpcUaCore_TransitionType",
         "type": "application/tm+json"
       },
       {
-        "rel": "aov:reference",
-        "aov:refName": "ReadTransferToError",
+        "rel": "dov:reference",
+        "dov:refName": "ReadTransferToError",
         "href": "#title=OpcUaCore_TransitionType",
         "type": "application/tm+json"
       },
       {
-        "rel": "aov:reference",
-        "aov:refName": "ApplyWriteToError",
+        "rel": "dov:reference",
+        "dov:refName": "ApplyWriteToError",
         "href": "#title=OpcUaCore_TransitionType",
         "type": "application/tm+json"
       },
       {
-        "rel": "aov:reference",
-        "aov:refName": "ErrorToIdle",
+        "rel": "dov:reference",
+        "dov:refName": "ErrorToIdle",
         "href": "#title=OpcUaCore_TransitionType",
         "type": "application/tm+json"
       }
@@ -3368,7 +3361,7 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/OpcUaCore/OpcUaCore_FileTransferStateMachineType/action/Reset",
+            "dov:topic": "opcua/OpcUaCore/OpcUaCore_FileTransferStateMachineType/action/Reset",
             "op": "invokeaction"
           }
         ]
@@ -3383,13 +3376,12 @@
     "@context": [
       "https://www.w3.org/2022/wot/td/v1.1",
       {
-        "dtv": "http://azure.com/DigitalTwins/dtmi#",
-        "aov": "http://azure.com/IoT/operations/tm#"
+        "dov": "http://azure.com/DigitalOperations/vocab#"
       }
     ],
     "@type": "tm:ThingModel",
     "title": "OpcUaCore_FiniteStateMachineType",
-    "aov:typeRef": "nsu=http://opcfoundation.org/UA/;i=2771",
+    "dov:typeRef": "org.opcfoundation.UA.FiniteStateMachineType",
     "links": [
       {
         "rel": "tm:extends",
@@ -3402,12 +3394,12 @@
     "forms": [
       {
         "contentType": "application/json",
-        "dtv:topic": "opcua/OpcUaCore/OpcUaCore_FiniteStateMachineType/events/{senderId}",
+        "dov:topic": "opcua/OpcUaCore/OpcUaCore_FiniteStateMachineType/events/{senderId}",
         "op": "subscribeallevents"
       },
       {
         "contentType": "application/json",
-        "dtv:topic": "opcua/OpcUaCore/OpcUaCore_FiniteStateMachineType/properties/read",
+        "dov:topic": "opcua/OpcUaCore/OpcUaCore_FiniteStateMachineType/properties/read",
         "op": "readallproperties"
       }
     ],
@@ -3423,7 +3415,7 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/OpcUaCore/OpcUaCore_FiniteStateMachineType/property/AvailableStates/read",
+            "dov:topic": "opcua/OpcUaCore/OpcUaCore_FiniteStateMachineType/property/AvailableStates/read",
             "op": "readproperty"
           }
         ]
@@ -3437,7 +3429,7 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/OpcUaCore/OpcUaCore_FiniteStateMachineType/property/AvailableTransitions/read",
+            "dov:topic": "opcua/OpcUaCore/OpcUaCore_FiniteStateMachineType/property/AvailableTransitions/read",
             "op": "readproperty"
           }
         ]
@@ -3448,7 +3440,7 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/OpcUaCore/OpcUaCore_FiniteStateMachineType/property/CurrentState/read",
+            "dov:topic": "opcua/OpcUaCore/OpcUaCore_FiniteStateMachineType/property/CurrentState/read",
             "op": "readproperty"
           }
         ]
@@ -3459,7 +3451,7 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/OpcUaCore/OpcUaCore_FiniteStateMachineType/property/LastTransition/read",
+            "dov:topic": "opcua/OpcUaCore/OpcUaCore_FiniteStateMachineType/property/LastTransition/read",
             "op": "readproperty"
           }
         ]
@@ -3476,7 +3468,7 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/OpcUaCore/OpcUaCore_FiniteStateMachineType/event/AvailableStates/{senderId}",
+            "dov:topic": "opcua/OpcUaCore/OpcUaCore_FiniteStateMachineType/event/AvailableStates/{senderId}",
             "op": "subscribeevent"
           }
         ]
@@ -3491,7 +3483,7 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/OpcUaCore/OpcUaCore_FiniteStateMachineType/event/AvailableTransitions/{senderId}",
+            "dov:topic": "opcua/OpcUaCore/OpcUaCore_FiniteStateMachineType/event/AvailableTransitions/{senderId}",
             "op": "subscribeevent"
           }
         ]
@@ -3503,7 +3495,7 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/OpcUaCore/OpcUaCore_FiniteStateMachineType/event/CurrentState/{senderId}",
+            "dov:topic": "opcua/OpcUaCore/OpcUaCore_FiniteStateMachineType/event/CurrentState/{senderId}",
             "op": "subscribeevent"
           }
         ]
@@ -3515,7 +3507,7 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/OpcUaCore/OpcUaCore_FiniteStateMachineType/event/LastTransition/{senderId}",
+            "dov:topic": "opcua/OpcUaCore/OpcUaCore_FiniteStateMachineType/event/LastTransition/{senderId}",
             "op": "subscribeevent"
           }
         ]
@@ -3526,14 +3518,13 @@
     "@context": [
       "https://www.w3.org/2022/wot/td/v1.1",
       {
-        "dtv": "http://azure.com/DigitalTwins/dtmi#",
-        "aov": "http://azure.com/IoT/operations/tm#"
+        "dov": "http://azure.com/DigitalOperations/vocab#"
       }
     ],
     "@type": "tm:ThingModel",
     "title": "OpcUaCore_StateMachineType",
-    "aov:typeRef": "nsu=http://opcfoundation.org/UA/;i=2299",
-    "aov:isComposite": true,
+    "dov:typeRef": "org.opcfoundation.UA.StateMachineType",
+    "dov:isComposite": true,
     "links": [
       {
         "rel": "tm:extends",
@@ -3546,12 +3537,12 @@
     "forms": [
       {
         "contentType": "application/json",
-        "dtv:topic": "opcua/OpcUaCore/OpcUaCore_StateMachineType/events/{senderId}",
+        "dov:topic": "opcua/OpcUaCore/OpcUaCore_StateMachineType/events/{senderId}",
         "op": "subscribeallevents"
       },
       {
         "contentType": "application/json",
-        "dtv:topic": "opcua/OpcUaCore/OpcUaCore_StateMachineType/properties/read",
+        "dov:topic": "opcua/OpcUaCore/OpcUaCore_StateMachineType/properties/read",
         "op": "readallproperties"
       }
     ],
@@ -3564,7 +3555,7 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/OpcUaCore/OpcUaCore_StateMachineType/property/CurrentState/read",
+            "dov:topic": "opcua/OpcUaCore/OpcUaCore_StateMachineType/property/CurrentState/read",
             "op": "readproperty"
           }
         ]
@@ -3575,7 +3566,7 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/OpcUaCore/OpcUaCore_StateMachineType/property/LastTransition/read",
+            "dov:topic": "opcua/OpcUaCore/OpcUaCore_StateMachineType/property/LastTransition/read",
             "op": "readproperty"
           }
         ]
@@ -3589,7 +3580,7 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/OpcUaCore/OpcUaCore_StateMachineType/event/CurrentState/{senderId}",
+            "dov:topic": "opcua/OpcUaCore/OpcUaCore_StateMachineType/event/CurrentState/{senderId}",
             "op": "subscribeevent"
           }
         ]
@@ -3601,7 +3592,7 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/OpcUaCore/OpcUaCore_StateMachineType/event/LastTransition/{senderId}",
+            "dov:topic": "opcua/OpcUaCore/OpcUaCore_StateMachineType/event/LastTransition/{senderId}",
             "op": "subscribeevent"
           }
         ]
@@ -3612,13 +3603,12 @@
     "@context": [
       "https://www.w3.org/2022/wot/td/v1.1",
       {
-        "dtv": "http://azure.com/DigitalTwins/dtmi#",
-        "aov": "http://azure.com/IoT/operations/tm#"
+        "dov": "http://azure.com/DigitalOperations/vocab#"
       }
     ],
     "@type": "tm:ThingModel",
     "title": "OpcUaCore_InitialStateType",
-    "aov:typeRef": "nsu=http://opcfoundation.org/UA/;i=2309",
+    "dov:typeRef": "org.opcfoundation.UA.InitialStateType",
     "links": [
       {
         "rel": "tm:extends",
@@ -3639,13 +3629,12 @@
     "@context": [
       "https://www.w3.org/2022/wot/td/v1.1",
       {
-        "dtv": "http://azure.com/DigitalTwins/dtmi#",
-        "aov": "http://azure.com/IoT/operations/tm#"
+        "dov": "http://azure.com/DigitalOperations/vocab#"
       }
     ],
     "@type": "tm:ThingModel",
     "title": "OpcUaCore_StateType",
-    "aov:typeRef": "nsu=http://opcfoundation.org/UA/;i=2307",
+    "dov:typeRef": "org.opcfoundation.UA.StateType",
     "links": [
       {
         "rel": "tm:extends",
@@ -3658,7 +3647,7 @@
     "forms": [
       {
         "contentType": "application/json",
-        "dtv:topic": "opcua/OpcUaCore/OpcUaCore_StateType/properties/read",
+        "dov:topic": "opcua/OpcUaCore/OpcUaCore_StateType/properties/read",
         "op": "readallproperties"
       }
     ],
@@ -3673,7 +3662,7 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/OpcUaCore/OpcUaCore_StateType/property/StateNumber/read",
+            "dov:topic": "opcua/OpcUaCore/OpcUaCore_StateType/property/StateNumber/read",
             "op": "readproperty"
           }
         ]
@@ -3686,13 +3675,12 @@
     "@context": [
       "https://www.w3.org/2022/wot/td/v1.1",
       {
-        "dtv": "http://azure.com/DigitalTwins/dtmi#",
-        "aov": "http://azure.com/IoT/operations/tm#"
+        "dov": "http://azure.com/DigitalOperations/vocab#"
       }
     ],
     "@type": "tm:ThingModel",
     "title": "OpcUaCore_TransitionType",
-    "aov:typeRef": "nsu=http://opcfoundation.org/UA/;i=2310",
+    "dov:typeRef": "org.opcfoundation.UA.TransitionType",
     "links": [
       {
         "rel": "tm:extends",
@@ -3705,7 +3693,7 @@
     "forms": [
       {
         "contentType": "application/json",
-        "dtv:topic": "opcua/OpcUaCore/OpcUaCore_TransitionType/properties/read",
+        "dov:topic": "opcua/OpcUaCore/OpcUaCore_TransitionType/properties/read",
         "op": "readallproperties"
       }
     ],
@@ -3720,7 +3708,7 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/OpcUaCore/OpcUaCore_TransitionType/property/TransitionNumber/read",
+            "dov:topic": "opcua/OpcUaCore/OpcUaCore_TransitionType/property/TransitionNumber/read",
             "op": "readproperty"
           }
         ]

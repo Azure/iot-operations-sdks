@@ -8,8 +8,8 @@
     {
       "condition": "PropertyUnsupportedValue",
       "filename": "LinkCapabilityTypeJsonNotTm.TM.json",
-      "line": 13,
-      "cfLine": 11,
+      "line": 12,
+      "cfLine": 10,
       "crossRef": ""
     }
   ]
