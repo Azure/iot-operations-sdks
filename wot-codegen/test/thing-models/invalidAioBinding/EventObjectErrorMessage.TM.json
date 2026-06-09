@@ -1,7 +1,7 @@
 {
   "@context": [
     "https://www.w3.org/2022/wot/td/v1.1",
-    { "dtv": "http://azure.com/DigitalTwins/dtmi#" }
+    { "dov": "http://azure.com/DigitalOperations/vocab#" }
   ],
   "@type": "tm:ThingModel",
   "title": "Noop",
@@ -18,12 +18,12 @@
             "type": "string"
           }
         },
-        "dtv:errorMessage": "val"
+        "dov:errorMessage": "val"
       },
       "forms": [
         {
           "contentType": "application/json",
-          "dtv:topic": "sample/alert/TestThing",
+          "dov:topic": "sample/alert/TestThing",
           "op": "subscribeevent"
         }
       ]

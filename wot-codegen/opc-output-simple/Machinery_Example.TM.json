@@ -3,13 +3,12 @@
     "@context": [
       "https://www.w3.org/2022/wot/td/v1.1",
       {
-        "dtv": "http://azure.com/DigitalTwins/dtmi#",
-        "aov": "http://azure.com/IoT/operations/tm#"
+        "dov": "http://azure.com/DigitalOperations/vocab#"
       }
     ],
     "@type": "tm:ThingModel",
     "title": "Machinery_Example_ExampleComponentType",
-    "aov:typeRef": "nsu=http://opcfoundation.org/UA/Machinery_Example/;i=1009",
+    "dov:typeRef": "org.opcfoundation.UA.Machinery_Example.ExampleComponentType",
     "links": [
       {
         "rel": "tm:extends",
@@ -17,8 +16,8 @@
         "type": "application/tm+json"
       },
       {
-        "rel": "aov:capability",
-        "aov:refName": "Identification",
+        "rel": "dov:capability",
+        "dov:refName": "Identification",
         "href": "./Machinery.TM.json#title=Machinery_MachineryComponentIdentificationType",
         "type": "application/tm+json"
       }
@@ -36,13 +35,12 @@
     "@context": [
       "https://www.w3.org/2022/wot/td/v1.1",
       {
-        "dtv": "http://azure.com/DigitalTwins/dtmi#",
-        "aov": "http://azure.com/IoT/operations/tm#"
+        "dov": "http://azure.com/DigitalOperations/vocab#"
       }
     ],
     "@type": "tm:ThingModel",
     "title": "Machinery_Example_ExampleMachineType",
-    "aov:typeRef": "nsu=http://opcfoundation.org/UA/Machinery_Example/;i=1002",
+    "dov:typeRef": "org.opcfoundation.UA.Machinery_Example.ExampleMachineType",
     "links": [
       {
         "rel": "tm:extends",
@@ -50,8 +48,8 @@
         "type": "application/tm+json"
       },
       {
-        "rel": "aov:component",
-        "aov:refName": "MachineryBuildingBlocks",
+        "rel": "dov:component",
+        "dov:refName": "MachineryBuildingBlocks",
         "href": "./OpcUaCore.TM.json#title=OpcUaCore_FolderType",
         "type": "application/tm+json"
       }

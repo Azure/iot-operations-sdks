@@ -3,13 +3,12 @@
     "@context": [
       "https://www.w3.org/2022/wot/td/v1.1",
       {
-        "dtv": "http://azure.com/DigitalTwins/dtmi#",
-        "aov": "http://azure.com/IoT/operations/tm#"
+        "dov": "http://azure.com/DigitalOperations/vocab#"
       }
     ],
     "@type": "tm:ThingModel",
     "title": "CranesHoists_BrakeType",
-    "aov:typeRef": "nsu=http://opcfoundation.org/UA/CranesHoists/;i=1556",
+    "dov:typeRef": "org.opcfoundation.UA.CranesHoists.BrakeType",
     "links": [
       {
         "rel": "tm:extends",
@@ -30,14 +29,13 @@
     "@context": [
       "https://www.w3.org/2022/wot/td/v1.1",
       {
-        "dtv": "http://azure.com/DigitalTwins/dtmi#",
-        "aov": "http://azure.com/IoT/operations/tm#"
+        "dov": "http://azure.com/DigitalOperations/vocab#"
       }
     ],
     "@type": "tm:ThingModel",
     "title": "CranesHoists_CraneAxisType",
-    "aov:typeRef": "nsu=http://opcfoundation.org/UA/CranesHoists/;i=1369",
-    "aov:isComposite": true,
+    "dov:typeRef": "org.opcfoundation.UA.CranesHoists.CraneAxisType",
+    "dov:isComposite": true,
     "links": [
       {
         "rel": "tm:extends",
@@ -58,13 +56,12 @@
     "@context": [
       "https://www.w3.org/2022/wot/td/v1.1",
       {
-        "dtv": "http://azure.com/DigitalTwins/dtmi#",
-        "aov": "http://azure.com/IoT/operations/tm#"
+        "dov": "http://azure.com/DigitalOperations/vocab#"
       }
     ],
     "@type": "tm:ThingModel",
     "title": "CranesHoists_CraneMotionDeviceType",
-    "aov:typeRef": "nsu=http://opcfoundation.org/UA/CranesHoists/;i=1392",
+    "dov:typeRef": "org.opcfoundation.UA.CranesHoists.CraneMotionDeviceType",
     "links": [
       {
         "rel": "tm:extends",
@@ -85,14 +82,13 @@
     "@context": [
       "https://www.w3.org/2022/wot/td/v1.1",
       {
-        "dtv": "http://azure.com/DigitalTwins/dtmi#",
-        "aov": "http://azure.com/IoT/operations/tm#"
+        "dov": "http://azure.com/DigitalOperations/vocab#"
       }
     ],
     "@type": "tm:ThingModel",
     "title": "CranesHoists_CraneMotionDeviceSystemType",
-    "aov:typeRef": "nsu=http://opcfoundation.org/UA/CranesHoists/;i=2112",
-    "aov:isComposite": true,
+    "dov:typeRef": "org.opcfoundation.UA.CranesHoists.CraneMotionDeviceSystemType",
+    "dov:isComposite": true,
     "links": [
       {
         "rel": "tm:extends",
@@ -113,13 +109,12 @@
     "@context": [
       "https://www.w3.org/2022/wot/td/v1.1",
       {
-        "dtv": "http://azure.com/DigitalTwins/dtmi#",
-        "aov": "http://azure.com/IoT/operations/tm#"
+        "dov": "http://azure.com/DigitalOperations/vocab#"
       }
     ],
     "@type": "tm:ThingModel",
     "title": "CranesHoists_CraneMotorType",
-    "aov:typeRef": "nsu=http://opcfoundation.org/UA/CranesHoists/;i=1262",
+    "dov:typeRef": "org.opcfoundation.UA.CranesHoists.CraneMotorType",
     "links": [
       {
         "rel": "tm:extends",
@@ -127,9 +122,9 @@
         "type": "application/tm+json"
       },
       {
-        "rel": "aov:typedReference",
-        "aov:refName": "GearIdentifier",
-        "aov:refType": "IsConnectedTo",
+        "rel": "dov:typedReference",
+        "dov:refName": "GearIdentifier",
+        "dov:refType": "IsConnectedTo",
         "href": "./Robotics.TM.json#title=Robotics_GearType",
         "type": "application/tm+json"
       }
@@ -147,13 +142,12 @@
     "@context": [
       "https://www.w3.org/2022/wot/td/v1.1",
       {
-        "dtv": "http://azure.com/DigitalTwins/dtmi#",
-        "aov": "http://azure.com/IoT/operations/tm#"
+        "dov": "http://azure.com/DigitalOperations/vocab#"
       }
     ],
     "@type": "tm:ThingModel",
     "title": "CranesHoists_ProtectiveFunctionType",
-    "aov:typeRef": "nsu=http://opcfoundation.org/UA/CranesHoists/;i=1462",
+    "dov:typeRef": "org.opcfoundation.UA.CranesHoists.ProtectiveFunctionType",
     "links": [
       {
         "rel": "tm:extends",

@@ -1,15 +1,14 @@
 {
   "@context": [
     "https://www.w3.org/2022/wot/td/v1.1",
-    { "dtv": "http://azure.com/DigitalTwins/dtmi#" },
-    { "aov": "http://azure.com/IoT/operations/tm#" }
+    { "dov": "http://azure.com/DigitalOperations/vocab#" }
   ],
   "@type": "tm:ThingModel",
   "title": "Echo",
   "actions": {
     "echo": {
       "input": {
-        "aov:typeRef": "SomeOtherItem",
+        "dov:typeRef": "SomeOtherItem",
         "type": "object",
         "properties": {
           "value": {
@@ -28,7 +27,7 @@
       "forms": [
         {
           "contentType": "application/json",
-          "dtv:topic": "sample/poke/{executorId}",
+          "dov:topic": "sample/poke/{executorId}",
           "op": "invokeaction"
         }
       ]

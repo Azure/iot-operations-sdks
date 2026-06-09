@@ -15,6 +15,7 @@ namespace Azure.Iot.Operations.EnvoyGenerator
 
     internal class EnvoyTransformFactory
     {
+        private readonly TargetSdk targetSdk;
         private readonly TargetLanguage targetLanguage;
         private readonly MultiCodeName genNamespace;
         private readonly MultiCodeName commonNs;
@@ -23,6 +24,7 @@ namespace Azure.Iot.Operations.EnvoyGenerator
         private readonly bool defaultImpl;
 
         internal EnvoyTransformFactory(
+            TargetSdk targetSdk,
             TargetLanguage targetLanguage,
             MultiCodeName genNamespace,
             MultiCodeName commonNs,
@@ -30,6 +32,7 @@ namespace Azure.Iot.Operations.EnvoyGenerator
             string srcSubdir,
             bool defaultImpl)
         {
+            this.targetSdk = targetSdk;
             this.targetLanguage = targetLanguage;
             this.genNamespace = genNamespace;
             this.commonNs = commonNs;
@@ -119,6 +122,11 @@ namespace Azure.Iot.Operations.EnvoyGenerator
             bool generateClient,
             bool generateServer)
         {
+            if (this.targetSdk == TargetSdk.None)
+            {
+                yield break;
+            }
+
             string serializerClassName = format.GetSerializerClassName();
             EmptyTypeName serializerEmptyType = format.GetEmptyTypeName();
 
@@ -272,6 +280,11 @@ namespace Azure.Iot.Operations.EnvoyGenerator
             bool generateClient,
             bool generateServer)
         {
+            if (this.targetSdk == TargetSdk.None)
+            {
+                yield break;
+            }
+
             string readSerializerClassName = readFormat.GetSerializerClassName();
             EmptyTypeName readSerializerEmptyType = readFormat.GetEmptyTypeName();
             string writeSerializerClassName = writeFormat.GetSerializerClassName();
@@ -401,6 +414,11 @@ namespace Azure.Iot.Operations.EnvoyGenerator
             bool generateClient,
             bool generateServer)
         {
+            if (this.targetSdk == TargetSdk.None)
+            {
+                yield break;
+            }
+
             string serializerClassName = format.GetSerializerClassName();
             EmptyTypeName serializerEmptyType = format.GetEmptyTypeName();
 
@@ -524,6 +542,11 @@ namespace Azure.Iot.Operations.EnvoyGenerator
             bool generateClient,
             bool generateServer)
         {
+            if (this.targetSdk == TargetSdk.None)
+            {
+                yield break;
+            }
+
             switch (targetLanguage)
             {
                 case TargetLanguage.CSharp:

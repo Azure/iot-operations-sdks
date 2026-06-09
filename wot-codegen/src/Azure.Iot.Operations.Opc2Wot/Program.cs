@@ -32,7 +32,7 @@ namespace Azure.Iot.Operations.Opc2Wot
 
             var inheritVarsOption = new Option<bool>("--inheritVars")
             {
-                Description = "Add a 'dtv:includeInherited' property to root-level forms where appropriate, so that inherited variables are included in aggregate events and properties",
+                Description = "Add a 'dov:includeInherited' property to root-level forms where appropriate, so that inherited variables are included in aggregate events and properties",
             };
 
             var rootCommand = new RootCommand("Tool for converting OPC UA specs to WoT Thing Models for use in Akri");

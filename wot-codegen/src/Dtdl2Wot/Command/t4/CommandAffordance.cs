@@ -143,13 +143,13 @@ namespace Dtdl2Wot
             this.Write("\"\r\n            }\r\n          ],\r\n");
  } 
  if (this.infoSchemaName != null) { 
-            this.Write("          \"dtv:headerInfo\": [\r\n            {\r\n              \"contentType\": \"appli" +
+            this.Write("          \"dov:headerInfo\": [\r\n            {\r\n              \"contentType\": \"appli" +
                     "cation/json\",\r\n              \"schema\": \"");
             this.Write(this.ToStringHelper.ToStringWithCulture(this.infoSchemaName));
             this.Write("\"\r\n            }\r\n          ],\r\n");
  } 
  if (this.codeEnumeration.Count > 0) { 
-            this.Write("          \"dtv:headerCode\": [\r\n");
+            this.Write("          \"dov:headerCode\": [\r\n");
  int ix = 1; foreach (KeyValuePair<string, string> kvp in this.codeEnumeration) { 
             this.Write("            \"");
             this.Write(this.ToStringHelper.ToStringWithCulture(kvp.Key));
@@ -161,11 +161,11 @@ namespace Dtdl2Wot
  } 
  } 
  if (this.serviceGroupId != null) { 
-            this.Write("          \"dtv:serviceGroupId\": \"");
+            this.Write("          \"dov:serviceGroupId\": \"");
             this.Write(this.ToStringHelper.ToStringWithCulture(this.serviceGroupId));
             this.Write("\",\r\n");
  } 
-            this.Write("          \"dtv:topic\": \"");
+            this.Write("          \"dov:topic\": \"");
             this.Write(this.ToStringHelper.ToStringWithCulture(this.commandTopic ?? ""));
             this.Write("\",\r\n          \"op\": \"invokeaction\"\r\n        }\r\n      ]\r\n    }");
             return this.GenerationEnvironment.ToString();

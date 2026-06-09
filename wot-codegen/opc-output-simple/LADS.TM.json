@@ -3,13 +3,12 @@
     "@context": [
       "https://www.w3.org/2022/wot/td/v1.1",
       {
-        "dtv": "http://azure.com/DigitalTwins/dtmi#",
-        "aov": "http://azure.com/IoT/operations/tm#"
+        "dov": "http://azure.com/DigitalOperations/vocab#"
       }
     ],
     "@type": "tm:ThingModel",
     "title": "LADS_ActiveProgramType",
-    "aov:typeRef": "nsu=http://opcfoundation.org/UA/LADS/;i=1040",
+    "dov:typeRef": "org.opcfoundation.UA.LADS.ActiveProgramType",
     "links": [
       {
         "rel": "tm:extends",
@@ -30,13 +29,12 @@
     "@context": [
       "https://www.w3.org/2022/wot/td/v1.1",
       {
-        "dtv": "http://azure.com/DigitalTwins/dtmi#",
-        "aov": "http://azure.com/IoT/operations/tm#"
+        "dov": "http://azure.com/DigitalOperations/vocab#"
       }
     ],
     "@type": "tm:ThingModel",
     "title": "LADS_LADSComponentsType",
-    "aov:typeRef": "nsu=http://opcfoundation.org/UA/LADS/;i=1025",
+    "dov:typeRef": "org.opcfoundation.UA.LADS.LADSComponentsType",
     "links": [
       {
         "rel": "tm:extends",
@@ -57,14 +55,13 @@
     "@context": [
       "https://www.w3.org/2022/wot/td/v1.1",
       {
-        "dtv": "http://azure.com/DigitalTwins/dtmi#",
-        "aov": "http://azure.com/IoT/operations/tm#"
+        "dov": "http://azure.com/DigitalOperations/vocab#"
       }
     ],
     "@type": "tm:ThingModel",
     "title": "LADS_LADSOperationCountersType",
-    "aov:typeRef": "nsu=http://opcfoundation.org/UA/LADS/;i=1034",
-    "aov:isComposite": true,
+    "dov:typeRef": "org.opcfoundation.UA.LADS.LADSOperationCountersType",
+    "dov:isComposite": true,
     "links": [
       {
         "rel": "tm:extends",
@@ -85,13 +82,12 @@
     "@context": [
       "https://www.w3.org/2022/wot/td/v1.1",
       {
-        "dtv": "http://azure.com/DigitalTwins/dtmi#",
-        "aov": "http://azure.com/IoT/operations/tm#"
+        "dov": "http://azure.com/DigitalOperations/vocab#"
       }
     ],
     "@type": "tm:ThingModel",
     "title": "LADS_FunctionalUnitSetType",
-    "aov:typeRef": "nsu=http://opcfoundation.org/UA/LADS/;i=1023",
+    "dov:typeRef": "org.opcfoundation.UA.LADS.FunctionalUnitSetType",
     "links": [
       {
         "rel": "tm:extends",
@@ -112,13 +108,12 @@
     "@context": [
       "https://www.w3.org/2022/wot/td/v1.1",
       {
-        "dtv": "http://azure.com/DigitalTwins/dtmi#",
-        "aov": "http://azure.com/IoT/operations/tm#"
+        "dov": "http://azure.com/DigitalOperations/vocab#"
       }
     ],
     "@type": "tm:ThingModel",
     "title": "LADS_FunctionSetType",
-    "aov:typeRef": "nsu=http://opcfoundation.org/UA/LADS/;i=1026",
+    "dov:typeRef": "org.opcfoundation.UA.LADS.FunctionSetType",
     "links": [
       {
         "rel": "tm:extends",
@@ -139,13 +134,12 @@
     "@context": [
       "https://www.w3.org/2022/wot/td/v1.1",
       {
-        "dtv": "http://azure.com/DigitalTwins/dtmi#",
-        "aov": "http://azure.com/IoT/operations/tm#"
+        "dov": "http://azure.com/DigitalOperations/vocab#"
       }
     ],
     "@type": "tm:ThingModel",
     "title": "LADS_ProgramTemplateSetType",
-    "aov:typeRef": "nsu=http://opcfoundation.org/UA/LADS/;i=1019",
+    "dov:typeRef": "org.opcfoundation.UA.LADS.ProgramTemplateSetType",
     "links": [
       {
         "rel": "tm:extends",
@@ -166,13 +160,12 @@
     "@context": [
       "https://www.w3.org/2022/wot/td/v1.1",
       {
-        "dtv": "http://azure.com/DigitalTwins/dtmi#",
-        "aov": "http://azure.com/IoT/operations/tm#"
+        "dov": "http://azure.com/DigitalOperations/vocab#"
       }
     ],
     "@type": "tm:ThingModel",
     "title": "LADS_ProgramTemplateType",
-    "aov:typeRef": "nsu=http://opcfoundation.org/UA/LADS/;i=1018",
+    "dov:typeRef": "org.opcfoundation.UA.LADS.ProgramTemplateType",
     "links": [
       {
         "rel": "tm:extends",
@@ -193,13 +186,12 @@
     "@context": [
       "https://www.w3.org/2022/wot/td/v1.1",
       {
-        "dtv": "http://azure.com/DigitalTwins/dtmi#",
-        "aov": "http://azure.com/IoT/operations/tm#"
+        "dov": "http://azure.com/DigitalOperations/vocab#"
       }
     ],
     "@type": "tm:ThingModel",
     "title": "LADS_SupportedPropertiesSetType",
-    "aov:typeRef": "nsu=http://opcfoundation.org/UA/LADS/;i=1033",
+    "dov:typeRef": "org.opcfoundation.UA.LADS.SupportedPropertiesSetType",
     "links": [
       {
         "rel": "tm:extends",
@@ -220,13 +212,12 @@
     "@context": [
       "https://www.w3.org/2022/wot/td/v1.1",
       {
-        "dtv": "http://azure.com/DigitalTwins/dtmi#",
-        "aov": "http://azure.com/IoT/operations/tm#"
+        "dov": "http://azure.com/DigitalOperations/vocab#"
       }
     ],
     "@type": "tm:ThingModel",
     "title": "LADS_SupportedPropertyType",
-    "aov:typeRef": "nsu=http://opcfoundation.org/UA/LADS/;i=1035",
+    "dov:typeRef": "org.opcfoundation.UA.LADS.SupportedPropertyType",
     "links": [
       {
         "rel": "tm:extends",
@@ -247,13 +238,12 @@
     "@context": [
       "https://www.w3.org/2022/wot/td/v1.1",
       {
-        "dtv": "http://azure.com/DigitalTwins/dtmi#",
-        "aov": "http://azure.com/IoT/operations/tm#"
+        "dov": "http://azure.com/DigitalOperations/vocab#"
       }
     ],
     "@type": "tm:ThingModel",
     "title": "LADS_ResultFileSetType",
-    "aov:typeRef": "nsu=http://opcfoundation.org/UA/LADS/;i=1022",
+    "dov:typeRef": "org.opcfoundation.UA.LADS.ResultFileSetType",
     "links": [
       {
         "rel": "tm:extends",
@@ -274,13 +264,12 @@
     "@context": [
       "https://www.w3.org/2022/wot/td/v1.1",
       {
-        "dtv": "http://azure.com/DigitalTwins/dtmi#",
-        "aov": "http://azure.com/IoT/operations/tm#"
+        "dov": "http://azure.com/DigitalOperations/vocab#"
       }
     ],
     "@type": "tm:ThingModel",
     "title": "LADS_ResultFileType",
-    "aov:typeRef": "nsu=http://opcfoundation.org/UA/LADS/;i=1001",
+    "dov:typeRef": "org.opcfoundation.UA.LADS.ResultFileType",
     "links": [
       {
         "rel": "tm:extends",
@@ -301,13 +290,12 @@
     "@context": [
       "https://www.w3.org/2022/wot/td/v1.1",
       {
-        "dtv": "http://azure.com/DigitalTwins/dtmi#",
-        "aov": "http://azure.com/IoT/operations/tm#"
+        "dov": "http://azure.com/DigitalOperations/vocab#"
       }
     ],
     "@type": "tm:ThingModel",
     "title": "LADS_ResultSetType",
-    "aov:typeRef": "nsu=http://opcfoundation.org/UA/LADS/;i=1020",
+    "dov:typeRef": "org.opcfoundation.UA.LADS.ResultSetType",
     "links": [
       {
         "rel": "tm:extends",
@@ -328,13 +316,12 @@
     "@context": [
       "https://www.w3.org/2022/wot/td/v1.1",
       {
-        "dtv": "http://azure.com/DigitalTwins/dtmi#",
-        "aov": "http://azure.com/IoT/operations/tm#"
+        "dov": "http://azure.com/DigitalOperations/vocab#"
       }
     ],
     "@type": "tm:ThingModel",
     "title": "LADS_ResultType",
-    "aov:typeRef": "nsu=http://opcfoundation.org/UA/LADS/;i=1021",
+    "dov:typeRef": "org.opcfoundation.UA.LADS.ResultType",
     "links": [
       {
         "rel": "tm:extends",
@@ -355,13 +342,12 @@
     "@context": [
       "https://www.w3.org/2022/wot/td/v1.1",
       {
-        "dtv": "http://azure.com/DigitalTwins/dtmi#",
-        "aov": "http://azure.com/IoT/operations/tm#"
+        "dov": "http://azure.com/DigitalOperations/vocab#"
       }
     ],
     "@type": "tm:ThingModel",
     "title": "LADS_CoverStateMachineType",
-    "aov:typeRef": "nsu=http://opcfoundation.org/UA/LADS/;i=1010",
+    "dov:typeRef": "org.opcfoundation.UA.LADS.CoverStateMachineType",
     "links": [
       {
         "rel": "tm:extends",
@@ -382,13 +368,12 @@
     "@context": [
       "https://www.w3.org/2022/wot/td/v1.1",
       {
-        "dtv": "http://azure.com/DigitalTwins/dtmi#",
-        "aov": "http://azure.com/IoT/operations/tm#"
+        "dov": "http://azure.com/DigitalOperations/vocab#"
       }
     ],
     "@type": "tm:ThingModel",
     "title": "LADS_LADSDeviceStateMachineType",
-    "aov:typeRef": "nsu=http://opcfoundation.org/UA/LADS/;i=1039",
+    "dov:typeRef": "org.opcfoundation.UA.LADS.LADSDeviceStateMachineType",
     "links": [
       {
         "rel": "tm:extends",
@@ -409,13 +394,12 @@
     "@context": [
       "https://www.w3.org/2022/wot/td/v1.1",
       {
-        "dtv": "http://azure.com/DigitalTwins/dtmi#",
-        "aov": "http://azure.com/IoT/operations/tm#"
+        "dov": "http://azure.com/DigitalOperations/vocab#"
       }
     ],
     "@type": "tm:ThingModel",
     "title": "LADS_FunctionalStateMachineType",
-    "aov:typeRef": "nsu=http://opcfoundation.org/UA/LADS/;i=1038",
+    "dov:typeRef": "org.opcfoundation.UA.LADS.FunctionalStateMachineType",
     "links": [
       {
         "rel": "tm:extends",
@@ -436,13 +420,12 @@
     "@context": [
       "https://www.w3.org/2022/wot/td/v1.1",
       {
-        "dtv": "http://azure.com/DigitalTwins/dtmi#",
-        "aov": "http://azure.com/IoT/operations/tm#"
+        "dov": "http://azure.com/DigitalOperations/vocab#"
       }
     ],
     "@type": "tm:ThingModel",
     "title": "LADS_RunningStateMachineType",
-    "aov:typeRef": "nsu=http://opcfoundation.org/UA/LADS/;i=1036",
+    "dov:typeRef": "org.opcfoundation.UA.LADS.RunningStateMachineType",
     "links": [
       {
         "rel": "tm:extends",
@@ -463,13 +446,12 @@
     "@context": [
       "https://www.w3.org/2022/wot/td/v1.1",
       {
-        "dtv": "http://azure.com/DigitalTwins/dtmi#",
-        "aov": "http://azure.com/IoT/operations/tm#"
+        "dov": "http://azure.com/DigitalOperations/vocab#"
       }
     ],
     "@type": "tm:ThingModel",
     "title": "LADS_MaintenanceSetType",
-    "aov:typeRef": "nsu=http://opcfoundation.org/UA/LADS/;i=1027",
+    "dov:typeRef": "org.opcfoundation.UA.LADS.MaintenanceSetType",
     "links": [
       {
         "rel": "tm:extends",
@@ -490,14 +472,13 @@
     "@context": [
       "https://www.w3.org/2022/wot/td/v1.1",
       {
-        "dtv": "http://azure.com/DigitalTwins/dtmi#",
-        "aov": "http://azure.com/IoT/operations/tm#"
+        "dov": "http://azure.com/DigitalOperations/vocab#"
       }
     ],
     "@type": "tm:ThingModel",
     "title": "LADS_MaintenanceTaskType",
-    "aov:typeRef": "nsu=http://opcfoundation.org/UA/LADS/;i=1028",
-    "aov:isEvent": true,
+    "dov:typeRef": "org.opcfoundation.UA.LADS.MaintenanceTaskType",
+    "dov:isEvent": true,
     "links": [
       {
         "rel": "tm:extends",
@@ -518,14 +499,13 @@
     "@context": [
       "https://www.w3.org/2022/wot/td/v1.1",
       {
-        "dtv": "http://azure.com/DigitalTwins/dtmi#",
-        "aov": "http://azure.com/IoT/operations/tm#"
+        "dov": "http://azure.com/DigitalOperations/vocab#"
       }
     ],
     "@type": "tm:ThingModel",
     "title": "LADS_LADSDeviceType",
-    "aov:typeRef": "nsu=http://opcfoundation.org/UA/LADS/;i=1002",
-    "aov:isComposite": true,
+    "dov:typeRef": "org.opcfoundation.UA.LADS.LADSDeviceType",
+    "dov:isComposite": true,
     "links": [
       {
         "rel": "tm:extends",
@@ -546,13 +526,12 @@
     "@context": [
       "https://www.w3.org/2022/wot/td/v1.1",
       {
-        "dtv": "http://azure.com/DigitalTwins/dtmi#",
-        "aov": "http://azure.com/IoT/operations/tm#"
+        "dov": "http://azure.com/DigitalOperations/vocab#"
       }
     ],
     "@type": "tm:ThingModel",
     "title": "LADS_LADSComponentType",
-    "aov:typeRef": "nsu=http://opcfoundation.org/UA/LADS/;i=1024",
+    "dov:typeRef": "org.opcfoundation.UA.LADS.LADSComponentType",
     "links": [
       {
         "rel": "tm:extends",
@@ -573,13 +552,12 @@
     "@context": [
       "https://www.w3.org/2022/wot/td/v1.1",
       {
-        "dtv": "http://azure.com/DigitalTwins/dtmi#",
-        "aov": "http://azure.com/IoT/operations/tm#"
+        "dov": "http://azure.com/DigitalOperations/vocab#"
       }
     ],
     "@type": "tm:ThingModel",
     "title": "LADS_FunctionalUnitType",
-    "aov:typeRef": "nsu=http://opcfoundation.org/UA/LADS/;i=1003",
+    "dov:typeRef": "org.opcfoundation.UA.LADS.FunctionalUnitType",
     "links": [
       {
         "rel": "tm:extends",
@@ -600,13 +578,12 @@
     "@context": [
       "https://www.w3.org/2022/wot/td/v1.1",
       {
-        "dtv": "http://azure.com/DigitalTwins/dtmi#",
-        "aov": "http://azure.com/IoT/operations/tm#"
+        "dov": "http://azure.com/DigitalOperations/vocab#"
       }
     ],
     "@type": "tm:ThingModel",
     "title": "LADS_FunctionType",
-    "aov:typeRef": "nsu=http://opcfoundation.org/UA/LADS/;i=1004",
+    "dov:typeRef": "org.opcfoundation.UA.LADS.FunctionType",
     "links": [
       {
         "rel": "tm:extends",
@@ -627,13 +604,12 @@
     "@context": [
       "https://www.w3.org/2022/wot/td/v1.1",
       {
-        "dtv": "http://azure.com/DigitalTwins/dtmi#",
-        "aov": "http://azure.com/IoT/operations/tm#"
+        "dov": "http://azure.com/DigitalOperations/vocab#"
       }
     ],
     "@type": "tm:ThingModel",
     "title": "LADS_BaseControlFunctionType",
-    "aov:typeRef": "nsu=http://opcfoundation.org/UA/LADS/;i=1007",
+    "dov:typeRef": "org.opcfoundation.UA.LADS.BaseControlFunctionType",
     "links": [
       {
         "rel": "tm:extends",
@@ -654,14 +630,13 @@
     "@context": [
       "https://www.w3.org/2022/wot/td/v1.1",
       {
-        "dtv": "http://azure.com/DigitalTwins/dtmi#",
-        "aov": "http://azure.com/IoT/operations/tm#"
+        "dov": "http://azure.com/DigitalOperations/vocab#"
       }
     ],
     "@type": "tm:ThingModel",
     "title": "LADS_AnalogControlFunctionType",
-    "aov:typeRef": "nsu=http://opcfoundation.org/UA/LADS/;i=1009",
-    "aov:isComposite": true,
+    "dov:typeRef": "org.opcfoundation.UA.LADS.AnalogControlFunctionType",
+    "dov:isComposite": true,
     "links": [
       {
         "rel": "tm:extends",
@@ -682,14 +657,13 @@
     "@context": [
       "https://www.w3.org/2022/wot/td/v1.1",
       {
-        "dtv": "http://azure.com/DigitalTwins/dtmi#",
-        "aov": "http://azure.com/IoT/operations/tm#"
+        "dov": "http://azure.com/DigitalOperations/vocab#"
       }
     ],
     "@type": "tm:ThingModel",
     "title": "LADS_AnalogControlFunctionWithTotalizerType",
-    "aov:typeRef": "nsu=http://opcfoundation.org/UA/LADS/;i=1014",
-    "aov:isComposite": true,
+    "dov:typeRef": "org.opcfoundation.UA.LADS.AnalogControlFunctionWithTotalizerType",
+    "dov:isComposite": true,
     "links": [
       {
         "rel": "tm:extends",
@@ -710,13 +684,12 @@
     "@context": [
       "https://www.w3.org/2022/wot/td/v1.1",
       {
-        "dtv": "http://azure.com/DigitalTwins/dtmi#",
-        "aov": "http://azure.com/IoT/operations/tm#"
+        "dov": "http://azure.com/DigitalOperations/vocab#"
       }
     ],
     "@type": "tm:ThingModel",
     "title": "LADS_DiscreteControlFunctionType",
-    "aov:typeRef": "nsu=http://opcfoundation.org/UA/LADS/;i=1017",
+    "dov:typeRef": "org.opcfoundation.UA.LADS.DiscreteControlFunctionType",
     "links": [
       {
         "rel": "tm:extends",
@@ -737,14 +710,13 @@
     "@context": [
       "https://www.w3.org/2022/wot/td/v1.1",
       {
-        "dtv": "http://azure.com/DigitalTwins/dtmi#",
-        "aov": "http://azure.com/IoT/operations/tm#"
+        "dov": "http://azure.com/DigitalOperations/vocab#"
       }
     ],
     "@type": "tm:ThingModel",
     "title": "LADS_MultiStateDiscreteControlFunctionType",
-    "aov:typeRef": "nsu=http://opcfoundation.org/UA/LADS/;i=1045",
-    "aov:isComposite": true,
+    "dov:typeRef": "org.opcfoundation.UA.LADS.MultiStateDiscreteControlFunctionType",
+    "dov:isComposite": true,
     "links": [
       {
         "rel": "tm:extends",
@@ -765,14 +737,13 @@
     "@context": [
       "https://www.w3.org/2022/wot/td/v1.1",
       {
-        "dtv": "http://azure.com/DigitalTwins/dtmi#",
-        "aov": "http://azure.com/IoT/operations/tm#"
+        "dov": "http://azure.com/DigitalOperations/vocab#"
       }
     ],
     "@type": "tm:ThingModel",
     "title": "LADS_TwoStateDiscreteControlFunctionType",
-    "aov:typeRef": "nsu=http://opcfoundation.org/UA/LADS/;i=1042",
-    "aov:isComposite": true,
+    "dov:typeRef": "org.opcfoundation.UA.LADS.TwoStateDiscreteControlFunctionType",
+    "dov:isComposite": true,
     "links": [
       {
         "rel": "tm:extends",
@@ -793,13 +764,12 @@
     "@context": [
       "https://www.w3.org/2022/wot/td/v1.1",
       {
-        "dtv": "http://azure.com/DigitalTwins/dtmi#",
-        "aov": "http://azure.com/IoT/operations/tm#"
+        "dov": "http://azure.com/DigitalOperations/vocab#"
       }
     ],
     "@type": "tm:ThingModel",
     "title": "LADS_BaseSensorFunctionType",
-    "aov:typeRef": "nsu=http://opcfoundation.org/UA/LADS/;i=1005",
+    "dov:typeRef": "org.opcfoundation.UA.LADS.BaseSensorFunctionType",
     "links": [
       {
         "rel": "tm:extends",
@@ -820,14 +790,13 @@
     "@context": [
       "https://www.w3.org/2022/wot/td/v1.1",
       {
-        "dtv": "http://azure.com/DigitalTwins/dtmi#",
-        "aov": "http://azure.com/IoT/operations/tm#"
+        "dov": "http://azure.com/DigitalOperations/vocab#"
       }
     ],
     "@type": "tm:ThingModel",
     "title": "LADS_AnalogScalarSensorFunctionType",
-    "aov:typeRef": "nsu=http://opcfoundation.org/UA/LADS/;i=1016",
-    "aov:isComposite": true,
+    "dov:typeRef": "org.opcfoundation.UA.LADS.AnalogScalarSensorFunctionType",
+    "dov:isComposite": true,
     "links": [
       {
         "rel": "tm:extends",
@@ -848,13 +817,12 @@
     "@context": [
       "https://www.w3.org/2022/wot/td/v1.1",
       {
-        "dtv": "http://azure.com/DigitalTwins/dtmi#",
-        "aov": "http://azure.com/IoT/operations/tm#"
+        "dov": "http://azure.com/DigitalOperations/vocab#"
       }
     ],
     "@type": "tm:ThingModel",
     "title": "LADS_DiscreteSensorFunctionType",
-    "aov:typeRef": "nsu=http://opcfoundation.org/UA/LADS/;i=1012",
+    "dov:typeRef": "org.opcfoundation.UA.LADS.DiscreteSensorFunctionType",
     "links": [
       {
         "rel": "tm:extends",
@@ -875,14 +843,13 @@
     "@context": [
       "https://www.w3.org/2022/wot/td/v1.1",
       {
-        "dtv": "http://azure.com/DigitalTwins/dtmi#",
-        "aov": "http://azure.com/IoT/operations/tm#"
+        "dov": "http://azure.com/DigitalOperations/vocab#"
       }
     ],
     "@type": "tm:ThingModel",
     "title": "LADS_CoverFunctionType",
-    "aov:typeRef": "nsu=http://opcfoundation.org/UA/LADS/;i=1011",
-    "aov:isComposite": true,
+    "dov:typeRef": "org.opcfoundation.UA.LADS.CoverFunctionType",
+    "dov:isComposite": true,
     "links": [
       {
         "rel": "tm:extends",
@@ -903,13 +870,12 @@
     "@context": [
       "https://www.w3.org/2022/wot/td/v1.1",
       {
-        "dtv": "http://azure.com/DigitalTwins/dtmi#",
-        "aov": "http://azure.com/IoT/operations/tm#"
+        "dov": "http://azure.com/DigitalOperations/vocab#"
       }
     ],
     "@type": "tm:ThingModel",
     "title": "LADS_ProgramManagerType",
-    "aov:typeRef": "nsu=http://opcfoundation.org/UA/LADS/;i=1006",
+    "dov:typeRef": "org.opcfoundation.UA.LADS.ProgramManagerType",
     "links": [
       {
         "rel": "tm:extends",
@@ -930,14 +896,13 @@
     "@context": [
       "https://www.w3.org/2022/wot/td/v1.1",
       {
-        "dtv": "http://azure.com/DigitalTwins/dtmi#",
-        "aov": "http://azure.com/IoT/operations/tm#"
+        "dov": "http://azure.com/DigitalOperations/vocab#"
       }
     ],
     "@type": "tm:ThingModel",
     "title": "LADS_TimerControlFunctionType",
-    "aov:typeRef": "nsu=http://opcfoundation.org/UA/LADS/;i=1013",
-    "aov:isComposite": true,
+    "dov:typeRef": "org.opcfoundation.UA.LADS.TimerControlFunctionType",
+    "dov:isComposite": true,
     "links": [
       {
         "rel": "tm:extends",
@@ -958,14 +923,13 @@
     "@context": [
       "https://www.w3.org/2022/wot/td/v1.1",
       {
-        "dtv": "http://azure.com/DigitalTwins/dtmi#",
-        "aov": "http://azure.com/IoT/operations/tm#"
+        "dov": "http://azure.com/DigitalOperations/vocab#"
       }
     ],
     "@type": "tm:ThingModel",
     "title": "LADS_AnalogScalarSensorFunctionWithCompensationType",
-    "aov:typeRef": "nsu=http://opcfoundation.org/UA/LADS/;i=1000",
-    "aov:isComposite": true,
+    "dov:typeRef": "org.opcfoundation.UA.LADS.AnalogScalarSensorFunctionWithCompensationType",
+    "dov:isComposite": true,
     "links": [
       {
         "rel": "tm:extends",
@@ -986,13 +950,12 @@
     "@context": [
       "https://www.w3.org/2022/wot/td/v1.1",
       {
-        "dtv": "http://azure.com/DigitalTwins/dtmi#",
-        "aov": "http://azure.com/IoT/operations/tm#"
+        "dov": "http://azure.com/DigitalOperations/vocab#"
       }
     ],
     "@type": "tm:ThingModel",
     "title": "LADS_ControllerTuningParameterType",
-    "aov:typeRef": "nsu=http://opcfoundation.org/UA/LADS/;i=1008",
+    "dov:typeRef": "org.opcfoundation.UA.LADS.ControllerTuningParameterType",
     "links": [
       {
         "rel": "tm:extends",
@@ -1013,14 +976,13 @@
     "@context": [
       "https://www.w3.org/2022/wot/td/v1.1",
       {
-        "dtv": "http://azure.com/DigitalTwins/dtmi#",
-        "aov": "http://azure.com/IoT/operations/tm#"
+        "dov": "http://azure.com/DigitalOperations/vocab#"
       }
     ],
     "@type": "tm:ThingModel",
     "title": "LADS_PidControllerParameterType",
-    "aov:typeRef": "nsu=http://opcfoundation.org/UA/LADS/;i=1030",
-    "aov:isComposite": true,
+    "dov:typeRef": "org.opcfoundation.UA.LADS.PidControllerParameterType",
+    "dov:isComposite": true,
     "links": [
       {
         "rel": "tm:extends",
@@ -1041,14 +1003,13 @@
     "@context": [
       "https://www.w3.org/2022/wot/td/v1.1",
       {
-        "dtv": "http://azure.com/DigitalTwins/dtmi#",
-        "aov": "http://azure.com/IoT/operations/tm#"
+        "dov": "http://azure.com/DigitalOperations/vocab#"
       }
     ],
     "@type": "tm:ThingModel",
     "title": "LADS_TwoStateDiscreteSensorFunctionType",
-    "aov:typeRef": "nsu=http://opcfoundation.org/UA/LADS/;i=1031",
-    "aov:isComposite": true,
+    "dov:typeRef": "org.opcfoundation.UA.LADS.TwoStateDiscreteSensorFunctionType",
+    "dov:isComposite": true,
     "links": [
       {
         "rel": "tm:extends",
@@ -1069,14 +1030,13 @@
     "@context": [
       "https://www.w3.org/2022/wot/td/v1.1",
       {
-        "dtv": "http://azure.com/DigitalTwins/dtmi#",
-        "aov": "http://azure.com/IoT/operations/tm#"
+        "dov": "http://azure.com/DigitalOperations/vocab#"
       }
     ],
     "@type": "tm:ThingModel",
     "title": "LADS_MultiStateDiscreteSensorFunctionType",
-    "aov:typeRef": "nsu=http://opcfoundation.org/UA/LADS/;i=1037",
-    "aov:isComposite": true,
+    "dov:typeRef": "org.opcfoundation.UA.LADS.MultiStateDiscreteSensorFunctionType",
+    "dov:isComposite": true,
     "links": [
       {
         "rel": "tm:extends",
@@ -1097,13 +1057,12 @@
     "@context": [
       "https://www.w3.org/2022/wot/td/v1.1",
       {
-        "dtv": "http://azure.com/DigitalTwins/dtmi#",
-        "aov": "http://azure.com/IoT/operations/tm#"
+        "dov": "http://azure.com/DigitalOperations/vocab#"
       }
     ],
     "@type": "tm:ThingModel",
     "title": "LADS_FunctionalUnitStateMachineType",
-    "aov:typeRef": "nsu=http://opcfoundation.org/UA/LADS/;i=1043",
+    "dov:typeRef": "org.opcfoundation.UA.LADS.FunctionalUnitStateMachineType",
     "links": [
       {
         "rel": "tm:extends",
@@ -1124,13 +1083,12 @@
     "@context": [
       "https://www.w3.org/2022/wot/td/v1.1",
       {
-        "dtv": "http://azure.com/DigitalTwins/dtmi#",
-        "aov": "http://azure.com/IoT/operations/tm#"
+        "dov": "http://azure.com/DigitalOperations/vocab#"
       }
     ],
     "@type": "tm:ThingModel",
     "title": "LADS_ControlFunctionStateMachineType",
-    "aov:typeRef": "nsu=http://opcfoundation.org/UA/LADS/;i=1044",
+    "dov:typeRef": "org.opcfoundation.UA.LADS.ControlFunctionStateMachineType",
     "links": [
       {
         "rel": "tm:extends",
@@ -1151,14 +1109,13 @@
     "@context": [
       "https://www.w3.org/2022/wot/td/v1.1",
       {
-        "dtv": "http://azure.com/DigitalTwins/dtmi#",
-        "aov": "http://azure.com/IoT/operations/tm#"
+        "dov": "http://azure.com/DigitalOperations/vocab#"
       }
     ],
     "@type": "tm:ThingModel",
     "title": "LADS_MultiModeAnalogControlFunctionType",
-    "aov:typeRef": "nsu=http://opcfoundation.org/UA/LADS/;i=1047",
-    "aov:isComposite": true,
+    "dov:typeRef": "org.opcfoundation.UA.LADS.MultiModeAnalogControlFunctionType",
+    "dov:isComposite": true,
     "links": [
       {
         "rel": "tm:extends",
@@ -1179,13 +1136,12 @@
     "@context": [
       "https://www.w3.org/2022/wot/td/v1.1",
       {
-        "dtv": "http://azure.com/DigitalTwins/dtmi#",
-        "aov": "http://azure.com/IoT/operations/tm#"
+        "dov": "http://azure.com/DigitalOperations/vocab#"
       }
     ],
     "@type": "tm:ThingModel",
     "title": "LADS_ControllerParameterType",
-    "aov:typeRef": "nsu=http://opcfoundation.org/UA/LADS/;i=1048",
+    "dov:typeRef": "org.opcfoundation.UA.LADS.ControllerParameterType",
     "links": [
       {
         "rel": "tm:extends",
@@ -1206,13 +1162,12 @@
     "@context": [
       "https://www.w3.org/2022/wot/td/v1.1",
       {
-        "dtv": "http://azure.com/DigitalTwins/dtmi#",
-        "aov": "http://azure.com/IoT/operations/tm#"
+        "dov": "http://azure.com/DigitalOperations/vocab#"
       }
     ],
     "@type": "tm:ThingModel",
     "title": "LADS_ControllerParameterSetType",
-    "aov:typeRef": "nsu=http://opcfoundation.org/UA/LADS/;i=1049",
+    "dov:typeRef": "org.opcfoundation.UA.LADS.ControllerParameterSetType",
     "links": [
       {
         "rel": "tm:extends",
@@ -1233,14 +1188,13 @@
     "@context": [
       "https://www.w3.org/2022/wot/td/v1.1",
       {
-        "dtv": "http://azure.com/DigitalTwins/dtmi#",
-        "aov": "http://azure.com/IoT/operations/tm#"
+        "dov": "http://azure.com/DigitalOperations/vocab#"
       }
     ],
     "@type": "tm:ThingModel",
     "title": "LADS_AnalogControlFunctionWithComposedTargetValueType",
-    "aov:typeRef": "nsu=http://opcfoundation.org/UA/LADS/;i=1052",
-    "aov:isComposite": true,
+    "dov:typeRef": "org.opcfoundation.UA.LADS.AnalogControlFunctionWithComposedTargetValueType",
+    "dov:isComposite": true,
     "links": [
       {
         "rel": "tm:extends",
@@ -1261,14 +1215,13 @@
     "@context": [
       "https://www.w3.org/2022/wot/td/v1.1",
       {
-        "dtv": "http://azure.com/DigitalTwins/dtmi#",
-        "aov": "http://azure.com/IoT/operations/tm#"
+        "dov": "http://azure.com/DigitalOperations/vocab#"
       }
     ],
     "@type": "tm:ThingModel",
     "title": "LADS_MultiSensorFunctionType",
-    "aov:typeRef": "nsu=http://opcfoundation.org/UA/LADS/;i=1051",
-    "aov:isComposite": true,
+    "dov:typeRef": "org.opcfoundation.UA.LADS.MultiSensorFunctionType",
+    "dov:isComposite": true,
     "links": [
       {
         "rel": "tm:extends",
@@ -1289,14 +1242,13 @@
     "@context": [
       "https://www.w3.org/2022/wot/td/v1.1",
       {
-        "dtv": "http://azure.com/DigitalTwins/dtmi#",
-        "aov": "http://azure.com/IoT/operations/tm#"
+        "dov": "http://azure.com/DigitalOperations/vocab#"
       }
     ],
     "@type": "tm:ThingModel",
     "title": "LADS_AnalogControlFunctionWithRelativeTargetValueType",
-    "aov:typeRef": "nsu=http://opcfoundation.org/UA/LADS/;i=1029",
-    "aov:isComposite": true,
+    "dov:typeRef": "org.opcfoundation.UA.LADS.AnalogControlFunctionWithRelativeTargetValueType",
+    "dov:isComposite": true,
     "links": [
       {
         "rel": "tm:extends",
@@ -1317,14 +1269,13 @@
     "@context": [
       "https://www.w3.org/2022/wot/td/v1.1",
       {
-        "dtv": "http://azure.com/DigitalTwins/dtmi#",
-        "aov": "http://azure.com/IoT/operations/tm#"
+        "dov": "http://azure.com/DigitalOperations/vocab#"
       }
     ],
     "@type": "tm:ThingModel",
     "title": "LADS_AnalogArraySensorFunctionType",
-    "aov:typeRef": "nsu=http://opcfoundation.org/UA/LADS/;i=1015",
-    "aov:isComposite": true,
+    "dov:typeRef": "org.opcfoundation.UA.LADS.AnalogArraySensorFunctionType",
+    "dov:isComposite": true,
     "links": [
       {
         "rel": "tm:extends",
@@ -1345,13 +1296,12 @@
     "@context": [
       "https://www.w3.org/2022/wot/td/v1.1",
       {
-        "dtv": "http://azure.com/DigitalTwins/dtmi#",
-        "aov": "http://azure.com/IoT/operations/tm#"
+        "dov": "http://azure.com/DigitalOperations/vocab#"
       }
     ],
     "@type": "tm:ThingModel",
     "title": "LADS_SetType",
-    "aov:typeRef": "nsu=http://opcfoundation.org/UA/LADS/;i=61",
+    "dov:typeRef": "org.opcfoundation.UA.LADS.SetType",
     "links": [
       {
         "rel": "tm:extends",
@@ -1372,13 +1322,12 @@
     "@context": [
       "https://www.w3.org/2022/wot/td/v1.1",
       {
-        "dtv": "http://azure.com/DigitalTwins/dtmi#",
-        "aov": "http://azure.com/IoT/operations/tm#"
+        "dov": "http://azure.com/DigitalOperations/vocab#"
       }
     ],
     "@type": "tm:ThingModel",
     "title": "LADS_VariableSetType",
-    "aov:typeRef": "nsu=http://opcfoundation.org/UA/LADS/;i=1041",
+    "dov:typeRef": "org.opcfoundation.UA.LADS.VariableSetType",
     "links": [
       {
         "rel": "tm:extends",
@@ -1399,13 +1348,12 @@
     "@context": [
       "https://www.w3.org/2022/wot/td/v1.1",
       {
-        "dtv": "http://azure.com/DigitalTwins/dtmi#",
-        "aov": "http://azure.com/IoT/operations/tm#"
+        "dov": "http://azure.com/DigitalOperations/vocab#"
       }
     ],
     "@type": "tm:ThingModel",
     "title": "LADS_AnalogSensorFunctionType",
-    "aov:typeRef": "nsu=http://opcfoundation.org/UA/LADS/;i=1046",
+    "dov:typeRef": "org.opcfoundation.UA.LADS.AnalogSensorFunctionType",
     "links": [
       {
         "rel": "tm:extends",
@@ -1426,13 +1374,12 @@
     "@context": [
       "https://www.w3.org/2022/wot/td/v1.1",
       {
-        "dtv": "http://azure.com/DigitalTwins/dtmi#",
-        "aov": "http://azure.com/IoT/operations/tm#"
+        "dov": "http://azure.com/DigitalOperations/vocab#"
       }
     ],
     "@type": "tm:ThingModel",
     "title": "LADS_LADSOperationModeStateMachineType",
-    "aov:typeRef": "nsu=http://opcfoundation.org/UA/LADS/;i=1050",
+    "dov:typeRef": "org.opcfoundation.UA.LADS.LADSOperationModeStateMachineType",
     "links": [
       {
         "rel": "tm:extends",

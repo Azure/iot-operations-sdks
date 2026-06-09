@@ -15,6 +15,7 @@ namespace Azure.Iot.Operations.EnvoyGenerator
         public static List<GeneratedItem> GenerateEnvoys(
             IEnumerable<ParsedThing> parsedThings,
             List<SerializationFormat> serializationFormats,
+            TargetSdk targetSdk,
             TargetLanguage targetLanguage,
             string genNamespace,
             string commonNs,
@@ -25,7 +26,7 @@ namespace Azure.Iot.Operations.EnvoyGenerator
             bool generateProject,
             bool defaultImpl)
         {
-            EnvoyTransformFactory envoyFactory = new(targetLanguage, new MultiCodeName(genNamespace), new MultiCodeName(commonNs), projectName, srcSubdir, defaultImpl);
+            EnvoyTransformFactory envoyFactory = new(targetSdk, targetLanguage, new MultiCodeName(genNamespace), new MultiCodeName(commonNs), projectName, srcSubdir, defaultImpl);
 
             Dictionary<string, IEnvoyTemplateTransform> transforms = new();
             Dictionary<string, ErrorSpec> errorSpecs = new();

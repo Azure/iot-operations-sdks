@@ -8,8 +8,8 @@
     {
       "condition": "ValuesInconsistent",
       "filename": "EventWithUnitDataSchemaBoolean.TM.json",
-      "line": 31,
-      "cfLine": 29,
+      "line": 30,
+      "cfLine": 28,
       "crossRef": ""
     }
   ]

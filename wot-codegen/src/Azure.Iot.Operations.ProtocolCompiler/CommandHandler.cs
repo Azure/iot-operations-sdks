@@ -13,6 +13,7 @@ namespace Azure.Iot.Operations.ProtocolCompiler
         private const ConsoleColor ErrorColor = ConsoleColor.Red;
         private const ConsoleColor WarningColor = ConsoleColor.Yellow;
 
+        public static readonly string[] SupportedSdkTargets = CommandPerformer.SdkTargetMap.Keys.ToArray();
         public static readonly string[] SupportedLanguages = CommandPerformer.LanguageMap.Keys.ToArray();
 
         public static int GenerateCode(OptionContainer options)
