@@ -3,13 +3,12 @@
     "@context": [
       "https://www.w3.org/2022/wot/td/v1.1",
       {
-        "dtv": "http://azure.com/DigitalTwins/dtmi#",
-        "aov": "http://azure.com/IoT/operations/tm#"
+        "dov": "http://azure.com/DigitalOperations/vocab#"
       }
     ],
     "@type": "tm:ThingModel",
     "title": "Machinery_IMachineTagNameplateType",
-    "aov:typeRef": "nsu=http://opcfoundation.org/UA/Machinery/;i=1011",
+    "dov:typeRef": "org.opcfoundation.UA.Machinery.IMachineTagNameplateType",
     "links": [
       {
         "rel": "tm:extends",
@@ -22,12 +21,12 @@
     "forms": [
       {
         "contentType": "application/json",
-        "dtv:topic": "opcua/Machinery/Machinery_IMachineTagNameplateType/properties/write",
+        "dov:topic": "opcua/Machinery/Machinery_IMachineTagNameplateType/properties/write",
         "op": "writemultipleproperties"
       },
       {
         "contentType": "application/json",
-        "dtv:topic": "opcua/Machinery/Machinery_IMachineTagNameplateType/properties/read",
+        "dov:topic": "opcua/Machinery/Machinery_IMachineTagNameplateType/properties/read",
         "op": "readallproperties"
       }
     ],
@@ -35,19 +34,19 @@
     },
     "properties": {
       "Location": {
-        "aov:namespace": "http://opcfoundation.org/UA/Machinery/",
+        "dov:namespace": "http://opcfoundation.org/UA/Machinery/",
         "description": "To be used by end users to store the location of the machine in a scheme specific to the end user Servers shall support at least 60 Unicode characters for the clients writing this value, this means clients can expect to be able to write strings with a length of 60 Unicode characters into that field.",
         "type": "string",
         "readOnly": false,
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/Machinery/Machinery_IMachineTagNameplateType/property/Location/write",
+            "dov:topic": "opcua/Machinery/Machinery_IMachineTagNameplateType/property/Location/write",
             "op": "writeproperty"
           },
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/Machinery/Machinery_IMachineTagNameplateType/property/Location/read",
+            "dov:topic": "opcua/Machinery/Machinery_IMachineTagNameplateType/property/Location/read",
             "op": "readproperty"
           }
         ]
@@ -60,13 +59,12 @@
     "@context": [
       "https://www.w3.org/2022/wot/td/v1.1",
       {
-        "dtv": "http://azure.com/DigitalTwins/dtmi#",
-        "aov": "http://azure.com/IoT/operations/tm#"
+        "dov": "http://azure.com/DigitalOperations/vocab#"
       }
     ],
     "@type": "tm:ThingModel",
     "title": "Machinery_IMachineryEquipmentType",
-    "aov:typeRef": "nsu=http://opcfoundation.org/UA/Machinery/;i=1007",
+    "dov:typeRef": "org.opcfoundation.UA.Machinery.IMachineryEquipmentType",
     "links": [
       {
         "rel": "tm:extends",
@@ -79,17 +77,17 @@
     "forms": [
       {
         "contentType": "application/json",
-        "dtv:topic": "opcua/Machinery/Machinery_IMachineryEquipmentType/events/{senderId}",
+        "dov:topic": "opcua/Machinery/Machinery_IMachineryEquipmentType/events/{senderId}",
         "op": "subscribeallevents"
       },
       {
         "contentType": "application/json",
-        "dtv:topic": "opcua/Machinery/Machinery_IMachineryEquipmentType/properties/write",
+        "dov:topic": "opcua/Machinery/Machinery_IMachineryEquipmentType/properties/write",
         "op": "writemultipleproperties"
       },
       {
         "contentType": "application/json",
-        "dtv:topic": "opcua/Machinery/Machinery_IMachineryEquipmentType/properties/read",
+        "dov:topic": "opcua/Machinery/Machinery_IMachineryEquipmentType/properties/read",
         "op": "readallproperties"
       }
     ],
@@ -97,50 +95,50 @@
     },
     "properties": {
       "Description": {
-        "aov:namespace": "http://opcfoundation.org/UA/Machinery/",
+        "dov:namespace": "http://opcfoundation.org/UA/Machinery/",
         "description": "Additional information and description about the MachineryEquipment. Should be used if Description Attribute cannot be written via OPC UA and should be ideally identical to Description Attribute.",
         "type": "string",
         "readOnly": false,
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/Machinery/Machinery_IMachineryEquipmentType/property/Description/write",
+            "dov:topic": "opcua/Machinery/Machinery_IMachineryEquipmentType/property/Description/write",
             "op": "writeproperty"
           },
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/Machinery/Machinery_IMachineryEquipmentType/property/Description/read",
+            "dov:topic": "opcua/Machinery/Machinery_IMachineryEquipmentType/property/Description/read",
             "op": "readproperty"
           }
         ]
       },
       "EquipmentLife": {
-        "aov:namespace": "http://opcfoundation.org/UA/Machinery/",
+        "dov:namespace": "http://opcfoundation.org/UA/Machinery/",
         "description": "Lifetime indication of the MachineryEquipment.",
         "type": "number",
         "readOnly": true,
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/Machinery/Machinery_IMachineryEquipmentType/property/EquipmentLife/read",
+            "dov:topic": "opcua/Machinery/Machinery_IMachineryEquipmentType/property/EquipmentLife/read",
             "op": "readproperty"
           }
         ]
       },
       "MachineryEquipmentTypeId": {
-        "aov:namespace": "http://opcfoundation.org/UA/Machinery/",
+        "dov:namespace": "http://opcfoundation.org/UA/Machinery/",
         "description": "Identification of a generic MachineryEquipment. Defined by each company (e.g., company has an MachineryEquipmentTypeId for all 8 mm drills).",
         "type": "string",
         "readOnly": false,
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/Machinery/Machinery_IMachineryEquipmentType/property/MachineryEquipmentTypeId/write",
+            "dov:topic": "opcua/Machinery/Machinery_IMachineryEquipmentType/property/MachineryEquipmentTypeId/write",
             "op": "writeproperty"
           },
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/Machinery/Machinery_IMachineryEquipmentType/property/MachineryEquipmentTypeId/read",
+            "dov:topic": "opcua/Machinery/Machinery_IMachineryEquipmentType/property/MachineryEquipmentTypeId/read",
             "op": "readproperty"
           }
         ]
@@ -148,7 +146,7 @@
     },
     "events": {
       "EquipmentLife": {
-        "aov:namespace": "http://opcfoundation.org/UA/Machinery/",
+        "dov:namespace": "http://opcfoundation.org/UA/Machinery/",
         "data": {
           "description": "Lifetime indication of the MachineryEquipment.",
           "type": "number"
@@ -156,7 +154,7 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/Machinery/Machinery_IMachineryEquipmentType/event/EquipmentLife/{senderId}",
+            "dov:topic": "opcua/Machinery/Machinery_IMachineryEquipmentType/event/EquipmentLife/{senderId}",
             "op": "subscribeevent"
           }
         ]
@@ -167,13 +165,12 @@
     "@context": [
       "https://www.w3.org/2022/wot/td/v1.1",
       {
-        "dtv": "http://azure.com/DigitalTwins/dtmi#",
-        "aov": "http://azure.com/IoT/operations/tm#"
+        "dov": "http://azure.com/DigitalOperations/vocab#"
       }
     ],
     "@type": "tm:ThingModel",
     "title": "Machinery_IMachineryItemVendorNameplateType",
-    "aov:typeRef": "nsu=http://opcfoundation.org/UA/Machinery/;i=1003",
+    "dov:typeRef": "org.opcfoundation.UA.Machinery.IMachineryItemVendorNameplateType",
     "links": [
       {
         "rel": "tm:extends",
@@ -186,7 +183,7 @@
     "forms": [
       {
         "contentType": "application/json",
-        "dtv:topic": "opcua/Machinery/Machinery_IMachineryItemVendorNameplateType/properties/read",
+        "dov:topic": "opcua/Machinery/Machinery_IMachineryItemVendorNameplateType/properties/read",
         "op": "readallproperties"
       }
     ],
@@ -194,7 +191,7 @@
     },
     "properties": {
       "InitialOperationDate": {
-        "aov:namespace": "http://opcfoundation.org/UA/Machinery/",
+        "dov:namespace": "http://opcfoundation.org/UA/Machinery/",
         "description": "The date, when the MachineryItem was switched on the first time after it has left the manufacturer plant.",
         "type": "string",
         "format": "date-time",
@@ -202,26 +199,26 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/Machinery/Machinery_IMachineryItemVendorNameplateType/property/InitialOperationDate/read",
+            "dov:topic": "opcua/Machinery/Machinery_IMachineryItemVendorNameplateType/property/InitialOperationDate/read",
             "op": "readproperty"
           }
         ]
       },
       "Manufacturer": {
-        "aov:namespace": "http://opcfoundation.org/UA/DI/",
+        "dov:namespace": "http://opcfoundation.org/UA/DI/",
         "description": "A human-readable, localized name of the manufacturer of the MachineryItem.",
         "type": "string",
         "readOnly": true,
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/Machinery/Machinery_IMachineryItemVendorNameplateType/property/Manufacturer/read",
+            "dov:topic": "opcua/Machinery/Machinery_IMachineryItemVendorNameplateType/property/Manufacturer/read",
             "op": "readproperty"
           }
         ]
       },
       "MonthOfConstruction": {
-        "aov:namespace": "http://opcfoundation.org/UA/Machinery/",
+        "dov:namespace": "http://opcfoundation.org/UA/Machinery/",
         "description": "The month in which the manufacturing process of the MachineryItem has been completed. It shall be a number between 1 and 12, representing the month from January to December.",
         "type": "integer",
         "minimum": 0,
@@ -230,26 +227,26 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/Machinery/Machinery_IMachineryItemVendorNameplateType/property/MonthOfConstruction/read",
+            "dov:topic": "opcua/Machinery/Machinery_IMachineryItemVendorNameplateType/property/MonthOfConstruction/read",
             "op": "readproperty"
           }
         ]
       },
       "SerialNumber": {
-        "aov:namespace": "http://opcfoundation.org/UA/DI/",
+        "dov:namespace": "http://opcfoundation.org/UA/DI/",
         "description": "A string containing a unique production number of the manufacturer of the MachineryItem. The global uniqueness of the serial number is only given in the context of the manufacturer, and potentially the model. The value shall not change during the life-cycle of the MachineryItem.",
         "type": "string",
         "readOnly": true,
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/Machinery/Machinery_IMachineryItemVendorNameplateType/property/SerialNumber/read",
+            "dov:topic": "opcua/Machinery/Machinery_IMachineryItemVendorNameplateType/property/SerialNumber/read",
             "op": "readproperty"
           }
         ]
       },
       "YearOfConstruction": {
-        "aov:namespace": "http://opcfoundation.org/UA/Machinery/",
+        "dov:namespace": "http://opcfoundation.org/UA/Machinery/",
         "description": "The year (Gregorian calendar) in which the manufacturing process of the MachineryItem has been completed. It shall be a four-digit number and never change during the life-cycle of a MachineryItem.",
         "type": "integer",
         "minimum": 0,
@@ -258,7 +255,7 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/Machinery/Machinery_IMachineryItemVendorNameplateType/property/YearOfConstruction/read",
+            "dov:topic": "opcua/Machinery/Machinery_IMachineryItemVendorNameplateType/property/YearOfConstruction/read",
             "op": "readproperty"
           }
         ]
@@ -271,13 +268,12 @@
     "@context": [
       "https://www.w3.org/2022/wot/td/v1.1",
       {
-        "dtv": "http://azure.com/DigitalTwins/dtmi#",
-        "aov": "http://azure.com/IoT/operations/tm#"
+        "dov": "http://azure.com/DigitalOperations/vocab#"
       }
     ],
     "@type": "tm:ThingModel",
     "title": "Machinery_IMachineVendorNameplateType",
-    "aov:typeRef": "nsu=http://opcfoundation.org/UA/Machinery/;i=1010",
+    "dov:typeRef": "org.opcfoundation.UA.Machinery.IMachineVendorNameplateType",
     "links": [
       {
         "rel": "tm:extends",
@@ -290,7 +286,7 @@
     "forms": [
       {
         "contentType": "application/json",
-        "dtv:topic": "opcua/Machinery/Machinery_IMachineVendorNameplateType/properties/read",
+        "dov:topic": "opcua/Machinery/Machinery_IMachineVendorNameplateType/properties/read",
         "op": "readallproperties"
       }
     ],
@@ -298,14 +294,14 @@
     },
     "properties": {
       "ProductInstanceUri": {
-        "aov:namespace": "http://opcfoundation.org/UA/DI/",
+        "dov:namespace": "http://opcfoundation.org/UA/DI/",
         "description": "A globally unique resource identifier provided by the manufacturer of the machine",
         "type": "string",
         "readOnly": true,
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/Machinery/Machinery_IMachineVendorNameplateType/property/ProductInstanceUri/read",
+            "dov:topic": "opcua/Machinery/Machinery_IMachineVendorNameplateType/property/ProductInstanceUri/read",
             "op": "readproperty"
           }
         ]
@@ -318,13 +314,12 @@
     "@context": [
       "https://www.w3.org/2022/wot/td/v1.1",
       {
-        "dtv": "http://azure.com/DigitalTwins/dtmi#",
-        "aov": "http://azure.com/IoT/operations/tm#"
+        "dov": "http://azure.com/DigitalOperations/vocab#"
       }
     ],
     "@type": "tm:ThingModel",
     "title": "Machinery_MachineryItemIdentificationType",
-    "aov:typeRef": "nsu=http://opcfoundation.org/UA/Machinery/;i=1004",
+    "dov:typeRef": "org.opcfoundation.UA.Machinery.MachineryItemIdentificationType",
     "links": [
       {
         "rel": "tm:extends",
@@ -337,12 +332,12 @@
     "forms": [
       {
         "contentType": "application/json",
-        "dtv:topic": "opcua/Machinery/Machinery_MachineryItemIdentificationType/properties/write",
+        "dov:topic": "opcua/Machinery/Machinery_MachineryItemIdentificationType/properties/write",
         "op": "writemultipleproperties"
       },
       {
         "contentType": "application/json",
-        "dtv:topic": "opcua/Machinery/Machinery_MachineryItemIdentificationType/properties/read",
+        "dov:topic": "opcua/Machinery/Machinery_MachineryItemIdentificationType/properties/read",
         "op": "readallproperties"
       }
     ],
@@ -350,37 +345,37 @@
     },
     "properties": {
       "AssetId": {
-        "aov:namespace": "http://opcfoundation.org/UA/DI/",
+        "dov:namespace": "http://opcfoundation.org/UA/DI/",
         "description": "To be used by end users to store a unique identification in the context of their overall application. Servers shall support at least 40 Unicode characters for the clients writing this value, this means clients can expect to be able to write strings with a length of 40 Unicode characters into that field.",
         "type": "string",
         "readOnly": false,
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/Machinery/Machinery_MachineryItemIdentificationType/property/AssetId/write",
+            "dov:topic": "opcua/Machinery/Machinery_MachineryItemIdentificationType/property/AssetId/write",
             "op": "writeproperty"
           },
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/Machinery/Machinery_MachineryItemIdentificationType/property/AssetId/read",
+            "dov:topic": "opcua/Machinery/Machinery_MachineryItemIdentificationType/property/AssetId/read",
             "op": "readproperty"
           }
         ]
       },
       "ComponentName": {
-        "aov:namespace": "http://opcfoundation.org/UA/DI/",
+        "dov:namespace": "http://opcfoundation.org/UA/DI/",
         "description": "To be used by end users to store a human-readable localized text for the MachineryItem. The minimum number of locales supported for this property shall be two. Servers shall support at least 40 Unicode characters for the clients writing the text part of each locale, this means clients can expect to be able to write texts with a length of 40 Unicode characters into that field.",
         "type": "string",
         "readOnly": false,
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/Machinery/Machinery_MachineryItemIdentificationType/property/ComponentName/write",
+            "dov:topic": "opcua/Machinery/Machinery_MachineryItemIdentificationType/property/ComponentName/write",
             "op": "writeproperty"
           },
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/Machinery/Machinery_MachineryItemIdentificationType/property/ComponentName/read",
+            "dov:topic": "opcua/Machinery/Machinery_MachineryItemIdentificationType/property/ComponentName/read",
             "op": "readproperty"
           }
         ]
@@ -392,44 +387,44 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/Machinery/Machinery_MachineryItemIdentificationType/property/DefaultInstanceBrowseName/write",
+            "dov:topic": "opcua/Machinery/Machinery_MachineryItemIdentificationType/property/DefaultInstanceBrowseName/write",
             "op": "writeproperty"
           },
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/Machinery/Machinery_MachineryItemIdentificationType/property/DefaultInstanceBrowseName/read",
+            "dov:topic": "opcua/Machinery/Machinery_MachineryItemIdentificationType/property/DefaultInstanceBrowseName/read",
             "op": "readproperty"
           }
         ]
       },
       "DeviceClass": {
-        "aov:namespace": "http://opcfoundation.org/UA/DI/",
+        "dov:namespace": "http://opcfoundation.org/UA/DI/",
         "description": "Indicates in which domain or for what purpose the MachineryItem is used.",
         "type": "string",
         "readOnly": true,
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/Machinery/Machinery_MachineryItemIdentificationType/property/DeviceClass/read",
+            "dov:topic": "opcua/Machinery/Machinery_MachineryItemIdentificationType/property/DeviceClass/read",
             "op": "readproperty"
           }
         ]
       },
       "HardwareRevision": {
-        "aov:namespace": "http://opcfoundation.org/UA/DI/",
+        "dov:namespace": "http://opcfoundation.org/UA/DI/",
         "description": "A string representation of the revision level of the hardware of a MachineryItem. Hardware is physical equipment, as opposed to programs, procedures, rules and associated documentation. Many machines will not provide such information due to the modular and configurable nature of the machine.",
         "type": "string",
         "readOnly": true,
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/Machinery/Machinery_MachineryItemIdentificationType/property/HardwareRevision/read",
+            "dov:topic": "opcua/Machinery/Machinery_MachineryItemIdentificationType/property/HardwareRevision/read",
             "op": "readproperty"
           }
         ]
       },
       "InitialOperationDate": {
-        "aov:namespace": "http://opcfoundation.org/UA/Machinery/",
+        "dov:namespace": "http://opcfoundation.org/UA/Machinery/",
         "description": "The date, when the MachineryItem was switched on the first time after it has left the manufacturer plant.",
         "type": "string",
         "format": "date-time",
@@ -437,52 +432,52 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/Machinery/Machinery_MachineryItemIdentificationType/property/InitialOperationDate/read",
+            "dov:topic": "opcua/Machinery/Machinery_MachineryItemIdentificationType/property/InitialOperationDate/read",
             "op": "readproperty"
           }
         ]
       },
       "Manufacturer": {
-        "aov:namespace": "http://opcfoundation.org/UA/DI/",
+        "dov:namespace": "http://opcfoundation.org/UA/DI/",
         "description": "A human-readable, localized name of the manufacturer of the MachineryItem.",
         "type": "string",
         "readOnly": true,
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/Machinery/Machinery_MachineryItemIdentificationType/property/Manufacturer/read",
+            "dov:topic": "opcua/Machinery/Machinery_MachineryItemIdentificationType/property/Manufacturer/read",
             "op": "readproperty"
           }
         ]
       },
       "ManufacturerUri": {
-        "aov:namespace": "http://opcfoundation.org/UA/DI/",
+        "dov:namespace": "http://opcfoundation.org/UA/DI/",
         "description": "A globally unique identifier of the manufacturer of the MachineryItem.",
         "type": "string",
         "readOnly": true,
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/Machinery/Machinery_MachineryItemIdentificationType/property/ManufacturerUri/read",
+            "dov:topic": "opcua/Machinery/Machinery_MachineryItemIdentificationType/property/ManufacturerUri/read",
             "op": "readproperty"
           }
         ]
       },
       "Model": {
-        "aov:namespace": "http://opcfoundation.org/UA/DI/",
+        "dov:namespace": "http://opcfoundation.org/UA/DI/",
         "description": "A human-readable, localized name of the model of the MachineryItem.",
         "type": "string",
         "readOnly": true,
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/Machinery/Machinery_MachineryItemIdentificationType/property/Model/read",
+            "dov:topic": "opcua/Machinery/Machinery_MachineryItemIdentificationType/property/Model/read",
             "op": "readproperty"
           }
         ]
       },
       "MonthOfConstruction": {
-        "aov:namespace": "http://opcfoundation.org/UA/Machinery/",
+        "dov:namespace": "http://opcfoundation.org/UA/Machinery/",
         "description": "The month in which the manufacturing process of the MachineryItem has been completed. It shall be a number between 1 and 12, representing the month from January to December.",
         "type": "integer",
         "minimum": 0,
@@ -491,65 +486,65 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/Machinery/Machinery_MachineryItemIdentificationType/property/MonthOfConstruction/read",
+            "dov:topic": "opcua/Machinery/Machinery_MachineryItemIdentificationType/property/MonthOfConstruction/read",
             "op": "readproperty"
           }
         ]
       },
       "ProductCode": {
-        "aov:namespace": "http://opcfoundation.org/UA/DI/",
+        "dov:namespace": "http://opcfoundation.org/UA/DI/",
         "description": "A machine-readable string of the model of the MachineryItem, that might include options like the hardware configuration of the model. This information might be provided by the ERP system of the vendor. For example, it can be used as order information.",
         "type": "string",
         "readOnly": true,
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/Machinery/Machinery_MachineryItemIdentificationType/property/ProductCode/read",
+            "dov:topic": "opcua/Machinery/Machinery_MachineryItemIdentificationType/property/ProductCode/read",
             "op": "readproperty"
           }
         ]
       },
       "ProductInstanceUri": {
-        "aov:namespace": "http://opcfoundation.org/UA/DI/",
+        "dov:namespace": "http://opcfoundation.org/UA/DI/",
         "description": "A globally unique resource identifier provided by the manufacturer of the MachineryItem.",
         "type": "string",
         "readOnly": true,
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/Machinery/Machinery_MachineryItemIdentificationType/property/ProductInstanceUri/read",
+            "dov:topic": "opcua/Machinery/Machinery_MachineryItemIdentificationType/property/ProductInstanceUri/read",
             "op": "readproperty"
           }
         ]
       },
       "SerialNumber": {
-        "aov:namespace": "http://opcfoundation.org/UA/DI/",
+        "dov:namespace": "http://opcfoundation.org/UA/DI/",
         "description": "A string containing a unique production number of the manufacturer of the MachineryItem. The global uniqueness of the serial number is only given in the context of the manufacturer, and potentially the model. The value shall not change during the life-cycle of the MachineryItem.",
         "type": "string",
         "readOnly": true,
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/Machinery/Machinery_MachineryItemIdentificationType/property/SerialNumber/read",
+            "dov:topic": "opcua/Machinery/Machinery_MachineryItemIdentificationType/property/SerialNumber/read",
             "op": "readproperty"
           }
         ]
       },
       "SoftwareRevision": {
-        "aov:namespace": "http://opcfoundation.org/UA/DI/",
+        "dov:namespace": "http://opcfoundation.org/UA/DI/",
         "description": "A string representation of the revision level of a MachineryItem. In most cases, MachineryItems consist of several software components. In that case, information about the software components might be provided as additional information in the address space, including individual revision information. In that case, this property is either not provided or provides an overall software revision level. The value might change during the life-cycle of a MachineryItem.",
         "type": "string",
         "readOnly": true,
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/Machinery/Machinery_MachineryItemIdentificationType/property/SoftwareRevision/read",
+            "dov:topic": "opcua/Machinery/Machinery_MachineryItemIdentificationType/property/SoftwareRevision/read",
             "op": "readproperty"
           }
         ]
       },
       "YearOfConstruction": {
-        "aov:namespace": "http://opcfoundation.org/UA/Machinery/",
+        "dov:namespace": "http://opcfoundation.org/UA/Machinery/",
         "description": "The year (Gregorian calendar) in which the manufacturing process of the MachineryItem has been completed. It shall be a four-digit number and never change during the life-cycle of a MachineryItem.",
         "type": "integer",
         "minimum": 0,
@@ -558,7 +553,7 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/Machinery/Machinery_MachineryItemIdentificationType/property/YearOfConstruction/read",
+            "dov:topic": "opcua/Machinery/Machinery_MachineryItemIdentificationType/property/YearOfConstruction/read",
             "op": "readproperty"
           }
         ]
@@ -571,14 +566,13 @@
     "@context": [
       "https://www.w3.org/2022/wot/td/v1.1",
       {
-        "dtv": "http://azure.com/DigitalTwins/dtmi#",
-        "aov": "http://azure.com/IoT/operations/tm#"
+        "dov": "http://azure.com/DigitalOperations/vocab#"
       }
     ],
     "@type": "tm:ThingModel",
     "title": "Machinery_MachineIdentificationType",
-    "aov:typeRef": "nsu=http://opcfoundation.org/UA/Machinery/;i=1012",
-    "aov:isComposite": true,
+    "dov:typeRef": "org.opcfoundation.UA.Machinery.MachineIdentificationType",
+    "dov:isComposite": true,
     "links": [
       {
         "rel": "tm:extends",
@@ -591,12 +585,12 @@
     "forms": [
       {
         "contentType": "application/json",
-        "dtv:topic": "opcua/Machinery/Machinery_MachineIdentificationType/properties/write",
+        "dov:topic": "opcua/Machinery/Machinery_MachineIdentificationType/properties/write",
         "op": "writemultipleproperties"
       },
       {
         "contentType": "application/json",
-        "dtv:topic": "opcua/Machinery/Machinery_MachineIdentificationType/properties/read",
+        "dov:topic": "opcua/Machinery/Machinery_MachineIdentificationType/properties/read",
         "op": "readallproperties"
       }
     ],
@@ -610,38 +604,38 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/Machinery/Machinery_MachineIdentificationType/property/DefaultInstanceBrowseName/read",
+            "dov:topic": "opcua/Machinery/Machinery_MachineIdentificationType/property/DefaultInstanceBrowseName/read",
             "op": "readproperty"
           }
         ]
       },
       "Location": {
-        "aov:namespace": "http://opcfoundation.org/UA/Machinery/",
+        "dov:namespace": "http://opcfoundation.org/UA/Machinery/",
         "description": "To be used by end users to store the location of the machine in a scheme specific to the end user. Servers shall support at least 60 Unicode characters for the clients writing this value, this means clients can expect to be able to write strings with a length of 60 Unicode characters into that field.",
         "type": "string",
         "readOnly": false,
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/Machinery/Machinery_MachineIdentificationType/property/Location/write",
+            "dov:topic": "opcua/Machinery/Machinery_MachineIdentificationType/property/Location/write",
             "op": "writeproperty"
           },
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/Machinery/Machinery_MachineIdentificationType/property/Location/read",
+            "dov:topic": "opcua/Machinery/Machinery_MachineIdentificationType/property/Location/read",
             "op": "readproperty"
           }
         ]
       },
       "ProductInstanceUri": {
-        "aov:namespace": "http://opcfoundation.org/UA/DI/",
+        "dov:namespace": "http://opcfoundation.org/UA/DI/",
         "description": "A globally unique resource identifier provided by the manufacturer of the machine",
         "type": "string",
         "readOnly": true,
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/Machinery/Machinery_MachineIdentificationType/property/ProductInstanceUri/read",
+            "dov:topic": "opcua/Machinery/Machinery_MachineIdentificationType/property/ProductInstanceUri/read",
             "op": "readproperty"
           }
         ]
@@ -654,14 +648,13 @@
     "@context": [
       "https://www.w3.org/2022/wot/td/v1.1",
       {
-        "dtv": "http://azure.com/DigitalTwins/dtmi#",
-        "aov": "http://azure.com/IoT/operations/tm#"
+        "dov": "http://azure.com/DigitalOperations/vocab#"
       }
     ],
     "@type": "tm:ThingModel",
     "title": "Machinery_MachineryComponentIdentificationType",
-    "aov:typeRef": "nsu=http://opcfoundation.org/UA/Machinery/;i=1005",
-    "aov:isComposite": true,
+    "dov:typeRef": "org.opcfoundation.UA.Machinery.MachineryComponentIdentificationType",
+    "dov:isComposite": true,
     "links": [
       {
         "rel": "tm:extends",
@@ -674,12 +667,12 @@
     "forms": [
       {
         "contentType": "application/json",
-        "dtv:topic": "opcua/Machinery/Machinery_MachineryComponentIdentificationType/properties/write",
+        "dov:topic": "opcua/Machinery/Machinery_MachineryComponentIdentificationType/properties/write",
         "op": "writemultipleproperties"
       },
       {
         "contentType": "application/json",
-        "dtv:topic": "opcua/Machinery/Machinery_MachineryComponentIdentificationType/properties/read",
+        "dov:topic": "opcua/Machinery/Machinery_MachineryComponentIdentificationType/properties/read",
         "op": "readallproperties"
       }
     ],
@@ -693,25 +686,25 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/Machinery/Machinery_MachineryComponentIdentificationType/property/DefaultInstanceBrowseName/write",
+            "dov:topic": "opcua/Machinery/Machinery_MachineryComponentIdentificationType/property/DefaultInstanceBrowseName/write",
             "op": "writeproperty"
           },
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/Machinery/Machinery_MachineryComponentIdentificationType/property/DefaultInstanceBrowseName/read",
+            "dov:topic": "opcua/Machinery/Machinery_MachineryComponentIdentificationType/property/DefaultInstanceBrowseName/read",
             "op": "readproperty"
           }
         ]
       },
       "DeviceRevision": {
-        "aov:namespace": "http://opcfoundation.org/UA/DI/",
+        "dov:namespace": "http://opcfoundation.org/UA/DI/",
         "description": "A string representation of the overall revision level of the component. Often, it is increased when either the SoftwareRevision and / or the HardwareRevision of the component is increased. As an example, it can be used in ERP systems together with the ProductCode.",
         "type": "string",
         "readOnly": true,
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/Machinery/Machinery_MachineryComponentIdentificationType/property/DeviceRevision/read",
+            "dov:topic": "opcua/Machinery/Machinery_MachineryComponentIdentificationType/property/DeviceRevision/read",
             "op": "readproperty"
           }
         ]
@@ -724,14 +717,13 @@
     "@context": [
       "https://www.w3.org/2022/wot/td/v1.1",
       {
-        "dtv": "http://azure.com/DigitalTwins/dtmi#",
-        "aov": "http://azure.com/IoT/operations/tm#"
+        "dov": "http://azure.com/DigitalOperations/vocab#"
       }
     ],
     "@type": "tm:ThingModel",
     "title": "Machinery_MachineryOperationCounterType",
-    "aov:typeRef": "nsu=http://opcfoundation.org/UA/Machinery/;i=1009",
-    "aov:isComposite": true,
+    "dov:typeRef": "org.opcfoundation.UA.Machinery.MachineryOperationCounterType",
+    "dov:isComposite": true,
     "links": [
       {
         "rel": "tm:extends",
@@ -744,12 +736,12 @@
     "forms": [
       {
         "contentType": "application/json",
-        "dtv:topic": "opcua/Machinery/Machinery_MachineryOperationCounterType/properties/write",
+        "dov:topic": "opcua/Machinery/Machinery_MachineryOperationCounterType/properties/write",
         "op": "writemultipleproperties"
       },
       {
         "contentType": "application/json",
-        "dtv:topic": "opcua/Machinery/Machinery_MachineryOperationCounterType/properties/read",
+        "dov:topic": "opcua/Machinery/Machinery_MachineryOperationCounterType/properties/read",
         "op": "readallproperties"
       }
     ],
@@ -763,18 +755,18 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/Machinery/Machinery_MachineryOperationCounterType/property/DefaultInstanceBrowseName/write",
+            "dov:topic": "opcua/Machinery/Machinery_MachineryOperationCounterType/property/DefaultInstanceBrowseName/write",
             "op": "writeproperty"
           },
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/Machinery/Machinery_MachineryOperationCounterType/property/DefaultInstanceBrowseName/read",
+            "dov:topic": "opcua/Machinery/Machinery_MachineryOperationCounterType/property/DefaultInstanceBrowseName/read",
             "op": "readproperty"
           }
         ]
       },
       "OperationCycleCounter": {
-        "aov:namespace": "http://opcfoundation.org/UA/DI/",
+        "dov:namespace": "http://opcfoundation.org/UA/DI/",
         "description": "OperationCycleCounter is counting the times the component switches from not performing an activity to performing an activity. For example, each time a valve starts moving, is counted. This value shall only increase during the lifetime of the component and shall not be reset when the component is restarted.",
         "type": "integer",
         "minimum": 0,
@@ -782,18 +774,18 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/Machinery/Machinery_MachineryOperationCounterType/property/OperationCycleCounter/write",
+            "dov:topic": "opcua/Machinery/Machinery_MachineryOperationCounterType/property/OperationCycleCounter/write",
             "op": "writeproperty"
           },
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/Machinery/Machinery_MachineryOperationCounterType/property/OperationCycleCounter/read",
+            "dov:topic": "opcua/Machinery/Machinery_MachineryOperationCounterType/property/OperationCycleCounter/read",
             "op": "readproperty"
           }
         ]
       },
       "OperationDuration": {
-        "aov:namespace": "http://opcfoundation.org/UA/DI/",
+        "dov:namespace": "http://opcfoundation.org/UA/DI/",
         "description": "OperationDuration is the duration the MachineryItem has been powered and performing an activity. This counter is intended for machines and components where a distinction is made between switched on and in operation. For example, a drive might be powered on but not operating. It is not intended for machines or components always performing an activity like sensors always measuring data. This value shall only increase during the lifetime of the MachineryItem and shall not be reset when it is restarted. The OperationDuration is provided as Duration, i.e., in milliseconds or even fractions of a millisecond. However, the Server is not expected to update the value in such a high frequency, but maybe once a minute or once an hour, depending on the application.",
         "type": "string",
         "pattern": "^P(?!$)(?:(?:(?:(?:\\d+Y)|(?:\\d+\\.\\d+Y$))?(?:(?:\\d+M)|(?:\\d+\\.\\d+M$))?)|(?:(?:(?:\\d+W)|(?:\\d+\\.\\d+W$))?))(?:(?:\\d+D)|(?:\\d+\\.\\d+D$))?(?:T(?!$)(?:(?:\\d+H)|(?:\\d+\\.\\d+H$))?(?:(?:\\d+M)|(?:\\d+\\.\\d+M$))?(?:\\d+(?:\\.\\d+)?S)?)?$",
@@ -801,18 +793,18 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/Machinery/Machinery_MachineryOperationCounterType/property/OperationDuration/write",
+            "dov:topic": "opcua/Machinery/Machinery_MachineryOperationCounterType/property/OperationDuration/write",
             "op": "writeproperty"
           },
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/Machinery/Machinery_MachineryOperationCounterType/property/OperationDuration/read",
+            "dov:topic": "opcua/Machinery/Machinery_MachineryOperationCounterType/property/OperationDuration/read",
             "op": "readproperty"
           }
         ]
       },
       "PowerOnDuration": {
-        "aov:namespace": "http://opcfoundation.org/UA/DI/",
+        "dov:namespace": "http://opcfoundation.org/UA/DI/",
         "description": "PowerOnDuration is the duration the MachineryItem has been powered. The main purpose is to determine the time in which degradation of the MachineryItem occurred. The details, when the time is counted, is implementation-specific. Companion specifications might define specific rules. Typically, when the MachineryItem has supply voltage and the main CPU is running, the time is counted. This may include any kind of sleep mode, but may not include pure Wake on LAN. This value shall only increase during the lifetime of the MachineryItem and shall not be reset when it is restarted. The PowerOnDuration is provided as Duration, i.e., in milliseconds or even fractions of a millisecond. However, the Server is not expected to update the value in such a high frequency, but maybe once a minute or once an hour, depending on the application.",
         "type": "string",
         "pattern": "^P(?!$)(?:(?:(?:(?:\\d+Y)|(?:\\d+\\.\\d+Y$))?(?:(?:\\d+M)|(?:\\d+\\.\\d+M$))?)|(?:(?:(?:\\d+W)|(?:\\d+\\.\\d+W$))?))(?:(?:\\d+D)|(?:\\d+\\.\\d+D$))?(?:T(?!$)(?:(?:\\d+H)|(?:\\d+\\.\\d+H$))?(?:(?:\\d+M)|(?:\\d+\\.\\d+M$))?(?:\\d+(?:\\.\\d+)?S)?)?$",
@@ -820,12 +812,12 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/Machinery/Machinery_MachineryOperationCounterType/property/PowerOnDuration/write",
+            "dov:topic": "opcua/Machinery/Machinery_MachineryOperationCounterType/property/PowerOnDuration/write",
             "op": "writeproperty"
           },
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/Machinery/Machinery_MachineryOperationCounterType/property/PowerOnDuration/read",
+            "dov:topic": "opcua/Machinery/Machinery_MachineryOperationCounterType/property/PowerOnDuration/read",
             "op": "readproperty"
           }
         ]
@@ -838,14 +830,13 @@
     "@context": [
       "https://www.w3.org/2022/wot/td/v1.1",
       {
-        "dtv": "http://azure.com/DigitalTwins/dtmi#",
-        "aov": "http://azure.com/IoT/operations/tm#"
+        "dov": "http://azure.com/DigitalOperations/vocab#"
       }
     ],
     "@type": "tm:ThingModel",
     "title": "Machinery_MachineryEquipmentFolderType",
-    "aov:typeRef": "nsu=http://opcfoundation.org/UA/Machinery/;i=1013",
-    "aov:isComposite": true,
+    "dov:typeRef": "org.opcfoundation.UA.Machinery.MachineryEquipmentFolderType",
+    "dov:isComposite": true,
     "links": [
       {
         "rel": "tm:extends",
@@ -853,8 +844,8 @@
         "type": "application/tm+json"
       },
       {
-        "rel": "aov:component",
-        "aov:refName": "MachineryEquipment",
+        "rel": "dov:component",
+        "dov:refName": "MachineryEquipment",
         "href": "#title=OpcUaCore_BaseObjectType",
         "type": "application/tm+json"
       }
@@ -864,12 +855,12 @@
     "forms": [
       {
         "contentType": "application/json",
-        "dtv:topic": "opcua/Machinery/Machinery_MachineryEquipmentFolderType/properties/write",
+        "dov:topic": "opcua/Machinery/Machinery_MachineryEquipmentFolderType/properties/write",
         "op": "writemultipleproperties"
       },
       {
         "contentType": "application/json",
-        "dtv:topic": "opcua/Machinery/Machinery_MachineryEquipmentFolderType/properties/read",
+        "dov:topic": "opcua/Machinery/Machinery_MachineryEquipmentFolderType/properties/read",
         "op": "readallproperties"
       }
     ],
@@ -883,12 +874,12 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/Machinery/Machinery_MachineryEquipmentFolderType/property/DefaultInstanceBrowseName/write",
+            "dov:topic": "opcua/Machinery/Machinery_MachineryEquipmentFolderType/property/DefaultInstanceBrowseName/write",
             "op": "writeproperty"
           },
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/Machinery/Machinery_MachineryEquipmentFolderType/property/DefaultInstanceBrowseName/read",
+            "dov:topic": "opcua/Machinery/Machinery_MachineryEquipmentFolderType/property/DefaultInstanceBrowseName/read",
             "op": "readproperty"
           }
         ]
@@ -901,14 +892,13 @@
     "@context": [
       "https://www.w3.org/2022/wot/td/v1.1",
       {
-        "dtv": "http://azure.com/DigitalTwins/dtmi#",
-        "aov": "http://azure.com/IoT/operations/tm#"
+        "dov": "http://azure.com/DigitalOperations/vocab#"
       }
     ],
     "@type": "tm:ThingModel",
     "title": "Machinery_MachineryLifetimeCounterType",
-    "aov:typeRef": "nsu=http://opcfoundation.org/UA/Machinery/;i=1015",
-    "aov:isComposite": true,
+    "dov:typeRef": "org.opcfoundation.UA.Machinery.MachineryLifetimeCounterType",
+    "dov:isComposite": true,
     "links": [
       {
         "rel": "tm:extends",
@@ -921,17 +911,17 @@
     "forms": [
       {
         "contentType": "application/json",
-        "dtv:topic": "opcua/Machinery/Machinery_MachineryLifetimeCounterType/events/{senderId}",
+        "dov:topic": "opcua/Machinery/Machinery_MachineryLifetimeCounterType/events/{senderId}",
         "op": "subscribeallevents"
       },
       {
         "contentType": "application/json",
-        "dtv:topic": "opcua/Machinery/Machinery_MachineryLifetimeCounterType/properties/write",
+        "dov:topic": "opcua/Machinery/Machinery_MachineryLifetimeCounterType/properties/write",
         "op": "writemultipleproperties"
       },
       {
         "contentType": "application/json",
-        "dtv:topic": "opcua/Machinery/Machinery_MachineryLifetimeCounterType/properties/read",
+        "dov:topic": "opcua/Machinery/Machinery_MachineryLifetimeCounterType/properties/read",
         "op": "readallproperties"
       }
     ],
@@ -945,30 +935,30 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/Machinery/Machinery_MachineryLifetimeCounterType/property/DefaultInstanceBrowseName/write",
+            "dov:topic": "opcua/Machinery/Machinery_MachineryLifetimeCounterType/property/DefaultInstanceBrowseName/write",
             "op": "writeproperty"
           },
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/Machinery/Machinery_MachineryLifetimeCounterType/property/DefaultInstanceBrowseName/read",
+            "dov:topic": "opcua/Machinery/Machinery_MachineryLifetimeCounterType/property/DefaultInstanceBrowseName/read",
             "op": "readproperty"
           }
         ]
       },
       "LifetimeVariable": {
-        "aov:namespace": "http://opcfoundation.org/UA/Machinery/",
+        "dov:namespace": "http://opcfoundation.org/UA/Machinery/",
         "type": "number",
         "readOnly": false,
-        "dtv:placeholder": true,
+        "dov:placeholder": true,
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/Machinery/Machinery_MachineryLifetimeCounterType/property/LifetimeVariable/write",
+            "dov:topic": "opcua/Machinery/Machinery_MachineryLifetimeCounterType/property/LifetimeVariable/write",
             "op": "writeproperty"
           },
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/Machinery/Machinery_MachineryLifetimeCounterType/property/LifetimeVariable/read",
+            "dov:topic": "opcua/Machinery/Machinery_MachineryLifetimeCounterType/property/LifetimeVariable/read",
             "op": "readproperty"
           }
         ]
@@ -976,15 +966,15 @@
     },
     "events": {
       "LifetimeVariable": {
-        "aov:namespace": "http://opcfoundation.org/UA/Machinery/",
+        "dov:namespace": "http://opcfoundation.org/UA/Machinery/",
         "data": {
           "type": "number"
         },
-        "dtv:placeholder": true,
+        "dov:placeholder": true,
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/Machinery/Machinery_MachineryLifetimeCounterType/event/LifetimeVariable/{senderId}",
+            "dov:topic": "opcua/Machinery/Machinery_MachineryLifetimeCounterType/event/LifetimeVariable/{senderId}",
             "op": "subscribeevent"
           }
         ]
@@ -995,14 +985,13 @@
     "@context": [
       "https://www.w3.org/2022/wot/td/v1.1",
       {
-        "dtv": "http://azure.com/DigitalTwins/dtmi#",
-        "aov": "http://azure.com/IoT/operations/tm#"
+        "dov": "http://azure.com/DigitalOperations/vocab#"
       }
     ],
     "@type": "tm:ThingModel",
     "title": "Machinery_MonitoringType",
-    "aov:typeRef": "nsu=http://opcfoundation.org/UA/Machinery/;i=1014",
-    "aov:isComposite": true,
+    "dov:typeRef": "org.opcfoundation.UA.Machinery.MonitoringType",
+    "dov:isComposite": true,
     "links": [
       {
         "rel": "tm:extends",
@@ -1010,26 +999,26 @@
         "type": "application/tm+json"
       },
       {
-        "rel": "aov:component",
-        "aov:refName": "Consumption",
+        "rel": "dov:component",
+        "dov:refName": "Consumption",
         "href": "#title=OpcUaCore_FolderType",
         "type": "application/tm+json"
       },
       {
-        "rel": "aov:component",
-        "aov:refName": "Health",
+        "rel": "dov:component",
+        "dov:refName": "Health",
         "href": "#title=OpcUaCore_FolderType",
         "type": "application/tm+json"
       },
       {
-        "rel": "aov:component",
-        "aov:refName": "Process",
+        "rel": "dov:component",
+        "dov:refName": "Process",
         "href": "#title=OpcUaCore_FolderType",
         "type": "application/tm+json"
       },
       {
-        "rel": "aov:component",
-        "aov:refName": "Status",
+        "rel": "dov:component",
+        "dov:refName": "Status",
         "href": "#title=OpcUaCore_FolderType",
         "type": "application/tm+json"
       }
@@ -1039,7 +1028,7 @@
     "forms": [
       {
         "contentType": "application/json",
-        "dtv:topic": "opcua/Machinery/Machinery_MonitoringType/properties/read",
+        "dov:topic": "opcua/Machinery/Machinery_MonitoringType/properties/read",
         "op": "readallproperties"
       }
     ],
@@ -1053,7 +1042,7 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/Machinery/Machinery_MonitoringType/property/DefaultInstanceBrowseName/read",
+            "dov:topic": "opcua/Machinery/Machinery_MonitoringType/property/DefaultInstanceBrowseName/read",
             "op": "readproperty"
           }
         ]
@@ -1066,14 +1055,13 @@
     "@context": [
       "https://www.w3.org/2022/wot/td/v1.1",
       {
-        "dtv": "http://azure.com/DigitalTwins/dtmi#",
-        "aov": "http://azure.com/IoT/operations/tm#"
+        "dov": "http://azure.com/DigitalOperations/vocab#"
       }
     ],
     "@type": "tm:ThingModel",
     "title": "Machinery_NotificationsType",
-    "aov:typeRef": "nsu=http://opcfoundation.org/UA/Machinery/;i=1017",
-    "aov:isComposite": true,
+    "dov:typeRef": "org.opcfoundation.UA.Machinery.NotificationsType",
+    "dov:isComposite": true,
     "links": [
       {
         "rel": "tm:extends",
@@ -1086,12 +1074,12 @@
     "forms": [
       {
         "contentType": "application/json",
-        "dtv:topic": "opcua/Machinery/Machinery_NotificationsType/properties/write",
+        "dov:topic": "opcua/Machinery/Machinery_NotificationsType/properties/write",
         "op": "writemultipleproperties"
       },
       {
         "contentType": "application/json",
-        "dtv:topic": "opcua/Machinery/Machinery_NotificationsType/properties/read",
+        "dov:topic": "opcua/Machinery/Machinery_NotificationsType/properties/read",
         "op": "readallproperties"
       }
     ],
@@ -1105,12 +1093,12 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/Machinery/Machinery_NotificationsType/property/DefaultInstanceBrowseName/write",
+            "dov:topic": "opcua/Machinery/Machinery_NotificationsType/property/DefaultInstanceBrowseName/write",
             "op": "writeproperty"
           },
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/Machinery/Machinery_NotificationsType/property/DefaultInstanceBrowseName/read",
+            "dov:topic": "opcua/Machinery/Machinery_NotificationsType/property/DefaultInstanceBrowseName/read",
             "op": "readproperty"
           }
         ]
@@ -1123,14 +1111,13 @@
     "@context": [
       "https://www.w3.org/2022/wot/td/v1.1",
       {
-        "dtv": "http://azure.com/DigitalTwins/dtmi#",
-        "aov": "http://azure.com/IoT/operations/tm#"
+        "dov": "http://azure.com/DigitalOperations/vocab#"
       }
     ],
     "@type": "tm:ThingModel",
     "title": "Machinery_MachineComponentsType",
-    "aov:typeRef": "nsu=http://opcfoundation.org/UA/Machinery/;i=1006",
-    "aov:isComposite": true,
+    "dov:typeRef": "org.opcfoundation.UA.Machinery.MachineComponentsType",
+    "dov:isComposite": true,
     "links": [
       {
         "rel": "tm:extends",
@@ -1138,8 +1125,8 @@
         "type": "application/tm+json"
       },
       {
-        "rel": "aov:component",
-        "aov:refName": "Component",
+        "rel": "dov:component",
+        "dov:refName": "Component",
         "href": "#title=OpcUaCore_BaseObjectType",
         "type": "application/tm+json"
       }
@@ -1149,12 +1136,12 @@
     "forms": [
       {
         "contentType": "application/json",
-        "dtv:topic": "opcua/Machinery/Machinery_MachineComponentsType/properties/write",
+        "dov:topic": "opcua/Machinery/Machinery_MachineComponentsType/properties/write",
         "op": "writemultipleproperties"
       },
       {
         "contentType": "application/json",
-        "dtv:topic": "opcua/Machinery/Machinery_MachineComponentsType/properties/read",
+        "dov:topic": "opcua/Machinery/Machinery_MachineComponentsType/properties/read",
         "op": "readallproperties"
       }
     ],
@@ -1168,12 +1155,12 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/Machinery/Machinery_MachineComponentsType/property/DefaultInstanceBrowseName/write",
+            "dov:topic": "opcua/Machinery/Machinery_MachineComponentsType/property/DefaultInstanceBrowseName/write",
             "op": "writeproperty"
           },
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/Machinery/Machinery_MachineComponentsType/property/DefaultInstanceBrowseName/read",
+            "dov:topic": "opcua/Machinery/Machinery_MachineComponentsType/property/DefaultInstanceBrowseName/read",
             "op": "readproperty"
           }
         ]
@@ -1186,13 +1173,12 @@
     "@context": [
       "https://www.w3.org/2022/wot/td/v1.1",
       {
-        "dtv": "http://azure.com/DigitalTwins/dtmi#",
-        "aov": "http://azure.com/IoT/operations/tm#"
+        "dov": "http://azure.com/DigitalOperations/vocab#"
       }
     ],
     "@type": "tm:ThingModel",
     "title": "Machinery_MachineryItemState_StateMachineType",
-    "aov:typeRef": "nsu=http://opcfoundation.org/UA/Machinery/;i=1002",
+    "dov:typeRef": "org.opcfoundation.UA.Machinery.MachineryItemState_StateMachineType",
     "links": [
       {
         "rel": "tm:extends",
@@ -1200,122 +1186,122 @@
         "type": "application/tm+json"
       },
       {
-        "rel": "aov:reference",
-        "aov:refName": "Executing",
+        "rel": "dov:reference",
+        "dov:refName": "Executing",
         "href": "#title=OpcUaCore_StateType",
         "type": "application/tm+json"
       },
       {
-        "rel": "aov:reference",
-        "aov:refName": "FromExecutingToExecuting",
+        "rel": "dov:reference",
+        "dov:refName": "FromExecutingToExecuting",
         "href": "#title=OpcUaCore_TransitionType",
         "type": "application/tm+json"
       },
       {
-        "rel": "aov:reference",
-        "aov:refName": "FromExecutingToNotAvailable",
+        "rel": "dov:reference",
+        "dov:refName": "FromExecutingToNotAvailable",
         "href": "#title=OpcUaCore_TransitionType",
         "type": "application/tm+json"
       },
       {
-        "rel": "aov:reference",
-        "aov:refName": "FromExecutingToNotExecuting",
+        "rel": "dov:reference",
+        "dov:refName": "FromExecutingToNotExecuting",
         "href": "#title=OpcUaCore_TransitionType",
         "type": "application/tm+json"
       },
       {
-        "rel": "aov:reference",
-        "aov:refName": "FromExecutingToOutOfService",
+        "rel": "dov:reference",
+        "dov:refName": "FromExecutingToOutOfService",
         "href": "#title=OpcUaCore_TransitionType",
         "type": "application/tm+json"
       },
       {
-        "rel": "aov:reference",
-        "aov:refName": "FromNotAvailableToExecuting",
+        "rel": "dov:reference",
+        "dov:refName": "FromNotAvailableToExecuting",
         "href": "#title=OpcUaCore_TransitionType",
         "type": "application/tm+json"
       },
       {
-        "rel": "aov:reference",
-        "aov:refName": "FromNotAvailableToNotAvailable",
+        "rel": "dov:reference",
+        "dov:refName": "FromNotAvailableToNotAvailable",
         "href": "#title=OpcUaCore_TransitionType",
         "type": "application/tm+json"
       },
       {
-        "rel": "aov:reference",
-        "aov:refName": "FromNotAvailableToNotExecuting",
+        "rel": "dov:reference",
+        "dov:refName": "FromNotAvailableToNotExecuting",
         "href": "#title=OpcUaCore_TransitionType",
         "type": "application/tm+json"
       },
       {
-        "rel": "aov:reference",
-        "aov:refName": "FromNotAvailableToOutOfService",
+        "rel": "dov:reference",
+        "dov:refName": "FromNotAvailableToOutOfService",
         "href": "#title=OpcUaCore_TransitionType",
         "type": "application/tm+json"
       },
       {
-        "rel": "aov:reference",
-        "aov:refName": "FromNotExecutingToExecuting",
+        "rel": "dov:reference",
+        "dov:refName": "FromNotExecutingToExecuting",
         "href": "#title=OpcUaCore_TransitionType",
         "type": "application/tm+json"
       },
       {
-        "rel": "aov:reference",
-        "aov:refName": "FromNotExecutingToNotAvailable",
+        "rel": "dov:reference",
+        "dov:refName": "FromNotExecutingToNotAvailable",
         "href": "#title=OpcUaCore_TransitionType",
         "type": "application/tm+json"
       },
       {
-        "rel": "aov:reference",
-        "aov:refName": "FromNotExecutingToNotExecuting",
+        "rel": "dov:reference",
+        "dov:refName": "FromNotExecutingToNotExecuting",
         "href": "#title=OpcUaCore_TransitionType",
         "type": "application/tm+json"
       },
       {
-        "rel": "aov:reference",
-        "aov:refName": "FromNotExecutingToOutOfService",
+        "rel": "dov:reference",
+        "dov:refName": "FromNotExecutingToOutOfService",
         "href": "#title=OpcUaCore_TransitionType",
         "type": "application/tm+json"
       },
       {
-        "rel": "aov:reference",
-        "aov:refName": "FromOutOfServiceToExecuting",
+        "rel": "dov:reference",
+        "dov:refName": "FromOutOfServiceToExecuting",
         "href": "#title=OpcUaCore_TransitionType",
         "type": "application/tm+json"
       },
       {
-        "rel": "aov:reference",
-        "aov:refName": "FromOutOfServiceToNotAvailable",
+        "rel": "dov:reference",
+        "dov:refName": "FromOutOfServiceToNotAvailable",
         "href": "#title=OpcUaCore_TransitionType",
         "type": "application/tm+json"
       },
       {
-        "rel": "aov:reference",
-        "aov:refName": "FromOutOfServiceToNotExecuting",
+        "rel": "dov:reference",
+        "dov:refName": "FromOutOfServiceToNotExecuting",
         "href": "#title=OpcUaCore_TransitionType",
         "type": "application/tm+json"
       },
       {
-        "rel": "aov:reference",
-        "aov:refName": "FromOutOfServiceToOutOfService",
+        "rel": "dov:reference",
+        "dov:refName": "FromOutOfServiceToOutOfService",
         "href": "#title=OpcUaCore_TransitionType",
         "type": "application/tm+json"
       },
       {
-        "rel": "aov:reference",
-        "aov:refName": "NotAvailable",
+        "rel": "dov:reference",
+        "dov:refName": "NotAvailable",
         "href": "#title=OpcUaCore_StateType",
         "type": "application/tm+json"
       },
       {
-        "rel": "aov:reference",
-        "aov:refName": "NotExecuting",
+        "rel": "dov:reference",
+        "dov:refName": "NotExecuting",
         "href": "#title=OpcUaCore_StateType",
         "type": "application/tm+json"
       },
       {
-        "rel": "aov:reference",
-        "aov:refName": "OutOfService",
+        "rel": "dov:reference",
+        "dov:refName": "OutOfService",
         "href": "#title=OpcUaCore_StateType",
         "type": "application/tm+json"
       }
@@ -1325,12 +1311,12 @@
     "forms": [
       {
         "contentType": "application/json",
-        "dtv:topic": "opcua/Machinery/Machinery_MachineryItemState_StateMachineType/properties/write",
+        "dov:topic": "opcua/Machinery/Machinery_MachineryItemState_StateMachineType/properties/write",
         "op": "writemultipleproperties"
       },
       {
         "contentType": "application/json",
-        "dtv:topic": "opcua/Machinery/Machinery_MachineryItemState_StateMachineType/properties/read",
+        "dov:topic": "opcua/Machinery/Machinery_MachineryItemState_StateMachineType/properties/read",
         "op": "readallproperties"
       }
     ],
@@ -1344,12 +1330,12 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/Machinery/Machinery_MachineryItemState_StateMachineType/property/DefaultInstanceBrowseName/write",
+            "dov:topic": "opcua/Machinery/Machinery_MachineryItemState_StateMachineType/property/DefaultInstanceBrowseName/write",
             "op": "writeproperty"
           },
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/Machinery/Machinery_MachineryItemState_StateMachineType/property/DefaultInstanceBrowseName/read",
+            "dov:topic": "opcua/Machinery/Machinery_MachineryItemState_StateMachineType/property/DefaultInstanceBrowseName/read",
             "op": "readproperty"
           }
         ]
@@ -1362,13 +1348,12 @@
     "@context": [
       "https://www.w3.org/2022/wot/td/v1.1",
       {
-        "dtv": "http://azure.com/DigitalTwins/dtmi#",
-        "aov": "http://azure.com/IoT/operations/tm#"
+        "dov": "http://azure.com/DigitalOperations/vocab#"
       }
     ],
     "@type": "tm:ThingModel",
     "title": "Machinery_MachineryOperationModeStateMachineType",
-    "aov:typeRef": "nsu=http://opcfoundation.org/UA/Machinery/;i=1008",
+    "dov:typeRef": "org.opcfoundation.UA.Machinery.MachineryOperationModeStateMachineType",
     "links": [
       {
         "rel": "tm:extends",
@@ -1376,122 +1361,122 @@
         "type": "application/tm+json"
       },
       {
-        "rel": "aov:reference",
-        "aov:refName": "FromMaintenanceToMaintenance",
+        "rel": "dov:reference",
+        "dov:refName": "FromMaintenanceToMaintenance",
         "href": "#title=OpcUaCore_TransitionType",
         "type": "application/tm+json"
       },
       {
-        "rel": "aov:reference",
-        "aov:refName": "FromMaintenanceToNone",
+        "rel": "dov:reference",
+        "dov:refName": "FromMaintenanceToNone",
         "href": "#title=OpcUaCore_TransitionType",
         "type": "application/tm+json"
       },
       {
-        "rel": "aov:reference",
-        "aov:refName": "FromMaintenanceToProcessing",
+        "rel": "dov:reference",
+        "dov:refName": "FromMaintenanceToProcessing",
         "href": "#title=OpcUaCore_TransitionType",
         "type": "application/tm+json"
       },
       {
-        "rel": "aov:reference",
-        "aov:refName": "FromMaintenanceToSetup",
+        "rel": "dov:reference",
+        "dov:refName": "FromMaintenanceToSetup",
         "href": "#title=OpcUaCore_TransitionType",
         "type": "application/tm+json"
       },
       {
-        "rel": "aov:reference",
-        "aov:refName": "FromNoneToMaintenance",
+        "rel": "dov:reference",
+        "dov:refName": "FromNoneToMaintenance",
         "href": "#title=OpcUaCore_TransitionType",
         "type": "application/tm+json"
       },
       {
-        "rel": "aov:reference",
-        "aov:refName": "FromNoneToNone",
+        "rel": "dov:reference",
+        "dov:refName": "FromNoneToNone",
         "href": "#title=OpcUaCore_TransitionType",
         "type": "application/tm+json"
       },
       {
-        "rel": "aov:reference",
-        "aov:refName": "FromNoneToProcessing",
+        "rel": "dov:reference",
+        "dov:refName": "FromNoneToProcessing",
         "href": "#title=OpcUaCore_TransitionType",
         "type": "application/tm+json"
       },
       {
-        "rel": "aov:reference",
-        "aov:refName": "FromNoneToSetup",
+        "rel": "dov:reference",
+        "dov:refName": "FromNoneToSetup",
         "href": "#title=OpcUaCore_TransitionType",
         "type": "application/tm+json"
       },
       {
-        "rel": "aov:reference",
-        "aov:refName": "FromProcessingToMaintenance",
+        "rel": "dov:reference",
+        "dov:refName": "FromProcessingToMaintenance",
         "href": "#title=OpcUaCore_TransitionType",
         "type": "application/tm+json"
       },
       {
-        "rel": "aov:reference",
-        "aov:refName": "FromProcessingToNone",
+        "rel": "dov:reference",
+        "dov:refName": "FromProcessingToNone",
         "href": "#title=OpcUaCore_TransitionType",
         "type": "application/tm+json"
       },
       {
-        "rel": "aov:reference",
-        "aov:refName": "FromProcessingToProcessing",
+        "rel": "dov:reference",
+        "dov:refName": "FromProcessingToProcessing",
         "href": "#title=OpcUaCore_TransitionType",
         "type": "application/tm+json"
       },
       {
-        "rel": "aov:reference",
-        "aov:refName": "FromProcessingToSetup",
+        "rel": "dov:reference",
+        "dov:refName": "FromProcessingToSetup",
         "href": "#title=OpcUaCore_TransitionType",
         "type": "application/tm+json"
       },
       {
-        "rel": "aov:reference",
-        "aov:refName": "FromSetupToMaintenance",
+        "rel": "dov:reference",
+        "dov:refName": "FromSetupToMaintenance",
         "href": "#title=OpcUaCore_TransitionType",
         "type": "application/tm+json"
       },
       {
-        "rel": "aov:reference",
-        "aov:refName": "FromSetupToNone",
+        "rel": "dov:reference",
+        "dov:refName": "FromSetupToNone",
         "href": "#title=OpcUaCore_TransitionType",
         "type": "application/tm+json"
       },
       {
-        "rel": "aov:reference",
-        "aov:refName": "FromSetupToProcessing",
+        "rel": "dov:reference",
+        "dov:refName": "FromSetupToProcessing",
         "href": "#title=OpcUaCore_TransitionType",
         "type": "application/tm+json"
       },
       {
-        "rel": "aov:reference",
-        "aov:refName": "FromSetupToSetup",
+        "rel": "dov:reference",
+        "dov:refName": "FromSetupToSetup",
         "href": "#title=OpcUaCore_TransitionType",
         "type": "application/tm+json"
       },
       {
-        "rel": "aov:reference",
-        "aov:refName": "Maintenance",
+        "rel": "dov:reference",
+        "dov:refName": "Maintenance",
         "href": "#title=OpcUaCore_StateType",
         "type": "application/tm+json"
       },
       {
-        "rel": "aov:reference",
-        "aov:refName": "None",
+        "rel": "dov:reference",
+        "dov:refName": "None",
         "href": "#title=OpcUaCore_StateType",
         "type": "application/tm+json"
       },
       {
-        "rel": "aov:reference",
-        "aov:refName": "Processing",
+        "rel": "dov:reference",
+        "dov:refName": "Processing",
         "href": "#title=OpcUaCore_StateType",
         "type": "application/tm+json"
       },
       {
-        "rel": "aov:reference",
-        "aov:refName": "Setup",
+        "rel": "dov:reference",
+        "dov:refName": "Setup",
         "href": "#title=OpcUaCore_StateType",
         "type": "application/tm+json"
       }
@@ -1501,12 +1486,12 @@
     "forms": [
       {
         "contentType": "application/json",
-        "dtv:topic": "opcua/Machinery/Machinery_MachineryOperationModeStateMachineType/properties/write",
+        "dov:topic": "opcua/Machinery/Machinery_MachineryOperationModeStateMachineType/properties/write",
         "op": "writemultipleproperties"
       },
       {
         "contentType": "application/json",
-        "dtv:topic": "opcua/Machinery/Machinery_MachineryOperationModeStateMachineType/properties/read",
+        "dov:topic": "opcua/Machinery/Machinery_MachineryOperationModeStateMachineType/properties/read",
         "op": "readallproperties"
       }
     ],
@@ -1520,12 +1505,12 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/Machinery/Machinery_MachineryOperationModeStateMachineType/property/DefaultInstanceBrowseName/write",
+            "dov:topic": "opcua/Machinery/Machinery_MachineryOperationModeStateMachineType/property/DefaultInstanceBrowseName/write",
             "op": "writeproperty"
           },
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/Machinery/Machinery_MachineryOperationModeStateMachineType/property/DefaultInstanceBrowseName/read",
+            "dov:topic": "opcua/Machinery/Machinery_MachineryOperationModeStateMachineType/property/DefaultInstanceBrowseName/read",
             "op": "readproperty"
           }
         ]
@@ -1538,13 +1523,12 @@
     "@context": [
       "https://www.w3.org/2022/wot/td/v1.1",
       {
-        "dtv": "http://azure.com/DigitalTwins/dtmi#",
-        "aov": "http://azure.com/IoT/operations/tm#"
+        "dov": "http://azure.com/DigitalOperations/vocab#"
       }
     ],
     "@type": "tm:ThingModel",
     "title": "DI_ITagNameplateType",
-    "aov:typeRef": "nsu=http://opcfoundation.org/UA/DI/;i=15048",
+    "dov:typeRef": "org.opcfoundation.UA.DI.ITagNameplateType",
     "links": [
       {
         "rel": "tm:extends",
@@ -1557,7 +1541,7 @@
     "forms": [
       {
         "contentType": "application/json",
-        "dtv:topic": "opcua/DI/DI_ITagNameplateType/properties/read",
+        "dov:topic": "opcua/DI/DI_ITagNameplateType/properties/read",
         "op": "readallproperties"
       }
     ],
@@ -1565,25 +1549,25 @@
     },
     "properties": {
       "AssetId": {
-        "aov:namespace": "http://opcfoundation.org/UA/DI/",
+        "dov:namespace": "http://opcfoundation.org/UA/DI/",
         "type": "string",
         "readOnly": true,
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/DI/DI_ITagNameplateType/property/AssetId/read",
+            "dov:topic": "opcua/DI/DI_ITagNameplateType/property/AssetId/read",
             "op": "readproperty"
           }
         ]
       },
       "ComponentName": {
-        "aov:namespace": "http://opcfoundation.org/UA/DI/",
+        "dov:namespace": "http://opcfoundation.org/UA/DI/",
         "type": "string",
         "readOnly": true,
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/DI/DI_ITagNameplateType/property/ComponentName/read",
+            "dov:topic": "opcua/DI/DI_ITagNameplateType/property/ComponentName/read",
             "op": "readproperty"
           }
         ]
@@ -1596,13 +1580,12 @@
     "@context": [
       "https://www.w3.org/2022/wot/td/v1.1",
       {
-        "dtv": "http://azure.com/DigitalTwins/dtmi#",
-        "aov": "http://azure.com/IoT/operations/tm#"
+        "dov": "http://azure.com/DigitalOperations/vocab#"
       }
     ],
     "@type": "tm:ThingModel",
     "title": "DI_IVendorNameplateType",
-    "aov:typeRef": "nsu=http://opcfoundation.org/UA/DI/;i=15035",
+    "dov:typeRef": "org.opcfoundation.UA.DI.IVendorNameplateType",
     "links": [
       {
         "rel": "tm:extends",
@@ -1615,7 +1598,7 @@
     "forms": [
       {
         "contentType": "application/json",
-        "dtv:topic": "opcua/DI/DI_IVendorNameplateType/properties/read",
+        "dov:topic": "opcua/DI/DI_IVendorNameplateType/properties/read",
         "op": "readallproperties"
       }
     ],
@@ -1623,91 +1606,91 @@
     },
     "properties": {
       "DeviceClass": {
-        "aov:namespace": "http://opcfoundation.org/UA/DI/",
+        "dov:namespace": "http://opcfoundation.org/UA/DI/",
         "type": "string",
         "readOnly": true,
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/DI/DI_IVendorNameplateType/property/DeviceClass/read",
+            "dov:topic": "opcua/DI/DI_IVendorNameplateType/property/DeviceClass/read",
             "op": "readproperty"
           }
         ]
       },
       "DeviceManual": {
-        "aov:namespace": "http://opcfoundation.org/UA/DI/",
+        "dov:namespace": "http://opcfoundation.org/UA/DI/",
         "type": "string",
         "readOnly": true,
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/DI/DI_IVendorNameplateType/property/DeviceManual/read",
+            "dov:topic": "opcua/DI/DI_IVendorNameplateType/property/DeviceManual/read",
             "op": "readproperty"
           }
         ]
       },
       "DeviceRevision": {
-        "aov:namespace": "http://opcfoundation.org/UA/DI/",
+        "dov:namespace": "http://opcfoundation.org/UA/DI/",
         "type": "string",
         "readOnly": true,
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/DI/DI_IVendorNameplateType/property/DeviceRevision/read",
+            "dov:topic": "opcua/DI/DI_IVendorNameplateType/property/DeviceRevision/read",
             "op": "readproperty"
           }
         ]
       },
       "HardwareRevision": {
-        "aov:namespace": "http://opcfoundation.org/UA/DI/",
+        "dov:namespace": "http://opcfoundation.org/UA/DI/",
         "type": "string",
         "readOnly": true,
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/DI/DI_IVendorNameplateType/property/HardwareRevision/read",
+            "dov:topic": "opcua/DI/DI_IVendorNameplateType/property/HardwareRevision/read",
             "op": "readproperty"
           }
         ]
       },
       "Manufacturer": {
-        "aov:namespace": "http://opcfoundation.org/UA/DI/",
+        "dov:namespace": "http://opcfoundation.org/UA/DI/",
         "type": "string",
         "readOnly": true,
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/DI/DI_IVendorNameplateType/property/Manufacturer/read",
+            "dov:topic": "opcua/DI/DI_IVendorNameplateType/property/Manufacturer/read",
             "op": "readproperty"
           }
         ]
       },
       "ManufacturerUri": {
-        "aov:namespace": "http://opcfoundation.org/UA/DI/",
+        "dov:namespace": "http://opcfoundation.org/UA/DI/",
         "type": "string",
         "readOnly": true,
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/DI/DI_IVendorNameplateType/property/ManufacturerUri/read",
+            "dov:topic": "opcua/DI/DI_IVendorNameplateType/property/ManufacturerUri/read",
             "op": "readproperty"
           }
         ]
       },
       "Model": {
-        "aov:namespace": "http://opcfoundation.org/UA/DI/",
+        "dov:namespace": "http://opcfoundation.org/UA/DI/",
         "type": "string",
         "readOnly": true,
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/DI/DI_IVendorNameplateType/property/Model/read",
+            "dov:topic": "opcua/DI/DI_IVendorNameplateType/property/Model/read",
             "op": "readproperty"
           }
         ]
       },
       "PatchIdentifiers": {
-        "aov:namespace": "http://opcfoundation.org/UA/DI/",
+        "dov:namespace": "http://opcfoundation.org/UA/DI/",
         "type": "array",
         "items": {
           "type": "string"
@@ -1716,37 +1699,37 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/DI/DI_IVendorNameplateType/property/PatchIdentifiers/read",
+            "dov:topic": "opcua/DI/DI_IVendorNameplateType/property/PatchIdentifiers/read",
             "op": "readproperty"
           }
         ]
       },
       "ProductCode": {
-        "aov:namespace": "http://opcfoundation.org/UA/DI/",
+        "dov:namespace": "http://opcfoundation.org/UA/DI/",
         "type": "string",
         "readOnly": true,
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/DI/DI_IVendorNameplateType/property/ProductCode/read",
+            "dov:topic": "opcua/DI/DI_IVendorNameplateType/property/ProductCode/read",
             "op": "readproperty"
           }
         ]
       },
       "ProductInstanceUri": {
-        "aov:namespace": "http://opcfoundation.org/UA/DI/",
+        "dov:namespace": "http://opcfoundation.org/UA/DI/",
         "type": "string",
         "readOnly": true,
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/DI/DI_IVendorNameplateType/property/ProductInstanceUri/read",
+            "dov:topic": "opcua/DI/DI_IVendorNameplateType/property/ProductInstanceUri/read",
             "op": "readproperty"
           }
         ]
       },
       "RevisionCounter": {
-        "aov:namespace": "http://opcfoundation.org/UA/DI/",
+        "dov:namespace": "http://opcfoundation.org/UA/DI/",
         "type": "integer",
         "minimum": -2147483648,
         "maximum": 2147483647,
@@ -1754,44 +1737,44 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/DI/DI_IVendorNameplateType/property/RevisionCounter/read",
+            "dov:topic": "opcua/DI/DI_IVendorNameplateType/property/RevisionCounter/read",
             "op": "readproperty"
           }
         ]
       },
       "SerialNumber": {
-        "aov:namespace": "http://opcfoundation.org/UA/DI/",
+        "dov:namespace": "http://opcfoundation.org/UA/DI/",
         "type": "string",
         "readOnly": true,
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/DI/DI_IVendorNameplateType/property/SerialNumber/read",
+            "dov:topic": "opcua/DI/DI_IVendorNameplateType/property/SerialNumber/read",
             "op": "readproperty"
           }
         ]
       },
       "SoftwareReleaseDate": {
-        "aov:namespace": "http://opcfoundation.org/UA/DI/",
+        "dov:namespace": "http://opcfoundation.org/UA/DI/",
         "type": "string",
         "format": "date-time",
         "readOnly": true,
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/DI/DI_IVendorNameplateType/property/SoftwareReleaseDate/read",
+            "dov:topic": "opcua/DI/DI_IVendorNameplateType/property/SoftwareReleaseDate/read",
             "op": "readproperty"
           }
         ]
       },
       "SoftwareRevision": {
-        "aov:namespace": "http://opcfoundation.org/UA/DI/",
+        "dov:namespace": "http://opcfoundation.org/UA/DI/",
         "type": "string",
         "readOnly": true,
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/DI/DI_IVendorNameplateType/property/SoftwareRevision/read",
+            "dov:topic": "opcua/DI/DI_IVendorNameplateType/property/SoftwareRevision/read",
             "op": "readproperty"
           }
         ]
@@ -1804,13 +1787,12 @@
     "@context": [
       "https://www.w3.org/2022/wot/td/v1.1",
       {
-        "dtv": "http://azure.com/DigitalTwins/dtmi#",
-        "aov": "http://azure.com/IoT/operations/tm#"
+        "dov": "http://azure.com/DigitalOperations/vocab#"
       }
     ],
     "@type": "tm:ThingModel",
     "title": "DI_FunctionalGroupType",
-    "aov:typeRef": "nsu=http://opcfoundation.org/UA/DI/;i=1005",
+    "dov:typeRef": "org.opcfoundation.UA.DI.FunctionalGroupType",
     "links": [
       {
         "rel": "tm:extends",
@@ -1818,8 +1800,8 @@
         "type": "application/tm+json"
       },
       {
-        "rel": "aov:component",
-        "aov:refName": "GroupIdentifier",
+        "rel": "dov:component",
+        "dov:refName": "GroupIdentifier",
         "href": "#title=DI_FunctionalGroupType",
         "type": "application/tm+json"
       }
@@ -1829,12 +1811,12 @@
     "forms": [
       {
         "contentType": "application/json",
-        "dtv:topic": "opcua/DI/DI_FunctionalGroupType/events/{senderId}",
+        "dov:topic": "opcua/DI/DI_FunctionalGroupType/events/{senderId}",
         "op": "subscribeallevents"
       },
       {
         "contentType": "application/json",
-        "dtv:topic": "opcua/DI/DI_FunctionalGroupType/properties/read",
+        "dov:topic": "opcua/DI/DI_FunctionalGroupType/properties/read",
         "op": "readallproperties"
       }
     ],
@@ -1842,14 +1824,14 @@
     },
     "properties": {
       "UIElement": {
-        "aov:namespace": "http://opcfoundation.org/UA/DI/",
+        "dov:namespace": "http://opcfoundation.org/UA/DI/",
         "description": "Stand-in for an unspecified data type.",
         "type": "string",
         "readOnly": true,
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/DI/DI_FunctionalGroupType/property/UIElement/read",
+            "dov:topic": "opcua/DI/DI_FunctionalGroupType/property/UIElement/read",
             "op": "readproperty"
           }
         ]
@@ -1857,7 +1839,7 @@
     },
     "events": {
       "UIElement": {
-        "aov:namespace": "http://opcfoundation.org/UA/DI/",
+        "dov:namespace": "http://opcfoundation.org/UA/DI/",
         "data": {
           "description": "Stand-in for an unspecified data type.",
           "type": "string"
@@ -1865,7 +1847,7 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/DI/DI_FunctionalGroupType/event/UIElement/{senderId}",
+            "dov:topic": "opcua/DI/DI_FunctionalGroupType/event/UIElement/{senderId}",
             "op": "subscribeevent"
           }
         ]
@@ -1876,13 +1858,12 @@
     "@context": [
       "https://www.w3.org/2022/wot/td/v1.1",
       {
-        "dtv": "http://azure.com/DigitalTwins/dtmi#",
-        "aov": "http://azure.com/IoT/operations/tm#"
+        "dov": "http://azure.com/DigitalOperations/vocab#"
       }
     ],
     "@type": "tm:ThingModel",
     "title": "OpcUaCore_BaseInterfaceType",
-    "aov:typeRef": "nsu=http://opcfoundation.org/UA/;i=17602",
+    "dov:typeRef": "org.opcfoundation.UA.BaseInterfaceType",
     "links": [
       {
         "rel": "tm:extends",
@@ -1903,13 +1884,12 @@
     "@context": [
       "https://www.w3.org/2022/wot/td/v1.1",
       {
-        "dtv": "http://azure.com/DigitalTwins/dtmi#",
-        "aov": "http://azure.com/IoT/operations/tm#"
+        "dov": "http://azure.com/DigitalOperations/vocab#"
       }
     ],
     "@type": "tm:ThingModel",
     "title": "OpcUaCore_BaseObjectType",
-    "aov:typeRef": "nsu=http://opcfoundation.org/UA/;i=58",
+    "dov:typeRef": "org.opcfoundation.UA.BaseObjectType",
     "links": [
     ],
     "schemaDefinitions": {
@@ -1925,13 +1905,12 @@
     "@context": [
       "https://www.w3.org/2022/wot/td/v1.1",
       {
-        "dtv": "http://azure.com/DigitalTwins/dtmi#",
-        "aov": "http://azure.com/IoT/operations/tm#"
+        "dov": "http://azure.com/DigitalOperations/vocab#"
       }
     ],
     "@type": "tm:ThingModel",
     "title": "OpcUaCore_FolderType",
-    "aov:typeRef": "nsu=http://opcfoundation.org/UA/;i=61",
+    "dov:typeRef": "org.opcfoundation.UA.FolderType",
     "links": [
       {
         "rel": "tm:extends",
@@ -1952,13 +1931,12 @@
     "@context": [
       "https://www.w3.org/2022/wot/td/v1.1",
       {
-        "dtv": "http://azure.com/DigitalTwins/dtmi#",
-        "aov": "http://azure.com/IoT/operations/tm#"
+        "dov": "http://azure.com/DigitalOperations/vocab#"
       }
     ],
     "@type": "tm:ThingModel",
     "title": "OpcUaCore_FiniteStateMachineType",
-    "aov:typeRef": "nsu=http://opcfoundation.org/UA/;i=2771",
+    "dov:typeRef": "org.opcfoundation.UA.FiniteStateMachineType",
     "links": [
       {
         "rel": "tm:extends",
@@ -1971,12 +1949,12 @@
     "forms": [
       {
         "contentType": "application/json",
-        "dtv:topic": "opcua/OpcUaCore/OpcUaCore_FiniteStateMachineType/events/{senderId}",
+        "dov:topic": "opcua/OpcUaCore/OpcUaCore_FiniteStateMachineType/events/{senderId}",
         "op": "subscribeallevents"
       },
       {
         "contentType": "application/json",
-        "dtv:topic": "opcua/OpcUaCore/OpcUaCore_FiniteStateMachineType/properties/read",
+        "dov:topic": "opcua/OpcUaCore/OpcUaCore_FiniteStateMachineType/properties/read",
         "op": "readallproperties"
       }
     ],
@@ -1992,7 +1970,7 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/OpcUaCore/OpcUaCore_FiniteStateMachineType/property/AvailableStates/read",
+            "dov:topic": "opcua/OpcUaCore/OpcUaCore_FiniteStateMachineType/property/AvailableStates/read",
             "op": "readproperty"
           }
         ]
@@ -2006,7 +1984,7 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/OpcUaCore/OpcUaCore_FiniteStateMachineType/property/AvailableTransitions/read",
+            "dov:topic": "opcua/OpcUaCore/OpcUaCore_FiniteStateMachineType/property/AvailableTransitions/read",
             "op": "readproperty"
           }
         ]
@@ -2017,7 +1995,7 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/OpcUaCore/OpcUaCore_FiniteStateMachineType/property/CurrentState/read",
+            "dov:topic": "opcua/OpcUaCore/OpcUaCore_FiniteStateMachineType/property/CurrentState/read",
             "op": "readproperty"
           }
         ]
@@ -2028,7 +2006,7 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/OpcUaCore/OpcUaCore_FiniteStateMachineType/property/LastTransition/read",
+            "dov:topic": "opcua/OpcUaCore/OpcUaCore_FiniteStateMachineType/property/LastTransition/read",
             "op": "readproperty"
           }
         ]
@@ -2045,7 +2023,7 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/OpcUaCore/OpcUaCore_FiniteStateMachineType/event/AvailableStates/{senderId}",
+            "dov:topic": "opcua/OpcUaCore/OpcUaCore_FiniteStateMachineType/event/AvailableStates/{senderId}",
             "op": "subscribeevent"
           }
         ]
@@ -2060,7 +2038,7 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/OpcUaCore/OpcUaCore_FiniteStateMachineType/event/AvailableTransitions/{senderId}",
+            "dov:topic": "opcua/OpcUaCore/OpcUaCore_FiniteStateMachineType/event/AvailableTransitions/{senderId}",
             "op": "subscribeevent"
           }
         ]
@@ -2072,7 +2050,7 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/OpcUaCore/OpcUaCore_FiniteStateMachineType/event/CurrentState/{senderId}",
+            "dov:topic": "opcua/OpcUaCore/OpcUaCore_FiniteStateMachineType/event/CurrentState/{senderId}",
             "op": "subscribeevent"
           }
         ]
@@ -2084,7 +2062,7 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/OpcUaCore/OpcUaCore_FiniteStateMachineType/event/LastTransition/{senderId}",
+            "dov:topic": "opcua/OpcUaCore/OpcUaCore_FiniteStateMachineType/event/LastTransition/{senderId}",
             "op": "subscribeevent"
           }
         ]
@@ -2095,14 +2073,13 @@
     "@context": [
       "https://www.w3.org/2022/wot/td/v1.1",
       {
-        "dtv": "http://azure.com/DigitalTwins/dtmi#",
-        "aov": "http://azure.com/IoT/operations/tm#"
+        "dov": "http://azure.com/DigitalOperations/vocab#"
       }
     ],
     "@type": "tm:ThingModel",
     "title": "OpcUaCore_StateMachineType",
-    "aov:typeRef": "nsu=http://opcfoundation.org/UA/;i=2299",
-    "aov:isComposite": true,
+    "dov:typeRef": "org.opcfoundation.UA.StateMachineType",
+    "dov:isComposite": true,
     "links": [
       {
         "rel": "tm:extends",
@@ -2115,12 +2092,12 @@
     "forms": [
       {
         "contentType": "application/json",
-        "dtv:topic": "opcua/OpcUaCore/OpcUaCore_StateMachineType/events/{senderId}",
+        "dov:topic": "opcua/OpcUaCore/OpcUaCore_StateMachineType/events/{senderId}",
         "op": "subscribeallevents"
       },
       {
         "contentType": "application/json",
-        "dtv:topic": "opcua/OpcUaCore/OpcUaCore_StateMachineType/properties/read",
+        "dov:topic": "opcua/OpcUaCore/OpcUaCore_StateMachineType/properties/read",
         "op": "readallproperties"
       }
     ],
@@ -2133,7 +2110,7 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/OpcUaCore/OpcUaCore_StateMachineType/property/CurrentState/read",
+            "dov:topic": "opcua/OpcUaCore/OpcUaCore_StateMachineType/property/CurrentState/read",
             "op": "readproperty"
           }
         ]
@@ -2144,7 +2121,7 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/OpcUaCore/OpcUaCore_StateMachineType/property/LastTransition/read",
+            "dov:topic": "opcua/OpcUaCore/OpcUaCore_StateMachineType/property/LastTransition/read",
             "op": "readproperty"
           }
         ]
@@ -2158,7 +2135,7 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/OpcUaCore/OpcUaCore_StateMachineType/event/CurrentState/{senderId}",
+            "dov:topic": "opcua/OpcUaCore/OpcUaCore_StateMachineType/event/CurrentState/{senderId}",
             "op": "subscribeevent"
           }
         ]
@@ -2170,7 +2147,7 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/OpcUaCore/OpcUaCore_StateMachineType/event/LastTransition/{senderId}",
+            "dov:topic": "opcua/OpcUaCore/OpcUaCore_StateMachineType/event/LastTransition/{senderId}",
             "op": "subscribeevent"
           }
         ]
@@ -2181,13 +2158,12 @@
     "@context": [
       "https://www.w3.org/2022/wot/td/v1.1",
       {
-        "dtv": "http://azure.com/DigitalTwins/dtmi#",
-        "aov": "http://azure.com/IoT/operations/tm#"
+        "dov": "http://azure.com/DigitalOperations/vocab#"
       }
     ],
     "@type": "tm:ThingModel",
     "title": "OpcUaCore_StateType",
-    "aov:typeRef": "nsu=http://opcfoundation.org/UA/;i=2307",
+    "dov:typeRef": "org.opcfoundation.UA.StateType",
     "links": [
       {
         "rel": "tm:extends",
@@ -2200,7 +2176,7 @@
     "forms": [
       {
         "contentType": "application/json",
-        "dtv:topic": "opcua/OpcUaCore/OpcUaCore_StateType/properties/read",
+        "dov:topic": "opcua/OpcUaCore/OpcUaCore_StateType/properties/read",
         "op": "readallproperties"
       }
     ],
@@ -2215,7 +2191,7 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/OpcUaCore/OpcUaCore_StateType/property/StateNumber/read",
+            "dov:topic": "opcua/OpcUaCore/OpcUaCore_StateType/property/StateNumber/read",
             "op": "readproperty"
           }
         ]
@@ -2228,13 +2204,12 @@
     "@context": [
       "https://www.w3.org/2022/wot/td/v1.1",
       {
-        "dtv": "http://azure.com/DigitalTwins/dtmi#",
-        "aov": "http://azure.com/IoT/operations/tm#"
+        "dov": "http://azure.com/DigitalOperations/vocab#"
       }
     ],
     "@type": "tm:ThingModel",
     "title": "OpcUaCore_TransitionType",
-    "aov:typeRef": "nsu=http://opcfoundation.org/UA/;i=2310",
+    "dov:typeRef": "org.opcfoundation.UA.TransitionType",
     "links": [
       {
         "rel": "tm:extends",
@@ -2247,7 +2222,7 @@
     "forms": [
       {
         "contentType": "application/json",
-        "dtv:topic": "opcua/OpcUaCore/OpcUaCore_TransitionType/properties/read",
+        "dov:topic": "opcua/OpcUaCore/OpcUaCore_TransitionType/properties/read",
         "op": "readallproperties"
       }
     ],
@@ -2262,7 +2237,7 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/OpcUaCore/OpcUaCore_TransitionType/property/TransitionNumber/read",
+            "dov:topic": "opcua/OpcUaCore/OpcUaCore_TransitionType/property/TransitionNumber/read",
             "op": "readproperty"
           }
         ]

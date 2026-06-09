@@ -3,14 +3,13 @@
     "@context": [
       "https://www.w3.org/2022/wot/td/v1.1",
       {
-        "dtv": "http://azure.com/DigitalTwins/dtmi#",
-        "aov": "http://azure.com/IoT/operations/tm#"
+        "dov": "http://azure.com/DigitalOperations/vocab#"
       }
     ],
     "@type": "tm:ThingModel",
     "title": "AutoID_AutoIdDiagnosticsEventType",
-    "aov:typeRef": "nsu=http://opcfoundation.org/UA/AutoID/;i=1010",
-    "aov:isEvent": true,
+    "dov:typeRef": "org.opcfoundation.UA.AutoID.AutoIdDiagnosticsEventType",
+    "dov:isEvent": true,
     "links": [
       {
         "rel": "tm:extends",
@@ -23,7 +22,7 @@
     "forms": [
       {
         "contentType": "application/json",
-        "dtv:topic": "opcua/AutoID/AutoID_AutoIdDiagnosticsEventType/properties/read",
+        "dov:topic": "opcua/AutoID/AutoID_AutoIdDiagnosticsEventType/properties/read",
         "op": "readallproperties"
       }
     ],
@@ -31,14 +30,14 @@
     },
     "properties": {
       "DeviceName": {
-        "aov:namespace": "http://opcfoundation.org/UA/AutoID/",
+        "dov:namespace": "http://opcfoundation.org/UA/AutoID/",
         "description": "Name of the device of the diagnostic data.",
         "type": "string",
         "readOnly": true,
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/AutoID/AutoID_AutoIdDiagnosticsEventType/property/DeviceName/read",
+            "dov:topic": "opcua/AutoID/AutoID_AutoIdDiagnosticsEventType/property/DeviceName/read",
             "op": "readproperty"
           }
         ]
@@ -51,14 +50,13 @@
     "@context": [
       "https://www.w3.org/2022/wot/td/v1.1",
       {
-        "dtv": "http://azure.com/DigitalTwins/dtmi#",
-        "aov": "http://azure.com/IoT/operations/tm#"
+        "dov": "http://azure.com/DigitalOperations/vocab#"
       }
     ],
     "@type": "tm:ThingModel",
     "title": "AutoID_AutoIdAccessEventType",
-    "aov:typeRef": "nsu=http://opcfoundation.org/UA/AutoID/;i=1015",
-    "aov:isEvent": true,
+    "dov:typeRef": "org.opcfoundation.UA.AutoID.AutoIdAccessEventType",
+    "dov:isEvent": true,
     "links": [
       {
         "rel": "tm:extends",
@@ -71,7 +69,7 @@
     "forms": [
       {
         "contentType": "application/json",
-        "dtv:topic": "opcua/AutoID/AutoID_AutoIdAccessEventType/properties/read",
+        "dov:topic": "opcua/AutoID/AutoID_AutoIdAccessEventType/properties/read",
         "op": "readallproperties"
       }
     ],
@@ -79,14 +77,14 @@
     },
     "properties": {
       "AccessResult": {
-        "aov:namespace": "http://opcfoundation.org/UA/AutoID/",
+        "dov:namespace": "http://opcfoundation.org/UA/AutoID/",
         "description": "Result values of the access.",
         "type": "array",
         "items": {
           "title": "AccessResult",
           "description": "Result values of an AutoID Identifier access.",
           "type": "object",
-          "aov:typeRef": "nsu=http://opcfoundation.org/UA/AutoID/;i=3017",
+          "dov:typeRef": "org.opcfoundation.UA.AutoID.AccessResult",
           "properties": {
             "CodeType": {
               "description": "Defines the format of Identifier as string.",
@@ -96,7 +94,7 @@
               "title": "ScanData",
               "description": "The AutoID Identifier (e.g. a code or a transponder) which was accessed by a command.",
               "type": "object",
-              "aov:typeRef": "nsu=http://opcfoundation.org/UA/AutoID/;i=3020",
+              "dov:typeRef": "org.opcfoundation.UA.AutoID.ScanData",
               "properties": {
                 "ByteString": {
                   "type": "string",
@@ -108,7 +106,7 @@
                 "Epc": {
                   "title": "ScanDataEpc",
                   "type": "object",
-                  "aov:typeRef": "nsu=http://opcfoundation.org/UA/AutoID/;i=3024",
+                  "dov:typeRef": "org.opcfoundation.UA.AutoID.ScanDataEpc",
                   "required": [ "PC", "UId", "XPC_W1", "XPC_W2" ],
                   "properties": {
                     "PC": {
@@ -149,33 +147,33 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/AutoID/AutoID_AutoIdAccessEventType/property/AccessResult/read",
+            "dov:topic": "opcua/AutoID/AutoID_AutoIdAccessEventType/property/AccessResult/read",
             "op": "readproperty"
           }
         ]
       },
       "Client": {
-        "aov:namespace": "http://opcfoundation.org/UA/AutoID/",
+        "dov:namespace": "http://opcfoundation.org/UA/AutoID/",
         "description": "Client which was the originator of the command.",
         "type": "string",
         "readOnly": true,
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/AutoID/AutoID_AutoIdAccessEventType/property/Client/read",
+            "dov:topic": "opcua/AutoID/AutoID_AutoIdAccessEventType/property/Client/read",
             "op": "readproperty"
           }
         ]
       },
       "Command": {
-        "aov:namespace": "http://opcfoundation.org/UA/AutoID/",
+        "dov:namespace": "http://opcfoundation.org/UA/AutoID/",
         "description": "Access command",
         "type": "string",
         "readOnly": true,
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/AutoID/AutoID_AutoIdAccessEventType/property/Command/read",
+            "dov:topic": "opcua/AutoID/AutoID_AutoIdAccessEventType/property/Command/read",
             "op": "readproperty"
           }
         ]
@@ -188,14 +186,13 @@
     "@context": [
       "https://www.w3.org/2022/wot/td/v1.1",
       {
-        "dtv": "http://azure.com/DigitalTwins/dtmi#",
-        "aov": "http://azure.com/IoT/operations/tm#"
+        "dov": "http://azure.com/DigitalOperations/vocab#"
       }
     ],
     "@type": "tm:ThingModel",
     "title": "AutoID_RfidAccessEventType",
-    "aov:typeRef": "nsu=http://opcfoundation.org/UA/AutoID/;i=1016",
-    "aov:isEvent": true,
+    "dov:typeRef": "org.opcfoundation.UA.AutoID.RfidAccessEventType",
+    "dov:isEvent": true,
     "links": [
       {
         "rel": "tm:extends",
@@ -208,7 +205,7 @@
     "forms": [
       {
         "contentType": "application/json",
-        "dtv:topic": "opcua/AutoID/AutoID_RfidAccessEventType/properties/read",
+        "dov:topic": "opcua/AutoID/AutoID_RfidAccessEventType/properties/read",
         "op": "readallproperties"
       }
     ],
@@ -216,14 +213,14 @@
     },
     "properties": {
       "AccessResult": {
-        "aov:namespace": "http://opcfoundation.org/UA/AutoID/",
+        "dov:namespace": "http://opcfoundation.org/UA/AutoID/",
         "description": "Result values of the access.",
         "type": "array",
         "items": {
           "title": "RfidAccessResult",
           "description": "Additional result values of an Rfid Transponder access.",
           "type": "object",
-          "aov:typeRef": "nsu=http://opcfoundation.org/UA/AutoID/;i=3018",
+          "dov:typeRef": "org.opcfoundation.UA.AutoID.RfidAccessResult",
           "properties": {
             "CodeTypeRWData": {
               "description": "Defines the format of RWData as string.",
@@ -233,7 +230,7 @@
               "title": "ScanData",
               "description": "The user data which was written to / was read from the Rfid Transponder by the command.",
               "type": "object",
-              "aov:typeRef": "nsu=http://opcfoundation.org/UA/AutoID/;i=3020",
+              "dov:typeRef": "org.opcfoundation.UA.AutoID.ScanData",
               "properties": {
                 "ByteString": {
                   "type": "string",
@@ -245,7 +242,7 @@
                 "Epc": {
                   "title": "ScanDataEpc",
                   "type": "object",
-                  "aov:typeRef": "nsu=http://opcfoundation.org/UA/AutoID/;i=3024",
+                  "dov:typeRef": "org.opcfoundation.UA.AutoID.ScanDataEpc",
                   "required": [ "PC", "UId", "XPC_W1", "XPC_W2" ],
                   "properties": {
                     "PC": {
@@ -309,7 +306,7 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/AutoID/AutoID_RfidAccessEventType/property/AccessResult/read",
+            "dov:topic": "opcua/AutoID/AutoID_RfidAccessEventType/property/AccessResult/read",
             "op": "readproperty"
           }
         ]
@@ -322,14 +319,13 @@
     "@context": [
       "https://www.w3.org/2022/wot/td/v1.1",
       {
-        "dtv": "http://azure.com/DigitalTwins/dtmi#",
-        "aov": "http://azure.com/IoT/operations/tm#"
+        "dov": "http://azure.com/DigitalOperations/vocab#"
       }
     ],
     "@type": "tm:ThingModel",
     "title": "AutoID_AutoIdLogEntryEventType",
-    "aov:typeRef": "nsu=http://opcfoundation.org/UA/AutoID/;i=1017",
-    "aov:isEvent": true,
+    "dov:typeRef": "org.opcfoundation.UA.AutoID.AutoIdLogEntryEventType",
+    "dov:isEvent": true,
     "links": [
       {
         "rel": "tm:extends",
@@ -350,14 +346,13 @@
     "@context": [
       "https://www.w3.org/2022/wot/td/v1.1",
       {
-        "dtv": "http://azure.com/DigitalTwins/dtmi#",
-        "aov": "http://azure.com/IoT/operations/tm#"
+        "dov": "http://azure.com/DigitalOperations/vocab#"
       }
     ],
     "@type": "tm:ThingModel",
     "title": "AutoID_AutoIdPresenceEventType",
-    "aov:typeRef": "nsu=http://opcfoundation.org/UA/AutoID/;i=1018",
-    "aov:isEvent": true,
+    "dov:typeRef": "org.opcfoundation.UA.AutoID.AutoIdPresenceEventType",
+    "dov:isEvent": true,
     "links": [
       {
         "rel": "tm:extends",
@@ -370,7 +365,7 @@
     "forms": [
       {
         "contentType": "application/json",
-        "dtv:topic": "opcua/AutoID/AutoID_AutoIdPresenceEventType/properties/read",
+        "dov:topic": "opcua/AutoID/AutoID_AutoIdPresenceEventType/properties/read",
         "op": "readallproperties"
       }
     ],
@@ -378,7 +373,7 @@
     },
     "properties": {
       "Presence": {
-        "aov:namespace": "http://opcfoundation.org/UA/AutoID/",
+        "dov:namespace": "http://opcfoundation.org/UA/AutoID/",
         "description": "Current presence of AutoID Identifier.",
         "type": "integer",
         "minimum": 0,
@@ -387,7 +382,7 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/AutoID/AutoID_AutoIdPresenceEventType/property/Presence/read",
+            "dov:topic": "opcua/AutoID/AutoID_AutoIdPresenceEventType/property/Presence/read",
             "op": "readproperty"
           }
         ]
@@ -400,14 +395,13 @@
     "@context": [
       "https://www.w3.org/2022/wot/td/v1.1",
       {
-        "dtv": "http://azure.com/DigitalTwins/dtmi#",
-        "aov": "http://azure.com/IoT/operations/tm#"
+        "dov": "http://azure.com/DigitalOperations/vocab#"
       }
     ],
     "@type": "tm:ThingModel",
     "title": "AutoID_AutoIdScanEventType",
-    "aov:typeRef": "nsu=http://opcfoundation.org/UA/AutoID/;i=1004",
-    "aov:isEvent": true,
+    "dov:typeRef": "org.opcfoundation.UA.AutoID.AutoIdScanEventType",
+    "dov:isEvent": true,
     "links": [
       {
         "rel": "tm:extends",
@@ -420,7 +414,7 @@
     "forms": [
       {
         "contentType": "application/json",
-        "dtv:topic": "opcua/AutoID/AutoID_AutoIdScanEventType/properties/read",
+        "dov:topic": "opcua/AutoID/AutoID_AutoIdScanEventType/properties/read",
         "op": "readallproperties"
       }
     ],
@@ -428,24 +422,24 @@
     },
     "properties": {
       "DeviceName": {
-        "aov:namespace": "http://opcfoundation.org/UA/AutoID/",
+        "dov:namespace": "http://opcfoundation.org/UA/AutoID/",
         "type": "string",
         "readOnly": true,
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/AutoID/AutoID_AutoIdScanEventType/property/DeviceName/read",
+            "dov:topic": "opcua/AutoID/AutoID_AutoIdScanEventType/property/DeviceName/read",
             "op": "readproperty"
           }
         ]
       },
       "ScanResult": {
-        "aov:namespace": "http://opcfoundation.org/UA/AutoID/",
+        "dov:namespace": "http://opcfoundation.org/UA/AutoID/",
         "type": "array",
         "items": {
           "title": "ScanResult",
           "type": "object",
-          "aov:typeRef": "nsu=http://opcfoundation.org/UA/AutoID/;i=3001",
+          "dov:typeRef": "org.opcfoundation.UA.AutoID.ScanResult",
           "required": [ "CodeType", "ScanData", "Timestamp" ],
           "properties": {
             "CodeType": {
@@ -456,7 +450,7 @@
               "title": "ScanData",
               "description": "Holds the information about the detected objects e.g. the detected transponders.",
               "type": "object",
-              "aov:typeRef": "nsu=http://opcfoundation.org/UA/AutoID/;i=3020",
+              "dov:typeRef": "org.opcfoundation.UA.AutoID.ScanData",
               "properties": {
                 "ByteString": {
                   "type": "string",
@@ -468,7 +462,7 @@
                 "Epc": {
                   "title": "ScanDataEpc",
                   "type": "object",
-                  "aov:typeRef": "nsu=http://opcfoundation.org/UA/AutoID/;i=3024",
+                  "dov:typeRef": "org.opcfoundation.UA.AutoID.ScanDataEpc",
                   "required": [ "PC", "UId", "XPC_W1", "XPC_W2" ],
                   "properties": {
                     "PC": {
@@ -507,7 +501,7 @@
               "title": "Location",
               "description": "Returns the location of the object detection.",
               "type": "object",
-              "aov:typeRef": "nsu=http://opcfoundation.org/UA/AutoID/;i=3008",
+              "dov:typeRef": "org.opcfoundation.UA.AutoID.Location",
               "properties": {
                 "NMEA": {
                   "type": "string"
@@ -515,7 +509,7 @@
                 "Local": {
                   "title": "LocalCoordinate",
                   "type": "object",
-                  "aov:typeRef": "nsu=http://opcfoundation.org/UA/AutoID/;i=3019",
+                  "dov:typeRef": "org.opcfoundation.UA.AutoID.LocalCoordinate",
                   "required": [ "X", "Y", "Z", "Timestamp", "DilutionOfPrecision", "UsefulPrecision" ],
                   "properties": {
                     "X": {
@@ -555,7 +549,7 @@
                 "WGS84": {
                   "title": "WGS84Coordinate",
                   "type": "object",
-                  "aov:typeRef": "nsu=http://opcfoundation.org/UA/AutoID/;i=3027",
+                  "dov:typeRef": "org.opcfoundation.UA.AutoID.WGS84Coordinate",
                   "required": [ "N/S Hemisphere", "Latitude", "E/W Hemisphere", "Longitude", "Altitude", "Timestamp", "DilutionOfPrecision", "UsefulPrecisionLatLon", "UsefulPrecisionAlt" ],
                   "properties": {
                     "N/S Hemisphere": {
@@ -611,7 +605,7 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/AutoID/AutoID_AutoIdScanEventType/property/ScanResult/read",
+            "dov:topic": "opcua/AutoID/AutoID_AutoIdScanEventType/property/ScanResult/read",
             "op": "readproperty"
           }
         ]
@@ -624,14 +618,13 @@
     "@context": [
       "https://www.w3.org/2022/wot/td/v1.1",
       {
-        "dtv": "http://azure.com/DigitalTwins/dtmi#",
-        "aov": "http://azure.com/IoT/operations/tm#"
+        "dov": "http://azure.com/DigitalOperations/vocab#"
       }
     ],
     "@type": "tm:ThingModel",
     "title": "AutoID_OcrScanEventType",
-    "aov:typeRef": "nsu=http://opcfoundation.org/UA/AutoID/;i=1005",
-    "aov:isEvent": true,
+    "dov:typeRef": "org.opcfoundation.UA.AutoID.OcrScanEventType",
+    "dov:isEvent": true,
     "links": [
       {
         "rel": "tm:extends",
@@ -644,7 +637,7 @@
     "forms": [
       {
         "contentType": "application/json",
-        "dtv:topic": "opcua/AutoID/AutoID_OcrScanEventType/properties/read",
+        "dov:topic": "opcua/AutoID/AutoID_OcrScanEventType/properties/read",
         "op": "readallproperties"
       }
     ],
@@ -652,12 +645,12 @@
     },
     "properties": {
       "ScanResult": {
-        "aov:namespace": "http://opcfoundation.org/UA/AutoID/",
+        "dov:namespace": "http://opcfoundation.org/UA/AutoID/",
         "type": "array",
         "items": {
           "title": "OcrScanResult",
           "type": "object",
-          "aov:typeRef": "nsu=http://opcfoundation.org/UA/AutoID/;i=3002",
+          "dov:typeRef": "org.opcfoundation.UA.AutoID.OcrScanResult",
           "required": [ "ImageId", "Quality", "Position" ],
           "properties": {
             "ImageId": {
@@ -674,7 +667,7 @@
               "title": "Position",
               "description": "Returns the position of the text within the image.",
               "type": "object",
-              "aov:typeRef": "nsu=http://opcfoundation.org/UA/AutoID/;i=3004",
+              "dov:typeRef": "org.opcfoundation.UA.AutoID.Position",
               "required": [ "PositionX", "PositionY", "SizeX", "SizeY", "Rotation" ],
               "properties": {
                 "PositionX": {
@@ -719,7 +712,7 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/AutoID/AutoID_OcrScanEventType/property/ScanResult/read",
+            "dov:topic": "opcua/AutoID/AutoID_OcrScanEventType/property/ScanResult/read",
             "op": "readproperty"
           }
         ]
@@ -732,14 +725,13 @@
     "@context": [
       "https://www.w3.org/2022/wot/td/v1.1",
       {
-        "dtv": "http://azure.com/DigitalTwins/dtmi#",
-        "aov": "http://azure.com/IoT/operations/tm#"
+        "dov": "http://azure.com/DigitalOperations/vocab#"
       }
     ],
     "@type": "tm:ThingModel",
     "title": "AutoID_OpticalScanEventType",
-    "aov:typeRef": "nsu=http://opcfoundation.org/UA/AutoID/;i=1009",
-    "aov:isEvent": true,
+    "dov:typeRef": "org.opcfoundation.UA.AutoID.OpticalScanEventType",
+    "dov:isEvent": true,
     "links": [
       {
         "rel": "tm:extends",
@@ -752,7 +744,7 @@
     "forms": [
       {
         "contentType": "application/json",
-        "dtv:topic": "opcua/AutoID/AutoID_OpticalScanEventType/properties/read",
+        "dov:topic": "opcua/AutoID/AutoID_OpticalScanEventType/properties/read",
         "op": "readallproperties"
       }
     ],
@@ -760,12 +752,12 @@
     },
     "properties": {
       "ScanResult": {
-        "aov:namespace": "http://opcfoundation.org/UA/AutoID/",
+        "dov:namespace": "http://opcfoundation.org/UA/AutoID/",
         "type": "array",
         "items": {
           "title": "OpticalScanResult",
           "type": "object",
-          "aov:typeRef": "nsu=http://opcfoundation.org/UA/AutoID/;i=3026",
+          "dov:typeRef": "org.opcfoundation.UA.AutoID.OpticalScanResult",
           "properties": {
             "Grade": {
               "description": "Returns the quality of the 1D/2D code.",
@@ -777,7 +769,7 @@
               "title": "Position",
               "description": "Returns the position of the text within the image.",
               "type": "object",
-              "aov:typeRef": "nsu=http://opcfoundation.org/UA/AutoID/;i=3004",
+              "dov:typeRef": "org.opcfoundation.UA.AutoID.Position",
               "required": [ "PositionX", "PositionY", "SizeX", "SizeY", "Rotation" ],
               "properties": {
                 "PositionX": {
@@ -819,7 +811,7 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/AutoID/AutoID_OpticalScanEventType/property/ScanResult/read",
+            "dov:topic": "opcua/AutoID/AutoID_OpticalScanEventType/property/ScanResult/read",
             "op": "readproperty"
           }
         ]
@@ -832,14 +824,13 @@
     "@context": [
       "https://www.w3.org/2022/wot/td/v1.1",
       {
-        "dtv": "http://azure.com/DigitalTwins/dtmi#",
-        "aov": "http://azure.com/IoT/operations/tm#"
+        "dov": "http://azure.com/DigitalOperations/vocab#"
       }
     ],
     "@type": "tm:ThingModel",
     "title": "AutoID_OpticalVerifierScanEventType",
-    "aov:typeRef": "nsu=http://opcfoundation.org/UA/AutoID/;i=1013",
-    "aov:isEvent": true,
+    "dov:typeRef": "org.opcfoundation.UA.AutoID.OpticalVerifierScanEventType",
+    "dov:isEvent": true,
     "links": [
       {
         "rel": "tm:extends",
@@ -852,7 +843,7 @@
     "forms": [
       {
         "contentType": "application/json",
-        "dtv:topic": "opcua/AutoID/AutoID_OpticalVerifierScanEventType/properties/read",
+        "dov:topic": "opcua/AutoID/AutoID_OpticalVerifierScanEventType/properties/read",
         "op": "readallproperties"
       }
     ],
@@ -860,12 +851,12 @@
     },
     "properties": {
       "ScanResult": {
-        "aov:namespace": "http://opcfoundation.org/UA/AutoID/",
+        "dov:namespace": "http://opcfoundation.org/UA/AutoID/",
         "type": "array",
         "items": {
           "title": "OpticalVerifierScanResult",
           "type": "object",
-          "aov:typeRef": "nsu=http://opcfoundation.org/UA/AutoID/;i=3030",
+          "dov:typeRef": "org.opcfoundation.UA.AutoID.OpticalVerifierScanResult",
           "required": [ "IsoGrade", "RMin", "SymbolContrast", "ECMin", "Modulation", "Defects", "Decodability", "Decode", "PrintGain" ],
           "properties": {
             "IsoGrade": {
@@ -917,7 +908,7 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/AutoID/AutoID_OpticalVerifierScanEventType/property/ScanResult/read",
+            "dov:topic": "opcua/AutoID/AutoID_OpticalVerifierScanEventType/property/ScanResult/read",
             "op": "readproperty"
           }
         ]
@@ -930,14 +921,13 @@
     "@context": [
       "https://www.w3.org/2022/wot/td/v1.1",
       {
-        "dtv": "http://azure.com/DigitalTwins/dtmi#",
-        "aov": "http://azure.com/IoT/operations/tm#"
+        "dov": "http://azure.com/DigitalOperations/vocab#"
       }
     ],
     "@type": "tm:ThingModel",
     "title": "AutoID_RfidScanEventType",
-    "aov:typeRef": "nsu=http://opcfoundation.org/UA/AutoID/;i=1006",
-    "aov:isEvent": true,
+    "dov:typeRef": "org.opcfoundation.UA.AutoID.RfidScanEventType",
+    "dov:isEvent": true,
     "links": [
       {
         "rel": "tm:extends",
@@ -950,7 +940,7 @@
     "forms": [
       {
         "contentType": "application/json",
-        "dtv:topic": "opcua/AutoID/AutoID_RfidScanEventType/properties/read",
+        "dov:topic": "opcua/AutoID/AutoID_RfidScanEventType/properties/read",
         "op": "readallproperties"
       }
     ],
@@ -958,12 +948,12 @@
     },
     "properties": {
       "ScanResult": {
-        "aov:namespace": "http://opcfoundation.org/UA/AutoID/",
+        "dov:namespace": "http://opcfoundation.org/UA/AutoID/",
         "type": "array",
         "items": {
           "title": "RfidScanResult",
           "type": "object",
-          "aov:typeRef": "nsu=http://opcfoundation.org/UA/AutoID/;i=3007",
+          "dov:typeRef": "org.opcfoundation.UA.AutoID.RfidScanResult",
           "required": [ "Sighting" ],
           "properties": {
             "Sighting": {
@@ -972,7 +962,7 @@
               "items": {
                 "title": "RfidSighting",
                 "type": "object",
-                "aov:typeRef": "nsu=http://opcfoundation.org/UA/AutoID/;i=3006",
+                "dov:typeRef": "org.opcfoundation.UA.AutoID.RfidSighting",
                 "required": [ "Antenna", "Strength", "Timestamp", "CurrentPowerLevel" ],
                 "properties": {
                   "Antenna": {
@@ -1007,7 +997,7 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/AutoID/AutoID_RfidScanEventType/property/ScanResult/read",
+            "dov:topic": "opcua/AutoID/AutoID_RfidScanEventType/property/ScanResult/read",
             "op": "readproperty"
           }
         ]
@@ -1020,14 +1010,13 @@
     "@context": [
       "https://www.w3.org/2022/wot/td/v1.1",
       {
-        "dtv": "http://azure.com/DigitalTwins/dtmi#",
-        "aov": "http://azure.com/IoT/operations/tm#"
+        "dov": "http://azure.com/DigitalOperations/vocab#"
       }
     ],
     "@type": "tm:ThingModel",
     "title": "AutoID_RtlsLocationEventType",
-    "aov:typeRef": "nsu=http://opcfoundation.org/UA/AutoID/;i=1014",
-    "aov:isEvent": true,
+    "dov:typeRef": "org.opcfoundation.UA.AutoID.RtlsLocationEventType",
+    "dov:isEvent": true,
     "links": [
       {
         "rel": "tm:extends",
@@ -1040,7 +1029,7 @@
     "forms": [
       {
         "contentType": "application/json",
-        "dtv:topic": "opcua/AutoID/AutoID_RtlsLocationEventType/properties/read",
+        "dov:topic": "opcua/AutoID/AutoID_RtlsLocationEventType/properties/read",
         "op": "readallproperties"
       }
     ],
@@ -1048,12 +1037,12 @@
     },
     "properties": {
       "ScanResult": {
-        "aov:namespace": "http://opcfoundation.org/UA/AutoID/",
+        "dov:namespace": "http://opcfoundation.org/UA/AutoID/",
         "type": "array",
         "items": {
           "title": "RtlsLocationResult",
           "type": "object",
-          "aov:typeRef": "nsu=http://opcfoundation.org/UA/AutoID/;i=3028",
+          "dov:typeRef": "org.opcfoundation.UA.AutoID.RtlsLocationResult",
           "required": [ "Speed", "Heading", "Rotation", "ReceiveTime" ],
           "properties": {
             "Speed": {
@@ -1069,7 +1058,7 @@
             "Rotation": {
               "title": "Rotation",
               "type": "object",
-              "aov:typeRef": "nsu=http://opcfoundation.org/UA/AutoID/;i=3029",
+              "dov:typeRef": "org.opcfoundation.UA.AutoID.Rotation",
               "required": [ "Yaw", "Pitch", "Roll" ],
               "properties": {
                 "Yaw": {
@@ -1099,7 +1088,7 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/AutoID/AutoID_RtlsLocationEventType/property/ScanResult/read",
+            "dov:topic": "opcua/AutoID/AutoID_RtlsLocationEventType/property/ScanResult/read",
             "op": "readproperty"
           }
         ]
@@ -1112,13 +1101,12 @@
     "@context": [
       "https://www.w3.org/2022/wot/td/v1.1",
       {
-        "dtv": "http://azure.com/DigitalTwins/dtmi#",
-        "aov": "http://azure.com/IoT/operations/tm#"
+        "dov": "http://azure.com/DigitalOperations/vocab#"
       }
     ],
     "@type": "tm:ThingModel",
     "title": "AutoID_AutoIdDeviceType",
-    "aov:typeRef": "nsu=http://opcfoundation.org/UA/AutoID/;i=1001",
+    "dov:typeRef": "org.opcfoundation.UA.AutoID.AutoIdDeviceType",
     "links": [
       {
         "rel": "tm:extends",
@@ -1126,20 +1114,20 @@
         "type": "application/tm+json"
       },
       {
-        "rel": "aov:capability",
-        "aov:refName": "Diagnostics",
+        "rel": "dov:capability",
+        "dov:refName": "Diagnostics",
         "href": "#title=DI_FunctionalGroupType",
         "type": "application/tm+json"
       },
       {
-        "rel": "aov:capability",
-        "aov:refName": "IOData",
+        "rel": "dov:capability",
+        "dov:refName": "IOData",
         "href": "#title=DI_FunctionalGroupType",
         "type": "application/tm+json"
       },
       {
-        "rel": "aov:capability",
-        "aov:refName": "RuntimeParameters",
+        "rel": "dov:capability",
+        "dov:refName": "RuntimeParameters",
         "href": "#title=DI_FunctionalGroupType",
         "type": "application/tm+json"
       }
@@ -1147,7 +1135,7 @@
     "schemaDefinitions": {
       "DeviceStatusEnumeration": {
         "type": "object",
-        "aov:typeRef": "nsu=http://opcfoundation.org/UA/AutoID/;i=3003",
+        "dov:typeRef": "org.opcfoundation.UA.AutoID.DeviceStatusEnumeration",
         "const": {
           "Idle": 0,
           "Error": 1,
@@ -1171,7 +1159,7 @@
       },
       "LocationTypeEnumeration": {
         "type": "object",
-        "aov:typeRef": "nsu=http://opcfoundation.org/UA/AutoID/;i=3009",
+        "dov:typeRef": "org.opcfoundation.UA.AutoID.LocationTypeEnumeration",
         "const": {
           "NMEA": 0,
           "LOCAL": 1,
@@ -1195,7 +1183,7 @@
       },
       "AutoIdOperationStatusEnumeration": {
         "type": "object",
-        "aov:typeRef": "nsu=http://opcfoundation.org/UA/AutoID/;i=3013",
+        "dov:typeRef": "org.opcfoundation.UA.AutoID.AutoIdOperationStatusEnumeration",
         "const": {
           "SUCCESS": 0,
           "MISC_ERROR_TOTAL": 1,
@@ -1315,31 +1303,31 @@
     "forms": [
       {
         "contentType": "application/json",
-        "dtv:topic": "opcua/AutoID/AutoID_AutoIdDeviceType/events/{senderId}",
+        "dov:topic": "opcua/AutoID/AutoID_AutoIdDeviceType/events/{senderId}",
         "op": "subscribeallevents"
       },
       {
         "contentType": "application/json",
-        "dtv:topic": "opcua/AutoID/AutoID_AutoIdDeviceType/properties/write",
+        "dov:topic": "opcua/AutoID/AutoID_AutoIdDeviceType/properties/write",
         "op": "writemultipleproperties"
       },
       {
         "contentType": "application/json",
-        "dtv:topic": "opcua/AutoID/AutoID_AutoIdDeviceType/properties/read",
+        "dov:topic": "opcua/AutoID/AutoID_AutoIdDeviceType/properties/read",
         "op": "readallproperties"
       }
     ],
     "actions": {
       "GetDeviceLocation": {
-        "aov:namespace": "http://opcfoundation.org/UA/AutoID/",
+        "dov:namespace": "http://opcfoundation.org/UA/AutoID/",
         "input": {
           "type": "object",
-          "aov:typeRef": "nsu=http://opcfoundation.org/UA/AutoID/;i=6130",
+          "dov:typeRef": "org.opcfoundation.UA.InputArguments",
           "required": [ "LocationType" ],
           "properties": {
             "LocationType": {
               "title": "LocationTypeEnumeration",
-              "aov:typeRef": "nsu=http://opcfoundation.org/UA/AutoID/;i=3009",
+              "dov:typeRef": "org.opcfoundation.UA.AutoID.LocationTypeEnumeration",
               "type": "integer",
               "minimum": -2147483648,
               "maximum": 2147483647
@@ -1348,14 +1336,14 @@
         },
         "output": {
           "type": "object",
-          "aov:typeRef": "nsu=http://opcfoundation.org/UA/AutoID/;i=6129",
+          "dov:typeRef": "org.opcfoundation.UA.OutputArguments",
           "required": [ "Location" ],
           "properties": {
             "Location": {
               "title": "Location",
               "description": "Union of GPS, UTM or Local",
               "type": "object",
-              "aov:typeRef": "nsu=http://opcfoundation.org/UA/AutoID/;i=3008",
+              "dov:typeRef": "org.opcfoundation.UA.AutoID.Location",
               "properties": {
                 "NMEA": {
                   "type": "string"
@@ -1363,7 +1351,7 @@
                 "Local": {
                   "title": "LocalCoordinate",
                   "type": "object",
-                  "aov:typeRef": "nsu=http://opcfoundation.org/UA/AutoID/;i=3019",
+                  "dov:typeRef": "org.opcfoundation.UA.AutoID.LocalCoordinate",
                   "required": [ "X", "Y", "Z", "Timestamp", "DilutionOfPrecision", "UsefulPrecision" ],
                   "properties": {
                     "X": {
@@ -1403,7 +1391,7 @@
                 "WGS84": {
                   "title": "WGS84Coordinate",
                   "type": "object",
-                  "aov:typeRef": "nsu=http://opcfoundation.org/UA/AutoID/;i=3027",
+                  "dov:typeRef": "org.opcfoundation.UA.AutoID.WGS84Coordinate",
                   "required": [ "N/S Hemisphere", "Latitude", "E/W Hemisphere", "Longitude", "Altitude", "Timestamp", "DilutionOfPrecision", "UsefulPrecisionLatLon", "UsefulPrecisionAlt" ],
                   "properties": {
                     "N/S Hemisphere": {
@@ -1458,22 +1446,22 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/AutoID/AutoID_AutoIdDeviceType/action/GetDeviceLocation",
+            "dov:topic": "opcua/AutoID/AutoID_AutoIdDeviceType/action/GetDeviceLocation",
             "op": "invokeaction"
           }
         ]
       },
       "Scan": {
-        "aov:namespace": "http://opcfoundation.org/UA/AutoID/",
+        "dov:namespace": "http://opcfoundation.org/UA/AutoID/",
         "input": {
           "type": "object",
-          "aov:typeRef": "nsu=http://opcfoundation.org/UA/AutoID/;i=6050",
+          "dov:typeRef": "org.opcfoundation.UA.InputArguments",
           "required": [ "Settings" ],
           "properties": {
             "Settings": {
               "title": "ScanSettings",
               "type": "object",
-              "aov:typeRef": "nsu=http://opcfoundation.org/UA/AutoID/;i=3010",
+              "dov:typeRef": "org.opcfoundation.UA.AutoID.ScanSettings",
               "required": [ "Duration", "Cycles", "DataAvailable" ],
               "properties": {
                 "Duration": {
@@ -1490,7 +1478,7 @@
                 },
                 "LocationType": {
                   "title": "LocationTypeEnumeration",
-                  "aov:typeRef": "nsu=http://opcfoundation.org/UA/AutoID/;i=3009",
+                  "dov:typeRef": "org.opcfoundation.UA.AutoID.LocationTypeEnumeration",
                   "type": "integer",
                   "minimum": -2147483648,
                   "maximum": 2147483647
@@ -1501,7 +1489,7 @@
         },
         "output": {
           "type": "object",
-          "aov:typeRef": "nsu=http://opcfoundation.org/UA/AutoID/;i=6001",
+          "dov:typeRef": "org.opcfoundation.UA.OutputArguments",
           "required": [ "Results", "Status" ],
           "properties": {
             "Results": {
@@ -1509,7 +1497,7 @@
               "items": {
                 "title": "ScanResult",
                 "type": "object",
-                "aov:typeRef": "nsu=http://opcfoundation.org/UA/AutoID/;i=3001",
+                "dov:typeRef": "org.opcfoundation.UA.AutoID.ScanResult",
                 "required": [ "CodeType", "ScanData", "Timestamp" ],
                 "properties": {
                   "CodeType": {
@@ -1520,7 +1508,7 @@
                     "title": "ScanData",
                     "description": "Holds the information about the detected objects e.g. the detected transponders.",
                     "type": "object",
-                    "aov:typeRef": "nsu=http://opcfoundation.org/UA/AutoID/;i=3020",
+                    "dov:typeRef": "org.opcfoundation.UA.AutoID.ScanData",
                     "properties": {
                       "ByteString": {
                         "type": "string",
@@ -1532,7 +1520,7 @@
                       "Epc": {
                         "title": "ScanDataEpc",
                         "type": "object",
-                        "aov:typeRef": "nsu=http://opcfoundation.org/UA/AutoID/;i=3024",
+                        "dov:typeRef": "org.opcfoundation.UA.AutoID.ScanDataEpc",
                         "required": [ "PC", "UId", "XPC_W1", "XPC_W2" ],
                         "properties": {
                           "PC": {
@@ -1571,7 +1559,7 @@
                     "title": "Location",
                     "description": "Returns the location of the object detection.",
                     "type": "object",
-                    "aov:typeRef": "nsu=http://opcfoundation.org/UA/AutoID/;i=3008",
+                    "dov:typeRef": "org.opcfoundation.UA.AutoID.Location",
                     "properties": {
                       "NMEA": {
                         "type": "string"
@@ -1579,7 +1567,7 @@
                       "Local": {
                         "title": "LocalCoordinate",
                         "type": "object",
-                        "aov:typeRef": "nsu=http://opcfoundation.org/UA/AutoID/;i=3019",
+                        "dov:typeRef": "org.opcfoundation.UA.AutoID.LocalCoordinate",
                         "required": [ "X", "Y", "Z", "Timestamp", "DilutionOfPrecision", "UsefulPrecision" ],
                         "properties": {
                           "X": {
@@ -1619,7 +1607,7 @@
                       "WGS84": {
                         "title": "WGS84Coordinate",
                         "type": "object",
-                        "aov:typeRef": "nsu=http://opcfoundation.org/UA/AutoID/;i=3027",
+                        "dov:typeRef": "org.opcfoundation.UA.AutoID.WGS84Coordinate",
                         "required": [ "N/S Hemisphere", "Latitude", "E/W Hemisphere", "Longitude", "Altitude", "Timestamp", "DilutionOfPrecision", "UsefulPrecisionLatLon", "UsefulPrecisionAlt" ],
                         "properties": {
                           "N/S Hemisphere": {
@@ -1674,7 +1662,7 @@
             },
             "Status": {
               "title": "AutoIdOperationStatusEnumeration",
-              "aov:typeRef": "nsu=http://opcfoundation.org/UA/AutoID/;i=3013",
+              "dov:typeRef": "org.opcfoundation.UA.AutoID.AutoIdOperationStatusEnumeration",
               "type": "integer",
               "minimum": -2147483648,
               "maximum": 2147483647
@@ -1684,22 +1672,22 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/AutoID/AutoID_AutoIdDeviceType/action/Scan",
+            "dov:topic": "opcua/AutoID/AutoID_AutoIdDeviceType/action/Scan",
             "op": "invokeaction"
           }
         ]
       },
       "ScanStart": {
-        "aov:namespace": "http://opcfoundation.org/UA/AutoID/",
+        "dov:namespace": "http://opcfoundation.org/UA/AutoID/",
         "input": {
           "type": "object",
-          "aov:typeRef": "nsu=http://opcfoundation.org/UA/AutoID/;i=6051",
+          "dov:typeRef": "org.opcfoundation.UA.InputArguments",
           "required": [ "Settings" ],
           "properties": {
             "Settings": {
               "title": "ScanSettings",
               "type": "object",
-              "aov:typeRef": "nsu=http://opcfoundation.org/UA/AutoID/;i=3010",
+              "dov:typeRef": "org.opcfoundation.UA.AutoID.ScanSettings",
               "required": [ "Duration", "Cycles", "DataAvailable" ],
               "properties": {
                 "Duration": {
@@ -1716,7 +1704,7 @@
                 },
                 "LocationType": {
                   "title": "LocationTypeEnumeration",
-                  "aov:typeRef": "nsu=http://opcfoundation.org/UA/AutoID/;i=3009",
+                  "dov:typeRef": "org.opcfoundation.UA.AutoID.LocationTypeEnumeration",
                   "type": "integer",
                   "minimum": -2147483648,
                   "maximum": 2147483647
@@ -1727,12 +1715,12 @@
         },
         "output": {
           "type": "object",
-          "aov:typeRef": "nsu=http://opcfoundation.org/UA/AutoID/;i=6208",
+          "dov:typeRef": "org.opcfoundation.UA.OutputArguments",
           "required": [ "Status" ],
           "properties": {
             "Status": {
               "title": "AutoIdOperationStatusEnumeration",
-              "aov:typeRef": "nsu=http://opcfoundation.org/UA/AutoID/;i=3013",
+              "dov:typeRef": "org.opcfoundation.UA.AutoID.AutoIdOperationStatusEnumeration",
               "type": "integer",
               "minimum": -2147483648,
               "maximum": 2147483647
@@ -1742,17 +1730,17 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/AutoID/AutoID_AutoIdDeviceType/action/ScanStart",
+            "dov:topic": "opcua/AutoID/AutoID_AutoIdDeviceType/action/ScanStart",
             "op": "invokeaction"
           }
         ]
       },
       "ScanStop": {
-        "aov:namespace": "http://opcfoundation.org/UA/AutoID/",
+        "dov:namespace": "http://opcfoundation.org/UA/AutoID/",
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/AutoID/AutoID_AutoIdDeviceType/action/ScanStop",
+            "dov:topic": "opcua/AutoID/AutoID_AutoIdDeviceType/action/ScanStop",
             "op": "invokeaction"
           }
         ]
@@ -1760,46 +1748,46 @@
     },
     "properties": {
       "AutoIdModelVersion": {
-        "aov:namespace": "http://opcfoundation.org/UA/AutoID/",
+        "dov:namespace": "http://opcfoundation.org/UA/AutoID/",
         "type": "string",
         "readOnly": false,
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/AutoID/AutoID_AutoIdDeviceType/property/AutoIdModelVersion/write",
+            "dov:topic": "opcua/AutoID/AutoID_AutoIdDeviceType/property/AutoIdModelVersion/write",
             "op": "writeproperty"
           },
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/AutoID/AutoID_AutoIdDeviceType/property/AutoIdModelVersion/read",
+            "dov:topic": "opcua/AutoID/AutoID_AutoIdDeviceType/property/AutoIdModelVersion/read",
             "op": "readproperty"
           }
         ]
       },
       "DeviceInfo": {
-        "aov:namespace": "http://opcfoundation.org/UA/AutoID/",
+        "dov:namespace": "http://opcfoundation.org/UA/AutoID/",
         "description": "Device status information.",
         "type": "string",
         "readOnly": false,
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/AutoID/AutoID_AutoIdDeviceType/property/DeviceInfo/write",
+            "dov:topic": "opcua/AutoID/AutoID_AutoIdDeviceType/property/DeviceInfo/write",
             "op": "writeproperty"
           },
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/AutoID/AutoID_AutoIdDeviceType/property/DeviceInfo/read",
+            "dov:topic": "opcua/AutoID/AutoID_AutoIdDeviceType/property/DeviceInfo/read",
             "op": "readproperty"
           }
         ]
       },
       "DeviceLocation": {
-        "aov:namespace": "http://opcfoundation.org/UA/AutoID/",
+        "dov:namespace": "http://opcfoundation.org/UA/AutoID/",
         "title": "Location",
         "description": "Union of GPS, UTM, Local.",
         "type": "object",
-        "aov:typeRef": "nsu=http://opcfoundation.org/UA/AutoID/;i=3008",
+        "dov:typeRef": "org.opcfoundation.UA.AutoID.Location",
         "properties": {
           "NMEA": {
             "type": "string"
@@ -1807,7 +1795,7 @@
           "Local": {
             "title": "LocalCoordinate",
             "type": "object",
-            "aov:typeRef": "nsu=http://opcfoundation.org/UA/AutoID/;i=3019",
+            "dov:typeRef": "org.opcfoundation.UA.AutoID.LocalCoordinate",
             "required": [ "X", "Y", "Z", "Timestamp", "DilutionOfPrecision", "UsefulPrecision" ],
             "properties": {
               "X": {
@@ -1847,7 +1835,7 @@
           "WGS84": {
             "title": "WGS84Coordinate",
             "type": "object",
-            "aov:typeRef": "nsu=http://opcfoundation.org/UA/AutoID/;i=3027",
+            "dov:typeRef": "org.opcfoundation.UA.AutoID.WGS84Coordinate",
             "required": [ "N/S Hemisphere", "Latitude", "E/W Hemisphere", "Longitude", "Altitude", "Timestamp", "DilutionOfPrecision", "UsefulPrecisionLatLon", "UsefulPrecisionAlt" ],
             "properties": {
               "N/S Hemisphere": {
@@ -1900,56 +1888,56 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/AutoID/AutoID_AutoIdDeviceType/property/DeviceLocation/write",
+            "dov:topic": "opcua/AutoID/AutoID_AutoIdDeviceType/property/DeviceLocation/write",
             "op": "writeproperty"
           },
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/AutoID/AutoID_AutoIdDeviceType/property/DeviceLocation/read",
+            "dov:topic": "opcua/AutoID/AutoID_AutoIdDeviceType/property/DeviceLocation/read",
             "op": "readproperty"
           }
         ]
       },
       "DeviceLocationName": {
-        "aov:namespace": "http://opcfoundation.org/UA/AutoID/",
+        "dov:namespace": "http://opcfoundation.org/UA/AutoID/",
         "description": "Symbolic name of the device location.",
         "type": "string",
         "readOnly": false,
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/AutoID/AutoID_AutoIdDeviceType/property/DeviceLocationName/write",
+            "dov:topic": "opcua/AutoID/AutoID_AutoIdDeviceType/property/DeviceLocationName/write",
             "op": "writeproperty"
           },
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/AutoID/AutoID_AutoIdDeviceType/property/DeviceLocationName/read",
+            "dov:topic": "opcua/AutoID/AutoID_AutoIdDeviceType/property/DeviceLocationName/read",
             "op": "readproperty"
           }
         ]
       },
       "DeviceName": {
-        "aov:namespace": "http://opcfoundation.org/UA/AutoID/",
+        "dov:namespace": "http://opcfoundation.org/UA/AutoID/",
         "description": "Default could be also host name, IP address or MAC. This should be a field that can be configured for a device.",
         "type": "string",
         "readOnly": false,
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/AutoID/AutoID_AutoIdDeviceType/property/DeviceName/write",
+            "dov:topic": "opcua/AutoID/AutoID_AutoIdDeviceType/property/DeviceName/write",
             "op": "writeproperty"
           },
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/AutoID/AutoID_AutoIdDeviceType/property/DeviceName/read",
+            "dov:topic": "opcua/AutoID/AutoID_AutoIdDeviceType/property/DeviceName/read",
             "op": "readproperty"
           }
         ]
       },
       "DeviceStatus": {
-        "aov:namespace": "http://opcfoundation.org/UA/AutoID/",
+        "dov:namespace": "http://opcfoundation.org/UA/AutoID/",
         "title": "DeviceStatusEnumeration",
-        "aov:typeRef": "nsu=http://opcfoundation.org/UA/AutoID/;i=3003",
+        "dov:typeRef": "org.opcfoundation.UA.AutoID.DeviceStatusEnumeration",
         "type": "integer",
         "minimum": -2147483648,
         "maximum": 2147483647,
@@ -1957,31 +1945,31 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/AutoID/AutoID_AutoIdDeviceType/property/DeviceStatus/read",
+            "dov:topic": "opcua/AutoID/AutoID_AutoIdDeviceType/property/DeviceStatus/read",
             "op": "readproperty"
           }
         ]
       },
       "LastScanData": {
-        "aov:namespace": "http://opcfoundation.org/UA/AutoID/",
+        "dov:namespace": "http://opcfoundation.org/UA/AutoID/",
         "description": "The last scanned AutoID Identifier.",
         "type": "string",
         "readOnly": false,
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/AutoID/AutoID_AutoIdDeviceType/property/LastScanData/write",
+            "dov:topic": "opcua/AutoID/AutoID_AutoIdDeviceType/property/LastScanData/write",
             "op": "writeproperty"
           },
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/AutoID/AutoID_AutoIdDeviceType/property/LastScanData/read",
+            "dov:topic": "opcua/AutoID/AutoID_AutoIdDeviceType/property/LastScanData/read",
             "op": "readproperty"
           }
         ]
       },
       "LastScanTimestamp": {
-        "aov:namespace": "http://opcfoundation.org/UA/AutoID/",
+        "dov:namespace": "http://opcfoundation.org/UA/AutoID/",
         "description": "Point of time the last AutoID Identifier was scanned.",
         "type": "string",
         "format": "time",
@@ -1989,30 +1977,30 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/AutoID/AutoID_AutoIdDeviceType/property/LastScanTimestamp/write",
+            "dov:topic": "opcua/AutoID/AutoID_AutoIdDeviceType/property/LastScanTimestamp/write",
             "op": "writeproperty"
           },
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/AutoID/AutoID_AutoIdDeviceType/property/LastScanTimestamp/read",
+            "dov:topic": "opcua/AutoID/AutoID_AutoIdDeviceType/property/LastScanTimestamp/read",
             "op": "readproperty"
           }
         ]
       },
       "ScanActive": {
-        "aov:namespace": "http://opcfoundation.org/UA/AutoID/",
+        "dov:namespace": "http://opcfoundation.org/UA/AutoID/",
         "description": "Triggers the scan process.",
         "type": "boolean",
         "readOnly": false,
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/AutoID/AutoID_AutoIdDeviceType/property/ScanActive/write",
+            "dov:topic": "opcua/AutoID/AutoID_AutoIdDeviceType/property/ScanActive/write",
             "op": "writeproperty"
           },
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/AutoID/AutoID_AutoIdDeviceType/property/ScanActive/read",
+            "dov:topic": "opcua/AutoID/AutoID_AutoIdDeviceType/property/ScanActive/read",
             "op": "readproperty"
           }
         ]
@@ -2020,12 +2008,12 @@
     },
     "events": {
       "DeviceLocation": {
-        "aov:namespace": "http://opcfoundation.org/UA/AutoID/",
+        "dov:namespace": "http://opcfoundation.org/UA/AutoID/",
         "data": {
           "title": "Location",
           "description": "Union of GPS, UTM, Local.",
           "type": "object",
-          "aov:typeRef": "nsu=http://opcfoundation.org/UA/AutoID/;i=3008",
+          "dov:typeRef": "org.opcfoundation.UA.AutoID.Location",
           "properties": {
             "NMEA": {
               "type": "string"
@@ -2033,7 +2021,7 @@
             "Local": {
               "title": "LocalCoordinate",
               "type": "object",
-              "aov:typeRef": "nsu=http://opcfoundation.org/UA/AutoID/;i=3019",
+              "dov:typeRef": "org.opcfoundation.UA.AutoID.LocalCoordinate",
               "required": [ "X", "Y", "Z", "Timestamp", "DilutionOfPrecision", "UsefulPrecision" ],
               "properties": {
                 "X": {
@@ -2073,7 +2061,7 @@
             "WGS84": {
               "title": "WGS84Coordinate",
               "type": "object",
-              "aov:typeRef": "nsu=http://opcfoundation.org/UA/AutoID/;i=3027",
+              "dov:typeRef": "org.opcfoundation.UA.AutoID.WGS84Coordinate",
               "required": [ "N/S Hemisphere", "Latitude", "E/W Hemisphere", "Longitude", "Altitude", "Timestamp", "DilutionOfPrecision", "UsefulPrecisionLatLon", "UsefulPrecisionAlt" ],
               "properties": {
                 "N/S Hemisphere": {
@@ -2126,16 +2114,16 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/AutoID/AutoID_AutoIdDeviceType/event/DeviceLocation/{senderId}",
+            "dov:topic": "opcua/AutoID/AutoID_AutoIdDeviceType/event/DeviceLocation/{senderId}",
             "op": "subscribeevent"
           }
         ]
       },
       "DeviceStatus": {
-        "aov:namespace": "http://opcfoundation.org/UA/AutoID/",
+        "dov:namespace": "http://opcfoundation.org/UA/AutoID/",
         "data": {
           "title": "DeviceStatusEnumeration",
-          "aov:typeRef": "nsu=http://opcfoundation.org/UA/AutoID/;i=3003",
+          "dov:typeRef": "org.opcfoundation.UA.AutoID.DeviceStatusEnumeration",
           "type": "integer",
           "minimum": -2147483648,
           "maximum": 2147483647
@@ -2143,13 +2131,13 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/AutoID/AutoID_AutoIdDeviceType/event/DeviceStatus/{senderId}",
+            "dov:topic": "opcua/AutoID/AutoID_AutoIdDeviceType/event/DeviceStatus/{senderId}",
             "op": "subscribeevent"
           }
         ]
       },
       "LastScanData": {
-        "aov:namespace": "http://opcfoundation.org/UA/AutoID/",
+        "dov:namespace": "http://opcfoundation.org/UA/AutoID/",
         "data": {
           "description": "The last scanned AutoID Identifier.",
           "type": "string"
@@ -2157,13 +2145,13 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/AutoID/AutoID_AutoIdDeviceType/event/LastScanData/{senderId}",
+            "dov:topic": "opcua/AutoID/AutoID_AutoIdDeviceType/event/LastScanData/{senderId}",
             "op": "subscribeevent"
           }
         ]
       },
       "LastScanTimestamp": {
-        "aov:namespace": "http://opcfoundation.org/UA/AutoID/",
+        "dov:namespace": "http://opcfoundation.org/UA/AutoID/",
         "data": {
           "description": "Point of time the last AutoID Identifier was scanned.",
           "type": "string",
@@ -2172,13 +2160,13 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/AutoID/AutoID_AutoIdDeviceType/event/LastScanTimestamp/{senderId}",
+            "dov:topic": "opcua/AutoID/AutoID_AutoIdDeviceType/event/LastScanTimestamp/{senderId}",
             "op": "subscribeevent"
           }
         ]
       },
       "ScanActive": {
-        "aov:namespace": "http://opcfoundation.org/UA/AutoID/",
+        "dov:namespace": "http://opcfoundation.org/UA/AutoID/",
         "data": {
           "description": "Triggers the scan process.",
           "type": "boolean"
@@ -2186,7 +2174,7 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/AutoID/AutoID_AutoIdDeviceType/event/ScanActive/{senderId}",
+            "dov:topic": "opcua/AutoID/AutoID_AutoIdDeviceType/event/ScanActive/{senderId}",
             "op": "subscribeevent"
           }
         ]
@@ -2197,14 +2185,13 @@
     "@context": [
       "https://www.w3.org/2022/wot/td/v1.1",
       {
-        "dtv": "http://azure.com/DigitalTwins/dtmi#",
-        "aov": "http://azure.com/IoT/operations/tm#"
+        "dov": "http://azure.com/DigitalOperations/vocab#"
       }
     ],
     "@type": "tm:ThingModel",
     "title": "AutoID_OcrReaderDeviceType",
-    "aov:typeRef": "nsu=http://opcfoundation.org/UA/AutoID/;i=1002",
-    "aov:isComposite": true,
+    "dov:typeRef": "org.opcfoundation.UA.AutoID.OcrReaderDeviceType",
+    "dov:isComposite": true,
     "links": [
       {
         "rel": "tm:extends",
@@ -2212,14 +2199,14 @@
         "type": "application/tm+json"
       },
       {
-        "rel": "aov:component",
-        "aov:refName": "Images",
+        "rel": "dov:component",
+        "dov:refName": "Images",
         "href": "#title=OpcUaCore_FolderType",
         "type": "application/tm+json"
       },
       {
-        "rel": "aov:capability",
-        "aov:refName": "RuntimeParameters",
+        "rel": "dov:capability",
+        "dov:refName": "RuntimeParameters",
         "href": "#title=DI_FunctionalGroupType",
         "type": "application/tm+json"
       }
@@ -2227,7 +2214,7 @@
     "schemaDefinitions": {
       "LocationTypeEnumeration": {
         "type": "object",
-        "aov:typeRef": "nsu=http://opcfoundation.org/UA/AutoID/;i=3009",
+        "dov:typeRef": "org.opcfoundation.UA.AutoID.LocationTypeEnumeration",
         "const": {
           "NMEA": 0,
           "LOCAL": 1,
@@ -2251,7 +2238,7 @@
       },
       "AutoIdOperationStatusEnumeration": {
         "type": "object",
-        "aov:typeRef": "nsu=http://opcfoundation.org/UA/AutoID/;i=3013",
+        "dov:typeRef": "org.opcfoundation.UA.AutoID.AutoIdOperationStatusEnumeration",
         "const": {
           "SUCCESS": 0,
           "MISC_ERROR_TOTAL": 1,
@@ -2370,16 +2357,16 @@
     },
     "actions": {
       "Scan": {
-        "aov:namespace": "http://opcfoundation.org/UA/AutoID/",
+        "dov:namespace": "http://opcfoundation.org/UA/AutoID/",
         "input": {
           "type": "object",
-          "aov:typeRef": "nsu=http://opcfoundation.org/UA/AutoID/;i=6027",
+          "dov:typeRef": "org.opcfoundation.UA.InputArguments",
           "required": [ "Settings" ],
           "properties": {
             "Settings": {
               "title": "ScanSettings",
               "type": "object",
-              "aov:typeRef": "nsu=http://opcfoundation.org/UA/AutoID/;i=3010",
+              "dov:typeRef": "org.opcfoundation.UA.AutoID.ScanSettings",
               "required": [ "Duration", "Cycles", "DataAvailable" ],
               "properties": {
                 "Duration": {
@@ -2396,7 +2383,7 @@
                 },
                 "LocationType": {
                   "title": "LocationTypeEnumeration",
-                  "aov:typeRef": "nsu=http://opcfoundation.org/UA/AutoID/;i=3009",
+                  "dov:typeRef": "org.opcfoundation.UA.AutoID.LocationTypeEnumeration",
                   "type": "integer",
                   "minimum": -2147483648,
                   "maximum": 2147483647
@@ -2407,7 +2394,7 @@
         },
         "output": {
           "type": "object",
-          "aov:typeRef": "nsu=http://opcfoundation.org/UA/AutoID/;i=6015",
+          "dov:typeRef": "org.opcfoundation.UA.OutputArguments",
           "required": [ "Results", "Status" ],
           "properties": {
             "Results": {
@@ -2415,7 +2402,7 @@
               "items": {
                 "title": "OcrScanResult",
                 "type": "object",
-                "aov:typeRef": "nsu=http://opcfoundation.org/UA/AutoID/;i=3002",
+                "dov:typeRef": "org.opcfoundation.UA.AutoID.OcrScanResult",
                 "required": [ "ImageId", "Quality", "Position" ],
                 "properties": {
                   "ImageId": {
@@ -2432,7 +2419,7 @@
                     "title": "Position",
                     "description": "Returns the position of the text within the image.",
                     "type": "object",
-                    "aov:typeRef": "nsu=http://opcfoundation.org/UA/AutoID/;i=3004",
+                    "dov:typeRef": "org.opcfoundation.UA.AutoID.Position",
                     "required": [ "PositionX", "PositionY", "SizeX", "SizeY", "Rotation" ],
                     "properties": {
                       "PositionX": {
@@ -2476,7 +2463,7 @@
             },
             "Status": {
               "title": "AutoIdOperationStatusEnumeration",
-              "aov:typeRef": "nsu=http://opcfoundation.org/UA/AutoID/;i=3013",
+              "dov:typeRef": "org.opcfoundation.UA.AutoID.AutoIdOperationStatusEnumeration",
               "type": "integer",
               "minimum": -2147483648,
               "maximum": 2147483647
@@ -2486,7 +2473,7 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/AutoID/AutoID_OcrReaderDeviceType/action/Scan",
+            "dov:topic": "opcua/AutoID/AutoID_OcrReaderDeviceType/action/Scan",
             "op": "invokeaction"
           }
         ]
@@ -2501,14 +2488,13 @@
     "@context": [
       "https://www.w3.org/2022/wot/td/v1.1",
       {
-        "dtv": "http://azure.com/DigitalTwins/dtmi#",
-        "aov": "http://azure.com/IoT/operations/tm#"
+        "dov": "http://azure.com/DigitalOperations/vocab#"
       }
     ],
     "@type": "tm:ThingModel",
     "title": "AutoID_OpticalReaderDeviceType",
-    "aov:typeRef": "nsu=http://opcfoundation.org/UA/AutoID/;i=1008",
-    "aov:isComposite": true,
+    "dov:typeRef": "org.opcfoundation.UA.AutoID.OpticalReaderDeviceType",
+    "dov:isComposite": true,
     "links": [
       {
         "rel": "tm:extends",
@@ -2516,14 +2502,14 @@
         "type": "application/tm+json"
       },
       {
-        "rel": "aov:component",
-        "aov:refName": "Images",
+        "rel": "dov:component",
+        "dov:refName": "Images",
         "href": "#title=OpcUaCore_FolderType",
         "type": "application/tm+json"
       },
       {
-        "rel": "aov:capability",
-        "aov:refName": "RuntimeParameters",
+        "rel": "dov:capability",
+        "dov:refName": "RuntimeParameters",
         "href": "#title=DI_FunctionalGroupType",
         "type": "application/tm+json"
       }
@@ -2531,7 +2517,7 @@
     "schemaDefinitions": {
       "LocationTypeEnumeration": {
         "type": "object",
-        "aov:typeRef": "nsu=http://opcfoundation.org/UA/AutoID/;i=3009",
+        "dov:typeRef": "org.opcfoundation.UA.AutoID.LocationTypeEnumeration",
         "const": {
           "NMEA": 0,
           "LOCAL": 1,
@@ -2555,7 +2541,7 @@
       },
       "AutoIdOperationStatusEnumeration": {
         "type": "object",
-        "aov:typeRef": "nsu=http://opcfoundation.org/UA/AutoID/;i=3013",
+        "dov:typeRef": "org.opcfoundation.UA.AutoID.AutoIdOperationStatusEnumeration",
         "const": {
           "SUCCESS": 0,
           "MISC_ERROR_TOTAL": 1,
@@ -2674,16 +2660,16 @@
     },
     "actions": {
       "Scan": {
-        "aov:namespace": "http://opcfoundation.org/UA/AutoID/",
+        "dov:namespace": "http://opcfoundation.org/UA/AutoID/",
         "input": {
           "type": "object",
-          "aov:typeRef": "nsu=http://opcfoundation.org/UA/AutoID/;i=6144",
+          "dov:typeRef": "org.opcfoundation.UA.InputArguments",
           "required": [ "Settings" ],
           "properties": {
             "Settings": {
               "title": "ScanSettings",
               "type": "object",
-              "aov:typeRef": "nsu=http://opcfoundation.org/UA/AutoID/;i=3010",
+              "dov:typeRef": "org.opcfoundation.UA.AutoID.ScanSettings",
               "required": [ "Duration", "Cycles", "DataAvailable" ],
               "properties": {
                 "Duration": {
@@ -2700,7 +2686,7 @@
                 },
                 "LocationType": {
                   "title": "LocationTypeEnumeration",
-                  "aov:typeRef": "nsu=http://opcfoundation.org/UA/AutoID/;i=3009",
+                  "dov:typeRef": "org.opcfoundation.UA.AutoID.LocationTypeEnumeration",
                   "type": "integer",
                   "minimum": -2147483648,
                   "maximum": 2147483647
@@ -2711,7 +2697,7 @@
         },
         "output": {
           "type": "object",
-          "aov:typeRef": "nsu=http://opcfoundation.org/UA/AutoID/;i=6145",
+          "dov:typeRef": "org.opcfoundation.UA.OutputArguments",
           "required": [ "Results", "Status" ],
           "properties": {
             "Results": {
@@ -2719,7 +2705,7 @@
               "items": {
                 "title": "OpticalScanResult",
                 "type": "object",
-                "aov:typeRef": "nsu=http://opcfoundation.org/UA/AutoID/;i=3026",
+                "dov:typeRef": "org.opcfoundation.UA.AutoID.OpticalScanResult",
                 "properties": {
                   "Grade": {
                     "description": "Returns the quality of the 1D/2D code.",
@@ -2731,7 +2717,7 @@
                     "title": "Position",
                     "description": "Returns the position of the text within the image.",
                     "type": "object",
-                    "aov:typeRef": "nsu=http://opcfoundation.org/UA/AutoID/;i=3004",
+                    "dov:typeRef": "org.opcfoundation.UA.AutoID.Position",
                     "required": [ "PositionX", "PositionY", "SizeX", "SizeY", "Rotation" ],
                     "properties": {
                       "PositionX": {
@@ -2772,7 +2758,7 @@
             },
             "Status": {
               "title": "AutoIdOperationStatusEnumeration",
-              "aov:typeRef": "nsu=http://opcfoundation.org/UA/AutoID/;i=3013",
+              "dov:typeRef": "org.opcfoundation.UA.AutoID.AutoIdOperationStatusEnumeration",
               "type": "integer",
               "minimum": -2147483648,
               "maximum": 2147483647
@@ -2782,7 +2768,7 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/AutoID/AutoID_OpticalReaderDeviceType/action/Scan",
+            "dov:topic": "opcua/AutoID/AutoID_OpticalReaderDeviceType/action/Scan",
             "op": "invokeaction"
           }
         ]
@@ -2797,14 +2783,13 @@
     "@context": [
       "https://www.w3.org/2022/wot/td/v1.1",
       {
-        "dtv": "http://azure.com/DigitalTwins/dtmi#",
-        "aov": "http://azure.com/IoT/operations/tm#"
+        "dov": "http://azure.com/DigitalOperations/vocab#"
       }
     ],
     "@type": "tm:ThingModel",
     "title": "AutoID_OpticalVerifierDeviceType",
-    "aov:typeRef": "nsu=http://opcfoundation.org/UA/AutoID/;i=1011",
-    "aov:isComposite": true,
+    "dov:typeRef": "org.opcfoundation.UA.AutoID.OpticalVerifierDeviceType",
+    "dov:isComposite": true,
     "links": [
       {
         "rel": "tm:extends",
@@ -2815,7 +2800,7 @@
     "schemaDefinitions": {
       "LocationTypeEnumeration": {
         "type": "object",
-        "aov:typeRef": "nsu=http://opcfoundation.org/UA/AutoID/;i=3009",
+        "dov:typeRef": "org.opcfoundation.UA.AutoID.LocationTypeEnumeration",
         "const": {
           "NMEA": 0,
           "LOCAL": 1,
@@ -2839,7 +2824,7 @@
       },
       "AutoIdOperationStatusEnumeration": {
         "type": "object",
-        "aov:typeRef": "nsu=http://opcfoundation.org/UA/AutoID/;i=3013",
+        "dov:typeRef": "org.opcfoundation.UA.AutoID.AutoIdOperationStatusEnumeration",
         "const": {
           "SUCCESS": 0,
           "MISC_ERROR_TOTAL": 1,
@@ -2958,16 +2943,16 @@
     },
     "actions": {
       "Scan": {
-        "aov:namespace": "http://opcfoundation.org/UA/AutoID/",
+        "dov:namespace": "http://opcfoundation.org/UA/AutoID/",
         "input": {
           "type": "object",
-          "aov:typeRef": "nsu=http://opcfoundation.org/UA/AutoID/;i=6031",
+          "dov:typeRef": "org.opcfoundation.UA.InputArguments",
           "required": [ "Settings" ],
           "properties": {
             "Settings": {
               "title": "ScanSettings",
               "type": "object",
-              "aov:typeRef": "nsu=http://opcfoundation.org/UA/AutoID/;i=3010",
+              "dov:typeRef": "org.opcfoundation.UA.AutoID.ScanSettings",
               "required": [ "Duration", "Cycles", "DataAvailable" ],
               "properties": {
                 "Duration": {
@@ -2984,7 +2969,7 @@
                 },
                 "LocationType": {
                   "title": "LocationTypeEnumeration",
-                  "aov:typeRef": "nsu=http://opcfoundation.org/UA/AutoID/;i=3009",
+                  "dov:typeRef": "org.opcfoundation.UA.AutoID.LocationTypeEnumeration",
                   "type": "integer",
                   "minimum": -2147483648,
                   "maximum": 2147483647
@@ -2995,7 +2980,7 @@
         },
         "output": {
           "type": "object",
-          "aov:typeRef": "nsu=http://opcfoundation.org/UA/AutoID/;i=6076",
+          "dov:typeRef": "org.opcfoundation.UA.OutputArguments",
           "required": [ "Results", "Status" ],
           "properties": {
             "Results": {
@@ -3003,7 +2988,7 @@
               "items": {
                 "title": "WGS84Coordinate",
                 "type": "object",
-                "aov:typeRef": "nsu=http://opcfoundation.org/UA/AutoID/;i=3027",
+                "dov:typeRef": "org.opcfoundation.UA.AutoID.WGS84Coordinate",
                 "required": [ "N/S Hemisphere", "Latitude", "E/W Hemisphere", "Longitude", "Altitude", "Timestamp", "DilutionOfPrecision", "UsefulPrecisionLatLon", "UsefulPrecisionAlt" ],
                 "properties": {
                   "N/S Hemisphere": {
@@ -3051,7 +3036,7 @@
             },
             "Status": {
               "title": "AutoIdOperationStatusEnumeration",
-              "aov:typeRef": "nsu=http://opcfoundation.org/UA/AutoID/;i=3013",
+              "dov:typeRef": "org.opcfoundation.UA.AutoID.AutoIdOperationStatusEnumeration",
               "type": "integer",
               "minimum": -2147483648,
               "maximum": 2147483647
@@ -3061,7 +3046,7 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/AutoID/AutoID_OpticalVerifierDeviceType/action/Scan",
+            "dov:topic": "opcua/AutoID/AutoID_OpticalVerifierDeviceType/action/Scan",
             "op": "invokeaction"
           }
         ]
@@ -3076,14 +3061,13 @@
     "@context": [
       "https://www.w3.org/2022/wot/td/v1.1",
       {
-        "dtv": "http://azure.com/DigitalTwins/dtmi#",
-        "aov": "http://azure.com/IoT/operations/tm#"
+        "dov": "http://azure.com/DigitalOperations/vocab#"
       }
     ],
     "@type": "tm:ThingModel",
     "title": "AutoID_RfidReaderDeviceType",
-    "aov:typeRef": "nsu=http://opcfoundation.org/UA/AutoID/;i=1003",
-    "aov:isComposite": true,
+    "dov:typeRef": "org.opcfoundation.UA.AutoID.RfidReaderDeviceType",
+    "dov:isComposite": true,
     "links": [
       {
         "rel": "tm:extends",
@@ -3091,14 +3075,14 @@
         "type": "application/tm+json"
       },
       {
-        "rel": "aov:capability",
-        "aov:refName": "Diagnostics",
+        "rel": "dov:capability",
+        "dov:refName": "Diagnostics",
         "href": "#title=DI_FunctionalGroupType",
         "type": "application/tm+json"
       },
       {
-        "rel": "aov:capability",
-        "aov:refName": "RuntimeParameters",
+        "rel": "dov:capability",
+        "dov:refName": "RuntimeParameters",
         "href": "#title=DI_FunctionalGroupType",
         "type": "application/tm+json"
       }
@@ -3106,7 +3090,7 @@
     "schemaDefinitions": {
       "AutoIdOperationStatusEnumeration": {
         "type": "object",
-        "aov:typeRef": "nsu=http://opcfoundation.org/UA/AutoID/;i=3013",
+        "dov:typeRef": "org.opcfoundation.UA.AutoID.AutoIdOperationStatusEnumeration",
         "const": {
           "SUCCESS": 0,
           "MISC_ERROR_TOTAL": 1,
@@ -3224,7 +3208,7 @@
       },
       "RfidLockRegionEnumeration": {
         "type": "object",
-        "aov:typeRef": "nsu=http://opcfoundation.org/UA/AutoID/;i=3015",
+        "dov:typeRef": "org.opcfoundation.UA.AutoID.RfidLockRegionEnumeration",
         "const": {
           "Kill": 0,
           "Access": 1,
@@ -3252,7 +3236,7 @@
       },
       "RfidLockOperationEnumeration": {
         "type": "object",
-        "aov:typeRef": "nsu=http://opcfoundation.org/UA/AutoID/;i=3016",
+        "dov:typeRef": "org.opcfoundation.UA.AutoID.RfidLockOperationEnumeration",
         "const": {
           "Lock": 0,
           "Unlock": 1,
@@ -3276,7 +3260,7 @@
       },
       "LocationTypeEnumeration": {
         "type": "object",
-        "aov:typeRef": "nsu=http://opcfoundation.org/UA/AutoID/;i=3009",
+        "dov:typeRef": "org.opcfoundation.UA.AutoID.LocationTypeEnumeration",
         "const": {
           "NMEA": 0,
           "LOCAL": 1,
@@ -3300,7 +3284,7 @@
       },
       "RfidPasswordTypeEnumeration": {
         "type": "object",
-        "aov:typeRef": "nsu=http://opcfoundation.org/UA/AutoID/;i=3014",
+        "dov:typeRef": "org.opcfoundation.UA.AutoID.RfidPasswordTypeEnumeration",
         "const": {
           "Access": 0,
           "Kill": 1,
@@ -3326,32 +3310,32 @@
     "forms": [
       {
         "contentType": "application/json",
-        "dtv:topic": "opcua/AutoID/AutoID_RfidReaderDeviceType/events/{senderId}",
+        "dov:topic": "opcua/AutoID/AutoID_RfidReaderDeviceType/events/{senderId}",
         "op": "subscribeallevents"
       },
       {
         "contentType": "application/json",
-        "dtv:topic": "opcua/AutoID/AutoID_RfidReaderDeviceType/properties/write",
+        "dov:topic": "opcua/AutoID/AutoID_RfidReaderDeviceType/properties/write",
         "op": "writemultipleproperties"
       },
       {
         "contentType": "application/json",
-        "dtv:topic": "opcua/AutoID/AutoID_RfidReaderDeviceType/properties/read",
+        "dov:topic": "opcua/AutoID/AutoID_RfidReaderDeviceType/properties/read",
         "op": "readallproperties"
       }
     ],
     "actions": {
       "KillTag": {
-        "aov:namespace": "http://opcfoundation.org/UA/AutoID/",
+        "dov:namespace": "http://opcfoundation.org/UA/AutoID/",
         "input": {
           "type": "object",
-          "aov:typeRef": "nsu=http://opcfoundation.org/UA/AutoID/;i=6062",
+          "dov:typeRef": "org.opcfoundation.UA.InputArguments",
           "required": [ "Identifier", "CodeType", "KillPassword" ],
           "properties": {
             "Identifier": {
               "title": "ScanData",
               "type": "object",
-              "aov:typeRef": "nsu=http://opcfoundation.org/UA/AutoID/;i=3020",
+              "dov:typeRef": "org.opcfoundation.UA.AutoID.ScanData",
               "properties": {
                 "ByteString": {
                   "type": "string",
@@ -3363,7 +3347,7 @@
                 "Epc": {
                   "title": "ScanDataEpc",
                   "type": "object",
-                  "aov:typeRef": "nsu=http://opcfoundation.org/UA/AutoID/;i=3024",
+                  "dov:typeRef": "org.opcfoundation.UA.AutoID.ScanDataEpc",
                   "required": [ "PC", "UId", "XPC_W1", "XPC_W2" ],
                   "properties": {
                     "PC": {
@@ -3404,12 +3388,12 @@
         },
         "output": {
           "type": "object",
-          "aov:typeRef": "nsu=http://opcfoundation.org/UA/AutoID/;i=6063",
+          "dov:typeRef": "org.opcfoundation.UA.OutputArguments",
           "required": [ "Status" ],
           "properties": {
             "Status": {
               "title": "AutoIdOperationStatusEnumeration",
-              "aov:typeRef": "nsu=http://opcfoundation.org/UA/AutoID/;i=3013",
+              "dov:typeRef": "org.opcfoundation.UA.AutoID.AutoIdOperationStatusEnumeration",
               "type": "integer",
               "minimum": -2147483648,
               "maximum": 2147483647
@@ -3419,22 +3403,22 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/AutoID/AutoID_RfidReaderDeviceType/action/KillTag",
+            "dov:topic": "opcua/AutoID/AutoID_RfidReaderDeviceType/action/KillTag",
             "op": "invokeaction"
           }
         ]
       },
       "LockTag": {
-        "aov:namespace": "http://opcfoundation.org/UA/AutoID/",
+        "dov:namespace": "http://opcfoundation.org/UA/AutoID/",
         "input": {
           "type": "object",
-          "aov:typeRef": "nsu=http://opcfoundation.org/UA/AutoID/;i=6064",
+          "dov:typeRef": "org.opcfoundation.UA.InputArguments",
           "required": [ "Identifier", "CodeType", "Password", "Region", "Lock", "Offset", "Length" ],
           "properties": {
             "Identifier": {
               "title": "ScanData",
               "type": "object",
-              "aov:typeRef": "nsu=http://opcfoundation.org/UA/AutoID/;i=3020",
+              "dov:typeRef": "org.opcfoundation.UA.AutoID.ScanData",
               "properties": {
                 "ByteString": {
                   "type": "string",
@@ -3446,7 +3430,7 @@
                 "Epc": {
                   "title": "ScanDataEpc",
                   "type": "object",
-                  "aov:typeRef": "nsu=http://opcfoundation.org/UA/AutoID/;i=3024",
+                  "dov:typeRef": "org.opcfoundation.UA.AutoID.ScanDataEpc",
                   "required": [ "PC", "UId", "XPC_W1", "XPC_W2" ],
                   "properties": {
                     "PC": {
@@ -3485,14 +3469,14 @@
             },
             "Region": {
               "title": "RfidLockRegionEnumeration",
-              "aov:typeRef": "nsu=http://opcfoundation.org/UA/AutoID/;i=3015",
+              "dov:typeRef": "org.opcfoundation.UA.AutoID.RfidLockRegionEnumeration",
               "type": "integer",
               "minimum": -2147483648,
               "maximum": 2147483647
             },
             "Lock": {
               "title": "RfidLockOperationEnumeration",
-              "aov:typeRef": "nsu=http://opcfoundation.org/UA/AutoID/;i=3016",
+              "dov:typeRef": "org.opcfoundation.UA.AutoID.RfidLockOperationEnumeration",
               "type": "integer",
               "minimum": -2147483648,
               "maximum": 2147483647
@@ -3511,12 +3495,12 @@
         },
         "output": {
           "type": "object",
-          "aov:typeRef": "nsu=http://opcfoundation.org/UA/AutoID/;i=6065",
+          "dov:typeRef": "org.opcfoundation.UA.OutputArguments",
           "required": [ "Status" ],
           "properties": {
             "Status": {
               "title": "AutoIdOperationStatusEnumeration",
-              "aov:typeRef": "nsu=http://opcfoundation.org/UA/AutoID/;i=3013",
+              "dov:typeRef": "org.opcfoundation.UA.AutoID.AutoIdOperationStatusEnumeration",
               "type": "integer",
               "minimum": -2147483648,
               "maximum": 2147483647
@@ -3526,22 +3510,22 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/AutoID/AutoID_RfidReaderDeviceType/action/LockTag",
+            "dov:topic": "opcua/AutoID/AutoID_RfidReaderDeviceType/action/LockTag",
             "op": "invokeaction"
           }
         ]
       },
       "ReadTag": {
-        "aov:namespace": "http://opcfoundation.org/UA/AutoID/",
+        "dov:namespace": "http://opcfoundation.org/UA/AutoID/",
         "input": {
           "type": "object",
-          "aov:typeRef": "nsu=http://opcfoundation.org/UA/AutoID/;i=6054",
+          "dov:typeRef": "org.opcfoundation.UA.InputArguments",
           "required": [ "Identifier", "CodeType", "Region", "Offset", "Length", "Password" ],
           "properties": {
             "Identifier": {
               "title": "ScanData",
               "type": "object",
-              "aov:typeRef": "nsu=http://opcfoundation.org/UA/AutoID/;i=3020",
+              "dov:typeRef": "org.opcfoundation.UA.AutoID.ScanData",
               "properties": {
                 "ByteString": {
                   "type": "string",
@@ -3553,7 +3537,7 @@
                 "Epc": {
                   "title": "ScanDataEpc",
                   "type": "object",
-                  "aov:typeRef": "nsu=http://opcfoundation.org/UA/AutoID/;i=3024",
+                  "dov:typeRef": "org.opcfoundation.UA.AutoID.ScanDataEpc",
                   "required": [ "PC", "UId", "XPC_W1", "XPC_W2" ],
                   "properties": {
                     "PC": {
@@ -3609,7 +3593,7 @@
         },
         "output": {
           "type": "object",
-          "aov:typeRef": "nsu=http://opcfoundation.org/UA/AutoID/;i=6056",
+          "dov:typeRef": "org.opcfoundation.UA.OutputArguments",
           "required": [ "ResultData", "Status" ],
           "properties": {
             "ResultData": {
@@ -3618,7 +3602,7 @@
             },
             "Status": {
               "title": "AutoIdOperationStatusEnumeration",
-              "aov:typeRef": "nsu=http://opcfoundation.org/UA/AutoID/;i=3013",
+              "dov:typeRef": "org.opcfoundation.UA.AutoID.AutoIdOperationStatusEnumeration",
               "type": "integer",
               "minimum": -2147483648,
               "maximum": 2147483647
@@ -3628,22 +3612,22 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/AutoID/AutoID_RfidReaderDeviceType/action/ReadTag",
+            "dov:topic": "opcua/AutoID/AutoID_RfidReaderDeviceType/action/ReadTag",
             "op": "invokeaction"
           }
         ]
       },
       "Scan": {
-        "aov:namespace": "http://opcfoundation.org/UA/AutoID/",
+        "dov:namespace": "http://opcfoundation.org/UA/AutoID/",
         "input": {
           "type": "object",
-          "aov:typeRef": "nsu=http://opcfoundation.org/UA/AutoID/;i=6052",
+          "dov:typeRef": "org.opcfoundation.UA.InputArguments",
           "required": [ "Setting" ],
           "properties": {
             "Setting": {
               "title": "ScanSettings",
               "type": "object",
-              "aov:typeRef": "nsu=http://opcfoundation.org/UA/AutoID/;i=3010",
+              "dov:typeRef": "org.opcfoundation.UA.AutoID.ScanSettings",
               "required": [ "Duration", "Cycles", "DataAvailable" ],
               "properties": {
                 "Duration": {
@@ -3660,7 +3644,7 @@
                 },
                 "LocationType": {
                   "title": "LocationTypeEnumeration",
-                  "aov:typeRef": "nsu=http://opcfoundation.org/UA/AutoID/;i=3009",
+                  "dov:typeRef": "org.opcfoundation.UA.AutoID.LocationTypeEnumeration",
                   "type": "integer",
                   "minimum": -2147483648,
                   "maximum": 2147483647
@@ -3671,7 +3655,7 @@
         },
         "output": {
           "type": "object",
-          "aov:typeRef": "nsu=http://opcfoundation.org/UA/AutoID/;i=6043",
+          "dov:typeRef": "org.opcfoundation.UA.OutputArguments",
           "required": [ "Results", "Status" ],
           "properties": {
             "Results": {
@@ -3679,7 +3663,7 @@
               "items": {
                 "title": "RfidScanResult",
                 "type": "object",
-                "aov:typeRef": "nsu=http://opcfoundation.org/UA/AutoID/;i=3007",
+                "dov:typeRef": "org.opcfoundation.UA.AutoID.RfidScanResult",
                 "required": [ "Sighting" ],
                 "properties": {
                   "Sighting": {
@@ -3688,7 +3672,7 @@
                     "items": {
                       "title": "RfidSighting",
                       "type": "object",
-                      "aov:typeRef": "nsu=http://opcfoundation.org/UA/AutoID/;i=3006",
+                      "dov:typeRef": "org.opcfoundation.UA.AutoID.RfidSighting",
                       "required": [ "Antenna", "Strength", "Timestamp", "CurrentPowerLevel" ],
                       "properties": {
                         "Antenna": {
@@ -3722,7 +3706,7 @@
             },
             "Status": {
               "title": "AutoIdOperationStatusEnumeration",
-              "aov:typeRef": "nsu=http://opcfoundation.org/UA/AutoID/;i=3013",
+              "dov:typeRef": "org.opcfoundation.UA.AutoID.AutoIdOperationStatusEnumeration",
               "type": "integer",
               "minimum": -2147483648,
               "maximum": 2147483647
@@ -3732,22 +3716,22 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/AutoID/AutoID_RfidReaderDeviceType/action/Scan",
+            "dov:topic": "opcua/AutoID/AutoID_RfidReaderDeviceType/action/Scan",
             "op": "invokeaction"
           }
         ]
       },
       "SetTagPassword": {
-        "aov:namespace": "http://opcfoundation.org/UA/AutoID/",
+        "dov:namespace": "http://opcfoundation.org/UA/AutoID/",
         "input": {
           "type": "object",
-          "aov:typeRef": "nsu=http://opcfoundation.org/UA/AutoID/;i=6059",
+          "dov:typeRef": "org.opcfoundation.UA.InputArguments",
           "required": [ "Identifier", "CodeType", "PasswordType", "AccessPassword", "NewPassword" ],
           "properties": {
             "Identifier": {
               "title": "ScanData",
               "type": "object",
-              "aov:typeRef": "nsu=http://opcfoundation.org/UA/AutoID/;i=3020",
+              "dov:typeRef": "org.opcfoundation.UA.AutoID.ScanData",
               "properties": {
                 "ByteString": {
                   "type": "string",
@@ -3759,7 +3743,7 @@
                 "Epc": {
                   "title": "ScanDataEpc",
                   "type": "object",
-                  "aov:typeRef": "nsu=http://opcfoundation.org/UA/AutoID/;i=3024",
+                  "dov:typeRef": "org.opcfoundation.UA.AutoID.ScanDataEpc",
                   "required": [ "PC", "UId", "XPC_W1", "XPC_W2" ],
                   "properties": {
                     "PC": {
@@ -3794,7 +3778,7 @@
             },
             "PasswordType": {
               "title": "RfidPasswordTypeEnumeration",
-              "aov:typeRef": "nsu=http://opcfoundation.org/UA/AutoID/;i=3014",
+              "dov:typeRef": "org.opcfoundation.UA.AutoID.RfidPasswordTypeEnumeration",
               "type": "integer",
               "minimum": -2147483648,
               "maximum": 2147483647
@@ -3811,12 +3795,12 @@
         },
         "output": {
           "type": "object",
-          "aov:typeRef": "nsu=http://opcfoundation.org/UA/AutoID/;i=6060",
+          "dov:typeRef": "org.opcfoundation.UA.OutputArguments",
           "required": [ "Status" ],
           "properties": {
             "Status": {
               "title": "AutoIdOperationStatusEnumeration",
-              "aov:typeRef": "nsu=http://opcfoundation.org/UA/AutoID/;i=3013",
+              "dov:typeRef": "org.opcfoundation.UA.AutoID.AutoIdOperationStatusEnumeration",
               "type": "integer",
               "minimum": -2147483648,
               "maximum": 2147483647
@@ -3826,22 +3810,22 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/AutoID/AutoID_RfidReaderDeviceType/action/SetTagPassword",
+            "dov:topic": "opcua/AutoID/AutoID_RfidReaderDeviceType/action/SetTagPassword",
             "op": "invokeaction"
           }
         ]
       },
       "WriteTag": {
-        "aov:namespace": "http://opcfoundation.org/UA/AutoID/",
+        "dov:namespace": "http://opcfoundation.org/UA/AutoID/",
         "input": {
           "type": "object",
-          "aov:typeRef": "nsu=http://opcfoundation.org/UA/AutoID/;i=6057",
+          "dov:typeRef": "org.opcfoundation.UA.InputArguments",
           "required": [ "Identifier", "CodeType", "Region", "Offset", "Data", "Password" ],
           "properties": {
             "Identifier": {
               "title": "ScanData",
               "type": "object",
-              "aov:typeRef": "nsu=http://opcfoundation.org/UA/AutoID/;i=3020",
+              "dov:typeRef": "org.opcfoundation.UA.AutoID.ScanData",
               "properties": {
                 "ByteString": {
                   "type": "string",
@@ -3853,7 +3837,7 @@
                 "Epc": {
                   "title": "ScanDataEpc",
                   "type": "object",
-                  "aov:typeRef": "nsu=http://opcfoundation.org/UA/AutoID/;i=3024",
+                  "dov:typeRef": "org.opcfoundation.UA.AutoID.ScanDataEpc",
                   "required": [ "PC", "UId", "XPC_W1", "XPC_W2" ],
                   "properties": {
                     "PC": {
@@ -3908,12 +3892,12 @@
         },
         "output": {
           "type": "object",
-          "aov:typeRef": "nsu=http://opcfoundation.org/UA/AutoID/;i=6058",
+          "dov:typeRef": "org.opcfoundation.UA.OutputArguments",
           "required": [ "Status" ],
           "properties": {
             "Status": {
               "title": "AutoIdOperationStatusEnumeration",
-              "aov:typeRef": "nsu=http://opcfoundation.org/UA/AutoID/;i=3013",
+              "dov:typeRef": "org.opcfoundation.UA.AutoID.AutoIdOperationStatusEnumeration",
               "type": "integer",
               "minimum": -2147483648,
               "maximum": 2147483647
@@ -3923,22 +3907,22 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/AutoID/AutoID_RfidReaderDeviceType/action/WriteTag",
+            "dov:topic": "opcua/AutoID/AutoID_RfidReaderDeviceType/action/WriteTag",
             "op": "invokeaction"
           }
         ]
       },
       "WriteTagID": {
-        "aov:namespace": "http://opcfoundation.org/UA/AutoID/",
+        "dov:namespace": "http://opcfoundation.org/UA/AutoID/",
         "input": {
           "type": "object",
-          "aov:typeRef": "nsu=http://opcfoundation.org/UA/AutoID/;i=6137",
+          "dov:typeRef": "org.opcfoundation.UA.InputArguments",
           "required": [ "Identifier", "CodeType", "NewUId", "AFI", "Toggle", "Password" ],
           "properties": {
             "Identifier": {
               "title": "ScanData",
               "type": "object",
-              "aov:typeRef": "nsu=http://opcfoundation.org/UA/AutoID/;i=3020",
+              "dov:typeRef": "org.opcfoundation.UA.AutoID.ScanData",
               "properties": {
                 "ByteString": {
                   "type": "string",
@@ -3950,7 +3934,7 @@
                 "Epc": {
                   "title": "ScanDataEpc",
                   "type": "object",
-                  "aov:typeRef": "nsu=http://opcfoundation.org/UA/AutoID/;i=3024",
+                  "dov:typeRef": "org.opcfoundation.UA.AutoID.ScanDataEpc",
                   "required": [ "PC", "UId", "XPC_W1", "XPC_W2" ],
                   "properties": {
                     "PC": {
@@ -4003,12 +3987,12 @@
         },
         "output": {
           "type": "object",
-          "aov:typeRef": "nsu=http://opcfoundation.org/UA/AutoID/;i=6140",
+          "dov:typeRef": "org.opcfoundation.UA.OutputArguments",
           "required": [ "Status" ],
           "properties": {
             "Status": {
               "title": "AutoIdOperationStatusEnumeration",
-              "aov:typeRef": "nsu=http://opcfoundation.org/UA/AutoID/;i=3013",
+              "dov:typeRef": "org.opcfoundation.UA.AutoID.AutoIdOperationStatusEnumeration",
               "type": "integer",
               "minimum": -2147483648,
               "maximum": 2147483647
@@ -4018,7 +4002,7 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/AutoID/AutoID_RfidReaderDeviceType/action/WriteTagID",
+            "dov:topic": "opcua/AutoID/AutoID_RfidReaderDeviceType/action/WriteTagID",
             "op": "invokeaction"
           }
         ]
@@ -4026,12 +4010,12 @@
     },
     "properties": {
       "AntennaNames": {
-        "aov:namespace": "http://opcfoundation.org/UA/AutoID/",
+        "dov:namespace": "http://opcfoundation.org/UA/AutoID/",
         "type": "array",
         "items": {
           "title": "AntennaNameIdPair",
           "type": "object",
-          "aov:typeRef": "nsu=http://opcfoundation.org/UA/AutoID/;i=3011",
+          "dov:typeRef": "org.opcfoundation.UA.AutoID.AntennaNameIdPair",
           "required": [ "AntennaId", "AntennaName" ],
           "properties": {
             "AntennaId": {
@@ -4048,18 +4032,18 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/AutoID/AutoID_RfidReaderDeviceType/property/AntennaNames/write",
+            "dov:topic": "opcua/AutoID/AutoID_RfidReaderDeviceType/property/AntennaNames/write",
             "op": "writeproperty"
           },
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/AutoID/AutoID_RfidReaderDeviceType/property/AntennaNames/read",
+            "dov:topic": "opcua/AutoID/AutoID_RfidReaderDeviceType/property/AntennaNames/read",
             "op": "readproperty"
           }
         ]
       },
       "LastScanAntenna": {
-        "aov:namespace": "http://opcfoundation.org/UA/AutoID/",
+        "dov:namespace": "http://opcfoundation.org/UA/AutoID/",
         "description": "ID of the antenna with which the last AutoID Identifier was scanned.",
         "type": "integer",
         "minimum": -2147483648,
@@ -4068,18 +4052,18 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/AutoID/AutoID_RfidReaderDeviceType/property/LastScanAntenna/write",
+            "dov:topic": "opcua/AutoID/AutoID_RfidReaderDeviceType/property/LastScanAntenna/write",
             "op": "writeproperty"
           },
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/AutoID/AutoID_RfidReaderDeviceType/property/LastScanAntenna/read",
+            "dov:topic": "opcua/AutoID/AutoID_RfidReaderDeviceType/property/LastScanAntenna/read",
             "op": "readproperty"
           }
         ]
       },
       "LastScanRSSI": {
-        "aov:namespace": "http://opcfoundation.org/UA/AutoID/",
+        "dov:namespace": "http://opcfoundation.org/UA/AutoID/",
         "description": "RSSI Value with which the last AutoID Identifier was scanned.",
         "type": "integer",
         "minimum": -2147483648,
@@ -4088,12 +4072,12 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/AutoID/AutoID_RfidReaderDeviceType/property/LastScanRSSI/write",
+            "dov:topic": "opcua/AutoID/AutoID_RfidReaderDeviceType/property/LastScanRSSI/write",
             "op": "writeproperty"
           },
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/AutoID/AutoID_RfidReaderDeviceType/property/LastScanRSSI/read",
+            "dov:topic": "opcua/AutoID/AutoID_RfidReaderDeviceType/property/LastScanRSSI/read",
             "op": "readproperty"
           }
         ]
@@ -4101,7 +4085,7 @@
     },
     "events": {
       "LastScanAntenna": {
-        "aov:namespace": "http://opcfoundation.org/UA/AutoID/",
+        "dov:namespace": "http://opcfoundation.org/UA/AutoID/",
         "data": {
           "description": "ID of the antenna with which the last AutoID Identifier was scanned.",
           "type": "integer",
@@ -4111,13 +4095,13 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/AutoID/AutoID_RfidReaderDeviceType/event/LastScanAntenna/{senderId}",
+            "dov:topic": "opcua/AutoID/AutoID_RfidReaderDeviceType/event/LastScanAntenna/{senderId}",
             "op": "subscribeevent"
           }
         ]
       },
       "LastScanRSSI": {
-        "aov:namespace": "http://opcfoundation.org/UA/AutoID/",
+        "dov:namespace": "http://opcfoundation.org/UA/AutoID/",
         "data": {
           "description": "RSSI Value with which the last AutoID Identifier was scanned.",
           "type": "integer",
@@ -4127,7 +4111,7 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/AutoID/AutoID_RfidReaderDeviceType/event/LastScanRSSI/{senderId}",
+            "dov:topic": "opcua/AutoID/AutoID_RfidReaderDeviceType/event/LastScanRSSI/{senderId}",
             "op": "subscribeevent"
           }
         ]
@@ -4138,14 +4122,13 @@
     "@context": [
       "https://www.w3.org/2022/wot/td/v1.1",
       {
-        "dtv": "http://azure.com/DigitalTwins/dtmi#",
-        "aov": "http://azure.com/IoT/operations/tm#"
+        "dov": "http://azure.com/DigitalOperations/vocab#"
       }
     ],
     "@type": "tm:ThingModel",
     "title": "AutoID_RtlsDeviceType",
-    "aov:typeRef": "nsu=http://opcfoundation.org/UA/AutoID/;i=1012",
-    "aov:isComposite": true,
+    "dov:typeRef": "org.opcfoundation.UA.AutoID.RtlsDeviceType",
+    "dov:isComposite": true,
     "links": [
       {
         "rel": "tm:extends",
@@ -4156,7 +4139,7 @@
     "schemaDefinitions": {
       "LocationTypeEnumeration": {
         "type": "object",
-        "aov:typeRef": "nsu=http://opcfoundation.org/UA/AutoID/;i=3009",
+        "dov:typeRef": "org.opcfoundation.UA.AutoID.LocationTypeEnumeration",
         "const": {
           "NMEA": 0,
           "LOCAL": 1,
@@ -4180,7 +4163,7 @@
       },
       "AutoIdOperationStatusEnumeration": {
         "type": "object",
-        "aov:typeRef": "nsu=http://opcfoundation.org/UA/AutoID/;i=3013",
+        "dov:typeRef": "org.opcfoundation.UA.AutoID.AutoIdOperationStatusEnumeration",
         "const": {
           "SUCCESS": 0,
           "MISC_ERROR_TOTAL": 1,
@@ -4300,27 +4283,27 @@
     "forms": [
       {
         "contentType": "application/json",
-        "dtv:topic": "opcua/AutoID/AutoID_RtlsDeviceType/properties/write",
+        "dov:topic": "opcua/AutoID/AutoID_RtlsDeviceType/properties/write",
         "op": "writemultipleproperties"
       },
       {
         "contentType": "application/json",
-        "dtv:topic": "opcua/AutoID/AutoID_RtlsDeviceType/properties/read",
+        "dov:topic": "opcua/AutoID/AutoID_RtlsDeviceType/properties/read",
         "op": "readallproperties"
       }
     ],
     "actions": {
       "GetLocation": {
-        "aov:namespace": "http://opcfoundation.org/UA/AutoID/",
+        "dov:namespace": "http://opcfoundation.org/UA/AutoID/",
         "input": {
           "type": "object",
-          "aov:typeRef": "nsu=http://opcfoundation.org/UA/AutoID/;i=6224",
+          "dov:typeRef": "org.opcfoundation.UA.InputArguments",
           "required": [ "Identifier", "LocationType", "CodeType" ],
           "properties": {
             "Identifier": {
               "title": "ScanData",
               "type": "object",
-              "aov:typeRef": "nsu=http://opcfoundation.org/UA/AutoID/;i=3020",
+              "dov:typeRef": "org.opcfoundation.UA.AutoID.ScanData",
               "properties": {
                 "ByteString": {
                   "type": "string",
@@ -4332,7 +4315,7 @@
                 "Epc": {
                   "title": "ScanDataEpc",
                   "type": "object",
-                  "aov:typeRef": "nsu=http://opcfoundation.org/UA/AutoID/;i=3024",
+                  "dov:typeRef": "org.opcfoundation.UA.AutoID.ScanDataEpc",
                   "required": [ "PC", "UId", "XPC_W1", "XPC_W2" ],
                   "properties": {
                     "PC": {
@@ -4364,7 +4347,7 @@
             },
             "LocationType": {
               "title": "LocationTypeEnumeration",
-              "aov:typeRef": "nsu=http://opcfoundation.org/UA/AutoID/;i=3009",
+              "dov:typeRef": "org.opcfoundation.UA.AutoID.LocationTypeEnumeration",
               "type": "integer",
               "minimum": -2147483648,
               "maximum": 2147483647
@@ -4376,13 +4359,13 @@
         },
         "output": {
           "type": "object",
-          "aov:typeRef": "nsu=http://opcfoundation.org/UA/AutoID/;i=6225",
+          "dov:typeRef": "org.opcfoundation.UA.OutputArguments",
           "required": [ "Result" ],
           "properties": {
             "Result": {
               "title": "RtlsLocationResult",
               "type": "object",
-              "aov:typeRef": "nsu=http://opcfoundation.org/UA/AutoID/;i=3028",
+              "dov:typeRef": "org.opcfoundation.UA.AutoID.RtlsLocationResult",
               "required": [ "Speed", "Heading", "Rotation", "ReceiveTime" ],
               "properties": {
                 "Speed": {
@@ -4398,7 +4381,7 @@
                 "Rotation": {
                   "title": "Rotation",
                   "type": "object",
-                  "aov:typeRef": "nsu=http://opcfoundation.org/UA/AutoID/;i=3029",
+                  "dov:typeRef": "org.opcfoundation.UA.AutoID.Rotation",
                   "required": [ "Yaw", "Pitch", "Roll" ],
                   "properties": {
                     "Yaw": {
@@ -4429,23 +4412,23 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/AutoID/AutoID_RtlsDeviceType/action/GetLocation",
+            "dov:topic": "opcua/AutoID/AutoID_RtlsDeviceType/action/GetLocation",
             "op": "invokeaction"
           }
         ]
       },
       "GetSupportedLocationTypes": {
-        "aov:namespace": "http://opcfoundation.org/UA/AutoID/",
+        "dov:namespace": "http://opcfoundation.org/UA/AutoID/",
         "output": {
           "type": "object",
-          "aov:typeRef": "nsu=http://opcfoundation.org/UA/AutoID/;i=6226",
+          "dov:typeRef": "org.opcfoundation.UA.OutputArguments",
           "required": [ "SupportedLocationTypes" ],
           "properties": {
             "SupportedLocationTypes": {
               "type": "array",
               "items": {
                 "title": "LocationTypeEnumeration",
-                "aov:typeRef": "nsu=http://opcfoundation.org/UA/AutoID/;i=3009",
+                "dov:typeRef": "org.opcfoundation.UA.AutoID.LocationTypeEnumeration",
                 "type": "integer",
                 "minimum": -2147483648,
                 "maximum": 2147483647
@@ -4456,32 +4439,32 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/AutoID/AutoID_RtlsDeviceType/action/GetSupportedLocationTypes",
+            "dov:topic": "opcua/AutoID/AutoID_RtlsDeviceType/action/GetSupportedLocationTypes",
             "op": "invokeaction"
           }
         ]
       },
       "GetUnits": {
-        "aov:namespace": "http://opcfoundation.org/UA/AutoID/",
+        "dov:namespace": "http://opcfoundation.org/UA/AutoID/",
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/AutoID/AutoID_RtlsDeviceType/action/GetUnits",
+            "dov:topic": "opcua/AutoID/AutoID_RtlsDeviceType/action/GetUnits",
             "op": "invokeaction"
           }
         ]
       },
       "Scan": {
-        "aov:namespace": "http://opcfoundation.org/UA/AutoID/",
+        "dov:namespace": "http://opcfoundation.org/UA/AutoID/",
         "input": {
           "type": "object",
-          "aov:typeRef": "nsu=http://opcfoundation.org/UA/AutoID/;i=6218",
+          "dov:typeRef": "org.opcfoundation.UA.InputArguments",
           "required": [ "Settings" ],
           "properties": {
             "Settings": {
               "title": "ScanSettings",
               "type": "object",
-              "aov:typeRef": "nsu=http://opcfoundation.org/UA/AutoID/;i=3010",
+              "dov:typeRef": "org.opcfoundation.UA.AutoID.ScanSettings",
               "required": [ "Duration", "Cycles", "DataAvailable" ],
               "properties": {
                 "Duration": {
@@ -4498,7 +4481,7 @@
                 },
                 "LocationType": {
                   "title": "LocationTypeEnumeration",
-                  "aov:typeRef": "nsu=http://opcfoundation.org/UA/AutoID/;i=3009",
+                  "dov:typeRef": "org.opcfoundation.UA.AutoID.LocationTypeEnumeration",
                   "type": "integer",
                   "minimum": -2147483648,
                   "maximum": 2147483647
@@ -4509,7 +4492,7 @@
         },
         "output": {
           "type": "object",
-          "aov:typeRef": "nsu=http://opcfoundation.org/UA/AutoID/;i=6219",
+          "dov:typeRef": "org.opcfoundation.UA.OutputArguments",
           "required": [ "Results", "Status" ],
           "properties": {
             "Results": {
@@ -4517,7 +4500,7 @@
               "items": {
                 "title": "RtlsLocationResult",
                 "type": "object",
-                "aov:typeRef": "nsu=http://opcfoundation.org/UA/AutoID/;i=3028",
+                "dov:typeRef": "org.opcfoundation.UA.AutoID.RtlsLocationResult",
                 "required": [ "Speed", "Heading", "Rotation", "ReceiveTime" ],
                 "properties": {
                   "Speed": {
@@ -4533,7 +4516,7 @@
                   "Rotation": {
                     "title": "Rotation",
                     "type": "object",
-                    "aov:typeRef": "nsu=http://opcfoundation.org/UA/AutoID/;i=3029",
+                    "dov:typeRef": "org.opcfoundation.UA.AutoID.Rotation",
                     "required": [ "Yaw", "Pitch", "Roll" ],
                     "properties": {
                       "Yaw": {
@@ -4562,7 +4545,7 @@
             },
             "Status": {
               "title": "AutoIdOperationStatusEnumeration",
-              "aov:typeRef": "nsu=http://opcfoundation.org/UA/AutoID/;i=3013",
+              "dov:typeRef": "org.opcfoundation.UA.AutoID.AutoIdOperationStatusEnumeration",
               "type": "integer",
               "minimum": -2147483648,
               "maximum": 2147483647
@@ -4572,7 +4555,7 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/AutoID/AutoID_RtlsDeviceType/action/Scan",
+            "dov:topic": "opcua/AutoID/AutoID_RtlsDeviceType/action/Scan",
             "op": "invokeaction"
           }
         ]
@@ -4580,10 +4563,10 @@
     },
     "properties": {
       "GeographicalUnit": {
-        "aov:namespace": "http://opcfoundation.org/UA/AutoID/",
+        "dov:namespace": "http://opcfoundation.org/UA/AutoID/",
         "title": "EUInformation",
         "type": "object",
-        "aov:typeRef": "nsu=http://opcfoundation.org/UA/;i=887",
+        "dov:typeRef": "org.opcfoundation.UA.EUInformation",
         "required": [ "NamespaceUri", "UnitId", "DisplayName", "Description" ],
         "properties": {
           "NamespaceUri": {
@@ -4605,21 +4588,21 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/AutoID/AutoID_RtlsDeviceType/property/GeographicalUnit/write",
+            "dov:topic": "opcua/AutoID/AutoID_RtlsDeviceType/property/GeographicalUnit/write",
             "op": "writeproperty"
           },
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/AutoID/AutoID_RtlsDeviceType/property/GeographicalUnit/read",
+            "dov:topic": "opcua/AutoID/AutoID_RtlsDeviceType/property/GeographicalUnit/read",
             "op": "readproperty"
           }
         ]
       },
       "LengthUnit": {
-        "aov:namespace": "http://opcfoundation.org/UA/AutoID/",
+        "dov:namespace": "http://opcfoundation.org/UA/AutoID/",
         "title": "EUInformation",
         "type": "object",
-        "aov:typeRef": "nsu=http://opcfoundation.org/UA/;i=887",
+        "dov:typeRef": "org.opcfoundation.UA.EUInformation",
         "required": [ "NamespaceUri", "UnitId", "DisplayName", "Description" ],
         "properties": {
           "NamespaceUri": {
@@ -4641,21 +4624,21 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/AutoID/AutoID_RtlsDeviceType/property/LengthUnit/write",
+            "dov:topic": "opcua/AutoID/AutoID_RtlsDeviceType/property/LengthUnit/write",
             "op": "writeproperty"
           },
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/AutoID/AutoID_RtlsDeviceType/property/LengthUnit/read",
+            "dov:topic": "opcua/AutoID/AutoID_RtlsDeviceType/property/LengthUnit/read",
             "op": "readproperty"
           }
         ]
       },
       "RotationalUnit": {
-        "aov:namespace": "http://opcfoundation.org/UA/AutoID/",
+        "dov:namespace": "http://opcfoundation.org/UA/AutoID/",
         "title": "EUInformation",
         "type": "object",
-        "aov:typeRef": "nsu=http://opcfoundation.org/UA/;i=887",
+        "dov:typeRef": "org.opcfoundation.UA.EUInformation",
         "required": [ "NamespaceUri", "UnitId", "DisplayName", "Description" ],
         "properties": {
           "NamespaceUri": {
@@ -4677,21 +4660,21 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/AutoID/AutoID_RtlsDeviceType/property/RotationalUnit/write",
+            "dov:topic": "opcua/AutoID/AutoID_RtlsDeviceType/property/RotationalUnit/write",
             "op": "writeproperty"
           },
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/AutoID/AutoID_RtlsDeviceType/property/RotationalUnit/read",
+            "dov:topic": "opcua/AutoID/AutoID_RtlsDeviceType/property/RotationalUnit/read",
             "op": "readproperty"
           }
         ]
       },
       "SpeedUnit": {
-        "aov:namespace": "http://opcfoundation.org/UA/AutoID/",
+        "dov:namespace": "http://opcfoundation.org/UA/AutoID/",
         "title": "EUInformation",
         "type": "object",
-        "aov:typeRef": "nsu=http://opcfoundation.org/UA/;i=887",
+        "dov:typeRef": "org.opcfoundation.UA.EUInformation",
         "required": [ "NamespaceUri", "UnitId", "DisplayName", "Description" ],
         "properties": {
           "NamespaceUri": {
@@ -4713,12 +4696,12 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/AutoID/AutoID_RtlsDeviceType/property/SpeedUnit/write",
+            "dov:topic": "opcua/AutoID/AutoID_RtlsDeviceType/property/SpeedUnit/write",
             "op": "writeproperty"
           },
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/AutoID/AutoID_RtlsDeviceType/property/SpeedUnit/read",
+            "dov:topic": "opcua/AutoID/AutoID_RtlsDeviceType/property/SpeedUnit/read",
             "op": "readproperty"
           }
         ]
@@ -4731,13 +4714,12 @@
     "@context": [
       "https://www.w3.org/2022/wot/td/v1.1",
       {
-        "dtv": "http://azure.com/DigitalTwins/dtmi#",
-        "aov": "http://azure.com/IoT/operations/tm#"
+        "dov": "http://azure.com/DigitalOperations/vocab#"
       }
     ],
     "@type": "tm:ThingModel",
     "title": "OpcUaCore_BaseEventType",
-    "aov:typeRef": "nsu=http://opcfoundation.org/UA/;i=2041",
+    "dov:typeRef": "org.opcfoundation.UA.BaseEventType",
     "links": [
       {
         "rel": "tm:extends",
@@ -4750,7 +4732,7 @@
     "forms": [
       {
         "contentType": "application/json",
-        "dtv:topic": "opcua/OpcUaCore/OpcUaCore_BaseEventType/properties/read",
+        "dov:topic": "opcua/OpcUaCore/OpcUaCore_BaseEventType/properties/read",
         "op": "readallproperties"
       }
     ],
@@ -4763,7 +4745,7 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/OpcUaCore/OpcUaCore_BaseEventType/property/ConditionClassId/read",
+            "dov:topic": "opcua/OpcUaCore/OpcUaCore_BaseEventType/property/ConditionClassId/read",
             "op": "readproperty"
           }
         ]
@@ -4774,7 +4756,7 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/OpcUaCore/OpcUaCore_BaseEventType/property/ConditionClassName/read",
+            "dov:topic": "opcua/OpcUaCore/OpcUaCore_BaseEventType/property/ConditionClassName/read",
             "op": "readproperty"
           }
         ]
@@ -4788,7 +4770,7 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/OpcUaCore/OpcUaCore_BaseEventType/property/ConditionSubClassId/read",
+            "dov:topic": "opcua/OpcUaCore/OpcUaCore_BaseEventType/property/ConditionSubClassId/read",
             "op": "readproperty"
           }
         ]
@@ -4802,7 +4784,7 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/OpcUaCore/OpcUaCore_BaseEventType/property/ConditionSubClassName/read",
+            "dov:topic": "opcua/OpcUaCore/OpcUaCore_BaseEventType/property/ConditionSubClassName/read",
             "op": "readproperty"
           }
         ]
@@ -4814,7 +4796,7 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/OpcUaCore/OpcUaCore_BaseEventType/property/EventId/read",
+            "dov:topic": "opcua/OpcUaCore/OpcUaCore_BaseEventType/property/EventId/read",
             "op": "readproperty"
           }
         ]
@@ -4825,7 +4807,7 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/OpcUaCore/OpcUaCore_BaseEventType/property/EventType/read",
+            "dov:topic": "opcua/OpcUaCore/OpcUaCore_BaseEventType/property/EventType/read",
             "op": "readproperty"
           }
         ]
@@ -4833,7 +4815,7 @@
       "LocalTime": {
         "title": "TimeZoneDataType",
         "type": "object",
-        "aov:typeRef": "nsu=http://opcfoundation.org/UA/;i=8912",
+        "dov:typeRef": "org.opcfoundation.UA.TimeZoneDataType",
         "required": [ "Offset", "DaylightSavingInOffset" ],
         "properties": {
           "Offset": {
@@ -4849,7 +4831,7 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/OpcUaCore/OpcUaCore_BaseEventType/property/LocalTime/read",
+            "dov:topic": "opcua/OpcUaCore/OpcUaCore_BaseEventType/property/LocalTime/read",
             "op": "readproperty"
           }
         ]
@@ -4860,7 +4842,7 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/OpcUaCore/OpcUaCore_BaseEventType/property/Message/read",
+            "dov:topic": "opcua/OpcUaCore/OpcUaCore_BaseEventType/property/Message/read",
             "op": "readproperty"
           }
         ]
@@ -4872,7 +4854,7 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/OpcUaCore/OpcUaCore_BaseEventType/property/ReceiveTime/read",
+            "dov:topic": "opcua/OpcUaCore/OpcUaCore_BaseEventType/property/ReceiveTime/read",
             "op": "readproperty"
           }
         ]
@@ -4885,7 +4867,7 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/OpcUaCore/OpcUaCore_BaseEventType/property/Severity/read",
+            "dov:topic": "opcua/OpcUaCore/OpcUaCore_BaseEventType/property/Severity/read",
             "op": "readproperty"
           }
         ]
@@ -4896,7 +4878,7 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/OpcUaCore/OpcUaCore_BaseEventType/property/SourceName/read",
+            "dov:topic": "opcua/OpcUaCore/OpcUaCore_BaseEventType/property/SourceName/read",
             "op": "readproperty"
           }
         ]
@@ -4907,7 +4889,7 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/OpcUaCore/OpcUaCore_BaseEventType/property/SourceNode/read",
+            "dov:topic": "opcua/OpcUaCore/OpcUaCore_BaseEventType/property/SourceNode/read",
             "op": "readproperty"
           }
         ]
@@ -4919,7 +4901,7 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/OpcUaCore/OpcUaCore_BaseEventType/property/Time/read",
+            "dov:topic": "opcua/OpcUaCore/OpcUaCore_BaseEventType/property/Time/read",
             "op": "readproperty"
           }
         ]
@@ -4932,13 +4914,12 @@
     "@context": [
       "https://www.w3.org/2022/wot/td/v1.1",
       {
-        "dtv": "http://azure.com/DigitalTwins/dtmi#",
-        "aov": "http://azure.com/IoT/operations/tm#"
+        "dov": "http://azure.com/DigitalOperations/vocab#"
       }
     ],
     "@type": "tm:ThingModel",
     "title": "OpcUaCore_BaseObjectType",
-    "aov:typeRef": "nsu=http://opcfoundation.org/UA/;i=58",
+    "dov:typeRef": "org.opcfoundation.UA.BaseObjectType",
     "links": [
     ],
     "schemaDefinitions": {
@@ -4954,13 +4935,12 @@
     "@context": [
       "https://www.w3.org/2022/wot/td/v1.1",
       {
-        "dtv": "http://azure.com/DigitalTwins/dtmi#",
-        "aov": "http://azure.com/IoT/operations/tm#"
+        "dov": "http://azure.com/DigitalOperations/vocab#"
       }
     ],
     "@type": "tm:ThingModel",
     "title": "OpcUaCore_FolderType",
-    "aov:typeRef": "nsu=http://opcfoundation.org/UA/;i=61",
+    "dov:typeRef": "org.opcfoundation.UA.FolderType",
     "links": [
       {
         "rel": "tm:extends",
@@ -4981,13 +4961,12 @@
     "@context": [
       "https://www.w3.org/2022/wot/td/v1.1",
       {
-        "dtv": "http://azure.com/DigitalTwins/dtmi#",
-        "aov": "http://azure.com/IoT/operations/tm#"
+        "dov": "http://azure.com/DigitalOperations/vocab#"
       }
     ],
     "@type": "tm:ThingModel",
     "title": "DI_DeviceType",
-    "aov:typeRef": "nsu=http://opcfoundation.org/UA/DI/;i=1002",
+    "dov:typeRef": "org.opcfoundation.UA.DI.DeviceType",
     "links": [
       {
         "rel": "tm:extends",
@@ -4995,38 +4974,38 @@
         "type": "application/tm+json"
       },
       {
-        "rel": "aov:component",
-        "aov:refName": "CPIdentifier",
+        "rel": "dov:component",
+        "dov:refName": "CPIdentifier",
         "href": "#title=DI_ConnectionPointType",
         "type": "application/tm+json"
       },
       {
-        "rel": "aov:component",
-        "aov:refName": "DeviceHealthAlarms",
+        "rel": "dov:component",
+        "dov:refName": "DeviceHealthAlarms",
         "href": "#title=OpcUaCore_FolderType",
         "type": "application/tm+json"
       },
       {
-        "rel": "aov:component",
-        "aov:refName": "DeviceTypeImage",
+        "rel": "dov:component",
+        "dov:refName": "DeviceTypeImage",
         "href": "#title=OpcUaCore_FolderType",
         "type": "application/tm+json"
       },
       {
-        "rel": "aov:component",
-        "aov:refName": "Documentation",
+        "rel": "dov:component",
+        "dov:refName": "Documentation",
         "href": "#title=OpcUaCore_FolderType",
         "type": "application/tm+json"
       },
       {
-        "rel": "aov:component",
-        "aov:refName": "ProtocolSupport",
+        "rel": "dov:component",
+        "dov:refName": "ProtocolSupport",
         "href": "#title=OpcUaCore_FolderType",
         "type": "application/tm+json"
       },
       {
-        "rel": "aov:component",
-        "aov:refName": "ImageSet",
+        "rel": "dov:component",
+        "dov:refName": "ImageSet",
         "href": "#title=OpcUaCore_FolderType",
         "type": "application/tm+json"
       }
@@ -5034,7 +5013,7 @@
     "schemaDefinitions": {
       "DeviceHealthEnumeration": {
         "type": "object",
-        "aov:typeRef": "nsu=http://opcfoundation.org/UA/DI/;i=6244",
+        "dov:typeRef": "org.opcfoundation.UA.DI.DeviceHealthEnumeration",
         "const": {
           "NORMAL": 0,
           "FAILURE": 1,
@@ -5069,12 +5048,12 @@
     "forms": [
       {
         "contentType": "application/json",
-        "dtv:topic": "opcua/DI/DI_DeviceType/events/{senderId}",
+        "dov:topic": "opcua/DI/DI_DeviceType/events/{senderId}",
         "op": "subscribeallevents"
       },
       {
         "contentType": "application/json",
-        "dtv:topic": "opcua/DI/DI_DeviceType/properties/read",
+        "dov:topic": "opcua/DI/DI_DeviceType/properties/read",
         "op": "readallproperties"
       }
     ],
@@ -5082,21 +5061,21 @@
     },
     "properties": {
       "DeviceClass": {
-        "aov:namespace": "http://opcfoundation.org/UA/DI/",
+        "dov:namespace": "http://opcfoundation.org/UA/DI/",
         "type": "string",
         "readOnly": true,
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/DI/DI_DeviceType/property/DeviceClass/read",
+            "dov:topic": "opcua/DI/DI_DeviceType/property/DeviceClass/read",
             "op": "readproperty"
           }
         ]
       },
       "DeviceHealth": {
-        "aov:namespace": "http://opcfoundation.org/UA/DI/",
+        "dov:namespace": "http://opcfoundation.org/UA/DI/",
         "title": "DeviceHealthEnumeration",
-        "aov:typeRef": "nsu=http://opcfoundation.org/UA/DI/;i=6244",
+        "dov:typeRef": "org.opcfoundation.UA.DI.DeviceHealthEnumeration",
         "type": "integer",
         "minimum": -2147483648,
         "maximum": 2147483647,
@@ -5104,109 +5083,109 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/DI/DI_DeviceType/property/DeviceHealth/read",
+            "dov:topic": "opcua/DI/DI_DeviceType/property/DeviceHealth/read",
             "op": "readproperty"
           }
         ]
       },
       "DeviceManual": {
-        "aov:namespace": "http://opcfoundation.org/UA/DI/",
+        "dov:namespace": "http://opcfoundation.org/UA/DI/",
         "type": "string",
         "readOnly": true,
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/DI/DI_DeviceType/property/DeviceManual/read",
+            "dov:topic": "opcua/DI/DI_DeviceType/property/DeviceManual/read",
             "op": "readproperty"
           }
         ]
       },
       "DeviceRevision": {
-        "aov:namespace": "http://opcfoundation.org/UA/DI/",
+        "dov:namespace": "http://opcfoundation.org/UA/DI/",
         "type": "string",
         "readOnly": true,
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/DI/DI_DeviceType/property/DeviceRevision/read",
+            "dov:topic": "opcua/DI/DI_DeviceType/property/DeviceRevision/read",
             "op": "readproperty"
           }
         ]
       },
       "HardwareRevision": {
-        "aov:namespace": "http://opcfoundation.org/UA/DI/",
+        "dov:namespace": "http://opcfoundation.org/UA/DI/",
         "type": "string",
         "readOnly": true,
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/DI/DI_DeviceType/property/HardwareRevision/read",
+            "dov:topic": "opcua/DI/DI_DeviceType/property/HardwareRevision/read",
             "op": "readproperty"
           }
         ]
       },
       "Manufacturer": {
-        "aov:namespace": "http://opcfoundation.org/UA/DI/",
+        "dov:namespace": "http://opcfoundation.org/UA/DI/",
         "type": "string",
         "readOnly": true,
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/DI/DI_DeviceType/property/Manufacturer/read",
+            "dov:topic": "opcua/DI/DI_DeviceType/property/Manufacturer/read",
             "op": "readproperty"
           }
         ]
       },
       "ManufacturerUri": {
-        "aov:namespace": "http://opcfoundation.org/UA/DI/",
+        "dov:namespace": "http://opcfoundation.org/UA/DI/",
         "type": "string",
         "readOnly": true,
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/DI/DI_DeviceType/property/ManufacturerUri/read",
+            "dov:topic": "opcua/DI/DI_DeviceType/property/ManufacturerUri/read",
             "op": "readproperty"
           }
         ]
       },
       "Model": {
-        "aov:namespace": "http://opcfoundation.org/UA/DI/",
+        "dov:namespace": "http://opcfoundation.org/UA/DI/",
         "type": "string",
         "readOnly": true,
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/DI/DI_DeviceType/property/Model/read",
+            "dov:topic": "opcua/DI/DI_DeviceType/property/Model/read",
             "op": "readproperty"
           }
         ]
       },
       "ProductCode": {
-        "aov:namespace": "http://opcfoundation.org/UA/DI/",
+        "dov:namespace": "http://opcfoundation.org/UA/DI/",
         "type": "string",
         "readOnly": true,
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/DI/DI_DeviceType/property/ProductCode/read",
+            "dov:topic": "opcua/DI/DI_DeviceType/property/ProductCode/read",
             "op": "readproperty"
           }
         ]
       },
       "ProductInstanceUri": {
-        "aov:namespace": "http://opcfoundation.org/UA/DI/",
+        "dov:namespace": "http://opcfoundation.org/UA/DI/",
         "type": "string",
         "readOnly": true,
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/DI/DI_DeviceType/property/ProductInstanceUri/read",
+            "dov:topic": "opcua/DI/DI_DeviceType/property/ProductInstanceUri/read",
             "op": "readproperty"
           }
         ]
       },
       "RevisionCounter": {
-        "aov:namespace": "http://opcfoundation.org/UA/DI/",
+        "dov:namespace": "http://opcfoundation.org/UA/DI/",
         "type": "integer",
         "minimum": -2147483648,
         "maximum": 2147483647,
@@ -5214,31 +5193,31 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/DI/DI_DeviceType/property/RevisionCounter/read",
+            "dov:topic": "opcua/DI/DI_DeviceType/property/RevisionCounter/read",
             "op": "readproperty"
           }
         ]
       },
       "SerialNumber": {
-        "aov:namespace": "http://opcfoundation.org/UA/DI/",
+        "dov:namespace": "http://opcfoundation.org/UA/DI/",
         "type": "string",
         "readOnly": true,
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/DI/DI_DeviceType/property/SerialNumber/read",
+            "dov:topic": "opcua/DI/DI_DeviceType/property/SerialNumber/read",
             "op": "readproperty"
           }
         ]
       },
       "SoftwareRevision": {
-        "aov:namespace": "http://opcfoundation.org/UA/DI/",
+        "dov:namespace": "http://opcfoundation.org/UA/DI/",
         "type": "string",
         "readOnly": true,
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/DI/DI_DeviceType/property/SoftwareRevision/read",
+            "dov:topic": "opcua/DI/DI_DeviceType/property/SoftwareRevision/read",
             "op": "readproperty"
           }
         ]
@@ -5246,10 +5225,10 @@
     },
     "events": {
       "DeviceHealth": {
-        "aov:namespace": "http://opcfoundation.org/UA/DI/",
+        "dov:namespace": "http://opcfoundation.org/UA/DI/",
         "data": {
           "title": "DeviceHealthEnumeration",
-          "aov:typeRef": "nsu=http://opcfoundation.org/UA/DI/;i=6244",
+          "dov:typeRef": "org.opcfoundation.UA.DI.DeviceHealthEnumeration",
           "type": "integer",
           "minimum": -2147483648,
           "maximum": 2147483647
@@ -5257,7 +5236,7 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/DI/DI_DeviceType/event/DeviceHealth/{senderId}",
+            "dov:topic": "opcua/DI/DI_DeviceType/event/DeviceHealth/{senderId}",
             "op": "subscribeevent"
           }
         ]
@@ -5268,13 +5247,12 @@
     "@context": [
       "https://www.w3.org/2022/wot/td/v1.1",
       {
-        "dtv": "http://azure.com/DigitalTwins/dtmi#",
-        "aov": "http://azure.com/IoT/operations/tm#"
+        "dov": "http://azure.com/DigitalOperations/vocab#"
       }
     ],
     "@type": "tm:ThingModel",
     "title": "DI_ComponentType",
-    "aov:typeRef": "nsu=http://opcfoundation.org/UA/DI/;i=15063",
+    "dov:typeRef": "org.opcfoundation.UA.DI.ComponentType",
     "links": [
       {
         "rel": "tm:extends",
@@ -5287,7 +5265,7 @@
     "forms": [
       {
         "contentType": "application/json",
-        "dtv:topic": "opcua/DI/DI_ComponentType/properties/read",
+        "dov:topic": "opcua/DI/DI_ComponentType/properties/read",
         "op": "readallproperties"
       }
     ],
@@ -5295,139 +5273,139 @@
     },
     "properties": {
       "AssetId": {
-        "aov:namespace": "http://opcfoundation.org/UA/DI/",
+        "dov:namespace": "http://opcfoundation.org/UA/DI/",
         "type": "string",
         "readOnly": true,
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/DI/DI_ComponentType/property/AssetId/read",
+            "dov:topic": "opcua/DI/DI_ComponentType/property/AssetId/read",
             "op": "readproperty"
           }
         ]
       },
       "ComponentName": {
-        "aov:namespace": "http://opcfoundation.org/UA/DI/",
+        "dov:namespace": "http://opcfoundation.org/UA/DI/",
         "type": "string",
         "readOnly": true,
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/DI/DI_ComponentType/property/ComponentName/read",
+            "dov:topic": "opcua/DI/DI_ComponentType/property/ComponentName/read",
             "op": "readproperty"
           }
         ]
       },
       "DeviceClass": {
-        "aov:namespace": "http://opcfoundation.org/UA/DI/",
+        "dov:namespace": "http://opcfoundation.org/UA/DI/",
         "type": "string",
         "readOnly": true,
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/DI/DI_ComponentType/property/DeviceClass/read",
+            "dov:topic": "opcua/DI/DI_ComponentType/property/DeviceClass/read",
             "op": "readproperty"
           }
         ]
       },
       "DeviceManual": {
-        "aov:namespace": "http://opcfoundation.org/UA/DI/",
+        "dov:namespace": "http://opcfoundation.org/UA/DI/",
         "type": "string",
         "readOnly": true,
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/DI/DI_ComponentType/property/DeviceManual/read",
+            "dov:topic": "opcua/DI/DI_ComponentType/property/DeviceManual/read",
             "op": "readproperty"
           }
         ]
       },
       "DeviceRevision": {
-        "aov:namespace": "http://opcfoundation.org/UA/DI/",
+        "dov:namespace": "http://opcfoundation.org/UA/DI/",
         "type": "string",
         "readOnly": true,
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/DI/DI_ComponentType/property/DeviceRevision/read",
+            "dov:topic": "opcua/DI/DI_ComponentType/property/DeviceRevision/read",
             "op": "readproperty"
           }
         ]
       },
       "HardwareRevision": {
-        "aov:namespace": "http://opcfoundation.org/UA/DI/",
+        "dov:namespace": "http://opcfoundation.org/UA/DI/",
         "type": "string",
         "readOnly": true,
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/DI/DI_ComponentType/property/HardwareRevision/read",
+            "dov:topic": "opcua/DI/DI_ComponentType/property/HardwareRevision/read",
             "op": "readproperty"
           }
         ]
       },
       "Manufacturer": {
-        "aov:namespace": "http://opcfoundation.org/UA/DI/",
+        "dov:namespace": "http://opcfoundation.org/UA/DI/",
         "type": "string",
         "readOnly": true,
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/DI/DI_ComponentType/property/Manufacturer/read",
+            "dov:topic": "opcua/DI/DI_ComponentType/property/Manufacturer/read",
             "op": "readproperty"
           }
         ]
       },
       "ManufacturerUri": {
-        "aov:namespace": "http://opcfoundation.org/UA/DI/",
+        "dov:namespace": "http://opcfoundation.org/UA/DI/",
         "type": "string",
         "readOnly": true,
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/DI/DI_ComponentType/property/ManufacturerUri/read",
+            "dov:topic": "opcua/DI/DI_ComponentType/property/ManufacturerUri/read",
             "op": "readproperty"
           }
         ]
       },
       "Model": {
-        "aov:namespace": "http://opcfoundation.org/UA/DI/",
+        "dov:namespace": "http://opcfoundation.org/UA/DI/",
         "type": "string",
         "readOnly": true,
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/DI/DI_ComponentType/property/Model/read",
+            "dov:topic": "opcua/DI/DI_ComponentType/property/Model/read",
             "op": "readproperty"
           }
         ]
       },
       "ProductCode": {
-        "aov:namespace": "http://opcfoundation.org/UA/DI/",
+        "dov:namespace": "http://opcfoundation.org/UA/DI/",
         "type": "string",
         "readOnly": true,
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/DI/DI_ComponentType/property/ProductCode/read",
+            "dov:topic": "opcua/DI/DI_ComponentType/property/ProductCode/read",
             "op": "readproperty"
           }
         ]
       },
       "ProductInstanceUri": {
-        "aov:namespace": "http://opcfoundation.org/UA/DI/",
+        "dov:namespace": "http://opcfoundation.org/UA/DI/",
         "type": "string",
         "readOnly": true,
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/DI/DI_ComponentType/property/ProductInstanceUri/read",
+            "dov:topic": "opcua/DI/DI_ComponentType/property/ProductInstanceUri/read",
             "op": "readproperty"
           }
         ]
       },
       "RevisionCounter": {
-        "aov:namespace": "http://opcfoundation.org/UA/DI/",
+        "dov:namespace": "http://opcfoundation.org/UA/DI/",
         "type": "integer",
         "minimum": -2147483648,
         "maximum": 2147483647,
@@ -5435,31 +5413,31 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/DI/DI_ComponentType/property/RevisionCounter/read",
+            "dov:topic": "opcua/DI/DI_ComponentType/property/RevisionCounter/read",
             "op": "readproperty"
           }
         ]
       },
       "SerialNumber": {
-        "aov:namespace": "http://opcfoundation.org/UA/DI/",
+        "dov:namespace": "http://opcfoundation.org/UA/DI/",
         "type": "string",
         "readOnly": true,
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/DI/DI_ComponentType/property/SerialNumber/read",
+            "dov:topic": "opcua/DI/DI_ComponentType/property/SerialNumber/read",
             "op": "readproperty"
           }
         ]
       },
       "SoftwareRevision": {
-        "aov:namespace": "http://opcfoundation.org/UA/DI/",
+        "dov:namespace": "http://opcfoundation.org/UA/DI/",
         "type": "string",
         "readOnly": true,
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/DI/DI_ComponentType/property/SoftwareRevision/read",
+            "dov:topic": "opcua/DI/DI_ComponentType/property/SoftwareRevision/read",
             "op": "readproperty"
           }
         ]
@@ -5472,13 +5450,12 @@
     "@context": [
       "https://www.w3.org/2022/wot/td/v1.1",
       {
-        "dtv": "http://azure.com/DigitalTwins/dtmi#",
-        "aov": "http://azure.com/IoT/operations/tm#"
+        "dov": "http://azure.com/DigitalOperations/vocab#"
       }
     ],
     "@type": "tm:ThingModel",
     "title": "DI_TopologyElementType",
-    "aov:typeRef": "nsu=http://opcfoundation.org/UA/DI/;i=1001",
+    "dov:typeRef": "org.opcfoundation.UA.DI.TopologyElementType",
     "links": [
       {
         "rel": "tm:extends",
@@ -5486,32 +5463,32 @@
         "type": "application/tm+json"
       },
       {
-        "rel": "aov:component",
-        "aov:refName": "ParameterSet",
+        "rel": "dov:component",
+        "dov:refName": "ParameterSet",
         "href": "#title=OpcUaCore_BaseObjectType",
         "type": "application/tm+json"
       },
       {
-        "rel": "aov:component",
-        "aov:refName": "MethodSet",
+        "rel": "dov:component",
+        "dov:refName": "MethodSet",
         "href": "#title=OpcUaCore_BaseObjectType",
         "type": "application/tm+json"
       },
       {
-        "rel": "aov:component",
-        "aov:refName": "GroupIdentifier",
+        "rel": "dov:component",
+        "dov:refName": "GroupIdentifier",
         "href": "#title=DI_FunctionalGroupType",
         "type": "application/tm+json"
       },
       {
-        "rel": "aov:capability",
-        "aov:refName": "Identification",
+        "rel": "dov:capability",
+        "dov:refName": "Identification",
         "href": "#title=DI_FunctionalGroupType",
         "type": "application/tm+json"
       },
       {
-        "rel": "aov:capability",
-        "aov:refName": "Lock",
+        "rel": "dov:capability",
+        "dov:refName": "Lock",
         "href": "#title=DI_LockingServicesType",
         "type": "application/tm+json"
       }
@@ -5529,13 +5506,12 @@
     "@context": [
       "https://www.w3.org/2022/wot/td/v1.1",
       {
-        "dtv": "http://azure.com/DigitalTwins/dtmi#",
-        "aov": "http://azure.com/IoT/operations/tm#"
+        "dov": "http://azure.com/DigitalOperations/vocab#"
       }
     ],
     "@type": "tm:ThingModel",
     "title": "DI_FunctionalGroupType",
-    "aov:typeRef": "nsu=http://opcfoundation.org/UA/DI/;i=1005",
+    "dov:typeRef": "org.opcfoundation.UA.DI.FunctionalGroupType",
     "links": [
       {
         "rel": "tm:extends",
@@ -5543,8 +5519,8 @@
         "type": "application/tm+json"
       },
       {
-        "rel": "aov:component",
-        "aov:refName": "GroupIdentifier",
+        "rel": "dov:component",
+        "dov:refName": "GroupIdentifier",
         "href": "#title=DI_FunctionalGroupType",
         "type": "application/tm+json"
       }
@@ -5554,12 +5530,12 @@
     "forms": [
       {
         "contentType": "application/json",
-        "dtv:topic": "opcua/DI/DI_FunctionalGroupType/events/{senderId}",
+        "dov:topic": "opcua/DI/DI_FunctionalGroupType/events/{senderId}",
         "op": "subscribeallevents"
       },
       {
         "contentType": "application/json",
-        "dtv:topic": "opcua/DI/DI_FunctionalGroupType/properties/read",
+        "dov:topic": "opcua/DI/DI_FunctionalGroupType/properties/read",
         "op": "readallproperties"
       }
     ],
@@ -5567,14 +5543,14 @@
     },
     "properties": {
       "UIElement": {
-        "aov:namespace": "http://opcfoundation.org/UA/DI/",
+        "dov:namespace": "http://opcfoundation.org/UA/DI/",
         "description": "Stand-in for an unspecified data type.",
         "type": "string",
         "readOnly": true,
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/DI/DI_FunctionalGroupType/property/UIElement/read",
+            "dov:topic": "opcua/DI/DI_FunctionalGroupType/property/UIElement/read",
             "op": "readproperty"
           }
         ]
@@ -5582,7 +5558,7 @@
     },
     "events": {
       "UIElement": {
-        "aov:namespace": "http://opcfoundation.org/UA/DI/",
+        "dov:namespace": "http://opcfoundation.org/UA/DI/",
         "data": {
           "description": "Stand-in for an unspecified data type.",
           "type": "string"
@@ -5590,7 +5566,7 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/DI/DI_FunctionalGroupType/event/UIElement/{senderId}",
+            "dov:topic": "opcua/DI/DI_FunctionalGroupType/event/UIElement/{senderId}",
             "op": "subscribeevent"
           }
         ]
@@ -5601,13 +5577,12 @@
     "@context": [
       "https://www.w3.org/2022/wot/td/v1.1",
       {
-        "dtv": "http://azure.com/DigitalTwins/dtmi#",
-        "aov": "http://azure.com/IoT/operations/tm#"
+        "dov": "http://azure.com/DigitalOperations/vocab#"
       }
     ],
     "@type": "tm:ThingModel",
     "title": "DI_LockingServicesType",
-    "aov:typeRef": "nsu=http://opcfoundation.org/UA/DI/;i=6388",
+    "dov:typeRef": "org.opcfoundation.UA.DI.LockingServicesType",
     "links": [
       {
         "rel": "tm:extends",
@@ -5620,16 +5595,16 @@
     "forms": [
       {
         "contentType": "application/json",
-        "dtv:topic": "opcua/DI/DI_LockingServicesType/properties/read",
+        "dov:topic": "opcua/DI/DI_LockingServicesType/properties/read",
         "op": "readallproperties"
       }
     ],
     "actions": {
       "BreakLock": {
-        "aov:namespace": "http://opcfoundation.org/UA/DI/",
+        "dov:namespace": "http://opcfoundation.org/UA/DI/",
         "output": {
           "type": "object",
-          "aov:typeRef": "nsu=http://opcfoundation.org/UA/DI/;i=6401",
+          "dov:typeRef": "org.opcfoundation.UA.OutputArguments",
           "required": [ "BreakLockStatus" ],
           "properties": {
             "BreakLockStatus": {
@@ -5642,16 +5617,16 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/DI/DI_LockingServicesType/action/BreakLock",
+            "dov:topic": "opcua/DI/DI_LockingServicesType/action/BreakLock",
             "op": "invokeaction"
           }
         ]
       },
       "ExitLock": {
-        "aov:namespace": "http://opcfoundation.org/UA/DI/",
+        "dov:namespace": "http://opcfoundation.org/UA/DI/",
         "output": {
           "type": "object",
-          "aov:typeRef": "nsu=http://opcfoundation.org/UA/DI/;i=6399",
+          "dov:typeRef": "org.opcfoundation.UA.OutputArguments",
           "required": [ "ExitLockStatus" ],
           "properties": {
             "ExitLockStatus": {
@@ -5664,16 +5639,16 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/DI/DI_LockingServicesType/action/ExitLock",
+            "dov:topic": "opcua/DI/DI_LockingServicesType/action/ExitLock",
             "op": "invokeaction"
           }
         ]
       },
       "InitLock": {
-        "aov:namespace": "http://opcfoundation.org/UA/DI/",
+        "dov:namespace": "http://opcfoundation.org/UA/DI/",
         "input": {
           "type": "object",
-          "aov:typeRef": "nsu=http://opcfoundation.org/UA/DI/;i=6394",
+          "dov:typeRef": "org.opcfoundation.UA.InputArguments",
           "required": [ "Context" ],
           "properties": {
             "Context": {
@@ -5683,7 +5658,7 @@
         },
         "output": {
           "type": "object",
-          "aov:typeRef": "nsu=http://opcfoundation.org/UA/DI/;i=6395",
+          "dov:typeRef": "org.opcfoundation.UA.OutputArguments",
           "required": [ "InitLockStatus" ],
           "properties": {
             "InitLockStatus": {
@@ -5696,16 +5671,16 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/DI/DI_LockingServicesType/action/InitLock",
+            "dov:topic": "opcua/DI/DI_LockingServicesType/action/InitLock",
             "op": "invokeaction"
           }
         ]
       },
       "RenewLock": {
-        "aov:namespace": "http://opcfoundation.org/UA/DI/",
+        "dov:namespace": "http://opcfoundation.org/UA/DI/",
         "output": {
           "type": "object",
-          "aov:typeRef": "nsu=http://opcfoundation.org/UA/DI/;i=6397",
+          "dov:typeRef": "org.opcfoundation.UA.OutputArguments",
           "required": [ "RenewLockStatus" ],
           "properties": {
             "RenewLockStatus": {
@@ -5718,7 +5693,7 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/DI/DI_LockingServicesType/action/RenewLock",
+            "dov:topic": "opcua/DI/DI_LockingServicesType/action/RenewLock",
             "op": "invokeaction"
           }
         ]
@@ -5731,56 +5706,56 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/DI/DI_LockingServicesType/property/DefaultInstanceBrowseName/read",
+            "dov:topic": "opcua/DI/DI_LockingServicesType/property/DefaultInstanceBrowseName/read",
             "op": "readproperty"
           }
         ]
       },
       "Locked": {
-        "aov:namespace": "http://opcfoundation.org/UA/DI/",
+        "dov:namespace": "http://opcfoundation.org/UA/DI/",
         "type": "boolean",
         "readOnly": true,
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/DI/DI_LockingServicesType/property/Locked/read",
+            "dov:topic": "opcua/DI/DI_LockingServicesType/property/Locked/read",
             "op": "readproperty"
           }
         ]
       },
       "LockingClient": {
-        "aov:namespace": "http://opcfoundation.org/UA/DI/",
+        "dov:namespace": "http://opcfoundation.org/UA/DI/",
         "type": "string",
         "readOnly": true,
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/DI/DI_LockingServicesType/property/LockingClient/read",
+            "dov:topic": "opcua/DI/DI_LockingServicesType/property/LockingClient/read",
             "op": "readproperty"
           }
         ]
       },
       "LockingUser": {
-        "aov:namespace": "http://opcfoundation.org/UA/DI/",
+        "dov:namespace": "http://opcfoundation.org/UA/DI/",
         "type": "string",
         "readOnly": true,
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/DI/DI_LockingServicesType/property/LockingUser/read",
+            "dov:topic": "opcua/DI/DI_LockingServicesType/property/LockingUser/read",
             "op": "readproperty"
           }
         ]
       },
       "RemainingLockTime": {
-        "aov:namespace": "http://opcfoundation.org/UA/DI/",
+        "dov:namespace": "http://opcfoundation.org/UA/DI/",
         "type": "string",
         "pattern": "^P(?!$)(?:(?:(?:(?:\\d+Y)|(?:\\d+\\.\\d+Y$))?(?:(?:\\d+M)|(?:\\d+\\.\\d+M$))?)|(?:(?:(?:\\d+W)|(?:\\d+\\.\\d+W$))?))(?:(?:\\d+D)|(?:\\d+\\.\\d+D$))?(?:T(?!$)(?:(?:\\d+H)|(?:\\d+\\.\\d+H$))?(?:(?:\\d+M)|(?:\\d+\\.\\d+M$))?(?:\\d+(?:\\.\\d+)?S)?)?$",
         "readOnly": true,
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/DI/DI_LockingServicesType/property/RemainingLockTime/read",
+            "dov:topic": "opcua/DI/DI_LockingServicesType/property/RemainingLockTime/read",
             "op": "readproperty"
           }
         ]
@@ -5793,13 +5768,12 @@
     "@context": [
       "https://www.w3.org/2022/wot/td/v1.1",
       {
-        "dtv": "http://azure.com/DigitalTwins/dtmi#",
-        "aov": "http://azure.com/IoT/operations/tm#"
+        "dov": "http://azure.com/DigitalOperations/vocab#"
       }
     ],
     "@type": "tm:ThingModel",
     "title": "DI_ConnectionPointType",
-    "aov:typeRef": "nsu=http://opcfoundation.org/UA/DI/;i=6308",
+    "dov:typeRef": "org.opcfoundation.UA.DI.ConnectionPointType",
     "links": [
       {
         "rel": "tm:extends",
@@ -5807,21 +5781,21 @@
         "type": "application/tm+json"
       },
       {
-        "rel": "aov:capability",
-        "aov:refName": "NetworkAddress",
+        "rel": "dov:capability",
+        "dov:refName": "NetworkAddress",
         "href": "#title=DI_FunctionalGroupType",
         "type": "application/tm+json"
       },
       {
-        "rel": "aov:component",
-        "aov:refName": "ProfileIdentifier",
+        "rel": "dov:component",
+        "dov:refName": "ProfileIdentifier",
         "href": "#title=DI_ProtocolType",
         "type": "application/tm+json"
       },
       {
-        "rel": "aov:typedReference",
-        "aov:refName": "NetworkIdentifier",
-        "aov:refType": "ConnectsTo",
+        "rel": "dov:typedReference",
+        "dov:refName": "NetworkIdentifier",
+        "dov:refType": "ConnectsTo",
         "href": "#title=DI_NetworkType",
         "type": "application/tm+json"
       }
@@ -5839,13 +5813,12 @@
     "@context": [
       "https://www.w3.org/2022/wot/td/v1.1",
       {
-        "dtv": "http://azure.com/DigitalTwins/dtmi#",
-        "aov": "http://azure.com/IoT/operations/tm#"
+        "dov": "http://azure.com/DigitalOperations/vocab#"
       }
     ],
     "@type": "tm:ThingModel",
     "title": "DI_ProtocolType",
-    "aov:typeRef": "nsu=http://opcfoundation.org/UA/DI/;i=1006",
+    "dov:typeRef": "org.opcfoundation.UA.DI.ProtocolType",
     "links": [
       {
         "rel": "tm:extends",
@@ -5866,13 +5839,12 @@
     "@context": [
       "https://www.w3.org/2022/wot/td/v1.1",
       {
-        "dtv": "http://azure.com/DigitalTwins/dtmi#",
-        "aov": "http://azure.com/IoT/operations/tm#"
+        "dov": "http://azure.com/DigitalOperations/vocab#"
       }
     ],
     "@type": "tm:ThingModel",
     "title": "DI_NetworkType",
-    "aov:typeRef": "nsu=http://opcfoundation.org/UA/DI/;i=6247",
+    "dov:typeRef": "org.opcfoundation.UA.DI.NetworkType",
     "links": [
       {
         "rel": "tm:extends",
@@ -5880,21 +5852,21 @@
         "type": "application/tm+json"
       },
       {
-        "rel": "aov:component",
-        "aov:refName": "ProfileIdentifier",
+        "rel": "dov:component",
+        "dov:refName": "ProfileIdentifier",
         "href": "#title=DI_ProtocolType",
         "type": "application/tm+json"
       },
       {
-        "rel": "aov:typedReference",
-        "aov:refName": "CPIdentifier",
-        "aov:refType": "ConnectsTo",
+        "rel": "dov:typedReference",
+        "dov:refName": "CPIdentifier",
+        "dov:refType": "ConnectsTo",
         "href": "#title=DI_ConnectionPointType",
         "type": "application/tm+json"
       },
       {
-        "rel": "aov:capability",
-        "aov:refName": "Lock",
+        "rel": "dov:capability",
+        "dov:refName": "Lock",
         "href": "#title=DI_LockingServicesType",
         "type": "application/tm+json"
       }

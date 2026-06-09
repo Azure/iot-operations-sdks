@@ -4,13 +4,12 @@
       "https://www.w3.org/2022/wot/td/v1.1",
       {
         "qudt": "http://qudt.org/schema/qudt/",
-        "dtv": "http://azure.com/DigitalTwins/dtmi#",
-        "aov": "http://azure.com/IoT/operations/tm#"
+        "dov": "http://azure.com/DigitalOperations/vocab#"
       }
     ],
     "@type": "tm:ThingModel",
     "title": "PNEM_IEnergyProfileD0Type",
-    "aov:typeRef": "nsu=http://opcfoundation.org/UA/PNEM/;i=1011",
+    "dov:typeRef": "org.opcfoundation.UA.PNEM.IEnergyProfileD0Type",
     "links": [
       {
         "rel": "tm:extends",
@@ -23,17 +22,17 @@
     "forms": [
       {
         "contentType": "application/json",
-        "dtv:topic": "opcua/PNEM/PNEM_IEnergyProfileD0Type/events/{senderId}",
+        "dov:topic": "opcua/PNEM/PNEM_IEnergyProfileD0Type/events/{senderId}",
         "op": "subscribeallevents"
       },
       {
         "contentType": "application/json",
-        "dtv:topic": "opcua/PNEM/PNEM_IEnergyProfileD0Type/properties/write",
+        "dov:topic": "opcua/PNEM/PNEM_IEnergyProfileD0Type/properties/write",
         "op": "writemultipleproperties"
       },
       {
         "contentType": "application/json",
-        "dtv:topic": "opcua/PNEM/PNEM_IEnergyProfileD0Type/properties/read",
+        "dov:topic": "opcua/PNEM/PNEM_IEnergyProfileD0Type/properties/read",
         "op": "readallproperties"
       }
     ],
@@ -41,22 +40,22 @@
     },
     "properties": {
       "DcCurrent": {
-        "aov:namespace": "http://opcfoundation.org/UA/PNEM/",
+        "dov:namespace": "http://opcfoundation.org/UA/PNEM/",
         "type": "number",
         "minimum": -3.40e+38,
         "maximum": 3.40e+38,
         "readOnly": false,
         "qudt:hasQuantityKind": "http://qudt.org/vocab/quantitykind/ElectricCurrent",
-        "aov:withUnit": "properties/DcCurrent_EngineeringUnits",
+        "dov:withUnit": "properties/DcCurrent_EngineeringUnits",
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/PNEM/PNEM_IEnergyProfileD0Type/property/DcCurrent/write",
+            "dov:topic": "opcua/PNEM/PNEM_IEnergyProfileD0Type/property/DcCurrent/write",
             "op": "writeproperty"
           },
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/PNEM/PNEM_IEnergyProfileD0Type/property/DcCurrent/read",
+            "dov:topic": "opcua/PNEM/PNEM_IEnergyProfileD0Type/property/DcCurrent/read",
             "op": "readproperty"
           }
         ]
@@ -68,7 +67,7 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/PNEM/PNEM_IEnergyProfileD0Type/property/DcCurrent_EngineeringUnits/read",
+            "dov:topic": "opcua/PNEM/PNEM_IEnergyProfileD0Type/property/DcCurrent_EngineeringUnits/read",
             "op": "readproperty"
           }
         ]
@@ -76,18 +75,18 @@
     },
     "events": {
       "DcCurrent": {
-        "aov:namespace": "http://opcfoundation.org/UA/PNEM/",
+        "dov:namespace": "http://opcfoundation.org/UA/PNEM/",
         "data": {
           "type": "number",
           "minimum": -3.40e+38,
           "maximum": 3.40e+38
         },
         "qudt:hasQuantityKind": "http://qudt.org/vocab/quantitykind/ElectricCurrent",
-        "aov:withUnit": "properties/DcCurrent_EngineeringUnits",
+        "dov:withUnit": "properties/DcCurrent_EngineeringUnits",
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/PNEM/PNEM_IEnergyProfileD0Type/event/DcCurrent/{senderId}",
+            "dov:topic": "opcua/PNEM/PNEM_IEnergyProfileD0Type/event/DcCurrent/{senderId}",
             "op": "subscribeevent"
           }
         ]
@@ -99,13 +98,12 @@
       "https://www.w3.org/2022/wot/td/v1.1",
       {
         "qudt": "http://qudt.org/schema/qudt/",
-        "dtv": "http://azure.com/DigitalTwins/dtmi#",
-        "aov": "http://azure.com/IoT/operations/tm#"
+        "dov": "http://azure.com/DigitalOperations/vocab#"
       }
     ],
     "@type": "tm:ThingModel",
     "title": "PNEM_IEnergyProfileE0Type",
-    "aov:typeRef": "nsu=http://opcfoundation.org/UA/PNEM/;i=1007",
+    "dov:typeRef": "org.opcfoundation.UA.PNEM.IEnergyProfileE0Type",
     "links": [
       {
         "rel": "tm:extends",
@@ -118,17 +116,17 @@
     "forms": [
       {
         "contentType": "application/json",
-        "dtv:topic": "opcua/PNEM/PNEM_IEnergyProfileE0Type/events/{senderId}",
+        "dov:topic": "opcua/PNEM/PNEM_IEnergyProfileE0Type/events/{senderId}",
         "op": "subscribeallevents"
       },
       {
         "contentType": "application/json",
-        "dtv:topic": "opcua/PNEM/PNEM_IEnergyProfileE0Type/properties/write",
+        "dov:topic": "opcua/PNEM/PNEM_IEnergyProfileE0Type/properties/write",
         "op": "writemultipleproperties"
       },
       {
         "contentType": "application/json",
-        "dtv:topic": "opcua/PNEM/PNEM_IEnergyProfileE0Type/properties/read",
+        "dov:topic": "opcua/PNEM/PNEM_IEnergyProfileE0Type/properties/read",
         "op": "readallproperties"
       }
     ],
@@ -136,10 +134,10 @@
     },
     "properties": {
       "AcCurrent": {
-        "aov:namespace": "http://opcfoundation.org/UA/PNEM/",
+        "dov:namespace": "http://opcfoundation.org/UA/PNEM/",
         "title": "AcPeDataType",
         "type": "object",
-        "aov:typeRef": "nsu=http://opcfoundation.org/UA/PNEM/;i=3005",
+        "dov:typeRef": "org.opcfoundation.UA.PNEM.AcPeDataType",
         "required": [ "A", "B", "C" ],
         "properties": {
           "A": {
@@ -160,16 +158,16 @@
         },
         "readOnly": false,
         "qudt:hasQuantityKind": "http://qudt.org/vocab/quantitykind/ElectricCurrent",
-        "aov:withUnit": "properties/AcCurrent_EngineeringUnits",
+        "dov:withUnit": "properties/AcCurrent_EngineeringUnits",
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/PNEM/PNEM_IEnergyProfileE0Type/property/AcCurrent/write",
+            "dov:topic": "opcua/PNEM/PNEM_IEnergyProfileE0Type/property/AcCurrent/write",
             "op": "writeproperty"
           },
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/PNEM/PNEM_IEnergyProfileE0Type/property/AcCurrent/read",
+            "dov:topic": "opcua/PNEM/PNEM_IEnergyProfileE0Type/property/AcCurrent/read",
             "op": "readproperty"
           }
         ]
@@ -181,7 +179,7 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/PNEM/PNEM_IEnergyProfileE0Type/property/AcCurrent_EngineeringUnits/read",
+            "dov:topic": "opcua/PNEM/PNEM_IEnergyProfileE0Type/property/AcCurrent_EngineeringUnits/read",
             "op": "readproperty"
           }
         ]
@@ -189,11 +187,11 @@
     },
     "events": {
       "AcCurrent": {
-        "aov:namespace": "http://opcfoundation.org/UA/PNEM/",
+        "dov:namespace": "http://opcfoundation.org/UA/PNEM/",
         "data": {
           "title": "AcPeDataType",
           "type": "object",
-          "aov:typeRef": "nsu=http://opcfoundation.org/UA/PNEM/;i=3005",
+          "dov:typeRef": "org.opcfoundation.UA.PNEM.AcPeDataType",
           "required": [ "A", "B", "C" ],
           "properties": {
             "A": {
@@ -214,11 +212,11 @@
           }
         },
         "qudt:hasQuantityKind": "http://qudt.org/vocab/quantitykind/ElectricCurrent",
-        "aov:withUnit": "properties/AcCurrent_EngineeringUnits",
+        "dov:withUnit": "properties/AcCurrent_EngineeringUnits",
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/PNEM/PNEM_IEnergyProfileE0Type/event/AcCurrent/{senderId}",
+            "dov:topic": "opcua/PNEM/PNEM_IEnergyProfileE0Type/event/AcCurrent/{senderId}",
             "op": "subscribeevent"
           }
         ]
@@ -230,13 +228,12 @@
       "https://www.w3.org/2022/wot/td/v1.1",
       {
         "qudt": "http://qudt.org/schema/qudt/",
-        "dtv": "http://azure.com/DigitalTwins/dtmi#",
-        "aov": "http://azure.com/IoT/operations/tm#"
+        "dov": "http://azure.com/DigitalOperations/vocab#"
       }
     ],
     "@type": "tm:ThingModel",
     "title": "PNEM_IEnergyProfileE1Type",
-    "aov:typeRef": "nsu=http://opcfoundation.org/UA/PNEM/;i=1008",
+    "dov:typeRef": "org.opcfoundation.UA.PNEM.IEnergyProfileE1Type",
     "links": [
       {
         "rel": "tm:extends",
@@ -249,17 +246,17 @@
     "forms": [
       {
         "contentType": "application/json",
-        "dtv:topic": "opcua/PNEM/PNEM_IEnergyProfileE1Type/events/{senderId}",
+        "dov:topic": "opcua/PNEM/PNEM_IEnergyProfileE1Type/events/{senderId}",
         "op": "subscribeallevents"
       },
       {
         "contentType": "application/json",
-        "dtv:topic": "opcua/PNEM/PNEM_IEnergyProfileE1Type/properties/write",
+        "dov:topic": "opcua/PNEM/PNEM_IEnergyProfileE1Type/properties/write",
         "op": "writemultipleproperties"
       },
       {
         "contentType": "application/json",
-        "dtv:topic": "opcua/PNEM/PNEM_IEnergyProfileE1Type/properties/read",
+        "dov:topic": "opcua/PNEM/PNEM_IEnergyProfileE1Type/properties/read",
         "op": "readallproperties"
       }
     ],
@@ -267,22 +264,22 @@
     },
     "properties": {
       "AcActivePowerTotal": {
-        "aov:namespace": "http://opcfoundation.org/UA/PNEM/",
+        "dov:namespace": "http://opcfoundation.org/UA/PNEM/",
         "type": "number",
         "minimum": -3.40e+38,
         "maximum": 3.40e+38,
         "readOnly": false,
         "qudt:hasQuantityKind": "http://qudt.org/vocab/quantitykind/Power",
-        "aov:withUnit": "properties/AcActivePowerTotal_EngineeringUnits",
+        "dov:withUnit": "properties/AcActivePowerTotal_EngineeringUnits",
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/PNEM/PNEM_IEnergyProfileE1Type/property/AcActivePowerTotal/write",
+            "dov:topic": "opcua/PNEM/PNEM_IEnergyProfileE1Type/property/AcActivePowerTotal/write",
             "op": "writeproperty"
           },
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/PNEM/PNEM_IEnergyProfileE1Type/property/AcActivePowerTotal/read",
+            "dov:topic": "opcua/PNEM/PNEM_IEnergyProfileE1Type/property/AcActivePowerTotal/read",
             "op": "readproperty"
           }
         ]
@@ -294,7 +291,7 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/PNEM/PNEM_IEnergyProfileE1Type/property/AcActivePowerTotal_EngineeringUnits/read",
+            "dov:topic": "opcua/PNEM/PNEM_IEnergyProfileE1Type/property/AcActivePowerTotal_EngineeringUnits/read",
             "op": "readproperty"
           }
         ]
@@ -302,18 +299,18 @@
     },
     "events": {
       "AcActivePowerTotal": {
-        "aov:namespace": "http://opcfoundation.org/UA/PNEM/",
+        "dov:namespace": "http://opcfoundation.org/UA/PNEM/",
         "data": {
           "type": "number",
           "minimum": -3.40e+38,
           "maximum": 3.40e+38
         },
         "qudt:hasQuantityKind": "http://qudt.org/vocab/quantitykind/Power",
-        "aov:withUnit": "properties/AcActivePowerTotal_EngineeringUnits",
+        "dov:withUnit": "properties/AcActivePowerTotal_EngineeringUnits",
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/PNEM/PNEM_IEnergyProfileE1Type/event/AcActivePowerTotal/{senderId}",
+            "dov:topic": "opcua/PNEM/PNEM_IEnergyProfileE1Type/event/AcActivePowerTotal/{senderId}",
             "op": "subscribeevent"
           }
         ]
@@ -325,13 +322,12 @@
       "https://www.w3.org/2022/wot/td/v1.1",
       {
         "qudt": "http://qudt.org/schema/qudt/",
-        "dtv": "http://azure.com/DigitalTwins/dtmi#",
-        "aov": "http://azure.com/IoT/operations/tm#"
+        "dov": "http://azure.com/DigitalOperations/vocab#"
       }
     ],
     "@type": "tm:ThingModel",
     "title": "PNEM_IEnergyProfileE2Type",
-    "aov:typeRef": "nsu=http://opcfoundation.org/UA/PNEM/;i=1009",
+    "dov:typeRef": "org.opcfoundation.UA.PNEM.IEnergyProfileE2Type",
     "links": [
       {
         "rel": "tm:extends",
@@ -344,17 +340,17 @@
     "forms": [
       {
         "contentType": "application/json",
-        "dtv:topic": "opcua/PNEM/PNEM_IEnergyProfileE2Type/events/{senderId}",
+        "dov:topic": "opcua/PNEM/PNEM_IEnergyProfileE2Type/events/{senderId}",
         "op": "subscribeallevents"
       },
       {
         "contentType": "application/json",
-        "dtv:topic": "opcua/PNEM/PNEM_IEnergyProfileE2Type/properties/write",
+        "dov:topic": "opcua/PNEM/PNEM_IEnergyProfileE2Type/properties/write",
         "op": "writemultipleproperties"
       },
       {
         "contentType": "application/json",
-        "dtv:topic": "opcua/PNEM/PNEM_IEnergyProfileE2Type/properties/read",
+        "dov:topic": "opcua/PNEM/PNEM_IEnergyProfileE2Type/properties/read",
         "op": "readallproperties"
       }
     ],
@@ -362,64 +358,64 @@
     },
     "properties": {
       "AcActiveEnergyTotalExportLp": {
-        "aov:namespace": "http://opcfoundation.org/UA/PNEM/",
+        "dov:namespace": "http://opcfoundation.org/UA/PNEM/",
         "type": "number",
         "minimum": -3.40e+38,
         "maximum": 3.40e+38,
         "readOnly": false,
         "qudt:hasQuantityKind": "http://qudt.org/vocab/quantitykind/Energy",
-        "aov:withUnit": "properties/AcActiveEnergyTotalExportLp_EngineeringUnits",
+        "dov:withUnit": "properties/AcActiveEnergyTotalExportLp_EngineeringUnits",
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/PNEM/PNEM_IEnergyProfileE2Type/property/AcActiveEnergyTotalExportLp/write",
+            "dov:topic": "opcua/PNEM/PNEM_IEnergyProfileE2Type/property/AcActiveEnergyTotalExportLp/write",
             "op": "writeproperty"
           },
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/PNEM/PNEM_IEnergyProfileE2Type/property/AcActiveEnergyTotalExportLp/read",
+            "dov:topic": "opcua/PNEM/PNEM_IEnergyProfileE2Type/property/AcActiveEnergyTotalExportLp/read",
             "op": "readproperty"
           }
         ]
       },
       "AcActiveEnergyTotalImportLp": {
-        "aov:namespace": "http://opcfoundation.org/UA/PNEM/",
+        "dov:namespace": "http://opcfoundation.org/UA/PNEM/",
         "type": "number",
         "minimum": -3.40e+38,
         "maximum": 3.40e+38,
         "readOnly": false,
         "qudt:hasQuantityKind": "http://qudt.org/vocab/quantitykind/Energy",
-        "aov:withUnit": "properties/AcActiveEnergyTotalImportLp_EngineeringUnits",
+        "dov:withUnit": "properties/AcActiveEnergyTotalImportLp_EngineeringUnits",
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/PNEM/PNEM_IEnergyProfileE2Type/property/AcActiveEnergyTotalImportLp/write",
+            "dov:topic": "opcua/PNEM/PNEM_IEnergyProfileE2Type/property/AcActiveEnergyTotalImportLp/write",
             "op": "writeproperty"
           },
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/PNEM/PNEM_IEnergyProfileE2Type/property/AcActiveEnergyTotalImportLp/read",
+            "dov:topic": "opcua/PNEM/PNEM_IEnergyProfileE2Type/property/AcActiveEnergyTotalImportLp/read",
             "op": "readproperty"
           }
         ]
       },
       "AcActivePowerTotal": {
-        "aov:namespace": "http://opcfoundation.org/UA/PNEM/",
+        "dov:namespace": "http://opcfoundation.org/UA/PNEM/",
         "type": "number",
         "minimum": -3.40e+38,
         "maximum": 3.40e+38,
         "readOnly": false,
         "qudt:hasQuantityKind": "http://qudt.org/vocab/quantitykind/Power",
-        "aov:withUnit": "properties/AcActivePowerTotal_EngineeringUnits",
+        "dov:withUnit": "properties/AcActivePowerTotal_EngineeringUnits",
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/PNEM/PNEM_IEnergyProfileE2Type/property/AcActivePowerTotal/write",
+            "dov:topic": "opcua/PNEM/PNEM_IEnergyProfileE2Type/property/AcActivePowerTotal/write",
             "op": "writeproperty"
           },
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/PNEM/PNEM_IEnergyProfileE2Type/property/AcActivePowerTotal/read",
+            "dov:topic": "opcua/PNEM/PNEM_IEnergyProfileE2Type/property/AcActivePowerTotal/read",
             "op": "readproperty"
           }
         ]
@@ -431,7 +427,7 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/PNEM/PNEM_IEnergyProfileE2Type/property/AcActiveEnergyTotalExportLp_EngineeringUnits/read",
+            "dov:topic": "opcua/PNEM/PNEM_IEnergyProfileE2Type/property/AcActiveEnergyTotalExportLp_EngineeringUnits/read",
             "op": "readproperty"
           }
         ]
@@ -443,7 +439,7 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/PNEM/PNEM_IEnergyProfileE2Type/property/AcActiveEnergyTotalImportLp_EngineeringUnits/read",
+            "dov:topic": "opcua/PNEM/PNEM_IEnergyProfileE2Type/property/AcActiveEnergyTotalImportLp_EngineeringUnits/read",
             "op": "readproperty"
           }
         ]
@@ -455,7 +451,7 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/PNEM/PNEM_IEnergyProfileE2Type/property/AcActivePowerTotal_EngineeringUnits/read",
+            "dov:topic": "opcua/PNEM/PNEM_IEnergyProfileE2Type/property/AcActivePowerTotal_EngineeringUnits/read",
             "op": "readproperty"
           }
         ]
@@ -463,52 +459,52 @@
     },
     "events": {
       "AcActiveEnergyTotalExportLp": {
-        "aov:namespace": "http://opcfoundation.org/UA/PNEM/",
+        "dov:namespace": "http://opcfoundation.org/UA/PNEM/",
         "data": {
           "type": "number",
           "minimum": -3.40e+38,
           "maximum": 3.40e+38
         },
         "qudt:hasQuantityKind": "http://qudt.org/vocab/quantitykind/Energy",
-        "aov:withUnit": "properties/AcActiveEnergyTotalExportLp_EngineeringUnits",
+        "dov:withUnit": "properties/AcActiveEnergyTotalExportLp_EngineeringUnits",
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/PNEM/PNEM_IEnergyProfileE2Type/event/AcActiveEnergyTotalExportLp/{senderId}",
+            "dov:topic": "opcua/PNEM/PNEM_IEnergyProfileE2Type/event/AcActiveEnergyTotalExportLp/{senderId}",
             "op": "subscribeevent"
           }
         ]
       },
       "AcActiveEnergyTotalImportLp": {
-        "aov:namespace": "http://opcfoundation.org/UA/PNEM/",
+        "dov:namespace": "http://opcfoundation.org/UA/PNEM/",
         "data": {
           "type": "number",
           "minimum": -3.40e+38,
           "maximum": 3.40e+38
         },
         "qudt:hasQuantityKind": "http://qudt.org/vocab/quantitykind/Energy",
-        "aov:withUnit": "properties/AcActiveEnergyTotalImportLp_EngineeringUnits",
+        "dov:withUnit": "properties/AcActiveEnergyTotalImportLp_EngineeringUnits",
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/PNEM/PNEM_IEnergyProfileE2Type/event/AcActiveEnergyTotalImportLp/{senderId}",
+            "dov:topic": "opcua/PNEM/PNEM_IEnergyProfileE2Type/event/AcActiveEnergyTotalImportLp/{senderId}",
             "op": "subscribeevent"
           }
         ]
       },
       "AcActivePowerTotal": {
-        "aov:namespace": "http://opcfoundation.org/UA/PNEM/",
+        "dov:namespace": "http://opcfoundation.org/UA/PNEM/",
         "data": {
           "type": "number",
           "minimum": -3.40e+38,
           "maximum": 3.40e+38
         },
         "qudt:hasQuantityKind": "http://qudt.org/vocab/quantitykind/Power",
-        "aov:withUnit": "properties/AcActivePowerTotal_EngineeringUnits",
+        "dov:withUnit": "properties/AcActivePowerTotal_EngineeringUnits",
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/PNEM/PNEM_IEnergyProfileE2Type/event/AcActivePowerTotal/{senderId}",
+            "dov:topic": "opcua/PNEM/PNEM_IEnergyProfileE2Type/event/AcActivePowerTotal/{senderId}",
             "op": "subscribeevent"
           }
         ]
@@ -520,13 +516,12 @@
       "https://www.w3.org/2022/wot/td/v1.1",
       {
         "qudt": "http://qudt.org/schema/qudt/",
-        "dtv": "http://azure.com/DigitalTwins/dtmi#",
-        "aov": "http://azure.com/IoT/operations/tm#"
+        "dov": "http://azure.com/DigitalOperations/vocab#"
       }
     ],
     "@type": "tm:ThingModel",
     "title": "PNEM_IEnergyProfileE3Type",
-    "aov:typeRef": "nsu=http://opcfoundation.org/UA/PNEM/;i=1010",
+    "dov:typeRef": "org.opcfoundation.UA.PNEM.IEnergyProfileE3Type",
     "links": [
       {
         "rel": "tm:extends",
@@ -539,17 +534,17 @@
     "forms": [
       {
         "contentType": "application/json",
-        "dtv:topic": "opcua/PNEM/PNEM_IEnergyProfileE3Type/events/{senderId}",
+        "dov:topic": "opcua/PNEM/PNEM_IEnergyProfileE3Type/events/{senderId}",
         "op": "subscribeallevents"
       },
       {
         "contentType": "application/json",
-        "dtv:topic": "opcua/PNEM/PNEM_IEnergyProfileE3Type/properties/write",
+        "dov:topic": "opcua/PNEM/PNEM_IEnergyProfileE3Type/properties/write",
         "op": "writemultipleproperties"
       },
       {
         "contentType": "application/json",
-        "dtv:topic": "opcua/PNEM/PNEM_IEnergyProfileE3Type/properties/read",
+        "dov:topic": "opcua/PNEM/PNEM_IEnergyProfileE3Type/properties/read",
         "op": "readallproperties"
       }
     ],
@@ -557,52 +552,52 @@
     },
     "properties": {
       "AcActiveEnergyTotalExportHp": {
-        "aov:namespace": "http://opcfoundation.org/UA/PNEM/",
+        "dov:namespace": "http://opcfoundation.org/UA/PNEM/",
         "type": "number",
         "minimum": -1.80e+308,
         "maximum": 1.80e+308,
         "readOnly": false,
         "qudt:hasQuantityKind": "http://qudt.org/vocab/quantitykind/Energy",
-        "aov:withUnit": "properties/AcActiveEnergyTotalExportHp_EngineeringUnits",
+        "dov:withUnit": "properties/AcActiveEnergyTotalExportHp_EngineeringUnits",
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/PNEM/PNEM_IEnergyProfileE3Type/property/AcActiveEnergyTotalExportHp/write",
+            "dov:topic": "opcua/PNEM/PNEM_IEnergyProfileE3Type/property/AcActiveEnergyTotalExportHp/write",
             "op": "writeproperty"
           },
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/PNEM/PNEM_IEnergyProfileE3Type/property/AcActiveEnergyTotalExportHp/read",
+            "dov:topic": "opcua/PNEM/PNEM_IEnergyProfileE3Type/property/AcActiveEnergyTotalExportHp/read",
             "op": "readproperty"
           }
         ]
       },
       "AcActiveEnergyTotalImportHp": {
-        "aov:namespace": "http://opcfoundation.org/UA/PNEM/",
+        "dov:namespace": "http://opcfoundation.org/UA/PNEM/",
         "type": "number",
         "minimum": -1.80e+308,
         "maximum": 1.80e+308,
         "readOnly": false,
         "qudt:hasQuantityKind": "http://qudt.org/vocab/quantitykind/Energy",
-        "aov:withUnit": "properties/AcActiveEnergyTotalImportHp_EngineeringUnits",
+        "dov:withUnit": "properties/AcActiveEnergyTotalImportHp_EngineeringUnits",
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/PNEM/PNEM_IEnergyProfileE3Type/property/AcActiveEnergyTotalImportHp/write",
+            "dov:topic": "opcua/PNEM/PNEM_IEnergyProfileE3Type/property/AcActiveEnergyTotalImportHp/write",
             "op": "writeproperty"
           },
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/PNEM/PNEM_IEnergyProfileE3Type/property/AcActiveEnergyTotalImportHp/read",
+            "dov:topic": "opcua/PNEM/PNEM_IEnergyProfileE3Type/property/AcActiveEnergyTotalImportHp/read",
             "op": "readproperty"
           }
         ]
       },
       "AcActivePower": {
-        "aov:namespace": "http://opcfoundation.org/UA/PNEM/",
+        "dov:namespace": "http://opcfoundation.org/UA/PNEM/",
         "title": "AcPeDataType",
         "type": "object",
-        "aov:typeRef": "nsu=http://opcfoundation.org/UA/PNEM/;i=3005",
+        "dov:typeRef": "org.opcfoundation.UA.PNEM.AcPeDataType",
         "required": [ "A", "B", "C" ],
         "properties": {
           "A": {
@@ -623,25 +618,25 @@
         },
         "readOnly": false,
         "qudt:hasQuantityKind": "http://qudt.org/vocab/quantitykind/Power",
-        "aov:withUnit": "properties/AcActivePower_EngineeringUnits",
+        "dov:withUnit": "properties/AcActivePower_EngineeringUnits",
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/PNEM/PNEM_IEnergyProfileE3Type/property/AcActivePower/write",
+            "dov:topic": "opcua/PNEM/PNEM_IEnergyProfileE3Type/property/AcActivePower/write",
             "op": "writeproperty"
           },
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/PNEM/PNEM_IEnergyProfileE3Type/property/AcActivePower/read",
+            "dov:topic": "opcua/PNEM/PNEM_IEnergyProfileE3Type/property/AcActivePower/read",
             "op": "readproperty"
           }
         ]
       },
       "AcCurrent": {
-        "aov:namespace": "http://opcfoundation.org/UA/PNEM/",
+        "dov:namespace": "http://opcfoundation.org/UA/PNEM/",
         "title": "AcPeDataType",
         "type": "object",
-        "aov:typeRef": "nsu=http://opcfoundation.org/UA/PNEM/;i=3005",
+        "dov:typeRef": "org.opcfoundation.UA.PNEM.AcPeDataType",
         "required": [ "A", "B", "C" ],
         "properties": {
           "A": {
@@ -662,25 +657,25 @@
         },
         "readOnly": false,
         "qudt:hasQuantityKind": "http://qudt.org/vocab/quantitykind/ElectricCurrent",
-        "aov:withUnit": "properties/AcCurrent_EngineeringUnits",
+        "dov:withUnit": "properties/AcCurrent_EngineeringUnits",
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/PNEM/PNEM_IEnergyProfileE3Type/property/AcCurrent/write",
+            "dov:topic": "opcua/PNEM/PNEM_IEnergyProfileE3Type/property/AcCurrent/write",
             "op": "writeproperty"
           },
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/PNEM/PNEM_IEnergyProfileE3Type/property/AcCurrent/read",
+            "dov:topic": "opcua/PNEM/PNEM_IEnergyProfileE3Type/property/AcCurrent/read",
             "op": "readproperty"
           }
         ]
       },
       "AcPowerFactor": {
-        "aov:namespace": "http://opcfoundation.org/UA/PNEM/",
+        "dov:namespace": "http://opcfoundation.org/UA/PNEM/",
         "title": "AcPeDataType",
         "type": "object",
-        "aov:typeRef": "nsu=http://opcfoundation.org/UA/PNEM/;i=3005",
+        "dov:typeRef": "org.opcfoundation.UA.PNEM.AcPeDataType",
         "required": [ "A", "B", "C" ],
         "properties": {
           "A": {
@@ -703,18 +698,18 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/PNEM/PNEM_IEnergyProfileE3Type/property/AcPowerFactor/write",
+            "dov:topic": "opcua/PNEM/PNEM_IEnergyProfileE3Type/property/AcPowerFactor/write",
             "op": "writeproperty"
           },
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/PNEM/PNEM_IEnergyProfileE3Type/property/AcPowerFactor/read",
+            "dov:topic": "opcua/PNEM/PNEM_IEnergyProfileE3Type/property/AcPowerFactor/read",
             "op": "readproperty"
           }
         ]
       },
       "AcReactiveEnergyTotalExportHp": {
-        "aov:namespace": "http://opcfoundation.org/UA/PNEM/",
+        "dov:namespace": "http://opcfoundation.org/UA/PNEM/",
         "type": "number",
         "minimum": -1.80e+308,
         "maximum": 1.80e+308,
@@ -722,18 +717,18 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/PNEM/PNEM_IEnergyProfileE3Type/property/AcReactiveEnergyTotalExportHp/write",
+            "dov:topic": "opcua/PNEM/PNEM_IEnergyProfileE3Type/property/AcReactiveEnergyTotalExportHp/write",
             "op": "writeproperty"
           },
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/PNEM/PNEM_IEnergyProfileE3Type/property/AcReactiveEnergyTotalExportHp/read",
+            "dov:topic": "opcua/PNEM/PNEM_IEnergyProfileE3Type/property/AcReactiveEnergyTotalExportHp/read",
             "op": "readproperty"
           }
         ]
       },
       "AcReactiveEnergyTotalImportHp": {
-        "aov:namespace": "http://opcfoundation.org/UA/PNEM/",
+        "dov:namespace": "http://opcfoundation.org/UA/PNEM/",
         "type": "number",
         "minimum": -1.80e+308,
         "maximum": 1.80e+308,
@@ -741,21 +736,21 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/PNEM/PNEM_IEnergyProfileE3Type/property/AcReactiveEnergyTotalImportHp/write",
+            "dov:topic": "opcua/PNEM/PNEM_IEnergyProfileE3Type/property/AcReactiveEnergyTotalImportHp/write",
             "op": "writeproperty"
           },
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/PNEM/PNEM_IEnergyProfileE3Type/property/AcReactiveEnergyTotalImportHp/read",
+            "dov:topic": "opcua/PNEM/PNEM_IEnergyProfileE3Type/property/AcReactiveEnergyTotalImportHp/read",
             "op": "readproperty"
           }
         ]
       },
       "AcReactivePower": {
-        "aov:namespace": "http://opcfoundation.org/UA/PNEM/",
+        "dov:namespace": "http://opcfoundation.org/UA/PNEM/",
         "title": "AcPeDataType",
         "type": "object",
-        "aov:typeRef": "nsu=http://opcfoundation.org/UA/PNEM/;i=3005",
+        "dov:typeRef": "org.opcfoundation.UA.PNEM.AcPeDataType",
         "required": [ "A", "B", "C" ],
         "properties": {
           "A": {
@@ -776,25 +771,25 @@
         },
         "readOnly": false,
         "qudt:hasQuantityKind": "http://qudt.org/vocab/quantitykind/ReactivePower",
-        "aov:withUnit": "properties/AcReactivePower_EngineeringUnits",
+        "dov:withUnit": "properties/AcReactivePower_EngineeringUnits",
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/PNEM/PNEM_IEnergyProfileE3Type/property/AcReactivePower/write",
+            "dov:topic": "opcua/PNEM/PNEM_IEnergyProfileE3Type/property/AcReactivePower/write",
             "op": "writeproperty"
           },
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/PNEM/PNEM_IEnergyProfileE3Type/property/AcReactivePower/read",
+            "dov:topic": "opcua/PNEM/PNEM_IEnergyProfileE3Type/property/AcReactivePower/read",
             "op": "readproperty"
           }
         ]
       },
       "AcVoltagePe": {
-        "aov:namespace": "http://opcfoundation.org/UA/PNEM/",
+        "dov:namespace": "http://opcfoundation.org/UA/PNEM/",
         "title": "AcPeDataType",
         "type": "object",
-        "aov:typeRef": "nsu=http://opcfoundation.org/UA/PNEM/;i=3005",
+        "dov:typeRef": "org.opcfoundation.UA.PNEM.AcPeDataType",
         "required": [ "A", "B", "C" ],
         "properties": {
           "A": {
@@ -815,25 +810,25 @@
         },
         "readOnly": false,
         "qudt:hasQuantityKind": "http://qudt.org/vocab/quantitykind/ElectricPotential",
-        "aov:withUnit": "properties/AcVoltagePe_EngineeringUnits",
+        "dov:withUnit": "properties/AcVoltagePe_EngineeringUnits",
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/PNEM/PNEM_IEnergyProfileE3Type/property/AcVoltagePe/write",
+            "dov:topic": "opcua/PNEM/PNEM_IEnergyProfileE3Type/property/AcVoltagePe/write",
             "op": "writeproperty"
           },
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/PNEM/PNEM_IEnergyProfileE3Type/property/AcVoltagePe/read",
+            "dov:topic": "opcua/PNEM/PNEM_IEnergyProfileE3Type/property/AcVoltagePe/read",
             "op": "readproperty"
           }
         ]
       },
       "AcVoltagePp": {
-        "aov:namespace": "http://opcfoundation.org/UA/PNEM/",
+        "dov:namespace": "http://opcfoundation.org/UA/PNEM/",
         "title": "AcPpDataType",
         "type": "object",
-        "aov:typeRef": "nsu=http://opcfoundation.org/UA/PNEM/;i=3006",
+        "dov:typeRef": "org.opcfoundation.UA.PNEM.AcPpDataType",
         "required": [ "A_b", "B_c", "C_a" ],
         "properties": {
           "A_b": {
@@ -854,16 +849,16 @@
         },
         "readOnly": false,
         "qudt:hasQuantityKind": "http://qudt.org/vocab/quantitykind/ElectricPotential",
-        "aov:withUnit": "properties/AcVoltagePp_EngineeringUnits",
+        "dov:withUnit": "properties/AcVoltagePp_EngineeringUnits",
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/PNEM/PNEM_IEnergyProfileE3Type/property/AcVoltagePp/write",
+            "dov:topic": "opcua/PNEM/PNEM_IEnergyProfileE3Type/property/AcVoltagePp/write",
             "op": "writeproperty"
           },
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/PNEM/PNEM_IEnergyProfileE3Type/property/AcVoltagePp/read",
+            "dov:topic": "opcua/PNEM/PNEM_IEnergyProfileE3Type/property/AcVoltagePp/read",
             "op": "readproperty"
           }
         ]
@@ -875,7 +870,7 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/PNEM/PNEM_IEnergyProfileE3Type/property/AcActiveEnergyTotalExportHp_EngineeringUnits/read",
+            "dov:topic": "opcua/PNEM/PNEM_IEnergyProfileE3Type/property/AcActiveEnergyTotalExportHp_EngineeringUnits/read",
             "op": "readproperty"
           }
         ]
@@ -887,7 +882,7 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/PNEM/PNEM_IEnergyProfileE3Type/property/AcActiveEnergyTotalImportHp_EngineeringUnits/read",
+            "dov:topic": "opcua/PNEM/PNEM_IEnergyProfileE3Type/property/AcActiveEnergyTotalImportHp_EngineeringUnits/read",
             "op": "readproperty"
           }
         ]
@@ -899,7 +894,7 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/PNEM/PNEM_IEnergyProfileE3Type/property/AcActivePower_EngineeringUnits/read",
+            "dov:topic": "opcua/PNEM/PNEM_IEnergyProfileE3Type/property/AcActivePower_EngineeringUnits/read",
             "op": "readproperty"
           }
         ]
@@ -911,7 +906,7 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/PNEM/PNEM_IEnergyProfileE3Type/property/AcCurrent_EngineeringUnits/read",
+            "dov:topic": "opcua/PNEM/PNEM_IEnergyProfileE3Type/property/AcCurrent_EngineeringUnits/read",
             "op": "readproperty"
           }
         ]
@@ -923,7 +918,7 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/PNEM/PNEM_IEnergyProfileE3Type/property/AcReactivePower_EngineeringUnits/read",
+            "dov:topic": "opcua/PNEM/PNEM_IEnergyProfileE3Type/property/AcReactivePower_EngineeringUnits/read",
             "op": "readproperty"
           }
         ]
@@ -935,7 +930,7 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/PNEM/PNEM_IEnergyProfileE3Type/property/AcVoltagePe_EngineeringUnits/read",
+            "dov:topic": "opcua/PNEM/PNEM_IEnergyProfileE3Type/property/AcVoltagePe_EngineeringUnits/read",
             "op": "readproperty"
           }
         ]
@@ -947,7 +942,7 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/PNEM/PNEM_IEnergyProfileE3Type/property/AcVoltagePp_EngineeringUnits/read",
+            "dov:topic": "opcua/PNEM/PNEM_IEnergyProfileE3Type/property/AcVoltagePp_EngineeringUnits/read",
             "op": "readproperty"
           }
         ]
@@ -955,45 +950,45 @@
     },
     "events": {
       "AcActiveEnergyTotalExportHp": {
-        "aov:namespace": "http://opcfoundation.org/UA/PNEM/",
+        "dov:namespace": "http://opcfoundation.org/UA/PNEM/",
         "data": {
           "type": "number",
           "minimum": -1.80e+308,
           "maximum": 1.80e+308
         },
         "qudt:hasQuantityKind": "http://qudt.org/vocab/quantitykind/Energy",
-        "aov:withUnit": "properties/AcActiveEnergyTotalExportHp_EngineeringUnits",
+        "dov:withUnit": "properties/AcActiveEnergyTotalExportHp_EngineeringUnits",
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/PNEM/PNEM_IEnergyProfileE3Type/event/AcActiveEnergyTotalExportHp/{senderId}",
+            "dov:topic": "opcua/PNEM/PNEM_IEnergyProfileE3Type/event/AcActiveEnergyTotalExportHp/{senderId}",
             "op": "subscribeevent"
           }
         ]
       },
       "AcActiveEnergyTotalImportHp": {
-        "aov:namespace": "http://opcfoundation.org/UA/PNEM/",
+        "dov:namespace": "http://opcfoundation.org/UA/PNEM/",
         "data": {
           "type": "number",
           "minimum": -1.80e+308,
           "maximum": 1.80e+308
         },
         "qudt:hasQuantityKind": "http://qudt.org/vocab/quantitykind/Energy",
-        "aov:withUnit": "properties/AcActiveEnergyTotalImportHp_EngineeringUnits",
+        "dov:withUnit": "properties/AcActiveEnergyTotalImportHp_EngineeringUnits",
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/PNEM/PNEM_IEnergyProfileE3Type/event/AcActiveEnergyTotalImportHp/{senderId}",
+            "dov:topic": "opcua/PNEM/PNEM_IEnergyProfileE3Type/event/AcActiveEnergyTotalImportHp/{senderId}",
             "op": "subscribeevent"
           }
         ]
       },
       "AcActivePower": {
-        "aov:namespace": "http://opcfoundation.org/UA/PNEM/",
+        "dov:namespace": "http://opcfoundation.org/UA/PNEM/",
         "data": {
           "title": "AcPeDataType",
           "type": "object",
-          "aov:typeRef": "nsu=http://opcfoundation.org/UA/PNEM/;i=3005",
+          "dov:typeRef": "org.opcfoundation.UA.PNEM.AcPeDataType",
           "required": [ "A", "B", "C" ],
           "properties": {
             "A": {
@@ -1014,21 +1009,21 @@
           }
         },
         "qudt:hasQuantityKind": "http://qudt.org/vocab/quantitykind/Power",
-        "aov:withUnit": "properties/AcActivePower_EngineeringUnits",
+        "dov:withUnit": "properties/AcActivePower_EngineeringUnits",
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/PNEM/PNEM_IEnergyProfileE3Type/event/AcActivePower/{senderId}",
+            "dov:topic": "opcua/PNEM/PNEM_IEnergyProfileE3Type/event/AcActivePower/{senderId}",
             "op": "subscribeevent"
           }
         ]
       },
       "AcCurrent": {
-        "aov:namespace": "http://opcfoundation.org/UA/PNEM/",
+        "dov:namespace": "http://opcfoundation.org/UA/PNEM/",
         "data": {
           "title": "AcPeDataType",
           "type": "object",
-          "aov:typeRef": "nsu=http://opcfoundation.org/UA/PNEM/;i=3005",
+          "dov:typeRef": "org.opcfoundation.UA.PNEM.AcPeDataType",
           "required": [ "A", "B", "C" ],
           "properties": {
             "A": {
@@ -1049,21 +1044,21 @@
           }
         },
         "qudt:hasQuantityKind": "http://qudt.org/vocab/quantitykind/ElectricCurrent",
-        "aov:withUnit": "properties/AcCurrent_EngineeringUnits",
+        "dov:withUnit": "properties/AcCurrent_EngineeringUnits",
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/PNEM/PNEM_IEnergyProfileE3Type/event/AcCurrent/{senderId}",
+            "dov:topic": "opcua/PNEM/PNEM_IEnergyProfileE3Type/event/AcCurrent/{senderId}",
             "op": "subscribeevent"
           }
         ]
       },
       "AcPowerFactor": {
-        "aov:namespace": "http://opcfoundation.org/UA/PNEM/",
+        "dov:namespace": "http://opcfoundation.org/UA/PNEM/",
         "data": {
           "title": "AcPeDataType",
           "type": "object",
-          "aov:typeRef": "nsu=http://opcfoundation.org/UA/PNEM/;i=3005",
+          "dov:typeRef": "org.opcfoundation.UA.PNEM.AcPeDataType",
           "required": [ "A", "B", "C" ],
           "properties": {
             "A": {
@@ -1086,13 +1081,13 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/PNEM/PNEM_IEnergyProfileE3Type/event/AcPowerFactor/{senderId}",
+            "dov:topic": "opcua/PNEM/PNEM_IEnergyProfileE3Type/event/AcPowerFactor/{senderId}",
             "op": "subscribeevent"
           }
         ]
       },
       "AcReactiveEnergyTotalExportHp": {
-        "aov:namespace": "http://opcfoundation.org/UA/PNEM/",
+        "dov:namespace": "http://opcfoundation.org/UA/PNEM/",
         "data": {
           "type": "number",
           "minimum": -1.80e+308,
@@ -1101,13 +1096,13 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/PNEM/PNEM_IEnergyProfileE3Type/event/AcReactiveEnergyTotalExportHp/{senderId}",
+            "dov:topic": "opcua/PNEM/PNEM_IEnergyProfileE3Type/event/AcReactiveEnergyTotalExportHp/{senderId}",
             "op": "subscribeevent"
           }
         ]
       },
       "AcReactiveEnergyTotalImportHp": {
-        "aov:namespace": "http://opcfoundation.org/UA/PNEM/",
+        "dov:namespace": "http://opcfoundation.org/UA/PNEM/",
         "data": {
           "type": "number",
           "minimum": -1.80e+308,
@@ -1116,17 +1111,17 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/PNEM/PNEM_IEnergyProfileE3Type/event/AcReactiveEnergyTotalImportHp/{senderId}",
+            "dov:topic": "opcua/PNEM/PNEM_IEnergyProfileE3Type/event/AcReactiveEnergyTotalImportHp/{senderId}",
             "op": "subscribeevent"
           }
         ]
       },
       "AcReactivePower": {
-        "aov:namespace": "http://opcfoundation.org/UA/PNEM/",
+        "dov:namespace": "http://opcfoundation.org/UA/PNEM/",
         "data": {
           "title": "AcPeDataType",
           "type": "object",
-          "aov:typeRef": "nsu=http://opcfoundation.org/UA/PNEM/;i=3005",
+          "dov:typeRef": "org.opcfoundation.UA.PNEM.AcPeDataType",
           "required": [ "A", "B", "C" ],
           "properties": {
             "A": {
@@ -1147,21 +1142,21 @@
           }
         },
         "qudt:hasQuantityKind": "http://qudt.org/vocab/quantitykind/ReactivePower",
-        "aov:withUnit": "properties/AcReactivePower_EngineeringUnits",
+        "dov:withUnit": "properties/AcReactivePower_EngineeringUnits",
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/PNEM/PNEM_IEnergyProfileE3Type/event/AcReactivePower/{senderId}",
+            "dov:topic": "opcua/PNEM/PNEM_IEnergyProfileE3Type/event/AcReactivePower/{senderId}",
             "op": "subscribeevent"
           }
         ]
       },
       "AcVoltagePe": {
-        "aov:namespace": "http://opcfoundation.org/UA/PNEM/",
+        "dov:namespace": "http://opcfoundation.org/UA/PNEM/",
         "data": {
           "title": "AcPeDataType",
           "type": "object",
-          "aov:typeRef": "nsu=http://opcfoundation.org/UA/PNEM/;i=3005",
+          "dov:typeRef": "org.opcfoundation.UA.PNEM.AcPeDataType",
           "required": [ "A", "B", "C" ],
           "properties": {
             "A": {
@@ -1182,21 +1177,21 @@
           }
         },
         "qudt:hasQuantityKind": "http://qudt.org/vocab/quantitykind/ElectricPotential",
-        "aov:withUnit": "properties/AcVoltagePe_EngineeringUnits",
+        "dov:withUnit": "properties/AcVoltagePe_EngineeringUnits",
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/PNEM/PNEM_IEnergyProfileE3Type/event/AcVoltagePe/{senderId}",
+            "dov:topic": "opcua/PNEM/PNEM_IEnergyProfileE3Type/event/AcVoltagePe/{senderId}",
             "op": "subscribeevent"
           }
         ]
       },
       "AcVoltagePp": {
-        "aov:namespace": "http://opcfoundation.org/UA/PNEM/",
+        "dov:namespace": "http://opcfoundation.org/UA/PNEM/",
         "data": {
           "title": "AcPpDataType",
           "type": "object",
-          "aov:typeRef": "nsu=http://opcfoundation.org/UA/PNEM/;i=3006",
+          "dov:typeRef": "org.opcfoundation.UA.PNEM.AcPpDataType",
           "required": [ "A_b", "B_c", "C_a" ],
           "properties": {
             "A_b": {
@@ -1217,11 +1212,11 @@
           }
         },
         "qudt:hasQuantityKind": "http://qudt.org/vocab/quantitykind/ElectricPotential",
-        "aov:withUnit": "properties/AcVoltagePp_EngineeringUnits",
+        "dov:withUnit": "properties/AcVoltagePp_EngineeringUnits",
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/PNEM/PNEM_IEnergyProfileE3Type/event/AcVoltagePp/{senderId}",
+            "dov:topic": "opcua/PNEM/PNEM_IEnergyProfileE3Type/event/AcVoltagePp/{senderId}",
             "op": "subscribeevent"
           }
         ]
@@ -1232,14 +1227,13 @@
     "@context": [
       "https://www.w3.org/2022/wot/td/v1.1",
       {
-        "dtv": "http://azure.com/DigitalTwins/dtmi#",
-        "aov": "http://azure.com/IoT/operations/tm#"
+        "dov": "http://azure.com/DigitalOperations/vocab#"
       }
     ],
     "@type": "tm:ThingModel",
     "title": "PNEM_EnergyDevicePowerOffType",
-    "aov:typeRef": "nsu=http://opcfoundation.org/UA/PNEM/;i=1012",
-    "aov:isComposite": true,
+    "dov:typeRef": "org.opcfoundation.UA.PNEM.EnergyDevicePowerOffType",
+    "dov:isComposite": true,
     "links": [
       {
         "rel": "tm:extends",
@@ -1252,21 +1246,21 @@
     "forms": [
       {
         "contentType": "application/json",
-        "dtv:topic": "opcua/PNEM/PNEM_EnergyDevicePowerOffType/events/{senderId}",
+        "dov:topic": "opcua/PNEM/PNEM_EnergyDevicePowerOffType/events/{senderId}",
         "op": "subscribeallevents"
       },
       {
         "contentType": "application/json",
-        "dtv:topic": "opcua/PNEM/PNEM_EnergyDevicePowerOffType/properties/read",
+        "dov:topic": "opcua/PNEM/PNEM_EnergyDevicePowerOffType/properties/read",
         "op": "readallproperties"
       }
     ],
     "actions": {
       "SwitchOffWOL": {
-        "aov:namespace": "http://opcfoundation.org/UA/PNEM/",
+        "dov:namespace": "http://opcfoundation.org/UA/PNEM/",
         "output": {
           "type": "object",
-          "aov:typeRef": "nsu=http://opcfoundation.org/UA/PNEM/;i=6110",
+          "dov:typeRef": "org.opcfoundation.UA.OutputArguments",
           "required": [ "ModeID", "CurrentTimeToDestination", "RegularTimeToOperate", "TimeMinLengthOfStay", "ReturnCode" ],
           "properties": {
             "ModeID": {
@@ -1301,7 +1295,7 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/PNEM/PNEM_EnergyDevicePowerOffType/action/SwitchOffWOL",
+            "dov:topic": "opcua/PNEM/PNEM_EnergyDevicePowerOffType/action/SwitchOffWOL",
             "op": "invokeaction"
           }
         ]
@@ -1309,7 +1303,7 @@
     },
     "properties": {
       "ModePowerConsumption": {
-        "aov:namespace": "http://opcfoundation.org/UA/PNEM/",
+        "dov:namespace": "http://opcfoundation.org/UA/PNEM/",
         "type": "integer",
         "minimum": 0,
         "maximum": 4294967295,
@@ -1317,46 +1311,46 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/PNEM/PNEM_EnergyDevicePowerOffType/property/ModePowerConsumption/read",
+            "dov:topic": "opcua/PNEM/PNEM_EnergyDevicePowerOffType/property/ModePowerConsumption/read",
             "op": "readproperty"
           }
         ]
       },
       "RegularTimeToOperate": {
-        "aov:namespace": "http://opcfoundation.org/UA/PNEM/",
+        "dov:namespace": "http://opcfoundation.org/UA/PNEM/",
         "type": "string",
         "pattern": "^P(?!$)(?:(?:(?:(?:\\d+Y)|(?:\\d+\\.\\d+Y$))?(?:(?:\\d+M)|(?:\\d+\\.\\d+M$))?)|(?:(?:(?:\\d+W)|(?:\\d+\\.\\d+W$))?))(?:(?:\\d+D)|(?:\\d+\\.\\d+D$))?(?:T(?!$)(?:(?:\\d+H)|(?:\\d+\\.\\d+H$))?(?:(?:\\d+M)|(?:\\d+\\.\\d+M$))?(?:\\d+(?:\\.\\d+)?S)?)?$",
         "readOnly": true,
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/PNEM/PNEM_EnergyDevicePowerOffType/property/RegularTimeToOperate/read",
+            "dov:topic": "opcua/PNEM/PNEM_EnergyDevicePowerOffType/property/RegularTimeToOperate/read",
             "op": "readproperty"
           }
         ]
       },
       "TimeMinPause": {
-        "aov:namespace": "http://opcfoundation.org/UA/PNEM/",
+        "dov:namespace": "http://opcfoundation.org/UA/PNEM/",
         "type": "string",
         "pattern": "^P(?!$)(?:(?:(?:(?:\\d+Y)|(?:\\d+\\.\\d+Y$))?(?:(?:\\d+M)|(?:\\d+\\.\\d+M$))?)|(?:(?:(?:\\d+W)|(?:\\d+\\.\\d+W$))?))(?:(?:\\d+D)|(?:\\d+\\.\\d+D$))?(?:T(?!$)(?:(?:\\d+H)|(?:\\d+\\.\\d+H$))?(?:(?:\\d+M)|(?:\\d+\\.\\d+M$))?(?:\\d+(?:\\.\\d+)?S)?)?$",
         "readOnly": true,
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/PNEM/PNEM_EnergyDevicePowerOffType/property/TimeMinPause/read",
+            "dov:topic": "opcua/PNEM/PNEM_EnergyDevicePowerOffType/property/TimeMinPause/read",
             "op": "readproperty"
           }
         ]
       },
       "WOLMagicPacket": {
-        "aov:namespace": "http://opcfoundation.org/UA/PNEM/",
+        "dov:namespace": "http://opcfoundation.org/UA/PNEM/",
         "type": "string",
         "contentEncoding": "base64",
         "readOnly": true,
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/PNEM/PNEM_EnergyDevicePowerOffType/property/WOLMagicPacket/read",
+            "dov:topic": "opcua/PNEM/PNEM_EnergyDevicePowerOffType/property/WOLMagicPacket/read",
             "op": "readproperty"
           }
         ]
@@ -1364,7 +1358,7 @@
     },
     "events": {
       "ModePowerConsumption": {
-        "aov:namespace": "http://opcfoundation.org/UA/PNEM/",
+        "dov:namespace": "http://opcfoundation.org/UA/PNEM/",
         "data": {
           "type": "integer",
           "minimum": 0,
@@ -1373,13 +1367,13 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/PNEM/PNEM_EnergyDevicePowerOffType/event/ModePowerConsumption/{senderId}",
+            "dov:topic": "opcua/PNEM/PNEM_EnergyDevicePowerOffType/event/ModePowerConsumption/{senderId}",
             "op": "subscribeevent"
           }
         ]
       },
       "RegularTimeToOperate": {
-        "aov:namespace": "http://opcfoundation.org/UA/PNEM/",
+        "dov:namespace": "http://opcfoundation.org/UA/PNEM/",
         "data": {
           "type": "string",
           "pattern": "^P(?!$)(?:(?:(?:(?:\\d+Y)|(?:\\d+\\.\\d+Y$))?(?:(?:\\d+M)|(?:\\d+\\.\\d+M$))?)|(?:(?:(?:\\d+W)|(?:\\d+\\.\\d+W$))?))(?:(?:\\d+D)|(?:\\d+\\.\\d+D$))?(?:T(?!$)(?:(?:\\d+H)|(?:\\d+\\.\\d+H$))?(?:(?:\\d+M)|(?:\\d+\\.\\d+M$))?(?:\\d+(?:\\.\\d+)?S)?)?$"
@@ -1387,13 +1381,13 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/PNEM/PNEM_EnergyDevicePowerOffType/event/RegularTimeToOperate/{senderId}",
+            "dov:topic": "opcua/PNEM/PNEM_EnergyDevicePowerOffType/event/RegularTimeToOperate/{senderId}",
             "op": "subscribeevent"
           }
         ]
       },
       "TimeMinPause": {
-        "aov:namespace": "http://opcfoundation.org/UA/PNEM/",
+        "dov:namespace": "http://opcfoundation.org/UA/PNEM/",
         "data": {
           "type": "string",
           "pattern": "^P(?!$)(?:(?:(?:(?:\\d+Y)|(?:\\d+\\.\\d+Y$))?(?:(?:\\d+M)|(?:\\d+\\.\\d+M$))?)|(?:(?:(?:\\d+W)|(?:\\d+\\.\\d+W$))?))(?:(?:\\d+D)|(?:\\d+\\.\\d+D$))?(?:T(?!$)(?:(?:\\d+H)|(?:\\d+\\.\\d+H$))?(?:(?:\\d+M)|(?:\\d+\\.\\d+M$))?(?:\\d+(?:\\.\\d+)?S)?)?$"
@@ -1401,7 +1395,7 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/PNEM/PNEM_EnergyDevicePowerOffType/event/TimeMinPause/{senderId}",
+            "dov:topic": "opcua/PNEM/PNEM_EnergyDevicePowerOffType/event/TimeMinPause/{senderId}",
             "op": "subscribeevent"
           }
         ]
@@ -1412,14 +1406,13 @@
     "@context": [
       "https://www.w3.org/2022/wot/td/v1.1",
       {
-        "dtv": "http://azure.com/DigitalTwins/dtmi#",
-        "aov": "http://azure.com/IoT/operations/tm#"
+        "dov": "http://azure.com/DigitalOperations/vocab#"
       }
     ],
     "@type": "tm:ThingModel",
     "title": "PNEM_EnergyMeasurementType",
-    "aov:typeRef": "nsu=http://opcfoundation.org/UA/PNEM/;i=1006",
-    "aov:isComposite": true,
+    "dov:typeRef": "org.opcfoundation.UA.PNEM.EnergyMeasurementType",
+    "dov:isComposite": true,
     "links": [
       {
         "rel": "tm:extends",
@@ -1432,22 +1425,22 @@
     "forms": [
       {
         "contentType": "application/json",
-        "dtv:topic": "opcua/PNEM/PNEM_EnergyMeasurementType/events/{senderId}",
+        "dov:topic": "opcua/PNEM/PNEM_EnergyMeasurementType/events/{senderId}",
         "op": "subscribeallevents"
       },
       {
         "contentType": "application/json",
-        "dtv:topic": "opcua/PNEM/PNEM_EnergyMeasurementType/properties/read",
+        "dov:topic": "opcua/PNEM/PNEM_EnergyMeasurementType/properties/read",
         "op": "readallproperties"
       }
     ],
     "actions": {
       "ResetEnergyCounter": {
-        "aov:namespace": "http://opcfoundation.org/UA/PNEM/",
+        "dov:namespace": "http://opcfoundation.org/UA/PNEM/",
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/PNEM/PNEM_EnergyMeasurementType/action/ResetEnergyCounter",
+            "dov:topic": "opcua/PNEM/PNEM_EnergyMeasurementType/action/ResetEnergyCounter",
             "op": "invokeaction"
           }
         ]
@@ -1455,20 +1448,20 @@
     },
     "properties": {
       "MeasurementValue": {
-        "aov:namespace": "http://opcfoundation.org/UA/PNEM/",
+        "dov:namespace": "http://opcfoundation.org/UA/PNEM/",
         "type": "number",
         "readOnly": true,
-        "dtv:placeholder": true,
+        "dov:placeholder": true,
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/PNEM/PNEM_EnergyMeasurementType/property/MeasurementValue/read",
+            "dov:topic": "opcua/PNEM/PNEM_EnergyMeasurementType/property/MeasurementValue/read",
             "op": "readproperty"
           }
         ]
       },
       "PeObjectNumber": {
-        "aov:namespace": "http://opcfoundation.org/UA/PNEM/",
+        "dov:namespace": "http://opcfoundation.org/UA/PNEM/",
         "type": "integer",
         "minimum": 0,
         "maximum": 65535,
@@ -1476,7 +1469,7 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/PNEM/PNEM_EnergyMeasurementType/property/PeObjectNumber/read",
+            "dov:topic": "opcua/PNEM/PNEM_EnergyMeasurementType/property/PeObjectNumber/read",
             "op": "readproperty"
           }
         ]
@@ -1484,15 +1477,15 @@
     },
     "events": {
       "MeasurementValue": {
-        "aov:namespace": "http://opcfoundation.org/UA/PNEM/",
+        "dov:namespace": "http://opcfoundation.org/UA/PNEM/",
         "data": {
           "type": "number"
         },
-        "dtv:placeholder": true,
+        "dov:placeholder": true,
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/PNEM/PNEM_EnergyMeasurementType/event/MeasurementValue/{senderId}",
+            "dov:topic": "opcua/PNEM/PNEM_EnergyMeasurementType/event/MeasurementValue/{senderId}",
             "op": "subscribeevent"
           }
         ]
@@ -1503,13 +1496,12 @@
     "@context": [
       "https://www.w3.org/2022/wot/td/v1.1",
       {
-        "dtv": "http://azure.com/DigitalTwins/dtmi#",
-        "aov": "http://azure.com/IoT/operations/tm#"
+        "dov": "http://azure.com/DigitalOperations/vocab#"
       }
     ],
     "@type": "tm:ThingModel",
     "title": "PNEM_EnergySavingModesContainerType",
-    "aov:typeRef": "nsu=http://opcfoundation.org/UA/PNEM/;i=1004",
+    "dov:typeRef": "org.opcfoundation.UA.PNEM.EnergySavingModesContainerType",
     "links": [
       {
         "rel": "tm:extends",
@@ -1517,8 +1509,8 @@
         "type": "application/tm+json"
       },
       {
-        "rel": "aov:component",
-        "aov:refName": "EnergySavingModes",
+        "rel": "dov:component",
+        "dov:refName": "EnergySavingModes",
         "href": "#title=PNEM_EnergySavingModeType",
         "type": "application/tm+json"
       }
@@ -1536,13 +1528,12 @@
     "@context": [
       "https://www.w3.org/2022/wot/td/v1.1",
       {
-        "dtv": "http://azure.com/DigitalTwins/dtmi#",
-        "aov": "http://azure.com/IoT/operations/tm#"
+        "dov": "http://azure.com/DigitalOperations/vocab#"
       }
     ],
     "@type": "tm:ThingModel",
     "title": "PNEM_EnergySavingModeStatusType",
-    "aov:typeRef": "nsu=http://opcfoundation.org/UA/PNEM/;i=1002",
+    "dov:typeRef": "org.opcfoundation.UA.PNEM.EnergySavingModeStatusType",
     "links": [
       {
         "rel": "tm:extends",
@@ -1555,12 +1546,12 @@
     "forms": [
       {
         "contentType": "application/json",
-        "dtv:topic": "opcua/PNEM/PNEM_EnergySavingModeStatusType/events/{senderId}",
+        "dov:topic": "opcua/PNEM/PNEM_EnergySavingModeStatusType/events/{senderId}",
         "op": "subscribeallevents"
       },
       {
         "contentType": "application/json",
-        "dtv:topic": "opcua/PNEM/PNEM_EnergySavingModeStatusType/properties/read",
+        "dov:topic": "opcua/PNEM/PNEM_EnergySavingModeStatusType/properties/read",
         "op": "readallproperties"
       }
     ],
@@ -1568,10 +1559,10 @@
     },
     "properties": {
       "CurrentTransitionData": {
-        "aov:namespace": "http://opcfoundation.org/UA/PNEM/",
+        "dov:namespace": "http://opcfoundation.org/UA/PNEM/",
         "title": "StandbyModeTransitionDataType",
         "type": "object",
-        "aov:typeRef": "nsu=http://opcfoundation.org/UA/PNEM/;i=3002",
+        "dov:typeRef": "org.opcfoundation.UA.PNEM.StandbyModeTransitionDataType",
         "required": [ "IDDestination", "CurrentTimeToDestination", "CurrentTimeToOperate", "EnergyConsumptionToDestination" ],
         "properties": {
           "IDDestination": {
@@ -1601,16 +1592,16 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/PNEM/PNEM_EnergySavingModeStatusType/property/CurrentTransitionData/read",
+            "dov:topic": "opcua/PNEM/PNEM_EnergySavingModeStatusType/property/CurrentTransitionData/read",
             "op": "readproperty"
           }
         ]
       },
       "StateInformation": {
-        "aov:namespace": "http://opcfoundation.org/UA/PNEM/",
+        "dov:namespace": "http://opcfoundation.org/UA/PNEM/",
         "title": "EnergyStateInformationDataType",
         "type": "object",
-        "aov:typeRef": "nsu=http://opcfoundation.org/UA/PNEM/;i=3003",
+        "dov:typeRef": "org.opcfoundation.UA.PNEM.EnergyStateInformationDataType",
         "required": [ "IDSource", "IDDestination", "RegularTimeToOperate", "ModePowerConsumption" ],
         "properties": {
           "IDSource": {
@@ -1641,7 +1632,7 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/PNEM/PNEM_EnergySavingModeStatusType/property/StateInformation/read",
+            "dov:topic": "opcua/PNEM/PNEM_EnergySavingModeStatusType/property/StateInformation/read",
             "op": "readproperty"
           }
         ]
@@ -1649,11 +1640,11 @@
     },
     "events": {
       "CurrentTransitionData": {
-        "aov:namespace": "http://opcfoundation.org/UA/PNEM/",
+        "dov:namespace": "http://opcfoundation.org/UA/PNEM/",
         "data": {
           "title": "StandbyModeTransitionDataType",
           "type": "object",
-          "aov:typeRef": "nsu=http://opcfoundation.org/UA/PNEM/;i=3002",
+          "dov:typeRef": "org.opcfoundation.UA.PNEM.StandbyModeTransitionDataType",
           "required": [ "IDDestination", "CurrentTimeToDestination", "CurrentTimeToOperate", "EnergyConsumptionToDestination" ],
           "properties": {
             "IDDestination": {
@@ -1683,17 +1674,17 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/PNEM/PNEM_EnergySavingModeStatusType/event/CurrentTransitionData/{senderId}",
+            "dov:topic": "opcua/PNEM/PNEM_EnergySavingModeStatusType/event/CurrentTransitionData/{senderId}",
             "op": "subscribeevent"
           }
         ]
       },
       "StateInformation": {
-        "aov:namespace": "http://opcfoundation.org/UA/PNEM/",
+        "dov:namespace": "http://opcfoundation.org/UA/PNEM/",
         "data": {
           "title": "EnergyStateInformationDataType",
           "type": "object",
-          "aov:typeRef": "nsu=http://opcfoundation.org/UA/PNEM/;i=3003",
+          "dov:typeRef": "org.opcfoundation.UA.PNEM.EnergyStateInformationDataType",
           "required": [ "IDSource", "IDDestination", "RegularTimeToOperate", "ModePowerConsumption" ],
           "properties": {
             "IDSource": {
@@ -1724,7 +1715,7 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/PNEM/PNEM_EnergySavingModeStatusType/event/StateInformation/{senderId}",
+            "dov:topic": "opcua/PNEM/PNEM_EnergySavingModeStatusType/event/StateInformation/{senderId}",
             "op": "subscribeevent"
           }
         ]
@@ -1735,13 +1726,12 @@
     "@context": [
       "https://www.w3.org/2022/wot/td/v1.1",
       {
-        "dtv": "http://azure.com/DigitalTwins/dtmi#",
-        "aov": "http://azure.com/IoT/operations/tm#"
+        "dov": "http://azure.com/DigitalOperations/vocab#"
       }
     ],
     "@type": "tm:ThingModel",
     "title": "PNEM_EnergySavingModeType",
-    "aov:typeRef": "nsu=http://opcfoundation.org/UA/PNEM/;i=1003",
+    "dov:typeRef": "org.opcfoundation.UA.PNEM.EnergySavingModeType",
     "links": [
       {
         "rel": "tm:extends",
@@ -1754,12 +1744,12 @@
     "forms": [
       {
         "contentType": "application/json",
-        "dtv:topic": "opcua/PNEM/PNEM_EnergySavingModeType/events/{senderId}",
+        "dov:topic": "opcua/PNEM/PNEM_EnergySavingModeType/events/{senderId}",
         "op": "subscribeallevents"
       },
       {
         "contentType": "application/json",
-        "dtv:topic": "opcua/PNEM/PNEM_EnergySavingModeType/properties/read",
+        "dov:topic": "opcua/PNEM/PNEM_EnergySavingModeType/properties/read",
         "op": "readallproperties"
       }
     ],
@@ -1767,19 +1757,19 @@
     },
     "properties": {
       "DynamicData": {
-        "aov:namespace": "http://opcfoundation.org/UA/PNEM/",
+        "dov:namespace": "http://opcfoundation.org/UA/PNEM/",
         "type": "boolean",
         "readOnly": true,
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/PNEM/PNEM_EnergySavingModeType/property/DynamicData/read",
+            "dov:topic": "opcua/PNEM/PNEM_EnergySavingModeType/property/DynamicData/read",
             "op": "readproperty"
           }
         ]
       },
       "EnergyConsumptionToOperate": {
-        "aov:namespace": "http://opcfoundation.org/UA/PNEM/",
+        "dov:namespace": "http://opcfoundation.org/UA/PNEM/",
         "type": "number",
         "minimum": -3.40e+38,
         "maximum": 3.40e+38,
@@ -1787,13 +1777,13 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/PNEM/PNEM_EnergySavingModeType/property/EnergyConsumptionToOperate/read",
+            "dov:topic": "opcua/PNEM/PNEM_EnergySavingModeType/property/EnergyConsumptionToOperate/read",
             "op": "readproperty"
           }
         ]
       },
       "EnergyConsumptionToPause": {
-        "aov:namespace": "http://opcfoundation.org/UA/PNEM/",
+        "dov:namespace": "http://opcfoundation.org/UA/PNEM/",
         "type": "number",
         "minimum": -3.40e+38,
         "maximum": 3.40e+38,
@@ -1801,13 +1791,13 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/PNEM/PNEM_EnergySavingModeType/property/EnergyConsumptionToPause/read",
+            "dov:topic": "opcua/PNEM/PNEM_EnergySavingModeType/property/EnergyConsumptionToPause/read",
             "op": "readproperty"
           }
         ]
       },
       "ID": {
-        "aov:namespace": "http://opcfoundation.org/UA/PNEM/",
+        "dov:namespace": "http://opcfoundation.org/UA/PNEM/",
         "type": "integer",
         "minimum": 0,
         "maximum": 255,
@@ -1815,13 +1805,13 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/PNEM/PNEM_EnergySavingModeType/property/ID/read",
+            "dov:topic": "opcua/PNEM/PNEM_EnergySavingModeType/property/ID/read",
             "op": "readproperty"
           }
         ]
       },
       "ModePowerConsumption": {
-        "aov:namespace": "http://opcfoundation.org/UA/PNEM/",
+        "dov:namespace": "http://opcfoundation.org/UA/PNEM/",
         "type": "number",
         "minimum": -3.40e+38,
         "maximum": 3.40e+38,
@@ -1829,72 +1819,72 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/PNEM/PNEM_EnergySavingModeType/property/ModePowerConsumption/read",
+            "dov:topic": "opcua/PNEM/PNEM_EnergySavingModeType/property/ModePowerConsumption/read",
             "op": "readproperty"
           }
         ]
       },
       "RegularTimeToOperate": {
-        "aov:namespace": "http://opcfoundation.org/UA/PNEM/",
+        "dov:namespace": "http://opcfoundation.org/UA/PNEM/",
         "type": "string",
         "pattern": "^P(?!$)(?:(?:(?:(?:\\d+Y)|(?:\\d+\\.\\d+Y$))?(?:(?:\\d+M)|(?:\\d+\\.\\d+M$))?)|(?:(?:(?:\\d+W)|(?:\\d+\\.\\d+W$))?))(?:(?:\\d+D)|(?:\\d+\\.\\d+D$))?(?:T(?!$)(?:(?:\\d+H)|(?:\\d+\\.\\d+H$))?(?:(?:\\d+M)|(?:\\d+\\.\\d+M$))?(?:\\d+(?:\\.\\d+)?S)?)?$",
         "readOnly": true,
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/PNEM/PNEM_EnergySavingModeType/property/RegularTimeToOperate/read",
+            "dov:topic": "opcua/PNEM/PNEM_EnergySavingModeType/property/RegularTimeToOperate/read",
             "op": "readproperty"
           }
         ]
       },
       "TimeMaxLengthOfStay": {
-        "aov:namespace": "http://opcfoundation.org/UA/PNEM/",
+        "dov:namespace": "http://opcfoundation.org/UA/PNEM/",
         "type": "string",
         "pattern": "^P(?!$)(?:(?:(?:(?:\\d+Y)|(?:\\d+\\.\\d+Y$))?(?:(?:\\d+M)|(?:\\d+\\.\\d+M$))?)|(?:(?:(?:\\d+W)|(?:\\d+\\.\\d+W$))?))(?:(?:\\d+D)|(?:\\d+\\.\\d+D$))?(?:T(?!$)(?:(?:\\d+H)|(?:\\d+\\.\\d+H$))?(?:(?:\\d+M)|(?:\\d+\\.\\d+M$))?(?:\\d+(?:\\.\\d+)?S)?)?$",
         "readOnly": true,
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/PNEM/PNEM_EnergySavingModeType/property/TimeMaxLengthOfStay/read",
+            "dov:topic": "opcua/PNEM/PNEM_EnergySavingModeType/property/TimeMaxLengthOfStay/read",
             "op": "readproperty"
           }
         ]
       },
       "TimeMinLengthOfStay": {
-        "aov:namespace": "http://opcfoundation.org/UA/PNEM/",
+        "dov:namespace": "http://opcfoundation.org/UA/PNEM/",
         "type": "string",
         "pattern": "^P(?!$)(?:(?:(?:(?:\\d+Y)|(?:\\d+\\.\\d+Y$))?(?:(?:\\d+M)|(?:\\d+\\.\\d+M$))?)|(?:(?:(?:\\d+W)|(?:\\d+\\.\\d+W$))?))(?:(?:\\d+D)|(?:\\d+\\.\\d+D$))?(?:T(?!$)(?:(?:\\d+H)|(?:\\d+\\.\\d+H$))?(?:(?:\\d+M)|(?:\\d+\\.\\d+M$))?(?:\\d+(?:\\.\\d+)?S)?)?$",
         "readOnly": true,
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/PNEM/PNEM_EnergySavingModeType/property/TimeMinLengthOfStay/read",
+            "dov:topic": "opcua/PNEM/PNEM_EnergySavingModeType/property/TimeMinLengthOfStay/read",
             "op": "readproperty"
           }
         ]
       },
       "TimeMinPause": {
-        "aov:namespace": "http://opcfoundation.org/UA/PNEM/",
+        "dov:namespace": "http://opcfoundation.org/UA/PNEM/",
         "type": "string",
         "pattern": "^P(?!$)(?:(?:(?:(?:\\d+Y)|(?:\\d+\\.\\d+Y$))?(?:(?:\\d+M)|(?:\\d+\\.\\d+M$))?)|(?:(?:(?:\\d+W)|(?:\\d+\\.\\d+W$))?))(?:(?:\\d+D)|(?:\\d+\\.\\d+D$))?(?:T(?!$)(?:(?:\\d+H)|(?:\\d+\\.\\d+H$))?(?:(?:\\d+M)|(?:\\d+\\.\\d+M$))?(?:\\d+(?:\\.\\d+)?S)?)?$",
         "readOnly": true,
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/PNEM/PNEM_EnergySavingModeType/property/TimeMinPause/read",
+            "dov:topic": "opcua/PNEM/PNEM_EnergySavingModeType/property/TimeMinPause/read",
             "op": "readproperty"
           }
         ]
       },
       "TimeToPause": {
-        "aov:namespace": "http://opcfoundation.org/UA/PNEM/",
+        "dov:namespace": "http://opcfoundation.org/UA/PNEM/",
         "type": "string",
         "pattern": "^P(?!$)(?:(?:(?:(?:\\d+Y)|(?:\\d+\\.\\d+Y$))?(?:(?:\\d+M)|(?:\\d+\\.\\d+M$))?)|(?:(?:(?:\\d+W)|(?:\\d+\\.\\d+W$))?))(?:(?:\\d+D)|(?:\\d+\\.\\d+D$))?(?:T(?!$)(?:(?:\\d+H)|(?:\\d+\\.\\d+H$))?(?:(?:\\d+M)|(?:\\d+\\.\\d+M$))?(?:\\d+(?:\\.\\d+)?S)?)?$",
         "readOnly": true,
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/PNEM/PNEM_EnergySavingModeType/property/TimeToPause/read",
+            "dov:topic": "opcua/PNEM/PNEM_EnergySavingModeType/property/TimeToPause/read",
             "op": "readproperty"
           }
         ]
@@ -1902,7 +1892,7 @@
     },
     "events": {
       "EnergyConsumptionToOperate": {
-        "aov:namespace": "http://opcfoundation.org/UA/PNEM/",
+        "dov:namespace": "http://opcfoundation.org/UA/PNEM/",
         "data": {
           "type": "number",
           "minimum": -3.40e+38,
@@ -1911,13 +1901,13 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/PNEM/PNEM_EnergySavingModeType/event/EnergyConsumptionToOperate/{senderId}",
+            "dov:topic": "opcua/PNEM/PNEM_EnergySavingModeType/event/EnergyConsumptionToOperate/{senderId}",
             "op": "subscribeevent"
           }
         ]
       },
       "EnergyConsumptionToPause": {
-        "aov:namespace": "http://opcfoundation.org/UA/PNEM/",
+        "dov:namespace": "http://opcfoundation.org/UA/PNEM/",
         "data": {
           "type": "number",
           "minimum": -3.40e+38,
@@ -1926,13 +1916,13 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/PNEM/PNEM_EnergySavingModeType/event/EnergyConsumptionToPause/{senderId}",
+            "dov:topic": "opcua/PNEM/PNEM_EnergySavingModeType/event/EnergyConsumptionToPause/{senderId}",
             "op": "subscribeevent"
           }
         ]
       },
       "ModePowerConsumption": {
-        "aov:namespace": "http://opcfoundation.org/UA/PNEM/",
+        "dov:namespace": "http://opcfoundation.org/UA/PNEM/",
         "data": {
           "type": "number",
           "minimum": -3.40e+38,
@@ -1941,13 +1931,13 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/PNEM/PNEM_EnergySavingModeType/event/ModePowerConsumption/{senderId}",
+            "dov:topic": "opcua/PNEM/PNEM_EnergySavingModeType/event/ModePowerConsumption/{senderId}",
             "op": "subscribeevent"
           }
         ]
       },
       "RegularTimeToOperate": {
-        "aov:namespace": "http://opcfoundation.org/UA/PNEM/",
+        "dov:namespace": "http://opcfoundation.org/UA/PNEM/",
         "data": {
           "type": "string",
           "pattern": "^P(?!$)(?:(?:(?:(?:\\d+Y)|(?:\\d+\\.\\d+Y$))?(?:(?:\\d+M)|(?:\\d+\\.\\d+M$))?)|(?:(?:(?:\\d+W)|(?:\\d+\\.\\d+W$))?))(?:(?:\\d+D)|(?:\\d+\\.\\d+D$))?(?:T(?!$)(?:(?:\\d+H)|(?:\\d+\\.\\d+H$))?(?:(?:\\d+M)|(?:\\d+\\.\\d+M$))?(?:\\d+(?:\\.\\d+)?S)?)?$"
@@ -1955,13 +1945,13 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/PNEM/PNEM_EnergySavingModeType/event/RegularTimeToOperate/{senderId}",
+            "dov:topic": "opcua/PNEM/PNEM_EnergySavingModeType/event/RegularTimeToOperate/{senderId}",
             "op": "subscribeevent"
           }
         ]
       },
       "TimeMaxLengthOfStay": {
-        "aov:namespace": "http://opcfoundation.org/UA/PNEM/",
+        "dov:namespace": "http://opcfoundation.org/UA/PNEM/",
         "data": {
           "type": "string",
           "pattern": "^P(?!$)(?:(?:(?:(?:\\d+Y)|(?:\\d+\\.\\d+Y$))?(?:(?:\\d+M)|(?:\\d+\\.\\d+M$))?)|(?:(?:(?:\\d+W)|(?:\\d+\\.\\d+W$))?))(?:(?:\\d+D)|(?:\\d+\\.\\d+D$))?(?:T(?!$)(?:(?:\\d+H)|(?:\\d+\\.\\d+H$))?(?:(?:\\d+M)|(?:\\d+\\.\\d+M$))?(?:\\d+(?:\\.\\d+)?S)?)?$"
@@ -1969,13 +1959,13 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/PNEM/PNEM_EnergySavingModeType/event/TimeMaxLengthOfStay/{senderId}",
+            "dov:topic": "opcua/PNEM/PNEM_EnergySavingModeType/event/TimeMaxLengthOfStay/{senderId}",
             "op": "subscribeevent"
           }
         ]
       },
       "TimeMinLengthOfStay": {
-        "aov:namespace": "http://opcfoundation.org/UA/PNEM/",
+        "dov:namespace": "http://opcfoundation.org/UA/PNEM/",
         "data": {
           "type": "string",
           "pattern": "^P(?!$)(?:(?:(?:(?:\\d+Y)|(?:\\d+\\.\\d+Y$))?(?:(?:\\d+M)|(?:\\d+\\.\\d+M$))?)|(?:(?:(?:\\d+W)|(?:\\d+\\.\\d+W$))?))(?:(?:\\d+D)|(?:\\d+\\.\\d+D$))?(?:T(?!$)(?:(?:\\d+H)|(?:\\d+\\.\\d+H$))?(?:(?:\\d+M)|(?:\\d+\\.\\d+M$))?(?:\\d+(?:\\.\\d+)?S)?)?$"
@@ -1983,13 +1973,13 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/PNEM/PNEM_EnergySavingModeType/event/TimeMinLengthOfStay/{senderId}",
+            "dov:topic": "opcua/PNEM/PNEM_EnergySavingModeType/event/TimeMinLengthOfStay/{senderId}",
             "op": "subscribeevent"
           }
         ]
       },
       "TimeMinPause": {
-        "aov:namespace": "http://opcfoundation.org/UA/PNEM/",
+        "dov:namespace": "http://opcfoundation.org/UA/PNEM/",
         "data": {
           "type": "string",
           "pattern": "^P(?!$)(?:(?:(?:(?:\\d+Y)|(?:\\d+\\.\\d+Y$))?(?:(?:\\d+M)|(?:\\d+\\.\\d+M$))?)|(?:(?:(?:\\d+W)|(?:\\d+\\.\\d+W$))?))(?:(?:\\d+D)|(?:\\d+\\.\\d+D$))?(?:T(?!$)(?:(?:\\d+H)|(?:\\d+\\.\\d+H$))?(?:(?:\\d+M)|(?:\\d+\\.\\d+M$))?(?:\\d+(?:\\.\\d+)?S)?)?$"
@@ -1997,13 +1987,13 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/PNEM/PNEM_EnergySavingModeType/event/TimeMinPause/{senderId}",
+            "dov:topic": "opcua/PNEM/PNEM_EnergySavingModeType/event/TimeMinPause/{senderId}",
             "op": "subscribeevent"
           }
         ]
       },
       "TimeToPause": {
-        "aov:namespace": "http://opcfoundation.org/UA/PNEM/",
+        "dov:namespace": "http://opcfoundation.org/UA/PNEM/",
         "data": {
           "type": "string",
           "pattern": "^P(?!$)(?:(?:(?:(?:\\d+Y)|(?:\\d+\\.\\d+Y$))?(?:(?:\\d+M)|(?:\\d+\\.\\d+M$))?)|(?:(?:(?:\\d+W)|(?:\\d+\\.\\d+W$))?))(?:(?:\\d+D)|(?:\\d+\\.\\d+D$))?(?:T(?!$)(?:(?:\\d+H)|(?:\\d+\\.\\d+H$))?(?:(?:\\d+M)|(?:\\d+\\.\\d+M$))?(?:\\d+(?:\\.\\d+)?S)?)?$"
@@ -2011,7 +2001,7 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/PNEM/PNEM_EnergySavingModeType/event/TimeToPause/{senderId}",
+            "dov:topic": "opcua/PNEM/PNEM_EnergySavingModeType/event/TimeToPause/{senderId}",
             "op": "subscribeevent"
           }
         ]
@@ -2022,14 +2012,13 @@
     "@context": [
       "https://www.w3.org/2022/wot/td/v1.1",
       {
-        "dtv": "http://azure.com/DigitalTwins/dtmi#",
-        "aov": "http://azure.com/IoT/operations/tm#"
+        "dov": "http://azure.com/DigitalOperations/vocab#"
       }
     ],
     "@type": "tm:ThingModel",
     "title": "PNEM_EnergyStandbyManagementType",
-    "aov:typeRef": "nsu=http://opcfoundation.org/UA/PNEM/;i=1005",
-    "aov:isComposite": true,
+    "dov:typeRef": "org.opcfoundation.UA.PNEM.EnergyStandbyManagementType",
+    "dov:isComposite": true,
     "links": [
       {
         "rel": "tm:extends",
@@ -2037,20 +2026,20 @@
         "type": "application/tm+json"
       },
       {
-        "rel": "aov:reference",
-        "aov:refName": "EnergySavingModes",
+        "rel": "dov:reference",
+        "dov:refName": "EnergySavingModes",
         "href": "#title=PNEM_EnergySavingModesContainerType",
         "type": "application/tm+json"
       },
       {
-        "rel": "aov:capability",
-        "aov:refName": "EnergySavingModeStatus",
+        "rel": "dov:capability",
+        "dov:refName": "EnergySavingModeStatus",
         "href": "#title=PNEM_EnergySavingModeStatusType",
         "type": "application/tm+json"
       },
       {
-        "rel": "aov:capability",
-        "aov:refName": "Lock",
+        "rel": "dov:capability",
+        "dov:refName": "Lock",
         "href": "./DI.TM.json#title=DI_LockingServicesType",
         "type": "application/tm+json"
       }
@@ -2060,21 +2049,21 @@
     "forms": [
       {
         "contentType": "application/json",
-        "dtv:topic": "opcua/PNEM/PNEM_EnergyStandbyManagementType/events/{senderId}",
+        "dov:topic": "opcua/PNEM/PNEM_EnergyStandbyManagementType/events/{senderId}",
         "op": "subscribeallevents"
       },
       {
         "contentType": "application/json",
-        "dtv:topic": "opcua/PNEM/PNEM_EnergyStandbyManagementType/properties/read",
+        "dov:topic": "opcua/PNEM/PNEM_EnergyStandbyManagementType/properties/read",
         "op": "readallproperties"
       }
     ],
     "actions": {
       "EndPause": {
-        "aov:namespace": "http://opcfoundation.org/UA/PNEM/",
+        "dov:namespace": "http://opcfoundation.org/UA/PNEM/",
         "output": {
           "type": "object",
-          "aov:typeRef": "nsu=http://opcfoundation.org/UA/PNEM/;i=6054",
+          "dov:typeRef": "org.opcfoundation.UA.OutputArguments",
           "required": [ "CurrentTimeToOperate", "ReturnCode" ],
           "properties": {
             "CurrentTimeToOperate": {
@@ -2093,16 +2082,16 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/PNEM/PNEM_EnergyStandbyManagementType/action/EndPause",
+            "dov:topic": "opcua/PNEM/PNEM_EnergyStandbyManagementType/action/EndPause",
             "op": "invokeaction"
           }
         ]
       },
       "StartPause": {
-        "aov:namespace": "http://opcfoundation.org/UA/PNEM/",
+        "dov:namespace": "http://opcfoundation.org/UA/PNEM/",
         "input": {
           "type": "object",
-          "aov:typeRef": "nsu=http://opcfoundation.org/UA/PNEM/;i=6050",
+          "dov:typeRef": "org.opcfoundation.UA.InputArguments",
           "required": [ "PauseTime" ],
           "properties": {
             "PauseTime": {
@@ -2114,7 +2103,7 @@
         },
         "output": {
           "type": "object",
-          "aov:typeRef": "nsu=http://opcfoundation.org/UA/PNEM/;i=6051",
+          "dov:typeRef": "org.opcfoundation.UA.OutputArguments",
           "required": [ "ModeID", "CurrentTimeToDestination", "RegularTimeToOperate", "TimeMinLengthToStay", "ReturnCode" ],
           "properties": {
             "ModeID": {
@@ -2149,16 +2138,16 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/PNEM/PNEM_EnergyStandbyManagementType/action/StartPause",
+            "dov:topic": "opcua/PNEM/PNEM_EnergyStandbyManagementType/action/StartPause",
             "op": "invokeaction"
           }
         ]
       },
       "SwitchToEnergySavingMode": {
-        "aov:namespace": "http://opcfoundation.org/UA/PNEM/",
+        "dov:namespace": "http://opcfoundation.org/UA/PNEM/",
         "input": {
           "type": "object",
-          "aov:typeRef": "nsu=http://opcfoundation.org/UA/PNEM/;i=6052",
+          "dov:typeRef": "org.opcfoundation.UA.InputArguments",
           "required": [ "ModeID" ],
           "properties": {
             "ModeID": {
@@ -2171,7 +2160,7 @@
         },
         "output": {
           "type": "object",
-          "aov:typeRef": "nsu=http://opcfoundation.org/UA/PNEM/;i=6053",
+          "dov:typeRef": "org.opcfoundation.UA.OutputArguments",
           "required": [ "EffectiveModeID", "CurrentTimeToDestination", "RegularTimeToOperate", "TimeMinLengthOfStay", "ReturnCode" ],
           "properties": {
             "EffectiveModeID": {
@@ -2206,7 +2195,7 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/PNEM/PNEM_EnergyStandbyManagementType/action/SwitchToEnergySavingMode",
+            "dov:topic": "opcua/PNEM/PNEM_EnergyStandbyManagementType/action/SwitchToEnergySavingMode",
             "op": "invokeaction"
           }
         ]
@@ -2214,20 +2203,20 @@
     },
     "properties": {
       "PauseTime": {
-        "aov:namespace": "http://opcfoundation.org/UA/PNEM/",
+        "dov:namespace": "http://opcfoundation.org/UA/PNEM/",
         "type": "string",
         "pattern": "^P(?!$)(?:(?:(?:(?:\\d+Y)|(?:\\d+\\.\\d+Y$))?(?:(?:\\d+M)|(?:\\d+\\.\\d+M$))?)|(?:(?:(?:\\d+W)|(?:\\d+\\.\\d+W$))?))(?:(?:\\d+D)|(?:\\d+\\.\\d+D$))?(?:T(?!$)(?:(?:\\d+H)|(?:\\d+\\.\\d+H$))?(?:(?:\\d+M)|(?:\\d+\\.\\d+M$))?(?:\\d+(?:\\.\\d+)?S)?)?$",
         "readOnly": true,
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/PNEM/PNEM_EnergyStandbyManagementType/property/PauseTime/read",
+            "dov:topic": "opcua/PNEM/PNEM_EnergyStandbyManagementType/property/PauseTime/read",
             "op": "readproperty"
           }
         ]
       },
       "StandbyManagementStatus": {
-        "aov:namespace": "http://opcfoundation.org/UA/PNEM/",
+        "dov:namespace": "http://opcfoundation.org/UA/PNEM/",
         "type": "integer",
         "minimum": 0,
         "maximum": 255,
@@ -2235,7 +2224,7 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/PNEM/PNEM_EnergyStandbyManagementType/property/StandbyManagementStatus/read",
+            "dov:topic": "opcua/PNEM/PNEM_EnergyStandbyManagementType/property/StandbyManagementStatus/read",
             "op": "readproperty"
           }
         ]
@@ -2243,7 +2232,7 @@
     },
     "events": {
       "PauseTime": {
-        "aov:namespace": "http://opcfoundation.org/UA/PNEM/",
+        "dov:namespace": "http://opcfoundation.org/UA/PNEM/",
         "data": {
           "type": "string",
           "pattern": "^P(?!$)(?:(?:(?:(?:\\d+Y)|(?:\\d+\\.\\d+Y$))?(?:(?:\\d+M)|(?:\\d+\\.\\d+M$))?)|(?:(?:(?:\\d+W)|(?:\\d+\\.\\d+W$))?))(?:(?:\\d+D)|(?:\\d+\\.\\d+D$))?(?:T(?!$)(?:(?:\\d+H)|(?:\\d+\\.\\d+H$))?(?:(?:\\d+M)|(?:\\d+\\.\\d+M$))?(?:\\d+(?:\\.\\d+)?S)?)?$"
@@ -2251,13 +2240,13 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/PNEM/PNEM_EnergyStandbyManagementType/event/PauseTime/{senderId}",
+            "dov:topic": "opcua/PNEM/PNEM_EnergyStandbyManagementType/event/PauseTime/{senderId}",
             "op": "subscribeevent"
           }
         ]
       },
       "StandbyManagementStatus": {
-        "aov:namespace": "http://opcfoundation.org/UA/PNEM/",
+        "dov:namespace": "http://opcfoundation.org/UA/PNEM/",
         "data": {
           "type": "integer",
           "minimum": 0,
@@ -2266,7 +2255,7 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/PNEM/PNEM_EnergyStandbyManagementType/event/StandbyManagementStatus/{senderId}",
+            "dov:topic": "opcua/PNEM/PNEM_EnergyStandbyManagementType/event/StandbyManagementStatus/{senderId}",
             "op": "subscribeevent"
           }
         ]
@@ -2277,14 +2266,13 @@
     "@context": [
       "https://www.w3.org/2022/wot/td/v1.1",
       {
-        "dtv": "http://azure.com/DigitalTwins/dtmi#",
-        "aov": "http://azure.com/IoT/operations/tm#"
+        "dov": "http://azure.com/DigitalOperations/vocab#"
       }
     ],
     "@type": "tm:ThingModel",
     "title": "PNEM_PeServiceAccessPointType",
-    "aov:typeRef": "nsu=http://opcfoundation.org/UA/PNEM/;i=1013",
-    "aov:isComposite": true,
+    "dov:typeRef": "org.opcfoundation.UA.PNEM.PeServiceAccessPointType",
+    "dov:isComposite": true,
     "links": [
       {
         "rel": "tm:extends",
@@ -2295,7 +2283,7 @@
     "schemaDefinitions": {
       "PeClassEnumeration": {
         "type": "object",
-        "aov:typeRef": "nsu=http://opcfoundation.org/UA/PNEM/;i=3007",
+        "dov:typeRef": "org.opcfoundation.UA.PNEM.PeClassEnumeration",
         "const": {
           "PE_CLASS1": 0,
           "PE_CLASS2": 1,
@@ -2318,7 +2306,7 @@
       },
       "PeSubclassEnumeration": {
         "type": "object",
-        "aov:typeRef": "nsu=http://opcfoundation.org/UA/PNEM/;i=3008",
+        "dov:typeRef": "org.opcfoundation.UA.PNEM.PeSubclassEnumeration",
         "const": {
           "PE_SUBCLASS1": 0,
           "PE_SUBCLASS2": 1
@@ -2338,12 +2326,12 @@
     "forms": [
       {
         "contentType": "application/json",
-        "dtv:topic": "opcua/PNEM/PNEM_PeServiceAccessPointType/properties/write",
+        "dov:topic": "opcua/PNEM/PNEM_PeServiceAccessPointType/properties/write",
         "op": "writemultipleproperties"
       },
       {
         "contentType": "application/json",
-        "dtv:topic": "opcua/PNEM/PNEM_PeServiceAccessPointType/properties/read",
+        "dov:topic": "opcua/PNEM/PNEM_PeServiceAccessPointType/properties/read",
         "op": "readallproperties"
       }
     ],
@@ -2351,9 +2339,9 @@
     },
     "properties": {
       "PeClass": {
-        "aov:namespace": "http://opcfoundation.org/UA/PNEM/",
+        "dov:namespace": "http://opcfoundation.org/UA/PNEM/",
         "title": "PeClassEnumeration",
-        "aov:typeRef": "nsu=http://opcfoundation.org/UA/PNEM/;i=3007",
+        "dov:typeRef": "org.opcfoundation.UA.PNEM.PeClassEnumeration",
         "type": "integer",
         "minimum": -2147483648,
         "maximum": 2147483647,
@@ -2361,20 +2349,20 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/PNEM/PNEM_PeServiceAccessPointType/property/PeClass/write",
+            "dov:topic": "opcua/PNEM/PNEM_PeServiceAccessPointType/property/PeClass/write",
             "op": "writeproperty"
           },
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/PNEM/PNEM_PeServiceAccessPointType/property/PeClass/read",
+            "dov:topic": "opcua/PNEM/PNEM_PeServiceAccessPointType/property/PeClass/read",
             "op": "readproperty"
           }
         ]
       },
       "PeSubclass": {
-        "aov:namespace": "http://opcfoundation.org/UA/PNEM/",
+        "dov:namespace": "http://opcfoundation.org/UA/PNEM/",
         "title": "PeSubclassEnumeration",
-        "aov:typeRef": "nsu=http://opcfoundation.org/UA/PNEM/;i=3008",
+        "dov:typeRef": "org.opcfoundation.UA.PNEM.PeSubclassEnumeration",
         "type": "integer",
         "minimum": -2147483648,
         "maximum": 2147483647,
@@ -2382,21 +2370,21 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/PNEM/PNEM_PeServiceAccessPointType/property/PeSubclass/write",
+            "dov:topic": "opcua/PNEM/PNEM_PeServiceAccessPointType/property/PeSubclass/write",
             "op": "writeproperty"
           },
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/PNEM/PNEM_PeServiceAccessPointType/property/PeSubclass/read",
+            "dov:topic": "opcua/PNEM/PNEM_PeServiceAccessPointType/property/PeSubclass/read",
             "op": "readproperty"
           }
         ]
       },
       "PeVersion": {
-        "aov:namespace": "http://opcfoundation.org/UA/PNEM/",
+        "dov:namespace": "http://opcfoundation.org/UA/PNEM/",
         "title": "PeVersionDataType",
         "type": "object",
-        "aov:typeRef": "nsu=http://opcfoundation.org/UA/PNEM/;i=3004",
+        "dov:typeRef": "org.opcfoundation.UA.PNEM.PeVersionDataType",
         "required": [ "MajorVersion", "MinorVersion", "Revision" ],
         "properties": {
           "MajorVersion": {
@@ -2419,12 +2407,12 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/PNEM/PNEM_PeServiceAccessPointType/property/PeVersion/write",
+            "dov:topic": "opcua/PNEM/PNEM_PeServiceAccessPointType/property/PeVersion/write",
             "op": "writeproperty"
           },
           {
             "contentType": "application/json",
-            "dtv:topic": "opcua/PNEM/PNEM_PeServiceAccessPointType/property/PeVersion/read",
+            "dov:topic": "opcua/PNEM/PNEM_PeServiceAccessPointType/property/PeVersion/read",
             "op": "readproperty"
           }
         ]

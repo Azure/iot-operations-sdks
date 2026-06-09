@@ -8,8 +8,8 @@
     {
       "condition": "ValuesInconsistent",
       "filename": "LinkReferenceRefType.TM.json",
-      "line": 12,
-      "cfLine": 11,
+      "line": 11,
+      "cfLine": 10,
       "crossRef": ""
     }
   ]
