@@ -665,7 +665,39 @@ namespace Azure.Iot.Operations.Connector
             else if (args.ChangeType == ChangeType.Updated)
             {
                 _logger.LogInformation("Device with name {0} and/or its endpoint with name {} was updated", args.DeviceName, args.InboundEndpointName);
-                await DeviceUnavailableAsync(args, compoundDeviceName);
+                DeviceUpdated(args, compoundDeviceName);
+            }
+        }
+
+        /// <summary>
+        /// Handle a device <see cref="ChangeType.Updated"/> notification. The device/endpoint
+        /// identity is unchanged, so we refresh the cached <see cref="Device"/> snapshot in place
+        /// without tearing anything down. Previously this path called
+        /// <see cref="DeviceUnavailableAsync"/> followed by <see cref="DeviceAvailable"/>, which
+        /// removed the device from <see cref="_devices"/> and cancelled every in-flight per-asset
+        /// runtime. Because the connector reports its own device/endpoint status, ADR emits a device
+        /// Updated notification for each such write, so tearing down on every one cancelled the asset
+        /// task mid-flight (e.g. a TCP read) and could leave the asset unsampled. Refreshing the
+        /// snapshot keeps the asset runtime alive across updates.
+        /// </summary>
+        private void DeviceUpdated(DeviceChangedEventArgs args, string compoundDeviceName)
+        {
+            if (args.Device == null)
+            {
+                // shouldn't ever happen
+                _logger.LogError("Received notification that device was updated, but no device was provided");
+                return;
+            }
+
+            if (_devices.TryGetValue(compoundDeviceName, out DeviceContext? existing))
+            {
+                // Same device/endpoint identity: refresh the snapshot, keep the asset runtime running.
+                existing.Device = args.Device;
+            }
+            else
+            {
+                // We weren't tracking this device yet (Updated arrived before Created, or after a
+                // prior teardown). Treat it as newly available.
                 DeviceAvailable(args, compoundDeviceName);
             }
         }
