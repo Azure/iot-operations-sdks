@@ -6,7 +6,8 @@
   "additionalProperties": false,
   "required": [
     "meta",
-    "defaultVersion"
+    "defaultVersion",
+    "extensions"
   ],
   "properties": {
     "groupId": {
@@ -20,6 +21,14 @@
     "defaultVersion": {
       "description": "The attributes of the Resource's default Version, which will be created along side this Resource.",
       "$ref": "VersionAttributes.schema.json"
+    },
+    "extensions": {
+      "description": "Extension-specific attributes.",
+      "type": "object",
+      "additionalProperties": {
+        "type": "string",
+        "contentEncoding": "base64"
+      }
     }
   }
 }

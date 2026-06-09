@@ -588,17 +588,20 @@
                     "type": "string",
                     "description": "Detailed error description."
                 },
-                "instance": {
+                "subject": {
                     "type": "string",
-                    "description": "The XID of the entity that caused the error."
+                    "description": "The XID of the entity being processed when the error occurred, if applicable."
+                },
+                "source": {
+                    "type": "string",
+                    "description": "The component that raised the error."
                 }
             },
             "required": [
                 "type",
                 "status",
                 "code",
-                "title",
-                "instance"
+                "title"
             ]
         }
     }
