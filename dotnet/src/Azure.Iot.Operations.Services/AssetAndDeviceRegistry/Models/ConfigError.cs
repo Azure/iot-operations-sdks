@@ -52,8 +52,8 @@ public record ConfigError
             // All detail entries in this are present exactly once in other
             foreach (ConfigErrorDetails detail in Details)
             {
-                var matches = other.Details.Select((a) => a.EqualTo(detail));
-                if (matches == null || matches.Count() != 1)
+                var matches = other.Details.Where((a) => a.EqualTo(detail));
+                if (matches.Count() != 1)
                 {
                     return false;
                 }
@@ -62,8 +62,8 @@ public record ConfigError
             // All detail entries in other are present exactly once in this
             foreach (ConfigErrorDetails detail in other.Details)
             {
-                var matches = Details.Select((a) => a.EqualTo(detail));
-                if (matches == null || matches.Count() != 1)
+                var matches = Details.Where((a) => a.EqualTo(detail));
+                if (matches.Count() != 1)
                 {
                     return false;
                 }

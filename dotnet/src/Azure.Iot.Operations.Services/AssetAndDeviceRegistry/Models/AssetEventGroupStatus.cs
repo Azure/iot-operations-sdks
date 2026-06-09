@@ -47,8 +47,8 @@ namespace Azure.Iot.Operations.Services.AssetAndDeviceRegistry.Models
                 foreach (var assetEvent in Events)
                 {
                     // All event entries in this are present exactly once in other
-                    var matches = other.Events.Select((a) => a.EqualTo(assetEvent));
-                    if (matches == null || matches.Count() != 1)
+                    var matches = other.Events.Where((a) => a.EqualTo(assetEvent));
+                    if (matches.Count() != 1)
                     {
                         return false;
                     }
@@ -57,8 +57,8 @@ namespace Azure.Iot.Operations.Services.AssetAndDeviceRegistry.Models
                 foreach (var assetEvent in other.Events)
                 {
                     // All event entries in other are present exactly once in this
-                    var matches = Events.Select((a) => a.EqualTo(assetEvent));
-                    if (matches == null || matches.Count() != 1)
+                    var matches = Events.Where((a) => a.EqualTo(assetEvent));
+                    if (matches.Count() != 1)
                     {
                         return false;
                     }
