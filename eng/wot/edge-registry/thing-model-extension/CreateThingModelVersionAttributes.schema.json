@@ -1,7 +1,7 @@
 {
     "$schema": "https://json-schema.org/draft-07/schema",
-    "title": "CreateThingDescriptionVersionAttributes",
-    "description": "Request payload for creating a Thing Description Version.",
+    "title": "CreateThingModelVersionAttributes",
+    "description": "Request payload for creating a Thing Model Version.",
     "type": "object",
     "additionalProperties": false,
     "required": [
@@ -9,7 +9,7 @@
         "format",
         "document",
         "extensions",
-        "thingDescriptionLabels"
+        "thingModelLabels"
     ],
     "properties": {
         "groupId": {
@@ -49,11 +49,11 @@
             "type": "string"
         },
         "format": {
-            "description": "Thing Description format identifier.",
+            "description": "Thing Model format identifier.",
             "type": "string"
         },
         "document": {
-            "description": "Base64-encoded thing description document content.",
+            "description": "Base64-encoded thing model document content.",
             "type": "string",
             "contentEncoding": "base64"
         },
@@ -65,8 +65,8 @@
                 "contentEncoding": "base64"
             }
         },
-        "thingDescriptionLabels": {
-            "description": "Queryable Key Value pairs to be added to the parent Thing Description. Labels can be used to store additional metadata about the Thing Description.",
+        "thingModelLabels": {
+            "description": "Queryable Key Value pairs to be added to the parent Thing Model. Labels can be used to store additional metadata about the Thing Model.",
             "type": "array",
             "items": {
                 "type": "object",

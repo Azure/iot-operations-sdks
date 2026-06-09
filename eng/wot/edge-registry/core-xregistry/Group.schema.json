@@ -4,11 +4,25 @@
   "description": "A Group entity — container for related Resources.",
   "type": "object",
   "additionalProperties": false,
-  "required": [ "id", "xid", "epoch", "createdAt", "modifiedAt", "extensions", "labels", "resourcesCount" ],
+  "required": [
+    "id",
+    "xid",
+    "epoch",
+    "createdAt",
+    "modifiedAt",
+    "extensions",
+    "labels",
+    "resourcesCounts"
+  ],
   "properties": {
     "createdAt": {
       "description": "The date/time of when the entity was created.",
-      "type": "string", "format": "date-time"
+      "type": "string",
+      "format": "date-time"
+    },
+    "deprecated": {
+      "description": "Information about deprecation status of the entity, if applicable.",
+      "$ref": "DeprecatedInfo.schema.json"
     },
     "description": {
       "description": "A human-readable summary of the purpose of the entity.",
@@ -24,8 +38,15 @@
     },
     "extensions": {
       "description": "Extension-specific attributes (e.g., `envelope`, `protocol` for message Groups).",
-      "type": "object", "additionalProperties": { "type": "string", 
-      "contentEncoding": "base64" }
+      "type": "object",
+      "additionalProperties": {
+        "type": "string",
+        "contentEncoding": "base64"
+      }
+    },
+    "icon": {
+      "description": "A URL to a graphical icon for the owning entity.",
+      "type": "string"
     },
     "id": {
       "description": "Group identifier.",
@@ -35,21 +56,25 @@
       "description": "A mechanism in which additional metadata about the entity can be stored without changing the model definition of the entity. Labels can be used for querying.",
       "type": "array",
       "items": {
-          "type": "object",
-          "$ref": "Label.schema.json"
+        "type": "object",
+        "$ref": "Label.schema.json"
       }
     },
     "modifiedAt": {
       "description": "The date/time of when the entity was last updated.",
-      "type": "string", "format": "date-time"
+      "type": "string",
+      "format": "date-time"
     },
     "name": {
       "description": "Human-readable name.",
       "type": "string"
     },
-    "resourcesCount": {
-      "description": "The number of Resources contained in the Group.",
-      "type": "integer"
+    "resourcesCounts": {
+      "description": "Map of the count of each Resource type contained within this Group, keyed by Resource type.",
+      "type": "object",
+      "additionalProperties": {
+        "type": "integer"
+      }
     },
     "xid": {
       "description": "Full XID path, e.g. /schemagroups/mygroup",

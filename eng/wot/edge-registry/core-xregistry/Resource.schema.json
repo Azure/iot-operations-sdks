@@ -4,7 +4,14 @@
   "description": "Resource entity",
   "type": "object",
   "additionalProperties": false,
-  "required": [ "id", "xid", "meta", "extensions", "versionsCount", "defaultVersion" ],
+  "required": [
+    "id",
+    "xid",
+    "meta",
+    "extensions",
+    "versionsCount",
+    "defaultVersion"
+  ],
   "properties": {
     "defaultVersion": {
       "description": "A specific Version of a Resource.",
@@ -12,8 +19,11 @@
     },
     "extensions": {
       "description": "Extension-specific attributes (e.g., `format` and `content_type` for schemas).",
-      "type": "object", "additionalProperties": { "type": "string", 
-      "contentEncoding": "base64" }
+      "type": "object",
+      "additionalProperties": {
+        "type": "string",
+        "contentEncoding": "base64"
+      }
     },
     "id": {
       "description": "Resource identifier.",

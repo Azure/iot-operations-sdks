@@ -1,26 +1,45 @@
 {
   "$schema": "https://json-schema.org/draft-07/schema",
   "title": "ResourceMetaAttributes",
+  "description": "Mutable attributes for creating or updating a Resource (its `meta` sub-entity).",
   "type": "object",
   "additionalProperties": false,
-  "required": [ "id", "extensions", "labels" ],
+  "required": [
+    "labels",
+    "extensions"
+  ],
   "properties": {
-    "extensions": {
-      "description": "Extension-specific attributes (e.g., `format` and `content_type` for schemas).",
-      "type": "object", "additionalProperties": { "type": "string", 
-      "contentEncoding": "base64" }
+    "xref": {
+      "description": "Indicates that this Resource is a reference to another Resource within the same Registry. The XID path of the referenced Resource.",
+      "type": "string"
     },
     "labels": {
       "description": "A mechanism in which additional metadata about the entity can be stored without changing the model definition of the entity. Labels can be used for querying.",
       "type": "array",
       "items": {
-          "type": "object",
-          "$ref": "Label.schema.json"
+        "type": "object",
+        "$ref": "Label.schema.json"
       }
     },
-    "id": {
-      "description": "Resource identifier.",
+    "compatibility": {
+      "description": "States that Versions of this Resource adhere to a certain compatibility rule.",
       "type": "string"
+    },
+    "deprecated": {
+      "description": "Information about deprecation status of the entity, if applicable.",
+      "$ref": "DeprecatedInfo.schema.json"
+    },
+    "defaultVersionId": {
+      "description": "The versionId of the current default Version.",
+      "type": "string"
+    },
+    "extensions": {
+      "description": "Extension-specific attributes (e.g., `format` and `content_type` for schemas).",
+      "type": "object",
+      "additionalProperties": {
+        "type": "string",
+        "contentEncoding": "base64"
+      }
     }
   }
 }
