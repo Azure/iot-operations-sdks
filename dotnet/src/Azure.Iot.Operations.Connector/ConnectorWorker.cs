@@ -672,8 +672,8 @@ namespace Azure.Iot.Operations.Connector
         /// <summary>
         /// Handle a device <see cref="ChangeType.Updated"/> notification. The device/endpoint
         /// identity is unchanged, so we refresh the cached <see cref="Device"/> snapshot in place
-        /// without tearing anything down. Previously this path called
-        /// <see cref="DeviceUnavailableAsync"/> followed by <see cref="DeviceAvailable"/>, which
+        /// identity is unchanged, so we refresh the cached <see cref="Device"/> snapshot in place
+        /// without tearing anything down. Previously this path called <see cref="DeviceUnavailableAsync"/>, which
         /// removed the device from <see cref="_devices"/> and cancelled every in-flight per-asset
         /// runtime. Because the connector reports its own device/endpoint status, ADR emits a device
         /// Updated notification for each such write, so tearing down on every one cancelled the asset
