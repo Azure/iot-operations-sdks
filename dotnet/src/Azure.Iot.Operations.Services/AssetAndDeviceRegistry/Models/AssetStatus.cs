@@ -321,6 +321,6 @@ public record AssetStatus
     /// Create a deep copy of this asset status, including all nested collections and objects.
     /// </summary>
     /// <returns>A new <see cref="AssetStatus"/> instance whose nested objects are independent from this instance.</returns>
-    public AssetStatus DeepClone()
+    internal AssetStatus DeepClone()
         => System.Text.Json.JsonSerializer.Deserialize<AssetStatus>(System.Text.Json.JsonSerializer.Serialize(this))!;
 }

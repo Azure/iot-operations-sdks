@@ -32,11 +32,6 @@ namespace Azure.Iot.Operations.Connector
         private LeaderElectionClient? _leaderElectionClient;
         private readonly ConcurrentDictionary<string, DeviceContext> _devices = new();
 
-        // Asset-available notifications can arrive before the device-available notification that populates
-        // _devices (startup churn). Buffer them keyed by "<deviceName>_<inboundEndpointName>" and replay
-        // once the owning device is available instead of dropping them.
-        private readonly ConcurrentDictionary<string, ConcurrentDictionary<string, Asset>> _pendingAssets = new();
-
         private bool _isDisposed = false;
         private readonly ConnectorLeaderElectionConfiguration? _leaderElectionConfiguration;
         private readonly ConcurrentDictionary<string, ConnectorTelemetrySender> _telemetrySenderCache = new();
@@ -859,10 +854,6 @@ namespace Azure.Iot.Operations.Connector
                 _devices[compoundDeviceName] = new(args.DeviceName, args.InboundEndpointName, args.Device);
                 _adrClient!.ObserveAssets(args.DeviceName, args.InboundEndpointName);
 
-                // An asset-available notification can arrive before the device that owns it is
-                // registered (startup churn). Such assets are buffered; replay them now.
-                ReplayPendingAssets(args.DeviceName, args.InboundEndpointName, compoundDeviceName);
-
                 // Device status is a device-lifecycle concern. When no WhileDeviceIsAvailable callback
                 // reports it, the SDK owns the baseline so DeviceStatus.Config never stays null. Idempotent.
                 if (WhileDeviceIsAvailable == null)
@@ -963,20 +954,8 @@ namespace Azure.Iot.Operations.Connector
 
             if (!_devices.TryGetValue(compoundDeviceName, out DeviceContext? deviceContext))
             {
-                // The device that owns this asset isn't registered yet (asset-available raced ahead
-                // of device-available, e.g. during startup churn). Buffer the asset and replay it
-                // when the device becomes available instead of dropping it permanently.
-                ConcurrentDictionary<string, Asset> pendingAssetsForDevice = _pendingAssets.GetOrAdd(compoundDeviceName, _ => new());
-                pendingAssetsForDevice[assetName] = asset;
-                _logger.LogWarning("Received notification of asset with name {} becoming available on device {} with inbound endpoint name {}, but that device and/or inbound endpoint is not available yet. Buffering this asset until the device becomes available.", assetName, deviceName, inboundEndpointName);
-
-                // The device may have been registered concurrently between the check above and the
-                // buffer write. If so, reclaim the asset and process it now so it isn't stranded.
-                if (!_devices.TryGetValue(compoundDeviceName, out deviceContext) || !pendingAssetsForDevice.TryRemove(assetName, out asset!))
-                {
-                    return;
-                }
-                // else: device is now available and we reclaimed the asset; fall through to process it.
+                _logger.LogWarning("Received notification of asset with name {} becoming available on device {} with inbound endpoint name {}, but that device and/or inbound endpoint are not available. Ignoring this unexpected asset", assetName, deviceName, inboundEndpointName);
+                return;
             }
 
             deviceContext.Assets.TryAdd(assetName, asset);
@@ -1068,29 +1047,6 @@ namespace Azure.Iot.Operations.Connector
             if (WhileAssetIsAvailable == null)
             {
                 _ = Task.Run(() => PublishInitialHealthyAssetStatusAsync(assetClient, assetName));
-            }
-        }
-
-        /// <summary>
-        /// Replay any asset-available notifications that were buffered while the device was not yet
-        /// registered. Called from <see cref="DeviceAvailable"/> once the device is in
-        /// <see cref="_devices"/>, so each replayed <see cref="AssetAvailable"/> call now finds its
-        /// owning device and processes normally instead of being dropped.
-        /// </summary>
-        private void ReplayPendingAssets(string deviceName, string inboundEndpointName, string compoundDeviceName)
-        {
-            if (!_pendingAssets.TryRemove(compoundDeviceName, out ConcurrentDictionary<string, Asset>? pendingAssetsForDevice))
-            {
-                return; 
-            }
-
-            foreach (string assetName in pendingAssetsForDevice.Keys)
-            {
-                if (pendingAssetsForDevice.TryRemove(assetName, out Asset? bufferedAsset))
-                {
-                    _logger.LogInformation("Replaying buffered asset {} on device {} (endpoint {}) now that the device is available.", assetName, deviceName, inboundEndpointName);
-                    AssetAvailable(deviceName, inboundEndpointName, bufferedAsset, assetName);
-                }
             }
         }
 

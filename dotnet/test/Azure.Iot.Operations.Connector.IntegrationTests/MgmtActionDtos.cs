@@ -10,22 +10,22 @@ namespace Azure.Iot.Operations.Connector.IntegrationTests
     /// purpose so the integration test project does not take a project ref on
     /// the sample (matches the existing <see cref="RestThermostatStatus"/> /
     /// <see cref="TcpThermostatStatus"/> pattern).</summary>
-    internal sealed record MgmtRebootRequest
+    internal sealed record MgmtIdentifyRequest
     {
-        [JsonPropertyName("force")]
-        public bool Force { get; init; }
+        [JsonPropertyName("blinkCount")]
+        public int BlinkCount { get; init; }
     }
 
-    internal sealed record MgmtRebootResponse
+    internal sealed record MgmtIdentifyResponse
     {
         [JsonPropertyName("requestId")]
         public Guid RequestId { get; init; }
 
-        [JsonPropertyName("scheduledAtUtc")]
-        public DateTime ScheduledAtUtc { get; init; }
+        [JsonPropertyName("blinkCount")]
+        public int BlinkCount { get; init; }
 
-        [JsonPropertyName("rebootCount")]
-        public long RebootCount { get; init; }
+        [JsonPropertyName("identifyCount")]
+        public long IdentifyCount { get; init; }
     }
 
     internal sealed record MgmtTemperatureReading

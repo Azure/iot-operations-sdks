@@ -21,13 +21,13 @@ business logic.
   exercise the SDK's cancellation, drain, exception-translation, and
   concurrency paths.
 - [`Handlers/`](Handlers) — one handler per action type:
-  - [`RebootHandler.cs`](Handlers/RebootHandler.cs) — Call action; parses a
-    `RebootRequest`, asks `FakeDevice` to begin a (simulated) reboot, returns
-    a `RebootResponse`. Demonstrates `ManagementActionApplicationError` for the
-    "already rebooting" case.
+  - [`IdentifyHandler.cs`](Handlers/IdentifyHandler.cs) — Call action; parses an
+    `IdentifyRequest`, asks `FakeDevice` to blink its locator indicator, returns
+    an `IdentifyResponse`. Demonstrates `ManagementActionApplicationError` for an
+    out-of-range `blinkCount`.
   - [`ReadTemperatureHandler.cs`](Handlers/ReadTemperatureHandler.cs) — Read
-    action; samples the device. Returns `DeviceUnavailable` while a reboot is
-    in flight.
+    action; samples the device. The `unit` reflects the most recent
+    `write-configuration`.
   - [`WriteConfigurationHandler.cs`](Handlers/WriteConfigurationHandler.cs) —
     Write action; validates a `ConfigurationUpdate`, applies it to the device,
     returns a `ConfigurationAck`. Demonstrates `ValidationFailed` for

@@ -48,21 +48,22 @@ namespace Azure.Iot.Operations.Connector.IntegrationTests
         }
 
         [Fact]
-        public async Task Reboot_Call_ReturnsRebootResponse()
+        public async Task Identify_Call_ReturnsIdentifyResponse()
         {
             await using var mqtt = await ClientFactory.CreateSessionClientFromEnvAsync();
             await using var invoker = CreateInvoker(mqtt);
 
-            var request = new MgmtRebootRequest { Force = true };
+            var request = new MgmtIdentifyRequest { BlinkCount = 3 };
             byte[] responseBytes = await InvokeAsync(
                 invoker,
-                actionName: "reboot",
+                actionName: "identify",
                 requestPayload: JsonSerializer.SerializeToUtf8Bytes(request));
 
-            MgmtRebootResponse body = DeserializeBody<MgmtRebootResponse>(responseBytes);
-            _output.WriteLine($"[Reboot_Call] parsed body: RequestId={body.RequestId}, RebootCount={body.RebootCount}");
+            MgmtIdentifyResponse body = DeserializeBody<MgmtIdentifyResponse>(responseBytes);
+            _output.WriteLine($"[Identify_Call] parsed body: RequestId={body.RequestId}, BlinkCount={body.BlinkCount}, IdentifyCount={body.IdentifyCount}");
             Assert.NotEqual(Guid.Empty, body.RequestId);
-            Assert.True(body.RebootCount >= 1);
+            Assert.Equal(3, body.BlinkCount);
+            Assert.True(body.IdentifyCount >= 1);
         }
 
         [Fact]
@@ -71,29 +72,15 @@ namespace Azure.Iot.Operations.Connector.IntegrationTests
             await using var mqtt = await ClientFactory.CreateSessionClientFromEnvAsync();
             await using var invoker = CreateInvoker(mqtt);
 
-            try
-            {
-                byte[] responseBytes = await InvokeAsync(
-                    invoker,
-                    actionName: "read-temperature",
-                    requestPayload: Array.Empty<byte>());
+            byte[] responseBytes = await InvokeAsync(
+                invoker,
+                actionName: "read-temperature",
+                requestPayload: Array.Empty<byte>());
 
-                MgmtTemperatureReading body = DeserializeBody<MgmtTemperatureReading>(responseBytes);
-                _output.WriteLine($"[ReadTemperature_Read] parsed body: Value={body.Value}, Unit={body.Unit}");
-                Assert.True(body.Value > -100 && body.Value < 200, $"unexpected temperature {body.Value}");
-                Assert.True(body.Unit is "C" or "F");
-            }
-            catch (AkriMqttException ex) when (IsApplicationError(ex))
-            {
-                // The sample's reboot Call action puts the FakeDevice into a
-                // (simulated) ~2s "rebooting" window. If the test order happens
-                // to interleave a read with that window, the handler returns a
-                // DeviceUnavailable application error (ErrorPayload = "Device is
-                // currently rebooting."), which CommandInvoker surfaces as an
-                // AkriMqttException with Kind = ExecutionException.
-                _output.WriteLine($"[ReadTemperature_Read] swallowed application error: {DescribeException(ex)}");
-                Assert.Contains("rebooting", ex.Message, StringComparison.OrdinalIgnoreCase);
-            }
+            MgmtTemperatureReading body = DeserializeBody<MgmtTemperatureReading>(responseBytes);
+            _output.WriteLine($"[ReadTemperature_Read] parsed body: Value={body.Value}, Unit={body.Unit}");
+            Assert.True(body.Value > -100 && body.Value < 200, $"unexpected temperature {body.Value}");
+            Assert.True(body.Unit is "C" or "F");
         }
 
         [Fact]
@@ -115,8 +102,7 @@ namespace Azure.Iot.Operations.Connector.IntegrationTests
             Assert.Equal("F", ack.AppliedUnit);
 
             // 2. Read back — the sample's FakeDevice is a singleton, so the unit
-            //    must reflect the write we just made (modulo a possible "rebooting"
-            //    window from the Reboot test running first; retry briefly).
+            //    must reflect the write we just made.
             await WaitForReadAsync(invoker, expectedUnit: "F");
         }
 
@@ -156,15 +142,14 @@ namespace Azure.Iot.Operations.Connector.IntegrationTests
         }
 
         /// <summary>
-        /// Hits Reboot three times in a row with <c>force=true</c> (so the in-flight reboot
-        /// window doesn't block the next call) and asserts that <c>RebootCount</c> increments
+        /// Hits Identify three times in a row and asserts that <c>IdentifyCount</c> increments
         /// by exactly 1 each time. Proves that mutations to the connector-side singleton
         /// <c>FakeDevice</c> are observable across independent RPC round-trips — i.e. that
         /// each request really does flow request → executor → handler → singleton → response,
         /// rather than e.g. being served from a cached/idempotent response.
         /// </summary>
         [Fact]
-        public async Task Reboot_MultipleSequentialInvocations_RebootCountIncreasesMonotonically()
+        public async Task Identify_MultipleSequentialInvocations_IdentifyCountIncreasesMonotonically()
         {
             await using var mqtt = await ClientFactory.CreateSessionClientFromEnvAsync();
             await using var invoker = CreateInvoker(mqtt);
@@ -174,60 +159,48 @@ namespace Azure.Iot.Operations.Connector.IntegrationTests
             {
                 byte[] responseBytes = await InvokeAsync(
                     invoker,
-                    actionName: "reboot",
-                    requestPayload: JsonSerializer.SerializeToUtf8Bytes(new MgmtRebootRequest { Force = true }));
+                    actionName: "identify",
+                    requestPayload: JsonSerializer.SerializeToUtf8Bytes(new MgmtIdentifyRequest { BlinkCount = 2 }));
 
-                MgmtRebootResponse body = DeserializeBody<MgmtRebootResponse>(responseBytes);
-                _output.WriteLine($"[Reboot_Monotonic] iteration {i + 1}: RebootCount={body.RebootCount}");
+                MgmtIdentifyResponse body = DeserializeBody<MgmtIdentifyResponse>(responseBytes);
+                _output.WriteLine($"[Identify_Monotonic] iteration {i + 1}: IdentifyCount={body.IdentifyCount}");
 
                 Assert.NotEqual(Guid.Empty, body.RequestId);
                 if (previous.HasValue)
                 {
-                    Assert.Equal(previous.Value + 1, body.RebootCount);
+                    Assert.Equal(previous.Value + 1, body.IdentifyCount);
                 }
-                previous = body.RebootCount;
+                previous = body.IdentifyCount;
             }
         }
 
         /// <summary>
-        /// Starts a (2-second) reboot window with <c>force=true</c>, then immediately invokes
-        /// Reboot again with <c>force=false</c>. The handler's <c>DeviceBusyException</c>
-        /// catch should map to <see cref="ManagementActionApplicationError"/>
-        /// <c>"AlreadyRebooting"</c>, which the SDK surfaces on the response metadata. This
-        /// covers the Call-action application-error path (the existing
+        /// Invokes Identify with an out-of-range <c>blinkCount</c>. The handler validates the
+        /// range and returns <see cref="ManagementActionApplicationError"/> <c>"ValidationFailed"</c>,
+        /// which the SDK surfaces on the response metadata. Covers the Call-action
+        /// application-error path end-to-end (the existing
         /// <see cref="WriteConfiguration_InvalidPayload_ReturnsValidationFailedApplicationError"/>
-        /// covers it for Write actions only) and verifies the handler's <c>catch</c>-to-app-error
-        /// translation works end-to-end.
+        /// covers it for Write actions only).
         /// </summary>
         [Fact]
-        public async Task Reboot_WithoutForce_DuringRebootWindow_ReturnsAlreadyRebootingApplicationError()
+        public async Task Identify_InvalidBlinkCount_ReturnsValidationFailedApplicationError()
         {
             await using var mqtt = await ClientFactory.CreateSessionClientFromEnvAsync();
             await using var invoker = CreateInvoker(mqtt);
 
-            // 1. Start a reboot. force=true bypasses the busy-check so this always succeeds and
-            //    leaves the device in its ~2 s rebooting window.
-            byte[] firstBytes = await InvokeAsync(
+            // blinkCount out of range (must be 1..10 per the sample).
+            ExtendedResponse<byte[]> response = await InvokeExtendedAsync(
                 invoker,
-                actionName: "reboot",
-                requestPayload: JsonSerializer.SerializeToUtf8Bytes(new MgmtRebootRequest { Force = true }));
-            DeserializeBody<MgmtRebootResponse>(firstBytes);
-
-            // 2. Immediately invoke Reboot again with force=false: the handler's call to
-            //    BeginRebootAsync(force=false) hits the IsRebootingNoLock guard and throws
-            //    DeviceBusyException, which the handler maps to AppErrCode="AlreadyRebooting".
-            ExtendedResponse<byte[]> secondResponse = await InvokeExtendedAsync(
-                invoker,
-                actionName: "reboot",
-                requestPayload: JsonSerializer.SerializeToUtf8Bytes(new MgmtRebootRequest { Force = false }));
+                actionName: "identify",
+                requestPayload: JsonSerializer.SerializeToUtf8Bytes(new MgmtIdentifyRequest { BlinkCount = 99 }));
 
             Assert.True(
-                secondResponse.IsApplicationError(),
-                $"expected application error on 2nd reboot during reboot window; metadata={DescribeMetadata(secondResponse.ResponseMetadata)}");
-            Assert.True(secondResponse.TryGetApplicationError(out string? errorCode, out string? errorPayload));
-            Assert.Equal("AlreadyRebooting", errorCode);
+                response.IsApplicationError(),
+                $"expected application error on out-of-range blinkCount; metadata={DescribeMetadata(response.ResponseMetadata)}");
+            Assert.True(response.TryGetApplicationError(out string? errorCode, out string? errorPayload));
+            Assert.Equal("ValidationFailed", errorCode);
             Assert.NotNull(errorPayload);
-            Assert.Contains("rebooting", errorPayload!, StringComparison.OrdinalIgnoreCase);
+            Assert.Contains("blinkCount", errorPayload!, StringComparison.OrdinalIgnoreCase);
         }
 
         /// <summary>
@@ -235,58 +208,40 @@ namespace Azure.Iot.Operations.Connector.IntegrationTests
         /// asserts that every call resolves to a valid <see cref="MgmtTemperatureReading"/>
         /// (i.e. responses are correctly correlated back to their requests under load — no
         /// cross-talk in <see cref="CommandInvoker{TReq, TResp}"/>'s response-topic dispatch).
-        /// Retries the whole batch a few times to tolerate a "rebooting" window leaked from
-        /// a prior test running on the same shared <c>FakeDevice</c>.
         /// </summary>
         [Fact]
         public async Task ReadTemperature_ConcurrentInvocations_AllReturnIndependentResponses()
         {
             const int Parallelism = 5;
-            const int MaxBatchAttempts = 4;
 
             await using var mqtt = await ClientFactory.CreateSessionClientFromEnvAsync();
             await using var invoker = CreateInvoker(mqtt);
 
-            for (int attempt = 1; attempt <= MaxBatchAttempts; attempt++)
+            _output.WriteLine($"[ConcurrentReads] firing {Parallelism} parallel reads");
+
+            Task<ExtendedResponse<byte[]>>[] inflight = Enumerable.Range(0, Parallelism)
+                .Select(_ => InvokeExtendedAsync(invoker, "read-temperature", Array.Empty<byte>()))
+                .ToArray();
+
+            ExtendedResponse<byte[]>[] results = await Task.WhenAll(inflight);
+
+            // Every parallel read returned a real, parseable, sensible reading.
+            MgmtTemperatureReading[] readings = results
+                .Select(r => DeserializeBody<MgmtTemperatureReading>(r.Response ?? Array.Empty<byte>()))
+                .ToArray();
+
+            Assert.Equal(Parallelism, readings.Length);
+            Assert.All(readings, body =>
             {
-                _output.WriteLine($"[ConcurrentReads] batch attempt #{attempt} firing {Parallelism} parallel reads");
+                Assert.True(body.Value > -100 && body.Value < 200, $"unexpected temperature {body.Value}");
+                Assert.True(body.Unit is "C" or "F", $"unexpected unit '{body.Unit}'");
+            });
 
-                Task<ExtendedResponse<byte[]>>[] inflight = Enumerable.Range(0, Parallelism)
-                    .Select(_ => InvokeExtendedAsync(invoker, "read-temperature", Array.Empty<byte>()))
-                    .ToArray();
+            // All readings should report the same unit (no concurrent WriteConfiguration race).
+            string firstUnit = readings[0].Unit;
+            Assert.All(readings, body => Assert.Equal(firstUnit, body.Unit));
 
-                ExtendedResponse<byte[]>[] results = await Task.WhenAll(inflight);
-
-                bool anyDeviceUnavailable = results.Any(r => r.IsApplicationError());
-                if (anyDeviceUnavailable)
-                {
-                    // A rebooting window from a previous test bled through; give it time to clear and retry.
-                    _output.WriteLine("[ConcurrentReads] at least one read hit a DeviceUnavailable app error; retrying batch after 2.5 s");
-                    await Task.Delay(TimeSpan.FromMilliseconds(2500));
-                    continue;
-                }
-
-                // Every parallel read returned a real, parseable, sensible reading.
-                MgmtTemperatureReading[] readings = results
-                    .Select(r => DeserializeBody<MgmtTemperatureReading>(r.Response ?? Array.Empty<byte>()))
-                    .ToArray();
-
-                Assert.Equal(Parallelism, readings.Length);
-                Assert.All(readings, body =>
-                {
-                    Assert.True(body.Value > -100 && body.Value < 200, $"unexpected temperature {body.Value}");
-                    Assert.True(body.Unit is "C" or "F", $"unexpected unit '{body.Unit}'");
-                });
-
-                // All readings should report the same unit (no concurrent WriteConfiguration race).
-                string firstUnit = readings[0].Unit;
-                Assert.All(readings, body => Assert.Equal(firstUnit, body.Unit));
-
-                _output.WriteLine($"[ConcurrentReads] batch attempt #{attempt} succeeded: unit='{firstUnit}', values=[{string.Join(", ", readings.Select(r => r.Value.ToString("F2")))}]");
-                return;
-            }
-
-            Assert.Fail($"Concurrent read batch never went a full {Parallelism}-way round without a DeviceUnavailable error after {MaxBatchAttempts} attempts.");
+            _output.WriteLine($"[ConcurrentReads] succeeded: unit='{firstUnit}', values=[{string.Join(", ", readings.Select(r => r.Value.ToString("F2")))}]");
         }
 
         [Fact]
@@ -319,7 +274,7 @@ namespace Azure.Iot.Operations.Connector.IntegrationTests
                     Assert.Equal(3, group.Actions!.Count);
 
                     var actionNames = new HashSet<string>(group.Actions.Select(a => a.Name));
-                    Assert.Contains("reboot", actionNames);
+                    Assert.Contains("identify", actionNames);
                     Assert.Contains("read-temperature", actionNames);
                     Assert.Contains("write-configuration", actionNames);
                     foreach (var action in group.Actions)
@@ -369,7 +324,7 @@ namespace Azure.Iot.Operations.Connector.IntegrationTests
                 }
                 catch (AkriMqttException ex) when (IsApplicationError(ex))
                 {
-                    // Device is rebooting or otherwise refused the read; retry briefly.
+                    // Read returned a transient application error; retry briefly.
                     _output.WriteLine($"[WaitForRead] iteration {i + 1}: application error (will retry): {DescribeException(ex)}");
                 }
 

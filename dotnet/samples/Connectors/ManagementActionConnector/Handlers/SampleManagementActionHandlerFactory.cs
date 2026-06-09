@@ -37,7 +37,7 @@ namespace ManagementActionConnector.Handlers
 
             return action.Name switch
             {
-                "reboot" => new RebootHandler(logger, _device),
+                "identify" => new IdentifyHandler(logger, _device),
                 "read-temperature" => new ReadTemperatureHandler(logger, _device),
                 "write-configuration" => new WriteConfigurationHandler(logger, _device),
                 _ => throw new InvalidOperationException(
@@ -79,7 +79,7 @@ namespace ManagementActionConnector.Handlers
         {
             return action.Name switch
             {
-                "reboot" => true,
+                "identify" => true,
                 "read-temperature" => true,
                 "write-configuration" => true,
                 _ => false

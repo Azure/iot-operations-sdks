@@ -13,11 +13,11 @@ spec:
   # Call, Read, Write), intended for exercising the .NET
   # Management Action API. The connector will expose these as:
   #   group   = "device-control"
-  #   actions = "reboot" (Call),
+  #   actions = "identify" (Call),
   #             "read-temperature" (Read),
   #             "write-configuration" (Write)
   # keyed internally as:
-  #   "device-control::reboot"
+  #   "device-control::identify"
   #   "device-control::read-temperature"
   #   "device-control::write-configuration"
   # -----------------------------------------------------------------
@@ -26,11 +26,11 @@ spec:
       defaultTimeoutInSeconds: 30
       managementGroupConfiguration: '{}'
       actions:
-        - name: reboot
+        - name: identify
           # ActionType values: Call | Read | Write (see AssetManagementGroupActionType)
           actionType: Call
-          targetUri: device://reboot
-          topic: mgmt/device-1/asset-1/device-control/reboot
+          targetUri: device://identify
+          topic: mgmt/device-1/asset-1/device-control/identify
           timeoutInSeconds: 15
           actionConfiguration: '{}'
         - name: read-temperature

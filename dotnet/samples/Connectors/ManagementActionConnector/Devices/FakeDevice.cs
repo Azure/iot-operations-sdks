@@ -5,7 +5,7 @@ namespace ManagementActionConnector.Devices
 {
     /// <summary>
     /// In-process simulator that stands in for a real southbound device. All three
-    /// management action handlers (reboot / read-temperature / write-configuration)
+    /// management action handlers (identify / read-temperature / write-configuration)
     /// share a single instance so writes from one action are observable by reads
     /// on another — the same way they would be on a real device.
     /// </summary>
@@ -20,8 +20,7 @@ namespace ManagementActionConnector.Devices
     {
         private readonly object _lock = new();
         private DeviceConfig _config = new(SampleIntervalMs: 1000, Unit: "C");
-        private DateTime? _rebootingUntilUtc;
-        private long _rebootCounter;
+        private long _identifyCounter;
 
         /// <summary>Optional artificial latency added to every operation.</summary>
         public TimeSpan SimulatedLatency { get; set; } = TimeSpan.Zero;
@@ -56,42 +55,27 @@ namespace ManagementActionConnector.Devices
             get { lock (_lock) { return _config; } }
         }
 
-        /// <summary>True if the device is currently in the (simulated) reboot window.</summary>
-        public bool IsRebooting
+        /// <summary>How many identify (locate) requests have been served across this device's lifetime.</summary>
+        public long IdentifyCount
         {
-            get
-            {
-                lock (_lock)
-                {
-                    return _rebootingUntilUtc is { } until && DateTime.UtcNow < until;
-                }
-            }
+            get { lock (_lock) { return _identifyCounter; } }
         }
 
-        /// <summary>How many reboots have been requested across this device's lifetime.</summary>
-        public long RebootCount
-        {
-            get { lock (_lock) { return _rebootCounter; } }
-        }
-
-        /// <summary>Begin a (simulated) reboot. Returns the request id.</summary>
-        public async Task<Guid> BeginRebootAsync(bool force, TimeSpan rebootDuration, CancellationToken cancellationToken)
+        /// <summary>
+        /// Begin a (simulated) identify/locate: blink the device's locator indicator so an operator
+        /// can physically find it. Purely advisory — it never makes the device unavailable, so
+        /// concurrent reads/writes are unaffected. Returns the request id.
+        /// </summary>
+        public async Task<Guid> IdentifyAsync(CancellationToken cancellationToken)
         {
             await EnterAsync(cancellationToken);
             try
             {
                 lock (_lock)
                 {
-                    if (IsRebootingNoLock() && !force)
-                    {
-                        throw new DeviceBusyException("Device is already rebooting; pass force=true to interrupt.");
-                    }
-
-                    _rebootingUntilUtc = DateTime.UtcNow + rebootDuration;
-                    _rebootCounter++;
+                    _identifyCounter++;
                 }
 
-                // Yield so the rebooting flag becomes observable to other in-flight reads.
                 await Task.Yield();
                 return Guid.NewGuid();
             }
@@ -101,17 +85,12 @@ namespace ManagementActionConnector.Devices
             }
         }
 
-        /// <summary>Read a (simulated) temperature value. Throws if the device is rebooting.</summary>
+        /// <summary>Read a (simulated) temperature value.</summary>
         public async Task<double> ReadTemperatureAsync(CancellationToken cancellationToken)
         {
             await EnterAsync(cancellationToken);
             try
             {
-                if (IsRebooting)
-                {
-                    throw new DeviceUnavailableException("Device is currently rebooting.");
-                }
-
                 // Drift around 22 C (or F, depending on configured unit) by a small sinusoid.
                 DeviceConfig cfg;
                 lock (_lock) { cfg = _config; }
@@ -172,19 +151,7 @@ namespace ManagementActionConnector.Devices
             }
             // Successful path: caller must Release().
         }
-
-        private bool IsRebootingNoLock() => _rebootingUntilUtc is { } until && DateTime.UtcNow < until;
     }
 
     public sealed record DeviceConfig(int SampleIntervalMs, string Unit);
-
-    public sealed class DeviceBusyException : Exception
-    {
-        public DeviceBusyException(string message) : base(message) { }
-    }
-
-    public sealed class DeviceUnavailableException : Exception
-    {
-        public DeviceUnavailableException(string message) : base(message) { }
-    }
 }

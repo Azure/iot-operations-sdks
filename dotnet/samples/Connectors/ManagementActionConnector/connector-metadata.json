@@ -45,8 +45,8 @@
           "fields": {
             "targetUri": {
               "input": "required",
-              "description": "Logical identifier of the operation on the device (e.g. device://reboot).",
-              "exampleValue": "device://reboot"
+              "description": "Logical identifier of the operation on the device (e.g. device://identify).",
+              "exampleValue": "device://identify"
             },
             "typeRef": {
               "input": "unsupported"

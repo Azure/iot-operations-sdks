@@ -5,25 +5,25 @@ using System.Text.Json.Serialization;
 
 namespace ManagementActionConnector.Contracts
 {
-    /// <summary>Request body for the "reboot" Call action.</summary>
-    public sealed record RebootRequest
+    /// <summary>Request body for the "identify" Call action.</summary>
+    public sealed record IdentifyRequest
     {
-        /// <summary>If true, force a reboot even if one is already in progress.</summary>
-        [JsonPropertyName("force")]
-        public bool Force { get; init; }
+        /// <summary>How many times to blink the locator indicator (1-10).</summary>
+        [JsonPropertyName("blinkCount")]
+        public int BlinkCount { get; init; } = 3;
     }
 
-    /// <summary>Response body for the "reboot" Call action.</summary>
-    public sealed record RebootResponse
+    /// <summary>Response body for the "identify" Call action.</summary>
+    public sealed record IdentifyResponse
     {
         [JsonPropertyName("requestId")]
         public Guid RequestId { get; init; }
 
-        [JsonPropertyName("scheduledAtUtc")]
-        public DateTime ScheduledAtUtc { get; init; }
+        [JsonPropertyName("blinkCount")]
+        public int BlinkCount { get; init; }
 
-        [JsonPropertyName("rebootCount")]
-        public long RebootCount { get; init; }
+        [JsonPropertyName("identifyCount")]
+        public long IdentifyCount { get; init; }
     }
 
     /// <summary>Response body for the "read-temperature" Read action.</summary>
