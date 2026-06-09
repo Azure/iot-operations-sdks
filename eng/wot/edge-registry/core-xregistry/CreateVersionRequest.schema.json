@@ -4,7 +4,10 @@
   "description": "Request payload for creating a generic xRegistry Version entity. The parent Resource is implicitly created if it doesn't already exist. Create is strictly idempotent: if every field matches the latest Version of the parent Resource (including labels), the latest Version is returned; otherwise a new Version is created.",
   "type": "object",
   "additionalProperties": false,
-  "required": [ "version", "resourceLabels" ],
+  "required": [
+    "version",
+    "resourceLabels"
+  ],
   "properties": {
     "groupId": {
       "description": "Group identifier. Uses the default if not specified.",

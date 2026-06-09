@@ -4,7 +4,10 @@
   "description": "Request payload for creating a generic xRegistry Resource entity along with its default Version.",
   "type": "object",
   "additionalProperties": false,
-  "required": [ "meta", "defaultVersion" ],
+  "required": [
+    "meta",
+    "defaultVersion"
+  ],
   "properties": {
     "groupId": {
       "description": "Group identifier. Uses the default if not specified.",

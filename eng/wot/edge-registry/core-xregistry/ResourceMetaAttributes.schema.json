@@ -4,7 +4,10 @@
   "description": "Mutable attributes for creating or updating a Resource (its `meta` sub-entity).",
   "type": "object",
   "additionalProperties": false,
-  "required": [ "labels", "extensions" ],
+  "required": [
+    "labels",
+    "extensions"
+  ],
   "properties": {
     "xref": {
       "description": "Indicates that this Resource is a reference to another Resource within the same Registry. The XID path of the referenced Resource.",
@@ -14,8 +17,8 @@
       "description": "A mechanism in which additional metadata about the entity can be stored without changing the model definition of the entity. Labels can be used for querying.",
       "type": "array",
       "items": {
-          "type": "object",
-          "$ref": "Label.schema.json"
+        "type": "object",
+        "$ref": "Label.schema.json"
       }
     },
     "compatibility": {
@@ -32,8 +35,11 @@
     },
     "extensions": {
       "description": "Extension-specific attributes (e.g., `format` and `content_type` for schemas).",
-      "type": "object", "additionalProperties": { "type": "string", 
-      "contentEncoding": "base64" }
+      "type": "object",
+      "additionalProperties": {
+        "type": "string",
+        "contentEncoding": "base64"
+      }
     }
   }
 }

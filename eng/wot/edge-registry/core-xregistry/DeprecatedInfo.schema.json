@@ -4,7 +4,7 @@
   "description": "Information about the deprecation status of an entity.",
   "type": "object",
   "additionalProperties": false,
-  "required": [ ],
+  "required": [],
   "properties": {
     "effective": {
       "description": "Indicates the time when the entity entered, or will enter, a deprecated state. The date MAY be in the past or future. If this property is not present the entity is already in a deprecated state.",

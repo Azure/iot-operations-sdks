@@ -1,7 +1,9 @@
 {
     "@context": [
         "https://www.w3.org/2022/wot/td/v1.1",
-        { "dov": "http://azure.com/DigitalTwins/dtmi#" }
+        {
+            "dov": "http://azure.com/DigitalTwins/dtmi#"
+        }
     ],
     "@type": "tm:ThingModel",
     "title": "EdgeRegistry",
@@ -41,7 +43,7 @@
                         "description": "Group identifier. Uses the default if not specified."
                     }
                 },
-                "required": [ ]
+                "required": []
             },
             "output": {
                 "dov:ref": "./core-xregistry/Group.schema.json",
@@ -76,7 +78,9 @@
                         }
                     }
                 },
-                "required": ["ids"]
+                "required": [
+                    "ids"
+                ]
             },
             "forms": [
                 {
@@ -102,7 +106,7 @@
                         "description": "Group identifier. Uses the default if not specified."
                     }
                 },
-                "required": [ ]
+                "required": []
             },
             "forms": [
                 {
@@ -152,7 +156,7 @@
                         "type": "string"
                     }
                 },
-                "required": [ ]
+                "required": []
             },
             "output": {
                 "dov:ref": "./core-xregistry/Resource.schema.json",
@@ -182,7 +186,7 @@
                         "type": "string"
                     }
                 },
-                "required": [ ]
+                "required": []
             },
             "output": {
                 "description": "List of Resource identifiers.",
@@ -197,7 +201,9 @@
                         }
                     }
                 },
-                "required": ["ids"]
+                "required": [
+                    "ids"
+                ]
             },
             "forms": [
                 {
@@ -243,7 +249,10 @@
                         "type": "string"
                     }
                 },
-                "required": ["labelKey", "labelValue"]
+                "required": [
+                    "labelKey",
+                    "labelValue"
+                ]
             },
             "output": {
                 "description": "List of Resource XIDs within provided constraints with the specified label.",
@@ -256,7 +265,12 @@
                             "description": "The XID of a Resource that has the specified label.",
                             "type": "object",
                             "title": "ResourceXId",
-                            "required": ["groupType", "groupId", "resourceType", "resourceId"],
+                            "required": [
+                                "groupType",
+                                "groupId",
+                                "resourceType",
+                                "resourceId"
+                            ],
                             "properties": {
                                 "groupType": {
                                     "description": "Group type.",
@@ -278,7 +292,9 @@
                         }
                     }
                 },
-                "required": ["resources"]
+                "required": [
+                    "resources"
+                ]
             },
             "forms": [
                 {
@@ -304,7 +320,7 @@
                         "type": "string"
                     }
                 },
-                "required": [ ]
+                "required": []
             },
             "forms": [
                 {
@@ -358,7 +374,7 @@
                         "type": "string"
                     }
                 },
-                "required": [ ]
+                "required": []
             },
             "output": {
                 "description": "The Version entity.",
@@ -388,7 +404,7 @@
                         "type": "string"
                     }
                 },
-                "required": [ ]
+                "required": []
             },
             "output": {
                 "description": "List of Version identifiers.",
@@ -403,7 +419,9 @@
                         }
                     }
                 },
-                "required": ["ids"]
+                "required": [
+                    "ids"
+                ]
             },
             "forms": [
                 {
@@ -453,7 +471,10 @@
                         "type": "string"
                     }
                 },
-                "required": ["labelKey", "labelValue"]
+                "required": [
+                    "labelKey",
+                    "labelValue"
+                ]
             },
             "output": {
                 "description": "List of Version XIDs within provided constraints with the specified label.",
@@ -466,7 +487,13 @@
                             "description": "The XID of a Version that has the specified label.",
                             "type": "object",
                             "title": "VersionXId",
-                            "required": ["groupType", "groupId", "resourceType", "resourceId", "versionId"],
+                            "required": [
+                                "groupType",
+                                "groupId",
+                                "resourceType",
+                                "resourceId",
+                                "versionId"
+                            ],
                             "properties": {
                                 "groupType": {
                                     "description": "Group type.",
@@ -492,7 +519,9 @@
                         }
                     }
                 },
-                "required": ["versions"]
+                "required": [
+                    "versions"
+                ]
             },
             "forms": [
                 {
@@ -518,7 +547,7 @@
                         "type": "string"
                     }
                 },
-                "required": [ ]
+                "required": []
             },
             "forms": [
                 {
@@ -564,7 +593,13 @@
                     "description": "The XID of the entity that caused the error."
                 }
             },
-            "required": ["type", "status", "code", "title", "instance"]
+            "required": [
+                "type",
+                "status",
+                "code",
+                "title",
+                "instance"
+            ]
         }
     }
 }

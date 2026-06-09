@@ -4,9 +4,16 @@
     "description": "A key-value pair used for labeling.",
     "type": "object",
     "additionalProperties": false,
-    "required": [ "key", "value"],
+    "required": [
+        "key",
+        "value"
+    ],
     "properties": {
-        "key": { "type": "string" },
-        "value": { "type": "string" }
+        "key": {
+            "type": "string"
+        },
+        "value": {
+            "type": "string"
+        }
     }
 }

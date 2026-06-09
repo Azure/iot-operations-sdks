@@ -4,7 +4,9 @@
   "description": "Indicates whether validation was performed, and if not, the reason why not (e.g., \"unsupported format\", \"validation disabled\").",
   "type": "object",
   "additionalProperties": false,
-  "required": [ "validated" ],
+  "required": [
+    "validated"
+  ],
   "properties": {
     "validated": {
       "description": "True if validation was performed and the entity adheres to the rules; false if validation was not performed.",

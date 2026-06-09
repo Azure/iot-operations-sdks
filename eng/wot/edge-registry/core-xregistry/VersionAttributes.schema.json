@@ -4,7 +4,10 @@
   "description": "Attributes needed to create a Version.",
   "type": "object",
   "additionalProperties": false,
-  "required": [ "labels", "extensions" ],
+  "required": [
+    "labels",
+    "extensions"
+  ],
   "properties": {
     "versionId": {
       "description": "Version identifier. If omitted, the server determines the versionId.",
@@ -53,8 +56,11 @@
     },
     "extensions": {
       "description": "Extension-specific attributes.",
-      "type": "object", "additionalProperties": { "type": "string", 
-      "contentEncoding": "base64" }
+      "type": "object",
+      "additionalProperties": {
+        "type": "string",
+        "contentEncoding": "base64"
+      }
     }
   }
 }
