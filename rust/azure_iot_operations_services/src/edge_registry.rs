@@ -5,3 +5,5 @@
 
 /// Edge Registry generated code
 mod edge_registry_gen;
+
+pub mod models;
