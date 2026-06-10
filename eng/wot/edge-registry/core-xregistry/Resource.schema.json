@@ -8,14 +8,30 @@
     "id",
     "xid",
     "meta",
-    "extensions",
+    "defaultVersion",
     "versionsCount",
-    "defaultVersion"
+    "extensions"
   ],
   "properties": {
+    "id": {
+      "description": "Resource identifier.",
+      "type": "string"
+    },
+    "xid": {
+      "description": "Full XID path.",
+      "type": "string"
+    },
+    "meta": {
+      "description": "An object that contains most of the Resource-level attributes.",
+      "$ref": "ResourceMeta.schema.json"
+    },
     "defaultVersion": {
       "description": "A specific Version of a Resource.",
       "$ref": "Version.schema.json"
+    },
+    "versionsCount": {
+      "description": "The number of Versions contained on the Resource.",
+      "type": "integer"
     },
     "extensions": {
       "description": "Extension-specific attributes (e.g., `format` and `content_type` for schemas).",
@@ -24,22 +40,6 @@
         "type": "string",
         "contentEncoding": "base64"
       }
-    },
-    "id": {
-      "description": "Resource identifier.",
-      "type": "string"
-    },
-    "meta": {
-      "description": "An object that contains most of the Resource-level attributes.",
-      "$ref": "ResourceMeta.schema.json"
-    },
-    "versionsCount": {
-      "description": "The number of Versions contained on the Resource.",
-      "type": "integer"
-    },
-    "xid": {
-      "description": "Full XID path.",
-      "type": "string"
     }
   }
 }

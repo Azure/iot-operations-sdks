@@ -16,14 +16,19 @@ use super::label::Label;
 /// A Group entity — container for related Resources.
 #[derive(Serialize, Deserialize, Debug, Clone, Builder)]
 pub struct Group {
-    /// The date/time of when the entity was created.
-    #[serde(rename = "createdAt")]
-    pub created_at: DateTime<Utc>,
+    /// Group identifier.
+    pub id: String,
 
-    /// Information about deprecation status of the entity, if applicable.
+    /// Full XID path, e.g. /schemagroups/mygroup
+    pub xid: String,
+
+    /// A numeric value used to determine whether an entity has been modified.
+    pub epoch: u64,
+
+    /// Human-readable name.
     #[serde(skip_serializing_if = "Option::is_none")]
     #[builder(default = "None")]
-    pub deprecated: Option<DeprecatedInfo>,
+    pub name: Option<String>,
 
     /// A human-readable summary of the purpose of the entity.
     #[serde(skip_serializing_if = "Option::is_none")]
@@ -35,39 +40,34 @@ pub struct Group {
     #[builder(default = "None")]
     pub documentation: Option<String>,
 
-    /// A numeric value used to determine whether an entity has been modified.
-    pub epoch: u64,
-
-    /// Extension-specific attributes (e.g., `envelope`, `protocol` for message Groups).
-    #[builder(default)]
-    pub extensions: HashMap<String, Bytes>,
-
     /// A URL to a graphical icon for the owning entity.
     #[serde(skip_serializing_if = "Option::is_none")]
     #[builder(default = "None")]
     pub icon: Option<String>,
 
-    /// Group identifier.
-    pub id: String,
-
     /// A mechanism in which additional metadata about the entity can be stored without changing the model definition of the entity. Labels can be used for querying.
     #[builder(default)]
     pub labels: Vec<Label>,
+
+    /// The date/time of when the entity was created.
+    #[serde(rename = "createdAt")]
+    pub created_at: DateTime<Utc>,
 
     /// The date/time of when the entity was last updated.
     #[serde(rename = "modifiedAt")]
     pub modified_at: DateTime<Utc>,
 
-    /// Human-readable name.
+    /// Information about deprecation status of the entity, if applicable.
     #[serde(skip_serializing_if = "Option::is_none")]
     #[builder(default = "None")]
-    pub name: Option<String>,
+    pub deprecated: Option<DeprecatedInfo>,
 
     /// Map of the count of each Resource type contained within this Group, keyed by Resource type.
     #[serde(rename = "resourcesCounts")]
     #[builder(default)]
     pub resources_counts: HashMap<String, u64>,
 
-    /// Full XID path, e.g. /schemagroups/mygroup
-    pub xid: String,
+    /// Extension-specific attributes (e.g., `envelope`, `protocol` for message Groups).
+    #[builder(default)]
+    pub extensions: HashMap<String, Bytes>,
 }

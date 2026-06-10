@@ -15,41 +15,27 @@ use super::label::Label;
 
 #[derive(Serialize, Deserialize, Debug, Clone, Builder)]
 pub struct ResourceMeta {
-    /// States that Versions of this Resource adhere to a certain compatibility rule.
+    /// Resource identifier.
+    pub id: String,
+
+    /// Full XID path.
+    pub xid: String,
+
+    /// Indicates that this Resource is a reference to another Resource within the same Registry. The XID path of the referenced Resource.
     #[serde(skip_serializing_if = "Option::is_none")]
     #[builder(default = "None")]
-    pub compatibility: Option<String>,
-
-    /// The date/time of when the entity was created.
-    #[serde(rename = "createdAt")]
-    pub created_at: DateTime<Utc>,
-
-    /// The versionId of the default Version of the Resource.
-    #[serde(rename = "defaultVersionId")]
-    pub default_version_id: String,
-
-    /// A value of true means that `defaultVersionId` has been explicitly set and MUST NOT automatically change if other Versions are added or removed. A value of false means the default Version MUST be the newest Version, as defined by the Resource's versionmode algorithm.
-    #[serde(rename = "defaultVersionSticky")]
-    pub default_version_sticky: bool,
-
-    /// Information about deprecation status of the entity, if applicable.
-    #[serde(skip_serializing_if = "Option::is_none")]
-    #[builder(default = "None")]
-    pub deprecated: Option<DeprecatedInfo>,
+    pub xref: Option<String>,
 
     /// A numeric value used to determine whether an entity has been modified.
     pub epoch: u64,
-
-    /// Extension-specific attributes (e.g., `format` and `content_type` for schemas).
-    #[builder(default)]
-    pub extensions: HashMap<String, Bytes>,
 
     /// A mechanism in which additional metadata about the entity can be stored without changing the model definition of the entity. Labels can be used for querying.
     #[builder(default)]
     pub labels: Vec<Label>,
 
-    /// Resource identifier.
-    pub id: String,
+    /// The date/time of when the entity was created.
+    #[serde(rename = "createdAt")]
+    pub created_at: DateTime<Utc>,
 
     /// The date/time of when the entity was last updated.
     #[serde(rename = "modifiedAt")]
@@ -59,11 +45,25 @@ pub struct ResourceMeta {
     #[serde(rename = "readOnly")]
     pub read_only: bool,
 
-    /// Full XID path.
-    pub xid: String,
-
-    /// Indicates that this Resource is a reference to another Resource within the same Registry. The XID path of the referenced Resource.
+    /// States that Versions of this Resource adhere to a certain compatibility rule.
     #[serde(skip_serializing_if = "Option::is_none")]
     #[builder(default = "None")]
-    pub xref: Option<String>,
+    pub compatibility: Option<String>,
+
+    /// Information about deprecation status of the entity, if applicable.
+    #[serde(skip_serializing_if = "Option::is_none")]
+    #[builder(default = "None")]
+    pub deprecated: Option<DeprecatedInfo>,
+
+    /// The versionId of the default Version of the Resource.
+    #[serde(rename = "defaultVersionId")]
+    pub default_version_id: String,
+
+    /// A value of true means that `defaultVersionId` has been explicitly set and MUST NOT automatically change if other Versions are added or removed. A value of false means the default Version MUST be the newest Version, as defined by the Resource's versionmode algorithm.
+    #[serde(rename = "defaultVersionSticky")]
+    pub default_version_sticky: bool,
+
+    /// Extension-specific attributes (e.g., `format` and `content_type` for schemas).
+    #[builder(default)]
+    pub extensions: HashMap<String, Bytes>,
 }
