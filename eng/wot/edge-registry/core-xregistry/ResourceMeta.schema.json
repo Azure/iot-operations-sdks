@@ -7,47 +7,30 @@
     "id",
     "xid",
     "epoch",
-    "defaultVersionId",
-    "defaultVersionSticky",
-    "readOnly",
+    "labels",
     "createdAt",
     "modifiedAt",
-    "extensions",
-    "labels"
+    "readOnly",
+    "defaultVersionId",
+    "defaultVersionSticky",
+    "extensions"
   ],
   "properties": {
-    "compatibility": {
-      "description": "States that Versions of this Resource adhere to a certain compatibility rule.",
+    "id": {
+      "description": "Resource identifier.",
       "type": "string"
     },
-    "createdAt": {
-      "description": "The date/time of when the entity was created.",
-      "type": "string",
-      "format": "date-time"
-    },
-    "defaultVersionId": {
-      "description": "The versionId of the default Version of the Resource.",
+    "xid": {
+      "description": "Full XID path.",
       "type": "string"
     },
-    "defaultVersionSticky": {
-      "description": "A value of true means that `defaultVersionId` has been explicitly set and MUST NOT automatically change if other Versions are added or removed. A value of false means the default Version MUST be the newest Version, as defined by the Resource's versionmode algorithm.",
-      "type": "boolean"
-    },
-    "deprecated": {
-      "description": "Information about deprecation status of the entity, if applicable.",
-      "$ref": "DeprecatedInfo.schema.json"
+    "xref": {
+      "description": "Indicates that this Resource is a reference to another Resource within the same Registry. The XID path of the referenced Resource.",
+      "type": "string"
     },
     "epoch": {
       "description": "A numeric value used to determine whether an entity has been modified.",
       "type": "integer"
-    },
-    "extensions": {
-      "description": "Extension-specific attributes (e.g., `format` and `content_type` for schemas).",
-      "type": "object",
-      "additionalProperties": {
-        "type": "string",
-        "contentEncoding": "base64"
-      }
     },
     "labels": {
       "description": "A mechanism in which additional metadata about the entity can be stored without changing the model definition of the entity. Labels can be used for querying.",
@@ -57,9 +40,10 @@
         "$ref": "Label.schema.json"
       }
     },
-    "id": {
-      "description": "Resource identifier.",
-      "type": "string"
+    "createdAt": {
+      "description": "The date/time of when the entity was created.",
+      "type": "string",
+      "format": "date-time"
     },
     "modifiedAt": {
       "description": "The date/time of when the entity was last updated.",
@@ -70,13 +54,29 @@
       "description": "Indicates whether the Resource is updateable by clients.",
       "type": "boolean"
     },
-    "xid": {
-      "description": "Full XID path.",
+    "compatibility": {
+      "description": "States that Versions of this Resource adhere to a certain compatibility rule.",
       "type": "string"
     },
-    "xref": {
-      "description": "Indicates that this Resource is a reference to another Resource within the same Registry. The XID path of the referenced Resource.",
+    "deprecated": {
+      "description": "Information about deprecation status of the entity, if applicable.",
+      "$ref": "DeprecatedInfo.schema.json"
+    },
+    "defaultVersionId": {
+      "description": "The versionId of the default Version of the Resource.",
       "type": "string"
+    },
+    "defaultVersionSticky": {
+      "description": "A value of true means that `defaultVersionId` has been explicitly set and MUST NOT automatically change if other Versions are added or removed. A value of false means the default Version MUST be the newest Version, as defined by the Resource's versionmode algorithm.",
+      "type": "boolean"
+    },
+    "extensions": {
+      "description": "Extension-specific attributes (e.g., `format` and `content_type` for schemas).",
+      "type": "object",
+      "additionalProperties": {
+        "type": "string",
+        "contentEncoding": "base64"
+      }
     }
   }
 }

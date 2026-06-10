@@ -16,24 +16,24 @@ use super::version::Version;
 /// Resource entity
 #[derive(Serialize, Deserialize, Debug, Clone, Builder)]
 pub struct Resource {
-    /// A specific Version of a Resource.
-    #[serde(rename = "defaultVersion")]
-    pub default_version: Version,
-
-    /// Extension-specific attributes (e.g., `format` and `content_type` for schemas).
-    #[builder(default)]
-    pub extensions: HashMap<String, Bytes>,
-
     /// Resource identifier.
     pub id: String,
 
+    /// Full XID path.
+    pub xid: String,
+
     /// An object that contains most of the Resource-level attributes.
     pub meta: ResourceMeta,
+
+    /// A specific Version of a Resource.
+    #[serde(rename = "defaultVersion")]
+    pub default_version: Version,
 
     /// The number of Versions contained on the Resource.
     #[serde(rename = "versionsCount")]
     pub versions_count: u64,
 
-    /// Full XID path.
-    pub xid: String,
+    /// Extension-specific attributes (e.g., `format` and `content_type` for schemas).
+    #[builder(default)]
+    pub extensions: HashMap<String, Bytes>,
 }
