@@ -1,0 +1,112 @@
+{
+  "$schema": "https://json-schema.org/draft-07/schema",
+  "title": "Version",
+  "description": "A specific Version of a Resource.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "resourceId",
+    "versionId",
+    "xid",
+    "epoch",
+    "isDefault",
+    "createdAt",
+    "modifiedAt",
+    "ancestor",
+    "extensions",
+    "labels"
+  ],
+  "properties": {
+    "ancestor": {
+      "description": "The versionId of this Version's ancestor, or this Version's versionId if it has no ancestor.",
+      "type": "string"
+    },
+    "compatibilityValidated": {
+      "description": "When compatibility validation is enabled, indicates whether the server has validated that the Version conforms to the rules defined by its Resource's `meta.compatibility` attribute.",
+      "$ref": "Validated.schema.json"
+    },
+    "contentType": {
+      "description": "The media type of the entity as defined by RFC9110.",
+      "type": "string"
+    },
+    "createdAt": {
+      "description": "The date/time of when the entity was created.",
+      "type": "string",
+      "format": "date-time"
+    },
+    "description": {
+      "description": "A human-readable summary of the purpose of the entity.",
+      "type": "string"
+    },
+    "document": {
+      "description": "The raw document content for this Version as base64-encoded bytes. The interpretation (schema, thing description, thing model, …) is determined by the parent Resource's type.",
+      "type": "string",
+      "contentEncoding": "base64"
+    },
+    "documentHash": {
+      "description": "The hash of the document content for this Version.",
+      "type": "string"
+    },
+    "documentation": {
+      "description": "A URL to additional information about this entity.",
+      "type": "string"
+    },
+    "epoch": {
+      "description": "A numeric value used to determine whether an entity has been modified.",
+      "type": "integer"
+    },
+    "extensions": {
+      "description": "Extension-specific attributes.",
+      "type": "object",
+      "additionalProperties": {
+        "type": "string",
+        "contentEncoding": "base64"
+      }
+    },
+    "format": {
+      "description": "Identifies what the Version represents (e.g. `JsonSchema/draft-07`, `JSON-LD/1.1`).",
+      "type": "string"
+    },
+    "formatValidated": {
+      "description": "When format validation is enabled, indicates whether the server has validated that the Version conforms to the rules defined by its `format` attribute.",
+      "$ref": "Validated.schema.json"
+    },
+    "icon": {
+      "description": "A URL to a graphical icon for the owning entity.",
+      "type": "string"
+    },
+    "isDefault": {
+      "description": "Indicates whether this Version is the default Version of the owning Resource.",
+      "type": "boolean"
+    },
+    "labels": {
+      "description": "A mechanism in which additional metadata about the entity can be stored without changing the model definition of the entity. Labels can be used for querying.",
+      "type": "array",
+      "items": {
+        "type": "object",
+        "$ref": "Label.schema.json"
+      }
+    },
+    "modifiedAt": {
+      "description": "The date/time of when the entity was last updated.",
+      "type": "string",
+      "format": "date-time"
+    },
+    "name": {
+      "description": "Human-readable name.",
+      "type": "string"
+    },
+    "resourceId": {
+      "description": "Resource identifier.",
+      "type": "string"
+    },
+    "versionId": {
+      "description": "Version identifier.",
+      "type": "string"
+    },
+    "xid": {
+      "description": "Full XID path.",
+      "type": "string"
+    }
+  }
+}

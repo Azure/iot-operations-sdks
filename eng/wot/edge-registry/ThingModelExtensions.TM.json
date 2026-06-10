@@ -1,0 +1,303 @@
+{
+    "@context": [
+        "https://www.w3.org/2022/wot/td/v1.1",
+        {
+            "dov": "http://azure.com/DigitalTwins/dtmi#"
+        }
+    ],
+    "@type": "tm:ThingModel",
+    "title": "EdgeRegistryThingModelExtensions",
+    "description": "Companion type definitions for the xRegistry Thing Model entity type. Provides typed thing model definitions for SDK codegen targeting thing model Groups, thing model metadata, and thing model Versions.",
+    "links": [
+        {
+            "rel": "tm:extends",
+            "href": "./EdgeRegistry.TM.json#title=EdgeRegistry",
+            "type": "application/tm+json"
+        }
+    ],
+    "actions": {
+        "getThingModelVersion": {
+            "description": "Retrieve an xRegistry Thing Model Version entity.",
+            "input": {
+                "type": "object",
+                "properties": {
+                    "groupId": {
+                        "description": "Group identifier. Uses the default if not specified.",
+                        "type": "string"
+                    },
+                    "versionId": {
+                        "description": "Version identifier. Returns the default Version if not specified.",
+                        "type": "integer"
+                    }
+                },
+                "required": []
+            },
+            "output": {
+                "description": "The Thing Model Version entity.",
+                "dov:ref": "./thing-model-extension/ThingModelVersion.schema.json"
+            },
+            "forms": [
+                {
+                    "dov:topic": "aio/registry/thingModelExtension/get/thingmodelgroups/thingmodels/{ex:thingModelId}/versions/version",
+                    "contentType": "application/json",
+                    "op": "invokeaction",
+                    "additionalResponses": [
+                        {
+                            "success": false,
+                            "schema": "ThingModelExtensionError"
+                        }
+                    ]
+                }
+            ]
+        },
+        "createThingModelVersion": {
+            "description": "Create a new xRegistry Thing Model Version entity under the specified thing model. Returns the created Version entity with epoch=1. Create is strictly idempotent: if every field matches the latest Version of the parent Thing Model (including labels), the latest Version is returned unchanged; otherwise a new Version is created.",
+            "input": {
+                "description": "Attributes needed to create a Thing Model Version.",
+                "dov:ref": "./thing-model-extension/CreateThingModelVersionAttributes.schema.json"
+            },
+            "output": {
+                "description": "The Thing Model Version entity.",
+                "dov:ref": "./thing-model-extension/ThingModelVersion.schema.json"
+            },
+            "forms": [
+                {
+                    "dov:topic": "aio/registry/thingModelExtension/create/thingmodelgroups/thingmodels/{ex:thingModelId}/versions/version",
+                    "contentType": "application/json",
+                    "op": "invokeaction",
+                    "additionalResponses": [
+                        {
+                            "success": false,
+                            "schema": "ThingModelExtensionError"
+                        }
+                    ]
+                }
+            ]
+        },
+        "listThingModelVersions": {
+            "description": "List all Version IDs for a Thing Model.",
+            "input": {
+                "type": "object",
+                "properties": {
+                    "groupId": {
+                        "description": "Group identifier. Uses the default if not specified.",
+                        "type": "string"
+                    }
+                },
+                "required": []
+            },
+            "output": {
+                "description": "List of Version identifiers.",
+                "type": "object",
+                "properties": {
+                    "ids": {
+                        "description": "List of Version identifiers.",
+                        "type": "array",
+                        "items": {
+                            "description": "Version identifier.",
+                            "type": "integer"
+                        }
+                    }
+                },
+                "required": [
+                    "ids"
+                ]
+            },
+            "forms": [
+                {
+                    "dov:topic": "aio/registry/thingModelExtension/list/thingmodelgroups/thingmodels/{ex:thingModelId}/versions",
+                    "contentType": "application/json",
+                    "op": "invokeaction",
+                    "additionalResponses": [
+                        {
+                            "success": false,
+                            "schema": "ThingModelExtensionError"
+                        }
+                    ]
+                }
+            ]
+        },
+        "listThingModelVersionsWithLabel": {
+            "description": "List Thing Model Versions that have the specified label.",
+            "input": {
+                "type": "object",
+                "properties": {
+                     "groupId": {
+                        "description": "Group identifier. Uses the default if not specified. Ignored if allGroups is true.",
+                        "type": "string"
+                    },
+                    "allGroups": {
+                        "description": "If true, lists Versions across all Groups (groupId is ignored). If false or unspecified, lists within the Group specified by groupId, or the default Group if groupId is unspecified.",
+                        "type": "boolean"
+                    },
+                    "thingModelId": {
+                        "description": "Thing Model Resource identifier. Lists Versions across all Thing Models if not specified.",
+                        "type": "string"
+                    },
+                    "labelKey": {
+                        "description": "Label key.",
+                        "type": "string"
+                    },
+                    "labelValue": {
+                        "description": "Label value.",
+                        "type": "string"
+                    }
+                },
+                "required": [
+                    "labelKey",
+                    "labelValue"
+                ]
+            },
+            "output": {
+                "description": "List of Version XIDs within provided constraints with the specified label.",
+                "type": "object",
+                "properties": {
+                    "versions": {
+                        "description": "List of Version XID components.",
+                        "type": "array",
+                        "items": {
+                            "description": "The XID of a Version that has the specified label.",
+                            "type": "object",
+                            "title": "VersionXId",
+                            "required": [
+                                "groupType",
+                                "groupId",
+                                "resourceType",
+                                "resourceId",
+                                "versionId"
+                            ],
+                            "properties": {
+                                "groupType": {
+                                    "description": "Group type.",
+                                    "type": "string"
+                                },
+                                "groupId": {
+                                    "description": "Group identifier.",
+                                    "type": "string"
+                                },
+                                "resourceType": {
+                                    "description": "Resource type.",
+                                    "type": "string"
+                                },
+                                "resourceId": {
+                                    "description": "Resource identifier.",
+                                    "type": "string"
+                                },
+                                "versionId": {
+                                    "description": "Version identifier.",
+                                    "type": "string"
+                                }
+                            }
+                        }
+                    }
+                },
+                "required": [
+                    "versions"
+                ]
+            },
+            "forms": [
+                {
+                    "dov:topic": "aio/registry/thingModelExtension/listWithLabel/versions",
+                    "contentType": "application/json",
+                    "op": "invokeaction",
+                    "additionalResponses": [
+                        {
+                            "success": false,
+                            "schema": "ThingModelExtensionError"
+                        }
+                    ]
+                }
+            ]
+        },
+        "deleteThingModelVersion": {
+            "description": "Delete an xRegistry Thing Model Version entity.",
+            "input": {
+                "type": "object",
+                "properties": {
+                    "groupId": {
+                        "description": "Group identifier. Uses the default if not specified.",
+                        "type": "string"
+                    }
+                },
+                "required": []
+            },
+            "forms": [
+                {
+                    "dov:topic": "aio/registry/thingModelExtension/delete/thingmodelgroups/thingmodels/{ex:thingModelId}/versions/{ex:versionId}",
+                    "contentType": "application/json",
+                    "op": "invokeaction",
+                    "additionalResponses": [
+                        {
+                            "success": false,
+                            "schema": "ThingModelExtensionError"
+                        }
+                    ]
+                }
+            ]
+        }
+    },
+    "schemaDefinitions": {
+        "ThingModelFormat": {
+            "type": "object",
+            "const": {
+                "JsonLD11": "JSON-LD/1.1"
+            },
+            "description": "Non-exhaustive supported WoT TM formats",
+            "properties": {
+                "JsonLD11": {
+                    "description": "JSON-LD 1.1 format",
+                    "type": "string"
+                }
+            }
+        },
+        "ThingModelGroupType": {
+            "type": "string",
+            "const": "thingmodelgroups",
+            "description": "Group type used in XID for xRegistry Thing Model Groups."
+        },
+        "ThingModelResourceType": {
+            "type": "string",
+            "const": "thingmodels",
+            "description": "Resource type used in XID for xRegistry Thing Model Resources."
+        },
+        "ThingModelExtensionError": {
+            "type": "object",
+            "properties": {
+                "type": {
+                    "type": "string",
+                    "description": "URI identifying the error type."
+                },
+                "code": {
+                    "type": "integer",
+                    "description": "HTTP-style response code."
+                },
+                "status": {
+                    "type": "string",
+                    "description": "HTTP-style response status text."
+                },
+                "title": {
+                    "type": "string",
+                    "description": "Short human-readable error title."
+                },
+                "detail": {
+                    "type": "string",
+                    "description": "Detailed error description."
+                },
+                "subject": {
+                    "type": "string",
+                    "description": "The XID of the entity being processed when the error occurred, if applicable."
+                },
+                "source": {
+                    "type": "string",
+                    "description": "The component that raised the error."
+                }
+            },
+            "required": [
+                "type",
+                "status",
+                "code",
+                "title"
+            ]
+        }
+    }
+}
