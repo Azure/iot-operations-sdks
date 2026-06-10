@@ -12,7 +12,7 @@ use uuid::Uuid;
 use super::super::common_types::{b64::Bytes, date_only::Date, decimal::Decimal, time_only::Time};
 use super::edge_registry_error::EdgeRegistryError;
 
-/// Result of the delete operation.
+/// TODO: Dummy output to allow Rust to compile
 #[derive(Serialize, Deserialize, Debug, Clone, Builder)]
 pub struct DeleteGroupResponseSchema {
     /// Error for the 'deleteGroup' Action.
@@ -21,8 +21,9 @@ pub struct DeleteGroupResponseSchema {
     #[builder(default = "None")]
     pub error: Option<EdgeRegistryError>,
 
-    /// True if the entity was deleted.
+    /// TODO: Temporary Output
+    #[serde(rename = "dummyOutput")]
     #[serde(skip_serializing_if = "Option::is_none")]
     #[builder(default = "None")]
-    pub deleted: Option<bool>,
+    pub dummy_output: Option<bool>,
 }

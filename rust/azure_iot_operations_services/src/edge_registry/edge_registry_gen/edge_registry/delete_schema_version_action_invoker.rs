@@ -163,10 +163,10 @@ impl DeleteSchemaVersionActionInvoker {
                 } else {
                     Ok(Ok(DeleteSchemaVersionResponse {
                         payload: DeleteSchemaVersionOutputArguments {
-                            deleted: response
+                            dummy_output: response
                                 .payload
-                                .deleted
-                                .ok_or(DeleteSchemaVersionActionInvoker::get_err("deleted"))?,
+                                .dummy_output
+                                .ok_or(DeleteSchemaVersionActionInvoker::get_err("dummyOutput"))?,
                         },
                         content_type: response.content_type,
                         format_indicator: response.format_indicator,

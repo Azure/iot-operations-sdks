@@ -188,7 +188,7 @@
                     }
                 },
                 "required": [
-                    "deleted"
+                    "dummyOutput"
                 ]
             },
             "forms": [

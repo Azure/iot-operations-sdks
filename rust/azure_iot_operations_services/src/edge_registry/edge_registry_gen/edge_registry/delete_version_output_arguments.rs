@@ -11,9 +11,10 @@ use uuid::Uuid;
 
 use super::super::common_types::{b64::Bytes, date_only::Date, decimal::Decimal, time_only::Time};
 
-/// Result of the delete operation.
+/// TODO: Dummy output to allow Rust to compile
 #[derive(Serialize, Deserialize, Debug, Clone, Builder)]
 pub struct DeleteVersionOutputArguments {
-    /// True if the entity was deleted.
-    pub deleted: bool,
+    /// TODO: Temporary Output
+    #[serde(rename = "dummyOutput")]
+    pub dummy_output: bool,
 }

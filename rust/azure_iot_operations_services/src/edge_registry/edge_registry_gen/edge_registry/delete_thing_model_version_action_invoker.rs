@@ -167,10 +167,9 @@ impl DeleteThingModelVersionActionInvoker {
                 } else {
                     Ok(Ok(DeleteThingModelVersionResponse {
                         payload: DeleteThingModelVersionOutputArguments {
-                            deleted: response
-                                .payload
-                                .deleted
-                                .ok_or(DeleteThingModelVersionActionInvoker::get_err("deleted"))?,
+                            dummy_output: response.payload.dummy_output.ok_or(
+                                DeleteThingModelVersionActionInvoker::get_err("dummyOutput"),
+                            )?,
                         },
                         content_type: response.content_type,
                         format_indicator: response.format_indicator,

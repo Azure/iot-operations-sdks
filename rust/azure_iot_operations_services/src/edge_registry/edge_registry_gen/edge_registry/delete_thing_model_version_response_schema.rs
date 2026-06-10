@@ -12,7 +12,7 @@ use uuid::Uuid;
 use super::super::common_types::{b64::Bytes, date_only::Date, decimal::Decimal, time_only::Time};
 use super::thing_model_extension_error::ThingModelExtensionError;
 
-/// TODO: Temporary Output
+/// TODO: Dummy output to allow Rust to compile
 #[derive(Serialize, Deserialize, Debug, Clone, Builder)]
 pub struct DeleteThingModelVersionResponseSchema {
     /// Error for the 'deleteThingModelVersion' Action.
@@ -21,8 +21,9 @@ pub struct DeleteThingModelVersionResponseSchema {
     #[builder(default = "None")]
     pub error: Option<ThingModelExtensionError>,
 
-    /// True if the entity was deleted.
+    /// TODO: Temporary Output
+    #[serde(rename = "dummyOutput")]
     #[serde(skip_serializing_if = "Option::is_none")]
     #[builder(default = "None")]
-    pub deleted: Option<bool>,
+    pub dummy_output: Option<bool>,
 }

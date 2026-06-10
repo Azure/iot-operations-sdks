@@ -172,8 +172,8 @@ impl DeleteThingDescriptionVersionActionInvoker {
                 } else {
                     Ok(Ok(DeleteThingDescriptionVersionResponse {
                         payload: DeleteThingDescriptionVersionOutputArguments {
-                            deleted: response.payload.deleted.ok_or(
-                                DeleteThingDescriptionVersionActionInvoker::get_err("deleted"),
+                            dummy_output: response.payload.dummy_output.ok_or(
+                                DeleteThingDescriptionVersionActionInvoker::get_err("dummyOutput"),
                             )?,
                         },
                         content_type: response.content_type,
