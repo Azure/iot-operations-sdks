@@ -13,6 +13,7 @@ use chrono::{DateTime, Utc};
 
 use crate::edge_registry::edge_registry_gen::common_types::b64::Bytes;
 use crate::edge_registry::edge_registry_gen::edge_registry::client as client_gen;
+use crate::edge_registry::{Error, ErrorKind};
 
 // ~~~~~~~~~~~~~~~~~~~Conversion helpers~~~~~~~~~~~~~~~~~~~~~~~~~~
 
@@ -41,24 +42,33 @@ fn extensions_to_gen(extensions: HashMap<String, Vec<u8>>) -> HashMap<String, By
 
 // ~~~~~~~~~~~~~~~~~~~Shared value types~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-// TODOR: This should probably be an enum.
 /// Indicates whether validation was performed, and if not, the reason why not (e.g., "unsupported
 /// format", "validation disabled").
 #[derive(Debug, Clone, PartialEq, Eq)]
-pub struct Validated {
-    /// True if validation was performed and the entity adheres to the rules; false if validation
-    /// was not performed.
-    pub validated: bool,
-    /// If validation was not performed, the reason why not. MUST be present if validated is false.
-    /// MUST NOT be present if validated is true.
-    pub reason: Option<String>,
+pub enum Validated {
+    /// Validation was performed and the entity adheres to the rules.
+    True,
+    /// Validation was not performed, along with the reason why not.
+    False(String),
 }
 
-impl From<client_gen::Validated> for Validated {
-    fn from(value: client_gen::Validated) -> Self {
-        Validated {
-            validated: value.validated,
-            reason: value.reason,
+impl TryFrom<client_gen::Validated> for Validated {
+    type Error = Error;
+
+    fn try_from(value: client_gen::Validated) -> Result<Self, Self::Error> {
+        if value.validated {
+            // TODO: Maybe we fail here too if there is a reason on true?
+            // Per the model, `reason` MUST NOT be present when `validated` is true.
+            // Any value is dropped here, as the `True` variant carries no reason.
+            Ok(Validated::True)
+        } else {
+            match value.reason {
+                Some(reason) => Ok(Validated::False(reason)),
+                None => Err(ErrorKind::InvalidResponse(
+                    "'Validated.reason' must be present when 'validated' is false".to_string(),
+                )
+                .into()),
+            }
         }
     }
 }
@@ -70,6 +80,7 @@ pub struct DeprecatedInfo {
     /// be in the past or future. If this property is not present the entity is already in a
     /// deprecated state.
     pub effective: Option<DateTime<Utc>>,
+    // TODO: Maybe consider enforcing this as part of the SDK.
     /// Indicates the time when the entity will be removed. The entity MUST NOT be removed before
     /// this time. If this property is not present, the client cannot make any assumptions as to
     /// when the entity might be removed. This MUST NOT be sooner than the `effective` time, if that
@@ -240,16 +251,18 @@ pub struct Resource {
     pub extensions: HashMap<String, Vec<u8>>,
 }
 
-impl From<client_gen::Resource> for Resource {
-    fn from(value: client_gen::Resource) -> Self {
-        Resource {
+impl TryFrom<client_gen::Resource> for Resource {
+    type Error = Error;
+
+    fn try_from(value: client_gen::Resource) -> Result<Self, Self::Error> {
+        Ok(Resource {
             id: value.id,
             xid: value.xid,
             meta: ResourceMeta::from(value.meta),
-            default_version: Version::from(value.default_version),
+            default_version: Version::try_from(value.default_version)?,
             versions_count: value.versions_count,
             extensions: extensions_from_gen(value.extensions),
-        }
+        })
     }
 }
 
@@ -358,9 +371,11 @@ pub struct Version {
     pub extensions: HashMap<String, Vec<u8>>,
 }
 
-impl From<client_gen::Version> for Version {
-    fn from(value: client_gen::Version) -> Self {
-        Version {
+impl TryFrom<client_gen::Version> for Version {
+    type Error = Error;
+
+    fn try_from(value: client_gen::Version) -> Result<Self, Self::Error> {
+        Ok(Version {
             resource_id: value.resource_id,
             version_id: value.version_id,
             xid: value.xid,
@@ -376,12 +391,18 @@ impl From<client_gen::Version> for Version {
             ancestor: value.ancestor,
             content_type: value.content_type,
             format: value.format,
-            format_validated: value.format_validated.map(Validated::from),
-            compatibility_validated: value.compatibility_validated.map(Validated::from),
+            format_validated: value
+                .format_validated
+                .map(Validated::try_from)
+                .transpose()?,
+            compatibility_validated: value
+                .compatibility_validated
+                .map(Validated::try_from)
+                .transpose()?,
             document: value.document.map(|b| b.0),
             document_hash: value.document_hash,
             extensions: extensions_from_gen(value.extensions),
-        }
+        })
     }
 }
 
@@ -546,5 +567,52 @@ impl From<CreateVersionRequest> for client_gen::CreateVersionRequestPayload {
             version: client_gen::VersionAttributes::from(value.version),
             resource_labels: labels_to_gen(value.resource_labels),
         }
+    }
+}
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+    use crate::edge_registry::ErrorKind;
+
+    #[test]
+    fn validated_true_maps_to_true_variant() {
+        let wire = client_gen::Validated {
+            validated: true,
+            reason: None,
+        };
+        assert_eq!(Validated::try_from(wire).unwrap(), Validated::True);
+    }
+
+    #[test]
+    fn validated_true_with_spurious_reason_drops_reason() {
+        // `reason` MUST NOT be present when validated is true; a spurious value is dropped.
+        let wire = client_gen::Validated {
+            validated: true,
+            reason: Some("ignored".to_string()),
+        };
+        assert_eq!(Validated::try_from(wire).unwrap(), Validated::True);
+    }
+
+    #[test]
+    fn validated_false_maps_to_false_variant_with_reason() {
+        let wire = client_gen::Validated {
+            validated: false,
+            reason: Some("unsupported format".to_string()),
+        };
+        assert_eq!(
+            Validated::try_from(wire).unwrap(),
+            Validated::False("unsupported format".to_string())
+        );
+    }
+
+    #[test]
+    fn validated_false_without_reason_is_invalid_response() {
+        let wire = client_gen::Validated {
+            validated: false,
+            reason: None,
+        };
+        let err = Validated::try_from(wire).unwrap_err();
+        assert!(matches!(err.kind(), ErrorKind::InvalidResponse(_)));
     }
 }
