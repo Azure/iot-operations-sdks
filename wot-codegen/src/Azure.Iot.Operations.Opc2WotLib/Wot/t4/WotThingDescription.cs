@@ -17,7 +17,7 @@ namespace Azure.Iot.Operations.Opc2WotLib
     /// Class to produce the template output
     /// </summary>
     [global::System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.VisualStudio.TextTemplating", "18.0.0.0")]
-    public partial class WotEvent : WotEventBase
+    public partial class WotThingDescription : WotThingDescriptionBase
     {
         /// <summary>
         /// Create the template output
@@ -26,51 +26,74 @@ namespace Azure.Iot.Operations.Opc2WotLib
         {
  // Copyright (c) Microsoft Corporation. 
  // Licensed under the MIT License 
-            this.Write("\"");
-            this.Write(this.ToStringHelper.ToStringWithCulture(this.EventName));
-            this.Write("\": {\r\n");
- if (this.uaVariable.BrowseNamespace != null) { 
-            this.Write("  \"dov:namespace\": \"");
-            this.Write(this.ToStringHelper.ToStringWithCulture(this.uaVariable.BrowseNamespace));
-            this.Write("\",\r\n");
+            this.Write("{\r\n  \"@context\": [\r\n    \"https://www.w3.org/2022/wot/td/v1.1\",\r\n    {\r\n");
+ if (this.areUnitsInUse) { 
+            this.Write("      \"qudt\": \"http://qudt.org/schema/qudt/\",\r\n");
  } 
-            this.Write("  \"data\": {\r\n");
- this.PushIndent("    "); 
-            this.Write(this.ToStringHelper.ToStringWithCulture(this.dataSchema.TransformText()));
-            this.Write("\r\n");
- this.PopIndent(); 
-            this.Write("  },\r\n");
- if (this.uaVariable.IsPlaceholder) { 
-            this.Write("  \"dov:placeholder\": true,\r\n");
+            this.Write("      \"dov\": \"http://azure.com/DigitalOperations/vocab#\"\r\n    }\r\n  ],\r\n  \"@type\":" +
+                    " \"Thing\",\r\n  \"title\": \"");
+            this.Write(this.ToStringHelper.ToStringWithCulture(this.thingName));
+            this.Write("\",\r\n  \"dov:typeRef\": \"");
+            this.Write(this.ToStringHelper.ToStringWithCulture(this.typeRef));
+            this.Write("\",\r\n  \"securityDefinitions\": {\r\n    \"basic_sc\": {\r\n      \"scheme\": \"basic\",\r\n    " +
+                    "  \"in\": \"header\"\r\n    }\r\n  },\r\n  \"security\": \"basic_sc\",\r\n");
+ if (this.definingModelRef != null) { 
+            this.Write("  \"links\": [\r\n    {\r\n      \"rel\": \"type\",\r\n      \"href\": \"");
+            this.Write(this.ToStringHelper.ToStringWithCulture(this.definingModelRef));
+            this.Write("\",\r\n      \"type\": \"application/tm+json\"\r\n    }\r\n  ],\r\n");
  } 
- if (this.containedIn != null) { 
-            this.Write("  \"dov:containedIn\": \"");
-            this.Write(this.ToStringHelper.ToStringWithCulture(this.containedIn));
-            this.Write("\",\r\n");
- } 
- if (this.contains.Any()) { 
-            this.Write("  \"dov:contains\": [ ");
-            this.Write(this.ToStringHelper.ToStringWithCulture(string.Join(", ", this.contains.Select(c => $"\"{c}\""))));
-            this.Write(" ],\r\n");
- } 
- if (this.quantityKind != null) { 
-            this.Write("  \"qudt:hasQuantityKind\": \"");
-            this.Write(this.ToStringHelper.ToStringWithCulture(this.quantityKind));
-            this.Write("\",\r\n  \"dov:withUnit\": \"properties/");
-            this.Write(this.ToStringHelper.ToStringWithCulture(this.EventName));
-            this.Write("_EngineeringUnits\",\r\n");
- } 
-            this.Write("  \"forms\": [\r\n    {\r\n");
- if (this.inDescription) { 
-            this.Write("      \"href\": \"https://placeholder.example.com/endpoint\",\r\n");
- } 
-            this.Write("      \"contentType\": \"application/json\",\r\n      \"dov:topic\": \"opcua/");
+ if (this.properties.Any() || this.events.Any()) { 
+            this.Write("  \"forms\": [\r\n");
+ if (this.events.Any()) { 
+            this.Write("    {\r\n      \"href\": \"https://placeholder.example.com/endpoint\",\r\n      \"contentT" +
+                    "ype\": \"application/json\",\r\n      \"dov:topic\": \"opcua/");
             this.Write(this.ToStringHelper.ToStringWithCulture(this.specName));
             this.Write("/");
-            this.Write(this.ToStringHelper.ToStringWithCulture(this.thingModelName));
-            this.Write("/event/");
-            this.Write(this.ToStringHelper.ToStringWithCulture(this.EventName));
-            this.Write("/{senderId}\",\r\n      \"op\": \"subscribeevent\"\r\n    }\r\n  ]\r\n}");
+            this.Write(this.ToStringHelper.ToStringWithCulture(this.thingName));
+            this.Write("/events/{senderId}\",\r\n      \"op\": \"subscribeallevents\"\r\n    }");
+            this.Write(this.ToStringHelper.ToStringWithCulture(this.properties.Any() ? "," : ""));
+            this.Write("\r\n");
+ } 
+ if (this.properties.Any()) { 
+ if (this.properties.Any(p => !p.ReadOnly)) { 
+            this.Write("    {\r\n      \"href\": \"https://placeholder.example.com/endpoint\",\r\n      \"contentT" +
+                    "ype\": \"application/json\",\r\n      \"dov:topic\": \"opcua/");
+            this.Write(this.ToStringHelper.ToStringWithCulture(this.specName));
+            this.Write("/");
+            this.Write(this.ToStringHelper.ToStringWithCulture(this.thingName));
+            this.Write("/properties/write\",\r\n      \"op\": \"writemultipleproperties\"\r\n    },\r\n");
+ } 
+            this.Write("    {\r\n      \"href\": \"https://placeholder.example.com/endpoint\",\r\n      \"contentT" +
+                    "ype\": \"application/json\",\r\n      \"dov:topic\": \"opcua/");
+            this.Write(this.ToStringHelper.ToStringWithCulture(this.specName));
+            this.Write("/");
+            this.Write(this.ToStringHelper.ToStringWithCulture(this.thingName));
+            this.Write("/properties/read\",\r\n      \"op\": \"readallproperties\"\r\n    }\r\n");
+ } 
+            this.Write("  ],\r\n");
+ } 
+            this.Write("  \"actions\": {\r\n");
+ this.PushIndent("    "); 
+ int ix1 = 1; foreach (WotAction action in this.actions) { 
+            this.Write(this.ToStringHelper.ToStringWithCulture(action.TransformText()));
+            this.Write(this.ToStringHelper.ToStringWithCulture(ix1 < this.actions.Count ? "," : ""));
+            this.Write("\r\n");
+ ix1++; } this.PopIndent(); 
+            this.Write("  },\r\n  \"properties\": {\r\n");
+ this.PushIndent("    "); 
+ ix1 = 1; foreach (WotProperty property in this.properties) { 
+            this.Write(this.ToStringHelper.ToStringWithCulture(property.TransformText()));
+            this.Write(this.ToStringHelper.ToStringWithCulture(ix1 < this.properties.Count ? "," : ""));
+            this.Write("\r\n");
+ ix1++; } this.PopIndent(); 
+            this.Write("  },\r\n  \"events\": {\r\n");
+ this.PushIndent("    "); 
+ ix1 = 1; foreach (WotEvent evt in this.events) { 
+            this.Write(this.ToStringHelper.ToStringWithCulture(evt.TransformText()));
+            this.Write(this.ToStringHelper.ToStringWithCulture(ix1 < this.events.Count ? "," : ""));
+            this.Write("\r\n");
+ ix1++; } this.PopIndent(); 
+            this.Write("  }\r\n}");
             return this.GenerationEnvironment.ToString();
         }
     }
@@ -79,7 +102,7 @@ namespace Azure.Iot.Operations.Opc2WotLib
     /// Base class for this transformation
     /// </summary>
     [global::System.CodeDom.Compiler.GeneratedCodeAttribute("Microsoft.VisualStudio.TextTemplating", "18.0.0.0")]
-    public class WotEventBase
+    public class WotThingDescriptionBase
     {
         #region Fields
         private global::System.Text.StringBuilder generationEnvironmentField;

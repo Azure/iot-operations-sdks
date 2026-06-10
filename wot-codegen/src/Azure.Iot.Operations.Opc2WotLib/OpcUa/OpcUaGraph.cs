@@ -85,7 +85,7 @@ namespace Azure.Iot.Operations.Opc2WotLib
             OpcUaModelInfo modelInfo = new OpcUaModelInfo(modelUri, namespaceUrisNode?.ChildNodes, aliasesNode.ChildNodes);
             ModelUriToModelMap[modelUri] = modelInfo;
 
-            Dictionary<string, OpcUaObjectType> effectiveNameToObjectTypeMap = new();
+            Dictionary<string, OpcUaNode> effectiveNameToNodeMap = new();
 
             foreach (XmlNode node in xmlDoc.DocumentElement.ChildNodes)
             {
@@ -98,15 +98,17 @@ namespace Azure.Iot.Operations.Opc2WotLib
                         break;
                     case "UAObject":
                         OpcUaObject opcUaObject = new OpcUaObject(modelInfo, NsUriToNsInfoMap, node);
+                        SetDiscriminator(opcUaObject, effectiveNameToNodeMap);
                         if (opcUaObject.HasTypeDefinitionNodeId != null)
                         {
                             modelInfo.TypeDefinitionNodeIds.Add(opcUaObject.HasTypeDefinitionNodeId);
                         }
+                        modelInfo.NodeIdToObjectMap[opcUaObject.NodeId] = opcUaObject;
                         opcUaNode = opcUaObject;
                         break;
                     case "UAObjectType":
                         OpcUaObjectType opcUaObjectType = new OpcUaObjectType(modelInfo, NsUriToNsInfoMap, node);
-                        SetDiscriminator(opcUaObjectType, effectiveNameToObjectTypeMap);
+                        SetDiscriminator(opcUaObjectType, effectiveNameToNodeMap);
                         modelInfo.NodeIdToObjectTypeMap[opcUaObjectType.NodeId] = opcUaObjectType;
                         opcUaNode = opcUaObjectType;
                         break;
@@ -132,11 +134,19 @@ namespace Azure.Iot.Operations.Opc2WotLib
                     nsInfo.NodeIndexToNodeMap[opcUaNode.NodeId.NodeIndex] = opcUaNode;
                 }
             }
+
+            foreach (OpcUaObjectType opcUaObjectType in modelInfo.NodeIdToObjectTypeMap.Values)
+            {
+                foreach ((OpcUaNodeId, OpcUaObject) typeAndObjectOfReference in opcUaObjectType.TypeAndObjectOfReferences)
+                {
+                    modelInfo.ReferencedObjectNodeIds.Add(typeAndObjectOfReference.Item2.NodeId);
+                }
+            }
         }
 
-        private void SetDiscriminator(OpcUaObjectType newObjectType, Dictionary<string, OpcUaObjectType> effectiveNameToObjectTypeMap)
+        private void SetDiscriminator(OpcUaNode newObjectType, Dictionary<string, OpcUaNode> effectiveNameToNodeMap)
         {
-            if (effectiveNameToObjectTypeMap.TryGetValue(newObjectType.EffectiveName, out OpcUaObjectType? extantObjectType))
+            if (effectiveNameToNodeMap.TryGetValue(newObjectType.EffectiveName, out OpcUaNode? extantObjectType))
             {
                 if (extantObjectType.Discriminator == 0)
                 {
@@ -146,7 +156,7 @@ namespace Azure.Iot.Operations.Opc2WotLib
                 newObjectType.Discriminator = extantObjectType.Discriminator + 1;
             }
 
-            effectiveNameToObjectTypeMap[newObjectType.EffectiveName] = newObjectType;
+            effectiveNameToNodeMap[newObjectType.EffectiveName] = newObjectType;
         }
     }
 }
