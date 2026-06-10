@@ -1,0 +1,34 @@
+{
+  "$schema": "https://json-schema.org/draft-07/schema",
+  "title": "CreateResourceRequest",
+  "description": "Request payload for creating a generic xRegistry Resource entity along with its default Version.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "meta",
+    "defaultVersion",
+    "extensions"
+  ],
+  "properties": {
+    "groupId": {
+      "description": "Group identifier. Uses the default if not specified.",
+      "type": "string"
+    },
+    "meta": {
+      "description": "The attributes needed to create the Resource Meta (its `meta` sub-entity).",
+      "$ref": "ResourceMetaAttributes.schema.json"
+    },
+    "defaultVersion": {
+      "description": "The attributes of the Resource's default Version, which will be created along side this Resource.",
+      "$ref": "VersionAttributes.schema.json"
+    },
+    "extensions": {
+      "description": "Extension-specific attributes.",
+      "type": "object",
+      "additionalProperties": {
+        "type": "string",
+        "contentEncoding": "base64"
+      }
+    }
+  }
+}
