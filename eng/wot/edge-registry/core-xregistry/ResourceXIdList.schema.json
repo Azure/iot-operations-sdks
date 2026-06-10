@@ -1,6 +1,6 @@
 {
   "$schema": "https://json-schema.org/draft-07/schema",
-  "title": "ResourceXidList",
+  "title": "ResourceXIdList",
   "description": "List of Resource XIDs within the provided constraints with the specified label.",
   "type": "object",
   "additionalProperties": false,

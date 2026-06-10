@@ -1,6 +1,6 @@
 {
   "$schema": "https://json-schema.org/draft-07/schema",
-  "title": "VersionXidList",
+  "title": "VersionXIdList",
   "description": "List of Version XIDs within the provided constraints with the specified label.",
   "type": "object",
   "additionalProperties": false,

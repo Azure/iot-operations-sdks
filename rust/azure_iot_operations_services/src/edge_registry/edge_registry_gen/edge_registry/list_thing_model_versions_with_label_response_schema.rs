@@ -11,7 +11,7 @@ use uuid::Uuid;
 
 use super::super::common_types::{b64::Bytes, date_only::Date, decimal::Decimal, time_only::Time};
 use super::thing_model_extension_error::ThingModelExtensionError;
-use super::version_xid_list::VersionXidList;
+use super::thing_model_version_xid_list::ThingModelVersionXidList;
 
 /// List of Version XIDs within the provided constraints with the specified label.
 #[derive(Serialize, Deserialize, Debug, Clone, Builder)]
@@ -26,5 +26,5 @@ pub struct ListThingModelVersionsWithLabelResponseSchema {
     #[serde(rename = "_output")]
     #[serde(skip_serializing_if = "Option::is_none")]
     #[builder(default = "None")]
-    pub output: Option<VersionXidList>,
+    pub output: Option<ThingModelVersionXidList>,
 }

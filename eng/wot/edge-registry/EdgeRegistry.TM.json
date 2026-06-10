@@ -268,7 +268,7 @@
                 ]
             },
             "output": {
-                "dov:ref": "./core-xregistry/ResourceXidList.schema.json",
+                "dov:ref": "./core-xregistry/ResourceXIdList.schema.json",
                 "description": "List of Resource XIDs within the provided constraints with the specified label."
             },
             "forms": [
@@ -465,7 +465,7 @@
                 ]
             },
             "output": {
-                "dov:ref": "./core-xregistry/VersionXidList.schema.json",
+                "dov:ref": "./core-xregistry/VersionXIdList.schema.json",
                 "description": "List of Version XIDs within the provided constraints with the specified label."
             },
             "forms": [

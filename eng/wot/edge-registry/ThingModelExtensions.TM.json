@@ -149,7 +149,7 @@
                 ]
             },
             "output": {
-                "dov:ref": "./core-xregistry/VersionXidList.schema.json",
+                "dov:ref": "./thing-model-extension/ThingModelVersionXIdList.schema.json",
                 "description": "List of Version XIDs within the provided constraints with the specified label."
             },
             "forms": [
