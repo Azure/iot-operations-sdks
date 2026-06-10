@@ -47,9 +47,11 @@ namespace Azure.Iot.Operations.Opc2WotLib
                 }
             }
 
+            NodeIdToObjectMap = new Dictionary<OpcUaNodeId, OpcUaObject>();
             NodeIdToObjectTypeMap = new Dictionary<OpcUaNodeId, OpcUaObjectType>();
 
             TypeDefinitionNodeIds = new HashSet<OpcUaNodeId>();
+            ReferencedObjectNodeIds = new HashSet<OpcUaNodeId>();
         }
 
         public string ModelUri { get; }
@@ -58,8 +60,12 @@ namespace Azure.Iot.Operations.Opc2WotLib
 
         public Dictionary<string, OpcUaNodeId> AliasMap { get; }
 
+        public Dictionary<OpcUaNodeId, OpcUaObject> NodeIdToObjectMap { get; }
+
         public Dictionary<OpcUaNodeId, OpcUaObjectType> NodeIdToObjectTypeMap { get; }
 
         public HashSet<OpcUaNodeId> TypeDefinitionNodeIds { get; }
+
+        public HashSet<OpcUaNodeId> ReferencedObjectNodeIds { get; }
     }
 }
