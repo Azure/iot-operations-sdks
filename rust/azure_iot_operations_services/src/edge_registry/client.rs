@@ -6,12 +6,15 @@
 //! To use this client, the `edge_registry` feature must be enabled.
 
 use std::sync::Arc;
+use std::time::Duration;
 
 use azure_iot_operations_mqtt::session::SessionManagedClient;
 use azure_iot_operations_protocol::application::ApplicationContext;
 
+use crate::edge_registry::Error;
 use crate::edge_registry::edge_registry_gen::common_types::options::CommandInvokerOptionsBuilder;
 use crate::edge_registry::edge_registry_gen::edge_registry::client as client_gen;
+use crate::edge_registry::models::{Group, GroupAttributes};
 
 /// Edge Registry client implementation.
 // Fields are constructed in `new` but not yet read; the per-API methods that use
@@ -131,5 +134,67 @@ impl Client {
                 &options,
             )),
         }
+    }
+}
+
+// TODO: These are placeholder Group APIs. Implement the request/response
+// handling, argument validation (e.g. `group_id`/`name` non-empty per the
+// xRegistry spec), and error mapping. The remaining Resource, Version, and
+// extension APIs are still to be added.
+#[allow(unused_variables)]
+#[allow(clippy::unused_async)]
+impl Client {
+    /// Create a new xRegistry Group. Returns the created Group with epoch=1.
+    ///
+    /// # Errors
+    /// Returns an [`struct@Error`] if the request fails.
+    pub async fn create_group(
+        &self,
+        group_type: impl Into<String>, // TODO: Should we check that this is non-empty or let service handle it?
+        attributes: GroupAttributes, // TODO: Should we bring out the attributes to the front or leave them as is?
+        // TODO: Are any of them actually required?
+        timeout: Duration, // TODO: Would like to use something like `ReportInterval` for this but not sure if it is worth it. This would reduce some amount of SDK errors.
+    ) -> Result<Group, Error> {
+        unimplemented!()
+    }
+
+    /// Retrieve an xRegistry Group entity. Uses the default Group if `group_id`
+    /// is not specified.
+    ///
+    /// # Errors
+    /// Returns an [`struct@Error`] if the request fails.
+    pub async fn get_group(
+        &self,
+        group_type: impl Into<String>,
+        group_id: Option<String>, // TODO: Maybe we can have a similar thing to ReportInterval that allows a "None" but calls it default and otherwise enforces non-empty string?
+        timeout: Duration,
+    ) -> Result<Group, Error> {
+        unimplemented!()
+    }
+
+    /// List the identifiers of the xRegistry Groups of the given type.
+    ///
+    /// # Errors
+    /// Returns an [`struct@Error`] if the request fails.
+    pub async fn list_groups(
+        &self,
+        group_type: impl Into<String>,
+        timeout: Duration,
+    ) -> Result<Vec<String>, Error> {
+        unimplemented!()
+    }
+
+    /// Delete an xRegistry Group entity. Deletes cascade: all Resources
+    /// contained in the Group and all of their Versions are deleted.
+    ///
+    /// # Errors
+    /// Returns an [`struct@Error`] if the request fails.
+    pub async fn delete_group(
+        &self,
+        group_type: impl Into<String>,
+        group_id: Option<String>,
+        timeout: Duration,
+    ) -> Result<(), Error> {
+        unimplemented!()
     }
 }

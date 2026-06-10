@@ -5,4 +5,6 @@
 
 pub mod xregistry;
 
+pub use xregistry::*;
+
 // TODO: Add the extensions here as well.
