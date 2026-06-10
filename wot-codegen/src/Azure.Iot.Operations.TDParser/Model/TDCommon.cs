@@ -12,6 +12,7 @@ namespace Azure.Iot.Operations.TDParser.Model
         public const string ContentTypeName = "contentType";
         public const string DescriptionName = "description";
         public const string FormsName = "forms";
+        public const string HrefName = "href";
         public const string NamespaceName = "dov:namespace";
         public const string NamespaceLegacyName = "aov:namespace";
         public const string TitleName = "title";

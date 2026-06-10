@@ -18,6 +18,7 @@ namespace Azure.Iot.Operations.CodeGeneration
         public const string ContextPrefixQudt = "qudt";
 
         public const string RelationExtends = "tm:extends";
+        public const string RelationType = "type";
         public const string RelationReference = "dov:reference";
         public const string RelationReferenceLegacy = "aov:reference";
         public const string RelationTypedReference = "dov:typedReference";
@@ -37,6 +38,7 @@ namespace Azure.Iot.Operations.CodeGeneration
         public const string ContentTypeCustom = "";
 
         public const string TypeThingModel = "tm:ThingModel";
+        public const string TypeThingDescription = "Thing";
 
         public const string OpInvokeAction = "invokeaction";
         public const string OpReadProp = "readproperty";
