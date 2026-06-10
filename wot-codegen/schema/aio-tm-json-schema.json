@@ -284,7 +284,8 @@
         }
       },
       "dependentRequired": {
-        "aov:typeRef": [ "enum" ]
+        "aov:typeRef": [ "enum" ],
+        "dov:typeRef": [ "enum" ]
       },
       "not": {
         "anyOf": [

@@ -112,7 +112,7 @@
           "defaultSnippets": [
             {
               "description": "maximum unsigned 1-byte value",
-              "body": 256
+              "body": 255
             },
             {
               "description": "maximum unsigned 2-byte value",
@@ -124,7 +124,7 @@
             },
             {
               "description": "maximum unsigned 8-byte value",
-              "body": 9223372036854775807
+              "body": 18446744073709551615
             },
             {
               "description": "maximum signed 1-byte value",
@@ -140,7 +140,7 @@
             },
             {
               "description": "maximum signed 8-byte value",
-              "body": 18446744073709551615
+              "body": 9223372036854775807
             }
           ]
         }
@@ -284,7 +284,8 @@
         }
       },
       "dependentRequired": {
-        "aov:typeRef": [ "enum" ]
+        "aov:typeRef": [ "enum" ],
+        "dov:typeRef": [ "enum" ]
       },
       "not": {
         "anyOf": [
@@ -1096,31 +1097,33 @@
               "$ref": "#/definitions/title"
             },
             "dov:typeRef": {
-              "description": "opaque reference to another definition (not necessarily in WoT) that is congruent to this Thing Model definition",
+              "description": "opaque reference to another definition (not necessarily in WoT) that is congruent to this Thing Description definition",
               "type": "string"
             },
             "aov:typeRef": {
-              "description": "opaque reference to another definition (not necessarily in WoT) that is congruent to this Thing Model definition",
+              "description": "opaque reference to another definition (not necessarily in WoT) that is congruent to this Thing Description definition",
               "type": "string"
             },
             "dov:isComposite": {
-              "description": "true if the Thing Model represents a composite type",
+              "description": "true if the Thing Description represents a composite type",
               "type": "boolean"
             },
             "aov:isComposite": {
-              "description": "true if the Thing Model represents a composite type",
+              "description": "true if the Thing Description represents a composite type",
               "type": "boolean"
+            }
             },
             "dov:isEvent": {
-              "description": "true if the Thing Model represents an event type",
+              "description": "true if the Thing Description represents an event type",
               "type": "boolean"
             },
             "aov:isEvent": {
-              "description": "true if the Thing Model represents an event type",
+              "description": "true if the Thing Description represents an event type",
               "type": "boolean"
+            }
             },
             "dov:metadata": {
-              "description": "arbitrary metadata associated with this Thing Model",
+              "description": "arbitrary metadata associated with this Thing Description",
               "type": "object",
               "additionalProperties": true
             },
