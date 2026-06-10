@@ -23,6 +23,10 @@ namespace Azure.Iot.Operations.TDParser.Model
         public const string WithUnitName = TDCommon.WithUnitName;
         public const string WithUnitLegacyName = TDCommon.WithUnitLegacyName;
         public const string HasQuantityKindName = TDCommon.HasQuantityKindName;
+        public const string MemberOfName = TDCommon.MemberOfName;
+        public const string MemberOfLegacyName = TDCommon.MemberOfLegacyName;
+        public const string PropertyIriName = TDCommon.PropertyIriName;
+        public const string EventConfigurationName = "dov:eventConfiguration";
 
         public static readonly HashSet<string> SupportedProperties = new()
         {
@@ -39,7 +43,11 @@ namespace Azure.Iot.Operations.TDParser.Model
             NamespaceLegacyName,
             WithUnitName,
             WithUnitLegacyName,
-            HasQuantityKindName
+            HasQuantityKindName,
+            MemberOfName,
+            MemberOfLegacyName,
+            PropertyIriName,
+            EventConfigurationName
         };
 
         public ValueTracker<StringHolder>? Description { get; set; }
@@ -62,6 +70,12 @@ namespace Azure.Iot.Operations.TDParser.Model
 
         public ValueTracker<StringHolder>? HasQuantityKind { get; set; }
 
+        public ValueTracker<StringHolder>? MemberOf { get; set; }
+
+        public ValueTracker<StringHolder>? PropertyIri { get; set; }
+
+        public ValueTracker<TDAnything>? EventConfiguration { get; set; }
+
         public PrefixType PlaceholderPrefixType { get; set; } = PrefixType.Indeterminate;
 
         public PrefixType ContainsPrefixType { get; set; } = PrefixType.Indeterminate;
@@ -71,6 +85,8 @@ namespace Azure.Iot.Operations.TDParser.Model
         public PrefixType NamespacePrefixType { get; set; } = PrefixType.Indeterminate;
 
         public PrefixType WithUnitPrefixType { get; set; } = PrefixType.Indeterminate;
+
+        public PrefixType MemberOfPrefixType { get; set; } = PrefixType.Indeterminate;
 
         public virtual bool Equals(TDEvent? other)
         {
@@ -88,13 +104,16 @@ namespace Azure.Iot.Operations.TDParser.Model
                        ContainedIn == other.ContainedIn &&
                        Namespace == other.Namespace &&
                        WithUnit == other.WithUnit &&
-                       HasQuantityKind == other.HasQuantityKind;
+                       HasQuantityKind == other.HasQuantityKind &&
+                       MemberOf == other.MemberOf &&
+                       PropertyIri == other.PropertyIri &&
+                       EventConfiguration == other.EventConfiguration;
             }
         }
 
         public override int GetHashCode()
         {
-            return (Description, Data, Placeholder, Forms, Contains, ContainedIn, Namespace, WithUnit, HasQuantityKind).GetHashCode();
+            return (Description, Data, Placeholder, Forms, Contains, ContainedIn, Namespace, WithUnit, HasQuantityKind, MemberOf, PropertyIri, EventConfiguration).GetHashCode();
         }
 
         public static bool operator ==(TDEvent? left, TDEvent? right)
@@ -199,6 +218,27 @@ namespace Azure.Iot.Operations.TDParser.Model
                     yield return item;
                 }
             }
+            if (MemberOf != null)
+            {
+                foreach (ITraversable item in MemberOf.Traverse())
+                {
+                    yield return item;
+                }
+            }
+            if (PropertyIri != null)
+            {
+                foreach (ITraversable item in PropertyIri.Traverse())
+                {
+                    yield return item;
+                }
+            }
+            if (EventConfiguration != null)
+            {
+                foreach (ITraversable item in EventConfiguration.Traverse())
+                {
+                    yield return item;
+                }
+            }
         }
 
         public static TDEvent Deserialize(ref Utf8JsonReader reader)
@@ -271,6 +311,20 @@ namespace Azure.Iot.Operations.TDParser.Model
                         break;
                     case HasQuantityKindName:
                         evt.HasQuantityKind = ValueTracker<StringHolder>.Deserialize(ref reader, HasQuantityKindName);
+                        break;
+                    case MemberOfName:
+                        evt.MemberOf = ValueTracker<StringHolder>.Deserialize(ref reader, MemberOfName);
+                        evt.MemberOfPrefixType = PrefixType.DoVocabulary;
+                        break;
+                    case MemberOfLegacyName:
+                        evt.MemberOf = ValueTracker<StringHolder>.Deserialize(ref reader, MemberOfName);
+                        evt.MemberOfPrefixType = PrefixType.AioPlatform;
+                        break;
+                    case PropertyIriName:
+                        evt.PropertyIri = ValueTracker<StringHolder>.Deserialize(ref reader, PropertyIriName);
+                        break;
+                    case EventConfigurationName:
+                        evt.EventConfiguration = ValueTracker<TDAnything>.Deserialize(ref reader, EventConfigurationName);
                         break;
                     default:
                         reader.Skip();
