@@ -20,6 +20,8 @@ namespace Azure.Iot.Operations.TDParser.Model
         public const string ActionsName = "actions";
         public const string PropertiesName = "properties";
         public const string EventsName = "events";
+        public const string SecurityDefinitionsName = "securityDefinitions";
+        public const string SecurityName = "security";
         public const string IsCompositeName = "dov:isComposite";
         public const string IsCompositeLegacyName = "aov:isComposite";
         public const string IsEventName = "dov:isEvent";
@@ -40,6 +42,8 @@ namespace Azure.Iot.Operations.TDParser.Model
             ActionsName,
             PropertiesName,
             EventsName,
+            SecurityDefinitionsName,
+            SecurityName,
             IsCompositeName,
             IsCompositeLegacyName,
             IsEventName,
@@ -69,6 +73,10 @@ namespace Azure.Iot.Operations.TDParser.Model
         public MapTracker<TDProperty>? Properties { get; set; }
 
         public MapTracker<TDEvent>? Events { get; set; }
+
+        public MapTracker<TDAnything>? SecurityDefinitions { get; set; }
+
+        public ValueTracker<StringHolder>? Security { get; set; }
 
         public ValueTracker<BoolHolder>? IsComposite { get; set; }
 
@@ -103,6 +111,8 @@ namespace Azure.Iot.Operations.TDParser.Model
                        Actions == other.Actions &&
                        Properties == other.Properties &&
                        Events == other.Events &&
+                       SecurityDefinitions == other.SecurityDefinitions &&
+                       Security == other.Security &&
                        IsComposite == other.IsComposite &&
                        IsEvent == other.IsEvent &&
                        TypeRef == other.TypeRef;
@@ -111,7 +121,7 @@ namespace Azure.Iot.Operations.TDParser.Model
 
         public override int GetHashCode()
         {
-            return (Context, Type, Title, Description, Links, SchemaDefinitions, Forms, Optional, Actions, Properties, Events, IsComposite, IsEvent, TypeRef).GetHashCode();
+            return (Context, Type, Title, Description, Links, SchemaDefinitions, Forms, Optional, Actions, Properties, Events, SecurityDefinitions, Security, IsComposite, IsEvent, TypeRef).GetHashCode();
         }
 
         public static bool operator ==(TDThing? left, TDThing? right)
@@ -230,6 +240,20 @@ namespace Azure.Iot.Operations.TDParser.Model
                     yield return item;
                 }
             }
+            if (SecurityDefinitions != null)
+            {
+                foreach (ITraversable item in SecurityDefinitions.Traverse())
+                {
+                    yield return item;
+                }
+            }
+            if (Security != null)
+            {
+                foreach (ITraversable item in Security.Traverse())
+                {
+                    yield return item;
+                }
+            }
             if (IsComposite != null)
             {
                 foreach (ITraversable item in IsComposite.Traverse())
@@ -304,6 +328,12 @@ namespace Azure.Iot.Operations.TDParser.Model
                         break;
                     case EventsName:
                         thing.Events = MapTracker<TDEvent>.Deserialize(ref reader, EventsName);
+                        break;
+                    case SecurityDefinitionsName:
+                        thing.SecurityDefinitions = MapTracker<TDAnything>.Deserialize(ref reader, SecurityDefinitionsName);
+                        break;
+                    case SecurityName:
+                        thing.Security = ValueTracker<StringHolder>.Deserialize(ref reader, SecurityName);
                         break;
                     case IsCompositeName:
                         thing.IsComposite = ValueTracker<BoolHolder>.Deserialize(ref reader, IsCompositeName);

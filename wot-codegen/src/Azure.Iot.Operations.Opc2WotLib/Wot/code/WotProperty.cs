@@ -22,8 +22,9 @@ namespace Azure.Iot.Operations.Opc2WotLib
         private string? containedIn;
         private List<string> contains;
         private string? quantityKind;
+        private bool inDescription;
 
-        public WotProperty(string specName, string thingModelName, OpcUaVariable uaVariable, string variableName, string? containedIn, List<string> contains)
+        public WotProperty(string specName, string thingModelName, OpcUaVariable uaVariable, string variableName, string? containedIn, List<string> contains, bool inDescription)
         {
             this.dataSchema = WotDataSchema.Create(uaVariable.DataType, uaVariable.ValueRank, uaVariable, uaVariable.Description, Enumerable.Empty<OpcUaNodeId>());
             this.browseNamespace = uaVariable.BrowseNamespace;
@@ -33,12 +34,14 @@ namespace Azure.Iot.Operations.Opc2WotLib
             this.containedIn = containedIn;
             this.contains = contains;
             this.quantityKind = uaVariable.TryGetEngineeringUnits(out OpcUaVariable? engUnitsVariable) ? UnitMapper.GetQuantityKindFromUnitId(engUnitsVariable.UnitId) : null;
+            this.inDescription = inDescription;
 
             PropertyName = WotUtil.LegalizeName(variableName);
             ReadOnly = (uaVariable.AccessLevel & writeMask) == 0;
+            IsMandatory = uaVariable.IsMandatory;
         }
 
-        public WotProperty(string specName, string thingModelName, string propertyName, OpcUaNodeId dataTypeNodeId, bool readOnly, string? description)
+        public WotProperty(string specName, string thingModelName, string propertyName, OpcUaNodeId dataTypeNodeId, bool readOnly, bool isMandatory, string? description, bool inDescription)
         {
             this.dataSchema = new WotDataSchemaPrimitive(dataTypeNodeId, description);
             this.browseNamespace = null;
@@ -48,14 +51,18 @@ namespace Azure.Iot.Operations.Opc2WotLib
             this.containedIn = null;
             this.contains = new List<string>();
             this.quantityKind = null;
+            this.inDescription = inDescription;
 
             PropertyName = propertyName;
             ReadOnly = readOnly;
+            IsMandatory = isMandatory;
         }
 
         public string PropertyName { get; }
 
         public bool ReadOnly { get; }
+
+        public bool IsMandatory { get; }
 
         public bool UsesUnits { get => quantityKind != null; }
     }
