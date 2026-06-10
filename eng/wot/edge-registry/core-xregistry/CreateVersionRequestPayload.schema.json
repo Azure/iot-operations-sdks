@@ -1,6 +1,6 @@
 {
   "$schema": "https://json-schema.org/draft-07/schema",
-  "title": "CreateVersionRequest",
+  "title": "CreateVersionRequestPayload",
   "description": "Request payload for creating a generic xRegistry Version entity. The parent Resource is implicitly created if it doesn't already exist. Create is strictly idempotent: if every field matches the latest Version of the parent Resource (including labels), the latest Version is returned; otherwise a new Version is created.",
   "type": "object",
   "additionalProperties": false,
