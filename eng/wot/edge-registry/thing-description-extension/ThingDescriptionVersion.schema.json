@@ -5,40 +5,31 @@
   "type": "object",
   "additionalProperties": false,
   "required": [
-    "resourceId",
     "versionId",
+    "ancestor",
+    "format",
+    "document",
+    "documentHash",
+    "resourceId",
     "xid",
     "epoch",
     "isDefault",
+    "labels",
     "createdAt",
     "modifiedAt",
-    "ancestor",
-    "extensions",
-    "labels",
-    "format",
-    "document",
-    "documentHash"
+    "extensions"
   ],
   "properties": {
+    "versionId": {
+      "description": "Version identifier.",
+      "type": "integer"
+    },
     "ancestor": {
       "description": "The versionId of this Version's ancestor, or this Version's versionId if it has no ancestor.",
       "type": "integer"
     },
-    "compatibilityValidated": {
-      "description": "When compatibility validation is enabled, indicates whether the server has validated that the Version conforms to the rules defined by its Resource's `meta.compatibility` attribute.",
-      "$ref": "../core-xregistry/Validated.schema.json"
-    },
-    "contentType": {
-      "description": "The media type of the entity as defined by RFC9110.",
-      "type": "string"
-    },
-    "createdAt": {
-      "description": "The date/time of when the entity was created.",
-      "type": "string",
-      "format": "date-time"
-    },
-    "description": {
-      "description": "A human-readable summary of the purpose of the entity.",
+    "format": {
+      "description": "Thing Description format identifier.",
       "type": "string"
     },
     "document": {
@@ -50,37 +41,37 @@
       "description": "The hash of the thing description document for this Version.",
       "type": "string"
     },
-    "documentation": {
-      "description": "A URL to additional information about this entity.",
+    "resourceId": {
+      "description": "Thing Description (Resource) identifier.",
+      "type": "string"
+    },
+    "xid": {
+      "description": "Full XID path.",
       "type": "string"
     },
     "epoch": {
       "description": "A numeric value used to determine whether an entity has been modified.",
       "type": "integer"
     },
-    "extensions": {
-      "description": "Extension-specific attributes.",
-      "type": "object",
-      "additionalProperties": {
-        "type": "string",
-        "contentEncoding": "base64"
-      }
-    },
-    "format": {
-      "description": "Thing Description format identifier.",
-      "type": "string"
-    },
-    "formatValidated": {
-      "description": "When format validation is enabled, indicates whether the server has validated that the Version conforms to the rules defined by its `format` attribute.",
-      "$ref": "../core-xregistry/Validated.schema.json"
-    },
-    "icon": {
-      "description": "A URL to a graphical icon for the owning entity.",
+    "name": {
+      "description": "Human-readable name.",
       "type": "string"
     },
     "isDefault": {
       "description": "Indicates whether this Version is the default Version of the owning Resource.",
       "type": "boolean"
+    },
+    "description": {
+      "description": "A human-readable summary of the purpose of the entity.",
+      "type": "string"
+    },
+    "documentation": {
+      "description": "A URL to additional information about this entity.",
+      "type": "string"
+    },
+    "icon": {
+      "description": "A URL to a graphical icon for the owning entity.",
+      "type": "string"
     },
     "labels": {
       "description": "A mechanism in which additional metadata about the entity can be stored without changing the model definition of the entity. Labels can be used for querying.",
@@ -90,26 +81,35 @@
         "$ref": "../core-xregistry/Label.schema.json"
       }
     },
+    "createdAt": {
+      "description": "The date/time of when the entity was created.",
+      "type": "string",
+      "format": "date-time"
+    },
     "modifiedAt": {
       "description": "The date/time of when the entity was last updated.",
       "type": "string",
       "format": "date-time"
     },
-    "name": {
-      "description": "Human-readable name.",
+    "contentType": {
+      "description": "The media type of the entity as defined by RFC9110.",
       "type": "string"
     },
-    "resourceId": {
-      "description": "Thing Description (Resource) identifier.",
-      "type": "string"
+    "formatValidated": {
+      "description": "When format validation is enabled, indicates whether the server has validated that the Version conforms to the rules defined by its `format` attribute.",
+      "$ref": "../core-xregistry/Validated.schema.json"
     },
-    "versionId": {
-      "description": "Version identifier.",
-      "type": "integer"
+    "compatibilityValidated": {
+      "description": "When compatibility validation is enabled, indicates whether the server has validated that the Version conforms to the rules defined by its Resource's `meta.compatibility` attribute.",
+      "$ref": "../core-xregistry/Validated.schema.json"
     },
-    "xid": {
-      "description": "Full XID path.",
-      "type": "string"
+    "extensions": {
+      "description": "Extension-specific attributes.",
+      "type": "object",
+      "additionalProperties": {
+        "type": "string",
+        "contentEncoding": "base64"
+      }
     }
   }
 }

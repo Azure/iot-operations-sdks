@@ -16,29 +16,15 @@ use super::validated::Validated;
 /// A specific Version of a Thing Model. Self-contained: combines the generic Version fields and the thing model-specific fields into one schema, with integer-typed versionId and ancestor.
 #[derive(Serialize, Deserialize, Debug, Clone, Builder)]
 pub struct ThingModelVersion {
+    /// Version identifier.
+    #[serde(rename = "versionId")]
+    pub version_id: u64,
+
     /// The versionId of this Version's ancestor, or this Version's versionId if it has no ancestor.
     pub ancestor: u64,
 
-    /// When compatibility validation is enabled, indicates whether the server has validated that the Version conforms to the rules defined by its Resource's `meta.compatibility` attribute.
-    #[serde(rename = "compatibilityValidated")]
-    #[serde(skip_serializing_if = "Option::is_none")]
-    #[builder(default = "None")]
-    pub compatibility_validated: Option<Validated>,
-
-    /// The media type of the entity as defined by RFC9110.
-    #[serde(rename = "contentType")]
-    #[serde(skip_serializing_if = "Option::is_none")]
-    #[builder(default = "None")]
-    pub content_type: Option<String>,
-
-    /// The date/time of when the entity was created.
-    #[serde(rename = "createdAt")]
-    pub created_at: DateTime<Utc>,
-
-    /// A human-readable summary of the purpose of the entity.
-    #[serde(skip_serializing_if = "Option::is_none")]
-    #[builder(default = "None")]
-    pub description: Option<String>,
+    /// Thing Model format identifier.
+    pub format: String,
 
     /// The raw thing model document for this Version as base64-encoded bytes.
     pub document: Bytes,
@@ -47,20 +33,57 @@ pub struct ThingModelVersion {
     #[serde(rename = "documentHash")]
     pub document_hash: String,
 
+    /// Thing Model (Resource) identifier.
+    #[serde(rename = "resourceId")]
+    pub resource_id: String,
+
+    /// Full XID path.
+    pub xid: String,
+
+    /// A numeric value used to determine whether an entity has been modified.
+    pub epoch: u64,
+
+    /// Human-readable name.
+    #[serde(skip_serializing_if = "Option::is_none")]
+    #[builder(default = "None")]
+    pub name: Option<String>,
+
+    /// Indicates whether this Version is the default Version of the owning Resource.
+    #[serde(rename = "isDefault")]
+    pub is_default: bool,
+
+    /// A human-readable summary of the purpose of the entity.
+    #[serde(skip_serializing_if = "Option::is_none")]
+    #[builder(default = "None")]
+    pub description: Option<String>,
+
     /// A URL to additional information about this entity.
     #[serde(skip_serializing_if = "Option::is_none")]
     #[builder(default = "None")]
     pub documentation: Option<String>,
 
-    /// A numeric value used to determine whether an entity has been modified.
-    pub epoch: u64,
+    /// A URL to a graphical icon for the owning entity.
+    #[serde(skip_serializing_if = "Option::is_none")]
+    #[builder(default = "None")]
+    pub icon: Option<String>,
 
-    /// Extension-specific attributes.
+    /// A mechanism in which additional metadata about the entity can be stored without changing the model definition of the entity. Labels can be used for querying.
     #[builder(default)]
-    pub extensions: HashMap<String, Bytes>,
+    pub labels: Vec<Label>,
 
-    /// Thing Model format identifier.
-    pub format: String,
+    /// The date/time of when the entity was created.
+    #[serde(rename = "createdAt")]
+    pub created_at: DateTime<Utc>,
+
+    /// The date/time of when the entity was last updated.
+    #[serde(rename = "modifiedAt")]
+    pub modified_at: DateTime<Utc>,
+
+    /// The media type of the entity as defined by RFC9110.
+    #[serde(rename = "contentType")]
+    #[serde(skip_serializing_if = "Option::is_none")]
+    #[builder(default = "None")]
+    pub content_type: Option<String>,
 
     /// When format validation is enabled, indicates whether the server has validated that the Version conforms to the rules defined by its `format` attribute.
     #[serde(rename = "formatValidated")]
@@ -68,36 +91,13 @@ pub struct ThingModelVersion {
     #[builder(default = "None")]
     pub format_validated: Option<Validated>,
 
-    /// A URL to a graphical icon for the owning entity.
+    /// When compatibility validation is enabled, indicates whether the server has validated that the Version conforms to the rules defined by its Resource's `meta.compatibility` attribute.
+    #[serde(rename = "compatibilityValidated")]
     #[serde(skip_serializing_if = "Option::is_none")]
     #[builder(default = "None")]
-    pub icon: Option<String>,
+    pub compatibility_validated: Option<Validated>,
 
-    /// Indicates whether this Version is the default Version of the owning Resource.
-    #[serde(rename = "isDefault")]
-    pub is_default: bool,
-
-    /// A mechanism in which additional metadata about the entity can be stored without changing the model definition of the entity. Labels can be used for querying.
+    /// Extension-specific attributes.
     #[builder(default)]
-    pub labels: Vec<Label>,
-
-    /// The date/time of when the entity was last updated.
-    #[serde(rename = "modifiedAt")]
-    pub modified_at: DateTime<Utc>,
-
-    /// Human-readable name.
-    #[serde(skip_serializing_if = "Option::is_none")]
-    #[builder(default = "None")]
-    pub name: Option<String>,
-
-    /// Thing Model (Resource) identifier.
-    #[serde(rename = "resourceId")]
-    pub resource_id: String,
-
-    /// Version identifier.
-    #[serde(rename = "versionId")]
-    pub version_id: u64,
-
-    /// Full XID path.
-    pub xid: String,
+    pub extensions: HashMap<String, Bytes>,
 }
