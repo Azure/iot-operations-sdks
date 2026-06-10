@@ -1,0 +1,7 @@
+{
+  "success": true,
+  "commandLine": {
+    "things": [ "valid/EventMemberOfMatchesGroup.TM.json" ],
+    "lang": "none"
+  }
+}
