@@ -2,7 +2,7 @@
     "@context": [
         "https://www.w3.org/2022/wot/td/v1.1",
         {
-            "dov": "http://azure.com/DigitalTwins/dtmi#"
+            "dov": "http://azure.com/DigitalOperations/vocab#"
         }
     ],
     "@type": "tm:ThingModel",
@@ -108,6 +108,19 @@
                 },
                 "required": []
             },
+            "output": {
+                "description": "TODO: Dummy output to allow Rust to compile",
+                "type": "object",
+                "properties": {
+                    "dummyOutput": {
+                        "description": "TODO: Temporary Output",
+                        "type": "boolean"
+                    }
+                },
+                "required": [
+                    "dummyOutput"
+                ]
+            },
             "forms": [
                 {
                     "dov:topic": "aio/registry/delete/{ex:groupType}/group",
@@ -125,7 +138,7 @@
         "createResource": {
             "description": "Create a new xRegistry Resource entity. Returns the created Resource with epoch=1.",
             "input": {
-                "dov:ref": "./core-xregistry/CreateResourceRequest.schema.json",
+                "dov:ref": "./core-xregistry/CreateResourceRequestPayload.schema.json",
                 "description": "The attributes needed to create the Resource entity."
             },
             "output": {
@@ -255,46 +268,8 @@
                 ]
             },
             "output": {
-                "description": "List of Resource XIDs within provided constraints with the specified label.",
-                "type": "object",
-                "properties": {
-                    "resources": {
-                        "description": "List of Resource XID components.",
-                        "type": "array",
-                        "items": {
-                            "description": "The XID of a Resource that has the specified label.",
-                            "type": "object",
-                            "title": "ResourceXId",
-                            "required": [
-                                "groupType",
-                                "groupId",
-                                "resourceType",
-                                "resourceId"
-                            ],
-                            "properties": {
-                                "groupType": {
-                                    "description": "Group type.",
-                                    "type": "string"
-                                },
-                                "groupId": {
-                                    "description": "Group identifier.",
-                                    "type": "string"
-                                },
-                                "resourceType": {
-                                    "description": "Resource type.",
-                                    "type": "string"
-                                },
-                                "resourceId": {
-                                    "description": "Resource identifier.",
-                                    "type": "string"
-                                }
-                            }
-                        }
-                    }
-                },
-                "required": [
-                    "resources"
-                ]
+                "dov:ref": "./core-xregistry/ResourceXIdList.schema.json",
+                "description": "List of Resource XIDs within the provided constraints with the specified label."
             },
             "forms": [
                 {
@@ -322,6 +297,19 @@
                 },
                 "required": []
             },
+            "output": {
+                "description": "TODO: Dummy output to allow Rust to compile",
+                "type": "object",
+                "properties": {
+                    "dummyOutput": {
+                        "description": "TODO: Temporary Output",
+                        "type": "boolean"
+                    }
+                },
+                "required": [
+                    "dummyOutput"
+                ]
+            },
             "forms": [
                 {
                     "dov:topic": "aio/registry/delete/{ex:groupType}/{ex:resourceType}/{ex:resourceId}",
@@ -339,7 +327,7 @@
         "createVersion": {
             "description": "Create a new xRegistry Version entity under the specified Resource. The parent Resource is implicitly created if it doesn't already exist. If a versionId is specified: if a Version with that versionId already exists and every field matches (including labels), the existing Version is returned unchanged; if it exists but any field differs, an error is returned; otherwise the Version is created. If no versionId is specified: the server determines the versionId, and Create is strictly idempotent — if every field matches the latest Version of the Resource (including labels), the latest Version is returned unchanged; otherwise a new Version is created.",
             "input": {
-                "dov:ref": "./core-xregistry/CreateVersionRequest.schema.json",
+                "dov:ref": "./core-xregistry/CreateVersionRequestPayload.schema.json",
                 "description": "The attributes needed to create the Version entity."
             },
             "output": {
@@ -477,51 +465,8 @@
                 ]
             },
             "output": {
-                "description": "List of Version XIDs within provided constraints with the specified label.",
-                "type": "object",
-                "properties": {
-                    "versions": {
-                        "description": "List of Version XID components.",
-                        "type": "array",
-                        "items": {
-                            "description": "The XID of a Version that has the specified label.",
-                            "type": "object",
-                            "title": "VersionXId",
-                            "required": [
-                                "groupType",
-                                "groupId",
-                                "resourceType",
-                                "resourceId",
-                                "versionId"
-                            ],
-                            "properties": {
-                                "groupType": {
-                                    "description": "Group type.",
-                                    "type": "string"
-                                },
-                                "groupId": {
-                                    "description": "Group identifier.",
-                                    "type": "string"
-                                },
-                                "resourceType": {
-                                    "description": "Resource type.",
-                                    "type": "string"
-                                },
-                                "resourceId": {
-                                    "description": "Resource identifier.",
-                                    "type": "string"
-                                },
-                                "versionId": {
-                                    "description": "Version identifier.",
-                                    "type": "string"
-                                }
-                            }
-                        }
-                    }
-                },
-                "required": [
-                    "versions"
-                ]
+                "dov:ref": "./core-xregistry/VersionXIdList.schema.json",
+                "description": "List of Version XIDs within the provided constraints with the specified label."
             },
             "forms": [
                 {
@@ -548,6 +493,19 @@
                     }
                 },
                 "required": []
+            },
+            "output": {
+                "description": "TODO: Dummy output to allow Rust to compile",
+                "type": "object",
+                "properties": {
+                    "dummyOutput": {
+                        "description": "TODO: Temporary Output",
+                        "type": "boolean"
+                    }
+                },
+                "required": [
+                    "dummyOutput"
+                ]
             },
             "forms": [
                 {
