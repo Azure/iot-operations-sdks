@@ -8,7 +8,11 @@ use thiserror::Error;
 /// Edge Registry generated code
 mod edge_registry_gen;
 
+/// Edge Registry Client implementation wrapper
+mod client;
 pub mod models;
+
+pub use client::Client;
 
 /// Represents an error that occurred in the Azure IoT Operations Edge Registry Client implementation.
 #[derive(Debug, Error)]
