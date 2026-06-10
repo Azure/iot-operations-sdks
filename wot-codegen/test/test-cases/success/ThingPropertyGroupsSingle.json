@@ -1,0 +1,7 @@
+{
+  "success": true,
+  "commandLine": {
+    "things": [ "valid/ThingPropertyGroupsSingle.TM.json" ],
+    "lang": "none"
+  }
+}

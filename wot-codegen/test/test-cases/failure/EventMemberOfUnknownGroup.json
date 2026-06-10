@@ -1,0 +1,16 @@
+{
+  "success": false,
+  "commandLine": {
+    "things": [ "invalidAioBinding/EventMemberOfUnknownGroup.TM.json" ],
+    "lang": "none"
+  },
+  "errors": [
+    {
+      "condition": "ItemNotFound",
+      "filename": "EventMemberOfUnknownGroup.TM.json",
+      "line": 20,
+      "cfLine": 0,
+      "crossRef": ""
+    }
+  ]
+}
