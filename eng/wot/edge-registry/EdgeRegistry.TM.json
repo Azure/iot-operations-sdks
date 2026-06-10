@@ -109,11 +109,11 @@
                 "required": []
             },
             "output": {
-                "description": "Result of the delete operation.",
+                "description": "TODO: Dummy output to allow Rust to compile",
                 "type": "object",
                 "properties": {
-                    "deleted": {
-                        "description": "True if the entity was deleted.",
+                    "dummyOutput": {
+                        "description": "TODO: Temporary Output",
                         "type": "boolean"
                     }
                 },
@@ -298,11 +298,11 @@
                 "required": []
             },
             "output": {
-                "description": "Result of the delete operation.",
+                "description": "TODO: Dummy output to allow Rust to compile",
                 "type": "object",
                 "properties": {
-                    "deleted": {
-                        "description": "True if the entity was deleted.",
+                    "dummyOutput": {
+                        "description": "TODO: Temporary Output",
                         "type": "boolean"
                     }
                 },
@@ -495,11 +495,11 @@
                 "required": []
             },
             "output": {
-                "description": "Result of the delete operation.",
+                "description": "TODO: Dummy output to allow Rust to compile",
                 "type": "object",
                 "properties": {
-                    "deleted": {
-                        "description": "True if the entity was deleted.",
+                    "dummyOutput": {
+                        "description": "TODO: Temporary Output",
                         "type": "boolean"
                     }
                 },
