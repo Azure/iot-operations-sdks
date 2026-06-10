@@ -268,46 +268,8 @@
                 ]
             },
             "output": {
-                "description": "List of Resource XIDs within provided constraints with the specified label.",
-                "type": "object",
-                "properties": {
-                    "resources": {
-                        "description": "List of Resource XID components.",
-                        "type": "array",
-                        "items": {
-                            "description": "The XID of a Resource that has the specified label.",
-                            "type": "object",
-                            "title": "ResourceXId",
-                            "required": [
-                                "groupType",
-                                "groupId",
-                                "resourceType",
-                                "resourceId"
-                            ],
-                            "properties": {
-                                "groupType": {
-                                    "description": "Group type.",
-                                    "type": "string"
-                                },
-                                "groupId": {
-                                    "description": "Group identifier.",
-                                    "type": "string"
-                                },
-                                "resourceType": {
-                                    "description": "Resource type.",
-                                    "type": "string"
-                                },
-                                "resourceId": {
-                                    "description": "Resource identifier.",
-                                    "type": "string"
-                                }
-                            }
-                        }
-                    }
-                },
-                "required": [
-                    "resources"
-                ]
+                "dov:ref": "./core-xregistry/ResourceXidList.schema.json",
+                "description": "List of Resource XIDs within the provided constraints with the specified label."
             },
             "forms": [
                 {
@@ -503,51 +465,8 @@
                 ]
             },
             "output": {
-                "description": "List of Version XIDs within provided constraints with the specified label.",
-                "type": "object",
-                "properties": {
-                    "versions": {
-                        "description": "List of Version XID components.",
-                        "type": "array",
-                        "items": {
-                            "description": "The XID of a Version that has the specified label.",
-                            "type": "object",
-                            "title": "VersionXId",
-                            "required": [
-                                "groupType",
-                                "groupId",
-                                "resourceType",
-                                "resourceId",
-                                "versionId"
-                            ],
-                            "properties": {
-                                "groupType": {
-                                    "description": "Group type.",
-                                    "type": "string"
-                                },
-                                "groupId": {
-                                    "description": "Group identifier.",
-                                    "type": "string"
-                                },
-                                "resourceType": {
-                                    "description": "Resource type.",
-                                    "type": "string"
-                                },
-                                "resourceId": {
-                                    "description": "Resource identifier.",
-                                    "type": "string"
-                                },
-                                "versionId": {
-                                    "description": "Version identifier.",
-                                    "type": "string"
-                                }
-                            }
-                        }
-                    }
-                },
-                "required": [
-                    "versions"
-                ]
+                "dov:ref": "./core-xregistry/VersionXidList.schema.json",
+                "description": "List of Version XIDs within the provided constraints with the specified label."
             },
             "forms": [
                 {
