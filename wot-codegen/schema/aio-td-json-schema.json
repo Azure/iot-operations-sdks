@@ -1,8 +1,8 @@
 {
   "$schema": "http://json-schema.org/draft-07/schema#",
-  "title": "Thing Model with AIO Protocol Binding",
+  "title": "Thing Description with AIO Protocol Binding",
   "version": "0.1",
-  "description": "JSON Schema for validating TM instances that employ the AIO WoT Protocol Binding",
+  "description": "JSON Schema for validating TD instances that employ the AIO WoT Protocol Binding",
   "definitions": {
     "title": {
       "type": "string",
@@ -1054,10 +1054,10 @@
         "description": "headerCode and headerInfo (dov: or dtv:) are not allowed in root forms"
       }
     },
-    "aioThingModel": {
+    "aioThingDescription": {
       "allOf": [
         {
-          "$ref": "./tm-json-schema-validation.json"
+          "$ref": "./td-json-schema-validation.json"
         },
         {
           "type": "object",
@@ -1182,7 +1182,7 @@
                   "rel": {
                     "type": "string",
                     "enum": [
-                      "tm:extends",
+                      "type",
                       "aov:reference",
                       "aov:typedReference",
                       "aov:capability",
@@ -1272,11 +1272,11 @@
                   ]
                 },
                 {
-                  "description": "example extends 'links' value -- replace './EXAMPLE.ParentThingModel.TM.json' with path to a real Thing Model that is to be extended",
+                  "description": "example type 'links' value -- replace './EXAMPLE.SomeThingModel.TM.json' with path to a real Thing Model that is to be instanced",
                   "body": [
                     {
-                      "rel": "tm:extends",
-                      "href": "./EXAMPLE.ParentThingModel.TM.json",
+                      "rel": "type",
+                      "href": "./EXAMPLE.SomeThingModel.TM.json",
                       "type": "application/tm+json"
                     }
                   ]
@@ -1726,12 +1726,12 @@
   },
   "anyOf": [
     {
-      "$ref": "#/definitions/aioThingModel"
+      "$ref": "#/definitions/aioThingDescription"
     },
     {
       "type": "array",
       "items": {
-        "$ref": "#/definitions/aioThingModel"
+        "$ref": "#/definitions/aioThingDescription"
       }
     }
   ]
