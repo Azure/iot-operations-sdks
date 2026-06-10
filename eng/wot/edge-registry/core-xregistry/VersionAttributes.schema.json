@@ -1,0 +1,66 @@
+{
+  "$schema": "https://json-schema.org/draft-07/schema",
+  "title": "VersionAttributes",
+  "description": "Attributes needed to create a Version.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "labels",
+    "extensions"
+  ],
+  "properties": {
+    "versionId": {
+      "description": "Version identifier. If omitted, the server determines the versionId.",
+      "type": "string"
+    },
+    "name": {
+      "description": "Human-readable name.",
+      "type": "string"
+    },
+    "description": {
+      "description": "A human-readable summary of the purpose of the entity.",
+      "type": "string"
+    },
+    "documentation": {
+      "description": "A URL to additional information about this entity.",
+      "type": "string"
+    },
+    "icon": {
+      "description": "A URL to a graphical icon for the owning entity.",
+      "type": "string"
+    },
+    "labels": {
+      "description": "Queryable Key Value pairs to be added to the Version.",
+      "type": "array",
+      "items": {
+        "type": "object",
+        "$ref": "Label.schema.json"
+      }
+    },
+    "ancestor": {
+      "description": "The versionId of this Version's ancestor if it has an ancestor.",
+      "type": "string"
+    },
+    "contentType": {
+      "description": "Content type of the Version document.",
+      "type": "string"
+    },
+    "format": {
+      "description": "Format identifier of the Version document (resource-type-specific, e.g. `JsonSchema/draft-07`, `JSON-LD/1.1`).",
+      "type": "string"
+    },
+    "document": {
+      "description": "Base64-encoded document content for the Version. The interpretation (schema, thing description, thing model, etc.) is determined by the Resource type.",
+      "type": "string",
+      "contentEncoding": "base64"
+    },
+    "extensions": {
+      "description": "Extension-specific attributes.",
+      "type": "object",
+      "additionalProperties": {
+        "type": "string",
+        "contentEncoding": "base64"
+      }
+    }
+  }
+}
