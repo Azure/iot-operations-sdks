@@ -5,23 +5,23 @@ use azure_iot_operations_protocol::common::payload_serialize::{
 };
 use serde_json;
 
-use super::create_version_request::CreateVersionRequest;
+use super::create_version_request_payload::CreateVersionRequestPayload;
 
-const CREATE_VERSION_REQUEST_CONTENT_TYPE: &str = "application/json";
+const CREATE_VERSION_REQUEST_PAYLOAD_CONTENT_TYPE: &str = "application/json";
 
-impl CreateVersionRequest {
+impl CreateVersionRequestPayload {
     fn is_content_type(content_type: &str) -> bool {
-        content_type.starts_with(CREATE_VERSION_REQUEST_CONTENT_TYPE)
+        content_type.starts_with(CREATE_VERSION_REQUEST_PAYLOAD_CONTENT_TYPE)
             && matches!(
                 content_type
                     .chars()
-                    .nth(CREATE_VERSION_REQUEST_CONTENT_TYPE.len()),
+                    .nth(CREATE_VERSION_REQUEST_PAYLOAD_CONTENT_TYPE.len()),
                 None | Some('+' | ';')
             )
     }
 }
 
-impl PayloadSerialize for CreateVersionRequest {
+impl PayloadSerialize for CreateVersionRequestPayload {
     type Error = serde_json::Error;
 
     fn serialize(self) -> Result<SerializedPayload, Self::Error> {
@@ -39,7 +39,7 @@ impl PayloadSerialize for CreateVersionRequest {
         _format_indicator: &FormatIndicator,
     ) -> Result<Self, DeserializationError<Self::Error>> {
         if let Some(content_type) = content_type
-            && !CreateVersionRequest::is_content_type(content_type)
+            && !CreateVersionRequestPayload::is_content_type(content_type)
         {
             return Err(DeserializationError::UnsupportedContentType(format!(
                 "Invalid content type: '{content_type}'. Must be 'application/json'"

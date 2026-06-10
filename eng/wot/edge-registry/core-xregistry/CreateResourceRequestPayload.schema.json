@@ -1,6 +1,6 @@
 {
   "$schema": "https://json-schema.org/draft-07/schema",
-  "title": "CreateResourceRequest",
+  "title": "CreateResourceRequestPayload",
   "description": "Request payload for creating a generic xRegistry Resource entity along with its default Version.",
   "type": "object",
   "additionalProperties": false,

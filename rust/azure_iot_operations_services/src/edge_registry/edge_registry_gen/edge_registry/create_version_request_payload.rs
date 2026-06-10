@@ -10,26 +10,23 @@ use serde::{Deserialize, Serialize};
 use uuid::Uuid;
 
 use super::super::common_types::{b64::Bytes, date_only::Date, decimal::Decimal, time_only::Time};
-use super::resource_meta_attributes::ResourceMetaAttributes;
+use super::label::Label;
 use super::version_attributes::VersionAttributes;
 
-/// Request payload for creating a generic xRegistry Resource entity along with its default Version.
+/// Request payload for creating a generic xRegistry Version entity. The parent Resource is implicitly created if it doesn't already exist. Create is strictly idempotent: if every field matches the latest Version of the parent Resource (including labels), the latest Version is returned; otherwise a new Version is created.
 #[derive(Serialize, Deserialize, Debug, Clone, Builder)]
-pub struct CreateResourceRequest {
+pub struct CreateVersionRequestPayload {
     /// Group identifier. Uses the default if not specified.
     #[serde(rename = "groupId")]
     #[serde(skip_serializing_if = "Option::is_none")]
     #[builder(default = "None")]
     pub group_id: Option<String>,
 
-    /// The attributes needed to create the Resource Meta (its `meta` sub-entity).
-    pub meta: ResourceMetaAttributes,
+    /// The attributes of the Version to create.
+    pub version: VersionAttributes,
 
-    /// The attributes of the Resource's default Version, which will be created along side this Resource.
-    #[serde(rename = "defaultVersion")]
-    pub default_version: VersionAttributes,
-
-    /// Extension-specific attributes.
+    /// Queryable Key Value pairs to be added to the parent Resource. The parent Resource is implicitly created if it doesn't already exist.
+    #[serde(rename = "resourceLabels")]
     #[builder(default)]
-    pub extensions: HashMap<String, Bytes>,
+    pub resource_labels: Vec<Label>,
 }

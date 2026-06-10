@@ -138,7 +138,7 @@
         "createResource": {
             "description": "Create a new xRegistry Resource entity. Returns the created Resource with epoch=1.",
             "input": {
-                "dov:ref": "./core-xregistry/CreateResourceRequest.schema.json",
+                "dov:ref": "./core-xregistry/CreateResourceRequestPayload.schema.json",
                 "description": "The attributes needed to create the Resource entity."
             },
             "output": {
@@ -327,7 +327,7 @@
         "createVersion": {
             "description": "Create a new xRegistry Version entity under the specified Resource. The parent Resource is implicitly created if it doesn't already exist. If a versionId is specified: if a Version with that versionId already exists and every field matches (including labels), the existing Version is returned unchanged; if it exists but any field differs, an error is returned; otherwise the Version is created. If no versionId is specified: the server determines the versionId, and Create is strictly idempotent — if every field matches the latest Version of the Resource (including labels), the latest Version is returned unchanged; otherwise a new Version is created.",
             "input": {
-                "dov:ref": "./core-xregistry/CreateVersionRequest.schema.json",
+                "dov:ref": "./core-xregistry/CreateVersionRequestPayload.schema.json",
                 "description": "The attributes needed to create the Version entity."
             },
             "output": {
