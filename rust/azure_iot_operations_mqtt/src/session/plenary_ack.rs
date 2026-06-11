@@ -171,18 +171,16 @@ impl InnerState {
         if let Some(total) = sealed {
             // Check if all members have acked
             if self.counter.load(Ordering::SeqCst) == total {
-                // Check if result is not yet set
-                if self.result.get().is_none() && self.manual_ack.lock().unwrap().is_some() {
-                    // Trigger manual ack
-                    // NOTE: It's a little inefficient to check the Mutex twice, but this is the
-                    // easiest way to keep the compiler happy and guarantee correctness. Revisit
-                    // if we need to improve performance.
-                    let manual_ack = self
-                        .manual_ack
-                        .lock()
-                        .unwrap()
-                        .take()
-                        .expect("manual_ack presence was checked");
+                // Atomically take the manual_ack - only one concurrent caller can succeed.
+                // This prevents a TOCTOU race where multiple callers could pass an is_some()
+                // check before any of them take the value. The take() is the sole arbiter:
+                // the lock is held during the swap from Some to None, so by the time the
+                // guard drops, the mutex already contains None and any racing caller will
+                // get None from their own take().
+                // NOTE: The intermediate let binding is necessary so the MutexGuard is dropped
+                // before the .await inside the if let body.
+                let manual_ack = self.manual_ack.lock().unwrap().take();
+                if let Some(manual_ack) = manual_ack {
                     let result = match manual_ack {
                         ManualAcknowledgement::QoS0 => {
                             unreachable!("no ack is possible on QoS0")
