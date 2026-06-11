@@ -1,0 +1,34 @@
+{
+  "$schema": "https://json-schema.org/draft-07/schema",
+  "title": "ListResourcesWithLabelInputArguments",
+  "description": "Input arguments for action 'listResourcesWithLabel'",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [ "labelKey", "labelValue" ],
+  "properties": {
+    "allGroups": {
+      "description": "If true, lists Resources across all Groups (groupId is ignored). If false or unspecified, lists within the Group specified by groupId, or the default Group if groupId is unspecified.",
+      "type": "boolean"
+    },
+    "groupId": {
+      "description": "Group identifier. Uses the default Group if not specified. Ignored if allGroups is true.",
+      "type": "string"
+    },
+    "groupType": {
+      "description": "Group type. Lists Resources across all Group types if not specified.",
+      "type": "string"
+    },
+    "labelKey": {
+      "description": "Label key.",
+      "type": "string"
+    },
+    "labelValue": {
+      "description": "Label value.",
+      "type": "string"
+    },
+    "resourceType": {
+      "description": "Resource type. Lists Resources across all Resource types if not specified.",
+      "type": "string"
+    }
+  }
+}

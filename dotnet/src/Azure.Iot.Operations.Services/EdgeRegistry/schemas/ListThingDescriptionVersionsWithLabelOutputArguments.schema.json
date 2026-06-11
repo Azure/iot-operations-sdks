@@ -1,0 +1,6 @@
+{
+  "$schema": "https://json-schema.org/draft-07/schema",
+  "title": "ListThingDescriptionVersionsWithLabelOutputArguments",
+  "type": "object",
+  "$ref": "../../../../../../eng/wot/edge-registry/thing-description-extension/ThingDescriptionVersionXIdList.schema.json"
+}

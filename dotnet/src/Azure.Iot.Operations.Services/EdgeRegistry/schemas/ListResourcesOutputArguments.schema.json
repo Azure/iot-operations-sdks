@@ -1,0 +1,14 @@
+{
+  "$schema": "https://json-schema.org/draft-07/schema",
+  "title": "ListResourcesOutputArguments",
+  "description": "List of Resource identifiers.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [ "ids" ],
+  "properties": {
+    "ids": {
+      "description": "List of Resource identifiers.",
+      "type": "array", "items": { "type": "string" }
+    }
+  }
+}
