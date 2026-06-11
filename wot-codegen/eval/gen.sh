@@ -1,6 +1,6 @@
 #!/bin/sh
 
-gen=../src/Azure.Iot.Operations.ProtocolCompiler/bin/Debug/net9.0/Azure.Iot.Operations.ProtocolCompiler.exe
+gen=../src/Azure.Iot.Operations.ProtocolCompiler/bin/Debug/net10.0/Azure.Iot.Operations.ProtocolCompiler.exe
 
 [[ -d dotnet/CommandComplexSchemasSample ]] && rm -r dotnet/CommandComplexSchemasSample
 $gen --things wot/CommandComplexSchemas.TM.json --outDir dotnet/CommandComplexSchemasSample --lang csharp --namespace CommandComplexSchemas --sdkPath ../../dotnet/src/Azure.Iot.Operations.Protocol

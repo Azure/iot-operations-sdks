@@ -1,6 +1,6 @@
 #!/bin/sh
 
-gen=../src/Azure.Iot.Operations.ProtocolCompiler/bin/Debug/net9.0/Azure.Iot.Operations.ProtocolCompiler.exe
+gen=../src/Azure.Iot.Operations.ProtocolCompiler/bin/Debug/net10.0/Azure.Iot.Operations.ProtocolCompiler.exe
 
 [[ -d dotnet/TelemetryAndCommandSample ]] && rm -r dotnet/TelemetryAndCommandSample
 $gen --things conv/TelemetryAndCommand.TM.json --outDir dotnet/TelemetryAndCommandSample --lang csharp --namespace TelemetryAndCommand --sdkPath ../../dotnet/src/Azure.Iot.Operations.Protocol
