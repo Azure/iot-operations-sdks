@@ -15,7 +15,8 @@ use crate::edge_registry::Error;
 use crate::edge_registry::edge_registry_gen::common_types::options::CommandInvokerOptionsBuilder;
 use crate::edge_registry::edge_registry_gen::edge_registry::client as client_gen;
 use crate::edge_registry::models::{
-    CreateResourceRequest, Group, GroupAttributes, Resource, ResourceXid,
+    CreateResourceRequest, CreateVersionRequest, Group, GroupAttributes, Resource, ResourceXid,
+    Version, VersionXid,
 };
 
 /// Edge Registry client implementation.
@@ -285,6 +286,101 @@ impl Client {
         resource_type: impl Into<String>,
         resource_id: impl Into<String>,
         group_id: Option<String>,
+        timeout: Duration,
+    ) -> Result<(), Error> {
+        unimplemented!()
+    }
+}
+
+// TODO: These are placeholder Version APIs. Implement the request/response
+// handling, argument validation (e.g. `resource_id`/`version_id`/`group_id`
+// non-empty per the xRegistry spec), and error mapping. Some signatures
+// (notably the label query) may be refined.
+#[allow(unused_variables)]
+#[allow(clippy::unused_async)]
+impl Client {
+    /// Create a new xRegistry Version entity under the specified Resource. The
+    /// parent Resource is implicitly created if it doesn't already exist.
+    /// Returns the created Version.
+    ///
+    /// # Errors
+    /// Returns an [`struct@Error`] if the request fails.
+    pub async fn create_version(
+        &self,
+        group_type: impl Into<String>,
+        resource_type: impl Into<String>,
+        resource_id: impl Into<String>,
+        request: CreateVersionRequest,
+        timeout: Duration,
+    ) -> Result<Version, Error> {
+        unimplemented!()
+    }
+
+    /// Retrieve an xRegistry Version entity. Uses the default Group if `group_id`
+    /// is not specified, and the default Version if `version_id` is not
+    /// specified.
+    ///
+    /// # Errors
+    /// Returns an [`struct@Error`] if the request fails.
+    pub async fn get_version(
+        &self,
+        group_type: impl Into<String>,
+        resource_type: impl Into<String>,
+        resource_id: impl Into<String>,
+        group_id: Option<String>,
+        version_id: Option<String>,
+        timeout: Duration,
+    ) -> Result<Version, Error> {
+        unimplemented!()
+    }
+
+    /// List the identifiers of the xRegistry Versions of the given Resource.
+    ///
+    /// # Errors
+    /// Returns an [`struct@Error`] if the request fails.
+    pub async fn list_versions(
+        &self,
+        group_type: impl Into<String>,
+        resource_type: impl Into<String>,
+        resource_id: impl Into<String>,
+        group_id: Option<String>,
+        timeout: Duration,
+    ) -> Result<Vec<String>, Error> {
+        unimplemented!()
+    }
+
+    /// List the XIDs of the xRegistry Versions that have the specified label.
+    ///
+    /// # Errors
+    /// Returns an [`struct@Error`] if the request fails.
+    // TODO: Consider collapsing the label-query arguments into a dedicated
+    // request/query struct rather than passing them positionally.
+    #[allow(clippy::too_many_arguments)]
+    pub async fn list_versions_with_label(
+        &self,
+        group_type: impl Into<String>,
+        resource_type: impl Into<String>,
+        resource_id: impl Into<String>,
+        label_key: impl Into<String>,
+        label_value: impl Into<String>,
+        all_groups: bool, // TODO: Similar things to previous todos.
+        group_id: Option<String>,
+        timeout: Duration,
+    ) -> Result<Vec<VersionXid>, Error> {
+        unimplemented!()
+    }
+
+    /// Delete an xRegistry Version entity.
+    ///
+    /// # Errors
+    /// Returns an [`struct@Error`] if the request fails.
+    pub async fn delete_version(
+        &self,
+        group_type: impl Into<String>,
+        resource_type: impl Into<String>,
+        resource_id: impl Into<String>,
+        version_id: impl Into<String>,
+        group_id: Option<String>, // TODO: Move this above, it should be by scope.
         timeout: Duration,
     ) -> Result<(), Error> {
         unimplemented!()
