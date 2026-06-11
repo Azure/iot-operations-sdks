@@ -102,6 +102,19 @@
 <# } #>
   ],
 <# } #>
+<# if (this.optionalActionNames.Any() || this.optionalPropertyNames.Any() || this.optionalEventNames.Any()) { #>
+  "tm:optional": [
+<# ix1 = 1; foreach (string actionName in this.optionalActionNames) { #>
+    "/actions/<#=actionName#>"<#=ix1 < this.optionalActionNames.Count + this.optionalPropertyNames.Count + this.optionalEventNames.Count ? "," : ""#>
+<# ix1++; } #>
+<# foreach (string propertyName in this.optionalPropertyNames) { #>
+    "/properties/<#=propertyName#>"<#=ix1 < this.optionalActionNames.Count + this.optionalPropertyNames.Count + this.optionalEventNames.Count ? "," : ""#>
+<# ix1++; } #>
+<# foreach (string eventName in this.optionalEventNames) { #>
+    "/events/<#=eventName#>"<#=ix1 < this.optionalActionNames.Count + this.optionalPropertyNames.Count + this.optionalEventNames.Count ? "," : ""#>
+<# ix1++; } #>
+  ],
+<# } #>
   "actions": {
 <# this.PushIndent("    "); #>
 <# ix1 = 1; foreach (WotAction action in this.actions) { #>

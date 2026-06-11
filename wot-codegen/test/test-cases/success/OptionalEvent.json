@@ -1,0 +1,7 @@
+{
+  "success": true,
+  "commandLine": {
+    "things": [ "valid/OptionalEvent.TM.json" ],
+    "lang": "none"
+  }
+}

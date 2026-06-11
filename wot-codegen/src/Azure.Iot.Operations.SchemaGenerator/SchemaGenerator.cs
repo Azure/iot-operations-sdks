@@ -16,7 +16,7 @@ namespace Azure.Iot.Operations.SchemaGenerator
         {
             Dictionary<string, ISchemaTemplateTransform> transforms = new();
 
-            foreach (IResolvingThing resolvingThing in resolvingThings)
+            foreach (IResolvingThing resolvingThing in resolvingThings.Where(r => r.ParsedThing.Thing.Type?.Value.Value != TDValues.TypeThingDescription))
             {
                 ParsedThing parsedThing = resolvingThing.ParsedThing;
 
