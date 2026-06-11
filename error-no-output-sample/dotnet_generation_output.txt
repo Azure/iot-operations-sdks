@@ -1,0 +1,24 @@
+Parsing Thing Model file: ErrorNoOutput.TM.json ... 1 TM parsed
+ 1 TM validated
+  Generated /home/raulleclair/repos/iot-operations-sdks/error-no-output-sample/.work-dotnet/SampleError.schema.json
+  Generated /home/raulleclair/repos/iot-operations-sdks/error-no-output-sample/.work-dotnet/DeleteThingInputArguments.schema.json
+  Generated /home/raulleclair/repos/iot-operations-sdks/error-no-output-sample/.work-dotnet/DeleteThingResponseSchema.schema.json
+  Generated /home/raulleclair/repos/iot-operations-sdks/error-no-output-sample/dotnet/ErrorNoOutput/SampleError.g.cs
+  Generated /home/raulleclair/repos/iot-operations-sdks/error-no-output-sample/dotnet/ErrorNoOutput/DeleteThingInputArguments.g.cs
+  Generated /home/raulleclair/repos/iot-operations-sdks/error-no-output-sample/dotnet/ErrorNoOutput/DeleteThingResponseSchema.g.cs
+  Generated /home/raulleclair/repos/iot-operations-sdks/error-no-output-sample/dotnet/ErrorNoOutput/DeleteThingActionInvoker.g.cs
+  Generated /home/raulleclair/repos/iot-operations-sdks/error-no-output-sample/dotnet/ErrorNoOutput/ErrorNoOutput.g.cs
+  Generated /home/raulleclair/repos/iot-operations-sdks/error-no-output-sample/dotnet/ErrorNoOutput/SampleErrorException.g.cs
+  Generated /home/raulleclair/repos/iot-operations-sdks/error-no-output-sample/dotnet/DecimalString.cs
+  Generated /home/raulleclair/repos/iot-operations-sdks/error-no-output-sample/dotnet/PropertyTopicAttribute.cs
+  Generated /home/raulleclair/repos/iot-operations-sdks/error-no-output-sample/dotnet/ValueExtractor.cs
+  Generated /home/raulleclair/repos/iot-operations-sdks/error-no-output-sample/dotnet/BytesJsonConverter.cs
+  Generated /home/raulleclair/repos/iot-operations-sdks/error-no-output-sample/dotnet/DateJsonConverter.cs
+  Generated /home/raulleclair/repos/iot-operations-sdks/error-no-output-sample/dotnet/DecimalJsonConverter.cs
+  Generated /home/raulleclair/repos/iot-operations-sdks/error-no-output-sample/dotnet/DurationJsonConverter.cs
+  Generated /home/raulleclair/repos/iot-operations-sdks/error-no-output-sample/dotnet/EmptyJson.cs
+  Generated /home/raulleclair/repos/iot-operations-sdks/error-no-output-sample/dotnet/TimeJsonConverter.cs
+  Generated /home/raulleclair/repos/iot-operations-sdks/error-no-output-sample/dotnet/Utf8JsonSerializer.cs
+  Generated /home/raulleclair/repos/iot-operations-sdks/error-no-output-sample/dotnet/UuidJsonConverter.cs
+
+  WARNING: Server Thing collection is empty. (File: ErrorNoOutput.TM.json)

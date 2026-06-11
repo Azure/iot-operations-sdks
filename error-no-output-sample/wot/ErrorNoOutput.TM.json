@@ -1,0 +1,63 @@
+{
+    "@context": [
+        "https://www.w3.org/2022/wot/td/v1.1",
+        {
+            "dov": "http://azure.com/DigitalOperations/vocab#"
+        }
+    ],
+    "@type": "tm:ThingModel",
+    "title": "ErrorNoOutput",
+    "description": "Minimal sample: a command that returns no payload on success but a schematized error payload on failure.",
+    "actions": {
+        "deleteThing": {
+            "description": "Delete a thing. Returns no payload on success, an error payload on failure.",
+            "input": {
+                "type": "object",
+                "properties": {
+                    "thingId": {
+                        "description": "Identifier of the thing to delete.",
+                        "type": "string"
+                    }
+                },
+                "required": [
+                    "thingId"
+                ]
+            },
+            "forms": [
+                {
+                    "dov:topic": "sample/delete/{ex:thingId}",
+                    "contentType": "application/json",
+                    "op": "invokeaction",
+                    "additionalResponses": [
+                        {
+                            "success": false,
+                            "schema": "SampleError"
+                        }
+                    ]
+                }
+            ]
+        }
+    },
+    "schemaDefinitions": {
+        "SampleError": {
+            "description": "Error returned when the command fails.",
+            "title": "SampleError",
+            "type": "object",
+            "dov:errorMessage": "message",
+            "required": [
+                "code",
+                "message"
+            ],
+            "properties": {
+                "code": {
+                    "description": "Error code.",
+                    "type": "integer"
+                },
+                "message": {
+                    "description": "Human-readable error message.",
+                    "type": "string"
+                }
+            }
+        }
+    }
+}

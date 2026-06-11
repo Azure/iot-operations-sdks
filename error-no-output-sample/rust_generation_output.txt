@@ -1,0 +1,13 @@
+Parsing Thing Model file: ErrorNoOutput.TM.json ... 1 TM parsed
+ 1 TM validated
+  Generated /home/raulleclair/repos/iot-operations-sdks/error-no-output-sample/.work-rust/SampleError.schema.json
+  Generated /home/raulleclair/repos/iot-operations-sdks/error-no-output-sample/.work-rust/DeleteThingInputArguments.schema.json
+  Generated /home/raulleclair/repos/iot-operations-sdks/error-no-output-sample/.work-rust/DeleteThingResponseSchema.schema.json
+  Generated /home/raulleclair/repos/iot-operations-sdks/error-no-output-sample/rust/error_no_output/sample_error.rs
+  Generated /home/raulleclair/repos/iot-operations-sdks/error-no-output-sample/rust/error_no_output/delete_thing_input_arguments.rs
+  Generated /home/raulleclair/repos/iot-operations-sdks/error-no-output-sample/rust/error_no_output/delete_thing_response_schema.rs
+
+Envoy generation FAILED with the following errors:
+  ERROR: Exception: Object reference not set to an instance of an object.
+
+  WARNING: Server Thing collection is empty. (File: ErrorNoOutput.TM.json)
