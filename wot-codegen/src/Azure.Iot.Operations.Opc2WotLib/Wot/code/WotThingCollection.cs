@@ -9,19 +9,23 @@ namespace Azure.Iot.Operations.Opc2WotLib
 
     public partial class WotThingCollection : ITemplateTransform
     {
-        private List<WotThingModel> thingModels;
-
-        public WotThingCollection(OpcUaModelInfo modelInfo, LinkRelRuleEngine linkRelRuleEngine, bool integrate, bool inheritVars)
+        public WotThingCollection(OpcUaModelInfo modelInfo, LinkRelRuleEngine linkRelRuleEngine, bool integrate, bool inheritVars, bool includeTDs)
         {
+            string specName = SpecMapper.GetSpecNameFromUri(modelInfo.ModelUri);
+            this.ThingDescriptions = includeTDs ? modelInfo.NodeIdToObjectMap.Values.Where(o => !modelInfo.ReferencedObjectNodeIds.Contains(o.NodeId)).Select(o => new WotThingDescription(specName, o)).ToList() : new();
+
             if (integrate)
             {
-                this.thingModels = ModelInfoCloser.ComputeClosure(modelInfo).SelectMany(kvp => kvp.Value.Values.Select(ot => new WotThingModel(SpecMapper.GetSpecNameFromUri(kvp.Key), ot, linkRelRuleEngine, isIntegrated: true, inheritVars: inheritVars))).ToList();
+                this.ThingModels = ModelInfoCloser.ComputeClosure(modelInfo).SelectMany(kvp => kvp.Value.Values.Select(ot => new WotThingModel(SpecMapper.GetSpecNameFromUri(kvp.Key), ot, linkRelRuleEngine, isIntegrated: true, inheritVars: inheritVars))).ToList();
             }
             else
             {
-                string specName = SpecMapper.GetSpecNameFromUri(modelInfo.ModelUri);
-                this.thingModels = modelInfo.NodeIdToObjectTypeMap.Values.Select(ot => new WotThingModel(specName, ot, linkRelRuleEngine, isIntegrated: false, inheritVars: inheritVars)).ToList();
+                this.ThingModels = modelInfo.NodeIdToObjectTypeMap.Values.Select(ot => new WotThingModel(specName, ot, linkRelRuleEngine, isIntegrated: false, inheritVars: inheritVars)).ToList();
             }
         }
+
+        public List<WotThingDescription> ThingDescriptions { get; }
+
+        public List<WotThingModel> ThingModels { get; }
     }
 }

@@ -1,12 +1,12 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFramework>net9.0</TargetFramework>
+    <TargetFramework>net10.0</TargetFramework>
     <Nullable>enable</Nullable>
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="System.CodeDom" Version="10.0.2" />
+    <PackageReference Include="System.CodeDom" Version="10.0.9" />
     <PackageReference Include="dotNetRdf" Version="3.5.1" />
     <PackageReference Include="VDS.Common" Version="3.0.0" />
   </ItemGroup>
@@ -50,6 +50,11 @@
     <None Update="Wot\t4\WotThingCollection.tt">
       <Generator>TextTemplatingFilePreprocessor</Generator>
       <LastGenOutput>WotThingCollection.cs</LastGenOutput>
+      <CustomToolNamespace>Azure.Iot.Operations.Opc2WotLib</CustomToolNamespace>
+    </None>
+    <None Update="Wot\t4\WotThingDescription.tt">
+      <Generator>TextTemplatingFilePreprocessor</Generator>
+      <LastGenOutput>WotThingDescription.cs</LastGenOutput>
       <CustomToolNamespace>Azure.Iot.Operations.Opc2WotLib</CustomToolNamespace>
     </None>
     <None Update="Wot\t4\WotThingModel.tt">
@@ -103,6 +108,11 @@
       <DesignTime>True</DesignTime>
       <AutoGen>True</AutoGen>
       <DependentUpon>WotThingCollection.tt</DependentUpon>
+    </Compile>
+    <Compile Update="Wot\t4\WotThingDescription.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>WotThingDescription.tt</DependentUpon>
     </Compile>
     <Compile Update="Wot\t4\WotThingModel.cs">
       <DesignTime>True</DesignTime>

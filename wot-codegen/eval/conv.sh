@@ -1,6 +1,6 @@
 #!/bin/sh
 
-conv=../src/Dtdl2Wot/bin/Debug/net9.0/Dtdl2Wot.exe
+conv=../src/Dtdl2Wot/bin/Debug/net10.0/Dtdl2Wot.exe
 
 $conv ./dtdl/test/CommandComplexSchemas.json ./conv
 
