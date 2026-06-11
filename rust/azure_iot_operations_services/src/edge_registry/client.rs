@@ -14,7 +14,9 @@ use azure_iot_operations_protocol::application::ApplicationContext;
 use crate::edge_registry::Error;
 use crate::edge_registry::edge_registry_gen::common_types::options::CommandInvokerOptionsBuilder;
 use crate::edge_registry::edge_registry_gen::edge_registry::client as client_gen;
-use crate::edge_registry::models::{Group, GroupAttributes};
+use crate::edge_registry::models::{
+    CreateResourceRequest, Group, GroupAttributes, Resource, ResourceXid,
+};
 
 /// Edge Registry client implementation.
 // Fields are constructed in `new` but not yet read; the per-API methods that use
@@ -192,6 +194,96 @@ impl Client {
     pub async fn delete_group(
         &self,
         group_type: impl Into<String>,
+        group_id: Option<String>,
+        timeout: Duration,
+    ) -> Result<(), Error> {
+        unimplemented!()
+    }
+}
+
+// TODO: These are placeholder Resource APIs. Implement the request/response
+// handling, argument validation (e.g. `resource_id`/`group_id` non-empty per the
+// xRegistry spec), and error mapping. Some signatures (notably the label query)
+// may be refined.
+#[allow(unused_variables)]
+#[allow(clippy::unused_async)]
+impl Client {
+    /// Create a new xRegistry Resource entity along with its default Version.
+    /// Returns the created Resource with epoch=1.
+    ///
+    /// # Errors
+    /// Returns an [`struct@Error`] if the request fails.
+    pub async fn create_resource(
+        &self,
+        group_type: impl Into<String>,
+        resource_type: impl Into<String>,
+        resource_id: impl Into<String>, // TODO: Checking here is the same as the TODOs for `group_id` in the Group APIs.
+        request: CreateResourceRequest, // TODO: Should this be extracted? Seems like group Id belongs out here. Resource meta attributes, does that default version match `default_version` we have?
+        timeout: Duration,
+    ) -> Result<Resource, Error> {
+        unimplemented!()
+    }
+
+    /// Retrieve an xRegistry Resource entity. Uses the default Group if
+    /// `group_id` is not specified.
+    ///
+    /// # Errors
+    /// Returns an [`struct@Error`] if the request fails.
+    pub async fn get_resource(
+        &self,
+        group_type: impl Into<String>,
+        resource_type: impl Into<String>,
+        resource_id: impl Into<String>,
+        group_id: Option<String>,
+        timeout: Duration,
+    ) -> Result<Resource, Error> {
+        unimplemented!()
+    }
+
+    /// List the identifiers of the xRegistry Resources of the given type.
+    ///
+    /// # Errors
+    /// Returns an [`struct@Error`] if the request fails.
+    pub async fn list_resources(
+        &self,
+        group_type: impl Into<String>,
+        resource_type: impl Into<String>,
+        group_id: Option<String>,
+        timeout: Duration,
+    ) -> Result<Vec<String>, Error> {
+        unimplemented!()
+    }
+
+    /// List the XIDs of the xRegistry Resources that have the specified label.
+    ///
+    /// # Errors
+    /// Returns an [`struct@Error`] if the request fails.
+    // TODO: Consider collapsing the label-query arguments into a dedicated
+    // request/query struct rather than passing them positionally.
+    #[allow(clippy::too_many_arguments)]
+    pub async fn list_resources_with_label(
+        &self,
+        group_type: impl Into<String>,
+        resource_type: impl Into<String>,
+        label_key: impl Into<String>, // TODO: Maybe a tuple?
+        label_value: impl Into<String>,
+        all_groups: bool, // TODO: This is a bit awkward as an argument. Instead we can have an enum where we have either GroupId, Default, or All, and then we can enforce that GroupId is non-empty string and Default/All are just variants.
+        group_id: Option<String>,
+        timeout: Duration,
+    ) -> Result<Vec<ResourceXid>, Error> {
+        unimplemented!()
+    }
+
+    /// Delete an xRegistry Resource entity. Deletes cascade: all Versions of the
+    /// Resource are deleted.
+    ///
+    /// # Errors
+    /// Returns an [`struct@Error`] if the request fails.
+    pub async fn delete_resource(
+        &self,
+        group_type: impl Into<String>,
+        resource_type: impl Into<String>,
+        resource_id: impl Into<String>,
         group_id: Option<String>,
         timeout: Duration,
     ) -> Result<(), Error> {
