@@ -154,9 +154,10 @@ impl Client {
     pub async fn create_group(
         &self,
         group_type: impl Into<String>, // TODO: Should we check that this is non-empty or let service handle it?
-        attributes: GroupAttributes, // TODO: Should we bring out the attributes to the front or leave them as is?
+        // TODO: Group ID should be out
+        attributes: GroupAttributes, // TODO: Pull out group ID, leave as a struct and add a default.
         // TODO: Are any of them actually required?
-        timeout: Duration, // TODO: Would like to use something like `ReportInterval` for this but not sure if it is worth it. This would reduce some amount of SDK errors.
+        timeout: Duration, // TODO: Would like to use something like `ReportInterval` for this but not sure if it is worth it. This would reduce some amount of SDK errors. Leave as is for now.
     ) -> Result<Group, Error> {
         unimplemented!()
     }
@@ -187,8 +188,8 @@ impl Client {
         unimplemented!()
     }
 
-    /// Delete an xRegistry Group entity. Deletes cascade: all Resources
-    /// contained in the Group and all of their Versions are deleted.
+    /// Delete an xRegistry Group entity. Deletes cascade: all Resources contained in the Group
+    /// and all of their Versions are deleted.
     ///
     /// # Errors
     /// Returns an [`struct@Error`] if the request fails.
@@ -264,9 +265,9 @@ impl Client {
     #[allow(clippy::too_many_arguments)]
     pub async fn list_resources_with_label(
         &self,
-        group_type: impl Into<String>,
-        resource_type: impl Into<String>,
-        label_key: impl Into<String>, // TODO: Maybe a tuple?
+        group_type: Option<String>,
+        resource_type: Option<String>,
+        label_key: impl Into<String>, // TODO: Maybe a tuple? Yes
         label_value: impl Into<String>,
         all_groups: bool, // TODO: This is a bit awkward as an argument. Instead we can have an enum where we have either GroupId, Default, or All, and then we can enforce that GroupId is non-empty string and Default/All are just variants.
         group_id: Option<String>,
@@ -305,12 +306,13 @@ impl Client {
     ///
     /// # Errors
     /// Returns an [`struct@Error`] if the request fails.
+    /// // note: GROUP Id has a cloud default, resource Id always has to be provided, for version Id it is different,
     pub async fn create_version(
         &self,
         group_type: impl Into<String>,
         resource_type: impl Into<String>,
         resource_id: impl Into<String>,
-        request: CreateVersionRequest,
+        request: CreateVersionRequest, // TODO: pull out version ID
         timeout: Duration,
     ) -> Result<Version, Error> {
         unimplemented!()
@@ -324,11 +326,11 @@ impl Client {
     /// Returns an [`struct@Error`] if the request fails.
     pub async fn get_version(
         &self,
-        group_type: impl Into<String>,
+        group_type: impl Into<String>, // Groups don't have a default resource
         resource_type: impl Into<String>,
         resource_id: impl Into<String>,
         group_id: Option<String>,
-        version_id: Option<String>,
+        version_id: Option<String>, // This is asking for a default
         timeout: Duration,
     ) -> Result<Version, Error> {
         unimplemented!()

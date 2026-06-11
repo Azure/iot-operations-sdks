@@ -64,7 +64,7 @@ impl TryFrom<client_gen::Validated> for Validated {
         } else {
             match value.reason {
                 Some(reason) => Ok(Validated::False(reason)),
-                None => Err(ErrorKind::InvalidResponse(
+                None => Err(ErrorKind::InvalidResponse( // TODO: This should be empty string and log a warning.
                     "'Validated.reason' must be present when 'validated' is false".to_string(),
                 )
                 .into()),
@@ -80,7 +80,7 @@ pub struct DeprecatedInfo {
     /// be in the past or future. If this property is not present the entity is already in a
     /// deprecated state.
     pub effective: Option<DateTime<Utc>>,
-    // TODO: Maybe consider enforcing this as part of the SDK.
+    // TODO: Maybe consider enforcing this as part of the SDK. Just do this on the outbound!
     /// Indicates the time when the entity will be removed. The entity MUST NOT be removed before
     /// this time. If this property is not present, the client cannot make any assumptions as to
     /// when the entity might be removed. This MUST NOT be sooner than the `effective` time, if that
