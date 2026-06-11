@@ -14,7 +14,14 @@ namespace Azure.Iot.Operations.Opc2WotLib
             : base(modelInfo, nsUriToNsInfoMap, methodNode)
         {
             References = UaUtil.GetReferencesFromXmlNode(modelInfo, nsUriToNsInfoMap, methodNode);
+
+            IsMandatory = References.Any(r =>
+                r.IsForward &&
+                r.ReferenceType.IsModellingRuleReference &&
+                r.Target.IsRuleMandatory);
         }
+
+        public bool IsMandatory { get; }
 
         public bool TryGetInputArguments([NotNullWhen(true)] out OpcUaVariable? inputArgsVariable)
         {

@@ -1,13 +1,13 @@
 {
   "success": false,
   "commandLine": {
-    "things": [ "invalidAioBinding/EventMemberOf.TM.json" ],
+    "things": [ "invalidAioBinding/EventActionConfigurationMismatch.TM.json" ],
     "lang": "none"
   },
   "errors": [
     {
       "condition": "PropertyUnsupported",
-      "filename": "EventMemberOf.TM.json",
+      "filename": "EventActionConfigurationMismatch.TM.json",
       "line": 17,
       "cfLine": 0,
       "crossRef": ""

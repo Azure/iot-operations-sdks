@@ -1,0 +1,159 @@
+[
+  {
+    "@context": [
+      "https://www.w3.org/2022/wot/td/v1.1",
+      { "dov": "http://azure.com/DigitalOperations/vocab#" }
+    ],
+    "@type": "tm:ThingModel",
+    "title": "Pump",
+    "dov:metadata": {
+      "vendor": "Contoso",
+      "modelLine": "P-200",
+      "revision": "2026.04"
+    },
+    "dov:propertyGroups": [
+      {
+        "title": "Telemetry",
+        "description": "Continuously measured values."
+      },
+      {
+        "title": "Configuration",
+        "description": "Operator-settable parameters."
+      }
+    ],
+    "dov:eventGroups": [
+      {
+        "title": "Alerts",
+        "description": "Abnormal-condition notifications."
+      }
+    ],
+    "dov:actionGroups": [
+      {
+        "title": "Maintenance",
+        "description": "Service operations."
+      }
+    ],
+    "properties": {
+      "DischargePressure": {
+        "type": "number",
+        "dov:memberOf": "Telemetry",
+        "forms": [ { "dov:topic": "pumps/p1/pressure" } ]
+      },
+      "PressureSetpoint": {
+        "type": "number",
+        "dov:memberOf": "Configuration",
+        "forms": [
+          {
+            "dov:topic": "pumps/p1/setpoint/{action}",
+            "op": [ "readproperty", "writeproperty" ]
+          }
+        ]
+      }
+    },
+    "events": {
+      "OverPressure": {
+        "data": { "type": "number" },
+        "dov:memberOf": "Alerts",
+        "forms": [ { "dov:topic": "pumps/p1/alerts/overpressure" } ]
+      }
+    },
+    "actions": {
+      "Flush": {
+        "dov:memberOf": "Maintenance",
+        "forms": [
+          {
+            "dov:topic": "pumps/p1/maintenance/flush",
+            "op": "invokeaction"
+          }
+        ]
+      }
+    }
+  },
+  {
+    "@context": [
+      "https://www.w3.org/2022/wot/td/v1.1",
+      { "dov": "http://azure.com/DigitalOperations/vocab#" }
+    ],
+    "@type": "tm:ThingModel",
+    "title": "Boiler",
+    "properties": {
+      "Temperature": {
+        "type": "number",
+        "dov:propertyIRI": "http://example.com/cim/Boiler#Temperature",
+        "dov:propertyConfiguration": {
+          "samplingIntervalMs": 1000,
+          "deadband": 0.5
+        },
+        "forms": [ { "dov:topic": "boilers/b1/temperature" } ]
+      }
+    },
+    "events": {
+      "FlameOut": {
+        "data": { "type": "string" },
+        "dov:propertyIRI": "http://example.com/cim/Boiler#FlameOut",
+        "dov:eventConfiguration": {
+          "severity": "critical",
+          "retain": true
+        },
+        "forms": [ { "dov:topic": "boilers/b1/events/flameout" } ]
+      }
+    },
+    "actions": {
+      "Purge": {
+        "dov:propertyIRI": "http://example.com/cim/Boiler#Purge",
+        "dov:actionConfiguration": {
+          "durationSeconds": 30,
+          "requiresInterlock": true
+        },
+        "forms": [
+          {
+            "dov:topic": "boilers/b1/actions/purge",
+            "op": "invokeaction"
+          }
+        ]
+      }
+    }
+  },
+  {
+    "@context": [
+      "https://www.w3.org/2022/wot/td/v1.1",
+      { "dov": "http://azure.com/DigitalOperations/vocab#" },
+      { "qudt": "http://qudt.org/schema/qudt/" }
+    ],
+    "@type": "tm:ThingModel",
+    "title": "Pump",
+    "optional": [
+      "/actions/Calibrate",
+      "/properties/BatchId"
+    ],
+    "properties": {
+      "BatchId": {
+        "type": "string",
+        "forms": [ { "dov:topic": "pumps/p1/batchId" } ]
+      },
+      "HeadAtPeakPoint_Units": {
+        "type": "string",
+        "readOnly": true,
+        "forms": [ { "dov:topic": "pumps/p1/headAtPeakPoint_Units/read" } ]
+      }
+    },
+    "events": {
+      "HeadAtPeakPoint": {
+        "data": { "type": "number" },
+        "qudt:hasQuantityKind": "quantitykind:Length",
+        "dov:withUnit": "/properties/HeadAtPeakPoint_Units",
+        "forms": [ { "dov:topic": "pumps/p1/headAtPeakPoint" } ]
+      }
+    },
+    "actions": {
+      "Calibrate": {
+        "forms": [
+          {
+            "dov:topic": "pumps/p1/actions/calibrate",
+            "op": "invokeaction"
+          }
+        ]
+      }
+    }
+  }
+]
