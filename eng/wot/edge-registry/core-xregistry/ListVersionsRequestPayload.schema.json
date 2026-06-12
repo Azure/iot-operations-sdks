@@ -19,11 +19,11 @@
       "type": "boolean"
     },
     "resourceType": {
-      "description": "Resource type. Lists Versions across all Resource types if not specified.",
+      "description": "Resource type. If specified, only Versions of Resources of this type are listed; when listing across all Groups, Resources of this type are matched across all Groups. Lists Versions across all Resource types if not specified.",
       "type": "string"
     },
     "resourceId": {
-      "description": "Resource identifier. Lists Versions across all Resources if not specified.",
+      "description": "Resource identifier. If specified, only Versions of the Resource with this identifier are listed; when resourceType is not specified, this identifier is matched across all Resource types. Lists Versions across all Resources if not specified.",
       "type": "string"
     },
     "label": {

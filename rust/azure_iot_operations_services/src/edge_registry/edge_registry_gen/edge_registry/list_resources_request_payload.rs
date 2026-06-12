@@ -33,7 +33,7 @@ pub struct ListResourcesRequestPayload {
     #[builder(default = "None")]
     pub all_groups: Option<bool>,
 
-    /// Resource type. Lists Resources across all Resource types if not specified.
+    /// Resource type. If specified, only Resources of this type are listed; when listing across all Groups, Resources of this type are matched across all Groups. Lists Resources across all Resource types if not specified.
     #[serde(rename = "resourceType")]
     #[serde(skip_serializing_if = "Option::is_none")]
     #[builder(default = "None")]

@@ -27,7 +27,7 @@ pub struct ListThingModelVersionsRequestPayload {
     #[builder(default = "None")]
     pub all_groups: Option<bool>,
 
-    /// Thing Model Resource identifier. Lists Versions across all Thing Models if not specified.
+    /// Thing Model Resource identifier. If specified, only Versions of the Thing Model with this identifier are listed; when listing across all Groups, this identifier is matched across all Groups. Lists Versions across all Thing Models if not specified.
     #[serde(rename = "thingModelId")]
     #[serde(skip_serializing_if = "Option::is_none")]
     #[builder(default = "None")]

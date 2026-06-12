@@ -33,13 +33,13 @@ pub struct ListVersionsRequestPayload {
     #[builder(default = "None")]
     pub all_groups: Option<bool>,
 
-    /// Resource type. Lists Versions across all Resource types if not specified.
+    /// Resource type. If specified, only Versions of Resources of this type are listed; when listing across all Groups, Resources of this type are matched across all Groups. Lists Versions across all Resource types if not specified.
     #[serde(rename = "resourceType")]
     #[serde(skip_serializing_if = "Option::is_none")]
     #[builder(default = "None")]
     pub resource_type: Option<String>,
 
-    /// Resource identifier. Lists Versions across all Resources if not specified.
+    /// Resource identifier. If specified, only Versions of the Resource with this identifier are listed; when resourceType is not specified, this identifier is matched across all Resource types. Lists Versions across all Resources if not specified.
     #[serde(rename = "resourceId")]
     #[serde(skip_serializing_if = "Option::is_none")]
     #[builder(default = "None")]

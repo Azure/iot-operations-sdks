@@ -27,7 +27,7 @@ pub struct ListSchemaVersionsRequestPayload {
     #[builder(default = "None")]
     pub all_groups: Option<bool>,
 
-    /// Schema Resource identifier. Lists Versions across all Schemas if not specified.
+    /// Schema Resource identifier. If specified, only Versions of the Schema with this identifier are listed; when listing across all Groups, this identifier is matched across all Groups. Lists Versions across all Schemas if not specified.
     #[serde(rename = "schemaId")]
     #[serde(skip_serializing_if = "Option::is_none")]
     #[builder(default = "None")]

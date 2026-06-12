@@ -27,7 +27,7 @@ pub struct ListThingDescriptionVersionsRequestPayload {
     #[builder(default = "None")]
     pub all_groups: Option<bool>,
 
-    /// Thing Description Resource identifier. Lists Versions across all Thing Descriptions if not specified.
+    /// Thing Description Resource identifier. If specified, only Versions of the Thing Description with this identifier are listed; when listing across all Groups, this identifier is matched across all Groups. Lists Versions across all Thing Descriptions if not specified.
     #[serde(rename = "thingDescriptionId")]
     #[serde(skip_serializing_if = "Option::is_none")]
     #[builder(default = "None")]

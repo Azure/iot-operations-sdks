@@ -15,7 +15,7 @@
       "type": "boolean"
     },
     "thingDescriptionId": {
-      "description": "Thing Description Resource identifier. Lists Versions across all Thing Descriptions if not specified.",
+      "description": "Thing Description Resource identifier. If specified, only Versions of the Thing Description with this identifier are listed; when listing across all Groups, this identifier is matched across all Groups. Lists Versions across all Thing Descriptions if not specified.",
       "type": "string"
     },
     "label": {
