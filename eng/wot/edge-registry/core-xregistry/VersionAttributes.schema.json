@@ -9,10 +9,6 @@
     "extensions"
   ],
   "properties": {
-    "versionId": {
-      "description": "Version identifier. If omitted, the server determines the versionId.",
-      "type": "string"
-    },
     "name": {
       "description": "Human-readable name.",
       "type": "string"

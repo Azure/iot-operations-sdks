@@ -119,9 +119,7 @@ impl ListVersionsActionInvoker {
         );
 
         let invoker_options = invoker_options_builder
-            .request_topic_pattern(
-                "aio/registry/list/{ex:groupType}/{ex:resourceType}/{ex:resourceId}/versions",
-            )
+            .request_topic_pattern("aio/registry/listVersions")
             .command_name("listVersions")
             .topic_token_map(topic_token_map)
             .response_topic_prefix(options.response_topic_prefix.clone())
@@ -157,12 +155,10 @@ impl ListVersionsActionInvoker {
                     }))
                 } else {
                     Ok(Ok(ListVersionsResponse {
-                        payload: ListVersionsOutputArguments {
-                            ids: response
-                                .payload
-                                .ids
-                                .ok_or(ListVersionsActionInvoker::get_err("ids"))?,
-                        },
+                        payload: response
+                            .payload
+                            .output
+                            .ok_or(ListVersionsActionInvoker::get_err("_output"))?,
                         content_type: response.content_type,
                         format_indicator: response.format_indicator,
                         custom_user_data: response.custom_user_data,

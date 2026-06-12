@@ -15,12 +15,6 @@ use super::label::Label;
 /// Attributes needed to create a Version.
 #[derive(Serialize, Deserialize, Debug, Clone, Builder)]
 pub struct VersionAttributes {
-    /// Version identifier. If omitted, the server determines the versionId.
-    #[serde(rename = "versionId")]
-    #[serde(skip_serializing_if = "Option::is_none")]
-    #[builder(default = "None")]
-    pub version_id: Option<String>,
-
     /// Human-readable name.
     #[serde(skip_serializing_if = "Option::is_none")]
     #[builder(default = "None")]

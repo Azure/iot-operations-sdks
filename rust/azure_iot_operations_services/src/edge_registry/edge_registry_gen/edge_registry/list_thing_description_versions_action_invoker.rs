@@ -129,7 +129,7 @@ impl ListThingDescriptionVersionsActionInvoker {
         );
 
         let invoker_options = invoker_options_builder
-            .request_topic_pattern("aio/registry/thingDescriptionExtension/list/thingdescriptiongroups/thingdescriptions/{ex:thingDescriptionId}/versions")
+            .request_topic_pattern("aio/registry/thingDescriptionExtension/listVersions")
             .command_name("listThingDescriptionVersions")
             .topic_token_map(topic_token_map)
             .response_topic_prefix(options.response_topic_prefix.clone())
@@ -168,12 +168,9 @@ impl ListThingDescriptionVersionsActionInvoker {
                     }))
                 } else {
                     Ok(Ok(ListThingDescriptionVersionsResponse {
-                        payload: ListThingDescriptionVersionsOutputArguments {
-                            ids: response
-                                .payload
-                                .ids
-                                .ok_or(ListThingDescriptionVersionsActionInvoker::get_err("ids"))?,
-                        },
+                        payload: response.payload.output.ok_or(
+                            ListThingDescriptionVersionsActionInvoker::get_err("_output"),
+                        )?,
                         content_type: response.content_type,
                         format_indicator: response.format_indicator,
                         custom_user_data: response.custom_user_data,

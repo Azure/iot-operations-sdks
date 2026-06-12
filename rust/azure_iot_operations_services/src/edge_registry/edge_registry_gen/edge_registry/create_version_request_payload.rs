@@ -22,6 +22,12 @@ pub struct CreateVersionRequestPayload {
     #[builder(default = "None")]
     pub group_id: Option<String>,
 
+    /// Version identifier of the Version to create. If omitted, the server determines the versionId.
+    #[serde(rename = "versionId")]
+    #[serde(skip_serializing_if = "Option::is_none")]
+    #[builder(default = "None")]
+    pub version_id: Option<String>,
+
     /// The attributes of the Version to create.
     pub version: VersionAttributes,
 

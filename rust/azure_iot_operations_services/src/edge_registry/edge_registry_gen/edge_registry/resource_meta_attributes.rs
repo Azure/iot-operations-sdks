@@ -35,12 +35,6 @@ pub struct ResourceMetaAttributes {
     #[builder(default = "None")]
     pub deprecated: Option<DeprecatedInfo>,
 
-    /// The versionId of the current default Version.
-    #[serde(rename = "defaultVersionId")]
-    #[serde(skip_serializing_if = "Option::is_none")]
-    #[builder(default = "None")]
-    pub default_version_id: Option<String>,
-
     /// Extension-specific attributes (e.g., `format` and `content_type` for schemas).
     #[builder(default)]
     pub extensions: HashMap<String, Bytes>,
