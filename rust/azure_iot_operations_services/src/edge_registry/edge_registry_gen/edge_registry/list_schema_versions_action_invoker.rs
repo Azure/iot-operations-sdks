@@ -123,9 +123,7 @@ impl ListSchemaVersionsActionInvoker {
         );
 
         let invoker_options = invoker_options_builder
-            .request_topic_pattern(
-                "aio/registry/schemaExtension/list/schemagroups/schemas/{ex:schemaId}/versions",
-            )
+            .request_topic_pattern("aio/registry/schemaExtension/listVersions")
             .command_name("listSchemaVersions")
             .topic_token_map(topic_token_map)
             .response_topic_prefix(options.response_topic_prefix.clone())
@@ -162,12 +160,10 @@ impl ListSchemaVersionsActionInvoker {
                     }))
                 } else {
                     Ok(Ok(ListSchemaVersionsResponse {
-                        payload: ListSchemaVersionsOutputArguments {
-                            ids: response
-                                .payload
-                                .ids
-                                .ok_or(ListSchemaVersionsActionInvoker::get_err("ids"))?,
-                        },
+                        payload: response
+                            .payload
+                            .output
+                            .ok_or(ListSchemaVersionsActionInvoker::get_err("_output"))?,
                         content_type: response.content_type,
                         format_indicator: response.format_indicator,
                         custom_user_data: response.custom_user_data,

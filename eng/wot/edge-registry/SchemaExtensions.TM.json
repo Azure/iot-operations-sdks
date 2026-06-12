@@ -75,86 +75,18 @@
             ]
         },
         "listSchemaVersions": {
-            "description": "List all Version IDs for a Schema.",
+            "description": "List xRegistry Schema Versions, optionally filtered by Group, Schema, and/or label.",
             "input": {
-                "type": "object",
-                "properties": {
-                    "groupId": {
-                        "description": "Group identifier. Uses the default if not specified.",
-                        "type": "string"
-                    }
-                },
-                "required": []
-            },
-            "output": {
-                "description": "List of Version identifiers.",
-                "type": "object",
-                "properties": {
-                    "ids": {
-                        "description": "List of Version identifiers.",
-                        "type": "array",
-                        "items": {
-                            "description": "Version identifier.",
-                            "type": "integer"
-                        }
-                    }
-                },
-                "required": [
-                    "ids"
-                ]
-            },
-            "forms": [
-                {
-                    "dov:topic": "aio/registry/schemaExtension/list/schemagroups/schemas/{ex:schemaId}/versions",
-                    "contentType": "application/json",
-                    "op": "invokeaction",
-                    "additionalResponses": [
-                        {
-                            "success": false,
-                            "schema": "SchemaExtensionError"
-                        }
-                    ]
-                }
-            ]
-        },
-        "listSchemaVersionsWithLabel": {
-            "description": "List Schema Versions that have the specified label.",
-            "input": {
-                "type": "object",
-                "properties": {
-                    "groupId": {
-                        "description": "Group identifier. Uses the default if not specified. Ignored if allGroups is true.",
-                        "type": "string"
-                    },
-                    "allGroups": {
-                        "description": "If true, lists Versions across all Groups (groupId is ignored). If false or unspecified, lists within the Group specified by groupId, or the default Group if groupId is unspecified.",
-                        "type": "boolean"
-                    },
-                    "schemaId": {
-                        "description": "Schema Resource identifier. Lists Versions across all Schemas if not specified.",
-                        "type": "string"
-                    },
-                    "labelKey": {
-                        "description": "Label key.",
-                        "type": "string"
-                    },
-                    "labelValue": {
-                        "description": "Label value.",
-                        "type": "string"
-                    }
-                },
-                "required": [
-                    "labelKey",
-                    "labelValue"
-                ]
+                "dov:ref": "./core-xregistry/ListVersionsRequestPayload.schema.json",
+                "description": "The constraints to filter the listed Versions by."
             },
             "output": {
                 "dov:ref": "./schema-extension/SchemaVersionXIdList.schema.json",
-                "description": "List of Version XIDs within the provided constraints with the specified label."
+                "description": "List of Schema Version XIDs matching the provided constraints."
             },
             "forms": [
                 {
-                    "dov:topic": "aio/registry/schemaExtension/listWithLabel/versions",
+                    "dov:topic": "aio/registry/schemaExtension/listVersions",
                     "contentType": "application/json",
                     "op": "invokeaction",
                     "additionalResponses": [
