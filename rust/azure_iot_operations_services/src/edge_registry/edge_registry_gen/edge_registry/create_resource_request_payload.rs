@@ -29,6 +29,12 @@ pub struct CreateResourceRequestPayload {
     #[serde(rename = "defaultVersion")]
     pub default_version: VersionAttributes,
 
+    /// Version identifier for the Resource's default Version, which is created along with this Resource. If omitted, the server determines the versionId.
+    #[serde(rename = "defaultVersionId")]
+    #[serde(skip_serializing_if = "Option::is_none")]
+    #[builder(default = "None")]
+    pub default_version_id: Option<String>,
+
     /// Extension-specific attributes.
     #[builder(default)]
     pub extensions: HashMap<String, Bytes>,

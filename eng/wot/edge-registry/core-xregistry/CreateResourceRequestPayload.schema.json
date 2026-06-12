@@ -22,6 +22,10 @@
       "description": "The attributes of the Resource's default Version, which will be created along side this Resource.",
       "$ref": "VersionAttributes.schema.json"
     },
+    "defaultVersionId": {
+      "description": "Version identifier for the Resource's default Version, which is created along with this Resource. If omitted, the server determines the versionId.",
+      "type": "string"
+    },
     "extensions": {
       "description": "Extension-specific attributes.",
       "type": "object",
