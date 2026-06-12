@@ -15,19 +15,19 @@ use super::label::Label;
 /// Request payload for listing xRegistry Resources, optionally filtered by Group type, Group, Resource type, and/or label.
 #[derive(Serialize, Deserialize, Debug, Clone, Builder)]
 pub struct ListResourcesRequestPayload {
-    /// Group type. Lists Resources across all Group types if not specified.
+    /// Group type. If not specified, Resources are listed across all Group types; in that case groupId must be specified explicitly or allGroups must be true, because the default Group only exists within a specific Group type.
     #[serde(rename = "groupType")]
     #[serde(skip_serializing_if = "Option::is_none")]
     #[builder(default = "None")]
     pub group_type: Option<String>,
 
-    /// Group identifier. Uses the default Group if not specified. Ignored if allGroups is true.
+    /// Group identifier. Ignored if allGroups is true. If not specified, the default Group of the specified groupType is used; this default is only valid when groupType is specified, so groupId must be provided when groupType is not.
     #[serde(rename = "groupId")]
     #[serde(skip_serializing_if = "Option::is_none")]
     #[builder(default = "None")]
     pub group_id: Option<String>,
 
-    /// If true, lists Resources across all Groups (groupId is ignored). If false or unspecified, lists within the Group specified by groupId, or the default Group if groupId is unspecified.
+    /// If true, lists Resources across all Groups (groupId is ignored). If false or unspecified, lists within the Group specified by groupId, or — only when groupType is specified — the default Group of that type if groupId is unspecified.
     #[serde(rename = "allGroups")]
     #[serde(skip_serializing_if = "Option::is_none")]
     #[builder(default = "None")]
