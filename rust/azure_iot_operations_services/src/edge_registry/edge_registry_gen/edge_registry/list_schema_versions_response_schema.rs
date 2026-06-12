@@ -11,8 +11,9 @@ use uuid::Uuid;
 
 use super::super::common_types::{b64::Bytes, date_only::Date, decimal::Decimal, time_only::Time};
 use super::schema_extension_error::SchemaExtensionError;
+use super::schema_version_xid_list::SchemaVersionXidList;
 
-/// List of Version identifiers.
+/// List of Schema Version XIDs matching the provided constraints.
 #[derive(Serialize, Deserialize, Debug, Clone, Builder)]
 pub struct ListSchemaVersionsResponseSchema {
     /// Error for the 'listSchemaVersions' Action.
@@ -21,8 +22,9 @@ pub struct ListSchemaVersionsResponseSchema {
     #[builder(default = "None")]
     pub error: Option<SchemaExtensionError>,
 
-    /// List of Version identifiers.
+    /// Output for the 'listSchemaVersions' Action.
+    #[serde(rename = "_output")]
     #[serde(skip_serializing_if = "Option::is_none")]
     #[builder(default = "None")]
-    pub ids: Option<Vec<u64>>,
+    pub output: Option<SchemaVersionXidList>,
 }

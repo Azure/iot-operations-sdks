@@ -10,33 +10,31 @@ use serde::{Deserialize, Serialize};
 use uuid::Uuid;
 
 use super::super::common_types::{b64::Bytes, date_only::Date, decimal::Decimal, time_only::Time};
+use super::label::Label;
 
-/// Input arguments for action 'listSchemaVersionsWithLabel'
+/// Request payload for listing xRegistry Thing Description Versions, optionally filtered by Group, Thing Description, and/or label.
 #[derive(Serialize, Deserialize, Debug, Clone, Builder)]
-pub struct ListSchemaVersionsWithLabelInputArguments {
+pub struct ListThingDescriptionVersionsRequestPayload {
+    /// Group identifier. Uses the default Group if not specified. Ignored if allGroups is true.
+    #[serde(rename = "groupId")]
+    #[serde(skip_serializing_if = "Option::is_none")]
+    #[builder(default = "None")]
+    pub group_id: Option<String>,
+
     /// If true, lists Versions across all Groups (groupId is ignored). If false or unspecified, lists within the Group specified by groupId, or the default Group if groupId is unspecified.
     #[serde(rename = "allGroups")]
     #[serde(skip_serializing_if = "Option::is_none")]
     #[builder(default = "None")]
     pub all_groups: Option<bool>,
 
-    /// Group identifier. Uses the default if not specified. Ignored if allGroups is true.
-    #[serde(rename = "groupId")]
+    /// Thing Description Resource identifier. Lists Versions across all Thing Descriptions if not specified.
+    #[serde(rename = "thingDescriptionId")]
     #[serde(skip_serializing_if = "Option::is_none")]
     #[builder(default = "None")]
-    pub group_id: Option<String>,
+    pub thing_description_id: Option<String>,
 
-    /// Label key.
-    #[serde(rename = "labelKey")]
-    pub label_key: String,
-
-    /// Label value.
-    #[serde(rename = "labelValue")]
-    pub label_value: String,
-
-    /// Schema Resource identifier. Lists Versions across all Schemas if not specified.
-    #[serde(rename = "schemaId")]
+    /// If specified, only Versions with this label are listed.
     #[serde(skip_serializing_if = "Option::is_none")]
     #[builder(default = "None")]
-    pub schema_id: Option<String>,
+    pub label: Option<Label>,
 }

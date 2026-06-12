@@ -1,0 +1,26 @@
+{
+  "$schema": "https://json-schema.org/draft-07/schema",
+  "title": "ListThingDescriptionVersionsRequestPayload",
+  "description": "Request payload for listing xRegistry Thing Description Versions, optionally filtered by Group, Thing Description, and/or label.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [],
+  "properties": {
+    "groupId": {
+      "description": "Group identifier. Uses the default Group if not specified. Ignored if allGroups is true.",
+      "type": "string"
+    },
+    "allGroups": {
+      "description": "If true, lists Versions across all Groups (groupId is ignored). If false or unspecified, lists within the Group specified by groupId, or the default Group if groupId is unspecified.",
+      "type": "boolean"
+    },
+    "thingDescriptionId": {
+      "description": "Thing Description Resource identifier. Lists Versions across all Thing Descriptions if not specified.",
+      "type": "string"
+    },
+    "label": {
+      "description": "If specified, only Versions with this label are listed.",
+      "$ref": "../core-xregistry/Label.schema.json"
+    }
+  }
+}

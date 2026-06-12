@@ -75,86 +75,18 @@
             ]
         },
         "listThingDescriptionVersions": {
-            "description": "List all Version IDs for a Thing Description.",
+            "description": "List xRegistry Thing Description Versions, optionally filtered by Group, Thing Description, and/or label.",
             "input": {
-                "type": "object",
-                "properties": {
-                    "groupId": {
-                        "description": "Group identifier. Uses the default if not specified.",
-                        "type": "string"
-                    }
-                },
-                "required": []
-            },
-            "output": {
-                "description": "List of Version identifiers.",
-                "type": "object",
-                "properties": {
-                    "ids": {
-                        "description": "List of Version identifiers.",
-                        "type": "array",
-                        "items": {
-                            "description": "Version identifier.",
-                            "type": "integer"
-                        }
-                    }
-                },
-                "required": [
-                    "ids"
-                ]
-            },
-            "forms": [
-                {
-                    "dov:topic": "aio/registry/thingDescriptionExtension/list/thingdescriptiongroups/thingdescriptions/{ex:thingDescriptionId}/versions",
-                    "contentType": "application/json",
-                    "op": "invokeaction",
-                    "additionalResponses": [
-                        {
-                            "success": false,
-                            "schema": "ThingDescriptionExtensionError"
-                        }
-                    ]
-                }
-            ]
-        },
-        "listThingDescriptionVersionsWithLabel": {
-            "description": "List Thing Description Versions that have the specified label.",
-            "input": {
-                "type": "object",
-                "properties": {
-                    "groupId": {
-                        "description": "Group identifier. Uses the default if not specified. Ignored if allGroups is true.",
-                        "type": "string"
-                    },
-                    "allGroups": {
-                        "description": "If true, lists Versions across all Groups (groupId is ignored). If false or unspecified, lists within the Group specified by groupId, or the default Group if groupId is unspecified.",
-                        "type": "boolean"
-                    },
-                    "thingDescriptionId": {
-                        "description": "Thing Description Resource identifier. Lists Versions across all Thing Descriptions if not specified.",
-                        "type": "string"
-                    },
-                    "labelKey": {
-                        "description": "Label key.",
-                        "type": "string"
-                    },
-                    "labelValue": {
-                        "description": "Label value.",
-                        "type": "string"
-                    }
-                },
-                "required": [
-                    "labelKey",
-                    "labelValue"
-                ]
+                "dov:ref": "./thing-description-extension/ListThingDescriptionVersionsRequestPayload.schema.json",
+                "description": "The constraints to filter the listed Versions by."
             },
             "output": {
                 "dov:ref": "./thing-description-extension/ThingDescriptionVersionXIdList.schema.json",
-                "description": "List of Version XIDs within the provided constraints with the specified label."
+                "description": "List of Thing Description Version XIDs matching the provided constraints."
             },
             "forms": [
                 {
-                    "dov:topic": "aio/registry/thingDescriptionExtension/listWithLabel/versions",
+                    "dov:topic": "aio/registry/thingDescriptionExtension/listVersions",
                     "contentType": "application/json",
                     "op": "invokeaction",
                     "additionalResponses": [

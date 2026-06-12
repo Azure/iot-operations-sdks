@@ -10,15 +10,16 @@ use serde::{Deserialize, Serialize};
 use uuid::Uuid;
 
 use super::super::common_types::{b64::Bytes, date_only::Date, decimal::Decimal, time_only::Time};
+use super::label::Label;
 
-/// Input arguments for action 'listVersionsWithLabel'
+/// Request payload for listing xRegistry Resources, optionally filtered by Group type, Group, Resource type, and/or label.
 #[derive(Serialize, Deserialize, Debug, Clone, Builder)]
-pub struct ListVersionsWithLabelInputArguments {
-    /// If true, lists Versions across all Groups (groupId is ignored). If false or unspecified, lists within the Group specified by groupId, or the default Group if groupId is unspecified.
-    #[serde(rename = "allGroups")]
+pub struct ListResourcesRequestPayload {
+    /// Group type. Lists Resources across all Group types if not specified.
+    #[serde(rename = "groupType")]
     #[serde(skip_serializing_if = "Option::is_none")]
     #[builder(default = "None")]
-    pub all_groups: Option<bool>,
+    pub group_type: Option<String>,
 
     /// Group identifier. Uses the default Group if not specified. Ignored if allGroups is true.
     #[serde(rename = "groupId")]
@@ -26,29 +27,20 @@ pub struct ListVersionsWithLabelInputArguments {
     #[builder(default = "None")]
     pub group_id: Option<String>,
 
-    /// Group type. Lists Versions across all Group types if not specified.
-    #[serde(rename = "groupType")]
+    /// If true, lists Resources across all Groups (groupId is ignored). If false or unspecified, lists within the Group specified by groupId, or the default Group if groupId is unspecified.
+    #[serde(rename = "allGroups")]
     #[serde(skip_serializing_if = "Option::is_none")]
     #[builder(default = "None")]
-    pub group_type: Option<String>,
+    pub all_groups: Option<bool>,
 
-    /// Label key.
-    #[serde(rename = "labelKey")]
-    pub label_key: String,
-
-    /// Label value.
-    #[serde(rename = "labelValue")]
-    pub label_value: String,
-
-    /// Resource identifier. Lists Versions across all Resources if not specified.
-    #[serde(rename = "resourceId")]
-    #[serde(skip_serializing_if = "Option::is_none")]
-    #[builder(default = "None")]
-    pub resource_id: Option<String>,
-
-    /// Resource type. Lists Versions across all Resource types if not specified.
+    /// Resource type. Lists Resources across all Resource types if not specified.
     #[serde(rename = "resourceType")]
     #[serde(skip_serializing_if = "Option::is_none")]
     #[builder(default = "None")]
     pub resource_type: Option<String>,
+
+    /// If specified, only Resources with this label are listed.
+    #[serde(skip_serializing_if = "Option::is_none")]
+    #[builder(default = "None")]
+    pub label: Option<Label>,
 }

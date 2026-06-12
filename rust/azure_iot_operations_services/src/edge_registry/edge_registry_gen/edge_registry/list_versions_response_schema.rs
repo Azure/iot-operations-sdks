@@ -11,8 +11,9 @@ use uuid::Uuid;
 
 use super::super::common_types::{b64::Bytes, date_only::Date, decimal::Decimal, time_only::Time};
 use super::edge_registry_error::EdgeRegistryError;
+use super::version_xid_list::VersionXidList;
 
-/// List of Version identifiers.
+/// List of Version XIDs matching the provided constraints.
 #[derive(Serialize, Deserialize, Debug, Clone, Builder)]
 pub struct ListVersionsResponseSchema {
     /// Error for the 'listVersions' Action.
@@ -21,8 +22,9 @@ pub struct ListVersionsResponseSchema {
     #[builder(default = "None")]
     pub error: Option<EdgeRegistryError>,
 
-    /// List of Version identifiers.
+    /// Output for the 'listVersions' Action.
+    #[serde(rename = "_output")]
     #[serde(skip_serializing_if = "Option::is_none")]
     #[builder(default = "None")]
-    pub ids: Option<Vec<String>>,
+    pub output: Option<VersionXidList>,
 }

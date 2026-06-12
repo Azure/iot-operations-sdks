@@ -5,23 +5,23 @@ use azure_iot_operations_protocol::common::payload_serialize::{
 };
 use serde_json;
 
-use super::list_versions_with_label_input_arguments::ListVersionsWithLabelInputArguments;
+use super::list_versions_request_payload::ListVersionsRequestPayload;
 
-const LIST_VERSIONS_WITH_LABEL_INPUT_ARGUMENTS_CONTENT_TYPE: &str = "application/json";
+const LIST_VERSIONS_REQUEST_PAYLOAD_CONTENT_TYPE: &str = "application/json";
 
-impl ListVersionsWithLabelInputArguments {
+impl ListVersionsRequestPayload {
     fn is_content_type(content_type: &str) -> bool {
-        content_type.starts_with(LIST_VERSIONS_WITH_LABEL_INPUT_ARGUMENTS_CONTENT_TYPE)
+        content_type.starts_with(LIST_VERSIONS_REQUEST_PAYLOAD_CONTENT_TYPE)
             && matches!(
                 content_type
                     .chars()
-                    .nth(LIST_VERSIONS_WITH_LABEL_INPUT_ARGUMENTS_CONTENT_TYPE.len()),
+                    .nth(LIST_VERSIONS_REQUEST_PAYLOAD_CONTENT_TYPE.len()),
                 None | Some('+' | ';')
             )
     }
 }
 
-impl PayloadSerialize for ListVersionsWithLabelInputArguments {
+impl PayloadSerialize for ListVersionsRequestPayload {
     type Error = serde_json::Error;
 
     fn serialize(self) -> Result<SerializedPayload, Self::Error> {
@@ -39,7 +39,7 @@ impl PayloadSerialize for ListVersionsWithLabelInputArguments {
         _format_indicator: &FormatIndicator,
     ) -> Result<Self, DeserializationError<Self::Error>> {
         if let Some(content_type) = content_type
-            && !ListVersionsWithLabelInputArguments::is_content_type(content_type)
+            && !ListVersionsRequestPayload::is_content_type(content_type)
         {
             return Err(DeserializationError::UnsupportedContentType(format!(
                 "Invalid content type: '{content_type}'. Must be 'application/json'"
