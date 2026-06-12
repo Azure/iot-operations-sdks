@@ -54,7 +54,12 @@ where
     };
     let stream = match scheme {
         "https" | "wss" => tokio_tls::connect_inner(addr, port.unwrap_or(443), tls_config).await?,
-        "http" | "ws" => Either::Left(TcpStream::connect((addr, port.unwrap_or(80))).await?),
+        "http" | "ws" => {
+            let tcp_stream = TcpStream::connect((addr, port.unwrap_or(80))).await?;
+            // Disable the Nagle algorithm (hardcoded) to minimize latency.
+            tcp_stream.set_nodelay(true)?;
+            Either::Left(tcp_stream)
+        }
         _ => {
             return Err(IoError::new(
                 io::ErrorKind::InvalidInput,

@@ -27,6 +27,8 @@ where
     BP: BufferPool,
 {
     let stream = TcpStream::connect(addr).await?;
+    // Disable the Nagle algorithm (hardcoded) to minimize latency.
+    stream.set_nodelay(true)?;
     Ok(connect_inner(stream, reader_pool, writer_pool))
 }
 

@@ -92,6 +92,8 @@ pub(crate) async fn connect_inner(
         let connector = connector.build();
 
         let tcp_stream = TcpStream::connect((hostname, port)).await?;
+        // Disable the Nagle algorithm (hardcoded) to minimize latency.
+        tcp_stream.set_nodelay(true)?;
 
         let std_tcp_stream = {
             let fd = tcp_stream.as_fd();
@@ -129,6 +131,8 @@ pub(crate) async fn connect_inner(
         let connector = connector.build();
 
         let tcp_stream = TcpStream::connect((hostname, port)).await?;
+        // Disable the Nagle algorithm (hardcoded) to minimize latency.
+        tcp_stream.set_nodelay(true)?;
 
         let std_tcp_stream = {
             let fd = tcp_stream.as_fd();
@@ -148,6 +152,8 @@ pub(crate) async fn connect_inner(
         debug_assert_eq!(method, TLS_METHOD_USERSPACE);
 
         let tcp_stream = TcpStream::connect((hostname, port)).await?;
+        // Disable the Nagle algorithm (hardcoded) to minimize latency.
+        tcp_stream.set_nodelay(true)?;
 
         let connector = connector.build().configure()?;
 
