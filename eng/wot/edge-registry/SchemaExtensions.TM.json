@@ -77,7 +77,7 @@
         "listSchemaVersions": {
             "description": "List xRegistry Schema Versions, optionally filtered by Group, Schema, and/or label.",
             "input": {
-                "dov:ref": "./schema-extension/ListSchemaVersionsRequestPayload.schema.json",
+                "dov:ref": "./core-xregistry/ListVersionsRequestPayload.schema.json",
                 "description": "The constraints to filter the listed Versions by."
             },
             "output": {

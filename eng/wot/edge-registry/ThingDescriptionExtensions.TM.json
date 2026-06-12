@@ -77,7 +77,7 @@
         "listThingDescriptionVersions": {
             "description": "List xRegistry Thing Description Versions, optionally filtered by Group, Thing Description, and/or label.",
             "input": {
-                "dov:ref": "./thing-description-extension/ListThingDescriptionVersionsRequestPayload.schema.json",
+                "dov:ref": "./core-xregistry/ListVersionsRequestPayload.schema.json",
                 "description": "The constraints to filter the listed Versions by."
             },
             "output": {
