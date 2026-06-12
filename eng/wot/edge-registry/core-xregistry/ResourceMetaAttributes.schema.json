@@ -29,10 +29,6 @@
       "description": "Information about deprecation status of the entity, if applicable.",
       "$ref": "DeprecatedInfo.schema.json"
     },
-    "defaultVersionId": {
-      "description": "The versionId of the current default Version.",
-      "type": "string"
-    },
     "extensions": {
       "description": "Extension-specific attributes (e.g., `format` and `content_type` for schemas).",
       "type": "object",

@@ -11,8 +11,9 @@ use uuid::Uuid;
 
 use super::super::common_types::{b64::Bytes, date_only::Date, decimal::Decimal, time_only::Time};
 use super::thing_model_extension_error::ThingModelExtensionError;
+use super::thing_model_version_xid_list::ThingModelVersionXidList;
 
-/// List of Version identifiers.
+/// List of Thing Model Version XIDs matching the provided constraints.
 #[derive(Serialize, Deserialize, Debug, Clone, Builder)]
 pub struct ListThingModelVersionsResponseSchema {
     /// Error for the 'listThingModelVersions' Action.
@@ -21,8 +22,9 @@ pub struct ListThingModelVersionsResponseSchema {
     #[builder(default = "None")]
     pub error: Option<ThingModelExtensionError>,
 
-    /// List of Version identifiers.
+    /// Output for the 'listThingModelVersions' Action.
+    #[serde(rename = "_output")]
     #[serde(skip_serializing_if = "Option::is_none")]
     #[builder(default = "None")]
-    pub ids: Option<Vec<u64>>,
+    pub output: Option<ThingModelVersionXidList>,
 }

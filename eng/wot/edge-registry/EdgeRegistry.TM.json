@@ -190,90 +190,18 @@
             ]
         },
         "listResources": {
-            "description": "List xRegistry Resources of a specific type on a Group.",
+            "description": "List xRegistry Resources, optionally filtered by Group type, Group, Resource type, and/or label.",
             "input": {
-                "type": "object",
-                "properties": {
-                    "groupId": {
-                        "description": "Group identifier. Uses the default if not specified.",
-                        "type": "string"
-                    }
-                },
-                "required": []
-            },
-            "output": {
-                "description": "List of Resource identifiers.",
-                "type": "object",
-                "properties": {
-                    "ids": {
-                        "description": "List of Resource identifiers.",
-                        "type": "array",
-                        "items": {
-                            "description": "Resource identifier.",
-                            "type": "string"
-                        }
-                    }
-                },
-                "required": [
-                    "ids"
-                ]
-            },
-            "forms": [
-                {
-                    "dov:topic": "aio/registry/list/{ex:groupType}/{ex:resourceType}",
-                    "contentType": "application/json",
-                    "op": "invokeaction",
-                    "additionalResponses": [
-                        {
-                            "success": false,
-                            "schema": "EdgeRegistryError"
-                        }
-                    ]
-                }
-            ]
-        },
-        "listResourcesWithLabel": {
-            "description": "List xRegistry Resources that have the specified label.",
-            "input": {
-                "type": "object",
-                "properties": {
-                    "groupType": {
-                        "description": "Group type. Lists Resources across all Group types if not specified.",
-                        "type": "string"
-                    },
-                    "groupId": {
-                        "description": "Group identifier. Uses the default Group if not specified. Ignored if allGroups is true.",
-                        "type": "string"
-                    },
-                    "allGroups": {
-                        "description": "If true, lists Resources across all Groups (groupId is ignored). If false or unspecified, lists within the Group specified by groupId, or the default Group if groupId is unspecified.",
-                        "type": "boolean"
-                    },
-                    "resourceType": {
-                        "description": "Resource type. Lists Resources across all Resource types if not specified.",
-                        "type": "string"
-                    },
-                    "labelKey": {
-                        "description": "Label key.",
-                        "type": "string"
-                    },
-                    "labelValue": {
-                        "description": "Label value.",
-                        "type": "string"
-                    }
-                },
-                "required": [
-                    "labelKey",
-                    "labelValue"
-                ]
+                "dov:ref": "./core-xregistry/ListResourcesRequestPayload.schema.json",
+                "description": "The constraints to filter the listed Resources by."
             },
             "output": {
                 "dov:ref": "./core-xregistry/ResourceXIdList.schema.json",
-                "description": "List of Resource XIDs within the provided constraints with the specified label."
+                "description": "List of Resource XIDs matching the provided constraints."
             },
             "forms": [
                 {
-                    "dov:topic": "aio/registry/listWithLabel/resources",
+                    "dov:topic": "aio/registry/listResources",
                     "contentType": "application/json",
                     "op": "invokeaction",
                     "additionalResponses": [
@@ -383,94 +311,18 @@
             ]
         },
         "listVersions": {
-            "description": "List xRegistry Versions for a Resource.",
+            "description": "List xRegistry Versions, optionally filtered by Group type, Group, Resource type, Resource, and/or label.",
             "input": {
-                "type": "object",
-                "properties": {
-                    "groupId": {
-                        "description": "Group identifier. Uses the default if not specified.",
-                        "type": "string"
-                    }
-                },
-                "required": []
-            },
-            "output": {
-                "description": "List of Version identifiers.",
-                "type": "object",
-                "properties": {
-                    "ids": {
-                        "description": "List of Version identifiers.",
-                        "type": "array",
-                        "items": {
-                            "description": "Version identifier.",
-                            "type": "string"
-                        }
-                    }
-                },
-                "required": [
-                    "ids"
-                ]
-            },
-            "forms": [
-                {
-                    "dov:topic": "aio/registry/list/{ex:groupType}/{ex:resourceType}/{ex:resourceId}/versions",
-                    "contentType": "application/json",
-                    "op": "invokeaction",
-                    "additionalResponses": [
-                        {
-                            "success": false,
-                            "schema": "EdgeRegistryError"
-                        }
-                    ]
-                }
-            ]
-        },
-        "listVersionsWithLabel": {
-            "description": "List xRegistry Versions that have the specified label.",
-            "input": {
-                "type": "object",
-                "properties": {
-                    "groupType": {
-                        "description": "Group type. Lists Versions across all Group types if not specified.",
-                        "type": "string"
-                    },
-                    "groupId": {
-                        "description": "Group identifier. Uses the default Group if not specified. Ignored if allGroups is true.",
-                        "type": "string"
-                    },
-                    "allGroups": {
-                        "description": "If true, lists Versions across all Groups (groupId is ignored). If false or unspecified, lists within the Group specified by groupId, or the default Group if groupId is unspecified.",
-                        "type": "boolean"
-                    },
-                    "resourceType": {
-                        "description": "Resource type. Lists Versions across all Resource types if not specified.",
-                        "type": "string"
-                    },
-                    "resourceId": {
-                        "description": "Resource identifier. Lists Versions across all Resources if not specified.",
-                        "type": "string"
-                    },
-                    "labelKey": {
-                        "description": "Label key.",
-                        "type": "string"
-                    },
-                    "labelValue": {
-                        "description": "Label value.",
-                        "type": "string"
-                    }
-                },
-                "required": [
-                    "labelKey",
-                    "labelValue"
-                ]
+                "dov:ref": "./core-xregistry/ListVersionsRequestPayload.schema.json",
+                "description": "The constraints to filter the listed Versions by."
             },
             "output": {
                 "dov:ref": "./core-xregistry/VersionXIdList.schema.json",
-                "description": "List of Version XIDs within the provided constraints with the specified label."
+                "description": "List of Version XIDs matching the provided constraints."
             },
             "forms": [
                 {
-                    "dov:topic": "aio/registry/listWithLabel/versions",
+                    "dov:topic": "aio/registry/listVersions",
                     "contentType": "application/json",
                     "op": "invokeaction",
                     "additionalResponses": [
