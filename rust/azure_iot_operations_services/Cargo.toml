@@ -36,6 +36,7 @@ edge_registry = [
   "bigdecimal",
   "time",
   "uuid",
+  "bytes",
 ]
 azure_device_registry = [
   "serde",
@@ -52,6 +53,7 @@ azure_device_registry = [
 [dependencies]
 azure_iot_operations_protocol = { version = "1.0", path = "../azure_iot_operations_protocol" }
 azure_iot_operations_mqtt = { version = "1.0", path = "../azure_iot_operations_mqtt" }
+bytes = { workspace = true, optional = true }
 derive_builder.workspace = true
 log.workspace = true
 thiserror.workspace = true
