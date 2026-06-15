@@ -529,6 +529,11 @@ where
                     response_custom_user_data.push((key, value));
                 }
                 Err(()) => {
+                    // Strip broker-reserved properties — they are SDK/broker internals
+                    // and should never appear in user-facing custom_user_data.
+                    if BrokerReservedUserProperty::from_str(&key).is_ok() {
+                        continue;
+                    }
                     response_custom_user_data.push((key, value));
                 }
             }

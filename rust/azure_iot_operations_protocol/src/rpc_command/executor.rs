@@ -1153,16 +1153,11 @@ where
                                 }
                                 Err(()) => {
                                     // Not a protocol-reserved property, check if it's a broker-reserved property.
-                                    if let Ok(broker_prop) =
-                                        BrokerReservedUserProperty::from_str(&key)
-                                    {
-                                        // Strip any broker-reserved user properties that are restricted from the end user, if they are present.
-                                        if broker_prop.is_user_restricted() {
-                                            continue;
-                                        }
+                                    // All broker-reserved properties are stripped on receive — they are
+                                    // SDK/broker internals and should never appear in user-facing custom_user_data.
+                                    if BrokerReservedUserProperty::from_str(&key).is_ok() {
+                                        continue;
                                     }
-                                    // Otherwise, whether a non-reserved property, or a broker-reserved property that is not restricted,
-                                    // include the property in the user data.
                                     user_data.push((key, value));
                                 }
                                 _ => {
