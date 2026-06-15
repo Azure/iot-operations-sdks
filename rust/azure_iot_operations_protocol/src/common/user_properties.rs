@@ -25,7 +25,7 @@ pub(crate) enum BrokerReservedUserProperty {
 }
 
 impl BrokerReservedUserProperty {
-    /// Indicates if the user property is restricted from being set by, or provided to the end-user.
+    /// Indicates if the user property is restricted from being set by the end-user.
     pub(crate) fn is_user_restricted(&self) -> bool {
         #[allow(clippy::match_same_arms)]
         match self {
