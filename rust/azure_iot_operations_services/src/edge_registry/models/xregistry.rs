@@ -421,6 +421,21 @@ pub struct GroupAttributes {
     pub extensions: HashMap<String, Bytes>,
 }
 
+impl GroupAttributes {
+    pub(crate) fn into(self, group_id: Option<String>) -> client_gen::GroupAttributes {
+        client_gen::GroupAttributes {
+            group_id,
+            name: self.name,
+            description: self.description,
+            documentation: self.documentation,
+            icon: self.icon,
+            labels: labels_to_gen(self.labels),
+            deprecated: self.deprecated.map(client_gen::DeprecatedInfo::from),
+            extensions: extensions_to_gen(self.extensions),
+        }
+    }
+}
+
 /// Mutable attributes for creating or updating a Resource (its `meta` sub-entity).
 #[derive(Debug, Clone, Default)]
 pub struct ResourceMetaAttributes {
@@ -434,6 +449,18 @@ pub struct ResourceMetaAttributes {
     pub deprecated: Option<DeprecatedInfo>,
     /// Extension-specific attributes (e.g., `format` and `content_type` for schemas).
     pub extensions: HashMap<String, Bytes>,
+}
+
+impl From<ResourceMetaAttributes> for client_gen::ResourceMetaAttributes {
+    fn from(value: ResourceMetaAttributes) -> Self {
+        client_gen::ResourceMetaAttributes {
+            xref: value.xref,
+            labels: labels_to_gen(value.labels),
+            compatibility: value.compatibility,
+            deprecated: value.deprecated.map(client_gen::DeprecatedInfo::from),
+            extensions: extensions_to_gen(value.extensions),
+        }
+    }
 }
 
 /// Attributes needed to create a Version.
@@ -459,6 +486,23 @@ pub struct VersionAttributes {
     pub document: Option<Bytes>,
     /// Extension-specific attributes.
     pub extensions: HashMap<String, Bytes>,
+}
+
+impl From<VersionAttributes> for client_gen::VersionAttributes {
+    fn from(value: VersionAttributes) -> Self {
+        client_gen::VersionAttributes {
+            name: value.name,
+            description: value.description,
+            documentation: value.documentation,
+            icon: value.icon,
+            labels: labels_to_gen(value.labels),
+            ancestor: value.ancestor,
+            content_type: value.content_type,
+            format: value.format,
+            document: value.document.map(|b| b64::Bytes(b.to_vec())),
+            extensions: extensions_to_gen(value.extensions),
+        }
+    }
 }
 
 /// Request payload for creating a generic xRegistry Resource entity along with its default Version.
@@ -493,48 +537,4 @@ pub struct CreateVersionRequest {
     /// Queryable Key Value pairs to be added to the parent Resource. The parent Resource is
     /// implicitly created if it doesn't already exist.
     pub resource_labels: HashMap<String, String>,
-}
-
-impl GroupAttributes {
-    pub(crate) fn into(self, group_id: Option<String>) -> client_gen::GroupAttributes {
-        client_gen::GroupAttributes {
-            group_id,
-            name: self.name,
-            description: self.description,
-            documentation: self.documentation,
-            icon: self.icon,
-            labels: labels_to_gen(self.labels),
-            deprecated: self.deprecated.map(client_gen::DeprecatedInfo::from),
-            extensions: extensions_to_gen(self.extensions),
-        }
-    }
-}
-
-impl From<ResourceMetaAttributes> for client_gen::ResourceMetaAttributes {
-    fn from(value: ResourceMetaAttributes) -> Self {
-        client_gen::ResourceMetaAttributes {
-            xref: value.xref,
-            labels: labels_to_gen(value.labels),
-            compatibility: value.compatibility,
-            deprecated: value.deprecated.map(client_gen::DeprecatedInfo::from),
-            extensions: extensions_to_gen(value.extensions),
-        }
-    }
-}
-
-impl From<VersionAttributes> for client_gen::VersionAttributes {
-    fn from(value: VersionAttributes) -> Self {
-        client_gen::VersionAttributes {
-            name: value.name,
-            description: value.description,
-            documentation: value.documentation,
-            icon: value.icon,
-            labels: labels_to_gen(value.labels),
-            ancestor: value.ancestor,
-            content_type: value.content_type,
-            format: value.format,
-            document: value.document.map(|b| b64::Bytes(b.to_vec())),
-            extensions: extensions_to_gen(value.extensions),
-        }
-    }
 }
