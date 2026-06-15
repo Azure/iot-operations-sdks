@@ -1552,6 +1552,8 @@ where
             ));
         }
 
+        user_properties.push((BrokerReservedUserProperty::HighPriority.to_string(), "".to_string()));
+
         // Create publish properties
         publish_properties.payload_format_indicator = serialized_payload.format_indicator.into();
         publish_properties.topic_alias = None;

@@ -1152,6 +1152,10 @@ where
             BrokerReservedUserProperty::Partition.to_string(),
             self.mqtt_client.client_id().to_string(),
         ));
+        request.custom_user_data.push((
+            BrokerReservedUserProperty::HighPriority.to_string(),
+            "".to_string(),
+        ));
 
         // Cloud Events headers
         if let Some(cloud_event) = request.cloud_event {
