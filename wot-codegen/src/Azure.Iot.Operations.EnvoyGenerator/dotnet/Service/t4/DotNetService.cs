@@ -940,7 +940,7 @@ namespace Azure.Iot.Operations.EnvoyGenerator
  foreach (var actionSpec in this.actionSpecs) { 
  if (actionSpec.ErrorResultName != null) { 
             this.Write("\r\n            private async Task<ExtendedResponse<");
-            this.Write(this.ToStringHelper.ToStringWithCulture(this.SchemaType(actionSpec.NormalResultSchema ?? actionSpec.ResponseSchema, actionSpec.SerializerEmptyType)));
+            this.Write(this.ToStringHelper.ToStringWithCulture(this.SchemaType(actionSpec.NormalResultSchema, actionSpec.SerializerEmptyType)));
             this.Write(">> ");
             this.Write(this.ToStringHelper.ToStringWithCulture(actionSpec.Name.GetMethodName(TargetLanguage.CSharp, "int")));
             this.Write("(");
@@ -988,7 +988,7 @@ namespace Azure.Iot.Operations.EnvoyGenerator
             this.Write(this.ToStringHelper.ToStringWithCulture(actionSpec.ErrorResultSchema.GetVariableName(TargetLanguage.CSharp, "exception")));
             this.Write(";\r\n                }\r\n                else\r\n                {\r\n                  " +
                     "  return new ExtendedResponse<");
-            this.Write(this.ToStringHelper.ToStringWithCulture(this.SchemaType(actionSpec.NormalResultSchema ?? actionSpec.ResponseSchema, actionSpec.SerializerEmptyType)));
+            this.Write(this.ToStringHelper.ToStringWithCulture(this.SchemaType(actionSpec.NormalResultSchema, actionSpec.SerializerEmptyType)));
             this.Write(">\r\n                    {\r\n");
  if (actionSpec.NormalResultName != null) { 
             this.Write("                        Response = extended.Response.");
@@ -996,7 +996,7 @@ namespace Azure.Iot.Operations.EnvoyGenerator
             this.Write("!,\r\n");
  } else { 
             this.Write("                        Response = new ");
-            this.Write(this.ToStringHelper.ToStringWithCulture(this.SchemaType(actionSpec.NormalResultSchema ?? actionSpec.ResponseSchema, actionSpec.SerializerEmptyType)));
+            this.Write(this.ToStringHelper.ToStringWithCulture(this.SchemaType(actionSpec.NormalResultSchema, actionSpec.SerializerEmptyType)));
             this.Write("\r\n                        {\r\n");
  foreach (CodeName normalResultName in actionSpec.NormalResultNames) { 
             this.Write("                            ");
@@ -1155,13 +1155,13 @@ namespace Azure.Iot.Operations.EnvoyGenerator
             return this.GenerationEnvironment.ToString();
         }
 
-    private string IntLValue(ActionSpec actionSpec) => (actionSpec.ResponseSchema != null ? $"ExtendedResponse<{this.SchemaType(actionSpec.NormalResultSchema ?? actionSpec.ResponseSchema, actionSpec.SerializerEmptyType)}> extended = " : $"CommandResponseMetadata? responseMetadata = ");
+    private string IntLValue(ActionSpec actionSpec) => (actionSpec.ResponseSchema != null ? $"ExtendedResponse<{this.SchemaType(actionSpec.ErrorResultName != null ? actionSpec.NormalResultSchema : actionSpec.ResponseSchema, actionSpec.SerializerEmptyType)}> extended = " : $"CommandResponseMetadata? responseMetadata = ");
 
     private string IntRValue(ActionSpec actionSpec) => (actionSpec.ResponseSchema != null ? "Response = extended.Response, ResponseMetadata = extended.ResponseMetadata " : "ResponseMetadata = responseMetadata ");
 
-    private string ExtRespType(ActionSpec actionSpec) => this.CondWrap(actionSpec.ResponseSchema != null ? $"ExtendedResponse<{this.SchemaType(actionSpec.NormalResultSchema ?? actionSpec.ResponseSchema, actionSpec.SerializerEmptyType)}>" : "CommandResponseMetadata?");
+    private string ExtRespType(ActionSpec actionSpec) => this.CondWrap(actionSpec.ResponseSchema != null ? $"ExtendedResponse<{this.SchemaType(actionSpec.ErrorResultName != null ? actionSpec.NormalResultSchema : actionSpec.ResponseSchema, actionSpec.SerializerEmptyType)}>" : "CommandResponseMetadata?");
 
-    private string EmptyResp(ActionSpec actionSpec) => this.CondFrom(actionSpec.ResponseSchema != null ? $"new ExtendedResponse<{this.SchemaType(actionSpec.NormalResultSchema ?? actionSpec.ResponseSchema, actionSpec.SerializerEmptyType)}> {{ Response = new {this.SchemaType(actionSpec.NormalResultSchema ?? actionSpec.ResponseSchema, actionSpec.SerializerEmptyType)}() }}" : "(CommandResponseMetadata?)new CommandResponseMetadata()");
+    private string EmptyResp(ActionSpec actionSpec) => this.CondFrom(actionSpec.ResponseSchema != null ? $"new ExtendedResponse<{this.SchemaType(actionSpec.ErrorResultName != null ? actionSpec.NormalResultSchema : actionSpec.ResponseSchema, actionSpec.SerializerEmptyType)}> {{ Response = new {this.SchemaType(actionSpec.ErrorResultName != null ? actionSpec.NormalResultSchema : actionSpec.ResponseSchema, actionSpec.SerializerEmptyType)}() }}" : "(CommandResponseMetadata?)new CommandResponseMetadata()");
 
     private string CondWrap(string type) => $"Task<{type}>";
 
@@ -1171,7 +1171,7 @@ namespace Azure.Iot.Operations.EnvoyGenerator
 
     private string ReqArgs(ActionSpec actionSpec, string reqVar) => actionSpec.RequestSchema != null ? $"{reqVar}.Request!, {reqVar}.RequestMetadata!" : $"{reqVar}.RequestMetadata!";
 
-    private string CallAsyncType(ActionSpec actionSpec) => $"RpcCallAsync<{this.SchemaType(actionSpec.NormalResultSchema ?? actionSpec.ResponseSchema, actionSpec.SerializerEmptyType)}>";
+    private string CallAsyncType(ActionSpec actionSpec) => $"RpcCallAsync<{this.SchemaType(actionSpec.ErrorResultName != null ? actionSpec.NormalResultSchema : actionSpec.ResponseSchema, actionSpec.SerializerEmptyType)}>";
 
     private string CallAsyncType(PropertySpec propSpec) => $"RpcCallAsync<{this.SchemaType(propSpec.PropSchema, propSpec.ReadSerializerEmptyType)}>";
 
