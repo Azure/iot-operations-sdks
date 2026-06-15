@@ -9,7 +9,7 @@ namespace Azure.Iot.Operations.TDParser.Model
 
     public class TDLink : IEquatable<TDLink>, IDeserializable<TDLink>
     {
-        public const string HrefName = "href";
+        public const string HrefName = TDCommon.HrefName;
         public const string TypeName = "type";
         public const string RelName = "rel";
         public const string RefNameName = "dov:refName";

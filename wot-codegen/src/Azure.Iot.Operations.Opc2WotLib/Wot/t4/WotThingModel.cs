@@ -146,6 +146,31 @@ namespace Azure.Iot.Operations.Opc2WotLib
  } 
             this.Write("  ],\r\n");
  } 
+ if (this.optionalActionNames.Any() || this.optionalPropertyNames.Any() || this.optionalEventNames.Any()) { 
+            this.Write("  \"tm:optional\": [\r\n");
+ ix1 = 1; foreach (string actionName in this.optionalActionNames) { 
+            this.Write("    \"/actions/");
+            this.Write(this.ToStringHelper.ToStringWithCulture(actionName));
+            this.Write("\"");
+            this.Write(this.ToStringHelper.ToStringWithCulture(ix1 < this.optionalActionNames.Count + this.optionalPropertyNames.Count + this.optionalEventNames.Count ? "," : ""));
+            this.Write("\r\n");
+ ix1++; } 
+ foreach (string propertyName in this.optionalPropertyNames) { 
+            this.Write("    \"/properties/");
+            this.Write(this.ToStringHelper.ToStringWithCulture(propertyName));
+            this.Write("\"");
+            this.Write(this.ToStringHelper.ToStringWithCulture(ix1 < this.optionalActionNames.Count + this.optionalPropertyNames.Count + this.optionalEventNames.Count ? "," : ""));
+            this.Write("\r\n");
+ ix1++; } 
+ foreach (string eventName in this.optionalEventNames) { 
+            this.Write("    \"/events/");
+            this.Write(this.ToStringHelper.ToStringWithCulture(eventName));
+            this.Write("\"");
+            this.Write(this.ToStringHelper.ToStringWithCulture(ix1 < this.optionalActionNames.Count + this.optionalPropertyNames.Count + this.optionalEventNames.Count ? "," : ""));
+            this.Write("\r\n");
+ ix1++; } 
+            this.Write("  ],\r\n");
+ } 
             this.Write("  \"actions\": {\r\n");
  this.PushIndent("    "); 
  ix1 = 1; foreach (WotAction action in this.actions) { 

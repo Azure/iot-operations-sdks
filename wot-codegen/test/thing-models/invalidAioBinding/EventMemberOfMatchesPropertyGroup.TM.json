@@ -1,0 +1,30 @@
+{
+  "@context": [
+    "https://www.w3.org/2022/wot/td/v1.1",
+    { "dov": "http://azure.com/DigitalOperations/vocab#" }
+  ],
+  "@type": "tm:ThingModel",
+  "title": "Noop",
+  "dov:propertyGroups": [
+    { "title": "MisplacedGroup" }
+  ],
+  "actions": {
+  },
+  "properties": {
+  },
+  "events": {
+    "alpha": {
+      "data": {
+        "type": "string"
+      },
+      "dov:memberOf": "MisplacedGroup",
+      "forms": [
+        {
+          "contentType": "application/json",
+          "dov:topic": "sample/alpha/{senderId}",
+          "op": "subscribeevent"
+        }
+      ]
+    }
+  }
+}
