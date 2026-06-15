@@ -20,21 +20,12 @@ use crate::edge_registry::edge_registry_gen::edge_registry::client as client_gen
 
 /// Converts a generated list of `Label` key/value pairs into a vector of [`Label`].
 fn labels_from_gen(labels: Vec<client_gen::Label>) -> Vec<Label> {
-    labels
-        .into_iter()
-        .map(|l| (l.key, l.value).into())
-        .collect()
+    labels.into_iter().map(Into::into).collect()
 }
 
 /// Converts a list of [`Label`] into the generated list of `Label` key/value pairs.
 pub(crate) fn labels_to_gen(labels: Vec<Label>) -> Vec<client_gen::Label> {
-    labels
-        .into_iter()
-        .map(|label| client_gen::Label {
-            key: label.key,
-            value: label.value,
-        })
-        .collect()
+    labels.into_iter().map(Into::into).collect()
 }
 
 /// Converts a generated map of base64 extension values into byte buffers.

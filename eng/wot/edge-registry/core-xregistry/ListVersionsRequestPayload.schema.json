@@ -17,7 +17,7 @@
       "type": "string"
     },
     "allGroups": {
-      "description": "If true, lists Versions across all Groups (groupId is ignored). If false or unspecified, lists within the Group specified by groupId, or — only when groupType is specified — the default Group of that type if groupId is unspecified.",
+      "description": "If true, lists Versions across all Groups (groupId is ignored). If false, lists within the Group specified by groupId, or — only when groupType is specified — the default Group of that type if groupId is unspecified.",
       "type": "boolean"
     },
     "resourceType": {

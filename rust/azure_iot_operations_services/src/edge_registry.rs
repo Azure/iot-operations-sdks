@@ -152,8 +152,11 @@ impl From<Label> for client_gen::Label {
     }
 }
 
-impl From<(String, String)> for Label {
-    fn from((key, value): (String, String)) -> Self {
-        Self { key, value }
+impl From<client_gen::Label> for Label {
+    fn from(value: client_gen::Label) -> Self {
+        Self {
+            key: value.key,
+            value: value.value,
+        }
     }
 }

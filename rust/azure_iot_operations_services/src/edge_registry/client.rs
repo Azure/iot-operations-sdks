@@ -140,7 +140,7 @@ impl Client {
     /// * `attributes` - The [`GroupAttributes`] for the new Group.
     /// * `timeout` - The duration until the client stops waiting for a response to the request, it is rounded up to the nearest second.
     ///
-    /// Returns the created [`Group`] with epoch 1.
+    /// Returns the created [`GroupEntity`] with epoch 1.
     ///
     /// # Errors
     /// [`struct@Error`] of kind [`ValidationError`](ErrorKind::ValidationError) if `timeout` is 0 or > `u32::max`.
@@ -176,14 +176,14 @@ impl Client {
         Ok(response.payload.into())
     }
 
-    /// Retrieve an xRegistry [`Group`] entity.
+    /// Retrieve an xRegistry [`GroupEntity`] entity.
     ///
     /// # Arguments
     /// * `group_type` - The type of the Group to retrieve.
     /// * `group_id` - The identifier of the Group to retrieve. If [`CloudDefault`](GroupId::CloudDefault), retrieve the default Group of the Group type.
     /// * `timeout` - The duration until the client stops waiting for a response to the request, it is rounded up to the nearest second.
     ///
-    /// Returns the requested [`Group`].
+    /// Returns the requested [`GroupEntity`].
     ///
     /// # Errors
     /// [`struct@Error`] of kind [`ValidationError`](ErrorKind::ValidationError) if `timeout` is 0 or > `u32::max`.
@@ -313,7 +313,7 @@ impl Client {
     /// * `default_version_attributes` - The [`VersionAttributes`] of the Resource's default Version, created along with the Resource.
     /// * `timeout` - The duration until the client stops waiting for a response to the request, it is rounded up to the nearest second.
     ///
-    /// Returns the created [`Resource`] with epoch 1.
+    /// Returns the created [`ResourceEntity`] with epoch 1.
     ///
     /// # Errors
     /// [`struct@Error`] of kind [`ValidationError`](ErrorKind::ValidationError) if `timeout` is 0 or > `u32::max`.
@@ -365,7 +365,7 @@ impl Client {
         Ok(response.payload.into())
     }
 
-    /// Retrieve an xRegistry [`Resource`] entity.
+    /// Retrieve an xRegistry [`ResourceEntity`] entity.
     ///
     /// # Arguments
     /// * `group_type` - The type of the Group that owns the Resource.
@@ -374,7 +374,7 @@ impl Client {
     /// * `resource_id` - The identifier of the Resource to retrieve.
     /// * `timeout` - The duration until the client stops waiting for a response to the request, it is rounded up to the nearest second.
     ///
-    /// Returns the requested [`Resource`].
+    /// Returns the requested [`ResourceEntity`].
     ///
     /// # Errors
     /// [`struct@Error`] of kind [`ValidationError`](ErrorKind::ValidationError) if `timeout` is
@@ -535,7 +535,7 @@ impl Client {
     /// * `version` - The [`VersionAttributes`] of the Version to create.
     /// * `timeout` - The duration until the client stops waiting for a response to the request, it is rounded up to the nearest second.
     ///
-    /// Returns the created [`Version`].
+    /// Returns the created [`VersionEntity`].
     ///
     /// # Errors
     /// [`struct@Error`] of kind [`ValidationError`](ErrorKind::ValidationError) if `timeout` is 0 or > `u32::max`.
@@ -585,7 +585,7 @@ impl Client {
         Ok(response.payload.into())
     }
 
-    /// Retrieve an xRegistry [`Version`] entity.
+    /// Retrieve an xRegistry [`VersionEntity`] entity.
     ///
     /// # Arguments
     /// * `group_type` - The type of the Group that owns the Resource.
@@ -595,7 +595,7 @@ impl Client {
     /// * `version_id` - The [`GetVersionId`] selecting which Version to retrieve. If [`ResourceDefault`](GetVersionId::ResourceDefault), the default Version of the Resource is retrieved.
     /// * `timeout` - The duration until the client stops waiting for a response to the request, it is rounded up to the nearest second.
     ///
-    /// Returns the requested [`Version`].
+    /// Returns the requested [`VersionEntity`].
     ///
     /// # Errors
     /// [`struct@Error`] of kind [`ValidationError`](ErrorKind::ValidationError) if `timeout` is 0 or > `u32::max`.

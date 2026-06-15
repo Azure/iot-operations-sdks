@@ -27,7 +27,7 @@ pub struct ListResourcesRequestPayload {
     #[builder(default = "None")]
     pub group_id: Option<String>,
 
-    /// If true, lists Resources across all Groups (groupId is ignored). If false or unspecified, lists within the Group specified by groupId, or — only when groupType is specified — the default Group of that type if groupId is unspecified.
+    /// If true, lists Resources across all Groups (groupId is ignored). If false, lists within the Group specified by groupId, or — only when groupType is specified — the default Group of that type if groupId is unspecified.
     #[serde(rename = "allGroups")]
     pub all_groups: bool,
 
