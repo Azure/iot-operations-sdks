@@ -1180,12 +1180,6 @@ where
             subscription_identifiers: Vec::new(),
         };
 
-        // Add backpressure bypass
-        // publish_properties.user_properties.push((
-        //     UserProperty::BackpressureBypass.to_string(),
-        //     "true".to_string(),
-        // ));
-
         // Subscribe to the response topic if we're not already subscribed and the invoker hasn't been shutdown
         {
             let mut invoker_state = self.state_mutex.lock().await;
