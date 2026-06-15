@@ -19,7 +19,7 @@ use crate::{
         cloud_event as protocol_cloud_event, is_invalid_utf8,
         payload_serialize::{PayloadSerialize, SerializedPayload},
         topic_processor::TopicPattern,
-        user_properties::{PERSIST_KEY, UserProperty, validate_user_properties},
+        user_properties::{BrokerReservedUserProperty, ProtocolReservedUserProperty, validate_user_properties},
     },
     telemetry::{DEFAULT_TELEMETRY_CLOUD_EVENT_EVENT_TYPE, TELEMETRY_PROTOCOL_VERSION},
 };
@@ -447,21 +447,21 @@ where
         if message.persist {
             message
                 .custom_user_data
-                .push((PERSIST_KEY.to_string(), true.to_string()));
+                .push((BrokerReservedUserProperty::Persist.to_string(), true.to_string()));
         }
 
         // Add internal user properties
         message
             .custom_user_data
-            .push((UserProperty::Timestamp.to_string(), timestamp_str));
+            .push((ProtocolReservedUserProperty::Timestamp.to_string(), timestamp_str));
 
         message.custom_user_data.push((
-            UserProperty::ProtocolVersion.to_string(),
+            ProtocolReservedUserProperty::ProtocolVersion.to_string(),
             TELEMETRY_PROTOCOL_VERSION.to_string(),
         ));
 
         message.custom_user_data.push((
-            UserProperty::SourceId.to_string(),
+            ProtocolReservedUserProperty::SourceId.to_string(),
             self.mqtt_client.client_id().to_string(),
         ));
 
