@@ -18,7 +18,7 @@ pub(crate) enum BrokerReservedUserProperty {
     /// receives a given message. Partition ID should correspond with an MQTT client ID.
     /// For more details, see: [shared_subscriptions.md](https://github.com/Azure/iot-operations-sdks/blob/main/doc/reference/shared-subscriptions.md).
     Partition,
-    /// Flag indicating high priority for the message (i.e. backpressure bypass). No associated value.
+    /// Flag indicating high priority for the message (i.e. backpressure bypass). The broker ignores the value; presence of the key is what matters.
     HighPriority,
     /// Indicates that the message should be persisted to disk by the MQ broker.
     Persist,
