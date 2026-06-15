@@ -18,7 +18,7 @@ use crate::edge_registry::edge_registry_gen::edge_registry::client as client_gen
 // ~~~~~~~~~~~~~~~~~~~Conversion helpers~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 /// Converts a generated list of `Label` key/value pairs into a map.
-fn labels_from_gen(labels: Vec<client_gen::Label>) -> HashMap<String, String> {
+pub(crate) fn labels_from_gen(labels: Vec<client_gen::Label>) -> HashMap<String, String> {
     labels.into_iter().map(|l| (l.key, l.value)).collect()
 }
 
@@ -31,7 +31,9 @@ pub(crate) fn labels_to_gen(labels: HashMap<String, String>) -> Vec<client_gen::
 }
 
 /// Converts a generated map of base64 extension values into byte buffers.
-fn extensions_from_gen(extensions: HashMap<String, b64::Bytes>) -> HashMap<String, Bytes> {
+pub(crate) fn extensions_from_gen(
+    extensions: HashMap<String, b64::Bytes>,
+) -> HashMap<String, Bytes> {
     extensions
         .into_iter()
         .map(|(k, v)| (k, Bytes::from(v.0)))

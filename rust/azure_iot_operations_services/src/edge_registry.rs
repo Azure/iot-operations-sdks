@@ -56,6 +56,70 @@ impl From<rpc_command::invoker::Response<client_gen::EdgeRegistryError>> for Err
     }
 }
 
+impl From<rpc_command::invoker::Response<client_gen::SchemaExtensionError>> for ErrorKind {
+    fn from(value: rpc_command::invoker::Response<client_gen::SchemaExtensionError>) -> Self {
+        Self::ServiceError(value.payload.into())
+    }
+}
+
+impl From<rpc_command::invoker::Response<client_gen::ThingDescriptionExtensionError>>
+    for ErrorKind
+{
+    fn from(
+        value: rpc_command::invoker::Response<client_gen::ThingDescriptionExtensionError>,
+    ) -> Self {
+        Self::ServiceError(value.payload.into())
+    }
+}
+
+impl From<rpc_command::invoker::Response<client_gen::ThingModelExtensionError>> for ErrorKind {
+    fn from(value: rpc_command::invoker::Response<client_gen::ThingModelExtensionError>) -> Self {
+        Self::ServiceError(value.payload.into())
+    }
+}
+
+impl From<client_gen::SchemaExtensionError> for client_gen::EdgeRegistryError {
+    fn from(value: client_gen::SchemaExtensionError) -> Self {
+        client_gen::EdgeRegistryError {
+            code: value.code,
+            detail: value.detail,
+            source: value.source,
+            status: value.status,
+            subject: value.subject,
+            title: value.title,
+            r#type: value.r#type,
+        }
+    }
+}
+
+impl From<client_gen::ThingDescriptionExtensionError> for client_gen::EdgeRegistryError {
+    fn from(value: client_gen::ThingDescriptionExtensionError) -> Self {
+        client_gen::EdgeRegistryError {
+            code: value.code,
+            detail: value.detail,
+            source: value.source,
+            status: value.status,
+            subject: value.subject,
+            title: value.title,
+            r#type: value.r#type,
+        }
+    }
+}
+
+impl From<client_gen::ThingModelExtensionError> for client_gen::EdgeRegistryError {
+    fn from(value: client_gen::ThingModelExtensionError) -> Self {
+        client_gen::EdgeRegistryError {
+            code: value.code,
+            detail: value.detail,
+            source: value.source,
+            status: value.status,
+            subject: value.subject,
+            title: value.title,
+            r#type: value.r#type,
+        }
+    }
+}
+
 impl From<rpc_command::invoker::RequestBuilderError> for ErrorKind {
     fn from(e: rpc_command::invoker::RequestBuilderError) -> Self {
         ErrorKind::ValidationError(e.to_string())
