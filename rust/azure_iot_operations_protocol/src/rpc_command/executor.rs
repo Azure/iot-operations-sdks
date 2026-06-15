@@ -1574,7 +1574,7 @@ where
 
         user_properties.push((
             BrokerReservedUserProperty::HighPriority.to_string(),
-            "".to_string(),
+            String::new(),
         ));
 
         // Create publish properties

@@ -1157,7 +1157,7 @@ where
         ));
         request.custom_user_data.push((
             BrokerReservedUserProperty::HighPriority.to_string(),
-            "".to_string(),
+            String::new(),
         ));
 
         // Cloud Events headers
