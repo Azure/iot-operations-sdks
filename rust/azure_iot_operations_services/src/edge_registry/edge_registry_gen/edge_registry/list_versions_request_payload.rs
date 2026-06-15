@@ -29,9 +29,7 @@ pub struct ListVersionsRequestPayload {
 
     /// If true, lists Versions across all Groups (groupId is ignored). If false or unspecified, lists within the Group specified by groupId, or — only when groupType is specified — the default Group of that type if groupId is unspecified.
     #[serde(rename = "allGroups")]
-    #[serde(skip_serializing_if = "Option::is_none")]
-    #[builder(default = "None")]
-    pub all_groups: Option<bool>,
+    pub all_groups: bool,
 
     /// Resource type. If specified, only Versions of Resources of this type are listed; when listing across all Groups, Resources of this type are matched across all Groups. Lists Versions across all Resource types if not specified.
     #[serde(rename = "resourceType")]

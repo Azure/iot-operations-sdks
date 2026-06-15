@@ -67,7 +67,7 @@ impl From<rpc_command::invoker::RequestBuilderError> for ErrorKind {
 /// Identifies a Group within its Group type for a request.
 #[derive(Debug, Clone, Default)]
 pub enum GroupId {
-    /// Use the cloud default Group of the Group type.
+    /// Use the cloud default Group Id of the Group type.
     #[default]
     CloudDefault,
     /// Use the Group with the specified identifier.
@@ -138,7 +138,7 @@ pub enum GroupSelection {
 #[derive(Debug, Clone)]
 pub struct Label {
     /// The label key.
-    pub name: String,
+    pub key: String,
     /// The label value.
     pub value: String,
 }
@@ -146,14 +146,14 @@ pub struct Label {
 impl From<Label> for client_gen::Label {
     fn from(value: Label) -> Self {
         client_gen::Label {
-            key: value.name,
+            key: value.key,
             value: value.value,
         }
     }
 }
 
 impl From<(String, String)> for Label {
-    fn from((name, value): (String, String)) -> Self {
-        Self { name, value }
+    fn from((key, value): (String, String)) -> Self {
+        Self { key, value }
     }
 }

@@ -17,8 +17,8 @@ use crate::edge_registry::edge_registry_gen::common_types::options::CommandInvok
 use crate::edge_registry::edge_registry_gen::edge_registry::client::{self as client_gen};
 use crate::edge_registry::models::xregistry::{extensions_to_gen, labels_to_gen};
 use crate::edge_registry::models::{
-    Group, GroupAttributes, Resource, ResourceMetaAttributes, ResourceXid, Version,
-    VersionAttributes, VersionXid,
+    GroupAttributes, GroupEntity, ResourceEntity, ResourceMetaAttributes, ResourceXId,
+    VersionAttributes, VersionEntity, VersionXId,
 };
 use crate::edge_registry::{
     AnyGroupSelection, Error, ErrorKind, GetVersionId, GroupId, GroupQuery, GroupSelection, Label,
@@ -156,7 +156,7 @@ impl Client {
         group_id: GroupId,
         attributes: GroupAttributes,
         timeout: Duration,
-    ) -> Result<Group, Error> {
+    ) -> Result<GroupEntity, Error> {
         let payload: client_gen::GroupAttributes = attributes.into(group_id.into());
 
         let request = client_gen::CreateGroupRequestBuilder::default()
@@ -198,7 +198,7 @@ impl Client {
         group_type: String,
         group_id: GroupId,
         timeout: Duration,
-    ) -> Result<Group, Error> {
+    ) -> Result<GroupEntity, Error> {
         let payload = client_gen::GetGroupInputArguments {
             group_id: group_id.into(),
         };
@@ -335,7 +335,7 @@ impl Client {
         default_version_id: Option<String>,
         default_version_attributes: VersionAttributes,
         timeout: Duration,
-    ) -> Result<Resource, Error> {
+    ) -> Result<ResourceEntity, Error> {
         let payload = client_gen::CreateResourceRequestPayload {
             group_id: group_id.into(),
             meta: resource_meta_attributes.into(),
@@ -392,7 +392,7 @@ impl Client {
         resource_type: String,
         resource_id: String,
         timeout: Duration,
-    ) -> Result<Resource, Error> {
+    ) -> Result<ResourceEntity, Error> {
         let payload = client_gen::GetResourceInputArguments {
             group_id: group_id.into(),
         };
@@ -426,7 +426,7 @@ impl Client {
     /// * `label` - If provided, only Resources carrying this [`Label`] are listed.
     /// * `timeout` - The duration until the client stops waiting for a response to the request, it is rounded up to the nearest second.
     ///
-    /// Returns the [`ResourceXid`]s of the Resources matching the constraints.
+    /// Returns the [`ResourceXId`]s of the Resources matching the constraints.
     ///
     /// # Errors
     /// [`struct@Error`] of kind [`ValidationError`](ErrorKind::ValidationError) if `timeout` is 0
@@ -443,13 +443,13 @@ impl Client {
         resource_type: Option<String>,
         label: Option<Label>,
         timeout: Duration,
-    ) -> Result<Vec<ResourceXid>, Error> {
+    ) -> Result<Vec<ResourceXId>, Error> {
         let (group_type, group_id, all_groups) = Self::group_query_scope(group_query);
 
         let payload = client_gen::ListResourcesRequestPayload {
             group_type,
             group_id,
-            all_groups: Some(all_groups),
+            all_groups,
             resource_type,
             label: label.map(Into::into),
         };
@@ -552,11 +552,11 @@ impl Client {
         group_id: GroupId,
         resource_type: String,
         resource_id: String,
-        resource_labels: HashMap<String, String>,
+        resource_labels: Vec<Label>,
         version_id: Option<String>,
         version: VersionAttributes,
         timeout: Duration,
-    ) -> Result<Version, Error> {
+    ) -> Result<VersionEntity, Error> {
         let payload = client_gen::CreateVersionRequestPayload {
             group_id: group_id.into(),
             version_id,
@@ -613,7 +613,7 @@ impl Client {
         resource_id: String,
         version_id: GetVersionId,
         timeout: Duration,
-    ) -> Result<Version, Error> {
+    ) -> Result<VersionEntity, Error> {
         let payload = client_gen::GetVersionInputArguments {
             group_id: group_id.into(),
             version_id: version_id.into(),
@@ -649,7 +649,7 @@ impl Client {
     /// * `label` - If provided, only Versions carrying this [`Label`] are listed.
     /// * `timeout` - The duration until the client stops waiting for a response to the request, it is rounded up to the nearest second.
     ///
-    /// Returns the [`VersionXid`]s of the Versions matching the constraints.
+    /// Returns the [`VersionXId`]s of the Versions matching the constraints.
     ///
     /// # Errors
     /// [`struct@Error`] of kind [`ValidationError`](ErrorKind::ValidationError) if `timeout` is 0
@@ -667,13 +667,13 @@ impl Client {
         resource_id: Option<String>,
         label: Option<Label>,
         timeout: Duration,
-    ) -> Result<Vec<VersionXid>, Error> {
+    ) -> Result<Vec<VersionXId>, Error> {
         let (group_type, group_id, all_groups) = Self::group_query_scope(group_query);
 
         let payload = client_gen::ListVersionsRequestPayload {
             group_type,
             group_id,
-            all_groups: Some(all_groups),
+            all_groups,
             resource_type,
             resource_id,
             label: label.map(Into::into),
