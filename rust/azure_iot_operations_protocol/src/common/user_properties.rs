@@ -224,7 +224,7 @@ mod tests {
     fn test_unrestricted_broker_property_allowed_by_invoker_validation() {
         let props = vec![(
             BrokerReservedUserProperty::HighPriority.to_string(),
-            "true".to_string(),
+            String::new(),
         )];
         assert!(validate_user_properties(&props).is_ok());
         assert!(validate_invoker_user_properties(&props).is_ok());
