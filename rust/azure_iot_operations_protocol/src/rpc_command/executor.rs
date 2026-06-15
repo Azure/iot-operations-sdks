@@ -31,7 +31,9 @@ use crate::{
             DeserializationError, FormatIndicator, PayloadSerialize, SerializedPayload,
         },
         topic_processor::{TopicPattern, contains_invalid_char, is_valid_replacement},
-        user_properties::{BrokerReservedUserProperty, ProtocolReservedUserProperty, validate_user_properties},
+        user_properties::{
+            BrokerReservedUserProperty, ProtocolReservedUserProperty, validate_user_properties,
+        },
     },
     rpc_command::{
         DEFAULT_RPC_COMMAND_PROTOCOL_VERSION, DEFAULT_RPC_RESPONSE_CLOUD_EVENT_EVENT_TYPE,
@@ -1065,7 +1067,8 @@ where
                         let mut request_protocol_version = DEFAULT_RPC_COMMAND_PROTOCOL_VERSION; // assume default version if none is provided
                         if let Some((_, protocol_version)) =
                             properties.user_properties.iter().find(|(key, _)| {
-                                ProtocolReservedUserProperty::from_str(key) == Ok(ProtocolReservedUserProperty::ProtocolVersion)
+                                ProtocolReservedUserProperty::from_str(key)
+                                    == Ok(ProtocolReservedUserProperty::ProtocolVersion)
                             })
                         {
                             if let Some(request_version) =
@@ -1110,8 +1113,10 @@ where
                                                 response_arguments.status_message = Some(format!(
                                                     "Failure updating application HLC against {value}: {e}"
                                                 ));
-                                                response_arguments.invalid_property_name =
-                                                    Some(ProtocolReservedUserProperty::Timestamp.to_string());
+                                                response_arguments.invalid_property_name = Some(
+                                                    ProtocolReservedUserProperty::Timestamp
+                                                        .to_string(),
+                                                );
                                                 response_arguments.invalid_property_value =
                                                     Some(value);
                                                 match e.kind() {
@@ -1132,8 +1137,9 @@ where
                                             response_arguments.status_code = StatusCode::BadRequest;
                                             response_arguments.status_message =
                                                 Some(format!("Timestamp invalid: {e}"));
-                                            response_arguments.invalid_property_name =
-                                                Some(ProtocolReservedUserProperty::Timestamp.to_string());
+                                            response_arguments.invalid_property_name = Some(
+                                                ProtocolReservedUserProperty::Timestamp.to_string(),
+                                            );
                                             response_arguments.invalid_property_value = Some(value);
                                             break 'process_request;
                                         }
@@ -1147,7 +1153,9 @@ where
                                 }
                                 Err(()) => {
                                     // Not a protocol-reserved property, check if it's a broker-reserved property.
-                                    if let Ok(broker_prop) = BrokerReservedUserProperty::from_str(&key) {
+                                    if let Ok(broker_prop) =
+                                        BrokerReservedUserProperty::from_str(&key)
+                                    {
                                         // Strip any broker-reserved user properties that are restricted from the end user, if they are present.
                                         if broker_prop.is_user_restricted() {
                                             continue;
@@ -1515,7 +1523,10 @@ where
         // If there are errors updating the HLC (unlikely when updating against now),
         // the timestamp will not be added.
         if let Ok(timestamp_str) = application_hlc.update_now() {
-            user_properties.push((ProtocolReservedUserProperty::Timestamp.to_string(), timestamp_str));
+            user_properties.push((
+                ProtocolReservedUserProperty::Timestamp.to_string(),
+                timestamp_str,
+            ));
         }
 
         if let Some(status_message) = response_arguments.status_message {
@@ -1525,15 +1536,24 @@ where
                 pkid,
                 status_message
             );
-            user_properties.push((ProtocolReservedUserProperty::StatusMessage.to_string(), status_message));
+            user_properties.push((
+                ProtocolReservedUserProperty::StatusMessage.to_string(),
+                status_message,
+            ));
         }
 
         if let Some(name) = response_arguments.invalid_property_name {
-            user_properties.push((ProtocolReservedUserProperty::InvalidPropertyName.to_string(), name));
+            user_properties.push((
+                ProtocolReservedUserProperty::InvalidPropertyName.to_string(),
+                name,
+            ));
         }
 
         if let Some(value) = response_arguments.invalid_property_value {
-            user_properties.push((ProtocolReservedUserProperty::InvalidPropertyValue.to_string(), value));
+            user_properties.push((
+                ProtocolReservedUserProperty::InvalidPropertyValue.to_string(),
+                value,
+            ));
         }
 
         if let Some(supported_protocol_major_versions) =
@@ -1552,7 +1572,10 @@ where
             ));
         }
 
-        user_properties.push((BrokerReservedUserProperty::HighPriority.to_string(), "".to_string()));
+        user_properties.push((
+            BrokerReservedUserProperty::HighPriority.to_string(),
+            "".to_string(),
+        ));
 
         // Create publish properties
         publish_properties.payload_format_indicator = serialized_payload.format_indicator.into();

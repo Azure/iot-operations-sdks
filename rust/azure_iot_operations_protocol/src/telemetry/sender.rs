@@ -19,7 +19,9 @@ use crate::{
         cloud_event as protocol_cloud_event, is_invalid_utf8,
         payload_serialize::{PayloadSerialize, SerializedPayload},
         topic_processor::TopicPattern,
-        user_properties::{BrokerReservedUserProperty, ProtocolReservedUserProperty, validate_user_properties},
+        user_properties::{
+            BrokerReservedUserProperty, ProtocolReservedUserProperty, validate_user_properties,
+        },
     },
     telemetry::{DEFAULT_TELEMETRY_CLOUD_EVENT_EVENT_TYPE, TELEMETRY_PROTOCOL_VERSION},
 };
@@ -445,15 +447,17 @@ where
 
         // Persist header
         if message.persist {
-            message
-                .custom_user_data
-                .push((BrokerReservedUserProperty::Persist.to_string(), true.to_string()));
+            message.custom_user_data.push((
+                BrokerReservedUserProperty::Persist.to_string(),
+                true.to_string(),
+            ));
         }
 
         // Add internal user properties
-        message
-            .custom_user_data
-            .push((ProtocolReservedUserProperty::Timestamp.to_string(), timestamp_str));
+        message.custom_user_data.push((
+            ProtocolReservedUserProperty::Timestamp.to_string(),
+            timestamp_str,
+        ));
 
         message.custom_user_data.push((
             ProtocolReservedUserProperty::ProtocolVersion.to_string(),

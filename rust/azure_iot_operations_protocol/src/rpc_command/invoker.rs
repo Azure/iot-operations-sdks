@@ -599,8 +599,8 @@ where
                             None,
                         );
                         // Add any invalid properties that might be included for extra information
-                        unknown_err.property_name =
-                            response_aio_data.remove(&ProtocolReservedUserProperty::InvalidPropertyName);
+                        unknown_err.property_name = response_aio_data
+                            .remove(&ProtocolReservedUserProperty::InvalidPropertyName);
                         unknown_err.property_value = response_aio_data
                             .remove(&ProtocolReservedUserProperty::InvalidPropertyValue)
                             .map(Value::String);
@@ -683,11 +683,13 @@ where
             _ => Self::Err(RemoteError {
                 status_code,
                 protocol_version,
-                status_message: response_aio_data.remove(&ProtocolReservedUserProperty::StatusMessage),
+                status_message: response_aio_data
+                    .remove(&ProtocolReservedUserProperty::StatusMessage),
                 is_application_error: response_aio_data
                     .get(&ProtocolReservedUserProperty::IsApplicationError)
                     .is_some_and(|v| v == "true"),
-                invalid_property_name: response_aio_data.remove(&ProtocolReservedUserProperty::InvalidPropertyName),
+                invalid_property_name: response_aio_data
+                    .remove(&ProtocolReservedUserProperty::InvalidPropertyName),
                 invalid_property_value: response_aio_data
                     .remove(&ProtocolReservedUserProperty::InvalidPropertyValue),
                 timestamp,
@@ -1141,9 +1143,10 @@ where
             ProtocolReservedUserProperty::SourceId.to_string(),
             self.mqtt_client.client_id().to_string(),
         ));
-        request
-            .custom_user_data
-            .push((ProtocolReservedUserProperty::Timestamp.to_string(), timestamp_str));
+        request.custom_user_data.push((
+            ProtocolReservedUserProperty::Timestamp.to_string(),
+            timestamp_str,
+        ));
         request.custom_user_data.push((
             ProtocolReservedUserProperty::ProtocolVersion.to_string(),
             RPC_COMMAND_PROTOCOL_VERSION.to_string(),

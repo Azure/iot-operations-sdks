@@ -141,7 +141,9 @@ pub(crate) fn validate_invoker_user_properties(
         }
         if let Ok(broker_prop) = BrokerReservedUserProperty::from_str(key) {
             if broker_prop.is_user_restricted() {
-                return Err(format!("User data key '{key}' is a restricted broker property"));
+                return Err(format!(
+                    "User data key '{key}' is a restricted broker property"
+                ));
             }
         }
     }
@@ -183,7 +185,10 @@ mod tests {
     #[test_case(ProtocolReservedUserProperty::SupportedMajorVersions; "supported_major_versions")]
     #[test_case(ProtocolReservedUserProperty::RequestProtocolVersion; "request_protocol_version")]
     fn test_to_from_string(prop: ProtocolReservedUserProperty) {
-        assert_eq!(prop, ProtocolReservedUserProperty::from_str(&prop.to_string()).unwrap());
+        assert_eq!(
+            prop,
+            ProtocolReservedUserProperty::from_str(&prop.to_string()).unwrap()
+        );
     }
 
     /// Tests failure: Custom user data key is malformed utf-8 and an error is returned
@@ -206,21 +211,30 @@ mod tests {
 
     #[test]
     fn test_restricted_broker_property_rejected_by_invoker_validation() {
-        let props = vec![(BrokerReservedUserProperty::Partition.to_string(), "abcdef".to_string())];
+        let props = vec![(
+            BrokerReservedUserProperty::Partition.to_string(),
+            "abcdef".to_string(),
+        )];
         assert!(validate_user_properties(&props).is_ok());
         assert!(validate_invoker_user_properties(&props).is_err());
     }
 
     #[test]
     fn test_unrestricted_broker_property_allowed_by_invoker_validation() {
-        let props = vec![(BrokerReservedUserProperty::HighPriority.to_string(), "true".to_string())];
+        let props = vec![(
+            BrokerReservedUserProperty::HighPriority.to_string(),
+            "true".to_string(),
+        )];
         assert!(validate_user_properties(&props).is_ok());
         assert!(validate_invoker_user_properties(&props).is_ok());
     }
 
     #[test]
     fn test_persist_broker_property_allowed_by_invoker_validation() {
-        let props = vec![(BrokerReservedUserProperty::Persist.to_string(), "true".to_string())];
+        let props = vec![(
+            BrokerReservedUserProperty::Persist.to_string(),
+            "true".to_string(),
+        )];
         assert!(validate_user_properties(&props).is_ok());
         assert!(validate_invoker_user_properties(&props).is_ok());
     }
