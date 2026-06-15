@@ -50,7 +50,7 @@ namespace Azure.Iot.Operations.EnvoyGenerator
             this.Write(this.ToStringHelper.ToStringWithCulture(this.commonNs.GetFolderName(TargetLanguage.Rust)));
             this.Write("::custom_payload::CustomPayload;\r\n");
  } 
-if (this.reqSchema == null || this.respSchema == null || (this.errorResultName != null && this.normalResultSchema == null)) { 
+ if (this.reqSchema == null || this.respSchema == null || (this.errorResultName != null && this.normalResultSchema == null)) { 
             this.Write("use super::super::");
             this.Write(this.ToStringHelper.ToStringWithCulture(this.commonNs.GetFolderName(TargetLanguage.Rust)));
             this.Write("::");

@@ -1161,7 +1161,7 @@ namespace Azure.Iot.Operations.EnvoyGenerator
 
     private string ExtRespType(ActionSpec actionSpec) => this.CondWrap(actionSpec.ResponseSchema != null ? $"ExtendedResponse<{this.SchemaType(actionSpec.ErrorResultName != null ? actionSpec.NormalResultSchema : actionSpec.ResponseSchema, actionSpec.SerializerEmptyType)}>" : "CommandResponseMetadata?");
 
-    private string EmptyResp(ActionSpec actionSpec) => this.CondFrom(actionSpec.ResponseSchema != null ? $"new ExtendedResponse<{this.SchemaType(actionSpec.NormalResultSchema, actionSpec.SerializerEmptyType)}> {{ Response = new {this.SchemaType(actionSpec.NormalResultSchema, actionSpec.SerializerEmptyType)}() }}" : "(CommandResponseMetadata?)new CommandResponseMetadata()");
+    private string EmptyResp(ActionSpec actionSpec) => this.CondFrom(actionSpec.ResponseSchema != null ? $"new ExtendedResponse<{this.SchemaType(actionSpec.ErrorResultName != null ? actionSpec.NormalResultSchema : actionSpec.ResponseSchema, actionSpec.SerializerEmptyType)}> {{ Response = new {this.SchemaType(actionSpec.ErrorResultName != null ? actionSpec.NormalResultSchema : actionSpec.ResponseSchema, actionSpec.SerializerEmptyType)}() }}" : "(CommandResponseMetadata?)new CommandResponseMetadata()");
 
     private string CondWrap(string type) => $"Task<{type}>";
 
