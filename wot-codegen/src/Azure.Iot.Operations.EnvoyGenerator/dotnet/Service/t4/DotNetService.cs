@@ -1171,7 +1171,7 @@ namespace Azure.Iot.Operations.EnvoyGenerator
 
     private string ReqArgs(ActionSpec actionSpec, string reqVar) => actionSpec.RequestSchema != null ? $"{reqVar}.Request!, {reqVar}.RequestMetadata!" : $"{reqVar}.RequestMetadata!";
 
-    private string CallAsyncType(ActionSpec actionSpec) => $"RpcCallAsync<{this.SchemaType(actionSpec.NormalResultSchema, actionSpec.SerializerEmptyType)}>";
+    private string CallAsyncType(ActionSpec actionSpec) => $"RpcCallAsync<{this.SchemaType(actionSpec.ErrorResultName != null ? actionSpec.NormalResultSchema : actionSpec.ResponseSchema, actionSpec.SerializerEmptyType)}>";
 
     private string CallAsyncType(PropertySpec propSpec) => $"RpcCallAsync<{this.SchemaType(propSpec.PropSchema, propSpec.ReadSerializerEmptyType)}>";
 

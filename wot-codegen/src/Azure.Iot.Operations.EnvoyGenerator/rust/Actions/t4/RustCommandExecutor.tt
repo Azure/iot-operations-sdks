@@ -17,7 +17,7 @@ use azure_iot_operations_protocol::rpc_command;
 <# if (this.reqSchema is CustomTypeName || this.respSchema is CustomTypeName) { #>
 use super::super::<#=this.commonNs.GetFolderName(TargetLanguage.Rust)#>::custom_payload::CustomPayload;
 <# } #>
-<# if (this.reqSchema == null || this.respSchema == null || this.normalResultSchema == null) { #>
+<# if (this.reqSchema == null || this.respSchema == null || (this.errorResultName != null && this.normalResultSchema == null)) { #>
 use super::super::<#=this.commonNs.GetFolderName(TargetLanguage.Rust)#>::<#=this.serializerEmptyType.GetFileName(TargetLanguage.Rust)#>::<#=this.serializerEmptyType.GetTypeName(TargetLanguage.Rust)#>;
 <# } #>
 use super::super::<#=this.commonNs.GetFolderName(TargetLanguage.Rust)#>::options::CommandExecutorOptions;
@@ -65,7 +65,7 @@ impl <#=this.commandName.GetTypeName(TargetLanguage.Rust, "response", "builder")
     /// If the payload cannot be serialized
     pub fn payload(
         &mut self,
-        payload: <#=this.normalResultSchema?.GetTypeName(TargetLanguage.Rust) ?? this.serializerEmptyType.GetTypeName(TargetLanguage.Rust)#>,
+        payload: <#=(this.errorResultName != null ? this.normalResultSchema : this.respSchema)?.GetTypeName(TargetLanguage.Rust) ?? this.serializerEmptyType.GetTypeName(TargetLanguage.Rust)#>,
     ) -> Result<&mut Self, AIOProtocolError> {
 <# if (this.errorResultName != null) { #>
         self.inner_builder.payload(<#=this.respSchema.GetTypeName(TargetLanguage.Rust)#> {

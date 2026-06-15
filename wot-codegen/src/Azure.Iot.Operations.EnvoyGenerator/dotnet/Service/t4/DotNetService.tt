@@ -708,7 +708,7 @@ namespace <#=this.projectName#>.<#=this.genNamespace.GetNamespaceName(TargetLang
 
     private string ExtRespType(ActionSpec actionSpec) => this.CondWrap(actionSpec.ResponseSchema != null ? $"ExtendedResponse<{this.SchemaType(actionSpec.NormalResultSchema, actionSpec.SerializerEmptyType)}>" : "CommandResponseMetadata?");
 
-    private string EmptyResp(ActionSpec actionSpec) => this.CondFrom(actionSpec.ResponseSchema != null ? $"new ExtendedResponse<{this.SchemaType(actionSpec.NormalResultSchema, actionSpec.SerializerEmptyType)}> {{ Response = new {this.SchemaType(actionSpec.NormalResultSchema, actionSpec.SerializerEmptyType)}() }}" : "(CommandResponseMetadata?)new CommandResponseMetadata()");
+    private string EmptyResp(ActionSpec actionSpec) => this.CondFrom(actionSpec.ResponseSchema != null ? $"new ExtendedResponse<{this.SchemaType(actionSpec.ErrorResultName != null ? actionSpec.NormalResultSchema : actionSpec.ResponseSchema, actionSpec.SerializerEmptyType)}> {{ Response = new {this.SchemaType(actionSpec.ErrorResultName != null ? actionSpec.NormalResultSchema : actionSpec.ResponseSchema, actionSpec.SerializerEmptyType)}() }}" : "(CommandResponseMetadata?)new CommandResponseMetadata()");
 
     private string CondWrap(string type) => $"Task<{type}>";
 
@@ -718,7 +718,7 @@ namespace <#=this.projectName#>.<#=this.genNamespace.GetNamespaceName(TargetLang
 
     private string ReqArgs(ActionSpec actionSpec, string reqVar) => actionSpec.RequestSchema != null ? $"{reqVar}.Request!, {reqVar}.RequestMetadata!" : $"{reqVar}.RequestMetadata!";
 
-    private string CallAsyncType(ActionSpec actionSpec) => $"RpcCallAsync<{this.SchemaType(actionSpec.NormalResultSchema, actionSpec.SerializerEmptyType)}>";
+    private string CallAsyncType(ActionSpec actionSpec) => $"RpcCallAsync<{this.SchemaType(actionSpec.ErrorResultName != null ? actionSpec.NormalResultSchema : actionSpec.ResponseSchema, actionSpec.SerializerEmptyType)}>";
 
     private string CallAsyncType(PropertySpec propSpec) => $"RpcCallAsync<{this.SchemaType(propSpec.PropSchema, propSpec.ReadSerializerEmptyType)}>";
 
