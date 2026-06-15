@@ -1509,7 +1509,7 @@ namespace Azure.Iot.Operations.CodeGeneration
                 hasError = true;
             }
 
-            if (!TryValidateDataSchema(property, (propName) => propName == TDProperty.ReadOnlyName || propName == TDProperty.PlaceholderName || propName == TDProperty.FormsName || propName == TDProperty.ContainsName || propName == TDProperty.ContainsLegacyName || propName == TDProperty.ContainedInName || propName == TDProperty.ContainedInLegacyName || propName == TDProperty.NamespaceName || propName == TDDataSchema.NamespaceLegacyName || propName == TDProperty.WithUnitName || propName == TDProperty.WithUnitLegacyName || propName == TDProperty.HasQuantityKindName || propName == TDProperty.MemberOfName || propName == TDProperty.MemberOfLegacyName || propName == TDProperty.PropertyIriName || propName == TDProperty.PropertyConfigurationName, dovContextPresent, protContextPresent, platContextPresent, contextTokenIndex, DataSchemaKind.Property, contentType))
+            if (!TryValidateDataSchema(property, TDProperty.SupportedProperties.Contains, dovContextPresent, protContextPresent, platContextPresent, contextTokenIndex, DataSchemaKind.Property, contentType))
             {
                 hasError = true;
             }

@@ -35,6 +35,8 @@ namespace Azure.Iot.Operations.TDParser.Model
             ContainsLegacyName,
             ContainedInName,
             ContainedInLegacyName,
+            NamespaceName,
+            NamespaceLegacyName,
             WithUnitName,
             WithUnitLegacyName,
             HasQuantityKindName,
