@@ -50,7 +50,7 @@ namespace Azure.Iot.Operations.EnvoyGenerator
             this.Write(this.ToStringHelper.ToStringWithCulture(this.commonNs.GetFolderName(TargetLanguage.Rust)));
             this.Write("::custom_payload::CustomPayload;\r\n");
  } 
- if (this.reqSchema == null || this.respSchema == null) { 
+ if (this.reqSchema == null || this.respSchema == null || this.normalResultSchema == null) { 
             this.Write("use super::super::");
             this.Write(this.ToStringHelper.ToStringWithCulture(this.commonNs.GetFolderName(TargetLanguage.Rust)));
             this.Write("::");
@@ -77,11 +77,14 @@ namespace Azure.Iot.Operations.EnvoyGenerator
             this.Write(";\r\n");
  } 
  if (this.errorResultName != null) { 
+ if (this.normalResultSchema != null) { 
             this.Write("use super::");
             this.Write(this.ToStringHelper.ToStringWithCulture(this.normalResultSchema.GetFileName(TargetLanguage.Rust)));
             this.Write("::");
             this.Write(this.ToStringHelper.ToStringWithCulture(this.normalResultSchema.GetTypeName(TargetLanguage.Rust)));
-            this.Write(";\r\nuse super::");
+            this.Write(";\r\n");
+ } 
+            this.Write("use super::");
             this.Write(this.ToStringHelper.ToStringWithCulture(this.errorResultSchema.GetFileName(TargetLanguage.Rust)));
             this.Write("::");
             this.Write(this.ToStringHelper.ToStringWithCulture(this.errorResultSchema.GetTypeName(TargetLanguage.Rust)));
@@ -280,7 +283,7 @@ namespace Azure.Iot.Operations.EnvoyGenerator
             this.Write("\"))?,\r\n");
  } else { 
             this.Write("                        payload: ");
-            this.Write(this.ToStringHelper.ToStringWithCulture(this.normalResultSchema.GetTypeName(TargetLanguage.Rust)));
+            this.Write(this.ToStringHelper.ToStringWithCulture(this.normalResultSchema?.GetTypeName(TargetLanguage.Rust) ?? this.serializerEmptyType.GetTypeName(TargetLanguage.Rust)));
             this.Write(" {\r\n");
  foreach (CodeName normalResultField in this.normalResultFields) { 
  if (this.normalRequiredFields.Contains(normalResultField)) { 
@@ -358,7 +361,7 @@ namespace Azure.Iot.Operations.EnvoyGenerator
 
     private string ExternalResponseType() => this.respSchema?.GetTypeName(TargetLanguage.Rust) ?? this.serializerEmptyType.GetTypeName(TargetLanguage.Rust);
 
-    private string InternalResponseType() => (this.normalResultSchema ?? this.respSchema)?.GetTypeName(TargetLanguage.Rust) ?? this.serializerEmptyType.GetTypeName(TargetLanguage.Rust);
+    private string InternalResponseType() => this.normalResultSchema?.GetTypeName(TargetLanguage.Rust) ?? this.serializerEmptyType.GetTypeName(TargetLanguage.Rust);
 
     }
     #region Base class
