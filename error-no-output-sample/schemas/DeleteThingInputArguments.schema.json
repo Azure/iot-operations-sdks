@@ -1,0 +1,14 @@
+{
+  "$schema": "https://json-schema.org/draft-07/schema",
+  "title": "DeleteThingInputArguments",
+  "description": "Input arguments for action 'deleteThing'",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [ "thingId" ],
+  "properties": {
+    "thingId": {
+      "description": "Identifier of the thing to delete.",
+      "type": "string"
+    }
+  }
+}

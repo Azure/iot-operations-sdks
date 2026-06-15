@@ -1,0 +1,18 @@
+{
+  "$schema": "https://json-schema.org/draft-07/schema",
+  "title": "SampleError",
+  "description": "Error returned when the command fails.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [ "code", "message" ],
+  "properties": {
+    "code": {
+      "description": "Error code.",
+      "type": "integer"
+    },
+    "message": {
+      "description": "Human-readable error message.",
+      "type": "string"
+    }
+  }
+}
