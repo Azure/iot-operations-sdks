@@ -163,12 +163,12 @@ namespace Azure.Iot.Operations.Connector.Files
 
                         if (args.ChangeType == WatcherChangeTypes.Created)
                         {
-                            Trace.TraceInformation("AssetFileMonitor reporting device created with name {} and inbound enpoint name {}", foundDeviceName, foundInboundEndpointName);
+                            Trace.TraceInformation($"AssetFileMonitor reporting device created with name {foundDeviceName} and inbound enpoint name {foundInboundEndpointName}");
                             DeviceFileChanged?.Invoke(this, new(foundDeviceName, foundInboundEndpointName, FileChangeType.Created));
                         }
                         else if (args.ChangeType == WatcherChangeTypes.Deleted)
                         {
-                            Trace.TraceInformation("AssetFileMonitor reporting device deleted with name {} and inbound enpoint name {}", foundDeviceName, foundInboundEndpointName);
+                            Trace.TraceInformation($"AssetFileMonitor reporting device deleted with name {foundDeviceName} and inbound enpoint name {foundInboundEndpointName}");
                             DeviceFileChanged?.Invoke(this, new(foundDeviceName, foundInboundEndpointName, FileChangeType.Deleted));
                         }
                     }
