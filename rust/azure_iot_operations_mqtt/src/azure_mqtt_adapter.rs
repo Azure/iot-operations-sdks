@@ -176,7 +176,7 @@ fn create_connection_transport_config(
     Ok(ConnectionTransportConfig {
         transport_type,
         timeout: Some(timeout),
-        // Disable the Nagle algorithm (hardcoded) to minimize latency
+        // Disable Nagle's algorithm (`TCP_NODELAY`) (hardcoded) to minimize latency
         tcp_nodelay: true,
     })
 }
