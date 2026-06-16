@@ -960,11 +960,14 @@ impl Client {
         Ok(response.payload.into())
     }
 
-    /// List the XIDs of the xRegistry Schema Versions of a Schema.
+    /// List the XIDs of the xRegistry Schema Versions of a schema.
     ///
     /// # Arguments
-    /// * `group_id` - The identifier of the Group that owns the Schema. If [`CloudDefault`](GroupId::CloudDefault), the default Group is used.
-    /// * `schema_id` - The identifier of the Schema whose Versions are listed.
+    /// * `groups` - Which Groups to list across: [`All`](GroupSelection::All), the
+    ///   [`Default`](GroupSelection::Default) (cloud default) Group, or a specific
+    ///   [`GroupId`](GroupSelection::GroupId).
+    /// * `schema_id` - If provided, only Versions of this Schema are listed; otherwise Versions of
+    ///   all Schemas in the selected Group(s) are listed.
     /// * `label` - If provided, only Versions carrying this [`Label`] are listed.
     /// * `timeout` - The duration until the client stops waiting for a response to the request, it is rounded up to the nearest second.
     ///
@@ -981,17 +984,18 @@ impl Client {
     /// by the Edge Registry service.
     pub async fn list_schema_versions(
         &self,
-        group_id: GroupId,
-        schema_id: String,
+        groups: GroupSelection,
+        schema_id: Option<String>,
         label: Option<Label>,
         timeout: Duration,
     ) -> Result<Vec<VersionXId<u64>>, Error> {
+        let (group_id, all_groups) = Self::group_selection_scope(groups);
         let payload = client_gen::ListVersionsRequestPayload {
             group_type: None,
-            group_id: group_id.into(),
-            all_groups: false,
+            group_id,
+            all_groups,
             resource_type: None,
-            resource_id: Some(schema_id),
+            resource_id: schema_id,
             label: label.map(Into::into),
         };
 
@@ -1163,11 +1167,14 @@ impl Client {
         Ok(response.payload.into())
     }
 
-    /// List the XIDs of the xRegistry Thing Description Versions of a Thing Description.
+    /// List the XIDs of xRegistry Thing Description Versions.
     ///
     /// # Arguments
-    /// * `group_id` - The identifier of the Group that owns the Thing Description. If [`CloudDefault`](GroupId::CloudDefault), the default Group is used.
-    /// * `thing_description_id` - The identifier of the Thing Description whose Versions are listed.
+    /// * `groups` - Which Groups to list across: [`All`](GroupSelection::All), the
+    ///   [`Default`](GroupSelection::Default) (cloud default) Group, or a specific
+    ///   [`GroupId`](GroupSelection::GroupId).
+    /// * `thing_description_id` - If provided, only Versions of this Thing Description are listed;
+    ///   otherwise Versions of all Thing Descriptions in the selected Group(s) are listed.
     /// * `label` - If provided, only Versions carrying this [`Label`] are listed.
     /// * `timeout` - The duration until the client stops waiting for a response to the request, it is rounded up to the nearest second.
     ///
@@ -1184,17 +1191,18 @@ impl Client {
     /// by the Edge Registry service.
     pub async fn list_thing_description_versions(
         &self,
-        group_id: GroupId,
-        thing_description_id: String,
+        groups: GroupSelection,
+        thing_description_id: Option<String>,
         label: Option<Label>,
         timeout: Duration,
     ) -> Result<Vec<VersionXId<u64>>, Error> {
+        let (group_id, all_groups) = Self::group_selection_scope(groups);
         let payload = client_gen::ListVersionsRequestPayload {
             group_type: None,
-            group_id: group_id.into(),
-            all_groups: false,
+            group_id,
+            all_groups,
             resource_type: None,
-            resource_id: Some(thing_description_id),
+            resource_id: thing_description_id,
             label: label.map(Into::into),
         };
 
@@ -1366,11 +1374,14 @@ impl Client {
         Ok(response.payload.into())
     }
 
-    /// List the XIDs of the xRegistry Thing Model Versions of a Thing Model.
+    /// List the XIDs of xRegistry Thing Model Versions.
     ///
     /// # Arguments
-    /// * `group_id` - The identifier of the Group that owns the Thing Model. If [`CloudDefault`](GroupId::CloudDefault), the default Group is used.
-    /// * `thing_model_id` - The identifier of the Thing Model whose Versions are listed.
+    /// * `groups` - Which Groups to list across: [`All`](GroupSelection::All), the
+    ///   [`Default`](GroupSelection::Default) (cloud default) Group, or a specific
+    ///   [`GroupId`](GroupSelection::GroupId).
+    /// * `thing_model_id` - If provided, only Versions of this Thing Model are listed; otherwise
+    ///   Versions of all Thing Models in the selected Group(s) are listed.
     /// * `label` - If provided, only Versions carrying this [`Label`] are listed.
     /// * `timeout` - The duration until the client stops waiting for a response to the request, it is rounded up to the nearest second.
     ///
@@ -1387,17 +1398,18 @@ impl Client {
     /// by the Edge Registry service.
     pub async fn list_thing_model_versions(
         &self,
-        group_id: GroupId,
-        thing_model_id: String,
+        groups: GroupSelection,
+        thing_model_id: Option<String>,
         label: Option<Label>,
         timeout: Duration,
     ) -> Result<Vec<VersionXId<u64>>, Error> {
+        let (group_id, all_groups) = Self::group_selection_scope(groups);
         let payload = client_gen::ListVersionsRequestPayload {
             group_type: None,
-            group_id: group_id.into(),
-            all_groups: false,
+            group_id,
+            all_groups,
             resource_type: None,
-            resource_id: Some(thing_model_id),
+            resource_id: thing_model_id,
             label: label.map(Into::into),
         };
 
@@ -1641,6 +1653,16 @@ impl Client {
                 GroupSelection::GroupId(group_id) => (Some(group_type), Some(group_id), false),
                 GroupSelection::Default => (Some(group_type), None, false),
             },
+        }
+    }
+
+    /// Resolves a [`GroupSelection`] into the `(group_id, all_groups)` scope fields for an extension
+    /// list request, whose Group type is fixed by the extension.
+    fn group_selection_scope(groups: GroupSelection) -> (Option<String>, bool) {
+        match groups {
+            GroupSelection::All => (None, true),
+            GroupSelection::GroupId(group_id) => (Some(group_id), false),
+            GroupSelection::Default => (None, false),
         }
     }
 }
