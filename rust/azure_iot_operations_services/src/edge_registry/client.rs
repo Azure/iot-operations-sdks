@@ -267,7 +267,7 @@ impl Client {
         attributes: GroupAttributes,
         timeout: Duration,
     ) -> Result<GroupEntity, Error> {
-        let payload: client_gen::GroupAttributes = attributes.into(group_id.into());
+        let payload: client_gen::GroupAttributes = attributes.into_gen(group_id.into());
 
         let request = client_gen::CreateGroupRequestBuilder::default()
             .payload(payload)

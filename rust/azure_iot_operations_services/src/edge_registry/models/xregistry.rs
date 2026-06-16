@@ -422,7 +422,7 @@ pub struct GroupAttributes {
 }
 
 impl GroupAttributes {
-    pub(crate) fn into(self, group_id: Option<String>) -> client_gen::GroupAttributes {
+    pub(crate) fn into_gen(self, group_id: Option<String>) -> client_gen::GroupAttributes {
         client_gen::GroupAttributes {
             group_id,
             name: self.name,
