@@ -29,6 +29,7 @@ use crate::azure_mqtt::io::{ReadableStream, Reader, WritableStream, Writer, toki
 pub async fn connect<BP>(
     request: impl IntoClientRequest,
     tls_config: ConnectionTransportTlsConfig,
+    tcp_nodelay: bool,
     reader_pool: &BP,
 ) -> io::Result<(Reader<BP>, Writer<BP>)>
 where
@@ -53,8 +54,14 @@ where
         ));
     };
     let stream = match scheme {
-        "https" | "wss" => tokio_tls::connect_inner(addr, port.unwrap_or(443), tls_config).await?,
-        "http" | "ws" => Either::Left(TcpStream::connect((addr, port.unwrap_or(80))).await?),
+        "https" | "wss" => {
+            tokio_tls::connect_inner(addr, port.unwrap_or(443), tls_config, tcp_nodelay).await?
+        }
+        "http" | "ws" => {
+            let stream = TcpStream::connect((addr, port.unwrap_or(80))).await?;
+            stream.set_nodelay(tcp_nodelay)?;
+            Either::Left(stream)
+        }
         _ => {
             return Err(IoError::new(
                 io::ErrorKind::InvalidInput,
