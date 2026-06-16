@@ -16,7 +16,7 @@ internal class AdrBaseServiceClientStub(ApplicationContext applicationContext, I
     public event Func<string, Models.Asset, Task>? OnReceiveAssetUpdateEventTelemetry;
 
     private const string deviceNameTopicToken = "ex:deviceName";
-    private const string inboundEndpointNameTopicToken = "ex:inboundEndpointName";
+    private const string inboundEndpointNameTopicToken = "ex:inboundEndpointName"; // Connector client id missing?
 
     public override async Task ReceiveTelemetry(string senderId, DeviceUpdateEventTelemetry telemetry, IncomingTelemetryMetadata metadata)
     {
