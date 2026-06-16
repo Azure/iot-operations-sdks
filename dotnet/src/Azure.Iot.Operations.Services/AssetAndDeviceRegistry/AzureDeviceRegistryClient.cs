@@ -48,8 +48,10 @@ public class AzureDeviceRegistryClient : IAzureDeviceRegistryClient
         _applicationContext = applicationContext;
         _connectorClientId = mqttClient.ClientId ?? throw new ArgumentException("Must provide an MQTT client Id in the IMqttPubSubClient");
 
-        _adrBaseServiceClient = new AdrBaseServiceClientStub(_applicationContext, mqttClient);
-        _adrBaseServiceService = new AdrBaseServiceServiceStub(_applicationContext, mqttClient);
+        Dictionary<string, string> topicTokenMap = new() { { "connectorClientId", mqttClient.ClientId } };
+
+        _adrBaseServiceClient = new AdrBaseServiceClientStub(_applicationContext, mqttClient, topicTokenMap);
+        _adrBaseServiceService = new AdrBaseServiceServiceStub(_applicationContext, mqttClient, topicTokenMap);
         _deviceDiscoveryServiceClient = new DeviceDiscoveryServiceClientStub(_applicationContext, mqttClient);
     }
 
