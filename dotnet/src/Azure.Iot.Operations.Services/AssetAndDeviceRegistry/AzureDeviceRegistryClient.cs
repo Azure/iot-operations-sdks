@@ -165,6 +165,9 @@ public class AzureDeviceRegistryClient : IAzureDeviceRegistryClient
 
             try
             {
+                string value = notificationPreference == Models.NotificationPreference.On ? "ON" : "OFF";
+                Trace.TraceInformation($"Setting notification preference for device {deviceName} endpoint {inboundEndpointName} with val {value}");
+
                 var result = await _adrBaseServiceClient.SetNotificationPreferenceForDeviceUpdatesAsync(
                     notificationRequest,
                     null,

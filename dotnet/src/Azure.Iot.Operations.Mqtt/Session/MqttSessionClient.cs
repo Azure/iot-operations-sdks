@@ -246,6 +246,9 @@ namespace Azure.Iot.Operations.Mqtt.Session
             ObjectDisposedException.ThrowIf(_disposed, this);
             cancellationToken.ThrowIfCancellationRequested();
 
+            Trace.TraceInformation($"MQTT: Subscribing to topic {options.TopicFilters.First().Topic}");
+
+
             if (_sessionClientOptions.ThrowIfUsedWhenSessionInactive && !IsConnected && !_isDesiredConnected)
             {
                 throw new SessionClosedException("Cannot subscribe until the session has been re-opened. The session is closed either because it could not be recovered or because this client was manually closed.");
@@ -298,6 +301,9 @@ namespace Azure.Iot.Operations.Mqtt.Session
             {
                 throw new SessionClosedException("Cannot unsubscribe until the session has been re-opened. The session is closed either because it could not be recovered or because this client was manually closed.");
             }
+
+            Trace.TraceInformation($"MQTT: Unsubscribing from topic {options.TopicFilters.First()}");
+
 
             TaskCompletionSource<MqttClientUnsubscribeResult> tcs = new TaskCompletionSource<MqttClientUnsubscribeResult>();
 
