@@ -203,7 +203,8 @@ public class AzureDeviceRegistryClient : IAzureDeviceRegistryClient
             cancellationToken.ThrowIfCancellationRequested();
             ObjectDisposedException.ThrowIf(_disposed, this);
 
-            Trace.TraceInformation("Setting notification preference for device {} endpoint {} asset {} with val {}", deviceName, inboundEndpointName, assetName, notificationPreference == Models.NotificationPreference.On);
+            string value = notificationPreference == Models.NotificationPreference.On ? "ON" : "OFF";
+            Trace.TraceInformation($"Setting notification preference for device {deviceName} endpoint {inboundEndpointName} asset {assetName} with val {value}");
 
             _observedAssets[$"{deviceName}_{inboundEndpointName}_{assetName}"] = _dummyByte;
             await _adrBaseServiceClient.AssetUpdateEventTelemetryReceiver.StartAsync(cancellationToken);
