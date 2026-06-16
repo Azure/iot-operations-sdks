@@ -157,7 +157,7 @@ namespace Azure.Iot.Operations.Connector
                 }
             }
 
-            _logger.LogInformation("Connecting to MQTT broker");
+            _logger.LogInformation($"Connecting to MQTT broker with client id {mqttConnectionSettings!.ClientId}");
 
             await _mqttClient.ConnectAsync(mqttConnectionSettings!, cancellationToken);
 
