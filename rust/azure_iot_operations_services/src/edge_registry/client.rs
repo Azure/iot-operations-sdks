@@ -15,13 +15,11 @@ use bytes::Bytes;
 
 use crate::edge_registry::edge_registry_gen::common_types::options::CommandInvokerOptionsBuilder;
 use crate::edge_registry::edge_registry_gen::edge_registry::client::{self as client_gen};
-use crate::edge_registry::models::xregistry::{extensions_to_gen, labels_to_gen};
 use crate::edge_registry::models::{
     GroupAttributes, GroupEntity, ResourceEntity, ResourceMetaAttributes, ResourceXId,
-    SchemaVersionAttributes, SchemaVersionEntity, SchemaVersionXId,
-    ThingDescriptionVersionAttributes, ThingDescriptionVersionEntity, ThingDescriptionVersionXId,
-    ThingModelVersionAttributes, ThingModelVersionEntity, ThingModelVersionXId, VersionAttributes,
-    VersionEntity, VersionXId,
+    SchemaVersionAttributes, SchemaVersionEntity, ThingDescriptionVersionAttributes,
+    ThingDescriptionVersionEntity, ThingModelVersionAttributes, ThingModelVersionEntity,
+    VersionAttributes, VersionEntity, VersionXId, extensions_to_gen, labels_to_gen,
 };
 use crate::edge_registry::{
     AnyGroupSelection, CreateVersionId, Error, ErrorKind, GetVersionId, GroupId, GroupQuery,
@@ -777,7 +775,7 @@ impl Client {
         resource_id: Option<String>,
         label: Option<Label>,
         timeout: Duration,
-    ) -> Result<Vec<VersionXId>, Error> {
+    ) -> Result<Vec<VersionXId<String>>, Error> {
         let (group_type, group_id, all_groups) = Self::group_query_scope(group_query);
 
         let payload = client_gen::ListVersionsRequestPayload {
@@ -894,7 +892,7 @@ impl Client {
         let request = client_gen::CreateSchemaVersionRequestBuilder::default()
             .payload(payload)
             .map_err(ErrorKind::from)?
-            .topic_tokens(Self::extension_topic_tokens(
+            .topic_tokens(Self::extension_resource_topic_tokens(
                 SCHEMA_ID_TOPIC_TOKEN,
                 schema_id,
             ))
@@ -945,7 +943,7 @@ impl Client {
         let request = client_gen::GetSchemaVersionRequestBuilder::default()
             .payload(payload)
             .map_err(ErrorKind::from)?
-            .topic_tokens(Self::extension_topic_tokens(
+            .topic_tokens(Self::extension_resource_topic_tokens(
                 SCHEMA_ID_TOPIC_TOKEN,
                 schema_id,
             ))
@@ -970,7 +968,7 @@ impl Client {
     /// * `label` - If provided, only Versions carrying this [`Label`] are listed.
     /// * `timeout` - The duration until the client stops waiting for a response to the request, it is rounded up to the nearest second.
     ///
-    /// Returns the [`SchemaVersionXId`]s of the Versions matching the constraints.
+    /// Returns the [`VersionXId`]s of the Versions matching the constraints.
     ///
     /// # Errors
     /// [`struct@Error`] of kind [`ValidationError`](ErrorKind::ValidationError) if `timeout` is 0
@@ -987,7 +985,7 @@ impl Client {
         schema_id: String,
         label: Option<Label>,
         timeout: Duration,
-    ) -> Result<Vec<SchemaVersionXId>, Error> {
+    ) -> Result<Vec<VersionXId<u64>>, Error> {
         let payload = client_gen::ListVersionsRequestPayload {
             group_type: None,
             group_id: group_id.into(),
@@ -1097,7 +1095,7 @@ impl Client {
         let request = client_gen::CreateThingDescriptionVersionRequestBuilder::default()
             .payload(payload)
             .map_err(ErrorKind::from)?
-            .topic_tokens(Self::extension_topic_tokens(
+            .topic_tokens(Self::extension_resource_topic_tokens(
                 THING_DESCRIPTION_ID_TOPIC_TOKEN,
                 thing_description_id,
             ))
@@ -1148,7 +1146,7 @@ impl Client {
         let request = client_gen::GetThingDescriptionVersionRequestBuilder::default()
             .payload(payload)
             .map_err(ErrorKind::from)?
-            .topic_tokens(Self::extension_topic_tokens(
+            .topic_tokens(Self::extension_resource_topic_tokens(
                 THING_DESCRIPTION_ID_TOPIC_TOKEN,
                 thing_description_id,
             ))
@@ -1173,7 +1171,7 @@ impl Client {
     /// * `label` - If provided, only Versions carrying this [`Label`] are listed.
     /// * `timeout` - The duration until the client stops waiting for a response to the request, it is rounded up to the nearest second.
     ///
-    /// Returns the [`ThingDescriptionVersionXId`]s of the Versions matching the constraints.
+    /// Returns the [`VersionXId`]s of the Versions matching the constraints.
     ///
     /// # Errors
     /// [`struct@Error`] of kind [`ValidationError`](ErrorKind::ValidationError) if `timeout` is 0
@@ -1190,7 +1188,7 @@ impl Client {
         thing_description_id: String,
         label: Option<Label>,
         timeout: Duration,
-    ) -> Result<Vec<ThingDescriptionVersionXId>, Error> {
+    ) -> Result<Vec<VersionXId<u64>>, Error> {
         let payload = client_gen::ListVersionsRequestPayload {
             group_type: None,
             group_id: group_id.into(),
@@ -1300,7 +1298,7 @@ impl Client {
         let request = client_gen::CreateThingModelVersionRequestBuilder::default()
             .payload(payload)
             .map_err(ErrorKind::from)?
-            .topic_tokens(Self::extension_topic_tokens(
+            .topic_tokens(Self::extension_resource_topic_tokens(
                 THING_MODEL_ID_TOPIC_TOKEN,
                 thing_model_id,
             ))
@@ -1351,7 +1349,7 @@ impl Client {
         let request = client_gen::GetThingModelVersionRequestBuilder::default()
             .payload(payload)
             .map_err(ErrorKind::from)?
-            .topic_tokens(Self::extension_topic_tokens(
+            .topic_tokens(Self::extension_resource_topic_tokens(
                 THING_MODEL_ID_TOPIC_TOKEN,
                 thing_model_id,
             ))
@@ -1376,7 +1374,7 @@ impl Client {
     /// * `label` - If provided, only Versions carrying this [`Label`] are listed.
     /// * `timeout` - The duration until the client stops waiting for a response to the request, it is rounded up to the nearest second.
     ///
-    /// Returns the [`ThingModelVersionXId`]s of the Versions matching the constraints.
+    /// Returns the [`VersionXId`]s of the Versions matching the constraints.
     ///
     /// # Errors
     /// [`struct@Error`] of kind [`ValidationError`](ErrorKind::ValidationError) if `timeout` is 0
@@ -1393,7 +1391,7 @@ impl Client {
         thing_model_id: String,
         label: Option<Label>,
         timeout: Duration,
-    ) -> Result<Vec<ThingModelVersionXId>, Error> {
+    ) -> Result<Vec<VersionXId<u64>>, Error> {
         let payload = client_gen::ListVersionsRequestPayload {
             group_type: None,
             group_id: group_id.into(),
@@ -1609,20 +1607,23 @@ impl Client {
         tokens
     }
 
-    /// Builds the topic tokens for an extension Version request, keyed by the extension's
+    /// Builds the topic tokens for an extension Resource-scoped request, keyed by the extension's
     /// Resource-identifier token (e.g. `schemaId`, `thingDescriptionId`, `thingModelId`).
-    fn extension_topic_tokens(id_token: &str, resource_id: String) -> HashMap<String, String> {
-        HashMap::from([(id_token.to_string(), resource_id)])
+    fn extension_resource_topic_tokens(
+        resource_id_token: &str,
+        resource_id: String,
+    ) -> HashMap<String, String> {
+        HashMap::from([(resource_id_token.to_string(), resource_id)])
     }
 
     /// Builds the topic tokens for an extension Version request that carries the Version Id in the
     /// topic, keyed by the extension's Resource-identifier token.
     fn extension_version_topic_tokens(
-        id_token: &str,
+        resource_id_token: &str,
         resource_id: String,
         version_id: u64,
     ) -> HashMap<String, String> {
-        let mut tokens = Self::extension_topic_tokens(id_token, resource_id);
+        let mut tokens = Self::extension_resource_topic_tokens(resource_id_token, resource_id);
         tokens.insert(VERSION_ID_TOPIC_TOKEN.to_string(), version_id.to_string());
         tokens
     }
