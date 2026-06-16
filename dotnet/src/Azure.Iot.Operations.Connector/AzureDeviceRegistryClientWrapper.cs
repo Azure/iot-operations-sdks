@@ -257,7 +257,7 @@ namespace Azure.Iot.Operations.Connector
                     return;
                 }
 
-                var notificationResponse = await _client.SetNotificationPreferenceForAssetUpdatesAsync(e.DeviceName, e.InboundEndpointName, e.AssetName, NotificationPreference.On);
+                var notificationResponse = await _client.SetNotificationPreferenceForAssetUpdatesAsync(e.DeviceName, e.InboundEndpointName, e.AssetName, NotificationPreference.On); // The only spot where notifications are turned on
 
                 if (string.Equals(notificationResponse.ResponsePayload, "Accepted", StringComparison.InvariantCultureIgnoreCase))
                 {

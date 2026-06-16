@@ -4,6 +4,7 @@
 using Azure.Iot.Operations.Connector.Files.FilesMonitor;
 using Azure.Iot.Operations.Services.AssetAndDeviceRegistry.Models;
 using System.Collections.Concurrent;
+using System.Diagnostics;
 using System.Text;
 
 namespace Azure.Iot.Operations.Connector.Files
@@ -162,10 +163,12 @@ namespace Azure.Iot.Operations.Connector.Files
 
                         if (args.ChangeType == WatcherChangeTypes.Created)
                         {
+                            Trace.TraceInformation("AssetFileMonitor reporting device created with name {} and inbound enpoint name {}", foundDeviceName, foundInboundEndpointName);
                             DeviceFileChanged?.Invoke(this, new(foundDeviceName, foundInboundEndpointName, FileChangeType.Created));
                         }
                         else if (args.ChangeType == WatcherChangeTypes.Deleted)
                         {
+                            Trace.TraceInformation("AssetFileMonitor reporting device deleted with name {} and inbound enpoint name {}", foundDeviceName, foundInboundEndpointName);
                             DeviceFileChanged?.Invoke(this, new(foundDeviceName, foundInboundEndpointName, FileChangeType.Deleted));
                         }
                     }
