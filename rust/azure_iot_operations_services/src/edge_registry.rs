@@ -131,7 +131,7 @@ impl From<rpc_command::invoker::RequestBuilderError> for ErrorKind {
 /// Identifies a Group within its Group type for a request.
 #[derive(Debug, Clone, Default)]
 pub enum GroupId {
-    /// Use the cloud default Group of the Group type.
+    /// Use the cloud default Group Id of the Group type.
     #[default]
     CloudDefault,
     /// Use the Group with the specified identifier.
@@ -162,6 +162,25 @@ impl From<GetVersionId> for Option<String> {
         match value {
             GetVersionId::ResourceDefault => None,
             GetVersionId::Specified(id) => Some(id),
+        }
+    }
+}
+
+/// Identifies the Version identifier to assign when creating a Version.
+#[derive(Debug, Clone, Default)]
+pub enum CreateVersionId {
+    /// Let the server assign the Version identifier.
+    #[default]
+    ServerAssigned,
+    /// Create the Version with this specific Version identifier.
+    Specified(String),
+}
+
+impl From<CreateVersionId> for Option<String> {
+    fn from(value: CreateVersionId) -> Self {
+        match value {
+            CreateVersionId::ServerAssigned => None,
+            CreateVersionId::Specified(id) => Some(id),
         }
     }
 }
@@ -202,7 +221,7 @@ pub enum GroupSelection {
 #[derive(Debug, Clone)]
 pub struct Label {
     /// The label key.
-    pub name: String,
+    pub key: String,
     /// The label value.
     pub value: String,
 }
@@ -210,14 +229,17 @@ pub struct Label {
 impl From<Label> for client_gen::Label {
     fn from(value: Label) -> Self {
         client_gen::Label {
-            key: value.name,
+            key: value.key,
             value: value.value,
         }
     }
 }
 
-impl From<(String, String)> for Label {
-    fn from((name, value): (String, String)) -> Self {
-        Self { name, value }
+impl From<client_gen::Label> for Label {
+    fn from(value: client_gen::Label) -> Self {
+        Self {
+            key: value.key,
+            value: value.value,
+        }
     }
 }

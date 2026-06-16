@@ -12,28 +12,24 @@ use std::collections::HashMap;
 use bytes::Bytes;
 use chrono::{DateTime, Utc};
 
+use crate::edge_registry::Label;
 use crate::edge_registry::edge_registry_gen::common_types::b64::{self};
 use crate::edge_registry::edge_registry_gen::edge_registry::client as client_gen;
 
 // ~~~~~~~~~~~~~~~~~~~Conversion helpers~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-/// Converts a generated list of `Label` key/value pairs into a map.
-pub(crate) fn labels_from_gen(labels: Vec<client_gen::Label>) -> HashMap<String, String> {
-    labels.into_iter().map(|l| (l.key, l.value)).collect()
+/// Converts a generated list of `Label` key/value pairs into a vector of [`Label`].
+fn labels_from_gen(labels: Vec<client_gen::Label>) -> Vec<Label> {
+    labels.into_iter().map(Into::into).collect()
 }
 
-/// Converts a map of labels into the generated list of `Label` key/value pairs.
-pub(crate) fn labels_to_gen(labels: HashMap<String, String>) -> Vec<client_gen::Label> {
-    labels
-        .into_iter()
-        .map(|(key, value)| client_gen::Label { key, value })
-        .collect()
+/// Converts a list of [`Label`] into the generated list of `Label` key/value pairs.
+pub(crate) fn labels_to_gen(labels: Vec<Label>) -> Vec<client_gen::Label> {
+    labels.into_iter().map(Into::into).collect()
 }
 
 /// Converts a generated map of base64 extension values into byte buffers.
-pub(crate) fn extensions_from_gen(
-    extensions: HashMap<String, b64::Bytes>,
-) -> HashMap<String, Bytes> {
+fn extensions_from_gen(extensions: HashMap<String, b64::Bytes>) -> HashMap<String, Bytes> {
     extensions
         .into_iter()
         .map(|(k, v)| (k, Bytes::from(v.0)))
@@ -124,7 +120,7 @@ impl From<DeprecatedInfo> for client_gen::DeprecatedInfo {
 
 /// The XID components that identify a Resource.
 #[derive(Debug, Clone, PartialEq, Eq)]
-pub struct ResourceXid {
+pub struct ResourceXId {
     /// Group type.
     pub group_type: String,
     /// Group identifier.
@@ -135,9 +131,9 @@ pub struct ResourceXid {
     pub resource_id: String,
 }
 
-impl From<client_gen::ResourceXid> for ResourceXid {
+impl From<client_gen::ResourceXid> for ResourceXId {
     fn from(value: client_gen::ResourceXid) -> Self {
-        ResourceXid {
+        ResourceXId {
             group_type: value.group_type,
             group_id: value.group_id,
             resource_type: value.resource_type,
@@ -146,15 +142,15 @@ impl From<client_gen::ResourceXid> for ResourceXid {
     }
 }
 
-impl From<client_gen::ResourceXidList> for Vec<ResourceXid> {
+impl From<client_gen::ResourceXidList> for Vec<ResourceXId> {
     fn from(value: client_gen::ResourceXidList) -> Self {
-        value.resources.into_iter().map(ResourceXid::from).collect()
+        value.resources.into_iter().map(ResourceXId::from).collect()
     }
 }
 
 /// The XID components that identify a Version.
 #[derive(Debug, Clone, PartialEq, Eq)]
-pub struct VersionXid {
+pub struct VersionXId {
     /// Group type.
     pub group_type: String,
     /// Group identifier.
@@ -167,9 +163,9 @@ pub struct VersionXid {
     pub version_id: String,
 }
 
-impl From<client_gen::VersionXid> for VersionXid {
+impl From<client_gen::VersionXid> for VersionXId {
     fn from(value: client_gen::VersionXid) -> Self {
-        VersionXid {
+        VersionXId {
             group_type: value.group_type,
             group_id: value.group_id,
             resource_type: value.resource_type,
@@ -179,9 +175,9 @@ impl From<client_gen::VersionXid> for VersionXid {
     }
 }
 
-impl From<client_gen::VersionXidList> for Vec<VersionXid> {
+impl From<client_gen::VersionXidList> for Vec<VersionXId> {
     fn from(value: client_gen::VersionXidList) -> Self {
-        value.versions.into_iter().map(VersionXid::from).collect()
+        value.versions.into_iter().map(VersionXId::from).collect()
     }
 }
 
@@ -189,7 +185,7 @@ impl From<client_gen::VersionXidList> for Vec<VersionXid> {
 
 /// A Group entity — container for related Resources.
 #[derive(Debug, Clone)]
-pub struct Group {
+pub struct GroupEntity {
     /// Group identifier.
     pub id: String,
     /// Full XID path, e.g. /schemagroups/mygroup
@@ -206,7 +202,7 @@ pub struct Group {
     pub icon: Option<String>,
     /// A mechanism in which additional metadata about the entity can be stored without changing the
     /// model definition of the entity. Labels can be used for querying.
-    pub labels: HashMap<String, String>,
+    pub labels: Vec<Label>,
     /// The date/time of when the entity was created.
     pub created_at: DateTime<Utc>,
     /// The date/time of when the entity was last updated.
@@ -219,9 +215,9 @@ pub struct Group {
     pub extensions: HashMap<String, Bytes>,
 }
 
-impl From<client_gen::Group> for Group {
+impl From<client_gen::Group> for GroupEntity {
     fn from(value: client_gen::Group) -> Self {
-        Group {
+        GroupEntity {
             id: value.id,
             xid: value.xid,
             epoch: value.epoch,
@@ -241,7 +237,7 @@ impl From<client_gen::Group> for Group {
 
 /// Resource entity
 #[derive(Debug, Clone)]
-pub struct Resource {
+pub struct ResourceEntity {
     /// Resource identifier.
     pub id: String,
     /// Full XID path.
@@ -249,20 +245,20 @@ pub struct Resource {
     /// An object that contains most of the Resource-level attributes.
     pub meta: ResourceMeta,
     /// A specific Version of a Resource.
-    pub default_version: Version,
+    pub default_version: VersionEntity,
     /// The number of Versions contained on the Resource.
     pub versions_count: u64,
     /// Extension-specific attributes (e.g., `format` and `content_type` for schemas).
     pub extensions: HashMap<String, Bytes>,
 }
 
-impl From<client_gen::Resource> for Resource {
+impl From<client_gen::Resource> for ResourceEntity {
     fn from(value: client_gen::Resource) -> Self {
-        Resource {
+        ResourceEntity {
             id: value.id,
             xid: value.xid,
             meta: ResourceMeta::from(value.meta),
-            default_version: Version::from(value.default_version),
+            default_version: VersionEntity::from(value.default_version),
             versions_count: value.versions_count,
             extensions: extensions_from_gen(value.extensions),
         }
@@ -283,7 +279,7 @@ pub struct ResourceMeta {
     pub epoch: u64,
     /// A mechanism in which additional metadata about the entity can be stored without changing the
     /// model definition of the entity. Labels can be used for querying.
-    pub labels: HashMap<String, String>,
+    pub labels: Vec<Label>,
     /// The date/time of when the entity was created.
     pub created_at: DateTime<Utc>,
     /// The date/time of when the entity was last updated.
@@ -327,7 +323,7 @@ impl From<client_gen::ResourceMeta> for ResourceMeta {
 
 /// A specific Version of a Resource.
 #[derive(Debug, Clone)]
-pub struct Version {
+pub struct VersionEntity {
     /// Resource identifier.
     pub resource_id: String,
     /// Version identifier.
@@ -348,7 +344,7 @@ pub struct Version {
     pub icon: Option<String>,
     /// A mechanism in which additional metadata about the entity can be stored without changing the
     /// model definition of the entity. Labels can be used for querying.
-    pub labels: HashMap<String, String>,
+    pub labels: Vec<Label>,
     /// The date/time of when the entity was created.
     pub created_at: DateTime<Utc>,
     /// The date/time of when the entity was last updated.
@@ -374,9 +370,9 @@ pub struct Version {
     pub extensions: HashMap<String, Bytes>,
 }
 
-impl From<client_gen::Version> for Version {
+impl From<client_gen::Version> for VersionEntity {
     fn from(value: client_gen::Version) -> Self {
-        Version {
+        VersionEntity {
             resource_id: value.resource_id,
             version_id: value.version_id,
             xid: value.xid,
@@ -416,7 +412,7 @@ pub struct GroupAttributes {
     pub icon: Option<String>,
     /// A mechanism in which additional metadata about the entity can be stored without changing the
     /// model definition of the entity. Labels can be used for querying.
-    pub labels: HashMap<String, String>,
+    pub labels: Vec<Label>,
     /// Information about deprecation status of the entity, if applicable.
     pub deprecated: Option<DeprecatedInfo>,
     /// Extension-specific attributes (e.g., `envelope`, `protocol` for message Groups).
@@ -444,7 +440,7 @@ pub struct ResourceMetaAttributes {
     /// Indicates that this Resource is a reference to another Resource within the same Registry. The XID path of the referenced Resource.
     pub xref: Option<String>,
     /// A mechanism in which additional metadata about the entity can be stored without changing the model definition of the entity. Labels can be used for querying.
-    pub labels: HashMap<String, String>,
+    pub labels: Vec<Label>,
     /// States that Versions of this Resource adhere to a certain compatibility rule.
     pub compatibility: Option<String>,
     /// Information about deprecation status of the entity, if applicable.
@@ -477,7 +473,7 @@ pub struct VersionAttributes {
     /// A URL to a graphical icon for the owning entity.
     pub icon: Option<String>,
     /// Queryable Key Value pairs to be added to the Version.
-    pub labels: HashMap<String, String>,
+    pub labels: Vec<Label>,
     /// The versionId of this Version's ancestor if it has an ancestor.
     pub ancestor: Option<String>,
     /// Content type of the Version document.
@@ -505,38 +501,4 @@ impl From<VersionAttributes> for client_gen::VersionAttributes {
             extensions: extensions_to_gen(value.extensions),
         }
     }
-}
-
-/// Request payload for creating a generic xRegistry Resource entity along with its default Version.
-#[derive(Debug, Clone)]
-pub struct CreateResourceRequest {
-    /// Group identifier. Uses the default if not specified.
-    pub group_id: Option<String>,
-    /// The attributes needed to create the Resource Meta (its `meta` sub-entity).
-    pub meta: ResourceMetaAttributes,
-    /// The attributes of the Resource's default Version, which will be created along side this
-    /// Resource.
-    pub default_version: VersionAttributes,
-    /// Version identifier for the Resource's default Version, which is created along with this
-    /// Resource. If omitted, the server determines the versionId.
-    pub default_version_id: Option<String>,
-    /// Extension-specific attributes.
-    pub extensions: HashMap<String, Bytes>,
-}
-/// Request payload for creating a generic xRegistry Version entity. The parent Resource is
-/// implicitly created if it doesn't already exist. Create is strictly idempotent: if every field
-/// matches the latest Version of the parent Resource (including labels), the latest Version is
-/// returned; otherwise a new Version is created.
-#[derive(Debug, Clone)]
-pub struct CreateVersionRequest {
-    /// Group identifier. Uses the default if not specified.
-    pub group_id: Option<String>,
-    /// Version identifier of the Version to create. If omitted, the server determines the
-    /// versionId.
-    pub version_id: Option<String>,
-    /// The attributes of the Version to create.
-    pub version: VersionAttributes,
-    /// Queryable Key Value pairs to be added to the parent Resource. The parent Resource is
-    /// implicitly created if it doesn't already exist.
-    pub resource_labels: HashMap<String, String>,
 }

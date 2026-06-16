@@ -4,7 +4,9 @@
   "description": "Request payload for listing xRegistry Resources, optionally filtered by Group type, Group, Resource type, and/or label.",
   "type": "object",
   "additionalProperties": false,
-  "required": [],
+  "required": [
+    "allGroups"
+  ],
   "properties": {
     "groupType": {
       "description": "Group type. If not specified, Resources are listed across all Group types; in that case groupId must be specified explicitly or allGroups must be true, because the default Group only exists within a specific Group type.",
@@ -15,7 +17,7 @@
       "type": "string"
     },
     "allGroups": {
-      "description": "If true, lists Resources across all Groups (groupId is ignored). If false or unspecified, lists within the Group specified by groupId, or — only when groupType is specified — the default Group of that type if groupId is unspecified.",
+      "description": "If true, lists Resources across all Groups (groupId is ignored). If false, lists within the Group specified by groupId, or — only when groupType is specified — the default Group of that type if groupId is unspecified.",
       "type": "boolean"
     },
     "resourceType": {
