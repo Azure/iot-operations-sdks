@@ -49,8 +49,7 @@ public class AzureDeviceRegistryClient : IAzureDeviceRegistryClient
         _applicationContext = applicationContext;
         _connectorClientId = mqttClient.ClientId ?? throw new ArgumentException("Must provide an MQTT client Id in the IMqttPubSubClient");
 
-        Dictionary<string, string> topicTokenMap = new() { { "ex:connectorClientId", mqttClient.ClientId } };
-
+        Dictionary<string, string> topicTokenMap = new() { { "connectorClientId", mqttClient.ClientId } };
 
         // need to pass in topic tokens?
         _adrBaseServiceClient = new AdrBaseServiceClientStub(_applicationContext, mqttClient, topicTokenMap);
