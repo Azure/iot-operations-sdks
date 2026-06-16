@@ -8,6 +8,7 @@ use std::collections::HashMap;
 use bytes::Bytes;
 use chrono::{DateTime, Utc};
 
+use crate::edge_registry::Label;
 use crate::edge_registry::edge_registry_gen::common_types::b64::{self};
 use crate::edge_registry::edge_registry_gen::edge_registry::client as client_gen;
 use crate::edge_registry::models::xregistry::{
@@ -37,7 +38,7 @@ pub struct ThingDescriptionVersion {
     pub icon: Option<String>,
     /// A mechanism in which additional metadata about the entity can be stored without changing the
     /// model definition of the entity. Labels can be used for querying.
-    pub labels: HashMap<String, String>,
+    pub labels: Vec<Label>,
     /// The date/time of when the entity was created.
     pub created_at: DateTime<Utc>,
     /// The date/time of when the entity was last updated.
@@ -91,7 +92,7 @@ impl From<client_gen::ThingDescriptionVersion> for ThingDescriptionVersion {
 
 /// The XID components that identify a Thing Description Version.
 #[derive(Debug, Clone, PartialEq, Eq)]
-pub struct ThingDescriptionVersionXid {
+pub struct ThingDescriptionVersionXId {
     /// Group type.
     pub group_type: String,
     /// Group identifier.
@@ -104,9 +105,9 @@ pub struct ThingDescriptionVersionXid {
     pub version_id: u64,
 }
 
-impl From<client_gen::ThingDescriptionVersionXid> for ThingDescriptionVersionXid {
+impl From<client_gen::ThingDescriptionVersionXid> for ThingDescriptionVersionXId {
     fn from(value: client_gen::ThingDescriptionVersionXid) -> Self {
-        ThingDescriptionVersionXid {
+        ThingDescriptionVersionXId {
             group_type: value.group_type,
             group_id: value.group_id,
             resource_type: value.resource_type,
@@ -116,12 +117,12 @@ impl From<client_gen::ThingDescriptionVersionXid> for ThingDescriptionVersionXid
     }
 }
 
-impl From<client_gen::ThingDescriptionVersionXidList> for Vec<ThingDescriptionVersionXid> {
+impl From<client_gen::ThingDescriptionVersionXidList> for Vec<ThingDescriptionVersionXId> {
     fn from(value: client_gen::ThingDescriptionVersionXidList) -> Self {
         value
             .versions
             .into_iter()
-            .map(ThingDescriptionVersionXid::from)
+            .map(ThingDescriptionVersionXId::from)
             .collect()
     }
 }
@@ -138,7 +139,7 @@ pub struct ThingDescriptionVersionAttributes {
     /// A URL to a graphical icon for the owning entity.
     pub icon: Option<String>,
     /// Queryable Key Value pairs to be added to the Version.
-    pub labels: HashMap<String, String>,
+    pub labels: Vec<Label>,
     /// The versionId of this Version's ancestor if it has an ancestor.
     pub ancestor: Option<u64>,
     /// Content type of the Version document.
@@ -157,7 +158,7 @@ impl ThingDescriptionVersionAttributes {
     pub(crate) fn into_gen(
         self,
         group_id: Option<String>,
-        thing_description_labels: HashMap<String, String>,
+        thing_description_labels: Vec<Label>,
     ) -> client_gen::CreateThingDescriptionVersionAttributes {
         client_gen::CreateThingDescriptionVersionAttributes {
             group_id,

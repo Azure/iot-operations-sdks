@@ -148,17 +148,20 @@ impl From<GroupId> for Option<String> {
 }
 
 /// Identifies which Version of a Resource to retrieve.
+///
+/// The type parameter `T` is the Version identifier type: [`String`] for generic xRegistry
+/// Versions and [`u64`] for typed extension (Schema, Thing Description, Thing Model) Versions.
 #[derive(Debug, Clone, Default)]
-pub enum GetVersionId {
+pub enum GetVersionId<T> {
     /// Retrieve the default Version of the Resource.
     #[default]
     ResourceDefault,
     /// Retrieve the Version with the specified identifier.
-    Specified(String),
+    Specified(T),
 }
 
-impl From<GetVersionId> for Option<String> {
-    fn from(value: GetVersionId) -> Self {
+impl<T> From<GetVersionId<T>> for Option<T> {
+    fn from(value: GetVersionId<T>) -> Self {
         match value {
             GetVersionId::ResourceDefault => None,
             GetVersionId::Specified(id) => Some(id),

@@ -18,9 +18,9 @@ use crate::edge_registry::edge_registry_gen::edge_registry::client::{self as cli
 use crate::edge_registry::models::xregistry::{extensions_to_gen, labels_to_gen};
 use crate::edge_registry::models::{
     GroupAttributes, GroupEntity, ResourceEntity, ResourceMetaAttributes, ResourceXId,
-    SchemaVersion, SchemaVersionAttributes, SchemaVersionXid, ThingDescriptionVersion,
-    ThingDescriptionVersionAttributes, ThingDescriptionVersionXid, ThingModelVersion,
-    ThingModelVersionAttributes, ThingModelVersionXid, VersionAttributes, VersionEntity,
+    SchemaVersion, SchemaVersionAttributes, SchemaVersionXId, ThingDescriptionVersion,
+    ThingDescriptionVersionAttributes, ThingDescriptionVersionXId, ThingModelVersion,
+    ThingModelVersionAttributes, ThingModelVersionXId, VersionAttributes, VersionEntity,
     VersionXId,
 };
 use crate::edge_registry::{
@@ -721,7 +721,7 @@ impl Client {
         group_id: GroupId,
         resource_type: String,
         resource_id: String,
-        version_id: GetVersionId,
+        version_id: GetVersionId<String>,
         timeout: Duration,
     ) -> Result<VersionEntity, Error> {
         let payload = client_gen::GetVersionInputArguments {
@@ -864,8 +864,8 @@ impl Client {
     /// implicitly created if it doesn't already exist.
     ///
     /// # Arguments
-    /// * `schema_id` - The identifier of the Schema that owns the Version.
     /// * `group_id` - The identifier of the Group that owns the Schema. If [`CloudDefault`](GroupId::CloudDefault), the default Group is used.
+    /// * `schema_id` - The identifier of the Schema that owns the Version.
     /// * `schema_labels` - Queryable key/value pairs to be added to the parent Schema.
     /// * `version` - The [`SchemaVersionAttributes`] of the Version to create.
     /// * `timeout` - The duration until the client stops waiting for a response to the request, it is rounded up to the nearest second.
@@ -883,9 +883,9 @@ impl Client {
     /// by the Edge Registry service.
     pub async fn create_schema_version(
         &self,
-        schema_id: String,
         group_id: GroupId,
-        schema_labels: HashMap<String, String>,
+        schema_id: String,
+        schema_labels: Vec<Label>,
         version: SchemaVersionAttributes,
         timeout: Duration,
     ) -> Result<SchemaVersion, Error> {
@@ -914,9 +914,9 @@ impl Client {
     /// Retrieve an xRegistry [`SchemaVersion`] entity.
     ///
     /// # Arguments
-    /// * `schema_id` - The identifier of the Schema that owns the Version.
     /// * `group_id` - The identifier of the Group that owns the Schema. If [`CloudDefault`](GroupId::CloudDefault), the default Group is used.
-    /// * `version_id` - The identifier of the Version to retrieve. If [`None`], the default Version is retrieved.
+    /// * `schema_id` - The identifier of the Schema that owns the Version.
+    /// * `version_id` - The [`GetVersionId`] selecting which Version to retrieve. If [`ResourceDefault`](GetVersionId::ResourceDefault), the default Version of the Resource is retrieved.
     /// * `timeout` - The duration until the client stops waiting for a response to the request, it is rounded up to the nearest second.
     ///
     /// Returns the requested [`SchemaVersion`].
@@ -932,14 +932,14 @@ impl Client {
     /// by the Edge Registry service.
     pub async fn get_schema_version(
         &self,
-        schema_id: String,
         group_id: GroupId,
-        version_id: Option<u64>,
+        schema_id: String,
+        version_id: GetVersionId<u64>,
         timeout: Duration,
     ) -> Result<SchemaVersion, Error> {
         let payload = client_gen::GetSchemaVersionInputArguments {
             group_id: group_id.into(),
-            version_id,
+            version_id: version_id.into(),
         };
 
         let request = client_gen::GetSchemaVersionRequestBuilder::default()
@@ -970,7 +970,7 @@ impl Client {
     /// * `label` - If provided, only Versions carrying this [`Label`] are listed.
     /// * `timeout` - The duration until the client stops waiting for a response to the request, it is rounded up to the nearest second.
     ///
-    /// Returns the [`SchemaVersionXid`]s of the Versions matching the constraints.
+    /// Returns the [`SchemaVersionXId`]s of the Versions matching the constraints.
     ///
     /// # Errors
     /// [`struct@Error`] of kind [`ValidationError`](ErrorKind::ValidationError) if `timeout` is 0
@@ -987,7 +987,7 @@ impl Client {
         schema_id: String,
         label: Option<Label>,
         timeout: Duration,
-    ) -> Result<Vec<SchemaVersionXid>, Error> {
+    ) -> Result<Vec<SchemaVersionXId>, Error> {
         let payload = client_gen::ListVersionsRequestPayload {
             group_type: None,
             group_id: group_id.into(),
@@ -1016,8 +1016,8 @@ impl Client {
     /// Delete an xRegistry Schema Version entity.
     ///
     /// # Arguments
-    /// * `schema_id` - The identifier of the Schema that owns the Version.
     /// * `group_id` - The identifier of the Group that owns the Schema. If [`CloudDefault`](GroupId::CloudDefault), the default Group is used.
+    /// * `schema_id` - The identifier of the Schema that owns the Version.
     /// * `version_id` - The identifier of the Version to delete.
     /// * `timeout` - The duration until the client stops waiting for a response to the request, it is rounded up to the nearest second.
     ///
@@ -1032,8 +1032,8 @@ impl Client {
     /// by the Edge Registry service.
     pub async fn delete_schema_version(
         &self,
-        schema_id: String,
         group_id: GroupId,
+        schema_id: String,
         version_id: u64,
         timeout: Duration,
     ) -> Result<(), Error> {
@@ -1067,8 +1067,8 @@ impl Client {
     /// parent Thing Description is implicitly created if it doesn't already exist.
     ///
     /// # Arguments
-    /// * `thing_description_id` - The identifier of the Thing Description that owns the Version.
     /// * `group_id` - The identifier of the Group that owns the Thing Description. If [`CloudDefault`](GroupId::CloudDefault), the default Group is used.
+    /// * `thing_description_id` - The identifier of the Thing Description that owns the Version.
     /// * `thing_description_labels` - Queryable key/value pairs to be added to the parent Thing Description.
     /// * `version` - The [`ThingDescriptionVersionAttributes`] of the Version to create.
     /// * `timeout` - The duration until the client stops waiting for a response to the request, it is rounded up to the nearest second.
@@ -1086,9 +1086,9 @@ impl Client {
     /// by the Edge Registry service.
     pub async fn create_thing_description_version(
         &self,
-        thing_description_id: String,
         group_id: GroupId,
-        thing_description_labels: HashMap<String, String>,
+        thing_description_id: String,
+        thing_description_labels: Vec<Label>,
         version: ThingDescriptionVersionAttributes,
         timeout: Duration,
     ) -> Result<ThingDescriptionVersion, Error> {
@@ -1117,9 +1117,9 @@ impl Client {
     /// Retrieve an xRegistry [`ThingDescriptionVersion`] entity.
     ///
     /// # Arguments
-    /// * `thing_description_id` - The identifier of the Thing Description that owns the Version.
     /// * `group_id` - The identifier of the Group that owns the Thing Description. If [`CloudDefault`](GroupId::CloudDefault), the default Group is used.
-    /// * `version_id` - The identifier of the Version to retrieve. If [`None`], the default Version is retrieved.
+    /// * `thing_description_id` - The identifier of the Thing Description that owns the Version.
+    /// * `version_id` - The [`GetVersionId`] selecting which Version to retrieve. If [`ResourceDefault`](GetVersionId::ResourceDefault), the default Version of the Resource is retrieved.
     /// * `timeout` - The duration until the client stops waiting for a response to the request, it is rounded up to the nearest second.
     ///
     /// Returns the requested [`ThingDescriptionVersion`].
@@ -1135,14 +1135,14 @@ impl Client {
     /// by the Edge Registry service.
     pub async fn get_thing_description_version(
         &self,
-        thing_description_id: String,
         group_id: GroupId,
-        version_id: Option<u64>,
+        thing_description_id: String,
+        version_id: GetVersionId<u64>,
         timeout: Duration,
     ) -> Result<ThingDescriptionVersion, Error> {
         let payload = client_gen::GetThingDescriptionVersionInputArguments {
             group_id: group_id.into(),
-            version_id,
+            version_id: version_id.into(),
         };
 
         let request = client_gen::GetThingDescriptionVersionRequestBuilder::default()
@@ -1173,7 +1173,7 @@ impl Client {
     /// * `label` - If provided, only Versions carrying this [`Label`] are listed.
     /// * `timeout` - The duration until the client stops waiting for a response to the request, it is rounded up to the nearest second.
     ///
-    /// Returns the [`ThingDescriptionVersionXid`]s of the Versions matching the constraints.
+    /// Returns the [`ThingDescriptionVersionXId`]s of the Versions matching the constraints.
     ///
     /// # Errors
     /// [`struct@Error`] of kind [`ValidationError`](ErrorKind::ValidationError) if `timeout` is 0
@@ -1190,7 +1190,7 @@ impl Client {
         thing_description_id: String,
         label: Option<Label>,
         timeout: Duration,
-    ) -> Result<Vec<ThingDescriptionVersionXid>, Error> {
+    ) -> Result<Vec<ThingDescriptionVersionXId>, Error> {
         let payload = client_gen::ListVersionsRequestPayload {
             group_type: None,
             group_id: group_id.into(),
@@ -1219,8 +1219,8 @@ impl Client {
     /// Delete an xRegistry Thing Description Version entity.
     ///
     /// # Arguments
-    /// * `thing_description_id` - The identifier of the Thing Description that owns the Version.
     /// * `group_id` - The identifier of the Group that owns the Thing Description. If [`CloudDefault`](GroupId::CloudDefault), the default Group is used.
+    /// * `thing_description_id` - The identifier of the Thing Description that owns the Version.
     /// * `version_id` - The identifier of the Version to delete.
     /// * `timeout` - The duration until the client stops waiting for a response to the request, it is rounded up to the nearest second.
     ///
@@ -1235,8 +1235,8 @@ impl Client {
     /// by the Edge Registry service.
     pub async fn delete_thing_description_version(
         &self,
-        thing_description_id: String,
         group_id: GroupId,
+        thing_description_id: String,
         version_id: u64,
         timeout: Duration,
     ) -> Result<(), Error> {
@@ -1270,8 +1270,8 @@ impl Client {
     /// Thing Model is implicitly created if it doesn't already exist.
     ///
     /// # Arguments
-    /// * `thing_model_id` - The identifier of the Thing Model that owns the Version.
     /// * `group_id` - The identifier of the Group that owns the Thing Model. If [`CloudDefault`](GroupId::CloudDefault), the default Group is used.
+    /// * `thing_model_id` - The identifier of the Thing Model that owns the Version.
     /// * `thing_model_labels` - Queryable key/value pairs to be added to the parent Thing Model.
     /// * `version` - The [`ThingModelVersionAttributes`] of the Version to create.
     /// * `timeout` - The duration until the client stops waiting for a response to the request, it is rounded up to the nearest second.
@@ -1289,9 +1289,9 @@ impl Client {
     /// by the Edge Registry service.
     pub async fn create_thing_model_version(
         &self,
-        thing_model_id: String,
         group_id: GroupId,
-        thing_model_labels: HashMap<String, String>,
+        thing_model_id: String,
+        thing_model_labels: Vec<Label>,
         version: ThingModelVersionAttributes,
         timeout: Duration,
     ) -> Result<ThingModelVersion, Error> {
@@ -1320,9 +1320,9 @@ impl Client {
     /// Retrieve an xRegistry [`ThingModelVersion`] entity.
     ///
     /// # Arguments
-    /// * `thing_model_id` - The identifier of the Thing Model that owns the Version.
     /// * `group_id` - The identifier of the Group that owns the Thing Model. If [`CloudDefault`](GroupId::CloudDefault), the default Group is used.
-    /// * `version_id` - The identifier of the Version to retrieve. If [`None`], the default Version is retrieved.
+    /// * `thing_model_id` - The identifier of the Thing Model that owns the Version.
+    /// * `version_id` - The [`GetVersionId`] selecting which Version to retrieve. If [`ResourceDefault`](GetVersionId::ResourceDefault), the default Version of the Resource is retrieved.
     /// * `timeout` - The duration until the client stops waiting for a response to the request, it is rounded up to the nearest second.
     ///
     /// Returns the requested [`ThingModelVersion`].
@@ -1338,14 +1338,14 @@ impl Client {
     /// by the Edge Registry service.
     pub async fn get_thing_model_version(
         &self,
-        thing_model_id: String,
         group_id: GroupId,
-        version_id: Option<u64>,
+        thing_model_id: String,
+        version_id: GetVersionId<u64>,
         timeout: Duration,
     ) -> Result<ThingModelVersion, Error> {
         let payload = client_gen::GetThingModelVersionInputArguments {
             group_id: group_id.into(),
-            version_id,
+            version_id: version_id.into(),
         };
 
         let request = client_gen::GetThingModelVersionRequestBuilder::default()
@@ -1376,7 +1376,7 @@ impl Client {
     /// * `label` - If provided, only Versions carrying this [`Label`] are listed.
     /// * `timeout` - The duration until the client stops waiting for a response to the request, it is rounded up to the nearest second.
     ///
-    /// Returns the [`ThingModelVersionXid`]s of the Versions matching the constraints.
+    /// Returns the [`ThingModelVersionXId`]s of the Versions matching the constraints.
     ///
     /// # Errors
     /// [`struct@Error`] of kind [`ValidationError`](ErrorKind::ValidationError) if `timeout` is 0
@@ -1393,7 +1393,7 @@ impl Client {
         thing_model_id: String,
         label: Option<Label>,
         timeout: Duration,
-    ) -> Result<Vec<ThingModelVersionXid>, Error> {
+    ) -> Result<Vec<ThingModelVersionXId>, Error> {
         let payload = client_gen::ListVersionsRequestPayload {
             group_type: None,
             group_id: group_id.into(),
@@ -1422,8 +1422,8 @@ impl Client {
     /// Delete an xRegistry Thing Model Version entity.
     ///
     /// # Arguments
-    /// * `thing_model_id` - The identifier of the Thing Model that owns the Version.
     /// * `group_id` - The identifier of the Group that owns the Thing Model. If [`CloudDefault`](GroupId::CloudDefault), the default Group is used.
+    /// * `thing_model_id` - The identifier of the Thing Model that owns the Version.
     /// * `version_id` - The identifier of the Version to delete.
     /// * `timeout` - The duration until the client stops waiting for a response to the request, it is rounded up to the nearest second.
     ///
@@ -1438,8 +1438,8 @@ impl Client {
     /// by the Edge Registry service.
     pub async fn delete_thing_model_version(
         &self,
-        thing_model_id: String,
         group_id: GroupId,
+        thing_model_id: String,
         version_id: u64,
         timeout: Duration,
     ) -> Result<(), Error> {
