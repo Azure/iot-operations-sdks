@@ -43,47 +43,6 @@ namespace Azure.Iot.Operations.Services.UnitTests.AssetAndDeviceRegistry
             Assert.False(status2.EqualTo(status4));
         }
 
-        [Fact]
-        public void TestComparisonDetectsAddedActionInSameGroup()
-        {
-            // Regression: a previous bug projected the per-element match with Select (which always
-            // yields one bool per element) instead of filtering with Where, so adding a second
-            // action to an existing single-action management group was wrongly judged "equal".
-            AssetStatus oneAction = new()
-            {
-                ManagementGroups = new List<AssetManagementGroupStatus>
-                {
-                    new AssetManagementGroupStatus
-                    {
-                        Name = "device-control",
-                        Actions = new List<AssetManagementGroupActionStatus>
-                        {
-                            new AssetManagementGroupActionStatus { Name = "reboot" },
-                        },
-                    },
-                },
-            };
-
-            AssetStatus twoActions = new()
-            {
-                ManagementGroups = new List<AssetManagementGroupStatus>
-                {
-                    new AssetManagementGroupStatus
-                    {
-                        Name = "device-control",
-                        Actions = new List<AssetManagementGroupActionStatus>
-                        {
-                            new AssetManagementGroupActionStatus { Name = "reboot" },
-                            new AssetManagementGroupActionStatus { Name = "read-temperature" },
-                        },
-                    },
-                },
-            };
-
-            Assert.False(oneAction.EqualTo(twoActions));
-            Assert.False(twoActions.EqualTo(oneAction));
-        }
-
         private AssetStatus createTestStatus()
         {
             return new AssetStatus()

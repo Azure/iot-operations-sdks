@@ -61,11 +61,4 @@ public record DeviceStatus
 
         return true;
     }
-
-    /// <summary>
-    /// Create a deep copy of this device status, including all nested objects.
-    /// </summary>
-    /// <returns>A new <see cref="DeviceStatus"/> instance whose nested objects are independent from this instance.</returns>
-    internal DeviceStatus DeepClone()
-        => System.Text.Json.JsonSerializer.Deserialize<DeviceStatus>(System.Text.Json.JsonSerializer.Serialize(this))!;
 }
