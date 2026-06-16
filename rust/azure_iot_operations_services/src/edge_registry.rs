@@ -102,6 +102,25 @@ impl From<GetVersionId> for Option<String> {
     }
 }
 
+/// Identifies the Version identifier to assign when creating a Version.
+#[derive(Debug, Clone, Default)]
+pub enum CreateVersionId {
+    /// Let the server assign the Version identifier.
+    #[default]
+    ServerAssigned,
+    /// Create the Version with this specific Version identifier.
+    Specified(String),
+}
+
+impl From<CreateVersionId> for Option<String> {
+    fn from(value: CreateVersionId) -> Self {
+        match value {
+            CreateVersionId::ServerAssigned => None,
+            CreateVersionId::Specified(id) => Some(id),
+        }
+    }
+}
+
 /// Selects which Groups a label query spans.
 pub enum GroupQuery {
     /// Search across all Group types. There is no default Group without a fixed Group type, so only

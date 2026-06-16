@@ -21,7 +21,8 @@ use crate::edge_registry::models::{
     VersionAttributes, VersionEntity, VersionXId,
 };
 use crate::edge_registry::{
-    AnyGroupSelection, Error, ErrorKind, GetVersionId, GroupId, GroupQuery, GroupSelection, Label,
+    AnyGroupSelection, CreateVersionId, Error, ErrorKind, GetVersionId, GroupId, GroupQuery,
+    GroupSelection, Label,
 };
 
 const GROUP_TYPE_TOPIC_TOKEN: &str = "groupType";
@@ -309,7 +310,7 @@ impl Client {
     /// * `resource_id` - The identifier of the Resource to create.
     /// * `resource_meta_attributes` - The [`ResourceMetaAttributes`] for the Resource's `meta` sub-entity.
     /// * `resource_extensions` - Extension-specific attributes for the Resource.
-    /// * `default_version_id` - The identifier for the Resource's default Version. If [`None`], the server determines the versionId.
+    /// * `default_version_id` - The identifier for the Resource's default Version. If [`ServerAssigned`](CreateVersionId::ServerAssigned), the server assigns the Version identifier.
     /// * `default_version_attributes` - The [`VersionAttributes`] of the Resource's default Version, created along with the Resource.
     /// * `timeout` - The duration until the client stops waiting for a response to the request, it is rounded up to the nearest second.
     ///
@@ -332,7 +333,7 @@ impl Client {
         resource_id: String,
         resource_meta_attributes: ResourceMetaAttributes,
         resource_extensions: HashMap<String, Bytes>,
-        default_version_id: Option<String>,
+        default_version_id: CreateVersionId,
         default_version_attributes: VersionAttributes,
         timeout: Duration,
     ) -> Result<ResourceEntity, Error> {
@@ -340,7 +341,7 @@ impl Client {
             group_id: group_id.into(),
             meta: resource_meta_attributes.into(),
             default_version: default_version_attributes.into(),
-            default_version_id,
+            default_version_id: default_version_id.into(),
             extensions: extensions_to_gen(resource_extensions),
         };
 
@@ -531,7 +532,7 @@ impl Client {
     /// * `resource_type` - The type of the Resource that owns the Version.
     /// * `resource_id` - The identifier of the Resource that owns the Version.
     /// * `resource_labels` - Queryable key/value pairs to be added to the parent Resource (which is implicitly created if it doesn't already exist).
-    /// * `version_id` - The identifier of the Version to create. If [`None`], the server determines the versionId.
+    /// * `version_id` - The identifier of the Version to create. If [`ServerAssigned`](CreateVersionId::ServerAssigned), the server assigns the Version identifier.
     /// * `version` - The [`VersionAttributes`] of the Version to create.
     /// * `timeout` - The duration until the client stops waiting for a response to the request, it is rounded up to the nearest second.
     ///
@@ -553,13 +554,13 @@ impl Client {
         resource_type: String,
         resource_id: String,
         resource_labels: Vec<Label>,
-        version_id: Option<String>,
+        version_id: CreateVersionId,
         version: VersionAttributes,
         timeout: Duration,
     ) -> Result<VersionEntity, Error> {
         let payload = client_gen::CreateVersionRequestPayload {
             group_id: group_id.into(),
-            version_id,
+            version_id: version_id.into(),
             version: version.into(),
             resource_labels: labels_to_gen(resource_labels),
         };
