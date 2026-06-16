@@ -1,4 +1,4 @@
-# ADR 31: WoT Thing Model New Properties for Digital Operations Vocabulary
+# ADR 32: WoT Thing Model New Properties for Digital Operations Vocabulary
 
 ## Context
 
