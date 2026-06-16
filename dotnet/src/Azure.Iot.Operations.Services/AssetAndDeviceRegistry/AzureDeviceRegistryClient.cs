@@ -2,6 +2,7 @@
 // Licensed under the MIT License.
 
 using System.Collections.Concurrent;
+using System.Diagnostics;
 using Azure.Iot.Operations.Protocol;
 using Azure.Iot.Operations.Protocol.Models;
 using Azure.Iot.Operations.Protocol.Retry;
@@ -201,6 +202,8 @@ public class AzureDeviceRegistryClient : IAzureDeviceRegistryClient
         {
             cancellationToken.ThrowIfCancellationRequested();
             ObjectDisposedException.ThrowIf(_disposed, this);
+
+            Trace.TraceInformation("Setting notification preference for device {} endpoint {} asset {} with val {}", deviceName, inboundEndpointName, assetName, notificationPreference == Models.NotificationPreference.On);
 
             _observedAssets[$"{deviceName}_{inboundEndpointName}_{assetName}"] = _dummyByte;
             await _adrBaseServiceClient.AssetUpdateEventTelemetryReceiver.StartAsync(cancellationToken);

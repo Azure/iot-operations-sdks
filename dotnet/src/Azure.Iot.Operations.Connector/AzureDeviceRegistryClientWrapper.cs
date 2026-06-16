@@ -31,7 +31,7 @@ namespace Azure.Iot.Operations.Connector
         public AzureDeviceRegistryClientWrapper(ApplicationContext applicationContext, IMqttPubSubClient mqttPubSubClient)
         {
             _client = new AzureDeviceRegistryClient(applicationContext, mqttPubSubClient);
-            _client.OnReceiveAssetUpdateEventTelemetry += AssetUpdateReceived;
+            _client.OnReceiveAssetUpdateEventTelemetry += AssetUpdateReceived; // This is the source of a SQL asset update being received in a TCP connector
             _client.OnReceiveDeviceUpdateEventTelemetry += DeviceUpdateReceived;
             _monitor = new AssetFileMonitor();
             _monitor.DeviceFileChanged += DeviceFileChanged;
