@@ -2,6 +2,7 @@
 // Licensed under the MIT License.
 
 using System.Collections.Concurrent;
+using System.Diagnostics;
 using Azure.Iot.Operations.Protocol;
 using Azure.Iot.Operations.Protocol.Models;
 using Azure.Iot.Operations.Protocol.Retry;
@@ -48,7 +49,7 @@ public class AzureDeviceRegistryClient : IAzureDeviceRegistryClient
         _applicationContext = applicationContext;
         _connectorClientId = mqttClient.ClientId ?? throw new ArgumentException("Must provide an MQTT client Id in the IMqttPubSubClient");
 
-        Dictionary<string, string> topicTokenMap = new() { { "connectorClientId", mqttClient.ClientId } };
+        Dictionary<string, string> topicTokenMap = new() { { "connectorClientId", _connectorClientId } };
 
         _adrBaseServiceClient = new AdrBaseServiceClientStub(_applicationContext, mqttClient, topicTokenMap);
         _adrBaseServiceService = new AdrBaseServiceServiceStub(_applicationContext, mqttClient, topicTokenMap);
@@ -166,6 +167,9 @@ public class AzureDeviceRegistryClient : IAzureDeviceRegistryClient
 
             try
             {
+                string value = notificationPreference == Models.NotificationPreference.On ? "ON" : "OFF";
+                Trace.TraceInformation($"Setting notification preference for device {deviceName} endpoint {inboundEndpointName} with val {value}");
+
                 var result = await _adrBaseServiceClient.SetNotificationPreferenceForDeviceUpdatesAsync(
                     notificationRequest,
                     null,
@@ -203,6 +207,9 @@ public class AzureDeviceRegistryClient : IAzureDeviceRegistryClient
         {
             cancellationToken.ThrowIfCancellationRequested();
             ObjectDisposedException.ThrowIf(_disposed, this);
+
+            string value = notificationPreference == Models.NotificationPreference.On ? "ON" : "OFF";
+            Trace.TraceInformation($"Setting notification preference for device {deviceName} endpoint {inboundEndpointName} asset {assetName} with val {value}");
 
             _observedAssets[$"{deviceName}_{inboundEndpointName}_{assetName}"] = _dummyByte;
             await _adrBaseServiceClient.AssetUpdateEventTelemetryReceiver.StartAsync(cancellationToken);
