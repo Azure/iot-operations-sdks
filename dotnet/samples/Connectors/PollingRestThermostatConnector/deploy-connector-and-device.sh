@@ -12,7 +12,7 @@ cd ..
 
 # Build connector sample image
 dotnet publish /t:PublishContainer
-k3d_image_import_with_retry pollingrestthermostatconnector:latest k3s-default
+k3d_image_import_with_retry pollingrestthermostatconnector:latest k3s-default 1
 
 # Deploy connector config
 kubectl apply -f ./KubernetesResources/connector-template.yaml

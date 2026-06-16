@@ -8,11 +8,11 @@ source "$(dirname "$0")/../k3d-image-import.sh"
 
 # Build TCP thermostat client app
 dotnet publish ../SampleTcpServiceApp /t:PublishContainer
-k3d_image_import_with_retry sampletcpserviceapp:latest k3s-default
+k3d_image_import_with_retry sampletcpserviceapp:latest k3s-default 1
 
 # Build connector sample image
 dotnet publish /t:PublishContainer
-k3d_image_import_with_retry eventdriventcpthermostatconnector:latest k3s-default
+k3d_image_import_with_retry eventdriventcpthermostatconnector:latest k3s-default 1
 
 # Deploy connector config
 kubectl apply -f ./KubernetesResources/connector-template.yaml

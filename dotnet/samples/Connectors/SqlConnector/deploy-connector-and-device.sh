@@ -8,7 +8,7 @@ source "$(dirname "$0")/../k3d-image-import.sh"
 
 # Build connector sample image
 dotnet publish /t:PublishContainer
-k3d_image_import_with_retry sqlqualityanalyzerconnector:latest k3s-default
+k3d_image_import_with_retry sqlqualityanalyzerconnector:latest k3s-default 1
 
 # Deploy SQL server (for the asset)
 kubectl apply -f ./KubernetesResources/sql-server.yaml

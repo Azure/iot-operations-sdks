@@ -9,7 +9,7 @@ dotnet publish /t:PublishContainer
 # Import images into k3d with verification + retry (guards against the silent
 # `k3d image import` flake that surfaces later as ErrImageNeverPull).
 source "$(dirname "$0")/../k3d-image-import.sh"
-k3d_image_import_with_retry managementactionconnector:latest k3s-default
+k3d_image_import_with_retry managementactionconnector:latest k3s-default 1
 
 # Deploy connector template
 kubectl apply -f ./KubernetesResources/connector-template.yaml
