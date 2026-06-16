@@ -14,7 +14,7 @@ namespace Azure.Iot.Operations.Connector
         public static Func<IServiceProvider, IMqttClient> Factory = service =>
         {
             IConfiguration? config = service.GetService<IConfiguration>();
-            bool mqttDiag = config!.GetValue<bool>("mqttDiag");
+            bool mqttDiag = true;
             if (mqttDiag)
             {
                 Trace.Listeners.Add(new ConsoleTraceListener());
