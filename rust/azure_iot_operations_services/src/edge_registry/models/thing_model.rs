@@ -17,7 +17,7 @@ use crate::edge_registry::models::xregistry::{
 
 /// A specific Version of a Thing Model Resource.
 #[derive(Debug, Clone)]
-pub struct ThingModelVersion {
+pub struct ThingModelVersionEntity {
     /// Version identifier.
     pub version_id: u64,
     /// Resource identifier.
@@ -63,9 +63,9 @@ pub struct ThingModelVersion {
     pub extensions: HashMap<String, Bytes>,
 }
 
-impl From<client_gen::ThingModelVersion> for ThingModelVersion {
+impl From<client_gen::ThingModelVersion> for ThingModelVersionEntity {
     fn from(value: client_gen::ThingModelVersion) -> Self {
-        ThingModelVersion {
+        ThingModelVersionEntity {
             version_id: value.version_id,
             resource_id: value.resource_id,
             xid: value.xid,

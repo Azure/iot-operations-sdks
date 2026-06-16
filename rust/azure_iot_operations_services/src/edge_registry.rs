@@ -148,9 +148,6 @@ impl From<GroupId> for Option<String> {
 }
 
 /// Identifies which Version of a Resource to retrieve.
-///
-/// The type parameter `T` is the Version identifier type: [`String`] for generic xRegistry
-/// Versions and [`u64`] for typed extension (Schema, Thing Description, Thing Model) Versions.
 #[derive(Debug, Clone, Default)]
 pub enum GetVersionId<T> {
     /// Retrieve the default Version of the Resource.

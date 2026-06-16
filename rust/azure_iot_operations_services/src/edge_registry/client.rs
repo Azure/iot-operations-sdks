@@ -18,10 +18,10 @@ use crate::edge_registry::edge_registry_gen::edge_registry::client::{self as cli
 use crate::edge_registry::models::xregistry::{extensions_to_gen, labels_to_gen};
 use crate::edge_registry::models::{
     GroupAttributes, GroupEntity, ResourceEntity, ResourceMetaAttributes, ResourceXId,
-    SchemaVersion, SchemaVersionAttributes, SchemaVersionXId, ThingDescriptionVersion,
-    ThingDescriptionVersionAttributes, ThingDescriptionVersionXId, ThingModelVersion,
-    ThingModelVersionAttributes, ThingModelVersionXId, VersionAttributes, VersionEntity,
-    VersionXId,
+    SchemaVersionAttributes, SchemaVersionEntity, SchemaVersionXId,
+    ThingDescriptionVersionAttributes, ThingDescriptionVersionEntity, ThingDescriptionVersionXId,
+    ThingModelVersionAttributes, ThingModelVersionEntity, ThingModelVersionXId, VersionAttributes,
+    VersionEntity, VersionXId,
 };
 use crate::edge_registry::{
     AnyGroupSelection, CreateVersionId, Error, ErrorKind, GetVersionId, GroupId, GroupQuery,
@@ -860,7 +860,7 @@ impl Client {
 
     // ~~~~~~~~~~~~~~~~~ Schema extension APIs ~~~~~~~~~~~~~~~~~~~~~
 
-    /// Create a new xRegistry Schema Version under the specified Schema. The parent Schema is
+    /// Create a new xRegistry Schema Version entity under the specified Schema. The parent Schema is
     /// implicitly created if it doesn't already exist.
     ///
     /// # Arguments
@@ -870,7 +870,7 @@ impl Client {
     /// * `version` - The [`SchemaVersionAttributes`] of the Version to create.
     /// * `timeout` - The duration until the client stops waiting for a response to the request, it is rounded up to the nearest second.
     ///
-    /// Returns the created [`SchemaVersion`].
+    /// Returns the created [`SchemaVersionEntity`] with epoch 1.
     ///
     /// # Errors
     /// [`struct@Error`] of kind [`ValidationError`](ErrorKind::ValidationError) if `timeout` is 0
@@ -888,7 +888,7 @@ impl Client {
         schema_labels: Vec<Label>,
         version: SchemaVersionAttributes,
         timeout: Duration,
-    ) -> Result<SchemaVersion, Error> {
+    ) -> Result<SchemaVersionEntity, Error> {
         let payload = version.into_gen(group_id.into(), schema_labels);
 
         let request = client_gen::CreateSchemaVersionRequestBuilder::default()
@@ -911,7 +911,7 @@ impl Client {
         Ok(response.payload.into())
     }
 
-    /// Retrieve an xRegistry [`SchemaVersion`] entity.
+    /// Retrieve an xRegistry [`SchemaVersionEntity`].
     ///
     /// # Arguments
     /// * `group_id` - The identifier of the Group that owns the Schema. If [`CloudDefault`](GroupId::CloudDefault), the default Group is used.
@@ -919,7 +919,7 @@ impl Client {
     /// * `version_id` - The [`GetVersionId`] selecting which Version to retrieve. If [`ResourceDefault`](GetVersionId::ResourceDefault), the default Version of the Resource is retrieved.
     /// * `timeout` - The duration until the client stops waiting for a response to the request, it is rounded up to the nearest second.
     ///
-    /// Returns the requested [`SchemaVersion`].
+    /// Returns the requested [`SchemaVersionEntity`].
     ///
     /// # Errors
     /// [`struct@Error`] of kind [`ValidationError`](ErrorKind::ValidationError) if `timeout` is 0
@@ -936,7 +936,7 @@ impl Client {
         schema_id: String,
         version_id: GetVersionId<u64>,
         timeout: Duration,
-    ) -> Result<SchemaVersion, Error> {
+    ) -> Result<SchemaVersionEntity, Error> {
         let payload = client_gen::GetSchemaVersionInputArguments {
             group_id: group_id.into(),
             version_id: version_id.into(),
@@ -1063,7 +1063,7 @@ impl Client {
 
     // ~~~~~~~~~~~~~~~~~ Thing Description extension APIs ~~~~~~~~~~~~~~~~~~~~~
 
-    /// Create a new xRegistry Thing Description Version under the specified Thing Description. The
+    /// Create a new xRegistry Thing Description Version entity under the specified Thing Description. The
     /// parent Thing Description is implicitly created if it doesn't already exist.
     ///
     /// # Arguments
@@ -1073,7 +1073,7 @@ impl Client {
     /// * `version` - The [`ThingDescriptionVersionAttributes`] of the Version to create.
     /// * `timeout` - The duration until the client stops waiting for a response to the request, it is rounded up to the nearest second.
     ///
-    /// Returns the created [`ThingDescriptionVersion`].
+    /// Returns the created [`ThingDescriptionVersionEntity`] with epoch 1.
     ///
     /// # Errors
     /// [`struct@Error`] of kind [`ValidationError`](ErrorKind::ValidationError) if `timeout` is 0
@@ -1091,7 +1091,7 @@ impl Client {
         thing_description_labels: Vec<Label>,
         version: ThingDescriptionVersionAttributes,
         timeout: Duration,
-    ) -> Result<ThingDescriptionVersion, Error> {
+    ) -> Result<ThingDescriptionVersionEntity, Error> {
         let payload = version.into_gen(group_id.into(), thing_description_labels);
 
         let request = client_gen::CreateThingDescriptionVersionRequestBuilder::default()
@@ -1114,7 +1114,7 @@ impl Client {
         Ok(response.payload.into())
     }
 
-    /// Retrieve an xRegistry [`ThingDescriptionVersion`] entity.
+    /// Retrieve an xRegistry [`ThingDescriptionVersionEntity`].
     ///
     /// # Arguments
     /// * `group_id` - The identifier of the Group that owns the Thing Description. If [`CloudDefault`](GroupId::CloudDefault), the default Group is used.
@@ -1122,7 +1122,7 @@ impl Client {
     /// * `version_id` - The [`GetVersionId`] selecting which Version to retrieve. If [`ResourceDefault`](GetVersionId::ResourceDefault), the default Version of the Resource is retrieved.
     /// * `timeout` - The duration until the client stops waiting for a response to the request, it is rounded up to the nearest second.
     ///
-    /// Returns the requested [`ThingDescriptionVersion`].
+    /// Returns the requested [`ThingDescriptionVersionEntity`].
     ///
     /// # Errors
     /// [`struct@Error`] of kind [`ValidationError`](ErrorKind::ValidationError) if `timeout` is 0
@@ -1139,7 +1139,7 @@ impl Client {
         thing_description_id: String,
         version_id: GetVersionId<u64>,
         timeout: Duration,
-    ) -> Result<ThingDescriptionVersion, Error> {
+    ) -> Result<ThingDescriptionVersionEntity, Error> {
         let payload = client_gen::GetThingDescriptionVersionInputArguments {
             group_id: group_id.into(),
             version_id: version_id.into(),
@@ -1266,7 +1266,7 @@ impl Client {
 
     // ~~~~~~~~~~~~~~~~~ Thing Model extension APIs ~~~~~~~~~~~~~~~~~~~~~
 
-    /// Create a new xRegistry Thing Model Version under the specified Thing Model. The parent
+    /// Create a new xRegistry Thing Model Version entity under the specified Thing Model. The parent
     /// Thing Model is implicitly created if it doesn't already exist.
     ///
     /// # Arguments
@@ -1276,7 +1276,7 @@ impl Client {
     /// * `version` - The [`ThingModelVersionAttributes`] of the Version to create.
     /// * `timeout` - The duration until the client stops waiting for a response to the request, it is rounded up to the nearest second.
     ///
-    /// Returns the created [`ThingModelVersion`].
+    /// Returns the created [`ThingModelVersionEntity`] with epoch 1.
     ///
     /// # Errors
     /// [`struct@Error`] of kind [`ValidationError`](ErrorKind::ValidationError) if `timeout` is 0
@@ -1294,7 +1294,7 @@ impl Client {
         thing_model_labels: Vec<Label>,
         version: ThingModelVersionAttributes,
         timeout: Duration,
-    ) -> Result<ThingModelVersion, Error> {
+    ) -> Result<ThingModelVersionEntity, Error> {
         let payload = version.into_gen(group_id.into(), thing_model_labels);
 
         let request = client_gen::CreateThingModelVersionRequestBuilder::default()
@@ -1317,7 +1317,7 @@ impl Client {
         Ok(response.payload.into())
     }
 
-    /// Retrieve an xRegistry [`ThingModelVersion`] entity.
+    /// Retrieve an xRegistry [`ThingModelVersionEntity`] entity.
     ///
     /// # Arguments
     /// * `group_id` - The identifier of the Group that owns the Thing Model. If [`CloudDefault`](GroupId::CloudDefault), the default Group is used.
@@ -1325,7 +1325,7 @@ impl Client {
     /// * `version_id` - The [`GetVersionId`] selecting which Version to retrieve. If [`ResourceDefault`](GetVersionId::ResourceDefault), the default Version of the Resource is retrieved.
     /// * `timeout` - The duration until the client stops waiting for a response to the request, it is rounded up to the nearest second.
     ///
-    /// Returns the requested [`ThingModelVersion`].
+    /// Returns the requested [`ThingModelVersionEntity`].
     ///
     /// # Errors
     /// [`struct@Error`] of kind [`ValidationError`](ErrorKind::ValidationError) if `timeout` is 0
@@ -1342,7 +1342,7 @@ impl Client {
         thing_model_id: String,
         version_id: GetVersionId<u64>,
         timeout: Duration,
-    ) -> Result<ThingModelVersion, Error> {
+    ) -> Result<ThingModelVersionEntity, Error> {
         let payload = client_gen::GetThingModelVersionInputArguments {
             group_id: group_id.into(),
             version_id: version_id.into(),
@@ -1494,22 +1494,6 @@ impl Client {
             get_version,
             list_versions,
             delete_version,
-        ) = tokio::join!(
-            self.create_group_command_invoker.shutdown(),
-            self.get_group_command_invoker.shutdown(),
-            self.list_groups_command_invoker.shutdown(),
-            self.delete_group_command_invoker.shutdown(),
-            self.create_resource_command_invoker.shutdown(),
-            self.get_resource_command_invoker.shutdown(),
-            self.list_resources_command_invoker.shutdown(),
-            self.delete_resource_command_invoker.shutdown(),
-            self.create_version_command_invoker.shutdown(),
-            self.get_version_command_invoker.shutdown(),
-            self.list_versions_command_invoker.shutdown(),
-            self.delete_version_command_invoker.shutdown(),
-        );
-
-        let (
             create_schema_version,
             get_schema_version,
             list_schema_versions,
@@ -1523,6 +1507,18 @@ impl Client {
             list_thing_model_versions,
             delete_thing_model_version,
         ) = tokio::join!(
+            self.create_group_command_invoker.shutdown(),
+            self.get_group_command_invoker.shutdown(),
+            self.list_groups_command_invoker.shutdown(),
+            self.delete_group_command_invoker.shutdown(),
+            self.create_resource_command_invoker.shutdown(),
+            self.get_resource_command_invoker.shutdown(),
+            self.list_resources_command_invoker.shutdown(),
+            self.delete_resource_command_invoker.shutdown(),
+            self.create_version_command_invoker.shutdown(),
+            self.get_version_command_invoker.shutdown(),
+            self.list_versions_command_invoker.shutdown(),
+            self.delete_version_command_invoker.shutdown(),
             self.create_schema_version_command_invoker.shutdown(),
             self.get_schema_version_command_invoker.shutdown(),
             self.list_schema_versions_command_invoker.shutdown(),
@@ -1619,7 +1615,7 @@ impl Client {
         HashMap::from([(id_token.to_string(), resource_id)])
     }
 
-    /// Builds the topic tokens for an extension Version request that carries the Version id in the
+    /// Builds the topic tokens for an extension Version request that carries the Version Id in the
     /// topic, keyed by the extension's Resource-identifier token.
     fn extension_version_topic_tokens(
         id_token: &str,
