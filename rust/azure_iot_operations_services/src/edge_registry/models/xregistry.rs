@@ -15,34 +15,9 @@ use chrono::{DateTime, Utc};
 use crate::edge_registry::Label;
 use crate::edge_registry::edge_registry_gen::common_types::b64::{self};
 use crate::edge_registry::edge_registry_gen::edge_registry::client as client_gen;
-
-// ~~~~~~~~~~~~~~~~~~~Conversion helpers~~~~~~~~~~~~~~~~~~~~~~~~~~
-
-/// Converts a generated list of `Label` key/value pairs into a vector of [`Label`].
-fn labels_from_gen(labels: Vec<client_gen::Label>) -> Vec<Label> {
-    labels.into_iter().map(Into::into).collect()
-}
-
-/// Converts a list of [`Label`] into the generated list of `Label` key/value pairs.
-pub(crate) fn labels_to_gen(labels: Vec<Label>) -> Vec<client_gen::Label> {
-    labels.into_iter().map(Into::into).collect()
-}
-
-/// Converts a generated map of base64 extension values into byte buffers.
-fn extensions_from_gen(extensions: HashMap<String, b64::Bytes>) -> HashMap<String, Bytes> {
-    extensions
-        .into_iter()
-        .map(|(k, v)| (k, Bytes::from(v.0)))
-        .collect()
-}
-
-/// Converts a map of extension byte buffers into the generated base64 type.
-pub(crate) fn extensions_to_gen(extensions: HashMap<String, Bytes>) -> HashMap<String, b64::Bytes> {
-    extensions
-        .into_iter()
-        .map(|(k, v)| (k, b64::Bytes(v.to_vec())))
-        .collect()
-}
+use crate::edge_registry::models::{
+    extensions_from_gen, extensions_to_gen, labels_from_gen, labels_to_gen,
+};
 
 // ~~~~~~~~~~~~~~~~~~~Shared value types~~~~~~~~~~~~~~~~~~~~~~~~~~
 
@@ -150,7 +125,7 @@ impl From<client_gen::ResourceXidList> for Vec<ResourceXId> {
 
 /// The XID components that identify a Version.
 #[derive(Debug, Clone, PartialEq, Eq)]
-pub struct VersionXId {
+pub struct VersionXId<T> {
     /// Group type.
     pub group_type: String,
     /// Group identifier.
@@ -160,10 +135,10 @@ pub struct VersionXId {
     /// Resource identifier.
     pub resource_id: String,
     /// Version identifier.
-    pub version_id: String,
+    pub version_id: T,
 }
 
-impl From<client_gen::VersionXid> for VersionXId {
+impl From<client_gen::VersionXid> for VersionXId<String> {
     fn from(value: client_gen::VersionXid) -> Self {
         VersionXId {
             group_type: value.group_type,
@@ -175,9 +150,9 @@ impl From<client_gen::VersionXid> for VersionXId {
     }
 }
 
-impl From<client_gen::VersionXidList> for Vec<VersionXId> {
+impl From<client_gen::VersionXidList> for Vec<VersionXId<String>> {
     fn from(value: client_gen::VersionXidList) -> Self {
-        value.versions.into_iter().map(VersionXId::from).collect()
+        value.versions.into_iter().map(Into::into).collect()
     }
 }
 
@@ -420,7 +395,7 @@ pub struct GroupAttributes {
 }
 
 impl GroupAttributes {
-    pub(crate) fn into(self, group_id: Option<String>) -> client_gen::GroupAttributes {
+    pub(crate) fn into_gen(self, group_id: Option<String>) -> client_gen::GroupAttributes {
         client_gen::GroupAttributes {
             group_id,
             name: self.name,
