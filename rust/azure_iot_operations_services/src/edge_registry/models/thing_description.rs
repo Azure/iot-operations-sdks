@@ -9,13 +9,13 @@ use bytes::Bytes;
 use chrono::{DateTime, Utc};
 use derive_builder::Builder;
 
-use crate::edge_registry::Label;
 use crate::edge_registry::edge_registry_gen::common_types::b64::{self};
 use crate::edge_registry::edge_registry_gen::edge_registry::client as client_gen;
 use crate::edge_registry::models::xregistry::{Validated, VersionXId};
 use crate::edge_registry::models::{
     extensions_from_gen, extensions_to_gen, labels_from_gen, labels_to_gen,
 };
+use crate::edge_registry::{JSON_LD11, Label};
 
 /// A specific Version of a Thing Description Resource.
 #[derive(Debug, Clone)]
@@ -115,6 +115,7 @@ impl From<client_gen::ThingDescriptionVersionXidList> for Vec<VersionXId<u64>> {
 /// The known variants mirror the formats defined by the xRegistry Thing Description extension; any
 /// other identifier can be supplied via [`Custom`](ThingDescriptionFormat::Custom).
 #[derive(Debug, Clone, PartialEq, Eq)]
+#[non_exhaustive]
 pub enum ThingDescriptionFormat {
     /// JSON-LD 1.1 format.
     JsonLd11,
@@ -122,14 +123,10 @@ pub enum ThingDescriptionFormat {
     Custom(String),
 }
 
-// `client_gen::JSON_LD11` cannot be used here: the generated `client` module flattens both the
-// Thing Description and Thing Model `JSON_LD11` consts into one namespace (and their source modules
-// are private), so the identifier is ambiguous. The literal is the single shared value.
-// TODO: consider generating the format identifiers into separate namespaces to avoid this ambiguity.
 impl From<ThingDescriptionFormat> for String {
     fn from(value: ThingDescriptionFormat) -> Self {
         match value {
-            ThingDescriptionFormat::JsonLd11 => "JSON-LD/1.1".to_string(),
+            ThingDescriptionFormat::JsonLd11 => JSON_LD11.to_string(),
             ThingDescriptionFormat::Custom(format) => format,
         }
     }
@@ -138,7 +135,7 @@ impl From<ThingDescriptionFormat> for String {
 impl From<String> for ThingDescriptionFormat {
     fn from(value: String) -> Self {
         match value.as_str() {
-            "JSON-LD/1.1" => ThingDescriptionFormat::JsonLd11,
+            JSON_LD11 => ThingDescriptionFormat::JsonLd11,
             _ => ThingDescriptionFormat::Custom(value),
         }
     }

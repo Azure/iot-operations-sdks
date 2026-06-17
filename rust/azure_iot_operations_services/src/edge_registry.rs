@@ -18,6 +18,13 @@ pub mod models;
 
 pub use client::Client;
 
+// `client_gen::JSON_LD11` cannot be used in the models: the generated `client` module flattens both
+// the Thing Description and Thing Model `JSON_LD11` consts into one namespace (and their source
+// modules are private), so the identifier is ambiguous.
+// TODO: consider generating the format identifiers into separate namespaces to avoid this ambiguity.
+/// JSON-LD 1.1 format.
+const JSON_LD11: &str = "JSON-LD/1.1";
+
 // ~~~~~~~~~~~~~~~~~~~SDK Created Structs~~~~~~~~~~~~~~~~~~~~~~~~
 
 /// Represents an error that occurred in the Azure IoT Operations Edge Registry Client implementation.

@@ -115,6 +115,7 @@ impl From<client_gen::SchemaVersionXidList> for Vec<VersionXId<u64>> {
 /// The known variants mirror the formats defined by the xRegistry Schema extension; any other
 /// identifier can be supplied via [`Custom`](SchemaFormat::Custom).
 #[derive(Debug, Clone, PartialEq, Eq)]
+#[non_exhaustive]
 pub enum SchemaFormat {
     /// JSON Schema Draft-07 format.
     JsonSchemaDraft07,

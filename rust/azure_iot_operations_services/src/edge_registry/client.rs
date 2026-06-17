@@ -30,9 +30,15 @@ const GROUP_TYPE_TOPIC_TOKEN: &str = "groupType";
 const RESOURCE_TYPE_TOPIC_TOKEN: &str = "resourceType";
 const RESOURCE_ID_TOPIC_TOKEN: &str = "resourceId";
 const VERSION_ID_TOPIC_TOKEN: &str = "versionId";
+const SCHEMA_GROUP_TYPE: &str = client_gen::SCHEMA_GROUP_TYPE;
 const SCHEMA_ID_TOPIC_TOKEN: &str = "schemaId";
+const SCHEMA_RESOURCE_TYPE: &str = client_gen::SCHEMA_RESOURCE_TYPE;
+const THING_DESCRIPTION_GROUP_TYPE: &str = client_gen::THING_DESCRIPTION_GROUP_TYPE;
 const THING_DESCRIPTION_ID_TOPIC_TOKEN: &str = "thingDescriptionId";
+const THING_DESCRIPTION_RESOURCE_TYPE: &str = client_gen::THING_DESCRIPTION_RESOURCE_TYPE;
+const THING_MODEL_GROUP_TYPE: &str = client_gen::THING_MODEL_GROUP_TYPE;
 const THING_MODEL_ID_TOPIC_TOKEN: &str = "thingModelId";
+const THING_MODEL_RESOURCE_TYPE: &str = client_gen::THING_MODEL_RESOURCE_TYPE;
 
 /// Edge Registry client implementation.
 #[allow(clippy::struct_field_names)]
@@ -960,7 +966,7 @@ impl Client {
         Ok(response.payload.into())
     }
 
-    /// List the XIDs of the xRegistry Schema Versions of a schema.
+    /// List the XIDs of the xRegistry Schema Versions of a Schema.
     ///
     /// # Arguments
     /// * `groups` - Which Groups to list across: [`All`](GroupSelection::All), the
@@ -991,10 +997,10 @@ impl Client {
     ) -> Result<Vec<VersionXId<u64>>, Error> {
         let (group_id, all_groups) = Self::group_selection_scope(groups);
         let payload = client_gen::ListVersionsRequestPayload {
-            group_type: None,
+            group_type: Some(SCHEMA_GROUP_TYPE.to_string()),
             group_id,
             all_groups,
-            resource_type: None,
+            resource_type: Some(SCHEMA_RESOURCE_TYPE.to_string()),
             resource_id: schema_id,
             label: label.map(Into::into),
         };
@@ -1198,10 +1204,10 @@ impl Client {
     ) -> Result<Vec<VersionXId<u64>>, Error> {
         let (group_id, all_groups) = Self::group_selection_scope(groups);
         let payload = client_gen::ListVersionsRequestPayload {
-            group_type: None,
+            group_type: Some(THING_DESCRIPTION_GROUP_TYPE.to_string()),
             group_id,
             all_groups,
-            resource_type: None,
+            resource_type: Some(THING_DESCRIPTION_RESOURCE_TYPE.to_string()),
             resource_id: thing_description_id,
             label: label.map(Into::into),
         };
@@ -1405,10 +1411,10 @@ impl Client {
     ) -> Result<Vec<VersionXId<u64>>, Error> {
         let (group_id, all_groups) = Self::group_selection_scope(groups);
         let payload = client_gen::ListVersionsRequestPayload {
-            group_type: None,
+            group_type: Some(THING_MODEL_GROUP_TYPE.to_string()),
             group_id,
             all_groups,
-            resource_type: None,
+            resource_type: Some(THING_MODEL_RESOURCE_TYPE.to_string()),
             resource_id: thing_model_id,
             label: label.map(Into::into),
         };
