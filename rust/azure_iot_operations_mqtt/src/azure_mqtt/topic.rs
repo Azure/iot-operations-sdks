@@ -93,7 +93,7 @@ impl std::str::FromStr for TopicName {
     type Err = TopicError;
 
     fn from_str(s: &str) -> Result<Self, Self::Err> {
-        Self::try_from(s.to_owned())
+        Self::try_from(s)
     }
 }
 
@@ -165,7 +165,7 @@ impl std::str::FromStr for TopicFilter {
     type Err = TopicError;
 
     fn from_str(s: &str) -> Result<Self, Self::Err> {
-        Self::try_from(s.to_owned())
+        Self::try_from(s)
     }
 }
 
