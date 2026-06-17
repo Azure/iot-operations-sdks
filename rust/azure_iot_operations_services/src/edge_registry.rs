@@ -18,6 +18,13 @@ pub mod models;
 
 pub use client::Client;
 
+// `client_gen::JSON_LD11` cannot be used in the models: the generated `client` module flattens both
+// the Thing Description and Thing Model `JSON_LD11` consts into one namespace (and their source
+// modules are private), so the identifier is ambiguous.
+// TODO: consider generating the format identifiers into separate namespaces to avoid this ambiguity.
+/// JSON-LD 1.1 format.
+const JSON_LD11: &str = "JSON-LD/1.1";
+
 // ~~~~~~~~~~~~~~~~~~~SDK Created Structs~~~~~~~~~~~~~~~~~~~~~~~~
 
 /// Represents an error that occurred in the Azure IoT Operations Edge Registry Client implementation.
@@ -56,6 +63,70 @@ impl From<rpc_command::invoker::Response<client_gen::EdgeRegistryError>> for Err
     }
 }
 
+impl From<rpc_command::invoker::Response<client_gen::SchemaExtensionError>> for ErrorKind {
+    fn from(value: rpc_command::invoker::Response<client_gen::SchemaExtensionError>) -> Self {
+        Self::ServiceError(value.payload.into())
+    }
+}
+
+impl From<rpc_command::invoker::Response<client_gen::ThingDescriptionExtensionError>>
+    for ErrorKind
+{
+    fn from(
+        value: rpc_command::invoker::Response<client_gen::ThingDescriptionExtensionError>,
+    ) -> Self {
+        Self::ServiceError(value.payload.into())
+    }
+}
+
+impl From<rpc_command::invoker::Response<client_gen::ThingModelExtensionError>> for ErrorKind {
+    fn from(value: rpc_command::invoker::Response<client_gen::ThingModelExtensionError>) -> Self {
+        Self::ServiceError(value.payload.into())
+    }
+}
+
+impl From<client_gen::SchemaExtensionError> for client_gen::EdgeRegistryError {
+    fn from(value: client_gen::SchemaExtensionError) -> Self {
+        client_gen::EdgeRegistryError {
+            code: value.code,
+            detail: value.detail,
+            source: value.source,
+            status: value.status,
+            subject: value.subject,
+            title: value.title,
+            r#type: value.r#type,
+        }
+    }
+}
+
+impl From<client_gen::ThingDescriptionExtensionError> for client_gen::EdgeRegistryError {
+    fn from(value: client_gen::ThingDescriptionExtensionError) -> Self {
+        client_gen::EdgeRegistryError {
+            code: value.code,
+            detail: value.detail,
+            source: value.source,
+            status: value.status,
+            subject: value.subject,
+            title: value.title,
+            r#type: value.r#type,
+        }
+    }
+}
+
+impl From<client_gen::ThingModelExtensionError> for client_gen::EdgeRegistryError {
+    fn from(value: client_gen::ThingModelExtensionError) -> Self {
+        client_gen::EdgeRegistryError {
+            code: value.code,
+            detail: value.detail,
+            source: value.source,
+            status: value.status,
+            subject: value.subject,
+            title: value.title,
+            r#type: value.r#type,
+        }
+    }
+}
+
 impl From<rpc_command::invoker::RequestBuilderError> for ErrorKind {
     fn from(e: rpc_command::invoker::RequestBuilderError) -> Self {
         ErrorKind::ValidationError(e.to_string())
@@ -85,16 +156,16 @@ impl From<GroupId> for Option<String> {
 
 /// Identifies which Version of a Resource to retrieve.
 #[derive(Debug, Clone, Default)]
-pub enum GetVersionId {
+pub enum GetVersionId<T> {
     /// Retrieve the default Version of the Resource.
     #[default]
     ResourceDefault,
     /// Retrieve the Version with the specified identifier.
-    Specified(String),
+    Specified(T),
 }
 
-impl From<GetVersionId> for Option<String> {
-    fn from(value: GetVersionId) -> Self {
+impl<T> From<GetVersionId<T>> for Option<T> {
+    fn from(value: GetVersionId<T>) -> Self {
         match value {
             GetVersionId::ResourceDefault => None,
             GetVersionId::Specified(id) => Some(id),
