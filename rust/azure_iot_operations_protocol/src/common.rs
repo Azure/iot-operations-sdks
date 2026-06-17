@@ -16,7 +16,7 @@ pub mod aio_protocol_error;
 pub(crate) mod topic_processor;
 
 /// This module contains string values for Azure IoT Operations Protocol defined user properties.
-pub mod user_properties;
+pub(crate) mod user_properties;
 
 /// This module contains the sending side cloud event implementation for the Azure IoT Operations Protocol.
 pub(crate) mod cloud_event;

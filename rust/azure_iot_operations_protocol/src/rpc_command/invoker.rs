@@ -24,7 +24,7 @@ use uuid::Uuid;
 
 use crate::common::{
     cloud_event as protocol_cloud_event,
-    user_properties::{PARTITION_KEY, validate_invoker_user_properties},
+    user_properties::{BrokerReservedUserProperty, validate_invoker_user_properties},
 };
 use crate::{
     ProtocolVersion,
@@ -37,7 +37,7 @@ use crate::{
             DeserializationError, FormatIndicator, PayloadSerialize, SerializedPayload,
         },
         topic_processor::{TopicPattern, contains_invalid_char},
-        user_properties::UserProperty,
+        user_properties::ProtocolReservedUserProperty,
     },
     parse_supported_protocol_major_versions,
     rpc_command::{
@@ -504,21 +504,21 @@ where
 
         // Parse user properties
         let expected_aio_properties = [
-            UserProperty::Timestamp,
-            UserProperty::Status,
-            UserProperty::StatusMessage,
-            UserProperty::SourceId,
-            UserProperty::IsApplicationError,
-            UserProperty::InvalidPropertyName,
-            UserProperty::InvalidPropertyValue,
-            UserProperty::ProtocolVersion,
-            UserProperty::SupportedMajorVersions,
-            UserProperty::RequestProtocolVersion,
+            ProtocolReservedUserProperty::Timestamp,
+            ProtocolReservedUserProperty::Status,
+            ProtocolReservedUserProperty::StatusMessage,
+            ProtocolReservedUserProperty::SourceId,
+            ProtocolReservedUserProperty::IsApplicationError,
+            ProtocolReservedUserProperty::InvalidPropertyName,
+            ProtocolReservedUserProperty::InvalidPropertyValue,
+            ProtocolReservedUserProperty::ProtocolVersion,
+            ProtocolReservedUserProperty::SupportedMajorVersions,
+            ProtocolReservedUserProperty::RequestProtocolVersion,
         ];
         let mut response_custom_user_data = vec![];
         let mut response_aio_data = HashMap::new();
         for (key, value) in publish_properties.user_properties {
-            match UserProperty::from_str(&key) {
+            match ProtocolReservedUserProperty::from_str(&key) {
                 Ok(p) if expected_aio_properties.contains(&p) => {
                     response_aio_data.insert(p, value);
                 }
@@ -529,6 +529,11 @@ where
                     response_custom_user_data.push((key, value));
                 }
                 Err(()) => {
+                    // Strip broker-reserved properties — they are SDK/broker internals
+                    // and should never appear in user-facing custom_user_data.
+                    if BrokerReservedUserProperty::from_str(&key).is_ok() {
+                        continue;
+                    }
                     response_custom_user_data.push((key, value));
                 }
             }
@@ -538,7 +543,7 @@ where
         // If the protocol version is not supported, or cannot be parsed, all bets are off
         // regarding what anything else even means, so this *must* be done first
         let protocol_version = {
-            match response_aio_data.get(&UserProperty::ProtocolVersion) {
+            match response_aio_data.get(&ProtocolReservedUserProperty::ProtocolVersion) {
                 Some(protocol_version) => {
                     if let Some(version) = ProtocolVersion::parse_protocol_version(protocol_version)
                     {
@@ -573,12 +578,12 @@ where
         // Check the status code.
         // We will use this to determine which data format to serialize to.
         let status_code = {
-            match response_aio_data.get(&UserProperty::Status) {
+            match response_aio_data.get(&ProtocolReservedUserProperty::Status) {
                 Some(s) => match StatusCode::from_str(s) {
                     Ok(code) => code,
                     Err(StatusCodeParseError::UnparsableStatusCode(s)) => {
                         return Err(AIOProtocolError::new_header_invalid_error(
-                            &UserProperty::Status.to_string(),
+                            &ProtocolReservedUserProperty::Status.to_string(),
                             &s,
                             false,
                             Some(format!(
@@ -589,7 +594,7 @@ where
                     }
                     Err(StatusCodeParseError::UnknownStatusCode(_)) => {
                         let status_message = response_aio_data
-                            .remove(&UserProperty::StatusMessage)
+                            .remove(&ProtocolReservedUserProperty::StatusMessage)
                             .unwrap_or(String::from("Unknown"));
                         let mut unknown_err = AIOProtocolError::new_unknown_error(
                             true,
@@ -599,21 +604,21 @@ where
                             None,
                         );
                         // Add any invalid properties that might be included for extra information
-                        unknown_err.property_name =
-                            response_aio_data.remove(&UserProperty::InvalidPropertyName);
+                        unknown_err.property_name = response_aio_data
+                            .remove(&ProtocolReservedUserProperty::InvalidPropertyName);
                         unknown_err.property_value = response_aio_data
-                            .remove(&UserProperty::InvalidPropertyValue)
+                            .remove(&ProtocolReservedUserProperty::InvalidPropertyValue)
                             .map(Value::String);
                         return Err(unknown_err);
                     }
                 },
                 None => {
                     return Err(AIOProtocolError::new_header_missing_error(
-                        &UserProperty::Status.to_string(),
+                        &ProtocolReservedUserProperty::Status.to_string(),
                         false,
                         Some(format!(
                             "Response missing MQTT user property '{}'",
-                            UserProperty::Status
+                            ProtocolReservedUserProperty::Status
                         )),
                         None,
                     ));
@@ -623,7 +628,7 @@ where
 
         // Get HLC here since we will need it no matter what type of result we are processing
         let timestamp = response_aio_data
-            .get(&UserProperty::Timestamp)
+            .get(&ProtocolReservedUserProperty::Timestamp)
             .map(|s| HybridLogicalClock::from_str(s))
             .transpose()?;
 
@@ -676,23 +681,25 @@ where
                     format_indicator,
                     custom_user_data: response_custom_user_data,
                     timestamp,
-                    executor_id: response_aio_data.remove(&UserProperty::SourceId),
+                    executor_id: response_aio_data.remove(&ProtocolReservedUserProperty::SourceId),
                 })
             }
             // RemoteError
             _ => Self::Err(RemoteError {
                 status_code,
                 protocol_version,
-                status_message: response_aio_data.remove(&UserProperty::StatusMessage),
+                status_message: response_aio_data
+                    .remove(&ProtocolReservedUserProperty::StatusMessage),
                 is_application_error: response_aio_data
-                    .get(&UserProperty::IsApplicationError)
+                    .get(&ProtocolReservedUserProperty::IsApplicationError)
                     .is_some_and(|v| v == "true"),
-                invalid_property_name: response_aio_data.remove(&UserProperty::InvalidPropertyName),
+                invalid_property_name: response_aio_data
+                    .remove(&ProtocolReservedUserProperty::InvalidPropertyName),
                 invalid_property_value: response_aio_data
-                    .remove(&UserProperty::InvalidPropertyValue),
+                    .remove(&ProtocolReservedUserProperty::InvalidPropertyValue),
                 timestamp,
                 supported_protocol_major_versions: response_aio_data
-                    .get(&UserProperty::SupportedMajorVersions)
+                    .get(&ProtocolReservedUserProperty::SupportedMajorVersions)
                     .map(|s| parse_supported_protocol_major_versions(s)),
             }),
         };
@@ -1138,19 +1145,24 @@ where
 
         // Add internal user properties
         request.custom_user_data.push((
-            UserProperty::SourceId.to_string(),
+            ProtocolReservedUserProperty::SourceId.to_string(),
             self.mqtt_client.client_id().to_string(),
         ));
-        request
-            .custom_user_data
-            .push((UserProperty::Timestamp.to_string(), timestamp_str));
         request.custom_user_data.push((
-            UserProperty::ProtocolVersion.to_string(),
+            ProtocolReservedUserProperty::Timestamp.to_string(),
+            timestamp_str,
+        ));
+        request.custom_user_data.push((
+            ProtocolReservedUserProperty::ProtocolVersion.to_string(),
             RPC_COMMAND_PROTOCOL_VERSION.to_string(),
         ));
         request.custom_user_data.push((
-            PARTITION_KEY.to_string(),
+            BrokerReservedUserProperty::Partition.to_string(),
             self.mqtt_client.client_id().to_string(),
+        ));
+        request.custom_user_data.push((
+            BrokerReservedUserProperty::HighPriority.to_string(),
+            String::new(),
         ));
 
         // Cloud Events headers
