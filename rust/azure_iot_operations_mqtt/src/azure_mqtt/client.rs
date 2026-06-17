@@ -137,6 +137,10 @@ impl Default for ClientOptions {
 pub struct ConnectionTransportConfig {
     pub transport_type: ConnectionTransportType,
     pub timeout: Option<Duration>,
+    /// Whether to disable Nagle's algorithm (`TCP_NODELAY`) on the underlying TCP socket.
+    /// Setting this to `true` reduces latency for small, frequent packets at the cost of slightly
+    /// more packet overhead.
+    pub tcp_nodelay: bool,
 }
 
 /// The type of transport to use for the new connection.
@@ -642,6 +646,7 @@ impl ConnectHandle {
         let ConnectionTransportConfig {
             transport_type,
             timeout,
+            tcp_nodelay,
         } = transport_config;
         Ok(match transport_type {
             ConnectionTransportType::Tcp { hostname, port } => {
@@ -649,6 +654,7 @@ impl ConnectHandle {
                     timeout,
                     crate::azure_mqtt::io::tokio_tcp::connect(
                         (hostname, port),
+                        tcp_nodelay,
                         &self.reader_pool,
                         &self.writer_pool,
                     ),
@@ -667,6 +673,7 @@ impl ConnectHandle {
                         &hostname,
                         port,
                         config,
+                        tcp_nodelay,
                         &self.reader_pool,
                         &self.writer_pool,
                     ),
@@ -681,7 +688,12 @@ impl ConnectHandle {
             } => {
                 maybe_timeout(
                     timeout,
-                    crate::azure_mqtt::io::tokio_ws::connect(request, tls_config, &self.reader_pool),
+                    crate::azure_mqtt::io::tokio_ws::connect(
+                        request,
+                        tls_config,
+                        tcp_nodelay,
+                        &self.reader_pool,
+                    ),
                 )
                 .await??
             }
