@@ -10,7 +10,7 @@ use crate::common::{
     topic_processor::{TopicPatternError, TopicPatternErrorKind},
 };
 
-use super::user_properties::UserProperty;
+use super::user_properties::ProtocolReservedUserProperty;
 
 /// Represents the kind of error that occurs in an Azure IoT Operations Protocol
 #[derive(Debug, PartialEq)]
@@ -609,7 +609,7 @@ impl From<HLCError> for AIOProtocolError {
 impl From<ParseHLCError> for AIOProtocolError {
     fn from(error: ParseHLCError) -> Self {
         AIOProtocolError::new_header_invalid_error(
-            format!("{}", UserProperty::Timestamp).as_str(),
+            format!("{}", ProtocolReservedUserProperty::Timestamp).as_str(),
             error.input.as_str(),
             false,
             Some(format!("{error}")),
