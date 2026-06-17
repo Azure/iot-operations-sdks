@@ -27,7 +27,7 @@ use azure_iot_operations_protocol::rpc_command;
 <# if (this.reqSchema is CustomTypeName || this.respSchema is CustomTypeName) { #>
 use super::super::<#=this.commonNs.GetFolderName(TargetLanguage.Rust)#>::custom_payload::CustomPayload;
 <# } #>
-<# if (this.reqSchema == null || this.respSchema == null) { #>
+<# if (this.reqSchema == null || this.respSchema == null || (this.errorResultName != null && this.normalResultSchema == null)) { #>
 use super::super::<#=this.commonNs.GetFolderName(TargetLanguage.Rust)#>::<#=this.serializerEmptyType.GetFileName(TargetLanguage.Rust)#>::<#=this.serializerEmptyType.GetTypeName(TargetLanguage.Rust)#>;
 <# } #>
 use super::super::<#=this.commonNs.GetFolderName(TargetLanguage.Rust)#>::options::CommandInvokerOptions;
@@ -38,7 +38,9 @@ use super::<#=this.reqSchema.GetFileName(TargetLanguage.Rust)#>::<#=this.reqSche
 use super::<#=this.respSchema.GetFileName(TargetLanguage.Rust)#>::<#=this.respSchema.GetTypeName(TargetLanguage.Rust)#>;
 <# } #>
 <# if (this.errorResultName != null) { #>
+<# if (this.normalResultSchema != null) { #>
 use super::<#=this.normalResultSchema.GetFileName(TargetLanguage.Rust)#>::<#=this.normalResultSchema.GetTypeName(TargetLanguage.Rust)#>;
+<# } #>
 use super::<#=this.errorResultSchema.GetFileName(TargetLanguage.Rust)#>::<#=this.errorResultSchema.GetTypeName(TargetLanguage.Rust)#>;
 <# } #>
 
@@ -203,7 +205,7 @@ impl <#=this.componentName.GetTypeName(TargetLanguage.Rust)#>
 <# if (this.normalResultName != null) { #>
                         payload: response.payload.<#=this.normalResultName.GetFieldName(TargetLanguage.Rust)#>.ok_or(<#=this.componentName.GetTypeName(TargetLanguage.Rust)#>::get_err("<#=this.normalResultName.AsGiven#>"))?,
 <# } else { #>
-                        payload: <#=this.normalResultSchema.GetTypeName(TargetLanguage.Rust)#> {
+                        payload: <#=this.normalResultSchema?.GetTypeName(TargetLanguage.Rust) ?? this.serializerEmptyType.GetTypeName(TargetLanguage.Rust)#> {
 <# foreach (CodeName normalResultField in this.normalResultFields) { #>
 <# if (this.normalRequiredFields.Contains(normalResultField)) { #>
                             <#=normalResultField.GetFieldName(TargetLanguage.Rust)#>: response.payload.<#=normalResultField.GetFieldName(TargetLanguage.Rust)#>.ok_or(<#=this.componentName.GetTypeName(TargetLanguage.Rust)#>::get_err("<#=normalResultField.AsGiven#>"))?,
@@ -264,5 +266,5 @@ impl <#=this.componentName.GetTypeName(TargetLanguage.Rust)#>
 
     private string ExternalResponseType() => this.respSchema?.GetTypeName(TargetLanguage.Rust) ?? this.serializerEmptyType.GetTypeName(TargetLanguage.Rust);
 
-    private string InternalResponseType() => (this.normalResultSchema ?? this.respSchema)?.GetTypeName(TargetLanguage.Rust) ?? this.serializerEmptyType.GetTypeName(TargetLanguage.Rust);
+    private string InternalResponseType() => (this.errorResultName != null ? this.normalResultSchema : this.respSchema)?.GetTypeName(TargetLanguage.Rust) ?? this.serializerEmptyType.GetTypeName(TargetLanguage.Rust);
 #>
