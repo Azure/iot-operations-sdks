@@ -969,7 +969,7 @@ impl Client {
         Ok(response.payload.into())
     }
 
-    /// List the XIDs of the xRegistry Schema Versions of a Schema.
+    /// List the XIDs of the xRegistry Schema Versions matching the provided constraints.
     ///
     /// # Arguments
     /// * `groups` - Which Groups to list across: [`All`](GroupSelection::All), the
@@ -1176,7 +1176,7 @@ impl Client {
         Ok(response.payload.into())
     }
 
-    /// List the XIDs of xRegistry Thing Description Versions.
+    /// List the XIDs of xRegistry Thing Description Versions matching the provided constraints.
     ///
     /// # Arguments
     /// * `groups` - Which Groups to list across: [`All`](GroupSelection::All), the
@@ -1383,7 +1383,7 @@ impl Client {
         Ok(response.payload.into())
     }
 
-    /// List the XIDs of xRegistry Thing Model Versions.
+    /// List the XIDs of xRegistry Thing Model Versions matching the provided constraints.
     ///
     /// # Arguments
     /// * `groups` - Which Groups to list across: [`All`](GroupSelection::All), the
