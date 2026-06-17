@@ -26,18 +26,21 @@ use crate::edge_registry::{
     GroupSelection, Label,
 };
 
+// Topic token keys for the xRegistry command topics.
 const GROUP_TYPE_TOPIC_TOKEN: &str = "groupType";
 const RESOURCE_TYPE_TOPIC_TOKEN: &str = "resourceType";
 const RESOURCE_ID_TOPIC_TOKEN: &str = "resourceId";
 const VERSION_ID_TOPIC_TOKEN: &str = "versionId";
-const SCHEMA_GROUP_TYPE: &str = client_gen::SCHEMA_GROUP_TYPE;
 const SCHEMA_ID_TOPIC_TOKEN: &str = "schemaId";
+const THING_DESCRIPTION_ID_TOPIC_TOKEN: &str = "thingDescriptionId";
+const THING_MODEL_ID_TOPIC_TOKEN: &str = "thingModelId";
+
+// XID constants.
+const SCHEMA_GROUP_TYPE: &str = client_gen::SCHEMA_GROUP_TYPE;
 const SCHEMA_RESOURCE_TYPE: &str = client_gen::SCHEMA_RESOURCE_TYPE;
 const THING_DESCRIPTION_GROUP_TYPE: &str = client_gen::THING_DESCRIPTION_GROUP_TYPE;
-const THING_DESCRIPTION_ID_TOPIC_TOKEN: &str = "thingDescriptionId";
 const THING_DESCRIPTION_RESOURCE_TYPE: &str = client_gen::THING_DESCRIPTION_RESOURCE_TYPE;
 const THING_MODEL_GROUP_TYPE: &str = client_gen::THING_MODEL_GROUP_TYPE;
-const THING_MODEL_ID_TOPIC_TOKEN: &str = "thingModelId";
 const THING_MODEL_RESOURCE_TYPE: &str = client_gen::THING_MODEL_RESOURCE_TYPE;
 
 /// Edge Registry client implementation.
