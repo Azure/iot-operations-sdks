@@ -15,20 +15,33 @@ use bytes::Bytes;
 
 use crate::edge_registry::edge_registry_gen::common_types::options::CommandInvokerOptionsBuilder;
 use crate::edge_registry::edge_registry_gen::edge_registry::client::{self as client_gen};
-use crate::edge_registry::models::xregistry::{extensions_to_gen, labels_to_gen};
 use crate::edge_registry::models::{
     GroupAttributes, GroupEntity, ResourceEntity, ResourceMetaAttributes, ResourceXId,
-    VersionAttributes, VersionEntity, VersionXId,
+    SchemaVersionAttributes, SchemaVersionEntity, ThingDescriptionVersionAttributes,
+    ThingDescriptionVersionEntity, ThingModelVersionAttributes, ThingModelVersionEntity,
+    VersionAttributes, VersionEntity, VersionXId, extensions_to_gen, labels_to_gen,
 };
 use crate::edge_registry::{
     AnyGroupSelection, CreateVersionId, Error, ErrorKind, GetVersionId, GroupId, GroupQuery,
     GroupSelection, Label,
 };
 
+// Topic token keys for the xRegistry command topics.
 const GROUP_TYPE_TOPIC_TOKEN: &str = "groupType";
 const RESOURCE_TYPE_TOPIC_TOKEN: &str = "resourceType";
 const RESOURCE_ID_TOPIC_TOKEN: &str = "resourceId";
 const VERSION_ID_TOPIC_TOKEN: &str = "versionId";
+const SCHEMA_ID_TOPIC_TOKEN: &str = "schemaId";
+const THING_DESCRIPTION_ID_TOPIC_TOKEN: &str = "thingDescriptionId";
+const THING_MODEL_ID_TOPIC_TOKEN: &str = "thingModelId";
+
+// XID constants.
+const SCHEMA_GROUP_TYPE: &str = client_gen::SCHEMA_GROUP_TYPE;
+const SCHEMA_RESOURCE_TYPE: &str = client_gen::SCHEMA_RESOURCE_TYPE;
+const THING_DESCRIPTION_GROUP_TYPE: &str = client_gen::THING_DESCRIPTION_GROUP_TYPE;
+const THING_DESCRIPTION_RESOURCE_TYPE: &str = client_gen::THING_DESCRIPTION_RESOURCE_TYPE;
+const THING_MODEL_GROUP_TYPE: &str = client_gen::THING_MODEL_GROUP_TYPE;
+const THING_MODEL_RESOURCE_TYPE: &str = client_gen::THING_MODEL_RESOURCE_TYPE;
 
 /// Edge Registry client implementation.
 #[allow(clippy::struct_field_names)]
@@ -47,8 +60,27 @@ pub struct Client {
     get_version_command_invoker: Arc<client_gen::GetVersionActionInvoker>,
     list_versions_command_invoker: Arc<client_gen::ListVersionsActionInvoker>,
     delete_version_command_invoker: Arc<client_gen::DeleteVersionActionInvoker>,
-    // TODO: Add the Schema, Thing Description, and Thing Model extension command
-    // invokers once the corresponding extension APIs are implemented.
+    // Schema extension command invokers.
+    create_schema_version_command_invoker: Arc<client_gen::CreateSchemaVersionActionInvoker>,
+    get_schema_version_command_invoker: Arc<client_gen::GetSchemaVersionActionInvoker>,
+    list_schema_versions_command_invoker: Arc<client_gen::ListSchemaVersionsActionInvoker>,
+    delete_schema_version_command_invoker: Arc<client_gen::DeleteSchemaVersionActionInvoker>,
+    // Thing Description extension command invokers.
+    create_thing_description_version_command_invoker:
+        Arc<client_gen::CreateThingDescriptionVersionActionInvoker>,
+    get_thing_description_version_command_invoker:
+        Arc<client_gen::GetThingDescriptionVersionActionInvoker>,
+    list_thing_description_versions_command_invoker:
+        Arc<client_gen::ListThingDescriptionVersionsActionInvoker>,
+    delete_thing_description_version_command_invoker:
+        Arc<client_gen::DeleteThingDescriptionVersionActionInvoker>,
+    // Thing Model extension command invokers.
+    create_thing_model_version_command_invoker:
+        Arc<client_gen::CreateThingModelVersionActionInvoker>,
+    get_thing_model_version_command_invoker: Arc<client_gen::GetThingModelVersionActionInvoker>,
+    list_thing_model_versions_command_invoker: Arc<client_gen::ListThingModelVersionsActionInvoker>,
+    delete_thing_model_version_command_invoker:
+        Arc<client_gen::DeleteThingModelVersionActionInvoker>,
 }
 
 impl Client {
@@ -124,10 +156,94 @@ impl Client {
                 &options,
             )),
             delete_version_command_invoker: Arc::new(client_gen::DeleteVersionActionInvoker::new(
-                application_context,
+                application_context.clone(),
                 client.clone(),
                 &options,
             )),
+            create_schema_version_command_invoker: Arc::new(
+                client_gen::CreateSchemaVersionActionInvoker::new(
+                    application_context.clone(),
+                    client.clone(),
+                    &options,
+                ),
+            ),
+            get_schema_version_command_invoker: Arc::new(
+                client_gen::GetSchemaVersionActionInvoker::new(
+                    application_context.clone(),
+                    client.clone(),
+                    &options,
+                ),
+            ),
+            list_schema_versions_command_invoker: Arc::new(
+                client_gen::ListSchemaVersionsActionInvoker::new(
+                    application_context.clone(),
+                    client.clone(),
+                    &options,
+                ),
+            ),
+            delete_schema_version_command_invoker: Arc::new(
+                client_gen::DeleteSchemaVersionActionInvoker::new(
+                    application_context.clone(),
+                    client.clone(),
+                    &options,
+                ),
+            ),
+            create_thing_description_version_command_invoker: Arc::new(
+                client_gen::CreateThingDescriptionVersionActionInvoker::new(
+                    application_context.clone(),
+                    client.clone(),
+                    &options,
+                ),
+            ),
+            get_thing_description_version_command_invoker: Arc::new(
+                client_gen::GetThingDescriptionVersionActionInvoker::new(
+                    application_context.clone(),
+                    client.clone(),
+                    &options,
+                ),
+            ),
+            list_thing_description_versions_command_invoker: Arc::new(
+                client_gen::ListThingDescriptionVersionsActionInvoker::new(
+                    application_context.clone(),
+                    client.clone(),
+                    &options,
+                ),
+            ),
+            delete_thing_description_version_command_invoker: Arc::new(
+                client_gen::DeleteThingDescriptionVersionActionInvoker::new(
+                    application_context.clone(),
+                    client.clone(),
+                    &options,
+                ),
+            ),
+            create_thing_model_version_command_invoker: Arc::new(
+                client_gen::CreateThingModelVersionActionInvoker::new(
+                    application_context.clone(),
+                    client.clone(),
+                    &options,
+                ),
+            ),
+            get_thing_model_version_command_invoker: Arc::new(
+                client_gen::GetThingModelVersionActionInvoker::new(
+                    application_context.clone(),
+                    client.clone(),
+                    &options,
+                ),
+            ),
+            list_thing_model_versions_command_invoker: Arc::new(
+                client_gen::ListThingModelVersionsActionInvoker::new(
+                    application_context.clone(),
+                    client.clone(),
+                    &options,
+                ),
+            ),
+            delete_thing_model_version_command_invoker: Arc::new(
+                client_gen::DeleteThingModelVersionActionInvoker::new(
+                    application_context,
+                    client.clone(),
+                    &options,
+                ),
+            ),
         }
     }
 
@@ -158,7 +274,7 @@ impl Client {
         attributes: GroupAttributes,
         timeout: Duration,
     ) -> Result<GroupEntity, Error> {
-        let payload: client_gen::GroupAttributes = attributes.into(group_id.into());
+        let payload: client_gen::GroupAttributes = attributes.into_gen(group_id.into());
 
         let request = client_gen::CreateGroupRequestBuilder::default()
             .payload(payload)
@@ -612,7 +728,7 @@ impl Client {
         group_id: GroupId,
         resource_type: String,
         resource_id: String,
-        version_id: GetVersionId,
+        version_id: GetVersionId<String>,
         timeout: Duration,
     ) -> Result<VersionEntity, Error> {
         let payload = client_gen::GetVersionInputArguments {
@@ -668,7 +784,7 @@ impl Client {
         resource_id: Option<String>,
         label: Option<Label>,
         timeout: Duration,
-    ) -> Result<Vec<VersionXId>, Error> {
+    ) -> Result<Vec<VersionXId<String>>, Error> {
         let (group_type, group_id, all_groups) = Self::group_query_scope(group_query);
 
         let payload = client_gen::ListVersionsRequestPayload {
@@ -749,6 +865,627 @@ impl Client {
         Ok(())
     }
 
+    // ~~~~~~~~~~~~~~~~~ Schema extension APIs ~~~~~~~~~~~~~~~~~~~~~
+
+    /// Create a new xRegistry Schema Version entity under the specified Schema. The parent Schema is
+    /// implicitly created if it doesn't already exist.
+    ///
+    /// # Arguments
+    /// * `group_id` - The identifier of the Group that owns the Schema. If [`CloudDefault`](GroupId::CloudDefault), the default Group is used.
+    /// * `schema_id` - The identifier of the Schema that owns the Version.
+    /// * `schema_labels` - Queryable key/value pairs to be added to the parent Schema.
+    /// * `version` - The [`SchemaVersionAttributes`] of the Version to create.
+    /// * `timeout` - The duration until the client stops waiting for a response to the request, it is rounded up to the nearest second.
+    ///
+    /// Returns the created [`SchemaVersionEntity`] with epoch 1.
+    ///
+    /// # Errors
+    /// [`struct@Error`] of kind [`ValidationError`](ErrorKind::ValidationError) if `timeout` is 0
+    /// or > `u32::max`.
+    ///
+    /// [`struct@Error`] of kind [`AIOProtocolError`](ErrorKind::AIOProtocolError) if there are
+    /// any underlying errors from the AIO RPC protocol.
+    ///
+    /// [`struct@Error`] of kind [`ServiceError`](ErrorKind::ServiceError) if an error is returned
+    /// by the Edge Registry service.
+    pub async fn create_schema_version(
+        &self,
+        group_id: GroupId,
+        schema_id: String,
+        schema_labels: Vec<Label>,
+        version: SchemaVersionAttributes,
+        timeout: Duration,
+    ) -> Result<SchemaVersionEntity, Error> {
+        let payload = version.into_gen(group_id.into(), schema_labels);
+
+        let request = client_gen::CreateSchemaVersionRequestBuilder::default()
+            .payload(payload)
+            .map_err(ErrorKind::from)?
+            .topic_tokens(Self::extension_resource_topic_tokens(
+                SCHEMA_ID_TOPIC_TOKEN,
+                schema_id,
+            ))
+            .timeout(timeout)
+            .build()
+            .map_err(ErrorKind::from)?;
+
+        let response = self
+            .create_schema_version_command_invoker
+            .invoke(request)
+            .await
+            .map_err(ErrorKind::from)?
+            .map_err(ErrorKind::from)?;
+        Ok(response.payload.into())
+    }
+
+    /// Retrieve an xRegistry [`SchemaVersionEntity`].
+    ///
+    /// # Arguments
+    /// * `group_id` - The identifier of the Group that owns the Schema. If [`CloudDefault`](GroupId::CloudDefault), the default Group is used.
+    /// * `schema_id` - The identifier of the Schema that owns the Version.
+    /// * `version_id` - The [`GetVersionId`] selecting which Version to retrieve. If [`ResourceDefault`](GetVersionId::ResourceDefault), the default Version of the Resource is retrieved.
+    /// * `timeout` - The duration until the client stops waiting for a response to the request, it is rounded up to the nearest second.
+    ///
+    /// Returns the requested [`SchemaVersionEntity`].
+    ///
+    /// # Errors
+    /// [`struct@Error`] of kind [`ValidationError`](ErrorKind::ValidationError) if `timeout` is 0
+    /// or > `u32::max`.
+    ///
+    /// [`struct@Error`] of kind [`AIOProtocolError`](ErrorKind::AIOProtocolError) if there are
+    /// any underlying errors from the AIO RPC protocol.
+    ///
+    /// [`struct@Error`] of kind [`ServiceError`](ErrorKind::ServiceError) if an error is returned
+    /// by the Edge Registry service.
+    pub async fn get_schema_version(
+        &self,
+        group_id: GroupId,
+        schema_id: String,
+        version_id: GetVersionId<u64>,
+        timeout: Duration,
+    ) -> Result<SchemaVersionEntity, Error> {
+        let payload = client_gen::GetSchemaVersionInputArguments {
+            group_id: group_id.into(),
+            version_id: version_id.into(),
+        };
+
+        let request = client_gen::GetSchemaVersionRequestBuilder::default()
+            .payload(payload)
+            .map_err(ErrorKind::from)?
+            .topic_tokens(Self::extension_resource_topic_tokens(
+                SCHEMA_ID_TOPIC_TOKEN,
+                schema_id,
+            ))
+            .timeout(timeout)
+            .build()
+            .map_err(ErrorKind::from)?;
+
+        let response = self
+            .get_schema_version_command_invoker
+            .invoke(request)
+            .await
+            .map_err(ErrorKind::from)?
+            .map_err(ErrorKind::from)?;
+        Ok(response.payload.into())
+    }
+
+    /// List the XIDs of the xRegistry Schema Versions matching the provided constraints.
+    ///
+    /// # Arguments
+    /// * `groups` - Which Groups to list across: [`All`](GroupSelection::All), the
+    ///   [`Default`](GroupSelection::Default) (cloud default) Group, or a specific
+    ///   [`GroupId`](GroupSelection::GroupId).
+    /// * `schema_id` - If provided, only Versions of this Schema are listed; otherwise Versions of
+    ///   all Schemas in the selected Group(s) are listed.
+    /// * `label` - If provided, only Versions carrying this [`Label`] are listed.
+    /// * `timeout` - The duration until the client stops waiting for a response to the request, it is rounded up to the nearest second.
+    ///
+    /// Returns the [`VersionXId`]s of the Versions matching the constraints.
+    ///
+    /// # Errors
+    /// [`struct@Error`] of kind [`ValidationError`](ErrorKind::ValidationError) if `timeout` is 0
+    /// or > `u32::max`.
+    ///
+    /// [`struct@Error`] of kind [`AIOProtocolError`](ErrorKind::AIOProtocolError) if there are
+    /// any underlying errors from the AIO RPC protocol.
+    ///
+    /// [`struct@Error`] of kind [`ServiceError`](ErrorKind::ServiceError) if an error is returned
+    /// by the Edge Registry service.
+    pub async fn list_schema_versions(
+        &self,
+        groups: GroupSelection,
+        schema_id: Option<String>,
+        label: Option<Label>,
+        timeout: Duration,
+    ) -> Result<Vec<VersionXId<u64>>, Error> {
+        let (group_id, all_groups) = Self::group_selection_scope(groups);
+        let payload = client_gen::ListVersionsRequestPayload {
+            group_type: Some(SCHEMA_GROUP_TYPE.to_string()),
+            group_id,
+            all_groups,
+            resource_type: Some(SCHEMA_RESOURCE_TYPE.to_string()),
+            resource_id: schema_id,
+            label: label.map(Into::into),
+        };
+
+        let request = client_gen::ListSchemaVersionsRequestBuilder::default()
+            .payload(payload)
+            .map_err(ErrorKind::from)?
+            .timeout(timeout)
+            .build()
+            .map_err(ErrorKind::from)?;
+
+        let response = self
+            .list_schema_versions_command_invoker
+            .invoke(request)
+            .await
+            .map_err(ErrorKind::from)?
+            .map_err(ErrorKind::from)?;
+        Ok(response.payload.into())
+    }
+
+    /// Delete an xRegistry Schema Version entity.
+    ///
+    /// # Arguments
+    /// * `group_id` - The identifier of the Group that owns the Schema. If [`CloudDefault`](GroupId::CloudDefault), the default Group is used.
+    /// * `schema_id` - The identifier of the Schema that owns the Version.
+    /// * `version_id` - The identifier of the Version to delete.
+    /// * `timeout` - The duration until the client stops waiting for a response to the request, it is rounded up to the nearest second.
+    ///
+    /// # Errors
+    /// [`struct@Error`] of kind [`ValidationError`](ErrorKind::ValidationError) if `timeout` is 0
+    /// or > `u32::max`.
+    ///
+    /// [`struct@Error`] of kind [`AIOProtocolError`](ErrorKind::AIOProtocolError) if there are
+    /// any underlying errors from the AIO RPC protocol.
+    ///
+    /// [`struct@Error`] of kind [`ServiceError`](ErrorKind::ServiceError) if an error is returned
+    /// by the Edge Registry service.
+    pub async fn delete_schema_version(
+        &self,
+        group_id: GroupId,
+        schema_id: String,
+        version_id: u64,
+        timeout: Duration,
+    ) -> Result<(), Error> {
+        let payload = client_gen::DeleteSchemaVersionInputArguments {
+            group_id: group_id.into(),
+        };
+
+        let request = client_gen::DeleteSchemaVersionRequestBuilder::default()
+            .payload(payload)
+            .map_err(ErrorKind::from)?
+            .topic_tokens(Self::extension_version_topic_tokens(
+                SCHEMA_ID_TOPIC_TOKEN,
+                schema_id,
+                version_id,
+            ))
+            .timeout(timeout)
+            .build()
+            .map_err(ErrorKind::from)?;
+
+        self.delete_schema_version_command_invoker
+            .invoke(request)
+            .await
+            .map_err(ErrorKind::from)?
+            .map_err(ErrorKind::from)?;
+        Ok(())
+    }
+
+    // ~~~~~~~~~~~~~~~~~ Thing Description extension APIs ~~~~~~~~~~~~~~~~~~~~~
+
+    /// Create a new xRegistry Thing Description Version entity under the specified Thing Description. The
+    /// parent Thing Description is implicitly created if it doesn't already exist.
+    ///
+    /// # Arguments
+    /// * `group_id` - The identifier of the Group that owns the Thing Description. If [`CloudDefault`](GroupId::CloudDefault), the default Group is used.
+    /// * `thing_description_id` - The identifier of the Thing Description that owns the Version.
+    /// * `thing_description_labels` - Queryable key/value pairs to be added to the parent Thing Description.
+    /// * `version` - The [`ThingDescriptionVersionAttributes`] of the Version to create.
+    /// * `timeout` - The duration until the client stops waiting for a response to the request, it is rounded up to the nearest second.
+    ///
+    /// Returns the created [`ThingDescriptionVersionEntity`] with epoch 1.
+    ///
+    /// # Errors
+    /// [`struct@Error`] of kind [`ValidationError`](ErrorKind::ValidationError) if `timeout` is 0
+    /// or > `u32::max`.
+    ///
+    /// [`struct@Error`] of kind [`AIOProtocolError`](ErrorKind::AIOProtocolError) if there are
+    /// any underlying errors from the AIO RPC protocol.
+    ///
+    /// [`struct@Error`] of kind [`ServiceError`](ErrorKind::ServiceError) if an error is returned
+    /// by the Edge Registry service.
+    pub async fn create_thing_description_version(
+        &self,
+        group_id: GroupId,
+        thing_description_id: String,
+        thing_description_labels: Vec<Label>,
+        version: ThingDescriptionVersionAttributes,
+        timeout: Duration,
+    ) -> Result<ThingDescriptionVersionEntity, Error> {
+        let payload = version.into_gen(group_id.into(), thing_description_labels);
+
+        let request = client_gen::CreateThingDescriptionVersionRequestBuilder::default()
+            .payload(payload)
+            .map_err(ErrorKind::from)?
+            .topic_tokens(Self::extension_resource_topic_tokens(
+                THING_DESCRIPTION_ID_TOPIC_TOKEN,
+                thing_description_id,
+            ))
+            .timeout(timeout)
+            .build()
+            .map_err(ErrorKind::from)?;
+
+        let response = self
+            .create_thing_description_version_command_invoker
+            .invoke(request)
+            .await
+            .map_err(ErrorKind::from)?
+            .map_err(ErrorKind::from)?;
+        Ok(response.payload.into())
+    }
+
+    /// Retrieve an xRegistry [`ThingDescriptionVersionEntity`].
+    ///
+    /// # Arguments
+    /// * `group_id` - The identifier of the Group that owns the Thing Description. If [`CloudDefault`](GroupId::CloudDefault), the default Group is used.
+    /// * `thing_description_id` - The identifier of the Thing Description that owns the Version.
+    /// * `version_id` - The [`GetVersionId`] selecting which Version to retrieve. If [`ResourceDefault`](GetVersionId::ResourceDefault), the default Version of the Resource is retrieved.
+    /// * `timeout` - The duration until the client stops waiting for a response to the request, it is rounded up to the nearest second.
+    ///
+    /// Returns the requested [`ThingDescriptionVersionEntity`].
+    ///
+    /// # Errors
+    /// [`struct@Error`] of kind [`ValidationError`](ErrorKind::ValidationError) if `timeout` is 0
+    /// or > `u32::max`.
+    ///
+    /// [`struct@Error`] of kind [`AIOProtocolError`](ErrorKind::AIOProtocolError) if there are
+    /// any underlying errors from the AIO RPC protocol.
+    ///
+    /// [`struct@Error`] of kind [`ServiceError`](ErrorKind::ServiceError) if an error is returned
+    /// by the Edge Registry service.
+    pub async fn get_thing_description_version(
+        &self,
+        group_id: GroupId,
+        thing_description_id: String,
+        version_id: GetVersionId<u64>,
+        timeout: Duration,
+    ) -> Result<ThingDescriptionVersionEntity, Error> {
+        let payload = client_gen::GetThingDescriptionVersionInputArguments {
+            group_id: group_id.into(),
+            version_id: version_id.into(),
+        };
+
+        let request = client_gen::GetThingDescriptionVersionRequestBuilder::default()
+            .payload(payload)
+            .map_err(ErrorKind::from)?
+            .topic_tokens(Self::extension_resource_topic_tokens(
+                THING_DESCRIPTION_ID_TOPIC_TOKEN,
+                thing_description_id,
+            ))
+            .timeout(timeout)
+            .build()
+            .map_err(ErrorKind::from)?;
+
+        let response = self
+            .get_thing_description_version_command_invoker
+            .invoke(request)
+            .await
+            .map_err(ErrorKind::from)?
+            .map_err(ErrorKind::from)?;
+        Ok(response.payload.into())
+    }
+
+    /// List the XIDs of xRegistry Thing Description Versions matching the provided constraints.
+    ///
+    /// # Arguments
+    /// * `groups` - Which Groups to list across: [`All`](GroupSelection::All), the
+    ///   [`Default`](GroupSelection::Default) (cloud default) Group, or a specific
+    ///   [`GroupId`](GroupSelection::GroupId).
+    /// * `thing_description_id` - If provided, only Versions of this Thing Description are listed;
+    ///   otherwise Versions of all Thing Descriptions in the selected Group(s) are listed.
+    /// * `label` - If provided, only Versions carrying this [`Label`] are listed.
+    /// * `timeout` - The duration until the client stops waiting for a response to the request, it is rounded up to the nearest second.
+    ///
+    /// Returns the [`VersionXId`]s of the Versions matching the constraints.
+    ///
+    /// # Errors
+    /// [`struct@Error`] of kind [`ValidationError`](ErrorKind::ValidationError) if `timeout` is 0
+    /// or > `u32::max`.
+    ///
+    /// [`struct@Error`] of kind [`AIOProtocolError`](ErrorKind::AIOProtocolError) if there are
+    /// any underlying errors from the AIO RPC protocol.
+    ///
+    /// [`struct@Error`] of kind [`ServiceError`](ErrorKind::ServiceError) if an error is returned
+    /// by the Edge Registry service.
+    pub async fn list_thing_description_versions(
+        &self,
+        groups: GroupSelection,
+        thing_description_id: Option<String>,
+        label: Option<Label>,
+        timeout: Duration,
+    ) -> Result<Vec<VersionXId<u64>>, Error> {
+        let (group_id, all_groups) = Self::group_selection_scope(groups);
+        let payload = client_gen::ListVersionsRequestPayload {
+            group_type: Some(THING_DESCRIPTION_GROUP_TYPE.to_string()),
+            group_id,
+            all_groups,
+            resource_type: Some(THING_DESCRIPTION_RESOURCE_TYPE.to_string()),
+            resource_id: thing_description_id,
+            label: label.map(Into::into),
+        };
+
+        let request = client_gen::ListThingDescriptionVersionsRequestBuilder::default()
+            .payload(payload)
+            .map_err(ErrorKind::from)?
+            .timeout(timeout)
+            .build()
+            .map_err(ErrorKind::from)?;
+
+        let response = self
+            .list_thing_description_versions_command_invoker
+            .invoke(request)
+            .await
+            .map_err(ErrorKind::from)?
+            .map_err(ErrorKind::from)?;
+        Ok(response.payload.into())
+    }
+
+    /// Delete an xRegistry Thing Description Version entity.
+    ///
+    /// # Arguments
+    /// * `group_id` - The identifier of the Group that owns the Thing Description. If [`CloudDefault`](GroupId::CloudDefault), the default Group is used.
+    /// * `thing_description_id` - The identifier of the Thing Description that owns the Version.
+    /// * `version_id` - The identifier of the Version to delete.
+    /// * `timeout` - The duration until the client stops waiting for a response to the request, it is rounded up to the nearest second.
+    ///
+    /// # Errors
+    /// [`struct@Error`] of kind [`ValidationError`](ErrorKind::ValidationError) if `timeout` is 0
+    /// or > `u32::max`.
+    ///
+    /// [`struct@Error`] of kind [`AIOProtocolError`](ErrorKind::AIOProtocolError) if there are
+    /// any underlying errors from the AIO RPC protocol.
+    ///
+    /// [`struct@Error`] of kind [`ServiceError`](ErrorKind::ServiceError) if an error is returned
+    /// by the Edge Registry service.
+    pub async fn delete_thing_description_version(
+        &self,
+        group_id: GroupId,
+        thing_description_id: String,
+        version_id: u64,
+        timeout: Duration,
+    ) -> Result<(), Error> {
+        let payload = client_gen::DeleteThingDescriptionVersionInputArguments {
+            group_id: group_id.into(),
+        };
+
+        let request = client_gen::DeleteThingDescriptionVersionRequestBuilder::default()
+            .payload(payload)
+            .map_err(ErrorKind::from)?
+            .topic_tokens(Self::extension_version_topic_tokens(
+                THING_DESCRIPTION_ID_TOPIC_TOKEN,
+                thing_description_id,
+                version_id,
+            ))
+            .timeout(timeout)
+            .build()
+            .map_err(ErrorKind::from)?;
+
+        self.delete_thing_description_version_command_invoker
+            .invoke(request)
+            .await
+            .map_err(ErrorKind::from)?
+            .map_err(ErrorKind::from)?;
+        Ok(())
+    }
+
+    // ~~~~~~~~~~~~~~~~~ Thing Model extension APIs ~~~~~~~~~~~~~~~~~~~~~
+
+    /// Create a new xRegistry Thing Model Version entity under the specified Thing Model. The parent
+    /// Thing Model is implicitly created if it doesn't already exist.
+    ///
+    /// # Arguments
+    /// * `group_id` - The identifier of the Group that owns the Thing Model. If [`CloudDefault`](GroupId::CloudDefault), the default Group is used.
+    /// * `thing_model_id` - The identifier of the Thing Model that owns the Version.
+    /// * `thing_model_labels` - Queryable key/value pairs to be added to the parent Thing Model.
+    /// * `version` - The [`ThingModelVersionAttributes`] of the Version to create.
+    /// * `timeout` - The duration until the client stops waiting for a response to the request, it is rounded up to the nearest second.
+    ///
+    /// Returns the created [`ThingModelVersionEntity`] with epoch 1.
+    ///
+    /// # Errors
+    /// [`struct@Error`] of kind [`ValidationError`](ErrorKind::ValidationError) if `timeout` is 0
+    /// or > `u32::max`.
+    ///
+    /// [`struct@Error`] of kind [`AIOProtocolError`](ErrorKind::AIOProtocolError) if there are
+    /// any underlying errors from the AIO RPC protocol.
+    ///
+    /// [`struct@Error`] of kind [`ServiceError`](ErrorKind::ServiceError) if an error is returned
+    /// by the Edge Registry service.
+    pub async fn create_thing_model_version(
+        &self,
+        group_id: GroupId,
+        thing_model_id: String,
+        thing_model_labels: Vec<Label>,
+        version: ThingModelVersionAttributes,
+        timeout: Duration,
+    ) -> Result<ThingModelVersionEntity, Error> {
+        let payload = version.into_gen(group_id.into(), thing_model_labels);
+
+        let request = client_gen::CreateThingModelVersionRequestBuilder::default()
+            .payload(payload)
+            .map_err(ErrorKind::from)?
+            .topic_tokens(Self::extension_resource_topic_tokens(
+                THING_MODEL_ID_TOPIC_TOKEN,
+                thing_model_id,
+            ))
+            .timeout(timeout)
+            .build()
+            .map_err(ErrorKind::from)?;
+
+        let response = self
+            .create_thing_model_version_command_invoker
+            .invoke(request)
+            .await
+            .map_err(ErrorKind::from)?
+            .map_err(ErrorKind::from)?;
+        Ok(response.payload.into())
+    }
+
+    /// Retrieve an xRegistry [`ThingModelVersionEntity`] entity.
+    ///
+    /// # Arguments
+    /// * `group_id` - The identifier of the Group that owns the Thing Model. If [`CloudDefault`](GroupId::CloudDefault), the default Group is used.
+    /// * `thing_model_id` - The identifier of the Thing Model that owns the Version.
+    /// * `version_id` - The [`GetVersionId`] selecting which Version to retrieve. If [`ResourceDefault`](GetVersionId::ResourceDefault), the default Version of the Resource is retrieved.
+    /// * `timeout` - The duration until the client stops waiting for a response to the request, it is rounded up to the nearest second.
+    ///
+    /// Returns the requested [`ThingModelVersionEntity`].
+    ///
+    /// # Errors
+    /// [`struct@Error`] of kind [`ValidationError`](ErrorKind::ValidationError) if `timeout` is 0
+    /// or > `u32::max`.
+    ///
+    /// [`struct@Error`] of kind [`AIOProtocolError`](ErrorKind::AIOProtocolError) if there are
+    /// any underlying errors from the AIO RPC protocol.
+    ///
+    /// [`struct@Error`] of kind [`ServiceError`](ErrorKind::ServiceError) if an error is returned
+    /// by the Edge Registry service.
+    pub async fn get_thing_model_version(
+        &self,
+        group_id: GroupId,
+        thing_model_id: String,
+        version_id: GetVersionId<u64>,
+        timeout: Duration,
+    ) -> Result<ThingModelVersionEntity, Error> {
+        let payload = client_gen::GetThingModelVersionInputArguments {
+            group_id: group_id.into(),
+            version_id: version_id.into(),
+        };
+
+        let request = client_gen::GetThingModelVersionRequestBuilder::default()
+            .payload(payload)
+            .map_err(ErrorKind::from)?
+            .topic_tokens(Self::extension_resource_topic_tokens(
+                THING_MODEL_ID_TOPIC_TOKEN,
+                thing_model_id,
+            ))
+            .timeout(timeout)
+            .build()
+            .map_err(ErrorKind::from)?;
+
+        let response = self
+            .get_thing_model_version_command_invoker
+            .invoke(request)
+            .await
+            .map_err(ErrorKind::from)?
+            .map_err(ErrorKind::from)?;
+        Ok(response.payload.into())
+    }
+
+    /// List the XIDs of xRegistry Thing Model Versions matching the provided constraints.
+    ///
+    /// # Arguments
+    /// * `groups` - Which Groups to list across: [`All`](GroupSelection::All), the
+    ///   [`Default`](GroupSelection::Default) (cloud default) Group, or a specific
+    ///   [`GroupId`](GroupSelection::GroupId).
+    /// * `thing_model_id` - If provided, only Versions of this Thing Model are listed; otherwise
+    ///   Versions of all Thing Models in the selected Group(s) are listed.
+    /// * `label` - If provided, only Versions carrying this [`Label`] are listed.
+    /// * `timeout` - The duration until the client stops waiting for a response to the request, it is rounded up to the nearest second.
+    ///
+    /// Returns the [`VersionXId`]s of the Versions matching the constraints.
+    ///
+    /// # Errors
+    /// [`struct@Error`] of kind [`ValidationError`](ErrorKind::ValidationError) if `timeout` is 0
+    /// or > `u32::max`.
+    ///
+    /// [`struct@Error`] of kind [`AIOProtocolError`](ErrorKind::AIOProtocolError) if there are
+    /// any underlying errors from the AIO RPC protocol.
+    ///
+    /// [`struct@Error`] of kind [`ServiceError`](ErrorKind::ServiceError) if an error is returned
+    /// by the Edge Registry service.
+    pub async fn list_thing_model_versions(
+        &self,
+        groups: GroupSelection,
+        thing_model_id: Option<String>,
+        label: Option<Label>,
+        timeout: Duration,
+    ) -> Result<Vec<VersionXId<u64>>, Error> {
+        let (group_id, all_groups) = Self::group_selection_scope(groups);
+        let payload = client_gen::ListVersionsRequestPayload {
+            group_type: Some(THING_MODEL_GROUP_TYPE.to_string()),
+            group_id,
+            all_groups,
+            resource_type: Some(THING_MODEL_RESOURCE_TYPE.to_string()),
+            resource_id: thing_model_id,
+            label: label.map(Into::into),
+        };
+
+        let request = client_gen::ListThingModelVersionsRequestBuilder::default()
+            .payload(payload)
+            .map_err(ErrorKind::from)?
+            .timeout(timeout)
+            .build()
+            .map_err(ErrorKind::from)?;
+
+        let response = self
+            .list_thing_model_versions_command_invoker
+            .invoke(request)
+            .await
+            .map_err(ErrorKind::from)?
+            .map_err(ErrorKind::from)?;
+        Ok(response.payload.into())
+    }
+
+    /// Delete an xRegistry Thing Model Version entity.
+    ///
+    /// # Arguments
+    /// * `group_id` - The identifier of the Group that owns the Thing Model. If [`CloudDefault`](GroupId::CloudDefault), the default Group is used.
+    /// * `thing_model_id` - The identifier of the Thing Model that owns the Version.
+    /// * `version_id` - The identifier of the Version to delete.
+    /// * `timeout` - The duration until the client stops waiting for a response to the request, it is rounded up to the nearest second.
+    ///
+    /// # Errors
+    /// [`struct@Error`] of kind [`ValidationError`](ErrorKind::ValidationError) if `timeout` is 0
+    /// or > `u32::max`.
+    ///
+    /// [`struct@Error`] of kind [`AIOProtocolError`](ErrorKind::AIOProtocolError) if there are
+    /// any underlying errors from the AIO RPC protocol.
+    ///
+    /// [`struct@Error`] of kind [`ServiceError`](ErrorKind::ServiceError) if an error is returned
+    /// by the Edge Registry service.
+    pub async fn delete_thing_model_version(
+        &self,
+        group_id: GroupId,
+        thing_model_id: String,
+        version_id: u64,
+        timeout: Duration,
+    ) -> Result<(), Error> {
+        let payload = client_gen::DeleteThingModelVersionInputArguments {
+            group_id: group_id.into(),
+        };
+
+        let request = client_gen::DeleteThingModelVersionRequestBuilder::default()
+            .payload(payload)
+            .map_err(ErrorKind::from)?
+            .topic_tokens(Self::extension_version_topic_tokens(
+                THING_MODEL_ID_TOPIC_TOKEN,
+                thing_model_id,
+                version_id,
+            ))
+            .timeout(timeout)
+            .build()
+            .map_err(ErrorKind::from)?;
+
+        self.delete_thing_model_version_command_invoker
+            .invoke(request)
+            .await
+            .map_err(ErrorKind::from)?
+            .map_err(ErrorKind::from)?;
+        Ok(())
+    }
+
     // ~~~~~~~~~~~~~~~~~ General APIs ~~~~~~~~~~~~~~~~~~~~~
 
     /// Shutdown the [`Client`]. Shuts down the underlying command invokers.
@@ -776,6 +1513,18 @@ impl Client {
             get_version,
             list_versions,
             delete_version,
+            create_schema_version,
+            get_schema_version,
+            list_schema_versions,
+            delete_schema_version,
+            create_thing_description_version,
+            get_thing_description_version,
+            list_thing_description_versions,
+            delete_thing_description_version,
+            create_thing_model_version,
+            get_thing_model_version,
+            list_thing_model_versions,
+            delete_thing_model_version,
         ) = tokio::join!(
             self.create_group_command_invoker.shutdown(),
             self.get_group_command_invoker.shutdown(),
@@ -789,6 +1538,22 @@ impl Client {
             self.get_version_command_invoker.shutdown(),
             self.list_versions_command_invoker.shutdown(),
             self.delete_version_command_invoker.shutdown(),
+            self.create_schema_version_command_invoker.shutdown(),
+            self.get_schema_version_command_invoker.shutdown(),
+            self.list_schema_versions_command_invoker.shutdown(),
+            self.delete_schema_version_command_invoker.shutdown(),
+            self.create_thing_description_version_command_invoker
+                .shutdown(),
+            self.get_thing_description_version_command_invoker
+                .shutdown(),
+            self.list_thing_description_versions_command_invoker
+                .shutdown(),
+            self.delete_thing_description_version_command_invoker
+                .shutdown(),
+            self.create_thing_model_version_command_invoker.shutdown(),
+            self.get_thing_model_version_command_invoker.shutdown(),
+            self.list_thing_model_versions_command_invoker.shutdown(),
+            self.delete_thing_model_version_command_invoker.shutdown(),
         );
 
         let mut errors = Vec::new();
@@ -805,6 +1570,18 @@ impl Client {
             get_version,
             list_versions,
             delete_version,
+            create_schema_version,
+            get_schema_version,
+            list_schema_versions,
+            delete_schema_version,
+            create_thing_description_version,
+            get_thing_description_version,
+            list_thing_description_versions,
+            delete_thing_description_version,
+            create_thing_model_version,
+            get_thing_model_version,
+            list_thing_model_versions,
+            delete_thing_model_version,
         ] {
             if let Err(e) = result {
                 errors.push(e);
@@ -851,6 +1628,27 @@ impl Client {
         tokens
     }
 
+    /// Builds the topic tokens for an extension Resource-scoped request, keyed by the extension's
+    /// Resource-identifier token (e.g. `schemaId`, `thingDescriptionId`, `thingModelId`).
+    fn extension_resource_topic_tokens(
+        resource_id_token: &str,
+        resource_id: String,
+    ) -> HashMap<String, String> {
+        HashMap::from([(resource_id_token.to_string(), resource_id)])
+    }
+
+    /// Builds the topic tokens for an extension Version request that carries the Version Id in the
+    /// topic, keyed by the extension's Resource-identifier token.
+    fn extension_version_topic_tokens(
+        resource_id_token: &str,
+        resource_id: String,
+        version_id: u64,
+    ) -> HashMap<String, String> {
+        let mut tokens = Self::extension_resource_topic_tokens(resource_id_token, resource_id);
+        tokens.insert(VERSION_ID_TOPIC_TOKEN.to_string(), version_id.to_string());
+        tokens
+    }
+
     /// Resolves a [`GroupQuery`] into the `(group_type, group_id, all_groups)` scope fields used by
     /// the list request payloads.
     fn group_query_scope(query: GroupQuery) -> (Option<String>, Option<String>, bool) {
@@ -864,6 +1662,16 @@ impl Client {
                 GroupSelection::GroupId(group_id) => (Some(group_type), Some(group_id), false),
                 GroupSelection::Default => (Some(group_type), None, false),
             },
+        }
+    }
+
+    /// Resolves a [`GroupSelection`] into the `(group_id, all_groups)` scope fields for an extension
+    /// list request, whose Group type is fixed by the extension.
+    fn group_selection_scope(groups: GroupSelection) -> (Option<String>, bool) {
+        match groups {
+            GroupSelection::All => (None, true),
+            GroupSelection::GroupId(group_id) => (Some(group_id), false),
+            GroupSelection::Default => (None, false),
         }
     }
 }
