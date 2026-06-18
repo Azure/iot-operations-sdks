@@ -13,7 +13,7 @@ use super::super::common_types::{b64::Bytes, date_only::Date, decimal::Decimal, 
 
 /// Indicates whether validation was performed, and if not, the reason why not (e.g., "unsupported format", "validation disabled").
 #[derive(Serialize, Deserialize, Debug, Clone, Builder)]
-pub struct Validated {
+pub struct ValidationStatus {
     /// True if validation was performed and the entity adheres to the rules; false if validation was not performed.
     pub validated: bool,
 

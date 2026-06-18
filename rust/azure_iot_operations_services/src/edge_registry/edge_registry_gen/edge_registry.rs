@@ -196,7 +196,7 @@ mod thing_model_version_serialization;
 mod thing_model_version_xid;
 mod thing_model_version_xid_list;
 mod thing_model_version_xid_list_serialization;
-mod validated;
+mod validation_status;
 mod version;
 mod version_attributes;
 mod version_serialization;
@@ -341,7 +341,7 @@ pub mod client {
     pub use super::thing_model_version::*;
     pub use super::thing_model_version_xid::*;
     pub use super::thing_model_version_xid_list::*;
-    pub use super::validated::*;
+    pub use super::validation_status::*;
     pub use super::version::*;
     pub use super::version_attributes::*;
     pub use super::version_xid::*;
