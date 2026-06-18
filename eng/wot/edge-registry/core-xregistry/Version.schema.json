@@ -85,11 +85,11 @@
     },
     "formatValidated": {
       "description": "When format validation is enabled, indicates whether the server has validated that the Version conforms to the rules defined by its `format` attribute.",
-      "$ref": "Validated.schema.json"
+      "$ref": "ValidationStatus.schema.json"
     },
     "compatibilityValidated": {
       "description": "When compatibility validation is enabled, indicates whether the server has validated that the Version conforms to the rules defined by its Resource's `meta.compatibility` attribute.",
-      "$ref": "Validated.schema.json"
+      "$ref": "ValidationStatus.schema.json"
     },
     "document": {
       "description": "The raw document content for this Version as base64-encoded bytes. The interpretation (schema, thing description, thing model, …) is determined by the parent Resource's type.",

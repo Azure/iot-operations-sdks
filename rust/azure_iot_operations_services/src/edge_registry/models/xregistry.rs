@@ -31,8 +31,8 @@ pub enum Validated {
     False(String),
 }
 
-impl From<client_gen::Validated> for Validated {
-    fn from(value: client_gen::Validated) -> Self {
+impl From<client_gen::ValidationStatus> for Validated {
+    fn from(value: client_gen::ValidationStatus) -> Self {
         if value.validated {
             // Per the model, `reason` MUST NOT be present when `validated` is true.
             // Any value is dropped here, as the `True` variant carries no reason.

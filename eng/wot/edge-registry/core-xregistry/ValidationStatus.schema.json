@@ -1,6 +1,6 @@
 {
   "$schema": "https://json-schema.org/draft-07/schema",
-  "title": "Validated",
+  "title": "ValidationStatus",
   "description": "Indicates whether validation was performed, and if not, the reason why not (e.g., \"unsupported format\", \"validation disabled\").",
   "type": "object",
   "additionalProperties": false,
