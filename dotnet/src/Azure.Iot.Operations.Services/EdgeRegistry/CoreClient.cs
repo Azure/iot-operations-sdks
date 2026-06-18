@@ -35,11 +35,9 @@ public sealed class CoreClient : ICoreClient
         cancellationToken.ThrowIfCancellationRequested();
         ObjectDisposedException.ThrowIf(_disposed, this);
 
-        Dictionary<string, string> topicTokens = new() { ["groupType"] = groupType };
-
         var output = await _stub.ListGroupsAsync(
             requestMetadata: null,
-            additionalTopicTokenMap: topicTokens,
+            additionalTopicTokenMap: GroupTopicTokens(groupType),
             commandTimeout: timeout ?? s_defaultCommandTimeout,
             cancellationToken: cancellationToken);
 
@@ -47,18 +45,17 @@ public sealed class CoreClient : ICoreClient
     }
 
     /// <inheritdoc/>
-    public async Task<Models.Group> GetGroupAsync(string groupType, string? groupId = null, TimeSpan? timeout = null, CancellationToken cancellationToken = default)
+    public async Task<Models.Group> GetGroupAsync(string groupType, GroupId groupId, TimeSpan? timeout = null, CancellationToken cancellationToken = default)
     {
         cancellationToken.ThrowIfCancellationRequested();
         ObjectDisposedException.ThrowIf(_disposed, this);
 
-        Dictionary<string, string> topicTokens = new() { ["groupType"] = groupType };
-        Generated.GetGroupInputArguments request = new() { GroupId = groupId };
+        Generated.GetGroupInputArguments request = new() { GroupId = groupId.Value };
 
         var output = await _stub.GetGroupAsync(
             request,
             requestMetadata: null,
-            additionalTopicTokenMap: topicTokens,
+            additionalTopicTokenMap: GroupTopicTokens(groupType),
             commandTimeout: timeout ?? s_defaultCommandTimeout,
             cancellationToken: cancellationToken);
 
@@ -66,19 +63,18 @@ public sealed class CoreClient : ICoreClient
     }
 
     /// <inheritdoc/>
-    public async Task<Models.Group> CreateGroupAsync(string groupType, Models.GroupAttributes attributes, string? groupId = null, TimeSpan? timeout = null, CancellationToken cancellationToken = default)
+    public async Task<Models.Group> CreateGroupAsync(string groupType, GroupId groupId, Models.GroupAttributes attributes, TimeSpan? timeout = null, CancellationToken cancellationToken = default)
     {
         cancellationToken.ThrowIfCancellationRequested();
         ObjectDisposedException.ThrowIf(_disposed, this);
 
-        Dictionary<string, string> topicTokens = new() { ["groupType"] = groupType };
         Generated.GroupAttributes request = Converter.ToGenerated(attributes);
-        request.GroupId = groupId;
+        request.GroupId = groupId.Value;
 
         var output = await _stub.CreateGroupAsync(
             request,
             requestMetadata: null,
-            additionalTopicTokenMap: topicTokens,
+            additionalTopicTokenMap: GroupTopicTokens(groupType),
             commandTimeout: timeout ?? s_defaultCommandTimeout,
             cancellationToken: cancellationToken);
 
@@ -86,18 +82,17 @@ public sealed class CoreClient : ICoreClient
     }
 
     /// <inheritdoc/>
-    public async Task DeleteGroupAsync(string groupType, string? groupId = null, TimeSpan? timeout = null, CancellationToken cancellationToken = default)
+    public async Task DeleteGroupAsync(string groupType, GroupId groupId, TimeSpan? timeout = null, CancellationToken cancellationToken = default)
     {
         cancellationToken.ThrowIfCancellationRequested();
         ObjectDisposedException.ThrowIf(_disposed, this);
 
-        Dictionary<string, string> topicTokens = new() { ["groupType"] = groupType };
-        Generated.DeleteGroupInputArguments request = new() { GroupId = groupId };
+        Generated.DeleteGroupInputArguments request = new() { GroupId = groupId.Value };
 
         await _stub.DeleteGroupAsync(
             request,
             requestMetadata: null,
-            additionalTopicTokenMap: topicTokens,
+            additionalTopicTokenMap: GroupTopicTokens(groupType),
             commandTimeout: timeout ?? s_defaultCommandTimeout,
             cancellationToken: cancellationToken);
     }
@@ -105,46 +100,122 @@ public sealed class CoreClient : ICoreClient
     // ---- Resource APIs ----
 
     /// <inheritdoc/>
-    public Task<IReadOnlyList<string>> ListResourcesAsync(string groupType, string resourceType, string? groupId = null, TimeSpan? timeout = null, CancellationToken cancellationToken = default)
-        => throw new NotImplementedException();
+    public async Task<Models.Resource> GetResourceAsync(string groupType, GroupId groupId, string resourceType, string resourceId, TimeSpan? timeout = null, CancellationToken cancellationToken = default)
+    {
+        cancellationToken.ThrowIfCancellationRequested();
+        ObjectDisposedException.ThrowIf(_disposed, this);
+
+        Generated.GetResourceInputArguments request = new() { GroupId = groupId.Value };
+
+        var output = await _stub.GetResourceAsync(
+            request,
+            requestMetadata: null,
+            additionalTopicTokenMap: ResourceTopicTokens(groupType, resourceType, resourceId),
+            commandTimeout: timeout ?? s_defaultCommandTimeout,
+            cancellationToken: cancellationToken);
+
+        return Converter.ToModel(output);
+    }
 
     /// <inheritdoc/>
-    public Task<IReadOnlyList<Models.ResourceXid>> ListResourcesWithLabelAsync(string labelKey, string labelValue, string? groupType = null, string? groupId = null, string? resourceType = null, bool allGroups = false, TimeSpan? timeout = null, CancellationToken cancellationToken = default)
-        => throw new NotImplementedException();
+    public async Task<Models.Resource> CreateResourceAsync(string groupType, GroupId groupId, string resourceType, string resourceId, Models.ResourceMetaAttributes meta, Dictionary<string, byte[]> resourceExtensions, CreateVersionId defaultVersionId, Models.VersionAttributes defaultVersion, TimeSpan? timeout = null, CancellationToken cancellationToken = default)
+    {
+        cancellationToken.ThrowIfCancellationRequested();
+        ObjectDisposedException.ThrowIf(_disposed, this);
+
+        Generated.CreateResourceRequestPayload request = new()
+        {
+            GroupId = groupId.Value,
+            Meta = Converter.ToGenerated(meta),
+            DefaultVersion = Converter.ToGenerated(defaultVersion),
+            DefaultVersionId = defaultVersionId.Value,
+            Extensions = new Dictionary<string, byte[]>(resourceExtensions),
+        };
+
+        var output = await _stub.CreateResourceAsync(
+            request,
+            requestMetadata: null,
+            additionalTopicTokenMap: ResourceTopicTokens(groupType, resourceType, resourceId),
+            commandTimeout: timeout ?? s_defaultCommandTimeout,
+            cancellationToken: cancellationToken);
+
+        return Converter.ToModel(output);
+    }
 
     /// <inheritdoc/>
-    public Task<Models.Resource> GetResourceAsync(string groupType, string resourceType, string resourceId, string? groupId = null, TimeSpan? timeout = null, CancellationToken cancellationToken = default)
-        => throw new NotImplementedException();
+    public async Task<IReadOnlyList<Models.ResourceXid>> ListResourcesAsync(GroupQuery groups, string? resourceType = null, Models.Label? label = null, TimeSpan? timeout = null, CancellationToken cancellationToken = default)
+    {
+        cancellationToken.ThrowIfCancellationRequested();
+        ObjectDisposedException.ThrowIf(_disposed, this);
+
+        (string? groupType, string? groupId, bool allGroups) = groups.Resolve();
+        Generated.ListResourcesRequestPayload request = new()
+        {
+            GroupType = groupType,
+            GroupId = groupId,
+            AllGroups = allGroups,
+            ResourceType = resourceType,
+            Label = label is null ? null : Converter.ToGenerated(label),
+        };
+
+        var output = await _stub.ListResourcesAsync(
+            request,
+            requestMetadata: null,
+            additionalTopicTokenMap: null,
+            commandTimeout: timeout ?? s_defaultCommandTimeout,
+            cancellationToken: cancellationToken);
+
+        return Converter.ToModel(output);
+    }
 
     /// <inheritdoc/>
-    public Task<Models.Resource> CreateResourceAsync(string groupType, string resourceType, string resourceId, Models.ResourceMetaAttributes meta, Models.VersionAttributes defaultVersion, string? groupId = null, TimeSpan? timeout = null, CancellationToken cancellationToken = default)
-        => throw new NotImplementedException();
+    public async Task DeleteResourceAsync(string groupType, GroupId groupId, string resourceType, string resourceId, TimeSpan? timeout = null, CancellationToken cancellationToken = default)
+    {
+        cancellationToken.ThrowIfCancellationRequested();
+        ObjectDisposedException.ThrowIf(_disposed, this);
 
-    /// <inheritdoc/>
-    public Task DeleteResourceAsync(string groupType, string resourceType, string resourceId, string? groupId = null, TimeSpan? timeout = null, CancellationToken cancellationToken = default)
-        => throw new NotImplementedException();
+        Generated.DeleteResourceInputArguments request = new() { GroupId = groupId.Value };
+
+        await _stub.DeleteResourceAsync(
+            request,
+            requestMetadata: null,
+            additionalTopicTokenMap: ResourceTopicTokens(groupType, resourceType, resourceId),
+            commandTimeout: timeout ?? s_defaultCommandTimeout,
+            cancellationToken: cancellationToken);
+    }
 
     // ---- Version APIs ----
 
     /// <inheritdoc/>
-    public Task<IReadOnlyList<string>> ListVersionsAsync(string groupType, string resourceType, string resourceId, string? groupId = null, TimeSpan? timeout = null, CancellationToken cancellationToken = default)
+    public Task<Models.Version> GetVersionAsync(string groupType, GroupId groupId, string resourceType, string resourceId, GetVersionId versionId, TimeSpan? timeout = null, CancellationToken cancellationToken = default)
         => throw new NotImplementedException();
 
     /// <inheritdoc/>
-    public Task<IReadOnlyList<Models.VersionXid>> ListVersionsWithLabelAsync(string labelKey, string labelValue, string? groupType = null, string? groupId = null, string? resourceType = null, string? resourceId = null, bool allGroups = false, TimeSpan? timeout = null, CancellationToken cancellationToken = default)
+    public Task<Models.Version> CreateVersionAsync(string groupType, GroupId groupId, string resourceType, string resourceId, IReadOnlyList<Models.Label> resourceLabels, CreateVersionId versionId, Models.VersionAttributes version, TimeSpan? timeout = null, CancellationToken cancellationToken = default)
         => throw new NotImplementedException();
 
     /// <inheritdoc/>
-    public Task<Models.Version> GetVersionAsync(string groupType, string resourceType, string resourceId, string? versionId = null, string? groupId = null, TimeSpan? timeout = null, CancellationToken cancellationToken = default)
+    public Task<IReadOnlyList<Models.VersionXid>> ListVersionsAsync(GroupQuery groups, string? resourceType = null, string? resourceId = null, Models.Label? label = null, TimeSpan? timeout = null, CancellationToken cancellationToken = default)
         => throw new NotImplementedException();
 
     /// <inheritdoc/>
-    public Task<Models.Version> CreateVersionAsync(string groupType, string resourceType, string resourceId, Models.VersionAttributes version, IReadOnlyList<Models.Label> resourceLabels, string? groupId = null, TimeSpan? timeout = null, CancellationToken cancellationToken = default)
+    public Task DeleteVersionAsync(string groupType, GroupId groupId, string resourceType, string resourceId, string versionId, TimeSpan? timeout = null, CancellationToken cancellationToken = default)
         => throw new NotImplementedException();
 
-    /// <inheritdoc/>
-    public Task DeleteVersionAsync(string groupType, string resourceType, string resourceId, string versionId, string? groupId = null, TimeSpan? timeout = null, CancellationToken cancellationToken = default)
-        => throw new NotImplementedException();
+    // ---- Topic token helpers ----
+
+    /// <summary>Builds the topic tokens for a Group-scoped request.</summary>
+    private static Dictionary<string, string> GroupTopicTokens(string groupType)
+        => new() { ["groupType"] = groupType };
+
+    /// <summary>Builds the topic tokens for a Resource-scoped request.</summary>
+    private static Dictionary<string, string> ResourceTopicTokens(string groupType, string resourceType, string resourceId)
+        => new()
+        {
+            ["groupType"] = groupType,
+            ["resourceType"] = resourceType,
+            ["resourceId"] = resourceId,
+        };
 
     /// <inheritdoc/>
     public async ValueTask DisposeAsync()
