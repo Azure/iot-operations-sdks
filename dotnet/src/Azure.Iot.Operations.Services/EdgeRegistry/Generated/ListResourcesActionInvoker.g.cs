@@ -16,7 +16,7 @@ namespace Azure.Iot.Operations.Services.EdgeRegistry.Generated
         /// <summary>
         /// Specializes the <c>CommandInvoker</c> class for Command 'listResources'.
         /// </summary>
-        [CommandTopic("aio/registry/list/{ex:groupType}/{ex:resourceType}")]
+        [CommandTopic("aio/registry/listResources")]
         public class ListResourcesActionInvoker : CommandInvoker<ListResourcesInputArguments, ListResourcesResponseSchema>
         {
             /// <summary>

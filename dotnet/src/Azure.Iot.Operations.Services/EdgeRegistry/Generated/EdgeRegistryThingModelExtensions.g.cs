@@ -25,7 +25,6 @@ namespace Azure.Iot.Operations.Services.EdgeRegistry.Generated
             private readonly GetThingModelVersionActionInvoker getThingModelVersionActionInvoker;
             private readonly CreateThingModelVersionActionInvoker createThingModelVersionActionInvoker;
             private readonly ListThingModelVersionsActionInvoker listThingModelVersionsActionInvoker;
-            private readonly ListThingModelVersionsWithLabelActionInvoker listThingModelVersionsWithLabelActionInvoker;
             private readonly DeleteThingModelVersionActionInvoker deleteThingModelVersionActionInvoker;
 
             /// <summary>
@@ -45,7 +44,6 @@ namespace Azure.Iot.Operations.Services.EdgeRegistry.Generated
                 this.getThingModelVersionActionInvoker = new GetThingModelVersionActionInvoker(applicationContext, mqttClient);
                 this.createThingModelVersionActionInvoker = new CreateThingModelVersionActionInvoker(applicationContext, mqttClient);
                 this.listThingModelVersionsActionInvoker = new ListThingModelVersionsActionInvoker(applicationContext, mqttClient);
-                this.listThingModelVersionsWithLabelActionInvoker = new ListThingModelVersionsWithLabelActionInvoker(applicationContext, mqttClient);
                 this.deleteThingModelVersionActionInvoker = new DeleteThingModelVersionActionInvoker(applicationContext, mqttClient);
 
                 if (topicTokenMap != null)
@@ -55,7 +53,6 @@ namespace Azure.Iot.Operations.Services.EdgeRegistry.Generated
                         this.getThingModelVersionActionInvoker.TopicTokenMap.TryAdd("ex:" + topicTokenKey, topicTokenMap[topicTokenKey]);
                         this.createThingModelVersionActionInvoker.TopicTokenMap.TryAdd("ex:" + topicTokenKey, topicTokenMap[topicTokenKey]);
                         this.listThingModelVersionsActionInvoker.TopicTokenMap.TryAdd("ex:" + topicTokenKey, topicTokenMap[topicTokenKey]);
-                        this.listThingModelVersionsWithLabelActionInvoker.TopicTokenMap.TryAdd("ex:" + topicTokenKey, topicTokenMap[topicTokenKey]);
                         this.deleteThingModelVersionActionInvoker.TopicTokenMap.TryAdd("ex:" + topicTokenKey, topicTokenMap[topicTokenKey]);
                     }
                 }
@@ -66,8 +63,6 @@ namespace Azure.Iot.Operations.Services.EdgeRegistry.Generated
             public CreateThingModelVersionActionInvoker CreateThingModelVersionActionInvoker { get => this.createThingModelVersionActionInvoker; }
 
             public ListThingModelVersionsActionInvoker ListThingModelVersionsActionInvoker { get => this.listThingModelVersionsActionInvoker; }
-
-            public ListThingModelVersionsWithLabelActionInvoker ListThingModelVersionsWithLabelActionInvoker { get => this.listThingModelVersionsWithLabelActionInvoker; }
 
             public DeleteThingModelVersionActionInvoker DeleteThingModelVersionActionInvoker { get => this.deleteThingModelVersionActionInvoker; }
 
@@ -185,40 +180,6 @@ namespace Azure.Iot.Operations.Services.EdgeRegistry.Generated
             /// <param name="commandTimeout">How long the command will be available on the broker for an executor to receive.</param>
             /// <param name="cancellationToken">Cancellation token.</param>
             /// <returns>The command response.</returns>
-            public RpcCallAsync<ListThingModelVersionsWithLabelOutputArguments> ListThingModelVersionsWithLabelAsync(ListThingModelVersionsWithLabelInputArguments request, CommandRequestMetadata? requestMetadata = null, Dictionary<string, string>? additionalTopicTokenMap = null, TimeSpan? commandTimeout = default, CancellationToken cancellationToken = default)
-            {
-                string? clientId = this.mqttClient.ClientId;
-                if (string.IsNullOrEmpty(clientId))
-                {
-                    throw new InvalidOperationException("No MQTT client Id configured. Must connect to MQTT broker before invoking command.");
-                }
-
-                CommandRequestMetadata metadata = requestMetadata ?? new CommandRequestMetadata();
-                additionalTopicTokenMap ??= new();
-
-                Dictionary<string, string> prefixedAdditionalTopicTokenMap = new();
-                foreach (string key in additionalTopicTokenMap.Keys)
-                {
-                    prefixedAdditionalTopicTokenMap["ex:" + key] = additionalTopicTokenMap[key];
-                }
-
-                prefixedAdditionalTopicTokenMap["invokerClientId"] = clientId;
-
-                return new RpcCallAsync<ListThingModelVersionsWithLabelOutputArguments>(this.ListThingModelVersionsWithLabelInt(request, metadata, prefixedAdditionalTopicTokenMap, commandTimeout, cancellationToken), metadata.CorrelationId);
-            }
-
-            /// <summary>
-            /// Invoke a command.
-            /// </summary>
-            /// <param name="request">The data for this command request.</param>
-            /// <param name="requestMetadata">The metadata for this command request.</param>
-            /// <param name="additionalTopicTokenMap">
-            /// The topic token replacement map to use in addition to the topic tokens specified in the constructor. If this map
-            /// contains any keys that the topic tokens specified in the constructor also has, then values specified in this map will take precedence.
-            /// </param>
-            /// <param name="commandTimeout">How long the command will be available on the broker for an executor to receive.</param>
-            /// <param name="cancellationToken">Cancellation token.</param>
-            /// <returns>The command response.</returns>
             public RpcCallAsync<DeleteThingModelVersionOutputArguments> DeleteThingModelVersionAsync(DeleteThingModelVersionInputArguments request, CommandRequestMetadata? requestMetadata = null, Dictionary<string, string>? additionalTopicTokenMap = null, TimeSpan? commandTimeout = default, CancellationToken cancellationToken = default)
             {
                 string? clientId = this.mqttClient.ClientId;
@@ -251,7 +212,6 @@ namespace Azure.Iot.Operations.Services.EdgeRegistry.Generated
                     this.getThingModelVersionActionInvoker.StopAsync(cancellationToken),
                     this.createThingModelVersionActionInvoker.StopAsync(cancellationToken),
                     this.listThingModelVersionsActionInvoker.StopAsync(cancellationToken),
-                    this.listThingModelVersionsWithLabelActionInvoker.StopAsync(cancellationToken),
                     this.deleteThingModelVersionActionInvoker.StopAsync(cancellationToken)).ConfigureAwait(false);
             }
 
@@ -306,28 +266,6 @@ namespace Azure.Iot.Operations.Services.EdgeRegistry.Generated
                 {
                     return new ExtendedResponse<ListThingModelVersionsOutputArguments>
                     {
-                        Response = new ListThingModelVersionsOutputArguments
-                        {
-                            Ids = extended.Response.Ids.Value(),
-                        },
-                        ResponseMetadata = extended.ResponseMetadata,
-                    };
-                }
-            }
-
-            private async Task<ExtendedResponse<ListThingModelVersionsWithLabelOutputArguments>> ListThingModelVersionsWithLabelInt(ListThingModelVersionsWithLabelInputArguments request, CommandRequestMetadata? requestMetadata, Dictionary<string, string>? prefixedAdditionalTopicTokenMap, TimeSpan? commandTimeout, CancellationToken cancellationToken)
-            {
-                ExtendedResponse<ListThingModelVersionsWithLabelResponseSchema> extended = await this.listThingModelVersionsWithLabelActionInvoker.InvokeCommandAsync(request, requestMetadata, prefixedAdditionalTopicTokenMap, commandTimeout, cancellationToken);
-
-                if (extended.Response.Error != null)
-                {
-                    ThingModelExtensionErrorException thingModelExtensionErrorException = new ThingModelExtensionErrorException(extended.Response.Error);
-                    throw thingModelExtensionErrorException;
-                }
-                else
-                {
-                    return new ExtendedResponse<ListThingModelVersionsWithLabelOutputArguments>
-                    {
                         Response = extended.Response.Output!,
                         ResponseMetadata = extended.ResponseMetadata,
                     };
@@ -361,7 +299,6 @@ namespace Azure.Iot.Operations.Services.EdgeRegistry.Generated
                 await this.getThingModelVersionActionInvoker.DisposeAsync().ConfigureAwait(false);
                 await this.createThingModelVersionActionInvoker.DisposeAsync().ConfigureAwait(false);
                 await this.listThingModelVersionsActionInvoker.DisposeAsync().ConfigureAwait(false);
-                await this.listThingModelVersionsWithLabelActionInvoker.DisposeAsync().ConfigureAwait(false);
                 await this.deleteThingModelVersionActionInvoker.DisposeAsync().ConfigureAwait(false);
             }
 
@@ -370,7 +307,6 @@ namespace Azure.Iot.Operations.Services.EdgeRegistry.Generated
                 await this.getThingModelVersionActionInvoker.DisposeAsync(disposing, cancellationToken).ConfigureAwait(false);
                 await this.createThingModelVersionActionInvoker.DisposeAsync(disposing, cancellationToken).ConfigureAwait(false);
                 await this.listThingModelVersionsActionInvoker.DisposeAsync(disposing, cancellationToken).ConfigureAwait(false);
-                await this.listThingModelVersionsWithLabelActionInvoker.DisposeAsync(disposing, cancellationToken).ConfigureAwait(false);
                 await this.deleteThingModelVersionActionInvoker.DisposeAsync(disposing, cancellationToken).ConfigureAwait(false);
             }
         }

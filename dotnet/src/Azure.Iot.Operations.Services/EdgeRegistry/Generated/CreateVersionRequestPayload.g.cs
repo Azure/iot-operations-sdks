@@ -23,6 +23,13 @@ namespace Azure.Iot.Operations.Services.EdgeRegistry.Generated
         public string? GroupId { get; set; } = default;
 
         /// <summary>
+        /// Version identifier of the Version to create. If omitted, the server determines the versionId.
+        /// </summary>
+        [JsonPropertyName("versionId")]
+        [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
+        public string? VersionId { get; set; } = default;
+
+        /// <summary>
         /// The attributes of the Version to create.
         /// </summary>
         [JsonPropertyName("version")]

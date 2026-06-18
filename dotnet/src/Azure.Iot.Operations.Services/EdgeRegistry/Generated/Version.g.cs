@@ -134,14 +134,14 @@ namespace Azure.Iot.Operations.Services.EdgeRegistry.Generated
         /// </summary>
         [JsonPropertyName("formatValidated")]
         [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
-        public Validated? FormatValidated { get; set; } = default;
+        public ValidationStatus? FormatValidated { get; set; } = default;
 
         /// <summary>
         /// When compatibility validation is enabled, indicates whether the server has validated that the Version conforms to the rules defined by its Resource's `meta.compatibility` attribute.
         /// </summary>
         [JsonPropertyName("compatibilityValidated")]
         [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
-        public Validated? CompatibilityValidated { get; set; } = default;
+        public ValidationStatus? CompatibilityValidated { get; set; } = default;
 
         /// <summary>
         /// The raw document content for this Version as base64-encoded bytes. The interpretation (schema, thing description, thing model, …) is determined by the parent Resource's type.

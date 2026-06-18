@@ -16,13 +16,6 @@ namespace Azure.Iot.Operations.Services.EdgeRegistry.Generated
     public partial class VersionAttributes : IJsonOnDeserialized, IJsonOnSerializing
     {
         /// <summary>
-        /// Version identifier. If omitted, the server determines the versionId.
-        /// </summary>
-        [JsonPropertyName("versionId")]
-        [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
-        public string? VersionId { get; set; } = default;
-
-        /// <summary>
         /// Human-readable name.
         /// </summary>
         [JsonPropertyName("name")]

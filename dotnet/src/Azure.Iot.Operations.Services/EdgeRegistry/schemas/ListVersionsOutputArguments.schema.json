@@ -1,14 +1,6 @@
 {
   "$schema": "https://json-schema.org/draft-07/schema",
   "title": "ListVersionsOutputArguments",
-  "description": "List of Version identifiers.",
   "type": "object",
-  "additionalProperties": false,
-  "required": [ "ids" ],
-  "properties": {
-    "ids": {
-      "description": "List of Version identifiers.",
-      "type": "array", "items": { "type": "string" }
-    }
-  }
+  "$ref": "../../../../../../eng/wot/edge-registry/core-xregistry/VersionXIdList.schema.json"
 }

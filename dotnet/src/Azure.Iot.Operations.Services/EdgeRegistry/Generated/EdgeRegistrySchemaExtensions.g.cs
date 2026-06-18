@@ -25,7 +25,6 @@ namespace Azure.Iot.Operations.Services.EdgeRegistry.Generated
             private readonly GetSchemaVersionActionInvoker getSchemaVersionActionInvoker;
             private readonly CreateSchemaVersionActionInvoker createSchemaVersionActionInvoker;
             private readonly ListSchemaVersionsActionInvoker listSchemaVersionsActionInvoker;
-            private readonly ListSchemaVersionsWithLabelActionInvoker listSchemaVersionsWithLabelActionInvoker;
             private readonly DeleteSchemaVersionActionInvoker deleteSchemaVersionActionInvoker;
 
             /// <summary>
@@ -45,7 +44,6 @@ namespace Azure.Iot.Operations.Services.EdgeRegistry.Generated
                 this.getSchemaVersionActionInvoker = new GetSchemaVersionActionInvoker(applicationContext, mqttClient);
                 this.createSchemaVersionActionInvoker = new CreateSchemaVersionActionInvoker(applicationContext, mqttClient);
                 this.listSchemaVersionsActionInvoker = new ListSchemaVersionsActionInvoker(applicationContext, mqttClient);
-                this.listSchemaVersionsWithLabelActionInvoker = new ListSchemaVersionsWithLabelActionInvoker(applicationContext, mqttClient);
                 this.deleteSchemaVersionActionInvoker = new DeleteSchemaVersionActionInvoker(applicationContext, mqttClient);
 
                 if (topicTokenMap != null)
@@ -55,7 +53,6 @@ namespace Azure.Iot.Operations.Services.EdgeRegistry.Generated
                         this.getSchemaVersionActionInvoker.TopicTokenMap.TryAdd("ex:" + topicTokenKey, topicTokenMap[topicTokenKey]);
                         this.createSchemaVersionActionInvoker.TopicTokenMap.TryAdd("ex:" + topicTokenKey, topicTokenMap[topicTokenKey]);
                         this.listSchemaVersionsActionInvoker.TopicTokenMap.TryAdd("ex:" + topicTokenKey, topicTokenMap[topicTokenKey]);
-                        this.listSchemaVersionsWithLabelActionInvoker.TopicTokenMap.TryAdd("ex:" + topicTokenKey, topicTokenMap[topicTokenKey]);
                         this.deleteSchemaVersionActionInvoker.TopicTokenMap.TryAdd("ex:" + topicTokenKey, topicTokenMap[topicTokenKey]);
                     }
                 }
@@ -66,8 +63,6 @@ namespace Azure.Iot.Operations.Services.EdgeRegistry.Generated
             public CreateSchemaVersionActionInvoker CreateSchemaVersionActionInvoker { get => this.createSchemaVersionActionInvoker; }
 
             public ListSchemaVersionsActionInvoker ListSchemaVersionsActionInvoker { get => this.listSchemaVersionsActionInvoker; }
-
-            public ListSchemaVersionsWithLabelActionInvoker ListSchemaVersionsWithLabelActionInvoker { get => this.listSchemaVersionsWithLabelActionInvoker; }
 
             public DeleteSchemaVersionActionInvoker DeleteSchemaVersionActionInvoker { get => this.deleteSchemaVersionActionInvoker; }
 
@@ -185,40 +180,6 @@ namespace Azure.Iot.Operations.Services.EdgeRegistry.Generated
             /// <param name="commandTimeout">How long the command will be available on the broker for an executor to receive.</param>
             /// <param name="cancellationToken">Cancellation token.</param>
             /// <returns>The command response.</returns>
-            public RpcCallAsync<ListSchemaVersionsWithLabelOutputArguments> ListSchemaVersionsWithLabelAsync(ListSchemaVersionsWithLabelInputArguments request, CommandRequestMetadata? requestMetadata = null, Dictionary<string, string>? additionalTopicTokenMap = null, TimeSpan? commandTimeout = default, CancellationToken cancellationToken = default)
-            {
-                string? clientId = this.mqttClient.ClientId;
-                if (string.IsNullOrEmpty(clientId))
-                {
-                    throw new InvalidOperationException("No MQTT client Id configured. Must connect to MQTT broker before invoking command.");
-                }
-
-                CommandRequestMetadata metadata = requestMetadata ?? new CommandRequestMetadata();
-                additionalTopicTokenMap ??= new();
-
-                Dictionary<string, string> prefixedAdditionalTopicTokenMap = new();
-                foreach (string key in additionalTopicTokenMap.Keys)
-                {
-                    prefixedAdditionalTopicTokenMap["ex:" + key] = additionalTopicTokenMap[key];
-                }
-
-                prefixedAdditionalTopicTokenMap["invokerClientId"] = clientId;
-
-                return new RpcCallAsync<ListSchemaVersionsWithLabelOutputArguments>(this.ListSchemaVersionsWithLabelInt(request, metadata, prefixedAdditionalTopicTokenMap, commandTimeout, cancellationToken), metadata.CorrelationId);
-            }
-
-            /// <summary>
-            /// Invoke a command.
-            /// </summary>
-            /// <param name="request">The data for this command request.</param>
-            /// <param name="requestMetadata">The metadata for this command request.</param>
-            /// <param name="additionalTopicTokenMap">
-            /// The topic token replacement map to use in addition to the topic tokens specified in the constructor. If this map
-            /// contains any keys that the topic tokens specified in the constructor also has, then values specified in this map will take precedence.
-            /// </param>
-            /// <param name="commandTimeout">How long the command will be available on the broker for an executor to receive.</param>
-            /// <param name="cancellationToken">Cancellation token.</param>
-            /// <returns>The command response.</returns>
             public RpcCallAsync<DeleteSchemaVersionOutputArguments> DeleteSchemaVersionAsync(DeleteSchemaVersionInputArguments request, CommandRequestMetadata? requestMetadata = null, Dictionary<string, string>? additionalTopicTokenMap = null, TimeSpan? commandTimeout = default, CancellationToken cancellationToken = default)
             {
                 string? clientId = this.mqttClient.ClientId;
@@ -251,7 +212,6 @@ namespace Azure.Iot.Operations.Services.EdgeRegistry.Generated
                     this.getSchemaVersionActionInvoker.StopAsync(cancellationToken),
                     this.createSchemaVersionActionInvoker.StopAsync(cancellationToken),
                     this.listSchemaVersionsActionInvoker.StopAsync(cancellationToken),
-                    this.listSchemaVersionsWithLabelActionInvoker.StopAsync(cancellationToken),
                     this.deleteSchemaVersionActionInvoker.StopAsync(cancellationToken)).ConfigureAwait(false);
             }
 
@@ -306,28 +266,6 @@ namespace Azure.Iot.Operations.Services.EdgeRegistry.Generated
                 {
                     return new ExtendedResponse<ListSchemaVersionsOutputArguments>
                     {
-                        Response = new ListSchemaVersionsOutputArguments
-                        {
-                            Ids = extended.Response.Ids.Value(),
-                        },
-                        ResponseMetadata = extended.ResponseMetadata,
-                    };
-                }
-            }
-
-            private async Task<ExtendedResponse<ListSchemaVersionsWithLabelOutputArguments>> ListSchemaVersionsWithLabelInt(ListSchemaVersionsWithLabelInputArguments request, CommandRequestMetadata? requestMetadata, Dictionary<string, string>? prefixedAdditionalTopicTokenMap, TimeSpan? commandTimeout, CancellationToken cancellationToken)
-            {
-                ExtendedResponse<ListSchemaVersionsWithLabelResponseSchema> extended = await this.listSchemaVersionsWithLabelActionInvoker.InvokeCommandAsync(request, requestMetadata, prefixedAdditionalTopicTokenMap, commandTimeout, cancellationToken);
-
-                if (extended.Response.Error != null)
-                {
-                    SchemaExtensionErrorException schemaExtensionErrorException = new SchemaExtensionErrorException(extended.Response.Error);
-                    throw schemaExtensionErrorException;
-                }
-                else
-                {
-                    return new ExtendedResponse<ListSchemaVersionsWithLabelOutputArguments>
-                    {
                         Response = extended.Response.Output!,
                         ResponseMetadata = extended.ResponseMetadata,
                     };
@@ -361,7 +299,6 @@ namespace Azure.Iot.Operations.Services.EdgeRegistry.Generated
                 await this.getSchemaVersionActionInvoker.DisposeAsync().ConfigureAwait(false);
                 await this.createSchemaVersionActionInvoker.DisposeAsync().ConfigureAwait(false);
                 await this.listSchemaVersionsActionInvoker.DisposeAsync().ConfigureAwait(false);
-                await this.listSchemaVersionsWithLabelActionInvoker.DisposeAsync().ConfigureAwait(false);
                 await this.deleteSchemaVersionActionInvoker.DisposeAsync().ConfigureAwait(false);
             }
 
@@ -370,7 +307,6 @@ namespace Azure.Iot.Operations.Services.EdgeRegistry.Generated
                 await this.getSchemaVersionActionInvoker.DisposeAsync(disposing, cancellationToken).ConfigureAwait(false);
                 await this.createSchemaVersionActionInvoker.DisposeAsync(disposing, cancellationToken).ConfigureAwait(false);
                 await this.listSchemaVersionsActionInvoker.DisposeAsync(disposing, cancellationToken).ConfigureAwait(false);
-                await this.listSchemaVersionsWithLabelActionInvoker.DisposeAsync(disposing, cancellationToken).ConfigureAwait(false);
                 await this.deleteSchemaVersionActionInvoker.DisposeAsync(disposing, cancellationToken).ConfigureAwait(false);
             }
         }

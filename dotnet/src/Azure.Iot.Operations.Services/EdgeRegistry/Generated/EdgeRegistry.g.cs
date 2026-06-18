@@ -29,12 +29,10 @@ namespace Azure.Iot.Operations.Services.EdgeRegistry.Generated
             private readonly CreateResourceActionInvoker createResourceActionInvoker;
             private readonly GetResourceActionInvoker getResourceActionInvoker;
             private readonly ListResourcesActionInvoker listResourcesActionInvoker;
-            private readonly ListResourcesWithLabelActionInvoker listResourcesWithLabelActionInvoker;
             private readonly DeleteResourceActionInvoker deleteResourceActionInvoker;
             private readonly CreateVersionActionInvoker createVersionActionInvoker;
             private readonly GetVersionActionInvoker getVersionActionInvoker;
             private readonly ListVersionsActionInvoker listVersionsActionInvoker;
-            private readonly ListVersionsWithLabelActionInvoker listVersionsWithLabelActionInvoker;
             private readonly DeleteVersionActionInvoker deleteVersionActionInvoker;
 
             /// <summary>
@@ -58,12 +56,10 @@ namespace Azure.Iot.Operations.Services.EdgeRegistry.Generated
                 this.createResourceActionInvoker = new CreateResourceActionInvoker(applicationContext, mqttClient);
                 this.getResourceActionInvoker = new GetResourceActionInvoker(applicationContext, mqttClient);
                 this.listResourcesActionInvoker = new ListResourcesActionInvoker(applicationContext, mqttClient);
-                this.listResourcesWithLabelActionInvoker = new ListResourcesWithLabelActionInvoker(applicationContext, mqttClient);
                 this.deleteResourceActionInvoker = new DeleteResourceActionInvoker(applicationContext, mqttClient);
                 this.createVersionActionInvoker = new CreateVersionActionInvoker(applicationContext, mqttClient);
                 this.getVersionActionInvoker = new GetVersionActionInvoker(applicationContext, mqttClient);
                 this.listVersionsActionInvoker = new ListVersionsActionInvoker(applicationContext, mqttClient);
-                this.listVersionsWithLabelActionInvoker = new ListVersionsWithLabelActionInvoker(applicationContext, mqttClient);
                 this.deleteVersionActionInvoker = new DeleteVersionActionInvoker(applicationContext, mqttClient);
 
                 if (topicTokenMap != null)
@@ -77,12 +73,10 @@ namespace Azure.Iot.Operations.Services.EdgeRegistry.Generated
                         this.createResourceActionInvoker.TopicTokenMap.TryAdd("ex:" + topicTokenKey, topicTokenMap[topicTokenKey]);
                         this.getResourceActionInvoker.TopicTokenMap.TryAdd("ex:" + topicTokenKey, topicTokenMap[topicTokenKey]);
                         this.listResourcesActionInvoker.TopicTokenMap.TryAdd("ex:" + topicTokenKey, topicTokenMap[topicTokenKey]);
-                        this.listResourcesWithLabelActionInvoker.TopicTokenMap.TryAdd("ex:" + topicTokenKey, topicTokenMap[topicTokenKey]);
                         this.deleteResourceActionInvoker.TopicTokenMap.TryAdd("ex:" + topicTokenKey, topicTokenMap[topicTokenKey]);
                         this.createVersionActionInvoker.TopicTokenMap.TryAdd("ex:" + topicTokenKey, topicTokenMap[topicTokenKey]);
                         this.getVersionActionInvoker.TopicTokenMap.TryAdd("ex:" + topicTokenKey, topicTokenMap[topicTokenKey]);
                         this.listVersionsActionInvoker.TopicTokenMap.TryAdd("ex:" + topicTokenKey, topicTokenMap[topicTokenKey]);
-                        this.listVersionsWithLabelActionInvoker.TopicTokenMap.TryAdd("ex:" + topicTokenKey, topicTokenMap[topicTokenKey]);
                         this.deleteVersionActionInvoker.TopicTokenMap.TryAdd("ex:" + topicTokenKey, topicTokenMap[topicTokenKey]);
                     }
                 }
@@ -102,8 +96,6 @@ namespace Azure.Iot.Operations.Services.EdgeRegistry.Generated
 
             public ListResourcesActionInvoker ListResourcesActionInvoker { get => this.listResourcesActionInvoker; }
 
-            public ListResourcesWithLabelActionInvoker ListResourcesWithLabelActionInvoker { get => this.listResourcesWithLabelActionInvoker; }
-
             public DeleteResourceActionInvoker DeleteResourceActionInvoker { get => this.deleteResourceActionInvoker; }
 
             public CreateVersionActionInvoker CreateVersionActionInvoker { get => this.createVersionActionInvoker; }
@@ -111,8 +103,6 @@ namespace Azure.Iot.Operations.Services.EdgeRegistry.Generated
             public GetVersionActionInvoker GetVersionActionInvoker { get => this.getVersionActionInvoker; }
 
             public ListVersionsActionInvoker ListVersionsActionInvoker { get => this.listVersionsActionInvoker; }
-
-            public ListVersionsWithLabelActionInvoker ListVersionsWithLabelActionInvoker { get => this.listVersionsWithLabelActionInvoker; }
 
             public DeleteVersionActionInvoker DeleteVersionActionInvoker { get => this.deleteVersionActionInvoker; }
 
@@ -365,40 +355,6 @@ namespace Azure.Iot.Operations.Services.EdgeRegistry.Generated
             /// <param name="commandTimeout">How long the command will be available on the broker for an executor to receive.</param>
             /// <param name="cancellationToken">Cancellation token.</param>
             /// <returns>The command response.</returns>
-            public RpcCallAsync<ListResourcesWithLabelOutputArguments> ListResourcesWithLabelAsync(ListResourcesWithLabelInputArguments request, CommandRequestMetadata? requestMetadata = null, Dictionary<string, string>? additionalTopicTokenMap = null, TimeSpan? commandTimeout = default, CancellationToken cancellationToken = default)
-            {
-                string? clientId = this.mqttClient.ClientId;
-                if (string.IsNullOrEmpty(clientId))
-                {
-                    throw new InvalidOperationException("No MQTT client Id configured. Must connect to MQTT broker before invoking command.");
-                }
-
-                CommandRequestMetadata metadata = requestMetadata ?? new CommandRequestMetadata();
-                additionalTopicTokenMap ??= new();
-
-                Dictionary<string, string> prefixedAdditionalTopicTokenMap = new();
-                foreach (string key in additionalTopicTokenMap.Keys)
-                {
-                    prefixedAdditionalTopicTokenMap["ex:" + key] = additionalTopicTokenMap[key];
-                }
-
-                prefixedAdditionalTopicTokenMap["invokerClientId"] = clientId;
-
-                return new RpcCallAsync<ListResourcesWithLabelOutputArguments>(this.ListResourcesWithLabelInt(request, metadata, prefixedAdditionalTopicTokenMap, commandTimeout, cancellationToken), metadata.CorrelationId);
-            }
-
-            /// <summary>
-            /// Invoke a command.
-            /// </summary>
-            /// <param name="request">The data for this command request.</param>
-            /// <param name="requestMetadata">The metadata for this command request.</param>
-            /// <param name="additionalTopicTokenMap">
-            /// The topic token replacement map to use in addition to the topic tokens specified in the constructor. If this map
-            /// contains any keys that the topic tokens specified in the constructor also has, then values specified in this map will take precedence.
-            /// </param>
-            /// <param name="commandTimeout">How long the command will be available on the broker for an executor to receive.</param>
-            /// <param name="cancellationToken">Cancellation token.</param>
-            /// <returns>The command response.</returns>
             public RpcCallAsync<DeleteResourceOutputArguments> DeleteResourceAsync(DeleteResourceInputArguments request, CommandRequestMetadata? requestMetadata = null, Dictionary<string, string>? additionalTopicTokenMap = null, TimeSpan? commandTimeout = default, CancellationToken cancellationToken = default)
             {
                 string? clientId = this.mqttClient.ClientId;
@@ -535,40 +491,6 @@ namespace Azure.Iot.Operations.Services.EdgeRegistry.Generated
             /// <param name="commandTimeout">How long the command will be available on the broker for an executor to receive.</param>
             /// <param name="cancellationToken">Cancellation token.</param>
             /// <returns>The command response.</returns>
-            public RpcCallAsync<ListVersionsWithLabelOutputArguments> ListVersionsWithLabelAsync(ListVersionsWithLabelInputArguments request, CommandRequestMetadata? requestMetadata = null, Dictionary<string, string>? additionalTopicTokenMap = null, TimeSpan? commandTimeout = default, CancellationToken cancellationToken = default)
-            {
-                string? clientId = this.mqttClient.ClientId;
-                if (string.IsNullOrEmpty(clientId))
-                {
-                    throw new InvalidOperationException("No MQTT client Id configured. Must connect to MQTT broker before invoking command.");
-                }
-
-                CommandRequestMetadata metadata = requestMetadata ?? new CommandRequestMetadata();
-                additionalTopicTokenMap ??= new();
-
-                Dictionary<string, string> prefixedAdditionalTopicTokenMap = new();
-                foreach (string key in additionalTopicTokenMap.Keys)
-                {
-                    prefixedAdditionalTopicTokenMap["ex:" + key] = additionalTopicTokenMap[key];
-                }
-
-                prefixedAdditionalTopicTokenMap["invokerClientId"] = clientId;
-
-                return new RpcCallAsync<ListVersionsWithLabelOutputArguments>(this.ListVersionsWithLabelInt(request, metadata, prefixedAdditionalTopicTokenMap, commandTimeout, cancellationToken), metadata.CorrelationId);
-            }
-
-            /// <summary>
-            /// Invoke a command.
-            /// </summary>
-            /// <param name="request">The data for this command request.</param>
-            /// <param name="requestMetadata">The metadata for this command request.</param>
-            /// <param name="additionalTopicTokenMap">
-            /// The topic token replacement map to use in addition to the topic tokens specified in the constructor. If this map
-            /// contains any keys that the topic tokens specified in the constructor also has, then values specified in this map will take precedence.
-            /// </param>
-            /// <param name="commandTimeout">How long the command will be available on the broker for an executor to receive.</param>
-            /// <param name="cancellationToken">Cancellation token.</param>
-            /// <returns>The command response.</returns>
             public RpcCallAsync<DeleteVersionOutputArguments> DeleteVersionAsync(DeleteVersionInputArguments request, CommandRequestMetadata? requestMetadata = null, Dictionary<string, string>? additionalTopicTokenMap = null, TimeSpan? commandTimeout = default, CancellationToken cancellationToken = default)
             {
                 string? clientId = this.mqttClient.ClientId;
@@ -605,12 +527,10 @@ namespace Azure.Iot.Operations.Services.EdgeRegistry.Generated
                     this.createResourceActionInvoker.StopAsync(cancellationToken),
                     this.getResourceActionInvoker.StopAsync(cancellationToken),
                     this.listResourcesActionInvoker.StopAsync(cancellationToken),
-                    this.listResourcesWithLabelActionInvoker.StopAsync(cancellationToken),
                     this.deleteResourceActionInvoker.StopAsync(cancellationToken),
                     this.createVersionActionInvoker.StopAsync(cancellationToken),
                     this.getVersionActionInvoker.StopAsync(cancellationToken),
                     this.listVersionsActionInvoker.StopAsync(cancellationToken),
-                    this.listVersionsWithLabelActionInvoker.StopAsync(cancellationToken),
                     this.deleteVersionActionInvoker.StopAsync(cancellationToken)).ConfigureAwait(false);
             }
 
@@ -747,28 +667,6 @@ namespace Azure.Iot.Operations.Services.EdgeRegistry.Generated
                 {
                     return new ExtendedResponse<ListResourcesOutputArguments>
                     {
-                        Response = new ListResourcesOutputArguments
-                        {
-                            Ids = extended.Response.Ids.Value(),
-                        },
-                        ResponseMetadata = extended.ResponseMetadata,
-                    };
-                }
-            }
-
-            private async Task<ExtendedResponse<ListResourcesWithLabelOutputArguments>> ListResourcesWithLabelInt(ListResourcesWithLabelInputArguments request, CommandRequestMetadata? requestMetadata, Dictionary<string, string>? prefixedAdditionalTopicTokenMap, TimeSpan? commandTimeout, CancellationToken cancellationToken)
-            {
-                ExtendedResponse<ListResourcesWithLabelResponseSchema> extended = await this.listResourcesWithLabelActionInvoker.InvokeCommandAsync(request, requestMetadata, prefixedAdditionalTopicTokenMap, commandTimeout, cancellationToken);
-
-                if (extended.Response.Error != null)
-                {
-                    EdgeRegistryErrorException edgeRegistryErrorException = new EdgeRegistryErrorException(extended.Response.Error);
-                    throw edgeRegistryErrorException;
-                }
-                else
-                {
-                    return new ExtendedResponse<ListResourcesWithLabelOutputArguments>
-                    {
                         Response = extended.Response.Output!,
                         ResponseMetadata = extended.ResponseMetadata,
                     };
@@ -848,28 +746,6 @@ namespace Azure.Iot.Operations.Services.EdgeRegistry.Generated
                 {
                     return new ExtendedResponse<ListVersionsOutputArguments>
                     {
-                        Response = new ListVersionsOutputArguments
-                        {
-                            Ids = extended.Response.Ids.Value(),
-                        },
-                        ResponseMetadata = extended.ResponseMetadata,
-                    };
-                }
-            }
-
-            private async Task<ExtendedResponse<ListVersionsWithLabelOutputArguments>> ListVersionsWithLabelInt(ListVersionsWithLabelInputArguments request, CommandRequestMetadata? requestMetadata, Dictionary<string, string>? prefixedAdditionalTopicTokenMap, TimeSpan? commandTimeout, CancellationToken cancellationToken)
-            {
-                ExtendedResponse<ListVersionsWithLabelResponseSchema> extended = await this.listVersionsWithLabelActionInvoker.InvokeCommandAsync(request, requestMetadata, prefixedAdditionalTopicTokenMap, commandTimeout, cancellationToken);
-
-                if (extended.Response.Error != null)
-                {
-                    EdgeRegistryErrorException edgeRegistryErrorException = new EdgeRegistryErrorException(extended.Response.Error);
-                    throw edgeRegistryErrorException;
-                }
-                else
-                {
-                    return new ExtendedResponse<ListVersionsWithLabelOutputArguments>
-                    {
                         Response = extended.Response.Output!,
                         ResponseMetadata = extended.ResponseMetadata,
                     };
@@ -907,12 +783,10 @@ namespace Azure.Iot.Operations.Services.EdgeRegistry.Generated
                 await this.createResourceActionInvoker.DisposeAsync().ConfigureAwait(false);
                 await this.getResourceActionInvoker.DisposeAsync().ConfigureAwait(false);
                 await this.listResourcesActionInvoker.DisposeAsync().ConfigureAwait(false);
-                await this.listResourcesWithLabelActionInvoker.DisposeAsync().ConfigureAwait(false);
                 await this.deleteResourceActionInvoker.DisposeAsync().ConfigureAwait(false);
                 await this.createVersionActionInvoker.DisposeAsync().ConfigureAwait(false);
                 await this.getVersionActionInvoker.DisposeAsync().ConfigureAwait(false);
                 await this.listVersionsActionInvoker.DisposeAsync().ConfigureAwait(false);
-                await this.listVersionsWithLabelActionInvoker.DisposeAsync().ConfigureAwait(false);
                 await this.deleteVersionActionInvoker.DisposeAsync().ConfigureAwait(false);
             }
 
@@ -925,12 +799,10 @@ namespace Azure.Iot.Operations.Services.EdgeRegistry.Generated
                 await this.createResourceActionInvoker.DisposeAsync(disposing, cancellationToken).ConfigureAwait(false);
                 await this.getResourceActionInvoker.DisposeAsync(disposing, cancellationToken).ConfigureAwait(false);
                 await this.listResourcesActionInvoker.DisposeAsync(disposing, cancellationToken).ConfigureAwait(false);
-                await this.listResourcesWithLabelActionInvoker.DisposeAsync(disposing, cancellationToken).ConfigureAwait(false);
                 await this.deleteResourceActionInvoker.DisposeAsync(disposing, cancellationToken).ConfigureAwait(false);
                 await this.createVersionActionInvoker.DisposeAsync(disposing, cancellationToken).ConfigureAwait(false);
                 await this.getVersionActionInvoker.DisposeAsync(disposing, cancellationToken).ConfigureAwait(false);
                 await this.listVersionsActionInvoker.DisposeAsync(disposing, cancellationToken).ConfigureAwait(false);
-                await this.listVersionsWithLabelActionInvoker.DisposeAsync(disposing, cancellationToken).ConfigureAwait(false);
                 await this.deleteVersionActionInvoker.DisposeAsync(disposing, cancellationToken).ConfigureAwait(false);
             }
         }

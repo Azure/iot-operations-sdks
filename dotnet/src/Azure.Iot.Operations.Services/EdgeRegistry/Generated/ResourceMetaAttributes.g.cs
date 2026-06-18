@@ -45,13 +45,6 @@ namespace Azure.Iot.Operations.Services.EdgeRegistry.Generated
         public DeprecatedInfo? Deprecated { get; set; } = default;
 
         /// <summary>
-        /// The versionId of the current default Version.
-        /// </summary>
-        [JsonPropertyName("defaultVersionId")]
-        [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
-        public string? DefaultVersionId { get; set; } = default;
-
-        /// <summary>
         /// Extension-specific attributes (e.g., `format` and `content_type` for schemas).
         /// </summary>
         [JsonPropertyName("extensions")]

@@ -16,7 +16,7 @@ namespace Azure.Iot.Operations.Services.EdgeRegistry.Generated
         /// <summary>
         /// Specializes the <c>CommandInvoker</c> class for Command 'listThingDescriptionVersions'.
         /// </summary>
-        [CommandTopic("aio/registry/thingDescriptionExtension/list/thingdescriptiongroups/thingdescriptions/{ex:thingDescriptionId}/versions")]
+        [CommandTopic("aio/registry/thingDescriptionExtension/listVersions")]
         public class ListThingDescriptionVersionsActionInvoker : CommandInvoker<ListThingDescriptionVersionsInputArguments, ListThingDescriptionVersionsResponseSchema>
         {
             /// <summary>

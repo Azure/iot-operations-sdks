@@ -25,7 +25,6 @@ namespace Azure.Iot.Operations.Services.EdgeRegistry.Generated
             private readonly GetThingDescriptionVersionActionInvoker getThingDescriptionVersionActionInvoker;
             private readonly CreateThingDescriptionVersionActionInvoker createThingDescriptionVersionActionInvoker;
             private readonly ListThingDescriptionVersionsActionInvoker listThingDescriptionVersionsActionInvoker;
-            private readonly ListThingDescriptionVersionsWithLabelActionInvoker listThingDescriptionVersionsWithLabelActionInvoker;
             private readonly DeleteThingDescriptionVersionActionInvoker deleteThingDescriptionVersionActionInvoker;
 
             /// <summary>
@@ -45,7 +44,6 @@ namespace Azure.Iot.Operations.Services.EdgeRegistry.Generated
                 this.getThingDescriptionVersionActionInvoker = new GetThingDescriptionVersionActionInvoker(applicationContext, mqttClient);
                 this.createThingDescriptionVersionActionInvoker = new CreateThingDescriptionVersionActionInvoker(applicationContext, mqttClient);
                 this.listThingDescriptionVersionsActionInvoker = new ListThingDescriptionVersionsActionInvoker(applicationContext, mqttClient);
-                this.listThingDescriptionVersionsWithLabelActionInvoker = new ListThingDescriptionVersionsWithLabelActionInvoker(applicationContext, mqttClient);
                 this.deleteThingDescriptionVersionActionInvoker = new DeleteThingDescriptionVersionActionInvoker(applicationContext, mqttClient);
 
                 if (topicTokenMap != null)
@@ -55,7 +53,6 @@ namespace Azure.Iot.Operations.Services.EdgeRegistry.Generated
                         this.getThingDescriptionVersionActionInvoker.TopicTokenMap.TryAdd("ex:" + topicTokenKey, topicTokenMap[topicTokenKey]);
                         this.createThingDescriptionVersionActionInvoker.TopicTokenMap.TryAdd("ex:" + topicTokenKey, topicTokenMap[topicTokenKey]);
                         this.listThingDescriptionVersionsActionInvoker.TopicTokenMap.TryAdd("ex:" + topicTokenKey, topicTokenMap[topicTokenKey]);
-                        this.listThingDescriptionVersionsWithLabelActionInvoker.TopicTokenMap.TryAdd("ex:" + topicTokenKey, topicTokenMap[topicTokenKey]);
                         this.deleteThingDescriptionVersionActionInvoker.TopicTokenMap.TryAdd("ex:" + topicTokenKey, topicTokenMap[topicTokenKey]);
                     }
                 }
@@ -66,8 +63,6 @@ namespace Azure.Iot.Operations.Services.EdgeRegistry.Generated
             public CreateThingDescriptionVersionActionInvoker CreateThingDescriptionVersionActionInvoker { get => this.createThingDescriptionVersionActionInvoker; }
 
             public ListThingDescriptionVersionsActionInvoker ListThingDescriptionVersionsActionInvoker { get => this.listThingDescriptionVersionsActionInvoker; }
-
-            public ListThingDescriptionVersionsWithLabelActionInvoker ListThingDescriptionVersionsWithLabelActionInvoker { get => this.listThingDescriptionVersionsWithLabelActionInvoker; }
 
             public DeleteThingDescriptionVersionActionInvoker DeleteThingDescriptionVersionActionInvoker { get => this.deleteThingDescriptionVersionActionInvoker; }
 
@@ -185,40 +180,6 @@ namespace Azure.Iot.Operations.Services.EdgeRegistry.Generated
             /// <param name="commandTimeout">How long the command will be available on the broker for an executor to receive.</param>
             /// <param name="cancellationToken">Cancellation token.</param>
             /// <returns>The command response.</returns>
-            public RpcCallAsync<ListThingDescriptionVersionsWithLabelOutputArguments> ListThingDescriptionVersionsWithLabelAsync(ListThingDescriptionVersionsWithLabelInputArguments request, CommandRequestMetadata? requestMetadata = null, Dictionary<string, string>? additionalTopicTokenMap = null, TimeSpan? commandTimeout = default, CancellationToken cancellationToken = default)
-            {
-                string? clientId = this.mqttClient.ClientId;
-                if (string.IsNullOrEmpty(clientId))
-                {
-                    throw new InvalidOperationException("No MQTT client Id configured. Must connect to MQTT broker before invoking command.");
-                }
-
-                CommandRequestMetadata metadata = requestMetadata ?? new CommandRequestMetadata();
-                additionalTopicTokenMap ??= new();
-
-                Dictionary<string, string> prefixedAdditionalTopicTokenMap = new();
-                foreach (string key in additionalTopicTokenMap.Keys)
-                {
-                    prefixedAdditionalTopicTokenMap["ex:" + key] = additionalTopicTokenMap[key];
-                }
-
-                prefixedAdditionalTopicTokenMap["invokerClientId"] = clientId;
-
-                return new RpcCallAsync<ListThingDescriptionVersionsWithLabelOutputArguments>(this.ListThingDescriptionVersionsWithLabelInt(request, metadata, prefixedAdditionalTopicTokenMap, commandTimeout, cancellationToken), metadata.CorrelationId);
-            }
-
-            /// <summary>
-            /// Invoke a command.
-            /// </summary>
-            /// <param name="request">The data for this command request.</param>
-            /// <param name="requestMetadata">The metadata for this command request.</param>
-            /// <param name="additionalTopicTokenMap">
-            /// The topic token replacement map to use in addition to the topic tokens specified in the constructor. If this map
-            /// contains any keys that the topic tokens specified in the constructor also has, then values specified in this map will take precedence.
-            /// </param>
-            /// <param name="commandTimeout">How long the command will be available on the broker for an executor to receive.</param>
-            /// <param name="cancellationToken">Cancellation token.</param>
-            /// <returns>The command response.</returns>
             public RpcCallAsync<DeleteThingDescriptionVersionOutputArguments> DeleteThingDescriptionVersionAsync(DeleteThingDescriptionVersionInputArguments request, CommandRequestMetadata? requestMetadata = null, Dictionary<string, string>? additionalTopicTokenMap = null, TimeSpan? commandTimeout = default, CancellationToken cancellationToken = default)
             {
                 string? clientId = this.mqttClient.ClientId;
@@ -251,7 +212,6 @@ namespace Azure.Iot.Operations.Services.EdgeRegistry.Generated
                     this.getThingDescriptionVersionActionInvoker.StopAsync(cancellationToken),
                     this.createThingDescriptionVersionActionInvoker.StopAsync(cancellationToken),
                     this.listThingDescriptionVersionsActionInvoker.StopAsync(cancellationToken),
-                    this.listThingDescriptionVersionsWithLabelActionInvoker.StopAsync(cancellationToken),
                     this.deleteThingDescriptionVersionActionInvoker.StopAsync(cancellationToken)).ConfigureAwait(false);
             }
 
@@ -306,28 +266,6 @@ namespace Azure.Iot.Operations.Services.EdgeRegistry.Generated
                 {
                     return new ExtendedResponse<ListThingDescriptionVersionsOutputArguments>
                     {
-                        Response = new ListThingDescriptionVersionsOutputArguments
-                        {
-                            Ids = extended.Response.Ids.Value(),
-                        },
-                        ResponseMetadata = extended.ResponseMetadata,
-                    };
-                }
-            }
-
-            private async Task<ExtendedResponse<ListThingDescriptionVersionsWithLabelOutputArguments>> ListThingDescriptionVersionsWithLabelInt(ListThingDescriptionVersionsWithLabelInputArguments request, CommandRequestMetadata? requestMetadata, Dictionary<string, string>? prefixedAdditionalTopicTokenMap, TimeSpan? commandTimeout, CancellationToken cancellationToken)
-            {
-                ExtendedResponse<ListThingDescriptionVersionsWithLabelResponseSchema> extended = await this.listThingDescriptionVersionsWithLabelActionInvoker.InvokeCommandAsync(request, requestMetadata, prefixedAdditionalTopicTokenMap, commandTimeout, cancellationToken);
-
-                if (extended.Response.Error != null)
-                {
-                    ThingDescriptionExtensionErrorException thingDescriptionExtensionErrorException = new ThingDescriptionExtensionErrorException(extended.Response.Error);
-                    throw thingDescriptionExtensionErrorException;
-                }
-                else
-                {
-                    return new ExtendedResponse<ListThingDescriptionVersionsWithLabelOutputArguments>
-                    {
                         Response = extended.Response.Output!,
                         ResponseMetadata = extended.ResponseMetadata,
                     };
@@ -361,7 +299,6 @@ namespace Azure.Iot.Operations.Services.EdgeRegistry.Generated
                 await this.getThingDescriptionVersionActionInvoker.DisposeAsync().ConfigureAwait(false);
                 await this.createThingDescriptionVersionActionInvoker.DisposeAsync().ConfigureAwait(false);
                 await this.listThingDescriptionVersionsActionInvoker.DisposeAsync().ConfigureAwait(false);
-                await this.listThingDescriptionVersionsWithLabelActionInvoker.DisposeAsync().ConfigureAwait(false);
                 await this.deleteThingDescriptionVersionActionInvoker.DisposeAsync().ConfigureAwait(false);
             }
 
@@ -370,7 +307,6 @@ namespace Azure.Iot.Operations.Services.EdgeRegistry.Generated
                 await this.getThingDescriptionVersionActionInvoker.DisposeAsync(disposing, cancellationToken).ConfigureAwait(false);
                 await this.createThingDescriptionVersionActionInvoker.DisposeAsync(disposing, cancellationToken).ConfigureAwait(false);
                 await this.listThingDescriptionVersionsActionInvoker.DisposeAsync(disposing, cancellationToken).ConfigureAwait(false);
-                await this.listThingDescriptionVersionsWithLabelActionInvoker.DisposeAsync(disposing, cancellationToken).ConfigureAwait(false);
                 await this.deleteThingDescriptionVersionActionInvoker.DisposeAsync(disposing, cancellationToken).ConfigureAwait(false);
             }
         }

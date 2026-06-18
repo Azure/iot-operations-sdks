@@ -16,7 +16,7 @@ namespace Azure.Iot.Operations.Services.EdgeRegistry.Generated
         /// <summary>
         /// Specializes the <c>CommandInvoker</c> class for Command 'listSchemaVersions'.
         /// </summary>
-        [CommandTopic("aio/registry/schemaExtension/list/schemagroups/schemas/{ex:schemaId}/versions")]
+        [CommandTopic("aio/registry/schemaExtension/listVersions")]
         public class ListSchemaVersionsActionInvoker : CommandInvoker<ListSchemaVersionsInputArguments, ListSchemaVersionsResponseSchema>
         {
             /// <summary>

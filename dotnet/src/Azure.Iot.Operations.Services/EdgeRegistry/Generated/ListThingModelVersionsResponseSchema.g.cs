@@ -10,7 +10,7 @@ using Azure.Iot.Operations.Services.EdgeRegistry.Generated.Common;
 namespace Azure.Iot.Operations.Services.EdgeRegistry.Generated
 {
     /// <summary>
-    /// List of Version identifiers.
+    /// List of Thing Model Version XIDs matching the provided constraints.
     /// </summary>
     [System.CodeDom.Compiler.GeneratedCode("Azure.Iot.Operations.ProtocolCompilerLib", "1.0.0.0")]
     public partial class ListThingModelVersionsResponseSchema
@@ -23,11 +23,11 @@ namespace Azure.Iot.Operations.Services.EdgeRegistry.Generated
         public ThingModelExtensionError? Error { get; set; } = default;
 
         /// <summary>
-        /// List of Version identifiers.
+        /// Output for the 'listThingModelVersions' Action.
         /// </summary>
-        [JsonPropertyName("ids")]
+        [JsonPropertyName("_output")]
         [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
-        public List<ulong>? Ids { get; set; } = default;
+        public ThingModelVersionXidList? Output { get; set; } = default;
 
     }
 }

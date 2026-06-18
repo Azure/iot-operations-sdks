@@ -1,7 +1,7 @@
 {
   "$schema": "https://json-schema.org/draft-07/schema",
   "title": "ListThingModelVersionsResponseSchema",
-  "description": "List of Version identifiers.",
+  "description": "List of Thing Model Version XIDs matching the provided constraints.",
   "type": "object",
   "additionalProperties": false,
   "properties": {
@@ -9,9 +9,9 @@
       "description": "Error for the 'listThingModelVersions' Action.",
       "$ref": "ThingModelExtensionError.schema.json"
     },
-    "ids": {
-      "description": "List of Version identifiers.",
-      "type": "array", "items": { "type": "integer" }
+    "_output": {
+      "description": "Output for the 'listThingModelVersions' Action.",
+      "$ref": "ListThingModelVersionsOutputArguments.schema.json"
     }
   }
 }

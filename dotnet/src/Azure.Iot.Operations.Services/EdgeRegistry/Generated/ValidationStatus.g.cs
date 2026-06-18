@@ -13,7 +13,7 @@ namespace Azure.Iot.Operations.Services.EdgeRegistry.Generated
     /// Indicates whether validation was performed, and if not, the reason why not (e.g., "unsupported format", "validation disabled").
     /// </summary>
     [System.CodeDom.Compiler.GeneratedCode("Azure.Iot.Operations.ProtocolCompilerLib", "1.0.0.0")]
-    public partial class Validated
+    public partial class ValidationStatus
     {
         /// <summary>
         /// True if validation was performed and the entity adheres to the rules; false if validation was not performed.

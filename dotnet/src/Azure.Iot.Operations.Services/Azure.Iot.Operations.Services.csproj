@@ -44,4 +44,8 @@
     <Compile Remove="AssetAndDeviceRegistry\AdrBaseService\AssetSpecificationSchema.g.cs" />
     <Compile Remove="AssetAndDeviceRegistry\AdrBaseService\DeviceSpecificationSchema.g.cs" />
   </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="EdgeRegistry\Models\" />
+  </ItemGroup>
 </Project>

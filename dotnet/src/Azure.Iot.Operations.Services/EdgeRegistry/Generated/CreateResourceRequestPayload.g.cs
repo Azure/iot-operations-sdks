@@ -39,6 +39,13 @@ namespace Azure.Iot.Operations.Services.EdgeRegistry.Generated
         public VersionAttributes DefaultVersion { get; set; } = default!;
 
         /// <summary>
+        /// Version identifier for the Resource's default Version, which is created along with this Resource. If omitted, the server determines the versionId.
+        /// </summary>
+        [JsonPropertyName("defaultVersionId")]
+        [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
+        public string? DefaultVersionId { get; set; } = default;
+
+        /// <summary>
         /// Extension-specific attributes.
         /// </summary>
         [JsonPropertyName("extensions")]
