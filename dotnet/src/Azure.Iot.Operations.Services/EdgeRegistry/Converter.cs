@@ -105,6 +105,18 @@ internal static class Converter
     public static List<Models.ResourceXid> ToModel(Generated.ResourceXidList value)
         => value.Resources.Select(resource => ToModel(resource)).ToList();
 
+    public static Models.VersionXid ToModel(Generated.VersionXid value) => new()
+    {
+        GroupType = value.GroupType,
+        GroupId = value.GroupId,
+        ResourceType = value.ResourceType,
+        ResourceId = value.ResourceId,
+        VersionId = value.VersionId,
+    };
+
+    public static List<Models.VersionXid> ToModel(Generated.VersionXidList value)
+        => value.Versions.Select(version => ToModel(version)).ToList();
+
     public static Generated.GroupAttributes ToGenerated(Models.GroupAttributes value) => new()
     {
         Name = value.Name,
@@ -124,7 +136,7 @@ internal static class Converter
         Documentation = value.Documentation,
     };
 
-    public static List<Generated.Label> ToGenerated(List<Models.Label> value)
+    public static List<Generated.Label> ToGenerated(IReadOnlyList<Models.Label> value)
         => value.Select(label => new Generated.Label { Key = label.Key, Value = label.Value }).ToList();
 
     public static Generated.Label ToGenerated(Models.Label value)

@@ -187,20 +187,93 @@ public sealed class CoreClient : ICoreClient
     // ---- Version APIs ----
 
     /// <inheritdoc/>
-    public Task<Models.Version> GetVersionAsync(string groupType, GroupId groupId, string resourceType, string resourceId, GetVersionId versionId, TimeSpan? timeout = null, CancellationToken cancellationToken = default)
-        => throw new NotImplementedException();
+    public async Task<Models.Version> GetVersionAsync(string groupType, GroupId groupId, string resourceType, string resourceId, GetVersionId versionId, TimeSpan? timeout = null, CancellationToken cancellationToken = default)
+    {
+        cancellationToken.ThrowIfCancellationRequested();
+        ObjectDisposedException.ThrowIf(_disposed, this);
+
+        Generated.GetVersionInputArguments request = new()
+        {
+            GroupId = groupId.Value,
+            VersionId = versionId.Value,
+        };
+
+        var output = await _stub.GetVersionAsync(
+            request,
+            requestMetadata: null,
+            additionalTopicTokenMap: ResourceTopicTokens(groupType, resourceType, resourceId),
+            commandTimeout: timeout ?? s_defaultCommandTimeout,
+            cancellationToken: cancellationToken);
+
+        return Converter.ToModel(output);
+    }
 
     /// <inheritdoc/>
-    public Task<Models.Version> CreateVersionAsync(string groupType, GroupId groupId, string resourceType, string resourceId, IReadOnlyList<Models.Label> resourceLabels, CreateVersionId versionId, Models.VersionAttributes version, TimeSpan? timeout = null, CancellationToken cancellationToken = default)
-        => throw new NotImplementedException();
+    public async Task<Models.Version> CreateVersionAsync(string groupType, GroupId groupId, string resourceType, string resourceId, IReadOnlyList<Models.Label> resourceLabels, CreateVersionId versionId, Models.VersionAttributes version, TimeSpan? timeout = null, CancellationToken cancellationToken = default)
+    {
+        cancellationToken.ThrowIfCancellationRequested();
+        ObjectDisposedException.ThrowIf(_disposed, this);
+
+        Generated.CreateVersionRequestPayload request = new()
+        {
+            GroupId = groupId.Value,
+            VersionId = versionId.Value,
+            Version = Converter.ToGenerated(version),
+            ResourceLabels = Converter.ToGenerated(resourceLabels),
+        };
+
+        var output = await _stub.CreateVersionAsync(
+            request,
+            requestMetadata: null,
+            additionalTopicTokenMap: ResourceTopicTokens(groupType, resourceType, resourceId),
+            commandTimeout: timeout ?? s_defaultCommandTimeout,
+            cancellationToken: cancellationToken);
+
+        return Converter.ToModel(output);
+    }
 
     /// <inheritdoc/>
-    public Task<IReadOnlyList<Models.VersionXid>> ListVersionsAsync(GroupQuery groups, string? resourceType = null, string? resourceId = null, Models.Label? label = null, TimeSpan? timeout = null, CancellationToken cancellationToken = default)
-        => throw new NotImplementedException();
+    public async Task<IReadOnlyList<Models.VersionXid>> ListVersionsAsync(GroupQuery groups, string? resourceType = null, string? resourceId = null, Models.Label? label = null, TimeSpan? timeout = null, CancellationToken cancellationToken = default)
+    {
+        cancellationToken.ThrowIfCancellationRequested();
+        ObjectDisposedException.ThrowIf(_disposed, this);
+
+        (string? groupType, string? groupId, bool allGroups) = groups.Resolve();
+        Generated.ListVersionsRequestPayload request = new()
+        {
+            GroupType = groupType,
+            GroupId = groupId,
+            AllGroups = allGroups,
+            ResourceType = resourceType,
+            ResourceId = resourceId,
+            Label = label is null ? null : Converter.ToGenerated(label),
+        };
+
+        var output = await _stub.ListVersionsAsync(
+            request,
+            requestMetadata: null,
+            additionalTopicTokenMap: null,
+            commandTimeout: timeout ?? s_defaultCommandTimeout,
+            cancellationToken: cancellationToken);
+
+        return Converter.ToModel(output);
+    }
 
     /// <inheritdoc/>
-    public Task DeleteVersionAsync(string groupType, GroupId groupId, string resourceType, string resourceId, string versionId, TimeSpan? timeout = null, CancellationToken cancellationToken = default)
-        => throw new NotImplementedException();
+    public async Task DeleteVersionAsync(string groupType, GroupId groupId, string resourceType, string resourceId, string versionId, TimeSpan? timeout = null, CancellationToken cancellationToken = default)
+    {
+        cancellationToken.ThrowIfCancellationRequested();
+        ObjectDisposedException.ThrowIf(_disposed, this);
+
+        Generated.DeleteVersionInputArguments request = new() { GroupId = groupId.Value };
+
+        await _stub.DeleteVersionAsync(
+            request,
+            requestMetadata: null,
+            additionalTopicTokenMap: VersionTopicTokens(groupType, resourceType, resourceId, versionId),
+            commandTimeout: timeout ?? s_defaultCommandTimeout,
+            cancellationToken: cancellationToken);
+    }
 
     // ---- Topic token helpers ----
 
@@ -216,6 +289,14 @@ public sealed class CoreClient : ICoreClient
             ["resourceType"] = resourceType,
             ["resourceId"] = resourceId,
         };
+
+    /// <summary>Builds the topic tokens for a Version-scoped request that carries the Version id in the topic.</summary>
+    private static Dictionary<string, string> VersionTopicTokens(string groupType, string resourceType, string resourceId, string versionId)
+    {
+        Dictionary<string, string> tokens = ResourceTopicTokens(groupType, resourceType, resourceId);
+        tokens["versionId"] = versionId;
+        return tokens;
+    }
 
     /// <inheritdoc/>
     public async ValueTask DisposeAsync()
