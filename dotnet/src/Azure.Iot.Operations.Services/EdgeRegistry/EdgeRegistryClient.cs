@@ -6,11 +6,11 @@ using Azure.Iot.Operations.Protocol;
 namespace Azure.Iot.Operations.Services.EdgeRegistry;
 
 /// <summary>
-/// Default <see cref="ICoreClient"/> implementation. Wraps the generated core xRegistry RPC
+/// Default <see cref="IEdgeRegistryClient"/> implementation. Wraps the generated core xRegistry RPC
 /// client (CoreClientStub), routing XID components into per-call topic tokens and mapping the
 /// generated wire types to the EdgeRegistry.Models domain types.
 /// </summary>
-public sealed class CoreClient : ICoreClient
+public sealed class EdgeRegistryClient : IEdgeRegistryClient
 {
     private static readonly TimeSpan s_defaultCommandTimeout = TimeSpan.FromSeconds(10);
 
@@ -18,11 +18,11 @@ public sealed class CoreClient : ICoreClient
     private bool _disposed;
 
     /// <summary>
-    /// Initializes a new instance of the <see cref="CoreClient"/> class.
+    /// Initializes a new instance of the <see cref="EdgeRegistryClient"/> class.
     /// </summary>
     /// <param name="applicationContext">The shared application context.</param>
     /// <param name="mqttClient">The MQTT client used for RPC.</param>
-    public CoreClient(ApplicationContext applicationContext, IMqttPubSubClient mqttClient)
+    public EdgeRegistryClient(ApplicationContext applicationContext, IMqttPubSubClient mqttClient)
     {
         _stub = new CoreClientStub(applicationContext, mqttClient);
     }

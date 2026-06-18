@@ -5,7 +5,7 @@ namespace Azure.Iot.Operations.Services.EdgeRegistry;
 
 /// <summary>
 /// Maps generated xRegistry wire types to the hand-written <c>EdgeRegistry.Models</c> domain
-/// types. Extended one entity at a time as the <see cref="CoreClient"/> methods are implemented.
+/// types. Extended one entity at a time as the <see cref="EdgeRegistryClient"/> methods are implemented.
 /// </summary>
 internal static class Converter
 {
