@@ -97,11 +97,11 @@
     },
     "formatValidated": {
       "description": "When format validation is enabled, indicates whether the server has validated that the Version conforms to the rules defined by its `format` attribute.",
-      "$ref": "../core-xregistry/Validated.schema.json"
+      "$ref": "../core-xregistry/ValidationStatus.schema.json"
     },
     "compatibilityValidated": {
       "description": "When compatibility validation is enabled, indicates whether the server has validated that the Version conforms to the rules defined by its Resource's `meta.compatibility` attribute.",
-      "$ref": "../core-xregistry/Validated.schema.json"
+      "$ref": "../core-xregistry/ValidationStatus.schema.json"
     },
     "extensions": {
       "description": "Extension-specific attributes.",

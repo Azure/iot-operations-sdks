@@ -11,7 +11,7 @@ use uuid::Uuid;
 
 use super::super::common_types::{b64::Bytes, date_only::Date, decimal::Decimal, time_only::Time};
 use super::label::Label;
-use super::validated::Validated;
+use super::validation_status::ValidationStatus;
 
 /// A specific Version of a Thing Description. Self-contained: combines the generic Version fields and the thing description-specific fields into one schema, with integer-typed versionId and ancestor.
 #[derive(Serialize, Deserialize, Debug, Clone, Builder)]
@@ -89,13 +89,13 @@ pub struct ThingDescriptionVersion {
     #[serde(rename = "formatValidated")]
     #[serde(skip_serializing_if = "Option::is_none")]
     #[builder(default = "None")]
-    pub format_validated: Option<Validated>,
+    pub format_validated: Option<ValidationStatus>,
 
     /// When compatibility validation is enabled, indicates whether the server has validated that the Version conforms to the rules defined by its Resource's `meta.compatibility` attribute.
     #[serde(rename = "compatibilityValidated")]
     #[serde(skip_serializing_if = "Option::is_none")]
     #[builder(default = "None")]
-    pub compatibility_validated: Option<Validated>,
+    pub compatibility_validated: Option<ValidationStatus>,
 
     /// Extension-specific attributes.
     #[builder(default)]

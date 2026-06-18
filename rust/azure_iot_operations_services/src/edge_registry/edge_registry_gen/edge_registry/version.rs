@@ -11,7 +11,7 @@ use uuid::Uuid;
 
 use super::super::common_types::{b64::Bytes, date_only::Date, decimal::Decimal, time_only::Time};
 use super::label::Label;
-use super::validated::Validated;
+use super::validation_status::ValidationStatus;
 
 /// A specific Version of a Resource.
 #[derive(Serialize, Deserialize, Debug, Clone, Builder)]
@@ -84,13 +84,13 @@ pub struct Version {
     #[serde(rename = "formatValidated")]
     #[serde(skip_serializing_if = "Option::is_none")]
     #[builder(default = "None")]
-    pub format_validated: Option<Validated>,
+    pub format_validated: Option<ValidationStatus>,
 
     /// When compatibility validation is enabled, indicates whether the server has validated that the Version conforms to the rules defined by its Resource's `meta.compatibility` attribute.
     #[serde(rename = "compatibilityValidated")]
     #[serde(skip_serializing_if = "Option::is_none")]
     #[builder(default = "None")]
-    pub compatibility_validated: Option<Validated>,
+    pub compatibility_validated: Option<ValidationStatus>,
 
     /// The raw document content for this Version as base64-encoded bytes. The interpretation (schema, thing description, thing model, …) is determined by the parent Resource's type.
     #[serde(skip_serializing_if = "Option::is_none")]
