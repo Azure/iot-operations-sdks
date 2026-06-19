@@ -9,10 +9,10 @@ namespace Azure.Iot.Operations.Services.EdgeRegistry;
 /// </summary>
 internal static class Converter
 {
-    public static Models.Group ToModel(Generated.Group value) => new()
+    public static Models.GroupEntity ToModel(Generated.Group value) => new()
     {
         Id = value.Id,
-        Xid = value.Xid,
+        XId = value.Xid,
         Epoch = value.Epoch,
         Name = value.Name,
         Description = value.Description,
@@ -37,10 +37,10 @@ internal static class Converter
     public static List<Models.Label> ToModel(List<Generated.Label> value)
         => value.Select(label => new Models.Label { Key = label.Key, Value = label.Value }).ToList();
 
-    public static Models.Resource ToModel(Generated.Resource value) => new()
+    public static Models.ResourceEntity ToModel(Generated.Resource value) => new()
     {
         Id = value.Id,
-        Xid = value.Xid,
+        XId = value.Xid,
         Meta = ToModel(value.Meta),
         DefaultVersion = ToModel(value.DefaultVersion),
         VersionsCount = value.VersionsCount,
@@ -50,8 +50,8 @@ internal static class Converter
     public static Models.ResourceMeta ToModel(Generated.ResourceMeta value) => new()
     {
         Id = value.Id,
-        Xid = value.Xid,
-        Xref = value.Xref,
+        XId = value.Xid,
+        XRef = value.Xref,
         Epoch = value.Epoch,
         Labels = ToModel(value.Labels),
         CreatedAt = value.CreatedAt,
@@ -64,11 +64,11 @@ internal static class Converter
         Extensions = new Dictionary<string, byte[]>(value.Extensions),
     };
 
-    public static Models.Version ToModel(Generated.Version value) => new()
+    public static Models.VersionEntity ToModel(Generated.Version value) => new()
     {
         ResourceId = value.ResourceId,
         VersionId = value.VersionId,
-        Xid = value.Xid,
+        XId = value.Xid,
         Epoch = value.Epoch,
         Name = value.Name,
         IsDefault = value.IsDefault,
@@ -94,7 +94,7 @@ internal static class Converter
         Reason = value.Reason,
     };
 
-    public static Models.ResourceXid ToModel(Generated.ResourceXid value) => new()
+    public static Models.ResourceXId ToModel(Generated.ResourceXid value) => new()
     {
         GroupType = value.GroupType,
         GroupId = value.GroupId,
@@ -102,10 +102,10 @@ internal static class Converter
         ResourceId = value.ResourceId,
     };
 
-    public static List<Models.ResourceXid> ToModel(Generated.ResourceXidList value)
+    public static List<Models.ResourceXId> ToModel(Generated.ResourceXidList value)
         => value.Resources.Select(resource => ToModel(resource)).ToList();
 
-    public static Models.VersionXid ToModel(Generated.VersionXid value) => new()
+    public static Models.VersionXId ToModel(Generated.VersionXid value) => new()
     {
         GroupType = value.GroupType,
         GroupId = value.GroupId,
@@ -114,7 +114,7 @@ internal static class Converter
         VersionId = value.VersionId,
     };
 
-    public static List<Models.VersionXid> ToModel(Generated.VersionXidList value)
+    public static List<Models.VersionXId> ToModel(Generated.VersionXidList value)
         => value.Versions.Select(version => ToModel(version)).ToList();
 
     public static Generated.GroupAttributes ToGenerated(Models.GroupAttributes value) => new()
@@ -144,7 +144,7 @@ internal static class Converter
 
     public static Generated.ResourceMetaAttributes ToGenerated(Models.ResourceMetaAttributes value) => new()
     {
-        Xref = value.Xref,
+        Xref = value.XRef,
         Labels = ToGenerated(value.Labels),
         Compatibility = value.Compatibility,
         Deprecated = value.Deprecated is null ? null : ToGenerated(value.Deprecated),

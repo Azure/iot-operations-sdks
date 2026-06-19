@@ -6,7 +6,7 @@ namespace Azure.Iot.Operations.Services.EdgeRegistry.Models;
 /// <summary>
 /// The XID components that identify a Resource.
 /// </summary>
-public class ResourceXid
+public class ResourceXId
 {
     /// <summary>
     /// Group type.

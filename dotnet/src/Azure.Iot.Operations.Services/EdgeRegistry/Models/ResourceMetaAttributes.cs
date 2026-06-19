@@ -11,7 +11,7 @@ public class ResourceMetaAttributes
     /// <summary>
     /// Indicates that this Resource is a reference to another Resource within the same Registry. The XID path of the referenced Resource.
     /// </summary>
-    public string? Xref { get; set; }
+    public string? XRef { get; set; }
 
     /// <summary>
     /// A mechanism in which additional metadata about the entity can be stored without changing the model definition of the entity. Labels can be used for querying.

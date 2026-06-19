@@ -6,7 +6,7 @@ namespace Azure.Iot.Operations.Services.EdgeRegistry.Models;
 /// <summary>
 /// A specific Version of a Resource.
 /// </summary>
-public class Version
+public class VersionEntity
 {
     /// <summary>
     /// Resource identifier.
@@ -21,7 +21,7 @@ public class Version
     /// <summary>
     /// Full XID path.
     /// </summary>
-    public required string Xid { get; set; }
+    public required string XId { get; set; }
 
     /// <summary>
     /// A numeric value used to determine whether an entity has been modified.

@@ -6,7 +6,7 @@ namespace Azure.Iot.Operations.Services.EdgeRegistry.Models;
 /// <summary>
 /// Resource entity.
 /// </summary>
-public class Resource
+public class ResourceEntity
 {
     /// <summary>
     /// Resource identifier.
@@ -16,7 +16,7 @@ public class Resource
     /// <summary>
     /// Full XID path.
     /// </summary>
-    public required string Xid { get; set; }
+    public required string XId { get; set; }
 
     /// <summary>
     /// An object that contains most of the Resource-level attributes.
@@ -26,7 +26,7 @@ public class Resource
     /// <summary>
     /// A specific Version of a Resource.
     /// </summary>
-    public required Version DefaultVersion { get; set; }
+    public required VersionEntity DefaultVersion { get; set; }
 
     /// <summary>
     /// The number of Versions contained on the Resource.

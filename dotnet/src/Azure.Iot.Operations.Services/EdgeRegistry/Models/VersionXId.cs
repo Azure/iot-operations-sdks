@@ -6,7 +6,7 @@ namespace Azure.Iot.Operations.Services.EdgeRegistry.Models;
 /// <summary>
 /// The XID components that identify a Version.
 /// </summary>
-public class VersionXid
+public class VersionXId
 {
     /// <summary>
     /// Group type.

@@ -16,12 +16,12 @@ public class ResourceMeta
     /// <summary>
     /// Full XID path.
     /// </summary>
-    public required string Xid { get; set; }
+    public required string XId { get; set; }
 
     /// <summary>
     /// Indicates that this Resource is a reference to another Resource within the same Registry. The XID path of the referenced Resource.
     /// </summary>
-    public string? Xref { get; set; }
+    public string? XRef { get; set; }
 
     /// <summary>
     /// A numeric value used to determine whether an entity has been modified.

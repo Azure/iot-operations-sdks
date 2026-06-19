@@ -6,7 +6,7 @@ namespace Azure.Iot.Operations.Services.EdgeRegistry.Models;
 /// <summary>
 /// A Group entity — container for related Resources.
 /// </summary>
-public class Group
+public class GroupEntity
 {
     /// <summary>
     /// Group identifier.
@@ -16,7 +16,7 @@ public class Group
     /// <summary>
     /// Full XID path, e.g. /schemagroups/mygroup
     /// </summary>
-    public required string Xid { get; set; }
+    public required string XId { get; set; }
 
     /// <summary>
     /// A numeric value used to determine whether an entity has been modified.
