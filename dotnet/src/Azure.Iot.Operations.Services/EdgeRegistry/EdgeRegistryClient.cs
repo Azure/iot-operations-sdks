@@ -36,7 +36,6 @@ public sealed class EdgeRegistryClient : IEdgeRegistryClient
         ObjectDisposedException.ThrowIf(_disposed, this);
 
         var output = await _stub.ListGroupsAsync(
-            requestMetadata: null,
             additionalTopicTokenMap: GroupTopicTokens(groupType),
             commandTimeout: timeout ?? s_defaultCommandTimeout,
             cancellationToken: cancellationToken);
@@ -54,7 +53,6 @@ public sealed class EdgeRegistryClient : IEdgeRegistryClient
 
         var output = await _stub.GetGroupAsync(
             request,
-            requestMetadata: null,
             additionalTopicTokenMap: GroupTopicTokens(groupType),
             commandTimeout: timeout ?? s_defaultCommandTimeout,
             cancellationToken: cancellationToken);
@@ -73,7 +71,6 @@ public sealed class EdgeRegistryClient : IEdgeRegistryClient
 
         var output = await _stub.CreateGroupAsync(
             request,
-            requestMetadata: null,
             additionalTopicTokenMap: GroupTopicTokens(groupType),
             commandTimeout: timeout ?? s_defaultCommandTimeout,
             cancellationToken: cancellationToken);
@@ -91,7 +88,6 @@ public sealed class EdgeRegistryClient : IEdgeRegistryClient
 
         await _stub.DeleteGroupAsync(
             request,
-            requestMetadata: null,
             additionalTopicTokenMap: GroupTopicTokens(groupType),
             commandTimeout: timeout ?? s_defaultCommandTimeout,
             cancellationToken: cancellationToken);
@@ -109,7 +105,6 @@ public sealed class EdgeRegistryClient : IEdgeRegistryClient
 
         var output = await _stub.GetResourceAsync(
             request,
-            requestMetadata: null,
             additionalTopicTokenMap: ResourceTopicTokens(groupType, resourceType, resourceId),
             commandTimeout: timeout ?? s_defaultCommandTimeout,
             cancellationToken: cancellationToken);
@@ -134,7 +129,6 @@ public sealed class EdgeRegistryClient : IEdgeRegistryClient
 
         var output = await _stub.CreateResourceAsync(
             request,
-            requestMetadata: null,
             additionalTopicTokenMap: ResourceTopicTokens(groupType, resourceType, resourceId),
             commandTimeout: timeout ?? s_defaultCommandTimeout,
             cancellationToken: cancellationToken);
@@ -160,8 +154,6 @@ public sealed class EdgeRegistryClient : IEdgeRegistryClient
 
         var output = await _stub.ListResourcesAsync(
             request,
-            requestMetadata: null,
-            additionalTopicTokenMap: null,
             commandTimeout: timeout ?? s_defaultCommandTimeout,
             cancellationToken: cancellationToken);
 
@@ -178,7 +170,6 @@ public sealed class EdgeRegistryClient : IEdgeRegistryClient
 
         await _stub.DeleteResourceAsync(
             request,
-            requestMetadata: null,
             additionalTopicTokenMap: ResourceTopicTokens(groupType, resourceType, resourceId),
             commandTimeout: timeout ?? s_defaultCommandTimeout,
             cancellationToken: cancellationToken);
@@ -200,7 +191,6 @@ public sealed class EdgeRegistryClient : IEdgeRegistryClient
 
         var output = await _stub.GetVersionAsync(
             request,
-            requestMetadata: null,
             additionalTopicTokenMap: ResourceTopicTokens(groupType, resourceType, resourceId),
             commandTimeout: timeout ?? s_defaultCommandTimeout,
             cancellationToken: cancellationToken);
@@ -224,7 +214,6 @@ public sealed class EdgeRegistryClient : IEdgeRegistryClient
 
         var output = await _stub.CreateVersionAsync(
             request,
-            requestMetadata: null,
             additionalTopicTokenMap: ResourceTopicTokens(groupType, resourceType, resourceId),
             commandTimeout: timeout ?? s_defaultCommandTimeout,
             cancellationToken: cancellationToken);
@@ -251,8 +240,6 @@ public sealed class EdgeRegistryClient : IEdgeRegistryClient
 
         var output = await _stub.ListVersionsAsync(
             request,
-            requestMetadata: null,
-            additionalTopicTokenMap: null,
             commandTimeout: timeout ?? s_defaultCommandTimeout,
             cancellationToken: cancellationToken);
 
@@ -269,7 +256,6 @@ public sealed class EdgeRegistryClient : IEdgeRegistryClient
 
         await _stub.DeleteVersionAsync(
             request,
-            requestMetadata: null,
             additionalTopicTokenMap: VersionTopicTokens(groupType, resourceType, resourceId, versionId),
             commandTimeout: timeout ?? s_defaultCommandTimeout,
             cancellationToken: cancellationToken);
