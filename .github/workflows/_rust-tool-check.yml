@@ -65,7 +65,7 @@ jobs:
       # to set unconditionally (unused by crates.io-only builds).
       CARGO_REGISTRIES_AIO_SDKS_TOKEN: ${{ secrets.aio-sdks-token }}
     steps:
-      - uses: actions/checkout@v6
+      - uses: actions/checkout@v7
 
       # Refuse to fall back to `stable` silently. Every caller must
       # either pin via a `rust-toolchain.toml` in `path`, or point
