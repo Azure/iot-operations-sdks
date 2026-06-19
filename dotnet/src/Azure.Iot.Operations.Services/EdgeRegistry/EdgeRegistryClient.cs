@@ -1,20 +1,24 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT License.
 
+using System.Globalization;
 using Azure.Iot.Operations.Protocol;
 
 namespace Azure.Iot.Operations.Services.EdgeRegistry;
 
 /// <summary>
-/// Default <see cref="IEdgeRegistryClient"/> implementation. Wraps the generated core xRegistry RPC
-/// client (CoreClientStub), routing XID components into per-call topic tokens and mapping the
-/// generated wire types to the EdgeRegistry.Models domain types.
+/// Default <see cref="IEdgeRegistryClient"/> implementation. Wraps the generated core and Schema
+/// extension xRegistry RPC clients (CoreClientStub, SchemaClientStub), routing XID components into
+/// per-call topic tokens and mapping the generated wire types to the EdgeRegistry.Models domain types.
 /// </summary>
 public sealed class EdgeRegistryClient : IEdgeRegistryClient
 {
+    private const string SchemaIdTopicToken = "schemaId";
+
     private static readonly TimeSpan s_defaultCommandTimeout = TimeSpan.FromSeconds(10);
 
-    private readonly CoreClientStub _stub;
+    private readonly CoreClientStub _coreStub;
+    private readonly SchemaClientStub _schemaStub;
     private bool _disposed;
 
     /// <summary>
@@ -24,7 +28,8 @@ public sealed class EdgeRegistryClient : IEdgeRegistryClient
     /// <param name="mqttClient">The MQTT client used for RPC.</param>
     public EdgeRegistryClient(ApplicationContext applicationContext, IMqttPubSubClient mqttClient)
     {
-        _stub = new CoreClientStub(applicationContext, mqttClient);
+        _coreStub = new CoreClientStub(applicationContext, mqttClient);
+        _schemaStub = new SchemaClientStub(applicationContext, mqttClient);
     }
 
     // ---- Group APIs ----
@@ -35,7 +40,8 @@ public sealed class EdgeRegistryClient : IEdgeRegistryClient
         cancellationToken.ThrowIfCancellationRequested();
         ObjectDisposedException.ThrowIf(_disposed, this);
 
-        var output = await _stub.ListGroupsAsync(
+        var output = await _coreStub.ListGroupsAsync(
+            requestMetadata: null,
             additionalTopicTokenMap: GroupTopicTokens(groupType),
             commandTimeout: timeout ?? s_defaultCommandTimeout,
             cancellationToken: cancellationToken);
@@ -51,7 +57,7 @@ public sealed class EdgeRegistryClient : IEdgeRegistryClient
 
         Generated.GetGroupInputArguments request = new() { GroupId = groupId.Value };
 
-        var output = await _stub.GetGroupAsync(
+        var output = await _coreStub.GetGroupAsync(
             request,
             additionalTopicTokenMap: GroupTopicTokens(groupType),
             commandTimeout: timeout ?? s_defaultCommandTimeout,
@@ -69,7 +75,7 @@ public sealed class EdgeRegistryClient : IEdgeRegistryClient
         Generated.GroupAttributes request = Converter.ToGenerated(attributes);
         request.GroupId = groupId.Value;
 
-        var output = await _stub.CreateGroupAsync(
+        var output = await _coreStub.CreateGroupAsync(
             request,
             additionalTopicTokenMap: GroupTopicTokens(groupType),
             commandTimeout: timeout ?? s_defaultCommandTimeout,
@@ -86,7 +92,7 @@ public sealed class EdgeRegistryClient : IEdgeRegistryClient
 
         Generated.DeleteGroupInputArguments request = new() { GroupId = groupId.Value };
 
-        await _stub.DeleteGroupAsync(
+        await _coreStub.DeleteGroupAsync(
             request,
             additionalTopicTokenMap: GroupTopicTokens(groupType),
             commandTimeout: timeout ?? s_defaultCommandTimeout,
@@ -103,7 +109,7 @@ public sealed class EdgeRegistryClient : IEdgeRegistryClient
 
         Generated.GetResourceInputArguments request = new() { GroupId = groupId.Value };
 
-        var output = await _stub.GetResourceAsync(
+        var output = await _coreStub.GetResourceAsync(
             request,
             additionalTopicTokenMap: ResourceTopicTokens(groupType, resourceType, resourceId),
             commandTimeout: timeout ?? s_defaultCommandTimeout,
@@ -127,7 +133,7 @@ public sealed class EdgeRegistryClient : IEdgeRegistryClient
             Extensions = new Dictionary<string, byte[]>(resourceExtensions),
         };
 
-        var output = await _stub.CreateResourceAsync(
+        var output = await _coreStub.CreateResourceAsync(
             request,
             additionalTopicTokenMap: ResourceTopicTokens(groupType, resourceType, resourceId),
             commandTimeout: timeout ?? s_defaultCommandTimeout,
@@ -152,7 +158,7 @@ public sealed class EdgeRegistryClient : IEdgeRegistryClient
             Label = label is null ? null : Converter.ToGenerated(label),
         };
 
-        var output = await _stub.ListResourcesAsync(
+        var output = await _coreStub.ListResourcesAsync(
             request,
             commandTimeout: timeout ?? s_defaultCommandTimeout,
             cancellationToken: cancellationToken);
@@ -168,7 +174,7 @@ public sealed class EdgeRegistryClient : IEdgeRegistryClient
 
         Generated.DeleteResourceInputArguments request = new() { GroupId = groupId.Value };
 
-        await _stub.DeleteResourceAsync(
+        await _coreStub.DeleteResourceAsync(
             request,
             additionalTopicTokenMap: ResourceTopicTokens(groupType, resourceType, resourceId),
             commandTimeout: timeout ?? s_defaultCommandTimeout,
@@ -189,7 +195,7 @@ public sealed class EdgeRegistryClient : IEdgeRegistryClient
             VersionId = versionId.Value,
         };
 
-        var output = await _stub.GetVersionAsync(
+        var output = await _coreStub.GetVersionAsync(
             request,
             additionalTopicTokenMap: ResourceTopicTokens(groupType, resourceType, resourceId),
             commandTimeout: timeout ?? s_defaultCommandTimeout,
@@ -212,7 +218,7 @@ public sealed class EdgeRegistryClient : IEdgeRegistryClient
             ResourceLabels = Converter.ToGenerated(resourceLabels),
         };
 
-        var output = await _stub.CreateVersionAsync(
+        var output = await _coreStub.CreateVersionAsync(
             request,
             additionalTopicTokenMap: ResourceTopicTokens(groupType, resourceType, resourceId),
             commandTimeout: timeout ?? s_defaultCommandTimeout,
@@ -238,7 +244,7 @@ public sealed class EdgeRegistryClient : IEdgeRegistryClient
             Label = label is null ? null : Converter.ToGenerated(label),
         };
 
-        var output = await _stub.ListVersionsAsync(
+        var output = await _coreStub.ListVersionsAsync(
             request,
             commandTimeout: timeout ?? s_defaultCommandTimeout,
             cancellationToken: cancellationToken);
@@ -254,9 +260,94 @@ public sealed class EdgeRegistryClient : IEdgeRegistryClient
 
         Generated.DeleteVersionInputArguments request = new() { GroupId = groupId.Value };
 
-        await _stub.DeleteVersionAsync(
+        await _coreStub.DeleteVersionAsync(
             request,
             additionalTopicTokenMap: VersionTopicTokens(groupType, resourceType, resourceId, versionId),
+            commandTimeout: timeout ?? s_defaultCommandTimeout,
+            cancellationToken: cancellationToken);
+    }
+
+    // ---- Schema extension APIs ----
+
+    /// <inheritdoc/>
+    public async Task<Models.SchemaVersion> CreateSchemaVersionAsync(GroupId groupId, string schemaId, IReadOnlyList<Models.Label> schemaLabels, Models.SchemaVersionAttributes version, TimeSpan? timeout = null, CancellationToken cancellationToken = default)
+    {
+        cancellationToken.ThrowIfCancellationRequested();
+        ObjectDisposedException.ThrowIf(_disposed, this);
+
+        Generated.CreateSchemaVersionAttributes request = Converter.ToGenerated(version, groupId.Value, schemaLabels);
+
+        var output = await _schemaStub.CreateSchemaVersionAsync(
+            request,
+            requestMetadata: null,
+            additionalTopicTokenMap: ExtensionResourceTopicTokens(SchemaIdTopicToken, schemaId),
+            commandTimeout: timeout ?? s_defaultCommandTimeout,
+            cancellationToken: cancellationToken);
+
+        return Converter.ToModel(output);
+    }
+
+    /// <inheritdoc/>
+    public async Task<Models.SchemaVersion> GetSchemaVersionAsync(GroupId groupId, string schemaId, GetSchemaVersionId versionId, TimeSpan? timeout = null, CancellationToken cancellationToken = default)
+    {
+        cancellationToken.ThrowIfCancellationRequested();
+        ObjectDisposedException.ThrowIf(_disposed, this);
+
+        Generated.GetSchemaVersionInputArguments request = new()
+        {
+            GroupId = groupId.Value,
+            VersionId = versionId.Value,
+        };
+
+        var output = await _schemaStub.GetSchemaVersionAsync(
+            request,
+            requestMetadata: null,
+            additionalTopicTokenMap: ExtensionResourceTopicTokens(SchemaIdTopicToken, schemaId),
+            commandTimeout: timeout ?? s_defaultCommandTimeout,
+            cancellationToken: cancellationToken);
+
+        return Converter.ToModel(output);
+    }
+
+    /// <inheritdoc/>
+    public async Task<IReadOnlyList<Models.SchemaVersionXid>> ListSchemaVersionsAsync(GroupSelector groups, string? schemaId = null, Models.Label? label = null, TimeSpan? timeout = null, CancellationToken cancellationToken = default)
+    {
+        cancellationToken.ThrowIfCancellationRequested();
+        ObjectDisposedException.ThrowIf(_disposed, this);
+
+        (string? groupId, bool allGroups) = groups.Resolve();
+        Generated.ListVersionsRequestPayload request = new()
+        {
+            GroupType = Generated.Constants.SchemaGroupType,
+            GroupId = groupId,
+            AllGroups = allGroups,
+            ResourceType = Generated.Constants.SchemaResourceType,
+            ResourceId = schemaId,
+            Label = label is null ? null : Converter.ToGenerated(label),
+        };
+
+        var output = await _schemaStub.ListSchemaVersionsAsync(
+            request,
+            requestMetadata: null,
+            additionalTopicTokenMap: null,
+            commandTimeout: timeout ?? s_defaultCommandTimeout,
+            cancellationToken: cancellationToken);
+
+        return Converter.ToModel(output);
+    }
+
+    /// <inheritdoc/>
+    public async Task DeleteSchemaVersionAsync(GroupId groupId, string schemaId, ulong versionId, TimeSpan? timeout = null, CancellationToken cancellationToken = default)
+    {
+        cancellationToken.ThrowIfCancellationRequested();
+        ObjectDisposedException.ThrowIf(_disposed, this);
+
+        Generated.DeleteSchemaVersionInputArguments request = new() { GroupId = groupId.Value };
+
+        await _schemaStub.DeleteSchemaVersionAsync(
+            request,
+            requestMetadata: null,
+            additionalTopicTokenMap: ExtensionVersionTopicTokens(SchemaIdTopicToken, schemaId, versionId),
             commandTimeout: timeout ?? s_defaultCommandTimeout,
             cancellationToken: cancellationToken);
     }
@@ -284,6 +375,18 @@ public sealed class EdgeRegistryClient : IEdgeRegistryClient
         return tokens;
     }
 
+    /// <summary>Builds the topic tokens for an extension Resource-scoped request, keyed by the extension's Resource-identifier token (e.g. <c>schemaId</c>).</summary>
+    private static Dictionary<string, string> ExtensionResourceTopicTokens(string resourceIdToken, string resourceId)
+        => new() { [resourceIdToken] = resourceId };
+
+    /// <summary>Builds the topic tokens for an extension Version-scoped request that carries the Version id in the topic.</summary>
+    private static Dictionary<string, string> ExtensionVersionTopicTokens(string resourceIdToken, string resourceId, ulong versionId)
+    {
+        Dictionary<string, string> tokens = ExtensionResourceTopicTokens(resourceIdToken, resourceId);
+        tokens["versionId"] = versionId.ToString(CultureInfo.InvariantCulture);
+        return tokens;
+    }
+
     /// <inheritdoc/>
     public async Task StopAsync(CancellationToken cancellationToken = default)
     {
@@ -304,6 +407,7 @@ public sealed class EdgeRegistryClient : IEdgeRegistryClient
         }
 
         _disposed = true;
-        await _stub.DisposeAsync().ConfigureAwait(false);
+        await _coreStub.DisposeAsync().ConfigureAwait(false);
+        await _schemaStub.DisposeAsync().ConfigureAwait(false);
     }
 }

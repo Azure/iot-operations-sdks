@@ -117,6 +117,42 @@ internal static class Converter
     public static List<Models.VersionXId> ToModel(Generated.VersionXidList value)
         => value.Versions.Select(version => ToModel(version)).ToList();
 
+    public static Models.SchemaVersion ToModel(Generated.SchemaVersion value) => new()
+    {
+        VersionId = value.VersionId,
+        ResourceId = value.ResourceId,
+        Xid = value.Xid,
+        Epoch = value.Epoch,
+        Name = value.Name,
+        IsDefault = value.IsDefault,
+        Description = value.Description,
+        Documentation = value.Documentation,
+        Icon = value.Icon,
+        Labels = ToModel(value.Labels),
+        CreatedAt = value.CreatedAt,
+        ModifiedAt = value.ModifiedAt,
+        Ancestor = value.Ancestor,
+        ContentType = value.ContentType,
+        Format = value.Format,
+        FormatValidated = value.FormatValidated is null ? null : ToModel(value.FormatValidated),
+        CompatibilityValidated = value.CompatibilityValidated is null ? null : ToModel(value.CompatibilityValidated),
+        Document = value.Document,
+        DocumentHash = value.DocumentHash,
+        Extensions = new Dictionary<string, byte[]>(value.Extensions),
+    };
+
+    public static Models.SchemaVersionXid ToModel(Generated.SchemaVersionXid value) => new()
+    {
+        GroupType = value.GroupType,
+        GroupId = value.GroupId,
+        ResourceType = value.ResourceType,
+        ResourceId = value.ResourceId,
+        VersionId = value.VersionId,
+    };
+
+    public static List<Models.SchemaVersionXid> ToModel(Generated.SchemaVersionXidList value)
+        => value.Versions.Select(version => ToModel(version)).ToList();
+
     public static Generated.GroupAttributes ToGenerated(Models.GroupAttributes value) => new()
     {
         Name = value.Name,
@@ -163,5 +199,21 @@ internal static class Converter
         Format = value.Format,
         Document = value.Document,
         Extensions = new Dictionary<string, byte[]>(value.Extensions),
+    };
+
+    public static Generated.CreateSchemaVersionAttributes ToGenerated(Models.SchemaVersionAttributes value, string? groupId, IReadOnlyList<Models.Label> schemaLabels) => new()
+    {
+        GroupId = groupId,
+        Name = value.Name,
+        Description = value.Description,
+        Documentation = value.Documentation,
+        Icon = value.Icon,
+        Labels = ToGenerated(value.Labels),
+        Ancestor = value.Ancestor,
+        ContentType = value.ContentType,
+        Format = value.Format.Value,
+        Document = value.Document,
+        Extensions = new Dictionary<string, byte[]>(value.Extensions),
+        SchemaLabels = ToGenerated(schemaLabels),
     };
 }
