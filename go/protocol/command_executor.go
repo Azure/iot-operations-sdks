@@ -355,6 +355,9 @@ func (ce *CommandExecutor[Req, Res]) build(
 	rpub.UserProperties = errutil.ToUserProp(resErr)
 	maps.Copy(rpub.UserProperties, userProperties)
 
+	// Mark all outgoing command responses as high priority for broker backpressure bypass.
+	rpub.UserProperties[constants.HighPriority] = ""
+
 	return rpub, nil
 }
 
