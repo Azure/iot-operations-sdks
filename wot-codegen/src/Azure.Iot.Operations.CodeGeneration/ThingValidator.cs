@@ -1260,7 +1260,8 @@ namespace Azure.Iot.Operations.CodeGeneration
 
         private bool TryValidateAction(string name, ValueTracker<TDAction> action, MapTracker<TDDataSchema>? schemaDefinitions, ArrayTracker<TDAffordanceGroup>? actionGroups, out ValueTracker<StringHolder>? contentType, bool dovContextPresent, bool protContextPresent, bool platContextPresent, long contextTokenIndex, bool isDescription)
         {
-            if (!TryValidateForms(action.Value.Forms, FormsKind.Action, schemaDefinitions, out contentType, dovContextPresent, protContextPresent, contextTokenIndex, isDescription))
+            bool isContentFree = action.Value.Input == null && action.Value.Output == null;
+            if (!TryValidateForms(action.Value.Forms, FormsKind.Action, schemaDefinitions, out contentType, dovContextPresent, protContextPresent, contextTokenIndex, isDescription, isContentFree: isContentFree))
             {
                 return false;
             }
@@ -1825,7 +1826,7 @@ namespace Azure.Iot.Operations.CodeGeneration
             return true;
         }
 
-        private bool TryValidateForms(ArrayTracker<TDForm>? forms, FormsKind formsKind, MapTracker<TDDataSchema>? schemaDefinitions, out ValueTracker<StringHolder>? contentType, bool dovContextPresent, bool protContextPresent, long contextTokenIndex, bool isDescription, bool isReadOnly = false)
+        private bool TryValidateForms(ArrayTracker<TDForm>? forms, FormsKind formsKind, MapTracker<TDDataSchema>? schemaDefinitions, out ValueTracker<StringHolder>? contentType, bool dovContextPresent, bool protContextPresent, long contextTokenIndex, bool isDescription, bool isReadOnly = false, bool isContentFree = false)
         {
             contentType = null;
 
@@ -1844,7 +1845,7 @@ namespace Azure.Iot.Operations.CodeGeneration
 
             foreach (ValueTracker<TDForm> form in forms.Elements)
             {
-                if (!TryValidateForm(form, formsKind, schemaDefinitions, out ValueTracker<StringHolder>? formContentType, dovContextPresent, protContextPresent, contextTokenIndex, isDescription, isReadOnly))
+                if (!TryValidateForm(form, formsKind, schemaDefinitions, out ValueTracker<StringHolder>? formContentType, dovContextPresent, protContextPresent, contextTokenIndex, isDescription, isReadOnly, isContentFree))
                 {
                     hasError = true;
                 }
@@ -1888,7 +1889,7 @@ namespace Azure.Iot.Operations.CodeGeneration
             return !hasError;
         }
 
-        private bool TryValidateForm(ValueTracker<TDForm> form, FormsKind formsKind, MapTracker<TDDataSchema>? schemaDefinitions, out ValueTracker<StringHolder>? contentType, bool dovContextPresent, bool protContextPresent, long contextTokenIndex, bool isDescription, bool isReadOnly)
+        private bool TryValidateForm(ValueTracker<TDForm> form, FormsKind formsKind, MapTracker<TDDataSchema>? schemaDefinitions, out ValueTracker<StringHolder>? contentType, bool dovContextPresent, bool protContextPresent, long contextTokenIndex, bool isDescription, bool isReadOnly, bool isContentFree)
         {
             bool hasError = false;
 
@@ -2080,9 +2081,9 @@ namespace Azure.Iot.Operations.CodeGeneration
                     hasError = true;
                 }
 
-                if (form.Value.ContentType == null)
+                if (form.Value.ContentType == null && !isContentFree)
                 {
-                    errorReporter.ReportError(ErrorCondition.ValuesInconsistent, $"Form missing '{TDForm.ContentTypeName}' property, which is required when '{TDForm.TopicName}' property present.", form.TokenIndex, form.Value.Topic.TokenIndex);
+                    errorReporter.ReportError(ErrorCondition.ValuesInconsistent, $"Form missing '{TDForm.ContentTypeName}' property, which is required when '{TDForm.TopicName}' property present unless there is no content.", form.TokenIndex, form.Value.Topic.TokenIndex);
                     hasError = true;
                 }
             }
