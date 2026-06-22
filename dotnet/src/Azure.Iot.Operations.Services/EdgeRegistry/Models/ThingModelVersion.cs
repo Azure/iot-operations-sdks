@@ -4,10 +4,10 @@
 namespace Azure.Iot.Operations.Services.EdgeRegistry.Models;
 
 /// <summary>
-/// A specific Version of a Schema. Self-contained: combines the generic Version fields and the
-/// schema-specific fields, with integer-typed <see cref="VersionId"/> and <see cref="Ancestor"/>.
+/// A specific Version of a Thing Model. Self-contained: combines the generic Version fields and the
+/// thing-model-specific fields, with integer-typed <see cref="VersionId"/> and <see cref="Ancestor"/>.
 /// </summary>
-public class SchemaVersion
+public class ThingModelVersion
 {
     /// <summary>
     /// Version identifier.
@@ -15,7 +15,7 @@ public class SchemaVersion
     public required ulong VersionId { get; set; }
 
     /// <summary>
-    /// Schema (Resource) identifier.
+    /// Thing Model (Resource) identifier.
     /// </summary>
     public required string ResourceId { get; set; }
 
@@ -35,7 +35,7 @@ public class SchemaVersion
     public string? Name { get; set; }
 
     /// <summary>
-    /// Indicates whether this Version is the default Version of the owning Schema.
+    /// Indicates whether this Version is the default Version of the owning Thing Model.
     /// </summary>
     public required bool IsDefault { get; set; }
 
@@ -80,9 +80,9 @@ public class SchemaVersion
     public string? ContentType { get; set; }
 
     /// <summary>
-    /// Identifies the format of the schema document.
+    /// Identifies the format of the thing model document.
     /// </summary>
-    public required SchemaFormat Format { get; set; }
+    public required ThingModelFormat Format { get; set; }
 
     /// <summary>
     /// When format validation is enabled, indicates whether the server has validated that the Version conforms to the rules defined by its <see cref="Format"/>.
@@ -90,17 +90,17 @@ public class SchemaVersion
     public ValidationStatus? FormatValidated { get; set; }
 
     /// <summary>
-    /// When compatibility validation is enabled, indicates whether the server has validated that the Version conforms to the rules defined by its Schema's compatibility attribute.
+    /// When compatibility validation is enabled, indicates whether the server has validated that the Version conforms to the rules defined by its Thing Model's compatibility attribute.
     /// </summary>
     public ValidationStatus? CompatibilityValidated { get; set; }
 
     /// <summary>
-    /// The raw schema document for this Version.
+    /// The raw thing model document for this Version.
     /// </summary>
     public required byte[] Document { get; set; }
 
     /// <summary>
-    /// The hash of the schema document for this Version.
+    /// The hash of the thing model document for this Version.
     /// </summary>
     public required string DocumentHash { get; set; }
 

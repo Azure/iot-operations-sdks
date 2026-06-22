@@ -121,7 +121,7 @@ internal static class Converter
     {
         VersionId = value.VersionId,
         ResourceId = value.ResourceId,
-        Xid = value.Xid,
+        XId = value.Xid,
         Epoch = value.Epoch,
         Name = value.Name,
         IsDefault = value.IsDefault,
@@ -157,7 +157,7 @@ internal static class Converter
     {
         VersionId = value.VersionId,
         ResourceId = value.ResourceId,
-        Xid = value.Xid,
+        XId = value.Xid,
         Epoch = value.Epoch,
         Name = value.Name,
         IsDefault = value.IsDefault,
@@ -187,6 +187,42 @@ internal static class Converter
     };
 
     public static List<Models.ThingDescriptionVersionXid> ToModel(Generated.ThingDescriptionVersionXidList value)
+        => value.Versions.Select(version => ToModel(version)).ToList();
+
+    public static Models.ThingModelVersion ToModel(Generated.ThingModelVersion value) => new()
+    {
+        VersionId = value.VersionId,
+        ResourceId = value.ResourceId,
+        XId = value.Xid,
+        Epoch = value.Epoch,
+        Name = value.Name,
+        IsDefault = value.IsDefault,
+        Description = value.Description,
+        Documentation = value.Documentation,
+        Icon = value.Icon,
+        Labels = ToModel(value.Labels),
+        CreatedAt = value.CreatedAt,
+        ModifiedAt = value.ModifiedAt,
+        Ancestor = value.Ancestor,
+        ContentType = value.ContentType,
+        Format = value.Format,
+        FormatValidated = value.FormatValidated is null ? null : ToModel(value.FormatValidated),
+        CompatibilityValidated = value.CompatibilityValidated is null ? null : ToModel(value.CompatibilityValidated),
+        Document = value.Document,
+        DocumentHash = value.DocumentHash,
+        Extensions = new Dictionary<string, byte[]>(value.Extensions),
+    };
+
+    public static Models.ThingModelVersionXid ToModel(Generated.ThingModelVersionXid value) => new()
+    {
+        GroupType = value.GroupType,
+        GroupId = value.GroupId,
+        ResourceType = value.ResourceType,
+        ResourceId = value.ResourceId,
+        VersionId = value.VersionId,
+    };
+
+    public static List<Models.ThingModelVersionXid> ToModel(Generated.ThingModelVersionXidList value)
         => value.Versions.Select(version => ToModel(version)).ToList();
 
     public static Generated.GroupAttributes ToGenerated(Models.GroupAttributes value) => new()
@@ -267,5 +303,21 @@ internal static class Converter
         Document = value.Document,
         Extensions = new Dictionary<string, byte[]>(value.Extensions),
         ThingDescriptionLabels = ToGenerated(thingDescriptionLabels),
+    };
+
+    public static Generated.CreateThingModelVersionAttributes ToGenerated(Models.ThingModelVersionAttributes value, string? groupId, IReadOnlyList<Models.Label> thingModelLabels) => new()
+    {
+        GroupId = groupId,
+        Name = value.Name,
+        Description = value.Description,
+        Documentation = value.Documentation,
+        Icon = value.Icon,
+        Labels = ToGenerated(value.Labels),
+        Ancestor = value.Ancestor,
+        ContentType = value.ContentType,
+        Format = value.Format.Value,
+        Document = value.Document,
+        Extensions = new Dictionary<string, byte[]>(value.Extensions),
+        ThingModelLabels = ToGenerated(thingModelLabels),
     };
 }

@@ -23,7 +23,7 @@ public class ThingDescriptionVersion
     /// <summary>
     /// Full XID path.
     /// </summary>
-    public required string Xid { get; set; }
+    public required string XId { get; set; }
 
     /// <summary>
     /// A numeric value used to determine whether an entity has been modified.
