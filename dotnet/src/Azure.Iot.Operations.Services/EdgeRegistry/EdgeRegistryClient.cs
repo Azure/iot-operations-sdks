@@ -7,18 +7,21 @@ using Azure.Iot.Operations.Protocol;
 namespace Azure.Iot.Operations.Services.EdgeRegistry;
 
 /// <summary>
-/// Default <see cref="IEdgeRegistryClient"/> implementation. Wraps the generated core and Schema
-/// extension xRegistry RPC clients (CoreClientStub, SchemaClientStub), routing XID components into
-/// per-call topic tokens and mapping the generated wire types to the EdgeRegistry.Models domain types.
+/// Default <see cref="IEdgeRegistryClient"/> implementation. Wraps the generated core, Schema, and
+/// Thing Description extension xRegistry RPC clients (CoreClientStub, SchemaClientStub,
+/// ThingDescriptionClientStub), routing XID components into per-call topic tokens and mapping the
+/// generated wire types to the EdgeRegistry.Models domain types.
 /// </summary>
 public sealed class EdgeRegistryClient : IEdgeRegistryClient
 {
     private const string SchemaIdTopicToken = "schemaId";
+    private const string ThingDescriptionIdTopicToken = "thingDescriptionId";
 
     private static readonly TimeSpan s_defaultCommandTimeout = TimeSpan.FromSeconds(10);
 
     private readonly CoreClientStub _coreStub;
     private readonly SchemaClientStub _schemaStub;
+    private readonly ThingDescriptionClientStub _thingDescriptionStub;
     private bool _disposed;
 
     /// <summary>
@@ -30,6 +33,7 @@ public sealed class EdgeRegistryClient : IEdgeRegistryClient
     {
         _coreStub = new CoreClientStub(applicationContext, mqttClient);
         _schemaStub = new SchemaClientStub(applicationContext, mqttClient);
+        _thingDescriptionStub = new ThingDescriptionClientStub(applicationContext, mqttClient);
     }
 
     // ---- Group APIs ----
@@ -279,7 +283,6 @@ public sealed class EdgeRegistryClient : IEdgeRegistryClient
 
         var output = await _schemaStub.CreateSchemaVersionAsync(
             request,
-            requestMetadata: null,
             additionalTopicTokenMap: ExtensionResourceTopicTokens(SchemaIdTopicToken, schemaId),
             commandTimeout: timeout ?? s_defaultCommandTimeout,
             cancellationToken: cancellationToken);
@@ -301,7 +304,6 @@ public sealed class EdgeRegistryClient : IEdgeRegistryClient
 
         var output = await _schemaStub.GetSchemaVersionAsync(
             request,
-            requestMetadata: null,
             additionalTopicTokenMap: ExtensionResourceTopicTokens(SchemaIdTopicToken, schemaId),
             commandTimeout: timeout ?? s_defaultCommandTimeout,
             cancellationToken: cancellationToken);
@@ -328,8 +330,6 @@ public sealed class EdgeRegistryClient : IEdgeRegistryClient
 
         var output = await _schemaStub.ListSchemaVersionsAsync(
             request,
-            requestMetadata: null,
-            additionalTopicTokenMap: null,
             commandTimeout: timeout ?? s_defaultCommandTimeout,
             cancellationToken: cancellationToken);
 
@@ -346,8 +346,87 @@ public sealed class EdgeRegistryClient : IEdgeRegistryClient
 
         await _schemaStub.DeleteSchemaVersionAsync(
             request,
-            requestMetadata: null,
             additionalTopicTokenMap: ExtensionVersionTopicTokens(SchemaIdTopicToken, schemaId, versionId),
+            commandTimeout: timeout ?? s_defaultCommandTimeout,
+            cancellationToken: cancellationToken);
+    }
+
+    // ---- Thing Description extension APIs ----
+
+    /// <inheritdoc/>
+    public async Task<Models.ThingDescriptionVersion> CreateThingDescriptionVersionAsync(GroupId groupId, string thingDescriptionId, IReadOnlyList<Models.Label> thingDescriptionLabels, Models.ThingDescriptionVersionAttributes version, TimeSpan? timeout = null, CancellationToken cancellationToken = default)
+    {
+        cancellationToken.ThrowIfCancellationRequested();
+        ObjectDisposedException.ThrowIf(_disposed, this);
+
+        Generated.CreateThingDescriptionVersionAttributes request = Converter.ToGenerated(version, groupId.Value, thingDescriptionLabels);
+
+        var output = await _thingDescriptionStub.CreateThingDescriptionVersionAsync(
+            request,
+            additionalTopicTokenMap: ExtensionResourceTopicTokens(ThingDescriptionIdTopicToken, thingDescriptionId),
+            commandTimeout: timeout ?? s_defaultCommandTimeout,
+            cancellationToken: cancellationToken);
+
+        return Converter.ToModel(output);
+    }
+
+    /// <inheritdoc/>
+    public async Task<Models.ThingDescriptionVersion> GetThingDescriptionVersionAsync(GroupId groupId, string thingDescriptionId, GetThingDescriptionVersionId versionId, TimeSpan? timeout = null, CancellationToken cancellationToken = default)
+    {
+        cancellationToken.ThrowIfCancellationRequested();
+        ObjectDisposedException.ThrowIf(_disposed, this);
+
+        Generated.GetThingDescriptionVersionInputArguments request = new()
+        {
+            GroupId = groupId.Value,
+            VersionId = versionId.Value,
+        };
+
+        var output = await _thingDescriptionStub.GetThingDescriptionVersionAsync(
+            request,
+            additionalTopicTokenMap: ExtensionResourceTopicTokens(ThingDescriptionIdTopicToken, thingDescriptionId),
+            commandTimeout: timeout ?? s_defaultCommandTimeout,
+            cancellationToken: cancellationToken);
+
+        return Converter.ToModel(output);
+    }
+
+    /// <inheritdoc/>
+    public async Task<IReadOnlyList<Models.ThingDescriptionVersionXid>> ListThingDescriptionVersionsAsync(GroupSelector groups, string? thingDescriptionId = null, Models.Label? label = null, TimeSpan? timeout = null, CancellationToken cancellationToken = default)
+    {
+        cancellationToken.ThrowIfCancellationRequested();
+        ObjectDisposedException.ThrowIf(_disposed, this);
+
+        (string? groupId, bool allGroups) = groups.Resolve();
+        Generated.ListVersionsRequestPayload request = new()
+        {
+            GroupType = Generated.Constants.ThingDescriptionGroupType,
+            GroupId = groupId,
+            AllGroups = allGroups,
+            ResourceType = Generated.Constants.ThingDescriptionResourceType,
+            ResourceId = thingDescriptionId,
+            Label = label is null ? null : Converter.ToGenerated(label),
+        };
+
+        var output = await _thingDescriptionStub.ListThingDescriptionVersionsAsync(
+            request,
+            commandTimeout: timeout ?? s_defaultCommandTimeout,
+            cancellationToken: cancellationToken);
+
+        return Converter.ToModel(output);
+    }
+
+    /// <inheritdoc/>
+    public async Task DeleteThingDescriptionVersionAsync(GroupId groupId, string thingDescriptionId, ulong versionId, TimeSpan? timeout = null, CancellationToken cancellationToken = default)
+    {
+        cancellationToken.ThrowIfCancellationRequested();
+        ObjectDisposedException.ThrowIf(_disposed, this);
+
+        Generated.DeleteThingDescriptionVersionInputArguments request = new() { GroupId = groupId.Value };
+
+        await _thingDescriptionStub.DeleteThingDescriptionVersionAsync(
+            request,
+            additionalTopicTokenMap: ExtensionVersionTopicTokens(ThingDescriptionIdTopicToken, thingDescriptionId, versionId),
             commandTimeout: timeout ?? s_defaultCommandTimeout,
             cancellationToken: cancellationToken);
     }
@@ -409,5 +488,6 @@ public sealed class EdgeRegistryClient : IEdgeRegistryClient
         _disposed = true;
         await _coreStub.DisposeAsync().ConfigureAwait(false);
         await _schemaStub.DisposeAsync().ConfigureAwait(false);
+        await _thingDescriptionStub.DisposeAsync().ConfigureAwait(false);
     }
 }
