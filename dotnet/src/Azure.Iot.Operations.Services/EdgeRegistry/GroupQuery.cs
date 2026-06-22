@@ -4,10 +4,10 @@
 namespace Azure.Iot.Operations.Services.EdgeRegistry;
 
 /// <summary>
-/// Selects which Groups a list query searches: either across all Group types, or within a single
-/// Group type. Constructed via <see cref="AcrossAllGroupTypes"/> or <see cref="WithinGroupType"/>;
-/// invalid combinations (such as the cloud-default Group without a Group type) are not
-/// representable.
+/// Selects which Groups a list query searches: either within a single Group type (via
+/// <see cref="WithinGroupType"/>) or across all Group types (via <see cref="AllGroups"/> /
+/// <see cref="GroupAcrossAllTypes"/>). Invalid combinations (such as the cloud-default Group
+/// without a Group type) are not representable.
 /// </summary>
 public readonly struct GroupQuery
 {
@@ -22,21 +22,20 @@ public readonly struct GroupQuery
         _allGroups = allGroups;
     }
 
-    /// <summary>Query across all Group types, selecting all Groups or a specific Group identifier.</summary>
-    public static GroupQuery AcrossAllGroupTypes(AnyGroupSelection groups)
-    {
-        (string? groupId, bool allGroups) = groups.Resolve();
-        return new GroupQuery(null, groupId, allGroups);
-    }
-
     /// <summary>
     /// Query within a single Group type. Defaults to that Group type's cloud-default Group.
     /// </summary>
-    public static GroupQuery WithinGroupType(string groupType, GroupSelection groups = default)
+    public static GroupQuery WithinGroupType(string groupType, GroupSelector groups = default)
     {
         (string? groupId, bool allGroups) = groups.Resolve();
         return new GroupQuery(groupType, groupId, allGroups);
     }
+
+    /// <summary>Query all Groups across all Group types.</summary>
+    public static GroupQuery AllGroups() => new(null, null, true);
+
+    /// <summary>Query a specific Group identifier across all Group types.</summary>
+    public static GroupQuery GroupAcrossAllTypes(string groupId) => new(null, groupId, false);
 
     /// <summary>Resolves to the (groupType, groupId, allGroups) request-payload scope fields.</summary>
     internal (string? GroupType, string? GroupId, bool AllGroups) Resolve()
