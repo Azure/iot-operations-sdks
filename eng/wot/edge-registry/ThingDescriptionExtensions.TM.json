@@ -1,0 +1,205 @@
+{
+    "@context": [
+        "https://www.w3.org/2022/wot/td/v1.1",
+        {
+            "dov": "http://azure.com/DigitalOperations/vocab#"
+        }
+    ],
+    "@type": "tm:ThingModel",
+    "title": "EdgeRegistryThingDescriptionExtensions",
+    "description": "Companion type definitions for the xRegistry Thing Description entity type. Provides typed thing description definitions for SDK codegen targeting thing description Groups, thing description metadata, and thing description Versions.",
+    "links": [
+        {
+            "rel": "tm:extends",
+            "href": "./EdgeRegistry.TM.json#title=EdgeRegistry",
+            "type": "application/tm+json"
+        }
+    ],
+    "actions": {
+        "getThingDescriptionVersion": {
+            "description": "Retrieve an xRegistry Thing Description Version entity.",
+            "input": {
+                "type": "object",
+                "properties": {
+                    "groupId": {
+                        "description": "Group identifier. Uses the default if not specified.",
+                        "type": "string"
+                    },
+                    "versionId": {
+                        "description": "Version identifier. Returns the default Version if not specified.",
+                        "type": "integer"
+                    }
+                },
+                "required": []
+            },
+            "output": {
+                "description": "The Thing Description Version entity.",
+                "dov:ref": "./thing-description-extension/ThingDescriptionVersion.schema.json"
+            },
+            "forms": [
+                {
+                    "dov:topic": "aio/registry/thingDescriptionExtension/get/thingdescriptiongroups/thingdescriptions/{ex:thingDescriptionId}/versions/version",
+                    "contentType": "application/json",
+                    "op": "invokeaction",
+                    "additionalResponses": [
+                        {
+                            "success": false,
+                            "schema": "ThingDescriptionExtensionError"
+                        }
+                    ]
+                }
+            ]
+        },
+        "createThingDescriptionVersion": {
+            "description": "Create a new xRegistry Thing Description Version entity under the specified thing description. Returns the created Version entity with epoch=1. Create is strictly idempotent: if every field matches the latest Version of the parent Thing Description (including labels), the latest Version is returned unchanged; otherwise a new Version is created.",
+            "input": {
+                "description": "Attributes needed to create a Thing Description Version.",
+                "dov:ref": "./thing-description-extension/CreateThingDescriptionVersionAttributes.schema.json"
+            },
+            "output": {
+                "description": "The Thing Description Version entity.",
+                "dov:ref": "./thing-description-extension/ThingDescriptionVersion.schema.json"
+            },
+            "forms": [
+                {
+                    "dov:topic": "aio/registry/thingDescriptionExtension/create/thingdescriptiongroups/thingdescriptions/{ex:thingDescriptionId}/versions/version",
+                    "contentType": "application/json",
+                    "op": "invokeaction",
+                    "additionalResponses": [
+                        {
+                            "success": false,
+                            "schema": "ThingDescriptionExtensionError"
+                        }
+                    ]
+                }
+            ]
+        },
+        "listThingDescriptionVersions": {
+            "description": "List xRegistry Thing Description Versions, optionally filtered by Group, Thing Description, and/or label.",
+            "input": {
+                "dov:ref": "./core-xregistry/ListVersionsRequestPayload.schema.json",
+                "description": "The constraints to filter the listed Versions by."
+            },
+            "output": {
+                "dov:ref": "./thing-description-extension/ThingDescriptionVersionXIdList.schema.json",
+                "description": "List of Thing Description Version XIDs matching the provided constraints."
+            },
+            "forms": [
+                {
+                    "dov:topic": "aio/registry/thingDescriptionExtension/listVersions",
+                    "contentType": "application/json",
+                    "op": "invokeaction",
+                    "additionalResponses": [
+                        {
+                            "success": false,
+                            "schema": "ThingDescriptionExtensionError"
+                        }
+                    ]
+                }
+            ]
+        },
+        "deleteThingDescriptionVersion": {
+            "description": "Delete an xRegistry Thing Description Version entity.",
+            "input": {
+                "type": "object",
+                "properties": {
+                    "groupId": {
+                        "description": "Group identifier. Uses the default if not specified.",
+                        "type": "string"
+                    }
+                },
+                "required": []
+            },
+            "output": {
+                "description": "TODO: Dummy output to allow Rust to compile",
+                "type": "object",
+                "properties": {
+                    "dummyOutput": {
+                        "description": "TODO: Temporary Output",
+                        "type": "boolean"
+                    }
+                },
+                "required": [
+                    "dummyOutput"
+                ]
+            },
+            "forms": [
+                {
+                    "dov:topic": "aio/registry/thingDescriptionExtension/delete/thingdescriptiongroups/thingdescriptions/{ex:thingDescriptionId}/versions/{ex:versionId}",
+                    "contentType": "application/json",
+                    "op": "invokeaction",
+                    "additionalResponses": [
+                        {
+                            "success": false,
+                            "schema": "ThingDescriptionExtensionError"
+                        }
+                    ]
+                }
+            ]
+        }
+    },
+    "schemaDefinitions": {
+        "ThingDescriptionFormat": {
+            "type": "object",
+            "const": {
+                "JsonLD11": "JSON-LD/1.1"
+            },
+            "description": "Non-exhaustive supported WoT TD formats",
+            "properties": {
+                "JsonLD11": {
+                    "description": "JSON-LD 1.1 format",
+                    "type": "string"
+                }
+            }
+        },
+        "ThingDescriptionGroupType": {
+            "type": "string",
+            "const": "thingdescriptiongroups",
+            "description": "Group type used in XID for xRegistry Thing Description Groups."
+        },
+        "ThingDescriptionResourceType": {
+            "type": "string",
+            "const": "thingdescriptions",
+            "description": "Resource type used in XID for xRegistry Thing Description Resources."
+        },
+        "ThingDescriptionExtensionError": {
+            "type": "object",
+            "properties": {
+                "type": {
+                    "type": "string",
+                    "description": "URI identifying the error type."
+                },
+                "code": {
+                    "type": "integer",
+                    "description": "HTTP-style response code."
+                },
+                "status": {
+                    "type": "string",
+                    "description": "HTTP-style response status text."
+                },
+                "title": {
+                    "type": "string",
+                    "description": "Short human-readable error title."
+                },
+                "detail": {
+                    "type": "string",
+                    "description": "Detailed error description."
+                },
+                "subject": {
+                    "type": "string",
+                    "description": "The XID of the entity being processed when the error occurred, if applicable."
+                },
+                "source": {
+                    "type": "string",
+                    "description": "The component that raised the error."
+                }
+            },
+            "required": [
+                "type",
+                "status",
+                "code",
+                "title"
+            ]
+        }
+    }
+}

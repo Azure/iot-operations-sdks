@@ -1,0 +1,210 @@
+{
+    "@context": [
+        "https://www.w3.org/2022/wot/td/v1.1",
+        {
+            "dov": "http://azure.com/DigitalOperations/vocab#"
+        }
+    ],
+    "@type": "tm:ThingModel",
+    "title": "EdgeRegistrySchemaExtensions",
+    "description": "Companion type definitions for the xRegistry Schema entity type. Provides typed schema definitions for SDK codegen targeting schema Groups, schema metadata, and schema Versions.",
+    "links": [
+        {
+            "rel": "tm:extends",
+            "href": "./EdgeRegistry.TM.json#title=EdgeRegistry",
+            "type": "application/tm+json"
+        }
+    ],
+    "actions": {
+        "getSchemaVersion": {
+            "description": "Retrieve an xRegistry Schema Version entity.",
+            "input": {
+                "type": "object",
+                "properties": {
+                    "groupId": {
+                        "description": "Group identifier. Uses the default if not specified.",
+                        "type": "string"
+                    },
+                    "versionId": {
+                        "description": "Version identifier. Returns the default Version if not specified.",
+                        "type": "integer"
+                    }
+                },
+                "required": []
+            },
+            "output": {
+                "description": "The Schema Version entity.",
+                "dov:ref": "./schema-extension/SchemaVersion.schema.json"
+            },
+            "forms": [
+                {
+                    "dov:topic": "aio/registry/schemaExtension/get/schemagroups/schemas/{ex:schemaId}/versions/version",
+                    "contentType": "application/json",
+                    "op": "invokeaction",
+                    "additionalResponses": [
+                        {
+                            "success": false,
+                            "schema": "SchemaExtensionError"
+                        }
+                    ]
+                }
+            ]
+        },
+        "createSchemaVersion": {
+            "description": "Create a new xRegistry Schema Version entity under the specified schema. Returns the created Version entity with epoch=1. Create is strictly idempotent: if every field matches the latest Version of the parent Schema (including labels), the latest Version is returned unchanged; otherwise a new Version is created.",
+            "input": {
+                "description": "Attributes needed to create a Schema Version.",
+                "dov:ref": "./schema-extension/CreateSchemaVersionAttributes.schema.json"
+            },
+            "output": {
+                "description": "The Schema Version entity.",
+                "dov:ref": "./schema-extension/SchemaVersion.schema.json"
+            },
+            "forms": [
+                {
+                    "dov:topic": "aio/registry/schemaExtension/create/schemagroups/schemas/{ex:schemaId}/versions/version",
+                    "contentType": "application/json",
+                    "op": "invokeaction",
+                    "additionalResponses": [
+                        {
+                            "success": false,
+                            "schema": "SchemaExtensionError"
+                        }
+                    ]
+                }
+            ]
+        },
+        "listSchemaVersions": {
+            "description": "List xRegistry Schema Versions, optionally filtered by Group, Schema, and/or label.",
+            "input": {
+                "dov:ref": "./core-xregistry/ListVersionsRequestPayload.schema.json",
+                "description": "The constraints to filter the listed Versions by."
+            },
+            "output": {
+                "dov:ref": "./schema-extension/SchemaVersionXIdList.schema.json",
+                "description": "List of Schema Version XIDs matching the provided constraints."
+            },
+            "forms": [
+                {
+                    "dov:topic": "aio/registry/schemaExtension/listVersions",
+                    "contentType": "application/json",
+                    "op": "invokeaction",
+                    "additionalResponses": [
+                        {
+                            "success": false,
+                            "schema": "SchemaExtensionError"
+                        }
+                    ]
+                }
+            ]
+        },
+        "deleteSchemaVersion": {
+            "description": "Delete an xRegistry Schema Version entity.",
+            "input": {
+                "type": "object",
+                "properties": {
+                    "groupId": {
+                        "description": "Group identifier. Uses the default if not specified.",
+                        "type": "string"
+                    }
+                },
+                "required": []
+            },
+            "output": {
+                "description": "TODO: Dummy output to allow Rust to compile",
+                "type": "object",
+                "properties": {
+                    "dummyOutput": {
+                        "description": "TODO: Temporary Output",
+                        "type": "boolean"
+                    }
+                },
+                "required": [
+                    "dummyOutput"
+                ]
+            },
+            "forms": [
+                {
+                    "dov:topic": "aio/registry/schemaExtension/delete/schemagroups/schemas/{ex:schemaId}/versions/{ex:versionId}",
+                    "contentType": "application/json",
+                    "op": "invokeaction",
+                    "additionalResponses": [
+                        {
+                            "success": false,
+                            "schema": "SchemaExtensionError"
+                        }
+                    ]
+                }
+            ]
+        }
+    },
+    "schemaDefinitions": {
+        "SchemaFormat": {
+            "type": "object",
+            "const": {
+                "JsonSchemaDraft07": "JsonSchema/draft-07",
+                "Avro1110": "Avro/1.11.0"
+            },
+            "description": "Non-exhaustive supported schema formats",
+            "properties": {
+                "JsonSchemaDraft07": {
+                    "description": "JSON Schema Draft-07 format",
+                    "type": "string"
+                },
+                "Avro1110": {
+                    "description": "Avro 1.11.0 format",
+                    "type": "string"
+                }
+            }
+        },
+        "SchemaGroupType": {
+            "type": "string",
+            "const": "schemagroups",
+            "description": "Group type used in xId for xRegistry Schema Groups."
+        },
+        "SchemaResourceType": {
+            "type": "string",
+            "const": "schemas",
+            "description": "Resource type used in xId for xRegistry Schema Resources."
+        },
+        "SchemaExtensionError": {
+            "type": "object",
+            "properties": {
+                "type": {
+                    "type": "string",
+                    "description": "URI identifying the error type."
+                },
+                "code": {
+                    "type": "integer",
+                    "description": "HTTP-style response code."
+                },
+                "status": {
+                    "type": "string",
+                    "description": "HTTP-style response status text."
+                },
+                "title": {
+                    "type": "string",
+                    "description": "Short human-readable error title."
+                },
+                "detail": {
+                    "type": "string",
+                    "description": "Detailed error description."
+                },
+                "subject": {
+                    "type": "string",
+                    "description": "The XID of the entity being processed when the error occurred, if applicable."
+                },
+                "source": {
+                    "type": "string",
+                    "description": "The component that raised the error."
+                }
+            },
+            "required": [
+                "type",
+                "status",
+                "code",
+                "title"
+            ]
+        }
+    }
+}
