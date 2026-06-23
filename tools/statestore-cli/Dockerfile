@@ -20,7 +20,8 @@ RUN --mount=type=secret,id=CARGO_TOKEN,target=/run/secrets/cargo_token \
 
 # Finalize image
 FROM mcr.microsoft.com/azurelinux/base/core:3.0 AS final
-RUN tdnf install -y shadow-utils && tdnf clean all -y
+# Refresh base-image OS packages to latest Azure Linux 3.0 patches (clears base-image CVEs)
+RUN tdnf -y update && tdnf install -y shadow-utils && tdnf clean all -y
 # Create non-root user
 ARG USERNAME="aio_devs"
 ARG USERGROUP="aio_dataflow"
