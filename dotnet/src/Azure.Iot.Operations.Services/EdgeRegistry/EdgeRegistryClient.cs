@@ -285,6 +285,17 @@ public sealed class EdgeRegistryClient : IEdgeRegistryClient
     }
 
     /// <inheritdoc/>
+    public async Task StopAsync(CancellationToken cancellationToken = default)
+    {
+        if (_disposed)
+        {
+            return;
+        }
+
+        await _stub.StopAsync(cancellationToken).ConfigureAwait(false);
+    }
+
+    /// <inheritdoc/>
     public async ValueTask DisposeAsync()
     {
         if (_disposed)
