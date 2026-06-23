@@ -1,0 +1,35 @@
+{
+  "@context": [
+    "https://www.w3.org/2022/wot/td/v1.1",
+    { "dov": "http://azure.com/DigitalOperations/vocab#" }
+  ],
+  "@type": "tm:ThingModel",
+  "title": "Noop",
+  "dov:eventGroups": [
+    {
+      "title": "GroupOne",
+      "description": "First event group",
+      "priority": 1
+    },
+    {
+      "title": "GroupTwo",
+      "description": "Second event group",
+      "priority": 2
+    },
+    {
+      "title": "GroupThree",
+      "tags": [ "alpha", "beta" ]
+    }
+  ],
+  "actions": {
+    "noop": {
+      "forms": [
+        {
+          "contentType": "application/json",
+          "dov:topic": "sample/TestThing/command/noop",
+          "op": "invokeaction"
+        }
+      ]
+    }
+  }
+}

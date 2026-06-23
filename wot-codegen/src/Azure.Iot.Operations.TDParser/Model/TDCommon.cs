@@ -12,12 +12,16 @@ namespace Azure.Iot.Operations.TDParser.Model
         public const string ContentTypeName = "contentType";
         public const string DescriptionName = "description";
         public const string FormsName = "forms";
+        public const string HrefName = "href";
         public const string NamespaceName = "dov:namespace";
         public const string NamespaceLegacyName = "aov:namespace";
         public const string TitleName = "title";
         public const string WithUnitName = "dov:withUnit";
         public const string WithUnitLegacyName = "aov:withUnit";
         public const string HasQuantityKindName = "qudt:hasQuantityKind";
+        public const string MemberOfName = "dov:memberOf";
+        public const string MemberOfLegacyName = "aov:memberOf";
+        public const string PropertyIriName = "dov:propertyIRI";
 
         public const string WithUnitPrefix = "properties/";
     }

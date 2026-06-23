@@ -5,23 +5,24 @@
   ],
   "@type": "tm:ThingModel",
   "title": "Noop",
+  "dov:propertyGroups": [
+    { "title": "MyPropertyGroup" }
+  ],
   "actions": {
   },
   "properties": {
-  },
-  "events": {
     "alpha": {
-      "data": {
-        "type": "string"
-      },
+      "type": "string",
       "dov:memberOf": "MyPropertyGroup",
       "forms": [
         {
           "contentType": "application/json",
-          "dov:topic": "sample/alpha/{senderId}",
-          "op": "subscribeevent"
+          "dov:topic": "sample/alpha/{maintainerId}",
+          "op": "readproperty"
         }
       ]
     }
+  },
+  "events": {
   }
 }

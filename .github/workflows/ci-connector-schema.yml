@@ -23,7 +23,7 @@ jobs:
     timeout-minutes: 10
 
     steps:
-    - uses: actions/checkout@v6
+    - uses: actions/checkout@v7
 
     - name: Download connector metadata schema
       run: wget https://raw.githubusercontent.com/SchemaStore/schemastore/refs/heads/master/src/schemas/json/aio-connector-metadata-10.0-preview.json -O ./connector-metadata-schema.json
@@ -38,4 +38,4 @@ jobs:
       uses: nhalstead/validate-json-action@v0.1.10
       with:
         schema: ./connector-metadata-schema.json
-        jsons: ./dotnet/samples/Connectors/EventDrivenTcpThermostatConnector/connector-metadata.json,./dotnet/samples/Connectors/SqlConnector/connector-metadata.json,./dotnet/samples/Connectors/PollingRestThermostatConnector/connector-metadata.json
+        jsons: ./dotnet/samples/Connectors/EventDrivenTcpThermostatConnector/connector-metadata.json,./dotnet/samples/Connectors/SqlConnector/connector-metadata.json,./dotnet/samples/Connectors/PollingRestThermostatConnector/connector-metadata.json,./dotnet/samples/Connectors/ManagementActionConnector/connector-metadata.json

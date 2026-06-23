@@ -31,7 +31,9 @@ use crate::{
             DeserializationError, FormatIndicator, PayloadSerialize, SerializedPayload,
         },
         topic_processor::{TopicPattern, contains_invalid_char, is_valid_replacement},
-        user_properties::{PARTITION_KEY, UserProperty, validate_user_properties},
+        user_properties::{
+            BrokerReservedUserProperty, ProtocolReservedUserProperty, validate_user_properties,
+        },
     },
     rpc_command::{
         DEFAULT_RPC_COMMAND_PROTOCOL_VERSION, DEFAULT_RPC_RESPONSE_CLOUD_EVENT_EVENT_TYPE,
@@ -361,7 +363,7 @@ impl<TResp: PayloadSerialize> ResponseBuilder<TResp> {
     ///
     /// # Errors
     /// Returns a `String` describing the error if any of `custom_user_data`'s keys or values are invalid utf-8
-    /// or the reserved [`PARTITION_KEY`] key is used.
+    /// or a reserved Cloud Event key is used.
     fn validate(&self) -> Result<(), String> {
         if let Some(custom_user_data) = &self.custom_user_data {
             for (key, _) in custom_user_data {
@@ -371,6 +373,9 @@ impl<TResp: PayloadSerialize> ResponseBuilder<TResp> {
                     ));
                 }
             }
+            // NOTE: This does NOT validate the broker-reserved user properties.
+            // This is done to maintain existing behavior that the documentation had been wrong about.
+            // Consider changing this as a clearer story regarding how certain values are restricted emerges.
             validate_user_properties(custom_user_data)?;
         }
         // If there's a cloud event, make sure the content type is valid for the cloud event spec version
@@ -1062,7 +1067,8 @@ where
                         let mut request_protocol_version = DEFAULT_RPC_COMMAND_PROTOCOL_VERSION; // assume default version if none is provided
                         if let Some((_, protocol_version)) =
                             properties.user_properties.iter().find(|(key, _)| {
-                                UserProperty::from_str(key) == Ok(UserProperty::ProtocolVersion)
+                                ProtocolReservedUserProperty::from_str(key)
+                                    == Ok(ProtocolReservedUserProperty::ProtocolVersion)
                             })
                         {
                             if let Some(request_version) =
@@ -1098,8 +1104,8 @@ where
                         let mut timestamp = None;
                         let mut invoker_id = None;
                         for (key, value) in properties.user_properties {
-                            match UserProperty::from_str(&key) {
-                                Ok(UserProperty::Timestamp) => {
+                            match ProtocolReservedUserProperty::from_str(&key) {
+                                Ok(ProtocolReservedUserProperty::Timestamp) => {
                                     match HybridLogicalClock::from_str(&value) {
                                         Ok(ts) => {
                                             // Update application HLC against received __ts
@@ -1107,8 +1113,10 @@ where
                                                 response_arguments.status_message = Some(format!(
                                                     "Failure updating application HLC against {value}: {e}"
                                                 ));
-                                                response_arguments.invalid_property_name =
-                                                    Some(UserProperty::Timestamp.to_string());
+                                                response_arguments.invalid_property_name = Some(
+                                                    ProtocolReservedUserProperty::Timestamp
+                                                        .to_string(),
+                                                );
                                                 response_arguments.invalid_property_value =
                                                     Some(value);
                                                 match e.kind() {
@@ -1129,22 +1137,25 @@ where
                                             response_arguments.status_code = StatusCode::BadRequest;
                                             response_arguments.status_message =
                                                 Some(format!("Timestamp invalid: {e}"));
-                                            response_arguments.invalid_property_name =
-                                                Some(UserProperty::Timestamp.to_string());
+                                            response_arguments.invalid_property_name = Some(
+                                                ProtocolReservedUserProperty::Timestamp.to_string(),
+                                            );
                                             response_arguments.invalid_property_value = Some(value);
                                             break 'process_request;
                                         }
                                     }
                                 }
-                                Ok(UserProperty::SourceId) => {
+                                Ok(ProtocolReservedUserProperty::SourceId) => {
                                     invoker_id = Some(value);
                                 }
-                                Ok(UserProperty::ProtocolVersion) => {
+                                Ok(ProtocolReservedUserProperty::ProtocolVersion) => {
                                     // skip, already processed
                                 }
                                 Err(()) => {
-                                    if key == PARTITION_KEY {
-                                        // Ignore partition key, it is meant for the broker
+                                    // Not a protocol-reserved property, check if it's a broker-reserved property.
+                                    // All broker-reserved properties are stripped on receive — they are
+                                    // SDK/broker internals and should never appear in user-facing custom_user_data.
+                                    if BrokerReservedUserProperty::from_str(&key).is_ok() {
                                         continue;
                                     }
                                     user_data.push((key, value));
@@ -1483,23 +1494,23 @@ where
             || response_arguments.status_code != StatusCode::NoContent
         {
             user_properties.push((
-                UserProperty::IsApplicationError.to_string(),
+                ProtocolReservedUserProperty::IsApplicationError.to_string(),
                 response_arguments.is_application_error.to_string(),
             ));
         }
 
         user_properties.push((
-            UserProperty::Status.to_string(),
+            ProtocolReservedUserProperty::Status.to_string(),
             (response_arguments.status_code as u16).to_string(),
         ));
 
         user_properties.push((
-            UserProperty::ProtocolVersion.to_string(),
+            ProtocolReservedUserProperty::ProtocolVersion.to_string(),
             RPC_COMMAND_PROTOCOL_VERSION.to_string(),
         ));
 
         user_properties.push((
-            UserProperty::SourceId.to_string(),
+            ProtocolReservedUserProperty::SourceId.to_string(),
             client.client_id().to_string(),
         ));
 
@@ -1507,7 +1518,10 @@ where
         // If there are errors updating the HLC (unlikely when updating against now),
         // the timestamp will not be added.
         if let Ok(timestamp_str) = application_hlc.update_now() {
-            user_properties.push((UserProperty::Timestamp.to_string(), timestamp_str));
+            user_properties.push((
+                ProtocolReservedUserProperty::Timestamp.to_string(),
+                timestamp_str,
+            ));
         }
 
         if let Some(status_message) = response_arguments.status_message {
@@ -1517,32 +1531,46 @@ where
                 pkid,
                 status_message
             );
-            user_properties.push((UserProperty::StatusMessage.to_string(), status_message));
+            user_properties.push((
+                ProtocolReservedUserProperty::StatusMessage.to_string(),
+                status_message,
+            ));
         }
 
         if let Some(name) = response_arguments.invalid_property_name {
-            user_properties.push((UserProperty::InvalidPropertyName.to_string(), name));
+            user_properties.push((
+                ProtocolReservedUserProperty::InvalidPropertyName.to_string(),
+                name,
+            ));
         }
 
         if let Some(value) = response_arguments.invalid_property_value {
-            user_properties.push((UserProperty::InvalidPropertyValue.to_string(), value));
+            user_properties.push((
+                ProtocolReservedUserProperty::InvalidPropertyValue.to_string(),
+                value,
+            ));
         }
 
         if let Some(supported_protocol_major_versions) =
             response_arguments.supported_protocol_major_versions
         {
             user_properties.push((
-                UserProperty::SupportedMajorVersions.to_string(),
+                ProtocolReservedUserProperty::SupportedMajorVersions.to_string(),
                 supported_protocol_major_versions_to_string(&supported_protocol_major_versions),
             ));
         }
 
         if let Some(request_protocol_version) = response_arguments.request_protocol_version {
             user_properties.push((
-                UserProperty::RequestProtocolVersion.to_string(),
+                ProtocolReservedUserProperty::RequestProtocolVersion.to_string(),
                 request_protocol_version,
             ));
         }
+
+        user_properties.push((
+            BrokerReservedUserProperty::HighPriority.to_string(),
+            String::new(),
+        ));
 
         // Create publish properties
         publish_properties.payload_format_indicator = serialized_payload.format_indicator.into();

@@ -60,8 +60,11 @@ namespace Azure.Iot.Operations.Opc2WotLib
             this.Write(this.ToStringHelper.ToStringWithCulture(this.EventName));
             this.Write("_EngineeringUnits\",\r\n");
  } 
-            this.Write("  \"forms\": [\r\n    {\r\n      \"contentType\": \"application/json\",\r\n      \"dov:topic\":" +
-                    " \"opcua/");
+            this.Write("  \"forms\": [\r\n    {\r\n");
+ if (this.inDescription) { 
+            this.Write("      \"href\": \"https://placeholder.example.com/endpoint\",\r\n");
+ } 
+            this.Write("      \"contentType\": \"application/json\",\r\n      \"dov:topic\": \"opcua/");
             this.Write(this.ToStringHelper.ToStringWithCulture(this.specName));
             this.Write("/");
             this.Write(this.ToStringHelper.ToStringWithCulture(this.thingModelName));

@@ -509,3 +509,4 @@ $RECYCLE.BIN/
 *.swp
 
 **/NUL
+*.patch
