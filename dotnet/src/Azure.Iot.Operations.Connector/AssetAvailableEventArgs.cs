@@ -60,7 +60,21 @@ namespace Azure.Iot.Operations.Connector
         /// </summary>
         public DeviceEndpointClient DeviceEndpointClient { get; }
 
-        internal AssetAvailableEventArgs(string deviceName, Device device, string inboundEndpointName, string assetName, Asset asset, ILeaderElectionClient? leaderElectionClient, IAzureDeviceRegistryClientWrapper adrClient, ConnectorWorker connector)
+        /// <summary>
+        /// The ADR client used by the worker — exposed to internal SDK collaborators
+        /// (e.g. <see cref="ManagementActionOrchestrator"/>) that need endpoint credentials
+        /// or other ADR data not surfaced through <see cref="AssetClient"/>.
+        /// </summary>
+        internal IAzureDeviceRegistryClientWrapper AdrClient { get; }
+
+        /// <summary>
+        /// Wraps an <see cref="AssetClient"/> (whose lifetime is owned by <see cref="ConnectorWorker"/>'s
+        /// per-asset runtime context) together with a fresh <see cref="DeviceEndpointClient"/>. This
+        /// instance never disposes the <see cref="AssetClient"/>: the same client is shared across the
+        /// management-action branch and successive user-callback branches (rebuilt on Updated so the user
+        /// gets a fresh <see cref="CancellationToken"/>) without tearing down management-action state.
+        /// </summary>
+        internal AssetAvailableEventArgs(string deviceName, Device device, string inboundEndpointName, string assetName, Asset asset, ILeaderElectionClient? leaderElectionClient, IAzureDeviceRegistryClientWrapper adrClient, AssetClient assetClient)
         {
             DeviceName = deviceName;
             Device = device;
@@ -68,8 +82,9 @@ namespace Azure.Iot.Operations.Connector
             AssetName = assetName;
             Asset = asset;
             LeaderElectionClient = leaderElectionClient;
-            AssetClient = new(adrClient, deviceName, inboundEndpointName, assetName, connector, device, asset);
+            AssetClient = assetClient;
             DeviceEndpointClient = new(adrClient, deviceName, inboundEndpointName, device);
+            AdrClient = adrClient;
         }
 
         public virtual async ValueTask DisposeAsync()
@@ -85,15 +100,8 @@ namespace Azure.Iot.Operations.Connector
 
         private async ValueTask DisposeAsyncCore()
         {
-            try
-            {
-                await AssetClient.DisposeAsync();
-            }
-            catch (ObjectDisposedException)
-            {
-                // It's fine if this is already disposed
-            }
-
+            // The AssetClient is owned by the per-asset runtime context, not by this args instance —
+            // it outlives individual args and is disposed by the context.
             try
             {
                 await DeviceEndpointClient.DisposeAsync();

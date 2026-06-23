@@ -595,6 +595,9 @@ namespace Azure.Iot.Operations.Protocol.RPC
                     throw AkriMqttException.GetArgumentInvalidException(_commandName, nameof(metadata), ex.HeaderName ?? string.Empty, ex.Message);
                 }
 
+                // Add the backpressure bypass property
+                requestMessage.AddUserProperty(AkriSystemProperties.HighPriority, string.Empty);
+
                 await SubscribeAsNeededAsync(responseTopicFilter, cancellationToken).ConfigureAwait(false);
 
                 try

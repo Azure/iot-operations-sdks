@@ -15,7 +15,7 @@ namespace Azure.Iot.Operations.Opc2WotLib
             : base(modelInfo, nsUriToNsInfoMap, variableNode)
         {
             string? dataTypeString = variableNode.Attributes?["DataType"]?.Value;
-            if (dataTypeString != null)
+            if (!string.IsNullOrEmpty(dataTypeString))
             {
                 DataType = UaUtil.ParseTypeString(dataTypeString, modelInfo, nsUriToNsInfoMap);
             }
@@ -30,6 +30,11 @@ namespace Azure.Iot.Operations.Opc2WotLib
                 r.IsForward &&
                 r.ReferenceType.IsModellingRuleReference &&
                 r.Target.IsRulePlaceholder);
+
+            IsMandatory = References.Any(r =>
+                r.IsForward &&
+                r.ReferenceType.IsModellingRuleReference &&
+                r.Target.IsRuleMandatory);
         }
 
         public OpcUaNodeId? DataType { get; }
@@ -43,6 +48,8 @@ namespace Azure.Iot.Operations.Opc2WotLib
         public int UnitId { get; }
 
         public bool IsPlaceholder { get; }
+
+        public bool IsMandatory { get; }
 
         public bool TryGetEngineeringUnits([NotNullWhen(true)] out OpcUaVariable? engUnitsVariable)
         {

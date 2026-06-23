@@ -20,7 +20,10 @@ const (
 )
 
 // MQ user property keys.
-const Partition = "$partition"
+const (
+	Partition    = "$partition"
+	HighPriority = "$high_priority"
+)
 
 // Standard names for MQTT properties.
 const (
