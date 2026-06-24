@@ -10,7 +10,7 @@ use std::sync::LazyLock;
 pub static LABELED_SYSTEMS_OF_UNITS: LazyLock<Vec<(&'static str, &'static str)>> =
     LazyLock::new(|| {
         vec![
-<# foreach (var labeledSystem in this.labeledSystemsOfUnits) { #>
+<# foreach (var labeledSystem in this.labeledSystemsOfUnits.OrderBy(s => s.Item1)) { #>
             ("<#=labeledSystem.Item1#>", "<#=labeledSystem.Item2#>"),
 <# } #>
         ]
