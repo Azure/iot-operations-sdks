@@ -3,10 +3,9 @@
 
 namespace Azure.Iot.Operations.UnitTabulator
 {
-    using System.IO;
 
     /// <summary>
-    /// Custom container for holding CLI options.
+    /// Kinds of tables to generate.
     /// </summary>
     public enum TableKind
     {
