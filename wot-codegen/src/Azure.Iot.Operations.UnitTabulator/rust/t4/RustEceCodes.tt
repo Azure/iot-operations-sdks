@@ -10,7 +10,7 @@ use std::sync::LazyLock;
 
 pub(super) static ECE_CODES: LazyLock<HashMap<&'static str, &'static str>> =
     LazyLock::new(|| HashMap::from([
-<# foreach (KeyValuePair<string, string> eceCode in this.eceCodesMap) { #>
+<# foreach (KeyValuePair<string, string> eceCode in this.eceCodesMap.OrderBy(k => k.Key)) { #>
         ("<#=eceCode.Key#>", "<#=eceCode.Value#>"),
 <# } #>
     ]));
