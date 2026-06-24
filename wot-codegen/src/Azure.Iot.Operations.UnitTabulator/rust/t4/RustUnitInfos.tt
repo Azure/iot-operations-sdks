@@ -12,7 +12,7 @@ use super::UnitInfo;
 
 pub(super) static UNIT_INFOS: LazyLock<HashMap<&'static str, UnitInfo>> = LazyLock::new(|| {
     HashMap::from([
-<# foreach (KeyValuePair<string, UnitInfo> unitInfo in this.unitInfosMap) { #>
+<# foreach (KeyValuePair<string, UnitInfo> unitInfo in this.unitInfosMap.OrderBy(k => k.Key)) { #>
         (
 <# if (unitInfo.Value.Label != null) { #>
             // <#=unitInfo.Value.Label#>
