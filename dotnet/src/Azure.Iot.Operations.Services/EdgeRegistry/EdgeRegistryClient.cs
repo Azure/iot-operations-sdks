@@ -91,7 +91,10 @@ public sealed partial class EdgeRegistryClient : IEdgeRegistryClient
             return;
         }
 
-        await _stub.StopAsync(cancellationToken).ConfigureAwait(false);
+        await _coreStub.StopAsync(cancellationToken).ConfigureAwait(false);
+        await _schemaStub.StopAsync(cancellationToken).ConfigureAwait(false);
+        await _thingDescriptionStub.StopAsync(cancellationToken).ConfigureAwait(false);
+        await _thingModelStub.StopAsync(cancellationToken).ConfigureAwait(false);
     }
 
     /// <inheritdoc/>
