@@ -13,14 +13,12 @@ namespace Azure.Iot.Operations.UnitTabulator
 
     public class UnitReader
     {
-        private readonly Dictionary<Uri, List<Uri>> unitToQuantityKinds;
+
 
         public UnitReader()
         {
             QuantityKindReader quantityKindReader = new QuantityKindReader();
             Dictionary<Uri, int> quantityKindToUnitCount = quantityKindReader.QuantityKindToUnitCount;
-
-            unitToQuantityKinds = new Dictionary<Uri, List<Uri>>();
 
             EceCodesMap = new Dictionary<string, string>();
             UnitInfosMap = new Dictionary<string, UnitInfo>();
