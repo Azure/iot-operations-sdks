@@ -26,14 +26,39 @@ namespace Azure.Iot.Operations.Services.EdgeRegistry;
 public interface ISchemaRegistryClient
 {
     /// <summary>Creates a Schema Version under the given Schema, implicitly creating the parent Schema if needed.</summary>
+    /// <param name="groupId">The Schema Group. Use <see cref="GroupId.CloudDefault"/> for the cloud-default Group (the configured namespace).</param>
+    /// <param name="schemaId">The Schema (Resource) identifier.</param>
+    /// <param name="schemaLabels">Labels applied to the parent Schema when it is implicitly created.</param>
+    /// <param name="version">The attributes of the Schema Version to create.</param>
+    /// <param name="timeout">The command timeout; when <see langword="null"/>, the client's default timeout is used.</param>
+    /// <param name="cancellationToken">A token to cancel the operation.</param>
+    /// <returns>A task whose result is the created <see cref="Models.SchemaVersion"/>.</returns>
     Task<Models.SchemaVersion> CreateSchemaVersionAsync(GroupId groupId, string schemaId, IReadOnlyList<Models.Label> schemaLabels, Models.SchemaVersionAttributes version, TimeSpan? timeout = null, CancellationToken cancellationToken = default);
 
     /// <summary>Retrieves a Schema Version. Pass <see cref="GetSchemaVersionId.ResourceDefault"/> for the Schema's default (latest) Version.</summary>
+    /// <param name="groupId">The Schema Group. Use <see cref="GroupId.CloudDefault"/> for the cloud-default Group (the configured namespace).</param>
+    /// <param name="schemaId">The Schema (Resource) identifier.</param>
+    /// <param name="versionId">The Version to retrieve. Use <see cref="GetSchemaVersionId.ResourceDefault"/> for the Schema's default (latest) Version.</param>
+    /// <param name="timeout">The command timeout; when <see langword="null"/>, the client's default timeout is used.</param>
+    /// <param name="cancellationToken">A token to cancel the operation.</param>
+    /// <returns>A task whose result is the requested <see cref="Models.SchemaVersion"/>.</returns>
     Task<Models.SchemaVersion> GetSchemaVersionAsync(GroupId groupId, string schemaId, GetSchemaVersionId versionId, TimeSpan? timeout = null, CancellationToken cancellationToken = default);
 
     /// <summary>Lists the XIDs of Schema Versions matching the query, optionally filtered by Schema id and/or a single label.</summary>
+    /// <param name="groups">The Groups to search; see <see cref="GroupSelector"/> for the available scopes.</param>
+    /// <param name="schemaId">When set, restricts the results to this Schema.</param>
+    /// <param name="label">When set, restricts the results to entities carrying this label.</param>
+    /// <param name="timeout">The command timeout; when <see langword="null"/>, the client's default timeout is used.</param>
+    /// <param name="cancellationToken">A token to cancel the operation.</param>
+    /// <returns>A task whose result is the XIDs of the matching Schema Versions.</returns>
     Task<IReadOnlyList<Models.SchemaVersionXid>> ListSchemaVersionsAsync(GroupSelector groups, string? schemaId = null, Models.Label? label = null, TimeSpan? timeout = null, CancellationToken cancellationToken = default);
 
     /// <summary>Deletes a specific Schema Version.</summary>
+    /// <param name="groupId">The Schema Group. Use <see cref="GroupId.CloudDefault"/> for the cloud-default Group (the configured namespace).</param>
+    /// <param name="schemaId">The Schema (Resource) identifier.</param>
+    /// <param name="versionId">The identifier of the Schema Version to delete.</param>
+    /// <param name="timeout">The command timeout; when <see langword="null"/>, the client's default timeout is used.</param>
+    /// <param name="cancellationToken">A token to cancel the operation.</param>
+    /// <returns>A task that completes when the Schema Version has been deleted.</returns>
     Task DeleteSchemaVersionAsync(GroupId groupId, string schemaId, ulong versionId, TimeSpan? timeout = null, CancellationToken cancellationToken = default);
 }
