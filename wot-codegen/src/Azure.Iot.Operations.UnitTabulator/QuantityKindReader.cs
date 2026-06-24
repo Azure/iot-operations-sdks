@@ -38,8 +38,6 @@ namespace Azure.Iot.Operations.UnitTabulator
                     continue;
                 }
 
-                string quantityKindName = quantityKindSubject.Uri.AbsoluteUri.Substring(quantityKindSubject.Uri.AbsoluteUri.LastIndexOf('/') + 1);
-
                 QuantityKindToUnitCount[quantityKindSubject.Uri] = graph.GetTriplesWithSubjectPredicate(quantityKindSubject, applicableUnitPred).Count();
             }
         }
