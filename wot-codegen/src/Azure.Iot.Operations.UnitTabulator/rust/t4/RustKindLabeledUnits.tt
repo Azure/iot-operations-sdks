@@ -11,11 +11,11 @@ use std::sync::LazyLock;
 pub static KIND_LABELED_UNITS: LazyLock<HashMap<&'static str, Vec<(&'static str, &'static str)>>> =
     LazyLock::new(|| {
         HashMap::from([
-<# foreach (KeyValuePair<string, List<(string, string)>> kindLabeledUnits in this.kindLabeledUnitsMap) { #>
+<# foreach (KeyValuePair<string, List<(string, string)>> kindLabeledUnits in this.kindLabeledUnitsMap.OrderBy(k => k.Key)) { #>
             (
                 "<#=kindLabeledUnits.Key#>",
                 vec![
-<# foreach (var unit in kindLabeledUnits.Value) { #>
+<# foreach (var unit in kindLabeledUnits.Value.OrderBy(u => u.Item1)) { #>
                     ("unit:<#=unit.Item1#>", "<#=unit.Item2#>"),
 <# } #>
                 ],
