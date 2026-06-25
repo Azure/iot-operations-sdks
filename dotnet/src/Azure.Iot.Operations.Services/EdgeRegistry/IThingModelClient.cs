@@ -29,14 +29,14 @@ public interface IThingModelClient
     /// <summary>Creates a Thing Model Version under the given Thing Model, implicitly creating the parent Thing Model if needed.</summary>
     /// <param name="groupId">The Thing Model Group. Use <see cref="GroupId.CloudDefault"/> for the cloud-default Group (the configured namespace).</param>
     /// <param name="thingModelId">The Thing Model (Resource) identifier.</param>
-    /// <param name="thingModelLabels">Labels applied to the parent Thing Model when it is implicitly created.</param>
+    /// <param name="thingModelLabels">Labels applied to the parent Thing Model.</param>
     /// <param name="version">The attributes of the Thing Model Version to create.</param>
     /// <param name="timeout">The command timeout; when <see langword="null"/>, the client's default timeout is used.</param>
     /// <param name="cancellationToken">A token to cancel the operation.</param>
     /// <returns>A task whose result is the created <see cref="Models.ThingModelVersion"/>.</returns>
     Task<Models.ThingModelVersion> CreateThingModelVersionAsync(GroupId groupId, string thingModelId, IReadOnlyList<Models.Label> thingModelLabels, Models.ThingModelVersionAttributes version, TimeSpan? timeout = null, CancellationToken cancellationToken = default);
 
-    /// <summary>Retrieves a Thing Model Version. Pass <see cref="GetThingModelVersionId.ResourceDefault"/> for the Thing Model's default (latest) Version.</summary>
+    /// <summary>Retrieves a Thing Model Version.</summary>
     /// <param name="groupId">The Thing Model Group. Use <see cref="GroupId.CloudDefault"/> for the cloud-default Group (the configured namespace).</param>
     /// <param name="thingModelId">The Thing Model (Resource) identifier.</param>
     /// <param name="versionId">The Version to retrieve. Use <see cref="GetThingModelVersionId.ResourceDefault"/> for the Thing Model's default (latest) Version.</param>

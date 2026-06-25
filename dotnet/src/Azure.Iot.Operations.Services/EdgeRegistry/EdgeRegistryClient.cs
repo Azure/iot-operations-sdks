@@ -23,6 +23,10 @@ namespace Azure.Iot.Operations.Services.EdgeRegistry;
 /// </remarks>
 public sealed partial class EdgeRegistryClient : IEdgeRegistryClient
 {
+    private const string GroupTypeTopicToken = "groupType";
+    private const string ResourceTypeTopicToken = "resourceType";
+    private const string ResourceIdTopicToken = "resourceId";
+    private const string VersionIdTopicToken = "versionId";
     private const string SchemaIdTopicToken = "schemaId";
     private const string ThingDescriptionIdTopicToken = "thingDescriptionId";
     private const string ThingModelIdTopicToken = "thingModelId";
@@ -52,22 +56,22 @@ public sealed partial class EdgeRegistryClient : IEdgeRegistryClient
 
     /// <summary>Builds the topic tokens for a Group-scoped request.</summary>
     private static Dictionary<string, string> GroupTopicTokens(string groupType)
-        => new() { ["groupType"] = groupType };
+        => new() { [GroupTypeTopicToken] = groupType };
 
     /// <summary>Builds the topic tokens for a Resource-scoped request.</summary>
     private static Dictionary<string, string> ResourceTopicTokens(string groupType, string resourceType, string resourceId)
         => new()
         {
-            ["groupType"] = groupType,
-            ["resourceType"] = resourceType,
-            ["resourceId"] = resourceId,
+            [GroupTypeTopicToken] = groupType,
+            [ResourceTypeTopicToken] = resourceType,
+            [ResourceIdTopicToken] = resourceId,
         };
 
     /// <summary>Builds the topic tokens for a Version-scoped request that carries the Version id in the topic.</summary>
     private static Dictionary<string, string> VersionTopicTokens(string groupType, string resourceType, string resourceId, string versionId)
     {
         Dictionary<string, string> tokens = ResourceTopicTokens(groupType, resourceType, resourceId);
-        tokens["versionId"] = versionId;
+        tokens[VersionIdTopicToken] = versionId;
         return tokens;
     }
 
@@ -79,7 +83,7 @@ public sealed partial class EdgeRegistryClient : IEdgeRegistryClient
     private static Dictionary<string, string> ExtensionVersionTopicTokens(string resourceIdToken, string resourceId, ulong versionId)
     {
         Dictionary<string, string> tokens = ExtensionResourceTopicTokens(resourceIdToken, resourceId);
-        tokens["versionId"] = versionId.ToString(CultureInfo.InvariantCulture);
+        tokens[VersionIdTopicToken] = versionId.ToString(CultureInfo.InvariantCulture);
         return tokens;
     }
 

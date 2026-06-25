@@ -29,14 +29,14 @@ public interface IThingDescriptionClient
     /// <summary>Creates a Thing Description Version under the given Thing Description, implicitly creating the parent Thing Description if needed.</summary>
     /// <param name="groupId">The Thing Description Group. Use <see cref="GroupId.CloudDefault"/> for the cloud-default Group (the configured namespace).</param>
     /// <param name="thingDescriptionId">The Thing Description (Resource) identifier.</param>
-    /// <param name="thingDescriptionLabels">Labels applied to the parent Thing Description when it is implicitly created.</param>
+    /// <param name="thingDescriptionLabels">Labels applied to the parent Thing Description.</param>
     /// <param name="version">The attributes of the Thing Description Version to create.</param>
     /// <param name="timeout">The command timeout; when <see langword="null"/>, the client's default timeout is used.</param>
     /// <param name="cancellationToken">A token to cancel the operation.</param>
     /// <returns>A task whose result is the created <see cref="Models.ThingDescriptionVersion"/>.</returns>
     Task<Models.ThingDescriptionVersion> CreateThingDescriptionVersionAsync(GroupId groupId, string thingDescriptionId, IReadOnlyList<Models.Label> thingDescriptionLabels, Models.ThingDescriptionVersionAttributes version, TimeSpan? timeout = null, CancellationToken cancellationToken = default);
 
-    /// <summary>Retrieves a Thing Description Version. Pass <see cref="GetThingDescriptionVersionId.ResourceDefault"/> for the Thing Description's default (latest) Version.</summary>
+    /// <summary>Retrieves a Thing Description Version.</summary>
     /// <param name="groupId">The Thing Description Group. Use <see cref="GroupId.CloudDefault"/> for the cloud-default Group (the configured namespace).</param>
     /// <param name="thingDescriptionId">The Thing Description (Resource) identifier.</param>
     /// <param name="versionId">The Version to retrieve. Use <see cref="GetThingDescriptionVersionId.ResourceDefault"/> for the Thing Description's default (latest) Version.</param>

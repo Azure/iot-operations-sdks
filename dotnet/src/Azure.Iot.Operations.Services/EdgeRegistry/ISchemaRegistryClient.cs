@@ -28,14 +28,14 @@ public interface ISchemaRegistryClient
     /// <summary>Creates a Schema Version under the given Schema, implicitly creating the parent Schema if needed.</summary>
     /// <param name="groupId">The Schema Group. Use <see cref="GroupId.CloudDefault"/> for the cloud-default Group (the configured namespace).</param>
     /// <param name="schemaId">The Schema (Resource) identifier.</param>
-    /// <param name="schemaLabels">Labels applied to the parent Schema when it is implicitly created.</param>
+    /// <param name="schemaLabels">Labels applied to the parent Schema.</param>
     /// <param name="version">The attributes of the Schema Version to create.</param>
     /// <param name="timeout">The command timeout; when <see langword="null"/>, the client's default timeout is used.</param>
     /// <param name="cancellationToken">A token to cancel the operation.</param>
     /// <returns>A task whose result is the created <see cref="Models.SchemaVersion"/>.</returns>
     Task<Models.SchemaVersion> CreateSchemaVersionAsync(GroupId groupId, string schemaId, IReadOnlyList<Models.Label> schemaLabels, Models.SchemaVersionAttributes version, TimeSpan? timeout = null, CancellationToken cancellationToken = default);
 
-    /// <summary>Retrieves a Schema Version. Pass <see cref="GetSchemaVersionId.ResourceDefault"/> for the Schema's default (latest) Version.</summary>
+    /// <summary>Retrieves a Schema Version.</summary>
     /// <param name="groupId">The Schema Group. Use <see cref="GroupId.CloudDefault"/> for the cloud-default Group (the configured namespace).</param>
     /// <param name="schemaId">The Schema (Resource) identifier.</param>
     /// <param name="versionId">The Version to retrieve. Use <see cref="GetSchemaVersionId.ResourceDefault"/> for the Schema's default (latest) Version.</param>
