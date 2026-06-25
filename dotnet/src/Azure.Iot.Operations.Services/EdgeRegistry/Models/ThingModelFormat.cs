@@ -13,7 +13,7 @@ public readonly struct ThingModelFormat
     private ThingModelFormat(string value) => Value = value;
 
     /// <summary>JSON-LD 1.1 format (<c>JSON-LD/1.1</c>).</summary>
-    public static ThingModelFormat JsonLd11 => new("JSON-LD/1.1");
+    public static ThingModelFormat JsonLd11 => new(Generated.ThingModelFormat.JsonLd11);
 
     /// <summary>A format identifier not covered by the known formats.</summary>
     public static ThingModelFormat Custom(string format) => new(format);

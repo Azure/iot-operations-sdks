@@ -12,10 +12,10 @@ public readonly struct SchemaFormat
     private SchemaFormat(string value) => Value = value;
 
     /// <summary>JSON Schema Draft-07 format (<c>JsonSchema/draft-07</c>).</summary>
-    public static SchemaFormat JsonSchemaDraft07 => new("JsonSchema/draft-07");
+    public static SchemaFormat JsonSchemaDraft07 => new(Generated.SchemaFormat.JsonSchemaDraft07);
 
     /// <summary>Avro 1.11.0 format (<c>Avro/1.11.0</c>).</summary>
-    public static SchemaFormat Avro1110 => new("Avro/1.11.0");
+    public static SchemaFormat Avro1110 => new(Generated.SchemaFormat.Avro1110);
 
     /// <summary>A format identifier not covered by the known formats.</summary>
     public static SchemaFormat Custom(string format) => new(format);
