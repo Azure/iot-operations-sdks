@@ -10,6 +10,7 @@ namespace Azure.Iot.Operations.UnitTabulator
     public enum TableKind
     {
         Conversion,
-        Selection
+        Selection,
+        Authoring,
     }
 }

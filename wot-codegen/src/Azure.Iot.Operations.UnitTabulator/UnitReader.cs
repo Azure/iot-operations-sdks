@@ -25,6 +25,7 @@ namespace Azure.Iot.Operations.UnitTabulator
             KindLabeledUnitsMap = new Dictionary<string, List<(string, string)>>();
             KindSystemUnitsMap = new Dictionary<(string, string), string>();
             LabeledSystemsOfUnits = new List<(string, string)>();
+            KindAlternativesMap = new Dictionary<string, HashSet<string>>();
 
             Dictionary<(string, string), List<string>> kindSystemApplicableUnits = new Dictionary<(string, string), List<string>>();
 
@@ -77,6 +78,17 @@ namespace Azure.Iot.Operations.UnitTabulator
                 int maxUnitCount = unitHasQuantityKindTriples.Max(t => quantityKindToUnitCount[((IUriNode)t.Object).Uri]);
                 INode quantityKindNode = unitHasQuantityKindTriples.First(t => quantityKindToUnitCount[((IUriNode)t.Object).Uri] == maxUnitCount).Object;
                 string quantityKindName = UriTail(((IUriNode)quantityKindNode).Uri);
+
+                foreach (Triple unitHasQuantityKindTriple in unitHasQuantityKindTriples)
+                {
+                    string alterntiveKindName = UriTail(((IUriNode)unitHasQuantityKindTriple.Object).Uri);
+                    if (!KindAlternativesMap.TryGetValue(alterntiveKindName, out HashSet<string>? quantityKindNames))
+                    {
+                        quantityKindNames = new HashSet<string>();
+                        KindAlternativesMap[alterntiveKindName] = quantityKindNames;
+                    }
+                    quantityKindNames.Add(quantityKindName);
+                }
 
                 double multiplier = 1.0;
                 if (unitGraph.GetTriplesWithSubjectPredicate(unitSubject, conversionMultiplierPred).FirstOrDefault()?.Object is ILiteralNode multiplierNode)
@@ -168,6 +180,8 @@ namespace Azure.Iot.Operations.UnitTabulator
         public Dictionary<(string, string), string> KindSystemUnitsMap { get; }
 
         public List<(string, string)> LabeledSystemsOfUnits {  get; }
+
+        public Dictionary<string, HashSet<string>> KindAlternativesMap { get; }
 
         private string UriTail(Uri uri) => uri.AbsoluteUri.Substring(uri.AbsoluteUri.LastIndexOf('/') + 1);
     }

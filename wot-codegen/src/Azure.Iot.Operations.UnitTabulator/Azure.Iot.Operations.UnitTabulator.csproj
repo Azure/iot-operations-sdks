@@ -25,6 +25,11 @@
       <LastGenOutput>RustEceCodes.cs</LastGenOutput>
       <CustomToolNamespace>Azure.Iot.Operations.UnitTabulator</CustomToolNamespace>
     </None>
+    <None Update="rust\t4\RustKindAlternatives.tt">
+      <Generator>TextTemplatingFilePreprocessor</Generator>
+      <LastGenOutput>RustKindAlternatives.cs</LastGenOutput>
+      <CustomToolNamespace>Azure.Iot.Operations.UnitTabulator</CustomToolNamespace>
+    </None>
     <None Update="rust\t4\RustKindLabeledUnits.tt">
       <Generator>TextTemplatingFilePreprocessor</Generator>
       <LastGenOutput>RustKindLabeledUnits.cs</LastGenOutput>
@@ -56,6 +61,11 @@
       <DesignTime>True</DesignTime>
       <AutoGen>True</AutoGen>
       <DependentUpon>RustEceCodes.tt</DependentUpon>
+    </Compile>
+    <Compile Update="rust\t4\RustKindAlternatives.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>RustKindAlternatives.tt</DependentUpon>
     </Compile>
     <Compile Update="rust\t4\RustKindLabeledUnits.cs">
       <DesignTime>True</DesignTime>

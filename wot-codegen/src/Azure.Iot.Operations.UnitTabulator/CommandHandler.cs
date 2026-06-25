@@ -29,7 +29,7 @@ namespace Azure.Iot.Operations.UnitTabulator
                             new List<ITemplateTransform>
                             {
                                 new RustEceCodes(unitReader.EceCodesMap),
-                                new RustUnitInfos(unitReader.UnitInfosMap)
+                                new RustUnitInfos(unitReader.UnitInfosMap),
                             }
                         },
                         {
@@ -38,9 +38,16 @@ namespace Azure.Iot.Operations.UnitTabulator
                             {
                                 new RustKindLabeledUnits(unitReader.KindLabeledUnitsMap),
                                 new RustKindSystemUnits(unitReader.KindSystemUnitsMap),
-                                new RustLabeledSystemsOfUnits(unitReader.LabeledSystemsOfUnits)
+                                new RustLabeledSystemsOfUnits(unitReader.LabeledSystemsOfUnits),
                             }
                         },
+                        {
+                            TableKind.Authoring,
+                            new List<ITemplateTransform>
+                            {
+                                new RustKindAlternatives(unitReader.KindAlternativesMap),
+                            }
+                        }
                     }
                 },
             };
