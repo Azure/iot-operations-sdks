@@ -9,6 +9,34 @@ namespace Azure.Iot.Operations.Services.EdgeRegistry;
 /// Thing Model) delegate to this surface for the group/resource/version operations that have no
 /// dedicated extension action.
 /// </summary>
+/// <remarks>
+/// <para>
+/// xRegistry models artifacts as a three-level hierarchy. Despite the generic names, the concepts
+/// are concrete:
+/// </para>
+/// <list type="bullet">
+/// <item><description>
+/// <c>Group</c> — a typed container (e.g. <c>schemagroups</c>) that holds Resources. The default
+/// <c>groupId</c> is the configured namespace; pass <see cref="GroupId.CloudDefault"/> to use it, or
+/// a specific id for a custom Group.
+/// </description></item>
+/// <item><description>
+/// <c>Resource</c> — the named logical artifact (a schema, thing description, …) that owns an
+/// ordered set of Versions together with its <c>meta</c> attributes.
+/// </description></item>
+/// <item><description>
+/// <c>Version</c> — a single immutable revision of a Resource: it carries the document content and
+/// that revision's metadata (labels, validation status, hash, ancestor). A Version is not a semantic
+/// version; <c>versionId</c> is simply the identifier of the revision (a string in the core API, a
+/// service-assigned integer in the extensions). The newest revision is the Resource's default Version.
+/// </description></item>
+/// </list>
+/// <para>
+/// The full address of a revision is
+/// <c>/{groupType}/{groupId}/{resourceType}/{resourceId}/versions/{versionId}</c>. Creating a Version
+/// implicitly creates its parent Resource and Group when they do not yet exist.
+/// </para>
+/// </remarks>
 public interface ICoreClient : IAsyncDisposable
 {
     // ---- Group APIs ----
