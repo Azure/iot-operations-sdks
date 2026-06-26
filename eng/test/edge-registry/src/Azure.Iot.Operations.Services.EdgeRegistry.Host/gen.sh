@@ -6,17 +6,14 @@ set -e
 # (dotnet/src/Azure.Iot.Operations.Services/EdgeRegistry) is intentionally client-only; this
 # host owns the server half.
 #
-# Scoped to the core Thing Model (Group / Resource / Version) — the surface the integration
-# tests exercise. To host an extension surface, add its TM to --serverThings and its schema
-# glob to --schemas (mirrors the client gen.sh in the SDK):
-#   --serverThings .../EdgeRegistry.TM.json .../SchemaExtensions.TM.json ...
-#   --schemas '.../core-xregistry/*.schema.json' '.../schema-extension/*.schema.json' ...
+# Covers the core Thing Model (Group / Resource / Version) plus the Schema, Thing Description, and
+# Thing Model extension surfaces — the same set of Thing Models the SDK client is generated from.
 
 rm -rf ./Generated
 
 dotnet run --project ../../../../../wot-codegen/src/Azure.Iot.Operations.ProtocolCompiler/ \
- --serverThings ../../../../../eng/wot/edge-registry/EdgeRegistry.TM.json \
- --schemas '../../../../../eng/wot/edge-registry/core-xregistry/*.schema.json' \
+ --serverThings ../../../../../eng/wot/edge-registry/EdgeRegistry.TM.json ../../../../../eng/wot/edge-registry/SchemaExtensions.TM.json ../../../../../eng/wot/edge-registry/ThingDescriptionExtensions.TM.json ../../../../../eng/wot/edge-registry/ThingModelExtensions.TM.json \
+ --schemas '../../../../../eng/wot/edge-registry/core-xregistry/*.schema.json' '../../../../../eng/wot/edge-registry/schema-extension/*.schema.json' '../../../../../eng/wot/edge-registry/thing-description-extension/*.schema.json' '../../../../../eng/wot/edge-registry/thing-model-extension/*.schema.json' \
  --outDir ./Azure.Iot.Operations.Services.EdgeRegistry.Host \
  --lang csharp \
  --namespace Generated \
