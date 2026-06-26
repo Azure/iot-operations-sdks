@@ -13,6 +13,9 @@ public class EdgeRegistryWorker(MqttSessionClient mqttClient, IServiceProvider p
         await ConnectAsync(stoppingToken);
         EdgeRegistryService edgeRegistryService = provider.GetService<EdgeRegistryService>()!;
         await edgeRegistryService.StartAsync(null, cancellationToken: stoppingToken);
+        await provider.GetService<EdgeRegistrySchemaExtensionService>()!.StartAsync(null, cancellationToken: stoppingToken);
+        await provider.GetService<EdgeRegistryThingDescriptionExtensionService>()!.StartAsync(null, cancellationToken: stoppingToken);
+        await provider.GetService<EdgeRegistryThingModelExtensionService>()!.StartAsync(null, cancellationToken: stoppingToken);
         logger.LogInformation("Edge Registry service is now accepting commands");
     }
 

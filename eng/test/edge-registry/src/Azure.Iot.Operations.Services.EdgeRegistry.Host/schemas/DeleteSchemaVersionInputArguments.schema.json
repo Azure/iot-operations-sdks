@@ -1,0 +1,13 @@
+{
+  "$schema": "https://json-schema.org/draft-07/schema",
+  "title": "DeleteSchemaVersionInputArguments",
+  "description": "Input arguments for action 'deleteSchemaVersion'",
+  "type": "object",
+  "additionalProperties": false,
+  "properties": {
+    "groupId": {
+      "description": "Group identifier. Uses the default if not specified.",
+      "type": "string"
+    }
+  }
+}

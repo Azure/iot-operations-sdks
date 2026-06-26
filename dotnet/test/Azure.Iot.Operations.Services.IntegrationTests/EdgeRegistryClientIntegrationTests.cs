@@ -237,6 +237,93 @@ public class EdgeRegistryClientIntegrationTests(ITestOutputHelper output)
             async () => await client.ListGroupsAsync(GroupType, cancellationToken: cts.Token));
     }
 
+    [Fact]
+    public async Task SchemaVersionRoundTrip()
+    {
+        await using MqttSessionClient mqttClient = await ClientFactory.CreateAndConnectClientAsyncFromEnvAsync();
+        ApplicationContext applicationContext = new();
+        await using IEdgeRegistryClient client = new EdgeRegistryClient(applicationContext, mqttClient);
+
+        string schemaId = NewId("schema");
+
+        SchemaVersion created = await client.CreateSchemaVersionAsync(GroupId.CloudDefault, schemaId, [], MakeSchemaVersionAttributes());
+        output.WriteLine($"created schema version {created.VersionId} for {created.ResourceId}");
+        Assert.Equal(schemaId, created.ResourceId);
+        Assert.True(created.IsDefault);
+
+        SchemaVersion fetched = await client.GetSchemaVersionAsync(GroupId.CloudDefault, schemaId, GetSchemaVersionId.ResourceDefault);
+        Assert.Equal(created.VersionId, fetched.VersionId);
+
+        // The newest Version becomes the Schema's default.
+        SchemaVersion second = await client.CreateSchemaVersionAsync(GroupId.CloudDefault, schemaId, [], MakeSchemaVersionAttributes());
+        Assert.True(second.IsDefault);
+        Assert.NotEqual(created.VersionId, second.VersionId);
+
+        IReadOnlyList<SchemaVersionXid> versions = await client.ListSchemaVersionsAsync(GroupSelector.Default, schemaId);
+        Assert.True(versions.Count >= 2);
+        Assert.All(versions, v => Assert.Equal(schemaId, v.ResourceId));
+
+        await client.DeleteSchemaVersionAsync(GroupId.CloudDefault, schemaId, second.VersionId);
+
+        await client.StopAsync();
+    }
+
+    [Fact]
+    public async Task ThingDescriptionVersionRoundTrip()
+    {
+        await using MqttSessionClient mqttClient = await ClientFactory.CreateAndConnectClientAsyncFromEnvAsync();
+        ApplicationContext applicationContext = new();
+        await using IEdgeRegistryClient client = new EdgeRegistryClient(applicationContext, mqttClient);
+
+        string thingDescriptionId = NewId("td");
+
+        ThingDescriptionVersion created = await client.CreateThingDescriptionVersionAsync(GroupId.CloudDefault, thingDescriptionId, [], MakeThingDescriptionVersionAttributes());
+        Assert.Equal(thingDescriptionId, created.ResourceId);
+        Assert.True(created.IsDefault);
+
+        ThingDescriptionVersion fetched = await client.GetThingDescriptionVersionAsync(GroupId.CloudDefault, thingDescriptionId, GetThingDescriptionVersionId.ResourceDefault);
+        Assert.Equal(created.VersionId, fetched.VersionId);
+
+        ThingDescriptionVersion second = await client.CreateThingDescriptionVersionAsync(GroupId.CloudDefault, thingDescriptionId, [], MakeThingDescriptionVersionAttributes());
+        Assert.True(second.IsDefault);
+
+        IReadOnlyList<ThingDescriptionVersionXid> versions = await client.ListThingDescriptionVersionsAsync(GroupSelector.Default, thingDescriptionId);
+        Assert.True(versions.Count >= 2);
+        Assert.All(versions, v => Assert.Equal(thingDescriptionId, v.ResourceId));
+
+        await client.DeleteThingDescriptionVersionAsync(GroupId.CloudDefault, thingDescriptionId, second.VersionId);
+
+        await client.StopAsync();
+    }
+
+    [Fact]
+    public async Task ThingModelVersionRoundTrip()
+    {
+        await using MqttSessionClient mqttClient = await ClientFactory.CreateAndConnectClientAsyncFromEnvAsync();
+        ApplicationContext applicationContext = new();
+        await using IEdgeRegistryClient client = new EdgeRegistryClient(applicationContext, mqttClient);
+
+        string thingModelId = NewId("tm");
+
+        ThingModelVersion created = await client.CreateThingModelVersionAsync(GroupId.CloudDefault, thingModelId, [], MakeThingModelVersionAttributes());
+        Assert.Equal(thingModelId, created.ResourceId);
+        Assert.True(created.IsDefault);
+
+        ThingModelVersion fetched = await client.GetThingModelVersionAsync(GroupId.CloudDefault, thingModelId, GetThingModelVersionId.ResourceDefault);
+        Assert.Equal(created.VersionId, fetched.VersionId);
+
+        ThingModelVersion second = await client.CreateThingModelVersionAsync(GroupId.CloudDefault, thingModelId, [], MakeThingModelVersionAttributes());
+        Assert.True(second.IsDefault);
+
+        IReadOnlyList<ThingModelVersionXid> versions = await client.ListThingModelVersionsAsync(GroupSelector.Default, thingModelId);
+        Assert.True(versions.Count >= 2);
+        Assert.All(versions, v => Assert.Equal(thingModelId, v.ResourceId));
+
+        await client.DeleteThingModelVersionAsync(GroupId.CloudDefault, thingModelId, second.VersionId);
+
+        await client.StopAsync();
+    }
+
     private static string NewId(string prefix) => $"it-{prefix}-{Guid.NewGuid():N}";
 
     private static GroupAttributes MakeGroupAttributes() => new()
@@ -258,6 +345,30 @@ public class EdgeRegistryClientIntegrationTests(ITestOutputHelper output)
         Name = name,
         Labels = [],
         ContentType = "application/json",
+        Document = "{}"u8.ToArray(),
+        Extensions = new Dictionary<string, byte[]>(),
+    };
+
+    private static SchemaVersionAttributes MakeSchemaVersionAttributes() => new()
+    {
+        Labels = [],
+        Format = SchemaFormat.JsonSchemaDraft07,
+        Document = "{}"u8.ToArray(),
+        Extensions = new Dictionary<string, byte[]>(),
+    };
+
+    private static ThingDescriptionVersionAttributes MakeThingDescriptionVersionAttributes() => new()
+    {
+        Labels = [],
+        Format = ThingDescriptionFormat.JsonLd11,
+        Document = "{}"u8.ToArray(),
+        Extensions = new Dictionary<string, byte[]>(),
+    };
+
+    private static ThingModelVersionAttributes MakeThingModelVersionAttributes() => new()
+    {
+        Labels = [],
+        Format = ThingModelFormat.JsonLd11,
         Document = "{}"u8.ToArray(),
         Extensions = new Dictionary<string, byte[]>(),
     };

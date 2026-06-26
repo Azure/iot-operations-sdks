@@ -6,6 +6,9 @@ builder.Services
     .AddSingleton<ApplicationContext>()
     .AddSingleton(MqttSessionClientFactoryProvider.MqttClientFactory)
     .AddSingleton<EdgeRegistryService>()
+    .AddSingleton<EdgeRegistrySchemaExtensionService>()
+    .AddSingleton<EdgeRegistryThingDescriptionExtensionService>()
+    .AddSingleton<EdgeRegistryThingModelExtensionService>()
     .AddHostedService<EdgeRegistryWorker>();
 
 IHost host = builder.Build();
