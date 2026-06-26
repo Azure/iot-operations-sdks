@@ -15,28 +15,22 @@ using Xunit.Abstractions;
 /// (Group, Resource, and Version CRUD plus listing) against a live Edge Registry service.
 /// </summary>
 /// <remarks>
-/// The Edge Registry service ships separately from this SDK and is not yet part of the Azure IoT
-/// Operations deployment that CI runs against. The service-dependent tests below are written, wired,
-/// and ready to run: they are gated with <see cref="ServiceNotDeployedSkip"/> so the suite stays green
-/// until the service is available. Once the service is reachable on the test broker, remove the
-/// <c>Skip</c> argument from those facts (and adjust <see cref="GroupType"/>/<see cref="ResourceType"/>
-/// to whatever Group/Resource types the deployed service accepts). The client-side guard tests at the
-/// bottom do not depend on the service and run today against the broker alone.
+/// These tests run against the in-process Edge Registry stub host under <c>eng/test/edge-registry</c>,
+/// which CI starts (alongside the SchemaRegistry host) before the test run. The stub implements the
+/// core xRegistry surface in memory, so the assertions below exercise the real MQTT RPC round trip:
+/// topic routing, <c>ex:</c> token prefixing, payload serialization, and the client's wire-to-model
+/// mapping. The client-side guard tests at the bottom do not depend on the host.
 /// </remarks>
 [Trait("Category", "EdgeRegistry")]
 public class EdgeRegistryClientIntegrationTests(ITestOutputHelper output)
 {
-    private const string ServiceNotDeployedSkip =
-        "Requires the Edge Registry service, which is not yet deployed in Azure IoT Operations. " +
-        "Remove the Skip once the service is reachable on the test broker.";
-
     // xRegistry collection names used to scope the test entities. These are the schema-extension
-    // collection names, which a conformant xRegistry service exposes; adjust if the deployed service
-    // accepts different Group/Resource types for the generic core surface.
+    // collection names; the stub host accepts any Group/Resource type, so adjust these only if the
+    // tests are pointed at a different Edge Registry service.
     private const string GroupType = "schemagroups";
     private const string ResourceType = "schemas";
 
-    [Fact(Skip = ServiceNotDeployedSkip)]
+    [Fact]
     public async Task CreateGetDeleteGroupRoundTrip()
     {
         await using MqttSessionClient mqttClient = await ClientFactory.CreateAndConnectClientAsyncFromEnvAsync();
@@ -62,7 +56,7 @@ public class EdgeRegistryClientIntegrationTests(ITestOutputHelper output)
         await client.StopAsync();
     }
 
-    [Fact(Skip = ServiceNotDeployedSkip)]
+    [Fact]
     public async Task ListGroupsIncludesCreatedGroup()
     {
         await using MqttSessionClient mqttClient = await ClientFactory.CreateAndConnectClientAsyncFromEnvAsync();
@@ -85,7 +79,7 @@ public class EdgeRegistryClientIntegrationTests(ITestOutputHelper output)
         await client.StopAsync();
     }
 
-    [Fact(Skip = ServiceNotDeployedSkip)]
+    [Fact]
     public async Task CreateResourceCreatesDefaultVersion()
     {
         await using MqttSessionClient mqttClient = await ClientFactory.CreateAndConnectClientAsyncFromEnvAsync();
@@ -128,7 +122,7 @@ public class EdgeRegistryClientIntegrationTests(ITestOutputHelper output)
         await client.StopAsync();
     }
 
-    [Fact(Skip = ServiceNotDeployedSkip)]
+    [Fact]
     public async Task CreateAndListVersionsRoundTrip()
     {
         await using MqttSessionClient mqttClient = await ClientFactory.CreateAndConnectClientAsyncFromEnvAsync();
@@ -181,7 +175,7 @@ public class EdgeRegistryClientIntegrationTests(ITestOutputHelper output)
         await client.StopAsync();
     }
 
-    [Fact(Skip = ServiceNotDeployedSkip)]
+    [Fact]
     public async Task ListResourcesIncludesCreatedResource()
     {
         await using MqttSessionClient mqttClient = await ClientFactory.CreateAndConnectClientAsyncFromEnvAsync();
