@@ -100,8 +100,7 @@ namespace Azure.Iot.Operations.Connector.UnitTests
             Volatile.Write(ref thresholdAfterUpdate, Volatile.Read(ref publishCount) + 3);
             await continuedAfterUpdateTcs.Task.WaitAsync(WaitTimeout);
 
-            await worker.StopAsync(new CancellationTokenSource(TimeSpan.FromSeconds(30)).Token);
-            worker.Dispose();
+            await worker.StopAndDisposeAsync();
         }
 
         private static Device CreateDevice(string inboundEndpointName)

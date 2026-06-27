@@ -108,8 +108,7 @@ namespace Azure.Iot.Operations.Connector.UnitTests
             Assert.True(published.Endpoints.Inbound.ContainsKey(inboundEndpointName));
             Assert.Null(published.Endpoints.Inbound[inboundEndpointName].Error);
 
-            await worker.StopAsync(new CancellationTokenSource(TimeSpan.FromSeconds(30)).Token);
-            worker.Dispose();
+            await worker.StopAndDisposeAsync();
         }
 
         [Fact]
@@ -172,8 +171,7 @@ namespace Azure.Iot.Operations.Connector.UnitTests
                 c => c.UpdateDeviceStatusAsync(It.IsAny<string>(), It.IsAny<string>(), It.IsAny<DeviceStatus>(), It.IsAny<TimeSpan?>(), It.IsAny<CancellationToken>()),
                 Times.Never);
 
-            await worker.StopAsync(new CancellationTokenSource(TimeSpan.FromSeconds(30)).Token);
-            worker.Dispose();
+            await worker.StopAndDisposeAsync();
         }
     }
 }
