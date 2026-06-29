@@ -20,6 +20,10 @@
     "extensions"
   ],
   "properties": {
+    "resourceId": {
+      "description": "Schema (Resource) identifier.",
+      "type": "string"
+    },
     "versionId": {
       "description": "Version identifier.",
       "type": "integer"
@@ -39,10 +43,6 @@
     },
     "documentHash": {
       "description": "The hash of the schema document for this Version.",
-      "type": "string"
-    },
-    "resourceId": {
-      "description": "Schema (Resource) identifier.",
       "type": "string"
     },
     "xid": {
