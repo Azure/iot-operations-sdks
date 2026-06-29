@@ -68,11 +68,11 @@ public interface ICoreClient : IAsyncDisposable
     /// <summary>Deletes a Group. Deletes cascade to all contained Resources and their Versions.</summary>
     /// <param name="groupType">The Group type (the xRegistry Group collection name).</param>
     /// <param name="groupId">The Group. Use <see cref="GroupId.CloudDefault"/> for the cloud-default Group (the configured namespace).</param>
-    /// <param name="options">The <see cref="Models.DeleteOptions"/> that control the behavior of the delete operation.</param>
+    /// <param name="options">The <see cref="Models.DeleteOptions"/> that control the behavior of the delete operation; when <see langword="null"/>, <see cref="Models.DeleteOptions.Default"/> is used.</param>
     /// <param name="timeout">The command timeout; when <see langword="null"/>, the client's default timeout is used.</param>
     /// <param name="cancellationToken">A token to cancel the operation.</param>
     /// <returns>A task that completes when the Group has been deleted.</returns>
-    Task DeleteGroupAsync(string groupType, GroupId groupId, Models.DeleteOptions options, TimeSpan? timeout = null, CancellationToken cancellationToken = default);
+    Task DeleteGroupAsync(string groupType, GroupId groupId, Models.DeleteOptions? options = null, TimeSpan? timeout = null, CancellationToken cancellationToken = default);
 
     // ---- Resource APIs ----
 
@@ -114,11 +114,11 @@ public interface ICoreClient : IAsyncDisposable
     /// <param name="groupId">The owning Group. Use <see cref="GroupId.CloudDefault"/> for the cloud-default Group (the configured namespace).</param>
     /// <param name="resourceType">The Resource type (the xRegistry Resource collection name).</param>
     /// <param name="resourceId">The Resource identifier.</param>
-    /// <param name="options">The <see cref="Models.DeleteOptions"/> that control the behavior of the delete operation.</param>
+    /// <param name="options">The <see cref="Models.DeleteOptions"/> that control the behavior of the delete operation; when <see langword="null"/>, <see cref="Models.DeleteOptions.Default"/> is used.</param>
     /// <param name="timeout">The command timeout; when <see langword="null"/>, the client's default timeout is used.</param>
     /// <param name="cancellationToken">A token to cancel the operation.</param>
     /// <returns>A task that completes when the Resource has been deleted.</returns>
-    Task DeleteResourceAsync(string groupType, GroupId groupId, string resourceType, string resourceId, Models.DeleteOptions options, TimeSpan? timeout = null, CancellationToken cancellationToken = default);
+    Task DeleteResourceAsync(string groupType, GroupId groupId, string resourceType, string resourceId, Models.DeleteOptions? options = null, TimeSpan? timeout = null, CancellationToken cancellationToken = default);
 
     // ---- Version APIs ----
 
@@ -162,9 +162,9 @@ public interface ICoreClient : IAsyncDisposable
     /// <param name="resourceType">The Resource type (the xRegistry Resource collection name).</param>
     /// <param name="resourceId">The owning Resource identifier.</param>
     /// <param name="versionId">The identifier of the Version to delete.</param>
-    /// <param name="options">The <see cref="Models.DeleteOptions"/> that control the behavior of the delete operation.</param>
+    /// <param name="options">The <see cref="Models.DeleteOptions"/> that control the behavior of the delete operation; when <see langword="null"/>, <see cref="Models.DeleteOptions.Default"/> is used.</param>
     /// <param name="timeout">The command timeout; when <see langword="null"/>, the client's default timeout is used.</param>
     /// <param name="cancellationToken">A token to cancel the operation.</param>
     /// <returns>A task that completes when the Version has been deleted.</returns>
-    Task DeleteVersionAsync(string groupType, GroupId groupId, string resourceType, string resourceId, string versionId, Models.DeleteOptions options, TimeSpan? timeout = null, CancellationToken cancellationToken = default);
+    Task DeleteVersionAsync(string groupType, GroupId groupId, string resourceType, string resourceId, string versionId, Models.DeleteOptions? options = null, TimeSpan? timeout = null, CancellationToken cancellationToken = default);
 }

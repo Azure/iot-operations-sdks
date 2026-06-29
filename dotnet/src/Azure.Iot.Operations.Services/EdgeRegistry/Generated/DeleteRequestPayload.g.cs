@@ -13,7 +13,7 @@ namespace Azure.Iot.Operations.Services.EdgeRegistry.Generated
     /// Request payload for deleting an xRegistry entity.
     /// </summary>
     [System.CodeDom.Compiler.GeneratedCode("Azure.Iot.Operations.ProtocolCompilerLib", "1.0.0.0")]
-    public partial class DeleteRequestPayload
+    public partial class DeleteRequestPayload : IJsonOnDeserialized, IJsonOnSerializing
     {
         /// <summary>
         /// Group identifier. Uses the default if not specified.
@@ -26,8 +26,24 @@ namespace Azure.Iot.Operations.Services.EdgeRegistry.Generated
         /// Options that control the behavior of the delete operation.
         /// </summary>
         [JsonPropertyName("options")]
-        [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
-        public DeleteOptions? Options { get; set; } = default;
+        [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
+        [JsonRequired]
+        public DeleteOptions Options { get; set; } = default!;
 
+        void IJsonOnDeserialized.OnDeserialized()
+        {
+            if (Options is null)
+            {
+                throw new ArgumentNullException("options field cannot be null");
+            }
+        }
+
+        void IJsonOnSerializing.OnSerializing()
+        {
+            if (Options is null)
+            {
+                throw new ArgumentNullException("options field cannot be null");
+            }
+        }
     }
 }

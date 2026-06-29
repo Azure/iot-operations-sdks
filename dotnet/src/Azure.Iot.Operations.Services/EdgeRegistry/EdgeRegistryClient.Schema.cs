@@ -73,12 +73,12 @@ public sealed partial class EdgeRegistryClient : ISchemaRegistryClient
     }
 
     /// <inheritdoc/>
-    public async Task DeleteSchemaVersionAsync(GroupId groupId, string schemaId, ulong versionId, Models.DeleteOptions options, TimeSpan? timeout = null, CancellationToken cancellationToken = default)
+    public async Task DeleteSchemaVersionAsync(GroupId groupId, string schemaId, ulong versionId, Models.DeleteOptions? options = null, TimeSpan? timeout = null, CancellationToken cancellationToken = default)
     {
         cancellationToken.ThrowIfCancellationRequested();
         ObjectDisposedException.ThrowIf(_disposed, this);
 
-        DeleteSchemaVersionInputArguments request = new() { GroupId = groupId.Value, Options = Converter.ToGenerated(options) };
+        DeleteSchemaVersionInputArguments request = new() { GroupId = groupId.Value, Options = Converter.ToGenerated(options ?? Models.DeleteOptions.Default) };
 
         await _schemaStub.DeleteSchemaVersionAsync(
             request,

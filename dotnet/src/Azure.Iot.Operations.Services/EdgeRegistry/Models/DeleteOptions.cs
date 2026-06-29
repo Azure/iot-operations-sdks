@@ -9,6 +9,11 @@ namespace Azure.Iot.Operations.Services.EdgeRegistry.Models;
 public class DeleteOptions
 {
     /// <summary>
+    /// The default options, which don't specify an expected epoch.
+    /// </summary>
+    public static DeleteOptions Default => new();
+
+    /// <summary>
     /// If specified, the request fails when the current epoch doesn't match.
     /// </summary>
     public ulong? ExpectedEpoch { get; set; }

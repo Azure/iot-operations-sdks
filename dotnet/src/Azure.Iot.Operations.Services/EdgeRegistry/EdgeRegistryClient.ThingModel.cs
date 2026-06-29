@@ -73,12 +73,12 @@ public sealed partial class EdgeRegistryClient : IThingModelClient
     }
 
     /// <inheritdoc/>
-    public async Task DeleteThingModelVersionAsync(GroupId groupId, string thingModelId, ulong versionId, Models.DeleteOptions options, TimeSpan? timeout = null, CancellationToken cancellationToken = default)
+    public async Task DeleteThingModelVersionAsync(GroupId groupId, string thingModelId, ulong versionId, Models.DeleteOptions? options = null, TimeSpan? timeout = null, CancellationToken cancellationToken = default)
     {
         cancellationToken.ThrowIfCancellationRequested();
         ObjectDisposedException.ThrowIf(_disposed, this);
 
-        DeleteThingModelVersionInputArguments request = new() { GroupId = groupId.Value, Options = Converter.ToGenerated(options) };
+        DeleteThingModelVersionInputArguments request = new() { GroupId = groupId.Value, Options = Converter.ToGenerated(options ?? Models.DeleteOptions.Default) };
 
         await _thingModelStub.DeleteThingModelVersionAsync(
             request,

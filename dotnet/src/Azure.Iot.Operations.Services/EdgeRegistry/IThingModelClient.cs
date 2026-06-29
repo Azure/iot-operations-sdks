@@ -58,9 +58,9 @@ public interface IThingModelClient
     /// <param name="groupId">The Thing Model Group. Use <see cref="GroupId.CloudDefault"/> for the cloud-default Group (the configured namespace).</param>
     /// <param name="thingModelId">The Thing Model (Resource) identifier.</param>
     /// <param name="versionId">The identifier of the Thing Model Version to delete.</param>
-    /// <param name="options">The <see cref="Models.DeleteOptions"/> that control the behavior of the delete operation.</param>
+    /// <param name="options">The <see cref="Models.DeleteOptions"/> that control the behavior of the delete operation; when <see langword="null"/>, <see cref="Models.DeleteOptions.Default"/> is used.</param>
     /// <param name="timeout">The command timeout; when <see langword="null"/>, the client's default timeout is used.</param>
     /// <param name="cancellationToken">A token to cancel the operation.</param>
     /// <returns>A task that completes when the Thing Model Version has been deleted.</returns>
-    Task DeleteThingModelVersionAsync(GroupId groupId, string thingModelId, ulong versionId, Models.DeleteOptions options, TimeSpan? timeout = null, CancellationToken cancellationToken = default);
+    Task DeleteThingModelVersionAsync(GroupId groupId, string thingModelId, ulong versionId, Models.DeleteOptions? options = null, TimeSpan? timeout = null, CancellationToken cancellationToken = default);
 }

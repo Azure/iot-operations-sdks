@@ -61,12 +61,12 @@ public sealed partial class EdgeRegistryClient : ICoreClient
     }
 
     /// <inheritdoc/>
-    public async Task DeleteGroupAsync(string groupType, GroupId groupId, Models.DeleteOptions options, TimeSpan? timeout = null, CancellationToken cancellationToken = default)
+    public async Task DeleteGroupAsync(string groupType, GroupId groupId, Models.DeleteOptions? options = null, TimeSpan? timeout = null, CancellationToken cancellationToken = default)
     {
         cancellationToken.ThrowIfCancellationRequested();
         ObjectDisposedException.ThrowIf(_disposed, this);
 
-        DeleteGroupInputArguments request = new() { GroupId = groupId.Value, Options = Converter.ToGenerated(options) };
+        DeleteGroupInputArguments request = new() { GroupId = groupId.Value, Options = Converter.ToGenerated(options ?? Models.DeleteOptions.Default) };
 
         await _coreStub.DeleteGroupAsync(
             request,
@@ -143,12 +143,12 @@ public sealed partial class EdgeRegistryClient : ICoreClient
     }
 
     /// <inheritdoc/>
-    public async Task DeleteResourceAsync(string groupType, GroupId groupId, string resourceType, string resourceId, Models.DeleteOptions options, TimeSpan? timeout = null, CancellationToken cancellationToken = default)
+    public async Task DeleteResourceAsync(string groupType, GroupId groupId, string resourceType, string resourceId, Models.DeleteOptions? options = null, TimeSpan? timeout = null, CancellationToken cancellationToken = default)
     {
         cancellationToken.ThrowIfCancellationRequested();
         ObjectDisposedException.ThrowIf(_disposed, this);
 
-        DeleteResourceInputArguments request = new() { GroupId = groupId.Value, Options = Converter.ToGenerated(options) };
+        DeleteResourceInputArguments request = new() { GroupId = groupId.Value, Options = Converter.ToGenerated(options ?? Models.DeleteOptions.Default) };
 
         await _coreStub.DeleteResourceAsync(
             request,
@@ -229,12 +229,12 @@ public sealed partial class EdgeRegistryClient : ICoreClient
     }
 
     /// <inheritdoc/>
-    public async Task DeleteVersionAsync(string groupType, GroupId groupId, string resourceType, string resourceId, string versionId, Models.DeleteOptions options, TimeSpan? timeout = null, CancellationToken cancellationToken = default)
+    public async Task DeleteVersionAsync(string groupType, GroupId groupId, string resourceType, string resourceId, string versionId, Models.DeleteOptions? options = null, TimeSpan? timeout = null, CancellationToken cancellationToken = default)
     {
         cancellationToken.ThrowIfCancellationRequested();
         ObjectDisposedException.ThrowIf(_disposed, this);
 
-        DeleteVersionInputArguments request = new() { GroupId = groupId.Value, Options = Converter.ToGenerated(options) };
+        DeleteVersionInputArguments request = new() { GroupId = groupId.Value, Options = Converter.ToGenerated(options ?? Models.DeleteOptions.Default) };
 
         await _coreStub.DeleteVersionAsync(
             request,
