@@ -9,7 +9,7 @@ ARG RUST_VERSION=1.88
 COPY --link / /app
 WORKDIR /app
 
-# Force Install Rust 1.89
+# Force Install Rust 1.88
 RUN tdnf remove -y rust; \
     tdnf install -y openssl-devel clang; \
     curl https://sh.rustup.rs -sSf | sh -s -- -y --default-toolchain $RUST_VERSION --profile minimal

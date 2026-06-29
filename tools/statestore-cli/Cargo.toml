@@ -14,9 +14,9 @@ readme = "readme.md"
 publish = false
 
 [dependencies]
-azure_iot_operations_protocol = { version = "1.0.0", registry = "aio-sdks" }
-azure_iot_operations_mqtt = { version = "1.0.2", registry = "aio-sdks" }
-azure_iot_operations_services = { version = "1.2.0", registry = "aio-sdks", features = ["state_store"]}
+azure_iot_operations_protocol = { version = "1.0.0" }
+azure_iot_operations_mqtt = { version = "1.0.2" }
+azure_iot_operations_services = { version = "1.2.0", features = ["state_store"]}
 log = "0.4.21"
 tokio = { version = "1.41", features = ["rt", "time", "sync"] }
 clap = { version = "4.0", features = ["derive"] }
