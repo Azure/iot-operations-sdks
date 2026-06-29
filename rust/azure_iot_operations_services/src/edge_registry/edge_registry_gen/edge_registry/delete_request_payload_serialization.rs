@@ -5,23 +5,23 @@ use azure_iot_operations_protocol::common::payload_serialize::{
 };
 use serde_json;
 
-use super::delete_thing_model_version_input_arguments::DeleteThingModelVersionInputArguments;
+use super::delete_request_payload::DeleteRequestPayload;
 
-const DELETE_THING_MODEL_VERSION_INPUT_ARGUMENTS_CONTENT_TYPE: &str = "application/json";
+const DELETE_REQUEST_PAYLOAD_CONTENT_TYPE: &str = "application/json";
 
-impl DeleteThingModelVersionInputArguments {
+impl DeleteRequestPayload {
     fn is_content_type(content_type: &str) -> bool {
-        content_type.starts_with(DELETE_THING_MODEL_VERSION_INPUT_ARGUMENTS_CONTENT_TYPE)
+        content_type.starts_with(DELETE_REQUEST_PAYLOAD_CONTENT_TYPE)
             && matches!(
                 content_type
                     .chars()
-                    .nth(DELETE_THING_MODEL_VERSION_INPUT_ARGUMENTS_CONTENT_TYPE.len()),
+                    .nth(DELETE_REQUEST_PAYLOAD_CONTENT_TYPE.len()),
                 None | Some('+' | ';')
             )
     }
 }
 
-impl PayloadSerialize for DeleteThingModelVersionInputArguments {
+impl PayloadSerialize for DeleteRequestPayload {
     type Error = serde_json::Error;
 
     fn serialize(self) -> Result<SerializedPayload, Self::Error> {
@@ -39,7 +39,7 @@ impl PayloadSerialize for DeleteThingModelVersionInputArguments {
         _format_indicator: &FormatIndicator,
     ) -> Result<Self, DeserializationError<Self::Error>> {
         if let Some(content_type) = content_type
-            && !DeleteThingModelVersionInputArguments::is_content_type(content_type)
+            && !DeleteRequestPayload::is_content_type(content_type)
         {
             return Err(DeserializationError::UnsupportedContentType(format!(
                 "Invalid content type: '{content_type}'. Must be 'application/json'"

@@ -99,14 +99,8 @@
         "deleteGroup": {
             "description": "Delete an xRegistry Group entity. Deletes cascade: all Resources contained in the Group and all of their Versions are deleted.",
             "input": {
-                "type": "object",
-                "properties": {
-                    "groupId": {
-                        "type": "string",
-                        "description": "Group identifier. Uses the default if not specified."
-                    }
-                },
-                "required": []
+                "dov:ref": "./core-xregistry/DeleteRequestPayload.schema.json",
+                "description": "The attributes needed to delete the Group entity."
             },
             "forms": [
                 {
@@ -203,14 +197,8 @@
         "deleteResource": {
             "description": "Delete an xRegistry Resource entity. Deletes cascade: all Versions of the Resource are deleted.",
             "input": {
-                "type": "object",
-                "properties": {
-                    "groupId": {
-                        "description": "Group identifier. Uses the default if not specified.",
-                        "type": "string"
-                    }
-                },
-                "required": []
+                "dov:ref": "./core-xregistry/DeleteRequestPayload.schema.json",
+                "description": "The attributes needed to delete the Resource entity."
             },
             "forms": [
                 {
@@ -311,14 +299,8 @@
         "deleteVersion": {
             "description": "Delete an xRegistry Version entity.",
             "input": {
-                "type": "object",
-                "properties": {
-                    "groupId": {
-                        "description": "Group identifier. Uses the default if not specified.",
-                        "type": "string"
-                    }
-                },
-                "required": []
+                "dov:ref": "./core-xregistry/DeleteRequestPayload.schema.json",
+                "description": "The attributes needed to delete the Version entity."
             },
             "forms": [
                 {

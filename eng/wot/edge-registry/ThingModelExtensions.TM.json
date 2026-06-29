@@ -101,14 +101,8 @@
         "deleteThingModelVersion": {
             "description": "Delete an xRegistry Thing Model Version entity.",
             "input": {
-                "type": "object",
-                "properties": {
-                    "groupId": {
-                        "description": "Group identifier. Uses the default if not specified.",
-                        "type": "string"
-                    }
-                },
-                "required": []
+                "dov:ref": "./core-xregistry/DeleteRequestPayload.schema.json",
+                "description": "The attributes needed to delete the Thing Model Version entity."
             },
             "forms": [
                 {

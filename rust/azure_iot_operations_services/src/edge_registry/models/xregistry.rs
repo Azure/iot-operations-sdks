@@ -91,6 +91,21 @@ impl From<DeprecatedInfo> for client_gen::DeprecatedInfo {
     }
 }
 
+/// Options that control the behavior of a delete operation.
+#[derive(Debug, Clone, Default, PartialEq, Eq)]
+pub struct DeleteOptions {
+    /// If specified, the request fails when the current epoch doesn't match.
+    pub expected_epoch: Option<u64>,
+}
+
+impl From<DeleteOptions> for client_gen::DeleteOptions {
+    fn from(value: DeleteOptions) -> Self {
+        client_gen::DeleteOptions {
+            expected_epoch: value.expected_epoch,
+        }
+    }
+}
+
 // ~~~~~~~~~~~~~~~~~~~Identifiers (XIDs)~~~~~~~~~~~~~~~~~~~~~~~~~~
 
 /// The XID components that identify a Resource.
