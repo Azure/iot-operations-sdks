@@ -12,7 +12,7 @@ use uuid::Uuid;
 use super::super::common_types::{b64::Bytes, date_only::Date, decimal::Decimal, time_only::Time};
 use super::thing_description_extension_error::ThingDescriptionExtensionError;
 
-/// TODO: Dummy output to allow Rust to compile
+/// Response to a 'deleteThingDescriptionVersion' Action.
 #[derive(Serialize, Deserialize, Debug, Clone, Builder)]
 pub struct DeleteThingDescriptionVersionResponseSchema {
     /// Error for the 'deleteThingDescriptionVersion' Action.
@@ -20,10 +20,4 @@ pub struct DeleteThingDescriptionVersionResponseSchema {
     #[serde(skip_serializing_if = "Option::is_none")]
     #[builder(default = "None")]
     pub error: Option<ThingDescriptionExtensionError>,
-
-    /// TODO: Temporary Output
-    #[serde(rename = "dummyOutput")]
-    #[serde(skip_serializing_if = "Option::is_none")]
-    #[builder(default = "None")]
-    pub dummy_output: Option<bool>,
 }

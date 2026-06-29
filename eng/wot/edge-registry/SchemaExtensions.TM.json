@@ -101,27 +101,8 @@
         "deleteSchemaVersion": {
             "description": "Delete an xRegistry Schema Version entity.",
             "input": {
-                "type": "object",
-                "properties": {
-                    "groupId": {
-                        "description": "Group identifier. Uses the default if not specified.",
-                        "type": "string"
-                    }
-                },
-                "required": []
-            },
-            "output": {
-                "description": "TODO: Dummy output to allow Rust to compile",
-                "type": "object",
-                "properties": {
-                    "dummyOutput": {
-                        "description": "TODO: Temporary Output",
-                        "type": "boolean"
-                    }
-                },
-                "required": [
-                    "dummyOutput"
-                ]
+                "dov:ref": "./core-xregistry/DeleteRequestPayload.schema.json",
+                "description": "The attributes needed to delete the Schema Version entity."
             },
             "forms": [
                 {

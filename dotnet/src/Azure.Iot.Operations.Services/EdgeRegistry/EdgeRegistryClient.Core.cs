@@ -26,7 +26,7 @@ public sealed partial class EdgeRegistryClient : ICoreClient
     }
 
     /// <inheritdoc/>
-    public async Task<Models.GroupEntity> GetGroupAsync(string groupType, GroupId groupId, TimeSpan? timeout = null, CancellationToken cancellationToken = default)
+    public async Task<Models.CoreGroupEntity> GetGroupAsync(string groupType, GroupId groupId, TimeSpan? timeout = null, CancellationToken cancellationToken = default)
     {
         cancellationToken.ThrowIfCancellationRequested();
         ObjectDisposedException.ThrowIf(_disposed, this);
@@ -43,7 +43,7 @@ public sealed partial class EdgeRegistryClient : ICoreClient
     }
 
     /// <inheritdoc/>
-    public async Task<Models.GroupEntity> CreateGroupAsync(string groupType, GroupId groupId, Models.GroupAttributes attributes, TimeSpan? timeout = null, CancellationToken cancellationToken = default)
+    public async Task<Models.CoreGroupEntity> CreateGroupAsync(string groupType, GroupId groupId, Models.CoreGroupAttributes attributes, TimeSpan? timeout = null, CancellationToken cancellationToken = default)
     {
         cancellationToken.ThrowIfCancellationRequested();
         ObjectDisposedException.ThrowIf(_disposed, this);
@@ -61,12 +61,12 @@ public sealed partial class EdgeRegistryClient : ICoreClient
     }
 
     /// <inheritdoc/>
-    public async Task DeleteGroupAsync(string groupType, GroupId groupId, TimeSpan? timeout = null, CancellationToken cancellationToken = default)
+    public async Task DeleteGroupAsync(string groupType, GroupId groupId, Models.DeleteOptions? options = null, TimeSpan? timeout = null, CancellationToken cancellationToken = default)
     {
         cancellationToken.ThrowIfCancellationRequested();
         ObjectDisposedException.ThrowIf(_disposed, this);
 
-        Generated.DeleteGroupInputArguments request = new() { GroupId = groupId.Value };
+        DeleteGroupInputArguments request = new() { GroupId = groupId.Value, Options = Converter.ToGenerated(options ?? Models.DeleteOptions.Default) };
 
         await _coreStub.DeleteGroupAsync(
             request,
@@ -78,7 +78,7 @@ public sealed partial class EdgeRegistryClient : ICoreClient
     // ---- Resource APIs ----
 
     /// <inheritdoc/>
-    public async Task<Models.ResourceEntity> GetResourceAsync(string groupType, GroupId groupId, string resourceType, string resourceId, TimeSpan? timeout = null, CancellationToken cancellationToken = default)
+    public async Task<Models.CoreResourceEntity> GetResourceAsync(string groupType, GroupId groupId, string resourceType, string resourceId, TimeSpan? timeout = null, CancellationToken cancellationToken = default)
     {
         cancellationToken.ThrowIfCancellationRequested();
         ObjectDisposedException.ThrowIf(_disposed, this);
@@ -95,7 +95,7 @@ public sealed partial class EdgeRegistryClient : ICoreClient
     }
 
     /// <inheritdoc/>
-    public async Task<Models.ResourceEntity> CreateResourceAsync(string groupType, GroupId groupId, string resourceType, string resourceId, Models.ResourceMetaAttributes meta, Dictionary<string, byte[]> resourceExtensions, CreateVersionId defaultVersionId, Models.VersionAttributes defaultVersion, TimeSpan? timeout = null, CancellationToken cancellationToken = default)
+    public async Task<Models.CoreResourceEntity> CreateResourceAsync(string groupType, GroupId groupId, string resourceType, string resourceId, Models.CoreResourceMetaAttributes meta, Dictionary<string, byte[]> resourceExtensions, CreateVersionId defaultVersionId, Models.CoreVersionAttributes defaultVersion, TimeSpan? timeout = null, CancellationToken cancellationToken = default)
     {
         cancellationToken.ThrowIfCancellationRequested();
         ObjectDisposedException.ThrowIf(_disposed, this);
@@ -143,12 +143,12 @@ public sealed partial class EdgeRegistryClient : ICoreClient
     }
 
     /// <inheritdoc/>
-    public async Task DeleteResourceAsync(string groupType, GroupId groupId, string resourceType, string resourceId, TimeSpan? timeout = null, CancellationToken cancellationToken = default)
+    public async Task DeleteResourceAsync(string groupType, GroupId groupId, string resourceType, string resourceId, Models.DeleteOptions? options = null, TimeSpan? timeout = null, CancellationToken cancellationToken = default)
     {
         cancellationToken.ThrowIfCancellationRequested();
         ObjectDisposedException.ThrowIf(_disposed, this);
 
-        Generated.DeleteResourceInputArguments request = new() { GroupId = groupId.Value };
+        DeleteResourceInputArguments request = new() { GroupId = groupId.Value, Options = Converter.ToGenerated(options ?? Models.DeleteOptions.Default) };
 
         await _coreStub.DeleteResourceAsync(
             request,
@@ -160,7 +160,7 @@ public sealed partial class EdgeRegistryClient : ICoreClient
     // ---- Version APIs ----
 
     /// <inheritdoc/>
-    public async Task<Models.VersionEntity> GetVersionAsync(string groupType, GroupId groupId, string resourceType, string resourceId, GetVersionId versionId, TimeSpan? timeout = null, CancellationToken cancellationToken = default)
+    public async Task<Models.CoreVersionEntity> GetVersionAsync(string groupType, GroupId groupId, string resourceType, string resourceId, GetVersionId versionId, TimeSpan? timeout = null, CancellationToken cancellationToken = default)
     {
         cancellationToken.ThrowIfCancellationRequested();
         ObjectDisposedException.ThrowIf(_disposed, this);
@@ -181,7 +181,7 @@ public sealed partial class EdgeRegistryClient : ICoreClient
     }
 
     /// <inheritdoc/>
-    public async Task<Models.VersionEntity> CreateVersionAsync(string groupType, GroupId groupId, string resourceType, string resourceId, IReadOnlyList<Models.Label> resourceLabels, CreateVersionId versionId, Models.VersionAttributes version, TimeSpan? timeout = null, CancellationToken cancellationToken = default)
+    public async Task<Models.CoreVersionEntity> CreateVersionAsync(string groupType, GroupId groupId, string resourceType, string resourceId, IReadOnlyList<Models.Label> resourceLabels, CreateVersionId versionId, Models.CoreVersionAttributes version, TimeSpan? timeout = null, CancellationToken cancellationToken = default)
     {
         cancellationToken.ThrowIfCancellationRequested();
         ObjectDisposedException.ThrowIf(_disposed, this);
@@ -229,12 +229,12 @@ public sealed partial class EdgeRegistryClient : ICoreClient
     }
 
     /// <inheritdoc/>
-    public async Task DeleteVersionAsync(string groupType, GroupId groupId, string resourceType, string resourceId, string versionId, TimeSpan? timeout = null, CancellationToken cancellationToken = default)
+    public async Task DeleteVersionAsync(string groupType, GroupId groupId, string resourceType, string resourceId, string versionId, Models.DeleteOptions? options = null, TimeSpan? timeout = null, CancellationToken cancellationToken = default)
     {
         cancellationToken.ThrowIfCancellationRequested();
         ObjectDisposedException.ThrowIf(_disposed, this);
 
-        Generated.DeleteVersionInputArguments request = new() { GroupId = groupId.Value };
+        DeleteVersionInputArguments request = new() { GroupId = groupId.Value, Options = Converter.ToGenerated(options ?? Models.DeleteOptions.Default) };
 
         await _coreStub.DeleteVersionAsync(
             request,

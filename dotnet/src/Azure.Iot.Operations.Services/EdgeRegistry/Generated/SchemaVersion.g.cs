@@ -16,6 +16,14 @@ namespace Azure.Iot.Operations.Services.EdgeRegistry.Generated
     public partial class SchemaVersion : IJsonOnDeserialized, IJsonOnSerializing
     {
         /// <summary>
+        /// Schema (Resource) identifier.
+        /// </summary>
+        [JsonPropertyName("resourceId")]
+        [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
+        [JsonRequired]
+        public string ResourceId { get; set; } = default!;
+
+        /// <summary>
         /// Version identifier.
         /// </summary>
         [JsonPropertyName("versionId")]
@@ -54,14 +62,6 @@ namespace Azure.Iot.Operations.Services.EdgeRegistry.Generated
         [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
         [JsonRequired]
         public string DocumentHash { get; set; } = default!;
-
-        /// <summary>
-        /// Schema (Resource) identifier.
-        /// </summary>
-        [JsonPropertyName("resourceId")]
-        [JsonIgnore(Condition = JsonIgnoreCondition.Never)]
-        [JsonRequired]
-        public string ResourceId { get; set; } = default!;
 
         /// <summary>
         /// Full XID path.
@@ -170,6 +170,10 @@ namespace Azure.Iot.Operations.Services.EdgeRegistry.Generated
 
         void IJsonOnDeserialized.OnDeserialized()
         {
+            if (ResourceId is null)
+            {
+                throw new ArgumentNullException("resourceId field cannot be null");
+            }
             if (Format is null)
             {
                 throw new ArgumentNullException("format field cannot be null");
@@ -181,10 +185,6 @@ namespace Azure.Iot.Operations.Services.EdgeRegistry.Generated
             if (DocumentHash is null)
             {
                 throw new ArgumentNullException("documentHash field cannot be null");
-            }
-            if (ResourceId is null)
-            {
-                throw new ArgumentNullException("resourceId field cannot be null");
             }
             if (Xid is null)
             {
@@ -202,6 +202,10 @@ namespace Azure.Iot.Operations.Services.EdgeRegistry.Generated
 
         void IJsonOnSerializing.OnSerializing()
         {
+            if (ResourceId is null)
+            {
+                throw new ArgumentNullException("resourceId field cannot be null");
+            }
             if (Format is null)
             {
                 throw new ArgumentNullException("format field cannot be null");
@@ -213,10 +217,6 @@ namespace Azure.Iot.Operations.Services.EdgeRegistry.Generated
             if (DocumentHash is null)
             {
                 throw new ArgumentNullException("documentHash field cannot be null");
-            }
-            if (ResourceId is null)
-            {
-                throw new ArgumentNullException("resourceId field cannot be null");
             }
             if (Xid is null)
             {

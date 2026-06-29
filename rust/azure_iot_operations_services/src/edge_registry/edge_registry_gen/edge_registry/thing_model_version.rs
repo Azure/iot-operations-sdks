@@ -16,6 +16,10 @@ use super::validation_status::ValidationStatus;
 /// A specific Version of a Thing Model. Self-contained: combines the generic Version fields and the thing model-specific fields into one schema, with integer-typed versionId and ancestor.
 #[derive(Serialize, Deserialize, Debug, Clone, Builder)]
 pub struct ThingModelVersion {
+    /// Thing Model (Resource) identifier.
+    #[serde(rename = "resourceId")]
+    pub resource_id: String,
+
     /// Version identifier.
     #[serde(rename = "versionId")]
     pub version_id: u64,
@@ -32,10 +36,6 @@ pub struct ThingModelVersion {
     /// The hash of the thing model document for this Version.
     #[serde(rename = "documentHash")]
     pub document_hash: String,
-
-    /// Thing Model (Resource) identifier.
-    #[serde(rename = "resourceId")]
-    pub resource_id: String,
 
     /// Full XID path.
     pub xid: String,

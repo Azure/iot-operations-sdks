@@ -1,0 +1,14 @@
+{
+  "$schema": "https://json-schema.org/draft-07/schema",
+  "title": "DeleteOptions",
+  "description": "Options that control the behavior of a delete operation.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [],
+  "properties": {
+    "expectedEpoch": {
+      "description": "If specified, the request fails when the current epoch doesn't match.",
+      "type": "integer"
+    }
+  }
+}
