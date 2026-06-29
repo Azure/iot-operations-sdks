@@ -13,7 +13,7 @@ readme = "README.md"
 publish = true
 
 [features]
-default = ["all"]
+default = []
 all = ["state_store", "schema_registry", "leased_lock", "azure_device_registry", "edge_registry"]
 state_store = []
 schema_registry = [
