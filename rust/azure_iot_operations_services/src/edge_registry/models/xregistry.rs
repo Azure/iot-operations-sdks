@@ -160,7 +160,7 @@ impl From<client_gen::VersionXidList> for Vec<VersionXId<String>> {
 
 /// A Group entity — container for related Resources.
 #[derive(Debug, Clone)]
-pub struct GroupEntity {
+pub struct CoreGroupEntity {
     /// Group identifier.
     pub id: String,
     /// Full XID path, e.g. /schemagroups/mygroup
@@ -190,9 +190,9 @@ pub struct GroupEntity {
     pub extensions: HashMap<String, Bytes>,
 }
 
-impl From<client_gen::Group> for GroupEntity {
+impl From<client_gen::Group> for CoreGroupEntity {
     fn from(value: client_gen::Group) -> Self {
-        GroupEntity {
+        CoreGroupEntity {
             id: value.id,
             xid: value.xid,
             epoch: value.epoch,
@@ -212,28 +212,28 @@ impl From<client_gen::Group> for GroupEntity {
 
 /// Resource entity
 #[derive(Debug, Clone)]
-pub struct ResourceEntity {
+pub struct CoreResourceEntity {
     /// Resource identifier.
     pub id: String,
     /// Full XID path.
     pub xid: String,
     /// An object that contains most of the Resource-level attributes.
-    pub meta: ResourceMeta,
+    pub meta: CoreResourceMeta,
     /// A specific Version of a Resource.
-    pub default_version: VersionEntity,
+    pub default_version: CoreVersionEntity,
     /// The number of Versions contained on the Resource.
     pub versions_count: u64,
     /// Extension-specific attributes (e.g., `format` and `content_type` for schemas).
     pub extensions: HashMap<String, Bytes>,
 }
 
-impl From<client_gen::Resource> for ResourceEntity {
+impl From<client_gen::Resource> for CoreResourceEntity {
     fn from(value: client_gen::Resource) -> Self {
-        ResourceEntity {
+        CoreResourceEntity {
             id: value.id,
             xid: value.xid,
-            meta: ResourceMeta::from(value.meta),
-            default_version: VersionEntity::from(value.default_version),
+            meta: CoreResourceMeta::from(value.meta),
+            default_version: CoreVersionEntity::from(value.default_version),
             versions_count: value.versions_count,
             extensions: extensions_from_gen(value.extensions),
         }
@@ -242,7 +242,7 @@ impl From<client_gen::Resource> for ResourceEntity {
 
 /// An object that contains most of the Resource-level attributes.
 #[derive(Debug, Clone)]
-pub struct ResourceMeta {
+pub struct CoreResourceMeta {
     /// Resource identifier.
     pub id: String,
     /// Full XID path.
@@ -276,9 +276,9 @@ pub struct ResourceMeta {
     pub extensions: HashMap<String, Bytes>,
 }
 
-impl From<client_gen::ResourceMeta> for ResourceMeta {
+impl From<client_gen::ResourceMeta> for CoreResourceMeta {
     fn from(value: client_gen::ResourceMeta) -> Self {
-        ResourceMeta {
+        CoreResourceMeta {
             id: value.id,
             xid: value.xid,
             xref: value.xref,
@@ -298,7 +298,7 @@ impl From<client_gen::ResourceMeta> for ResourceMeta {
 
 /// A specific Version of a Resource.
 #[derive(Debug, Clone)]
-pub struct VersionEntity {
+pub struct CoreVersionEntity {
     /// Resource identifier.
     pub resource_id: String,
     /// Version identifier.
@@ -345,9 +345,9 @@ pub struct VersionEntity {
     pub extensions: HashMap<String, Bytes>,
 }
 
-impl From<client_gen::Version> for VersionEntity {
+impl From<client_gen::Version> for CoreVersionEntity {
     fn from(value: client_gen::Version) -> Self {
-        VersionEntity {
+        CoreVersionEntity {
             resource_id: value.resource_id,
             version_id: value.version_id,
             xid: value.xid,
@@ -376,7 +376,7 @@ impl From<client_gen::Version> for VersionEntity {
 
 /// Request payload for creating or updating a Group.
 #[derive(Debug, Clone, Default)]
-pub struct GroupAttributes {
+pub struct CoreGroupAttributes {
     /// Human-readable name.
     pub name: Option<String>,
     /// A human-readable summary of the purpose of the entity.
@@ -394,7 +394,7 @@ pub struct GroupAttributes {
     pub extensions: HashMap<String, Bytes>,
 }
 
-impl GroupAttributes {
+impl CoreGroupAttributes {
     pub(crate) fn into_gen(self, group_id: Option<String>) -> client_gen::GroupAttributes {
         client_gen::GroupAttributes {
             group_id,
@@ -411,7 +411,7 @@ impl GroupAttributes {
 
 /// Mutable attributes for creating or updating a Resource (its `meta` sub-entity).
 #[derive(Debug, Clone, Default)]
-pub struct ResourceMetaAttributes {
+pub struct CoreResourceMetaAttributes {
     /// Indicates that this Resource is a reference to another Resource within the same Registry. The XID path of the referenced Resource.
     pub xref: Option<String>,
     /// A mechanism in which additional metadata about the entity can be stored without changing the model definition of the entity. Labels can be used for querying.
@@ -424,8 +424,8 @@ pub struct ResourceMetaAttributes {
     pub extensions: HashMap<String, Bytes>,
 }
 
-impl From<ResourceMetaAttributes> for client_gen::ResourceMetaAttributes {
-    fn from(value: ResourceMetaAttributes) -> Self {
+impl From<CoreResourceMetaAttributes> for client_gen::ResourceMetaAttributes {
+    fn from(value: CoreResourceMetaAttributes) -> Self {
         client_gen::ResourceMetaAttributes {
             xref: value.xref,
             labels: labels_to_gen(value.labels),
@@ -438,7 +438,7 @@ impl From<ResourceMetaAttributes> for client_gen::ResourceMetaAttributes {
 
 /// Attributes needed to create a Version.
 #[derive(Debug, Clone, Default)]
-pub struct VersionAttributes {
+pub struct CoreVersionAttributes {
     /// Human-readable name.
     pub name: Option<String>,
     /// A human-readable summary of the purpose of the entity.
@@ -461,8 +461,8 @@ pub struct VersionAttributes {
     pub extensions: HashMap<String, Bytes>,
 }
 
-impl From<VersionAttributes> for client_gen::VersionAttributes {
-    fn from(value: VersionAttributes) -> Self {
+impl From<CoreVersionAttributes> for client_gen::VersionAttributes {
+    fn from(value: CoreVersionAttributes) -> Self {
         client_gen::VersionAttributes {
             name: value.name,
             description: value.description,
