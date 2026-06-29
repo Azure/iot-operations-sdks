@@ -12,16 +12,15 @@ use azure_iot_operations_protocol::common::aio_protocol_error::{
 use azure_iot_operations_protocol::common::payload_serialize::PayloadSerialize;
 use azure_iot_operations_protocol::rpc_command;
 
+use super::super::common_types::empty_json::EmptyJson;
 use super::super::common_types::options::CommandInvokerOptions;
 use super::delete_thing_model_version_input_arguments::DeleteThingModelVersionInputArguments;
-use super::delete_thing_model_version_output_arguments::DeleteThingModelVersionOutputArguments;
 use super::delete_thing_model_version_response_schema::DeleteThingModelVersionResponseSchema;
 use super::thing_model_extension_error::ThingModelExtensionError;
 
 pub type DeleteThingModelVersionRequest =
     rpc_command::invoker::Request<DeleteThingModelVersionInputArguments>;
-pub type DeleteThingModelVersionResponse =
-    rpc_command::invoker::Response<DeleteThingModelVersionOutputArguments>;
+pub type DeleteThingModelVersionResponse = rpc_command::invoker::Response<EmptyJson>;
 pub type DeleteThingModelVersionResponseError =
     rpc_command::invoker::Response<ThingModelExtensionError>;
 pub type DeleteThingModelVersionRequestBuilderError = rpc_command::invoker::RequestBuilderError;
@@ -166,11 +165,7 @@ impl DeleteThingModelVersionActionInvoker {
                     }))
                 } else {
                     Ok(Ok(DeleteThingModelVersionResponse {
-                        payload: DeleteThingModelVersionOutputArguments {
-                            dummy_output: response.payload.dummy_output.ok_or(
-                                DeleteThingModelVersionActionInvoker::get_err("dummyOutput"),
-                            )?,
-                        },
+                        payload: EmptyJson {},
                         content_type: response.content_type,
                         format_indicator: response.format_indicator,
                         custom_user_data: response.custom_user_data,
@@ -190,24 +185,5 @@ impl DeleteThingModelVersionActionInvoker {
     /// [`AIOProtocolError`] of kind [`ClientError`](azure_iot_operations_protocol::common::aio_protocol_error::AIOProtocolErrorKind::ClientError) if the unsubscribe fails or if the unsuback reason code doesn't indicate success.
     pub async fn shutdown(&self) -> Result<(), AIOProtocolError> {
         self.0.shutdown().await
-    }
-
-    fn get_err(field_name: &str) -> AIOProtocolError {
-        AIOProtocolError {
-            message: Some(format!("Command response missing field {field_name}")),
-            kind: AIOProtocolErrorKind::PayloadInvalid,
-            is_shallow: false,
-            is_remote: false,
-            nested_error: None,
-            header_name: None,
-            header_value: None,
-            timeout_name: None,
-            timeout_value: None,
-            property_name: None,
-            property_value: None,
-            command_name: Some("deleteThingModelVersion".to_string()),
-            protocol_version: None,
-            supported_protocol_major_versions: None,
-        }
     }
 }

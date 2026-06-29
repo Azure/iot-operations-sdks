@@ -12,16 +12,15 @@ use azure_iot_operations_protocol::common::aio_protocol_error::{
 use azure_iot_operations_protocol::common::payload_serialize::PayloadSerialize;
 use azure_iot_operations_protocol::rpc_command;
 
+use super::super::common_types::empty_json::EmptyJson;
 use super::super::common_types::options::CommandInvokerOptions;
 use super::delete_schema_version_input_arguments::DeleteSchemaVersionInputArguments;
-use super::delete_schema_version_output_arguments::DeleteSchemaVersionOutputArguments;
 use super::delete_schema_version_response_schema::DeleteSchemaVersionResponseSchema;
 use super::schema_extension_error::SchemaExtensionError;
 
 pub type DeleteSchemaVersionRequest =
     rpc_command::invoker::Request<DeleteSchemaVersionInputArguments>;
-pub type DeleteSchemaVersionResponse =
-    rpc_command::invoker::Response<DeleteSchemaVersionOutputArguments>;
+pub type DeleteSchemaVersionResponse = rpc_command::invoker::Response<EmptyJson>;
 pub type DeleteSchemaVersionResponseError = rpc_command::invoker::Response<SchemaExtensionError>;
 pub type DeleteSchemaVersionRequestBuilderError = rpc_command::invoker::RequestBuilderError;
 
@@ -162,12 +161,7 @@ impl DeleteSchemaVersionActionInvoker {
                     }))
                 } else {
                     Ok(Ok(DeleteSchemaVersionResponse {
-                        payload: DeleteSchemaVersionOutputArguments {
-                            dummy_output: response
-                                .payload
-                                .dummy_output
-                                .ok_or(DeleteSchemaVersionActionInvoker::get_err("dummyOutput"))?,
-                        },
+                        payload: EmptyJson {},
                         content_type: response.content_type,
                         format_indicator: response.format_indicator,
                         custom_user_data: response.custom_user_data,
@@ -187,24 +181,5 @@ impl DeleteSchemaVersionActionInvoker {
     /// [`AIOProtocolError`] of kind [`ClientError`](azure_iot_operations_protocol::common::aio_protocol_error::AIOProtocolErrorKind::ClientError) if the unsubscribe fails or if the unsuback reason code doesn't indicate success.
     pub async fn shutdown(&self) -> Result<(), AIOProtocolError> {
         self.0.shutdown().await
-    }
-
-    fn get_err(field_name: &str) -> AIOProtocolError {
-        AIOProtocolError {
-            message: Some(format!("Command response missing field {field_name}")),
-            kind: AIOProtocolErrorKind::PayloadInvalid,
-            is_shallow: false,
-            is_remote: false,
-            nested_error: None,
-            header_name: None,
-            header_value: None,
-            timeout_name: None,
-            timeout_value: None,
-            property_name: None,
-            property_value: None,
-            command_name: Some("deleteSchemaVersion".to_string()),
-            protocol_version: None,
-            supported_protocol_major_versions: None,
-        }
     }
 }

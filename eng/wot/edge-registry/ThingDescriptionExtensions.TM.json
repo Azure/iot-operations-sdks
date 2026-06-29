@@ -110,19 +110,6 @@
                 },
                 "required": []
             },
-            "output": {
-                "description": "TODO: Dummy output to allow Rust to compile",
-                "type": "object",
-                "properties": {
-                    "dummyOutput": {
-                        "description": "TODO: Temporary Output",
-                        "type": "boolean"
-                    }
-                },
-                "required": [
-                    "dummyOutput"
-                ]
-            },
             "forms": [
                 {
                     "dov:topic": "aio/registry/thingDescriptionExtension/delete/thingdescriptiongroups/thingdescriptions/{ex:thingDescriptionId}/versions/{ex:versionId}",
