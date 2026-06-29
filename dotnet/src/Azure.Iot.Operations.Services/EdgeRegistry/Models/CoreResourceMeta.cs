@@ -6,7 +6,7 @@ namespace Azure.Iot.Operations.Services.EdgeRegistry.Models;
 /// <summary>
 /// The server-managed metadata sub-entity of a Resource.
 /// </summary>
-public class ResourceMeta
+public class CoreResourceMeta
 {
     /// <summary>
     /// Resource identifier.

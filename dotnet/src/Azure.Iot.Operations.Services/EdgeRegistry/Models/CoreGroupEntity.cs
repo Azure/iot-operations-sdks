@@ -6,7 +6,7 @@ namespace Azure.Iot.Operations.Services.EdgeRegistry.Models;
 /// <summary>
 /// A Group entity — container for related Resources.
 /// </summary>
-public class GroupEntity
+public class CoreGroupEntity
 {
     /// <summary>
     /// Group identifier.

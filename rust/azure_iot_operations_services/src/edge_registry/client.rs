@@ -16,10 +16,11 @@ use bytes::Bytes;
 use crate::edge_registry::edge_registry_gen::common_types::options::CommandInvokerOptionsBuilder;
 use crate::edge_registry::edge_registry_gen::edge_registry::client::{self as client_gen};
 use crate::edge_registry::models::{
-    GroupAttributes, GroupEntity, ResourceEntity, ResourceMetaAttributes, ResourceXId,
-    SchemaVersionAttributes, SchemaVersionEntity, ThingDescriptionVersionAttributes,
-    ThingDescriptionVersionEntity, ThingModelVersionAttributes, ThingModelVersionEntity,
-    VersionAttributes, VersionEntity, VersionXId, extensions_to_gen, labels_to_gen,
+    CoreGroupAttributes, CoreGroupEntity, CoreResourceEntity, CoreResourceMetaAttributes,
+    CoreVersionAttributes, CoreVersionEntity, DeleteOptions, ResourceXId, SchemaVersionAttributes,
+    SchemaVersionEntity, ThingDescriptionVersionAttributes, ThingDescriptionVersionEntity,
+    ThingModelVersionAttributes, ThingModelVersionEntity, VersionXId, extensions_to_gen,
+    labels_to_gen,
 };
 use crate::edge_registry::{
     AnyGroupSelection, CreateVersionId, Error, ErrorKind, GetVersionId, GroupId, GroupQuery,
@@ -254,10 +255,10 @@ impl Client {
     /// # Arguments
     /// * `group_type` - The type of the Group to create.
     /// * `group_id` - The identifier of the Group to create. If [`CloudDefault`](GroupId::CloudDefault), create the default Group of the Group type.
-    /// * `attributes` - The [`GroupAttributes`] for the new Group.
+    /// * `attributes` - The [`CoreGroupAttributes`] for the new Group.
     /// * `timeout` - The duration until the client stops waiting for a response to the request, it is rounded up to the nearest second.
     ///
-    /// Returns the created [`GroupEntity`] with epoch 1.
+    /// Returns the created [`CoreGroupEntity`] with epoch 1.
     ///
     /// # Errors
     /// [`struct@Error`] of kind [`ValidationError`](ErrorKind::ValidationError) if `timeout` is 0 or > `u32::max`.
@@ -271,9 +272,9 @@ impl Client {
         &self,
         group_type: String,
         group_id: GroupId,
-        attributes: GroupAttributes,
+        attributes: CoreGroupAttributes,
         timeout: Duration,
-    ) -> Result<GroupEntity, Error> {
+    ) -> Result<CoreGroupEntity, Error> {
         let payload: client_gen::GroupAttributes = attributes.into_gen(group_id.into());
 
         let request = client_gen::CreateGroupRequestBuilder::default()
@@ -293,14 +294,14 @@ impl Client {
         Ok(response.payload.into())
     }
 
-    /// Retrieve an xRegistry [`GroupEntity`] entity.
+    /// Retrieve an xRegistry [`CoreGroupEntity`] entity.
     ///
     /// # Arguments
     /// * `group_type` - The type of the Group to retrieve.
     /// * `group_id` - The identifier of the Group to retrieve. If [`CloudDefault`](GroupId::CloudDefault), retrieve the default Group of the Group type.
     /// * `timeout` - The duration until the client stops waiting for a response to the request, it is rounded up to the nearest second.
     ///
-    /// Returns the requested [`GroupEntity`].
+    /// Returns the requested [`CoreGroupEntity`].
     ///
     /// # Errors
     /// [`struct@Error`] of kind [`ValidationError`](ErrorKind::ValidationError) if `timeout` is 0 or > `u32::max`.
@@ -315,7 +316,7 @@ impl Client {
         group_type: String,
         group_id: GroupId,
         timeout: Duration,
-    ) -> Result<GroupEntity, Error> {
+    ) -> Result<CoreGroupEntity, Error> {
         let payload = client_gen::GetGroupInputArguments {
             group_id: group_id.into(),
         };
@@ -379,6 +380,7 @@ impl Client {
     /// # Arguments
     /// * `group_type` - The type of the Group to delete.
     /// * `group_id` - The identifier of the Group to delete. If [`CloudDefault`](GroupId::CloudDefault), delete the default Group of the Group type.
+    /// * `options` - The [`DeleteOptions`] that control the behavior of the delete operation.
     /// * `timeout` - The duration until the client stops waiting for a response to the request, it is rounded up to the nearest second.
     ///
     /// # Errors
@@ -393,10 +395,12 @@ impl Client {
         &self,
         group_type: String,
         group_id: GroupId,
+        options: DeleteOptions,
         timeout: Duration,
     ) -> Result<(), Error> {
         let payload = client_gen::DeleteGroupInputArguments {
             group_id: group_id.into(),
+            options: options.into(),
         };
 
         let request = client_gen::DeleteGroupRequestBuilder::default()
@@ -424,13 +428,13 @@ impl Client {
     /// * `group_id` - The identifier of the Group that owns the Resource. If [`CloudDefault`](GroupId::CloudDefault), the default Group of the Group type is used.
     /// * `resource_type` - The type of the Resource to create.
     /// * `resource_id` - The identifier of the Resource to create.
-    /// * `resource_meta_attributes` - The [`ResourceMetaAttributes`] for the Resource's `meta` sub-entity.
+    /// * `resource_meta_attributes` - The [`CoreResourceMetaAttributes`] for the Resource's `meta` sub-entity.
     /// * `resource_extensions` - Extension-specific attributes for the Resource.
     /// * `default_version_id` - The identifier for the Resource's default Version. If [`ServerAssigned`](CreateVersionId::ServerAssigned), the server assigns the Version identifier.
-    /// * `default_version_attributes` - The [`VersionAttributes`] of the Resource's default Version, created along with the Resource.
+    /// * `default_version_attributes` - The [`CoreVersionAttributes`] of the Resource's default Version, created along with the Resource.
     /// * `timeout` - The duration until the client stops waiting for a response to the request, it is rounded up to the nearest second.
     ///
-    /// Returns the created [`ResourceEntity`] with epoch 1.
+    /// Returns the created [`CoreResourceEntity`] with epoch 1.
     ///
     /// # Errors
     /// [`struct@Error`] of kind [`ValidationError`](ErrorKind::ValidationError) if `timeout` is 0 or > `u32::max`.
@@ -447,12 +451,12 @@ impl Client {
         group_id: GroupId,
         resource_type: String,
         resource_id: String,
-        resource_meta_attributes: ResourceMetaAttributes,
+        resource_meta_attributes: CoreResourceMetaAttributes,
         resource_extensions: HashMap<String, Bytes>,
         default_version_id: CreateVersionId,
-        default_version_attributes: VersionAttributes,
+        default_version_attributes: CoreVersionAttributes,
         timeout: Duration,
-    ) -> Result<ResourceEntity, Error> {
+    ) -> Result<CoreResourceEntity, Error> {
         let payload = client_gen::CreateResourceRequestPayload {
             group_id: group_id.into(),
             meta: resource_meta_attributes.into(),
@@ -482,7 +486,7 @@ impl Client {
         Ok(response.payload.into())
     }
 
-    /// Retrieve an xRegistry [`ResourceEntity`] entity.
+    /// Retrieve an xRegistry [`CoreResourceEntity`] entity.
     ///
     /// # Arguments
     /// * `group_type` - The type of the Group that owns the Resource.
@@ -491,7 +495,7 @@ impl Client {
     /// * `resource_id` - The identifier of the Resource to retrieve.
     /// * `timeout` - The duration until the client stops waiting for a response to the request, it is rounded up to the nearest second.
     ///
-    /// Returns the requested [`ResourceEntity`].
+    /// Returns the requested [`CoreResourceEntity`].
     ///
     /// # Errors
     /// [`struct@Error`] of kind [`ValidationError`](ErrorKind::ValidationError) if `timeout` is
@@ -509,7 +513,7 @@ impl Client {
         resource_type: String,
         resource_id: String,
         timeout: Duration,
-    ) -> Result<ResourceEntity, Error> {
+    ) -> Result<CoreResourceEntity, Error> {
         let payload = client_gen::GetResourceInputArguments {
             group_id: group_id.into(),
         };
@@ -595,6 +599,7 @@ impl Client {
     /// * `group_id` - The identifier of the Group that owns the Resource. If [`CloudDefault`](GroupId::CloudDefault), the default Group of the Group type is used.
     /// * `resource_type` - The type of the Resource to delete.
     /// * `resource_id` - The identifier of the Resource to delete.
+    /// * `options` - The [`DeleteOptions`] that control the behavior of the delete operation.
     /// * `timeout` - The duration until the client stops waiting for a response to the request, it is rounded up to the nearest second.
     ///
     /// # Errors
@@ -611,10 +616,12 @@ impl Client {
         group_id: GroupId,
         resource_type: String,
         resource_id: String,
+        options: DeleteOptions,
         timeout: Duration,
     ) -> Result<(), Error> {
         let payload = client_gen::DeleteResourceInputArguments {
             group_id: group_id.into(),
+            options: options.into(),
         };
 
         let request = client_gen::DeleteResourceRequestBuilder::default()
@@ -649,10 +656,10 @@ impl Client {
     /// * `resource_id` - The identifier of the Resource that owns the Version.
     /// * `resource_labels` - Queryable key/value pairs to be added to the parent Resource (which is implicitly created if it doesn't already exist).
     /// * `version_id` - The identifier of the Version to create. If [`ServerAssigned`](CreateVersionId::ServerAssigned), the server assigns the Version identifier.
-    /// * `version` - The [`VersionAttributes`] of the Version to create.
+    /// * `version` - The [`CoreVersionAttributes`] of the Version to create.
     /// * `timeout` - The duration until the client stops waiting for a response to the request, it is rounded up to the nearest second.
     ///
-    /// Returns the created [`VersionEntity`].
+    /// Returns the created [`CoreVersionEntity`].
     ///
     /// # Errors
     /// [`struct@Error`] of kind [`ValidationError`](ErrorKind::ValidationError) if `timeout` is 0 or > `u32::max`.
@@ -671,9 +678,9 @@ impl Client {
         resource_id: String,
         resource_labels: Vec<Label>,
         version_id: CreateVersionId,
-        version: VersionAttributes,
+        version: CoreVersionAttributes,
         timeout: Duration,
-    ) -> Result<VersionEntity, Error> {
+    ) -> Result<CoreVersionEntity, Error> {
         let payload = client_gen::CreateVersionRequestPayload {
             group_id: group_id.into(),
             version_id: version_id.into(),
@@ -702,7 +709,7 @@ impl Client {
         Ok(response.payload.into())
     }
 
-    /// Retrieve an xRegistry [`VersionEntity`] entity.
+    /// Retrieve an xRegistry [`CoreVersionEntity`] entity.
     ///
     /// # Arguments
     /// * `group_type` - The type of the Group that owns the Resource.
@@ -712,7 +719,7 @@ impl Client {
     /// * `version_id` - The [`GetVersionId`] selecting which Version to retrieve. If [`ResourceDefault`](GetVersionId::ResourceDefault), the default Version of the Resource is retrieved.
     /// * `timeout` - The duration until the client stops waiting for a response to the request, it is rounded up to the nearest second.
     ///
-    /// Returns the requested [`VersionEntity`].
+    /// Returns the requested [`CoreVersionEntity`].
     ///
     /// # Errors
     /// [`struct@Error`] of kind [`ValidationError`](ErrorKind::ValidationError) if `timeout` is 0 or > `u32::max`.
@@ -730,7 +737,7 @@ impl Client {
         resource_id: String,
         version_id: GetVersionId<String>,
         timeout: Duration,
-    ) -> Result<VersionEntity, Error> {
+    ) -> Result<CoreVersionEntity, Error> {
         let payload = client_gen::GetVersionInputArguments {
             group_id: group_id.into(),
             version_id: version_id.into(),
@@ -820,6 +827,7 @@ impl Client {
     /// * `resource_type` - The type of the Resource that owns the Version.
     /// * `resource_id` - The identifier of the Resource that owns the Version.
     /// * `version_id` - The identifier of the Version to delete.
+    /// * `options` - The [`DeleteOptions`] that control the behavior of the delete operation.
     /// * `timeout` - The duration until the client stops waiting for a response to the request, it is rounded up to the nearest second.
     ///
     /// # Errors
@@ -831,6 +839,7 @@ impl Client {
     ///
     /// [`struct@Error`] of kind [`ServiceError`](ErrorKind::ServiceError) if an error is returned
     /// by the Edge Registry service.
+    #[allow(clippy::too_many_arguments)]
     pub async fn delete_version(
         &self,
         group_type: String,
@@ -838,10 +847,12 @@ impl Client {
         resource_type: String,
         resource_id: String,
         version_id: String,
+        options: DeleteOptions,
         timeout: Duration,
     ) -> Result<(), Error> {
         let payload = client_gen::DeleteVersionInputArguments {
             group_id: group_id.into(),
+            options: options.into(),
         };
 
         let request = client_gen::DeleteVersionRequestBuilder::default()
@@ -1030,6 +1041,7 @@ impl Client {
     /// * `group_id` - The identifier of the Group that owns the Schema. If [`CloudDefault`](GroupId::CloudDefault), the default Group is used.
     /// * `schema_id` - The identifier of the Schema that owns the Version.
     /// * `version_id` - The identifier of the Version to delete.
+    /// * `options` - The [`DeleteOptions`] that control the behavior of the delete operation.
     /// * `timeout` - The duration until the client stops waiting for a response to the request, it is rounded up to the nearest second.
     ///
     /// # Errors
@@ -1046,10 +1058,12 @@ impl Client {
         group_id: GroupId,
         schema_id: String,
         version_id: u64,
+        options: DeleteOptions,
         timeout: Duration,
     ) -> Result<(), Error> {
         let payload = client_gen::DeleteSchemaVersionInputArguments {
             group_id: group_id.into(),
+            options: options.into(),
         };
 
         let request = client_gen::DeleteSchemaVersionRequestBuilder::default()
@@ -1237,6 +1251,7 @@ impl Client {
     /// * `group_id` - The identifier of the Group that owns the Thing Description. If [`CloudDefault`](GroupId::CloudDefault), the default Group is used.
     /// * `thing_description_id` - The identifier of the Thing Description that owns the Version.
     /// * `version_id` - The identifier of the Version to delete.
+    /// * `options` - The [`DeleteOptions`] that control the behavior of the delete operation.
     /// * `timeout` - The duration until the client stops waiting for a response to the request, it is rounded up to the nearest second.
     ///
     /// # Errors
@@ -1253,10 +1268,12 @@ impl Client {
         group_id: GroupId,
         thing_description_id: String,
         version_id: u64,
+        options: DeleteOptions,
         timeout: Duration,
     ) -> Result<(), Error> {
         let payload = client_gen::DeleteThingDescriptionVersionInputArguments {
             group_id: group_id.into(),
+            options: options.into(),
         };
 
         let request = client_gen::DeleteThingDescriptionVersionRequestBuilder::default()
@@ -1444,6 +1461,7 @@ impl Client {
     /// * `group_id` - The identifier of the Group that owns the Thing Model. If [`CloudDefault`](GroupId::CloudDefault), the default Group is used.
     /// * `thing_model_id` - The identifier of the Thing Model that owns the Version.
     /// * `version_id` - The identifier of the Version to delete.
+    /// * `options` - The [`DeleteOptions`] that control the behavior of the delete operation.
     /// * `timeout` - The duration until the client stops waiting for a response to the request, it is rounded up to the nearest second.
     ///
     /// # Errors
@@ -1460,10 +1478,12 @@ impl Client {
         group_id: GroupId,
         thing_model_id: String,
         version_id: u64,
+        options: DeleteOptions,
         timeout: Duration,
     ) -> Result<(), Error> {
         let payload = client_gen::DeleteThingModelVersionInputArguments {
             group_id: group_id.into(),
+            options: options.into(),
         };
 
         let request = client_gen::DeleteThingModelVersionRequestBuilder::default()

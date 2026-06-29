@@ -20,10 +20,10 @@ use crate::edge_registry::{JSON_LD11, Label};
 /// A specific Version of a Thing Model Resource.
 #[derive(Debug, Clone)]
 pub struct ThingModelVersionEntity {
-    /// Version identifier.
-    pub version_id: u64,
     /// Resource identifier.
     pub resource_id: String,
+    /// Version identifier.
+    pub version_id: u64,
     /// Full XID path.
     pub xid: String,
     /// A numeric value used to determine whether an entity has been modified.

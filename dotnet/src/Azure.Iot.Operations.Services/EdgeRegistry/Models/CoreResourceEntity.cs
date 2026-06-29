@@ -6,7 +6,7 @@ namespace Azure.Iot.Operations.Services.EdgeRegistry.Models;
 /// <summary>
 /// Resource entity.
 /// </summary>
-public class ResourceEntity
+public class CoreResourceEntity
 {
     /// <summary>
     /// Resource identifier.
@@ -21,12 +21,12 @@ public class ResourceEntity
     /// <summary>
     /// An object that contains most of the Resource-level attributes.
     /// </summary>
-    public required ResourceMeta Meta { get; set; }
+    public required CoreResourceMeta Meta { get; set; }
 
     /// <summary>
     /// A specific Version of a Resource.
     /// </summary>
-    public required VersionEntity DefaultVersion { get; set; }
+    public required CoreVersionEntity DefaultVersion { get; set; }
 
     /// <summary>
     /// The number of Versions contained on the Resource.
