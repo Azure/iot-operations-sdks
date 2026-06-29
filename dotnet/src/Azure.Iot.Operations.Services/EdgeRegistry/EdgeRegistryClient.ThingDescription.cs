@@ -74,12 +74,12 @@ public sealed partial class EdgeRegistryClient : IThingDescriptionClient
     }
 
     /// <inheritdoc/>
-    public async Task DeleteThingDescriptionVersionAsync(GroupId groupId, string thingDescriptionId, ulong versionId, TimeSpan? timeout = null, CancellationToken cancellationToken = default)
+    public async Task DeleteThingDescriptionVersionAsync(GroupId groupId, string thingDescriptionId, ulong versionId, Models.DeleteOptions? options = null, TimeSpan? timeout = null, CancellationToken cancellationToken = default)
     {
         cancellationToken.ThrowIfCancellationRequested();
         ObjectDisposedException.ThrowIf(_disposed, this);
 
-        Generated.DeleteThingDescriptionVersionInputArguments request = new() { GroupId = groupId.Value };
+        DeleteThingDescriptionVersionInputArguments request = new() { GroupId = groupId.Value, Options = Converter.ToGenerated(options ?? Models.DeleteOptions.Default) };
 
         await _thingDescriptionStub.DeleteThingDescriptionVersionAsync(
             request,

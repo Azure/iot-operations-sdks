@@ -180,7 +180,7 @@ namespace Azure.Iot.Operations.Services.EdgeRegistry.Generated
             /// <param name="commandTimeout">How long the command will be available on the broker for an executor to receive.</param>
             /// <param name="cancellationToken">Cancellation token.</param>
             /// <returns>The command response.</returns>
-            public RpcCallAsync<DeleteThingDescriptionVersionOutputArguments> DeleteThingDescriptionVersionAsync(DeleteThingDescriptionVersionInputArguments request, CommandRequestMetadata? requestMetadata = null, Dictionary<string, string>? additionalTopicTokenMap = null, TimeSpan? commandTimeout = default, CancellationToken cancellationToken = default)
+            public RpcCallAsync<EmptyJson> DeleteThingDescriptionVersionAsync(DeleteThingDescriptionVersionInputArguments request, CommandRequestMetadata? requestMetadata = null, Dictionary<string, string>? additionalTopicTokenMap = null, TimeSpan? commandTimeout = default, CancellationToken cancellationToken = default)
             {
                 string? clientId = this.mqttClient.ClientId;
                 if (string.IsNullOrEmpty(clientId))
@@ -199,7 +199,7 @@ namespace Azure.Iot.Operations.Services.EdgeRegistry.Generated
 
                 prefixedAdditionalTopicTokenMap["invokerClientId"] = clientId;
 
-                return new RpcCallAsync<DeleteThingDescriptionVersionOutputArguments>(this.DeleteThingDescriptionVersionInt(request, metadata, prefixedAdditionalTopicTokenMap, commandTimeout, cancellationToken), metadata.CorrelationId);
+                return new RpcCallAsync<EmptyJson>(this.DeleteThingDescriptionVersionInt(request, metadata, prefixedAdditionalTopicTokenMap, commandTimeout, cancellationToken), metadata.CorrelationId);
             }
 
             /// <summary>
@@ -272,7 +272,7 @@ namespace Azure.Iot.Operations.Services.EdgeRegistry.Generated
                 }
             }
 
-            private async Task<ExtendedResponse<DeleteThingDescriptionVersionOutputArguments>> DeleteThingDescriptionVersionInt(DeleteThingDescriptionVersionInputArguments request, CommandRequestMetadata? requestMetadata, Dictionary<string, string>? prefixedAdditionalTopicTokenMap, TimeSpan? commandTimeout, CancellationToken cancellationToken)
+            private async Task<ExtendedResponse<EmptyJson>> DeleteThingDescriptionVersionInt(DeleteThingDescriptionVersionInputArguments request, CommandRequestMetadata? requestMetadata, Dictionary<string, string>? prefixedAdditionalTopicTokenMap, TimeSpan? commandTimeout, CancellationToken cancellationToken)
             {
                 ExtendedResponse<DeleteThingDescriptionVersionResponseSchema> extended = await this.deleteThingDescriptionVersionActionInvoker.InvokeCommandAsync(request, requestMetadata, prefixedAdditionalTopicTokenMap, commandTimeout, cancellationToken);
 
@@ -283,11 +283,10 @@ namespace Azure.Iot.Operations.Services.EdgeRegistry.Generated
                 }
                 else
                 {
-                    return new ExtendedResponse<DeleteThingDescriptionVersionOutputArguments>
+                    return new ExtendedResponse<EmptyJson>
                     {
-                        Response = new DeleteThingDescriptionVersionOutputArguments
+                        Response = new EmptyJson
                         {
-                            DummyOutput = extended.Response.DummyOutput.Value(),
                         },
                         ResponseMetadata = extended.ResponseMetadata,
                     };

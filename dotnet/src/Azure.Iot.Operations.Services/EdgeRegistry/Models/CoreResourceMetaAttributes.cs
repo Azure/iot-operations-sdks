@@ -6,7 +6,7 @@ namespace Azure.Iot.Operations.Services.EdgeRegistry.Models;
 /// <summary>
 /// Mutable attributes for creating or updating a Resource (its `meta` sub-entity).
 /// </summary>
-public class ResourceMetaAttributes
+public class CoreResourceMetaAttributes
 {
     /// <summary>
     /// Indicates that this Resource is a reference to another Resource within the same Registry. The XID path of the referenced Resource.

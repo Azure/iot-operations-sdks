@@ -4,9 +4,9 @@
 namespace Azure.Iot.Operations.Services.EdgeRegistry.Models;
 
 /// <summary>
-/// Request payload for creating or updating a Group.
+/// Attributes needed to create a Version.
 /// </summary>
-public class GroupAttributes
+public class CoreVersionAttributes
 {
     /// <summary>
     /// Human-readable name.
@@ -29,17 +29,32 @@ public class GroupAttributes
     public string? Icon { get; set; }
 
     /// <summary>
-    /// A mechanism in which additional metadata about the entity can be stored without changing the model definition of the entity. Labels can be used for querying.
+    /// Queryable Key Value pairs to be added to the Version.
     /// </summary>
     public required List<Label> Labels { get; set; }
 
     /// <summary>
-    /// Information about deprecation status of the entity, if applicable.
+    /// The versionId of this Version's ancestor if it has an ancestor.
     /// </summary>
-    public DeprecatedInfo? Deprecated { get; set; }
+    public string? Ancestor { get; set; }
 
     /// <summary>
-    /// Extension-specific attributes (e.g., `envelope`, `protocol` for message Groups).
+    /// Content type of the Version document.
+    /// </summary>
+    public string? ContentType { get; set; }
+
+    /// <summary>
+    /// Format identifier of the Version document (resource-type-specific, e.g. `JsonSchema/draft-07`, `JSON-LD/1.1`).
+    /// </summary>
+    public string? Format { get; set; }
+
+    /// <summary>
+    /// Base64-encoded document content for the Version. The interpretation (schema, thing description, thing model, etc.) is determined by the Resource type.
+    /// </summary>
+    public byte[]? Document { get; set; }
+
+    /// <summary>
+    /// Extension-specific attributes.
     /// </summary>
     public required Dictionary<string, byte[]> Extensions { get; set; }
 }

@@ -11,14 +11,14 @@ namespace Azure.Iot.Operations.Services.EdgeRegistry.Models;
 public class ThingDescriptionVersion
 {
     /// <summary>
-    /// Version identifier.
-    /// </summary>
-    public required ulong VersionId { get; set; }
-
-    /// <summary>
     /// Thing Description (Resource) identifier.
     /// </summary>
     public required string ResourceId { get; set; }
+
+    /// <summary>
+    /// Version identifier.
+    /// </summary>
+    public required ulong VersionId { get; set; }
 
     /// <summary>
     /// Full XID path.
