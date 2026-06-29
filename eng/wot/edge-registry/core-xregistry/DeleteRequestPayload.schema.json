@@ -4,7 +4,9 @@
   "description": "Request payload for deleting an xRegistry entity.",
   "type": "object",
   "additionalProperties": false,
-  "required": [],
+  "required": [
+    "options"
+  ],
   "properties": {
     "groupId": {
       "description": "Group identifier. Uses the default if not specified.",

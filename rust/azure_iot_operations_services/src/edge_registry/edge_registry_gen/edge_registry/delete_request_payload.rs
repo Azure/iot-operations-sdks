@@ -22,7 +22,5 @@ pub struct DeleteRequestPayload {
     pub group_id: Option<String>,
 
     /// Options that control the behavior of the delete operation.
-    #[serde(skip_serializing_if = "Option::is_none")]
-    #[builder(default = "None")]
-    pub options: Option<DeleteOptions>,
+    pub options: DeleteOptions,
 }

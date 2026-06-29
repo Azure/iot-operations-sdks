@@ -400,7 +400,7 @@ impl Client {
     ) -> Result<(), Error> {
         let payload = client_gen::DeleteGroupInputArguments {
             group_id: group_id.into(),
-            options: Some(options.into()),
+            options: options.into(),
         };
 
         let request = client_gen::DeleteGroupRequestBuilder::default()
@@ -621,7 +621,7 @@ impl Client {
     ) -> Result<(), Error> {
         let payload = client_gen::DeleteResourceInputArguments {
             group_id: group_id.into(),
-            options: Some(options.into()),
+            options: options.into(),
         };
 
         let request = client_gen::DeleteResourceRequestBuilder::default()
@@ -852,7 +852,7 @@ impl Client {
     ) -> Result<(), Error> {
         let payload = client_gen::DeleteVersionInputArguments {
             group_id: group_id.into(),
-            options: Some(options.into()),
+            options: options.into(),
         };
 
         let request = client_gen::DeleteVersionRequestBuilder::default()
@@ -1063,7 +1063,7 @@ impl Client {
     ) -> Result<(), Error> {
         let payload = client_gen::DeleteSchemaVersionInputArguments {
             group_id: group_id.into(),
-            options: Some(options.into()),
+            options: options.into(),
         };
 
         let request = client_gen::DeleteSchemaVersionRequestBuilder::default()
@@ -1273,7 +1273,7 @@ impl Client {
     ) -> Result<(), Error> {
         let payload = client_gen::DeleteThingDescriptionVersionInputArguments {
             group_id: group_id.into(),
-            options: Some(options.into()),
+            options: options.into(),
         };
 
         let request = client_gen::DeleteThingDescriptionVersionRequestBuilder::default()
@@ -1483,7 +1483,7 @@ impl Client {
     ) -> Result<(), Error> {
         let payload = client_gen::DeleteThingModelVersionInputArguments {
             group_id: group_id.into(),
-            options: Some(options.into()),
+            options: options.into(),
         };
 
         let request = client_gen::DeleteThingModelVersionRequestBuilder::default()
