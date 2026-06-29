@@ -9,7 +9,7 @@ namespace Azure.Iot.Operations.Services.EdgeRegistry;
 /// </summary>
 internal static class Converter
 {
-    public static Models.GroupEntity ToModel(Generated.Group value) => new()
+    public static Models.CoreGroupEntity ToModel(Generated.Group value) => new()
     {
         Id = value.Id,
         XId = value.Xid,
@@ -37,7 +37,7 @@ internal static class Converter
     public static List<Models.Label> ToModel(List<Generated.Label> value)
         => value.Select(label => new Models.Label { Key = label.Key, Value = label.Value }).ToList();
 
-    public static Models.ResourceEntity ToModel(Generated.Resource value) => new()
+    public static Models.CoreResourceEntity ToModel(Generated.Resource value) => new()
     {
         Id = value.Id,
         XId = value.Xid,
@@ -47,7 +47,7 @@ internal static class Converter
         Extensions = new Dictionary<string, byte[]>(value.Extensions),
     };
 
-    public static Models.ResourceMeta ToModel(Generated.ResourceMeta value) => new()
+    public static Models.CoreResourceMeta ToModel(Generated.ResourceMeta value) => new()
     {
         Id = value.Id,
         XId = value.Xid,
@@ -64,7 +64,7 @@ internal static class Converter
         Extensions = new Dictionary<string, byte[]>(value.Extensions),
     };
 
-    public static Models.VersionEntity ToModel(Generated.Version value) => new()
+    public static Models.CoreVersionEntity ToModel(Generated.Version value) => new()
     {
         ResourceId = value.ResourceId,
         VersionId = value.VersionId,
@@ -225,7 +225,7 @@ internal static class Converter
     public static List<Models.ThingModelVersionXid> ToModel(Generated.ThingModelVersionXidList value)
         => value.Versions.Select(version => ToModel(version)).ToList();
 
-    public static Generated.GroupAttributes ToGenerated(Models.GroupAttributes value) => new()
+    public static Generated.GroupAttributes ToGenerated(Models.CoreGroupAttributes value) => new()
     {
         Name = value.Name,
         Description = value.Description,
@@ -244,13 +244,18 @@ internal static class Converter
         Documentation = value.Documentation,
     };
 
+    public static Generated.DeleteOptions ToGenerated(Models.DeleteOptions value) => new()
+    {
+        ExpectedEpoch = value.ExpectedEpoch,
+    };
+
     public static List<Generated.Label> ToGenerated(IReadOnlyList<Models.Label> value)
         => value.Select(label => new Generated.Label { Key = label.Key, Value = label.Value }).ToList();
 
     public static Generated.Label ToGenerated(Models.Label value)
         => new() { Key = value.Key, Value = value.Value };
 
-    public static Generated.ResourceMetaAttributes ToGenerated(Models.ResourceMetaAttributes value) => new()
+    public static Generated.ResourceMetaAttributes ToGenerated(Models.CoreResourceMetaAttributes value) => new()
     {
         Xref = value.XRef,
         Labels = ToGenerated(value.Labels),
@@ -259,7 +264,7 @@ internal static class Converter
         Extensions = new Dictionary<string, byte[]>(value.Extensions),
     };
 
-    public static Generated.VersionAttributes ToGenerated(Models.VersionAttributes value) => new()
+    public static Generated.VersionAttributes ToGenerated(Models.CoreVersionAttributes value) => new()
     {
         Name = value.Name,
         Description = value.Description,

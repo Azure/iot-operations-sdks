@@ -10,17 +10,24 @@ using Azure.Iot.Operations.Services.EdgeRegistry.Generated.Common;
 namespace Azure.Iot.Operations.Services.EdgeRegistry.Generated
 {
     /// <summary>
-    /// Response to a 'deleteSchemaVersion' Action.
+    /// Request payload for deleting an xRegistry entity.
     /// </summary>
     [System.CodeDom.Compiler.GeneratedCode("Azure.Iot.Operations.ProtocolCompilerLib", "1.0.0.0")]
-    public partial class DeleteSchemaVersionResponseSchema
+    public partial class DeleteRequestPayload
     {
         /// <summary>
-        /// Error for the 'deleteSchemaVersion' Action.
+        /// Group identifier. Uses the default if not specified.
         /// </summary>
-        [JsonPropertyName("_error")]
+        [JsonPropertyName("groupId")]
         [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
-        public SchemaExtensionError? Error { get; set; } = default;
+        public string? GroupId { get; set; } = default;
+
+        /// <summary>
+        /// Options that control the behavior of the delete operation.
+        /// </summary>
+        [JsonPropertyName("options")]
+        [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
+        public DeleteOptions? Options { get; set; } = default;
 
     }
 }

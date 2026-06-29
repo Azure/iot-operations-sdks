@@ -1,17 +1,13 @@
 {
   "$schema": "https://json-schema.org/draft-07/schema",
   "title": "DeleteSchemaVersionResponseSchema",
-  "description": "TODO: Dummy output to allow Rust to compile",
+  "description": "Response to a 'deleteSchemaVersion' Action.",
   "type": "object",
   "additionalProperties": false,
   "properties": {
     "_error": {
       "description": "Error for the 'deleteSchemaVersion' Action.",
       "$ref": "SchemaExtensionError.schema.json"
-    },
-    "dummyOutput": {
-      "description": "TODO: Temporary Output",
-      "type": "boolean"
     }
   }
 }
