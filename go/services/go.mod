@@ -4,7 +4,7 @@ go 1.25.0
 
 require (
 	github.com/Azure/iot-operations-sdks/go/internal v0.3.1
-	github.com/Azure/iot-operations-sdks/go/protocol v0.4.2
+	github.com/Azure/iot-operations-sdks/go/protocol v0.4.3
 	github.com/stretchr/testify v1.10.0
 )
 
