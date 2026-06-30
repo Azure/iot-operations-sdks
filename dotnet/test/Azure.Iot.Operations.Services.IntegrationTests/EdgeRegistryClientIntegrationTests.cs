@@ -40,13 +40,13 @@ public class EdgeRegistryClientIntegrationTests(ITestOutputHelper output)
         string groupId = NewId("grp");
 
         // Create
-        GroupEntity created = await client.CreateGroupAsync(GroupType, groupId, MakeGroupAttributes());
+        CoreGroupEntity created = await client.CreateGroupAsync(GroupType, groupId, MakeGroupAttributes());
         output.WriteLine($"created group {created.Id} (xid {created.XId})");
         Assert.Equal(groupId, created.Id);
         Assert.Equal("integration-test group", created.Name);
 
         // Get
-        GroupEntity fetched = await client.GetGroupAsync(GroupType, groupId);
+        CoreGroupEntity fetched = await client.GetGroupAsync(GroupType, groupId);
         Assert.Equal(groupId, fetched.Id);
         Assert.Equal(created.XId, fetched.XId);
 
@@ -91,7 +91,7 @@ public class EdgeRegistryClientIntegrationTests(ITestOutputHelper output)
 
         try
         {
-            ResourceEntity created = await client.CreateResourceAsync(
+            CoreResourceEntity created = await client.CreateResourceAsync(
                 GroupType,
                 groupId,
                 ResourceType,
@@ -107,10 +107,10 @@ public class EdgeRegistryClientIntegrationTests(ITestOutputHelper output)
             Assert.True(created.VersionsCount >= 1);
 
             // The Resource and its default Version are retrievable.
-            ResourceEntity fetched = await client.GetResourceAsync(GroupType, groupId, ResourceType, resourceId);
+            CoreResourceEntity fetched = await client.GetResourceAsync(GroupType, groupId, ResourceType, resourceId);
             Assert.Equal(resourceId, fetched.Id);
 
-            VersionEntity defaultVersion = await client.GetVersionAsync(
+            CoreVersionEntity defaultVersion = await client.GetVersionAsync(
                 GroupType, groupId, ResourceType, resourceId, GetVersionId.ResourceDefault);
             Assert.True(defaultVersion.IsDefault);
         }
@@ -146,7 +146,7 @@ public class EdgeRegistryClientIntegrationTests(ITestOutputHelper output)
                 MakeVersionAttributes("v1"));
 
             // Add a second Version; the newest Version becomes the Resource default.
-            VersionEntity second = await client.CreateVersionAsync(
+            CoreVersionEntity second = await client.CreateVersionAsync(
                 GroupType,
                 groupId,
                 ResourceType,
@@ -326,7 +326,7 @@ public class EdgeRegistryClientIntegrationTests(ITestOutputHelper output)
 
     private static string NewId(string prefix) => $"it-{prefix}-{Guid.NewGuid():N}";
 
-    private static GroupAttributes MakeGroupAttributes() => new()
+    private static CoreGroupAttributes MakeGroupAttributes() => new()
     {
         Name = "integration-test group",
         Description = "created by EdgeRegistryClientIntegrationTests",
@@ -334,13 +334,13 @@ public class EdgeRegistryClientIntegrationTests(ITestOutputHelper output)
         Extensions = new Dictionary<string, byte[]>(),
     };
 
-    private static ResourceMetaAttributes MakeMeta() => new()
+    private static CoreResourceMetaAttributes MakeMeta() => new()
     {
         Labels = [new Label { Key = "origin", Value = "integration-test" }],
         Extensions = new Dictionary<string, byte[]>(),
     };
 
-    private static VersionAttributes MakeVersionAttributes(string name) => new()
+    private static CoreVersionAttributes MakeVersionAttributes(string name) => new()
     {
         Name = name,
         Labels = [],
