@@ -5,7 +5,7 @@ go 1.25.0
 require (
 	github.com/Azure/iot-operations-sdks/go/internal v0.3.1
 	github.com/Azure/iot-operations-sdks/go/mqtt v0.4.2
-	github.com/Azure/iot-operations-sdks/go/protocol v0.4.2
+	github.com/Azure/iot-operations-sdks/go/protocol v0.4.3
 	github.com/BurntSushi/toml v1.6.0
 	github.com/eclipse/paho.golang v0.23.0
 	github.com/google/uuid v1.6.0
