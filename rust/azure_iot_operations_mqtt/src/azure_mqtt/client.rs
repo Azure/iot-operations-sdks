@@ -157,7 +157,7 @@ pub enum ConnectionTransportType {
     #[cfg(feature = "test-utils")]
     Ws {
         request: async_tungstenite::tungstenite::handshake::client::Request,
-        tls_config: ConnectionTransportTlsConfig,
+        tls_config: Option<ConnectionTransportTlsConfig>,
     },
     #[cfg(feature = "test-utils")]
     Test {
