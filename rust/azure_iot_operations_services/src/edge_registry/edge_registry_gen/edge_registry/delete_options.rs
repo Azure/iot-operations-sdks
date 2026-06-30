@@ -11,10 +11,12 @@ use uuid::Uuid;
 
 use super::super::common_types::{b64::Bytes, date_only::Date, decimal::Decimal, time_only::Time};
 
-/// TODO: Dummy output to allow Rust to compile
+/// Options that control the behavior of a delete operation.
 #[derive(Serialize, Deserialize, Debug, Clone, Builder)]
-pub struct DeleteThingModelVersionOutputArguments {
-    /// TODO: Temporary Output
-    #[serde(rename = "dummyOutput")]
-    pub dummy_output: bool,
+pub struct DeleteOptions {
+    /// If specified, the request fails when the current epoch doesn't match.
+    #[serde(rename = "expectedEpoch")]
+    #[serde(skip_serializing_if = "Option::is_none")]
+    #[builder(default = "None")]
+    pub expected_epoch: Option<u64>,
 }

@@ -10,11 +10,17 @@ use serde::{Deserialize, Serialize};
 use uuid::Uuid;
 
 use super::super::common_types::{b64::Bytes, date_only::Date, decimal::Decimal, time_only::Time};
+use super::delete_options::DeleteOptions;
 
-/// TODO: Dummy output to allow Rust to compile
+/// Request payload for deleting an xRegistry entity.
 #[derive(Serialize, Deserialize, Debug, Clone, Builder)]
-pub struct DeleteGroupOutputArguments {
-    /// TODO: Temporary Output
-    #[serde(rename = "dummyOutput")]
-    pub dummy_output: bool,
+pub struct DeleteRequestPayload {
+    /// Group identifier. Uses the default if not specified.
+    #[serde(rename = "groupId")]
+    #[serde(skip_serializing_if = "Option::is_none")]
+    #[builder(default = "None")]
+    pub group_id: Option<String>,
+
+    /// Options that control the behavior of the delete operation.
+    pub options: DeleteOptions,
 }

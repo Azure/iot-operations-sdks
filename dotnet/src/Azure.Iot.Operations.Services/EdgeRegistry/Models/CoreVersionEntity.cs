@@ -6,7 +6,7 @@ namespace Azure.Iot.Operations.Services.EdgeRegistry.Models;
 /// <summary>
 /// A specific Version of a Resource.
 /// </summary>
-public class VersionEntity
+public class CoreVersionEntity
 {
     /// <summary>
     /// Resource identifier.
