@@ -11,7 +11,11 @@ use std::{
 use async_tungstenite::{
     WebSocketStream as TungsteniteWebSocketStream,
     tokio::TokioAdapter,
-    tungstenite::{self, Bytes, Message, client::IntoClientRequest, http::HeaderValue},
+    tungstenite::{
+        self, Bytes, Message,
+        client::IntoClientRequest,
+        http::{HeaderMap, HeaderValue, header as http_header},
+    },
 };
 use either::Either;
 use futures_util::{Sink, Stream};
@@ -38,16 +42,16 @@ where
     let mut request = request
         .into_client_request()
         .map_err(tungstenite_err_to_io_err)?;
-    request
-        .headers_mut()
-        .insert("Sec-WebSocket-Protocol", HeaderValue::from_static("mqtt"));
 
-    let Some(addr) = request.uri().host() else {
+    let Some(addr) = request.uri().host().map(ToString::to_string) else {
         return Err(io::Error::other(
             "request URI does not contain a host component",
         ));
     };
     let port = request.uri().port_u16();
+
+    set_websocket_headers(&addr, port, request.headers_mut())?;
+
     let Some(scheme) = request.uri().scheme_str() else {
         return Err(io::Error::other(
             "request URI does not contain a scheme component",
@@ -55,7 +59,7 @@ where
     };
     let stream = match scheme {
         "https" | "wss" => {
-            tokio_tls::connect_inner(addr, port.unwrap_or(443), tls_config, tcp_nodelay).await?
+            tokio_tls::connect_inner(&addr, port.unwrap_or(443), tls_config, tcp_nodelay).await?
         }
         "http" | "ws" => {
             let stream = TcpStream::connect((addr, port.unwrap_or(80))).await?;
@@ -104,6 +108,60 @@ where
             ))
         }
     }
+}
+
+/// Adds defaults for unspecified WebSockets handshake headers.
+fn set_websocket_headers(addr: &str, port: Option<u16>, headers: &mut HeaderMap) -> io::Result<()> {
+    if !headers.contains_key(http_header::HOST) {
+        let host = if let Some(port) = port {
+            HeaderValue::from_str(&format!("{addr}:{port}"))
+        } else {
+            HeaderValue::from_str(addr)
+        }
+        .map_err(|err| {
+            io::Error::new(
+                io::ErrorKind::InvalidInput,
+                format!("invalid http host: {err}"),
+            )
+        })?;
+
+        headers.insert(http_header::HOST, host);
+    }
+
+    if !headers.contains_key(http_header::CONNECTION) {
+        headers.insert(http_header::CONNECTION, HeaderValue::from_static("upgrade"));
+    }
+
+    if !headers.contains_key(http_header::UPGRADE) {
+        headers.insert(http_header::UPGRADE, HeaderValue::from_static("websocket"));
+    }
+
+    if !headers.contains_key(http_header::SEC_WEBSOCKET_KEY) {
+        let key = async_tungstenite::tungstenite::handshake::client::generate_key();
+        let key = HeaderValue::from_str(&key).map_err(|err| {
+            io::Error::new(
+                io::ErrorKind::InvalidData,
+                format!("invalid sec-websocket-key: {err}"),
+            )
+        })?;
+        headers.insert(http_header::SEC_WEBSOCKET_KEY, key);
+    }
+
+    if !headers.contains_key(http_header::SEC_WEBSOCKET_PROTOCOL) {
+        headers.insert(
+            http_header::SEC_WEBSOCKET_PROTOCOL,
+            HeaderValue::from_static("mqtt"),
+        );
+    }
+
+    if !headers.contains_key(http_header::SEC_WEBSOCKET_VERSION) {
+        headers.insert(
+            http_header::SEC_WEBSOCKET_VERSION,
+            HeaderValue::from_static("13"),
+        );
+    }
+
+    Ok(())
 }
 
 #[derive(Debug)]
