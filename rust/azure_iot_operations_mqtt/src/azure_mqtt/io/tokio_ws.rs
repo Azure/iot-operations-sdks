@@ -42,7 +42,7 @@ where
         .headers_mut()
         .insert("Sec-WebSocket-Protocol", HeaderValue::from_static("mqtt"));
 
-    let Some(addr) = request.uri().host().map(ToString::to_string) else {
+    let Some(addr) = request.uri().host() else {
         return Err(io::Error::other(
             "request URI does not contain a host component",
         ));
@@ -63,7 +63,7 @@ where
     }
 
     let stream = if let Some(tls_config) = tls_config {
-        tokio_tls::connect_inner(&addr, port.unwrap_or(443), tls_config, tcp_nodelay).await?
+        tokio_tls::connect_inner(addr, port.unwrap_or(443), tls_config, tcp_nodelay).await?
     } else {
         let stream = TcpStream::connect((addr, port.unwrap_or(80))).await?;
         stream.set_nodelay(tcp_nodelay)?;
