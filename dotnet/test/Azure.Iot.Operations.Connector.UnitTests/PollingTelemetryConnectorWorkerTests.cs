@@ -124,8 +124,7 @@ namespace Azure.Iot.Operations.Connector.UnitTests
 
             await assetTelemetryForwardedToBrokerTcs.Task.WaitAsync(TimeSpan.FromSeconds(3));
 
-            await worker.StopAsync(CancellationToken.None);
-            worker.Dispose();
+            await worker.StopAndDisposeAsync();
         }
 
         [Fact]
@@ -233,8 +232,7 @@ namespace Azure.Iot.Operations.Connector.UnitTests
             await telemetryForwardedToMqttBrokerTcs.Task.WaitAsync(TimeSpan.FromSeconds(3));
             await stateStoreKeyForwardedTcs.Task.WaitAsync(TimeSpan.FromSeconds(3));
 
-            await worker.StopAsync(CancellationToken.None);
-            worker.Dispose();
+            await worker.StopAndDisposeAsync();
         }
 
         [Fact]
@@ -339,8 +337,7 @@ namespace Azure.Iot.Operations.Connector.UnitTests
             await asset1TelemetryForwardedToBrokerTcs.Task.WaitAsync(TimeSpan.FromSeconds(3));
             await asset2TelemetryForwardedToBrokerTcs.Task.WaitAsync(TimeSpan.FromSeconds(3));
 
-            await worker.StopAsync(CancellationToken.None);
-            worker.Dispose();
+            await worker.StopAndDisposeAsync();
         }
 
         [Fact]
@@ -497,8 +494,7 @@ namespace Azure.Iot.Operations.Connector.UnitTests
             await device1AssetTelemetryForwardedToBrokerTcs.Task.WaitAsync(TimeSpan.FromSeconds(3));
             await device2AssetTelemetryForwardedToBrokerTcs.Task.WaitAsync(TimeSpan.FromSeconds(3));
 
-            await worker.StopAsync(CancellationToken.None);
-            worker.Dispose();
+            await worker.StopAndDisposeAsync();
         }
 
         [Fact]
@@ -599,8 +595,7 @@ namespace Azure.Iot.Operations.Connector.UnitTests
 
             await Assert.ThrowsAsync<TimeoutException>(async () => await assetTelemetryForwardedToBrokerTcs.Task.WaitAsync(TimeSpan.FromSeconds(3)));
 
-            await worker.StopAsync(CancellationToken.None);
-            worker.Dispose();
+            await worker.StopAndDisposeAsync();
         }
 
         [Fact]
@@ -701,8 +696,7 @@ namespace Azure.Iot.Operations.Connector.UnitTests
 
             await Assert.ThrowsAsync<TimeoutException>(async () => await assetTelemetryForwardedToBrokerTcs.Task.WaitAsync(TimeSpan.FromSeconds(3)));
 
-            await worker.StopAsync(CancellationToken.None);
-            worker.Dispose();
+            await worker.StopAndDisposeAsync();
         }
 
         [Fact]
@@ -806,8 +800,7 @@ namespace Azure.Iot.Operations.Connector.UnitTests
 
             await asset2TelemetryForwardedToBrokerTcs.Task.WaitAsync(TimeSpan.FromSeconds(3));
 
-            await worker.StopAsync(CancellationToken.None);
-            worker.Dispose();
+            await worker.StopAndDisposeAsync();
         }
 
         [Fact]
@@ -901,8 +894,7 @@ namespace Azure.Iot.Operations.Connector.UnitTests
 
             await assetTelemetryForwardedToBrokerTcs.Task.WaitAsync(TimeSpan.FromSeconds(3));
 
-            await worker.StopAsync(CancellationToken.None);
-            worker.Dispose();
+            await worker.StopAndDisposeAsync();
         }
 
         [Fact]
@@ -1051,8 +1043,7 @@ namespace Azure.Iot.Operations.Connector.UnitTests
             // asset 2 telemetry should still be flowing since the deleted asset was asset 1
             await asset2TelemetryForwardedToBrokerTcs.Task.WaitAsync(TimeSpan.FromSeconds(3));
 
-            await worker.StopAsync(CancellationToken.None);
-            worker.Dispose();
+            await worker.StopAndDisposeAsync();
         }
 
         [Fact]
@@ -1184,8 +1175,7 @@ namespace Azure.Iot.Operations.Connector.UnitTests
 
             await assetTelemetryForwardedToBrokerTcs.Task.WaitAsync(TimeSpan.FromSeconds(3));
 
-            await worker.StopAsync(CancellationToken.None);
-            worker.Dispose();
+            await worker.StopAndDisposeAsync();
         }
 
         // User-provided callbacks may still be running after the connector worker cancels them. We need to check that the connector
@@ -1333,30 +1323,36 @@ namespace Azure.Iot.Operations.Connector.UnitTests
                 Assert.Fail("Timed out waiting for the \"WhileAssetIsAvailable\" callback to start");
             }
 
-            await worker.StopAsync(CancellationToken.None);
-
-            // The user callbacks should each trigger the provided cancellation token and should end gracefully
+            using CancellationTokenSource cts = new(TimeSpan.FromSeconds(30));
             try
             {
-                await cancellationTokenTriggeredInDeviceCallback.Task.WaitAsync(TimeSpan.FromSeconds(5));
-                await cancellationTokenTriggeredInAssetCallback.Task.WaitAsync(TimeSpan.FromSeconds(5));
-            }
-            catch (TimeoutException)
-            {
-                Assert.Fail("User-supplied callbacks did not get canceled as expected");
-            }
+                await worker.StopAsync(cts.Token);
 
-            try
-            {
-                await deviceCallbackEndedGracefully.Task.WaitAsync(TimeSpan.FromSeconds(5));
-                await assetCallbackEndedGracefully.Task.WaitAsync(TimeSpan.FromSeconds(5));
-            }
-            catch (TimeoutException)
-            {
-                Assert.Fail("User-supplied callbacks were cancelled as expected but weren't awaited");
-            }
+                // The user callbacks should each trigger the provided cancellation token and should end gracefully
+                try
+                {
+                    await cancellationTokenTriggeredInDeviceCallback.Task.WaitAsync(TimeSpan.FromSeconds(5));
+                    await cancellationTokenTriggeredInAssetCallback.Task.WaitAsync(TimeSpan.FromSeconds(5));
+                }
+                catch (TimeoutException)
+                {
+                    Assert.Fail("User-supplied callbacks did not get canceled as expected");
+                }
 
-            worker.Dispose();
+                try
+                {
+                    await deviceCallbackEndedGracefully.Task.WaitAsync(TimeSpan.FromSeconds(5));
+                    await assetCallbackEndedGracefully.Task.WaitAsync(TimeSpan.FromSeconds(5));
+                }
+                catch (TimeoutException)
+                {
+                    Assert.Fail("User-supplied callbacks were cancelled as expected but weren't awaited");
+                }
+            }
+            finally
+            {
+                worker.Dispose();
+            }
         }
 
         [Fact]
@@ -1523,9 +1519,7 @@ namespace Azure.Iot.Operations.Connector.UnitTests
                 Assert.Fail("User-supplied callbacks were cancelled as expected but weren't awaited");
             }
 
-            await worker.StopAsync(CancellationToken.None);
-
-            worker.Dispose();
+            await worker.StopAndDisposeAsync();
         }
 
     }
