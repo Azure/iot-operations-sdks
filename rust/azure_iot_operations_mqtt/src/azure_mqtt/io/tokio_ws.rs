@@ -48,7 +48,6 @@ where
         ));
     };
     let port = request.uri().port_u16();
-
     let Some(scheme) = request.uri().scheme_str() else {
         return Err(io::Error::other(
             "request URI does not contain a scheme component",
