@@ -12,14 +12,14 @@ use azure_iot_operations_protocol::common::aio_protocol_error::{
 use azure_iot_operations_protocol::common::payload_serialize::PayloadSerialize;
 use azure_iot_operations_protocol::rpc_command;
 
+use super::super::common_types::empty_json::EmptyJson;
 use super::super::common_types::options::CommandInvokerOptions;
 use super::delete_version_input_arguments::DeleteVersionInputArguments;
-use super::delete_version_output_arguments::DeleteVersionOutputArguments;
 use super::delete_version_response_schema::DeleteVersionResponseSchema;
 use super::edge_registry_error::EdgeRegistryError;
 
 pub type DeleteVersionRequest = rpc_command::invoker::Request<DeleteVersionInputArguments>;
-pub type DeleteVersionResponse = rpc_command::invoker::Response<DeleteVersionOutputArguments>;
+pub type DeleteVersionResponse = rpc_command::invoker::Response<EmptyJson>;
 pub type DeleteVersionResponseError = rpc_command::invoker::Response<EdgeRegistryError>;
 pub type DeleteVersionRequestBuilderError = rpc_command::invoker::RequestBuilderError;
 
@@ -155,12 +155,7 @@ impl DeleteVersionActionInvoker {
                     }))
                 } else {
                     Ok(Ok(DeleteVersionResponse {
-                        payload: DeleteVersionOutputArguments {
-                            dummy_output: response
-                                .payload
-                                .dummy_output
-                                .ok_or(DeleteVersionActionInvoker::get_err("dummyOutput"))?,
-                        },
+                        payload: EmptyJson {},
                         content_type: response.content_type,
                         format_indicator: response.format_indicator,
                         custom_user_data: response.custom_user_data,
@@ -180,24 +175,5 @@ impl DeleteVersionActionInvoker {
     /// [`AIOProtocolError`] of kind [`ClientError`](azure_iot_operations_protocol::common::aio_protocol_error::AIOProtocolErrorKind::ClientError) if the unsubscribe fails or if the unsuback reason code doesn't indicate success.
     pub async fn shutdown(&self) -> Result<(), AIOProtocolError> {
         self.0.shutdown().await
-    }
-
-    fn get_err(field_name: &str) -> AIOProtocolError {
-        AIOProtocolError {
-            message: Some(format!("Command response missing field {field_name}")),
-            kind: AIOProtocolErrorKind::PayloadInvalid,
-            is_shallow: false,
-            is_remote: false,
-            nested_error: None,
-            header_name: None,
-            header_value: None,
-            timeout_name: None,
-            timeout_value: None,
-            property_name: None,
-            property_value: None,
-            command_name: Some("deleteVersion".to_string()),
-            protocol_version: None,
-            supported_protocol_major_versions: None,
-        }
     }
 }

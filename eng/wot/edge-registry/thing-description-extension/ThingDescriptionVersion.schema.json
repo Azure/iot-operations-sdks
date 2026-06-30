@@ -20,6 +20,10 @@
     "extensions"
   ],
   "properties": {
+    "resourceId": {
+      "description": "Thing Description (Resource) identifier.",
+      "type": "string"
+    },
     "versionId": {
       "description": "Version identifier.",
       "type": "integer"
@@ -39,10 +43,6 @@
     },
     "documentHash": {
       "description": "The hash of the thing description document for this Version.",
-      "type": "string"
-    },
-    "resourceId": {
-      "description": "Thing Description (Resource) identifier.",
       "type": "string"
     },
     "xid": {

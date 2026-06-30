@@ -10,7 +10,7 @@ using Azure.Iot.Operations.Services.EdgeRegistry.Generated.Common;
 namespace Azure.Iot.Operations.Services.EdgeRegistry.Generated
 {
     /// <summary>
-    /// TODO: Dummy output to allow Rust to compile
+    /// Response to a 'deleteVersion' Action.
     /// </summary>
     [System.CodeDom.Compiler.GeneratedCode("Azure.Iot.Operations.ProtocolCompilerLib", "1.0.0.0")]
     public partial class DeleteVersionResponseSchema
@@ -21,13 +21,6 @@ namespace Azure.Iot.Operations.Services.EdgeRegistry.Generated
         [JsonPropertyName("_error")]
         [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
         public EdgeRegistryError? Error { get; set; } = default;
-
-        /// <summary>
-        /// TODO: Temporary Output
-        /// </summary>
-        [JsonPropertyName("dummyOutput")]
-        [JsonIgnore(Condition = JsonIgnoreCondition.WhenWritingDefault)]
-        public bool? DummyOutput { get; set; } = default;
 
     }
 }

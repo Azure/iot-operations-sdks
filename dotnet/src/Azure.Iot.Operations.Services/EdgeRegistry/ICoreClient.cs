@@ -53,8 +53,8 @@ public interface ICoreClient : IAsyncDisposable
     /// <param name="groupId">The Group. Use <see cref="GroupId.CloudDefault"/> for the cloud-default Group (the configured namespace).</param>
     /// <param name="timeout">The command timeout; when <see langword="null"/>, the client's default timeout is used.</param>
     /// <param name="cancellationToken">A token to cancel the operation.</param>
-    /// <returns>A task whose result is the requested <see cref="Models.GroupEntity"/>.</returns>
-    Task<Models.GroupEntity> GetGroupAsync(string groupType, GroupId groupId, TimeSpan? timeout = null, CancellationToken cancellationToken = default);
+    /// <returns>A task whose result is the requested <see cref="Models.CoreGroupEntity"/>.</returns>
+    Task<Models.CoreGroupEntity> GetGroupAsync(string groupType, GroupId groupId, TimeSpan? timeout = null, CancellationToken cancellationToken = default);
 
     /// <summary>Creates a Group.</summary>
     /// <param name="groupType">The Group type (the xRegistry Group collection name).</param>
@@ -62,16 +62,17 @@ public interface ICoreClient : IAsyncDisposable
     /// <param name="attributes">The attributes of the Group to create.</param>
     /// <param name="timeout">The command timeout; when <see langword="null"/>, the client's default timeout is used.</param>
     /// <param name="cancellationToken">A token to cancel the operation.</param>
-    /// <returns>A task whose result is the created <see cref="Models.GroupEntity"/>.</returns>
-    Task<Models.GroupEntity> CreateGroupAsync(string groupType, GroupId groupId, Models.GroupAttributes attributes, TimeSpan? timeout = null, CancellationToken cancellationToken = default);
+    /// <returns>A task whose result is the created <see cref="Models.CoreGroupEntity"/>.</returns>
+    Task<Models.CoreGroupEntity> CreateGroupAsync(string groupType, GroupId groupId, Models.CoreGroupAttributes attributes, TimeSpan? timeout = null, CancellationToken cancellationToken = default);
 
     /// <summary>Deletes a Group. Deletes cascade to all contained Resources and their Versions.</summary>
     /// <param name="groupType">The Group type (the xRegistry Group collection name).</param>
     /// <param name="groupId">The Group. Use <see cref="GroupId.CloudDefault"/> for the cloud-default Group (the configured namespace).</param>
+    /// <param name="options">The <see cref="Models.DeleteOptions"/> that control the behavior of the delete operation; when <see langword="null"/>, <see cref="Models.DeleteOptions.Default"/> is used.</param>
     /// <param name="timeout">The command timeout; when <see langword="null"/>, the client's default timeout is used.</param>
     /// <param name="cancellationToken">A token to cancel the operation.</param>
     /// <returns>A task that completes when the Group has been deleted.</returns>
-    Task DeleteGroupAsync(string groupType, GroupId groupId, TimeSpan? timeout = null, CancellationToken cancellationToken = default);
+    Task DeleteGroupAsync(string groupType, GroupId groupId, Models.DeleteOptions? options = null, TimeSpan? timeout = null, CancellationToken cancellationToken = default);
 
     // ---- Resource APIs ----
 
@@ -82,8 +83,8 @@ public interface ICoreClient : IAsyncDisposable
     /// <param name="resourceId">The Resource identifier.</param>
     /// <param name="timeout">The command timeout; when <see langword="null"/>, the client's default timeout is used.</param>
     /// <param name="cancellationToken">A token to cancel the operation.</param>
-    /// <returns>A task whose result is the requested <see cref="Models.ResourceEntity"/>.</returns>
-    Task<Models.ResourceEntity> GetResourceAsync(string groupType, GroupId groupId, string resourceType, string resourceId, TimeSpan? timeout = null, CancellationToken cancellationToken = default);
+    /// <returns>A task whose result is the requested <see cref="Models.CoreResourceEntity"/>.</returns>
+    Task<Models.CoreResourceEntity> GetResourceAsync(string groupType, GroupId groupId, string resourceType, string resourceId, TimeSpan? timeout = null, CancellationToken cancellationToken = default);
 
     /// <summary>Creates a Resource together with its default Version.</summary>
     /// <param name="groupType">The Group type (the xRegistry Group collection name).</param>
@@ -96,8 +97,8 @@ public interface ICoreClient : IAsyncDisposable
     /// <param name="defaultVersion">The attributes of the Resource's default Version.</param>
     /// <param name="timeout">The command timeout; when <see langword="null"/>, the client's default timeout is used.</param>
     /// <param name="cancellationToken">A token to cancel the operation.</param>
-    /// <returns>A task whose result is the created <see cref="Models.ResourceEntity"/>.</returns>
-    Task<Models.ResourceEntity> CreateResourceAsync(string groupType, GroupId groupId, string resourceType, string resourceId, Models.ResourceMetaAttributes meta, Dictionary<string, byte[]> resourceExtensions, CreateVersionId defaultVersionId, Models.VersionAttributes defaultVersion, TimeSpan? timeout = null, CancellationToken cancellationToken = default);
+    /// <returns>A task whose result is the created <see cref="Models.CoreResourceEntity"/>.</returns>
+    Task<Models.CoreResourceEntity> CreateResourceAsync(string groupType, GroupId groupId, string resourceType, string resourceId, Models.CoreResourceMetaAttributes meta, Dictionary<string, byte[]> resourceExtensions, CreateVersionId defaultVersionId, Models.CoreVersionAttributes defaultVersion, TimeSpan? timeout = null, CancellationToken cancellationToken = default);
 
     /// <summary>Lists the XIDs of Resources matching the query, optionally filtered by Resource type and/or a single label.</summary>
     /// <param name="groups">The Groups to search; see <see cref="GroupQuery"/> for the available scopes.</param>
@@ -113,10 +114,11 @@ public interface ICoreClient : IAsyncDisposable
     /// <param name="groupId">The owning Group. Use <see cref="GroupId.CloudDefault"/> for the cloud-default Group (the configured namespace).</param>
     /// <param name="resourceType">The Resource type (the xRegistry Resource collection name).</param>
     /// <param name="resourceId">The Resource identifier.</param>
+    /// <param name="options">The <see cref="Models.DeleteOptions"/> that control the behavior of the delete operation; when <see langword="null"/>, <see cref="Models.DeleteOptions.Default"/> is used.</param>
     /// <param name="timeout">The command timeout; when <see langword="null"/>, the client's default timeout is used.</param>
     /// <param name="cancellationToken">A token to cancel the operation.</param>
     /// <returns>A task that completes when the Resource has been deleted.</returns>
-    Task DeleteResourceAsync(string groupType, GroupId groupId, string resourceType, string resourceId, TimeSpan? timeout = null, CancellationToken cancellationToken = default);
+    Task DeleteResourceAsync(string groupType, GroupId groupId, string resourceType, string resourceId, Models.DeleteOptions? options = null, TimeSpan? timeout = null, CancellationToken cancellationToken = default);
 
     // ---- Version APIs ----
 
@@ -128,8 +130,8 @@ public interface ICoreClient : IAsyncDisposable
     /// <param name="versionId">The Version to retrieve. Use <see cref="GetVersionId.ResourceDefault"/> for the Resource's default (latest) Version.</param>
     /// <param name="timeout">The command timeout; when <see langword="null"/>, the client's default timeout is used.</param>
     /// <param name="cancellationToken">A token to cancel the operation.</param>
-    /// <returns>A task whose result is the requested <see cref="Models.VersionEntity"/>.</returns>
-    Task<Models.VersionEntity> GetVersionAsync(string groupType, GroupId groupId, string resourceType, string resourceId, GetVersionId versionId, TimeSpan? timeout = null, CancellationToken cancellationToken = default);
+    /// <returns>A task whose result is the requested <see cref="Models.CoreVersionEntity"/>.</returns>
+    Task<Models.CoreVersionEntity> GetVersionAsync(string groupType, GroupId groupId, string resourceType, string resourceId, GetVersionId versionId, TimeSpan? timeout = null, CancellationToken cancellationToken = default);
 
     /// <summary>Creates a Version under a Resource, implicitly creating the parent Resource if needed. Idempotent per the create-or-match-latest contract.</summary>
     /// <param name="groupType">The Group type (the xRegistry Group collection name).</param>
@@ -141,8 +143,8 @@ public interface ICoreClient : IAsyncDisposable
     /// <param name="version">The attributes of the Version to create.</param>
     /// <param name="timeout">The command timeout; when <see langword="null"/>, the client's default timeout is used.</param>
     /// <param name="cancellationToken">A token to cancel the operation.</param>
-    /// <returns>A task whose result is the created <see cref="Models.VersionEntity"/>.</returns>
-    Task<Models.VersionEntity> CreateVersionAsync(string groupType, GroupId groupId, string resourceType, string resourceId, IReadOnlyList<Models.Label> resourceLabels, CreateVersionId versionId, Models.VersionAttributes version, TimeSpan? timeout = null, CancellationToken cancellationToken = default);
+    /// <returns>A task whose result is the created <see cref="Models.CoreVersionEntity"/>.</returns>
+    Task<Models.CoreVersionEntity> CreateVersionAsync(string groupType, GroupId groupId, string resourceType, string resourceId, IReadOnlyList<Models.Label> resourceLabels, CreateVersionId versionId, Models.CoreVersionAttributes version, TimeSpan? timeout = null, CancellationToken cancellationToken = default);
 
     /// <summary>Lists the XIDs of Versions matching the query, optionally filtered by Resource type, Resource id, and/or a single label.</summary>
     /// <param name="groups">The Groups to search; see <see cref="GroupQuery"/> for the available scopes.</param>
@@ -160,8 +162,9 @@ public interface ICoreClient : IAsyncDisposable
     /// <param name="resourceType">The Resource type (the xRegistry Resource collection name).</param>
     /// <param name="resourceId">The owning Resource identifier.</param>
     /// <param name="versionId">The identifier of the Version to delete.</param>
+    /// <param name="options">The <see cref="Models.DeleteOptions"/> that control the behavior of the delete operation; when <see langword="null"/>, <see cref="Models.DeleteOptions.Default"/> is used.</param>
     /// <param name="timeout">The command timeout; when <see langword="null"/>, the client's default timeout is used.</param>
     /// <param name="cancellationToken">A token to cancel the operation.</param>
     /// <returns>A task that completes when the Version has been deleted.</returns>
-    Task DeleteVersionAsync(string groupType, GroupId groupId, string resourceType, string resourceId, string versionId, TimeSpan? timeout = null, CancellationToken cancellationToken = default);
+    Task DeleteVersionAsync(string groupType, GroupId groupId, string resourceType, string resourceId, string versionId, Models.DeleteOptions? options = null, TimeSpan? timeout = null, CancellationToken cancellationToken = default);
 }
