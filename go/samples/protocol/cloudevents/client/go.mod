@@ -4,7 +4,7 @@ go 1.25.0
 
 require (
 	github.com/Azure/iot-operations-sdks/go/mqtt v0.4.2
-	github.com/Azure/iot-operations-sdks/go/protocol v0.4.2
+	github.com/Azure/iot-operations-sdks/go/protocol v0.4.3
 	github.com/Azure/iot-operations-sdks/go/samples/protocol/cloudevents/envoy v0.0.0
 	github.com/lmittmann/tint v1.1.3
 )

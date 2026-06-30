@@ -5,7 +5,7 @@ go 1.25.0
 require (
 	github.com/Azure/iot-operations-sdks/go/internal v0.3.1
 	github.com/Azure/iot-operations-sdks/go/mqtt v0.4.2
-	github.com/Azure/iot-operations-sdks/go/protocol v0.4.2
+	github.com/Azure/iot-operations-sdks/go/protocol v0.4.3
 	github.com/Azure/iot-operations-sdks/go/samples/protocol/counter/envoy v0.0.0
 	github.com/Azure/iot-operations-sdks/go/samples/protocol/greeter/envoy v0.0.0
 	github.com/Azure/iot-operations-sdks/go/services v0.4.1
