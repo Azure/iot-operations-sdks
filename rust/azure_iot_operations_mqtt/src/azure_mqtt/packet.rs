@@ -17,7 +17,7 @@ pub use crate::azure_mqtt::mqtt_proto::{
 use crate::azure_mqtt::topic::TopicName;
 use crate::azure_mqtt::{buffer_pool, mqtt_proto};
 
-//////////////////// Misc. /////////////////////
+//////////////////// Misc. //////////////////////
 
 /// Quality of Service
 #[derive(Debug, PartialEq, Eq, Clone, Copy)]
