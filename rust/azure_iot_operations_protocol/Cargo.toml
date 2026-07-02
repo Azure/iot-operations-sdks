@@ -12,12 +12,18 @@ repository = "https://github.com/Azure/iot-operations-sdks"
 readme = "README.md"
 publish = true
 
+[features]
+default = []
+all = ["unstable"]
+unstable = []
+
 [dependencies]
 azure_iot_operations_mqtt = { version = "1.1.0-rc1", path = "../azure_iot_operations_mqtt" }
 bytes.workspace = true
 derive_builder.workspace = true
 iso8601-duration = "0.2.0"
 log.workspace = true
+parking_lot.workspace = true
 tokio.workspace = true
 tokio-util.workspace = true
 uuid = { version = "1.8.0", features = ["v4","fast-rng"] }

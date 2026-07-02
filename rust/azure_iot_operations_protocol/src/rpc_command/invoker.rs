@@ -1198,13 +1198,13 @@ where
                 let correlation_data = Bytes::from(correlation_id.as_bytes().to_vec());
 
                 // Create receiver for response
-                match self
+                if let Ok(rx) = self
                     .response_dispatcher
                     .register_receiver(correlation_data.clone())
                 {
-                    Ok(rx) => break (correlation_data, rx),
-                    Err(_) => continue, // Correlation ID wasn't unique, retry with a new correlation_id
+                    break (correlation_data, rx);
                 }
+                // Otherwise, loop again; Correlation ID wasn't unique, retry with a new correlation_id
             }
         };
 
@@ -1300,31 +1300,31 @@ where
                     () = ct.cancelled() => {
                         // This error won't be returned as this only happens if the invoke has already returned a timeout error
                         // This branch is just here to make sure this task ends
-                        return Err(AIOProtocolError::new_timeout_error(
+                        Err(AIOProtocolError::new_timeout_error(
                             false,
                             None,
                             &command_name,
                             request.timeout,
                             None,
                             Some(command_name.clone()),
-                        ));
+                        ))
                     },
                     res = response_rx.recv() => {
                         // we know the correlation id matches, otherwise it wouldn't have been dispatched to us
-                        return res.ok_or_else(|| {
+                        res.ok_or_else(|| {
                             log::error!(
-                                "[{command_name}] Invoker MQTT Receiver has been cleaned up and will no longer send a response"
+                                "[{command_name}] Command Invoker has been shutdown and will no longer receive a response"
                             );
                             AIOProtocolError::new_cancellation_error(
                                 false,
                                 None,
                                 Some(
-                                    "MQTT Receiver has been cleaned up and will no longer send a response"
+                                    "Command Invoker has been shutdown and will no longer receive a response"
                                         .to_string(),
                                 ),
                                 Some(command_name),
                             )
-                        });
+                        })
                     }
                 }
             }
