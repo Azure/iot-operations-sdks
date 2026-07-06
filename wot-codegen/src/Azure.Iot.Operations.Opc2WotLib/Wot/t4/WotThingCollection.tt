@@ -5,7 +5,10 @@
 <# // Licensed under the MIT License #>
 [
 <# this.PushIndent("  "); #>
-<# int ix = 1; foreach (WotThingModel thingModel in this.thingModels) { #>
-<#=thingModel.TransformText()#><#=ix < this.thingModels.Count ? "," : ""#>
+<# int ix = 1; foreach (WotThingDescription thingDescription in this.ThingDescriptions) { #>
+<#=thingDescription.TransformText()#><#=ix < this.ThingDescriptions.Count + this.ThingModels.Count ? "," : ""#>
+<# ix++; } #>
+<# foreach (WotThingModel thingModel in this.ThingModels) { #>
+<#=thingModel.TransformText()#><#=ix < this.ThingDescriptions.Count + this.ThingModels.Count ? "," : ""#>
 <# ix++; } this.PopIndent(); #>
 ]

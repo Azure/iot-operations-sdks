@@ -22,6 +22,10 @@ pub struct ConnectionTransportConfig {
     pub transport_type: ConnectionTransportType,
     pub timeout: Option<Duration>,
     pub proxy: Option<Proxy>,
+    /// Whether to disable Nagle's algorithm (`TCP_NODELAY`) on the underlying TCP socket.
+    /// Setting this to `true` reduces latency for small, frequent packets at the cost of slightly
+    /// more packet overhead.
+    pub tcp_nodelay: bool, // TODO: Should this be some kind of options struct with timeout and other cfg options?
 }
 
 /// The type of transport to use for the new MQTT connection.
@@ -38,7 +42,7 @@ pub enum ConnectionTransportType {
     #[cfg(feature = "test-utils")]
     Ws {
         request: async_tungstenite::tungstenite::handshake::client::Request,
-        tls_config: TlsConfig,
+        tls_config: Option<TlsConfig>,
     },
     #[cfg(feature = "test-utils")]
     Test {

@@ -121,7 +121,7 @@ public class CounterEnvoyTests
 
         MqttApplicationMessageReceivedEventArgs respMsg = await tcs.Task.WaitAsync(TimeSpan.FromMinutes(1));
         var userProps = respMsg.ApplicationMessage.UserProperties;
-        Assert.Equal(6, userProps!.Count); // The user props are __stat, __stMsg, __protVer, __ts, __apErr, __propName.
+        Assert.Equal(7, userProps!.Count); // The user props are __stat, __stMsg, __protVer, __ts, $high_priority, __apErr, __propName.
         Assert.Equal("400", userProps.Where( p => p.Name == "__stat").First().Value);
         Assert.Equal("Correlation data bytes do not conform to a GUID.", userProps.FirstOrDefault(p => p.Name == "__stMsg")!.Value);
         Assert.Equal("Correlation Data", userProps.Where(p => p.Name == "__propName").First().Value);

@@ -3,7 +3,7 @@
 <#@ import namespace="System.Linq" #>
 <# // Copyright (c) Microsoft Corporation. #>
 <# // Licensed under the MIT License #>
-"<#=this.actionName#>": {
+"<#=this.ActionName#>": {
 <# if (this.uaMethod.BrowseNamespace != null) { #>
   "dov:namespace": "<#=this.uaMethod.BrowseNamespace#>",
 <# } #>
@@ -26,8 +26,11 @@
 <# } #>
   "forms": [
     {
+<# if (this.inDescription) { #>
+      "href": "https://placeholder.example.com/endpoint",
+<# } #>
       "contentType": "application/json",
-      "dov:topic": "opcua/<#=this.specName#>/<#=this.thingModelName#>/action/<#=this.actionName#>",
+      "dov:topic": "opcua/<#=this.specName#>/<#=this.thingModelName#>/action/<#=this.ActionName#>",
       "op": "invokeaction"
     }
   ]

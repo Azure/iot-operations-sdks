@@ -30,6 +30,7 @@ pub async fn connect<BP>(
     request: impl IntoClientRequest,
     tls_config: TlsConfig,
     proxy: Option<&Proxy>,
+    tcp_nodelay: bool,
     reader_pool: &BP,
 ) -> io::Result<(Reader<BP>, Writer<BP>)>
 where
@@ -53,16 +54,22 @@ where
             "request URI does not contain a scheme component",
         ));
     };
-    let stream = match scheme {
-        "https" | "wss" => tokio_tls::connect_inner(addr, port.unwrap_or(443), tls_config, proxy).await?,
-        "http" | "ws" => Either::Left(super::tcp::connect(addr, port.unwrap_or(80), proxy).await?),
-        _ => {
-            return Err(IoError::new(
-                io::ErrorKind::InvalidInput,
-                format!("unsupported WebSocket URI scheme: {scheme}"),
-            ));
-        }
+
+    if !["http", "https", "ws", "wss"].contains(&scheme) {
+        return Err(IoError::new(
+            io::ErrorKind::InvalidInput,
+            format!("unsupported WebSocket URI scheme: {scheme}"),
+        ));
+    }
+
+    let stream = if let Some(tls_config) = tls_config {
+        tokio_tls::connect_inner(addr, port.unwrap_or(443), tls_config, tcp_nodelay).await?
+    } else {
+        let stream = TcpStream::connect((addr, port.unwrap_or(80))).await?;
+        stream.set_nodelay(tcp_nodelay)?;
+        Either::Left(stream)
     };
+
     match stream {
         Either::Left(stream) => {
             let (stream, _response) = async_tungstenite::tokio::client_async(request, stream)

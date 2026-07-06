@@ -175,6 +175,8 @@ fn create_connection_transport_config(
         transport_type,
         timeout: Some(timeout),
         proxy: None,
+        // Disable Nagle's algorithm (`TCP_NODELAY`) (hardcoded) to minimize latency
+        tcp_nodelay: true,
     })
 }
 
@@ -235,6 +237,7 @@ impl AzureMqttConnectParameters {
                 },
                 timeout: Some(self.connection_timeout),
                 proxy: None,
+                tcp_nodelay: true,
             });
         }
 

@@ -45,13 +45,14 @@ pub async fn connect<BP>(
     port: u16,
     config: TlsConfig,
     proxy: Option<&Proxy>,
+    tcp_nodelay: bool,
     reader_pool: &BP,
     writer_pool: &BP,
 ) -> io::Result<(Reader<BP>, Writer<BP>)>
 where
     BP: BufferPool,
 {
-    Ok(match connect_inner(hostname, port, config, proxy).await? {
+    Ok(match connect_inner(hostname, port, config, proxy, tcp_nodelay).await? {
         Either::Left(tcp_stream) => tokio_tcp::connect_inner(tcp_stream, reader_pool, writer_pool),
 
         Either::Right(ssl_stream) => {
@@ -72,6 +73,7 @@ pub(crate) async fn connect_inner(
     port: u16,
     config: TlsConfig,
     proxy: Option<&Proxy>,
+    tcp_nodelay: bool,
 ) -> io::Result<Either<TcpStream, SslStream<TcpStream>>> {
     /// We haven't attempted to create a TLS connection yet, so whether the kernel supports TLS or not
     /// is not yet known.
@@ -94,6 +96,7 @@ pub(crate) async fn connect_inner(
         let connector = connector.build();
 
         let tcp_stream = super::tcp::connect(hostname, port, proxy).await?;
+        tcp_stream.set_nodelay(tcp_nodelay)?;   // TODO: should this be done inside tcp::connect?
 
         let std_tcp_stream = {
             let fd = tcp_stream.as_fd();
@@ -131,6 +134,7 @@ pub(crate) async fn connect_inner(
         let connector = connector.build();
 
         let tcp_stream = super::tcp::connect(hostname, port, proxy).await?;
+        tcp_stream.set_nodelay(tcp_nodelay)?;
 
         let std_tcp_stream = {
             let fd = tcp_stream.as_fd();
@@ -150,6 +154,7 @@ pub(crate) async fn connect_inner(
         debug_assert_eq!(method, TLS_METHOD_USERSPACE);
 
         let tcp_stream = super::tcp::connect(hostname, port, proxy).await?;
+        tcp_stream.set_nodelay(tcp_nodelay)?;
 
         let connector = connector.build().configure()?;
 
