@@ -99,6 +99,11 @@ async fn http_connect_tunnel(
     }
 
     // Reunite the split stream — it is now a transparent tunnel to the target
+    // LIMITATION: `BufReader::into_inner` discards any bytes it has already buffered past the
+    // header terminator. This is safe for `CONNECT` because the client speaks first (TLS
+    // ClientHello / MQTT CONNECT), so a well-behaved proxy sends nothing after the blank line.
+    // However, a proxy that coalesces the `200` response with early target bytes into one segment
+    // would cause those bytes to be silently lost here. Revisit if this ever proves a problem.
     let reader = buf_reader.into_inner();
     let stream = reader.reunite(writer).map_err(|e| {
         io::Error::other(format!("failed to reunite proxy stream: {e}"))

@@ -37,7 +37,7 @@ pub struct ConnectionTransportConfig {
     /// Whether to disable Nagle's algorithm (`TCP_NODELAY`) on the underlying TCP socket.
     /// Setting this to `true` reduces latency for small, frequent packets at the cost of slightly
     /// more packet overhead.
-    pub tcp_nodelay: bool, // TODO: Should this be some kind of options struct with timeout and other cfg options?
+    pub tcp_nodelay: bool, // TODO: Make this a defaultable SocketOptions
 }
 
 /// The type of transport to use for the new MQTT connection.
