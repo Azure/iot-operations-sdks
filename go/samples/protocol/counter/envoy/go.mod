@@ -2,7 +2,7 @@ module github.com/Azure/iot-operations-sdks/go/samples/protocol/counter/envoy
 
 go 1.25.0
 
-require github.com/Azure/iot-operations-sdks/go/protocol v0.4.2
+require github.com/Azure/iot-operations-sdks/go/protocol v0.4.3
 
 require (
 	github.com/Azure/iot-operations-sdks/go/internal v0.3.1 // indirect

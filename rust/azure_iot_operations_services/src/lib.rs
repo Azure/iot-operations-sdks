@@ -13,6 +13,7 @@
 //! - `state_store`: Enables the State Store Client.
 //! - `leased_lock`: Enables the Lease and Lock Clients.
 //! - `azure_device_registry`: Enables the Azure Device Registry client.
+//! - `edge_registry`: Enables the Edge Registry client.
 //!
 //! This example shows how you could import features for only the Schema Registry Client:
 //!
@@ -25,6 +26,8 @@
 
 #[cfg(feature = "azure_device_registry")]
 pub mod azure_device_registry;
+#[cfg(feature = "edge_registry")]
+pub mod edge_registry;
 #[cfg(feature = "leased_lock")]
 pub mod leased_lock;
 #[cfg(feature = "schema_registry")]

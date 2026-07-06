@@ -31,10 +31,10 @@ jobs:
   build:
     runs-on: ubuntu-latest
     name: CI-dotnet
-    timeout-minutes: 30
+    timeout-minutes: 45
 
     steps:
-    - uses: actions/checkout@v6
+    - uses: actions/checkout@v7
 
     - name: Install AIO
       uses: ./.github/actions/configure-aio
@@ -103,6 +103,12 @@ jobs:
  
     - name: Setup SchemaRegistry Host
       run: RUNNER_TRACKING_ID="" && dotnet run --project eng/test/schema-registry/src/Azure.Iot.Operations.Services.SchemaRegistry.Host/Azure.Iot.Operations.Services.SchemaRegistry.Host.csproj &
+
+    - name: Build EdgeRegistry Host
+      run: dotnet build eng/test/edge-registry/src/Azure.Iot.Operations.Services.EdgeRegistry.Host/Azure.Iot.Operations.Services.EdgeRegistry.Host.csproj
+
+    - name: Setup EdgeRegistry Host
+      run: RUNNER_TRACKING_ID="" && dotnet run --project eng/test/edge-registry/src/Azure.Iot.Operations.Services.EdgeRegistry.Host/Azure.Iot.Operations.Services.EdgeRegistry.Host.csproj &
 
     - name: Create ADR resources
       run: kubectl apply -f eng/test/test-adr-resources
