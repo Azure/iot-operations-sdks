@@ -14,7 +14,7 @@ use crate::azure_mqtt::transport::{Proxy, ProxyAuthorization, ProxyEndpoint};
 
 /// Obtain a [`TcpStream`] connected to the given target, optionally through a proxy.
 ///
-/// If `proxy` is `None`, connects directly to the target.
+/// If `proxy` is `None`, this is equivalent to [`TcpStream::connect`].
 /// If `proxy` is `Some`, an HTTP CONNECT tunnel is established through the proxy
 /// before returning the stream.
 ///
