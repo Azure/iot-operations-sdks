@@ -553,7 +553,7 @@ impl ConnectHandle {
                     crate::azure_mqtt::io::tokio_tcp::connect(
                         &hostname,
                         port,
-                        proxy.as_ref(),
+                        proxy,
                         tcp_nodelay,
                         &self.reader_pool,
                         &self.writer_pool,
@@ -573,7 +573,7 @@ impl ConnectHandle {
                         &hostname,
                         port,
                         tls_config,
-                        proxy.as_ref(),
+                        proxy,
                         tcp_nodelay,
                         &self.reader_pool,
                         &self.writer_pool,
@@ -589,7 +589,7 @@ impl ConnectHandle {
             } => {
                 maybe_timeout(
                     timeout,
-                    crate::azure_mqtt::io::tokio_ws::connect(request, tls_config, proxy.as_ref(), tcp_nodelay, &self.reader_pool),
+                    crate::azure_mqtt::io::tokio_ws::connect(request, tls_config, proxy, tcp_nodelay, &self.reader_pool),
                 )
                 .await??
             }

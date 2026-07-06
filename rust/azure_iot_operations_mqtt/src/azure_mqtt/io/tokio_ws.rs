@@ -26,7 +26,7 @@ use crate::azure_mqtt::io::{ReadableStream, Reader, WritableStream, Writer, toki
 pub async fn connect<BP>(
     request: impl IntoClientRequest,
     tls_config: Option<TlsConfig>,
-    proxy: Option<&Proxy>,
+    proxy: Option<Proxy>,
     tcp_nodelay: bool,
     reader_pool: &BP,
 ) -> io::Result<(Reader<BP>, Writer<BP>)>
@@ -65,7 +65,7 @@ where
                 .await?,
         )
     } else {
-        let stream = super::tcp::connect(addr, port.unwrap_or(80), proxy, tcp_nodelay).await?;
+        let stream = super::stream::connect(addr, port.unwrap_or(80), proxy, tcp_nodelay).await?;
         Either::Left(stream)
     };
 

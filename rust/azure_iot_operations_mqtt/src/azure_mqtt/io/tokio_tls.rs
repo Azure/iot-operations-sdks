@@ -7,14 +7,12 @@ use std::{
     pin::Pin,
 };
 
-use tokio::{
-    io::{AsyncReadExt, AsyncWriteExt, ReadBuf, ReadHalf, WriteHalf},
-    net::TcpStream,
-};
+use tokio::io::{AsyncReadExt, AsyncWriteExt, ReadBuf, ReadHalf, WriteHalf};
 use tokio_openssl::SslStream;
 
 use crate::azure_mqtt::buffer_pool::{BufferPool, EitherAccumulator};
 use crate::azure_mqtt::transport::{Proxy, TlsConfig};
+use crate::azure_mqtt::io::stream::TransportStream;
 use crate::azure_mqtt::io::{ReadableStream, Reader, WritableStream, Writer};
 
 /// Connect to the given address and port with a TLS connection, and use the given buffer pools
@@ -25,7 +23,7 @@ pub async fn connect<BP>(
     hostname: &str,
     port: u16,
     config: TlsConfig,
-    proxy: Option<&Proxy>,
+    proxy: Option<Proxy>,
     tcp_nodelay: bool,
     reader_pool: &BP,
     _writer_pool: &BP, // Historically was used with kTLS, currently unused, may be needed again in the future, so retained
@@ -49,32 +47,19 @@ pub(crate) async fn connect_inner(
     hostname: &str,
     port: u16,
     config: TlsConfig,
-    proxy: Option<&Proxy>,
+    proxy: Option<Proxy>,
     tcp_nodelay: bool,
-) -> io::Result<SslStream<TcpStream>> {
-    let TlsConfig(connector) = config;
-
-    let tcp_stream = super::tcp::connect(hostname, port, proxy, tcp_nodelay).await?;
-
-    let connector = connector.build().configure()?;
-
-    let ssl = connector.into_ssl(hostname)?;
-    let mut ssl_stream = SslStream::new(ssl, tcp_stream)?;
-
-    Pin::new(&mut ssl_stream)
-        .connect()
-        .await
-        .map_err(openssl_err_to_io_err)?;
-
-    Ok(ssl_stream)
+) -> io::Result<SslStream<TransportStream>> {
+    let stream = super::stream::connect(hostname, port, proxy, tcp_nodelay).await?;
+    super::stream::tls_handshake(stream, config, hostname).await
 }
 
 struct OpensslStreamRead {
-    inner: ReadHalf<SslStream<TcpStream>>,
+    inner: ReadHalf<SslStream<TransportStream>>,
 }
 
 struct OpensslStreamWrite {
-    inner: WriteHalf<SslStream<TcpStream>>,
+    inner: WriteHalf<SslStream<TransportStream>>,
 }
 
 impl ReadableStream for OpensslStreamRead {
@@ -97,12 +82,5 @@ impl WritableStream for OpensslStreamWrite {
 
     fn flush(&mut self) -> Pin<Box<dyn Future<Output = io::Result<()>> + Send + '_>> {
         Box::pin(self.inner.flush())
-    }
-}
-
-fn openssl_err_to_io_err(err: impl Into<openssl::ssl::Error>) -> io::Error {
-    match err.into().into_io_error() {
-        Ok(err) => err,
-        Err(err) => io::Error::other(err),
     }
 }
