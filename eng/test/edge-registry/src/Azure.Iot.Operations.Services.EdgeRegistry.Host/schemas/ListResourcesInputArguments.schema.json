@@ -1,0 +1,6 @@
+{
+  "$schema": "https://json-schema.org/draft-07/schema",
+  "title": "ListResourcesInputArguments",
+  "type": "object",
+  "$ref": "../../../../../../wot/edge-registry/core-xregistry/ListResourcesRequestPayload.schema.json"
+}

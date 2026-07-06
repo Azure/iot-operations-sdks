@@ -138,7 +138,7 @@ public interface ICoreClient : IAsyncDisposable
     /// <param name="groupId">The owning Group. Use <see cref="GroupId.CloudDefault"/> for the cloud-default Group (the configured namespace).</param>
     /// <param name="resourceType">The Resource type (the xRegistry Resource collection name).</param>
     /// <param name="resourceId">The owning Resource identifier.</param>
-    /// <param name="resourceLabels">Labels applied to the parent Resource when it is implicitly created.</param>
+    /// <param name="resourceLabels">Labels applied to the parent Resource.</param>
     /// <param name="versionId">The Version id to assign. Use <see cref="CreateVersionId.ServerAssigned"/> to let the service choose.</param>
     /// <param name="version">The attributes of the Version to create.</param>
     /// <param name="timeout">The command timeout; when <see langword="null"/>, the client's default timeout is used.</param>
