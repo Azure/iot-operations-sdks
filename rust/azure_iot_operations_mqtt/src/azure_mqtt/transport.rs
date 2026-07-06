@@ -17,6 +17,8 @@ use openssl::{
 
 use crate::azure_mqtt::mqtt_proto::Packet;
 
+// Re-export some types from `async_tungstenite` for use in the current API.
+// TODO: Consider a more elegant solution in the future.
 #[cfg(feature = "test-utils")]
 pub use async_tungstenite::tungstenite::{
     handshake::client::Request as WsRequest,
@@ -24,6 +26,7 @@ pub use async_tungstenite::tungstenite::{
         ClientRequestBuilder as WsRequestBuilder,
         IntoClientRequest as IntoWsRequest,
     },
+    http::Uri as WsUri,
 };
 
 /// Parameters for establishing a new MQTT connection at transport layer.
