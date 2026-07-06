@@ -16,6 +16,10 @@ pub mod token;
 
 mod azure_mqtt_adapter;
 
+// These modules are currently unused, but will be in the future.
+mod ktls;
+mod opensslext;
+
 #[cfg(feature = "test-utils")]
 pub mod test_utils;
 

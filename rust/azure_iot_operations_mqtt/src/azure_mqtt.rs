@@ -23,8 +23,6 @@ pub(crate) mod mqtt_proto;
 #[cfg(feature = "test-utils")]
 pub mod mqtt_proto;
 
-mod opensslext;
-
 // High-level modules
 pub mod client;
 pub mod error;

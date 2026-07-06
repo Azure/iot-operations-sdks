@@ -60,7 +60,10 @@ where
     }
 
     let stream = if let Some(tls_config) = tls_config {
-        tokio_tls::connect_inner(addr, port.unwrap_or(443), tls_config, proxy, tcp_nodelay).await?
+        Either::Right(
+            tokio_tls::connect_inner(addr, port.unwrap_or(443), tls_config, proxy, tcp_nodelay)
+                .await?,
+        )
     } else {
         let stream = super::tcp::connect(addr, port.unwrap_or(80), proxy, tcp_nodelay).await?;
         Either::Left(stream)
