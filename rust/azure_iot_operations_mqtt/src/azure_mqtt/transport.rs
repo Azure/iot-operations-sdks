@@ -17,6 +17,15 @@ use openssl::{
 
 use crate::azure_mqtt::mqtt_proto::Packet;
 
+#[cfg(feature = "test-utils")]
+pub use async_tungstenite::tungstenite::{
+    handshake::client::Request as WsRequest,
+    client::{
+        ClientRequestBuilder as WsRequestBuilder,
+        IntoClientRequest as IntoWsRequest,
+    },
+};
+
 /// Parameters for establishing a new MQTT connection at transport layer.
 pub struct ConnectionTransportConfig {
     pub transport_type: ConnectionTransportType,
@@ -41,7 +50,7 @@ pub enum ConnectionTransportType {
     },
     #[cfg(feature = "test-utils")]
     Ws {
-        request: async_tungstenite::tungstenite::handshake::client::Request,
+        request: WsRequest,
         tls_config: Option<TlsConfig>,
     },
     #[cfg(feature = "test-utils")]
@@ -79,14 +88,6 @@ pub enum ProxyAuthorization {
     Basic { username: String, password: String },
     // TODO: custom
 }
-
-// TODO: Challenge proxy auth?
-// e.g.
-// pub enum ProxyAuthenticationType {
-//     None,
-//     Static { ProxyAuthorization, ProxyHeaders },
-//     Challenge { ? },
-// }
 
 /// Parameters for establishing a TLS connection.
 pub struct TlsConfig(pub(crate) SslConnectorBuilder);
