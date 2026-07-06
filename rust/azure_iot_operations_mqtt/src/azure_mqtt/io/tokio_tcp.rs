@@ -30,8 +30,7 @@ pub async fn connect<BP>(
 where
     BP: BufferPool,
 {
-    let stream = super::tcp::connect(hostname, port, proxy).await?;
-    stream.set_nodelay(tcp_nodelay)?;
+    let stream = super::tcp::connect(hostname, port, proxy, tcp_nodelay).await?;
     Ok(connect_inner(stream, reader_pool, writer_pool))
 }
 

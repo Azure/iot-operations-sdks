@@ -14,18 +14,23 @@ use crate::azure_mqtt::transport::{Proxy, ProxyAuthorization, ProxyEndpoint};
 
 /// Obtain a [`TcpStream`] connected to the given target, optionally through a proxy.
 ///
-/// If `proxy` is `None`, this is equivalent to [`TcpStream::connect`].
+/// If `proxy` is `None`, connects directly to the target.
 /// If `proxy` is `Some`, an HTTP CONNECT tunnel is established through the proxy
 /// before returning the stream.
+///
+/// `tcp_nodelay` sets the `TCP_NODELAY` option (Nagle's algorithm) on the returned stream.
 pub async fn connect(
     hostname: &str,
     port: u16,
     proxy: Option<&Proxy>,
+    tcp_nodelay: bool,
 ) -> io::Result<TcpStream> {
-    match proxy {
-        None => TcpStream::connect((hostname, port)).await,
-        Some(proxy) => http_connect_tunnel(proxy, hostname, port).await,
-    }
+    let stream = match proxy {
+        None => TcpStream::connect((hostname, port)).await?,
+        Some(proxy) => http_connect_tunnel(proxy, hostname, port).await?,
+    };
+    stream.set_nodelay(tcp_nodelay)?;
+    Ok(stream)
 }
 
 /// Establish an HTTP CONNECT tunnel through the given proxy to the target host and port.

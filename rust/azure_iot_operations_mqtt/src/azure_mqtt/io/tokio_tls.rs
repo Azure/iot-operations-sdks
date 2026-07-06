@@ -95,8 +95,7 @@ pub(crate) async fn connect_inner(
 
         let connector = connector.build();
 
-        let tcp_stream = super::tcp::connect(hostname, port, proxy).await?;
-        tcp_stream.set_nodelay(tcp_nodelay)?;   // TODO: should this be done inside tcp::connect?
+        let tcp_stream = super::tcp::connect(hostname, port, proxy, tcp_nodelay).await?;
 
         let std_tcp_stream = {
             let fd = tcp_stream.as_fd();
@@ -133,8 +132,7 @@ pub(crate) async fn connect_inner(
 
         let connector = connector.build();
 
-        let tcp_stream = super::tcp::connect(hostname, port, proxy).await?;
-        tcp_stream.set_nodelay(tcp_nodelay)?;
+        let tcp_stream = super::tcp::connect(hostname, port, proxy, tcp_nodelay).await?;
 
         let std_tcp_stream = {
             let fd = tcp_stream.as_fd();
@@ -153,8 +151,7 @@ pub(crate) async fn connect_inner(
     } else {
         debug_assert_eq!(method, TLS_METHOD_USERSPACE);
 
-        let tcp_stream = super::tcp::connect(hostname, port, proxy).await?;
-        tcp_stream.set_nodelay(tcp_nodelay)?;
+        let tcp_stream = super::tcp::connect(hostname, port, proxy, tcp_nodelay).await?;
 
         let connector = connector.build().configure()?;
 

@@ -15,20 +15,17 @@ use async_tungstenite::{
 };
 use either::Either;
 use futures_util::{Sink, Stream};
-use tokio::{
-    io::{AsyncRead, AsyncReadExt, AsyncWrite, AsyncWriteExt, ReadBuf, ReadHalf, WriteHalf},
-    net::TcpStream,
-};
+use tokio::io::{AsyncRead, AsyncReadExt, AsyncWrite, AsyncWriteExt, ReadBuf, ReadHalf, WriteHalf};
 
 use crate::azure_mqtt::buffer_pool::{BufferPool, EitherAccumulator};
 use crate::azure_mqtt::transport::{Proxy, TlsConfig};
-use crate::azure_mqtt::io::{ReadableStream, Reader, WritableStream, Writer, tokio_tls};
+use crate::azure_mqtt::io::{ReadableStream, Reader, WritableStream, Writer, tcp, tokio_tls};
 
 /// Establish a WebSocket connection using the given request parameters,
 /// and use the given buffer pools to initialize the buffers for the stream reader and writer.
 pub async fn connect<BP>(
     request: impl IntoClientRequest,
-    tls_config: TlsConfig,
+    tls_config: Option<TlsConfig>,
     proxy: Option<&Proxy>,
     tcp_nodelay: bool,
     reader_pool: &BP,
@@ -63,10 +60,9 @@ where
     }
 
     let stream = if let Some(tls_config) = tls_config {
-        tokio_tls::connect_inner(addr, port.unwrap_or(443), tls_config, tcp_nodelay).await?
+        tokio_tls::connect_inner(addr, port.unwrap_or(443), tls_config, proxy, tcp_nodelay).await?
     } else {
-        let stream = TcpStream::connect((addr, port.unwrap_or(80))).await?;
-        stream.set_nodelay(tcp_nodelay)?;
+        let stream = tcp::connect(addr, port.unwrap_or(80), proxy, tcp_nodelay).await?;
         Either::Left(stream)
     };
 
