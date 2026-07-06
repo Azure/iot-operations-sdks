@@ -30,25 +30,15 @@ where
     BP: BufferPool,
 {
     let stream = super::stream::connect(hostname, port, proxy, tcp_nodelay).await?;
-    Ok(connect_inner(stream, reader_pool, writer_pool))
-}
 
-pub(crate) fn connect_inner<BP>(
-    stream: TransportStream,
-    reader_pool: &BP,
-    writer_pool: &BP,
-) -> (Reader<BP>, Writer<BP>)
-where
-    BP: BufferPool,
-{
     let (read, write) = tokio::io::split(stream);
     let read_buf = reader_pool.take_empty_owned();
     let write_buf = EitherAccumulator::Iovecs(writer_pool.take_empty_owned().into());
 
-    (
+    Ok((
         Reader::new(Box::new(TransportStreamRead { inner: read }), read_buf),
         Writer::new(Box::new(TransportStreamWrite { inner: write }), write_buf),
-    )
+    ))
 }
 
 struct TransportStreamRead {

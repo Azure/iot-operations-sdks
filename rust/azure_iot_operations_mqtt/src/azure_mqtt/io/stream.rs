@@ -42,7 +42,7 @@ enum TransportStreamInner {
 /// If `proxy` is `None`, this connects directly to the target.
 /// If `proxy` is `Some`, an HTTP `CONNECT` tunnel is established through the proxy before
 /// returning the stream. For an [`ProxyEndpoint::Https`] proxy, the connection to the proxy
-/// itself is wrapped in TLS.
+/// itself is wrapped in TLS; the connection to the target is not (see [`connect_tls`]).
 ///
 /// `tcp_nodelay` sets the `TCP_NODELAY` option (Nagle's algorithm) on the underlying TCP socket.
 pub(crate) async fn connect(
@@ -53,12 +53,38 @@ pub(crate) async fn connect(
 ) -> io::Result<TransportStream> {
     match proxy {
         None => {
-            let stream = TcpStream::connect((hostname, port)).await?;
-            stream.set_nodelay(tcp_nodelay)?;
+            let stream = tcp_connect(hostname, port, tcp_nodelay).await?;
             Ok(TransportStream(TransportStreamInner::Plain(stream)))
         }
         Some(proxy) => http_connect_tunnel(proxy, hostname, port, tcp_nodelay).await,
     }
+}
+
+/// Obtain a [`TransportStream`] connected to the given target and wrapped in a client-side TLS
+/// session with the target, optionally through a proxy.
+///
+/// Equivalent to [`connect`] followed by [`tls_handshake`], so the same proxy behavior applies.
+/// The TLS session established here is with the target. For an [`ProxyEndpoint::Https`] proxy, the
+/// connection to the proxy itself is wrapped in a separate TLS session inside [`connect`].
+///
+/// `tcp_nodelay` sets the `TCP_NODELAY` option (Nagle's algorithm) on the underlying TCP socket.
+pub(crate) async fn connect_tls(
+    hostname: &str,
+    port: u16,
+    config: TlsConfig,
+    proxy: Option<Proxy>,
+    tcp_nodelay: bool,
+) -> io::Result<SslStream<TransportStream>> {
+    let stream = connect(hostname, port, proxy, tcp_nodelay).await?;
+    tls_handshake(stream, config, hostname).await
+}
+
+/// Connect a [`TcpStream`] to the given host and port, applying the `TCP_NODELAY` option
+/// (Nagle's algorithm) to the socket.
+async fn tcp_connect(host: &str, port: u16, tcp_nodelay: bool) -> io::Result<TcpStream> {
+    let stream = TcpStream::connect((host, port)).await?;
+    stream.set_nodelay(tcp_nodelay)?;
+    Ok(stream)
 }
 
 /// Establish an HTTP CONNECT tunnel through the given proxy to the target host and port.
@@ -75,8 +101,7 @@ async fn http_connect_tunnel(
     let Proxy { endpoint, auth } = proxy;
     match endpoint {
         ProxyEndpoint::Http { hostname, port } => {
-            let stream = TcpStream::connect((hostname.as_str(), port)).await?;
-            stream.set_nodelay(tcp_nodelay)?;
+            let stream = tcp_connect(&hostname, port, tcp_nodelay).await?;
             let stream = http_connect_exchange(stream, target_host, target_port, &auth).await?;
             Ok(TransportStream(TransportStreamInner::Plain(stream)))
         }
@@ -85,8 +110,7 @@ async fn http_connect_tunnel(
             port,
             tls_config,
         } => {
-            let stream = TcpStream::connect((hostname.as_str(), port)).await?;
-            stream.set_nodelay(tcp_nodelay)?;
+            let stream = tcp_connect(&hostname, port, tcp_nodelay).await?;
             // Wrap the connection to the proxy itself in TLS before tunneling.
             let stream = tls_handshake(stream, tls_config, &hostname).await?;
             let stream = http_connect_exchange(stream, target_host, target_port, &auth).await?;

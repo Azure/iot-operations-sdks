@@ -19,7 +19,7 @@ use tokio::io::{AsyncRead, AsyncReadExt, AsyncWrite, AsyncWriteExt, ReadBuf, Rea
 
 use crate::azure_mqtt::buffer_pool::{BufferPool, EitherAccumulator};
 use crate::azure_mqtt::transport::{Proxy, TlsConfig};
-use crate::azure_mqtt::io::{ReadableStream, Reader, WritableStream, Writer, tokio_tls};
+use crate::azure_mqtt::io::{ReadableStream, Reader, WritableStream, Writer};
 
 /// Establish a WebSocket connection using the given request parameters,
 /// and use the given buffer pools to initialize the buffers for the stream reader and writer.
@@ -61,7 +61,7 @@ where
 
     let stream = if let Some(tls_config) = tls_config {
         Either::Right(
-            tokio_tls::connect_inner(addr, port.unwrap_or(443), tls_config, proxy, tcp_nodelay)
+            super::stream::connect_tls(addr, port.unwrap_or(443), tls_config, proxy, tcp_nodelay)
                 .await?,
         )
     } else {

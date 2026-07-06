@@ -31,7 +31,7 @@ pub async fn connect<BP>(
 where
     BP: BufferPool,
 {
-    let ssl_stream = connect_inner(hostname, port, config, proxy, tcp_nodelay).await?;
+    let ssl_stream = super::stream::connect_tls(hostname, port, config, proxy, tcp_nodelay).await?;
 
     let (read, write) = tokio::io::split(ssl_stream);
     let read_buf = reader_pool.take_empty_owned();
@@ -41,17 +41,6 @@ where
         Reader::new(Box::new(OpensslStreamRead { inner: read }), read_buf),
         Writer::new(Box::new(OpensslStreamWrite { inner: write }), write_buf),
     ))
-}
-
-pub(crate) async fn connect_inner(
-    hostname: &str,
-    port: u16,
-    config: TlsConfig,
-    proxy: Option<Proxy>,
-    tcp_nodelay: bool,
-) -> io::Result<SslStream<TransportStream>> {
-    let stream = super::stream::connect(hostname, port, proxy, tcp_nodelay).await?;
-    super::stream::tls_handshake(stream, config, hostname).await
 }
 
 struct OpensslStreamRead {
