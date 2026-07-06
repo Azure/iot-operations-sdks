@@ -30,6 +30,10 @@ public class EdgeRegistryClientIntegrationTests(ITestOutputHelper output)
     private const string GroupType = "schemagroups";
     private const string ResourceType = "schemas";
 
+    // Display name applied to Groups created by these tests. Factored out because it is both set on
+    // the created Group (see MakeGroupAttributes) and asserted on the round-tripped Group.
+    private const string GroupName = "integration-test group";
+
     [Fact]
     public async Task CreateGetDeleteGroupRoundTrip()
     {
@@ -43,7 +47,7 @@ public class EdgeRegistryClientIntegrationTests(ITestOutputHelper output)
         CoreGroupEntity created = await client.CreateGroupAsync(GroupType, groupId, MakeGroupAttributes());
         output.WriteLine($"created group {created.Id} (xid {created.XId})");
         Assert.Equal(groupId, created.Id);
-        Assert.Equal("integration-test group", created.Name);
+        Assert.Equal(GroupName, created.Name);
 
         // Get
         CoreGroupEntity fetched = await client.GetGroupAsync(GroupType, groupId);
@@ -328,7 +332,7 @@ public class EdgeRegistryClientIntegrationTests(ITestOutputHelper output)
 
     private static CoreGroupAttributes MakeGroupAttributes() => new()
     {
-        Name = "integration-test group",
+        Name = GroupName,
         Description = "created by EdgeRegistryClientIntegrationTests",
         Labels = [new Label { Key = "origin", Value = "integration-test" }],
         Extensions = new Dictionary<string, byte[]>(),
