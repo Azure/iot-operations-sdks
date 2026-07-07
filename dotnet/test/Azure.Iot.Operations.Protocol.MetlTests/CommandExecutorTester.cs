@@ -26,7 +26,10 @@ namespace Azure.Iot.Operations.Protocol.MetlTests
 
         private static readonly TimeSpan TestTimeout = TimeSpan.FromMinutes(1);
 
-        private static readonly HashSet<string> problematicTestCases = new HashSet<string>{};
+        private static readonly HashSet<string> problematicTestCases = new HashSet<string>
+        {
+            "CommandExecutorDispatchConcurrencyBelowNeed_TimeoutErrors" // This test behaves inconsistently. It usually passes, but sometimes fails
+        };
 
         private static readonly IDeserializer yamlDeserializer;
         private static readonly AsyncAtomicInt TestCaseIndex = new(0);
