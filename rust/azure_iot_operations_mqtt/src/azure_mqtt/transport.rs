@@ -126,7 +126,7 @@ impl TlsConfig {
         Ok(Self(connector))
     }
 
-    /// Constructs a [`ConnectionTransportTlsConfig`] with the client certificate and CA trust bundle
+    /// Constructs a [`TlsConfig`] with the client certificate and CA trust bundle
     /// parsed from the given PEM blobs.
     ///
     /// The client certificate is specified as a one blob containing the PEM-encoded cert chain
