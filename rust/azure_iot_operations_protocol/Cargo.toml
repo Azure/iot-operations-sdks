@@ -14,8 +14,8 @@ publish = true
 
 [features]
 default = []
-all = ["unstable"]
-unstable = []
+all = ["internal-utils"]
+internal-utils = []
 
 [dependencies]
 azure_iot_operations_mqtt = { version = "1.1.0-rc1", path = "../azure_iot_operations_mqtt" }

@@ -20,9 +20,9 @@ pub(crate) mod user_properties;
 
 /// This module contains a convenience for dispatching to a receiver based on an ID.
 /// This module is in development and subject to change.
-#[cfg(feature = "unstable")]
+#[cfg(feature = "internal-utils")]
 pub mod dispatcher;
-#[cfg(not(feature = "unstable"))]
+#[cfg(not(feature = "internal-utils"))]
 pub(crate) mod dispatcher;
 
 /// This module contains the sending side cloud event implementation for the Azure IoT Operations Protocol.
