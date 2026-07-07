@@ -59,6 +59,18 @@ where
         ));
     }
 
+    // Guard against the two sources of truth for "is this TLS" disagreeing: the scheme
+    // (`wss`/`https`) and the presence of `tls_config`. Without this, a `wss` URI with no
+    // `tls_config` would silently connect in plaintext (and `ws` with a `tls_config` would use TLS),
+    // since the TLS decision below is driven by `tls_config` rather than the scheme.
+    let scheme_is_tls = matches!(scheme, "wss" | "https");
+    if scheme_is_tls != tls_config.is_some() {
+        return Err(IoError::new(
+            io::ErrorKind::InvalidInput,
+            format!("`tls_config` must be provided for a `{scheme}` URI and omitted otherwise"),
+        ));
+    }
+
     let stream = if let Some(tls_config) = tls_config {
         Either::Right(
             super::stream::connect_tls(addr, port.unwrap_or(443), tls_config, proxy, tcp_nodelay)

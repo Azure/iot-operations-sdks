@@ -130,6 +130,18 @@ async fn http_connect_exchange<S>(
 where
     S: AsyncRead + AsyncWrite + Unpin,
 {
+    // `target_host` is embedded in the CONNECT request line and `Host` header. Control characters
+    // or whitespace (notably CR/LF) would allow HTTP request splitting / header injection into the
+    // proxy conversation. No valid hostname or IP literal contains such characters, so reject
+    // rather than encode — the proxy expects a literal host in the authority-form request-target
+    // and `Host` header, and percent-encoding would only produce an unresolvable host.
+    if target_host.is_empty() || target_host.bytes().any(|b| b.is_ascii_control() || b == b' ') {
+        return Err(io::Error::new(
+            io::ErrorKind::InvalidInput,
+            "proxy target host contains invalid characters",
+        ));
+    }
+
     // Build the HTTP CONNECT request
     let mut request = format!(
         "CONNECT {target_host}:{target_port} HTTP/1.1\r\n\
