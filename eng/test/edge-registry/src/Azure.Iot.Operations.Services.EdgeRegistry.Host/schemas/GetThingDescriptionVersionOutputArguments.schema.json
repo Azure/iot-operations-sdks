@@ -1,0 +1,6 @@
+{
+  "$schema": "https://json-schema.org/draft-07/schema",
+  "title": "GetThingDescriptionVersionOutputArguments",
+  "type": "object",
+  "$ref": "../../../../../../wot/edge-registry/thing-description-extension/ThingDescriptionVersion.schema.json"
+}
