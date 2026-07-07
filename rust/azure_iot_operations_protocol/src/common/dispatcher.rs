@@ -182,15 +182,15 @@ mod tests {
         assert_eq!(dispatcher.get_all_receiver_ids().len(), expected_count);
     }
 
-    #[test_case(0, 0; "unregister all with none registered")]
-    #[test_case(1, 1; "unregister all with one registered")]
-    #[test_case(3, 3; "unregister all with three registered")]
-    fn test_unregister_all(register_count: usize, expected_unregistered: usize) {
+    #[test_case(0; "unregister all with none registered")]
+    #[test_case(1; "unregister all with one registered")]
+    #[test_case(3; "unregister all with three registered")]
+    fn test_unregister_all(register_count: usize) {
         let dispatcher = create_dispatcher();
         for i in 0..register_count {
             let _rx = dispatcher.register_receiver(format!("id{i}")).unwrap();
         }
-        assert_eq!(dispatcher.unregister_all(), expected_unregistered);
+        assert_eq!(dispatcher.unregister_all(), register_count);
         assert!(dispatcher.get_all_receiver_ids().is_empty());
     }
 
@@ -254,12 +254,13 @@ mod tests {
     #[test]
     fn test_register_after_unregister_same_id() {
         let dispatcher = create_dispatcher();
-        let _rx1 = dispatcher.register_receiver("id".to_string()).unwrap();
+        let mut rx1 = dispatcher.register_receiver("id".to_string()).unwrap();
         dispatcher.unregister_receiver(&"id".to_string());
         let mut rx2 = dispatcher.register_receiver("id".to_string()).unwrap();
         dispatcher
             .dispatch(&"id".to_string(), "new".to_string())
             .unwrap();
+        assert!(rx1.try_recv().is_err());
         assert_eq!(rx2.try_recv().unwrap(), "new");
     }
 

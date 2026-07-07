@@ -1195,7 +1195,7 @@ where
         let (correlation_data, mut response_rx) = {
             loop {
                 let correlation_id = Uuid::new_v4();
-                let correlation_data = Bytes::from(correlation_id.as_bytes().to_vec());
+                let correlation_data = Bytes::copy_from_slice(correlation_id.as_bytes());
 
                 // Create receiver for response
                 if let Ok(rx) = self
