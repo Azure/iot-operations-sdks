@@ -161,7 +161,7 @@ fn setup_ktls(
 fn is_ktls_unsupported_err(err: &std::io::Error) -> bool {
     let kind = err.kind();
 
-    // `setsockopt(TCP_ULP)` returns `ENOEND` when the kernel doesn't support
+    // `setsockopt(TCP_ULP)` returns `ENOENT` when the kernel doesn't support
     // the TLS ULP.
     let tls_ulp_unsupported = kind == std::io::ErrorKind::NotFound;
 
