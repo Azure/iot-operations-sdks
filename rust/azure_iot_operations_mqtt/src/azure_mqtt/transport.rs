@@ -71,7 +71,7 @@ pub struct Proxy {
 }
 
 
-// Proxy endpoint configuration, indicating the protocol to use to connect to the proxy
+/// Proxy endpoint configuration, indicating the protocol to use to connect to the proxy
 pub enum ProxyEndpoint {
     Http {
         hostname: String,
