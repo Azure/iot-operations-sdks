@@ -56,10 +56,10 @@ use std::{
 use crate::azure_mqtt::{
     self,
     client::{
-        ConnectEnhancedAuthResult, ConnectResult, Connection, ConnectionTransportConfig,
-        DisconnectedEvent, ReauthResult,
+        ConnectEnhancedAuthResult, ConnectResult, Connection, DisconnectedEvent, ReauthResult,
     },
     packet::{AuthProperties, ConnAck, DisconnectProperties, SessionExpiryInterval},
+    transport::ConnectionTransportConfig,
 };
 use thiserror::Error;
 use tokio::sync::Notify;
