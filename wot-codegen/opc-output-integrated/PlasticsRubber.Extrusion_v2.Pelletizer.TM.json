@@ -25,6 +25,9 @@
         "op": "readallproperties"
       }
     ],
+    "tm:optional": [
+      "/properties/ActiveTime"
+    ],
     "actions": {
     },
     "properties": {
@@ -119,6 +122,12 @@
         "op": "readallproperties"
       }
     ],
+    "tm:optional": [
+      "/properties/CutGap",
+      "/properties/PelletizerClosed",
+      "/properties/WaterFlowActive",
+      "/events/CutGap"
+    ],
     "actions": {
     },
     "properties": {
@@ -204,6 +213,9 @@
         "dov:topic": "opcua/PlasticsRubber.Extrusion_v2.Pelletizer/PlasticsRubber_Extrusion_v2_Pelletizer_KnifePackageType/properties/read",
         "op": "readallproperties"
       }
+    ],
+    "tm:optional": [
+      "/properties/ActiveTime"
     ],
     "actions": {
     },
@@ -602,6 +614,14 @@
         "op": "readallproperties"
       }
     ],
+    "tm:optional": [
+      "/properties/AvailableStates",
+      "/properties/AvailableTransitions",
+      "/properties/LastTransition",
+      "/events/AvailableStates",
+      "/events/AvailableTransitions",
+      "/events/LastTransition"
+    ],
     "actions": {
     },
     "properties": {
@@ -744,6 +764,10 @@
         "dov:topic": "opcua/OpcUaCore/OpcUaCore_StateMachineType/properties/read",
         "op": "readallproperties"
       }
+    ],
+    "tm:optional": [
+      "/properties/LastTransition",
+      "/events/LastTransition"
     ],
     "actions": {
     },
@@ -951,6 +975,12 @@
         "type": "application/tm+json"
       },
       {
+        "rel": "dov:capability",
+        "dov:refName": "Identification",
+        "href": "#title=Machinery_MachineIdentificationType",
+        "type": "application/tm+json"
+      },
+      {
         "rel": "dov:reference",
         "dov:refName": "MachineConfiguration",
         "href": "#title=PlasticsRubber_GeneralTypes_MachineConfigurationType",
@@ -1064,6 +1094,10 @@
         "dov:topic": "opcua/PlasticsRubber.Extrusion_v2.GeneralTypes/PlasticsRubber_Extrusion_v2_GeneralTypes_ExtrusionDeviceType/properties/read",
         "op": "readallproperties"
       }
+    ],
+    "tm:optional": [
+      "/properties/Strand",
+      "/properties/Target"
     ],
     "actions": {
     },
@@ -1245,6 +1279,14 @@
         "dov:topic": "opcua/PlasticsRubber.Extrusion_v2.GeneralTypes/PlasticsRubber_Extrusion_v2_GeneralTypes_ExtrusionTemperatureZoneType/properties/read",
         "op": "readallproperties"
       }
+    ],
+    "tm:optional": [
+      "/properties/ControllerOutput",
+      "/properties/NominalCoolingPower",
+      "/properties/NominalHeatingPower",
+      "/events/ControllerOutput",
+      "/events/NominalCoolingPower",
+      "/events/NominalHeatingPower"
     ],
     "actions": {
     },
@@ -1472,6 +1514,10 @@
         "op": "readallproperties"
       }
     ],
+    "tm:optional": [
+      "/properties/Name",
+      "/properties/Position"
+    ],
     "actions": {
     },
     "properties": {
@@ -1585,6 +1631,12 @@
         "dov:topic": "opcua/PlasticsRubber.GeneralTypes/PlasticsRubber_GeneralTypes_ControlledParameterType/properties/read",
         "op": "readallproperties"
       }
+    ],
+    "tm:optional": [
+      "/properties/SetRampDown",
+      "/properties/SetRampUp",
+      "/events/SetRampDown",
+      "/events/SetRampUp"
     ],
     "actions": {
     },
@@ -1700,6 +1752,34 @@
         "dov:topic": "opcua/PlasticsRubber.GeneralTypes/PlasticsRubber_GeneralTypes_MonitoredParameterType/properties/read",
         "op": "readallproperties"
       }
+    ],
+    "tm:optional": [
+      "/actions/ResetMonitoring",
+      "/properties/AlarmSuppression",
+      "/properties/AutomaticMonitoring",
+      "/properties/LowerTolerance",
+      "/properties/LowerTolerance2",
+      "/properties/MaxValue",
+      "/properties/MinValue",
+      "/properties/MonitoringSensitivity",
+      "/properties/SetRampDown",
+      "/properties/SetRampUp",
+      "/properties/SetValue",
+      "/properties/Status",
+      "/properties/UpperTolerance",
+      "/properties/UpperTolerance2",
+      "/events/AlarmSuppression",
+      "/events/LowerTolerance",
+      "/events/LowerTolerance2",
+      "/events/MaxValue",
+      "/events/MinValue",
+      "/events/MonitoringSensitivity",
+      "/events/SetRampDown",
+      "/events/SetRampUp",
+      "/events/SetValue",
+      "/events/Status",
+      "/events/UpperTolerance",
+      "/events/UpperTolerance2"
     ],
     "actions": {
       "ResetMonitoring": {
@@ -2216,6 +2296,13 @@
         "op": "readallproperties"
       }
     ],
+    "tm:optional": [
+      "/actions/AutoTuningOff",
+      "/actions/AutoTuningOn",
+      "/properties/AutomaticControllerMode",
+      "/properties/AutoTuningActive",
+      "/properties/PIDParameters"
+    ],
     "actions": {
       "AutoTuningOff": {
         "dov:namespace": "http://opcfoundation.org/UA/PlasticsRubber/GeneralTypes/",
@@ -2375,6 +2462,15 @@
         "dov:topic": "opcua/PlasticsRubber.GeneralTypes/PlasticsRubber_GeneralTypes_MaintenanceType/properties/read",
         "op": "readallproperties"
       }
+    ],
+    "tm:optional": [
+      "/properties/AdditionalInformation",
+      "/properties/Interval",
+      "/properties/RemainingInterval",
+      "/properties/TotalOperation",
+      "/events/Interval",
+      "/events/RemainingInterval",
+      "/events/TotalOperation"
     ],
     "actions": {
       "Reset": {
@@ -2580,6 +2676,11 @@
         "op": "readallproperties"
       }
     ],
+    "tm:optional": [
+      "/actions/StartRequest",
+      "/actions/StopRequest",
+      "/properties/StartBlockedByClient"
+    ],
     "actions": {
       "StartRequest": {
         "dov:namespace": "http://opcfoundation.org/UA/PlasticsRubber/GeneralTypes/",
@@ -2670,6 +2771,16 @@
         "dov:topic": "opcua/PlasticsRubber.GeneralTypes/PlasticsRubber_GeneralTypes_EnergyType/properties/read",
         "op": "readallproperties"
       }
+    ],
+    "tm:optional": [
+      "/properties/ActualPower",
+      "/properties/ActualSpecificEnergy",
+      "/properties/PowerConsumption",
+      "/properties/PowerFactor",
+      "/events/ActualPower",
+      "/events/ActualSpecificEnergy",
+      "/events/PowerConsumption",
+      "/events/PowerFactor"
     ],
     "actions": {
     },
@@ -2825,6 +2936,11 @@
         "dov:topic": "opcua/PlasticsRubber.GeneralTypes/PlasticsRubber_GeneralTypes_MachineConfigurationType/properties/read",
         "op": "readallproperties"
       }
+    ],
+    "tm:optional": [
+      "/actions/GetCurrentPage",
+      "/actions/GetPage",
+      "/properties/PageDirectory"
     ],
     "actions": {
       "GetCurrentPage": {
@@ -3078,6 +3194,10 @@
     ],
     "schemaDefinitions": {
     },
+    "tm:optional": [
+      "/actions/GetProductionDatasetInformation",
+      "/actions/SendProductionDatasetInformation"
+    ],
     "actions": {
       "GetProductionDatasetInformation": {
         "dov:namespace": "http://opcfoundation.org/UA/PlasticsRubber/GeneralTypes/",
@@ -3348,6 +3468,12 @@
         "dov:topic": "opcua/PlasticsRubber.GeneralTypes/PlasticsRubber_GeneralTypes_ProductionDatasetStatusType/properties/read",
         "op": "readallproperties"
       }
+    ],
+    "tm:optional": [
+      "/actions/Load",
+      "/actions/Save",
+      "/properties/Frozen",
+      "/properties/Modified"
     ],
     "actions": {
       "Load": {
@@ -3859,6 +3985,9 @@
         "op": "readallproperties"
       }
     ],
+    "tm:optional": [
+      "/properties/Position"
+    ],
     "actions": {
     },
     "properties": {
@@ -3876,6 +4005,434 @@
       }
     },
     "events": {
+    }
+  },
+  {
+    "@context": [
+      "https://www.w3.org/2022/wot/td/v1.1",
+      {
+        "dov": "http://azure.com/DigitalOperations/vocab#"
+      }
+    ],
+    "@type": "tm:ThingModel",
+    "title": "Machinery_MachineIdentificationType",
+    "dov:typeRef": "org.opcfoundation.UA.Machinery.MachineIdentificationType",
+    "dov:isComposite": true,
+    "links": [
+      {
+        "rel": "tm:extends",
+        "href": "#title=Machinery_MachineryItemIdentificationType",
+        "type": "application/tm+json"
+      }
+    ],
+    "schemaDefinitions": {
+    },
+    "forms": [
+      {
+        "contentType": "application/json",
+        "dov:topic": "opcua/Machinery/Machinery_MachineIdentificationType/properties/write",
+        "op": "writemultipleproperties"
+      },
+      {
+        "contentType": "application/json",
+        "dov:topic": "opcua/Machinery/Machinery_MachineIdentificationType/properties/read",
+        "op": "readallproperties"
+      }
+    ],
+    "tm:optional": [
+      "/properties/DefaultInstanceBrowseName",
+      "/properties/Location"
+    ],
+    "actions": {
+    },
+    "properties": {
+      "DefaultInstanceBrowseName": {
+        "description": "The default BrowseName for instances of the type.",
+        "type": "string",
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dov:topic": "opcua/Machinery/Machinery_MachineIdentificationType/property/DefaultInstanceBrowseName/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "Location": {
+        "dov:namespace": "http://opcfoundation.org/UA/Machinery/",
+        "description": "To be used by end users to store the location of the machine in a scheme specific to the end user. Servers shall support at least 60 Unicode characters for the clients writing this value, this means clients can expect to be able to write strings with a length of 60 Unicode characters into that field.",
+        "type": "string",
+        "readOnly": false,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dov:topic": "opcua/Machinery/Machinery_MachineIdentificationType/property/Location/write",
+            "op": "writeproperty"
+          },
+          {
+            "contentType": "application/json",
+            "dov:topic": "opcua/Machinery/Machinery_MachineIdentificationType/property/Location/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "ProductInstanceUri": {
+        "dov:namespace": "http://opcfoundation.org/UA/DI/",
+        "description": "A globally unique resource identifier provided by the manufacturer of the machine",
+        "type": "string",
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dov:topic": "opcua/Machinery/Machinery_MachineIdentificationType/property/ProductInstanceUri/read",
+            "op": "readproperty"
+          }
+        ]
+      }
+    },
+    "events": {
+    }
+  },
+  {
+    "@context": [
+      "https://www.w3.org/2022/wot/td/v1.1",
+      {
+        "dov": "http://azure.com/DigitalOperations/vocab#"
+      }
+    ],
+    "@type": "tm:ThingModel",
+    "title": "Machinery_MachineryItemIdentificationType",
+    "dov:typeRef": "org.opcfoundation.UA.Machinery.MachineryItemIdentificationType",
+    "links": [
+      {
+        "rel": "tm:extends",
+        "href": "#title=DI_FunctionalGroupType",
+        "type": "application/tm+json"
+      }
+    ],
+    "schemaDefinitions": {
+    },
+    "forms": [
+      {
+        "contentType": "application/json",
+        "dov:topic": "opcua/Machinery/Machinery_MachineryItemIdentificationType/properties/write",
+        "op": "writemultipleproperties"
+      },
+      {
+        "contentType": "application/json",
+        "dov:topic": "opcua/Machinery/Machinery_MachineryItemIdentificationType/properties/read",
+        "op": "readallproperties"
+      }
+    ],
+    "tm:optional": [
+      "/properties/AssetId",
+      "/properties/ComponentName",
+      "/properties/DefaultInstanceBrowseName",
+      "/properties/DeviceClass",
+      "/properties/HardwareRevision",
+      "/properties/InitialOperationDate",
+      "/properties/ManufacturerUri",
+      "/properties/Model",
+      "/properties/MonthOfConstruction",
+      "/properties/ProductCode",
+      "/properties/ProductInstanceUri",
+      "/properties/SoftwareRevision",
+      "/properties/YearOfConstruction"
+    ],
+    "actions": {
+    },
+    "properties": {
+      "AssetId": {
+        "dov:namespace": "http://opcfoundation.org/UA/DI/",
+        "description": "To be used by end users to store a unique identification in the context of their overall application. Servers shall support at least 40 Unicode characters for the clients writing this value, this means clients can expect to be able to write strings with a length of 40 Unicode characters into that field.",
+        "type": "string",
+        "readOnly": false,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dov:topic": "opcua/Machinery/Machinery_MachineryItemIdentificationType/property/AssetId/write",
+            "op": "writeproperty"
+          },
+          {
+            "contentType": "application/json",
+            "dov:topic": "opcua/Machinery/Machinery_MachineryItemIdentificationType/property/AssetId/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "ComponentName": {
+        "dov:namespace": "http://opcfoundation.org/UA/DI/",
+        "description": "To be used by end users to store a human-readable localized text for the MachineryItem. The minimum number of locales supported for this property shall be two. Servers shall support at least 40 Unicode characters for the clients writing the text part of each locale, this means clients can expect to be able to write texts with a length of 40 Unicode characters into that field.",
+        "type": "string",
+        "readOnly": false,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dov:topic": "opcua/Machinery/Machinery_MachineryItemIdentificationType/property/ComponentName/write",
+            "op": "writeproperty"
+          },
+          {
+            "contentType": "application/json",
+            "dov:topic": "opcua/Machinery/Machinery_MachineryItemIdentificationType/property/ComponentName/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "DefaultInstanceBrowseName": {
+        "description": "The default BrowseName for instances of the type.",
+        "type": "string",
+        "readOnly": false,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dov:topic": "opcua/Machinery/Machinery_MachineryItemIdentificationType/property/DefaultInstanceBrowseName/write",
+            "op": "writeproperty"
+          },
+          {
+            "contentType": "application/json",
+            "dov:topic": "opcua/Machinery/Machinery_MachineryItemIdentificationType/property/DefaultInstanceBrowseName/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "DeviceClass": {
+        "dov:namespace": "http://opcfoundation.org/UA/DI/",
+        "description": "Indicates in which domain or for what purpose the MachineryItem is used.",
+        "type": "string",
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dov:topic": "opcua/Machinery/Machinery_MachineryItemIdentificationType/property/DeviceClass/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "HardwareRevision": {
+        "dov:namespace": "http://opcfoundation.org/UA/DI/",
+        "description": "A string representation of the revision level of the hardware of a MachineryItem. Hardware is physical equipment, as opposed to programs, procedures, rules and associated documentation. Many machines will not provide such information due to the modular and configurable nature of the machine.",
+        "type": "string",
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dov:topic": "opcua/Machinery/Machinery_MachineryItemIdentificationType/property/HardwareRevision/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "InitialOperationDate": {
+        "dov:namespace": "http://opcfoundation.org/UA/Machinery/",
+        "description": "The date, when the MachineryItem was switched on the first time after it has left the manufacturer plant.",
+        "type": "string",
+        "format": "date-time",
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dov:topic": "opcua/Machinery/Machinery_MachineryItemIdentificationType/property/InitialOperationDate/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "Manufacturer": {
+        "dov:namespace": "http://opcfoundation.org/UA/DI/",
+        "description": "A human-readable, localized name of the manufacturer of the MachineryItem.",
+        "type": "string",
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dov:topic": "opcua/Machinery/Machinery_MachineryItemIdentificationType/property/Manufacturer/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "ManufacturerUri": {
+        "dov:namespace": "http://opcfoundation.org/UA/DI/",
+        "description": "A globally unique identifier of the manufacturer of the MachineryItem.",
+        "type": "string",
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dov:topic": "opcua/Machinery/Machinery_MachineryItemIdentificationType/property/ManufacturerUri/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "Model": {
+        "dov:namespace": "http://opcfoundation.org/UA/DI/",
+        "description": "A human-readable, localized name of the model of the MachineryItem.",
+        "type": "string",
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dov:topic": "opcua/Machinery/Machinery_MachineryItemIdentificationType/property/Model/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "MonthOfConstruction": {
+        "dov:namespace": "http://opcfoundation.org/UA/Machinery/",
+        "description": "The month in which the manufacturing process of the MachineryItem has been completed. It shall be a number between 1 and 12, representing the month from January to December.",
+        "type": "integer",
+        "minimum": 0,
+        "maximum": 255,
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dov:topic": "opcua/Machinery/Machinery_MachineryItemIdentificationType/property/MonthOfConstruction/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "ProductCode": {
+        "dov:namespace": "http://opcfoundation.org/UA/DI/",
+        "description": "A machine-readable string of the model of the MachineryItem, that might include options like the hardware configuration of the model. This information might be provided by the ERP system of the vendor. For example, it can be used as order information.",
+        "type": "string",
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dov:topic": "opcua/Machinery/Machinery_MachineryItemIdentificationType/property/ProductCode/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "ProductInstanceUri": {
+        "dov:namespace": "http://opcfoundation.org/UA/DI/",
+        "description": "A globally unique resource identifier provided by the manufacturer of the MachineryItem.",
+        "type": "string",
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dov:topic": "opcua/Machinery/Machinery_MachineryItemIdentificationType/property/ProductInstanceUri/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "SerialNumber": {
+        "dov:namespace": "http://opcfoundation.org/UA/DI/",
+        "description": "A string containing a unique production number of the manufacturer of the MachineryItem. The global uniqueness of the serial number is only given in the context of the manufacturer, and potentially the model. The value shall not change during the life-cycle of the MachineryItem.",
+        "type": "string",
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dov:topic": "opcua/Machinery/Machinery_MachineryItemIdentificationType/property/SerialNumber/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "SoftwareRevision": {
+        "dov:namespace": "http://opcfoundation.org/UA/DI/",
+        "description": "A string representation of the revision level of a MachineryItem. In most cases, MachineryItems consist of several software components. In that case, information about the software components might be provided as additional information in the address space, including individual revision information. In that case, this property is either not provided or provides an overall software revision level. The value might change during the life-cycle of a MachineryItem.",
+        "type": "string",
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dov:topic": "opcua/Machinery/Machinery_MachineryItemIdentificationType/property/SoftwareRevision/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "YearOfConstruction": {
+        "dov:namespace": "http://opcfoundation.org/UA/Machinery/",
+        "description": "The year (Gregorian calendar) in which the manufacturing process of the MachineryItem has been completed. It shall be a four-digit number and never change during the life-cycle of a MachineryItem.",
+        "type": "integer",
+        "minimum": 0,
+        "maximum": 65535,
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dov:topic": "opcua/Machinery/Machinery_MachineryItemIdentificationType/property/YearOfConstruction/read",
+            "op": "readproperty"
+          }
+        ]
+      }
+    },
+    "events": {
+    }
+  },
+  {
+    "@context": [
+      "https://www.w3.org/2022/wot/td/v1.1",
+      {
+        "dov": "http://azure.com/DigitalOperations/vocab#"
+      }
+    ],
+    "@type": "tm:ThingModel",
+    "title": "DI_FunctionalGroupType",
+    "dov:typeRef": "org.opcfoundation.UA.DI.FunctionalGroupType",
+    "links": [
+      {
+        "rel": "tm:extends",
+        "href": "#title=OpcUaCore_FolderType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "dov:component",
+        "dov:refName": "GroupIdentifier",
+        "href": "#title=DI_FunctionalGroupType",
+        "type": "application/tm+json"
+      }
+    ],
+    "schemaDefinitions": {
+    },
+    "forms": [
+      {
+        "contentType": "application/json",
+        "dov:topic": "opcua/DI/DI_FunctionalGroupType/events/{senderId}",
+        "op": "subscribeallevents"
+      },
+      {
+        "contentType": "application/json",
+        "dov:topic": "opcua/DI/DI_FunctionalGroupType/properties/read",
+        "op": "readallproperties"
+      }
+    ],
+    "tm:optional": [
+      "/properties/UIElement",
+      "/events/UIElement"
+    ],
+    "actions": {
+    },
+    "properties": {
+      "UIElement": {
+        "dov:namespace": "http://opcfoundation.org/UA/DI/",
+        "description": "Stand-in for an unspecified data type.",
+        "type": "string",
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dov:topic": "opcua/DI/DI_FunctionalGroupType/property/UIElement/read",
+            "op": "readproperty"
+          }
+        ]
+      }
+    },
+    "events": {
+      "UIElement": {
+        "dov:namespace": "http://opcfoundation.org/UA/DI/",
+        "data": {
+          "description": "Stand-in for an unspecified data type.",
+          "type": "string"
+        },
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dov:topic": "opcua/DI/DI_FunctionalGroupType/event/UIElement/{senderId}",
+            "op": "subscribeevent"
+          }
+        ]
+      }
     }
   }
 ]

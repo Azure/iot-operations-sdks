@@ -1,0 +1,956 @@
+[
+  {
+    "@context": [
+      "https://www.w3.org/2022/wot/td/v1.1",
+      {
+        "dov": "http://azure.com/DigitalOperations/vocab#"
+      }
+    ],
+    "@type": "tm:ThingModel",
+    "title": "SurfaceTechnology_ShotBlasting_BlasterType",
+    "dov:typeRef": "org.opcfoundation.UA.SurfaceTechnology.ShotBlasting.BlasterType",
+    "links": [
+      {
+        "rel": "tm:extends",
+        "href": "./OpcUaCore.TM.json#title=OpcUaCore_BaseObjectType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "dov:capability",
+        "dov:refName": "Identification",
+        "href": "./Machinery.TM.json#title=Machinery_MachineryComponentIdentificationType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "dov:component",
+        "dov:refName": "MachineryBuildingBlocks",
+        "href": "./OpcUaCore.TM.json#title=OpcUaCore_FolderType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "dov:component",
+        "dov:refName": "Monitoring",
+        "href": "./OpcUaCore.TM.json#title=OpcUaCore_FolderType",
+        "type": "application/tm+json"
+      }
+    ],
+    "schemaDefinitions": {
+    },
+    "actions": {
+    },
+    "properties": {
+    },
+    "events": {
+    }
+  },
+  {
+    "@context": [
+      "https://www.w3.org/2022/wot/td/v1.1",
+      {
+        "dov": "http://azure.com/DigitalOperations/vocab#"
+      }
+    ],
+    "@type": "tm:ThingModel",
+    "title": "SurfaceTechnology_ShotBlasting_ConveyorType",
+    "dov:typeRef": "org.opcfoundation.UA.SurfaceTechnology.ShotBlasting.ConveyorType",
+    "links": [
+      {
+        "rel": "tm:extends",
+        "href": "./OpcUaCore.TM.json#title=OpcUaCore_BaseObjectType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "dov:capability",
+        "dov:refName": "Identification",
+        "href": "./Machinery.TM.json#title=Machinery_MachineryComponentIdentificationType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "dov:component",
+        "dov:refName": "MachineryBuildingBlocks",
+        "href": "./OpcUaCore.TM.json#title=OpcUaCore_FolderType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "dov:component",
+        "dov:refName": "Monitoring",
+        "href": "./OpcUaCore.TM.json#title=OpcUaCore_FolderType",
+        "type": "application/tm+json"
+      }
+    ],
+    "schemaDefinitions": {
+    },
+    "actions": {
+    },
+    "properties": {
+    },
+    "events": {
+    }
+  },
+  {
+    "@context": [
+      "https://www.w3.org/2022/wot/td/v1.1",
+      {
+        "dov": "http://azure.com/DigitalOperations/vocab#"
+      }
+    ],
+    "@type": "tm:ThingModel",
+    "title": "SurfaceTechnology_ShotBlasting_DeploymentType",
+    "dov:typeRef": "org.opcfoundation.UA.SurfaceTechnology.ShotBlasting.DeploymentType",
+    "links": [
+      {
+        "rel": "tm:extends",
+        "href": "./OpcUaCore.TM.json#title=OpcUaCore_BaseObjectType",
+        "type": "application/tm+json"
+      }
+    ],
+    "schemaDefinitions": {
+    },
+    "forms": [
+      {
+        "contentType": "application/json",
+        "dov:topic": "opcua/SurfaceTechnology.ShotBlasting/SurfaceTechnology_ShotBlasting_DeploymentType/events/{senderId}",
+        "op": "subscribeallevents"
+      },
+      {
+        "contentType": "application/json",
+        "dov:topic": "opcua/SurfaceTechnology.ShotBlasting/SurfaceTechnology_ShotBlasting_DeploymentType/properties/write",
+        "op": "writemultipleproperties"
+      },
+      {
+        "contentType": "application/json",
+        "dov:topic": "opcua/SurfaceTechnology.ShotBlasting/SurfaceTechnology_ShotBlasting_DeploymentType/properties/read",
+        "op": "readallproperties"
+      }
+    ],
+    "tm:optional": [
+      "/properties/ActualConsumption",
+      "/properties/TotalConsumption",
+      "/events/ActualConsumption",
+      "/events/TotalConsumption"
+    ],
+    "actions": {
+    },
+    "properties": {
+      "ActualConsumption": {
+        "dov:namespace": "http://opcfoundation.org/UA/SurfaceTechnology/ShotBlasting/",
+        "type": "number",
+        "minimum": -1.80e+308,
+        "maximum": 1.80e+308,
+        "readOnly": false,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dov:topic": "opcua/SurfaceTechnology.ShotBlasting/SurfaceTechnology_ShotBlasting_DeploymentType/property/ActualConsumption/write",
+            "op": "writeproperty"
+          },
+          {
+            "contentType": "application/json",
+            "dov:topic": "opcua/SurfaceTechnology.ShotBlasting/SurfaceTechnology_ShotBlasting_DeploymentType/property/ActualConsumption/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "ConsumedMedia": {
+        "dov:namespace": "http://opcfoundation.org/UA/SurfaceTechnology/ShotBlasting/",
+        "type": "integer",
+        "minimum": 0,
+        "maximum": 65535,
+        "readOnly": false,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dov:topic": "opcua/SurfaceTechnology.ShotBlasting/SurfaceTechnology_ShotBlasting_DeploymentType/property/ConsumedMedia/write",
+            "op": "writeproperty"
+          },
+          {
+            "contentType": "application/json",
+            "dov:topic": "opcua/SurfaceTechnology.ShotBlasting/SurfaceTechnology_ShotBlasting_DeploymentType/property/ConsumedMedia/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "TotalConsumption": {
+        "dov:namespace": "http://opcfoundation.org/UA/SurfaceTechnology/ShotBlasting/",
+        "type": "number",
+        "minimum": -1.80e+308,
+        "maximum": 1.80e+308,
+        "readOnly": false,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dov:topic": "opcua/SurfaceTechnology.ShotBlasting/SurfaceTechnology_ShotBlasting_DeploymentType/property/TotalConsumption/write",
+            "op": "writeproperty"
+          },
+          {
+            "contentType": "application/json",
+            "dov:topic": "opcua/SurfaceTechnology.ShotBlasting/SurfaceTechnology_ShotBlasting_DeploymentType/property/TotalConsumption/read",
+            "op": "readproperty"
+          }
+        ]
+      }
+    },
+    "events": {
+      "ActualConsumption": {
+        "dov:namespace": "http://opcfoundation.org/UA/SurfaceTechnology/ShotBlasting/",
+        "data": {
+          "type": "number",
+          "minimum": -1.80e+308,
+          "maximum": 1.80e+308
+        },
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dov:topic": "opcua/SurfaceTechnology.ShotBlasting/SurfaceTechnology_ShotBlasting_DeploymentType/event/ActualConsumption/{senderId}",
+            "op": "subscribeevent"
+          }
+        ]
+      },
+      "ConsumedMedia": {
+        "dov:namespace": "http://opcfoundation.org/UA/SurfaceTechnology/ShotBlasting/",
+        "data": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 65535
+        },
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dov:topic": "opcua/SurfaceTechnology.ShotBlasting/SurfaceTechnology_ShotBlasting_DeploymentType/event/ConsumedMedia/{senderId}",
+            "op": "subscribeevent"
+          }
+        ]
+      },
+      "TotalConsumption": {
+        "dov:namespace": "http://opcfoundation.org/UA/SurfaceTechnology/ShotBlasting/",
+        "data": {
+          "type": "number",
+          "minimum": -1.80e+308,
+          "maximum": 1.80e+308
+        },
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dov:topic": "opcua/SurfaceTechnology.ShotBlasting/SurfaceTechnology_ShotBlasting_DeploymentType/event/TotalConsumption/{senderId}",
+            "op": "subscribeevent"
+          }
+        ]
+      }
+    }
+  },
+  {
+    "@context": [
+      "https://www.w3.org/2022/wot/td/v1.1",
+      {
+        "dov": "http://azure.com/DigitalOperations/vocab#"
+      }
+    ],
+    "@type": "tm:ThingModel",
+    "title": "SurfaceTechnology_ShotBlasting_FiltrationType",
+    "dov:typeRef": "org.opcfoundation.UA.SurfaceTechnology.ShotBlasting.FiltrationType",
+    "links": [
+      {
+        "rel": "tm:extends",
+        "href": "./OpcUaCore.TM.json#title=OpcUaCore_BaseObjectType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "dov:capability",
+        "dov:refName": "Identification",
+        "href": "./Machinery.TM.json#title=Machinery_MachineryComponentIdentificationType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "dov:component",
+        "dov:refName": "MachineryBuildingBlocks",
+        "href": "./OpcUaCore.TM.json#title=OpcUaCore_FolderType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "dov:component",
+        "dov:refName": "Monitoring",
+        "href": "./OpcUaCore.TM.json#title=OpcUaCore_FolderType",
+        "type": "application/tm+json"
+      }
+    ],
+    "schemaDefinitions": {
+    },
+    "actions": {
+    },
+    "properties": {
+    },
+    "events": {
+    }
+  },
+  {
+    "@context": [
+      "https://www.w3.org/2022/wot/td/v1.1",
+      {
+        "dov": "http://azure.com/DigitalOperations/vocab#"
+      }
+    ],
+    "@type": "tm:ThingModel",
+    "title": "SurfaceTechnology_ShotBlasting_HopperType",
+    "dov:typeRef": "org.opcfoundation.UA.SurfaceTechnology.ShotBlasting.HopperType",
+    "links": [
+      {
+        "rel": "tm:extends",
+        "href": "./OpcUaCore.TM.json#title=OpcUaCore_BaseObjectType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "dov:component",
+        "dov:refName": "Monitoring",
+        "href": "./OpcUaCore.TM.json#title=OpcUaCore_FolderType",
+        "type": "application/tm+json"
+      }
+    ],
+    "schemaDefinitions": {
+    },
+    "actions": {
+    },
+    "properties": {
+    },
+    "events": {
+    }
+  },
+  {
+    "@context": [
+      "https://www.w3.org/2022/wot/td/v1.1",
+      {
+        "dov": "http://azure.com/DigitalOperations/vocab#"
+      }
+    ],
+    "@type": "tm:ThingModel",
+    "title": "SurfaceTechnology_ShotBlasting_PressurisedBoilerType",
+    "dov:typeRef": "org.opcfoundation.UA.SurfaceTechnology.ShotBlasting.PressurisedBoilerType",
+    "links": [
+      {
+        "rel": "tm:extends",
+        "href": "./OpcUaCore.TM.json#title=OpcUaCore_BaseObjectType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "dov:capability",
+        "dov:refName": "Identification",
+        "href": "./Machinery.TM.json#title=Machinery_MachineryComponentIdentificationType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "dov:component",
+        "dov:refName": "MachineryBuildingBlocks",
+        "href": "./OpcUaCore.TM.json#title=OpcUaCore_FolderType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "dov:component",
+        "dov:refName": "Monitoring",
+        "href": "./OpcUaCore.TM.json#title=OpcUaCore_FolderType",
+        "type": "application/tm+json"
+      }
+    ],
+    "schemaDefinitions": {
+    },
+    "actions": {
+    },
+    "properties": {
+    },
+    "events": {
+    }
+  },
+  {
+    "@context": [
+      "https://www.w3.org/2022/wot/td/v1.1",
+      {
+        "dov": "http://azure.com/DigitalOperations/vocab#"
+      }
+    ],
+    "@type": "tm:ThingModel",
+    "title": "SurfaceTechnology_ShotBlasting_RefillSiloType",
+    "dov:typeRef": "org.opcfoundation.UA.SurfaceTechnology.ShotBlasting.RefillSiloType",
+    "links": [
+      {
+        "rel": "tm:extends",
+        "href": "./OpcUaCore.TM.json#title=OpcUaCore_BaseObjectType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "dov:component",
+        "dov:refName": "Monitoring",
+        "href": "./OpcUaCore.TM.json#title=OpcUaCore_FolderType",
+        "type": "application/tm+json"
+      }
+    ],
+    "schemaDefinitions": {
+    },
+    "actions": {
+    },
+    "properties": {
+    },
+    "events": {
+    }
+  },
+  {
+    "@context": [
+      "https://www.w3.org/2022/wot/td/v1.1",
+      {
+        "dov": "http://azure.com/DigitalOperations/vocab#"
+      }
+    ],
+    "@type": "tm:ThingModel",
+    "title": "SurfaceTechnology_ShotBlasting_ShotBlastChamberType",
+    "dov:typeRef": "org.opcfoundation.UA.SurfaceTechnology.ShotBlasting.ShotBlastChamberType",
+    "links": [
+      {
+        "rel": "tm:extends",
+        "href": "./OpcUaCore.TM.json#title=OpcUaCore_BaseObjectType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "dov:component",
+        "dov:refName": "Components",
+        "href": "./Machinery.TM.json#title=Machinery_MachineComponentsType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "dov:capability",
+        "dov:refName": "Identification",
+        "href": "./Machinery.TM.json#title=Machinery_MachineIdentificationType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "dov:component",
+        "dov:refName": "MachineryBuildingBlocks",
+        "href": "./OpcUaCore.TM.json#title=OpcUaCore_FolderType",
+        "type": "application/tm+json"
+      }
+    ],
+    "schemaDefinitions": {
+    },
+    "forms": [
+      {
+        "contentType": "application/json",
+        "dov:topic": "opcua/SurfaceTechnology.ShotBlasting/SurfaceTechnology_ShotBlasting_ShotBlastChamberType/properties/write",
+        "op": "writemultipleproperties"
+      },
+      {
+        "contentType": "application/json",
+        "dov:topic": "opcua/SurfaceTechnology.ShotBlasting/SurfaceTechnology_ShotBlasting_ShotBlastChamberType/properties/read",
+        "op": "readallproperties"
+      }
+    ],
+    "actions": {
+    },
+    "properties": {
+      "LoadingState": {
+        "dov:namespace": "http://opcfoundation.org/UA/SurfaceTechnology/ShotBlasting/",
+        "type": "boolean",
+        "readOnly": false,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dov:topic": "opcua/SurfaceTechnology.ShotBlasting/SurfaceTechnology_ShotBlasting_ShotBlastChamberType/property/LoadingState/write",
+            "op": "writeproperty"
+          },
+          {
+            "contentType": "application/json",
+            "dov:topic": "opcua/SurfaceTechnology.ShotBlasting/SurfaceTechnology_ShotBlasting_ShotBlastChamberType/property/LoadingState/read",
+            "op": "readproperty"
+          }
+        ]
+      }
+    },
+    "events": {
+    }
+  },
+  {
+    "@context": [
+      "https://www.w3.org/2022/wot/td/v1.1",
+      {
+        "dov": "http://azure.com/DigitalOperations/vocab#"
+      }
+    ],
+    "@type": "tm:ThingModel",
+    "title": "SurfaceTechnology_ShotBlasting_ShotBlastMachineType",
+    "dov:typeRef": "org.opcfoundation.UA.SurfaceTechnology.ShotBlasting.ShotBlastMachineType",
+    "dov:isComposite": true,
+    "links": [
+      {
+        "rel": "tm:extends",
+        "href": "./OpcUaCore.TM.json#title=OpcUaCore_BaseObjectType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "dov:component",
+        "dov:refName": "Components",
+        "href": "./Machinery.TM.json#title=Machinery_MachineComponentsType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "dov:capability",
+        "dov:refName": "Identification",
+        "href": "./Machinery.TM.json#title=Machinery_MachineIdentificationType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "dov:component",
+        "dov:refName": "MachineryBuildingBlocks",
+        "href": "./OpcUaCore.TM.json#title=OpcUaCore_FolderType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "dov:component",
+        "dov:refName": "Monitoring",
+        "href": "./OpcUaCore.TM.json#title=OpcUaCore_FolderType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "dov:reference",
+        "dov:refName": "ShotBlastMedia",
+        "href": "#title=SurfaceTechnology_ShotBlasting_ShotBlastMediaType",
+        "type": "application/tm+json"
+      }
+    ],
+    "schemaDefinitions": {
+    },
+    "actions": {
+    },
+    "properties": {
+    },
+    "events": {
+    }
+  },
+  {
+    "@context": [
+      "https://www.w3.org/2022/wot/td/v1.1",
+      {
+        "dov": "http://azure.com/DigitalOperations/vocab#"
+      }
+    ],
+    "@type": "tm:ThingModel",
+    "title": "SurfaceTechnology_ShotBlasting_ShotBlastMediaType",
+    "dov:typeRef": "org.opcfoundation.UA.SurfaceTechnology.ShotBlasting.ShotBlastMediaType",
+    "links": [
+      {
+        "rel": "tm:extends",
+        "href": "./OpcUaCore.TM.json#title=OpcUaCore_BaseObjectType",
+        "type": "application/tm+json"
+      }
+    ],
+    "schemaDefinitions": {
+    },
+    "forms": [
+      {
+        "contentType": "application/json",
+        "dov:topic": "opcua/SurfaceTechnology.ShotBlasting/SurfaceTechnology_ShotBlasting_ShotBlastMediaType/events/{senderId}",
+        "op": "subscribeallevents"
+      },
+      {
+        "contentType": "application/json",
+        "dov:topic": "opcua/SurfaceTechnology.ShotBlasting/SurfaceTechnology_ShotBlasting_ShotBlastMediaType/properties/write",
+        "op": "writemultipleproperties"
+      },
+      {
+        "contentType": "application/json",
+        "dov:topic": "opcua/SurfaceTechnology.ShotBlasting/SurfaceTechnology_ShotBlasting_ShotBlastMediaType/properties/read",
+        "op": "readallproperties"
+      }
+    ],
+    "tm:optional": [
+      "/properties/ActualParticleSizeRange",
+      "/properties/NominalParticleSizeAverage",
+      "/properties/NominalParticleSizeRange",
+      "/properties/ShotBlastMediaBatch",
+      "/properties/ShotBlastMediaHardnessAverage",
+      "/properties/ShotBlastMediaHardnessRange",
+      "/properties/ShotBlastMediaManufacturer",
+      "/properties/ShotBlastMediaName",
+      "/events/ActualParticleSizeRange",
+      "/events/NominalParticleSizeAverage",
+      "/events/NominalParticleSizeRange",
+      "/events/ShotBlastMediaHardnessAverage",
+      "/events/ShotBlastMediaHardnessRange"
+    ],
+    "actions": {
+    },
+    "properties": {
+      "ActualParticleSizeRange": {
+        "dov:namespace": "http://opcfoundation.org/UA/SurfaceTechnology/ShotBlasting/",
+        "title": "Range",
+        "type": "object",
+        "dov:typeRef": "org.opcfoundation.UA.Range",
+        "required": [ "Low", "High" ],
+        "properties": {
+          "Low": {
+            "type": "number",
+            "minimum": -1.80e+308,
+            "maximum": 1.80e+308
+          },
+          "High": {
+            "type": "number",
+            "minimum": -1.80e+308,
+            "maximum": 1.80e+308
+          }
+        },
+        "readOnly": false,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dov:topic": "opcua/SurfaceTechnology.ShotBlasting/SurfaceTechnology_ShotBlasting_ShotBlastMediaType/property/ActualParticleSizeRange/write",
+            "op": "writeproperty"
+          },
+          {
+            "contentType": "application/json",
+            "dov:topic": "opcua/SurfaceTechnology.ShotBlasting/SurfaceTechnology_ShotBlasting_ShotBlastMediaType/property/ActualParticleSizeRange/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "NominalParticleSizeAverage": {
+        "dov:namespace": "http://opcfoundation.org/UA/SurfaceTechnology/ShotBlasting/",
+        "type": "number",
+        "minimum": -1.80e+308,
+        "maximum": 1.80e+308,
+        "readOnly": false,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dov:topic": "opcua/SurfaceTechnology.ShotBlasting/SurfaceTechnology_ShotBlasting_ShotBlastMediaType/property/NominalParticleSizeAverage/write",
+            "op": "writeproperty"
+          },
+          {
+            "contentType": "application/json",
+            "dov:topic": "opcua/SurfaceTechnology.ShotBlasting/SurfaceTechnology_ShotBlasting_ShotBlastMediaType/property/NominalParticleSizeAverage/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "NominalParticleSizeRange": {
+        "dov:namespace": "http://opcfoundation.org/UA/SurfaceTechnology/ShotBlasting/",
+        "title": "Range",
+        "type": "object",
+        "dov:typeRef": "org.opcfoundation.UA.Range",
+        "required": [ "Low", "High" ],
+        "properties": {
+          "Low": {
+            "type": "number",
+            "minimum": -1.80e+308,
+            "maximum": 1.80e+308
+          },
+          "High": {
+            "type": "number",
+            "minimum": -1.80e+308,
+            "maximum": 1.80e+308
+          }
+        },
+        "readOnly": false,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dov:topic": "opcua/SurfaceTechnology.ShotBlasting/SurfaceTechnology_ShotBlasting_ShotBlastMediaType/property/NominalParticleSizeRange/write",
+            "op": "writeproperty"
+          },
+          {
+            "contentType": "application/json",
+            "dov:topic": "opcua/SurfaceTechnology.ShotBlasting/SurfaceTechnology_ShotBlasting_ShotBlastMediaType/property/NominalParticleSizeRange/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "ShotBlastMediaBatch": {
+        "dov:namespace": "http://opcfoundation.org/UA/SurfaceTechnology/ShotBlasting/",
+        "type": "string",
+        "readOnly": false,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dov:topic": "opcua/SurfaceTechnology.ShotBlasting/SurfaceTechnology_ShotBlasting_ShotBlastMediaType/property/ShotBlastMediaBatch/write",
+            "op": "writeproperty"
+          },
+          {
+            "contentType": "application/json",
+            "dov:topic": "opcua/SurfaceTechnology.ShotBlasting/SurfaceTechnology_ShotBlasting_ShotBlastMediaType/property/ShotBlastMediaBatch/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "ShotBlastMediaHardnessAverage": {
+        "dov:namespace": "http://opcfoundation.org/UA/SurfaceTechnology/ShotBlasting/",
+        "type": "number",
+        "minimum": -1.80e+308,
+        "maximum": 1.80e+308,
+        "readOnly": false,
+        "dov:contains": [ "ShotBlastMediaHardnessAverage_ShotBlastMediaHardnessUnit" ],
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dov:topic": "opcua/SurfaceTechnology.ShotBlasting/SurfaceTechnology_ShotBlasting_ShotBlastMediaType/property/ShotBlastMediaHardnessAverage/write",
+            "op": "writeproperty"
+          },
+          {
+            "contentType": "application/json",
+            "dov:topic": "opcua/SurfaceTechnology.ShotBlasting/SurfaceTechnology_ShotBlasting_ShotBlastMediaType/property/ShotBlastMediaHardnessAverage/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "ShotBlastMediaHardnessAverage_ShotBlastMediaHardnessUnit": {
+        "dov:namespace": "http://opcfoundation.org/UA/SurfaceTechnology/ShotBlasting/",
+        "type": "integer",
+        "minimum": 0,
+        "maximum": 65535,
+        "readOnly": false,
+        "dov:containedIn": "ShotBlastMediaHardnessAverage",
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dov:topic": "opcua/SurfaceTechnology.ShotBlasting/SurfaceTechnology_ShotBlasting_ShotBlastMediaType/property/ShotBlastMediaHardnessAverage_ShotBlastMediaHardnessUnit/write",
+            "op": "writeproperty"
+          },
+          {
+            "contentType": "application/json",
+            "dov:topic": "opcua/SurfaceTechnology.ShotBlasting/SurfaceTechnology_ShotBlasting_ShotBlastMediaType/property/ShotBlastMediaHardnessAverage_ShotBlastMediaHardnessUnit/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "ShotBlastMediaHardnessRange": {
+        "dov:namespace": "http://opcfoundation.org/UA/SurfaceTechnology/ShotBlasting/",
+        "title": "Range",
+        "type": "object",
+        "dov:typeRef": "org.opcfoundation.UA.Range",
+        "required": [ "Low", "High" ],
+        "properties": {
+          "Low": {
+            "type": "number",
+            "minimum": -1.80e+308,
+            "maximum": 1.80e+308
+          },
+          "High": {
+            "type": "number",
+            "minimum": -1.80e+308,
+            "maximum": 1.80e+308
+          }
+        },
+        "readOnly": false,
+        "dov:contains": [ "ShotBlastMediaHardnessRange_ShotBlastMediaHardnessUnit" ],
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dov:topic": "opcua/SurfaceTechnology.ShotBlasting/SurfaceTechnology_ShotBlasting_ShotBlastMediaType/property/ShotBlastMediaHardnessRange/write",
+            "op": "writeproperty"
+          },
+          {
+            "contentType": "application/json",
+            "dov:topic": "opcua/SurfaceTechnology.ShotBlasting/SurfaceTechnology_ShotBlasting_ShotBlastMediaType/property/ShotBlastMediaHardnessRange/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "ShotBlastMediaHardnessRange_ShotBlastMediaHardnessUnit": {
+        "dov:namespace": "http://opcfoundation.org/UA/SurfaceTechnology/ShotBlasting/",
+        "type": "integer",
+        "minimum": 0,
+        "maximum": 65535,
+        "readOnly": false,
+        "dov:containedIn": "ShotBlastMediaHardnessRange",
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dov:topic": "opcua/SurfaceTechnology.ShotBlasting/SurfaceTechnology_ShotBlasting_ShotBlastMediaType/property/ShotBlastMediaHardnessRange_ShotBlastMediaHardnessUnit/write",
+            "op": "writeproperty"
+          },
+          {
+            "contentType": "application/json",
+            "dov:topic": "opcua/SurfaceTechnology.ShotBlasting/SurfaceTechnology_ShotBlasting_ShotBlastMediaType/property/ShotBlastMediaHardnessRange_ShotBlastMediaHardnessUnit/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "ShotBlastMediaManufacturer": {
+        "dov:namespace": "http://opcfoundation.org/UA/SurfaceTechnology/ShotBlasting/",
+        "type": "string",
+        "readOnly": false,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dov:topic": "opcua/SurfaceTechnology.ShotBlasting/SurfaceTechnology_ShotBlasting_ShotBlastMediaType/property/ShotBlastMediaManufacturer/write",
+            "op": "writeproperty"
+          },
+          {
+            "contentType": "application/json",
+            "dov:topic": "opcua/SurfaceTechnology.ShotBlasting/SurfaceTechnology_ShotBlasting_ShotBlastMediaType/property/ShotBlastMediaManufacturer/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "ShotBlastMediaName": {
+        "dov:namespace": "http://opcfoundation.org/UA/SurfaceTechnology/ShotBlasting/",
+        "type": "string",
+        "readOnly": false,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dov:topic": "opcua/SurfaceTechnology.ShotBlasting/SurfaceTechnology_ShotBlasting_ShotBlastMediaType/property/ShotBlastMediaName/write",
+            "op": "writeproperty"
+          },
+          {
+            "contentType": "application/json",
+            "dov:topic": "opcua/SurfaceTechnology.ShotBlasting/SurfaceTechnology_ShotBlasting_ShotBlastMediaType/property/ShotBlastMediaName/read",
+            "op": "readproperty"
+          }
+        ]
+      }
+    },
+    "events": {
+      "ActualParticleSizeRange": {
+        "dov:namespace": "http://opcfoundation.org/UA/SurfaceTechnology/ShotBlasting/",
+        "data": {
+          "title": "Range",
+          "type": "object",
+          "dov:typeRef": "org.opcfoundation.UA.Range",
+          "required": [ "Low", "High" ],
+          "properties": {
+            "Low": {
+              "type": "number",
+              "minimum": -1.80e+308,
+              "maximum": 1.80e+308
+            },
+            "High": {
+              "type": "number",
+              "minimum": -1.80e+308,
+              "maximum": 1.80e+308
+            }
+          }
+        },
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dov:topic": "opcua/SurfaceTechnology.ShotBlasting/SurfaceTechnology_ShotBlasting_ShotBlastMediaType/event/ActualParticleSizeRange/{senderId}",
+            "op": "subscribeevent"
+          }
+        ]
+      },
+      "NominalParticleSizeAverage": {
+        "dov:namespace": "http://opcfoundation.org/UA/SurfaceTechnology/ShotBlasting/",
+        "data": {
+          "type": "number",
+          "minimum": -1.80e+308,
+          "maximum": 1.80e+308
+        },
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dov:topic": "opcua/SurfaceTechnology.ShotBlasting/SurfaceTechnology_ShotBlasting_ShotBlastMediaType/event/NominalParticleSizeAverage/{senderId}",
+            "op": "subscribeevent"
+          }
+        ]
+      },
+      "NominalParticleSizeRange": {
+        "dov:namespace": "http://opcfoundation.org/UA/SurfaceTechnology/ShotBlasting/",
+        "data": {
+          "title": "Range",
+          "type": "object",
+          "dov:typeRef": "org.opcfoundation.UA.Range",
+          "required": [ "Low", "High" ],
+          "properties": {
+            "Low": {
+              "type": "number",
+              "minimum": -1.80e+308,
+              "maximum": 1.80e+308
+            },
+            "High": {
+              "type": "number",
+              "minimum": -1.80e+308,
+              "maximum": 1.80e+308
+            }
+          }
+        },
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dov:topic": "opcua/SurfaceTechnology.ShotBlasting/SurfaceTechnology_ShotBlasting_ShotBlastMediaType/event/NominalParticleSizeRange/{senderId}",
+            "op": "subscribeevent"
+          }
+        ]
+      },
+      "ShotBlastMediaHardnessAverage": {
+        "dov:namespace": "http://opcfoundation.org/UA/SurfaceTechnology/ShotBlasting/",
+        "data": {
+          "type": "number",
+          "minimum": -1.80e+308,
+          "maximum": 1.80e+308
+        },
+        "dov:contains": [ "ShotBlastMediaHardnessAverage_ShotBlastMediaHardnessUnit" ],
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dov:topic": "opcua/SurfaceTechnology.ShotBlasting/SurfaceTechnology_ShotBlasting_ShotBlastMediaType/event/ShotBlastMediaHardnessAverage/{senderId}",
+            "op": "subscribeevent"
+          }
+        ]
+      },
+      "ShotBlastMediaHardnessAverage_ShotBlastMediaHardnessUnit": {
+        "dov:namespace": "http://opcfoundation.org/UA/SurfaceTechnology/ShotBlasting/",
+        "data": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 65535
+        },
+        "dov:containedIn": "ShotBlastMediaHardnessAverage",
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dov:topic": "opcua/SurfaceTechnology.ShotBlasting/SurfaceTechnology_ShotBlasting_ShotBlastMediaType/event/ShotBlastMediaHardnessAverage_ShotBlastMediaHardnessUnit/{senderId}",
+            "op": "subscribeevent"
+          }
+        ]
+      },
+      "ShotBlastMediaHardnessRange": {
+        "dov:namespace": "http://opcfoundation.org/UA/SurfaceTechnology/ShotBlasting/",
+        "data": {
+          "title": "Range",
+          "type": "object",
+          "dov:typeRef": "org.opcfoundation.UA.Range",
+          "required": [ "Low", "High" ],
+          "properties": {
+            "Low": {
+              "type": "number",
+              "minimum": -1.80e+308,
+              "maximum": 1.80e+308
+            },
+            "High": {
+              "type": "number",
+              "minimum": -1.80e+308,
+              "maximum": 1.80e+308
+            }
+          }
+        },
+        "dov:contains": [ "ShotBlastMediaHardnessRange_ShotBlastMediaHardnessUnit" ],
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dov:topic": "opcua/SurfaceTechnology.ShotBlasting/SurfaceTechnology_ShotBlasting_ShotBlastMediaType/event/ShotBlastMediaHardnessRange/{senderId}",
+            "op": "subscribeevent"
+          }
+        ]
+      },
+      "ShotBlastMediaHardnessRange_ShotBlastMediaHardnessUnit": {
+        "dov:namespace": "http://opcfoundation.org/UA/SurfaceTechnology/ShotBlasting/",
+        "data": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 65535
+        },
+        "dov:containedIn": "ShotBlastMediaHardnessRange",
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dov:topic": "opcua/SurfaceTechnology.ShotBlasting/SurfaceTechnology_ShotBlasting_ShotBlastMediaType/event/ShotBlastMediaHardnessRange_ShotBlastMediaHardnessUnit/{senderId}",
+            "op": "subscribeevent"
+          }
+        ]
+      }
+    }
+  }
+]

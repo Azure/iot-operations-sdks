@@ -31,6 +31,12 @@
         "op": "readallproperties"
       }
     ],
+    "tm:optional": [
+      "/actions/ConnectionTest",
+      "/actions/CreateAssetForEndpoint",
+      "/actions/DiscoverAssets",
+      "/properties/SupportedWoTBindings"
+    ],
     "actions": {
       "ConnectionTest": {
         "dov:namespace": "http://opcfoundation.org/UA/WoT-Con/",
@@ -218,6 +224,10 @@
         "op": "readallproperties"
       }
     ],
+    "tm:optional": [
+      "/properties/License",
+      "/properties/WoTConfigurationParameterName_Placeholder"
+    ],
     "actions": {
     },
     "properties": {
@@ -282,6 +292,9 @@
         "dov:topic": "opcua/WoT-Con/WoT_Con_IWoTAssetType/properties/read",
         "op": "readallproperties"
       }
+    ],
+    "tm:optional": [
+      "/properties/AssetEndpoint"
     ],
     "actions": {
     },
@@ -422,6 +435,11 @@
         "dov:topic": "opcua/OpcUaCore/OpcUaCore_FileType/properties/read",
         "op": "readallproperties"
       }
+    ],
+    "tm:optional": [
+      "/properties/LastModifiedTime",
+      "/properties/MaxByteStringLength",
+      "/properties/MimeType"
     ],
     "actions": {
       "Close": {

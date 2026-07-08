@@ -7,7 +7,7 @@
       }
     ],
     "@type": "tm:ThingModel",
-    "title": "Sercos_FunctionalGroupType",
+    "title": "Sercos_UA_FunctionalGroupType",
     "dov:typeRef": "org.sercos.UA.FunctionalGroupType",
     "links": [
       {
@@ -33,12 +33,12 @@
       }
     ],
     "@type": "tm:ThingModel",
-    "title": "Sercos_SercosProfileType",
+    "title": "Sercos_UA_SercosProfileType",
     "dov:typeRef": "org.sercos.UA.SercosProfileType",
     "links": [
       {
         "rel": "tm:extends",
-        "href": "#title=Sercos_FunctionalGroupType",
+        "href": "#title=Sercos_UA_FunctionalGroupType",
         "type": "application/tm+json"
       }
     ],
@@ -59,12 +59,12 @@
       }
     ],
     "@type": "tm:ThingModel",
-    "title": "Sercos_SercosClassType",
+    "title": "Sercos_UA_SercosClassType",
     "dov:typeRef": "org.sercos.UA.SercosClassType",
     "links": [
       {
         "rel": "tm:extends",
-        "href": "#title=Sercos_FunctionalGroupType",
+        "href": "#title=Sercos_UA_FunctionalGroupType",
         "type": "application/tm+json"
       }
     ],
@@ -85,12 +85,12 @@
       }
     ],
     "@type": "tm:ThingModel",
-    "title": "Sercos_SercosFunctionGroupType",
+    "title": "Sercos_UA_SercosFunctionGroupType",
     "dov:typeRef": "org.sercos.UA.SercosFunctionGroupType",
     "links": [
       {
         "rel": "tm:extends",
-        "href": "#title=Sercos_FunctionalGroupType",
+        "href": "#title=Sercos_UA_FunctionalGroupType",
         "type": "application/tm+json"
       }
     ],
@@ -111,7 +111,7 @@
       }
     ],
     "@type": "tm:ThingModel",
-    "title": "Sercos_SercosDeviceType",
+    "title": "Sercos_UA_SercosDeviceType",
     "dov:typeRef": "org.sercos.UA.SercosDeviceType",
     "dov:isComposite": true,
     "links": [
@@ -123,25 +123,25 @@
       {
         "rel": "dov:capability",
         "dov:refName": "ParameterSet",
-        "href": "#title=Sercos_FunctionalGroupType",
+        "href": "#title=Sercos_UA_FunctionalGroupType",
         "type": "application/tm+json"
       },
       {
         "rel": "dov:capability",
         "dov:refName": "ProfileSet",
-        "href": "#title=Sercos_FunctionalGroupType",
+        "href": "#title=Sercos_UA_FunctionalGroupType",
         "type": "application/tm+json"
       },
       {
         "rel": "dov:capability",
         "dov:refName": "ClassSet",
-        "href": "#title=Sercos_FunctionalGroupType",
+        "href": "#title=Sercos_UA_FunctionalGroupType",
         "type": "application/tm+json"
       },
       {
         "rel": "dov:capability",
         "dov:refName": "FunctionGroupSet",
-        "href": "#title=Sercos_FunctionalGroupType",
+        "href": "#title=Sercos_UA_FunctionalGroupType",
         "type": "application/tm+json"
       }
     ],
@@ -162,19 +162,19 @@
       }
     ],
     "@type": "tm:ThingModel",
-    "title": "Sercos_ProfileSet",
+    "title": "Sercos_UA_ProfileSet_2",
     "dov:typeRef": "org.sercos.UA.ProfileSet",
     "dov:isComposite": true,
     "links": [
       {
         "rel": "tm:extends",
-        "href": "#title=Sercos_FunctionalGroupType",
+        "href": "#title=Sercos_UA_FunctionalGroupType",
         "type": "application/tm+json"
       },
       {
         "rel": "dov:component",
         "dov:refName": "SercosProfileIdentifier_Placeholder",
-        "href": "#title=Sercos_SercosProfileType",
+        "href": "#title=Sercos_UA_SercosProfileType",
         "type": "application/tm+json"
       }
     ],
@@ -195,19 +195,19 @@
       }
     ],
     "@type": "tm:ThingModel",
-    "title": "Sercos_ClassSet",
+    "title": "Sercos_UA_ClassSet_2",
     "dov:typeRef": "org.sercos.UA.ClassSet",
     "dov:isComposite": true,
     "links": [
       {
         "rel": "tm:extends",
-        "href": "#title=Sercos_FunctionalGroupType",
+        "href": "#title=Sercos_UA_FunctionalGroupType",
         "type": "application/tm+json"
       },
       {
         "rel": "dov:component",
         "dov:refName": "SercosClassIdentifier_Placeholder",
-        "href": "#title=Sercos_SercosClassType",
+        "href": "#title=Sercos_UA_SercosClassType",
         "type": "application/tm+json"
       }
     ],
@@ -228,19 +228,19 @@
       }
     ],
     "@type": "tm:ThingModel",
-    "title": "Sercos_FunctionGroupSet",
+    "title": "Sercos_UA_FunctionGroupSet_2",
     "dov:typeRef": "org.sercos.UA.FunctionGroupSet",
     "dov:isComposite": true,
     "links": [
       {
         "rel": "tm:extends",
-        "href": "#title=Sercos_FunctionalGroupType",
+        "href": "#title=Sercos_UA_FunctionalGroupType",
         "type": "application/tm+json"
       },
       {
         "rel": "dov:component",
         "dov:refName": "FunctionGroupIdentifier_Placeholder",
-        "href": "#title=Sercos_SercosFunctionGroupType",
+        "href": "#title=Sercos_UA_SercosFunctionGroupType",
         "type": "application/tm+json"
       }
     ],
@@ -399,6 +399,14 @@
         "dov:topic": "opcua/DI/DI_DeviceType/properties/read",
         "op": "readallproperties"
       }
+    ],
+    "tm:optional": [
+      "/properties/DeviceClass",
+      "/properties/DeviceHealth",
+      "/properties/ManufacturerUri",
+      "/properties/ProductCode",
+      "/properties/ProductInstanceUri",
+      "/events/DeviceHealth"
     ],
     "actions": {
     },
@@ -611,6 +619,22 @@
         "dov:topic": "opcua/DI/DI_ComponentType/properties/read",
         "op": "readallproperties"
       }
+    ],
+    "tm:optional": [
+      "/properties/AssetId",
+      "/properties/ComponentName",
+      "/properties/DeviceClass",
+      "/properties/DeviceManual",
+      "/properties/DeviceRevision",
+      "/properties/HardwareRevision",
+      "/properties/Manufacturer",
+      "/properties/ManufacturerUri",
+      "/properties/Model",
+      "/properties/ProductCode",
+      "/properties/ProductInstanceUri",
+      "/properties/RevisionCounter",
+      "/properties/SerialNumber",
+      "/properties/SoftwareRevision"
     ],
     "actions": {
     },
@@ -882,6 +906,10 @@
         "op": "readallproperties"
       }
     ],
+    "tm:optional": [
+      "/properties/UIElement",
+      "/events/UIElement"
+    ],
     "actions": {
     },
     "properties": {
@@ -941,6 +969,9 @@
         "dov:topic": "opcua/DI/DI_LockingServicesType/properties/read",
         "op": "readallproperties"
       }
+    ],
+    "tm:optional": [
+      "/properties/DefaultInstanceBrowseName"
     ],
     "actions": {
       "BreakLock": {

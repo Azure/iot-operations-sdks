@@ -85,6 +85,10 @@
         "op": "readallproperties"
       }
     ],
+    "tm:optional": [
+      "/actions/SetApplicationTag",
+      "/properties/ApplicationTag"
+    ],
     "actions": {
       "SetApplicationTag": {
         "dov:namespace": "http://opcfoundation.org/UA/PDRV/",
@@ -327,6 +331,16 @@
         "dov:topic": "opcua/PDRV/PDRV_TraversingTaskType/properties/read",
         "op": "readallproperties"
       }
+    ],
+    "tm:optional": [
+      "/properties/Acceleration",
+      "/properties/Deceleration",
+      "/properties/TargetPosition",
+      "/properties/Velocity",
+      "/events/Acceleration",
+      "/events/Deceleration",
+      "/events/TargetPosition",
+      "/events/Velocity"
     ],
     "actions": {
     },
@@ -1087,6 +1101,9 @@
         "op": "readallproperties"
       }
     ],
+    "tm:optional": [
+      "/properties/Limit"
+    ],
     "actions": {
     },
     "properties": {
@@ -1254,6 +1271,21 @@
         "dov:topic": "opcua/PDRV/PDRV_AxisEventType/properties/read",
         "op": "readallproperties"
       }
+    ],
+    "tm:optional": [
+      "/properties/BrakeResistorTemperature",
+      "/properties/ControlMode",
+      "/properties/ConverterTemperature",
+      "/properties/DcBusVoltage",
+      "/properties/DeviceTemperature",
+      "/properties/Force",
+      "/properties/MotorTemperature",
+      "/properties/OutputCurrent",
+      "/properties/PositionFollowingError",
+      "/properties/Power",
+      "/properties/S_FeedbackSensor1_3Temperature_",
+      "/properties/Torque",
+      "/properties/VelocityFollowingError"
     ],
     "actions": {
     },

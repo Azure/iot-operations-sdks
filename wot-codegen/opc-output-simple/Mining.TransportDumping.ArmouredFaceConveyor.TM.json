@@ -17,6 +17,12 @@
         "type": "application/tm+json"
       },
       {
+        "rel": "dov:capability",
+        "dov:refName": "MiningEquipmentIdentification",
+        "href": "./Mining.General.TM.json#title=Mining_General_MiningEquipmentIdentificationType",
+        "type": "application/tm+json"
+      },
+      {
         "rel": "dov:component",
         "dov:refName": "ParameterSet",
         "href": "./OpcUaCore.TM.json#title=OpcUaCore_BaseObjectType",

@@ -1060,6 +1060,17 @@
         "op": "readallproperties"
       }
     ],
+    "tm:optional": [
+      "/actions/FindPartsByType",
+      "/properties/Seals",
+      "/properties/Sleeves",
+      "/properties/Terminals",
+      "/properties/Wires",
+      "/events/Seals",
+      "/events/Sleeves",
+      "/events/Terminals",
+      "/events/Wires"
+    ],
     "actions": {
       "ClearPart": {
         "dov:namespace": "http://opcfoundation.org/UA/WireHarness/",
@@ -2596,7 +2607,7 @@
     "links": [
       {
         "rel": "tm:extends",
-        "href": "./isa95-jobcontrol.TM.json#title=Isa95_jobcontrol_ISA95JobOrderReceiverSubStatesType",
+        "href": "./ISA95-JOBCONTROL_V2.TM.json#title=ISA95_JOBCONTROL_V2_ISA95JobOrderReceiverSubStatesType",
         "type": "application/tm+json"
       }
     ],
@@ -3553,6 +3564,18 @@
         "rel": "dov:reference",
         "dov:refName": "ArticleSpecManagement",
         "href": "#title=WireHarness_ArticleSpecManagementType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "dov:component",
+        "dov:refName": "Components",
+        "href": "./Machinery.TM.json#title=Machinery_MachineComponentsType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "dov:capability",
+        "dov:refName": "Identification",
+        "href": "#title=WireHarness_WireHarnessMachineIdentificationType",
         "type": "application/tm+json"
       },
       {

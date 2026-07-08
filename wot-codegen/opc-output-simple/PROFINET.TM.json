@@ -176,6 +176,14 @@
         "op": "readallproperties"
       }
     ],
+    "tm:optional": [
+      "/properties/ExtChannelAddValue",
+      "/properties/ExtChannelErrorType",
+      "/properties/HelpText",
+      "/properties/Maintenance",
+      "/properties/ManufacturerData",
+      "/properties/QualifiedChannelQualifier"
+    ],
     "actions": {
     },
     "properties": {
@@ -801,6 +809,12 @@
         "op": "readallproperties"
       }
     ],
+    "tm:optional": [
+      "/actions/ShowLocation",
+      "/properties/Diagnosis",
+      "/properties/Vendor",
+      "/events/Diagnosis"
+    ],
     "actions": {
       "ShowLocation": {
         "dov:namespace": "http://opcfoundation.org/UA/PROFINET/",
@@ -1148,6 +1162,11 @@
         "op": "readallproperties"
       }
     ],
+    "tm:optional": [
+      "/properties/GSDDescription",
+      "/properties/State",
+      "/events/State"
+    ],
     "actions": {
     },
     "properties": {
@@ -1277,6 +1296,13 @@
         "dov:topic": "opcua/PROFINET/PROFINET_IPnInterfaceType/properties/read",
         "op": "readallproperties"
       }
+    ],
+    "tm:optional": [
+      "/actions/SetNameOfStation",
+      "/properties/DeviceInstance",
+      "/properties/DeviceVendor",
+      "/properties/OEMDeviceId",
+      "/properties/OEMVendorId"
     ],
     "actions": {
       "SetNameOfStation": {
@@ -1441,6 +1467,10 @@
         "dov:topic": "opcua/PROFINET/PROFINET_IPnModuleType/properties/read",
         "op": "readallproperties"
       }
+    ],
+    "tm:optional": [
+      "/properties/GSDDescription",
+      "/properties/GSDName"
     ],
     "actions": {
     },
@@ -1810,6 +1840,10 @@
         "op": "readallproperties"
       }
     ],
+    "tm:optional": [
+      "/properties/Diagnosis",
+      "/events/Diagnosis"
+    ],
     "actions": {
     },
     "properties": {
@@ -2069,6 +2103,10 @@
         "dov:topic": "opcua/PROFINET/PROFINET_IPnSubmoduleType/properties/read",
         "op": "readallproperties"
       }
+    ],
+    "tm:optional": [
+      "/properties/GSDDescription",
+      "/properties/GSDName"
     ],
     "actions": {
     },
@@ -2367,6 +2405,10 @@
         "dov:topic": "opcua/PROFINET/PROFINET_IPnRealSubmoduleType/properties/read",
         "op": "readallproperties"
       }
+    ],
+    "tm:optional": [
+      "/properties/Diagnosis",
+      "/events/Diagnosis"
     ],
     "actions": {
     },
@@ -2841,6 +2883,10 @@
         "op": "readallproperties"
       }
     ],
+    "tm:optional": [
+      "/properties/Enabled",
+      "/events/Enabled"
+    ],
     "actions": {
     },
     "properties": {
@@ -2990,6 +3036,10 @@
         "dov:topic": "opcua/PROFINET/PROFINET_EthernetPortType/properties/read",
         "op": "readallproperties"
       }
+    ],
+    "tm:optional": [
+      "/properties/PhysAddress",
+      "/events/PhysAddress"
     ],
     "actions": {
     },
@@ -3168,6 +3218,11 @@
         "op": "readallproperties"
       }
     ],
+    "tm:optional": [
+      "/properties/DataHoldFactor",
+      "/properties/ReductionRatio",
+      "/properties/SendClockFactor"
+    ],
     "actions": {
     },
     "properties": {
@@ -3342,6 +3397,10 @@
         "dov:topic": "opcua/PROFINET/PROFINET_PnAssetType/properties/read",
         "op": "readallproperties"
       }
+    ],
+    "tm:optional": [
+      "/properties/HardwareRevision",
+      "/properties/SoftwareRevision"
     ],
     "actions": {
     },
@@ -3648,6 +3707,19 @@
         "dov:topic": "opcua/PROFINET/PROFINET_PnIdentificationType/properties/read",
         "op": "readallproperties"
       }
+    ],
+    "tm:optional": [
+      "/actions/SetDate",
+      "/actions/SetDescriptor",
+      "/actions/SetTags",
+      "/properties/Date",
+      "/properties/Descriptor",
+      "/properties/IM5",
+      "/properties/IMSupported",
+      "/properties/RevisionCounter",
+      "/properties/Signature",
+      "/properties/TagFunction",
+      "/properties/TagLocation"
     ],
     "actions": {
       "SetDate": {
@@ -4068,6 +4140,20 @@
         "op": "readallproperties"
       }
     ],
+    "tm:optional": [
+      "/properties/InDiscards",
+      "/properties/InErrors",
+      "/properties/InOctets",
+      "/properties/OutDiscards",
+      "/properties/OutErrors",
+      "/properties/OutOctets",
+      "/events/InDiscards",
+      "/events/InErrors",
+      "/events/InOctets",
+      "/events/OutDiscards",
+      "/events/OutErrors",
+      "/events/OutOctets"
+    ],
     "actions": {
     },
     "properties": {
@@ -4375,6 +4461,20 @@
         "dov:topic": "opcua/PROFINET/PROFINET_PnPortType/properties/read",
         "op": "readallproperties"
       }
+    ],
+    "tm:optional": [
+      "/properties/CableDelay",
+      "/properties/IsWireless",
+      "/properties/LinkState",
+      "/properties/MAUType",
+      "/properties/PortState",
+      "/properties/PowerBudget",
+      "/events/CableDelay",
+      "/events/IsWireless",
+      "/events/LinkState",
+      "/events/MAUType",
+      "/events/PortState",
+      "/events/PowerBudget"
     ],
     "actions": {
     },
@@ -4735,6 +4835,22 @@
         "dov:topic": "opcua/PROFINET/PROFINET_PnSubmoduleStateType/properties/read",
         "op": "readallproperties"
       }
+    ],
+    "tm:optional": [
+      "/properties/AddInfo",
+      "/properties/ARInfo",
+      "/properties/DiagInfo",
+      "/properties/IdentInfo",
+      "/properties/MaintenanceDemanded",
+      "/properties/MaintenanceRequired",
+      "/properties/QualifiedInfo",
+      "/events/AddInfo",
+      "/events/ARInfo",
+      "/events/DiagInfo",
+      "/events/IdentInfo",
+      "/events/MaintenanceDemanded",
+      "/events/MaintenanceRequired",
+      "/events/QualifiedInfo"
     ],
     "actions": {
     },

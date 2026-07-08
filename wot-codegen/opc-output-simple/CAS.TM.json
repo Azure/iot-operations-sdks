@@ -24,6 +24,9 @@
     ],
     "schemaDefinitions": {
     },
+    "tm:optional": [
+      "/actions/Trigger"
+    ],
     "actions": {
       "Trigger": {
         "dov:namespace": "http://opcfoundation.org/UA/CAS/",
@@ -141,6 +144,18 @@
         "dov:topic": "opcua/CAS/CAS_CommunicationSettingsType/properties/read",
         "op": "readallproperties"
       }
+    ],
+    "tm:optional": [
+      "/properties/DefaultGateway",
+      "/properties/Dhcp",
+      "/properties/DnsServer",
+      "/properties/DomainName",
+      "/properties/Hostname",
+      "/properties/IpVersion",
+      "/properties/MacAddress",
+      "/properties/SubnetMask",
+      "/events/Dhcp",
+      "/events/MacAddress"
     ],
     "actions": {
     },
@@ -378,6 +393,20 @@
         "dov:topic": "opcua/CAS/CAS_ElectricalQuantitiesType/properties/read",
         "op": "readallproperties"
       }
+    ],
+    "tm:optional": [
+      "/actions/ResetStatistics",
+      "/properties/ApparentPower",
+      "/properties/Current",
+      "/properties/Energy",
+      "/properties/Power",
+      "/properties/StartTime",
+      "/properties/Voltage",
+      "/events/ApparentPower",
+      "/events/Current",
+      "/events/Energy",
+      "/events/Power",
+      "/events/Voltage"
     ],
     "actions": {
       "ResetStatistics": {
@@ -650,6 +679,10 @@
         "op": "readallproperties"
       }
     ],
+    "tm:optional": [
+      "/properties/FluidType",
+      "/events/FluidType"
+    ],
     "actions": {
     },
     "properties": {
@@ -728,6 +761,32 @@
         "dov:topic": "opcua/CAS/CAS_FluidQuantitiesType/properties/read",
         "op": "readallproperties"
       }
+    ],
+    "tm:optional": [
+      "/actions/ResetStatistics",
+      "/properties/AbsolutePressure",
+      "/properties/AccumulatedVolume",
+      "/properties/DewPoint",
+      "/properties/GaugePressure",
+      "/properties/MassFlowRate",
+      "/properties/OilConcentration",
+      "/properties/Quantity",
+      "/properties/RelativeHumidity",
+      "/properties/StartTime",
+      "/properties/Temperature",
+      "/properties/Volume",
+      "/properties/VolumeFlowRate",
+      "/events/AbsolutePressure",
+      "/events/AccumulatedVolume",
+      "/events/DewPoint",
+      "/events/GaugePressure",
+      "/events/MassFlowRate",
+      "/events/OilConcentration",
+      "/events/Quantity",
+      "/events/RelativeHumidity",
+      "/events/Temperature",
+      "/events/Volume",
+      "/events/VolumeFlowRate"
     ],
     "actions": {
       "ResetStatistics": {
@@ -1375,6 +1434,10 @@
         "op": "readallproperties"
       }
     ],
+    "tm:optional": [
+      "/properties/AssetId",
+      "/properties/ComponentName"
+    ],
     "actions": {
     },
     "properties": {
@@ -1477,6 +1540,10 @@
         "dov:topic": "opcua/CAS/CAS_AirnetConfigurationType/properties/read",
         "op": "readallproperties"
       }
+    ],
+    "tm:optional": [
+      "/properties/OperatingModes",
+      "/events/OperatingModes"
     ],
     "actions": {
     },
@@ -1588,6 +1655,10 @@
     ],
     "schemaDefinitions": {
     },
+    "tm:optional": [
+      "/actions/LoadConfigurationFile",
+      "/actions/SaveConfigurationFile"
+    ],
     "actions": {
       "LoadConfigurationFile": {
         "dov:namespace": "http://opcfoundation.org/UA/CAS/",
@@ -1647,6 +1718,10 @@
         "dov:topic": "opcua/CAS/CAS_DesignType/properties/read",
         "op": "readallproperties"
       }
+    ],
+    "tm:optional": [
+      "/properties/ComponentClass",
+      "/events/ComponentClass"
     ],
     "actions": {
     },
@@ -1829,6 +1904,18 @@
         "dov:topic": "opcua/CAS/CAS_CompressorDesignType/properties/read",
         "op": "readallproperties"
       }
+    ],
+    "tm:optional": [
+      "/properties/ComponentClass",
+      "/properties/DisplacementType",
+      "/properties/LubricationType",
+      "/properties/NumberOfStages",
+      "/properties/VariableFlow",
+      "/events/ComponentClass",
+      "/events/DisplacementType",
+      "/events/LubricationType",
+      "/events/NumberOfStages",
+      "/events/VariableFlow"
     ],
     "actions": {
     },
@@ -2050,6 +2137,10 @@
         "op": "readallproperties"
       }
     ],
+    "tm:optional": [
+      "/properties/ComponentClass",
+      "/events/ComponentClass"
+    ],
     "actions": {
     },
     "properties": {
@@ -2151,6 +2242,10 @@
         "dov:topic": "opcua/CAS/CAS_DrainDesignType/properties/read",
         "op": "readallproperties"
       }
+    ],
+    "tm:optional": [
+      "/properties/ComponentClass",
+      "/events/ComponentClass"
     ],
     "actions": {
     },
@@ -2258,6 +2353,12 @@
         "dov:topic": "opcua/CAS/CAS_DryerDesignType/properties/read",
         "op": "readallproperties"
       }
+    ],
+    "tm:optional": [
+      "/properties/ComponentClass",
+      "/properties/LowestAmbientTemperature",
+      "/events/ComponentClass",
+      "/events/LowestAmbientTemperature"
     ],
     "actions": {
     },
@@ -2471,6 +2572,12 @@
         "op": "readallproperties"
       }
     ],
+    "tm:optional": [
+      "/properties/ComponentClass",
+      "/properties/FilterClass",
+      "/events/ComponentClass",
+      "/events/FilterClass"
+    ],
     "actions": {
     },
     "properties": {
@@ -2652,6 +2759,12 @@
         "dov:topic": "opcua/CAS/CAS_ReceiverDesignType/properties/read",
         "op": "readallproperties"
       }
+    ],
+    "tm:optional": [
+      "/properties/ComponentClass",
+      "/properties/Volume",
+      "/events/ComponentClass",
+      "/events/Volume"
     ],
     "actions": {
     },
@@ -2900,6 +3013,14 @@
         "op": "readallproperties"
       }
     ],
+    "tm:optional": [
+      "/properties/ComponentClass",
+      "/properties/SensorTechnology",
+      "/properties/SoftSensor",
+      "/events/ComponentClass",
+      "/events/SensorTechnology",
+      "/events/SoftSensor"
+    ],
     "actions": {
     },
     "properties": {
@@ -3074,6 +3195,10 @@
         "op": "readallproperties"
       }
     ],
+    "tm:optional": [
+      "/properties/ComponentClass",
+      "/events/ComponentClass"
+    ],
     "actions": {
     },
     "properties": {
@@ -3185,6 +3310,12 @@
         "dov:topic": "opcua/CAS/CAS_ValveDesignType/properties/read",
         "op": "readallproperties"
       }
+    ],
+    "tm:optional": [
+      "/properties/ComponentClass",
+      "/properties/NumberOfPorts",
+      "/events/ComponentClass",
+      "/events/NumberOfPorts"
     ],
     "actions": {
     },
@@ -3446,6 +3577,16 @@
         "op": "readallproperties"
       }
     ],
+    "tm:optional": [
+      "/properties/HealthState",
+      "/properties/IntegratedState",
+      "/properties/OnOff",
+      "/properties/OperatingState",
+      "/events/HealthState",
+      "/events/IntegratedState",
+      "/events/OnOff",
+      "/events/OperatingState"
+    ],
     "actions": {
     },
     "properties": {
@@ -3675,6 +3816,32 @@
         "dov:topic": "opcua/CAS/CAS_AirnetOperationalType/properties/read",
         "op": "readallproperties"
       }
+    ],
+    "tm:optional": [
+      "/properties/AirDeliveryRate",
+      "/properties/CompressorsIntegrated",
+      "/properties/CompressorsIsolated",
+      "/properties/CompressorsNotAvailable",
+      "/properties/ControlPressure",
+      "/properties/HealthState",
+      "/properties/IntegratedState",
+      "/properties/OperatingState",
+      "/properties/SpecificEnergy",
+      "/properties/SpecificEnergyCost",
+      "/properties/VolumeFlowRateAvailable",
+      "/properties/VolumeFlowRateUnavailable",
+      "/events/AirDeliveryRate",
+      "/events/CompressorsIntegrated",
+      "/events/CompressorsIsolated",
+      "/events/CompressorsNotAvailable",
+      "/events/ControlPressure",
+      "/events/HealthState",
+      "/events/IntegratedState",
+      "/events/OperatingState",
+      "/events/SpecificEnergy",
+      "/events/SpecificEnergyCost",
+      "/events/VolumeFlowRateAvailable",
+      "/events/VolumeFlowRateUnavailable"
     ],
     "actions": {
     },
@@ -4146,6 +4313,18 @@
         "op": "readallproperties"
       }
     ],
+    "tm:optional": [
+      "/properties/ActivePressureBand",
+      "/properties/FlowRateRatio",
+      "/properties/IsentropicEfficiency",
+      "/properties/OperatingState",
+      "/properties/SpecificEnergyRequirement",
+      "/events/ActivePressureBand",
+      "/events/FlowRateRatio",
+      "/events/IsentropicEfficiency",
+      "/events/OperatingState",
+      "/events/SpecificEnergyRequirement"
+    ],
     "actions": {
     },
     "properties": {
@@ -4343,6 +4522,10 @@
         "op": "readallproperties"
       }
     ],
+    "tm:optional": [
+      "/properties/CatalyticMaterialTemperature",
+      "/events/CatalyticMaterialTemperature"
+    ],
     "actions": {
     },
     "properties": {
@@ -4400,6 +4583,9 @@
     ],
     "schemaDefinitions": {
     },
+    "tm:optional": [
+      "/actions/DrainTest"
+    ],
     "actions": {
       "DrainTest": {
         "dov:namespace": "http://opcfoundation.org/UA/CAS/",
@@ -4521,6 +4707,14 @@
         "dov:topic": "opcua/CAS/CAS_DryerOperationalType/properties/read",
         "op": "readallproperties"
       }
+    ],
+    "tm:optional": [
+      "/properties/OnOff",
+      "/properties/OperatingState",
+      "/properties/PressureDewPoint",
+      "/events/OnOff",
+      "/events/OperatingState",
+      "/events/PressureDewPoint"
     ],
     "actions": {
     },
@@ -4653,6 +4847,12 @@
         "op": "readallproperties"
       }
     ],
+    "tm:optional": [
+      "/properties/ContinuousPosition",
+      "/properties/PortUsed",
+      "/events/ContinuousPosition",
+      "/events/PortUsed"
+    ],
     "actions": {
     },
     "properties": {
@@ -4752,6 +4952,19 @@
         "dov:topic": "opcua/CAS/CAS_StatisticsType/properties/read",
         "op": "readallproperties"
       }
+    ],
+    "tm:optional": [
+      "/actions/ResetStatistics",
+      "/properties/RealTime",
+      "/properties/RealTimeToNextService",
+      "/properties/ResetCondition",
+      "/properties/RunningTime",
+      "/properties/RunningTimeToNextService",
+      "/properties/StartTime",
+      "/events/RealTime",
+      "/events/RealTimeToNextService",
+      "/events/RunningTime",
+      "/events/RunningTimeToNextService"
     ],
     "actions": {
       "ResetStatistics": {
@@ -4953,6 +5166,12 @@
         "op": "readallproperties"
       }
     ],
+    "tm:optional": [
+      "/properties/LoadedTime",
+      "/properties/UnloadedTime",
+      "/events/LoadedTime",
+      "/events/UnloadedTime"
+    ],
     "actions": {
     },
     "properties": {
@@ -5058,6 +5277,9 @@
         "dov:topic": "opcua/CAS/CAS_AirnetsType/properties/read",
         "op": "readallproperties"
       }
+    ],
+    "tm:optional": [
+      "/properties/DefaultInstanceBrowseName"
     ],
     "actions": {
     },
@@ -5476,6 +5698,9 @@
         "dov:topic": "opcua/CAS/CAS_CASComponentType/properties/read",
         "op": "readallproperties"
       }
+    ],
+    "tm:optional": [
+      "/properties/ActiveAirnet"
     ],
     "actions": {
     },

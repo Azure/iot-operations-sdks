@@ -541,6 +541,14 @@
         "op": "readallproperties"
       }
     ],
+    "tm:optional": [
+      "/actions/AcknowledgeResults",
+      "/actions/GetLatestResult",
+      "/actions/GetResultById",
+      "/actions/GetResultIdListFiltered",
+      "/actions/ReleaseResultHandle",
+      "/properties/DefaultInstanceBrowseName"
+    ],
     "actions": {
       "AcknowledgeResults": {
         "dov:namespace": "http://opcfoundation.org/UA/Machinery/Result/",

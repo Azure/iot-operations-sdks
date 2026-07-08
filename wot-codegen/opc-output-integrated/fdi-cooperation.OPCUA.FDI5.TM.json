@@ -7,7 +7,7 @@
       }
     ],
     "@type": "tm:ThingModel",
-    "title": "FDI5_ActionType",
+    "title": "Fdi_cooperation_OPCUA_FDI5_ActionType",
     "dov:typeRef": "com.fdi-cooperation.OPCUA.FDI5.ActionType",
     "links": [
       {
@@ -33,7 +33,7 @@
       }
     ],
     "@type": "tm:ThingModel",
-    "title": "FDI5_ActionServiceType",
+    "title": "Fdi_cooperation_OPCUA_FDI5_ActionServiceType",
     "dov:typeRef": "com.fdi-cooperation.OPCUA.FDI5.ActionServiceType",
     "links": [
       {
@@ -44,7 +44,7 @@
       {
         "rel": "dov:component",
         "dov:refName": "ActionIdentifier_PH",
-        "href": "#title=FDI5_ActionType",
+        "href": "#title=Fdi_cooperation_OPCUA_FDI5_ActionType",
         "type": "application/tm+json"
       }
     ],
@@ -78,7 +78,7 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dov:topic": "opcua/FDI5/FDI5_ActionServiceType/action/AbortAction",
+            "dov:topic": "opcua/fdi-cooperation.OPCUA.FDI5/Fdi_cooperation_OPCUA_FDI5_ActionServiceType/action/AbortAction",
             "op": "invokeaction"
           }
         ]
@@ -116,7 +116,7 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dov:topic": "opcua/FDI5/FDI5_ActionServiceType/action/InvokeAction",
+            "dov:topic": "opcua/fdi-cooperation.OPCUA.FDI5/Fdi_cooperation_OPCUA_FDI5_ActionServiceType/action/InvokeAction",
             "op": "invokeaction"
           }
         ]
@@ -151,7 +151,7 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dov:topic": "opcua/FDI5/FDI5_ActionServiceType/action/RespondAction",
+            "dov:topic": "opcua/fdi-cooperation.OPCUA.FDI5/Fdi_cooperation_OPCUA_FDI5_ActionServiceType/action/RespondAction",
             "op": "invokeaction"
           }
         ]
@@ -170,7 +170,7 @@
       }
     ],
     "@type": "tm:ThingModel",
-    "title": "FDI5_EditContextType",
+    "title": "Fdi_cooperation_OPCUA_FDI5_EditContextType",
     "dov:typeRef": "com.fdi-cooperation.OPCUA.FDI5.EditContextType",
     "dov:isComposite": true,
     "links": [
@@ -258,7 +258,7 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dov:topic": "opcua/FDI5/FDI5_EditContextType/action/Apply",
+            "dov:topic": "opcua/fdi-cooperation.OPCUA.FDI5/Fdi_cooperation_OPCUA_FDI5_EditContextType/action/Apply",
             "op": "invokeaction"
           }
         ]
@@ -290,7 +290,7 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dov:topic": "opcua/FDI5/FDI5_EditContextType/action/Discard",
+            "dov:topic": "opcua/fdi-cooperation.OPCUA.FDI5/Fdi_cooperation_OPCUA_FDI5_EditContextType/action/Discard",
             "op": "invokeaction"
           }
         ]
@@ -332,7 +332,7 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dov:topic": "opcua/FDI5/FDI5_EditContextType/action/GetEditContext",
+            "dov:topic": "opcua/fdi-cooperation.OPCUA.FDI5/Fdi_cooperation_OPCUA_FDI5_EditContextType/action/GetEditContext",
             "op": "invokeaction"
           }
         ]
@@ -447,7 +447,7 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dov:topic": "opcua/FDI5/FDI5_EditContextType/action/RegisterNodesById",
+            "dov:topic": "opcua/fdi-cooperation.OPCUA.FDI5/Fdi_cooperation_OPCUA_FDI5_EditContextType/action/RegisterNodesById",
             "op": "invokeaction"
           }
         ]
@@ -562,7 +562,7 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dov:topic": "opcua/FDI5/FDI5_EditContextType/action/RegisterNodesByRelativePath",
+            "dov:topic": "opcua/fdi-cooperation.OPCUA.FDI5/Fdi_cooperation_OPCUA_FDI5_EditContextType/action/RegisterNodesByRelativePath",
             "op": "invokeaction"
           }
         ]
@@ -594,7 +594,7 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dov:topic": "opcua/FDI5/FDI5_EditContextType/action/Reset",
+            "dov:topic": "opcua/fdi-cooperation.OPCUA.FDI5/Fdi_cooperation_OPCUA_FDI5_EditContextType/action/Reset",
             "op": "invokeaction"
           }
         ]
@@ -613,7 +613,7 @@
       }
     ],
     "@type": "tm:ThingModel",
-    "title": "FDI5_DirectDeviceAccessType",
+    "title": "Fdi_cooperation_OPCUA_FDI5_DirectDeviceAccessType",
     "dov:typeRef": "com.fdi-cooperation.OPCUA.FDI5.DirectDeviceAccessType",
     "dov:isComposite": true,
     "links": [
@@ -653,7 +653,7 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dov:topic": "opcua/FDI5/FDI5_DirectDeviceAccessType/action/EndDirectAccess",
+            "dov:topic": "opcua/fdi-cooperation.OPCUA.FDI5/Fdi_cooperation_OPCUA_FDI5_DirectDeviceAccessType/action/EndDirectAccess",
             "op": "invokeaction"
           }
         ]
@@ -685,7 +685,7 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dov:topic": "opcua/FDI5/FDI5_DirectDeviceAccessType/action/InitDirectAccess",
+            "dov:topic": "opcua/fdi-cooperation.OPCUA.FDI5/Fdi_cooperation_OPCUA_FDI5_DirectDeviceAccessType/action/InitDirectAccess",
             "op": "invokeaction"
           }
         ]
@@ -720,7 +720,7 @@
         "forms": [
           {
             "contentType": "application/json",
-            "dov:topic": "opcua/FDI5/FDI5_DirectDeviceAccessType/action/Transfer",
+            "dov:topic": "opcua/fdi-cooperation.OPCUA.FDI5/Fdi_cooperation_OPCUA_FDI5_DirectDeviceAccessType/action/Transfer",
             "op": "invokeaction"
           }
         ]

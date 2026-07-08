@@ -30,6 +30,12 @@
         "op": "readallproperties"
       }
     ],
+    "tm:optional": [
+      "/properties/CoolingCircuitFlowRate",
+      "/properties/CoolingCircuitTemperatureOutlet",
+      "/events/CoolingCircuitFlowRate",
+      "/events/CoolingCircuitTemperatureOutlet"
+    ],
     "actions": {
     },
     "properties": {
@@ -113,6 +119,18 @@
       },
       {
         "rel": "dov:component",
+        "dov:refName": "Components",
+        "href": "./Machinery.TM.json#title=Machinery_MachineComponentsType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "dov:capability",
+        "dov:refName": "Identification",
+        "href": "./Machinery.TM.json#title=Machinery_MachineryComponentIdentificationType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "dov:component",
         "dov:refName": "MachineryBuildingBlocks",
         "href": "./OpcUaCore.TM.json#title=OpcUaCore_FolderType",
         "type": "application/tm+json"
@@ -147,6 +165,12 @@
       {
         "rel": "tm:extends",
         "href": "./OpcUaCore.TM.json#title=OpcUaCore_BaseObjectType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "dov:capability",
+        "dov:refName": "Identification",
+        "href": "./Machinery.TM.json#title=Machinery_MachineryComponentIdentificationType",
         "type": "application/tm+json"
       },
       {
@@ -189,6 +213,18 @@
       },
       {
         "rel": "dov:component",
+        "dov:refName": "Components",
+        "href": "./Machinery.TM.json#title=Machinery_MachineComponentsType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "dov:capability",
+        "dov:refName": "Identification",
+        "href": "./Machinery.TM.json#title=Machinery_MachineryComponentIdentificationType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "dov:component",
         "dov:refName": "MachineryBuildingBlocks",
         "href": "./OpcUaCore.TM.json#title=OpcUaCore_FolderType",
         "type": "application/tm+json"
@@ -223,6 +259,12 @@
       {
         "rel": "tm:extends",
         "href": "./OpcUaCore.TM.json#title=OpcUaCore_BaseObjectType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "dov:capability",
+        "dov:refName": "Identification",
+        "href": "./Machinery.TM.json#title=Machinery_MachineryComponentIdentificationType",
         "type": "application/tm+json"
       },
       {
@@ -261,6 +303,12 @@
       {
         "rel": "tm:extends",
         "href": "./OpcUaCore.TM.json#title=OpcUaCore_BaseObjectType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "dov:capability",
+        "dov:refName": "Identification",
+        "href": "./Machinery.TM.json#title=Machinery_MachineryComponentIdentificationType",
         "type": "application/tm+json"
       },
       {
@@ -304,6 +352,24 @@
       },
       {
         "rel": "dov:component",
+        "dov:refName": "Components",
+        "href": "./Machinery.TM.json#title=Machinery_MachineComponentsType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "dov:capability",
+        "dov:refName": "Identification",
+        "href": "./Machinery.TM.json#title=Machinery_MachineIdentificationType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "dov:reference",
+        "dov:refName": "JobManagement",
+        "href": "./Machinery.Jobs.TM.json#title=Machinery_Jobs_JobManagementType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "dov:component",
         "dov:refName": "MachineryBuildingBlocks",
         "href": "./OpcUaCore.TM.json#title=OpcUaCore_FolderType",
         "type": "application/tm+json"
@@ -342,6 +408,12 @@
         "type": "application/tm+json"
       },
       {
+        "rel": "dov:component",
+        "dov:refName": "Components",
+        "href": "./Machinery.TM.json#title=Machinery_MachineComponentsType",
+        "type": "application/tm+json"
+      },
+      {
         "rel": "dov:capability",
         "dov:refName": "Monitoring",
         "href": "./Machinery.TM.json#title=Machinery_MonitoringType",
@@ -375,6 +447,12 @@
         "type": "application/tm+json"
       },
       {
+        "rel": "dov:component",
+        "dov:refName": "Components",
+        "href": "./Machinery.TM.json#title=Machinery_MachineComponentsType",
+        "type": "application/tm+json"
+      },
+      {
         "rel": "dov:capability",
         "dov:refName": "Monitoring",
         "href": "./Machinery.TM.json#title=Machinery_MonitoringType",
@@ -404,6 +482,18 @@
       {
         "rel": "tm:extends",
         "href": "./OpcUaCore.TM.json#title=OpcUaCore_BaseObjectType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "dov:component",
+        "dov:refName": "Components",
+        "href": "./Machinery.TM.json#title=Machinery_MachineComponentsType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "dov:capability",
+        "dov:refName": "Identification",
+        "href": "./Machinery.TM.json#title=Machinery_MachineryComponentIdentificationType",
         "type": "application/tm+json"
       },
       {
@@ -442,6 +532,12 @@
       {
         "rel": "tm:extends",
         "href": "./OpcUaCore.TM.json#title=OpcUaCore_BaseObjectType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "dov:capability",
+        "dov:refName": "Identification",
+        "href": "./Machinery.TM.json#title=Machinery_MachineryComponentIdentificationType",
         "type": "application/tm+json"
       },
       {
@@ -501,6 +597,27 @@
         "dov:topic": "opcua/SurfaceTechnology.Plasma/SurfaceTechnology_Plasma_RegulatorType/properties/read",
         "op": "readallproperties"
       }
+    ],
+    "tm:optional": [
+      "/properties/CorrectionFactor",
+      "/properties/GasConsumption",
+      "/properties/GasFlow",
+      "/properties/HeaterTemperature",
+      "/properties/JetHeadTemperature",
+      "/properties/PrecursorMassFlow",
+      "/properties/PrecursorVolumeFlow",
+      "/properties/TFittingTemperature",
+      "/properties/TypeOfGas",
+      "/properties/TypeOfPrecursorFluid",
+      "/events/GasConsumption",
+      "/events/GasFlow",
+      "/events/HeaterTemperature",
+      "/events/JetHeadTemperature",
+      "/events/PrecursorMassFlow",
+      "/events/PrecursorVolumeFlow",
+      "/events/TFittingTemperature",
+      "/events/TypeOfGas",
+      "/events/TypeOfPrecursorFluid"
     ],
     "actions": {
     },
@@ -854,6 +971,9 @@
         "op": "readallproperties"
       }
     ],
+    "tm:optional": [
+      "/properties/DefaultInstanceBrowseName"
+    ],
     "actions": {
     },
     "properties": {
@@ -932,6 +1052,9 @@
         "dov:topic": "opcua/SurfaceTechnology.Plasma/SurfaceTechnology_Plasma_LowPressurePlasmaNotExecutingSubState_StateMachineType/properties/read",
         "op": "readallproperties"
       }
+    ],
+    "tm:optional": [
+      "/properties/DefaultInstanceBrowseName"
     ],
     "actions": {
     },
@@ -1035,6 +1158,12 @@
       {
         "rel": "tm:extends",
         "href": "./OpcUaCore.TM.json#title=OpcUaCore_BaseObjectType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "dov:capability",
+        "dov:refName": "Identification",
+        "href": "./Machinery.TM.json#title=Machinery_MachineryComponentIdentificationType",
         "type": "application/tm+json"
       },
       {

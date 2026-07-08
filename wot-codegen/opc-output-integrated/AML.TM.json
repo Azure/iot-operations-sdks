@@ -7,149 +7,40 @@
       }
     ],
     "@type": "tm:ThingModel",
-    "title": "Sercos_FunctionalGroupType",
-    "dov:typeRef": "org.sercos.UA.FunctionalGroupType",
-    "links": [
-      {
-        "rel": "tm:extends",
-        "href": "./OpcUaCore.TM.json#title=OpcUaCore_FolderType",
-        "type": "application/tm+json"
-      }
-    ],
-    "schemaDefinitions": {
-    },
-    "actions": {
-    },
-    "properties": {
-    },
-    "events": {
-    }
-  },
-  {
-    "@context": [
-      "https://www.w3.org/2022/wot/td/v1.1",
-      {
-        "dov": "http://azure.com/DigitalOperations/vocab#"
-      }
-    ],
-    "@type": "tm:ThingModel",
-    "title": "Sercos_SercosProfileType",
-    "dov:typeRef": "org.sercos.UA.SercosProfileType",
-    "links": [
-      {
-        "rel": "tm:extends",
-        "href": "#title=Sercos_FunctionalGroupType",
-        "type": "application/tm+json"
-      }
-    ],
-    "schemaDefinitions": {
-    },
-    "actions": {
-    },
-    "properties": {
-    },
-    "events": {
-    }
-  },
-  {
-    "@context": [
-      "https://www.w3.org/2022/wot/td/v1.1",
-      {
-        "dov": "http://azure.com/DigitalOperations/vocab#"
-      }
-    ],
-    "@type": "tm:ThingModel",
-    "title": "Sercos_SercosClassType",
-    "dov:typeRef": "org.sercos.UA.SercosClassType",
-    "links": [
-      {
-        "rel": "tm:extends",
-        "href": "#title=Sercos_FunctionalGroupType",
-        "type": "application/tm+json"
-      }
-    ],
-    "schemaDefinitions": {
-    },
-    "actions": {
-    },
-    "properties": {
-    },
-    "events": {
-    }
-  },
-  {
-    "@context": [
-      "https://www.w3.org/2022/wot/td/v1.1",
-      {
-        "dov": "http://azure.com/DigitalOperations/vocab#"
-      }
-    ],
-    "@type": "tm:ThingModel",
-    "title": "Sercos_SercosFunctionGroupType",
-    "dov:typeRef": "org.sercos.UA.SercosFunctionGroupType",
-    "links": [
-      {
-        "rel": "tm:extends",
-        "href": "#title=Sercos_FunctionalGroupType",
-        "type": "application/tm+json"
-      }
-    ],
-    "schemaDefinitions": {
-    },
-    "actions": {
-    },
-    "properties": {
-    },
-    "events": {
-    }
-  },
-  {
-    "@context": [
-      "https://www.w3.org/2022/wot/td/v1.1",
-      {
-        "dov": "http://azure.com/DigitalOperations/vocab#"
-      }
-    ],
-    "@type": "tm:ThingModel",
-    "title": "Sercos_SercosDeviceType",
-    "dov:typeRef": "org.sercos.UA.SercosDeviceType",
+    "title": "AML_CAEXBasicObjectType",
+    "dov:typeRef": "org.opcfoundation.UA.AML.CAEXBasicObjectType",
     "dov:isComposite": true,
     "links": [
       {
         "rel": "tm:extends",
-        "href": "./DI.TM.json#title=DI_DeviceType",
-        "type": "application/tm+json"
-      },
-      {
-        "rel": "dov:capability",
-        "dov:refName": "ParameterSet",
-        "href": "#title=Sercos_FunctionalGroupType",
-        "type": "application/tm+json"
-      },
-      {
-        "rel": "dov:capability",
-        "dov:refName": "ProfileSet",
-        "href": "#title=Sercos_FunctionalGroupType",
-        "type": "application/tm+json"
-      },
-      {
-        "rel": "dov:capability",
-        "dov:refName": "ClassSet",
-        "href": "#title=Sercos_FunctionalGroupType",
-        "type": "application/tm+json"
-      },
-      {
-        "rel": "dov:capability",
-        "dov:refName": "FunctionGroupSet",
-        "href": "#title=Sercos_FunctionalGroupType",
+        "href": "#title=OpcUaCore_BaseObjectType",
         "type": "application/tm+json"
       }
     ],
     "schemaDefinitions": {
     },
+    "forms": [
+      {
+        "contentType": "application/json",
+        "dov:topic": "opcua/AML/AML_CAEXBasicObjectType/properties/read",
+        "op": "readallproperties"
+      }
+    ],
     "actions": {
     },
     "properties": {
+      "Version": {
+        "dov:namespace": "http://opcfoundation.org/UA/AML/",
+        "type": "string",
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dov:topic": "opcua/AML/AML_CAEXBasicObjectType/property/Version/read",
+            "op": "readproperty"
+          }
+        ]
+      }
     },
     "events": {
     }
@@ -162,19 +53,37 @@
       }
     ],
     "@type": "tm:ThingModel",
-    "title": "Sercos_ProfileSet",
-    "dov:typeRef": "org.sercos.UA.ProfileSet",
+    "title": "AML_CAEXFileType",
+    "dov:typeRef": "org.opcfoundation.UA.AML.CAEXFileType",
     "dov:isComposite": true,
     "links": [
       {
         "rel": "tm:extends",
-        "href": "#title=Sercos_FunctionalGroupType",
+        "href": "#title=AML_CAEXBasicObjectType",
         "type": "application/tm+json"
       },
       {
         "rel": "dov:component",
-        "dov:refName": "SercosProfileIdentifier_Placeholder",
-        "href": "#title=Sercos_SercosProfileType",
+        "dov:refName": "InstanceHierarchies",
+        "href": "#title=OpcUaCore_FolderType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "dov:component",
+        "dov:refName": "InterfaceClassLibs",
+        "href": "#title=OpcUaCore_FolderType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "dov:component",
+        "dov:refName": "RoleClassLibs",
+        "href": "#title=OpcUaCore_FolderType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "dov:component",
+        "dov:refName": "SystemUnitClassLibs",
+        "href": "#title=OpcUaCore_FolderType",
         "type": "application/tm+json"
       }
     ],
@@ -195,19 +104,59 @@
       }
     ],
     "@type": "tm:ThingModel",
-    "title": "Sercos_ClassSet",
-    "dov:typeRef": "org.sercos.UA.ClassSet",
+    "title": "AML_CAEXObjectType",
+    "dov:typeRef": "org.opcfoundation.UA.AML.CAEXObjectType",
     "dov:isComposite": true,
     "links": [
       {
         "rel": "tm:extends",
-        "href": "#title=Sercos_FunctionalGroupType",
+        "href": "#title=AML_CAEXBasicObjectType",
         "type": "application/tm+json"
-      },
+      }
+    ],
+    "schemaDefinitions": {
+    },
+    "forms": [
       {
-        "rel": "dov:component",
-        "dov:refName": "SercosClassIdentifier_Placeholder",
-        "href": "#title=Sercos_SercosClassType",
+        "contentType": "application/json",
+        "dov:topic": "opcua/AML/AML_CAEXObjectType/properties/read",
+        "op": "readallproperties"
+      }
+    ],
+    "actions": {
+    },
+    "properties": {
+      "ID": {
+        "dov:namespace": "http://opcfoundation.org/UA/AML/",
+        "type": "string",
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dov:topic": "opcua/AML/AML_CAEXObjectType/property/ID/read",
+            "op": "readproperty"
+          }
+        ]
+      }
+    },
+    "events": {
+    }
+  },
+  {
+    "@context": [
+      "https://www.w3.org/2022/wot/td/v1.1",
+      {
+        "dov": "http://azure.com/DigitalOperations/vocab#"
+      }
+    ],
+    "@type": "tm:ThingModel",
+    "title": "AML_AutomationMLBaseInterface",
+    "dov:typeRef": "org.opcfoundation.UA.AML.AutomationMLBaseInterface",
+    "dov:isComposite": true,
+    "links": [
+      {
+        "rel": "tm:extends",
+        "href": "#title=AML_CAEXObjectType",
         "type": "application/tm+json"
       }
     ],
@@ -228,19 +177,87 @@
       }
     ],
     "@type": "tm:ThingModel",
-    "title": "Sercos_FunctionGroupSet",
-    "dov:typeRef": "org.sercos.UA.FunctionGroupSet",
+    "title": "AML_AutomationMLBaseRole",
+    "dov:typeRef": "org.opcfoundation.UA.AML.AutomationMLBaseRole",
     "dov:isComposite": true,
     "links": [
       {
         "rel": "tm:extends",
-        "href": "#title=Sercos_FunctionalGroupType",
+        "href": "#title=AML_CAEXObjectType",
         "type": "application/tm+json"
-      },
+      }
+    ],
+    "schemaDefinitions": {
+    },
+    "actions": {
+    },
+    "properties": {
+    },
+    "events": {
+    }
+  },
+  {
+    "@context": [
+      "https://www.w3.org/2022/wot/td/v1.1",
       {
-        "rel": "dov:component",
-        "dov:refName": "FunctionGroupIdentifier_Placeholder",
-        "href": "#title=Sercos_SercosFunctionGroupType",
+        "dov": "http://azure.com/DigitalOperations/vocab#"
+      }
+    ],
+    "@type": "tm:ThingModel",
+    "title": "AML_AutomationMLBaseSystemUnit",
+    "dov:typeRef": "org.opcfoundation.UA.AML.AutomationMLBaseSystemUnit",
+    "dov:isComposite": true,
+    "links": [
+      {
+        "rel": "tm:extends",
+        "href": "#title=AML_CAEXObjectType",
+        "type": "application/tm+json"
+      }
+    ],
+    "schemaDefinitions": {
+    },
+    "actions": {
+    },
+    "properties": {
+    },
+    "events": {
+    }
+  },
+  {
+    "@context": [
+      "https://www.w3.org/2022/wot/td/v1.1",
+      {
+        "dov": "http://azure.com/DigitalOperations/vocab#"
+      }
+    ],
+    "@type": "tm:ThingModel",
+    "title": "OpcUaCore_BaseObjectType",
+    "dov:typeRef": "org.opcfoundation.UA.BaseObjectType",
+    "links": [
+    ],
+    "schemaDefinitions": {
+    },
+    "actions": {
+    },
+    "properties": {
+    },
+    "events": {
+    }
+  },
+  {
+    "@context": [
+      "https://www.w3.org/2022/wot/td/v1.1",
+      {
+        "dov": "http://azure.com/DigitalOperations/vocab#"
+      }
+    ],
+    "@type": "tm:ThingModel",
+    "title": "OpcUaCore_FolderType",
+    "dov:typeRef": "org.opcfoundation.UA.FolderType",
+    "links": [
+      {
+        "rel": "tm:extends",
+        "href": "#title=OpcUaCore_BaseObjectType",
         "type": "application/tm+json"
       }
     ],

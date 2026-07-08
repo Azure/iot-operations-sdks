@@ -113,6 +113,15 @@
         "op": "readallproperties"
       }
     ],
+    "tm:optional": [
+      "/actions/FactoryReset",
+      "/properties/DateOfLastChange",
+      "/properties/DefaultInstanceBrowseName",
+      "/properties/DeviceRevision",
+      "/properties/DisplayLanguage",
+      "/events/DateOfLastChange",
+      "/events/DisplayLanguage"
+    ],
     "actions": {
       "FactoryReset": {
         "dov:namespace": "http://opcfoundation.org/UA/PADIM/",
@@ -472,6 +481,13 @@
         "op": "readallproperties"
       }
     ],
+    "tm:optional": [
+      "/actions/FactoryReset",
+      "/properties/DateOfLastChange",
+      "/properties/DisplayLanguage",
+      "/events/DateOfLastChange",
+      "/events/DisplayLanguage"
+    ],
     "actions": {
       "FactoryReset": {
         "dov:namespace": "http://opcfoundation.org/UA/PADIM/",
@@ -696,6 +712,9 @@
         "op": "readallproperties"
       }
     ],
+    "tm:optional": [
+      "/actions/ZeroPointAdjustment"
+    ],
     "actions": {
       "ZeroPointAdjustment": {
         "dov:namespace": "http://opcfoundation.org/UA/PADIM/",
@@ -795,6 +814,9 @@
         "dov:topic": "opcua/PADIM/PADIM_ControlSignalType/properties/read",
         "op": "readallproperties"
       }
+    ],
+    "tm:optional": [
+      "/actions/AutoAdjustPositioner"
     ],
     "actions": {
       "AutoAdjustPositioner": {
@@ -1490,6 +1512,12 @@
         "op": "readallproperties"
       }
     ],
+    "tm:optional": [
+      "/properties/CalibrationActualValue",
+      "/properties/CalibrationSetpoint",
+      "/events/CalibrationActualValue",
+      "/events/CalibrationSetpoint"
+    ],
     "actions": {
     },
     "properties": {
@@ -1617,6 +1645,14 @@
         "dov:topic": "opcua/PADIM/PADIM_GeneralDeviceConditionSetType/properties/read",
         "op": "readallproperties"
       }
+    ],
+    "tm:optional": [
+      "/properties/InternalTemperature",
+      "/properties/OperationCycleCounter",
+      "/properties/OperationDuration",
+      "/properties/PowerOnDuration",
+      "/properties/ResidualLife",
+      "/events/InternalTemperature"
     ],
     "actions": {
     },
@@ -1790,6 +1826,11 @@
         "op": "readallproperties"
       }
     ],
+    "tm:optional": [
+      "/properties/CalibrationTimestamp",
+      "/properties/TypeOfCalibration",
+      "/events/TypeOfCalibration"
+    ],
     "actions": {
     },
     "properties": {
@@ -1879,6 +1920,13 @@
         "dov:topic": "opcua/PADIM/PADIM_IPhCalibrationType/properties/read",
         "op": "readallproperties"
       }
+    ],
+    "tm:optional": [
+      "/properties/SensorAsymmetryPotential",
+      "/properties/SensorSlope",
+      "/properties/SensorT90",
+      "/events/SensorAsymmetryPotential",
+      "/events/SensorSlope"
     ],
     "actions": {
     },
@@ -1990,6 +2038,10 @@
         "op": "readallproperties"
       }
     ],
+    "tm:optional": [
+      "/properties/ConductivityCellConstant",
+      "/events/ConductivityCellConstant"
+    ],
     "actions": {
     },
     "properties": {
@@ -2056,6 +2108,15 @@
         "dov:topic": "opcua/PADIM/PADIM_IAmperometricCalibrationType/properties/read",
         "op": "readallproperties"
       }
+    ],
+    "tm:optional": [
+      "/properties/AbsoluteAirPressure",
+      "/properties/AmperometricSensorSlope",
+      "/properties/AmperometricSensorZeroPoint",
+      "/properties/SensorT90",
+      "/events/AbsoluteAirPressure",
+      "/events/AmperometricSensorSlope",
+      "/events/AmperometricSensorZeroPoint"
     ],
     "actions": {
     },
@@ -2196,6 +2257,15 @@
         "op": "readallproperties"
       }
     ],
+    "tm:optional": [
+      "/properties/AbsoluteAirPressure",
+      "/properties/OpticalFluorescenseQuenchingSensorSlope",
+      "/properties/OpticalFluorescenseQuenchingSensorZeroPoint",
+      "/properties/SensorT90",
+      "/events/AbsoluteAirPressure",
+      "/events/OpticalFluorescenseQuenchingSensorSlope",
+      "/events/OpticalFluorescenseQuenchingSensorZeroPoint"
+    ],
     "actions": {
     },
     "properties": {
@@ -2334,6 +2404,22 @@
         "dov:topic": "opcua/PADIM/PADIM_ITocDeviceConditionSetType/properties/read",
         "op": "readallproperties"
       }
+    ],
+    "tm:optional": [
+      "/properties/ActualInjectedVolume",
+      "/properties/CarrierGasGaugePressure",
+      "/properties/CarrierGasVolumeFlow",
+      "/properties/CoolerTemperature",
+      "/properties/ReactorTemperature",
+      "/properties/ReferenceInjectionVolume",
+      "/properties/SampleWaterVolumeFlow",
+      "/events/ActualInjectedVolume",
+      "/events/CarrierGasGaugePressure",
+      "/events/CarrierGasVolumeFlow",
+      "/events/CoolerTemperature",
+      "/events/ReactorTemperature",
+      "/events/ReferenceInjectionVolume",
+      "/events/SampleWaterVolumeFlow"
     ],
     "actions": {
     },
@@ -2576,6 +2662,16 @@
         "op": "readallproperties"
       }
     ],
+    "tm:optional": [
+      "/properties/BlockTemperature",
+      "/properties/CatalystTemperature",
+      "/properties/CombustionAirPressure",
+      "/properties/FuelGasPressure",
+      "/events/BlockTemperature",
+      "/events/CatalystTemperature",
+      "/events/CombustionAirPressure",
+      "/events/FuelGasPressure"
+    ],
     "actions": {
     },
     "properties": {
@@ -2730,6 +2826,15 @@
         "op": "readallproperties"
       }
     ],
+    "tm:optional": [
+      "/properties/AbsoluteSampleGasPressure",
+      "/properties/ChopperFrequencyDeviation",
+      "/properties/SampleCellTemperature",
+      "/properties/SourceResidualLife",
+      "/events/AbsoluteSampleGasPressure",
+      "/events/ChopperFrequencyDeviation",
+      "/events/SampleCellTemperature"
+    ],
     "actions": {
     },
     "properties": {
@@ -2868,6 +2973,21 @@
         "dov:topic": "opcua/PADIM/PADIM_ITocSignalConditionSetType/properties/read",
         "op": "readallproperties"
       }
+    ],
+    "tm:optional": [
+      "/properties/AbsoluteSampleGasPressure",
+      "/properties/ChopperFrequencyDeviation",
+      "/properties/DetectorZeroSignal",
+      "/properties/RelativeReagentLevel",
+      "/properties/SampleCellTemperature",
+      "/properties/SampleGasVolumeFlow",
+      "/properties/SourceResidualLife",
+      "/events/AbsoluteSampleGasPressure",
+      "/events/ChopperFrequencyDeviation",
+      "/events/DetectorZeroSignal",
+      "/events/RelativeReagentLevel",
+      "/events/SampleCellTemperature",
+      "/events/SampleGasVolumeFlow"
     ],
     "actions": {
     },
@@ -3095,6 +3215,12 @@
         "op": "readallproperties"
       }
     ],
+    "tm:optional": [
+      "/properties/SampleTemperature",
+      "/properties/SensingElementTemperature",
+      "/events/SampleTemperature",
+      "/events/SensingElementTemperature"
+    ],
     "actions": {
     },
     "properties": {
@@ -3191,6 +3317,10 @@
         "op": "readallproperties"
       }
     ],
+    "tm:optional": [
+      "/properties/SampleTemperature",
+      "/events/SampleTemperature"
+    ],
     "actions": {
     },
     "properties": {
@@ -3262,6 +3392,20 @@
         "dov:topic": "opcua/PADIM/PADIM_ITunableDiodeLaserSignalConditionSetType/properties/read",
         "op": "readallproperties"
       }
+    ],
+    "tm:optional": [
+      "/properties/AbsoluteSampleGasPressure",
+      "/properties/LaserTemperature",
+      "/properties/SampleTemperature",
+      "/properties/SignalFitQuality",
+      "/properties/SignalNoiseRatio",
+      "/properties/TransmissionRatio",
+      "/events/AbsoluteSampleGasPressure",
+      "/events/LaserTemperature",
+      "/events/SampleTemperature",
+      "/events/SignalFitQuality",
+      "/events/SignalNoiseRatio",
+      "/events/TransmissionRatio"
     ],
     "actions": {
     },
@@ -3480,9 +3624,34 @@
         "op": "readallproperties"
       }
     ],
+    "tm:optional": [
+      "/properties/CellResistance",
+      "/properties/RelativeHeatOutput",
+      "/properties/SampleGasVolumeFlow",
+      "/properties/SensingElementResidualLife",
+      "/properties/SensingElementTemperature",
+      "/events/CellResistance",
+      "/events/RelativeHeatOutput",
+      "/events/SampleGasVolumeFlow",
+      "/events/SensingElementTemperature"
+    ],
     "actions": {
     },
     "properties": {
+      "CellResistance": {
+        "dov:namespace": "http://opcfoundation.org/UA/PADIM/",
+        "type": "number",
+        "minimum": -3.40e+38,
+        "maximum": 3.40e+38,
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dov:topic": "opcua/PADIM/PADIM_IZirconiumDioxideSignalConditionSetType/property/CellResistance/read",
+            "op": "readproperty"
+          }
+        ]
+      },
       "RelativeHeatOutput": {
         "dov:namespace": "http://opcfoundation.org/UA/PADIM/",
         "type": "number",
@@ -3511,6 +3680,20 @@
           }
         ]
       },
+      "SensingElementResidualLife": {
+        "dov:namespace": "http://opcfoundation.org/UA/PADIM/",
+        "type": "number",
+        "minimum": -3.40e+38,
+        "maximum": 3.40e+38,
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dov:topic": "opcua/PADIM/PADIM_IZirconiumDioxideSignalConditionSetType/property/SensingElementResidualLife/read",
+            "op": "readproperty"
+          }
+        ]
+      },
       "SensingElementTemperature": {
         "dov:namespace": "http://opcfoundation.org/UA/PADIM/",
         "type": "number",
@@ -3527,6 +3710,21 @@
       }
     },
     "events": {
+      "CellResistance": {
+        "dov:namespace": "http://opcfoundation.org/UA/PADIM/",
+        "data": {
+          "type": "number",
+          "minimum": -3.40e+38,
+          "maximum": 3.40e+38
+        },
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dov:topic": "opcua/PADIM/PADIM_IZirconiumDioxideSignalConditionSetType/event/CellResistance/{senderId}",
+            "op": "subscribeevent"
+          }
+        ]
+      },
       "RelativeHeatOutput": {
         "dov:namespace": "http://opcfoundation.org/UA/PADIM/",
         "data": {
@@ -3604,6 +3802,20 @@
         "dov:topic": "opcua/PADIM/PADIM_IPhSignalConditionSetType/properties/read",
         "op": "readallproperties"
       }
+    ],
+    "tm:optional": [
+      "/properties/PhMeasuringMethod",
+      "/properties/SensingElementImpedance",
+      "/properties/SensingElementTemperature",
+      "/properties/SensorCleaningsCounter",
+      "/properties/SensorNextCalibration",
+      "/properties/SensorReferenceImpedance",
+      "/properties/SensorSterilisationsCounter",
+      "/events/PhMeasuringMethod",
+      "/events/SensingElementImpedance",
+      "/events/SensingElementTemperature",
+      "/events/SensorNextCalibration",
+      "/events/SensorReferenceImpedance"
     ],
     "actions": {
     },
@@ -3816,6 +4028,16 @@
         "op": "readallproperties"
       }
     ],
+    "tm:optional": [
+      "/properties/ConductivityMeasuringMethod",
+      "/properties/SensingElementTemperature",
+      "/properties/SensorCleaningsCounter",
+      "/properties/SensorSterilisationsCounter",
+      "/properties/TemperatureCompensationStyle",
+      "/events/ConductivityMeasuringMethod",
+      "/events/SensingElementTemperature",
+      "/events/TemperatureCompensationStyle"
+    ],
     "actions": {
     },
     "properties": {
@@ -3969,6 +4191,14 @@
         "op": "readallproperties"
       }
     ],
+    "tm:optional": [
+      "/properties/SensingElementTemperature",
+      "/properties/SensorCleaningsCounter",
+      "/properties/SensorNextCalibration",
+      "/properties/SensorSterilisationsCounter",
+      "/events/SensingElementTemperature",
+      "/events/SensorNextCalibration"
+    ],
     "actions": {
     },
     "properties": {
@@ -4092,6 +4322,14 @@
         "dov:topic": "opcua/PADIM/PADIM_IAmperometricSignalConditionSetType/properties/read",
         "op": "readallproperties"
       }
+    ],
+    "tm:optional": [
+      "/properties/SensingElementTemperature",
+      "/properties/SensorCleaningsCounter",
+      "/properties/SensorNextCalibration",
+      "/properties/SensorSterilisationsCounter",
+      "/events/SensingElementTemperature",
+      "/events/SensorNextCalibration"
     ],
     "actions": {
     },
@@ -4969,6 +5207,2375 @@
       {
         "rel": "tm:extends",
         "href": "#title=PADIM_ProcessAnalyserType",
+        "type": "application/tm+json"
+      }
+    ],
+    "schemaDefinitions": {
+    },
+    "actions": {
+    },
+    "properties": {
+    },
+    "events": {
+    }
+  },
+  {
+    "@context": [
+      "https://www.w3.org/2022/wot/td/v1.1",
+      {
+        "dov": "http://azure.com/DigitalOperations/vocab#"
+      }
+    ],
+    "@type": "tm:ThingModel",
+    "title": "PADIM_IGasChromatographCalibrationType",
+    "dov:typeRef": "org.opcfoundation.UA.PADIM.IGasChromatographCalibrationType",
+    "links": [
+      {
+        "rel": "tm:extends",
+        "href": "./OpcUaCore.TM.json#title=OpcUaCore_BaseInterfaceType",
+        "type": "application/tm+json"
+      }
+    ],
+    "schemaDefinitions": {
+    },
+    "forms": [
+      {
+        "contentType": "application/json",
+        "dov:topic": "opcua/PADIM/PADIM_IGasChromatographCalibrationType/events/{senderId}",
+        "op": "subscribeallevents"
+      },
+      {
+        "contentType": "application/json",
+        "dov:topic": "opcua/PADIM/PADIM_IGasChromatographCalibrationType/properties/write",
+        "op": "writemultipleproperties"
+      },
+      {
+        "contentType": "application/json",
+        "dov:topic": "opcua/PADIM/PADIM_IGasChromatographCalibrationType/properties/read",
+        "op": "readallproperties"
+      }
+    ],
+    "tm:optional": [
+      "/properties/CalibrationRange1LowerRangeValue",
+      "/properties/CalibrationRange1ResponseFactor",
+      "/properties/CalibrationRange1UpperRangeValue",
+      "/properties/CalibrationRange2LowerRangeValue",
+      "/properties/CalibrationRange2ResponseFactor",
+      "/properties/CalibrationRange2UpperRangeValue",
+      "/properties/CalibrationRange3LowerRangeValue",
+      "/properties/CalibrationRange3ResponseFactor",
+      "/properties/CalibrationRange3UpperRangeValue",
+      "/events/CalibrationRange1LowerRangeValue",
+      "/events/CalibrationRange1UpperRangeValue",
+      "/events/CalibrationRange2LowerRangeValue",
+      "/events/CalibrationRange2UpperRangeValue",
+      "/events/CalibrationRange3LowerRangeValue",
+      "/events/CalibrationRange3UpperRangeValue"
+    ],
+    "actions": {
+    },
+    "properties": {
+      "CalibrationRange1LowerRangeValue": {
+        "dov:namespace": "http://opcfoundation.org/UA/PADIM/",
+        "type": "number",
+        "minimum": -3.40e+38,
+        "maximum": 3.40e+38,
+        "readOnly": false,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dov:topic": "opcua/PADIM/PADIM_IGasChromatographCalibrationType/property/CalibrationRange1LowerRangeValue/write",
+            "op": "writeproperty"
+          },
+          {
+            "contentType": "application/json",
+            "dov:topic": "opcua/PADIM/PADIM_IGasChromatographCalibrationType/property/CalibrationRange1LowerRangeValue/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "CalibrationRange1ResponseFactor": {
+        "dov:namespace": "http://opcfoundation.org/UA/PADIM/",
+        "type": "number",
+        "minimum": -3.40e+38,
+        "maximum": 3.40e+38,
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dov:topic": "opcua/PADIM/PADIM_IGasChromatographCalibrationType/property/CalibrationRange1ResponseFactor/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "CalibrationRange1UpperRangeValue": {
+        "dov:namespace": "http://opcfoundation.org/UA/PADIM/",
+        "type": "number",
+        "minimum": -3.40e+38,
+        "maximum": 3.40e+38,
+        "readOnly": false,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dov:topic": "opcua/PADIM/PADIM_IGasChromatographCalibrationType/property/CalibrationRange1UpperRangeValue/write",
+            "op": "writeproperty"
+          },
+          {
+            "contentType": "application/json",
+            "dov:topic": "opcua/PADIM/PADIM_IGasChromatographCalibrationType/property/CalibrationRange1UpperRangeValue/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "CalibrationRange2LowerRangeValue": {
+        "dov:namespace": "http://opcfoundation.org/UA/PADIM/",
+        "type": "number",
+        "minimum": -3.40e+38,
+        "maximum": 3.40e+38,
+        "readOnly": false,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dov:topic": "opcua/PADIM/PADIM_IGasChromatographCalibrationType/property/CalibrationRange2LowerRangeValue/write",
+            "op": "writeproperty"
+          },
+          {
+            "contentType": "application/json",
+            "dov:topic": "opcua/PADIM/PADIM_IGasChromatographCalibrationType/property/CalibrationRange2LowerRangeValue/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "CalibrationRange2ResponseFactor": {
+        "dov:namespace": "http://opcfoundation.org/UA/PADIM/",
+        "type": "number",
+        "minimum": -3.40e+38,
+        "maximum": 3.40e+38,
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dov:topic": "opcua/PADIM/PADIM_IGasChromatographCalibrationType/property/CalibrationRange2ResponseFactor/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "CalibrationRange2UpperRangeValue": {
+        "dov:namespace": "http://opcfoundation.org/UA/PADIM/",
+        "type": "number",
+        "minimum": -3.40e+38,
+        "maximum": 3.40e+38,
+        "readOnly": false,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dov:topic": "opcua/PADIM/PADIM_IGasChromatographCalibrationType/property/CalibrationRange2UpperRangeValue/write",
+            "op": "writeproperty"
+          },
+          {
+            "contentType": "application/json",
+            "dov:topic": "opcua/PADIM/PADIM_IGasChromatographCalibrationType/property/CalibrationRange2UpperRangeValue/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "CalibrationRange3LowerRangeValue": {
+        "dov:namespace": "http://opcfoundation.org/UA/PADIM/",
+        "type": "number",
+        "minimum": -3.40e+38,
+        "maximum": 3.40e+38,
+        "readOnly": false,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dov:topic": "opcua/PADIM/PADIM_IGasChromatographCalibrationType/property/CalibrationRange3LowerRangeValue/write",
+            "op": "writeproperty"
+          },
+          {
+            "contentType": "application/json",
+            "dov:topic": "opcua/PADIM/PADIM_IGasChromatographCalibrationType/property/CalibrationRange3LowerRangeValue/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "CalibrationRange3ResponseFactor": {
+        "dov:namespace": "http://opcfoundation.org/UA/PADIM/",
+        "type": "number",
+        "minimum": -3.40e+38,
+        "maximum": 3.40e+38,
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dov:topic": "opcua/PADIM/PADIM_IGasChromatographCalibrationType/property/CalibrationRange3ResponseFactor/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "CalibrationRange3UpperRangeValue": {
+        "dov:namespace": "http://opcfoundation.org/UA/PADIM/",
+        "type": "number",
+        "minimum": -3.40e+38,
+        "maximum": 3.40e+38,
+        "readOnly": false,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dov:topic": "opcua/PADIM/PADIM_IGasChromatographCalibrationType/property/CalibrationRange3UpperRangeValue/write",
+            "op": "writeproperty"
+          },
+          {
+            "contentType": "application/json",
+            "dov:topic": "opcua/PADIM/PADIM_IGasChromatographCalibrationType/property/CalibrationRange3UpperRangeValue/read",
+            "op": "readproperty"
+          }
+        ]
+      }
+    },
+    "events": {
+      "CalibrationRange1LowerRangeValue": {
+        "dov:namespace": "http://opcfoundation.org/UA/PADIM/",
+        "data": {
+          "type": "number",
+          "minimum": -3.40e+38,
+          "maximum": 3.40e+38
+        },
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dov:topic": "opcua/PADIM/PADIM_IGasChromatographCalibrationType/event/CalibrationRange1LowerRangeValue/{senderId}",
+            "op": "subscribeevent"
+          }
+        ]
+      },
+      "CalibrationRange1UpperRangeValue": {
+        "dov:namespace": "http://opcfoundation.org/UA/PADIM/",
+        "data": {
+          "type": "number",
+          "minimum": -3.40e+38,
+          "maximum": 3.40e+38
+        },
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dov:topic": "opcua/PADIM/PADIM_IGasChromatographCalibrationType/event/CalibrationRange1UpperRangeValue/{senderId}",
+            "op": "subscribeevent"
+          }
+        ]
+      },
+      "CalibrationRange2LowerRangeValue": {
+        "dov:namespace": "http://opcfoundation.org/UA/PADIM/",
+        "data": {
+          "type": "number",
+          "minimum": -3.40e+38,
+          "maximum": 3.40e+38
+        },
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dov:topic": "opcua/PADIM/PADIM_IGasChromatographCalibrationType/event/CalibrationRange2LowerRangeValue/{senderId}",
+            "op": "subscribeevent"
+          }
+        ]
+      },
+      "CalibrationRange2UpperRangeValue": {
+        "dov:namespace": "http://opcfoundation.org/UA/PADIM/",
+        "data": {
+          "type": "number",
+          "minimum": -3.40e+38,
+          "maximum": 3.40e+38
+        },
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dov:topic": "opcua/PADIM/PADIM_IGasChromatographCalibrationType/event/CalibrationRange2UpperRangeValue/{senderId}",
+            "op": "subscribeevent"
+          }
+        ]
+      },
+      "CalibrationRange3LowerRangeValue": {
+        "dov:namespace": "http://opcfoundation.org/UA/PADIM/",
+        "data": {
+          "type": "number",
+          "minimum": -3.40e+38,
+          "maximum": 3.40e+38
+        },
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dov:topic": "opcua/PADIM/PADIM_IGasChromatographCalibrationType/event/CalibrationRange3LowerRangeValue/{senderId}",
+            "op": "subscribeevent"
+          }
+        ]
+      },
+      "CalibrationRange3UpperRangeValue": {
+        "dov:namespace": "http://opcfoundation.org/UA/PADIM/",
+        "data": {
+          "type": "number",
+          "minimum": -3.40e+38,
+          "maximum": 3.40e+38
+        },
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dov:topic": "opcua/PADIM/PADIM_IGasChromatographCalibrationType/event/CalibrationRange3UpperRangeValue/{senderId}",
+            "op": "subscribeevent"
+          }
+        ]
+      }
+    }
+  },
+  {
+    "@context": [
+      "https://www.w3.org/2022/wot/td/v1.1",
+      {
+        "dov": "http://azure.com/DigitalOperations/vocab#"
+      }
+    ],
+    "@type": "tm:ThingModel",
+    "title": "PADIM_IGasChromatographDeviceConditionSetType",
+    "dov:typeRef": "org.opcfoundation.UA.PADIM.IGasChromatographDeviceConditionSetType",
+    "links": [
+      {
+        "rel": "tm:extends",
+        "href": "./OpcUaCore.TM.json#title=OpcUaCore_BaseInterfaceType",
+        "type": "application/tm+json"
+      }
+    ],
+    "schemaDefinitions": {
+    },
+    "forms": [
+      {
+        "contentType": "application/json",
+        "dov:topic": "opcua/PADIM/PADIM_IGasChromatographDeviceConditionSetType/events/{senderId}",
+        "op": "subscribeallevents"
+      },
+      {
+        "contentType": "application/json",
+        "dov:topic": "opcua/PADIM/PADIM_IGasChromatographDeviceConditionSetType/properties/read",
+        "op": "readallproperties"
+      }
+    ],
+    "tm:optional": [
+      "/properties/BaselineNoise",
+      "/properties/TotalAreaMeasuredPeaks",
+      "/properties/ValveName",
+      "/properties/ValveSwitchingCyclesCounter",
+      "/events/BaselineNoise",
+      "/events/TotalAreaMeasuredPeaks"
+    ],
+    "actions": {
+    },
+    "properties": {
+      "BaselineNoise": {
+        "dov:namespace": "http://opcfoundation.org/UA/PADIM/",
+        "type": "number",
+        "minimum": -3.40e+38,
+        "maximum": 3.40e+38,
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dov:topic": "opcua/PADIM/PADIM_IGasChromatographDeviceConditionSetType/property/BaselineNoise/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "TotalAreaMeasuredPeaks": {
+        "dov:namespace": "http://opcfoundation.org/UA/PADIM/",
+        "type": "number",
+        "minimum": -3.40e+38,
+        "maximum": 3.40e+38,
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dov:topic": "opcua/PADIM/PADIM_IGasChromatographDeviceConditionSetType/property/TotalAreaMeasuredPeaks/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "ValveName": {
+        "dov:namespace": "http://opcfoundation.org/UA/PADIM/",
+        "type": "array",
+        "items": {
+          "type": "string"
+        },
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dov:topic": "opcua/PADIM/PADIM_IGasChromatographDeviceConditionSetType/property/ValveName/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "ValveSwitchingCyclesCounter": {
+        "dov:namespace": "http://opcfoundation.org/UA/PADIM/",
+        "type": "array",
+        "items": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 4294967295
+        },
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dov:topic": "opcua/PADIM/PADIM_IGasChromatographDeviceConditionSetType/property/ValveSwitchingCyclesCounter/read",
+            "op": "readproperty"
+          }
+        ]
+      }
+    },
+    "events": {
+      "BaselineNoise": {
+        "dov:namespace": "http://opcfoundation.org/UA/PADIM/",
+        "data": {
+          "type": "number",
+          "minimum": -3.40e+38,
+          "maximum": 3.40e+38
+        },
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dov:topic": "opcua/PADIM/PADIM_IGasChromatographDeviceConditionSetType/event/BaselineNoise/{senderId}",
+            "op": "subscribeevent"
+          }
+        ]
+      },
+      "TotalAreaMeasuredPeaks": {
+        "dov:namespace": "http://opcfoundation.org/UA/PADIM/",
+        "data": {
+          "type": "number",
+          "minimum": -3.40e+38,
+          "maximum": 3.40e+38
+        },
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dov:topic": "opcua/PADIM/PADIM_IGasChromatographDeviceConditionSetType/event/TotalAreaMeasuredPeaks/{senderId}",
+            "op": "subscribeevent"
+          }
+        ]
+      }
+    }
+  },
+  {
+    "@context": [
+      "https://www.w3.org/2022/wot/td/v1.1",
+      {
+        "dov": "http://azure.com/DigitalOperations/vocab#"
+      }
+    ],
+    "@type": "tm:ThingModel",
+    "title": "PADIM_GasChromatographType",
+    "dov:typeRef": "org.opcfoundation.UA.PADIM.GasChromatographType",
+    "dov:isComposite": true,
+    "links": [
+      {
+        "rel": "tm:extends",
+        "href": "#title=PADIM_ProcessAnalyserType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "dov:component",
+        "dov:refName": "DeviceConditionSet",
+        "href": "./OpcUaCore.TM.json#title=OpcUaCore_BaseObjectType",
+        "type": "application/tm+json"
+      }
+    ],
+    "schemaDefinitions": {
+    },
+    "actions": {
+    },
+    "properties": {
+    },
+    "events": {
+    }
+  },
+  {
+    "@context": [
+      "https://www.w3.org/2022/wot/td/v1.1",
+      {
+        "dov": "http://azure.com/DigitalOperations/vocab#"
+      }
+    ],
+    "@type": "tm:ThingModel",
+    "title": "PADIM_InfraredSensorType",
+    "dov:typeRef": "org.opcfoundation.UA.PADIM.InfraredSensorType",
+    "dov:isComposite": true,
+    "links": [
+      {
+        "rel": "tm:extends",
+        "href": "#title=PADIM_ProcessAnalyserType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "dov:component",
+        "dov:refName": "DeviceConditionSet",
+        "href": "./OpcUaCore.TM.json#title=OpcUaCore_BaseObjectType",
+        "type": "application/tm+json"
+      }
+    ],
+    "schemaDefinitions": {
+    },
+    "actions": {
+    },
+    "properties": {
+    },
+    "events": {
+    }
+  },
+  {
+    "@context": [
+      "https://www.w3.org/2022/wot/td/v1.1",
+      {
+        "dov": "http://azure.com/DigitalOperations/vocab#"
+      }
+    ],
+    "@type": "tm:ThingModel",
+    "title": "PADIM_AmperometricGasDetectorType",
+    "dov:typeRef": "org.opcfoundation.UA.PADIM.AmperometricGasDetectorType",
+    "dov:isComposite": true,
+    "links": [
+      {
+        "rel": "tm:extends",
+        "href": "#title=PADIM_ProcessAnalyserType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "dov:component",
+        "dov:refName": "DeviceConditionSet",
+        "href": "./OpcUaCore.TM.json#title=OpcUaCore_BaseObjectType",
+        "type": "application/tm+json"
+      }
+    ],
+    "schemaDefinitions": {
+    },
+    "actions": {
+    },
+    "properties": {
+    },
+    "events": {
+    }
+  },
+  {
+    "@context": [
+      "https://www.w3.org/2022/wot/td/v1.1",
+      {
+        "dov": "http://azure.com/DigitalOperations/vocab#"
+      }
+    ],
+    "@type": "tm:ThingModel",
+    "title": "PADIM_CatalyticBeadSensorType",
+    "dov:typeRef": "org.opcfoundation.UA.PADIM.CatalyticBeadSensorType",
+    "dov:isComposite": true,
+    "links": [
+      {
+        "rel": "tm:extends",
+        "href": "#title=PADIM_ProcessAnalyserType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "dov:component",
+        "dov:refName": "DeviceConditionSet",
+        "href": "./OpcUaCore.TM.json#title=OpcUaCore_BaseObjectType",
+        "type": "application/tm+json"
+      }
+    ],
+    "schemaDefinitions": {
+    },
+    "actions": {
+    },
+    "properties": {
+    },
+    "events": {
+    }
+  },
+  {
+    "@context": [
+      "https://www.w3.org/2022/wot/td/v1.1",
+      {
+        "dov": "http://azure.com/DigitalOperations/vocab#"
+      }
+    ],
+    "@type": "tm:ThingModel",
+    "title": "PADIM_IFtnirOrFtirDeviceConditionSetType",
+    "dov:typeRef": "org.opcfoundation.UA.PADIM.IFtnirOrFtirDeviceConditionSetType",
+    "links": [
+      {
+        "rel": "tm:extends",
+        "href": "./OpcUaCore.TM.json#title=OpcUaCore_BaseInterfaceType",
+        "type": "application/tm+json"
+      }
+    ],
+    "schemaDefinitions": {
+    },
+    "forms": [
+      {
+        "contentType": "application/json",
+        "dov:topic": "opcua/PADIM/PADIM_IFtnirOrFtirDeviceConditionSetType/properties/read",
+        "op": "readallproperties"
+      }
+    ],
+    "tm:optional": [
+      "/properties/RemainingDataStorageCapacity",
+      "/properties/Watchdog"
+    ],
+    "actions": {
+    },
+    "properties": {
+      "RemainingDataStorageCapacity": {
+        "dov:namespace": "http://opcfoundation.org/UA/PADIM/",
+        "type": "number",
+        "minimum": -3.40e+38,
+        "maximum": 3.40e+38,
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dov:topic": "opcua/PADIM/PADIM_IFtnirOrFtirDeviceConditionSetType/property/RemainingDataStorageCapacity/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "Watchdog": {
+        "dov:namespace": "http://opcfoundation.org/UA/PADIM/",
+        "type": "boolean",
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dov:topic": "opcua/PADIM/PADIM_IFtnirOrFtirDeviceConditionSetType/property/Watchdog/read",
+            "op": "readproperty"
+          }
+        ]
+      }
+    },
+    "events": {
+    }
+  },
+  {
+    "@context": [
+      "https://www.w3.org/2022/wot/td/v1.1",
+      {
+        "dov": "http://azure.com/DigitalOperations/vocab#"
+      }
+    ],
+    "@type": "tm:ThingModel",
+    "title": "PADIM_IDiodeArrayDeviceConditionSetType",
+    "dov:typeRef": "org.opcfoundation.UA.PADIM.IDiodeArrayDeviceConditionSetType",
+    "links": [
+      {
+        "rel": "tm:extends",
+        "href": "./OpcUaCore.TM.json#title=OpcUaCore_BaseInterfaceType",
+        "type": "application/tm+json"
+      }
+    ],
+    "schemaDefinitions": {
+    },
+    "forms": [
+      {
+        "contentType": "application/json",
+        "dov:topic": "opcua/PADIM/PADIM_IDiodeArrayDeviceConditionSetType/properties/read",
+        "op": "readallproperties"
+      }
+    ],
+    "tm:optional": [
+      "/properties/RemainingDataStorageCapacity",
+      "/properties/Watchdog"
+    ],
+    "actions": {
+    },
+    "properties": {
+      "RemainingDataStorageCapacity": {
+        "dov:namespace": "http://opcfoundation.org/UA/PADIM/",
+        "type": "number",
+        "minimum": -3.40e+38,
+        "maximum": 3.40e+38,
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dov:topic": "opcua/PADIM/PADIM_IDiodeArrayDeviceConditionSetType/property/RemainingDataStorageCapacity/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "Watchdog": {
+        "dov:namespace": "http://opcfoundation.org/UA/PADIM/",
+        "type": "boolean",
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dov:topic": "opcua/PADIM/PADIM_IDiodeArrayDeviceConditionSetType/property/Watchdog/read",
+            "op": "readproperty"
+          }
+        ]
+      }
+    },
+    "events": {
+    }
+  },
+  {
+    "@context": [
+      "https://www.w3.org/2022/wot/td/v1.1",
+      {
+        "dov": "http://azure.com/DigitalOperations/vocab#"
+      }
+    ],
+    "@type": "tm:ThingModel",
+    "title": "PADIM_DiodeArraySpectrometerType",
+    "dov:typeRef": "org.opcfoundation.UA.PADIM.DiodeArraySpectrometerType",
+    "dov:isComposite": true,
+    "links": [
+      {
+        "rel": "tm:extends",
+        "href": "#title=PADIM_ProcessAnalyserType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "dov:component",
+        "dov:refName": "DeviceConditionSet",
+        "href": "./OpcUaCore.TM.json#title=OpcUaCore_BaseObjectType",
+        "type": "application/tm+json"
+      }
+    ],
+    "schemaDefinitions": {
+    },
+    "actions": {
+    },
+    "properties": {
+    },
+    "events": {
+    }
+  },
+  {
+    "@context": [
+      "https://www.w3.org/2022/wot/td/v1.1",
+      {
+        "dov": "http://azure.com/DigitalOperations/vocab#"
+      }
+    ],
+    "@type": "tm:ThingModel",
+    "title": "PADIM_IRamanDeviceConditionSetType",
+    "dov:typeRef": "org.opcfoundation.UA.PADIM.IRamanDeviceConditionSetType",
+    "links": [
+      {
+        "rel": "tm:extends",
+        "href": "./OpcUaCore.TM.json#title=OpcUaCore_BaseInterfaceType",
+        "type": "application/tm+json"
+      }
+    ],
+    "schemaDefinitions": {
+    },
+    "forms": [
+      {
+        "contentType": "application/json",
+        "dov:topic": "opcua/PADIM/PADIM_IRamanDeviceConditionSetType/properties/read",
+        "op": "readallproperties"
+      }
+    ],
+    "tm:optional": [
+      "/properties/RemainingDataStorageCapacity",
+      "/properties/Watchdog"
+    ],
+    "actions": {
+    },
+    "properties": {
+      "RemainingDataStorageCapacity": {
+        "dov:namespace": "http://opcfoundation.org/UA/PADIM/",
+        "type": "number",
+        "minimum": -3.40e+38,
+        "maximum": 3.40e+38,
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dov:topic": "opcua/PADIM/PADIM_IRamanDeviceConditionSetType/property/RemainingDataStorageCapacity/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "Watchdog": {
+        "dov:namespace": "http://opcfoundation.org/UA/PADIM/",
+        "type": "boolean",
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dov:topic": "opcua/PADIM/PADIM_IRamanDeviceConditionSetType/property/Watchdog/read",
+            "op": "readproperty"
+          }
+        ]
+      }
+    },
+    "events": {
+    }
+  },
+  {
+    "@context": [
+      "https://www.w3.org/2022/wot/td/v1.1",
+      {
+        "dov": "http://azure.com/DigitalOperations/vocab#"
+      }
+    ],
+    "@type": "tm:ThingModel",
+    "title": "PADIM_RamanSpectrometerType",
+    "dov:typeRef": "org.opcfoundation.UA.PADIM.RamanSpectrometerType",
+    "dov:isComposite": true,
+    "links": [
+      {
+        "rel": "tm:extends",
+        "href": "#title=PADIM_ProcessAnalyserType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "dov:component",
+        "dov:refName": "DeviceConditionSet",
+        "href": "./OpcUaCore.TM.json#title=OpcUaCore_BaseObjectType",
+        "type": "application/tm+json"
+      }
+    ],
+    "schemaDefinitions": {
+    },
+    "actions": {
+    },
+    "properties": {
+    },
+    "events": {
+    }
+  },
+  {
+    "@context": [
+      "https://www.w3.org/2022/wot/td/v1.1",
+      {
+        "dov": "http://azure.com/DigitalOperations/vocab#"
+      }
+    ],
+    "@type": "tm:ThingModel",
+    "title": "PADIM_FtnirOrFtirSpectrometerType",
+    "dov:typeRef": "org.opcfoundation.UA.PADIM.FtnirOrFtirSpectrometerType",
+    "dov:isComposite": true,
+    "links": [
+      {
+        "rel": "tm:extends",
+        "href": "#title=PADIM_ProcessAnalyserType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "dov:component",
+        "dov:refName": "DeviceConditionSet",
+        "href": "./OpcUaCore.TM.json#title=OpcUaCore_BaseObjectType",
+        "type": "application/tm+json"
+      }
+    ],
+    "schemaDefinitions": {
+    },
+    "actions": {
+    },
+    "properties": {
+    },
+    "events": {
+    }
+  },
+  {
+    "@context": [
+      "https://www.w3.org/2022/wot/td/v1.1",
+      {
+        "dov": "http://azure.com/DigitalOperations/vocab#"
+      }
+    ],
+    "@type": "tm:ThingModel",
+    "title": "PADIM_IAmperometricGasDetectorSignalConditionSetType",
+    "dov:typeRef": "org.opcfoundation.UA.PADIM.IAmperometricGasDetectorSignalConditionSetType",
+    "links": [
+      {
+        "rel": "tm:extends",
+        "href": "./OpcUaCore.TM.json#title=OpcUaCore_BaseInterfaceType",
+        "type": "application/tm+json"
+      }
+    ],
+    "schemaDefinitions": {
+    },
+    "forms": [
+      {
+        "contentType": "application/json",
+        "dov:topic": "opcua/PADIM/PADIM_IAmperometricGasDetectorSignalConditionSetType/events/{senderId}",
+        "op": "subscribeallevents"
+      },
+      {
+        "contentType": "application/json",
+        "dov:topic": "opcua/PADIM/PADIM_IAmperometricGasDetectorSignalConditionSetType/properties/read",
+        "op": "readallproperties"
+      }
+    ],
+    "tm:optional": [
+      "/properties/ConsumedSensorCapacity",
+      "/properties/PowerOnDurationSensor",
+      "/properties/RangeExceedanceDuration",
+      "/properties/RangeExceedancePeakValue",
+      "/properties/RelativeGasFlowRate",
+      "/properties/SensingElementResidualLife",
+      "/properties/SensingElementResidualSensitivity",
+      "/properties/SensingElementTemperature",
+      "/properties/SensorNextCalibrationDynamic",
+      "/properties/SensorNextCalibrationFixed",
+      "/events/SensingElementTemperature"
+    ],
+    "actions": {
+    },
+    "properties": {
+      "ConsumedSensorCapacity": {
+        "dov:namespace": "http://opcfoundation.org/UA/PADIM/",
+        "type": "number",
+        "minimum": -3.40e+38,
+        "maximum": 3.40e+38,
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dov:topic": "opcua/PADIM/PADIM_IAmperometricGasDetectorSignalConditionSetType/property/ConsumedSensorCapacity/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "PowerOnDurationSensor": {
+        "dov:namespace": "http://opcfoundation.org/UA/PADIM/",
+        "type": "string",
+        "pattern": "^P(?!$)(?:(?:(?:(?:\\d+Y)|(?:\\d+\\.\\d+Y$))?(?:(?:\\d+M)|(?:\\d+\\.\\d+M$))?)|(?:(?:(?:\\d+W)|(?:\\d+\\.\\d+W$))?))(?:(?:\\d+D)|(?:\\d+\\.\\d+D$))?(?:T(?!$)(?:(?:\\d+H)|(?:\\d+\\.\\d+H$))?(?:(?:\\d+M)|(?:\\d+\\.\\d+M$))?(?:\\d+(?:\\.\\d+)?S)?)?$",
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dov:topic": "opcua/PADIM/PADIM_IAmperometricGasDetectorSignalConditionSetType/property/PowerOnDurationSensor/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "RangeExceedanceDuration": {
+        "dov:namespace": "http://opcfoundation.org/UA/PADIM/",
+        "type": "string",
+        "pattern": "^P(?!$)(?:(?:(?:(?:\\d+Y)|(?:\\d+\\.\\d+Y$))?(?:(?:\\d+M)|(?:\\d+\\.\\d+M$))?)|(?:(?:(?:\\d+W)|(?:\\d+\\.\\d+W$))?))(?:(?:\\d+D)|(?:\\d+\\.\\d+D$))?(?:T(?!$)(?:(?:\\d+H)|(?:\\d+\\.\\d+H$))?(?:(?:\\d+M)|(?:\\d+\\.\\d+M$))?(?:\\d+(?:\\.\\d+)?S)?)?$",
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dov:topic": "opcua/PADIM/PADIM_IAmperometricGasDetectorSignalConditionSetType/property/RangeExceedanceDuration/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "RangeExceedancePeakValue": {
+        "dov:namespace": "http://opcfoundation.org/UA/PADIM/",
+        "type": "number",
+        "minimum": -3.40e+38,
+        "maximum": 3.40e+38,
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dov:topic": "opcua/PADIM/PADIM_IAmperometricGasDetectorSignalConditionSetType/property/RangeExceedancePeakValue/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "RelativeGasFlowRate": {
+        "dov:namespace": "http://opcfoundation.org/UA/PADIM/",
+        "type": "number",
+        "minimum": -3.40e+38,
+        "maximum": 3.40e+38,
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dov:topic": "opcua/PADIM/PADIM_IAmperometricGasDetectorSignalConditionSetType/property/RelativeGasFlowRate/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "SensingElementResidualLife": {
+        "dov:namespace": "http://opcfoundation.org/UA/PADIM/",
+        "type": "number",
+        "minimum": -3.40e+38,
+        "maximum": 3.40e+38,
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dov:topic": "opcua/PADIM/PADIM_IAmperometricGasDetectorSignalConditionSetType/property/SensingElementResidualLife/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "SensingElementResidualSensitivity": {
+        "dov:namespace": "http://opcfoundation.org/UA/PADIM/",
+        "type": "number",
+        "minimum": -3.40e+38,
+        "maximum": 3.40e+38,
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dov:topic": "opcua/PADIM/PADIM_IAmperometricGasDetectorSignalConditionSetType/property/SensingElementResidualSensitivity/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "SensingElementTemperature": {
+        "dov:namespace": "http://opcfoundation.org/UA/PADIM/",
+        "type": "number",
+        "minimum": -3.40e+38,
+        "maximum": 3.40e+38,
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dov:topic": "opcua/PADIM/PADIM_IAmperometricGasDetectorSignalConditionSetType/property/SensingElementTemperature/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "SensorNextCalibrationDynamic": {
+        "dov:namespace": "http://opcfoundation.org/UA/PADIM/",
+        "type": "number",
+        "minimum": -3.40e+38,
+        "maximum": 3.40e+38,
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dov:topic": "opcua/PADIM/PADIM_IAmperometricGasDetectorSignalConditionSetType/property/SensorNextCalibrationDynamic/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "SensorNextCalibrationFixed": {
+        "dov:namespace": "http://opcfoundation.org/UA/PADIM/",
+        "type": "number",
+        "minimum": -3.40e+38,
+        "maximum": 3.40e+38,
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dov:topic": "opcua/PADIM/PADIM_IAmperometricGasDetectorSignalConditionSetType/property/SensorNextCalibrationFixed/read",
+            "op": "readproperty"
+          }
+        ]
+      }
+    },
+    "events": {
+      "SensingElementTemperature": {
+        "dov:namespace": "http://opcfoundation.org/UA/PADIM/",
+        "data": {
+          "type": "number",
+          "minimum": -3.40e+38,
+          "maximum": 3.40e+38
+        },
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dov:topic": "opcua/PADIM/PADIM_IAmperometricGasDetectorSignalConditionSetType/event/SensingElementTemperature/{senderId}",
+            "op": "subscribeevent"
+          }
+        ]
+      }
+    }
+  },
+  {
+    "@context": [
+      "https://www.w3.org/2022/wot/td/v1.1",
+      {
+        "dov": "http://azure.com/DigitalOperations/vocab#"
+      }
+    ],
+    "@type": "tm:ThingModel",
+    "title": "PADIM_AmperometricGasDetectorSignalType",
+    "dov:typeRef": "org.opcfoundation.UA.PADIM.AmperometricGasDetectorSignalType",
+    "dov:isComposite": true,
+    "links": [
+      {
+        "rel": "tm:extends",
+        "href": "#title=PADIM_AnalyticalSignalType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "dov:component",
+        "dov:refName": "SignalConditionSet",
+        "href": "./OpcUaCore.TM.json#title=OpcUaCore_BaseObjectType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "dov:component",
+        "dov:refName": "<SignalCalibrationIdentifier>",
+        "href": "./OpcUaCore.TM.json#title=OpcUaCore_BaseObjectType",
+        "type": "application/tm+json"
+      }
+    ],
+    "schemaDefinitions": {
+    },
+    "actions": {
+    },
+    "properties": {
+    },
+    "events": {
+    }
+  },
+  {
+    "@context": [
+      "https://www.w3.org/2022/wot/td/v1.1",
+      {
+        "dov": "http://azure.com/DigitalOperations/vocab#"
+      }
+    ],
+    "@type": "tm:ThingModel",
+    "title": "PADIM_IGasChromatographSignalConditionSetType",
+    "dov:typeRef": "org.opcfoundation.UA.PADIM.IGasChromatographSignalConditionSetType",
+    "links": [
+      {
+        "rel": "tm:extends",
+        "href": "./OpcUaCore.TM.json#title=OpcUaCore_BaseInterfaceType",
+        "type": "application/tm+json"
+      }
+    ],
+    "schemaDefinitions": {
+    },
+    "forms": [
+      {
+        "contentType": "application/json",
+        "dov:topic": "opcua/PADIM/PADIM_IGasChromatographSignalConditionSetType/events/{senderId}",
+        "op": "subscribeallevents"
+      },
+      {
+        "contentType": "application/json",
+        "dov:topic": "opcua/PADIM/PADIM_IGasChromatographSignalConditionSetType/properties/read",
+        "op": "readallproperties"
+      }
+    ],
+    "tm:optional": [
+      "/properties/ActualRetentionTime",
+      "/properties/ComponentName",
+      "/properties/ExpectedRetentionTime",
+      "/properties/InjectionTime",
+      "/properties/PeakArea",
+      "/properties/PeakHeight",
+      "/properties/PeakWidth",
+      "/properties/TailingFactor",
+      "/events/ActualRetentionTime",
+      "/events/ExpectedRetentionTime",
+      "/events/PeakArea",
+      "/events/PeakHeight",
+      "/events/PeakWidth"
+    ],
+    "actions": {
+    },
+    "properties": {
+      "ActualRetentionTime": {
+        "dov:namespace": "http://opcfoundation.org/UA/PADIM/",
+        "type": "number",
+        "minimum": -3.40e+38,
+        "maximum": 3.40e+38,
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dov:topic": "opcua/PADIM/PADIM_IGasChromatographSignalConditionSetType/property/ActualRetentionTime/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "ComponentName": {
+        "dov:namespace": "http://opcfoundation.org/UA/PADIM/",
+        "type": "string",
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dov:topic": "opcua/PADIM/PADIM_IGasChromatographSignalConditionSetType/property/ComponentName/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "ExpectedRetentionTime": {
+        "dov:namespace": "http://opcfoundation.org/UA/PADIM/",
+        "type": "number",
+        "minimum": -3.40e+38,
+        "maximum": 3.40e+38,
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dov:topic": "opcua/PADIM/PADIM_IGasChromatographSignalConditionSetType/property/ExpectedRetentionTime/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "InjectionTime": {
+        "dov:namespace": "http://opcfoundation.org/UA/PADIM/",
+        "type": "string",
+        "format": "date-time",
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dov:topic": "opcua/PADIM/PADIM_IGasChromatographSignalConditionSetType/property/InjectionTime/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "PeakArea": {
+        "dov:namespace": "http://opcfoundation.org/UA/PADIM/",
+        "type": "number",
+        "minimum": -3.40e+38,
+        "maximum": 3.40e+38,
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dov:topic": "opcua/PADIM/PADIM_IGasChromatographSignalConditionSetType/property/PeakArea/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "PeakHeight": {
+        "dov:namespace": "http://opcfoundation.org/UA/PADIM/",
+        "type": "number",
+        "minimum": -3.40e+38,
+        "maximum": 3.40e+38,
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dov:topic": "opcua/PADIM/PADIM_IGasChromatographSignalConditionSetType/property/PeakHeight/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "PeakWidth": {
+        "dov:namespace": "http://opcfoundation.org/UA/PADIM/",
+        "type": "number",
+        "minimum": -3.40e+38,
+        "maximum": 3.40e+38,
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dov:topic": "opcua/PADIM/PADIM_IGasChromatographSignalConditionSetType/property/PeakWidth/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "TailingFactor": {
+        "dov:namespace": "http://opcfoundation.org/UA/PADIM/",
+        "type": "number",
+        "minimum": -3.40e+38,
+        "maximum": 3.40e+38,
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dov:topic": "opcua/PADIM/PADIM_IGasChromatographSignalConditionSetType/property/TailingFactor/read",
+            "op": "readproperty"
+          }
+        ]
+      }
+    },
+    "events": {
+      "ActualRetentionTime": {
+        "dov:namespace": "http://opcfoundation.org/UA/PADIM/",
+        "data": {
+          "type": "number",
+          "minimum": -3.40e+38,
+          "maximum": 3.40e+38
+        },
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dov:topic": "opcua/PADIM/PADIM_IGasChromatographSignalConditionSetType/event/ActualRetentionTime/{senderId}",
+            "op": "subscribeevent"
+          }
+        ]
+      },
+      "ExpectedRetentionTime": {
+        "dov:namespace": "http://opcfoundation.org/UA/PADIM/",
+        "data": {
+          "type": "number",
+          "minimum": -3.40e+38,
+          "maximum": 3.40e+38
+        },
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dov:topic": "opcua/PADIM/PADIM_IGasChromatographSignalConditionSetType/event/ExpectedRetentionTime/{senderId}",
+            "op": "subscribeevent"
+          }
+        ]
+      },
+      "PeakArea": {
+        "dov:namespace": "http://opcfoundation.org/UA/PADIM/",
+        "data": {
+          "type": "number",
+          "minimum": -3.40e+38,
+          "maximum": 3.40e+38
+        },
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dov:topic": "opcua/PADIM/PADIM_IGasChromatographSignalConditionSetType/event/PeakArea/{senderId}",
+            "op": "subscribeevent"
+          }
+        ]
+      },
+      "PeakHeight": {
+        "dov:namespace": "http://opcfoundation.org/UA/PADIM/",
+        "data": {
+          "type": "number",
+          "minimum": -3.40e+38,
+          "maximum": 3.40e+38
+        },
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dov:topic": "opcua/PADIM/PADIM_IGasChromatographSignalConditionSetType/event/PeakHeight/{senderId}",
+            "op": "subscribeevent"
+          }
+        ]
+      },
+      "PeakWidth": {
+        "dov:namespace": "http://opcfoundation.org/UA/PADIM/",
+        "data": {
+          "type": "number",
+          "minimum": -3.40e+38,
+          "maximum": 3.40e+38
+        },
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dov:topic": "opcua/PADIM/PADIM_IGasChromatographSignalConditionSetType/event/PeakWidth/{senderId}",
+            "op": "subscribeevent"
+          }
+        ]
+      }
+    }
+  },
+  {
+    "@context": [
+      "https://www.w3.org/2022/wot/td/v1.1",
+      {
+        "dov": "http://azure.com/DigitalOperations/vocab#"
+      }
+    ],
+    "@type": "tm:ThingModel",
+    "title": "PADIM_GasChromatographSignalType",
+    "dov:typeRef": "org.opcfoundation.UA.PADIM.GasChromatographSignalType",
+    "dov:isComposite": true,
+    "links": [
+      {
+        "rel": "tm:extends",
+        "href": "#title=PADIM_AnalyticalSignalType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "dov:component",
+        "dov:refName": "<SignalCalibrationIdentifier>",
+        "href": "./OpcUaCore.TM.json#title=OpcUaCore_BaseObjectType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "dov:component",
+        "dov:refName": "SignalConditionSet",
+        "href": "./OpcUaCore.TM.json#title=OpcUaCore_BaseObjectType",
+        "type": "application/tm+json"
+      }
+    ],
+    "schemaDefinitions": {
+    },
+    "actions": {
+    },
+    "properties": {
+    },
+    "events": {
+    }
+  },
+  {
+    "@context": [
+      "https://www.w3.org/2022/wot/td/v1.1",
+      {
+        "dov": "http://azure.com/DigitalOperations/vocab#"
+      }
+    ],
+    "@type": "tm:ThingModel",
+    "title": "PADIM_IFtnirOrFtirSignalConditionSetType",
+    "dov:typeRef": "org.opcfoundation.UA.PADIM.IFtnirOrFtirSignalConditionSetType",
+    "links": [
+      {
+        "rel": "tm:extends",
+        "href": "./OpcUaCore.TM.json#title=OpcUaCore_BaseInterfaceType",
+        "type": "application/tm+json"
+      }
+    ],
+    "schemaDefinitions": {
+    },
+    "forms": [
+      {
+        "contentType": "application/json",
+        "dov:topic": "opcua/PADIM/PADIM_IFtnirOrFtirSignalConditionSetType/events/{senderId}",
+        "op": "subscribeallevents"
+      },
+      {
+        "contentType": "application/json",
+        "dov:topic": "opcua/PADIM/PADIM_IFtnirOrFtirSignalConditionSetType/properties/read",
+        "op": "readallproperties"
+      }
+    ],
+    "tm:optional": [
+      "/properties/ElectronicsReadNoise",
+      "/properties/LaserResidualLife",
+      "/properties/MahalanobisDistance",
+      "/properties/SensingElementTemperature",
+      "/properties/SpectralResidual",
+      "/properties/TransmissionRatio",
+      "/events/SensingElementTemperature",
+      "/events/TransmissionRatio"
+    ],
+    "actions": {
+    },
+    "properties": {
+      "ElectronicsReadNoise": {
+        "dov:namespace": "http://opcfoundation.org/UA/PADIM/",
+        "type": "number",
+        "minimum": -3.40e+38,
+        "maximum": 3.40e+38,
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dov:topic": "opcua/PADIM/PADIM_IFtnirOrFtirSignalConditionSetType/property/ElectronicsReadNoise/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "LaserResidualLife": {
+        "dov:namespace": "http://opcfoundation.org/UA/PADIM/",
+        "type": "number",
+        "minimum": -3.40e+38,
+        "maximum": 3.40e+38,
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dov:topic": "opcua/PADIM/PADIM_IFtnirOrFtirSignalConditionSetType/property/LaserResidualLife/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "MahalanobisDistance": {
+        "dov:namespace": "http://opcfoundation.org/UA/PADIM/",
+        "type": "number",
+        "minimum": -3.40e+38,
+        "maximum": 3.40e+38,
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dov:topic": "opcua/PADIM/PADIM_IFtnirOrFtirSignalConditionSetType/property/MahalanobisDistance/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "SensingElementTemperature": {
+        "dov:namespace": "http://opcfoundation.org/UA/PADIM/",
+        "type": "number",
+        "minimum": -3.40e+38,
+        "maximum": 3.40e+38,
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dov:topic": "opcua/PADIM/PADIM_IFtnirOrFtirSignalConditionSetType/property/SensingElementTemperature/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "SpectralResidual": {
+        "dov:namespace": "http://opcfoundation.org/UA/PADIM/",
+        "type": "number",
+        "minimum": -3.40e+38,
+        "maximum": 3.40e+38,
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dov:topic": "opcua/PADIM/PADIM_IFtnirOrFtirSignalConditionSetType/property/SpectralResidual/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "TransmissionRatio": {
+        "dov:namespace": "http://opcfoundation.org/UA/PADIM/",
+        "type": "number",
+        "minimum": -3.40e+38,
+        "maximum": 3.40e+38,
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dov:topic": "opcua/PADIM/PADIM_IFtnirOrFtirSignalConditionSetType/property/TransmissionRatio/read",
+            "op": "readproperty"
+          }
+        ]
+      }
+    },
+    "events": {
+      "SensingElementTemperature": {
+        "dov:namespace": "http://opcfoundation.org/UA/PADIM/",
+        "data": {
+          "type": "number",
+          "minimum": -3.40e+38,
+          "maximum": 3.40e+38
+        },
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dov:topic": "opcua/PADIM/PADIM_IFtnirOrFtirSignalConditionSetType/event/SensingElementTemperature/{senderId}",
+            "op": "subscribeevent"
+          }
+        ]
+      },
+      "TransmissionRatio": {
+        "dov:namespace": "http://opcfoundation.org/UA/PADIM/",
+        "data": {
+          "type": "number",
+          "minimum": -3.40e+38,
+          "maximum": 3.40e+38
+        },
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dov:topic": "opcua/PADIM/PADIM_IFtnirOrFtirSignalConditionSetType/event/TransmissionRatio/{senderId}",
+            "op": "subscribeevent"
+          }
+        ]
+      }
+    }
+  },
+  {
+    "@context": [
+      "https://www.w3.org/2022/wot/td/v1.1",
+      {
+        "dov": "http://azure.com/DigitalOperations/vocab#"
+      }
+    ],
+    "@type": "tm:ThingModel",
+    "title": "PADIM_FtnirOrFtirSignalType",
+    "dov:typeRef": "org.opcfoundation.UA.PADIM.FtnirOrFtirSignalType",
+    "dov:isComposite": true,
+    "links": [
+      {
+        "rel": "tm:extends",
+        "href": "#title=PADIM_AnalyticalSignalType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "dov:component",
+        "dov:refName": "<SignalCalibrationIdentifier>",
+        "href": "./OpcUaCore.TM.json#title=OpcUaCore_BaseObjectType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "dov:component",
+        "dov:refName": "SignalConditionSet",
+        "href": "./OpcUaCore.TM.json#title=OpcUaCore_BaseObjectType",
+        "type": "application/tm+json"
+      }
+    ],
+    "schemaDefinitions": {
+    },
+    "actions": {
+    },
+    "properties": {
+    },
+    "events": {
+    }
+  },
+  {
+    "@context": [
+      "https://www.w3.org/2022/wot/td/v1.1",
+      {
+        "dov": "http://azure.com/DigitalOperations/vocab#"
+      }
+    ],
+    "@type": "tm:ThingModel",
+    "title": "PADIM_IDiodeArraySignalConditionSetType",
+    "dov:typeRef": "org.opcfoundation.UA.PADIM.IDiodeArraySignalConditionSetType",
+    "links": [
+      {
+        "rel": "tm:extends",
+        "href": "./OpcUaCore.TM.json#title=OpcUaCore_BaseInterfaceType",
+        "type": "application/tm+json"
+      }
+    ],
+    "schemaDefinitions": {
+    },
+    "forms": [
+      {
+        "contentType": "application/json",
+        "dov:topic": "opcua/PADIM/PADIM_IDiodeArraySignalConditionSetType/events/{senderId}",
+        "op": "subscribeallevents"
+      },
+      {
+        "contentType": "application/json",
+        "dov:topic": "opcua/PADIM/PADIM_IDiodeArraySignalConditionSetType/properties/read",
+        "op": "readallproperties"
+      }
+    ],
+    "tm:optional": [
+      "/properties/ElectronicsReadNoise",
+      "/properties/MahalanobisDistance",
+      "/properties/SensingElementTemperature",
+      "/properties/SourceResidualLife",
+      "/properties/SpectralResidual",
+      "/events/SensingElementTemperature"
+    ],
+    "actions": {
+    },
+    "properties": {
+      "ElectronicsReadNoise": {
+        "dov:namespace": "http://opcfoundation.org/UA/PADIM/",
+        "type": "number",
+        "minimum": -3.40e+38,
+        "maximum": 3.40e+38,
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dov:topic": "opcua/PADIM/PADIM_IDiodeArraySignalConditionSetType/property/ElectronicsReadNoise/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "MahalanobisDistance": {
+        "dov:namespace": "http://opcfoundation.org/UA/PADIM/",
+        "type": "number",
+        "minimum": -3.40e+38,
+        "maximum": 3.40e+38,
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dov:topic": "opcua/PADIM/PADIM_IDiodeArraySignalConditionSetType/property/MahalanobisDistance/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "SensingElementTemperature": {
+        "dov:namespace": "http://opcfoundation.org/UA/PADIM/",
+        "type": "number",
+        "minimum": -3.40e+38,
+        "maximum": 3.40e+38,
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dov:topic": "opcua/PADIM/PADIM_IDiodeArraySignalConditionSetType/property/SensingElementTemperature/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "SourceResidualLife": {
+        "dov:namespace": "http://opcfoundation.org/UA/PADIM/",
+        "type": "number",
+        "minimum": -3.40e+38,
+        "maximum": 3.40e+38,
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dov:topic": "opcua/PADIM/PADIM_IDiodeArraySignalConditionSetType/property/SourceResidualLife/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "SpectralResidual": {
+        "dov:namespace": "http://opcfoundation.org/UA/PADIM/",
+        "type": "number",
+        "minimum": -3.40e+38,
+        "maximum": 3.40e+38,
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dov:topic": "opcua/PADIM/PADIM_IDiodeArraySignalConditionSetType/property/SpectralResidual/read",
+            "op": "readproperty"
+          }
+        ]
+      }
+    },
+    "events": {
+      "SensingElementTemperature": {
+        "dov:namespace": "http://opcfoundation.org/UA/PADIM/",
+        "data": {
+          "type": "number",
+          "minimum": -3.40e+38,
+          "maximum": 3.40e+38
+        },
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dov:topic": "opcua/PADIM/PADIM_IDiodeArraySignalConditionSetType/event/SensingElementTemperature/{senderId}",
+            "op": "subscribeevent"
+          }
+        ]
+      }
+    }
+  },
+  {
+    "@context": [
+      "https://www.w3.org/2022/wot/td/v1.1",
+      {
+        "dov": "http://azure.com/DigitalOperations/vocab#"
+      }
+    ],
+    "@type": "tm:ThingModel",
+    "title": "PADIM_DiodeArraySignalType",
+    "dov:typeRef": "org.opcfoundation.UA.PADIM.DiodeArraySignalType",
+    "dov:isComposite": true,
+    "links": [
+      {
+        "rel": "tm:extends",
+        "href": "#title=PADIM_AnalyticalSignalType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "dov:component",
+        "dov:refName": "<SignalCalibrationIdentifier>",
+        "href": "./OpcUaCore.TM.json#title=OpcUaCore_BaseObjectType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "dov:component",
+        "dov:refName": "SignalConditionSet",
+        "href": "./OpcUaCore.TM.json#title=OpcUaCore_BaseObjectType",
+        "type": "application/tm+json"
+      }
+    ],
+    "schemaDefinitions": {
+    },
+    "actions": {
+    },
+    "properties": {
+    },
+    "events": {
+    }
+  },
+  {
+    "@context": [
+      "https://www.w3.org/2022/wot/td/v1.1",
+      {
+        "dov": "http://azure.com/DigitalOperations/vocab#"
+      }
+    ],
+    "@type": "tm:ThingModel",
+    "title": "PADIM_IRamanSignalConditionSetType",
+    "dov:typeRef": "org.opcfoundation.UA.PADIM.IRamanSignalConditionSetType",
+    "links": [
+      {
+        "rel": "tm:extends",
+        "href": "./OpcUaCore.TM.json#title=OpcUaCore_BaseInterfaceType",
+        "type": "application/tm+json"
+      }
+    ],
+    "schemaDefinitions": {
+    },
+    "forms": [
+      {
+        "contentType": "application/json",
+        "dov:topic": "opcua/PADIM/PADIM_IRamanSignalConditionSetType/events/{senderId}",
+        "op": "subscribeallevents"
+      },
+      {
+        "contentType": "application/json",
+        "dov:topic": "opcua/PADIM/PADIM_IRamanSignalConditionSetType/properties/read",
+        "op": "readallproperties"
+      }
+    ],
+    "tm:optional": [
+      "/properties/ElectronicsReadNoise",
+      "/properties/MahalanobisDistance",
+      "/properties/SensingElementTemperature",
+      "/properties/SourceResidualLife",
+      "/properties/SpectralResidual",
+      "/events/SensingElementTemperature"
+    ],
+    "actions": {
+    },
+    "properties": {
+      "ElectronicsReadNoise": {
+        "dov:namespace": "http://opcfoundation.org/UA/PADIM/",
+        "type": "number",
+        "minimum": -3.40e+38,
+        "maximum": 3.40e+38,
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dov:topic": "opcua/PADIM/PADIM_IRamanSignalConditionSetType/property/ElectronicsReadNoise/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "MahalanobisDistance": {
+        "dov:namespace": "http://opcfoundation.org/UA/PADIM/",
+        "type": "number",
+        "minimum": -3.40e+38,
+        "maximum": 3.40e+38,
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dov:topic": "opcua/PADIM/PADIM_IRamanSignalConditionSetType/property/MahalanobisDistance/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "SensingElementTemperature": {
+        "dov:namespace": "http://opcfoundation.org/UA/PADIM/",
+        "type": "number",
+        "minimum": -3.40e+38,
+        "maximum": 3.40e+38,
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dov:topic": "opcua/PADIM/PADIM_IRamanSignalConditionSetType/property/SensingElementTemperature/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "SourceResidualLife": {
+        "dov:namespace": "http://opcfoundation.org/UA/PADIM/",
+        "type": "number",
+        "minimum": -3.40e+38,
+        "maximum": 3.40e+38,
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dov:topic": "opcua/PADIM/PADIM_IRamanSignalConditionSetType/property/SourceResidualLife/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "SpectralResidual": {
+        "dov:namespace": "http://opcfoundation.org/UA/PADIM/",
+        "type": "number",
+        "minimum": -3.40e+38,
+        "maximum": 3.40e+38,
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dov:topic": "opcua/PADIM/PADIM_IRamanSignalConditionSetType/property/SpectralResidual/read",
+            "op": "readproperty"
+          }
+        ]
+      }
+    },
+    "events": {
+      "SensingElementTemperature": {
+        "dov:namespace": "http://opcfoundation.org/UA/PADIM/",
+        "data": {
+          "type": "number",
+          "minimum": -3.40e+38,
+          "maximum": 3.40e+38
+        },
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dov:topic": "opcua/PADIM/PADIM_IRamanSignalConditionSetType/event/SensingElementTemperature/{senderId}",
+            "op": "subscribeevent"
+          }
+        ]
+      }
+    }
+  },
+  {
+    "@context": [
+      "https://www.w3.org/2022/wot/td/v1.1",
+      {
+        "dov": "http://azure.com/DigitalOperations/vocab#"
+      }
+    ],
+    "@type": "tm:ThingModel",
+    "title": "PADIM_RamanSignalType",
+    "dov:typeRef": "org.opcfoundation.UA.PADIM.RamanSignalType",
+    "dov:isComposite": true,
+    "links": [
+      {
+        "rel": "tm:extends",
+        "href": "#title=PADIM_AnalyticalSignalType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "dov:component",
+        "dov:refName": "<SignalCalibrationIdentifier>",
+        "href": "./OpcUaCore.TM.json#title=OpcUaCore_BaseObjectType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "dov:component",
+        "dov:refName": "SignalConditionSet",
+        "href": "./OpcUaCore.TM.json#title=OpcUaCore_BaseObjectType",
+        "type": "application/tm+json"
+      }
+    ],
+    "schemaDefinitions": {
+    },
+    "actions": {
+    },
+    "properties": {
+    },
+    "events": {
+    }
+  },
+  {
+    "@context": [
+      "https://www.w3.org/2022/wot/td/v1.1",
+      {
+        "dov": "http://azure.com/DigitalOperations/vocab#"
+      }
+    ],
+    "@type": "tm:ThingModel",
+    "title": "PADIM_IInfraredSignalConditionSetType",
+    "dov:typeRef": "org.opcfoundation.UA.PADIM.IInfraredSignalConditionSetType",
+    "links": [
+      {
+        "rel": "tm:extends",
+        "href": "./OpcUaCore.TM.json#title=OpcUaCore_BaseInterfaceType",
+        "type": "application/tm+json"
+      }
+    ],
+    "schemaDefinitions": {
+    },
+    "forms": [
+      {
+        "contentType": "application/json",
+        "dov:topic": "opcua/PADIM/PADIM_IInfraredSignalConditionSetType/events/{senderId}",
+        "op": "subscribeallevents"
+      },
+      {
+        "contentType": "application/json",
+        "dov:topic": "opcua/PADIM/PADIM_IInfraredSignalConditionSetType/properties/read",
+        "op": "readallproperties"
+      }
+    ],
+    "tm:optional": [
+      "/properties/PowerOnDurationSensor",
+      "/properties/RelativeGasFlowRate",
+      "/properties/SensingElementResidualLife",
+      "/properties/SensingElementResidualSensitivity",
+      "/properties/SensingElementTemperature",
+      "/properties/SensorNextCalibrationDynamic",
+      "/properties/SensorNextCalibrationFixed",
+      "/properties/SourceResidualLife",
+      "/properties/TransmissionRatio",
+      "/events/SensingElementTemperature"
+    ],
+    "actions": {
+    },
+    "properties": {
+      "PowerOnDurationSensor": {
+        "dov:namespace": "http://opcfoundation.org/UA/PADIM/",
+        "type": "string",
+        "pattern": "^P(?!$)(?:(?:(?:(?:\\d+Y)|(?:\\d+\\.\\d+Y$))?(?:(?:\\d+M)|(?:\\d+\\.\\d+M$))?)|(?:(?:(?:\\d+W)|(?:\\d+\\.\\d+W$))?))(?:(?:\\d+D)|(?:\\d+\\.\\d+D$))?(?:T(?!$)(?:(?:\\d+H)|(?:\\d+\\.\\d+H$))?(?:(?:\\d+M)|(?:\\d+\\.\\d+M$))?(?:\\d+(?:\\.\\d+)?S)?)?$",
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dov:topic": "opcua/PADIM/PADIM_IInfraredSignalConditionSetType/property/PowerOnDurationSensor/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "RelativeGasFlowRate": {
+        "dov:namespace": "http://opcfoundation.org/UA/PADIM/",
+        "type": "number",
+        "minimum": -3.40e+38,
+        "maximum": 3.40e+38,
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dov:topic": "opcua/PADIM/PADIM_IInfraredSignalConditionSetType/property/RelativeGasFlowRate/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "SensingElementResidualLife": {
+        "dov:namespace": "http://opcfoundation.org/UA/PADIM/",
+        "type": "number",
+        "minimum": -3.40e+38,
+        "maximum": 3.40e+38,
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dov:topic": "opcua/PADIM/PADIM_IInfraredSignalConditionSetType/property/SensingElementResidualLife/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "SensingElementResidualSensitivity": {
+        "dov:namespace": "http://opcfoundation.org/UA/PADIM/",
+        "type": "number",
+        "minimum": -3.40e+38,
+        "maximum": 3.40e+38,
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dov:topic": "opcua/PADIM/PADIM_IInfraredSignalConditionSetType/property/SensingElementResidualSensitivity/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "SensingElementTemperature": {
+        "dov:namespace": "http://opcfoundation.org/UA/PADIM/",
+        "type": "number",
+        "minimum": -3.40e+38,
+        "maximum": 3.40e+38,
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dov:topic": "opcua/PADIM/PADIM_IInfraredSignalConditionSetType/property/SensingElementTemperature/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "SensorNextCalibrationDynamic": {
+        "dov:namespace": "http://opcfoundation.org/UA/PADIM/",
+        "type": "number",
+        "minimum": -3.40e+38,
+        "maximum": 3.40e+38,
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dov:topic": "opcua/PADIM/PADIM_IInfraredSignalConditionSetType/property/SensorNextCalibrationDynamic/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "SensorNextCalibrationFixed": {
+        "dov:namespace": "http://opcfoundation.org/UA/PADIM/",
+        "type": "number",
+        "minimum": -3.40e+38,
+        "maximum": 3.40e+38,
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dov:topic": "opcua/PADIM/PADIM_IInfraredSignalConditionSetType/property/SensorNextCalibrationFixed/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "SourceResidualLife": {
+        "dov:namespace": "http://opcfoundation.org/UA/PADIM/",
+        "type": "number",
+        "minimum": -3.40e+38,
+        "maximum": 3.40e+38,
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dov:topic": "opcua/PADIM/PADIM_IInfraredSignalConditionSetType/property/SourceResidualLife/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "TransmissionRatio": {
+        "dov:namespace": "http://opcfoundation.org/UA/PADIM/",
+        "type": "number",
+        "minimum": -3.40e+38,
+        "maximum": 3.40e+38,
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dov:topic": "opcua/PADIM/PADIM_IInfraredSignalConditionSetType/property/TransmissionRatio/read",
+            "op": "readproperty"
+          }
+        ]
+      }
+    },
+    "events": {
+      "SensingElementTemperature": {
+        "dov:namespace": "http://opcfoundation.org/UA/PADIM/",
+        "data": {
+          "type": "number",
+          "minimum": -3.40e+38,
+          "maximum": 3.40e+38
+        },
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dov:topic": "opcua/PADIM/PADIM_IInfraredSignalConditionSetType/event/SensingElementTemperature/{senderId}",
+            "op": "subscribeevent"
+          }
+        ]
+      }
+    }
+  },
+  {
+    "@context": [
+      "https://www.w3.org/2022/wot/td/v1.1",
+      {
+        "dov": "http://azure.com/DigitalOperations/vocab#"
+      }
+    ],
+    "@type": "tm:ThingModel",
+    "title": "PADIM_InfraredSignalType",
+    "dov:typeRef": "org.opcfoundation.UA.PADIM.InfraredSignalType",
+    "dov:isComposite": true,
+    "links": [
+      {
+        "rel": "tm:extends",
+        "href": "#title=PADIM_AnalyticalSignalType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "dov:component",
+        "dov:refName": "SignalConditionSet",
+        "href": "./OpcUaCore.TM.json#title=OpcUaCore_BaseObjectType",
+        "type": "application/tm+json"
+      }
+    ],
+    "schemaDefinitions": {
+    },
+    "actions": {
+    },
+    "properties": {
+    },
+    "events": {
+    }
+  },
+  {
+    "@context": [
+      "https://www.w3.org/2022/wot/td/v1.1",
+      {
+        "dov": "http://azure.com/DigitalOperations/vocab#"
+      }
+    ],
+    "@type": "tm:ThingModel",
+    "title": "PADIM_ICatalyticBeadSignalConditionSetType",
+    "dov:typeRef": "org.opcfoundation.UA.PADIM.ICatalyticBeadSignalConditionSetType",
+    "links": [
+      {
+        "rel": "tm:extends",
+        "href": "./OpcUaCore.TM.json#title=OpcUaCore_BaseInterfaceType",
+        "type": "application/tm+json"
+      }
+    ],
+    "schemaDefinitions": {
+    },
+    "forms": [
+      {
+        "contentType": "application/json",
+        "dov:topic": "opcua/PADIM/PADIM_ICatalyticBeadSignalConditionSetType/events/{senderId}",
+        "op": "subscribeallevents"
+      },
+      {
+        "contentType": "application/json",
+        "dov:topic": "opcua/PADIM/PADIM_ICatalyticBeadSignalConditionSetType/properties/read",
+        "op": "readallproperties"
+      }
+    ],
+    "tm:optional": [
+      "/properties/PowerOnDurationSensor",
+      "/properties/RelativeGasFlowRate",
+      "/properties/SensingElementResidualLife",
+      "/properties/SensingElementResidualSensitivity",
+      "/properties/SensingElementTemperature",
+      "/properties/SensorNextCalibrationDynamic",
+      "/properties/SensorNextCalibrationFixed",
+      "/properties/SensorValue",
+      "/events/SensingElementTemperature",
+      "/events/SensorValue"
+    ],
+    "actions": {
+    },
+    "properties": {
+      "PowerOnDurationSensor": {
+        "dov:namespace": "http://opcfoundation.org/UA/PADIM/",
+        "type": "string",
+        "pattern": "^P(?!$)(?:(?:(?:(?:\\d+Y)|(?:\\d+\\.\\d+Y$))?(?:(?:\\d+M)|(?:\\d+\\.\\d+M$))?)|(?:(?:(?:\\d+W)|(?:\\d+\\.\\d+W$))?))(?:(?:\\d+D)|(?:\\d+\\.\\d+D$))?(?:T(?!$)(?:(?:\\d+H)|(?:\\d+\\.\\d+H$))?(?:(?:\\d+M)|(?:\\d+\\.\\d+M$))?(?:\\d+(?:\\.\\d+)?S)?)?$",
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dov:topic": "opcua/PADIM/PADIM_ICatalyticBeadSignalConditionSetType/property/PowerOnDurationSensor/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "RelativeGasFlowRate": {
+        "dov:namespace": "http://opcfoundation.org/UA/PADIM/",
+        "type": "number",
+        "minimum": -3.40e+38,
+        "maximum": 3.40e+38,
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dov:topic": "opcua/PADIM/PADIM_ICatalyticBeadSignalConditionSetType/property/RelativeGasFlowRate/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "SensingElementResidualLife": {
+        "dov:namespace": "http://opcfoundation.org/UA/PADIM/",
+        "type": "number",
+        "minimum": -3.40e+38,
+        "maximum": 3.40e+38,
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dov:topic": "opcua/PADIM/PADIM_ICatalyticBeadSignalConditionSetType/property/SensingElementResidualLife/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "SensingElementResidualSensitivity": {
+        "dov:namespace": "http://opcfoundation.org/UA/PADIM/",
+        "type": "number",
+        "minimum": -3.40e+38,
+        "maximum": 3.40e+38,
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dov:topic": "opcua/PADIM/PADIM_ICatalyticBeadSignalConditionSetType/property/SensingElementResidualSensitivity/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "SensingElementTemperature": {
+        "dov:namespace": "http://opcfoundation.org/UA/PADIM/",
+        "type": "number",
+        "minimum": -3.40e+38,
+        "maximum": 3.40e+38,
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dov:topic": "opcua/PADIM/PADIM_ICatalyticBeadSignalConditionSetType/property/SensingElementTemperature/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "SensorNextCalibrationDynamic": {
+        "dov:namespace": "http://opcfoundation.org/UA/PADIM/",
+        "type": "number",
+        "minimum": -3.40e+38,
+        "maximum": 3.40e+38,
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dov:topic": "opcua/PADIM/PADIM_ICatalyticBeadSignalConditionSetType/property/SensorNextCalibrationDynamic/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "SensorNextCalibrationFixed": {
+        "dov:namespace": "http://opcfoundation.org/UA/PADIM/",
+        "type": "number",
+        "minimum": -3.40e+38,
+        "maximum": 3.40e+38,
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dov:topic": "opcua/PADIM/PADIM_ICatalyticBeadSignalConditionSetType/property/SensorNextCalibrationFixed/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "SensorValue": {
+        "dov:namespace": "http://opcfoundation.org/UA/PADIM/",
+        "type": "number",
+        "minimum": -3.40e+38,
+        "maximum": 3.40e+38,
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dov:topic": "opcua/PADIM/PADIM_ICatalyticBeadSignalConditionSetType/property/SensorValue/read",
+            "op": "readproperty"
+          }
+        ]
+      }
+    },
+    "events": {
+      "SensingElementTemperature": {
+        "dov:namespace": "http://opcfoundation.org/UA/PADIM/",
+        "data": {
+          "type": "number",
+          "minimum": -3.40e+38,
+          "maximum": 3.40e+38
+        },
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dov:topic": "opcua/PADIM/PADIM_ICatalyticBeadSignalConditionSetType/event/SensingElementTemperature/{senderId}",
+            "op": "subscribeevent"
+          }
+        ]
+      },
+      "SensorValue": {
+        "dov:namespace": "http://opcfoundation.org/UA/PADIM/",
+        "data": {
+          "type": "number",
+          "minimum": -3.40e+38,
+          "maximum": 3.40e+38
+        },
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dov:topic": "opcua/PADIM/PADIM_ICatalyticBeadSignalConditionSetType/event/SensorValue/{senderId}",
+            "op": "subscribeevent"
+          }
+        ]
+      }
+    }
+  },
+  {
+    "@context": [
+      "https://www.w3.org/2022/wot/td/v1.1",
+      {
+        "dov": "http://azure.com/DigitalOperations/vocab#"
+      }
+    ],
+    "@type": "tm:ThingModel",
+    "title": "PADIM_CatalyticBeadSignalType",
+    "dov:typeRef": "org.opcfoundation.UA.PADIM.CatalyticBeadSignalType",
+    "dov:isComposite": true,
+    "links": [
+      {
+        "rel": "tm:extends",
+        "href": "#title=PADIM_AnalyticalSignalType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "dov:component",
+        "dov:refName": "SignalConditionSet",
+        "href": "./OpcUaCore.TM.json#title=OpcUaCore_BaseObjectType",
         "type": "application/tm+json"
       }
     ],
