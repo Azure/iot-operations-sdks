@@ -1,0 +1,62 @@
+{
+  "$schema": "https://json.schemastore.org/aio-connector-metadata-10.0-preview.json",
+  "name": "Example management action connector",
+  "version": "1.0.0",
+  "maintainer": "Azure IoT Operations, for sample use only",
+  "imageConfigurationSettings": {
+    "imageName": "azureiotoperations/sample-akri-connectors/management-action",
+    "tag": "1.0.0"
+  },
+  "supportedArchitectures": [
+    "linux/amd64"
+  ],
+  "aioMetadata": {
+    "aioMinVersion": "1.2.37"
+  },
+  "endpointsEnabledByDefault": true,
+  "inboundEndpoints": [
+    {
+      "endpointType": "Microsoft.MgmtActionSample",
+      "version": "0.0.1",
+      "supportedAuthenticationTypes": [ "anonymous" ],
+      "assetsEnabledByDefault": true,
+      "fields": {
+        "address": {
+          "input": "required",
+          "exampleValue": "mgmt-action-placeholder.azure-iot-operations.svc.cluster.local:80",
+          "description": "Placeholder address for the (simulated) southbound device. The sample connector does not actually open a network connection to it."
+        }
+      },
+      "managementGroups": {
+        "limits": {
+          "minimum": 1,
+          "maximum": 8
+        },
+        "fields": {
+          "typeRef": {
+            "input": "unsupported"
+          }
+        },
+        "managementGroupActions": {
+          "limits": {
+            "minimum": 1,
+            "maximum": 32
+          },
+          "fields": {
+            "targetUri": {
+              "input": "required",
+              "description": "Logical identifier of the operation on the device (e.g. device://identify).",
+              "exampleValue": "device://identify"
+            },
+            "typeRef": {
+              "input": "unsupported"
+            }
+          },
+          "actionTypes": {
+            "supportedActionTypes": [ "Call", "Read", "Write" ]
+          }
+        }
+      }
+    }
+  ]
+}

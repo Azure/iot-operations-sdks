@@ -8,19 +8,27 @@ namespace Azure.Iot.Operations.CodeGeneration
     public static class TDValues
     {
         public const string ContextUriWotTd = "https://www.w3.org/2022/wot/td/v1.1";
+        public const string ContextUriDoVocab = "http://azure.com/DigitalOperations/vocab#";
         public const string ContextUriAioProtocol = "http://azure.com/DigitalTwins/dtmi#";
         public const string ContextUriAioPlatform = "http://azure.com/IoT/operations/tm#";
         public const string ContextUriQudt = "http://qudt.org/schema/qudt/";
+        public const string ContextPrefixDoVocab = "dov";
         public const string ContextPrefixAioProtocol = "dtv";
         public const string ContextPrefixAioPlatform = "aov";
         public const string ContextPrefixQudt = "qudt";
 
         public const string RelationExtends = "tm:extends";
-        public const string RelationReference = "aov:reference";
-        public const string RelationTypedReference = "aov:typedReference";
-        public const string RelationCapability = "aov:capability";
-        public const string RelationComponent = "aov:component";
-        public const string RelationSchemaNaming = "dtv:naming";
+        public const string RelationType = "type";
+        public const string RelationReference = "dov:reference";
+        public const string RelationReferenceLegacy = "aov:reference";
+        public const string RelationTypedReference = "dov:typedReference";
+        public const string RelationTypedReferenceLegacy = "aov:typedReference";
+        public const string RelationCapability = "dov:capability";
+        public const string RelationCapabilityLegacy = "aov:capability";
+        public const string RelationComponent = "dov:component";
+        public const string RelationComponentLegacy = "aov:component";
+        public const string RelationSchemaNaming = "dov:naming";
+        public const string RelationSchemaNamingLegacy = "dtv:naming";
 
         public const string HrefTitlePrefix = "title=";
 
@@ -30,6 +38,7 @@ namespace Azure.Iot.Operations.CodeGeneration
         public const string ContentTypeCustom = "";
 
         public const string TypeThingModel = "tm:ThingModel";
+        public const string TypeThingDescription = "Thing";
 
         public const string OpInvokeAction = "invokeaction";
         public const string OpReadProp = "readproperty";

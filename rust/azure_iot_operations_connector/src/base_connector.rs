@@ -18,8 +18,9 @@ use derive_builder::Builder;
 use managed_azure_device_registry::DeviceEndpointClientCreationObservation;
 use thiserror::Error;
 use tokio::sync::mpsc;
+use tokio_util::sync::{CancellationToken, DropGuard};
 
-use crate::deployment_artifacts::connector::ConnectorArtifacts;
+use crate::{deployment_artifacts::connector::ConnectorArtifacts, readiness_probe::ReadinessProbe};
 
 pub mod adr_discovery;
 pub mod managed_azure_device_registry;
@@ -106,6 +107,10 @@ pub struct Options {
     /// Reconnect policy used by the MQTT Session.
     #[builder(default = "Box::new(ExponentialBackoffWithJitter::default())")]
     reconnect_policy: Box<dyn ReconnectPolicy>,
+
+    /// Optional readiness probe implementation to use for the connector.
+    #[builder(default = "None", setter(strip_option))]
+    readiness_probe: Option<Box<dyn ReadinessProbe>>,
 }
 
 /// Base Connector for Azure IoT Operations
@@ -113,6 +118,7 @@ pub struct BaseConnector {
     connector_context: Arc<ConnectorContext>,
     session: Session,
     connector_restart_rx: mpsc::Receiver<String>,
+    readiness_probe: Option<Box<dyn ReadinessProbe>>,
 }
 
 impl BaseConnector {
@@ -184,6 +190,7 @@ impl BaseConnector {
             }),
             session,
             connector_restart_rx,
+            readiness_probe: base_connector_options.readiness_probe,
         })
     }
 
@@ -198,6 +205,39 @@ impl BaseConnector {
     /// Panics if the restart channel is closed, which should never happen since the [`BaseConnector`]
     /// itself holds the sender side of the channel.
     pub async fn run(mut self) -> Result<(), ConnectorError> {
+        // When `run()` returns by any path, this guard fires and wakes the readiness monitor task
+        // so it can mark the probe not-ready and exit cleanly.
+        let _probe_shutdown_guard: Option<DropGuard> =
+            if let Some(readiness_probe) = self.readiness_probe {
+                // Clear any stale ready marker before this run reports state, so Kubernetes can't
+                // see us as ready until the broker session has actually connected.
+                readiness_probe.set_not_ready();
+
+                let session_monitor = self.session.create_session_monitor();
+                let shutdown = CancellationToken::new();
+                let shutdown_child = shutdown.clone();
+
+                tokio::task::spawn(async move {
+                    loop {
+                        tokio::select! {
+                            () = shutdown_child.cancelled() => break,
+                            () = session_monitor.connected() => readiness_probe.set_ready(),
+                        }
+                        tokio::select! {
+                            () = shutdown_child.cancelled() => break,
+                            () = session_monitor.disconnected() => readiness_probe.set_not_ready(),
+                        }
+                    }
+                    // Ensure the probe reports not-ready when the task exits, regardless
+                    // of which branch broke the loop.
+                    readiness_probe.set_not_ready();
+                });
+
+                Some(shutdown.drop_guard())
+            } else {
+                None
+            };
+
         tokio::select! {
             session_result = self.session.run() => {
                 session_result.map_err(|e| ConnectorError::from(ConnectorErrorRepr::from(e)))

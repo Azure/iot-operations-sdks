@@ -41,7 +41,7 @@ jobs:
           dotnet-version: 9.x
 
       - name: Checkout Main
-        uses: actions/checkout@v6
+        uses: actions/checkout@v7
         with:
           path: main
 
@@ -51,7 +51,7 @@ jobs:
           cp main/.github/pages/index.html _site
 
       - name: Checkout Dotnet
-        uses: actions/checkout@v6
+        uses: actions/checkout@v7
         with:
           ref: ${{steps.tags.outputs.dotnet_tag}}
           path: dotnet

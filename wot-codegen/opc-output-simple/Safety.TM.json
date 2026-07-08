@@ -3,13 +3,12 @@
     "@context": [
       "https://www.w3.org/2022/wot/td/v1.1",
       {
-        "dtv": "http://azure.com/DigitalTwins/dtmi#",
-        "aov": "http://azure.com/IoT/operations/tm#"
+        "dov": "http://azure.com/DigitalOperations/vocab#"
       }
     ],
     "@type": "tm:ThingModel",
     "title": "Safety_SafetyConsumerParametersType",
-    "aov:typeRef": "nsu=http://opcfoundation.org/UA/Safety;i=1006",
+    "dov:typeRef": "org.opcfoundation.UA.Safety.SafetyConsumerParametersType",
     "links": [
       {
         "rel": "tm:extends",
@@ -30,13 +29,12 @@
     "@context": [
       "https://www.w3.org/2022/wot/td/v1.1",
       {
-        "dtv": "http://azure.com/DigitalTwins/dtmi#",
-        "aov": "http://azure.com/IoT/operations/tm#"
+        "dov": "http://azure.com/DigitalOperations/vocab#"
       }
     ],
     "@type": "tm:ThingModel",
     "title": "Safety_SafetyObjectsType",
-    "aov:typeRef": "nsu=http://opcfoundation.org/UA/Safety;i=1004",
+    "dov:typeRef": "org.opcfoundation.UA.Safety.SafetyObjectsType",
     "links": [
       {
         "rel": "tm:extends",
@@ -57,14 +55,13 @@
     "@context": [
       "https://www.w3.org/2022/wot/td/v1.1",
       {
-        "dtv": "http://azure.com/DigitalTwins/dtmi#",
-        "aov": "http://azure.com/IoT/operations/tm#"
+        "dov": "http://azure.com/DigitalOperations/vocab#"
       }
     ],
     "@type": "tm:ThingModel",
     "title": "Safety_SafetyConsumerType",
-    "aov:typeRef": "nsu=http://opcfoundation.org/UA/Safety;i=1005",
-    "aov:isComposite": true,
+    "dov:typeRef": "org.opcfoundation.UA.Safety.SafetyConsumerType",
+    "dov:isComposite": true,
     "links": [
       {
         "rel": "tm:extends",
@@ -85,14 +82,13 @@
     "@context": [
       "https://www.w3.org/2022/wot/td/v1.1",
       {
-        "dtv": "http://azure.com/DigitalTwins/dtmi#",
-        "aov": "http://azure.com/IoT/operations/tm#"
+        "dov": "http://azure.com/DigitalOperations/vocab#"
       }
     ],
     "@type": "tm:ThingModel",
     "title": "Safety_SafetyProviderType",
-    "aov:typeRef": "nsu=http://opcfoundation.org/UA/Safety;i=1003",
-    "aov:isComposite": true,
+    "dov:typeRef": "org.opcfoundation.UA.Safety.SafetyProviderType",
+    "dov:isComposite": true,
     "links": [
       {
         "rel": "tm:extends",
@@ -113,13 +109,12 @@
     "@context": [
       "https://www.w3.org/2022/wot/td/v1.1",
       {
-        "dtv": "http://azure.com/DigitalTwins/dtmi#",
-        "aov": "http://azure.com/IoT/operations/tm#"
+        "dov": "http://azure.com/DigitalOperations/vocab#"
       }
     ],
     "@type": "tm:ThingModel",
     "title": "Safety_SafetyPDUsType",
-    "aov:typeRef": "nsu=http://opcfoundation.org/UA/Safety;i=1007",
+    "dov:typeRef": "org.opcfoundation.UA.Safety.SafetyPDUsType",
     "links": [
       {
         "rel": "tm:extends",
@@ -140,13 +135,12 @@
     "@context": [
       "https://www.w3.org/2022/wot/td/v1.1",
       {
-        "dtv": "http://azure.com/DigitalTwins/dtmi#",
-        "aov": "http://azure.com/IoT/operations/tm#"
+        "dov": "http://azure.com/DigitalOperations/vocab#"
       }
     ],
     "@type": "tm:ThingModel",
     "title": "Safety_SafetyProviderParametersType",
-    "aov:typeRef": "nsu=http://opcfoundation.org/UA/Safety;i=1002",
+    "dov:typeRef": "org.opcfoundation.UA.Safety.SafetyProviderParametersType",
     "links": [
       {
         "rel": "tm:extends",

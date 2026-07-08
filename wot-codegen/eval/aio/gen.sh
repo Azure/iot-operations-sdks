@@ -1,7 +1,7 @@
 #!/bin/sh
 
-genFromDtdl=../../../codegen/src/Azure.Iot.Operations.ProtocolCompiler/bin/Debug/net9.0/Azure.Iot.Operations.ProtocolCompiler
-genFromWot=../../src/Azure.Iot.Operations.ProtocolCompiler/bin/Debug/net9.0/Azure.Iot.Operations.ProtocolCompiler
+genFromDtdl=../../../codegen/src/Azure.Iot.Operations.ProtocolCompiler/bin/Debug/net10.0/Azure.Iot.Operations.ProtocolCompiler
+genFromWot=../../src/Azure.Iot.Operations.ProtocolCompiler/bin/Debug/net10.0/Azure.Iot.Operations.ProtocolCompiler
 
 [[ -d ./eng/dtdl/FromDtdl/AssetAndDeviceRegistry ]] && rm -r ./eng/dtdl/FromDtdl/AssetAndDeviceRegistry
 $genFromDtdl --modelFile ./eng/dtdl/adr-base-service.json --outDir ./eng/dtdl/FromDtdl/AssetAndDeviceRegistry --lang csharp --sdkPath ../../../dotnet/src/Azure.Iot.Operations.Protocol

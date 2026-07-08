@@ -6,7 +6,8 @@
     <PackageLicenseExpression>MIT</PackageLicenseExpression>
     <copyright>© Microsoft Corporation. All rights reserved.</copyright>
     <Authors>Microsoft</Authors>
-    <VersionPrefix>1.2.0</VersionPrefix>
+    <VersionPrefix>1.3.0</VersionPrefix>
+    <VersionSuffix>beta1</VersionSuffix>
 		<ImplicitUsings>enable</ImplicitUsings>
 		<Nullable>enable</Nullable>
     <PackageReadmeFile>README.md</PackageReadmeFile>
@@ -43,5 +44,9 @@
   <ItemGroup>
     <Compile Remove="AssetAndDeviceRegistry\AdrBaseService\AssetSpecificationSchema.g.cs" />
     <Compile Remove="AssetAndDeviceRegistry\AdrBaseService\DeviceSpecificationSchema.g.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="EdgeRegistry\Models\" />
   </ItemGroup>
 </Project>

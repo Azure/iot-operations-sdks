@@ -16,7 +16,27 @@ namespace Azure.Iot.Operations.TDParser.Model
         public const string SafeName = "safe";
         public const string FormsName = TDCommon.FormsName;
         public const string NamespaceName = TDCommon.NamespaceName;
-        public const string MemberOfName = "aov:memberOf";
+        public const string NamespaceLegacyName = TDCommon.NamespaceLegacyName;
+        public const string MemberOfName = TDCommon.MemberOfName;
+        public const string MemberOfLegacyName = TDCommon.MemberOfLegacyName;
+        public const string PropertyIriName = TDCommon.PropertyIriName;
+        public const string ActionConfigurationName = "dov:actionConfiguration";
+
+        public static readonly HashSet<string> SupportedProperties = new()
+        {
+            DescriptionName,
+            InputName,
+            OutputName,
+            IdempotentName,
+            SafeName,
+            FormsName,
+            NamespaceName,
+            NamespaceLegacyName,
+            MemberOfName,
+            MemberOfLegacyName,
+            PropertyIriName,
+            ActionConfigurationName
+        };
 
         public ValueTracker<StringHolder>? Description { get; set; }
 
@@ -34,7 +54,15 @@ namespace Azure.Iot.Operations.TDParser.Model
 
         public ValueTracker<StringHolder>? MemberOf { get; set; }
 
+        public ValueTracker<StringHolder>? PropertyIri { get; set; }
+
+        public ValueTracker<TDAnything>? ActionConfiguration { get; set; }
+
         public Dictionary<string, long> PropertyNames { get; set; } = new();
+
+        public PrefixType NamespacePrefixType { get; set; } = PrefixType.Indeterminate;
+
+        public PrefixType MemberOfPrefixType { get; set; } = PrefixType.Indeterminate;
 
         public virtual bool Equals(TDAction? other)
         {
@@ -51,13 +79,15 @@ namespace Azure.Iot.Operations.TDParser.Model
                        Safe == other.Safe &&
                        Forms == other.Forms &&
                        Namespace == other.Namespace &&
-                       MemberOf == other.MemberOf;
+                       MemberOf == other.MemberOf &&
+                       PropertyIri == other.PropertyIri &&
+                       ActionConfiguration == other.ActionConfiguration;
             }
         }
 
         public override int GetHashCode()
         {
-            return (Description, Input, Output, Idempotent, Safe, Forms, Namespace, MemberOf).GetHashCode();
+            return (Description, Input, Output, Idempotent, Safe, Forms, Namespace, MemberOf, PropertyIri, ActionConfiguration).GetHashCode();
         }
 
         public static bool operator ==(TDAction? left, TDAction? right)
@@ -155,6 +185,20 @@ namespace Azure.Iot.Operations.TDParser.Model
                     yield return item;
                 }
             }
+            if (PropertyIri != null)
+            {
+                foreach (ITraversable item in PropertyIri.Traverse())
+                {
+                    yield return item;
+                }
+            }
+            if (ActionConfiguration != null)
+            {
+                foreach (ITraversable item in ActionConfiguration.Traverse())
+                {
+                    yield return item;
+                }
+            }
         }
 
         public static TDAction Deserialize(ref Utf8JsonReader reader)
@@ -196,9 +240,25 @@ namespace Azure.Iot.Operations.TDParser.Model
                         break;
                     case NamespaceName:
                         action.Namespace = ValueTracker<StringHolder>.Deserialize(ref reader, NamespaceName);
+                        action.NamespacePrefixType = PrefixType.DoVocabulary;
+                        break;
+                    case NamespaceLegacyName:
+                        action.Namespace = ValueTracker<StringHolder>.Deserialize(ref reader, NamespaceName);
+                        action.NamespacePrefixType = PrefixType.AioPlatform;
                         break;
                     case MemberOfName:
                         action.MemberOf = ValueTracker<StringHolder>.Deserialize(ref reader, MemberOfName);
+                        action.MemberOfPrefixType = PrefixType.DoVocabulary;
+                        break;
+                    case MemberOfLegacyName:
+                        action.MemberOf = ValueTracker<StringHolder>.Deserialize(ref reader, MemberOfName);
+                        action.MemberOfPrefixType = PrefixType.AioPlatform;
+                        break;
+                    case PropertyIriName:
+                        action.PropertyIri = ValueTracker<StringHolder>.Deserialize(ref reader, PropertyIriName);
+                        break;
+                    case ActionConfigurationName:
+                        action.ActionConfiguration = ValueTracker<TDAnything>.Deserialize(ref reader, ActionConfigurationName);
                         break;
                     default:
                         reader.Skip();

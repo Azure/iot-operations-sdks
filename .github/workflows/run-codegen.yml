@@ -11,7 +11,7 @@ jobs:
     timeout-minutes: 15
 
     steps:
-      - uses: actions/checkout@v6
+      - uses: actions/checkout@v7
       
       - name: Install Protoc
         uses: arduino/setup-protoc@v3
@@ -42,7 +42,7 @@ jobs:
       - name: Build and run WoT codegen
         run: | 
           dotnet build -c Debug wot-codegen/codegen.sln
-          echo "codegen=$(echo $(realpath wot-codegen/src/Azure.Iot.Operations.ProtocolCompiler/bin/Debug/net9.0/Azure.Iot.Operations.ProtocolCompiler))" >> $GITHUB_ENV
+          echo "codegen=$(echo $(realpath wot-codegen/src/Azure.Iot.Operations.ProtocolCompiler/bin/Debug/net10.0/Azure.Iot.Operations.ProtocolCompiler))" >> $GITHUB_ENV
           ./wot-codegen/gen_all.sh
 
       - name: Verify Generated Code Matches Repo

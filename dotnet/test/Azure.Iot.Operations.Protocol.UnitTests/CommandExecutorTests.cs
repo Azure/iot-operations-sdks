@@ -39,6 +39,15 @@ namespace Azure.Iot.Operations.Protocol.UnitTests
         }
     }
 
+    public class EmptyResponseCommandExecutor : CommandExecutor<string, EmptyJson>
+    {
+        public EmptyResponseCommandExecutor(ApplicationContext applicationContext, IMqttPubSubClient mqttClient)
+            : base(applicationContext, mqttClient, "emptyResponse", new Utf8JsonSerializer())
+        {
+
+        }
+    }
+
     public sealed class TimeSpanClass
     {
         public TimeSpan TimeSpan { get; set; }
@@ -724,6 +733,245 @@ namespace Azure.Iot.Operations.Protocol.UnitTests
 
             await Assert.ThrowsAsync<OperationCanceledException>(async () => await echoCommand.StartAsync(cancellationToken: cts.Token));
             await Assert.ThrowsAsync<OperationCanceledException>(async () => await echoCommand.StopAsync(cancellationToken: cts.Token));
+        }
+
+        // ADR 31: every mRPC response PUBLISH must be marked with the broker's high-priority
+        // backpressure-bypass property, regardless of the response variant (success, no-content,
+        // application error, header validation, version mismatch) and including responses replayed
+        // from the command response cache. The broker keys off the property's presence alone, so we
+        // assert it is present exactly once and do not assert its (empty) value.
+        private static void AssertHighPriorityMarked(MqttApplicationMessage message)
+        {
+            Assert.NotNull(message.UserProperties);
+            Assert.Equal(1, message.UserProperties!.Count(p => p.Name == AkriSystemProperties.HighPriority));
+        }
+
+        [Fact]
+        public async Task Response_Success_CarriesHighPriorityProperty()
+        {
+            MockMqttPubSubClient mock = new();
+            await using EchoCommandExecutor echoCommand = new(new ApplicationContext(), mock)
+            {
+                RequestTopicPattern = "mock/echo",
+                OnCommandReceived = (reqMd, ct) => Task.FromResult(new ExtendedResponse<string>() { Response = reqMd.Request + reqMd.Request }),
+                IsIdempotent = false,
+            };
+            await echoCommand.StartAsync();
+
+            var serializer = new Utf8JsonSerializer();
+            string payload = nameof(Response_Success_CarriesHighPriorityProperty);
+            var payloadContext = serializer.ToBytes(payload);
+            Guid cid = Guid.NewGuid();
+            var message = new MqttApplicationMessage("mock/echo")
+            {
+                CorrelationData = cid.ToByteArray(),
+                Payload = payloadContext.SerializedPayload,
+                ContentType = payloadContext.ContentType,
+                PayloadFormatIndicator = (MqttPayloadFormatIndicator)payloadContext.PayloadFormatIndicator,
+                ResponseTopic = "mock/echo/response",
+                MessageExpiryInterval = 10,
+            };
+            message.AddUserProperty(AkriSystemProperties.SourceId, Guid.NewGuid().ToString());
+
+            await mock.SimulateNewMessage(message);
+            await mock.SimulatedMessageAcknowledged();
+
+            Assert.True(mock.MessagePublished.UserProperties!.TryGetProperty(AkriSystemProperties.Status, out string? status));
+            Assert.Equal(((int)CommandStatusCode.OK).ToString(CultureInfo.InvariantCulture), status);
+            AssertHighPriorityMarked(mock.MessagePublished);
+        }
+
+        [Fact]
+        public async Task Response_NoContent_CarriesHighPriorityProperty()
+        {
+            MockMqttPubSubClient mock = new();
+            await using EmptyResponseCommandExecutor emptyCommand = new(new ApplicationContext(), mock)
+            {
+                RequestTopicPattern = "mock/empty",
+                OnCommandReceived = (reqMd, ct) => Task.FromResult(new ExtendedResponse<EmptyJson>() { Response = new EmptyJson() }),
+                IsIdempotent = false,
+            };
+            await emptyCommand.StartAsync();
+
+            var serializer = new Utf8JsonSerializer();
+            string payload = nameof(Response_NoContent_CarriesHighPriorityProperty);
+            var payloadContext = serializer.ToBytes(payload);
+            Guid cid = Guid.NewGuid();
+            var message = new MqttApplicationMessage("mock/empty")
+            {
+                CorrelationData = cid.ToByteArray(),
+                Payload = payloadContext.SerializedPayload,
+                ContentType = payloadContext.ContentType,
+                PayloadFormatIndicator = (MqttPayloadFormatIndicator)payloadContext.PayloadFormatIndicator,
+                ResponseTopic = "mock/empty/response",
+                MessageExpiryInterval = 10,
+            };
+            message.AddUserProperty(AkriSystemProperties.SourceId, Guid.NewGuid().ToString());
+
+            await mock.SimulateNewMessage(message);
+            await mock.SimulatedMessageAcknowledged();
+
+            Assert.True(mock.MessagePublished.Payload.IsEmpty);
+            Assert.True(mock.MessagePublished.UserProperties!.TryGetProperty(AkriSystemProperties.Status, out string? status));
+            Assert.Equal(((int)CommandStatusCode.NoContent).ToString(CultureInfo.InvariantCulture), status);
+            AssertHighPriorityMarked(mock.MessagePublished);
+        }
+
+        [Fact]
+        public async Task Response_ExecutionError_CarriesHighPriorityProperty()
+        {
+            MockMqttPubSubClient mock = new();
+            await using EchoCommandExecutor echoCommand = new(new ApplicationContext(), mock)
+            {
+                RequestTopicPattern = "mock/echo",
+                OnCommandReceived = (reqMd, ct) => throw new InvalidOperationException("intentional failure"),
+                IsIdempotent = false,
+            };
+            await echoCommand.StartAsync();
+
+            var serializer = new Utf8JsonSerializer();
+            string payload = nameof(Response_ExecutionError_CarriesHighPriorityProperty);
+            var payloadContext = serializer.ToBytes(payload);
+            Guid cid = Guid.NewGuid();
+            var message = new MqttApplicationMessage("mock/echo")
+            {
+                CorrelationData = cid.ToByteArray(),
+                Payload = payloadContext.SerializedPayload,
+                ContentType = payloadContext.ContentType,
+                PayloadFormatIndicator = (MqttPayloadFormatIndicator)payloadContext.PayloadFormatIndicator,
+                ResponseTopic = "mock/echo/response",
+                MessageExpiryInterval = 10,
+            };
+            message.AddUserProperty(AkriSystemProperties.SourceId, Guid.NewGuid().ToString());
+
+            await mock.SimulateNewMessage(message);
+            await mock.SimulatedMessageAcknowledged();
+
+            Assert.True(mock.MessagePublished.UserProperties!.TryGetProperty(AkriSystemProperties.Status, out string? status));
+            Assert.Equal(((int)CommandStatusCode.InternalServerError).ToString(CultureInfo.InvariantCulture), status);
+            AssertHighPriorityMarked(mock.MessagePublished);
+        }
+
+        [Fact]
+        public async Task Response_HeaderValidationError_CarriesHighPriorityProperty()
+        {
+            MockMqttPubSubClient mock = new();
+            await using EchoCommandExecutor echoCommand = new(new ApplicationContext(), mock)
+            {
+                RequestTopicPattern = "mock/echo",
+                OnCommandReceived = (reqMd, ct) => Task.FromResult(new ExtendedResponse<string>() { Response = reqMd.Request }),
+                IsIdempotent = false,
+            };
+            await echoCommand.StartAsync();
+
+            var serializer = new Utf8JsonSerializer();
+            string payload = nameof(Response_HeaderValidationError_CarriesHighPriorityProperty);
+            var payloadContext = serializer.ToBytes(payload);
+            Guid cid = Guid.NewGuid();
+
+            // Omit MessageExpiryInterval to trigger a BadRequest header-validation response.
+            var message = new MqttApplicationMessage("mock/echo")
+            {
+                CorrelationData = cid.ToByteArray(),
+                Payload = payloadContext.SerializedPayload,
+                ContentType = payloadContext.ContentType,
+                PayloadFormatIndicator = (MqttPayloadFormatIndicator)payloadContext.PayloadFormatIndicator,
+                ResponseTopic = "mock/echo/response",
+            };
+            message.AddUserProperty(AkriSystemProperties.SourceId, Guid.NewGuid().ToString());
+
+            await mock.SimulateNewMessage(message);
+            await mock.SimulatedMessageAcknowledged();
+
+            Assert.True(mock.MessagePublished.UserProperties!.TryGetProperty(AkriSystemProperties.Status, out string? status));
+            Assert.Equal(((int)CommandStatusCode.BadRequest).ToString(CultureInfo.InvariantCulture), status);
+            AssertHighPriorityMarked(mock.MessagePublished);
+        }
+
+        [Fact]
+        public async Task Response_VersionMismatchError_CarriesHighPriorityProperty()
+        {
+            MockMqttPubSubClient mock = new();
+            await using EchoCommandExecutor echoCommand = new(new ApplicationContext(), mock)
+            {
+                RequestTopicPattern = "mock/echo",
+                OnCommandReceived = (reqMd, ct) => Task.FromResult(new ExtendedResponse<string>() { Response = reqMd.Request }),
+                IsIdempotent = false,
+            };
+            await echoCommand.StartAsync();
+
+            var serializer = new Utf8JsonSerializer();
+            string payload = nameof(Response_VersionMismatchError_CarriesHighPriorityProperty);
+            var payloadContext = serializer.ToBytes(payload);
+            Guid cid = Guid.NewGuid();
+            var message = new MqttApplicationMessage("mock/echo")
+            {
+                CorrelationData = cid.ToByteArray(),
+                Payload = payloadContext.SerializedPayload,
+                ContentType = payloadContext.ContentType,
+                PayloadFormatIndicator = (MqttPayloadFormatIndicator)payloadContext.PayloadFormatIndicator,
+                ResponseTopic = "mock/echo/response",
+                MessageExpiryInterval = 10,
+            };
+            message.AddUserProperty(AkriSystemProperties.SourceId, Guid.NewGuid().ToString());
+
+            // An unsupported major protocol version triggers a NotSupportedVersion response.
+            message.AddUserProperty(AkriSystemProperties.ProtocolVersion, "999.0");
+
+            await mock.SimulateNewMessage(message);
+            await mock.SimulatedMessageAcknowledged();
+
+            Assert.True(mock.MessagePublished.UserProperties!.TryGetProperty(AkriSystemProperties.Status, out string? status));
+            Assert.Equal(((int)CommandStatusCode.NotSupportedVersion).ToString(CultureInfo.InvariantCulture), status);
+            AssertHighPriorityMarked(mock.MessagePublished);
+        }
+
+        [Fact]
+        public async Task CachedResponse_CarriesHighPriorityProperty()
+        {
+            MockMqttPubSubClient mock = new();
+            string execClientId = mock.ClientId;
+            int timesCmdExecuted = 0;
+
+            await using EchoWithMetadataCommandExecutor echoCommand = new(new ApplicationContext(), mock)
+            {
+                RequestTopicPattern = $"mock/{execClientId}/echo",
+                OnCommandReceived = (reqMd, ct) =>
+                {
+                    Interlocked.Increment(ref timesCmdExecuted);
+                    return Task.FromResult(new ExtendedResponse<string>() { Response = reqMd.Request + reqMd.Request });
+                },
+                IsIdempotent = false,
+            };
+            await echoCommand.StartAsync();
+
+            var serializer = new Utf8JsonSerializer();
+            string payload = nameof(CachedResponse_CarriesHighPriorityProperty);
+            var payloadContext = serializer.ToBytes(payload);
+            var message = new MqttApplicationMessage($"mock/{execClientId}/echo")
+            {
+                Payload = payloadContext.SerializedPayload,
+                ContentType = payloadContext.ContentType,
+                CorrelationData = Guid.NewGuid().ToByteArray(),
+                PayloadFormatIndicator = (MqttPayloadFormatIndicator)payloadContext.PayloadFormatIndicator,
+                MessageExpiryInterval = 10,
+                ResponseTopic = $"mock/{execClientId}/echo/response",
+            };
+            message.AddUserProperty(AkriSystemProperties.SourceId, Guid.NewGuid().ToString());
+
+            // The second duplicate request is served from the response cache via the
+            // GenerateAndPublishResponse path, which copies the stored user properties forward.
+            await mock.SimulateNewMessage(message);
+            await mock.SimulateNewMessage(message);
+            await mock.SimulatedMessageAcknowledged();
+            await mock.SimulatedMessageAcknowledged();
+
+            Assert.Equal(1, timesCmdExecuted);
+            Assert.Equal(2, mock.MessagesPublished.Count);
+            foreach (MqttApplicationMessage published in mock.MessagesPublished)
+            {
+                AssertHighPriorityMarked(published);
+            }
         }
     }
 }

@@ -10,18 +10,17 @@
 <# if (this.areUnitsInUse) { #>
       "qudt": "http://qudt.org/schema/qudt/",
 <# } #>
-      "dtv": "http://azure.com/DigitalTwins/dtmi#",
-      "aov": "http://azure.com/IoT/operations/tm#"
+      "dov": "http://azure.com/DigitalOperations/vocab#"
     }
   ],
   "@type": "tm:ThingModel",
   "title": "<#=this.thingName#>",
-  "aov:typeRef": "<#=this.typeRef#>",
+  "dov:typeRef": "<#=this.typeRef#>",
 <# if (this.isEvent) { #>
-  "aov:isEvent": true,
+  "dov:isEvent": true,
 <# } #>
 <# if (this.isComposite) { #>
-  "aov:isComposite": true,
+  "dov:isComposite": true,
 <# } #>
   "links": [
 <# int ix1 = 1; foreach (string baseModelRef in this.baseModelRefs) { #>
@@ -34,9 +33,9 @@
 <# foreach (LinkInfo linkInfo in this.linkInfos) { #>
     {
       "rel": "<#=linkInfo.Rel#>",
-      "aov:refName": "<#=linkInfo.RefName#>",
+      "dov:refName": "<#=linkInfo.RefName#>",
 <# if (linkInfo.RefType != null) { #>
-      "aov:refType": "<#=linkInfo.RefType#>",
+      "dov:refType": "<#=linkInfo.RefType#>",
 <# } #>
       "href": "<#=linkInfo.Href#>",
       "type": "application/tm+json"
@@ -47,7 +46,7 @@
 <# ix1 = 1; foreach (OpcUaDataTypeEnum dataTypeEnum in this.dataTypeEnums) { #>
     "<#=dataTypeEnum.EffectiveName#>": {
       "type": "object",
-      "aov:typeRef": "nsu=<#=dataTypeEnum.NodeIdNamespace#>;i=<#=dataTypeEnum.NodeId.NodeIndex#>",
+      "dov:typeRef": "<#=dataTypeEnum.GetTypeRef()#>",
       "const": {
 <# int ix2 = 1; foreach (KeyValuePair<string, OpcUaEnumValue> enumValue in dataTypeEnum.EnumValues) { #>
         "<#=enumValue.Value.SymbolicName ?? enumValue.Key#>": <#=enumValue.Value.Value#><#=ix2 < dataTypeEnum.EnumValues.Count ? "," : ""#>
@@ -74,9 +73,9 @@
 <# if (this.events.Any()) { #>
     {
       "contentType": "application/json",
-      "dtv:topic": "opcua/<#=this.specName#>/<#=this.thingName#>/events/{senderId}",
+      "dov:topic": "opcua/<#=this.specName#>/<#=this.thingName#>/events/{senderId}",
 <# if (this.inheritVars && this.baseModelRefs.Any()) { #>
-      "dtv:includeInherited": true,
+      "dov:includeInherited": true,
 <# } #>
       "op": "subscribeallevents"
     }<#=this.properties.Any() ? "," : ""#>
@@ -85,22 +84,35 @@
 <# if (this.properties.Any(p => !p.ReadOnly)) { #>
     {
       "contentType": "application/json",
-      "dtv:topic": "opcua/<#=this.specName#>/<#=this.thingName#>/properties/write",
+      "dov:topic": "opcua/<#=this.specName#>/<#=this.thingName#>/properties/write",
 <# if (this.inheritVars && this.baseModelRefs.Any()) { #>
-      "dtv:includeInherited": true,
+      "dov:includeInherited": true,
 <# } #>
       "op": "writemultipleproperties"
     },
 <# } #>
     {
       "contentType": "application/json",
-      "dtv:topic": "opcua/<#=this.specName#>/<#=this.thingName#>/properties/read",
+      "dov:topic": "opcua/<#=this.specName#>/<#=this.thingName#>/properties/read",
 <# if (this.inheritVars && this.baseModelRefs.Any()) { #>
-      "dtv:includeInherited": true,
+      "dov:includeInherited": true,
 <# } #>
       "op": "readallproperties"
     }
 <# } #>
+  ],
+<# } #>
+<# if (this.optionalActionNames.Any() || this.optionalPropertyNames.Any() || this.optionalEventNames.Any()) { #>
+  "tm:optional": [
+<# ix1 = 1; foreach (string actionName in this.optionalActionNames) { #>
+    "/actions/<#=actionName#>"<#=ix1 < this.optionalActionNames.Count + this.optionalPropertyNames.Count + this.optionalEventNames.Count ? "," : ""#>
+<# ix1++; } #>
+<# foreach (string propertyName in this.optionalPropertyNames) { #>
+    "/properties/<#=propertyName#>"<#=ix1 < this.optionalActionNames.Count + this.optionalPropertyNames.Count + this.optionalEventNames.Count ? "," : ""#>
+<# ix1++; } #>
+<# foreach (string eventName in this.optionalEventNames) { #>
+    "/events/<#=eventName#>"<#=ix1 < this.optionalActionNames.Count + this.optionalPropertyNames.Count + this.optionalEventNames.Count ? "," : ""#>
+<# ix1++; } #>
   ],
 <# } #>
   "actions": {

@@ -31,10 +31,10 @@ jobs:
   build:
     runs-on: ubuntu-latest
     name: CI-dotnet
-    timeout-minutes: 30
+    timeout-minutes: 45
 
     steps:
-    - uses: actions/checkout@v6
+    - uses: actions/checkout@v7
 
     - name: Install AIO
       uses: ./.github/actions/configure-aio
@@ -103,6 +103,12 @@ jobs:
     - name: Setup SchemaRegistry Host
       run: RUNNER_TRACKING_ID="" && dotnet run --project eng/test/schema-registry/src/Azure.Iot.Operations.Services.SchemaRegistry.Host/Azure.Iot.Operations.Services.SchemaRegistry.Host.csproj &
 
+    - name: Build EdgeRegistry Host
+      run: dotnet build eng/test/edge-registry/src/Azure.Iot.Operations.Services.EdgeRegistry.Host/Azure.Iot.Operations.Services.EdgeRegistry.Host.csproj
+
+    - name: Setup EdgeRegistry Host
+      run: RUNNER_TRACKING_ID="" && dotnet run --project eng/test/edge-registry/src/Azure.Iot.Operations.Services.EdgeRegistry.Host/Azure.Iot.Operations.Services.EdgeRegistry.Host.csproj &
+
     - name: Create ADR resources
       run: kubectl apply -f eng/test/test-adr-resources
       
@@ -157,6 +163,11 @@ jobs:
         cd dotnet/samples/Connectors/SqlConnector
         ./deploy-connector-and-device.sh
 
+    - name: Deploy Management Action Connector
+      run: |
+        cd dotnet/samples/Connectors/ManagementActionConnector
+        ./deploy-connector-and-device.sh
+
     - name: Wait for Polling Rest Connector to be ready
       run: |
         echo "Waiting for rest-test-server to be ready..."
@@ -193,6 +204,26 @@ jobs:
         kubectl rollout status deployment/mssql-deployment -n azure-iot-operations --timeout=180s
         echo "Waiting for SQL pod to be fully initialized..."
         kubectl wait --for=condition=ready pod -l app=mssql -n azure-iot-operations --timeout=120s
+        echo "Waiting for MySampleDB to be created and seeded..."
+        SA_PASSWORD=$(kubectl get secret sql-server-auth-credentials -n azure-iot-operations -o jsonpath='{.data.SA_PASSWORD}' | base64 -d)
+        db_ready=false
+        for i in {1..36}; do
+          rows=$(kubectl exec -n azure-iot-operations deployment/mssql-deployment -- \
+            /opt/mssql-tools18/bin/sqlcmd -S localhost -U sa -P "$SA_PASSWORD" -C -d MySampleDB -h -1 -W \
+            -Q "SET NOCOUNT ON; SELECT COUNT(*) FROM CountryMeasurements" 2>/dev/null | tr -d '[:space:]' || true)
+          if [[ "$rows" =~ ^[0-9]+$ ]] && [ "$rows" -gt 0 ]; then
+            echo "MySampleDB is ready with $rows rows in CountryMeasurements"
+            db_ready=true
+            break
+          fi
+          echo "Waiting for MySampleDB... ($i/36)"
+          sleep 5
+        done
+        if [ "$db_ready" != "true" ]; then
+          echo "ERROR: MySampleDB was not created and seeded in time"
+          kubectl logs -n azure-iot-operations deployment/mssql-deployment --tail=50 || true
+          exit 1
+        fi
         echo "Waiting for connector pod to appear and be ready..."
         for i in {1..30}; do
           if kubectl get pods -n azure-iot-operations | grep -q "sql-ctemplate.*Running"; then
@@ -203,6 +234,22 @@ jobs:
           sleep 2
         done
         kubectl get pods -n azure-iot-operations | grep sql-ctemplate || echo "No sql-ctemplate pods found"
+
+    - name: Wait for Management Action Connector to be ready
+      # The Management Action sample uses an in-process FakeDevice (no
+      # southbound deployment to wait on), so we only watch for the connector
+      # pod itself to come up.
+      run: |
+        echo "Waiting for management-action connector pod to appear and be ready..."
+        for i in {1..30}; do
+          if kubectl get pods -n azure-iot-operations | grep -q "mgmt-action-ctemplate.*Running"; then
+            echo "Connector pod is running"
+            break
+          fi
+          echo "Waiting for connector pod... ($i/30)"
+          sleep 2
+        done
+        kubectl get pods -n azure-iot-operations | grep mgmt-action-ctemplate || echo "No mgmt-action-ctemplate pods found"
 
     - name: Verify all connector pods are running
       run: |

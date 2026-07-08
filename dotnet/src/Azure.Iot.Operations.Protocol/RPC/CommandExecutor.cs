@@ -495,6 +495,9 @@ namespace Azure.Iot.Operations.Protocol.RPC
 
             metadata?.MarshalTo(message);
 
+            // Add the backpressure bypass property
+            message.AddUserProperty(AkriSystemProperties.HighPriority, string.Empty);
+
             if (isAppError != null)
             {
                 message.AddUserProperty(AkriSystemProperties.IsApplicationError, (bool)isAppError ? "true" : "false");

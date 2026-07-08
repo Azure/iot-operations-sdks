@@ -11,12 +11,36 @@ namespace Azure.Iot.Operations.TDParser.Model
     {
         public const string ContentTypeName = TDCommon.ContentTypeName;
         public const string AdditionalResponsesName = "additionalResponses";
-        public const string HeaderInfoName = "dtv:headerInfo";
-        public const string HeaderCodeName = "dtv:headerCode";
-        public const string ServiceGroupIdName = "dtv:serviceGroupId";
-        public const string TopicName = "dtv:topic";
-        public const string IncludeInheritedName = "dtv:includeInherited";
+        public const string HeaderInfoName = "dov:headerInfo";
+        public const string HeaderInfoLegacyName = "dtv:headerInfo";
+        public const string HeaderCodeName = "dov:headerCode";
+        public const string HeaderCodeLegacyName = "dtv:headerCode";
+        public const string ServiceGroupIdName = "dov:serviceGroupId";
+        public const string ServiceGroupIdLegacyName = "dtv:serviceGroupId";
+        public const string TopicName = "dov:topic";
+        public const string TopicLegacyName = "dtv:topic";
+        public const string HrefName = TDCommon.HrefName;
+        public const string IncludeInheritedName = "dov:includeInherited";
+        public const string IncludeInheritedLegacyName = "dtv:includeInherited";
         public const string OpName = "op";
+
+        public static readonly HashSet<string> SupportedProperties = new()
+        {
+            ContentTypeName,
+            AdditionalResponsesName,
+            HeaderInfoName,
+            HeaderInfoLegacyName,
+            HeaderCodeName,
+            HeaderCodeLegacyName,
+            ServiceGroupIdName,
+            ServiceGroupIdLegacyName,
+            TopicName,
+            TopicLegacyName,
+            HrefName,
+            IncludeInheritedName,
+            IncludeInheritedLegacyName,
+            OpName
+        };
 
         public ValueTracker<StringHolder>? ContentType { get; set; }
 
@@ -30,11 +54,23 @@ namespace Azure.Iot.Operations.TDParser.Model
 
         public ValueTracker<StringHolder>? Topic { get; set; }
 
+        public ValueTracker<StringHolder>? Href { get; set; }
+
         public ValueTracker<BoolHolder>? IncludeInherited { get; set; }
 
         public ArrayTracker<StringHolder>? Op { get; set; }
 
         public Dictionary<string, long> PropertyNames { get; set; } = new();
+
+        public PrefixType HeaderInfoPrefixType { get; set; } = PrefixType.Indeterminate;
+
+        public PrefixType HeaderCodePrefixType { get; set; } = PrefixType.Indeterminate;
+
+        public PrefixType ServiceGroupIdPrefixType { get; set; } = PrefixType.Indeterminate;
+
+        public PrefixType TopicPrefixType { get; set; } = PrefixType.Indeterminate;
+
+        public PrefixType IncludeInheritedPrefixType { get; set; } = PrefixType.Indeterminate;
 
         public virtual bool Equals(TDForm? other)
         {
@@ -50,6 +86,7 @@ namespace Azure.Iot.Operations.TDParser.Model
                        HeaderCode == other.HeaderCode &&
                        ServiceGroupId == other.ServiceGroupId &&
                        Topic == other.Topic &&
+                       Href == other.Href &&
                        IncludeInherited == other.IncludeInherited &&
                        Op == other.Op;
             }
@@ -57,7 +94,7 @@ namespace Azure.Iot.Operations.TDParser.Model
 
         public override int GetHashCode()
         {
-            return (ContentType, AdditionalResponses, HeaderInfo, HeaderCode, ServiceGroupId, Topic, IncludeInherited, Op).GetHashCode();
+            return (ContentType, AdditionalResponses, HeaderInfo, HeaderCode, ServiceGroupId, Topic, Href, IncludeInherited, Op).GetHashCode();
         }
 
         public static bool operator ==(TDForm? left, TDForm? right)
@@ -141,6 +178,13 @@ namespace Azure.Iot.Operations.TDParser.Model
                     yield return item;
                 }
             }
+            if (Href != null)
+            {
+                foreach (ITraversable item in Href.Traverse())
+                {
+                    yield return item;
+                }
+            }
             if (IncludeInherited != null)
             {
                 foreach (ITraversable item in IncludeInherited.Traverse())
@@ -184,18 +228,46 @@ namespace Azure.Iot.Operations.TDParser.Model
                         break;
                     case HeaderInfoName:
                         form.HeaderInfo = ArrayTracker<TDSchemaReference>.Deserialize(ref reader, HeaderInfoName);
+                        form.HeaderInfoPrefixType = PrefixType.DoVocabulary;
+                        break;
+                    case HeaderInfoLegacyName:
+                        form.HeaderInfo = ArrayTracker<TDSchemaReference>.Deserialize(ref reader, HeaderInfoName);
+                        form.HeaderInfoPrefixType = PrefixType.AioProtocol;
                         break;
                     case HeaderCodeName:
                         form.HeaderCode = ValueTracker<StringHolder>.Deserialize(ref reader, HeaderCodeName);
+                        form.HeaderCodePrefixType = PrefixType.DoVocabulary;
+                        break;
+                    case HeaderCodeLegacyName:
+                        form.HeaderCode = ValueTracker<StringHolder>.Deserialize(ref reader, HeaderCodeName);
+                        form.HeaderCodePrefixType = PrefixType.AioProtocol;
                         break;
                     case ServiceGroupIdName:
                         form.ServiceGroupId = ValueTracker<StringHolder>.Deserialize(ref reader, ServiceGroupIdName);
+                        form.ServiceGroupIdPrefixType = PrefixType.DoVocabulary;
+                        break;
+                    case ServiceGroupIdLegacyName:
+                        form.ServiceGroupId = ValueTracker<StringHolder>.Deserialize(ref reader, ServiceGroupIdName);
+                        form.ServiceGroupIdPrefixType = PrefixType.AioProtocol;
                         break;
                     case TopicName:
                         form.Topic = ValueTracker<StringHolder>.Deserialize(ref reader, TopicName);
+                        form.TopicPrefixType = PrefixType.DoVocabulary;
+                        break;
+                    case TopicLegacyName:
+                        form.Topic = ValueTracker<StringHolder>.Deserialize(ref reader, TopicName);
+                        form.TopicPrefixType = PrefixType.AioProtocol;
+                        break;
+                    case HrefName:
+                        form.Href = ValueTracker<StringHolder>.Deserialize(ref reader, HrefName);
                         break;
                     case IncludeInheritedName:
                         form.IncludeInherited = ValueTracker<BoolHolder>.Deserialize(ref reader, IncludeInheritedName);
+                        form.IncludeInheritedPrefixType = PrefixType.DoVocabulary;
+                        break;
+                    case IncludeInheritedLegacyName:
+                        form.IncludeInherited = ValueTracker<BoolHolder>.Deserialize(ref reader, IncludeInheritedName);
+                        form.IncludeInheritedPrefixType = PrefixType.AioProtocol;
                         break;
                     case OpName:
                         form.Op = ArrayTracker<StringHolder>.Deserialize(ref reader, OpName);

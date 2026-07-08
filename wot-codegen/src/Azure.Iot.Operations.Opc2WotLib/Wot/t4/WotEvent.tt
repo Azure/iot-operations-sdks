@@ -5,7 +5,7 @@
 <# // Licensed under the MIT License #>
 "<#=this.EventName#>": {
 <# if (this.uaVariable.BrowseNamespace != null) { #>
-  "aov:namespace": "<#=this.uaVariable.BrowseNamespace#>",
+  "dov:namespace": "<#=this.uaVariable.BrowseNamespace#>",
 <# } #>
   "data": {
 <# this.PushIndent("    "); #>
@@ -13,22 +13,25 @@
 <# this.PopIndent(); #>
   },
 <# if (this.uaVariable.IsPlaceholder) { #>
-  "dtv:placeholder": true,
+  "dov:placeholder": true,
 <# } #>
 <# if (this.containedIn != null) { #>
-  "aov:containedIn": "<#=this.containedIn#>",
+  "dov:containedIn": "<#=this.containedIn#>",
 <# } #>
 <# if (this.contains.Any()) { #>
-  "aov:contains": [ <#=string.Join(", ", this.contains.Select(c => $"\"{c}\""))#> ],
+  "dov:contains": [ <#=string.Join(", ", this.contains.Select(c => $"\"{c}\""))#> ],
 <# } #>
 <# if (this.quantityKind != null) { #>
   "qudt:hasQuantityKind": "<#=this.quantityKind#>",
-  "aov:withUnit": "properties/<#=this.EventName#>_EngineeringUnits",
+  "dov:withUnit": "properties/<#=this.EventName#>_EngineeringUnits",
 <# } #>
   "forms": [
     {
+<# if (this.inDescription) { #>
+      "href": "https://placeholder.example.com/endpoint",
+<# } #>
       "contentType": "application/json",
-      "dtv:topic": "opcua/<#=this.specName#>/<#=this.thingModelName#>/event/<#=this.EventName#>/{senderId}",
+      "dov:topic": "opcua/<#=this.specName#>/<#=this.thingModelName#>/event/<#=this.EventName#>/{senderId}",
       "op": "subscribeevent"
     }
   ]

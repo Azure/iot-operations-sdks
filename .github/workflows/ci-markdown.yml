@@ -16,7 +16,7 @@ jobs:
     name: CI-spelling
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v6
+      - uses: actions/checkout@v7
 
       - name: Spell check
         uses: streetsidesoftware/cspell-action@v8
@@ -32,7 +32,7 @@ jobs:
     name: CI-links
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v6
+      - uses: actions/checkout@v7
 
       # On PRs, detect whether the link-check config or workflow itself was
       # modified. If so, we want a full-repo scan (nofilter) instead of the
@@ -47,6 +47,25 @@ jobs:
             config:
               - '.github/.linkspector.yml'
               - '.github/workflows/ci-markdown.yml'
+
+      # Workaround for https://github.com/UmbrellaDocs/action-linkspector "Could not
+      # find Chrome (ver. <X>)" failures: the action ships linkspector but does NOT
+      # run `puppeteer browsers install` first, so on a fresh runner Puppeteer's cache
+      # (~/.cache/puppeteer) is empty and Chromium launch fails with e.g.:
+      #   💥 Main error: Could not find Chrome (ver. 148.0.7778.97).
+      # We populate the cache ourselves with the exact build linkspector's bundled
+      # Puppeteer wants. If a future linkspector release bumps its required Chrome
+      # version, the failure message will name the new version — bump CHROME_VERSION
+      # below to match (or replace with `chrome@stable` if linkspector ever stops
+      # pinning a specific build).
+      #
+      # NOTE: @puppeteer/browsers defaults to installing into the CURRENT WORKING
+      # DIRECTORY (./chrome/...), but Puppeteer itself looks at ~/.cache/puppeteer.
+      # Pass --path explicitly so the cache layout matches what Puppeteer expects.
+      - name: Pre-install Chrome into Puppeteer cache (linkspector workaround)
+        env:
+          CHROME_VERSION: "148.0.7778.97"
+        run: npx --yes @puppeteer/browsers install "chrome@${CHROME_VERSION}" --path "$HOME/.cache/puppeteer"
 
       - name: Run linkspector
         uses: umbrelladocs/action-linkspector@v1

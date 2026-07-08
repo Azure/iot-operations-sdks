@@ -29,6 +29,7 @@ The compiler provides the following options:
 --workingDir <DIRPATH>         Directory for storing temporary files (relative to outDir unless path is rooted) [default: schemas]
 --namespace <NAMESPACE>        Namespace for generated code [csharp default: "Generated", rust default: "generated"]
 --common <NAMESPACE>           Namespace for common code [csharp default: "", rust default: "common_types"]
+--target <aio|none>            SDK that will be targeted by generated code [default: aio]
 --sdkPath <FILEPATH | URL>     Local path or feed URL for Azure.Iot.Operations.Protocol SDK
 --lang <csharp|rust|none>      Programming language for generated code
 --prefixSchemas                Apply Thing Model prefixes to schema type names (to avoid collisions across Thing Models)

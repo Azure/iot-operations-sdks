@@ -571,7 +571,7 @@ namespace <#=this.projectName#>.<#=this.genNamespace.GetNamespaceName(TargetLang
 <# foreach (var actionSpec in this.actionSpecs) { #>
 <# if (actionSpec.ErrorResultName != null) { #>
 
-            private async Task<ExtendedResponse<<#=this.SchemaType(actionSpec.NormalResultSchema ?? actionSpec.ResponseSchema, actionSpec.SerializerEmptyType)#>>> <#=actionSpec.Name.GetMethodName(TargetLanguage.CSharp, "int")#>(<#=this.SchemaType(actionSpec.RequestSchema, actionSpec.SerializerEmptyType)#> request, CommandRequestMetadata? requestMetadata, Dictionary<string, string>? prefixedAdditionalTopicTokenMap, TimeSpan? commandTimeout, CancellationToken cancellationToken)
+            private async Task<ExtendedResponse<<#=this.SchemaType(actionSpec.NormalResultSchema, actionSpec.SerializerEmptyType)#>>> <#=actionSpec.Name.GetMethodName(TargetLanguage.CSharp, "int")#>(<#=this.SchemaType(actionSpec.RequestSchema, actionSpec.SerializerEmptyType)#> request, CommandRequestMetadata? requestMetadata, Dictionary<string, string>? prefixedAdditionalTopicTokenMap, TimeSpan? commandTimeout, CancellationToken cancellationToken)
             {
                 ExtendedResponse<<#=this.SchemaType(actionSpec.ResponseSchema, actionSpec.SerializerEmptyType)#>> extended = await this.<#=actionSpec.Invoker.GetVariableName(TargetLanguage.CSharp)#>.InvokeCommandAsync(request, requestMetadata, prefixedAdditionalTopicTokenMap, commandTimeout, cancellationToken);
 
@@ -590,12 +590,12 @@ namespace <#=this.projectName#>.<#=this.genNamespace.GetNamespaceName(TargetLang
                 }
                 else
                 {
-                    return new ExtendedResponse<<#=this.SchemaType(actionSpec.NormalResultSchema ?? actionSpec.ResponseSchema, actionSpec.SerializerEmptyType)#>>
+                    return new ExtendedResponse<<#=this.SchemaType(actionSpec.NormalResultSchema, actionSpec.SerializerEmptyType)#>>
                     {
 <# if (actionSpec.NormalResultName != null) { #>
                         Response = extended.Response.<#=actionSpec.NormalResultName.GetFieldName(TargetLanguage.CSharp)#>!,
 <# } else { #>
-                        Response = new <#=this.SchemaType(actionSpec.NormalResultSchema ?? actionSpec.ResponseSchema, actionSpec.SerializerEmptyType)#>
+                        Response = new <#=this.SchemaType(actionSpec.NormalResultSchema, actionSpec.SerializerEmptyType)#>
                         {
 <# foreach (CodeName normalResultName in actionSpec.NormalResultNames) { #>
                             <#=normalResultName.GetFieldName(TargetLanguage.CSharp)#> = extended.Response.<#=normalResultName.GetFieldName(TargetLanguage.CSharp)#><#=actionSpec.NormalRequiredNames.Contains(normalResultName) ? ".Value()" : ""#>,
@@ -702,13 +702,13 @@ namespace <#=this.projectName#>.<#=this.genNamespace.GetNamespaceName(TargetLang
     }
 }
 <#+
-    private string IntLValue(ActionSpec actionSpec) => (actionSpec.ResponseSchema != null ? $"ExtendedResponse<{this.SchemaType(actionSpec.NormalResultSchema ?? actionSpec.ResponseSchema, actionSpec.SerializerEmptyType)}> extended = " : $"CommandResponseMetadata? responseMetadata = ");
+    private string IntLValue(ActionSpec actionSpec) => (actionSpec.ResponseSchema != null ? $"ExtendedResponse<{this.SchemaType(actionSpec.ErrorResultName != null ? actionSpec.NormalResultSchema : actionSpec.ResponseSchema, actionSpec.SerializerEmptyType)}> extended = " : $"CommandResponseMetadata? responseMetadata = ");
 
     private string IntRValue(ActionSpec actionSpec) => (actionSpec.ResponseSchema != null ? "Response = extended.Response, ResponseMetadata = extended.ResponseMetadata " : "ResponseMetadata = responseMetadata ");
 
-    private string ExtRespType(ActionSpec actionSpec) => this.CondWrap(actionSpec.ResponseSchema != null ? $"ExtendedResponse<{this.SchemaType(actionSpec.NormalResultSchema ?? actionSpec.ResponseSchema, actionSpec.SerializerEmptyType)}>" : "CommandResponseMetadata?");
+    private string ExtRespType(ActionSpec actionSpec) => this.CondWrap(actionSpec.ResponseSchema != null ? $"ExtendedResponse<{this.SchemaType(actionSpec.ErrorResultName != null ? actionSpec.NormalResultSchema : actionSpec.ResponseSchema, actionSpec.SerializerEmptyType)}>" : "CommandResponseMetadata?");
 
-    private string EmptyResp(ActionSpec actionSpec) => this.CondFrom(actionSpec.ResponseSchema != null ? $"new ExtendedResponse<{this.SchemaType(actionSpec.NormalResultSchema ?? actionSpec.ResponseSchema, actionSpec.SerializerEmptyType)}> {{ Response = new {this.SchemaType(actionSpec.NormalResultSchema ?? actionSpec.ResponseSchema, actionSpec.SerializerEmptyType)}() }}" : "(CommandResponseMetadata?)new CommandResponseMetadata()");
+    private string EmptyResp(ActionSpec actionSpec) => this.CondFrom(actionSpec.ResponseSchema != null ? $"new ExtendedResponse<{this.SchemaType(actionSpec.ErrorResultName != null ? actionSpec.NormalResultSchema : actionSpec.ResponseSchema, actionSpec.SerializerEmptyType)}> {{ Response = new {this.SchemaType(actionSpec.ErrorResultName != null ? actionSpec.NormalResultSchema : actionSpec.ResponseSchema, actionSpec.SerializerEmptyType)}() }}" : "(CommandResponseMetadata?)new CommandResponseMetadata()");
 
     private string CondWrap(string type) => $"Task<{type}>";
 
@@ -718,7 +718,7 @@ namespace <#=this.projectName#>.<#=this.genNamespace.GetNamespaceName(TargetLang
 
     private string ReqArgs(ActionSpec actionSpec, string reqVar) => actionSpec.RequestSchema != null ? $"{reqVar}.Request!, {reqVar}.RequestMetadata!" : $"{reqVar}.RequestMetadata!";
 
-    private string CallAsyncType(ActionSpec actionSpec) => $"RpcCallAsync<{this.SchemaType(actionSpec.NormalResultSchema ?? actionSpec.ResponseSchema, actionSpec.SerializerEmptyType)}>";
+    private string CallAsyncType(ActionSpec actionSpec) => $"RpcCallAsync<{this.SchemaType(actionSpec.ErrorResultName != null ? actionSpec.NormalResultSchema : actionSpec.ResponseSchema, actionSpec.SerializerEmptyType)}>";
 
     private string CallAsyncType(PropertySpec propSpec) => $"RpcCallAsync<{this.SchemaType(propSpec.PropSchema, propSpec.ReadSerializerEmptyType)}>";
 

@@ -9,11 +9,24 @@ namespace Azure.Iot.Operations.TDParser.Model
 
     public class TDLink : IEquatable<TDLink>, IDeserializable<TDLink>
     {
-        public const string HrefName = "href";
+        public const string HrefName = TDCommon.HrefName;
         public const string TypeName = "type";
         public const string RelName = "rel";
-        public const string RefNameName = "aov:refName";
-        public const string RefTypeName = "aov:refType";
+        public const string RefNameName = "dov:refName";
+        public const string RefNameLegacyName = "aov:refName";
+        public const string RefTypeName = "dov:refType";
+        public const string RefTypeLegacyName = "aov:refType";
+
+        public static readonly HashSet<string> SupportedProperties = new()
+        {
+            HrefName,
+            TypeName,
+            RelName,
+            RefNameName,
+            RefNameLegacyName,
+            RefTypeName,
+            RefTypeLegacyName
+        };
 
         public ValueTracker<StringHolder>? Href { get; set; }
 
@@ -26,6 +39,10 @@ namespace Azure.Iot.Operations.TDParser.Model
         public ValueTracker<StringHolder>? RefType { get; set; }
 
         public Dictionary<string, long> PropertyNames { get; set; } = new();
+
+        public PrefixType RefNamePrefixType { get; set; } = PrefixType.Indeterminate;
+
+        public PrefixType RefTypePrefixType { get; set; } = PrefixType.Indeterminate;
 
         public virtual bool Equals(TDLink? other)
         {
@@ -150,9 +167,19 @@ namespace Azure.Iot.Operations.TDParser.Model
                         break;
                     case RefNameName:
                         link.RefName = ValueTracker<StringHolder>.Deserialize(ref reader, RefNameName);
+                        link.RefNamePrefixType = PrefixType.DoVocabulary;
+                        break;
+                    case RefNameLegacyName:
+                        link.RefName = ValueTracker<StringHolder>.Deserialize(ref reader, RefNameName);
+                        link.RefNamePrefixType = PrefixType.AioPlatform;
                         break;
                     case RefTypeName:
                         link.RefType = ValueTracker<StringHolder>.Deserialize(ref reader, RefTypeName);
+                        link.RefTypePrefixType = PrefixType.DoVocabulary;
+                        break;
+                    case RefTypeLegacyName:
+                        link.RefType = ValueTracker<StringHolder>.Deserialize(ref reader, RefTypeName);
+                        link.RefTypePrefixType = PrefixType.AioPlatform;
                         break;
                     default:
                         reader.Skip();

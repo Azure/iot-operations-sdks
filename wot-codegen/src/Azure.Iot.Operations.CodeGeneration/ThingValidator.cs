@@ -32,13 +32,13 @@ namespace Azure.Iot.Operations.CodeGeneration
             TDThing thing = resolvingThing.ParsedThing.Thing;
             bool hasError = false;
 
-            if (!TryValidateContext(thing.Context, out bool platContextPresent, out bool qudtContextPresent))
+            if (!TryValidateContext(thing.Context, out bool dovContextPresent, out bool protContextPresent, out bool platContextPresent, out bool qudtContextPresent))
             {
                 hasError = true;
             }
             long contextTokenIndex = thing.Context?.TokenIndex ?? -1;
 
-            if (!TryValidateType(thing.Type))
+            if (!TryValidateType(thing.Type, out bool isDescription))
             {
                 hasError = true;
             }
@@ -48,42 +48,62 @@ namespace Azure.Iot.Operations.CodeGeneration
                 hasError = true;
             }
 
-            if (!TryValidateCompositeAndEvent(thing.IsComposite, thing.IsEvent, platContextPresent, contextTokenIndex))
+            if (!TryValidateCompositeAndEvent(thing, dovContextPresent, platContextPresent, contextTokenIndex))
             {
                 hasError = true;
             }
 
-            if (!TryValidateTypeRef(thing.TypeRef, platContextPresent, contextTokenIndex))
+            if (!TryValidateTypeRef(thing.TypeRef, thing.TypeRefPrefixType, dovContextPresent, platContextPresent, contextTokenIndex))
             {
                 hasError = true;
             }
 
-            if (!TryValidateLinks(resolvingThing, platContextPresent, contextTokenIndex, validateReferences))
+            if (!TryValidateOptional(thing.Optional, isDescription))
             {
                 hasError = true;
             }
 
-            if (!TryValidateSchemaDefinitions(thing.SchemaDefinitions, platContextPresent, contextTokenIndex))
+            if (!TryValidateSecurity(thing.SecurityDefinitions, thing.Security, isDescription))
             {
                 hasError = true;
             }
 
-            if (!TryValidateRootForms(thing.Forms, thing.SchemaDefinitions, serializationFormats))
+            if (!TryValidateLinks(resolvingThing, dovContextPresent, platContextPresent, contextTokenIndex, validateReferences, isDescription))
             {
                 hasError = true;
             }
 
-            if (!TryValidateActions(thing.Actions, thing.SchemaDefinitions, serializationFormats, platContextPresent, contextTokenIndex))
+            if (!TryValidateSchemaDefinitions(thing.SchemaDefinitions, dovContextPresent, protContextPresent, platContextPresent, contextTokenIndex))
             {
                 hasError = true;
             }
 
-            if (!TryValidateProperties(thing.Properties, thing.SchemaDefinitions, serializationFormats, platContextPresent, qudtContextPresent, contextTokenIndex))
+            if (!TryValidateRootForms(thing.Forms, thing.SchemaDefinitions, serializationFormats, dovContextPresent, protContextPresent, contextTokenIndex, isDescription))
             {
                 hasError = true;
             }
 
-            if (!TryValidateEvents(thing.Events, thing.Properties, thing.SchemaDefinitions, serializationFormats, platContextPresent, qudtContextPresent, contextTokenIndex))
+            if (!TryValidateActions(thing.Actions, thing.SchemaDefinitions, thing.ActionGroups, serializationFormats, dovContextPresent, protContextPresent, platContextPresent, contextTokenIndex, isDescription))
+            {
+                hasError = true;
+            }
+
+            if (!TryValidateProperties(thing.Properties, thing.SchemaDefinitions, thing.PropertyGroups, serializationFormats, dovContextPresent, protContextPresent, platContextPresent, qudtContextPresent, contextTokenIndex, isDescription))
+            {
+                hasError = true;
+            }
+
+            if (!TryValidateEvents(thing.Events, thing.Properties, thing.SchemaDefinitions, thing.EventGroups, serializationFormats, dovContextPresent, protContextPresent, platContextPresent, qudtContextPresent, contextTokenIndex, isDescription))
+            {
+                hasError = true;
+            }
+
+            if (!TryValidateOptional(thing.Optional, thing.Actions, thing.Properties, thing.Events))
+            {
+                hasError = true;
+            }
+
+            if (!TryValidateAffordanceGroups(thing.PropertyGroups, thing.EventGroups, thing.ActionGroups))
             {
                 hasError = true;
             }
@@ -149,22 +169,9 @@ namespace Azure.Iot.Operations.CodeGeneration
 
             foreach (KeyValuePair<string, long> propertyName in propertyNames)
             {
-                if (propertyName.Key != TDThing.ContextName &&
-                    propertyName.Key != TDThing.TypeName &&
-                    propertyName.Key != TDThing.TitleName &&
-                    propertyName.Key != TDThing.DescriptionName &&
-                    propertyName.Key != TDThing.LinksName &&
-                    propertyName.Key != TDThing.SchemaDefinitionsName &&
-                    propertyName.Key != TDThing.FormsName &&
-                    propertyName.Key != TDThing.OptionalName &&
-                    propertyName.Key != TDThing.ActionsName &&
-                    propertyName.Key != TDThing.PropertiesName &&
-                    propertyName.Key != TDThing.EventsName &&
-                    propertyName.Key != TDThing.IsCompositeName &&
-                    propertyName.Key != TDThing.IsEventName &&
-                    propertyName.Key != TDThing.TypeRefName)
+                if (!TDThing.SupportedProperties.Contains(propertyName.Key))
                 {
-                    if (propertyName.Key.Contains(':') && !propertyName.Key.StartsWith($"{TDValues.ContextPrefixAioProtocol}:") && !propertyName.Key.StartsWith($"{TDValues.ContextPrefixAioPlatform}:"))
+                    if (propertyName.Key.Contains(':') && !propertyName.Key.StartsWith($"{TDValues.ContextPrefixDoVocab}:") && !propertyName.Key.StartsWith($"{TDValues.ContextPrefixAioProtocol}:") && !propertyName.Key.StartsWith($"{TDValues.ContextPrefixAioPlatform}:"))
                     {
                         errorReporter.ReportWarning($"Thing has unrecognized '{propertyName.Key}' property, which will be ignored.", propertyName.Value);
                     }
@@ -241,9 +248,9 @@ namespace Azure.Iot.Operations.CodeGeneration
             }
         }
 
-        private bool TryValidateRootForms(ArrayTracker<TDForm>? forms, MapTracker<TDDataSchema>? schemaDefinitions, HashSet<SerializationFormat> serializationFormats)
+        private bool TryValidateRootForms(ArrayTracker<TDForm>? forms, MapTracker<TDDataSchema>? schemaDefinitions, HashSet<SerializationFormat> serializationFormats, bool dovContextPresent, bool protContextPresent, long contextTokenIndex, bool isDescription)
         {
-            if (!TryValidateForms(forms, FormsKind.Root, schemaDefinitions, out ValueTracker<StringHolder>? contentType))
+            if (!TryValidateForms(forms, FormsKind.Root, schemaDefinitions, out ValueTracker<StringHolder>? contentType, dovContextPresent, protContextPresent, contextTokenIndex, isDescription))
             {
                 return false;
             }
@@ -494,11 +501,12 @@ namespace Azure.Iot.Operations.CodeGeneration
             return !hasError;
         }
 
-        private bool TryValidateContext(ArrayTracker<TDContextSpecifier>? context, out bool platContextPresent, out bool qudtContextPresent)
+        private bool TryValidateContext(ArrayTracker<TDContextSpecifier>? context, out bool dovContextPresent, out bool protContextPresent, out bool platContextPresent, out bool qudtContextPresent)
         {
+            dovContextPresent = false;
+            protContextPresent = false;
             platContextPresent = false;
             qudtContextPresent = false;
-            bool protContextPresent = false;
             bool tdContextPresent = false;
             bool hasError = false;
 
@@ -528,6 +536,14 @@ namespace Azure.Iot.Operations.CodeGeneration
                     {
                         switch (localContext.Key)
                         {
+                            case TDValues.ContextPrefixDoVocab:
+                                dovContextPresent = true;
+                                if (localContext.Value.Value.Value != TDValues.ContextUriDoVocab)
+                                {
+                                    errorReporter.ReportError(ErrorCondition.PropertyInvalid, $"Local {TDThing.ContextName} term \"{localContext.Key}\" has incorrect URI value \"{localContext.Value.Value.Value}\"; value must be \"{TDValues.ContextUriDoVocab}\".", contextSpecifier.TokenIndex);
+                                    hasError = true;
+                                }
+                                break;
                             case TDValues.ContextPrefixAioProtocol:
                                 protContextPresent = true;
                                 if (localContext.Value.Value.Value != TDValues.ContextUriAioProtocol)
@@ -566,36 +582,77 @@ namespace Azure.Iot.Operations.CodeGeneration
                 hasError = true;
             }
 
-            if (!protContextPresent)
+            if (!dovContextPresent && !protContextPresent)
             {
-                errorReporter.ReportError(ErrorCondition.PropertyMissing, $"Thing Model is missing required '{TDThing.ContextName}' local term \"{TDValues.ContextPrefixAioProtocol}\" with URI value \"{TDValues.ContextUriAioProtocol}\".", context.TokenIndex);
+                errorReporter.ReportError(ErrorCondition.PropertyMissing, $"Thing Model is missing '{TDThing.ContextName}' local term; either \"{TDValues.ContextPrefixDoVocab}\" with URI value \"{TDValues.ContextUriDoVocab}\" or \"{TDValues.ContextPrefixAioProtocol}\" with URI value \"{TDValues.ContextUriAioProtocol}\" is required.", context.TokenIndex);
                 hasError = true;
             }
 
             return !hasError;
         }
 
-        private bool TryValidateType(ValueTracker<StringHolder>? type)
+        private bool TryValidateRequiredContext(PrefixType prefixType, bool dovContextPresent, bool protContextPresent, bool platContextPresent, string description, long propTokenIndex, long contextTokenIndex)
+        {
+            switch (prefixType)
+            {
+                case PrefixType.DoVocabulary:
+                    if (!dovContextPresent)
+                    {
+                        errorReporter.ReportError(ErrorCondition.PropertyInvalid, $"{description} requires the Digital Operations Vocabulary context (\"{TDValues.ContextPrefixDoVocab}\") in the '{TDThing.ContextName}' property.", propTokenIndex, contextTokenIndex);
+                        return false;
+                    }
+                    return true;
+                case PrefixType.AioProtocol:
+                    if (!protContextPresent)
+                    {
+                        errorReporter.ReportError(ErrorCondition.PropertyInvalid, $"{description} requires the Azure Operations Protocol context (\"{TDValues.ContextPrefixAioProtocol}\") in the '{TDThing.ContextName}' property.", propTokenIndex, contextTokenIndex);
+                        return false;
+                    }
+                    return true;
+                case PrefixType.AioPlatform:
+                    if (!platContextPresent)
+                    {
+                        errorReporter.ReportError(ErrorCondition.PropertyInvalid, $"{description} requires the Azure Operations Platform context (\"{TDValues.ContextPrefixAioPlatform}\") in the '{TDThing.ContextName}' property.", propTokenIndex, contextTokenIndex);
+                        return false;
+                    }
+                    return true;
+                default:
+                    return true;
+            }
+        }
+
+        private bool TryValidateType(ValueTracker<StringHolder>? type, out bool isDescription)
         {
             if (type == null)
             {
-                errorReporter.ReportError(ErrorCondition.PropertyMissing, $"Thing Model is missing required '{TDThing.TypeName}' property.", -1);
+                errorReporter.ReportError(ErrorCondition.PropertyMissing, $"Thing is missing required '{TDThing.TypeName}' property.", -1);
+                isDescription = false;
                 return false;
             }
 
             if (string.IsNullOrWhiteSpace(type.Value.Value))
             {
-                errorReporter.ReportError(ErrorCondition.PropertyEmpty, $"Thing Model '{TDThing.TypeName}' property has empty value.", type.TokenIndex);
+                errorReporter.ReportError(ErrorCondition.PropertyEmpty, $"Thing '{TDThing.TypeName}' property has empty value.", type.TokenIndex);
+                isDescription = false;
                 return false;
             }
 
-            if (type.Value.Value != TDValues.TypeThingModel)
+            if (type.Value.Value == TDValues.TypeThingDescription)
             {
-                errorReporter?.ReportError(ErrorCondition.PropertyInvalid, $"Thing Model '{TDThing.TypeName}' property value '{type.Value.Value}' is not correct; value must be `{TDValues.TypeThingModel}`.", type.TokenIndex);
+                isDescription = true;
+                return true;
+            }
+            else if (type.Value.Value == TDValues.TypeThingModel)
+            {
+                isDescription = false;
+                return true;
+            }
+            else
+            {
+                errorReporter?.ReportError(ErrorCondition.PropertyInvalid, $"Thing '{TDThing.TypeName}' property value '{type.Value.Value}' is not correct; value must be `{TDValues.TypeThingDescription}` or `{TDValues.TypeThingModel}`.", type.TokenIndex);
+                isDescription = false;
                 return false;
             }
-
-            return true;
         }
 
         private bool TryValidateTitle(ValueTracker<StringHolder>? title)
@@ -621,24 +678,206 @@ namespace Azure.Iot.Operations.CodeGeneration
             return true;
         }
 
-        private bool TryValidateCompositeAndEvent(ValueTracker<BoolHolder>? isComposite, ValueTracker<BoolHolder>? isEvent, bool platContextPresent, long contextTokenIndex)
+        private bool TryValidateOptional(ArrayTracker<StringHolder>? opt, MapTracker<TDAction>? actions, MapTracker<TDProperty>? properties, MapTracker<TDEvent>? evts)
         {
+            if (opt?.Elements == null)
+            {
+                return true;
+            }
+
+            foreach (var optElt in opt.Elements)
+            {
+                if (string.IsNullOrWhiteSpace(optElt.Value.Value))
+                {
+                    errorReporter.ReportError(ErrorCondition.PropertyEmpty, $"Optional element has empty string value.", optElt.TokenIndex);
+                    return false;
+                }
+
+                string[] optParts = optElt.Value.Value.Split('/', StringSplitOptions.RemoveEmptyEntries);
+
+                if (optParts.Length < 2)
+                {
+                    errorReporter.ReportError(ErrorCondition.PropertyUnsupportedValue, $"Optional element value '{optElt.Value.Value}' must be a 2-level JSON Pointer, such as '/{TDThing.ActionsName}/Example'.", optElt.TokenIndex);
+                    return false;
+                }
+
+                switch (optParts[0])
+                {
+                    case TDThing.ActionsName:
+                        if (actions?.Entries == null)
+                        {
+                            errorReporter.ReportError(ErrorCondition.ItemNotFound, $"Optional element has value '{optElt.Value.Value}', but no '{TDThing.ActionsName}' collection in Thing Model.", optElt.TokenIndex);
+                            return false;
+                        }
+                        if (!actions.Entries!.ContainsKey(optParts[1]))
+                        {
+                            errorReporter.ReportError(ErrorCondition.ItemNotFound, $"Optional element has value '{optElt.Value.Value}', but no '{optParts[1]}' action in Thing Model.", optElt.TokenIndex, actions.TokenIndex);
+                            return false;
+                        }
+                        break;
+                    case TDThing.PropertiesName:
+                        if (properties?.Entries == null)
+                        {
+                            errorReporter.ReportError(ErrorCondition.ItemNotFound, $"Optional element has value '{optElt.Value.Value}', but no '{TDThing.PropertiesName}' collection in Thing Model.", optElt.TokenIndex);
+                            return false;
+                        }
+                        if (!properties.Entries!.ContainsKey(optParts[1]))
+                        {
+                            errorReporter.ReportError(ErrorCondition.ItemNotFound, $"Optional element has value '{optElt.Value.Value}', but no '{optParts[1]}' property in Thing Model.", optElt.TokenIndex, properties.TokenIndex);
+                            return false;
+                        }
+                        break;
+                    case TDThing.EventsName:
+                        if (evts?.Entries == null)
+                        {
+                            errorReporter.ReportError(ErrorCondition.ItemNotFound, $"Optional element has value '{optElt.Value.Value}', but no '{TDThing.EventsName}' collection in Thing Model.", optElt.TokenIndex);
+                            return false;
+                        }
+                        if (!evts.Entries!.ContainsKey(optParts[1]))
+                        {
+                            errorReporter.ReportError(ErrorCondition.ItemNotFound, $"Optional element has value '{optElt.Value.Value}', but no '{optParts[1]}' event in Thing Model.", optElt.TokenIndex, evts.TokenIndex);
+                            return false;
+                        }
+                        break;
+                    default:
+                        errorReporter.ReportError(ErrorCondition.PropertyUnsupportedValue, $"Optional element value '{optElt.Value.Value}' must be a JSON Pointer whose first level is '{TDThing.ActionsName}', '{TDThing.PropertiesName}', or '{TDThing.EventsName}'.", optElt.TokenIndex);
+                        return false;
+                }
+            }
+
+            return true;
+        }
+
+        private bool TryValidateAffordanceGroups(ArrayTracker<TDAffordanceGroup>? propertyGroups, ArrayTracker<TDAffordanceGroup>? eventGroups, ArrayTracker<TDAffordanceGroup>? actionGroups)
+        {
+            bool hasError = false;
+            Dictionary<string, long> allTitles = new();
+
+            if (!TryValidateAffordanceGroupArray(propertyGroups, TDThing.PropertyGroupsName, allTitles))
+            {
+                hasError = true;
+            }
+
+            if (!TryValidateAffordanceGroupArray(eventGroups, TDThing.EventGroupsName, allTitles))
+            {
+                hasError = true;
+            }
+
+            if (!TryValidateAffordanceGroupArray(actionGroups, TDThing.ActionGroupsName, allTitles))
+            {
+                hasError = true;
+            }
+
+            return !hasError;
+        }
+
+        private bool TryValidateAffordanceGroupArray(ArrayTracker<TDAffordanceGroup>? groups, string propertyName, Dictionary<string, long> allTitles)
+        {
+            if (groups?.Elements == null)
+            {
+                return true;
+            }
+
+            bool hasError = false;
+            Dictionary<string, long> localTitles = new();
+
+            foreach (ValueTracker<TDAffordanceGroup> element in groups.Elements)
+            {
+                if (element.DeserializingFailed)
+                {
+                    hasError = true;
+                    continue;
+                }
+
+                TDAffordanceGroup group = element.Value;
+                ValueTracker<StringHolder>? title = group.Title;
+
+                if (title == null)
+                {
+                    errorReporter.ReportError(ErrorCondition.PropertyMissing, $"Thing Model '{propertyName}' array element is missing required '{TDAffordanceGroup.TitleName}' property.", element.TokenIndex);
+                    hasError = true;
+                    continue;
+                }
+
+                if (title.DeserializingFailed)
+                {
+                    hasError = true;
+                    continue;
+                }
+
+                string titleValue = title.Value.Value;
+                if (string.IsNullOrWhiteSpace(titleValue))
+                {
+                    errorReporter.ReportError(ErrorCondition.PropertyEmpty, $"Thing Model '{propertyName}' array element '{TDAffordanceGroup.TitleName}' property has empty value.", title.TokenIndex);
+                    hasError = true;
+                    continue;
+                }
+
+                if (localTitles.TryGetValue(titleValue, out long priorTokenIndex))
+                {
+                    errorReporter.ReportError(ErrorCondition.Duplication, $"Thing Model '{propertyName}' array contains duplicate '{TDAffordanceGroup.TitleName}' value \"{titleValue}\".", priorTokenIndex, title.TokenIndex);
+                    hasError = true;
+                    continue;
+                }
+
+                localTitles[titleValue] = title.TokenIndex;
+
+                if (allTitles.TryGetValue(titleValue, out long crossTokenIndex))
+                {
+                    errorReporter.ReportError(ErrorCondition.Duplication, $"Thing Model affordance groups contain duplicate '{TDAffordanceGroup.TitleName}' value \"{titleValue}\" across '{TDThing.PropertyGroupsName}', '{TDThing.EventGroupsName}', and '{TDThing.ActionGroupsName}' arrays.", crossTokenIndex, title.TokenIndex);
+                    hasError = true;
+                    continue;
+                }
+
+                allTitles[titleValue] = title.TokenIndex;
+            }
+
+            return !hasError;
+        }
+
+        private bool TryValidateMemberOfMatchesGroup(ValueTracker<StringHolder> memberOf, ArrayTracker<TDAffordanceGroup>? groups, string elementKind, string groupsPropertyName)
+        {
+            string memberOfValue = memberOf.Value.Value;
+
+            if (groups?.Elements != null)
+            {
+                foreach (ValueTracker<TDAffordanceGroup> element in groups.Elements)
+                {
+                    if (element.DeserializingFailed)
+                    {
+                        continue;
+                    }
+
+                    ValueTracker<StringHolder>? title = element.Value.Title;
+                    if (title != null && !title.DeserializingFailed && title.Value.Value == memberOfValue)
+                    {
+                        return true;
+                    }
+                }
+            }
+
+            errorReporter.ReportError(ErrorCondition.ItemNotFound, $"{elementKind} element '{TDCommon.MemberOfName}' property value \"{memberOfValue}\" does not match the '{TDAffordanceGroup.TitleName}' of any element in the Thing Model '{groupsPropertyName}' array.", memberOf.TokenIndex);
+            return false;
+        }
+
+        private bool TryValidateCompositeAndEvent(TDThing thing, bool dovContextPresent, bool platContextPresent, long contextTokenIndex)
+        {
+            ValueTracker<BoolHolder>? isComposite = thing.IsComposite;
+            ValueTracker<BoolHolder>? isEvent = thing.IsEvent;
             bool hasError = false;
 
             if (isComposite != null)
             {
-                if (!platContextPresent)
+                if (!TryValidateRequiredContext(thing.IsCompositePrefixType, dovContextPresent, false, platContextPresent, $"Thing Model '{TDThing.IsCompositeName}' property", isComposite.TokenIndex, contextTokenIndex))
                 {
-                    errorReporter.ReportError(ErrorCondition.PropertyInvalid, $"Thing Model '{TDThing.IsCompositeName}' property requires the Azure Operations Platform context in the '{TDThing.ContextName}' property.", isComposite.TokenIndex, contextTokenIndex);
                     hasError = true;
                 }
             }
 
             if (isEvent != null)
             {
-                if (!platContextPresent)
+                if (!TryValidateRequiredContext(thing.IsEventPrefixType, dovContextPresent, false, platContextPresent, $"Thing Model '{TDThing.IsEventName}' property", isEvent.TokenIndex, contextTokenIndex))
                 {
-                    errorReporter.ReportError(ErrorCondition.PropertyInvalid, $"Thing Model '{TDThing.IsEventName}' property requires the Azure Operations Platform context in the '{TDThing.ContextName}' property.", isEvent.TokenIndex, contextTokenIndex);
                     hasError = true;
                 }
             }
@@ -652,16 +891,15 @@ namespace Azure.Iot.Operations.CodeGeneration
             return !hasError;
         }
 
-        private bool TryValidateTypeRef(ValueTracker<StringHolder>? typeRef, bool platContextPresent, long contextTokenIndex)
+        private bool TryValidateTypeRef(ValueTracker<StringHolder>? typeRef, PrefixType typeRefPrefixType, bool dovContextPresent, bool platContextPresent, long contextTokenIndex)
         {
             if (typeRef == null)
             {
                 return true;
             }
 
-            if (!platContextPresent)
+            if (!TryValidateRequiredContext(typeRefPrefixType, dovContextPresent, false, platContextPresent, $"Thing Model '{TDThing.TypeRefName}' property", typeRef.TokenIndex, contextTokenIndex))
             {
-                errorReporter.ReportError(ErrorCondition.PropertyInvalid, $"Thing Model '{TDThing.TypeRefName}' property requires the Azure Operations Platform context in the '{TDThing.ContextName}' property.", typeRef.TokenIndex, contextTokenIndex);
                 return false;
             }
 
@@ -674,7 +912,91 @@ namespace Azure.Iot.Operations.CodeGeneration
             return true;
         }
 
-        private bool TryValidateLinks(IResolvingThing resolvingThing, bool platContextPresent, long contextTokenIndex, bool validateReferences)
+        private bool TryValidatePropertyIri(ValueTracker<StringHolder>? propertyIri, bool dovContextPresent, string elementDescription, long contextTokenIndex)
+        {
+            if (propertyIri == null)
+            {
+                return true;
+            }
+
+            bool hasError = false;
+
+            if (!dovContextPresent)
+            {
+                errorReporter.ReportError(ErrorCondition.PropertyInvalid, $"{elementDescription} '{TDCommon.PropertyIriName}' property requires the Digital Operations Vocabulary context (\"{TDValues.ContextPrefixDoVocab}\") in the '{TDThing.ContextName}' property.", propertyIri.TokenIndex, contextTokenIndex);
+                hasError = true;
+            }
+
+            if (string.IsNullOrWhiteSpace(propertyIri.Value.Value))
+            {
+                errorReporter.ReportError(ErrorCondition.PropertyEmpty, $"{elementDescription} '{TDCommon.PropertyIriName}' property has empty value.", propertyIri.TokenIndex);
+                hasError = true;
+            }
+
+            return !hasError;
+        }
+
+        private bool TryValidateOptional(ArrayTracker<StringHolder>? optional, bool isDescription)
+        {
+            if (isDescription && optional != null)
+            {
+                errorReporter.ReportError(ErrorCondition.PropertyUnsupported, $"Thing Description has '{TDThing.OptionalName}' property, which is not allowed in a Thing Description.", optional.TokenIndex);
+                return false;
+            }
+
+            return true;
+        }
+
+        private bool TryValidateSecurity(MapTracker<TDAnything>? securityDefinitions, ValueTracker<StringHolder>? security, bool isDescription)
+        {
+            bool hasError = false;
+
+            if (!isDescription)
+            {
+                if (securityDefinitions != null)
+                {
+                    errorReporter.ReportError(ErrorCondition.PropertyUnsupported, $"Thing Model has '{TDThing.SecurityDefinitionsName}' property, which is not allowed in a Thing Model.", securityDefinitions.TokenIndex);
+                    hasError = true;
+                }
+                if (security != null)
+                {
+                    errorReporter.ReportError(ErrorCondition.PropertyUnsupported, $"Thing Model has '{TDThing.SecurityName}' property, which is not allowed in a Thing Model.", security.TokenIndex);
+                    hasError = true;
+                }
+                return !hasError;
+            }
+
+            if (securityDefinitions?.Entries == null)
+            {
+                errorReporter.ReportError(ErrorCondition.PropertyMissing, $"Thing Description is missing required '{TDThing.SecurityDefinitionsName}' property.", -1);
+                hasError = true;
+            }
+            if (security == null)
+            {
+                errorReporter.ReportError(ErrorCondition.PropertyMissing, $"Thing Description is missing required '{TDThing.SecurityName}' property.", -1);
+                hasError = true;
+            }
+            if (hasError)
+            {
+                return false;
+            }
+
+            if (string.IsNullOrWhiteSpace(security!.Value.Value))
+            {
+                errorReporter.ReportError(ErrorCondition.PropertyEmpty, $"Thing Description '{TDThing.SecurityName}' property has empty value.", security.TokenIndex);
+                return false;
+            }
+
+            if (!securityDefinitions!.Entries!.ContainsKey(security.Value.Value))
+            {
+                errorReporter.ReportError(ErrorCondition.ItemNotFound, $"Thing Description '{TDThing.SecurityName}' property value '{security.Value.Value}' is not present among the keys of the '{TDThing.SecurityDefinitionsName}' property.", security.TokenIndex, securityDefinitions.TokenIndex);
+                return false;
+            }
+
+            return true;
+        }
+
+        private bool TryValidateLinks(IResolvingThing resolvingThing, bool dovContextPresent, bool platContextPresent, long contextTokenIndex, bool validateReferences, bool isDescription)
         {
             if (resolvingThing.ParsedThing.Thing.Links?.Elements == null)
             {
@@ -694,14 +1016,38 @@ namespace Azure.Iot.Operations.CodeGeneration
                 }
 
                 if (link.Value.Rel.Value.Value != TDValues.RelationExtends &&
+                    link.Value.Rel.Value.Value != TDValues.RelationType &&
                     link.Value.Rel.Value.Value != TDValues.RelationReference &&
+                    link.Value.Rel.Value.Value != TDValues.RelationReferenceLegacy &&
                     link.Value.Rel.Value.Value != TDValues.RelationTypedReference &&
+                    link.Value.Rel.Value.Value != TDValues.RelationTypedReferenceLegacy &&
                     link.Value.Rel.Value.Value != TDValues.RelationCapability &&
+                    link.Value.Rel.Value.Value != TDValues.RelationCapabilityLegacy &&
                     link.Value.Rel.Value.Value != TDValues.RelationComponent &&
-                    link.Value.Rel.Value.Value != TDValues.RelationSchemaNaming)
+                    link.Value.Rel.Value.Value != TDValues.RelationComponentLegacy &&
+                    link.Value.Rel.Value.Value != TDValues.RelationSchemaNaming &&
+                    link.Value.Rel.Value.Value != TDValues.RelationSchemaNamingLegacy)
                 {
                     errorReporter.ReportWarning($"Link element '{TDLink.RelName}' property has unrecognized value '{link.Value.Rel.Value.Value}'; element will be ignored.", link.Value.Rel.TokenIndex);
                     continue;
+                }
+
+                if (link.Value.Rel.Value.Value.StartsWith($"{TDValues.ContextPrefixDoVocab}:") && !dovContextPresent)
+                {
+                    errorReporter.ReportError(ErrorCondition.PropertyInvalid, $"Link element '{TDLink.RelName}' property has value '{link.Value.Rel.Value.Value}', which requires the Digital Operations vocabulary context in the '{TDThing.ContextName}' property.", link.Value.Rel.TokenIndex, contextTokenIndex);
+                    hasError = true;
+                }
+
+                if (isDescription && link.Value.Rel.Value.Value == TDValues.RelationExtends)
+                {
+                    errorReporter.ReportError(ErrorCondition.PropertyUnsupportedValue, $"Link element '{TDLink.RelName}' property has value '{TDValues.RelationExtends}', which is not allowed in a Thing Description.", link.Value.Rel.TokenIndex);
+                    hasError = true;
+                }
+
+                if (!isDescription && link.Value.Rel.Value.Value == TDValues.RelationType)
+                {
+                    errorReporter.ReportError(ErrorCondition.PropertyUnsupportedValue, $"Link element '{TDLink.RelName}' property has value '{TDValues.RelationType}', which is not allowed in a Thing Model.", link.Value.Rel.TokenIndex);
+                    hasError = true;
                 }
 
                 if (link.Value.Rel.Value.Value.StartsWith($"{TDValues.ContextPrefixAioPlatform}:") && !platContextPresent)
@@ -710,7 +1056,8 @@ namespace Azure.Iot.Operations.CodeGeneration
                     hasError = true;
                 }
 
-                if (link.Value.Rel.Value.Value == TDValues.RelationSchemaNaming)
+                if (link.Value.Rel.Value.Value == TDValues.RelationSchemaNaming ||
+                    link.Value.Rel.Value.Value == TDValues.RelationSchemaNamingLegacy)
                 {
                     relSchemaNamerCount++;
                 }
@@ -722,19 +1069,19 @@ namespace Azure.Iot.Operations.CodeGeneration
                 string requiredContentType = link.Value.Rel.Value.Value switch
                 {
                     TDValues.RelationExtends => TDValues.ContentTypeTmJson,
-                    TDValues.RelationReference => TDValues.ContentTypeTmJson,
-                    TDValues.RelationTypedReference => TDValues.ContentTypeTmJson,
-                    TDValues.RelationCapability => TDValues.ContentTypeTmJson,
-                    TDValues.RelationComponent => TDValues.ContentTypeTmJson,
-                    TDValues.RelationSchemaNaming => TDValues.ContentTypeJson,
+                    TDValues.RelationType => TDValues.ContentTypeTmJson,
+                    TDValues.RelationReference or TDValues.RelationReferenceLegacy => TDValues.ContentTypeTmJson,
+                    TDValues.RelationTypedReference or TDValues.RelationTypedReferenceLegacy => TDValues.ContentTypeTmJson,
+                    TDValues.RelationCapability or TDValues.RelationCapabilityLegacy => TDValues.ContentTypeTmJson,
+                    TDValues.RelationComponent or TDValues.RelationComponentLegacy => TDValues.ContentTypeTmJson,
+                    TDValues.RelationSchemaNaming or TDValues.RelationSchemaNamingLegacy => TDValues.ContentTypeJson,
                     _ => throw new NotSupportedException($"Unsupported '{TDLink.RelName}' property value '{link.Value.Rel.Value.Value}'"),
                 };
 
                 if (link.Value.RefName != null)
                 {
-                    if (!platContextPresent)
+                    if (!TryValidateRequiredContext(link.Value.RefNamePrefixType, dovContextPresent, false, platContextPresent, $"Link element {TDLink.RelName}='{link.Value.Rel.Value.Value}' '{TDLink.RefNameName}' property", link.Value.RefName.TokenIndex, contextTokenIndex))
                     {
-                        errorReporter.ReportError(ErrorCondition.PropertyInvalid, $"Link element {TDLink.RelName}='{link.Value.Rel.Value.Value}' has '{TDLink.RefNameName}' property, which requires the Azure Operations Platform context in the '{TDThing.ContextName}' property.", link.Value.RefName.TokenIndex, contextTokenIndex);
                         hasError = true;
                     }
                     if (string.IsNullOrWhiteSpace(link.Value.RefName.Value.Value))
@@ -746,7 +1093,8 @@ namespace Azure.Iot.Operations.CodeGeneration
 
                 if (link.Value.RefType == null)
                 {
-                    if (link.Value.Rel.Value.Value == TDValues.RelationTypedReference)
+                    if (link.Value.Rel.Value.Value == TDValues.RelationTypedReference ||
+                        link.Value.Rel.Value.Value == TDValues.RelationTypedReferenceLegacy)
                     {
                         errorReporter.ReportError(ErrorCondition.PropertyMissing, $"Link element with {TDLink.RelName}='{link.Value.Rel.Value.Value}' is missing required '{TDLink.RefTypeName}' property.", link.TokenIndex, link.Value.Rel.TokenIndex);
                         hasError = true;
@@ -754,7 +1102,8 @@ namespace Azure.Iot.Operations.CodeGeneration
                 }
                 else
                 {
-                    if (link.Value.Rel.Value.Value != TDValues.RelationTypedReference)
+                    if (link.Value.Rel.Value.Value != TDValues.RelationTypedReference &&
+                        link.Value.Rel.Value.Value != TDValues.RelationTypedReferenceLegacy)
                     {
                         errorReporter.ReportError(ErrorCondition.ValuesInconsistent, $"Link element with {TDLink.RelName}='{link.Value.Rel.Value.Value}' does not support '{TDLink.RefTypeName}' property.", link.Value.RefType.TokenIndex, link.Value.Rel.TokenIndex);
                         hasError = true;
@@ -835,9 +1184,9 @@ namespace Azure.Iot.Operations.CodeGeneration
 
                 foreach (KeyValuePair<string, long> propertyName in link.Value.PropertyNames)
                 {
-                    if (propertyName.Key != TDLink.HrefName && propertyName.Key != TDLink.TypeName && propertyName.Key != TDLink.RelName && propertyName.Key != TDLink.RefNameName && propertyName.Key != TDLink.RefTypeName)
+                    if (!TDLink.SupportedProperties.Contains(propertyName.Key))
                     {
-                        if (propertyName.Key.Contains(':') && !propertyName.Key.StartsWith($"{TDValues.ContextPrefixAioProtocol}:") && !propertyName.Key.StartsWith($"{TDValues.ContextPrefixAioPlatform}:"))
+                        if (propertyName.Key.Contains(':') && !propertyName.Key.StartsWith($"{TDValues.ContextPrefixDoVocab}:") && !propertyName.Key.StartsWith($"{TDValues.ContextPrefixAioProtocol}:") && !propertyName.Key.StartsWith($"{TDValues.ContextPrefixAioPlatform}:"))
                         {
                             errorReporter.ReportWarning($"Link has unrecognized '{propertyName.Key}' property, which will be ignored.", propertyName.Value);
                         }
@@ -865,7 +1214,7 @@ namespace Azure.Iot.Operations.CodeGeneration
             return !hasError;
         }
 
-        private bool TryValidateSchemaDefinitions(MapTracker<TDDataSchema>? schemaDefinitions, bool platContextPresent, long contextTokenIndex)
+        private bool TryValidateSchemaDefinitions(MapTracker<TDDataSchema>? schemaDefinitions, bool dovContextPresent, bool protContextPresent, bool platContextPresent, long contextTokenIndex)
         {
             if (schemaDefinitions?.Entries == null)
             {
@@ -876,7 +1225,7 @@ namespace Azure.Iot.Operations.CodeGeneration
 
             foreach (KeyValuePair<string, ValueTracker<TDDataSchema>> schemaDefinition in schemaDefinitions.Entries)
             {
-                if (!TryValidateDataSchema(schemaDefinition.Value, null, platContextPresent, contextTokenIndex, DataSchemaKind.SchemaDefinition))
+                if (!TryValidateDataSchema(schemaDefinition.Value, null, dovContextPresent, protContextPresent, platContextPresent, contextTokenIndex, DataSchemaKind.SchemaDefinition))
                 {
                     hasError = true;
                 }
@@ -885,7 +1234,7 @@ namespace Azure.Iot.Operations.CodeGeneration
             return !hasError;
         }
 
-        private bool TryValidateActions(MapTracker<TDAction>? actions, MapTracker<TDDataSchema>? schemaDefinitions, HashSet<SerializationFormat> serializationFormats, bool platContextPresent, long contextTokenIndex)
+        private bool TryValidateActions(MapTracker<TDAction>? actions, MapTracker<TDDataSchema>? schemaDefinitions, ArrayTracker<TDAffordanceGroup>? actionGroups, HashSet<SerializationFormat> serializationFormats, bool dovContextPresent, bool protContextPresent, bool platContextPresent, long contextTokenIndex, bool isDescription)
         {
             if (actions?.Entries == null)
             {
@@ -896,7 +1245,7 @@ namespace Azure.Iot.Operations.CodeGeneration
 
             foreach (KeyValuePair<string, ValueTracker<TDAction>> action in actions.Entries)
             {
-                if (!TryValidateAction(action.Key, action.Value, schemaDefinitions, out ValueTracker<StringHolder>? contentType, platContextPresent, contextTokenIndex))
+                if (!TryValidateAction(action.Key, action.Value, schemaDefinitions, actionGroups, out ValueTracker<StringHolder>? contentType, dovContextPresent, protContextPresent, platContextPresent, contextTokenIndex, isDescription))
                 {
                     hasError = true;
                 }
@@ -909,9 +1258,10 @@ namespace Azure.Iot.Operations.CodeGeneration
             return !hasError;
         }
 
-        private bool TryValidateAction(string name, ValueTracker<TDAction> action, MapTracker<TDDataSchema>? schemaDefinitions, out ValueTracker<StringHolder>? contentType, bool platContextPresent, long contextTokenIndex)
+        private bool TryValidateAction(string name, ValueTracker<TDAction> action, MapTracker<TDDataSchema>? schemaDefinitions, ArrayTracker<TDAffordanceGroup>? actionGroups, out ValueTracker<StringHolder>? contentType, bool dovContextPresent, bool protContextPresent, bool platContextPresent, long contextTokenIndex, bool isDescription)
         {
-            if (!TryValidateForms(action.Value.Forms, FormsKind.Action, schemaDefinitions, out contentType))
+            bool isContentFree = action.Value.Input == null && action.Value.Output == null;
+            if (!TryValidateForms(action.Value.Forms, FormsKind.Action, schemaDefinitions, out contentType, dovContextPresent, protContextPresent, contextTokenIndex, isDescription, isContentFree: isContentFree))
             {
                 return false;
             }
@@ -920,9 +1270,8 @@ namespace Azure.Iot.Operations.CodeGeneration
 
             if (action.Value.Namespace != null)
             {
-                if (!platContextPresent)
+                if (!TryValidateRequiredContext(action.Value.NamespacePrefixType, dovContextPresent, false, platContextPresent, $"Action element '{TDAction.NamespaceName}' property", action.Value.Namespace.TokenIndex, contextTokenIndex))
                 {
-                    errorReporter.ReportError(ErrorCondition.PropertyInvalid, $"Action element '{TDAction.NamespaceName}' property requires the Azure Operations Platform context in the '{TDThing.ContextName}' property.", action.Value.Namespace.TokenIndex, contextTokenIndex);
                     hasError = true;
                 }
 
@@ -935,34 +1284,48 @@ namespace Azure.Iot.Operations.CodeGeneration
 
             if (action.Value.MemberOf != null)
             {
-                if (!platContextPresent)
+                bool memberOfHasError = false;
+                if (!TryValidateRequiredContext(action.Value.MemberOfPrefixType, dovContextPresent, false, platContextPresent, $"Action element '{TDAction.MemberOfName}' property", action.Value.MemberOf.TokenIndex, contextTokenIndex))
                 {
-                    errorReporter.ReportError(ErrorCondition.PropertyInvalid, $"Action element '{TDAction.MemberOfName}' property requires the Azure Operations Platform context in the '{TDThing.ContextName}' property.", action.Value.MemberOf.TokenIndex, contextTokenIndex);
-                    hasError = true;
+                    memberOfHasError = true;
                 }
 
                 if (string.IsNullOrWhiteSpace(action.Value.MemberOf.Value.Value))
                 {
                     errorReporter.ReportError(ErrorCondition.PropertyEmpty, $"Action element '{TDAction.MemberOfName}' property has empty value.", action.Value.MemberOf.TokenIndex);
+                    memberOfHasError = true;
+                }
+                else if (!memberOfHasError && !TryValidateMemberOfMatchesGroup(action.Value.MemberOf, actionGroups, "Action", TDThing.ActionGroupsName))
+                {
+                    memberOfHasError = true;
+                }
+
+                if (memberOfHasError)
+                {
                     hasError = true;
                 }
             }
 
-            if (action.Value.Input != null && !TryValidateActionDataSchema(action.Value.Input, TDAction.InputName, contentType, platContextPresent, contextTokenIndex))
+            if (!TryValidatePropertyIri(action.Value.PropertyIri, dovContextPresent, "Action element", contextTokenIndex))
             {
                 hasError = true;
             }
 
-            if (action.Value.Output != null && !TryValidateActionDataSchema(action.Value.Output, TDAction.OutputName, contentType, platContextPresent, contextTokenIndex))
+            if (action.Value.Input != null && !TryValidateActionDataSchema(action.Value.Input, TDAction.InputName, contentType, dovContextPresent, protContextPresent, platContextPresent, contextTokenIndex))
+            {
+                hasError = true;
+            }
+
+            if (action.Value.Output != null && !TryValidateActionDataSchema(action.Value.Output, TDAction.OutputName, contentType, dovContextPresent, protContextPresent, platContextPresent, contextTokenIndex))
             {
                 hasError = true;
             }
 
             foreach (KeyValuePair<string, long> propertyName in action.Value.PropertyNames)
             {
-                if (propertyName.Key != TDAction.DescriptionName && propertyName.Key != TDAction.InputName && propertyName.Key != TDAction.OutputName && propertyName.Key != TDAction.IdempotentName && propertyName.Key != TDAction.SafeName && propertyName.Key != TDAction.FormsName && propertyName.Key != TDAction.NamespaceName && propertyName.Key != TDAction.MemberOfName)
+                if (!TDAction.SupportedProperties.Contains(propertyName.Key))
                 {
-                    if (propertyName.Key.Contains(':') && !propertyName.Key.StartsWith($"{TDValues.ContextPrefixAioProtocol}:") && !propertyName.Key.StartsWith($"{TDValues.ContextPrefixAioPlatform}:"))
+                    if (propertyName.Key.Contains(':') && !propertyName.Key.StartsWith($"{TDValues.ContextPrefixDoVocab}:") && !propertyName.Key.StartsWith($"{TDValues.ContextPrefixAioProtocol}:") && !propertyName.Key.StartsWith($"{TDValues.ContextPrefixAioPlatform}:"))
                     {
                         errorReporter.ReportWarning($"Action '{name}' has unrecognized '{propertyName.Key}' property, which will be ignored.", propertyName.Value);
                     }
@@ -977,7 +1340,7 @@ namespace Azure.Iot.Operations.CodeGeneration
             return !hasError;
         }
 
-        private bool TryValidateActionDataSchema<T>(ValueTracker<T> dataSchema, string propertyName, ValueTracker<StringHolder>? contentType, bool platContextPresent, long contextTokenIndex)
+        private bool TryValidateActionDataSchema<T>(ValueTracker<T> dataSchema, string propertyName, ValueTracker<StringHolder>? contentType, bool dovContextPresent, bool protContextPresent, bool platContextPresent, long contextTokenIndex)
             where T : TDDataSchema, IDeserializable<T>
         {
             bool isStructuredObject = dataSchema.Value.Type?.Value.Value == TDValues.TypeObject && dataSchema.Value.Properties != null;
@@ -989,10 +1352,10 @@ namespace Azure.Iot.Operations.CodeGeneration
                 return false;
             }
 
-            return TryValidateDataSchema(dataSchema, null, platContextPresent, contextTokenIndex, DataSchemaKind.Action, contentType);
+            return TryValidateDataSchema(dataSchema, null, dovContextPresent, protContextPresent, platContextPresent, contextTokenIndex, DataSchemaKind.Action, contentType);
         }
 
-        private bool TryValidateProperties(MapTracker<TDProperty>? properties, MapTracker<TDDataSchema>? schemaDefinitions, HashSet<SerializationFormat> serializationFormats, bool platContextPresent, bool qudtContextPresent, long contextTokenIndex)
+        private bool TryValidateProperties(MapTracker<TDProperty>? properties, MapTracker<TDDataSchema>? schemaDefinitions, ArrayTracker<TDAffordanceGroup>? propertyGroups, HashSet<SerializationFormat> serializationFormats, bool dovContextPresent, bool protContextPresent, bool platContextPresent, bool qudtContextPresent, long contextTokenIndex, bool isDescription)
         {
             if (properties?.Entries == null)
             {
@@ -1003,7 +1366,7 @@ namespace Azure.Iot.Operations.CodeGeneration
 
             foreach (KeyValuePair<string, ValueTracker<TDProperty>> property in properties.Entries)
             {
-                if (!TryValidateProperty(property.Key, property.Value, properties, schemaDefinitions, out ValueTracker<StringHolder>? contentType, platContextPresent, qudtContextPresent, contextTokenIndex))
+                if (!TryValidateProperty(property.Key, property.Value, properties, schemaDefinitions, propertyGroups, out ValueTracker<StringHolder>? contentType, dovContextPresent, protContextPresent, platContextPresent, qudtContextPresent, contextTokenIndex, isDescription))
                 {
                     hasError = true;
                 }
@@ -1027,9 +1390,9 @@ namespace Azure.Iot.Operations.CodeGeneration
             return !hasError;
         }
 
-        private bool TryValidateProperty(string name, ValueTracker<TDProperty> property, MapTracker<TDProperty> properties, MapTracker<TDDataSchema>? schemaDefinitions, out ValueTracker<StringHolder>? contentType, bool platContextPresent, bool qudtContextPresent, long contextTokenIndex)
+        private bool TryValidateProperty(string name, ValueTracker<TDProperty> property, MapTracker<TDProperty> properties, MapTracker<TDDataSchema>? schemaDefinitions, ArrayTracker<TDAffordanceGroup>? propertyGroups, out ValueTracker<StringHolder>? contentType, bool dovContextPresent, bool protContextPresent, bool platContextPresent, bool qudtContextPresent, long contextTokenIndex, bool isDescription)
         {
-            if (!TryValidatePropertyForms(name, property.Value.Forms, schemaDefinitions, property.Value.ReadOnly, out contentType))
+            if (!TryValidatePropertyForms(name, property.Value.Forms, schemaDefinitions, property.Value.ReadOnly, out contentType, dovContextPresent, protContextPresent, contextTokenIndex, isDescription))
             {
                 return false;
             }
@@ -1038,9 +1401,8 @@ namespace Azure.Iot.Operations.CodeGeneration
 
             if (property.Value.Namespace != null)
             {
-                if (!platContextPresent)
+                if (!TryValidateRequiredContext(property.Value.NamespacePrefixType, dovContextPresent, false, platContextPresent, $"Property element '{TDProperty.NamespaceName}' property", property.Value.Namespace.TokenIndex, contextTokenIndex))
                 {
-                    errorReporter.ReportError(ErrorCondition.PropertyInvalid, $"Property element '{TDProperty.NamespaceName}' property requires the Azure Operations Platform context in the '{TDThing.ContextName}' property.", property.Value.Namespace.TokenIndex, contextTokenIndex);
                     hasError = true;
                 }
 
@@ -1053,9 +1415,8 @@ namespace Azure.Iot.Operations.CodeGeneration
 
             if (property.Value.Contains?.Elements != null)
             {
-                if (!platContextPresent)
+                if (!TryValidateRequiredContext(property.Value.ContainsPrefixType, dovContextPresent, false, platContextPresent, $"Property element '{TDProperty.ContainsName}' property", property.Value.Contains.TokenIndex, contextTokenIndex))
                 {
-                    errorReporter.ReportError(ErrorCondition.PropertyInvalid, $"Property element '{TDProperty.ContainsName}' property requires the Azure Operations Platform context in the '{TDThing.ContextName}' property.", property.Value.Contains.TokenIndex, contextTokenIndex);
                     hasError = true;
                 }
 
@@ -1068,9 +1429,8 @@ namespace Azure.Iot.Operations.CodeGeneration
 
             if (property.Value.ContainedIn != null)
             {
-                if (!platContextPresent)
+                if (!TryValidateRequiredContext(property.Value.ContainedInPrefixType, dovContextPresent, false, platContextPresent, $"Property element '{TDProperty.ContainedInName}' property", property.Value.ContainedIn.TokenIndex, contextTokenIndex))
                 {
-                    errorReporter.ReportError(ErrorCondition.PropertyInvalid, $"Property element '{TDProperty.ContainedInName}' property requires the Azure Operations Platform context in the '{TDThing.ContextName}' property.", property.Value.ContainedIn.TokenIndex, contextTokenIndex);
                     hasError = true;
                 }
 
@@ -1083,9 +1443,8 @@ namespace Azure.Iot.Operations.CodeGeneration
 
             if (property.Value.WithUnit != null)
             {
-                if (!platContextPresent)
+                if (!TryValidateRequiredContext(property.Value.WithUnitPrefixType, dovContextPresent, false, platContextPresent, $"Property element '{TDProperty.WithUnitName}' property", property.Value.WithUnit.TokenIndex, contextTokenIndex))
                 {
-                    errorReporter.ReportError(ErrorCondition.PropertyInvalid, $"Property element '{TDProperty.WithUnitName}' property requires the Azure Operations Platform context in the '{TDThing.ContextName}' property.", property.Value.WithUnit.TokenIndex, contextTokenIndex);
                     hasError = true;
                 }
 
@@ -1122,7 +1481,36 @@ namespace Azure.Iot.Operations.CodeGeneration
                 }
             }
 
-            if (!TryValidateDataSchema(property, (propName) => propName == TDProperty.ReadOnlyName || propName == TDProperty.PlaceholderName || propName == TDProperty.FormsName || propName == TDProperty.ContainsName || propName == TDProperty.ContainedInName || propName == TDProperty.NamespaceName || propName == TDProperty.WithUnitName || propName == TDProperty.HasQuantityKindName, platContextPresent, contextTokenIndex, DataSchemaKind.Property, contentType))
+            if (property.Value.MemberOf != null)
+            {
+                bool memberOfHasError = false;
+                if (!TryValidateRequiredContext(property.Value.MemberOfPrefixType, dovContextPresent, false, platContextPresent, $"Property element '{TDProperty.MemberOfName}' property", property.Value.MemberOf.TokenIndex, contextTokenIndex))
+                {
+                    memberOfHasError = true;
+                }
+
+                if (string.IsNullOrWhiteSpace(property.Value.MemberOf.Value.Value))
+                {
+                    errorReporter.ReportError(ErrorCondition.PropertyEmpty, $"Property element '{TDProperty.MemberOfName}' property has empty value.", property.Value.MemberOf.TokenIndex);
+                    memberOfHasError = true;
+                }
+                else if (!memberOfHasError && !TryValidateMemberOfMatchesGroup(property.Value.MemberOf, propertyGroups, "Property", TDThing.PropertyGroupsName))
+                {
+                    memberOfHasError = true;
+                }
+
+                if (memberOfHasError)
+                {
+                    hasError = true;
+                }
+            }
+
+            if (!TryValidatePropertyIri(property.Value.PropertyIri, dovContextPresent, "Property element", contextTokenIndex))
+            {
+                hasError = true;
+            }
+
+            if (!TryValidateDataSchema(property, TDProperty.SupportedProperties.Contains, dovContextPresent, protContextPresent, platContextPresent, contextTokenIndex, DataSchemaKind.Property, contentType))
             {
                 hasError = true;
             }
@@ -1130,11 +1518,11 @@ namespace Azure.Iot.Operations.CodeGeneration
             return !hasError;
         }
 
-        private bool TryValidatePropertyForms(string name, ArrayTracker<TDForm>? forms, MapTracker<TDDataSchema>? schemaDefinitions, ValueTracker<BoolHolder>? readOnly, out ValueTracker<StringHolder>? contentType)
+        private bool TryValidatePropertyForms(string name, ArrayTracker<TDForm>? forms, MapTracker<TDDataSchema>? schemaDefinitions, ValueTracker<BoolHolder>? readOnly, out ValueTracker<StringHolder>? contentType, bool dovContextPresent, bool protContextPresent, long contextTokenIndex, bool isDescription)
         {
             bool isReadOnly = readOnly?.Value.Value == true;
 
-            if (!TryValidateForms(forms, FormsKind.Property, schemaDefinitions, out contentType, isReadOnly))
+            if (!TryValidateForms(forms, FormsKind.Property, schemaDefinitions, out contentType, dovContextPresent, protContextPresent, contextTokenIndex, isDescription, isReadOnly))
             {
                 return false;
             }
@@ -1184,7 +1572,7 @@ namespace Azure.Iot.Operations.CodeGeneration
             return !hasError;
         }
 
-        private bool TryValidateEvents(MapTracker<TDEvent>? evts, MapTracker<TDProperty>? properties, MapTracker<TDDataSchema>? schemaDefinitions, HashSet<SerializationFormat> serializationFormats, bool platContextPresent, bool qudtContextPresent, long contextTokenIndex)
+        private bool TryValidateEvents(MapTracker<TDEvent>? evts, MapTracker<TDProperty>? properties, MapTracker<TDDataSchema>? schemaDefinitions, ArrayTracker<TDAffordanceGroup>? eventGroups, HashSet<SerializationFormat> serializationFormats, bool dovContextPresent, bool protContextPresent, bool platContextPresent, bool qudtContextPresent, long contextTokenIndex, bool isDescription)
         {
             if (evts?.Entries == null)
             {
@@ -1195,7 +1583,7 @@ namespace Azure.Iot.Operations.CodeGeneration
 
             foreach (KeyValuePair<string, ValueTracker<TDEvent>> evt in evts.Entries)
             {
-                if (!TryValidateEvent(evt.Key, evt.Value, properties, schemaDefinitions, out ValueTracker<StringHolder>? contentType, platContextPresent, qudtContextPresent, contextTokenIndex))
+                if (!TryValidateEvent(evt.Key, evt.Value, properties, schemaDefinitions, eventGroups, out ValueTracker<StringHolder>? contentType, dovContextPresent, protContextPresent, platContextPresent, qudtContextPresent, contextTokenIndex, isDescription))
                 {
                     hasError = true;
                 }
@@ -1219,9 +1607,9 @@ namespace Azure.Iot.Operations.CodeGeneration
             return !hasError;
         }
 
-        private bool TryValidateEvent(string name, ValueTracker<TDEvent> evt, MapTracker<TDProperty>? properties, MapTracker<TDDataSchema>? schemaDefinitions, out ValueTracker<StringHolder>? contentType, bool platContextPresent, bool qudtContextPresent, long contextTokenIndex)
+        private bool TryValidateEvent(string name, ValueTracker<TDEvent> evt, MapTracker<TDProperty>? properties, MapTracker<TDDataSchema>? schemaDefinitions, ArrayTracker<TDAffordanceGroup>? eventGroups, out ValueTracker<StringHolder>? contentType, bool dovContextPresent, bool protContextPresent, bool platContextPresent, bool qudtContextPresent, long contextTokenIndex, bool isDescription)
         {
-            if (!TryValidateForms(evt.Value.Forms, FormsKind.Event, schemaDefinitions, out contentType))
+            if (!TryValidateForms(evt.Value.Forms, FormsKind.Event, schemaDefinitions, out contentType, dovContextPresent, protContextPresent, contextTokenIndex, isDescription))
             {
                 return false;
             }
@@ -1230,9 +1618,8 @@ namespace Azure.Iot.Operations.CodeGeneration
 
             if (evt.Value.Namespace != null)
             {
-                if (!platContextPresent)
+                if (!TryValidateRequiredContext(evt.Value.NamespacePrefixType, dovContextPresent, false, platContextPresent, $"Event element '{TDEvent.NamespaceName}' property", evt.Value.Namespace.TokenIndex, contextTokenIndex))
                 {
-                    errorReporter.ReportError(ErrorCondition.PropertyInvalid, $"Event element '{TDEvent.NamespaceName}' property requires the Azure Operations Platform context in the '{TDThing.ContextName}' property.", evt.Value.Namespace.TokenIndex, contextTokenIndex);
                     hasError = true;
                 }
 
@@ -1245,9 +1632,8 @@ namespace Azure.Iot.Operations.CodeGeneration
 
             if (evt.Value.Contains?.Elements != null)
             {
-                if (!platContextPresent)
+                if (!TryValidateRequiredContext(evt.Value.ContainsPrefixType, dovContextPresent, false, platContextPresent, $"Event element '{TDEvent.ContainsName}' property", evt.Value.Contains.TokenIndex, contextTokenIndex))
                 {
-                    errorReporter.ReportError(ErrorCondition.PropertyInvalid, $"Event element '{TDEvent.ContainsName}' property requires the Azure Operations Platform context in the '{TDThing.ContextName}' property.", evt.Value.Contains.TokenIndex, contextTokenIndex);
                     hasError = true;
                 }
 
@@ -1260,9 +1646,8 @@ namespace Azure.Iot.Operations.CodeGeneration
 
             if (evt.Value.ContainedIn != null)
             {
-                if (!platContextPresent)
+                if (!TryValidateRequiredContext(evt.Value.ContainedInPrefixType, dovContextPresent, false, platContextPresent, $"Event element '{TDEvent.ContainedInName}' property", evt.Value.ContainedIn.TokenIndex, contextTokenIndex))
                 {
-                    errorReporter.ReportError(ErrorCondition.PropertyInvalid, $"Event element '{TDEvent.ContainedInName}' property requires the Azure Operations Platform context in the '{TDThing.ContextName}' property.", evt.Value.ContainedIn.TokenIndex, contextTokenIndex);
                     hasError = true;
                 }
 
@@ -1275,9 +1660,8 @@ namespace Azure.Iot.Operations.CodeGeneration
 
             if (evt.Value.WithUnit != null)
             {
-                if (!platContextPresent)
+                if (!TryValidateRequiredContext(evt.Value.WithUnitPrefixType, dovContextPresent, false, platContextPresent, $"Event element '{TDEvent.WithUnitName}' property", evt.Value.WithUnit.TokenIndex, contextTokenIndex))
                 {
-                    errorReporter.ReportError(ErrorCondition.PropertyInvalid, $"Event element '{TDEvent.WithUnitName}' property requires the Azure Operations Platform context in the '{TDThing.ContextName}' property.", evt.Value.WithUnit.TokenIndex, contextTokenIndex);
                     hasError = true;
                 }
 
@@ -1319,16 +1703,45 @@ namespace Azure.Iot.Operations.CodeGeneration
                 }
             }
 
-            if (evt.Value.Data != null && !TryValidateDataSchema(evt.Value.Data, null, platContextPresent, contextTokenIndex, DataSchemaKind.Event, contentType))
+            if (evt.Value.MemberOf != null)
+            {
+                bool memberOfHasError = false;
+                if (!TryValidateRequiredContext(evt.Value.MemberOfPrefixType, dovContextPresent, false, platContextPresent, $"Event element '{TDEvent.MemberOfName}' property", evt.Value.MemberOf.TokenIndex, contextTokenIndex))
+                {
+                    memberOfHasError = true;
+                }
+
+                if (string.IsNullOrWhiteSpace(evt.Value.MemberOf.Value.Value))
+                {
+                    errorReporter.ReportError(ErrorCondition.PropertyEmpty, $"Event element '{TDEvent.MemberOfName}' property has empty value.", evt.Value.MemberOf.TokenIndex);
+                    memberOfHasError = true;
+                }
+                else if (!memberOfHasError && !TryValidateMemberOfMatchesGroup(evt.Value.MemberOf, eventGroups, "Event", TDThing.EventGroupsName))
+                {
+                    memberOfHasError = true;
+                }
+
+                if (memberOfHasError)
+                {
+                    hasError = true;
+                }
+            }
+
+            if (!TryValidatePropertyIri(evt.Value.PropertyIri, dovContextPresent, "Event element", contextTokenIndex))
+            {
+                hasError = true;
+            }
+
+            if (evt.Value.Data != null && !TryValidateDataSchema(evt.Value.Data, null, dovContextPresent, protContextPresent, platContextPresent, contextTokenIndex, DataSchemaKind.Event, contentType))
             {
                 hasError = true;
             }
 
             foreach (KeyValuePair<string, long> propertyName in evt.Value.PropertyNames)
             {
-                if (propertyName.Key != TDEvent.DescriptionName && propertyName.Key != TDEvent.DataName && propertyName.Key != TDEvent.PlaceholderName && propertyName.Key != TDEvent.FormsName && propertyName.Key != TDEvent.ContainsName && propertyName.Key != TDEvent.ContainedInName && propertyName.Key != TDEvent.NamespaceName && propertyName.Key != TDEvent.WithUnitName && propertyName.Key != TDProperty.HasQuantityKindName)
+                if (!TDEvent.SupportedProperties.Contains(propertyName.Key))
                 {
-                    if (propertyName.Key.Contains(':') && !propertyName.Key.StartsWith($"{TDValues.ContextPrefixAioProtocol}:") && !propertyName.Key.StartsWith($"{TDValues.ContextPrefixAioPlatform}:"))
+                    if (propertyName.Key.Contains(':') && !propertyName.Key.StartsWith($"{TDValues.ContextPrefixDoVocab}:") && !propertyName.Key.StartsWith($"{TDValues.ContextPrefixAioProtocol}:") && !propertyName.Key.StartsWith($"{TDValues.ContextPrefixAioPlatform}:"))
                     {
                         errorReporter.ReportWarning($"Event '{name}' has unrecognized '{propertyName.Key}' property, which will be ignored.", propertyName.Value);
                     }
@@ -1378,35 +1791,42 @@ namespace Azure.Iot.Operations.CodeGeneration
                 return false;
             }
 
-            if (!withUnit.Value.Value.StartsWith(TDCommon.WithUnitPrefix))
+            string[] withUnitParts = withUnit.Value.Value.Split('/', StringSplitOptions.RemoveEmptyEntries);
+
+            if (withUnitParts.Length < 2)
             {
-                errorReporter.ReportError(ErrorCondition.PropertyUnsupportedValue, $"{affordanceType} element '{TDCommon.WithUnitName}' property value must start with '{TDCommon.WithUnitPrefix}'.", withUnit.TokenIndex);
+                errorReporter.ReportError(ErrorCondition.PropertyUnsupportedValue, $"{affordanceType} element '{TDCommon.WithUnitName}' property value '{withUnit.Value.Value}' must be a 2-level JSON Pointer, such as '/{TDThing.PropertiesName}/ExampleUnit'.", withUnit.TokenIndex);
                 return false;
             }
 
-            string unitPropName = withUnit.Value.Value.Substring(TDCommon.WithUnitPrefix.Length);
-            if (string.IsNullOrWhiteSpace(unitPropName))
+            if (withUnitParts[0] != TDThing.PropertiesName)
             {
-                errorReporter.ReportError(ErrorCondition.PropertyUnsupportedValue, $"{affordanceType} element '{TDCommon.WithUnitName}' property has no referenced property name following '{TDCommon.WithUnitPrefix}'.", withUnit.TokenIndex);
+                errorReporter.ReportError(ErrorCondition.PropertyUnsupportedValue, $"{affordanceType} element '{TDCommon.WithUnitName}' property value '{withUnit.Value.Value}' must be a JSON Pointer whose first level is '{TDThing.PropertiesName}'.", withUnit.TokenIndex);
                 return false;
             }
 
-            if (!properties.Entries!.TryGetValue(unitPropName, out ValueTracker<TDProperty>? unitProperty))
+            if (properties?.Entries == null)
             {
-                errorReporter.ReportError(ErrorCondition.ItemNotFound, $"{affordanceType} element '{TDCommon.WithUnitName}' property references property '{unitPropName}', which is not present in 'properties' collection.", withUnit.TokenIndex, properties.TokenIndex);
+                errorReporter.ReportError(ErrorCondition.ItemNotFound, $"{affordanceType} element '{TDCommon.WithUnitName}' property has value '{withUnit.Value.Value}', but no '{TDThing.PropertiesName}' collection in Thing Model.", withUnit.TokenIndex);
+                return false;
+            }
+
+            if (!properties.Entries!.TryGetValue(withUnitParts[1], out ValueTracker<TDProperty>? unitProperty))
+            {
+                errorReporter.ReportError(ErrorCondition.ItemNotFound, $"{affordanceType} element '{TDCommon.WithUnitName}' property has value '{withUnit.Value.Value}', but no '{withUnitParts[1]}' property in Thing Model.", withUnit.TokenIndex, properties.TokenIndex);
                 return false;
             }
 
             if (unitProperty.Value.Type?.Value.Value != TDValues.TypeString)
             {
-                errorReporter.ReportError(ErrorCondition.TypeMismatch, $"{affordanceType} element '{TDCommon.WithUnitName}' property references property '{unitPropName}', but that property's schema is not of type string.", withUnit.TokenIndex, unitProperty.TokenIndex);
+                errorReporter.ReportError(ErrorCondition.TypeMismatch, $"{affordanceType} element '{TDCommon.WithUnitName}' property references property '{withUnitParts[1]}', but that property's schema is not of type string.", withUnit.TokenIndex, unitProperty.TokenIndex);
                 return false;
             }
 
             return true;
         }
 
-        private bool TryValidateForms(ArrayTracker<TDForm>? forms, FormsKind formsKind, MapTracker<TDDataSchema>? schemaDefinitions, out ValueTracker<StringHolder>? contentType, bool isReadOnly = false)
+        private bool TryValidateForms(ArrayTracker<TDForm>? forms, FormsKind formsKind, MapTracker<TDDataSchema>? schemaDefinitions, out ValueTracker<StringHolder>? contentType, bool dovContextPresent, bool protContextPresent, long contextTokenIndex, bool isDescription, bool isReadOnly = false, bool isContentFree = false)
         {
             contentType = null;
 
@@ -1425,7 +1845,7 @@ namespace Azure.Iot.Operations.CodeGeneration
 
             foreach (ValueTracker<TDForm> form in forms.Elements)
             {
-                if (!TryValidateForm(form, formsKind, schemaDefinitions, out ValueTracker<StringHolder>? formContentType, isReadOnly))
+                if (!TryValidateForm(form, formsKind, schemaDefinitions, out ValueTracker<StringHolder>? formContentType, dovContextPresent, protContextPresent, contextTokenIndex, isDescription, isReadOnly, isContentFree))
                 {
                     hasError = true;
                 }
@@ -1469,9 +1889,28 @@ namespace Azure.Iot.Operations.CodeGeneration
             return !hasError;
         }
 
-        private bool TryValidateForm(ValueTracker<TDForm> form, FormsKind formsKind, MapTracker<TDDataSchema>? schemaDefinitions, out ValueTracker<StringHolder>? contentType, bool isReadOnly)
+        private bool TryValidateForm(ValueTracker<TDForm> form, FormsKind formsKind, MapTracker<TDDataSchema>? schemaDefinitions, out ValueTracker<StringHolder>? contentType, bool dovContextPresent, bool protContextPresent, long contextTokenIndex, bool isDescription, bool isReadOnly, bool isContentFree)
         {
             bool hasError = false;
+
+            if (isDescription)
+            {
+                if (form.Value.Href == null)
+                {
+                    errorReporter.ReportError(ErrorCondition.PropertyMissing, $"Form in a Thing Description is missing required '{TDForm.HrefName}' property.", form.TokenIndex);
+                    hasError = true;
+                }
+                else if (string.IsNullOrWhiteSpace(form.Value.Href.Value.Value))
+                {
+                    errorReporter.ReportError(ErrorCondition.PropertyEmpty, $"Form in a Thing Description has empty '{TDForm.HrefName}' property value.", form.Value.Href.TokenIndex);
+                    hasError = true;
+                }
+            }
+            else if (form.Value.Href != null)
+            {
+                errorReporter.ReportError(ErrorCondition.PropertyUnsupported, $"Form in a Thing Model has '{TDForm.HrefName}' property, which is not allowed in a Thing Model.", form.Value.Href.TokenIndex);
+                hasError = true;
+            }
 
             if (form.Value.Op?.Elements == null)
             {
@@ -1510,7 +1949,11 @@ namespace Azure.Iot.Operations.CodeGeneration
 
             if (form.Value.ServiceGroupId != null)
             {
-                if (formsKind == FormsKind.Root && !(form.Value.Op?.Elements?.Any(op => op.Value.Value == TDValues.OpSubAllEvents) ?? false))
+                if (!TryValidateRequiredContext(form.Value.ServiceGroupIdPrefixType, dovContextPresent, protContextPresent, false, $"Form '{TDForm.ServiceGroupIdName}' property", form.Value.ServiceGroupId.TokenIndex, contextTokenIndex))
+                {
+                    hasError = true;
+                }
+                else if (formsKind == FormsKind.Root && !(form.Value.Op?.Elements?.Any(op => op.Value.Value == TDValues.OpSubAllEvents) ?? false))
                 {
                     errorReporter.ReportError(ErrorCondition.ValuesInconsistent, $"'{TDForm.ServiceGroupIdName}' property is not allowed in root-level '{TDCommon.FormsName}' property without an '{TDForm.OpName}' property value of '{TDValues.OpSubAllEvents}'.", form.Value.ServiceGroupId.TokenIndex);
                     hasError = true;
@@ -1530,6 +1973,10 @@ namespace Azure.Iot.Operations.CodeGeneration
             if (form.Value.IncludeInherited != null && formsKind != FormsKind.Root)
             {
                 errorReporter.ReportError(ErrorCondition.ValuesInconsistent, $"'{TDForm.IncludeInheritedName}' property is allowed only in root-level '{TDCommon.FormsName}' property.", form.Value.IncludeInherited.TokenIndex);
+                hasError = true;
+            }
+            else if (form.Value.IncludeInherited != null && !TryValidateRequiredContext(form.Value.IncludeInheritedPrefixType, dovContextPresent, protContextPresent, false, $"Form '{TDForm.IncludeInheritedName}' property", form.Value.IncludeInherited.TokenIndex, contextTokenIndex))
+            {
                 hasError = true;
             }
 
@@ -1624,21 +2071,30 @@ namespace Azure.Iot.Operations.CodeGeneration
             }
             else
             {
+                if (!TryValidateRequiredContext(form.Value.TopicPrefixType, dovContextPresent, protContextPresent, false, $"Form '{TDForm.TopicName}' property", form.Value.Topic.TokenIndex, contextTokenIndex))
+                {
+                    hasError = true;
+                }
+
                 if (!TryValidateTopic(form.Value.Topic, formsKind, hasOpRead, hasOpWrite, hasOpSub, isReadOnly))
                 {
                     hasError = true;
                 }
 
-                if (form.Value.ContentType == null)
+                if (form.Value.ContentType == null && !isContentFree)
                 {
-                    errorReporter.ReportError(ErrorCondition.ValuesInconsistent, $"Form missing '{TDForm.ContentTypeName}' property, which is required when '{TDForm.TopicName}' property present.", form.TokenIndex, form.Value.Topic.TokenIndex);
+                    errorReporter.ReportError(ErrorCondition.ValuesInconsistent, $"Form missing '{TDForm.ContentTypeName}' property, which is required when '{TDForm.TopicName}' property present unless there is no content.", form.TokenIndex, form.Value.Topic.TokenIndex);
                     hasError = true;
                 }
             }
 
             if (form.Value.HeaderCode != null)
             {
-                if (formsKind != FormsKind.Action)
+                if (!TryValidateRequiredContext(form.Value.HeaderCodePrefixType, dovContextPresent, protContextPresent, false, $"Form '{TDForm.HeaderCodeName}' property", form.Value.HeaderCode.TokenIndex, contextTokenIndex))
+                {
+                    hasError = true;
+                }
+                else if (formsKind != FormsKind.Action)
                 {
                     errorReporter.ReportError(ErrorCondition.PropertyUnsupported, $"Form '{TDForm.HeaderCodeName}' property is permitted only in action forms.", form.Value.HeaderCode.TokenIndex);
                     hasError = true;
@@ -1685,7 +2141,11 @@ namespace Azure.Iot.Operations.CodeGeneration
 
             if (form.Value.HeaderInfo?.Elements != null)
             {
-                if (formsKind != FormsKind.Action)
+                if (!TryValidateRequiredContext(form.Value.HeaderInfoPrefixType, dovContextPresent, protContextPresent, false, $"Form '{TDForm.HeaderInfoName}' property", form.Value.HeaderInfo.TokenIndex, contextTokenIndex))
+                {
+                    hasError = true;
+                }
+                else if (formsKind != FormsKind.Action)
                 {
                     errorReporter.ReportError(ErrorCondition.PropertyUnsupported, $"Form '{TDForm.HeaderInfoName}' property is permitted only in an action form.", form.Value.HeaderInfo.TokenIndex);
                     hasError = true;
@@ -1698,9 +2158,9 @@ namespace Azure.Iot.Operations.CodeGeneration
 
             foreach (KeyValuePair<string, long> propertyName in form.Value.PropertyNames)
             {
-                if (propertyName.Key != TDForm.ContentTypeName && propertyName.Key != TDForm.AdditionalResponsesName && propertyName.Key != TDForm.HeaderInfoName && propertyName.Key != TDForm.HeaderCodeName && propertyName.Key != TDForm.ServiceGroupIdName && propertyName.Key != TDForm.TopicName && propertyName.Key != TDForm.IncludeInheritedName && propertyName.Key != TDForm.OpName)
+                if (!TDForm.SupportedProperties.Contains(propertyName.Key))
                 {
-                    if (propertyName.Key.Contains(':') && !propertyName.Key.StartsWith($"{TDValues.ContextPrefixAioProtocol}:") && !propertyName.Key.StartsWith($"{TDValues.ContextPrefixAioPlatform}:"))
+                    if (propertyName.Key.Contains(':') && !propertyName.Key.StartsWith($"{TDValues.ContextPrefixDoVocab}:") && !propertyName.Key.StartsWith($"{TDValues.ContextPrefixAioProtocol}:") && !propertyName.Key.StartsWith($"{TDValues.ContextPrefixAioPlatform}:"))
                     {
                         errorReporter.ReportWarning($"Form has unrecognized '{propertyName.Key}' property, which will be ignored.", propertyName.Value);
                     }
@@ -2004,9 +2464,9 @@ namespace Azure.Iot.Operations.CodeGeneration
 
             foreach (KeyValuePair<string, long> propertyName in schemaReference.Value.PropertyNames)
             {
-                if (propertyName.Key != TDSchemaReference.SuccessName && propertyName.Key != TDSchemaReference.ContentTypeName && propertyName.Key != TDSchemaReference.SchemaName)
+                if (!TDSchemaReference.SupportedProperties.Contains(propertyName.Key))
                 {
-                    if (propertyName.Key.Contains(':') && !propertyName.Key.StartsWith($"{TDValues.ContextPrefixAioProtocol}:") && !propertyName.Key.StartsWith($"{TDValues.ContextPrefixAioPlatform}:"))
+                    if (propertyName.Key.Contains(':') && !propertyName.Key.StartsWith($"{TDValues.ContextPrefixDoVocab}:") && !propertyName.Key.StartsWith($"{TDValues.ContextPrefixAioProtocol}:") && !propertyName.Key.StartsWith($"{TDValues.ContextPrefixAioPlatform}:"))
                     {
                         errorReporter.ReportWarning($"Schema reference has unrecognized '{propertyName.Key}' property, which will be ignored.", propertyName.Value);
                     }
@@ -2021,7 +2481,7 @@ namespace Azure.Iot.Operations.CodeGeneration
             return !hasError;
         }
 
-        private bool TryValidateDataSchema<T>(ValueTracker<T> dataSchema, Func<string, bool>? propertyApprover, bool platContextPresent, long contextTokenIndex, DataSchemaKind dataSchemaKind = DataSchemaKind.Undistinguished, ValueTracker<StringHolder>? contentType = null)
+        private bool TryValidateDataSchema<T>(ValueTracker<T> dataSchema, Func<string, bool>? propertyApprover, bool dovContextPresent, bool protContextPresent, bool platContextPresent, long contextTokenIndex, DataSchemaKind dataSchemaKind = DataSchemaKind.Undistinguished, ValueTracker<StringHolder>? contentType = null)
             where T : TDDataSchema, IDeserializable<T>
         {
             if (dataSchema.Value.Ref != null && dataSchemaKind != DataSchemaKind.Action && dataSchemaKind != DataSchemaKind.Property && dataSchemaKind != DataSchemaKind.Event)
@@ -2044,9 +2504,8 @@ namespace Azure.Iot.Operations.CodeGeneration
 
             if (dataSchema.Value.TypeRef != null)
             {
-                if (!platContextPresent)
+                if (!TryValidateRequiredContext(dataSchema.Value.TypeRefPrefixType, dovContextPresent, protContextPresent, platContextPresent, $"Data schema '{TDDataSchema.TypeRefName}' property", dataSchema.Value.TypeRef.TokenIndex, contextTokenIndex))
                 {
-                    errorReporter.ReportError(ErrorCondition.PropertyInvalid, $"Data schema '{TDDataSchema.TypeRefName}' property requires the Azure Operations Platform context in the '{TDThing.ContextName}' property.", dataSchema.Value.TypeRef.TokenIndex, contextTokenIndex);
                     return false;
                 }
 
@@ -2068,7 +2527,7 @@ namespace Azure.Iot.Operations.CodeGeneration
                 }
                 else
                 {
-                    return TryValidateReferenceDataSchema(dataSchema, propertyApprover);
+                    return TryValidateReferenceDataSchema(dataSchema, propertyApprover, dovContextPresent, protContextPresent, contextTokenIndex);
                 }
             }
 
@@ -2081,15 +2540,15 @@ namespace Azure.Iot.Operations.CodeGeneration
             switch (dataSchema.Value.Type!.Value.Value)
             {
                 case TDValues.TypeObject:
-                    return TryValidateObjectDataSchema(dataSchema, dataSchemaKind, propertyApprover, platContextPresent, contextTokenIndex);
+                    return TryValidateObjectDataSchema(dataSchema, dataSchemaKind, propertyApprover, dovContextPresent, protContextPresent, platContextPresent, contextTokenIndex);
                 case TDValues.TypeArray:
-                    return TryValidateArrayDataSchema(dataSchema, propertyApprover, platContextPresent, contextTokenIndex);
+                    return TryValidateArrayDataSchema(dataSchema, propertyApprover, dovContextPresent, protContextPresent, platContextPresent, contextTokenIndex);
                 case TDValues.TypeString:
-                    return TryValidateStringDataSchema(dataSchema, dataSchemaKind, propertyApprover, platContextPresent, contextTokenIndex);
+                    return TryValidateStringDataSchema(dataSchema, dataSchemaKind, propertyApprover, dovContextPresent, protContextPresent, platContextPresent, contextTokenIndex);
                 case TDValues.TypeNumber:
-                    return TryValidateNumberDataSchema(dataSchema, dataSchemaKind, propertyApprover, platContextPresent, contextTokenIndex);
+                    return TryValidateNumberDataSchema(dataSchema, dataSchemaKind, propertyApprover, dovContextPresent, protContextPresent, platContextPresent, contextTokenIndex);
                 case TDValues.TypeInteger:
-                    return TryValidateIntegerDataSchema(dataSchema, dataSchemaKind, propertyApprover, platContextPresent, contextTokenIndex);
+                    return TryValidateIntegerDataSchema(dataSchema, dataSchemaKind, propertyApprover, dovContextPresent, protContextPresent, platContextPresent, contextTokenIndex);
                 case TDValues.TypeBoolean:
                     return TryValidateBooleanDataSchema(dataSchema, dataSchemaKind, propertyApprover);
                 case TDValues.TypeNull:
@@ -2100,13 +2559,18 @@ namespace Azure.Iot.Operations.CodeGeneration
             }
         }
 
-        private bool TryValidateReferenceDataSchema<T>(ValueTracker<T> dataSchema, Func<string, bool>? propertyApprover)
+        private bool TryValidateReferenceDataSchema<T>(ValueTracker<T> dataSchema, Func<string, bool>? propertyApprover, bool dovContextPresent, bool protContextPresent, long contextTokenIndex)
              where T : TDDataSchema, IDeserializable<T>
         {
             bool hasError = false;
 
             string refValue = dataSchema.Value.Ref!.Value.Value;
             long tokenIndex = dataSchema.Value.Ref.TokenIndex;
+
+            if (!TryValidateRequiredContext(dataSchema.Value.RefPrefixType, dovContextPresent, protContextPresent, false, $"Data schema '{TDDataSchema.RefName}' property", tokenIndex, contextTokenIndex))
+            {
+                hasError = true;
+            }
 
             if (string.IsNullOrWhiteSpace(refValue))
             {
@@ -2137,9 +2601,11 @@ namespace Azure.Iot.Operations.CodeGeneration
             HashSet<string> supportedProperties = new()
             {
                 TDDataSchema.RefName,
+                TDDataSchema.RefLegacyName,
                 TDDataSchema.TitleName,
                 TDDataSchema.DescriptionName,
                 TDDataSchema.TypeRefName,
+                TDDataSchema.TypeRefLegacyName,
             };
             if (!TryValidateResidualProperties(dataSchema.Value.PropertyNames, supportedProperties, propertyApprover, "a schema via a reference", tokenIndex))
             {
@@ -2172,6 +2638,7 @@ namespace Azure.Iot.Operations.CodeGeneration
                 TDDataSchema.DescriptionName,
                 TDDataSchema.ConstName,
                 TDDataSchema.TypeRefName,
+                TDDataSchema.TypeRefLegacyName,
             };
             if (!TryValidateResidualProperties(dataSchema.Value.PropertyNames, supportedProperties, null, "a constant string schema", constProperty.TokenIndex))
             {
@@ -2219,6 +2686,7 @@ namespace Azure.Iot.Operations.CodeGeneration
                 TDDataSchema.MaximumName,
                 TDDataSchema.ConstName,
                 TDDataSchema.TypeRefName,
+                TDDataSchema.TypeRefLegacyName,
             };
             if (!TryValidateResidualProperties(dataSchema.Value.PropertyNames, supportedProperties, null, "a constant number schema", constProperty.TokenIndex))
             {
@@ -2266,6 +2734,7 @@ namespace Azure.Iot.Operations.CodeGeneration
                 TDDataSchema.MaximumName,
                 TDDataSchema.ConstName,
                 TDDataSchema.TypeRefName,
+                TDDataSchema.TypeRefLegacyName,
             };
             if (!TryValidateResidualProperties(dataSchema.Value.PropertyNames, supportedProperties, null, "a constant integer schema", constProperty.TokenIndex))
             {
@@ -2298,6 +2767,7 @@ namespace Azure.Iot.Operations.CodeGeneration
                 TDDataSchema.DescriptionName,
                 TDDataSchema.ConstName,
                 TDDataSchema.TypeRefName,
+                TDDataSchema.TypeRefLegacyName,
             };
             if (!TryValidateResidualProperties(dataSchema.Value.PropertyNames, supportedProperties, null, "a constant boolean schema", constProperty.TokenIndex))
             {
@@ -2315,7 +2785,7 @@ namespace Azure.Iot.Operations.CodeGeneration
             {
                 if (propertyApprover?.Invoke(propertyName.Key) != true && !supportedProperties.Contains(propertyName.Key))
                 {
-                    if (propertyName.Key.Contains(':') && !propertyName.Key.StartsWith($"{TDValues.ContextPrefixAioProtocol}:") && !propertyName.Key.StartsWith($"{TDValues.ContextPrefixAioPlatform}:"))
+                    if (propertyName.Key.Contains(':') && !propertyName.Key.StartsWith($"{TDValues.ContextPrefixDoVocab}:") && !propertyName.Key.StartsWith($"{TDValues.ContextPrefixAioProtocol}:") && !propertyName.Key.StartsWith($"{TDValues.ContextPrefixAioPlatform}:"))
                     {
                         errorReporter.ReportWarning($"Data schema has unrecognized '{propertyName.Key}' property, which will be ignored.", propertyName.Value);
                     }
@@ -2330,7 +2800,7 @@ namespace Azure.Iot.Operations.CodeGeneration
             return !hasError;
         }
 
-        private bool TryValidateObjectDataSchema<T>(ValueTracker<T> dataSchema, DataSchemaKind dataSchemaKind, Func<string, bool>? propertyApprover, bool platContextPresent, long contextTokenIndex)
+        private bool TryValidateObjectDataSchema<T>(ValueTracker<T> dataSchema, DataSchemaKind dataSchemaKind, Func<string, bool>? propertyApprover, bool dovContextPresent, bool protContextPresent, bool platContextPresent, long contextTokenIndex)
              where T : TDDataSchema, IDeserializable<T>
         {
             if (dataSchema.Value.Properties?.Entries == null && dataSchema.Value.AdditionalProperties == null)
@@ -2438,6 +2908,7 @@ namespace Azure.Iot.Operations.CodeGeneration
                         TDDataSchema.PropertiesName,
                         TDDataSchema.ConstName,
                         TDDataSchema.TypeRefName,
+                        TDDataSchema.TypeRefLegacyName,
                     };
                     if (!TryValidateResidualProperties(dataSchema.Value.PropertyNames, supportedProperties, propertyApprover, "a constant object", dataSchema.Value.Const.TokenIndex))
                     {
@@ -2450,9 +2921,8 @@ namespace Azure.Iot.Operations.CodeGeneration
                     {
                         if (property.Value.Value.Namespace != null)
                         {
-                            if (!platContextPresent)
+                            if (!TryValidateRequiredContext(property.Value.Value.NamespacePrefixType, dovContextPresent, protContextPresent, platContextPresent, $"Data schema '{TDDataSchema.NamespaceName}' property", property.Value.Value.Namespace.TokenIndex, contextTokenIndex))
                             {
-                                errorReporter.ReportError(ErrorCondition.PropertyInvalid, $"Data schema '{TDDataSchema.NamespaceName}' property requires the Azure Operations Platform context in the '{TDThing.ContextName}' property.", property.Value.Value.Namespace.TokenIndex, contextTokenIndex);
                                 hasError = true;
                             }
 
@@ -2463,7 +2933,7 @@ namespace Azure.Iot.Operations.CodeGeneration
                             }
                         }
 
-                        if (!TryValidateDataSchema(property.Value, (propName) => propName == TDDataSchema.NamespaceName, platContextPresent, contextTokenIndex))
+                        if (!TryValidateDataSchema(property.Value, (propName) => propName == TDDataSchema.NamespaceName || propName == TDDataSchema.NamespaceLegacyName, dovContextPresent, protContextPresent, platContextPresent, contextTokenIndex))
                         {
                             hasError = true;
                         }
@@ -2483,6 +2953,11 @@ namespace Azure.Iot.Operations.CodeGeneration
 
                     if (dataSchema.Value.ErrorMessage != null)
                     {
+                        if (!TryValidateRequiredContext(dataSchema.Value.ErrorMessagePrefixType, dovContextPresent, protContextPresent, false, $"Data schema '{TDDataSchema.ErrorMessageName}' property", dataSchema.Value.ErrorMessage.TokenIndex, contextTokenIndex))
+                        {
+                            hasError = true;
+                        }
+
                         if (dataSchemaKind != DataSchemaKind.SchemaDefinition)
                         {
                             errorReporter.ReportError(ErrorCondition.PropertyUnsupported, $"The '{TDDataSchema.ErrorMessageName}' property is permitted only in the first level of a '{TDThing.SchemaDefinitionsName}' element.", dataSchema.Value.ErrorMessage.TokenIndex);
@@ -2508,7 +2983,9 @@ namespace Azure.Iot.Operations.CodeGeneration
                         TDDataSchema.PropertiesName,
                         TDDataSchema.RequiredName,
                         TDDataSchema.ErrorMessageName,
+                        TDDataSchema.ErrorMessageLegacyName,
                         TDDataSchema.TypeRefName,
+                        TDDataSchema.TypeRefLegacyName,
                     };
                     if (!TryValidateResidualProperties(dataSchema.Value.PropertyNames, supportedProperties, propertyApprover, "a structured object", dataSchema.Value.Properties.TokenIndex))
                     {
@@ -2523,7 +3000,12 @@ namespace Azure.Iot.Operations.CodeGeneration
             }
             else
             {
-                if (!TryValidateDataSchema(dataSchema.Value.AdditionalProperties!, null, platContextPresent, contextTokenIndex))
+                if (dataSchema.Value.AdditionalProperties != null && !TryValidateRequiredContext(dataSchema.Value.AdditionalPropertiesPrefixType, dovContextPresent, protContextPresent, false, $"Data schema '{TDDataSchema.AdditionalPropertiesName}' property", dataSchema.Value.AdditionalProperties.TokenIndex, contextTokenIndex))
+                {
+                    hasError = true;
+                }
+
+                if (!TryValidateDataSchema(dataSchema.Value.AdditionalProperties!, null, dovContextPresent, protContextPresent, platContextPresent, contextTokenIndex))
                 {
                     hasError = true;
                 }
@@ -2534,7 +3016,9 @@ namespace Azure.Iot.Operations.CodeGeneration
                     TDDataSchema.TitleName,
                     TDDataSchema.DescriptionName,
                     TDDataSchema.AdditionalPropertiesName,
+                    TDDataSchema.AdditionalPropertiesLegacyName,
                     TDDataSchema.TypeRefName,
+                    TDDataSchema.TypeRefLegacyName,
                 };
                 if (!TryValidateResidualProperties(dataSchema.Value.PropertyNames, supportedProperties, propertyApprover, "a map", dataSchema.Value.AdditionalProperties!.TokenIndex))
                 {
@@ -2545,7 +3029,7 @@ namespace Azure.Iot.Operations.CodeGeneration
             return !hasError;
         }
 
-        private bool TryValidateArrayDataSchema<T>(ValueTracker<T> dataSchema, Func<string, bool>? propertyApprover, bool platContextPresent, long contextTokenIndex)
+        private bool TryValidateArrayDataSchema<T>(ValueTracker<T> dataSchema, Func<string, bool>? propertyApprover, bool dovContextPresent, bool protContextPresent, bool platContextPresent, long contextTokenIndex)
              where T : TDDataSchema, IDeserializable<T>
         {
             if (dataSchema.Value.Items == null)
@@ -2556,7 +3040,7 @@ namespace Azure.Iot.Operations.CodeGeneration
 
             bool hasError = false;
 
-            if (!TryValidateDataSchema(dataSchema.Value.Items!, null, platContextPresent, contextTokenIndex))
+            if (!TryValidateDataSchema(dataSchema.Value.Items!, null, dovContextPresent, protContextPresent, platContextPresent, contextTokenIndex))
             {
                 hasError = true;
             }
@@ -2568,6 +3052,7 @@ namespace Azure.Iot.Operations.CodeGeneration
                 TDDataSchema.DescriptionName,
                 TDDataSchema.ItemsName,
                 TDDataSchema.TypeRefName,
+                TDDataSchema.TypeRefLegacyName,
             };
             if (!TryValidateResidualProperties(dataSchema.Value.PropertyNames, supportedProperties, propertyApprover, "an array", dataSchema.Value.Type!.TokenIndex))
             {
@@ -2577,7 +3062,7 @@ namespace Azure.Iot.Operations.CodeGeneration
             return !hasError;
         }
 
-        private bool TryValidateStringDataSchema<T>(ValueTracker<T> dataSchema, DataSchemaKind dataSchemaKind, Func<string, bool>? propertyApprover, bool platContextPresent, long contextTokenIndex)
+        private bool TryValidateStringDataSchema<T>(ValueTracker<T> dataSchema, DataSchemaKind dataSchemaKind, Func<string, bool>? propertyApprover, bool dovContextPresent, bool protContextPresent, bool platContextPresent, long contextTokenIndex)
              where T : TDDataSchema, IDeserializable<T>
         {
             bool hasError = false;
@@ -2605,6 +3090,7 @@ namespace Azure.Iot.Operations.CodeGeneration
                     TDDataSchema.DescriptionName,
                     TDDataSchema.EnumName,
                     TDDataSchema.TypeRefName,
+                    TDDataSchema.TypeRefLegacyName,
                 };
                 if (!TryValidateResidualProperties(dataSchema.Value.PropertyNames, supportedProperties, propertyApprover, "an enumerated string", dataSchema.Value.Enum.TokenIndex))
                 {
@@ -2700,6 +3186,7 @@ namespace Azure.Iot.Operations.CodeGeneration
                         TDDataSchema.ContentEncodingName,
                         TDDataSchema.PatternName,
                         TDDataSchema.TypeRefName,
+                        TDDataSchema.TypeRefLegacyName,
                     };
                     if (!TryValidateResidualProperties(dataSchema.Value.PropertyNames, supportedProperties, propertyApprover, "a string schema"))
                     {
@@ -2711,7 +3198,7 @@ namespace Azure.Iot.Operations.CodeGeneration
             return !hasError;
         }
 
-        private bool TryValidateNumberDataSchema<T>(ValueTracker<T> dataSchema, DataSchemaKind dataSchemaKind, Func<string, bool>? propertyApprover, bool platContextPresent, long contextTokenIndex)
+        private bool TryValidateNumberDataSchema<T>(ValueTracker<T> dataSchema, DataSchemaKind dataSchemaKind, Func<string, bool>? propertyApprover, bool dovContextPresent, bool protContextPresent, bool platContextPresent, long contextTokenIndex)
              where T : TDDataSchema, IDeserializable<T>
         {
             bool hasError = false;
@@ -2738,18 +3225,16 @@ namespace Azure.Iot.Operations.CodeGeneration
             {
                 if (dataSchema.Value.ScaleFactor != null)
                 {
-                    if (!platContextPresent)
+                    if (!TryValidateRequiredContext(dataSchema.Value.ScaleFactorPrefixType, dovContextPresent, protContextPresent, platContextPresent, $"The '{TDDataSchema.ScaleFactorName}' property", dataSchema.Value.ScaleFactor.TokenIndex, contextTokenIndex))
                     {
-                        errorReporter.ReportError(ErrorCondition.PropertyInvalid, $"The '{TDDataSchema.ScaleFactorName}' property requires the Azure Operations Platform context in the '{TDThing.ContextName}' property.", dataSchema.Value.ScaleFactor.TokenIndex, contextTokenIndex);
                         hasError = true;
                     }
                 }
 
                 if (dataSchema.Value.DecimalPlaces != null)
                 {
-                    if (!platContextPresent)
+                    if (!TryValidateRequiredContext(dataSchema.Value.DecimalPlacesPrefixType, dovContextPresent, protContextPresent, platContextPresent, $"The '{TDDataSchema.DecimalPlacesName}' property", dataSchema.Value.DecimalPlaces.TokenIndex, contextTokenIndex))
                     {
-                        errorReporter.ReportError(ErrorCondition.PropertyInvalid, $"The '{TDDataSchema.DecimalPlacesName}' property requires the Azure Operations Platform context in the '{TDThing.ContextName}' property.", dataSchema.Value.DecimalPlaces.TokenIndex, contextTokenIndex);
                         hasError = true;
                     }
 
@@ -2768,8 +3253,11 @@ namespace Azure.Iot.Operations.CodeGeneration
                     TDDataSchema.MinimumName,
                     TDDataSchema.MaximumName,
                     TDDataSchema.ScaleFactorName,
+                    TDDataSchema.ScaleFactorLegacyName,
                     TDDataSchema.DecimalPlacesName,
+                    TDDataSchema.DecimalPlacesLegacyName,
                     TDDataSchema.TypeRefName,
+                    TDDataSchema.TypeRefLegacyName,
                 };
                 if (!TryValidateResidualProperties(dataSchema.Value.PropertyNames, supportedProperties, propertyApprover, "a number schema"))
                 {
@@ -2780,7 +3268,7 @@ namespace Azure.Iot.Operations.CodeGeneration
             return !hasError;
         }
 
-        private bool TryValidateIntegerDataSchema<T>(ValueTracker<T> dataSchema, DataSchemaKind dataSchemaKind, Func<string, bool>? propertyApprover, bool platContextPresent, long contextTokenIndex)
+        private bool TryValidateIntegerDataSchema<T>(ValueTracker<T> dataSchema, DataSchemaKind dataSchemaKind, Func<string, bool>? propertyApprover, bool dovContextPresent, bool protContextPresent, bool platContextPresent, long contextTokenIndex)
              where T : TDDataSchema, IDeserializable<T>
         {
             bool hasError = false;
@@ -2823,9 +3311,8 @@ namespace Azure.Iot.Operations.CodeGeneration
             {
                 if (dataSchema.Value.ScaleFactor != null)
                 {
-                    if (!platContextPresent)
+                    if (!TryValidateRequiredContext(dataSchema.Value.ScaleFactorPrefixType, dovContextPresent, protContextPresent, platContextPresent, $"The '{TDDataSchema.ScaleFactorName}' property", dataSchema.Value.ScaleFactor.TokenIndex, contextTokenIndex))
                     {
-                        errorReporter.ReportError(ErrorCondition.PropertyInvalid, $"The '{TDDataSchema.ScaleFactorName}' property requires the Azure Operations Platform context in the '{TDThing.ContextName}' property.", dataSchema.Value.ScaleFactor.TokenIndex, contextTokenIndex);
                         hasError = true;
                     }
 
@@ -2838,9 +3325,8 @@ namespace Azure.Iot.Operations.CodeGeneration
 
                 if (dataSchema.Value.DecimalPlaces != null)
                 {
-                    if (!platContextPresent)
+                    if (!TryValidateRequiredContext(dataSchema.Value.DecimalPlacesPrefixType, dovContextPresent, protContextPresent, platContextPresent, $"The '{TDDataSchema.DecimalPlacesName}' property", dataSchema.Value.DecimalPlaces.TokenIndex, contextTokenIndex))
                     {
-                        errorReporter.ReportError(ErrorCondition.PropertyInvalid, $"The '{TDDataSchema.DecimalPlacesName}' property requires the Azure Operations Platform context in the '{TDThing.ContextName}' property.", dataSchema.Value.DecimalPlaces.TokenIndex, contextTokenIndex);
                         hasError = true;
                     }
 
@@ -2859,8 +3345,11 @@ namespace Azure.Iot.Operations.CodeGeneration
                     TDDataSchema.MinimumName,
                     TDDataSchema.MaximumName,
                     TDDataSchema.ScaleFactorName,
+                    TDDataSchema.ScaleFactorLegacyName,
                     TDDataSchema.DecimalPlacesName,
+                    TDDataSchema.DecimalPlacesLegacyName,
                     TDDataSchema.TypeRefName,
+                    TDDataSchema.TypeRefLegacyName,
                 };
                 if (!TryValidateResidualProperties(dataSchema.Value.PropertyNames, supportedProperties, propertyApprover, "an integer schema"))
                 {
@@ -2896,6 +3385,7 @@ namespace Azure.Iot.Operations.CodeGeneration
                     TDDataSchema.TitleName,
                     TDDataSchema.DescriptionName,
                     TDDataSchema.TypeRefName,
+                    TDDataSchema.TypeRefLegacyName,
                 };
                 if (!TryValidateResidualProperties(dataSchema.Value.PropertyNames, supportedProperties, propertyApprover, "a Boolean schema"))
                 {
@@ -2926,6 +3416,7 @@ namespace Azure.Iot.Operations.CodeGeneration
                 TDDataSchema.TitleName,
                 TDDataSchema.DescriptionName,
                 TDDataSchema.TypeRefName,
+                TDDataSchema.TypeRefLegacyName,
             };
             if (!TryValidateResidualProperties(dataSchema.Value.PropertyNames, supportedProperties, propertyApprover, "a null schema"))
             {

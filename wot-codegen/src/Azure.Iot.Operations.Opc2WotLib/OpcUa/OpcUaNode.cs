@@ -10,6 +10,8 @@ namespace Azure.Iot.Operations.Opc2WotLib
 
     public class OpcUaNode
     {
+        private Dictionary<string, UaVariableRecord>? variableRecords = null;
+
         public OpcUaNode(OpcUaModelInfo modelInfo, Dictionary<string, OpcUaNamespaceInfo> nsUriToNsInfoMap, XmlNode xmlNode)
         {
             string? nodeIdString = xmlNode.Attributes?["NodeId"]?.Value;
@@ -26,6 +28,7 @@ namespace Azure.Iot.Operations.Opc2WotLib
             Description = xmlNode.ChildNodes.Cast<XmlNode>().FirstOrDefault(node => node.Name == "Description")?.InnerText.CleanText();
             References = new List<OpcUaReference>();
             NsUriToNsInfoMap = nsUriToNsInfoMap;
+            Discriminator = 0;
         }
 
         public OpcUaModelInfo DefiningModel { get; }
@@ -42,7 +45,11 @@ namespace Azure.Iot.Operations.Opc2WotLib
 
         public List<OpcUaReference> References { get; protected set; }
 
+        public int Discriminator { get; set; }
+
         public string EffectiveName { get => SymbolicName ?? BrowseName.Name; }
+
+        public string DiscriminatedEffectiveName => Discriminator == 0 ? EffectiveName : $"{EffectiveName}_{Discriminator}";
 
         public string NodeIdNamespace { get => DefiningModel.NamespaceUris[NodeId.NsIndex]; }
 
@@ -64,8 +71,47 @@ namespace Azure.Iot.Operations.Opc2WotLib
                 .Where(n => !n.IsDeprecated);
         }
 
+        public List<OpcUaMethod> Methods { get => Components.OfType<OpcUaMethod>().ToList(); }
+
+        public Dictionary<string, UaVariableRecord> VariableRecords
+        {
+            get
+            {
+                if (variableRecords == null)
+                {
+                    variableRecords = new Dictionary<string, UaVariableRecord>();
+
+                    foreach (OpcUaVariable uaVariable in Components.OfType<OpcUaVariable>())
+                    {
+                        uaVariable.CollectVariableRecords(variableRecords, true);
+                    }
+
+                    foreach (OpcUaVariable uaVariable in Properties.OfType<OpcUaVariable>())
+                    {
+                        uaVariable.CollectVariableRecords(variableRecords, false);
+                    }
+                }
+
+                return variableRecords;
+            }
+        }
+
         public OpcUaNode GetReferencedOpcUaNode(OpcUaNodeId nodeId) =>
             NsUriToNsInfoMap[this.DefiningModel.NamespaceUris[nodeId.NsIndex]].NodeIndexToNodeMap[nodeId.NodeIndex];
+
+        public string GetTypeRef()
+        {
+            if (this.BrowseNamespace == null)
+            {
+                return $"org.opcfoundation.UA.{this.EffectiveName}";
+            }
+
+            Uri uri = new Uri(this.BrowseNamespace);
+            string reversedHost = string.Join('.', uri.Host.Split('.').Reverse());
+            string path = uri.AbsolutePath.Trim('/').Replace('/', '.');
+            string prefix = string.IsNullOrEmpty(path) ? reversedHost : $"{reversedHost}.{path}";
+            return $"{prefix}.{this.EffectiveName}";
+        }
 
         protected Dictionary<string, OpcUaNamespaceInfo> NsUriToNsInfoMap { get; }
     }

@@ -6,10 +6,9 @@
 use std::num::{NonZero, NonZeroU16, NonZeroU32};
 use std::{fmt, fs, time::Duration};
 
-use crate::azure_mqtt::client::{
-    ClientOptions, ConnectionTransportConfig, ConnectionTransportTlsConfig, ConnectionTransportType,
-};
+use crate::azure_mqtt::client::ClientOptions;
 use crate::azure_mqtt::packet::{ConnectProperties, SessionExpiryInterval, Will};
+use crate::azure_mqtt::transport::{ConnectionTransportConfig, ConnectionTransportType, TlsConfig};
 use bytes::Bytes;
 use openssl::{
     pkey::{PKey, Private},
@@ -149,20 +148,19 @@ fn create_connection_transport_config(
                 }
             })?;
 
-        let config =
-            ConnectionTransportTlsConfig::new(client_cert, ca_trust_bundle).map_err(|e| {
-                ConnectionSettingsAdapterError {
-                    msg: "failed to create TLS config".to_string(),
-                    field: ConnectionSettingsField::UseTls(true),
-                    source: Some(Box::new(TlsError {
-                        msg: e.to_string(),
-                        source: Some(e.into()),
-                    })),
-                }
-            })?;
+        let tls_config = TlsConfig::new(client_cert, ca_trust_bundle).map_err(|e| {
+            ConnectionSettingsAdapterError {
+                msg: "failed to create TLS config".to_string(),
+                field: ConnectionSettingsField::UseTls(true),
+                source: Some(Box::new(TlsError {
+                    msg: e.to_string(),
+                    source: Some(e.into()),
+                })),
+            }
+        })?;
 
         ConnectionTransportType::Tls {
-            config,
+            tls_config,
             hostname,
             port: tcp_port,
         }
@@ -176,6 +174,9 @@ fn create_connection_transport_config(
     Ok(ConnectionTransportConfig {
         transport_type,
         timeout: Some(timeout),
+        proxy: None,
+        // Disable Nagle's algorithm (`TCP_NODELAY`) (hardcoded) to minimize latency
+        tcp_nodelay: true,
     })
 }
 
@@ -235,6 +236,8 @@ impl AzureMqttConnectParameters {
                     outgoing_packets: outgoing_packets_tx,
                 },
                 timeout: Some(self.connection_timeout),
+                proxy: None,
+                tcp_nodelay: true,
             });
         }
 
