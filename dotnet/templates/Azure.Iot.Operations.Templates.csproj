@@ -1,0 +1,56 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <PackageId>Azure.Iot.Operations.Templates</PackageId>
+    <PackageVersion>0.1.0</PackageVersion>
+    <Title>Azure IoT Operations Templates</Title>
+    <Authors>Microsoft</Authors>
+    <Description>.NET project templates for creating Azure IoT Operations solutions</Description>
+    <PackageTags>azure;iot;sdk;edge</PackageTags>
+    <PackageProjectUrl>https://github.com/Azure/iot-operations-sdks/</PackageProjectUrl>
+    <LicenseUrl>https://github.com/Azure/iot-operations-sdks/blob/main/LICENSE</LicenseUrl>
+    <PackageLicenseExpression>MIT</PackageLicenseExpression>
+    <copyright>© Microsoft Corporation. All rights reserved.</copyright>
+
+    <PackageType>Template</PackageType>
+    <TargetFramework>net9.0</TargetFramework>
+    <IncludeContentInPack>true</IncludeContentInPack>
+    <IncludeBuildOutput>false</IncludeBuildOutput>
+    <ContentTargetFolders>content</ContentTargetFolders>
+    <NoWarn>$(NoWarn);NU5128</NoWarn>
+    <NoDefaultExcludes>true</NoDefaultExcludes>
+    <PackageReadmeFile>README.md</PackageReadmeFile>
+  </PropertyGroup>
+
+  <PropertyGroup>
+    <LocalizeTemplates>false</LocalizeTemplates>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.TemplateEngine.Tasks" Version="*" PrivateAssets="all" IsImplicitlyDefined="true" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Include="content\**\*" Exclude="content\**\bin\**;content\**\obj\**" />
+    <Compile Remove="**\*" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Compile Include="EventDrivenTelemetryConnector\LeaderElectionConfigurationProvider.cs" />
+    <Compile Include="EventDrivenTelemetryConnector\MessageSchemaProvider.cs" />
+    <Compile Include="EventDrivenTelemetryConnector\Program.cs" />
+    <Compile Include="EventDrivenTelemetryConnector\TemplateConnectorWorker.cs" />
+    <Compile Include="EventDrivenTelemetryConnector\Worker.cs" />
+    <Compile Include="PollingTelemetryConnector\DatasetSampler.cs" />
+    <Compile Include="PollingTelemetryConnector\DatasetSamplerProvider.cs" />
+    <Compile Include="PollingTelemetryConnector\LeaderElectionConfigurationProvider.cs" />
+    <Compile Include="PollingTelemetryConnector\MessageSchemaProvider.cs" />
+    <Compile Include="PollingTelemetryConnector\Program.cs" />
+    <Compile Include="PollingTelemetryConnector\Worker.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="README.md" Pack="true" PackagePath="" />
+  </ItemGroup>
+
+</Project>

@@ -1,4 +1,4 @@
-﻿<Project Sdk="Microsoft.NET.Sdk.Worker">
+<Project Sdk="Microsoft.NET.Sdk.Worker">
 
   <PropertyGroup>
     <TargetFramework>net9.0</TargetFramework>
@@ -11,5 +11,4 @@
     <PackageReference Include="Microsoft.Extensions.Hosting" Version="8.0.1" />
     <PackageReference Include="Azure.Iot.Operations.Connector" Version="1.1.0" />
   </ItemGroup>
-
 </Project>
