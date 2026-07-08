@@ -39,11 +39,6 @@ jobs:
       - name: dotnet info
         run: dotnet --info
 
-      # The Dtdl2Wot project depends on a preview build of DTDLParser that is
-      # only published to the AIO preview feed, not to nuget.org.
-      - name: Add AIO preview NuGet source
-        run: dotnet nuget add source "https://pkgs.dev.azure.com/azure-iot-sdks/iot-operations/_packaging/preview/nuget/v3/index.json" --name aio-preview
-
       - name: Build (Debug)
         run: dotnet build -c Debug wot-codegen/codegen.sln
 
