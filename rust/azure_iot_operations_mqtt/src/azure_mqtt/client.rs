@@ -54,6 +54,7 @@ use crate::azure_mqtt::packet::{
     RetainOptions, SubscribeProperties, UnsubscribeProperties, Will,
 };
 use crate::azure_mqtt::topic::{TopicFilter, TopicName};
+use crate::azure_mqtt::transport::{ConnectionTransportConfig, TlsConfig, ConnectionTransportType, Proxy, ProxyAuthorization, ProxyEndpoint};
 
 // TODO: What should this module and factory function be called?
 // The three components are the client collectively - so what should the outbound struct (currently called the Client) be?
@@ -130,110 +131,6 @@ impl Default for ClientOptions {
             publish_qos0_queue_size: 100,
             publish_qos1_qos2_queue_size: 100,
         }
-    }
-}
-
-/// Parameters for establishing a new connection.
-pub struct ConnectionTransportConfig {
-    pub transport_type: ConnectionTransportType,
-    pub timeout: Option<Duration>,
-    /// Whether to disable Nagle's algorithm (`TCP_NODELAY`) on the underlying TCP socket.
-    /// Setting this to `true` reduces latency for small, frequent packets at the cost of slightly
-    /// more packet overhead.
-    pub tcp_nodelay: bool,
-}
-
-/// The type of transport to use for the new connection.
-pub enum ConnectionTransportType {
-    Tcp {
-        hostname: String,
-        port: u16,
-    },
-    Tls {
-        hostname: String,
-        port: u16,
-        config: ConnectionTransportTlsConfig,
-    },
-    #[cfg(feature = "test-utils")]
-    Ws {
-        request: async_tungstenite::tungstenite::handshake::client::Request,
-        tls_config: Option<ConnectionTransportTlsConfig>,
-    },
-    #[cfg(feature = "test-utils")]
-    Test {
-        incoming_packets: tokio::sync::mpsc::UnboundedReceiver<Packet<Bytes>>,
-        outgoing_packets: tokio::sync::mpsc::UnboundedSender<Packet<Bytes>>,
-    },
-}
-
-/// Parameters for establishing a TLS connection.
-pub struct ConnectionTransportTlsConfig(pub(crate) SslConnectorBuilder);
-
-impl ConnectionTransportTlsConfig {
-    /// Constructs a [`ConnectionTransportTlsConfig`] with the given client certificate and CA trust bundle.
-    ///
-    /// The client certificate is specified as a tuple of the main client cert, its private key,
-    /// and a list of zero or more chain certs that should be sent along with the main cert.
-    pub fn new(
-        client_cert: Option<(X509, PKey<Private>, Vec<X509>)>,
-        ca_trust_bundle: Vec<X509>,
-    ) -> io::Result<Self> {
-        let mut connector = SslConnector::builder(SslMethod::tls_client())?;
-
-        connector.set_min_proto_version(Some(SslVersion::TLS1_2))?;
-
-        if let Some((cert, pkey, cert_chain)) = client_cert {
-            connector.set_certificate(&cert)?;
-            connector.set_private_key(&pkey)?;
-            for cert in cert_chain {
-                connector.add_extra_chain_cert(cert)?;
-            }
-        }
-
-        if !ca_trust_bundle.is_empty() {
-            let cert_store = connector.cert_store_mut();
-            for cert in ca_trust_bundle {
-                cert_store.add_cert(cert)?;
-            }
-        }
-
-        Ok(Self(connector))
-    }
-
-    /// Constructs a [`ConnectionTransportTlsConfig`] with the client certificate and CA trust bundle
-    /// parsed from the given PEM blobs.
-    ///
-    /// The client certificate is specified as a one blob containing the PEM-encoded cert chain
-    /// (main cert followed by other certs in the chain) and one blob containing the PEM-encoded private key.
-    pub fn from_pem(
-        client_cert: Option<(&[u8], &[u8])>,
-        ca_trust_bundle: &[u8],
-    ) -> io::Result<Self> {
-        let client_cert = if let Some((cert, pkey)) = client_cert {
-            let mut client_cert_chain = X509::stack_from_pem(cert)?;
-            if client_cert_chain.is_empty() {
-                return Err(io::Error::other(
-                    "client cert PEM does not contain any certificates",
-                ));
-            }
-            let client_cert = client_cert_chain.remove(0);
-
-            let pkey = PKey::private_key_from_pem(pkey)?;
-
-            Some((client_cert, pkey, client_cert_chain))
-        } else {
-            None
-        };
-
-        let ca_trust_bundle = X509::stack_from_pem(ca_trust_bundle)?;
-
-        Self::new(client_cert, ca_trust_bundle)
-    }
-}
-
-impl From<SslConnectorBuilder> for ConnectionTransportTlsConfig {
-    fn from(connector: SslConnectorBuilder) -> Self {
-        Self(connector)
     }
 }
 
@@ -646,6 +543,7 @@ impl ConnectHandle {
         let ConnectionTransportConfig {
             transport_type,
             timeout,
+            proxy,
             tcp_nodelay,
         } = transport_config;
         Ok(match transport_type {
@@ -653,7 +551,9 @@ impl ConnectHandle {
                 maybe_timeout(
                     timeout,
                     crate::azure_mqtt::io::tokio_tcp::connect(
-                        (hostname, port),
+                        &hostname,
+                        port,
+                        proxy,
                         tcp_nodelay,
                         &self.reader_pool,
                         &self.writer_pool,
@@ -665,14 +565,15 @@ impl ConnectHandle {
             ConnectionTransportType::Tls {
                 hostname,
                 port,
-                config,
+                tls_config,
             } => {
                 maybe_timeout(
                     timeout,
                     crate::azure_mqtt::io::tokio_tls::connect(
                         &hostname,
                         port,
-                        config,
+                        tls_config,
+                        proxy,
                         tcp_nodelay,
                         &self.reader_pool,
                         &self.writer_pool,
@@ -688,12 +589,7 @@ impl ConnectHandle {
             } => {
                 maybe_timeout(
                     timeout,
-                    crate::azure_mqtt::io::tokio_ws::connect(
-                        request,
-                        tls_config,
-                        tcp_nodelay,
-                        &self.reader_pool,
-                    ),
+                    crate::azure_mqtt::io::tokio_ws::connect(request, tls_config, proxy, tcp_nodelay, &self.reader_pool),
                 )
                 .await??
             }
