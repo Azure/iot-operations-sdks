@@ -85,6 +85,10 @@
         "op": "readallproperties"
       }
     ],
+    "tm:optional": [
+      "/actions/SetApplicationTag",
+      "/properties/ApplicationTag"
+    ],
     "actions": {
       "SetApplicationTag": {
         "dov:namespace": "http://opcfoundation.org/UA/PDRV/",
@@ -242,6 +246,9 @@
         "dov:topic": "opcua/PDRV/PDRV_SafetyFunctionType/properties/read",
         "op": "readallproperties"
       }
+    ],
+    "tm:optional": [
+      "/properties/Limit"
     ],
     "actions": {
     },
@@ -511,6 +518,16 @@
         "dov:topic": "opcua/PDRV/PDRV_TraversingTaskType/properties/read",
         "op": "readallproperties"
       }
+    ],
+    "tm:optional": [
+      "/properties/Acceleration",
+      "/properties/Deceleration",
+      "/properties/TargetPosition",
+      "/properties/Velocity",
+      "/events/Acceleration",
+      "/events/Deceleration",
+      "/events/TargetPosition",
+      "/events/Velocity"
     ],
     "actions": {
     },
@@ -1022,6 +1039,21 @@
         "dov:topic": "opcua/PDRV/PDRV_AxisEventType/properties/read",
         "op": "readallproperties"
       }
+    ],
+    "tm:optional": [
+      "/properties/BrakeResistorTemperature",
+      "/properties/ControlMode",
+      "/properties/ConverterTemperature",
+      "/properties/DcBusVoltage",
+      "/properties/DeviceTemperature",
+      "/properties/Force",
+      "/properties/MotorTemperature",
+      "/properties/OutputCurrent",
+      "/properties/PositionFollowingError",
+      "/properties/Power",
+      "/properties/S_FeedbackSensor1_3Temperature_",
+      "/properties/Torque",
+      "/properties/VelocityFollowingError"
     ],
     "actions": {
     },
@@ -1546,6 +1578,11 @@
         "op": "readallproperties"
       }
     ],
+    "tm:optional": [
+      "/properties/LastModifiedTime",
+      "/properties/MaxByteStringLength",
+      "/properties/MimeType"
+    ],
     "actions": {
       "Close": {
         "input": {
@@ -1855,6 +1892,39 @@
         "dov:topic": "opcua/OpcUaCore/OpcUaCore_AlarmConditionType/properties/read",
         "op": "readallproperties"
       }
+    ],
+    "tm:optional": [
+      "/actions/GetGroupMemberships",
+      "/actions/PlaceInService",
+      "/actions/PlaceInService2",
+      "/actions/RemoveFromService",
+      "/actions/RemoveFromService2",
+      "/actions/Reset",
+      "/actions/Reset2",
+      "/actions/Silence",
+      "/actions/Suppress",
+      "/actions/Suppress2",
+      "/actions/Unsuppress",
+      "/actions/Unsuppress2",
+      "/properties/AudibleEnabled",
+      "/properties/AudibleSound",
+      "/properties/FirstInGroupFlag",
+      "/properties/LatchedState",
+      "/properties/MaxTimeShelved",
+      "/properties/OffDelay",
+      "/properties/OnDelay",
+      "/properties/OutOfServiceState",
+      "/properties/ReAlarmRepeatCount",
+      "/properties/ReAlarmTime",
+      "/properties/SilenceState",
+      "/properties/SuppressedState",
+      "/events/AudibleSound",
+      "/events/FirstInGroupFlag",
+      "/events/LatchedState",
+      "/events/OutOfServiceState",
+      "/events/ReAlarmRepeatCount",
+      "/events/SilenceState",
+      "/events/SuppressedState"
     ],
     "actions": {
       "GetGroupMemberships": {
@@ -2360,6 +2430,11 @@
         "op": "readallproperties"
       }
     ],
+    "tm:optional": [
+      "/actions/Confirm",
+      "/properties/ConfirmedState",
+      "/events/ConfirmedState"
+    ],
     "actions": {
       "Acknowledge": {
         "input": {
@@ -2517,6 +2592,13 @@
         "dov:topic": "opcua/OpcUaCore/OpcUaCore_ConditionType/properties/read",
         "op": "readallproperties"
       }
+    ],
+    "tm:optional": [
+      "/actions/ConditionRefresh",
+      "/actions/ConditionRefresh2",
+      "/properties/ConditionSubClassId",
+      "/properties/ConditionSubClassName",
+      "/properties/SupportsFilteredRetain"
     ],
     "actions": {
       "AddComment": {
@@ -2845,6 +2927,13 @@
         "op": "readallproperties"
       }
     ],
+    "tm:optional": [
+      "/properties/ConditionClassId",
+      "/properties/ConditionClassName",
+      "/properties/ConditionSubClassId",
+      "/properties/ConditionSubClassName",
+      "/properties/LocalTime"
+    ],
     "actions": {
     },
     "properties": {
@@ -3099,6 +3188,11 @@
         "op": "readallproperties"
       }
     ],
+    "tm:optional": [
+      "/actions/OneShotShelve2",
+      "/actions/TimedShelve2",
+      "/actions/Unshelve2"
+    ],
     "actions": {
       "OneShotShelve": {
         "forms": [
@@ -3248,6 +3342,14 @@
         "op": "readallproperties"
       }
     ],
+    "tm:optional": [
+      "/properties/AvailableStates",
+      "/properties/AvailableTransitions",
+      "/properties/LastTransition",
+      "/events/AvailableStates",
+      "/events/AvailableTransitions",
+      "/events/LastTransition"
+    ],
     "actions": {
     },
     "properties": {
@@ -3390,6 +3492,10 @@
         "dov:topic": "opcua/OpcUaCore/OpcUaCore_StateMachineType/properties/read",
         "op": "readallproperties"
       }
+    ],
+    "tm:optional": [
+      "/properties/LastTransition",
+      "/events/LastTransition"
     ],
     "actions": {
     },
@@ -3587,6 +3693,9 @@
         "dov:topic": "opcua/DI/DI_LockingServicesType/properties/read",
         "op": "readallproperties"
       }
+    ],
+    "tm:optional": [
+      "/properties/DefaultInstanceBrowseName"
     ],
     "actions": {
       "BreakLock": {
@@ -3806,6 +3915,13 @@
         "dov:topic": "opcua/PNENC/PNENC_LogbookType/properties/read",
         "op": "readallproperties"
       }
+    ],
+    "tm:optional": [
+      "/actions/DeleteLogbook",
+      "/actions/GetActiveDiagnosis",
+      "/actions/GetCurrentFaultSituation",
+      "/actions/GetFilteredLogbookEntries",
+      "/actions/GetHistoricFaultSituation"
     ],
     "actions": {
       "DeleteLogbook": {
@@ -4442,6 +4558,51 @@
         "dov:topic": "opcua/PNENC/PNENC_EncoderChannelType/properties/read",
         "op": "readallproperties"
       }
+    ],
+    "tm:optional": [
+      "/actions/SetApplicationTag",
+      "/properties/Acceleration",
+      "/properties/ApplicationTag",
+      "/properties/EncoderChannelState",
+      "/properties/EncoderProfileVersion",
+      "/properties/G1_STW",
+      "/properties/G1_XIST_PRESET_B",
+      "/properties/G1_XIST_PRESET_B1",
+      "/properties/G1_XIST_PRESET_C",
+      "/properties/G1_XIST1",
+      "/properties/G1_XIST2",
+      "/properties/G1_XIST3",
+      "/properties/G1_ZSW",
+      "/properties/NIST_A",
+      "/properties/NIST_B",
+      "/properties/Position",
+      "/properties/Position_Resolution",
+      "/properties/PositionSensorSignalValue",
+      "/properties/STW2_ENC",
+      "/properties/Temperature",
+      "/properties/Velocity",
+      "/properties/Velocity_Damping",
+      "/properties/ZSW2_ENC",
+      "/events/Acceleration",
+      "/events/EncoderChannelState",
+      "/events/G1_STW",
+      "/events/G1_XIST_PRESET_B",
+      "/events/G1_XIST_PRESET_B1",
+      "/events/G1_XIST_PRESET_C",
+      "/events/G1_XIST1",
+      "/events/G1_XIST2",
+      "/events/G1_XIST3",
+      "/events/G1_ZSW",
+      "/events/NIST_A",
+      "/events/NIST_B",
+      "/events/Position",
+      "/events/Position_Resolution",
+      "/events/PositionSensorSignalValue",
+      "/events/STW2_ENC",
+      "/events/Temperature",
+      "/events/Velocity",
+      "/events/Velocity_Damping",
+      "/events/ZSW2_ENC"
     ],
     "actions": {
       "SetApplicationTag": {
@@ -5149,6 +5310,19 @@
         "op": "readallproperties"
       }
     ],
+    "tm:optional": [
+      "/actions/SetAxisConfig",
+      "/properties/AccelerationDampingTimeConstant",
+      "/properties/AxisType",
+      "/properties/CodeSequence",
+      "/properties/PositionScalingFactor",
+      "/properties/PresetOrShiftValue",
+      "/properties/VelocityDampingTimeConstant",
+      "/properties/VelocityReference",
+      "/events/AccelerationDampingTimeConstant",
+      "/events/VelocityDampingTimeConstant",
+      "/events/VelocityReference"
+    ],
     "actions": {
       "SetAxisConfig": {
         "dov:namespace": "http://opcfoundation.org/UA/PNENC/",
@@ -5425,6 +5599,12 @@
         "op": "readallproperties"
       }
     ],
+    "tm:optional": [
+      "/actions/SetControlConfig",
+      "/properties/AlarmChannelControl",
+      "/properties/SignOfLifeFailuresTolerated",
+      "/properties/XIST1PresetControl"
+    ],
     "actions": {
       "SetControlConfig": {
         "dov:namespace": "http://opcfoundation.org/UA/PNENC/",
@@ -5607,6 +5787,11 @@
         "op": "readallproperties"
       }
     ],
+    "tm:optional": [
+      "/actions/LatchStart",
+      "/properties/LatchActive",
+      "/events/LatchActive"
+    ],
     "actions": {
       "LatchStart": {
         "dov:namespace": "http://opcfoundation.org/UA/PNENC/",
@@ -5704,6 +5889,14 @@
         "dov:topic": "opcua/PNENC/PNENC_EncoderSensorType/properties/read",
         "op": "readallproperties"
       }
+    ],
+    "tm:optional": [
+      "/actions/PresetControl",
+      "/actions/Ref1LatchStart",
+      "/properties/Ref1LastLatchedPos",
+      "/properties/Ref1LatchActive",
+      "/events/Ref1LastLatchedPos",
+      "/events/Ref1LatchActive"
     ],
     "actions": {
       "PresetControl": {
@@ -5878,6 +6071,17 @@
         "dov:topic": "opcua/PNENC/PNENC_EncoderSensorConfigType/properties/read",
         "op": "readallproperties"
       }
+    ],
+    "tm:optional": [
+      "/actions/SetSensorConfig",
+      "/properties/AbsolutePosDeterminableRevolutions",
+      "/properties/AbsolutePosLinSupported",
+      "/properties/ConfigType",
+      "/properties/SensorAbsoluteType",
+      "/properties/SensorResolutionIncPerRotation",
+      "/properties/SensorResolutionNanometerPerIncrement",
+      "/properties/ShiftFactorXIST1",
+      "/properties/ShiftFactorXIST2"
     ],
     "actions": {
       "SetSensorConfig": {

@@ -37,7 +37,7 @@ namespace Azure.Iot.Operations.Opc2WotLib
                 CollateBaseAndReferencedObjectTypes(baseObjectType, modelUriToNodeIdToObjectTypeMap);
             }
 
-            foreach ((OpcUaNodeId _, OpcUaObject targetObject) in uaObjectType.TypeAndObjectOfReferences.Where(t => t.Item1.NsIndex != 0 || t.Item1.IsComponentReference))
+            foreach ((OpcUaNodeId _, OpcUaObject targetObject) in uaObjectType.TypeAndObjectOfReferences.Where(t => t.Item1.NsIndex != 0 || t.Item1.IsComponentReference || t.Item1.IsAddInReference))
             {
                 CollateBaseAndReferencedObjectTypes((OpcUaObjectType)targetObject.GetReferencedOpcUaNode(targetObject.HasTypeDefinitionNodeId!), modelUriToNodeIdToObjectTypeMap);
             }

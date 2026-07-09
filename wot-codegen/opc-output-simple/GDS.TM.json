@@ -574,6 +574,11 @@
     ],
     "schemaDefinitions": {
     },
+    "tm:optional": [
+      "/actions/CheckRevocationStatus",
+      "/actions/GetCertificates",
+      "/actions/RevokeCertificate"
+    ],
     "actions": {
       "CheckRevocationStatus": {
         "dov:namespace": "http://opcfoundation.org/UA/GDS/",
@@ -1122,6 +1127,10 @@
         "op": "readallproperties"
       }
     ],
+    "tm:optional": [
+      "/actions/Revoke",
+      "/properties/SecurityPolicyUris"
+    ],
     "actions": {
       "FinishRequest": {
         "dov:namespace": "http://opcfoundation.org/UA/GDS/",
@@ -1440,7 +1449,89 @@
         "op": "readallproperties"
       }
     ],
+    "tm:optional": [
+      "/actions/FinishRequestToken",
+      "/actions/RefreshToken",
+      "/actions/RequestAccessToken",
+      "/actions/StartRequestToken",
+      "/properties/SupportedRoles",
+      "/properties/UserTokenPolicies"
+    ],
     "actions": {
+      "FinishRequestToken": {
+        "dov:namespace": "http://opcfoundation.org/UA/GDS/",
+        "input": {
+          "type": "object",
+          "dov:typeRef": "org.opcfoundation.UA.InputArguments",
+          "required": [ "RequestId", "RequestedRoles", "UserIdentityToken", "UserTokenSignature" ],
+          "properties": {
+            "RequestId": {
+              "type": "string",
+              "format": "uuid"
+            },
+            "RequestedRoles": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            },
+            "UserIdentityToken": {
+              "title": "UserIdentityToken",
+              "type": "object",
+              "dov:typeRef": "org.opcfoundation.UA.UserIdentityToken",
+              "required": [ "PolicyId" ],
+              "properties": {
+                "PolicyId": {
+                  "type": "string"
+                }
+              }
+            },
+            "UserTokenSignature": {
+              "title": "SignatureData",
+              "type": "object",
+              "dov:typeRef": "org.opcfoundation.UA.SignatureData",
+              "required": [ "Algorithm", "Signature" ],
+              "properties": {
+                "Algorithm": {
+                  "type": "string"
+                },
+                "Signature": {
+                  "type": "string",
+                  "contentEncoding": "base64"
+                }
+              }
+            }
+          }
+        },
+        "output": {
+          "type": "object",
+          "dov:typeRef": "org.opcfoundation.UA.OutputArguments",
+          "required": [ "AccessToken", "AccessTokenExpiryTime", "RefreshToken", "RefreshTokenExpiryTime" ],
+          "properties": {
+            "AccessToken": {
+              "type": "string"
+            },
+            "AccessTokenExpiryTime": {
+              "type": "string",
+              "format": "date-time"
+            },
+            "RefreshToken": {
+              "type": "string"
+            },
+            "RefreshTokenExpiryTime": {
+              "type": "string",
+              "format": "date-time"
+            }
+          }
+        },
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dov:topic": "opcua/GDS/GDS_AuthorizationServiceType/action/FinishRequestToken",
+            "op": "invokeaction"
+          }
+        ]
+      },
       "GetServiceDescription": {
         "dov:namespace": "http://opcfoundation.org/UA/GDS/",
         "output": {
@@ -1495,6 +1586,50 @@
           }
         ]
       },
+      "RefreshToken": {
+        "dov:namespace": "http://opcfoundation.org/UA/GDS/",
+        "input": {
+          "type": "object",
+          "dov:typeRef": "org.opcfoundation.UA.InputArguments",
+          "required": [ "ResourceId", "CurrentRefreshToken" ],
+          "properties": {
+            "ResourceId": {
+              "type": "string"
+            },
+            "CurrentRefreshToken": {
+              "type": "string"
+            }
+          }
+        },
+        "output": {
+          "type": "object",
+          "dov:typeRef": "org.opcfoundation.UA.OutputArguments",
+          "required": [ "AccessToken", "AccessTokenExpiryTime", "NewRefreshToken", "NewRefreshTokenExpiryTime" ],
+          "properties": {
+            "AccessToken": {
+              "type": "string"
+            },
+            "AccessTokenExpiryTime": {
+              "type": "string",
+              "format": "date-time"
+            },
+            "NewRefreshToken": {
+              "type": "string"
+            },
+            "NewRefreshTokenExpiryTime": {
+              "type": "string",
+              "format": "date-time"
+            }
+          }
+        },
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dov:topic": "opcua/GDS/GDS_AuthorizationServiceType/action/RefreshToken",
+            "op": "invokeaction"
+          }
+        ]
+      },
       "RequestAccessToken": {
         "dov:namespace": "http://opcfoundation.org/UA/GDS/",
         "input": {
@@ -1535,6 +1670,48 @@
             "op": "invokeaction"
           }
         ]
+      },
+      "StartRequestToken": {
+        "dov:namespace": "http://opcfoundation.org/UA/GDS/",
+        "input": {
+          "type": "object",
+          "dov:typeRef": "org.opcfoundation.UA.InputArguments",
+          "required": [ "ResourceId", "PolicyId", "RequestorData" ],
+          "properties": {
+            "ResourceId": {
+              "type": "string"
+            },
+            "PolicyId": {
+              "type": "string"
+            },
+            "RequestorData": {
+              "type": "string",
+              "contentEncoding": "base64"
+            }
+          }
+        },
+        "output": {
+          "type": "object",
+          "dov:typeRef": "org.opcfoundation.UA.OutputArguments",
+          "required": [ "ServiceData", "RequestId" ],
+          "properties": {
+            "ServiceData": {
+              "type": "string",
+              "contentEncoding": "base64"
+            },
+            "RequestId": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        },
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dov:topic": "opcua/GDS/GDS_AuthorizationServiceType/action/StartRequestToken",
+            "op": "invokeaction"
+          }
+        ]
       }
     },
     "properties": {
@@ -1559,6 +1736,21 @@
           {
             "contentType": "application/json",
             "dov:topic": "opcua/GDS/GDS_AuthorizationServiceType/property/ServiceUri/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "SupportedRoles": {
+        "dov:namespace": "http://opcfoundation.org/UA/GDS/",
+        "type": "array",
+        "items": {
+          "type": "string"
+        },
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dov:topic": "opcua/GDS/GDS_AuthorizationServiceType/property/SupportedRoles/read",
             "op": "readproperty"
           }
         ]
@@ -1602,6 +1794,33 @@
           }
         ]
       }
+    },
+    "events": {
+    }
+  },
+  {
+    "@context": [
+      "https://www.w3.org/2022/wot/td/v1.1",
+      {
+        "dov": "http://azure.com/DigitalOperations/vocab#"
+      }
+    ],
+    "@type": "tm:ThingModel",
+    "title": "GDS_AccessTokenRequestedAuditEventType",
+    "dov:typeRef": "org.opcfoundation.UA.GDS.AccessTokenRequestedAuditEventType",
+    "dov:isEvent": true,
+    "links": [
+      {
+        "rel": "tm:extends",
+        "href": "./OpcUaCore.TM.json#title=OpcUaCore_AuditUpdateMethodEventType",
+        "type": "application/tm+json"
+      }
+    ],
+    "schemaDefinitions": {
+    },
+    "actions": {
+    },
+    "properties": {
     },
     "events": {
     }

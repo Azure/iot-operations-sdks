@@ -109,6 +109,9 @@
         "op": "readallproperties"
       }
     ],
+    "tm:optional": [
+      "/properties/DcCurrent_EngineeringUnits"
+    ],
     "actions": {
     },
     "properties": {
@@ -271,6 +274,11 @@
         "dov:topic": "opcua/ECM/ECM_IEnergyProfileD1Type/properties/read",
         "op": "readallproperties"
       }
+    ],
+    "tm:optional": [
+      "/properties/DcActivePower_EngineeringUnits",
+      "/properties/DcCurrent_EngineeringUnits",
+      "/properties/DcVoltage_EngineeringUnits"
     ],
     "actions": {
     },
@@ -673,6 +681,9 @@
         "op": "readallproperties"
       }
     ],
+    "tm:optional": [
+      "/properties/AcCurrentPe_EngineeringUnits"
+    ],
     "actions": {
     },
     "properties": {
@@ -878,6 +889,9 @@
         "op": "readallproperties"
       }
     ],
+    "tm:optional": [
+      "/properties/AcActivePowerTotal_EngineeringUnits"
+    ],
     "actions": {
     },
     "properties": {
@@ -1041,6 +1055,9 @@
         "op": "readallproperties"
       }
     ],
+    "tm:optional": [
+      "/properties/AcActivePowerTotal_EngineeringUnits"
+    ],
     "actions": {
     },
     "properties": {
@@ -1203,6 +1220,13 @@
         "dov:topic": "opcua/ECM/ECM_IEnergyProfileE3Type/properties/read",
         "op": "readallproperties"
       }
+    ],
+    "tm:optional": [
+      "/properties/AcActivePowerPe_EngineeringUnits",
+      "/properties/AcCurrentPe_EngineeringUnits",
+      "/properties/AcReactivePowerPe_EngineeringUnits",
+      "/properties/AcVoltagePe_EngineeringUnits",
+      "/properties/AcVoltagePp_EngineeringUnits"
     ],
     "actions": {
     },
@@ -2377,6 +2401,10 @@
         "op": "readallproperties"
       }
     ],
+    "tm:optional": [
+      "/actions/ResetStatistics",
+      "/properties/StartTime"
+    ],
     "actions": {
       "ResetStatistics": {
         "dov:namespace": "http://opcfoundation.org/UA/IA/",
@@ -2876,6 +2904,10 @@
         "op": "readallproperties"
       }
     ],
+    "tm:optional": [
+      "/properties/CurrentTransitionData",
+      "/events/CurrentTransitionData"
+    ],
     "actions": {
     },
     "properties": {
@@ -3097,6 +3129,11 @@
         "dov:topic": "opcua/ECM/ECM_EnergyStandbyManagementType/properties/read",
         "op": "readallproperties"
       }
+    ],
+    "tm:optional": [
+      "/actions/EndPause",
+      "/actions/StartPause",
+      "/actions/SwitchToEnergySavingMode"
     ],
     "actions": {
       "EndPause": {
@@ -3379,6 +3416,9 @@
         "dov:topic": "opcua/DI/DI_LockingServicesType/properties/read",
         "op": "readallproperties"
       }
+    ],
+    "tm:optional": [
+      "/properties/DefaultInstanceBrowseName"
     ],
     "actions": {
       "BreakLock": {

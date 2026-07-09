@@ -76,6 +76,10 @@
         "op": "readallproperties"
       }
     ],
+    "tm:optional": [
+      "/properties/ActivateClosedLoopControl",
+      "/properties/ClosedLoopControlActivated"
+    ],
     "actions": {
     },
     "properties": {
@@ -260,6 +264,43 @@
         "dov:topic": "opcua/PlasticsRubber.LDS/PlasticsRubber_LDS_LDSCycleParametersEventType/properties/read",
         "op": "readallproperties"
       }
+    ],
+    "tm:optional": [
+      "/properties/AdditivesPressure",
+      "/properties/AdditivesRatioActual",
+      "/properties/AdditivesRatioTarget",
+      "/properties/DosingTime",
+      "/properties/FilterPressurePrimary",
+      "/properties/FilterPressureSecondary",
+      "/properties/MixingPointPressureA",
+      "/properties/MixingPointPressureB",
+      "/properties/MixingPointPressureBlender",
+      "/properties/MixingRatioActual",
+      "/properties/MixingRatioTarget",
+      "/properties/ResidualAmountA",
+      "/properties/ResidualAmountB",
+      "/properties/VolumeA",
+      "/properties/VolumeAB",
+      "/properties/VolumeAdditives",
+      "/properties/VolumeB",
+      "/properties/VolumeTotal",
+      "/events/AdditivesPressure",
+      "/events/AdditivesRatioActual",
+      "/events/AdditivesRatioTarget",
+      "/events/FilterPressurePrimary",
+      "/events/FilterPressureSecondary",
+      "/events/MixingPointPressureA",
+      "/events/MixingPointPressureB",
+      "/events/MixingPointPressureBlender",
+      "/events/MixingRatioActual",
+      "/events/MixingRatioTarget",
+      "/events/ResidualAmountA",
+      "/events/ResidualAmountB",
+      "/events/VolumeA",
+      "/events/VolumeAB",
+      "/events/VolumeAdditives",
+      "/events/VolumeB",
+      "/events/VolumeTotal"
     ],
     "actions": {
     },
@@ -928,6 +969,24 @@
         "op": "readallproperties"
       }
     ],
+    "tm:optional": [
+      "/actions/SetSetValueDensity",
+      "/properties/ActualFollowerPlatePressure",
+      "/properties/ActualPressure",
+      "/properties/AllowsCycles",
+      "/properties/DrumCapacity",
+      "/properties/RemainingMaterialTime",
+      "/properties/ResidualAmount",
+      "/properties/SetFollowerPlatePressure",
+      "/properties/SetValueDensity",
+      "/events/ActualFollowerPlatePressure",
+      "/events/ActualPressure",
+      "/events/DrumCapacity",
+      "/events/RemainingMaterialTime",
+      "/events/ResidualAmount",
+      "/events/SetFollowerPlatePressure",
+      "/events/SetValueDensity"
+    ],
     "actions": {
       "SetSetValueDensity": {
         "dov:namespace": "http://opcfoundation.org/UA/PlasticsRubber/LDS/",
@@ -1260,6 +1319,10 @@
         "op": "readallproperties"
       }
     ],
+    "tm:optional": [
+      "/properties/DeviceEnabled",
+      "/properties/DisplayLanguage"
+    ],
     "actions": {
     },
     "properties": {
@@ -1416,6 +1479,48 @@
         "dov:topic": "opcua/PlasticsRubber.LDS/PlasticsRubber_LDS_OperationType/properties/read",
         "op": "readallproperties"
       }
+    ],
+    "tm:optional": [
+      "/actions/IdentifyDevice",
+      "/actions/ResetAllErrors",
+      "/actions/ResetErrorById",
+      "/actions/SetCycleNumber",
+      "/actions/StartDosing",
+      "/actions/StopDosing",
+      "/properties/ActivateMaterialBalanceSystem",
+      "/properties/ActualDeviationMixingRatio",
+      "/properties/ActualShotWeight",
+      "/properties/DeliveryPressureMeasuringPoint",
+      "/properties/DosingActive",
+      "/properties/MaxDeviationMixingRatio",
+      "/properties/MixingRatioTarget",
+      "/properties/PurgeCyclicActive",
+      "/properties/PurgeCyclicIdleTime",
+      "/properties/PurgeCyclicQuantity",
+      "/properties/PurgeMode",
+      "/properties/PurgeQuantity",
+      "/properties/PurgeStatus",
+      "/properties/PurgeTimeout",
+      "/properties/RemainingMaterialTime",
+      "/properties/SetShotWeight",
+      "/properties/SetValueCompositeDensity",
+      "/properties/TargetDeviationMixingRatio",
+      "/events/ActualDeviationMixingRatio",
+      "/events/ActualShotWeight",
+      "/events/DeliveryPressureMeasuringPoint",
+      "/events/DosingActive",
+      "/events/MaxDeviationMixingRatio",
+      "/events/MixingRatioTarget",
+      "/events/PurgeCyclicActive",
+      "/events/PurgeCyclicIdleTime",
+      "/events/PurgeCyclicQuantity",
+      "/events/PurgeMode",
+      "/events/PurgeQuantity",
+      "/events/PurgeTimeout",
+      "/events/RemainingMaterialTime",
+      "/events/SetShotWeight",
+      "/events/SetValueCompositeDensity",
+      "/events/TargetDeviationMixingRatio"
     ],
     "actions": {
       "IdentifyDevice": {

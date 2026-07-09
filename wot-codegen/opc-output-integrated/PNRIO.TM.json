@@ -97,6 +97,12 @@
         "op": "readallproperties"
       }
     ],
+    "tm:optional": [
+      "/properties/ApplicationTag",
+      "/properties/HelpText",
+      "/properties/ManufacturerData",
+      "/properties/PnChannelNumber"
+    ],
     "actions": {
     },
     "properties": {
@@ -299,6 +305,12 @@
         "op": "readallproperties"
       }
     ],
+    "tm:optional": [
+      "/properties/ApplicationTag",
+      "/properties/HelpText",
+      "/properties/ManufacturerData",
+      "/properties/PnChannelNumber"
+    ],
     "actions": {
     },
     "properties": {
@@ -429,6 +441,9 @@
         "op": "readallproperties"
       }
     ],
+    "tm:optional": [
+      "/properties/SignalId"
+    ],
     "actions": {
     },
     "properties": {
@@ -528,6 +543,10 @@
         "dov:topic": "opcua/PNRIO/PNRIO_PnIoTelegramType/properties/read",
         "op": "readallproperties"
       }
+    ],
+    "tm:optional": [
+      "/properties/ConsumerStatus",
+      "/properties/IoTelegramImage"
     ],
     "actions": {
     },
@@ -740,6 +759,25 @@
         "dov:topic": "opcua/PNRIO/PNRIO_RioChannelGroupConfigType/properties/read",
         "op": "readallproperties"
       }
+    ],
+    "tm:optional": [
+      "/properties/Damping",
+      "/properties/FaAnalogSubstituteValue",
+      "/properties/FaDigitalSubstituteValue",
+      "/properties/HighLimit",
+      "/properties/InversionEnabled",
+      "/properties/LoadVoltageCheckEnabled",
+      "/properties/LowLimit",
+      "/properties/PaAnalogSubstituteValue",
+      "/properties/PaDigitalSubstituteValue",
+      "/properties/ShortCircuitCheckEnabled",
+      "/properties/SignalType",
+      "/properties/SubstitutePolicy",
+      "/properties/SubstituteTime",
+      "/properties/SupplyVoltageCheckEnabled",
+      "/properties/WireCheckEnabled",
+      "/events/FaDigitalSubstituteValue",
+      "/events/PaDigitalSubstituteValue"
     ],
     "actions": {
     },
@@ -1201,6 +1239,11 @@
         "op": "readallproperties"
       }
     ],
+    "tm:optional": [
+      "/actions/SetApplicationTag",
+      "/properties/ApplicationTag",
+      "/properties/LastParameterChange"
+    ],
     "actions": {
       "SetApplicationTag": {
         "dov:namespace": "http://opcfoundation.org/UA/PNRIO/",
@@ -1301,6 +1344,10 @@
         "dov:topic": "opcua/PNRIO/PNRIO_RioChannelType/properties/read",
         "op": "readallproperties"
       }
+    ],
+    "tm:optional": [
+      "/actions/SetApplicationTag",
+      "/properties/LastParameterChange"
     ],
     "actions": {
       "SetApplicationTag": {
@@ -1453,6 +1500,13 @@
         "dov:topic": "opcua/PNRIO/PNRIO_RioPaAnalogChannelGroupType/properties/read",
         "op": "readallproperties"
       }
+    ],
+    "tm:optional": [
+      "/actions/SetSimulation",
+      "/actions/SetSimulationValue",
+      "/properties/SimulationEnabled",
+      "/properties/SimulationValues",
+      "/events/SimulationEnabled"
     ],
     "actions": {
       "SetSimulation": {
@@ -1671,6 +1725,13 @@
         "dov:topic": "opcua/PNRIO/PNRIO_RioPaDigitalChannelGroupType/properties/read",
         "op": "readallproperties"
       }
+    ],
+    "tm:optional": [
+      "/actions/SetSimulation",
+      "/actions/SetSimulationValue",
+      "/properties/SimulationEnabled",
+      "/properties/SimulationValues",
+      "/events/SimulationEnabled"
     ],
     "actions": {
       "SetSimulation": {
@@ -1907,6 +1968,12 @@
         "dov:topic": "opcua/PNRIO/PNRIO_RioFaAnalogInputChannelType/properties/read",
         "op": "readallproperties"
       }
+    ],
+    "tm:optional": [
+      "/properties/ProcessValue_QualifierValue",
+      "/properties/SignalValue",
+      "/events/ProcessValue_QualifierValue",
+      "/events/SignalValue"
     ],
     "actions": {
     },
@@ -2276,6 +2343,18 @@
         "dov:topic": "opcua/PNRIO/PNRIO_RioFaAnalogOutputChannelType/properties/read",
         "op": "readallproperties"
       }
+    ],
+    "tm:optional": [
+      "/properties/ProcessValue_QualifierValue",
+      "/properties/ProcessValueReadback",
+      "/properties/ProcessValueReadback_QualifierValue",
+      "/properties/SignalValue",
+      "/properties/SignalValueReadback",
+      "/events/ProcessValue_QualifierValue",
+      "/events/ProcessValueReadback",
+      "/events/ProcessValueReadback_QualifierValue",
+      "/events/SignalValue",
+      "/events/SignalValueReadback"
     ],
     "actions": {
     },
@@ -2757,6 +2836,10 @@
         "op": "readallproperties"
       }
     ],
+    "tm:optional": [
+      "/properties/SignalValue",
+      "/events/SignalValue"
+    ],
     "actions": {
     },
     "properties": {
@@ -3028,6 +3111,14 @@
         "dov:topic": "opcua/PNRIO/PNRIO_RioFaDigitalOutputChannelType/properties/read",
         "op": "readallproperties"
       }
+    ],
+    "tm:optional": [
+      "/properties/ProcessValueReadback",
+      "/properties/SignalValue",
+      "/properties/SignalValueReadback",
+      "/events/ProcessValueReadback",
+      "/events/SignalValue",
+      "/events/SignalValueReadback"
     ],
     "actions": {
     },
@@ -3415,6 +3506,18 @@
         "dov:topic": "opcua/PNRIO/PNRIO_RioPaAnalogInputChannelType/properties/read",
         "op": "readallproperties"
       }
+    ],
+    "tm:optional": [
+      "/actions/SetManualProcessValue",
+      "/actions/SetMode",
+      "/actions/SetSimulation",
+      "/actions/SetSimulationValue",
+      "/properties/ManualProcessValue",
+      "/properties/SignalValue",
+      "/properties/SimulationValue",
+      "/events/ManualProcessValue",
+      "/events/SignalValue",
+      "/events/SimulationValue"
     ],
     "actions": {
       "SetManualProcessValue": {
@@ -4331,6 +4434,22 @@
         "op": "readallproperties"
       }
     ],
+    "tm:optional": [
+      "/actions/SetManualOutValue",
+      "/actions/SetMode",
+      "/actions/SetSimulation",
+      "/actions/SetSimulationValue",
+      "/properties/ManualOutValue",
+      "/properties/ProcessValueReadback",
+      "/properties/SignalValue",
+      "/properties/SignalValueReadback",
+      "/properties/SimulationValue",
+      "/events/ManualOutValue",
+      "/events/ProcessValueReadback",
+      "/events/SignalValue",
+      "/events/SignalValueReadback",
+      "/events/SimulationValue"
+    ],
     "actions": {
       "SetManualOutValue": {
         "dov:namespace": "http://opcfoundation.org/UA/PNRIO/",
@@ -5218,6 +5337,18 @@
         "op": "readallproperties"
       }
     ],
+    "tm:optional": [
+      "/actions/SetManualProcessValue",
+      "/actions/SetMode",
+      "/actions/SetSimulation",
+      "/actions/SetSimulationValue",
+      "/properties/ManualProcessValue",
+      "/properties/SignalValue",
+      "/properties/SimulationValue",
+      "/events/ManualProcessValue",
+      "/events/SignalValue",
+      "/events/SimulationValue"
+    ],
     "actions": {
       "SetManualProcessValue": {
         "dov:namespace": "http://opcfoundation.org/UA/PNRIO/",
@@ -5768,6 +5899,22 @@
         "dov:topic": "opcua/PNRIO/PNRIO_RioPaDigitalOutputChannelType/properties/read",
         "op": "readallproperties"
       }
+    ],
+    "tm:optional": [
+      "/actions/SetManualOutValue",
+      "/actions/SetMode",
+      "/actions/SetSimulation",
+      "/actions/SetSimulationValue",
+      "/properties/ManualOutValue",
+      "/properties/ProcessValueReadback",
+      "/properties/SignalValue",
+      "/properties/SignalValueReadback",
+      "/properties/SimulationValue",
+      "/events/ManualOutValue",
+      "/events/ProcessValueReadback",
+      "/events/SignalValue",
+      "/events/SignalValueReadback",
+      "/events/SimulationValue"
     ],
     "actions": {
       "SetManualOutValue": {
@@ -6343,6 +6490,39 @@
         "op": "readallproperties"
       }
     ],
+    "tm:optional": [
+      "/actions/GetGroupMemberships",
+      "/actions/PlaceInService",
+      "/actions/PlaceInService2",
+      "/actions/RemoveFromService",
+      "/actions/RemoveFromService2",
+      "/actions/Reset",
+      "/actions/Reset2",
+      "/actions/Silence",
+      "/actions/Suppress",
+      "/actions/Suppress2",
+      "/actions/Unsuppress",
+      "/actions/Unsuppress2",
+      "/properties/AudibleEnabled",
+      "/properties/AudibleSound",
+      "/properties/FirstInGroupFlag",
+      "/properties/LatchedState",
+      "/properties/MaxTimeShelved",
+      "/properties/OffDelay",
+      "/properties/OnDelay",
+      "/properties/OutOfServiceState",
+      "/properties/ReAlarmRepeatCount",
+      "/properties/ReAlarmTime",
+      "/properties/SilenceState",
+      "/properties/SuppressedState",
+      "/events/AudibleSound",
+      "/events/FirstInGroupFlag",
+      "/events/LatchedState",
+      "/events/OutOfServiceState",
+      "/events/ReAlarmRepeatCount",
+      "/events/SilenceState",
+      "/events/SuppressedState"
+    ],
     "actions": {
       "GetGroupMemberships": {
         "output": {
@@ -6847,6 +7027,11 @@
         "op": "readallproperties"
       }
     ],
+    "tm:optional": [
+      "/actions/Confirm",
+      "/properties/ConfirmedState",
+      "/events/ConfirmedState"
+    ],
     "actions": {
       "Acknowledge": {
         "input": {
@@ -7004,6 +7189,13 @@
         "dov:topic": "opcua/OpcUaCore/OpcUaCore_ConditionType/properties/read",
         "op": "readallproperties"
       }
+    ],
+    "tm:optional": [
+      "/actions/ConditionRefresh",
+      "/actions/ConditionRefresh2",
+      "/properties/ConditionSubClassId",
+      "/properties/ConditionSubClassName",
+      "/properties/SupportsFilteredRetain"
     ],
     "actions": {
       "AddComment": {
@@ -7332,6 +7524,13 @@
         "op": "readallproperties"
       }
     ],
+    "tm:optional": [
+      "/properties/ConditionClassId",
+      "/properties/ConditionClassName",
+      "/properties/ConditionSubClassId",
+      "/properties/ConditionSubClassName",
+      "/properties/LocalTime"
+    ],
     "actions": {
     },
     "properties": {
@@ -7607,6 +7806,11 @@
         "op": "readallproperties"
       }
     ],
+    "tm:optional": [
+      "/actions/OneShotShelve2",
+      "/actions/TimedShelve2",
+      "/actions/Unshelve2"
+    ],
     "actions": {
       "OneShotShelve": {
         "forms": [
@@ -7756,6 +7960,14 @@
         "op": "readallproperties"
       }
     ],
+    "tm:optional": [
+      "/properties/AvailableStates",
+      "/properties/AvailableTransitions",
+      "/properties/LastTransition",
+      "/events/AvailableStates",
+      "/events/AvailableTransitions",
+      "/events/LastTransition"
+    ],
     "actions": {
     },
     "properties": {
@@ -7898,6 +8110,10 @@
         "dov:topic": "opcua/OpcUaCore/OpcUaCore_StateMachineType/properties/read",
         "op": "readallproperties"
       }
+    ],
+    "tm:optional": [
+      "/properties/LastTransition",
+      "/events/LastTransition"
     ],
     "actions": {
     },
@@ -8121,6 +8337,9 @@
         "dov:topic": "opcua/DI/DI_LockingServicesType/properties/read",
         "op": "readallproperties"
       }
+    ],
+    "tm:optional": [
+      "/properties/DefaultInstanceBrowseName"
     ],
     "actions": {
       "BreakLock": {

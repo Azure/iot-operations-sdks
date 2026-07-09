@@ -30,6 +30,36 @@
         "op": "readallproperties"
       }
     ],
+    "tm:optional": [
+      "/properties/AccTimeSinceReset",
+      "/properties/AlarmExtent",
+      "/properties/AlarmHistoryExtent",
+      "/properties/MachDesignSpeed",
+      "/properties/ModeCumulativeTime",
+      "/properties/ModeCurrentTime",
+      "/properties/Parameter",
+      "/properties/ProdConsumedCount",
+      "/properties/ProdDefectiveCount",
+      "/properties/ProdProcessedCount",
+      "/properties/StateCumulativeTime",
+      "/properties/StateCurrentTime",
+      "/properties/StopReasonExtent",
+      "/properties/WarningExtent",
+      "/events/AccTimeSinceReset",
+      "/events/AlarmExtent",
+      "/events/AlarmHistoryExtent",
+      "/events/MachDesignSpeed",
+      "/events/ModeCumulativeTime",
+      "/events/ModeCurrentTime",
+      "/events/Parameter",
+      "/events/ProdConsumedCount",
+      "/events/ProdDefectiveCount",
+      "/events/ProdProcessedCount",
+      "/events/StateCumulativeTime",
+      "/events/StateCurrentTime",
+      "/events/StopReasonExtent",
+      "/events/WarningExtent"
+    ],
     "actions": {
     },
     "properties": {
@@ -920,6 +950,12 @@
         "op": "readallproperties"
       }
     ],
+    "tm:optional": [
+      "/actions/RemoteCommand",
+      "/actions/SetInterlock",
+      "/properties/PackMLVersion",
+      "/properties/TagID"
+    ],
     "actions": {
       "RemoteCommand": {
         "dov:namespace": "http://opcfoundation.org/UA/PackML/",
@@ -1375,6 +1411,24 @@
         "dov:topic": "opcua/PackML/PackML_PackMLStatusObjectType/properties/read",
         "op": "readallproperties"
       }
+    ],
+    "tm:optional": [
+      "/properties/MaterialInterlocked",
+      "/properties/Parameter",
+      "/properties/Product",
+      "/properties/RemoteParameter",
+      "/properties/StateChangeInProcess",
+      "/properties/StateRequested",
+      "/properties/UnitModeChangeInProcess",
+      "/properties/UnitModeRequested",
+      "/events/MaterialInterlocked",
+      "/events/Parameter",
+      "/events/Product",
+      "/events/RemoteParameter",
+      "/events/StateChangeInProcess",
+      "/events/StateRequested",
+      "/events/UnitModeChangeInProcess",
+      "/events/UnitModeRequested"
     ],
     "actions": {
     },
@@ -2321,6 +2375,10 @@
         "op": "readallproperties"
       }
     ],
+    "tm:optional": [
+      "/actions/Abort",
+      "/actions/Clear"
+    ],
     "actions": {
       "Abort": {
         "dov:namespace": "http://opcfoundation.org/UA/PackML/",
@@ -2623,6 +2681,15 @@
         "op": "readallproperties"
       }
     ],
+    "tm:optional": [
+      "/actions/Hold",
+      "/actions/Reset",
+      "/actions/Start",
+      "/actions/Suspend",
+      "/actions/ToComplete",
+      "/actions/Unhold",
+      "/actions/Unsuspend"
+    ],
     "actions": {
       "Hold": {
         "dov:namespace": "http://opcfoundation.org/UA/PackML/",
@@ -2900,6 +2967,10 @@
         "dov:topic": "opcua/PackML/PackML_PackMLMachineStateMachineType/properties/read",
         "op": "readallproperties"
       }
+    ],
+    "tm:optional": [
+      "/actions/Reset",
+      "/actions/Stop"
     ],
     "actions": {
       "Reset": {

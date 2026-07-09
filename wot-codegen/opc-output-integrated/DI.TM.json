@@ -92,6 +92,10 @@
         "op": "readallproperties"
       }
     ],
+    "tm:optional": [
+      "/properties/UIElement",
+      "/events/UIElement"
+    ],
     "actions": {
     },
     "properties": {
@@ -151,6 +155,9 @@
         "dov:topic": "opcua/DI/DI_LockingServicesType/properties/read",
         "op": "readallproperties"
       }
+    ],
+    "tm:optional": [
+      "/properties/DefaultInstanceBrowseName"
     ],
     "actions": {
       "BreakLock": {
@@ -342,6 +349,22 @@
         "dov:topic": "opcua/DI/DI_IVendorNameplateType/properties/read",
         "op": "readallproperties"
       }
+    ],
+    "tm:optional": [
+      "/properties/DeviceClass",
+      "/properties/DeviceManual",
+      "/properties/DeviceRevision",
+      "/properties/HardwareRevision",
+      "/properties/Manufacturer",
+      "/properties/ManufacturerUri",
+      "/properties/Model",
+      "/properties/PatchIdentifiers",
+      "/properties/ProductCode",
+      "/properties/ProductInstanceUri",
+      "/properties/RevisionCounter",
+      "/properties/SerialNumber",
+      "/properties/SoftwareReleaseDate",
+      "/properties/SoftwareRevision"
     ],
     "actions": {
     },
@@ -550,6 +573,10 @@
         "op": "readallproperties"
       }
     ],
+    "tm:optional": [
+      "/properties/AssetId",
+      "/properties/ComponentName"
+    ],
     "actions": {
     },
     "properties": {
@@ -650,6 +677,10 @@
         "dov:topic": "opcua/DI/DI_IDeviceHealthType/properties/read",
         "op": "readallproperties"
       }
+    ],
+    "tm:optional": [
+      "/properties/DeviceHealth",
+      "/events/DeviceHealth"
     ],
     "actions": {
     },
@@ -791,6 +822,10 @@
         "op": "readallproperties"
       }
     ],
+    "tm:optional": [
+      "/properties/SupportedIndicationTypes",
+      "/properties/UsedIndicationType"
+    ],
     "actions": {
       "StartLocationIndication": {
         "dov:namespace": "http://opcfoundation.org/UA/DI/",
@@ -898,6 +933,22 @@
         "dov:topic": "opcua/DI/DI_ComponentType/properties/read",
         "op": "readallproperties"
       }
+    ],
+    "tm:optional": [
+      "/properties/AssetId",
+      "/properties/ComponentName",
+      "/properties/DeviceClass",
+      "/properties/DeviceManual",
+      "/properties/DeviceRevision",
+      "/properties/HardwareRevision",
+      "/properties/Manufacturer",
+      "/properties/ManufacturerUri",
+      "/properties/Model",
+      "/properties/ProductCode",
+      "/properties/ProductInstanceUri",
+      "/properties/RevisionCounter",
+      "/properties/SerialNumber",
+      "/properties/SoftwareRevision"
     ],
     "actions": {
     },
@@ -1175,6 +1226,14 @@
         "dov:topic": "opcua/DI/DI_DeviceType/properties/read",
         "op": "readallproperties"
       }
+    ],
+    "tm:optional": [
+      "/properties/DeviceClass",
+      "/properties/DeviceHealth",
+      "/properties/ManufacturerUri",
+      "/properties/ProductCode",
+      "/properties/ProductInstanceUri",
+      "/events/DeviceHealth"
     ],
     "actions": {
     },
@@ -1573,6 +1632,13 @@
         "dov:topic": "opcua/DI/DI_BlockType/properties/read",
         "op": "readallproperties"
       }
+    ],
+    "tm:optional": [
+      "/properties/ActualMode",
+      "/properties/NormalMode",
+      "/properties/PermittedMode",
+      "/properties/RevisionCounter",
+      "/properties/TargetMode"
     ],
     "actions": {
     },
@@ -2034,6 +2100,11 @@
         "op": "readallproperties"
       }
     ],
+    "tm:optional": [
+      "/properties/OperationCycleCounter",
+      "/properties/OperationDuration",
+      "/properties/PowerOnDuration"
+    ],
     "actions": {
     },
     "properties": {
@@ -2305,6 +2376,17 @@
         "op": "readallproperties"
       }
     ],
+    "tm:optional": [
+      "/properties/DefaultInstanceBrowseName",
+      "/properties/SoftwareClass",
+      "/properties/SoftwareName",
+      "/properties/SoftwareSubclass",
+      "/properties/UnsignedPackageAllowed",
+      "/properties/UpdateStatus",
+      "/properties/VendorErrorCode",
+      "/events/UpdateStatus",
+      "/events/VendorErrorCode"
+    ],
     "actions": {
     },
     "properties": {
@@ -2460,6 +2542,10 @@
         "op": "readallproperties"
       }
     ],
+    "tm:optional": [
+      "/properties/UpdateKey",
+      "/events/UpdateKey"
+    ],
     "actions": {
     },
     "properties": {
@@ -2576,6 +2662,11 @@
         "dov:topic": "opcua/DI/DI_PrepareForUpdateStateMachineType/properties/read",
         "op": "readallproperties"
       }
+    ],
+    "tm:optional": [
+      "/actions/Resume",
+      "/properties/PercentComplete",
+      "/events/PercentComplete"
     ],
     "actions": {
       "Abort": {
@@ -2715,6 +2806,15 @@
         "dov:topic": "opcua/DI/DI_InstallationStateMachineType/properties/read",
         "op": "readallproperties"
       }
+    ],
+    "tm:optional": [
+      "/actions/InstallFiles",
+      "/actions/InstallSoftwarePackage",
+      "/actions/Uninstall",
+      "/properties/InstallationDelay",
+      "/properties/PercentComplete",
+      "/events/InstallationDelay",
+      "/events/PercentComplete"
     ],
     "actions": {
       "InstallFiles": {
@@ -3047,6 +3147,9 @@
         "op": "readallproperties"
       }
     ],
+    "tm:optional": [
+      "/properties/WriteBlockSize"
+    ],
     "actions": {
     },
     "properties": {
@@ -3118,6 +3221,13 @@
         "dov:topic": "opcua/DI/DI_SoftwareVersionType/properties/read",
         "op": "readallproperties"
       }
+    ],
+    "tm:optional": [
+      "/actions/Clear",
+      "/properties/ChangeLogReference",
+      "/properties/Hash",
+      "/properties/PatchIdentifiers",
+      "/properties/ReleaseDate"
     ],
     "actions": {
       "Clear": {
@@ -3289,6 +3399,9 @@
         "dov:topic": "opcua/DI/DI_DirectLoadingType/properties/read",
         "op": "readallproperties"
       }
+    ],
+    "tm:optional": [
+      "/properties/WriteTimeout"
     ],
     "actions": {
     },
@@ -3517,6 +3630,9 @@
         }
       }
     },
+    "tm:optional": [
+      "/actions/ValidateFiles"
+    ],
     "actions": {
       "GetUpdateBehavior": {
         "dov:namespace": "http://opcfoundation.org/UA/DI/",
@@ -3935,6 +4051,39 @@
         "dov:topic": "opcua/OpcUaCore/OpcUaCore_AlarmConditionType/properties/read",
         "op": "readallproperties"
       }
+    ],
+    "tm:optional": [
+      "/actions/GetGroupMemberships",
+      "/actions/PlaceInService",
+      "/actions/PlaceInService2",
+      "/actions/RemoveFromService",
+      "/actions/RemoveFromService2",
+      "/actions/Reset",
+      "/actions/Reset2",
+      "/actions/Silence",
+      "/actions/Suppress",
+      "/actions/Suppress2",
+      "/actions/Unsuppress",
+      "/actions/Unsuppress2",
+      "/properties/AudibleEnabled",
+      "/properties/AudibleSound",
+      "/properties/FirstInGroupFlag",
+      "/properties/LatchedState",
+      "/properties/MaxTimeShelved",
+      "/properties/OffDelay",
+      "/properties/OnDelay",
+      "/properties/OutOfServiceState",
+      "/properties/ReAlarmRepeatCount",
+      "/properties/ReAlarmTime",
+      "/properties/SilenceState",
+      "/properties/SuppressedState",
+      "/events/AudibleSound",
+      "/events/FirstInGroupFlag",
+      "/events/LatchedState",
+      "/events/OutOfServiceState",
+      "/events/ReAlarmRepeatCount",
+      "/events/SilenceState",
+      "/events/SuppressedState"
     ],
     "actions": {
       "GetGroupMemberships": {
@@ -4440,6 +4589,11 @@
         "op": "readallproperties"
       }
     ],
+    "tm:optional": [
+      "/actions/Confirm",
+      "/properties/ConfirmedState",
+      "/events/ConfirmedState"
+    ],
     "actions": {
       "Acknowledge": {
         "input": {
@@ -4597,6 +4751,13 @@
         "dov:topic": "opcua/OpcUaCore/OpcUaCore_ConditionType/properties/read",
         "op": "readallproperties"
       }
+    ],
+    "tm:optional": [
+      "/actions/ConditionRefresh",
+      "/actions/ConditionRefresh2",
+      "/properties/ConditionSubClassId",
+      "/properties/ConditionSubClassName",
+      "/properties/SupportsFilteredRetain"
     ],
     "actions": {
       "AddComment": {
@@ -4925,6 +5086,13 @@
         "op": "readallproperties"
       }
     ],
+    "tm:optional": [
+      "/properties/ConditionClassId",
+      "/properties/ConditionClassName",
+      "/properties/ConditionSubClassId",
+      "/properties/ConditionSubClassName",
+      "/properties/LocalTime"
+    ],
     "actions": {
     },
     "properties": {
@@ -5179,6 +5347,11 @@
         "op": "readallproperties"
       }
     ],
+    "tm:optional": [
+      "/actions/OneShotShelve2",
+      "/actions/TimedShelve2",
+      "/actions/Unshelve2"
+    ],
     "actions": {
       "OneShotShelve": {
         "forms": [
@@ -5328,6 +5501,14 @@
         "op": "readallproperties"
       }
     ],
+    "tm:optional": [
+      "/properties/AvailableStates",
+      "/properties/AvailableTransitions",
+      "/properties/LastTransition",
+      "/events/AvailableStates",
+      "/events/AvailableTransitions",
+      "/events/LastTransition"
+    ],
     "actions": {
     },
     "properties": {
@@ -5470,6 +5651,10 @@
         "dov:topic": "opcua/OpcUaCore/OpcUaCore_StateMachineType/properties/read",
         "op": "readallproperties"
       }
+    ],
+    "tm:optional": [
+      "/properties/LastTransition",
+      "/events/LastTransition"
     ],
     "actions": {
     },

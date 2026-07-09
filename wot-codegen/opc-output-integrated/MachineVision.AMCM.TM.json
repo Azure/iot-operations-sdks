@@ -14,6 +14,24 @@
         "rel": "tm:extends",
         "href": "#title=OpcUaCore_BaseInterfaceType",
         "type": "application/tm+json"
+      },
+      {
+        "rel": "dov:capability",
+        "dov:refName": "Health",
+        "href": "#title=MachineVision_AMCM_VisionHealthInfoType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "dov:capability",
+        "dov:refName": "Identification",
+        "href": "#title=Machinery_MachineryItemIdentificationType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "dov:capability",
+        "dov:refName": "Maintenance",
+        "href": "#title=MachineVision_AMCM_VisionMaintenanceInfoType",
+        "type": "application/tm+json"
       }
     ],
     "schemaDefinitions": {
@@ -33,12 +51,524 @@
       }
     ],
     "@type": "tm:ThingModel",
+    "title": "MachineVision_AMCM_VisionHealthInfoType",
+    "dov:typeRef": "org.opcfoundation.UA.MachineVision.AMCM.VisionHealthInfoType",
+    "links": [
+      {
+        "rel": "tm:extends",
+        "href": "#title=DI_FunctionalGroupType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "dov:component",
+        "dov:refName": "DeviceHealthAlarms",
+        "href": "#title=OpcUaCore_FolderType",
+        "type": "application/tm+json"
+      }
+    ],
+    "schemaDefinitions": {
+      "DeviceHealthEnumeration": {
+        "type": "object",
+        "dov:typeRef": "org.opcfoundation.UA.DI.DeviceHealthEnumeration",
+        "const": {
+          "NORMAL": 0,
+          "FAILURE": 1,
+          "CHECK_FUNCTION": 2,
+          "OFF_SPEC": 3,
+          "MAINTENANCE_REQUIRED": 4
+        },
+        "properties": {
+          "NORMAL": {
+            "description": "This device functions normally.",
+            "type": "integer"
+          },
+          "FAILURE": {
+            "description": "Malfunction of the device or any of its peripherals.",
+            "type": "integer"
+          },
+          "CHECK_FUNCTION": {
+            "description": "Functional checks are currently performed.",
+            "type": "integer"
+          },
+          "OFF_SPEC": {
+            "description": "The device is currently working outside of its specified range or that internal diagnoses indicate deviations from measured or set values.",
+            "type": "integer"
+          },
+          "MAINTENANCE_REQUIRED": {
+            "description": "This element is working, but a maintenance operation is required.",
+            "type": "integer"
+          }
+        }
+      }
+    },
+    "forms": [
+      {
+        "contentType": "application/json",
+        "dov:topic": "opcua/MachineVision.AMCM/MachineVision_AMCM_VisionHealthInfoType/events/{senderId}",
+        "op": "subscribeallevents"
+      },
+      {
+        "contentType": "application/json",
+        "dov:topic": "opcua/MachineVision.AMCM/MachineVision_AMCM_VisionHealthInfoType/properties/write",
+        "op": "writemultipleproperties"
+      },
+      {
+        "contentType": "application/json",
+        "dov:topic": "opcua/MachineVision.AMCM/MachineVision_AMCM_VisionHealthInfoType/properties/read",
+        "op": "readallproperties"
+      }
+    ],
+    "tm:optional": [
+      "/properties/DeviceHealth",
+      "/properties/RemainingLifeTime",
+      "/properties/State",
+      "/properties/Temperature",
+      "/events/DeviceHealth",
+      "/events/RemainingLifeTime",
+      "/events/State",
+      "/events/Temperature"
+    ],
+    "actions": {
+    },
+    "properties": {
+      "DeviceHealth": {
+        "dov:namespace": "http://opcfoundation.org/UA/DI/",
+        "title": "DeviceHealthEnumeration",
+        "description": "indicates the status as defined by NAMUR Recommendation NE107. The DeviceHealthEnumeration DataType is formally defined in OPC 10000-100 Device Model",
+        "dov:typeRef": "org.opcfoundation.UA.DI.DeviceHealthEnumeration",
+        "type": "integer",
+        "minimum": -2147483648,
+        "maximum": 2147483647,
+        "readOnly": false,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dov:topic": "opcua/MachineVision.AMCM/MachineVision_AMCM_VisionHealthInfoType/property/DeviceHealth/write",
+            "op": "writeproperty"
+          },
+          {
+            "contentType": "application/json",
+            "dov:topic": "opcua/MachineVision.AMCM/MachineVision_AMCM_VisionHealthInfoType/property/DeviceHealth/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "RemainingLifeTime": {
+        "dov:namespace": "http://opcfoundation.org/UA/MachineVision/AMCM/",
+        "description": "denotes the remaining lifetime of the item. It serves as an indication to service personnel for maintenance activities",
+        "type": "number",
+        "readOnly": false,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dov:topic": "opcua/MachineVision.AMCM/MachineVision_AMCM_VisionHealthInfoType/property/RemainingLifeTime/write",
+            "op": "writeproperty"
+          },
+          {
+            "contentType": "application/json",
+            "dov:topic": "opcua/MachineVision.AMCM/MachineVision_AMCM_VisionHealthInfoType/property/RemainingLifeTime/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "State": {
+        "dov:namespace": "http://opcfoundation.org/UA/MachineVision/AMCM/",
+        "title": "SEMI_E10SystemStateDataType",
+        "description": "denotes the SEMI E10 State of the item ",
+        "type": "object",
+        "dov:typeRef": "org.opcfoundation.UA.MachineVision.AMCM.SEMI_E10SystemStateDataType",
+        "required": [ "Id", "Priority" ],
+        "properties": {
+          "Id": {
+            "type": "integer",
+            "minimum": 0,
+            "maximum": 4294967295
+          },
+          "Priority": {
+            "type": "integer",
+            "minimum": 0,
+            "maximum": 4294967295
+          }
+        },
+        "readOnly": false,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dov:topic": "opcua/MachineVision.AMCM/MachineVision_AMCM_VisionHealthInfoType/property/State/write",
+            "op": "writeproperty"
+          },
+          {
+            "contentType": "application/json",
+            "dov:topic": "opcua/MachineVision.AMCM/MachineVision_AMCM_VisionHealthInfoType/property/State/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "Temperature": {
+        "dov:namespace": "http://opcfoundation.org/UA/MachineVision/AMCM/",
+        "description": "denotes the temperature value (along with its unit) of the item",
+        "type": "number",
+        "minimum": -1.80e+308,
+        "maximum": 1.80e+308,
+        "readOnly": false,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dov:topic": "opcua/MachineVision.AMCM/MachineVision_AMCM_VisionHealthInfoType/property/Temperature/write",
+            "op": "writeproperty"
+          },
+          {
+            "contentType": "application/json",
+            "dov:topic": "opcua/MachineVision.AMCM/MachineVision_AMCM_VisionHealthInfoType/property/Temperature/read",
+            "op": "readproperty"
+          }
+        ]
+      }
+    },
+    "events": {
+      "DeviceHealth": {
+        "dov:namespace": "http://opcfoundation.org/UA/DI/",
+        "data": {
+          "title": "DeviceHealthEnumeration",
+          "description": "indicates the status as defined by NAMUR Recommendation NE107. The DeviceHealthEnumeration DataType is formally defined in OPC 10000-100 Device Model",
+          "dov:typeRef": "org.opcfoundation.UA.DI.DeviceHealthEnumeration",
+          "type": "integer",
+          "minimum": -2147483648,
+          "maximum": 2147483647
+        },
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dov:topic": "opcua/MachineVision.AMCM/MachineVision_AMCM_VisionHealthInfoType/event/DeviceHealth/{senderId}",
+            "op": "subscribeevent"
+          }
+        ]
+      },
+      "RemainingLifeTime": {
+        "dov:namespace": "http://opcfoundation.org/UA/MachineVision/AMCM/",
+        "data": {
+          "description": "denotes the remaining lifetime of the item. It serves as an indication to service personnel for maintenance activities",
+          "type": "number"
+        },
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dov:topic": "opcua/MachineVision.AMCM/MachineVision_AMCM_VisionHealthInfoType/event/RemainingLifeTime/{senderId}",
+            "op": "subscribeevent"
+          }
+        ]
+      },
+      "State": {
+        "dov:namespace": "http://opcfoundation.org/UA/MachineVision/AMCM/",
+        "data": {
+          "title": "SEMI_E10SystemStateDataType",
+          "description": "denotes the SEMI E10 State of the item ",
+          "type": "object",
+          "dov:typeRef": "org.opcfoundation.UA.MachineVision.AMCM.SEMI_E10SystemStateDataType",
+          "required": [ "Id", "Priority" ],
+          "properties": {
+            "Id": {
+              "type": "integer",
+              "minimum": 0,
+              "maximum": 4294967295
+            },
+            "Priority": {
+              "type": "integer",
+              "minimum": 0,
+              "maximum": 4294967295
+            }
+          }
+        },
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dov:topic": "opcua/MachineVision.AMCM/MachineVision_AMCM_VisionHealthInfoType/event/State/{senderId}",
+            "op": "subscribeevent"
+          }
+        ]
+      },
+      "Temperature": {
+        "dov:namespace": "http://opcfoundation.org/UA/MachineVision/AMCM/",
+        "data": {
+          "description": "denotes the temperature value (along with its unit) of the item",
+          "type": "number",
+          "minimum": -1.80e+308,
+          "maximum": 1.80e+308
+        },
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dov:topic": "opcua/MachineVision.AMCM/MachineVision_AMCM_VisionHealthInfoType/event/Temperature/{senderId}",
+            "op": "subscribeevent"
+          }
+        ]
+      }
+    }
+  },
+  {
+    "@context": [
+      "https://www.w3.org/2022/wot/td/v1.1",
+      {
+        "dov": "http://azure.com/DigitalOperations/vocab#"
+      }
+    ],
+    "@type": "tm:ThingModel",
+    "title": "MachineVision_AMCM_VisionMaintenanceInfoType",
+    "dov:typeRef": "org.opcfoundation.UA.MachineVision.AMCM.VisionMaintenanceInfoType",
+    "links": [
+      {
+        "rel": "tm:extends",
+        "href": "#title=DI_FunctionalGroupType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "dov:capability",
+        "dov:refName": "OperationCounters",
+        "href": "#title=Machinery_MachineryOperationCounterType",
+        "type": "application/tm+json"
+      }
+    ],
+    "schemaDefinitions": {
+    },
+    "forms": [
+      {
+        "contentType": "application/json",
+        "dov:topic": "opcua/MachineVision.AMCM/MachineVision_AMCM_VisionMaintenanceInfoType/events/{senderId}",
+        "op": "subscribeallevents"
+      },
+      {
+        "contentType": "application/json",
+        "dov:topic": "opcua/MachineVision.AMCM/MachineVision_AMCM_VisionMaintenanceInfoType/properties/write",
+        "op": "writemultipleproperties"
+      },
+      {
+        "contentType": "application/json",
+        "dov:topic": "opcua/MachineVision.AMCM/MachineVision_AMCM_VisionMaintenanceInfoType/properties/read",
+        "op": "readallproperties"
+      }
+    ],
+    "tm:optional": [
+      "/properties/CalibrationNeeded",
+      "/properties/FirmwareInfo",
+      "/properties/LastCalibration",
+      "/properties/LastService",
+      "/properties/MaintenanceRecord",
+      "/properties/NextCalibration",
+      "/properties/NextService",
+      "/properties/ServiceClass",
+      "/properties/StartOfWarranty",
+      "/events/ServiceClass"
+    ],
+    "actions": {
+    },
+    "properties": {
+      "CalibrationNeeded": {
+        "dov:namespace": "http://opcfoundation.org/UA/MachineVision/AMCM/",
+        "description": "a flag that if True denotes that the item needs calibration",
+        "type": "boolean",
+        "readOnly": false,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dov:topic": "opcua/MachineVision.AMCM/MachineVision_AMCM_VisionMaintenanceInfoType/property/CalibrationNeeded/write",
+            "op": "writeproperty"
+          },
+          {
+            "contentType": "application/json",
+            "dov:topic": "opcua/MachineVision.AMCM/MachineVision_AMCM_VisionMaintenanceInfoType/property/CalibrationNeeded/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "FirmwareInfo": {
+        "dov:namespace": "http://opcfoundation.org/UA/MachineVision/AMCM/",
+        "description": "denotes the information about the firmware of the Item",
+        "type": "string",
+        "readOnly": false,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dov:topic": "opcua/MachineVision.AMCM/MachineVision_AMCM_VisionMaintenanceInfoType/property/FirmwareInfo/write",
+            "op": "writeproperty"
+          },
+          {
+            "contentType": "application/json",
+            "dov:topic": "opcua/MachineVision.AMCM/MachineVision_AMCM_VisionMaintenanceInfoType/property/FirmwareInfo/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "LastCalibration": {
+        "dov:namespace": "http://opcfoundation.org/UA/MachineVision/AMCM/",
+        "description": "denotes the time when the previous calibration was carried out on the item",
+        "type": "string",
+        "format": "time",
+        "readOnly": false,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dov:topic": "opcua/MachineVision.AMCM/MachineVision_AMCM_VisionMaintenanceInfoType/property/LastCalibration/write",
+            "op": "writeproperty"
+          },
+          {
+            "contentType": "application/json",
+            "dov:topic": "opcua/MachineVision.AMCM/MachineVision_AMCM_VisionMaintenanceInfoType/property/LastCalibration/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "LastService": {
+        "dov:namespace": "http://opcfoundation.org/UA/MachineVision/AMCM/",
+        "description": "denotes the last moment in time when the most recent service was carried out on the item",
+        "type": "string",
+        "format": "time",
+        "readOnly": false,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dov:topic": "opcua/MachineVision.AMCM/MachineVision_AMCM_VisionMaintenanceInfoType/property/LastService/write",
+            "op": "writeproperty"
+          },
+          {
+            "contentType": "application/json",
+            "dov:topic": "opcua/MachineVision.AMCM/MachineVision_AMCM_VisionMaintenanceInfoType/property/LastService/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "MaintenanceRecord": {
+        "dov:namespace": "http://opcfoundation.org/UA/MachineVision/AMCM/",
+        "description": "provides the most recent note that was recorded while performing maintenance. This property can be historized if a history of previous maintenance notes is to be made available",
+        "type": "string",
+        "readOnly": false,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dov:topic": "opcua/MachineVision.AMCM/MachineVision_AMCM_VisionMaintenanceInfoType/property/MaintenanceRecord/write",
+            "op": "writeproperty"
+          },
+          {
+            "contentType": "application/json",
+            "dov:topic": "opcua/MachineVision.AMCM/MachineVision_AMCM_VisionMaintenanceInfoType/property/MaintenanceRecord/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "NextCalibration": {
+        "dov:namespace": "http://opcfoundation.org/UA/MachineVision/AMCM/",
+        "description": "denotes the planned time when the next calibration is to be carried out on the item.",
+        "type": "string",
+        "format": "time",
+        "readOnly": false,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dov:topic": "opcua/MachineVision.AMCM/MachineVision_AMCM_VisionMaintenanceInfoType/property/NextCalibration/write",
+            "op": "writeproperty"
+          },
+          {
+            "contentType": "application/json",
+            "dov:topic": "opcua/MachineVision.AMCM/MachineVision_AMCM_VisionMaintenanceInfoType/property/NextCalibration/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "NextService": {
+        "dov:namespace": "http://opcfoundation.org/UA/MachineVision/AMCM/",
+        "description": "denotes the planned moment in time when the next service is to be carried out on the item",
+        "type": "string",
+        "format": "time",
+        "readOnly": false,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dov:topic": "opcua/MachineVision.AMCM/MachineVision_AMCM_VisionMaintenanceInfoType/property/NextService/write",
+            "op": "writeproperty"
+          },
+          {
+            "contentType": "application/json",
+            "dov:topic": "opcua/MachineVision.AMCM/MachineVision_AMCM_VisionMaintenanceInfoType/property/NextService/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "ServiceClass": {
+        "dov:namespace": "http://opcfoundation.org/UA/MachineVision/AMCM/",
+        "description": "provides information that an item is classified as a wear and tear part, whether it is a line replaceable unit (LRU), shop replaceable unit (SRU), wear and tear part (WTP), infrastructural unit (ISU), infrastructural equipment (ISE), etc",
+        "type": "integer",
+        "minimum": 0,
+        "readOnly": false,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dov:topic": "opcua/MachineVision.AMCM/MachineVision_AMCM_VisionMaintenanceInfoType/property/ServiceClass/write",
+            "op": "writeproperty"
+          },
+          {
+            "contentType": "application/json",
+            "dov:topic": "opcua/MachineVision.AMCM/MachineVision_AMCM_VisionMaintenanceInfoType/property/ServiceClass/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "StartOfWarranty": {
+        "dov:namespace": "http://opcfoundation.org/UA/MachineVision/AMCM/",
+        "description": "denotes the beginning of the warranty period of the item",
+        "type": "string",
+        "format": "time",
+        "readOnly": false,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dov:topic": "opcua/MachineVision.AMCM/MachineVision_AMCM_VisionMaintenanceInfoType/property/StartOfWarranty/write",
+            "op": "writeproperty"
+          },
+          {
+            "contentType": "application/json",
+            "dov:topic": "opcua/MachineVision.AMCM/MachineVision_AMCM_VisionMaintenanceInfoType/property/StartOfWarranty/read",
+            "op": "readproperty"
+          }
+        ]
+      }
+    },
+    "events": {
+      "ServiceClass": {
+        "dov:namespace": "http://opcfoundation.org/UA/MachineVision/AMCM/",
+        "data": {
+          "description": "provides information that an item is classified as a wear and tear part, whether it is a line replaceable unit (LRU), shop replaceable unit (SRU), wear and tear part (WTP), infrastructural unit (ISU), infrastructural equipment (ISE), etc",
+          "type": "integer",
+          "minimum": 0
+        },
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dov:topic": "opcua/MachineVision.AMCM/MachineVision_AMCM_VisionMaintenanceInfoType/event/ServiceClass/{senderId}",
+            "op": "subscribeevent"
+          }
+        ]
+      }
+    }
+  },
+  {
+    "@context": [
+      "https://www.w3.org/2022/wot/td/v1.1",
+      {
+        "dov": "http://azure.com/DigitalOperations/vocab#"
+      }
+    ],
+    "@type": "tm:ThingModel",
     "title": "MachineVision_AMCM_ICableType",
     "dov:typeRef": "org.opcfoundation.UA.MachineVision.AMCM.ICableType",
     "links": [
       {
         "rel": "tm:extends",
         "href": "#title=MachineVision_AMCM_IVisionInfoType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "dov:capability",
+        "dov:refName": "Maintenance",
+        "href": "#title=MachineVision_AMCM_VisionMaintenanceInfoType",
         "type": "application/tm+json"
       }
     ],
@@ -66,6 +596,18 @@
         "rel": "tm:extends",
         "href": "#title=MachineVision_AMCM_IVisionInfoType",
         "type": "application/tm+json"
+      },
+      {
+        "rel": "dov:capability",
+        "dov:refName": "Health",
+        "href": "#title=MachineVision_AMCM_VisionHealthInfoType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "dov:capability",
+        "dov:refName": "Maintenance",
+        "href": "#title=MachineVision_AMCM_VisionMaintenanceInfoType",
+        "type": "application/tm+json"
       }
     ],
     "schemaDefinitions": {
@@ -91,6 +633,12 @@
       {
         "rel": "tm:extends",
         "href": "#title=MachineVision_AMCM_IVisionInfoType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "dov:capability",
+        "dov:refName": "Maintenance",
+        "href": "#title=MachineVision_AMCM_VisionMaintenanceInfoType",
         "type": "application/tm+json"
       }
     ],
@@ -118,6 +666,12 @@
         "rel": "tm:extends",
         "href": "#title=MachineVision_AMCM_IVisionInfoType",
         "type": "application/tm+json"
+      },
+      {
+        "rel": "dov:capability",
+        "dov:refName": "Maintenance",
+        "href": "#title=MachineVision_AMCM_VisionMaintenanceInfoType",
+        "type": "application/tm+json"
       }
     ],
     "schemaDefinitions": {
@@ -143,6 +697,12 @@
       {
         "rel": "tm:extends",
         "href": "#title=MachineVision_AMCM_IVisionInfoType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "dov:capability",
+        "dov:refName": "Maintenance",
+        "href": "#title=MachineVision_AMCM_VisionMaintenanceInfoType",
         "type": "application/tm+json"
       }
     ],
@@ -170,6 +730,12 @@
         "rel": "tm:extends",
         "href": "#title=MachineVision_AMCM_IVisionInfoType",
         "type": "application/tm+json"
+      },
+      {
+        "rel": "dov:capability",
+        "dov:refName": "Maintenance",
+        "href": "#title=MachineVision_AMCM_VisionMaintenanceInfoType",
+        "type": "application/tm+json"
       }
     ],
     "schemaDefinitions": {
@@ -196,6 +762,12 @@
         "rel": "tm:extends",
         "href": "#title=MachineVision_AMCM_IVisionInfoType",
         "type": "application/tm+json"
+      },
+      {
+        "rel": "dov:capability",
+        "dov:refName": "Maintenance",
+        "href": "#title=MachineVision_AMCM_VisionMaintenanceInfoType",
+        "type": "application/tm+json"
       }
     ],
     "schemaDefinitions": {
@@ -221,6 +793,18 @@
       {
         "rel": "tm:extends",
         "href": "#title=MachineVision_AMCM_IVisionInfoType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "dov:capability",
+        "dov:refName": "Health",
+        "href": "#title=MachineVision_AMCM_VisionHealthInfoType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "dov:capability",
+        "dov:refName": "Maintenance",
+        "href": "#title=MachineVision_AMCM_VisionMaintenanceInfoType",
         "type": "application/tm+json"
       }
     ],
@@ -289,6 +873,21 @@
         "dov:topic": "opcua/MachineVision.AMCM/MachineVision_AMCM_VisionMachineIdentificationType/properties/read",
         "op": "readallproperties"
       }
+    ],
+    "tm:optional": [
+      "/properties/AssetId",
+      "/properties/ComponentName",
+      "/properties/ConfigurationCode",
+      "/properties/DeviceClass",
+      "/properties/HardwareRevision",
+      "/properties/InitialOperationDate",
+      "/properties/Location",
+      "/properties/ManufacturerUri",
+      "/properties/Model",
+      "/properties/MonthOfConstruction",
+      "/properties/ProductCode",
+      "/properties/SoftwareRevision",
+      "/properties/YearOfConstruction"
     ],
     "actions": {
     },
@@ -561,6 +1160,22 @@
         "op": "readallproperties"
       }
     ],
+    "tm:optional": [
+      "/properties/AssetId",
+      "/properties/ComponentName",
+      "/properties/ConfigurationCode",
+      "/properties/DeviceClass",
+      "/properties/DeviceRevision",
+      "/properties/HardwareRevision",
+      "/properties/InitialOperationDate",
+      "/properties/ManufacturerUri",
+      "/properties/Model",
+      "/properties/MonthOfConstruction",
+      "/properties/ProductCode",
+      "/properties/ProductInstanceUri",
+      "/properties/SoftwareRevision",
+      "/properties/YearOfConstruction"
+    ],
     "actions": {
     },
     "properties": {
@@ -809,484 +1424,6 @@
       }
     ],
     "@type": "tm:ThingModel",
-    "title": "MachineVision_AMCM_VisionHealthInfoType",
-    "dov:typeRef": "org.opcfoundation.UA.MachineVision.AMCM.VisionHealthInfoType",
-    "links": [
-      {
-        "rel": "tm:extends",
-        "href": "#title=DI_FunctionalGroupType",
-        "type": "application/tm+json"
-      },
-      {
-        "rel": "dov:component",
-        "dov:refName": "DeviceHealthAlarms",
-        "href": "#title=OpcUaCore_FolderType",
-        "type": "application/tm+json"
-      }
-    ],
-    "schemaDefinitions": {
-      "DeviceHealthEnumeration": {
-        "type": "object",
-        "dov:typeRef": "org.opcfoundation.UA.DI.DeviceHealthEnumeration",
-        "const": {
-          "NORMAL": 0,
-          "FAILURE": 1,
-          "CHECK_FUNCTION": 2,
-          "OFF_SPEC": 3,
-          "MAINTENANCE_REQUIRED": 4
-        },
-        "properties": {
-          "NORMAL": {
-            "description": "This device functions normally.",
-            "type": "integer"
-          },
-          "FAILURE": {
-            "description": "Malfunction of the device or any of its peripherals.",
-            "type": "integer"
-          },
-          "CHECK_FUNCTION": {
-            "description": "Functional checks are currently performed.",
-            "type": "integer"
-          },
-          "OFF_SPEC": {
-            "description": "The device is currently working outside of its specified range or that internal diagnoses indicate deviations from measured or set values.",
-            "type": "integer"
-          },
-          "MAINTENANCE_REQUIRED": {
-            "description": "This element is working, but a maintenance operation is required.",
-            "type": "integer"
-          }
-        }
-      }
-    },
-    "forms": [
-      {
-        "contentType": "application/json",
-        "dov:topic": "opcua/MachineVision.AMCM/MachineVision_AMCM_VisionHealthInfoType/events/{senderId}",
-        "op": "subscribeallevents"
-      },
-      {
-        "contentType": "application/json",
-        "dov:topic": "opcua/MachineVision.AMCM/MachineVision_AMCM_VisionHealthInfoType/properties/write",
-        "op": "writemultipleproperties"
-      },
-      {
-        "contentType": "application/json",
-        "dov:topic": "opcua/MachineVision.AMCM/MachineVision_AMCM_VisionHealthInfoType/properties/read",
-        "op": "readallproperties"
-      }
-    ],
-    "actions": {
-    },
-    "properties": {
-      "DeviceHealth": {
-        "dov:namespace": "http://opcfoundation.org/UA/DI/",
-        "title": "DeviceHealthEnumeration",
-        "description": "indicates the status as defined by NAMUR Recommendation NE107. The DeviceHealthEnumeration DataType is formally defined in OPC 10000-100 Device Model",
-        "dov:typeRef": "org.opcfoundation.UA.DI.DeviceHealthEnumeration",
-        "type": "integer",
-        "minimum": -2147483648,
-        "maximum": 2147483647,
-        "readOnly": false,
-        "forms": [
-          {
-            "contentType": "application/json",
-            "dov:topic": "opcua/MachineVision.AMCM/MachineVision_AMCM_VisionHealthInfoType/property/DeviceHealth/write",
-            "op": "writeproperty"
-          },
-          {
-            "contentType": "application/json",
-            "dov:topic": "opcua/MachineVision.AMCM/MachineVision_AMCM_VisionHealthInfoType/property/DeviceHealth/read",
-            "op": "readproperty"
-          }
-        ]
-      },
-      "RemainingLifeTime": {
-        "dov:namespace": "http://opcfoundation.org/UA/MachineVision/AMCM/",
-        "description": "denotes the remaining lifetime of the item. It serves as an indication to service personnel for maintenance activities",
-        "type": "number",
-        "readOnly": false,
-        "forms": [
-          {
-            "contentType": "application/json",
-            "dov:topic": "opcua/MachineVision.AMCM/MachineVision_AMCM_VisionHealthInfoType/property/RemainingLifeTime/write",
-            "op": "writeproperty"
-          },
-          {
-            "contentType": "application/json",
-            "dov:topic": "opcua/MachineVision.AMCM/MachineVision_AMCM_VisionHealthInfoType/property/RemainingLifeTime/read",
-            "op": "readproperty"
-          }
-        ]
-      },
-      "State": {
-        "dov:namespace": "http://opcfoundation.org/UA/MachineVision/AMCM/",
-        "title": "SEMI_E10SystemStateDataType",
-        "description": "denotes the SEMI E10 State of the item ",
-        "type": "object",
-        "dov:typeRef": "org.opcfoundation.UA.MachineVision.AMCM.SEMI_E10SystemStateDataType",
-        "required": [ "Id", "Priority" ],
-        "properties": {
-          "Id": {
-            "type": "integer",
-            "minimum": 0,
-            "maximum": 4294967295
-          },
-          "Priority": {
-            "type": "integer",
-            "minimum": 0,
-            "maximum": 4294967295
-          }
-        },
-        "readOnly": false,
-        "forms": [
-          {
-            "contentType": "application/json",
-            "dov:topic": "opcua/MachineVision.AMCM/MachineVision_AMCM_VisionHealthInfoType/property/State/write",
-            "op": "writeproperty"
-          },
-          {
-            "contentType": "application/json",
-            "dov:topic": "opcua/MachineVision.AMCM/MachineVision_AMCM_VisionHealthInfoType/property/State/read",
-            "op": "readproperty"
-          }
-        ]
-      },
-      "Temperature": {
-        "dov:namespace": "http://opcfoundation.org/UA/MachineVision/AMCM/",
-        "description": "denotes the temperature value (along with its unit) of the item",
-        "type": "number",
-        "minimum": -1.80e+308,
-        "maximum": 1.80e+308,
-        "readOnly": false,
-        "forms": [
-          {
-            "contentType": "application/json",
-            "dov:topic": "opcua/MachineVision.AMCM/MachineVision_AMCM_VisionHealthInfoType/property/Temperature/write",
-            "op": "writeproperty"
-          },
-          {
-            "contentType": "application/json",
-            "dov:topic": "opcua/MachineVision.AMCM/MachineVision_AMCM_VisionHealthInfoType/property/Temperature/read",
-            "op": "readproperty"
-          }
-        ]
-      }
-    },
-    "events": {
-      "DeviceHealth": {
-        "dov:namespace": "http://opcfoundation.org/UA/DI/",
-        "data": {
-          "title": "DeviceHealthEnumeration",
-          "description": "indicates the status as defined by NAMUR Recommendation NE107. The DeviceHealthEnumeration DataType is formally defined in OPC 10000-100 Device Model",
-          "dov:typeRef": "org.opcfoundation.UA.DI.DeviceHealthEnumeration",
-          "type": "integer",
-          "minimum": -2147483648,
-          "maximum": 2147483647
-        },
-        "forms": [
-          {
-            "contentType": "application/json",
-            "dov:topic": "opcua/MachineVision.AMCM/MachineVision_AMCM_VisionHealthInfoType/event/DeviceHealth/{senderId}",
-            "op": "subscribeevent"
-          }
-        ]
-      },
-      "RemainingLifeTime": {
-        "dov:namespace": "http://opcfoundation.org/UA/MachineVision/AMCM/",
-        "data": {
-          "description": "denotes the remaining lifetime of the item. It serves as an indication to service personnel for maintenance activities",
-          "type": "number"
-        },
-        "forms": [
-          {
-            "contentType": "application/json",
-            "dov:topic": "opcua/MachineVision.AMCM/MachineVision_AMCM_VisionHealthInfoType/event/RemainingLifeTime/{senderId}",
-            "op": "subscribeevent"
-          }
-        ]
-      },
-      "State": {
-        "dov:namespace": "http://opcfoundation.org/UA/MachineVision/AMCM/",
-        "data": {
-          "title": "SEMI_E10SystemStateDataType",
-          "description": "denotes the SEMI E10 State of the item ",
-          "type": "object",
-          "dov:typeRef": "org.opcfoundation.UA.MachineVision.AMCM.SEMI_E10SystemStateDataType",
-          "required": [ "Id", "Priority" ],
-          "properties": {
-            "Id": {
-              "type": "integer",
-              "minimum": 0,
-              "maximum": 4294967295
-            },
-            "Priority": {
-              "type": "integer",
-              "minimum": 0,
-              "maximum": 4294967295
-            }
-          }
-        },
-        "forms": [
-          {
-            "contentType": "application/json",
-            "dov:topic": "opcua/MachineVision.AMCM/MachineVision_AMCM_VisionHealthInfoType/event/State/{senderId}",
-            "op": "subscribeevent"
-          }
-        ]
-      },
-      "Temperature": {
-        "dov:namespace": "http://opcfoundation.org/UA/MachineVision/AMCM/",
-        "data": {
-          "description": "denotes the temperature value (along with its unit) of the item",
-          "type": "number",
-          "minimum": -1.80e+308,
-          "maximum": 1.80e+308
-        },
-        "forms": [
-          {
-            "contentType": "application/json",
-            "dov:topic": "opcua/MachineVision.AMCM/MachineVision_AMCM_VisionHealthInfoType/event/Temperature/{senderId}",
-            "op": "subscribeevent"
-          }
-        ]
-      }
-    }
-  },
-  {
-    "@context": [
-      "https://www.w3.org/2022/wot/td/v1.1",
-      {
-        "dov": "http://azure.com/DigitalOperations/vocab#"
-      }
-    ],
-    "@type": "tm:ThingModel",
-    "title": "MachineVision_AMCM_VisionMaintenanceInfoType",
-    "dov:typeRef": "org.opcfoundation.UA.MachineVision.AMCM.VisionMaintenanceInfoType",
-    "links": [
-      {
-        "rel": "tm:extends",
-        "href": "#title=DI_FunctionalGroupType",
-        "type": "application/tm+json"
-      }
-    ],
-    "schemaDefinitions": {
-    },
-    "forms": [
-      {
-        "contentType": "application/json",
-        "dov:topic": "opcua/MachineVision.AMCM/MachineVision_AMCM_VisionMaintenanceInfoType/events/{senderId}",
-        "op": "subscribeallevents"
-      },
-      {
-        "contentType": "application/json",
-        "dov:topic": "opcua/MachineVision.AMCM/MachineVision_AMCM_VisionMaintenanceInfoType/properties/write",
-        "op": "writemultipleproperties"
-      },
-      {
-        "contentType": "application/json",
-        "dov:topic": "opcua/MachineVision.AMCM/MachineVision_AMCM_VisionMaintenanceInfoType/properties/read",
-        "op": "readallproperties"
-      }
-    ],
-    "actions": {
-    },
-    "properties": {
-      "CalibrationNeeded": {
-        "dov:namespace": "http://opcfoundation.org/UA/MachineVision/AMCM/",
-        "description": "a flag that if True denotes that the item needs calibration",
-        "type": "boolean",
-        "readOnly": false,
-        "forms": [
-          {
-            "contentType": "application/json",
-            "dov:topic": "opcua/MachineVision.AMCM/MachineVision_AMCM_VisionMaintenanceInfoType/property/CalibrationNeeded/write",
-            "op": "writeproperty"
-          },
-          {
-            "contentType": "application/json",
-            "dov:topic": "opcua/MachineVision.AMCM/MachineVision_AMCM_VisionMaintenanceInfoType/property/CalibrationNeeded/read",
-            "op": "readproperty"
-          }
-        ]
-      },
-      "FirmwareInfo": {
-        "dov:namespace": "http://opcfoundation.org/UA/MachineVision/AMCM/",
-        "description": "denotes the information about the firmware of the Item",
-        "type": "string",
-        "readOnly": false,
-        "forms": [
-          {
-            "contentType": "application/json",
-            "dov:topic": "opcua/MachineVision.AMCM/MachineVision_AMCM_VisionMaintenanceInfoType/property/FirmwareInfo/write",
-            "op": "writeproperty"
-          },
-          {
-            "contentType": "application/json",
-            "dov:topic": "opcua/MachineVision.AMCM/MachineVision_AMCM_VisionMaintenanceInfoType/property/FirmwareInfo/read",
-            "op": "readproperty"
-          }
-        ]
-      },
-      "LastCalibration": {
-        "dov:namespace": "http://opcfoundation.org/UA/MachineVision/AMCM/",
-        "description": "denotes the time when the previous calibration was carried out on the item",
-        "type": "string",
-        "format": "time",
-        "readOnly": false,
-        "forms": [
-          {
-            "contentType": "application/json",
-            "dov:topic": "opcua/MachineVision.AMCM/MachineVision_AMCM_VisionMaintenanceInfoType/property/LastCalibration/write",
-            "op": "writeproperty"
-          },
-          {
-            "contentType": "application/json",
-            "dov:topic": "opcua/MachineVision.AMCM/MachineVision_AMCM_VisionMaintenanceInfoType/property/LastCalibration/read",
-            "op": "readproperty"
-          }
-        ]
-      },
-      "LastService": {
-        "dov:namespace": "http://opcfoundation.org/UA/MachineVision/AMCM/",
-        "description": "denotes the last moment in time when the most recent service was carried out on the item",
-        "type": "string",
-        "format": "time",
-        "readOnly": false,
-        "forms": [
-          {
-            "contentType": "application/json",
-            "dov:topic": "opcua/MachineVision.AMCM/MachineVision_AMCM_VisionMaintenanceInfoType/property/LastService/write",
-            "op": "writeproperty"
-          },
-          {
-            "contentType": "application/json",
-            "dov:topic": "opcua/MachineVision.AMCM/MachineVision_AMCM_VisionMaintenanceInfoType/property/LastService/read",
-            "op": "readproperty"
-          }
-        ]
-      },
-      "MaintenanceRecord": {
-        "dov:namespace": "http://opcfoundation.org/UA/MachineVision/AMCM/",
-        "description": "provides the most recent note that was recorded while performing maintenance. This property can be historized if a history of previous maintenance notes is to be made available",
-        "type": "string",
-        "readOnly": false,
-        "forms": [
-          {
-            "contentType": "application/json",
-            "dov:topic": "opcua/MachineVision.AMCM/MachineVision_AMCM_VisionMaintenanceInfoType/property/MaintenanceRecord/write",
-            "op": "writeproperty"
-          },
-          {
-            "contentType": "application/json",
-            "dov:topic": "opcua/MachineVision.AMCM/MachineVision_AMCM_VisionMaintenanceInfoType/property/MaintenanceRecord/read",
-            "op": "readproperty"
-          }
-        ]
-      },
-      "NextCalibration": {
-        "dov:namespace": "http://opcfoundation.org/UA/MachineVision/AMCM/",
-        "description": "denotes the planned time when the next calibration is to be carried out on the item.",
-        "type": "string",
-        "format": "time",
-        "readOnly": false,
-        "forms": [
-          {
-            "contentType": "application/json",
-            "dov:topic": "opcua/MachineVision.AMCM/MachineVision_AMCM_VisionMaintenanceInfoType/property/NextCalibration/write",
-            "op": "writeproperty"
-          },
-          {
-            "contentType": "application/json",
-            "dov:topic": "opcua/MachineVision.AMCM/MachineVision_AMCM_VisionMaintenanceInfoType/property/NextCalibration/read",
-            "op": "readproperty"
-          }
-        ]
-      },
-      "NextService": {
-        "dov:namespace": "http://opcfoundation.org/UA/MachineVision/AMCM/",
-        "description": "denotes the planned moment in time when the next service is to be carried out on the item",
-        "type": "string",
-        "format": "time",
-        "readOnly": false,
-        "forms": [
-          {
-            "contentType": "application/json",
-            "dov:topic": "opcua/MachineVision.AMCM/MachineVision_AMCM_VisionMaintenanceInfoType/property/NextService/write",
-            "op": "writeproperty"
-          },
-          {
-            "contentType": "application/json",
-            "dov:topic": "opcua/MachineVision.AMCM/MachineVision_AMCM_VisionMaintenanceInfoType/property/NextService/read",
-            "op": "readproperty"
-          }
-        ]
-      },
-      "ServiceClass": {
-        "dov:namespace": "http://opcfoundation.org/UA/MachineVision/AMCM/",
-        "description": "provides information that an item is classified as a wear and tear part, whether it is a line replaceable unit (LRU), shop replaceable unit (SRU), wear and tear part (WTP), infrastructural unit (ISU), infrastructural equipment (ISE), etc",
-        "type": "integer",
-        "minimum": 0,
-        "readOnly": false,
-        "forms": [
-          {
-            "contentType": "application/json",
-            "dov:topic": "opcua/MachineVision.AMCM/MachineVision_AMCM_VisionMaintenanceInfoType/property/ServiceClass/write",
-            "op": "writeproperty"
-          },
-          {
-            "contentType": "application/json",
-            "dov:topic": "opcua/MachineVision.AMCM/MachineVision_AMCM_VisionMaintenanceInfoType/property/ServiceClass/read",
-            "op": "readproperty"
-          }
-        ]
-      },
-      "StartOfWarranty": {
-        "dov:namespace": "http://opcfoundation.org/UA/MachineVision/AMCM/",
-        "description": "denotes the beginning of the warranty period of the item",
-        "type": "string",
-        "format": "time",
-        "readOnly": false,
-        "forms": [
-          {
-            "contentType": "application/json",
-            "dov:topic": "opcua/MachineVision.AMCM/MachineVision_AMCM_VisionMaintenanceInfoType/property/StartOfWarranty/write",
-            "op": "writeproperty"
-          },
-          {
-            "contentType": "application/json",
-            "dov:topic": "opcua/MachineVision.AMCM/MachineVision_AMCM_VisionMaintenanceInfoType/property/StartOfWarranty/read",
-            "op": "readproperty"
-          }
-        ]
-      }
-    },
-    "events": {
-      "ServiceClass": {
-        "dov:namespace": "http://opcfoundation.org/UA/MachineVision/AMCM/",
-        "data": {
-          "description": "provides information that an item is classified as a wear and tear part, whether it is a line replaceable unit (LRU), shop replaceable unit (SRU), wear and tear part (WTP), infrastructural unit (ISU), infrastructural equipment (ISE), etc",
-          "type": "integer",
-          "minimum": 0
-        },
-        "forms": [
-          {
-            "contentType": "application/json",
-            "dov:topic": "opcua/MachineVision.AMCM/MachineVision_AMCM_VisionMaintenanceInfoType/event/ServiceClass/{senderId}",
-            "op": "subscribeevent"
-          }
-        ]
-      }
-    }
-  },
-  {
-    "@context": [
-      "https://www.w3.org/2022/wot/td/v1.1",
-      {
-        "dov": "http://azure.com/DigitalOperations/vocab#"
-      }
-    ],
-    "@type": "tm:ThingModel",
     "title": "MachineVision_AMCM_VisionAcquisitionBackgroundType",
     "dov:typeRef": "org.opcfoundation.UA.MachineVision.AMCM.VisionAcquisitionBackgroundType",
     "dov:isComposite": true,
@@ -1294,6 +1431,24 @@
       {
         "rel": "tm:extends",
         "href": "#title=OpcUaCore_BaseObjectType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "dov:capability",
+        "dov:refName": "Health",
+        "href": "#title=MachineVision_AMCM_VisionHealthInfoType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "dov:capability",
+        "dov:refName": "Identification",
+        "href": "#title=MachineVision_AMCM_VisionComponentIdentificationType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "dov:capability",
+        "dov:refName": "Maintenance",
+        "href": "#title=MachineVision_AMCM_VisionMaintenanceInfoType",
         "type": "application/tm+json"
       }
     ],
@@ -1403,6 +1558,24 @@
         "rel": "tm:extends",
         "href": "#title=OpcUaCore_BaseObjectType",
         "type": "application/tm+json"
+      },
+      {
+        "rel": "dov:capability",
+        "dov:refName": "Health",
+        "href": "#title=MachineVision_AMCM_VisionHealthInfoType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "dov:capability",
+        "dov:refName": "Identification",
+        "href": "#title=MachineVision_AMCM_VisionComponentIdentificationType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "dov:capability",
+        "dov:refName": "Maintenance",
+        "href": "#title=MachineVision_AMCM_VisionMaintenanceInfoType",
+        "type": "application/tm+json"
       }
     ],
     "schemaDefinitions": {
@@ -1429,6 +1602,24 @@
       {
         "rel": "tm:extends",
         "href": "#title=OpcUaCore_BaseObjectType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "dov:capability",
+        "dov:refName": "Health",
+        "href": "#title=MachineVision_AMCM_VisionHealthInfoType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "dov:capability",
+        "dov:refName": "Identification",
+        "href": "#title=MachineVision_AMCM_VisionComponentIdentificationType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "dov:capability",
+        "dov:refName": "Maintenance",
+        "href": "#title=MachineVision_AMCM_VisionMaintenanceInfoType",
         "type": "application/tm+json"
       }
     ],
@@ -1457,6 +1648,24 @@
         "rel": "tm:extends",
         "href": "#title=OpcUaCore_BaseObjectType",
         "type": "application/tm+json"
+      },
+      {
+        "rel": "dov:capability",
+        "dov:refName": "Health",
+        "href": "#title=MachineVision_AMCM_VisionHealthInfoType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "dov:capability",
+        "dov:refName": "Identification",
+        "href": "#title=MachineVision_AMCM_VisionComponentIdentificationType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "dov:capability",
+        "dov:refName": "Maintenance",
+        "href": "#title=MachineVision_AMCM_VisionMaintenanceInfoType",
+        "type": "application/tm+json"
       }
     ],
     "schemaDefinitions": {
@@ -1483,6 +1692,24 @@
       {
         "rel": "tm:extends",
         "href": "#title=OpcUaCore_BaseObjectType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "dov:capability",
+        "dov:refName": "Health",
+        "href": "#title=MachineVision_AMCM_VisionHealthInfoType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "dov:capability",
+        "dov:refName": "Identification",
+        "href": "#title=MachineVision_AMCM_VisionComponentIdentificationType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "dov:capability",
+        "dov:refName": "Maintenance",
+        "href": "#title=MachineVision_AMCM_VisionMaintenanceInfoType",
         "type": "application/tm+json"
       }
     ],
@@ -1511,6 +1738,24 @@
         "rel": "tm:extends",
         "href": "#title=OpcUaCore_BaseObjectType",
         "type": "application/tm+json"
+      },
+      {
+        "rel": "dov:capability",
+        "dov:refName": "Health",
+        "href": "#title=MachineVision_AMCM_VisionHealthInfoType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "dov:capability",
+        "dov:refName": "Identification",
+        "href": "#title=MachineVision_AMCM_VisionComponentIdentificationType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "dov:capability",
+        "dov:refName": "Maintenance",
+        "href": "#title=MachineVision_AMCM_VisionMaintenanceInfoType",
+        "type": "application/tm+json"
       }
     ],
     "schemaDefinitions": {
@@ -1537,6 +1782,24 @@
       {
         "rel": "tm:extends",
         "href": "#title=OpcUaCore_BaseObjectType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "dov:capability",
+        "dov:refName": "Health",
+        "href": "#title=MachineVision_AMCM_VisionHealthInfoType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "dov:capability",
+        "dov:refName": "Identification",
+        "href": "#title=MachineVision_AMCM_VisionComponentIdentificationType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "dov:capability",
+        "dov:refName": "Maintenance",
+        "href": "#title=MachineVision_AMCM_VisionMaintenanceInfoType",
         "type": "application/tm+json"
       }
     ],
@@ -1565,6 +1828,24 @@
         "rel": "tm:extends",
         "href": "#title=OpcUaCore_BaseObjectType",
         "type": "application/tm+json"
+      },
+      {
+        "rel": "dov:capability",
+        "dov:refName": "Health",
+        "href": "#title=MachineVision_AMCM_VisionHealthInfoType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "dov:capability",
+        "dov:refName": "Identification",
+        "href": "#title=MachineVision_AMCM_VisionComponentIdentificationType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "dov:capability",
+        "dov:refName": "Maintenance",
+        "href": "#title=MachineVision_AMCM_VisionMaintenanceInfoType",
+        "type": "application/tm+json"
       }
     ],
     "schemaDefinitions": {
@@ -1591,6 +1872,24 @@
       {
         "rel": "tm:extends",
         "href": "#title=OpcUaCore_BaseObjectType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "dov:capability",
+        "dov:refName": "Health",
+        "href": "#title=MachineVision_AMCM_VisionHealthInfoType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "dov:capability",
+        "dov:refName": "Identification",
+        "href": "#title=MachineVision_AMCM_VisionComponentIdentificationType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "dov:capability",
+        "dov:refName": "Maintenance",
+        "href": "#title=MachineVision_AMCM_VisionMaintenanceInfoType",
         "type": "application/tm+json"
       }
     ],
@@ -1619,6 +1918,24 @@
         "rel": "tm:extends",
         "href": "#title=OpcUaCore_BaseObjectType",
         "type": "application/tm+json"
+      },
+      {
+        "rel": "dov:capability",
+        "dov:refName": "Health",
+        "href": "#title=MachineVision_AMCM_VisionHealthInfoType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "dov:capability",
+        "dov:refName": "Identification",
+        "href": "#title=MachineVision_AMCM_VisionComponentIdentificationType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "dov:capability",
+        "dov:refName": "Maintenance",
+        "href": "#title=MachineVision_AMCM_VisionMaintenanceInfoType",
+        "type": "application/tm+json"
       }
     ],
     "schemaDefinitions": {
@@ -1645,6 +1962,24 @@
       {
         "rel": "tm:extends",
         "href": "#title=OpcUaCore_BaseObjectType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "dov:capability",
+        "dov:refName": "Health",
+        "href": "#title=MachineVision_AMCM_VisionHealthInfoType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "dov:capability",
+        "dov:refName": "Identification",
+        "href": "#title=MachineVision_AMCM_VisionComponentIdentificationType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "dov:capability",
+        "dov:refName": "Maintenance",
+        "href": "#title=MachineVision_AMCM_VisionMaintenanceInfoType",
         "type": "application/tm+json"
       }
     ],
@@ -1673,6 +2008,24 @@
         "rel": "tm:extends",
         "href": "#title=OpcUaCore_BaseObjectType",
         "type": "application/tm+json"
+      },
+      {
+        "rel": "dov:capability",
+        "dov:refName": "Health",
+        "href": "#title=MachineVision_AMCM_VisionHealthInfoType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "dov:capability",
+        "dov:refName": "Identification",
+        "href": "#title=MachineVision_AMCM_VisionComponentIdentificationType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "dov:capability",
+        "dov:refName": "Maintenance",
+        "href": "#title=MachineVision_AMCM_VisionMaintenanceInfoType",
+        "type": "application/tm+json"
       }
     ],
     "schemaDefinitions": {
@@ -1699,6 +2052,24 @@
       {
         "rel": "tm:extends",
         "href": "#title=OpcUaCore_BaseObjectType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "dov:capability",
+        "dov:refName": "Health",
+        "href": "#title=MachineVision_AMCM_VisionHealthInfoType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "dov:capability",
+        "dov:refName": "Identification",
+        "href": "#title=MachineVision_AMCM_VisionComponentIdentificationType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "dov:capability",
+        "dov:refName": "Maintenance",
+        "href": "#title=MachineVision_AMCM_VisionMaintenanceInfoType",
         "type": "application/tm+json"
       }
     ],
@@ -1727,6 +2098,24 @@
         "rel": "tm:extends",
         "href": "#title=OpcUaCore_BaseObjectType",
         "type": "application/tm+json"
+      },
+      {
+        "rel": "dov:capability",
+        "dov:refName": "Health",
+        "href": "#title=MachineVision_AMCM_VisionHealthInfoType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "dov:capability",
+        "dov:refName": "Identification",
+        "href": "#title=MachineVision_AMCM_VisionComponentIdentificationType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "dov:capability",
+        "dov:refName": "Maintenance",
+        "href": "#title=MachineVision_AMCM_VisionMaintenanceInfoType",
+        "type": "application/tm+json"
       }
     ],
     "schemaDefinitions": {
@@ -1753,6 +2142,24 @@
       {
         "rel": "tm:extends",
         "href": "#title=OpcUaCore_BaseObjectType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "dov:capability",
+        "dov:refName": "Health",
+        "href": "#title=MachineVision_AMCM_VisionHealthInfoType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "dov:capability",
+        "dov:refName": "Identification",
+        "href": "#title=MachineVision_AMCM_VisionComponentIdentificationType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "dov:capability",
+        "dov:refName": "Maintenance",
+        "href": "#title=MachineVision_AMCM_VisionMaintenanceInfoType",
         "type": "application/tm+json"
       }
     ],
@@ -1781,6 +2188,24 @@
         "rel": "tm:extends",
         "href": "#title=OpcUaCore_BaseObjectType",
         "type": "application/tm+json"
+      },
+      {
+        "rel": "dov:capability",
+        "dov:refName": "Health",
+        "href": "#title=MachineVision_AMCM_VisionHealthInfoType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "dov:capability",
+        "dov:refName": "Identification",
+        "href": "#title=MachineVision_AMCM_VisionComponentIdentificationType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "dov:capability",
+        "dov:refName": "Maintenance",
+        "href": "#title=MachineVision_AMCM_VisionMaintenanceInfoType",
+        "type": "application/tm+json"
       }
     ],
     "schemaDefinitions": {
@@ -1807,6 +2232,24 @@
       {
         "rel": "tm:extends",
         "href": "#title=OpcUaCore_BaseObjectType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "dov:capability",
+        "dov:refName": "Health",
+        "href": "#title=MachineVision_AMCM_VisionHealthInfoType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "dov:capability",
+        "dov:refName": "Identification",
+        "href": "#title=MachineVision_AMCM_VisionComponentIdentificationType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "dov:capability",
+        "dov:refName": "Maintenance",
+        "href": "#title=MachineVision_AMCM_VisionMaintenanceInfoType",
         "type": "application/tm+json"
       }
     ],
@@ -1835,6 +2278,24 @@
         "rel": "tm:extends",
         "href": "#title=OpcUaCore_BaseObjectType",
         "type": "application/tm+json"
+      },
+      {
+        "rel": "dov:capability",
+        "dov:refName": "Health",
+        "href": "#title=MachineVision_AMCM_VisionHealthInfoType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "dov:capability",
+        "dov:refName": "Identification",
+        "href": "#title=MachineVision_AMCM_VisionComponentIdentificationType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "dov:capability",
+        "dov:refName": "Maintenance",
+        "href": "#title=MachineVision_AMCM_VisionMaintenanceInfoType",
+        "type": "application/tm+json"
       }
     ],
     "schemaDefinitions": {
@@ -1862,6 +2323,24 @@
         "rel": "tm:extends",
         "href": "#title=OpcUaCore_BaseObjectType",
         "type": "application/tm+json"
+      },
+      {
+        "rel": "dov:capability",
+        "dov:refName": "Health",
+        "href": "#title=MachineVision_AMCM_VisionHealthInfoType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "dov:capability",
+        "dov:refName": "Identification",
+        "href": "#title=MachineVision_AMCM_VisionComponentIdentificationType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "dov:capability",
+        "dov:refName": "Maintenance",
+        "href": "#title=MachineVision_AMCM_VisionMaintenanceInfoType",
+        "type": "application/tm+json"
       }
     ],
     "schemaDefinitions": {
@@ -1888,6 +2367,24 @@
       {
         "rel": "tm:extends",
         "href": "#title=OpcUaCore_BaseObjectType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "dov:capability",
+        "dov:refName": "Health",
+        "href": "#title=MachineVision_AMCM_VisionHealthInfoType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "dov:capability",
+        "dov:refName": "Identification",
+        "href": "#title=MachineVision_AMCM_VisionComponentIdentificationType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "dov:capability",
+        "dov:refName": "Maintenance",
+        "href": "#title=MachineVision_AMCM_VisionMaintenanceInfoType",
         "type": "application/tm+json"
       }
     ],
@@ -1942,6 +2439,12 @@
         "type": "application/tm+json"
       },
       {
+        "rel": "dov:component",
+        "dov:refName": "Components",
+        "href": "#title=Machinery_MachineComponentsType",
+        "type": "application/tm+json"
+      },
+      {
         "rel": "dov:reference",
         "dov:refName": "ComputingDevices",
         "href": "#title=MachineVision_AMCM_VisionItemFolderType",
@@ -1960,9 +2463,21 @@
         "type": "application/tm+json"
       },
       {
+        "rel": "dov:capability",
+        "dov:refName": "Health",
+        "href": "#title=MachineVision_AMCM_VisionHealthInfoType",
+        "type": "application/tm+json"
+      },
+      {
         "rel": "dov:reference",
         "dov:refName": "Housings",
         "href": "#title=MachineVision_AMCM_VisionItemFolderType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "dov:capability",
+        "dov:refName": "Identification",
+        "href": "#title=MachineVision_AMCM_VisionMachineIdentificationType",
         "type": "application/tm+json"
       },
       {
@@ -2005,6 +2520,12 @@
         "rel": "dov:reference",
         "dov:refName": "LightingControllers",
         "href": "#title=MachineVision_AMCM_VisionItemFolderType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "dov:capability",
+        "dov:refName": "Maintenance",
+        "href": "#title=MachineVision_AMCM_VisionMaintenanceInfoType",
         "type": "application/tm+json"
       },
       {
@@ -2099,6 +2620,24 @@
         "rel": "tm:extends",
         "href": "#title=OpcUaCore_BaseObjectType",
         "type": "application/tm+json"
+      },
+      {
+        "rel": "dov:capability",
+        "dov:refName": "Health",
+        "href": "#title=MachineVision_AMCM_VisionHealthInfoType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "dov:capability",
+        "dov:refName": "Identification",
+        "href": "#title=MachineVision_AMCM_VisionComponentIdentificationType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "dov:capability",
+        "dov:refName": "Maintenance",
+        "href": "#title=MachineVision_AMCM_VisionMaintenanceInfoType",
+        "type": "application/tm+json"
       }
     ],
     "schemaDefinitions": {
@@ -2125,6 +2664,24 @@
       {
         "rel": "tm:extends",
         "href": "#title=OpcUaCore_BaseObjectType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "dov:capability",
+        "dov:refName": "Health",
+        "href": "#title=MachineVision_AMCM_VisionHealthInfoType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "dov:capability",
+        "dov:refName": "Identification",
+        "href": "#title=MachineVision_AMCM_VisionComponentIdentificationType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "dov:capability",
+        "dov:refName": "Maintenance",
+        "href": "#title=MachineVision_AMCM_VisionMaintenanceInfoType",
         "type": "application/tm+json"
       }
     ],
@@ -2218,13 +2775,18 @@
       }
     ],
     "@type": "tm:ThingModel",
-    "title": "Machinery_MachineIdentificationType",
-    "dov:typeRef": "org.opcfoundation.UA.Machinery.MachineIdentificationType",
-    "dov:isComposite": true,
+    "title": "DI_FunctionalGroupType",
+    "dov:typeRef": "org.opcfoundation.UA.DI.FunctionalGroupType",
     "links": [
       {
         "rel": "tm:extends",
-        "href": "#title=Machinery_MachineryItemIdentificationType",
+        "href": "#title=OpcUaCore_FolderType",
+        "type": "application/tm+json"
+      },
+      {
+        "rel": "dov:component",
+        "dov:refName": "GroupIdentifier",
+        "href": "#title=DI_FunctionalGroupType",
         "type": "application/tm+json"
       }
     ],
@@ -2233,63 +2795,51 @@
     "forms": [
       {
         "contentType": "application/json",
-        "dov:topic": "opcua/Machinery/Machinery_MachineIdentificationType/properties/write",
-        "op": "writemultipleproperties"
+        "dov:topic": "opcua/DI/DI_FunctionalGroupType/events/{senderId}",
+        "op": "subscribeallevents"
       },
       {
         "contentType": "application/json",
-        "dov:topic": "opcua/Machinery/Machinery_MachineIdentificationType/properties/read",
+        "dov:topic": "opcua/DI/DI_FunctionalGroupType/properties/read",
         "op": "readallproperties"
       }
+    ],
+    "tm:optional": [
+      "/properties/UIElement",
+      "/events/UIElement"
     ],
     "actions": {
     },
     "properties": {
-      "DefaultInstanceBrowseName": {
-        "description": "The default BrowseName for instances of the type.",
-        "type": "string",
-        "readOnly": true,
-        "forms": [
-          {
-            "contentType": "application/json",
-            "dov:topic": "opcua/Machinery/Machinery_MachineIdentificationType/property/DefaultInstanceBrowseName/read",
-            "op": "readproperty"
-          }
-        ]
-      },
-      "Location": {
-        "dov:namespace": "http://opcfoundation.org/UA/Machinery/",
-        "description": "To be used by end users to store the location of the machine in a scheme specific to the end user. Servers shall support at least 60 Unicode characters for the clients writing this value, this means clients can expect to be able to write strings with a length of 60 Unicode characters into that field.",
-        "type": "string",
-        "readOnly": false,
-        "forms": [
-          {
-            "contentType": "application/json",
-            "dov:topic": "opcua/Machinery/Machinery_MachineIdentificationType/property/Location/write",
-            "op": "writeproperty"
-          },
-          {
-            "contentType": "application/json",
-            "dov:topic": "opcua/Machinery/Machinery_MachineIdentificationType/property/Location/read",
-            "op": "readproperty"
-          }
-        ]
-      },
-      "ProductInstanceUri": {
+      "UIElement": {
         "dov:namespace": "http://opcfoundation.org/UA/DI/",
-        "description": "A globally unique resource identifier provided by the manufacturer of the machine",
+        "description": "Stand-in for an unspecified data type.",
         "type": "string",
         "readOnly": true,
         "forms": [
           {
             "contentType": "application/json",
-            "dov:topic": "opcua/Machinery/Machinery_MachineIdentificationType/property/ProductInstanceUri/read",
+            "dov:topic": "opcua/DI/DI_FunctionalGroupType/property/UIElement/read",
             "op": "readproperty"
           }
         ]
       }
     },
     "events": {
+      "UIElement": {
+        "dov:namespace": "http://opcfoundation.org/UA/DI/",
+        "data": {
+          "description": "Stand-in for an unspecified data type.",
+          "type": "string"
+        },
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dov:topic": "opcua/DI/DI_FunctionalGroupType/event/UIElement/{senderId}",
+            "op": "subscribeevent"
+          }
+        ]
+      }
     }
   },
   {
@@ -2322,6 +2872,21 @@
         "dov:topic": "opcua/Machinery/Machinery_MachineryItemIdentificationType/properties/read",
         "op": "readallproperties"
       }
+    ],
+    "tm:optional": [
+      "/properties/AssetId",
+      "/properties/ComponentName",
+      "/properties/DefaultInstanceBrowseName",
+      "/properties/DeviceClass",
+      "/properties/HardwareRevision",
+      "/properties/InitialOperationDate",
+      "/properties/ManufacturerUri",
+      "/properties/Model",
+      "/properties/MonthOfConstruction",
+      "/properties/ProductCode",
+      "/properties/ProductInstanceUri",
+      "/properties/SoftwareRevision",
+      "/properties/YearOfConstruction"
     ],
     "actions": {
     },
@@ -2552,6 +3117,211 @@
       }
     ],
     "@type": "tm:ThingModel",
+    "title": "Machinery_MachineryOperationCounterType",
+    "dov:typeRef": "org.opcfoundation.UA.Machinery.MachineryOperationCounterType",
+    "dov:isComposite": true,
+    "links": [
+      {
+        "rel": "tm:extends",
+        "href": "#title=DI_FunctionalGroupType",
+        "type": "application/tm+json"
+      }
+    ],
+    "schemaDefinitions": {
+    },
+    "forms": [
+      {
+        "contentType": "application/json",
+        "dov:topic": "opcua/Machinery/Machinery_MachineryOperationCounterType/properties/write",
+        "op": "writemultipleproperties"
+      },
+      {
+        "contentType": "application/json",
+        "dov:topic": "opcua/Machinery/Machinery_MachineryOperationCounterType/properties/read",
+        "op": "readallproperties"
+      }
+    ],
+    "tm:optional": [
+      "/properties/DefaultInstanceBrowseName",
+      "/properties/OperationCycleCounter",
+      "/properties/OperationDuration",
+      "/properties/PowerOnDuration"
+    ],
+    "actions": {
+    },
+    "properties": {
+      "DefaultInstanceBrowseName": {
+        "description": "The default BrowseName for instances of the type",
+        "type": "string",
+        "readOnly": false,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dov:topic": "opcua/Machinery/Machinery_MachineryOperationCounterType/property/DefaultInstanceBrowseName/write",
+            "op": "writeproperty"
+          },
+          {
+            "contentType": "application/json",
+            "dov:topic": "opcua/Machinery/Machinery_MachineryOperationCounterType/property/DefaultInstanceBrowseName/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "OperationCycleCounter": {
+        "dov:namespace": "http://opcfoundation.org/UA/DI/",
+        "description": "OperationCycleCounter is counting the times the component switches from not performing an activity to performing an activity. For example, each time a valve starts moving, is counted. This value shall only increase during the lifetime of the component and shall not be reset when the component is restarted.",
+        "type": "integer",
+        "minimum": 0,
+        "readOnly": false,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dov:topic": "opcua/Machinery/Machinery_MachineryOperationCounterType/property/OperationCycleCounter/write",
+            "op": "writeproperty"
+          },
+          {
+            "contentType": "application/json",
+            "dov:topic": "opcua/Machinery/Machinery_MachineryOperationCounterType/property/OperationCycleCounter/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "OperationDuration": {
+        "dov:namespace": "http://opcfoundation.org/UA/DI/",
+        "description": "OperationDuration is the duration the MachineryItem has been powered and performing an activity. This counter is intended for machines and components where a distinction is made between switched on and in operation. For example, a drive might be powered on but not operating. It is not intended for machines or components always performing an activity like sensors always measuring data. This value shall only increase during the lifetime of the MachineryItem and shall not be reset when it is restarted. The OperationDuration is provided as Duration, i.e., in milliseconds or even fractions of a millisecond. However, the Server is not expected to update the value in such a high frequency, but maybe once a minute or once an hour, depending on the application.",
+        "type": "string",
+        "pattern": "^P(?!$)(?:(?:(?:(?:\\d+Y)|(?:\\d+\\.\\d+Y$))?(?:(?:\\d+M)|(?:\\d+\\.\\d+M$))?)|(?:(?:(?:\\d+W)|(?:\\d+\\.\\d+W$))?))(?:(?:\\d+D)|(?:\\d+\\.\\d+D$))?(?:T(?!$)(?:(?:\\d+H)|(?:\\d+\\.\\d+H$))?(?:(?:\\d+M)|(?:\\d+\\.\\d+M$))?(?:\\d+(?:\\.\\d+)?S)?)?$",
+        "readOnly": false,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dov:topic": "opcua/Machinery/Machinery_MachineryOperationCounterType/property/OperationDuration/write",
+            "op": "writeproperty"
+          },
+          {
+            "contentType": "application/json",
+            "dov:topic": "opcua/Machinery/Machinery_MachineryOperationCounterType/property/OperationDuration/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "PowerOnDuration": {
+        "dov:namespace": "http://opcfoundation.org/UA/DI/",
+        "description": "PowerOnDuration is the duration the MachineryItem has been powered. The main purpose is to determine the time in which degradation of the MachineryItem occurred. The details, when the time is counted, is implementation-specific. Companion specifications might define specific rules. Typically, when the MachineryItem has supply voltage and the main CPU is running, the time is counted. This may include any kind of sleep mode, but may not include pure Wake on LAN. This value shall only increase during the lifetime of the MachineryItem and shall not be reset when it is restarted. The PowerOnDuration is provided as Duration, i.e., in milliseconds or even fractions of a millisecond. However, the Server is not expected to update the value in such a high frequency, but maybe once a minute or once an hour, depending on the application.",
+        "type": "string",
+        "pattern": "^P(?!$)(?:(?:(?:(?:\\d+Y)|(?:\\d+\\.\\d+Y$))?(?:(?:\\d+M)|(?:\\d+\\.\\d+M$))?)|(?:(?:(?:\\d+W)|(?:\\d+\\.\\d+W$))?))(?:(?:\\d+D)|(?:\\d+\\.\\d+D$))?(?:T(?!$)(?:(?:\\d+H)|(?:\\d+\\.\\d+H$))?(?:(?:\\d+M)|(?:\\d+\\.\\d+M$))?(?:\\d+(?:\\.\\d+)?S)?)?$",
+        "readOnly": false,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dov:topic": "opcua/Machinery/Machinery_MachineryOperationCounterType/property/PowerOnDuration/write",
+            "op": "writeproperty"
+          },
+          {
+            "contentType": "application/json",
+            "dov:topic": "opcua/Machinery/Machinery_MachineryOperationCounterType/property/PowerOnDuration/read",
+            "op": "readproperty"
+          }
+        ]
+      }
+    },
+    "events": {
+    }
+  },
+  {
+    "@context": [
+      "https://www.w3.org/2022/wot/td/v1.1",
+      {
+        "dov": "http://azure.com/DigitalOperations/vocab#"
+      }
+    ],
+    "@type": "tm:ThingModel",
+    "title": "Machinery_MachineIdentificationType",
+    "dov:typeRef": "org.opcfoundation.UA.Machinery.MachineIdentificationType",
+    "dov:isComposite": true,
+    "links": [
+      {
+        "rel": "tm:extends",
+        "href": "#title=Machinery_MachineryItemIdentificationType",
+        "type": "application/tm+json"
+      }
+    ],
+    "schemaDefinitions": {
+    },
+    "forms": [
+      {
+        "contentType": "application/json",
+        "dov:topic": "opcua/Machinery/Machinery_MachineIdentificationType/properties/write",
+        "op": "writemultipleproperties"
+      },
+      {
+        "contentType": "application/json",
+        "dov:topic": "opcua/Machinery/Machinery_MachineIdentificationType/properties/read",
+        "op": "readallproperties"
+      }
+    ],
+    "tm:optional": [
+      "/properties/DefaultInstanceBrowseName",
+      "/properties/Location"
+    ],
+    "actions": {
+    },
+    "properties": {
+      "DefaultInstanceBrowseName": {
+        "description": "The default BrowseName for instances of the type.",
+        "type": "string",
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dov:topic": "opcua/Machinery/Machinery_MachineIdentificationType/property/DefaultInstanceBrowseName/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "Location": {
+        "dov:namespace": "http://opcfoundation.org/UA/Machinery/",
+        "description": "To be used by end users to store the location of the machine in a scheme specific to the end user. Servers shall support at least 60 Unicode characters for the clients writing this value, this means clients can expect to be able to write strings with a length of 60 Unicode characters into that field.",
+        "type": "string",
+        "readOnly": false,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dov:topic": "opcua/Machinery/Machinery_MachineIdentificationType/property/Location/write",
+            "op": "writeproperty"
+          },
+          {
+            "contentType": "application/json",
+            "dov:topic": "opcua/Machinery/Machinery_MachineIdentificationType/property/Location/read",
+            "op": "readproperty"
+          }
+        ]
+      },
+      "ProductInstanceUri": {
+        "dov:namespace": "http://opcfoundation.org/UA/DI/",
+        "description": "A globally unique resource identifier provided by the manufacturer of the machine",
+        "type": "string",
+        "readOnly": true,
+        "forms": [
+          {
+            "contentType": "application/json",
+            "dov:topic": "opcua/Machinery/Machinery_MachineIdentificationType/property/ProductInstanceUri/read",
+            "op": "readproperty"
+          }
+        ]
+      }
+    },
+    "events": {
+    }
+  },
+  {
+    "@context": [
+      "https://www.w3.org/2022/wot/td/v1.1",
+      {
+        "dov": "http://azure.com/DigitalOperations/vocab#"
+      }
+    ],
+    "@type": "tm:ThingModel",
     "title": "Machinery_MachineryComponentIdentificationType",
     "dov:typeRef": "org.opcfoundation.UA.Machinery.MachineryComponentIdentificationType",
     "dov:isComposite": true,
@@ -2575,6 +3345,10 @@
         "dov:topic": "opcua/Machinery/Machinery_MachineryComponentIdentificationType/properties/read",
         "op": "readallproperties"
       }
+    ],
+    "tm:optional": [
+      "/properties/DefaultInstanceBrowseName",
+      "/properties/DeviceRevision"
     ],
     "actions": {
     },
@@ -2621,18 +3395,19 @@
       }
     ],
     "@type": "tm:ThingModel",
-    "title": "DI_FunctionalGroupType",
-    "dov:typeRef": "org.opcfoundation.UA.DI.FunctionalGroupType",
+    "title": "Machinery_MachineComponentsType",
+    "dov:typeRef": "org.opcfoundation.UA.Machinery.MachineComponentsType",
+    "dov:isComposite": true,
     "links": [
       {
         "rel": "tm:extends",
-        "href": "#title=OpcUaCore_FolderType",
+        "href": "#title=OpcUaCore_BaseObjectType",
         "type": "application/tm+json"
       },
       {
         "rel": "dov:component",
-        "dov:refName": "GroupIdentifier",
-        "href": "#title=DI_FunctionalGroupType",
+        "dov:refName": "Component",
+        "href": "#title=OpcUaCore_BaseObjectType",
         "type": "application/tm+json"
       }
     ],
@@ -2641,47 +3416,40 @@
     "forms": [
       {
         "contentType": "application/json",
-        "dov:topic": "opcua/DI/DI_FunctionalGroupType/events/{senderId}",
-        "op": "subscribeallevents"
+        "dov:topic": "opcua/Machinery/Machinery_MachineComponentsType/properties/write",
+        "op": "writemultipleproperties"
       },
       {
         "contentType": "application/json",
-        "dov:topic": "opcua/DI/DI_FunctionalGroupType/properties/read",
+        "dov:topic": "opcua/Machinery/Machinery_MachineComponentsType/properties/read",
         "op": "readallproperties"
       }
+    ],
+    "tm:optional": [
+      "/properties/DefaultInstanceBrowseName"
     ],
     "actions": {
     },
     "properties": {
-      "UIElement": {
-        "dov:namespace": "http://opcfoundation.org/UA/DI/",
-        "description": "Stand-in for an unspecified data type.",
+      "DefaultInstanceBrowseName": {
+        "description": "The default BrowseName for instances of the type.",
         "type": "string",
-        "readOnly": true,
+        "readOnly": false,
         "forms": [
           {
             "contentType": "application/json",
-            "dov:topic": "opcua/DI/DI_FunctionalGroupType/property/UIElement/read",
+            "dov:topic": "opcua/Machinery/Machinery_MachineComponentsType/property/DefaultInstanceBrowseName/write",
+            "op": "writeproperty"
+          },
+          {
+            "contentType": "application/json",
+            "dov:topic": "opcua/Machinery/Machinery_MachineComponentsType/property/DefaultInstanceBrowseName/read",
             "op": "readproperty"
           }
         ]
       }
     },
     "events": {
-      "UIElement": {
-        "dov:namespace": "http://opcfoundation.org/UA/DI/",
-        "data": {
-          "description": "Stand-in for an unspecified data type.",
-          "type": "string"
-        },
-        "forms": [
-          {
-            "contentType": "application/json",
-            "dov:topic": "opcua/DI/DI_FunctionalGroupType/event/UIElement/{senderId}",
-            "op": "subscribeevent"
-          }
-        ]
-      }
     }
   }
 ]

@@ -1878,6 +1878,12 @@
         "op": "readallproperties"
       }
     ],
+    "tm:optional": [
+      "/properties/Backup_And_Restore_State",
+      "/properties/Backup_Preparation_Time",
+      "/properties/Restore_Completion_Time",
+      "/properties/Restore_Preparation_Time"
+    ],
     "actions": {
       "BACnetBackup": {
         "dov:namespace": "http://opcfoundation.org/UA/BACnet_V2/",
@@ -9931,6 +9937,13 @@
         "op": "readallproperties"
       }
     ],
+    "tm:optional": [
+      "/properties/Event_Algorithm_Inhibit",
+      "/properties/Event_Algorithm_Inhibit_Ref",
+      "/properties/Event_Detection_Enable",
+      "/properties/Event_Message_Texts",
+      "/properties/Event_Message_Texts_Config"
+    ],
     "actions": {
     },
     "properties": {
@@ -10634,6 +10647,9 @@
         "dov:topic": "opcua/BACnet_V2/BACnet_V2_BACnetFaultEvaluationType/properties/read",
         "op": "readallproperties"
       }
+    ],
+    "tm:optional": [
+      "/properties/Reliability_Evaluation_Inhibit"
     ],
     "actions": {
     },
@@ -12286,6 +12302,12 @@
         }
       }
     },
+    "tm:optional": [
+      "/actions/AddDeviceByAddress",
+      "/actions/AddDeviceById",
+      "/actions/NetworkScan",
+      "/actions/TimeSynchronization"
+    ],
     "actions": {
       "AddDeviceByAddress": {
         "dov:namespace": "http://opcfoundation.org/UA/BACnet_V2/",
@@ -12553,6 +12575,12 @@
         "op": "readallproperties"
       }
     ],
+    "tm:optional": [
+      "/properties/Auto_Slave_Discovery",
+      "/properties/Manual_Slave_Address_Binding",
+      "/properties/Slave_Address_Binding",
+      "/properties/Slave_Proxy_Enable"
+    ],
     "actions": {
     },
     "properties": {
@@ -12760,6 +12788,9 @@
         "op": "readallproperties"
       }
     ],
+    "tm:optional": [
+      "/properties/Profile_Name"
+    ],
     "actions": {
     },
     "properties": {
@@ -12874,6 +12905,10 @@
         "dov:topic": "opcua/BACnet_V2/BACnet_V2_BACnetAnalogType/properties/read",
         "op": "readallproperties"
       }
+    ],
+    "tm:optional": [
+      "/properties/COV_Increment",
+      "/properties/Resolution"
     ],
     "actions": {
     },
@@ -13024,6 +13059,9 @@
         "op": "readallproperties"
       }
     ],
+    "tm:optional": [
+      "/properties/Device_Type"
+    ],
     "actions": {
     },
     "properties": {
@@ -13079,6 +13117,9 @@
         "dov:topic": "opcua/BACnet_V2/BACnet_V2_BACnetAnalogOutputType/properties/read",
         "op": "readallproperties"
       }
+    ],
+    "tm:optional": [
+      "/properties/Device_Type"
     ],
     "actions": {
     },
@@ -13203,6 +13244,10 @@
         "dov:topic": "opcua/BACnet_V2/BACnet_V2_BACnetAnalogValueType/properties/read",
         "op": "readallproperties"
       }
+    ],
+    "tm:optional": [
+      "/properties/Priority_Array",
+      "/properties/Relinquish_Default"
     ],
     "actions": {
     },
@@ -13492,6 +13537,9 @@
         "op": "readallproperties"
       }
     ],
+    "tm:optional": [
+      "/properties/Device_Type"
+    ],
     "actions": {
     },
     "properties": {
@@ -13590,6 +13638,12 @@
         "dov:topic": "opcua/BACnet_V2/BACnet_V2_BACnetBinaryOutputType/properties/read",
         "op": "readallproperties"
       }
+    ],
+    "tm:optional": [
+      "/properties/Device_Type",
+      "/properties/Feedback_Value",
+      "/properties/Minimum_Off_Time",
+      "/properties/Minimum_On_Time"
     ],
     "actions": {
     },
@@ -13794,6 +13848,12 @@
         "dov:topic": "opcua/BACnet_V2/BACnet_V2_BACnetBinaryValueType/properties/read",
         "op": "readallproperties"
       }
+    ],
+    "tm:optional": [
+      "/properties/Minimum_Off_Time",
+      "/properties/Minimum_On_Time",
+      "/properties/Priority_Array",
+      "/properties/Relinquish_Default"
     ],
     "actions": {
     },
@@ -16947,6 +17007,19 @@
         "dov:topic": "opcua/BACnet_V2/BACnet_V2_BACnetDeviceType/properties/read",
         "op": "readallproperties"
       }
+    ],
+    "tm:optional": [
+      "/actions/AddDeviceAddressBindings",
+      "/actions/CreateObject",
+      "/actions/DeleteObject",
+      "/actions/DeviceCommunicationControl",
+      "/actions/ReinitializeDevice",
+      "/actions/RemoveDeviceAddressBindings",
+      "/actions/TextMessage",
+      "/properties/Active_COV_Subscriptions",
+      "/properties/APDU_Segment_Timeout",
+      "/properties/Location",
+      "/properties/Max_Segments_Accepted"
     ],
     "actions": {
       "AddDeviceAddressBindings": {
@@ -20287,6 +20360,9 @@
         "op": "readallproperties"
       }
     ],
+    "tm:optional": [
+      "/actions/SetFaultAlgorithm"
+    ],
     "actions": {
       "SetEventAlgorithm": {
         "dov:namespace": "http://opcfoundation.org/UA/BACnet_V2/",
@@ -21784,6 +21860,11 @@
         "op": "readallproperties"
       }
     ],
+    "tm:optional": [
+      "/properties/Records_Since_Notification",
+      "/properties/Start_Time",
+      "/properties/Stop_Time"
+    ],
     "actions": {
     },
     "properties": {
@@ -22152,6 +22233,13 @@
         "dov:topic": "opcua/BACnet_V2/BACnet_V2_BACnetTrendLogBaseType/properties/read",
         "op": "readallproperties"
       }
+    ],
+    "tm:optional": [
+      "/properties/Align_Intervals",
+      "/properties/Interval_Offset",
+      "/properties/Log_Interval",
+      "/properties/Logging_Type",
+      "/properties/Trigger"
     ],
     "actions": {
     },
@@ -23844,6 +23932,9 @@
         "op": "readallproperties"
       }
     ],
+    "tm:optional": [
+      "/properties/Log_DeviceObjectProperty"
+    ],
     "actions": {
     },
     "properties": {
@@ -25529,6 +25620,11 @@
         "op": "readallproperties"
       }
     ],
+    "tm:optional": [
+      "/properties/Client_COV_Increment",
+      "/properties/COV_Resubscription_Interval",
+      "/properties/Log_DeviceObjectProperty"
+    ],
     "actions": {
     },
     "properties": {
@@ -25682,6 +25778,9 @@
         "dov:topic": "opcua/BACnet_V2/BACnet_V2_BACnetClockAlignedTrendLogType/properties/read",
         "op": "readallproperties"
       }
+    ],
+    "tm:optional": [
+      "/properties/Log_Interval"
     ],
     "actions": {
     },
@@ -27383,6 +27482,18 @@
         "op": "readallproperties"
       }
     ],
+    "tm:optional": [
+      "/properties/Bias",
+      "/properties/COV_Increment",
+      "/properties/Derivative_Constant",
+      "/properties/Integral_Constant",
+      "/properties/Priority_For_Writing",
+      "/properties/Proportional_Constant",
+      "/events/Bias",
+      "/events/Derivative_Constant",
+      "/events/Integral_Constant",
+      "/events/Proportional_Constant"
+    ],
     "actions": {
     },
     "properties": {
@@ -28050,6 +28161,9 @@
         "op": "readallproperties"
       }
     ],
+    "tm:optional": [
+      "/properties/Device_Type"
+    ],
     "actions": {
     },
     "properties": {
@@ -28111,6 +28225,10 @@
         "dov:topic": "opcua/BACnet_V2/BACnet_V2_BACnetMultiStateOutputType/properties/read",
         "op": "readallproperties"
       }
+    ],
+    "tm:optional": [
+      "/properties/Device_Type",
+      "/properties/Feedback_Value"
     ],
     "actions": {
     },
@@ -28264,6 +28382,10 @@
         "dov:topic": "opcua/BACnet_V2/BACnet_V2_BACnetMultiStateValueType/properties/read",
         "op": "readallproperties"
       }
+    ],
+    "tm:optional": [
+      "/properties/Priority_Array",
+      "/properties/Relinquish_Default"
     ],
     "actions": {
     },
@@ -30918,6 +31040,10 @@
         "op": "readallproperties"
       }
     ],
+    "tm:optional": [
+      "/properties/Exception_Schedule",
+      "/properties/Weekly_Schedule"
+    ],
     "actions": {
       "AddObjectPropertyReferences": {
         "dov:namespace": "http://opcfoundation.org/UA/BACnet_V2/",
@@ -33358,6 +33484,10 @@
         "op": "readallproperties"
       }
     ],
+    "tm:optional": [
+      "/properties/Node_Subtype",
+      "/properties/Subordinate_Annotations"
+    ],
     "actions": {
     },
     "properties": {
@@ -33757,6 +33887,13 @@
         "op": "readallproperties"
       }
     ],
+    "tm:optional": [
+      "/actions/TimeSynchronization",
+      "/properties/Daylight_Savings_Status",
+      "/properties/Local_Date",
+      "/properties/Local_Time",
+      "/properties/UTC_Offset"
+    ],
     "actions": {
       "TimeSynchronization": {
         "dov:namespace": "http://opcfoundation.org/UA/BACnet_V2/",
@@ -33942,6 +34079,10 @@
         "dov:topic": "opcua/BACnet_V2/BACnet_V2_BACnetAutomaticTimeSynchronizationMasterType/properties/read",
         "op": "readallproperties"
       }
+    ],
+    "tm:optional": [
+      "/properties/Time_Synchronization_Recipients",
+      "/properties/UTC_Time_Synchronization_Recipients"
     ],
     "actions": {
       "AddTimeSynchronizationRecipients": {
@@ -34314,6 +34455,9 @@
         "dov:topic": "opcua/BACnet_V2/BACnet_V2_BACnetNotificationType/properties/read",
         "op": "readallproperties"
       }
+    ],
+    "tm:optional": [
+      "/properties/From_State"
     ],
     "actions": {
     },
@@ -38358,6 +38502,10 @@
         "dov:topic": "opcua/BACnet_V2/BACnet_V2_BACnetFaultNotificationType/properties/read",
         "op": "readallproperties"
       }
+    ],
+    "tm:optional": [
+      "/properties/Reliability",
+      "/properties/Status_Flags"
     ],
     "actions": {
     },

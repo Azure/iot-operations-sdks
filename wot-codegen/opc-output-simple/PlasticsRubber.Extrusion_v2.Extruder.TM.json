@@ -69,6 +69,9 @@
         "op": "readallproperties"
       }
     ],
+    "tm:optional": [
+      "/properties/IsControlled"
+    ],
     "actions": {
     },
     "properties": {
@@ -244,6 +247,12 @@
         "op": "readallproperties"
       }
     ],
+    "tm:optional": [
+      "/properties/BarrelId",
+      "/properties/ScrewId",
+      "/properties/SpecificOutput",
+      "/events/SpecificOutput"
+    ],
     "actions": {
     },
     "properties": {
@@ -396,6 +405,13 @@
         "dov:topic": "opcua/PlasticsRubber.Extrusion_v2.Extruder/PlasticsRubber_Extrusion_v2_Extruder_HopperType/properties/read",
         "op": "readallproperties"
       }
+    ],
+    "tm:optional": [
+      "/properties/MaterialLevel",
+      "/properties/MaterialLot",
+      "/properties/Weight",
+      "/events/MaterialLevel",
+      "/events/Weight"
     ],
     "actions": {
     },

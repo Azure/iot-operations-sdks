@@ -26,6 +26,13 @@
         "op": "readallproperties"
       }
     ],
+    "tm:optional": [
+      "/properties/CalibrationDate",
+      "/properties/CalibrationInitials",
+      "/properties/MTDescription",
+      "/properties/Name",
+      "/properties/NextCalibrationDate"
+    ],
     "actions": {
     },
     "properties": {
@@ -153,6 +160,13 @@
         "op": "readallproperties"
       }
     ],
+    "tm:optional": [
+      "/properties/Name",
+      "/properties/NativeName",
+      "/properties/SampleInterval",
+      "/properties/SampleRate",
+      "/properties/Uuid"
+    ],
     "actions": {
     },
     "properties": {
@@ -268,6 +282,12 @@
         "op": "readallproperties"
       }
     ],
+    "tm:optional": [
+      "/properties/Data",
+      "/properties/Manufacturer",
+      "/properties/SerialNumber",
+      "/properties/Station"
+    ],
     "actions": {
     },
     "properties": {
@@ -380,6 +400,10 @@
         "op": "readallproperties"
       }
     ],
+    "tm:optional": [
+      "/properties/Iso841Class",
+      "/properties/Version"
+    ],
     "actions": {
     },
     "properties": {
@@ -466,6 +490,10 @@
         "op": "readallproperties"
       }
     ],
+    "tm:optional": [
+      "/properties/Name",
+      "/properties/Uuid"
+    ],
     "actions": {
     },
     "properties": {
@@ -551,6 +579,11 @@
         "dov:topic": "opcua/MTConnect.v2/MTConnect_v2_MTSensorConfigurationType/properties/read",
         "op": "readallproperties"
       }
+    ],
+    "tm:optional": [
+      "/properties/CalibrationDate",
+      "/properties/CalibrationInitials",
+      "/properties/NextCalibrationDate"
     ],
     "actions": {
     },
@@ -1636,6 +1669,12 @@
         "op": "readallproperties"
       }
     ],
+    "tm:optional": [
+      "/properties/Maximum",
+      "/properties/Minimum",
+      "/properties/Nominal",
+      "/properties/Values"
+    ],
     "actions": {
     },
     "properties": {
@@ -1757,6 +1796,9 @@
         "op": "readallproperties"
       }
     ],
+    "tm:optional": [
+      "/properties/NativeCode"
+    ],
     "actions": {
     },
     "properties": {
@@ -1845,6 +1887,11 @@
         "dov:topic": "opcua/MTConnect.v2/MTConnect_v2_MTConditionEventType/properties/read",
         "op": "readallproperties"
       }
+    ],
+    "tm:optional": [
+      "/properties/NativeCode",
+      "/properties/NativeSeverity",
+      "/properties/Qualifier"
     ],
     "actions": {
     },
@@ -2045,6 +2092,14 @@
         "dov:topic": "opcua/MTConnect.v2/MTConnect_v2_MTConditionType/properties/read",
         "op": "readallproperties"
       }
+    ],
+    "tm:optional": [
+      "/properties/MTSubTypeName",
+      "/properties/Name",
+      "/properties/PeriodFilter",
+      "/properties/Representation",
+      "/properties/SampleRate",
+      "/properties/SourceData"
     ],
     "actions": {
     },
@@ -8052,6 +8107,13 @@
         "op": "readallproperties"
       }
     ],
+    "tm:optional": [
+      "/properties/ConditionClassId",
+      "/properties/ConditionClassName",
+      "/properties/ConditionSubClassId",
+      "/properties/ConditionSubClassName",
+      "/properties/LocalTime"
+    ],
     "actions": {
     },
     "properties": {
@@ -8257,6 +8319,13 @@
         "dov:topic": "opcua/OpcUaCore/OpcUaCore_ConditionType/properties/read",
         "op": "readallproperties"
       }
+    ],
+    "tm:optional": [
+      "/actions/ConditionRefresh",
+      "/actions/ConditionRefresh2",
+      "/properties/ConditionSubClassId",
+      "/properties/ConditionSubClassName",
+      "/properties/SupportsFilteredRetain"
     ],
     "actions": {
       "AddComment": {
